@@ -11,10 +11,6 @@ export function SessionStarter({ classId, studentCount }: { classId: string; stu
   const supabase = createClient();
 
   const startSession = async () => {
-    if (studentCount === 0) {
-      alert('Add students to your roster first');
-      return;
-    }
     setLoading(true);
     const { data } = await supabase
       .from('sessions')
