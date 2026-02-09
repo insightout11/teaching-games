@@ -155,7 +155,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     }
   };
 
-  const handleNextRound = () => {
+  const _handleNextRound = () => {
     setChallenge(null);
     setStatus(GameStatus.IDLE);
     onPickStudent();

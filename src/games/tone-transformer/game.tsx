@@ -99,7 +99,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
     }
   };
 
-  const handleNextRound = () => {
+  const _handleNextRound = () => {
     setCurrentChallenge(null);
     setRewrittenSentence('');
     setEvaluation(null);

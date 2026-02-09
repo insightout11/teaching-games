@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
-import { TargetTone, TONE_DESCRIPTIONS } from '@/games/tone-transformer/types';
+import { TargetTone } from '@/games/tone-transformer/types';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 

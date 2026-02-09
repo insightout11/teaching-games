@@ -105,7 +105,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     }
   };
 
-  const handleNextRound = () => {
+  const _handleNextRound = () => {
     setCurrentChallenge(null);
     setStudentSentence('');
     setEvaluation(null);

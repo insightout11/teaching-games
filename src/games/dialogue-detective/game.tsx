@@ -99,7 +99,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
     }
   };
 
-  const handleNextRound = () => {
+  const _handleNextRound = () => {
     setChallenge(null);
     setResponse('');
     setEvaluation(null);

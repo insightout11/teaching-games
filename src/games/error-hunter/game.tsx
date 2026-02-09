@@ -154,7 +154,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     }
   };
 
-  const handleNextRound = () => {
+  const _handleNextRound = () => {
     setChallenge(null);
     setWords([]);
     setEvaluation(null);
