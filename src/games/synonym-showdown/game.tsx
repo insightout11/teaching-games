@@ -155,6 +155,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _handleNextRound = () => {
     setChallenge(null);
     setStatus(GameStatus.IDLE);

@@ -99,6 +99,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _handleNextRound = () => {
     setCurrentChallenge(null);
     setRewrittenSentence('');

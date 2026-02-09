@@ -105,6 +105,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _handleNextRound = () => {
     setCurrentChallenge(null);
     setStudentSentence('');
