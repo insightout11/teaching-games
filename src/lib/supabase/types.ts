@@ -49,14 +49,14 @@ export interface Score {
   id: string;
   round_id: string | null;
   session_id: string;
-  student_id: string;
+  student_id: string | null; // Nullable for remote students who join via /join link
   points: number;
   streak_count: number;
   streak_bonus: number;
   is_correct: boolean;
   response_data: Record<string, unknown>;
   created_at: string;
-  // Student input fields
+  // Student input fields (for remote students)
   team?: string | null;
   client_id?: string | null;
   display_name?: string | null;
@@ -157,7 +157,7 @@ export interface Database {
       students: { Row: Student; Insert: Partial<Student> & Pick<Student, 'class_id' | 'name'>; Update: Partial<Student> };
       sessions: { Row: Session; Insert: Partial<Session> & Pick<Session, 'class_id'>; Update: Partial<Session> };
       rounds: { Row: Round; Insert: Partial<Round> & Pick<Round, 'session_id' | 'game_type' | 'round_number'>; Update: Partial<Round> };
-      scores: { Row: Score; Insert: Partial<Score> & Pick<Score, 'session_id' | 'student_id'>; Update: Partial<Score> };
+      scores: { Row: Score; Insert: Partial<Score> & Pick<Score, 'session_id'>; Update: Partial<Score> };
       lesson_plans: { Row: LessonPlan; Insert: Partial<LessonPlan> & Pick<LessonPlan, 'teacher_id' | 'title' | 'custom_topic'>; Update: Partial<LessonPlan> };
       activity_responses: { Row: ActivityResponse; Insert: Partial<ActivityResponse> & Pick<ActivityResponse, 'session_id' | 'activity_key' | 'student_id'>; Update: Partial<ActivityResponse> };
       student_submissions: { Row: StudentSubmission; Insert: Partial<StudentSubmission> & Pick<StudentSubmission, 'session_id' | 'client_id' | 'display_name' | 'submission_type' | 'content'>; Update: Partial<StudentSubmission> };

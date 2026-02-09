@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function SessionStarter({ classId, studentCount }: { classId: string; studentCount: number }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();

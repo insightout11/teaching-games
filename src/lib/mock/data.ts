@@ -211,15 +211,17 @@ class MockDataStore {
     }>();
 
     for (const score of sessionScores) {
-      const existing = studentScores.get(score.student_id) || {
+      const key = score.student_id || score.client_id || '';
+      if (!key) continue;
+      const existing = studentScores.get(key) || {
         total: 0, correct: 0, attempts: 0, bestStreak: 0,
-        student: this.getStudent(score.student_id)
+        student: score.student_id ? this.getStudent(score.student_id) : undefined
       };
       existing.total += score.points;
       existing.attempts += 1;
       if (score.is_correct) existing.correct += 1;
       if (score.streak_count > existing.bestStreak) existing.bestStreak = score.streak_count;
-      studentScores.set(score.student_id, existing);
+      studentScores.set(key, existing);
     }
 
     return Array.from(studentScores.entries()).map(([studentId, data]) => ({

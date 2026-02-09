@@ -226,10 +226,14 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   recordScore: (score) => {
     const { streaks } = get();
     const newStreaks = { ...streaks };
-    if (score.is_correct) {
-      newStreaks[score.student_id] = (newStreaks[score.student_id] ?? 0) + 1;
-    } else {
-      newStreaks[score.student_id] = 0;
+    // Use student_id for roster students, client_id for remote students
+    const streakKey = score.student_id || score.client_id;
+    if (streakKey) {
+      if (score.is_correct) {
+        newStreaks[streakKey] = (newStreaks[streakKey] ?? 0) + 1;
+      } else {
+        newStreaks[streakKey] = 0;
+      }
     }
     set((state) => ({
       scores: [...state.scores, score],

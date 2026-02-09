@@ -17,13 +17,25 @@ export function Leaderboard() {
 
   const entries = useMemo(() => {
     const map = new Map<string, LeaderboardEntry>();
+
+    // Add roster students
     students.forEach((s) => {
       map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0, correctCount: 0, bestStreak: 0 });
     });
 
+    // Process scores, creating entries for remote students
     scores.forEach((sc) => {
-      const entry = map.get(sc.student_id);
+      const key = sc.student_id || sc.client_id; // Use client_id for remote students
+      if (!key) return;
+
+      let entry = map.get(key);
+      if (!entry && sc.display_name) {
+        // Remote student - create new entry
+        entry = { studentId: key, name: sc.display_name, totalPoints: 0, correctCount: 0, bestStreak: 0 };
+        map.set(key, entry);
+      }
       if (!entry) return;
+
       entry.totalPoints += sc.points + sc.streak_bonus;
       if (sc.is_correct) entry.correctCount++;
       if (sc.streak_count > entry.bestStreak) entry.bestStreak = sc.streak_count;

@@ -11,12 +11,25 @@ export function EndSessionSummary({ classId, className }: { classId: string; cla
 
   const summary = useMemo(() => {
     const map = new Map<string, { name: string; total: number; correct: number; attempts: number; bestStreak: number }>();
+
+    // Add roster students
     students.forEach((s) => {
       map.set(s.id, { name: s.name, total: 0, correct: 0, attempts: 0, bestStreak: 0 });
     });
+
+    // Process scores, including remote students
     scores.forEach((sc) => {
-      const entry = map.get(sc.student_id);
+      const key = sc.student_id || sc.client_id;
+      if (!key) return;
+
+      let entry = map.get(key);
+      if (!entry && sc.display_name) {
+        // Remote student - create new entry
+        entry = { name: sc.display_name, total: 0, correct: 0, attempts: 0, bestStreak: 0 };
+        map.set(key, entry);
+      }
       if (!entry) return;
+
       entry.total += sc.points + sc.streak_bonus;
       entry.attempts++;
       if (sc.is_correct) entry.correct++;

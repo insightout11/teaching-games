@@ -113,9 +113,10 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
         : (evaluation.isValid ? 5 : 0);
 
       // Insert score with team/client_id/display_name
+      // Remote students don't have roster entries, so student_id is null
       const scoreData = {
         session_id: sessionId,
-        student_id: submission.client_id, // Use client_id as student_id for remote students
+        student_id: null, // Remote students don't have roster entries
         points: basePoints,
         streak_count: 0,
         streak_bonus: 0,
