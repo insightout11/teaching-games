@@ -1,0 +1,133 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createServiceClient } from '@/lib/supabase/service';
+import { RATE_LIMITS, VALIDATION } from '@/lib/config/rate-limits';
+
+interface SubmitRequest {
+  sessionId: string;
+  clientId: string;
+  displayName: string;
+  content: string;
+  team?: 'red' | 'blue' | null;
+  gameKey?: string | null;
+}
+
+// POST /api/student/submit
+// Create text submission with rate limiting
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json() as SubmitRequest;
+    const { sessionId, clientId, displayName, content, team, gameKey } = body;
+
+    // Validate required fields
+    if (!sessionId || !clientId || !displayName || !content) {
+      return NextResponse.json(
+        { error: 'Missing required fields: sessionId, clientId, displayName, content' },
+        { status: 400 }
+      );
+    }
+
+    // Validate UUID format
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(sessionId) || !uuidRegex.test(clientId)) {
+      return NextResponse.json({ error: 'Invalid UUID format' }, { status: 400 });
+    }
+
+    // Trim and validate string lengths
+    const trimmedName = displayName.trim();
+    const trimmedContent = content.trim();
+
+    if (!trimmedName || trimmedName.length > VALIDATION.DISPLAY_NAME_MAX) {
+      return NextResponse.json(
+        { error: `Display name must be 1-${VALIDATION.DISPLAY_NAME_MAX} characters` },
+        { status: 400 }
+      );
+    }
+
+    if (!trimmedContent || trimmedContent.length > VALIDATION.CONTENT_MAX) {
+      return NextResponse.json(
+        { error: `Content must be 1-${VALIDATION.CONTENT_MAX} characters` },
+        { status: 400 }
+      );
+    }
+
+    // Validate team if provided
+    if (team && team !== 'red' && team !== 'blue') {
+      return NextResponse.json({ error: 'Team must be "red" or "blue"' }, { status: 400 });
+    }
+
+    const supabase = createServiceClient();
+
+    // Verify session is active
+    const { data: session, error: sessionError } = await supabase
+      .from('sessions')
+      .select('id, status')
+      .eq('id', sessionId)
+      .single();
+
+    if (sessionError || !session) {
+      return NextResponse.json({ error: 'Session not found' }, { status: 404 });
+    }
+
+    if (session.status !== 'active') {
+      return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
+    }
+
+    // Check rate limit
+    const { data: rateLimit } = await supabase
+      .from('submission_rate_limits')
+      .select('last_text_submission')
+      .eq('session_id', sessionId)
+      .eq('client_id', clientId)
+      .single();
+
+    if (rateLimit?.last_text_submission) {
+      const lastSubmission = new Date(rateLimit.last_text_submission);
+      const now = new Date();
+      const secondsSince = (now.getTime() - lastSubmission.getTime()) / 1000;
+
+      if (secondsSince < RATE_LIMITS.TEXT_SUBMISSION_SECONDS) {
+        const waitSeconds = Math.ceil(RATE_LIMITS.TEXT_SUBMISSION_SECONDS - secondsSince);
+        return NextResponse.json(
+          { error: 'rate_limited', waitSeconds },
+          { status: 429 }
+        );
+      }
+    }
+
+    // Insert submission
+    const { error: insertError } = await supabase
+      .from('student_submissions')
+      .insert({
+        session_id: sessionId,
+        client_id: clientId,
+        display_name: trimmedName,
+        team: team || null,
+        submission_type: 'text',
+        content: trimmedContent,
+        status: 'pending',
+        game_key: gameKey || null,
+      });
+
+    if (insertError) {
+      console.error('Insert submission error:', insertError);
+      return NextResponse.json({ error: 'Failed to submit' }, { status: 500 });
+    }
+
+    // Update rate limit timestamp (upsert)
+    await supabase
+      .from('submission_rate_limits')
+      .upsert(
+        {
+          session_id: sessionId,
+          client_id: clientId,
+          last_text_submission: new Date().toISOString(),
+        },
+        { onConflict: 'session_id,client_id' }
+      );
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Submit error:', error);
+    return NextResponse.json({ error: 'Failed to submit' }, { status: 500 });
+  }
+}

@@ -1,0 +1,114 @@
+'use client';
+
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSessionStore, type GameMode } from '@/stores/session-store';
+import { useState, useCallback, useRef } from 'react';
+
+export function StudentPicker() {
+  const { students, currentStudentId, pickerMode, setPickerMode, pickStudent, gameMode, setGameMode, setCurrentStudent } = useSessionStore();
+  const [spinning, setSpinning] = useState(false);
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout>();
+
+  const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  const handlePick = useCallback(() => {
+    if (students.length === 0) return;
+    setSpinning(true);
+
+    let count = 0;
+    intervalRef.current = setInterval(() => {
+      setDisplayIndex(Math.floor(Math.random() * students.length));
+      count++;
+      if (count > 15) {
+        clearInterval(intervalRef.current);
+        pickStudent();
+        setSpinning(false);
+      }
+    }, 100);
+  }, [students, pickStudent]);
+
+  const spinStudent = spinning ? students[displayIndex] : currentStudent;
+
+  return (
+    <div className="glass rounded-2xl p-4">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="font-semibold text-sm opacity-70 uppercase tracking-wider text-[10px]">Student Picker</h3>
+        <div className="flex gap-1">
+          {(['fair', 'random'] as const).map((mode) => (
+            <button
+              key={mode}
+              onClick={() => setPickerMode(mode)}
+              className={`text-xs px-2 py-1 rounded-lg transition-colors ${
+                pickerMode === mode ? 'bg-cyan-500/30 text-cyan-300' : 'opacity-40 hover:opacity-70'
+              }`}
+            >
+              {mode}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Game Mode Dropdown */}
+      <div className="mb-3">
+        <label className="text-xs uppercase tracking-wider opacity-60 mb-1 block">Game Mode</label>
+        <select
+          value={gameMode}
+          onChange={(e) => setGameMode(e.target.value as GameMode)}
+          className="w-full bg-black/40 border border-white/10 text-white rounded-lg px-3 py-2 text-sm focus:border-cyan-500 outline-none"
+        >
+          <option value="normal">Normal Mode</option>
+          <option value="spinner">Spinner Mode</option>
+        </select>
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={spinStudent?.id ?? 'empty'}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="text-center py-4"
+        >
+          {spinStudent ? (
+            <p className={`text-2xl font-game ${spinning ? 'opacity-40' : 'text-cyan-400'}`}>
+              {spinStudent.name}
+            </p>
+          ) : (
+            <p className="opacity-40 text-sm">No student selected</p>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      <button
+        onClick={handlePick}
+        disabled={spinning || students.length === 0}
+        className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-game text-sm shadow-lg hover:scale-[1.02] active:scale-95 transition-all text-white disabled:opacity-30"
+      >
+        {spinning ? 'PICKING...' : 'PICK STUDENT'}
+      </button>
+
+      {/* Clickable Student List */}
+      {students.length > 0 && (
+        <div className="mt-4 border-t border-white/10 pt-4">
+          <p className="text-xs uppercase tracking-wider opacity-60 mb-2">Or click to select:</p>
+          <div className="max-h-48 overflow-y-auto space-y-1">
+            {students.map((student) => (
+              <button
+                key={student.id}
+                onClick={() => setCurrentStudent(student.id)}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                  student.id === currentStudentId
+                    ? 'bg-cyan-500/30 text-cyan-300'
+                    : 'hover:bg-white/10'
+                }`}
+              >
+                {student.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
