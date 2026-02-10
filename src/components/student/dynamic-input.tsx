@@ -183,10 +183,11 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
   const labels = spec.optionLabels || ['A', 'B'];
   const options = spec.options || labels;
 
-  const handleChoice = useCallback(async (choice: string) => {
+  // Send the LABEL (A/B), not the full option text
+  const handleChoice = useCallback(async (index: number) => {
     if (isSubmitting) return;
-    await onSubmit(choice);
-  }, [isSubmitting, onSubmit]);
+    await onSubmit(labels[index]);
+  }, [isSubmitting, onSubmit, labels]);
 
   return (
     <div className="space-y-4">
@@ -197,7 +198,7 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
         {options.map((option, index) => (
           <button
             key={index}
-            onClick={() => handleChoice(option)}
+            onClick={() => handleChoice(index)}
             disabled={isSubmitting || submitStatus === 'rate_limited'}
             className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 hover:from-cyan-500/30 hover:to-blue-500/30 hover:border-cyan-500/50 transition-all text-white font-bold text-xl disabled:opacity-50"
           >
