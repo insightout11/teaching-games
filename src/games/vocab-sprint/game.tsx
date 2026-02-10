@@ -6,7 +6,7 @@ import type { GameProps } from '../types';
 import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -26,6 +26,10 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
+  // Keep a ref to current sentence for the submission handler
+  const currentSentenceRef = useRef<GameSentence | null>(null);
+  currentSentenceRef.current = currentSentence;
+
   // Register input spec for student controller
   useEffect(() => {
     if (status === GameStatus.RUNNING && currentSentence) {
@@ -40,6 +44,50 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
       onSetInputSpec?.(null);
     }
   }, [status, currentSentence, onSetInputSpec]);
+
+  // Register submission handler to evaluate remote submissions
+  useEffect(() => {
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        const sentence = currentSentenceRef.current;
+        if (!sentence) {
+          return { isCorrect: false, points: 1, feedback: 'No active challenge' };
+        }
+
+        try {
+          const response = await fetch('/api/vocab-sprint/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              originalSentence: sentence.sentence,
+              weakWord: sentence.weakWord,
+              replacement: content.trim(),
+              difficulty: sessionSettings.difficulty
+            })
+          });
+
+          if (!response.ok) throw new Error('Evaluation failed');
+
+          const result: EvaluationResult = await response.json();
+
+          // Update the game UI with the result
+          setReplacementInput(content.trim());
+          setEvaluation(result);
+          setStatus(GameStatus.FINISHED);
+
+          return {
+            isCorrect: result.score >= 5,
+            points: result.score,
+            feedback: result.comment,
+          };
+        } catch {
+          return { isCorrect: false, points: 1, feedback: 'Evaluation error' };
+        }
+      }
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   // Track previous student to detect changes
   const prevStudentRef = useRef<string | null>(null);
