@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useSessionStore, calculateStreakBonus } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
-import type { GamePlugin, ScoreResult } from '@/games/types';
+import type { GamePlugin, ScoreResult, GameRemoteVote } from '@/games/types';
 import type { GameGeneratedContent } from '@/activities/types';
-import type { StudentSubmission } from '@/lib/supabase/types';
+import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import { StudentPicker } from './student-picker';
 import { StreakIndicator } from './streak-indicator';
@@ -28,6 +28,7 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
   } = useSessionStore();
   const supabase = createClient();
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
+  const remoteVoteHandlerRef = useRef<((vote: GameRemoteVote) => void) | null>(null);
 
   const GameComponent = game.component;
 
@@ -41,6 +42,48 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
     };
   }, [game.key, setActiveGame, setInputSpec]);
 
+  // Subscribe to scores for remote votes
+  useEffect(() => {
+    if (!sessionId) return;
+
+    const scoresChannel = supabase
+      .channel(`game-scores-${sessionId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'scores',
+          filter: `session_id=eq.${sessionId}`,
+        },
+        (payload: { new: Score }) => {
+          const score = payload.new;
+          // Check if this is a remote vote for this game
+          const responseData = score.response_data as Record<string, unknown> | null;
+          if (responseData?.type === 'remote_vote' && responseData?.gameKey === game.key) {
+            // Call the registered vote handler
+            if (remoteVoteHandlerRef.current) {
+              remoteVoteHandlerRef.current({
+                clientId: score.client_id || '',
+                displayName: score.display_name || 'Anonymous',
+                choice: responseData.choice as string,
+                team: score.team as 'red' | 'blue' | null,
+                gameKey: responseData.gameKey as string,
+                inputType: responseData.inputType as string,
+              });
+            }
+          }
+          // Also record the score in the store
+          recordScore(score);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(scoresChannel);
+    };
+  }, [sessionId, game.key, supabase, recordScore]);
+
   // Callback for games to set input spec
   const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
     setInputSpec(spec);
@@ -49,6 +92,11 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
   // Callback for games to register submission handler
   const handleRegisterSubmissionHandler = useCallback((handler: SubmissionHandler | null) => {
     submissionHandlerRef.current = handler;
+  }, []);
+
+  // Callback for games to register remote vote handler
+  const handleRegisterRemoteVoteHandler = useCallback((handler: ((vote: GameRemoteVote) => void) | null) => {
+    remoteVoteHandlerRef.current = handler;
   }, []);
 
   const handleScore = useCallback(async (studentId: string, result: ScoreResult) => {
@@ -188,6 +236,7 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
                 sessionSettings={settings}
                 onSetInputSpec={handleSetInputSpec}
                 onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
+                onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
               />
             )}
           </div>

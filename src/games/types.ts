@@ -9,6 +9,16 @@ export interface ScoreResult {
   responseData?: Record<string, unknown>;
 }
 
+// Remote vote received from a student device (same as activity RemoteVote)
+export interface GameRemoteVote {
+  clientId: string;
+  displayName: string;
+  choice: string;
+  team?: 'red' | 'blue' | null;
+  gameKey: string;
+  inputType: string;
+}
+
 export interface GameProps {
   students: Student[];
   currentStudentId: string | null;
@@ -20,6 +30,8 @@ export interface GameProps {
   onSetInputSpec?: (spec: InputSpec | null) => void;
   // Submission handler - games register this to evaluate approved submissions
   onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
+  // Remote vote handler - register to receive votes from remote students in real-time
+  onRegisterRemoteVoteHandler?: (handler: ((vote: GameRemoteVote) => void) | null) => void;
 }
 
 export interface GameConfigField {

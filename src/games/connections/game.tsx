@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { GameProps } from '../types';
+import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, GROUP_COLORS } from './types';
 import type { ConnectionsChallenge, ConnectionsGroup, ConnectionsResult, GroupColor } from './types';
 
 const MAX_LIVES = 4;
 
-export function ConnectionsGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function ConnectionsGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<ConnectionsChallenge | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
@@ -46,6 +46,111 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
       onSetInputSpec?.(null);
     }
   }, [status, challenge, remainingWords, onSetInputSpec]);
+
+  // Process remote vote (submission from student device)
+  const processRemoteSubmission = useCallback(async (selectedWords: string[]) => {
+    if (!challenge || status !== GameStatus.PLAYING) return;
+
+    setStatus(GameStatus.EVALUATING);
+    setFeedback(null);
+
+    try {
+      const response = await fetch('/api/connections/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          selectedWords,
+          remainingGroups
+        })
+      });
+
+      if (!response.ok) throw new Error('Failed to evaluate');
+
+      const result: ConnectionsResult = await response.json();
+
+      if (result.isCorrect && result.matchedGroup) {
+        // Calculate points based on mistakes
+        const pointsForGroup = mistakes === 0 ? 10 : mistakes === 1 ? 7 : mistakes === 2 ? 5 : 3;
+        const newScore = score + pointsForGroup;
+        setScore(newScore);
+        setFoundGroups(prev => [...prev, result.matchedGroup!]);
+        setFeedback(`+${pointsForGroup} points! ${result.feedback}`);
+
+        // Check if won (all 4 groups found)
+        if (foundGroups.length + 1 === 4) {
+          const finalScore = newScore + 5; // Bonus for completing
+          setScore(finalScore);
+          setStatus(GameStatus.WON);
+
+          if (currentStudentId) {
+            onScore(currentStudentId, {
+              isCorrect: true,
+              points: finalScore,
+              responseData: {
+                groupsFound: 4,
+                livesRemaining: lives,
+                mistakes
+              }
+            });
+          }
+        } else {
+          setStatus(GameStatus.PLAYING);
+        }
+      } else {
+        // Wrong guess
+        const newLives = lives - 1;
+        setLives(newLives);
+        setMistakes(prev => prev + 1);
+        setFeedback(result.feedback);
+        setShakeWords([...selectedWords]);
+
+        setTimeout(() => setShakeWords([]), 500);
+
+        if (newLives === 0) {
+          setStatus(GameStatus.LOST);
+
+          if (currentStudentId) {
+            onScore(currentStudentId, {
+              isCorrect: false,
+              points: score,
+              responseData: {
+                groupsFound: foundGroups.length,
+                livesRemaining: 0,
+                mistakes: mistakes + 1
+              }
+            });
+          }
+        } else {
+          setStatus(GameStatus.PLAYING);
+        }
+      }
+
+      setSelected([]);
+    } catch (err) {
+      console.error(err);
+      setError('Failed to evaluate answer. Please try again.');
+      setStatus(GameStatus.PLAYING);
+    }
+  }, [challenge, status, remainingGroups, mistakes, score, foundGroups, lives, currentStudentId, onScore]);
+
+  // Register remote vote handler
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.((vote: GameRemoteVote) => {
+      if (status !== GameStatus.PLAYING) return;
+
+      try {
+        // Parse the JSON-stringified array of selected words
+        const selectedWords = JSON.parse(vote.choice) as string[];
+        if (Array.isArray(selectedWords) && selectedWords.length === 4) {
+          processRemoteSubmission(selectedWords);
+        }
+      } catch (err) {
+        console.error('Failed to parse remote vote:', err);
+      }
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [status, onRegisterRemoteVoteHandler, processRemoteSubmission]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {
