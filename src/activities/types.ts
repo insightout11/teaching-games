@@ -36,6 +36,18 @@ export interface ActivityProps {
   onSetInputSpec?: (spec: InputSpec | null) => void;
   // Submission handler - activities register this to evaluate approved submissions
   onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
+  // Remote vote handler - register to receive votes from remote students in real-time
+  onRegisterRemoteVoteHandler?: (handler: ((vote: RemoteVote) => void) | null) => void;
+}
+
+// Remote vote received from a student device
+export interface RemoteVote {
+  clientId: string;
+  displayName: string;
+  choice: string;
+  team?: 'red' | 'blue' | null;
+  gameKey: string;
+  inputType: string;
 }
 
 // Plugin definition for an activity

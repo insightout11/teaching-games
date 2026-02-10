@@ -7,8 +7,10 @@ import type {
   ActivityGeneratedContent,
   ActivityContinueRequest,
   ActivityContinueResponse,
+  RemoteVote,
 } from '@/activities/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
+import type { Score } from '@/lib/supabase/types';
 import { StudentPicker } from './student-picker';
 import { Leaderboard } from './leaderboard';
 import { ApprovalQueue } from './approval-queue';
@@ -21,12 +23,81 @@ interface ActivityShellProps {
 }
 
 export function ActivityShell({ activity, generatedContent }: ActivityShellProps) {
-  const { sessionId, students, currentStudentId, settings, setInputSpec, recordScore } = useSessionStore();
+  const { sessionId, students, currentStudentId, settings, setInputSpec, recordScore, addStudent } = useSessionStore();
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
+  const remoteVoteHandlerRef = useRef<((vote: RemoteVote) => void) | null>(null);
   const supabase = createClient();
 
   const ActivityComponent = activity.component;
+
+  // Subscribe to scores for remote votes AND new students joining
+  useEffect(() => {
+    if (!sessionId) return;
+
+    // Subscribe to scores to capture remote votes
+    const scoresChannel = supabase
+      .channel(`activity-scores-${sessionId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'scores',
+          filter: `session_id=eq.${sessionId}`,
+        },
+        (payload: { new: Score }) => {
+          const score = payload.new;
+          // Check if this is a remote vote
+          const responseData = score.response_data as Record<string, unknown> | null;
+          if (responseData?.type === 'remote_vote' && responseData?.gameKey === activity.key) {
+            // Call the registered vote handler
+            if (remoteVoteHandlerRef.current) {
+              remoteVoteHandlerRef.current({
+                clientId: score.client_id || '',
+                displayName: score.display_name || 'Anonymous',
+                choice: responseData.choice as string,
+                team: score.team as 'red' | 'blue' | null,
+                gameKey: responseData.gameKey as string,
+                inputType: responseData.inputType as string,
+              });
+            }
+          }
+          // Also record the score in the store
+          recordScore(score);
+        }
+      )
+      .subscribe();
+
+    // Subscribe to new students joining
+    const studentsChannel = supabase
+      .channel(`activity-students-${sessionId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'students',
+        },
+        (payload: { new: { id: string; name: string; class_id: string; avatar_seed?: string; created_at?: string } }) => {
+          const student = payload.new;
+          // Add to store (the store will handle deduplication)
+          addStudent({
+            id: student.id,
+            name: student.name,
+            class_id: student.class_id,
+            avatar_seed: student.avatar_seed ?? String(Math.floor(Math.random() * 1000)),
+            created_at: student.created_at ?? new Date().toISOString(),
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(scoresChannel);
+      supabase.removeChannel(studentsChannel);
+    };
+  }, [sessionId, activity.key, supabase, recordScore, addStudent]);
 
   // Clear input spec when activity unmounts
   useEffect(() => {
@@ -43,6 +114,11 @@ export function ActivityShell({ activity, generatedContent }: ActivityShellProps
   // Callback for activities to register submission handler
   const handleRegisterSubmissionHandler = useCallback((handler: SubmissionHandler | null) => {
     submissionHandlerRef.current = handler;
+  }, []);
+
+  // Callback for activities to register remote vote handler
+  const handleRegisterRemoteVoteHandler = useCallback((handler: ((vote: RemoteVote) => void) | null) => {
+    remoteVoteHandlerRef.current = handler;
   }, []);
 
   // Handle approved student submission
@@ -161,6 +237,7 @@ export function ActivityShell({ activity, generatedContent }: ActivityShellProps
             customTopic={customTopic}
             onSetInputSpec={handleSetInputSpec}
             onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
+            onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
           />
         </div>
 

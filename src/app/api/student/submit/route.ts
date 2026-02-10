@@ -9,6 +9,7 @@ interface SubmitRequest {
   content: string;
   team?: 'red' | 'blue' | null;
   gameKey?: string | null;
+  inputType?: string | null; // 'choice', 'binary', 'text', etc.
 }
 
 // POST /api/student/submit
@@ -16,7 +17,7 @@ interface SubmitRequest {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as SubmitRequest;
-    const { sessionId, clientId, displayName, content, team, gameKey } = body;
+    const { sessionId, clientId, displayName, content, team, gameKey, inputType } = body;
 
     // Validate required fields
     if (!sessionId || !clientId || !displayName || !content) {
@@ -72,7 +73,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
     }
 
-    // Check rate limit
+    // For simple choices (binary, choice, ranking), bypass approval and create score directly
+    const isDirectSubmission = inputType === 'binary' || inputType === 'choice' || inputType === 'ranking' || inputType === 'multi-select';
+
+    if (isDirectSubmission) {
+      // Create score directly - this will be picked up by realtime subscriptions
+      const { error: scoreError } = await supabase
+        .from('scores')
+        .insert({
+          session_id: sessionId,
+          student_id: null, // Remote student
+          points: 1, // Participation point for voting
+          streak_count: 0,
+          streak_bonus: 0,
+          is_correct: true,
+          response_data: {
+            type: 'remote_vote',
+            gameKey: gameKey,
+            inputType: inputType,
+            choice: trimmedContent,
+          },
+          team: team || null,
+          client_id: clientId,
+          display_name: trimmedName,
+        });
+
+      if (scoreError) {
+        console.error('Insert score error:', scoreError);
+        return NextResponse.json({ error: 'Failed to submit vote' }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, direct: true });
+    }
+
+    // Check rate limit (only for text submissions that need approval)
     const { data: rateLimit } = await supabase
       .from('submission_rate_limits')
       .select('last_text_submission')

@@ -89,6 +89,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           content: content.trim(),
           team: studentSession.team,
           gameKey: inputSpec?.gameKey,
+          inputType: inputSpec?.type,
         }),
       });
 

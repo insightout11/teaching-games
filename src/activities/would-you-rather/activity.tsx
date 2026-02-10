@@ -12,6 +12,7 @@ export function WouldYouRatherActivity({
   onPhaseChange,
   customTopic,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
 }: ActivityProps) {
   const content = generatedContent as WouldYouRatherContent;
 
@@ -37,6 +38,27 @@ export function WouldYouRatherActivity({
       onSetInputSpec?.(null);
     }
   }, [status, currentDilemma, onSetInputSpec]);
+
+  // Register remote vote handler to receive votes from student devices
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.((vote) => {
+      // Only process votes during voting phase
+      if (status !== ActivityStatus.VOTING) return;
+
+      // Add the vote (choice is "A" or "B")
+      setVotes((prev) => {
+        // Remove existing vote from this client
+        const filtered = prev.filter((v) => v.studentId !== vote.clientId);
+        return [...filtered, {
+          studentId: vote.clientId,
+          studentName: vote.displayName,
+          choice: vote.choice as 'A' | 'B',
+        }];
+      });
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [status, onRegisterRemoteVoteHandler]);
 
   // Calculate vote stats
   const voteStats = useMemo(() => {
