@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
 
-export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [currentInput, setCurrentInput] = useState('');
@@ -20,6 +20,12 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Keep refs for the submission handler
+  const challengeRef = useRef<Challenge | null>(null);
+  challengeRef.current = challenge;
+  const submittedSynonymsRef = useRef<string[]>([]);
+  submittedSynonymsRef.current = submittedSynonyms;
 
   // Register input spec for student controller
   useEffect(() => {
@@ -35,6 +41,56 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
       onSetInputSpec?.(null);
     }
   }, [status, challenge, onSetInputSpec]);
+
+  // Register submission handler to evaluate remote submissions
+  useEffect(() => {
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        const ch = challengeRef.current;
+        if (!ch) {
+          return { isCorrect: false, points: 1, feedback: 'No active challenge' };
+        }
+
+        const synonym = content.trim().toLowerCase();
+        if (submittedSynonymsRef.current.includes(synonym)) {
+          return { isCorrect: false, points: 0, feedback: 'Already submitted!' };
+        }
+
+        try {
+          const response = await fetch('/api/synonym-showdown/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              targetWord: ch.targetWord,
+              contextSentence: ch.contextSentence,
+              synonym,
+              difficulty: sessionSettings.difficulty,
+            }),
+          });
+
+          if (!response.ok) throw new Error('Evaluation failed');
+
+          const result: SynonymValidation = await response.json();
+
+          setCurrentInput(content.trim());
+          setSubmittedSynonyms((prev) => [...prev, synonym]);
+          if (result.isValid) {
+            setValidSynonyms((prev) => [...prev, { word: synonym, score: result.score, quality: result.quality }]);
+          }
+
+          return {
+            isCorrect: result.isValid,
+            points: result.score,
+            feedback: result.feedback,
+          };
+        } catch {
+          return { isCorrect: false, points: 1, feedback: 'Evaluation error' };
+        }
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const finishGame = useCallback(() => {
     if (!currentStudentId) return;

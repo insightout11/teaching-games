@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { ExtendedChainLink, ValidationResult } from './types';
 
-export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [startingWord, setStartingWord] = useState('');
   const [hint, setHint] = useState('');
@@ -18,6 +18,14 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
   const currentWord = chain.length > 0 ? chain[chain.length - 1].word : startingWord;
+
+  // Keep refs for the submission handler
+  const currentWordRef = useRef<string>(currentWord);
+  currentWordRef.current = currentWord;
+  const chainRef = useRef<ExtendedChainLink[]>(chain);
+  chainRef.current = chain;
+  const startingWordRef = useRef<string>(startingWord);
+  startingWordRef.current = startingWord;
 
   // Register input spec for student controller
   useEffect(() => {
@@ -33,6 +41,59 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
       onSetInputSpec?.(null);
     }
   }, [status, currentWord, onSetInputSpec]);
+
+  // Register submission handler to evaluate remote submissions
+  useEffect(() => {
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        const prevWord = currentWordRef.current;
+        if (!prevWord) {
+          return { isCorrect: false, points: 1, feedback: 'No active challenge' };
+        }
+
+        try {
+          const response = await fetch('/api/word-chain/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              previousWord: prevWord,
+              newWord: content.trim().toLowerCase(),
+              chainHistory: [startingWordRef.current, ...chainRef.current.map((c) => c.word)],
+              difficulty: sessionSettings.difficulty,
+            }),
+          });
+
+          if (!response.ok) throw new Error('Evaluation failed');
+
+          const result: ValidationResult = await response.json();
+
+          setCurrentInput(content.trim());
+          if (result.isValid) {
+            setChain((prev) => [
+              ...prev,
+              {
+                word: content.trim().toLowerCase(),
+                connectionStrength: result.connectionStrength,
+                score: result.score,
+                studentId: '',
+                studentName: 'Remote',
+              },
+            ]);
+          }
+
+          return {
+            isCorrect: result.isValid,
+            points: result.score,
+            feedback: result.feedback,
+          };
+        } catch {
+          return { isCorrect: false, points: 1, feedback: 'Evaluation error' };
+        }
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

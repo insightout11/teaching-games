@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GrammarTarget, FeedbackTone, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 
-export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(GrammarTarget.Tense);
   const [selectedTone, setSelectedTone] = useState<FeedbackTone>(FeedbackTone.Coach);
@@ -17,6 +17,14 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Keep refs for the submission handler
+  const currentChallengeRef = useRef<Challenge | null>(null);
+  currentChallengeRef.current = currentChallenge;
+  const selectedTargetRef = useRef<GrammarTarget>(selectedTarget);
+  selectedTargetRef.current = selectedTarget;
+  const selectedToneRef = useRef<FeedbackTone>(selectedTone);
+  selectedToneRef.current = selectedTone;
 
   // Register input spec for student controller
   useEffect(() => {
@@ -32,6 +40,51 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
       onSetInputSpec?.(null);
     }
   }, [status, currentChallenge, onSetInputSpec]);
+
+  // Register submission handler to evaluate remote submissions
+  useEffect(() => {
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        const ch = currentChallengeRef.current;
+        if (!ch) {
+          return { isCorrect: false, points: 1, feedback: 'No active challenge' };
+        }
+
+        try {
+          const response = await fetch('/api/grammar-boss/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              sentence: content.trim(),
+              grammarTarget: ch.target,
+              task: ch.task,
+              difficulty: sessionSettings.difficulty,
+              tone: selectedToneRef.current,
+            }),
+          });
+
+          if (!response.ok) throw new Error('Evaluation failed');
+
+          const result: EvaluationResult = await response.json();
+
+          setStudentSentence(content.trim());
+          setEvaluation(result);
+          setStatus(GameStatus.SHOWING_RESULT);
+
+          const averageScore = Math.round((result.grammarScore + result.fluencyScore) / 2);
+          return {
+            isCorrect: averageScore >= 5,
+            points: averageScore,
+            feedback: result.feedback,
+          };
+        } catch {
+          return { isCorrect: false, points: 1, feedback: 'Evaluation error' };
+        }
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

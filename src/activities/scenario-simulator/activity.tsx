@@ -17,6 +17,7 @@ export function ScenarioSimulatorActivity({
   onPhaseChange,
   customTopic,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
 }: ActivityProps) {
   const content = generatedContent as ScenarioSimulatorContent;
 
@@ -42,6 +43,21 @@ export function ScenarioSimulatorActivity({
       onSetInputSpec?.(null);
     }
   }, [status, currentBranch, onSetInputSpec]);
+
+  // Register remote vote handler to receive votes from student devices
+  useEffect(() => {
+    if (status !== ActivityStatus.CHOOSING || !currentBranch) return;
+
+    onRegisterRemoteVoteHandler?.((vote) => {
+      const options = currentBranch.choices.map((c, i) => `${String.fromCharCode(65 + i)}. ${c.action}`);
+      const index = options.indexOf(vote.choice);
+      if (index >= 0 && currentBranch.choices[index]) {
+        setSelectedChoice(currentBranch.choices[index].id);
+      }
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [status, currentBranch, onRegisterRemoteVoteHandler]);
 
   const startActivity = useCallback(() => {
     setStatus(ActivityStatus.SETUP);

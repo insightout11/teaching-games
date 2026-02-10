@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { ConnectionChallenge, ConnectionResult } from './types';
 
-export function ConnectionGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function ConnectionGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<ConnectionChallenge | null>(null);
   const [guess, setGuess] = useState('');
@@ -15,6 +15,10 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Keep a ref to current challenge for the submission handler
+  const challengeRef = useRef<ConnectionChallenge | null>(null);
+  challengeRef.current = challenge;
 
   // Register input spec for student controller
   useEffect(() => {
@@ -30,6 +34,50 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
       onSetInputSpec?.(null);
     }
   }, [status, challenge, onSetInputSpec]);
+
+  // Register submission handler to evaluate remote submissions
+  useEffect(() => {
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        const ch = challengeRef.current;
+        if (!ch) {
+          return { isCorrect: false, points: 1, feedback: 'No active challenge' };
+        }
+
+        try {
+          const response = await fetch('/api/connection/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              word1: ch.word1,
+              word2: ch.word2,
+              category: ch.category,
+              guess: content.trim(),
+              difficulty: sessionSettings.difficulty,
+            }),
+          });
+
+          if (!response.ok) throw new Error('Evaluation failed');
+
+          const evaluationResult: ConnectionResult = await response.json();
+
+          setGuess(content.trim());
+          setResult(evaluationResult);
+          setStatus(GameStatus.SHOWING_RESULT);
+
+          return {
+            isCorrect: evaluationResult.isCorrect,
+            points: evaluationResult.score,
+            feedback: evaluationResult.feedback,
+          };
+        } catch {
+          return { isCorrect: false, points: 1, feedback: 'Evaluation error' };
+        }
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

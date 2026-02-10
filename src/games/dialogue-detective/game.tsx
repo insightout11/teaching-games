@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 
-export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [response, setResponse] = useState('');
@@ -14,6 +14,10 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Keep a ref to current challenge for the submission handler
+  const challengeRef = useRef<Challenge | null>(null);
+  challengeRef.current = challenge;
 
   // Register input spec for student controller
   useEffect(() => {
@@ -29,6 +33,50 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
       onSetInputSpec?.(null);
     }
   }, [status, challenge, onSetInputSpec]);
+
+  // Register submission handler to evaluate remote submissions
+  useEffect(() => {
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        const ch = challengeRef.current;
+        if (!ch) {
+          return { isCorrect: false, points: 1, feedback: 'No active challenge' };
+        }
+
+        try {
+          const res = await fetch('/api/dialogue-detective/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              speakerA_before: ch.speakerA_before,
+              speakerA_after: ch.speakerA_after,
+              response: content.trim(),
+              goal: ch.goal,
+              difficulty: sessionSettings.difficulty,
+            }),
+          });
+
+          if (!res.ok) throw new Error('Evaluation failed');
+
+          const result: EvaluationResult = await res.json();
+
+          setResponse(content.trim());
+          setEvaluation(result);
+          setStatus(GameStatus.SHOWING_RESULT);
+
+          return {
+            isCorrect: result.score >= 5,
+            points: result.score,
+            feedback: result.feedback,
+          };
+        } catch {
+          return { isCorrect: false, points: 1, feedback: 'Evaluation error' };
+        }
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

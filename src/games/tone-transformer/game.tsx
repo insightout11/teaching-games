@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { TargetTone, TONE_DESCRIPTIONS, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 
-export function ToneTransformerGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function ToneTransformerGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
   const [rewrittenSentence, setRewrittenSentence] = useState('');
@@ -14,6 +14,10 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Keep a ref to current challenge for the submission handler
+  const currentChallengeRef = useRef<Challenge | null>(null);
+  currentChallengeRef.current = currentChallenge;
 
   // Register input spec for student controller
   useEffect(() => {
@@ -29,6 +33,49 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
       onSetInputSpec?.(null);
     }
   }, [status, currentChallenge, onSetInputSpec]);
+
+  // Register submission handler to evaluate remote submissions
+  useEffect(() => {
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        const ch = currentChallengeRef.current;
+        if (!ch) {
+          return { isCorrect: false, points: 1, feedback: 'No active challenge' };
+        }
+
+        try {
+          const response = await fetch('/api/tone-transformer/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              originalSentence: ch.originalSentence,
+              rewrittenSentence: content.trim(),
+              targetTone: ch.targetTone,
+              difficulty: sessionSettings.difficulty,
+            }),
+          });
+
+          if (!response.ok) throw new Error('Evaluation failed');
+
+          const result: EvaluationResult = await response.json();
+
+          setRewrittenSentence(content.trim());
+          setEvaluation(result);
+          setStatus(GameStatus.SHOWING_RESULT);
+
+          return {
+            isCorrect: result.score >= 5,
+            points: result.score,
+            feedback: result.feedback,
+          };
+        } catch {
+          return { isCorrect: false, points: 1, feedback: 'Evaluation error' };
+        }
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

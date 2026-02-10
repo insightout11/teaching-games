@@ -19,6 +19,7 @@ export function HotTakeArenaActivity({
   onPhaseChange,
   customTopic,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
 }: ActivityProps) {
   const content = generatedContent as HotTakeArenaContent;
 
@@ -44,6 +45,21 @@ export function HotTakeArenaActivity({
       onSetInputSpec?.(null);
     }
   }, [status, content?.statement, onSetInputSpec]);
+
+  // Register remote vote handler to receive votes from student devices
+  useEffect(() => {
+    if (status !== ActivityStatus.SIDE_SELECTION) return;
+
+    onRegisterRemoteVoteHandler?.((vote) => {
+      const side: 'pro' | 'con' = vote.choice === 'AGREE (PRO)' ? 'pro' : 'con';
+      setSideSelections((prev) => {
+        const filtered = prev.filter((s) => s.studentId !== vote.clientId);
+        return [...filtered, { studentId: vote.clientId, studentName: vote.displayName, side }];
+      });
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [status, onRegisterRemoteVoteHandler]);
 
   // Group students by side
   const teams = useMemo(() => {

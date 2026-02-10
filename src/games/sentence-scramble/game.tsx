@@ -37,7 +37,7 @@ function difficultyToSentence(difficulty: Difficulty): 'easy' | 'medium' | 'hard
   }
 }
 
-export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const sentenceDifficulty = difficultyToSentence(sessionSettings.difficulty);
   const sentences = SENTENCES[sentenceDifficulty] ?? SENTENCES.medium;
 
@@ -80,6 +80,30 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       onSetInputSpec?.(null);
     }
   }, [submitted, availableWords, onSetInputSpec]);
+
+  // Register remote vote handler to receive sequence submissions from student devices
+  useEffect(() => {
+    if (submitted || availableWords.length === 0) return;
+
+    onRegisterRemoteVoteHandler?.((vote) => {
+      try {
+        const orderedWords: string[] = JSON.parse(vote.choice);
+        const allWords = words.map((word, idx) => ({ word, originalIndex: idx }));
+        const mapped = orderedWords
+          .map(w => allWords.find(item => item.word === w))
+          .filter((item): item is { word: string; originalIndex: number } => item !== undefined);
+
+        if (mapped.length === words.length) {
+          setSelectedWords(mapped);
+          setAvailableWords([]);
+        }
+      } catch {
+        // Invalid JSON, ignore
+      }
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [submitted, availableWords, words, onRegisterRemoteVoteHandler]);
 
   const handleSelectWord = (wordItem: { word: string; originalIndex: number }) => {
     if (submitted) return;

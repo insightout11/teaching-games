@@ -6,7 +6,7 @@ import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { StorySentence, AIScoreResponse } from './types';
 
-export function StorySprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function StorySprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [story, setStory] = useState<StorySentence[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -14,6 +14,12 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
   const storyEndRef = useRef<HTMLDivElement>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Keep refs for the submission handler
+  const storyRef = useRef<StorySentence[]>(story);
+  storyRef.current = story;
+  const currentStudentIdRef = useRef<string | null>(currentStudentId);
+  currentStudentIdRef.current = currentStudentId;
 
   useEffect(() => {
     storyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -33,6 +39,63 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
       onSetInputSpec?.(null);
     }
   }, [status, story.length, onSetInputSpec]);
+
+  // Register submission handler to evaluate remote submissions
+  useEffect(() => {
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        const storySoFar = storyRef.current.map((s) => s.text).join(' ');
+
+        try {
+          const response = await fetch('/api/story-sprint/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              sentence: content.trim(),
+              context: storySoFar,
+              difficulty: sessionSettings.difficulty,
+            }),
+          });
+
+          if (!response.ok) throw new Error('Analysis failed');
+
+          const analysis: AIScoreResponse = await response.json();
+          const totalScore = Math.round((analysis.grammarScore + analysis.creativityScore + analysis.flowScore) / 3);
+          const points = Math.round(totalScore / 10);
+
+          const newSentence: StorySentence = {
+            id: Date.now().toString(),
+            studentId: currentStudentIdRef.current || '',
+            studentName: 'Remote',
+            text: content.trim(),
+            scores: {
+              grammar: analysis.grammarScore,
+              creativity: analysis.creativityScore,
+              flow: analysis.flowScore,
+            },
+            totalScore,
+            feedback: analysis.feedback,
+            timestamp: Date.now(),
+          };
+
+          setInputValue(content.trim());
+          setStory((prev) => [...prev, newSentence]);
+          setLastResult(newSentence);
+          setStatus(GameStatus.SHOWING_RESULT);
+
+          return {
+            isCorrect: true,
+            points,
+            feedback: analysis.feedback,
+          };
+        } catch {
+          return { isCorrect: false, points: 1, feedback: 'Analysis error' };
+        }
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const handleSubmitSentence = async (e: React.FormEvent) => {
     e.preventDefault();
