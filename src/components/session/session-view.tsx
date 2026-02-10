@@ -74,7 +74,7 @@ interface SessionViewProps {
 }
 
 export function SessionView({ session, cls, students: serverStudents, existingScores }: SessionViewProps) {
-  const { initSession, settings, setCustomTopic } = useSessionStore();
+  const { initSession, settings, setCustomTopic, addStudent } = useSessionStore();
   const [viewMode, setViewMode] = useState<ViewMode>('selection');
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<ActivityPlugin | null>(null);
@@ -176,8 +176,36 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
   }, [session.id, cls.id, students, existingScores, initSession]);
 
-  // Realtime subscription
+  // Realtime subscription for leaderboard
   useRealtimeLeaderboard(session.id);
+
+  // Realtime subscription for new students joining
+  useEffect(() => {
+    const channel = supabase
+      .channel(`students-${cls.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'students',
+          filter: `class_id=eq.${cls.id}`,
+        },
+        (payload: { new: Student }) => {
+          const newStudent = payload.new;
+          setStudents((prev) => {
+            if (prev.some((s) => s.id === newStudent.id)) return prev;
+            return [...prev, newStudent];
+          });
+          addStudent(newStudent);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [cls.id, supabase, addStudent]);
 
   const handleEndSession = async () => {
     await supabase.from('sessions').update({ status: 'ended', ended_at: new Date().toISOString() }).eq('id', session.id);

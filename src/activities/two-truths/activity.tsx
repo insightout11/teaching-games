@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Guess, type TwoTruthsContent, type TwoTruthsRound } from './types';
@@ -10,6 +10,7 @@ export function TwoTruthsActivity({
   generatedContent,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as TwoTruthsContent;
 
@@ -20,6 +21,20 @@ export function TwoTruthsActivity({
   const [correctCount, setCorrectCount] = useState(0);
 
   const currentRound: TwoTruthsRound | undefined = content.rounds?.[currentRoundIndex];
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === ActivityStatus.GUESSING && currentRound) {
+      onSetInputSpec?.({
+        type: 'choice',
+        gameKey: 'two-truths',
+        prompt: 'Which statement is FALSE?',
+        options: currentRound.statements.map((s, i) => `${i + 1}. ${s}`),
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentRound, onSetInputSpec]);
 
   // Calculate guess statistics
   const guessStats = useMemo(() => {

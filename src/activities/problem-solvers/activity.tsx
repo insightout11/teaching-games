@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import {
@@ -13,6 +13,7 @@ export function ProblemSolversActivity({
   generatedContent,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as ProblemSolversContent;
 
@@ -26,6 +27,29 @@ export function ProblemSolversActivity({
   const [newAdaptation, setNewAdaptation] = useState('');
 
   const currentComplication = content.complications?.[currentComplicationIndex];
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === ActivityStatus.BRAINSTORMING && content?.problem) {
+      onSetInputSpec?.({
+        type: 'textarea',
+        gameKey: 'problem-solvers',
+        prompt: `Propose a solution for: "${content.problem.title}"`,
+        placeholder: 'Describe your solution...',
+        maxLength: 500,
+      });
+    } else if (status === ActivityStatus.ADAPTING && currentComplication) {
+      onSetInputSpec?.({
+        type: 'textarea',
+        gameKey: 'problem-solvers',
+        prompt: `How would you adapt to: "${currentComplication.complication}"`,
+        placeholder: 'Describe your adaptation...',
+        maxLength: 500,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, content?.problem, currentComplication, onSetInputSpec]);
 
   const startActivity = useCallback(() => {
     setStatus(ActivityStatus.PROBLEM);

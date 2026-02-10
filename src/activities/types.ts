@@ -1,6 +1,7 @@
 import { ComponentType } from 'react';
 import type { Student } from '@/lib/supabase/types';
 import type { SessionSettings } from '@/stores/session-store';
+import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 
 // Activity categories
 export type ActivityCategory = 'icebreaker' | 'learning' | 'practice' | 'debate';
@@ -31,6 +32,10 @@ export interface ActivityProps {
   onPhaseChange?: (phase: string) => void;
   // Custom topic (if using lesson planner mode)
   customTopic?: string;
+  // Input spec system - activities set this to tell student controllers what input to show
+  onSetInputSpec?: (spec: InputSpec | null) => void;
+  // Submission handler - activities register this to evaluate approved submissions
+  onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
 }
 
 // Plugin definition for an activity

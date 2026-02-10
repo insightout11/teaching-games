@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { TargetTone, TONE_DESCRIPTIONS, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 
-export function ToneTransformerGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function ToneTransformerGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
   const [rewrittenSentence, setRewrittenSentence] = useState('');
@@ -14,6 +14,21 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.CHALLENGE_READY && currentChallenge) {
+      onSetInputSpec?.({
+        type: 'textarea',
+        gameKey: 'tone-transformer',
+        prompt: `Rewrite in a ${currentChallenge.targetTone} tone: "${currentChallenge.originalSentence}"`,
+        placeholder: `Type the ${currentChallenge.targetTone} version...`,
+        maxLength: 500,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentChallenge, onSetInputSpec]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

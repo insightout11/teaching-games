@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import {
@@ -17,6 +17,7 @@ export function ExpertPanelActivity({
   onContinue,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as ExpertPanelContent;
 
@@ -33,6 +34,12 @@ export function ExpertPanelActivity({
   }, [content.starterQuestions, dynamicQuestions]);
 
   const currentQuestion: ExpertQuestion | undefined = allQuestions[currentQuestionIndex];
+
+  // Register input spec for student controller
+  // Expert panel is primarily a verbal/in-person activity, so no remote input
+  useEffect(() => {
+    onSetInputSpec?.(null);
+  }, [onSetInputSpec]);
 
   // Get role by ID
   const getRoleById = useCallback((roleId: string): ExpertRole | undefined => {

@@ -6,6 +6,7 @@ import type { Team } from '@/lib/supabase/types';
 
 interface StudentSession {
   clientId: string;
+  studentId: string | null;
   displayName: string;
   team: Team | null;
 }
@@ -29,7 +30,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
   const [team, setTeam] = useState<Team | null>(null);
   const [isJoining, setIsJoining] = useState(false);
 
-  const handleJoin = () => {
+  const handleJoin = async () => {
     const trimmedName = name.trim();
     if (!trimmedName) return;
 
@@ -38,12 +39,14 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
     // Generate or retrieve client ID
     const storageKey = `studentSession_${sessionId}`;
     let clientId: string;
+    let studentId: string | null = null;
 
     try {
       const existing = localStorage.getItem(storageKey);
       if (existing) {
         const parsed = JSON.parse(existing);
         clientId = parsed.clientId || generateUUID();
+        studentId = parsed.studentId || null;
       } else {
         clientId = generateUUID();
       }
@@ -51,8 +54,27 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
       clientId = generateUUID();
     }
 
+    // Add student to roster via API
+    try {
+      const response = await fetch('/api/student/join', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, name: trimmedName }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        studentId = data.studentId;
+      } else {
+        console.error('Failed to join roster:', await response.text());
+      }
+    } catch (e) {
+      console.error('Failed to call join API:', e);
+    }
+
     const sessionData: StudentSession = {
       clientId,
+      studentId,
       displayName: trimmedName,
       team,
     };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import {
@@ -16,6 +16,7 @@ export function InterviewLabActivity({
   onContinue,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as InterviewLabContent;
 
@@ -25,6 +26,21 @@ export function InterviewLabActivity({
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [currentStudentId, setCurrentStudentId] = useState<string | null>(null);
   const [aiResponse, setAiResponse] = useState<string | null>(null);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === ActivityStatus.INTERVIEWING && content?.character) {
+      onSetInputSpec?.({
+        type: 'textarea',
+        gameKey: 'interview-lab',
+        prompt: `Ask a question to ${content.character.name} (${content.character.role})`,
+        placeholder: 'Type your question...',
+        maxLength: 300,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, content?.character, onSetInputSpec]);
 
   const startActivity = useCallback(() => {
     setStatus(ActivityStatus.INTRO);

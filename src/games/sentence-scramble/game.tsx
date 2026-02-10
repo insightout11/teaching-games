@@ -6,6 +6,8 @@ import type { GameProps } from '../types';
 import { SENTENCES } from './sentences';
 import type { Difficulty } from '@/stores/session-store';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -35,7 +37,7 @@ function difficultyToSentence(difficulty: Difficulty): 'easy' | 'medium' | 'hard
   }
 }
 
-export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const sentenceDifficulty = difficultyToSentence(sessionSettings.difficulty);
   const sentences = SENTENCES[sentenceDifficulty] ?? SENTENCES.medium;
 
@@ -64,6 +66,20 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   }, [sentenceIndex, words]);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (!submitted && availableWords.length > 0) {
+      onSetInputSpec?.({
+        type: 'sequence',
+        gameKey: 'sentence-scramble',
+        prompt: 'Tap words to build the sentence in correct order',
+        options: availableWords.map(w => w.word),
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [submitted, availableWords, onSetInputSpec]);
 
   const handleSelectWord = (wordItem: { word: string; originalIndex: number }) => {
     if (submitted) return;

@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { ConnectionChallenge, ConnectionResult } from './types';
 
-export function ConnectionGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function ConnectionGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<ConnectionChallenge | null>(null);
   const [guess, setGuess] = useState('');
@@ -15,6 +15,21 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.PLAYING && challenge) {
+      onSetInputSpec?.({
+        type: 'text',
+        gameKey: 'connection',
+        prompt: `What connects "${challenge.word1}" and "${challenge.word2}"?`,
+        placeholder: 'Type what connects them...',
+        maxLength: 100,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, challenge, onSetInputSpec]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

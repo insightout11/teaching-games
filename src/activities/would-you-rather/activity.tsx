@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type WouldYouRatherContent, type WouldYouRatherDilemma } from './types';
@@ -11,6 +11,7 @@ export function WouldYouRatherActivity({
   onContinue,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as WouldYouRatherContent;
 
@@ -21,6 +22,21 @@ export function WouldYouRatherActivity({
   const [isLoadingFollowUp, setIsLoadingFollowUp] = useState(false);
 
   const currentDilemma: WouldYouRatherDilemma | undefined = content.dilemmas[currentDilemmaIndex];
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === ActivityStatus.VOTING && currentDilemma) {
+      onSetInputSpec?.({
+        type: 'binary',
+        gameKey: 'would-you-rather',
+        prompt: 'Would you rather...',
+        options: [currentDilemma.optionA, currentDilemma.optionB],
+        optionLabels: ['A', 'B'],
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentDilemma, onSetInputSpec]);
 
   // Calculate vote stats
   const voteStats = useMemo(() => {

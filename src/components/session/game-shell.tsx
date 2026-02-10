@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useSessionStore, calculateStreakBonus } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin, ScoreResult } from '@/games/types';
 import type { GameGeneratedContent } from '@/activities/types';
 import type { StudentSubmission } from '@/lib/supabase/types';
+import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import { StudentPicker } from './student-picker';
 import { StreakIndicator } from './streak-indicator';
 import { Leaderboard } from './leaderboard';
@@ -23,17 +24,32 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
   const {
     sessionId, students, currentStudentId, settings, streaks,
     turnModifier, needsSpin,
-    pickStudent, recordScore, clearModifier, setActiveGame,
+    pickStudent, recordScore, clearModifier, setActiveGame, setInputSpec,
   } = useSessionStore();
   const supabase = createClient();
+  const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
 
   const GameComponent = game.component;
 
   // Track active game for student submissions
   useEffect(() => {
     setActiveGame(game.key);
-    return () => setActiveGame(null);
-  }, [game.key, setActiveGame]);
+    return () => {
+      setActiveGame(null);
+      // Clear input spec when game unmounts
+      setInputSpec(null);
+    };
+  }, [game.key, setActiveGame, setInputSpec]);
+
+  // Callback for games to set input spec
+  const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
+    setInputSpec(spec);
+  }, [setInputSpec]);
+
+  // Callback for games to register submission handler
+  const handleRegisterSubmissionHandler = useCallback((handler: SubmissionHandler | null) => {
+    submissionHandlerRef.current = handler;
+  }, []);
 
   const handleScore = useCallback(async (studentId: string, result: ScoreResult) => {
     if (!sessionId) return;
@@ -82,27 +98,46 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
     pickStudent();
   }, [pickStudent]);
 
-  // Handle approved student submission - award points directly
-  // Teacher approval = participation points (AI evaluation is optional/future enhancement)
+  // Handle approved student submission
+  // If game has registered a submission handler, use it for evaluation
+  // Otherwise fall back to fixed participation points
   const handleApprovedSubmission = useCallback(async (submission: StudentSubmission) => {
     if (!sessionId) return;
 
-    // Award participation points for approved submissions
-    const basePoints = 5;
+    let points = 5; // Default participation points
+    let isCorrect = true;
+    let feedback: string | undefined;
+
+    // If game has a submission handler, use it to evaluate
+    if (submissionHandlerRef.current) {
+      try {
+        const result = await submissionHandlerRef.current.handleSubmission(
+          submission.content,
+          { gameKey: game.key, submissionId: submission.id }
+        );
+        points = result.points;
+        isCorrect = result.isCorrect;
+        feedback = result.feedback;
+      } catch (error) {
+        console.error('Submission handler error:', error);
+        // Fall back to participation points on error
+      }
+    }
 
     // Insert score with team/client_id/display_name
     // Remote students don't have roster entries, so student_id is null
     const scoreData = {
       session_id: sessionId,
       student_id: null, // Remote students don't have roster entries
-      points: basePoints,
+      points,
       streak_count: 0,
       streak_bonus: 0,
-      is_correct: true,
+      is_correct: isCorrect,
       response_data: {
         submission_id: submission.id,
         content: submission.content,
         type: 'remote_submission',
+        feedback,
       },
       team: submission.team,
       client_id: submission.client_id,
@@ -119,7 +154,7 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
     if (data) {
       recordScore(data);
     }
-  }, [sessionId, supabase, recordScore]);
+  }, [sessionId, supabase, recordScore, game.key]);
 
   return (
     <>
@@ -151,6 +186,8 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
                 onPickStudent={handlePickStudent}
                 config={{ ...config, preGeneratedContent }}
                 sessionSettings={settings}
+                onSetInputSpec={handleSetInputSpec}
+                onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
               />
             )}
           </div>

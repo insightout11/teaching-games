@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { ExtendedChainLink, ValidationResult } from './types';
 
-export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [startingWord, setStartingWord] = useState('');
   const [hint, setHint] = useState('');
@@ -18,6 +18,21 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
   const currentWord = chain.length > 0 ? chain[chain.length - 1].word : startingWord;
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.PLAYING && currentWord) {
+      onSetInputSpec?.({
+        type: 'text',
+        gameKey: 'word-chain',
+        prompt: `Connect to: "${currentWord}"`,
+        placeholder: 'Type a connected word...',
+        maxLength: 50,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentWord, onSetInputSpec]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

@@ -6,7 +6,7 @@ import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { StorySentence, AIScoreResponse } from './types';
 
-export function StorySprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function StorySprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [story, setStory] = useState<StorySentence[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -18,6 +18,21 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
   useEffect(() => {
     storyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [story]);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.WRITING) {
+      onSetInputSpec?.({
+        type: 'textarea',
+        gameKey: 'story-sprint',
+        prompt: story.length === 0 ? 'Start the story with one sentence' : 'Continue the story with one sentence',
+        placeholder: 'Continue the story with one sentence...',
+        maxLength: 300,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, story.length, onSetInputSpec]);
 
   const handleSubmitSentence = async (e: React.FormEvent) => {
     e.preventDefault();

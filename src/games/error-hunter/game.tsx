@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
@@ -13,7 +13,7 @@ interface WordData {
   correction: string;
 }
 
-export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [words, setWords] = useState<WordData[]>([]);
@@ -23,6 +23,19 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Register input spec for student controller
+  // Error Hunter is complex - students need to select words and provide corrections
+  // For now, we just indicate there's a game active without specific input type
+  useEffect(() => {
+    if (status === GameStatus.PLAYING && challenge) {
+      // Error Hunter uses word selection + text correction - currently only works on teacher screen
+      // Remote students can see there's an active game but need to participate in class
+      onSetInputSpec?.(null);
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, challenge, onSetInputSpec]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

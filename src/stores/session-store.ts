@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { Student, Score } from '@/lib/supabase/types';
+import type { InputSpec } from '@/lib/input-spec';
 import { createClient } from '@/lib/supabase/client';
 
 export type PickerMode = 'fair' | 'random';
@@ -91,6 +92,9 @@ interface SessionState {
   // Current active game for student submissions
   activeGameKey: string | null;
 
+  // Input spec for student controller
+  inputSpec: InputSpec | null;
+
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
   setPickerMode: (mode: PickerMode) => void;
@@ -107,6 +111,8 @@ interface SessionState {
   nextRound: () => void;
   awardPoints: (studentId: string, points: number) => Promise<void>;
   setActiveGame: (gameKey: string | null) => void;
+  setInputSpec: (spec: InputSpec | null) => Promise<void>;
+  addStudent: (student: Student) => void;
   reset: () => void;
 }
 
@@ -151,6 +157,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   turnModifier: null,
   needsSpin: false,
   activeGameKey: null,
+  inputSpec: null,
 
   initSession: (sessionId, classId, students) => {
     const callCounts: Record<string, number> = {};
@@ -173,6 +180,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       needsSpin: false,
       gameMode: 'normal',
       activeGameKey: null,
+      inputSpec: null,
     });
   },
 
@@ -269,6 +277,32 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   setActiveGame: (gameKey: string | null) => set({ activeGameKey: gameKey }),
 
+  setInputSpec: async (spec: InputSpec | null) => {
+    const { sessionId } = get();
+    set({ inputSpec: spec });
+
+    // Sync to database so student controllers can poll for it
+    if (sessionId) {
+      const supabase = createClient();
+      await supabase
+        .from('sessions')
+        .update({ input_spec: spec })
+        .eq('id', sessionId);
+    }
+  },
+
+  addStudent: (student: Student) => set((state) => {
+    // Avoid duplicates
+    if (state.students.some((s) => s.id === student.id)) {
+      return state;
+    }
+    return {
+      students: [...state.students, student],
+      callCounts: { ...state.callCounts, [student.id]: 0 },
+      streaks: { ...state.streaks, [student.id]: 0 },
+    };
+  }),
+
   awardPoints: async (studentId: string, points: number) => {
     const { sessionId } = get();
     if (!sessionId) return;
@@ -306,6 +340,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     turnModifier: null,
     needsSpin: false,
     activeGameKey: null,
+    inputSpec: null,
   }),
 }));
 

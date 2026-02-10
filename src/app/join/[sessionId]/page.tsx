@@ -8,6 +8,7 @@ import type { Team } from '@/lib/supabase/types';
 
 interface StudentSession {
   clientId: string;
+  studentId: string | null;
   displayName: string;
   team: Team | null;
 }

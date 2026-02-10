@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GrammarTarget, FeedbackTone, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 
-export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(GrammarTarget.Tense);
   const [selectedTone, setSelectedTone] = useState<FeedbackTone>(FeedbackTone.Coach);
@@ -17,6 +17,21 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.CHALLENGE_READY && currentChallenge) {
+      onSetInputSpec?.({
+        type: 'textarea',
+        gameKey: 'grammar-boss',
+        prompt: currentChallenge.task,
+        placeholder: 'Type your sentence...',
+        maxLength: 500,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentChallenge, onSetInputSpec]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import {
@@ -18,6 +18,7 @@ export function HotTakeArenaActivity({
   onContinue,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as HotTakeArenaContent;
 
@@ -29,6 +30,20 @@ export function HotTakeArenaActivity({
   const [isLoadingChallenge, setIsLoadingChallenge] = useState(false);
   const [newArgumentText, setNewArgumentText] = useState('');
   const [selectedStudentForArg, setSelectedStudentForArg] = useState<string | null>(null);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === ActivityStatus.SIDE_SELECTION && content?.statement) {
+      onSetInputSpec?.({
+        type: 'binary',
+        gameKey: 'hot-take-arena',
+        prompt: `"${content.statement}" - Do you agree or disagree?`,
+        optionLabels: ['AGREE (PRO)', 'DISAGREE (CON)'],
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, content?.statement, onSetInputSpec]);
 
   // Group students by side
   const teams = useMemo(() => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus, GROUP_COLORS } from './types';
@@ -8,7 +8,7 @@ import type { ConnectionsChallenge, ConnectionsGroup, ConnectionsResult, GroupCo
 
 const MAX_LIVES = 4;
 
-export function ConnectionsGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function ConnectionsGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<ConnectionsChallenge | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
@@ -23,14 +23,29 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
   // Get remaining groups (not yet found)
-  const remainingGroups = challenge?.groups.filter(
+  const remainingGroups = useMemo(() => challenge?.groups.filter(
     g => !foundGroups.some(fg => fg.category === g.category)
-  ) || [];
+  ) || [], [challenge?.groups, foundGroups]);
 
   // Get words that haven't been found yet
-  const remainingWords = challenge?.words.filter(
+  const remainingWords = useMemo(() => challenge?.words.filter(
     w => !foundGroups.some(g => g.words.includes(w))
-  ) || [];
+  ) || [], [challenge?.words, foundGroups]);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.PLAYING && challenge && remainingWords.length > 0) {
+      onSetInputSpec?.({
+        type: 'multi-select',
+        gameKey: 'connections',
+        prompt: 'Find 4 words that belong together',
+        options: remainingWords,
+        selectCount: 4,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, challenge, remainingWords, onSetInputSpec]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

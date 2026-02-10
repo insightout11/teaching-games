@@ -1,6 +1,7 @@
 import { ComponentType } from 'react';
 import type { Student } from '@/lib/supabase/types';
 import type { SessionSettings } from '@/stores/session-store';
+import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 
 export interface ScoreResult {
   isCorrect: boolean;
@@ -15,6 +16,10 @@ export interface GameProps {
   onPickStudent: () => void;
   config: Record<string, unknown>;
   sessionSettings: SessionSettings;
+  // Input spec system - games set this to tell student controllers what input to show
+  onSetInputSpec?: (spec: InputSpec | null) => void;
+  // Submission handler - games register this to evaluate approved submissions
+  onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
 }
 
 export interface GameConfigField {

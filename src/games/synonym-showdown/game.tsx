@@ -6,7 +6,7 @@ import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
 
-export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [currentInput, setCurrentInput] = useState('');
@@ -20,6 +20,21 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.PLAYING && challenge) {
+      onSetInputSpec?.({
+        type: 'text',
+        gameKey: 'synonym-showdown',
+        prompt: `Find synonyms for: "${challenge.targetWord}"`,
+        placeholder: 'Type a synonym...',
+        maxLength: 50,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, challenge, onSetInputSpec]);
 
   const finishGame = useCallback(() => {
     if (!currentStudentId) return;

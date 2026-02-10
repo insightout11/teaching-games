@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type FactDetectiveContent, type FactDetectiveClaim } from './types';
@@ -10,6 +10,7 @@ export function FactDetectiveActivity({
   generatedContent,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as FactDetectiveContent;
 
@@ -20,6 +21,20 @@ export function FactDetectiveActivity({
   const [score, setScore] = useState({ correct: 0, total: 0 });
 
   const currentClaim: FactDetectiveClaim | undefined = content.claims?.[currentClaimIndex];
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === ActivityStatus.VOTING && currentClaim) {
+      onSetInputSpec?.({
+        type: 'binary',
+        gameKey: 'fact-detective',
+        prompt: `Is this TRUE or FALSE? "${currentClaim.statement}"`,
+        optionLabels: ['TRUE', 'FALSE'],
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentClaim, onSetInputSpec]);
 
   // Vote statistics
   const voteStats = useMemo(() => {

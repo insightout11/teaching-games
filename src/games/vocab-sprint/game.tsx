@@ -6,7 +6,7 @@ import type { GameProps } from '../types';
 import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -25,6 +25,21 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const inputRef = useRef<HTMLInputElement>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.RUNNING && currentSentence) {
+      onSetInputSpec?.({
+        type: 'text',
+        gameKey: 'vocab-sprint',
+        prompt: `Replace the weak word "${currentSentence.weakWord}" with a stronger word`,
+        placeholder: 'Type an upgrade word...',
+        maxLength: 50,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentSentence, onSetInputSpec]);
 
   // Track previous student to detect changes
   const prevStudentRef = useRef<string | null>(null);

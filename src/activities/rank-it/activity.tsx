@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type RankItContent, type RankItChallenge } from './types';
@@ -9,6 +9,7 @@ export function RankItActivity({
   generatedContent,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as RankItContent;
 
@@ -19,6 +20,20 @@ export function RankItActivity({
   const [hasReRanked, setHasReRanked] = useState(false);
 
   const currentChallenge: RankItChallenge | undefined = content.challenges?.[currentChallengeIndex];
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if ((status === ActivityStatus.RANKING || status === ActivityStatus.RE_RANKING) && currentChallenge) {
+      onSetInputSpec?.({
+        type: 'ranking',
+        gameKey: 'rank-it',
+        prompt: currentChallenge.prompt,
+        options: currentChallenge.items.map(item => item.name),
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentChallenge, onSetInputSpec]);
 
   const startActivity = useCallback(() => {
     if (currentChallenge) {

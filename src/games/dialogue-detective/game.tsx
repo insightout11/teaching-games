@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 
-export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings }: GameProps) {
+export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [response, setResponse] = useState('');
@@ -14,6 +14,21 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
   const [error, setError] = useState<string | null>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === GameStatus.CHALLENGE_READY && challenge) {
+      onSetInputSpec?.({
+        type: 'textarea',
+        gameKey: 'dialogue-detective',
+        prompt: `What did Speaker B say? Goal: ${challenge.goal}`,
+        placeholder: "Type B's response...",
+        maxLength: 300,
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, challenge, onSetInputSpec]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

@@ -3,9 +3,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import type { Team } from '@/lib/supabase/types';
+import type { InputSpec } from '@/lib/input-spec';
+import { DynamicInput } from './dynamic-input';
 
 interface StudentSession {
   clientId: string;
+  studentId: string | null;
   displayName: string;
   team: Team | null;
 }
@@ -23,7 +26,6 @@ interface StudentControllerProps {
 }
 
 export function StudentController({ sessionId, studentSession, onLeave }: StudentControllerProps) {
-  const [textInput, setTextInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error' | 'rate_limited'>('idle');
   const [waitSeconds, setWaitSeconds] = useState(0);
@@ -32,8 +34,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [isVoting, setIsVoting] = useState(false);
   const [sessionActive, setSessionActive] = useState(true);
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
+  const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
 
-  // Poll for session status and active polls
+  // Poll for session status, active polls, and input spec
   const checkSession = useCallback(async () => {
     try {
       const res = await fetch(`/api/student/session?sessionId=${sessionId}`);
@@ -46,6 +49,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       const data = await res.json();
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);
+      setInputSpec(data.inputSpec);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -68,8 +72,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   }, [waitSeconds, submitStatus]);
 
-  const handleSubmitText = async () => {
-    if (!textInput.trim() || isSubmitting) return;
+  const handleSubmit = useCallback(async (content: string) => {
+    if (!content.trim() || isSubmitting) return;
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
@@ -82,8 +86,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           sessionId,
           clientId: studentSession.clientId,
           displayName: studentSession.displayName,
-          content: textInput.trim(),
+          content: content.trim(),
           team: studentSession.team,
+          gameKey: inputSpec?.gameKey,
         }),
       });
 
@@ -96,7 +101,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setSubmitStatus('error');
       } else {
         setSubmitStatus('success');
-        setTextInput('');
         // Reset status after 2 seconds
         setTimeout(() => setSubmitStatus('idle'), 2000);
       }
@@ -105,7 +109,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [sessionId, studentSession, inputSpec, isSubmitting]);
 
   const handleVote = async (choice: string) => {
     if (!activePoll || isVoting) return;
@@ -140,13 +144,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setSelectedChoice(null);
     } finally {
       setIsVoting(false);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmitText();
     }
   };
 
@@ -220,40 +217,33 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         </div>
       )}
 
-      {/* Text Submission */}
+      {/* Dynamic Input based on game/activity */}
       <div className="glass rounded-2xl p-6">
-        <h2 className="font-bold text-white mb-4">Submit Answer</h2>
-        <textarea
-          value={textInput}
-          onChange={(e) => setTextInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type your answer..."
-          maxLength={1000}
-          rows={4}
-          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
-        />
-
-        <div className="flex items-center justify-between mt-4">
-          <div className="text-sm">
-            {submitStatus === 'success' && (
-              <span className="text-green-400">Submitted!</span>
-            )}
-            {submitStatus === 'error' && (
-              <span className="text-red-400">Failed to submit</span>
-            )}
-            {submitStatus === 'rate_limited' && (
-              <span className="text-yellow-400">Wait {waitSeconds}s...</span>
-            )}
-            <span className="text-gray-500 ml-2">{textInput.length}/1000</span>
+        {inputSpec ? (
+          <>
+            <div className="flex items-center gap-2 mb-4">
+              <h2 className="font-bold text-white">Submit Answer</h2>
+              <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
+                {inputSpec.gameKey}
+              </span>
+            </div>
+            <DynamicInput
+              spec={inputSpec}
+              onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
+              submitStatus={submitStatus}
+              waitSeconds={waitSeconds}
+            />
+          </>
+        ) : (
+          <div className="text-center py-8">
+            <div className="text-4xl mb-4 opacity-50">⏳</div>
+            <h2 className="font-bold text-white mb-2">Waiting for Activity</h2>
+            <p className="text-gray-400 text-sm">
+              The input will appear when the teacher starts a game or activity
+            </p>
           </div>
-          <Button
-            onClick={handleSubmitText}
-            disabled={!textInput.trim() || isSubmitting || submitStatus === 'rate_limited'}
-            className="bg-gradient-to-r from-cyan-500 to-blue-600"
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit'}
-          </Button>
-        </div>
+        )}
       </div>
 
       {/* Instructions */}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import {
@@ -16,6 +16,7 @@ export function ScenarioSimulatorActivity({
   generatedContent,
   onPhaseChange,
   customTopic,
+  onSetInputSpec,
 }: ActivityProps) {
   const content = generatedContent as ScenarioSimulatorContent;
 
@@ -27,6 +28,20 @@ export function ScenarioSimulatorActivity({
   const [showConsequence, setShowConsequence] = useState(false);
 
   const currentBranch: ScenarioBranch | undefined = content.branchingPoints?.[currentBranchIndex];
+
+  // Register input spec for student controller
+  useEffect(() => {
+    if (status === ActivityStatus.CHOOSING && currentBranch) {
+      onSetInputSpec?.({
+        type: 'choice',
+        gameKey: 'scenario-simulator',
+        prompt: currentBranch.situation,
+        options: currentBranch.choices.map((c, i) => `${String.fromCharCode(65 + i)}. ${c.action}`),
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentBranch, onSetInputSpec]);
 
   const startActivity = useCallback(() => {
     setStatus(ActivityStatus.SETUP);

@@ -21,10 +21,10 @@ export async function GET(request: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // Check if session exists and is active
+    // Check if session exists and is active, including input_spec
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, status')
+      .select('id, status, input_spec')
       .eq('id', sessionId)
       .single();
 
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       isActive,
       activePoll,
-      activeGameKey: null, // Future: could track current game from session state
+      inputSpec: session.input_spec || null,
     });
   } catch (error) {
     console.error('Session info error:', error);
