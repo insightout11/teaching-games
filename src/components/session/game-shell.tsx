@@ -82,65 +82,44 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
     pickStudent();
   }, [pickStudent]);
 
-  // Handle approved student submission - evaluate and score
+  // Handle approved student submission - award points directly
+  // Teacher approval = participation points (AI evaluation is optional/future enhancement)
   const handleApprovedSubmission = useCallback(async (submission: StudentSubmission) => {
     if (!sessionId) return;
 
-    // Try to evaluate with the game's evaluate endpoint
-    try {
-      const evaluateResponse = await fetch(`/api/${game.key}/evaluate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content: submission.content,
-          difficulty: settings.difficulty,
-          // Game-specific evaluate endpoints may need different fields
-          // For vocab-sprint, it might be originalSentence, weakWord, replacement
-          // Generic fallback for now
-          studentAnswer: submission.content,
-        }),
-      });
+    // Award participation points for approved submissions
+    const basePoints = 5;
 
-      if (!evaluateResponse.ok) {
-        throw new Error('Evaluation failed');
-      }
+    // Insert score with team/client_id/display_name
+    // Remote students don't have roster entries, so student_id is null
+    const scoreData = {
+      session_id: sessionId,
+      student_id: null, // Remote students don't have roster entries
+      points: basePoints,
+      streak_count: 0,
+      streak_bonus: 0,
+      is_correct: true,
+      response_data: {
+        submission_id: submission.id,
+        content: submission.content,
+        type: 'remote_submission',
+      },
+      team: submission.team,
+      client_id: submission.client_id,
+      display_name: submission.display_name,
+    };
 
-      const evaluation = await evaluateResponse.json();
+    const { data, error } = await supabase.from('scores').insert(scoreData).select().single();
 
-      // Calculate score based on evaluation
-      const basePoints = typeof evaluation.score === 'number'
-        ? Math.round(evaluation.score)
-        : (evaluation.isValid ? 5 : 0);
-
-      // Insert score with team/client_id/display_name
-      // Remote students don't have roster entries, so student_id is null
-      const scoreData = {
-        session_id: sessionId,
-        student_id: null, // Remote students don't have roster entries
-        points: basePoints,
-        streak_count: 0,
-        streak_bonus: 0,
-        is_correct: evaluation.isValid ?? basePoints > 0,
-        response_data: {
-          submission_id: submission.id,
-          content: submission.content,
-          evaluation,
-        },
-        team: submission.team,
-        client_id: submission.client_id,
-        display_name: submission.display_name,
-      };
-
-      const { data } = await supabase.from('scores').insert(scoreData).select().single();
-
-      if (data) {
-        recordScore(data);
-      }
-    } catch (error) {
-      console.error('Failed to evaluate submission:', error);
-      throw error;
+    if (error) {
+      console.error('Failed to insert score:', error);
+      throw new Error(error.message);
     }
-  }, [sessionId, game.key, settings.difficulty, supabase, recordScore]);
+
+    if (data) {
+      recordScore(data);
+    }
+  }, [sessionId, supabase, recordScore]);
 
   return (
     <>
