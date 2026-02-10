@@ -11,6 +11,7 @@ export function TwoTruthsActivity({
   onPhaseChange,
   customTopic,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
 }: ActivityProps) {
   const content = generatedContent as TwoTruthsContent;
 
@@ -35,6 +36,28 @@ export function TwoTruthsActivity({
       onSetInputSpec?.(null);
     }
   }, [status, currentRound, onSetInputSpec]);
+
+  // Register remote vote handler to receive votes from student devices
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.((vote) => {
+      if (status !== ActivityStatus.GUESSING || !currentRound) return;
+
+      const options = currentRound.statements.map((s, i) => `${i + 1}. ${s}`);
+      const guessIndex = options.indexOf(vote.choice);
+      if (guessIndex === -1) return;
+
+      setGuesses((prev) => {
+        const filtered = prev.filter((g) => g.studentId !== vote.clientId);
+        return [...filtered, {
+          studentId: vote.clientId,
+          studentName: vote.displayName,
+          guessIndex,
+        }];
+      });
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [status, currentRound, onRegisterRemoteVoteHandler]);
 
   // Calculate guess statistics
   const guessStats = useMemo(() => {

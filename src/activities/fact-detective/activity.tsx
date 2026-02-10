@@ -11,6 +11,7 @@ export function FactDetectiveActivity({
   onPhaseChange,
   customTopic,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
 }: ActivityProps) {
   const content = generatedContent as FactDetectiveContent;
 
@@ -35,6 +36,25 @@ export function FactDetectiveActivity({
       onSetInputSpec?.(null);
     }
   }, [status, currentClaim, onSetInputSpec]);
+
+  // Register remote vote handler to receive votes from student devices
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.((vote) => {
+      if (status !== ActivityStatus.VOTING) return;
+
+      const believesTrue = vote.choice === 'TRUE';
+      setVotes((prev) => {
+        const filtered = prev.filter((v) => v.studentId !== vote.clientId);
+        return [...filtered, {
+          studentId: vote.clientId,
+          studentName: vote.displayName,
+          believesTrue,
+        }];
+      });
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [status, onRegisterRemoteVoteHandler]);
 
   // Vote statistics
   const voteStats = useMemo(() => {

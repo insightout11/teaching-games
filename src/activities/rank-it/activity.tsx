@@ -10,6 +10,7 @@ export function RankItActivity({
   onPhaseChange,
   customTopic,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
 }: ActivityProps) {
   const content = generatedContent as RankItContent;
 
@@ -34,6 +35,29 @@ export function RankItActivity({
       onSetInputSpec?.(null);
     }
   }, [status, currentChallenge, onSetInputSpec]);
+
+  // Register remote vote handler to receive votes from student devices
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.((vote) => {
+      if (status !== ActivityStatus.RANKING && status !== ActivityStatus.RE_RANKING) return;
+      if (!currentChallenge) return;
+
+      try {
+        const rankedNames: string[] = JSON.parse(vote.choice);
+        const rankedIds = rankedNames
+          .map((name) => currentChallenge.items.find((item) => item.name === name)?.id)
+          .filter((id): id is string => id !== undefined);
+
+        if (rankedIds.length > 0) {
+          setClassRanking(rankedIds);
+        }
+      } catch {
+        // Invalid JSON, ignore
+      }
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [status, currentChallenge, onRegisterRemoteVoteHandler]);
 
   const startActivity = useCallback(() => {
     if (currentChallenge) {
