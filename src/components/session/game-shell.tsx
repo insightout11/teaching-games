@@ -172,11 +172,14 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
       }
     }
 
-    // Insert score with team/client_id/display_name
-    // Remote students don't have roster entries, so student_id is null
+    // Look up matching student from store by display_name
+    const matchedStudent = students.find(
+      (s) => s.name === submission.display_name
+    );
+
     const scoreData = {
       session_id: sessionId,
-      student_id: null, // Remote students don't have roster entries
+      student_id: matchedStudent?.id || null,
       points,
       streak_count: 0,
       streak_bonus: 0,
@@ -202,7 +205,7 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
     if (data) {
       recordScore(data);
     }
-  }, [sessionId, supabase, recordScore, game.key]);
+  }, [sessionId, students, supabase, recordScore, game.key]);
 
   return (
     <>

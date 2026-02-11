@@ -143,9 +143,14 @@ export function ActivityShell({ activity, generatedContent }: ActivityShellProps
       }
     }
 
+    // Look up matching student from store by display_name
+    const matchedStudent = students.find(
+      (s) => s.name === submission.display_name
+    );
+
     const scoreData = {
       session_id: sessionId,
-      student_id: null,
+      student_id: matchedStudent?.id || null,
       points,
       streak_count: 0,
       streak_bonus: 0,
@@ -171,7 +176,7 @@ export function ActivityShell({ activity, generatedContent }: ActivityShellProps
     if (data) {
       recordScore(data);
     }
-  }, [sessionId, supabase, recordScore, activity.key]);
+  }, [sessionId, students, supabase, recordScore, activity.key]);
 
   // Handler for dynamic follow-ups during the activity
   const handleContinue = useCallback(async (request: Omit<ActivityContinueRequest, 'sessionId'>): Promise<ActivityContinueResponse> => {

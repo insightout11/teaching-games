@@ -90,6 +90,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           team: studentSession.team,
           gameKey: inputSpec?.gameKey,
           inputType: inputSpec?.type,
+          studentId: studentSession.studentId,
         }),
       });
 

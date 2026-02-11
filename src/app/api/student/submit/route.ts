@@ -10,6 +10,7 @@ interface SubmitRequest {
   team?: 'red' | 'blue' | null;
   gameKey?: string | null;
   inputType?: string | null; // 'choice', 'binary', 'text', etc.
+  studentId?: string | null;
 }
 
 // POST /api/student/submit
@@ -17,7 +18,7 @@ interface SubmitRequest {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as SubmitRequest;
-    const { sessionId, clientId, displayName, content, team, gameKey, inputType } = body;
+    const { sessionId, clientId, displayName, content, team, gameKey, inputType, studentId } = body;
 
     // Validate required fields
     if (!sessionId || !clientId || !displayName || !content) {
@@ -82,7 +83,7 @@ export async function POST(request: NextRequest) {
         .from('scores')
         .insert({
           session_id: sessionId,
-          student_id: null, // Remote student
+          student_id: studentId || null,
           points: 1, // Participation point for voting
           streak_count: 0,
           streak_bonus: 0,

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { GameShell } from './game-shell';
@@ -169,12 +169,22 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
   }, [cls.id, serverStudents]);
 
-  // Initialize session store
+  // Initialize session store once (session/class identity only)
+  const initDone = useRef(false);
   useEffect(() => {
-    initSession(session.id, cls.id, students);
-    // Load existing scores
-    existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
-  }, [session.id, cls.id, students, existingScores, initSession]);
+    if (!initDone.current) {
+      initSession(session.id, cls.id, students);
+      existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
+      initDone.current = true;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session.id, cls.id]);
+
+  // Sync new students into the store without resetting state
+  useEffect(() => {
+    if (!initDone.current) return; // Skip until init is done
+    students.forEach((s) => addStudent(s));
+  }, [students, addStudent]);
 
   // Realtime subscription for leaderboard
   useRealtimeLeaderboard(session.id);
