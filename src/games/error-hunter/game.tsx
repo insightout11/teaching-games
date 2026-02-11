@@ -293,7 +293,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
           ) : (
             <button
               onClick={handleGenerate}
-              className="w-full px-12 py-6 bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
+              className="w-full px-12 py-6 bg-gradient-to-br from-lc-danger to-red-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
             >
               START HUNTING
             </button>

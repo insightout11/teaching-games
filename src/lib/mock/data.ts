@@ -3,7 +3,7 @@ import type { Class, Student, Session, Score, Round, LeaderboardEntry } from '@/
 // Mock user
 export const MOCK_USER = {
   id: 'demo-teacher-1',
-  email: 'demo@teachplay.local',
+  email: 'demo@lessoncaptain.local',
   aud: 'authenticated',
   role: 'authenticated',
   email_confirmed_at: new Date().toISOString(),

@@ -190,7 +190,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
       case TargetTone.Casual: return 'from-orange-500 to-orange-600';
       case TargetTone.Professional: return 'from-slate-500 to-slate-600';
       case TargetTone.Persuasive: return 'from-rose-500 to-rose-600';
-      case TargetTone.Academic: return 'from-violet-500 to-violet-600';
+      case TargetTone.Academic: return 'from-lc-blue to-blue-500';
       case TargetTone.Friendly: return 'from-teal-500 to-teal-600';
       default: return 'from-cyan-500 to-cyan-600';
     }
@@ -239,7 +239,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
           ) : (
             <button
               onClick={handleGenerate}
-              className="w-full px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
+              className="w-full px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
             >
               GENERATE CHALLENGE
             </button>
@@ -254,8 +254,8 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
           animate={{ opacity: 1 }}
           className="flex flex-col items-center gap-6 py-12"
         >
-          <div className="w-16 h-16 border-4 border-violet-500/10 border-t-violet-500 rounded-full animate-spin" />
-          <p className="font-game text-xl text-violet-400 uppercase tracking-widest animate-pulse">
+          <div className="w-16 h-16 border-4 border-lc-blue/10 border-t-lc-blue rounded-full animate-spin" />
+          <p className="font-game text-xl text-lc-blue uppercase tracking-widest animate-pulse">
             Crafting Challenge...
           </p>
         </motion.div>
@@ -276,9 +276,9 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
           className="space-y-6"
         >
           {/* Challenge Card */}
-          <div className="glass p-6 md:p-8 rounded-2xl border-2 border-violet-500/30">
+          <div className="glass p-6 md:p-8 rounded-2xl border-2 border-lc-blue/25">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-violet-400 font-bold uppercase tracking-widest text-xs">Original Sentence</span>
+              <span className="text-lc-blue font-bold uppercase tracking-widest text-xs">Original Sentence</span>
               <span className="px-3 py-1 bg-white/10 text-slate-400 rounded-full text-xs font-bold uppercase">
                 {currentChallenge.currentTone}
               </span>
@@ -296,7 +296,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
             <div className="p-4 bg-gradient-to-r rounded-xl border border-white/10" style={{
               background: `linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05))`
             }}>
-              <p className="text-xs font-bold text-violet-400 uppercase tracking-widest mb-2">Transform to:</p>
+              <p className="text-xs font-bold text-lc-blue uppercase tracking-widest mb-2">Transform to:</p>
               <div className="flex items-center gap-3">
                 <span className={`px-4 py-2 bg-gradient-to-r ${getToneColor(currentChallenge.targetTone)} text-white rounded-full text-sm font-bold uppercase`}>
                   {currentChallenge.targetTone}
@@ -329,7 +329,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
                 placeholder={`Type the ${currentChallenge.targetTone} version here...`}
                 rows={3}
                 disabled={status === GameStatus.EVALUATING}
-                className="w-full bg-black/40 border-2 border-white/10 text-white rounded-2xl px-6 py-4 focus:border-violet-500 outline-none text-xl placeholder:text-slate-500 disabled:opacity-50"
+                className="w-full bg-black/40 border-2 border-white/10 text-white rounded-2xl px-6 py-4 focus:border-lc-blue outline-none text-xl placeholder:text-slate-500 disabled:opacity-50"
               />
             </div>
             <button
@@ -395,7 +395,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Example Transformations</p>
                 <div className="space-y-2">
                   {evaluation.alternatives.map((alt, i) => (
-                    <div key={i} className="p-3 bg-violet-500/10 text-violet-200 rounded-xl text-sm italic border-l-4 border-violet-500">
+                    <div key={i} className="p-3 bg-lc-blue/10 text-lc-blue rounded-xl text-sm italic border-l-4 border-lc-blue">
                       &quot;{alt}&quot;
                     </div>
                   ))}

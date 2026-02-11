@@ -26,9 +26,9 @@ export function Modal({ open, onClose, children, title }: ModalProps) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="relative bg-white rounded-2xl shadow-xl p-6 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto"
+            className="relative bg-lc-card border border-lc-border rounded-2xl shadow-xl p-6 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto"
           >
-            {title && <h2 className="text-lg font-semibold mb-4">{title}</h2>}
+            {title && <h2 className="text-lg font-semibold text-lc-text mb-4">{title}</h2>}
             {children}
           </motion.div>
         </div>

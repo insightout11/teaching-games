@@ -171,7 +171,7 @@ export function ScenarioSimulatorActivity({
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-lg font-semibold text-rose-400">Scenario Simulator</h3>
+          <h3 className="text-lg font-semibold text-lc-blue">Scenario Simulator</h3>
           {customTopic && (
             <p className="text-xs opacity-60">Topic: {customTopic}</p>
           )}
@@ -196,7 +196,7 @@ export function ScenarioSimulatorActivity({
           </p>
           <button
             onClick={startActivity}
-            className="px-12 py-6 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
+            className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
           >
             BEGIN SCENARIO
           </button>
@@ -210,8 +210,8 @@ export function ScenarioSimulatorActivity({
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          <div className="glass p-6 rounded-2xl border-2 border-rose-500/30">
-            <h4 className="text-xl font-bold text-rose-400 mb-2">{content.scenario.title}</h4>
+          <div className="glass p-6 rounded-2xl border-2 border-lc-blue/25">
+            <h4 className="text-xl font-bold text-lc-blue mb-2">{content.scenario.title}</h4>
             <p className="text-lg mb-4">{content.scenario.context}</p>
             <div className="glass p-4 rounded-xl">
               <p className="text-sm opacity-50 mb-1">Your Objective:</p>
@@ -222,7 +222,7 @@ export function ScenarioSimulatorActivity({
           <div className="flex justify-center">
             <button
               onClick={startAssigning}
-              className="px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               ASSIGN ROLES
             </button>
@@ -248,7 +248,7 @@ export function ScenarioSimulatorActivity({
               const assignment = roleAssignments.find((a) => a.roleId === role.id);
               return (
                 <div key={role.id} className="glass p-4 rounded-2xl">
-                  <h4 className="font-bold text-rose-400">{role.name}</h4>
+                  <h4 className="font-bold text-lc-blue">{role.name}</h4>
                   <p className="text-sm opacity-70 mb-2">{role.description}</p>
                   <div className="text-xs opacity-50 mb-2">Goals:</div>
                   <ul className="text-xs opacity-70 mb-3">
@@ -276,7 +276,7 @@ export function ScenarioSimulatorActivity({
           <div className="flex justify-center">
             <button
               onClick={startScenario}
-              className="px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               START SCENARIO
             </button>
@@ -302,7 +302,7 @@ export function ScenarioSimulatorActivity({
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass p-6 rounded-2xl border-2 border-rose-500/30"
+            className="glass p-6 rounded-2xl border-2 border-lc-blue/25"
           >
             <p className="text-sm uppercase tracking-widest opacity-50 mb-2">Current Situation</p>
             <p className="text-xl">{currentBranch.situation}</p>
@@ -311,7 +311,7 @@ export function ScenarioSimulatorActivity({
           <div className="flex justify-center">
             <button
               onClick={startDiscussion}
-              className="px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               DISCUSS OPTIONS
             </button>
@@ -340,7 +340,7 @@ export function ScenarioSimulatorActivity({
             {currentBranch.choices.map((choice, index) => (
               <div key={choice.id} className="glass p-4 rounded-xl border border-white/10">
                 <div className="flex items-start gap-3">
-                  <span className="w-8 h-8 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold shrink-0">
+                  <span className="w-8 h-8 rounded-full bg-rose-500/20 text-lc-blue flex items-center justify-center font-bold shrink-0">
                     {String.fromCharCode(65 + index)}
                   </span>
                   <p className="text-lg">{choice.action}</p>
@@ -357,7 +357,7 @@ export function ScenarioSimulatorActivity({
           <div className="flex justify-center">
             <button
               onClick={startChoosing}
-              className="px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               MAKE DECISION
             </button>
@@ -407,7 +407,7 @@ export function ScenarioSimulatorActivity({
             <button
               onClick={confirmChoice}
               disabled={!selectedChoice}
-              className="px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
             >
               CONFIRM DECISION
             </button>
@@ -456,7 +456,7 @@ export function ScenarioSimulatorActivity({
           <div className="flex justify-center">
             <button
               onClick={nextSituation}
-              className="px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               {currentBranchIndex < (content.branchingPoints?.length || 0) - 1
                 ? 'CONTINUE STORY'
@@ -473,14 +473,14 @@ export function ScenarioSimulatorActivity({
           animate={{ opacity: 1, scale: 1 }}
           className="text-center py-8 space-y-6"
         >
-          <p className="text-2xl font-game text-rose-400 mb-4">Scenario Complete!</p>
+          <p className="text-2xl font-game text-lc-blue mb-4">Scenario Complete!</p>
 
           <div className="glass p-6 rounded-2xl">
             <p className="text-sm uppercase tracking-widest opacity-50 mb-3">Your Decisions</p>
             <div className="space-y-2 text-left">
               {decisions.map((d, i) => (
                 <div key={i} className="flex items-start gap-2">
-                  <span className="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center text-sm font-bold shrink-0">
+                  <span className="w-6 h-6 rounded-full bg-rose-500/20 text-lc-blue flex items-center justify-center text-sm font-bold shrink-0">
                     {i + 1}
                   </span>
                   <p className="text-sm">{d.choiceText}</p>

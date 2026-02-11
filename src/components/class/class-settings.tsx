@@ -29,16 +29,16 @@ export function ClassSettings({ cls }: { cls: Class }) {
       <h2 className="text-lg font-semibold mb-4">Settings</h2>
       <div className="space-y-4">
         <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Class Name</label>
+          <label className="text-sm font-medium text-lc-text2 block mb-1">Class Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+            className="w-full px-4 py-2 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-sm focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-gray-700 block mb-1">Theme</label>
+          <label className="text-sm font-medium text-lc-text2 block mb-1">Theme</label>
           <div className="flex gap-2">
             {(['colorful', 'professional'] as const).map((t) => (
               <button
@@ -46,8 +46,8 @@ export function ClassSettings({ cls }: { cls: Class }) {
                 onClick={() => setTheme(t)}
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
                   theme === t
-                    ? 'bg-indigo-100 text-indigo-700 border-2 border-indigo-300'
-                    : 'bg-gray-50 text-gray-600 border-2 border-transparent hover:border-gray-200'
+                    ? 'bg-lc-blue/15 text-lc-blue border-2 border-lc-blue/30'
+                    : 'bg-lc-surface text-lc-text3 border-2 border-transparent hover:border-lc-border'
                 }`}
               >
                 {t.charAt(0).toUpperCase() + t.slice(1)}

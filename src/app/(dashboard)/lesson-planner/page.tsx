@@ -36,8 +36,8 @@ export default function LessonPlannerPage() {
     { label: 'Icebreaker', category: 'icebreaker' as const, type: 'activity' as const },
     { label: 'Learning Module', category: 'learning' as const, type: 'activity' as const },
     { label: 'Practice/Debate', category: 'practice' as const, type: 'activity' as const, alternateCategory: 'debate' as const },
-    { label: 'Game 1', type: 'game' as const },
-    { label: 'Game 2 (Optional)', type: 'game' as const, optional: true },
+    { label: 'Skill Game 1', type: 'game' as const },
+    { label: 'Skill Game 2 (Optional)', type: 'game' as const, optional: true },
   ];
 
   const handleSlotSelect = (slotIndex: number, key: string, type: 'activity' | 'game') => {
@@ -139,18 +139,18 @@ export default function LessonPlannerPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Create Lesson Plan</h1>
-        <p className="text-gray-600">
+        <h1 className="text-2xl font-bold text-lc-text mb-2">Create Lesson Plan</h1>
+        <p className="text-lc-text2">
           Build a complete lesson with activities and games around a custom topic.
           All content will be AI-generated to match your theme.
         </p>
       </div>
 
       {/* Topic & Difficulty */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+      <div className="bg-lc-card rounded-xl border border-lc-border p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-lc-text2 mb-2">
               Custom Topic
             </label>
             <input
@@ -158,21 +158,21 @@ export default function LessonPlannerPage() {
               value={customTopic}
               onChange={(e) => setCustomTopic(e.target.value)}
               placeholder="e.g., What will the world be like in 50 years?"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+              className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-lg text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-lc-text3 mt-1">
               Be specific! Good topics lead to better AI-generated content.
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-lc-text2 mb-2">
               Difficulty Level
             </label>
             <select
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+              className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-lg text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
             >
               {DIFFICULTIES.map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -183,9 +183,9 @@ export default function LessonPlannerPage() {
       </div>
 
       {/* Activity Selection */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-        <h2 className="text-lg font-semibold mb-4">Lesson Structure</h2>
-        <p className="text-sm text-gray-600 mb-6">
+      <div className="bg-lc-card rounded-xl border border-lc-border p-6 mb-6">
+        <h2 className="text-lg font-semibold mb-4 text-lc-text">Lesson Structure</h2>
+        <p className="text-sm text-lc-text2 mb-6">
           Select an activity or game for each slot. Activities use your custom topic for AI-generated content.
         </p>
 
@@ -196,21 +196,21 @@ export default function LessonPlannerPage() {
             const categoryInfo = config.category ? CATEGORY_INFO[config.category] : null;
 
             return (
-              <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                <div className="w-8 h-8 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold text-sm">
+              <div key={index} className="flex items-center gap-4 p-4 bg-lc-surface rounded-lg">
+                <div className="w-8 h-8 rounded-full bg-lc-blue/15 text-lc-blue flex items-center justify-center font-bold text-sm">
                   {index + 1}
                 </div>
 
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium">{config.label}</span>
+                    <span className="font-medium text-lc-text">{config.label}</span>
                     {config.optional && (
-                      <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
+                      <span className="text-xs bg-lc-border text-lc-text3 px-2 py-0.5 rounded-full">
                         Optional
                       </span>
                     )}
                     {categoryInfo && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-lc-text3">
                         {categoryInfo.description}
                       </span>
                     )}
@@ -218,12 +218,12 @@ export default function LessonPlannerPage() {
 
                   {selected ? (
                     <div className="flex items-center gap-2">
-                      <span className="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-sm font-medium">
+                      <span className="px-3 py-1 bg-lc-blue/15 text-lc-blue rounded-full text-sm font-medium">
                         {selected.name}
                       </span>
                       <button
                         onClick={() => clearSlot(index)}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-lc-text3 hover:text-lc-text"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -239,7 +239,7 @@ export default function LessonPlannerPage() {
                           handleSlotSelect(index, key, type as 'activity' | 'game');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      className="w-full px-3 py-2 bg-lc-bg border border-lc-border rounded-lg text-sm text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
                     >
                       <option value="">Select {config.type}...</option>
                       {items.map((item) => (
@@ -263,7 +263,7 @@ export default function LessonPlannerPage() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6"
+            className="bg-lc-danger/10 border border-lc-danger/25 text-lc-danger px-4 py-3 rounded-lg mb-6"
           >
             {error}
           </motion.div>
@@ -272,16 +272,16 @@ export default function LessonPlannerPage() {
 
       {/* Generate Button */}
       <div className="flex items-center justify-between mb-6">
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-lc-text2">
           <span className="font-medium">{selectedActivities.length} activit{selectedActivities.length === 1 ? 'y' : 'ies'}</span>
           {selectedGames.length > 0 && (
-            <span className="text-gray-400"> + {selectedGames.length} game{selectedGames.length === 1 ? '' : 's'}</span>
+            <span className="text-lc-text3"> + {selectedGames.length} game{selectedGames.length === 1 ? '' : 's'}</span>
           )}
         </div>
         <button
           onClick={handleGenerate}
           disabled={!canGenerate || isGenerating}
-          className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 bg-lc-blue text-white rounded-xl font-semibold hover:bg-lc-blue-hover transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isGenerating ? (
             <span className="flex items-center gap-2">
@@ -303,16 +303,16 @@ export default function LessonPlannerPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-green-50 border border-green-200 rounded-xl p-6"
+            className="bg-lc-success/10 border border-lc-success/25 rounded-xl p-6"
           >
             <div className="flex items-center gap-2 mb-4">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-lc-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <h3 className="text-lg font-semibold text-green-800">Content Generated!</h3>
+              <h3 className="text-lg font-semibold text-lc-success">Content Generated!</h3>
             </div>
 
-            <p className="text-green-700 mb-4">
+            <p className="text-lc-text2 mb-4">
               Your lesson content is ready. Generated content for{' '}
               {Object.keys(generatedContent || {}).length + Object.keys(generatedGameContent || {}).length} item
               {Object.keys(generatedContent || {}).length + Object.keys(generatedGameContent || {}).length === 1 ? '' : 's'}.
@@ -322,24 +322,23 @@ export default function LessonPlannerPage() {
             <div className="space-y-3">
               {/* Activity content */}
               {generatedContent && Object.entries(generatedContent).map(([key, content]) => (
-                <div key={key} className="bg-white/50 rounded-lg p-4">
+                <div key={key} className="bg-lc-card/50 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded-full">Activity</span>
-                    <h4 className="font-medium text-green-800 capitalize">
+                    <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">Activity</span>
+                    <h4 className="font-medium text-lc-text capitalize">
                       {key.replace(/-/g, ' ')}
                     </h4>
                   </div>
-                  <p className="text-sm text-green-700 opacity-80">
+                  <p className="text-sm text-lc-text2 opacity-80">
                     Topic context: {content.topicContext}
                   </p>
-                  {/* Activity-specific preview */}
                   {key === 'would-you-rather' && 'dilemmas' in content && (
-                    <p className="text-sm text-green-600 mt-1">
+                    <p className="text-sm text-lc-text3 mt-1">
                       {(content as unknown as { dilemmas: unknown[] }).dilemmas.length} dilemmas generated
                     </p>
                   )}
                   {key === 'hot-take-arena' && 'statement' in content && (
-                    <p className="text-sm text-green-600 mt-1 italic">
+                    <p className="text-sm text-lc-text3 mt-1 italic">
                       &quot;{(content as unknown as { statement: string }).statement.slice(0, 100)}...&quot;
                     </p>
                   )}
@@ -347,41 +346,40 @@ export default function LessonPlannerPage() {
               ))}
               {/* Game content */}
               {generatedGameContent && Object.entries(generatedGameContent).map(([key, content]) => (
-                <div key={key} className="bg-white/50 rounded-lg p-4">
+                <div key={key} className="bg-lc-card/50 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full">Game</span>
-                    <h4 className="font-medium text-green-800 capitalize">
+                    <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">Game</span>
+                    <h4 className="font-medium text-lc-text capitalize">
                       {key.replace(/-/g, ' ')}
                     </h4>
                   </div>
-                  {/* Game-specific preview */}
                   {'sentences' in content && (
-                    <p className="text-sm text-green-600">
+                    <p className="text-sm text-lc-text3">
                       {(content as { sentences: unknown[] }).sentences.length} sentences pre-loaded
                     </p>
                   )}
                   {'task' in content && (
-                    <p className="text-sm text-green-600 italic">
+                    <p className="text-sm text-lc-text3 italic">
                       Task: {(content as { task: string }).task.slice(0, 80)}...
                     </p>
                   )}
                   {'startingWord' in content && (
-                    <p className="text-sm text-green-600">
+                    <p className="text-sm text-lc-text3">
                       Starting word: <span className="font-bold">{(content as { startingWord: string }).startingWord}</span>
                     </p>
                   )}
                   {'targetWord' in content && (
-                    <p className="text-sm text-green-600">
+                    <p className="text-sm text-lc-text3">
                       Target word: <span className="font-bold">{(content as { targetWord: string }).targetWord}</span>
                     </p>
                   )}
                   {'paragraph' in content && (
-                    <p className="text-sm text-green-600">
+                    <p className="text-sm text-lc-text3">
                       {(content as { errorCount: number }).errorCount} errors to find
                     </p>
                   )}
                   {'word1' in content && (
-                    <p className="text-sm text-green-600">
+                    <p className="text-sm text-lc-text3">
                       Words: <span className="font-bold">{(content as { word1: string; word2: string }).word1}</span> + <span className="font-bold">{(content as { word1: string; word2: string }).word2}</span>
                     </p>
                   )}
@@ -389,14 +387,13 @@ export default function LessonPlannerPage() {
               ))}
             </div>
 
-            <div className="mt-6 pt-4 border-t border-green-200">
-              <p className="text-sm text-green-700 mb-3">
+            <div className="mt-6 pt-4 border-t border-lc-success/25">
+              <p className="text-sm text-lc-text2 mb-3">
                 Ready to use this lesson in a session:
               </p>
               <button
-                className="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+                className="px-6 py-2 bg-lc-success text-lc-bg rounded-xl font-medium hover:brightness-110 transition-all"
                 onClick={() => {
-                  // Store generated content in sessionStorage for use in session
                   sessionStorage.setItem('lessonPlanContent', JSON.stringify({
                     customTopic,
                     difficulty,
@@ -404,7 +401,6 @@ export default function LessonPlannerPage() {
                     generatedContent,
                     generatedGameContent,
                   }));
-                  // Navigate to class selection or session
                   window.location.href = '/classes';
                 }}
               >

@@ -390,12 +390,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
 
-            {/* Games Section */}
+            {/* Skill Games Section */}
             <div>
               <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                Games
+                Skill Games
                 {lessonPlanContent?.generatedGameContent && Object.keys(lessonPlanContent.generatedGameContent).length > 0 && (
-                  <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full">
+                  <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
                     Content Ready
                   </span>
                 )}
@@ -408,11 +408,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       key={game.key}
                       onClick={() => handleSelectGame(game)}
                       className={`glass rounded-2xl p-6 text-left hover:bg-white/10 transition-all relative ${
-                        hasContent ? 'border border-purple-500/30' : ''
+                        hasContent ? 'border border-lc-blue/25' : ''
                       }`}
                     >
                       {hasContent && (
-                        <div className="absolute top-2 right-2 w-2 h-2 bg-purple-400 rounded-full" />
+                        <div className="absolute top-2 right-2 w-2 h-2 bg-lc-blue rounded-full" />
                       )}
                       <h3 className="font-semibold">{game.name}</h3>
                       <p className="text-sm opacity-70 mt-1">{game.description}</p>

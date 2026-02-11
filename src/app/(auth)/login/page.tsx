@@ -19,20 +19,19 @@ export default function LoginPage() {
   };
 
   const handleDemoLogin = () => {
-    // In mock mode, just redirect to classes
     router.push('/classes');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
-      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full mx-4 text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">TeachPlay</h1>
-        <p className="text-gray-500 mb-8">Interactive classroom games that make learning fun</p>
+    <div className="min-h-screen flex items-center justify-center bg-lc-bg">
+      <div className="bg-lc-card border border-lc-border rounded-2xl shadow-xl p-8 max-w-md w-full mx-4 text-center">
+        <h1 className="text-3xl font-bold text-lc-text mb-2">LessonCaptain</h1>
+        <p className="text-lc-text2 mb-8">Your interactive classroom command center</p>
 
         {mockMode ? (
           <button
             onClick={handleDemoLogin}
-            className="w-full flex items-center justify-center gap-3 bg-indigo-600 rounded-xl px-6 py-3 text-white font-medium hover:bg-indigo-700 transition-all"
+            className="w-full flex items-center justify-center gap-3 bg-lc-blue rounded-xl px-6 py-3 text-white font-medium hover:bg-lc-blue-hover transition-all"
           >
             <span className="text-xl">🎮</span>
             Enter as Demo User
@@ -40,7 +39,7 @@ export default function LoginPage() {
         ) : (
           <button
             onClick={handleLogin}
-            className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-200 rounded-xl px-6 py-3 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 transition-all"
+            className="w-full flex items-center justify-center gap-3 bg-lc-surface border-2 border-lc-border rounded-xl px-6 py-3 text-lc-text font-medium hover:bg-lc-card hover:border-lc-blue/30 transition-all"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -53,7 +52,7 @@ export default function LoginPage() {
         )}
 
         {mockMode && (
-          <p className="mt-4 text-sm text-amber-600 bg-amber-50 rounded-lg p-2">
+          <p className="mt-4 text-sm text-lc-warn bg-lc-warn/10 rounded-lg p-2">
             Demo Mode: No authentication required
           </p>
         )}

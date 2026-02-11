@@ -6,10 +6,10 @@ import { useSessionStore, WHEEL_SEGMENTS, type TurnModifier } from '@/stores/ses
 
 const SEGMENT_COLORS = [
   'from-cyan-500 to-blue-600',      // x1
-  'from-purple-500 to-pink-600',    // x2
+  'from-lc-blue to-blue-500',       // x2
   'from-yellow-400 to-orange-500',  // x3
   'from-green-500 to-emerald-600',  // +5
-  'from-indigo-500 to-purple-600',  // Shield
+  'from-lc-blue to-sky-500',        // Shield
 ];
 
 export function SpinWheel({ onComplete }: { onComplete?: (modifier: TurnModifier) => void }) {
@@ -150,9 +150,9 @@ export function ModifierBadge() {
         turnModifier.multiplier === 3
           ? 'bg-yellow-500 text-black'
           : turnModifier.multiplier === 2
-          ? 'bg-purple-500 text-white'
+          ? 'bg-lc-blue text-white'
           : turnModifier.shield
-          ? 'bg-indigo-500 text-white'
+          ? 'bg-sky-500 text-white'
           : turnModifier.bonus > 0
           ? 'bg-green-500 text-white'
           : 'bg-gray-500 text-white'

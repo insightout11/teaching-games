@@ -46,28 +46,28 @@ export function EndSessionSummary({ classId, className }: { classId: string; cla
   return (
     <div className="max-w-2xl mx-auto py-8">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">Session Complete!</h1>
-        <p className="text-center text-gray-500 mb-8">{className}</p>
+        <h1 className="text-3xl font-bold text-center text-lc-text mb-2">Session Complete!</h1>
+        <p className="text-center text-lc-text3 mb-8">{className}</p>
 
         <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center">
-            <p className="text-2xl font-bold text-indigo-600">{totalRounds}</p>
-            <p className="text-sm text-gray-500">Total Turns</p>
+          <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
+            <p className="text-2xl font-bold text-lc-blue">{totalRounds}</p>
+            <p className="text-sm text-lc-text3">Total Turns</p>
           </div>
-          <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center">
-            <p className="text-2xl font-bold text-green-600">{overallAccuracy}%</p>
-            <p className="text-sm text-gray-500">Accuracy</p>
+          <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
+            <p className="text-2xl font-bold text-lc-success">{overallAccuracy}%</p>
+            <p className="text-sm text-lc-text3">Accuracy</p>
           </div>
-          <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center">
-            <p className="text-2xl font-bold text-orange-500">
+          <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
+            <p className="text-2xl font-bold text-lc-warn">
               {summary.length > 0 ? Math.max(...summary.map((s) => s.bestStreak)) : 0}
             </p>
-            <p className="text-sm text-gray-500">Best Streak</p>
+            <p className="text-sm text-lc-text3">Best Streak</p>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h2 className="font-semibold mb-4">Final Standings</h2>
+        <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+          <h2 className="font-semibold mb-4 text-lc-text">Final Standings</h2>
           <div className="space-y-3">
             {summary.map((entry, i) => (
               <motion.div
@@ -75,22 +75,22 @@ export function EndSessionSummary({ classId, className }: { classId: string; cla
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0"
+                className="flex items-center justify-between py-2 border-b border-lc-border-subtle last:border-0"
               >
                 <div className="flex items-center gap-3">
                   <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold ${
-                    i === 0 ? 'bg-yellow-100 text-yellow-700' :
-                    i === 1 ? 'bg-gray-100 text-gray-600' :
-                    i === 2 ? 'bg-amber-50 text-amber-700' : 'bg-gray-50 text-gray-400'
+                    i === 0 ? 'bg-yellow-500/20 text-yellow-400' :
+                    i === 1 ? 'bg-lc-text3/20 text-lc-text3' :
+                    i === 2 ? 'bg-amber-500/20 text-amber-400' : 'bg-lc-surface text-lc-text3'
                   }`}>
                     {i + 1}
                   </span>
-                  <span className="font-medium text-gray-800">{entry.name}</span>
+                  <span className="font-medium text-lc-text">{entry.name}</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm">
-                  <span className="text-gray-400">{entry.correct}/{entry.attempts}</span>
-                  {entry.bestStreak >= 2 && <span className="text-orange-500">🔥{entry.bestStreak}</span>}
-                  <span className="font-bold text-indigo-600 w-16 text-right">{entry.total} pts</span>
+                  <span className="text-lc-text3">{entry.correct}/{entry.attempts}</span>
+                  {entry.bestStreak >= 2 && <span className="text-lc-warn">🔥{entry.bestStreak}</span>}
+                  <span className="font-bold text-lc-blue w-16 text-right">{entry.total} pts</span>
                 </div>
               </motion.div>
             ))}

@@ -183,7 +183,7 @@ export function FactDetectiveActivity({
           </p>
           <button
             onClick={startActivity}
-            className="px-12 py-6 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
+            className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
           >
             START INVESTIGATING
           </button>
@@ -216,7 +216,7 @@ export function FactDetectiveActivity({
           <div className="flex justify-center pt-4">
             <button
               onClick={startVoting}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               VOTE NOW
             </button>
@@ -286,7 +286,7 @@ export function FactDetectiveActivity({
             <button
               onClick={revealTruth}
               disabled={votes.length === 0}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
             >
               REVEAL TRUTH
             </button>
@@ -374,7 +374,7 @@ export function FactDetectiveActivity({
             )}
             <button
               onClick={nextClaim}
-              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               {currentClaimIndex < content.claims.length - 1 ? 'NEXT CLAIM' : 'FINISH'}
             </button>

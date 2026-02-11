@@ -381,7 +381,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
 
             {evaluation.creativityBonus > 0 && (
               <div className="mb-4 text-center">
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-bold">
+                <span className="px-3 py-1 bg-lc-blue/15 text-lc-blue rounded-full text-sm font-bold">
                   +{evaluation.creativityBonus} Creativity Bonus!
                 </span>
               </div>

@@ -20,7 +20,6 @@ export function Sidebar({ user }: { user: User }) {
 
   const handleSignOut = async () => {
     if (mockMode) {
-      // In mock mode, just redirect to login
       router.push('/login');
       return;
     }
@@ -31,11 +30,11 @@ export function Sidebar({ user }: { user: User }) {
   };
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
-      <div className="p-6 border-b border-gray-100">
-        <h1 className="text-xl font-bold text-indigo-600">TeachPlay</h1>
+    <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col">
+      <div className="p-6 border-b border-lc-border-subtle">
+        <h1 className="text-xl font-bold text-lc-blue">LessonCaptain</h1>
         {mockMode && (
-          <span className="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+          <span className="text-xs text-lc-warn bg-lc-warn/10 px-2 py-0.5 rounded-full">
             Demo Mode
           </span>
         )}
@@ -49,8 +48,8 @@ export function Sidebar({ user }: { user: User }) {
             className={cn(
               'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
               pathname.startsWith(item.href)
-                ? 'bg-indigo-50 text-indigo-700'
-                : 'text-gray-600 hover:bg-gray-50'
+                ? 'bg-lc-blue/10 text-lc-blue'
+                : 'text-lc-text3 hover:bg-lc-card hover:text-lc-text'
             )}
           >
             <span>{item.icon}</span>
@@ -59,16 +58,16 @@ export function Sidebar({ user }: { user: User }) {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-gray-100">
+      <div className="p-4 border-t border-lc-border-subtle">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-sm font-medium">
+          <div className="w-8 h-8 rounded-full bg-lc-blue/15 flex items-center justify-center text-lc-blue text-sm font-medium">
             {user.email?.[0]?.toUpperCase()}
           </div>
-          <span className="text-sm text-gray-600 truncate">{user.email}</span>
+          <span className="text-sm text-lc-text3 truncate">{user.email}</span>
         </div>
         <button
           onClick={handleSignOut}
-          className="w-full text-left text-sm text-gray-500 hover:text-gray-700 px-3 py-1"
+          className="w-full text-left text-sm text-lc-text3 hover:text-lc-text px-3 py-1"
         >
           Sign out
         </button>

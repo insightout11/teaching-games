@@ -268,7 +268,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
           ) : (
             <button
               onClick={handleStartWriting}
-              className="px-12 py-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
+              className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
             >
               {story.length === 0 ? 'START STORY' : 'ADD SENTENCE'}
             </button>
@@ -345,7 +345,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
               className="glass rounded-3xl w-full max-w-md p-8 shadow-2xl border border-white/20"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-3xl" />
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-lc-blue via-blue-500 to-sky-500 rounded-t-3xl" />
 
               <div className="text-center mb-6">
                 <div className="inline-block p-4 rounded-full bg-indigo-500/20 text-indigo-400 text-4xl mb-4">
@@ -379,7 +379,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
                         initial={{ width: 0 }}
                         animate={{ width: `${lastResult.scores.creativity}%` }}
                         transition={{ duration: 1, delay: 0.4 }}
-                        className="h-full bg-purple-400"
+                        className="h-full bg-lc-blue"
                       />
                     </div>
                     <span className="text-sm font-bold w-8 text-right">{lastResult.scores.creativity}</span>

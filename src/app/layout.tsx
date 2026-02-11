@@ -14,8 +14,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "TeachPlay — Interactive Classroom Games",
-  description: "Make learning fun with interactive classroom games, live leaderboards, and streak bonuses",
+  title: "LessonCaptain — Interactive Classroom Games",
+  description: "Run interactive classroom activities with live leaderboards and AI-generated content",
 };
 
 export default function RootLayout({

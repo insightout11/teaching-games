@@ -44,8 +44,8 @@ export const GROUP_COLORS: Record<GroupColor, { bg: string; text: string; border
     border: 'border-blue-500'
   },
   purple: {
-    bg: 'bg-purple-400',
-    text: 'text-purple-900',
-    border: 'border-purple-500'
+    bg: 'bg-blue-400',
+    text: 'text-blue-900',
+    border: 'border-blue-500'
   }
 };

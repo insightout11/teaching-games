@@ -369,7 +369,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
           ) : (
             <button
               onClick={handleGenerate}
-              className="w-full px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
+              className="w-full px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
             >
               GENERATE PUZZLE
             </button>
@@ -384,8 +384,8 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
           animate={{ opacity: 1 }}
           className="flex flex-col items-center gap-6 py-12"
         >
-          <div className="w-16 h-16 border-4 border-violet-500/10 border-t-violet-500 rounded-full animate-spin" />
-          <p className="font-game text-xl text-violet-400 uppercase tracking-widest animate-pulse">
+          <div className="w-16 h-16 border-4 border-lc-blue/10 border-t-lc-blue rounded-full animate-spin" />
+          <p className="font-game text-xl text-lc-blue uppercase tracking-widest animate-pulse">
             Creating Puzzle...
           </p>
         </motion.div>
@@ -493,7 +493,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
             <button
               onClick={handleSubmit}
               disabled={selected.length !== 4 || status === GameStatus.EVALUATING}
-              className="flex-1 py-3 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl font-game text-white disabled:opacity-30 transition-all"
+              className="flex-1 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-white disabled:opacity-30 transition-all"
             >
               {status === GameStatus.EVALUATING ? 'CHECKING...' : 'SUBMIT'}
             </button>

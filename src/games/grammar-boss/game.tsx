@@ -272,7 +272,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           ) : (
             <button
               onClick={handleGenerate}
-              className="w-full px-12 py-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
+              className="w-full px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
             >
               GENERATE CHALLENGE
             </button>

@@ -44,7 +44,7 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
       </Button>
 
       {classes.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
+        <div className="text-center py-16 text-lc-text3">
           <p className="text-lg">No classes yet</p>
           <p className="text-sm mt-1">Create your first class to get started</p>
         </div>
@@ -52,16 +52,16 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {classes.map((cls) => (
             <Link key={cls.id} href={`/classes/${cls.id}`}>
-              <Card className="hover:shadow-md transition-shadow cursor-pointer group">
+              <Card className="hover:border-lc-blue/30 transition-colors cursor-pointer group">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                  <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
                     {cls.name}
                   </h3>
-                  <span className="text-xs px-2 py-1 rounded-full bg-indigo-50 text-indigo-600 capitalize">
+                  <span className="text-xs px-2 py-1 rounded-full bg-lc-blue/15 text-lc-blue capitalize">
                     {cls.theme}
                   </span>
                 </div>
-                <p className="text-sm text-gray-400 mt-2">
+                <p className="text-sm text-lc-text3 mt-2">
                   Created {new Date(cls.created_at).toLocaleDateString()}
                 </p>
               </Card>
@@ -77,7 +77,7 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Class name"
-            className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 bg-lc-surface border border-lc-border rounded-xl text-lc-text focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
             autoFocus
           />
           <div className="flex justify-end gap-2">

@@ -33,8 +33,8 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
     <div className="max-w-4xl">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{cls.name}</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-lc-text">{cls.name}</h1>
+          <p className="text-sm text-lc-text3 mt-1">
             {students?.length ?? 0} students
           </p>
         </div>
@@ -50,17 +50,17 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
             <h2 className="text-lg font-semibold mb-3">Recent Sessions</h2>
             <div className="space-y-2">
               {sessions.map((s) => (
-                <div key={s.id} className="flex items-center justify-between bg-white border border-gray-100 rounded-xl px-4 py-3">
+                <div key={s.id} className="flex items-center justify-between bg-lc-card border border-lc-border rounded-xl px-4 py-3">
                   <div>
-                    <span className="text-sm font-medium">
+                    <span className="text-sm font-medium text-lc-text">
                       {new Date(s.started_at).toLocaleDateString()} {new Date(s.started_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
-                    <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${s.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                    <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${s.status === 'active' ? 'bg-lc-success/15 text-lc-success' : 'bg-lc-surface text-lc-text3'}`}>
                       {s.status}
                     </span>
                   </div>
                   {s.status === 'active' && (
-                    <a href={`/sessions/${s.id}`} className="text-sm text-indigo-600 hover:underline">
+                    <a href={`/sessions/${s.id}`} className="text-sm text-lc-blue hover:text-lc-blue-hover">
                       Resume
                     </a>
                   )}

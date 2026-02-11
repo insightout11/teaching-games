@@ -154,7 +154,7 @@ export function ExpertPanelActivity({
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-lg font-semibold text-violet-400">Expert Panel</h3>
+          <h3 className="text-lg font-semibold text-lc-blue">Expert Panel</h3>
           {customTopic && (
             <p className="text-xs opacity-60">Topic: {customTopic}</p>
           )}
@@ -179,7 +179,7 @@ export function ExpertPanelActivity({
           </p>
           <button
             onClick={startActivity}
-            className="px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
+            className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
           >
             ASSIGN ROLES
           </button>
@@ -205,11 +205,11 @@ export function ExpertPanelActivity({
               return (
                 <div
                   key={role.id}
-                  className="glass p-4 rounded-2xl border-2 border-violet-500/30"
+                  className="glass p-4 rounded-2xl border-2 border-lc-blue/25"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h4 className="font-bold text-violet-400">{role.title}</h4>
+                      <h4 className="font-bold text-lc-blue">{role.title}</h4>
                       <p className="text-sm opacity-70">{role.description}</p>
                     </div>
                   </div>
@@ -237,7 +237,7 @@ export function ExpertPanelActivity({
                   </select>
 
                   {assignment && (
-                    <p className="text-sm text-violet-400 mt-2">
+                    <p className="text-sm text-lc-blue mt-2">
                       Assigned: {assignment.studentName}
                     </p>
                   )}
@@ -250,7 +250,7 @@ export function ExpertPanelActivity({
             <button
               onClick={startPanel}
               disabled={roleAssignments.length === 0}
-              className="px-8 py-4 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
             >
               START PANEL
             </button>
@@ -277,7 +277,7 @@ export function ExpertPanelActivity({
               if (!role) return null;
               return (
                 <div key={assignment.studentId} className="glass p-4 rounded-xl text-center">
-                  <p className="font-bold text-violet-400">{assignment.studentName}</p>
+                  <p className="font-bold text-lc-blue">{assignment.studentName}</p>
                   <p className="text-sm opacity-70">{role.title}</p>
                 </div>
               );
@@ -287,7 +287,7 @@ export function ExpertPanelActivity({
           <div className="flex justify-center pt-4">
             <button
               onClick={askQuestion}
-              className="px-8 py-4 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               ASK QUESTION
             </button>
@@ -310,7 +310,7 @@ export function ExpertPanelActivity({
               <>
                 <div className="glass p-4 rounded-xl text-center">
                   <p className="text-sm opacity-50 mb-1">Question for:</p>
-                  <p className="text-lg font-bold text-violet-400">
+                  <p className="text-lg font-bold text-lc-blue">
                     {assignment?.studentName || 'Unassigned'} ({targetRole?.title})
                   </p>
                 </div>
@@ -318,7 +318,7 @@ export function ExpertPanelActivity({
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="glass p-8 rounded-2xl border-2 border-violet-500/30"
+                  className="glass p-8 rounded-2xl border-2 border-lc-blue/25"
                 >
                   <p className="text-2xl font-semibold text-center">
                     &ldquo;{currentQuestion.question}&rdquo;
@@ -331,7 +331,7 @@ export function ExpertPanelActivity({
                     <p className="text-xs opacity-50 mb-2">Suggested vocabulary:</p>
                     <div className="flex flex-wrap gap-2">
                       {targetRole.suggestedVocabulary.map((word, i) => (
-                        <span key={i} className="px-3 py-1 bg-violet-500/20 text-violet-300 rounded-lg text-sm">
+                        <span key={i} className="px-3 py-1 bg-lc-blue/15 text-lc-blue rounded-lg text-sm">
                           {word}
                         </span>
                       ))}
@@ -354,7 +354,7 @@ export function ExpertPanelActivity({
                 <div className="flex justify-center">
                   <button
                     onClick={recordResponse}
-                    className="px-8 py-4 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+                    className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
                   >
                     RESPONSE GIVEN
                   </button>
@@ -387,8 +387,8 @@ export function ExpertPanelActivity({
                 exit={{ opacity: 0 }}
                 className="flex flex-col items-center gap-4 py-4"
               >
-                <div className="w-10 h-10 border-4 border-violet-500/10 border-t-violet-500 rounded-full animate-spin" />
-                <p className="text-sm text-violet-400">Generating follow-up...</p>
+                <div className="w-10 h-10 border-4 border-lc-blue/10 border-t-lc-blue rounded-full animate-spin" />
+                <p className="text-sm text-lc-blue">Generating follow-up...</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -403,7 +403,7 @@ export function ExpertPanelActivity({
             </button>
             <button
               onClick={nextQuestion}
-              className="px-6 py-3 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-6 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               {currentQuestionIndex < allQuestions.length - 1 ? 'NEXT QUESTION' : 'FINISH PANEL'}
             </button>
@@ -418,7 +418,7 @@ export function ExpertPanelActivity({
           animate={{ opacity: 1, scale: 1 }}
           className="text-center py-12"
         >
-          <p className="text-2xl font-game text-violet-400 mb-4">Panel Complete!</p>
+          <p className="text-2xl font-game text-lc-blue mb-4">Panel Complete!</p>
           <p className="text-4xl font-game mb-2">
             {responsesGiven}
             <span className="text-lg opacity-50 ml-2">expert responses</span>

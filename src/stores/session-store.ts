@@ -6,14 +6,14 @@ import { createClient } from '@/lib/supabase/client';
 export type PickerMode = 'fair' | 'random';
 export type GameMode = 'normal' | 'spinner';
 
-// Exact types from teachplay
+// Session types
 export type Difficulty = 'Beginner' | 'Easy' | 'Intermediate' | 'Advanced' | 'Expert';
 export type Topic = 'General' | 'Action' | 'Business' | 'Academic' | 'Travel' | 'Technology' | 'Literature' | 'Space' | 'Nature' | 'Cooking' | 'Art' | 'Sports' | 'History' | 'Psychology';
 export type Tone = 'Neutral' | 'Casual' | 'Formal' | 'Humorous' | 'Professional' | 'Kid-friendly';
 export type Theme = 'Midnight' | 'Cyberpunk' | 'Sunset' | 'Forest' | 'Ocean' | 'Crimson' | 'Royal';
 export type TimerSeconds = 20 | 30 | 60;
 
-// Topic to theme mapping from teachplay
+// Topic to theme mapping
 export const TOPIC_THEME_MAP: Record<Topic, Theme> = {
   'General': 'Midnight',
   'Business': 'Midnight',
@@ -31,7 +31,7 @@ export const TOPIC_THEME_MAP: Record<Topic, Theme> = {
   'Action': 'Crimson',
 };
 
-// Exact option arrays from teachplay
+// Option arrays
 export const DIFFICULTIES: Difficulty[] = ['Beginner', 'Easy', 'Intermediate', 'Advanced', 'Expert'];
 export const TOPICS: Topic[] = ['General', 'Action', 'Business', 'Academic', 'Travel', 'Technology', 'Literature', 'Space', 'Nature', 'Cooking', 'Art', 'Sports', 'History', 'Psychology'];
 export const TONES: Tone[] = ['Neutral', 'Casual', 'Formal', 'Humorous', 'Professional', 'Kid-friendly'];
@@ -82,7 +82,7 @@ interface SessionState {
   currentStudentId: string | null;
   roundNumber: number;
 
-  // Session settings (exact teachplay types)
+  // Session settings
   settings: SessionSettings;
 
   // Spin wheel modifier (null = needs to spin)

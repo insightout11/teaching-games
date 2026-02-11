@@ -183,7 +183,7 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
 
   const getResultColor = (quality: string) => {
     switch (quality) {
-      case 'creative': return 'from-purple-400 to-pink-500';
+      case 'creative': return 'from-lc-blue to-blue-500';
       case 'correct': return 'from-emerald-400 to-emerald-500';
       case 'partial': return 'from-yellow-400 to-amber-500';
       default: return 'from-red-400 to-red-500';
@@ -243,7 +243,7 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
           ) : (
             <button
               onClick={handleGenerate}
-              className="w-full px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
+              className="w-full px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
             >
               GENERATE
             </button>
@@ -258,8 +258,8 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
           animate={{ opacity: 1 }}
           className="flex flex-col items-center gap-6 py-12"
         >
-          <div className="w-16 h-16 border-4 border-violet-500/10 border-t-violet-500 rounded-full animate-spin" />
-          <p className="font-game text-xl text-violet-400 uppercase tracking-widest animate-pulse">
+          <div className="w-16 h-16 border-4 border-lc-blue/10 border-t-lc-blue rounded-full animate-spin" />
+          <p className="font-game text-xl text-lc-blue uppercase tracking-widest animate-pulse">
             Finding Word Pair...
           </p>
         </motion.div>
@@ -281,7 +281,7 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
         >
           {/* Title */}
           <div className="text-center">
-            <h2 className="text-2xl font-game text-violet-400 tracking-wide">What&apos;s the Link?</h2>
+            <h2 className="text-2xl font-game text-lc-blue tracking-wide">What&apos;s the Link?</h2>
           </div>
 
           {/* Word Cards */}
@@ -290,7 +290,7 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="glass px-8 py-6 rounded-2xl border-2 border-violet-500/30"
+              className="glass px-8 py-6 rounded-2xl border-2 border-lc-blue/25"
             >
               <p className="text-3xl font-black text-white tracking-wide">{challenge.word1}</p>
             </motion.div>
@@ -299,7 +299,7 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl text-violet-400"
+              className="text-2xl text-lc-blue"
             >
               ↔
             </motion.div>
@@ -308,7 +308,7 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="glass px-8 py-6 rounded-2xl border-2 border-violet-500/30"
+              className="glass px-8 py-6 rounded-2xl border-2 border-lc-blue/25"
             >
               <p className="text-3xl font-black text-white tracking-wide">{challenge.word2}</p>
             </motion.div>
@@ -323,12 +323,12 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
               onKeyPress={handleKeyPress}
               placeholder="Type what connects them..."
               autoFocus
-              className="flex-1 bg-black/40 border-2 border-white/10 text-white rounded-xl px-4 py-3 focus:border-violet-500 outline-none text-lg"
+              className="flex-1 bg-black/40 border-2 border-white/10 text-white rounded-xl px-4 py-3 focus:border-lc-blue outline-none text-lg"
             />
             <button
               onClick={handleSubmit}
               disabled={!guess.trim()}
-              className="px-6 py-3 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl font-bold text-white disabled:opacity-30"
+              className="px-6 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-bold text-white disabled:opacity-30"
             >
               GO
             </button>
@@ -340,7 +340,7 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
               {!showHint ? (
                 <button
                   onClick={() => setShowHint(true)}
-                  className="text-sm text-violet-400 hover:text-violet-300 transition-colors"
+                  className="text-sm text-lc-blue hover:text-lc-blue transition-colors"
                 >
                   💡 Need a hint?
                 </button>
@@ -365,8 +365,8 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
           animate={{ opacity: 1 }}
           className="flex flex-col items-center gap-6 py-12"
         >
-          <div className="w-16 h-16 border-4 border-violet-500/10 border-t-violet-500 rounded-full animate-spin" />
-          <p className="font-game text-xl text-violet-400 uppercase tracking-widest animate-pulse">
+          <div className="w-16 h-16 border-4 border-lc-blue/10 border-t-lc-blue rounded-full animate-spin" />
+          <p className="font-game text-xl text-lc-blue uppercase tracking-widest animate-pulse">
             Evaluating...
           </p>
         </motion.div>
@@ -401,11 +401,11 @@ export function ConnectionGame({ currentStudentId, students, onScore, onPickStud
           <div className="glass p-6 rounded-2xl border border-white/10 text-center">
             <div className="flex items-center justify-center gap-4 mb-4">
               <span className="text-xl font-bold text-white">{challenge.word1}</span>
-              <span className="text-violet-400">←────────→</span>
+              <span className="text-lc-blue">←────────→</span>
               <span className="text-xl font-bold text-white">{challenge.word2}</span>
             </div>
-            <div className="inline-block px-4 py-2 bg-violet-500/20 rounded-full">
-              <p className="text-violet-300 text-sm font-medium">{result.actualConnection}</p>
+            <div className="inline-block px-4 py-2 bg-lc-blue/15 rounded-full">
+              <p className="text-lc-blue text-sm font-medium">{result.actualConnection}</p>
             </div>
           </div>
 

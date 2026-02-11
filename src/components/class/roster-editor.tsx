@@ -91,7 +91,6 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
     }
 
     if (isMockMode()) {
-      // In mock mode, just add locally
       const newStudent: Student = {
         id: `student-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         class_id: classId,
@@ -153,7 +152,6 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
     }
 
     if (isMockMode()) {
-      // In mock mode, just add locally
       const newStudents: Student[] = newNames.map((name, i) => ({
         id: `student-${Date.now()}-${i}-${Math.random().toString(36).substr(2, 9)}`,
         class_id: classId,
@@ -226,7 +224,7 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
 
       {/* Feedback message */}
       {feedback && (
-        <div className="mb-4 px-3 py-2 bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg">
+        <div className="mb-4 px-3 py-2 bg-lc-success/10 border border-lc-success/25 text-lc-success text-sm rounded-lg">
           {feedback}
         </div>
       )}
@@ -237,19 +235,17 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
             value={bulkNames}
             onChange={(e) => setBulkNames(e.target.value)}
             onKeyDown={(e) => {
-              // Ctrl+Enter (Windows/Linux) or Cmd+Enter (Mac) triggers Add All
               if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault();
                 addBulk();
               }
-              // Regular Enter just inserts newline (default textarea behavior)
             }}
             placeholder="Alice&#10;Bob&#10;Charlie&#10;(or paste comma-separated: Alice, Bob, Charlie)"
             rows={5}
-            className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-mono"
+            className="w-full px-4 py-2 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-sm font-mono focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
           />
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-lc-text3">
               One name per line (or comma-separated). Ctrl/Cmd+Enter to add.
             </span>
             <Button size="sm" onClick={addBulk} disabled={!bulkNames.trim()}>
@@ -265,7 +261,7 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
             onChange={(e) => setNewName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && addStudent()}
             placeholder="Student name"
-            className="flex-1 px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+            className="flex-1 px-4 py-2 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-sm focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
           />
           <Button size="sm" onClick={addStudent} disabled={!newName.trim()}>
             Add
@@ -274,15 +270,15 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
       )}
 
       {students.length === 0 ? (
-        <p className="text-sm text-gray-400 text-center py-4">No students yet</p>
+        <p className="text-sm text-lc-text3 text-center py-4">No students yet</p>
       ) : (
         <ul className="space-y-1">
           {students.map((s) => (
-            <li key={s.id} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-gray-50 group">
-              <span className="text-sm">{s.name}</span>
+            <li key={s.id} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-lc-surface group">
+              <span className="text-sm text-lc-text">{s.name}</span>
               <button
                 onClick={() => removeStudent(s.id)}
-                className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity text-sm"
+                className="text-lc-danger/70 hover:text-lc-danger opacity-0 group-hover:opacity-100 transition-opacity text-sm"
               >
                 Remove
               </button>

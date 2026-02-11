@@ -5,8 +5,22 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #070B14;
+  --foreground: #EAF1FF;
+  --lc-bg: #070B14;
+  --lc-surface: #0B1220;
+  --lc-card: #101A2E;
+  --lc-border: #1C2A44;
+  --lc-border-subtle: #132033;
+  --lc-text: #EAF1FF;
+  --lc-text2: #A9B7D0;
+  --lc-text3: #6F7F9C;
+  --lc-blue: #4DA3FF;
+  --lc-blue-hover: #78BCFF;
+  --lc-blue-glow: rgba(77,163,255,0.22);
+  --lc-success: #2FE59B;
+  --lc-warn: #F6C177;
+  --lc-danger: #FF4D4D;
 }
 
 body {
@@ -21,16 +35,16 @@ body {
   font-family: 'Bungee', cursive;
 }
 
-/* Theme classes from teachplay */
+/* Session theme classes */
 .theme-Midnight { background-color: #0f172a; color: #f8fafc; }
-.theme-Cyberpunk { background: linear-gradient(135deg, #2d004d 0%, #000000 100%); color: #00ffcc; }
+.theme-Cyberpunk { background: linear-gradient(135deg, #0a1628 0%, #000000 100%); color: #00ffcc; }
 .theme-Sunset { background: linear-gradient(135deg, #4c1d1d 0%, #7c2d12 100%); color: #ffedd5; }
 .theme-Forest { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); color: #d1fae5; }
 .theme-Ocean { background: linear-gradient(135deg, #0c4a6e 0%, #082f49 100%); color: #e0f2fe; }
 .theme-Crimson { background: linear-gradient(135deg, #450a0a 0%, #000000 100%); color: #fca5a5; }
 .theme-Royal { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #e0e7ff; }
 
-/* Glass effect from teachplay */
+/* Glass effect for session overlays */
 .glass {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(16px);

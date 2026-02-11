@@ -221,7 +221,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
 
   const getStrengthColor = (strength: string) => {
     switch (strength) {
-      case 'creative': return 'from-purple-400 to-pink-500';
+      case 'creative': return 'from-lc-blue to-blue-500';
       case 'strong': return 'from-emerald-400 to-emerald-500';
       case 'moderate': return 'from-cyan-400 to-cyan-500';
       default: return 'from-slate-400 to-slate-500';

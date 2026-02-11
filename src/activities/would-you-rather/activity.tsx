@@ -189,7 +189,7 @@ export function WouldYouRatherActivity({
           </p>
           <button
             onClick={startActivity}
-            className="px-12 py-6 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
+            className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
           >
             START
           </button>
@@ -208,12 +208,12 @@ export function WouldYouRatherActivity({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="glass p-6 rounded-2xl border-2 border-purple-500/30 text-center">
-              <span className="text-purple-400 text-sm font-bold">Option A</span>
+            <div className="glass p-6 rounded-2xl border-2 border-lc-blue/25 text-center">
+              <span className="text-lc-blue text-sm font-bold">Option A</span>
               <p className="text-xl font-semibold mt-2">{currentDilemma.optionA}</p>
             </div>
-            <div className="glass p-6 rounded-2xl border-2 border-pink-500/30 text-center">
-              <span className="text-pink-400 text-sm font-bold">Option B</span>
+            <div className="glass p-6 rounded-2xl border-2 border-sky-400/30 text-center">
+              <span className="text-sky-400 text-sm font-bold">Option B</span>
               <p className="text-xl font-semibold mt-2">{currentDilemma.optionB}</p>
             </div>
           </div>
@@ -221,7 +221,7 @@ export function WouldYouRatherActivity({
           <div className="flex justify-center">
             <button
               onClick={startVoting}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               START VOTING
             </button>
@@ -237,16 +237,16 @@ export function WouldYouRatherActivity({
           className="space-y-6"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="glass p-6 rounded-2xl border-2 border-purple-500/50">
-              <span className="text-purple-400 text-sm font-bold block mb-2">Option A</span>
+            <div className="glass p-6 rounded-2xl border-2 border-lc-blue/25">
+              <span className="text-lc-blue text-sm font-bold block mb-2">Option A</span>
               <p className="text-lg font-semibold mb-4">{currentDilemma.optionA}</p>
-              <div className="text-4xl font-game text-purple-400 mb-2">{voteStats.aCount}</div>
+              <div className="text-4xl font-game text-lc-blue mb-2">{voteStats.aCount}</div>
               <p className="text-xs opacity-60">{voteStats.aVoters.join(', ') || 'No votes yet'}</p>
             </div>
-            <div className="glass p-6 rounded-2xl border-2 border-pink-500/50">
-              <span className="text-pink-400 text-sm font-bold block mb-2">Option B</span>
+            <div className="glass p-6 rounded-2xl border-2 border-sky-400/50">
+              <span className="text-sky-400 text-sm font-bold block mb-2">Option B</span>
               <p className="text-lg font-semibold mb-4">{currentDilemma.optionB}</p>
-              <div className="text-4xl font-game text-pink-400 mb-2">{voteStats.bCount}</div>
+              <div className="text-4xl font-game text-sky-400 mb-2">{voteStats.bCount}</div>
               <p className="text-xs opacity-60">{voteStats.bVoters.join(', ') || 'No votes yet'}</p>
             </div>
           </div>
@@ -264,8 +264,8 @@ export function WouldYouRatherActivity({
                       onClick={() => recordVote(student.id, 'A')}
                       className={`px-2 py-1 text-xs rounded transition-all ${
                         existingVote?.choice === 'A'
-                          ? 'bg-purple-500 text-white'
-                          : 'bg-white/10 hover:bg-purple-500/30'
+                          ? 'bg-lc-blue text-white'
+                          : 'bg-white/10 hover:bg-lc-blue/30'
                       }`}
                     >
                       A
@@ -274,8 +274,8 @@ export function WouldYouRatherActivity({
                       onClick={() => recordVote(student.id, 'B')}
                       className={`px-2 py-1 text-xs rounded transition-all ${
                         existingVote?.choice === 'B'
-                          ? 'bg-pink-500 text-white'
-                          : 'bg-white/10 hover:bg-pink-500/30'
+                          ? 'bg-sky-500 text-white'
+                          : 'bg-white/10 hover:bg-sky-500/30'
                       }`}
                     >
                       B
@@ -290,7 +290,7 @@ export function WouldYouRatherActivity({
             <button
               onClick={endVoting}
               disabled={votes.length === 0}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
             >
               END VOTING
             </button>
@@ -311,7 +311,7 @@ export function WouldYouRatherActivity({
 
             <div className="flex items-center gap-2 mb-4">
               <div
-                className="h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-l-full transition-all"
+                className="h-8 bg-gradient-to-r from-lc-blue to-blue-500 rounded-l-full transition-all"
                 style={{ width: `${voteStats.aPercent}%`, minWidth: voteStats.aCount > 0 ? '40px' : '0' }}
               >
                 {voteStats.aCount > 0 && (
@@ -321,7 +321,7 @@ export function WouldYouRatherActivity({
                 )}
               </div>
               <div
-                className="h-8 bg-gradient-to-r from-pink-500 to-pink-600 rounded-r-full transition-all"
+                className="h-8 bg-gradient-to-r from-sky-400 to-sky-500 rounded-r-full transition-all"
                 style={{ width: `${voteStats.bPercent}%`, minWidth: voteStats.bCount > 0 ? '40px' : '0' }}
               >
                 {voteStats.bCount > 0 && (
@@ -334,11 +334,11 @@ export function WouldYouRatherActivity({
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-purple-400 font-bold">A: </span>
+                <span className="text-lc-blue font-bold">A: </span>
                 {voteStats.aVoters.join(', ') || 'None'}
               </div>
               <div>
-                <span className="text-pink-400 font-bold">B: </span>
+                <span className="text-sky-400 font-bold">B: </span>
                 {voteStats.bVoters.join(', ') || 'None'}
               </div>
             </div>
@@ -359,7 +359,7 @@ export function WouldYouRatherActivity({
             </button>
             <button
               onClick={nextDilemma}
-              className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              className="px-8 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               {currentDilemmaIndex < content.dilemmas.length - 1 ? 'NEXT DILEMMA' : 'FINISH'}
             </button>
@@ -411,7 +411,7 @@ export function WouldYouRatherActivity({
               </button>
               <button
                 onClick={nextDilemma}
-                className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+                className="px-8 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
               >
                 {currentDilemmaIndex < content.dilemmas.length - 1 ? 'NEXT DILEMMA' : 'FINISH'}
               </button>

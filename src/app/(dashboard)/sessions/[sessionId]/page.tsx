@@ -21,9 +21,9 @@ export default async function SessionPage({ params }: { params: { sessionId: str
       if (classes.length === 0) {
         return (
           <div className="max-w-md mx-auto mt-20 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Session not found</h1>
-            <p className="text-gray-500 mb-4">This session doesn&apos;t exist or has expired.</p>
-            <a href="/classes" className="text-indigo-600 hover:underline">
+            <h1 className="text-2xl font-bold text-lc-text mb-2">Session not found</h1>
+            <p className="text-lc-text3 mb-4">This session doesn&apos;t exist or has expired.</p>
+            <a href="/classes" className="text-lc-blue hover:underline">
               Back to Classes
             </a>
           </div>
@@ -47,9 +47,9 @@ export default async function SessionPage({ params }: { params: { sessionId: str
     if (!cls) {
       return (
         <div className="max-w-md mx-auto mt-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Class not found</h1>
-          <p className="text-gray-500 mb-4">The class for this session no longer exists.</p>
-          <a href="/classes" className="text-indigo-600 hover:underline">
+          <h1 className="text-2xl font-bold text-lc-text mb-2">Class not found</h1>
+          <p className="text-lc-text3 mb-4">The class for this session no longer exists.</p>
+          <a href="/classes" className="text-lc-blue hover:underline">
             Back to Classes
           </a>
         </div>
