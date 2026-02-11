@@ -7,7 +7,8 @@ export type InputType =
   | 'binary'         // A or B choice
   | 'multi-select'   // Pick N from list
   | 'sequence'       // Order items (tap to build sequence)
-  | 'ranking';       // Rank items (drag to reorder)
+  | 'ranking'        // Rank items (drag to reorder)
+  | 'error-correction'; // Select words and provide corrections
 
 export interface InputSpec {
   type: InputType;

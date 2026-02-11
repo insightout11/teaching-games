@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import type { GameProps } from '../types';
+import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, EvaluationResult, UserCorrection } from './types';
 
@@ -13,7 +13,7 @@ interface WordData {
   correction: string;
 }
 
-export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec }: GameProps) {
+export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [words, setWords] = useState<WordData[]>([]);
@@ -25,17 +25,66 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
   // Register input spec for student controller
-  // Error Hunter is complex - students need to select words and provide corrections
-  // For now, we just indicate there's a game active without specific input type
   useEffect(() => {
-    if (status === GameStatus.PLAYING && challenge) {
-      // Error Hunter uses word selection + text correction - currently only works on teacher screen
-      // Remote students can see there's an active game but need to participate in class
-      onSetInputSpec?.(null);
+    if (status === GameStatus.PLAYING && challenge && words.length > 0) {
+      onSetInputSpec?.({
+        type: 'error-correction',
+        gameKey: 'error-hunter',
+        options: words.map(w => w.word),
+        prompt: `Find and correct the ${challenge.errorCount} error${challenge.errorCount !== 1 ? 's' : ''} in this paragraph`,
+      });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, challenge, onSetInputSpec]);
+  }, [status, challenge, words, onSetInputSpec]);
+
+  // Handle remote vote from student device
+  const handleRemoteVote = useCallback(async (vote: GameRemoteVote) => {
+    if (!challenge) return;
+
+    try {
+      const corrections: UserCorrection[] = JSON.parse(vote.choice);
+      if (!Array.isArray(corrections)) return;
+
+      const response = await fetch('/api/error-hunter/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paragraph: challenge.paragraph,
+          corrections,
+          difficulty: sessionSettings.difficulty,
+        }),
+      });
+
+      if (!response.ok) return;
+
+      const result: EvaluationResult = await response.json();
+
+      // Look up studentId from clientId
+      const student = students.find(s => s.id === vote.clientId);
+      const studentId = student?.id || vote.clientId;
+
+      onScore(studentId, {
+        isCorrect: result.score >= 5,
+        points: result.score,
+        responseData: {
+          totalErrors: result.totalErrors,
+          found: result.found,
+          correctFixes: result.correctFixes,
+          falsePositives: result.falsePositives,
+          feedback: result.feedback,
+        },
+      });
+    } catch (err) {
+      console.error('Failed to process remote error-hunter vote:', err);
+    }
+  }, [challenge, sessionSettings.difficulty, students, onScore]);
+
+  // Register remote vote handler
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.(handleRemoteVote);
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [onRegisterRemoteVoteHandler, handleRemoteVote]);
 
   const handleGenerate = async () => {
     if (!currentStudentId) {

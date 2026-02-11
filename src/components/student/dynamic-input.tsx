@@ -28,6 +28,8 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       return <SequenceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'ranking':
       return <RankingInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+    case 'error-correction':
+      return <ErrorCorrectionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     default:
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
   }
@@ -336,6 +338,135 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         <Button
           onClick={handleSubmit}
           disabled={remaining.length > 0 || isSubmitting || submitStatus === 'rate_limited'}
+          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+        >
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// Error correction input (tap words to mark errors and type corrections)
+function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+  const [corrections, setCorrections] = useState<Map<number, string>>(new Map());
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [correctionText, setCorrectionText] = useState('');
+
+  const words = spec.options || [];
+
+  const handleWordTap = (index: number) => {
+    if (isSubmitting) return;
+
+    if (corrections.has(index)) {
+      // Remove existing correction
+      const next = new Map(corrections);
+      next.delete(index);
+      setCorrections(next);
+      if (editingIndex === index) {
+        setEditingIndex(null);
+        setCorrectionText('');
+      }
+    } else {
+      // Open correction input for this word
+      setEditingIndex(index);
+      setCorrectionText('');
+    }
+  };
+
+  const handleAddCorrection = () => {
+    if (editingIndex === null || !correctionText.trim()) return;
+    const next = new Map(corrections);
+    next.set(editingIndex, correctionText.trim());
+    setCorrections(next);
+    setEditingIndex(null);
+    setCorrectionText('');
+  };
+
+  const handleSubmit = useCallback(async () => {
+    if (corrections.size === 0 || isSubmitting) return;
+    const payload = Array.from(corrections.entries()).map(([index, correction]) => ({
+      position: index,
+      original: words[index]?.replace(/[.,!?;:'"]/g, '') || '',
+      correction,
+    }));
+    await onSubmit(JSON.stringify(payload));
+    setCorrections(new Map());
+    setEditingIndex(null);
+    setCorrectionText('');
+  }, [corrections, isSubmitting, onSubmit, words]);
+
+  return (
+    <div className="space-y-4">
+      {spec.prompt && (
+        <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+      )}
+
+      {/* Word chips */}
+      <div className="flex flex-wrap gap-1.5">
+        {words.map((word, index) => {
+          const hasCorrection = corrections.has(index);
+          const isEditing = editingIndex === index;
+          return (
+            <button
+              key={index}
+              onClick={() => handleWordTap(index)}
+              disabled={isSubmitting}
+              className={`px-2 py-1 rounded-lg text-sm transition-all ${
+                hasCorrection
+                  ? 'bg-red-500/30 border border-red-500/50'
+                  : isEditing
+                  ? 'bg-yellow-500/30 border border-yellow-500/50 text-yellow-200'
+                  : 'bg-white/10 hover:bg-white/20 border border-transparent'
+              } disabled:opacity-50`}
+            >
+              {hasCorrection ? (
+                <>
+                  <span className="line-through opacity-60">{word}</span>
+                  <span className="ml-1 text-emerald-400 no-underline">{corrections.get(index)}</span>
+                </>
+              ) : (
+                word
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Correction input for selected word */}
+      {editingIndex !== null && (
+        <div className="flex gap-2 items-end">
+          <div className="flex-1">
+            <p className="text-xs text-gray-400 mb-1">
+              Correct &quot;<span className="text-yellow-400">{words[editingIndex]}</span>&quot; to:
+            </p>
+            <input
+              type="text"
+              value={correctionText}
+              onChange={(e) => setCorrectionText(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleAddCorrection()}
+              placeholder="Type correction..."
+              autoFocus
+              className="w-full px-3 py-2 bg-white/10 border border-yellow-500/50 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
+            />
+          </div>
+          <button
+            onClick={handleAddCorrection}
+            disabled={!correctionText.trim()}
+            className="px-4 py-2 bg-yellow-500 text-black rounded-xl font-bold disabled:opacity-30"
+          >
+            Add
+          </button>
+        </div>
+      )}
+
+      <p className="text-sm text-gray-400">{corrections.size} correction{corrections.size !== 1 ? 's' : ''} marked</p>
+
+      <div className="flex items-center justify-between">
+        <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
+        <Button
+          onClick={handleSubmit}
+          disabled={corrections.size === 0 || isSubmitting || submitStatus === 'rate_limited'}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
