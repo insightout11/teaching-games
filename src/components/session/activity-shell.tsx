@@ -55,6 +55,7 @@ export function ActivityShell({ activity, generatedContent }: ActivityShellProps
             if (remoteVoteHandlerRef.current) {
               remoteVoteHandlerRef.current({
                 clientId: score.client_id || '',
+                studentId: score.student_id || null,
                 displayName: score.display_name || 'Anonymous',
                 choice: responseData.choice as string,
                 team: score.team as 'red' | 'blue' | null,

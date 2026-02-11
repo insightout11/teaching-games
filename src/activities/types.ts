@@ -43,6 +43,7 @@ export interface ActivityProps {
 // Remote vote received from a student device
 export interface RemoteVote {
   clientId: string;
+  studentId?: string | null;
   displayName: string;
   choice: string;
   team?: 'red' | 'blue' | null;

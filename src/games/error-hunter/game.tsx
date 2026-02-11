@@ -60,9 +60,9 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
       const result: EvaluationResult = await response.json();
 
-      // Look up studentId from clientId
-      const student = students.find(s => s.id === vote.clientId);
-      const studentId = student?.id || vote.clientId;
+      // Use the DB studentId from the score record (passed through GameRemoteVote)
+      const studentId = vote.studentId;
+      if (!studentId) return;
 
       onScore(studentId, {
         isCorrect: result.score >= 5,
@@ -78,7 +78,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     } catch (err) {
       console.error('Failed to process remote error-hunter vote:', err);
     }
-  }, [challenge, sessionSettings.difficulty, students, onScore]);
+  }, [challenge, sessionSettings.difficulty, onScore]);
 
   // Register remote vote handler
   useEffect(() => {

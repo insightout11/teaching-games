@@ -12,6 +12,7 @@ export interface ScoreResult {
 // Remote vote received from a student device (same as activity RemoteVote)
 export interface GameRemoteVote {
   clientId: string;
+  studentId?: string | null;
   displayName: string;
   choice: string;
   team?: 'red' | 'blue' | null;
