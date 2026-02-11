@@ -78,13 +78,23 @@ export async function POST(request: NextRequest) {
     const isDirectSubmission = inputType === 'binary' || inputType === 'choice' || inputType === 'ranking' || inputType === 'multi-select';
 
     if (isDirectSubmission) {
+      // Delete any previous vote from this student for this game to prevent duplicates
+      if (gameKey) {
+        await supabase
+          .from('scores')
+          .delete()
+          .eq('session_id', sessionId)
+          .eq('client_id', clientId)
+          .contains('response_data', { gameKey: gameKey });
+      }
+
       // Create score directly - this will be picked up by realtime subscriptions
       const { error: scoreError } = await supabase
         .from('scores')
         .insert({
           session_id: sessionId,
           student_id: studentId || null,
-          points: 1, // Participation point for voting
+          points: 0, // No participation points for direct submissions
           streak_count: 0,
           streak_bonus: 0,
           is_correct: true,
