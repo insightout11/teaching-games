@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
-import { useMemo } from 'react';
+import { useMemo, useEffect, useRef, useState } from 'react';
 
 interface LeaderboardEntry {
   studentId: string;
@@ -43,6 +43,60 @@ export function Leaderboard() {
 
     return Array.from(map.values()).sort((a, b) => b.totalPoints - a.totalPoints);
   }, [students, scores]);
+
+  // Delta animation tracking
+  const prevTotals = useRef<Map<string, number>>(new Map());
+  const isFirstRender = useRef(true);
+  const [deltas, setDeltas] = useState<Map<string, { value: number; ts: number }>>(new Map());
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      // Populate ref on first render without triggering deltas
+      isFirstRender.current = false;
+      const initial = new Map<string, number>();
+      entries.forEach((e) => initial.set(e.studentId, e.totalPoints));
+      prevTotals.current = initial;
+      return;
+    }
+
+    const newDeltas = new Map<string, { value: number; ts: number }>();
+    const now = Date.now();
+
+    entries.forEach((e) => {
+      const prev = prevTotals.current.get(e.studentId) ?? 0;
+      if (e.totalPoints > prev) {
+        newDeltas.set(e.studentId, { value: e.totalPoints - prev, ts: now });
+      }
+    });
+
+    // Update ref to current totals
+    const updated = new Map<string, number>();
+    entries.forEach((e) => updated.set(e.studentId, e.totalPoints));
+    prevTotals.current = updated;
+
+    if (newDeltas.size > 0) {
+      setDeltas((prev) => {
+        const merged = new Map(prev);
+        newDeltas.forEach((v, k) => merged.set(k, v));
+        return merged;
+      });
+
+      // Clear these deltas after animation completes
+      const keys = Array.from(newDeltas.keys());
+      const timeout = setTimeout(() => {
+        setDeltas((prev) => {
+          const next = new Map(prev);
+          keys.forEach((k) => {
+            // Only clear if timestamp matches (avoid clearing a newer delta)
+            if (next.get(k)?.ts === now) next.delete(k);
+          });
+          return next;
+        });
+      }, 1500);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [entries]);
 
   const medalColors = ['text-yellow-400', 'text-gray-400', 'text-amber-600'];
 
@@ -101,7 +155,22 @@ export function Leaderboard() {
                   {entry.bestStreak >= 2 && (
                     <span className="text-xs text-orange-400">🔥{entry.bestStreak}</span>
                   )}
-                  <span className="text-sm font-game text-yellow-400">{entry.totalPoints}</span>
+                  <span className="relative text-sm font-game text-yellow-400">
+                    {entry.totalPoints}
+                    <AnimatePresence>
+                      {deltas.has(entry.studentId) && (
+                        <motion.span
+                          key={`delta-${entry.studentId}-${deltas.get(entry.studentId)!.ts}`}
+                          initial={{ opacity: 1, y: 0 }}
+                          animate={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 1.5, ease: 'easeOut' }}
+                          className="absolute -top-3 right-0 text-xs font-bold text-green-400 pointer-events-none"
+                        >
+                          +{deltas.get(entry.studentId)!.value}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </span>
                 </div>
               </button>
             </motion.div>
