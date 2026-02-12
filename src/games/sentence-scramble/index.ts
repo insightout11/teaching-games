@@ -1,10 +1,13 @@
 import type { GamePlugin } from '../types';
 import { SentenceScrambleGame } from './game';
+import { PenLine } from 'lucide-react';
 
 export const sentenceScramblePlugin: GamePlugin = {
   key: 'sentence-scramble',
   name: 'Sentence Scramble',
   description: 'Tap words to build sentences in the correct order',
+  category: 'grammar-writing',
+  icon: PenLine,
   skills: ['Grammar', 'Sentence Structure', 'Reading'],
   component: SentenceScrambleGame,
   configSchema: [

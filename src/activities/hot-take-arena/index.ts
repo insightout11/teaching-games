@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { HotTakeArenaActivity } from './activity';
+import { Scale } from 'lucide-react';
 
 export const hotTakeArenaPlugin: ActivityPlugin = {
   key: 'hot-take-arena',
@@ -10,7 +11,7 @@ export const hotTakeArenaPlugin: ActivityPlugin = {
   component: HotTakeArenaActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 15,
-  icon: '🔥',
+  icon: Scale,
 };
 
 export { HotTakeArenaActivity };

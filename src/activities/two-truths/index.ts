@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { TwoTruthsActivity } from './activity';
+import { Sparkles } from 'lucide-react';
 
 export const twoTruthsPlugin: ActivityPlugin = {
   key: 'two-truths',
@@ -10,7 +11,7 @@ export const twoTruthsPlugin: ActivityPlugin = {
   component: TwoTruthsActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 10,
-  icon: '🔍',
+  icon: Sparkles,
 };
 
 export { TwoTruthsActivity };

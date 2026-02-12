@@ -3,6 +3,9 @@ import type { Student } from '@/lib/supabase/types';
 import type { SessionSettings } from '@/stores/session-store';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 
+// Game categories
+export type GameCategory = 'vocabulary' | 'grammar-writing' | 'logic-puzzles';
+
 export interface ScoreResult {
   isCorrect: boolean;
   points: number;
@@ -47,6 +50,8 @@ export interface GamePlugin {
   key: string;
   name: string;
   description: string;
+  category: GameCategory;
+  icon: ComponentType<{ className?: string }>;
   skills: string[];
   component: ComponentType<GameProps>;
   configSchema: GameConfigField[];

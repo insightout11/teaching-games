@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { RankItActivity } from './activity';
+import { Sparkles } from 'lucide-react';
 
 export const rankItPlugin: ActivityPlugin = {
   key: 'rank-it',
@@ -10,7 +11,7 @@ export const rankItPlugin: ActivityPlugin = {
   component: RankItActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 12,
-  icon: '📊',
+  icon: Sparkles,
 };
 
 export { RankItActivity };

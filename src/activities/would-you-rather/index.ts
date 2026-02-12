@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { WouldYouRatherActivity } from './activity';
+import { Sparkles } from 'lucide-react';
 
 export const wouldYouRatherPlugin: ActivityPlugin = {
   key: 'would-you-rather',
@@ -10,7 +11,7 @@ export const wouldYouRatherPlugin: ActivityPlugin = {
   component: WouldYouRatherActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 10,
-  icon: '🤔',
+  icon: Sparkles,
 };
 
 export { WouldYouRatherActivity };

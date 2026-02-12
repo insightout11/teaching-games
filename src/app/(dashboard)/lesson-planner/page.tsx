@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
 import { getAllGames } from '@/games/registry';
+import { GAME_CATEGORY_INFO } from '@/games/registry';
 import { DIFFICULTIES, type Difficulty } from '@/stores/session-store';
 import type {
   ActivityGeneratedContent,
@@ -218,7 +219,25 @@ export default function LessonPlannerPage() {
 
                   {selected ? (
                     <div className="flex items-center gap-2">
-                      <span className="px-3 py-1 bg-lc-blue/15 text-lc-blue rounded-full text-sm font-medium">
+                      <span className="flex items-center gap-1.5 px-3 py-1 bg-lc-blue/15 text-lc-blue rounded-full text-sm font-medium">
+                        {(() => {
+                          if (selected.type === 'activity') {
+                            const act = allActivities.find((a) => a.key === selected.key);
+                            if (act) {
+                              const catInfo = CATEGORY_INFO[act.category];
+                              const Icon = act.icon;
+                              return <Icon className={`w-4 h-4 ${catInfo.color}`} />;
+                            }
+                          } else {
+                            const g = allGames.find((g) => g.key === selected.key);
+                            if (g) {
+                              const catInfo = GAME_CATEGORY_INFO[g.category];
+                              const Icon = g.icon;
+                              return <Icon className={`w-4 h-4 ${catInfo.color}`} />;
+                            }
+                          }
+                          return null;
+                        })()}
                         {selected.name}
                       </span>
                       <button

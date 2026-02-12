@@ -8,8 +8,8 @@ import { ActivityShell } from './activity-shell';
 import { EndSessionSummary } from './end-session-summary';
 import { SessionSettingsBar } from './session-settings-bar';
 import { PollManager } from './poll-manager';
-import { getAllGames } from '@/games/registry';
-import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
+import { getAllGames, getGamesGrouped, GAME_CATEGORY_INFO } from '@/games/registry';
+import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
@@ -353,41 +353,52 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </span>
                 )}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {activities.map((activity) => {
-                  const hasContent = lessonPlanContent?.generatedContent[activity.key];
-                  const categoryInfo = CATEGORY_INFO[activity.category];
-                  return (
-                    <button
-                      key={activity.key}
-                      onClick={() => handleSelectActivity(activity)}
-                      className={`glass rounded-2xl p-6 text-left hover:bg-white/10 transition-all relative ${
-                        hasContent ? 'border border-cyan-500/30' : ''
-                      }`}
-                    >
-                      {hasContent && (
-                        <div className="absolute top-2 right-2 w-2 h-2 bg-cyan-400 rounded-full" />
-                      )}
-                      <div className="flex items-center gap-2 mb-1">
-                        {activity.icon && <span className="text-lg">{activity.icon}</span>}
-                        <h3 className="font-semibold">{activity.name}</h3>
-                      </div>
-                      <span className="text-xs text-cyan-400 uppercase tracking-wider">
-                        {categoryInfo.name}
-                      </span>
-                      <p className="text-sm opacity-70 mt-2">{activity.description}</p>
-                      <div className="flex flex-wrap gap-1 mt-3">
-                        {activity.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="text-xs opacity-50 mt-2">~{activity.estimatedMinutes} min</div>
-                    </button>
-                  );
-                })}
-              </div>
+              {(Object.entries(getActivitiesGrouped()) as [string, typeof activities][]).map(([category, categoryActivities]) => {
+                if (categoryActivities.length === 0) return null;
+                const info = CATEGORY_INFO[category as keyof typeof CATEGORY_INFO];
+                const IconComponent = info.icon;
+                return (
+                  <div key={category}>
+                    <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
+                      <IconComponent className={`w-4 h-4 ${info.color}`} />
+                      <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
+                      <div className="flex-1 h-px bg-lc-border-subtle" />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {categoryActivities.map((activity) => {
+                        const hasContent = lessonPlanContent?.generatedContent[activity.key];
+                        const ActivityIcon = activity.icon;
+                        return (
+                          <button
+                            key={activity.key}
+                            onClick={() => handleSelectActivity(activity)}
+                            className={`glass rounded-2xl p-6 text-left hover:bg-white/10 transition-all relative ${
+                              hasContent ? 'border border-cyan-500/30' : ''
+                            }`}
+                          >
+                            {hasContent && (
+                              <div className="absolute top-2 right-2 w-2 h-2 bg-cyan-400 rounded-full" />
+                            )}
+                            <div className="flex items-center gap-2 mb-1">
+                              <ActivityIcon className={`w-5 h-5 ${info.color}`} />
+                              <h3 className="font-semibold">{activity.name}</h3>
+                            </div>
+                            <p className="text-sm opacity-70 mt-2">{activity.description}</p>
+                            <div className="flex flex-wrap gap-1 mt-3">
+                              {activity.skills.map((skill) => (
+                                <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                            <div className="text-xs opacity-50 mt-2">~{activity.estimatedMinutes} min</div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Skill Games Section */}
@@ -400,33 +411,51 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </span>
                 )}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {games.map((game) => {
-                  const hasContent = lessonPlanContent?.generatedGameContent?.[game.key];
-                  return (
-                    <button
-                      key={game.key}
-                      onClick={() => handleSelectGame(game)}
-                      className={`glass rounded-2xl p-6 text-left hover:bg-white/10 transition-all relative ${
-                        hasContent ? 'border border-lc-blue/25' : ''
-                      }`}
-                    >
-                      {hasContent && (
-                        <div className="absolute top-2 right-2 w-2 h-2 bg-lc-blue rounded-full" />
-                      )}
-                      <h3 className="font-semibold">{game.name}</h3>
-                      <p className="text-sm opacity-70 mt-1">{game.description}</p>
-                      <div className="flex flex-wrap gap-1 mt-3">
-                        {game.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+              {(Object.entries(getGamesGrouped()) as [string, typeof games][]).map(([category, categoryGames]) => {
+                if (categoryGames.length === 0) return null;
+                const info = GAME_CATEGORY_INFO[category as keyof typeof GAME_CATEGORY_INFO];
+                const IconComponent = info.icon;
+                return (
+                  <div key={category}>
+                    <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
+                      <IconComponent className={`w-4 h-4 ${info.color}`} />
+                      <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
+                      <div className="flex-1 h-px bg-lc-border-subtle" />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {categoryGames.map((game) => {
+                        const hasContent = lessonPlanContent?.generatedGameContent?.[game.key];
+                        const GameIcon = game.icon;
+                        return (
+                          <button
+                            key={game.key}
+                            onClick={() => handleSelectGame(game)}
+                            className={`glass rounded-2xl p-6 text-left hover:bg-white/10 transition-all relative ${
+                              hasContent ? 'border border-lc-blue/25' : ''
+                            }`}
+                          >
+                            {hasContent && (
+                              <div className="absolute top-2 right-2 w-2 h-2 bg-lc-blue rounded-full" />
+                            )}
+                            <div className="flex items-center gap-2 mb-1">
+                              <GameIcon className={`w-5 h-5 ${info.color}`} />
+                              <h3 className="font-semibold">{game.name}</h3>
+                            </div>
+                            <p className="text-sm opacity-70 mt-1">{game.description}</p>
+                            <div className="flex flex-wrap gap-1 mt-3">
+                              {game.skills.map((skill) => (
+                                <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         ) : viewMode === 'game' && selectedGame ? (

@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { InterviewLabActivity } from './activity';
+import { Users } from 'lucide-react';
 
 export const interviewLabPlugin: ActivityPlugin = {
   key: 'interview-lab',
@@ -10,7 +11,7 @@ export const interviewLabPlugin: ActivityPlugin = {
   component: InterviewLabActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 15,
-  icon: '🎙️',
+  icon: Users,
 };
 
 export { InterviewLabActivity };

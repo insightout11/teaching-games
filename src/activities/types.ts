@@ -61,8 +61,8 @@ export interface ActivityPlugin {
   component: ComponentType<ActivityProps>;
   supportsCustomTopic: boolean;
   estimatedMinutes: number;
-  // Optional icon for UI
-  icon?: string;
+  // Lucide icon component for UI
+  icon: ComponentType<{ className?: string }>;
 }
 
 // Configuration field for activity-specific settings

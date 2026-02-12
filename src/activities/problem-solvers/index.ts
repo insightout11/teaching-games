@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { ProblemSolversActivity } from './activity';
+import { Users } from 'lucide-react';
 
 export const problemSolversPlugin: ActivityPlugin = {
   key: 'problem-solvers',
@@ -10,7 +11,7 @@ export const problemSolversPlugin: ActivityPlugin = {
   component: ProblemSolversActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 20,
-  icon: '💡',
+  icon: Users,
 };
 
 export { ProblemSolversActivity };

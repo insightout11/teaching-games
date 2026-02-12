@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { FactDetectiveActivity } from './activity';
+import { BookOpen } from 'lucide-react';
 
 export const factDetectivePlugin: ActivityPlugin = {
   key: 'fact-detective',
@@ -10,7 +11,7 @@ export const factDetectivePlugin: ActivityPlugin = {
   component: FactDetectiveActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 12,
-  icon: '🕵️',
+  icon: BookOpen,
 };
 
 export { FactDetectiveActivity };

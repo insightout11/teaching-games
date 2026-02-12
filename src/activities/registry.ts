@@ -1,3 +1,4 @@
+import type { ComponentType } from 'react';
 import type { ActivityPlugin, ActivityCategory } from './types';
 import { wouldYouRatherPlugin } from './would-you-rather';
 import { hotTakeArenaPlugin } from './hot-take-arena';
@@ -8,6 +9,7 @@ import { expertPanelPlugin } from './expert-panel';
 import { scenarioSimulatorPlugin } from './scenario-simulator';
 import { interviewLabPlugin } from './interview-lab';
 import { problemSolversPlugin } from './problem-solvers';
+import { Sparkles, BookOpen, Users, Scale } from 'lucide-react';
 
 // All registered activities
 const activities: ActivityPlugin[] = [
@@ -60,23 +62,36 @@ export function getActivitiesGrouped(): Record<ActivityCategory, ActivityPlugin[
 }
 
 /**
- * Category display names and descriptions
+ * Category display names, descriptions, icons, and colors
  */
-export const CATEGORY_INFO: Record<ActivityCategory, { name: string; description: string }> = {
+export const CATEGORY_INFO: Record<ActivityCategory, {
+  name: string;
+  description: string;
+  icon: ComponentType<{ className?: string }>;
+  color: string;
+}> = {
   icebreaker: {
     name: 'Icebreakers',
     description: 'Warm-up activities to get students talking',
+    icon: Sparkles,
+    color: 'text-amber-400',
   },
   learning: {
     name: 'Learning Modules',
     description: 'Teach new concepts and vocabulary',
+    icon: BookOpen,
+    color: 'text-emerald-400',
   },
   practice: {
     name: 'Practice Activities',
     description: 'Apply skills through discussion and roleplay',
+    icon: Users,
+    color: 'text-sky-400',
   },
   debate: {
     name: 'Debates',
     description: 'Structured argumentation and critical thinking',
+    icon: Scale,
+    color: 'text-rose-400',
   },
 };

@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { ScenarioSimulatorActivity } from './activity';
+import { Users } from 'lucide-react';
 
 export const scenarioSimulatorPlugin: ActivityPlugin = {
   key: 'scenario-simulator',
@@ -10,7 +11,7 @@ export const scenarioSimulatorPlugin: ActivityPlugin = {
   component: ScenarioSimulatorActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 20,
-  icon: '🎭',
+  icon: Users,
 };
 
 export { ScenarioSimulatorActivity };

@@ -3,6 +3,7 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { ActivityPlugin } from '@/activities/types';
+import { CATEGORY_INFO } from '@/activities/registry';
 import type {
   ActivityGeneratedContent,
   ActivityContinueRequest,
@@ -219,7 +220,11 @@ export function ActivityShell({ activity, generatedContent }: ActivityShellProps
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-bold">{activity.name}</h2>
-            {activity.icon && <span className="text-xl">{activity.icon}</span>}
+            {(() => {
+              const catInfo = CATEGORY_INFO[activity.category];
+              const Icon = activity.icon;
+              return <Icon className={`w-5 h-5 ${catInfo.color}`} />;
+            })()}
             <span className="text-xs px-2 py-0.5 bg-white/10 rounded-full opacity-70">
               {activity.category}
             </span>

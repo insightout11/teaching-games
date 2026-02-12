@@ -1,5 +1,6 @@
 import type { ActivityPlugin } from '../types';
 import { ExpertPanelActivity } from './activity';
+import { BookOpen } from 'lucide-react';
 
 export const expertPanelPlugin: ActivityPlugin = {
   key: 'expert-panel',
@@ -10,7 +11,7 @@ export const expertPanelPlugin: ActivityPlugin = {
   component: ExpertPanelActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 15,
-  icon: '👨‍🔬',
+  icon: BookOpen,
 };
 
 export { ExpertPanelActivity };
