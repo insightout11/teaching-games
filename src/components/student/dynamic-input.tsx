@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -182,7 +182,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
 
 // Binary choice (A or B)
 function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
-  const labels = spec.optionLabels || ['A', 'B'];
+  const labels = useMemo(() => spec.optionLabels || ['A', 'B'], [spec.optionLabels]);
   const options = spec.options || labels;
 
   // Send the LABEL (A/B), not the full option text
@@ -353,7 +353,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [correctionText, setCorrectionText] = useState('');
 
-  const words = spec.options || [];
+  const words = useMemo(() => spec.options || [], [spec.options]);
 
   const handleWordTap = (index: number) => {
     if (isSubmitting) return;

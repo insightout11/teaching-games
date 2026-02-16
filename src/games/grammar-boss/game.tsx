@@ -174,6 +174,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
     // Evaluate (reuse shared logic)
     evaluateTurnBased(sentence, studentId, vote.displayName);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Turn-based evaluate

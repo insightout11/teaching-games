@@ -84,7 +84,6 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
   // Register input spec
   useEffect(() => {
     if (status === GameStatus.PLAYING && currentWord) {
-      const currentMember = isTeamMode ? getCurrentTeamMember(activeTeam) : null;
       onSetInputSpec?.({
         type: 'text',
         gameKey: 'word-chain',
@@ -95,7 +94,8 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, currentWord, onSetInputSpec, isTeamMode, activeTeam, teams]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, currentWord, onSetInputSpec, isTeamMode, activeTeam]);
 
   // Evaluate a word submission (shared logic)
   const evaluateWord = useCallback(async (word: string, studentId: string, studentName: string, teamId?: TeamId): Promise<{ valid: boolean; result?: ValidationResult }> => {
