@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
+import { getEffectiveTopic } from '@/stores/session-store';
 import { GrammarTarget, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 
@@ -323,7 +324,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           grammarTarget: selectedTarget,
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty
         })
       });

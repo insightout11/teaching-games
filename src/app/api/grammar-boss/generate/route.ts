@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     });
 
     const prompt = `Generate a short speaking challenge for an English learner at ${difficultyPrompts[difficulty]}
-Topic: ${topic}.
+Topic: ${topic}. The task MUST be directly about this topic — do not use a generic or unrelated scenario.
 Target Grammar: ${grammarTarget}.
 
 Provide:
