@@ -3,8 +3,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
-import { SENTENCES } from './sentences';
-import type { Difficulty } from '@/stores/session-store';
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -19,20 +17,13 @@ function tokenize(sentence: string): string[] {
   return sentence.split(/\s+/).filter(Boolean);
 }
 
-function difficultyToSentence(difficulty: Difficulty): 'easy' | 'medium' | 'hard' {
-  switch (difficulty) {
-    case 'Beginner':
-    case 'Easy':
-      return 'easy';
-    case 'Intermediate':
-      return 'medium';
-    case 'Advanced':
-    case 'Expert':
-      return 'hard';
-    default:
-      return 'medium';
-  }
-}
+const FALLBACK_SENTENCES = [
+  'The children are playing in the garden.',
+  'She always drinks coffee in the morning.',
+  'He usually walks to school every day.',
+  'They watched a movie at the cinema.',
+  'We are going to the beach tomorrow.',
+];
 
 // Scoring for simultaneous mode: position-based
 function getPositionPoints(position: number): number {
@@ -50,9 +41,43 @@ interface RaceSolver {
   position: number;
 }
 
-export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
-  const sentenceDifficulty = difficultyToSentence(sessionSettings.difficulty);
-  const sentences = SENTENCES[sentenceDifficulty] ?? SENTENCES.medium;
+export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, onRegisterSubmissionHandler }: GameProps) {
+  const [sentences, setSentences] = useState<string[]>(FALLBACK_SENTENCES);
+  const [loadingSentences, setLoadingSentences] = useState(true);
+  const fetchedRef = useRef<string>('');
+
+  // Fetch AI-generated sentences on mount / when topic or difficulty changes
+  useEffect(() => {
+    const key = `${sessionSettings.topic}-${sessionSettings.difficulty}`;
+    if (fetchedRef.current === key) return;
+    fetchedRef.current = key;
+
+    let cancelled = false;
+    setLoadingSentences(true);
+
+    fetch('/api/sentence-scramble/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        topic: sessionSettings.topic,
+        difficulty: sessionSettings.difficulty,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!cancelled && Array.isArray(data.sentences) && data.sentences.length > 0) {
+          setSentences(data.sentences);
+        }
+      })
+      .catch(() => {
+        // Keep fallback sentences
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingSentences(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [sessionSettings.topic, sessionSettings.difficulty]);
 
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -216,6 +241,29 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     return () => onRegisterRemoteVoteHandler?.(null);
   }, [isSimultaneous, submitted, availableWords, words, onRegisterRemoteVoteHandler, handleRaceSubmission]);
 
+  // Register submission handler in turn-based mode to properly evaluate word order
+  useEffect(() => {
+    if (isSimultaneous) return;
+
+    onRegisterSubmissionHandler?.({
+      handleSubmission: async (content: string) => {
+        try {
+          const orderedWords: string[] = JSON.parse(content);
+          const isCorrect = orderedWords.join(' ') === words.join(' ');
+          return {
+            isCorrect,
+            points: isCorrect ? 10 : 0,
+            feedback: isCorrect ? 'Correct!' : 'Not quite — wrong order.',
+          };
+        } catch {
+          return { isCorrect: false, points: 0, feedback: 'Invalid submission' };
+        }
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [isSimultaneous, words, onRegisterSubmissionHandler]);
+
   // --- Turn-based handlers (unchanged) ---
   const handleSelectWord = (wordItem: { word: string; originalIndex: number }) => {
     if (submitted) return;
@@ -286,6 +334,16 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   // ============ RENDER ============
 
+  // Loading state
+  if (loadingSentences && sentenceIndex === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 gap-3">
+        <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm text-slate-400">Generating sentences...</p>
+      </div>
+    );
+  }
+
   // --- Simultaneous Race Mode ---
   if (isSimultaneous) {
     return (
@@ -332,10 +390,36 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           </div>
         )}
 
-        {/* Live solver feed */}
-        {(raceActive || raceFinished) && raceSolvers.length > 0 && (
+        {/* Sealed solver feed during race — name + checkmark only */}
+        {raceActive && !raceFinished && raceSolvers.length > 0 && (
           <div className="space-y-2">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Solvers</p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+              {raceSolvers.length} of {students.length} submitted
+            </p>
+            <AnimatePresence>
+              {raceSolvers.map((solver) => (
+                <motion.div
+                  key={solver.studentId}
+                  initial={{ opacity: 0, x: -20, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
+                >
+                  <span className="font-semibold text-white">{solver.displayName}</span>
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                    <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+
+        {/* Revealed solver feed after race — positions + points */}
+        {raceFinished && raceSolvers.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Results</p>
             <AnimatePresence>
               {raceSolvers.map((solver) => (
                 <motion.div
