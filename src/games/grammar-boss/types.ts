@@ -1,17 +1,20 @@
 export enum GrammarTarget {
-  Tense = 'tense',
+  // Tenses
+  PresentSimple = 'present simple',
+  PresentContinuous = 'present continuous',
+  PastSimple = 'past simple',
+  PastContinuous = 'past continuous',
+  PresentPerfect = 'present perfect',
+  PresentPerfectContinuous = 'present perfect continuous',
+  PastPerfect = 'past perfect',
+  FutureWill = 'future (will)',
+  FutureGoingTo = 'future (going to)',
+  FutureContinuous = 'future continuous',
+  // Structures
   Conditional = 'conditional',
-  Passive = 'passive',
+  Passive = 'passive voice',
   RelativeClause = 'relative clause',
-  ReportedSpeech = 'reported speech',
-  AdvancedStructure = 'advanced structure'
-}
-
-export enum FeedbackTone {
-  Coach = 'Professional Coach',
-  Mentor = 'Encouraging Mentor',
-  Examiner = 'Strict Examiner',
-  Peer = 'Friendly Peer'
+  ReportedSpeech = 'reported speech'
 }
 
 export interface Challenge {

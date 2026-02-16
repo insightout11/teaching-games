@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
 import type { Difficulty } from '@/stores/session-store';
-import { GrammarTarget, FeedbackTone } from '@/games/grammar-boss/types';
+import { GrammarTarget } from '@/games/grammar-boss/types';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
@@ -15,12 +15,11 @@ const difficultyPrompts: Record<Difficulty, string> = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { sentence, grammarTarget, task, difficulty, tone } = await request.json() as {
+    const { sentence, grammarTarget, task, difficulty } = await request.json() as {
       sentence: string;
       grammarTarget: GrammarTarget;
       task: string;
       difficulty: Difficulty;
-      tone: FeedbackTone;
     };
 
     if (!process.env.GEMINI_API_KEY) {
@@ -47,7 +46,7 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    const prompt = `Act as a world-class ${tone}.
+    const prompt = `Act as a Friendly Peer.
 Evaluate the following student sentence for grammar accuracy and fluency.
 Level: ${difficultyPrompts[difficulty]}
 Student Sentence: "${sentence}"
@@ -58,7 +57,7 @@ Requirements:
 1. Grammar Score (1-10): Score relative to ${difficulty} level expectations. Focus on whether the target grammar (${grammarTarget}) is used correctly.
 2. Fluency Score (1-10): How natural and idiomatic the student sounds.
 3. Corrected Version: A natural, polished version of the sentence appropriate for ${difficulty} level.
-4. Feedback: Use a ${tone} tone. Keep it motivational and professional (max 3 sentences).`;
+4. Feedback: Use a Friendly Peer tone. Keep it motivational and professional (max 3 sentences).`;
 
     const result = await model.generateContent(prompt);
     const response = result.response;

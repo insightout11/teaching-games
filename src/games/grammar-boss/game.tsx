@@ -3,8 +3,32 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
-import { GrammarTarget, FeedbackTone, GameStatus } from './types';
+import { GrammarTarget, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
+
+const TENSE_TARGETS = [
+  GrammarTarget.PresentSimple,
+  GrammarTarget.PresentContinuous,
+  GrammarTarget.PastSimple,
+  GrammarTarget.PastContinuous,
+  GrammarTarget.PresentPerfect,
+  GrammarTarget.PresentPerfectContinuous,
+  GrammarTarget.PastPerfect,
+  GrammarTarget.FutureWill,
+  GrammarTarget.FutureGoingTo,
+  GrammarTarget.FutureContinuous,
+];
+
+const STRUCTURE_TARGETS = [
+  GrammarTarget.Conditional,
+  GrammarTarget.Passive,
+  GrammarTarget.RelativeClause,
+  GrammarTarget.ReportedSpeech,
+];
+
+function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 interface RaceSolver {
   studentId: string;
@@ -13,14 +37,14 @@ interface RaceSolver {
   grammarScore: number;
   fluencyScore: number;
   avgScore: number;
+  correctedSentence: string;
   feedback: string;
   position: number;
 }
 
 export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
-  const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(GrammarTarget.Tense);
-  const [selectedTone, setSelectedTone] = useState<FeedbackTone>(FeedbackTone.Coach);
+  const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(GrammarTarget.PresentSimple);
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
   const [studentSentence, setStudentSentence] = useState('');
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
@@ -34,14 +58,14 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   const [raceFinished, setRaceFinished] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState<number>(sessionSettings.timerSeconds);
   const [raceActive, setRaceActive] = useState(false);
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const [showingReview, setShowingReview] = useState(false);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
   // Refs
   const currentChallengeRef = useRef<Challenge | null>(null);
   currentChallengeRef.current = currentChallenge;
-  const selectedToneRef = useRef<FeedbackTone>(selectedTone);
-  selectedToneRef.current = selectedTone;
   const statusRef = useRef<GameStatus>(status);
   statusRef.current = status;
   const raceFinishedRef = useRef(false);
@@ -114,7 +138,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           grammarTarget: ch.target,
           task: ch.task,
           difficulty: sessionSettings.difficulty,
-          tone: selectedToneRef.current,
         }),
       });
 
@@ -153,6 +176,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           grammarScore: result.grammarScore,
           fluencyScore: result.fluencyScore,
           avgScore,
+          correctedSentence: result.correctedSentence,
           feedback: result.feedback,
           position,
         }];
@@ -172,7 +196,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     const studentId = vote.studentId || vote.clientId;
     if (!studentId) return;
 
-    // Evaluate (reuse shared logic)
     evaluateTurnBased(sentence, studentId, vote.displayName);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -196,7 +219,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           grammarTarget: ch.target,
           task: ch.task,
           difficulty: sessionSettings.difficulty,
-          tone: selectedToneRef.current,
         }),
       });
 
@@ -255,7 +277,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
               grammarTarget: ch.target,
               task: ch.task,
               difficulty: sessionSettings.difficulty,
-              tone: selectedToneRef.current,
             }),
           });
 
@@ -292,6 +313,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     setRaceSolvers([]);
     setRaceFinished(false);
     setRaceActive(false);
+    setShowingReview(false);
+    setReviewIndex(0);
     setTimeRemaining(sessionSettings.timerSeconds);
 
     try {
@@ -333,6 +356,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     setRaceSolvers([]);
     setRaceFinished(false);
     setRaceActive(false);
+    setShowingReview(false);
+    setReviewIndex(0);
     setTimeRemaining(sessionSettings.timerSeconds);
     setStatus(GameStatus.CHALLENGE_READY);
     if (!isSimultaneous) onPickStudent();
@@ -349,6 +374,22 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     if (score >= 5) return 'from-yellow-500 to-yellow-600';
     return 'from-red-500 to-red-600';
   };
+
+  // Grammar target dropdown with optgroups
+  const renderGrammarTargetSelect = () => (
+    <select
+      value={selectedTarget}
+      onChange={(e) => setSelectedTarget(e.target.value as GrammarTarget)}
+      className="w-full bg-black/40 border border-white/10 text-white rounded-xl px-4 py-3 focus:border-cyan-500 outline-none"
+    >
+      <optgroup label="Tenses">
+        {TENSE_TARGETS.map(t => <option key={t} value={t}>{capitalize(t)}</option>)}
+      </optgroup>
+      <optgroup label="Structures">
+        {STRUCTURE_TARGETS.map(t => <option key={t} value={t}>{capitalize(t)}</option>)}
+      </optgroup>
+    </select>
+  );
 
   // Render challenge card (shared)
   const renderChallengeCard = () => {
@@ -381,8 +422,44 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     );
   };
 
+  // Render evaluation card (shared between turn-based result and race review)
+  const renderEvaluationCard = (solver: { displayName?: string; sentence: string; grammarScore: number; fluencyScore: number; correctedSentence: string; feedback: string }) => (
+    <div className="space-y-4">
+      <div className="glass p-4 rounded-xl border border-white/10">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{solver.displayName ? `${solver.displayName}'s Response` : 'Student Response'}</p>
+        <p className="text-white italic">&quot;{solver.sentence}&quot;</p>
+      </div>
+      <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-bold text-white">AI Evaluation Report</h3>
+          <div className="flex gap-4">
+            <div className="text-center">
+              <p className="text-[10px] font-bold text-slate-400 uppercase">Grammar</p>
+              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${getScoreColor(solver.grammarScore)} flex items-center justify-center text-2xl font-black text-white`}>{solver.grammarScore}</div>
+            </div>
+            <div className="text-center">
+              <p className="text-[10px] font-bold text-slate-400 uppercase">Fluency</p>
+              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${getScoreColor(solver.fluencyScore)} flex items-center justify-center text-2xl font-black text-white`}>{solver.fluencyScore}</div>
+            </div>
+          </div>
+        </div>
+        <div className="mb-6">
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Corrected Version</p>
+          <div className="p-4 bg-slate-900/50 text-slate-100 rounded-xl text-lg font-medium italic border-l-4 border-emerald-500">&quot;{solver.correctedSentence}&quot;</div>
+        </div>
+        <div>
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Feedback</p>
+          <p className="text-lg text-slate-300 leading-relaxed">{solver.feedback}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   // ============ SIMULTANEOUS RACE MODE ============
   if (isSimultaneous) {
+    const sortedSolvers = [...raceSolvers].sort((a, b) => b.avgScore - a.avgScore);
+    const reviewSolver = sortedSolvers[reviewIndex];
+
     return (
       <div className="space-y-6">
         {/* Header */}
@@ -396,19 +473,9 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
             <div className="glass p-6 rounded-2xl border border-white/10 space-y-4">
               <h3 className="text-sm font-bold uppercase tracking-widest opacity-60">Challenge Configuration</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Grammar Target</label>
-                  <select value={selectedTarget} onChange={(e) => setSelectedTarget(e.target.value as GrammarTarget)} className="w-full bg-black/40 border border-white/10 text-white rounded-xl px-4 py-3 focus:border-cyan-500 outline-none">
-                    {Object.values(GrammarTarget).map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Evaluator Tone</label>
-                  <select value={selectedTone} onChange={(e) => setSelectedTone(e.target.value as FeedbackTone)} className="w-full bg-black/40 border border-white/10 text-white rounded-xl px-4 py-3 focus:border-cyan-500 outline-none">
-                    {Object.values(FeedbackTone).map(t => <option key={t} value={t}>{t}</option>)}
-                  </select>
-                </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Grammar Target</label>
+                {renderGrammarTargetSelect()}
               </div>
             </div>
             <button onClick={handleGenerate} className="w-full px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20">
@@ -446,39 +513,26 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
             {renderChallengeCard()}
 
-            {/* Solver feed */}
-            {raceSolvers.length > 0 && (
+            {/* Sealed solver feed — name + checkmark only during race */}
+            {raceActive && !raceFinished && raceSolvers.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Submissions</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                  {raceSolvers.length} of {students.length} submitted
+                </p>
                 <AnimatePresence>
                   {raceSolvers.map(solver => (
                     <motion.div
                       key={solver.studentId}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className={`px-4 py-3 rounded-xl ${
-                        solver.avgScore >= 8 ? 'bg-emerald-500/10 border border-emerald-500/20'
-                          : solver.avgScore >= 5 ? 'bg-yellow-500/10 border border-yellow-500/20'
-                          : 'bg-red-500/10 border border-red-500/20'
-                      }`}
+                      className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-black text-slate-500">#{solver.position}</span>
-                          <span className="font-semibold text-white">{solver.displayName}</span>
-                        </div>
-                        <div className="flex gap-2">
-                          <div className="text-center">
-                            <p className="text-[8px] text-slate-500 uppercase">G</p>
-                            <p className={`text-sm font-bold ${solver.grammarScore >= 5 ? 'text-emerald-400' : 'text-red-400'}`}>{solver.grammarScore}</p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-[8px] text-slate-500 uppercase">F</p>
-                            <p className={`text-sm font-bold ${solver.fluencyScore >= 5 ? 'text-emerald-400' : 'text-red-400'}`}>{solver.fluencyScore}</p>
-                          </div>
-                        </div>
+                      <span className="font-semibold text-white">{solver.displayName}</span>
+                      <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                        <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
                       </div>
-                      <p className="text-sm text-slate-300 italic truncate">&quot;{solver.sentence}&quot;</p>
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -499,8 +553,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           </motion.div>
         )}
 
-        {/* Race finished */}
-        {raceFinished && currentChallenge && (
+        {/* Race finished — review stepper */}
+        {raceFinished && currentChallenge && !showingReview && (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
             <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
               <h3 className="text-2xl font-bold text-white mb-2">CHALLENGE COMPLETE!</h3>
@@ -508,29 +562,58 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
             </div>
 
             {raceSolvers.length > 0 && (
-              <div className="space-y-2">
-                {[...raceSolvers].sort((a, b) => b.avgScore - a.avgScore).map((solver, i) => (
-                  <div key={solver.studentId} className={`px-4 py-3 rounded-xl ${i === 0 ? 'bg-yellow-500/20 border border-yellow-500/30' : 'bg-white/5 border border-white/10'}`}>
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2">
-                        {i === 0 && <span className="text-sm font-black text-yellow-400">BEST</span>}
-                        <span className="font-semibold text-white">{solver.displayName}</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <span className="text-xs text-slate-500">G:{solver.grammarScore}</span>
-                        <span className="text-xs text-slate-500">F:{solver.fluencyScore}</span>
-                        <span className={`font-bold ${solver.avgScore >= 5 ? 'text-emerald-400' : 'text-red-400'}`}>Avg:{solver.avgScore}</span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-slate-300 italic">&quot;{solver.sentence}&quot;</p>
-                  </div>
-                ))}
-              </div>
+              <button
+                onClick={() => { setShowingReview(true); setReviewIndex(0); }}
+                className="w-full py-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl font-game text-lg transition-all text-white border-2 border-white/20 hover:scale-[1.02] active:scale-95"
+              >
+                REVIEW SUBMISSIONS ({sortedSolvers.length})
+              </button>
             )}
 
             <div className="flex gap-3">
               <button onClick={handleGenerate} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10">NEW TASK</button>
               <button onClick={handleSameChallenge} className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30">SAME TASK, AGAIN</button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Post-race review stepper */}
+        {raceFinished && showingReview && reviewSolver && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                Student {reviewIndex + 1} of {sortedSolvers.length}
+              </p>
+              {reviewIndex === 0 && sortedSolvers.length > 0 && (
+                <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-bold uppercase">Best Score</span>
+              )}
+            </div>
+
+            {renderEvaluationCard(reviewSolver)}
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setReviewIndex(Math.max(0, reviewIndex - 1))}
+                disabled={reviewIndex === 0}
+                className="flex-1 py-3 glass rounded-xl font-game text-sm transition-all border border-white/10 disabled:opacity-30"
+              >
+                PREV
+              </button>
+              {reviewIndex < sortedSolvers.length - 1 ? (
+                <button
+                  onClick={() => setReviewIndex(reviewIndex + 1)}
+                  className="flex-1 py-3 bg-indigo-500/20 text-indigo-300 rounded-xl font-game text-sm transition-all border border-indigo-500/30 hover:bg-indigo-500/30"
+                >
+                  NEXT STUDENT
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowingReview(false)}
+                  className="flex-1 py-3 bg-emerald-500/20 text-emerald-300 rounded-xl font-game text-sm transition-all border border-emerald-500/30 hover:bg-emerald-500/30"
+                >
+                  DONE
+                </button>
+              )}
             </div>
           </motion.div>
         )}
@@ -553,19 +636,9 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
           <div className="glass p-6 rounded-2xl border border-white/10 space-y-4">
             <h3 className="text-sm font-bold uppercase tracking-widest opacity-60">Challenge Configuration</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Grammar Target</label>
-                <select value={selectedTarget} onChange={(e) => setSelectedTarget(e.target.value as GrammarTarget)} className="w-full bg-black/40 border border-white/10 text-white rounded-xl px-4 py-3 focus:border-cyan-500 outline-none">
-                  {Object.values(GrammarTarget).map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Evaluator Tone</label>
-                <select value={selectedTone} onChange={(e) => setSelectedTone(e.target.value as FeedbackTone)} className="w-full bg-black/40 border border-white/10 text-white rounded-xl px-4 py-3 focus:border-cyan-500 outline-none">
-                  {Object.values(FeedbackTone).map(t => <option key={t} value={t}>{t}</option>)}
-                </select>
-              </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Grammar Target</label>
+              {renderGrammarTargetSelect()}
             </div>
           </div>
           {!currentStudentId ? (
@@ -599,7 +672,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           </div>
           <div className="flex justify-between items-center">
             <button onClick={handleGenerate} className="text-sm text-slate-400 hover:text-white transition-colors">Skip Question</button>
-            <p className="text-sm text-slate-500">Evaluating as: <span className="text-indigo-400 font-bold">{selectedTone}</span></p>
           </div>
         </motion.div>
       )}
@@ -621,35 +693,14 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
       {status === GameStatus.SHOWING_RESULT && evaluation && (
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-          {studentSentence && (
-            <div className="glass p-4 rounded-xl border border-white/10">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{respondentName ? `${respondentName}'s Response` : 'Student Response'}</p>
-              <p className="text-white italic">&quot;{studentSentence}&quot;</p>
-            </div>
-          )}
-          <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">AI Evaluation Report</h3>
-              <div className="flex gap-4">
-                <div className="text-center">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">Grammar</p>
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${getScoreColor(evaluation.grammarScore)} flex items-center justify-center text-2xl font-black text-white`}>{evaluation.grammarScore}</div>
-                </div>
-                <div className="text-center">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">Fluency</p>
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${getScoreColor(evaluation.fluencyScore)} flex items-center justify-center text-2xl font-black text-white`}>{evaluation.fluencyScore}</div>
-                </div>
-              </div>
-            </div>
-            <div className="mb-6">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Corrected Version</p>
-              <div className="p-4 bg-slate-900/50 text-slate-100 rounded-xl text-lg font-medium italic border-l-4 border-emerald-500">&quot;{evaluation.correctedSentence}&quot;</div>
-            </div>
-            <div>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Coach&apos;s Feedback</p>
-              <p className="text-lg text-slate-300 leading-relaxed">{evaluation.feedback}</p>
-            </div>
-          </div>
+          {renderEvaluationCard({
+            displayName: respondentName || undefined,
+            sentence: studentSentence,
+            grammarScore: evaluation.grammarScore,
+            fluencyScore: evaluation.fluencyScore,
+            correctedSentence: evaluation.correctedSentence,
+            feedback: evaluation.feedback,
+          })}
           <div className="flex gap-3">
             <button onClick={handleGenerate} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10">NEW TASK</button>
             <button onClick={handleSameChallenge} className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30">SAME TASK, NEW STUDENT</button>
