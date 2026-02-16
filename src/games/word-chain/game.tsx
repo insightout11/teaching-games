@@ -36,6 +36,10 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
   activeBonusRef.current = activeBonus;
   const bonusIndexRef = useRef(0);
 
+  // Game timer state
+  const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+
   // Team mode
   const isTeamMode = students.length >= 3;
   const [teams, setTeams] = useState<Record<TeamId, TeamState>>({
@@ -88,6 +92,13 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     return team.members[team.currentMemberIndex % team.members.length];
   };
 
+  // Escalating bonus frequency: bonuses appear more often as chain grows
+  const isBonusPosition = (len: number): boolean => {
+    if (len < 9) return len > 0 && len % 5 === 4;
+    if (len < 19) return len > 0 && len % 4 === 3;
+    return len > 0 && len % 3 === 2;
+  };
+
   // Point decay multiplier based on chain length
   const getPointMultiplier = (chainLength: number): number => {
     if (chainLength < 3) return 1.0;
@@ -104,24 +115,27 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     return { text: '25%', color: 'text-red-400 bg-red-500/20' };
   };
 
-  // Pick a bonus challenge, rotating through types
-  const pickBonus = useCallback((): BonusChallenge => {
+  // Pick a bonus challenge, rotating through types with escalating difficulty
+  const pickBonus = useCallback((chainLength: number): BonusChallenge => {
     const types: BonusChallenge['type'][] = ['topic', 'syllable', 'letter', 'vocabulary'];
     const type = types[bonusIndexRef.current % types.length];
     bonusIndexRef.current++;
+    const hard = chainLength >= 15;
 
     switch (type) {
       case 'topic':
         return { type: 'topic', description: `Word must relate to "${sessionSettings.topic}"` };
       case 'syllable':
-        return { type: 'syllable', description: 'Use a word with 3+ syllables' };
+        return { type: 'syllable', description: hard ? 'Use a word with 4+ syllables' : 'Use a word with 3+ syllables' };
       case 'letter': {
-        const consonants = 'BCDFGHJKLMNPRSTVW';
-        const letter = consonants[Math.floor(Math.random() * consonants.length)];
+        const easy = 'BCDFGHJKLMNPRSTVW';
+        const hardLetters = 'XZQJVK';
+        const pool = hard ? hardLetters : easy;
+        const letter = pool[Math.floor(Math.random() * pool.length)];
         return { type: 'letter', description: `Word must start with "${letter}"`, letter };
       }
       case 'vocabulary':
-        return { type: 'vocabulary', description: 'Use an advanced or uncommon word' };
+        return { type: 'vocabulary', description: hard ? 'Use an academic or specialized word' : 'Use an advanced or uncommon word' };
     }
   }, [sessionSettings.topic]);
 
@@ -137,21 +151,38 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
 
   // Check client-side bonus conditions
   const checkClientBonus = useCallback((word: string, bonus: BonusChallenge): boolean => {
-    if (bonus.type === 'syllable') return countSyllables(word) >= 3;
+    if (bonus.type === 'syllable') {
+      const threshold = bonus.description.includes('4+') ? 4 : 3;
+      return countSyllables(word) >= threshold;
+    }
     if (bonus.type === 'letter') return word.toLowerCase().startsWith((bonus.letter || '').toLowerCase());
     return false; // topic and vocabulary are checked server-side
   }, []);
 
-  // Set bonus when chain reaches the right position
+  // Set bonus when chain reaches the right position (escalating frequency)
   useEffect(() => {
     if (status !== GameStatus.PLAYING) return;
-    // Trigger bonus when next link will be the 5th, 10th, 15th...
-    if (chain.length > 0 && chain.length % 5 === 4) {
-      setActiveBonus(pickBonus());
+    if (isBonusPosition(chain.length)) {
+      setActiveBonus(pickBonus(chain.length));
     } else {
       setActiveBonus(null);
     }
   }, [chain.length, status, pickBonus]);
+
+  // Game timer countdown
+  useEffect(() => {
+    if (status !== GameStatus.PLAYING || timerSeconds === null || timeRemaining <= 0) return;
+    const interval = setInterval(() => {
+      setTimeRemaining(prev => {
+        if (prev <= 1) {
+          setStatus(GameStatus.FINISHED);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [status, timerSeconds, timeRemaining]);
 
   // Register input spec
   useEffect(() => {
@@ -394,6 +425,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     setLosingTeam(null);
     setActiveBonus(null);
     bonusIndexRef.current = 0;
+    if (timerSeconds !== null) setTimeRemaining(timerSeconds);
     if (isTeamMode) {
       setActiveTeam('A');
       setTeams(prev => ({
@@ -479,6 +511,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     setLosingTeam(null);
     setActiveBonus(null);
     bonusIndexRef.current = 0;
+    if (timerSeconds !== null) setTimeRemaining(timerSeconds);
     setStatus(GameStatus.PLAYING);
     if (isTeamMode) {
       setActiveTeam('A');
@@ -605,6 +638,32 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
               })}
             </div>
 
+            {/* Timer Selection */}
+            <div className="glass p-4 rounded-xl border border-white/10">
+              <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-3 text-center">Game Timer</p>
+              <div className="flex gap-2 justify-center flex-wrap">
+                {[
+                  { label: 'No Timer', value: null },
+                  { label: '1 min', value: 60 },
+                  { label: '2 min', value: 120 },
+                  { label: '3 min', value: 180 },
+                  { label: '5 min', value: 300 },
+                ].map(opt => (
+                  <button
+                    key={opt.label}
+                    onClick={() => { setTimerSeconds(opt.value); if (opt.value) setTimeRemaining(opt.value); }}
+                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                      timerSeconds === opt.value
+                        ? 'bg-teal-500 text-white'
+                        : 'bg-white/5 text-slate-400 hover:bg-white/10'
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <button onClick={handleGenerate} className="w-full px-12 py-6 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20">
               START TEAM CHAIN
             </button>
@@ -625,6 +684,15 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
         {/* PLAYING */}
         {status === GameStatus.PLAYING && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+            {/* Game Timer */}
+            {timerSeconds !== null && (
+              <div className={`text-center text-2xl font-mono font-bold ${
+                timeRemaining <= 30 ? 'text-red-400' : timeRemaining <= 60 ? 'text-yellow-400' : 'text-teal-400'
+              }`}>
+                {Math.floor(timeRemaining / 60)}:{String(timeRemaining % 60).padStart(2, '0')}
+              </div>
+            )}
+
             {/* Chain Length + Decay Badge */}
             <div className="flex items-center justify-center gap-2">
               <div className="px-4 py-2 bg-teal-500/20 text-teal-400 rounded-xl text-sm font-bold">
@@ -827,6 +895,32 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
             </p>
           </div>
 
+          {/* Timer Selection */}
+          <div className="glass p-4 rounded-xl border border-white/10">
+            <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-3 text-center">Game Timer</p>
+            <div className="flex gap-2 justify-center flex-wrap">
+              {[
+                { label: 'No Timer', value: null },
+                { label: '1 min', value: 60 },
+                { label: '2 min', value: 120 },
+                { label: '3 min', value: 180 },
+                { label: '5 min', value: 300 },
+              ].map(opt => (
+                <button
+                  key={opt.label}
+                  onClick={() => { setTimerSeconds(opt.value); if (opt.value) setTimeRemaining(opt.value); }}
+                  className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                    timerSeconds === opt.value
+                      ? 'bg-teal-500 text-white'
+                      : 'bg-white/5 text-slate-400 hover:bg-white/10'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {!currentStudentId ? (
             <button
               onClick={onPickStudent}
@@ -873,6 +967,15 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
+          {/* Game Timer */}
+          {timerSeconds !== null && (
+            <div className={`text-center text-2xl font-mono font-bold ${
+              timeRemaining <= 30 ? 'text-red-400' : timeRemaining <= 60 ? 'text-yellow-400' : 'text-teal-400'
+            }`}>
+              {Math.floor(timeRemaining / 60)}:{String(timeRemaining % 60).padStart(2, '0')}
+            </div>
+          )}
+
           {/* Chain Length + Decay Badge */}
           <div className="flex items-center justify-center gap-2">
             <div className="px-4 py-2 bg-teal-500/20 text-teal-400 rounded-xl text-sm font-bold">
