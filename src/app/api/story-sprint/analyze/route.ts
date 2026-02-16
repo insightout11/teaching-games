@@ -28,29 +28,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const properties: Record<string, { type: SchemaType }> = {
+    const baseProperties = {
       grammarScore: { type: SchemaType.INTEGER },
       creativityScore: { type: SchemaType.INTEGER },
       flowScore: { type: SchemaType.INTEGER },
       feedback: { type: SchemaType.STRING },
-    };
+    } as const;
 
-    const required = ['grammarScore', 'creativityScore', 'flowScore', 'feedback'];
-
-    if (topic) {
-      properties.topicRelevanceScore = { type: SchemaType.INTEGER };
-      required.push('topicRelevanceScore');
-    }
+    const baseRequired = ['grammarScore', 'creativityScore', 'flowScore', 'feedback'] as const;
 
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
       generationConfig: {
         responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties,
-          required,
-        }
+        responseSchema: topic
+          ? { type: SchemaType.OBJECT, properties: { ...baseProperties, topicRelevanceScore: { type: SchemaType.INTEGER } }, required: [...baseRequired, 'topicRelevanceScore'] }
+          : { type: SchemaType.OBJECT, properties: { ...baseProperties }, required: [...baseRequired] },
       }
     });
 

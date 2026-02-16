@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const properties: Record<string, { type: SchemaType }> = {
+    const baseProperties = {
       title: { type: SchemaType.STRING },
       overallScore: { type: SchemaType.INTEGER },
       coherenceScore: { type: SchemaType.INTEGER },
@@ -43,27 +43,20 @@ export async function POST(request: NextRequest) {
       bestLineStudentName: { type: SchemaType.STRING },
       bestLineReason: { type: SchemaType.STRING },
       summary: { type: SchemaType.STRING },
-    };
+    } as const;
 
-    const required = [
+    const baseRequired = [
       'title', 'overallScore', 'coherenceScore', 'creativityScore',
       'endingScore', 'bestLineText', 'bestLineStudentName', 'bestLineReason', 'summary',
-    ];
-
-    if (topic) {
-      properties.topicRelevance = { type: SchemaType.INTEGER };
-      required.push('topicRelevance');
-    }
+    ] as const;
 
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
       generationConfig: {
         responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties,
-          required,
-        },
+        responseSchema: topic
+          ? { type: SchemaType.OBJECT, properties: { ...baseProperties, topicRelevance: { type: SchemaType.INTEGER } }, required: [...baseRequired, 'topicRelevance'] }
+          : { type: SchemaType.OBJECT, properties: { ...baseProperties }, required: [...baseRequired] },
       },
     });
 
@@ -73,7 +66,7 @@ export async function POST(request: NextRequest) {
     }).join('\n');
 
     const studentSentences = sentences.filter(s => !s.isStarter);
-    const studentNames = [...new Set(studentSentences.map(s => s.studentName))];
+    const studentNames = Array.from(new Set(studentSentences.map(s => s.studentName)));
 
     const topicInstruction = topic
       ? `\n5. Topic Relevance (1-100) — How well does the overall story relate to the theme: "${topic}"?`
