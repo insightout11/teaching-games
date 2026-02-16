@@ -507,31 +507,27 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
               </div>
             </div>
 
-            {/* Live solver feed */}
+            {/* Live solver feed — sealed during race to prevent copying */}
             {raceSolvers.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Submissions</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                  {raceSolvers.length} of {students.length} submitted
+                </p>
                 <AnimatePresence>
                   {raceSolvers.map(solver => (
                     <motion.div
                       key={solver.studentId}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                        solver.score >= 8
-                          ? 'bg-cyan-500/10 border border-cyan-500/20'
-                          : solver.score >= 5
-                          ? 'bg-yellow-500/10 border border-yellow-500/20'
-                          : 'bg-red-500/10 border border-red-500/20'
-                      }`}
+                      className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-lg font-black text-slate-500">#{solver.position}</span>
                         <span className="font-semibold text-white">{solver.displayName}</span>
-                        <span className="text-sm text-slate-400 italic">&quot;{solver.replacement}&quot;</span>
                       </div>
-                      <div className={`w-10 h-10 rounded-lg ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white`}>
-                        {solver.score}
+                      <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                        <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                        </svg>
                       </div>
                     </motion.div>
                   ))}
