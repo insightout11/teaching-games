@@ -56,4 +56,5 @@ export interface GamePlugin {
   component: ComponentType<GameProps>;
   configSchema: GameConfigField[];
   maxPointsPerTurn: number;
+  defaultTimerSeconds: number;
 }

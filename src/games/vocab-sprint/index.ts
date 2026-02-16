@@ -12,4 +12,5 @@ export const vocabSprintPlugin: GamePlugin = {
   component: VocabSprintGame,
   configSchema: [],
   maxPointsPerTurn: 10,
+  defaultTimerSeconds: 30,
 };

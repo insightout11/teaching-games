@@ -18,9 +18,10 @@ interface GameShellProps {
   game: GamePlugin;
   config: Record<string, unknown>;
   preGeneratedContent?: GameGeneratedContent | null;
+  timerSeconds: number;
 }
 
-export function GameShell({ game, config, preGeneratedContent }: GameShellProps) {
+export function GameShell({ game, config, preGeneratedContent, timerSeconds }: GameShellProps) {
   const {
     sessionId, students, currentStudentId, settings, streaks,
     turnModifier, needsSpin,
@@ -237,7 +238,7 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
                 onScore={handleScore}
                 onPickStudent={handlePickStudent}
                 config={{ ...config, preGeneratedContent }}
-                sessionSettings={settings}
+                sessionSettings={{ ...settings, timerSeconds }}
                 onSetInputSpec={handleSetInputSpec}
                 onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
                 onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}

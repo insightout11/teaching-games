@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { GameShell } from './game-shell';
@@ -84,6 +84,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [students, setStudents] = useState(serverStudents);
   const [lessonPlanLoaded, setLessonPlanLoaded] = useState(false);
   const [isGeneratingContent, setIsGeneratingContent] = useState(false);
+  const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
   const supabase = createClient();
   const games = getAllGames();
   const activities = getAllActivities();
@@ -101,6 +102,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [lessonSlots, setLessonSlots] = useState<LessonSlot[]>([]);
   const [currentSlotIndex, setCurrentSlotIndex] = useState(0);
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
+  const [showSettingsPopover, setShowSettingsPopover] = useState(false);
+  const settingsPopoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const content = getLessonPlanContent();
@@ -289,6 +292,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
   };
 
+  const getTimerForPlugin = useCallback((key: string, defaultTimer: number) => {
+    return timerOverrides[key] ?? defaultTimer;
+  }, [timerOverrides]);
+
+  const handleTimerOverride = useCallback((key: string, seconds: number) => {
+    setTimerOverrides((prev) => ({ ...prev, [key]: seconds }));
+  }, []);
+
   const handleBackToSelection = () => {
     setViewMode('selection');
     setSelectedGame(null);
@@ -297,12 +308,24 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setGameContent(null);
   };
 
+  // Close settings popover on click outside
+  useEffect(() => {
+    if (!showSettingsPopover) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (settingsPopoverRef.current && !settingsPopoverRef.current.contains(e.target as Node)) {
+        setShowSettingsPopover(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showSettingsPopover]);
+
   if (ended) {
     return <EndSessionSummary classId={cls.id} className={cls.name} />;
   }
 
   return (
-    <div className={`min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-${settings.theme} transition-all duration-500`}>
+    <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight">
       <div className="space-y-4">
         {/* Session header */}
         <div className="flex items-center justify-between">
@@ -316,6 +339,26 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </p>
           </div>
           <div className="flex items-center gap-2">
+            {/* Gear icon for settings during gameplay */}
+            {viewMode !== 'selection' && (
+              <div className="relative" ref={settingsPopoverRef}>
+                <button
+                  onClick={() => setShowSettingsPopover(!showSettingsPopover)}
+                  className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                  title="Session settings"
+                >
+                  <svg className="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </button>
+                {showSettingsPopover && (
+                  <div className="absolute right-0 top-full mt-2 z-50 glass rounded-xl p-3 shadow-xl border border-white/10 min-w-[320px]">
+                    <SessionSettingsBar />
+                  </div>
+                )}
+              </div>
+            )}
             <Button
               variant="ghost"
               size="sm"
@@ -330,19 +373,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         </div>
 
-        {/* Session Settings Bar */}
-        <SessionSettingsBar />
-
-        {/* Poll Manager - available on selection screen */}
-        {viewMode === 'selection' && (
-          <div className="max-w-md">
-            <PollManager sessionId={session.id} />
-          </div>
-        )}
-
         {/* Selection / Game / Activity View */}
         {viewMode === 'selection' ? (
           <div className="space-y-8">
+            {/* Settings on selection screen */}
+            <div className="glass p-2 rounded-2xl shadow-lg">
+              <SessionSettingsBar />
+            </div>
             {/* Activities Section */}
             <div>
               <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
@@ -391,7 +428,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                                 </span>
                               ))}
                             </div>
-                            <div className="text-xs opacity-50 mt-2">~{activity.estimatedMinutes} min</div>
+                            <div className="flex items-center justify-between mt-3">
+                              <span className="text-xs opacity-50">~{activity.estimatedMinutes} min</span>
+                              <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                                <svg className="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <select
+                                  value={getTimerForPlugin(activity.key, activity.defaultTimerSeconds)}
+                                  onChange={(e) => handleTimerOverride(activity.key, Number(e.target.value))}
+                                  className="bg-transparent text-xs opacity-70 outline-none cursor-pointer"
+                                >
+                                  {[30, 45, 60, 90, 120, 180].map((s) => (
+                                    <option key={s} value={s}>{s}s</option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
                           </button>
                         );
                       })}
@@ -448,6 +501,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                                   {skill}
                                 </span>
                               ))}
+                            </div>
+                            <div className="flex items-center gap-1.5 mt-3" onClick={(e) => e.stopPropagation()}>
+                              <svg className="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              <select
+                                value={getTimerForPlugin(game.key, game.defaultTimerSeconds)}
+                                onChange={(e) => handleTimerOverride(game.key, Number(e.target.value))}
+                                className="bg-transparent text-xs opacity-70 outline-none cursor-pointer"
+                              >
+                                {[15, 20, 30, 45, 60, 90, 120].map((s) => (
+                                  <option key={s} value={s}>{s}s</option>
+                                ))}
+                              </select>
                             </div>
                           </button>
                         );
@@ -512,7 +579,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </Button>
               )}
             </div>
-            <GameShell game={selectedGame} config={{}} preGeneratedContent={gameContent} />
+            <GameShell game={selectedGame} config={{}} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} />
           </div>
         ) : viewMode === 'activity' && selectedActivity ? (
           <div>
@@ -579,7 +646,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </p>
               </div>
             ) : activityContent ? (
-              <ActivityShell activity={selectedActivity} generatedContent={activityContent} />
+              <ActivityShell activity={selectedActivity} generatedContent={activityContent} timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)} />
             ) : (
               <div className="glass rounded-2xl p-12 text-center">
                 <p className="text-red-400">Failed to load activity content</p>
@@ -591,6 +658,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         ) : null}
       </div>
+
+      {/* Floating Poll Button - always visible */}
+      <PollManager sessionId={session.id} />
     </div>
   );
 }

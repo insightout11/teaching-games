@@ -21,9 +21,10 @@ import { createClient } from '@/lib/supabase/client';
 interface ActivityShellProps {
   activity: ActivityPlugin;
   generatedContent: ActivityGeneratedContent;
+  timerSeconds: number;
 }
 
-export function ActivityShell({ activity, generatedContent }: ActivityShellProps) {
+export function ActivityShell({ activity, generatedContent, timerSeconds }: ActivityShellProps) {
   const { sessionId, students, currentStudentId, settings, setInputSpec, recordScore, addStudent } = useSessionStore();
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
@@ -241,7 +242,7 @@ export function ActivityShell({ activity, generatedContent }: ActivityShellProps
           <ActivityComponent
             students={students}
             currentStudentId={currentStudentId}
-            sessionSettings={settings}
+            sessionSettings={{ ...settings, timerSeconds }}
             generatedContent={generatedContent}
             onContinue={handleContinue}
             onPhaseChange={handlePhaseChange}

@@ -11,6 +11,7 @@ export const twoTruthsPlugin: ActivityPlugin = {
   component: TwoTruthsActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 10,
+  defaultTimerSeconds: 45,
   icon: Sparkles,
 };
 

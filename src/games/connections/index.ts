@@ -12,4 +12,5 @@ export const connectionsPlugin: GamePlugin = {
   component: ConnectionsGame,
   configSchema: [],
   maxPointsPerTurn: 45,  // 10+10+10+10+5 bonus
+  defaultTimerSeconds: 120,
 };

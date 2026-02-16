@@ -11,6 +11,7 @@ export const problemSolversPlugin: ActivityPlugin = {
   component: ProblemSolversActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 20,
+  defaultTimerSeconds: 120,
   icon: Users,
 };
 

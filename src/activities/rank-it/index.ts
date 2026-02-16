@@ -11,6 +11,7 @@ export const rankItPlugin: ActivityPlugin = {
   component: RankItActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 12,
+  defaultTimerSeconds: 60,
   icon: Sparkles,
 };
 

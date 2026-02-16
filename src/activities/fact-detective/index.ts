@@ -11,6 +11,7 @@ export const factDetectivePlugin: ActivityPlugin = {
   component: FactDetectiveActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 12,
+  defaultTimerSeconds: 45,
   icon: BookOpen,
 };
 

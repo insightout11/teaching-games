@@ -6,14 +6,9 @@ import {
   DIFFICULTIES,
   TOPICS,
   TONES,
-  THEMES,
-  TIMERS,
-  TOPIC_THEME_MAP,
   type Difficulty,
   type Topic,
   type Tone,
-  type Theme,
-  type TimerSeconds,
 } from '@/stores/session-store';
 
 export function SessionSettingsBar() {
@@ -29,19 +24,6 @@ export function SessionSettingsBar() {
     }
   };
 
-  const handleThemeChange = (newTheme: Theme) => {
-    setSettings({ theme: newTheme, autoTheme: false });
-  };
-
-  const handleAutoThemeToggle = (checked: boolean) => {
-    if (checked) {
-      // When enabling auto-theme, apply the theme for current topic
-      setSettings({ autoTheme: true, theme: TOPIC_THEME_MAP[settings.topic] });
-    } else {
-      setSettings({ autoTheme: false });
-    }
-  };
-
   const handleCustomTopicToggle = () => {
     if (showCustomTopic) {
       // Clearing custom topic
@@ -53,7 +35,7 @@ export function SessionSettingsBar() {
   };
 
   return (
-    <div className="flex flex-wrap justify-center items-center gap-2 glass p-2 rounded-2xl shadow-lg text-[10px]">
+    <div className="flex flex-wrap items-center gap-2 text-[10px]">
       <div className="flex gap-4 items-center px-2">
         {/* Difficulty */}
         <select
@@ -124,44 +106,7 @@ export function SessionSettingsBar() {
             <option key={t} value={t}>{t}</option>
           ))}
         </select>
-
-        <div className="h-4 w-px bg-white/10" />
-
-        {/* Time */}
-        <select
-          value={settings.timerSeconds}
-          onChange={(e) => setSettings({ timerSeconds: Number(e.target.value) as TimerSeconds })}
-          className="bg-transparent font-bold outline-none cursor-pointer"
-        >
-          {TIMERS.map((time) => (
-            <option key={time} value={time}>{time}s</option>
-          ))}
-        </select>
-
-        <div className="h-4 w-px bg-white/10" />
-
-        {/* Theme */}
-        <select
-          value={settings.theme}
-          onChange={(e) => handleThemeChange(e.target.value as Theme)}
-          className="bg-transparent font-bold outline-none cursor-pointer"
-        >
-          {THEMES.map((t) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
       </div>
-
-      {/* Auto-Theme Toggle */}
-      <label className="flex items-center gap-1.5 cursor-pointer glass px-3 py-1 rounded-full ml-2">
-        <input
-          type="checkbox"
-          checked={settings.autoTheme}
-          onChange={(e) => handleAutoThemeToggle(e.target.checked)}
-          className="w-3.5 h-3.5 accent-cyan-500"
-        />
-        <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Auto-Theme</span>
-      </label>
 
       {/* Custom Topic Indicator */}
       {settings.customTopic && (

@@ -12,4 +12,5 @@ export const grammarBossPlugin: GamePlugin = {
   component: GrammarBossGame,
   configSchema: [],
   maxPointsPerTurn: 10,
+  defaultTimerSeconds: 45,
 };

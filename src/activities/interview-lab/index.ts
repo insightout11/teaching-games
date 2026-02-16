@@ -11,6 +11,7 @@ export const interviewLabPlugin: ActivityPlugin = {
   component: InterviewLabActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 15,
+  defaultTimerSeconds: 90,
   icon: Users,
 };
 

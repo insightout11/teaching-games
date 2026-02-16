@@ -12,4 +12,5 @@ export const synonymShowdownPlugin: GamePlugin = {
   component: SynonymShowdownGame,
   configSchema: [],
   maxPointsPerTurn: 10,
+  defaultTimerSeconds: 30,
 };

@@ -61,6 +61,7 @@ export interface ActivityPlugin {
   component: ComponentType<ActivityProps>;
   supportsCustomTopic: boolean;
   estimatedMinutes: number;
+  defaultTimerSeconds: number;
   // Lucide icon component for UI
   icon: ComponentType<{ className?: string }>;
 }

@@ -11,6 +11,7 @@ export const expertPanelPlugin: ActivityPlugin = {
   component: ExpertPanelActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 15,
+  defaultTimerSeconds: 90,
   icon: BookOpen,
 };
 

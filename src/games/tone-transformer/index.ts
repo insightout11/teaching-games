@@ -12,4 +12,5 @@ export const toneTransformerPlugin: GamePlugin = {
   component: ToneTransformerGame,
   configSchema: [],
   maxPointsPerTurn: 10,
+  defaultTimerSeconds: 30,
 };

@@ -10,42 +10,17 @@ export type GameMode = 'normal' | 'spinner';
 export type Difficulty = 'Beginner' | 'Easy' | 'Intermediate' | 'Advanced' | 'Expert';
 export type Topic = 'General' | 'Action' | 'Business' | 'Academic' | 'Travel' | 'Technology' | 'Literature' | 'Space' | 'Nature' | 'Cooking' | 'Art' | 'Sports' | 'History' | 'Psychology';
 export type Tone = 'Neutral' | 'Casual' | 'Formal' | 'Humorous' | 'Professional' | 'Kid-friendly';
-export type Theme = 'Midnight' | 'Cyberpunk' | 'Sunset' | 'Forest' | 'Ocean' | 'Crimson' | 'Royal';
-export type TimerSeconds = 20 | 30 | 60;
-
-// Topic to theme mapping
-export const TOPIC_THEME_MAP: Record<Topic, Theme> = {
-  'General': 'Midnight',
-  'Business': 'Midnight',
-  'Academic': 'Royal',
-  'Travel': 'Sunset',
-  'Technology': 'Cyberpunk',
-  'Literature': 'Midnight',
-  'Space': 'Midnight',
-  'Nature': 'Forest',
-  'Cooking': 'Sunset',
-  'Art': 'Crimson',
-  'Sports': 'Ocean',
-  'History': 'Royal',
-  'Psychology': 'Crimson',
-  'Action': 'Crimson',
-};
-
 // Option arrays
 export const DIFFICULTIES: Difficulty[] = ['Beginner', 'Easy', 'Intermediate', 'Advanced', 'Expert'];
 export const TOPICS: Topic[] = ['General', 'Action', 'Business', 'Academic', 'Travel', 'Technology', 'Literature', 'Space', 'Nature', 'Cooking', 'Art', 'Sports', 'History', 'Psychology'];
 export const TONES: Tone[] = ['Neutral', 'Casual', 'Formal', 'Humorous', 'Professional', 'Kid-friendly'];
-export const THEMES: Theme[] = ['Midnight', 'Cyberpunk', 'Sunset', 'Forest', 'Ocean', 'Crimson', 'Royal'];
-export const TIMERS: TimerSeconds[] = [20, 30, 60];
 
 export interface SessionSettings {
   difficulty: Difficulty;
   topic: Topic;
   customTopic: string; // Free-text custom topic (overrides topic dropdown when set)
   tone: Tone;
-  timerSeconds: TimerSeconds;
-  theme: Theme;
-  autoTheme: boolean;
+  timerSeconds: number; // Per-game timer, injected by shells (not stored globally)
 }
 
 // Helper to get the effective topic string (custom or dropdown)
@@ -127,8 +102,6 @@ const DEFAULT_SETTINGS: SessionSettings = {
   customTopic: '',
   tone: 'Neutral',
   timerSeconds: 30,
-  theme: 'Midnight',
-  autoTheme: true,
 };
 
 // Weighted random selection for wheel
@@ -260,13 +233,9 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     settings: { ...state.settings, ...newSettings },
   })),
 
-  // Special handler for topic change with auto-theme
-  setTopic: (topic: Topic) => set((state) => {
-    const newTheme = state.settings.autoTheme ? TOPIC_THEME_MAP[topic] : state.settings.theme;
-    return {
-      settings: { ...state.settings, topic, theme: newTheme },
-    };
-  }),
+  setTopic: (topic: Topic) => set((state) => ({
+    settings: { ...state.settings, topic },
+  })),
 
   // Handler for custom topic (clears when topic dropdown is used)
   setCustomTopic: (customTopic: string) => set((state) => ({

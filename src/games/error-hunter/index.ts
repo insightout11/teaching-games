@@ -12,4 +12,5 @@ export const errorHunterPlugin: GamePlugin = {
   component: ErrorHunterGame,
   configSchema: [],
   maxPointsPerTurn: 10,
+  defaultTimerSeconds: 60,
 };

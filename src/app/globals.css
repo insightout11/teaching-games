@@ -35,14 +35,8 @@ body {
   font-family: 'Bungee', cursive;
 }
 
-/* Session theme classes */
+/* Session theme */
 .theme-Midnight { background-color: #0f172a; color: #f8fafc; }
-.theme-Cyberpunk { background: linear-gradient(135deg, #0a1628 0%, #000000 100%); color: #00ffcc; }
-.theme-Sunset { background: linear-gradient(135deg, #4c1d1d 0%, #7c2d12 100%); color: #ffedd5; }
-.theme-Forest { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); color: #d1fae5; }
-.theme-Ocean { background: linear-gradient(135deg, #0c4a6e 0%, #082f49 100%); color: #e0f2fe; }
-.theme-Crimson { background: linear-gradient(135deg, #450a0a 0%, #000000 100%); color: #fca5a5; }
-.theme-Royal { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #e0e7ff; }
 
 /* Glass effect for session overlays */
 .glass {

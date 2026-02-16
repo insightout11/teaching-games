@@ -11,6 +11,7 @@ export const hotTakeArenaPlugin: ActivityPlugin = {
   component: HotTakeArenaActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 15,
+  defaultTimerSeconds: 90,
   icon: Scale,
 };
 

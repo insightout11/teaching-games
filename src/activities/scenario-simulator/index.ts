@@ -11,6 +11,7 @@ export const scenarioSimulatorPlugin: ActivityPlugin = {
   component: ScenarioSimulatorActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 20,
+  defaultTimerSeconds: 90,
   icon: Users,
 };
 

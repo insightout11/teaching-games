@@ -11,6 +11,7 @@ export const wouldYouRatherPlugin: ActivityPlugin = {
   component: WouldYouRatherActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 10,
+  defaultTimerSeconds: 60,
   icon: Sparkles,
 };
 
