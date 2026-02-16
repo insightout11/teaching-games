@@ -253,6 +253,7 @@ export function GameShell({ game, config, preGeneratedContent }: GameShellProps)
             <ApprovalQueue
               sessionId={sessionId}
               onApprove={handleApprovedSubmission}
+              hideContent
             />
           )}
           <TeamTotals />

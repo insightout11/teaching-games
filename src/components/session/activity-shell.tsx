@@ -272,6 +272,7 @@ export function ActivityShell({ activity, generatedContent }: ActivityShellProps
           <ApprovalQueue
             sessionId={sessionId}
             onApprove={handleApprovedSubmission}
+            hideContent
           />
         )}
         <Leaderboard />

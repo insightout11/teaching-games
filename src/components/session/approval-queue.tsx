@@ -8,12 +8,14 @@ import type { StudentSubmission } from '@/lib/supabase/types';
 interface ApprovalQueueProps {
   sessionId: string;
   onApprove: (submission: StudentSubmission) => Promise<void>;
+  hideContent?: boolean;
 }
 
-export function ApprovalQueue({ sessionId, onApprove }: ApprovalQueueProps) {
+export function ApprovalQueue({ sessionId, onApprove, hideContent }: ApprovalQueueProps) {
   const { pending, approve, reject, setError, isLoading } = useApprovalQueue(sessionId);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
 
   const handleApprove = async (submission: StudentSubmission) => {
     setProcessingId(submission.id);
@@ -101,9 +103,18 @@ export function ApprovalQueue({ sessionId, onApprove }: ApprovalQueueProps) {
                     </span>
                   </div>
 
-                  <p className="text-sm text-gray-300 mb-3 break-words">
-                    {submission.content}
-                  </p>
+                  {hideContent && !revealedIds.has(submission.id) ? (
+                    <button
+                      onClick={() => setRevealedIds(prev => new Set(prev).add(submission.id))}
+                      className="text-xs text-gray-500 mb-3 hover:text-gray-300 transition-colors"
+                    >
+                      Answer hidden — click to reveal
+                    </button>
+                  ) : (
+                    <p className="text-sm text-gray-300 mb-3 break-words">
+                      {submission.content}
+                    </p>
+                  )}
 
                   <div className="flex gap-2">
                     <Button
