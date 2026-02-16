@@ -568,7 +568,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
                         key={i}
                         className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getQualityColor(syn.quality)}`}
                       >
-                        {syn.word} ({syn.displayName})
+                        {syn.word} ({syn.displayName}) +{syn.score}
                       </span>
                     ))
                   : validSynonyms.map((syn, i) => (
@@ -576,10 +576,17 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
                         key={i}
                         className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getQualityColor(syn.quality)}`}
                       >
-                        {syn.word}
+                        {syn.word} +{syn.score}
                       </span>
                     ))
                 }
+              </div>
+            )}
+            {(isSimultaneous ? remoteSynonyms.filter(s => s.isValid) : validSynonyms).length > 0 && (
+              <div className="mt-2 flex justify-center gap-4 text-xs text-slate-400">
+                <span className="flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500" /> excellent</span>
+                <span className="flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500" /> good</span>
+                <span className="flex items-center gap-1"><span className="inline-block w-3 h-3 rounded-full bg-gradient-to-r from-slate-400 to-slate-500" /> basic</span>
               </div>
             )}
           </div>
