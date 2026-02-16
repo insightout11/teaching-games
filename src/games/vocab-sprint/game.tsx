@@ -12,6 +12,8 @@ interface RaceSolver {
   replacement: string;
   score: number;
   comment: string;
+  suggestions: string[];
+  isValid: boolean;
   position: number;
 }
 
@@ -34,6 +36,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const isSimultaneous = students.length >= 3;
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
   const [raceFinished, setRaceFinished] = useState(false);
+  const [reviewIndex, setReviewIndex] = useState(-1);
+  const [reviewShowSuggestions, setReviewShowSuggestions] = useState(false);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -141,6 +145,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           replacement,
           score: result.score,
           comment: result.comment,
+          suggestions: result.suggestions || [],
+          isValid: result.isValid ?? (result.score >= 5),
           position,
         }];
       });
@@ -272,6 +278,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     setEvaluation(null);
     setRaceSolvers([]);
     setRaceFinished(false);
+    setReviewIndex(-1);
+    setReviewShowSuggestions(false);
 
     if (sentenceQueue.length > 0) {
       const next = sentenceQueue[0];
@@ -547,47 +555,167 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           </div>
         )}
 
-        {/* FINISHED State — Race results */}
-        {status === GameStatus.FINISHED && currentSentence && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-            <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
-              <h3 className="text-2xl font-bold text-white mb-2">
-                {raceFinished || timeLeft === 0 ? "TIME'S UP!" : 'ROUND COMPLETE!'}
-              </h3>
-              <p className="text-slate-400">{raceSolvers.length} submissions received</p>
-            </div>
+        {/* FINISHED State — Race results with teacher review */}
+        {status === GameStatus.FINISHED && currentSentence && (() => {
+          const sorted = [...raceSolvers].sort((a, b) => b.score - a.score);
+          const currentReview = reviewIndex >= 0 && reviewIndex < sorted.length ? sorted[reviewIndex] : null;
 
-            {/* Best answer highlight */}
-            {raceSolvers.length > 0 && (
-              <div className="space-y-2">
-                {[...raceSolvers].sort((a, b) => b.score - a.score).map((solver, i) => (
-                  <div
-                    key={solver.studentId}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                      i === 0 ? 'bg-yellow-500/20 border border-yellow-500/30' : 'bg-white/5 border border-white/10'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      {i === 0 && <span className="text-lg font-black text-yellow-400">BEST</span>}
-                      <span className="font-semibold text-white">{solver.displayName}</span>
-                      <span className="text-sm text-slate-400 italic">&quot;{solver.replacement}&quot;</span>
+          return (
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
+              {/* Phase A: Overview */}
+              {reviewIndex === -1 && (
+                <>
+                  <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
+                    <h3 className="text-2xl font-bold text-white mb-2">
+                      {raceFinished || timeLeft === 0 ? "TIME'S UP!" : 'ROUND COMPLETE!'}
+                    </h3>
+                    <p className="text-slate-400">{raceSolvers.length} submission{raceSolvers.length !== 1 ? 's' : ''} received</p>
+                  </div>
+
+                  {sorted.length > 0 && (
+                    <div className="space-y-2">
+                      {sorted.map((solver, i) => (
+                        <div
+                          key={solver.studentId}
+                          className={`flex items-center justify-between px-4 py-3 rounded-xl ${
+                            i === 0 ? 'bg-yellow-500/20 border border-yellow-500/30' : 'bg-white/5 border border-white/10'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            {i === 0 && <span className="text-lg font-black text-yellow-400">BEST</span>}
+                            <span className="font-semibold text-white">{solver.displayName}</span>
+                            <span className="text-sm text-slate-400 italic">&quot;{solver.replacement}&quot;</span>
+                          </div>
+                          <div className={`w-10 h-10 rounded-lg ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white`}>
+                            {solver.score}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div className={`w-10 h-10 rounded-lg ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white`}>
-                      {solver.score}
+                  )}
+
+                  <div className="flex gap-3">
+                    {sorted.length > 0 && (
+                      <button
+                        onClick={() => { setReviewIndex(0); setReviewShowSuggestions(false); }}
+                        className="flex-1 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                      >
+                        REVIEW ANSWERS
+                      </button>
+                    )}
+                    <button
+                      onClick={startSprint}
+                      className="flex-1 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                    >
+                      NEXT SENTENCE
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {/* Phase B: Step-through review */}
+              {reviewIndex >= 0 && currentReview && (
+                <>
+                  <div className="text-center">
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400">
+                      Reviewing {reviewIndex + 1} of {sorted.length}
+                    </p>
+                    <div className="flex justify-center gap-1 mt-2">
+                      {sorted.map((_, i) => (
+                        <div key={i} className={`w-2 h-2 rounded-full transition-all ${
+                          i < reviewIndex ? 'bg-emerald-500' : i === reviewIndex ? 'bg-cyan-400 scale-125' : 'bg-white/20'
+                        }`} />
+                      ))}
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
 
-            <button
-              onClick={startSprint}
-              className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-            >
-              NEXT SENTENCE
-            </button>
-          </motion.div>
-        )}
+                  <div className="glass p-6 rounded-[2rem] border-2 border-white/10 shadow-xl flex flex-col items-center gap-4">
+                    <div className="flex items-center gap-6 w-full">
+                      <div className={`w-24 h-24 flex flex-col items-center justify-center rounded-2xl font-game shadow-lg shrink-0 ${getScoreColor(currentReview.score)}`}>
+                        <span className="text-[10px] -mb-1 opacity-60">SCORE</span>
+                        <span className="text-4xl font-black">{currentReview.score}</span>
+                      </div>
+                      <div className="text-left flex-grow">
+                        <p className="text-sm font-bold text-slate-400 mb-1">{currentReview.displayName}</p>
+                        <p className="text-3xl font-black leading-none mb-2 tracking-tight">
+                          {currentReview.replacement.toUpperCase()}
+                        </p>
+                        <div className="text-sm italic font-bold text-cyan-300 bg-black/30 p-3 rounded-lg">
+                          &quot;{currentReview.comment}&quot;
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Suggestions */}
+                    {currentReview.suggestions.length > 0 && (
+                      <div className="w-full bg-white/5 p-4 rounded-xl border border-white/5">
+                        {!reviewShowSuggestions ? (
+                          <button
+                            onClick={() => setReviewShowSuggestions(true)}
+                            className="w-full py-2 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 font-game text-xs rounded-lg transition-all border border-yellow-500/20"
+                          >
+                            REVEAL PRO UPGRADES
+                          </button>
+                        ) : (
+                          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+                            <p className="text-center text-[8px] font-black uppercase tracking-widest opacity-40 mb-3">
+                              Elite Level Suggestions
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-2">
+                              {currentReview.suggestions.map((w, i) => (
+                                <span key={i} className="px-3 py-1 bg-black/50 text-white rounded-md text-sm font-bold border border-white/5">
+                                  {w}
+                                </span>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Navigation */}
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => { setReviewIndex(-1); setReviewShowSuggestions(false); }}
+                      className="py-3 px-4 glass hover:bg-white/10 rounded-xl font-game text-xs transition-all border border-white/10"
+                    >
+                      BACK
+                    </button>
+                    {reviewIndex < sorted.length - 1 ? (
+                      <button
+                        onClick={() => { setReviewIndex(reviewIndex + 1); setReviewShowSuggestions(false); }}
+                        className="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                      >
+                        NEXT STUDENT
+                      </button>
+                    ) : (
+                      <button
+                        onClick={startSprint}
+                        className="flex-1 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                      >
+                        NEXT SENTENCE
+                      </button>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {/* Phase B: End of review (no more students) */}
+              {reviewIndex >= 0 && !currentReview && (
+                <div className="text-center space-y-4">
+                  <p className="text-lg font-bold text-emerald-400">All answers reviewed!</p>
+                  <button
+                    onClick={startSprint}
+                    className="w-full py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                  >
+                    NEXT SENTENCE
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          );
+        })()}
       </div>
     );
   }
