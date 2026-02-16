@@ -1,25 +1,35 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
-import type { StorySentence, AIScoreResponse } from './types';
+import type { StorySentence, AIScoreResponse, FinalStoryResult } from './types';
+
+const MAX_SENTENCES = 10;
 
 export function StorySprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [story, setStory] = useState<StorySentence[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [lastResult, setLastResult] = useState<StorySentence | null>(null);
+  const [starter, setStarter] = useState<string | null>(null);
+  const [finalResult, setFinalResult] = useState<FinalStoryResult | null>(null);
   const storyEndRef = useRef<HTMLDivElement>(null);
 
+  const topic = sessionSettings.topic || '';
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Count only student-written sentences (exclude starter)
+  const studentSentenceCount = story.filter(s => !s.isStarter).length;
 
   // Keep refs for the submission handler
   const storyRef = useRef<StorySentence[]>(story);
   storyRef.current = story;
   const currentStudentIdRef = useRef<string | null>(currentStudentId);
   currentStudentIdRef.current = currentStudentId;
+  const topicRef = useRef(topic);
+  topicRef.current = topic;
 
   useEffect(() => {
     storyEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -28,23 +38,64 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
   // Register input spec for student controller
   useEffect(() => {
     if (status === GameStatus.WRITING) {
+      const prompt = topic
+        ? (story.length === 0 ? `Start a story about ${topic} with one sentence` : `Continue the story about ${topic} with one sentence`)
+        : (story.length === 0 ? 'Start the story with one sentence' : 'Continue the story with one sentence');
+
       onSetInputSpec?.({
         type: 'textarea',
         gameKey: 'story-sprint',
-        prompt: story.length === 0 ? 'Start the story with one sentence' : 'Continue the story with one sentence',
+        prompt,
         placeholder: 'Continue the story with one sentence...',
         maxLength: 300,
       });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, story.length, onSetInputSpec]);
+  }, [status, story.length, topic, onSetInputSpec]);
+
+  // --- End Story logic ---
+  const handleEndStory = useCallback(async (storySoFar: StorySentence[]) => {
+    const studentSentences = storySoFar.filter(s => !s.isStarter);
+    if (studentSentences.length < 2) return;
+
+    setStatus(GameStatus.ENDING);
+    try {
+      const response = await fetch('/api/story-sprint/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sentences: storySoFar.map(s => ({
+            text: s.text,
+            studentName: s.studentName,
+            isStarter: s.isStarter,
+          })),
+          topic: topicRef.current || undefined,
+          difficulty: sessionSettings.difficulty,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Evaluation failed');
+      const result: FinalStoryResult = await response.json();
+      setFinalResult(result);
+      setStatus(GameStatus.FINAL_RESULTS);
+    } catch (error) {
+      console.error('Failed to evaluate story:', error);
+      setStatus(GameStatus.IDLE);
+    }
+  }, [sessionSettings.difficulty]);
+
+  // Ref for handleEndStory so submission handler can access it
+  const handleEndStoryRef = useRef(handleEndStory);
+  handleEndStoryRef.current = handleEndStory;
 
   // Register submission handler to evaluate remote submissions
   useEffect(() => {
     onRegisterSubmissionHandler?.({
       handleSubmission: async (content: string) => {
-        const storySoFar = storyRef.current.map((s) => s.text).join(' ');
+        const currentStory = storyRef.current;
+        const storySoFar = currentStory.map((s) => s.text).join(' ');
+        const currentTopic = topicRef.current;
 
         try {
           const response = await fetch('/api/story-sprint/analyze', {
@@ -54,13 +105,18 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
               sentence: content.trim(),
               context: storySoFar,
               difficulty: sessionSettings.difficulty,
+              topic: currentTopic || undefined,
             }),
           });
 
           if (!response.ok) throw new Error('Analysis failed');
 
           const analysis: AIScoreResponse = await response.json();
-          const totalScore = Math.round((analysis.grammarScore + analysis.creativityScore + analysis.flowScore) / 3);
+          const scores = [analysis.grammarScore, analysis.creativityScore, analysis.flowScore];
+          if (currentTopic && analysis.topicRelevanceScore !== undefined) {
+            scores.push(analysis.topicRelevanceScore);
+          }
+          const totalScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
           const points = Math.round(totalScore / 10);
 
           const newSentence: StorySentence = {
@@ -72,6 +128,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
               grammar: analysis.grammarScore,
               creativity: analysis.creativityScore,
               flow: analysis.flowScore,
+              topicRelevance: analysis.topicRelevanceScore,
             },
             totalScore,
             feedback: analysis.feedback,
@@ -79,9 +136,17 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
           };
 
           setInputValue(content.trim());
-          setStory((prev) => [...prev, newSentence]);
+          const updatedStory = [...currentStory, newSentence];
+          setStory(updatedStory);
           setLastResult(newSentence);
           setStatus(GameStatus.SHOWING_RESULT);
+
+          // Check if we hit the limit
+          const newStudentCount = updatedStory.filter(s => !s.isStarter).length;
+          if (newStudentCount >= MAX_SENTENCES) {
+            // Auto-end after showing result
+            setTimeout(() => handleEndStoryRef.current(updatedStory), 2000);
+          }
 
           return {
             isCorrect: true,
@@ -97,6 +162,52 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
     return () => onRegisterSubmissionHandler?.(null);
   }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
+  // --- Generate Starter ---
+  const handleGenerateStarter = async () => {
+    setStatus(GameStatus.GENERATING_STARTER);
+    try {
+      const response = await fetch('/api/story-sprint/starter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          topic,
+          difficulty: sessionSettings.difficulty,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to generate starter');
+      const data = await response.json();
+      setStarter(data.starterSentence);
+    } catch (error) {
+      console.error('Failed to generate starter:', error);
+      setStatus(GameStatus.IDLE);
+    }
+  };
+
+  const handleAcceptStarter = () => {
+    if (!starter) return;
+    const starterSentence: StorySentence = {
+      id: `starter-${Date.now()}`,
+      studentId: '',
+      studentName: '',
+      text: starter,
+      scores: { grammar: 0, creativity: 0, flow: 0 },
+      totalScore: 0,
+      feedback: '',
+      timestamp: Date.now(),
+      isStarter: true,
+    };
+    setStory([starterSentence]);
+    setStarter(null);
+    setStatus(GameStatus.IDLE);
+  };
+
+  const handleSkipStarter = () => {
+    setStarter(null);
+    setStatus(GameStatus.IDLE);
+  };
+
+  // --- Submit Sentence ---
   const handleSubmitSentence = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || status === GameStatus.ANALYZING || !currentStudentId || !currentStudent) return;
@@ -112,14 +223,19 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
         body: JSON.stringify({
           sentence: trimmedInput,
           context: storySoFar,
-          difficulty: sessionSettings.difficulty
+          difficulty: sessionSettings.difficulty,
+          topic: topic || undefined,
         })
       });
 
       if (!response.ok) throw new Error('Failed to analyze sentence');
 
       const analysis: AIScoreResponse = await response.json();
-      const totalScore = Math.round((analysis.grammarScore + analysis.creativityScore + analysis.flowScore) / 3);
+      const scores = [analysis.grammarScore, analysis.creativityScore, analysis.flowScore];
+      if (topic && analysis.topicRelevanceScore !== undefined) {
+        scores.push(analysis.topicRelevanceScore);
+      }
+      const totalScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
 
       const newSentence: StorySentence = {
         id: Date.now().toString(),
@@ -130,13 +246,13 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
           grammar: analysis.grammarScore,
           creativity: analysis.creativityScore,
           flow: analysis.flowScore,
+          topicRelevance: analysis.topicRelevanceScore,
         },
         totalScore,
         feedback: analysis.feedback,
         timestamp: Date.now(),
       };
 
-      // Calculate points (convert 100-scale to 10-scale)
       const points = Math.round(totalScore / 10);
       const isCorrect = points >= 5;
 
@@ -148,14 +264,22 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
           grammar: analysis.grammarScore,
           creativity: analysis.creativityScore,
           flow: analysis.flowScore,
+          topicRelevance: analysis.topicRelevanceScore,
           feedback: analysis.feedback
         }
       });
 
-      setStory(prev => [...prev, newSentence]);
+      const updatedStory = [...story, newSentence];
+      setStory(updatedStory);
       setLastResult(newSentence);
       setInputValue('');
       setStatus(GameStatus.SHOWING_RESULT);
+
+      // Check if we hit the limit
+      const newStudentCount = updatedStory.filter(s => !s.isStarter).length;
+      if (newStudentCount >= MAX_SENTENCES) {
+        setTimeout(() => handleEndStory(updatedStory), 2000);
+      }
 
     } catch (error) {
       console.error('Failed to analyze sentence:', error);
@@ -165,17 +289,20 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
 
   const handleCloseModal = () => {
     setLastResult(null);
-    setStatus(GameStatus.IDLE);
-    onPickStudent();
+    // If we already transitioned to ENDING (auto-end triggered), don't override
+    if (status === GameStatus.SHOWING_RESULT) {
+      setStatus(GameStatus.IDLE);
+      onPickStudent();
+    }
   };
 
   const handleReset = () => {
-    if (confirm('Reset the story and start fresh?')) {
-      setStory([]);
-      setInputValue('');
-      setLastResult(null);
-      setStatus(GameStatus.IDLE);
-    }
+    setStory([]);
+    setInputValue('');
+    setLastResult(null);
+    setStarter(null);
+    setFinalResult(null);
+    setStatus(GameStatus.IDLE);
   };
 
   const handleStartWriting = () => {
@@ -183,28 +310,67 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
       onPickStudent();
       return;
     }
+    // If no story yet and topic exists, generate a starter first
+    if (story.length === 0 && topic) {
+      handleGenerateStarter();
+      return;
+    }
     setStatus(GameStatus.WRITING);
   };
+
+  // --- Score Bar Component ---
+  const ScoreBar = ({ label, value, delay, color }: { label: string; value: number; delay: number; color: string }) => (
+    <div className="flex items-center justify-between">
+      <span className="text-slate-400 font-medium">{label}</span>
+      <div className="flex items-center gap-3 w-2/3">
+        <div className="h-2 flex-1 bg-slate-700 rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${value}%` }}
+            transition={{ duration: 1, delay }}
+            className={`h-full ${color}`}
+          />
+        </div>
+        <span className="text-sm font-bold w-8 text-right">{value}</span>
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          {currentStudent && (
+          {currentStudent && status !== GameStatus.GENERATING_STARTER && status !== GameStatus.ENDING && status !== GameStatus.FINAL_RESULTS && (
             <p className="text-lg font-semibold text-cyan-400">
               {currentStudent.name}&apos;s turn
             </p>
           )}
-          {!currentStudentId && (
+          {!currentStudentId && status === GameStatus.IDLE && (
             <p className="opacity-70 text-sm">Pick a student to continue the story</p>
+          )}
+          {status === GameStatus.GENERATING_STARTER && (
+            <p className="text-lg font-semibold text-amber-400">Generating story starter...</p>
+          )}
+          {status === GameStatus.ENDING && (
+            <p className="text-lg font-semibold text-purple-400">AI is evaluating the story...</p>
           )}
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-xs opacity-40">
-            {story.length} sentence{story.length !== 1 ? 's' : ''} written
-          </span>
           {story.length > 0 && (
+            <span className="text-sm font-mono font-bold text-slate-400">
+              {studentSentenceCount}/{MAX_SENTENCES}
+            </span>
+          )}
+          {studentSentenceCount >= 2 && status !== GameStatus.ENDING && status !== GameStatus.FINAL_RESULTS && (
+            <button
+              onClick={() => handleEndStory(story)}
+              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl text-sm font-bold text-white hover:scale-105 active:scale-95 transition-all shadow-lg"
+            >
+              End Story
+            </button>
+          )}
+          {story.length > 0 && status !== GameStatus.FINAL_RESULTS && (
             <button
               onClick={handleReset}
               className="text-xs text-red-400 hover:text-red-300 transition-colors"
@@ -235,11 +401,13 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx === story.length - 1 ? 0.2 : 0 }}
-                  title={`${s.studentName}: ${s.totalScore}%`}
+                  title={s.isStarter ? 'AI Starter' : `${s.studentName}: ${s.totalScore}%`}
                   className={`text-xl md:text-2xl leading-relaxed cursor-help hover:scale-105 transition-transform inline ${
-                    idx === story.length - 1
-                      ? 'font-semibold text-white'
-                      : 'text-slate-400'
+                    s.isStarter
+                      ? 'italic text-slate-500'
+                      : idx === story.length - 1
+                        ? 'font-semibold text-white'
+                        : 'text-slate-400'
                   }`}
                 >
                   {s.text}
@@ -250,6 +418,45 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
           </div>
         )}
       </div>
+
+      {/* Generating Starter State */}
+      {status === GameStatus.GENERATING_STARTER && !starter && (
+        <div className="flex justify-center py-8">
+          <div className="w-8 h-8 border-3 border-amber-400 border-t-transparent rounded-full animate-spin" />
+        </div>
+      )}
+
+      {/* Starter Preview */}
+      {status === GameStatus.GENERATING_STARTER && starter && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="glass rounded-2xl p-6 border border-amber-500/30"
+        >
+          <div className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3">AI Story Starter</div>
+          <p className="text-xl italic text-slate-200 mb-6">&quot;{starter}&quot;</p>
+          <div className="flex gap-3">
+            <button
+              onClick={handleAcceptStarter}
+              className="flex-1 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-bold text-white hover:scale-[1.02] active:scale-95 transition-all"
+            >
+              Use This Starter
+            </button>
+            <button
+              onClick={handleGenerateStarter}
+              className="px-6 py-3 bg-slate-700 rounded-xl font-bold text-slate-300 hover:bg-slate-600 transition-colors"
+            >
+              Generate Another
+            </button>
+            <button
+              onClick={handleSkipStarter}
+              className="px-6 py-3 bg-transparent rounded-xl font-bold text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              Skip
+            </button>
+          </div>
+        </motion.div>
+      )}
 
       {/* IDLE State */}
       {status === GameStatus.IDLE && (
@@ -274,6 +481,14 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
             </button>
           )}
         </motion.div>
+      )}
+
+      {/* Ending spinner */}
+      {status === GameStatus.ENDING && (
+        <div className="flex flex-col items-center justify-center py-12 gap-4">
+          <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin" />
+          <p className="text-slate-400 font-medium">The AI is reading the whole story...</p>
+        </div>
       )}
 
       {/* WRITING State */}
@@ -320,7 +535,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
               ) : (
                 <>
                   <span>Go</span>
-                  <span>→</span>
+                  <span>&rarr;</span>
                 </>
               )}
             </button>
@@ -328,7 +543,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
         </motion.div>
       )}
 
-      {/* Score Modal */}
+      {/* Per-Sentence Score Modal */}
       <AnimatePresence>
         {status === GameStatus.SHOWING_RESULT && lastResult && (
           <motion.div
@@ -357,48 +572,12 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
 
               {/* Score Bars */}
               <div className="space-y-4 mb-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400 font-medium">Grammar</span>
-                  <div className="flex items-center gap-3 w-2/3">
-                    <div className="h-2 flex-1 bg-slate-700 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${lastResult.scores.grammar}%` }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        className="h-full bg-emerald-400"
-                      />
-                    </div>
-                    <span className="text-sm font-bold w-8 text-right">{lastResult.scores.grammar}</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400 font-medium">Creativity</span>
-                  <div className="flex items-center gap-3 w-2/3">
-                    <div className="h-2 flex-1 bg-slate-700 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${lastResult.scores.creativity}%` }}
-                        transition={{ duration: 1, delay: 0.4 }}
-                        className="h-full bg-lc-blue"
-                      />
-                    </div>
-                    <span className="text-sm font-bold w-8 text-right">{lastResult.scores.creativity}</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400 font-medium">Flow</span>
-                  <div className="flex items-center gap-3 w-2/3">
-                    <div className="h-2 flex-1 bg-slate-700 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${lastResult.scores.flow}%` }}
-                        transition={{ duration: 1, delay: 0.6 }}
-                        className="h-full bg-sky-400"
-                      />
-                    </div>
-                    <span className="text-sm font-bold w-8 text-right">{lastResult.scores.flow}</span>
-                  </div>
-                </div>
+                <ScoreBar label="Grammar" value={lastResult.scores.grammar} delay={0.2} color="bg-emerald-400" />
+                <ScoreBar label="Creativity" value={lastResult.scores.creativity} delay={0.4} color="bg-lc-blue" />
+                <ScoreBar label="Flow" value={lastResult.scores.flow} delay={0.6} color="bg-sky-400" />
+                {lastResult.scores.topicRelevance !== undefined && (
+                  <ScoreBar label="Topic" value={lastResult.scores.topicRelevance} delay={0.8} color="bg-amber-400" />
+                )}
               </div>
 
               {/* Feedback */}
@@ -415,6 +594,87 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
                 className="w-full py-4 rounded-xl bg-white text-slate-900 font-bold hover:bg-slate-100 transition-colors"
               >
                 Keep Storytelling
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Final Results Screen */}
+      <AnimatePresence>
+        {status === GameStatus.FINAL_RESULTS && finalResult && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="glass rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 shadow-2xl border border-white/20"
+            >
+              {/* Title Banner */}
+              <div className="text-center mb-8">
+                <div className="text-5xl mb-4">📖</div>
+                <h2 className="text-3xl font-bold text-white mb-1">&quot;{finalResult.title}&quot;</h2>
+                <div className="inline-block mt-2 px-4 py-1 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-sm font-bold">
+                  Overall Score: {finalResult.overallScore}/100
+                </div>
+              </div>
+
+              {/* Full Story */}
+              <div className="bg-black/30 rounded-2xl p-6 mb-8 border border-white/5 max-h-[200px] overflow-y-auto">
+                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                  {story.map((s) => (
+                    <span
+                      key={s.id}
+                      className={`text-lg leading-relaxed inline ${
+                        s.isStarter ? 'italic text-slate-500' : 'text-slate-300'
+                      }`}
+                    >
+                      {s.text}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Score Bars */}
+              <div className="space-y-4 mb-8">
+                <ScoreBar label="Coherence" value={finalResult.coherenceScore} delay={0.2} color="bg-emerald-400" />
+                <ScoreBar label="Creativity" value={finalResult.creativityScore} delay={0.4} color="bg-lc-blue" />
+                <ScoreBar label="Ending" value={finalResult.endingScore} delay={0.6} color="bg-sky-400" />
+                {finalResult.topicRelevance !== undefined && (
+                  <ScoreBar label="Topic" value={finalResult.topicRelevance} delay={0.8} color="bg-amber-400" />
+                )}
+              </div>
+
+              {/* Best Line Award */}
+              {finalResult.bestLine && (
+                <div className="bg-amber-500/10 rounded-2xl p-5 border border-amber-500/30 mb-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">🏆</span>
+                    <span className="text-amber-400 text-xs font-bold uppercase tracking-wider">Best Line Award</span>
+                  </div>
+                  <p className="text-lg text-white italic mb-2">&quot;{finalResult.bestLine.text}&quot;</p>
+                  <p className="text-sm text-amber-300">
+                    <span className="font-bold">{finalResult.bestLine.studentName}</span> — {finalResult.bestLine.reason}
+                  </p>
+                </div>
+              )}
+
+              {/* Summary */}
+              <div className="bg-indigo-500/10 rounded-2xl p-5 border border-indigo-500/30 mb-8 text-center">
+                <p className="text-indigo-200 font-medium italic">&quot;{finalResult.summary}&quot;</p>
+              </div>
+
+              {/* Actions */}
+              <button
+                onClick={handleReset}
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-lg"
+              >
+                New Story
               </button>
             </motion.div>
           </motion.div>

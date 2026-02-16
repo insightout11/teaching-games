@@ -14,10 +14,11 @@ const difficultyPrompts: Record<Difficulty, string> = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { sentence, context, difficulty } = await request.json() as {
+    const { sentence, context, difficulty, topic } = await request.json() as {
       sentence: string;
       context: string;
       difficulty: Difficulty;
+      topic?: string;
     };
 
     if (!process.env.GEMINI_API_KEY) {
@@ -27,34 +28,48 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const properties: Record<string, { type: SchemaType }> = {
+      grammarScore: { type: SchemaType.INTEGER },
+      creativityScore: { type: SchemaType.INTEGER },
+      flowScore: { type: SchemaType.INTEGER },
+      feedback: { type: SchemaType.STRING },
+    };
+
+    const required = ['grammarScore', 'creativityScore', 'flowScore', 'feedback'];
+
+    if (topic) {
+      properties.topicRelevanceScore = { type: SchemaType.INTEGER };
+      required.push('topicRelevanceScore');
+    }
+
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
       generationConfig: {
         responseMimeType: 'application/json',
         responseSchema: {
           type: SchemaType.OBJECT,
-          properties: {
-            grammarScore: { type: SchemaType.INTEGER },
-            creativityScore: { type: SchemaType.INTEGER },
-            flowScore: { type: SchemaType.INTEGER },
-            feedback: { type: SchemaType.STRING }
-          },
-          required: ['grammarScore', 'creativityScore', 'flowScore', 'feedback']
+          properties,
+          required,
         }
       }
     });
 
+    const topicInstruction = topic
+      ? `\n4. Topic Relevance (1-100) — How well does this sentence relate to the theme: "${topic}"?`
+      : '';
+
     const prompt = `You are an expert creative writing teacher evaluating a collaborative story.
 Student Level: ${difficultyPrompts[difficulty]}
+${topic ? `Story Topic: "${topic}"` : ''}
 
 Story so far: "${context || 'This is the first sentence of a new story.'}"
 
 New sentence to evaluate: "${sentence}"
 
-Score the sentence from 1 to 100 on three metrics:
+Score the sentence from 1 to 100 on these metrics:
 1. Grammar (syntax, spelling, punctuation) - Score based on ${difficulty} level expectations
 2. Creativity (originality, vivid imagery, word choice) - How imaginative and engaging is the sentence?
-3. Flow (how well it transitions from the story context) - Does it continue the narrative naturally?
+3. Flow (how well it transitions from the story context) - Does it continue the narrative naturally?${topicInstruction}
 
 Provide a constructive, encouraging feedback comment (max 20 words) that helps the student improve while celebrating what they did well.`;
 
