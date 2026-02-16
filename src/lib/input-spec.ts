@@ -19,6 +19,10 @@ export interface InputSpec {
   selectCount?: number;      // For multi-select (e.g., 4 for connections)
   placeholder?: string;      // Input placeholder text
   optionLabels?: string[];   // Labels for binary choice (e.g., ["Option A", "Option B"])
+  hint?: {
+    title?: string;
+    content: string | { rule?: string; example?: string; mistakes?: string[] };
+  };
 }
 
 // Submission handler result from games

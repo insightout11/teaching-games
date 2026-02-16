@@ -6,6 +6,7 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { getEffectiveTopic } from '@/stores/session-store';
 import { GrammarTarget, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
+import { GRAMMAR_RULES } from './grammar-rules';
 
 const TENSE_TARGETS = [
   GrammarTarget.PresentSimple,
@@ -50,6 +51,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   const [studentSentence, setStudentSentence] = useState('');
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
   const [showExample, setShowExample] = useState(false);
+  const [showRule, setShowRule] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [respondentName, setRespondentName] = useState<string | null>(null);
 
@@ -76,24 +78,28 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   useEffect(() => {
     if (isSimultaneous) {
       if (raceActive && !raceFinished && currentChallenge) {
+        const rule = GRAMMAR_RULES[currentChallenge.target];
         onSetInputSpec?.({
           type: 'textarea',
           gameKey: 'grammar-boss',
           prompt: currentChallenge.task,
           placeholder: 'Type your sentence...',
           maxLength: 500,
+          hint: rule ? { title: `Grammar: ${currentChallenge.target}`, content: { rule: rule.rule, example: rule.example, mistakes: rule.mistakes } } : undefined,
         });
       } else {
         onSetInputSpec?.(null);
       }
     } else {
       if (status === GameStatus.CHALLENGE_READY && currentChallenge) {
+        const rule = GRAMMAR_RULES[currentChallenge.target];
         onSetInputSpec?.({
           type: 'textarea',
           gameKey: 'grammar-boss',
           prompt: currentChallenge.task,
           placeholder: 'Type your sentence...',
           maxLength: 500,
+          hint: rule ? { title: `Grammar: ${currentChallenge.target}`, content: { rule: rule.rule, example: rule.example, mistakes: rule.mistakes } } : undefined,
         });
       } else {
         onSetInputSpec?.(null);
@@ -413,6 +419,42 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           <span className="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-bold uppercase">Must use: {currentChallenge.target}</span>
           <span className="px-3 py-1 bg-white/10 text-slate-400 rounded-full text-xs font-bold uppercase">{sessionSettings.difficulty} Level</span>
         </div>
+        {/* Grammar rule reference */}
+        {(() => {
+          const rule = GRAMMAR_RULES[currentChallenge.target];
+          if (!rule) return null;
+          return (
+            <div className="mt-4">
+              <button
+                onClick={() => setShowRule(!showRule)}
+                className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2"
+              >
+                <svg className={`w-3 h-3 transition-transform ${showRule ? 'rotate-90' : ''}`} fill="currentColor" viewBox="0 0 20 20"><path d="M6 4l8 6-8 6V4z"/></svg>
+                Grammar Reference
+              </button>
+              {showRule && (
+                <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl space-y-3">
+                  <div>
+                    <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Structure</p>
+                    <p className="text-emerald-200 font-medium">{rule.rule}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Example</p>
+                    <p className="text-emerald-200 italic">&quot;{rule.example}&quot;</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Common Mistakes</p>
+                    <ul className="space-y-1">
+                      {rule.mistakes.map((m, i) => (
+                        <li key={i} className="text-red-300/80 text-sm">{m}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })()}
         {showExample && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
             <p className="text-xs font-bold text-yellow-400 uppercase tracking-widest mb-2">Model Structure</p>

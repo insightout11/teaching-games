@@ -98,6 +98,7 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
 // Multi-line textarea input
 function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
   const [value, setValue] = useState('');
+  const [showHint, setShowHint] = useState(false);
 
   const handleSubmit = useCallback(async () => {
     if (!value.trim() || isSubmitting) return;
@@ -105,10 +106,45 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
     setValue('');
   }, [value, isSubmitting, onSubmit]);
 
+  const hintContent = spec.hint?.content;
+  const hasStructuredHint = hintContent && typeof hintContent === 'object';
+
   return (
     <div className="space-y-4">
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+      )}
+      {hintContent && (
+        <div>
+          <button
+            onClick={() => setShowHint(!showHint)}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide transition-colors ${
+              showHint ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-slate-400 hover:bg-white/20'
+            }`}
+          >
+            <svg className={`w-3 h-3 transition-transform ${showHint ? 'rotate-90' : ''}`} fill="currentColor" viewBox="0 0 20 20"><path d="M6 4l8 6-8 6V4z"/></svg>
+            {showHint ? 'Hide Grammar Hint' : 'Show Grammar Hint'}
+          </button>
+          {showHint && (
+            <div className="mt-2 p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl space-y-2 text-sm">
+              {spec.hint?.title && <p className="text-emerald-400 font-bold text-xs uppercase tracking-widest">{spec.hint.title}</p>}
+              {typeof hintContent === 'string' ? (
+                <p className="text-emerald-200">{hintContent}</p>
+              ) : hasStructuredHint && (
+                <>
+                  {hintContent.rule && <p className="text-emerald-200"><span className="font-semibold text-emerald-400">Structure:</span> {hintContent.rule}</p>}
+                  {hintContent.example && <p className="text-emerald-200 italic"><span className="font-semibold text-emerald-400 not-italic">Example:</span> &quot;{hintContent.example}&quot;</p>}
+                  {hintContent.mistakes && hintContent.mistakes.length > 0 && (
+                    <div>
+                      <span className="font-semibold text-emerald-400">Watch out:</span>
+                      {hintContent.mistakes.map((m, i) => <p key={i} className="text-red-300/80 ml-2">{m}</p>)}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </div>
       )}
       <textarea
         value={value}
