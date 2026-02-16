@@ -1,12 +1,25 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import type { GameProps } from '../types';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { ExtendedChainLink, ValidationResult } from './types';
 
-export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
+type TeamId = 'A' | 'B';
+
+interface TeamState {
+  name: string;
+  color: string;
+  borderColor: string;
+  bgColor: string;
+  textColor: string;
+  score: number;
+  members: { id: string; name: string }[];
+  currentMemberIndex: number;
+}
+
+export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [startingWord, setStartingWord] = useState('');
   const [hint, setHint] = useState('');
@@ -16,20 +29,62 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Team mode
+  const isTeamMode = students.length >= 3;
+  const [teams, setTeams] = useState<Record<TeamId, TeamState>>({
+    A: { name: 'Team Alpha', color: 'from-cyan-500 to-blue-500', borderColor: 'border-cyan-500/30', bgColor: 'bg-cyan-500/20', textColor: 'text-cyan-400', score: 0, members: [], currentMemberIndex: 0 },
+    B: { name: 'Team Beta', color: 'from-orange-500 to-red-500', borderColor: 'border-orange-500/30', bgColor: 'bg-orange-500/20', textColor: 'text-orange-400', score: 0, members: [], currentMemberIndex: 0 },
+  });
+  const [activeTeam, setActiveTeam] = useState<TeamId>('A');
+  const [losingTeam, setLosingTeam] = useState<TeamId | null>(null);
+
   const currentStudent = students.find((s) => s.id === currentStudentId);
   const currentWord = chain.length > 0 ? chain[chain.length - 1].word : startingWord;
 
-  // Keep refs for the submission handler
+  // Keep refs
   const currentWordRef = useRef<string>(currentWord);
   currentWordRef.current = currentWord;
   const chainRef = useRef<ExtendedChainLink[]>(chain);
   chainRef.current = chain;
   const startingWordRef = useRef<string>(startingWord);
   startingWordRef.current = startingWord;
+  const statusRef = useRef<GameStatus>(status);
+  statusRef.current = status;
+  const activeTeamRef = useRef<TeamId>(activeTeam);
+  activeTeamRef.current = activeTeam;
+  const teamsRef = useRef(teams);
+  teamsRef.current = teams;
 
-  // Register input spec for student controller
+  // Split students into teams when entering team mode
+  useEffect(() => {
+    if (!isTeamMode || students.length < 3) return;
+
+    // Shuffle and split
+    const shuffled = [...students].sort(() => Math.random() - 0.5);
+    const half = Math.ceil(shuffled.length / 2);
+    const teamA = shuffled.slice(0, half);
+    const teamB = shuffled.slice(half);
+
+    setTeams(prev => ({
+      A: { ...prev.A, members: teamA.map(s => ({ id: s.id, name: s.name })), score: 0, currentMemberIndex: 0 },
+      B: { ...prev.B, members: teamB.map(s => ({ id: s.id, name: s.name })), score: 0, currentMemberIndex: 0 },
+    }));
+    setActiveTeam('A');
+  // Only re-split when student count changes significantly
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTeamMode, students.length]);
+
+  // Get current team member
+  const getCurrentTeamMember = (teamId: TeamId) => {
+    const team = teams[teamId];
+    if (team.members.length === 0) return null;
+    return team.members[team.currentMemberIndex % team.members.length];
+  };
+
+  // Register input spec
   useEffect(() => {
     if (status === GameStatus.PLAYING && currentWord) {
+      const currentMember = isTeamMode ? getCurrentTeamMember(activeTeam) : null;
       onSetInputSpec?.({
         type: 'text',
         gameKey: 'word-chain',
@@ -40,10 +95,138 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, currentWord, onSetInputSpec]);
+  }, [status, currentWord, onSetInputSpec, isTeamMode, activeTeam, teams]);
 
-  // Register submission handler to evaluate remote submissions
+  // Evaluate a word submission (shared logic)
+  const evaluateWord = useCallback(async (word: string, studentId: string, studentName: string, teamId?: TeamId): Promise<{ valid: boolean; result?: ValidationResult }> => {
+    const prevWord = currentWordRef.current;
+    if (!prevWord) return { valid: false };
+
+    const allWords = [startingWordRef.current, ...chainRef.current.map(c => c.word.toLowerCase())];
+    if (allWords.includes(word.toLowerCase())) {
+      setLastFeedback('Already used! Try a different word.');
+      return { valid: false };
+    }
+
+    try {
+      const response = await fetch('/api/word-chain/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          previousWord: prevWord,
+          newWord: word.toLowerCase(),
+          chainHistory: allWords,
+          difficulty: sessionSettings.difficulty,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to evaluate');
+
+      const result: ValidationResult = await response.json();
+      setLastFeedback(result.feedback);
+
+      if (result.isValid) {
+        onScore(studentId, {
+          isCorrect: true,
+          points: result.score,
+          responseData: {
+            word: word.toLowerCase(),
+            connectionStrength: result.connectionStrength,
+            chainPosition: chainRef.current.length + 1,
+          },
+        });
+
+        setChain(prev => [...prev, {
+          word: word.toLowerCase(),
+          connectionStrength: result.connectionStrength,
+          score: result.score,
+          studentId,
+          studentName,
+          team: teamId,
+        }]);
+
+        // Update team score
+        if (teamId) {
+          setTeams(prev => ({
+            ...prev,
+            [teamId]: { ...prev[teamId], score: prev[teamId].score + result.score },
+          }));
+        }
+
+        try {
+          const audio = new Audio('/sounds/correct.mp3');
+          audio.volume = 0.5;
+          audio.play().catch(() => {});
+        } catch {}
+      } else {
+        try {
+          const audio = new Audio('/sounds/wrong.mp3');
+          audio.volume = 0.5;
+          audio.play().catch(() => {});
+        } catch {}
+      }
+
+      return { valid: result.isValid, result };
+    } catch {
+      setLastFeedback('Error evaluating. Try again!');
+      return { valid: false };
+    }
+  }, [sessionSettings.difficulty, onScore]);
+
+  // Remote vote handler for team mode
+  const handleRemoteVote = useCallback(async (vote: GameRemoteVote) => {
+    if (statusRef.current !== GameStatus.PLAYING) return;
+
+    const studentId = vote.studentId || vote.clientId;
+    if (!studentId) return;
+
+    const word = vote.choice?.trim();
+    if (!word) return;
+
+    // In team mode, check if this student is on the active team
+    if (isTeamMode) {
+      const team = activeTeamRef.current;
+      const currentMember = teamsRef.current[team].members[teamsRef.current[team].currentMemberIndex % teamsRef.current[team].members.length];
+      // Only accept from the current team member
+      if (currentMember && studentId !== currentMember.id) return;
+    }
+
+    setIsEvaluating(true);
+    const { valid, result } = await evaluateWord(word, studentId, vote.displayName, isTeamMode ? activeTeamRef.current : undefined);
+    setIsEvaluating(false);
+
+    if (valid) {
+      if (isTeamMode) {
+        // Advance team member index and switch teams
+        const team = activeTeamRef.current;
+        setTeams(prev => ({
+          ...prev,
+          [team]: { ...prev[team], currentMemberIndex: prev[team].currentMemberIndex + 1 },
+        }));
+        setActiveTeam(prev => prev === 'A' ? 'B' : 'A');
+      } else {
+        onPickStudent();
+      }
+    } else if (result && !result.isValid) {
+      if (isTeamMode) {
+        setLosingTeam(activeTeamRef.current);
+        setStatus(GameStatus.CHAIN_BROKEN);
+      } else {
+        setStatus(GameStatus.CHAIN_BROKEN);
+      }
+    }
+  }, [isTeamMode, evaluateWord, onPickStudent]);
+
+  // Register remote vote handler
   useEffect(() => {
+    onRegisterRemoteVoteHandler?.(handleRemoteVote);
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [onRegisterRemoteVoteHandler, handleRemoteVote]);
+
+  // Register submission handler (fallback for non-team)
+  useEffect(() => {
+    if (isTeamMode) return;
+
     onRegisterSubmissionHandler?.({
       handleSubmission: async (content: string) => {
         const prevWord = currentWordRef.current;
@@ -93,10 +276,10 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     });
 
     return () => onRegisterSubmissionHandler?.(null);
-  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
+  }, [isTeamMode, sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const handleGenerate = async () => {
-    if (!currentStudentId) {
+    if (!isTeamMode && !currentStudentId) {
       onPickStudent();
       return;
     }
@@ -106,6 +289,14 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     setChain([]);
     setCurrentInput('');
     setLastFeedback(null);
+    setLosingTeam(null);
+    if (isTeamMode) {
+      setActiveTeam('A');
+      setTeams(prev => ({
+        A: { ...prev.A, score: 0, currentMemberIndex: 0 },
+        B: { ...prev.B, score: 0, currentMemberIndex: 0 },
+      }));
+    }
 
     try {
       const response = await fetch('/api/word-chain/generate', {
@@ -134,69 +325,36 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     if (!currentInput.trim() || isEvaluating || status !== GameStatus.PLAYING) return;
 
     const newWord = currentInput.trim().toLowerCase();
-
-    // Check for repeats locally
-    const allWords = [startingWord.toLowerCase(), ...chain.map(c => c.word.toLowerCase())];
-    if (allWords.includes(newWord)) {
-      setLastFeedback('Already used! Try a different word.');
-      setCurrentInput('');
-      return;
-    }
-
-    setIsEvaluating(true);
     setCurrentInput('');
+    setIsEvaluating(true);
 
-    try {
-      const response = await fetch('/api/word-chain/evaluate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          previousWord: currentWord,
-          newWord,
-          chainHistory: [startingWord, ...chain.map(c => c.word)],
-          difficulty: sessionSettings.difficulty
-        })
-      });
+    const teamId = isTeamMode ? activeTeam : undefined;
+    const studentId = isTeamMode
+      ? (getCurrentTeamMember(activeTeam)?.id || currentStudentId || '')
+      : (currentStudentId || '');
+    const studentName = isTeamMode
+      ? (getCurrentTeamMember(activeTeam)?.name || 'Unknown')
+      : (currentStudent?.name || 'Unknown');
 
-      if (!response.ok) throw new Error('Failed to evaluate');
+    const { valid, result } = await evaluateWord(newWord, studentId, studentName, teamId);
+    setIsEvaluating(false);
 
-      const result: ValidationResult = await response.json();
-      setLastFeedback(result.feedback);
-
-      if (result.isValid) {
-        // Score this student immediately
-        if (currentStudentId) {
-          onScore(currentStudentId, {
-            isCorrect: true,
-            points: result.score,
-            responseData: {
-              word: newWord,
-              connectionStrength: result.connectionStrength,
-              chainPosition: chain.length + 1
-            }
-          });
-        }
-
-        // Add to chain with student info
-        setChain(prev => [...prev, {
-          word: newWord,
-          connectionStrength: result.connectionStrength,
-          score: result.score,
-          studentId: currentStudentId || '',
-          studentName: currentStudent?.name || 'Unknown'
-        }]);
-
-        // Prompt for next student
-        onPickStudent();
+    if (valid) {
+      if (isTeamMode) {
+        // Advance member index and switch teams
+        setTeams(prev => ({
+          ...prev,
+          [activeTeam]: { ...prev[activeTeam], currentMemberIndex: prev[activeTeam].currentMemberIndex + 1 },
+        }));
+        setActiveTeam(prev => prev === 'A' ? 'B' : 'A');
       } else {
-        // Chain broken - no score for this student
-        setStatus(GameStatus.CHAIN_BROKEN);
+        onPickStudent();
       }
-    } catch (err) {
-      console.error(err);
-      setLastFeedback('Error evaluating. Try again!');
-    } finally {
-      setIsEvaluating(false);
+    } else if (result && !result.isValid) {
+      if (isTeamMode) {
+        setLosingTeam(activeTeam);
+      }
+      setStatus(GameStatus.CHAIN_BROKEN);
     }
   };
 
@@ -211,12 +369,20 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
   };
 
   const handleSameChallenge = () => {
-    // Keep starting word, reset chain and per-turn state
     setChain([]);
     setCurrentInput('');
     setLastFeedback(null);
+    setLosingTeam(null);
     setStatus(GameStatus.PLAYING);
-    onPickStudent();
+    if (isTeamMode) {
+      setActiveTeam('A');
+      setTeams(prev => ({
+        A: { ...prev.A, score: 0, currentMemberIndex: 0 },
+        B: { ...prev.B, score: 0, currentMemberIndex: 0 },
+      }));
+    } else {
+      onPickStudent();
+    }
   };
 
   const getStrengthColor = (strength: string) => {
@@ -228,6 +394,263 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     }
   };
 
+  // Get winning team
+  const getWinningTeam = (): TeamId | null => {
+    if (losingTeam) return losingTeam === 'A' ? 'B' : 'A';
+    if (teams.A.score === teams.B.score) return null;
+    return teams.A.score > teams.B.score ? 'A' : 'B';
+  };
+
+  // Render chain display
+  const renderChain = () => {
+    if (chain.length === 0) return null;
+    return (
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="px-3 py-1 bg-white/10 rounded-full text-sm text-slate-300">
+          {startingWord}
+        </span>
+        {chain.map((link, i) => (
+          <motion.div key={i} className="flex items-center gap-2" initial={{ scale: 0 }} animate={{ scale: 1 }}>
+            <span className="text-slate-500">→</span>
+            <span className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${
+              isTeamMode && link.team
+                ? (link.team === 'A' ? teams.A.color : teams.B.color)
+                : getStrengthColor(link.connectionStrength)
+            }`}>
+              {link.word}
+              <span className="ml-1 text-xs opacity-70">({link.studentName})</span>
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    );
+  };
+
+  // ============ TEAM MODE ============
+  if (isTeamMode) {
+    const currentMember = getCurrentTeamMember(activeTeam);
+    const activeTeamState = teams[activeTeam];
+
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="text-center">
+          <p className="opacity-70 text-sm">Teams take turns adding words to the chain!</p>
+          <p className="text-xs text-cyan-400 mt-1">{students.length} students in 2 teams</p>
+        </div>
+
+        {/* Team Scoreboard */}
+        {status !== GameStatus.IDLE && status !== GameStatus.GENERATING && (
+          <div className="grid grid-cols-2 gap-3">
+            {(['A', 'B'] as TeamId[]).map(teamId => {
+              const team = teams[teamId];
+              const isActive = activeTeam === teamId && status === GameStatus.PLAYING;
+              return (
+                <div key={teamId} className={`glass p-4 rounded-xl border-2 transition-all ${
+                  isActive ? team.borderColor + ' scale-[1.02]' : 'border-white/5 opacity-60'
+                }`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className={`font-bold text-sm ${team.textColor}`}>{team.name}</h4>
+                    <span className="text-2xl font-black text-white">{team.score}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {team.members.map((m, mi) => {
+                      const isCurrent = isActive && (team.currentMemberIndex % team.members.length) === mi;
+                      return (
+                        <span key={m.id} className={`text-xs px-2 py-0.5 rounded-full ${
+                          isCurrent ? team.bgColor + ' ' + team.textColor + ' font-bold' : 'bg-white/5 text-slate-500'
+                        }`}>
+                          {m.name}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* IDLE */}
+        {status === GameStatus.IDLE && (
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
+            <div className="glass p-6 rounded-2xl border border-white/10">
+              <h3 className="text-sm font-bold uppercase tracking-widest opacity-60 mb-3">Team Word Chain</h3>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                Teams alternate adding words. If your word breaks the chain, the other team wins!
+              </p>
+            </div>
+
+            {/* Team preview */}
+            <div className="grid grid-cols-2 gap-3">
+              {(['A', 'B'] as TeamId[]).map(teamId => {
+                const team = teams[teamId];
+                return (
+                  <div key={teamId} className={`glass p-4 rounded-xl border ${team.borderColor}`}>
+                    <h4 className={`font-bold text-sm mb-2 ${team.textColor}`}>{team.name}</h4>
+                    <div className="space-y-1">
+                      {team.members.map(m => (
+                        <p key={m.id} className="text-xs text-slate-400">{m.name}</p>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button onClick={handleGenerate} className="w-full px-12 py-6 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20">
+              START TEAM CHAIN
+            </button>
+          </motion.div>
+        )}
+
+        {/* GENERATING */}
+        {status === GameStatus.GENERATING && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-12">
+            <div className="w-16 h-16 border-4 border-teal-500/10 border-t-teal-500 rounded-full animate-spin" />
+            <p className="font-game text-xl text-teal-400 uppercase tracking-widest animate-pulse">Finding Starting Word...</p>
+          </motion.div>
+        )}
+
+        {/* Error */}
+        {error && <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl">{error}</div>}
+
+        {/* PLAYING */}
+        {status === GameStatus.PLAYING && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+            {/* Chain Length */}
+            <div className="flex items-center justify-center">
+              <div className="px-4 py-2 bg-teal-500/20 text-teal-400 rounded-xl text-sm font-bold">
+                Chain: {chain.length} links
+              </div>
+            </div>
+
+            {/* Active team + current member indicator */}
+            <div className={`glass p-4 rounded-xl border-2 ${activeTeamState.borderColor} text-center`}>
+              <p className={`text-xs font-bold uppercase tracking-widest ${activeTeamState.textColor}`}>
+                {activeTeamState.name}&apos;s Turn
+              </p>
+              {currentMember && (
+                <p className="text-lg font-bold text-white mt-1">{currentMember.name}</p>
+              )}
+            </div>
+
+            {/* Current Word */}
+            <div className="glass p-6 rounded-2xl border-2 border-teal-500/30 text-center">
+              <div className="flex justify-between items-start mb-2">
+                <p className="text-xs font-bold text-teal-400 uppercase tracking-widest">Connect to:</p>
+                <button onClick={handleGenerate} disabled={isEvaluating} className="text-sm text-slate-400 hover:text-white transition-colors disabled:opacity-30">
+                  Skip Question
+                </button>
+              </div>
+              <h2 className="text-4xl font-black text-white mb-2">{currentWord}</h2>
+              {chain.length === 0 && hint && <p className="text-xs text-slate-500">{hint}</p>}
+            </div>
+
+            {/* Chain Display */}
+            {renderChain()}
+
+            {/* Input */}
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={currentInput}
+                onChange={(e) => setCurrentInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder={currentMember ? `${currentMember.name}, type a word...` : 'Type a connected word...'}
+                disabled={isEvaluating}
+                autoFocus
+                className="flex-1 bg-black/40 border-2 border-white/10 text-white rounded-xl px-4 py-3 focus:border-teal-500 outline-none text-lg disabled:opacity-50"
+              />
+              <button
+                onClick={handleSubmitWord}
+                disabled={!currentInput.trim() || isEvaluating}
+                className="px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-xl font-bold text-white disabled:opacity-30"
+              >
+                {isEvaluating ? '...' : 'LINK'}
+              </button>
+            </div>
+
+            {/* Waiting for remote */}
+            {currentMember && (
+              <p className="text-center text-xs text-slate-500">
+                Waiting for {currentMember.name} to submit on their device, or teacher can type above
+              </p>
+            )}
+
+            {/* Feedback */}
+            <AnimatePresence>
+              {lastFeedback && (
+                <motion.p key={lastFeedback} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="text-center text-sm text-slate-300">
+                  {lastFeedback}
+                </motion.p>
+              )}
+            </AnimatePresence>
+
+            {/* End Chain */}
+            {chain.length >= 3 && (
+              <button onClick={handleEndChain} className="w-full py-3 glass hover:bg-white/10 rounded-xl font-game text-sm transition-all border border-white/10">
+                END CHAIN ({chain.length} links)
+              </button>
+            )}
+          </motion.div>
+        )}
+
+        {/* CHAIN_BROKEN / FINISHED */}
+        {(status === GameStatus.CHAIN_BROKEN || status === GameStatus.FINISHED) && (
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
+            <div className="glass p-6 rounded-2xl border-2 border-teal-500/30 text-center">
+              {status === GameStatus.CHAIN_BROKEN && losingTeam ? (
+                <>
+                  <h3 className="text-2xl font-bold text-white mb-2">Chain Broken!</h3>
+                  <p className={`text-lg font-bold mb-2 ${teams[losingTeam === 'A' ? 'B' : 'A'].textColor}`}>
+                    {teams[losingTeam === 'A' ? 'B' : 'A'].name} Wins!
+                  </p>
+                  <p className="text-sm text-slate-400">{teams[losingTeam].name} broke the chain</p>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-2xl font-bold text-white mb-2">Chain Complete!</h3>
+                  {getWinningTeam() ? (
+                    <p className={`text-lg font-bold mb-2 ${teams[getWinningTeam()!].textColor}`}>
+                      {teams[getWinningTeam()!].name} Wins!
+                    </p>
+                  ) : (
+                    <p className="text-lg font-bold mb-2 text-yellow-400">It&apos;s a Tie!</p>
+                  )}
+                </>
+              )}
+
+              <p className="text-5xl font-black text-teal-400 mb-2">{chain.length}</p>
+              <p className="text-slate-400 mb-2">links in the chain</p>
+
+              {/* Team scores */}
+              <div className="flex justify-center gap-6 mt-4">
+                {(['A', 'B'] as TeamId[]).map(teamId => (
+                  <div key={teamId} className="text-center">
+                    <p className={`text-xs font-bold uppercase ${teams[teamId].textColor}`}>{teams[teamId].name}</p>
+                    <p className="text-3xl font-black text-white">{teams[teamId].score}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Full Chain */}
+            <div className="p-4 bg-black/20 rounded-xl">
+              {renderChain()}
+            </div>
+
+            <div className="flex gap-3">
+              <button onClick={handleGenerate} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10">NEW CHAIN</button>
+              <button onClick={handleSameChallenge} className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30">SAME WORD, REMATCH</button>
+            </div>
+          </motion.div>
+        )}
+      </div>
+    );
+  }
+
+  // ============ TURN-BASED MODE (< 3 students) ============
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -333,22 +756,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           </div>
 
           {/* Chain Display */}
-          {chain.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3 py-1 bg-white/10 rounded-full text-sm text-slate-300">
-                {startingWord}
-              </span>
-              {chain.map((link, i) => (
-                <motion.div key={i} className="flex items-center gap-2" initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                  <span className="text-slate-500">→</span>
-                  <span className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getStrengthColor(link.connectionStrength)}`}>
-                    {link.word}
-                    <span className="ml-1 text-xs opacity-70">({link.studentName})</span>
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          )}
+          {renderChain()}
 
           {/* Input */}
           <div className="flex gap-3">

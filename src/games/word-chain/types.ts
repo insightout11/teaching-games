@@ -7,6 +7,7 @@ export interface ChainLink {
 export interface ExtendedChainLink extends ChainLink {
   studentId: string;
   studentName: string;
+  team?: 'A' | 'B';
 }
 
 export interface ValidationResult {

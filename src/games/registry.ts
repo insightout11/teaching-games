@@ -4,7 +4,7 @@ import { sentenceScramblePlugin } from './sentence-scramble';
 import { vocabSprintPlugin } from './vocab-sprint';
 import { grammarBossPlugin } from './grammar-boss';
 import { storySprintPlugin } from './story-sprint';
-import { toneTransformerPlugin } from './tone-transformer';
+// VAULTED: toneTransformerPlugin (teacher transcription required, overlaps Vocab Sprint)
 import { synonymShowdownPlugin } from './synonym-showdown';
 import { errorHunterPlugin } from './error-hunter';
 import { wordChainPlugin } from './word-chain';
@@ -20,7 +20,7 @@ const games: GamePlugin[] = [
   grammarBossPlugin,
   errorHunterPlugin,
   storySprintPlugin,
-  toneTransformerPlugin,
+  // VAULTED: toneTransformerPlugin
   dialogueDetectivePlugin,
   connectionsPlugin,
 ];

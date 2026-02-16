@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, EvaluationResult, UserCorrection } from './types';
@@ -13,6 +13,22 @@ interface WordData {
   correction: string;
 }
 
+function getPositionPoints(position: number): number {
+  if (position === 1) return 10;
+  if (position === 2) return 8;
+  if (position === 3) return 6;
+  return 3;
+}
+
+interface RaceSolver {
+  studentId: string;
+  displayName: string;
+  score: number;
+  found: number;
+  totalErrors: number;
+  position: number;
+}
+
 export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
@@ -22,24 +38,129 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Simultaneous race mode
+  const isSimultaneous = students.length >= 3;
+  const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
+  const [raceFinished, setRaceFinished] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState<number>(sessionSettings.timerSeconds);
+  const [raceActive, setRaceActive] = useState(false);
+
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
   // Register input spec for student controller
   useEffect(() => {
-    if (status === GameStatus.PLAYING && challenge && words.length > 0) {
-      onSetInputSpec?.({
-        type: 'error-correction',
-        gameKey: 'error-hunter',
-        options: words.map(w => w.word),
-        prompt: `Find and correct the ${challenge.errorCount} error${challenge.errorCount !== 1 ? 's' : ''} in this paragraph`,
-      });
+    if (isSimultaneous) {
+      if (raceActive && !raceFinished && challenge && words.length > 0) {
+        onSetInputSpec?.({
+          type: 'error-correction',
+          gameKey: 'error-hunter',
+          options: words.map(w => w.word),
+          prompt: `Find and correct the ${challenge.errorCount} error${challenge.errorCount !== 1 ? 's' : ''} — race!`,
+        });
+      } else {
+        onSetInputSpec?.(null);
+      }
     } else {
-      onSetInputSpec?.(null);
+      if (status === GameStatus.PLAYING && challenge && words.length > 0) {
+        onSetInputSpec?.({
+          type: 'error-correction',
+          gameKey: 'error-hunter',
+          options: words.map(w => w.word),
+          prompt: `Find and correct the ${challenge.errorCount} error${challenge.errorCount !== 1 ? 's' : ''} in this paragraph`,
+        });
+      } else {
+        onSetInputSpec?.(null);
+      }
     }
-  }, [status, challenge, words, onSetInputSpec]);
+  }, [isSimultaneous, raceActive, raceFinished, status, challenge, words, onSetInputSpec]);
 
-  // Handle remote vote from student device
-  const handleRemoteVote = useCallback(async (vote: GameRemoteVote) => {
+  // Timer for simultaneous mode
+  useEffect(() => {
+    if (!raceActive || raceFinished) return;
+
+    const timer = setInterval(() => {
+      setTimeRemaining((prev) => {
+        if (prev <= 1) {
+          setRaceFinished(true);
+          setRaceActive(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [raceActive, raceFinished]);
+
+  // Handle remote vote — race mode
+  const handleRaceVote = useCallback(async (vote: GameRemoteVote) => {
+    if (!challenge || raceFinished) return;
+
+    const studentId = vote.studentId || vote.clientId;
+    if (!studentId) return;
+
+    try {
+      const corrections: UserCorrection[] = JSON.parse(vote.choice);
+      if (!Array.isArray(corrections)) return;
+
+      // Check for duplicate submissions
+      if (raceSolvers.some(s => s.studentId === studentId)) return;
+
+      const response = await fetch('/api/error-hunter/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paragraph: challenge.paragraph,
+          corrections,
+          difficulty: sessionSettings.difficulty,
+        }),
+      });
+
+      if (!response.ok) return;
+
+      const result: EvaluationResult = await response.json();
+
+      setRaceSolvers(prev => {
+        if (prev.some(s => s.studentId === studentId)) return prev;
+
+        const position = prev.length + 1;
+        const positionBonus = getPositionPoints(position);
+        const totalPoints = Math.min(10, result.score + (position <= 3 ? positionBonus : 0));
+
+        onScore(studentId, {
+          isCorrect: result.score >= 5,
+          points: totalPoints,
+          responseData: {
+            totalErrors: result.totalErrors,
+            found: result.found,
+            correctFixes: result.correctFixes,
+            falsePositives: result.falsePositives,
+            position,
+          },
+        });
+
+        try {
+          const audio = new Audio(result.score >= 5 ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
+          audio.volume = 0.5;
+          audio.play().catch(() => {});
+        } catch {}
+
+        return [...prev, {
+          studentId,
+          displayName: vote.displayName,
+          score: totalPoints,
+          found: result.found,
+          totalErrors: result.totalErrors,
+          position,
+        }];
+      });
+    } catch (err) {
+      console.error('Failed to process race vote:', err);
+    }
+  }, [challenge, raceFinished, raceSolvers, sessionSettings.difficulty, onScore]);
+
+  // Handle remote vote — turn-based mode
+  const handleTurnBasedVote = useCallback(async (vote: GameRemoteVote) => {
     if (!challenge) return;
 
     try {
@@ -60,7 +181,6 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
       const result: EvaluationResult = await response.json();
 
-      // Use the DB studentId from the score record (passed through GameRemoteVote)
       const studentId = vote.studentId;
       if (!studentId) return;
 
@@ -82,12 +202,16 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
   // Register remote vote handler
   useEffect(() => {
-    onRegisterRemoteVoteHandler?.(handleRemoteVote);
+    if (isSimultaneous) {
+      onRegisterRemoteVoteHandler?.(handleRaceVote);
+    } else {
+      onRegisterRemoteVoteHandler?.(handleTurnBasedVote);
+    }
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [onRegisterRemoteVoteHandler, handleRemoteVote]);
+  }, [isSimultaneous, onRegisterRemoteVoteHandler, handleRaceVote, handleTurnBasedVote]);
 
   const handleGenerate = async () => {
-    if (!currentStudentId) {
+    if (!isSimultaneous && !currentStudentId) {
       onPickStudent();
       return;
     }
@@ -98,6 +222,10 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     setWords([]);
     setSelectedWordIndex(null);
     setCorrectionInput('');
+    setRaceSolvers([]);
+    setRaceFinished(false);
+    setRaceActive(false);
+    setTimeRemaining(sessionSettings.timerSeconds);
 
     try {
       const response = await fetch('/api/error-hunter/generate', {
@@ -113,7 +241,6 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
       const data = await response.json();
 
-      // Parse paragraph into words
       const wordList = data.paragraph.split(/\s+/).map((word: string, index: number) => ({
         word,
         index,
@@ -128,6 +255,11 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
       });
       setWords(wordList);
       setStatus(GameStatus.PLAYING);
+
+      // Auto-start race in simultaneous mode
+      if (isSimultaneous) {
+        setRaceActive(true);
+      }
     } catch (err) {
       setError('Failed to generate challenge. Please try again.');
       console.error(err);
@@ -140,7 +272,6 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
     const word = words[index];
     if (word.isSelected) {
-      // Deselect and clear correction
       setWords(prev => prev.map((w, i) =>
         i === index ? { ...w, isSelected: false, correction: '' } : w
       ));
@@ -149,7 +280,6 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
         setCorrectionInput('');
       }
     } else {
-      // Select for correction
       setSelectedWordIndex(index);
       setCorrectionInput('');
     }
@@ -216,18 +346,8 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _handleNextRound = () => {
-    setChallenge(null);
-    setWords([]);
-    setEvaluation(null);
-    setStatus(GameStatus.IDLE);
-    onPickStudent();
-  };
-
   const handleSameChallenge = () => {
     if (!challenge) return;
-    // Keep challenge, reset word selections and per-turn state
     const resetWords = challenge.paragraph.split(/\s+/).map((word: string, index: number) => ({
       word,
       index,
@@ -239,17 +359,210 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     setCorrectionInput('');
     setEvaluation(null);
     setStatus(GameStatus.PLAYING);
-    onPickStudent();
+    if (!isSimultaneous) onPickStudent();
   };
 
-  const getScoreColor = (score: number) => {
-    if (score >= 8) return 'from-emerald-500 to-emerald-600';
-    if (score >= 5) return 'from-yellow-500 to-yellow-600';
+  const handleEndRace = () => {
+    setRaceFinished(true);
+    setRaceActive(false);
+  };
+
+  const handleNewRound = () => {
+    setChallenge(null);
+    setWords([]);
+    setEvaluation(null);
+    setRaceSolvers([]);
+    setRaceFinished(false);
+    setRaceActive(false);
+    setStatus(GameStatus.IDLE);
+    if (!isSimultaneous) onPickStudent();
+  };
+
+  const getScoreColor = (s: number) => {
+    if (s >= 8) return 'from-emerald-500 to-emerald-600';
+    if (s >= 5) return 'from-yellow-500 to-yellow-600';
     return 'from-red-500 to-red-600';
   };
 
   const selectedCount = words.filter(w => w.isSelected).length;
 
+  // ============ SIMULTANEOUS RACE MODE ============
+  if (isSimultaneous) {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="text-center">
+          <p className="opacity-70 text-sm">Everyone hunts for errors — race to find them all!</p>
+          <p className="text-xs text-cyan-400 mt-1">{students.length} students connected</p>
+        </div>
+
+        {/* IDLE State */}
+        {status === GameStatus.IDLE && (
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
+            <div className="glass p-6 rounded-2xl border border-white/10">
+              <h3 className="text-sm font-bold uppercase tracking-widest opacity-60 mb-3">Race Mode</h3>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                All students will see the same paragraph on their devices and race to find and correct the errors!
+              </p>
+            </div>
+            <button
+              onClick={handleGenerate}
+              className="w-full px-12 py-6 bg-gradient-to-br from-lc-danger to-red-500 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
+            >
+              START HUNTING
+            </button>
+          </motion.div>
+        )}
+
+        {/* GENERATING State */}
+        {status === GameStatus.GENERATING && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-12">
+            <div className="w-16 h-16 border-4 border-red-500/10 border-t-red-500 rounded-full animate-spin" />
+            <p className="font-game text-xl text-red-400 uppercase tracking-widest animate-pulse">Hiding Errors...</p>
+          </motion.div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl">{error}</div>
+        )}
+
+        {/* PLAYING State — Race mode */}
+        {status === GameStatus.PLAYING && challenge && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+            {/* Timer & Stats */}
+            {raceActive && !raceFinished && (
+              <div className="flex items-center justify-between">
+                <div className={`px-4 py-2 rounded-xl font-game text-2xl ${timeRemaining <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/10 text-white'}`}>
+                  {timeRemaining}s
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="px-4 py-2 bg-red-500/20 text-red-400 rounded-xl text-sm font-bold">
+                    {challenge.errorCount} errors hidden
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-slate-400 uppercase">Submitted</p>
+                    <p className="text-2xl font-bold text-emerald-400">{raceSolvers.length}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Paragraph preview (teacher screen) */}
+            <div className="glass p-6 rounded-2xl border-2 border-red-500/30">
+              <p className="text-xs font-bold text-red-400 uppercase tracking-widest mb-3">Paragraph</p>
+              <p className="text-lg leading-relaxed text-slate-200">{challenge.paragraph}</p>
+            </div>
+
+            {/* Race solver feed */}
+            {raceSolvers.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Submissions</p>
+                <AnimatePresence>
+                  {raceSolvers.map(solver => (
+                    <motion.div
+                      key={solver.studentId}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className={`flex items-center justify-between px-4 py-3 rounded-xl ${
+                        solver.position === 1
+                          ? 'bg-yellow-500/20 border border-yellow-500/30'
+                          : 'bg-white/5 border border-white/10'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className={`text-lg font-black ${
+                          solver.position === 1 ? 'text-yellow-400' :
+                          solver.position === 2 ? 'text-slate-300' :
+                          solver.position === 3 ? 'text-amber-600' : 'text-slate-500'
+                        }`}>#{solver.position}</span>
+                        <span className="font-semibold text-white">{solver.displayName}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-slate-400">{solver.found}/{solver.totalErrors} found</span>
+                        <span className="font-game text-emerald-400">+{solver.score}</span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            )}
+
+            {raceActive && raceSolvers.length === 0 && (
+              <div className="text-center py-6">
+                <div className="flex justify-center gap-2 mb-3">
+                  <div className="w-3 h-3 rounded-full bg-red-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-3 h-3 rounded-full bg-red-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="w-3 h-3 rounded-full bg-red-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+                <p className="text-slate-400">Waiting for students to submit corrections...</p>
+              </div>
+            )}
+
+            {/* Controls */}
+            <div className="flex gap-3">
+              {raceActive && !raceFinished && (
+                <button
+                  onClick={handleEndRace}
+                  className="flex-1 py-3 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
+                >
+                  END RACE
+                </button>
+              )}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Race finished */}
+        {raceFinished && challenge && (
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
+            <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
+              <h2 className="text-3xl font-game text-emerald-400 mb-2">HUNT COMPLETE!</h2>
+              <p className="text-slate-300">{raceSolvers.length} students submitted corrections</p>
+            </div>
+
+            {/* Final standings */}
+            {raceSolvers.length > 0 && (
+              <div className="space-y-2">
+                {raceSolvers.map(solver => (
+                  <div
+                    key={solver.studentId}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl ${
+                      solver.position === 1
+                        ? 'bg-yellow-500/20 border border-yellow-500/30'
+                        : 'bg-white/5 border border-white/10'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`text-lg font-black ${
+                        solver.position === 1 ? 'text-yellow-400' :
+                        solver.position === 2 ? 'text-slate-300' :
+                        solver.position === 3 ? 'text-amber-600' : 'text-slate-500'
+                      }`}>#{solver.position}</span>
+                      <span className="font-semibold text-white">{solver.displayName}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm text-slate-400">{solver.found}/{solver.totalErrors} found</span>
+                      <span className="font-game text-emerald-400">+{solver.score}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <button
+              onClick={handleNewRound}
+              className="w-full py-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl font-game text-lg text-white hover:scale-[1.02] active:scale-95 transition-all"
+            >
+              NEW PARAGRAPH
+            </button>
+          </motion.div>
+        )}
+      </div>
+    );
+  }
+
+  // ============ TURN-BASED MODE (original) ============
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -482,7 +795,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
           <div className="flex gap-3">
             <button
-              onClick={handleGenerate}
+              onClick={handleNewRound}
               className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
             >
               NEW PARAGRAPH

@@ -7,7 +7,7 @@ import { rankItPlugin } from './rank-it';
 import { factDetectivePlugin } from './fact-detective';
 import { expertPanelPlugin } from './expert-panel';
 import { scenarioSimulatorPlugin } from './scenario-simulator';
-import { interviewLabPlugin } from './interview-lab';
+// VAULTED: interviewLabPlugin (teacher transcription, AI latency, niche use case)
 import { problemSolversPlugin } from './problem-solvers';
 import { Sparkles, BookOpen, Users, Scale } from 'lucide-react';
 
@@ -22,7 +22,7 @@ const activities: ActivityPlugin[] = [
   expertPanelPlugin,
   // Practice activities
   scenarioSimulatorPlugin,
-  interviewLabPlugin,
+  // VAULTED: interviewLabPlugin
   problemSolversPlugin,
   // Debates
   hotTakeArenaPlugin,

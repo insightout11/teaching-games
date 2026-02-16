@@ -1,12 +1,10 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { GameProps } from '../types';
+import type { GameProps, GameRemoteVote } from '../types';
 import { SENTENCES } from './sentences';
 import type { Difficulty } from '@/stores/session-store';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -21,7 +19,6 @@ function tokenize(sentence: string): string[] {
   return sentence.split(/\s+/).filter(Boolean);
 }
 
-// Map difficulty to sentence difficulty
 function difficultyToSentence(difficulty: Difficulty): 'easy' | 'medium' | 'hard' {
   switch (difficulty) {
     case 'Beginner':
@@ -37,6 +34,22 @@ function difficultyToSentence(difficulty: Difficulty): 'easy' | 'medium' | 'hard
   }
 }
 
+// Scoring for simultaneous mode: position-based
+function getPositionPoints(position: number): number {
+  if (position === 1) return 10;
+  if (position === 2) return 8;
+  if (position === 3) return 6;
+  return 3;
+}
+
+interface RaceSolver {
+  studentId: string;
+  displayName: string;
+  timestamp: number;
+  points: number;
+  position: number;
+}
+
 export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const sentenceDifficulty = difficultyToSentence(sessionSettings.difficulty);
   const sentences = SENTENCES[sentenceDifficulty] ?? SENTENCES.medium;
@@ -46,12 +59,21 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [revealed, setRevealed] = useState(false);
 
+  // Simultaneous race mode state
+  const isSimultaneous = students.length >= 3;
+  const [raceActive, setRaceActive] = useState(false);
+  const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
+  const [timeRemaining, setTimeRemaining] = useState<number>(sessionSettings.timerSeconds);
+  const [raceFinished, setRaceFinished] = useState(false);
+  const solverCountRef = useRef(0);
+
   const original = sentences[sentenceIndex % sentences.length];
   const words = useMemo(() => tokenize(original), [original]);
 
   const [availableWords, setAvailableWords] = useState<{ word: string; originalIndex: number }[]>([]);
   const [selectedWords, setSelectedWords] = useState<{ word: string; originalIndex: number }[]>([]);
 
+  // Shuffle words when sentence changes
   useEffect(() => {
     const indexed = words.map((word, idx) => ({ word, originalIndex: idx }));
     let shuffled = shuffleArray(indexed);
@@ -63,48 +85,138 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     setSubmitted(false);
     setRevealed(false);
     setFeedback(null);
-  }, [sentenceIndex, words]);
+    setRaceActive(false);
+    setRaceSolvers([]);
+    setRaceFinished(false);
+    setTimeRemaining(sessionSettings.timerSeconds);
+    solverCountRef.current = 0;
+  }, [sentenceIndex, words, sessionSettings.timerSeconds]);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
   // Register input spec for student controller
   useEffect(() => {
-    if (!submitted && availableWords.length > 0) {
-      onSetInputSpec?.({
-        type: 'sequence',
-        gameKey: 'sentence-scramble',
-        prompt: 'Tap words to build the sentence in correct order',
-        options: availableWords.map(w => w.word),
-      });
-    } else {
-      onSetInputSpec?.(null);
-    }
-  }, [submitted, availableWords, onSetInputSpec]);
-
-  // Register remote vote handler to receive sequence submissions from student devices
-  useEffect(() => {
-    if (submitted || availableWords.length === 0) return;
-
-    onRegisterRemoteVoteHandler?.((vote) => {
-      try {
-        const orderedWords: string[] = JSON.parse(vote.choice);
-        const allWords = words.map((word, idx) => ({ word, originalIndex: idx }));
-        const mapped = orderedWords
-          .map(w => allWords.find(item => item.word === w))
-          .filter((item): item is { word: string; originalIndex: number } => item !== undefined);
-
-        if (mapped.length === words.length) {
-          setSelectedWords(mapped);
-          setAvailableWords([]);
-        }
-      } catch {
-        // Invalid JSON, ignore
+    if (isSimultaneous) {
+      // In simultaneous mode, broadcast when race is active
+      if (raceActive && !raceFinished && availableWords.length > 0) {
+        onSetInputSpec?.({
+          type: 'sequence',
+          gameKey: 'sentence-scramble',
+          prompt: 'Arrange the words in the correct order — race!',
+          options: availableWords.map(w => w.word),
+        });
+      } else {
+        onSetInputSpec?.(null);
       }
-    });
+    } else {
+      // Turn-based: only show to current student
+      if (!submitted && availableWords.length > 0) {
+        onSetInputSpec?.({
+          type: 'sequence',
+          gameKey: 'sentence-scramble',
+          prompt: 'Tap words to build the sentence in correct order',
+          options: availableWords.map(w => w.word),
+        });
+      } else {
+        onSetInputSpec?.(null);
+      }
+    }
+  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec]);
+
+  // Timer for simultaneous mode
+  useEffect(() => {
+    if (!raceActive || raceFinished) return;
+
+    const timer = setInterval(() => {
+      setTimeRemaining((prev) => {
+        if (prev <= 1) {
+          setRaceFinished(true);
+          setRaceActive(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [raceActive, raceFinished]);
+
+  // Handle remote submissions in simultaneous race mode
+  const handleRaceSubmission = useCallback((vote: GameRemoteVote) => {
+    if (raceFinished) return;
+
+    try {
+      const orderedWords: string[] = JSON.parse(vote.choice);
+      const isCorrect = orderedWords.join(' ') === words.join(' ');
+
+      if (!isCorrect) return; // Only track correct solvers
+
+      const studentId = vote.studentId || vote.clientId;
+      if (!studentId) return;
+
+      // Prevent duplicate submissions from same student
+      setRaceSolvers(prev => {
+        if (prev.some(s => s.studentId === studentId)) return prev;
+
+        const position = prev.length + 1;
+        const points = getPositionPoints(position);
+
+        // Score the student
+        onScore(studentId, {
+          isCorrect: true,
+          points,
+          responseData: { position, answer: orderedWords.join(' ') },
+        });
+
+        try {
+          const audio = new Audio('/sounds/correct.mp3');
+          audio.volume = 0.5;
+          audio.play().catch(() => {});
+        } catch {}
+
+        return [...prev, {
+          studentId,
+          displayName: vote.displayName,
+          timestamp: Date.now(),
+          points,
+          position,
+        }];
+      });
+    } catch {
+      // Invalid JSON, ignore
+    }
+  }, [words, raceFinished, onScore]);
+
+  // Register remote vote handler
+  useEffect(() => {
+    if (isSimultaneous) {
+      onRegisterRemoteVoteHandler?.(handleRaceSubmission);
+    } else {
+      // Turn-based remote handler
+      if (submitted || availableWords.length === 0) return;
+
+      onRegisterRemoteVoteHandler?.((vote: GameRemoteVote) => {
+        try {
+          const orderedWords: string[] = JSON.parse(vote.choice);
+          const allWords = words.map((word, idx) => ({ word, originalIndex: idx }));
+          const mapped = orderedWords
+            .map(w => allWords.find(item => item.word === w))
+            .filter((item): item is { word: string; originalIndex: number } => item !== undefined);
+
+          if (mapped.length === words.length) {
+            setSelectedWords(mapped);
+            setAvailableWords([]);
+          }
+        } catch {
+          // Invalid JSON, ignore
+        }
+      });
+    }
 
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [submitted, availableWords, words, onRegisterRemoteVoteHandler]);
+  }, [isSimultaneous, submitted, availableWords, words, onRegisterRemoteVoteHandler, handleRaceSubmission]);
 
+  // --- Turn-based handlers (unchanged) ---
   const handleSelectWord = (wordItem: { word: string; originalIndex: number }) => {
     if (submitted) return;
     setAvailableWords(prev => prev.filter(w => w.originalIndex !== wordItem.originalIndex));
@@ -156,8 +268,155 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   const handleReveal = () => setRevealed(true);
 
+  // --- Simultaneous mode handlers ---
+  const handleStartRace = () => {
+    setRaceActive(true);
+    setRaceFinished(false);
+    setRaceSolvers([]);
+    setTimeRemaining(sessionSettings.timerSeconds);
+    solverCountRef.current = 0;
+  };
+
+  const handleEndRace = () => {
+    setRaceFinished(true);
+    setRaceActive(false);
+  };
+
   const allWordsSelected = availableWords.length === 0;
 
+  // ============ RENDER ============
+
+  // --- Simultaneous Race Mode ---
+  if (isSimultaneous) {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="text-center">
+          <p className="opacity-70 text-sm">Everyone races to arrange the sentence!</p>
+          <p className="text-xs text-cyan-400 mt-1">{students.length} students connected</p>
+        </div>
+
+        {/* Timer (during race) */}
+        {raceActive && !raceFinished && (
+          <div className="flex items-center justify-between">
+            <div className={`px-4 py-2 rounded-xl font-game text-2xl ${timeRemaining <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/10 text-white'}`}>
+              {timeRemaining}s
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-slate-400 uppercase">Solved</p>
+              <p className="text-2xl font-bold text-emerald-400">{raceSolvers.length}<span className="text-sm opacity-60">/{students.length}</span></p>
+            </div>
+          </div>
+        )}
+
+        {/* Sentence display (teacher sees the scrambled words on screen) */}
+        {(raceActive || raceFinished) && (
+          <div className="glass p-6 rounded-2xl border-2 border-cyan-500/30">
+            <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-3">Scrambled Sentence</p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {availableWords.map((wordItem) => (
+                <span
+                  key={`word-${wordItem.originalIndex}`}
+                  className="px-4 py-2 rounded-xl text-sm font-medium glass border border-white/10"
+                >
+                  {wordItem.word}
+                </span>
+              ))}
+            </div>
+            {raceFinished && (
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-1">Correct Answer</p>
+                <p className="text-lg text-white font-medium">{original}</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Live solver feed */}
+        {(raceActive || raceFinished) && raceSolvers.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Solvers</p>
+            <AnimatePresence>
+              {raceSolvers.map((solver) => (
+                <motion.div
+                  key={solver.studentId}
+                  initial={{ opacity: 0, x: -20, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  className={`flex items-center justify-between px-4 py-3 rounded-xl ${
+                    solver.position === 1
+                      ? 'bg-yellow-500/20 border border-yellow-500/30'
+                      : solver.position === 2
+                      ? 'bg-slate-400/10 border border-slate-400/20'
+                      : solver.position === 3
+                      ? 'bg-amber-700/20 border border-amber-700/30'
+                      : 'bg-white/5 border border-white/10'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={`text-xl font-black ${
+                      solver.position === 1 ? 'text-yellow-400' :
+                      solver.position === 2 ? 'text-slate-300' :
+                      solver.position === 3 ? 'text-amber-600' : 'text-slate-500'
+                    }`}>
+                      #{solver.position}
+                    </span>
+                    <span className="font-semibold text-white">{solver.displayName}</span>
+                  </div>
+                  <span className="font-game text-emerald-400">+{solver.points}</span>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+
+        {/* Race finished summary */}
+        {raceFinished && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center glass p-6 rounded-2xl border border-white/10"
+          >
+            <p className="font-game text-xl text-white mb-2">
+              {raceSolvers.length === 0 ? 'TIME\'S UP!' : 'ROUND COMPLETE!'}
+            </p>
+            <p className="text-slate-400">
+              {raceSolvers.length} of {students.length} students solved it
+            </p>
+          </motion.div>
+        )}
+
+        {/* Controls */}
+        <div className="flex justify-center gap-3">
+          {!raceActive && !raceFinished && (
+            <button
+              onClick={handleStartRace}
+              className="px-8 py-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all text-white"
+            >
+              START RACE
+            </button>
+          )}
+          {raceActive && !raceFinished && (
+            <button
+              onClick={handleEndRace}
+              className="px-8 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-game text-sm transition-all border border-white/10"
+            >
+              END EARLY
+            </button>
+          )}
+          {raceFinished && (
+            <button
+              onClick={handleNext}
+              className="px-8 py-3 bg-white text-slate-900 rounded-xl font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+            >
+              NEXT SENTENCE
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // --- Turn-based Mode (original) ---
   return (
     <div className="space-y-6">
       {/* Instructions */}

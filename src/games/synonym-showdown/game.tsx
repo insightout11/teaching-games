@@ -1,12 +1,20 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'framer-motion';
-import type { GameProps } from '../types';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
 
-export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
+interface RemoteSynonym {
+  displayName: string;
+  word: string;
+  score: number;
+  quality: string;
+  isValid: boolean;
+}
+
+export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [currentInput, setCurrentInput] = useState('');
@@ -19,13 +27,19 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Remote player submissions (simultaneous mode)
+  const isSimultaneous = students.length >= 3;
+  const [remoteSynonyms, setRemoteSynonyms] = useState<RemoteSynonym[]>([]);
+
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
-  // Keep refs for the submission handler
+  // Keep refs for handlers
   const challengeRef = useRef<Challenge | null>(null);
   challengeRef.current = challenge;
   const submittedSynonymsRef = useRef<string[]>([]);
   submittedSynonymsRef.current = submittedSynonyms;
+  const statusRef = useRef<GameStatus>(status);
+  statusRef.current = status;
 
   // Register input spec for student controller
   useEffect(() => {
@@ -42,7 +56,67 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     }
   }, [status, challenge, onSetInputSpec]);
 
-  // Register submission handler to evaluate remote submissions
+  // Register remote vote handler for direct real-time submissions
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.((vote: GameRemoteVote) => {
+      if (statusRef.current !== GameStatus.PLAYING) return;
+
+      const ch = challengeRef.current;
+      if (!ch) return;
+
+      const synonym = vote.choice?.trim().toLowerCase();
+      if (!synonym) return;
+
+      // Check duplicates
+      if (submittedSynonymsRef.current.includes(synonym)) return;
+
+      const studentId = vote.studentId || vote.clientId;
+      if (!studentId) return;
+
+      // Add to submitted list
+      setSubmittedSynonyms(prev => [...prev, synonym]);
+
+      // Evaluate asynchronously
+      fetch('/api/synonym-showdown/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          targetWord: ch.targetWord,
+          contextSentence: ch.contextSentence,
+          synonym,
+          difficulty: sessionSettings.difficulty,
+        }),
+      })
+        .then(res => res.json())
+        .then((result: SynonymValidation) => {
+          if (result.isValid) {
+            setValidSynonyms(prev => [...prev, { word: synonym, score: result.score, quality: result.quality }]);
+            setTotalScore(prev => prev + result.score);
+          }
+
+          // Score the remote student
+          onScore(studentId, {
+            isCorrect: result.isValid,
+            points: result.score,
+            responseData: { synonym, quality: result.quality },
+          });
+
+          // Track remote submission for display
+          setRemoteSynonyms(prev => [...prev, {
+            displayName: vote.displayName,
+            word: synonym,
+            score: result.score,
+            quality: result.quality,
+            isValid: result.isValid,
+          }]);
+        })
+        .catch(() => {});
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [sessionSettings.difficulty, onRegisterRemoteVoteHandler, onScore]);
+
+  // Register submission handler (fallback for approval-based flow)
   useEffect(() => {
     onRegisterSubmissionHandler?.({
       handleSubmission: async (content: string) => {
@@ -72,10 +146,9 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
 
           const result: SynonymValidation = await response.json();
 
-          setCurrentInput(content.trim());
-          setSubmittedSynonyms((prev) => [...prev, synonym]);
+          setSubmittedSynonyms(prev => [...prev, synonym]);
           if (result.isValid) {
-            setValidSynonyms((prev) => [...prev, { word: synonym, score: result.score, quality: result.quality }]);
+            setValidSynonyms(prev => [...prev, { word: synonym, score: result.score, quality: result.quality }]);
           }
 
           return {
@@ -93,26 +166,29 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   const finishGame = useCallback(() => {
-    if (!currentStudentId) return;
+    if (!isSimultaneous && !currentStudentId) return;
 
     setStatus(GameStatus.FINISHED);
 
-    const avgScore = validSynonyms.length > 0
-      ? Math.round(validSynonyms.reduce((sum, s) => sum + s.score, 0) / validSynonyms.length)
-      : 0;
+    // Only score the current student in turn-based mode
+    if (!isSimultaneous && currentStudentId) {
+      const avgScore = validSynonyms.length > 0
+        ? Math.round(validSynonyms.reduce((sum, s) => sum + s.score, 0) / validSynonyms.length)
+        : 0;
 
-    onScore(currentStudentId, {
-      isCorrect: validSynonyms.length >= 3,
-      points: Math.min(10, Math.round(totalScore / 10)),
-      responseData: {
-        targetWord: challenge?.targetWord,
-        validSynonyms: validSynonyms.map(s => s.word),
-        totalSynonyms: validSynonyms.length,
-        averageQuality: avgScore,
-        totalScore
-      }
-    });
-  }, [currentStudentId, validSynonyms, totalScore, challenge, onScore]);
+      onScore(currentStudentId, {
+        isCorrect: validSynonyms.length >= 3,
+        points: Math.min(10, Math.round(totalScore / 10)),
+        responseData: {
+          targetWord: challenge?.targetWord,
+          validSynonyms: validSynonyms.map(s => s.word),
+          totalSynonyms: validSynonyms.length,
+          averageQuality: avgScore,
+          totalScore
+        }
+      });
+    }
+  }, [isSimultaneous, currentStudentId, validSynonyms, totalScore, challenge, onScore]);
 
   // Timer effect
   useEffect(() => {
@@ -132,7 +208,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   }, [status, timeRemaining, finishGame]);
 
   const handleGenerate = async () => {
-    if (!currentStudentId) {
+    if (!isSimultaneous && !currentStudentId) {
       onPickStudent();
       return;
     }
@@ -146,6 +222,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     setTimeRemaining(sessionSettings.timerSeconds);
     setLastFeedback(null);
     setCurrentInput('');
+    setRemoteSynonyms([]);
 
     try {
       const response = await fetch('/api/synonym-showdown/generate', {
@@ -175,7 +252,6 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
 
     const synonym = currentInput.trim().toLowerCase();
 
-    // Check for duplicates
     if (submittedSynonyms.includes(synonym)) {
       setLastFeedback('Already submitted!');
       setCurrentInput('');
@@ -226,15 +302,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _handleNextRound = () => {
-    setChallenge(null);
-    setStatus(GameStatus.IDLE);
-    onPickStudent();
-  };
-
   const handleSameChallenge = () => {
-    // Keep challenge, reset per-turn state only
     setSubmittedSynonyms([]);
     setValidSynonyms([]);
     setCurrentStreak(0);
@@ -242,8 +310,9 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     setTimeRemaining(sessionSettings.timerSeconds);
     setLastFeedback(null);
     setCurrentInput('');
+    setRemoteSynonyms([]);
     setStatus(GameStatus.PLAYING);
-    onPickStudent();
+    if (!isSimultaneous) onPickStudent();
   };
 
   const getQualityColor = (quality: string) => {
@@ -259,12 +328,15 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          {currentStudent && (
+          {isSimultaneous ? (
+            <p className="text-lg font-semibold text-cyan-400">
+              Everyone plays! ({students.length} students)
+            </p>
+          ) : currentStudent ? (
             <p className="text-lg font-semibold text-cyan-400">
               {currentStudent.name}&apos;s turn
             </p>
-          )}
-          {!currentStudentId && (
+          ) : (
             <p className="opacity-70 text-sm">Pick a student to start</p>
           )}
         </div>
@@ -283,11 +355,14 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
           <div className="glass p-6 rounded-2xl border border-white/10">
             <h3 className="text-sm font-bold uppercase tracking-widest opacity-60 mb-3">How to Play</h3>
             <p className="text-slate-300 text-sm leading-relaxed">
-              List as many synonyms as you can before time runs out! Build streaks for bonus points.
+              {isSimultaneous
+                ? 'All students type synonyms on their devices before time runs out! Each valid synonym earns points.'
+                : 'List as many synonyms as you can before time runs out! Build streaks for bonus points.'
+              }
             </p>
           </div>
 
-          {!currentStudentId ? (
+          {!isSimultaneous && !currentStudentId ? (
             <button
               onClick={onPickStudent}
               className="w-full px-12 py-6 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
@@ -339,15 +414,19 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
               <div className={`px-4 py-2 rounded-xl font-game text-2xl ${timeRemaining <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/10 text-white'}`}>
                 {timeRemaining}s
               </div>
-              {currentStreak > 1 && (
+              {!isSimultaneous && currentStreak > 1 && (
                 <div className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-bold">
                   {currentStreak}x Streak!
                 </div>
               )}
             </div>
             <div className="text-right">
-              <p className="text-xs text-slate-400 uppercase">Score</p>
-              <p className="text-2xl font-bold text-white">{totalScore}</p>
+              <p className="text-xs text-slate-400 uppercase">
+                {isSimultaneous ? 'Submissions' : 'Score'}
+              </p>
+              <p className="text-2xl font-bold text-white">
+                {isSimultaneous ? remoteSynonyms.length : totalScore}
+              </p>
             </div>
           </div>
 
@@ -368,29 +447,31 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
             <p className="text-xs text-slate-500">Hint: {challenge.hint}</p>
           </div>
 
-          {/* Input */}
-          <div className="flex gap-3">
-            <input
-              type="text"
-              value={currentInput}
-              onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type a synonym..."
-              disabled={isEvaluating}
-              autoFocus
-              className="flex-1 bg-black/40 border-2 border-white/10 text-white rounded-xl px-4 py-3 focus:border-orange-500 outline-none text-lg disabled:opacity-50"
-            />
-            <button
-              onClick={handleSubmitSynonym}
-              disabled={!currentInput.trim() || isEvaluating}
-              className="px-6 py-3 bg-gradient-to-r from-orange-500 to-rose-500 rounded-xl font-bold text-white disabled:opacity-30"
-            >
-              {isEvaluating ? '...' : 'GO'}
-            </button>
-          </div>
+          {/* Teacher input (still available for teacher to type on behalf of in-person students) */}
+          {!isSimultaneous && (
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={currentInput}
+                onChange={(e) => setCurrentInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Type a synonym..."
+                disabled={isEvaluating}
+                autoFocus
+                className="flex-1 bg-black/40 border-2 border-white/10 text-white rounded-xl px-4 py-3 focus:border-orange-500 outline-none text-lg disabled:opacity-50"
+              />
+              <button
+                onClick={handleSubmitSynonym}
+                disabled={!currentInput.trim() || isEvaluating}
+                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-rose-500 rounded-xl font-bold text-white disabled:opacity-30"
+              >
+                {isEvaluating ? '...' : 'GO'}
+              </button>
+            </div>
+          )}
 
-          {/* Feedback */}
-          {lastFeedback && (
+          {/* Feedback (turn-based) */}
+          {!isSimultaneous && lastFeedback && (
             <motion.p
               key={lastFeedback}
               initial={{ opacity: 0, y: -10 }}
@@ -401,8 +482,45 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
             </motion.p>
           )}
 
-          {/* Valid Synonyms */}
-          {validSynonyms.length > 0 && (
+          {/* Remote submissions feed (simultaneous) */}
+          {isSimultaneous && remoteSynonyms.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Live Feed</p>
+              <AnimatePresence>
+                {remoteSynonyms.slice(-8).reverse().map((syn, i) => (
+                  <motion.div
+                    key={`${syn.displayName}-${syn.word}-${i}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className={`flex items-center justify-between px-4 py-2 rounded-xl ${
+                      syn.isValid ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-white text-sm">{syn.displayName}</span>
+                      <span className={`text-sm ${syn.isValid ? 'text-emerald-300' : 'text-red-300 line-through'}`}>
+                        {syn.word}
+                      </span>
+                    </div>
+                    {syn.isValid && (
+                      <span className={`text-xs font-bold px-2 py-1 rounded-full bg-gradient-to-r ${getQualityColor(syn.quality)} text-white`}>
+                        +{syn.score}
+                      </span>
+                    )}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
+
+          {isSimultaneous && remoteSynonyms.length === 0 && (
+            <div className="text-center py-4">
+              <p className="text-slate-400 text-sm">Waiting for students to submit synonyms on their devices...</p>
+            </div>
+          )}
+
+          {/* Valid Synonyms (turn-based) */}
+          {!isSimultaneous && validSynonyms.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {validSynonyms.map((syn, i) => (
                 <motion.span
@@ -428,21 +546,43 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
         >
           <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
             <h3 className="text-2xl font-bold text-white mb-2">Time&apos;s Up!</h3>
-            <p className="text-6xl font-black text-emerald-400 mb-4">{totalScore}</p>
-            <p className="text-slate-400">
-              {validSynonyms.length} valid synonym{validSynonyms.length !== 1 ? 's' : ''} found
-            </p>
+            {isSimultaneous ? (
+              <>
+                <p className="text-4xl font-black text-emerald-400 mb-4">{remoteSynonyms.filter(s => s.isValid).length}</p>
+                <p className="text-slate-400">
+                  valid synonyms found by the class
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-6xl font-black text-emerald-400 mb-4">{totalScore}</p>
+                <p className="text-slate-400">
+                  {validSynonyms.length} valid synonym{validSynonyms.length !== 1 ? 's' : ''} found
+                </p>
+              </>
+            )}
 
-            {validSynonyms.length > 0 && (
+            {/* Show all valid synonyms */}
+            {(isSimultaneous ? remoteSynonyms.filter(s => s.isValid) : validSynonyms).length > 0 && (
               <div className="mt-4 flex flex-wrap justify-center gap-2">
-                {validSynonyms.map((syn, i) => (
-                  <span
-                    key={i}
-                    className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getQualityColor(syn.quality)}`}
-                  >
-                    {syn.word}
-                  </span>
-                ))}
+                {isSimultaneous
+                  ? remoteSynonyms.filter(s => s.isValid).map((syn, i) => (
+                      <span
+                        key={i}
+                        className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getQualityColor(syn.quality)}`}
+                      >
+                        {syn.word} ({syn.displayName})
+                      </span>
+                    ))
+                  : validSynonyms.map((syn, i) => (
+                      <span
+                        key={i}
+                        className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getQualityColor(syn.quality)}`}
+                      >
+                        {syn.word}
+                      </span>
+                    ))
+                }
               </div>
             )}
           </div>
@@ -458,7 +598,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
               onClick={handleSameChallenge}
               className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30"
             >
-              SAME WORD, NEW STUDENT
+              {isSimultaneous ? 'SAME WORD, AGAIN' : 'SAME WORD, NEW STUDENT'}
             </button>
           </div>
         </motion.div>

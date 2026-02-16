@@ -2,11 +2,20 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { GameProps } from '../types';
+import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
+interface RaceSolver {
+  studentId: string;
+  displayName: string;
+  replacement: string;
+  score: number;
+  comment: string;
+  position: number;
+}
+
+export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -21,32 +30,139 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [showHint, setShowHint] = useState<boolean>(false);
 
+  // Simultaneous race mode
+  const isSimultaneous = students.length >= 3;
+  const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
+  const [raceFinished, setRaceFinished] = useState(false);
+
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
-  // Keep a ref to current sentence for the submission handler
+  // Keep refs for handlers
   const currentSentenceRef = useRef<GameSentence | null>(null);
   currentSentenceRef.current = currentSentence;
+  const statusRef = useRef<GameStatus>(status);
+  statusRef.current = status;
+  const raceFinishedRef = useRef(false);
+  raceFinishedRef.current = raceFinished;
 
   // Register input spec for student controller
   useEffect(() => {
-    if (status === GameStatus.RUNNING && currentSentence) {
-      onSetInputSpec?.({
-        type: 'text',
-        gameKey: 'vocab-sprint',
-        prompt: `Replace the weak word "${currentSentence.weakWord}" with a stronger word`,
-        placeholder: 'Type an upgrade word...',
-        maxLength: 50,
-      });
+    if (isSimultaneous) {
+      if (status === GameStatus.RUNNING && currentSentence && !raceFinished) {
+        onSetInputSpec?.({
+          type: 'text',
+          gameKey: 'vocab-sprint',
+          prompt: `Replace the weak word "${currentSentence.weakWord}" with a stronger word — race!`,
+          placeholder: 'Type an upgrade word...',
+          maxLength: 50,
+        });
+      } else {
+        onSetInputSpec?.(null);
+      }
     } else {
-      onSetInputSpec?.(null);
+      if (status === GameStatus.RUNNING && currentSentence) {
+        onSetInputSpec?.({
+          type: 'text',
+          gameKey: 'vocab-sprint',
+          prompt: `Replace the weak word "${currentSentence.weakWord}" with a stronger word`,
+          placeholder: 'Type an upgrade word...',
+          maxLength: 50,
+        });
+      } else {
+        onSetInputSpec?.(null);
+      }
     }
-  }, [status, currentSentence, onSetInputSpec]);
+  }, [isSimultaneous, status, currentSentence, raceFinished, onSetInputSpec]);
 
-  // Register submission handler to evaluate remote submissions
+  // Handle race submissions from remote students
+  const handleRaceSubmission = useCallback(async (vote: GameRemoteVote) => {
+    if (raceFinishedRef.current) return;
+    if (statusRef.current !== GameStatus.RUNNING) return;
+
+    const sentence = currentSentenceRef.current;
+    if (!sentence) return;
+
+    const studentId = vote.studentId || vote.clientId;
+    if (!studentId) return;
+
+    const replacement = vote.choice?.trim();
+    if (!replacement) return;
+
+    // Prevent duplicate submissions
+    setRaceSolvers(prev => {
+      if (prev.some(s => s.studentId === studentId)) return prev;
+      return prev; // Will be updated after evaluation
+    });
+
+    try {
+      const response = await fetch('/api/vocab-sprint/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          originalSentence: sentence.sentence,
+          weakWord: sentence.weakWord,
+          replacement,
+          difficulty: sessionSettings.difficulty,
+        }),
+      });
+
+      if (!response.ok) return;
+
+      const result: EvaluationResult = await response.json();
+
+      setRaceSolvers(prev => {
+        if (prev.some(s => s.studentId === studentId)) return prev;
+
+        const position = prev.length + 1;
+
+        onScore(studentId, {
+          isCorrect: result.score >= 5,
+          points: result.score,
+          responseData: {
+            replacement,
+            score: result.score,
+            comment: result.comment,
+            position,
+          },
+        });
+
+        try {
+          const audio = new Audio(result.score >= 5 ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
+          audio.volume = 0.5;
+          audio.play().catch(() => {});
+        } catch {}
+
+        return [...prev, {
+          studentId,
+          displayName: vote.displayName,
+          replacement,
+          score: result.score,
+          comment: result.comment,
+          position,
+        }];
+      });
+    } catch (err) {
+      console.error('Race evaluation failed:', err);
+    }
+  }, [sessionSettings.difficulty, onScore]);
+
+  // Register remote vote handler
   useEffect(() => {
+    if (isSimultaneous) {
+      onRegisterRemoteVoteHandler?.(handleRaceSubmission);
+    } else {
+      onRegisterRemoteVoteHandler?.(null);
+    }
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [isSimultaneous, onRegisterRemoteVoteHandler, handleRaceSubmission]);
+
+  // Register submission handler (turn-based fallback)
+  useEffect(() => {
+    if (isSimultaneous) return;
+
     onRegisterSubmissionHandler?.({
       handleSubmission: async (content: string) => {
         const sentence = currentSentenceRef.current;
@@ -70,7 +186,6 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
           const result: EvaluationResult = await response.json();
 
-          // Update the game UI with the result
           setReplacementInput(content.trim());
           setEvaluation(result);
           setStatus(GameStatus.FINISHED);
@@ -87,7 +202,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     });
 
     return () => onRegisterSubmissionHandler?.(null);
-  }, [sessionSettings.difficulty, onRegisterSubmissionHandler]);
+  }, [isSimultaneous, sessionSettings.difficulty, onRegisterSubmissionHandler]);
 
   // Track previous student to detect changes
   const prevStudentRef = useRef<string | null>(null);
@@ -97,22 +212,19 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     setSentenceQueue([]);
   }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.tone]);
 
-  // When student changes and we have sentences ready, auto-continue (don't reset to IDLE)
+  // When student changes (turn-based only)
   useEffect(() => {
+    if (isSimultaneous) return;
     if (currentStudentId && prevStudentRef.current !== currentStudentId) {
       prevStudentRef.current = currentStudentId;
-
-      // If we have sentences ready and were in IDLE or FINISHED, prepare for next round
-      // The actual start will happen when user clicks or after spin completes
       if (status === GameStatus.FINISHED) {
-        // Reset UI state but keep the queue
         setShowSuggestions(false);
         setShowHint(false);
         setReplacementInput('');
         setEvaluation(null);
       }
     }
-  }, [currentStudentId, status]);
+  }, [isSimultaneous, currentStudentId, status]);
 
   // Fetch batch of sentences
   const fetchBatch = useCallback(async (isInitial: boolean = false) => {
@@ -149,7 +261,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
   // Start a sprint round
   const startSprint = async () => {
-    if (!currentStudentId) {
+    if (!isSimultaneous && !currentStudentId) {
       onPickStudent();
       return;
     }
@@ -158,6 +270,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     setShowHint(false);
     setReplacementInput('');
     setEvaluation(null);
+    setRaceSolvers([]);
+    setRaceFinished(false);
 
     if (sentenceQueue.length > 0) {
       const next = sentenceQueue[0];
@@ -166,12 +280,10 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
       setTimeLeft(sessionSettings.timerSeconds);
       setStatus(GameStatus.RUNNING);
 
-      // Background replenishment if queue is getting low
       if (sentenceQueue.length < 3) {
         fetchBatch();
       }
     } else {
-      // Emergency fetch if queue is empty
       setCurrentFact(ENGLISH_FACTS[Math.floor(Math.random() * ENGLISH_FACTS.length)]);
       setStatus(GameStatus.GENERATING);
       try {
@@ -204,7 +316,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     }
   };
 
-  // Retry same sentence
+  // Retry same sentence (turn-based)
   const tryAgain = () => {
     if (!currentSentence) return;
     setShowSuggestions(false);
@@ -215,7 +327,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     setStatus(GameStatus.RUNNING);
   };
 
-  // Submit for evaluation
+  // Submit for evaluation (turn-based)
   const submitEvaluation = async () => {
     if (!currentSentence || !replacementInput.trim() || !currentStudentId) return;
     setStatus(GameStatus.EVALUATING);
@@ -237,13 +349,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
       const result: EvaluationResult = await response.json();
       setEvaluation(result);
 
-      // Wire score into per-student leaderboard
-      // Always use the AI score (1-10) as points - let the spin wheel modifier apply to it
-      const points = result.score;
-      const isCorrect = result.score >= 5; // 5+ is considered a good answer
       onScore(currentStudentId, {
-        isCorrect,
-        points,
+        isCorrect: result.score >= 5,
+        points: result.score,
         responseData: {
           replacement: replacementInput,
           score: result.score,
@@ -265,19 +373,24 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     if (status === GameStatus.RUNNING && timeLeft > 0) {
       timerRef.current = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
     } else if (timeLeft === 0 && status === GameStatus.RUNNING) {
-      setStatus(GameStatus.TIME_UP);
+      if (isSimultaneous) {
+        setRaceFinished(true);
+        setStatus(GameStatus.FINISHED);
+      } else {
+        setStatus(GameStatus.TIME_UP);
+      }
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [status, timeLeft]);
+  }, [status, timeLeft, isSimultaneous]);
 
-  // Focus input when running
+  // Focus input when running (turn-based)
   useEffect(() => {
-    if (status === GameStatus.RUNNING && inputRef.current) {
+    if (!isSimultaneous && status === GameStatus.RUNNING && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [status]);
+  }, [isSimultaneous, status]);
 
   // Render sentence with highlighted weak word
   const renderSentence = () => {
@@ -302,6 +415,184 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     return 'bg-red-500';
   };
 
+  const handleEndRace = () => {
+    setRaceFinished(true);
+    setStatus(GameStatus.FINISHED);
+  };
+
+  // ============ SIMULTANEOUS RACE MODE ============
+  if (isSimultaneous) {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-lg font-semibold text-cyan-400">
+              Everyone plays! ({students.length} students)
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            {isFetchingBatch && (
+              <div className="w-3 h-3 bg-cyan-500 rounded-full animate-pulse" title="Pre-loading..." />
+            )}
+            <span className="text-xs opacity-40">{sentenceQueue.length} ready</span>
+          </div>
+        </div>
+
+        {/* IDLE State */}
+        {status === GameStatus.IDLE && (
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8">
+            <div className="mb-6">
+              <p className="text-xl mb-1 opacity-90 font-bold italic tracking-tight">Level Up Your Vocabulary</p>
+              <p className="text-slate-500 text-[10px] uppercase tracking-widest font-black">
+                Race Mode: {sessionSettings.topic} / {sessionSettings.difficulty}
+              </p>
+            </div>
+            <button
+              onClick={startSprint}
+              className="px-12 py-6 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
+            >
+              {sentenceQueue.length > 0 ? 'START RACE' : 'LOAD SPRINT'}
+            </button>
+          </motion.div>
+        )}
+
+        {/* GENERATING State */}
+        {status === GameStatus.GENERATING && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-8 max-w-2xl mx-auto text-center">
+            <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
+            <div className="space-y-4">
+              <p className="font-game text-xl text-cyan-400 uppercase tracking-widest animate-pulse">Pre-fetching Sentences...</p>
+              <div className="glass p-6 rounded-2xl border border-white/10 shadow-inner">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 block mb-2">Did you know?</span>
+                <p className="text-lg font-semibold italic text-slate-300">&quot;{currentFact}&quot;</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* RUNNING State — Race mode */}
+        {status === GameStatus.RUNNING && currentSentence && (
+          <div className="space-y-6">
+            {/* Timer */}
+            <div className="flex items-center justify-between">
+              <div className={`text-5xl font-game transition-all ${
+                timeLeft <= 5 ? 'text-red-500 animate-pulse' : 'text-white'
+              }`}>
+                {timeLeft}s
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-slate-400 uppercase">Submissions</p>
+                <p className="text-2xl font-bold text-emerald-400">{raceSolvers.length}</p>
+              </div>
+            </div>
+
+            {/* Sentence Card */}
+            <div className="glass p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-white/10">
+              {renderSentence()}
+              <div className="flex justify-between items-center mt-4 border-t border-white/5 pt-3 gap-2 opacity-50 text-[8px] font-black uppercase tracking-widest">
+                <div className="flex gap-2">
+                  <span>{sessionSettings.difficulty}</span>
+                  <span>{sessionSettings.topic}</span>
+                </div>
+                <p>Replace the highlighted word</p>
+              </div>
+            </div>
+
+            {/* Live solver feed */}
+            {raceSolvers.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Submissions</p>
+                <AnimatePresence>
+                  {raceSolvers.map(solver => (
+                    <motion.div
+                      key={solver.studentId}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className={`flex items-center justify-between px-4 py-3 rounded-xl ${
+                        solver.score >= 8
+                          ? 'bg-cyan-500/10 border border-cyan-500/20'
+                          : solver.score >= 5
+                          ? 'bg-yellow-500/10 border border-yellow-500/20'
+                          : 'bg-red-500/10 border border-red-500/20'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg font-black text-slate-500">#{solver.position}</span>
+                        <span className="font-semibold text-white">{solver.displayName}</span>
+                        <span className="text-sm text-slate-400 italic">&quot;{solver.replacement}&quot;</span>
+                      </div>
+                      <div className={`w-10 h-10 rounded-lg ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white`}>
+                        {solver.score}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            )}
+
+            {raceSolvers.length === 0 && (
+              <div className="text-center py-4">
+                <p className="text-slate-400 text-sm">Waiting for students to submit on their devices...</p>
+              </div>
+            )}
+
+            {/* End race button */}
+            <button
+              onClick={handleEndRace}
+              className="w-full py-3 glass hover:bg-white/10 rounded-xl font-game text-sm transition-all border border-white/10"
+            >
+              END EARLY
+            </button>
+          </div>
+        )}
+
+        {/* FINISHED State — Race results */}
+        {status === GameStatus.FINISHED && currentSentence && (
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
+            <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30 text-center">
+              <h3 className="text-2xl font-bold text-white mb-2">
+                {raceFinished || timeLeft === 0 ? "TIME'S UP!" : 'ROUND COMPLETE!'}
+              </h3>
+              <p className="text-slate-400">{raceSolvers.length} submissions received</p>
+            </div>
+
+            {/* Best answer highlight */}
+            {raceSolvers.length > 0 && (
+              <div className="space-y-2">
+                {[...raceSolvers].sort((a, b) => b.score - a.score).map((solver, i) => (
+                  <div
+                    key={solver.studentId}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl ${
+                      i === 0 ? 'bg-yellow-500/20 border border-yellow-500/30' : 'bg-white/5 border border-white/10'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      {i === 0 && <span className="text-lg font-black text-yellow-400">BEST</span>}
+                      <span className="font-semibold text-white">{solver.displayName}</span>
+                      <span className="text-sm text-slate-400 italic">&quot;{solver.replacement}&quot;</span>
+                    </div>
+                    <div className={`w-10 h-10 rounded-lg ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white`}>
+                      {solver.score}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <button
+              onClick={startSprint}
+              className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+            >
+              NEXT SENTENCE
+            </button>
+          </motion.div>
+        )}
+      </div>
+    );
+  }
+
+  // ============ TURN-BASED MODE (original) ============
   return (
     <div className="space-y-6">
       {/* Header with student and prefetch indicator */}
@@ -495,10 +786,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                     REVEAL PRO UPGRADES
                   </button>
                 ) : (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
+                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
                     <p className="text-center text-[8px] font-black uppercase tracking-widest opacity-40 mb-3">
                       Elite Level Suggestions
                     </p>
@@ -529,7 +817,6 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                 </button>
                 <button
                   onClick={() => {
-                    // Reset for next student, then pick
                     setStatus(GameStatus.IDLE);
                     setCurrentSentence(null);
                     setEvaluation(null);
