@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const storyText = sentences.map((s, i) => {
+    const storyText = sentences.map((s) => {
       if (s.isStarter) return `[Starter] ${s.text}`;
       return `[${s.studentName}] ${s.text}`;
     }).join('\n');
