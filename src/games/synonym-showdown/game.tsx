@@ -482,31 +482,28 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
             </motion.p>
           )}
 
-          {/* Remote submissions feed (simultaneous) */}
+          {/* Remote submissions feed — sealed during play to prevent copying */}
           {isSimultaneous && remoteSynonyms.length > 0 && (
             <div className="space-y-2">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Live Feed</p>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                {remoteSynonyms.length} of {students.length} submitted
+              </p>
               <AnimatePresence>
-                {remoteSynonyms.slice(-8).reverse().map((syn, i) => (
+                {Array.from(new Map(remoteSynonyms.map(s => [s.displayName, s])).values()).map((syn, i) => (
                   <motion.div
-                    key={`${syn.displayName}-${syn.word}-${i}`}
+                    key={`${syn.displayName}-${i}`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className={`flex items-center justify-between px-4 py-2 rounded-xl ${
-                      syn.isValid ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'
-                    }`}
+                    className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white text-sm">{syn.displayName}</span>
-                      <span className={`text-sm ${syn.isValid ? 'text-emerald-300' : 'text-red-300 line-through'}`}>
-                        {syn.word}
-                      </span>
+                    <div className="flex items-center gap-3">
+                      <span className="font-semibold text-white">{syn.displayName}</span>
                     </div>
-                    {syn.isValid && (
-                      <span className={`text-xs font-bold px-2 py-1 rounded-full bg-gradient-to-r ${getQualityColor(syn.quality)} text-white`}>
-                        +{syn.score}
-                      </span>
-                    )}
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
