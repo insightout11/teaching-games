@@ -14,11 +14,12 @@ const difficultyPrompts: Record<Difficulty, string> = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { previousWord, newWord, chainHistory, difficulty } = await request.json() as {
+    const { previousWord, newWord, chainHistory, difficulty, bonusChallenge } = await request.json() as {
       previousWord: string;
       newWord: string;
       chainHistory: string[];
       difficulty: Difficulty;
+      bonusChallenge?: { type: 'topic' | 'syllable' | 'letter' | 'vocabulary'; description: string; letter?: string };
     };
 
     if (!process.env.GEMINI_API_KEY) {
@@ -41,20 +42,34 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const needsBonusCheck = bonusChallenge && (bonusChallenge.type === 'topic' || bonusChallenge.type === 'vocabulary');
+
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
       generationConfig: {
         responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            isValid: { type: SchemaType.BOOLEAN },
-            connectionStrength: { type: SchemaType.STRING },
-            score: { type: SchemaType.INTEGER },
-            feedback: { type: SchemaType.STRING }
-          },
-          required: ['isValid', 'connectionStrength', 'score', 'feedback']
-        }
+        responseSchema: needsBonusCheck
+          ? {
+              type: SchemaType.OBJECT,
+              properties: {
+                isValid: { type: SchemaType.BOOLEAN },
+                connectionStrength: { type: SchemaType.STRING },
+                score: { type: SchemaType.INTEGER },
+                feedback: { type: SchemaType.STRING },
+                bonusAchieved: { type: SchemaType.BOOLEAN },
+              },
+              required: ['isValid', 'connectionStrength', 'score', 'feedback', 'bonusAchieved']
+            }
+          : {
+              type: SchemaType.OBJECT,
+              properties: {
+                isValid: { type: SchemaType.BOOLEAN },
+                connectionStrength: { type: SchemaType.STRING },
+                score: { type: SchemaType.INTEGER },
+                feedback: { type: SchemaType.STRING },
+              },
+              required: ['isValid', 'connectionStrength', 'score', 'feedback']
+            }
       }
     });
 
@@ -77,7 +92,16 @@ STRICT RULES - Be critical:
 - REJECT if you have to stretch to explain the link
 - ACCEPT: synonyms, antonyms, same category (animals, foods, etc.), cause-effect, part-whole, compound words, rhymes, common phrases
 - The connection must be something most people would immediately understand
-- When in doubt, mark as INVALID - this is a challenge game, not a free-for-all`;
+- When in doubt, mark as INVALID - this is a challenge game, not a free-for-all${
+      needsBonusCheck
+        ? `\n\nBONUS CHALLENGE: ${bonusChallenge.description}
+5. bonusAchieved: true/false - Did the word "${newWord}" meet this bonus challenge?${
+          bonusChallenge.type === 'topic'
+            ? ' Check if the word clearly relates to the topic.'
+            : ' Check if the word is advanced, uncommon, or sophisticated for this level.'
+        }`
+        : ''
+    }`;
 
     const result = await model.generateContent(prompt);
     const response = result.response;
@@ -86,6 +110,7 @@ STRICT RULES - Be critical:
     const evaluation = JSON.parse(text);
     return NextResponse.json({
       ...evaluation,
+      bonusAchieved: evaluation.bonusAchieved ?? false,
       chainLength: evaluation.isValid ? chainHistory.length + 1 : chainHistory.length
     });
   } catch (error) {

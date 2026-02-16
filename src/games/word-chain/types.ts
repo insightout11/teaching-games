@@ -1,3 +1,9 @@
+export interface BonusChallenge {
+  type: 'topic' | 'syllable' | 'letter' | 'vocabulary';
+  description: string;
+  letter?: string;
+}
+
 export interface ChainLink {
   word: string;
   connectionStrength: 'weak' | 'moderate' | 'strong' | 'creative';
@@ -8,6 +14,7 @@ export interface ExtendedChainLink extends ChainLink {
   studentId: string;
   studentName: string;
   team?: 'A' | 'B';
+  bonusEarned?: boolean;
 }
 
 export interface ValidationResult {

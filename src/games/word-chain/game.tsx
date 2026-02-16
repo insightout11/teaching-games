@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
-import type { ExtendedChainLink, ValidationResult } from './types';
+import type { ExtendedChainLink, ValidationResult, BonusChallenge } from './types';
 
 type TeamId = 'A' | 'B';
 
@@ -28,6 +28,13 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
   const [lastFeedback, setLastFeedback] = useState<string | null>(null);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Bonus challenge state
+  const [activeBonus, setActiveBonus] = useState<BonusChallenge | null>(null);
+  const [bonusToast, setBonusToast] = useState(false);
+  const activeBonusRef = useRef<BonusChallenge | null>(null);
+  activeBonusRef.current = activeBonus;
+  const bonusIndexRef = useRef(0);
 
   // Team mode
   const isTeamMode = students.length >= 3;
@@ -81,21 +88,87 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     return team.members[team.currentMemberIndex % team.members.length];
   };
 
+  // Point decay multiplier based on chain length
+  const getPointMultiplier = (chainLength: number): number => {
+    if (chainLength < 3) return 1.0;
+    if (chainLength < 6) return 0.75;
+    if (chainLength < 9) return 0.5;
+    return 0.25;
+  };
+
+  const getMultiplierLabel = (chainLength: number): { text: string; color: string } | null => {
+    const m = getPointMultiplier(chainLength);
+    if (m === 1.0) return null;
+    if (m === 0.75) return { text: '75%', color: 'text-yellow-400 bg-yellow-500/20' };
+    if (m === 0.5) return { text: '50%', color: 'text-orange-400 bg-orange-500/20' };
+    return { text: '25%', color: 'text-red-400 bg-red-500/20' };
+  };
+
+  // Pick a bonus challenge, rotating through types
+  const pickBonus = useCallback((): BonusChallenge => {
+    const types: BonusChallenge['type'][] = ['topic', 'syllable', 'letter', 'vocabulary'];
+    const type = types[bonusIndexRef.current % types.length];
+    bonusIndexRef.current++;
+
+    switch (type) {
+      case 'topic':
+        return { type: 'topic', description: `Word must relate to "${sessionSettings.topic}"` };
+      case 'syllable':
+        return { type: 'syllable', description: 'Use a word with 3+ syllables' };
+      case 'letter': {
+        const consonants = 'BCDFGHJKLMNPRSTVW';
+        const letter = consonants[Math.floor(Math.random() * consonants.length)];
+        return { type: 'letter', description: `Word must start with "${letter}"`, letter };
+      }
+      case 'vocabulary':
+        return { type: 'vocabulary', description: 'Use an advanced or uncommon word' };
+    }
+  }, [sessionSettings.topic]);
+
+  // Simple syllable count heuristic (vowel groups)
+  const countSyllables = (word: string): number => {
+    const w = word.toLowerCase().replace(/[^a-z]/g, '');
+    if (w.length <= 2) return 1;
+    const vowelGroups = w.match(/[aeiouy]+/g);
+    let count = vowelGroups ? vowelGroups.length : 1;
+    if (w.endsWith('e') && count > 1) count--;
+    return Math.max(1, count);
+  };
+
+  // Check client-side bonus conditions
+  const checkClientBonus = useCallback((word: string, bonus: BonusChallenge): boolean => {
+    if (bonus.type === 'syllable') return countSyllables(word) >= 3;
+    if (bonus.type === 'letter') return word.toLowerCase().startsWith((bonus.letter || '').toLowerCase());
+    return false; // topic and vocabulary are checked server-side
+  }, []);
+
+  // Set bonus when chain reaches the right position
+  useEffect(() => {
+    if (status !== GameStatus.PLAYING) return;
+    // Trigger bonus when next link will be the 5th, 10th, 15th...
+    if (chain.length > 0 && chain.length % 5 === 4) {
+      setActiveBonus(pickBonus());
+    } else {
+      setActiveBonus(null);
+    }
+  }, [chain.length, status, pickBonus]);
+
   // Register input spec
   useEffect(() => {
     if (status === GameStatus.PLAYING && currentWord) {
+      const bonusText = activeBonus ? `\n⭐ BONUS: ${activeBonus.description}` : '';
       onSetInputSpec?.({
         type: 'text',
         gameKey: 'word-chain',
-        prompt: `Connect to: "${currentWord}"`,
-        placeholder: 'Type a connected word...',
+        prompt: `Connect to: "${currentWord}"${bonusText}`,
+        placeholder: activeBonus ? `Bonus challenge! Type a word...` : 'Type a connected word...',
         maxLength: 50,
       });
     } else {
       onSetInputSpec?.(null);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, currentWord, onSetInputSpec, isTeamMode, activeTeam]);
+  }, [status, currentWord, onSetInputSpec, isTeamMode, activeTeam, activeBonus]);
 
   // Evaluate a word submission (shared logic)
   const evaluateWord = useCallback(async (word: string, studentId: string, studentName: string, teamId?: TeamId): Promise<{ valid: boolean; result?: ValidationResult }> => {
@@ -109,6 +182,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     }
 
     try {
+      const bonus = activeBonusRef.current;
       const response = await fetch('/api/word-chain/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -117,41 +191,69 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           newWord: word.toLowerCase(),
           chainHistory: allWords,
           difficulty: sessionSettings.difficulty,
+          ...(bonus && (bonus.type === 'topic' || bonus.type === 'vocabulary') ? { bonusChallenge: bonus } : {}),
         }),
       });
 
       if (!response.ok) throw new Error('Failed to evaluate');
 
-      const result: ValidationResult = await response.json();
+      const result: ValidationResult & { bonusAchieved?: boolean } = await response.json();
       setLastFeedback(result.feedback);
 
       if (result.isValid) {
+        // Determine bonus achievement
+        let bonusAchieved = false;
+        if (bonus) {
+          if (bonus.type === 'topic' || bonus.type === 'vocabulary') {
+            bonusAchieved = result.bonusAchieved ?? false;
+          } else {
+            bonusAchieved = checkClientBonus(word, bonus);
+          }
+        }
+
+        // Apply decay multiplier and bonus
+        const chainPos = chainRef.current.length;
+        const multiplier = getPointMultiplier(chainPos);
+        const bonusMult = bonusAchieved ? 2 : 1;
+        const finalScore = Math.max(1, Math.round(result.score * bonusMult * multiplier));
+
         onScore(studentId, {
           isCorrect: true,
-          points: result.score,
+          points: finalScore,
           responseData: {
             word: word.toLowerCase(),
             connectionStrength: result.connectionStrength,
-            chainPosition: chainRef.current.length + 1,
+            chainPosition: chainPos + 1,
+            bonusEarned: bonusAchieved,
           },
         });
 
         setChain(prev => [...prev, {
           word: word.toLowerCase(),
           connectionStrength: result.connectionStrength,
-          score: result.score,
+          score: finalScore,
           studentId,
           studentName,
           team: teamId,
+          bonusEarned: bonusAchieved,
         }]);
 
         // Update team score
         if (teamId) {
           setTeams(prev => ({
             ...prev,
-            [teamId]: { ...prev[teamId], score: prev[teamId].score + result.score },
+            [teamId]: { ...prev[teamId], score: prev[teamId].score + finalScore },
           }));
         }
+
+        // Bonus toast
+        if (bonusAchieved) {
+          setBonusToast(true);
+          setTimeout(() => setBonusToast(false), 2000);
+        }
+
+        // Clear active bonus after it's been attempted
+        if (bonus) setActiveBonus(null);
 
         try {
           const audio = new Audio('/sounds/correct.mp3');
@@ -171,7 +273,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
       setLastFeedback('Error evaluating. Try again!');
       return { valid: false };
     }
-  }, [sessionSettings.difficulty, onScore]);
+  }, [sessionSettings.difficulty, onScore, checkClientBonus]);
 
   // Remote vote handler for team mode
   const handleRemoteVote = useCallback(async (vote: GameRemoteVote) => {
@@ -290,6 +392,8 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     setCurrentInput('');
     setLastFeedback(null);
     setLosingTeam(null);
+    setActiveBonus(null);
+    bonusIndexRef.current = 0;
     if (isTeamMode) {
       setActiveTeam('A');
       setTeams(prev => ({
@@ -373,6 +477,8 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     setCurrentInput('');
     setLastFeedback(null);
     setLosingTeam(null);
+    setActiveBonus(null);
+    bonusIndexRef.current = 0;
     setStatus(GameStatus.PLAYING);
     if (isTeamMode) {
       setActiveTeam('A');
@@ -417,6 +523,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
                 ? (link.team === 'A' ? teams.A.color : teams.B.color)
                 : getStrengthColor(link.connectionStrength)
             }`}>
+              {link.bonusEarned && <span className="mr-1">⭐</span>}
               {link.word}
               <span className="ml-1 text-xs opacity-70">({link.studentName})</span>
             </span>
@@ -518,12 +625,48 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
         {/* PLAYING */}
         {status === GameStatus.PLAYING && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-            {/* Chain Length */}
-            <div className="flex items-center justify-center">
+            {/* Chain Length + Decay Badge */}
+            <div className="flex items-center justify-center gap-2">
               <div className="px-4 py-2 bg-teal-500/20 text-teal-400 rounded-xl text-sm font-bold">
                 Chain: {chain.length} links
               </div>
+              {getMultiplierLabel(chain.length) && (
+                <div className={`px-3 py-2 rounded-xl text-sm font-bold ${getMultiplierLabel(chain.length)!.color}`}>
+                  {getMultiplierLabel(chain.length)!.text} pts
+                </div>
+              )}
             </div>
+
+            {/* Bonus Challenge Banner */}
+            <AnimatePresence>
+              {activeBonus && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  className="relative p-4 rounded-xl border-2 border-yellow-500/40 bg-gradient-to-r from-yellow-500/10 to-amber-500/10 text-center"
+                >
+                  <span className="absolute -top-2 right-3 px-2 py-0.5 bg-yellow-500 text-black text-xs font-black rounded-full">
+                    2x BONUS
+                  </span>
+                  <p className="text-yellow-300 font-bold text-sm">⭐ {activeBonus.description}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Bonus Toast */}
+            <AnimatePresence>
+              {bonusToast && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.5, y: -20 }}
+                  className="fixed top-1/3 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-yellow-500 text-black font-black text-xl rounded-2xl shadow-2xl"
+                >
+                  ⭐ +2x BONUS!
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Active team + current member indicator */}
             <div className={`glass p-4 rounded-xl border-2 ${activeTeamState.borderColor} text-center`}>
@@ -730,12 +873,48 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          {/* Chain Length */}
-          <div className="flex items-center justify-center">
+          {/* Chain Length + Decay Badge */}
+          <div className="flex items-center justify-center gap-2">
             <div className="px-4 py-2 bg-teal-500/20 text-teal-400 rounded-xl text-sm font-bold">
               Chain: {chain.length} links
             </div>
+            {getMultiplierLabel(chain.length) && (
+              <div className={`px-3 py-2 rounded-xl text-sm font-bold ${getMultiplierLabel(chain.length)!.color}`}>
+                {getMultiplierLabel(chain.length)!.text} pts
+              </div>
+            )}
           </div>
+
+          {/* Bonus Challenge Banner */}
+          <AnimatePresence>
+            {activeBonus && (
+              <motion.div
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                className="relative p-4 rounded-xl border-2 border-yellow-500/40 bg-gradient-to-r from-yellow-500/10 to-amber-500/10 text-center"
+              >
+                <span className="absolute -top-2 right-3 px-2 py-0.5 bg-yellow-500 text-black text-xs font-black rounded-full">
+                  2x BONUS
+                </span>
+                <p className="text-yellow-300 font-bold text-sm">⭐ {activeBonus.description}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Bonus Toast */}
+          <AnimatePresence>
+            {bonusToast && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.5, y: -20 }}
+                className="fixed top-1/3 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-yellow-500 text-black font-black text-xl rounded-2xl shadow-2xl"
+              >
+                ⭐ +2x BONUS!
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Current Word */}
           <div className="glass p-6 rounded-2xl border-2 border-teal-500/30 text-center">
@@ -826,6 +1005,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
                 <div key={i} className="flex items-center gap-2">
                   <span className="text-slate-500">→</span>
                   <span className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getStrengthColor(link.connectionStrength)}`}>
+                    {link.bonusEarned && <span className="mr-1">⭐</span>}
                     {link.word}
                     <span className="ml-1 text-xs opacity-70">({link.studentName})</span>
                   </span>
