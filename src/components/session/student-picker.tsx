@@ -5,7 +5,7 @@ import { useSessionStore, type GameMode } from '@/stores/session-store';
 import { useState, useCallback, useRef } from 'react';
 
 export function StudentPicker() {
-  const { students, currentStudentId, pickerMode, setPickerMode, pickStudent, gameMode, setGameMode, setCurrentStudent } = useSessionStore();
+  const { students, currentStudentId, pickerMode, setPickerMode, pickStudent, gameMode, setGameMode } = useSessionStore();
   const [spinning, setSpinning] = useState(false);
   const [displayIndex, setDisplayIndex] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout>();
@@ -88,27 +88,6 @@ export function StudentPicker() {
         {spinning ? 'PICKING...' : 'PICK STUDENT'}
       </button>
 
-      {/* Clickable Student List */}
-      {students.length > 0 && (
-        <div className="mt-4 border-t border-white/10 pt-4">
-          <p className="text-xs uppercase tracking-wider opacity-60 mb-2">Or click to select:</p>
-          <div className="max-h-48 overflow-y-auto space-y-1">
-            {students.map((student) => (
-              <button
-                key={student.id}
-                onClick={() => setCurrentStudent(student.id)}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                  student.id === currentStudentId
-                    ? 'bg-cyan-500/30 text-cyan-300'
-                    : 'hover:bg-white/10'
-                }`}
-              >
-                {student.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

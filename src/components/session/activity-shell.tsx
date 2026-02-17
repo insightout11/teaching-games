@@ -269,6 +269,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
       {/* Sidebar */}
       <div className="space-y-4">
         <StudentPicker />
+        <Leaderboard />
         {sessionId && (
           <ApprovalQueue
             sessionId={sessionId}
@@ -276,7 +277,6 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
             hideContent
           />
         )}
-        <Leaderboard />
       </div>
     </div>
   );

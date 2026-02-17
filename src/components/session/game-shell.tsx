@@ -250,6 +250,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
         {/* Sidebar */}
         <div className="space-y-4">
           <StudentPicker />
+          <Leaderboard />
+          <TeamTotals />
           {sessionId && (
             <ApprovalQueue
               sessionId={sessionId}
@@ -257,8 +259,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
               hideContent
             />
           )}
-          <TeamTotals />
-          <Leaderboard />
         </div>
       </div>
     </>

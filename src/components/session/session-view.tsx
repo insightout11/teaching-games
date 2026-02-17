@@ -8,6 +8,8 @@ import { ActivityShell } from './activity-shell';
 import { EndSessionSummary } from './end-session-summary';
 import { SessionSettingsBar } from './session-settings-bar';
 import { PollManager } from './poll-manager';
+import { TimerTool } from './timer-tool';
+import { RandomPickerTool } from './random-picker-tool';
 import { getAllGames, getGamesGrouped, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
@@ -659,7 +661,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : null}
       </div>
 
-      {/* Floating Poll Button - always visible */}
+      {/* Floating Tools - always visible */}
+      <RandomPickerTool students={students} />
+      <TimerTool />
       <PollManager sessionId={session.id} />
     </div>
   );
