@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyLevels: Record<Difficulty, string> = {
   'Beginner': 'A1 beginner',
@@ -18,6 +17,45 @@ interface SentenceInput {
   isStarter?: boolean;
 }
 
+const baseSchema: AISchema = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    overallScore: { type: 'integer' },
+    coherenceScore: { type: 'integer' },
+    creativityScore: { type: 'integer' },
+    endingScore: { type: 'integer' },
+    bestLineText: { type: 'string' },
+    bestLineStudentName: { type: 'string' },
+    bestLineReason: { type: 'string' },
+    summary: { type: 'string' },
+  },
+  required: [
+    'title', 'overallScore', 'coherenceScore', 'creativityScore',
+    'endingScore', 'bestLineText', 'bestLineStudentName', 'bestLineReason', 'summary',
+  ],
+};
+
+const topicSchema: AISchema = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    overallScore: { type: 'integer' },
+    coherenceScore: { type: 'integer' },
+    creativityScore: { type: 'integer' },
+    endingScore: { type: 'integer' },
+    bestLineText: { type: 'string' },
+    bestLineStudentName: { type: 'string' },
+    bestLineReason: { type: 'string' },
+    summary: { type: 'string' },
+    topicRelevance: { type: 'integer' },
+  },
+  required: [
+    'title', 'overallScore', 'coherenceScore', 'creativityScore',
+    'endingScore', 'bestLineText', 'bestLineStudentName', 'bestLineReason', 'summary', 'topicRelevance',
+  ],
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { sentences, topic, difficulty } = await request.json() as {
@@ -25,40 +63,6 @@ export async function POST(request: NextRequest) {
       topic?: string;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const baseProperties = {
-      title: { type: SchemaType.STRING },
-      overallScore: { type: SchemaType.INTEGER },
-      coherenceScore: { type: SchemaType.INTEGER },
-      creativityScore: { type: SchemaType.INTEGER },
-      endingScore: { type: SchemaType.INTEGER },
-      bestLineText: { type: SchemaType.STRING },
-      bestLineStudentName: { type: SchemaType.STRING },
-      bestLineReason: { type: SchemaType.STRING },
-      summary: { type: SchemaType.STRING },
-    } as const;
-
-    const baseRequired = [
-      'title', 'overallScore', 'coherenceScore', 'creativityScore',
-      'endingScore', 'bestLineText', 'bestLineStudentName', 'bestLineReason', 'summary',
-    ] as const;
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: topic
-          ? { type: SchemaType.OBJECT, properties: { ...baseProperties, topicRelevance: { type: SchemaType.INTEGER } }, required: [...baseRequired, 'topicRelevance'] }
-          : { type: SchemaType.OBJECT, properties: { ...baseProperties }, required: [...baseRequired] },
-      },
-    });
 
     const storyText = sentences.map((s) => {
       if (s.isStarter) return `[Starter] ${s.text}`;
@@ -92,9 +96,18 @@ Also:
 
 For bestLineStudentName, use EXACTLY one of: ${studentNames.join(', ')}`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-    const parsed = JSON.parse(text);
+    const parsed = await generateJSON<{
+      title: string;
+      overallScore: number;
+      coherenceScore: number;
+      creativityScore: number;
+      endingScore: number;
+      bestLineText: string;
+      bestLineStudentName: string;
+      bestLineReason: string;
+      summary: string;
+      topicRelevance?: number;
+    }>(prompt, topic ? topicSchema : baseSchema);
 
     // Reshape bestLine into nested object
     const response: Record<string, unknown> = {

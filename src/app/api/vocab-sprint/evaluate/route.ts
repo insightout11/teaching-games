@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export interface EvaluationResult {
   score: number;
@@ -10,6 +9,20 @@ export interface EvaluationResult {
   isValid: boolean;
   suggestions: string[];
 }
+
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    score: { type: 'integer' },
+    comment: { type: 'string' },
+    isValid: { type: 'boolean' },
+    suggestions: {
+      type: 'array',
+      items: { type: 'string' }
+    }
+  },
+  required: ['score', 'comment', 'isValid', 'suggestions']
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,33 +32,6 @@ export async function POST(request: NextRequest) {
       replacement: string;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            score: { type: SchemaType.INTEGER },
-            comment: { type: SchemaType.STRING },
-            isValid: { type: SchemaType.BOOLEAN },
-            suggestions: {
-              type: SchemaType.ARRAY,
-              items: { type: SchemaType.STRING }
-            }
-          },
-          required: ['score', 'comment', 'isValid', 'suggestions']
-        }
-      }
-    });
 
     const prompt = `Original Sentence: "${originalSentence}"
 Weak word targeted: "${weakWord}"
@@ -57,11 +43,7 @@ Task: Evaluate the replacement word based on how well it fits the context and up
 - 3-4 superior alternatives for a score of 10.
 - Short, energetic comment (max 10 words).`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const evaluation: EvaluationResult = JSON.parse(text);
+    const evaluation = await generateJSON<EvaluationResult>(prompt, schema);
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);

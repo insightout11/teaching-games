@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
 import { TargetTone } from '@/games/tone-transformer/types';
 import type {
@@ -27,8 +28,6 @@ import type {
   ConnectionsGeneratedContent,
 } from '@/activities/types';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-
 // Difficulty descriptions for AI prompts
 const difficultyDescriptions: Record<Difficulty, string> = {
   'Beginner': 'A1 level - Use very simple vocabulary and short sentences. Focus on basic concepts.',
@@ -38,44 +37,41 @@ const difficultyDescriptions: Record<Difficulty, string> = {
   'Expert': 'C2/Native level - Use nuanced, academic language with subtle distinctions.',
 };
 
-// Generate content for Would You Rather activity
+// ============================================
+// Activity Generators
+// ============================================
+
 async function generateWouldYouRather(topic: string, difficulty: Difficulty): Promise<WouldYouRatherContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          dilemmas: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                optionA: { type: SchemaType.STRING },
-                optionB: { type: SchemaType.STRING },
-                discussionPrompt: { type: SchemaType.STRING },
-              },
-              required: ['id', 'optionA', 'optionB', 'discussionPrompt'],
-            },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      dilemmas: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            optionA: { type: 'string' },
+            optionB: { type: 'string' },
+            discussionPrompt: { type: 'string' },
           },
-          potentialFollowUps: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                dilemmaId: { type: SchemaType.STRING },
-                questions: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              },
-              required: ['dilemmaId', 'questions'],
-            },
-          },
+          required: ['id', 'optionA', 'optionB', 'discussionPrompt'],
         },
-        required: ['dilemmas', 'potentialFollowUps'],
+      },
+      potentialFollowUps: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            dilemmaId: { type: 'string' },
+            questions: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['dilemmaId', 'questions'],
+        },
       },
     },
-  });
+    required: ['dilemmas', 'potentialFollowUps'],
+  };
 
   const prompt = `Generate 5 "Would You Rather?" dilemmas for an ESL classroom.
 Topic: ${topic}
@@ -84,8 +80,7 @@ Difficulty: ${difficultyDescriptions[difficulty]}
 Each dilemma needs two options (both appealing OR both unappealing), a discussion prompt, and 3 follow-up questions.
 Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dilemmaId and questions).`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
+  const parsed = await generateJSON<{ dilemmas: WouldYouRatherContent['dilemmas']; potentialFollowUps: Array<{ dilemmaId: string; questions: string[] }> }>(prompt, schema);
 
   const followUpsRecord: Record<string, string[]> = {};
   if (Array.isArray(parsed.potentialFollowUps)) {
@@ -99,32 +94,25 @@ Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dile
   return { activityKey: 'would-you-rather', topicContext: topic, dilemmas: parsed.dilemmas, potentialFollowUps: followUpsRecord };
 }
 
-// Generate content for Hot Take Arena
 async function generateHotTakeArena(topic: string, difficulty: Difficulty): Promise<HotTakeArenaContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      statement: { type: 'string' },
+      proArguments: { type: 'array', items: { type: 'string' } },
+      conArguments: { type: 'array', items: { type: 'string' } },
+      devilsAdvocate: {
+        type: 'object',
         properties: {
-          statement: { type: SchemaType.STRING },
-          proArguments: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-          conArguments: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-          devilsAdvocate: {
-            type: SchemaType.OBJECT,
-            properties: {
-              proChallenges: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              conChallenges: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-            },
-            required: ['proChallenges', 'conChallenges'],
-          },
-          vocabularyHighlights: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+          proChallenges: { type: 'array', items: { type: 'string' } },
+          conChallenges: { type: 'array', items: { type: 'string' } },
         },
-        required: ['statement', 'proArguments', 'conArguments', 'devilsAdvocate', 'vocabularyHighlights'],
+        required: ['proChallenges', 'conChallenges'],
       },
+      vocabularyHighlights: { type: 'array', items: { type: 'string' } },
     },
-  });
+    required: ['statement', 'proArguments', 'conArguments', 'devilsAdvocate', 'vocabularyHighlights'],
+  };
 
   const prompt = `Generate a debate topic for ESL "Hot Take Arena".
 Topic: ${topic}
@@ -132,40 +120,37 @@ Difficulty: ${difficultyDescriptions[difficulty]}
 
 Create a provocative statement, 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words.`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
-
+  const parsed = await generateJSON<{
+    statement: string;
+    proArguments: string[];
+    conArguments: string[];
+    devilsAdvocate: { proChallenges: string[]; conChallenges: string[] };
+    vocabularyHighlights: string[];
+  }>(prompt, schema);
   return { activityKey: 'hot-take-arena', topicContext: topic, ...parsed };
 }
 
-// Generate content for Two Truths & A Fabrication
 async function generateTwoTruths(topic: string, difficulty: Difficulty): Promise<TwoTruthsContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          rounds: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                statements: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-                fabricationIndex: { type: SchemaType.NUMBER },
-                explanation: { type: SchemaType.STRING },
-                difficulty: { type: SchemaType.STRING },
-              },
-              required: ['id', 'statements', 'fabricationIndex', 'explanation', 'difficulty'],
-            },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      rounds: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            statements: { type: 'array', items: { type: 'string' } },
+            fabricationIndex: { type: 'number' },
+            explanation: { type: 'string' },
+            difficulty: { type: 'string' },
           },
+          required: ['id', 'statements', 'fabricationIndex', 'explanation', 'difficulty'],
         },
-        required: ['rounds'],
       },
     },
-  });
+    required: ['rounds'],
+  };
 
   const prompt = `Generate 5 rounds of "Two Truths & A Fabrication" for ESL class.
 Topic: ${topic}
@@ -174,50 +159,41 @@ Difficulty: ${difficultyDescriptions[difficulty]}
 Each round: 3 statements (2 true, 1 false about the topic), fabricationIndex (0-2), explanation why it's false.
 Mix difficulty levels (easy/medium/hard).`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
-
+  const parsed = await generateJSON<{ rounds: TwoTruthsContent['rounds'] }>(prompt, schema);
   return { activityKey: 'two-truths', topicContext: topic, rounds: parsed.rounds };
 }
 
-// Generate content for Rank It!
 async function generateRankIt(topic: string, difficulty: Difficulty): Promise<RankItContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          challenges: {
-            type: SchemaType.ARRAY,
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      challenges: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            prompt: { type: 'string' },
             items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                prompt: { type: SchemaType.STRING },
-                items: {
-                  type: SchemaType.ARRAY,
-                  items: {
-                    type: SchemaType.OBJECT,
-                    properties: {
-                      id: { type: SchemaType.STRING },
-                      name: { type: SchemaType.STRING },
-                      hiddenFact: { type: SchemaType.STRING },
-                    },
-                    required: ['id', 'name', 'hiddenFact'],
-                  },
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  name: { type: 'string' },
+                  hiddenFact: { type: 'string' },
                 },
-                revealFacts: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+                required: ['id', 'name', 'hiddenFact'],
               },
-              required: ['id', 'prompt', 'items', 'revealFacts'],
             },
+            revealFacts: { type: 'array', items: { type: 'string' } },
           },
+          required: ['id', 'prompt', 'items', 'revealFacts'],
         },
-        required: ['challenges'],
       },
     },
-  });
+    required: ['challenges'],
+  };
 
   const prompt = `Generate 3 "Rank It!" challenges for ESL class.
 Topic: ${topic}
@@ -226,41 +202,32 @@ Difficulty: ${difficultyDescriptions[difficulty]}
 Each challenge: a ranking prompt, 4-5 items with hidden facts that might change minds.
 Example: "Rank these animals by survival ability" with surprising facts about each.`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
-
+  const parsed = await generateJSON<{ challenges: RankItContent['challenges'] }>(prompt, schema);
   return { activityKey: 'rank-it', topicContext: topic, challenges: parsed.challenges };
 }
 
-// Generate content for Fact Detective
 async function generateFactDetective(topic: string, difficulty: Difficulty): Promise<FactDetectiveContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          claims: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                statement: { type: SchemaType.STRING },
-                isTrue: { type: SchemaType.BOOLEAN },
-                explanation: { type: SchemaType.STRING },
-                vocabulary: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-                difficulty: { type: SchemaType.STRING },
-              },
-              required: ['id', 'statement', 'isTrue', 'explanation', 'vocabulary', 'difficulty'],
-            },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      claims: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            statement: { type: 'string' },
+            isTrue: { type: 'boolean' },
+            explanation: { type: 'string' },
+            vocabulary: { type: 'array', items: { type: 'string' } },
+            difficulty: { type: 'string' },
           },
+          required: ['id', 'statement', 'isTrue', 'explanation', 'vocabulary', 'difficulty'],
         },
-        required: ['claims'],
       },
     },
-  });
+    required: ['claims'],
+  };
 
   const prompt = `Generate 6 fact/myth claims for "Fact Detective" ESL activity.
 Topic: ${topic}
@@ -269,53 +236,44 @@ Difficulty: ${difficultyDescriptions[difficulty]}
 Mix of true facts and plausible myths. Include explanation and 2-3 vocabulary words per claim.
 Make claims progressively harder to guess.`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
-
+  const parsed = await generateJSON<{ claims: FactDetectiveContent['claims'] }>(prompt, schema);
   return { activityKey: 'fact-detective', topicContext: topic, claims: parsed.claims };
 }
 
-// Generate content for Expert Panel
 async function generateExpertPanel(topic: string, difficulty: Difficulty): Promise<ExpertPanelContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          roles: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                title: { type: SchemaType.STRING },
-                description: { type: SchemaType.STRING },
-                expertise: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-                suggestedVocabulary: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              },
-              required: ['id', 'title', 'description', 'expertise', 'suggestedVocabulary'],
-            },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      roles: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            title: { type: 'string' },
+            description: { type: 'string' },
+            expertise: { type: 'array', items: { type: 'string' } },
+            suggestedVocabulary: { type: 'array', items: { type: 'string' } },
           },
-          starterQuestions: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                targetRoleId: { type: SchemaType.STRING },
-                question: { type: SchemaType.STRING },
-                followUpHints: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              },
-              required: ['id', 'targetRoleId', 'question', 'followUpHints'],
-            },
-          },
+          required: ['id', 'title', 'description', 'expertise', 'suggestedVocabulary'],
         },
-        required: ['roles', 'starterQuestions'],
+      },
+      starterQuestions: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            targetRoleId: { type: 'string' },
+            question: { type: 'string' },
+            followUpHints: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['id', 'targetRoleId', 'question', 'followUpHints'],
+        },
       },
     },
-  });
+    required: ['roles', 'starterQuestions'],
+  };
 
   const prompt = `Generate an "Expert Panel" activity for ESL class.
 Topic: ${topic}
@@ -325,72 +283,63 @@ Create 4 expert roles related to the topic (e.g., scientist, historian, economis
 Each role: title, description, expertise areas, suggested vocabulary.
 Create 6 starter questions (mix of roles targeted), each with follow-up hints.`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
-
+  const parsed = await generateJSON<{ roles: ExpertPanelContent['roles']; starterQuestions: ExpertPanelContent['starterQuestions'] }>(prompt, schema);
   return { activityKey: 'expert-panel', topicContext: topic, roles: parsed.roles, starterQuestions: parsed.starterQuestions };
 }
 
-// Generate content for Scenario Simulator
 async function generateScenarioSimulator(topic: string, difficulty: Difficulty): Promise<ScenarioSimulatorContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      scenario: {
+        type: 'object',
         properties: {
-          scenario: {
-            type: SchemaType.OBJECT,
-            properties: {
-              title: { type: SchemaType.STRING },
-              context: { type: SchemaType.STRING },
-              objective: { type: SchemaType.STRING },
-            },
-            required: ['title', 'context', 'objective'],
-          },
-          roles: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                name: { type: SchemaType.STRING },
-                description: { type: SchemaType.STRING },
-                goals: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              },
-              required: ['id', 'name', 'description', 'goals'],
-            },
-          },
-          initialSituation: { type: SchemaType.STRING },
-          branchingPoints: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                situation: { type: SchemaType.STRING },
-                choices: {
-                  type: SchemaType.ARRAY,
-                  items: {
-                    type: SchemaType.OBJECT,
-                    properties: {
-                      id: { type: SchemaType.STRING },
-                      action: { type: SchemaType.STRING },
-                      consequence: { type: SchemaType.STRING },
-                    },
-                    required: ['id', 'action', 'consequence'],
-                  },
-                },
-              },
-              required: ['id', 'situation', 'choices'],
-            },
-          },
+          title: { type: 'string' },
+          context: { type: 'string' },
+          objective: { type: 'string' },
         },
-        required: ['scenario', 'roles', 'initialSituation', 'branchingPoints'],
+        required: ['title', 'context', 'objective'],
+      },
+      roles: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            description: { type: 'string' },
+            goals: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['id', 'name', 'description', 'goals'],
+        },
+      },
+      initialSituation: { type: 'string' },
+      branchingPoints: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            situation: { type: 'string' },
+            choices: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  action: { type: 'string' },
+                  consequence: { type: 'string' },
+                },
+                required: ['id', 'action', 'consequence'],
+              },
+            },
+          },
+          required: ['id', 'situation', 'choices'],
+        },
       },
     },
-  });
+    required: ['scenario', 'roles', 'initialSituation', 'branchingPoints'],
+  };
 
   const prompt = `Generate a "Scenario Simulator" for ESL class.
 Topic: ${topic}
@@ -402,40 +351,36 @@ Create an engaging scenario with:
 - Initial situation
 - 4 branching points with 2-3 choices each, showing consequences`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
-
+  const parsed = await generateJSON<{
+    scenario: { title: string; context: string; objective: string };
+    roles: Array<{ id: string; name: string; description: string; goals: string[] }>;
+    initialSituation: string;
+    branchingPoints: Array<{ id: string; situation: string; choices: Array<{ id: string; action: string; consequence: string }> }>;
+  }>(prompt, schema);
   return { activityKey: 'scenario-simulator', topicContext: topic, ...parsed };
 }
 
-// Generate content for Interview Lab
 async function generateInterviewLab(topic: string, difficulty: Difficulty): Promise<InterviewLabContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      character: {
+        type: 'object',
         properties: {
-          character: {
-            type: SchemaType.OBJECT,
-            properties: {
-              name: { type: SchemaType.STRING },
-              role: { type: SchemaType.STRING },
-              background: { type: SchemaType.STRING },
-              personality: { type: SchemaType.STRING },
-              expertise: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-            },
-            required: ['name', 'role', 'background', 'personality', 'expertise'],
-          },
-          context: { type: SchemaType.STRING },
-          sampleQuestions: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-          registers: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+          name: { type: 'string' },
+          role: { type: 'string' },
+          background: { type: 'string' },
+          personality: { type: 'string' },
+          expertise: { type: 'array', items: { type: 'string' } },
         },
-        required: ['character', 'context', 'sampleQuestions', 'registers'],
+        required: ['name', 'role', 'background', 'personality', 'expertise'],
       },
+      context: { type: 'string' },
+      sampleQuestions: { type: 'array', items: { type: 'string' } },
+      registers: { type: 'array', items: { type: 'string' } },
     },
-  });
+    required: ['character', 'context', 'sampleQuestions', 'registers'],
+  };
 
   const prompt = `Generate an "Interview Lab" character for ESL class.
 Topic: ${topic}
@@ -448,50 +393,46 @@ Create an interesting character to interview:
 - 5 sample questions students could ask
 - Registers: ['formal', 'casual']`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
-
+  const parsed = await generateJSON<{
+    character: { name: string; role: string; background: string; personality: string; expertise: string[] };
+    context: string;
+    sampleQuestions: string[];
+    registers: ('formal' | 'casual')[];
+  }>(prompt, schema);
   return { activityKey: 'interview-lab', topicContext: topic, ...parsed };
 }
 
-// Generate content for Problem Solvers
 async function generateProblemSolvers(topic: string, difficulty: Difficulty): Promise<ProblemSolversContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      problem: {
+        type: 'object',
         properties: {
-          problem: {
-            type: SchemaType.OBJECT,
-            properties: {
-              title: { type: SchemaType.STRING },
-              description: { type: SchemaType.STRING },
-              resources: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              successCriteria: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-            },
-            required: ['title', 'description', 'resources', 'successCriteria'],
-          },
-          constraints: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-          complications: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                id: { type: SchemaType.STRING },
-                trigger: { type: SchemaType.STRING },
-                complication: { type: SchemaType.STRING },
-                hints: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              },
-              required: ['id', 'trigger', 'complication', 'hints'],
-            },
-          },
+          title: { type: 'string' },
+          description: { type: 'string' },
+          resources: { type: 'array', items: { type: 'string' } },
+          successCriteria: { type: 'array', items: { type: 'string' } },
         },
-        required: ['problem', 'constraints', 'complications'],
+        required: ['title', 'description', 'resources', 'successCriteria'],
+      },
+      constraints: { type: 'array', items: { type: 'string' } },
+      complications: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            trigger: { type: 'string' },
+            complication: { type: 'string' },
+            hints: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['id', 'trigger', 'complication', 'hints'],
+        },
       },
     },
-  });
+    required: ['problem', 'constraints', 'complications'],
+  };
 
   const prompt = `Generate a "Problem Solvers" challenge for ESL class.
 Topic: ${topic}
@@ -504,9 +445,11 @@ Create:
 
 Example: "Design a city for 10 million people with no cars"`;
 
-  const result = await model.generateContent(prompt);
-  const parsed = JSON.parse(result.response.text());
-
+  const parsed = await generateJSON<{
+    problem: { title: string; description: string; resources: string[]; successCriteria: string[] };
+    constraints: string[];
+    complications: Array<{ id: string; trigger: string; complication: string; hints: string[] }>;
+  }>(prompt, schema);
   return { activityKey: 'problem-solvers', topicContext: topic, ...parsed };
 }
 
@@ -514,26 +457,19 @@ Example: "Design a city for 10 million people with no cars"`;
 // Game Generators
 // ============================================
 
-// Generate content for Vocab Sprint
 async function generateVocabSprint(topic: string, difficulty: Difficulty): Promise<VocabSprintGeneratedContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.ARRAY,
-        items: {
-          type: SchemaType.OBJECT,
-          properties: {
-            sentence: { type: SchemaType.STRING },
-            weakWord: { type: SchemaType.STRING },
-            hint: { type: SchemaType.STRING },
-          },
-          required: ['sentence', 'weakWord', 'hint'],
-        },
+  const schema: AISchema = {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        sentence: { type: 'string' },
+        weakWord: { type: 'string' },
+        hint: { type: 'string' },
       },
+      required: ['sentence', 'weakWord', 'hint'],
     },
-  });
+  };
 
   const prompt = `Generate 5 unique, natural English sentences for an English learner at ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
@@ -550,28 +486,19 @@ Choose weak words from this list (use variety - pick 5 DIFFERENT ones):
 Provide a 'hint' for each sentence—a short, friendly piece of advice (max 10 words).
 Return exactly 5 objects as a JSON array with varied weak words.`;
 
-  const result = await model.generateContent(prompt);
-  const sentences = JSON.parse(result.response.text());
-
+  const sentences = await generateJSON<Array<{ sentence: string; weakWord: string; hint: string }>>(prompt, schema);
   return { gameKey: 'vocab-sprint', sentences };
 }
 
-// Generate content for Grammar Boss
 async function generateGrammarBoss(topic: string, difficulty: Difficulty): Promise<GrammarBossGeneratedContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          task: { type: SchemaType.STRING },
-          exampleSentence: { type: SchemaType.STRING },
-        },
-        required: ['task', 'exampleSentence'],
-      },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      task: { type: 'string' },
+      exampleSentence: { type: 'string' },
     },
-  });
+    required: ['task', 'exampleSentence'],
+  };
 
   const grammarTargets = ['tense', 'conditional', 'passive', 'relative clause', 'reported speech'];
   const randomTarget = grammarTargets[Math.floor(Math.random() * grammarTargets.length)];
@@ -584,28 +511,19 @@ Provide:
 1. A concise, engaging speaking task (1-2 sentences) that naturally requires the target grammar.
 2. A perfect example sentence using the target grammar correctly.`;
 
-  const result = await model.generateContent(prompt);
-  const data = JSON.parse(result.response.text());
-
+  const data = await generateJSON<{ task: string; exampleSentence: string }>(prompt, schema);
   return { gameKey: 'grammar-boss', task: data.task, exampleSentence: data.exampleSentence };
 }
 
-// Generate content for Word Chain
 async function generateWordChain(topic: string, difficulty: Difficulty): Promise<WordChainGeneratedContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          startingWord: { type: SchemaType.STRING },
-          hint: { type: SchemaType.STRING },
-        },
-        required: ['startingWord', 'hint'],
-      },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      startingWord: { type: 'string' },
+      hint: { type: 'string' },
     },
-  });
+    required: ['startingWord', 'hint'],
+  };
 
   const prompt = `Generate a starting word for a word association chain game at ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
@@ -618,30 +536,20 @@ Choose a starting word that:
 
 Also provide a short hint about the type of associations expected (max 8 words).`;
 
-  const result = await model.generateContent(prompt);
-  const data = JSON.parse(result.response.text());
-
+  const data = await generateJSON<{ startingWord: string; hint: string }>(prompt, schema);
   return { gameKey: 'word-chain', startingWord: data.startingWord, hint: data.hint };
 }
 
-// Generate content for Synonym Showdown
 async function generateSynonymShowdown(topic: string, difficulty: Difficulty): Promise<SynonymShowdownGeneratedContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          targetWord: { type: SchemaType.STRING },
-          contextSentence: { type: SchemaType.STRING },
-          hint: { type: SchemaType.STRING },
-        },
-        required: ['targetWord', 'contextSentence', 'hint'],
-      },
-      temperature: 1.2,
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      targetWord: { type: 'string' },
+      contextSentence: { type: 'string' },
+      hint: { type: 'string' },
     },
-  });
+    required: ['targetWord', 'contextSentence', 'hint'],
+  };
 
   const prompt = `Generate a synonym challenge for ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
@@ -656,13 +564,10 @@ Requirements:
 - The context should make the word's specific meaning clear
 - CRITICAL: The hint must NEVER include actual synonyms!`;
 
-  const result = await model.generateContent(prompt);
-  const data = JSON.parse(result.response.text());
-
+  const data = await generateJSON<{ targetWord: string; contextSentence: string; hint: string }>(prompt, schema, { temperature: 1.2 });
   return { gameKey: 'synonym-showdown', targetWord: data.targetWord, contextSentence: data.contextSentence, hint: data.hint };
 }
 
-// Generate content for Error Hunter
 async function generateErrorHunter(topic: string, difficulty: Difficulty): Promise<ErrorHunterGeneratedContent> {
   const difficultyConfig: Record<Difficulty, { errors: number; description: string }> = {
     'Beginner': { errors: 2, description: 'Beginner (A1) level. Use very simple sentences with obvious spelling/grammar errors.' },
@@ -674,33 +579,27 @@ async function generateErrorHunter(topic: string, difficulty: Difficulty): Promi
 
   const config = difficultyConfig[difficulty];
 
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          paragraph: { type: SchemaType.STRING },
-          errorCount: { type: SchemaType.INTEGER },
-          errors: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                position: { type: SchemaType.INTEGER },
-                word: { type: SchemaType.STRING },
-                errorType: { type: SchemaType.STRING },
-                correction: { type: SchemaType.STRING },
-              },
-              required: ['position', 'word', 'errorType', 'correction'],
-            },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      paragraph: { type: 'string' },
+      errorCount: { type: 'integer' },
+      errors: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            position: { type: 'integer' },
+            word: { type: 'string' },
+            errorType: { type: 'string' },
+            correction: { type: 'string' },
           },
+          required: ['position', 'word', 'errorType', 'correction'],
         },
-        required: ['paragraph', 'errorCount', 'errors'],
       },
     },
-  });
+    required: ['paragraph', 'errorCount', 'errors'],
+  };
 
   const prompt = `Generate a paragraph with exactly ${config.errors} intentional errors for ${config.description}
 Topic: ${topic}.
@@ -717,30 +616,21 @@ Error types to include (mix them):
 
 Return the paragraph with errors embedded, plus an array of error details.`;
 
-  const result = await model.generateContent(prompt);
-  const data = JSON.parse(result.response.text());
-
+  const data = await generateJSON<{ paragraph: string; errorCount: number; errors: Array<{ position: number; word: string; errorType: string; correction: string }> }>(prompt, schema);
   return { gameKey: 'error-hunter', paragraph: data.paragraph, errorCount: data.errorCount, _errors: data.errors };
 }
 
-// Generate content for Dialogue Detective
 async function generateDialogueDetective(topic: string, difficulty: Difficulty): Promise<DialogueDetectiveGeneratedContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          speakerA_before: { type: SchemaType.STRING },
-          speakerA_after: { type: SchemaType.STRING },
-          context: { type: SchemaType.STRING },
-          goal: { type: SchemaType.STRING },
-        },
-        required: ['speakerA_before', 'speakerA_after', 'context', 'goal'],
-      },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      speakerA_before: { type: 'string' },
+      speakerA_after: { type: 'string' },
+      context: { type: 'string' },
+      goal: { type: 'string' },
     },
-  });
+    required: ['speakerA_before', 'speakerA_after', 'context', 'goal'],
+  };
 
   const prompt = `Generate a dialogue puzzle for ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
@@ -761,29 +651,20 @@ Requirements:
 - B's response should be inferable from context
 - The dialogue should relate to the topic`;
 
-  const result = await model.generateContent(prompt);
-  const data = JSON.parse(result.response.text());
-
+  const data = await generateJSON<{ speakerA_before: string; speakerA_after: string; context: string; goal: string }>(prompt, schema);
   return { gameKey: 'dialogue-detective', speakerA_before: data.speakerA_before, speakerA_after: data.speakerA_after, context: data.context, goal: data.goal };
 }
 
-// Generate content for Tone Transformer
 async function generateToneTransformer(topic: string, difficulty: Difficulty): Promise<ToneTransformerGeneratedContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          originalSentence: { type: SchemaType.STRING },
-          currentTone: { type: SchemaType.STRING },
-          context: { type: SchemaType.STRING },
-        },
-        required: ['originalSentence', 'currentTone', 'context'],
-      },
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      originalSentence: { type: 'string' },
+      currentTone: { type: 'string' },
+      context: { type: 'string' },
     },
-  });
+    required: ['originalSentence', 'currentTone', 'context'],
+  };
 
   const prompt = `Generate a sentence for a tone transformation exercise at ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
@@ -795,8 +676,7 @@ Create:
 
 The sentence should be appropriate for the difficulty level.`;
 
-  const result = await model.generateContent(prompt);
-  const data = JSON.parse(result.response.text());
+  const data = await generateJSON<{ originalSentence: string; currentTone: string; context: string }>(prompt, schema);
 
   // Get a contrasting target tone
   const tones = Object.values(TargetTone) as string[];
@@ -807,25 +687,17 @@ The sentence should be appropriate for the difficulty level.`;
   return { gameKey: 'tone-transformer', originalSentence: data.originalSentence, currentTone: data.currentTone, targetTone, context: data.context };
 }
 
-// Generate content for Connection
 async function generateConnection(topic: string, difficulty: Difficulty): Promise<ConnectionGeneratedContent> {
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          word1: { type: SchemaType.STRING },
-          word2: { type: SchemaType.STRING },
-          category: { type: SchemaType.STRING },
-          hint: { type: SchemaType.STRING },
-        },
-        required: ['word1', 'word2', 'category', 'hint'],
-      },
-      temperature: 1.2,
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      word1: { type: 'string' },
+      word2: { type: 'string' },
+      category: { type: 'string' },
+      hint: { type: 'string' },
     },
-  });
+    required: ['word1', 'word2', 'category', 'hint'],
+  };
 
   const prompt = `Generate a "What's the Link?" word pair challenge for ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
@@ -842,13 +714,10 @@ Guidelines:
 - Avoid overly obscure trivia
 - The words should appear unrelated at first glance`;
 
-  const result = await model.generateContent(prompt);
-  const data = JSON.parse(result.response.text());
-
+  const data = await generateJSON<{ word1: string; word2: string; category: string; hint: string }>(prompt, schema, { temperature: 1.2 });
   return { gameKey: 'connection', word1: data.word1, word2: data.word2, category: data.category, hint: data.hint };
 }
 
-// Generate content for Connections (NYT-style 4x4 grid)
 async function generateConnections(topic: string, difficulty: Difficulty): Promise<ConnectionsGeneratedContent> {
   const difficultyPrompts: Record<Difficulty, string> = {
     'Beginner': 'All 4 groups should have very obvious, straightforward connections. Use basic vocabulary.',
@@ -858,32 +727,25 @@ async function generateConnections(topic: string, difficulty: Difficulty): Promi
     'Expert': 'Include wordplay, puns, or double meanings. Multiple plausible groupings with one correct answer.'
   };
 
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        properties: {
-          groups: {
-            type: SchemaType.ARRAY,
-            items: {
-              type: SchemaType.OBJECT,
-              properties: {
-                category: { type: SchemaType.STRING },
-                words: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-                difficulty: { type: SchemaType.STRING },
-                color: { type: SchemaType.STRING }
-              },
-              required: ['category', 'words', 'difficulty', 'color']
-            }
-          }
-        },
-        required: ['groups']
-      },
-      temperature: 1.0,
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      groups: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            category: { type: 'string' },
+            words: { type: 'array', items: { type: 'string' } },
+            difficulty: { type: 'string' },
+            color: { type: 'string' }
+          },
+          required: ['category', 'words', 'difficulty', 'color']
+        }
+      }
     },
-  });
+    required: ['groups']
+  };
 
   const prompt = `Generate a Connections puzzle (like NYT Connections) for ESL learners.
 Topic: ${topic}
@@ -899,8 +761,7 @@ Group structure:
 
 Return JSON with groups array. Words should be UPPERCASE.`;
 
-  const result = await model.generateContent(prompt);
-  const data = JSON.parse(result.response.text());
+  const data = await generateJSON<{ groups: Array<{ category: string; words: string[]; difficulty: string; color: string }> }>(prompt, schema, { temperature: 1.0 });
 
   // Ensure words are uppercase
   for (const group of data.groups) {
@@ -908,20 +769,16 @@ Return JSON with groups array. Words should be UPPERCASE.`;
   }
 
   // Shuffle all words for the grid
-  const allWords = data.groups.flatMap((g: { words: string[] }) => g.words);
+  const allWords = data.groups.flatMap((g) => g.words);
   const shuffledWords = [...allWords].sort(() => Math.random() - 0.5);
 
-  return { gameKey: 'connections', words: shuffledWords, groups: data.groups };
+  return { gameKey: 'connections', words: shuffledWords, groups: data.groups as ConnectionsGeneratedContent['groups'] };
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as LessonPlanGenerateRequest;
     const { customTopic, difficulty, activities, games } = body;
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json({ error: 'Gemini API key not configured' }, { status: 500 });
-    }
 
     // Allow requests with only games (no activities required)
     const hasActivities = activities && activities.length > 0;

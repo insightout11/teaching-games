@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { createClient } from '@/lib/supabase/client';
 import { usePollVotes } from '@/hooks/use-poll-votes';
 import { Button } from '@/components/ui/button';
@@ -127,8 +128,13 @@ export function PollManager({ sessionId }: PollManagerProps) {
   };
 
   const totalVotes = votes.length;
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const content = (
     <div className="fixed bottom-6 right-6 z-50" ref={panelRef}>
       {/* Floating Button */}
       <button
@@ -307,4 +313,7 @@ export function PollManager({ sessionId }: PollManagerProps) {
       )}
     </div>
   );
+
+  if (!mounted) return null;
+  return createPortal(content, document.body);
 }

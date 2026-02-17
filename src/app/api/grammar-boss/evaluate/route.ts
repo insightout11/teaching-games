@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
 import { GrammarTarget } from '@/games/grammar-boss/types';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1)',
@@ -11,6 +10,17 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Intermediate': 'Intermediate (B1/B2)',
   'Advanced': 'Advanced (C1)',
   'Expert': 'Expert (C2/Native)'
+};
+
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    grammarScore: { type: 'integer' },
+    fluencyScore: { type: 'integer' },
+    correctedSentence: { type: 'string' },
+    feedback: { type: 'string' }
+  },
+  required: ['grammarScore', 'fluencyScore', 'correctedSentence', 'feedback']
 };
 
 export async function POST(request: NextRequest) {
@@ -21,30 +31,6 @@ export async function POST(request: NextRequest) {
       task: string;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            grammarScore: { type: SchemaType.INTEGER },
-            fluencyScore: { type: SchemaType.INTEGER },
-            correctedSentence: { type: SchemaType.STRING },
-            feedback: { type: SchemaType.STRING }
-          },
-          required: ['grammarScore', 'fluencyScore', 'correctedSentence', 'feedback']
-        }
-      }
-    });
 
     const prompt = `Act as a Friendly Peer.
 Evaluate the following student sentence for grammar accuracy and fluency.
@@ -59,11 +45,7 @@ Requirements:
 3. Corrected Version: A natural, polished version of the sentence appropriate for ${difficulty} level.
 4. Feedback: Use a Friendly Peer tone. Keep it motivational and professional (max 3 sentences).`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const evaluation = JSON.parse(text);
+    const evaluation = await generateJSON<{ grammarScore: number; fluencyScore: number; correctedSentence: string; feedback: string }>(prompt, schema);
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);

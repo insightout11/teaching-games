@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyConfig: Record<Difficulty, { errors: number; description: string }> = {
   'Beginner': { errors: 2, description: 'Beginner (A1) level. Use very simple sentences with obvious spelling/grammar errors.' },
@@ -12,6 +11,28 @@ const difficultyConfig: Record<Difficulty, { errors: number; description: string
   'Expert': { errors: 5, description: 'Expert (C2/Native) level. Use sophisticated sentences with nuanced errors.' }
 };
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    paragraph: { type: 'string' },
+    errorCount: { type: 'integer' },
+    errors: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          position: { type: 'integer' },
+          word: { type: 'string' },
+          errorType: { type: 'string' },
+          correction: { type: 'string' }
+        },
+        required: ['position', 'word', 'errorType', 'correction']
+      }
+    }
+  },
+  required: ['paragraph', 'errorCount', 'errors']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { topic, difficulty } = await request.json() as {
@@ -19,42 +40,7 @@ export async function POST(request: NextRequest) {
       difficulty: Difficulty;
     };
 
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
     const config = difficultyConfig[difficulty];
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            paragraph: { type: SchemaType.STRING },
-            errorCount: { type: SchemaType.INTEGER },
-            errors: {
-              type: SchemaType.ARRAY,
-              items: {
-                type: SchemaType.OBJECT,
-                properties: {
-                  position: { type: SchemaType.INTEGER },
-                  word: { type: SchemaType.STRING },
-                  errorType: { type: SchemaType.STRING },
-                  correction: { type: SchemaType.STRING }
-                },
-                required: ['position', 'word', 'errorType', 'correction']
-              }
-            }
-          },
-          required: ['paragraph', 'errorCount', 'errors']
-        }
-      }
-    });
 
     const prompt = `Generate a paragraph with exactly ${config.errors} intentional errors for ${config.description}
 Topic: ${topic}.
@@ -78,11 +64,7 @@ Requirements:
 
 Return the paragraph with errors embedded, plus an array of error details.`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const data = JSON.parse(text);
+    const data = await generateJSON<{ paragraph: string; errorCount: number; errors: Array<{ position: number; word: string; errorType: string; correction: string }> }>(prompt, schema);
     return NextResponse.json({
       paragraph: data.paragraph,
       errorCount: data.errorCount,

@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 
 export const dynamic = 'force-dynamic';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': `Beginner (A1) level:
@@ -43,49 +42,35 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    groups: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          category: { type: 'string' },
+          words: {
+            type: 'array',
+            items: { type: 'string' }
+          },
+          difficulty: { type: 'string' },
+          color: { type: 'string' }
+        },
+        required: ['category', 'words', 'difficulty', 'color']
+      }
+    }
+  },
+  required: ['groups']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { topic, difficulty } = await request.json() as {
       topic: Topic;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            groups: {
-              type: SchemaType.ARRAY,
-              items: {
-                type: SchemaType.OBJECT,
-                properties: {
-                  category: { type: SchemaType.STRING },
-                  words: {
-                    type: SchemaType.ARRAY,
-                    items: { type: SchemaType.STRING }
-                  },
-                  difficulty: { type: SchemaType.STRING },
-                  color: { type: SchemaType.STRING }
-                },
-                required: ['category', 'words', 'difficulty', 'color']
-              }
-            }
-          },
-          required: ['groups']
-        },
-        temperature: 1.0,
-      }
-    });
 
     const randomSeed = Math.random().toString(36).substring(7);
 
@@ -120,11 +105,7 @@ Return JSON with this exact structure:
 
 IMPORTANT: Words should be in UPPERCASE. Category names should be clear and concise (e.g., "Types of bread", "Words that can follow 'fire'").`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const data = JSON.parse(text);
+    const data = await generateJSON<{ groups: Array<{ category: string; words: string[]; difficulty: string; color: string }> }>(prompt, schema, { temperature: 1.0 });
 
     // Validate the response
     if (!data.groups || data.groups.length !== 4) {
@@ -140,7 +121,7 @@ IMPORTANT: Words should be in UPPERCASE. Category names should be clear and conc
     }
 
     // Check for duplicate words
-    const allWords = data.groups.flatMap((g: { words: string[] }) => g.words);
+    const allWords = data.groups.flatMap((g) => g.words);
     const uniqueWords = new Set(allWords);
     if (uniqueWords.size !== 16) {
       throw new Error('Invalid response: words must be unique across all groups');

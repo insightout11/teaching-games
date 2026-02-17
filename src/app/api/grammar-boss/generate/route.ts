@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { GrammarTarget } from '@/games/grammar-boss/types';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very simple sentence structures.',
@@ -13,6 +12,15 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Expert': 'Expert (C2/Native) level. Use sophisticated, academic structures.'
 };
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    task: { type: 'string' },
+    exampleSentence: { type: 'string' }
+  },
+  required: ['task', 'exampleSentence']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { grammarTarget, topic, difficulty } = await request.json() as {
@@ -20,28 +28,6 @@ export async function POST(request: NextRequest) {
       topic: Topic;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            task: { type: SchemaType.STRING },
-            exampleSentence: { type: SchemaType.STRING }
-          },
-          required: ['task', 'exampleSentence']
-        }
-      }
-    });
 
     const prompt = `Generate a short speaking challenge for an English learner at ${difficultyPrompts[difficulty]}
 Topic: ${topic}. The task MUST be directly about this topic — do not use a generic or unrelated scenario.
@@ -53,11 +39,7 @@ Provide:
 
 The task should prompt the student to speak about the given topic while using the specified grammar structure.`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const data = JSON.parse(text);
+    const data = await generateJSON<{ task: string; exampleSentence: string }>(prompt, schema);
     return NextResponse.json({
       task: data.task || 'Speak about your recent experiences.',
       exampleSentence: data.exampleSentence || 'I have been working on this project for three months.'

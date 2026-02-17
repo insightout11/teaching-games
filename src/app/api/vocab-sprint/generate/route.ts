@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic, Tone } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export interface GameSentence {
   sentence: string;
@@ -27,6 +26,19 @@ const toneInstructions: Record<Tone, string> = {
   'Kid-friendly': 'Use engaging, simple-to-understand but imaginative language suitable for children.'
 };
 
+const schema: AISchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      sentence: { type: 'string' },
+      weakWord: { type: 'string' },
+      hint: { type: 'string' }
+    },
+    required: ['sentence', 'weakWord', 'hint']
+  }
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { difficulty, topic, tone } = await request.json() as {
@@ -34,32 +46,6 @@ export async function POST(request: NextRequest) {
       topic: Topic;
       tone: Tone;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.ARRAY,
-          items: {
-            type: SchemaType.OBJECT,
-            properties: {
-              sentence: { type: SchemaType.STRING },
-              weakWord: { type: SchemaType.STRING },
-              hint: { type: SchemaType.STRING }
-            },
-            required: ['sentence', 'weakWord', 'hint']
-          }
-        }
-      }
-    });
 
     const prompt = `Generate 5 unique, natural English sentences for an English learner at ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
@@ -80,11 +66,7 @@ Also provide a 'hint' for each sentence—a short, friendly piece of advice (max
 
 Return exactly 5 objects as a JSON array with varied weak words.`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const sentences: GameSentence[] = JSON.parse(text);
+    const sentences = await generateJSON<GameSentence[]>(prompt, schema);
     return NextResponse.json({ sentences });
   } catch (error) {
     console.error('Generate error:', error);

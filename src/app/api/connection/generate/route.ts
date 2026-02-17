@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 
 export const dynamic = 'force-dynamic';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very common, basic words with obvious connections.',
@@ -14,37 +13,23 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Expert': 'Expert (C2/Native) level. Use nuanced vocabulary with obscure or creative connections.'
 };
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    word1: { type: 'string' },
+    word2: { type: 'string' },
+    category: { type: 'string' },
+    hint: { type: 'string' }
+  },
+  required: ['word1', 'word2', 'category', 'hint']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { topic, difficulty } = await request.json() as {
       topic: Topic;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            word1: { type: SchemaType.STRING },
-            word2: { type: SchemaType.STRING },
-            category: { type: SchemaType.STRING },
-            hint: { type: SchemaType.STRING }
-          },
-          required: ['word1', 'word2', 'category', 'hint']
-        },
-        temperature: 1.2,
-      }
-    });
 
     const randomSeed = Math.random().toString(36).substring(7);
 
@@ -81,11 +66,7 @@ Good connection types:
 - Properties (both are colors, both have 4 letters)
 - Cultural/thematic (both relate to X)`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const data = JSON.parse(text);
+    const data = await generateJSON<{ word1: string; word2: string; category: string; hint: string }>(prompt, schema, { temperature: 1.2 });
     return NextResponse.json(data, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate',

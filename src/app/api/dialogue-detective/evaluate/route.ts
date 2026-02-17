@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1)',
@@ -10,6 +9,19 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Intermediate': 'Intermediate (B1/B2)',
   'Advanced': 'Advanced (C1)',
   'Expert': 'Expert (C2/Native)'
+};
+
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    contextFit: { type: 'integer' },
+    naturalness: { type: 'integer' },
+    leadIn: { type: 'integer' },
+    creativityBonus: { type: 'integer' },
+    feedback: { type: 'string' },
+    exampleResponse: { type: 'string' }
+  },
+  required: ['contextFit', 'naturalness', 'leadIn', 'creativityBonus', 'feedback', 'exampleResponse']
 };
 
 export async function POST(request: NextRequest) {
@@ -21,32 +33,6 @@ export async function POST(request: NextRequest) {
       goal: string;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            contextFit: { type: SchemaType.INTEGER },
-            naturalness: { type: SchemaType.INTEGER },
-            leadIn: { type: SchemaType.INTEGER },
-            creativityBonus: { type: SchemaType.INTEGER },
-            feedback: { type: SchemaType.STRING },
-            exampleResponse: { type: SchemaType.STRING }
-          },
-          required: ['contextFit', 'naturalness', 'leadIn', 'creativityBonus', 'feedback', 'exampleResponse']
-        }
-      }
-    });
 
     const prompt = `Evaluate this dialogue response for a ${difficultyPrompts[difficulty]} level English learner.
 
@@ -69,11 +55,14 @@ Also provide:
 
 Be flexible - there are many valid ways to fill this blank. Focus on whether the conversation flows naturally.`;
 
-    const result = await model.generateContent(prompt);
-    const response_data = result.response;
-    const text = response_data.text();
-
-    const evaluation = JSON.parse(text);
+    const evaluation = await generateJSON<{
+      contextFit: number;
+      naturalness: number;
+      leadIn: number;
+      creativityBonus: number;
+      feedback: string;
+      exampleResponse: string;
+    }>(prompt, schema);
 
     // Calculate overall score
     const baseScore = Math.round(

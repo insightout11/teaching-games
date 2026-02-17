@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 
 // Prevent Next.js from caching this route
 export const dynamic = 'force-dynamic';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very common, basic words.',
@@ -15,36 +14,22 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Expert': 'Expert (C2/Native) level. Use nuanced, academic vocabulary.'
 };
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    targetWord: { type: 'string' },
+    contextSentence: { type: 'string' },
+    hint: { type: 'string' }
+  },
+  required: ['targetWord', 'contextSentence', 'hint']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { topic, difficulty } = await request.json() as {
       topic: Topic;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            targetWord: { type: SchemaType.STRING },
-            contextSentence: { type: SchemaType.STRING },
-            hint: { type: SchemaType.STRING }
-          },
-          required: ['targetWord', 'contextSentence', 'hint']
-        },
-        temperature: 1.2,
-      }
-    });
 
     // Add randomness to ensure different words each time
     const randomSeed = Math.random().toString(36).substring(7);
@@ -72,11 +57,7 @@ Requirements:
 
 Good target words have many alternatives: happy, big, said, walk, good, bad, nice, important, beautiful, fast, etc.`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const data = JSON.parse(text);
+    const data = await generateJSON<{ targetWord: string; contextSentence: string; hint: string }>(prompt, schema, { temperature: 1.2 });
     return NextResponse.json(data, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate',

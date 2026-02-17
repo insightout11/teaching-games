@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
 import { TargetTone, TONE_DESCRIPTIONS } from '@/games/tone-transformer/types';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1)',
@@ -11,6 +10,21 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Intermediate': 'Intermediate (B1/B2)',
   'Advanced': 'Advanced (C1)',
   'Expert': 'Expert (C2/Native)'
+};
+
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    toneMatch: { type: 'integer' },
+    meaningPreserved: { type: 'integer' },
+    grammarScore: { type: 'integer' },
+    feedback: { type: 'string' },
+    alternatives: {
+      type: 'array',
+      items: { type: 'string' }
+    }
+  },
+  required: ['toneMatch', 'meaningPreserved', 'grammarScore', 'feedback', 'alternatives']
 };
 
 export async function POST(request: NextRequest) {
@@ -21,34 +35,6 @@ export async function POST(request: NextRequest) {
       targetTone: TargetTone;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            toneMatch: { type: SchemaType.INTEGER },
-            meaningPreserved: { type: SchemaType.INTEGER },
-            grammarScore: { type: SchemaType.INTEGER },
-            feedback: { type: SchemaType.STRING },
-            alternatives: {
-              type: SchemaType.ARRAY,
-              items: { type: SchemaType.STRING }
-            }
-          },
-          required: ['toneMatch', 'meaningPreserved', 'grammarScore', 'feedback', 'alternatives']
-        }
-      }
-    });
 
     const toneDescription = TONE_DESCRIPTIONS[targetTone];
 
@@ -69,11 +55,13 @@ Also provide:
 
 Be appropriately lenient for ${difficulty} level - focus on whether they achieved the tone shift.`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const evaluation = JSON.parse(text);
+    const evaluation = await generateJSON<{
+      toneMatch: number;
+      meaningPreserved: number;
+      grammarScore: number;
+      feedback: string;
+      alternatives: string[];
+    }>(prompt, schema);
 
     // Calculate overall score (weighted average)
     const overallScore = Math.round(

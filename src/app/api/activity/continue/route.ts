@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { ActivityContinueRequest, ActivityContinueResponse } from '@/activities/types';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-
 
 // Generic prompt for activities without specific handlers
 function genericActivityPrompt(req: ActivityContinueRequest): string {
@@ -143,52 +141,37 @@ Provide the response in 'nextQuestion' field (it's the character's answer).`;
   },
 };
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    nextQuestion: { type: 'string' },
+    challenge: { type: 'string' },
+    hint: { type: 'string' },
+    evaluation: {
+      type: 'object',
+      properties: {
+        score: { type: 'number' },
+        feedback: { type: 'string' },
+      },
+    },
+    teacherNote: { type: 'string' },
+    vocabularyHighlight: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+  },
+};
+
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as ActivityContinueRequest;
     const { activityKey, requestType } = body;
 
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
     // Get the appropriate prompt generator (or use generic fallback)
     const promptGenerator = activityPrompts[activityKey] || genericActivityPrompt;
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            nextQuestion: { type: SchemaType.STRING },
-            challenge: { type: SchemaType.STRING },
-            hint: { type: SchemaType.STRING },
-            evaluation: {
-              type: SchemaType.OBJECT,
-              properties: {
-                score: { type: SchemaType.NUMBER },
-                feedback: { type: SchemaType.STRING },
-              },
-            },
-            teacherNote: { type: SchemaType.STRING },
-            vocabularyHighlight: {
-              type: SchemaType.ARRAY,
-              items: { type: SchemaType.STRING },
-            },
-          },
-        },
-      },
-    });
-
     const prompt = promptGenerator(body);
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-    const parsed = JSON.parse(text) as ActivityContinueResponse;
+
+    const parsed = await generateJSON<ActivityContinueResponse>(prompt, schema);
 
     // Ensure we have at least one of the expected fields
     const response: ActivityContinueResponse = {

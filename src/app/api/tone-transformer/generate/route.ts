@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { TargetTone } from '@/games/tone-transformer/types';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very simple, short sentences (5-8 words).',
@@ -31,35 +30,22 @@ function getContrastingTone(currentTone: string): TargetTone {
   return contrastingTones[Math.floor(Math.random() * contrastingTones.length)];
 }
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    originalSentence: { type: 'string' },
+    currentTone: { type: 'string' },
+    context: { type: 'string' }
+  },
+  required: ['originalSentence', 'currentTone', 'context']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { topic, difficulty } = await request.json() as {
       topic: Topic;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            originalSentence: { type: SchemaType.STRING },
-            currentTone: { type: SchemaType.STRING },
-            context: { type: SchemaType.STRING }
-          },
-          required: ['originalSentence', 'currentTone', 'context']
-        }
-      }
-    });
 
     const prompt = `Generate a sentence for a tone transformation exercise at ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
@@ -76,11 +62,7 @@ Requirements:
 - The tone should be clear and identifiable
 - Choose varied tones (don't always use casual)`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const data = JSON.parse(text);
+    const data = await generateJSON<{ originalSentence: string; currentTone: string; context: string }>(prompt, schema);
     const targetTone = getContrastingTone(data.currentTone);
 
     return NextResponse.json({

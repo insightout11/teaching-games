@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1)',
@@ -12,6 +11,32 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Expert': 'Expert (C2/Native)'
 };
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    totalErrors: { type: 'integer' },
+    found: { type: 'integer' },
+    correctFixes: { type: 'integer' },
+    falsePositives: { type: 'integer' },
+    score: { type: 'integer' },
+    feedback: { type: 'string' },
+    solutions: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          position: { type: 'integer' },
+          word: { type: 'string' },
+          errorType: { type: 'string' },
+          correction: { type: 'string' }
+        },
+        required: ['position', 'word', 'errorType', 'correction']
+      }
+    }
+  },
+  required: ['totalErrors', 'found', 'correctFixes', 'falsePositives', 'score', 'feedback', 'solutions']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { paragraph, corrections, difficulty } = await request.json() as {
@@ -19,45 +44,6 @@ export async function POST(request: NextRequest) {
       corrections: Array<{ position: number; original: string; correction: string }>;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            totalErrors: { type: SchemaType.INTEGER },
-            found: { type: SchemaType.INTEGER },
-            correctFixes: { type: SchemaType.INTEGER },
-            falsePositives: { type: SchemaType.INTEGER },
-            score: { type: SchemaType.INTEGER },
-            feedback: { type: SchemaType.STRING },
-            solutions: {
-              type: SchemaType.ARRAY,
-              items: {
-                type: SchemaType.OBJECT,
-                properties: {
-                  position: { type: SchemaType.INTEGER },
-                  word: { type: SchemaType.STRING },
-                  errorType: { type: SchemaType.STRING },
-                  correction: { type: SchemaType.STRING }
-                },
-                required: ['position', 'word', 'errorType', 'correction']
-              }
-            }
-          },
-          required: ['totalErrors', 'found', 'correctFixes', 'falsePositives', 'score', 'feedback', 'solutions']
-        }
-      }
-    });
 
     const correctionsText = corrections.length > 0
       ? corrections.map(c => `- Position ${c.position}: "${c.original}" → "${c.correction}"`).join('\n')
@@ -92,11 +78,15 @@ Provide:
 - feedback: Brief feedback (2-3 sentences) - what they caught, what they missed
 - solutions: Array of ALL actual errors with correct fixes`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const evaluation = JSON.parse(text);
+    const evaluation = await generateJSON<{
+      totalErrors: number;
+      found: number;
+      correctFixes: number;
+      falsePositives: number;
+      score: number;
+      feedback: string;
+      solutions: Array<{ position: number; word: string; errorType: string; correction: string }>;
+    }>(prompt, schema);
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);

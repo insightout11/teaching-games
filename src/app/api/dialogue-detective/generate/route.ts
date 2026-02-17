@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very simple, short dialogue.',
@@ -12,36 +11,23 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Expert': 'Expert (C2/Native) level. Use sophisticated, idiomatic conversation.'
 };
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    speakerA_before: { type: 'string' },
+    speakerA_after: { type: 'string' },
+    context: { type: 'string' },
+    goal: { type: 'string' }
+  },
+  required: ['speakerA_before', 'speakerA_after', 'context', 'goal']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { topic, difficulty } = await request.json() as {
       topic: Topic;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            speakerA_before: { type: SchemaType.STRING },
-            speakerA_after: { type: SchemaType.STRING },
-            context: { type: SchemaType.STRING },
-            goal: { type: SchemaType.STRING }
-          },
-          required: ['speakerA_before', 'speakerA_after', 'context', 'goal']
-        }
-      }
-    });
 
     const prompt = `Generate a dialogue puzzle for ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
@@ -68,11 +54,7 @@ Requirements:
 - The dialogue should relate to ${topic}
 - Appropriate complexity for ${difficulty} level`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const data = JSON.parse(text);
+    const data = await generateJSON<{ speakerA_before: string; speakerA_after: string; context: string; goal: string }>(prompt, schema);
     return NextResponse.json({
       speakerA_before: data.speakerA_before,
       speakerA_after: data.speakerA_after,

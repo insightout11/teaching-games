@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very common, simple words.',
@@ -12,34 +11,21 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Expert': 'Expert (C2/Native) level. Use advanced vocabulary.'
 };
 
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    startingWord: { type: 'string' },
+    hint: { type: 'string' }
+  },
+  required: ['startingWord', 'hint']
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { topic, difficulty } = await request.json() as {
       topic: Topic;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            startingWord: { type: SchemaType.STRING },
-            hint: { type: SchemaType.STRING }
-          },
-          required: ['startingWord', 'hint']
-        }
-      }
-    });
 
     const prompt = `Generate a starting word for a word association chain game at ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
@@ -54,11 +40,7 @@ Also provide a short hint about the type of associations expected (max 8 words).
 
 Good starting words have rich associations: ocean, music, family, city, food, technology, nature, etc.`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const data = JSON.parse(text);
+    const data = await generateJSON<{ startingWord: string; hint: string }>(prompt, schema);
     return NextResponse.json(data);
   } catch (error) {
     console.error('Generate error:', error);

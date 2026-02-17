@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { generateJSON } from '@/lib/ai';
+import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1)',
@@ -10,6 +9,18 @@ const difficultyPrompts: Record<Difficulty, string> = {
   'Intermediate': 'Intermediate (B1/B2)',
   'Advanced': 'Advanced (C1)',
   'Expert': 'Expert (C2/Native)'
+};
+
+const schema: AISchema = {
+  type: 'object',
+  properties: {
+    isCorrect: { type: 'boolean' },
+    score: { type: 'integer' },
+    quality: { type: 'string' },
+    feedback: { type: 'string' },
+    actualConnection: { type: 'string' }
+  },
+  required: ['isCorrect', 'score', 'quality', 'feedback', 'actualConnection']
 };
 
 export async function POST(request: NextRequest) {
@@ -21,31 +32,6 @@ export async function POST(request: NextRequest) {
       guess: string;
       difficulty: Difficulty;
     };
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'Gemini API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            isCorrect: { type: SchemaType.BOOLEAN },
-            score: { type: SchemaType.INTEGER },
-            quality: { type: SchemaType.STRING },
-            feedback: { type: SchemaType.STRING },
-            actualConnection: { type: SchemaType.STRING }
-          },
-          required: ['isCorrect', 'score', 'quality', 'feedback', 'actualConnection']
-        }
-      }
-    });
 
     const prompt = `Evaluate a student's guess for the connection between two words.
 Difficulty level: ${difficultyPrompts[difficulty]}
@@ -88,11 +74,13 @@ Examples of what to REJECT:
 - "I know both of these"
 - "They both have vowels"`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
-    const evaluation = JSON.parse(text);
+    const evaluation = await generateJSON<{
+      isCorrect: boolean;
+      score: number;
+      quality: string;
+      feedback: string;
+      actualConnection: string;
+    }>(prompt, schema);
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);
