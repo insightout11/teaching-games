@@ -10,6 +10,7 @@ import { errorHunterPlugin } from './error-hunter';
 import { wordChainPlugin } from './word-chain';
 import { dialogueDetectivePlugin } from './dialogue-detective';
 import { connectionsPlugin } from './connections';
+import { twentyQuestionsPlugin } from './twenty-questions';
 import { BookA, PenLine, Brain } from 'lucide-react';
 
 const games: GamePlugin[] = [
@@ -23,6 +24,7 @@ const games: GamePlugin[] = [
   // VAULTED: toneTransformerPlugin
   dialogueDetectivePlugin,
   connectionsPlugin,
+  twentyQuestionsPlugin,
 ];
 
 export function getGame(key: string): GamePlugin | undefined {
