@@ -1,0 +1,71 @@
+{
+  "schema": "worksheets/registry-v1",
+  "builtAt": "2026-02-17T10:34:55.799Z",
+  "count": 2,
+  "items": [
+    {
+      "urlBase": "/worksheets/jobs/caregiver/intermediate",
+      "cluster": "jobs",
+      "slug": "caregiver",
+      "level": "intermediate",
+      "title": "English for Caregivers — Printable ESL Worksheet Pack (PDF)",
+      "cefr": "A2–B1",
+      "timeMinutes": "30-45",
+      "keywords": [
+        "caregiver english worksheets",
+        "esl worksheets for caregivers",
+        "healthcare english worksheets",
+        "nursing assistant english worksheet",
+        "elderly care english vocabulary",
+        "caregiver role play esl",
+        "job english worksheets",
+        "workplace english pdf",
+        "esl speaking worksheets adults",
+        "medical english for beginners"
+      ],
+      "artifacts": {
+        "fullPackZip": "full-pack.zip",
+        "samplePdf": "sample.pdf",
+        "licenseTxt": "license.txt",
+        "previews": [
+          "previews/preview-01.jpg",
+          "previews/preview-02.jpg",
+          "previews/preview-03.jpg",
+          "previews/preview-04.jpg",
+          "previews/preview-05.jpg",
+          "previews/preview-06.jpg"
+        ]
+      },
+      "counts": {
+        "lessons": 11,
+        "handouts": 10,
+        "extras": 3
+      }
+    },
+    {
+      "urlBase": "/worksheets/jobs/waiter/beginner",
+      "cluster": "jobs",
+      "slug": "waiter",
+      "level": "beginner",
+      "title": "Waiter English Worksheets (Printable PDF) — Beginner",
+      "cefr": null,
+      "timeMinutes": "30-45",
+      "keywords": [],
+      "artifacts": {
+        "fullPackZip": "full-pack.zip",
+        "samplePdf": "sample.pdf",
+        "licenseTxt": "license.txt",
+        "previews": [
+          "previews/preview-01.jpg",
+          "previews/preview-02.jpg",
+          "previews/preview-03.jpg"
+        ]
+      },
+      "counts": {
+        "lessons": 11,
+        "handouts": 10,
+        "extras": 3
+      }
+    }
+  ]
+}
