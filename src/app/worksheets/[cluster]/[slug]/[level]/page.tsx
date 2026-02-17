@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  getClusterRegistry,
-  getPackMetadata,
+  getRegistry,
   getAssetUrl,
   clusterLabel,
   levelSlug,
+  PRO_ENABLED,
+  type RegistryItem,
 } from "@/lib/worksheets";
-
-export const dynamic = "force-dynamic";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://lessoncaptain.com";
@@ -20,16 +19,32 @@ interface Params {
   level: string;
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const reg = getClusterRegistry(params.cluster);
-  const pack = reg.packs.find(
-    (p) => p.slug === params.slug && levelSlug(p.level) === params.level,
+export function generateStaticParams() {
+  const registry = getRegistry();
+  return registry.items.map((item) => ({
+    cluster: item.cluster,
+    slug: item.slug,
+    level: levelSlug(item.level),
+  }));
+}
+
+function findItem(params: Params): RegistryItem | undefined {
+  const registry = getRegistry();
+  return registry.items.find(
+    (i) =>
+      i.cluster === params.cluster &&
+      i.slug === params.slug &&
+      levelSlug(i.level) === params.level,
   );
-  if (!pack) return { title: "Not Found" };
+}
+
+export function generateMetadata({ params }: { params: Params }): Metadata {
+  const item = findItem(params);
+  if (!item) return { title: "Not Found" };
 
   return {
-    title: `${pack.title} — LessonCaptain`,
-    description: `${pack.counts.lessons} lessons, ${pack.counts.handouts} handouts. CEFR ${pack.cefr}. Download the free sample or get the full pack.`,
+    title: `${item.title} — LessonCaptain`,
+    description: `${item.counts.lessons} lessons, ${item.counts.handouts} handouts.${item.cefr ? ` CEFR ${item.cefr}.` : ""} Download the free sample or get the full pack.`,
     alternates: {
       canonical: `${SITE_URL}/worksheets/${params.cluster}/${params.slug}/${params.level}`,
     },
@@ -38,17 +53,10 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
 }
 
 export default function PackDetailPage({ params }: { params: Params }) {
-  const reg = getClusterRegistry(params.cluster);
-  const summary = reg.packs.find(
-    (p) => p.slug === params.slug && levelSlug(p.level) === params.level,
-  );
-  if (!summary) return <p>Pack not found.</p>;
+  const item = findItem(params);
+  if (!item) return <p>Pack not found.</p>;
 
-  const meta = getPackMetadata(summary.path);
-  const pack = meta.pack;
-  const counts = meta.counts;
-  const artifacts = meta.artifacts;
-  const totalItems = counts.lessons + counts.handouts + counts.extras;
+  const totalItems = item.counts.lessons + item.counts.handouts + item.counts.extras;
 
   return (
     <>
@@ -64,12 +72,13 @@ export default function PackDetailPage({ params }: { params: Params }) {
         >
           {clusterLabel(params.cluster)}
         </Link>{" "}
-        / <span>{pack.slug}</span>
+        / <span>{item.slug}</span>
       </nav>
 
-      <h1 className="text-3xl font-bold">{pack.title}</h1>
+      <h1 className="text-3xl font-bold">{item.title}</h1>
       <p className="mt-1 text-gray-500">
-        CEFR {pack.cefr} &middot; {pack.timeMinutes} min per lesson
+        {item.cefr && <>CEFR {item.cefr} &middot; </>}
+        {item.timeMinutes} min per lesson
       </p>
 
       {/* 1 — What you get */}
@@ -78,19 +87,19 @@ export default function PackDetailPage({ params }: { params: Params }) {
         <ul className="mt-3 grid gap-2 sm:grid-cols-3">
           <li className="rounded-md bg-blue-50 p-4 text-center">
             <span className="block text-2xl font-bold text-blue-600">
-              {counts.lessons}
+              {item.counts.lessons}
             </span>
             <span className="text-sm text-gray-600">Lessons</span>
           </li>
           <li className="rounded-md bg-blue-50 p-4 text-center">
             <span className="block text-2xl font-bold text-blue-600">
-              {counts.handouts}
+              {item.counts.handouts}
             </span>
             <span className="text-sm text-gray-600">Student Handouts</span>
           </li>
           <li className="rounded-md bg-blue-50 p-4 text-center">
             <span className="block text-2xl font-bold text-blue-600">
-              {counts.extras}
+              {item.counts.extras}
             </span>
             <span className="text-sm text-gray-600">Bonus Extras</span>
           </li>
@@ -106,7 +115,7 @@ export default function PackDetailPage({ params }: { params: Params }) {
         <ol className="mt-3 list-inside list-decimal space-y-2 text-gray-700">
           <li>Print the lesson PDF and matching student handout.</li>
           <li>
-            Follow the lesson plan ({pack.timeMinutes} minutes) — warm-up,
+            Follow the lesson plan ({item.timeMinutes} minutes) — warm-up,
             vocabulary, practice, role-play, wrap-up.
           </li>
           <li>
@@ -120,14 +129,14 @@ export default function PackDetailPage({ params }: { params: Params }) {
       </section>
 
       {/* 3 — Preview gallery */}
-      {artifacts.previews.length > 0 && (
+      {item.artifacts.previews.length > 0 && (
         <section className="mt-10">
           <h2 className="text-2xl font-semibold">Preview</h2>
           <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {artifacts.previews.map((img, i) => (
+            {item.artifacts.previews.map((img, i) => (
               <Image
                 key={i}
-                src={getAssetUrl(summary.path, img)}
+                src={getAssetUrl(item.urlBase, img)}
                 alt={`Preview page ${i + 1}`}
                 width={400}
                 height={520}
@@ -143,19 +152,41 @@ export default function PackDetailPage({ params }: { params: Params }) {
         <h2 className="text-2xl font-semibold">Downloads</h2>
         <div className="mt-4 flex flex-wrap gap-4">
           <a
-            href={getAssetUrl(summary.path, artifacts.samplePdf)}
+            href={getAssetUrl(item.urlBase, item.artifacts.samplePdf)}
             download
             className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
           >
             Free Sample (PDF)
           </a>
-          <a
-            href={getAssetUrl(summary.path, artifacts.fullPackZip)}
-            download
-            className="inline-flex items-center gap-2 rounded-md border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-          >
-            Full Pack (ZIP)
-          </a>
+
+          {PRO_ENABLED ? (
+            <Link
+              href="/pro"
+              className="inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-50 px-5 py-2.5 text-sm font-medium text-amber-800 transition hover:bg-amber-100"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="h-4 w-4"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Get Pro to download full pack
+            </Link>
+          ) : (
+            <a
+              href={getAssetUrl(item.urlBase, item.artifacts.fullPackZip)}
+              download
+              className="inline-flex items-center gap-2 rounded-md border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+            >
+              Full Pack (ZIP)
+            </a>
+          )}
         </div>
       </section>
 
@@ -182,11 +213,11 @@ export default function PackDetailPage({ params }: { params: Params }) {
             },
             {
               q: "What level are these for?",
-              a: `This pack targets CEFR ${pack.cefr} (${pack.level}).`,
+              a: `This pack targets${item.cefr ? ` CEFR ${item.cefr}` : ""} ${item.level} level.`,
             },
             {
               q: "How long does each lesson take?",
-              a: `Each lesson is designed for a ${pack.timeMinutes}-minute class session.`,
+              a: `Each lesson is designed for a ${item.timeMinutes}-minute class session.`,
             },
             {
               q: "Do I need any special equipment?",

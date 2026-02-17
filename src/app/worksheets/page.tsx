@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getTopRegistry, clusterLabel } from "@/lib/worksheets";
-
-export const dynamic = "force-dynamic";
+import { getRegistry, clusterLabel } from "@/lib/worksheets";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://lessoncaptain.com";
@@ -18,7 +16,13 @@ export function generateMetadata(): Metadata {
 }
 
 export default function WorksheetsHub() {
-  const registry = getTopRegistry();
+  const registry = getRegistry();
+
+  // Derive unique clusters with pack counts
+  const clusterCounts = new Map<string, number>();
+  for (const item of registry.items) {
+    clusterCounts.set(item.cluster, (clusterCounts.get(item.cluster) ?? 0) + 1);
+  }
 
   return (
     <>
@@ -29,15 +33,17 @@ export default function WorksheetsHub() {
       </p>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
-        {registry.clusters.map((c) => (
+        {Array.from(clusterCounts.entries()).map(([cluster, count]) => (
           <Link
-            key={c.cluster}
-            href={`/worksheets/${c.cluster}`}
+            key={cluster}
+            href={`/worksheets/${cluster}`}
             className="rounded-lg border border-gray-200 p-6 transition hover:border-blue-400 hover:shadow"
           >
-            <h2 className="text-xl font-semibold">{clusterLabel(c.cluster)}</h2>
+            <h2 className="text-xl font-semibold">
+              {clusterLabel(cluster)}
+            </h2>
             <p className="mt-1 text-sm text-gray-500">
-              {c.packCount} pack{c.packCount !== 1 && "s"}
+              {count} pack{count !== 1 && "s"}
             </p>
           </Link>
         ))}

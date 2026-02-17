@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  getRegistry,
   getClusterRegistry,
   clusterLabel,
   levelSlug,
 } from "@/lib/worksheets";
 
-export const dynamic = "force-dynamic";
-
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://lessoncaptain.com";
+
+export function generateStaticParams() {
+  const registry = getRegistry();
+  const clusters = Array.from(new Set(registry.items.map((i) => i.cluster)));
+  return clusters.map((cluster) => ({ cluster }));
+}
 
 export function generateMetadata({
   params,
@@ -31,6 +36,8 @@ export default function ClusterPage({
   params: { cluster: string };
 }) {
   const reg = getClusterRegistry(params.cluster);
+  if (!reg) return <p>Cluster not found.</p>;
+
   const label = clusterLabel(params.cluster);
 
   return (
@@ -44,20 +51,20 @@ export default function ClusterPage({
 
       <h1 className="text-3xl font-bold">{label} Worksheets</h1>
       <p className="mt-2 text-gray-600">
-        {reg.packs.length} pack{reg.packs.length !== 1 && "s"} available.
+        {reg.items.length} pack{reg.items.length !== 1 && "s"} available.
       </p>
 
       <div className="mt-8 grid gap-6">
-        {reg.packs.map((p) => (
+        {reg.items.map((p) => (
           <Link
-            key={p.path}
+            key={`${p.slug}-${p.level}`}
             href={`/worksheets/${params.cluster}/${p.slug}/${levelSlug(p.level)}`}
             className="rounded-lg border border-gray-200 p-6 transition hover:border-blue-400 hover:shadow"
           >
             <h2 className="text-xl font-semibold">{p.title}</h2>
             <p className="mt-1 text-sm text-gray-500">
-              {p.cefr} &middot; {p.counts.lessons} lessons &middot;{" "}
-              {p.counts.handouts} handouts
+              {p.cefr && <>{p.cefr} &middot; </>}
+              {p.counts.lessons} lessons &middot; {p.counts.handouts} handouts
             </p>
           </Link>
         ))}
