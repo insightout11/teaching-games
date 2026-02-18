@@ -283,7 +283,7 @@ export interface ActivityContinueRequest {
   topicContext: string;
   previousExchanges: ActivityExchange[];
   studentResponse: string;
-  requestType: 'follow-up' | 'challenge' | 'hint' | 'evaluate';
+  requestType: 'follow-up' | 'challenge' | 'hint' | 'evaluate' | 'counter-argument';
 }
 
 export interface ActivityExchange {

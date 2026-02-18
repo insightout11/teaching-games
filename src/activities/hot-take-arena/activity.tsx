@@ -31,6 +31,9 @@ export function HotTakeArenaActivity({
   const [isLoadingChallenge, setIsLoadingChallenge] = useState(false);
   const [newArgumentText, setNewArgumentText] = useState('');
   const [selectedStudentForArg, setSelectedStudentForArg] = useState<string | null>(null);
+  const [pendingResponseArg, setPendingResponseArg] = useState<Argument | null>(null);
+  const [aiChallenges, setAiChallenges] = useState<Map<string, string>>(new Map());
+  const [loadingChallengeForArgId, setLoadingChallengeForArgId] = useState<string | null>(null);
 
   // Register input spec for student controller
   useEffect(() => {
@@ -42,17 +45,31 @@ export function HotTakeArenaActivity({
         optionLabels: ['AGREE (PRO)', 'DISAGREE (CON)'],
       });
     } else if (status === ActivityStatus.DEBATE) {
-      onSetInputSpec?.({
-        type: 'text',
-        gameKey: 'hot-take-arena',
-        prompt: 'Make your argument! Type what your team believes.',
-        placeholder: 'Type your argument...',
-        maxLength: 300,
-      });
+      if (pendingResponseArg) {
+        const opposingSide = pendingResponseArg.side === 'pro' ? 'CON' : 'PRO';
+        const preview = pendingResponseArg.content.length > 80
+          ? pendingResponseArg.content.slice(0, 80) + '...'
+          : pendingResponseArg.content;
+        onSetInputSpec?.({
+          type: 'text',
+          gameKey: 'hot-take-arena',
+          prompt: `${opposingSide} team — respond to: "${preview}"`,
+          placeholder: 'Type your counter-argument...',
+          maxLength: 300,
+        });
+      } else {
+        onSetInputSpec?.({
+          type: 'text',
+          gameKey: 'hot-take-arena',
+          prompt: 'Make your argument! Type what your team believes.',
+          placeholder: 'Type your argument...',
+          maxLength: 300,
+        });
+      }
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, content?.statement, onSetInputSpec]);
+  }, [status, content?.statement, onSetInputSpec, pendingResponseArg]);
 
   // Register remote vote handler to receive votes from student devices
   useEffect(() => {
@@ -126,12 +143,13 @@ export function HotTakeArenaActivity({
       side: selection.side,
       content: argumentContent,
       timestamp: Date.now(),
+      replyToArgId: pendingResponseArg?.id,
     };
 
     setArguments((prev) => [...prev, newArg]);
     setNewArgumentText('');
     setSelectedStudentForArg(null);
-  }, [students, sideSelections]);
+  }, [students, sideSelections, pendingResponseArg]);
 
   // Register remote vote handler for DEBATE phase — receives text arguments from student devices
   useEffect(() => {
@@ -150,11 +168,12 @@ export function HotTakeArenaActivity({
           side: selection.side,
           content: argumentText,
           timestamp: Date.now(),
+          replyToArgId: pendingResponseArg?.id,
         },
       ]);
     });
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [status, sideSelections, onRegisterRemoteVoteHandler]);
+  }, [status, sideSelections, onRegisterRemoteVoteHandler, pendingResponseArg]);
 
   const triggerDevilsAdvocate = useCallback(async (targetSide: Side) => {
     setIsLoadingChallenge(true);
@@ -213,6 +232,33 @@ export function HotTakeArenaActivity({
     }
   }, [content, arguments_, challengeIndex, onContinue, onPhaseChange]);
 
+  const triggerArgChallenge = useCallback(async (arg: Argument) => {
+    setLoadingChallengeForArgId(arg.id);
+    try {
+      const response = await onContinue({
+        sessionId: '',
+        activityKey: 'hot-take-arena',
+        topicContext: content.topicContext,
+        previousExchanges: arguments_.map((a) => ({
+          role: 'student' as const,
+          content: `${a.studentName} (${a.side}): ${a.content}`,
+          timestamp: a.timestamp,
+        })),
+        studentResponse: `${arg.studentName} (${arg.side}) argued: "${arg.content}"`,
+        requestType: 'counter-argument',
+      });
+      setAiChallenges((prev) =>
+        new Map(prev).set(arg.id, response.challenge || 'What evidence would you give to someone who completely disagrees?')
+      );
+    } catch {
+      setAiChallenges((prev) =>
+        new Map(prev).set(arg.id, 'Can you think of a counterpoint to that argument?')
+      );
+    } finally {
+      setLoadingChallengeForArgId(null);
+    }
+  }, [content, arguments_, onContinue]);
+
   const answerChallenge = useCallback(() => {
     if (currentChallenge) {
       setCurrentChallenge({ ...currentChallenge, isAnswered: true });
@@ -245,6 +291,55 @@ export function HotTakeArenaActivity({
     setStatus(ActivityStatus.IDLE);
     onPhaseChange?.('idle');
   }, [onPhaseChange]);
+
+  const renderArgCard = useCallback((arg: Argument, depth = 0) => {
+    const isPro = arg.side === 'pro';
+    const bgColor = isPro ? 'bg-green-500/10' : 'bg-red-500/10';
+    const nameColor = isPro ? 'text-green-400' : 'text-red-400';
+    const aiChallenge = aiChallenges.get(arg.id);
+    const isLoadingThis = loadingChallengeForArgId === arg.id;
+    const isActiveReply = pendingResponseArg?.id === arg.id;
+    const replies = arguments_.filter((a) => a.replyToArgId === arg.id);
+
+    return (
+      <div key={arg.id} className={depth > 0 ? 'ml-3 border-l-2 border-white/10 pl-2' : ''}>
+        <div className={`${bgColor} p-2 rounded-lg text-sm ${isActiveReply ? `ring-1 ${isPro ? 'ring-green-400/60' : 'ring-red-400/60'}` : ''}`}>
+          <div className="flex items-start justify-between gap-1">
+            <div className="flex-1 min-w-0">
+              <span className={`${nameColor} font-bold`}>{arg.studentName}:</span>{' '}
+              {arg.content}
+            </div>
+            {depth === 0 && (
+              <div className="flex gap-1 shrink-0 ml-1">
+                <button
+                  onClick={() => setPendingResponseArg(isActiveReply ? null : arg)}
+                  title={isActiveReply ? 'Stop responding' : 'Ask opposing side to respond'}
+                  className={`p-1 rounded text-xs transition-all ${isActiveReply ? 'text-white/80 bg-white/15' : 'text-white/30 hover:text-white/70 hover:bg-white/10'}`}
+                >
+                  ↩
+                </button>
+                <button
+                  onClick={() => triggerArgChallenge(arg)}
+                  disabled={isLoadingThis}
+                  title="Generate AI counter-argument"
+                  className="p-1 rounded text-xs text-white/30 hover:text-yellow-400 hover:bg-yellow-500/10 disabled:opacity-30 transition-all"
+                >
+                  {isLoadingThis ? '…' : '✦'}
+                </button>
+              </div>
+            )}
+          </div>
+          {aiChallenge && (
+            <div className="mt-2 pt-2 border-t border-white/10 flex gap-1.5 items-start">
+              <span className="text-yellow-400 text-xs shrink-0">✦ AI:</span>
+              <p className="text-xs text-yellow-200/80 italic">{aiChallenge}</p>
+            </div>
+          )}
+        </div>
+        {replies.map((reply) => renderArgCard(reply, depth + 1))}
+      </div>
+    );
+  }, [aiChallenges, loadingChallengeForArgId, pendingResponseArg, arguments_, triggerArgChallenge]);
 
   return (
     <div className="space-y-6">
@@ -420,18 +515,37 @@ export function HotTakeArenaActivity({
             &ldquo;{content.statement}&rdquo;
           </div>
 
+          {/* Response mode banner */}
+          {pendingResponseArg && (
+            <div className={`glass p-3 rounded-xl border flex items-center justify-between gap-3 ${
+              pendingResponseArg.side === 'pro' ? 'border-red-500/40 bg-red-500/5' : 'border-green-500/40 bg-green-500/5'
+            }`}>
+              <div className="flex-1 min-w-0">
+                <p className={`text-xs font-bold uppercase tracking-widest mb-0.5 ${
+                  pendingResponseArg.side === 'pro' ? 'text-red-400' : 'text-green-400'
+                }`}>
+                  {pendingResponseArg.side === 'pro' ? 'CON' : 'PRO'} team — respond now
+                </p>
+                <p className="text-xs opacity-60 truncate">
+                  Responding to: &ldquo;{pendingResponseArg.content}&rdquo;
+                </p>
+              </div>
+              <button
+                onClick={() => setPendingResponseArg(null)}
+                className="px-3 py-1.5 text-xs glass rounded-lg border border-white/20 shrink-0 hover:bg-white/10"
+              >
+                Done
+              </button>
+            </div>
+          )}
+
           {/* Arguments display */}
           <div className="grid grid-cols-2 gap-4">
             {/* PRO arguments */}
             <div className="glass p-4 rounded-2xl border-2 border-green-500/30">
               <p className="text-green-400 font-bold text-center mb-3">PRO ARGUMENTS</p>
               <div className="space-y-2 max-h-[200px] overflow-y-auto">
-                {argumentStats.proArgs.map((arg) => (
-                  <div key={arg.id} className="bg-green-500/10 p-2 rounded-lg text-sm">
-                    <span className="text-green-400 font-bold">{arg.studentName}:</span>{' '}
-                    {arg.content}
-                  </div>
-                ))}
+                {argumentStats.proArgs.filter((a) => !a.replyToArgId).map((arg) => renderArgCard(arg))}
                 {argumentStats.proArgs.length === 0 && (
                   <p className="text-xs opacity-50 text-center">No arguments yet</p>
                 )}
@@ -442,12 +556,7 @@ export function HotTakeArenaActivity({
             <div className="glass p-4 rounded-2xl border-2 border-red-500/30">
               <p className="text-red-400 font-bold text-center mb-3">CON ARGUMENTS</p>
               <div className="space-y-2 max-h-[200px] overflow-y-auto">
-                {argumentStats.conArgs.map((arg) => (
-                  <div key={arg.id} className="bg-red-500/10 p-2 rounded-lg text-sm">
-                    <span className="text-red-400 font-bold">{arg.studentName}:</span>{' '}
-                    {arg.content}
-                  </div>
-                ))}
+                {argumentStats.conArgs.filter((a) => !a.replyToArgId).map((arg) => renderArgCard(arg))}
                 {argumentStats.conArgs.length === 0 && (
                   <p className="text-xs opacity-50 text-center">No arguments yet</p>
                 )}

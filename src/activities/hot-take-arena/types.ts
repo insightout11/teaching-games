@@ -29,6 +29,7 @@ export interface Argument {
   side: Side;
   content: string;
   timestamp: number;
+  replyToArgId?: string;
 }
 
 // Devil's advocate challenge
