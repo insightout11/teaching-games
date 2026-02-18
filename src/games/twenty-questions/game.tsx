@@ -79,6 +79,8 @@ export function TwentyQuestionsGame({
   const [roundNumber, setRoundNumber] = useState(1);
   const [winner, setWinner] = useState<{ name: string; id: string } | null>(null);
   const [aiLoading, setAiLoading] = useState<string | null>(null); // question id being AI-answered
+  const [secretVisible, setSecretVisible] = useState(false);
+  const [secretOverrideVisible, setSecretOverrideVisible] = useState(false);
 
   // Constraints (configurable in IDLE)
   const [constraints, setConstraints] = useState<GameConstraints>({
@@ -176,6 +178,7 @@ export function TwentyQuestionsGame({
     if (currentStatus === GameStatus.WAITING_FOR_SECRET) {
       if (studentId !== hostIdRef.current) return;
       setSecret(text);
+      setSecretVisible(false);
       if (isSimultaneous) {
         setTimeRemaining(constraintsRef.current.turnTimerSeconds);
         setStatus(GameStatus.COLLECTING_QUESTIONS);
@@ -297,6 +300,7 @@ export function TwentyQuestionsGame({
     if (!secretOverride.trim()) return;
     setSecret(secretOverride.trim());
     setSecretOverride('');
+    setSecretVisible(false);
     if (isSimultaneous) {
       setTimeRemaining(constraints.turnTimerSeconds);
     }
@@ -513,13 +517,21 @@ export function TwentyQuestionsGame({
           <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-2">Teacher Override</p>
           <div className="flex gap-2">
             <input
-              type="text"
+              type={secretOverrideVisible ? 'text' : 'password'}
               value={secretOverride}
               onChange={(e) => setSecretOverride(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleTeacherOverrideSecret()}
               placeholder="Type the secret for the host..."
               className="flex-1 bg-black/40 border border-white/10 text-white rounded-lg px-3 py-2 text-sm focus:border-violet-500 outline-none"
             />
+            <button
+              type="button"
+              onClick={() => setSecretOverrideVisible((v) => !v)}
+              className="px-2 text-slate-400 hover:text-white"
+              title={secretOverrideVisible ? 'Hide' : 'Show'}
+            >
+              {secretOverrideVisible ? '🙈' : '👁'}
+            </button>
             <button
               onClick={handleTeacherOverrideSecret}
               disabled={!secretOverride.trim()}
@@ -639,7 +651,15 @@ export function TwentyQuestionsGame({
           </div>
           <div className="text-right">
             <p className="text-xs text-slate-500">Secret</p>
-            <p className="text-sm font-bold text-violet-300">{secret}</p>
+            <button
+              onClick={() => setSecretVisible((v) => !v)}
+              className="text-sm font-bold text-violet-300 relative"
+              title={secretVisible ? 'Click to hide' : 'Click to reveal'}
+            >
+              <span className={secretVisible ? '' : 'blur-sm select-none'}>
+                {secret}
+              </span>
+            </button>
           </div>
         </div>
 
@@ -779,7 +799,15 @@ export function TwentyQuestionsGame({
         {/* Secret (teacher only) */}
         <div className="px-4 py-2 bg-violet-500/10 border border-violet-500/20 rounded-xl text-center">
           <p className="text-xs text-slate-500">Secret</p>
-          <p className="text-lg font-bold text-violet-300">{secret}</p>
+          <button
+            onClick={() => setSecretVisible((v) => !v)}
+            className="text-lg font-bold text-violet-300"
+            title={secretVisible ? 'Click to hide' : 'Click to reveal'}
+          >
+            <span className={secretVisible ? '' : 'blur-sm select-none'}>
+              {secret}
+            </span>
+          </button>
         </div>
 
         {/* Guess feed */}
