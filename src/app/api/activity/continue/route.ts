@@ -171,7 +171,9 @@ export async function POST(request: NextRequest) {
     const promptGenerator = activityPrompts[activityKey] || genericActivityPrompt;
     const prompt = promptGenerator(body);
 
-    const parsed = await generateJSON<ActivityContinueResponse>(prompt, schema);
+    const parsed = await generateJSON<ActivityContinueResponse>(prompt, schema, {
+      taskClass: 'activity-facilitation',
+    });
 
     // Ensure we have at least one of the expected fields
     const response: ActivityContinueResponse = {

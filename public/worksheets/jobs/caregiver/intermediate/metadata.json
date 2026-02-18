@@ -1,0 +1,239 @@
+{
+  "schema": "pdf-factory/job-pack-metadata-v1",
+  "builtAt": "2026-02-17T07:02:19.063Z",
+  "src": "matt-ops/products/esl-job-packs/caregiver",
+  "out": "matt-ops/products/esl-job-packs/caregiver/dist/English-for-Caregivers-Pack-v1-node",
+  "zipPath": "matt-ops/products/esl-job-packs/caregiver/dist/English-for-Caregivers-Pack-v1-node.zip",
+  "pack": {
+    "title": "English for Caregivers — Printable ESL Worksheet Pack (PDF)",
+    "slug": "caregiver",
+    "level": "Intermediate",
+    "cefr": "A2–B1",
+    "cluster": "jobs",
+    "timeMinutes": "30-45",
+    "keywords": [
+      "caregiver english worksheets",
+      "esl worksheets for caregivers",
+      "healthcare english worksheets",
+      "nursing assistant english worksheet",
+      "elderly care english vocabulary",
+      "caregiver role play esl",
+      "job english worksheets",
+      "workplace english pdf",
+      "esl speaking worksheets adults",
+      "medical english for beginners"
+    ]
+  },
+  "artifacts": {
+    "fullPackZip": "full-pack.zip",
+    "samplePdf": "sample.pdf",
+    "licenseTxt": "license.txt",
+    "previews": [
+      "previews/preview-01.jpg",
+      "previews/preview-02.jpg",
+      "previews/preview-03.jpg",
+      "previews/preview-04.jpg",
+      "previews/preview-05.jpg",
+      "previews/preview-06.jpg"
+    ]
+  },
+  "counts": {
+    "lessons": 11,
+    "handouts": 10,
+    "extras": 3
+  },
+  "sourceFiles": {
+    "lessons": [
+      "lesson-00-interview-mini-module.md",
+      "lesson-01-introductions-daily-routine.md",
+      "lesson-02-polite-requests-permissions.md",
+      "lesson-03-medication-schedules.md",
+      "lesson-04-pain-symptoms-basic.md",
+      "lesson-05-food-preferences-allergies.md",
+      "lesson-06-mobility-safety.md",
+      "lesson-07-cleaning-laundry-supplies.md",
+      "lesson-08-appointments-transport.md",
+      "lesson-09-emergencies.md",
+      "lesson-10-boundaries-difficult-conversations.md"
+    ],
+    "handouts": [
+      "lesson-01-student-handout.md",
+      "lesson-02-student-handout.md",
+      "lesson-03-student-handout.md",
+      "lesson-04-student-handout.md",
+      "lesson-05-student-handout.md",
+      "lesson-06-student-handout.md",
+      "lesson-07-student-handout.md",
+      "lesson-08-student-handout.md",
+      "lesson-09-student-handout.md",
+      "lesson-10-student-handout.md"
+    ],
+    "extras": [
+      "LICENSE.txt",
+      "bonus-caregiver-core-phrases-cheatsheet.md",
+      "readme-for-buyer.md"
+    ]
+  },
+  "fileManifest": [
+    {
+      "path": "00-READ-ME-FIRST.pdf",
+      "bytes": 23131,
+      "sha256": "4f22a2c62d2eb5bde093f53c30cab20a4ae1b77d4202818dad74883e55fe84ee"
+    },
+    {
+      "path": "Lessons/00-interview-mini-module.pdf",
+      "bytes": 26474,
+      "sha256": "95474f3c4693774755c2bfd94ade3619c2eab694f08f804bfcf8aac8444a89ae"
+    },
+    {
+      "path": "Lessons/01-introductions-daily-routine.pdf",
+      "bytes": 41608,
+      "sha256": "14d003bcaef8221c1f875b0b1e48cef80e71937bfd218eb946aa549823e254de"
+    },
+    {
+      "path": "Lessons/02-polite-requests-permissions.pdf",
+      "bytes": 33174,
+      "sha256": "bb58439ed066392128a0e2fa4d52580d1113927f25c15f0433e22ae4cf0b8475"
+    },
+    {
+      "path": "Lessons/03-medication-schedules.pdf",
+      "bytes": 32349,
+      "sha256": "935e20c3ad84a690f524cd357e70e9aaa85ec567410d4995a1499c6071ed0d96"
+    },
+    {
+      "path": "Lessons/04-pain-symptoms-basic.pdf",
+      "bytes": 30691,
+      "sha256": "e7f34f235184807809503c5cbbc012df09da8225ea81cf8bcd2a3cc8d01c13c0"
+    },
+    {
+      "path": "Lessons/05-food-preferences-allergies.pdf",
+      "bytes": 29241,
+      "sha256": "eb47485f8627fc1baa1b9d8e2801d7314bc42db3306ecaa3f1abd1bf86e92c0f"
+    },
+    {
+      "path": "Lessons/06-mobility-safety.pdf",
+      "bytes": 29330,
+      "sha256": "1327adadbe2bfcbedd6fbd0fa5af61b729f11a1968d58c8169a899f90efa90b9"
+    },
+    {
+      "path": "Lessons/07-cleaning-laundry-supplies.pdf",
+      "bytes": 28342,
+      "sha256": "8aa999d1c68fc3d847d91c145990ac72f6b996c826dde586d3b7527a89e5a9d4"
+    },
+    {
+      "path": "Lessons/08-appointments-transport.pdf",
+      "bytes": 27769,
+      "sha256": "a702791e1d5cdee35f4f67ed8767e9e029e32d3a8651ee33057232a034c6f4ba"
+    },
+    {
+      "path": "Lessons/09-emergencies.pdf",
+      "bytes": 29174,
+      "sha256": "0c66d7d03ed0174f3b7535bc2683a17c2878bdc3a0cbaaf61152c6af51f54850"
+    },
+    {
+      "path": "Lessons/10-boundaries-difficult-conversations.pdf",
+      "bytes": 30076,
+      "sha256": "2037283982b41d78e48604e268659dc1adcabfa728d450f926d0d9fcf6e6c61a"
+    },
+    {
+      "path": "Student-Handouts/01-Student-Handout.pdf",
+      "bytes": 30583,
+      "sha256": "ad8f84eee6b2a56bca02af3a8dd88f766e524119179907968080107d4a3a9ce1"
+    },
+    {
+      "path": "Student-Handouts/02-Student-Handout.pdf",
+      "bytes": 26136,
+      "sha256": "057a6c4322804b166d83c505c9dce4166663968a7e440cfb42938fe6a36f55e8"
+    },
+    {
+      "path": "Student-Handouts/03-Student-Handout.pdf",
+      "bytes": 26150,
+      "sha256": "51e0825f411d697e8ef3f0e4ee836a63dde4d300037169643ed749cddabd6c71"
+    },
+    {
+      "path": "Student-Handouts/04-Student-Handout.pdf",
+      "bytes": 25981,
+      "sha256": "410b4cfafea9ea9deb0e0583ff90774dccae29dc55b6c9d813af47f452b1eed1"
+    },
+    {
+      "path": "Student-Handouts/05-Student-Handout.pdf",
+      "bytes": 26682,
+      "sha256": "427896f63a2421bdcff8b112f08e1e1d7e2e05e8dc9b647a40b16f12dc71a21d"
+    },
+    {
+      "path": "Student-Handouts/06-Student-Handout.pdf",
+      "bytes": 26138,
+      "sha256": "e026c4e1c08c5e1505287d4c9f969df8c35a8d80a6847ce29f4bc17d700b6586"
+    },
+    {
+      "path": "Student-Handouts/07-Student-Handout.pdf",
+      "bytes": 25213,
+      "sha256": "94eae710fd1ae26fe659ed7e413ce187b4b3ffe5598fe13a9e52e761de918a01"
+    },
+    {
+      "path": "Student-Handouts/08-Student-Handout.pdf",
+      "bytes": 24942,
+      "sha256": "79bff1a019bc596f5184b1b50049efcc7cb6a49409dd1ead39dd8d1c7c2b39d3"
+    },
+    {
+      "path": "Student-Handouts/09-Student-Handout.pdf",
+      "bytes": 25427,
+      "sha256": "ad7e2a1ba95b0fee5e19caa9419e91773f558827e1add9076373b6e303eb7ed1"
+    },
+    {
+      "path": "Student-Handouts/10-Student-Handout.pdf",
+      "bytes": 25420,
+      "sha256": "3c19d96920c06f54a1f28995d381a404fde067d64e7783dbc5f07312114cf198"
+    },
+    {
+      "path": "bonus-caregiver-core-phrases-cheatsheet.pdf",
+      "bytes": 29905,
+      "sha256": "fc6ba70dfadb68e5d8fdfb19066ecb7bbdb5216792a6ef6cb0b27f7aa5a1fe4e"
+    },
+    {
+      "path": "sample.pdf",
+      "bytes": 41608,
+      "sha256": "14d003bcaef8221c1f875b0b1e48cef80e71937bfd218eb946aa549823e254de"
+    },
+    {
+      "path": "previews/preview-01.jpg",
+      "bytes": 82747,
+      "sha256": "c833d648ddf83c7201edc739985923890d7df509ece0dcecbe4813c7167d0643"
+    },
+    {
+      "path": "previews/preview-02.jpg",
+      "bytes": 503553,
+      "sha256": "27c0c7e5707892e80c20fcae75605d5e13f8202618829b18cc5741742d252dbf"
+    },
+    {
+      "path": "previews/preview-03.jpg",
+      "bytes": 248461,
+      "sha256": "3b4138cb5fed8b239ac9b50f6f8ef561a4f64ae31aa6af73be4e2268fed287c6"
+    },
+    {
+      "path": "previews/preview-04.jpg",
+      "bytes": 289988,
+      "sha256": "21c70ed9e8f5e6c82a6b528bc7b133f42b7b0ebebf8e3d1cfb14a6c8c2ab556e"
+    },
+    {
+      "path": "previews/preview-05.jpg",
+      "bytes": 82747,
+      "sha256": "c833d648ddf83c7201edc739985923890d7df509ece0dcecbe4813c7167d0643"
+    },
+    {
+      "path": "previews/preview-06.jpg",
+      "bytes": 167805,
+      "sha256": "7ab6e6eff34614f2cc7df142fc2fdc34e46667e19cffe91cc63ef16b6582602f"
+    },
+    {
+      "path": "full-pack.zip",
+      "bytes": 608876,
+      "sha256": "ee59a37e98562194bb5392c0dae3d26ce6d5db19a8f598d6efa6d1e308edca8b"
+    },
+    {
+      "path": "license.txt",
+      "bytes": 510,
+      "sha256": "fec71517b7e01ac43c11880ceee98c57c6a6091f1518c2506a3ca77adfaa094f"
+    }
+  ]
+}

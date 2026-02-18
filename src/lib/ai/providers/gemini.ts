@@ -43,7 +43,7 @@ export class GeminiProvider implements AIProvider {
 
   async generateJSON<T>(prompt: string, schema: AISchema, options?: GenerateJSONOptions): Promise<T> {
     const model = this.genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
+      model: options?.model || 'gemini-2.0-flash',
       generationConfig: {
         responseMimeType: 'application/json',
         responseSchema: convertSchema(schema),
@@ -51,7 +51,8 @@ export class GeminiProvider implements AIProvider {
       },
     });
 
-    const result = await model.generateContent(prompt);
+    const requestOptions = options?.signal ? { signal: options.signal } : undefined;
+    const result = await model.generateContent({ contents: [{ role: 'user', parts: [{ text: prompt }] }] }, requestOptions);
     const text = result.response.text();
     return JSON.parse(text) as T;
   }

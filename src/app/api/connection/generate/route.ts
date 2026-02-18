@@ -66,7 +66,7 @@ Good connection types:
 - Properties (both are colors, both have 4 letters)
 - Cultural/thematic (both relate to X)`;
 
-    const data = await generateJSON<{ word1: string; word2: string; category: string; hint: string }>(prompt, schema, { temperature: 1.2 });
+    const data = await generateJSON<{ word1: string; word2: string; category: string; hint: string }>(prompt, schema, { temperature: 1.2, taskClass: 'content-generation' });
     return NextResponse.json(data, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate',

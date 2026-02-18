@@ -31,7 +31,7 @@ The sentence should hook readers and give students a clear direction to continue
 Write at ${difficultyLevels[difficulty]} level.
 Keep it to exactly ONE sentence (15-30 words). Do not end the story — leave it open for continuation.`;
 
-    const parsed = await generateJSON<{ starterSentence: string }>(prompt, schema);
+    const parsed = await generateJSON<{ starterSentence: string }>(prompt, schema, { taskClass: 'content-generation' });
     return NextResponse.json(parsed);
   } catch (error) {
     console.error('Starter generation error:', error);

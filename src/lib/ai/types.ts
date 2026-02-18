@@ -11,6 +11,10 @@ export interface AISchema {
 
 export interface GenerateJSONOptions {
   temperature?: number;
+  taskClass?: import('./routing').TaskClass;
+  model?: string;
+  signal?: AbortSignal;
+  _route?: string;
 }
 
 export interface AIProvider {

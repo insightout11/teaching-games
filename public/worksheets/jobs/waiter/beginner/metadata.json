@@ -1,0 +1,210 @@
+{
+  "schema": "pdf-factory/job-pack-metadata-v1",
+  "builtAt": "2026-02-17T10:32:42.656Z",
+  "src": "matt-ops/products/esl-job-packs/waiter",
+  "out": "matt-ops/products/esl-job-packs/waiter/dist/Waiter-English-Worksheets-Pack-v1-node",
+  "zipPath": "matt-ops/products/esl-job-packs/waiter/dist/Waiter-English-Worksheets-Pack-v1-node.zip",
+  "pack": {
+    "title": "Waiter English Worksheets (Printable PDF) — Beginner",
+    "slug": "waiter",
+    "level": "Beginner",
+    "cefr": null,
+    "cluster": "jobs",
+    "timeMinutes": "30-45",
+    "keywords": []
+  },
+  "artifacts": {
+    "fullPackZip": "full-pack.zip",
+    "samplePdf": "sample.pdf",
+    "licenseTxt": "license.txt",
+    "previews": [
+      "previews/preview-01.jpg",
+      "previews/preview-02.jpg",
+      "previews/preview-03.jpg"
+    ]
+  },
+  "counts": {
+    "lessons": 11,
+    "handouts": 10,
+    "extras": 3
+  },
+  "sourceFiles": {
+    "lessons": [
+      "lesson-00-interview-mini-module.md",
+      "lesson-01-introductions-taking-orders.md",
+      "lesson-02-menu-vocabulary-recommendations.md",
+      "lesson-03-polite-questions-checking-understanding.md",
+      "lesson-04-special-requests-allergies.md",
+      "lesson-05-problems-apologies-wrong-order.md",
+      "lesson-06-payments-receipts-splitting-the-bill.md",
+      "lesson-07-reservations-waiting-list.md",
+      "lesson-08-small-talk-customer-service.md",
+      "lesson-09-handling-complaints-calmly.md",
+      "lesson-10-shift-handover-teamwork.md"
+    ],
+    "handouts": [
+      "lesson-01-student-handout.md",
+      "lesson-02-student-handout.md",
+      "lesson-03-student-handout.md",
+      "lesson-04-student-handout.md",
+      "lesson-05-student-handout.md",
+      "lesson-06-student-handout.md",
+      "lesson-07-student-handout.md",
+      "lesson-08-student-handout.md",
+      "lesson-09-student-handout.md",
+      "lesson-10-student-handout.md"
+    ],
+    "extras": [
+      "LICENSE.txt",
+      "bonus-waiter-core-phrases-cheatsheet.md",
+      "readme-for-buyer.md"
+    ]
+  },
+  "fileManifest": [
+    {
+      "path": "00-READ-ME-FIRST.pdf",
+      "bytes": 23168,
+      "sha256": "63b77fe2114d4239c86d547a1021537b6cc4f6a4c08a6a443fcc3c16e96d117c"
+    },
+    {
+      "path": "Lessons/00-interview-mini-module.pdf",
+      "bytes": 21749,
+      "sha256": "a634cb13bbaf263578f1ae053cff8e3e83a54b62d9fcef3f7e7cae3c1a635f20"
+    },
+    {
+      "path": "Lessons/01-introductions-taking-orders.pdf",
+      "bytes": 31464,
+      "sha256": "c651bff3862c8c6d19da76f3962622acc0c7f395e68ef7988df7dd965ce71c02"
+    },
+    {
+      "path": "Lessons/02-menu-vocabulary-recommendations.pdf",
+      "bytes": 31621,
+      "sha256": "a26ff4a854a121140898e788163369416e6b4fdea88677505822a64f42049c62"
+    },
+    {
+      "path": "Lessons/03-polite-questions-checking-understanding.pdf",
+      "bytes": 31614,
+      "sha256": "d5367b55fecd7835f4741a436e533789b1fa2a9959948512fb4c12ed1cf39874"
+    },
+    {
+      "path": "Lessons/04-special-requests-allergies.pdf",
+      "bytes": 31352,
+      "sha256": "1fa49c55c7e8d11d2ba7512841e5174585e14009bdad081d3aac39d694bcb0dd"
+    },
+    {
+      "path": "Lessons/05-problems-apologies-wrong-order.pdf",
+      "bytes": 31434,
+      "sha256": "62dd69544c2e6b2d4a42efa7385c87f9d9f0b120986e683c6860a29a7145977c"
+    },
+    {
+      "path": "Lessons/06-payments-receipts-splitting-the-bill.pdf",
+      "bytes": 31512,
+      "sha256": "53c24b22f92aed04b1c6488f24e1337216697dedcd0cd56a6a002b6ab4a9a5ba"
+    },
+    {
+      "path": "Lessons/07-reservations-waiting-list.pdf",
+      "bytes": 31364,
+      "sha256": "33903539dc216fba8af309f5e224c5e2c3b6926012002c38a73d61fde2343f9b"
+    },
+    {
+      "path": "Lessons/08-small-talk-customer-service.pdf",
+      "bytes": 31466,
+      "sha256": "d352228d1d5b8e65864c284964d6d4da25da84abedf0eb79449a9812597d922b"
+    },
+    {
+      "path": "Lessons/09-handling-complaints-calmly.pdf",
+      "bytes": 31324,
+      "sha256": "5a4bfeec4fbf45ee56e8f41852914a15e3ca521c683d4ff417ae477e9613204a"
+    },
+    {
+      "path": "Lessons/10-shift-handover-teamwork.pdf",
+      "bytes": 31265,
+      "sha256": "be2b7ac1f98771590394a64bc8ffc7770f42ef806cc658b9376fed08c1ebbd8f"
+    },
+    {
+      "path": "Student-Handouts/01-Student-Handout.pdf",
+      "bytes": 29987,
+      "sha256": "a034bfb6f9cf0f29292e8d6427d9d4736227af6838ab6750e74e93067549a566"
+    },
+    {
+      "path": "Student-Handouts/02-Student-Handout.pdf",
+      "bytes": 29987,
+      "sha256": "9f4a093f91e9a112e803ae40c2d417baac36cec38ef58dc472cec251bc8e4c72"
+    },
+    {
+      "path": "Student-Handouts/03-Student-Handout.pdf",
+      "bytes": 29988,
+      "sha256": "060fe835573c07c2f761b41e5e54b600cccd33206fb31a1c76c0fffe58cf6074"
+    },
+    {
+      "path": "Student-Handouts/04-Student-Handout.pdf",
+      "bytes": 29988,
+      "sha256": "331243c9afec01df9309ad84ce427b5d0b8b1d500ea874da203fc4d309d97a73"
+    },
+    {
+      "path": "Student-Handouts/05-Student-Handout.pdf",
+      "bytes": 29988,
+      "sha256": "d53e81242ed6e14c7596a89a6f657900e6d9c10025a88ff03823c3b9d09d861f"
+    },
+    {
+      "path": "Student-Handouts/06-Student-Handout.pdf",
+      "bytes": 30130,
+      "sha256": "ba3964b97c7e06629c5ad7017b45ec0bc18430ce2d731874a086c62ea3964b06"
+    },
+    {
+      "path": "Student-Handouts/07-Student-Handout.pdf",
+      "bytes": 30082,
+      "sha256": "6fed7e560f51327862f5322bb070db2d123df21af5f1b0b77653e0dad6e9d512"
+    },
+    {
+      "path": "Student-Handouts/08-Student-Handout.pdf",
+      "bytes": 30175,
+      "sha256": "a4e65184d598331d6666e4c88350aeea722fbadb9ee21c132517a591c3f7ab82"
+    },
+    {
+      "path": "Student-Handouts/09-Student-Handout.pdf",
+      "bytes": 30136,
+      "sha256": "7dae7108249b1d52660cb3901ceef7985eedc1a6ef815050e9623566069a5f94"
+    },
+    {
+      "path": "Student-Handouts/10-Student-Handout.pdf",
+      "bytes": 29989,
+      "sha256": "71fa0d4407bafab2dfc3fca7d718c874810ca3ddda544160aac5473b32028930"
+    },
+    {
+      "path": "bonus-waiter-core-phrases-cheatsheet.pdf",
+      "bytes": 27092,
+      "sha256": "eb5a96c54c3700c06360977e0d8698eb1afe5aeaaac5a14661b302e94655c758"
+    },
+    {
+      "path": "sample.pdf",
+      "bytes": 21749,
+      "sha256": "a634cb13bbaf263578f1ae053cff8e3e83a54b62d9fcef3f7e7cae3c1a635f20"
+    },
+    {
+      "path": "previews/preview-01.jpg",
+      "bytes": 99526,
+      "sha256": "cb76a4c8754327666956ec4b0796b241a11814d76815483b0b362a87b54e7e18"
+    },
+    {
+      "path": "previews/preview-02.jpg",
+      "bytes": 267173,
+      "sha256": "8c02b7ce2cdad3413e7b3410a131f48a54d1541b4af8ae0efe4ad41da26e924d"
+    },
+    {
+      "path": "previews/preview-03.jpg",
+      "bytes": 99526,
+      "sha256": "cb76a4c8754327666956ec4b0796b241a11814d76815483b0b362a87b54e7e18"
+    },
+    {
+      "path": "full-pack.zip",
+      "bytes": 640396,
+      "sha256": "827a4a70bfe569f71a8d09dfb68e67fd4d3e9b197bd9d766faaea2c92708bd68"
+    },
+    {
+      "path": "license.txt",
+      "bytes": 920,
+      "sha256": "d11862c51ccfe6ab544340f3b4c70925813883378a81c04c1b4588e9b82fcb92"
+    }
+  ]
+}

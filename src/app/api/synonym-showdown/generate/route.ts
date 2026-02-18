@@ -57,7 +57,7 @@ Requirements:
 
 Good target words have many alternatives: happy, big, said, walk, good, bad, nice, important, beautiful, fast, etc.`;
 
-    const data = await generateJSON<{ targetWord: string; contextSentence: string; hint: string }>(prompt, schema, { temperature: 1.2 });
+    const data = await generateJSON<{ targetWord: string; contextSentence: string; hint: string }>(prompt, schema, { temperature: 1.2, taskClass: 'content-generation' });
     return NextResponse.json(data, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate',

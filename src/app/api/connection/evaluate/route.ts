@@ -80,7 +80,7 @@ Examples of what to REJECT:
       quality: string;
       feedback: string;
       actualConnection: string;
-    }>(prompt, schema);
+    }>(prompt, schema, { taskClass: 'evaluation' });
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);

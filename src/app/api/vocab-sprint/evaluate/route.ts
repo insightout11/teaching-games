@@ -43,7 +43,7 @@ Task: Evaluate the replacement word based on how well it fits the context and up
 - 3-4 superior alternatives for a score of 10.
 - Short, energetic comment (max 10 words).`;
 
-    const evaluation = await generateJSON<EvaluationResult>(prompt, schema);
+    const evaluation = await generateJSON<EvaluationResult>(prompt, schema, { taskClass: 'evaluation' });
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);

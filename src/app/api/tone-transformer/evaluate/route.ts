@@ -61,7 +61,7 @@ Be appropriately lenient for ${difficulty} level - focus on whether they achieve
       grammarScore: number;
       feedback: string;
       alternatives: string[];
-    }>(prompt, schema);
+    }>(prompt, schema, { taskClass: 'evaluation' });
 
     // Calculate overall score (weighted average)
     const overallScore = Math.round(

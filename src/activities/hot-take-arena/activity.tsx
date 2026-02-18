@@ -41,6 +41,14 @@ export function HotTakeArenaActivity({
         prompt: `"${content.statement}" - Do you agree or disagree?`,
         optionLabels: ['AGREE (PRO)', 'DISAGREE (CON)'],
       });
+    } else if (status === ActivityStatus.DEBATE) {
+      onSetInputSpec?.({
+        type: 'text',
+        gameKey: 'hot-take-arena',
+        prompt: 'Make your argument! Type what your team believes.',
+        placeholder: 'Type your argument...',
+        maxLength: 300,
+      });
     } else {
       onSetInputSpec?.(null);
     }
@@ -124,6 +132,20 @@ export function HotTakeArenaActivity({
     setNewArgumentText('');
     setSelectedStudentForArg(null);
   }, [students, sideSelections]);
+
+  // Register remote vote handler for DEBATE phase — receives text arguments from student devices
+  useEffect(() => {
+    if (status !== ActivityStatus.DEBATE) return;
+    onRegisterRemoteVoteHandler?.((vote) => {
+      const studentId = vote.clientId;
+      const argumentText = vote.choice?.trim();
+      if (!argumentText) return;
+      const selection = sideSelections.find((s) => s.studentId === studentId);
+      if (!selection) return; // student didn't pick a side — silently ignore
+      addArgument(studentId, argumentText);
+    });
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [status, sideSelections, addArgument, onRegisterRemoteVoteHandler]);
 
   const triggerDevilsAdvocate = useCallback(async (targetSide: Side) => {
     setIsLoadingChallenge(true);
@@ -424,9 +446,32 @@ export function HotTakeArenaActivity({
             </div>
           </div>
 
+          {/* AI argument starters — collapsible teacher hints */}
+          {(content.proArguments?.length > 0 || content.conArguments?.length > 0) && (
+            <details className="glass p-4 rounded-xl border border-white/5">
+              <summary className="text-xs font-bold uppercase tracking-widest opacity-50 cursor-pointer select-none">
+                Argument Starters (teacher prompts) ▾
+              </summary>
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                <div>
+                  <p className="text-green-400 text-xs font-bold mb-2">PRO ideas</p>
+                  {content.proArguments?.map((a: string, i: number) => (
+                    <p key={i} className="text-xs text-slate-400 mb-1">• {a}</p>
+                  ))}
+                </div>
+                <div>
+                  <p className="text-red-400 text-xs font-bold mb-2">CON ideas</p>
+                  {content.conArguments?.map((a: string, i: number) => (
+                    <p key={i} className="text-xs text-slate-400 mb-1">• {a}</p>
+                  ))}
+                </div>
+              </div>
+            </details>
+          )}
+
           {/* Add argument form */}
           <div className="glass p-4 rounded-xl space-y-3">
-            <p className="text-sm font-bold opacity-70">Record an argument:</p>
+            <p className="text-sm font-bold opacity-70">Teacher override (or type for student):</p>
             <div className="flex gap-2">
               <select
                 value={selectedStudentForArg || ''}
@@ -593,6 +638,15 @@ export function HotTakeArenaActivity({
               <div className="mt-3 text-xs">
                 <p className="opacity-70">Team: {teams.pro.map((t) => t.studentName).join(', ')}</p>
               </div>
+              {argumentStats.proArgs.length > 0 && (
+                <div className="mt-3 space-y-1 max-h-28 overflow-y-auto">
+                  {argumentStats.proArgs.map((a) => (
+                    <p key={a.id} className="text-xs text-slate-400">
+                      <span className="font-bold">{a.studentName}:</span> {a.content}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="glass p-4 rounded-2xl border-2 border-red-500/30">
@@ -602,6 +656,15 @@ export function HotTakeArenaActivity({
               <div className="mt-3 text-xs">
                 <p className="opacity-70">Team: {teams.con.map((t) => t.studentName).join(', ')}</p>
               </div>
+              {argumentStats.conArgs.length > 0 && (
+                <div className="mt-3 space-y-1 max-h-28 overflow-y-auto">
+                  {argumentStats.conArgs.map((a) => (
+                    <p key={a.id} className="text-xs text-slate-400">
+                      <span className="font-bold">{a.studentName}:</span> {a.content}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

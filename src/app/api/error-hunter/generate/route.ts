@@ -64,7 +64,7 @@ Requirements:
 
 Return the paragraph with errors embedded, plus an array of error details.`;
 
-    const data = await generateJSON<{ paragraph: string; errorCount: number; errors: Array<{ position: number; word: string; errorType: string; correction: string }> }>(prompt, schema);
+    const data = await generateJSON<{ paragraph: string; errorCount: number; errors: Array<{ position: number; word: string; errorType: string; correction: string }> }>(prompt, schema, { taskClass: 'content-generation' });
     return NextResponse.json({
       paragraph: data.paragraph,
       errorCount: data.errorCount,

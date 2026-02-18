@@ -30,19 +30,22 @@ export class OpenAIProvider implements AIProvider {
   }
 
   async generateJSON<T>(prompt: string, schema: AISchema, options?: GenerateJSONOptions): Promise<T> {
-    const response = await this.client.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: options?.temperature ?? 1.0,
-      response_format: {
-        type: 'json_schema',
-        json_schema: {
-          name: 'response',
-          strict: true,
-          schema: convertSchema(schema),
+    const response = await this.client.chat.completions.create(
+      {
+        model: options?.model || 'gpt-4o-mini',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: options?.temperature ?? 1.0,
+        response_format: {
+          type: 'json_schema',
+          json_schema: {
+            name: 'response',
+            strict: true,
+            schema: convertSchema(schema),
+          },
         },
       },
-    });
+      options?.signal ? { signal: options.signal } : undefined,
+    );
 
     const text = response.choices[0]?.message?.content || '{}';
     return JSON.parse(text) as T;

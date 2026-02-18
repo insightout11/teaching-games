@@ -66,7 +66,7 @@ Also provide a 'hint' for each sentence—a short, friendly piece of advice (max
 
 Return exactly 5 objects as a JSON array with varied weak words.`;
 
-    const sentences = await generateJSON<GameSentence[]>(prompt, schema);
+    const sentences = await generateJSON<GameSentence[]>(prompt, schema, { taskClass: 'content-generation' });
     return NextResponse.json({ sentences });
   } catch (error) {
     console.error('Generate error:', error);

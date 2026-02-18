@@ -86,7 +86,7 @@ Provide:
       score: number;
       feedback: string;
       solutions: Array<{ position: number; word: string; errorType: string; correction: string }>;
-    }>(prompt, schema);
+    }>(prompt, schema, { taskClass: 'evaluation' });
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);

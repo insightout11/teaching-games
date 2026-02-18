@@ -68,7 +68,7 @@ Provide a constructive, encouraging feedback comment (max 20 words) that helps t
       flowScore: number;
       feedback: string;
       topicRelevanceScore?: number;
-    }>(prompt, topic ? topicSchema : baseSchema);
+    }>(prompt, topic ? topicSchema : baseSchema, { taskClass: 'evaluation' });
     return NextResponse.json(analysis);
   } catch (error) {
     console.error('Analyze error:', error);

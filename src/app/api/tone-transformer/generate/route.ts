@@ -62,7 +62,7 @@ Requirements:
 - The tone should be clear and identifiable
 - Choose varied tones (don't always use casual)`;
 
-    const data = await generateJSON<{ originalSentence: string; currentTone: string; context: string }>(prompt, schema);
+    const data = await generateJSON<{ originalSentence: string; currentTone: string; context: string }>(prompt, schema, { taskClass: 'content-generation' });
     const targetTone = getContrastingTone(data.currentTone);
 
     return NextResponse.json({

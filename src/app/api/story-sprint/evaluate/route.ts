@@ -107,7 +107,7 @@ For bestLineStudentName, use EXACTLY one of: ${studentNames.join(', ')}`;
       bestLineReason: string;
       summary: string;
       topicRelevance?: number;
-    }>(prompt, topic ? topicSchema : baseSchema);
+    }>(prompt, topic ? topicSchema : baseSchema, { taskClass: 'evaluation' });
 
     // Reshape bestLine into nested object
     const response: Record<string, unknown> = {

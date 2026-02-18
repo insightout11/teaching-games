@@ -40,7 +40,7 @@ Also provide a short hint about the type of associations expected (max 8 words).
 
 Good starting words have rich associations: ocean, music, family, city, food, technology, nature, etc.`;
 
-    const data = await generateJSON<{ startingWord: string; hint: string }>(prompt, schema);
+    const data = await generateJSON<{ startingWord: string; hint: string }>(prompt, schema, { taskClass: 'content-generation' });
     return NextResponse.json(data);
   } catch (error) {
     console.error('Generate error:', error);

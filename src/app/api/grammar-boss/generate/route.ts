@@ -39,7 +39,7 @@ Provide:
 
 The task should prompt the student to speak about the given topic while using the specified grammar structure.`;
 
-    const data = await generateJSON<{ task: string; exampleSentence: string }>(prompt, schema);
+    const data = await generateJSON<{ task: string; exampleSentence: string }>(prompt, schema, { taskClass: 'content-generation' });
     return NextResponse.json({
       task: data.task || 'Speak about your recent experiences.',
       exampleSentence: data.exampleSentence || 'I have been working on this project for three months.'

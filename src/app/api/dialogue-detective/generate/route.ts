@@ -54,7 +54,7 @@ Requirements:
 - The dialogue should relate to ${topic}
 - Appropriate complexity for ${difficulty} level`;
 
-    const data = await generateJSON<{ speakerA_before: string; speakerA_after: string; context: string; goal: string }>(prompt, schema);
+    const data = await generateJSON<{ speakerA_before: string; speakerA_after: string; context: string; goal: string }>(prompt, schema, { taskClass: 'content-generation' });
     return NextResponse.json({
       speakerA_before: data.speakerA_before,
       speakerA_after: data.speakerA_after,

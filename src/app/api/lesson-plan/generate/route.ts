@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateJSON } from '@/lib/ai';
+import { generateJSON as _generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
+import { bulkSemaphore } from '@/lib/ai/concurrency';
+
+const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
+  bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
 import type { Difficulty } from '@/stores/session-store';
 import { TargetTone } from '@/games/tone-transformer/types';
 import type {

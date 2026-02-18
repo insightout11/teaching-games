@@ -48,7 +48,7 @@ Requirements:
 - Use natural, authentic language — not textbook-stilted
 - Generate DIFFERENT sentences each time — be creative!`;
 
-    const data = await generateJSON<{ sentences: string[] }>(prompt, schema, { temperature: 1.2 });
+    const data = await generateJSON<{ sentences: string[] }>(prompt, schema, { temperature: 1.2, taskClass: 'content-generation' });
 
     return NextResponse.json(data, {
       headers: {

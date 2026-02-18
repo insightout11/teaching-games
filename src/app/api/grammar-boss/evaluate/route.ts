@@ -45,7 +45,7 @@ Requirements:
 3. Corrected Version: A natural, polished version of the sentence appropriate for ${difficulty} level.
 4. Feedback: Use a Friendly Peer tone. Keep it motivational and professional (max 3 sentences).`;
 
-    const evaluation = await generateJSON<{ grammarScore: number; fluencyScore: number; correctedSentence: string; feedback: string }>(prompt, schema);
+    const evaluation = await generateJSON<{ grammarScore: number; fluencyScore: number; correctedSentence: string; feedback: string }>(prompt, schema, { taskClass: 'evaluation' });
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);

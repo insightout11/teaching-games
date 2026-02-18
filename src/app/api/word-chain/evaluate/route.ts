@@ -95,7 +95,7 @@ STRICT RULES - Be critical:
       score: number;
       feedback: string;
       bonusAchieved?: boolean;
-    }>(prompt, needsBonusCheck ? bonusSchema : baseSchema);
+    }>(prompt, needsBonusCheck ? bonusSchema : baseSchema, { taskClass: 'evaluation' });
 
     return NextResponse.json({
       ...evaluation,

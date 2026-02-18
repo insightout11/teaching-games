@@ -49,7 +49,7 @@ Rules:
 - Reward more sophisticated or precise synonyms with higher scores
 - Be lenient - if it's close enough, accept it`;
 
-    const evaluation = await generateJSON<{ isValid: boolean; score: number; quality: string; feedback: string }>(prompt, schema);
+    const evaluation = await generateJSON<{ isValid: boolean; score: number; quality: string; feedback: string }>(prompt, schema, { taskClass: 'evaluation' });
     return NextResponse.json(evaluation);
   } catch (error) {
     console.error('Evaluate error:', error);

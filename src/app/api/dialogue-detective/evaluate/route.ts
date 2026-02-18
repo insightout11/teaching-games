@@ -62,7 +62,7 @@ Be flexible - there are many valid ways to fill this blank. Focus on whether the
       creativityBonus: number;
       feedback: string;
       exampleResponse: string;
-    }>(prompt, schema);
+    }>(prompt, schema, { taskClass: 'evaluation' });
 
     // Calculate overall score
     const baseScore = Math.round(

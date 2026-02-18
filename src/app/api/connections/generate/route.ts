@@ -105,7 +105,7 @@ Return JSON with this exact structure:
 
 IMPORTANT: Words should be in UPPERCASE. Category names should be clear and concise (e.g., "Types of bread", "Words that can follow 'fire'").`;
 
-    const data = await generateJSON<{ groups: Array<{ category: string; words: string[]; difficulty: string; color: string }> }>(prompt, schema, { temperature: 1.0 });
+    const data = await generateJSON<{ groups: Array<{ category: string; words: string[]; difficulty: string; color: string }> }>(prompt, schema, { temperature: 1.0, taskClass: 'content-generation' });
 
     // Validate the response
     if (!data.groups || data.groups.length !== 4) {
