@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 
 A player asked: "${question}"
 
-Give a SHORT, DIRECT answer (1–8 words). Do NOT mention or name the secret item itself — describe it without revealing the answer. Do NOT say yes, no, or maybe. ${toneInstruction}${historyText}`
+Answer ONLY what was asked — nothing more. Give a SHORT, DIRECT answer (1–8 words). Do NOT add extra details beyond what the question asks for. Do NOT mention or name the secret item itself. Do NOT say yes, no, or maybe. ${toneInstruction}${historyText}`
       : `You are the host of a 20 Questions game. The secret is: "${secret}".
 
 A player asked: "${question}"
