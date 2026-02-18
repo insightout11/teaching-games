@@ -403,6 +403,28 @@ export function TwentyQuestionsGame({
     return <span className={`${base} bg-slate-500/20 text-slate-300 max-w-[120px] truncate`}>{answer}</span>;
   }
 
+  function renderAnsweredRow(q: Question, extraClasses = '') {
+    const isShort = q.answer === 'yes' || q.answer === 'no' || q.answer === 'maybe';
+    if (isShort) {
+      return (
+        <div className={`flex items-center gap-2 ${extraClasses}`}>
+          {renderAnswerBadge(q.answer!)}
+          <span className="text-slate-400 truncate">{q.text}</span>
+          <span className="text-xs text-slate-600 shrink-0">— {q.askerName}</span>
+        </div>
+      );
+    }
+    return (
+      <div className={extraClasses}>
+        <div className="flex items-center gap-1 text-slate-400">
+          <span className="truncate">{q.text}</span>
+          <span className="text-xs text-slate-600 shrink-0">— {q.askerName}</span>
+        </div>
+        <div className="text-xs text-slate-300 italic mt-0.5">→ {q.answer}</div>
+      </div>
+    );
+  }
+
   // ─── Render ───
 
   // ===== IDLE =====
@@ -763,11 +785,7 @@ export function TwentyQuestionsGame({
             </p>
             <div className="glass p-3 rounded-xl border border-white/5 max-h-48 overflow-y-auto space-y-1">
               {answeredQuestions.map((q) => (
-                <div key={q.id} className="flex items-center gap-2 text-sm py-1">
-                  {renderAnswerBadge(q.answer!)}
-                  <span className="text-slate-400 truncate">{q.text}</span>
-                  <span className="text-xs text-slate-600 shrink-0">— {q.askerName}</span>
-                </div>
+                <div key={q.id}>{renderAnsweredRow(q, 'text-sm py-1')}</div>
               ))}
             </div>
           </div>
@@ -810,10 +828,7 @@ export function TwentyQuestionsGame({
           </p>
           <div className="space-y-1">
             {answeredQuestions.map((q) => (
-              <div key={q.id} className="flex items-center gap-2 text-xs py-0.5">
-                {renderAnswerBadge(q.answer!)}
-                <span className="text-slate-400 truncate">{q.text}</span>
-              </div>
+              <div key={q.id}>{renderAnsweredRow(q, 'text-xs py-0.5')}</div>
             ))}
           </div>
         </div>
@@ -905,11 +920,9 @@ export function TwentyQuestionsGame({
           <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-2">Full Transcript</p>
           <div className="space-y-1">
             {answeredQuestions.map((q, i) => (
-              <div key={q.id} className="flex items-center gap-2 text-xs py-0.5">
-                <span className="text-slate-600 w-5">{i + 1}.</span>
-                {renderAnswerBadge(q.answer!)}
-                <span className="text-slate-400 truncate">{q.text}</span>
-                <span className="text-slate-600 shrink-0">— {q.askerName}</span>
+              <div key={q.id} className="flex items-start gap-2">
+                <span className="text-slate-600 w-5 shrink-0 text-xs mt-0.5">{i + 1}.</span>
+                {renderAnsweredRow(q, 'text-xs py-0.5 flex-1')}
               </div>
             ))}
           </div>
