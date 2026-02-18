@@ -9,11 +9,6 @@ interface AnswerRequest {
   questionsHistory: { question: string; answer: string }[];
 }
 
-interface AnswerResponse {
-  answer: 'yes' | 'no' | 'maybe';
-  explanation: string;
-}
-
 const answerSchema: AISchema = {
   type: 'object',
   properties: {
@@ -30,6 +25,23 @@ const answerSchema: AISchema = {
   required: ['answer', 'explanation'],
 };
 
+const wAnswerSchema: AISchema = {
+  type: 'object',
+  properties: {
+    answer: {
+      type: 'string',
+      description: 'Short factual answer (1-8 words)',
+    },
+    explanation: {
+      type: 'string',
+      description: 'Brief reasoning (teacher only)',
+    },
+  },
+  required: ['answer', 'explanation'],
+};
+
+const W_QUESTION = /^(who|what|where|when|why|how)\b/i;
+
 export async function POST(request: NextRequest) {
   try {
     const { secret, question, tone, questionsHistory } =
@@ -42,6 +54,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const isWQuestion = W_QUESTION.test(question.trim());
+
     const historyText =
       questionsHistory.length > 0
         ? `\n\nPrevious questions and answers:\n${questionsHistory.map((h) => `Q: ${h.question} -> ${h.answer}`).join('\n')}`
@@ -52,15 +66,23 @@ export async function POST(request: NextRequest) {
         ? 'Use simple, kid-friendly language in your explanation.'
         : 'Be concise and clear in your explanation.';
 
-    const prompt = `You are the host of a 20 Questions game. The secret is: "${secret}".
+    const prompt = isWQuestion
+      ? `You are the host of a 20 Questions game. The secret is: "${secret}".
+
+A player asked: "${question}"
+
+Give a SHORT, DIRECT answer (1–8 words). Do NOT answer yes, no, or maybe — give a real answer. ${toneInstruction}${historyText}`
+      : `You are the host of a 20 Questions game. The secret is: "${secret}".
 
 A player asked: "${question}"
 
 Answer with "yes", "no", or "maybe". Be accurate and consistent with previous answers. ${toneInstruction}${historyText}`;
 
-    const result = await generateJSON<AnswerResponse>(prompt, answerSchema, {
-      temperature: 0.3,
-    });
+    const result = await generateJSON<{ answer: string; explanation: string }>(
+      prompt,
+      isWQuestion ? wAnswerSchema : answerSchema,
+      { temperature: 0.3, taskClass: 'game-logic' },
+    );
 
     return NextResponse.json(result, {
       headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },

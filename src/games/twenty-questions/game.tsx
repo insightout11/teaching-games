@@ -81,6 +81,7 @@ export function TwentyQuestionsGame({
   const [aiLoading, setAiLoading] = useState<string | null>(null); // question id being AI-answered
   const [secretVisible, setSecretVisible] = useState(false);
   const [secretOverrideVisible, setSecretOverrideVisible] = useState(false);
+  const [customAnswerDraft, setCustomAnswerDraft] = useState<Record<string, string>>({});
 
   // Constraints (configurable in IDLE)
   const [constraints, setConstraints] = useState<GameConstraints>({
@@ -307,7 +308,7 @@ export function TwentyQuestionsGame({
     setStatus(GameStatus.COLLECTING_QUESTIONS);
   };
 
-  const handleAnswerQuestion = (questionId: string, answer: 'yes' | 'no' | 'maybe') => {
+  const handleAnswerQuestion = (questionId: string, answer: string) => {
     setQuestions((prev) =>
       prev.map((q) => (q.id === questionId ? { ...q, answer } : q)),
     );
@@ -335,7 +336,7 @@ export function TwentyQuestionsGame({
 
       if (!response.ok) throw new Error('AI answer failed');
 
-      const result: { answer: 'yes' | 'no' | 'maybe'; explanation: string } = await response.json();
+      const result: { answer: string; explanation: string } = await response.json();
       handleAnswerQuestion(questionId, result.answer);
     } catch (err) {
       console.error('AI auto-answer error:', err);
@@ -391,6 +392,16 @@ export function TwentyQuestionsGame({
     setTimeRemaining(0);
     setAiLoading(null);
   };
+
+  // ─── Answer Badge Helper ───
+
+  function renderAnswerBadge(answer: string) {
+    const base = 'shrink-0 text-center text-xs px-2 py-0.5 rounded-full font-bold';
+    if (answer === 'yes') return <span className={`${base} w-14 bg-green-500/20 text-green-300`}>yes</span>;
+    if (answer === 'no')  return <span className={`${base} w-14 bg-red-500/20 text-red-300`}>no</span>;
+    if (answer === 'maybe') return <span className={`${base} w-14 bg-yellow-500/20 text-yellow-300`}>maybe</span>;
+    return <span className={`${base} bg-slate-500/20 text-slate-300 max-w-[120px] truncate`}>{answer}</span>;
+  }
 
   // ─── Render ───
 
@@ -601,13 +612,7 @@ export function TwentyQuestionsGame({
                     <span className="text-xs text-slate-500 shrink-0">{q.askerName}:</span>
                     <span className="text-sm text-white">{q.text}</span>
                     {q.answer && (
-                      <span className={`ml-auto text-xs px-2 py-0.5 rounded-full shrink-0 ${
-                        q.answer === 'yes' ? 'bg-green-500/20 text-green-300'
-                        : q.answer === 'no' ? 'bg-red-500/20 text-red-300'
-                        : 'bg-yellow-500/20 text-yellow-300'
-                      }`}>
-                        {q.answer}
-                      </span>
+                      <span className="ml-auto">{renderAnswerBadge(q.answer)}</span>
                     )}
                   </motion.div>
                 ))}
@@ -716,6 +721,35 @@ export function TwentyQuestionsGame({
                     {aiLoading === q.id ? '...' : 'AI'}
                   </button>
                 </div>
+                {/* Free-text answer (for W-questions) */}
+                <div className="flex gap-2 mt-2">
+                  <input
+                    type="text"
+                    placeholder="Or type a custom answer..."
+                    value={customAnswerDraft[q.id] ?? ''}
+                    onChange={(e) => setCustomAnswerDraft((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && customAnswerDraft[q.id]?.trim()) {
+                        handleAnswerQuestion(q.id, customAnswerDraft[q.id].trim());
+                        setCustomAnswerDraft((prev) => ({ ...prev, [q.id]: '' }));
+                      }
+                    }}
+                    className="flex-1 bg-black/40 border border-white/10 text-white rounded-lg px-3 py-1.5 text-sm focus:border-violet-500 outline-none"
+                  />
+                  <button
+                    onClick={() => {
+                      const val = customAnswerDraft[q.id]?.trim();
+                      if (val) {
+                        handleAnswerQuestion(q.id, val);
+                        setCustomAnswerDraft((prev) => ({ ...prev, [q.id]: '' }));
+                      }
+                    }}
+                    disabled={!customAnswerDraft[q.id]?.trim()}
+                    className="px-3 py-1.5 bg-slate-500/20 text-slate-300 rounded-lg text-sm font-bold hover:bg-slate-500/30 border border-slate-500/30 disabled:opacity-30"
+                  >
+                    Answer
+                  </button>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -730,13 +764,7 @@ export function TwentyQuestionsGame({
             <div className="glass p-3 rounded-xl border border-white/5 max-h-48 overflow-y-auto space-y-1">
               {answeredQuestions.map((q) => (
                 <div key={q.id} className="flex items-center gap-2 text-sm py-1">
-                  <span className={`shrink-0 w-14 text-center text-xs px-2 py-0.5 rounded-full font-bold ${
-                    q.answer === 'yes' ? 'bg-green-500/20 text-green-300'
-                    : q.answer === 'no' ? 'bg-red-500/20 text-red-300'
-                    : 'bg-yellow-500/20 text-yellow-300'
-                  }`}>
-                    {q.answer}
-                  </span>
+                  {renderAnswerBadge(q.answer!)}
                   <span className="text-slate-400 truncate">{q.text}</span>
                   <span className="text-xs text-slate-600 shrink-0">— {q.askerName}</span>
                 </div>
@@ -783,13 +811,7 @@ export function TwentyQuestionsGame({
           <div className="space-y-1">
             {answeredQuestions.map((q) => (
               <div key={q.id} className="flex items-center gap-2 text-xs py-0.5">
-                <span className={`shrink-0 w-12 text-center px-1.5 py-0.5 rounded font-bold ${
-                  q.answer === 'yes' ? 'bg-green-500/20 text-green-300'
-                  : q.answer === 'no' ? 'bg-red-500/20 text-red-300'
-                  : 'bg-yellow-500/20 text-yellow-300'
-                }`}>
-                  {q.answer}
-                </span>
+                {renderAnswerBadge(q.answer!)}
                 <span className="text-slate-400 truncate">{q.text}</span>
               </div>
             ))}
@@ -885,13 +907,7 @@ export function TwentyQuestionsGame({
             {answeredQuestions.map((q, i) => (
               <div key={q.id} className="flex items-center gap-2 text-xs py-0.5">
                 <span className="text-slate-600 w-5">{i + 1}.</span>
-                <span className={`shrink-0 w-12 text-center px-1.5 py-0.5 rounded font-bold ${
-                  q.answer === 'yes' ? 'bg-green-500/20 text-green-300'
-                  : q.answer === 'no' ? 'bg-red-500/20 text-red-300'
-                  : 'bg-yellow-500/20 text-yellow-300'
-                }`}>
-                  {q.answer}
-                </span>
+                {renderAnswerBadge(q.answer!)}
                 <span className="text-slate-400 truncate">{q.text}</span>
                 <span className="text-slate-600 shrink-0">— {q.askerName}</span>
               </div>

@@ -13,7 +13,7 @@ export interface Question {
   text: string;
   askerName: string;
   askerId: string;
-  answer: 'yes' | 'no' | 'maybe' | null;
+  answer: string | null;
   roundNumber: number;
 }
 
