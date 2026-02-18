@@ -81,7 +81,7 @@ Answer with "yes", "no", or "maybe". Be accurate and consistent with previous an
     const result = await generateJSON<{ answer: string; explanation: string }>(
       prompt,
       isWQuestion ? wAnswerSchema : answerSchema,
-      { temperature: 0.3, taskClass: 'game-logic' },
+      { temperature: 0.3 },
     );
 
     return NextResponse.json(result, {
