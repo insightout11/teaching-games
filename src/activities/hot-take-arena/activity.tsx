@@ -137,15 +137,24 @@ export function HotTakeArenaActivity({
   useEffect(() => {
     if (status !== ActivityStatus.DEBATE) return;
     onRegisterRemoteVoteHandler?.((vote) => {
-      const studentId = vote.clientId;
       const argumentText = vote.choice?.trim();
       if (!argumentText) return;
-      const selection = sideSelections.find((s) => s.studentId === studentId);
+      const selection = sideSelections.find((s) => s.studentId === vote.clientId);
       if (!selection) return; // student didn't pick a side — silently ignore
-      addArgument(studentId, argumentText);
+      setArguments((prev) => [
+        ...prev,
+        {
+          id: `arg-${Date.now()}-${Math.random()}`,
+          studentId: vote.clientId,
+          studentName: vote.displayName || selection.studentName,
+          side: selection.side,
+          content: argumentText,
+          timestamp: Date.now(),
+        },
+      ]);
     });
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [status, sideSelections, addArgument, onRegisterRemoteVoteHandler]);
+  }, [status, sideSelections, onRegisterRemoteVoteHandler]);
 
   const triggerDevilsAdvocate = useCallback(async (targetSide: Side) => {
     setIsLoadingChallenge(true);
