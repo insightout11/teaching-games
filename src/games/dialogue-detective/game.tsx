@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
+import { useRaceMode } from '@/hooks/use-race-mode';
 import { GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 
@@ -23,11 +24,11 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
   const [error, setError] = useState<string | null>(null);
 
   // Simultaneous race mode
-  const isSimultaneous = students.length >= 3;
+  const { isSimultaneous, raceActive, raceFinished, raceFinishedRef, timeRemaining, startRace, endRace, resetRace } = useRaceMode({
+    studentCount: students.length,
+    timerSeconds: sessionSettings.timerSeconds,
+  });
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
-  const [raceFinished, setRaceFinished] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState<number>(sessionSettings.timerSeconds);
-  const [raceActive, setRaceActive] = useState(false);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -36,9 +37,6 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
   challengeRef.current = challenge;
   const statusRef = useRef<GameStatus>(status);
   statusRef.current = status;
-  const raceFinishedRef = useRef(false);
-  raceFinishedRef.current = raceFinished;
-
   // Register input spec for student controller
   useEffect(() => {
     if (isSimultaneous) {
@@ -67,24 +65,6 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
       }
     }
   }, [isSimultaneous, raceActive, raceFinished, status, challenge, onSetInputSpec]);
-
-  // Timer for simultaneous mode
-  useEffect(() => {
-    if (!raceActive || raceFinished) return;
-
-    const timer = setInterval(() => {
-      setTimeRemaining(prev => {
-        if (prev <= 1) {
-          setRaceFinished(true);
-          setRaceActive(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [raceActive, raceFinished]);
 
   // Handle race submissions
   const handleRaceSubmission = useCallback(async (vote: GameRemoteVote) => {
@@ -219,9 +199,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
     setEvaluation(null);
     setResponse('');
     setRaceSolvers([]);
-    setRaceFinished(false);
-    setRaceActive(false);
-    setTimeRemaining(sessionSettings.timerSeconds);
+    resetRace();
 
     try {
       const res = await fetch('/api/dialogue-detective/generate', {
@@ -247,7 +225,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
 
       // Auto-start race in simultaneous mode
       if (isSimultaneous) {
-        setRaceActive(true);
+        startRace();
       }
     } catch (err) {
       setError('Failed to generate dialogue. Please try again.');
@@ -305,17 +283,14 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
     setResponse('');
     setEvaluation(null);
     setRaceSolvers([]);
-    setRaceFinished(false);
-    setRaceActive(false);
-    setTimeRemaining(sessionSettings.timerSeconds);
+    resetRace();
     setStatus(GameStatus.CHALLENGE_READY);
     if (!isSimultaneous) onPickStudent();
-    if (isSimultaneous) setRaceActive(true);
+    if (isSimultaneous) startRace();
   };
 
   const handleEndRace = () => {
-    setRaceFinished(true);
-    setRaceActive(false);
+    endRace();
   };
 
   const getScoreColor = (score: number) => {

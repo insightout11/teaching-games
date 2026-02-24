@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
+import { useRaceMode } from '@/hooks/use-race-mode';
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -85,12 +86,11 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   const [revealed, setRevealed] = useState(false);
 
   // Simultaneous race mode state
-  const isSimultaneous = students.length >= 3;
-  const [raceActive, setRaceActive] = useState(false);
+  const { isSimultaneous, raceActive, raceFinished, timeRemaining, startRace, endRace, resetRace } = useRaceMode({
+    studentCount: students.length,
+    timerSeconds: sessionSettings.timerSeconds,
+  });
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
-  const [timeRemaining, setTimeRemaining] = useState<number>(sessionSettings.timerSeconds);
-  const [raceFinished, setRaceFinished] = useState(false);
-  const solverCountRef = useRef(0);
 
   const original = sentences[sentenceIndex % sentences.length];
   const words = useMemo(() => tokenize(original), [original]);
@@ -110,12 +110,9 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     setSubmitted(false);
     setRevealed(false);
     setFeedback(null);
-    setRaceActive(false);
+    resetRace();
     setRaceSolvers([]);
-    setRaceFinished(false);
-    setTimeRemaining(sessionSettings.timerSeconds);
-    solverCountRef.current = 0;
-  }, [sentenceIndex, words, sessionSettings.timerSeconds]);
+  }, [sentenceIndex, words, resetRace]);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -147,24 +144,6 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       }
     }
   }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec]);
-
-  // Timer for simultaneous mode
-  useEffect(() => {
-    if (!raceActive || raceFinished) return;
-
-    const timer = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          setRaceFinished(true);
-          setRaceActive(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [raceActive, raceFinished]);
 
   // Handle remote submissions in simultaneous race mode
   const handleRaceSubmission = useCallback((vote: GameRemoteVote) => {
@@ -318,16 +297,12 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   // --- Simultaneous mode handlers ---
   const handleStartRace = () => {
-    setRaceActive(true);
-    setRaceFinished(false);
+    startRace();
     setRaceSolvers([]);
-    setTimeRemaining(sessionSettings.timerSeconds);
-    solverCountRef.current = 0;
   };
 
   const handleEndRace = () => {
-    setRaceFinished(true);
-    setRaceActive(false);
+    endRace();
   };
 
   const allWordsSelected = availableWords.length === 0;

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
+import { useRaceMode } from '@/hooks/use-race-mode';
 import { GameStatus } from './types';
 import type { Challenge, EvaluationResult, UserCorrection } from './types';
 
@@ -39,11 +40,11 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   const [error, setError] = useState<string | null>(null);
 
   // Simultaneous race mode
-  const isSimultaneous = students.length >= 3;
+  const { isSimultaneous, raceActive, raceFinished, timeRemaining, startRace, endRace, resetRace } = useRaceMode({
+    studentCount: students.length,
+    timerSeconds: sessionSettings.timerSeconds,
+  });
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
-  const [raceFinished, setRaceFinished] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState<number>(sessionSettings.timerSeconds);
-  const [raceActive, setRaceActive] = useState(false);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -73,24 +74,6 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
       }
     }
   }, [isSimultaneous, raceActive, raceFinished, status, challenge, words, onSetInputSpec]);
-
-  // Timer for simultaneous mode
-  useEffect(() => {
-    if (!raceActive || raceFinished) return;
-
-    const timer = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          setRaceFinished(true);
-          setRaceActive(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [raceActive, raceFinished]);
 
   // Handle remote vote — race mode
   const handleRaceVote = useCallback(async (vote: GameRemoteVote) => {
@@ -223,9 +206,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     setSelectedWordIndex(null);
     setCorrectionInput('');
     setRaceSolvers([]);
-    setRaceFinished(false);
-    setRaceActive(false);
-    setTimeRemaining(sessionSettings.timerSeconds);
+    resetRace();
 
     try {
       const response = await fetch('/api/error-hunter/generate', {
@@ -258,7 +239,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
       // Auto-start race in simultaneous mode
       if (isSimultaneous) {
-        setRaceActive(true);
+        startRace();
       }
     } catch (err) {
       setError('Failed to generate challenge. Please try again.');
@@ -363,8 +344,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   };
 
   const handleEndRace = () => {
-    setRaceFinished(true);
-    setRaceActive(false);
+    endRace();
   };
 
   const handleNewRound = () => {
@@ -372,8 +352,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     setWords([]);
     setEvaluation(null);
     setRaceSolvers([]);
-    setRaceFinished(false);
-    setRaceActive(false);
+    resetRace();
     setStatus(GameStatus.IDLE);
     if (!isSimultaneous) onPickStudent();
   };

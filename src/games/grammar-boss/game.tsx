@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
+import { useRaceMode } from '@/hooks/use-race-mode';
 import { getEffectiveTopic } from '@/stores/session-store';
 import { GrammarTarget, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
@@ -56,11 +57,11 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   const [respondentName, setRespondentName] = useState<string | null>(null);
 
   // Simultaneous race mode
-  const isSimultaneous = students.length >= 3;
+  const { isSimultaneous, raceActive, raceFinished, raceFinishedRef, timeRemaining, startRace, endRace, resetRace } = useRaceMode({
+    studentCount: students.length,
+    timerSeconds: sessionSettings.timerSeconds,
+  });
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
-  const [raceFinished, setRaceFinished] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState<number>(sessionSettings.timerSeconds);
-  const [raceActive, setRaceActive] = useState(false);
   const [reviewIndex, setReviewIndex] = useState(0);
   const [showingReview, setShowingReview] = useState(false);
 
@@ -71,9 +72,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   currentChallengeRef.current = currentChallenge;
   const statusRef = useRef<GameStatus>(status);
   statusRef.current = status;
-  const raceFinishedRef = useRef(false);
-  raceFinishedRef.current = raceFinished;
-
   // Register input spec
   useEffect(() => {
     if (isSimultaneous) {
@@ -106,22 +104,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
       }
     }
   }, [isSimultaneous, raceActive, raceFinished, status, currentChallenge, onSetInputSpec]);
-
-  // Timer for simultaneous mode
-  useEffect(() => {
-    if (!raceActive || raceFinished) return;
-    const timer = setInterval(() => {
-      setTimeRemaining(prev => {
-        if (prev <= 1) {
-          setRaceFinished(true);
-          setRaceActive(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [raceActive, raceFinished]);
 
   // Race submission handler
   const handleRaceSubmission = useCallback(async (vote: GameRemoteVote) => {
@@ -318,11 +300,9 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     setStudentSentence('');
     setRespondentName(null);
     setRaceSolvers([]);
-    setRaceFinished(false);
-    setRaceActive(false);
+    resetRace();
     setShowingReview(false);
     setReviewIndex(0);
-    setTimeRemaining(sessionSettings.timerSeconds);
 
     try {
       const response = await fetch('/api/grammar-boss/generate', {
@@ -346,7 +326,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
       setStatus(GameStatus.CHALLENGE_READY);
 
       if (isSimultaneous) {
-        setRaceActive(true);
+        startRace();
       }
     } catch (err) {
       setError('Failed to generate challenge. Please try again.');
@@ -361,19 +341,16 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     setShowExample(false);
     setRespondentName(null);
     setRaceSolvers([]);
-    setRaceFinished(false);
-    setRaceActive(false);
+    resetRace();
     setShowingReview(false);
     setReviewIndex(0);
-    setTimeRemaining(sessionSettings.timerSeconds);
     setStatus(GameStatus.CHALLENGE_READY);
     if (!isSimultaneous) onPickStudent();
-    if (isSimultaneous) setRaceActive(true);
+    if (isSimultaneous) startRace();
   };
 
   const handleEndRace = () => {
-    setRaceFinished(true);
-    setRaceActive(false);
+    endRace();
   };
 
   const getScoreColor = (score: number) => {
