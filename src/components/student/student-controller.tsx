@@ -35,6 +35,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [sessionActive, setSessionActive] = useState(true);
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
+  const [frozen, setFrozen] = useState(false);
 
   // Poll for session status, active polls, and input spec
   const checkSession = useCallback(async () => {
@@ -50,6 +51,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);
       setInputSpec(data.inputSpec);
+      setFrozen(data.frozen ?? false);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -222,21 +224,31 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       {/* Dynamic Input based on game/activity */}
       <div className="glass rounded-2xl p-6">
         {inputSpec ? (
-          <>
-            <div className="flex items-center gap-2 mb-4">
-              <h2 className="font-bold text-white">Submit Answer</h2>
-              <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
-                {inputSpec.gameKey}
-              </span>
+          frozen ? (
+            <div className="text-center py-8">
+              <div className="text-4xl mb-4">🔒</div>
+              <h2 className="font-bold text-white mb-2">Input Paused</h2>
+              <p className="text-gray-400 text-sm">
+                Your teacher has temporarily paused submissions.
+              </p>
             </div>
-            <DynamicInput
-              spec={inputSpec}
-              onSubmit={handleSubmit}
-              isSubmitting={isSubmitting}
-              submitStatus={submitStatus}
-              waitSeconds={waitSeconds}
-            />
-          </>
+          ) : (
+            <>
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="font-bold text-white">Submit Answer</h2>
+                <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
+                  {inputSpec.gameKey}
+                </span>
+              </div>
+              <DynamicInput
+                spec={inputSpec}
+                onSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                submitStatus={submitStatus}
+                waitSeconds={waitSeconds}
+              />
+            </>
+          )
         ) : (
           <div className="text-center py-8">
             <div className="text-4xl mb-4 opacity-50">⏳</div>

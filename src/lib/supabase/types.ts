@@ -34,6 +34,7 @@ export interface Session {
   status: 'active' | 'paused' | 'ended';
   started_at: string;
   ended_at: string | null;
+  frozen: boolean;
 }
 
 export interface Round {

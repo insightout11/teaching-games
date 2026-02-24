@@ -32,6 +32,7 @@ export function computeDefaultPositions(
     timer:          { x: right, y: H - 290 },
     'random-picker': { x: right, y: H - 510 },
     poll:           { x: right, y: H - 150 },
+    freeze:         { x: right, y: H - 400 },
   };
   return Object.fromEntries(
     ids.map((id) => [id, defaults[id] ?? { x: right, y: H - 300 }])

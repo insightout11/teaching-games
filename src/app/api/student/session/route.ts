@@ -21,10 +21,10 @@ export async function GET(request: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // Check if session exists and is active, including input_spec
+    // Check if session exists and is active, including input_spec and frozen flag
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, status, input_spec')
+      .select('id, status, input_spec, frozen')
       .eq('id', sessionId)
       .single();
 
@@ -59,6 +59,7 @@ export async function GET(request: NextRequest) {
       isActive,
       activePoll,
       inputSpec: session.input_spec || null,
+      frozen: session.frozen ?? false,
     });
   } catch (error) {
     console.error('Session info error:', error);

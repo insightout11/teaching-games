@@ -149,6 +149,7 @@ class MockDataStore {
       status: 'active',
       started_at: new Date().toISOString(),
       ended_at: null,
+      frozen: false,
       ...data,
     };
     this.sessions.push(newSession);
