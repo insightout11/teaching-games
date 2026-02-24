@@ -3,7 +3,29 @@ import { createServiceClient } from '@/lib/supabase/service';
 
 // GET /api/student/session?sessionId=xxx
 // Public read-only endpoint for student controller
-// Returns session status and active poll info
+// Returns session status, active poll, input spec, and frozen flag
+
+// ---------------------------------------------------------------------------
+// Server-side in-memory cache (per Lambda instance)
+// Reduces DB load when many students poll simultaneously.
+// TTL is intentionally short (2s) so state changes reach students within 7s.
+// ---------------------------------------------------------------------------
+const CACHE_TTL_MS = 2000;
+
+interface CacheEntry {
+  expiresAt: number;
+  payload: SessionPayload;
+}
+
+interface SessionPayload {
+  isActive: boolean;
+  activePoll: { pollId: string; question: string; options: string[] } | null;
+  inputSpec: unknown;
+  frozen: boolean;
+}
+
+const sessionCache = new Map<string, CacheEntry>();
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -18,6 +40,18 @@ export async function GET(request: NextRequest) {
     if (!uuidRegex.test(sessionId)) {
       return NextResponse.json({ error: 'Invalid sessionId format' }, { status: 400 });
     }
+
+    // Check cache
+    const now = Date.now();
+    const cached = sessionCache.get(sessionId);
+    if (cached && now < cached.expiresAt) {
+      return NextResponse.json(cached.payload, {
+        headers: { 'X-LC-Cache': 'HIT', 'Cache-Control': 'private, max-age=0' },
+      });
+    }
+
+    // Stale entry — remove it before querying (prevents unbounded Map growth)
+    if (cached) sessionCache.delete(sessionId);
 
     const supabase = createServiceClient();
 
@@ -35,7 +69,7 @@ export async function GET(request: NextRequest) {
     const isActive = session.status === 'active';
 
     // Get active poll if any
-    let activePoll = null;
+    let activePoll: SessionPayload['activePoll'] = null;
     if (isActive) {
       const { data: poll } = await supabase
         .from('polls')
@@ -55,11 +89,18 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({
+    const payload: SessionPayload = {
       isActive,
       activePoll,
       inputSpec: session.input_spec || null,
       frozen: session.frozen ?? false,
+    };
+
+    // Store in cache (only on success — never cache errors)
+    sessionCache.set(sessionId, { expiresAt: now + CACHE_TTL_MS, payload });
+
+    return NextResponse.json(payload, {
+      headers: { 'X-LC-Cache': 'MISS', 'Cache-Control': 'private, max-age=0' },
     });
   } catch (error) {
     console.error('Session info error:', error);
