@@ -115,7 +115,7 @@ export function PollContent({ sessionId }: PollContentProps) {
   const totalVotes = votes.length;
 
   return (
-    <div className="p-4">
+    <div className="p-4 overflow-x-hidden">
       {/* Active poll status badge */}
       {activePoll && (
         <div className="mb-3 flex items-center gap-2">
@@ -189,17 +189,20 @@ export function PollContent({ sessionId }: PollContentProps) {
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="text-xs text-gray-400">Options</label>
-              <div className="flex gap-1">
-                {QUICK_PRESETS.map((preset) => (
-                  <button
-                    key={preset.label}
-                    onClick={() => handlePreset(preset)}
-                    className="px-2 py-0.5 text-xs bg-white/10 rounded hover:bg-white/20 transition-colors"
-                  >
-                    {preset.label}
-                  </button>
+              <select
+                defaultValue=""
+                onChange={(e) => {
+                  const preset = QUICK_PRESETS.find((p) => p.label === e.target.value);
+                  if (preset) handlePreset(preset);
+                  e.currentTarget.value = '';
+                }}
+                className="text-xs bg-white/10 border border-white/20 rounded px-1.5 py-0.5 text-gray-300 focus:outline-none cursor-pointer"
+              >
+                <option value="" disabled>Preset…</option>
+                {QUICK_PRESETS.map((p) => (
+                  <option key={p.label} value={p.label}>{p.label}</option>
                 ))}
-              </div>
+              </select>
             </div>
 
             <div className="space-y-2">

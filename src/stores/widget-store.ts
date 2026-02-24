@@ -16,7 +16,7 @@ interface WidgetStoreState {
   openWidget: (id: string) => void;
   closeWidget: (id: string) => void;
   setDefaultPosition: (id: string, pos: { x: number; y: number }) => void;
-  resetLayout: () => void;
+  resetLayout: (positions: Record<string, { x: number; y: number }>) => void;
 }
 
 const DEFAULT_Z = 100;
@@ -114,8 +114,12 @@ export const useWidgetStore = create<WidgetStoreState>()(
         });
       },
 
-      resetLayout: () => {
-        set({ widgets: {}, zCounter: DEFAULT_Z });
+      resetLayout: (positions) => {
+        const widgets: Record<string, WidgetEntry> = {};
+        for (const [id, pos] of Object.entries(positions)) {
+          widgets[id] = { position: pos, isOpen: true };
+        }
+        set({ widgets, zCounter: DEFAULT_Z });
       },
     }),
     {

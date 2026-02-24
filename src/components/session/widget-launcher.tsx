@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useWidgetStore } from '@/stores/widget-store';
 import { WIDGET_REGISTRY, WIDGET_ICON_PATHS } from './widget-registry';
+import { computeDefaultPositions } from './widget-shell';
 
 export function WidgetLauncher() {
   const { widgets, openWidget, resetLayout } = useWidgetStore();
@@ -56,7 +57,8 @@ export function WidgetLauncher() {
             <div className="border-t border-white/10 mt-1 pt-1">
               <button
                 onClick={() => {
-                  resetLayout();
+                  const ids = WIDGET_REGISTRY.map((w) => w.id);
+                  resetLayout(computeDefaultPositions(ids));
                   setTrayOpen(false);
                 }}
                 className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs hover:bg-white/10 transition-colors text-left opacity-60 hover:opacity-100"

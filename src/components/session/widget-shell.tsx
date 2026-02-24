@@ -12,17 +12,34 @@ interface WidgetShellProps {
   children: ReactNode;
 }
 
-function getDefaultPosition(id: string): { x: number; y: number } {
-  if (typeof window === 'undefined') return { x: 0, y: 0 };
+// Panel width matches the clamp() in the shell style below
+const PANEL_W = () =>
+  typeof window !== 'undefined'
+    ? Math.min(420, Math.max(320, window.innerWidth * 0.28))
+    : 340;
+
+const PANEL_MARGIN = 16;
+
+// Exported so WidgetLauncher can call it when resetting layout
+export function computeDefaultPositions(
+  ids: string[]
+): Record<string, { x: number; y: number }> {
+  if (typeof window === 'undefined') return {};
   const W = window.innerWidth;
   const H = window.innerHeight;
-  const right = W - 296; // 280px panel + 16px margin
-  const positions: Record<string, { x: number; y: number }> = {
-    timer: { x: right, y: H - 260 },
-    'random-picker': { x: right, y: H - 460 },
-    poll: { x: right, y: H - 140 },
+  const right = W - PANEL_W() - PANEL_MARGIN;
+  const defaults: Record<string, { x: number; y: number }> = {
+    timer:          { x: right, y: H - 290 },
+    'random-picker': { x: right, y: H - 510 },
+    poll:           { x: right, y: H - 150 },
   };
-  return positions[id] ?? { x: right, y: H - 300 };
+  return Object.fromEntries(
+    ids.map((id) => [id, defaults[id] ?? { x: right, y: H - 300 }])
+  );
+}
+
+function getDefaultPosition(id: string): { x: number; y: number } {
+  return computeDefaultPositions([id])[id] ?? { x: 0, y: 0 };
 }
 
 export function WidgetShell({ id, label, icon, defaultPosition, children }: WidgetShellProps) {
@@ -84,9 +101,11 @@ export function WidgetShell({ id, label, icon, defaultPosition, children }: Widg
         left: widget.position.x,
         top: widget.position.y,
         zIndex,
+        width: 'clamp(320px, 28vw, 420px)',
+        maxWidth: '92vw',
         userSelect: isDragging.current ? 'none' : undefined,
       }}
-      className="w-80 glass rounded-xl shadow-xl border border-white/10 overflow-hidden"
+      className="glass rounded-xl shadow-xl border border-white/10 overflow-hidden"
       onPointerDown={() => bringToFront(id)}
     >
       {/* Title bar — drag handle */}
@@ -130,7 +149,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, children }: Widg
 
       {/* Content area */}
       {!minimized && (
-        <div className="max-h-[60vh] overflow-y-auto">
+        <div className="max-h-[60vh] overflow-y-auto overflow-x-hidden">
           {children}
         </div>
       )}
