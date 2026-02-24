@@ -7,9 +7,9 @@ import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
 import { EndSessionSummary } from './end-session-summary';
 import { SessionSettingsBar } from './session-settings-bar';
-import { PollManager } from './poll-manager';
-import { TimerTool } from './timer-tool';
-import { RandomPickerTool } from './random-picker-tool';
+import { WidgetShell } from './widget-shell';
+import { WidgetLauncher } from './widget-launcher';
+import { WIDGET_REGISTRY } from './widget-registry';
 import { getAllGames, getGamesGrouped, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
@@ -661,10 +661,22 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : null}
       </div>
 
-      {/* Floating Tools - always visible */}
-      <RandomPickerTool students={students} />
-      <TimerTool />
-      <PollManager sessionId={session.id} />
+      {/* Floating widget system */}
+      {WIDGET_REGISTRY.map((widget) => (
+        <WidgetShell
+          key={widget.id}
+          id={widget.id}
+          label={widget.label}
+          icon={
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={widget.iconPath} />
+            </svg>
+          }
+        >
+          <widget.component {...(widget.getProps?.({ sessionId: session.id, students }) ?? {})} />
+        </WidgetShell>
+      ))}
+      <WidgetLauncher />
     </div>
   );
 }
