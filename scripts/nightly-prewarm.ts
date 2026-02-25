@@ -10,7 +10,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { generateJSON } from '../src/lib/ai/index';
 import type { AISchema } from '../src/lib/ai/types';
-import { storeCachedContent } from '../src/lib/content-cache';
 import { createServiceClient } from '../src/lib/supabase/service';
 import { Semaphore } from '../src/lib/ai/concurrency';
 
@@ -572,6 +571,36 @@ function buildQueue(coverage: Map<string, number>, target: number): WorkItem[] {
     }
   }
   return shuffle(queue);  // Fisher-Yates spreads coverage across all games on partial runs
+}
+
+// ── Inline Supabase store (avoids importing ../src/lib/content-cache) ─────────
+
+async function storeCachedContent(
+  gameKey: string,
+  topic: string,
+  difficulty: string,
+  data: unknown,
+  schemaVersion: number,
+  variant?: string,
+): Promise<string | null> {
+  const supabase = createServiceClient();
+  const payload = {
+    game_key: gameKey,
+    topic,
+    difficulty,
+    variant: variant ?? null,
+    schema_version: schemaVersion,
+    data,
+  };
+
+  const { data: row, error } = await supabase
+    .from('generated_content')
+    .insert(payload)
+    .select('id')
+    .single();
+
+  if (error) throw error;
+  return (row as any)?.id ?? null;
 }
 
 // ── Generation Worker ─────────────────────────────────────────────────────────
