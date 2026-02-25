@@ -29,10 +29,11 @@ export function computeDefaultPositions(
   const H = window.innerHeight;
   const right = W - PANEL_W() - PANEL_MARGIN;
   const defaults: Record<string, { x: number; y: number }> = {
-    timer:          { x: right, y: H - 290 },
-    'random-picker': { x: right, y: H - 510 },
-    poll:           { x: right, y: H - 150 },
-    freeze:         { x: right, y: H - 400 },
+    timer:             { x: right, y: H - 290 },
+    'random-picker':   { x: right, y: H - 510 },
+    poll:              { x: right, y: H - 150 },
+    freeze:            { x: right, y: H - 400 },
+    'class-questions': { x: right, y: H - 560 },
   };
   return Object.fromEntries(
     ids.map((id) => [id, defaults[id] ?? { x: right, y: H - 300 }])

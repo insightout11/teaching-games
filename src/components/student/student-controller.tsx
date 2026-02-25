@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import type { Team } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import { DynamicInput } from './dynamic-input';
+import { VALIDATION } from '@/lib/config/rate-limits';
 
 interface StudentSession {
   clientId: string;
@@ -19,10 +20,41 @@ interface ActivePoll {
   options: string[];
 }
 
+interface PublishedQuestion {
+  id: string;
+  content: string;
+  publishedAt: string;
+  voteCount: number;
+}
+
 interface StudentControllerProps {
   sessionId: string;
   studentSession: StudentSession;
   onLeave: () => void;
+}
+
+// ---------------------------------------------------------------------------
+// localStorage helpers for persisting voted question IDs across page reloads
+// ---------------------------------------------------------------------------
+const VOTED_KEY = 'lc-voted-questions';
+
+function loadVotedIds(sessionId: string): Set<string> {
+  try {
+    const raw = localStorage.getItem(VOTED_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return new Set<string>(parsed[sessionId] ?? []);
+  } catch {
+    return new Set<string>();
+  }
+}
+
+function persistVotedIds(sessionId: string, ids: string[]) {
+  try {
+    const raw = localStorage.getItem(VOTED_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    parsed[sessionId] = ids;
+    localStorage.setItem(VOTED_KEY, JSON.stringify(parsed));
+  } catch { /* ignore */ }
 }
 
 export function StudentController({ sessionId, studentSession, onLeave }: StudentControllerProps) {
@@ -36,6 +68,23 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
   const [frozen, setFrozen] = useState(false);
+  const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
+
+  // Ask a Question section state
+  const [questionText, setQuestionText] = useState('');
+  const [questionOpen, setQuestionOpen] = useState(false);
+  const [isAskingQuestion, setIsAskingQuestion] = useState(false);
+  const [questionStatus, setQuestionStatus] = useState<'idle' | 'sent' | 'error' | 'rate_limited'>('idle');
+  const [questionWait, setQuestionWait] = useState(0);
+
+  // Optimistic voting state
+  const [localVoteCounts, setLocalVoteCounts] = useState<Record<string, number>>({});
+  const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
+
+  // Load voted IDs from localStorage on mount
+  useEffect(() => {
+    setVotedIds(loadVotedIds(sessionId));
+  }, [sessionId]);
 
   // Poll for session status, active polls, and input spec
   const checkSession = useCallback(async () => {
@@ -52,6 +101,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setActivePoll(data.activePoll);
       setInputSpec(data.inputSpec);
       setFrozen(data.frozen ?? false);
+      setPublishedQuestions(data.publishedQuestions ?? []);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -64,7 +114,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     return () => clearInterval(interval);
   }, [checkSession]);
 
-  // Countdown timer for rate limiting
+  // Countdown timer for game submission rate limiting
   useEffect(() => {
     if (waitSeconds > 0) {
       const timer = setTimeout(() => setWaitSeconds(waitSeconds - 1), 1000);
@@ -73,6 +123,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setSubmitStatus('idle');
     }
   }, [waitSeconds, submitStatus]);
+
+  // Countdown timer for question rate limiting
+  useEffect(() => {
+    if (questionWait > 0) {
+      const timer = setTimeout(() => setQuestionWait(questionWait - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (questionStatus === 'rate_limited') {
+      setQuestionStatus('idle');
+    }
+  }, [questionWait, questionStatus]);
 
   const handleSubmit = useCallback(async (content: string) => {
     if (!content.trim() || isSubmitting) return;
@@ -105,7 +165,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setSubmitStatus('error');
       } else {
         setSubmitStatus('success');
-        // Reset status after 2 seconds
         setTimeout(() => setSubmitStatus('idle'), 2000);
       }
     } catch {
@@ -136,7 +195,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       });
 
       if (!res.ok) {
-        // If rate limited, still show the selection but don't update
         const data = await res.json();
         if (res.status !== 429) {
           setSelectedChoice(null);
@@ -149,6 +207,76 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     } finally {
       setIsVoting(false);
     }
+  };
+
+  const handleAskQuestion = async () => {
+    const trimmed = questionText.trim();
+    if (!trimmed || isAskingQuestion) return;
+    if (trimmed.length > VALIDATION.QUESTION_MAX) return;
+
+    setIsAskingQuestion(true);
+    setQuestionStatus('idle');
+
+    try {
+      const res = await fetch('/api/student/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          clientId: studentSession.clientId,
+          displayName: studentSession.displayName,
+          content: trimmed,
+          team: studentSession.team,
+          gameKey: null,
+          inputType: 'textarea',
+          studentId: studentSession.studentId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.status === 429) {
+        setQuestionStatus('rate_limited');
+        setQuestionWait(data.waitSeconds || 15);
+      } else if (!res.ok) {
+        setQuestionStatus('error');
+      } else {
+        setQuestionStatus('sent');
+        setQuestionText('');
+        setQuestionOpen(false);
+        setTimeout(() => setQuestionStatus('idle'), 3000);
+      }
+    } catch {
+      setQuestionStatus('error');
+    } finally {
+      setIsAskingQuestion(false);
+    }
+  };
+
+  const handleUpvote = async (question: PublishedQuestion) => {
+    if (votedIds.has(question.id)) return;
+
+    // Optimistic update
+    const newVotedIds = new Set(votedIds).add(question.id);
+    setVotedIds(newVotedIds);
+    setLocalVoteCounts((prev) => ({
+      ...prev,
+      [question.id]: Math.max(prev[question.id] ?? 0, question.voteCount) + 1,
+    }));
+    persistVotedIds(sessionId, Array.from(newVotedIds));
+
+    // Fire-and-forget
+    try {
+      await fetch('/api/class-questions/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          questionId: question.id,
+          clientId: studentSession.clientId,
+        }),
+      });
+    } catch { /* optimistic update stays */ }
   };
 
   if (!sessionActive) {
@@ -222,7 +350,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       )}
 
       {/* Dynamic Input based on game/activity */}
-      <div className="glass rounded-2xl p-6">
+      <div className="glass rounded-2xl p-6 mb-4">
         {inputSpec ? (
           frozen ? (
             <div className="text-center py-8">
@@ -256,6 +384,87 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             <p className="text-gray-400 text-sm">
               The input will appear when the teacher starts a game or activity
             </p>
+          </div>
+        )}
+      </div>
+
+      {/* Class Questions — visible only when there are published questions */}
+      {publishedQuestions.length > 0 && (
+        <div className="glass rounded-2xl p-6 mb-4">
+          <h2 className="font-bold text-white mb-3">Class Questions</h2>
+          <div className="space-y-3">
+            {publishedQuestions.map((q) => {
+              const displayCount = Math.max(localVoteCounts[q.id] ?? 0, q.voteCount);
+              const hasVoted = votedIds.has(q.id);
+              return (
+                <div key={q.id} className="flex items-start gap-3 bg-white/5 rounded-xl p-3">
+                  <button
+                    onClick={() => handleUpvote(q)}
+                    disabled={hasVoted}
+                    className={`flex-shrink-0 flex flex-col items-center gap-0.5 transition-colors ${
+                      hasVoted ? 'text-cyan-400' : 'text-gray-500 hover:text-cyan-400'
+                    } disabled:cursor-default`}
+                  >
+                    <svg className="w-4 h-4" fill={hasVoted ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                    <span className="text-xs font-bold">{displayCount}</span>
+                  </button>
+                  <p className="text-gray-200 text-sm leading-relaxed">{q.content}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Ask a Question — always visible, collapsible */}
+      <div className="glass rounded-2xl mb-4">
+        <button
+          onClick={() => setQuestionOpen((o) => !o)}
+          className="w-full flex items-center justify-between p-4 text-left"
+        >
+          <span className="font-bold text-white text-sm">Ask a Question</span>
+          <svg className={`w-4 h-4 text-gray-400 transition-transform ${questionOpen ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        {questionOpen && (
+          <div className="px-4 pb-4 space-y-3">
+            {questionStatus === 'sent' ? (
+              <p className="text-green-400 text-sm text-center py-2">
+                Question sent! The teacher will review it.
+              </p>
+            ) : (
+              <>
+                <textarea
+                  value={questionText}
+                  onChange={(e) => setQuestionText(e.target.value.slice(0, VALIDATION.QUESTION_MAX))}
+                  placeholder="Type your question for the teacher…"
+                  rows={3}
+                  className="w-full bg-white/10 text-white rounded-xl p-3 text-sm resize-none placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                />
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-gray-500">
+                    {questionText.length}/{VALIDATION.QUESTION_MAX}
+                  </span>
+                  {questionStatus === 'error' && (
+                    <span className="text-xs text-red-400">Something went wrong, try again.</span>
+                  )}
+                  {questionStatus === 'rate_limited' && (
+                    <span className="text-xs text-yellow-400">Wait {questionWait}s before asking again.</span>
+                  )}
+                </div>
+                <button
+                  onClick={handleAskQuestion}
+                  disabled={!questionText.trim() || isAskingQuestion || questionStatus === 'rate_limited'}
+                  className="w-full py-2.5 rounded-xl text-sm font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {isAskingQuestion ? 'Sending…' : 'Send Question'}
+                </button>
+              </>
+            )}
           </div>
         )}
       </div>

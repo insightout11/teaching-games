@@ -3,7 +3,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 
 // GET /api/student/session?sessionId=xxx
 // Public read-only endpoint for student controller
-// Returns session status, active poll, input spec, and frozen flag
+// Returns session status, active poll, input spec, frozen flag, and published questions
 
 // ---------------------------------------------------------------------------
 // Server-side in-memory cache (per Lambda instance)
@@ -11,6 +11,13 @@ import { createServiceClient } from '@/lib/supabase/service';
 // TTL is intentionally short (2s) so state changes reach students within 7s.
 // ---------------------------------------------------------------------------
 const CACHE_TTL_MS = 2000;
+
+interface PublishedQuestion {
+  id: string;
+  content: string;
+  publishedAt: string;
+  voteCount: number;
+}
 
 interface CacheEntry {
   expiresAt: number;
@@ -22,6 +29,7 @@ interface SessionPayload {
   activePoll: { pollId: string; question: string; options: string[] } | null;
   inputSpec: unknown;
   frozen: boolean;
+  publishedQuestions: PublishedQuestion[] | null;
 }
 
 const sessionCache = new Map<string, CacheEntry>();
@@ -89,11 +97,47 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Get published questions with vote counts
+    let publishedQuestions: PublishedQuestion[] | null = null;
+    if (isActive) {
+      const { data: questions } = await supabase
+        .from('student_submissions')
+        .select(`
+          id,
+          content,
+          published_at,
+          question_votes(count)
+        `)
+        .eq('session_id', sessionId)
+        .eq('published_to_class', true);
+
+      if (questions && questions.length > 0) {
+        publishedQuestions = (questions as Array<{
+          id: string;
+          content: string;
+          published_at: string;
+          question_votes: { count: number }[];
+        }>)
+          .map((q) => ({
+            id: q.id,
+            content: q.content,
+            publishedAt: q.published_at,
+            voteCount: q.question_votes?.[0]?.count ?? 0,
+          }))
+          .sort(
+            (a, b) =>
+              b.voteCount - a.voteCount ||
+              b.publishedAt.localeCompare(a.publishedAt)
+          );
+      }
+    }
+
     const payload: SessionPayload = {
       isActive,
       activePoll,
       inputSpec: session.input_spec || null,
       frozen: session.frozen ?? false,
+      publishedQuestions,
     };
 
     // Store in cache (only on success — never cache errors)
