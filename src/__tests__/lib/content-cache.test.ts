@@ -11,19 +11,6 @@ const mockIs = vi.fn();
 const mockNot = vi.fn();
 const mockLimit = vi.fn();
 
-// Build a chainable query mock
-function makeQueryChain(result: unknown) {
-  const chain = {
-    select: vi.fn().mockReturnThis(),
-    eq: vi.fn().mockReturnThis(),
-    is: vi.fn().mockReturnThis(),
-    not: vi.fn().mockReturnThis(),
-    limit: vi.fn().mockResolvedValue(result),
-    insert: vi.fn().mockReturnThis(),
-    single: vi.fn().mockResolvedValue(result),
-  };
-  return chain;
-}
 
 vi.mock('@/lib/supabase/service', () => ({
   createServiceClient: vi.fn(() => ({
