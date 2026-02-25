@@ -590,7 +590,7 @@ async function storeCachedContent(
     difficulty,
     variant: variant ?? null,
     schema_version: schemaVersion,
-    data,
+    content_json: data,
   };
 
   const { data: row, error } = await supabase
