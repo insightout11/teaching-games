@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
+import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 
 export const dynamic = 'force-dynamic';
+
+const GAME_KEY = 'connections';
+const SCHEMA_VERSION = 1;
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': `Beginner (A1) level:
@@ -67,11 +71,25 @@ const schema: AISchema = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, difficulty } = await request.json() as {
+    const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
       topic: Topic;
       difficulty: Difficulty;
+      excludeCacheIds?: string[];
     };
 
+    // 1. Check cache first
+    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+    if (cached) {
+      const cachedData = cached.content_json as { groups: Array<{ category: string; words: string[]; difficulty: string; color: string }> };
+      // Re-shuffle words for variety even on cache hit
+      const allWords = cachedData.groups.flatMap((g) => g.words);
+      return NextResponse.json(
+        { words: shuffleArray(allWords), groups: cachedData.groups, cacheId: cached.id },
+        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+      );
+    }
+
+    // 2. Cache miss — generate via AI
     const randomSeed = Math.random().toString(36).substring(7);
 
     const prompt = `Generate a Connections puzzle (like NYT Connections) for ESL learners.
@@ -127,17 +145,16 @@ IMPORTANT: Words should be in UPPERCASE. Category names should be clear and conc
       throw new Error('Invalid response: words must be unique across all groups');
     }
 
+    // 3. Store in cache (store only groups — words get re-shuffled on each serve)
+    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, { groups: data.groups }, SCHEMA_VERSION);
+
     // Shuffle all words for the grid
     const shuffledWords = shuffleArray(allWords);
 
-    return NextResponse.json({
-      words: shuffledWords,
-      groups: data.groups
-    }, {
-      headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
-      },
-    });
+    return NextResponse.json(
+      { words: shuffledWords, groups: data.groups, cacheId },
+      { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+    );
   } catch (error) {
     console.error('Generate error:', error);
     return NextResponse.json(

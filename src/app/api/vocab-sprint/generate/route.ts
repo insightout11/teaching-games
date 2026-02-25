@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic, Tone } from '@/stores/session-store';
+import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 
 export interface GameSentence {
   sentence: string;
   weakWord: string;
   hint: string;
 }
+
+const GAME_KEY = 'vocab-sprint';
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very short, extremely simple sentences (4-6 words). Focus on basic everyday objects and actions.',
@@ -41,16 +44,32 @@ const schema: AISchema = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { difficulty, topic, tone } = await request.json() as {
+    const { difficulty, topic, tone, seenItems = [], excludeCacheIds = [] } = await request.json() as {
       difficulty: Difficulty;
       topic: Topic;
       tone: Tone;
+      seenItems?: string[];      // weakWords seen this session — AI avoids repeating them
+      excludeCacheIds?: string[]; // cache entry IDs already served this session
     };
+
+    // 1. Check cache first (zero AI latency when hit)
+    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+    if (cached) {
+      return NextResponse.json({
+        sentences: cached.content_json as GameSentence[],
+        cacheId: cached.id,
+      });
+    }
+
+    // 2. Cache miss — build exclusion hint for AI prompt
+    const exclusionNote = seenItems.length > 0
+      ? `\nIMPORTANT: Do NOT use these weak words that were recently shown this session: ${seenItems.join(', ')}. Choose different words.\n`
+      : '';
 
     const prompt = `Generate 5 unique, natural English sentences for an English learner at ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
 Tone: ${toneInstructions[tone]}
-
+${exclusionNote}
 CRITICAL RULES:
 1. Each sentence must contain exactly ONE 'generic' or 'weak' word (the 'weakWord') to be replaced.
 2. EVERY sentence must use a DIFFERENT weak word - NO REPEATS across the 5 sentences.
@@ -67,7 +86,11 @@ Also provide a 'hint' for each sentence—a short, friendly piece of advice (max
 Return exactly 5 objects as a JSON array with varied weak words.`;
 
     const sentences = await generateJSON<GameSentence[]>(prompt, schema, { taskClass: 'content-generation' });
-    return NextResponse.json({ sentences });
+
+    // 3. Store in cache for future sessions (fire-and-forget — don't block the response)
+    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, sentences, 1);
+
+    return NextResponse.json({ sentences, cacheId });
   } catch (error) {
     console.error('Generate error:', error);
     return NextResponse.json(

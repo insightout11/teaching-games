@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
+import { useSessionStore } from '@/stores/session-store';
 
 interface RemoteSynonym {
   displayName: string;
@@ -32,6 +33,16 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const [remoteSynonyms, setRemoteSynonyms] = useState<RemoteSynonym[]>([]);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
+
+  // Repetition tracking — read from store but keep refs to avoid stale closures in callbacks
+  const addSeenItems = useSessionStore((s) => s.addSeenItems);
+  const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
+  const storeSeenItems = useSessionStore((s) => s.seenItemsByGame['synonym-showdown'] ?? []);
+  const storeSeenCacheIds = useSessionStore((s) => s.seenCacheIds);
+  const seenItemsRef = useRef<string[]>([]);
+  const seenCacheIdsRef = useRef<string[]>([]);
+  useEffect(() => { seenItemsRef.current = storeSeenItems; }, [storeSeenItems]);
+  useEffect(() => { seenCacheIdsRef.current = storeSeenCacheIds; }, [storeSeenCacheIds]);
 
   // Keep refs for handlers
   const challengeRef = useRef<Challenge | null>(null);
@@ -230,7 +241,9 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           topic: sessionSettings.topic,
-          difficulty: sessionSettings.difficulty
+          difficulty: sessionSettings.difficulty,
+          seenItems: seenItemsRef.current,
+          excludeCacheIds: seenCacheIdsRef.current,
         }),
         cache: 'no-store',
       });
@@ -238,6 +251,11 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
       if (!response.ok) throw new Error('Failed to generate challenge');
 
       const data = await response.json();
+
+      // Track what we've seen to avoid repetition
+      if (data.targetWord) addSeenItems('synonym-showdown', [data.targetWord]);
+      if (data.cacheId) addSeenCacheId(data.cacheId);
+
       setChallenge(data);
       setStatus(GameStatus.PLAYING);
     } catch (err) {

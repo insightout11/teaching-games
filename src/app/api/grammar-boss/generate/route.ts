@@ -3,6 +3,10 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { GrammarTarget } from '@/games/grammar-boss/types';
+import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+
+const GAME_KEY = 'grammar-boss';
+const SCHEMA_VERSION = 1;
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very simple sentence structures.',
@@ -23,12 +27,20 @@ const schema: AISchema = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { grammarTarget, topic, difficulty } = await request.json() as {
+    const { grammarTarget, topic, difficulty, excludeCacheIds = [] } = await request.json() as {
       grammarTarget: GrammarTarget;
       topic: Topic;
       difficulty: Difficulty;
+      excludeCacheIds?: string[];
     };
 
+    // 1. Check cache first — variant = grammarTarget to scope cache per grammar structure
+    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, grammarTarget);
+    if (cached) {
+      return NextResponse.json({ ...cached.content_json, cacheId: cached.id });
+    }
+
+    // 2. Cache miss — generate via AI
     const prompt = `Generate a short speaking challenge for an English learner at ${difficultyPrompts[difficulty]}
 Topic: ${topic}. The task MUST be directly about this topic — do not use a generic or unrelated scenario.
 Target Grammar: ${grammarTarget}.
@@ -40,10 +52,16 @@ Provide:
 The task should prompt the student to speak about the given topic while using the specified grammar structure.`;
 
     const data = await generateJSON<{ task: string; exampleSentence: string }>(prompt, schema, { taskClass: 'content-generation' });
-    return NextResponse.json({
+
+    const result = {
       task: data.task || 'Speak about your recent experiences.',
       exampleSentence: data.exampleSentence || 'I have been working on this project for three months.'
-    });
+    };
+
+    // 3. Store in cache — variant = grammarTarget
+    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, result, SCHEMA_VERSION, grammarTarget);
+
+    return NextResponse.json({ ...result, cacheId });
   } catch (error) {
     console.error('Generate error:', error);
     return NextResponse.json(

@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
+import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+
+const GAME_KEY = 'error-hunter';
+const SCHEMA_VERSION = 1;
 
 const difficultyConfig: Record<Difficulty, { errors: number; description: string }> = {
   'Beginner': { errors: 2, description: 'Beginner (A1) level. Use very simple sentences with obvious spelling/grammar errors.' },
@@ -35,11 +39,25 @@ const schema: AISchema = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, difficulty } = await request.json() as {
+    const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
       topic: Topic;
       difficulty: Difficulty;
+      excludeCacheIds?: string[];
     };
 
+    // 1. Check cache first
+    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+    if (cached) {
+      const c = cached.content_json as { paragraph: string; errorCount: number; _errors: unknown[] };
+      return NextResponse.json({
+        paragraph: c.paragraph,
+        errorCount: c.errorCount,
+        _errors: c._errors,
+        cacheId: cached.id,
+      });
+    }
+
+    // 2. Cache miss — generate via AI
     const config = difficultyConfig[difficulty];
 
     const prompt = `Generate a paragraph with exactly ${config.errors} intentional errors for ${config.description}
@@ -65,12 +83,17 @@ Requirements:
 Return the paragraph with errors embedded, plus an array of error details.`;
 
     const data = await generateJSON<{ paragraph: string; errorCount: number; errors: Array<{ position: number; word: string; errorType: string; correction: string }> }>(prompt, schema, { taskClass: 'content-generation' });
-    return NextResponse.json({
+
+    const result = {
       paragraph: data.paragraph,
       errorCount: data.errorCount,
-      // Don't send errors to client - they'll discover them!
-      _errors: data.errors // Stored for evaluation
-    });
+      _errors: data.errors, // Stored for evaluation
+    };
+
+    // 3. Store in cache for future sessions
+    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, result, SCHEMA_VERSION);
+
+    return NextResponse.json({ ...result, cacheId });
   } catch (error) {
     console.error('Generate error:', error);
     return NextResponse.json(

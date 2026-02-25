@@ -70,6 +70,10 @@ interface SessionState {
   // Input spec for student controller
   inputSpec: InputSpec | null;
 
+  // Content repetition tracking — prevents same content appearing twice in a session
+  seenItemsByGame: Record<string, string[]>; // gameKey -> seen item identifiers (e.g. weakWords)
+  seenCacheIds: string[]; // generated_content UUIDs already served this session
+
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
   setPickerMode: (mode: PickerMode) => void;
@@ -88,6 +92,8 @@ interface SessionState {
   setActiveGame: (gameKey: string | null) => void;
   setInputSpec: (spec: InputSpec | null) => Promise<void>;
   addStudent: (student: Student) => void;
+  addSeenItems: (gameKey: string, items: string[]) => void;
+  addSeenCacheId: (id: string) => void;
   reset: () => void;
 }
 
@@ -131,6 +137,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   needsSpin: false,
   activeGameKey: null,
   inputSpec: null,
+  seenItemsByGame: {},
+  seenCacheIds: [],
 
   initSession: (sessionId, classId, students) => {
     const callCounts: Record<string, number> = {};
@@ -154,6 +162,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       gameMode: 'normal',
       activeGameKey: null,
       inputSpec: null,
+      seenItemsByGame: {},
+      seenCacheIds: [],
     });
   },
 
@@ -272,6 +282,17 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     };
   }),
 
+  addSeenItems: (gameKey: string, items: string[]) => set((state) => ({
+    seenItemsByGame: {
+      ...state.seenItemsByGame,
+      [gameKey]: [...(state.seenItemsByGame[gameKey] ?? []), ...items],
+    },
+  })),
+
+  addSeenCacheId: (id: string) => set((state) => ({
+    seenCacheIds: [...state.seenCacheIds, id],
+  })),
+
   awardPoints: async (studentId: string, points: number) => {
     const { sessionId } = get();
     if (!sessionId) return;
@@ -310,6 +331,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     needsSpin: false,
     activeGameKey: null,
     inputSpec: null,
+    seenItemsByGame: {},
+    seenCacheIds: [],
   }),
 }));
 

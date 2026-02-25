@@ -6,4 +6,5 @@ export const RATE_LIMITS = {
 export const VALIDATION = {
   DISPLAY_NAME_MAX: 40,
   CONTENT_MAX: 1000,
+  QUESTION_MAX: 200,
 };

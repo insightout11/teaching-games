@@ -80,6 +80,17 @@ export interface StudentSubmission {
   error_message: string | null;
   game_key: string | null;
   created_at: string;
+  published_to_class: boolean;
+  published_at: string | null;
+  answered_at: string | null;
+}
+
+export interface QuestionVote {
+  id: string;
+  question_id: string;
+  session_id: string;
+  client_id: string;
+  created_at: string;
 }
 
 export interface Poll {
@@ -165,6 +176,7 @@ export interface Database {
       polls: { Row: Poll; Insert: Partial<Poll> & Pick<Poll, 'session_id' | 'question' | 'options'>; Update: Partial<Poll> };
       poll_votes: { Row: PollVote; Insert: Partial<PollVote> & Pick<PollVote, 'poll_id' | 'session_id' | 'client_id' | 'display_name' | 'choice'>; Update: Partial<PollVote> };
       submission_rate_limits: { Row: SubmissionRateLimit; Insert: Partial<SubmissionRateLimit> & Pick<SubmissionRateLimit, 'session_id' | 'client_id'>; Update: Partial<SubmissionRateLimit> };
+      question_votes: { Row: QuestionVote; Insert: Partial<QuestionVote> & Pick<QuestionVote, 'question_id' | 'session_id' | 'client_id'>; Update: Partial<QuestionVote> };
     };
     Views: {
       session_leaderboard: { Row: LeaderboardEntry };

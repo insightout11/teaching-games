@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
+import { useSessionStore } from '@/stores/session-store';
 
 interface RaceSolver {
   studentId: string;
@@ -20,6 +21,16 @@ interface RaceSolver {
 export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
+
+  // Repetition tracking — read from store but keep refs to avoid stale closures in callbacks
+  const addSeenItems = useSessionStore((s) => s.addSeenItems);
+  const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
+  const storeSeenItems = useSessionStore((s) => s.seenItemsByGame['vocab-sprint'] ?? []);
+  const storeSeenCacheIds = useSessionStore((s) => s.seenCacheIds);
+  const seenItemsRef = useRef<string[]>([]);
+  const seenCacheIdsRef = useRef<string[]>([]);
+  useEffect(() => { seenItemsRef.current = storeSeenItems; }, [storeSeenItems]);
+  useEffect(() => { seenCacheIdsRef.current = storeSeenCacheIds; }, [storeSeenCacheIds]);
 
   // Prefetching logic
   const [sentenceQueue, setSentenceQueue] = useState<GameSentence[]>([]);
@@ -248,7 +259,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         body: JSON.stringify({
           difficulty: sessionSettings.difficulty,
           topic: sessionSettings.topic,
-          tone: sessionSettings.tone
+          tone: sessionSettings.tone,
+          seenItems: seenItemsRef.current,
+          excludeCacheIds: seenCacheIdsRef.current,
         })
       });
 
@@ -256,6 +269,13 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
       const data = await response.json();
       setSentenceQueue(prev => [...prev, ...data.sentences]);
+
+      // Track what was seen so we avoid repetition in the next fetch
+      if (data.cacheId) addSeenCacheId(data.cacheId);
+      if (data.sentences?.length) {
+        addSeenItems('vocab-sprint', data.sentences.map((s: GameSentence) => s.weakWord));
+      }
+
       if (isInitial) setStatus(GameStatus.IDLE);
     } catch (e) {
       console.error('Batch fetch failed', e);
@@ -263,7 +283,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     } finally {
       setIsFetchingBatch(false);
     }
-  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.tone, isFetchingBatch]);
+  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.tone, isFetchingBatch, addSeenItems, addSeenCacheId]);
 
   // Start a sprint round
   const startSprint = async () => {
@@ -301,7 +321,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           body: JSON.stringify({
             difficulty: sessionSettings.difficulty,
             topic: sessionSettings.topic,
-            tone: sessionSettings.tone
+            tone: sessionSettings.tone,
+            seenItems: seenItemsRef.current,
+            excludeCacheIds: seenCacheIdsRef.current,
           })
         });
 
@@ -314,6 +336,10 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           setCurrentSentence(next);
           setTimeLeft(sessionSettings.timerSeconds);
           setStatus(GameStatus.RUNNING);
+
+          // Track seen items from this fetch
+          if (data.cacheId) addSeenCacheId(data.cacheId);
+          addSeenItems('vocab-sprint', data.sentences.map((s: GameSentence) => s.weakWord));
         } else {
           setStatus(GameStatus.IDLE);
         }
