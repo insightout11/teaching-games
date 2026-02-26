@@ -1,0 +1,52 @@
+{
+  "slug": "dialogue-detective",
+  "schemaVersion": 1,
+  "headline": "Conversational Gap-Fill Game for ESL Pragmatics Practice",
+  "outcomes": [
+    "Students infer and produce appropriate conversational responses, building pragmatic competence",
+    "Develop awareness of conversational flow — how replies must fit the function of the preceding turn",
+    "Practice registers, politeness strategies, and indirect speech acts in authentic dialogue contexts",
+    "Build reading comprehension by interpreting context before providing a coherent response"
+  ],
+  "howItWorks": [
+    "The AI generates a short dialogue with a key line removed — the student must deduce what was said",
+    "Students read the conversation before and after the gap on their device and type the missing line",
+    "AI evaluates pragmatic appropriateness, grammatical accuracy, and contextual fit of the response",
+    "The teacher reveals the original and class compares versions — often sparking discussion about register and intent"
+  ],
+  "teacherUseCases": [
+    "Functional language practice — requests, apologies, suggestions, disagreements",
+    "Register training — identifying formal versus informal conversational moves",
+    "Listening comprehension extension — predicting what would naturally follow in a conversation"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What types of dialogues are generated?",
+      "a": "Dialogues cover a wide range of everyday and professional scenarios — job interviews, customer service calls, academic discussions, social conversations — matched to your chosen topic."
+    },
+    {
+      "q": "Is there always one correct answer?",
+      "a": "No. Pragmatics rarely has a single right answer. The AI evaluates appropriateness and flags responses that are grammatically correct but pragmatically awkward — which often leads to the richest class discussion."
+    },
+    {
+      "q": "Can I use this for a specific functional language area?",
+      "a": "Yes. Set the topic to something like 'making polite requests' or 'handling complaints professionally' and the AI generates dialogues centred on that function."
+    },
+    {
+      "q": "What technology do students need?",
+      "a": "Each student types on their phone or tablet through a browser. No download, app, or student account needed — joining the session takes a single tap on the teacher's link."
+    },
+    {
+      "q": "What level is this best for?",
+      "a": "Dialogue Detective is most effective from B1 upward, where students have enough grammar to focus on pragmatic nuance. Easier settings simplify the dialogue structure for A2 classes."
+    },
+    {
+      "q": "Is Dialogue Detective free to use?",
+      "a": "Yes, Dialogue Detective is free. Teachers create a session and students join through their browser — no app or student account required."
+    }
+  ],
+  "related": ["story-sprint", "connections", "twenty-questions"],
+  "ogImageTheme": "logic"
+}

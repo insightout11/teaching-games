@@ -1,0 +1,52 @@
+{
+  "slug": "scenario-simulator",
+  "schemaVersion": 1,
+  "headline": "Branching Scenario Role-Play Activity for ESL Practice",
+  "outcomes": [
+    "Students apply functional English in realistic, evolving scenarios that require genuine communication",
+    "Practise negotiation, compromise, and persuasion language in a structured collaborative context",
+    "Develop strategic thinking — students must communicate effectively to achieve their role's objectives",
+    "Build confidence with professional or social English by practising in a low-stakes simulated environment"
+  ],
+  "howItWorks": [
+    "The AI generates a scenario with an initial situation, multiple roles, and clear objectives for each role",
+    "Students are assigned roles and read their character's goals and constraints on their device",
+    "As the scenario unfolds, the teacher introduces branching points that change the situation",
+    "Student decisions and language shape the story's outcome — the AI tracks and responds to the group's direction"
+  ],
+  "teacherUseCases": [
+    "Business English simulation — job interviews, negotiations, client meetings, crisis management",
+    "Social English roleplay — doctor's appointments, housing disputes, community meetings",
+    "Preparation for real-world situations students will face using English professionally"
+  ],
+  "estimatedTime": "20–30 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How complex are the scenarios?",
+      "a": "Complexity scales with difficulty. Easy scenarios have 2 roles and a straightforward objective. Hard scenarios involve 4+ roles with competing interests, complications, and multiple branching decision points."
+    },
+    {
+      "q": "Can I build my own scenario?",
+      "a": "Yes. Describe your scenario in the topic field — e.g. 'A team must decide whether to delay a product launch after discovering a safety issue' — and the AI builds the roles, objectives, and complications."
+    },
+    {
+      "q": "What happens at branching points?",
+      "a": "The teacher introduces a complication — a new piece of information, an unexpected change, a constraint — and students must adapt their communication strategy. This keeps the scenario dynamic and prevents rehearsed responses."
+    },
+    {
+      "q": "What equipment does each student need?",
+      "a": "Each student reads their role brief and submits responses on their phone or tablet through a browser. No download or student account required."
+    },
+    {
+      "q": "How much teacher preparation is needed?",
+      "a": "Minimal. The AI generates the full scenario, roles, and branching points on demand. Teachers review the scenario before class — typically a 2-minute preview — and can add their own branching points if desired."
+    },
+    {
+      "q": "Is Scenario Simulator free to use?",
+      "a": "Yes, Scenario Simulator is free. Students join via a browser link — no student accounts or downloads required."
+    }
+  ],
+  "related": ["problem-solvers", "expert-panel"],
+  "ogImageTheme": "practice"
+}

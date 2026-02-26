@@ -1,0 +1,52 @@
+{
+  "slug": "two-truths",
+  "schemaVersion": 1,
+  "headline": "Two Truths and a Lie Activity Powered by AI for ESL Classes",
+  "outcomes": [
+    "Students practise evaluating claims and making arguments for their reasoning in English",
+    "Build critical thinking skills by analysing plausibility, language cues, and logical consistency",
+    "Develop listening comprehension as students process and compare three similar statements",
+    "Encourage natural discussion and justification using target vocabulary from the lesson topic"
+  ],
+  "howItWorks": [
+    "The AI generates three statements about the chosen topic — two factually true, one convincingly false",
+    "Students discuss which statement is the fabrication and vote on their device",
+    "Results are revealed alongside a full explanation of why the fabricated statement was incorrect",
+    "The reveal often generates spontaneous discussion, especially when the class is split on the answer"
+  ],
+  "teacherUseCases": [
+    "Content-area English lesson — students learn real facts while practising critical evaluation",
+    "Listening or reading comprehension extension where students apply judgment to propositions",
+    "Vocabulary review — the statements embed lesson vocabulary in plausible factual claims"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "Is the fabrication always obvious?",
+      "a": "No. The AI is instructed to make the fabrication plausible and the true statements surprising, so students can't rely on 'this sounds too weird to be real.' The best rounds produce a genuine 50/50 class split."
+    },
+    {
+      "q": "Can I use real facts or must I trust the AI?",
+      "a": "The AI generates factually grounded content, but for exam classes or factually sensitive subjects you can review and edit the statements before the round starts."
+    },
+    {
+      "q": "How does this build English skills and not just general knowledge?",
+      "a": "The discussion phase is where the English learning happens. Students must articulate why they believe a statement is false, using hedging language, contrast, and logical connectors in real-time speech."
+    },
+    {
+      "q": "Do students vote from their own phone?",
+      "a": "Yes — students vote on their phone or tablet through a browser. No app or download needed. They join via the teacher's shared link."
+    },
+    {
+      "q": "What topics work well?",
+      "a": "Science, history, geography, food culture, and business all work well — any domain where there are surprising true facts and plausible myths. The more the students care about the topic, the richer the discussion."
+    },
+    {
+      "q": "Is Two Truths and a Fabrication free?",
+      "a": "Yes, Two Truths and a Fabrication is free. Students join via a shared browser link — no account setup or app download required."
+    }
+  ],
+  "related": ["would-you-rather", "fact-detective"],
+  "ogImageTheme": "icebreakers"
+}

@@ -16,6 +16,26 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "LessonCaptain — Interactive Classroom Games",
   description: "Run interactive classroom activities with live leaderboards and AI-generated content",
+  ...(process.env.SITE_NOINDEX === "1"
+    ? { robots: { index: false, follow: false, nocache: true } }
+    : {}),
+};
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lessoncaptain.com";
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "LessonCaptain",
+  url: SITE_URL,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${SITE_URL}/classroom-games?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function RootLayout({
@@ -25,6 +45,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

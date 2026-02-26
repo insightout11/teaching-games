@@ -1,0 +1,53 @@
+{
+  "slug": "vocab-sprint",
+  "schemaVersion": 1,
+  "headline": "Live Vocabulary Upgrade Game for ESL Classes",
+  "problemStatement": "Rote vocabulary drills produce passive learners who can define words but never use them. VocabSprint forces active, contextual word choice under pressure.",
+  "outcomes": [
+    "Students replace weak words with stronger, more precise alternatives in real sentences",
+    "Build vocabulary depth by seeing words in authentic context rather than isolated lists",
+    "Develop speed and confidence choosing the right word under time pressure",
+    "Learn to distinguish word register and appropriateness for different situations"
+  ],
+  "howItWorks": [
+    "Teacher sets a topic — the AI generates a fresh set of sentences with deliberately weak or vague words",
+    "The current student reads the sentence on their device and types a stronger replacement word",
+    "AI evaluates the substitution for accuracy, precision, and contextual fit, then awards points",
+    "The class sees the result live on the board — the cycle repeats with a new sentence"
+  ],
+  "teacherUseCases": [
+    "Warm-up review after a unit on adjectives or verbs",
+    "End-of-unit consolidation before a writing assignment",
+    "Filler activity that still builds useful vocabulary muscle memory"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "Can I use my own topic?",
+      "a": "Yes — type any topic into the session settings and the AI generates brand-new sentences on the fly. No pre-made content to prepare."
+    },
+    {
+      "q": "How many students can play at once?",
+      "a": "Any class size works. With 3 or more students the game auto-switches to simultaneous mode where everyone submits answers and a race tracker shows who answered first."
+    },
+    {
+      "q": "What devices do students use to play?",
+      "a": "Any phone or tablet with a browser works. Students type their answers on their own device and submit through a browser — no app download or account required."
+    },
+    {
+      "q": "Is it free to use?",
+      "a": "Yes, LessonCaptain is free to try with no student account setup needed. Students join with a single link or code."
+    },
+    {
+      "q": "What level is this suitable for?",
+      "a": "VocabSprint works well from A2 upward. You can adjust difficulty in session settings — easy rounds use simple sentences, hard rounds use more complex structures requiring nuanced word choices."
+    },
+    {
+      "q": "Does the AI accept synonyms or only exact answers?",
+      "a": "The AI accepts any contextually appropriate word, not just a single 'correct' answer. Students are rewarded for precision and fit, so near-synonyms that work in context still earn points."
+    }
+  ],
+  "related": ["synonym-showdown", "word-chain", "sentence-scramble"],
+  "ogImageTheme": "vocabulary"
+}

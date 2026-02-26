@@ -1,0 +1,52 @@
+{
+  "slug": "synonym-showdown",
+  "schemaVersion": 1,
+  "headline": "Fast-Paced Synonym Race Game for English Classes",
+  "outcomes": [
+    "Students rapidly recall multiple synonyms for a given word, building lexical breadth",
+    "Learn to distinguish subtle meaning differences between near-synonyms",
+    "Build streaks and momentum that reinforce vocabulary through spaced repetition",
+    "Develop fluency by retrieving words under timed pressure rather than slow recall"
+  ],
+  "howItWorks": [
+    "The AI picks a target word matched to your chosen topic and difficulty level",
+    "Students race to type as many synonyms as they can before the timer expires",
+    "Each unique, valid synonym earns points — consecutive correct answers build streak bonuses",
+    "After the round, the class reviews which words were accepted and discusses the distinctions"
+  ],
+  "teacherUseCases": [
+    "Pre-writing warm-up to expand the word pool students draw from in essays",
+    "Review of a specific word field after a vocabulary lesson",
+    "Competition-style review game that generates genuine engagement"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How does the streak bonus work?",
+      "a": "Each correct synonym in a row multiplies your score. Miss one and the streak resets. This mechanic rewards students who push for depth rather than stopping after the first obvious answer."
+    },
+    {
+      "q": "What if two students submit the same synonym?",
+      "a": "Both get credit. There's no race penalty for matching — the competition is in who finds more synonyms, not who finds unique ones."
+    },
+    {
+      "q": "Can the game focus on a specific vocabulary set?",
+      "a": "Yes. Set the topic and difficulty in session settings. The AI targets words relevant to that topic area, so a business English class would see professional register vocabulary."
+    },
+    {
+      "q": "Will phones work for typing synonyms quickly?",
+      "a": "Yes — a phone or tablet is fine. The text input is optimised for mobile. Students join via a browser link, no app or student account needed."
+    },
+    {
+      "q": "Is this suitable for beginners?",
+      "a": "The easy difficulty setting uses common, high-frequency words where students should know 2–3 synonyms comfortably. Harder levels target more nuanced vocabulary."
+    },
+    {
+      "q": "Is Synonym Showdown free?",
+      "a": "Yes, Synonym Showdown is free to run. Students join through a single browser link — no accounts, no downloads, no setup on their end."
+    }
+  ],
+  "related": ["vocab-sprint", "word-chain"],
+  "ogImageTheme": "vocabulary"
+}

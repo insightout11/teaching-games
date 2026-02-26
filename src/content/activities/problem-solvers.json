@@ -1,0 +1,52 @@
+{
+  "slug": "problem-solvers",
+  "schemaVersion": 1,
+  "headline": "Team Problem-Solving Discussion Activity for ESL Classes",
+  "outcomes": [
+    "Students collaborate in English to generate, evaluate, and defend solutions to realistic problems",
+    "Practise the language of brainstorming — suggesting, building on ideas, evaluating feasibility",
+    "Develop adaptability by responding to mid-activity complications that invalidate initial solutions",
+    "Build teamwork vocabulary and group decision-making discourse in an authentic communication context"
+  ],
+  "howItWorks": [
+    "The AI presents a problem with limited resources and a clear success condition related to your topic",
+    "Teams brainstorm solutions in English and submit their plan via the group device",
+    "Partway through, the AI introduces a complication — a resource loss, a new constraint, an unexpected obstacle",
+    "Teams must revise and defend their adapted solution, practising the language of justification under pressure"
+  ],
+  "teacherUseCases": [
+    "Project English practice where students must plan, present, and defend in a collaborative setting",
+    "Problem-solution writing preparation — generating and evaluating ideas before drafting",
+    "Teamwork and communication skills for professional English or business classes"
+  ],
+  "estimatedTime": "20–30 min",
+  "groupSize": "3 or more",
+  "faq": [
+    {
+      "q": "How are teams formed?",
+      "a": "The teacher assigns teams manually or lets LessonCaptain auto-assign based on how many students have joined the session. Teams of 3–5 work best for productive discussion without any student going silent."
+    },
+    {
+      "q": "What kinds of problems are generated?",
+      "a": "Problems are matched to your topic. A business class might problem-solve a product launch with a budget cut. A general English class might plan a community event with limited space and time constraints."
+    },
+    {
+      "q": "How do complications work?",
+      "a": "After teams submit their initial plan, the AI introduces a complication — something that removes a resource, adds a stakeholder requirement, or changes the deadline. Teams must update their plan, which creates a second, richer discussion phase."
+    },
+    {
+      "q": "What technology does Problem Solvers require?",
+      "a": "Each student participates via their phone or tablet in a browser. No download required — the session is accessible from a shared link."
+    },
+    {
+      "q": "Can one team present to the whole class?",
+      "a": "Yes. After the activity, teams can present their final solution using the board. The teacher can display all team plans simultaneously for comparison and class discussion."
+    },
+    {
+      "q": "Is Problem Solvers free?",
+      "a": "Yes, Problem Solvers is free to run. Students join through a browser link — no accounts or downloads needed."
+    }
+  ],
+  "related": ["scenario-simulator", "hot-take-arena"],
+  "ogImageTheme": "practice"
+}

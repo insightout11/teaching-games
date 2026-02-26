@@ -1,0 +1,52 @@
+{
+  "slug": "error-hunter",
+  "schemaVersion": 1,
+  "headline": "Grammar Error Detection Game for ESL Proofreading Practice",
+  "outcomes": [
+    "Students sharpen proofreading skills by identifying real grammar errors hidden in authentic-looking paragraphs",
+    "Build grammatical intuition — the sense that something is wrong before being able to name the rule",
+    "Develop attention to detail in reading, a critical skill for exam preparation and professional writing",
+    "Practise applying grammar rules in context rather than in isolated exercise formats"
+  ],
+  "howItWorks": [
+    "The AI writes a short paragraph on your chosen topic containing a set number of deliberate grammar errors",
+    "Students read the paragraph on their device and identify the errors — tapping or marking suspected mistakes",
+    "After submissions, the teacher reveals all errors with explanations on the classroom board",
+    "Points are awarded for each correctly identified error; false positives (marking correct text) reduce scores"
+  ],
+  "teacherUseCases": [
+    "Exam preparation for Cambridge, IELTS, or TOEFL writing correction tasks",
+    "Review of recently taught grammar rules in an applied, reading context",
+    "Engagement hook before corrective feedback — students become error-hunters rather than passive receivers"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What types of errors does the AI include?",
+      "a": "The AI can embed a mix of error types: subject-verb agreement, wrong tense, missing articles, incorrect prepositions, and word form errors. You can also ask the AI to focus on one error type by setting the topic."
+    },
+    {
+      "q": "How many errors are in each paragraph?",
+      "a": "Typically 3–6 errors depending on difficulty. Easy paragraphs have obvious errors; hard paragraphs have subtle, exam-level mistakes that require close grammatical knowledge."
+    },
+    {
+      "q": "Can students discuss before submitting?",
+      "a": "Yes — the timer can be extended and the teacher can pause submissions to let students discuss what they think is wrong. Error Hunter works well as a collaborative class task, not just individual scoring."
+    },
+    {
+      "q": "Do students need to install anything?",
+      "a": "Nothing to install. Students access Error Hunter on their phone or tablet through any modern browser. A shared link from the teacher is all they need — no app, no student account."
+    },
+    {
+      "q": "Is this suitable for all levels?",
+      "a": "Easy difficulty suits B1 students with common grammar errors. Hard difficulty uses C1-level subtleties appropriate for advanced exam classes."
+    },
+    {
+      "q": "How much does Error Hunter cost?",
+      "a": "Error Hunter is completely free. Teachers start a session in under a minute and students join through their browser — no subscription or account required."
+    }
+  ],
+  "related": ["grammar-boss", "sentence-scramble"],
+  "ogImageTheme": "grammar"
+}

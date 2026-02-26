@@ -1,0 +1,52 @@
+{
+  "slug": "would-you-rather",
+  "schemaVersion": 1,
+  "headline": "Dilemma Discussion Activity That Gets Every Student Talking",
+  "outcomes": [
+    "Students express and justify personal opinions in English using full sentence structures",
+    "Build confidence speaking spontaneously without preparation or scripted responses",
+    "Practise agreeing, disagreeing, and elaborating in natural conversational turns",
+    "Develop vocabulary relevant to the lesson topic through discussion in a low-stakes context"
+  ],
+  "howItWorks": [
+    "The AI generates topic-relevant dilemmas with no objectively 'right' answer — students must genuinely choose",
+    "Each student selects their option on their device and types a brief reason",
+    "The class results are revealed on the board, sparking instant debate about the split",
+    "The teacher facilitates follow-up discussion with AI-generated prompts for deeper engagement"
+  ],
+  "teacherUseCases": [
+    "Opening icebreaker for any topic — dilemmas can be customised to match the lesson theme",
+    "Speaking fluency practice where hesitation and grammar mistakes matter less than expressing ideas",
+    "Warm-up before a debate activity to surface different class perspectives"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "Can I use my own topic for the dilemmas?",
+      "a": "Yes. Type any topic and the AI generates relevant dilemmas on demand. A business English class gets workplace dilemmas; a travel unit gets destination-choice dilemmas."
+    },
+    {
+      "q": "What if students won't commit to an answer?",
+      "a": "The activity requires a choice before the reason can be submitted. This is intentional — the productive struggle of committing to an imperfect option is what generates the most discussion."
+    },
+    {
+      "q": "Can this be used with beginners?",
+      "a": "Yes. The dilemmas are kept concrete and everyday at lower difficulty. Students can submit short justifications and the teacher scaffolds the discussion. The activity generates speaking even from students who rarely volunteer."
+    },
+    {
+      "q": "Can students vote on any device?",
+      "a": "Yes — any phone or tablet with a browser works. Students vote and type their reason on their own device. No download or student account needed."
+    },
+    {
+      "q": "How many dilemmas are in a round?",
+      "a": "A typical session covers 3–5 dilemmas, spending 2–3 minutes per dilemma for voting and discussion. The teacher controls the pace and can skip or repeat dilemmas."
+    },
+    {
+      "q": "Is Would You Rather free?",
+      "a": "Yes, Would You Rather is free to run. Teachers create the session and students join through a browser link — no accounts or downloads required."
+    }
+  ],
+  "related": ["two-truths", "rank-it", "hot-take-arena"],
+  "ogImageTheme": "icebreakers"
+}

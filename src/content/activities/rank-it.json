@@ -1,0 +1,52 @@
+{
+  "slug": "rank-it",
+  "schemaVersion": 1,
+  "headline": "Ranking Discussion Activity for ESL Speaking and Critical Thinking",
+  "outcomes": [
+    "Students justify ranking decisions using comparative language, opinions, and reasoned arguments in English",
+    "Build vocabulary by discussing the specific qualities that make one item rank higher than another",
+    "Practise listening to and responding to classmates' reasoning in structured discussion",
+    "Develop flexibility in thinking when AI reveals facts that challenge initial rankings"
+  ],
+  "howItWorks": [
+    "The AI generates a set of 4–6 items related to your topic with a ranking prompt — e.g. 'Rank these by how dangerous they are'",
+    "Students drag items into their personal ranked order on their device and submit",
+    "Class rankings are displayed and compared — students explain and debate the differences",
+    "The AI then reveals hidden facts about each item that may change everyone's mind"
+  ],
+  "teacherUseCases": [
+    "Comparative language practice — 'more important than,' 'significantly riskier than,' 'slightly above'",
+    "Discussion preparation before a more formal debate or writing task",
+    "Values exploration — ranking moral dilemmas or priorities to reveal diverse student perspectives"
+  ],
+  "estimatedTime": "12–18 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What kinds of things can be ranked?",
+      "a": "Almost anything with multiple dimensions: historical events by impact, foods by nutritional value, cities by livability, inventions by importance — whatever matches your lesson topic and sparks genuine opinion."
+    },
+    {
+      "q": "What if students all rank the same way?",
+      "a": "The AI's reveal of surprising facts is designed to challenge even consensus rankings. If the class agrees initially, the reveal typically reorders thinking enough to generate fresh discussion."
+    },
+    {
+      "q": "Can I set my own ranking prompt?",
+      "a": "Yes. Set the topic and the AI generates items and a ranking criterion. For very specific topics, you can also type a custom prompt and the AI builds the challenge around it."
+    },
+    {
+      "q": "How do students submit their rankings?",
+      "a": "Students drag items into order on their phone or tablet through the mobile browser. The drag-and-drop interface works on any modern device — no app or account required."
+    },
+    {
+      "q": "How long does discussion take?",
+      "a": "Plan for 3–5 minutes of comparison discussion and 2–3 minutes for the reveal and reaction. The full activity typically takes 12–18 minutes including setup."
+    },
+    {
+      "q": "Does Rank It cost anything?",
+      "a": "Rank It is free to use. Students join through a shared browser link — no accounts or downloads required on their end."
+    }
+  ],
+  "related": ["would-you-rather", "two-truths"],
+  "ogImageTheme": "icebreakers"
+}

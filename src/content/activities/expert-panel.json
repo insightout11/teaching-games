@@ -1,0 +1,52 @@
+{
+  "slug": "expert-panel",
+  "schemaVersion": 1,
+  "headline": "Expert Role-Play Discussion Activity for ESL Speaking Classes",
+  "outcomes": [
+    "Students speak from an assigned expert perspective, using topic-specific vocabulary and register",
+    "Build confidence with professional and academic English by inhabiting a knowledgeable role",
+    "Develop question formation and elaboration skills as students probe experts with follow-up questions",
+    "Practise specialised vocabulary in context — each role comes with vocabulary students must actively use"
+  ],
+  "howItWorks": [
+    "The AI assigns each student an expert role related to the topic — scientist, economist, journalist, policy maker",
+    "Each role comes with a brief background and a set of suggested vocabulary terms to incorporate",
+    "Students are questioned by classmates via their device, and the AI generates follow-up challenges based on responses",
+    "The teacher facilitates the panel, prompting deeper questions and highlighting language used well"
+  ],
+  "teacherUseCases": [
+    "Academic English practice where students must explain complex ideas in accessible language",
+    "Professional English preparation — students inhabit job roles relevant to career topics",
+    "Unit review where expert perspectives are drawn from lesson content students have studied"
+  ],
+  "estimatedTime": "15–20 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How are expert roles assigned?",
+      "a": "The AI generates 3–5 roles appropriate for the topic and assigns them to students at the start. Teachers can modify assignments or let the AI suggest roles based on the class size."
+    },
+    {
+      "q": "What if a student doesn't know enough to answer in their role?",
+      "a": "Each role comes with background context and key facts provided to the student. The activity is designed to support students who don't have prior knowledge — they're playing a role, not being tested on content expertise."
+    },
+    {
+      "q": "How does the AI generate follow-up questions?",
+      "a": "After each student response, the AI reads the reply and generates a contextually relevant follow-up that pushes for clarification, evidence, or a different angle. Teachers can accept or skip AI suggestions."
+    },
+    {
+      "q": "How do students access their expert role?",
+      "a": "Each student reads their role brief and submits answers on their phone or tablet through a browser. No app needed — students join via a shared session link."
+    },
+    {
+      "q": "Can this work for small groups?",
+      "a": "Yes. With fewer than 5 students, some students can hold multiple roles or play questioners exclusively. The AI adjusts role generation based on class size."
+    },
+    {
+      "q": "Can I try Expert Panel without a paid plan?",
+      "a": "Yes, Expert Panel is free to run. Students join via a shared browser link with no account setup required."
+    }
+  ],
+  "related": ["fact-detective", "scenario-simulator"],
+  "ogImageTheme": "learning"
+}

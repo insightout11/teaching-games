@@ -1,0 +1,52 @@
+{
+  "slug": "fact-detective",
+  "schemaVersion": 1,
+  "headline": "Fact vs Myth Discussion Activity for ESL Content-Area Classes",
+  "outcomes": [
+    "Students evaluate the truth of claims using critical reasoning, not just guessing or test-taking heuristics",
+    "Encounter and discuss target vocabulary embedded in plausible factual claims",
+    "Build listening comprehension by processing and responding to information-dense statements",
+    "Develop the language of probability and hedging — 'this is likely true because,' 'I doubt this because'"
+  ],
+  "howItWorks": [
+    "The AI presents a series of claims about your topic — a mix of genuine facts and convincingly wrong myths",
+    "Students discuss each claim and vote true or false on their device with a brief written justification",
+    "The truth is revealed with a full explanation — highlighting key vocabulary from the lesson",
+    "The teacher uses each reveal as a teaching moment, connecting back to lesson content"
+  ],
+  "teacherUseCases": [
+    "Content-based language teaching where lesson facts are embedded in a detection activity",
+    "Pre-reading activity to activate prior knowledge and surface misconceptions before a text",
+    "Vocabulary in context — students encounter key terms in realistic sentences before formal teaching"
+  ],
+  "estimatedTime": "12–18 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How does this differ from Two Truths and a Fabrication?",
+      "a": "Fact Detective presents claims one at a time for true/false evaluation, with detailed explanations. Two Truths presents three simultaneous statements for comparative judgment. Both build critical thinking but through different discussion structures."
+    },
+    {
+      "q": "Are the myths completely invented or based on real misconceptions?",
+      "a": "The AI generates myths that reflect common misconceptions or plausible-sounding false beliefs — not random nonsense. This makes the reveal more educational and the discussion richer."
+    },
+    {
+      "q": "Can I review the claims before class?",
+      "a": "Yes. Teachers can preview all claims and explanations before starting the session and remove any that don't fit the lesson focus."
+    },
+    {
+      "q": "What do students need to participate?",
+      "a": "Each student votes and justifies their choice on their phone or tablet in the browser. No download or student account required — the teacher's session link is all they need."
+    },
+    {
+      "q": "What language level suits Fact Detective best?",
+      "a": "Fact Detective works from A2 upward. At lower levels, use short, concrete claims with simple vocabulary. At higher levels, the claims can feature complex structures and academic vocabulary."
+    },
+    {
+      "q": "Is Fact Detective free to use?",
+      "a": "Fact Detective is free. Students join the session through a browser link — no app installs or student accounts needed."
+    }
+  ],
+  "related": ["expert-panel", "two-truths"],
+  "ogImageTheme": "learning"
+}

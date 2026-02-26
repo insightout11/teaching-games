@@ -1,0 +1,52 @@
+{
+  "slug": "sentence-scramble",
+  "schemaVersion": 1,
+  "headline": "Interactive Sentence Order Game for Grammar Practice",
+  "outcomes": [
+    "Students internalize English word order by physically arranging scrambled words into correct sentences",
+    "Build awareness of grammatical structure — subjects, verbs, objects, and modifiers — through active construction",
+    "Develop reading accuracy by processing each word's grammatical role rather than guessing from context",
+    "Practice a range of sentence types including questions, negatives, and complex clauses"
+  ],
+  "howItWorks": [
+    "The AI generates a sentence on the chosen topic, then scrambles the words into random order",
+    "Students tap words on their device to build the sentence in the correct sequence",
+    "The game validates placement in real time — students see which words are correctly positioned",
+    "Faster, accurate completions earn more points; the teacher sees all responses on the classroom board"
+  ],
+  "teacherUseCases": [
+    "Grammar point practice after introducing a new structure — conditionals, passive voice, question forms",
+    "Reading warmup that activates syntactic awareness before a text-based lesson",
+    "Formative check to see which sentence patterns students find most difficult"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "Can I target a specific grammar point?",
+      "a": "Yes. The difficulty setting shapes sentence complexity. For specific structures, set the topic to something like 'present perfect sentences' and the AI will generate sentences that feature that grammar point."
+    },
+    {
+      "q": "How long are the sentences?",
+      "a": "Easy mode uses 4–6 word sentences suitable for beginners. Medium is 6–8 words and hard uses 8–12 words with more complex structures including embedded clauses."
+    },
+    {
+      "q": "Is there an app students need to install?",
+      "a": "No app needed. Students open the session in their mobile browser — they tap the link the teacher shares and they're in. Works on any modern phone or tablet."
+    },
+    {
+      "q": "What happens if students get stuck?",
+      "a": "There's no penalty for taking longer — students earn fewer bonus points but still complete the round. The teacher can also reveal the correct sentence for discussion."
+    },
+    {
+      "q": "Is the content pre-made or AI-generated?",
+      "a": "Fully AI-generated on demand. Every session pulls fresh sentences matched to your topic, so content never feels stale or repeated."
+    },
+    {
+      "q": "Is Sentence Scramble free?",
+      "a": "Yes, Sentence Scramble is free to try. No student accounts are needed — students join through a browser link in seconds."
+    }
+  ],
+  "related": ["grammar-boss", "error-hunter", "story-sprint"],
+  "ogImageTheme": "grammar"
+}

@@ -1,0 +1,52 @@
+{
+  "slug": "story-sprint",
+  "schemaVersion": 1,
+  "headline": "Collaborative Storytelling Writing Game for ESL Classes",
+  "outcomes": [
+    "Students contribute to a shared story, practising narrative writing and creative expression in English",
+    "Build sentence variety and coherence by connecting their contribution to what came before",
+    "Receive immediate AI feedback on grammar, vocabulary, and story logic in a low-stakes context",
+    "Develop listening and reading skills as students process each other's contributions"
+  ],
+  "howItWorks": [
+    "The AI generates a story starter related to your topic — a first sentence or short scene-setting paragraph",
+    "Each student adds one sentence to continue the story, submitted from their device",
+    "AI evaluates the sentence for grammar accuracy, coherence with the previous text, and creativity",
+    "The story grows on the classroom board in real time — the class can see the collective narrative develop"
+  ],
+  "teacherUseCases": [
+    "Creative writing warm-up that produces a complete class story in under 15 minutes",
+    "Narrative tense practice — students must match and extend a story already in past tense",
+    "End-of-topic activity where students write a story incorporating the unit's vocabulary"
+  ],
+  "estimatedTime": "12–20 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How does the AI evaluate story contributions?",
+      "a": "The AI checks grammar accuracy, logical coherence with the previous sentence, and vocabulary richness. It gives feedback on all three dimensions so students understand what made their sentence strong or weak."
+    },
+    {
+      "q": "What if a student writes something that doesn't fit the story?",
+      "a": "The AI flags incoherent contributions and the teacher can ask the student to revise before it's added to the story. The teacher has final say on what gets accepted."
+    },
+    {
+      "q": "Can I specify a genre or setting?",
+      "a": "Yes. Type the topic as something like 'mystery story set in a hospital' or 'adventure in the mountains' and the AI will generate an appropriate starter and evaluate contributions against that genre."
+    },
+    {
+      "q": "Is this better for individual or group work?",
+      "a": "Both work. In simultaneous mode everyone submits a sentence and the best one (by teacher choice or class vote) gets added. In turn mode each student adds one sentence in sequence."
+    },
+    {
+      "q": "Do students write on their own devices?",
+      "a": "Yes — each student types their story sentence on their own phone or tablet in the browser. No download required; joining is as simple as opening the teacher's link."
+    },
+    {
+      "q": "Does Story Sprint cost anything?",
+      "a": "Story Sprint is free to run. No subscription or student accounts required — students join via a browser link and start contributing within seconds."
+    }
+  ],
+  "related": ["grammar-boss", "dialogue-detective"],
+  "ogImageTheme": "grammar"
+}

@@ -1,0 +1,52 @@
+{
+  "slug": "twenty-questions",
+  "schemaVersion": 1,
+  "headline": "20 Questions Deduction Game for ESL Question Formation Practice",
+  "outcomes": [
+    "Students practise forming grammatically correct yes/no questions in a natural, game-driven context",
+    "Develop logical deduction and elimination strategies using English question structures",
+    "Build confidence asking questions spontaneously rather than from a scripted list",
+    "Reinforce topic vocabulary — the secret concept is always drawn from the lesson theme"
+  ],
+  "howItWorks": [
+    "One student picks a secret concept — a word, place, person, or object related to the class topic",
+    "The rest of the class takes turns submitting yes/no questions on their devices to narrow down possibilities",
+    "The secret holder answers each question; the class tracks answers and eliminates possibilities",
+    "The round ends when someone correctly identifies the secret — or when 20 questions are exhausted"
+  ],
+  "teacherUseCases": [
+    "Question formation practice where students must produce interrogative structures to progress",
+    "Vocabulary review — the secret concept forces students to think around the word rather than state it",
+    "Speaking fluency warm-up that feels like a game rather than a drill"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How does question quality affect scores?",
+      "a": "Points are awarded for grammatically correct questions. Poorly formed questions are flagged and the student can revise before submitting — making every question a mini grammar check."
+    },
+    {
+      "q": "Who chooses the secret concept?",
+      "a": "Either a student chooses something from the topic, or the teacher enters a concept at the start. The AI can also generate a suitable secret concept based on the session topic."
+    },
+    {
+      "q": "Can questions beyond yes/no be asked?",
+      "a": "The classic format uses yes/no questions only. Some teachers run it in 'expanded' mode where follow-up clarification questions are allowed — this can be managed by the teacher in the session settings."
+    },
+    {
+      "q": "How do students submit their questions during play?",
+      "a": "Students type questions on their phone or tablet through a mobile browser. The session link is all they need — no app download or student account required."
+    },
+    {
+      "q": "What level is this best suited to?",
+      "a": "20 Questions works well from A2 upward. Lower levels benefit from the constraint of yes/no questions which are grammatically simpler. Higher levels can explore more creative, abstract questioning strategies."
+    },
+    {
+      "q": "Is 20 Questions free to run in class?",
+      "a": "Yes, 20 Questions is free. Teachers start the session and students join through a browser link — no account setup required on either side."
+    }
+  ],
+  "related": ["connections", "dialogue-detective"],
+  "ogImageTheme": "logic"
+}

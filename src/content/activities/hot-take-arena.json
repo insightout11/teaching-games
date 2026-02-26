@@ -1,0 +1,52 @@
+{
+  "slug": "hot-take-arena",
+  "schemaVersion": 1,
+  "headline": "Structured Debate Activity With AI Devil's Advocate for ESL Classes",
+  "outcomes": [
+    "Students construct and defend arguments in English against a challenging AI counterargument",
+    "Practise persuasion language — conceding, rebutting, building on evidence, signalling shifts",
+    "Develop the ability to argue a position they may not personally hold — a core academic skill",
+    "Build speaking confidence through structured debate where the format provides a clear scaffold"
+  ],
+  "howItWorks": [
+    "The AI generates a provocative statement about your topic — something students will genuinely disagree about",
+    "Students choose a side and submit their strongest argument for that position",
+    "The AI plays devil's advocate, challenging BOTH sides with targeted counterarguments",
+    "Students must respond to the AI's challenge — the exchange continues for 2–3 rounds of argument"
+  ],
+  "teacherUseCases": [
+    "Debate preparation — students practise the argument structure before a formal class debate",
+    "Academic writing foundation — building the skill of addressing counterarguments in essays",
+    "Critical thinking development — students must evaluate their own position under intellectual pressure"
+  ],
+  "estimatedTime": "15–20 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What makes the AI's counterarguments effective?",
+      "a": "The AI is instructed to generate genuine challenges — not strawmen. It identifies the weakest assumption in each argument and targets that specifically, which pushes students to think more carefully about their reasoning."
+    },
+    {
+      "q": "Can students change sides after seeing the counterarguments?",
+      "a": "Yes — the teacher can open a 'flip' phase where students who've been persuaded can switch sides and explain why. This is one of the most productive moments in the activity."
+    },
+    {
+      "q": "What topics work best?",
+      "a": "Topics with genuinely two-sided arguments work best — social media, technology, education policy, environmental trade-offs. The AI generates the statement, so you can also just set a broad topic and let it find the provocative angle."
+    },
+    {
+      "q": "How do students submit their arguments?",
+      "a": "Students type their arguments on their phone or tablet through a browser. No app or student account needed — they join via the teacher's session link."
+    },
+    {
+      "q": "What proficiency level works best for debate?",
+      "a": "Hot Take Arena works best from B1 upward. The AI can simplify counterarguments and vocabulary at lower difficulty settings. Below B1, the teacher should provide sentence starters and vocabulary support."
+    },
+    {
+      "q": "Does Hot Take Arena require a subscription?",
+      "a": "Hot Take Arena is free to run. Students join via a browser link — no paid plan or student account required."
+    }
+  ],
+  "related": ["would-you-rather", "problem-solvers"],
+  "ogImageTheme": "debate"
+}

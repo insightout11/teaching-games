@@ -1,0 +1,52 @@
+{
+  "slug": "word-chain",
+  "schemaVersion": 1,
+  "headline": "Vocabulary Association Chain Game for ESL Classrooms",
+  "outcomes": [
+    "Students build mental vocabulary networks by linking related concepts and words",
+    "Practice retrieving and articulating word associations under gentle time pressure",
+    "Develop awareness of semantic fields, collocations, and thematic word groups",
+    "Encourage creative thinking about how words connect in meaning and usage"
+  ],
+  "howItWorks": [
+    "The AI generates a starting word related to your chosen topic",
+    "The first student types a word that connects meaningfully to the starting word",
+    "Each subsequent student adds a word connected to the previous one — building the chain",
+    "A student who repeats a word or can't connect breaks the chain; rounds are scored on chain length"
+  ],
+  "teacherUseCases": [
+    "Topic introduction to activate and map prior vocabulary knowledge",
+    "Creative warm-up that surfaces unexpected vocabulary connections",
+    "Low-stakes review that gets the whole class thinking simultaneously"
+  ],
+  "estimatedTime": "8–12 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How strict is the connection requirement?",
+      "a": "The AI evaluates whether the connection is genuine and explainable, not just phonetic. Students must submit a word that relates in meaning, theme, or usage — not just a word that sounds similar."
+    },
+    {
+      "q": "What if a student can't think of a word?",
+      "a": "They can pass, which ends their turn without penalty but breaks the chain streak. The next student starts a new chain from the same word."
+    },
+    {
+      "q": "Can I use custom topics?",
+      "a": "Yes. Set the topic and the starting word will be pulled from that domain — great for focused vocabulary fields like food, travel, or business."
+    },
+    {
+      "q": "Do students each need their own device?",
+      "a": "Yes — each student uses their own phone or tablet to type their word. The session runs in any mobile browser. No app install or student account required."
+    },
+    {
+      "q": "Can beginners play Word Chain?",
+      "a": "Absolute beginners may find it challenging, but A2 students with basic vocabulary participate well. Easy difficulty seeds the chain with common, concrete nouns where most learners know several associations."
+    },
+    {
+      "q": "Is Word Chain free?",
+      "a": "Yes, free to run. Students join through a browser link — no downloads or accounts required on either side."
+    }
+  ],
+  "related": ["vocab-sprint", "synonym-showdown"],
+  "ogImageTheme": "vocabulary"
+}

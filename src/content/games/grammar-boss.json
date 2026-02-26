@@ -1,0 +1,53 @@
+{
+  "slug": "grammar-boss",
+  "schemaVersion": 1,
+  "headline": "AI Grammar Speaking Game for ESL Classes",
+  "problemStatement": "Grammar practice through worksheets rarely transfers to spontaneous speech. Grammar Boss forces students to produce spoken examples on the spot — the gap where most learners struggle.",
+  "outcomes": [
+    "Students produce grammatically correct sentences in real time rather than in isolated drills",
+    "Receive immediate AI feedback on grammatical accuracy and fluency — not just right or wrong",
+    "Build confidence forming complete sentences under mild time pressure",
+    "Practice a targeted grammar structure repeatedly across multiple turns with fresh content each time"
+  ],
+  "howItWorks": [
+    "Teacher selects a grammar target — past simple, third conditional, reported speech, and more",
+    "The AI generates a specific challenge prompt requiring a student to produce a sentence using that structure",
+    "The student speaks or types their answer on their device and submits",
+    "AI evaluates grammatical accuracy and gives structured feedback; the teacher can follow up with class discussion"
+  ],
+  "teacherUseCases": [
+    "Productive grammar practice immediately after explicit instruction",
+    "Diagnostic round to identify which students haven't grasped a new structure",
+    "Speaking accuracy drill that keeps the whole class engaged while one student responds"
+  ],
+  "estimatedTime": "10–20 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What grammar targets are available?",
+      "a": "You can type any grammar target into the session settings. The AI understands standard EFL/ESL terminology — past perfect, zero conditional, passive causative, relative clauses — and generates appropriate challenges."
+    },
+    {
+      "q": "Does the AI handle spoken responses?",
+      "a": "In text mode, students type their sentences. The teacher can also run Grammar Boss in a spoken format where students say their answer aloud and the teacher or AI judges it."
+    },
+    {
+      "q": "How does feedback work?",
+      "a": "The AI gives structured feedback: it identifies the specific grammatical error, explains the rule, and shows a corrected version. This makes each turn a micro-lesson, not just a score."
+    },
+    {
+      "q": "Can I use it with beginners?",
+      "a": "Yes. Set easy difficulty for simpler structures — present simple, basic questions — and the prompts and expected responses scale down accordingly."
+    },
+    {
+      "q": "Can students join Grammar Boss on their phones?",
+      "a": "Yes — any phone or laptop with a browser works. Students join via a class link or code. No app download or student account setup required."
+    },
+    {
+      "q": "Can I run Grammar Boss for free?",
+      "a": "Yes, Grammar Boss is free to use. The teacher creates a session and students join through their browser in under a minute — no subscription needed."
+    }
+  ],
+  "related": ["sentence-scramble", "error-hunter", "story-sprint"],
+  "ogImageTheme": "grammar"
+}
