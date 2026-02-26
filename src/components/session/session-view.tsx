@@ -105,6 +105,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [currentSlotIndex, setCurrentSlotIndex] = useState(0);
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
+  const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
   const settingsPopoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -673,10 +674,35 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </svg>
           }
         >
-          <widget.component {...(widget.getProps?.({ sessionId: session.id, students }) ?? {})} />
+          <widget.component {...(widget.getProps?.({
+              sessionId: session.id,
+              students,
+              topic: getEffectiveTopic(settings),
+              difficulty: settings.difficulty,
+              onShowAnswer: (q: string, a: string) => setScreenAnswer({ question: q, answer: a }),
+            }) ?? {})} />
         </WidgetShell>
       ))}
       <WidgetLauncher sessionId={session.id} />
+
+      {/* Answer overlay — shown on teacher's projected screen */}
+      {screenAnswer && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-8 bg-black/60 backdrop-blur-sm">
+          <div className="glass rounded-2xl shadow-2xl border border-white/10 max-w-3xl w-full p-8">
+            <p className="text-sm opacity-50 uppercase tracking-wider font-semibold mb-3">Student Question</p>
+            <p className="text-xl font-medium mb-6 leading-relaxed">{screenAnswer.question}</p>
+            <hr className="border-white/10 mb-6" />
+            <p className="text-sm opacity-50 uppercase tracking-wider font-semibold mb-3">Answer</p>
+            <p className="text-2xl leading-relaxed whitespace-pre-wrap">{screenAnswer.answer}</p>
+            <button
+              onClick={() => setScreenAnswer(null)}
+              className="mt-8 px-4 py-2 rounded-lg glass border border-white/10 text-sm hover:bg-white/10 transition-colors"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -9,6 +9,9 @@ import { ClassQuestionsContent } from './class-questions-widget';
 export interface WidgetContext {
   sessionId: string;
   students: Student[];
+  topic?: string;
+  difficulty?: string;
+  onShowAnswer?: (question: string, answer: string) => void;
 }
 
 export interface WidgetDefinition {
@@ -63,6 +66,11 @@ export const WIDGET_REGISTRY: WidgetDefinition[] = [
     label: 'Class Questions',
     iconPath: WIDGET_ICON_PATHS['class-questions'],
     component: ClassQuestionsContent,
-    getProps: (ctx) => ({ sessionId: ctx.sessionId }),
+    getProps: (ctx) => ({
+      sessionId: ctx.sessionId,
+      topic: ctx.topic ?? 'General',
+      difficulty: ctx.difficulty ?? 'Intermediate',
+      onShowAnswer: ctx.onShowAnswer ?? (() => {}),
+    }),
   },
 ];

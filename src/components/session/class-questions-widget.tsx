@@ -11,6 +11,9 @@ import type { StudentSubmission } from '@/lib/supabase/types';
 
 interface ClassQuestionsContentProps {
   sessionId: string;
+  topic: string;
+  difficulty: string;
+  onShowAnswer: (question: string, answer: string) => void;
 }
 
 interface PublishedQuestion extends StudentSubmission {
@@ -25,16 +28,15 @@ interface DraftResult {
 
 const MAX_PUBLISHED = 5;
 
-export function ClassQuestionsContent({ sessionId }: ClassQuestionsContentProps) {
+export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnswer }: ClassQuestionsContentProps) {
   const [pending, setPending] = useState<StudentSubmission[]>([]);
   const [published, setPublished] = useState<PublishedQuestion[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [pendingOpen, setPendingOpen] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
-  const [drafts, setDrafts] = useState<Record<string, DraftResult>>({});
+  const [answerOpen, setAnswerOpen] = useState<Record<string, boolean>>({});
+  const [answerText, setAnswerText] = useState<Record<string, string>>({});
   const [draftLoading, setDraftLoading] = useState<Record<string, boolean>>({});
-  const [draftError, setDraftError] = useState<Record<string, string>>({});
-  const [copied, setCopied] = useState<Record<string, boolean>>({});
   const supabase = createClient();
 
   // Load initial data
@@ -189,37 +191,20 @@ export function ClassQuestionsContent({ sessionId }: ClassQuestionsContentProps)
     setPublished([]);
   };
 
-  const handleAiDraft = async (question: PublishedQuestion) => {
-    setDraftLoading((prev) => ({ ...prev, [question.id]: true }));
-    setDraftError((prev) => ({ ...prev, [question.id]: '' }));
-
+  const getAIDraft = async (questionId: string, question: string) => {
+    setDraftLoading((l) => ({ ...l, [questionId]: true }));
     try {
       const res = await fetch('/api/class-questions/draft-answer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          question: question.content,
-          topic: 'General',
-          difficulty: 'Intermediate',
-        }),
+        body: JSON.stringify({ question, topic, difficulty }),
       });
-
-      if (!res.ok) throw new Error('Failed');
-      const data: DraftResult = await res.json();
-      setDrafts((prev) => ({ ...prev, [question.id]: data }));
-    } catch {
-      setDraftError((prev) => ({ ...prev, [question.id]: 'Draft unavailable — try again.' }));
+      const draft: DraftResult = await res.json();
+      const filled = [draft.answer, draft.example].filter(Boolean).join('\n\n');
+      setAnswerText((t) => ({ ...t, [questionId]: filled }));
     } finally {
-      setDraftLoading((prev) => ({ ...prev, [question.id]: false }));
+      setDraftLoading((l) => ({ ...l, [questionId]: false }));
     }
-  };
-
-  const handleCopy = async (id: string, text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied((prev) => ({ ...prev, [id]: true }));
-      setTimeout(() => setCopied((prev) => ({ ...prev, [id]: false })), 1500);
-    } catch { /* ignore */ }
   };
 
   const canSelectMore = selected.size < MAX_PUBLISHED - published.length;
@@ -319,11 +304,14 @@ export function ClassQuestionsContent({ sessionId }: ClassQuestionsContentProps)
                   {/* Actions */}
                   <div className="flex-shrink-0 flex gap-1">
                     <button
-                      onClick={() => handleAiDraft(q)}
-                      disabled={draftLoading[q.id]}
-                      className="text-xs px-1.5 py-0.5 rounded border text-purple-400 border-purple-500/20 hover:border-purple-400/40 hover:bg-purple-500/10 transition-colors disabled:opacity-50"
+                      onClick={() => setAnswerOpen((o) => ({ ...o, [q.id]: !o[q.id] }))}
+                      className={`text-xs px-1.5 py-0.5 rounded border transition-colors ${
+                        answerOpen[q.id]
+                          ? 'text-purple-300 border-purple-400/40 bg-purple-500/20'
+                          : 'text-purple-400 border-purple-500/20 hover:border-purple-400/40 hover:bg-purple-500/10'
+                      }`}
                     >
-                      {draftLoading[q.id] ? '…' : 'AI Draft'}
+                      Answer
                     </button>
                     <button
                       onClick={() => handleMarkAnswered(q.id)}
@@ -334,31 +322,35 @@ export function ClassQuestionsContent({ sessionId }: ClassQuestionsContentProps)
                   </div>
                 </div>
 
-                {/* Draft error */}
-                {draftError[q.id] && (
-                  <p className="text-xs text-red-400 pl-8">{draftError[q.id]}</p>
-                )}
-
-                {/* AI Draft result */}
-                {drafts[q.id] && (
-                  <div className="ml-8 bg-purple-500/10 border border-purple-500/20 rounded-lg p-2 space-y-1.5">
-                    <p className="text-slate-200 text-xs leading-relaxed">{drafts[q.id].answer}</p>
-                    {drafts[q.id].example && (
-                      <p className="text-slate-400 text-xs italic">e.g. {drafts[q.id].example}</p>
-                    )}
-                    {drafts[q.id].teacherTip && (
-                      <p className="text-cyan-400 text-xs">Tip: {drafts[q.id].teacherTip}</p>
-                    )}
-                    <button
-                      onClick={() => {
-                        const draft = drafts[q.id];
-                        const text = [draft.answer, draft.example ? `e.g. ${draft.example}` : ''].filter(Boolean).join('\n');
-                        handleCopy(q.id, text);
-                      }}
-                      className="text-xs px-2 py-0.5 rounded border border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-colors"
-                    >
-                      {copied[q.id] ? 'Copied!' : 'Copy'}
-                    </button>
+                {/* Inline answer panel */}
+                {answerOpen[q.id] && (
+                  <div className="ml-8 space-y-2">
+                    <textarea
+                      value={answerText[q.id] ?? ''}
+                      onChange={(e) => setAnswerText((t) => ({ ...t, [q.id]: e.target.value }))}
+                      placeholder="Type an answer or use AI draft…"
+                      rows={3}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-slate-200 placeholder-slate-500 resize-none focus:outline-none focus:border-white/20"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => getAIDraft(q.id, q.content)}
+                        disabled={draftLoading[q.id]}
+                        className="text-xs px-2 py-1 rounded border text-purple-400 border-purple-500/20 hover:border-purple-400/40 hover:bg-purple-500/10 transition-colors disabled:opacity-50"
+                      >
+                        {draftLoading[q.id] ? 'Getting draft…' : 'Get AI draft'}
+                      </button>
+                      <button
+                        onClick={() => {
+                          onShowAnswer(q.content, answerText[q.id] ?? '');
+                          setAnswerOpen((o) => ({ ...o, [q.id]: false }));
+                        }}
+                        disabled={!answerText[q.id]?.trim()}
+                        className="text-xs px-2 py-1 rounded border text-emerald-400 border-emerald-500/20 hover:border-emerald-400/40 hover:bg-emerald-500/10 transition-colors disabled:opacity-50"
+                      >
+                        Show on screen
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
