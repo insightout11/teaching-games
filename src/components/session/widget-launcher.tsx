@@ -102,7 +102,12 @@ export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
                   <svg className="w-3.5 h-3.5 opacity-70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={WIDGET_ICON_PATHS[w.id] ?? ''} />
                   </svg>
-                  <span>{w.label}</span>
+                  <span className="flex-1">{w.label}</span>
+                  {w.id === 'class-questions' && pendingQuestions > 0 && (
+                    <span className="w-4 h-4 bg-amber-500 rounded-full text-[9px] font-bold flex items-center justify-center text-white flex-shrink-0">
+                      {pendingQuestions}
+                    </span>
+                  )}
                 </button>
               ))
             )}
