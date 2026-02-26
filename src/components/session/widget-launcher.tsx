@@ -2,14 +2,66 @@
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { createClient } from '@/lib/supabase/client';
+import { isMockMode } from '@/lib/mock/auth';
 import { useWidgetStore } from '@/stores/widget-store';
 import { WIDGET_REGISTRY, WIDGET_ICON_PATHS } from './widget-registry';
 import { computeDefaultPositions } from './widget-shell';
 
-export function WidgetLauncher() {
+interface WidgetLauncherProps {
+  sessionId?: string;
+}
+
+export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
   const { widgets, openWidget, resetLayout } = useWidgetStore();
   const [mounted, setMounted] = useState(false);
   const [trayOpen, setTrayOpen] = useState(false);
+  const [pendingQuestions, setPendingQuestions] = useState(0);
+
+  // Subscribe to pending Class Questions count for the notification badge
+  useEffect(() => {
+    if (!sessionId || isMockMode()) return;
+    const supabase = createClient();
+
+    supabase
+      .from('student_submissions')
+      .select('id', { count: 'exact', head: true })
+      .eq('session_id', sessionId)
+      .eq('status', 'pending')
+      .is('game_key', null)
+      .then(({ count }) => setPendingQuestions(count ?? 0));
+
+    const channel = supabase
+      .channel(`widget-launcher-questions:${sessionId}`)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'student_submissions',
+        filter: `session_id=eq.${sessionId}`,
+      }, (payload: { new: { game_key: string | null; status: string } }) => {
+        if (payload.new.game_key === null && payload.new.status === 'pending') {
+          setPendingQuestions((n) => n + 1);
+        }
+      })
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'student_submissions',
+        filter: `session_id=eq.${sessionId}`,
+      }, () => {
+        // Re-fetch count on any update (publish/reject resets the pending list)
+        supabase
+          .from('student_submissions')
+          .select('id', { count: 'exact', head: true })
+          .eq('session_id', sessionId)
+          .eq('status', 'pending')
+          .is('game_key', null)
+          .then(({ count }) => setPendingQuestions(count ?? 0));
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [sessionId]);
 
   useEffect(() => {
     setMounted(true);
@@ -85,9 +137,9 @@ export function WidgetLauncher() {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
-          {closedWidgets.length > 0 && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-cyan-500 rounded-full text-[9px] font-bold flex items-center justify-center text-white">
-              {closedWidgets.length}
+          {pendingQuestions > 0 && (
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full text-[9px] font-bold flex items-center justify-center text-white">
+              {pendingQuestions}
             </span>
           )}
         </button>

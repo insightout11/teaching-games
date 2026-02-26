@@ -676,7 +676,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           <widget.component {...(widget.getProps?.({ sessionId: session.id, students }) ?? {})} />
         </WidgetShell>
       ))}
-      <WidgetLauncher />
+      <WidgetLauncher sessionId={session.id} />
     </div>
   );
 }

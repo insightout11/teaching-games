@@ -31,13 +31,14 @@ export function useApprovalQueue(sessionId: string | null): UseApprovalQueueRetu
 
     const supabase = createClient();
 
-    // Load initial pending submissions
+    // Load initial pending submissions — exclude game_key=null (those are Class Questions, not game responses)
     async function loadPending() {
       const { data, error } = await supabase
         .from('student_submissions')
         .select('*')
         .eq('session_id', sessionId)
         .eq('status', 'pending')
+        .not('game_key', 'is', null)
         .order('created_at', { ascending: true });
 
       if (!error && data) {
@@ -61,7 +62,8 @@ export function useApprovalQueue(sessionId: string | null): UseApprovalQueueRetu
         },
         (payload: { new: unknown }) => {
           const newSubmission = payload.new as StudentSubmission;
-          if (newSubmission.status === 'pending') {
+          // Only add to approval queue if it's a game response (game_key present)
+          if (newSubmission.status === 'pending' && newSubmission.game_key !== null) {
             setPending((prev) => [...prev, newSubmission]);
           }
         }
