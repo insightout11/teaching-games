@@ -28,6 +28,7 @@ export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
       .select('id', { count: 'exact', head: true })
       .eq('session_id', sessionId)
       .eq('status', 'pending')
+      .eq('published_to_class', false)
       .is('game_key', null)
       .then(({ count }: { count: number | null }) => setPendingQuestions(count ?? 0));
 
@@ -55,6 +56,7 @@ export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
           .select('id', { count: 'exact', head: true })
           .eq('session_id', sessionId)
           .eq('status', 'pending')
+          .eq('published_to_class', false)
           .is('game_key', null)
           .then(({ count }: { count: number | null }) => setPendingQuestions(count ?? 0));
       })
