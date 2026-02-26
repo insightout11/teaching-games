@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/student/session?sessionId=xxx
 // Public read-only endpoint for student controller
 // Returns session status, active poll, input spec, frozen flag, and published questions
