@@ -29,7 +29,7 @@ export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
       .eq('session_id', sessionId)
       .eq('status', 'pending')
       .is('game_key', null)
-      .then(({ count }) => setPendingQuestions(count ?? 0));
+      .then(({ count }: { count: number | null }) => setPendingQuestions(count ?? 0));
 
     const channel = supabase
       .channel(`widget-launcher-questions:${sessionId}`)
@@ -56,7 +56,7 @@ export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
           .eq('session_id', sessionId)
           .eq('status', 'pending')
           .is('game_key', null)
-          .then(({ count }) => setPendingQuestions(count ?? 0));
+          .then(({ count }: { count: number | null }) => setPendingQuestions(count ?? 0));
       })
       .subscribe();
 
