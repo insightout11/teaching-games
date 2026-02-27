@@ -110,6 +110,11 @@ const DEFAULT_SETTINGS: SessionSettings = {
   timerSeconds: 30,
 };
 
+// Track the last spec value confirmed written to DB.
+// Null writes are skipped when DB is already null, preventing stale overwrites
+// from rapid IDLE/PRESENTING → VOTING transitions where null fires before binary.
+let lastWrittenInputSpec: InputSpec | null | undefined = undefined;
+
 // Weighted random selection for wheel
 function selectWeightedRandom(): TurnModifier {
   const totalWeight = WHEEL_SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
@@ -141,6 +146,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   seenCacheIds: [],
 
   initSession: (sessionId, classId, students) => {
+    lastWrittenInputSpec = undefined; // Reset per-session tracking
     const callCounts: Record<string, number> = {};
     const streaks: Record<string, number> = {};
     students.forEach((s) => {
@@ -259,28 +265,33 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setInputSpec: async (spec: InputSpec | null) => {
     const { sessionId } = get();
     set({ inputSpec: spec });
-    if (spec === null) console.trace('[setInputSpec] null called from:');
 
     // Sync to database so student controllers can poll for it
-    if (sessionId) {
-      const supabase = createClient();
-      const { data: updated, error } = await supabase
-        .from('sessions')
-        .update({ input_spec: spec })
-        .eq('id', sessionId)
-        .select('id');
-      if (error) {
-        console.error('[setInputSpec] DB error writing input_spec:', error);
-      } else if (!updated || updated.length === 0) {
-        console.error('[setInputSpec] Write silently blocked — 0 rows updated. sessionId:', sessionId, 'spec:', spec);
-      } else {
-        console.log('[setInputSpec] OK — wrote input_spec to DB for session', sessionId, 'spec type:', (spec as InputSpec | null)?.type ?? 'null');
-        // Immediate read-back to confirm DB value
-        const { data: readback } = await supabase.from('sessions').select('input_spec').eq('id', sessionId).single();
-        console.log('[setInputSpec] READBACK input_spec:', readback?.input_spec ? `type=${(readback.input_spec as { type?: string }).type}` : 'null');
-      }
-    } else {
+    if (!sessionId) {
       console.warn('[setInputSpec] No sessionId in store — skipping DB write');
+      return;
+    }
+
+    // Skip null writes when DB is already null. Activities go through IDLE → PRESENTING → VOTING,
+    // firing null on each intermediate state. Without this guard, a null write (PRESENTING) can
+    // complete after the binary write (VOTING) due to async race, overwriting the active spec.
+    if (spec === null && (lastWrittenInputSpec === null || lastWrittenInputSpec === undefined)) {
+      return;
+    }
+
+    const supabase = createClient();
+    const { data: updated, error } = await supabase
+      .from('sessions')
+      .update({ input_spec: spec })
+      .eq('id', sessionId)
+      .select('id');
+    if (error) {
+      console.error('[setInputSpec] DB error writing input_spec:', error);
+    } else if (!updated || updated.length === 0) {
+      console.error('[setInputSpec] Write silently blocked — 0 rows updated. sessionId:', sessionId);
+    } else {
+      lastWrittenInputSpec = spec;
+      console.log('[setInputSpec] OK — wrote input_spec to DB for session', sessionId, 'spec type:', (spec as InputSpec | null)?.type ?? 'null');
     }
   },
 
@@ -329,25 +340,28 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     }
   },
 
-  reset: () => set({
-    sessionId: null,
-    classId: null,
-    students: [],
-    scores: [],
-    streaks: {},
-    pickerMode: 'fair',
-    gameMode: 'normal',
-    callCounts: {},
-    currentStudentId: null,
-    roundNumber: 1,
-    settings: { ...DEFAULT_SETTINGS },
-    turnModifier: null,
-    needsSpin: false,
-    activeGameKey: null,
-    inputSpec: null,
-    seenItemsByGame: {},
-    seenCacheIds: [],
-  }),
+  reset: () => {
+    lastWrittenInputSpec = undefined;
+    set({
+      sessionId: null,
+      classId: null,
+      students: [],
+      scores: [],
+      streaks: {},
+      pickerMode: 'fair',
+      gameMode: 'normal',
+      callCounts: {},
+      currentStudentId: null,
+      roundNumber: 1,
+      settings: { ...DEFAULT_SETTINGS },
+      turnModifier: null,
+      needsSpin: false,
+      activeGameKey: null,
+      inputSpec: null,
+      seenItemsByGame: {},
+      seenCacheIds: [],
+    });
+  },
 }));
 
 export { calculateStreakBonus };
