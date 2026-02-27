@@ -27,6 +27,7 @@ export function WouldYouRatherActivity({
   // Register input spec for student controller
   useEffect(() => {
     if (status === ActivityStatus.VOTING && currentDilemma) {
+      console.log('[WYR] writing binary — status:', status, 'at:', Date.now());
       onSetInputSpec?.({
         type: 'binary',
         gameKey: 'would-you-rather',
@@ -35,6 +36,7 @@ export function WouldYouRatherActivity({
         optionLabels: ['A', 'B'],
       });
     } else {
+      console.log('[WYR] writing null — status:', status, 'currentDilemma:', !!currentDilemma, 'at:', Date.now());
       onSetInputSpec?.(null);
     }
   }, [status, currentDilemma, onSetInputSpec]);
