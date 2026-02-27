@@ -38,15 +38,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
-    // Readback: confirm value actually persisted
-    const { data: rb } = await supabase
-      .from('sessions')
-      .select('input_spec')
-      .eq('id', sessionId)
-      .single();
-    console.log('[input-spec POST] readback:', JSON.stringify(rb?.input_spec));
-
-    return NextResponse.json({ ok: true, readback: rb?.input_spec ?? null });
+    return NextResponse.json({ ok: true });
   } catch (error) {
     console.error('[input-spec POST] error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

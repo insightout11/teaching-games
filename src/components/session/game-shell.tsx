@@ -38,8 +38,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     setActiveGame(game.key);
     return () => {
       setActiveGame(null);
-      // Clear input spec when game unmounts
-      setInputSpec(null);
     };
   }, [game.key, setActiveGame, setInputSpec]);
 

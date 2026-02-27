@@ -116,7 +116,7 @@ export async function GET(request: NextRequest) {
       publishedQuestions,
     };
 
-    return NextResponse.json({ ...payload, _debug: { sessionId, dbRaw: JSON.stringify(session.input_spec), at: Date.now() } }, {
+    return NextResponse.json(payload, {
       headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
     });
   } catch (error) {

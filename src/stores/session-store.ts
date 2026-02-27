@@ -288,8 +288,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       });
       if (res.ok) {
         lastWrittenInputSpec = spec;
-        const resBody = await res.json().catch(() => ({}));
-        console.log('[setInputSpec] OK — spec type:', (spec as InputSpec | null)?.type ?? 'null', '| sessionId:', sessionId, '| readback:', JSON.stringify(resBody.readback));
       } else {
         const err = await res.json().catch(() => ({}));
         console.error('[setInputSpec] API write failed:', res.status, err);

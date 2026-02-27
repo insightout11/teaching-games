@@ -102,13 +102,6 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
     };
   }, [sessionId, activity.key, supabase, recordScore, addStudent]);
 
-  // Clear input spec when activity unmounts
-  useEffect(() => {
-    return () => {
-      setInputSpec(null);
-    };
-  }, [setInputSpec]);
-
   // Callback for activities to set input spec
   const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
     setInputSpec(spec);
