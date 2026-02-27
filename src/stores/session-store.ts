@@ -259,6 +259,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setInputSpec: async (spec: InputSpec | null) => {
     const { sessionId } = get();
     set({ inputSpec: spec });
+    if (spec === null) console.trace('[setInputSpec] null called from:');
 
     // Sync to database so student controllers can poll for it
     if (sessionId) {
