@@ -263,10 +263,11 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     // Sync to database so student controllers can poll for it
     if (sessionId) {
       const supabase = createClient();
-      await supabase
+      const { error } = await supabase
         .from('sessions')
         .update({ input_spec: spec })
         .eq('id', sessionId);
+      if (error) console.error('[setInputSpec] Failed to write input_spec to DB:', error);
     }
   },
 
