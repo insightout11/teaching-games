@@ -15,5 +15,12 @@ export function createServiceClient() {
       autoRefreshToken: false,
       persistSession: false,
     },
+    global: {
+      // Explicitly bypass Next.js 14 data cache for all Supabase requests.
+      // force-dynamic at the route level should do this, but being explicit
+      // here ensures no stale reads via the fetch data cache.
+      fetch: (url: RequestInfo | URL, init?: RequestInit) =>
+        fetch(url, { ...init, cache: 'no-store' }),
+    },
   });
 }
