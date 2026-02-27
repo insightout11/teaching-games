@@ -268,30 +268,33 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
     // Sync to database so student controllers can poll for it
     if (!sessionId) {
-      console.warn('[setInputSpec] No sessionId in store — skipping DB write');
       return;
     }
 
     // Skip null writes when DB is already null. Activities go through IDLE → PRESENTING → VOTING,
     // firing null on each intermediate state. Without this guard, a null write (PRESENTING) can
-    // complete after the binary write (VOTING) due to async race, overwriting the active spec.
+    // race with the binary write (VOTING) and overwrite the active spec.
     if (spec === null && (lastWrittenInputSpec === null || lastWrittenInputSpec === undefined)) {
       return;
     }
 
-    const supabase = createClient();
-    const { data: updated, error } = await supabase
-      .from('sessions')
-      .update({ input_spec: spec })
-      .eq('id', sessionId)
-      .select('id');
-    if (error) {
-      console.error('[setInputSpec] DB error writing input_spec:', error);
-    } else if (!updated || updated.length === 0) {
-      console.error('[setInputSpec] Write silently blocked — 0 rows updated. sessionId:', sessionId);
-    } else {
-      lastWrittenInputSpec = spec;
-      console.log('[setInputSpec] OK — wrote input_spec to DB for session', sessionId, 'spec type:', (spec as InputSpec | null)?.type ?? 'null');
+    // Write via server-side API route (service role) so the write reaches the same DB
+    // that the student poll route reads from — bypasses any browser client auth issues.
+    try {
+      const res = await fetch('/api/session/input-spec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, spec }),
+      });
+      if (res.ok) {
+        lastWrittenInputSpec = spec;
+        console.log('[setInputSpec] OK — wrote input_spec via API, spec type:', (spec as InputSpec | null)?.type ?? 'null');
+      } else {
+        const err = await res.json().catch(() => ({}));
+        console.error('[setInputSpec] API write failed:', res.status, err);
+      }
+    } catch (error) {
+      console.error('[setInputSpec] fetch error:', error);
     }
   },
 
