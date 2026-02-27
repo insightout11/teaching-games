@@ -2,50 +2,50 @@
   "slug": "vocab-sprint",
   "schemaVersion": 1,
   "headline": "Live Vocabulary Upgrade Game for ESL Classes",
-  "problemStatement": "Rote vocabulary drills produce passive learners who can define words but never use them. VocabSprint forces active, contextual word choice under pressure.",
+  "problemStatement": "Students often know words on a quiz—but when they write or speak, they reach for the same basic vocabulary. Vocab Sprint trains better word choice in context, fast, with instant feedback the class can learn from.",
   "outcomes": [
-    "Students replace weak words with stronger, more precise alternatives in real sentences",
-    "Build vocabulary depth by seeing words in authentic context rather than isolated lists",
-    "Develop speed and confidence choosing the right word under time pressure",
-    "Learn to distinguish word register and appropriateness for different situations"
+    "Upgrade vague words (\"good\", \"nice\", \"thing\", \"do\") into more precise choices inside real sentences",
+    "Practice register (formal vs casual) by choosing words that fit the situation",
+    "Build speed: make a better word choice in under 30 seconds",
+    "Learn from the leaderboard + examples: why one word fit better than another"
   ],
   "howItWorks": [
-    "Teacher sets a topic — the AI generates a fresh set of sentences with deliberately weak or vague words",
-    "The current student reads the sentence on their device and types a stronger replacement word",
-    "AI evaluates the substitution for accuracy, precision, and contextual fit, then awards points",
-    "The class sees the result live on the board — the cycle repeats with a new sentence"
+    "Pick a topic and difficulty; the game generates short sentences with intentionally weak words",
+    "Students replace one weak word with a stronger option (phone/tablet browser)",
+    "Scoring is immediate: accuracy + fit + precision (not exact-match only)",
+    "Project the round: discuss 1–2 top answers, then move on"
   ],
   "teacherUseCases": [
-    "Warm-up review after a unit on adjectives or verbs",
-    "End-of-unit consolidation before a writing assignment",
-    "Filler activity that still builds useful vocabulary muscle memory"
+    "5-minute warm-up: \"stronger verbs\" or \"stronger adjectives\"",
+    "Pre-writing: run 2–3 rounds before a paragraph task to prime vocabulary",
+    "Revision day: use topics from the writing you’re currently grading"
   ],
   "estimatedTime": "10–15 min",
   "groupSize": "Any",
   "faq": [
     {
-      "q": "Can I use my own topic?",
-      "a": "Yes — type any topic into the session settings and the AI generates brand-new sentences on the fly. No pre-made content to prepare."
+      "q": "Can I align this to my unit topic?",
+      "a": "Yes. Use your unit terms as the topic (e.g., \"jobs\", \"space\", \"environment\"). You’ll get new sentences each time, so you can repeat it across lessons without repeats."
     },
     {
-      "q": "How many students can play at once?",
-      "a": "Any class size works. With 3 or more students the game auto-switches to simultaneous mode where everyone submits answers and a race tracker shows who answered first."
+      "q": "Do students need accounts?",
+      "a": "No. They join with a code/link and submit from a browser. This is designed for classrooms with minimal setup."
     },
     {
-      "q": "What devices do students use to play?",
-      "a": "Any phone or tablet with a browser works. Students type their answers on their own device and submit through a browser — no app download or account required."
+      "q": "How do I run it with a big class?",
+      "a": "Run ‘everyone submits’ rounds, then project the top 3 answers and discuss them. If you want more speaking, have pairs justify why their word fits better."
     },
     {
-      "q": "Is it free to use?",
-      "a": "Yes, LessonCaptain is free to try with no student account setup needed. Students join with a single link or code."
+      "q": "What level does it work for?",
+      "a": "A2+ is the sweet spot. For lower levels, keep topics concrete and difficulty low; for higher levels, use abstract topics and push for register/nuance."
     },
     {
-      "q": "What level is this suitable for?",
-      "a": "VocabSprint works well from A2 upward. You can adjust difficulty in session settings — easy rounds use simple sentences, hard rounds use more complex structures requiring nuanced word choices."
+      "q": "Will it accept different correct words?",
+      "a": "Yes. It rewards fit. Two students can get points with different words if both make the sentence stronger and still correct."
     },
     {
-      "q": "Does the AI accept synonyms or only exact answers?",
-      "a": "The AI accepts any contextually appropriate word, not just a single 'correct' answer. Students are rewarded for precision and fit, so near-synonyms that work in context still earn points."
+      "q": "How long should a session be?",
+      "a": "10–15 minutes is ideal: enough repetition to build the habit without dragging."
     }
   ],
   "related": ["synonym-showdown", "word-chain", "sentence-scramble"],
