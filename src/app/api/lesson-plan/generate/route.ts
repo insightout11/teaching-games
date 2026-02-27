@@ -113,7 +113,17 @@ async function generateHotTakeArena(topic: string, difficulty: Difficulty): Prom
         },
         required: ['proChallenges', 'conChallenges'],
       },
-      vocabularyHighlights: { type: 'array', items: { type: 'string' } },
+      vocabularyHighlights: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            word: { type: 'string' },
+            definition: { type: 'string' },
+          },
+          required: ['word', 'definition'],
+        },
+      },
     },
     required: ['statement', 'proArguments', 'conArguments', 'devilsAdvocate', 'vocabularyHighlights'],
   };
@@ -122,14 +132,14 @@ async function generateHotTakeArena(topic: string, difficulty: Difficulty): Prom
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 
-Create a provocative statement, 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words.`;
+Create a provocative statement, 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words, each with a short student-facing definition (max 15 words).`;
 
   const parsed = await generateJSON<{
     statement: string;
     proArguments: string[];
     conArguments: string[];
     devilsAdvocate: { proChallenges: string[]; conChallenges: string[] };
-    vocabularyHighlights: string[];
+    vocabularyHighlights: Array<{ word: string; definition: string }>;
   }>(prompt, schema);
   return { activityKey: 'hot-take-arena', topicContext: topic, ...parsed };
 }
@@ -223,7 +233,17 @@ async function generateFactDetective(topic: string, difficulty: Difficulty): Pro
             statement: { type: 'string' },
             isTrue: { type: 'boolean' },
             explanation: { type: 'string' },
-            vocabulary: { type: 'array', items: { type: 'string' } },
+            vocabulary: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  word: { type: 'string' },
+                  definition: { type: 'string' },
+                },
+                required: ['word', 'definition'],
+              },
+            },
             difficulty: { type: 'string' },
           },
           required: ['id', 'statement', 'isTrue', 'explanation', 'vocabulary', 'difficulty'],
@@ -237,7 +257,7 @@ async function generateFactDetective(topic: string, difficulty: Difficulty): Pro
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 
-Mix of true facts and plausible myths. Include explanation and 2-3 vocabulary words per claim.
+Mix of true facts and plausible myths. Include explanation and 2-3 vocabulary words per claim, each with a short student-facing definition (max 15 words).
 Make claims progressively harder to guess.`;
 
   const parsed = await generateJSON<{ claims: FactDetectiveContent['claims'] }>(prompt, schema);
@@ -257,7 +277,17 @@ async function generateExpertPanel(topic: string, difficulty: Difficulty): Promi
             title: { type: 'string' },
             description: { type: 'string' },
             expertise: { type: 'array', items: { type: 'string' } },
-            suggestedVocabulary: { type: 'array', items: { type: 'string' } },
+            suggestedVocabulary: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  word: { type: 'string' },
+                  definition: { type: 'string' },
+                },
+                required: ['word', 'definition'],
+              },
+            },
           },
           required: ['id', 'title', 'description', 'expertise', 'suggestedVocabulary'],
         },
@@ -284,7 +314,7 @@ Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 
 Create 4 expert roles related to the topic (e.g., scientist, historian, economist, activist).
-Each role: title, description, expertise areas, suggested vocabulary.
+Each role: title, description, expertise areas, suggested vocabulary with short student-facing definitions (max 15 words each).
 Create 6 starter questions (mix of roles targeted), each with follow-up hints.`;
 
   const parsed = await generateJSON<{ roles: ExpertPanelContent['roles']; starterQuestions: ExpertPanelContent['starterQuestions'] }>(prompt, schema);

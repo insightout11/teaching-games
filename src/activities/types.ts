@@ -76,6 +76,20 @@ export interface ActivityConfigField {
 }
 
 // ============================================
+// Vocabulary Word Types
+// ============================================
+
+export interface VocabWord {
+  word: string;
+  definition: string;
+}
+
+export function normalizeVocabWord(item: string | VocabWord): VocabWord {
+  if (typeof item === 'string') return { word: item, definition: '' };
+  return item;
+}
+
+// ============================================
 // Generated Content Types (pre-generated before class)
 // ============================================
 
@@ -145,7 +159,7 @@ export interface FactDetectiveClaim {
   statement: string;
   isTrue: boolean;
   explanation: string;
-  vocabulary: string[];
+  vocabulary: (string | VocabWord)[];
   difficulty: 'easy' | 'medium' | 'hard';
 }
 
@@ -161,7 +175,7 @@ export interface ExpertRole {
   title: string;
   description: string;
   expertise: string[];
-  suggestedVocabulary: string[];
+  suggestedVocabulary: (string | VocabWord)[];
 }
 
 export interface ExpertQuestion {
@@ -196,7 +210,7 @@ export interface HotTakeArenaContent extends ActivityGeneratedContent {
     proChallenges: string[];
     conChallenges: string[];
   };
-  vocabularyHighlights: string[];
+  vocabularyHighlights: (string | VocabWord)[];
 }
 
 // Scenario Simulator content

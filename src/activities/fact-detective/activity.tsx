@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type FactDetectiveContent, type FactDetectiveClaim } from './types';
+import { VocabPill } from '@/components/ui/vocab-pill';
 
 export function FactDetectiveActivity({
   students,
@@ -354,9 +355,7 @@ export function FactDetectiveActivity({
                 <p className="text-sm uppercase tracking-widest opacity-50 mb-3">Key Vocabulary</p>
                 <div className="flex flex-wrap gap-2">
                   {currentClaim.vocabulary.map((word, i) => (
-                    <span key={i} className="px-4 py-2 bg-yellow-500/20 text-yellow-300 rounded-lg font-medium">
-                      {word}
-                    </span>
+                    <VocabPill key={i} word={word} className="px-4 py-2 bg-yellow-500/20 text-yellow-300 rounded-lg font-medium" />
                   ))}
                 </div>
               </motion.div>

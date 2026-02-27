@@ -11,6 +11,7 @@ import {
   type DevilsAdvocateChallenge,
   type HotTakeArenaContent,
 } from './types';
+import { VocabPill } from '@/components/ui/vocab-pill';
 
 export function HotTakeArenaActivity({
   students,
@@ -400,9 +401,7 @@ export function HotTakeArenaActivity({
               <p className="text-xs uppercase tracking-widest opacity-50 mb-2">Key Vocabulary</p>
               <div className="flex flex-wrap gap-2">
                 {content.vocabularyHighlights.map((word, i) => (
-                  <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-sm">
-                    {word}
-                  </span>
+                  <VocabPill key={i} word={word} className="px-3 py-1 bg-white/10 rounded-full text-sm" />
                 ))}
               </div>
             </div>

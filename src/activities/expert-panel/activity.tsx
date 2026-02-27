@@ -10,6 +10,7 @@ import {
   type ExpertRole,
   type ExpertQuestion,
 } from './types';
+import { VocabPill } from '@/components/ui/vocab-pill';
 
 export function ExpertPanelActivity({
   students,
@@ -331,9 +332,7 @@ export function ExpertPanelActivity({
                     <p className="text-xs opacity-50 mb-2">Suggested vocabulary:</p>
                     <div className="flex flex-wrap gap-2">
                       {targetRole.suggestedVocabulary.map((word, i) => (
-                        <span key={i} className="px-3 py-1 bg-lc-blue/15 text-lc-blue rounded-lg text-sm">
-                          {word}
-                        </span>
+                        <VocabPill key={i} word={word} className="px-3 py-1 bg-lc-blue/15 text-lc-blue rounded-lg text-sm" />
                       ))}
                     </div>
                   </div>
