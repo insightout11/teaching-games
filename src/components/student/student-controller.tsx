@@ -98,7 +98,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       const data = await res.json();
       // Temporary diagnostic
-      console.log('[student poll] inputSpec from API:', data.inputSpec ? `type=${data.inputSpec.type}` : 'null');
+      console.log('[student poll] debug:', JSON.stringify(data._debug), '| inputSpec:', data.inputSpec ? `type=${data.inputSpec.type}` : 'null');
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);
       setInputSpec(data.inputSpec);
