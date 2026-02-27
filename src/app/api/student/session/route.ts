@@ -116,6 +116,11 @@ export async function GET(request: NextRequest) {
       publishedQuestions,
     };
 
+    // Temporary diagnostic — remove after root cause confirmed
+    if (isActive) {
+      console.log('[student/session] sessionId:', sessionId, 'raw input_spec from DB:', JSON.stringify(session.input_spec));
+    }
+
     return NextResponse.json(payload, {
       headers: { 'Cache-Control': 'no-store' },
     });

@@ -263,11 +263,20 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     // Sync to database so student controllers can poll for it
     if (sessionId) {
       const supabase = createClient();
-      const { error } = await supabase
+      const { data: updated, error } = await supabase
         .from('sessions')
         .update({ input_spec: spec })
-        .eq('id', sessionId);
-      if (error) console.error('[setInputSpec] Failed to write input_spec to DB:', error);
+        .eq('id', sessionId)
+        .select('id');
+      if (error) {
+        console.error('[setInputSpec] DB error writing input_spec:', error);
+      } else if (!updated || updated.length === 0) {
+        console.error('[setInputSpec] Write silently blocked — 0 rows updated. sessionId:', sessionId, 'spec:', spec);
+      } else {
+        console.log('[setInputSpec] OK — wrote input_spec to DB for session', sessionId, 'spec type:', (spec as InputSpec | null)?.type ?? 'null');
+      }
+    } else {
+      console.warn('[setInputSpec] No sessionId in store — skipping DB write');
     }
   },
 
