@@ -274,6 +274,9 @@ export const useSessionStore = create<SessionState>((set, get) => ({
         console.error('[setInputSpec] Write silently blocked — 0 rows updated. sessionId:', sessionId, 'spec:', spec);
       } else {
         console.log('[setInputSpec] OK — wrote input_spec to DB for session', sessionId, 'spec type:', (spec as InputSpec | null)?.type ?? 'null');
+        // Immediate read-back to confirm DB value
+        const { data: readback } = await supabase.from('sessions').select('input_spec').eq('id', sessionId).single();
+        console.log('[setInputSpec] READBACK input_spec:', readback?.input_spec ? `type=${(readback.input_spec as { type?: string }).type}` : 'null');
       }
     } else {
       console.warn('[setInputSpec] No sessionId in store — skipping DB write');
