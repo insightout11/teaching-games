@@ -443,6 +443,7 @@ export interface QuickPulseContent extends ActivityGeneratedContent {
 export interface VocabRadarWord {
   word: string;
   partOfSpeech?: string;
+  definition?: string;  // ≤15 words, student-facing
 }
 
 export interface VocabRadarContent extends ActivityGeneratedContent {

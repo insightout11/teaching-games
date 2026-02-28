@@ -548,8 +548,9 @@ async function generateVocabRadar(topic: string, difficulty: Difficulty): Promis
           properties: {
             word: { type: 'string' },
             partOfSpeech: { type: 'string' },
+            definition: { type: 'string' },
           },
-          required: ['word'],
+          required: ['word', 'partOfSpeech', 'definition'],
         },
       },
     },
@@ -565,16 +566,16 @@ Choose words that:
 - Range from more common to more specialised (mix of familiar and new words)
 - Are appropriate for the difficulty level
 
-For each word include the part of speech (noun, verb, adjective, etc.).
+For each word include the part of speech AND a short definition (max 15 words, plain English, suitable for language learners — no circular definitions).
 
-Return JSON with a "words" array of exactly 5 objects, each with "word" and "partOfSpeech".`;
+Return JSON with a "words" array of exactly 5 objects, each with "word", "partOfSpeech", and "definition".`;
 
-  const parsed = await generateJSON<{ words: Array<{ word: string; partOfSpeech?: string }> }>(prompt, schema);
+  const parsed = await generateJSON<{ words: Array<{ word: string; partOfSpeech?: string; definition?: string }> }>(prompt, schema);
 
   return {
     activityKey: 'vocab-radar',
     topicContext: topic,
-    words: parsed.words.slice(0, 6).map((w) => ({ word: w.word, partOfSpeech: w.partOfSpeech })),
+    words: parsed.words.slice(0, 6).map((w) => ({ word: w.word, partOfSpeech: w.partOfSpeech, definition: w.definition })),
   };
 }
 

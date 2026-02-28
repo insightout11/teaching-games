@@ -43,7 +43,15 @@ function FamiliarityBar({
   );
 }
 
-function WordChart({ word, votes }: { word: VocabRadarWord; votes: Record<string, string> }) {
+function WordChart({
+  word,
+  votes,
+  showDefinition = false,
+}: {
+  word: VocabRadarWord;
+  votes: Record<string, string>;
+  showDefinition?: boolean;
+}) {
   const total = Object.keys(votes).length;
   return (
     <div className="glass p-5 rounded-2xl space-y-3">
@@ -63,7 +71,58 @@ function WordChart({ word, votes }: { word: VocabRadarWord; votes: Record<string
           />
         ))}
       </div>
+      {showDefinition && word.definition && (
+        <p className="text-sm opacity-60 border-t border-white/10 pt-3">
+          {word.definition}
+        </p>
+      )}
       <p className="text-xs opacity-40">{total} response{total !== 1 ? 's' : ''}</p>
+    </div>
+  );
+}
+
+function FocusList({
+  words,
+  votes,
+}: {
+  words: VocabRadarWord[];
+  votes: VoteMap;
+}) {
+  const ranked = words
+    .map((word, i) => {
+      const wordVotes = votes[i] ?? {};
+      const total = Object.keys(wordVotes).length;
+      const newCount = Object.values(wordVotes).filter((v) => v === 'New to me').length;
+      const newPct = total > 0 ? Math.round((newCount / total) * 100) : 0;
+      return { word, newPct, total };
+    })
+    .filter((r) => r.total > 0)
+    .sort((a, b) => b.newPct - a.newPct);
+
+  if (ranked.length === 0) return null;
+
+  function getTag(pct: number): { label: string; color: string } {
+    if (pct >= 50) return { label: 'Spend time here', color: 'text-rose-400' };
+    if (pct >= 20) return { label: 'Quick review', color: 'text-amber-400' };
+    return { label: 'Skip or challenge', color: 'text-emerald-400' };
+  }
+
+  return (
+    <div className="glass p-4 rounded-2xl space-y-3">
+      <p className="text-xs uppercase tracking-widest opacity-50">Teaching priorities</p>
+      <div className="space-y-2">
+        {ranked.map(({ word, newPct }) => {
+          const { label, color } = getTag(newPct);
+          return (
+            <div key={word.word} className="flex items-center justify-between text-sm">
+              <span className="font-medium">{word.word}</span>
+              <span className={`${color} text-xs`}>
+                {newPct}% new · {label}
+              </span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -252,7 +311,7 @@ export function VocabRadarActivity({
       {/* REVEALING */}
       {phase === 'revealing' && currentWord && (
         <div className="space-y-6">
-          <WordChart word={currentWord} votes={currentVotes} />
+          <WordChart word={currentWord} votes={currentVotes} showDefinition />
 
           <div className="flex justify-end">
             <button
@@ -274,6 +333,7 @@ export function VocabRadarActivity({
               <WordChart key={i} word={word} votes={votes[i] ?? {}} />
             ))}
           </div>
+          <FocusList words={words} votes={votes} />
           <div className="flex justify-end pt-2">
             <button
               onClick={handleEnd}
