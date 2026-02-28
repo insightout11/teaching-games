@@ -10,12 +10,16 @@ import { scenarioSimulatorPlugin } from './scenario-simulator';
 // VAULTED: interviewLabPlugin (teacher transcription, AI latency, niche use case)
 import { problemSolversPlugin } from './problem-solvers';
 import { quickPulsePlugin } from './quick-pulse';
+import { vocabRadarPlugin } from './vocab-radar';
+import { predictionRoundPlugin } from './prediction-round';
 import { Sparkles, BookOpen, Users, Scale } from 'lucide-react';
 
 // All registered activities
 const activities: ActivityPlugin[] = [
   // Icebreakers
   quickPulsePlugin,
+  vocabRadarPlugin,
+  predictionRoundPlugin,
   wouldYouRatherPlugin,
   twoTruthsPlugin,
   rankItPlugin,

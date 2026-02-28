@@ -439,6 +439,31 @@ export interface QuickPulseContent extends ActivityGeneratedContent {
   prompts: [QuickPulsePrompt, QuickPulsePrompt, QuickPulsePrompt];
 }
 
+// Vocab Radar content
+export interface VocabRadarWord {
+  word: string;
+  partOfSpeech?: string;
+}
+
+export interface VocabRadarContent extends ActivityGeneratedContent {
+  activityKey: 'vocab-radar';
+  words: VocabRadarWord[]; // 5–6 words
+}
+
+// Prediction Round content
+export interface PredictionRoundQuestion {
+  text: string;        // The prediction statement / question
+  optionA: string;     // e.g. "True" or "Option A"
+  optionB: string;     // e.g. "False" or "Option B"
+  correctAnswer: 'A' | 'B';
+  revealFact: string;  // Brief explanation shown after reveal
+}
+
+export interface PredictionRoundContent extends ActivityGeneratedContent {
+  activityKey: 'prediction-round';
+  questions: [PredictionRoundQuestion, PredictionRoundQuestion, PredictionRoundQuestion];
+}
+
 export type GameGeneratedContent =
   | VocabSprintGeneratedContent
   | GrammarBossGeneratedContent

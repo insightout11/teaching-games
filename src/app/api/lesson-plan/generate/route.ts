@@ -21,6 +21,8 @@ import type {
   InterviewLabContent,
   ProblemSolversContent,
   QuickPulseContent,
+  VocabRadarContent,
+  PredictionRoundContent,
   GameGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
@@ -535,6 +537,98 @@ Return JSON with a "prompts" array of exactly 3 objects, each with "type" (liker
   };
 }
 
+async function generateVocabRadar(topic: string, difficulty: Difficulty): Promise<VocabRadarContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      words: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            word: { type: 'string' },
+            partOfSpeech: { type: 'string' },
+          },
+          required: ['word'],
+        },
+      },
+    },
+    required: ['words'],
+  };
+
+  const prompt = `Generate 5 key vocabulary words for an ESL classroom lesson about the topic below.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Choose words that:
+- Are central to understanding the topic
+- Range from more common to more specialised (mix of familiar and new words)
+- Are appropriate for the difficulty level
+
+For each word include the part of speech (noun, verb, adjective, etc.).
+
+Return JSON with a "words" array of exactly 5 objects, each with "word" and "partOfSpeech".`;
+
+  const parsed = await generateJSON<{ words: Array<{ word: string; partOfSpeech?: string }> }>(prompt, schema);
+
+  return {
+    activityKey: 'vocab-radar',
+    topicContext: topic,
+    words: parsed.words.slice(0, 6).map((w) => ({ word: w.word, partOfSpeech: w.partOfSpeech })),
+  };
+}
+
+async function generatePredictionRound(topic: string, difficulty: Difficulty): Promise<PredictionRoundContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      questions: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            text: { type: 'string' },
+            optionA: { type: 'string' },
+            optionB: { type: 'string' },
+            correctAnswer: { type: 'string' },
+            revealFact: { type: 'string' },
+          },
+          required: ['text', 'optionA', 'optionB', 'correctAnswer', 'revealFact'],
+        },
+      },
+    },
+    required: ['questions'],
+  };
+
+  const prompt = `Generate 3 prediction questions for an ESL classroom lesson about the topic below.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Each question should:
+- Present a surprising or debatable claim about the topic that students can predict on before being taught
+- Use True/False format (optionA: "True", optionB: "False") or a binary either/or (e.g. "More" vs "Less")
+- Have a clear correct answer
+- Include a short, interesting revealFact (1–2 sentences) explaining the answer
+
+Mix in at least one counterintuitive or surprising fact to spark curiosity.
+
+Return JSON with a "questions" array of exactly 3 objects with: text, optionA, optionB, correctAnswer ("A" or "B"), revealFact.`;
+
+  const parsed = await generateJSON<{ questions: Array<{ text: string; optionA: string; optionB: string; correctAnswer: string; revealFact: string }> }>(prompt, schema);
+
+  const fallback = { text: 'Did you know something surprising about this topic?', optionA: 'True', optionB: 'False', correctAnswer: 'A' as const, revealFact: 'Many things about this topic are surprising.' };
+
+  return {
+    activityKey: 'prediction-round',
+    topicContext: topic,
+    questions: [
+      { text: parsed.questions[0]?.text ?? fallback.text, optionA: parsed.questions[0]?.optionA ?? 'True', optionB: parsed.questions[0]?.optionB ?? 'False', correctAnswer: (parsed.questions[0]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[0]?.revealFact ?? fallback.revealFact },
+      { text: parsed.questions[1]?.text ?? fallback.text, optionA: parsed.questions[1]?.optionA ?? 'True', optionB: parsed.questions[1]?.optionB ?? 'False', correctAnswer: (parsed.questions[1]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[1]?.revealFact ?? fallback.revealFact },
+      { text: parsed.questions[2]?.text ?? fallback.text, optionA: parsed.questions[2]?.optionA ?? 'True', optionB: parsed.questions[2]?.optionB ?? 'False', correctAnswer: (parsed.questions[2]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[2]?.revealFact ?? fallback.revealFact },
+    ],
+  };
+}
+
 // ============================================
 // Game Generators
 // ============================================
@@ -908,6 +1002,12 @@ export async function POST(request: NextRequest) {
             break;
           case 'quick-pulse':
             generators.push(generateQuickPulse(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'vocab-radar':
+            generators.push(generateVocabRadar(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'prediction-round':
+            generators.push(generatePredictionRound(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);
