@@ -57,6 +57,8 @@ export interface ActivityPlugin {
   name: string;
   description: string;
   category: ActivityCategory;
+  /** PPP stage this activity belongs to. Internal metadata — must not appear in rendered strings. */
+  pppStage: 'presentation' | 'practice' | 'production';
   skills: ActivitySkill[];
   component: ComponentType<ActivityProps>;
   supportsCustomTopic: boolean;

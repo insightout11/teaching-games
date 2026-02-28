@@ -7,6 +7,7 @@ export const problemSolversPlugin: ActivityPlugin = {
   name: 'Problem Solvers',
   description: 'Teams brainstorm solutions with limited resources. AI introduces complications that force adaptation and defense of ideas.',
   category: 'practice',
+  pppStage: 'production',
   skills: ['Speaking', 'Critical Thinking', 'Collaboration', 'Creativity'],
   component: ProblemSolversActivity,
   supportsCustomTopic: true,

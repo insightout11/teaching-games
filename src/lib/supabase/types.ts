@@ -57,6 +57,7 @@ export interface Score {
   is_correct: boolean;
   response_data: Record<string, unknown>;
   created_at: string;
+  prompt_index?: number | null;
   // Student input fields (for remote students)
   team?: string | null;
   client_id?: string | null;
@@ -151,6 +152,14 @@ export interface LessonPlanActivity {
   config?: Record<string, unknown>;
 }
 
+export interface SessionNote {
+  id: string;
+  session_id: string;
+  teacher_id: string;
+  content: string;
+  updated_at: string;
+}
+
 export interface ActivityResponse {
   id: string;
   session_id: string;
@@ -177,6 +186,7 @@ export interface Database {
       poll_votes: { Row: PollVote; Insert: Partial<PollVote> & Pick<PollVote, 'poll_id' | 'session_id' | 'client_id' | 'display_name' | 'choice'>; Update: Partial<PollVote> };
       submission_rate_limits: { Row: SubmissionRateLimit; Insert: Partial<SubmissionRateLimit> & Pick<SubmissionRateLimit, 'session_id' | 'client_id'>; Update: Partial<SubmissionRateLimit> };
       question_votes: { Row: QuestionVote; Insert: Partial<QuestionVote> & Pick<QuestionVote, 'question_id' | 'session_id' | 'client_id'>; Update: Partial<QuestionVote> };
+      session_notes: { Row: SessionNote; Insert: Partial<SessionNote> & Pick<SessionNote, 'session_id' | 'teacher_id'>; Update: Partial<SessionNote> };
     };
     Views: {
       session_leaderboard: { Row: LeaderboardEntry };

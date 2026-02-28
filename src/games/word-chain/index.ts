@@ -7,6 +7,7 @@ export const wordChainPlugin: GamePlugin = {
   name: 'Word Chain',
   description: 'Build chains of connected words. Each word must relate to the previous!',
   category: 'vocabulary',
+  pppStage: 'practice',
   icon: BookA,
   skills: ['Vocabulary', 'Association', 'Creativity'],
   component: WordChainGame,

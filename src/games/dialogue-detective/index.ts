@@ -7,6 +7,7 @@ export const dialogueDetectivePlugin: GamePlugin = {
   name: 'Dialogue Detective',
   description: 'Fill in missing conversation lines. Master pragmatics and conversational flow!',
   category: 'logic-puzzles',
+  pppStage: 'practice',
   icon: Brain,
   skills: ['Speaking', 'Pragmatics', 'Context'],
   component: DialogueDetectiveGame,

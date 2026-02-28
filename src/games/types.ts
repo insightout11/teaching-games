@@ -51,6 +51,8 @@ export interface GamePlugin {
   name: string;
   description: string;
   category: GameCategory;
+  /** PPP stage this game belongs to. Internal metadata — must not appear in rendered strings. */
+  pppStage: 'presentation' | 'practice' | 'production';
   icon: ComponentType<{ className?: string }>;
   skills: string[];
   component: ComponentType<GameProps>;

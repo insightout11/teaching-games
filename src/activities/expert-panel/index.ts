@@ -7,6 +7,7 @@ export const expertPanelPlugin: ActivityPlugin = {
   name: 'Expert Panel',
   description: 'Students are assigned specialist roles and answer questions from their expert perspective. AI generates follow-up questions based on responses.',
   category: 'learning',
+  pppStage: 'production',
   skills: ['Speaking', 'Vocabulary', 'Role-play', 'Critical Thinking'],
   component: ExpertPanelActivity,
   supportsCustomTopic: true,

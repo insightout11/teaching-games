@@ -7,6 +7,7 @@ export const grammarBossPlugin: GamePlugin = {
   name: 'Grammar Boss',
   description: 'AI-generated grammar challenges. Practice speaking with targeted feedback.',
   category: 'grammar-writing',
+  pppStage: 'practice',
   icon: PenLine,
   skills: ['Grammar', 'Speaking', 'Fluency'],
   component: GrammarBossGame,

@@ -7,6 +7,7 @@ export const storySprintPlugin: GamePlugin = {
   name: 'Story Sprint',
   description: 'Collaborative storytelling. Add one sentence at a time and get AI feedback.',
   category: 'grammar-writing',
+  pppStage: 'production',
   icon: PenLine,
   skills: ['Creative Writing', 'Grammar', 'Storytelling'],
   component: StorySprintGame,

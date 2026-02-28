@@ -44,6 +44,18 @@ export function Leaderboard() {
     return Array.from(map.values()).sort((a, b) => b.totalPoints - a.totalPoints);
   }, [students, scores]);
 
+  // During-session view: Top 3 + own entry (locked invariant).
+  // Rank reflects actual position in the full sorted list.
+  const visibleEntries = useMemo(() => {
+    const top3 = entries.slice(0, 3).map((e, i) => ({ ...e, rank: i }));
+    if (!currentStudentId) return top3;
+    const selfInTop3 = top3.some((e) => e.studentId === currentStudentId);
+    if (selfInTop3) return top3;
+    const selfIndex = entries.findIndex((e) => e.studentId === currentStudentId);
+    if (selfIndex === -1) return top3;
+    return [...top3, { ...entries[selfIndex], rank: selfIndex }];
+  }, [entries, currentStudentId]);
+
   // Delta animation tracking
   const prevTotals = useRef<Map<string, number>>(new Map());
   const isFirstRender = useRef(true);
@@ -105,7 +117,7 @@ export function Leaderboard() {
       <h3 className="font-semibold text-sm opacity-70 mb-3 uppercase tracking-wider text-[10px]">Leaderboard</h3>
       <div className="space-y-1">
         <AnimatePresence>
-          {entries.map((entry, i) => (
+          {visibleEntries.map((entry) => (
             <motion.div
               key={entry.studentId}
               layout
@@ -122,8 +134,8 @@ export function Leaderboard() {
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <span className={`text-sm font-bold w-6 ${i < 3 ? medalColors[i] : 'opacity-40'}`}>
-                    {i + 1}
+                  <span className={`text-sm font-bold w-6 ${entry.rank < 3 ? medalColors[entry.rank] : 'opacity-40'}`}>
+                    {entry.rank + 1}
                   </span>
                   <span className="text-sm font-medium">{entry.name}</span>
                 </div>

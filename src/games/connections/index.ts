@@ -7,6 +7,7 @@ export const connectionsPlugin: GamePlugin = {
   name: 'Connections',
   description: 'Find 4 groups of 4 related words in a 16-word grid',
   category: 'logic-puzzles',
+  pppStage: 'practice',
   icon: Brain,
   skills: ['Critical Thinking', 'Vocabulary', 'Pattern Recognition'],
   component: ConnectionsGame,

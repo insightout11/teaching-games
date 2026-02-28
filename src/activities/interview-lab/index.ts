@@ -7,6 +7,7 @@ export const interviewLabPlugin: ActivityPlugin = {
   name: 'Interview Lab',
   description: 'AI roleplays as a character for students to interview. Practice question-forming and conversation skills with formal/casual registers.',
   category: 'practice',
+  pppStage: 'production',
   skills: ['Speaking', 'Question Formation', 'Listening', 'Vocabulary'],
   component: InterviewLabActivity,
   supportsCustomTopic: true,

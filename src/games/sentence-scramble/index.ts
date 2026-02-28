@@ -7,6 +7,7 @@ export const sentenceScramblePlugin: GamePlugin = {
   name: 'Sentence Scramble',
   description: 'Tap words to build sentences in the correct order',
   category: 'grammar-writing',
+  pppStage: 'practice',
   icon: PenLine,
   skills: ['Grammar', 'Sentence Structure', 'Reading'],
   component: SentenceScrambleGame,

@@ -7,6 +7,7 @@ export const factDetectivePlugin: ActivityPlugin = {
   name: 'Fact Detective',
   description: 'AI presents claims mixing true facts with plausible myths. Students discuss, predict, then learn the truth with highlighted vocabulary.',
   category: 'learning',
+  pppStage: 'practice',
   skills: ['Vocabulary', 'Critical Thinking', 'Listening'],
   component: FactDetectiveActivity,
   supportsCustomTopic: true,

@@ -324,7 +324,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [showSettingsPopover]);
 
   if (ended) {
-    return <EndSessionSummary classId={cls.id} className={cls.name} />;
+    return <EndSessionSummary classId={cls.id} className={cls.name} sessionId={session.id} />;
   }
 
   return (

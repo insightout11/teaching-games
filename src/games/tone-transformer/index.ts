@@ -7,6 +7,7 @@ export const toneTransformerPlugin: GamePlugin = {
   name: 'Tone Transformer',
   description: 'Rewrite sentences to match a target tone. Master formal, casual, and professional registers.',
   category: 'grammar-writing',
+  pppStage: 'practice',
   icon: PenLine,
   skills: ['Writing', 'Register', 'Vocabulary'],
   component: ToneTransformerGame,

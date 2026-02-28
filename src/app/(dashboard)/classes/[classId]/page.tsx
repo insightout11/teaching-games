@@ -64,6 +64,11 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
                       Resume
                     </a>
                   )}
+                  {s.status === 'ended' && (
+                    <a href={`/classes/${params.classId}/sessions/${s.id}/control-room`} className="text-sm text-lc-blue hover:text-lc-blue-hover">
+                      Control Room
+                    </a>
+                  )}
                 </div>
               ))}
             </div>

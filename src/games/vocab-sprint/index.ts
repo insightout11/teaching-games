@@ -7,6 +7,7 @@ export const vocabSprintPlugin: GamePlugin = {
   name: 'VocabSprint',
   description: 'AI-powered vocabulary upgrade. Replace weak words with stronger alternatives.',
   category: 'vocabulary',
+  pppStage: 'practice',
   icon: BookA,
   skills: ['Vocabulary', 'Precision', 'Context'],
   component: VocabSprintGame,

@@ -30,6 +30,10 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   const supabase = createClient();
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: GameRemoteVote) => void) | null>(null);
+  // Tracks which teacher-initiated round produced each score.
+  // Increments after every handleScore call so each score row gets a unique, sequential index.
+  // max(prompt_index) per session = total scoring events; used by Control Room participation grid.
+  const promptIndexRef = useRef(1);
 
   const GameComponent = game.component;
 
@@ -124,6 +128,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
       streak_count: currentStreak,
       streak_bonus: streakBonus,
       is_correct: result.isCorrect,
+      prompt_index: promptIndexRef.current,
       response_data: {
         ...result.responseData,
         basePoints,
@@ -131,6 +136,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
         shieldUsed: shieldActive,
       },
     };
+
+    promptIndexRef.current++;
 
     const { data } = await supabase.from('scores').insert(scoreData).select().single();
 

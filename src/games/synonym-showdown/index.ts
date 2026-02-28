@@ -7,6 +7,7 @@ export const synonymShowdownPlugin: GamePlugin = {
   name: 'Synonym Showdown',
   description: 'Race to list synonyms before time runs out. Build streaks for bonus points!',
   category: 'vocabulary',
+  pppStage: 'practice',
   icon: BookA,
   skills: ['Vocabulary', 'Speed', 'Word Knowledge'],
   component: SynonymShowdownGame,

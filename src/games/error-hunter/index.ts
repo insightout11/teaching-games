@@ -7,6 +7,7 @@ export const errorHunterPlugin: GamePlugin = {
   name: 'Error Hunter',
   description: 'Find and fix grammar errors hidden in paragraphs. Detective-style proofreading!',
   category: 'grammar-writing',
+  pppStage: 'practice',
   icon: PenLine,
   skills: ['Grammar', 'Proofreading', 'Attention'],
   component: ErrorHunterGame,

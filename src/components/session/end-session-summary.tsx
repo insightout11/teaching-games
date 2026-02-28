@@ -6,7 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-export function EndSessionSummary({ classId, className }: { classId: string; className: string }) {
+export function EndSessionSummary({ classId, className, sessionId }: { classId: string; className: string; sessionId: string }) {
   const { students, scores, reset } = useSessionStore();
 
   const summary = useMemo(() => {
@@ -100,6 +100,9 @@ export function EndSessionSummary({ classId, className }: { classId: string; cla
         <div className="flex justify-center gap-3 mt-8">
           <Link href={`/classes/${classId}`}>
             <Button variant="secondary" onClick={reset}>Back to Class</Button>
+          </Link>
+          <Link href={`/classes/${classId}/sessions/${sessionId}/control-room`}>
+            <Button variant="secondary">View Control Room</Button>
           </Link>
         </div>
       </motion.div>

@@ -7,6 +7,7 @@ export const twentyQuestionsPlugin: GamePlugin = {
   name: '20 Questions',
   description: 'One student picks a secret — others ask questions to deduce it!',
   category: 'logic-puzzles',
+  pppStage: 'production',
   icon: HelpCircle,
   skills: ['Critical Thinking', 'Questioning', 'Deduction'],
   component: TwentyQuestionsGame,

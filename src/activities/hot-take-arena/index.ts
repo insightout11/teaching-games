@@ -7,6 +7,7 @@ export const hotTakeArenaPlugin: ActivityPlugin = {
   name: 'Hot Take Arena',
   description: 'Students debate a provocative statement. AI plays devil\'s advocate, challenging BOTH sides with counter-arguments.',
   category: 'debate',
+  pppStage: 'production',
   skills: ['Speaking', 'Critical Thinking', 'Debate', 'Persuasion'],
   component: HotTakeArenaActivity,
   supportsCustomTopic: true,
