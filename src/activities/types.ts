@@ -38,6 +38,15 @@ export interface ActivityProps {
   onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
   // Remote vote handler - register to receive votes from remote students in real-time
   onRegisterRemoteVoteHandler?: (handler: ((vote: RemoteVote) => void) | null) => void;
+  // Score writing - participation-only activities pass promptIndex from the activity
+  onScore?: (request: {
+    studentId: string | null;
+    clientId: string | null;
+    displayName: string;
+    promptIndex: number;
+    points: number;
+    isCorrect: null;
+  }) => Promise<void>;
 }
 
 // Remote vote received from a student device
@@ -415,6 +424,19 @@ export interface ConnectionsGeneratedContent {
     difficulty: 'easy' | 'medium' | 'hard' | 'tricky';
     color: 'yellow' | 'green' | 'blue' | 'purple';
   }>;
+}
+
+// Quick Pulse content
+export type QuickPulsePromptType = 'likert' | 'yesno';
+
+export interface QuickPulsePrompt {
+  type: QuickPulsePromptType;
+  text: string;
+}
+
+export interface QuickPulseContent extends ActivityGeneratedContent {
+  activityKey: 'quick-pulse';
+  prompts: [QuickPulsePrompt, QuickPulsePrompt, QuickPulsePrompt];
 }
 
 export type GameGeneratedContent =

@@ -102,6 +102,35 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
     };
   }, [sessionId, activity.key, supabase, recordScore, addStudent]);
 
+  // Score writing for participation-only activities
+  const handleScore = useCallback(async (request: {
+    studentId: string | null;
+    clientId: string | null;
+    displayName: string;
+    promptIndex: number;
+    points: number;
+    isCorrect: null;
+  }) => {
+    if (!sessionId) return;
+    const { data, error } = await supabase.from('scores').insert({
+      session_id: sessionId,
+      student_id: request.studentId,
+      client_id: request.clientId,
+      display_name: request.displayName,
+      points: request.points,
+      is_correct: null,
+      prompt_index: request.promptIndex,
+      streak_count: 0,
+      streak_bonus: 0,
+      response_data: { type: 'activity_participation' },
+    }).select().single();
+    if (error) {
+      console.error('Failed to insert activity score:', error);
+      return;
+    }
+    if (data) recordScore(data);
+  }, [sessionId, supabase, recordScore]);
+
   // Callback for activities to set input spec
   const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
     setInputSpec(spec);
@@ -243,6 +272,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
             onSetInputSpec={handleSetInputSpec}
             onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
             onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
+            onScore={handleScore}
           />
         </div>
 

@@ -20,6 +20,7 @@ import type {
   ScenarioSimulatorContent,
   InterviewLabContent,
   ProblemSolversContent,
+  QuickPulseContent,
   GameGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
@@ -487,6 +488,53 @@ Example: "Design a city for 10 million people with no cars"`;
   return { activityKey: 'problem-solvers', topicContext: topic, ...parsed };
 }
 
+async function generateQuickPulse(topic: string, difficulty: Difficulty): Promise<QuickPulseContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      prompts: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            type: { type: 'string' },
+            text: { type: 'string' },
+          },
+          required: ['type', 'text'],
+        },
+      },
+    },
+    required: ['prompts'],
+  };
+
+  const prompt = `Generate 3 quick icebreaker mini-prompts for an ESL classroom about the topic below.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Prompt types (use this exact order): likert, yesno, likert
+- likert: A statement students rate 1–5 (1=strongly disagree, 5=strongly agree). Keep it engaging and topic-relevant.
+- yesno: A yes/no question about the topic. Should be interesting and spark curiosity.
+
+Rules:
+- Keep each prompt short (max 12 words)
+- All prompts must clearly relate to the topic
+- Avoid controversial or personal topics
+
+Return JSON with a "prompts" array of exactly 3 objects, each with "type" (likert or yesno) and "text".`;
+
+  const parsed = await generateJSON<{ prompts: Array<{ type: string; text: string }> }>(prompt, schema);
+
+  return {
+    activityKey: 'quick-pulse',
+    topicContext: topic,
+    prompts: [
+      { type: 'likert', text: parsed.prompts[0]?.text ?? 'I find this topic interesting.' },
+      { type: 'yesno', text: parsed.prompts[1]?.text ?? 'Have you experienced this before?' },
+      { type: 'likert', text: parsed.prompts[2]?.text ?? 'I want to learn more about this topic.' },
+    ],
+  };
+}
+
 // ============================================
 // Game Generators
 // ============================================
@@ -857,6 +905,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'problem-solvers':
             generators.push(generateProblemSolvers(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'quick-pulse':
+            generators.push(generateQuickPulse(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);

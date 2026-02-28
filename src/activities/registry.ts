@@ -9,11 +9,13 @@ import { expertPanelPlugin } from './expert-panel';
 import { scenarioSimulatorPlugin } from './scenario-simulator';
 // VAULTED: interviewLabPlugin (teacher transcription, AI latency, niche use case)
 import { problemSolversPlugin } from './problem-solvers';
+import { quickPulsePlugin } from './quick-pulse';
 import { Sparkles, BookOpen, Users, Scale } from 'lucide-react';
 
 // All registered activities
 const activities: ActivityPlugin[] = [
   // Icebreakers
+  quickPulsePlugin,
   wouldYouRatherPlugin,
   twoTruthsPlugin,
   rankItPlugin,
