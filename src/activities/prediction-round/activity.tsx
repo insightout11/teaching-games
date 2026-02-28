@@ -18,8 +18,8 @@ function PredictionChart({
   votes: Record<string, string>;
   showAnswer: boolean;
 }) {
-  const countA = Object.values(votes).filter((v) => v === 'A').length;
-  const countB = Object.values(votes).filter((v) => v === 'B').length;
+  const countA = Object.values(votes).filter((v) => v === question.optionA).length;
+  const countB = Object.values(votes).filter((v) => v === question.optionB).length;
   const total = countA + countB;
 
   const pctA = total > 0 ? Math.round((countA / total) * 100) : 0;
