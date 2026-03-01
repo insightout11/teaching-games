@@ -103,12 +103,35 @@ function calculateStreakBonus(streakCount: number): number {
 }
 
 const DEFAULT_SETTINGS: SessionSettings = {
-  difficulty: 'Advanced',
+  difficulty: 'Easy',
   topic: 'General',
   customTopic: '',
   tone: 'Neutral',
   timerSeconds: 30,
 };
+
+const SETTINGS_STORAGE_KEY = 'lc-session-settings';
+type PersistedSettings = Pick<SessionSettings, 'difficulty' | 'topic' | 'customTopic' | 'tone'>;
+
+function loadPersistedSettings(): Partial<PersistedSettings> {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as Partial<PersistedSettings>) : {};
+  } catch {
+    return {};
+  }
+}
+
+function savePersistedSettings(settings: SessionSettings): void {
+  if (typeof window === 'undefined') return;
+  const { difficulty, topic, customTopic, tone } = settings;
+  localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({ difficulty, topic, customTopic, tone }));
+}
+
+function getInitialSettings(): SessionSettings {
+  return { ...DEFAULT_SETTINGS, ...loadPersistedSettings() };
+}
 
 // Track the last spec value confirmed written to DB.
 // Null writes are skipped when DB is already null, preventing stale overwrites
@@ -137,7 +160,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   callCounts: {},
   currentStudentId: null,
   roundNumber: 1,
-  settings: { ...DEFAULT_SETTINGS },
+  settings: getInitialSettings(),
   turnModifier: null,
   needsSpin: false,
   activeGameKey: null,
@@ -162,7 +185,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       callCounts,
       currentStudentId: null,
       roundNumber: 1,
-      settings: { ...DEFAULT_SETTINGS },
+      settings: getInitialSettings(),
       turnModifier: null,
       needsSpin: false,
       gameMode: 'normal',
@@ -245,18 +268,24 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     });
   },
 
-  setSettings: (newSettings) => set((state) => ({
-    settings: { ...state.settings, ...newSettings },
-  })),
+  setSettings: (newSettings) => set((state) => {
+    const next = { ...state.settings, ...newSettings };
+    savePersistedSettings(next);
+    return { settings: next };
+  }),
 
-  setTopic: (topic: Topic) => set((state) => ({
-    settings: { ...state.settings, topic },
-  })),
+  setTopic: (topic: Topic) => set((state) => {
+    const next = { ...state.settings, topic };
+    savePersistedSettings(next);
+    return { settings: next };
+  }),
 
   // Handler for custom topic (clears when topic dropdown is used)
-  setCustomTopic: (customTopic: string) => set((state) => ({
-    settings: { ...state.settings, customTopic },
-  })),
+  setCustomTopic: (customTopic: string) => set((state) => {
+    const next = { ...state.settings, customTopic };
+    savePersistedSettings(next);
+    return { settings: next };
+  }),
 
   nextRound: () => set((state) => ({ roundNumber: state.roundNumber + 1 })),
 
