@@ -469,12 +469,17 @@ export interface SceneIgniterLine {
   direction?: string;  // optional 1–2 word stage direction, e.g. "nervously", "whispering"
 }
 
+export interface SceneIgniterImprovLine {
+  character: string;  // 'A' | 'B' | 'C' | 'D' — same chars as parent scene
+  text: string;       // contains ___ blanks for improvised phrases
+}
+
 export interface SceneIgniterScene {
   title: string;
   context: string;           // 2–3 sentence scene setup
   lines: SceneIgniterLine[]; // Scene 1 has 4 chars (12 lines); Scene 2 has 3 chars (9 lines)
   improvPrompt: string;      // one-sentence twist
-  improvHints: string[];     // 3–4 bullet scaffolding ideas for the improv
+  improvScript: SceneIgniterImprovLine[];  // 4–6 lines, 1–2 blanks each
 }
 
 export interface SceneIgniterContent extends ActivityGeneratedContent {

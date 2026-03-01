@@ -637,7 +637,17 @@ async function generateSingleScene(
       title: { type: 'string' },
       context: { type: 'string' },
       improvPrompt: { type: 'string' },
-      improvHints: { type: 'array', items: { type: 'string' } },
+      improvScript: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            character: { type: 'string' },
+            text: { type: 'string' },
+          },
+          required: ['character', 'text'],
+        },
+      },
       lines: {
         type: 'array',
         items: {
@@ -652,7 +662,7 @@ async function generateSingleScene(
         },
       },
     },
-    required: ['title', 'context', 'improvPrompt', 'improvHints', 'lines'],
+    required: ['title', 'context', 'improvPrompt', 'improvScript', 'lines'],
   };
 
   const charList = charCount === 4 ? 'A, B, C, D' : 'A, B, C';
@@ -672,15 +682,19 @@ Requirements:
 - Lines numbered sequentially from 1 to ${lineCount}
 - A "direction" field on most lines (1–2 words describing how the line should be delivered, e.g. "nervously", "whispering", "excitedly", "sighing", "leaning in") — not every line needs one
 - An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "Now do it again — but A forgot their wallet!"
-- An "improvHints" field: 3–4 short scaffolding hints (1 sentence each) to help students do the improv twist without a script, e.g. "Think about how A would react differently", "Try using vocabulary from the topic", "No right or wrong answer — be creative!", "Focus on emotions, not exact lines."
+- An "improvScript" field: 4–6 dialogue lines using the same characters (${charList}).
+  Each line's "text" must contain 1–2 blanks written as ___ where students improvise a word or phrase.
+  The blanks should replace key nouns, emotions, or topic-specific phrases related to the twist.
+  Example: { "character": "A", "text": "I can't believe you used to be a ___ champion!" }
+  Example: { "character": "B", "text": "Well, it taught me how to stay ___ under pressure." }
 
-Return JSON: { title: string, context: string, improvPrompt: string, improvHints: string[], lines: Array<{ lineIndex: number, character: string, text: string, direction?: string }> }`;
+Return JSON: { title: string, context: string, improvPrompt: string, improvScript: Array<{ character: string, text: string }>, lines: Array<{ lineIndex: number, character: string, text: string, direction?: string }> }`;
 
   const parsed = await generateJSON<{
     title: string;
     context?: string;
     improvPrompt?: string;
-    improvHints?: string[];
+    improvScript?: Array<{ character: string; text: string }>;
     lines: Array<{ lineIndex: number; character: string; text: string; direction?: string }>;
   }>(prompt, schema);
 
@@ -715,19 +729,23 @@ Return JSON: { title: string, context: string, improvPrompt: string, improvHints
       }))
     : fallbackLines;
 
-  const fallbackHints = [
-    'No script — use your own words!',
-    'Focus on emotions, not exact lines.',
-    'Try using vocabulary from the lesson!',
-  ];
+  const fallbackImprovScript = expectedChars.map((char) => ({
+    character: char,
+    text: 'I never expected this situation to be so ___!',
+  }));
+
+  const validImprovScript =
+    Array.isArray(parsed.improvScript) &&
+    parsed.improvScript.length >= charCount &&
+    parsed.improvScript.every(
+      (l) => typeof l.character === 'string' && typeof l.text === 'string' && l.text.includes('___')
+    );
 
   return {
     title: parsed.title ?? 'Scene Igniter',
     context: parsed.context ?? `A scene about ${topic}.`,
     improvPrompt: parsed.improvPrompt ?? 'Now try the scene again in your own words!',
-    improvHints: Array.isArray(parsed.improvHints) && parsed.improvHints.length >= 2
-      ? parsed.improvHints
-      : fallbackHints,
+    improvScript: validImprovScript ? parsed.improvScript! : fallbackImprovScript,
     lines,
   };
 }

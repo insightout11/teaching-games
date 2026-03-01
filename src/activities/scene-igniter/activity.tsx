@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import type { ActivityProps } from '../types';
 import type { SceneIgniterContent, SceneIgniterLine, SceneIgniterScene } from '../types';
 import type { Student } from '@/lib/supabase/types';
@@ -35,6 +35,20 @@ function shuffled<T>(arr: T[]): T[] {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+function renderWithBlanks(text: string): React.ReactNode {
+  const parts = text.split('___');
+  return parts.map((part, i) => (
+    <React.Fragment key={i}>
+      {part}
+      {i < parts.length - 1 && (
+        <span className="border-b-2 border-amber-400 text-amber-300 font-semibold px-1 mx-0.5">
+          ___
+        </span>
+      )}
+    </React.Fragment>
+  ));
 }
 
 export function SceneIgniterActivity({
@@ -443,17 +457,23 @@ export function SceneIgniterActivity({
           <p className="text-lg font-medium leading-snug">{activeScene.improvPrompt}</p>
         </div>
 
-        {/* Scaffolding hints */}
+        {/* Improv script */}
         <div className="space-y-2">
-          <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Scaffolding Hints</p>
-          <ul className="space-y-2">
-            {activeScene.improvHints.map((hint, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm opacity-80">
-                <span className="text-amber-400 shrink-0 mt-0.5">•</span>
-                <span>{hint}</span>
-              </li>
-            ))}
-          </ul>
+          <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Improv Script</p>
+          <div className="space-y-1.5">
+            {activeScene.improvScript.map((line, i) => {
+              const student = charToStudent.get(line.character);
+              return (
+                <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-xl border-l-2 border-transparent text-sm">
+                  <span className="px-1.5 py-0.5 bg-emerald-500/15 text-emerald-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-xs opacity-50 mr-1">{student?.name ?? '—'}</span>
+                    <span className="opacity-80">{renderWithBlanks(line.text)}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex items-center justify-between gap-3 pt-1">
