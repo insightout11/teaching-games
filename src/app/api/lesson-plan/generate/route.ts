@@ -24,6 +24,7 @@ import type {
   VocabRadarContent,
   PredictionRoundContent,
   SceneIgniterContent,
+  SceneIgniterScene,
   GameGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
@@ -631,13 +632,18 @@ Return JSON with a "questions" array of exactly 3 objects with: text, optionA, o
   };
 }
 
-async function generateSceneIgniter(topic: string, difficulty: Difficulty): Promise<SceneIgniterContent> {
+async function generateSingleScene(
+  topic: string,
+  difficulty: Difficulty,
+  charCount: 4 | 3
+): Promise<SceneIgniterScene> {
   const schema: AISchema = {
     type: 'object',
     properties: {
       title: { type: 'string' },
       context: { type: 'string' },
       improvPrompt: { type: 'string' },
+      improvHints: { type: 'array', items: { type: 'string' } },
       lines: {
         type: 'array',
         items: {
@@ -652,57 +658,95 @@ async function generateSceneIgniter(topic: string, difficulty: Difficulty): Prom
         },
       },
     },
-    required: ['title', 'context', 'improvPrompt', 'lines'],
+    required: ['title', 'context', 'improvPrompt', 'improvHints', 'lines'],
   };
 
-  const prompt = `Generate a short dialogue scene with 4 characters (A, B, C, D) for an ESL classroom.
+  const charList = charCount === 4 ? 'A, B, C, D' : 'A, B, C';
+  const lineCount = charCount === 4 ? 12 : 9;
+  const linesEach = 3;
+
+  const prompt = `Generate a short dialogue scene with ${charCount} characters (${charList}) for an ESL classroom.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 
 Requirements:
 - A catchy short title for the scene
 - A "context" field: 2–3 sentences describing where the characters are, who they are, and what situation they are in (the scene setup for students to read before performing)
-- Exactly 12 lines total (characters A, B, C, D each speak 3 times, distributed naturally)
+- Exactly ${lineCount} lines total (characters ${charList} each speak ${linesEach} times, distributed naturally)
 - Natural, conversational dialogue related to the topic
 - Vocabulary and sentence complexity appropriate for the difficulty level
-- Lines numbered sequentially from 1 to 12
+- Lines numbered sequentially from 1 to ${lineCount}
 - A "direction" field on most lines (1–2 words describing how the line should be delivered, e.g. "nervously", "whispering", "excitedly", "sighing", "leaning in") — not every line needs one
 - An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "Now do it again — but A forgot their wallet!"
+- An "improvHints" field: 3–4 short scaffolding hints (1 sentence each) to help students do the improv twist without a script, e.g. "Think about how A would react differently", "Try using vocabulary from the topic", "No right or wrong answer — be creative!", "Focus on emotions, not exact lines."
 
-Return JSON: { title: string, context: string, improvPrompt: string, lines: Array<{ lineIndex: number, character: string, text: string, direction?: string }> }`;
+Return JSON: { title: string, context: string, improvPrompt: string, improvHints: string[], lines: Array<{ lineIndex: number, character: string, text: string, direction?: string }> }`;
 
-  const parsed = await generateJSON<{ title: string; context?: string; improvPrompt?: string; lines: Array<{ lineIndex: number; character: string; text: string; direction?: string }> }>(prompt, schema);
+  const parsed = await generateJSON<{
+    title: string;
+    context?: string;
+    improvPrompt?: string;
+    improvHints?: string[];
+    lines: Array<{ lineIndex: number; character: string; text: string; direction?: string }>;
+  }>(prompt, schema);
 
-  const fallbackLines: Array<{ lineIndex: number; character: string; text: string; direction?: string }> =
-    ['A', 'B', 'C', 'D', 'A', 'B', 'C', 'D', 'A', 'B', 'C', 'D'].map((char, i) => ({
-      lineIndex: i + 1,
+  const expectedChars = charCount === 4 ? ['A', 'B', 'C', 'D'] : ['A', 'B', 'C'];
+  const fallbackLines = expectedChars.flatMap((char, ci) =>
+    Array.from({ length: linesEach }, (_, li) => ({
+      lineIndex: ci * linesEach + li + 1,
       character: char,
       text: `Something about ${topic}.`,
-    }));
+    }))
+  );
 
-  const validChars = new Set(['A', 'B', 'C', 'D']);
+  const validChars = new Set(expectedChars);
   const raw = parsed.lines ?? [];
   const valid = raw.filter(
     (l) => typeof l.lineIndex === 'number' && typeof l.text === 'string' && validChars.has(l.character)
   );
   const charCounts = new Map(
-    ['A', 'B', 'C', 'D'].map((c) => [c, valid.filter((l) => l.character === c).length])
+    expectedChars.map((c) => [c, valid.filter((l) => l.character === c).length])
   );
   const counts = Array.from(charCounts.values());
-  const isBalanced =
-    Math.min(...counts) > 0 && Math.max(...counts) - Math.min(...counts) <= 2;
+  const minCount = Math.min(...counts);
+  const maxCount = Math.max(...counts);
+  const isBalanced = minCount > 0 && maxCount - minCount <= 2;
 
-  const lines = (valid.length >= 8 && isBalanced)
-    ? valid.map((l, i) => ({ lineIndex: i + 1, character: l.character, text: l.text, ...(l.direction ? { direction: l.direction } : {}) }))
+  const lines = valid.length >= charCount * 2 && isBalanced
+    ? valid.map((l, i) => ({
+        lineIndex: i + 1,
+        character: l.character,
+        text: l.text,
+        ...(l.direction ? { direction: l.direction } : {}),
+      }))
     : fallbackLines;
 
+  const fallbackHints = [
+    'No script — use your own words!',
+    'Focus on emotions, not exact lines.',
+    'Try using vocabulary from the lesson!',
+  ];
+
   return {
-    activityKey: 'scene-igniter',
-    topicContext: topic,
     title: parsed.title ?? 'Scene Igniter',
     context: parsed.context ?? `A scene about ${topic}.`,
     improvPrompt: parsed.improvPrompt ?? 'Now try the scene again in your own words!',
+    improvHints: Array.isArray(parsed.improvHints) && parsed.improvHints.length >= 2
+      ? parsed.improvHints
+      : fallbackHints,
     lines,
+  };
+}
+
+async function generateSceneIgniter(topic: string, difficulty: Difficulty): Promise<SceneIgniterContent> {
+  const [scene1, scene2] = await Promise.all([
+    generateSingleScene(topic, difficulty, 4),
+    generateSingleScene(topic, difficulty, 3),
+  ]);
+  return {
+    activityKey: 'scene-igniter',
+    topicContext: topic,
+    scenes: [scene1, scene2],
   };
 }
 

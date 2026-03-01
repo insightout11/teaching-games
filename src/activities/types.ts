@@ -473,12 +473,17 @@ export interface SceneIgniterLine {
   direction?: string;  // optional 1–2 word stage direction, e.g. "nervously", "whispering"
 }
 
+export interface SceneIgniterScene {
+  title: string;
+  context: string;           // 2–3 sentence scene setup
+  lines: SceneIgniterLine[]; // Scene 1 has 4 chars (12 lines); Scene 2 has 3 chars (9 lines)
+  improvPrompt: string;      // one-sentence twist
+  improvHints: string[];     // 3–4 bullet scaffolding ideas for the improv
+}
+
 export interface SceneIgniterContent extends ActivityGeneratedContent {
   activityKey: 'scene-igniter';
-  title: string;
-  context: string;      // 2–3 sentences: where, who, what situation
-  lines: SceneIgniterLine[];  // 10-12 lines
-  improvPrompt: string; // shown as optional card at summary
+  scenes: [SceneIgniterScene, SceneIgniterScene]; // always 2 pre-generated
 }
 
 export type GameGeneratedContent =

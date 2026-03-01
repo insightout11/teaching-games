@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import type { ActivityProps } from '../types';
-import type { SceneIgniterContent, SceneIgniterLine } from '../types';
+import type { SceneIgniterContent, SceneIgniterLine, SceneIgniterScene } from '../types';
 import type { Student } from '@/lib/supabase/types';
 
-type Phase = 'idle' | 'running' | 'summary';
+type Phase = 'idle' | 'running' | 'group_done' | 'summary' | 'improv';
 
 function assignRoles(lines: SceneIgniterLine[], students: Student[]): Map<string, Student> {
   const charLineCounts = new Map<string, number>();
@@ -44,14 +44,34 @@ export function SceneIgniterActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as SceneIgniterContent;
-  const { title, context, lines, improvPrompt } = content;
+  const { scenes } = content;
+
+  // Which scene/group we're currently on (0 = group 1, 1 = group 2)
+  const [sceneIndex, setSceneIndex] = useState<0 | 1>(0);
+
+  // Split students into groups once on mount
+  const groupStudents = useMemo(() => {
+    const g1 = students.slice(0, 4);
+    const g2 = students.slice(4);
+    return [g1, g2] as const;
+  }, [students]);
+
+  const hasGroup2 = groupStudents[1].length >= 2;
+
+  const currentScene: SceneIgniterScene = scenes[sceneIndex];
+  const currentGroup = groupStudents[sceneIndex];
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIdx, setCurrentIdx] = useState(0);
   const [charToStudent, setCharToStudent] = useState<Map<string, Student>>(
-    () => assignRoles(lines, students)
+    () => assignRoles(scenes[0].lines, groupStudents[0])
   );
+
+  // Track scored lines per group separately so summary can combine them
   const [scoredLines, setScoredLines] = useState<Set<number>>(new Set());
+  const group1ScoredLinesRef = useRef<Set<number>>(new Set());
+  // Mapping from line index to student name (for combined summary)
+  const group1StudentMapRef = useRef<Map<string, Student>>(new Map());
 
   const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -63,8 +83,8 @@ export function SceneIgniterActivity({
   }, [currentIdx, phase]);
 
   const handleReroll = useCallback(() => {
-    setCharToStudent(assignRoles(lines, shuffled(students)));
-  }, [lines, students]);
+    setCharToStudent(assignRoles(currentScene.lines, shuffled(currentGroup)));
+  }, [currentScene.lines, currentGroup]);
 
   const handleStart = useCallback(() => {
     setCurrentIdx(0);
@@ -74,7 +94,7 @@ export function SceneIgniterActivity({
   }, [onPhaseChange]);
 
   const handleNext = useCallback(async () => {
-    const line = lines[currentIdx];
+    const line = currentScene.lines[currentIdx];
     if (line && !scoredLines.has(line.lineIndex)) {
       const student = charToStudent.get(line.character);
       if (student?.id) {
@@ -89,77 +109,125 @@ export function SceneIgniterActivity({
       }
       setScoredLines((prev) => new Set(prev).add(line.lineIndex));
     }
-    if (currentIdx + 1 >= lines.length) {
-      setPhase('summary');
-      onPhaseChange?.('summary');
+    if (currentIdx + 1 >= currentScene.lines.length) {
+      handleEndScene();
     } else {
       setCurrentIdx((i) => i + 1);
     }
-  }, [lines, currentIdx, scoredLines, charToStudent, onScore, onPhaseChange]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentScene.lines, currentIdx, scoredLines, charToStudent, onScore]);
 
   const handleSkip = useCallback(() => {
-    if (currentIdx + 1 >= lines.length) {
-      setPhase('summary');
-      onPhaseChange?.('summary');
+    if (currentIdx + 1 >= currentScene.lines.length) {
+      handleEndScene();
     } else {
       setCurrentIdx((i) => i + 1);
     }
-  }, [currentIdx, lines.length, onPhaseChange]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIdx, currentScene.lines.length]);
 
   const handlePrev = useCallback(() => {
     setCurrentIdx((i) => Math.max(0, i - 1));
   }, []);
 
   const handleEndScene = useCallback(() => {
-    setPhase('summary');
-    onPhaseChange?.('summary');
-  }, [onPhaseChange]);
+    if (sceneIndex === 0 && hasGroup2) {
+      // Save group 1 data before transitioning
+      group1ScoredLinesRef.current = new Set(scoredLines);
+      group1StudentMapRef.current = new Map(charToStudent);
+      setPhase('group_done');
+      onPhaseChange?.('group_done');
+    } else {
+      setPhase('summary');
+      onPhaseChange?.('summary');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sceneIndex, hasGroup2, scoredLines, charToStudent, onPhaseChange]);
 
-  const handleRunAgain = useCallback(() => {
-    setCharToStudent(assignRoles(lines, shuffled(students)));
+  const handleStartGroup2 = useCallback(() => {
+    const g2 = groupStudents[1];
+    const s2 = scenes[1];
+    setSceneIndex(1);
+    setCharToStudent(assignRoles(s2.lines, g2));
     setCurrentIdx(0);
     setScoredLines(new Set());
     setPhase('idle');
     onPhaseChange?.('idle');
-  }, [lines, students, onPhaseChange]);
+  }, [groupStudents, scenes, onPhaseChange]);
 
-  const linesPerStudent = useCallback((): { name: string; count: number }[] => {
+  const handleRunAgain = useCallback(() => {
+    const g1 = groupStudents[0];
+    const s1 = scenes[0];
+    setSceneIndex(0);
+    setCharToStudent(assignRoles(s1.lines, shuffled(g1)));
+    setCurrentIdx(0);
+    setScoredLines(new Set());
+    group1ScoredLinesRef.current = new Set();
+    group1StudentMapRef.current = new Map();
+    setPhase('idle');
+    onPhaseChange?.('idle');
+  }, [groupStudents, scenes, onPhaseChange]);
+
+  // Combined lines-per-student across both groups for summary
+  const combinedLinesPerStudent = useCallback((): { name: string; count: number }[] => {
     const counts = new Map<string, number>();
+
+    // Group 1
+    for (const lineIndex of Array.from(group1ScoredLinesRef.current)) {
+      const line = scenes[0].lines.find((l) => l.lineIndex === lineIndex);
+      if (!line) continue;
+      const student = group1StudentMapRef.current.get(line.character);
+      if (!student) continue;
+      counts.set(student.name, (counts.get(student.name) ?? 0) + 1);
+    }
+
+    // Group 2 (current group when at summary)
     for (const lineIndex of Array.from(scoredLines)) {
-      const line = lines.find((l) => l.lineIndex === lineIndex);
+      const scene = sceneIndex === 0 ? scenes[0] : scenes[1];
+      const line = scene.lines.find((l) => l.lineIndex === lineIndex);
       if (!line) continue;
       const student = charToStudent.get(line.character);
       if (!student) continue;
       counts.set(student.name, (counts.get(student.name) ?? 0) + 1);
     }
+
     return Array.from(counts.entries())
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count);
-  }, [scoredLines, lines, charToStudent]);
+  }, [scoredLines, scenes, charToStudent, sceneIndex]);
 
-  const chars = Array.from(new Set(lines.map((l) => l.character))).sort();
+  const totalScoredLines = (sceneIndex === 0 ? 0 : group1ScoredLinesRef.current.size) + scoredLines.size;
+  const totalLines = (hasGroup2 ? scenes[0].lines.length + scenes[1].lines.length : scenes[0].lines.length);
+
+  const chars = Array.from(new Set(currentScene.lines.map((l) => l.character))).sort();
 
   // ─── IDLE ─────────────────────────────────────────────────────────────────
   if (phase === 'idle') {
+    const groupLabel = hasGroup2 ? (sceneIndex === 0 ? 'Group 1 of 2' : 'Group 2 of 2') : null;
     return (
       <div className="space-y-5">
         {/* Title */}
         <div className="text-center space-y-1">
-          <p className="text-2xl font-bold opacity-90">{title}</p>
-          <p className="text-xs opacity-40">{lines.length} lines · {chars.length} characters</p>
+          {groupLabel && (
+            <span className="inline-block text-xs px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full font-medium mb-1">
+              {groupLabel}
+            </span>
+          )}
+          <p className="text-2xl font-bold opacity-90">{currentScene.title}</p>
+          <p className="text-xs opacity-40">{currentScene.lines.length} lines · {chars.length} characters</p>
         </div>
 
         {/* Context card */}
         <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-1">
           <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">The Scene</p>
-          <p className="text-sm opacity-80 leading-relaxed">{context}</p>
+          <p className="text-sm opacity-80 leading-relaxed">{currentScene.context}</p>
         </div>
 
         {/* Role assignments */}
         <div className="grid grid-cols-2 gap-3">
           {chars.map((char) => {
             const student = charToStudent.get(char);
-            const charLines = lines.filter((l) => l.character === char).length;
+            const charLines = currentScene.lines.filter((l) => l.character === char).length;
             return (
               <div
                 key={char}
@@ -181,7 +249,7 @@ export function SceneIgniterActivity({
         <div className="space-y-1">
           <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Full Script</p>
           <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1">
-            {lines.map((line) => {
+            {currentScene.lines.map((line) => {
               const student = charToStudent.get(line.character);
               return (
                 <div key={line.lineIndex} className="flex items-start gap-2 text-sm">
@@ -225,13 +293,13 @@ export function SceneIgniterActivity({
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-emerald-400">{title}</h3>
-          <span className="text-sm opacity-60">Line {currentIdx + 1} / {lines.length}</span>
+          <h3 className="text-lg font-semibold text-emerald-400">{currentScene.title}</h3>
+          <span className="text-sm opacity-60">Line {currentIdx + 1} / {currentScene.lines.length}</span>
         </div>
 
         {/* Full script with highlight */}
         <div className="space-y-1 max-h-[420px] overflow-y-auto pr-1">
-          {lines.map((line, idx) => {
+          {currentScene.lines.map((line, idx) => {
             const student = charToStudent.get(line.character);
             const isCurrent = idx === currentIdx;
             const isPast = idx < currentIdx;
@@ -280,7 +348,7 @@ export function SceneIgniterActivity({
             onClick={handleNext}
             className="flex-1 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
           >
-            {currentIdx + 1 >= lines.length ? 'Finish Scene ✓' : 'Next Line ▶'}
+            {currentIdx + 1 >= currentScene.lines.length ? 'Finish Scene ✓' : 'Next Line ▶'}
           </button>
           <button
             onClick={handleEndScene}
@@ -293,17 +361,131 @@ export function SceneIgniterActivity({
     );
   }
 
+  // ─── GROUP DONE ────────────────────────────────────────────────────────────
+  if (phase === 'group_done') {
+    const g1Lines = combinedLinesPerStudent();
+    const g2 = groupStudents[1];
+    const s2chars = Array.from(new Set(scenes[1].lines.map((l) => l.character))).sort();
+    // Preview role assignment for group 2
+    const previewRoles = assignRoles(scenes[1].lines, g2);
+
+    return (
+      <div className="space-y-5">
+        <div className="text-center space-y-1">
+          <p className="text-2xl font-bold text-emerald-400">Group 1 — Scene Complete!</p>
+        </div>
+
+        {/* Lines per student for group 1 */}
+        <div className="space-y-2">
+          {g1Lines.map(({ name, count }) => (
+            <div
+              key={name}
+              className="flex items-center justify-between glass px-4 py-3 rounded-xl"
+            >
+              <span className="font-medium text-sm">{name}</span>
+              <span className="text-sm opacity-60">{count} line{count !== 1 ? 's' : ''}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Group 2 preview */}
+        <div className="space-y-2">
+          <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Next up: Group 2</p>
+          <div className="grid grid-cols-2 gap-3">
+            {s2chars.map((char) => {
+              const student = previewRoles.get(char);
+              return (
+                <div
+                  key={char}
+                  className="glass p-3 rounded-2xl border border-emerald-500/20 space-y-1"
+                >
+                  <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full font-mono font-bold">
+                    {char}
+                  </span>
+                  <p className="font-semibold text-sm truncate">{student?.name ?? '—'}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            onClick={handleStartGroup2}
+            className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+          >
+            Start Group 2 ▶
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── IMPROV ────────────────────────────────────────────────────────────────
+  if (phase === 'improv') {
+    const activeScene = scenes[sceneIndex];
+    return (
+      <div className="space-y-5">
+        <button
+          onClick={() => { setPhase('summary'); onPhaseChange?.('summary'); }}
+          className="text-sm opacity-50 hover:opacity-80 transition-opacity"
+        >
+          ← Back to Summary
+        </button>
+
+        <div className="text-center">
+          <p className="text-2xl font-bold opacity-90">Improv Time!</p>
+        </div>
+
+        {/* Twist card */}
+        <div className="glass p-5 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-1">
+          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">The Twist</p>
+          <p className="text-lg font-medium leading-snug">{activeScene.improvPrompt}</p>
+        </div>
+
+        {/* Scaffolding hints */}
+        <div className="space-y-2">
+          <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Scaffolding Hints</p>
+          <ul className="space-y-2">
+            {activeScene.improvHints.map((hint, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm opacity-80">
+                <span className="text-amber-400 shrink-0 mt-0.5">•</span>
+                <span>{hint}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="flex items-center justify-between gap-3 pt-1">
+          <button
+            onClick={() => { setPhase('summary'); onPhaseChange?.('summary'); }}
+            className="px-4 py-2.5 text-sm bg-white/10 hover:bg-white/15 rounded-xl transition-colors"
+          >
+            Back to Summary
+          </button>
+          <button
+            onClick={handleRunAgain}
+            className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+          >
+            Run Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // ─── SUMMARY ───────────────────────────────────────────────────────────────
+  const activeScene = scenes[sceneIndex];
   return (
     <div className="space-y-5">
       <div className="text-center space-y-1">
         <p className="text-2xl font-bold text-emerald-400">Scene Complete!</p>
-        <p className="text-sm opacity-50">{scoredLines.size} / {lines.length} lines spoken</p>
+        <p className="text-sm opacity-50">{totalScoredLines} / {totalLines} lines spoken</p>
       </div>
 
-      {/* Lines per student */}
+      {/* Lines per student (combined) */}
       <div className="space-y-2">
-        {linesPerStudent().map(({ name, count }) => (
+        {combinedLinesPerStudent().map(({ name, count }) => (
           <div
             key={name}
             className="flex items-center justify-between glass px-4 py-3 rounded-xl"
@@ -317,10 +499,17 @@ export function SceneIgniterActivity({
       </div>
 
       {/* Improv Twist card */}
-      <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-2">
-        <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">Optional Improv Twist</p>
-        <p className="text-base font-medium leading-snug">{improvPrompt}</p>
-        <p className="text-xs opacity-40">No script — use your own words!</p>
+      <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-3">
+        <div className="space-y-1">
+          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">Optional Improv Twist</p>
+          <p className="text-base font-medium leading-snug">{activeScene.improvPrompt}</p>
+        </div>
+        <button
+          onClick={() => { setPhase('improv'); onPhaseChange?.('improv'); }}
+          className="px-5 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-xl text-sm font-medium transition-colors"
+        >
+          Run Improv ▶
+        </button>
       </div>
 
       <div className="flex justify-end">
