@@ -1,30 +1,15 @@
-import type { ExpertPanelContent, ExpertRole, ExpertQuestion } from '../types';
+export type ExpertPanelPhase =
+  | 'idle'
+  | 'questioning'
+  | 'responded'
+  | 'audience-vote'
+  | 'summary';
 
-// Activity states
-export enum ActivityStatus {
-  IDLE = 'IDLE',
-  ASSIGNING = 'ASSIGNING',
-  PANEL = 'PANEL',
-  QUESTION = 'QUESTION',
-  RESPONSE = 'RESPONSE',
-  FINISHED = 'FINISHED',
-}
-
-// Role assignment
-export interface RoleAssignment {
+// One expert slot: a student assigned to one of the 3 panel roles
+export interface ExpertSlot {
+  roleIndex: number;    // 0, 1, or 2 → indexes into content.roles[]
   studentId: string;
   studentName: string;
-  roleId: string;
 }
 
-// Response tracking
-export interface ExpertResponse {
-  questionId: string;
-  studentId: string;
-  roleId: string;
-  responseNotes: string;
-  vocabularyUsed: string[];
-}
-
-// Re-export content types
-export type { ExpertPanelContent, ExpertRole, ExpertQuestion };
+export type { ExpertPanelContent, ExpertPanelRole, ExpertPanelQuestion } from '../types';

@@ -1,247 +1,245 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { ActivityProps } from '../types';
-import {
-  ActivityStatus,
-  type RoleAssignment,
-  type ExpertPanelContent,
-  type ExpertRole,
-  type ExpertQuestion,
-} from './types';
-import { VocabPill } from '@/components/ui/vocab-pill';
+import type { Student } from '@/lib/supabase/types';
+import type { ExpertPanelPhase, ExpertSlot } from './types';
+import type { ExpertPanelContent } from './types';
+
+function buildPanel(students: Student[]): ExpertSlot[] {
+  const s = [...students].sort(() => Math.random() - 0.5);
+  return [0, 1, 2].map((i) => ({
+    roleIndex: i,
+    studentId: s[i % s.length]?.id ?? '',
+    studentName: s[i % s.length]?.name ?? '',
+  }));
+}
 
 export function ExpertPanelActivity({
   students,
   generatedContent,
-  onContinue,
   onPhaseChange,
-  customTopic,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
+  onScore,
 }: ActivityProps) {
   const content = generatedContent as ExpertPanelContent;
 
-  const [status, setStatus] = useState<ActivityStatus>(ActivityStatus.IDLE);
-  const [roleAssignments, setRoleAssignments] = useState<RoleAssignment[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [dynamicQuestions, setDynamicQuestions] = useState<ExpertQuestion[]>([]);
-  const [isLoadingQuestion, setIsLoadingQuestion] = useState(false);
-  const [responsesGiven, setResponsesGiven] = useState(0);
+  const [phase, setPhase] = useState<ExpertPanelPhase>('idle');
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [panel, setPanel] = useState<ExpertSlot[]>(() => buildPanel(students));
+  const [audienceVotes, setAudienceVotes] = useState<Record<string, string>>({});
+  const [voteTimer, setVoteTimer] = useState(0);
+  const [expertResponderCount, setExpertResponderCount] = useState(0);
 
-  // Combine starter questions with dynamic ones
-  const allQuestions = useMemo(() => {
-    return [...(content.starterQuestions || []), ...dynamicQuestions];
-  }, [content.starterQuestions, dynamicQuestions]);
+  // Refs for closure-safe access in handlers
+  const phaseRef = useRef<ExpertPanelPhase>('idle');
+  const questionIndexRef = useRef(0);
+  const audienceVotesRef = useRef<Record<string, string>>({});
 
-  const currentQuestion: ExpertQuestion | undefined = allQuestions[currentQuestionIndex];
+  // Sync refs at top of render
+  phaseRef.current = phase;
+  questionIndexRef.current = questionIndex;
 
-  // Register input spec for student controller
-  // Expert panel is primarily a verbal/in-person activity, so no remote input
+  const TOTAL_Q = content.questions?.length ?? 6;
+  const respondingSlot = panel[questionIndex % 3] ?? null;
+  const currentQuestion = content.questions?.[questionIndex] ?? null;
+
+  // Remote vote handler
   useEffect(() => {
-    onSetInputSpec?.(null);
-  }, [onSetInputSpec]);
-
-  // Get role by ID
-  const getRoleById = useCallback((roleId: string): ExpertRole | undefined => {
-    return content.roles?.find((r) => r.id === roleId);
-  }, [content.roles]);
-
-  // Get student assigned to role
-  const getStudentForRole = useCallback((roleId: string): RoleAssignment | undefined => {
-    return roleAssignments.find((a) => a.roleId === roleId);
-  }, [roleAssignments]);
-
-  const startActivity = useCallback(() => {
-    setStatus(ActivityStatus.ASSIGNING);
-    onPhaseChange?.('assigning');
-  }, [onPhaseChange]);
-
-  const assignRole = useCallback((studentId: string, roleId: string) => {
-    const student = students.find((s) => s.id === studentId);
-    if (!student) return;
-
-    setRoleAssignments((prev) => {
-      // Remove any existing assignment for this student
-      const filtered = prev.filter((a) => a.studentId !== studentId);
-      // Remove any existing assignment for this role
-      const withoutRole = filtered.filter((a) => a.roleId !== roleId);
-      return [...withoutRole, { studentId, studentName: student.name, roleId }];
+    onRegisterRemoteVoteHandler?.((vote) => {
+      if (phaseRef.current !== 'audience-vote') return;
+      if (audienceVotesRef.current[vote.clientId]) return;
+      setAudienceVotes((prev) => ({ ...prev, [vote.clientId]: vote.choice }));
+      audienceVotesRef.current[vote.clientId] = vote.choice;
+      onScore?.({
+        studentId: vote.studentId ?? null,
+        clientId: vote.clientId,
+        displayName: vote.displayName,
+        promptIndex: questionIndexRef.current + 1,
+        points: 1,
+        isCorrect: null,
+      });
     });
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [onRegisterRemoteVoteHandler, onScore]);
+
+  // InputSpec — only during audience-vote
+  useEffect(() => {
+    if (phase !== 'audience-vote') { onSetInputSpec?.(null); return; }
+    onSetInputSpec?.({
+      type: 'choice',
+      gameKey: 'expert-panel',
+      prompt: 'What do you think of this response?',
+      options: ['Agree', 'Disagree', 'Interesting', 'Not clear'],
+    });
+  }, [phase, onSetInputSpec]);
+
+  // Audience vote countdown tick
+  useEffect(() => {
+    if (phase !== 'audience-vote' || voteTimer <= 0) return;
+    const id = setTimeout(() => setVoteTimer((t) => t - 1), 1000);
+    return () => clearTimeout(id);
+  }, [phase, voteTimer]);
+
+  const advanceQuestion = useCallback(() => {
+    const nextIdx = questionIndexRef.current + 1;
+    setAudienceVotes({});
+    audienceVotesRef.current = {};
+    if (nextIdx >= TOTAL_Q) {
+      setPhase('summary');
+      onPhaseChange?.('finished');
+    } else {
+      setQuestionIndex(nextIdx);
+      setPhase('questioning');
+    }
+  }, [TOTAL_Q, onPhaseChange]);
+
+  // Auto-advance when timer hits 0
+  useEffect(() => {
+    if (phase === 'audience-vote' && voteTimer === 0) advanceQuestion();
+  }, [voteTimer, phase, advanceQuestion]);
+
+  const handleReroll = useCallback(() => {
+    setPanel(buildPanel(students));
   }, [students]);
 
-  const startPanel = useCallback(() => {
-    setStatus(ActivityStatus.PANEL);
-    setCurrentQuestionIndex(0);
-    onPhaseChange?.('panel');
+  const handleStart = useCallback(() => {
+    setQuestionIndex(0);
+    questionIndexRef.current = 0;
+    setExpertResponderCount(0);
+    setAudienceVotes({});
+    audienceVotesRef.current = {};
+    setPhase('questioning');
+    onPhaseChange?.('questioning');
   }, [onPhaseChange]);
 
-  const askQuestion = useCallback(() => {
-    setStatus(ActivityStatus.QUESTION);
-    onPhaseChange?.('question');
-  }, [onPhaseChange]);
+  const handleResponseGiven = useCallback(() => {
+    if (!respondingSlot) return;
+    onScore?.({
+      studentId: respondingSlot.studentId,
+      clientId: null,
+      displayName: respondingSlot.studentName,
+      promptIndex: questionIndexRef.current + 1,
+      points: 1,
+      isCorrect: null,
+    });
+    setExpertResponderCount((c) => c + 1);
+    setPhase('responded');
+  }, [respondingSlot, onScore]);
 
-  const recordResponse = useCallback(() => {
-    setResponsesGiven((prev) => prev + 1);
-    setStatus(ActivityStatus.RESPONSE);
-    onPhaseChange?.('response');
-  }, [onPhaseChange]);
+  const handleOpenAudienceVote = useCallback(() => {
+    setAudienceVotes({});
+    audienceVotesRef.current = {};
+    setVoteTimer(5);
+    setPhase('audience-vote');
+  }, []);
 
-  const generateFollowUp = useCallback(async () => {
-    if (!currentQuestion) return;
+  const handleNextQuestion = useCallback(() => {
+    advanceQuestion();
+  }, [advanceQuestion]);
 
-    setIsLoadingQuestion(true);
-
-    try {
-      const targetRole = getRoleById(currentQuestion.targetRoleId);
-      const response = await onContinue({
-        sessionId: '',
-        activityKey: 'expert-panel',
-        topicContext: content.topicContext,
-        previousExchanges: [
-          { role: 'system', content: `Expert role: ${targetRole?.title}`, timestamp: Date.now() },
-          { role: 'system', content: `Previous question: ${currentQuestion.question}`, timestamp: Date.now() },
-        ],
-        studentResponse: 'Student gave a response to the previous question',
-        requestType: 'follow-up',
-      });
-
-      if (response.nextQuestion) {
-        const newQuestion: ExpertQuestion = {
-          id: `dynamic-${Date.now()}`,
-          targetRoleId: currentQuestion.targetRoleId,
-          question: response.nextQuestion,
-          followUpHints: [],
-        };
-        setDynamicQuestions((prev) => [...prev, newQuestion]);
-      }
-    } catch (error) {
-      console.error('Failed to generate follow-up:', error);
-    } finally {
-      setIsLoadingQuestion(false);
-    }
-  }, [currentQuestion, content.topicContext, getRoleById, onContinue]);
-
-  const nextQuestion = useCallback(() => {
-    if (currentQuestionIndex < allQuestions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-      setStatus(ActivityStatus.PANEL);
-      onPhaseChange?.('panel');
-    } else {
-      setStatus(ActivityStatus.FINISHED);
-      onPhaseChange?.('finished');
-    }
-  }, [currentQuestionIndex, allQuestions.length, onPhaseChange]);
-
-  const restartActivity = useCallback(() => {
-    setRoleAssignments([]);
-    setCurrentQuestionIndex(0);
-    setDynamicQuestions([]);
-    setResponsesGiven(0);
-    setStatus(ActivityStatus.IDLE);
+  const handleNewPanel = useCallback(() => {
+    setPanel(buildPanel(students));
+    setQuestionIndex(0);
+    questionIndexRef.current = 0;
+    setExpertResponderCount(0);
+    setAudienceVotes({});
+    audienceVotesRef.current = {};
+    setVoteTimer(0);
+    setPhase('idle');
     onPhaseChange?.('idle');
-  }, [onPhaseChange]);
+  }, [students, onPhaseChange]);
 
-  if (!content.roles || content.roles.length === 0) {
+  if (!content.roles?.length || !content.questions?.length) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-400">No expert roles available. Please regenerate content.</p>
-      </div>
+      <p className="text-red-400 text-center py-12">Content unavailable. Please regenerate.</p>
     );
   }
+
+  const VOTE_OPTIONS = ['Agree', 'Disagree', 'Interesting', 'Not clear'];
+  const totalVotes = Object.keys(audienceVotes).length;
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-lg font-semibold text-lc-blue">Expert Panel</h3>
-          {customTopic && (
-            <p className="text-xs opacity-60">Topic: {customTopic}</p>
-          )}
-        </div>
-        <div className="text-sm opacity-60">
-          {status !== ActivityStatus.IDLE && status !== ActivityStatus.ASSIGNING && (
-            <span>Question {currentQuestionIndex + 1} / {allQuestions.length}</span>
-          )}
-        </div>
+        <h3 className="text-lg font-semibold text-lc-blue">Expert Panel</h3>
+        {phase !== 'idle' && phase !== 'summary' && (
+          <span className="text-sm opacity-60">Q{questionIndex + 1} of {TOTAL_Q}</span>
+        )}
       </div>
 
-      {/* IDLE State */}
-      {status === ActivityStatus.IDLE && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center py-12"
-        >
-          <p className="text-xl mb-2 opacity-90">Become the Expert!</p>
-          <p className="opacity-60 text-sm mb-8">
-            Students take on specialist roles and answer questions from their expert perspective.
-          </p>
-          <button
-            onClick={startActivity}
-            className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
-          >
-            ASSIGN ROLES
-          </button>
-        </motion.div>
+      {/* IDLE */}
+      {phase === 'idle' && (
+        <div className="space-y-4">
+          <p className="text-center text-sm uppercase tracking-widest opacity-50">Today&apos;s Panel</p>
+          <div className="grid grid-cols-3 gap-3">
+            {panel.map((slot) => {
+              const role = content.roles?.[slot.roleIndex];
+              if (!role) return null;
+              return (
+                <div key={slot.roleIndex} className="glass p-4 rounded-2xl border border-lc-blue/25 space-y-2">
+                  <p className="font-bold text-lc-blue text-sm">{role.title}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {role.tags.map((tag, i) => (
+                      <span key={i} className="px-2 py-0.5 bg-white/10 rounded text-xs opacity-70">{tag}</span>
+                    ))}
+                  </div>
+                  <p className="text-sm font-semibold">{slot.studentName || '—'}</p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex gap-3 justify-center pt-2">
+            <button
+              onClick={handleReroll}
+              className="px-5 py-2 glass hover:bg-white/10 rounded-xl font-game text-sm transition-all border border-white/20"
+            >
+              RE-ROLL
+            </button>
+            <button
+              onClick={handleStart}
+              className="px-10 py-4 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
+            >
+              START
+            </button>
+          </div>
+        </div>
       )}
 
-      {/* ASSIGNING State */}
-      {status === ActivityStatus.ASSIGNING && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-6"
-        >
-          <div className="text-center mb-4">
-            <p className="text-sm uppercase tracking-widest opacity-50">
-              Assign Expert Roles
+      {/* QUESTIONING */}
+      {phase === 'questioning' && (
+        <div className="space-y-5">
+          {/* Question card */}
+          <div className="glass p-8 rounded-2xl border-2 border-lc-blue/30 text-center">
+            <p className="text-2xl font-semibold leading-snug">
+              &ldquo;{currentQuestion?.text ?? 'No question available'}&rdquo;
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {content.roles.map((role) => {
-              const assignment = getStudentForRole(role.id);
+          {/* Expert cards */}
+          <div className="grid grid-cols-3 gap-3">
+            {panel.map((slot) => {
+              const role = content.roles?.[slot.roleIndex];
+              const isSpeaking = slot.roleIndex === questionIndex % 3;
+              if (!role) return null;
               return (
                 <div
-                  key={role.id}
-                  className="glass p-4 rounded-2xl border-2 border-lc-blue/25"
+                  key={slot.roleIndex}
+                  className={`glass p-4 rounded-2xl space-y-2 transition-all ${
+                    isSpeaking
+                      ? 'border-2 border-lc-blue shadow-lg shadow-lc-blue/20'
+                      : 'border border-white/10 opacity-60'
+                  }`}
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h4 className="font-bold text-lc-blue">{role.title}</h4>
-                      <p className="text-sm opacity-70">{role.description}</p>
-                    </div>
-                  </div>
-
-                  <div className="text-xs opacity-50 mb-2">Expertise:</div>
-                  <div className="flex flex-wrap gap-1 mb-3">
-                    {role.expertise.map((exp, i) => (
-                      <span key={i} className="px-2 py-0.5 bg-white/10 rounded text-xs">
-                        {exp}
-                      </span>
-                    ))}
-                  </div>
-
-                  <select
-                    value={assignment?.studentId || ''}
-                    onChange={(e) => e.target.value && assignRole(e.target.value, role.id)}
-                    className="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm"
-                  >
-                    <option value="">Assign student...</option>
-                    {students.map((student) => (
-                      <option key={student.id} value={student.id}>
-                        {student.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  {assignment && (
-                    <p className="text-sm text-lc-blue mt-2">
-                      Assigned: {assignment.studentName}
-                    </p>
+                  {isSpeaking && (
+                    <span className="inline-block px-2 py-0.5 bg-lc-blue/20 text-lc-blue text-xs rounded-full font-semibold">
+                      Speaking
+                    </span>
                   )}
+                  <p className="font-bold text-sm">{role.title}</p>
+                  <p className="text-sm opacity-70">{slot.studentName || '—'}</p>
                 </div>
               );
             })}
@@ -249,189 +247,119 @@ export function ExpertPanelActivity({
 
           <div className="flex justify-center">
             <button
-              onClick={startPanel}
-              disabled={roleAssignments.length === 0}
-              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
+              onClick={handleResponseGiven}
+              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
-              START PANEL
+              RESPONSE GIVEN
             </button>
           </div>
-        </motion.div>
+        </div>
       )}
 
-      {/* PANEL State - Show assigned experts */}
-      {status === ActivityStatus.PANEL && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-6"
-        >
-          <div className="text-center mb-4">
-            <p className="text-sm uppercase tracking-widest opacity-50">
-              Today&apos;s Expert Panel
-            </p>
+      {/* RESPONDED */}
+      {phase === 'responded' && (
+        <div className="space-y-5">
+          {/* Dimmed question */}
+          <div className="glass p-6 rounded-2xl border border-white/10 text-center opacity-50">
+            <p className="text-lg italic">&ldquo;{currentQuestion?.text ?? ''}&rdquo;</p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            {roleAssignments.map((assignment) => {
-              const role = getRoleById(assignment.roleId);
+          {/* Expert cards */}
+          <div className="grid grid-cols-3 gap-3">
+            {panel.map((slot) => {
+              const role = content.roles?.[slot.roleIndex];
+              const wasSpeaking = slot.roleIndex === questionIndex % 3;
               if (!role) return null;
               return (
-                <div key={assignment.studentId} className="glass p-4 rounded-xl text-center">
-                  <p className="font-bold text-lc-blue">{assignment.studentName}</p>
-                  <p className="text-sm opacity-70">{role.title}</p>
+                <div
+                  key={slot.roleIndex}
+                  className={`glass p-4 rounded-2xl border space-y-1 ${
+                    wasSpeaking ? 'border-green-500/40' : 'border-white/10 opacity-60'
+                  }`}
+                >
+                  <p className="font-bold text-sm">{role.title}</p>
+                  <p className="text-sm opacity-70">{slot.studentName || '—'}</p>
                 </div>
               );
             })}
           </div>
 
-          <div className="flex justify-center pt-4">
-            <button
-              onClick={askQuestion}
-              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              ASK QUESTION
-            </button>
-          </div>
-        </motion.div>
-      )}
-
-      {/* QUESTION State */}
-      {status === ActivityStatus.QUESTION && currentQuestion && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-6"
-        >
-          {(() => {
-            const targetRole = getRoleById(currentQuestion.targetRoleId);
-            const assignment = getStudentForRole(currentQuestion.targetRoleId);
-
-            return (
-              <>
-                <div className="glass p-4 rounded-xl text-center">
-                  <p className="text-sm opacity-50 mb-1">Question for:</p>
-                  <p className="text-lg font-bold text-lc-blue">
-                    {assignment?.studentName || 'Unassigned'} ({targetRole?.title})
-                  </p>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="glass p-8 rounded-2xl border-2 border-lc-blue/25"
-                >
-                  <p className="text-2xl font-semibold text-center">
-                    &ldquo;{currentQuestion.question}&rdquo;
-                  </p>
-                </motion.div>
-
-                {/* Suggested vocabulary */}
-                {targetRole?.suggestedVocabulary && targetRole.suggestedVocabulary.length > 0 && (
-                  <div className="glass p-4 rounded-xl">
-                    <p className="text-xs opacity-50 mb-2">Suggested vocabulary:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {targetRole.suggestedVocabulary.map((word, i) => (
-                        <VocabPill key={i} word={word} className="px-3 py-1 bg-lc-blue/15 text-lc-blue rounded-lg text-sm" />
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Follow-up hints */}
-                {currentQuestion.followUpHints.length > 0 && (
-                  <div className="glass p-4 rounded-xl border border-yellow-500/30">
-                    <p className="text-xs text-yellow-400 mb-2">Teacher hints:</p>
-                    <ul className="text-sm opacity-70 space-y-1">
-                      {currentQuestion.followUpHints.map((hint, i) => (
-                        <li key={i}>• {hint}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <div className="flex justify-center">
-                  <button
-                    onClick={recordResponse}
-                    className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-                  >
-                    RESPONSE GIVEN
-                  </button>
-                </div>
-              </>
-            );
-          })()}
-        </motion.div>
-      )}
-
-      {/* RESPONSE State */}
-      {status === ActivityStatus.RESPONSE && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-6"
-        >
-          <div className="glass p-6 rounded-2xl text-center">
-            <p className="text-2xl font-game text-green-400 mb-2">Great Answer!</p>
-            <p className="opacity-70">
-              {responsesGiven} response{responsesGiven !== 1 ? 's' : ''} so far
-            </p>
-          </div>
-
-          <AnimatePresence>
-            {isLoadingQuestion && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex flex-col items-center gap-4 py-4"
-              >
-                <div className="w-10 h-10 border-4 border-lc-blue/10 border-t-lc-blue rounded-full animate-spin" />
-                <p className="text-sm text-lc-blue">Generating follow-up...</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           <div className="flex gap-3 justify-center flex-wrap">
             <button
-              onClick={generateFollowUp}
-              disabled={isLoadingQuestion}
-              className="px-6 py-3 glass hover:bg-white/10 rounded-xl font-game text-sm transition-all border border-cyan-500/30 text-cyan-400 disabled:opacity-30"
+              onClick={handleOpenAudienceVote}
+              className="px-6 py-3 glass hover:bg-white/10 rounded-xl font-game text-sm transition-all border border-cyan-500/30 text-cyan-400"
             >
-              GENERATE FOLLOW-UP
+              OPEN AUDIENCE VOTE?
             </button>
             <button
-              onClick={nextQuestion}
+              onClick={handleNextQuestion}
               className="px-6 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
-              {currentQuestionIndex < allQuestions.length - 1 ? 'NEXT QUESTION' : 'FINISH PANEL'}
+              NEXT QUESTION →
             </button>
           </div>
-        </motion.div>
+        </div>
       )}
 
-      {/* FINISHED State */}
-      {status === ActivityStatus.FINISHED && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center py-12"
-        >
-          <p className="text-2xl font-game text-lc-blue mb-4">Panel Complete!</p>
-          <p className="text-4xl font-game mb-2">
-            {responsesGiven}
-            <span className="text-lg opacity-50 ml-2">expert responses</span>
-          </p>
-          <p className="opacity-70 mb-8">
-            Great discussion from our {roleAssignments.length} experts!
-          </p>
+      {/* AUDIENCE-VOTE */}
+      {phase === 'audience-vote' && (
+        <div className="space-y-5">
+          <div className="flex items-center justify-between">
+            <p className="text-sm uppercase tracking-widest opacity-60">Audience Voting</p>
+            <span
+              className={`text-4xl font-game tabular-nums transition-colors ${
+                voteTimer <= 2 ? 'text-red-400' : 'text-white'
+              }`}
+            >
+              {voteTimer}
+            </span>
+          </div>
+
+          {/* Bar chart */}
+          <div className="space-y-2">
+            {VOTE_OPTIONS.map((option) => {
+              const count = Object.values(audienceVotes).filter((v) => v === option).length;
+              const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+              return (
+                <div key={option} className="flex items-center gap-3">
+                  <span className="w-24 text-sm opacity-70 shrink-0">{option}</span>
+                  <div className="flex-1 bg-white/10 rounded-full h-4 overflow-hidden">
+                    <div
+                      className="h-full bg-lc-blue rounded-full transition-all duration-300"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                  <span className="w-8 text-right text-sm opacity-70">{count}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <p className="text-center text-xs opacity-40">Auto-advances when timer ends</p>
+        </div>
+      )}
+
+      {/* SUMMARY */}
+      {phase === 'summary' && (
+        <div className="text-center py-10 space-y-6">
+          <p className="text-3xl font-game text-lc-blue">Panel Complete!</p>
+          <div className="flex justify-center gap-8">
+            <div>
+              <p className="text-4xl font-game">{TOTAL_Q}</p>
+              <p className="text-sm opacity-50">questions asked</p>
+            </div>
+            <div>
+              <p className="text-4xl font-game">{expertResponderCount}</p>
+              <p className="text-sm opacity-50">expert responses</p>
+            </div>
+          </div>
           <button
-            onClick={restartActivity}
+            onClick={handleNewPanel}
             className="px-8 py-4 glass hover:bg-white/10 rounded-xl font-game text-lg transition-all border border-white/20"
           >
             NEW PANEL
           </button>
-        </motion.div>
+        </div>
       )}
     </div>
   );

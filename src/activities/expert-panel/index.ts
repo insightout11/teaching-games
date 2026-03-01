@@ -1,19 +1,19 @@
 import type { ActivityPlugin } from '../types';
 import { ExpertPanelActivity } from './activity';
-import { BookOpen } from 'lucide-react';
+import { Users } from 'lucide-react';
 
 export const expertPanelPlugin: ActivityPlugin = {
   key: 'expert-panel',
   name: 'Expert Panel',
-  description: 'Students are assigned specialist roles and answer questions from their expert perspective. AI generates follow-up questions based on responses.',
+  description: 'Talk-show panel: 3 experts answer 6 questions in rotation with optional audience vote.',
   category: 'learning',
   pppStage: 'production',
-  skills: ['Speaking', 'Vocabulary', 'Role-play', 'Critical Thinking'],
+  skills: ['Speaking', 'Role-play', 'Critical Thinking'],
   component: ExpertPanelActivity,
   supportsCustomTopic: true,
   estimatedMinutes: 15,
-  defaultTimerSeconds: 90,
-  icon: BookOpen,
+  defaultTimerSeconds: 0,
+  icon: Users,
 };
 
 export { ExpertPanelActivity };

@@ -99,31 +99,6 @@ Put the result in the 'challenge' field.` : ''}
 Include a teacher note and relevant vocabulary when appropriate.`;
   },
 
-  'expert-panel': (req) => {
-    const exchangeHistory = req.previousExchanges
-      .map((e) => `${e.role}: ${e.content}`)
-      .join('\n');
-
-    return `You are helping facilitate an "Expert Panel" ESL activity where students play specialist roles.
-
-Topic: ${req.topicContext}
-
-Previous exchanges:
-${exchangeHistory}
-
-Latest response: ${req.studentResponse}
-
-Request type: ${req.requestType}
-
-Generate a follow-up question for the expert that:
-- Builds on their previous answer
-- Encourages deeper exploration of their expertise
-- Uses appropriate vocabulary for the topic
-- Helps practice formal/professional language
-
-Include a teacher note and vocabulary highlights.`;
-  },
-
   'interview-lab': (req) => {
     const exchangeHistory = req.previousExchanges
       .map((e) => `${e.role}: ${e.content}`)

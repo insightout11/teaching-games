@@ -280,50 +280,44 @@ async function generateExpertPanel(topic: string, difficulty: Difficulty): Promi
           properties: {
             id: { type: 'string' },
             title: { type: 'string' },
-            description: { type: 'string' },
-            expertise: { type: 'array', items: { type: 'string' } },
-            suggestedVocabulary: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  word: { type: 'string' },
-                  definition: { type: 'string' },
-                },
-                required: ['word', 'definition'],
-              },
-            },
+            tags: { type: 'array', items: { type: 'string' } },
           },
-          required: ['id', 'title', 'description', 'expertise', 'suggestedVocabulary'],
+          required: ['id', 'title', 'tags'],
         },
       },
-      starterQuestions: {
+      questions: {
         type: 'array',
         items: {
           type: 'object',
           properties: {
             id: { type: 'string' },
-            targetRoleId: { type: 'string' },
-            question: { type: 'string' },
-            followUpHints: { type: 'array', items: { type: 'string' } },
+            text: { type: 'string' },
           },
-          required: ['id', 'targetRoleId', 'question', 'followUpHints'],
+          required: ['id', 'text'],
         },
       },
     },
-    required: ['roles', 'starterQuestions'],
+    required: ['roles', 'questions'],
   };
 
-  const prompt = `Generate an "Expert Panel" activity for ESL class.
+  const prompt = `Generate an "Expert Panel" talk show activity for ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 
-Create 4 expert roles related to the topic (e.g., scientist, historian, economist, activist).
-Each role: title, description, expertise areas, suggested vocabulary with short student-facing definitions (max 15 words each).
-Create 6 starter questions (mix of roles targeted), each with follow-up hints.`;
+Create exactly 3 expert role cards for the panel.
+Each role: id (slug like "role-1"), title (2–4 words), tags (exactly 3 short noun phrases, max 3 words each).
+No descriptions, no vocabulary, no biographies.
 
-  const parsed = await generateJSON<{ roles: ExpertPanelContent['roles']; starterQuestions: ExpertPanelContent['starterQuestions'] }>(prompt, schema);
-  return { activityKey: 'expert-panel', topicContext: topic, roles: parsed.roles, starterQuestions: parsed.starterQuestions };
+Create exactly 6 debate-friendly questions about the topic.
+Each: id (slug like "q-1"), text (max 15 words, concrete not academic, suitable for 20–30 second spoken response).
+Questions must not target specific roles. Make them provocative and varied.
+
+Return JSON: { "roles": [...3 items], "questions": [...6 items] }`;
+
+  const parsed = await generateJSON<{ roles: ExpertPanelContent['roles']; questions: ExpertPanelContent['questions'] }>(prompt, schema);
+  const roles = (parsed.roles ?? []).slice(0, 3);
+  const questions = (parsed.questions ?? []).slice(0, 6);
+  return { activityKey: 'expert-panel', topicContext: topic, roles, questions };
 }
 
 async function generateScenarioSimulator(topic: string, difficulty: Difficulty): Promise<ScenarioSimulatorContent> {

@@ -177,23 +177,19 @@ export interface FactDetectiveClaim {
 // Expert Panel content
 export interface ExpertPanelContent extends ActivityGeneratedContent {
   activityKey: 'expert-panel';
-  roles: ExpertRole[];
-  starterQuestions: ExpertQuestion[];
+  roles: ExpertPanelRole[];         // exactly 3 (one per expert slot)
+  questions: ExpertPanelQuestion[]; // exactly 6
 }
 
-export interface ExpertRole {
+export interface ExpertPanelRole {
   id: string;
   title: string;
-  description: string;
-  expertise: string[];
-  suggestedVocabulary: (string | VocabWord)[];
+  tags: string[];  // exactly 3 short noun phrases
 }
 
-export interface ExpertQuestion {
+export interface ExpertPanelQuestion {
   id: string;
-  targetRoleId: string;
-  question: string;
-  followUpHints: string[];
+  text: string;  // max 15 words
 }
 
 // Concept Ladder content
