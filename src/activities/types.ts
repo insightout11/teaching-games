@@ -470,12 +470,15 @@ export interface SceneIgniterLine {
   lineIndex: number;   // 1-based, maps to prompt_index in scores
   character: string;  // 'A' | 'B' | 'C' | 'D'
   text: string;
+  direction?: string;  // optional 1–2 word stage direction, e.g. "nervously", "whispering"
 }
 
 export interface SceneIgniterContent extends ActivityGeneratedContent {
   activityKey: 'scene-igniter';
   title: string;
+  context: string;      // 2–3 sentences: where, who, what situation
   lines: SceneIgniterLine[];  // 10-12 lines
+  improvPrompt: string; // shown as optional card at summary
 }
 
 export type GameGeneratedContent =

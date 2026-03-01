@@ -636,6 +636,8 @@ async function generateSceneIgniter(topic: string, difficulty: Difficulty): Prom
     type: 'object',
     properties: {
       title: { type: 'string' },
+      context: { type: 'string' },
+      improvPrompt: { type: 'string' },
       lines: {
         type: 'array',
         items: {
@@ -644,12 +646,13 @@ async function generateSceneIgniter(topic: string, difficulty: Difficulty): Prom
             lineIndex: { type: 'number' },
             character: { type: 'string' },
             text: { type: 'string' },
+            direction: { type: 'string' },
           },
           required: ['lineIndex', 'character', 'text'],
         },
       },
     },
-    required: ['title', 'lines'],
+    required: ['title', 'context', 'improvPrompt', 'lines'],
   };
 
   const prompt = `Generate a short dialogue scene with 4 characters (A, B, C, D) for an ESL classroom.
@@ -658,16 +661,19 @@ Difficulty: ${difficultyDescriptions[difficulty]}
 
 Requirements:
 - A catchy short title for the scene
+- A "context" field: 2–3 sentences describing where the characters are, who they are, and what situation they are in (the scene setup for students to read before performing)
 - Exactly 12 lines total (characters A, B, C, D each speak 3 times, distributed naturally)
 - Natural, conversational dialogue related to the topic
 - Vocabulary and sentence complexity appropriate for the difficulty level
 - Lines numbered sequentially from 1 to 12
+- A "direction" field on most lines (1–2 words describing how the line should be delivered, e.g. "nervously", "whispering", "excitedly", "sighing", "leaning in") — not every line needs one
+- An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "Now do it again — but A forgot their wallet!"
 
-Return JSON: { title: string, lines: Array<{ lineIndex: number, character: string, text: string }> }`;
+Return JSON: { title: string, context: string, improvPrompt: string, lines: Array<{ lineIndex: number, character: string, text: string, direction?: string }> }`;
 
-  const parsed = await generateJSON<{ title: string; lines: Array<{ lineIndex: number; character: string; text: string }> }>(prompt, schema);
+  const parsed = await generateJSON<{ title: string; context?: string; improvPrompt?: string; lines: Array<{ lineIndex: number; character: string; text: string; direction?: string }> }>(prompt, schema);
 
-  const fallbackLines: Array<{ lineIndex: number; character: string; text: string }> =
+  const fallbackLines: Array<{ lineIndex: number; character: string; text: string; direction?: string }> =
     ['A', 'B', 'C', 'D', 'A', 'B', 'C', 'D', 'A', 'B', 'C', 'D'].map((char, i) => ({
       lineIndex: i + 1,
       character: char,
@@ -687,13 +693,15 @@ Return JSON: { title: string, lines: Array<{ lineIndex: number, character: strin
     Math.min(...counts) > 0 && Math.max(...counts) - Math.min(...counts) <= 2;
 
   const lines = (valid.length >= 8 && isBalanced)
-    ? valid.map((l, i) => ({ lineIndex: i + 1, character: l.character, text: l.text }))
+    ? valid.map((l, i) => ({ lineIndex: i + 1, character: l.character, text: l.text, ...(l.direction ? { direction: l.direction } : {}) }))
     : fallbackLines;
 
   return {
     activityKey: 'scene-igniter',
     topicContext: topic,
     title: parsed.title ?? 'Scene Igniter',
+    context: parsed.context ?? `A scene about ${topic}.`,
+    improvPrompt: parsed.improvPrompt ?? 'Now try the scene again in your own words!',
     lines,
   };
 }

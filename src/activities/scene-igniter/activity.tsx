@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import type { ActivityProps } from '../types';
 import type { SceneIgniterContent, SceneIgniterLine } from '../types';
 import type { Student } from '@/lib/supabase/types';
@@ -8,12 +8,10 @@ import type { Student } from '@/lib/supabase/types';
 type Phase = 'idle' | 'running' | 'summary';
 
 function assignRoles(lines: SceneIgniterLine[], students: Student[]): Map<string, Student> {
-  // Count lines per character
   const charLineCounts = new Map<string, number>();
   for (const line of lines) {
     charLineCounts.set(line.character, (charLineCounts.get(line.character) ?? 0) + 1);
   }
-  // Sort characters by line count desc, assign greedily to student with fewest accumulated lines
   const sorted = Array.from(charLineCounts.entries()).sort((a, b) => b[1] - a[1]);
   const studentLineCounts = new Map(students.map((s) => [s.id, 0]));
   const result = new Map<string, Student>();
@@ -46,7 +44,7 @@ export function SceneIgniterActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as SceneIgniterContent;
-  const { title, lines } = content;
+  const { title, context, lines, improvPrompt } = content;
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -54,6 +52,15 @@ export function SceneIgniterActivity({
     () => assignRoles(lines, students)
   );
   const [scoredLines, setScoredLines] = useState<Set<number>>(new Set());
+
+  const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Auto-scroll current line into view
+  useEffect(() => {
+    if (phase === 'running') {
+      lineRefs.current[currentIdx]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [currentIdx, phase]);
 
   const handleReroll = useCallback(() => {
     setCharToStudent(assignRoles(lines, shuffled(students)));
@@ -103,6 +110,11 @@ export function SceneIgniterActivity({
     setCurrentIdx((i) => Math.max(0, i - 1));
   }, []);
 
+  const handleEndScene = useCallback(() => {
+    setPhase('summary');
+    onPhaseChange?.('summary');
+  }, [onPhaseChange]);
+
   const handleRunAgain = useCallback(() => {
     setCharToStudent(assignRoles(lines, shuffled(students)));
     setCurrentIdx(0);
@@ -111,7 +123,6 @@ export function SceneIgniterActivity({
     onPhaseChange?.('idle');
   }, [lines, students, onPhaseChange]);
 
-  // Compute lines-per-student for summary
   const linesPerStudent = useCallback((): { name: string; count: number }[] => {
     const counts = new Map<string, number>();
     for (const lineIndex of Array.from(scoredLines)) {
@@ -126,154 +137,200 @@ export function SceneIgniterActivity({
       .sort((a, b) => b.count - a.count);
   }, [scoredLines, lines, charToStudent]);
 
-  const currentLine = lines[currentIdx];
-  const currentStudent = currentLine ? charToStudent.get(currentLine.character) : undefined;
-
-  // Unique characters for role cards
   const chars = Array.from(new Set(lines.map((l) => l.character))).sort();
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-emerald-400">Scene Igniter</h3>
-        {phase === 'running' && (
-          <span className="text-sm opacity-60">
-            Line {currentIdx + 1} / {lines.length}
-          </span>
-        )}
-      </div>
+  // ─── IDLE ─────────────────────────────────────────────────────────────────
+  if (phase === 'idle') {
+    return (
+      <div className="space-y-5">
+        {/* Title */}
+        <div className="text-center space-y-1">
+          <p className="text-2xl font-bold opacity-90">{title}</p>
+          <p className="text-xs opacity-40">{lines.length} lines · {chars.length} characters</p>
+        </div>
 
-      {/* IDLE */}
-      {phase === 'idle' && (
-        <div className="space-y-6">
-          <div className="text-center space-y-1">
-            <p className="text-2xl font-bold opacity-90">{title}</p>
-            <p className="text-sm opacity-50">{lines.length} lines · {chars.length} characters</p>
-          </div>
+        {/* Context card */}
+        <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-1">
+          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">The Scene</p>
+          <p className="text-sm opacity-80 leading-relaxed">{context}</p>
+        </div>
 
-          {/* Role cards */}
-          <div className="grid grid-cols-2 gap-3">
-            {chars.map((char) => {
-              const student = charToStudent.get(char);
-              const charLines = lines.filter((l) => l.character === char).length;
+        {/* Role assignments */}
+        <div className="grid grid-cols-2 gap-3">
+          {chars.map((char) => {
+            const student = charToStudent.get(char);
+            const charLines = lines.filter((l) => l.character === char).length;
+            return (
+              <div
+                key={char}
+                className="glass p-3 rounded-2xl border border-emerald-500/20 space-y-1"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full font-mono font-bold">
+                    {char}
+                  </span>
+                  <span className="text-xs opacity-40">{charLines} line{charLines !== 1 ? 's' : ''}</span>
+                </div>
+                <p className="font-semibold text-sm truncate">{student?.name ?? '—'}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Full script preview */}
+        <div className="space-y-1">
+          <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Full Script</p>
+          <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+            {lines.map((line) => {
+              const student = charToStudent.get(line.character);
               return (
-                <div
-                  key={char}
-                  className="glass p-4 rounded-2xl border border-emerald-500/20 space-y-1"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full font-mono font-bold">
-                      {char}
-                    </span>
-                    <span className="text-xs opacity-40">{charLines} line{charLines !== 1 ? 's' : ''}</span>
+                <div key={line.lineIndex} className="flex items-start gap-2 text-sm">
+                  <span className="text-xs opacity-40 w-4 shrink-0 pt-0.5 text-right">{line.lineIndex}</span>
+                  <span className="px-1.5 py-0.5 bg-emerald-500/15 text-emerald-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-xs opacity-50 mr-1">{student?.name ?? '—'}</span>
+                    {line.direction && (
+                      <span className="italic text-amber-400/70 text-xs mr-1">({line.direction})</span>
+                    )}
+                    <span className="opacity-80">{line.text}</span>
                   </div>
-                  <p className="font-semibold text-sm truncate">{student?.name ?? '—'}</p>
                 </div>
               );
             })}
           </div>
-
-          <div className="flex justify-between items-center">
-            <button
-              onClick={handleReroll}
-              className="px-4 py-2 text-sm bg-white/10 hover:bg-white/15 rounded-xl transition-colors"
-            >
-              Re-roll Roles
-            </button>
-            <button
-              onClick={handleStart}
-              className="px-10 py-4 bg-gradient-to-br from-emerald-500 to-green-500 rounded-full font-game text-xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
-            >
-              Start Scene ▶
-            </button>
-          </div>
         </div>
-      )}
 
-      {/* RUNNING */}
-      {phase === 'running' && currentLine && (
-        <div className="space-y-6">
-          {/* Current line card */}
-          <div className="glass p-6 rounded-2xl border-2 border-emerald-500/40 space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-sm font-mono font-bold">
-                {currentLine.character}
-              </span>
-              <span className="font-semibold text-sm opacity-80">
-                {currentStudent?.name ?? '—'}
-              </span>
-            </div>
-            <p className="text-2xl leading-snug font-medium">{currentLine.text}</p>
-          </div>
-
-          {/* Navigation */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handlePrev}
-              disabled={currentIdx === 0}
-              className="px-5 py-3 bg-white/10 hover:bg-white/15 disabled:opacity-30 disabled:cursor-not-allowed rounded-xl transition-colors text-sm font-medium"
-            >
-              ← Prev
-            </button>
-            <button
-              onClick={handleSkip}
-              className="px-5 py-3 bg-white/10 hover:bg-white/15 rounded-xl transition-colors text-sm font-medium"
-            >
-              Skip
-            </button>
-            <button
-              onClick={handleNext}
-              className="flex-1 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              {currentIdx + 1 >= lines.length ? 'Finish Scene ✓' : 'Next Line ▶'}
-            </button>
-          </div>
-
-          <div className="flex justify-end">
-            <button
-              onClick={() => { setPhase('summary'); onPhaseChange?.('summary'); }}
-              className="text-xs opacity-40 hover:opacity-60 transition-opacity"
-            >
-              End Scene
-            </button>
-          </div>
+        {/* Actions */}
+        <div className="flex items-center justify-between gap-3 pt-1">
+          <button
+            onClick={handleReroll}
+            className="px-4 py-2 text-sm bg-white/10 hover:bg-white/15 rounded-xl transition-colors"
+          >
+            Re-roll Roles
+          </button>
+          <button
+            onClick={handleStart}
+            className="px-10 py-4 bg-gradient-to-br from-emerald-500 to-green-500 rounded-full font-game text-xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
+          >
+            Start Scene ▶
+          </button>
         </div>
-      )}
+      </div>
+    );
+  }
 
-      {/* SUMMARY */}
-      {phase === 'summary' && (
-        <div className="space-y-6">
-          <div className="text-center space-y-1">
-            <p className="text-2xl font-bold text-emerald-400">Scene Complete!</p>
-            <p className="text-sm opacity-50">{scoredLines.size} / {lines.length} lines spoken</p>
-          </div>
+  // ─── RUNNING ───────────────────────────────────────────────────────────────
+  if (phase === 'running') {
+    return (
+      <div className="space-y-4">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-emerald-400">{title}</h3>
+          <span className="text-sm opacity-60">Line {currentIdx + 1} / {lines.length}</span>
+        </div>
 
-          {/* Lines per student */}
-          <div className="space-y-2">
-            {linesPerStudent().map(({ name, count }) => (
+        {/* Full script with highlight */}
+        <div className="space-y-1 max-h-[420px] overflow-y-auto pr-1">
+          {lines.map((line, idx) => {
+            const student = charToStudent.get(line.character);
+            const isCurrent = idx === currentIdx;
+            const isPast = idx < currentIdx;
+            return (
               <div
-                key={name}
-                className="flex items-center justify-between glass px-4 py-3 rounded-xl"
+                key={line.lineIndex}
+                ref={(el) => { lineRefs.current[idx] = el; }}
+                className={[
+                  'flex items-start gap-2 px-3 py-2 rounded-xl transition-all',
+                  isCurrent
+                    ? 'bg-emerald-500/10 border-l-2 border-emerald-400'
+                    : 'border-l-2 border-transparent',
+                  isPast ? 'opacity-35' : isCurrent ? 'opacity-100' : 'opacity-60',
+                ].join(' ')}
               >
-                <span className="font-medium text-sm">{name}</span>
-                <span className="text-sm opacity-60">
-                  {count} line{count !== 1 ? 's' : ''}
-                </span>
+                <span className="text-xs opacity-40 w-4 shrink-0 pt-0.5 text-right">{line.lineIndex}</span>
+                <span className="px-1.5 py-0.5 bg-emerald-500/15 text-emerald-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs opacity-50 mr-1">{student?.name ?? '—'}</span>
+                  {line.direction && (
+                    <span className="italic text-amber-400/70 text-xs mr-1">({line.direction})</span>
+                  )}
+                  <span className={isCurrent ? 'text-base font-medium' : 'text-sm'}>{line.text}</span>
+                </div>
               </div>
-            ))}
-          </div>
-
-          <div className="flex justify-end">
-            <button
-              onClick={handleRunAgain}
-              className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              Run Again
-            </button>
-          </div>
+            );
+          })}
         </div>
-      )}
+
+        {/* Nav bar */}
+        <div className="flex items-center gap-2 pt-1">
+          <button
+            onClick={handlePrev}
+            disabled={currentIdx === 0}
+            className="px-4 py-2.5 bg-white/10 hover:bg-white/15 disabled:opacity-30 disabled:cursor-not-allowed rounded-xl transition-colors text-sm font-medium"
+          >
+            ← Prev
+          </button>
+          <button
+            onClick={handleSkip}
+            className="px-4 py-2.5 bg-white/10 hover:bg-white/15 rounded-xl transition-colors text-sm font-medium"
+          >
+            Skip
+          </button>
+          <button
+            onClick={handleNext}
+            className="flex-1 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+          >
+            {currentIdx + 1 >= lines.length ? 'Finish Scene ✓' : 'Next Line ▶'}
+          </button>
+          <button
+            onClick={handleEndScene}
+            className="px-4 py-2.5 text-sm opacity-40 hover:opacity-60 transition-opacity bg-white/5 rounded-xl"
+          >
+            End Scene
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── SUMMARY ───────────────────────────────────────────────────────────────
+  return (
+    <div className="space-y-5">
+      <div className="text-center space-y-1">
+        <p className="text-2xl font-bold text-emerald-400">Scene Complete!</p>
+        <p className="text-sm opacity-50">{scoredLines.size} / {lines.length} lines spoken</p>
+      </div>
+
+      {/* Lines per student */}
+      <div className="space-y-2">
+        {linesPerStudent().map(({ name, count }) => (
+          <div
+            key={name}
+            className="flex items-center justify-between glass px-4 py-3 rounded-xl"
+          >
+            <span className="font-medium text-sm">{name}</span>
+            <span className="text-sm opacity-60">
+              {count} line{count !== 1 ? 's' : ''}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Improv Twist card */}
+      <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-2">
+        <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">Optional Improv Twist</p>
+        <p className="text-base font-medium leading-snug">{improvPrompt}</p>
+        <p className="text-xs opacity-40">No script — use your own words!</p>
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          onClick={handleRunAgain}
+          className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+        >
+          Run Again
+        </button>
+      </div>
     </div>
   );
 }
