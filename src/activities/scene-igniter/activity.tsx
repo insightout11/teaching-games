@@ -62,6 +62,8 @@ export function SceneIgniterActivity({
 
   // Which scene/group we're currently on (0 = group 1, 1 = group 2)
   const [sceneIndex, setSceneIndex] = useState<0 | 1>(0);
+  // Whether we're using the alt (pre-generated replacement) scene
+  const [useAltScene, setUseAltScene] = useState(false);
 
   // Split students into groups once on mount
   const groupStudents = useMemo(() => {
@@ -72,8 +74,10 @@ export function SceneIgniterActivity({
 
   const hasGroup2 = groupStudents[1].length >= 2;
 
-  const currentScene: SceneIgniterScene = scenes[sceneIndex];
+  const currentScene: SceneIgniterScene =
+    scenes[sceneIndex + (useAltScene ? 2 : 0)] ?? scenes[sceneIndex];
   const currentGroup = groupStudents[sceneIndex];
+  const hasAltScene = Boolean(scenes[sceneIndex + 2]);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -165,6 +169,7 @@ export function SceneIgniterActivity({
     setCharToStudent(assignRoles(s2.lines, g2));
     setCurrentIdx(0);
     setScoredLines(new Set());
+    setUseAltScene(false);
     setPhase('idle');
     onPhaseChange?.('idle');
   }, [groupStudents, scenes, onPhaseChange]);
@@ -181,6 +186,20 @@ export function SceneIgniterActivity({
     setPhase('idle');
     onPhaseChange?.('idle');
   }, [groupStudents, scenes, onPhaseChange]);
+
+  const handleNewScene = useCallback(() => {
+    const altIdx = sceneIndex + 2;
+    const altScene = scenes[altIdx];
+    if (!altScene) return;
+    setUseAltScene(true);
+    setCharToStudent(assignRoles(altScene.lines, shuffled(currentGroup)));
+    setCurrentIdx(0);
+    setScoredLines(new Set());
+    group1ScoredLinesRef.current = new Set();
+    group1StudentMapRef.current = new Map();
+    setPhase('idle');
+    onPhaseChange?.('idle');
+  }, [sceneIndex, scenes, currentGroup, onPhaseChange]);
 
   // Combined lines-per-student across both groups for summary
   const combinedLinesPerStudent = useCallback((): { name: string; count: number }[] => {
@@ -462,12 +481,12 @@ export function SceneIgniterActivity({
           <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Improv Script</p>
           <div className="space-y-1.5">
             {activeScene.improvScript.map((line, i) => {
-              const student = charToStudent.get(line.character);
+              const assignedStudent = currentGroup[i % currentGroup.length];
               return (
                 <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-xl border-l-2 border-transparent text-sm">
                   <span className="px-1.5 py-0.5 bg-emerald-500/15 text-emerald-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
                   <div className="flex-1 min-w-0">
-                    <span className="text-xs opacity-50 mr-1">{student?.name ?? '—'}</span>
+                    <span className="text-xs opacity-50 mr-1">{assignedStudent?.name ?? '—'}</span>
                     <span className="opacity-80">{renderWithBlanks(line.text)}</span>
                   </div>
                 </div>
@@ -483,12 +502,22 @@ export function SceneIgniterActivity({
           >
             Back to Summary
           </button>
-          <button
-            onClick={handleRunAgain}
-            className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            Run Again
-          </button>
+          <div className="flex items-center gap-3">
+            {hasAltScene && !useAltScene && (
+              <button
+                onClick={handleNewScene}
+                className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              >
+                New Scene ✨
+              </button>
+            )}
+            <button
+              onClick={handleRunAgain}
+              className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+            >
+              Run Again
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -532,7 +561,15 @@ export function SceneIgniterActivity({
         </button>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex items-center justify-end gap-3">
+        {hasAltScene && !useAltScene && (
+          <button
+            onClick={handleNewScene}
+            className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+          >
+            New Scene ✨
+          </button>
+        )}
         <button
           onClick={handleRunAgain}
           className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"

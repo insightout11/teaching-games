@@ -682,7 +682,7 @@ Requirements:
 - Lines numbered sequentially from 1 to ${lineCount}
 - A "direction" field on most lines (1–2 words describing how the line should be delivered, e.g. "nervously", "whispering", "excitedly", "sighing", "leaning in") — not every line needs one
 - An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "Now do it again — but A forgot their wallet!"
-- An "improvScript" field: 4–6 dialogue lines using the same characters (${charList}).
+- An "improvScript" field: 8 dialogue lines using the same characters (${charList}).
   Each line's "text" must contain 1–2 blanks written as ___ where students improvise a word or phrase.
   The blanks should replace key nouns, emotions, or topic-specific phrases related to the twist.
   Example: { "character": "A", "text": "I can't believe you used to be a ___ champion!" }
@@ -729,14 +729,14 @@ Return JSON: { title: string, context: string, improvPrompt: string, improvScrip
       }))
     : fallbackLines;
 
-  const fallbackImprovScript = expectedChars.map((char) => ({
-    character: char,
+  const fallbackImprovScript = Array.from({ length: charCount * 2 }, (_, i) => ({
+    character: expectedChars[i % charCount],
     text: 'I never expected this situation to be so ___!',
   }));
 
   const validImprovScript =
     Array.isArray(parsed.improvScript) &&
-    parsed.improvScript.length >= charCount &&
+    parsed.improvScript.length >= charCount * 2 &&
     parsed.improvScript.every(
       (l) => typeof l.character === 'string' && typeof l.text === 'string' && l.text.includes('___')
     );
@@ -751,14 +751,16 @@ Return JSON: { title: string, context: string, improvPrompt: string, improvScrip
 }
 
 async function generateSceneIgniter(topic: string, difficulty: Difficulty): Promise<SceneIgniterContent> {
-  const [scene1, scene2] = await Promise.all([
+  const [scene1, scene2, scene1alt, scene2alt] = await Promise.all([
+    generateSingleScene(topic, difficulty, 4),
+    generateSingleScene(topic, difficulty, 3),
     generateSingleScene(topic, difficulty, 4),
     generateSingleScene(topic, difficulty, 3),
   ]);
   return {
     activityKey: 'scene-igniter',
     topicContext: topic,
-    scenes: [scene1, scene2],
+    scenes: [scene1, scene2, scene1alt, scene2alt],
   };
 }
 

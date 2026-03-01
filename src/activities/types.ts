@@ -479,12 +479,12 @@ export interface SceneIgniterScene {
   context: string;           // 2–3 sentence scene setup
   lines: SceneIgniterLine[]; // Scene 1 has 4 chars (12 lines); Scene 2 has 3 chars (9 lines)
   improvPrompt: string;      // one-sentence twist
-  improvScript: SceneIgniterImprovLine[];  // 4–6 lines, 1–2 blanks each
+  improvScript: SceneIgniterImprovLine[];  // 8 lines, 1–2 blanks each
 }
 
 export interface SceneIgniterContent extends ActivityGeneratedContent {
   activityKey: 'scene-igniter';
-  scenes: [SceneIgniterScene, SceneIgniterScene]; // always 2 pre-generated
+  scenes: SceneIgniterScene[]; // [g1original, g2original, g1alt, g2alt]
 }
 
 export type GameGeneratedContent =
