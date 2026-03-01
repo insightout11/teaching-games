@@ -274,6 +274,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           customTopic: effectiveTopic,
           difficulty: settings.difficulty,
           activities: [activity.key],
+          studentCount: students.length,
         }),
       });
 

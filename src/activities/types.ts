@@ -177,14 +177,15 @@ export interface FactDetectiveClaim {
 // Expert Panel content
 export interface ExpertPanelContent extends ActivityGeneratedContent {
   activityKey: 'expert-panel';
-  roles: ExpertPanelRole[];         // exactly 3 (one per expert slot)
-  questions: ExpertPanelQuestion[]; // exactly 6
+  roles: ExpertPanelRole[];         // length === studentCount at generation time
+  questions: ExpertPanelQuestion[]; // length === studentCount at generation time
 }
 
 export interface ExpertPanelRole {
   id: string;
   title: string;
-  tags: string[];  // exactly 3 short noun phrases
+  tags: string[];      // exactly 3 short noun phrases
+  starters: string[];  // exactly 2 sentence starters
 }
 
 export interface ExpertPanelQuestion {
@@ -353,6 +354,7 @@ export interface LessonPlanGenerateRequest {
   difficulty: string;
   activities: string[]; // Activity keys
   games?: string[]; // Game keys (optional for backward compatibility)
+  studentCount?: number; // used by Expert Panel generator; defaults to 9
 }
 
 // Game generated content types for lesson planner

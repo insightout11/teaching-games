@@ -6,13 +6,40 @@ import type { Student } from '@/lib/supabase/types';
 import type { ExpertPanelPhase, ExpertSlot } from './types';
 import type { ExpertPanelContent } from './types';
 
-function buildPanel(students: Student[]): ExpertSlot[] {
-  const s = [...students].sort(() => Math.random() - 0.5);
-  return [0, 1, 2].map((i) => ({
-    roleIndex: i,
-    studentId: s[i % s.length]?.id ?? '',
-    studentName: s[i % s.length]?.name ?? '',
-  }));
+interface PanelGroup {
+  slots: ExpertSlot[];
+  questionStart: number; // globalQIndex of first Q in this panel
+}
+
+function buildPanels(students: Student[], roleCount: number): PanelGroup[] {
+  const n = Math.min(students.length, roleCount);
+  const shuffled = [...students].sort(() => Math.random() - 0.5).slice(0, n);
+  const panelSize = shuffled.length <= 6 ? 3 : 4;
+  const groups: PanelGroup[] = [];
+  let qStart = 0;
+  for (let i = 0; i < shuffled.length; i += panelSize) {
+    const chunk = shuffled.slice(i, i + panelSize);
+    groups.push({
+      slots: chunk.map((s, j) => ({
+        roleIndex: i + j,
+        studentId: s.id,
+        studentName: s.name,
+      })),
+      questionStart: qStart,
+    });
+    qStart += chunk.length;
+  }
+  return groups;
+}
+
+function deriveLocation(panels: PanelGroup[], globalQ: number) {
+  for (let pi = 0; pi < panels.length; pi++) {
+    const localQ = globalQ - panels[pi].questionStart;
+    if (localQ >= 0 && localQ < panels[pi].slots.length) {
+      return { panelIndex: pi, localQ, panel: panels[pi], slot: panels[pi].slots[localQ] };
+    }
+  }
+  return null;
 }
 
 export function ExpertPanelActivity({
@@ -25,25 +52,29 @@ export function ExpertPanelActivity({
 }: ActivityProps) {
   const content = generatedContent as ExpertPanelContent;
 
+  const TOTAL_Q = content.questions?.length ?? students.length;
+
   const [phase, setPhase] = useState<ExpertPanelPhase>('idle');
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [panel, setPanel] = useState<ExpertSlot[]>(() => buildPanel(students));
+  const [globalQIndex, setGlobalQIndex] = useState(0);
+  const [panels, setPanels] = useState<PanelGroup[]>(() =>
+    buildPanels(students, TOTAL_Q)
+  );
   const [audienceVotes, setAudienceVotes] = useState<Record<string, string>>({});
   const [voteTimer, setVoteTimer] = useState(0);
   const [expertResponderCount, setExpertResponderCount] = useState(0);
 
-  // Refs for closure-safe access in handlers
+  // Refs for closure-safe access
   const phaseRef = useRef<ExpertPanelPhase>('idle');
-  const questionIndexRef = useRef(0);
+  const globalQIndexRef = useRef(0);
   const audienceVotesRef = useRef<Record<string, string>>({});
 
-  // Sync refs at top of render
   phaseRef.current = phase;
-  questionIndexRef.current = questionIndex;
+  globalQIndexRef.current = globalQIndex;
 
-  const TOTAL_Q = content.questions?.length ?? 6;
-  const respondingSlot = panel[questionIndex % 3] ?? null;
-  const currentQuestion = content.questions?.[questionIndex] ?? null;
+  // Derived
+  const loc = deriveLocation(panels, globalQIndex);
+  const currentQuestion = content.questions?.[globalQIndex] ?? null;
+  const currentRole = loc ? content.roles?.[loc.slot.roleIndex] : null;
 
   // Remote vote handler
   useEffect(() => {
@@ -56,7 +87,7 @@ export function ExpertPanelActivity({
         studentId: vote.studentId ?? null,
         clientId: vote.clientId,
         displayName: vote.displayName,
-        promptIndex: questionIndexRef.current + 1,
+        promptIndex: globalQIndexRef.current + 1,
         points: 1,
         isCorrect: null,
       });
@@ -83,14 +114,14 @@ export function ExpertPanelActivity({
   }, [phase, voteTimer]);
 
   const advanceQuestion = useCallback(() => {
-    const nextIdx = questionIndexRef.current + 1;
+    const next = globalQIndexRef.current + 1;
     setAudienceVotes({});
     audienceVotesRef.current = {};
-    if (nextIdx >= TOTAL_Q) {
+    if (next >= TOTAL_Q) {
       setPhase('summary');
       onPhaseChange?.('finished');
     } else {
-      setQuestionIndex(nextIdx);
+      setGlobalQIndex(next);
       setPhase('questioning');
     }
   }, [TOTAL_Q, onPhaseChange]);
@@ -100,13 +131,9 @@ export function ExpertPanelActivity({
     if (phase === 'audience-vote' && voteTimer === 0) advanceQuestion();
   }, [voteTimer, phase, advanceQuestion]);
 
-  const handleReroll = useCallback(() => {
-    setPanel(buildPanel(students));
-  }, [students]);
-
   const handleStart = useCallback(() => {
-    setQuestionIndex(0);
-    questionIndexRef.current = 0;
+    setGlobalQIndex(0);
+    globalQIndexRef.current = 0;
     setExpertResponderCount(0);
     setAudienceVotes({});
     audienceVotesRef.current = {};
@@ -114,24 +141,28 @@ export function ExpertPanelActivity({
     onPhaseChange?.('questioning');
   }, [onPhaseChange]);
 
+  const handleReroll = useCallback(() => {
+    setPanels(buildPanels(students, TOTAL_Q));
+  }, [students, TOTAL_Q]);
+
   const handleResponseGiven = useCallback(() => {
-    if (!respondingSlot) return;
+    if (!loc) return;
     onScore?.({
-      studentId: respondingSlot.studentId,
+      studentId: loc.slot.studentId,
       clientId: null,
-      displayName: respondingSlot.studentName,
-      promptIndex: questionIndexRef.current + 1,
+      displayName: loc.slot.studentName,
+      promptIndex: globalQIndexRef.current + 1,
       points: 1,
       isCorrect: null,
     });
     setExpertResponderCount((c) => c + 1);
     setPhase('responded');
-  }, [respondingSlot, onScore]);
+  }, [loc, onScore]);
 
   const handleOpenAudienceVote = useCallback(() => {
     setAudienceVotes({});
     audienceVotesRef.current = {};
-    setVoteTimer(5);
+    setVoteTimer(12);
     setPhase('audience-vote');
   }, []);
 
@@ -140,16 +171,16 @@ export function ExpertPanelActivity({
   }, [advanceQuestion]);
 
   const handleNewPanel = useCallback(() => {
-    setPanel(buildPanel(students));
-    setQuestionIndex(0);
-    questionIndexRef.current = 0;
+    setGlobalQIndex(0);
+    globalQIndexRef.current = 0;
+    setPanels(buildPanels(students, TOTAL_Q));
     setExpertResponderCount(0);
     setAudienceVotes({});
     audienceVotesRef.current = {};
     setVoteTimer(0);
     setPhase('idle');
     onPhaseChange?.('idle');
-  }, [students, onPhaseChange]);
+  }, [students, TOTAL_Q, onPhaseChange]);
 
   if (!content.roles?.length || !content.questions?.length) {
     return (
@@ -159,14 +190,17 @@ export function ExpertPanelActivity({
 
   const VOTE_OPTIONS = ['Agree', 'Disagree', 'Interesting', 'Not clear'];
   const totalVotes = Object.keys(audienceVotes).length;
+  const panelCount = panels.length;
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-lc-blue">Expert Panel</h3>
-        {phase !== 'idle' && phase !== 'summary' && (
-          <span className="text-sm opacity-60">Q{questionIndex + 1} of {TOTAL_Q}</span>
+        {phase !== 'idle' && phase !== 'summary' && loc && (
+          <span className="text-sm opacity-60">
+            Q{globalQIndex + 1} of {TOTAL_Q} · Panel {loc.panelIndex + 1} of {panelCount}
+          </span>
         )}
       </div>
 
@@ -174,8 +208,8 @@ export function ExpertPanelActivity({
       {phase === 'idle' && (
         <div className="space-y-4">
           <p className="text-center text-sm uppercase tracking-widest opacity-50">Today&apos;s Panel</p>
-          <div className="grid grid-cols-3 gap-3">
-            {panel.map((slot) => {
+          <div className={`grid gap-3 ${panels[0]?.slots.length === 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
+            {panels[0]?.slots.map((slot) => {
               const role = content.roles?.[slot.roleIndex];
               if (!role) return null;
               return (
@@ -209,7 +243,7 @@ export function ExpertPanelActivity({
       )}
 
       {/* QUESTIONING */}
-      {phase === 'questioning' && (
+      {phase === 'questioning' && loc && (
         <div className="space-y-5">
           {/* Question card */}
           <div className="glass p-8 rounded-2xl border-2 border-lc-blue/30 text-center">
@@ -218,11 +252,23 @@ export function ExpertPanelActivity({
             </p>
           </div>
 
+          {/* Answer Frame — starters for the speaking role */}
+          {currentRole?.starters?.length ? (
+            <div className="glass p-4 rounded-xl border border-white/10 space-y-1">
+              <p className="text-xs uppercase tracking-widest opacity-40">
+                Answer Frame · {currentRole.title}
+              </p>
+              {currentRole.starters.map((s, i) => (
+                <p key={i} className="text-sm italic opacity-60">{s}</p>
+              ))}
+            </div>
+          ) : null}
+
           {/* Expert cards */}
-          <div className="grid grid-cols-3 gap-3">
-            {panel.map((slot) => {
+          <div className={`grid gap-3 ${loc.panel.slots.length === 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
+            {loc.panel.slots.map((slot) => {
               const role = content.roles?.[slot.roleIndex];
-              const isSpeaking = slot.roleIndex === questionIndex % 3;
+              const isSpeaking = slot.roleIndex === loc.slot.roleIndex;
               if (!role) return null;
               return (
                 <div
@@ -257,7 +303,7 @@ export function ExpertPanelActivity({
       )}
 
       {/* RESPONDED */}
-      {phase === 'responded' && (
+      {phase === 'responded' && loc && (
         <div className="space-y-5">
           {/* Dimmed question */}
           <div className="glass p-6 rounded-2xl border border-white/10 text-center opacity-50">
@@ -265,10 +311,10 @@ export function ExpertPanelActivity({
           </div>
 
           {/* Expert cards */}
-          <div className="grid grid-cols-3 gap-3">
-            {panel.map((slot) => {
+          <div className={`grid gap-3 ${loc.panel.slots.length === 4 ? 'grid-cols-4' : 'grid-cols-3'}`}>
+            {loc.panel.slots.map((slot) => {
               const role = content.roles?.[slot.roleIndex];
-              const wasSpeaking = slot.roleIndex === questionIndex % 3;
+              const wasSpeaking = slot.roleIndex === loc.slot.roleIndex;
               if (!role) return null;
               return (
                 <div
@@ -308,7 +354,7 @@ export function ExpertPanelActivity({
             <p className="text-sm uppercase tracking-widest opacity-60">Audience Voting</p>
             <span
               className={`text-4xl font-game tabular-nums transition-colors ${
-                voteTimer <= 2 ? 'text-red-400' : 'text-white'
+                voteTimer <= 3 ? 'text-red-400' : 'text-white'
               }`}
             >
               {voteTimer}

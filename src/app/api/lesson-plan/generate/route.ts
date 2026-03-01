@@ -269,7 +269,7 @@ Make claims progressively harder to guess.`;
   return { activityKey: 'fact-detective', topicContext: topic, claims: parsed.claims };
 }
 
-async function generateExpertPanel(topic: string, difficulty: Difficulty): Promise<ExpertPanelContent> {
+async function generateExpertPanel(topic: string, difficulty: Difficulty, n: number = 9): Promise<ExpertPanelContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -281,8 +281,9 @@ async function generateExpertPanel(topic: string, difficulty: Difficulty): Promi
             id: { type: 'string' },
             title: { type: 'string' },
             tags: { type: 'array', items: { type: 'string' } },
+            starters: { type: 'array', items: { type: 'string' } },
           },
-          required: ['id', 'title', 'tags'],
+          required: ['id', 'title', 'tags', 'starters'],
         },
       },
       questions: {
@@ -300,23 +301,28 @@ async function generateExpertPanel(topic: string, difficulty: Difficulty): Promi
     required: ['roles', 'questions'],
   };
 
-  const prompt = `Generate an "Expert Panel" talk show activity for ESL class.
+  const prompt = `Generate an "Expert Panel" talk show activity for an ESL class of ${n} students.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 
-Create exactly 3 expert role cards for the panel.
-Each role: id (slug like "role-1"), title (2–4 words), tags (exactly 3 short noun phrases, max 3 words each).
+Create exactly ${n} expert role cards — one per student.
+Each role: id (slug like "role-1"), title (2–4 words), tags (exactly 3 short noun phrases, max 3 words each),
+starters (exactly 2 short sentence starters, max 10 words each, e.g. "From my view, ..." / "A real example is ...").
 No descriptions, no vocabulary, no biographies.
 
-Create exactly 6 debate-friendly questions about the topic.
-Each: id (slug like "q-1"), text (max 15 words, concrete not academic, suitable for 20–30 second spoken response).
-Questions must not target specific roles. Make them provocative and varied.
+Create exactly ${n} debate-friendly questions — one per student.
+Rules for questions:
+- Max 12 words each
+- Include a concrete noun (parks, tourists, flights, trash, prices, farms, city, animals, etc.)
+- Answerable in 20 seconds by an intermediate ESL student speaking out loud
+- Avoid abstract words: "prioritize", "exploitation", "sustainability", "rather than"
+- Provocative and varied in angle
 
-Return JSON: { "roles": [...3 items], "questions": [...6 items] }`;
+Return JSON: { "roles": [...${n} items], "questions": [...${n} items] }`;
 
   const parsed = await generateJSON<{ roles: ExpertPanelContent['roles']; questions: ExpertPanelContent['questions'] }>(prompt, schema);
-  const roles = (parsed.roles ?? []).slice(0, 3);
-  const questions = (parsed.questions ?? []).slice(0, 6);
+  const roles = (parsed.roles ?? []).slice(0, n);
+  const questions = (parsed.questions ?? []).slice(0, n);
   return { activityKey: 'expert-panel', topicContext: topic, roles, questions };
 }
 
@@ -1089,7 +1095,7 @@ Return JSON with groups array. Words should be UPPERCASE.`;
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as LessonPlanGenerateRequest;
-    const { customTopic, difficulty, activities, games } = body;
+    const { customTopic, difficulty, activities, games, studentCount } = body;
 
     // Allow requests with only games (no activities required)
     const hasActivities = activities && activities.length > 0;
@@ -1124,7 +1130,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateFactDetective(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'expert-panel':
-            generators.push(generateExpertPanel(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateExpertPanel(customTopic, diff, studentCount ?? 9).then((r) => { content[activityKey] = r; }));
             break;
           case 'scenario-simulator':
             generators.push(generateScenarioSimulator(customTopic, diff).then((r) => { content[activityKey] = r; }));
