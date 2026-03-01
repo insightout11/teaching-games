@@ -12,6 +12,7 @@ import { problemSolversPlugin } from './problem-solvers';
 import { quickPulsePlugin } from './quick-pulse';
 import { vocabRadarPlugin } from './vocab-radar';
 import { predictionRoundPlugin } from './prediction-round';
+import { sceneIgniterPlugin } from './scene-igniter';
 import { Sparkles, BookOpen, Users, Scale } from 'lucide-react';
 
 // All registered activities
@@ -20,6 +21,7 @@ const activities: ActivityPlugin[] = [
   quickPulsePlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
+  sceneIgniterPlugin,
   wouldYouRatherPlugin,
   twoTruthsPlugin,
   rankItPlugin,

@@ -465,6 +465,19 @@ export interface PredictionRoundContent extends ActivityGeneratedContent {
   questions: [PredictionRoundQuestion, PredictionRoundQuestion, PredictionRoundQuestion];
 }
 
+// Scene Igniter content
+export interface SceneIgniterLine {
+  lineIndex: number;   // 1-based, maps to prompt_index in scores
+  character: string;  // 'A' | 'B' | 'C' | 'D'
+  text: string;
+}
+
+export interface SceneIgniterContent extends ActivityGeneratedContent {
+  activityKey: 'scene-igniter';
+  title: string;
+  lines: SceneIgniterLine[];  // 10-12 lines
+}
+
 export type GameGeneratedContent =
   | VocabSprintGeneratedContent
   | GrammarBossGeneratedContent

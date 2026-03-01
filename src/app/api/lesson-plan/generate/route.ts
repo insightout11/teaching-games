@@ -23,6 +23,7 @@ import type {
   QuickPulseContent,
   VocabRadarContent,
   PredictionRoundContent,
+  SceneIgniterContent,
   GameGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
@@ -630,6 +631,73 @@ Return JSON with a "questions" array of exactly 3 objects with: text, optionA, o
   };
 }
 
+async function generateSceneIgniter(topic: string, difficulty: Difficulty): Promise<SceneIgniterContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      title: { type: 'string' },
+      lines: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            lineIndex: { type: 'number' },
+            character: { type: 'string' },
+            text: { type: 'string' },
+          },
+          required: ['lineIndex', 'character', 'text'],
+        },
+      },
+    },
+    required: ['title', 'lines'],
+  };
+
+  const prompt = `Generate a short dialogue scene with 4 characters (A, B, C, D) for an ESL classroom.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Requirements:
+- A catchy short title for the scene
+- Exactly 12 lines total (characters A, B, C, D each speak 3 times, distributed naturally)
+- Natural, conversational dialogue related to the topic
+- Vocabulary and sentence complexity appropriate for the difficulty level
+- Lines numbered sequentially from 1 to 12
+
+Return JSON: { title: string, lines: Array<{ lineIndex: number, character: string, text: string }> }`;
+
+  const parsed = await generateJSON<{ title: string; lines: Array<{ lineIndex: number; character: string; text: string }> }>(prompt, schema);
+
+  const fallbackLines: Array<{ lineIndex: number; character: string; text: string }> =
+    ['A', 'B', 'C', 'D', 'A', 'B', 'C', 'D', 'A', 'B', 'C', 'D'].map((char, i) => ({
+      lineIndex: i + 1,
+      character: char,
+      text: `Something about ${topic}.`,
+    }));
+
+  const validChars = new Set(['A', 'B', 'C', 'D']);
+  const raw = parsed.lines ?? [];
+  const valid = raw.filter(
+    (l) => typeof l.lineIndex === 'number' && typeof l.text === 'string' && validChars.has(l.character)
+  );
+  const charCounts = new Map(
+    ['A', 'B', 'C', 'D'].map((c) => [c, valid.filter((l) => l.character === c).length])
+  );
+  const counts = Array.from(charCounts.values());
+  const isBalanced =
+    Math.min(...counts) > 0 && Math.max(...counts) - Math.min(...counts) <= 2;
+
+  const lines = (valid.length >= 8 && isBalanced)
+    ? valid.map((l, i) => ({ lineIndex: i + 1, character: l.character, text: l.text }))
+    : fallbackLines;
+
+  return {
+    activityKey: 'scene-igniter',
+    topicContext: topic,
+    title: parsed.title ?? 'Scene Igniter',
+    lines,
+  };
+}
+
 // ============================================
 // Game Generators
 // ============================================
@@ -1009,6 +1077,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'prediction-round':
             generators.push(generatePredictionRound(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'scene-igniter':
+            generators.push(generateSceneIgniter(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);
