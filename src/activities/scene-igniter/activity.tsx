@@ -5,7 +5,7 @@ import type { ActivityProps } from '../types';
 import type { SceneIgniterContent, SceneIgniterLine, SceneIgniterScene } from '../types';
 import type { Student } from '@/lib/supabase/types';
 
-type Phase = 'idle' | 'running' | 'group_done' | 'summary' | 'improv';
+type Phase = 'idle' | 'running' | 'group_done' | 'improv-running' | 'summary';
 
 function assignRoles(lines: SceneIgniterLine[], students: Student[]): Map<string, Student> {
   const charLineCounts = new Map<string, number>();
@@ -51,6 +51,8 @@ function renderWithBlanks(text: string): React.ReactNode {
   ));
 }
 
+const BLANK_HINTS = ['Try a noun.', 'Try an emotion.', 'Try a food.', 'Try a place.', 'Try an action.'];
+
 export function SceneIgniterActivity({
   students,
   generatedContent,
@@ -85,6 +87,10 @@ export function SceneIgniterActivity({
     () => assignRoles(scenes[0].lines, groupStudents[0])
   );
 
+  // Improv: student order for round-robin; can be reshuffled independently
+  const [improvStudentOrder, setImprovStudentOrder] = useState<Student[]>([]);
+  const [improvShuffled, setImprovShuffled] = useState(false);
+
   // Track scored lines per group separately so summary can combine them
   const [scoredLines, setScoredLines] = useState<Set<number>>(new Set());
   const group1ScoredLinesRef = useRef<Set<number>>(new Set());
@@ -95,7 +101,7 @@ export function SceneIgniterActivity({
 
   // Auto-scroll current line into view
   useEffect(() => {
-    if (phase === 'running') {
+    if (phase === 'running' || phase === 'improv-running') {
       lineRefs.current[currentIdx]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [currentIdx, phase]);
@@ -148,6 +154,15 @@ export function SceneIgniterActivity({
     setCurrentIdx((i) => Math.max(0, i - 1));
   }, []);
 
+  // Enter improv: initialize student order and reset cursor
+  const handleEnterImprov = useCallback(() => {
+    setImprovStudentOrder([...currentGroup]);
+    setImprovShuffled(false);
+    setCurrentIdx(0);
+    setPhase('improv-running');
+    onPhaseChange?.('improv-running');
+  }, [currentGroup, onPhaseChange]);
+
   const handleEndScene = useCallback(() => {
     if (sceneIndex === 0 && hasGroup2) {
       // Save group 1 data before transitioning
@@ -156,11 +171,25 @@ export function SceneIgniterActivity({
       setPhase('group_done');
       onPhaseChange?.('group_done');
     } else {
-      setPhase('summary');
-      onPhaseChange?.('summary');
+      // Final group → flow directly into improv
+      handleEnterImprov();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sceneIndex, hasGroup2, scoredLines, charToStudent, onPhaseChange]);
+  }, [sceneIndex, hasGroup2, scoredLines, charToStudent, onPhaseChange, handleEnterImprov]);
+
+  // Improv navigation (no scoring)
+  const handleImprovNext = useCallback(() => {
+    if (currentIdx + 1 >= currentScene.improvScript.length) {
+      setPhase('summary');
+      onPhaseChange?.('summary');
+    } else {
+      setCurrentIdx((i) => i + 1);
+    }
+  }, [currentIdx, currentScene.improvScript.length, onPhaseChange]);
+
+  const handleImprovPrev = useCallback(() => {
+    setCurrentIdx((i) => Math.max(0, i - 1));
+  }, []);
 
   const handleStartGroup2 = useCallback(() => {
     const g2 = groupStudents[1];
@@ -454,70 +483,102 @@ export function SceneIgniterActivity({
     );
   }
 
-  // ─── IMPROV ────────────────────────────────────────────────────────────────
-  if (phase === 'improv') {
-    const activeScene = scenes[sceneIndex];
-    return (
-      <div className="space-y-5">
-        <button
-          onClick={() => { setPhase('summary'); onPhaseChange?.('summary'); }}
-          className="text-sm opacity-50 hover:opacity-80 transition-opacity"
-        >
-          ← Back to Summary
-        </button>
+  // ─── IMPROV RUNNING ────────────────────────────────────────────────────────
+  if (phase === 'improv-running') {
+    const isLastImprovLine = currentIdx + 1 >= currentScene.improvScript.length;
+    const activeOrder = improvStudentOrder.length > 0 ? improvStudentOrder : currentGroup;
 
-        <div className="text-center">
-          <p className="text-2xl font-bold opacity-90">Improv Time!</p>
+    return (
+      <div className="space-y-4">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-amber-400">Act 2 — Improv</h3>
+          <span className="text-sm opacity-60">Line {currentIdx + 1} / {currentScene.improvScript.length}</span>
         </div>
 
         {/* Twist card */}
-        <div className="glass p-5 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-1">
+        <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 space-y-1">
           <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">The Twist</p>
-          <p className="text-lg font-medium leading-snug">{activeScene.improvPrompt}</p>
+          <p className="text-base font-medium leading-snug">{currentScene.improvPrompt}</p>
         </div>
 
-        {/* Improv script */}
-        <div className="space-y-2">
-          <p className="text-xs font-semibold opacity-40 uppercase tracking-wide">Improv Script</p>
-          <div className="space-y-1.5">
-            {activeScene.improvScript.map((line, i) => {
-              const assignedStudent = currentGroup[i % currentGroup.length];
-              return (
-                <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-xl border-l-2 border-transparent text-sm">
-                  <span className="px-1.5 py-0.5 bg-emerald-500/15 text-emerald-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
+        {/* Escalation rule */}
+        <div className="glass px-4 py-3 rounded-xl border border-white/10 text-xs opacity-55 space-y-0.5">
+          <p className="font-semibold uppercase tracking-wide">Improv Rule</p>
+          <p>Each new line must: add a problem · add emotion · or add a new idea</p>
+        </div>
+
+        {/* Actor reshuffle toggle */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => { setImprovStudentOrder([...currentGroup]); setImprovShuffled(false); }}
+            className={[
+              'px-3 py-1.5 text-xs rounded-lg transition-colors',
+              !improvShuffled ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/10 opacity-60 hover:opacity-80',
+            ].join(' ')}
+          >
+            Keep Same Roles
+          </button>
+          <button
+            onClick={() => { setImprovStudentOrder(shuffled(currentGroup)); setImprovShuffled(true); }}
+            className={[
+              'px-3 py-1.5 text-xs rounded-lg transition-colors',
+              improvShuffled ? 'bg-amber-500/20 text-amber-300' : 'bg-white/10 opacity-60 hover:opacity-80',
+            ].join(' ')}
+          >
+            Shuffle Roles
+          </button>
+        </div>
+
+        {/* Line-by-line improv script */}
+        <div className="space-y-1 max-h-[360px] overflow-y-auto pr-1">
+          {currentScene.improvScript.map((line, idx) => {
+            const assignedStudent = activeOrder[idx % activeOrder.length];
+            const isCurrent = idx === currentIdx;
+            const isPast = idx < currentIdx;
+            const hasBlank = line.text.includes('___');
+            return (
+              <div
+                key={idx}
+                ref={(el) => { lineRefs.current[idx] = el; }}
+                className={[
+                  'px-3 py-2 rounded-xl transition-all',
+                  isCurrent
+                    ? 'bg-amber-500/10 border-l-2 border-amber-400'
+                    : 'border-l-2 border-transparent',
+                  isPast ? 'opacity-35' : isCurrent ? 'opacity-100' : 'opacity-60',
+                ].join(' ')}
+              >
+                <div className="flex items-start gap-2 text-sm">
+                  <span className="px-1.5 py-0.5 bg-amber-500/15 text-amber-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
                   <div className="flex-1 min-w-0">
                     <span className="text-xs opacity-50 mr-1">{assignedStudent?.name ?? '—'}</span>
-                    <span className="opacity-80">{renderWithBlanks(line.text)}</span>
+                    <span className={isCurrent ? 'text-base font-medium' : 'text-sm'}>{renderWithBlanks(line.text)}</span>
+                    {isCurrent && hasBlank && (
+                      <p className="text-xs opacity-50 italic mt-1">{BLANK_HINTS[idx % BLANK_HINTS.length]}</p>
+                    )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
 
-        <div className="flex items-center justify-between gap-3 pt-1">
+        {/* Nav bar */}
+        <div className="flex items-center gap-2 pt-1">
           <button
-            onClick={() => { setPhase('summary'); onPhaseChange?.('summary'); }}
-            className="px-4 py-2.5 text-sm bg-white/10 hover:bg-white/15 rounded-xl transition-colors"
+            onClick={handleImprovPrev}
+            disabled={currentIdx === 0}
+            className="px-4 py-2.5 bg-white/10 hover:bg-white/15 disabled:opacity-30 disabled:cursor-not-allowed rounded-xl transition-colors text-sm font-medium"
           >
-            Back to Summary
+            ← Prev
           </button>
-          <div className="flex items-center gap-3">
-            {hasAltScene && !useAltScene && (
-              <button
-                onClick={handleNewScene}
-                className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-              >
-                New Scene ✨
-              </button>
-            )}
-            <button
-              onClick={handleRunAgain}
-              className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              Run Again
-            </button>
-          </div>
+          <button
+            onClick={handleImprovNext}
+            className="flex-1 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+          >
+            {isLastImprovLine ? 'Improv Complete ✓' : 'Next Line ▶'}
+          </button>
         </div>
       </div>
     );
@@ -554,7 +615,7 @@ export function SceneIgniterActivity({
           <p className="text-base font-medium leading-snug">{activeScene.improvPrompt}</p>
         </div>
         <button
-          onClick={() => { setPhase('improv'); onPhaseChange?.('improv'); }}
+          onClick={handleEnterImprov}
           className="px-5 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-xl text-sm font-medium transition-colors"
         >
           Run Improv ▶
