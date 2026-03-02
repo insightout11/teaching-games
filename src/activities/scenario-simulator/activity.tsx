@@ -109,17 +109,6 @@ export function ScenarioSimulatorActivity({
   const pickingRef = useRef(false);           // prevents double-trigger of pick-top3
   const top3PicksRef = useRef(top3Picks);     top3PicksRef.current = top3Picks;
 
-  // Stale content guard
-  if (!content.rounds || content.rounds.length !== 5) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-amber-400 text-sm">Content needs to be regenerated for the updated Scenario Simulator.</p>
-      </div>
-    );
-  }
-
-  const round = content.rounds[currentRound];
-
   // ── Timer tick ──────────────────────────────────────────────────────────────
   useEffect(() => {
     const timed = [ActivityStatus.VOTING, ActivityStatus.FINALE_VOTE, ActivityStatus.FINALE_SUBMIT];
@@ -326,6 +315,17 @@ export function ScenarioSimulatorActivity({
     const idx = (readerIndexRef.current + lineOffset) % students.length;
     return students[idx] ?? null;
   }
+
+  // ── Stale content guard (after all hooks) ────────────────────────────────────
+  if (!content.rounds || content.rounds.length !== 5) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-amber-400 text-sm">Content needs to be regenerated for the updated Scenario Simulator.</p>
+      </div>
+    );
+  }
+
+  const round = content.rounds[currentRound];
 
   // ── Meter bounds: internal raw range is roughly -10 to +10 across 5 rounds ──
   const METER_MAX = 10;
