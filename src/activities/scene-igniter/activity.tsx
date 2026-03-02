@@ -51,7 +51,6 @@ function renderWithBlanks(text: string): React.ReactNode {
   ));
 }
 
-const BLANK_HINTS = ['Try a noun.', 'Try an emotion.', 'Try a food.', 'Try a place.', 'Try an action.'];
 
 export function SceneIgniterActivity({
   students,
@@ -554,8 +553,8 @@ export function SceneIgniterActivity({
                   <div className="flex-1 min-w-0">
                     <span className="text-xs opacity-50 mr-1">{assignedStudent?.name ?? '—'}</span>
                     <span className={isCurrent ? 'text-base font-medium' : 'text-sm'}>{renderWithBlanks(line.text)}</span>
-                    {isCurrent && hasBlank && (
-                      <p className="text-xs opacity-50 italic mt-1">{BLANK_HINTS[idx % BLANK_HINTS.length]}</p>
+                    {isCurrent && hasBlank && line.hint && (
+                      <p className="text-xs opacity-50 italic mt-1">{line.hint}</p>
                     )}
                   </div>
                 </div>

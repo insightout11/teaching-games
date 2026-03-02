@@ -474,6 +474,7 @@ export interface SceneIgniterLine {
 export interface SceneIgniterImprovLine {
   character: string;  // 'A' | 'B' | 'C' | 'D' — same chars as parent scene
   text: string;       // contains ___ blanks for improvised phrases
+  hint?: string;      // e.g. "e.g. weird, broken, tiny" — 2–3 example words for the blank
 }
 
 export interface SceneIgniterScene {
