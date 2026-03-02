@@ -805,7 +805,7 @@ export function GridRushGame({
               <p className="text-violet-400 text-xs font-semibold uppercase tracking-wider mb-1">🧠 Best Sentence</p>
               {specialAwards.bestSentence.studentId ? (
                 <>
-                  <p className="text-white text-xs leading-snug line-clamp-3 mb-1">"{specialAwards.bestSentence.sentence}"</p>
+                  <p className="text-white text-xs leading-snug line-clamp-3 mb-1">&ldquo;{specialAwards.bestSentence.sentence}&rdquo;</p>
                   <p className="text-slate-400 text-xs">{specialAwards.bestSentence.displayName} · {specialAwards.bestSentence.score}/5</p>
                 </>
               ) : (
