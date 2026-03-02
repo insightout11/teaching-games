@@ -330,73 +330,80 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty):
   const schema: AISchema = {
     type: 'object',
     properties: {
-      scenario: {
-        type: 'object',
-        properties: {
-          title: { type: 'string' },
-          context: { type: 'string' },
-          objective: { type: 'string' },
-        },
-        required: ['title', 'context', 'objective'],
-      },
-      roles: {
+      title: { type: 'string' },
+      hook: { type: 'string' },
+      tone: { type: 'string' },
+      goalLabel: { type: 'string' },
+      dangerLabel: { type: 'string' },
+      rounds: {
         type: 'array',
         items: {
           type: 'object',
           properties: {
-            id: { type: 'string' },
-            name: { type: 'string' },
-            description: { type: 'string' },
-            goals: { type: 'array', items: { type: 'string' } },
-          },
-          required: ['id', 'name', 'description', 'goals'],
-        },
-      },
-      initialSituation: { type: 'string' },
-      branchingPoints: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            id: { type: 'string' },
+            id: { type: 'number' },
+            readLines: { type: 'array', items: { type: 'string' } },
             situation: { type: 'string' },
             choices: {
               type: 'array',
               items: {
                 type: 'object',
                 properties: {
-                  id: { type: 'string' },
-                  action: { type: 'string' },
+                  label: { type: 'string' },
+                  text: { type: 'string' },
                   consequence: { type: 'string' },
+                  goalDelta: { type: 'number' },
+                  dangerDelta: { type: 'number' },
                 },
-                required: ['id', 'action', 'consequence'],
+                required: ['label', 'text', 'consequence', 'goalDelta', 'dangerDelta'],
               },
             },
           },
-          required: ['id', 'situation', 'choices'],
+          required: ['id', 'readLines', 'situation', 'choices'],
         },
       },
+      finalePrompt: { type: 'string' },
+      successBanner: { type: 'string' },
+      failureBanner: { type: 'string' },
     },
-    required: ['scenario', 'roles', 'initialSituation', 'branchingPoints'],
+    required: ['title', 'hook', 'tone', 'goalLabel', 'dangerLabel', 'rounds', 'finalePrompt', 'successBanner', 'failureBanner'],
   };
 
-  const prompt = `Generate a "Scenario Simulator" for ESL class.
-Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+  const prompt = `Generate a "Scenario Simulator" activity for an ESL class.
+Topic: ${topic} | Difficulty: ${difficultyDescriptions[difficulty]}
 
-Create an engaging scenario with:
-- Title, context, and objective
-- 3-4 roles with different goals
-- Initial situation
-- 4 branching points with 2-3 choices each, showing consequences`;
+Rules:
+- Exactly 5 rounds. Tension must escalate each round — stakes rise visibly.
+- Each round: exactly 3 lines to read (≤12 words each, dramatic, cinematic — no narration prose).
+  Each line is read aloud by one student, so write them as distinct beats.
+- Each round: 3 choices A/B/C (≤10 words each, punchy verbs, no corporate language).
+- Each choice: 1–2 cinematic consequence sentences (vivid, immediate, not abstract).
+- goalDelta/dangerDelta per choice: -2 to +2. Spread values so the game is winnable but not guaranteed.
+- hook: 1 vivid urgent sentence, non-corporate — crisis, countdown, exposure, or chaos.
+- tone: pick best fit from [thriller, comedy, sci-fi, mystery, default].
+- goalLabel/dangerLabel: 2–3 words skinned to tone (e.g. Escape/Chaos, Trust/Suspicion, Repair/Damage, Score/Time).
+- finalePrompt: 1 direct sentence asking students for their final move (max 15 words).
+- successBanner / failureBanner: short punchy ALL CAPS phrases (max 5 words each).
+- Round ids are 1–5. Choice labels are A, B, C.
+
+Return valid JSON matching the schema.`;
 
   const parsed = await generateJSON<{
-    scenario: { title: string; context: string; objective: string };
-    roles: Array<{ id: string; name: string; description: string; goals: string[] }>;
-    initialSituation: string;
-    branchingPoints: Array<{ id: string; situation: string; choices: Array<{ id: string; action: string; consequence: string }> }>;
+    title: string;
+    hook: string;
+    tone: string;
+    goalLabel: string;
+    dangerLabel: string;
+    rounds: Array<{
+      id: number;
+      readLines: string[];
+      situation: string;
+      choices: Array<{ label: string; text: string; consequence: string; goalDelta: number; dangerDelta: number }>;
+    }>;
+    finalePrompt: string;
+    successBanner: string;
+    failureBanner: string;
   }>(prompt, schema);
-  return { activityKey: 'scenario-simulator', topicContext: topic, ...parsed };
+  return { activityKey: 'scenario-simulator', topicContext: topic, ...parsed } as ScenarioSimulatorContent;
 }
 
 async function generateInterviewLab(topic: string, difficulty: Difficulty): Promise<InterviewLabContent> {

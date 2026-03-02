@@ -1,43 +1,30 @@
-import type {
-  ScenarioSimulatorContent,
-  ScenarioSetup,
-  ScenarioRole,
-  ScenarioBranch,
-  ScenarioChoice,
-} from '../types';
-
-// Activity states
 export enum ActivityStatus {
   IDLE = 'IDLE',
-  SETUP = 'SETUP',
-  ASSIGNING = 'ASSIGNING',
-  SITUATION = 'SITUATION',
-  DISCUSSING = 'DISCUSSING',
-  CHOOSING = 'CHOOSING',
+  READING = 'READING',
+  VOTING = 'VOTING',
   CONSEQUENCE = 'CONSEQUENCE',
-  FINISHED = 'FINISHED',
+  FINALE_SUBMIT = 'FINALE_SUBMIT',
+  FINALE_PICKING = 'FINALE_PICKING',
+  FINALE_VOTE = 'FINALE_VOTE',
+  OUTCOME = 'OUTCOME',
 }
 
-// Role assignment
-export interface RoleAssignment {
-  studentId: string;
-  studentName: string;
-  roleId: string;
+export interface VoteRecord {
+  clientId: string;
+  studentId: string | null;
+  displayName: string;
+  choice: string;
 }
 
-// Decision history
-export interface DecisionRecord {
-  branchId: string;
-  choiceId: string;
-  choiceText: string;
-  consequence: string;
+export interface AssignedLine {
+  line: string;
+  reader: { id: string; name: string } | null;
 }
 
-// Re-export content types
-export type {
-  ScenarioSimulatorContent,
-  ScenarioSetup,
-  ScenarioRole,
-  ScenarioBranch,
-  ScenarioChoice,
-};
+export interface FinaleSubmission {
+  clientId: string;
+  displayName: string;
+  text: string;
+}
+
+export type { ScenarioSimulatorContent, ScenarioRound, ScenarioChoice, FinaleOption } from '../types';

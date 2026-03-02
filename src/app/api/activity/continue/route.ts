@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import type { ActivityContinueRequest, ActivityContinueResponse } from '@/activities/types';
+import type { ActivityContinueRequest, ActivityContinueResponse, FinaleOption } from '@/activities/types';
 
 // Generic prompt for activities without specific handlers
 function genericActivityPrompt(req: ActivityContinueRequest): string {
@@ -141,6 +141,17 @@ const schema: AISchema = {
       type: 'array',
       items: { type: 'string' },
     },
+    top3Picks: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          label: { type: 'string' },
+          text: { type: 'string' },
+          tag: { type: 'string' },
+        },
+      },
+    },
   },
 };
 
@@ -148,6 +159,41 @@ export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as ActivityContinueRequest;
     const { activityKey, requestType } = body;
+
+    // pick-top3: scenario-simulator finale — select 3 best student submissions
+    if (activityKey === 'scenario-simulator' && requestType === 'pick-top3') {
+      const submissions: Array<{ text: string }> = JSON.parse(body.studentResponse ?? '[]');
+      const pickSchema: AISchema = {
+        type: 'object',
+        properties: {
+          top3Picks: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                label: { type: 'string' },
+                text: { type: 'string' },
+                tag: { type: 'string' },  // 'bold' | 'safe' | 'risky'
+              },
+              required: ['label', 'text', 'tag'],
+            },
+          },
+        },
+        required: ['top3Picks'],
+      };
+      const pickPrompt = `Pick the 3 best "final moves" from student submissions for: "${body.topicContext}".
+Submissions:
+${submissions.map((s, i) => `${i + 1}. ${s.text}`).join('\n')}
+
+Select 3 that are most creative, viable, or dramatically interesting.
+Rephrase each as a punchy action phrase ≤12 words (15-word constraint — trim if needed).
+Assign a tag to each: "bold" (daring gamble, high risk high reward), "safe" (cautious but reasonable), "risky" (desperate or unconventional).
+Order matters: A = best/most viable, B = second best, C = wild card (risky or unusual).
+If fewer than 3 submissions exist, invent plausible alternatives.
+Return top3Picks array with exactly 3 items, labels A/B/C.`;
+      const parsed = await generateJSON<{ top3Picks: FinaleOption[] }>(pickPrompt, pickSchema, { taskClass: 'activity-facilitation' });
+      return NextResponse.json({ top3Picks: parsed.top3Picks } satisfies ActivityContinueResponse);
+    }
 
     // Get the appropriate prompt generator (or use generic fallback)
     const promptGenerator = activityPrompts[activityKey] || genericActivityPrompt;

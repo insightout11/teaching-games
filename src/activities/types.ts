@@ -224,36 +224,38 @@ export interface HotTakeArenaContent extends ActivityGeneratedContent {
 // Scenario Simulator content
 export interface ScenarioSimulatorContent extends ActivityGeneratedContent {
   activityKey: 'scenario-simulator';
-  scenario: ScenarioSetup;
-  roles: ScenarioRole[];
-  initialSituation: string;
-  branchingPoints: ScenarioBranch[];
-}
-
-export interface ScenarioSetup {
   title: string;
-  context: string;
-  objective: string;
+  hook: string;               // 1-line urgent hook shown at start
+  tone: 'thriller' | 'comedy' | 'sci-fi' | 'mystery' | 'default';
+  // Two skinnable meter labels — AI generates based on scenario
+  goalLabel: string;          // e.g. "Escape", "Trust", "Repair", "Score"
+  dangerLabel: string;        // e.g. "Chaos", "Suspicion", "Damage", "Time"
+  rounds: ScenarioRound[];    // exactly 5
+  finalePrompt: string;
+  successBanner: string;
+  failureBanner: string;
 }
 
-export interface ScenarioRole {
-  id: string;
-  name: string;
-  description: string;
-  goals: string[];
-}
-
-export interface ScenarioBranch {
-  id: string;
-  situation: string;
-  choices: ScenarioChoice[];
+export interface ScenarioRound {
+  id: number;                 // 1–5
+  readLines: string[];        // default 3 lines (≤12 words each), 4–5 allowed
+  situation: string;          // 1–2 sentence teacher context (shown small)
+  choices: ScenarioChoice[];  // exactly 3
 }
 
 export interface ScenarioChoice {
-  id: string;
-  action: string;
-  consequence: string;
-  nextBranchId?: string;
+  label: 'A' | 'B' | 'C';
+  text: string;               // ≤10 words — shown on student button
+  consequence: string;        // 1–2 cinematic sentences shown after vote
+  goalDelta: number;          // -2 to +2 (hidden — drives GOAL meter)
+  dangerDelta: number;        // -2 to +2 (hidden — drives DANGER meter)
+}
+
+// Finale top-3 pick (returned by continue API)
+export interface FinaleOption {
+  label: 'A' | 'B' | 'C';
+  text: string;
+  tag: 'bold' | 'safe' | 'risky';  // used for comeback logic and outcome reason
 }
 
 // Interview Lab content
@@ -305,7 +307,7 @@ export interface ActivityContinueRequest {
   topicContext: string;
   previousExchanges: ActivityExchange[];
   studentResponse: string;
-  requestType: 'follow-up' | 'challenge' | 'hint' | 'evaluate' | 'counter-argument';
+  requestType: 'follow-up' | 'challenge' | 'hint' | 'evaluate' | 'counter-argument' | 'pick-top3';
 }
 
 export interface ActivityExchange {
@@ -324,6 +326,7 @@ export interface ActivityContinueResponse {
   };
   teacherNote?: string;
   vocabularyHighlight?: string[];
+  top3Picks?: FinaleOption[];
 }
 
 // ============================================

@@ -1,15 +1,75 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import {
   ActivityStatus,
-  type RoleAssignment,
-  type DecisionRecord,
+  type VoteRecord,
+  type FinaleSubmission,
   type ScenarioSimulatorContent,
-  type ScenarioBranch,
+  type ScenarioChoice,
+  type FinaleOption,
 } from './types';
+
+// Pure outcome logic — defined outside component
+const GOAL_SUCCESS = 3;
+const DANGER_FAIL = 3;
+
+function calculateOutcome(
+  goalTotal: number,
+  dangerTotal: number,
+  finalTag: 'bold' | 'safe' | 'risky',
+): { isSuccess: boolean; narrow: boolean; isComeback: boolean } {
+  const goalBonus = finalTag === 'bold' ? 2 : finalTag === 'safe' ? 1 : 0;
+  const effGoal = goalTotal + goalBonus;
+
+  const dangerFail = dangerTotal >= DANGER_FAIL;
+  const isComeback = dangerFail && finalTag === 'bold' && goalTotal >= 1;
+
+  if (dangerFail && !isComeback) return { isSuccess: false, narrow: false, isComeback: false };
+
+  const isSuccess = effGoal >= GOAL_SUCCESS || isComeback;
+  const narrow = isSuccess && effGoal < GOAL_SUCCESS + 3;
+  return { isSuccess, narrow, isComeback };
+}
+
+function outcomeReason(
+  title: string,
+  isSuccess: boolean,
+  narrow: boolean,
+  isComeback: boolean,
+  goalTotal: number,
+): string {
+  if (isComeback) return 'Against all odds, one brilliant move turned the tide at the last second.';
+  if (isSuccess && !narrow) return `${title} — sharp decisions all the way through sealed the win.`;
+  if (isSuccess && narrow) return 'A strong run, and a decisive final call closed the deal.';
+  if (goalTotal >= 0) return 'So close — one different call could have changed everything.';
+  return 'The choices made here compounded into an unwinnable situation.';
+}
+
+function fallbackPicks(subs: FinaleSubmission[]): FinaleOption[] {
+  const labels: ('A' | 'B' | 'C')[] = ['A', 'B', 'C'];
+  const tags: ('bold' | 'safe' | 'risky')[] = ['bold', 'safe', 'risky'];
+  return labels.map((label, i) => ({ label, text: subs[i]?.text ?? `Option ${label}`, tag: tags[i] }));
+}
+
+// Meter bar component
+function MeterBar({ label, value, maxVal, colorClass }: { label: string; value: number; maxVal: number; colorClass: string }) {
+  const pct = Math.max(0, Math.min(100, ((value + maxVal) / (maxVal * 2)) * 100));
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-xs opacity-60 w-20 shrink-0 text-right">{label}</span>
+      <div className="flex-1 h-3 bg-white/10 rounded-full overflow-hidden">
+        <motion.div
+          className={`h-full rounded-full ${colorClass}`}
+          animate={{ width: `${pct}%` }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export function ScenarioSimulatorActivity({
   students,
@@ -18,482 +78,592 @@ export function ScenarioSimulatorActivity({
   customTopic,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  onScore,
+  onContinue,
 }: ActivityProps) {
   const content = generatedContent as ScenarioSimulatorContent;
 
-  const [status, setStatus] = useState<ActivityStatus>(ActivityStatus.IDLE);
-  const [roleAssignments, setRoleAssignments] = useState<RoleAssignment[]>([]);
-  const [currentBranchIndex, setCurrentBranchIndex] = useState(0);
-  const [decisions, setDecisions] = useState<DecisionRecord[]>([]);
-  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
-  const [showConsequence, setShowConsequence] = useState(false);
+  const [status, setStatus] = useState(ActivityStatus.IDLE);
+  const [currentRound, setCurrentRound] = useState(0);
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [votes, setVotes] = useState<VoteRecord[]>([]);
+  const [goalTotal, setGoalTotal] = useState(0);
+  const [dangerTotal, setDangerTotal] = useState(1);
+  const [lastConsequence, setLastConsequence] = useState('');
+  const [lastWinner, setLastWinner] = useState<ScenarioChoice | null>(null);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [finaleSubmissions, setFinaleSubmissions] = useState<FinaleSubmission[]>([]);
+  const [top3Picks, setTop3Picks] = useState<FinaleOption[]>([]);
+  const [finaleVotes, setFinaleVotes] = useState<VoteRecord[]>([]);
+  const [outcome, setOutcome] = useState<{ isSuccess: boolean; narrow: boolean; isComeback: boolean; finalTag: string } | null>(null);
 
-  const currentBranch: ScenarioBranch | undefined = content.branchingPoints?.[currentBranchIndex];
+  // Refs for use in callbacks/effects
+  const statusRef = useRef(status);           statusRef.current = status;
+  const currentRoundRef = useRef(currentRound); currentRoundRef.current = currentRound;
+  const votesRef = useRef(votes);             votesRef.current = votes;
+  const finaleSubsRef = useRef(finaleSubmissions); finaleSubsRef.current = finaleSubmissions;
+  const finaleVotesRef = useRef(finaleVotes); finaleVotesRef.current = finaleVotes;
+  const goalTotalRef = useRef(goalTotal);     goalTotalRef.current = goalTotal;
+  const dangerTotalRef = useRef(dangerTotal); dangerTotalRef.current = dangerTotal;
+  const readerIndexRef = useRef(0);           // persists across rounds for equal-turn distribution
+  const pickingRef = useRef(false);           // prevents double-trigger of pick-top3
+  const top3PicksRef = useRef(top3Picks);     top3PicksRef.current = top3Picks;
 
-  // Register input spec for student controller
-  useEffect(() => {
-    if (status === ActivityStatus.CHOOSING && currentBranch) {
-      onSetInputSpec?.({
-        type: 'choice',
-        gameKey: 'scenario-simulator',
-        prompt: currentBranch.situation,
-        options: currentBranch.choices.map((c, i) => `${String.fromCharCode(65 + i)}. ${c.action}`),
-      });
-    } else {
-      onSetInputSpec?.(null);
-    }
-  }, [status, currentBranch, onSetInputSpec]);
-
-  // Register remote vote handler to receive votes from student devices
-  useEffect(() => {
-    if (status !== ActivityStatus.CHOOSING || !currentBranch) return;
-
-    onRegisterRemoteVoteHandler?.((vote) => {
-      const options = currentBranch.choices.map((c, i) => `${String.fromCharCode(65 + i)}. ${c.action}`);
-      const index = options.indexOf(vote.choice);
-      if (index >= 0 && currentBranch.choices[index]) {
-        setSelectedChoice(currentBranch.choices[index].id);
-      }
-    });
-
-    return () => onRegisterRemoteVoteHandler?.(null);
-  }, [status, currentBranch, onRegisterRemoteVoteHandler]);
-
-  const startActivity = useCallback(() => {
-    setStatus(ActivityStatus.SETUP);
-    onPhaseChange?.('setup');
-  }, [onPhaseChange]);
-
-  const startAssigning = useCallback(() => {
-    setStatus(ActivityStatus.ASSIGNING);
-    onPhaseChange?.('assigning');
-  }, [onPhaseChange]);
-
-  const assignRole = useCallback((studentId: string, roleId: string) => {
-    const student = students.find((s) => s.id === studentId);
-    if (!student) return;
-
-    setRoleAssignments((prev) => {
-      const filtered = prev.filter((a) => a.studentId !== studentId);
-      const withoutRole = filtered.filter((a) => a.roleId !== roleId);
-      return [...withoutRole, { studentId, studentName: student.name, roleId }];
-    });
-  }, [students]);
-
-  const startScenario = useCallback(() => {
-    setStatus(ActivityStatus.SITUATION);
-    setCurrentBranchIndex(0);
-    onPhaseChange?.('situation');
-  }, [onPhaseChange]);
-
-  const startDiscussion = useCallback(() => {
-    setStatus(ActivityStatus.DISCUSSING);
-    onPhaseChange?.('discussing');
-  }, [onPhaseChange]);
-
-  const startChoosing = useCallback(() => {
-    setStatus(ActivityStatus.CHOOSING);
-    setSelectedChoice(null);
-    onPhaseChange?.('choosing');
-  }, [onPhaseChange]);
-
-  const selectChoice = useCallback((choiceId: string) => {
-    setSelectedChoice(choiceId);
-  }, []);
-
-  const confirmChoice = useCallback(() => {
-    if (!currentBranch || !selectedChoice) return;
-
-    const choice = currentBranch.choices.find((c) => c.id === selectedChoice);
-    if (!choice) return;
-
-    setDecisions((prev) => [...prev, {
-      branchId: currentBranch.id,
-      choiceId: choice.id,
-      choiceText: choice.action,
-      consequence: choice.consequence,
-    }]);
-
-    setShowConsequence(true);
-    setStatus(ActivityStatus.CONSEQUENCE);
-    onPhaseChange?.('consequence');
-  }, [currentBranch, selectedChoice, onPhaseChange]);
-
-  const nextSituation = useCallback(() => {
-    const choice = currentBranch?.choices.find((c) => c.id === selectedChoice);
-
-    // Check if there's a next branch specified
-    if (choice?.nextBranchId) {
-      const nextIndex = content.branchingPoints?.findIndex((b) => b.id === choice.nextBranchId);
-      if (nextIndex !== undefined && nextIndex >= 0) {
-        setCurrentBranchIndex(nextIndex);
-        setSelectedChoice(null);
-        setShowConsequence(false);
-        setStatus(ActivityStatus.SITUATION);
-        onPhaseChange?.('situation');
-        return;
-      }
-    }
-
-    // Otherwise, just go to next branch in sequence
-    if (currentBranchIndex < (content.branchingPoints?.length || 0) - 1) {
-      setCurrentBranchIndex((prev) => prev + 1);
-      setSelectedChoice(null);
-      setShowConsequence(false);
-      setStatus(ActivityStatus.SITUATION);
-      onPhaseChange?.('situation');
-    } else {
-      setStatus(ActivityStatus.FINISHED);
-      onPhaseChange?.('finished');
-    }
-  }, [currentBranch, selectedChoice, currentBranchIndex, content.branchingPoints, onPhaseChange]);
-
-  const restartActivity = useCallback(() => {
-    setRoleAssignments([]);
-    setCurrentBranchIndex(0);
-    setDecisions([]);
-    setSelectedChoice(null);
-    setShowConsequence(false);
-    setStatus(ActivityStatus.IDLE);
-    onPhaseChange?.('idle');
-  }, [onPhaseChange]);
-
-  if (!content.scenario || !content.branchingPoints || content.branchingPoints.length === 0) {
+  // Stale content guard
+  if (!content.rounds || content.rounds.length !== 5) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-400">No scenario available. Please regenerate content.</p>
+        <p className="text-amber-400 text-sm">Content needs to be regenerated for the updated Scenario Simulator.</p>
       </div>
     );
   }
 
+  const round = content.rounds[currentRound];
+
+  // ── Timer tick ──────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const timed = [ActivityStatus.VOTING, ActivityStatus.FINALE_VOTE, ActivityStatus.FINALE_SUBMIT];
+    if (!timed.includes(status) || timeLeft <= 0) return;
+    const id = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
+    return () => clearTimeout(id);
+  }, [status, timeLeft]);
+
+  // ── Auto-advance on timer=0 ──────────────────────────────────────────────────
+  useEffect(() => {
+    if (status === ActivityStatus.VOTING && timeLeft === 0) handleVotingEnd();
+    if (status === ActivityStatus.FINALE_VOTE && timeLeft === 0) handleFinaleVoteEnd();
+    if (status === ActivityStatus.FINALE_SUBMIT && timeLeft === 0) handlePickTop3();
+  }, [timeLeft, status]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── InputSpec ───────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const r = content.rounds?.[currentRound];
+    if (status === ActivityStatus.VOTING && r) {
+      onSetInputSpec?.({
+        type: 'choice',
+        gameKey: 'scenario-simulator',
+        prompt: r.situation,
+        options: r.choices.map((c) => `${c.label}. ${c.text}`),
+      });
+    } else if (status === ActivityStatus.FINALE_SUBMIT) {
+      onSetInputSpec?.({
+        type: 'text',
+        gameKey: 'scenario-simulator',
+        prompt: content.finalePrompt + ' (max 15 words)',
+        maxLength: 80,
+        placeholder: 'Your final move — 15 words max...',
+      });
+    } else if (status === ActivityStatus.FINALE_VOTE && top3PicksRef.current.length === 3) {
+      onSetInputSpec?.({
+        type: 'choice',
+        gameKey: 'scenario-simulator',
+        prompt: 'Choose the best final move:',
+        options: top3PicksRef.current.map((p) => `${p.label}. ${p.text}`),
+      });
+    } else {
+      onSetInputSpec?.(null);
+    }
+  }, [status, currentRound, top3Picks, content, onSetInputSpec]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Remote vote handler ──────────────────────────────────────────────────────
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.((vote) => {
+      if (statusRef.current === ActivityStatus.VOTING) {
+        if (votesRef.current.some((v) => v.clientId === vote.clientId)) return;
+        setVotes((prev) => [...prev, { clientId: vote.clientId, studentId: vote.studentId ?? null, displayName: vote.displayName, choice: vote.choice }]);
+        onScore?.({ studentId: vote.studentId ?? null, clientId: vote.clientId, displayName: vote.displayName, promptIndex: currentRoundRef.current + 1, points: 1, isCorrect: null });
+      }
+
+      if (statusRef.current === ActivityStatus.FINALE_SUBMIT) {
+        if (finaleSubsRef.current.some((f) => f.clientId === vote.clientId)) return;
+        setFinaleSubmissions((prev) => {
+          const next = [...prev, { clientId: vote.clientId, displayName: vote.displayName, text: vote.choice }];
+          const allIn = next.length >= students.length && students.length > 0;
+          if (allIn && !pickingRef.current) setTimeout(() => handlePickTop3(), 800);
+          return next;
+        });
+        onScore?.({ studentId: vote.studentId ?? null, clientId: vote.clientId, displayName: vote.displayName, promptIndex: 6, points: 1, isCorrect: null });
+      }
+
+      if (statusRef.current === ActivityStatus.FINALE_VOTE) {
+        if (finaleVotesRef.current.some((v) => v.clientId === vote.clientId)) return;
+        setFinaleVotes((prev) => [...prev, { clientId: vote.clientId, studentId: vote.studentId ?? null, displayName: vote.displayName, choice: vote.choice }]);
+        onScore?.({ studentId: vote.studentId ?? null, clientId: vote.clientId, displayName: vote.displayName, promptIndex: 7, points: 1, isCorrect: null });
+      }
+    });
+    return () => onRegisterRemoteVoteHandler?.(null);
+  }, [onRegisterRemoteVoteHandler, onScore]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Handlers ─────────────────────────────────────────────────────────────────
+
+  const handleVotingEnd = useCallback(() => {
+    const r = content.rounds?.[currentRoundRef.current];
+    if (!r) return;
+    const tally: Record<string, number> = {};
+    votesRef.current.forEach((v) => { tally[v.choice] = (tally[v.choice] ?? 0) + 1; });
+    const winner = (['A', 'B', 'C'] as const).reduce((best, cur) =>
+      (tally[cur] ?? 0) > (tally[best] ?? 0) ? cur : best, 'A' as const);
+    const winChoice = r.choices.find((c) => c.label === winner) ?? r.choices[0];
+
+    setGoalTotal((g) => g + winChoice.goalDelta);
+    setDangerTotal((d) => d + winChoice.dangerDelta);
+    goalTotalRef.current = goalTotalRef.current + winChoice.goalDelta;
+    dangerTotalRef.current = dangerTotalRef.current + winChoice.dangerDelta;
+    setLastConsequence(winChoice.consequence);
+    setLastWinner(winChoice);
+    setStatus(ActivityStatus.CONSEQUENCE);
+    onPhaseChange?.('consequence');
+  }, [content.rounds, onPhaseChange]);
+
+  const handlePickTop3 = useCallback(async () => {
+    if (pickingRef.current) return;
+    pickingRef.current = true;
+    setStatus(ActivityStatus.FINALE_PICKING);
+    onPhaseChange?.('finale-picking');
+    try {
+      const res = await onContinue?.({
+        sessionId: '',
+        activityKey: 'scenario-simulator',
+        topicContext: customTopic ?? content.title,
+        requestType: 'pick-top3',
+        studentResponse: JSON.stringify(finaleSubsRef.current.map((s) => ({ text: s.text }))),
+        previousExchanges: [],
+      });
+      const picks = res?.top3Picks?.length === 3 ? res.top3Picks : fallbackPicks(finaleSubsRef.current);
+      setTop3Picks(picks);
+      top3PicksRef.current = picks;
+    } catch {
+      const picks = fallbackPicks(finaleSubsRef.current);
+      setTop3Picks(picks);
+      top3PicksRef.current = picks;
+    }
+    setFinaleVotes([]);
+    setTimeLeft(15);
+    setStatus(ActivityStatus.FINALE_VOTE);
+    onPhaseChange?.('finale-vote');
+  }, [onContinue, customTopic, content.title, onPhaseChange]);
+
+  const handleFinaleVoteEnd = useCallback(() => {
+    const tally: Record<string, number> = {};
+    finaleVotesRef.current.forEach((v) => { tally[v.choice] = (tally[v.choice] ?? 0) + 1; });
+    const winner = (['A', 'B', 'C'] as const).reduce((best, cur) =>
+      (tally[cur] ?? 0) > (tally[best] ?? 0) ? cur : best, 'A' as const);
+    const winPick = top3PicksRef.current.find((p) => p.label === winner) ?? top3PicksRef.current[0];
+    const tag = (winPick?.tag ?? 'safe') as 'bold' | 'safe' | 'risky';
+    const result = calculateOutcome(goalTotalRef.current, dangerTotalRef.current, tag);
+    setOutcome({ ...result, finalTag: tag });
+    setStatus(ActivityStatus.OUTCOME);
+    onPhaseChange?.('outcome');
+  }, [onPhaseChange]);
+
+  const handleBegin = useCallback(() => {
+    setStatus(ActivityStatus.READING);
+    setCurrentRound(0);
+    setCurrentLineIndex(0);
+    readerIndexRef.current = 0;
+    onPhaseChange?.('reading');
+  }, [onPhaseChange]);
+
+  const handleNextLine = useCallback(() => {
+    const r = content.rounds?.[currentRoundRef.current];
+    if (!r) return;
+    if (currentLineIndex < r.readLines.length - 1) {
+      setCurrentLineIndex((i) => i + 1);
+    }
+  }, [content.rounds, currentLineIndex]);
+
+  const handleStartVote = useCallback(() => {
+    setVotes([]);
+    setTimeLeft(20);
+    setStatus(ActivityStatus.VOTING);
+    onPhaseChange?.('voting');
+  }, [onPhaseChange]);
+
+  const handleNextRound = useCallback(() => {
+    const r = content.rounds?.[currentRoundRef.current];
+    readerIndexRef.current += r?.readLines.length ?? 3;
+    const next = currentRoundRef.current + 1;
+    setCurrentRound(next);
+    setCurrentLineIndex(0);
+    setVotes([]);
+    setStatus(ActivityStatus.READING);
+    onPhaseChange?.('reading');
+  }, [content.rounds, onPhaseChange]);
+
+  const handleGoToFinale = useCallback(() => {
+    setFinaleSubmissions([]);
+    pickingRef.current = false;
+    setTimeLeft(30);
+    setStatus(ActivityStatus.FINALE_SUBMIT);
+    onPhaseChange?.('finale-submit');
+  }, [onPhaseChange]);
+
+  const handleRestart = useCallback(() => {
+    setStatus(ActivityStatus.IDLE);
+    setCurrentRound(0);
+    setCurrentLineIndex(0);
+    setVotes([]);
+    setGoalTotal(0);
+    setDangerTotal(1);
+    goalTotalRef.current = 0;
+    dangerTotalRef.current = 1;
+    setLastConsequence('');
+    setLastWinner(null);
+    setTimeLeft(0);
+    setFinaleSubmissions([]);
+    setTop3Picks([]);
+    top3PicksRef.current = [];
+    setFinaleVotes([]);
+    setOutcome(null);
+    readerIndexRef.current = 0;
+    pickingRef.current = false;
+    onPhaseChange?.('idle');
+  }, [onPhaseChange]);
+
+  // ── Reader assignment ─────────────────────────────────────────────────────────
+  function getReader(lineOffset: number) {
+    if (!students.length) return null;
+    const idx = (readerIndexRef.current + lineOffset) % students.length;
+    return students[idx] ?? null;
+  }
+
+  // ── Meter bounds: internal raw range is roughly -10 to +10 across 5 rounds ──
+  const METER_MAX = 10;
+
+  const timerUrgent = timeLeft <= 5 && timeLeft > 0;
+
+  // ────────────────────────────────────────────────────────────────────────────
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-semibold text-lc-blue">Scenario Simulator</h3>
-          {customTopic && (
-            <p className="text-xs opacity-60">Topic: {customTopic}</p>
-          )}
+          {customTopic && <p className="text-xs opacity-60">Topic: {customTopic}</p>}
         </div>
-        <div className="text-sm opacity-60">
-          {status !== ActivityStatus.IDLE && status !== ActivityStatus.SETUP && status !== ActivityStatus.ASSIGNING && (
-            <span>Decision {decisions.length + 1} / {content.branchingPoints.length}</span>
-          )}
-        </div>
+        {status !== ActivityStatus.IDLE && status !== ActivityStatus.OUTCOME && (
+          <span className="text-sm opacity-50">Round {currentRound + 1} / 5</span>
+        )}
       </div>
 
-      {/* IDLE State */}
+      {/* ── IDLE ─────────────────────────────────────────────────────────────── */}
       {status === ActivityStatus.IDLE && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center py-12"
+          className="text-center py-10 space-y-6"
         >
-          <p className="text-xl mb-2 opacity-90">Enter the Scenario!</p>
-          <p className="opacity-60 text-sm mb-8">
-            Make decisions together and see how your choices shape the outcome.
-          </p>
+          <p className="text-2xl font-bold leading-snug max-w-lg mx-auto">{content.hook}</p>
+          <p className="text-sm opacity-50 uppercase tracking-widest">{content.title}</p>
           <button
-            onClick={startActivity}
+            onClick={handleBegin}
             className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
           >
-            BEGIN SCENARIO
+            BEGIN
           </button>
         </motion.div>
       )}
 
-      {/* SETUP State */}
-      {status === ActivityStatus.SETUP && (
+      {/* ── READING ──────────────────────────────────────────────────────────── */}
+      {status === ActivityStatus.READING && round && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          key={`reading-${currentRound}`}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-6"
+          className="space-y-5"
         >
-          <div className="glass p-6 rounded-2xl border-2 border-lc-blue/25">
-            <h4 className="text-xl font-bold text-lc-blue mb-2">{content.scenario.title}</h4>
-            <p className="text-lg mb-4">{content.scenario.context}</p>
-            <div className="glass p-4 rounded-xl">
-              <p className="text-sm opacity-50 mb-1">Your Objective:</p>
-              <p className="font-semibold">{content.scenario.objective}</p>
+          {/* Meters (after round 0) */}
+          {currentRound > 0 && (
+            <div className="glass p-4 rounded-xl space-y-2">
+              <MeterBar label={content.goalLabel} value={goalTotal} maxVal={METER_MAX} colorClass="bg-emerald-400" />
+              <MeterBar label={content.dangerLabel} value={dangerTotal} maxVal={METER_MAX} colorClass="bg-red-400" />
             </div>
+          )}
+
+          {/* Lines */}
+          <div className="space-y-3">
+            {round.readLines.map((line, i) => {
+              const reader = getReader(i);
+              const isActive = i === currentLineIndex;
+              const isPast = i < currentLineIndex;
+              return (
+                <motion.div
+                  key={i}
+                  className={`glass p-4 rounded-xl border-2 transition-all ${
+                    isActive
+                      ? 'border-lc-blue/60 bg-lc-blue/10'
+                      : isPast
+                      ? 'border-white/5 opacity-40'
+                      : 'border-white/10 opacity-50'
+                  }`}
+                >
+                  {reader && (
+                    <p className="text-xs opacity-50 mb-1">({reader.name}) reads:</p>
+                  )}
+                  <p className={`text-lg ${isActive ? 'font-semibold' : ''}`}>{line}</p>
+                </motion.div>
+              );
+            })}
           </div>
 
-          <div className="flex justify-center">
+          <p className="text-xs opacity-40 text-center">{round.situation}</p>
+
+          <div className="flex gap-3 justify-center">
+            {currentLineIndex < round.readLines.length - 1 ? (
+              <button
+                onClick={handleNextLine}
+                className="px-6 py-3 glass border border-white/20 rounded-xl font-game hover:bg-white/10 transition-all"
+              >
+                NEXT LINE
+              </button>
+            ) : (
+              <button
+                onClick={handleStartVote}
+                className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              >
+                START VOTE
+              </button>
+            )}
+          </div>
+        </motion.div>
+      )}
+
+      {/* ── VOTING ───────────────────────────────────────────────────────────── */}
+      {status === ActivityStatus.VOTING && round && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="space-y-4"
+        >
+          <div className="flex items-center justify-between">
+            <p className="text-xs uppercase tracking-widest opacity-50">Vote now</p>
+            <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
+              {timeLeft}s
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            {round.choices.map((choice) => (
+              <div key={choice.label} className="glass p-4 rounded-xl border border-white/10 flex items-start gap-3">
+                <span className="w-9 h-9 rounded-full bg-lc-blue/20 text-lc-blue flex items-center justify-center font-bold shrink-0 text-lg">
+                  {choice.label}
+                </span>
+                <p className="text-lg pt-1">{choice.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-sm opacity-50">{votes.length} / {students.length || '?'} voted</span>
             <button
-              onClick={startAssigning}
-              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              onClick={handleVotingEnd}
+              className="px-5 py-2 glass border border-white/20 rounded-xl text-sm font-game hover:bg-white/10 transition-all"
             >
-              ASSIGN ROLES
+              END VOTE NOW
             </button>
           </div>
         </motion.div>
       )}
 
-      {/* ASSIGNING State */}
-      {status === ActivityStatus.ASSIGNING && content.roles && (
+      {/* ── CONSEQUENCE ──────────────────────────────────────────────────────── */}
+      {status === ActivityStatus.CONSEQUENCE && lastWinner && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-6"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="space-y-5"
         >
-          <div className="text-center mb-4">
-            <p className="text-sm uppercase tracking-widest opacity-50">
-              Assign Roles for the Scenario
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {content.roles.map((role) => {
-              const assignment = roleAssignments.find((a) => a.roleId === role.id);
+          {/* Vote tally */}
+          <div className="flex gap-3 justify-center">
+            {round?.choices.map((choice) => {
+              const count = votes.filter((v) => v.choice.startsWith(choice.label)).length;
+              const isWinner = choice.label === lastWinner.label;
               return (
-                <div key={role.id} className="glass p-4 rounded-2xl">
-                  <h4 className="font-bold text-lc-blue">{role.name}</h4>
-                  <p className="text-sm opacity-70 mb-2">{role.description}</p>
-                  <div className="text-xs opacity-50 mb-2">Goals:</div>
-                  <ul className="text-xs opacity-70 mb-3">
-                    {role.goals.map((goal, i) => (
-                      <li key={i}>• {goal}</li>
-                    ))}
-                  </ul>
-                  <select
-                    value={assignment?.studentId || ''}
-                    onChange={(e) => e.target.value && assignRole(e.target.value, role.id)}
-                    className="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm"
-                  >
-                    <option value="">Assign student...</option>
-                    {students.map((student) => (
-                      <option key={student.id} value={student.id}>
-                        {student.name}
-                      </option>
-                    ))}
-                  </select>
+                <div
+                  key={choice.label}
+                  className={`glass px-4 py-2 rounded-xl text-center ${isWinner ? 'border-2 border-emerald-400/60 bg-emerald-400/10' : 'border border-white/10'}`}
+                >
+                  <div className="font-bold text-lg">{choice.label}</div>
+                  <div className="text-sm opacity-60">{count}</div>
                 </div>
               );
             })}
           </div>
 
-          <div className="flex justify-center">
-            <button
-              onClick={startScenario}
-              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              START SCENARIO
-            </button>
-          </div>
-        </motion.div>
-      )}
-
-      {/* SITUATION State */}
-      {status === ActivityStatus.SITUATION && currentBranch && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-6"
-        >
-          {/* Previous decisions summary */}
-          {decisions.length > 0 && (
-            <div className="glass p-3 rounded-xl text-sm">
-              <span className="opacity-50">Previous: </span>
-              {decisions.slice(-1)[0].choiceText}
-            </div>
-          )}
-
+          {/* Consequence */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="glass p-6 rounded-2xl border-2 border-lc-blue/25"
-          >
-            <p className="text-sm uppercase tracking-widest opacity-50 mb-2">Current Situation</p>
-            <p className="text-xl">{currentBranch.situation}</p>
-          </motion.div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={startDiscussion}
-              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              DISCUSS OPTIONS
-            </button>
-          </div>
-        </motion.div>
-      )}
-
-      {/* DISCUSSING State */}
-      {status === ActivityStatus.DISCUSSING && currentBranch && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-6"
-        >
-          <div className="glass p-4 rounded-xl">
-            <p className="text-lg">{currentBranch.situation}</p>
-          </div>
-
-          <div className="text-center">
-            <p className="text-sm uppercase tracking-widest opacity-50 mb-4">
-              Your Options
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {currentBranch.choices.map((choice, index) => (
-              <div key={choice.id} className="glass p-4 rounded-xl border border-white/10">
-                <div className="flex items-start gap-3">
-                  <span className="w-8 h-8 rounded-full bg-rose-500/20 text-lc-blue flex items-center justify-center font-bold shrink-0">
-                    {String.fromCharCode(65 + index)}
-                  </span>
-                  <p className="text-lg">{choice.action}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="glass p-4 rounded-xl border-2 border-cyan-500/30">
-            <p className="text-sm uppercase tracking-widest opacity-50 mb-2">Discussion Prompt</p>
-            <p>Discuss with your team: What are the pros and cons of each option?</p>
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={startChoosing}
-              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              MAKE DECISION
-            </button>
-          </div>
-        </motion.div>
-      )}
-
-      {/* CHOOSING State */}
-      {status === ActivityStatus.CHOOSING && currentBranch && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-6"
-        >
-          <div className="text-center">
-            <p className="text-sm uppercase tracking-widest opacity-50 mb-4">
-              Select Your Choice
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {currentBranch.choices.map((choice, index) => (
-              <button
-                key={choice.id}
-                onClick={() => selectChoice(choice.id)}
-                className={`w-full glass p-4 rounded-xl border-2 text-left transition-all ${
-                  selectedChoice === choice.id
-                    ? 'border-rose-500 bg-rose-500/10'
-                    : 'border-white/10 hover:border-white/30'
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <span className={`w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0 ${
-                    selectedChoice === choice.id
-                      ? 'bg-rose-500 text-white'
-                      : 'bg-white/10'
-                  }`}>
-                    {String.fromCharCode(65 + index)}
-                  </span>
-                  <p className="text-lg">{choice.action}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={confirmChoice}
-              disabled={!selectedChoice}
-              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
-            >
-              CONFIRM DECISION
-            </button>
-          </div>
-        </motion.div>
-      )}
-
-      {/* CONSEQUENCE State */}
-      {status === ActivityStatus.CONSEQUENCE && showConsequence && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="space-y-6"
-        >
-          <div className="text-center">
-            <p className="text-sm uppercase tracking-widest opacity-50 mb-2">
-              The Consequence
-            </p>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="glass p-8 rounded-2xl border-2 border-yellow-500/30"
+            transition={{ delay: 0.25 }}
+            className="glass p-6 rounded-2xl border-2 border-yellow-500/30"
           >
-            <p className="text-xl text-center">
-              {decisions[decisions.length - 1]?.consequence}
-            </p>
+            <p className="text-xl text-center">{lastConsequence}</p>
           </motion.div>
 
-          {/* Decision history */}
-          {decisions.length > 1 && (
-            <div className="glass p-4 rounded-xl">
-              <p className="text-xs uppercase tracking-widest opacity-50 mb-2">Your Journey</p>
-              <div className="space-y-1">
-                {decisions.map((d, i) => (
-                  <p key={i} className="text-sm opacity-70">
-                    {i + 1}. {d.choiceText}
-                  </p>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Meters */}
+          <div className="glass p-4 rounded-xl space-y-2">
+            <MeterBar label={content.goalLabel} value={goalTotal} maxVal={METER_MAX} colorClass="bg-emerald-400" />
+            <MeterBar label={content.dangerLabel} value={dangerTotal} maxVal={METER_MAX} colorClass="bg-red-400" />
+          </div>
 
           <div className="flex justify-center">
-            <button
-              onClick={nextSituation}
-              className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-            >
-              {currentBranchIndex < (content.branchingPoints?.length || 0) - 1
-                ? 'CONTINUE STORY'
-                : 'SEE ENDING'}
-            </button>
+            {currentRound < 4 ? (
+              <button
+                onClick={handleNextRound}
+                className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              >
+                NEXT ROUND
+              </button>
+            ) : (
+              <button
+                onClick={handleGoToFinale}
+                className="px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+              >
+                GO TO FINALE
+              </button>
+            )}
           </div>
         </motion.div>
       )}
 
-      {/* FINISHED State */}
-      {status === ActivityStatus.FINISHED && (
+      {/* ── FINALE_SUBMIT ─────────────────────────────────────────────────────── */}
+      {status === ActivityStatus.FINALE_SUBMIT && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center py-8 space-y-6"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-5"
         >
-          <p className="text-2xl font-game text-lc-blue mb-4">Scenario Complete!</p>
+          <div className="glass p-6 rounded-2xl border-2 border-amber-500/30 text-center">
+            <p className="text-sm uppercase tracking-widest opacity-50 mb-2">Final Move</p>
+            <p className="text-xl">{content.finalePrompt}</p>
+            <p className="text-sm opacity-40 mt-1">(max 15 words)</p>
+          </div>
 
-          <div className="glass p-6 rounded-2xl">
-            <p className="text-sm uppercase tracking-widest opacity-50 mb-3">Your Decisions</p>
-            <div className="space-y-2 text-left">
-              {decisions.map((d, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <span className="w-6 h-6 rounded-full bg-rose-500/20 text-lc-blue flex items-center justify-center text-sm font-bold shrink-0">
-                    {i + 1}
-                  </span>
-                  <p className="text-sm">{d.choiceText}</p>
+          <div className="flex items-center justify-between">
+            <span className="text-sm opacity-50">{finaleSubmissions.length} submissions received</span>
+            <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
+              {timeLeft}s
+            </span>
+          </div>
+
+          {finaleSubmissions.length > 0 && (
+            <div className="space-y-2">
+              {finaleSubmissions.map((s) => (
+                <div key={s.clientId} className="glass px-4 py-2 rounded-xl text-sm flex gap-2">
+                  <span className="opacity-40 shrink-0">{s.displayName}:</span>
+                  <span className="opacity-80">{s.text}</span>
                 </div>
               ))}
             </div>
+          )}
+
+          <div className="flex justify-center">
+            <button
+              onClick={handlePickTop3}
+              disabled={finaleSubmissions.length === 0}
+              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-violet-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-30"
+            >
+              PICK TOP 3 NOW
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* ── FINALE_PICKING ────────────────────────────────────────────────────── */}
+      {status === ActivityStatus.FINALE_PICKING && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-16 space-y-4"
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
+            className="w-12 h-12 border-4 border-lc-blue border-t-transparent rounded-full mx-auto"
+          />
+          <p className="text-lg opacity-70">AI is picking the top 3…</p>
+        </motion.div>
+      )}
+
+      {/* ── FINALE_VOTE ───────────────────────────────────────────────────────── */}
+      {status === ActivityStatus.FINALE_VOTE && top3Picks.length === 3 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="space-y-4"
+        >
+          <div className="flex items-center justify-between">
+            <p className="text-xs uppercase tracking-widest opacity-50">Choose the best final move</p>
+            <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
+              {timeLeft}s
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            {top3Picks.map((pick) => (
+              <div key={pick.label} className="glass p-4 rounded-xl border border-white/10 flex items-start gap-3">
+                <span className="w-9 h-9 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center font-bold shrink-0 text-lg">
+                  {pick.label}
+                </span>
+                <div className="pt-1">
+                  <p className="text-lg">{pick.text}</p>
+                  <span className={`text-xs mt-0.5 inline-block px-2 py-0.5 rounded-full ${
+                    pick.tag === 'bold' ? 'bg-amber-500/20 text-amber-300' :
+                    pick.tag === 'risky' ? 'bg-red-500/20 text-red-300' :
+                    'bg-emerald-500/20 text-emerald-300'
+                  }`}>{pick.tag}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-sm opacity-50">{finaleVotes.length} / {students.length || '?'} voted</span>
+            <button
+              onClick={handleFinaleVoteEnd}
+              className="px-5 py-2 glass border border-white/20 rounded-xl text-sm font-game hover:bg-white/10 transition-all"
+            >
+              REVEAL OUTCOME
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* ── OUTCOME ───────────────────────────────────────────────────────────── */}
+      {status === ActivityStatus.OUTCOME && outcome && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="space-y-6 text-center"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className={`glass p-8 rounded-2xl border-4 ${
+              outcome.isSuccess
+                ? 'border-emerald-400/60 bg-emerald-400/10'
+                : 'border-red-400/60 bg-red-400/10'
+            }`}
+          >
+            <p className={`text-3xl font-game mb-3 ${outcome.isSuccess ? 'text-emerald-300' : 'text-red-300'}`}>
+              {outcome.isSuccess ? content.successBanner : content.failureBanner}
+            </p>
+            <p className="opacity-70 text-lg">
+              {outcomeReason(content.title, outcome.isSuccess, outcome.narrow, outcome.isComeback, goalTotalRef.current)}
+            </p>
+          </motion.div>
+
+          {/* Final meter state */}
+          <div className="glass p-4 rounded-xl space-y-2">
+            <MeterBar label={content.goalLabel} value={goalTotal} maxVal={METER_MAX} colorClass="bg-emerald-400" />
+            <MeterBar label={content.dangerLabel} value={dangerTotal} maxVal={METER_MAX} colorClass="bg-red-400" />
           </div>
 
           <button
-            onClick={restartActivity}
+            onClick={handleRestart}
             className="px-8 py-4 glass hover:bg-white/10 rounded-xl font-game text-lg transition-all border border-white/20"
           >
-            TRY DIFFERENT CHOICES
+            TRY AGAIN
           </button>
         </motion.div>
       )}

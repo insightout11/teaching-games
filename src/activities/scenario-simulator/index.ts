@@ -5,14 +5,14 @@ import { Users } from 'lucide-react';
 export const scenarioSimulatorPlugin: ActivityPlugin = {
   key: 'scenario-simulator',
   name: 'Scenario Simulator',
-  description: 'Students are assigned roles in an evolving scenario. Group decisions lead to different outcomes through branching narrative.',
+  description: 'A live group decision sprint: read dramatic lines, vote on A/B/C choices, and watch the story escalate over 5 rounds to a cinematic finale.',
   category: 'practice',
   pppStage: 'production',
-  skills: ['Speaking', 'Collaboration', 'Critical Thinking', 'Role-play'],
+  skills: ['Speaking', 'Collaboration', 'Critical Thinking'],
   component: ScenarioSimulatorActivity,
   supportsCustomTopic: true,
-  estimatedMinutes: 20,
-  defaultTimerSeconds: 90,
+  estimatedMinutes: 15,
+  defaultTimerSeconds: 20,
   icon: Users,
 };
 
