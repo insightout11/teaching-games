@@ -11,12 +11,14 @@ import { wordChainPlugin } from './word-chain';
 import { dialogueDetectivePlugin } from './dialogue-detective';
 import { connectionsPlugin } from './connections';
 import { twentyQuestionsPlugin } from './twenty-questions';
+import { gridRushPlugin } from './grid-rush';
 import { BookA, PenLine, Brain } from 'lucide-react';
 
 const games: GamePlugin[] = [
   vocabSprintPlugin,
   synonymShowdownPlugin,
   wordChainPlugin,
+  gridRushPlugin,
   sentenceScramblePlugin,
   grammarBossPlugin,
   errorHunterPlugin,
