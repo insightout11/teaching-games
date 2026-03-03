@@ -5,8 +5,6 @@ import { motion } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GamePhase } from './types';
 import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidationResult, SentenceEvaluationResult } from './types';
-import { useSessionStore } from '@/stores/session-store';
-
 const ROUND1_DURATION = 90;
 const ROUND2_DURATION = 60;
 
@@ -70,12 +68,6 @@ export function GridRushGame({
   // Special awards
   const [specialAwards, setSpecialAwards] = useState<SpecialAwards | null>(null);
 
-  // Cache dedup
-  const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
-  const storeSeenCacheIds = useSessionStore((s) => s.seenCacheIds);
-  const seenCacheIdsRef = useRef<string[]>([]);
-  useEffect(() => { seenCacheIdsRef.current = storeSeenCacheIds; }, [storeSeenCacheIds]);
-
   // ------- PHASE TRANSITIONS -------
 
   const transitionToRevealing = useCallback(() => {
@@ -138,7 +130,6 @@ export function GridRushGame({
         body: JSON.stringify({
           topic: sessionSettings.topic,
           difficulty: sessionSettings.difficulty,
-          excludeCacheIds: seenCacheIdsRef.current,
         }),
       });
 
@@ -146,7 +137,6 @@ export function GridRushGame({
 
       const data = await res.json();
       setGrid(data.grid);
-      if (data.cacheId) addSeenCacheId(data.cacheId);
 
       setTimeLeft(ROUND1_DURATION);
       setPhase(GamePhase.ROUND1);
@@ -156,7 +146,7 @@ export function GridRushGame({
       setPhase(GamePhase.IDLE);
       phaseRef.current = GamePhase.IDLE;
     }
-  }, [sessionSettings.difficulty, sessionSettings.topic, addSeenCacheId]);
+  }, [sessionSettings.difficulty, sessionSettings.topic]);
 
   // ------- TIMERS -------
 
