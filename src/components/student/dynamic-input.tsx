@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
+import { flushSync } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -55,7 +56,7 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
   const handleSubmit = useCallback(async () => {
     if (!value.trim() || isSubmitting) return;
     const toSubmit = value.trim();
-    setValue(''); // Clear immediately so the next word can be typed without lag
+    flushSync(() => setValue('')); // Synchronously clear the DOM before user types next word
     await onSubmit(toSubmit);
   }, [value, isSubmitting, onSubmit]);
 
