@@ -110,7 +110,51 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
   const hintContent = spec.hint?.content;
   const hasStructuredHint = hintContent && typeof hintContent === 'object';
 
-  const myWords = (spec.perStudentData?.[clientId ?? ''] as { round1Words?: string[] } | undefined)?.round1Words;
+  const myData = spec.perStudentData?.[clientId ?? ''] as
+    { round1Words?: string[]; sentenceResult?: { score: number; feedback: string; wordsUsed: string[]; totalPoints: number } } | undefined;
+  const myWords = myData?.round1Words;
+  const sentenceResult = myData?.sentenceResult;
+
+  // After evaluation: show feedback card instead of textarea
+  if (sentenceResult) {
+    const stars = Array.from({ length: 5 }, (_, i) => i < sentenceResult.score ? '★' : '☆').join('');
+    return (
+      <div className="space-y-4">
+        <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-amber-400 text-lg font-mono tracking-tight">{stars}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-violet-300 font-black text-xl">{sentenceResult.score}/5</span>
+              <span className="bg-violet-500/20 text-violet-300 rounded-full px-3 py-0.5 text-sm font-bold">+{sentenceResult.totalPoints}pt</span>
+            </div>
+          </div>
+          {myWords && myWords.length > 0 && (
+            <div>
+              <p className="text-xs text-slate-400 uppercase tracking-wider mb-1.5">Words used</p>
+              <div className="flex flex-wrap gap-1.5">
+                {myWords.map((w) => (
+                  <span
+                    key={w}
+                    className={`px-2.5 py-1 rounded-full text-sm font-medium ${
+                      sentenceResult.wordsUsed.includes(w)
+                        ? 'bg-emerald-500/20 text-emerald-300'
+                        : 'bg-slate-700 text-slate-500'
+                    }`}
+                  >
+                    {w}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          <p className="text-slate-300 text-sm italic">{sentenceResult.feedback}</p>
+          {sentenceResult.totalPoints === 0 && (
+            <p className="text-red-400 text-xs">Needs 2+ of your words to earn points</p>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

@@ -62,11 +62,18 @@ export function GridRushGame({
   // Maps internal studentId key → clientId (localStorage UUID) so perStudentData can be keyed by clientId
   const studentIdToClientIdRef = useRef<Record<string, string>>({});
 
+  // Maps internal studentId key → displayName for leaderboard (vote keys may be clientIds, not roster UUIDs)
+  const studentIdToDisplayNameRef = useRef<Record<string, string>>({});
+
   // R2 submission count
   const [r2SubmissionCount, setR2SubmissionCount] = useState(0);
 
   // Special awards
   const [specialAwards, setSpecialAwards] = useState<SpecialAwards | null>(null);
+
+  // Sentence gallery UI state (REVEALING phase)
+  const [expandedSentenceId, setExpandedSentenceId] = useState<string | null>(null);
+  const [sentenceGalleryOpen, setSentenceGalleryOpen] = useState(true);
 
   // ------- PHASE TRANSITIONS -------
 
@@ -75,7 +82,9 @@ export function GridRushGame({
     const sentSnap = studentSentencesRef.current;
 
     const displayNameFor = (sid: string) =>
-      students.find((s) => s.id === sid)?.name ?? 'Player';
+      studentIdToDisplayNameRef.current[sid]
+      ?? students.find((s) => s.id === sid)?.name
+      ?? 'Player';
 
     let longestWord = { studentId: '', displayName: '', word: '' };
     let mostTopicWords = { studentId: '', displayName: '', count: 0 };
@@ -122,6 +131,7 @@ export function GridRushGame({
     studentWordSetsRef.current = {};
     r2SubmittedRef.current = {};
     studentIdToClientIdRef.current = {};
+    studentIdToDisplayNameRef.current = {};
 
     try {
       const res = await fetch('/api/grid-rush/generate', {
@@ -198,11 +208,14 @@ export function GridRushGame({
         maxLength: 20,
       });
     } else if (phase === GamePhase.ROUND2) {
-      const perStudentData: Record<string, { round1Words: string[] }> = {};
+      const perStudentData: Record<string, { round1Words: string[]; sentenceResult?: SentenceEntry }> = {};
       for (const [sid, entries] of Object.entries(studentWords)) {
         // Key by clientId (localStorage UUID) so TextareaInput can look it up
         const cid = studentIdToClientIdRef.current[sid] ?? sid;
-        perStudentData[cid] = { round1Words: entries.map((e) => e.word) };
+        perStudentData[cid] = {
+          round1Words: entries.map((e) => e.word),
+          sentenceResult: studentSentences[sid],
+        };
       }
       onSetInputSpec?.({
         type: 'textarea',
@@ -215,7 +228,7 @@ export function GridRushGame({
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, grid, studentWords, onSetInputSpec]);
+  }, [phase, grid, studentWords, studentSentences, onSetInputSpec]);
 
   // ------- REMOTE VOTE HANDLER -------
 
@@ -232,10 +245,11 @@ export function GridRushGame({
       const currentGrid = gridRef.current;
       if (!currentGrid) return;
 
-      // Track clientId for perStudentData keying
+      // Track clientId for perStudentData keying, and displayName for leaderboard
       if (!studentIdToClientIdRef.current[studentId]) {
         studentIdToClientIdRef.current[studentId] = vote.clientId;
       }
+      studentIdToDisplayNameRef.current[studentId] = vote.displayName;
 
       // Init per-student dedup set
       if (!studentWordSetsRef.current[studentId]) {
@@ -417,6 +431,7 @@ export function GridRushGame({
     studentWordSetsRef.current = {};
     r2SubmittedRef.current = {};
     studentIdToClientIdRef.current = {};
+    studentIdToDisplayNameRef.current = {};
   }, []);
 
   // -------- PHASE: IDLE --------
@@ -652,12 +667,30 @@ export function GridRushGame({
 
   // -------- PHASE: REVEALING --------
   if (phase === GamePhase.REVEALING) {
-    // Compute leaderboard from accumulated game state
-    const leaderboard = students.map((s) => {
-      const r1Pts = (studentWords[s.id] ?? []).reduce((sum, w) => sum + w.points, 0);
-      const r2Pts = studentSentences[s.id]?.totalPoints ?? 0;
-      return { id: s.id, name: s.name, r1Pts, r2Pts, total: r1Pts + r2Pts };
+    // Leaderboard: built from vote participants (vote keys may be clientIds, not roster UUIDs)
+    const participantKeys = Object.keys(studentWords);
+    const participantEntries = participantKeys.map((sid) => {
+      const r1Pts = (studentWords[sid] ?? []).reduce((sum, w) => sum + w.points, 0);
+      const r2Pts = studentSentences[sid]?.totalPoints ?? 0;
+      const name = studentIdToDisplayNameRef.current[sid]
+        ?? students.find((s) => s.id === sid)?.name
+        ?? 'Player';
+      return { id: sid, name, r1Pts, r2Pts, total: r1Pts + r2Pts };
     }).sort((a, b) => b.total - a.total);
+    const seenIds = new Set(participantKeys);
+    const absentEntries = students
+      .filter((s) => !seenIds.has(s.id))
+      .map((s) => ({ id: s.id, name: s.name, r1Pts: 0, r2Pts: 0, total: 0 }));
+    const leaderboard = [...participantEntries, ...absentEntries];
+
+    // Sentence gallery sorted by AI score desc
+    const sentenceGallery = Object.entries(studentSentences)
+      .map(([sid, entry]) => ({
+        sid,
+        name: studentIdToDisplayNameRef.current[sid] ?? students.find((s) => s.id === sid)?.name ?? 'Player',
+        ...entry,
+      }))
+      .sort((a, b) => b.score - a.score);
 
     const medals = ['🥇', '🥈', '🥉'];
 
@@ -744,6 +777,65 @@ export function GridRushGame({
                 <p className="text-slate-500 text-sm italic">No sentences</p>
               )}
             </motion.div>
+          </div>
+        )}
+
+        {/* Sentence Gallery */}
+        {sentenceGallery.length > 0 && (
+          <div className="bg-slate-800/60 rounded-2xl border border-slate-700 overflow-hidden">
+            <button
+              onClick={() => setSentenceGalleryOpen(!sentenceGalleryOpen)}
+              className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-slate-700/30 transition-colors"
+            >
+              <span className="text-slate-300 font-semibold text-sm">
+                Sentences ({sentenceGallery.length} submitted)
+              </span>
+              <span className="text-slate-500 text-xs">{sentenceGalleryOpen ? '▾' : '▸'}</span>
+            </button>
+            {sentenceGalleryOpen && (
+              <div className="divide-y divide-slate-700/50">
+                {sentenceGallery.map((item) => {
+                  const isExpanded = expandedSentenceId === item.sid;
+                  const stars = Array.from({ length: 5 }, (_, i) => i < item.score ? '★' : '☆').join('');
+                  const allMyWords = (studentWords[item.sid] ?? []).map((e) => e.word);
+                  const unusedWords = allMyWords.filter((w) => !item.wordsUsed.includes(w));
+                  return (
+                    <div
+                      key={item.sid}
+                      className={`px-5 py-3 cursor-pointer hover:bg-slate-700/20 transition-colors ${item.totalPoints === 0 ? 'opacity-60' : ''}`}
+                      onClick={() => setExpandedSentenceId(isExpanded ? null : item.sid)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-amber-400 text-sm tracking-tight font-mono shrink-0">{stars}</span>
+                        <span className="text-white font-medium flex-1">{item.name}</span>
+                        <span className="text-violet-400 text-sm font-bold">+{item.totalPoints}pt</span>
+                        <span className="text-slate-500 text-xs">{isExpanded ? '▾' : '▸'}</span>
+                      </div>
+                      {!isExpanded && (
+                        <p className="text-slate-400 text-xs mt-1 line-clamp-1">&ldquo;{item.sentence}&rdquo;</p>
+                      )}
+                      {isExpanded && (
+                        <div className="mt-2 space-y-2">
+                          <p className="text-slate-200 text-sm">&ldquo;{item.sentence}&rdquo;</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {item.wordsUsed.map((w) => (
+                              <span key={w} className="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-medium">{w}</span>
+                            ))}
+                            {unusedWords.map((w) => (
+                              <span key={w} className="px-2 py-0.5 bg-slate-700 text-slate-400 rounded-full text-xs">{w}</span>
+                            ))}
+                          </div>
+                          <p className="text-slate-400 text-xs italic">{item.feedback}</p>
+                          {item.totalPoints === 0 && (
+                            <p className="text-red-400 text-xs">Needs 2+ of their words to earn points</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 
