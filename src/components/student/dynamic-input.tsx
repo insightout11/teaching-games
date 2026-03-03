@@ -50,27 +50,33 @@ function SubmitStatus({ status, waitSeconds }: { status: 'idle' | 'success' | 'e
 
 // Single line text input
 function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
-  // Uncontrolled input — value lives in the DOM, not React state.
-  // This avoids the "tonetoner" bug where onChange fires against the
-  // old DOM value before React's batched setValue('') commits.
   const inputRef = useRef<HTMLInputElement>(null);
-  const [charCount, setCharCount] = useState(0);
+  // Ref-based guard — avoids stale-closure issues with state-based isSubmitting
+  const inFlightRef = useRef(false);
 
   const handleSubmit = useCallback(async () => {
+    if (inFlightRef.current) return;
     const el = inputRef.current;
-    if (!el || !el.value.trim() || isSubmitting) return;
-    const toSubmit = el.value.trim();
-    el.value = ''; // Directly clear the DOM — no batching, no race
-    setCharCount(0);
-    await onSubmit(toSubmit);
-  }, [isSubmitting, onSubmit]);
+    if (!el) return;
+    const word = el.value.trim();
+    if (!word) return;
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+    inFlightRef.current = true;
+    el.value = '';   // Clear DOM immediately — no React batching involved
+    el.focus();      // Keep focus so next word goes straight into the box
+    try {
+      await onSubmit(word);
+    } finally {
+      inFlightRef.current = false;
+    }
+  }, [onSubmit]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
-  };
+  }, [handleSubmit]);
 
   return (
     <div className="space-y-4">
@@ -81,20 +87,20 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
         ref={inputRef}
         type="text"
         defaultValue=""
-        onChange={(e) => setCharCount(e.target.value.length)}
         onKeyDown={handleKeyDown}
         placeholder={spec.placeholder || 'Type your answer...'}
         maxLength={spec.maxLength || 200}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
       />
       <div className="flex items-center justify-between">
-        <div>
-          <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
-          <span className="text-gray-500 text-sm ml-2">{charCount}/{spec.maxLength || 200}</span>
-        </div>
+        <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
-          disabled={charCount === 0 || isSubmitting || submitStatus === 'rate_limited'}
+          disabled={isSubmitting || submitStatus === 'rate_limited'}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
