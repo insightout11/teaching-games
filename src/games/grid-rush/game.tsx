@@ -9,7 +9,6 @@ import { useSessionStore } from '@/stores/session-store';
 
 const ROUND1_DURATION = 90;
 const ROUND2_DURATION = 60;
-const ROUND1_ENDING_DELAY = 2200;
 
 // Client-side multiset check (mirrors server-side logic for instant feedback)
 function clientMultisetCheck(word: string, letters: string[]): boolean {
@@ -61,6 +60,9 @@ export function GridRushGame({
 
   // R2 one-shot guard per student
   const r2SubmittedRef = useRef<Record<string, boolean>>({});
+
+  // Maps internal studentId key → clientId (localStorage UUID) so perStudentData can be keyed by clientId
+  const studentIdToClientIdRef = useRef<Record<string, string>>({});
 
   // R2 submission count
   const [r2SubmissionCount, setR2SubmissionCount] = useState(0);
@@ -127,6 +129,7 @@ export function GridRushGame({
     setSpecialAwards(null);
     studentWordSetsRef.current = {};
     r2SubmittedRef.current = {};
+    studentIdToClientIdRef.current = {};
 
     try {
       const res = await fetch('/api/grid-rush/generate', {
@@ -174,15 +177,11 @@ export function GridRushGame({
     return () => clearInterval(id);
   }, [phase, timeLeft, onSetInputSpec, transitionToRevealing]);
 
-  useEffect(() => {
-    if (phase !== GamePhase.ROUND1_ENDING) return;
-    const t = setTimeout(() => {
-      setTimeLeft(ROUND2_DURATION);
-      setPhase(GamePhase.ROUND2);
-      phaseRef.current = GamePhase.ROUND2;
-    }, ROUND1_ENDING_DELAY);
-    return () => clearTimeout(t);
-  }, [phase]);
+  const startRound2 = useCallback(() => {
+    setTimeLeft(ROUND2_DURATION);
+    setPhase(GamePhase.ROUND2);
+    phaseRef.current = GamePhase.ROUND2;
+  }, []);
 
   // ------- INPUT SPEC BROADCASTING -------
 
@@ -211,7 +210,9 @@ export function GridRushGame({
     } else if (phase === GamePhase.ROUND2) {
       const perStudentData: Record<string, { round1Words: string[] }> = {};
       for (const [sid, entries] of Object.entries(studentWords)) {
-        perStudentData[sid] = { round1Words: entries.map((e) => e.word) };
+        // Key by clientId (localStorage UUID) so TextareaInput can look it up
+        const cid = studentIdToClientIdRef.current[sid] ?? sid;
+        perStudentData[cid] = { round1Words: entries.map((e) => e.word) };
       }
       onSetInputSpec?.({
         type: 'textarea',
@@ -240,6 +241,11 @@ export function GridRushGame({
 
       const currentGrid = gridRef.current;
       if (!currentGrid) return;
+
+      // Track clientId for perStudentData keying
+      if (!studentIdToClientIdRef.current[studentId]) {
+        studentIdToClientIdRef.current[studentId] = vote.clientId;
+      }
 
       // Init per-student dedup set
       if (!studentWordSetsRef.current[studentId]) {
@@ -420,6 +426,7 @@ export function GridRushGame({
     setSpecialAwards(null);
     studentWordSetsRef.current = {};
     r2SubmittedRef.current = {};
+    studentIdToClientIdRef.current = {};
   }, []);
 
   // -------- PHASE: IDLE --------
@@ -577,6 +584,12 @@ export function GridRushGame({
             </div>
           ))}
         </div>
+        <button
+          onClick={startRound2}
+          className="mt-2 px-8 py-3 rounded-xl bg-violet-500 hover:bg-violet-400 text-white font-bold text-lg transition-colors"
+        >
+          Start Round 2 →
+        </button>
       </div>
     );
   }

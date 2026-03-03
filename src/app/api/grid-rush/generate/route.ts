@@ -6,6 +6,18 @@ import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import type { GridContent } from '@/games/grid-rush/types';
 
 const GAME_KEY = 'grid-rush';
+
+function shuffleGridLetters(grid: GridContent): GridContent {
+  // Fisher-Yates shuffle on a position index array so we can track where bonusIndex ends up
+  const positions = grid.letters.map((_, i) => i);
+  for (let i = positions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [positions[i], positions[j]] = [positions[j], positions[i]];
+  }
+  const letters = positions.map((p) => grid.letters[p]);
+  const bonusIndex = positions.indexOf(grid.bonusIndex);
+  return { ...grid, letters, bonusIndex };
+}
 const SCHEMA_VERSION = 1;
 
 const difficultyPrompts: Record<Difficulty, string> = {
@@ -38,7 +50,8 @@ export async function POST(request: NextRequest) {
     // 1. Cache-first
     const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
-      return NextResponse.json({ grid: cached.content_json as GridContent, cacheId: cached.id });
+      const cachedGrid = shuffleGridLetters(cached.content_json as GridContent);
+      return NextResponse.json({ grid: cachedGrid, cacheId: cached.id });
     }
 
     // 2. Generate via AI
@@ -77,7 +90,10 @@ Avoid letters that rarely combine: Q, X, Z (use sparingly). Prioritize letters l
     // 3. Cache for future sessions (fire-and-forget)
     const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, grid, SCHEMA_VERSION);
 
-    return NextResponse.json({ grid, cacheId });
+    // 4. Shuffle letter positions so the same cached grid looks fresh each time
+    const shuffledGrid = shuffleGridLetters(grid);
+
+    return NextResponse.json({ grid: shuffledGrid, cacheId });
   } catch (error) {
     console.error('[grid-rush/generate] error:', error);
     return NextResponse.json({ error: 'Failed to generate grid' }, { status: 500 });
