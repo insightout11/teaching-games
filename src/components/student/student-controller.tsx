@@ -374,6 +374,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 isSubmitting={isSubmitting}
                 submitStatus={submitStatus}
                 waitSeconds={waitSeconds}
+                clientId={studentSession.clientId}
               />
             </>
           )

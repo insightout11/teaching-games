@@ -10,14 +10,15 @@ interface DynamicInputProps {
   isSubmitting: boolean;
   submitStatus: 'idle' | 'success' | 'error' | 'rate_limited';
   waitSeconds: number;
+  clientId?: string;
 }
 
-export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId }: DynamicInputProps) {
   switch (spec.type) {
     case 'text':
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'textarea':
-      return <TextareaInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <TextareaInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'choice':
       return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'binary':
@@ -96,7 +97,7 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
 }
 
 // Multi-line textarea input
-function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId }: DynamicInputProps) {
   const [value, setValue] = useState('');
   const [showHint, setShowHint] = useState(false);
 
@@ -109,10 +110,24 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
   const hintContent = spec.hint?.content;
   const hasStructuredHint = hintContent && typeof hintContent === 'object';
 
+  const myWords = (spec.perStudentData?.[clientId ?? ''] as { round1Words?: string[] } | undefined)?.round1Words;
+
   return (
     <div className="space-y-4">
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
+      )}
+      {myWords && myWords.length > 0 && (
+        <div>
+          <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">Your Round 1 words:</p>
+          <div className="flex flex-wrap gap-1.5">
+            {myWords.map((w) => (
+              <span key={w} className="px-2.5 py-1 bg-slate-700 text-slate-200 rounded-full text-sm font-medium select-none">
+                {w}
+              </span>
+            ))}
+          </div>
+        </div>
       )}
       {hintContent && (
         <div>

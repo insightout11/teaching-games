@@ -1,27 +1,15 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GamePhase } from './types';
 import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidationResult, SentenceEvaluationResult } from './types';
 import { useSessionStore } from '@/stores/session-store';
 
-const ROUND1_DURATION = 60;
-const ROUND2_DURATION = 45;
+const ROUND1_DURATION = 90;
+const ROUND2_DURATION = 60;
 const ROUND1_ENDING_DELAY = 2200;
-const FEED_MAX = 8;
-const FEED_REJECT_TTL = 1800;
-
-interface FeedItem {
-  id: string;
-  studentId: string;
-  displayName: string;
-  word: string;
-  points: number;
-  pending: boolean;
-  rejected: boolean;
-}
 
 // Client-side multiset check (mirrors server-side logic for instant feedback)
 function clientMultisetCheck(word: string, letters: string[]): boolean {
@@ -73,9 +61,6 @@ export function GridRushGame({
 
   // R2 one-shot guard per student
   const r2SubmittedRef = useRef<Record<string, boolean>>({});
-
-  // Live word feed
-  const [wordFeed, setWordFeed] = useState<FeedItem[]>([]);
 
   // R2 submission count
   const [r2SubmissionCount, setR2SubmissionCount] = useState(0);
@@ -138,7 +123,6 @@ export function GridRushGame({
     setStudentWords({});
     setStudentSentences({});
     studentSentencesRef.current = {};
-    setWordFeed([]);
     setR2SubmissionCount(0);
     setSpecialAwards(null);
     studentWordSetsRef.current = {};
@@ -225,17 +209,22 @@ export function GridRushGame({
         maxLength: 20,
       });
     } else if (phase === GamePhase.ROUND2) {
+      const perStudentData: Record<string, { round1Words: string[] }> = {};
+      for (const [sid, entries] of Object.entries(studentWords)) {
+        perStudentData[sid] = { round1Words: entries.map((e) => e.word) };
+      }
       onSetInputSpec?.({
         type: 'textarea',
         gameKey: 'grid-rush',
         prompt: 'Write ONE sentence using 2 or more of your Round 1 words.',
         placeholder: 'Your sentence...',
         maxLength: 300,
+        perStudentData,
       });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, grid, onSetInputSpec]);
+  }, [phase, grid, studentWords, onSetInputSpec]);
 
   // ------- REMOTE VOTE HANDLER -------
 
@@ -269,7 +258,6 @@ export function GridRushGame({
       const hasBonusLetter = word.includes(currentGrid.bonusLetter.toLowerCase());
       const isTopicWord = currentGrid.topicWords.map((w) => w.toLowerCase()).includes(word);
 
-      const feedId = `${studentId}-${word}-${Date.now()}`;
       const submittedAt = Date.now();
 
       // Optimistic UI
@@ -280,10 +268,6 @@ export function GridRushGame({
         ...prev,
         [studentId]: [...(prev[studentId] ?? []), optimisticEntry],
       }));
-      setWordFeed((prev) => [
-        { id: feedId, studentId, displayName: vote.displayName, word, points: optimisticPoints, pending: true, rejected: false },
-        ...prev.slice(0, FEED_MAX - 1),
-      ]);
 
       // AI validation (background)
       try {
@@ -310,13 +294,6 @@ export function GridRushGame({
             ...prev,
             [studentId]: (prev[studentId] ?? []).filter((e) => e.submittedAt !== submittedAt),
           }));
-          setWordFeed((prev) =>
-            prev.map((f) => f.id === feedId ? { ...f, pending: false, rejected: true } : f)
-          );
-          // Auto-remove rejected feed item after TTL
-          setTimeout(() => {
-            setWordFeed((prev) => prev.filter((f) => f.id !== feedId));
-          }, FEED_REJECT_TTL);
           return;
         }
 
@@ -329,9 +306,6 @@ export function GridRushGame({
               : e
           ),
         }));
-        setWordFeed((prev) =>
-          prev.map((f) => f.id === feedId ? { ...f, points: result.points, pending: false } : f)
-        );
 
         onScore(studentId, {
           isCorrect: true,
@@ -357,7 +331,6 @@ export function GridRushGame({
           ...prev,
           [studentId]: (prev[studentId] ?? []).filter((e) => e.submittedAt !== submittedAt),
         }));
-        setWordFeed((prev) => prev.filter((f) => f.id !== feedId));
       }
 
     // ---- ROUND 2: sentence submission ----
@@ -443,7 +416,6 @@ export function GridRushGame({
     setStudentWords({});
     setStudentSentences({});
     studentSentencesRef.current = {};
-    setWordFeed([]);
     setR2SubmissionCount(0);
     setSpecialAwards(null);
     studentWordSetsRef.current = {};
@@ -467,10 +439,10 @@ export function GridRushGame({
             ))}
           </div>
           <p className="text-slate-400 text-sm mb-1">
-            <span className="text-cyan-400 font-semibold">Round 1</span> — 60s word race from the grid
+            <span className="text-cyan-400 font-semibold">Round 1</span> — 90s word race from the grid
           </p>
           <p className="text-slate-400 text-sm mb-6">
-            <span className="text-violet-400 font-semibold">Round 2</span> — 45s sentence challenge
+            <span className="text-violet-400 font-semibold">Round 2</span> — 60s sentence challenge
           </p>
           <div className="flex items-center justify-center gap-3 text-slate-500 text-sm mb-6">
             <span>{students.length} students</span>
@@ -517,9 +489,7 @@ export function GridRushGame({
           </div>
         </div>
 
-        <div className="flex gap-4 flex-1 min-h-0">
-          {/* Grid + stats */}
-          <div className="flex flex-col gap-4 flex-1">
+        <div className="flex flex-col gap-4 flex-1 min-h-0">
             {/* 3x3 grid */}
             <div className="bg-slate-800/60 rounded-2xl p-5 border border-slate-700">
               <div className="grid grid-cols-3 gap-3 mb-4">
@@ -566,47 +536,6 @@ export function GridRushGame({
                 )}
               </div>
             </div>
-          </div>
-
-          {/* Live word feed */}
-          <div className="w-56 flex flex-col gap-2">
-            <p className="text-xs text-slate-500 uppercase tracking-wider">Live feed</p>
-            <div className="flex flex-col gap-1.5 overflow-hidden">
-              <AnimatePresence initial={false}>
-                {wordFeed.map((item) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: item.rejected ? 0.5 : 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm ${
-                      item.rejected
-                        ? 'bg-red-500/15 border border-red-500/30'
-                        : item.pending
-                        ? 'bg-slate-700/50 border border-slate-600/50'
-                        : 'bg-slate-700 border border-slate-600'
-                    }`}
-                  >
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-slate-400 text-xs truncate">{item.displayName}</span>
-                      <span className={`font-bold uppercase tracking-wide ${item.rejected ? 'text-red-400 line-through' : 'text-white'}`}>
-                        {item.word}
-                      </span>
-                      {item.rejected && <span className="text-red-400 text-xs">Not a real word</span>}
-                    </div>
-                    {!item.rejected && (
-                      <span className={`text-xs font-bold ml-2 shrink-0 ${item.pending ? 'text-slate-500' : 'text-emerald-400'}`}>
-                        {item.pending ? '…' : `+${item.points}`}
-                      </span>
-                    )}
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-              {wordFeed.length === 0 && (
-                <p className="text-slate-600 text-sm italic text-center pt-4">Words will appear here…</p>
-              )}
-            </div>
-          </div>
         </div>
 
         <button

@@ -23,6 +23,7 @@ export interface InputSpec {
     title?: string;
     content: string | { rule?: string; example?: string; mistakes?: string[] };
   };
+  perStudentData?: Record<string, unknown>;
 }
 
 // Submission handler result from games
