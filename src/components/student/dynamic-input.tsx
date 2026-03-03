@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
-import { flushSync } from 'react-dom';
+import { useState, useCallback, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -51,14 +50,20 @@ function SubmitStatus({ status, waitSeconds }: { status: 'idle' | 'success' | 'e
 
 // Single line text input
 function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
-  const [value, setValue] = useState('');
+  // Uncontrolled input — value lives in the DOM, not React state.
+  // This avoids the "tonetoner" bug where onChange fires against the
+  // old DOM value before React's batched setValue('') commits.
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [charCount, setCharCount] = useState(0);
 
   const handleSubmit = useCallback(async () => {
-    if (!value.trim() || isSubmitting) return;
-    const toSubmit = value.trim();
-    flushSync(() => setValue('')); // Synchronously clear the DOM before user types next word
+    const el = inputRef.current;
+    if (!el || !el.value.trim() || isSubmitting) return;
+    const toSubmit = el.value.trim();
+    el.value = ''; // Directly clear the DOM — no batching, no race
+    setCharCount(0);
     await onSubmit(toSubmit);
-  }, [value, isSubmitting, onSubmit]);
+  }, [isSubmitting, onSubmit]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -73,9 +78,10 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
       <input
+        ref={inputRef}
         type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        defaultValue=""
+        onChange={(e) => setCharCount(e.target.value.length)}
         onKeyDown={handleKeyDown}
         placeholder={spec.placeholder || 'Type your answer...'}
         maxLength={spec.maxLength || 200}
@@ -84,11 +90,11 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
       <div className="flex items-center justify-between">
         <div>
           <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
-          <span className="text-gray-500 text-sm ml-2">{value.length}/{spec.maxLength || 200}</span>
+          <span className="text-gray-500 text-sm ml-2">{charCount}/{spec.maxLength || 200}</span>
         </div>
         <Button
           onClick={handleSubmit}
-          disabled={!value.trim() || isSubmitting || submitStatus === 'rate_limited'}
+          disabled={charCount === 0 || isSubmitting || submitStatus === 'rate_limited'}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
