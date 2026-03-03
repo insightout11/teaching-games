@@ -54,8 +54,9 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
 
   const handleSubmit = useCallback(async () => {
     if (!value.trim() || isSubmitting) return;
-    await onSubmit(value.trim());
-    setValue('');
+    const toSubmit = value.trim();
+    setValue(''); // Clear immediately so the next word can be typed without lag
+    await onSubmit(toSubmit);
   }, [value, isSubmitting, onSubmit]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

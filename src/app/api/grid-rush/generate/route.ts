@@ -53,8 +53,16 @@ Avoid Q, X, Z unless the topic genuinely uses them. Do NOT default to generic hi
     }
     grid.letters = grid.letters.map((l: string) => String(l).toUpperCase().trim().charAt(0));
     grid.bonusLetter = String(grid.bonusLetter).toUpperCase().trim().charAt(0);
-    grid.bonusIndex = Math.max(0, Math.min(8, Math.floor(Number(grid.bonusIndex))));
     grid.topicWords = (grid.topicWords || []).map((w: string) => String(w).toLowerCase().trim()).filter(Boolean);
+
+    // Shuffle letters so the AI can't accidentally spell out a topic word in sequence
+    for (let i = grid.letters.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [grid.letters[i], grid.letters[j]] = [grid.letters[j], grid.letters[i]];
+    }
+    // Recompute bonusIndex after shuffle (first occurrence of bonusLetter)
+    const newBonusIdx = grid.letters.indexOf(grid.bonusLetter);
+    grid.bonusIndex = newBonusIdx !== -1 ? newBonusIdx : Math.floor(Math.random() * 9);
 
     return NextResponse.json({ grid });
   } catch (error) {
