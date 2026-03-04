@@ -77,6 +77,7 @@ export function ScenarioSimulatorActivity({
   generatedContent,
   onPhaseChange,
   customTopic,
+  sessionSettings,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
   onScore,
@@ -312,6 +313,7 @@ export function ScenarioSimulatorActivity({
           goalTotal: goalTotalRef.current,
           dangerTotal: dangerTotalRef.current,
           roundHistory: history,
+          difficulty: sessionSettings.difficulty,
         }),
         previousExchanges: [],
       });

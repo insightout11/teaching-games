@@ -183,7 +183,7 @@ export async function POST(request: NextRequest) {
 
     // generate-round: scenario-simulator — generate next round based on winning choice
     if (activityKey === 'scenario-simulator' && requestType === 'generate-round') {
-      const { storyContext, roundNumber, choiceText, consequence, tone, goalLabel, dangerLabel, goalTotal, dangerTotal, roundHistory } =
+      const { storyContext, roundNumber, choiceText, consequence, tone, goalLabel, dangerLabel, goalTotal, dangerTotal, roundHistory, difficulty } =
         JSON.parse(body.studentResponse ?? '{}') as {
           storyContext: string;
           roundNumber: number;
@@ -195,6 +195,7 @@ export async function POST(request: NextRequest) {
           goalTotal: number;
           dangerTotal: number;
           roundHistory: string;
+          difficulty?: string;
         };
 
       const roundSchema: AISchema = {
@@ -234,7 +235,18 @@ export async function POST(request: NextRequest) {
         5: 'final moment — desperate last chance before the finale',
       };
 
+      const languageGuide: Record<string, string> = {
+        'Beginner': 'LANGUAGE LEVEL: A1. Use only the most common everyday words. Short simple sentences (Subject + Verb + Object). NO literary words, NO idioms, NO metaphors. Example readLine: "The rain starts. They need to find shelter. A big tree is nearby." Example choice: "Run to the tree"',
+        'Easy': 'LANGUAGE LEVEL: A2. Use simple, clear vocabulary. Avoid complex or literary words. Sentences can be slightly longer but must be easy to understand. No idioms or figurative language.',
+        'Intermediate': 'LANGUAGE LEVEL: B1/B2. Use natural everyday vocabulary. Some descriptive language is fine. Keep dramatic lines clear and accessible.',
+        'Advanced': 'LANGUAGE LEVEL: C1. Use varied, expressive vocabulary. Figurative language and complex sentences welcome.',
+        'Expert': 'LANGUAGE LEVEL: C2. Use sophisticated, nuanced language. Literary style encouraged.',
+      };
+      const langRule = languageGuide[difficulty ?? 'Intermediate'] ?? languageGuide['Intermediate'];
+
       const roundPrompt = `Continue a "Scenario Simulator" story for an ESL class.
+
+${langRule}
 
 STORY CONTEXT: ${storyContext}
 TONE: ${tone}

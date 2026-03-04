@@ -370,8 +370,18 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty):
     required: ['title', 'hook', 'tone', 'goalLabel', 'dangerLabel', 'openingLines', 'storyContext', 'rounds', 'finalePrompt', 'successBanner', 'failureBanner'],
   };
 
+  const languageGuideMap: Record<Difficulty, string> = {
+    'Beginner': 'LANGUAGE LEVEL: A1. Use ONLY the most common everyday words. Short simple sentences (Subject + Verb + Object). NO literary words (no "beacon", "guttural", "encroaching", "gleam"), NO idioms, NO metaphors, NO poetic phrasing. Every word must be known by a complete beginner. Example readLines: "It starts to rain hard. They need to find shelter. A big tree is close by." Example choice: "Run to the tree"',
+    'Easy': 'LANGUAGE LEVEL: A2. Use simple, clear vocabulary. Avoid complex or literary words. Sentences should be short and easy to follow. No figurative language.',
+    'Intermediate': 'LANGUAGE LEVEL: B1/B2. Use natural vocabulary. Some descriptive language is fine. Keep it accessible.',
+    'Advanced': 'LANGUAGE LEVEL: C1. Use varied, expressive vocabulary. Some figurative language and complex sentences are welcome.',
+    'Expert': 'LANGUAGE LEVEL: C2. Use sophisticated, nuanced language. Literary style encouraged.',
+  };
+
   const prompt = `Generate a "Scenario Simulator" activity for an ESL class.
 Topic: ${topic} | Difficulty: ${difficultyDescriptions[difficulty]}
+
+${languageGuideMap[difficulty]}
 
 You are writing a choose-your-own-adventure story that will be told over 5 rounds.
 Only write Round 1 now. The other rounds will be generated live based on student votes.
