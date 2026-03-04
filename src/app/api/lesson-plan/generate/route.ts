@@ -5,7 +5,8 @@ import { bulkSemaphore } from '@/lib/ai/concurrency';
 
 const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
   bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
-import type { Difficulty } from '@/stores/session-store';
+import type { Difficulty } from '@/lib/difficulty';
+import { difficultyDescriptions } from '@/lib/difficulty';
 import { TargetTone } from '@/games/tone-transformer/types';
 import type {
   LessonPlanGenerateRequest,
@@ -37,14 +38,6 @@ import type {
   ConnectionsGeneratedContent,
 } from '@/activities/types';
 
-// Difficulty descriptions for AI prompts
-const difficultyDescriptions: Record<Difficulty, string> = {
-  'Beginner': 'A1 level - Use very simple vocabulary and short sentences. Focus on basic concepts.',
-  'Easy': 'A2 level - Use simple but functional vocabulary. Keep sentences straightforward.',
-  'Intermediate': 'B1/B2 level - Use natural vocabulary and moderate complexity. Include some idioms.',
-  'Advanced': 'C1 level - Use sophisticated vocabulary and complex sentence structures.',
-  'Expert': 'C2/Native level - Use nuanced, academic language with subtle distinctions.',
-};
 
 // ============================================
 // Activity Generators
@@ -370,18 +363,9 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty):
     required: ['title', 'hook', 'tone', 'goalLabel', 'dangerLabel', 'openingLines', 'storyContext', 'rounds', 'finalePrompt', 'successBanner', 'failureBanner'],
   };
 
-  const languageGuideMap: Record<Difficulty, string> = {
-    'Beginner': 'LANGUAGE LEVEL: A1. Use ONLY the most common everyday words. Short simple sentences (Subject + Verb + Object). NO literary words (no "beacon", "guttural", "encroaching", "gleam"), NO idioms, NO metaphors, NO poetic phrasing. Every word must be known by a complete beginner. Example readLines: "It starts to rain hard. They need to find shelter. A big tree is close by." Example choice: "Run to the tree"',
-    'Easy': 'LANGUAGE LEVEL: A2. Use simple, clear vocabulary. Avoid complex or literary words. Sentences should be short and easy to follow. No figurative language.',
-    'Intermediate': 'LANGUAGE LEVEL: B1/B2. Use natural vocabulary. Some descriptive language is fine. Keep it accessible.',
-    'Advanced': 'LANGUAGE LEVEL: C1. Use varied, expressive vocabulary. Some figurative language and complex sentences are welcome.',
-    'Expert': 'LANGUAGE LEVEL: C2. Use sophisticated, nuanced language. Literary style encouraged.',
-  };
-
   const prompt = `Generate a "Scenario Simulator" activity for an ESL class.
-Topic: ${topic} | Difficulty: ${difficultyDescriptions[difficulty]}
 
-${languageGuideMap[difficulty]}
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
 
 You are writing a choose-your-own-adventure story that will be told over 5 rounds.
 Only write Round 1 now. The other rounds will be generated live based on student votes.
@@ -716,8 +700,10 @@ async function generateSingleScene(
   const linesEach = 3;
 
   const prompt = `Generate a short dialogue scene with ${charCount} characters (${charList}) for an ESL classroom.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
 
 Requirements:
 - A catchy short title for the scene

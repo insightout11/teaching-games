@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { ActivityContinueRequest, ActivityContinueResponse, FinaleOption, ScenarioRound } from '@/activities/types';
+import type { Difficulty } from '@/lib/difficulty';
+import { difficultyDescriptions } from '@/lib/difficulty';
 
 // Generic prompt for activities without specific handlers
 function genericActivityPrompt(req: ActivityContinueRequest): string {
@@ -235,14 +237,7 @@ export async function POST(request: NextRequest) {
         5: 'final moment — desperate last chance before the finale',
       };
 
-      const languageGuide: Record<string, string> = {
-        'Beginner': 'LANGUAGE LEVEL: A1. Use only the most common everyday words. Short simple sentences (Subject + Verb + Object). NO literary words, NO idioms, NO metaphors. Example readLine: "The rain starts. They need to find shelter. A big tree is nearby." Example choice: "Run to the tree"',
-        'Easy': 'LANGUAGE LEVEL: A2. Use simple, clear vocabulary. Avoid complex or literary words. Sentences can be slightly longer but must be easy to understand. No idioms or figurative language.',
-        'Intermediate': 'LANGUAGE LEVEL: B1/B2. Use natural everyday vocabulary. Some descriptive language is fine. Keep dramatic lines clear and accessible.',
-        'Advanced': 'LANGUAGE LEVEL: C1. Use varied, expressive vocabulary. Figurative language and complex sentences welcome.',
-        'Expert': 'LANGUAGE LEVEL: C2. Use sophisticated, nuanced language. Literary style encouraged.',
-      };
-      const langRule = languageGuide[difficulty ?? 'Intermediate'] ?? languageGuide['Intermediate'];
+      const langRule = difficultyDescriptions[(difficulty as Difficulty) ?? 'Intermediate'] ?? difficultyDescriptions['Intermediate'];
 
       const roundPrompt = `Continue a "Scenario Simulator" story for an ESL class.
 

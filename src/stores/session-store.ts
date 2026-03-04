@@ -2,16 +2,17 @@ import { create } from 'zustand';
 import type { Student, Score } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import { createClient } from '@/lib/supabase/client';
+import type { Difficulty } from '@/lib/difficulty';
 
 export type PickerMode = 'fair' | 'random';
 export type GameMode = 'normal' | 'spinner';
 
 // Session types
-export type Difficulty = 'Beginner' | 'Easy' | 'Intermediate' | 'Advanced' | 'Expert';
+export type { Difficulty } from '@/lib/difficulty';
+export { DIFFICULTIES } from '@/lib/difficulty';
 export type Topic = 'General' | 'Action' | 'Business' | 'Academic' | 'Travel' | 'Technology' | 'Literature' | 'Space' | 'Nature' | 'Cooking' | 'Art' | 'Sports' | 'History' | 'Psychology';
 export type Tone = 'Neutral' | 'Casual' | 'Formal' | 'Humorous' | 'Professional' | 'Kid-friendly';
 // Option arrays
-export const DIFFICULTIES: Difficulty[] = ['Beginner', 'Easy', 'Intermediate', 'Advanced', 'Expert'];
 export const TOPICS: Topic[] = ['General', 'Action', 'Business', 'Academic', 'Travel', 'Technology', 'Literature', 'Space', 'Nature', 'Cooking', 'Art', 'Sports', 'History', 'Psychology'];
 export const TONES: Tone[] = ['Neutral', 'Casual', 'Formal', 'Humorous', 'Professional', 'Kid-friendly'];
 
