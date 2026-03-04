@@ -112,6 +112,7 @@ export function ScenarioSimulatorActivity({
   const pickingRef = useRef(false);           // prevents double-trigger of pick-top3
   const top3PicksRef = useRef(top3Picks);     top3PicksRef.current = top3Picks;
   const lastWinnerRef = useRef(lastWinner);   lastWinnerRef.current = lastWinner;
+  const roundWinnersRef = useRef<ScenarioChoice[]>([]);
 
   // allRounds = static Round 1 + dynamically generated rounds 2–5
   const allRounds = [...(content.rounds ?? []), ...dynamicRounds];
@@ -197,11 +198,15 @@ export function ScenarioSimulatorActivity({
     const r = allRoundsRef.current[currentRoundRef.current];
     if (!r) return;
     const tally: Record<string, number> = {};
-    votesRef.current.forEach((v) => { tally[v.choice] = (tally[v.choice] ?? 0) + 1; });
+    votesRef.current.forEach((v) => {
+      const label = v.choice.charAt(0);
+      tally[label] = (tally[label] ?? 0) + 1;
+    });
     const winner = (['A', 'B', 'C'] as const).reduce((best, cur) =>
       (tally[cur] ?? 0) > (tally[best] ?? 0) ? cur : best, 'A' as const);
     const winChoice = r.choices.find((c) => c.label === winner) ?? r.choices[0];
 
+    roundWinnersRef.current = [...roundWinnersRef.current, winChoice];
     setGoalTotal((g) => g + winChoice.goalDelta);
     setDangerTotal((d) => d + winChoice.dangerDelta);
     goalTotalRef.current = goalTotalRef.current + winChoice.goalDelta;
@@ -242,7 +247,10 @@ export function ScenarioSimulatorActivity({
 
   const handleFinaleVoteEnd = useCallback(() => {
     const tally: Record<string, number> = {};
-    finaleVotesRef.current.forEach((v) => { tally[v.choice] = (tally[v.choice] ?? 0) + 1; });
+    finaleVotesRef.current.forEach((v) => {
+      const label = v.choice.charAt(0);
+      tally[label] = (tally[label] ?? 0) + 1;
+    });
     const winner = (['A', 'B', 'C'] as const).reduce((best, cur) =>
       (tally[cur] ?? 0) > (tally[best] ?? 0) ? cur : best, 'A' as const);
     const winPick = top3PicksRef.current.find((p) => p.label === winner) ?? top3PicksRef.current[0];
@@ -282,12 +290,8 @@ export function ScenarioSimulatorActivity({
     const nextIndex = currentRoundRef.current + 1;
 
     // Build round history string for AI context
-    const history = allRoundsRef.current
-      .slice(0, currentRoundRef.current + 1)
-      .map((rd, i) => {
-        const chosen = rd.choices.find((c) => c.label === lastWinnerRef.current?.label);
-        return `Round ${i + 1}: chose "${chosen?.text ?? '?'}"`;
-      })
+    const history = roundWinnersRef.current
+      .map((w, i) => `Round ${i + 1}: chose "${w.text}"`)
       .join('\n');
 
     setIsGeneratingRound(true);
@@ -359,6 +363,7 @@ export function ScenarioSimulatorActivity({
     setIsGeneratingRound(false);
     readerIndexRef.current = 0;
     pickingRef.current = false;
+    roundWinnersRef.current = [];
     onPhaseChange?.('idle');
   }, [onPhaseChange]);
 
