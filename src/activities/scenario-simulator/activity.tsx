@@ -8,6 +8,7 @@ import {
   type VoteRecord,
   type FinaleSubmission,
   type ScenarioSimulatorContent,
+  type ScenarioRound,
   type ScenarioChoice,
   type FinaleOption,
 } from './types';
@@ -89,6 +90,8 @@ export function ScenarioSimulatorActivity({
   const [votes, setVotes] = useState<VoteRecord[]>([]);
   const [goalTotal, setGoalTotal] = useState(0);
   const [dangerTotal, setDangerTotal] = useState(1);
+  const [dynamicRounds, setDynamicRounds] = useState<ScenarioRound[]>([]);
+  const [isGeneratingRound, setIsGeneratingRound] = useState(false);
   const [lastConsequence, setLastConsequence] = useState('');
   const [lastWinner, setLastWinner] = useState<ScenarioChoice | null>(null);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -108,6 +111,11 @@ export function ScenarioSimulatorActivity({
   const readerIndexRef = useRef(0);           // persists across rounds for equal-turn distribution
   const pickingRef = useRef(false);           // prevents double-trigger of pick-top3
   const top3PicksRef = useRef(top3Picks);     top3PicksRef.current = top3Picks;
+  const lastWinnerRef = useRef(lastWinner);   lastWinnerRef.current = lastWinner;
+
+  // allRounds = static Round 1 + dynamically generated rounds 2–5
+  const allRounds = [...(content.rounds ?? []), ...dynamicRounds];
+  const allRoundsRef = useRef(allRounds);     allRoundsRef.current = allRounds;
 
   // ── Timer tick ──────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -126,7 +134,7 @@ export function ScenarioSimulatorActivity({
 
   // ── InputSpec ───────────────────────────────────────────────────────────────
   useEffect(() => {
-    const r = content.rounds?.[currentRound];
+    const r = allRoundsRef.current[currentRound];
     if (status === ActivityStatus.VOTING && r) {
       onSetInputSpec?.({
         type: 'choice',
@@ -186,7 +194,7 @@ export function ScenarioSimulatorActivity({
   // ── Handlers ─────────────────────────────────────────────────────────────────
 
   const handleVotingEnd = useCallback(() => {
-    const r = content.rounds?.[currentRoundRef.current];
+    const r = allRoundsRef.current[currentRoundRef.current];
     if (!r) return;
     const tally: Record<string, number> = {};
     votesRef.current.forEach((v) => { tally[v.choice] = (tally[v.choice] ?? 0) + 1; });
@@ -202,7 +210,7 @@ export function ScenarioSimulatorActivity({
     setLastWinner(winChoice);
     setStatus(ActivityStatus.CONSEQUENCE);
     onPhaseChange?.('consequence');
-  }, [content.rounds, onPhaseChange]);
+  }, [onPhaseChange]);
 
   const handlePickTop3 = useCallback(async () => {
     if (pickingRef.current) return;
@@ -254,12 +262,12 @@ export function ScenarioSimulatorActivity({
   }, [onPhaseChange]);
 
   const handleNextLine = useCallback(() => {
-    const r = content.rounds?.[currentRoundRef.current];
+    const r = allRoundsRef.current[currentRoundRef.current];
     if (!r) return;
     if (currentLineIndex < r.readLines.length - 1) {
       setCurrentLineIndex((i) => i + 1);
     }
-  }, [content.rounds, currentLineIndex]);
+  }, [currentLineIndex]);
 
   const handleStartVote = useCallback(() => {
     setVotes([]);
@@ -268,16 +276,59 @@ export function ScenarioSimulatorActivity({
     onPhaseChange?.('voting');
   }, [onPhaseChange]);
 
-  const handleNextRound = useCallback(() => {
-    const r = content.rounds?.[currentRoundRef.current];
+  const handleNextRound = useCallback(async () => {
+    const r = allRoundsRef.current[currentRoundRef.current];
     readerIndexRef.current += r?.readLines.length ?? 3;
-    const next = currentRoundRef.current + 1;
-    setCurrentRound(next);
+    const nextIndex = currentRoundRef.current + 1;
+
+    // Build round history string for AI context
+    const history = allRoundsRef.current
+      .slice(0, currentRoundRef.current + 1)
+      .map((rd, i) => {
+        const chosen = rd.choices.find((c) => c.label === lastWinnerRef.current?.label);
+        return `Round ${i + 1}: chose "${chosen?.text ?? '?'}"`;
+      })
+      .join('\n');
+
+    setIsGeneratingRound(true);
+    try {
+      const res = await onContinue?.({
+        sessionId: '',
+        activityKey: 'scenario-simulator',
+        topicContext: customTopic ?? content.title,
+        requestType: 'generate-round',
+        studentResponse: JSON.stringify({
+          storyContext: content.storyContext,
+          roundNumber: nextIndex + 1,  // 1-based for the prompt
+          choiceText: lastWinnerRef.current?.text ?? '',
+          consequence: lastWinnerRef.current?.consequence ?? '',
+          tone: content.tone,
+          goalLabel: content.goalLabel,
+          dangerLabel: content.dangerLabel,
+          goalTotal: goalTotalRef.current,
+          dangerTotal: dangerTotalRef.current,
+          roundHistory: history,
+        }),
+        previousExchanges: [],
+      });
+      if (res?.generatedRound) {
+        setDynamicRounds((prev) => [...prev, res.generatedRound!]);
+      }
+    } catch {
+      // Fallback: reuse last round's structure with incremented id
+      if (r) {
+        setDynamicRounds((prev) => [...prev, { ...r, id: nextIndex + 1 }]);
+      }
+    } finally {
+      setIsGeneratingRound(false);
+    }
+
+    setCurrentRound(nextIndex);
     setCurrentLineIndex(0);
     setVotes([]);
     setStatus(ActivityStatus.READING);
     onPhaseChange?.('reading');
-  }, [content.rounds, onPhaseChange]);
+  }, [content, customTopic, onContinue, onPhaseChange]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleGoToFinale = useCallback(() => {
     setFinaleSubmissions([]);
@@ -304,6 +355,8 @@ export function ScenarioSimulatorActivity({
     top3PicksRef.current = [];
     setFinaleVotes([]);
     setOutcome(null);
+    setDynamicRounds([]);
+    setIsGeneratingRound(false);
     readerIndexRef.current = 0;
     pickingRef.current = false;
     onPhaseChange?.('idle');
@@ -317,7 +370,7 @@ export function ScenarioSimulatorActivity({
   }
 
   // ── Stale content guard (after all hooks) ────────────────────────────────────
-  if (!content.rounds || content.rounds.length !== 5) {
+  if (!content.rounds || content.rounds.length < 1) {
     return (
       <div className="text-center py-12">
         <p className="text-amber-400 text-sm">Content needs to be regenerated for the updated Scenario Simulator.</p>
@@ -325,7 +378,7 @@ export function ScenarioSimulatorActivity({
     );
   }
 
-  const round = content.rounds[currentRound];
+  const round = allRounds[currentRound];
 
   // ── Meter bounds: internal raw range is roughly -10 to +10 across 5 rounds ──
   const METER_MAX = 10;
@@ -355,6 +408,13 @@ export function ScenarioSimulatorActivity({
         >
           <p className="text-2xl font-bold leading-snug max-w-lg mx-auto">{content.hook}</p>
           <p className="text-sm opacity-50 uppercase tracking-widest">{content.title}</p>
+          {content.openingLines?.length > 0 && (
+            <div className="glass p-4 rounded-xl space-y-2 text-left max-w-md mx-auto">
+              {content.openingLines.map((line, i) => (
+                <p key={i} className="text-base opacity-80">{line}</p>
+              ))}
+            </div>
+          )}
           <button
             onClick={handleBegin}
             className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
@@ -509,9 +569,10 @@ export function ScenarioSimulatorActivity({
             {currentRound < 4 ? (
               <button
                 onClick={handleNextRound}
-                className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+                disabled={isGeneratingRound}
+                className="px-8 py-4 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-lg shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-50 disabled:cursor-wait"
               >
-                NEXT ROUND
+                {isGeneratingRound ? 'BUILDING NEXT ROUND…' : 'NEXT ROUND'}
               </button>
             ) : (
               <button

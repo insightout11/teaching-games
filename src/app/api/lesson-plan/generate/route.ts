@@ -335,6 +335,8 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty):
       tone: { type: 'string' },
       goalLabel: { type: 'string' },
       dangerLabel: { type: 'string' },
+      openingLines: { type: 'array', items: { type: 'string' } },
+      storyContext: { type: 'string' },
       rounds: {
         type: 'array',
         items: {
@@ -365,27 +367,45 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty):
       successBanner: { type: 'string' },
       failureBanner: { type: 'string' },
     },
-    required: ['title', 'hook', 'tone', 'goalLabel', 'dangerLabel', 'rounds', 'finalePrompt', 'successBanner', 'failureBanner'],
+    required: ['title', 'hook', 'tone', 'goalLabel', 'dangerLabel', 'openingLines', 'storyContext', 'rounds', 'finalePrompt', 'successBanner', 'failureBanner'],
   };
 
   const prompt = `Generate a "Scenario Simulator" activity for an ESL class.
 Topic: ${topic} | Difficulty: ${difficultyDescriptions[difficulty]}
 
-Rules:
-- Exactly 5 rounds. Tension must escalate each round — stakes rise visibly.
-- Each round: exactly 3 lines to read (≤12 words each, dramatic, cinematic — no narration prose).
-  Each line is read aloud by one student, so write them as distinct beats.
-- Each round: 3 choices A/B/C (≤10 words each, punchy verbs, no corporate language).
-- Each choice: 1–2 cinematic consequence sentences (vivid, immediate, not abstract).
-- goalDelta/dangerDelta per choice: -2 to +2. Spread values so the game is winnable but not guaranteed.
-- hook: 1 vivid urgent sentence, non-corporate — crisis, countdown, exposure, or chaos.
-- tone: pick best fit from [thriller, comedy, sci-fi, mystery, default].
-- goalLabel/dangerLabel: 2–3 words skinned to tone (e.g. Escape/Chaos, Trust/Suspicion, Repair/Damage, Score/Time).
-- finalePrompt: 1 direct sentence asking students for their final move (max 15 words).
-- successBanner / failureBanner: short punchy ALL CAPS phrases (max 5 words each).
-- Round ids are 1–5. Choice labels are A, B, C.
+You are writing a choose-your-own-adventure story that will be told over 5 rounds.
+Only write Round 1 now. The other rounds will be generated live based on student votes.
 
-Return valid JSON matching the schema.`;
+OPENING (openingLines): 2–3 short dramatic lines (≤10 words each) that establish:
+- The setting (who, where, what's happening)
+- The stakes (what could go wrong)
+- The starting situation
+These are read aloud by students before voting begins.
+Example: "Championship final. Score tied. Ten seconds left."
+
+STORY CONTEXT (storyContext): 2–3 sentences of internal narrative context.
+This will be passed to the AI for each subsequent round so the story stays coherent.
+Include: genre, setting, tone, and the story's central conflict.
+Example: "A soccer championship match in the final minute. The class plays as the team captain deciding under pressure. Tone is tense sports drama."
+
+ROUND 1 (the first decision moment):
+- id: 1
+- readLines: exactly 3 dramatic lines (≤12 words each) that set up the first decision.
+  These must be DIFFERENT from openingLines — they narrow in on a specific moment.
+- situation: 1 short sentence (teacher context, ≤15 words) describing what's happening.
+- choices: exactly 3 (labels A/B/C, ≤10 words each, punchy, distinct strategies):
+  - Each choice must be a DIFFERENT TYPE of action (not variations of the same verb)
+  - Each consequence: 1–2 sentences that DIRECTLY follow from that specific choice
+  - goalDelta/dangerDelta: -2 to +2, spread so no obvious best answer
+
+STORY RULES:
+- tone: pick best fit [thriller, comedy, sci-fi, mystery, default]
+- goalLabel/dangerLabel: 2–3 words (e.g. Score/Pressure, Escape/Chaos, Trust/Suspicion)
+- hook: 1 vivid urgent sentence (≤15 words), distinct from openingLines
+- finalePrompt: 1 direct question asking for the final move
+- successBanner / failureBanner: short punchy ALL CAPS phrases (3–5 words)
+
+Return valid JSON.`;
 
   const parsed = await generateJSON<{
     title: string;
@@ -393,6 +413,8 @@ Return valid JSON matching the schema.`;
     tone: string;
     goalLabel: string;
     dangerLabel: string;
+    openingLines: string[];
+    storyContext: string;
     rounds: Array<{
       id: number;
       readLines: string[];

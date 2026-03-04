@@ -230,7 +230,9 @@ export interface ScenarioSimulatorContent extends ActivityGeneratedContent {
   // Two skinnable meter labels — AI generates based on scenario
   goalLabel: string;          // e.g. "Escape", "Trust", "Repair", "Score"
   dangerLabel: string;        // e.g. "Chaos", "Suspicion", "Damage", "Time"
-  rounds: ScenarioRound[];    // exactly 5
+  openingLines: string[];     // 2–3 lines establishing setting + stakes (shown in IDLE)
+  storyContext: string;       // 2–3 sentence story setup — passed to AI for each dynamic round
+  rounds: ScenarioRound[];    // Round 1 only; Rounds 2–5 generated dynamically during session
   finalePrompt: string;
   successBanner: string;
   failureBanner: string;
@@ -307,7 +309,7 @@ export interface ActivityContinueRequest {
   topicContext: string;
   previousExchanges: ActivityExchange[];
   studentResponse: string;
-  requestType: 'follow-up' | 'challenge' | 'hint' | 'evaluate' | 'counter-argument' | 'pick-top3';
+  requestType: 'follow-up' | 'challenge' | 'hint' | 'evaluate' | 'counter-argument' | 'pick-top3' | 'generate-round';
 }
 
 export interface ActivityExchange {
@@ -327,6 +329,7 @@ export interface ActivityContinueResponse {
   teacherNote?: string;
   vocabularyHighlight?: string[];
   top3Picks?: FinaleOption[];
+  generatedRound?: ScenarioRound;
 }
 
 // ============================================

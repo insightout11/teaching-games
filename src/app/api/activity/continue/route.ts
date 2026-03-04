@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import type { ActivityContinueRequest, ActivityContinueResponse, FinaleOption } from '@/activities/types';
+import type { ActivityContinueRequest, ActivityContinueResponse, FinaleOption, ScenarioRound } from '@/activities/types';
 
 // Generic prompt for activities without specific handlers
 function genericActivityPrompt(req: ActivityContinueRequest): string {
@@ -152,6 +152,27 @@ const schema: AISchema = {
         },
       },
     },
+    generatedRound: {
+      type: 'object',
+      properties: {
+        id: { type: 'number' },
+        readLines: { type: 'array', items: { type: 'string' } },
+        situation: { type: 'string' },
+        choices: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              label: { type: 'string' },
+              text: { type: 'string' },
+              consequence: { type: 'string' },
+              goalDelta: { type: 'number' },
+              dangerDelta: { type: 'number' },
+            },
+          },
+        },
+      },
+    },
   },
 };
 
@@ -159,6 +180,91 @@ export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as ActivityContinueRequest;
     const { activityKey, requestType } = body;
+
+    // generate-round: scenario-simulator — generate next round based on winning choice
+    if (activityKey === 'scenario-simulator' && requestType === 'generate-round') {
+      const { storyContext, roundNumber, choiceText, consequence, tone, goalLabel, dangerLabel, goalTotal, dangerTotal, roundHistory } =
+        JSON.parse(body.studentResponse ?? '{}') as {
+          storyContext: string;
+          roundNumber: number;
+          choiceText: string;
+          consequence: string;
+          tone: string;
+          goalLabel: string;
+          dangerLabel: string;
+          goalTotal: number;
+          dangerTotal: number;
+          roundHistory: string;
+        };
+
+      const roundSchema: AISchema = {
+        type: 'object',
+        properties: {
+          generatedRound: {
+            type: 'object',
+            properties: {
+              id: { type: 'number' },
+              readLines: { type: 'array', items: { type: 'string' } },
+              situation: { type: 'string' },
+              choices: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    label: { type: 'string' },
+                    text: { type: 'string' },
+                    consequence: { type: 'string' },
+                    goalDelta: { type: 'number' },
+                    dangerDelta: { type: 'number' },
+                  },
+                  required: ['label', 'text', 'consequence', 'goalDelta', 'dangerDelta'],
+                },
+              },
+            },
+            required: ['id', 'readLines', 'situation', 'choices'],
+          },
+        },
+        required: ['generatedRound'],
+      };
+
+      const arcGuide: Record<number, string> = {
+        2: 'first complication — the situation changes because of the Round 1 choice',
+        3: 'escalating crisis — a new obstacle or enemy appears',
+        4: 'turning point — high risk, high stakes, something must give',
+        5: 'final moment — desperate last chance before the finale',
+      };
+
+      const roundPrompt = `Continue a "Scenario Simulator" story for an ESL class.
+
+STORY CONTEXT: ${storyContext}
+TONE: ${tone}
+GOAL LABEL: ${goalLabel} (current: ${goalTotal}) | DANGER LABEL: ${dangerLabel} (current: ${dangerTotal})
+
+WHAT JUST HAPPENED:
+The class chose: "${choiceText}"
+Consequence shown: "${consequence}"
+
+ROUND HISTORY (what choices led here):
+${roundHistory}
+
+NOW GENERATE ROUND ${roundNumber} — narrative role: ${arcGuide[roundNumber] ?? 'escalate tension'}
+
+Rules:
+- readLines: exactly 3 dramatic lines (≤12 words each) that DIRECTLY follow from the consequence above.
+  The first line must reference or react to what just happened.
+- situation: 1 short sentence (≤15 words) describing the new challenge.
+- choices: exactly 3 (labels A/B/C, ≤10 words each):
+  - Must be DIFFERENT TYPE of action from any previous round's choices
+  - Must be distinct strategies, not variations of the same verb
+  - Each consequence: 1–2 sentences that DIRECTLY and SPECIFICALLY follow from that choice
+  - goalDelta/dangerDelta: -2 to +2, no easy obvious best answer
+- The situation must feel like a new problem, not a repeat of Round ${roundNumber - 1}
+
+Return JSON with a single "generatedRound" object (id: ${roundNumber}).`;
+
+      const parsed = await generateJSON<{ generatedRound: ScenarioRound }>(roundPrompt, roundSchema, { taskClass: 'activity-facilitation' });
+      return NextResponse.json({ generatedRound: parsed.generatedRound } satisfies ActivityContinueResponse);
+    }
 
     // pick-top3: scenario-simulator finale — select 3 best student submissions
     if (activityKey === 'scenario-simulator' && requestType === 'pick-top3') {
