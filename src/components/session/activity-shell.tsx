@@ -63,6 +63,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
                 team: score.team as 'red' | 'blue' | null,
                 gameKey: responseData.gameKey as string,
                 inputType: responseData.inputType as string,
+                resourcesUsed: responseData.resourcesUsed as string[] | undefined,
               });
             }
           }

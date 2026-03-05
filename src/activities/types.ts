@@ -58,6 +58,8 @@ export interface RemoteVote {
   team?: 'red' | 'blue' | null;
   gameKey: string;
   inputType: string;
+  /** Resources the student selected alongside their text (problem-solvers) */
+  resourcesUsed?: string[];
 }
 
 // Plugin definition for an activity

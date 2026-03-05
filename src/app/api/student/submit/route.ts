@@ -11,6 +11,8 @@ interface SubmitRequest {
   gameKey?: string | null;
   inputType?: string | null; // 'choice', 'binary', 'text', etc.
   studentId?: string | null;
+  /** When true, skip deleting previous submissions from this student (allows multiple per session) */
+  allowMultiple?: boolean;
 }
 
 // POST /api/student/submit
@@ -18,7 +20,7 @@ interface SubmitRequest {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as SubmitRequest;
-    const { sessionId, clientId, displayName, content, team, gameKey, inputType, studentId } = body;
+    const { sessionId, clientId, displayName, content, team, gameKey, inputType, studentId, allowMultiple } = body;
 
     // Validate required fields
     if (!sessionId || !clientId || !displayName || !content) {
@@ -79,13 +81,29 @@ export async function POST(request: NextRequest) {
 
     if (isDirectSubmission) {
       // Delete any previous vote from this student for this game to prevent duplicates
-      if (gameKey) {
+      // Skip delete when allowMultiple is set (e.g. problem-solvers allows multiple per student)
+      if (gameKey && !allowMultiple) {
         await supabase
           .from('scores')
           .delete()
           .eq('session_id', sessionId)
           .eq('client_id', clientId)
           .contains('response_data', { gameKey: gameKey });
+      }
+
+      // Parse structured JSON content (e.g. { choice, resourcesUsed }) if present
+      let choiceContent = trimmedContent;
+      let resourcesUsed: string[] | undefined;
+      try {
+        const parsed = JSON.parse(trimmedContent) as { choice?: string; resourcesUsed?: string[] };
+        if (typeof parsed?.choice === 'string') {
+          choiceContent = parsed.choice;
+          if (Array.isArray(parsed.resourcesUsed)) {
+            resourcesUsed = parsed.resourcesUsed;
+          }
+        }
+      } catch {
+        // plain text content — use as-is
       }
 
       // Create score directly - this will be picked up by realtime subscriptions
@@ -102,7 +120,8 @@ export async function POST(request: NextRequest) {
             type: 'remote_vote',
             gameKey: gameKey,
             inputType: inputType,
-            choice: trimmedContent,
+            choice: choiceContent,
+            ...(resourcesUsed ? { resourcesUsed } : {}),
           },
           team: team || null,
           client_id: clientId,

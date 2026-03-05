@@ -24,6 +24,10 @@ export interface InputSpec {
     content: string | { rule?: string; example?: string; mistakes?: string[] };
   };
   perStudentData?: Record<string, unknown>;
+  /** When set, renders required resource chip-select above textarea before submission */
+  resources?: string[];
+  /** When true, the submit API does not delete previous submissions from this student (allows multiple per session) */
+  allowMultiple?: boolean;
 }
 
 // Submission handler result from games

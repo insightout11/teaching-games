@@ -153,6 +153,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           gameKey: inputSpec?.gameKey,
           inputType: inputSpec?.type,
           studentId: studentSession.studentId,
+          allowMultiple: inputSpec?.allowMultiple,
         }),
       });
 

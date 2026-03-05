@@ -22,6 +22,7 @@ export interface TeamSolution {
   resourcesUsed: string[];
   clientId: string;
   studentName: string;
+  pinned: boolean;
 }
 
 // Adaptation submitted by a student during ADAPTING phase

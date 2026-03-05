@@ -114,12 +114,21 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
 function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId }: DynamicInputProps) {
   const [value, setValue] = useState('');
   const [showHint, setShowHint] = useState(false);
+  const [selectedResources, setSelectedResources] = useState<string[]>([]);
+
+  const hasResources = (spec.resources?.length ?? 0) > 0;
+  const resourcesRequired = hasResources && selectedResources.length === 0;
 
   const handleSubmit = useCallback(async () => {
-    if (!value.trim() || isSubmitting) return;
-    await onSubmit(value.trim());
+    if (!value.trim() || isSubmitting || resourcesRequired) return;
+    // Encode as structured JSON when resources are involved so the API can extract resourcesUsed
+    const payload = hasResources
+      ? JSON.stringify({ choice: value.trim(), resourcesUsed: selectedResources })
+      : value.trim();
+    await onSubmit(payload);
     setValue('');
-  }, [value, isSubmitting, onSubmit]);
+    setSelectedResources([]);
+  }, [value, isSubmitting, hasResources, selectedResources, resourcesRequired, onSubmit]);
 
   const hintContent = spec.hint?.content;
   const hasStructuredHint = hintContent && typeof hintContent === 'object';
@@ -187,6 +196,34 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
           </div>
         </div>
       )}
+      {hasResources && (
+        <div>
+          <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">
+            Tap a resource you used <span className="text-amber-400">*required</span>
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {spec.resources!.map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setSelectedResources((prev) =>
+                  prev.includes(r) ? prev.filter((x) => x !== r) : [...prev, r]
+                )}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                  selectedResources.includes(r)
+                    ? 'bg-lime-500 text-white'
+                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+          {selectedResources.length > 0 && (
+            <p className="text-xs text-lime-400 mt-1">Using: {selectedResources.join(', ')}</p>
+          )}
+        </div>
+      )}
       {hintContent && (
         <div>
           <button
@@ -234,12 +271,15 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         </div>
         <Button
           onClick={handleSubmit}
-          disabled={!value.trim() || isSubmitting || submitStatus === 'rate_limited'}
+          disabled={!value.trim() || isSubmitting || submitStatus === 'rate_limited' || resourcesRequired}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
       </div>
+      {resourcesRequired && value.trim() && (
+        <p className="text-xs text-amber-400">Select at least one resource above to submit.</p>
+      )}
     </div>
   );
 }
