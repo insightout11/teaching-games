@@ -15,11 +15,20 @@ export enum ActivityStatus {
   FINISHED = 'FINISHED',
 }
 
-// Team solution
+// Team solution — includes clientId for dedup and studentName for display
 export interface TeamSolution {
   id: string;
   description: string;
   resourcesUsed: string[];
+  clientId: string;
+  studentName: string;
+}
+
+// Adaptation submitted by a student during ADAPTING phase
+export interface Adaptation {
+  text: string;
+  studentName: string;
+  clientId: string;
 }
 
 // Re-export content types

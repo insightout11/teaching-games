@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import {
   ActivityStatus,
   type TeamSolution,
+  type Adaptation,
   type ProblemSolversContent,
 } from './types';
 
@@ -14,42 +15,108 @@ export function ProblemSolversActivity({
   onPhaseChange,
   customTopic,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
+  onScore,
 }: ActivityProps) {
   const content = generatedContent as ProblemSolversContent;
 
   const [status, setStatus] = useState<ActivityStatus>(ActivityStatus.IDLE);
   const [solutions, setSolutions] = useState<TeamSolution[]>([]);
-  const [newSolution, setNewSolution] = useState('');
-  const [selectedResources, setSelectedResources] = useState<string[]>([]);
   const [currentComplicationIndex, setCurrentComplicationIndex] = useState(0);
   const [showHints, setShowHints] = useState(false);
-  const [adaptations, setAdaptations] = useState<string[]>([]);
-  const [newAdaptation, setNewAdaptation] = useState('');
+  const [adaptations, setAdaptations] = useState<Adaptation[]>([]);
 
   const currentComplication = content.complications?.[currentComplicationIndex];
 
+  // Inline-sync refs so handler closures always read current values
+  const statusRef = useRef(status);
+  statusRef.current = status;
+  const currentComplicationIndexRef = useRef(currentComplicationIndex);
+  currentComplicationIndexRef.current = currentComplicationIndex;
+
   // Register input spec for student controller
   useEffect(() => {
+    const maxWords = content?.submissionMaxWords ?? 60;
+    const startersText =
+      content?.sentenceStarters?.length
+        ? ` Try: "${content.sentenceStarters.join('" / "')}"`
+        : '';
+
     if (status === ActivityStatus.BRAINSTORMING && content?.problem) {
       onSetInputSpec?.({
         type: 'textarea',
         gameKey: 'problem-solvers',
-        prompt: `Propose a solution for: "${content.problem.title}"`,
+        prompt: `Solve: "${content.problem.title}" (max ${maxWords} words)${startersText}`,
         placeholder: 'Describe your solution...',
-        maxLength: 500,
+        maxLength: maxWords * 8,
       });
     } else if (status === ActivityStatus.ADAPTING && currentComplication) {
       onSetInputSpec?.({
         type: 'textarea',
         gameKey: 'problem-solvers',
-        prompt: `How would you adapt to: "${currentComplication.complication}"`,
+        prompt: `How will you adapt to: "${currentComplication.complication}" (max ${maxWords} words)${startersText}`,
         placeholder: 'Describe your adaptation...',
-        maxLength: 500,
+        maxLength: maxWords * 8,
       });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, content?.problem, currentComplication, onSetInputSpec]);
+  }, [status, content?.problem, content?.sentenceStarters, content?.submissionMaxWords, currentComplication, onSetInputSpec]);
+
+  // CORE FIX: register remote vote handler once; dispatch by statusRef
+  useEffect(() => {
+    onRegisterRemoteVoteHandler?.((vote) => {
+      if (statusRef.current === ActivityStatus.BRAINSTORMING) {
+        setSolutions((prev) => {
+          if (prev.some((s) => s.clientId === vote.clientId)) return prev;
+          return [
+            ...prev,
+            {
+              id: `sol-${Date.now()}-${Math.random()}`,
+              description: vote.choice,
+              resourcesUsed: [],
+              clientId: vote.clientId,
+              studentName: vote.displayName,
+            },
+          ];
+        });
+        onScore?.({
+          studentId: vote.studentId ?? null,
+          clientId: vote.clientId,
+          displayName: vote.displayName,
+          promptIndex: 1,
+          points: 1,
+          isCorrect: null,
+        });
+      }
+
+      if (statusRef.current === ActivityStatus.ADAPTING) {
+        const promptIndex = 2 + currentComplicationIndexRef.current;
+        setAdaptations((prev) => {
+          if (prev.some((a) => a.clientId === vote.clientId)) return prev;
+          return [
+            ...prev,
+            {
+              text: vote.choice,
+              studentName: vote.displayName,
+              clientId: vote.clientId,
+            },
+          ];
+        });
+        onScore?.({
+          studentId: vote.studentId ?? null,
+          clientId: vote.clientId,
+          displayName: vote.displayName,
+          promptIndex,
+          points: 1,
+          isCorrect: null,
+        });
+      }
+    });
+
+    return () => onRegisterRemoteVoteHandler?.(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onRegisterRemoteVoteHandler, onScore]);
 
   const startActivity = useCallback(() => {
     setStatus(ActivityStatus.PROBLEM);
@@ -60,28 +127,6 @@ export function ProblemSolversActivity({
     setStatus(ActivityStatus.BRAINSTORMING);
     onPhaseChange?.('brainstorming');
   }, [onPhaseChange]);
-
-  const toggleResource = useCallback((resource: string) => {
-    setSelectedResources((prev) =>
-      prev.includes(resource)
-        ? prev.filter((r) => r !== resource)
-        : [...prev, resource]
-    );
-  }, []);
-
-  const addSolution = useCallback(() => {
-    if (!newSolution.trim()) return;
-
-    const solution: TeamSolution = {
-      id: `solution-${Date.now()}`,
-      description: newSolution.trim(),
-      resourcesUsed: [...selectedResources],
-    };
-
-    setSolutions((prev) => [...prev, solution]);
-    setNewSolution('');
-    setSelectedResources([]);
-  }, [newSolution, selectedResources]);
 
   const presentSolutions = useCallback(() => {
     setStatus(ActivityStatus.PRESENTING);
@@ -100,12 +145,6 @@ export function ProblemSolversActivity({
     onPhaseChange?.('adapting');
   }, [onPhaseChange]);
 
-  const addAdaptation = useCallback(() => {
-    if (!newAdaptation.trim()) return;
-    setAdaptations((prev) => [...prev, newAdaptation.trim()]);
-    setNewAdaptation('');
-  }, [newAdaptation]);
-
   const nextComplication = useCallback(() => {
     if (currentComplicationIndex < (content.complications?.length || 0) - 1) {
       setCurrentComplicationIndex((prev) => prev + 1);
@@ -121,12 +160,9 @@ export function ProblemSolversActivity({
 
   const restartActivity = useCallback(() => {
     setSolutions([]);
-    setNewSolution('');
-    setSelectedResources([]);
     setCurrentComplicationIndex(0);
     setShowHints(false);
     setAdaptations([]);
-    setNewAdaptation('');
     setStatus(ActivityStatus.IDLE);
     onPhaseChange?.('idle');
   }, [onPhaseChange]);
@@ -210,7 +246,6 @@ export function ProblemSolversActivity({
             </div>
           </div>
 
-          {/* Constraints */}
           {content.constraints && content.constraints.length > 0 && (
             <div className="glass p-4 rounded-xl border border-yellow-500/30">
               <p className="text-xs uppercase tracking-widest text-yellow-400 mb-2">Constraints</p>
@@ -240,74 +275,56 @@ export function ProblemSolversActivity({
           animate={{ opacity: 1 }}
           className="space-y-6"
         >
+          {/* Problem reminder */}
           <div className="glass p-4 rounded-xl">
             <p className="font-semibold">{content.problem.title}</p>
           </div>
 
-          {/* Current solutions */}
-          {solutions.length > 0 && (
+          {/* Sentence starters — shown on student devices, previewed here */}
+          {(content.sentenceStarters?.length ?? 0) > 0 && (
+            <div className="glass p-3 rounded-xl border border-lime-500/20">
+              <p className="text-xs uppercase tracking-widest opacity-50 mb-2">Sentence starters (shown on devices)</p>
+              <div className="flex flex-wrap gap-2">
+                {content.sentenceStarters.map((s, i) => (
+                  <span key={i} className="text-xs px-2 py-1 bg-lime-500/10 text-lime-300 rounded-lg">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Live counter */}
+          <div className="text-center">
+            <p className="text-4xl font-game text-lime-400">{solutions.length}</p>
+            <p className="text-sm opacity-50">solution{solutions.length !== 1 ? 's' : ''} received</p>
+          </div>
+
+          {/* Live solution cards */}
+          {solutions.length > 0 ? (
             <div className="space-y-2">
-              <p className="text-sm opacity-50">Proposed Solutions:</p>
               {solutions.map((solution, i) => (
-                <div key={solution.id} className="glass p-3 rounded-xl border border-lime-500/30">
+                <motion.div
+                  key={solution.id}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="glass p-3 rounded-xl border border-lime-500/30"
+                >
                   <div className="flex items-start gap-3">
                     <span className="w-6 h-6 rounded-full bg-lime-500/20 text-lime-400 flex items-center justify-center text-sm font-bold shrink-0">
                       {i + 1}
                     </span>
                     <div>
+                      <p className="text-xs text-lime-400/70 font-semibold mb-0.5">{solution.studentName}</p>
                       <p>{solution.description}</p>
-                      {solution.resourcesUsed.length > 0 && (
-                        <div className="flex gap-1 mt-1">
-                          {solution.resourcesUsed.map((r, j) => (
-                            <span key={j} className="text-xs px-2 py-0.5 bg-lime-500/10 rounded">
-                              {r}
-                            </span>
-                          ))}
-                        </div>
-                      )}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
+          ) : (
+            <p className="text-center opacity-40 text-sm">Waiting for student submissions...</p>
           )}
-
-          {/* Add solution form */}
-          <div className="glass p-4 rounded-xl space-y-3">
-            <p className="text-sm font-bold opacity-70">Add a solution:</p>
-
-            <div className="flex flex-wrap gap-2">
-              <p className="text-xs opacity-50 w-full">Select resources used:</p>
-              {content.problem.resources.map((resource, i) => (
-                <button
-                  key={i}
-                  onClick={() => toggleResource(resource)}
-                  className={`px-3 py-1 rounded-lg text-sm transition-all ${
-                    selectedResources.includes(resource)
-                      ? 'bg-lime-500 text-white'
-                      : 'bg-white/10 hover:bg-lime-500/30'
-                  }`}
-                >
-                  {resource}
-                </button>
-              ))}
-            </div>
-
-            <textarea
-              value={newSolution}
-              onChange={(e) => setNewSolution(e.target.value)}
-              placeholder="Describe your solution..."
-              className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-3 min-h-[80px] resize-none"
-            />
-
-            <button
-              onClick={addSolution}
-              disabled={!newSolution.trim()}
-              className="w-full py-3 bg-lime-500/20 hover:bg-lime-500/30 text-lime-400 rounded-lg font-bold transition-all disabled:opacity-30"
-            >
-              ADD SOLUTION
-            </button>
-          </div>
 
           <div className="flex justify-center">
             <button
@@ -348,17 +365,8 @@ export function ProblemSolversActivity({
                     {i + 1}
                   </span>
                   <div>
+                    <p className="text-xs text-lime-400/70 font-semibold mb-1">{solution.studentName}</p>
                     <p className="text-lg">{solution.description}</p>
-                    {solution.resourcesUsed.length > 0 && (
-                      <div className="flex gap-1 mt-2">
-                        <span className="text-xs opacity-50">Using:</span>
-                        {solution.resourcesUsed.map((r, j) => (
-                          <span key={j} className="text-xs px-2 py-0.5 bg-lime-500/20 rounded">
-                            {r}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                   </div>
                 </div>
               </motion.div>
@@ -409,7 +417,6 @@ export function ProblemSolversActivity({
             </p>
           </motion.div>
 
-          {/* Hints */}
           <AnimatePresence>
             {showHints && currentComplication.hints.length > 0 && (
               <motion.div
@@ -458,35 +465,37 @@ export function ProblemSolversActivity({
             <p className="text-sm text-orange-400">{currentComplication.complication}</p>
           </div>
 
-          {/* Adaptations */}
-          {adaptations.length > 0 && (
+          {/* Live counter */}
+          <div className="text-center">
+            <p className="text-4xl font-game text-lime-400">{adaptations.length}</p>
+            <p className="text-sm opacity-50">adaptation{adaptations.length !== 1 ? 's' : ''} received</p>
+          </div>
+
+          {/* Live adaptation cards */}
+          {adaptations.length > 0 ? (
             <div className="space-y-2">
-              <p className="text-sm opacity-50">Adaptations:</p>
               {adaptations.map((adaptation, i) => (
-                <div key={i} className="glass p-3 rounded-xl border border-lime-500/30">
-                  <p>{adaptation}</p>
-                </div>
+                <motion.div
+                  key={adaptation.clientId}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="glass p-3 rounded-xl border border-orange-500/30"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="w-6 h-6 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center text-sm font-bold shrink-0">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <p className="text-xs text-orange-400/70 font-semibold mb-0.5">{adaptation.studentName}</p>
+                      <p>{adaptation.text}</p>
+                    </div>
+                  </div>
+                </motion.div>
               ))}
             </div>
+          ) : (
+            <p className="text-center opacity-40 text-sm">Waiting for student adaptations...</p>
           )}
-
-          {/* Add adaptation */}
-          <div className="glass p-4 rounded-xl space-y-3">
-            <p className="text-sm font-bold opacity-70">How will you adapt?</p>
-            <textarea
-              value={newAdaptation}
-              onChange={(e) => setNewAdaptation(e.target.value)}
-              placeholder="Describe how your solution adapts to the complication..."
-              className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-3 min-h-[80px] resize-none"
-            />
-            <button
-              onClick={addAdaptation}
-              disabled={!newAdaptation.trim()}
-              className="w-full py-3 bg-lime-500/20 hover:bg-lime-500/30 text-lime-400 rounded-lg font-bold transition-all disabled:opacity-30"
-            >
-              ADD ADAPTATION
-            </button>
-          </div>
 
           <div className="flex justify-center">
             <button

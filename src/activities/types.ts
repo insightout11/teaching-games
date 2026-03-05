@@ -283,6 +283,8 @@ export interface ProblemSolversContent extends ActivityGeneratedContent {
   problem: ProblemStatement;
   constraints: string[];
   complications: ProblemComplication[];
+  submissionMaxWords: number;
+  sentenceStarters: string[];
 }
 
 export interface ProblemStatement {

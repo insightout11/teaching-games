@@ -492,25 +492,84 @@ async function generateProblemSolvers(topic: string, difficulty: Difficulty): Pr
           required: ['id', 'trigger', 'complication', 'hints'],
         },
       },
+      submissionMaxWords: { type: 'number' },
+      sentenceStarters: { type: 'array', items: { type: 'string' } },
     },
-    required: ['problem', 'constraints', 'complications'],
+    required: ['problem', 'constraints', 'complications', 'submissionMaxWords', 'sentenceStarters'],
   };
 
-  const prompt = `Generate a "Problem Solvers" challenge for ESL class.
+  const difficultyConfig: Record<string, {
+    resources: string; constraints: string; complications: string;
+    submissionMaxWords: number; startersNote: string; example: string;
+  }> = {
+    Beginner: {
+      resources: '3 very simple physical objects (e.g. rope, bucket, stick)',
+      constraints: '2 simple one-sentence constraints, no jargon',
+      complications: '1 complication',
+      submissionMaxWords: 25,
+      startersNote: 'A1–A2 starters e.g. "I would use…", "My idea is…", "We can…"',
+      example: 'Problem: "The school water tap is broken. Students need water to clean after lunch." Resources: mop, bucket, big bottle.',
+    },
+    Easy: {
+      resources: '3–4 everyday objects',
+      constraints: '2–3 short constraints',
+      complications: '1–2 complications',
+      submissionMaxWords: 40,
+      startersNote: 'A2–B1 starters e.g. "I would use…", "My idea is…", "We could…"',
+      example: 'Problem: "The classroom is too hot and the fan is broken." Resources: paper, window, door, cloth.',
+    },
+    Intermediate: {
+      resources: '4 resources',
+      constraints: '3 constraints',
+      complications: '2 complications',
+      submissionMaxWords: 60,
+      startersNote: 'B1–B2 starters e.g. "One solution is…", "We could try…", "By using…"',
+      example: 'Problem: "A local park floods every time it rains, damaging the playground." Resources: sandbags, drainage pipe, volunteers, social media.',
+    },
+    Advanced: {
+      resources: '5 resources',
+      constraints: '3–4 constraints',
+      complications: '3 complications',
+      submissionMaxWords: 90,
+      startersNote: 'C1 starters e.g. "One approach would be…", "Building on…", "A phased solution…"',
+      example: 'Problem: "A rural hospital has unreliable electricity, threatening patient safety." Resources: solar panels, generator, volunteers, local government, tools.',
+    },
+    Expert: {
+      resources: '5–6 resources',
+      constraints: '4 constraints',
+      complications: '3 complications',
+      submissionMaxWords: 120,
+      startersNote: 'C1–C2 starters e.g. "A viable strategy would be…", "Accounting for constraints…", "The core trade-off is…"',
+      example: 'Problem: "A city water treatment plant is failing and a major storm is forecast in 72 hours." Resources: emergency engineers, filtration units, reserve funds, storage tanks, press team.',
+    },
+  };
+
+  const cfg = difficultyConfig[difficulty] ?? difficultyConfig['Intermediate'];
+
+  const prompt = `LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+
+Generate a "Problem Solvers" activity for an ESL class.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
 
-Create:
-- Problem with title, description, 5-6 available resources, success criteria
-- 3-4 constraints
-- 3 complications that force adaptation (with hints)
+DIFFICULTY STRUCTURE (${difficulty}):
+- Problem: short concrete title + 1–2 sentence description using the language rule above (no jargon, no abstract concepts for lower levels)
+- Resources: ${cfg.resources}
+- Constraints: ${cfg.constraints} — each one sentence, use the language rule
+- Complications: ${cfg.complications} — each needs: trigger (1 short sentence), complication (1 sentence), 2 short hints
+- submissionMaxWords: ${cfg.submissionMaxWords}
+- sentenceStarters: exactly 3 short starters (${cfg.startersNote})
 
-Example: "Design a city for 10 million people with no cars"`;
+Level-appropriate example:
+${cfg.example}
+
+Return JSON matching the schema exactly.`;
 
   const parsed = await generateJSON<{
     problem: { title: string; description: string; resources: string[]; successCriteria: string[] };
     constraints: string[];
     complications: Array<{ id: string; trigger: string; complication: string; hints: string[] }>;
+    submissionMaxWords: number;
+    sentenceStarters: string[];
   }>(prompt, schema);
   return { activityKey: 'problem-solvers', topicContext: topic, ...parsed };
 }
