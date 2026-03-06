@@ -27,34 +27,39 @@ export interface ScorerContext {
   labelCandidates: string[];
   weights?: ScorerWeights;
   effortMaxWords?: number;
+  // Lightning Round: single words / short phrases are expected — don't penalise for brevity
+  shortAnswerMode?: boolean;
 }
 
 export const DEFAULT_WEIGHTS: ScorerWeights = {
   relevance: 0.40,
-  targetLanguage: 0.35,
-  completeness: 0.15,
+  targetLanguage: 0.10,
+  completeness: 0.40,
   effort: 0.10,
 };
 
+// Relevance 40% · Completeness+Clarity 45% · Vocabulary 10% · Effort 5%
 export const FINAL_ANSWER_WEIGHTS: ScorerWeights = {
-  relevance: 0.35,
-  targetLanguage: 0.30,
-  completeness: 0.25,
-  effort: 0.10,
-};
-
-export const MIC_DROP_WEIGHTS: ScorerWeights = {
   relevance: 0.40,
-  targetLanguage: 0.35,
-  completeness: 0.10,
-  effort: 0.15,
+  targetLanguage: 0.10,
+  completeness: 0.45,
+  effort: 0.05,
 };
 
-export const LIGHTNING_ROUND_WEIGHTS: ScorerWeights = {
+// Idea strength/Relevance 45% · Clarity+Completeness 40% · Vocabulary 10% · Effort 5%
+export const MIC_DROP_WEIGHTS: ScorerWeights = {
   relevance: 0.45,
-  targetLanguage: 0.35,
-  completeness: 0.15,
+  targetLanguage: 0.10,
+  completeness: 0.40,
   effort: 0.05,
+};
+
+// Correctness/Relevance 60% · Clarity 20% · Participation 10% · Vocabulary 10%
+export const LIGHTNING_ROUND_WEIGHTS: ScorerWeights = {
+  relevance: 0.60,
+  targetLanguage: 0.10,
+  completeness: 0.20,
+  effort: 0.10,
 };
 
 const STOP_WORDS = new Set([
@@ -66,20 +71,19 @@ const STOP_WORDS = new Set([
 function scoreRelevance(text: string, targetKeywords: string[], prompt: string): number {
   const lower = text.toLowerCase();
 
-  // Primary: count unique targetKeywords found in response
+  // Primary: prompt content-word overlap — does the answer address the prompt?
+  const promptWords = prompt.toLowerCase().split(/\s+/).filter((w) => w.length > 3 && !STOP_WORDS.has(w));
+  const promptScore = promptWords.length > 0
+    ? Math.min(1, promptWords.filter((w) => lower.includes(w)).length / Math.max(1, promptWords.length * 0.5))
+    : 0.5; // No distinguishing prompt words → give neutral credit
+
+  // Bonus: keyword match — vocabulary is a bonus signal, not the primary judge
   const kwMatches = targetKeywords.filter((kw) => lower.includes(kw.toLowerCase())).length;
   const kwScore = targetKeywords.length > 0
     ? Math.min(1, kwMatches / Math.max(1, targetKeywords.length * 0.4))
     : 0;
 
-  // Weak backup: prompt content-word overlap (strip short/common words)
-  const promptWords = prompt.toLowerCase().split(/\s+/).filter((w) => w.length > 4 && !STOP_WORDS.has(w));
-  const promptMatches = promptWords.filter((w) => lower.includes(w)).length;
-  const promptScore = promptWords.length > 0
-    ? Math.min(1, promptMatches / Math.max(1, promptWords.length * 0.5))
-    : 0;
-
-  return kwScore * 0.8 + promptScore * 0.2;
+  return promptScore * 0.7 + kwScore * 0.3;
 }
 
 export function scoreResponseHeuristic(response: LandingResponse, ctx: ScorerContext): LandingScore {
@@ -97,11 +101,17 @@ export function scoreResponseHeuristic(response: LandingResponse, ctx: ScorerCon
     : 0.5;
 
   const hasPunctuation = /[.!?]/.test(text);
-  const completeness = (hasPunctuation && wordCount >= 4)
-    ? Math.min(1, wordCount / 15)
-    : Math.min(0.5, wordCount / 10);
+  // Short-answer mode (Lightning Round): any non-empty response is a clear, valid answer
+  const completeness = ctx.shortAnswerMode
+    ? (wordCount >= 1 ? 0.8 : 0)
+    : (hasPunctuation && wordCount >= 4)
+      ? Math.min(1, wordCount / 12)
+      : Math.min(0.5, wordCount / 8);
 
-  const effort = Math.min(1, wordCount / (ctx.effortMaxWords ?? 25));
+  // Short-answer mode: any non-empty response = full participation credit
+  const effort = ctx.shortAnswerMode
+    ? (wordCount >= 1 ? 1.0 : 0)
+    : Math.min(1, wordCount / (ctx.effortMaxWords ?? 20));
 
   const finalScore = Math.round(
     (relevance * weights.relevance +
@@ -124,12 +134,12 @@ export function scoreAllHeuristic(responses: LandingResponse[], ctx: ScorerConte
 }
 
 // Maps lowest-scoring dimension to a human-readable improvement tip.
+// Vocabulary (targetLanguage) is excluded — we never tell students to "use more vocab".
 export function getImprovementTip(score: LandingScore): string {
   const dims = [
-    { val: score.relevance,      tip: 'Focus more directly on the question.' },
-    { val: score.targetLanguage, tip: 'Try using more lesson vocabulary.' },
-    { val: score.completeness,   tip: 'Try to write a more complete sentence.' },
-    { val: score.effort,         tip: 'Try expanding your idea with one more detail.' },
+    { val: score.relevance,    tip: 'Try to connect your answer more directly to the question.' },
+    { val: score.completeness, tip: 'Try to write a more complete thought.' },
+    { val: score.effort,       tip: 'Try adding one more supporting detail to your idea.' },
   ];
   const lowest = dims.reduce((a, b) => b.val < a.val ? b : a);
   return lowest.tip;

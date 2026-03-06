@@ -14,4 +14,5 @@ export const dialogueDetectivePlugin: GamePlugin = {
   configSchema: [],
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 45,
+  estimatedMinutes: 10,
 };

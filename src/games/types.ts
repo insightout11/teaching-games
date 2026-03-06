@@ -59,4 +59,5 @@ export interface GamePlugin {
   configSchema: GameConfigField[];
   maxPointsPerTurn: number;
   defaultTimerSeconds: number;
+  estimatedMinutes: number;
 }

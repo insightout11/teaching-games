@@ -14,4 +14,5 @@ export const gridRushPlugin: GamePlugin = {
   configSchema: [],
   maxPointsPerTurn: 40,
   defaultTimerSeconds: 60,
+  estimatedMinutes: 15,
 };

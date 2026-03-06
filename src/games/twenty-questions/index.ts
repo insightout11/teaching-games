@@ -14,4 +14,5 @@ export const twentyQuestionsPlugin: GamePlugin = {
   configSchema: [],
   maxPointsPerTurn: 15,
   defaultTimerSeconds: 30,
+  estimatedMinutes: 15,
 };

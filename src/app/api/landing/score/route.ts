@@ -56,10 +56,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const count = responses.length;
 
-  // < 2 responses: heuristic only, no labels
+  const shortAnswerMode = activityKey === 'lightning-round';
+
+  // < 2 responses: heuristic only, no labels (single response = Spotlight, no highlight bonus)
   if (count < 2) {
     return NextResponse.json({
-      scores: scoreAllHeuristic(responses, { prompt, targetKeywords, labelCandidates: [], weights }),
+      scores: scoreAllHeuristic(responses, { prompt, targetKeywords, labelCandidates: [], weights, shortAnswerMode }),
       source: 'heuristic',
     } satisfies ScoreResponse);
   }
@@ -68,22 +70,37 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const effectiveLabels = count <= 3 ? labelCandidates.slice(0, 1) : labelCandidates;
 
   const w = weights;
+  const activityGuidance = activityKey === 'lightning-round'
+    ? 'This is a quick recall activity. Answers may be a single word, short phrase, or brief sentence. Do NOT penalise short answers — a single correct word scores the same as a full sentence.'
+    : activityKey === 'mic-drop'
+      ? 'This is an expressive statement activity. Short, punchy, or rhetorical responses are valid and should score well. Do not require length or lesson vocabulary.'
+      : 'This is a lesson consolidation activity. Conceptual responses that reflect understanding should score highly even without keyword matches.';
+
   const aiPrompt = `ESL teacher assistant scoring student written responses.
 
+Activity: ${activityKey}
+${activityGuidance}
+
 Prompt given to students: "${prompt}"
-Target vocabulary keywords: ${targetKeywords.join(', ')}
+Target vocabulary (bonus reference — NOT required for a good score): ${targetKeywords.length > 0 ? targetKeywords.join(', ') : 'none'}
+
+SCORING PHILOSOPHY:
+- Reward understanding, relevance to the prompt, and clarity of thought.
+- Vocabulary usage is a BONUS signal only. Do not penalise students for omitting target words.
+- Synonyms, paraphrases, and conceptual responses count as correct.
+- A clear, on-topic answer with no target vocabulary can score 80–90.
 
 Student responses:
 ${responses.map((r, i) => `[${i + 1}] clientId="${r.clientId}": ${r.text}`).join('\n')}
 
 Score EACH response (0.0–1.0):
-- relevance: Does it directly address the prompt and topic?
-- targetLanguage: Does it use any target keywords or closely related vocabulary?
-- completeness: Is it a grammatically attempted, complete thought?
-- effort: Does it show genuine effort beyond a single word?
+- relevance: Does it address the prompt and show lesson understanding? (dominant factor)
+- targetLanguage: Does it naturally use any target keywords or closely related vocabulary? (bonus only — a 0.0 here should NOT prevent a high finalScore)
+- completeness: Is the response a coherent, clear thought? (a single word that directly answers the prompt scores 0.8)
+- effort: Does it show genuine engagement?${shortAnswerMode ? ' (any non-empty response = 1.0)' : ''}
 - finalScore: integer 0–100 = round(relevance*${w.relevance * 100} + targetLanguage*${w.targetLanguage * 100} + completeness*${w.completeness * 100} + effort*${w.effort * 100})
 - reasonTags: array from: used_target_vocab, clear_complete_answer, detailed_response, on_topic, creative_language
-${effectiveLabels.length > 0 ? `- suggestedLabel: assign ONE label from [${effectiveLabels.join(', ')}] to the best response for that label.
+${effectiveLabels.length > 0 ? `- suggestedLabel: assign ONE label from [${effectiveLabels.join(', ')}] to the best response for that label. Prioritise idea strength and relevance — NOT vocabulary density.
   RULES: each label goes to a DIFFERENT student. Do not assign more than one label to the same clientId unless there are fewer unique students than labels.` : '- suggestedLabel: omit this field'}
 
 Return JSON: { "scores": [...] } — one entry per clientId, same order as input. Each entry must include: clientId, relevance, targetLanguage, completeness, effort, finalScore, reasonTags.`;
@@ -128,7 +145,7 @@ Return JSON: { "scores": [...] } — one entry per clientId, same order as input
   } catch (err) {
     console.error('Landing score AI error, falling back to heuristic:', err);
     return NextResponse.json({
-      scores: scoreAllHeuristic(responses, { prompt, targetKeywords, labelCandidates: [], weights }),
+      scores: scoreAllHeuristic(responses, { prompt, targetKeywords, labelCandidates: [], weights, shortAnswerMode }),
       source: 'heuristic',
     } satisfies ScoreResponse);
   }

@@ -264,23 +264,26 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
 
     // Generate content on-the-fly if not pre-generated
+    const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-round']);
     setIsGeneratingContent(true);
     try {
       const effectiveTopic = getEffectiveTopic(settings);
-      const response = await fetch('/api/lesson-plan/generate', {
+      const isLandingActivity = LANDING_ACTIVITY_KEYS.has(activity.key);
+      const endpoint = isLandingActivity ? '/api/landing/generate' : '/api/lesson-plan/generate';
+      const body = isLandingActivity
+        ? JSON.stringify({ activityKey: activity.key, topic: effectiveTopic, difficulty: settings.difficulty })
+        : JSON.stringify({ customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [activity.key], studentCount: students.length });
+
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          customTopic: effectiveTopic,
-          difficulty: settings.difficulty,
-          activities: [activity.key],
-          studentCount: students.length,
-        }),
+        body,
       });
 
       const data = await response.json();
-      if (data.success && data.content[activity.key]) {
-        setActivityContent(data.content[activity.key]);
+      const resolvedContent = isLandingActivity ? data.content : data.content?.[activity.key];
+      if (data.success !== false && resolvedContent) {
+        setActivityContent(resolvedContent);
       } else {
         throw new Error('Failed to generate activity content');
       }

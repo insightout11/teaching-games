@@ -11,6 +11,9 @@ const ALLOWED_GAME_KEYS = [
   'connections',
   'story-sprint',
   'word-chain',
+  'final-answer',
+  'mic-drop',
+  'lightning-round',
 ] as const;
 
 const MAX_CONTENT_SIZE_BYTES = 50 * 1024; // 50 KB

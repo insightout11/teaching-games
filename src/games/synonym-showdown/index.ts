@@ -14,4 +14,5 @@ export const synonymShowdownPlugin: GamePlugin = {
   configSchema: [],
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 30,
+  estimatedMinutes: 8,
 };

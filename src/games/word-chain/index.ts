@@ -14,4 +14,5 @@ export const wordChainPlugin: GamePlugin = {
   configSchema: [],
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 20,
+  estimatedMinutes: 10,
 };

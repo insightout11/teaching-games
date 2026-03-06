@@ -14,4 +14,5 @@ export const storySprintPlugin: GamePlugin = {
   configSchema: [],
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 60,
+  estimatedMinutes: 18,
 };
