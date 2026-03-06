@@ -4,7 +4,7 @@ import type { SessionSettings } from '@/stores/session-store';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 
 // Activity categories
-export type ActivityCategory = 'icebreaker' | 'learning' | 'practice' | 'debate';
+export type ActivityCategory = 'icebreaker' | 'learning' | 'practice' | 'debate' | 'closing';
 
 // Common skills that activities can develop
 export type ActivitySkill =
@@ -69,7 +69,7 @@ export interface ActivityPlugin {
   description: string;
   category: ActivityCategory;
   /** PPP stage this activity belongs to. Internal metadata — must not appear in rendered strings. */
-  pppStage: 'presentation' | 'practice' | 'production';
+  pppStage: 'presentation' | 'practice' | 'production' | 'landing';
   skills: ActivitySkill[];
   component: ComponentType<ActivityProps>;
   supportsCustomTopic: boolean;
@@ -471,6 +471,34 @@ export interface PredictionRoundQuestion {
 export interface PredictionRoundContent extends ActivityGeneratedContent {
   activityKey: 'prediction-round';
   questions: [PredictionRoundQuestion, PredictionRoundQuestion, PredictionRoundQuestion];
+}
+
+// Final Answer content
+export interface FinalAnswerContent extends ActivityGeneratedContent {
+  activityKey: 'final-answer';
+  prompt: string;
+  targetKeywords: string[];       // 4-6 lesson vocabulary words for scoring
+  sentenceStarter?: string;       // scaffold e.g. "I think that..."
+  exampleAnswer?: string;         // teacher-only model answer
+}
+
+// Mic Drop content
+export interface MicDropContent extends ActivityGeneratedContent {
+  activityKey: 'mic-drop';
+  prompt: string;
+  targetKeywords: string[];
+  exampleLine?: string;           // teacher-only strong example
+}
+
+// Lightning Round content
+export interface LightningRoundPrompt {
+  text: string;                   // short prompt ≤12 words
+  targetKeywords: string[];       // 2-4 keywords per prompt
+}
+
+export interface LightningRoundContent extends ActivityGeneratedContent {
+  activityKey: 'lightning-round';
+  prompts: LightningRoundPrompt[]; // 3-5 prompts
 }
 
 // Scene Igniter content

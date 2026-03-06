@@ -13,7 +13,10 @@ import { quickPulsePlugin } from './quick-pulse';
 import { vocabRadarPlugin } from './vocab-radar';
 import { predictionRoundPlugin } from './prediction-round';
 import { sceneIgniterPlugin } from './scene-igniter';
-import { Sparkles, BookOpen, Users, Scale } from 'lucide-react';
+import { finalAnswerPlugin } from './final-answer';
+import { micDropPlugin } from './mic-drop';
+import { lightningRoundPlugin } from './lightning-round';
+import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
 const activities: ActivityPlugin[] = [
@@ -34,6 +37,10 @@ const activities: ActivityPlugin[] = [
   problemSolversPlugin,
   // Debates
   hotTakeArenaPlugin,
+  // Closing activities
+  finalAnswerPlugin,
+  micDropPlugin,
+  lightningRoundPlugin,
 ];
 
 /**
@@ -66,6 +73,7 @@ export function getActivitiesGrouped(): Record<ActivityCategory, ActivityPlugin[
     learning: getActivitiesByCategory('learning'),
     practice: getActivitiesByCategory('practice'),
     debate: getActivitiesByCategory('debate'),
+    closing: getActivitiesByCategory('closing'),
   };
 }
 
@@ -101,5 +109,11 @@ export const CATEGORY_INFO: Record<ActivityCategory, {
     description: 'Structured argumentation and critical thinking',
     icon: Scale,
     color: 'text-rose-400',
+  },
+  closing: {
+    name: 'Closing Activities',
+    description: 'Land the lesson — consolidate learning and give every student a final voice',
+    icon: Flag,
+    color: 'text-teal-400',
   },
 };

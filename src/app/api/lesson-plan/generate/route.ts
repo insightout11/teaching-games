@@ -26,6 +26,9 @@ import type {
   PredictionRoundContent,
   SceneIgniterContent,
   SceneIgniterScene,
+  FinalAnswerContent,
+  MicDropContent,
+  LightningRoundContent,
   GameGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
@@ -849,6 +852,117 @@ Return JSON: { title: string, context: string, improvPrompt: string, improvScrip
   };
 }
 
+async function generateFinalAnswer(topic: string, difficulty: Difficulty): Promise<FinalAnswerContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      prompt: { type: 'string' },
+      targetKeywords: { type: 'array', items: { type: 'string' } },
+      sentenceStarter: { type: 'string' },
+      exampleAnswer: { type: 'string' },
+    },
+    required: ['prompt', 'targetKeywords'],
+  };
+
+  const aiPrompt = `Generate a closing consolidation prompt for an ESL class.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Create:
+- prompt: An open-ended consolidating question (max 15 words) that asks students to summarise or apply today's learning
+- targetKeywords: 4-6 key vocabulary words from the topic that strong answers should include
+- sentenceStarter: A scaffold sentence beginning (e.g. "I think that..." or "One important thing is...")
+- exampleAnswer: A model answer (1-2 sentences) using the target keywords — shown to teacher only
+
+Return JSON.`;
+
+  const data = await generateJSON<{ prompt: string; targetKeywords: string[]; sentenceStarter?: string; exampleAnswer?: string }>(aiPrompt, schema);
+  return {
+    activityKey: 'final-answer',
+    topicContext: topic,
+    prompt: data.prompt,
+    targetKeywords: data.targetKeywords ?? [],
+    ...(data.sentenceStarter && { sentenceStarter: data.sentenceStarter }),
+    ...(data.exampleAnswer && { exampleAnswer: data.exampleAnswer }),
+  };
+}
+
+async function generateMicDrop(topic: string, difficulty: Difficulty): Promise<MicDropContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      prompt: { type: 'string' },
+      targetKeywords: { type: 'array', items: { type: 'string' } },
+      exampleLine: { type: 'string' },
+    },
+    required: ['prompt', 'targetKeywords'],
+  };
+
+  const aiPrompt = `Generate a "Mic Drop" expressive writing prompt for an ESL closing activity.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Create:
+- prompt: An expressive opinion or reflection prompt (max 15 words) asking for a powerful personal statement
+- targetKeywords: 4-6 vocabulary words from the topic that strong answers should use
+- exampleLine: A punchy, memorable model answer (1 sentence) — shown to teacher only
+
+Return JSON.`;
+
+  const data = await generateJSON<{ prompt: string; targetKeywords: string[]; exampleLine?: string }>(aiPrompt, schema);
+  return {
+    activityKey: 'mic-drop',
+    topicContext: topic,
+    prompt: data.prompt,
+    targetKeywords: data.targetKeywords ?? [],
+    ...(data.exampleLine && { exampleLine: data.exampleLine }),
+  };
+}
+
+async function generateLightningRound(topic: string, difficulty: Difficulty): Promise<LightningRoundContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      prompts: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            text: { type: 'string' },
+            targetKeywords: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['text', 'targetKeywords'],
+        },
+      },
+    },
+    required: ['prompts'],
+  };
+
+  const aiPrompt = `Generate 4 rapid-fire closing prompts for an ESL lightning round activity.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Create exactly 4 prompts covering these types in order:
+1. Recall — What do you remember about [key fact]?
+2. Opinion — What do you think about [aspect]?
+3. Application — How would you use [concept] in real life?
+4. Reflection — What surprised you or what will you remember?
+
+Each prompt:
+- text: max 12 words
+- targetKeywords: 2-4 key vocabulary words expected in strong answers
+
+Return JSON with a "prompts" array of exactly 4 items.`;
+
+  const data = await generateJSON<{ prompts: LightningRoundContent['prompts'] }>(aiPrompt, schema);
+  const prompts = Array.isArray(data.prompts) ? data.prompts.slice(0, 5) : [];
+  // Pad to minimum 3 if AI returned fewer
+  while (prompts.length < 3) {
+    prompts.push({ text: `What did you learn about ${topic}?`, targetKeywords: [] });
+  }
+  return { activityKey: 'lightning-round', topicContext: topic, prompts };
+}
+
 async function generateSceneIgniter(topic: string, difficulty: Difficulty): Promise<SceneIgniterContent> {
   const [scene1, scene2, scene1alt, scene2alt] = await Promise.all([
     generateSingleScene(topic, difficulty, 4),
@@ -1245,6 +1359,15 @@ export async function POST(request: NextRequest) {
             break;
           case 'scene-igniter':
             generators.push(generateSceneIgniter(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'final-answer':
+            generators.push(generateFinalAnswer(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'mic-drop':
+            generators.push(generateMicDrop(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'lightning-round':
+            generators.push(generateLightningRound(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);
