@@ -65,3 +65,161 @@ select option {
     text-wrap: balance;
   }
 }
+
+/* ─── HUD / Aviation Session Theme ────────────────────────────────────────
+   All styles scoped to .hud-bg and .panel-card.
+   Delete this entire block to fully revert the aviation theme.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Background: fine tech grid + crosshair targeting lines + concentric radar
+   rings + ambient bloom. All layers are very low opacity so content reads
+   cleanly on top. Ring center is at 70% 18% (upper-right open space). */
+.hud-bg {
+  background-color: #070B14;
+  background-image:
+    /* Fine tec grid */
+    linear-gradient(rgba(77,163,255,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77,163,255,0.028) 1px, transparent 1px),
+    /* Crosshair lines through ring centre */
+    linear-gradient(
+      transparent calc(18% - 0.5px),
+      rgba(77,163,255,0.05) calc(18% - 0.5px),
+      rgba(77,163,255,0.05) calc(18% + 0.5px),
+      transparent calc(18% + 0.5px)
+    ),
+    linear-gradient(90deg,
+      transparent calc(70% - 0.5px),
+      rgba(77,163,255,0.05) calc(70% - 0.5px),
+      rgba(77,163,255,0.05) calc(70% + 0.5px),
+      transparent calc(70% + 0.5px)
+    ),
+    /* Concentric radar rings */
+    radial-gradient(circle at 70% 18%, transparent 149px, rgba(77,163,255,0.09) 150px, transparent 152px),
+    radial-gradient(circle at 70% 18%, transparent 269px, rgba(77,163,255,0.06) 270px, transparent 272px),
+    radial-gradient(circle at 70% 18%, transparent 389px, rgba(77,163,255,0.038) 390px, transparent 392px),
+    /* Ambient bloom at ring centre */
+    radial-gradient(ellipse 50% 45% at 70% 18%, rgba(77,163,255,0.08) 0%, transparent 70%);
+  background-size:
+    80px 80px,
+    80px 80px,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+}
+
+/* Session header: subtle glow separator below */
+.hud-header-bar {
+  border-bottom: 1px solid rgba(77, 163, 255, 0.18);
+  padding-bottom: 1rem;
+}
+
+/* Settings bar: solid panel feel, not generic glass */
+.hud-settings-panel {
+  background: rgba(10, 16, 30, 0.82);
+  border: 1px solid rgba(77, 163, 255, 0.18);
+  border-radius: 12px;
+  backdrop-filter: blur(14px);
+}
+
+/* Category section separator: directional glow rule */
+.hud-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(77, 163, 255, 0.35) 0%,
+    rgba(77, 163, 255, 0.1) 35%,
+    transparent 100%
+  );
+}
+
+/* Avionics panel card — replaces .glass on session selection cards */
+.panel-card {
+  position: relative;
+  background: rgba(10, 17, 33, 0.88);
+  border: 1px solid rgba(77, 163, 255, 0.2);
+  border-radius: 12px;
+  transition: box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+/* L-shaped corner accent marks — top-left */
+.panel-card::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  border-top: 1.5px solid rgba(77, 163, 255, 0.55);
+  border-left: 1.5px solid rgba(77, 163, 255, 0.55);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* L-shaped corner accent marks — bottom-right */
+.panel-card::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1.5px solid rgba(77, 163, 255, 0.55);
+  border-right: 1.5px solid rgba(77, 163, 255, 0.55);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.panel-card:hover {
+  background: rgba(13, 22, 44, 0.95);
+  border-color: rgba(77, 163, 255, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(77, 163, 255, 0.18),
+    0 4px 28px rgba(77, 163, 255, 0.16),
+    inset 0 0 20px rgba(77, 163, 255, 0.05);
+}
+
+/* Pre-loaded content variant: cyan accent instead of blue */
+.panel-card.panel-card--ready {
+  border-color: rgba(34, 211, 238, 0.32);
+}
+.panel-card.panel-card--ready::before,
+.panel-card.panel-card--ready::after {
+  border-color: rgba(34, 211, 238, 0.65);
+}
+.panel-card.panel-card--ready:hover {
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.2),
+    0 4px 28px rgba(34, 211, 238, 0.14),
+    inset 0 0 20px rgba(34, 211, 238, 0.04);
+}
+
+/* Instrument-style timer control */
+.hud-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(77, 163, 255, 0.08);
+  border: 1px solid rgba(77, 163, 255, 0.25);
+  border-radius: 4px;
+  padding: 2px 7px 2px 5px;
+}
+.hud-control svg {
+  color: rgba(77, 163, 255, 0.65);
+  flex-shrink: 0;
+}
+.hud-control select {
+  background: transparent;
+  color: rgba(77, 163, 255, 0.9);
+  font-size: 0.7rem;
+  font-family: var(--font-geist-mono), 'Courier New', monospace;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  opacity: 1;
+}

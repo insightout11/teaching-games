@@ -332,10 +332,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }
 
   return (
-    <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight">
+    <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
       <div className="space-y-4">
         {/* Session header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between hud-header-bar">
           <div>
             <h1 className="text-xl font-bold">{cls.name} — Live Session</h1>
             <p className="text-sm opacity-70">
@@ -384,7 +384,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         {viewMode === 'selection' ? (
           <div className="space-y-8">
             {/* Settings on selection screen */}
-            <div className="glass p-2 rounded-2xl shadow-lg">
+            <div className="hud-settings-panel p-2 shadow-lg">
               <SessionSettingsBar />
             </div>
             {/* Activities Section */}
@@ -406,7 +406,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
                       <IconComponent className={`w-4 h-4 ${info.color}`} />
                       <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
-                      <div className="flex-1 h-px bg-lc-border-subtle" />
+                      <div className="hud-rule" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {categoryActivities.map((activity) => {
@@ -416,8 +416,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                           <button
                             key={activity.key}
                             onClick={() => handleSelectActivity(activity)}
-                            className={`glass rounded-2xl p-6 text-left hover:bg-white/10 transition-all relative ${
-                              hasContent ? 'border border-cyan-500/30' : ''
+                            className={`panel-card p-6 text-left transition-all relative ${
+                              hasContent ? 'panel-card--ready' : ''
                             }`}
                           >
                             {hasContent && (
@@ -437,14 +437,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             </div>
                             <div className="flex items-center justify-between mt-3">
                               <span className="text-xs opacity-50">~{activity.estimatedMinutes} min</span>
-                              <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-                                <svg className="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <div className="hud-control" onClick={(e) => e.stopPropagation()}>
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 <select
                                   value={getTimerForPlugin(activity.key, activity.defaultTimerSeconds)}
                                   onChange={(e) => handleTimerOverride(activity.key, Number(e.target.value))}
-                                  className="bg-transparent text-xs opacity-70 outline-none cursor-pointer"
+                                  className="outline-none cursor-pointer"
                                 >
                                   {[30, 45, 60, 90, 120, 180].map((s) => (
                                     <option key={s} value={s}>{s}s</option>
@@ -480,7 +480,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
                       <IconComponent className={`w-4 h-4 ${info.color}`} />
                       <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
-                      <div className="flex-1 h-px bg-lc-border-subtle" />
+                      <div className="hud-rule" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {categoryGames.map((game) => {
@@ -490,8 +490,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                           <button
                             key={game.key}
                             onClick={() => handleSelectGame(game)}
-                            className={`glass rounded-2xl p-6 text-left hover:bg-white/10 transition-all relative ${
-                              hasContent ? 'border border-lc-blue/25' : ''
+                            className={`panel-card p-6 text-left transition-all relative ${
+                              hasContent ? 'panel-card--ready' : ''
                             }`}
                           >
                             {hasContent && (
@@ -509,14 +509,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                                 </span>
                               ))}
                             </div>
-                            <div className="flex items-center gap-1.5 mt-3" onClick={(e) => e.stopPropagation()}>
-                              <svg className="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="hud-control mt-3" onClick={(e) => e.stopPropagation()}>
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                               </svg>
                               <select
                                 value={getTimerForPlugin(game.key, game.defaultTimerSeconds)}
                                 onChange={(e) => handleTimerOverride(game.key, Number(e.target.value))}
-                                className="bg-transparent text-xs opacity-70 outline-none cursor-pointer"
+                                className="outline-none cursor-pointer"
                               >
                                 {[15, 20, 30, 45, 60, 90, 120].map((s) => (
                                   <option key={s} value={s}>{s}s</option>
