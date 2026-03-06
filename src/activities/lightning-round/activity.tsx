@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ActivityProps } from '../types';
 import type { LightningRoundContent } from '../types';
-import { scoreAllHeuristic, LIGHTNING_ROUND_WEIGHTS } from '@/lib/landing-scorer';
+import { scoreAllHeuristic, LIGHTNING_ROUND_WEIGHTS, getImprovementTip, getDimensionBreakdown, getDisplayScore } from '@/lib/landing-scorer';
 import type { LandingScore } from '@/lib/landing-scorer';
 
 type Phase = 'idle' | 'collecting' | 'revealing' | 'summary';
@@ -13,6 +13,14 @@ interface Submission {
   displayName: string;
   studentId?: string | null;
 }
+
+const LR_LABEL_CANDIDATES = ['Best Reason', 'Best Vocabulary', 'Fast Clear Answer'];
+
+const LR_BONUS_POINTS: Record<string, number> = {
+  'Best Reason': 2,
+  'Best Vocabulary': 2,
+  'Fast Clear Answer': 1,
+};
 
 const TAG_LABELS: Record<string, string> = {
   used_target_vocab: 'Target vocab',
@@ -27,6 +35,29 @@ function ReasonTag({ tag }: { tag: string }) {
     <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300">
       {TAG_LABELS[tag] ?? tag}
     </span>
+  );
+}
+
+function ScoreBreakdown({ score }: { score: LandingScore }) {
+  const breakdown = getDimensionBreakdown(score);
+  const tip = getImprovementTip(score);
+  const display = getDisplayScore(score);
+  return (
+    <div className="mt-2 space-y-1.5">
+      <div className="flex items-baseline gap-2">
+        <span className="text-lg font-game text-orange-400">{display}</span>
+        <span className="text-xs opacity-50">/ 40</span>
+      </div>
+      <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
+        {breakdown.map((d) => (
+          <div key={d.label} className="flex items-center justify-between text-xs opacity-70">
+            <span>{d.label}</span>
+            <span className="font-semibold">{d.value}<span className="opacity-50">/10</span></span>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs opacity-60 italic">&ldquo;{tip}&rdquo;</p>
+    </div>
   );
 }
 
@@ -50,9 +81,6 @@ export function LightningRoundActivity({
   const [promptScores, setPromptScores] = useState<Record<number, LandingScore[]>>({});
   const [timeLeft, setTimeLeft] = useState(0);
   const [locking, setLocking] = useState(false);
-
-  // Dedup participation scoring per prompt
-  const scoredClientIds = useRef<Record<number, Set<string>>>({});
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -88,7 +116,7 @@ export function LightningRoundActivity({
       type: 'textarea',
       gameKey: 'lightning-round',
       prompt: prompt.text,
-      placeholder: 'Write your answer quickly...',
+      placeholder: 'Answer quickly with a word, phrase, or short sentence.',
       maxLength: 150,
     });
   }, [phase, currentIndex, prompts, onSetInputSpec]);
@@ -117,7 +145,6 @@ export function LightningRoundActivity({
   const handleStart = useCallback(() => {
     setAllSubmissions({});
     setPromptScores({});
-    scoredClientIds.current = {};
     setCurrentIndex(0);
     setTimeLeft(timerSeconds);
     setPhase('collecting');
@@ -131,27 +158,11 @@ export function LightningRoundActivity({
 
     const subs = allSubmissionsRef.current[idx] ?? {};
     const clientIds = Object.keys(subs);
-
-    // Award participation scores — deduplicate
-    if (!scoredClientIds.current[idx]) scoredClientIds.current[idx] = new Set();
-    const newClientIds = clientIds.filter((id) => !scoredClientIds.current[idx].has(id));
-
-    await Promise.all(
-      newClientIds.map((clientId) => {
-        scoredClientIds.current[idx].add(clientId);
-        return onScore?.({
-          studentId: subs[clientId].studentId ?? null,
-          clientId,
-          displayName: subs[clientId].displayName,
-          promptIndex: idx + 1,
-          points: 1,
-          isCorrect: null,
-        });
-      })
-    );
-
     const responses = clientIds.map((clientId) => ({ clientId, text: subs[clientId].text }));
     const prompt = prompts[idx];
+
+    const count = responses.length;
+    const effectiveLabels = count < 2 ? [] : count <= 3 ? LR_LABEL_CANDIDATES.slice(0, 1) : LR_LABEL_CANDIDATES;
 
     let sorted: LandingScore[] = [];
 
@@ -164,7 +175,7 @@ export function LightningRoundActivity({
             activityKey: 'lightning-round',
             prompt: prompt.text,
             targetKeywords: prompt.targetKeywords,
-            labelCandidates: [],
+            labelCandidates: effectiveLabels,
             responses,
             weights: LIGHTNING_ROUND_WEIGHTS,
           }),
@@ -178,9 +189,27 @@ export function LightningRoundActivity({
           targetKeywords: prompt.targetKeywords,
           labelCandidates: [],
           weights: LIGHTNING_ROUND_WEIGHTS,
+          effortMaxWords: 8,
         }).sort((a, b) => b.finalScore - a.finalScore);
       }
     }
+
+    // Single onScore call per student: 1 participation + bonus if labeled
+    await Promise.all(
+      sorted.map((score) => {
+        const sub = subs[score.clientId];
+        if (!sub) return;
+        const bonus = LR_BONUS_POINTS[score.suggestedLabel ?? ''] ?? 0;
+        return onScore?.({
+          studentId: sub.studentId ?? null,
+          clientId: score.clientId,
+          displayName: sub.displayName,
+          promptIndex: idx + 1,
+          points: 1 + bonus,
+          isCorrect: null,
+        });
+      })
+    );
 
     setPromptScores((prev) => ({ ...prev, [idx]: sorted }));
     setLocking(false);
@@ -224,6 +253,15 @@ export function LightningRoundActivity({
 
   const currentPrompt = prompts[currentIndex];
   const currentSubmissionCount = Object.keys(allSubmissions[currentIndex] ?? {}).length;
+
+  // Most Memorable Thought for summary
+  const mostMemorable = (() => {
+    if (bestPerStudent.length === 0) return null;
+    const labeled = bestPerStudent.filter((b) => b.score.suggestedLabel);
+    return labeled.length > 0
+      ? labeled.reduce((a, b) => b.score.finalScore > a.score.finalScore ? b : a)
+      : bestPerStudent[0];
+  })();
 
   return (
     <div className="space-y-6">
@@ -296,22 +334,25 @@ export function LightningRoundActivity({
             <p className="font-semibold">{currentPrompt.text}</p>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             {(promptScores[currentIndex] ?? []).slice(0, 5).map((score) => {
               const sub = allSubmissions[currentIndex]?.[score.clientId];
               if (!sub) return null;
               return (
-                <div key={score.clientId} className="glass p-3 rounded-xl border border-white/10">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs opacity-60 mb-0.5">{sub.displayName}</p>
-                      <p className="text-sm leading-snug">{sub.text}</p>
-                    </div>
-                    <div className="text-lg font-game text-orange-400 shrink-0">{score.finalScore}</div>
+                <div key={score.clientId} className="glass p-4 rounded-xl border border-white/10">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs opacity-60 mb-0.5">{sub.displayName}</p>
+                    <p className="text-sm leading-snug">{sub.text}</p>
                   </div>
-                  {score.reasonTags.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-1.5">
+                  <ScoreBreakdown score={score} />
+                  {(score.reasonTags.length > 0 || score.suggestedLabel) && (
+                    <div className="flex flex-wrap gap-1 mt-2">
                       {score.reasonTags.map((tag) => <ReasonTag key={tag} tag={tag} />)}
+                      {score.suggestedLabel && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold">
+                          ⭐ {score.suggestedLabel}
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
@@ -335,20 +376,21 @@ export function LightningRoundActivity({
 
       {/* SUMMARY */}
       {phase === 'summary' && (
-        <div className="space-y-5">
-          {/* Top response per prompt */}
+        <div className="space-y-6">
+          {/* Section 1: Best response per prompt */}
           <div className="space-y-3">
-            <p className="text-sm opacity-50 uppercase tracking-widest">Top answer per prompt</p>
+            <p className="text-sm opacity-50 uppercase tracking-widest">Best answer per prompt</p>
             {prompts.map((prompt, idx) => {
               const top = (promptScores[idx] ?? [])[0];
               const sub = top ? allSubmissions[idx]?.[top.clientId] : undefined;
               return (
-                <div key={idx} className="glass p-4 rounded-xl border border-white/10 space-y-1">
+                <div key={idx} className="glass p-4 rounded-xl border border-white/10 space-y-2">
                   <p className="text-xs opacity-60">{idx + 1}. {prompt.text}</p>
-                  {sub ? (
+                  {sub && top ? (
                     <>
                       <p className="text-sm font-semibold">{sub.displayName}</p>
                       <p className="text-sm opacity-80">{sub.text}</p>
+                      <ScoreBreakdown score={top} />
                     </>
                   ) : (
                     <p className="text-sm opacity-40 italic">No responses</p>
@@ -358,21 +400,20 @@ export function LightningRoundActivity({
             })}
           </div>
 
-          {/* Best per student */}
-          {bestPerStudent.length > 0 && (
-            <div className="space-y-3">
-              <p className="text-sm opacity-50 uppercase tracking-widest">Best per student</p>
-              {bestPerStudent.map(({ score, promptIdx, sub }) => (
-                <div key={score.clientId} className="glass p-3 rounded-xl border border-white/10">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs opacity-60 mb-0.5">{sub.displayName} · Prompt {promptIdx + 1}</p>
-                      <p className="text-sm">{sub.text}</p>
-                    </div>
-                    <div className="text-lg font-game text-orange-400 shrink-0">{score.finalScore}</div>
-                  </div>
-                </div>
-              ))}
+          {/* Section 2: Most Memorable Thought */}
+          {mostMemorable && (
+            <div className="space-y-2">
+              <p className="text-sm opacity-50 uppercase tracking-widest">Most Memorable Thought</p>
+              <div className="glass p-5 rounded-2xl border-2 border-amber-500/30 space-y-3">
+                <p className="text-base leading-snug italic">&ldquo;{mostMemorable.sub.text}&rdquo;</p>
+                <p className="text-xs opacity-60">— {mostMemorable.sub.displayName} · Prompt {mostMemorable.promptIdx + 1}</p>
+                <ScoreBreakdown score={mostMemorable.score} />
+                {mostMemorable.score.suggestedLabel && (
+                  <span className="inline-block text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold">
+                    ⭐ {mostMemorable.score.suggestedLabel}
+                  </span>
+                )}
+              </div>
             </div>
           )}
 

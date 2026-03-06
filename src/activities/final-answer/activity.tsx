@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ActivityProps } from '../types';
 import type { FinalAnswerContent } from '../types';
-import { scoreAllHeuristic, FINAL_ANSWER_WEIGHTS } from '@/lib/landing-scorer';
+import { scoreAllHeuristic, FINAL_ANSWER_WEIGHTS, getImprovementTip, getDimensionBreakdown, getDisplayScore } from '@/lib/landing-scorer';
 import type { LandingScore } from '@/lib/landing-scorer';
 
 type Phase = 'idle' | 'collecting' | 'scoring' | 'highlights';
@@ -14,7 +14,13 @@ interface Submission {
   studentId?: string | null;
 }
 
-const LABEL_CANDIDATES = ['Best Answer', 'Best Vocabulary', 'Most Complete', 'Most Creative'];
+const LABEL_CANDIDATES = ['Best Idea', 'Best Vocabulary', 'Clear Answer'];
+
+const BONUS_POINTS: Record<string, number> = {
+  'Best Idea': 2,
+  'Best Vocabulary': 2,
+  'Clear Answer': 2,
+};
 
 const TAG_LABELS: Record<string, string> = {
   used_target_vocab: 'Target vocab',
@@ -29,6 +35,29 @@ function ReasonTag({ tag }: { tag: string }) {
     <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">
       {TAG_LABELS[tag] ?? tag}
     </span>
+  );
+}
+
+function ScoreBreakdown({ score }: { score: LandingScore }) {
+  const breakdown = getDimensionBreakdown(score);
+  const tip = getImprovementTip(score);
+  const display = getDisplayScore(score);
+  return (
+    <div className="mt-3 space-y-2">
+      <div className="flex items-baseline gap-2">
+        <span className="text-xl font-game text-teal-400">{display}</span>
+        <span className="text-xs opacity-50">/ 40</span>
+      </div>
+      <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
+        {breakdown.map((d) => (
+          <div key={d.label} className="flex items-center justify-between text-xs opacity-70">
+            <span>{d.label}</span>
+            <span className="font-semibold">{d.value}<span className="opacity-50">/10</span></span>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs opacity-60 italic">&ldquo;{tip}&rdquo;</p>
+    </div>
   );
 }
 
@@ -48,7 +77,6 @@ export function FinalAnswerActivity({
   const [scores, setScores] = useState<LandingScore[]>([]);
   const [scoreSource, setScoreSource] = useState<'ai' | 'heuristic'>('heuristic');
   const [timeLeft, setTimeLeft] = useState(0);
-  const [spotlightId, setSpotlightId] = useState<string | null>(null);
   const [scoring, setScoring] = useState(false);
 
   const phaseRef = useRef(phase);
@@ -106,7 +134,6 @@ export function FinalAnswerActivity({
   const handleStart = useCallback(() => {
     setSubmissions({});
     setScores([]);
-    setSpotlightId(null);
     setTimeLeft(timerSeconds);
     setPhase('collecting');
     onPhaseChange?.('collecting');
@@ -121,24 +148,8 @@ export function FinalAnswerActivity({
 
     const subs = submissionsRef.current;
     const clientIds = Object.keys(subs);
-
-    // Award participation scores
-    await Promise.all(
-      clientIds.map((clientId) =>
-        onScore?.({
-          studentId: subs[clientId].studentId ?? null,
-          clientId,
-          displayName: subs[clientId].displayName,
-          promptIndex: 1,
-          points: 1,
-          isCorrect: null,
-        })
-      )
-    );
-
     const responses = clientIds.map((clientId) => ({ clientId, text: subs[clientId].text }));
 
-    // Determine label candidates based on count
     const count = responses.length;
     const effectiveLabels = count < 2 ? [] : count <= 3 ? LABEL_CANDIDATES.slice(0, 1) : LABEL_CANDIDATES;
 
@@ -172,6 +183,24 @@ export function FinalAnswerActivity({
     }
 
     finalScores.sort((a, b) => b.finalScore - a.finalScore);
+
+    // Single onScore call per student: 1 participation + bonus if labeled
+    await Promise.all(
+      finalScores.map((score) => {
+        const sub = subs[score.clientId];
+        if (!sub) return;
+        const bonus = BONUS_POINTS[score.suggestedLabel ?? ''] ?? 0;
+        return onScore?.({
+          studentId: sub.studentId ?? null,
+          clientId: score.clientId,
+          displayName: sub.displayName,
+          promptIndex: 1,
+          points: 1 + bonus,
+          isCorrect: null,
+        });
+      })
+    );
+
     setScores(finalScores);
     setScoreSource(source);
     setScoring(false);
@@ -185,6 +214,7 @@ export function FinalAnswerActivity({
   }, [onPhaseChange]);
 
   const submissionCount = Object.keys(submissions).length;
+  const isSpotlight = scores.length === 1;
 
   return (
     <div className="space-y-6">
@@ -264,48 +294,68 @@ export function FinalAnswerActivity({
       {/* HIGHLIGHTS */}
       {phase === 'highlights' && (
         <div className="space-y-5">
-          <div className="flex items-center justify-between">
-            <p className="text-sm opacity-50">
-              {scores.length} response{scores.length !== 1 ? 's' : ''} · scored by {scoreSource === 'ai' ? 'AI' : 'heuristic'}
-            </p>
-          </div>
+          <p className="text-sm opacity-50">
+            {scores.length} response{scores.length !== 1 ? 's' : ''} · scored by {scoreSource === 'ai' ? 'AI' : 'heuristic'}
+          </p>
 
-          <div className="space-y-3">
-            {scores.map((score) => {
-              const sub = submissions[score.clientId];
-              if (!sub) return null;
-              const isSpotlit = spotlightId === score.clientId;
-              return (
-                <button
-                  key={score.clientId}
-                  onClick={() => setSpotlightId(isSpotlit ? null : score.clientId)}
-                  className={`w-full text-left glass p-4 rounded-2xl border-2 transition-all ${
-                    isSpotlit ? 'border-teal-400 shadow-lg shadow-teal-500/20 scale-[1.01]' : 'border-white/10 hover:border-teal-500/30'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm opacity-70 mb-1">{sub.displayName}</p>
-                      <p className="text-base leading-snug">{sub.text}</p>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <div className="text-2xl font-game text-teal-400">{score.finalScore}</div>
-                    </div>
+          {/* Spotlight Mode — single submission */}
+          {isSpotlight && scores[0] && (() => {
+            const score = scores[0];
+            const sub = submissions[score.clientId];
+            if (!sub) return null;
+            return (
+              <div className="glass p-6 rounded-2xl border-2 border-teal-400 shadow-lg shadow-teal-500/20 space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold">⭐ Spotlight Response</span>
+                </div>
+                <p className="font-semibold text-sm opacity-70">{sub.displayName}</p>
+                <p className="text-lg leading-snug">{sub.text}</p>
+                <ScoreBreakdown score={score} />
+                {score.reasonTags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {score.reasonTags.map((tag) => <ReasonTag key={tag} tag={tag} />)}
                   </div>
-                  {(score.reasonTags.length > 0 || score.suggestedLabel) && (
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {score.reasonTags.map((tag) => <ReasonTag key={tag} tag={tag} />)}
-                      {score.suggestedLabel && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold">
-                          ⭐ {score.suggestedLabel}
-                        </span>
-                      )}
+                )}
+                <div className="mt-3 px-4 py-2 rounded-xl bg-teal-500/10 border border-teal-500/20">
+                  <p className="text-xs text-teal-300">Read this response aloud to close the lesson.</p>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Normal card list */}
+          {!isSpotlight && (
+            <div className="space-y-3">
+              {scores.map((score) => {
+                const sub = submissions[score.clientId];
+                if (!sub) return null;
+                return (
+                  <div
+                    key={score.clientId}
+                    className="w-full text-left glass p-4 rounded-2xl border-2 border-white/10"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-sm opacity-70 mb-1">{sub.displayName}</p>
+                        <p className="text-base leading-snug">{sub.text}</p>
+                      </div>
                     </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                    <ScoreBreakdown score={score} />
+                    {(score.reasonTags.length > 0 || score.suggestedLabel) && (
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {score.reasonTags.map((tag) => <ReasonTag key={tag} tag={tag} />)}
+                        {score.suggestedLabel && (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold">
+                            ⭐ {score.suggestedLabel}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           {scores.length === 0 && (
             <p className="text-center opacity-50 py-8">No submissions to display.</p>

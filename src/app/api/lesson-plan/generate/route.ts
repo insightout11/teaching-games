@@ -938,18 +938,28 @@ async function generateLightningRound(topic: string, difficulty: Difficulty): Pr
     required: ['prompts'],
   };
 
-  const aiPrompt = `Generate 4 rapid-fire closing prompts for an ESL lightning round activity.
+  const aiPrompt = `Generate 4 rapid-fire closing prompts for an ESL Lightning Round activity.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 
-Create exactly 4 prompts covering these types in order:
-1. Recall — What do you remember about [key fact]?
-2. Opinion — What do you think about [aspect]?
-3. Application — How would you use [concept] in real life?
-4. Reflection — What surprised you or what will you remember?
+Create exactly 4 prompts in this order:
+1. Vocabulary recall — ask for one word or fact from the lesson
+2. Quick opinion — ask for a one-sentence personal view
+3. Practical application — ask how to use or apply something from the lesson
+4. Memorable takeaway — ask what they will remember
+
+Rules for EVERY prompt:
+- Maximum 8 words
+- Must be answerable with a single word, phrase, or short sentence
+- Do NOT write essay-style, open-ended discussion prompts
+- At least one prompt must directly contain a targetKeyword
+
+Good examples: "One rainforest animal?", "Biggest rainforest threat?", "Rainforest: helpful or dangerous?", "One way to protect forests?"
+Bad example: "What do you think about humanity's impact on the environment?"
+Do NOT start any prompt with: "What do you think", "Explain", or "Describe" — these produce essay answers and break the lightning format.
 
 Each prompt:
-- text: max 12 words
+- text: the prompt, max 8 words
 - targetKeywords: 2-4 key vocabulary words expected in strong answers
 
 Return JSON with a "prompts" array of exactly 4 items.`;

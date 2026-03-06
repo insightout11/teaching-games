@@ -26,6 +26,7 @@ export interface ScorerContext {
   targetKeywords: string[];
   labelCandidates: string[];
   weights?: ScorerWeights;
+  effortMaxWords?: number;
 }
 
 export const DEFAULT_WEIGHTS: ScorerWeights = {
@@ -59,6 +60,7 @@ export const LIGHTNING_ROUND_WEIGHTS: ScorerWeights = {
 const STOP_WORDS = new Set([
   'your', 'what', 'the', 'and', 'for', 'are', 'you', 'give', 'say', 'one',
   'best', 'most', 'this', 'that', 'with', 'about', 'have', 'will', 'from',
+  'write', 'answer', 'sentence', 'think', 'today', 'topic',
 ]);
 
 function scoreRelevance(text: string, targetKeywords: string[], prompt: string): number {
@@ -99,7 +101,7 @@ export function scoreResponseHeuristic(response: LandingResponse, ctx: ScorerCon
     ? Math.min(1, wordCount / 15)
     : Math.min(0.5, wordCount / 10);
 
-  const effort = Math.min(1, wordCount / 25);
+  const effort = Math.min(1, wordCount / (ctx.effortMaxWords ?? 25));
 
   const finalScore = Math.round(
     (relevance * weights.relevance +
@@ -119,4 +121,31 @@ export function scoreResponseHeuristic(response: LandingResponse, ctx: ScorerCon
 
 export function scoreAllHeuristic(responses: LandingResponse[], ctx: ScorerContext): LandingScore[] {
   return responses.map((r) => scoreResponseHeuristic(r, ctx));
+}
+
+// Maps lowest-scoring dimension to a human-readable improvement tip.
+export function getImprovementTip(score: LandingScore): string {
+  const dims = [
+    { val: score.relevance,      tip: 'Focus more directly on the question.' },
+    { val: score.targetLanguage, tip: 'Try using more lesson vocabulary.' },
+    { val: score.completeness,   tip: 'Try to write a more complete sentence.' },
+    { val: score.effort,         tip: 'Try expanding your idea with one more detail.' },
+  ];
+  const lowest = dims.reduce((a, b) => b.val < a.val ? b : a);
+  return lowest.tip;
+}
+
+// Returns each scoring dimension as a display-ready row (raw 0–1 → display 0–10).
+export function getDimensionBreakdown(score: LandingScore): Array<{ label: string; value: number }> {
+  return [
+    { label: 'Relevance',  value: Math.round(score.relevance      * 10) },
+    { label: 'Vocabulary', value: Math.round(score.targetLanguage * 10) },
+    { label: 'Clarity',    value: Math.round(score.completeness   * 10) },
+    { label: 'Effort',     value: Math.round(score.effort         * 10) },
+  ];
+}
+
+// Display score = sum of breakdown values (max 40). Used for "Score: X / 40" display.
+export function getDisplayScore(score: LandingScore): number {
+  return getDimensionBreakdown(score).reduce((sum, d) => sum + d.value, 0);
 }
