@@ -111,6 +111,7 @@ export function FinalAnswerActivity({
       prompt: content.prompt,
       placeholder: content.sentenceStarter ?? 'Write your answer in one sentence...',
       maxLength: 200,
+      keywords: content.targetKeywords,
     });
   }, [phase, content.prompt, content.sentenceStarter, onSetInputSpec]);
 
@@ -265,6 +266,13 @@ export function FinalAnswerActivity({
             {content.sentenceStarter && (
               <p className="text-sm opacity-60 mt-2">Starter: <em>{content.sentenceStarter}</em></p>
             )}
+            {content.targetKeywords.length > 0 && (
+              <div className="flex flex-wrap gap-2 pt-2">
+                {content.targetKeywords.map((kw) => (
+                  <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
+                ))}
+              </div>
+            )}
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -297,6 +305,14 @@ export function FinalAnswerActivity({
           <p className="text-sm opacity-50">
             {scores.length} response{scores.length !== 1 ? 's' : ''} · scored by {scoreSource === 'ai' ? 'AI' : 'heuristic'}
           </p>
+          {content.targetKeywords.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs opacity-40 uppercase tracking-widest">Target vocab</span>
+              {content.targetKeywords.map((kw) => (
+                <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
+              ))}
+            </div>
+          )}
 
           {/* Spotlight Mode — single submission */}
           {isSpotlight && scores[0] && (() => {

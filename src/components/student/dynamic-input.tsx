@@ -256,6 +256,16 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
           )}
         </div>
       )}
+      {spec.keywords && spec.keywords.length > 0 && (
+        <div className="space-y-1">
+          <p className="text-xs opacity-50 uppercase tracking-widest">Try to use</p>
+          <div className="flex flex-wrap gap-1.5">
+            {spec.keywords.map((kw) => (
+              <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
+            ))}
+          </div>
+        </div>
+      )}
       <textarea
         value={value}
         onChange={(e) => setValue(e.target.value)}

@@ -28,6 +28,8 @@ export interface InputSpec {
   resources?: string[];
   /** When true, the submit API does not delete previous submissions from this student (allows multiple per session) */
   allowMultiple?: boolean;
+  /** Vocabulary words to display as chips to the student (e.g. Final Answer target keywords) */
+  keywords?: string[];
 }
 
 // Submission handler result from games
