@@ -1,66 +1,44 @@
 'use client';
 
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
 import { getAllGames } from '@/games/registry';
 import { GAME_CATEGORY_INFO } from '@/games/registry';
-import { DIFFICULTIES, type Difficulty } from '@/stores/session-store';
-import { FLIGHT_PLAN_ITEMS, type GoalTag } from '@/lib/flight-plan-config';
+import { DIFFICULTIES } from '@/stores/session-store';
+import { GOAL_LABELS, FLIGHT_PLAN_ITEMS } from '@/lib/flight-plan-config';
+import type { GoalTag } from '@/lib/flight-plan-config';
 import type {
-  ActivityGeneratedContent,
   LessonPlanGenerateResponse,
   ActivityCategory,
-  GameGeneratedContent,
 } from '@/activities/types';
-
-type LessonSlot = {
-  type: 'activity' | 'game';
-  key: string;
-  name: string;
-  category?: ActivityCategory;
-};
-
-const GOAL_LABELS: Record<GoalTag, string> = {
-  'speaking-fluency': 'Speaking Fluency',
-  'discussion-debate': 'Discussion & Debate',
-  'vocabulary-building': 'Vocabulary Building',
-  'grammar-reinforcement': 'Grammar Reinforcement',
-  'collaboration': 'Collaboration',
-  'creativity': 'Creativity',
-  'critical-thinking': 'Critical Thinking',
-  'confidence-building': 'Confidence Building',
-};
-
-const MISSION_SELECTOR_SLOT: LessonSlot = {
-  type: 'activity',
-  key: 'mission-selector',
-  name: 'Mission Selector',
-  category: 'icebreaker',
-};
+import { usePlannerStore, type LessonSlot } from '@/stores/planner-store';
 
 export default function LessonPlannerPage() {
-  const [customTopic, setCustomTopic] = useState('');
-  const [difficulty, setDifficulty] = useState<Difficulty>('Intermediate');
-  const [goal, setGoal] = useState<GoalTag>('discussion-debate');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedContent, setGeneratedContent] = useState<Record<string, ActivityGeneratedContent> | null>(null);
-  const [generatedGameContent, setGeneratedGameContent] = useState<Record<string, GameGeneratedContent> | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    topic,
+    difficulty,
+    goal,
+    selectedSlots,
+    generationStatus,
+    generationError,
+    generatedContent,
+    generatedGameContent,
+    setTopic,
+    setDifficulty,
+    setGoal,
+    setSelectedSlot,
+    clearSelectedSlot,
+    setGenerationStatus,
+    setGenerationResult,
+    launchLesson,
+  } = usePlannerStore();
+
+  const isGenerating = generationStatus === 'generating';
+  const error = generationStatus === 'error' ? generationError : null;
 
   const activitiesGrouped = getActivitiesGrouped();
   const allActivities = getAllActivities();
   const allGames = getAllGames();
-
-  // Landing slot pre-filled with final-answer
-  const finalAnswerActivity = allActivities.find((a) => a.key === 'final-answer');
-  const defaultLandingSlot: LessonSlot | null = finalAnswerActivity
-    ? { type: 'activity', key: 'final-answer', name: finalAnswerActivity.name, category: 'closing' }
-    : null;
-
-  const [selectedSlots, setSelectedSlots] = useState<(LessonSlot | null)[]>([
-    null, null, null, null, defaultLandingSlot,
-  ]);
 
   // Slot configs for the 5 configurable slots (Takeoff is locked separately above)
   const slotConfigs = [
@@ -78,29 +56,18 @@ export default function LessonPlannerPage() {
 
     if (!item) return;
 
-    setSelectedSlots((prev) => {
-      const newSlots = [...prev];
-      newSlots[slotIndex] = {
-        type,
-        key: item.key,
-        name: item.name,
-        category: type === 'activity' ? (item as typeof allActivities[0]).category : undefined,
-      };
-      return newSlots;
-    });
-  };
-
-  const clearSlot = (slotIndex: number) => {
-    setSelectedSlots((prev) => {
-      const newSlots = [...prev];
-      newSlots[slotIndex] = null;
-      return newSlots;
+    setSelectedSlot(slotIndex, {
+      type,
+      key: item.key,
+      name: item.name,
+      category: type === 'activity' ? (item as typeof allActivities[0]).category : undefined,
     });
   };
 
   const handleGenerate = async () => {
-    if (!customTopic.trim()) {
-      setError('Please enter a custom topic');
+    const trimmedTopic = topic.trim();
+    if (!trimmedTopic) {
+      setGenerationStatus('error', 'Please enter a custom topic');
       return;
     }
 
@@ -116,17 +83,16 @@ export default function LessonPlannerPage() {
       .filter((slot): slot is LessonSlot => slot !== null && slot.type === 'game')
       .map((slot) => slot.key);
 
-    setIsGenerating(true);
-    setError(null);
+    setGenerationStatus('generating');
 
     try {
       const response = await fetch('/api/lesson-plan/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          customTopic: customTopic.trim(),
+          customTopic: trimmedTopic,
           difficulty,
-          goal,
+          goal: goal ?? 'discussion-debate',
           activities: activityKeys,
           games: gameKeys,
         }),
@@ -138,13 +104,13 @@ export default function LessonPlannerPage() {
         throw new Error(data.error || 'Failed to generate lesson plan');
       }
 
-      setGeneratedContent(data.content);
-      setGeneratedGameContent(data.gameContent || null);
+      setGenerationResult(data.content, data.gameContent || {});
     } catch (err) {
       console.error('Generation error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to generate lesson plan');
-    } finally {
-      setIsGenerating(false);
+      setGenerationStatus(
+        'error',
+        err instanceof Error ? err.message : 'Failed to generate lesson plan',
+      );
     }
   };
 
@@ -165,9 +131,9 @@ export default function LessonPlannerPage() {
     }
 
     // For activities, filter by category
-    let activities = activitiesGrouped[slotConfig.category] || [];
-    if (slotConfig.alternateCategory) {
-      activities = [...activities, ...(activitiesGrouped[slotConfig.alternateCategory] || [])];
+    let activities = activitiesGrouped[slotConfig.category as ActivityCategory] || [];
+    if ('alternateCategory' in slotConfig && slotConfig.alternateCategory) {
+      activities = [...activities, ...(activitiesGrouped[slotConfig.alternateCategory as ActivityCategory] || [])];
     }
     return activities.map((a) => ({ key: a.key, name: a.name, type: 'activity' as const }));
   };
@@ -176,7 +142,7 @@ export default function LessonPlannerPage() {
   const selectedGames = selectedSlots.filter((s) => s !== null && s.type === 'game');
   // +1 for locked Mission Selector (Takeoff)
   const selectedCount = selectedActivities.length + selectedGames.length + 1;
-  const canGenerate = !!customTopic.trim();
+  const canGenerate = !!topic.trim();
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -197,8 +163,8 @@ export default function LessonPlannerPage() {
             </label>
             <input
               type="text"
-              value={customTopic}
-              onChange={(e) => setCustomTopic(e.target.value)}
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
               placeholder="e.g., What will the world be like in 50 years?"
               className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-lg text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
             />
@@ -213,7 +179,7 @@ export default function LessonPlannerPage() {
             </label>
             <select
               value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value as Difficulty)}
+              onChange={(e) => setDifficulty(e.target.value as typeof difficulty)}
               className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-lg text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
             >
               {DIFFICULTIES.map((d) => (
@@ -228,10 +194,11 @@ export default function LessonPlannerPage() {
             Lesson Goal
           </label>
           <select
-            value={goal}
+            value={goal ?? ''}
             onChange={(e) => setGoal(e.target.value as GoalTag)}
             className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-lg text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
           >
+            <option value="" disabled>Select lesson goal...</option>
             {(Object.entries(GOAL_LABELS) as [GoalTag, string][]).map(([key, label]) => (
               <option key={key} value={key}>{label}</option>
             ))}
@@ -273,8 +240,8 @@ export default function LessonPlannerPage() {
           {slotConfigs.map((config, index) => {
             const selected = selectedSlots[index];
             const items = getAvailableItems(config);
-            const categoryInfo = config.category ? CATEGORY_INFO[config.category] : null;
-            const isLanding = config.isLanding;
+            const categoryInfo = config.category ? CATEGORY_INFO[config.category as ActivityCategory] : null;
+            const isLanding = 'isLanding' in config && config.isLanding;
 
             return (
               <div key={index} className={`flex items-center gap-4 p-4 bg-lc-surface rounded-lg ${isLanding ? 'border border-teal-500/30' : ''}`}>
@@ -288,7 +255,7 @@ export default function LessonPlannerPage() {
                     {isLanding && (
                       <span className="text-xs bg-teal-500/15 text-teal-400 px-2 py-0.5 rounded-full">Required</span>
                     )}
-                    {config.optional && (
+                    {'optional' in config && config.optional && (
                       <span className="text-xs bg-lc-border text-lc-text3 px-2 py-0.5 rounded-full">
                         Optional
                       </span>
@@ -330,7 +297,7 @@ export default function LessonPlannerPage() {
                       </span>
                       {!isLanding && (
                         <button
-                          onClick={() => clearSlot(index)}
+                          onClick={() => clearSelectedSlot(index)}
                           className="text-lc-text3 hover:text-lc-text"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -502,18 +469,7 @@ export default function LessonPlannerPage() {
               </p>
               <button
                 className="px-6 py-2 bg-lc-success text-lc-bg rounded-xl font-medium hover:brightness-110 transition-all"
-                onClick={() => {
-                  sessionStorage.setItem('lessonPlanContent', JSON.stringify({
-                    customTopic,
-                    difficulty,
-                    goal,
-                    isMissionBased: true,
-                    slots: [MISSION_SELECTOR_SLOT, ...selectedSlots.filter(Boolean)],
-                    generatedContent,
-                    generatedGameContent,
-                  }));
-                  window.location.href = '/classes';
-                }}
+                onClick={launchLesson}
               >
                 Continue to Class Selection
               </button>

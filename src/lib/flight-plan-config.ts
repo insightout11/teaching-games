@@ -462,3 +462,14 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
 export function getFlightPlanItem(key: string): FlightPlanItem | undefined {
   return FLIGHT_PLAN_ITEMS.find((item) => item.key === key);
 }
+
+export const GOAL_LABELS: Record<GoalTag, string> = {
+  'speaking-fluency': 'Speaking Fluency',
+  'discussion-debate': 'Discussion & Debate',
+  'vocabulary-building': 'Vocabulary Building',
+  'grammar-reinforcement': 'Grammar Reinforcement',
+  'collaboration': 'Collaboration',
+  'creativity': 'Creativity',
+  'critical-thinking': 'Critical Thinking',
+  'confidence-building': 'Confidence Building',
+};
