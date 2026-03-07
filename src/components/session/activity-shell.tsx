@@ -15,6 +15,7 @@ import type { Score } from '@/lib/supabase/types';
 import { StudentPicker } from './student-picker';
 import { Leaderboard } from './leaderboard';
 import { ApprovalQueue } from './approval-queue';
+import { MissionControlSummary } from './mission-control-summary';
 import type { StudentSubmission } from '@/lib/supabase/types';
 import { createClient } from '@/lib/supabase/client';
 
@@ -25,11 +26,22 @@ interface ActivityShellProps {
 }
 
 export function ActivityShell({ activity, generatedContent, timerSeconds }: ActivityShellProps) {
-  const { sessionId, students, currentStudentId, settings, setInputSpec, recordScore, addStudent } = useSessionStore();
+  const { sessionId, students, currentStudentId, settings, setInputSpec, recordScore, addStudent, studentMissions, landingAnswers, addLandingAnswer } = useSessionStore();
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
+  const [showMissionSummary, setShowMissionSummary] = useState(false);
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: RemoteVote) => void) | null>(null);
   const supabase = createClient();
+
+  // Build display names map from scores and students for MissionControlSummary
+  const displayNames: Record<string, string> = {};
+  students.forEach((s) => { displayNames[s.id] = s.name; });
+  // Also pull from the scores table for remote students (client_id based)
+  // We'll build this lazily from the session store scores
+  const { scores } = useSessionStore.getState();
+  scores.forEach((s) => {
+    if (s.client_id && s.display_name) displayNames[s.client_id] = s.display_name;
+  });
 
   const ActivityComponent = activity.component;
 
@@ -231,9 +243,19 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
     }
   }, []);
 
+  const handleLandingAnswer = useCallback((clientId: string, answer: string) => {
+    addLandingAnswer(clientId, answer);
+  }, [addLandingAnswer]);
+
   const handlePhaseChange = useCallback((phase: string) => {
     setCurrentPhase(phase);
-  }, []);
+    if (phase === 'finished' && activity.pppStage === 'landing') {
+      const missions = useSessionStore.getState().studentMissions;
+      if (Object.keys(missions).length > 0) {
+        setShowMissionSummary(true);
+      }
+    }
+  }, [activity.pppStage]);
 
   const customTopic = getEffectiveTopic(settings);
 
@@ -274,6 +296,8 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
             onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
             onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
             onScore={handleScore}
+            studentMissions={studentMissions}
+            onLandingAnswer={handleLandingAnswer}
           />
         </div>
 
@@ -302,6 +326,16 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
           />
         )}
       </div>
+
+      {/* Mission Control Summary — shown after Landing activity finishes in a mission lesson */}
+      {showMissionSummary && (
+        <MissionControlSummary
+          studentMissions={studentMissions}
+          landingAnswers={landingAnswers}
+          displayNames={displayNames}
+          onClose={() => setShowMissionSummary(false)}
+        />
+      )}
     </div>
   );
 }

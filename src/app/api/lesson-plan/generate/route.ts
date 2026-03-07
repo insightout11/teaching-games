@@ -29,6 +29,7 @@ import type {
   FinalAnswerContent,
   MicDropContent,
   LightningRoundContent,
+  OpinionShiftContent,
   GameGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
@@ -40,13 +41,24 @@ import type {
   ConnectionGeneratedContent,
   ConnectionsGeneratedContent,
 } from '@/activities/types';
+import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
 
+
+// ============================================
+// Mission Context Helper
+// ============================================
+
+function missionContextBlock(missionContext?: string[]): string {
+  if (!missionContext || missionContext.length === 0) return '';
+  const list = missionContext.map((m) => `- "${m}"`).join('\n');
+  return `\nThe students in this class chose the following personal mission questions at the start of the lesson:\n${list}\nUse these to lightly shape the content — for example, choose scenarios, examples, or debate statements that are relevant to the themes these questions suggest. Keep the format, difficulty level, and structure identical.\n`;
+}
 
 // ============================================
 // Activity Generators
 // ============================================
 
-async function generateWouldYouRather(topic: string, difficulty: Difficulty): Promise<WouldYouRatherContent> {
+async function generateWouldYouRather(topic: string, difficulty: Difficulty, missionContext?: string[]): Promise<WouldYouRatherContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -81,7 +93,7 @@ async function generateWouldYouRather(topic: string, difficulty: Difficulty): Pr
   const prompt = `Generate 5 "Would You Rather?" dilemmas for an ESL classroom.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${missionContextBlock(missionContext)}
 Each dilemma needs two options (both appealing OR both unappealing), a discussion prompt, and 3 follow-up questions.
 Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dilemmaId and questions).`;
 
@@ -99,7 +111,7 @@ Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dile
   return { activityKey: 'would-you-rather', topicContext: topic, dilemmas: parsed.dilemmas, potentialFollowUps: followUpsRecord };
 }
 
-async function generateHotTakeArena(topic: string, difficulty: Difficulty): Promise<HotTakeArenaContent> {
+async function generateHotTakeArena(topic: string, difficulty: Difficulty, missionContext?: string[]): Promise<HotTakeArenaContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -132,7 +144,7 @@ async function generateHotTakeArena(topic: string, difficulty: Difficulty): Prom
   const prompt = `Generate a debate topic for ESL "Hot Take Arena".
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${missionContextBlock(missionContext)}
 Create a provocative statement, 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words, each with a short student-facing definition (max 15 words).`;
 
   const parsed = await generateJSON<{
@@ -265,7 +277,7 @@ Make claims progressively harder to guess.`;
   return { activityKey: 'fact-detective', topicContext: topic, claims: parsed.claims };
 }
 
-async function generateExpertPanel(topic: string, difficulty: Difficulty, n: number = 9): Promise<ExpertPanelContent> {
+async function generateExpertPanel(topic: string, difficulty: Difficulty, n: number = 9, missionContext?: string[]): Promise<ExpertPanelContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -300,7 +312,7 @@ async function generateExpertPanel(topic: string, difficulty: Difficulty, n: num
   const prompt = `Generate an "Expert Panel" talk show activity for an ESL class of ${n} students.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${missionContextBlock(missionContext)}
 Create exactly ${n} expert role cards — one per student.
 Each role: id (slug like "role-1"), title (2–4 words), tags (exactly 3 short noun phrases, max 3 words each),
 starters (exactly 2 short sentence starters, max 10 words each, e.g. "From my view, ..." / "A real example is ...").
@@ -322,7 +334,7 @@ Return JSON: { "roles": [...${n} items], "questions": [...${n} items] }`;
   return { activityKey: 'expert-panel', topicContext: topic, roles, questions };
 }
 
-async function generateScenarioSimulator(topic: string, difficulty: Difficulty): Promise<ScenarioSimulatorContent> {
+async function generateScenarioSimulator(topic: string, difficulty: Difficulty, missionContext?: string[]): Promise<ScenarioSimulatorContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -369,7 +381,7 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty):
   const prompt = `Generate a "Scenario Simulator" activity for an ESL class.
 
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
-
+${missionContextBlock(missionContext)}
 You are writing a choose-your-own-adventure story that will be told over 5 rounds.
 Only write Round 1 now. The other rounds will be generated live based on student votes.
 
@@ -973,6 +985,36 @@ Return JSON with a "prompts" array of exactly 4 items.`;
   return { activityKey: 'lightning-round', topicContext: topic, prompts };
 }
 
+async function generateOpinionShift(topic: string, difficulty: Difficulty): Promise<OpinionShiftContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      beforePrompt: { type: 'string' },
+      nowPrompt: { type: 'string' },
+    },
+    required: ['beforePrompt', 'nowPrompt'],
+  };
+
+  const aiPrompt = `Generate an "Opinion Shift" closing reflection activity for an ESL class.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Create two sentence starters for a Before/Now reflection:
+- beforePrompt: A sentence starter beginning with "Before this lesson I thought..." — students complete it to describe their original thinking about the topic (max 12 words)
+- nowPrompt: A sentence starter beginning with "Now I think..." or "Now I believe..." — students complete it to show how their thinking has changed (max 12 words)
+
+The two prompts should contrast clearly to highlight learning progression.
+Return JSON.`;
+
+  const data = await generateJSON<{ beforePrompt: string; nowPrompt: string }>(aiPrompt, schema);
+  return {
+    activityKey: 'opinion-shift',
+    topicContext: topic,
+    beforePrompt: data.beforePrompt,
+    nowPrompt: data.nowPrompt,
+  };
+}
+
 async function generateSceneIgniter(topic: string, difficulty: Difficulty): Promise<SceneIgniterContent> {
   const [scene1, scene2, scene1alt, scene2alt] = await Promise.all([
     generateSingleScene(topic, difficulty, 4),
@@ -1312,7 +1354,7 @@ Return JSON with groups array. Words should be UPPERCASE.`;
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as LessonPlanGenerateRequest;
-    const { customTopic, difficulty, activities, games, studentCount } = body;
+    const { customTopic, difficulty, activities, games, studentCount, goal, missionContext } = body;
 
     // Allow requests with only games (no activities required)
     const hasActivities = activities && activities.length > 0;
@@ -1332,10 +1374,10 @@ export async function POST(request: NextRequest) {
       for (const activityKey of activities) {
         switch (activityKey) {
           case 'would-you-rather':
-            generators.push(generateWouldYouRather(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateWouldYouRather(customTopic, diff, missionContext).then((r) => { content[activityKey] = r; }));
             break;
           case 'hot-take-arena':
-            generators.push(generateHotTakeArena(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateHotTakeArena(customTopic, diff, missionContext).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths':
             generators.push(generateTwoTruths(customTopic, diff).then((r) => { content[activityKey] = r; }));
@@ -1347,10 +1389,10 @@ export async function POST(request: NextRequest) {
             generators.push(generateFactDetective(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'expert-panel':
-            generators.push(generateExpertPanel(customTopic, diff, studentCount ?? 9).then((r) => { content[activityKey] = r; }));
+            generators.push(generateExpertPanel(customTopic, diff, studentCount ?? 9, missionContext).then((r) => { content[activityKey] = r; }));
             break;
           case 'scenario-simulator':
-            generators.push(generateScenarioSimulator(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateScenarioSimulator(customTopic, diff, missionContext).then((r) => { content[activityKey] = r; }));
             break;
           case 'interview-lab':
             generators.push(generateInterviewLab(customTopic, diff).then((r) => { content[activityKey] = r; }));
@@ -1378,6 +1420,12 @@ export async function POST(request: NextRequest) {
             break;
           case 'lightning-round':
             generators.push(generateLightningRound(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'opinion-shift':
+            generators.push(generateOpinionShift(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'mission-selector':
+            generators.push(generateMissionSelectorContent(customTopic, diff, goal).then((r) => { content[activityKey] = r; }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);

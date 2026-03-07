@@ -16,11 +16,14 @@ import { sceneIgniterPlugin } from './scene-igniter';
 import { finalAnswerPlugin } from './final-answer';
 import { micDropPlugin } from './mic-drop';
 import { lightningRoundPlugin } from './lightning-round';
+import { missionSelectorPlugin } from './mission-selector';
+import { opinionShiftPlugin } from './opinion-shift';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
 const activities: ActivityPlugin[] = [
-  // Icebreakers
+  // Icebreakers / Mission
+  missionSelectorPlugin,
   quickPulsePlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
@@ -39,6 +42,7 @@ const activities: ActivityPlugin[] = [
   hotTakeArenaPlugin,
   // Closing activities
   finalAnswerPlugin,
+  opinionShiftPlugin,
   micDropPlugin,
   lightningRoundPlugin,
 ];

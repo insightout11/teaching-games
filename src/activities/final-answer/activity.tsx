@@ -68,6 +68,8 @@ export function FinalAnswerActivity({
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
   onScore,
+  onLandingAnswer,
+  studentMissions,
 }: ActivityProps) {
   const content = generatedContent as FinalAnswerContent;
   const timerSeconds = sessionSettings.timerSeconds ?? 60;
@@ -190,6 +192,7 @@ export function FinalAnswerActivity({
       finalScores.map((score) => {
         const sub = subs[score.clientId];
         if (!sub) return;
+        onLandingAnswer?.(score.clientId, sub.text);
         const bonus = BONUS_POINTS[score.suggestedLabel ?? ''] ?? 0;
         return onScore?.({
           studentId: sub.studentId ?? null,
@@ -319,11 +322,17 @@ export function FinalAnswerActivity({
             const score = scores[0];
             const sub = submissions[score.clientId];
             if (!sub) return null;
+            const mission = studentMissions?.[score.clientId];
             return (
               <div className="glass p-6 rounded-2xl border-2 border-teal-400 shadow-lg shadow-teal-500/20 space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold">⭐ Spotlight Response</span>
                 </div>
+                {mission && (
+                  <p className="text-xs text-teal-300 opacity-70 italic">
+                    Mission: &ldquo;{mission}&rdquo;
+                  </p>
+                )}
                 <p className="font-semibold text-sm opacity-70">{sub.displayName}</p>
                 <p className="text-lg leading-snug">{sub.text}</p>
                 <ScoreBreakdown score={score} />
@@ -345,11 +354,17 @@ export function FinalAnswerActivity({
               {scores.map((score) => {
                 const sub = submissions[score.clientId];
                 if (!sub) return null;
+                const mission = studentMissions?.[score.clientId];
                 return (
                   <div
                     key={score.clientId}
                     className="w-full text-left glass p-4 rounded-2xl border-2 border-white/10"
                   >
+                    {mission && (
+                      <p className="text-xs text-teal-300 opacity-70 mb-2 italic">
+                        Mission: &ldquo;{mission}&rdquo;
+                      </p>
+                    )}
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-sm opacity-70 mb-1">{sub.displayName}</p>

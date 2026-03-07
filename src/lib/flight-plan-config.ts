@@ -48,6 +48,10 @@ export interface FlightPlanItem {
   avoidAfter: string[];
   /** Keys that pair well immediately before or after this item. */
   strongWith: string[];
+  /** Production activities that support mission context re-generation after Mission Selector. */
+  missionAware?: boolean;
+  /** Landing activities eligible for mission-based Flight Plan sessions. */
+  missionLanding?: boolean;
 }
 
 export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
@@ -277,6 +281,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     teacherControlLoad: 'low',
     avoidAfter: ['hot-take-arena', 'rank-it'],
     strongWith: ['quick-pulse', 'scene-igniter'],
+    missionAware: true,
   },
 
   {
@@ -333,6 +338,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     teacherControlLoad: 'high',
     avoidAfter: ['twenty-questions', 'scenario-simulator'],
     strongWith: ['vocab-sprint', 'dialogue-detective'],
+    missionAware: true,
   },
 
   {
@@ -347,6 +353,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     teacherControlLoad: 'medium',
     avoidAfter: ['hot-take-arena', 'expert-panel'],
     strongWith: ['rank-it', 'problem-solvers'],
+    missionAware: true,
   },
 
   {
@@ -375,6 +382,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     teacherControlLoad: 'medium',
     avoidAfter: ['rank-it', 'would-you-rather', 'scenario-simulator'],
     strongWith: ['would-you-rather', 'fact-detective'],
+    missionAware: true,
   },
 
   {
@@ -389,6 +397,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     teacherControlLoad: 'low',
     avoidAfter: ['mic-drop', 'lightning-round'],
     strongWith: ['vocab-radar', 'vocab-sprint', 'grammar-boss'],
+    missionLanding: true,
   },
 
   {
@@ -417,6 +426,35 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     teacherControlLoad: 'medium',
     avoidAfter: ['final-answer', 'mic-drop'],
     strongWith: ['vocab-sprint', 'synonym-showdown', 'quick-pulse'],
+  },
+
+  {
+    key: 'mission-selector',
+    slotFit: ['takeoff'],
+    goalFit: ['speaking-fluency', 'discussion-debate', 'confidence-building', 'critical-thinking'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'low',
+    interactionModel: ['voting'],
+    speakingLoad: 'low',
+    writingLoad: 'low',
+    teacherControlLoad: 'low',
+    avoidAfter: [],
+    strongWith: ['final-answer', 'opinion-shift'],
+  },
+
+  {
+    key: 'opinion-shift',
+    slotFit: ['landing'],
+    goalFit: ['speaking-fluency', 'confidence-building', 'critical-thinking'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'low',
+    interactionModel: ['simultaneous', 'submission'],
+    speakingLoad: 'low',
+    writingLoad: 'medium',
+    teacherControlLoad: 'low',
+    avoidAfter: ['final-answer'],
+    strongWith: ['mission-selector'],
+    missionLanding: true,
   },
 ];
 

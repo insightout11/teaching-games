@@ -4,9 +4,9 @@ import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
-import type { FinalAnswerContent, MicDropContent, LightningRoundContent } from '@/activities/types';
+import type { FinalAnswerContent, MicDropContent, LightningRoundContent, OpinionShiftContent } from '@/activities/types';
 
-type LandingActivityKey = 'final-answer' | 'mic-drop' | 'lightning-round';
+type LandingActivityKey = 'final-answer' | 'mic-drop' | 'lightning-round' | 'opinion-shift';
 
 export async function POST(request: NextRequest) {
   const { activityKey, topic, difficulty } = await request.json() as {
@@ -22,11 +22,13 @@ export async function POST(request: NextRequest) {
   }
 
   // 2. Generate
-  let content: FinalAnswerContent | MicDropContent | LightningRoundContent;
+  let content: FinalAnswerContent | MicDropContent | LightningRoundContent | OpinionShiftContent;
   if (activityKey === 'final-answer') {
     content = await generateFinalAnswer(topic, difficulty);
   } else if (activityKey === 'mic-drop') {
     content = await generateMicDrop(topic, difficulty);
+  } else if (activityKey === 'opinion-shift') {
+    content = await generateOpinionShift(topic, difficulty);
   } else {
     content = await generateLightningRound(topic, difficulty);
   }
@@ -102,6 +104,31 @@ Return JSON.`;
     targetKeywords: data.targetKeywords ?? [],
     ...(data.exampleLine && { exampleLine: data.exampleLine }),
   };
+}
+
+async function generateOpinionShift(topic: string, difficulty: Difficulty): Promise<OpinionShiftContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      beforePrompt: { type: 'string' },
+      nowPrompt: { type: 'string' },
+    },
+    required: ['beforePrompt', 'nowPrompt'],
+  };
+
+  const aiPrompt = `Generate an "Opinion Shift" closing reflection activity for an ESL class.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Create two sentence starters for a Before/Now reflection:
+- beforePrompt: A sentence starter beginning with "Before this lesson I thought..." — students complete it to describe their original thinking about the topic (max 12 words)
+- nowPrompt: A sentence starter beginning with "Now I think..." or "Now I believe..." — students complete it to show how their thinking has changed (max 12 words)
+
+The two prompts should contrast clearly to highlight learning progression.
+Return JSON.`;
+
+  const data = await generateJSON<{ beforePrompt: string; nowPrompt: string }>(aiPrompt, schema);
+  return { activityKey: 'opinion-shift', topicContext: topic, beforePrompt: data.beforePrompt, nowPrompt: data.nowPrompt };
 }
 
 async function generateLightningRound(topic: string, difficulty: Difficulty): Promise<LightningRoundContent> {

@@ -47,6 +47,10 @@ export interface ActivityProps {
     points: number;
     isCorrect: null;
   }) => Promise<void>;
+  // Mission system — populated for Landing activities in mission-based lessons
+  studentMissions?: Record<string, string>;  // clientId → mission question
+  // Landing activities call this to record the student's final answer
+  onLandingAnswer?: (clientId: string, answer: string) => void;
 }
 
 // Remote vote received from a student device
@@ -365,6 +369,8 @@ export interface LessonPlanGenerateRequest {
   activities: string[]; // Activity keys
   games?: string[]; // Game keys (optional for backward compatibility)
   studentCount?: number; // used by Expert Panel generator; defaults to 9
+  goal?: string; // GoalTag — used by mission-selector generator for mission type selection
+  missionContext?: string[]; // Up to 5 unique student mission questions for mission-aware generators
 }
 
 // Game generated content types for lesson planner
@@ -471,6 +477,19 @@ export interface PredictionRoundQuestion {
 export interface PredictionRoundContent extends ActivityGeneratedContent {
   activityKey: 'prediction-round';
   questions: [PredictionRoundQuestion, PredictionRoundQuestion, PredictionRoundQuestion];
+}
+
+// Mission Selector content
+export interface MissionSelectorContent extends ActivityGeneratedContent {
+  activityKey: 'mission-selector';
+  questions: string[];  // 6 mission questions
+}
+
+// Opinion Shift content
+export interface OpinionShiftContent extends ActivityGeneratedContent {
+  activityKey: 'opinion-shift';
+  beforePrompt: string;  // e.g. "Before this lesson I thought about travel as..."
+  nowPrompt: string;     // e.g. "Now I think travel is..."
 }
 
 // Final Answer content

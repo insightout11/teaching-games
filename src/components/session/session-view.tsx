@@ -257,6 +257,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setSelectedGame(null);
     setViewMode('activity');
 
+    // Check for mission-system content overrides (e.g. re-generated after Mission Selector)
+    const contentOverride = useSessionStore.getState().contentOverrides[activity.key];
+    if (contentOverride) {
+      setActivityContent(contentOverride);
+      return;
+    }
+
     // Check if we have pre-generated content from lesson planner
     if (lessonPlanContent?.generatedContent[activity.key]) {
       setActivityContent(lessonPlanContent.generatedContent[activity.key]);
@@ -264,7 +271,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
 
     // Generate content on-the-fly if not pre-generated
-    const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-round']);
+    const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-round', 'opinion-shift']);
     setIsGeneratingContent(true);
     try {
       const effectiveTopic = getEffectiveTopic(settings);
