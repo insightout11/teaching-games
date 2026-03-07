@@ -30,6 +30,8 @@ export interface InputSpec {
   allowMultiple?: boolean;
   /** Vocabulary words to display as chips to the student (e.g. Final Answer target keywords) */
   keywords?: string[];
+  /** When true, choice inputs show an "Other: write your own…" option */
+  allowWriteIn?: boolean;
 }
 
 // Submission handler result from games

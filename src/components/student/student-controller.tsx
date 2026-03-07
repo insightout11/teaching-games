@@ -69,6 +69,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
   const [frozen, setFrozen] = useState(false);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
+  const [personalMission, setPersonalMission] = useState<string | null>(null);
 
   // Ask a Question section state
   const [questionText, setQuestionText] = useState('');
@@ -89,7 +90,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // Poll for session status, active polls, and input spec
   const checkSession = useCallback(async () => {
     try {
-      const res = await fetch(`/api/student/session?sessionId=${sessionId}`);
+      const res = await fetch(`/api/student/session?sessionId=${sessionId}&clientId=${studentSession.clientId}`);
       if (!res.ok) {
         setSessionActive(false);
         setConnectionStatus('disconnected');
@@ -102,6 +103,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setInputSpec(data.inputSpec);
       setFrozen(data.frozen ?? false);
       setPublishedQuestions(data.publishedQuestions ?? []);
+      if (data.personalMission) setPersonalMission(data.personalMission);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -136,6 +138,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   const handleSubmit = useCallback(async (content: string) => {
     if (!content.trim() || isSubmitting) return;
+
+    // Optimistic Mission Brief: show immediately before DB confirms
+    if (inputSpec?.gameKey === 'mission-selector') {
+      setPersonalMission(content.trim());
+    }
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
@@ -347,6 +354,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               </button>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Mission Brief — persists throughout the lesson once set */}
+      {personalMission && (
+        <div className="glass rounded-2xl px-5 py-3 mb-4 border border-violet-500/30">
+          <p className="text-xs text-violet-400 uppercase tracking-widest mb-1">Your Mission</p>
+          <p className="text-sm text-white leading-snug">{personalMission}</p>
         </div>
       )}
 

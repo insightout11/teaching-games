@@ -20,12 +20,14 @@ interface SessionPayload {
   inputSpec: unknown;
   frozen: boolean;
   publishedQuestions: PublishedQuestion[] | null;
+  personalMission: string | null;
 }
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get('sessionId');
+    const clientId = searchParams.get('clientId');
 
     if (!sessionId) {
       return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
@@ -108,12 +110,25 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Get personal mission for this student if clientId provided
+    let personalMission: string | null = null;
+    if (isActive && clientId) {
+      const { data: missionRow } = await supabase
+        .from('session_missions')
+        .select('mission_text')
+        .eq('session_id', sessionId)
+        .eq('client_id', clientId)
+        .maybeSingle();
+      personalMission = missionRow?.mission_text ?? null;
+    }
+
     const payload: SessionPayload = {
       isActive,
       activePoll,
       inputSpec: session.input_spec || null,
       frozen: session.frozen ?? false,
       publishedQuestions,
+      personalMission,
     };
 
     return NextResponse.json(payload, {

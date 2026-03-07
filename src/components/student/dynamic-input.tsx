@@ -297,39 +297,79 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
 // Multiple choice (pick one)
 function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
   const [selected, setSelected] = useState<string | null>(null);
+  const [writeInMode, setWriteInMode] = useState(false);
+  const [writeInText, setWriteInText] = useState('');
+
+  const submitValue = writeInMode ? writeInText.trim() : selected;
+  const canSubmit = !!submitValue && !isSubmitting && submitStatus !== 'rate_limited';
 
   const handleSubmit = useCallback(async () => {
-    if (!selected || isSubmitting) return;
-    await onSubmit(selected);
+    if (!submitValue || isSubmitting) return;
+    await onSubmit(submitValue);
     setSelected(null);
-  }, [selected, isSubmitting, onSubmit]);
+    setWriteInMode(false);
+    setWriteInText('');
+  }, [submitValue, isSubmitting, onSubmit]);
 
   return (
     <div className="space-y-4">
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
-      <div className="space-y-2">
-        {spec.options?.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => setSelected(option)}
-            disabled={isSubmitting}
-            className={`w-full p-4 rounded-xl text-left transition-all ${
-              selected === option
-                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                : 'bg-white/10 text-gray-300 hover:bg-white/20'
-            } disabled:opacity-50`}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
+      {!writeInMode && (
+        <div className="space-y-2">
+          {spec.options?.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => setSelected(option)}
+              disabled={isSubmitting}
+              className={`w-full p-4 rounded-xl text-left transition-all ${
+                selected === option
+                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
+              } disabled:opacity-50`}
+            >
+              {option}
+            </button>
+          ))}
+          {spec.allowWriteIn && (
+            <button
+              onClick={() => { setSelected(null); setWriteInMode(true); }}
+              disabled={isSubmitting}
+              className="w-full p-4 rounded-xl text-left transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-dashed border-white/20 disabled:opacity-50"
+            >
+              ✏️ Write your own…
+            </button>
+          )}
+        </div>
+      )}
+      {writeInMode && (
+        <div className="space-y-2">
+          <textarea
+            maxLength={100}
+            value={writeInText}
+            onChange={(e) => setWriteInText(e.target.value)}
+            placeholder="Write your mission in a few words…"
+            rows={3}
+            autoFocus
+            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
+          />
+          <div className="flex items-center justify-between">
+            <span className="text-gray-500 text-xs">{writeInText.length}/100</span>
+            <button
+              onClick={() => { setWriteInMode(false); setWriteInText(''); }}
+              className="text-sm text-gray-400 hover:text-white"
+            >
+              ← Back
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex items-center justify-between">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
-          disabled={!selected || isSubmitting || submitStatus === 'rate_limited'}
+          disabled={!canSubmit}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}

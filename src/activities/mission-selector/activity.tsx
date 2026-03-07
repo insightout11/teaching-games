@@ -75,19 +75,26 @@ export function MissionSelectorActivity({
       onSetInputSpec?.(null);
       return;
     }
+    const allowWriteIn = sessionSettings.difficulty !== 'beginner';
     onSetInputSpec?.({
       type: 'choice',
       gameKey: 'mission-selector',
       prompt: 'Choose your mission for this lesson:',
       options: questions,
+      allowWriteIn,
     });
-  }, [phase, questions, onSetInputSpec]);
+  }, [phase, questions, onSetInputSpec, sessionSettings.difficulty]);
 
   const handleStart = useCallback(() => {
     setPicks({});
     setPhase('presenting');
     onPhaseChange?.('presenting');
   }, [onPhaseChange]);
+
+  // Auto-start: no teacher interaction needed as a Flight Plan step
+  useEffect(() => {
+    handleStart();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFinish = useCallback(async () => {
     onSetInputSpec?.(null);
@@ -189,30 +196,6 @@ export function MissionSelectorActivity({
           {bannerState === 'updating' && `Updating ${bannerActivity} with class missions…`}
           {bannerState === 'done' && `Updated ${bannerActivity} ✓`}
           {bannerState === 'error' && `Could not update ${bannerActivity} — using original content`}
-        </div>
-      )}
-
-      {/* IDLE */}
-      {phase === 'idle' && (
-        <div className="space-y-5">
-          <div className="glass p-5 rounded-2xl space-y-3">
-            <p className="text-sm opacity-60 uppercase tracking-widest">Mission questions</p>
-            <div className="grid gap-2">
-              {questions.map((q, i) => (
-                <div key={i} className="px-4 py-2 rounded-xl bg-white/5 text-sm">
-                  {q}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="text-center">
-            <button
-              onClick={handleStart}
-              className="px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
-            >
-              START
-            </button>
-          </div>
         </div>
       )}
 
