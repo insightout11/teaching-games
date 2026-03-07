@@ -27,6 +27,9 @@ const GOAL_LABELS: Record<GoalTag, string> = {
   'vocabulary-building': 'Vocabulary Building',
   'grammar-reinforcement': 'Grammar Reinforcement',
   'collaboration': 'Collaboration',
+  'creativity': 'Creativity',
+  'critical-thinking': 'Critical Thinking',
+  'confidence-building': 'Confidence Building',
 };
 
 const MISSION_SELECTOR_SLOT: LessonSlot = {
