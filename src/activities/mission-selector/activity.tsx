@@ -75,7 +75,7 @@ export function MissionSelectorActivity({
       onSetInputSpec?.(null);
       return;
     }
-    const allowWriteIn = sessionSettings.difficulty !== 'beginner';
+    const allowWriteIn = sessionSettings.difficulty !== 'Beginner';
     onSetInputSpec?.({
       type: 'choice',
       gameKey: 'mission-selector',
