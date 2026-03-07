@@ -2,17 +2,16 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Difficulty } from '@/lib/difficulty';
 import { FLIGHT_PLAN_ITEMS, type GoalTag, type SlotType } from '@/lib/flight-plan-config';
-import type { ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
+import type { ActivityGeneratedContent, GameGeneratedContent, LessonPlanGenerateResponse } from '@/activities/types';
 import { suggestModules, type PlanModule } from '@/lib/planner-utils';
 import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
+import { getActivity } from '@/activities/registry';
+import { getGame } from '@/games/registry';
 
 export type { PlanModule };
 
-/**
- * Transitional type — mirrors the current page.tsx slot shape.
- * Removed in Phase 2 when the Flight Plan UI uses modules[] directly.
- */
-export type LessonSlot = {
+/** Internal type used by launchLesson() to build sessionStorage payload. */
+type LessonSlot = {
   type: 'activity' | 'game';
   key: string;
   name: string;
@@ -21,17 +20,6 @@ export type LessonSlot = {
 
 export type PlannerStep = 'mission-setup' | 'flight-plan' | 'launch';
 
-const DEFAULT_LANDING_SLOT: LessonSlot = {
-  type: 'activity',
-  key: 'final-answer',
-  name: 'Final Answer',
-  category: 'closing',
-};
-
-const DEFAULT_SELECTED_SLOTS: (LessonSlot | null)[] = [
-  null, null, null, null, DEFAULT_LANDING_SLOT,
-];
-
 interface PlannerState {
   // Navigation
   step: PlannerStep;
@@ -39,16 +27,14 @@ interface PlannerState {
   // Step 1 — Mission Setup
   topic: string;
   difficulty: Difficulty;
-  goal: GoalTag | null;
+  goals: GoalTag[];
   lessonDurationMinutes: 30 | 45 | 60 | 90;
-
-  // Transitional — used by current page.tsx UI; replaced by modules[] in Phase 2
-  selectedSlots: (LessonSlot | null)[];
 
   // Step 2 — Flight Plan
   modules: PlanModule[];
   activeTab: 'build' | 'presets';
   loadedPresetId: string | null;
+  replaceDrawerModuleId: string | null;
 
   // Step 3 — Review & Launch
   generationStatus: 'idle' | 'generating' | 'ready' | 'error';
@@ -56,18 +42,18 @@ interface PlannerState {
   generatedContent: Record<string, ActivityGeneratedContent> | null;
   generatedGameContent: Record<string, GameGeneratedContent> | null;
 
+  // Derived
+  primaryGoal: GoalTag;
+
   // Actions — navigation
   setStep(step: PlannerStep): void;
 
   // Actions — Step 1
   setTopic(topic: string): void;
   setDifficulty(d: Difficulty): void;
-  setGoal(g: GoalTag): void;
+  setGoals(goals: GoalTag[]): void;
+  toggleGoal(g: GoalTag): void;
   setDuration(minutes: 30 | 45 | 60 | 90): void;
-
-  // Transitional slot actions (current page.tsx UI)
-  setSelectedSlot(index: number, slot: LessonSlot): void;
-  clearSelectedSlot(index: number): void;
 
   // Actions — Step 2 (Flight Plan)
   initModules(): void;
@@ -75,6 +61,7 @@ interface PlannerState {
   replaceModule(id: string, newKey: string, newSlotType: SlotType): void;
   setActiveTab(tab: 'build' | 'presets'): void;
   loadPreset(preset: FlightPlanPreset): void;
+  setReplaceDrawerModuleId(id: string | null): void;
 
   // Actions — Step 3
   setGenerationStatus(
@@ -85,12 +72,17 @@ interface PlannerState {
     content: Record<string, ActivityGeneratedContent>,
     gameContent: Record<string, GameGeneratedContent>,
   ): void;
+  generateContent(): Promise<void>;
 
   // Handoff to session. Does NOT reset — caller decides when to reset.
   launchLesson(): void;
 
   // Full reset — called when teacher starts a fresh plan.
   reset(): void;
+}
+
+function derivePrimaryGoal(goals: GoalTag[]): GoalTag {
+  return goals[0] ?? 'discussion-debate';
 }
 
 export const usePlannerStore = create<PlannerState>()(
@@ -100,16 +92,21 @@ export const usePlannerStore = create<PlannerState>()(
       step: 'mission-setup',
       topic: '',
       difficulty: 'Intermediate',
-      goal: null,
-      lessonDurationMinutes: 60,
-      selectedSlots: [...DEFAULT_SELECTED_SLOTS],
+      goals: [],
+      lessonDurationMinutes: 30,
       modules: [],
       activeTab: 'build',
       loadedPresetId: null,
+      replaceDrawerModuleId: null,
       generationStatus: 'idle',
       generationError: null,
       generatedContent: null,
       generatedGameContent: null,
+
+      // Derived
+      get primaryGoal() {
+        return derivePrimaryGoal(get().goals);
+      },
 
       // Navigation
       setStep: (step) => set({ step }),
@@ -117,28 +114,21 @@ export const usePlannerStore = create<PlannerState>()(
       // Step 1
       setTopic: (topic) => set({ topic }),
       setDifficulty: (difficulty) => set({ difficulty }),
-      setGoal: (goal) => set({ goal }),
+      setGoals: (goals) => set({ goals }),
+      toggleGoal: (g) =>
+        set((state) => {
+          const next = state.goals.includes(g)
+            ? state.goals.filter((x) => x !== g)
+            : [...state.goals, g];
+          return { goals: next };
+        }),
       setDuration: (lessonDurationMinutes) => set({ lessonDurationMinutes }),
-
-      // Transitional slot actions
-      setSelectedSlot: (index, slot) =>
-        set((state) => {
-          const next = [...state.selectedSlots];
-          next[index] = slot;
-          return { selectedSlots: next };
-        }),
-      clearSelectedSlot: (index) =>
-        set((state) => {
-          const next = [...state.selectedSlots];
-          next[index] = null;
-          return { selectedSlots: next };
-        }),
 
       // Step 2
       initModules: () => {
-        const { goal, difficulty, lessonDurationMinutes } = get();
-        if (!goal) return;
-        set({ modules: suggestModules(goal, difficulty, lessonDurationMinutes) });
+        const { goals, difficulty, lessonDurationMinutes } = get();
+        const primaryGoal = derivePrimaryGoal(goals);
+        set({ modules: suggestModules(primaryGoal, difficulty, lessonDurationMinutes) });
       },
 
       moveModule: (fromIndex, toIndex) =>
@@ -186,13 +176,15 @@ export const usePlannerStore = create<PlannerState>()(
         }));
 
         set({
-          goal: preset.goal,
+          goals: [preset.goal],
           lessonDurationMinutes: preset.lessonDurationMinutes,
           modules: [takeoff, ...middle, landing],
           loadedPresetId: preset.id,
           activeTab: 'presets',
         });
       },
+
+      setReplaceDrawerModuleId: (id) => set({ replaceDrawerModuleId: id }),
 
       // Step 3
       setGenerationStatus: (generationStatus, error) =>
@@ -209,23 +201,90 @@ export const usePlannerStore = create<PlannerState>()(
           generationError: null,
         }),
 
-      // Handoff
+      generateContent: async () => {
+        const { topic, difficulty, goals, modules } = get();
+        const primaryGoal = derivePrimaryGoal(goals);
+        const trimmedTopic = topic.trim();
+        if (!trimmedTopic) {
+          set({ generationStatus: 'error', generationError: 'Please enter a topic' });
+          return;
+        }
+
+        const activityKeys = modules
+          .filter((m) => {
+            const act = getActivity(m.key);
+            return !!act;
+          })
+          .map((m) => m.key);
+
+        const gameKeys = modules
+          .filter((m) => {
+            const g = getGame(m.key);
+            return !!g;
+          })
+          .map((m) => m.key);
+
+        set({ generationStatus: 'generating', generationError: null });
+
+        try {
+          const response = await fetch('/api/lesson-plan/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              customTopic: trimmedTopic,
+              difficulty,
+              goal: primaryGoal,
+              activities: activityKeys,
+              games: gameKeys,
+            }),
+          });
+
+          const data: LessonPlanGenerateResponse = await response.json();
+
+          if (!data.success) {
+            throw new Error(data.error || 'Failed to generate lesson plan');
+          }
+
+          set({
+            generatedContent: data.content,
+            generatedGameContent: data.gameContent || {},
+            generationStatus: 'ready',
+            generationError: null,
+          });
+        } catch (err) {
+          console.error('Generation error:', err);
+          set({
+            generationStatus: 'error',
+            generationError: err instanceof Error ? err.message : 'Failed to generate lesson plan',
+          });
+        }
+      },
+
+      // Handoff — build LessonSlot[] from modules for session-view compatibility
       launchLesson: () => {
-        const { topic, difficulty, goal, selectedSlots, generatedContent, generatedGameContent } =
-          get();
-        const MISSION_SELECTOR: LessonSlot = {
-          type: 'activity',
-          key: 'mission-selector',
-          name: 'Mission Selector',
-        };
+        const { topic, difficulty, goals, modules, generatedContent, generatedGameContent } = get();
+        const primaryGoal = derivePrimaryGoal(goals);
+
+        const slots: LessonSlot[] = modules.map((m) => {
+          const activity = getActivity(m.key);
+          if (activity) {
+            return { type: 'activity' as const, key: m.key, name: activity.name, category: activity.category };
+          }
+          const game = getGame(m.key);
+          if (game) {
+            return { type: 'game' as const, key: m.key, name: game.name, category: game.category };
+          }
+          return { type: 'activity' as const, key: m.key, name: m.key };
+        });
+
         sessionStorage.setItem(
           'lessonPlanContent',
           JSON.stringify({
             customTopic: topic,
             difficulty,
-            goal,
+            goal: primaryGoal,
             isMissionBased: true,
-            slots: [MISSION_SELECTOR, ...selectedSlots.filter(Boolean)],
+            slots,
             generatedContent,
             generatedGameContent,
           }),
@@ -239,12 +298,12 @@ export const usePlannerStore = create<PlannerState>()(
           step: 'mission-setup',
           topic: '',
           difficulty: 'Intermediate',
-          goal: null,
-          lessonDurationMinutes: 60,
-          selectedSlots: [...DEFAULT_SELECTED_SLOTS],
+          goals: [],
+          lessonDurationMinutes: 30,
           modules: [],
           activeTab: 'build',
           loadedPresetId: null,
+          replaceDrawerModuleId: null,
           generationStatus: 'idle',
           generationError: null,
           generatedContent: null,
@@ -253,14 +312,12 @@ export const usePlannerStore = create<PlannerState>()(
     }),
     {
       name: 'lc-planner',
-      // Do NOT persist generation status/result — stale content should not auto-reload.
       partialize: (state) => ({
         step: state.step,
         topic: state.topic,
         difficulty: state.difficulty,
-        goal: state.goal,
+        goals: state.goals,
         lessonDurationMinutes: state.lessonDurationMinutes,
-        selectedSlots: state.selectedSlots,
         modules: state.modules,
         activeTab: state.activeTab,
         loadedPresetId: state.loadedPresetId,

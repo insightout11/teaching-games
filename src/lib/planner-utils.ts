@@ -1,5 +1,10 @@
+import type { ComponentType } from 'react';
 import { FLIGHT_PLAN_ITEMS, type GoalTag, type SlotType } from './flight-plan-config';
 import type { Difficulty } from './difficulty';
+import { getActivity } from '@/activities/registry';
+import { getGame } from '@/games/registry';
+import type { ActivityCategory } from '@/activities/types';
+import type { GameCategory } from '@/games/types';
 
 export interface PlanModule {
   id: string;
@@ -74,6 +79,38 @@ export function suggestModules(
   }
 
   return [takeoff, ...middle, landing];
+}
+
+export interface ModuleDisplayInfo {
+  name: string;
+  type: 'activity' | 'game';
+  description: string;
+  category: ActivityCategory | GameCategory;
+  icon: ComponentType<{ className?: string }>;
+}
+
+export function getModuleDisplayInfo(key: string): ModuleDisplayInfo | null {
+  const activity = getActivity(key);
+  if (activity) {
+    return {
+      name: activity.name,
+      type: 'activity',
+      description: activity.description,
+      category: activity.category,
+      icon: activity.icon,
+    };
+  }
+  const game = getGame(key);
+  if (game) {
+    return {
+      name: game.name,
+      type: 'game',
+      description: game.description,
+      category: game.category,
+      icon: game.icon,
+    };
+  }
+  return null;
 }
 
 function pickBest(
