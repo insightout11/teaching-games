@@ -47,6 +47,8 @@ function getLessonPlanContent(): {
   slots: LessonSlot[];
   generatedContent: Record<string, ActivityGeneratedContent>;
   generatedGameContent: Record<string, GameGeneratedContent>;
+  goal?: string;
+  isMissionBased?: boolean;
 } | null {
   if (typeof window === 'undefined') return null;
   try {
@@ -58,6 +60,8 @@ function getLessonPlanContent(): {
         slots: parsed.slots || [],
         generatedContent: parsed.generatedContent || {},
         generatedGameContent: parsed.generatedGameContent || {},
+        goal: parsed.goal,
+        isMissionBased: parsed.isMissionBased,
       };
     }
   } catch (e) {
@@ -97,7 +101,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     slots: LessonSlot[];
     generatedContent: Record<string, ActivityGeneratedContent>;
     generatedGameContent: Record<string, GameGeneratedContent>;
+    goal?: string;
+    isMissionBased?: boolean;
   } | null>(null);
+  const [isMissionBased, setIsMissionBased] = useState(false);
 
   // Lesson mode state
   const [lessonMode, setLessonMode] = useState(false);
@@ -114,6 +121,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       setLessonPlanContent(content);
       setCustomTopic(content.customTopic);
       setLessonPlanLoaded(true);
+      if (content.isMissionBased) {
+        setIsMissionBased(true);
+      }
 
       // Enable lesson mode if we have slots
       if (content.slots && content.slots.length > 0) {
@@ -347,7 +357,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <h1 className="text-xl font-bold">{cls.name} — Live Session</h1>
             <p className="text-sm opacity-70">
               {students.length} students
-              {lessonPlanLoaded && (
+              {isMissionBased && (
+                <span className="ml-2 text-amber-400">• Mission Lesson</span>
+              )}
+              {lessonPlanLoaded && !isMissionBased && (
                 <span className="ml-2 text-cyan-400">• Lesson Plan Loaded</span>
               )}
             </p>

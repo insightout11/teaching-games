@@ -6,6 +6,7 @@ import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activit
 import { getAllGames } from '@/games/registry';
 import { GAME_CATEGORY_INFO } from '@/games/registry';
 import { DIFFICULTIES, type Difficulty } from '@/stores/session-store';
+import { FLIGHT_PLAN_CONFIG, type GoalTag } from '@/lib/flight-plan-config';
 import type {
   ActivityGeneratedContent,
   LessonPlanGenerateResponse,
@@ -20,10 +21,25 @@ type LessonSlot = {
   category?: ActivityCategory;
 };
 
+const GOAL_LABELS: Record<GoalTag, string> = {
+  'speaking-fluency': 'Speaking Fluency',
+  'discussion-debate': 'Discussion & Debate',
+  'vocabulary-building': 'Vocabulary Building',
+  'grammar-reinforcement': 'Grammar Reinforcement',
+  'collaboration': 'Collaboration',
+};
+
+const MISSION_SELECTOR_SLOT: LessonSlot = {
+  type: 'activity',
+  key: 'mission-selector',
+  name: 'Mission Selector',
+  category: 'icebreaker',
+};
+
 export default function LessonPlannerPage() {
   const [customTopic, setCustomTopic] = useState('');
   const [difficulty, setDifficulty] = useState<Difficulty>('Intermediate');
-  const [selectedSlots, setSelectedSlots] = useState<(LessonSlot | null)[]>([null, null, null, null, null]);
+  const [goal, setGoal] = useState<GoalTag>('discussion-debate');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState<Record<string, ActivityGeneratedContent> | null>(null);
   const [generatedGameContent, setGeneratedGameContent] = useState<Record<string, GameGeneratedContent> | null>(null);
@@ -33,12 +49,23 @@ export default function LessonPlannerPage() {
   const allActivities = getAllActivities();
   const allGames = getAllGames();
 
+  // Landing slot pre-filled with final-answer
+  const finalAnswerActivity = allActivities.find((a) => a.key === 'final-answer');
+  const defaultLandingSlot: LessonSlot | null = finalAnswerActivity
+    ? { type: 'activity', key: 'final-answer', name: finalAnswerActivity.name, category: 'closing' }
+    : null;
+
+  const [selectedSlots, setSelectedSlots] = useState<(LessonSlot | null)[]>([
+    null, null, null, null, defaultLandingSlot,
+  ]);
+
+  // Slot configs for the 5 configurable slots (Takeoff is locked separately above)
   const slotConfigs = [
-    { label: 'Icebreaker', category: 'icebreaker' as const, type: 'activity' as const },
     { label: 'Learning Module', category: 'learning' as const, type: 'activity' as const },
     { label: 'Practice/Debate', category: 'practice' as const, type: 'activity' as const, alternateCategory: 'debate' as const },
     { label: 'Skill Game 1', type: 'game' as const },
     { label: 'Skill Game 2 (Optional)', type: 'game' as const, optional: true },
+    { label: 'Landing', category: 'closing' as const, type: 'activity' as const, isLanding: true },
   ];
 
   const handleSlotSelect = (slotIndex: number, key: string, type: 'activity' | 'game') => {
@@ -74,19 +101,17 @@ export default function LessonPlannerPage() {
       return;
     }
 
-    // Get selected activity and game keys
-    const activityKeys = selectedSlots
-      .filter((slot): slot is LessonSlot => slot !== null && slot.type === 'activity')
-      .map((slot) => slot.key);
+    // Mission Selector is always first; then include other selected activities (including landing)
+    const activityKeys = [
+      'mission-selector',
+      ...selectedSlots
+        .filter((slot): slot is LessonSlot => slot !== null && slot.type === 'activity')
+        .map((slot) => slot.key),
+    ];
 
     const gameKeys = selectedSlots
       .filter((slot): slot is LessonSlot => slot !== null && slot.type === 'game')
       .map((slot) => slot.key);
-
-    if (activityKeys.length === 0 && gameKeys.length === 0) {
-      setError('Please select at least one activity or game');
-      return;
-    }
 
     setIsGenerating(true);
     setError(null);
@@ -98,6 +123,7 @@ export default function LessonPlannerPage() {
         body: JSON.stringify({
           customTopic: customTopic.trim(),
           difficulty,
+          goal,
           activities: activityKeys,
           games: gameKeys,
         }),
@@ -124,6 +150,17 @@ export default function LessonPlannerPage() {
       return allGames.map((g) => ({ key: g.key, name: g.name, type: 'game' as const }));
     }
 
+    // Landing slot: hard-filter to missionLanding: true activities only
+    if (slotConfig.isLanding) {
+      return FLIGHT_PLAN_CONFIG
+        .filter((item) => item.missionLanding)
+        .map((item) => {
+          const act = allActivities.find((a) => a.key === item.key);
+          return act ? { key: act.key, name: act.name, type: 'activity' as const } : null;
+        })
+        .filter((x): x is { key: string; name: string; type: 'activity' } => x !== null);
+    }
+
     // For activities, filter by category
     let activities = activitiesGrouped[slotConfig.category] || [];
     if (slotConfig.alternateCategory) {
@@ -134,8 +171,9 @@ export default function LessonPlannerPage() {
 
   const selectedActivities = selectedSlots.filter((s) => s !== null && s.type === 'activity');
   const selectedGames = selectedSlots.filter((s) => s !== null && s.type === 'game');
-  const selectedCount = selectedActivities.length + selectedGames.length;
-  const canGenerate = customTopic.trim() && selectedCount > 0;
+  // +1 for locked Mission Selector (Takeoff)
+  const selectedCount = selectedActivities.length + selectedGames.length + 1;
+  const canGenerate = !!customTopic.trim();
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -147,9 +185,9 @@ export default function LessonPlannerPage() {
         </p>
       </div>
 
-      {/* Topic & Difficulty */}
+      {/* Topic, Difficulty & Goal */}
       <div className="bg-lc-card rounded-xl border border-lc-border p-6 mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <label className="block text-sm font-medium text-lc-text2 mb-2">
               Custom Topic
@@ -181,38 +219,85 @@ export default function LessonPlannerPage() {
             </select>
           </div>
         </div>
+
+        <div>
+          <label className="block text-sm font-medium text-lc-text2 mb-2">
+            Lesson Goal
+          </label>
+          <select
+            value={goal}
+            onChange={(e) => setGoal(e.target.value as GoalTag)}
+            className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-lg text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
+          >
+            {(Object.entries(GOAL_LABELS) as [GoalTag, string][]).map(([key, label]) => (
+              <option key={key} value={key}>{label}</option>
+            ))}
+          </select>
+          <p className="text-xs text-lc-text3 mt-1">
+            Shapes the student mission questions generated for this lesson.
+          </p>
+        </div>
       </div>
 
       {/* Activity Selection */}
       <div className="bg-lc-card rounded-xl border border-lc-border p-6 mb-6">
         <h2 className="text-lg font-semibold mb-4 text-lc-text">Lesson Structure</h2>
         <p className="text-sm text-lc-text2 mb-6">
-          Select an activity or game for each slot. Activities use your custom topic for AI-generated content.
+          Every lesson begins with Mission Selector. Fill the middle slots, then choose a Landing activity.
         </p>
 
         <div className="space-y-4">
+          {/* Locked Takeoff: Mission Selector */}
+          <div className="flex items-center gap-4 p-4 bg-lc-surface rounded-lg border border-amber-500/30">
+            <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3l14 9-14 9V3z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-medium text-lc-text">Takeoff</span>
+                <span className="text-xs bg-amber-500/15 text-amber-400 px-2 py-0.5 rounded-full">Locked</span>
+              </div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/15 text-amber-400 rounded-full text-sm font-medium">
+                Mission Selector
+              </span>
+              <p className="text-xs text-lc-text3 mt-1">Students choose a personal mission question — always first.</p>
+            </div>
+          </div>
+
+          {/* Configurable slots */}
           {slotConfigs.map((config, index) => {
             const selected = selectedSlots[index];
             const items = getAvailableItems(config);
             const categoryInfo = config.category ? CATEGORY_INFO[config.category] : null;
+            const isLanding = config.isLanding;
 
             return (
-              <div key={index} className="flex items-center gap-4 p-4 bg-lc-surface rounded-lg">
-                <div className="w-8 h-8 rounded-full bg-lc-blue/15 text-lc-blue flex items-center justify-center font-bold text-sm">
-                  {index + 1}
+              <div key={index} className={`flex items-center gap-4 p-4 bg-lc-surface rounded-lg ${isLanding ? 'border border-teal-500/30' : ''}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${isLanding ? 'bg-teal-500/20 text-teal-400' : 'bg-lc-blue/15 text-lc-blue'}`}>
+                  {index + 2}
                 </div>
 
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium text-lc-text">{config.label}</span>
+                    {isLanding && (
+                      <span className="text-xs bg-teal-500/15 text-teal-400 px-2 py-0.5 rounded-full">Required</span>
+                    )}
                     {config.optional && (
                       <span className="text-xs bg-lc-border text-lc-text3 px-2 py-0.5 rounded-full">
                         Optional
                       </span>
                     )}
-                    {categoryInfo && (
+                    {categoryInfo && !isLanding && (
                       <span className="text-xs text-lc-text3">
                         {categoryInfo.description}
+                      </span>
+                    )}
+                    {isLanding && (
+                      <span className="text-xs text-lc-text3">
+                        Mission-resolving activities only
                       </span>
                     )}
                   </div>
@@ -240,14 +325,16 @@ export default function LessonPlannerPage() {
                         })()}
                         {selected.name}
                       </span>
-                      <button
-                        onClick={() => clearSlot(index)}
-                        className="text-lc-text3 hover:text-lc-text"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
+                      {!isLanding && (
+                        <button
+                          onClick={() => clearSlot(index)}
+                          className="text-lc-text3 hover:text-lc-text"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      )}
                     </div>
                   ) : (
                     <select
@@ -260,7 +347,7 @@ export default function LessonPlannerPage() {
                       }}
                       className="w-full px-3 py-2 bg-lc-bg border border-lc-border rounded-lg text-sm text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
                     >
-                      <option value="">Select {config.type}...</option>
+                      <option value="">Select {isLanding ? 'landing activity' : config.type}...</option>
                       {items.map((item) => (
                         <option key={item.key} value={`${item.type}:${item.key}`}>
                           {item.name}
@@ -416,7 +503,9 @@ export default function LessonPlannerPage() {
                   sessionStorage.setItem('lessonPlanContent', JSON.stringify({
                     customTopic,
                     difficulty,
-                    slots: selectedSlots.filter(Boolean),
+                    goal,
+                    isMissionBased: true,
+                    slots: [MISSION_SELECTOR_SLOT, ...selectedSlots.filter(Boolean)],
                     generatedContent,
                     generatedGameContent,
                   }));
