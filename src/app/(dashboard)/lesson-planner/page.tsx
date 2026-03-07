@@ -6,7 +6,7 @@ import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activit
 import { getAllGames } from '@/games/registry';
 import { GAME_CATEGORY_INFO } from '@/games/registry';
 import { DIFFICULTIES, type Difficulty } from '@/stores/session-store';
-import { FLIGHT_PLAN_CONFIG, type GoalTag } from '@/lib/flight-plan-config';
+import { FLIGHT_PLAN_ITEMS, type GoalTag } from '@/lib/flight-plan-config';
 import type {
   ActivityGeneratedContent,
   LessonPlanGenerateResponse,
@@ -152,7 +152,7 @@ export default function LessonPlannerPage() {
 
     // Landing slot: hard-filter to missionLanding: true activities only
     if (slotConfig.isLanding) {
-      return FLIGHT_PLAN_CONFIG
+      return FLIGHT_PLAN_ITEMS
         .filter((item) => item.missionLanding)
         .map((item) => {
           const act = allActivities.find((a) => a.key === item.key);
