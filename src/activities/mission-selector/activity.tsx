@@ -4,8 +4,6 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ActivityProps } from '../types';
 import type { MissionSelectorContent } from '../types';
 import { useSessionStore } from '@/stores/session-store';
-import { getFlightPlanItem } from '@/lib/flight-plan-config';
-import type { ActivityGeneratedContent } from '../types';
 
 type Phase = 'idle' | 'presenting' | 'done';
 
@@ -15,7 +13,6 @@ type PickMap = Record<string, { question: string; displayName: string; studentId
 export function MissionSelectorActivity({
   sessionSettings,
   generatedContent,
-  customTopic,
   onPhaseChange,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
@@ -26,15 +23,13 @@ export function MissionSelectorActivity({
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [picks, setPicks] = useState<PickMap>({});
-  const [bannerState, setBannerState] = useState<null | 'updating' | 'done' | 'error'>(null);
-  const [bannerActivity, setBannerActivity] = useState('');
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
   const picksRef = useRef(picks);
   picksRef.current = picks;
 
-  const { sessionId, addStudentMission, updateGeneratedContent } = useSessionStore();
+  const { sessionId, addStudentMission } = useSessionStore();
 
   // Vote handler — receives student mission choices
   useEffect(() => {
@@ -96,74 +91,12 @@ export function MissionSelectorActivity({
     handleStart();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleFinish = useCallback(async () => {
+  const handleFinish = useCallback(() => {
     onSetInputSpec?.(null);
     setPhase('done');
     onPhaseChange?.('done');
-
-    // Find the lesson plan's production slot to check for missionAware
-    let productionActivityKey: string | null = null;
-    try {
-      const stored = sessionStorage.getItem('lessonPlanContent');
-      if (stored) {
-        const plan = JSON.parse(stored) as {
-          slots: Array<{ type: string; key: string }>;
-        };
-        for (const slot of plan.slots ?? []) {
-          if (slot.type === 'activity') {
-            const item = getFlightPlanItem(slot.key);
-            if (item?.missionAware) {
-              productionActivityKey = slot.key;
-              break;
-            }
-          }
-        }
-      }
-    } catch {
-      // sessionStorage not available or parse error — skip
-    }
-
-    if (!productionActivityKey) {
-      onPhaseChange?.('finished');
-      return;
-    }
-
-    // Compute missionContext: deduplicate, take top 5 unique
-    const allMissions = Object.values(picksRef.current).map((p) => p.question);
-    const uniqueMissions = Array.from(new Set(allMissions)).slice(0, 5);
-
-    const activityName = productionActivityKey
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase());
-
-    setBannerActivity(activityName);
-    setBannerState('updating');
-
-    try {
-      const res = await fetch('/api/lesson-plan/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          customTopic: customTopic ?? content.topicContext,
-          difficulty: sessionSettings.difficulty,
-          activities: [productionActivityKey],
-          missionContext: uniqueMissions,
-        }),
-      });
-      if (!res.ok) throw new Error('Generation failed');
-      const data = await res.json() as { success: boolean; content: Record<string, ActivityGeneratedContent> };
-      if (!data.success || !data.content[productionActivityKey]) throw new Error('No content returned');
-      updateGeneratedContent(productionActivityKey, data.content[productionActivityKey]);
-      setBannerState('done');
-      setTimeout(() => {
-        setBannerState(null);
-        onPhaseChange?.('finished');
-      }, 3000);
-    } catch {
-      setBannerState('error');
-      onPhaseChange?.('finished');
-    }
-  }, [onSetInputSpec, onPhaseChange, customTopic, content.topicContext, sessionSettings.difficulty, updateGeneratedContent]);
+    onPhaseChange?.('finished');
+  }, [onSetInputSpec, onPhaseChange]);
 
   const pickCount = Object.keys(picks).length;
 
@@ -182,22 +115,6 @@ export function MissionSelectorActivity({
           <span className="text-sm opacity-60">{pickCount} selected</span>
         )}
       </div>
-
-      {/* Banner */}
-      {bannerState && (
-        <div className={`px-4 py-2 rounded-xl text-sm flex items-center gap-2 ${
-          bannerState === 'updating' ? 'bg-violet-500/20 text-violet-300' :
-          bannerState === 'done' ? 'bg-emerald-500/20 text-emerald-300' :
-          'bg-amber-500/20 text-amber-300'
-        }`}>
-          {bannerState === 'updating' && (
-            <div className="w-3 h-3 border-2 border-violet-400 border-t-transparent rounded-full animate-spin" />
-          )}
-          {bannerState === 'updating' && `Updating ${bannerActivity} with class missions…`}
-          {bannerState === 'done' && `Updated ${bannerActivity} ✓`}
-          {bannerState === 'error' && `Could not update ${bannerActivity} — using original content`}
-        </div>
-      )}
 
       {/* PRESENTING */}
       {phase === 'presenting' && (

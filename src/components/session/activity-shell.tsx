@@ -23,9 +23,10 @@ interface ActivityShellProps {
   activity: ActivityPlugin;
   generatedContent: ActivityGeneratedContent;
   timerSeconds: number;
+  onPhaseChange?: (phase: string) => void;
 }
 
-export function ActivityShell({ activity, generatedContent, timerSeconds }: ActivityShellProps) {
+export function ActivityShell({ activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange }: ActivityShellProps) {
   const { sessionId, students, currentStudentId, settings, setInputSpec, recordScore, addStudent, studentMissions, landingAnswers, addLandingAnswer } = useSessionStore();
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
   const [showMissionSummary, setShowMissionSummary] = useState(false);
@@ -249,13 +250,14 @@ export function ActivityShell({ activity, generatedContent, timerSeconds }: Acti
 
   const handlePhaseChange = useCallback((phase: string) => {
     setCurrentPhase(phase);
+    externalPhaseChange?.(phase);
     if (phase === 'finished' && activity.pppStage === 'landing') {
       const missions = useSessionStore.getState().studentMissions;
       if (Object.keys(missions).length > 0) {
         setShowMissionSummary(true);
       }
     }
-  }, [activity.pppStage]);
+  }, [activity.pppStage, externalPhaseChange]);
 
   const customTopic = getEffectiveTopic(settings);
 

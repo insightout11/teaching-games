@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Difficulty } from '@/lib/difficulty';
 import { FLIGHT_PLAN_ITEMS, type GoalTag, type SlotType } from '@/lib/flight-plan-config';
-import type { ActivityGeneratedContent, GameGeneratedContent, LessonPlanGenerateResponse } from '@/activities/types';
 import { suggestModules, type PlanModule } from '@/lib/planner-utils';
 import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { getActivity } from '@/activities/registry';
@@ -36,12 +35,6 @@ interface PlannerState {
   loadedPresetId: string | null;
   replaceDrawerModuleId: string | null;
 
-  // Step 3 — Review & Launch
-  generationStatus: 'idle' | 'generating' | 'ready' | 'error';
-  generationError: string | null;
-  generatedContent: Record<string, ActivityGeneratedContent> | null;
-  generatedGameContent: Record<string, GameGeneratedContent> | null;
-
   // Derived
   primaryGoal: GoalTag;
 
@@ -62,17 +55,6 @@ interface PlannerState {
   setActiveTab(tab: 'build' | 'presets'): void;
   loadPreset(preset: FlightPlanPreset): void;
   setReplaceDrawerModuleId(id: string | null): void;
-
-  // Actions — Step 3
-  setGenerationStatus(
-    status: 'idle' | 'generating' | 'ready' | 'error',
-    error?: string,
-  ): void;
-  setGenerationResult(
-    content: Record<string, ActivityGeneratedContent>,
-    gameContent: Record<string, GameGeneratedContent>,
-  ): void;
-  generateContent(): Promise<void>;
 
   // Handoff to session. Does NOT reset — caller decides when to reset.
   launchLesson(): void;
@@ -98,10 +80,6 @@ export const usePlannerStore = create<PlannerState>()(
       activeTab: 'build',
       loadedPresetId: null,
       replaceDrawerModuleId: null,
-      generationStatus: 'idle',
-      generationError: null,
-      generatedContent: null,
-      generatedGameContent: null,
 
       // Derived
       get primaryGoal() {
@@ -186,83 +164,9 @@ export const usePlannerStore = create<PlannerState>()(
 
       setReplaceDrawerModuleId: (id) => set({ replaceDrawerModuleId: id }),
 
-      // Step 3
-      setGenerationStatus: (generationStatus, error) =>
-        set({
-          generationStatus,
-          generationError: error ?? null,
-        }),
-
-      setGenerationResult: (content, gameContent) =>
-        set({
-          generatedContent: content,
-          generatedGameContent: gameContent,
-          generationStatus: 'ready',
-          generationError: null,
-        }),
-
-      generateContent: async () => {
-        const { topic, difficulty, goals, modules } = get();
-        const primaryGoal = derivePrimaryGoal(goals);
-        const trimmedTopic = topic.trim();
-        if (!trimmedTopic) {
-          set({ generationStatus: 'error', generationError: 'Please enter a topic' });
-          return;
-        }
-
-        const activityKeys = modules
-          .filter((m) => {
-            const act = getActivity(m.key);
-            return !!act;
-          })
-          .map((m) => m.key);
-
-        const gameKeys = modules
-          .filter((m) => {
-            const g = getGame(m.key);
-            return !!g;
-          })
-          .map((m) => m.key);
-
-        set({ generationStatus: 'generating', generationError: null });
-
-        try {
-          const response = await fetch('/api/lesson-plan/generate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              customTopic: trimmedTopic,
-              difficulty,
-              goal: primaryGoal,
-              activities: activityKeys,
-              games: gameKeys,
-            }),
-          });
-
-          const data: LessonPlanGenerateResponse = await response.json();
-
-          if (!data.success) {
-            throw new Error(data.error || 'Failed to generate lesson plan');
-          }
-
-          set({
-            generatedContent: data.content,
-            generatedGameContent: data.gameContent || {},
-            generationStatus: 'ready',
-            generationError: null,
-          });
-        } catch (err) {
-          console.error('Generation error:', err);
-          set({
-            generationStatus: 'error',
-            generationError: err instanceof Error ? err.message : 'Failed to generate lesson plan',
-          });
-        }
-      },
-
-      // Handoff — build LessonSlot[] from modules for session-view compatibility
+      // Handoff — structure-only payload. Content generated lazily at runtime.
       launchLesson: () => {
-        const { topic, difficulty, goals, modules, generatedContent, generatedGameContent } = get();
+        const { topic, difficulty, goals, modules } = get();
         const primaryGoal = derivePrimaryGoal(goals);
 
         const slots: LessonSlot[] = modules.map((m) => {
@@ -285,8 +189,8 @@ export const usePlannerStore = create<PlannerState>()(
             goal: primaryGoal,
             isMissionBased: true,
             slots,
-            generatedContent,
-            generatedGameContent,
+            generatedContent: {},
+            generatedGameContent: {},
           }),
         );
         window.location.href = '/classes';
@@ -304,10 +208,6 @@ export const usePlannerStore = create<PlannerState>()(
           activeTab: 'build',
           loadedPresetId: null,
           replaceDrawerModuleId: null,
-          generationStatus: 'idle',
-          generationError: null,
-          generatedContent: null,
-          generatedGameContent: null,
         }),
     }),
     {

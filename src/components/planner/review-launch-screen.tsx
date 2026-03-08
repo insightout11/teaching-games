@@ -24,9 +24,9 @@ export function ReviewLaunchScreen() {
   );
 
   const checklist = [
-    { label: 'Content generated', done: true },
+    { label: 'Flight plan structured', done: modules.length > 0 },
     { label: 'Modules configured', done: modules.length > 0 },
-    { label: 'Systems ready', done: true },
+    { label: 'Content generates at runtime', done: true },
   ];
 
   return (
