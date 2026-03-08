@@ -1,6 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 
+export async function GET(request: NextRequest) {
+  try {
+    const sessionId = request.nextUrl.searchParams.get('sessionId');
+    if (!sessionId) {
+      return NextResponse.json({ error: 'Missing sessionId' }, { status: 400 });
+    }
+
+    const supabase = createServiceClient();
+    const { data, error } = await supabase
+      .from('session_missions')
+      .select('client_id, mission_text')
+      .eq('session_id', sessionId);
+
+    if (error) {
+      console.error('[session/missions] GET error:', error);
+      return NextResponse.json({ error: 'Failed to fetch missions' }, { status: 500 });
+    }
+
+    return NextResponse.json({ missions: data || [] });
+  } catch (error) {
+    console.error('[session/missions] GET error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as { sessionId: string; clientId: string; missionText: string };

@@ -3,7 +3,7 @@ import type { Student, Score } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import { createClient } from '@/lib/supabase/client';
 import type { Difficulty } from '@/lib/difficulty';
-import type { ActivityGeneratedContent } from '@/activities/types';
+
 
 export type PickerMode = 'fair' | 'random';
 export type GameMode = 'normal' | 'spinner';
@@ -79,8 +79,6 @@ interface SessionState {
   // Mission system
   studentMissions: Record<string, string>;   // clientId → mission question
   landingAnswers: Record<string, string>;     // clientId → landing answer
-  contentOverrides: Record<string, ActivityGeneratedContent>; // activityKey → updated content
-
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
   setPickerMode: (mode: PickerMode) => void;
@@ -103,7 +101,6 @@ interface SessionState {
   addSeenCacheId: (id: string) => void;
   addStudentMission: (clientId: string, mission: string) => void;
   addLandingAnswer: (clientId: string, answer: string) => void;
-  updateGeneratedContent: (activityKey: string, content: ActivityGeneratedContent) => void;
   reset: () => void;
 }
 
@@ -179,7 +176,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   seenCacheIds: [],
   studentMissions: {},
   landingAnswers: {},
-  contentOverrides: {},
 
   initSession: (sessionId, classId, students) => {
     lastWrittenInputSpec = undefined; // Reset per-session tracking
@@ -208,7 +204,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       seenCacheIds: [],
       studentMissions: {},
       landingAnswers: {},
-      contentOverrides: {},
     });
   },
 
@@ -373,10 +368,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     landingAnswers: { ...state.landingAnswers, [clientId]: answer },
   })),
 
-  updateGeneratedContent: (activityKey: string, content: ActivityGeneratedContent) => set((state) => ({
-    contentOverrides: { ...state.contentOverrides, [activityKey]: content },
-  })),
-
   awardPoints: async (studentId: string, points: number) => {
     const { sessionId } = get();
     if (!sessionId) return;
@@ -421,7 +412,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       seenCacheIds: [],
       studentMissions: {},
       landingAnswers: {},
-      contentOverrides: {},
     });
   },
 }));

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
+import { useLessonSession } from '@/hooks/use-lesson-session';
+import type { LessonSlot } from '@/hooks/use-lesson-session';
 import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
 import { EndSessionSummary } from './end-session-summary';
@@ -34,44 +36,6 @@ function getLocalStorageStudents(classId: string, fallback: Student[]): Student[
   return fallback;
 }
 
-// Lesson slot type (matches lesson-planner)
-type LessonSlot = {
-  type: 'activity' | 'game';
-  key: string;
-  name: string;
-};
-
-// Load lesson plan content from sessionStorage
-function getLessonPlanContent(): {
-  customTopic: string;
-  slots: LessonSlot[];
-  generatedContent: Record<string, ActivityGeneratedContent>;
-  generatedGameContent: Record<string, GameGeneratedContent>;
-  goal?: string;
-  isMissionBased?: boolean;
-} | null {
-  if (typeof window === 'undefined') return null;
-  try {
-    const stored = sessionStorage.getItem('lessonPlanContent');
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      return {
-        customTopic: parsed.customTopic,
-        slots: parsed.slots || [],
-        generatedContent: parsed.generatedContent || {},
-        generatedGameContent: parsed.generatedGameContent || {},
-        goal: parsed.goal,
-        isMissionBased: parsed.isMissionBased,
-      };
-    }
-  } catch (e) {
-    console.error('Failed to load lesson plan content:', e);
-  }
-  return null;
-}
-
-const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-round', 'opinion-shift']);
-
 type ViewMode = 'selection' | 'game' | 'activity';
 
 interface SessionViewProps {
@@ -82,7 +46,7 @@ interface SessionViewProps {
 }
 
 export function SessionView({ session, cls, students: serverStudents, existingScores }: SessionViewProps) {
-  const { initSession, settings, setCustomTopic, addStudent } = useSessionStore();
+  const { initSession, settings, addStudent } = useSessionStore();
   const [viewMode, setViewMode] = useState<ViewMode>('selection');
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<ActivityPlugin | null>(null);
@@ -90,196 +54,27 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [gameContent, setGameContent] = useState<GameGeneratedContent | null>(null);
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
-  const [lessonPlanLoaded, setLessonPlanLoaded] = useState(false);
-  const [isGeneratingContent, setIsGeneratingContent] = useState(false);
   const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
-  const supabase = createClient();
-  const games = getAllGames();
-  const activities = getAllActivities();
-
-  // Load lesson plan content from sessionStorage on mount
-  const [lessonPlanContent, setLessonPlanContent] = useState<{
-    customTopic: string;
-    slots: LessonSlot[];
-    generatedContent: Record<string, ActivityGeneratedContent>;
-    generatedGameContent: Record<string, GameGeneratedContent>;
-    goal?: string;
-    isMissionBased?: boolean;
-  } | null>(null);
-  const [isMissionBased, setIsMissionBased] = useState(false);
-
-  // Lesson mode state
-  const [lessonMode, setLessonMode] = useState(false);
-  const [lessonSlots, setLessonSlots] = useState<LessonSlot[]>([]);
-  const [currentSlotIndex, setCurrentSlotIndex] = useState(0);
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
   const settingsPopoverRef = useRef<HTMLDivElement>(null);
+  const supabase = createClient();
+  const games = getAllGames();
+  const activities = getAllActivities();
 
-  // Lobby state — active when lesson plan has slots but content generated lazily
-  const [lobbyActive, setLobbyActive] = useState(false);
-  const [missionSelectorReady, setMissionSelectorReady] = useState(false);
-  const [missionSelectorGenerating, setMissionSelectorGenerating] = useState(false);
+  // ─── Lesson session controller ─────────────────────────────────────────
+  const lesson = useLessonSession(session.id, settings, students.length);
 
-  // Prefetched content for lazy generation
-  const prefetchedContentRef = useRef<Record<string, ActivityGeneratedContent | GameGeneratedContent>>({});
-  const prefetchingKeysRef = useRef<Set<string>>(new Set());
-
-  // Generating bridge state — shown when transitioning between modules
-  const [generatingBridgeModule, setGeneratingBridgeModule] = useState<string | null>(null);
-
+  // Auto-start the current slot when it changes (driven by the hook)
+  const lastAutoStartedSlotRef = useRef<number>(-1);
   useEffect(() => {
-    const content = getLessonPlanContent();
-    if (content) {
-      setLessonPlanContent(content);
-      setCustomTopic(content.customTopic);
-      setLessonPlanLoaded(true);
-      if (content.isMissionBased) {
-        setIsMissionBased(true);
-      }
+    if (lesson.phase === 'idle' || lesson.phase === 'ended') return;
+    if (lesson.currentSlot === null) return;
+    if (lastAutoStartedSlotRef.current === lesson.currentSlotIndex) return;
 
-      // Enable lesson mode if we have slots
-      if (content.slots && content.slots.length > 0) {
-        setLessonSlots(content.slots);
-
-        // Check if content is structure-only (empty generatedContent)
-        const hasPreGenerated = Object.keys(content.generatedContent).length > 0 ||
-          Object.keys(content.generatedGameContent).length > 0;
-
-        if (hasPreGenerated) {
-          // Legacy path: content was pre-generated, start immediately
-          setLessonMode(true);
-        } else {
-          // New path: structure-only, show lobby
-          setLobbyActive(true);
-        }
-      }
-    }
-  }, [setCustomTopic]);
-
-  // Generate mission-selector content in background when lobby is active
-  useEffect(() => {
-    if (!lobbyActive || missionSelectorReady || missionSelectorGenerating) return;
-
-    const missionSlot = lessonSlots.find((s) => s.key === 'mission-selector');
-    if (!missionSlot) {
-      // No mission selector in plan — mark ready immediately
-      setMissionSelectorReady(true);
-      return;
-    }
-
-    setMissionSelectorGenerating(true);
-
-    const topic = lessonPlanContent?.customTopic || '';
-    const difficulty = settings.difficulty;
-    const goal = lessonPlanContent?.goal;
-
-    fetch('/api/lesson-plan/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        customTopic: topic,
-        difficulty,
-        goal,
-        activities: ['mission-selector'],
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success !== false && data.content?.['mission-selector']) {
-          prefetchedContentRef.current['mission-selector'] = data.content['mission-selector'];
-        }
-        setMissionSelectorReady(true);
-      })
-      .catch((err) => {
-        console.error('Failed to generate mission-selector content:', err);
-        setMissionSelectorReady(true); // still allow start — will show fallback
-      })
-      .finally(() => {
-        setMissionSelectorGenerating(false);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lobbyActive, missionSelectorReady, missionSelectorGenerating]);
-
-  // Handle "Begin Lesson" from lobby
-  const handleBeginLesson = () => {
-    setLobbyActive(false);
-    setLessonMode(true);
-    // Auto-start first slot (mission-selector)
-    autoStartSlot(0);
-  };
-
-  // Auto-start first slot when lesson mode is enabled (legacy pre-generated path)
-  useEffect(() => {
-    if (lessonMode && !lobbyActive && lessonSlots.length > 0 && viewMode === 'selection' && !selectedGame && !selectedActivity) {
-      autoStartSlot(0);
-    }
-    // Only run on initial lesson mode setup
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lessonMode]);
-
-  // Prefetch a module's content in the background
-  const prefetchModule = useCallback((slotIndex: number) => {
-    if (slotIndex < 0 || slotIndex >= lessonSlots.length) return;
-    const slot = lessonSlots[slotIndex];
-    const key = slot.key;
-
-    // Skip if already prefetched or currently prefetching
-    if (prefetchedContentRef.current[key] || prefetchingKeysRef.current.has(key)) return;
-    // Skip if we have pre-generated content
-    if (lessonPlanContent?.generatedContent[key] || lessonPlanContent?.generatedGameContent?.[key]) return;
-
-    prefetchingKeysRef.current.add(key);
-
-    const effectiveTopic = getEffectiveTopic(settings);
-    const missionContext = getMissionContext();
-    const isLanding = LANDING_ACTIVITY_KEYS.has(key);
-    const isGame = slot.type === 'game';
-
-    const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
-    const body = isLanding
-      ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty }
-      : isGame
-        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], ...(missionContext.length > 0 ? { missionContext } : {}) }
-        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount: students.length, ...(missionContext.length > 0 ? { missionContext } : {}) };
-
-    fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success === false) return;
-        if (isLanding && data.content) {
-          prefetchedContentRef.current[key] = data.content;
-        } else if (isGame && data.gameContent?.[key]) {
-          prefetchedContentRef.current[key] = data.gameContent[key];
-        } else if (data.content?.[key]) {
-          prefetchedContentRef.current[key] = data.content[key];
-        }
-      })
-      .catch((err) => {
-        console.error(`Failed to prefetch ${key}:`, err);
-      })
-      .finally(() => {
-        prefetchingKeysRef.current.delete(key);
-      });
-  }, [lessonSlots, lessonPlanContent, settings, students.length]);
-
-  // Get mission context from session store
-  const getMissionContext = useCallback((): string[] => {
-    const missions = useSessionStore.getState().studentMissions;
-    const all = Object.values(missions);
-    return Array.from(new Set(all)).slice(0, 5);
-  }, []);
-
-  const autoStartSlot = (index: number) => {
-    if (index >= lessonSlots.length) return;
-
-    const slot = lessonSlots[index];
-    setCurrentSlotIndex(index);
+    lastAutoStartedSlotRef.current = lesson.currentSlotIndex;
+    const slot = lesson.currentSlot;
 
     if (slot.type === 'activity') {
       const activity = activities.find((a) => a.key === slot.key);
@@ -292,43 +87,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         handleSelectGame(game);
       }
     }
-
-    // Prefetch next module
-    if (index + 1 < lessonSlots.length) {
-      // Small delay to avoid competing with current module's generation
-      setTimeout(() => prefetchModule(index + 1), 500);
-    }
-  };
-
-  const handleNextSlot = () => {
-    const nextIndex = currentSlotIndex + 1;
-    if (nextIndex < lessonSlots.length) {
-      autoStartSlot(nextIndex);
-    } else {
-      // Lesson complete - return to selection
-      setLessonMode(false);
-      handleBackToSelection();
-    }
-  };
-
-  const handleExitLessonMode = () => {
-    setLessonMode(false);
-    handleBackToSelection();
-  };
-
-  // After mission-selector finishes, prefetch the next 2 modules
-  const handlePhaseChange = useCallback((phase: string) => {
-    if (phase === 'finished' && currentSlotIndex === 0) {
-      // Mission selector just finished — prefetch next 2 modules with mission context
-      // Small delay to let missions store settle
-      setTimeout(() => {
-        prefetchModule(1);
-        if (lessonSlots.length > 2) {
-          setTimeout(() => prefetchModule(2), 200);
-        }
-      }, 300);
-    }
-  }, [currentSlotIndex, lessonSlots.length, prefetchModule]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson.currentSlotIndex, lesson.phase, lesson.currentSlot]);
 
   // In mock mode, load students from localStorage
   useEffect(() => {
@@ -351,7 +111,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // Sync new students into the store without resetting state
   useEffect(() => {
-    if (!initDone.current) return; // Skip until init is done
+    if (!initDone.current) return;
     students.forEach((s) => addStudent(s));
   }, [students, addStudent]);
 
@@ -388,7 +148,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   const handleEndSession = async () => {
     await supabase.from('sessions').update({ status: 'ended', ended_at: new Date().toISOString() }).eq('id', session.id);
-    // Clear lesson plan content from sessionStorage
     sessionStorage.removeItem('lessonPlanContent');
     setEnded(true);
   };
@@ -405,23 +164,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setSelectedActivity(null);
     setActivityContent(null);
 
-    // Check prefetched content first
-    const prefetched = prefetchedContentRef.current[game.key] as GameGeneratedContent | undefined;
-    if (prefetched) {
-      setGameContent(prefetched);
-      setViewMode('game');
-      return;
-    }
-
-    // Check if we have pre-generated content from lesson planner
-    if (lessonPlanContent?.generatedGameContent?.[game.key]) {
-      setGameContent(lessonPlanContent.generatedGameContent[game.key]);
-      setViewMode('game');
-      return;
-    }
-
-    // No pre-generated content — games handle this internally via their own generate-round APIs
-    setGameContent(null);
+    const resolved = lesson.selectGame(game);
+    setGameContent(resolved);
     setViewMode('game');
   };
 
@@ -430,73 +174,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setSelectedGame(null);
     setViewMode('activity');
 
-    // Check prefetched content first
-    const prefetched = prefetchedContentRef.current[activity.key] as ActivityGeneratedContent | undefined;
-    if (prefetched) {
-      setActivityContent(prefetched);
-      return;
-    }
-
-    // Check for mission-system content overrides (e.g. re-generated after Mission Selector)
-    const contentOverride = useSessionStore.getState().contentOverrides[activity.key];
-    if (contentOverride) {
-      setActivityContent(contentOverride);
-      return;
-    }
-
-    // Check if we have pre-generated content from lesson planner
-    if (lessonPlanContent?.generatedContent[activity.key]) {
-      setActivityContent(lessonPlanContent.generatedContent[activity.key]);
-      return;
-    }
-
-    // Generate content on-the-fly
-    const isLanding = LANDING_ACTIVITY_KEYS.has(activity.key);
-
-    // Show bridge state if in lesson mode (not generic spinner)
-    if (lessonMode) {
-      setGeneratingBridgeModule(activity.name);
-    }
-    setIsGeneratingContent(true);
-
-    try {
-      const effectiveTopic = getEffectiveTopic(settings);
-      const missionContext = getMissionContext();
-      const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
-      const body = isLanding
-        ? JSON.stringify({ activityKey: activity.key, topic: effectiveTopic, difficulty: settings.difficulty })
-        : JSON.stringify({
-            customTopic: effectiveTopic,
-            difficulty: settings.difficulty,
-            activities: [activity.key],
-            studentCount: students.length,
-            ...(missionContext.length > 0 ? { missionContext } : {}),
-          });
-
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body,
-      });
-
-      const data = await response.json();
-      const resolvedContent = isLanding ? data.content : data.content?.[activity.key];
-      if (data.success !== false && resolvedContent) {
-        setActivityContent(resolvedContent);
-      } else {
-        throw new Error('Failed to generate activity content');
-      }
-    } catch (error) {
-      console.error('Failed to generate activity content:', error);
-      // Provide fallback empty content
-      setActivityContent({
-        activityKey: activity.key,
-        topicContext: getEffectiveTopic(settings),
-      });
-    } finally {
-      setIsGeneratingContent(false);
-      setGeneratingBridgeModule(null);
-    }
+    const resolved = await lesson.selectActivity(activity);
+    setActivityContent(resolved);
   };
 
   const getTimerForPlugin = useCallback((key: string, defaultTimer: number) => {
@@ -513,6 +192,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setSelectedActivity(null);
     setActivityContent(null);
     setGameContent(null);
+  };
+
+  const handleNextSlot = () => {
+    lesson.advanceSlot();
+  };
+
+  const handleExitLessonMode = () => {
+    lesson.exitLesson();
+    handleBackToSelection();
   };
 
   // Close settings popover on click outside
@@ -532,7 +220,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }
 
   // ─── LOBBY VIEW ──────────────────────────────────────────────────────────
-  if (lobbyActive) {
+  if (lesson.phase === 'lobby') {
     const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/join/${session.id}` : '';
     const joinCode = session.id.slice(0, 6).toUpperCase();
 
@@ -543,8 +231,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold">Launch Lobby</h1>
             <p className="text-sm opacity-70">
-              {lessonPlanContent?.customTopic}
-              {isMissionBased && <span className="ml-2 text-amber-400">Mission Lesson</span>}
+              {lesson.customTopic}
+              {lesson.isMissionBased && <span className="ml-2 text-amber-400">Mission Lesson</span>}
             </p>
           </div>
 
@@ -603,7 +291,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               Flight Plan
             </h2>
             <div className="flex gap-2 overflow-x-auto pb-1">
-              {lessonSlots.map((slot, i) => (
+              {lesson.lessonSlots.map((slot, i) => (
                 <div
                   key={i}
                   className="flex-shrink-0 px-3 py-2 bg-white/5 rounded-lg text-xs text-center min-w-[80px]"
@@ -618,7 +306,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           {/* Mission Selector Status */}
           <div className="glass rounded-2xl p-4">
             <div className="flex items-center gap-3">
-              {missionSelectorReady ? (
+              {lesson.missionSelectorReady ? (
                 <>
                   <div className="w-3 h-3 bg-emerald-400 rounded-full" />
                   <span className="text-sm text-emerald-300">Mission Selector ready</span>
@@ -634,8 +322,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
           {/* Begin Lesson */}
           <button
-            onClick={handleBeginLesson}
-            disabled={!missionSelectorReady}
+            onClick={lesson.beginLesson}
+            disabled={!lesson.missionSelectorReady}
             className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             Begin Lesson
@@ -665,10 +353,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <h1 className="text-xl font-bold">{cls.name} — Live Session</h1>
             <p className="text-sm opacity-70">
               {students.length} students
-              {isMissionBased && (
+              {lesson.isMissionBased && (
                 <span className="ml-2 text-amber-400">Mission Lesson</span>
               )}
-              {lessonPlanLoaded && !isMissionBased && (
+              {lesson.lessonPlanContent && !lesson.isMissionBased && (
                 <span className="ml-2 text-cyan-400">Lesson Plan Loaded</span>
               )}
             </p>
@@ -719,7 +407,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <div>
               <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
                 Discussion Activities
-                {lessonPlanLoaded && (
+                {lesson.lessonPlanContent && (
                   <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
                     Content Ready
                   </span>
@@ -738,7 +426,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {categoryActivities.map((activity) => {
-                        const hasContent = lessonPlanContent?.generatedContent[activity.key] || prefetchedContentRef.current[activity.key];
+                        const hasContent = lesson.lessonPlanContent?.generatedContent[activity.key];
                         const ActivityIcon = activity.icon;
                         return (
                           <button
@@ -793,7 +481,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <div>
               <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
                 Skill Games
-                {lessonPlanContent?.generatedGameContent && Object.keys(lessonPlanContent.generatedGameContent).length > 0 && (
+                {lesson.lessonPlanContent?.generatedGameContent && Object.keys(lesson.lessonPlanContent.generatedGameContent).length > 0 && (
                   <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
                     Content Ready
                   </span>
@@ -812,7 +500,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {categoryGames.map((game) => {
-                        const hasContent = lessonPlanContent?.generatedGameContent?.[game.key] || prefetchedContentRef.current[game.key];
+                        const hasContent = lesson.lessonPlanContent?.generatedGameContent?.[game.key];
                         const GameIcon = game.icon;
                         return (
                           <button
@@ -863,54 +551,26 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : viewMode === 'game' && selectedGame ? (
           <div>
             {/* Lesson Mode Progress Bar */}
-            {lessonMode && (
-              <div className="glass rounded-xl p-4 mb-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-cyan-400">
-                    Lesson Progress: Step {currentSlotIndex + 1} of {lessonSlots.length}
-                  </span>
-                  <button
-                    onClick={handleExitLessonMode}
-                    className="text-xs text-gray-400 hover:text-white transition-colors"
-                  >
-                    Exit Lesson Mode
-                  </button>
-                </div>
-                <div className="flex gap-1">
-                  {lessonSlots.map((slot, idx) => (
-                    <div
-                      key={idx}
-                      className={`flex-1 h-2 rounded-full transition-all ${
-                        idx < currentSlotIndex
-                          ? 'bg-green-500'
-                          : idx === currentSlotIndex
-                            ? 'bg-cyan-500'
-                            : 'bg-white/20'
-                      }`}
-                      title={slot.name}
-                    />
-                  ))}
-                </div>
-                <div className="flex justify-center mt-2">
-                  <span className="text-xs opacity-60">
-                    {lessonSlots[currentSlotIndex]?.name}
-                  </span>
-                </div>
-              </div>
+            {lesson.isLessonActive && (
+              <LessonProgressBar
+                slots={lesson.lessonSlots}
+                currentIndex={lesson.currentSlotIndex}
+                onExit={handleExitLessonMode}
+              />
             )}
 
             <div className="mb-4 flex items-center justify-between">
-              <Button variant="ghost" size="sm" onClick={lessonMode ? handleExitLessonMode : handleBackToSelection}>
-                ← {lessonMode ? 'Exit Lesson' : 'Back to selection'}
+              <Button variant="ghost" size="sm" onClick={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}>
+                ← {lesson.isLessonActive ? 'Exit Lesson' : 'Back to selection'}
               </Button>
-              {lessonMode && (
+              {lesson.isLessonActive && (
                 <Button
                   variant="primary"
                   size="sm"
                   onClick={handleNextSlot}
                   className="bg-gradient-to-r from-cyan-500 to-blue-600"
                 >
-                  {currentSlotIndex + 1 < lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
+                  {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
                 </Button>
               )}
             </div>
@@ -919,64 +579,36 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : viewMode === 'activity' && selectedActivity ? (
           <div>
             {/* Lesson Mode Progress Bar */}
-            {lessonMode && (
-              <div className="glass rounded-xl p-4 mb-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-cyan-400">
-                    Lesson Progress: Step {currentSlotIndex + 1} of {lessonSlots.length}
-                  </span>
-                  <button
-                    onClick={handleExitLessonMode}
-                    className="text-xs text-gray-400 hover:text-white transition-colors"
-                  >
-                    Exit Lesson Mode
-                  </button>
-                </div>
-                <div className="flex gap-1">
-                  {lessonSlots.map((slot, idx) => (
-                    <div
-                      key={idx}
-                      className={`flex-1 h-2 rounded-full transition-all ${
-                        idx < currentSlotIndex
-                          ? 'bg-green-500'
-                          : idx === currentSlotIndex
-                            ? 'bg-cyan-500'
-                            : 'bg-white/20'
-                      }`}
-                      title={slot.name}
-                    />
-                  ))}
-                </div>
-                <div className="flex justify-center mt-2">
-                  <span className="text-xs opacity-60">
-                    {lessonSlots[currentSlotIndex]?.name}
-                  </span>
-                </div>
-              </div>
+            {lesson.isLessonActive && (
+              <LessonProgressBar
+                slots={lesson.lessonSlots}
+                currentIndex={lesson.currentSlotIndex}
+                onExit={handleExitLessonMode}
+              />
             )}
 
             <div className="mb-4 flex items-center justify-between">
-              <Button variant="ghost" size="sm" onClick={lessonMode ? handleExitLessonMode : handleBackToSelection}>
-                ← {lessonMode ? 'Exit Lesson' : 'Back to selection'}
+              <Button variant="ghost" size="sm" onClick={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}>
+                ← {lesson.isLessonActive ? 'Exit Lesson' : 'Back to selection'}
               </Button>
-              {lessonMode && (
+              {lesson.isLessonActive && (
                 <Button
                   variant="primary"
                   size="sm"
                   onClick={handleNextSlot}
                   className="bg-gradient-to-r from-cyan-500 to-blue-600"
                 >
-                  {currentSlotIndex + 1 < lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
+                  {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
                 </Button>
               )}
             </div>
-            {isGeneratingContent ? (
+            {lesson.isGeneratingContent ? (
               <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
                 <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mb-4" />
-                {generatingBridgeModule ? (
+                {lesson.generatingModuleName ? (
                   <>
                     <p className="text-lg font-game text-cyan-400">
-                      Preparing {generatingBridgeModule}
+                      Preparing {lesson.generatingModuleName}
                     </p>
                     <p className="text-sm opacity-60 mt-2">
                       Generating content for your lesson...
@@ -1007,7 +639,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 activity={selectedActivity}
                 generatedContent={activityContent}
                 timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
-                onPhaseChange={lessonMode ? handlePhaseChange : undefined}
+                onPhaseChange={lesson.isLessonActive ? lesson.handlePhaseChange : undefined}
               />
             ) : (
               <div className="glass rounded-2xl p-12 text-center">
@@ -1062,6 +694,45 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Extracted component: Lesson Progress Bar ────────────────────────────────
+function LessonProgressBar({ slots, currentIndex, onExit }: { slots: LessonSlot[]; currentIndex: number; onExit: () => void }) {
+  return (
+    <div className="glass rounded-xl p-4 mb-4">
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-sm font-semibold text-cyan-400">
+          Lesson Progress: Step {currentIndex + 1} of {slots.length}
+        </span>
+        <button
+          onClick={onExit}
+          className="text-xs text-gray-400 hover:text-white transition-colors"
+        >
+          Exit Lesson Mode
+        </button>
+      </div>
+      <div className="flex gap-1">
+        {slots.map((slot, idx) => (
+          <div
+            key={idx}
+            className={`flex-1 h-2 rounded-full transition-all ${
+              idx < currentIndex
+                ? 'bg-green-500'
+                : idx === currentIndex
+                  ? 'bg-cyan-500'
+                  : 'bg-white/20'
+            }`}
+            title={slot.name}
+          />
+        ))}
+      </div>
+      <div className="flex justify-center mt-2">
+        <span className="text-xs opacity-60">
+          {slots[currentIndex]?.name}
+        </span>
+      </div>
     </div>
   );
 }
