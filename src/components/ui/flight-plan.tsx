@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useMemo } from 'react';
+import React, { useEffect, useId, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plane, CircleDot, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -749,18 +749,19 @@ export function LessonCaptainFlightPlan({
   const points = useMemo(() => computeNodeLayout(safeSteps, width, height), [safeSteps, width, height]);
   const takeoffPoint = points[0];
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const rawIds = [useId(), useId(), useId(), useId(), useId(), useId(), useId()];
-  const ids: LayerIds = useMemo(() => ({
-    routeGradient: rawIds[0].replace(/:/g, ''),
-    routeGlow: rawIds[1].replace(/:/g, ''),
-    routeBloom: rawIds[2].replace(/:/g, ''),
-    routeHighlight: rawIds[3].replace(/:/g, ''),
-    nodeGlow: rawIds[4].replace(/:/g, ''),
-    nodePulseGlow: rawIds[5].replace(/:/g, ''),
-    planeGlow: rawIds[6].replace(/:/g, ''),
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), []);
+  const baseId = useId();
+  const ids: LayerIds = useMemo(() => {
+    const s = baseId.replace(/:/g, '');
+    return {
+      routeGradient: `${s}-rg`,
+      routeGlow: `${s}-rgw`,
+      routeBloom: `${s}-rb`,
+      routeHighlight: `${s}-rh`,
+      nodeGlow: `${s}-ng`,
+      nodePulseGlow: `${s}-npg`,
+      planeGlow: `${s}-pg`,
+    };
+  }, [baseId]);
 
   const derivedActiveIndex = useMemo(() => {
     if (mode === 'planner') return 0;
@@ -770,37 +771,45 @@ export function LessonCaptainFlightPlan({
     return Math.min(2.35, Math.max(points.length - 1, 0));
   }, [mode, controlledActiveIndex, points.length]);
 
+  // Prevent SSR of framer-motion + SVG foreignObject content (causes hydration mismatch #418)
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   return (
     <div
       className={`relative w-full overflow-hidden rounded-[28px] border border-white/10 bg-[#07111f] shadow-[0_20px_80px_rgba(0,0,0,0.45)] ${className}`}
       style={{ aspectRatio: `${width} / ${height}` }}
     >
-      <BackgroundLayer width={width} height={height} />
+      {!mounted ? null : (
+        <>
+          <BackgroundLayer width={width} height={height} />
 
-      <motion.div
-        className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 md:px-8"
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div>
-          <div className="text-[11px] uppercase tracking-[0.28em] text-cyan-200/55">LessonCaptain</div>
-          <h2 className="mt-1 text-xl font-semibold tracking-tight text-white md:text-2xl">Flight Plan</h2>
-        </div>
+          <motion.div
+            className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 md:px-8"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.28em] text-cyan-200/55">LessonCaptain</div>
+              <h2 className="mt-1 text-xl font-semibold tracking-tight text-white md:text-2xl">Flight Plan</h2>
+            </div>
 
-        <div className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs text-white/65 backdrop-blur-xl">
-          {safeSteps.length - 2} Modules
-        </div>
-      </motion.div>
+            <div className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs text-white/65 backdrop-blur-xl">
+              {safeSteps.length - 2} Modules
+            </div>
+          </motion.div>
 
-      <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/[0.06]" />
-      <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_18%,transparent_34%)]" />
+          <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/[0.06]" />
+          <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_18%,transparent_34%)]" />
 
-      <PathLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
-      <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} />
-      <PlaneLayer width={width} height={height} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
+          <PathLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
+          <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} />
+          <PlaneLayer width={width} height={height} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#050b15] to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#050b15] to-transparent" />
+        </>
+      )}
     </div>
   );
 }
