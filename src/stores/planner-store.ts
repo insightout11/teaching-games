@@ -237,6 +237,12 @@ export const usePlannerStore = create<PlannerState>()(
     }),
     {
       name: 'lc-planner',
+      version: 2,
+      migrate: (persisted) => {
+        // Strip step from old cached data (was persisted in v1, causes hydration crash)
+        const { step: _drop, ...rest } = persisted as Record<string, unknown>;
+        return rest;
+      },
       partialize: (state) => ({
         topic: state.topic,
         difficulty: state.difficulty,
