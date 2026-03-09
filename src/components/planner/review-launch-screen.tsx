@@ -89,9 +89,12 @@ export function ReviewLaunchScreen() {
 
     setCreating(true);
     const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setCreating(false); return; }
+
     const { data, error: insertError } = await supabase
       .from('classes')
-      .insert({ name: trimmed })
+      .insert({ name: trimmed, teacher_id: user.id })
       .select('id, name')
       .single();
 

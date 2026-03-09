@@ -344,7 +344,9 @@ export function useLessonSession(
       pendingAutoStartRef.current = null;
       autoStartCallbackRef.current?.(index);
     }
-  });
+    // phase always changes when pendingAutoStartRef is set (beginLesson/advanceSlot)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
 
   // ─── Actions ───────────────────────────────────────────────────────────
 
