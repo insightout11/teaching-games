@@ -25,22 +25,25 @@ function getMissionType(goal?: string): MissionType {
 }
 
 const TYPE_INSTRUCTIONS: Record<MissionType, string> = {
-  curiosity: `Generate 6 personal opinion questions a student will answer at lesson end.
+  curiosity: `Generate 6 personal opinion or challenge questions a student will answer at lesson end.
 Each question should be:
 - Answerable in 2-3 sentences with a clear personal position
 - Revisitable after the lesson's activities (the student should have something new to say)
-- Grounded in everyday experience, not abstract or philosophical
-Examples for "travel": "Would you rather travel alone or with a group — and why?", "What's one place you'd love to visit and why does it appeal to you?", "Do you think it's better to plan a trip carefully or go with the flow?"
-AVOID: broad philosophical debates ("Is travel important?"), yes/no questions with no follow-up, questions that can't be answered from personal experience.
-PREFER: "Would you rather…", "What would you do if…", "Do you think… and why?"`,
-  skill: `Generate 6 short language-use challenges a student will complete at lesson end.
-Each must be achievable in 1-2 sentences using a specific grammar structure or vocabulary target.
-Examples for "travel": "Write one sentence comparing two destinations using 'whereas'", "Describe your ideal trip using exactly 3 adjectives", "Use 'although' to describe a travel experience"
-AVOID open discussion. PREFER concrete tasks: Use X to..., Write one sentence with..., Describe Y using...`,
-  performance: `Generate 6 specific speaking or writing challenges a student will perform at lesson end.
-Each must be finite and completable in under 90 seconds.
-Examples for "travel": "Recommend one destination in exactly 3 sentences", "Tell a 60-second story about a real or imagined trip", "Convince a reluctant friend to try solo travel"
-AVOID vague prompts. PREFER actionable tasks: Recommend, Convince, Describe, Tell the story of...`,
+- Framed as a scenario, challenge, or opinion task — NOT a worksheet question
+Examples for "travel": "Would you rather travel alone or with a group — and why?", "You just won a free trip anywhere. Where do you go and why?", "Your friend says travelling is a waste of money. How do you respond?"
+AVOID: broad philosophical debates ("Is travel important?"), yes/no questions with no follow-up, anything that reads like a test or worksheet.
+PREFER: "Would you rather…", "What would you do if…", "Your friend says… How do you respond?"`,
+  skill: `Generate 6 scenario-based challenges that naturally require a specific grammar structure or vocabulary target.
+Each must be achievable in 1-2 sentences. The grammar target must be IMPLICIT — the scenario naturally requires the target structure.
+NEVER use teacher language like "Write a sentence using X", "Use X to describe Y", or "Describe Y using…".
+Examples for "travel": "You forgot something important on a beach trip. What should you have brought?", "Which is more relaxing: swimming or lying in the sun? Compare them.", "A friend missed the last flight. What happened and what would you have done?"
+AVOID: grammar drills, worksheet instructions ("Use 'although' to…"), anything starting with "Write", "Use", or "Describe…using…".
+PREFER: mini-scenarios that force the target structure: "What would have happened if…", "Compare X and Y", "You just discovered that…"`,
+  performance: `Generate 6 scenario-based speaking or writing challenges a student will perform at lesson end.
+Each must be finite and completable in under 90 seconds. Frame as a scenario or challenge, not an instruction.
+Examples for "travel": "A tourist asks you for the best restaurant in town. Convince them to go there.", "You're a travel agent. Sell a holiday to a difficult customer in 3 sentences.", "Your friend had a terrible hotel experience. Tell them about yours — was it better or worse?"
+AVOID: vague or generic prompts, anything that reads like an assignment ("Write about…", "Describe…").
+PREFER: role-play scenarios, mini-challenges, persuasion tasks: "Convince…", "You're a… and you need to…", "Tell the story of…"`,
 };
 
 export async function generateMissionSelectorContent(
@@ -75,6 +78,8 @@ Rules:
 - Must be relevant to the topic
 - Appropriate for the difficulty level
 - No duplicates
+- Mission prompts must NEVER read like grammar exercises or worksheet instructions
+- Frame every mission as a scenario, challenge, or opinion task
 
 Return JSON with a "questions" array of exactly 6 strings.`;
 

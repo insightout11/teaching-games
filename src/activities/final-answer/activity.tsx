@@ -73,6 +73,7 @@ export function FinalAnswerActivity({
 }: ActivityProps) {
   const content = generatedContent as FinalAnswerContent;
   const timerSeconds = sessionSettings.timerSeconds ?? 60;
+  const hasMissions = studentMissions && Object.keys(studentMissions).length > 0;
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [submissions, setSubmissions] = useState<Record<string, Submission>>({});
@@ -110,12 +111,12 @@ export function FinalAnswerActivity({
     onSetInputSpec?.({
       type: 'textarea',
       gameKey: 'final-answer',
-      prompt: content.prompt,
-      placeholder: content.sentenceStarter ?? 'Write your answer in one sentence...',
+      prompt: hasMissions ? 'Answer your mission question below.' : content.prompt,
+      placeholder: hasMissions ? 'Write your answer...' : (content.sentenceStarter ?? 'Write your answer in one sentence...'),
       maxLength: 200,
       keywords: content.targetKeywords,
     });
-  }, [phase, content.prompt, content.sentenceStarter, onSetInputSpec]);
+  }, [phase, content.prompt, content.sentenceStarter, onSetInputSpec, hasMissions]);
 
   // Vote handler
   useEffect(() => {
@@ -170,6 +171,7 @@ export function FinalAnswerActivity({
           labelCandidates: effectiveLabels,
           responses,
           weights: FINAL_ANSWER_WEIGHTS,
+          ...(hasMissions && { studentMissions }),
         }),
       });
       if (!res.ok) throw new Error('Score fetch failed');
@@ -224,7 +226,7 @@ export function FinalAnswerActivity({
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-teal-400">Final Answer</h3>
+        <h3 className="text-lg font-semibold text-teal-400">{hasMissions ? 'Mission Debrief' : 'Final Answer'}</h3>
         {phase === 'collecting' && (
           <span className="text-sm opacity-60">{submissionCount} submitted</span>
         )}
@@ -233,18 +235,33 @@ export function FinalAnswerActivity({
       {/* IDLE */}
       {phase === 'idle' && (
         <div className="space-y-6">
-          <div className="glass p-5 rounded-2xl space-y-3">
-            <p className="text-xl font-semibold">{content.prompt}</p>
-            {content.sentenceStarter && (
-              <p className="text-sm opacity-60">Starter: <em>{content.sentenceStarter}</em></p>
-            )}
-            <div className="flex flex-wrap gap-2 pt-1">
-              {content.targetKeywords.map((kw) => (
-                <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
-              ))}
+          {hasMissions ? (
+            <div className="glass p-5 rounded-2xl space-y-3">
+              <p className="text-xl font-semibold">Mission Debrief</p>
+              <p className="text-sm opacity-70">Each student will answer their personal mission</p>
+              <p className="text-xs opacity-50">{Object.keys(studentMissions).length} mission{Object.keys(studentMissions).length !== 1 ? 's' : ''} assigned</p>
+              {content.targetKeywords.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {content.targetKeywords.map((kw) => (
+                    <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-          {content.exampleAnswer && (
+          ) : (
+            <div className="glass p-5 rounded-2xl space-y-3">
+              <p className="text-xl font-semibold">{content.prompt}</p>
+              {content.sentenceStarter && (
+                <p className="text-sm opacity-60">Starter: <em>{content.sentenceStarter}</em></p>
+              )}
+              <div className="flex flex-wrap gap-2 pt-1">
+                {content.targetKeywords.map((kw) => (
+                  <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
+                ))}
+              </div>
+            </div>
+          )}
+          {!hasMissions && content.exampleAnswer && (
             <div className="glass p-4 rounded-xl border border-teal-500/20 space-y-1">
               <p className="text-xs opacity-50 uppercase tracking-widest">Model answer (teacher only)</p>
               <p className="text-sm opacity-80 italic">{content.exampleAnswer}</p>
@@ -265,9 +282,13 @@ export function FinalAnswerActivity({
       {phase === 'collecting' && (
         <div className="space-y-6">
           <div className="glass p-5 rounded-2xl border-2 border-teal-500/30">
-            <p className="text-xl font-semibold">{content.prompt}</p>
-            {content.sentenceStarter && (
-              <p className="text-sm opacity-60 mt-2">Starter: <em>{content.sentenceStarter}</em></p>
+            <p className="text-xl font-semibold">{hasMissions ? 'Mission Debrief' : content.prompt}</p>
+            {hasMissions ? (
+              <p className="text-sm opacity-70 mt-2">Students are answering their missions</p>
+            ) : (
+              content.sentenceStarter && (
+                <p className="text-sm opacity-60 mt-2">Starter: <em>{content.sentenceStarter}</em></p>
+              )
             )}
             {content.targetKeywords.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-2">

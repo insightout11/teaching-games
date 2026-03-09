@@ -14,7 +14,7 @@ export interface PlanModule {
 }
 
 export function moduleCountForDuration(minutes: 30 | 45 | 60 | 90): number {
-  return { 30: 3, 45: 4, 60: 5, 90: 7 }[minutes];
+  return { 30: 4, 45: 4, 60: 5, 90: 7 }[minutes];
 }
 
 // Middle slot sequences indexed by middle-slot count (total - 2)
@@ -70,7 +70,7 @@ export function suggestModules(
     const candidates = FLIGHT_PLAN_ITEMS.filter(
       (item) => !usedKeys.has(item.key) && !prevAvoid.includes(item.key),
     );
-    const best = pickBest(candidates, goal, level, slotType);
+    const best = pickBest(candidates, goal, level, slotType, prevKey);
     if (!best) continue;
 
     usedKeys.add(best.key);
@@ -118,7 +118,9 @@ function pickBest(
   goal: GoalTag,
   level: 'beginner' | 'intermediate' | 'advanced',
   targetSlot: SlotType,
+  prevKey?: string | null,
 ): (typeof FLIGHT_PLAN_ITEMS)[0] | null {
+  const prevItem = prevKey ? FLIGHT_PLAN_ITEMS.find((i) => i.key === prevKey) : null;
   let best: (typeof FLIGHT_PLAN_ITEMS)[0] | null = null;
   let bestScore = -Infinity;
 
@@ -127,6 +129,9 @@ function pickBest(
     if (item.goalFit.includes(goal)) score += 2;
     if (item.levelFit.includes(level)) score += 1;
     if (!item.slotFit.includes(targetSlot)) score -= 10;
+    // strongWith bonus: reward coherent sequencing
+    if (prevKey && item.strongWith.includes(prevKey)) score += 1;
+    if (prevItem && prevItem.strongWith.includes(item.key)) score += 1;
     if (score > bestScore) {
       bestScore = score;
       best = item;

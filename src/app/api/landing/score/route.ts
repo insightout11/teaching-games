@@ -18,6 +18,7 @@ interface ScoreRequest {
   labelCandidates: string[];
   responses: LandingResponse[];
   weights?: ScorerWeights;
+  studentMissions?: Record<string, string>;
 }
 
 interface ScoreResponse {
@@ -47,8 +48,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
-  const { activityKey, prompt, targetKeywords, labelCandidates, responses } = body;
+  const { activityKey, prompt, targetKeywords, labelCandidates, responses, studentMissions } = body;
   const weights = body.weights ?? getDefaultWeights(activityKey);
+  const hasMissions = studentMissions && Object.keys(studentMissions).length > 0;
 
   if (!prompt || !Array.isArray(responses) || responses.length === 0) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -76,6 +78,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ? 'This is an expressive statement activity. Short, punchy, or rhetorical responses are valid and should score well. Do not require length or lesson vocabulary.'
       : 'This is a lesson consolidation activity. Conceptual responses that reflect understanding should score highly even without keyword matches.';
 
+  const missionBlock = hasMissions
+    ? `\nMISSION-BASED SCORING:
+Each student had a unique personal mission question. Score each response against THEIR specific mission — not the generic prompt.
+Student missions:
+${responses.map((r) => `  clientId="${r.clientId}": mission="${studentMissions[r.clientId] ?? 'unknown'}"`).join('\n')}
+`
+    : '';
+
   const aiPrompt = `ESL teacher assistant scoring student written responses.
 
 Activity: ${activityKey}
@@ -83,9 +93,9 @@ ${activityGuidance}
 
 Prompt given to students: "${prompt}"
 Target vocabulary (bonus reference — NOT required for a good score): ${targetKeywords.length > 0 ? targetKeywords.join(', ') : 'none'}
-
+${missionBlock}
 SCORING PHILOSOPHY:
-- Reward understanding, relevance to the prompt, and clarity of thought.
+- Reward understanding, relevance to the ${hasMissions ? "student's personal mission" : 'prompt'}, and clarity of thought.
 - Vocabulary usage is a BONUS signal only. Do not penalise students for omitting target words.
 - Synonyms, paraphrases, and conceptual responses count as correct.
 - A clear, on-topic answer with no target vocabulary can score 80–90.
