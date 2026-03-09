@@ -69,7 +69,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Auto-start the current slot when it changes (driven by the hook)
   const lastAutoStartedSlotRef = useRef<number>(-1);
   useEffect(() => {
-    if (lesson.phase === 'idle' || lesson.phase === 'ended') return;
+    if (lesson.phase === 'idle' || lesson.phase === 'lobby' || lesson.phase === 'ended') return;
     if (lesson.currentSlot === null) return;
     if (lastAutoStartedSlotRef.current === lesson.currentSlotIndex) return;
 
@@ -89,6 +89,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson.currentSlotIndex, lesson.phase, lesson.currentSlot]);
+
+  // When lesson ends, return to selection grid
+  useEffect(() => {
+    if (lesson.phase === 'ended') {
+      handleBackToSelection();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson.phase]);
 
   // In mock mode, load students from localStorage
   useEffect(() => {
