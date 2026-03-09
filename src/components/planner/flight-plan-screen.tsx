@@ -15,6 +15,8 @@ export function FlightPlanScreen() {
     modules,
     setStep,
     initModules,
+    setReplaceDrawerModuleId,
+    moveModule,
   } = usePlannerStore();
 
   return (
@@ -46,9 +48,14 @@ export function FlightPlanScreen() {
         <LessonCaptainFlightPlan
           steps={buildPlannerFlightPlanSteps(modules)}
           mode="planner"
+          onNodeClick={(stepId) => setReplaceDrawerModuleId(stepId)}
+          onMoveModule={(index, dir) => {
+            const target = dir === 'left' ? index - 1 : index + 1;
+            moveModule(index, target);
+          }}
         />
         <p className="text-xs text-lc-text3 mt-3 text-center">
-          Click Regenerate to reshuffle modules, or use Replace on the review screen.
+          Click a module to replace it, or use arrows to reorder.
         </p>
       </div>
 

@@ -2,7 +2,7 @@
 
 import React, { useId, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Plane, CircleDot } from 'lucide-react';
+import { Plane, CircleDot, ChevronLeft, ChevronRight } from 'lucide-react';
 
 /**
  * LessonCaptain — Premium Flight Plan UI
@@ -27,6 +27,8 @@ interface LessonCaptainFlightPlanProps {
   className?: string;
   mode?: FlightPlanMode;
   activeIndex?: number;
+  onNodeClick?: (stepId: string) => void;
+  onMoveModule?: (index: number, direction: 'left' | 'right') => void;
 }
 
 const DEFAULT_STEPS: FlightPlanStep[] = [
@@ -82,14 +84,14 @@ type NodePoint = FlightPlanStep & {
 };
 
 function computeNodeLayout(steps: FlightPlanStep[], width: number, height: number): NodePoint[] {
-  const left = 120;
-  const right = width - 120;
+  const left = 160;
+  const right = width - 160;
   const span = right - left;
   const count = steps.length;
 
   const baseY = height * 0.66;
   const arcLift = clamp(42 + count * 4, 54, 82);
-  const cardRowY = clamp(height * 0.1, 42, 68);
+  const cardRowY = clamp(height * 0.18, 80, 100);
   const cardWidth = 188;
 
   return steps.map((step, index) => {
@@ -457,7 +459,22 @@ function PathLayer({
   );
 }
 
-function NodeCard({ point, delay = 0 }: { point: NodePoint; delay?: number }) {
+function NodeCard({
+  point,
+  delay = 0,
+  onClick,
+  onMoveLeft,
+  onMoveRight,
+}: {
+  point: NodePoint;
+  delay?: number;
+  onClick?: () => void;
+  onMoveLeft?: () => void;
+  onMoveRight?: () => void;
+}) {
+  const isClickable = !!onClick;
+  const showMoveButtons = !!(onMoveLeft || onMoveRight);
+
   return (
     <motion.div
       className="absolute -translate-x-1/2"
@@ -470,7 +487,12 @@ function NodeCard({ point, delay = 0 }: { point: NodePoint; delay?: number }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay, duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="relative w-full rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.28)]">
+      <div
+        className={`relative w-full rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.28)] ${
+          isClickable ? 'cursor-pointer hover:border-cyan-300/30 hover:bg-white/[0.10] transition-colors' : ''
+        }`}
+        onClick={onClick}
+      >
         <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.09),rgba(255,255,255,0.03))] pointer-events-none" />
         <div className="absolute -inset-px rounded-2xl opacity-40 pointer-events-none bg-[radial-gradient(circle_at_top,rgba(111,225,255,0.18),transparent_45%)]" />
 
@@ -478,13 +500,38 @@ function NodeCard({ point, delay = 0 }: { point: NodePoint; delay?: number }) {
           <div className="mt-0.5 rounded-full border border-white/10 bg-white/[0.08] p-1.5">
             <CircleDot className="h-3.5 w-3.5 text-cyan-200/90" />
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <div className="text-[10px] uppercase tracking-[0.18em] text-white/45">
               {point.type}
             </div>
             <div className="mt-1 text-sm font-medium leading-tight text-white/[0.92]">{point.name}</div>
           </div>
         </div>
+
+        {showMoveButtons && (
+          <div className="relative flex items-center justify-center gap-1 mt-2 -mb-1">
+            {onMoveLeft ? (
+              <button
+                onClick={(e) => { e.stopPropagation(); onMoveLeft(); }}
+                className="rounded-full p-0.5 text-white/40 hover:text-white/80 hover:bg-white/10 transition-colors"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </button>
+            ) : (
+              <span className="w-[18px]" />
+            )}
+            {onMoveRight ? (
+              <button
+                onClick={(e) => { e.stopPropagation(); onMoveRight(); }}
+                className="rounded-full p-0.5 text-white/40 hover:text-white/80 hover:bg-white/10 transition-colors"
+              >
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+            ) : (
+              <span className="w-[18px]" />
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -497,6 +544,8 @@ function NodeLayer({
   mode = 'planner',
   activeIndex = 0,
   ids,
+  onNodeClick,
+  onMoveModule,
 }: {
   width: number;
   height: number;
@@ -504,7 +553,14 @@ function NodeLayer({
   mode?: FlightPlanMode;
   activeIndex?: number;
   ids: LayerIds;
+  onNodeClick?: (stepId: string) => void;
+  onMoveModule?: (index: number, direction: 'left' | 'right') => void;
 }) {
+  // Module points only (excluding terminals) for move-button boundary logic
+  const modulePoints = points.filter((p) => p.kind === 'module');
+  const firstModuleId = modulePoints[0]?.id;
+  const lastModuleId = modulePoints[modulePoints.length - 1]?.id;
+
   return (
     <>
       <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${width} ${height}`} fill="none">
@@ -582,9 +638,22 @@ function NodeLayer({
         })}
       </svg>
 
-      {points.map((point, i) => (
-        <NodeCard key={point.id} point={point} delay={0.54 + i * 0.12} />
-      ))}
+      {points.map((point, i) => {
+        const isModule = point.kind === 'module';
+        const canClick = isModule && !!onNodeClick;
+        const canMove = isModule && !!onMoveModule;
+
+        return (
+          <NodeCard
+            key={point.id}
+            point={point}
+            delay={0.54 + i * 0.12}
+            onClick={canClick ? () => onNodeClick!(point.id) : undefined}
+            onMoveLeft={canMove && point.id !== firstModuleId ? () => onMoveModule!(i, 'left') : undefined}
+            onMoveRight={canMove && point.id !== lastModuleId ? () => onMoveModule!(i, 'right') : undefined}
+          />
+        );
+      })}
     </>
   );
 }
@@ -669,6 +738,8 @@ export function LessonCaptainFlightPlan({
   className = '',
   mode = 'planner',
   activeIndex: controlledActiveIndex,
+  onNodeClick,
+  onMoveModule,
 }: LessonCaptainFlightPlanProps) {
   const safeSteps = useMemo(() => {
     if (!Array.isArray(steps) || steps.length < 3) return DEFAULT_STEPS;
@@ -726,7 +797,7 @@ export function LessonCaptainFlightPlan({
       <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_18%,transparent_34%)]" />
 
       <PathLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
-      <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
+      <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} />
       <PlaneLayer width={width} height={height} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#050b15] to-transparent" />
