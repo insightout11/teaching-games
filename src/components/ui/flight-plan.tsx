@@ -320,7 +320,7 @@ function PathLayer({
   const _contrailPath = useMemo(() => buildContrailPath(points, activeIndex), [points, activeIndex]);
 
   return (
-    <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${width} ${height}`} fill="none">
+    <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${width} ${height}`} fill="none">
       <defs>
         <linearGradient id={ids.routeGradient} x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#5FE2FF" />
@@ -563,7 +563,7 @@ function NodeLayer({
 
   return (
     <>
-      <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${width} ${height}`} fill="none">
+      <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${width} ${height}`} fill="none">
         <defs>
           <filter id={ids.nodeGlow} x="-200%" y="-200%" width="400%" height="400%">
             <feGaussianBlur stdDeviation="5" />
@@ -684,7 +684,7 @@ function PlaneLayer({
   const planeAngle = isPlanner ? -12 : planeState.angle;
 
   return (
-    <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${width} ${height}`} fill="none">
+    <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${width} ${height}`} fill="none">
       <defs>
         <filter id={ids.planeGlow} x="-200%" y="-200%" width="400%" height="400%">
           <feGaussianBlur stdDeviation="8" />
