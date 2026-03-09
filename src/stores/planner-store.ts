@@ -240,6 +240,7 @@ export const usePlannerStore = create<PlannerState>()(
       version: 2,
       migrate: (persisted) => {
         // Strip step from old cached data (was persisted in v1, causes hydration crash)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { step: _drop, ...rest } = persisted as Record<string, unknown>;
         return rest;
       },

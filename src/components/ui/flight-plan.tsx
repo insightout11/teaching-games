@@ -712,9 +712,11 @@ function PlaneLayer({
 
   const planeState = getPlaneState(points, activeIndex) ?? { x: takeoffPoint.x, y: takeoffPoint.y, angle: -12 };
   const isPlanner = mode === 'planner';
-  const planeX = isPlanner ? takeoffPoint.x : planeState.x;
-  const planeY = isPlanner ? takeoffPoint.y : planeState.y;
-  const planeAngle = isPlanner ? -12 : planeState.angle;
+  const rawPlaneX = isPlanner ? takeoffPoint.x : planeState.x;
+  const rawPlaneY = isPlanner ? takeoffPoint.y : planeState.y;
+  const planeX = typeof rawPlaneX === 'number' && isFinite(rawPlaneX) ? rawPlaneX : 0;
+  const planeY = typeof rawPlaneY === 'number' && isFinite(rawPlaneY) ? rawPlaneY : 0;
+  const planeAngle = (typeof planeState.angle === 'number' && isFinite(planeState.angle)) ? (isPlanner ? -12 : planeState.angle) : -12;
 
   return (
     <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${width} ${height}`} fill="none">
