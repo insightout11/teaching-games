@@ -2,7 +2,7 @@
 
 import React, { useEffect, useId, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plane, CircleDot, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plane, CircleDot, ChevronLeft, ChevronRight, Cog, Mic, CheckCircle2 } from 'lucide-react';
 
 /**
  * LessonCaptain — Premium Flight Plan UI
@@ -83,23 +83,24 @@ type NodePoint = FlightPlanStep & {
   cardWidthPercent: number;
 };
 
-function computeNodeLayout(steps: FlightPlanStep[], width: number, height: number): NodePoint[] {
-  const left = 160;
-  const right = width - 160;
+function computeNodeLayout(steps: FlightPlanStep[], width: number, height: number, mode: FlightPlanMode = 'planner'): NodePoint[] {
+  const isRuntime = mode === 'runtime';
+  const left = isRuntime ? 120 : 160;
+  const right = width - (isRuntime ? 120 : 160);
   const span = right - left;
   const count = steps.length;
 
-  const baseY = height * 0.66;
-  const arcLift = clamp(42 + count * 4, 54, 82);
-  const cardRowY = clamp(height * 0.18, 80, 100);
-  const cardWidth = 188;
+  const baseY = height * (isRuntime ? 0.72 : 0.66);
+  const arcLift = isRuntime ? clamp(28 + count * 3, 36, 56) : clamp(42 + count * 4, 54, 82);
+  const cardRowY = isRuntime ? clamp(height * 0.12, 28, 52) : clamp(height * 0.18, 80, 100);
+  const cardWidth = isRuntime ? 148 : 188;
 
   return steps.map((step, index) => {
     const t = count === 1 ? 0 : index / (count - 1);
     const x = left + span * t;
     const liftFactor = 4 * t * (1 - t);
     const y = baseY - arcLift * liftFactor;
-    const cardHeight = 62;
+    const cardHeight = isRuntime ? 48 : 62;
 
     return {
       ...step,
@@ -215,6 +216,15 @@ function getPlaneState(points: NodePoint[], activeIndex: number) {
   const tan = tangentOnQuadratic(p0, p1, c, partial);
   const angle = Math.atan2(tan.y, tan.x) * (180 / Math.PI);
   return { ...pos, angle };
+}
+
+function getStepIcon(type: string, className: string) {
+  const lower = type.toLowerCase();
+  if (lower === 'takeoff' || lower === 'presentation') return <Plane className={className} strokeWidth={2} />;
+  if (lower === 'practice') return <Cog className={className} strokeWidth={2} />;
+  if (lower === 'production') return <Mic className={className} strokeWidth={2} />;
+  if (lower === 'landing') return <CheckCircle2 className={className} strokeWidth={2} />;
+  return <CircleDot className={className} strokeWidth={2} />;
 }
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -404,7 +414,7 @@ function PathLayer({
                 fill="none"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: progress, opacity: progress > 0 ? 0.95 : 0 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
               />
             )}
           </g>
@@ -462,18 +472,26 @@ function PathLayer({
 function NodeCard({
   point,
   delay = 0,
+  isRuntime = false,
+  nodeState = 'future',
   onClick,
   onMoveLeft,
   onMoveRight,
 }: {
   point: NodePoint;
   delay?: number;
+  isRuntime?: boolean;
+  nodeState?: 'completed' | 'current' | 'future';
   onClick?: () => void;
   onMoveLeft?: () => void;
   onMoveRight?: () => void;
 }) {
   const isClickable = !!onClick;
   const showMoveButtons = !!(onMoveLeft || onMoveRight);
+  const iconSize = isRuntime ? 'h-3 w-3' : 'h-3.5 w-3.5';
+  const iconWrapSize = isRuntime ? 'p-1' : 'p-1.5';
+
+  const cardOpacity = nodeState === 'completed' ? 'opacity-60' : nodeState === 'current' ? 'ring-1 ring-cyan-400/30' : '';
 
   return (
     <motion.div
@@ -488,7 +506,9 @@ function NodeCard({
       transition={{ delay, duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
     >
       <div
-        className={`relative w-full rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.28)] ${
+        className={`relative w-full rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.28)] ${cardOpacity} ${
+          isRuntime ? 'px-3 py-2' : 'px-4 py-3'
+        } ${
           isClickable ? 'cursor-pointer hover:border-cyan-300/30 hover:bg-white/[0.10] transition-colors' : ''
         }`}
         onClick={onClick}
@@ -497,14 +517,20 @@ function NodeCard({
         <div className="absolute -inset-px rounded-2xl opacity-40 pointer-events-none bg-[radial-gradient(circle_at_top,rgba(111,225,255,0.18),transparent_45%)]" />
 
         <div className="relative flex items-start gap-2">
-          <div className="mt-0.5 rounded-full border border-white/10 bg-white/[0.08] p-1.5">
-            <CircleDot className="h-3.5 w-3.5 text-cyan-200/90" />
+          <div className={`mt-0.5 rounded-full border border-white/10 bg-white/[0.08] ${iconWrapSize}`}>
+            {getStepIcon(point.type, `${iconSize} text-cyan-200/90`)}
           </div>
           <div className="min-w-0 flex-1">
-            <div className="text-[10px] uppercase tracking-[0.18em] text-white/45">
+            <div className={`uppercase tracking-[0.14em] font-semibold ${
+              isRuntime
+                ? 'text-[10px] text-cyan-200/70'
+                : 'text-[11px] text-cyan-200/65'
+            }`}>
               {point.type}
             </div>
-            <div className="mt-1 text-sm font-medium leading-tight text-white/[0.92]">{point.name}</div>
+            <div className={`leading-tight text-white/[0.92] ${
+              isRuntime ? 'mt-0.5 text-xs font-medium' : 'mt-1 text-sm font-medium'
+            }`}>{point.name}</div>
           </div>
         </div>
 
@@ -576,6 +602,7 @@ function NodeLayer({
         {points.map((point, i) => {
           const isCompleted = mode === 'runtime' && activeIndex > i;
           const isActive = mode === 'runtime' && activeIndex >= i && activeIndex < i + 1;
+          const isFuture = mode === 'runtime' && !isCompleted && !isActive;
           return (
             <g key={point.id}>
               <motion.line
@@ -583,8 +610,8 @@ function NodeLayer({
                 y1={point.y - 12}
                 x2={point.x}
                 y2={point.cardY + point.cardHeight}
-                stroke={isCompleted || isActive ? 'rgba(192, 240, 255, 0.42)' : 'rgba(170, 225, 255, 0.18)'}
-                strokeWidth={isCompleted || isActive ? '1.5' : '1.2'}
+                stroke={isActive ? 'rgba(192, 240, 255, 0.50)' : isCompleted ? 'rgba(192, 240, 255, 0.30)' : 'rgba(170, 225, 255, 0.18)'}
+                strokeWidth={isActive ? '1.5' : '1.2'}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.52 + i * 0.12, duration: 0.28 }}
@@ -593,27 +620,27 @@ function NodeLayer({
               <motion.circle
                 cx={point.x}
                 cy={point.y}
-                r={isActive ? 22 : 17}
-                fill={isCompleted ? 'rgba(175, 244, 255, 0.18)' : 'rgba(95, 226, 255, 0.10)'}
+                r={isActive ? 26 : 17}
+                fill={isActive ? 'rgba(95, 226, 255, 0.18)' : isCompleted ? 'rgba(175, 244, 255, 0.10)' : 'rgba(95, 226, 255, 0.06)'}
                 filter={`url(#${ids.nodePulseGlow})`}
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={
                   mode === 'runtime'
                     ? {
-                        opacity: isActive ? [0.2, 0.58, 0.2] : isCompleted ? [0.22, 0.36, 0.22] : [0.12, 0.22, 0.12],
-                        scale: isActive ? [0.96, 1.22, 0.96] : [0.92, 1.1, 0.92],
+                        opacity: isActive ? [0.3, 0.7, 0.3] : isCompleted ? [0.15, 0.22, 0.15] : [0.08, 0.14, 0.08],
+                        scale: isActive ? [0.96, 1.28, 0.96] : [0.95, 1.05, 0.95],
                       }
                     : { opacity: [0.18, 0.44, 0.18], scale: [0.92, 1.16, 0.92] }
                 }
-                transition={{ delay: 0.68 + i * 0.12, duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{ delay: 0.68 + i * 0.12, duration: isActive ? 2.0 : 2.8, repeat: Infinity, ease: 'easeInOut' }}
                 style={{ transformOrigin: `${point.x}px ${point.y}px` }}
               />
 
               <motion.circle
                 cx={point.x}
                 cy={point.y}
-                r={isCompleted ? 13 : 11}
-                fill={isCompleted ? 'rgba(170, 246, 255, 0.34)' : 'rgba(95, 226, 255, 0.18)'}
+                r={isActive ? 14 : isCompleted ? 12 : 11}
+                fill={isActive ? 'rgba(95, 226, 255, 0.32)' : isCompleted ? 'rgba(170, 246, 255, 0.20)' : isFuture ? 'rgba(95, 226, 255, 0.10)' : 'rgba(95, 226, 255, 0.18)'}
                 filter={`url(#${ids.nodeGlow})`}
                 initial={{ opacity: 0, scale: 0.6 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -624,10 +651,10 @@ function NodeLayer({
               <motion.circle
                 cx={point.x}
                 cy={point.y}
-                r="5.3"
-                fill={isCompleted ? '#ffffff' : '#dff9ff'}
-                stroke={isCompleted ? 'rgba(225, 250, 255, 1)' : 'rgba(95, 226, 255, 0.85)'}
-                strokeWidth="2"
+                r={isActive ? '6.5' : '5.3'}
+                fill={isActive ? '#ffffff' : isCompleted ? '#c8edf5' : isFuture ? '#8ecdd9' : '#dff9ff'}
+                stroke={isActive ? 'rgba(95, 226, 255, 1)' : isCompleted ? 'rgba(200, 237, 245, 0.70)' : isFuture ? 'rgba(95, 226, 255, 0.45)' : 'rgba(95, 226, 255, 0.85)'}
+                strokeWidth={isActive ? '2.5' : '2'}
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + i * 0.12, duration: 0.3 }}
@@ -642,12 +669,18 @@ function NodeLayer({
         const isModule = point.kind === 'module';
         const canClick = isModule && !!onNodeClick;
         const canMove = isModule && !!onMoveModule;
+        const isRuntime = mode === 'runtime';
+        const nodeState: 'completed' | 'current' | 'future' =
+          isRuntime && activeIndex > i ? 'completed' :
+          isRuntime && activeIndex >= i && activeIndex < i + 1 ? 'current' : 'future';
 
         return (
           <NodeCard
             key={point.id}
             point={point}
             delay={0.54 + i * 0.12}
+            isRuntime={isRuntime}
+            nodeState={isRuntime ? nodeState : 'future'}
             onClick={canClick ? () => onNodeClick!(point.id) : undefined}
             onMoveLeft={canMove && point.id !== firstModuleId ? () => onMoveModule!(i, 'left') : undefined}
             onMoveRight={canMove && point.id !== lastModuleId ? () => onMoveModule!(i, 'right') : undefined}
@@ -692,23 +725,32 @@ function PlaneLayer({
       </defs>
 
       <motion.g
-        initial={{ opacity: 0, scale: 0.88, x: -6 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
-        transition={{ delay: 1.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        initial={isPlanner ? { opacity: 0, scale: 0.88 } : { opacity: 1 }}
+        animate={isPlanner ? { opacity: 1, scale: 1 } : { opacity: 1 }}
+        transition={{ delay: isPlanner ? 1.05 : 0, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <motion.ellipse
-          cx={planeX - 8}
-          cy={planeY - 16}
           rx={isPlanner ? 24 : 21}
           ry={isPlanner ? 12 : 10}
           fill="rgba(95, 226, 255, 0.20)"
           filter={`url(#${ids.planeGlow})`}
-          animate={isPlanner ? { opacity: [0.16, 0.28, 0.16], scale: [0.94, 1.08, 0.94] } : { opacity: 0.24, scale: 1 }}
-          transition={isPlanner ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.35 }}
+          animate={isPlanner
+            ? { cx: planeX - 8, cy: planeY - 16, opacity: [0.16, 0.28, 0.16], scale: [0.94, 1.08, 0.94] }
+            : { cx: planeX - 8, cy: planeY - 16, opacity: 0.24, scale: 1 }
+          }
+          transition={isPlanner
+            ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' }
+            : { cx: { duration: 1.6, ease: [0.22, 1, 0.36, 1] }, cy: { duration: 1.6, ease: [0.22, 1, 0.36, 1] }, duration: 0.35 }
+          }
           style={{ transformOrigin: `${planeX - 8}px ${planeY - 16}px` }}
         />
 
-        <foreignObject x={planeX - 30} y={planeY - 40} width="60" height="60">
+        <motion.foreignObject
+          width="60"
+          height="60"
+          animate={{ x: planeX - 30, y: planeY - 40 }}
+          transition={{ duration: isPlanner ? 0 : 1.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <motion.div
             className="flex h-full w-full items-center justify-center"
             animate={
@@ -716,14 +758,17 @@ function PlaneLayer({
                 ? { y: [0, -2.5, 0], rotate: [-1.2, 0.4, -1.2] }
                 : { y: [0, -1.2, 0], rotate: planeAngle }
             }
-            transition={isPlanner ? { duration: 3.2, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            transition={isPlanner
+              ? { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }
+              : { y: { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } }
+            }
             style={{ transformOrigin: '50% 50%' }}
           >
             <div className="rounded-full border border-cyan-300/25 bg-[#0d1d32]/85 p-3 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl">
               <Plane className="h-6 w-6 text-cyan-200" strokeWidth={2.2} />
             </div>
           </motion.div>
-        </foreignObject>
+        </motion.foreignObject>
       </motion.g>
     </svg>
   );
@@ -746,7 +791,7 @@ export function LessonCaptainFlightPlan({
     return steps;
   }, [steps]);
 
-  const points = useMemo(() => computeNodeLayout(safeSteps, width, height), [safeSteps, width, height]);
+  const points = useMemo(() => computeNodeLayout(safeSteps, width, height, mode), [safeSteps, width, height, mode]);
   const takeoffPoint = points[0];
 
   const baseId = useId();
@@ -784,21 +829,19 @@ export function LessonCaptainFlightPlan({
         <>
           <BackgroundLayer width={width} height={height} />
 
-          <motion.div
-            className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 md:px-8"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div>
-              <div className="text-[11px] uppercase tracking-[0.28em] text-cyan-200/55">LessonCaptain</div>
-              <h2 className="mt-1 text-xl font-semibold tracking-tight text-white md:text-2xl">Flight Plan</h2>
-            </div>
-
-            <div className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs text-white/65 backdrop-blur-xl">
-              {safeSteps.length - 2} Modules
-            </div>
-          </motion.div>
+          {mode !== 'runtime' && (
+            <motion.div
+              className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 md:px-8"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.28em] text-cyan-200/55">LessonCaptain</div>
+                <h2 className="mt-1 text-xl font-semibold tracking-tight text-white md:text-2xl">Flight Plan</h2>
+              </div>
+            </motion.div>
+          )}
 
           <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/[0.06]" />
           <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_18%,transparent_34%)]" />
