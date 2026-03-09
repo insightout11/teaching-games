@@ -730,6 +730,8 @@ function PlaneLayer({
         transition={{ delay: isPlanner ? 1.05 : 0, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <motion.ellipse
+          cx={planeX - 8}
+          cy={planeY - 16}
           rx={isPlanner ? 24 : 21}
           ry={isPlanner ? 12 : 10}
           fill="rgba(95, 226, 255, 0.20)"
@@ -746,6 +748,8 @@ function PlaneLayer({
         />
 
         <motion.foreignObject
+          x={planeX - 30}
+          y={planeY - 40}
           width="60"
           height="60"
           animate={{ x: planeX - 30, y: planeY - 40 }}
