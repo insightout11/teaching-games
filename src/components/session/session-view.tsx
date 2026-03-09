@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
-import type { LessonSlot } from '@/hooks/use-lesson-session';
 import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
 import { EndSessionSummary } from './end-session-summary';
@@ -15,6 +14,8 @@ import { WIDGET_REGISTRY } from './widget-registry';
 import { getAllGames, getGamesGrouped, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
+import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
+import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex } from '@/lib/flight-plan-helpers';
 import { Button } from '@/components/ui/button';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
 import type { GamePlugin } from '@/games/types';
@@ -568,13 +569,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         ) : viewMode === 'game' && selectedGame ? (
           <div>
-            {/* Lesson Mode Progress Bar */}
+            {/* Lesson Flight Plan */}
             {lesson.isLessonActive && (
-              <LessonProgressBar
-                slots={lesson.lessonSlots}
-                currentIndex={lesson.currentSlotIndex}
-                onExit={handleExitLessonMode}
-              />
+              <div className="mb-4">
+                <LessonCaptainFlightPlan
+                  steps={buildRuntimeFlightPlanSteps(lesson.lessonSlots)}
+                  mode="runtime"
+                  activeIndex={getFlightPlanActiveIndex(lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length)}
+                  height={360}
+                />
+              </div>
             )}
 
             <div className="mb-4 flex items-center justify-between">
@@ -596,13 +600,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         ) : viewMode === 'activity' && selectedActivity ? (
           <div>
-            {/* Lesson Mode Progress Bar */}
+            {/* Lesson Flight Plan */}
             {lesson.isLessonActive && (
-              <LessonProgressBar
-                slots={lesson.lessonSlots}
-                currentIndex={lesson.currentSlotIndex}
-                onExit={handleExitLessonMode}
-              />
+              <div className="mb-4">
+                <LessonCaptainFlightPlan
+                  steps={buildRuntimeFlightPlanSteps(lesson.lessonSlots)}
+                  mode="runtime"
+                  activeIndex={getFlightPlanActiveIndex(lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length)}
+                  height={360}
+                />
+              </div>
             )}
 
             <div className="mb-4 flex items-center justify-between">
@@ -696,41 +703,3 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   );
 }
 
-// ─── Extracted component: Lesson Progress Bar ────────────────────────────────
-function LessonProgressBar({ slots, currentIndex, onExit }: { slots: LessonSlot[]; currentIndex: number; onExit: () => void }) {
-  return (
-    <div className="glass rounded-xl p-4 mb-4">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-semibold text-cyan-400">
-          Lesson Progress: Step {currentIndex + 1} of {slots.length}
-        </span>
-        <button
-          onClick={onExit}
-          className="text-xs text-gray-400 hover:text-white transition-colors"
-        >
-          Exit Lesson Mode
-        </button>
-      </div>
-      <div className="flex gap-1">
-        {slots.map((slot, idx) => (
-          <div
-            key={idx}
-            className={`flex-1 h-2 rounded-full transition-all ${
-              idx < currentIndex
-                ? 'bg-green-500'
-                : idx === currentIndex
-                  ? 'bg-cyan-500'
-                  : 'bg-white/20'
-            }`}
-            title={slot.name}
-          />
-        ))}
-      </div>
-      <div className="flex justify-center mt-2">
-        <span className="text-xs opacity-60">
-          {slots[currentIndex]?.name}
-        </span>
-      </div>
-    </div>
-  );
-}

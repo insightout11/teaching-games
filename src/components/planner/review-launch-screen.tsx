@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
-import { FlightPathSVG } from './flight-path-svg';
+import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
+import { buildPlannerFlightPlanSteps } from '@/lib/flight-plan-helpers';
 import { createClient } from '@/lib/supabase/client';
 import { ArrowLeft, CheckCircle2, Loader2, Plus, Rocket, Users } from 'lucide-react';
 
@@ -161,11 +162,12 @@ export function ReviewLaunchScreen() {
           </div>
 
           {/* Mini flight path */}
-          <div className="bg-lc-card rounded-xl border border-lc-border p-4">
-            <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider mb-3">
-              Flight Path
-            </h3>
-            <FlightPathSVG compact />
+          <div className="max-w-lg">
+            <LessonCaptainFlightPlan
+              steps={buildPlannerFlightPlanSteps(modules)}
+              mode="planner"
+              height={360}
+            />
           </div>
         </div>
 

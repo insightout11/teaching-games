@@ -2,7 +2,8 @@
 
 import { usePlannerStore } from '@/stores/planner-store';
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
-import { FlightPathSVG } from './flight-path-svg';
+import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
+import { buildPlannerFlightPlanSteps } from '@/lib/flight-plan-helpers';
 import { ReplaceDrawer } from './replace-drawer';
 import { ArrowLeft, RefreshCw, ArrowRight } from 'lucide-react';
 
@@ -41,13 +42,13 @@ export function FlightPlanScreen() {
       </div>
 
       {/* Flight path */}
-      <div className="bg-lc-card rounded-xl border border-lc-border p-6">
-        <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider mb-4">
-          Flight Path
-        </h3>
-        <FlightPathSVG />
-        <p className="text-xs text-lc-text3 mt-4 text-center">
-          Drag to reorder middle modules. Click a module to replace it.
+      <div>
+        <LessonCaptainFlightPlan
+          steps={buildPlannerFlightPlanSteps(modules)}
+          mode="planner"
+        />
+        <p className="text-xs text-lc-text3 mt-3 text-center">
+          Click Regenerate to reshuffle modules, or use Replace on the review screen.
         </p>
       </div>
 
