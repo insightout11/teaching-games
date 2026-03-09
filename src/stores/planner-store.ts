@@ -238,7 +238,6 @@ export const usePlannerStore = create<PlannerState>()(
     {
       name: 'lc-planner',
       partialize: (state) => ({
-        step: state.step,
         topic: state.topic,
         difficulty: state.difficulty,
         goals: state.goals,
