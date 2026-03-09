@@ -66,6 +66,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length);
 
+  // Tracks which activity key is being resolved — prevents stale async results
+  const activeActivityKeyRef = useRef<string | null>(null);
+
   // Auto-start the current slot when it changes (driven by the hook)
   const lastAutoStartedSlotRef = useRef<number>(-1);
   useEffect(() => {
@@ -168,6 +171,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleSelectGame = (game: GamePlugin) => {
+    activeActivityKeyRef.current = null;
     setSelectedGame(game);
     setSelectedActivity(null);
     setActivityContent(null);
@@ -178,12 +182,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleSelectActivity = async (activity: ActivityPlugin) => {
+    activeActivityKeyRef.current = activity.key;
     setSelectedActivity(activity);
     setSelectedGame(null);
+    setActivityContent(null);
+    setGameContent(null);
     setViewMode('activity');
 
     const resolved = await lesson.selectActivity(activity);
-    setActivityContent(resolved);
+    // Only apply if this activity is still the active one (guards against rapid slot advances)
+    if (activeActivityKeyRef.current === activity.key) {
+      setActivityContent(resolved);
+    }
   };
 
   const getTimerForPlugin = useCallback((key: string, defaultTimer: number) => {
@@ -610,39 +620,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </Button>
               )}
             </div>
-            {lesson.isGeneratingContent ? (
-              <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
-                <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mb-4" />
-                {lesson.generatingModuleName ? (
-                  <>
-                    <p className="text-lg font-game text-cyan-400">
-                      Preparing {lesson.generatingModuleName}
-                    </p>
-                    <p className="text-sm opacity-60 mt-2">
-                      Generating content for your lesson...
-                    </p>
-                    <div className="flex gap-1 mt-4">
-                      {[0, 1, 2].map((i) => (
-                        <div
-                          key={i}
-                          className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"
-                          style={{ animationDelay: `${i * 200}ms` }}
-                        />
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-lg font-game text-cyan-400 animate-pulse">
-                      Generating Activity Content...
-                    </p>
-                    <p className="text-sm opacity-60 mt-2">
-                      Creating content for: {getEffectiveTopic(settings)}
-                    </p>
-                  </>
-                )}
-              </div>
-            ) : activityContent ? (
+            {activityContent ? (
               <ActivityShell
                 activity={selectedActivity}
                 generatedContent={activityContent}
@@ -650,11 +628,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 onPhaseChange={lesson.isLessonActive ? lesson.handlePhaseChange : undefined}
               />
             ) : (
-              <div className="glass rounded-2xl p-12 text-center">
-                <p className="text-red-400">Failed to load activity content</p>
-                <Button variant="ghost" size="sm" onClick={handleBackToSelection} className="mt-4">
-                  Go back
-                </Button>
+              <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
+                <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mb-4" />
+                <p className="text-lg font-game text-cyan-400">
+                  Preparing {lesson.generatingModuleName || selectedActivity.name}
+                </p>
+                <p className="text-sm opacity-60 mt-2">
+                  Generating content for your lesson...
+                </p>
+                <div className="flex gap-1 mt-4">
+                  {[0, 1, 2].map((i) => (
+                    <div
+                      key={i}
+                      className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"
+                      style={{ animationDelay: `${i * 200}ms` }}
+                    />
+                  ))}
+                </div>
               </div>
             )}
           </div>
