@@ -35,6 +35,9 @@ interface PlannerState {
   loadedPresetId: string | null;
   replaceDrawerModuleId: string | null;
 
+  // Step 3 — Launch
+  selectedClassId: string | null;
+
   // Derived
   primaryGoal: GoalTag;
 
@@ -56,8 +59,11 @@ interface PlannerState {
   loadPreset(preset: FlightPlanPreset): void;
   setReplaceDrawerModuleId(id: string | null): void;
 
+  // Actions — Step 3 (Launch)
+  setSelectedClassId(id: string | null): void;
+
   // Handoff to session. Does NOT reset — caller decides when to reset.
-  launchLesson(): void;
+  launchLesson(): Promise<void>;
 
   // Full reset — called when teacher starts a fresh plan.
   reset(): void;
@@ -80,6 +86,7 @@ export const usePlannerStore = create<PlannerState>()(
       activeTab: 'build',
       loadedPresetId: null,
       replaceDrawerModuleId: null,
+      selectedClassId: null,
 
       // Derived
       get primaryGoal() {
@@ -164,9 +171,13 @@ export const usePlannerStore = create<PlannerState>()(
 
       setReplaceDrawerModuleId: (id) => set({ replaceDrawerModuleId: id }),
 
+      setSelectedClassId: (id) => set({ selectedClassId: id }),
+
       // Handoff — structure-only payload. Content generated lazily at runtime.
-      launchLesson: () => {
-        const { topic, difficulty, goals, modules } = get();
+      launchLesson: async () => {
+        const { topic, difficulty, goals, modules, selectedClassId } = get();
+        if (!selectedClassId) return;
+
         const primaryGoal = derivePrimaryGoal(goals);
 
         const slots: LessonSlot[] = modules.map((m) => {
@@ -193,7 +204,20 @@ export const usePlannerStore = create<PlannerState>()(
             generatedGameContent: {},
           }),
         );
-        window.location.href = '/classes';
+
+        const res = await fetch('/api/session/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ classId: selectedClassId }),
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: 'Failed to create session' }));
+          throw new Error(err.error ?? 'Failed to create session');
+        }
+
+        const { sessionId } = await res.json();
+        window.location.href = `/sessions/${sessionId}`;
       },
 
       // Reset
@@ -208,6 +232,7 @@ export const usePlannerStore = create<PlannerState>()(
           activeTab: 'build',
           loadedPresetId: null,
           replaceDrawerModuleId: null,
+          selectedClassId: null,
         }),
     }),
     {
@@ -221,6 +246,7 @@ export const usePlannerStore = create<PlannerState>()(
         modules: state.modules,
         activeTab: state.activeTab,
         loadedPresetId: state.loadedPresetId,
+        selectedClassId: state.selectedClassId,
       }),
     },
   ),
