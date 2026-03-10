@@ -27,7 +27,17 @@ interface ActivityShellProps {
 }
 
 export function ActivityShell({ activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange }: ActivityShellProps) {
-  const { sessionId, students, currentStudentId, settings, setInputSpec, recordScore, addStudent, studentMissions, landingAnswers, addLandingAnswer } = useSessionStore();
+  // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
+  const sessionId = useSessionStore((s) => s.sessionId);
+  const students = useSessionStore((s) => s.students);
+  const currentStudentId = useSessionStore((s) => s.currentStudentId);
+  const settings = useSessionStore((s) => s.settings);
+  const setInputSpec = useSessionStore((s) => s.setInputSpec);
+  const recordScore = useSessionStore((s) => s.recordScore);
+  const addStudent = useSessionStore((s) => s.addStudent);
+  const studentMissions = useSessionStore((s) => s.studentMissions);
+  const landingAnswers = useSessionStore((s) => s.landingAnswers);
+  const addLandingAnswer = useSessionStore((s) => s.addLandingAnswer);
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
   const [showMissionSummary, setShowMissionSummary] = useState(false);
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
