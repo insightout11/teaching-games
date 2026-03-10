@@ -303,7 +303,10 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setActiveGame: (gameKey: string | null) => set({ activeGameKey: gameKey }),
 
   setInputSpec: async (spec: InputSpec | null) => {
-    const { sessionId } = get();
+    const { sessionId, inputSpec: current } = get();
+    // Skip no-op updates to avoid triggering unnecessary re-renders
+    if (spec === current) return;
+    if (spec === null && current === null) return;
     set({ inputSpec: spec });
 
     // Sync to database so student controllers can poll for it

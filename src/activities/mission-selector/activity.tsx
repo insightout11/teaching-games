@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { ActivityProps } from '../types';
 import type { MissionSelectorContent } from '../types';
 import { useSessionStore } from '@/stores/session-store';
@@ -19,7 +19,7 @@ export function MissionSelectorActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as MissionSelectorContent;
-  const questions = content.questions ?? [];
+  const questions = useMemo(() => content.questions ?? [], [content.questions]);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [picks, setPicks] = useState<PickMap>({});

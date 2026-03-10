@@ -47,7 +47,10 @@ interface SessionViewProps {
 }
 
 export function SessionView({ session, cls, students: serverStudents, existingScores }: SessionViewProps) {
-  const { initSession, settings, addStudent } = useSessionStore();
+  // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
+  const initSession = useSessionStore((s) => s.initSession);
+  const settings = useSessionStore((s) => s.settings);
+  const addStudent = useSessionStore((s) => s.addStudent);
   const [viewMode, setViewMode] = useState<ViewMode>('selection');
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<ActivityPlugin | null>(null);
