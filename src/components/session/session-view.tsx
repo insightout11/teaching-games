@@ -60,6 +60,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
   const settingsPopoverRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const supabase = createClient();
   const games = getAllGames();
   const activities = getAllActivities();
@@ -238,9 +240,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return <EndSessionSummary classId={cls.id} className={cls.name} sessionId={session.id} />;
   }
 
+  // Prevent SSR/hydration mismatch: render a loading shell until client mounts
+  if (!mounted) {
+    return (
+      <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+        <div className="flex items-center justify-center pt-24">
+          <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
   // ─── LOBBY VIEW ──────────────────────────────────────────────────────────
   if (lesson.phase === 'lobby') {
-    const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/join/${session.id}` : '';
+    const joinUrl = `${window.location.origin}/join/${session.id}`;
     const joinCode = session.id.slice(0, 6).toUpperCase();
 
     return (
