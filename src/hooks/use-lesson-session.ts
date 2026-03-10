@@ -367,7 +367,9 @@ export function useLessonSession(
     }
   }, [currentSlotIndex, lessonSlots]);
 
-  const handlePhaseChange = useCallback((activityPhase: string) => {
+  // Stable ref-based callback to avoid identity changes propagating through ActivityShell → activity
+  const handlePhaseChangeRef = useRef<(activityPhase: string) => void>(() => {});
+  handlePhaseChangeRef.current = (activityPhase: string) => {
     if (activityPhase === 'finished' && currentSlotIndex === 0 && phase === 'mission-select') {
       // Mission selector just finished — prefetch next 2 modules with mission context
       setTimeout(() => {
@@ -377,7 +379,10 @@ export function useLessonSession(
         }
       }, 300);
     }
-  }, [currentSlotIndex, lessonSlots.length, prefetchModule, phase]);
+  };
+  const handlePhaseChange = useCallback((activityPhase: string) => {
+    handlePhaseChangeRef.current(activityPhase);
+  }, []);
 
   const exitLesson = useCallback(() => {
     setPhase('idle');

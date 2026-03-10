@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useMemo } from 'react';
 import { useSessionStore, calculateStreakBonus } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin, ScoreResult, GameRemoteVote } from '@/games/types';
@@ -22,11 +22,19 @@ interface GameShellProps {
 }
 
 export function GameShell({ game, config, preGeneratedContent, timerSeconds }: GameShellProps) {
-  const {
-    sessionId, students, currentStudentId, settings, streaks,
-    turnModifier, needsSpin,
-    pickStudent, recordScore, clearModifier, setActiveGame, setInputSpec,
-  } = useSessionStore();
+  // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
+  const sessionId = useSessionStore((s) => s.sessionId);
+  const students = useSessionStore((s) => s.students);
+  const currentStudentId = useSessionStore((s) => s.currentStudentId);
+  const settings = useSessionStore((s) => s.settings);
+  const streaks = useSessionStore((s) => s.streaks);
+  const turnModifier = useSessionStore((s) => s.turnModifier);
+  const needsSpin = useSessionStore((s) => s.needsSpin);
+  const pickStudent = useSessionStore((s) => s.pickStudent);
+  const recordScore = useSessionStore((s) => s.recordScore);
+  const clearModifier = useSessionStore((s) => s.clearModifier);
+  const setActiveGame = useSessionStore((s) => s.setActiveGame);
+  const setInputSpec = useSessionStore((s) => s.setInputSpec);
   const supabase = createClient();
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: GameRemoteVote) => void) | null>(null);
@@ -36,6 +44,14 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   const promptIndexRef = useRef(1);
 
   const GameComponent = game.component;
+  const sessionSettings = useMemo(
+    () => ({ ...settings, timerSeconds }),
+    [settings, timerSeconds],
+  );
+  const gameConfig = useMemo(
+    () => ({ ...config, preGeneratedContent }),
+    [config, preGeneratedContent],
+  );
 
   // Track active game for student submissions
   useEffect(() => {
@@ -242,8 +258,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
                 currentStudentId={currentStudentId}
                 onScore={handleScore}
                 onPickStudent={handlePickStudent}
-                config={{ ...config, preGeneratedContent }}
-                sessionSettings={{ ...settings, timerSeconds }}
+                config={gameConfig}
+                sessionSettings={sessionSettings}
                 onSetInputSpec={handleSetInputSpec}
                 onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
                 onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}

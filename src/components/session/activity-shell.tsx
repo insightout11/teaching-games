@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState, useEffect, useRef } from 'react';
+import { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { ActivityPlugin } from '@/activities/types';
 import { CATEGORY_INFO } from '@/activities/registry';
@@ -270,6 +270,10 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   }, [activity.pppStage, externalPhaseChange]);
 
   const customTopic = getEffectiveTopic(settings);
+  const sessionSettings = useMemo(
+    () => ({ ...settings, timerSeconds }),
+    [settings, timerSeconds],
+  );
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
@@ -299,7 +303,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
           <ActivityComponent
             students={students}
             currentStudentId={currentStudentId}
-            sessionSettings={{ ...settings, timerSeconds }}
+            sessionSettings={sessionSettings}
             generatedContent={generatedContent}
             onContinue={handleContinue}
             onPhaseChange={handlePhaseChange}
