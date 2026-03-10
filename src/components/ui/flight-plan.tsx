@@ -731,31 +731,22 @@ function PlaneLayer({
         animate={isPlanner ? { opacity: 1, scale: 1 } : { opacity: 1 }}
         transition={{ delay: isPlanner ? 1.05 : 0, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <motion.ellipse
+        <ellipse
           cx={planeX - 8}
           cy={planeY - 16}
           rx={isPlanner ? 24 : 21}
           ry={isPlanner ? 12 : 10}
           fill="rgba(95, 226, 255, 0.20)"
           filter={`url(#${ids.planeGlow})`}
-          animate={isPlanner
-            ? { cx: planeX - 8, cy: planeY - 16, opacity: [0.16, 0.28, 0.16], scale: [0.94, 1.08, 0.94] }
-            : { cx: planeX - 8, cy: planeY - 16, opacity: 0.24, scale: 1 }
-          }
-          transition={isPlanner
-            ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' }
-            : { cx: { duration: 1.6, ease: [0.22, 1, 0.36, 1] }, cy: { duration: 1.6, ease: [0.22, 1, 0.36, 1] }, duration: 0.35 }
-          }
+          opacity={isPlanner ? 0.22 : 0.24}
           style={{ transformOrigin: `${planeX - 8}px ${planeY - 16}px` }}
         />
 
-        <motion.foreignObject
+        <foreignObject
           x={planeX - 30}
           y={planeY - 40}
           width="60"
           height="60"
-          animate={{ x: planeX - 30, y: planeY - 40 }}
-          transition={{ duration: isPlanner ? 0 : 1.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.div
             className="flex h-full w-full items-center justify-center"
@@ -774,7 +765,7 @@ function PlaneLayer({
               <Plane className="h-6 w-6 text-cyan-200" strokeWidth={2.2} />
             </div>
           </motion.div>
-        </motion.foreignObject>
+        </foreignObject>
       </motion.g>
     </svg>
   );
