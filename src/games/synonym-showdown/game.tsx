@@ -7,6 +7,8 @@ import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
 import { useSessionStore } from '@/stores/session-store';
 
+const EMPTY_SEEN: string[] = [];
+
 interface RemoteSynonym {
   displayName: string;
   word: string;
@@ -37,7 +39,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   // Repetition tracking — read from store but keep refs to avoid stale closures in callbacks
   const addSeenItems = useSessionStore((s) => s.addSeenItems);
   const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
-  const storeSeenItems = useSessionStore((s) => s.seenItemsByGame['synonym-showdown'] ?? []);
+  const storeSeenItems = useSessionStore((s) => s.seenItemsByGame['synonym-showdown']) ?? EMPTY_SEEN;
   const storeSeenCacheIds = useSessionStore((s) => s.seenCacheIds);
   const seenItemsRef = useRef<string[]>([]);
   const seenCacheIdsRef = useRef<string[]>([]);

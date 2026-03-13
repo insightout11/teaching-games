@@ -7,6 +7,8 @@ import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
 import { useSessionStore } from '@/stores/session-store';
 
+const EMPTY_SEEN: string[] = [];
+
 interface RaceSolver {
   studentId: string;
   displayName: string;
@@ -25,7 +27,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   // Repetition tracking — read from store but keep refs to avoid stale closures in callbacks
   const addSeenItems = useSessionStore((s) => s.addSeenItems);
   const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
-  const storeSeenItems = useSessionStore((s) => s.seenItemsByGame['vocab-sprint'] ?? []);
+  const storeSeenItems = useSessionStore((s) => s.seenItemsByGame['vocab-sprint']) ?? EMPTY_SEEN;
   const storeSeenCacheIds = useSessionStore((s) => s.seenCacheIds);
   const seenItemsRef = useRef<string[]>([]);
   const seenCacheIdsRef = useRef<string[]>([]);
