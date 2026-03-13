@@ -32,7 +32,7 @@ export function Sidebar({ user }: { user: User }) {
   return (
     <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col">
       <div className="p-6 border-b border-lc-border-subtle">
-        <h1 className="text-xl font-bold text-lc-blue">LessonCaptain</h1>
+        <img src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" className="h-auto w-[180px]" />
         {mockMode && (
           <span className="text-xs text-lc-warn bg-lc-warn/10 px-2 py-0.5 rounded-full">
             Demo Mode

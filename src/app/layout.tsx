@@ -16,6 +16,13 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "LessonCaptain — Interactive Classroom Games",
   description: "Run interactive classroom activities with live leaderboards and AI-generated content",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   ...(process.env.SITE_NOINDEX === "1"
     ? { robots: { index: false, follow: false, nocache: true } }
     : {}),

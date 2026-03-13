@@ -25,7 +25,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-lc-bg">
       <div className="bg-lc-card border border-lc-border rounded-2xl shadow-xl p-8 max-w-md w-full mx-4 text-center">
-        <h1 className="text-3xl font-bold text-lc-text mb-2">LessonCaptain</h1>
+        <img src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" className="h-auto w-[200px] mx-auto mb-2" />
         <p className="text-lc-text2 mb-8">Your interactive classroom command center</p>
 
         {mockMode ? (

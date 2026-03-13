@@ -5,8 +5,8 @@ export default function ClassroomGamesLayout({ children }: { children: React.Rea
     <div className="min-h-screen bg-white text-gray-900">
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <Link href="/classroom-games" className="text-lg font-bold text-blue-600">
-            LessonCaptain
+          <Link href="/classroom-games">
+            <img src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" className="h-auto w-[150px]" />
           </Link>
           <nav className="hidden gap-6 text-sm text-gray-600 sm:flex">
             <Link href="/classroom-games" className="hover:text-blue-600">
