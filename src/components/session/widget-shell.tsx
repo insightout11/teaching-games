@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, useMemo, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useWidgetStore } from '@/stores/widget-store';
 
@@ -45,7 +45,19 @@ function getDefaultPosition(id: string): { x: number; y: number } {
 }
 
 export function WidgetShell({ id, label, icon, defaultPosition, children }: WidgetShellProps) {
-  const { getWidget, bringToFront, setPosition, closeWidget, setDefaultPosition } = useWidgetStore();
+  // Individual selectors — avoid re-rendering on other widgets' changes
+  const widgetEntry = useWidgetStore((s) => s.widgets[id]);
+  const bringToFront = useWidgetStore((s) => s.bringToFront);
+  const setPosition = useWidgetStore((s) => s.setPosition);
+  const closeWidget = useWidgetStore((s) => s.closeWidget);
+  const setDefaultPosition = useWidgetStore((s) => s.setDefaultPosition);
+
+  const widget = useMemo(() => ({
+    position: widgetEntry?.position ?? { x: 0, y: 0 },
+    isOpen: widgetEntry?.isOpen ?? true,
+    zIndex: widgetEntry?.zIndex ?? 100,
+  }), [widgetEntry]);
+
   const [mounted, setMounted] = useState(false);
   const [minimized, setMinimized] = useState(false);
 
@@ -61,10 +73,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, children }: Widg
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const widget = getWidget(id);
-  // Read zIndex from store directly (not via getWidget which returns default)
-  const storedZIndex = useWidgetStore((s) => s.widgets[id]?.zIndex);
-  const zIndex = storedZIndex ?? 100;
+  const zIndex = widget.zIndex;
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId);

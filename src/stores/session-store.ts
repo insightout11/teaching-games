@@ -255,21 +255,26 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   },
 
   recordScore: (score) => {
-    const { streaks } = get();
-    const newStreaks = { ...streaks };
-    // Use student_id for roster students, client_id for remote students
-    const streakKey = score.student_id || score.client_id;
-    if (streakKey) {
-      if (score.is_correct) {
-        newStreaks[streakKey] = (newStreaks[streakKey] ?? 0) + 1;
-      } else {
-        newStreaks[streakKey] = 0;
+    set((state) => {
+      // Deduplicate — realtime subscription may fire for the same score
+      // that handleScore already recorded
+      if (state.scores.some((s) => s.id === score.id)) return state;
+
+      const newStreaks = { ...state.streaks };
+      // Use student_id for roster students, client_id for remote students
+      const streakKey = score.student_id || score.client_id;
+      if (streakKey) {
+        if (score.is_correct) {
+          newStreaks[streakKey] = (newStreaks[streakKey] ?? 0) + 1;
+        } else {
+          newStreaks[streakKey] = 0;
+        }
       }
-    }
-    set((state) => ({
-      scores: [...state.scores, score],
-      streaks: newStreaks,
-    }));
+      return {
+        scores: [...state.scores, score],
+        streaks: newStreaks,
+      };
+    });
   },
 
   addRealtimeScore: (score) => {

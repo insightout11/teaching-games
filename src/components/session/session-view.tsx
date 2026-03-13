@@ -46,6 +46,8 @@ interface SessionViewProps {
   existingScores: Score[];
 }
 
+const EMPTY_CONFIG: Record<string, unknown> = {};
+
 export function SessionView({ session, cls, students: serverStudents, existingScores }: SessionViewProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const initSession = useSessionStore((s) => s.initSession);
@@ -612,7 +614,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </Button>
               )}
             </div>
-            <GameShell game={selectedGame} config={{}} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} />
+            <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} />
           </div>
         ) : viewMode === 'activity' && selectedActivity ? (
           <div>

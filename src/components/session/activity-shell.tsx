@@ -44,16 +44,17 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const remoteVoteHandlerRef = useRef<((vote: RemoteVote) => void) | null>(null);
   const supabase = createClient();
 
-  // Build display names map from scores and students for MissionControlSummary
-  const scores = useSessionStore((s) => s.scores);
+  // Build display names map lazily — only needed when MissionControlSummary is shown
   const displayNames = useMemo(() => {
+    if (!showMissionSummary) return {};
     const names: Record<string, string> = {};
     students.forEach((s) => { names[s.id] = s.name; });
+    const { scores } = useSessionStore.getState();
     scores.forEach((s) => {
       if (s.client_id && s.display_name) names[s.client_id] = s.display_name;
     });
     return names;
-  }, [students, scores]);
+  }, [students, showMissionSummary]);
 
   const ActivityComponent = activity.component;
 
