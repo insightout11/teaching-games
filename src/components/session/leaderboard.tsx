@@ -13,7 +13,11 @@ interface LeaderboardEntry {
 }
 
 export function Leaderboard() {
-  const { students, scores, setCurrentStudent, currentStudentId, awardPoints } = useSessionStore();
+  const students = useSessionStore((s) => s.students);
+  const scores = useSessionStore((s) => s.scores);
+  const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
+  const currentStudentId = useSessionStore((s) => s.currentStudentId);
+  const awardPoints = useSessionStore((s) => s.awardPoints);
 
   const entries = useMemo(() => {
     const map = new Map<string, LeaderboardEntry>();

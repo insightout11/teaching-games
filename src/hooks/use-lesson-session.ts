@@ -86,7 +86,7 @@ export function useLessonSession(
   settings: SessionSettings,
   studentCount: number,
 ): LessonSession {
-  const { setCustomTopic } = useSessionStore();
+  const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
 
   // ─── Core state ────────────────────────────────────────────────────────
   const [phase, setPhase] = useState<LessonPhase>('idle');

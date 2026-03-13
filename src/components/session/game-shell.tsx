@@ -43,6 +43,13 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   // max(prompt_index) per session = total scoring events; used by Control Room participation grid.
   const promptIndexRef = useRef(1);
 
+  // Refs for values used in handleScore — keeps the callback identity stable
+  // so games that list onScore in effect deps don't re-run on every score.
+  const streaksRef = useRef(streaks);
+  streaksRef.current = streaks;
+  const turnModifierRef = useRef(turnModifier);
+  turnModifierRef.current = turnModifier;
+
   const GameComponent = game.component;
   const sessionSettings = useMemo(
     () => ({ ...settings, timerSeconds }),
@@ -59,7 +66,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     return () => {
       setActiveGame(null);
     };
-  }, [game.key, setActiveGame, setInputSpec]);
+  }, [game.key, setActiveGame]);
 
   // Subscribe to scores for remote votes
   useEffect(() => {
@@ -122,19 +129,22 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   const handleScore = useCallback(async (studentId: string, result: ScoreResult) => {
     if (!sessionId) return;
 
+    const currentModifier = turnModifierRef.current;
+    const currentStreaks = streaksRef.current;
+
     // Apply spin wheel modifier
     const basePoints = result.points;
     let modifiedPoints = basePoints;
 
-    if (turnModifier) {
-      modifiedPoints = basePoints * turnModifier.multiplier + turnModifier.bonus;
+    if (currentModifier) {
+      modifiedPoints = basePoints * currentModifier.multiplier + currentModifier.bonus;
     }
 
     // Shield: if wrong but has shield, don't break streak
-    const shieldActive = turnModifier?.shield && !result.isCorrect;
+    const shieldActive = currentModifier?.shield && !result.isCorrect;
     const effectiveIsCorrect = result.isCorrect || shieldActive;
 
-    const currentStreak = effectiveIsCorrect ? (streaks[studentId] ?? 0) + 1 : 0;
+    const currentStreak = effectiveIsCorrect ? (currentStreaks[studentId] ?? 0) + 1 : 0;
     const streakBonus = effectiveIsCorrect ? calculateStreakBonus(currentStreak) : 0;
 
     const scoreData = {
@@ -148,7 +158,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
       response_data: {
         ...result.responseData,
         basePoints,
-        modifier: turnModifier,
+        modifier: currentModifier,
         shieldUsed: shieldActive,
       },
     };
@@ -163,7 +173,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
 
     // Clear modifier after scoring
     clearModifier();
-  }, [sessionId, streaks, supabase, recordScore, turnModifier, clearModifier]);
+  }, [sessionId, supabase, recordScore, clearModifier]);
 
   const handlePickStudent = useCallback(() => {
     pickStudent();

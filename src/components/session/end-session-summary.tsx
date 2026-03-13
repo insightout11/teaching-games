@@ -7,7 +7,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export function EndSessionSummary({ classId, className, sessionId }: { classId: string; className: string; sessionId: string }) {
-  const { students, scores, reset } = useSessionStore();
+  const students = useSessionStore((s) => s.students);
+  const scores = useSessionStore((s) => s.scores);
+  const reset = useSessionStore((s) => s.reset);
 
   const summary = useMemo(() => {
     const map = new Map<string, { name: string; total: number; correct: number; attempts: number; bestStreak: number }>();

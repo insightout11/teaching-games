@@ -5,7 +5,13 @@ import { useSessionStore, type GameMode } from '@/stores/session-store';
 import { useState, useCallback, useRef } from 'react';
 
 export function StudentPicker() {
-  const { students, currentStudentId, pickerMode, setPickerMode, pickStudent, gameMode, setGameMode } = useSessionStore();
+  const students = useSessionStore((s) => s.students);
+  const currentStudentId = useSessionStore((s) => s.currentStudentId);
+  const pickerMode = useSessionStore((s) => s.pickerMode);
+  const setPickerMode = useSessionStore((s) => s.setPickerMode);
+  const pickStudent = useSessionStore((s) => s.pickStudent);
+  const gameMode = useSessionStore((s) => s.gameMode);
+  const setGameMode = useSessionStore((s) => s.setGameMode);
   const [spinning, setSpinning] = useState(false);
   const [displayIndex, setDisplayIndex] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout>();

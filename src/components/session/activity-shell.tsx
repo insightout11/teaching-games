@@ -45,14 +45,15 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const supabase = createClient();
 
   // Build display names map from scores and students for MissionControlSummary
-  const displayNames: Record<string, string> = {};
-  students.forEach((s) => { displayNames[s.id] = s.name; });
-  // Also pull from the scores table for remote students (client_id based)
-  // We'll build this lazily from the session store scores
-  const { scores } = useSessionStore.getState();
-  scores.forEach((s) => {
-    if (s.client_id && s.display_name) displayNames[s.client_id] = s.display_name;
-  });
+  const scores = useSessionStore((s) => s.scores);
+  const displayNames = useMemo(() => {
+    const names: Record<string, string> = {};
+    students.forEach((s) => { names[s.id] = s.name; });
+    scores.forEach((s) => {
+      if (s.client_id && s.display_name) names[s.client_id] = s.display_name;
+    });
+    return names;
+  }, [students, scores]);
 
   const ActivityComponent = activity.component;
 

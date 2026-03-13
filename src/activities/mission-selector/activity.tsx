@@ -29,7 +29,8 @@ export function MissionSelectorActivity({
   const picksRef = useRef(picks);
   picksRef.current = picks;
 
-  const { sessionId, addStudentMission } = useSessionStore();
+  const sessionId = useSessionStore((s) => s.sessionId);
+  const addStudentMission = useSessionStore((s) => s.addStudentMission);
 
   // Vote handler — receives student mission choices
   useEffect(() => {

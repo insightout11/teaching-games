@@ -12,7 +12,10 @@ import {
 } from '@/stores/session-store';
 
 export function SessionSettingsBar() {
-  const { settings, setSettings, setTopic, setCustomTopic } = useSessionStore();
+  const settings = useSessionStore((s) => s.settings);
+  const setSettings = useSessionStore((s) => s.setSettings);
+  const setTopic = useSessionStore((s) => s.setTopic);
+  const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
   const [showCustomTopic, setShowCustomTopic] = useState(!!settings.customTopic);
 
   const handleTopicChange = (newTopic: Topic) => {

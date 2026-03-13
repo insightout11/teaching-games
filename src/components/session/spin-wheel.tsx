@@ -13,7 +13,10 @@ const SEGMENT_COLORS = [
 ];
 
 export function SpinWheel({ onComplete }: { onComplete?: (modifier: TurnModifier) => void }) {
-  const { needsSpin, spinWheel, students, currentStudentId } = useSessionStore();
+  const needsSpin = useSessionStore((s) => s.needsSpin);
+  const spinWheel = useSessionStore((s) => s.spinWheel);
+  const students = useSessionStore((s) => s.students);
+  const currentStudentId = useSessionStore((s) => s.currentStudentId);
   const [spinning, setSpinning] = useState(false);
   const [displayIndex, setDisplayIndex] = useState(0);
   const [result, setResult] = useState<TurnModifier | null>(null);
