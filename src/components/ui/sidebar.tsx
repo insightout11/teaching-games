@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { isMockMode } from '@/lib/mock/auth';
 import type { User } from '@supabase/supabase-js';
+import { CreditBadge } from './credit-badge';
 
 const navItems = [
   { href: '/classes', label: 'Classes', icon: '📚' },
@@ -32,7 +33,7 @@ export function Sidebar({ user }: { user: User }) {
   return (
     <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col">
       <div className="p-6 border-b border-lc-border-subtle">
-        <img src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" className="h-auto w-[180px]" />
+        <img src="/lessoncaptain-logo-on-dark.svg" alt="LessonCaptain" className="h-auto w-[180px]" />
         {mockMode && (
           <span className="text-xs text-lc-warn bg-lc-warn/10 px-2 py-0.5 rounded-full">
             Demo Mode
@@ -59,11 +60,16 @@ export function Sidebar({ user }: { user: User }) {
       </nav>
 
       <div className="p-4 border-t border-lc-border-subtle">
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-3 mb-2">
           <div className="w-8 h-8 rounded-full bg-lc-blue/15 flex items-center justify-center text-lc-blue text-sm font-medium">
             {user.email?.[0]?.toUpperCase()}
           </div>
-          <span className="text-sm text-lc-text3 truncate">{user.email}</span>
+          <div className="flex-1 min-w-0">
+            <span className="text-sm text-lc-text3 truncate block">{user.email}</span>
+          </div>
+        </div>
+        <div className="px-3 mb-2">
+          <CreditBadge />
         </div>
         <button
           onClick={handleSignOut}
