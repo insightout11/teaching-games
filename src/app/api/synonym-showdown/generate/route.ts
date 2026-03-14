@@ -3,6 +3,8 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { requireAuth } from '@/lib/auth-credits';
+import { synonymShowdownFallback } from '@/lib/fallback-content';
 
 // Prevent Next.js from caching this route
 export const dynamic = 'force-dynamic';
@@ -29,14 +31,17 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  try {
-    const { topic, difficulty, seenItems = [], excludeCacheIds = [] } = await request.json() as {
-      topic: Topic;
-      difficulty: Difficulty;
-      seenItems?: string[];       // targetWords seen this session — AI avoids repeating them
-      excludeCacheIds?: string[]; // cache entry IDs already served this session
-    };
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
 
+  const { topic, difficulty, seenItems = [], excludeCacheIds = [] } = await request.json() as {
+    topic: Topic;
+    difficulty: Difficulty;
+    seenItems?: string[];       // targetWords seen this session — AI avoids repeating them
+    excludeCacheIds?: string[]; // cache entry IDs already served this session
+  };
+
+  try {
     // 1. Check cache first (zero AI latency when hit)
     const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
@@ -84,9 +89,19 @@ Good target words have many alternatives: happy, big, said, walk, good, bad, nic
     );
   } catch (error) {
     console.error('Generate error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate challenge' },
-      { status: 500 }
-    );
+    try {
+      const emergency = await getCachedContent(GAME_KEY, topic, difficulty);
+      if (emergency) {
+        return NextResponse.json(
+          { ...emergency.content_json, cacheId: emergency.id, degraded: true },
+          { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+        );
+      }
+    } catch { /* cache also failed */ }
+    return NextResponse.json({
+      ...synonymShowdownFallback(topic),
+      cacheId: null,
+      degraded: true,
+    });
   }
 }

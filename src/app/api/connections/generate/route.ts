@@ -3,6 +3,8 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { requireAuth } from '@/lib/auth-credits';
+import { connectionsFallback } from '@/lib/fallback-content';
 
 export const dynamic = 'force-dynamic';
 
@@ -70,13 +72,16 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  try {
-    const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
-      topic: Topic;
-      difficulty: Difficulty;
-      excludeCacheIds?: string[];
-    };
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
 
+  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+    topic: Topic;
+    difficulty: Difficulty;
+    excludeCacheIds?: string[];
+  };
+
+  try {
     // 1. Check cache first
     const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
@@ -157,9 +162,21 @@ IMPORTANT: Words should be in UPPERCASE. Category names should be clear and conc
     );
   } catch (error) {
     console.error('Generate error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate challenge' },
-      { status: 500 }
-    );
+    try {
+      const emergency = await getCachedContent(GAME_KEY, topic, difficulty);
+      if (emergency) {
+        const cachedData = emergency.content_json as { groups: Array<{ category: string; words: string[]; difficulty: string; color: string }> };
+        const allWords = cachedData.groups.flatMap((g) => g.words);
+        return NextResponse.json(
+          { words: shuffleArray(allWords), groups: cachedData.groups, cacheId: emergency.id, degraded: true },
+          { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+        );
+      }
+    } catch { /* cache also failed */ }
+    return NextResponse.json({
+      ...connectionsFallback(topic),
+      cacheId: null,
+      degraded: true,
+    });
   }
 }

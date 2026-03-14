@@ -564,6 +564,8 @@ export interface LessonPlanGenerateResponse {
   content: Record<string, ActivityGeneratedContent>;
   gameContent?: Record<string, GameGeneratedContent>;
   error?: string;
+  degraded?: boolean;
+  failedCount?: number;
 }
 
 // ============================================

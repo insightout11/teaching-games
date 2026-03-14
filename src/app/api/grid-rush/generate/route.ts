@@ -3,6 +3,8 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import type { GridContent } from '@/games/grid-rush/types';
+import { requireAuth } from '@/lib/auth-credits';
+import { gridRushFallback } from '@/lib/fallback-content';
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) — words of 3-5 letters, simple consonants and short vowels',
@@ -24,12 +26,15 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  try {
-    const { topic, difficulty } = await request.json() as {
-      topic: Topic;
-      difficulty: Difficulty;
-    };
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
 
+  const { topic, difficulty } = await request.json() as {
+    topic: Topic;
+    difficulty: Difficulty;
+  };
+
+  try {
     // Always generate fresh — no cache. Grid-rush needs variety every game.
     const prompt = `Generate a 3x3 letter grid for a word-building race game.
 Difficulty: ${difficultyPrompts[difficulty]}
@@ -67,6 +72,7 @@ Avoid Q, X, Z unless the topic genuinely uses them. Do NOT default to generic hi
     return NextResponse.json({ grid });
   } catch (error) {
     console.error('[grid-rush/generate] error:', error);
-    return NextResponse.json({ error: 'Failed to generate grid' }, { status: 500 });
+    // No cache for grid-rush — straight to deterministic fallback
+    return NextResponse.json({ grid: gridRushFallback(topic), degraded: true });
   }
 }

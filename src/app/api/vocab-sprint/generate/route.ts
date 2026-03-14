@@ -3,6 +3,8 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic, Tone } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { requireAuth } from '@/lib/auth-credits';
+import { vocabSprintFallback } from '@/lib/fallback-content';
 
 export interface GameSentence {
   sentence: string;
@@ -43,15 +45,18 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  try {
-    const { difficulty, topic, tone, seenItems = [], excludeCacheIds = [] } = await request.json() as {
-      difficulty: Difficulty;
-      topic: Topic;
-      tone: Tone;
-      seenItems?: string[];      // weakWords seen this session — AI avoids repeating them
-      excludeCacheIds?: string[]; // cache entry IDs already served this session
-    };
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
 
+  const { difficulty, topic, tone, seenItems = [], excludeCacheIds = [] } = await request.json() as {
+    difficulty: Difficulty;
+    topic: Topic;
+    tone: Tone;
+    seenItems?: string[];      // weakWords seen this session — AI avoids repeating them
+    excludeCacheIds?: string[]; // cache entry IDs already served this session
+  };
+
+  try {
     // 1. Check cache first (zero AI latency when hit)
     const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
@@ -93,9 +98,22 @@ Return exactly 5 objects as a JSON array with varied weak words.`;
     return NextResponse.json({ sentences, cacheId });
   } catch (error) {
     console.error('Generate error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate sentences' },
-      { status: 500 }
-    );
+    // Emergency: try cache without exclusions
+    try {
+      const emergency = await getCachedContent(GAME_KEY, topic, difficulty);
+      if (emergency) {
+        return NextResponse.json({
+          sentences: emergency.content_json as GameSentence[],
+          cacheId: emergency.id,
+          degraded: true,
+        });
+      }
+    } catch { /* cache also failed */ }
+    // Topic-aware deterministic fallback
+    return NextResponse.json({
+      sentences: vocabSprintFallback(topic),
+      cacheId: null,
+      degraded: true,
+    });
   }
 }

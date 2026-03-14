@@ -10,6 +10,10 @@ vi.mock('@/lib/content-cache', () => ({
   storeCachedContent: vi.fn(),
 }));
 
+vi.mock('@/lib/auth-credits', () => ({
+  requireAuth: vi.fn().mockResolvedValue({ teacher: { id: 'test', email: 'test@test.com', credits: 5, isPro: false }, error: null }),
+}));
+
 import { POST } from '@/app/api/vocab-sprint/generate/route';
 import { generateJSON } from '@/lib/ai';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
@@ -104,16 +108,45 @@ describe('POST /api/vocab-sprint/generate', () => {
     expect(getCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Travel', 'Easy', excludeIds);
   });
 
-  it('returns 500 when AI throws and cache misses', async () => {
+  it('returns 200 with degraded fallback when AI throws and cache misses', async () => {
     vi.mocked(getCachedContent).mockResolvedValue(null);
     vi.mocked(generateJSON).mockRejectedValue(new Error('AI timeout'));
 
     const req = makeRequest({ difficulty: 'Expert', topic: 'Psychology', tone: 'Professional' });
     const res = await POST(req as never);
 
-    expect(res.status).toBe(500);
+    expect(res.status).toBe(200);
     const data = await res.json();
-    expect(data.error).toBeDefined();
+    expect(data.degraded).toBe(true);
+    expect(data.cacheId).toBeNull();
+    expect(Array.isArray(data.sentences)).toBe(true);
+    expect(data.sentences.length).toBeGreaterThan(0);
+    // Topic-awareness: fallback content includes the requested topic
+    const hasTopic = data.sentences.some((s: { sentence: string }) => s.sentence.includes('Psychology'));
+    expect(hasTopic).toBe(true);
+    // Correct shape
+    for (const s of data.sentences) {
+      expect(s).toHaveProperty('sentence');
+      expect(s).toHaveProperty('weakWord');
+      expect(s).toHaveProperty('hint');
+    }
+  });
+
+  it('returns degraded cache hit when AI throws but relaxed cache succeeds', async () => {
+    // First call (with excludeCacheIds in try) returns null, second call (relaxed in catch) returns cached
+    vi.mocked(getCachedContent)
+      .mockResolvedValueOnce(null)   // try block: cache check with excludeCacheIds
+      .mockResolvedValueOnce({ id: 'emergency-id', content_json: FAKE_SENTENCES }); // catch block: relaxed emergency check
+    vi.mocked(generateJSON).mockRejectedValue(new Error('AI down'));
+
+    const req = makeRequest({ difficulty: 'Easy', topic: 'Travel', tone: 'Neutral', excludeCacheIds: ['old-id'] });
+    const res = await POST(req as never);
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.degraded).toBe(true);
+    expect(data.cacheId).toBe('emergency-id');
+    expect(data.sentences).toEqual(FAKE_SENTENCES);
   });
 
   it('response includes sentences array with correct shape', async () => {

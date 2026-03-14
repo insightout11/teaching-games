@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { bulkSemaphore } from '@/lib/ai/concurrency';
+import { requireAuthWithCredits, useCredit } from '@/lib/auth-credits';
 
 const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
   bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
@@ -1353,6 +1354,10 @@ Return JSON with groups array. Words should be UPPERCASE.`;
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth + credit gate
+    const { teacher, error: authError } = await requireAuthWithCredits();
+    if (authError) return authError;
+
     const body = (await request.json()) as LessonPlanGenerateRequest;
     const { customTopic, difficulty, activities, games, studentCount, goal, missionContext } = body;
 
@@ -1470,9 +1475,29 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    await Promise.all(generators);
+    const results = await Promise.allSettled(generators);
 
-    const response: LessonPlanGenerateResponse = { success: true, content, gameContent };
+    // Count failures for degraded flag
+    const failedCount = results.filter((r) => r.status === 'rejected').length;
+    if (failedCount > 0) {
+      console.warn(`Lesson plan: ${failedCount}/${results.length} generators failed`);
+      for (const r of results) {
+        if (r.status === 'rejected') console.error('Generator failure:', r.reason);
+      }
+    }
+
+    // Only charge credit if at least one generator succeeded
+    const succeededCount = results.length - failedCount;
+    if (teacher && !teacher.isPro && succeededCount > 0) {
+      await useCredit(teacher.id);
+    }
+
+    const response: LessonPlanGenerateResponse = {
+      success: succeededCount > 0,
+      content,
+      gameContent,
+      ...(failedCount > 0 && { degraded: true, failedCount }),
+    };
     return NextResponse.json(response);
   } catch (error) {
     console.error('Lesson plan generation error:', error);

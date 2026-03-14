@@ -4,6 +4,8 @@ import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { GrammarTarget } from '@/games/grammar-boss/types';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { requireAuth } from '@/lib/auth-credits';
+import { grammarBossFallback } from '@/lib/fallback-content';
 
 const GAME_KEY = 'grammar-boss';
 const SCHEMA_VERSION = 1;
@@ -26,14 +28,17 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  try {
-    const { grammarTarget, topic, difficulty, excludeCacheIds = [] } = await request.json() as {
-      grammarTarget: GrammarTarget;
-      topic: Topic;
-      difficulty: Difficulty;
-      excludeCacheIds?: string[];
-    };
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
 
+  const { grammarTarget, topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+    grammarTarget: GrammarTarget;
+    topic: Topic;
+    difficulty: Difficulty;
+    excludeCacheIds?: string[];
+  };
+
+  try {
     // 1. Check cache first — variant = grammarTarget to scope cache per grammar structure
     const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, grammarTarget);
     if (cached) {
@@ -64,9 +69,16 @@ The task should prompt the student to speak about the given topic while using th
     return NextResponse.json({ ...result, cacheId });
   } catch (error) {
     console.error('Generate error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate challenge' },
-      { status: 500 }
-    );
+    try {
+      const emergency = await getCachedContent(GAME_KEY, topic, difficulty, undefined, grammarTarget);
+      if (emergency) {
+        return NextResponse.json({ ...emergency.content_json, cacheId: emergency.id, degraded: true });
+      }
+    } catch { /* cache also failed */ }
+    return NextResponse.json({
+      ...grammarBossFallback(topic),
+      cacheId: null,
+      degraded: true,
+    });
   }
 }

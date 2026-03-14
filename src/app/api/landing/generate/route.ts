@@ -5,38 +5,70 @@ import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import type { FinalAnswerContent, MicDropContent, LightningRoundContent, OpinionShiftContent } from '@/activities/types';
+import { requireAuth } from '@/lib/auth-credits';
+import {
+  finalAnswerFallback,
+  micDropFallback,
+  opinionShiftFallback,
+  lightningRoundFallback,
+} from '@/lib/fallback-content';
 
 type LandingActivityKey = 'final-answer' | 'mic-drop' | 'lightning-round' | 'opinion-shift';
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
+
   const { activityKey, topic, difficulty } = await request.json() as {
     activityKey: LandingActivityKey;
     topic: string;
     difficulty: Difficulty;
   };
 
-  // 1. Cache check
-  const cached = await getCachedContent(activityKey, topic, difficulty);
-  if (cached) {
-    return NextResponse.json({ content: cached.content_json, cacheId: cached.id });
+  try {
+    // 1. Cache check
+    const cached = await getCachedContent(activityKey, topic, difficulty);
+    if (cached) {
+      return NextResponse.json({ content: cached.content_json, cacheId: cached.id });
+    }
+
+    // 2. Generate
+    let content: FinalAnswerContent | MicDropContent | LightningRoundContent | OpinionShiftContent;
+    if (activityKey === 'final-answer') {
+      content = await generateFinalAnswer(topic, difficulty);
+    } else if (activityKey === 'mic-drop') {
+      content = await generateMicDrop(topic, difficulty);
+    } else if (activityKey === 'opinion-shift') {
+      content = await generateOpinionShift(topic, difficulty);
+    } else {
+      content = await generateLightningRound(topic, difficulty);
+    }
+
+    // 3. Store (fire-and-forget)
+    const cacheId = await storeCachedContent(activityKey, topic, difficulty, content, 1);
+
+    return NextResponse.json({ content, cacheId });
+  } catch (error) {
+    console.error('Landing generate error:', error);
+    try {
+      const emergency = await getCachedContent(activityKey, topic, difficulty);
+      if (emergency) {
+        return NextResponse.json({ content: emergency.content_json, cacheId: emergency.id, degraded: true });
+      }
+    } catch { /* cache also failed */ }
+    // Topic-aware deterministic fallback per activity key
+    const fallbacks: Record<LandingActivityKey, () => FinalAnswerContent | MicDropContent | LightningRoundContent | OpinionShiftContent> = {
+      'final-answer': () => finalAnswerFallback(topic) as FinalAnswerContent,
+      'mic-drop': () => micDropFallback(topic) as MicDropContent,
+      'opinion-shift': () => opinionShiftFallback(topic) as OpinionShiftContent,
+      'lightning-round': () => lightningRoundFallback(topic) as LightningRoundContent,
+    };
+    return NextResponse.json({
+      content: fallbacks[activityKey](),
+      cacheId: null,
+      degraded: true,
+    });
   }
-
-  // 2. Generate
-  let content: FinalAnswerContent | MicDropContent | LightningRoundContent | OpinionShiftContent;
-  if (activityKey === 'final-answer') {
-    content = await generateFinalAnswer(topic, difficulty);
-  } else if (activityKey === 'mic-drop') {
-    content = await generateMicDrop(topic, difficulty);
-  } else if (activityKey === 'opinion-shift') {
-    content = await generateOpinionShift(topic, difficulty);
-  } else {
-    content = await generateLightningRound(topic, difficulty);
-  }
-
-  // 3. Store (fire-and-forget)
-  const cacheId = await storeCachedContent(activityKey, topic, difficulty, content, 1);
-
-  return NextResponse.json({ content, cacheId });
 }
 
 async function generateFinalAnswer(topic: string, difficulty: Difficulty): Promise<FinalAnswerContent> {

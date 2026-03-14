@@ -3,6 +3,8 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { requireAuth } from '@/lib/auth-credits';
+import { wordChainFallback } from '@/lib/fallback-content';
 
 const GAME_KEY = 'word-chain';
 const SCHEMA_VERSION = 1;
@@ -25,13 +27,16 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  try {
-    const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
-      topic: Topic;
-      difficulty: Difficulty;
-      excludeCacheIds?: string[];
-    };
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
 
+  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+    topic: Topic;
+    difficulty: Difficulty;
+    excludeCacheIds?: string[];
+  };
+
+  try {
     // 1. Check cache first
     const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
@@ -60,9 +65,16 @@ Good starting words have rich associations: ocean, music, family, city, food, te
     return NextResponse.json({ ...data, cacheId });
   } catch (error) {
     console.error('Generate error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate starting word' },
-      { status: 500 }
-    );
+    try {
+      const emergency = await getCachedContent(GAME_KEY, topic, difficulty);
+      if (emergency) {
+        return NextResponse.json({ ...emergency.content_json, cacheId: emergency.id, degraded: true });
+      }
+    } catch { /* cache also failed */ }
+    return NextResponse.json({
+      ...wordChainFallback(topic),
+      cacheId: null,
+      degraded: true,
+    });
   }
 }

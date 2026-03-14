@@ -3,6 +3,7 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { storySprintStarterFallback } from '@/lib/fallback-content';
 
 const GAME_KEY = 'story-sprint';
 const SCHEMA_VERSION = 1;
@@ -24,13 +25,13 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  try {
-    const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
-      topic: string;
-      difficulty: Difficulty;
-      excludeCacheIds?: string[];
-    };
+  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+    topic: string;
+    difficulty: Difficulty;
+    excludeCacheIds?: string[];
+  };
 
+  try {
     // 1. Check cache first
     const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
@@ -51,9 +52,16 @@ Keep it to exactly ONE sentence (15-30 words). Do not end the story — leave it
     return NextResponse.json({ ...parsed, cacheId });
   } catch (error) {
     console.error('Starter generation error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate starter sentence' },
-      { status: 500 }
-    );
+    try {
+      const emergency = await getCachedContent(GAME_KEY, topic, difficulty);
+      if (emergency) {
+        return NextResponse.json({ ...emergency.content_json, cacheId: emergency.id, degraded: true });
+      }
+    } catch { /* cache also failed */ }
+    return NextResponse.json({
+      ...storySprintStarterFallback(topic),
+      cacheId: null,
+      degraded: true,
+    });
   }
 }
