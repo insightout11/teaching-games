@@ -7,7 +7,7 @@ export default function ClassroomActivitiesLayout({ children }: { children: Reac
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <Link href="/classroom-activities">
-            <Image src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" width={150} height={24} className="h-auto" />
+            <Image src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" width={150} height={24} className="h-auto" unoptimized />
           </Link>
           <nav className="hidden gap-6 text-sm text-gray-600 sm:flex">
             <Link href="/classroom-games" className="hover:text-blue-600">
