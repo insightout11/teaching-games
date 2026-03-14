@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function WorksheetsLayout({
   children,
 }: {
@@ -8,7 +10,7 @@ export default function WorksheetsLayout({
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <a href="/worksheets" className="flex items-center gap-2">
-            <img src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" className="h-auto w-[150px]" />
+            <Image src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" width={150} height={24} className="h-auto" />
             <span className="text-lg font-bold text-blue-600">Worksheets</span>
           </a>
         </div>

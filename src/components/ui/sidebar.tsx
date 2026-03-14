@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -33,7 +34,7 @@ export function Sidebar({ user }: { user: User }) {
   return (
     <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col">
       <div className="p-6 border-b border-lc-border-subtle">
-        <img src="/lessoncaptain-logo-on-dark.svg" alt="LessonCaptain" className="h-auto w-[180px]" />
+        <Image src="/lessoncaptain-logo-on-dark.svg" alt="LessonCaptain" width={180} height={29} className="h-auto" />
         {mockMode && (
           <span className="text-xs text-lc-warn bg-lc-warn/10 px-2 py-0.5 rounded-full">
             Demo Mode
