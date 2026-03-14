@@ -34,7 +34,7 @@ export function Sidebar({ user }: { user: User }) {
   return (
     <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col">
       <div className="p-6 border-b border-lc-border-subtle">
-        <Image src="/lessoncaptain-logo-on-dark.svg" alt="LessonCaptain" width={180} height={29} className="h-auto" unoptimized />
+        <Image src="/lessoncaptain-logo-on-dark-v2.svg" alt="LessonCaptain" width={180} height={29} className="h-auto" unoptimized />
         {mockMode && (
           <span className="text-xs text-lc-warn bg-lc-warn/10 px-2 py-0.5 rounded-full">
             Demo Mode
