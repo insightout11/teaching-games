@@ -92,7 +92,7 @@ function computeNodeLayout(steps: FlightPlanStep[], width: number, height: numbe
 
   const baseY = height * (isRuntime ? 0.72 : 0.66);
   const arcLift = isRuntime ? clamp(28 + count * 3, 36, 56) : clamp(42 + count * 4, 54, 82);
-  const cardRowY = isRuntime ? clamp(height * 0.12, 28, 52) : clamp(height * 0.18, 80, 100);
+  const cardRowY = isRuntime ? clamp(height * 0.12, 14, 40) : clamp(height * 0.18, 80, 100);
   const cardWidth = isRuntime ? 148 : 188;
 
   return steps.map((step, index) => {
@@ -821,7 +821,7 @@ export function LessonCaptainFlightPlan({
 
   return (
     <div
-      className={`relative w-full overflow-hidden rounded-[28px] border border-white/10 bg-[#07111f] shadow-[0_20px_80px_rgba(0,0,0,0.45)] ${className}`}
+      className={`relative w-full overflow-hidden ${mode === 'runtime' ? 'rounded-2xl' : 'rounded-[28px]'} border border-white/10 bg-[#07111f] shadow-[0_20px_80px_rgba(0,0,0,0.45)] ${className}`}
       style={{ aspectRatio: `${width} / ${height}` }}
     >
       {!mounted ? null : (
@@ -849,7 +849,7 @@ export function LessonCaptainFlightPlan({
           <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} />
           <PlaneLayer width={width} height={height} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
 
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#050b15] to-transparent" />
+          <div className={`pointer-events-none absolute inset-x-0 bottom-0 ${mode === 'runtime' ? 'h-8' : 'h-28'} bg-gradient-to-t from-[#050b15] to-transparent`} />
         </>
       )}
     </div>

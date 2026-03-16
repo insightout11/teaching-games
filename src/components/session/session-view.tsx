@@ -637,7 +637,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   steps={buildRuntimeFlightPlanSteps(lesson.lessonSlots)}
                   mode="runtime"
                   activeIndex={getFlightPlanActiveIndex(lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length)}
-                  height={240}
+                  height={120}
                 />
               </div>
             )}
@@ -670,7 +670,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   steps={buildRuntimeFlightPlanSteps(lesson.lessonSlots)}
                   mode="runtime"
                   activeIndex={getFlightPlanActiveIndex(lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length)}
-                  height={240}
+                  height={120}
                 />
               </div>
             )}
