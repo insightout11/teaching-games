@@ -44,4 +44,6 @@ export interface SubmissionResult {
 // Handler that games register to process approved submissions
 export interface SubmissionHandler {
   handleSubmission: (content: string, metadata?: Record<string, unknown>) => Promise<SubmissionResult>;
+  /** When true, submissions are processed automatically without teacher approval */
+  autoApprove?: boolean;
 }

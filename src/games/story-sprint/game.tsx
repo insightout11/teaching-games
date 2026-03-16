@@ -92,6 +92,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
   // Register submission handler to evaluate remote submissions
   useEffect(() => {
     onRegisterSubmissionHandler?.({
+      autoApprove: true,
       handleSubmission: async (content: string) => {
         const currentStory = storyRef.current;
         const storySoFar = currentStory.map((s) => s.text).join(' ');

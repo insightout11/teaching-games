@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useApprovalQueue } from '@/hooks/use-approval-queue';
 import { Button } from '@/components/ui/button';
 import type { StudentSubmission } from '@/lib/supabase/types';
@@ -9,29 +9,36 @@ interface ApprovalQueueProps {
   sessionId: string;
   onApprove: (submission: StudentSubmission) => Promise<void>;
   hideContent?: boolean;
+  autoApprove?: boolean;
 }
 
-export function ApprovalQueue({ sessionId, onApprove, hideContent }: ApprovalQueueProps) {
+export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }: ApprovalQueueProps) {
   const { pending, approve, reject, setError, isLoading } = useApprovalQueue(sessionId);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
 
-  const handleApprove = async (submission: StudentSubmission) => {
+  const handleApprove = useCallback(async (submission: StudentSubmission) => {
     setProcessingId(submission.id);
     try {
-      // Call the parent handler which will evaluate and score
       await onApprove(submission);
-      // Mark as approved in DB
       await approve(submission.id);
     } catch (error) {
-      // If evaluation fails, mark as error
       const message = error instanceof Error ? error.message : 'Evaluation failed';
       await setError(submission.id, message);
     } finally {
       setProcessingId(null);
     }
-  };
+  }, [onApprove, approve, setError]);
+
+  const handleApproveRef = useRef(handleApprove);
+  handleApproveRef.current = handleApprove;
+
+  // Auto-approve: process submissions without teacher action when the game opts in
+  useEffect(() => {
+    if (!autoApprove || pending.length === 0 || processingId !== null) return;
+    handleApproveRef.current(pending[0]);
+  }, [autoApprove, pending, processingId]);
 
   const handleReject = async (submissionId: string) => {
     setProcessingId(submissionId);

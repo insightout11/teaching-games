@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useRef, useMemo, useState } from 'react';
 import { useSessionStore, calculateStreakBonus } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin, ScoreResult, GameRemoteVote } from '@/games/types';
@@ -38,6 +38,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   const supabase = createClient();
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: GameRemoteVote) => void) | null>(null);
+  const [autoApprove, setAutoApprove] = useState(false);
   // Tracks which teacher-initiated round produced each score.
   // Increments after every handleScore call so each score row gets a unique, sequential index.
   // max(prompt_index) per session = total scoring events; used by Control Room participation grid.
@@ -119,6 +120,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   // Callback for games to register submission handler
   const handleRegisterSubmissionHandler = useCallback((handler: SubmissionHandler | null) => {
     submissionHandlerRef.current = handler;
+    setAutoApprove(handler?.autoApprove ?? false);
   }, []);
 
   // Callback for games to register remote vote handler
@@ -288,6 +290,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
               sessionId={sessionId}
               onApprove={handleApprovedSubmission}
               hideContent
+              autoApprove={autoApprove}
             />
           )}
         </div>
