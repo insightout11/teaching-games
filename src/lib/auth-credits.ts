@@ -116,7 +116,7 @@ export async function requireAuth(): Promise<AuthResult> {
  * Decrement one generation credit after successful content generation.
  * Pro users are not decremented. Call AFTER successful generation.
  */
-export async function useCredit(teacherId: string): Promise<void> {
+export async function consumeCredit(teacherId: string): Promise<void> {
   if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') return;
 
   const service = createServiceClient();

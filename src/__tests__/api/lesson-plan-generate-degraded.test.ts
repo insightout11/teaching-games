@@ -20,7 +20,7 @@ vi.mock('@/lib/auth-credits', () => ({
     teacher: { id: 'test', email: 'test@test.com', credits: 10, isPro: false },
     error: null,
   }),
-  useCredit: vi.fn().mockResolvedValue(undefined),
+  consumeCredit: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('@/lib/generate-mission-selector', () => ({
@@ -32,7 +32,7 @@ vi.mock('@/lib/generate-mission-selector', () => ({
 }));
 
 import { POST } from '@/app/api/lesson-plan/generate/route';
-import { useCredit } from '@/lib/auth-credits';
+import { consumeCredit } from '@/lib/auth-credits';
 
 function makeRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/lesson-plan/generate', {
@@ -83,7 +83,7 @@ describe('POST /api/lesson-plan/generate — degraded mode', () => {
     // The failed generator left gameContent empty
     expect(data.gameContent['vocab-sprint']).toBeUndefined();
     // Credit still charged (at least one succeeded)
-    expect(useCredit).toHaveBeenCalled();
+    expect(consumeCredit).toHaveBeenCalled();
   });
 
   it('does not charge credit when all generators fail', async () => {
@@ -102,6 +102,6 @@ describe('POST /api/lesson-plan/generate — degraded mode', () => {
     expect(data.success).toBe(false);
     expect(data.degraded).toBe(true);
     expect(data.failedCount).toBe(1);
-    expect(useCredit).not.toHaveBeenCalled();
+    expect(consumeCredit).not.toHaveBeenCalled();
   });
 });

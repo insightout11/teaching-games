@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { bulkSemaphore } from '@/lib/ai/concurrency';
-import { requireAuthWithCredits, useCredit } from '@/lib/auth-credits';
+import { requireAuthWithCredits, consumeCredit } from '@/lib/auth-credits';
 
 const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
   bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
@@ -1489,7 +1489,7 @@ export async function POST(request: NextRequest) {
     // Only charge credit if at least one generator succeeded
     const succeededCount = results.length - failedCount;
     if (teacher && !teacher.isPro && succeededCount > 0) {
-      await useCredit(teacher.id);
+      await consumeCredit(teacher.id);
     }
 
     const response: LessonPlanGenerateResponse = {
