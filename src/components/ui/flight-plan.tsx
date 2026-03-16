@@ -727,24 +727,26 @@ function PlaneLayer({
       </defs>
 
       <motion.g
-        initial={isPlanner ? { opacity: 0, scale: 0.88 } : { opacity: 1 }}
-        animate={isPlanner ? { opacity: 1, scale: 1 } : { opacity: 1 }}
-        transition={{ delay: isPlanner ? 1.05 : 0, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        initial={isPlanner ? { opacity: 0, scale: 0.88, x: planeX, y: planeY } : { opacity: 1, x: planeX, y: planeY }}
+        animate={isPlanner ? { opacity: 1, scale: 1, x: planeX, y: planeY } : { opacity: 1, x: planeX, y: planeY }}
+        transition={isPlanner
+          ? { opacity: { delay: 1.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }, scale: { delay: 1.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
+          : { x: { duration: 2.2, ease: [0.22, 1, 0.36, 1] }, y: { duration: 2.2, ease: [0.22, 1, 0.36, 1] } }
+        }
       >
         <ellipse
-          cx={planeX - 8}
-          cy={planeY - 16}
+          cx={-8}
+          cy={-16}
           rx={isPlanner ? 24 : 21}
           ry={isPlanner ? 12 : 10}
           fill="rgba(95, 226, 255, 0.20)"
           filter={`url(#${ids.planeGlow})`}
           opacity={isPlanner ? 0.22 : 0.24}
-          style={{ transformOrigin: `${planeX - 8}px ${planeY - 16}px` }}
         />
 
         <foreignObject
-          x={planeX - 30}
-          y={planeY - 40}
+          x={-30}
+          y={-40}
           width="60"
           height="60"
         >
