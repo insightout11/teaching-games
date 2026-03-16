@@ -4,6 +4,7 @@ import { getCachedContent, storeCachedContent } from './content-cache';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import type { MissionSelectorContent } from '@/activities/types';
+import { missionSelectorFallback } from './fallback-content';
 
 type MissionType = 'curiosity' | 'skill' | 'performance';
 
@@ -83,12 +84,16 @@ Rules:
 
 Return JSON with a "questions" array of exactly 6 strings.`;
 
-  const data = await generateJSON<{ questions: string[] }>(aiPrompt, schema);
-  const questions = (Array.isArray(data.questions) ? data.questions : []).slice(0, 6);
+  try {
+    const data = await generateJSON<{ questions: string[] }>(aiPrompt, schema);
+    const questions = (Array.isArray(data.questions) ? data.questions : []).slice(0, 6);
 
-  const content: MissionSelectorContent = { activityKey: 'mission-selector', topicContext: topic, questions };
+    const content: MissionSelectorContent = { activityKey: 'mission-selector', topicContext: topic, questions };
 
-  void storeCachedContent('mission-selector', topic, difficulty, { questions }, 1, missionType);
+    void storeCachedContent('mission-selector', topic, difficulty, { questions }, 1, missionType);
 
-  return content;
+    return content;
+  } catch {
+    return missionSelectorFallback(topic);
+  }
 }

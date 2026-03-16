@@ -5,6 +5,7 @@ import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { SessionSettings } from '@/stores/session-store';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
+import { missionSelectorFallback } from '@/lib/fallback-content';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -322,11 +323,15 @@ export function useLessonSession(
       .then((data) => {
         if (data.success !== false && data.content?.['mission-selector']) {
           prefetchedContentRef.current['mission-selector'] = data.content['mission-selector'];
+        } else {
+          // API failed or returned no content (auth error, credits, AI failure) — use fallback
+          prefetchedContentRef.current['mission-selector'] = missionSelectorFallback(topic);
         }
         setMissionSelectorReady(true);
       })
       .catch((err) => {
         console.error('Failed to generate mission-selector content:', err);
+        prefetchedContentRef.current['mission-selector'] = missionSelectorFallback(topic);
         setMissionSelectorReady(true);
       })
       .finally(() => {
