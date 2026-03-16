@@ -140,34 +140,33 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Realtime subscription for leaderboard
   useRealtimeLeaderboard(session.id);
 
-  // Realtime subscription for new students joining
+  // Poll for new students joining (realtime was unreliable with service-role INSERTs)
   useEffect(() => {
     if (isMockMode()) return;
 
-    const rt = createClient();
-    const channel = rt
-      .channel(`students-${cls.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'students',
-          filter: `class_id=eq.${cls.id}`,
-        },
-        (payload: { new: Student }) => {
-          const newStudent = payload.new;
-          setStudents((prev) => {
-            if (prev.some((s) => s.id === newStudent.id)) return prev;
-            return [...prev, newStudent];
-          });
-          addStudent(newStudent);
-        }
-      )
-      .subscribe();
+    let cancelled = false;
+    const poll = async () => {
+      const sb = createClient();
+      const { data } = await sb
+        .from('students')
+        .select('*')
+        .eq('class_id', cls.id)
+        .order('name') as { data: Student[] | null };
+      if (cancelled || !data) return;
+      setStudents((prev) => {
+        if (data.length === prev.length && data.every((s: Student, i: number) => s.id === prev[i].id)) return prev;
+        return data;
+      });
+      data.forEach((s: Student) => addStudent(s));
+    };
+
+    const interval = setInterval(poll, 3000);
+    // Also poll immediately on mount
+    poll();
 
     return () => {
-      rt.removeChannel(channel);
+      cancelled = true;
+      clearInterval(interval);
     };
   }, [cls.id, addStudent]);
 
