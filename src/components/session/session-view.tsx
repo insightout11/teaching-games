@@ -6,6 +6,8 @@ import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
 import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
+import { ModuleErrorBoundary } from './module-error-boundary';
+import { PaywallModal } from '@/components/ui/paywall-modal';
 import { EndSessionSummary } from './end-session-summary';
 import { SessionSettingsBar } from './session-settings-bar';
 import { WidgetShell } from './widget-shell';
@@ -64,6 +66,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
+  const [pppFilter, setPppFilter] = useState<'all' | 'presentation' | 'practice' | 'production'>('all');
   const settingsPopoverRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -139,7 +142,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // Realtime subscription for new students joining
   useEffect(() => {
-    const channel = supabase
+    if (isMockMode()) return;
+
+    const rt = createClient();
+    const channel = rt
       .channel(`students-${cls.id}`)
       .on(
         'postgres_changes',
@@ -161,9 +167,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      rt.removeChannel(channel);
     };
-  }, [cls.id, supabase, addStudent]);
+  }, [cls.id, addStudent]);
 
   const handleEndSession = async () => {
     await supabase.from('sessions').update({ status: 'ended', ended_at: new Date().toISOString() }).eq('id', session.id);
@@ -440,6 +446,28 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <div className="hud-settings-panel p-2 shadow-lg">
               <SessionSettingsBar />
             </div>
+
+            {/* PPP Stage Filter */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-lc-text3 uppercase tracking-wider font-semibold mr-1">Stage:</span>
+              {(['all', 'presentation', 'practice', 'production'] as const).map((stage) => (
+                <button
+                  key={stage}
+                  onClick={() => setPppFilter(stage)}
+                  className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                    pppFilter === stage
+                      ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-300 border-violet-500/40'
+                        : stage === 'practice' ? 'bg-sky-500/20 text-sky-300 border-sky-500/40'
+                        : stage === 'production' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                        : 'bg-white/10 text-white border-white/20'
+                      : 'bg-transparent text-white/50 border-white/10 hover:border-white/20'
+                  }`}
+                >
+                  {stage === 'all' ? 'All' : stage.charAt(0).toUpperCase() + stage.slice(1)}
+                </button>
+              ))}
+            </div>
+
             {/* Activities Section */}
             <div>
               <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
@@ -451,7 +479,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
               </h2>
               {(Object.entries(getActivitiesGrouped()) as [string, typeof activities][]).map(([category, categoryActivities]) => {
-                if (categoryActivities.length === 0) return null;
+                const filtered = pppFilter === 'all' ? categoryActivities : categoryActivities.filter((a) => a.pppStage === pppFilter);
+                if (filtered.length === 0) return null;
                 const info = CATEGORY_INFO[category as keyof typeof CATEGORY_INFO];
                 const IconComponent = info.icon;
                 return (
@@ -462,9 +491,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       <div className="hud-rule" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {categoryActivities.map((activity) => {
+                      {filtered.map((activity) => {
                         const hasContent = lesson.lessonPlanContent?.generatedContent[activity.key];
                         const ActivityIcon = activity.icon;
+                        const stageBadge = activity.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-300' }
+                          : activity.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-300' }
+                          : activity.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-300' }
+                          : null;
                         return (
                           <button
                             key={activity.key}
@@ -479,6 +512,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             <div className="flex items-center gap-2 mb-1">
                               <ActivityIcon className={`w-5 h-5 ${info.color}`} />
                               <h3 className="font-semibold">{activity.name}</h3>
+                              {stageBadge && (
+                                <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>
+                              )}
                             </div>
                             <p className="text-sm opacity-70 mt-2">{activity.description}</p>
                             <div className="flex flex-wrap gap-1 mt-3">
@@ -525,7 +561,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
               </h2>
               {(Object.entries(getGamesGrouped()) as [string, typeof games][]).map(([category, categoryGames]) => {
-                if (categoryGames.length === 0) return null;
+                const filtered = pppFilter === 'all' ? categoryGames : categoryGames.filter((g) => g.pppStage === pppFilter);
+                if (filtered.length === 0) return null;
                 const info = GAME_CATEGORY_INFO[category as keyof typeof GAME_CATEGORY_INFO];
                 const IconComponent = info.icon;
                 return (
@@ -536,9 +573,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       <div className="hud-rule" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {categoryGames.map((game) => {
+                      {filtered.map((game) => {
                         const hasContent = lesson.lessonPlanContent?.generatedGameContent?.[game.key];
                         const GameIcon = game.icon;
+                        const stageBadge = game.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-300' }
+                          : game.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-300' }
+                          : game.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-300' }
+                          : null;
                         return (
                           <button
                             key={game.key}
@@ -553,6 +594,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             <div className="flex items-center gap-2 mb-1">
                               <GameIcon className={`w-5 h-5 ${info.color}`} />
                               <h3 className="font-semibold">{game.name}</h3>
+                              {stageBadge && (
+                                <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>
+                              )}
                             </div>
                             <p className="text-sm opacity-70 mt-1">{game.description}</p>
                             <div className="flex flex-wrap gap-1 mt-3">
@@ -601,7 +645,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
             <div className="mb-4 flex items-center justify-between">
               <Button variant="ghost" size="sm" onClick={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}>
-                ← {lesson.isLessonActive ? 'Exit Lesson' : 'Back to selection'}
+                ← {lesson.isLessonActive ? 'Exit Lesson' : 'Switch Activity'}
               </Button>
               {lesson.isLessonActive && (
                 <Button
@@ -614,7 +658,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </Button>
               )}
             </div>
-            <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} />
+            <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
+              <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} />
+            </ModuleErrorBoundary>
           </div>
         ) : viewMode === 'activity' && selectedActivity ? (
           <div>
@@ -632,7 +678,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
             <div className="mb-4 flex items-center justify-between">
               <Button variant="ghost" size="sm" onClick={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}>
-                ← {lesson.isLessonActive ? 'Exit Lesson' : 'Back to selection'}
+                ← {lesson.isLessonActive ? 'Exit Lesson' : 'Switch Activity'}
               </Button>
               {lesson.isLessonActive && (
                 <Button
@@ -646,12 +692,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               )}
             </div>
             {activityContent ? (
-              <ActivityShell
-                activity={selectedActivity}
-                generatedContent={activityContent}
-                timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
-                onPhaseChange={lesson.isLessonActive ? lesson.handlePhaseChange : undefined}
-              />
+              <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
+                <ActivityShell
+                  activity={selectedActivity}
+                  generatedContent={activityContent}
+                  timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
+                  onPhaseChange={lesson.isLessonActive ? lesson.handlePhaseChange : undefined}
+                />
+              </ModuleErrorBoundary>
             ) : (
               <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
                 <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mb-4" />
@@ -717,7 +765,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         </div>
       )}
+
+      {/* Paywall modal — shown when generation credits are exhausted */}
+      <PaywallModal
+        open={lesson.creditsExhausted}
+        onClose={lesson.dismissCreditsExhausted}
+      />
     </div>
   );
 }
-
