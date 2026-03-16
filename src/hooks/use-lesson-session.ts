@@ -67,6 +67,8 @@ export interface LessonSession {
   isLessonActive: boolean;
   currentSlot: LessonSlot | null;
   isGeneratingContent: boolean;
+  creditsExhausted: boolean;
+  dismissCreditsExhausted: () => void;
 
   // Content resolution
   selectActivity: (activity: ActivityPlugin) => Promise<ActivityGeneratedContent | null>;
@@ -98,6 +100,11 @@ export function useLessonSession(
   const [generatingModuleName, setGeneratingModuleName] = useState<string | null>(null);
   const [isGeneratingContent, setIsGeneratingContent] = useState(false);
   const [lessonPlanContent, setLessonPlanContent] = useState<LessonPlanPayload | null>(null);
+  const [creditsExhausted, setCreditsExhausted] = useState(false);
+  // Monotonic counter — increments on every advanceSlot/beginLesson to ensure
+  // the pending-auto-start effect fires even when `phase` doesn't change
+  // (e.g. live → live when advancing between two non-landing slots).
+  const [slotTrigger, setSlotTrigger] = useState(0);
 
   // ─── Content prefetch ──────────────────────────────────────────────────
   const prefetchedContentRef = useRef<Record<string, ActivityGeneratedContent | GameGeneratedContent>>({});
@@ -199,6 +206,12 @@ export function useLessonSession(
         headers: { 'Content-Type': 'application/json' },
         body,
       });
+
+      if (response.status === 402) {
+        setCreditsExhausted(true);
+        // Return minimal fallback — don't block the session
+        return { activityKey: activity.key, topicContext: getEffectiveTopic(settings) };
+      }
 
       const data = await response.json();
       const resolvedContent = isLanding ? data.content : data.content?.[activity.key];
@@ -344,15 +357,17 @@ export function useLessonSession(
       pendingAutoStartRef.current = null;
       autoStartCallbackRef.current?.(index);
     }
-    // phase always changes when pendingAutoStartRef is set (beginLesson/advanceSlot)
+    // slotTrigger increments on every beginLesson/advanceSlot so this effect
+    // fires even when phase stays the same (e.g. live → live).
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
+  }, [phase, slotTrigger]);
 
   // ─── Actions ───────────────────────────────────────────────────────────
 
   const beginLesson = useCallback(() => {
     setPhase('mission-select');
     pendingAutoStartRef.current = 0;
+    setSlotTrigger((c) => c + 1);
   }, []);
 
   const advanceSlot = useCallback(() => {
@@ -362,6 +377,7 @@ export function useLessonSession(
       const isLanding = LANDING_ACTIVITY_KEYS.has(nextSlot.key);
       setPhase(isLanding ? 'landing' : 'live');
       pendingAutoStartRef.current = nextIndex;
+      setSlotTrigger((c) => c + 1);
     } else {
       setPhase('ended');
     }
@@ -405,6 +421,8 @@ export function useLessonSession(
     isLessonActive,
     currentSlot,
     isGeneratingContent,
+    creditsExhausted,
+    dismissCreditsExhausted: () => setCreditsExhausted(false),
 
     selectActivity,
     selectGame,
