@@ -58,10 +58,27 @@ export function MissionSetupScreen() {
       </div>
 
       {activeTab === 'presets' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {FLIGHT_PLAN_PRESETS.map((preset) => (
-            <PresetCard key={preset.id} preset={preset} />
-          ))}
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-lc-text2 mb-2">
+              What&apos;s today&apos;s topic?
+            </label>
+            <input
+              type="text"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              placeholder="e.g., What will the world be like in 50 years?"
+              className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-lg focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
+            />
+            <p className="text-xs text-lc-text3 mt-1">
+              Be specific! Good topics lead to better AI-generated content.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {FLIGHT_PLAN_PRESETS.map((preset) => (
+              <PresetCard key={preset.id} preset={preset} disabled={!topic.trim()} />
+            ))}
+          </div>
         </div>
       ) : (
         <>

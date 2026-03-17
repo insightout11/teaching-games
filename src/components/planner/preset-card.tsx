@@ -4,10 +4,11 @@ import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { usePlannerStore } from '@/stores/planner-store';
 
-export function PresetCard({ preset }: { preset: FlightPlanPreset }) {
+export function PresetCard({ preset, disabled = false }: { preset: FlightPlanPreset; disabled?: boolean }) {
   const { loadPreset, setStep } = usePlannerStore();
 
   const handleClick = () => {
+    if (disabled) return;
     loadPreset(preset);
     setStep('flight-plan');
   };
@@ -15,7 +16,10 @@ export function PresetCard({ preset }: { preset: FlightPlanPreset }) {
   return (
     <button
       onClick={handleClick}
-      className="text-left p-4 bg-lc-surface rounded-xl border border-lc-border hover:border-lc-blue/50 transition-all group"
+      disabled={disabled}
+      className={`text-left p-4 bg-lc-surface rounded-xl border border-lc-border transition-all group ${
+        disabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-lc-blue/50'
+      }`}
     >
       <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
         {preset.name}
