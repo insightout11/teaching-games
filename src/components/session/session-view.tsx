@@ -67,6 +67,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
   const [pppFilter, setPppFilter] = useState<'all' | 'presentation' | 'practice' | 'production'>('all');
+  const [swapSuggestion, setSwapSuggestion] = useState<{
+    type: 'activity' | 'game';
+    plugin: ActivityPlugin | GamePlugin;
+  } | null>(null);
   const settingsPopoverRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -185,6 +189,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   const handleSelectGame = (game: GamePlugin) => {
     activeActivityKeyRef.current = null;
+    setSwapSuggestion(null);
     setSelectedGame(game);
     setSelectedActivity(null);
     setActivityContent(null);
@@ -196,6 +201,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   const handleSelectActivity = async (activity: ActivityPlugin) => {
     activeActivityKeyRef.current = activity.key;
+    setSwapSuggestion(null);
     setSelectedActivity(activity);
     setSelectedGame(null);
     setActivityContent(null);
@@ -218,11 +224,31 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, []);
 
   const handleBackToSelection = () => {
+    const prevKey = selectedActivity?.key ?? selectedGame?.key;
+    const prevStage = selectedActivity?.pppStage ?? selectedGame?.pppStage;
+
     setViewMode('selection');
     setSelectedGame(null);
     setSelectedActivity(null);
     setActivityContent(null);
     setGameContent(null);
+    setSwapSuggestion(null);
+
+    if (prevKey && prevStage) {
+      const activityCandidates = activities.filter(
+        (a) => a.pppStage === prevStage && a.key !== prevKey
+      );
+      const gameCandidates = games.filter(
+        (g) => g.pppStage === prevStage && g.key !== prevKey
+      );
+      const all = [
+        ...activityCandidates.map((p) => ({ type: 'activity' as const, plugin: p as ActivityPlugin | GamePlugin })),
+        ...gameCandidates.map((p) => ({ type: 'game' as const, plugin: p as ActivityPlugin | GamePlugin })),
+      ];
+      if (all.length > 0) {
+        setSwapSuggestion(all[Math.floor(Math.random() * all.length)]);
+      }
+    }
   };
 
   const handleNextSlot = () => {
@@ -445,6 +471,48 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <div className="hud-settings-panel p-2 shadow-lg">
               <SessionSettingsBar />
             </div>
+
+            {/* Swap Suggestion Card */}
+            {swapSuggestion && (
+              <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                <p className="mb-2 text-xs font-medium text-white/40 uppercase tracking-wider">
+                  ✨ Try next
+                </p>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="font-semibold text-white">{swapSuggestion.plugin.name}</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded ${
+                    swapSuggestion.plugin.pppStage === 'presentation' ? 'bg-violet-500/15 text-violet-300'
+                    : swapSuggestion.plugin.pppStage === 'practice' ? 'bg-sky-500/15 text-sky-300'
+                    : 'bg-emerald-500/15 text-emerald-300'
+                  }`}>
+                    {swapSuggestion.plugin.pppStage === 'presentation' ? 'Present'
+                      : swapSuggestion.plugin.pppStage === 'practice' ? 'Practice'
+                      : 'Produce'}
+                  </span>
+                </div>
+                <p className="text-xs text-white/40 mb-3">~{swapSuggestion.plugin.estimatedMinutes} min</p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      if (swapSuggestion.type === 'activity') {
+                        handleSelectActivity(swapSuggestion.plugin as ActivityPlugin);
+                      } else {
+                        handleSelectGame(swapSuggestion.plugin as GamePlugin);
+                      }
+                    }}
+                    className="rounded-lg bg-white/10 px-4 py-1.5 text-sm font-medium text-white hover:bg-white/20"
+                  >
+                    Launch Now
+                  </button>
+                  <button
+                    onClick={() => setSwapSuggestion(null)}
+                    className="text-sm text-white/40 hover:text-white/60 px-2"
+                  >
+                    Browse all →
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* PPP Stage Filter */}
             <div className="flex items-center gap-2">
