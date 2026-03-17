@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getAllGames } from '@/games/registry';
 import { getAllActivities } from '@/activities/registry';
 import { ExploreClient } from '@/components/explore/ExploreClient';
