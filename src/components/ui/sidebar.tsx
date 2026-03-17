@@ -9,10 +9,21 @@ import { cn } from '@/lib/utils';
 import { isMockMode } from '@/lib/mock/auth';
 import type { User } from '@supabase/supabase-js';
 import { CreditBadge } from './credit-badge';
+import { Compass, GraduationCap, Route } from 'lucide-react';
+import type { ComponentType } from 'react';
 
-const navItems = [
-  { href: '/classes', label: 'Classes', icon: '📚' },
-  { href: '/lesson-planner', label: 'Lesson Planner', icon: '📝' },
+interface NavItem {
+  href: string;
+  label: string;
+  icon: ComponentType<{ className?: string }>;
+  subtitle: string | null;
+  exact?: boolean;
+}
+
+const navItems: NavItem[] = [
+  { href: '/explore',        label: 'Explore',      icon: Compass,       subtitle: null,               exact: false },
+  { href: '/classes',        label: 'Classes',       icon: GraduationCap, subtitle: null,               exact: false },
+  { href: '/lesson-planner', label: 'Flight Plans',  icon: Route,         subtitle: 'Lesson sequences', exact: false },
 ];
 
 export function Sidebar({ user }: { user: User }) {
@@ -34,7 +45,9 @@ export function Sidebar({ user }: { user: User }) {
   return (
     <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col">
       <div className="p-6 border-b border-lc-border-subtle">
-        <Image src="/lessoncaptain-logo-on-dark-v2.svg" alt="LessonCaptain" width={180} height={29} className="h-auto" unoptimized />
+        <Link href="/explore" className="cursor-pointer">
+          <Image src="/lessoncaptain-logo-on-dark-v2.svg" alt="LessonCaptain" width={180} height={29} className="h-auto" unoptimized />
+        </Link>
         {mockMode && (
           <span className="text-xs text-lc-warn bg-lc-warn/10 px-2 py-0.5 rounded-full">
             Demo Mode
@@ -43,21 +56,29 @@ export function Sidebar({ user }: { user: User }) {
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
-              pathname.startsWith(item.href)
-                ? 'bg-lc-blue/10 text-lc-blue'
-                : 'text-lc-text3 hover:bg-lc-card hover:text-lc-text'
-            )}
-          >
-            <span>{item.icon}</span>
-            {item.label}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                isActive
+                  ? 'bg-lc-blue/10 text-lc-blue'
+                  : 'text-lc-text3 hover:bg-lc-card hover:text-lc-text'
+              )}
+            >
+              <item.icon className="w-4 h-4 shrink-0" />
+              <span className="flex flex-col">
+                <span>{item.label}</span>
+                {item.subtitle && (
+                  <span className="text-xs text-lc-text3 font-normal">{item.subtitle}</span>
+                )}
+              </span>
+            </Link>
+          );
+        })}
       </nav>
 
       <div className="p-4 border-t border-lc-border-subtle">
