@@ -200,7 +200,7 @@ export function ExploreClient({ games, activities }: ExploreClientProps) {
           <p className="text-sm text-lc-text3">Loading classes…</p>
         ) : classes.length === 0 ? (
           <div className="text-sm text-lc-text3">
-            <p className="mb-3">You haven't created a class yet.</p>
+            <p className="mb-3">You haven&apos;t created a class yet.</p>
             <Link
               href="/classes"
               className="text-lc-blue hover:underline font-medium"
