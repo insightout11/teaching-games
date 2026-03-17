@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
+import { getEffectiveTopic } from '@/stores/session-store';
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -49,7 +50,8 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   // Fetch AI-generated sentences on mount / when topic or difficulty changes
   useEffect(() => {
-    const key = `${sessionSettings.topic}-${sessionSettings.difficulty}`;
+    const effectiveTopic = getEffectiveTopic(sessionSettings);
+    const key = `${effectiveTopic}-${sessionSettings.difficulty}`;
     if (fetchedRef.current === key) return;
     fetchedRef.current = key;
 
@@ -60,7 +62,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        topic: sessionSettings.topic,
+        topic: effectiveTopic,
         difficulty: sessionSettings.difficulty,
       }),
     })
@@ -78,7 +80,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       });
 
     return () => { cancelled = true; };
-  }, [sessionSettings.topic, sessionSettings.difficulty]);
+  }, [sessionSettings.topic, sessionSettings.customTopic, sessionSettings.difficulty]);
 
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);

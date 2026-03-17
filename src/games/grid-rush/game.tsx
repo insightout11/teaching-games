@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
+import { getEffectiveTopic } from '@/stores/session-store';
 import { GamePhase } from './types';
 import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidationResult, SentenceEvaluationResult } from './types';
 const ROUND1_DURATION = 90;
@@ -138,7 +139,7 @@ export function GridRushGame({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
         }),
       });
@@ -156,7 +157,7 @@ export function GridRushGame({
       setPhase(GamePhase.IDLE);
       phaseRef.current = GamePhase.IDLE;
     }
-  }, [sessionSettings.difficulty, sessionSettings.topic]);
+  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic]);
 
   // ------- TIMERS -------
 
@@ -289,7 +290,7 @@ export function GridRushGame({
             letters: currentGrid.letters,
             bonusLetter: currentGrid.bonusLetter,
             topicWords: currentGrid.topicWords,
-            topic: sessionSettings.topic,
+            topic: getEffectiveTopic(sessionSettings),
             difficulty: sessionSettings.difficulty,
           }),
         });
@@ -364,7 +365,7 @@ export function GridRushGame({
           body: JSON.stringify({
             sentence,
             studentWords: myWords,
-            topic: sessionSettings.topic,
+            topic: getEffectiveTopic(sessionSettings),
             difficulty: sessionSettings.difficulty,
           }),
         });

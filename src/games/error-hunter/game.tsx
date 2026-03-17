@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { GameStatus } from './types';
+import { getEffectiveTopic } from '@/stores/session-store';
 import type { Challenge, EvaluationResult, UserCorrection } from './types';
 
 interface WordData {
@@ -213,7 +214,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty
         })
       });

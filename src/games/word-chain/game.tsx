@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
+import { getEffectiveTopic } from '@/stores/session-store';
 import type { ExtendedChainLink, ValidationResult, BonusChallenge } from './types';
 
 type TeamId = 'A' | 'B';
@@ -124,7 +125,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
 
     switch (type) {
       case 'topic':
-        return { type: 'topic', description: `Word must relate to "${sessionSettings.topic}"` };
+        return { type: 'topic', description: `Word must relate to "${getEffectiveTopic(sessionSettings)}"` };
       case 'syllable':
         return { type: 'syllable', description: hard ? 'Use a word with 4+ syllables' : 'Use a word with 3+ syllables' };
       case 'letter': {
@@ -439,7 +440,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty
         })
       });

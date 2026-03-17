@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps } from '../types';
 import { TargetTone, TONE_DESCRIPTIONS, GameStatus } from './types';
+import { getEffectiveTopic } from '@/stores/session-store';
 import type { Challenge, EvaluationResult } from './types';
 
 export function ToneTransformerGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
@@ -93,7 +94,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty
         })
       });

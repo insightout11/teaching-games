@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps } from '../types';
 import { GameStatus } from './types';
+import { getEffectiveTopic } from '@/stores/session-store';
 import type { StorySentence, AIScoreResponse, FinalStoryResult } from './types';
 
 const MAX_SENTENCES = 10;
@@ -17,7 +18,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
   const [finalResult, setFinalResult] = useState<FinalStoryResult | null>(null);
   const storyEndRef = useRef<HTMLDivElement>(null);
 
-  const topic = sessionSettings.topic || '';
+  const topic = getEffectiveTopic(sessionSettings);
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
   // Count only student-written sentences (exclude starter)

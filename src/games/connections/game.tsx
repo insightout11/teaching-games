@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, GROUP_COLORS } from './types';
+import { getEffectiveTopic } from '@/stores/session-store';
 import type { ConnectionsChallenge, ConnectionsGroup, ConnectionsResult, GroupColor } from './types';
 
 const MAX_LIVES = 4;
@@ -290,7 +291,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty
         }),
         cache: 'no-store',

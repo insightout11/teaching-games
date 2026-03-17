@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
-import { useSessionStore } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 
 const EMPTY_SEEN: string[] = [];
 
@@ -242,7 +242,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
           seenItems: seenItemsRef.current,
           excludeCacheIds: seenCacheIdsRef.current,

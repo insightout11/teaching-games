@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { GameStatus } from './types';
+import { getEffectiveTopic } from '@/stores/session-store';
 import type { Challenge, EvaluationResult } from './types';
 
 interface RaceSolver {
@@ -206,7 +207,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty
         })
       });

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
-import { useSessionStore } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 
 const EMPTY_SEEN: string[] = [];
 
@@ -229,7 +229,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   // Clear queue when settings change
   useEffect(() => {
     setSentenceQueue([]);
-  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.tone]);
+  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic, sessionSettings.tone]);
 
   // When student changes (turn-based only)
   useEffect(() => {
@@ -260,7 +260,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           difficulty: sessionSettings.difficulty,
-          topic: sessionSettings.topic,
+          topic: getEffectiveTopic(sessionSettings),
           tone: sessionSettings.tone,
           seenItems: seenItemsRef.current,
           excludeCacheIds: seenCacheIdsRef.current,
@@ -285,7 +285,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     } finally {
       setIsFetchingBatch(false);
     }
-  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.tone, isFetchingBatch, addSeenItems, addSeenCacheId]);
+  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic, sessionSettings.tone, isFetchingBatch, addSeenItems, addSeenCacheId]);
 
   // Start a sprint round
   const startSprint = async () => {
@@ -322,7 +322,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             difficulty: sessionSettings.difficulty,
-            topic: sessionSettings.topic,
+            topic: getEffectiveTopic(sessionSettings),
             tone: sessionSettings.tone,
             seenItems: seenItemsRef.current,
             excludeCacheIds: seenCacheIdsRef.current,
