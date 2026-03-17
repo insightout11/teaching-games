@@ -17,12 +17,25 @@ export type Tone = 'Neutral' | 'Casual' | 'Formal' | 'Humorous' | 'Professional'
 export const TOPICS: Topic[] = ['General', 'Action', 'Business', 'Academic', 'Travel', 'Technology', 'Literature', 'Space', 'Nature', 'Cooking', 'Art', 'Sports', 'History', 'Psychology'];
 export const TONES: Tone[] = ['Neutral', 'Casual', 'Formal', 'Humorous', 'Professional', 'Kid-friendly'];
 
+export type ScoringMode = 'participation' | 'accuracy' | 'competitive';
+export const SCORING_MODES: ScoringMode[] = ['participation', 'accuracy', 'competitive'];
+export const PARTICIPATION_POINTS = 5;
+
+export function goalToScoringMode(goal?: string | null): ScoringMode {
+  const participationGoals = ['speaking-fluency', 'discussion-debate', 'confidence-building', 'collaboration', 'creativity'];
+  const accuracyGoals = ['grammar-reinforcement', 'critical-thinking'];
+  if (goal && participationGoals.includes(goal)) return 'participation';
+  if (goal && accuracyGoals.includes(goal)) return 'accuracy';
+  return 'competitive';
+}
+
 export interface SessionSettings {
   difficulty: Difficulty;
   topic: Topic;
   customTopic: string; // Free-text custom topic (overrides topic dropdown when set)
   tone: Tone;
   timerSeconds: number; // Per-game timer, injected by shells (not stored globally)
+  scoringMode: ScoringMode;
 }
 
 // Helper to get the effective topic string (custom or dropdown)
@@ -115,10 +128,11 @@ const DEFAULT_SETTINGS: SessionSettings = {
   customTopic: '',
   tone: 'Neutral',
   timerSeconds: 30,
+  scoringMode: 'competitive',
 };
 
 const SETTINGS_STORAGE_KEY = 'lc-session-settings';
-type PersistedSettings = Pick<SessionSettings, 'difficulty' | 'topic' | 'customTopic' | 'tone'>;
+type PersistedSettings = Pick<SessionSettings, 'difficulty' | 'topic' | 'customTopic' | 'tone' | 'scoringMode'>;
 
 function loadPersistedSettings(): Partial<PersistedSettings> {
   if (typeof window === 'undefined') return {};
@@ -132,8 +146,8 @@ function loadPersistedSettings(): Partial<PersistedSettings> {
 
 function savePersistedSettings(settings: SessionSettings): void {
   if (typeof window === 'undefined') return;
-  const { difficulty, topic, customTopic, tone } = settings;
-  localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({ difficulty, topic, customTopic, tone }));
+  const { difficulty, topic, customTopic, tone, scoringMode } = settings;
+  localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({ difficulty, topic, customTopic, tone, scoringMode }));
 }
 
 function getInitialSettings(): SessionSettings {

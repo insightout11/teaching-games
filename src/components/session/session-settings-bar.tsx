@@ -9,13 +9,21 @@ import {
   type Difficulty,
   type Topic,
   type Tone,
+  type ScoringMode,
 } from '@/stores/session-store';
+
+const SCORING_MODE_LABELS: Record<ScoringMode, string> = {
+  participation: 'Participation Mode',
+  accuracy: 'Accuracy Mode',
+  competitive: 'Competitive Mode',
+};
 
 export function SessionSettingsBar() {
   const settings = useSessionStore((s) => s.settings);
   const setSettings = useSessionStore((s) => s.setSettings);
   const setTopic = useSessionStore((s) => s.setTopic);
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
+  const scoringMode = settings.scoringMode;
   const [showCustomTopic, setShowCustomTopic] = useState(!!settings.customTopic);
 
   const handleTopicChange = (newTopic: Topic) => {
@@ -109,6 +117,13 @@ export function SessionSettingsBar() {
             <option key={t} value={t}>{t}</option>
           ))}
         </select>
+
+        <div className="h-4 w-px bg-white/10" />
+
+        {/* Scoring mode badge (read-only) */}
+        <span className="text-sm font-medium text-white/60">
+          {SCORING_MODE_LABELS[scoringMode]}
+        </span>
       </div>
 
       {/* Custom Topic Indicator */}

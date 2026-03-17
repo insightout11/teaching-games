@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useMemo, useState } from 'react';
-import { useSessionStore, calculateStreakBonus } from '@/stores/session-store';
+import { useSessionStore, PARTICIPATION_POINTS } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin, ScoreResult, GameRemoteVote } from '@/games/types';
 import type { GameGeneratedContent } from '@/activities/types';
@@ -50,6 +50,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   streaksRef.current = streaks;
   const turnModifierRef = useRef(turnModifier);
   turnModifierRef.current = turnModifier;
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
 
   const GameComponent = game.component;
   const sessionSettings = useMemo(
@@ -131,13 +133,50 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   const handleScore = useCallback(async (studentId: string, result: ScoreResult) => {
     if (!sessionId) return;
 
+    const scoringMode = settingsRef.current.scoringMode;
+
+    // Participation mode: flat points, no streaks
+    if (scoringMode === 'participation') {
+      const { data } = await supabase.from('scores').insert({
+        session_id: sessionId,
+        student_id: studentId,
+        points: PARTICIPATION_POINTS,
+        streak_count: 0,
+        streak_bonus: 0,
+        is_correct: result.isCorrect,
+        prompt_index: promptIndexRef.current,
+        response_data: { ...result.responseData, scoringMode: 'participation' },
+      }).select().single();
+      promptIndexRef.current++;
+      if (data) recordScore(data);
+      clearModifier();
+      return;
+    }
+
+    // Accuracy mode: correctness-based points, no streaks
+    if (scoringMode === 'accuracy') {
+      const { data } = await supabase.from('scores').insert({
+        session_id: sessionId,
+        student_id: studentId,
+        points: result.points,
+        streak_count: 0,
+        streak_bonus: 0,
+        is_correct: result.isCorrect,
+        prompt_index: promptIndexRef.current,
+        response_data: { ...result.responseData, scoringMode: 'accuracy' },
+      }).select().single();
+      promptIndexRef.current++;
+      if (data) recordScore(data);
+      clearModifier();
+      return;
+    }
+
+    // Competitive mode: turn modifier, streak counter (cosmetic), streak_bonus always 0
     const currentModifier = turnModifierRef.current;
     const currentStreaks = streaksRef.current;
 
-    // Apply spin wheel modifier
     const basePoints = result.points;
     let modifiedPoints = basePoints;
-
     if (currentModifier) {
       modifiedPoints = basePoints * currentModifier.multiplier + currentModifier.bonus;
     }
@@ -145,16 +184,14 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     // Shield: if wrong but has shield, don't break streak
     const shieldActive = currentModifier?.shield && !result.isCorrect;
     const effectiveIsCorrect = result.isCorrect || shieldActive;
-
     const currentStreak = effectiveIsCorrect ? (currentStreaks[studentId] ?? 0) + 1 : 0;
-    const streakBonus = effectiveIsCorrect ? calculateStreakBonus(currentStreak) : 0;
 
     const scoreData = {
       session_id: sessionId,
       student_id: studentId,
       points: modifiedPoints,
       streak_count: currentStreak,
-      streak_bonus: streakBonus,
+      streak_bonus: 0,
       is_correct: result.isCorrect,
       prompt_index: promptIndexRef.current,
       response_data: {
@@ -166,14 +203,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     };
 
     promptIndexRef.current++;
-
     const { data } = await supabase.from('scores').insert(scoreData).select().single();
-
-    if (data) {
-      recordScore(data);
-    }
-
-    // Clear modifier after scoring
+    if (data) recordScore(data);
     clearModifier();
   }, [sessionId, supabase, recordScore, clearModifier]);
 

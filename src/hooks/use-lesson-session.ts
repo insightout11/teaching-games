@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { SessionSettings } from '@/stores/session-store';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
@@ -90,6 +90,7 @@ export function useLessonSession(
   studentCount: number,
 ): LessonSession {
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
+  const setSettings = useSessionStore((s) => s.setSettings);
 
   // ─── Core state ────────────────────────────────────────────────────────
   const [phase, setPhase] = useState<LessonPhase>('idle');
@@ -251,6 +252,7 @@ export function useLessonSession(
     if (content) {
       setLessonPlanContent(content);
       setCustomTopic(content.customTopic);
+      setSettings({ scoringMode: goalToScoringMode(content.goal) });
       if (content.isMissionBased) {
         setIsMissionBased(true);
       }
@@ -271,7 +273,7 @@ export function useLessonSession(
         }
       }
     }
-  }, [setCustomTopic]);
+  }, [setCustomTopic, setSettings]);
 
   // ─── Mission rehydration from DB ───────────────────────────────────────
   useEffect(() => {

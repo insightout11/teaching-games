@@ -17,6 +17,7 @@ export function SpinWheel({ onComplete }: { onComplete?: (modifier: TurnModifier
   const spinWheel = useSessionStore((s) => s.spinWheel);
   const students = useSessionStore((s) => s.students);
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
+  const scoringMode = useSessionStore((s) => s.settings.scoringMode);
   const [spinning, setSpinning] = useState(false);
   const [displayIndex, setDisplayIndex] = useState(0);
   const [result, setResult] = useState<TurnModifier | null>(null);
@@ -52,6 +53,7 @@ export function SpinWheel({ onComplete }: { onComplete?: (modifier: TurnModifier
   const showModal = needsSpin || result !== null;
 
   if (!currentStudentId) return null;
+  if (scoringMode !== 'competitive') return null;
   if (!showModal) return null;
 
   return (

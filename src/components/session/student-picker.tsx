@@ -12,6 +12,7 @@ export function StudentPicker() {
   const pickStudent = useSessionStore((s) => s.pickStudent);
   const gameMode = useSessionStore((s) => s.gameMode);
   const setGameMode = useSessionStore((s) => s.setGameMode);
+  const scoringMode = useSessionStore((s) => s.settings.scoringMode);
   const [spinning, setSpinning] = useState(false);
   const [displayIndex, setDisplayIndex] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout>();
@@ -64,7 +65,9 @@ export function StudentPicker() {
           className="w-full bg-black/40 border border-white/10 text-white rounded-lg px-3 py-2 text-sm focus:border-cyan-500 outline-none"
         >
           <option value="normal">Normal Mode</option>
-          <option value="spinner">Spinner Mode</option>
+          {scoringMode === 'competitive' && (
+            <option value="spinner">Spinner Mode</option>
+          )}
         </select>
       </div>
 

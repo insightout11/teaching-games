@@ -18,6 +18,7 @@ export function Leaderboard() {
   const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
   const awardPoints = useSessionStore((s) => s.awardPoints);
+  const scoringMode = useSessionStore((s) => s.settings.scoringMode);
 
   const entries = useMemo(() => {
     const map = new Map<string, LeaderboardEntry>();
@@ -168,7 +169,7 @@ export function Leaderboard() {
                       +5
                     </span>
                   </div>
-                  {entry.bestStreak >= 2 && (
+                  {scoringMode === 'competitive' && entry.bestStreak >= 2 && (
                     <span className="text-xs text-orange-400">🔥{entry.bestStreak}</span>
                   )}
                   <span className="relative text-sm font-game text-yellow-400">
