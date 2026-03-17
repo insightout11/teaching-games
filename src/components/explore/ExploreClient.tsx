@@ -8,8 +8,8 @@ import { Modal } from '@/components/ui/modal';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
-import { GAME_CATEGORY_INFO } from '@/games/registry';
-import { CATEGORY_INFO } from '@/activities/registry';
+import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
+import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
 import type { GameCategory } from '@/games/types';
 import type { ActivityCategory } from '@/activities/types';
 
@@ -20,12 +20,9 @@ interface Class {
   name: string;
 }
 
-interface ExploreClientProps {
-  games: GamePlugin[];
-  activities: ActivityPlugin[];
-}
-
-export function ExploreClient({ games, activities }: ExploreClientProps) {
+export function ExploreClient() {
+  const games: GamePlugin[] = getAllGames();
+  const activities: ActivityPlugin[] = getAllActivities();
   const router = useRouter();
   const [filter, setFilter] = useState<FilterTab>('all');
   const [launchItem, setLaunchItem] = useState<{ name: string } | null>(null);
