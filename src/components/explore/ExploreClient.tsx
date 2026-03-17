@@ -40,7 +40,7 @@ export function ExploreClient({ games, activities }: ExploreClientProps) {
       .from('classes')
       .select('id, name')
       .order('created_at', { ascending: false })
-      .then(({ data }) => {
+      .then(({ data }: { data: Class[] | null }) => {
         setClasses(data ?? []);
         setClassesLoading(false);
       });
