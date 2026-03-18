@@ -14,10 +14,18 @@ import type { GameCategory } from '@/games/types';
 import type { ActivityCategory } from '@/activities/types';
 
 type FilterTab = 'all' | 'games' | 'activities';
+type PppFilter = 'all' | 'presentation' | 'practice' | 'production';
 
 interface Class {
   id: string;
   name: string;
+}
+
+function getStageBadge(stage: string | undefined) {
+  if (stage === 'presentation') return { label: 'Present', cls: 'bg-violet-500/15 text-violet-300' };
+  if (stage === 'practice') return { label: 'Practice', cls: 'bg-sky-500/15 text-sky-300' };
+  if (stage === 'production') return { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-300' };
+  return null;
 }
 
 export function ExploreClient() {
@@ -25,6 +33,7 @@ export function ExploreClient() {
   const activities: ActivityPlugin[] = getAllActivities();
   const router = useRouter();
   const [filter, setFilter] = useState<FilterTab>('all');
+  const [pppFilter, setPppFilter] = useState<PppFilter>('all');
   const [launchItem, setLaunchItem] = useState<{ name: string } | null>(null);
   const [classes, setClasses] = useState<Class[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
@@ -66,23 +75,23 @@ export function ExploreClient() {
   const activityCategoryOrder: ActivityCategory[] = ['icebreaker', 'learning', 'practice', 'debate', 'closing'];
 
   return (
-    <div>
+    <div className="hud-bg -mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-lc-text">Explore</h1>
-        <p className="text-lc-text3 mt-1">Run a game or activity with your class</p>
+        <h1 className="text-2xl font-bold text-white">Explore</h1>
+        <p className="text-white/50 mt-1">Run a game or activity with your class</p>
       </div>
 
-      {/* Filter tabs */}
-      <div className="flex gap-2 mb-8">
+      {/* Type filter tabs */}
+      <div className="flex gap-2 mb-4">
         {(['all', 'games', 'activities'] as FilterTab[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setFilter(tab)}
             className={cn(
-              'px-4 py-1.5 rounded-full text-sm font-medium transition-colors capitalize',
+              'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors capitalize',
               filter === tab
-                ? 'bg-lc-blue text-white'
-                : 'bg-lc-card text-lc-text3 hover:text-lc-text border border-lc-border'
+                ? 'bg-white/10 text-white border-white/20'
+                : 'bg-transparent text-white/50 border-white/10 hover:border-white/20'
             )}
           >
             {tab === 'all' ? 'All' : tab === 'games' ? 'Games' : 'Activities'}
@@ -90,42 +99,69 @@ export function ExploreClient() {
         ))}
       </div>
 
-      <div className="space-y-10">
+      {/* PPP stage filter */}
+      <div className="flex items-center gap-2 mb-8">
+        <span className="text-xs text-white/40 uppercase tracking-wider font-semibold mr-1">Stage:</span>
+        {(['all', 'presentation', 'practice', 'production'] as PppFilter[]).map((stage) => (
+          <button
+            key={stage}
+            onClick={() => setPppFilter(stage)}
+            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+              pppFilter === stage
+                ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-300 border-violet-500/40'
+                  : stage === 'practice' ? 'bg-sky-500/20 text-sky-300 border-sky-500/40'
+                  : stage === 'production' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                  : 'bg-white/10 text-white border-white/20'
+                : 'bg-transparent text-white/50 border-white/10 hover:border-white/20'
+            }`}
+          >
+            {stage === 'all' ? 'All' : stage.charAt(0).toUpperCase() + stage.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      <div className="space-y-6">
         {/* Games */}
         {showGames && gameCategoryOrder.map((cat) => {
-          const catGames = gamesByCategory[cat];
-          if (!catGames?.length) return null;
+          const allCatGames = gamesByCategory[cat];
+          if (!allCatGames?.length) return null;
+          const catGames = pppFilter === 'all' ? allCatGames : allCatGames.filter((g) => g.pppStage === pppFilter);
+          if (!catGames.length) return null;
           const info = GAME_CATEGORY_INFO[cat];
           const CatIcon = info.icon;
           return (
             <section key={cat}>
-              <div className="flex items-center gap-2 mb-4">
-                <CatIcon className={cn('w-4 h-4', info.color)} />
-                <h2 className="text-sm font-semibold text-lc-text uppercase tracking-wider">{info.name}</h2>
-                <span className="text-xs text-lc-text3 ml-1">— Games</span>
+              <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
+                <CatIcon className={`w-4 h-4 ${info.color}`} />
+                <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
+                <span className="text-xs text-white/30 mr-1">— Games</span>
+                <div className="hud-rule" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {catGames.map((game) => {
                   const GameIcon = game.icon;
+                  const stageBadge = getStageBadge(game.pppStage);
                   return (
-                    <div
-                      key={game.key}
-                      className="bg-lc-card border border-lc-border rounded-xl p-4 flex flex-col gap-3"
-                    >
+                    <div key={game.key} className="panel-card p-5 text-left flex flex-col gap-3">
                       <div className="flex items-start gap-3">
                         <div className={cn('mt-0.5 shrink-0', info.color)}>
                           <GameIcon className="w-5 h-5" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-lc-text text-sm leading-snug">{game.name}</div>
-                          <div className="text-xs text-lc-text3 mt-0.5">{info.name} · {game.estimatedMinutes}m</div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-semibold text-white text-sm leading-snug">{game.name}</span>
+                            {stageBadge && (
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>
+                            )}
+                          </div>
+                          <div className="text-xs text-white/40 mt-0.5">{info.name} · {game.estimatedMinutes}m</div>
                         </div>
                       </div>
-                      <p className="text-xs text-lc-text3 leading-relaxed flex-1">{game.description}</p>
+                      <p className="text-xs text-white/50 leading-relaxed flex-1">{game.description}</p>
                       <div className="flex justify-end">
                         <button
                           onClick={() => setLaunchItem({ name: game.name })}
-                          className="text-xs font-medium text-lc-blue hover:text-lc-blue/80 transition-colors"
+                          className="text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors"
                         >
                           Launch →
                         </button>
@@ -140,39 +176,45 @@ export function ExploreClient() {
 
         {/* Activities */}
         {showActivities && activityCategoryOrder.map((cat) => {
-          const catActivities = activitiesByCategory[cat];
-          if (!catActivities?.length) return null;
+          const allCatActivities = activitiesByCategory[cat];
+          if (!allCatActivities?.length) return null;
+          const catActivities = pppFilter === 'all' ? allCatActivities : allCatActivities.filter((a) => a.pppStage === pppFilter);
+          if (!catActivities.length) return null;
           const info = CATEGORY_INFO[cat];
           const CatIcon = info.icon;
           return (
             <section key={cat}>
-              <div className="flex items-center gap-2 mb-4">
-                <CatIcon className={cn('w-4 h-4', info.color)} />
-                <h2 className="text-sm font-semibold text-lc-text uppercase tracking-wider">{info.name}</h2>
-                <span className="text-xs text-lc-text3 ml-1">— Activities</span>
+              <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
+                <CatIcon className={`w-4 h-4 ${info.color}`} />
+                <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
+                <span className="text-xs text-white/30 mr-1">— Activities</span>
+                <div className="hud-rule" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {catActivities.map((activity) => {
                   const ActivityIcon = activity.icon;
+                  const stageBadge = getStageBadge(activity.pppStage);
                   return (
-                    <div
-                      key={activity.key}
-                      className="bg-lc-card border border-lc-border rounded-xl p-4 flex flex-col gap-3"
-                    >
+                    <div key={activity.key} className="panel-card p-5 text-left flex flex-col gap-3">
                       <div className="flex items-start gap-3">
                         <div className={cn('mt-0.5 shrink-0', info.color)}>
                           <ActivityIcon className="w-5 h-5" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-lc-text text-sm leading-snug">{activity.name}</div>
-                          <div className="text-xs text-lc-text3 mt-0.5">{info.name} · {activity.estimatedMinutes}m</div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-semibold text-white text-sm leading-snug">{activity.name}</span>
+                            {stageBadge && (
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>
+                            )}
+                          </div>
+                          <div className="text-xs text-white/40 mt-0.5">{info.name} · {activity.estimatedMinutes}m</div>
                         </div>
                       </div>
-                      <p className="text-xs text-lc-text3 leading-relaxed flex-1">{activity.description}</p>
+                      <p className="text-xs text-white/50 leading-relaxed flex-1">{activity.description}</p>
                       <div className="flex justify-end">
                         <button
                           onClick={() => setLaunchItem({ name: activity.name })}
-                          className="text-xs font-medium text-lc-blue hover:text-lc-blue/80 transition-colors"
+                          className="text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors"
                         >
                           Launch →
                         </button>
