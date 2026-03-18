@@ -116,12 +116,12 @@ export function WidgetShell({ id, label, icon, defaultPosition, children }: Widg
         maxWidth: '92vw',
         userSelect: isDragging.current ? 'none' : undefined,
       }}
-      className="glass rounded-xl shadow-xl border border-white/10 overflow-hidden"
+      className="glass rounded-xl shadow-xl border border-lc-border overflow-hidden"
       onPointerDown={() => bringToFront(id)}
     >
       {/* Title bar — drag handle */}
       <div
-        className="p-3 border-b border-white/10 flex items-center justify-between cursor-grab active:cursor-grabbing select-none"
+        className="p-3 border-b border-lc-border flex items-center justify-between cursor-grab active:cursor-grabbing select-none"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -134,7 +134,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, children }: Widg
           {/* Minimize / restore */}
           <button
             onClick={() => setMinimized((m) => !m)}
-            className="p-1 text-gray-400 hover:text-white transition-colors"
+            className="p-1 text-lc-text2 hover:text-lc-text transition-colors"
             title={minimized ? 'Restore' : 'Minimize'}
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,7 +148,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, children }: Widg
           {/* Close */}
           <button
             onClick={() => closeWidget(id)}
-            className="p-1 text-gray-400 hover:text-white transition-colors"
+            className="p-1 text-lc-text2 hover:text-lc-text transition-colors"
             title="Close"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

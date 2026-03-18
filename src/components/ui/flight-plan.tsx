@@ -85,8 +85,8 @@ type NodePoint = FlightPlanStep & {
 
 function computeNodeLayout(steps: FlightPlanStep[], width: number, height: number, mode: FlightPlanMode = 'planner'): NodePoint[] {
   const isRuntime = mode === 'runtime';
-  const left = isRuntime ? 120 : 160;
-  const right = width - (isRuntime ? 120 : 160);
+  const left = isRuntime ? 140 : 200;
+  const right = width - (isRuntime ? 140 : 200);
   const span = right - left;
   const count = steps.length;
 
@@ -521,7 +521,7 @@ function NodeCard({
             {getStepIcon(point.type, `${iconSize} text-cyan-200/90`)}
           </div>
           <div className="min-w-0 flex-1 overflow-hidden">
-            <div className={`uppercase tracking-[0.14em] font-semibold truncate ${
+            <div className={`uppercase tracking-[0.06em] font-semibold truncate ${
               isRuntime
                 ? 'text-[10px] text-cyan-200/70'
                 : 'text-[11px] text-cyan-200/65'

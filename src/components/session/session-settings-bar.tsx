@@ -59,7 +59,7 @@ export function SessionSettingsBar() {
           ))}
         </select>
 
-        <div className="h-4 w-px bg-white/10" />
+        <div className="h-4 w-px bg-lc-border" />
 
         {/* Topic Selection */}
         {!showCustomTopic ? (
@@ -75,7 +75,7 @@ export function SessionSettingsBar() {
             </select>
             <button
               onClick={handleCustomTopicToggle}
-              className="text-cyan-400 hover:text-cyan-300 transition-colors"
+              className="text-lc-blue hover:text-lc-blue/80 transition-colors"
               title="Use custom topic"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,12 +90,12 @@ export function SessionSettingsBar() {
               value={settings.customTopic}
               onChange={(e) => setCustomTopic(e.target.value)}
               placeholder="Custom topic..."
-              className="bg-black/30 border border-white/10 rounded px-2 py-0.5 text-[10px] w-32 outline-none focus:border-cyan-500"
+              className="bg-lc-surface border border-lc-border rounded px-2 py-0.5 text-[10px] w-32 outline-none focus:border-lc-blue text-lc-text"
               autoFocus
             />
             <button
               onClick={handleCustomTopicToggle}
-              className="text-white/50 hover:text-white transition-colors"
+              className="text-lc-text3 hover:text-lc-text transition-colors"
               title="Use dropdown topic"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,7 +105,7 @@ export function SessionSettingsBar() {
           </div>
         )}
 
-        <div className="h-4 w-px bg-white/10" />
+        <div className="h-4 w-px bg-lc-border" />
 
         {/* Tone */}
         <select
@@ -118,10 +118,10 @@ export function SessionSettingsBar() {
           ))}
         </select>
 
-        <div className="h-4 w-px bg-white/10" />
+        <div className="h-4 w-px bg-lc-border" />
 
         {/* Scoring mode badge (read-only) */}
-        <span className="text-sm font-medium text-white/60">
+        <span className="text-sm font-medium text-lc-text2">
           {SCORING_MODE_LABELS[scoringMode]}
         </span>
       </div>

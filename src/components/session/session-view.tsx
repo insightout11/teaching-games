@@ -307,10 +307,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         <div className="max-w-3xl mx-auto space-y-6 pt-8">
           {/* Header */}
           <div className="text-center space-y-2">
-            <h1 className="text-2xl font-bold">Launch Lobby</h1>
-            <p className="text-sm opacity-70">
+            <h1 className="text-2xl font-bold text-lc-text">Launch Lobby</h1>
+            <p className="text-sm text-lc-text2">
               {lesson.customTopic}
-              {lesson.isMissionBased && <span className="ml-2 text-amber-400">Mission Lesson</span>}
+              {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission Lesson</span>}
             </p>
           </div>
 
@@ -319,7 +319,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <div className="text-center space-y-3">
               <p className="text-xs opacity-50 uppercase tracking-wider font-semibold">Join Link</p>
               <div className="flex items-center gap-2 justify-center">
-                <code className="text-cyan-400 text-sm bg-black/30 px-4 py-2 rounded-lg font-mono break-all">
+                <code className="text-cyan-400 text-sm bg-lc-surface border border-lc-border px-4 py-2 rounded-lg font-mono break-all">
                   {joinUrl}
                 </code>
                 <button
@@ -331,7 +331,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
               <div>
                 <p className="text-xs opacity-50 uppercase tracking-wider font-semibold mb-1">Join Code</p>
-                <span className="text-3xl font-mono font-bold tracking-[0.3em] text-cyan-400">{joinCode}</span>
+                <span className="text-3xl font-mono font-bold tracking-[0.3em] text-lc-blue">{joinCode}</span>
               </div>
             </div>
           </div>
@@ -342,7 +342,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               <h2 className="text-sm font-semibold opacity-70 uppercase tracking-wider">
                 Students Joined
               </h2>
-              <span className="text-2xl font-bold text-cyan-400">{students.length}</span>
+              <span className="text-2xl font-bold text-lc-blue">{students.length}</span>
             </div>
             {students.length === 0 ? (
               <div className="text-center py-8">
@@ -389,12 +389,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               {lesson.missionSelectorReady ? (
                 <>
                   <div className="w-3 h-3 bg-emerald-400 rounded-full" />
-                  <span className="text-sm text-emerald-300">Mission Selector ready</span>
+                  <span className="text-sm text-emerald-500">Mission Selector ready</span>
                 </>
               ) : (
                 <>
                   <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                  <span className="text-sm text-cyan-300">Preparing Mission Selector...</span>
+                  <span className="text-sm text-lc-blue">Preparing Mission Selector...</span>
                 </>
               )}
             </div>
@@ -404,7 +404,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           <button
             onClick={lesson.beginLesson}
             disabled={!lesson.missionSelectorReady}
-            className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             Begin Lesson
           </button>
@@ -430,8 +430,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         {/* Session header */}
         <div className="flex items-center justify-between hud-header-bar">
           <div>
-            <h1 className="text-xl font-bold">{cls.name} — Live Session</h1>
-            <p className="text-sm opacity-70">
+            <h1 className="text-xl font-bold text-lc-text">{cls.name} — Live Session</h1>
+            <p className="text-sm text-lc-text2">
               {students.length} students
               {lesson.isMissionBased && (
                 <span className="ml-2 text-amber-400">Mission Lesson</span>
@@ -493,9 +493,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-semibold text-lc-text">{swapSuggestion.plugin.name}</span>
                   <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                    swapSuggestion.plugin.pppStage === 'presentation' ? 'bg-violet-500/15 text-violet-300'
-                    : swapSuggestion.plugin.pppStage === 'practice' ? 'bg-sky-500/15 text-sky-300'
-                    : 'bg-emerald-500/15 text-emerald-300'
+                    swapSuggestion.plugin.pppStage === 'presentation' ? 'bg-violet-500/15 text-violet-500'
+                    : swapSuggestion.plugin.pppStage === 'practice' ? 'bg-sky-500/15 text-sky-500'
+                    : 'bg-emerald-500/15 text-emerald-500'
                   }`}>
                     {swapSuggestion.plugin.pppStage === 'presentation' ? 'Present'
                       : swapSuggestion.plugin.pppStage === 'practice' ? 'Practice'
@@ -535,9 +535,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   onClick={() => setPppFilter(stage)}
                   className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
                     pppFilter === stage
-                      ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-300 border-violet-500/40'
-                        : stage === 'practice' ? 'bg-sky-500/20 text-sky-300 border-sky-500/40'
-                        : stage === 'production' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                      ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-500 border-violet-500/40'
+                        : stage === 'practice' ? 'bg-sky-500/20 text-sky-500 border-sky-500/40'
+                        : stage === 'production' ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/40'
                         : 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
                       : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
                   }`}
@@ -573,9 +573,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       {filtered.map((activity) => {
                         const hasContent = lesson.lessonPlanContent?.generatedContent[activity.key];
                         const ActivityIcon = activity.icon;
-                        const stageBadge = activity.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-300' }
-                          : activity.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-300' }
-                          : activity.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-300' }
+                        const stageBadge = activity.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' }
+                          : activity.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' }
+                          : activity.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-500' }
                           : null;
                         return (
                           <button
@@ -655,9 +655,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       {filtered.map((game) => {
                         const hasContent = lesson.lessonPlanContent?.generatedGameContent?.[game.key];
                         const GameIcon = game.icon;
-                        const stageBadge = game.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-300' }
-                          : game.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-300' }
-                          : game.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-300' }
+                        const stageBadge = game.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' }
+                          : game.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-500' }
+                          : game.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' }
                           : null;
                         return (
                           <button
@@ -782,10 +782,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             ) : (
               <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
                 <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mb-4" />
-                <p className="text-lg font-game text-cyan-400">
+                <p className="text-lg font-game text-lc-blue">
                   Preparing {lesson.generatingModuleName || selectedActivity.name}
                 </p>
-                <p className="text-sm opacity-60 mt-2">
+                <p className="text-sm text-lc-text3 mt-2">
                   Generating content for your lesson...
                 </p>
                 <div className="flex gap-1 mt-4">
