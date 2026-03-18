@@ -145,23 +145,22 @@ export function ExploreClient() {
                     <button
                       key={game.key}
                       onClick={() => setLaunchItem({ name: game.name })}
-                      className="panel-card p-5 text-left flex flex-col gap-3 w-full"
+                      className="panel-card p-6 text-left transition-all w-full"
                     >
-                      <div className="flex items-start gap-3">
-                        <div className={cn('mt-0.5 shrink-0', info.color)}>
-                          <GameIcon className="w-5 h-5" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-semibold text-white text-sm leading-snug">{game.name}</span>
-                            {stageBadge && (
-                              <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>
-                            )}
-                          </div>
-                          <div className="text-xs text-white/40 mt-0.5">{info.name} · {game.estimatedMinutes}m</div>
-                        </div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <GameIcon className={`w-5 h-5 ${info.color}`} />
+                        <h3 className="font-semibold">{game.name}</h3>
+                        {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
                       </div>
-                      <p className="text-xs text-white/50 leading-relaxed">{game.description}</p>
+                      <p className="text-sm opacity-70 mt-1">{game.description}</p>
+                      <div className="flex flex-wrap gap-1 mt-3">
+                        {game.skills.map((skill) => (
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">{skill}</span>
+                        ))}
+                      </div>
+                      <div className="mt-3">
+                        <span className="text-xs opacity-50">~{game.estimatedMinutes} min</span>
+                      </div>
                     </button>
                   );
                 })}
@@ -194,23 +193,22 @@ export function ExploreClient() {
                     <button
                       key={activity.key}
                       onClick={() => setLaunchItem({ name: activity.name })}
-                      className="panel-card p-5 text-left flex flex-col gap-3 w-full"
+                      className="panel-card p-6 text-left transition-all w-full"
                     >
-                      <div className="flex items-start gap-3">
-                        <div className={cn('mt-0.5 shrink-0', info.color)}>
-                          <ActivityIcon className="w-5 h-5" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-semibold text-white text-sm leading-snug">{activity.name}</span>
-                            {stageBadge && (
-                              <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>
-                            )}
-                          </div>
-                          <div className="text-xs text-white/40 mt-0.5">{info.name} · {activity.estimatedMinutes}m</div>
-                        </div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <ActivityIcon className={`w-5 h-5 ${info.color}`} />
+                        <h3 className="font-semibold">{activity.name}</h3>
+                        {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
                       </div>
-                      <p className="text-xs text-white/50 leading-relaxed">{activity.description}</p>
+                      <p className="text-sm opacity-70 mt-2">{activity.description}</p>
+                      <div className="flex flex-wrap gap-1 mt-3">
+                        {activity.skills.map((skill) => (
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">{skill}</span>
+                        ))}
+                      </div>
+                      <div className="mt-3">
+                        <span className="text-xs opacity-50">~{activity.estimatedMinutes} min</span>
+                      </div>
                     </button>
                   );
                 })}
