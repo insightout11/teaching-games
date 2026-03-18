@@ -13,7 +13,7 @@ export function MissionControlSummary({ studentMissions, landingAnswers, display
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/70 backdrop-blur-sm">
-      <div className="glass rounded-2xl shadow-2xl border border-white/10 w-full max-w-3xl max-h-[85vh] flex flex-col">
+      <div className="glass rounded-2xl shadow-2xl border border-lc-border w-full max-w-3xl max-h-[85vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <div>
@@ -24,7 +24,7 @@ export function MissionControlSummary({ studentMissions, landingAnswers, display
           </div>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl glass border border-white/10 text-sm hover:bg-white/10 transition-colors"
+            className="px-4 py-2 rounded-xl glass border border-lc-border text-sm hover:bg-lc-card transition-colors"
           >
             Close
           </button>
@@ -45,7 +45,7 @@ export function MissionControlSummary({ studentMissions, landingAnswers, display
                 </thead>
                 <tbody>
                   {clientIds.map((clientId) => (
-                    <tr key={clientId} className="border-t border-white/5">
+                    <tr key={clientId} className="border-t border-lc-border-subtle">
                       <td className="px-4 py-3 align-top font-semibold opacity-70 w-28">
                         {displayNames[clientId] ?? 'Student'}
                       </td>

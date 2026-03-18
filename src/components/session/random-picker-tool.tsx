@@ -79,7 +79,7 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
   return (
     <div>
       {/* Mode Tabs */}
-      <div className="flex border-b border-white/10">
+      <div className="flex border-b border-lc-border">
         {([
           { key: 'one' as const, label: 'Pick 1' },
           { key: 'multi' as const, label: 'Pick N' },
@@ -150,7 +150,7 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
                     key={n}
                     onClick={() => setPickCount(n)}
                     className={`flex-1 py-1.5 text-sm rounded-lg transition-colors ${
-                      pickCount === n ? 'bg-cyan-500/30 text-cyan-300' : 'bg-white/10 hover:bg-white/20'
+                      pickCount === n ? 'bg-cyan-500/30 text-cyan-400' : 'bg-lc-card hover:bg-lc-border'
                     }`}
                   >
                     {n}
@@ -176,7 +176,7 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg"
+                    className="flex items-center gap-2 px-3 py-2 bg-lc-surface rounded-lg"
                   >
                     <span className="w-5 h-5 rounded-full bg-cyan-500/30 text-cyan-300 text-xs flex items-center justify-center font-bold">
                       {i + 1}
@@ -198,7 +198,7 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
                     key={n}
                     onClick={() => setGroupSize(n)}
                     className={`flex-1 py-1.5 text-sm rounded-lg transition-colors ${
-                      groupSize === n ? 'bg-cyan-500/30 text-cyan-300' : 'bg-white/10 hover:bg-white/20'
+                      groupSize === n ? 'bg-cyan-500/30 text-cyan-400' : 'bg-lc-card hover:bg-lc-border'
                     }`}
                   >
                     {n}s
@@ -224,12 +224,12 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: gi * 0.15 }}
-                    className="bg-white/5 rounded-lg p-3"
+                    className="bg-lc-surface rounded-lg p-3"
                   >
                     <p className="text-xs font-semibold text-purple-400 mb-1.5">Group {gi + 1}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {group.map((s) => (
-                        <span key={s.id} className="px-2 py-1 bg-white/10 rounded text-xs">
+                        <span key={s.id} className="px-2 py-1 bg-lc-card rounded text-xs">
                           {s.name}
                         </span>
                       ))}

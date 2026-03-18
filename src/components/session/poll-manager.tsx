@@ -182,7 +182,7 @@ export function PollContent({ sessionId }: PollContentProps) {
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="Enter your question..."
-              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+              className="w-full px-3 py-2 bg-lc-surface border border-lc-border rounded-lg text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
             />
           </div>
 
@@ -196,7 +196,7 @@ export function PollContent({ sessionId }: PollContentProps) {
                   if (preset) handlePreset(preset);
                   e.currentTarget.value = '';
                 }}
-                className="text-xs bg-white/10 border border-white/20 rounded px-1.5 py-0.5 text-gray-300 focus:outline-none cursor-pointer"
+                className="text-xs bg-lc-surface border border-lc-border rounded px-1.5 py-0.5 text-lc-text focus:outline-none cursor-pointer"
               >
                 <option value="" disabled>Preset…</option>
                 {QUICK_PRESETS.map((p) => (
@@ -217,7 +217,7 @@ export function PollContent({ sessionId }: PollContentProps) {
                       setOptions(newOptions);
                     }}
                     placeholder={`Option ${index + 1}`}
-                    className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+                    className="flex-1 px-3 py-2 bg-lc-surface border border-lc-border rounded-lg text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
                   />
                   {options.length > 2 && (
                     <button

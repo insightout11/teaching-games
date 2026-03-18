@@ -289,7 +289,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
               const Icon = activity.icon;
               return <Icon className={`w-5 h-5 ${catInfo.color}`} />;
             })()}
-            <span className="text-xs px-2 py-0.5 bg-white/10 rounded-full opacity-70">
+            <span className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">
               {activity.category}
             </span>
           </div>
@@ -323,7 +323,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
         <div className="flex items-center justify-between text-xs opacity-50">
           <div className="flex gap-3">
             {activity.skills.map((skill) => (
-              <span key={skill} className="px-2 py-0.5 bg-white/5 rounded">
+              <span key={skill} className="px-2 py-0.5 bg-lc-border text-lc-text3 rounded">
                 {skill}
               </span>
             ))}

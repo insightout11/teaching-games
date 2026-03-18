@@ -155,7 +155,7 @@ export function ExploreClient() {
                       <p className="text-sm opacity-70 mt-1">{game.description}</p>
                       <div className="flex flex-wrap gap-1 mt-3">
                         {game.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border/60 text-lc-text2 rounded-full">{skill}</span>
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">{skill}</span>
                         ))}
                       </div>
                       <div className="mt-3">
@@ -203,7 +203,7 @@ export function ExploreClient() {
                       <p className="text-sm opacity-70 mt-2">{activity.description}</p>
                       <div className="flex flex-wrap gap-1 mt-3">
                         {activity.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border/60 text-lc-text2 rounded-full">{skill}</span>
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">{skill}</span>
                         ))}
                       </div>
                       <div className="mt-3">

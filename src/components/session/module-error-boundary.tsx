@@ -65,7 +65,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
             </button>
             <button
               onClick={this.props.onReset}
-              className="px-4 py-2 rounded-lg glass border border-white/10 hover:bg-white/10 transition-colors text-sm font-medium"
+              className="px-4 py-2 rounded-lg glass border border-lc-border hover:bg-lc-card transition-colors text-sm font-medium"
             >
               Switch Activity
             </button>

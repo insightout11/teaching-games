@@ -216,7 +216,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
       <div>
         <button
           onClick={() => setPendingOpen((o) => !o)}
-          className="w-full flex items-center justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider py-1 hover:text-white transition-colors"
+          className="w-full flex items-center justify-between text-xs font-semibold text-lc-text2 uppercase tracking-wider py-1 hover:text-lc-text transition-colors"
         >
           <span>Pending ({pending.length})</span>
           <svg className={`w-3 h-3 transition-transform ${pendingOpen ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -227,7 +227,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
         {pendingOpen && (
           <div className="mt-2 space-y-2">
             {pending.length === 0 ? (
-              <p className="text-slate-500 text-xs py-2 text-center">No pending questions</p>
+              <p className="text-lc-text3 text-xs py-2 text-center">No pending questions</p>
             ) : (
               <>
                 {pending.map((sub) => (
@@ -236,7 +236,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                     className={`flex items-start gap-2 p-2 rounded-lg border transition-colors ${
                       selected.has(sub.id)
                         ? 'bg-cyan-500/10 border-cyan-500/30'
-                        : 'bg-white/5 border-white/10'
+                        : 'bg-lc-surface border-lc-border'
                     }`}
                   >
                     <input
@@ -246,7 +246,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                       disabled={!selected.has(sub.id) && !canSelectMore}
                       className="mt-0.5 accent-cyan-500 flex-shrink-0"
                     />
-                    <span className="flex-1 text-slate-200 leading-snug break-words">{sub.content}</span>
+                    <span className="flex-1 text-lc-text leading-snug break-words">{sub.content}</span>
                     <button
                       onClick={() => handleReject(sub.id)}
                       className="flex-shrink-0 text-xs text-red-400 hover:text-red-300 transition-colors px-1.5 py-0.5 rounded border border-red-500/20 hover:border-red-400/40"
@@ -271,12 +271,12 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
 
       {/* ── PUBLISHED SECTION ── */}
       <div>
-        <div className="flex items-center justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider py-1">
+        <div className="flex items-center justify-between text-xs font-semibold text-lc-text2 uppercase tracking-wider py-1">
           <span>Published ({published.length})</span>
           {published.length > 0 && (
             <button
               onClick={handleClearAll}
-              className="text-slate-500 hover:text-red-400 transition-colors normal-case font-normal"
+              className="text-lc-text3 hover:text-red-400 transition-colors normal-case font-normal"
             >
               Clear all
             </button>
@@ -285,10 +285,10 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
 
         <div className="mt-2 space-y-3">
           {published.length === 0 ? (
-            <p className="text-slate-500 text-xs py-2 text-center">No published questions</p>
+            <p className="text-lc-text3 text-xs py-2 text-center">No published questions</p>
           ) : (
             published.map((q) => (
-              <div key={q.id} className="bg-white/5 border border-white/10 rounded-lg p-2 space-y-2">
+              <div key={q.id} className="bg-lc-surface border border-lc-border rounded-lg p-2 space-y-2">
                 <div className="flex items-start gap-2">
                   {/* Vote count */}
                   <div className="flex-shrink-0 flex flex-col items-center text-cyan-400 min-w-[2rem]">
@@ -299,7 +299,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                   </div>
 
                   {/* Question text */}
-                  <span className="flex-1 text-slate-200 leading-snug break-words">{q.content}</span>
+                  <span className="flex-1 text-lc-text leading-snug break-words">{q.content}</span>
 
                   {/* Actions */}
                   <div className="flex-shrink-0 flex gap-1">
@@ -315,7 +315,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                     </button>
                     <button
                       onClick={() => handleMarkAnswered(q.id)}
-                      className="text-xs px-1.5 py-0.5 rounded border text-slate-400 border-white/10 hover:border-white/20 hover:bg-white/5 transition-colors"
+                      className="text-xs px-1.5 py-0.5 rounded border text-lc-text2 border-lc-border hover:border-lc-text3 hover:bg-lc-card/50 transition-colors"
                     >
                       Done
                     </button>
@@ -330,7 +330,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                       onChange={(e) => setAnswerText((t) => ({ ...t, [q.id]: e.target.value }))}
                       placeholder="Type an answer or use AI draft…"
                       rows={3}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-slate-200 placeholder-slate-500 resize-none focus:outline-none focus:border-white/20"
+                      className="w-full bg-lc-surface border border-lc-border rounded-lg px-2 py-1.5 text-xs text-lc-text placeholder:text-lc-text3 resize-none focus:outline-none focus:border-lc-text3"
                     />
                     <div className="flex gap-2">
                       <button

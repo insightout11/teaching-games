@@ -50,8 +50,8 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
     return (
       <div className="glass rounded-xl p-4">
         <div className="animate-pulse space-y-2">
-          <div className="h-4 bg-white/10 rounded w-1/2" />
-          <div className="h-16 bg-white/10 rounded" />
+          <div className="h-4 bg-lc-border rounded w-1/2" />
+          <div className="h-16 bg-lc-border rounded" />
         </div>
       </div>
     );
@@ -62,7 +62,7 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
       {/* Header */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition-colors"
+        className="w-full p-4 flex items-center justify-between hover:bg-lc-card/50 transition-colors"
       >
         <div className="flex items-center gap-2">
           <span className="font-semibold text-sm">Student Submissions</span>
@@ -72,12 +72,12 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
             </span>
           )}
         </div>
-        <span className="text-gray-400">{isCollapsed ? '+' : '-'}</span>
+        <span className="text-lc-text3">{isCollapsed ? '+' : '-'}</span>
       </button>
 
       {/* Queue */}
       {!isCollapsed && (
-        <div className="border-t border-white/10">
+        <div className="border-t border-lc-border">
           {pending.length === 0 ? (
             <div className="p-4 text-center text-gray-500 text-sm">
               No pending submissions
@@ -87,7 +87,7 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
               {pending.map((submission) => (
                 <div
                   key={submission.id}
-                  className="p-4 border-b border-white/5 last:border-b-0"
+                  className="p-4 border-b border-lc-border-subtle last:border-b-0"
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div>
@@ -102,7 +102,7 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
                         </span>
                       )}
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-lc-text3">
                       {new Date(submission.created_at).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
@@ -113,12 +113,12 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
                   {hideContent && !revealedIds.has(submission.id) ? (
                     <button
                       onClick={() => setRevealedIds(prev => new Set(prev).add(submission.id))}
-                      className="text-xs text-gray-500 mb-3 hover:text-gray-300 transition-colors"
+                      className="text-xs text-lc-text3 mb-3 hover:text-lc-text transition-colors"
                     >
                       Answer hidden — click to reveal
                     </button>
                   ) : (
-                    <p className="text-sm text-gray-300 mb-3 break-words">
+                    <p className="text-sm text-lc-text mb-3 break-words">
                       {submission.content}
                     </p>
                   )}
