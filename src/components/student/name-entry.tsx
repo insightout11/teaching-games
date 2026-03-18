@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import type { Team } from '@/lib/supabase/types';
 
-const AVATAR_SEEDS = ['ace', 'falcon', 'nova', 'bolt', 'iris', 'storm', 'echo', 'raven'];
+const AVATAR_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
 
 function avatarUrl(seed: string) {
-  return `https://api.dicebear.com/9.x/pixel-art/svg?seed=${seed}&size=64`;
+  return `/avatars/avatar-${seed}.png`;
 }
 
 interface StudentSession {
@@ -133,7 +133,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Choose Your Avatar
             </label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-6 gap-2">
               {AVATAR_SEEDS.map((seed) => (
                 <button
                   key={seed}

@@ -146,7 +146,7 @@ export function Leaderboard() {
                   {entry.avatarSeed ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${entry.avatarSeed}&size=32`}
+                      src={`/avatars/avatar-${entry.avatarSeed}.png`}
                       alt=""
                       width={32}
                       height={32}
