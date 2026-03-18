@@ -189,6 +189,9 @@ export function Leaderboard() {
                       +5
                     </span>
                   </div>
+                  {scoringMode === 'competitive' && entry.bestStreak >= 2 && (
+                    <span className="text-xs text-orange-400">🔥{entry.bestStreak}</span>
+                  )}
                   <span className="relative text-sm font-game text-yellow-400">
                     {entry.totalPoints}
                     <AnimatePresence>
