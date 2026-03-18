@@ -172,9 +172,11 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
       }
     }
 
+    console.log('[handleScore]', { studentId, isRoster, studentIdField, clientIdField, displayNameField, scoringMode, points: result.points });
+
     // Participation mode: flat points, no streaks
     if (scoringMode === 'participation') {
-      const { data } = await supabase.from('scores').insert({
+      const { data, error } = await supabase.from('scores').insert({
         session_id: sessionId,
         student_id: studentIdField,
         client_id: clientIdField,
@@ -187,6 +189,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
         response_data: { ...result.responseData, scoringMode: 'participation' },
       }).select().single();
       promptIndexRef.current++;
+      if (error) console.error('[handleScore] participation insert failed', error);
       if (data) recordScore(data);
       clearModifier();
       return;
@@ -194,7 +197,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
 
     // Accuracy mode: correctness-based points, no streaks
     if (scoringMode === 'accuracy') {
-      const { data } = await supabase.from('scores').insert({
+      const { data, error } = await supabase.from('scores').insert({
         session_id: sessionId,
         student_id: studentIdField,
         client_id: clientIdField,
@@ -207,6 +210,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
         response_data: { ...result.responseData, scoringMode: 'accuracy' },
       }).select().single();
       promptIndexRef.current++;
+      if (error) console.error('[handleScore] accuracy insert failed', error);
       if (data) recordScore(data);
       clearModifier();
       return;
@@ -246,7 +250,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     };
 
     promptIndexRef.current++;
-    const { data } = await supabase.from('scores').insert(scoreData).select().single();
+    const { data, error } = await supabase.from('scores').insert(scoreData).select().single();
+    if (error) console.error('[handleScore] insert failed', error, scoreData);
     if (data) recordScore(data);
     clearModifier();
   }, [sessionId, supabase, recordScore, clearModifier]);
