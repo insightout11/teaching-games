@@ -295,7 +295,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs opacity-50">Phase:</span>
-            <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
+            <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
               {currentPhase}
             </span>
           </div>

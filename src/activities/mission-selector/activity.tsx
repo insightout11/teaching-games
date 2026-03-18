@@ -127,7 +127,7 @@ export function MissionSelectorActivity({
                   <span className="opacity-80 flex-1 min-w-0 pr-3 leading-snug">{question}</span>
                   <span className="font-semibold text-violet-400 shrink-0">{count}</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-2 bg-lc-border rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-500"
                     style={{ width: count > 0 ? `${(count / maxCount) * 100}%` : '0%' }}

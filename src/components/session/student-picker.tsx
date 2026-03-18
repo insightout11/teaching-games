@@ -47,7 +47,7 @@ export function StudentPicker() {
               key={mode}
               onClick={() => setPickerMode(mode)}
               className={`text-xs px-2 py-1 rounded-lg transition-colors ${
-                pickerMode === mode ? 'bg-cyan-500/30 text-cyan-300' : 'opacity-40 hover:opacity-70'
+                pickerMode === mode ? 'bg-cyan-500/30 text-lc-blue' : 'text-lc-text2 opacity-60 hover:opacity-100'
               }`}
             >
               {mode}
@@ -62,7 +62,7 @@ export function StudentPicker() {
         <select
           value={gameMode}
           onChange={(e) => setGameMode(e.target.value as GameMode)}
-          className="w-full bg-black/40 border border-white/10 text-white rounded-lg px-3 py-2 text-sm focus:border-cyan-500 outline-none"
+          className="w-full bg-lc-surface border border-lc-border text-lc-text rounded-lg px-3 py-2 text-sm focus:border-lc-blue outline-none"
         >
           <option value="normal">Normal Mode</option>
           {scoringMode === 'competitive' && (
@@ -80,7 +80,7 @@ export function StudentPicker() {
           className="text-center py-4"
         >
           {spinStudent ? (
-            <p className={`text-2xl font-game ${spinning ? 'opacity-40' : 'text-cyan-400'}`}>
+            <p className={`text-2xl font-game ${spinning ? 'opacity-40' : 'text-lc-blue'}`}>
               {spinStudent.name}
             </p>
           ) : (

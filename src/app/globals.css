@@ -53,6 +53,7 @@ body {
 
 /* Session theme */
 .theme-Midnight { background-color: #0f172a; color: #f8fafc; }
+html[data-theme="light"] .theme-Midnight { color: var(--lc-text); }
 
 /* Glass effect for session overlays */
 .glass {
