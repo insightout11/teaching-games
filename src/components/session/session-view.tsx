@@ -350,16 +350,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 <p className="text-sm opacity-50">Waiting for students to join...</p>
               </div>
             ) : (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {students.map((s) => (
-                  <span
+                  <div
                     key={s.id}
-                    className="flex items-center gap-1.5 px-2 py-1 bg-white/10 rounded-full text-sm font-medium"
+                    className="flex flex-col items-center gap-1.5 bg-white/10 rounded-2xl px-4 py-3 min-w-[72px]"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/avatars/avatar-${resolveHelmet(s.avatar_seed, s.name)}.png`} alt="" width={20} height={20} className="w-5 h-5 rounded-full flex-shrink-0" />
-                    {s.name}
-                  </span>
+                    <img src={`/avatars/avatar-${resolveHelmet(s.avatar_seed, s.name)}.png`} alt="" width={48} height={48} className="w-12 h-12 rounded-xl" />
+                    <span className="text-sm font-semibold text-white truncate max-w-[72px] text-center">{s.name}</span>
+                  </div>
                 ))}
               </div>
             )}
