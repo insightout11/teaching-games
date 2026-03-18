@@ -2,7 +2,21 @@
 
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
+import { goalToScoringMode } from '@/stores/session-store';
+import type { ScoringMode } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
+
+const SCORING_MODE_LABELS: Record<ScoringMode, string> = {
+  competitive: 'Competitive',
+  accuracy: 'Accuracy',
+  participation: 'Participation',
+};
+
+const SCORING_MODE_CLASSES: Record<ScoringMode, string> = {
+  competitive: 'text-amber-400 bg-amber-400/10',
+  accuracy: 'text-lc-blue bg-lc-blue/10',
+  participation: 'text-emerald-400 bg-emerald-400/10',
+};
 
 export function PresetCard({ preset, disabled = false }: { preset: FlightPlanPreset; disabled?: boolean }) {
   const { loadPreset, setStep } = usePlannerStore();
@@ -12,6 +26,8 @@ export function PresetCard({ preset, disabled = false }: { preset: FlightPlanPre
     loadPreset(preset);
     setStep('flight-plan');
   };
+
+  const scoringMode = preset.scoringMode ?? goalToScoringMode(preset.goal);
 
   return (
     <button
@@ -31,6 +47,11 @@ export function PresetCard({ preset, disabled = false }: { preset: FlightPlanPre
         <span>{GOAL_LABELS[preset.goal]}</span>
         <span className="w-1 h-1 rounded-full bg-lc-border" />
         <span>{preset.moduleSequence.length + 2} modules</span>
+      </div>
+      <div className="mt-3">
+        <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full ${SCORING_MODE_CLASSES[scoringMode]}`}>
+          {SCORING_MODE_LABELS[scoringMode]}
+        </span>
       </div>
     </button>
   );

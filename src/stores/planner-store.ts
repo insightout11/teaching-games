@@ -4,6 +4,7 @@ import type { Difficulty } from '@/lib/difficulty';
 import { FLIGHT_PLAN_ITEMS, type GoalTag, type SlotType } from '@/lib/flight-plan-config';
 import { suggestModules, type PlanModule } from '@/lib/planner-utils';
 import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
+import type { ScoringMode } from '@/stores/session-store';
 import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
 
@@ -34,6 +35,7 @@ interface PlannerState {
   activeTab: 'build' | 'presets';
   loadedPresetId: string | null;
   replaceDrawerModuleId: string | null;
+  overrideScoringMode: ScoringMode | null;
 
   // Step 3 — Launch
   selectedClassId: string | null;
@@ -86,6 +88,7 @@ export const usePlannerStore = create<PlannerState>()(
       activeTab: 'build',
       loadedPresetId: null,
       replaceDrawerModuleId: null,
+      overrideScoringMode: null,
       selectedClassId: null,
 
       // Derived
@@ -166,6 +169,7 @@ export const usePlannerStore = create<PlannerState>()(
           modules: [takeoff, ...middle, landing],
           loadedPresetId: preset.id,
           activeTab: 'presets',
+          overrideScoringMode: preset.scoringMode ?? null,
         });
       },
 
@@ -175,7 +179,7 @@ export const usePlannerStore = create<PlannerState>()(
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
       launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId } = get();
+        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode } = get();
         if (!selectedClassId) return;
 
         const primaryGoal = derivePrimaryGoal(goals);
@@ -198,6 +202,7 @@ export const usePlannerStore = create<PlannerState>()(
             customTopic: topic,
             difficulty,
             goal: primaryGoal,
+            ...(overrideScoringMode ? { scoringMode: overrideScoringMode } : {}),
             isMissionBased: true,
             slots,
             generatedContent: {},
@@ -232,6 +237,7 @@ export const usePlannerStore = create<PlannerState>()(
           activeTab: 'build',
           loadedPresetId: null,
           replaceDrawerModuleId: null,
+          overrideScoringMode: null,
           selectedClassId: null,
         }),
     }),

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
-import type { SessionSettings } from '@/stores/session-store';
+import type { SessionSettings, ScoringMode } from '@/stores/session-store';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
 import { missionSelectorFallback } from '@/lib/fallback-content';
@@ -27,6 +27,7 @@ interface LessonPlanPayload {
   generatedContent: Record<string, ActivityGeneratedContent>;
   generatedGameContent: Record<string, GameGeneratedContent>;
   goal?: string;
+  scoringMode?: ScoringMode;
   isMissionBased?: boolean;
 }
 
@@ -42,6 +43,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         generatedContent: parsed.generatedContent || {},
         generatedGameContent: parsed.generatedGameContent || {},
         goal: parsed.goal,
+        scoringMode: parsed.scoringMode,
         isMissionBased: parsed.isMissionBased,
       };
     }
@@ -252,7 +254,7 @@ export function useLessonSession(
     if (content) {
       setLessonPlanContent(content);
       setCustomTopic(content.customTopic);
-      setSettings({ scoringMode: goalToScoringMode(content.goal) });
+      setSettings({ scoringMode: content.scoringMode ?? goalToScoringMode(content.goal) });
       if (content.isMissionBased) {
         setIsMissionBased(true);
       }
