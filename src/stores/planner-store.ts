@@ -138,24 +138,6 @@ export const usePlannerStore = create<PlannerState>()(
       setActiveTab: (activeTab) => set({ activeTab }),
 
       loadPreset: (preset) => {
-        const takeoff: PlanModule = {
-          id: crypto.randomUUID(),
-          slotType: 'takeoff',
-          key: 'mission-selector',
-          isLocked: true,
-        };
-
-        const landingCandidates = FLIGHT_PLAN_ITEMS.filter((item) => item.missionLanding);
-        const landingItem =
-          landingCandidates.find((item) => item.goalFit.includes(preset.goal)) ??
-          FLIGHT_PLAN_ITEMS.find((item) => item.key === 'final-answer')!;
-        const landing: PlanModule = {
-          id: crypto.randomUUID(),
-          slotType: 'landing',
-          key: landingItem.key,
-          isLocked: true,
-        };
-
         const middle: PlanModule[] = preset.moduleSequence.map(({ slotType, key }) => ({
           id: crypto.randomUUID(),
           slotType,
@@ -163,10 +145,35 @@ export const usePlannerStore = create<PlannerState>()(
           isLocked: false,
         }));
 
+        let modules: PlanModule[];
+        if (preset.skipTakeoffLanding) {
+          modules = middle;
+        } else {
+          const takeoff: PlanModule = {
+            id: crypto.randomUUID(),
+            slotType: 'takeoff',
+            key: 'mission-selector',
+            isLocked: true,
+          };
+
+          const landingCandidates = FLIGHT_PLAN_ITEMS.filter((item) => item.missionLanding);
+          const landingItem =
+            landingCandidates.find((item) => item.goalFit.includes(preset.goal)) ??
+            FLIGHT_PLAN_ITEMS.find((item) => item.key === 'final-answer')!;
+          const landing: PlanModule = {
+            id: crypto.randomUUID(),
+            slotType: 'landing',
+            key: landingItem.key,
+            isLocked: true,
+          };
+
+          modules = [takeoff, ...middle, landing];
+        }
+
         set({
           goals: [preset.goal],
           lessonDurationMinutes: preset.lessonDurationMinutes,
-          modules: [takeoff, ...middle, landing],
+          modules,
           loadedPresetId: preset.id,
           activeTab: 'presets',
           overrideScoringMode: preset.scoringMode ?? null,
@@ -196,6 +203,8 @@ export const usePlannerStore = create<PlannerState>()(
           return { type: 'activity' as const, key: m.key, name: m.key };
         });
 
+        const hasMissionSelector = modules.some((m) => m.key === 'mission-selector');
+
         sessionStorage.setItem(
           'lessonPlanContent',
           JSON.stringify({
@@ -203,7 +212,7 @@ export const usePlannerStore = create<PlannerState>()(
             difficulty,
             goal: primaryGoal,
             ...(overrideScoringMode ? { scoringMode: overrideScoringMode } : {}),
-            isMissionBased: true,
+            ...(hasMissionSelector ? { isMissionBased: true } : {}),
             slots,
             generatedContent: {},
             generatedGameContent: {},

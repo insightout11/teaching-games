@@ -52,6 +52,10 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   turnModifierRef.current = turnModifier;
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
+  const studentsRef = useRef(students);
+  studentsRef.current = students;
+  // Maps clientId → displayName for remote (non-roster) students in simultaneous mode
+  const clientInfoRef = useRef(new Map<string, string>());
 
   const GameComponent = game.component;
   const sessionSettings = useMemo(
@@ -89,6 +93,10 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
           const score = payload.new;
           // Check if this is a remote vote for this game
           const responseData = score.response_data as Record<string, unknown> | null;
+          // Cache display name for non-roster (remote) students so handleScore can use it
+          if (score.client_id && score.display_name) {
+            clientInfoRef.current.set(score.client_id, score.display_name);
+          }
           if (responseData?.type === 'remote_vote' && responseData?.gameKey === game.key) {
             // Call the registered vote handler
             if (remoteVoteHandlerRef.current) {
@@ -135,11 +143,20 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
 
     const scoringMode = settingsRef.current.scoringMode;
 
+    // Determine if studentId is a roster student or a remote (non-roster) student.
+    // Remote students (joined via /join link) pass their clientId as studentId.
+    const isRoster = studentsRef.current.some((s) => s.id === studentId);
+    const studentIdField = isRoster ? studentId : null;
+    const clientIdField = isRoster ? null : studentId;
+    const displayNameField = isRoster ? null : (clientInfoRef.current.get(studentId) ?? null);
+
     // Participation mode: flat points, no streaks
     if (scoringMode === 'participation') {
       const { data } = await supabase.from('scores').insert({
         session_id: sessionId,
-        student_id: studentId,
+        student_id: studentIdField,
+        client_id: clientIdField,
+        display_name: displayNameField,
         points: PARTICIPATION_POINTS,
         streak_count: 0,
         streak_bonus: 0,
@@ -157,7 +174,9 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     if (scoringMode === 'accuracy') {
       const { data } = await supabase.from('scores').insert({
         session_id: sessionId,
-        student_id: studentId,
+        student_id: studentIdField,
+        client_id: clientIdField,
+        display_name: displayNameField,
         points: result.points,
         streak_count: 0,
         streak_bonus: 0,
@@ -188,7 +207,9 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
 
     const scoreData = {
       session_id: sessionId,
-      student_id: studentId,
+      student_id: studentIdField,
+      client_id: clientIdField,
+      display_name: displayNameField,
       points: modifiedPoints,
       streak_count: currentStreak,
       streak_bonus: 0,

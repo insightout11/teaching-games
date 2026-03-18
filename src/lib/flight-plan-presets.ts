@@ -9,6 +9,8 @@ export interface FlightPlanPreset {
   goal: GoalTag;
   /** Explicit scoring mode override — skips goal-derived default when set. */
   scoringMode?: ScoringMode;
+  /** When true, loadPreset skips mission-selector takeoff and landing — pure game sequence. */
+  skipTakeoffLanding?: boolean;
   /** Middle slots only — takeoff/landing are always auto-assigned. */
   moduleSequence: Array<{ slotType: SlotType; key: string }>;
 }
@@ -61,16 +63,19 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     ],
   },
   {
-    id: 'game-day-45',
+    id: 'game-day-60',
     name: 'Game Day',
-    description: 'Pure competitive fun — fastest fingers, highest scores',
-    lessonDurationMinutes: 45,
+    description: 'Pure competitive fun — 5 back-to-back games, running scoreboard',
+    lessonDurationMinutes: 60,
     goal: 'creativity',
     scoringMode: 'competitive',
+    skipTakeoffLanding: true,
     moduleSequence: [
-      { slotType: 'presentation', key: 'prediction-round' },
+      { slotType: 'practice', key: 'vocab-sprint' },
       { slotType: 'practice', key: 'connections' },
+      { slotType: 'practice', key: 'grid-rush' },
       { slotType: 'practice', key: 'sentence-scramble' },
+      { slotType: 'production', key: 'twenty-questions' },
     ],
   },
   {
