@@ -142,7 +142,11 @@ export function ExploreClient() {
                   const GameIcon = game.icon;
                   const stageBadge = getStageBadge(game.pppStage);
                   return (
-                    <div key={game.key} className="panel-card p-5 text-left flex flex-col gap-3">
+                    <button
+                      key={game.key}
+                      onClick={() => setLaunchItem({ name: game.name })}
+                      className="panel-card p-5 text-left flex flex-col gap-3 w-full"
+                    >
                       <div className="flex items-start gap-3">
                         <div className={cn('mt-0.5 shrink-0', info.color)}>
                           <GameIcon className="w-5 h-5" />
@@ -157,16 +161,8 @@ export function ExploreClient() {
                           <div className="text-xs text-white/40 mt-0.5">{info.name} · {game.estimatedMinutes}m</div>
                         </div>
                       </div>
-                      <p className="text-xs text-white/50 leading-relaxed flex-1">{game.description}</p>
-                      <div className="flex justify-end">
-                        <button
-                          onClick={() => setLaunchItem({ name: game.name })}
-                          className="text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors"
-                        >
-                          Launch →
-                        </button>
-                      </div>
-                    </div>
+                      <p className="text-xs text-white/50 leading-relaxed">{game.description}</p>
+                    </button>
                   );
                 })}
               </div>
@@ -195,7 +191,11 @@ export function ExploreClient() {
                   const ActivityIcon = activity.icon;
                   const stageBadge = getStageBadge(activity.pppStage);
                   return (
-                    <div key={activity.key} className="panel-card p-5 text-left flex flex-col gap-3">
+                    <button
+                      key={activity.key}
+                      onClick={() => setLaunchItem({ name: activity.name })}
+                      className="panel-card p-5 text-left flex flex-col gap-3 w-full"
+                    >
                       <div className="flex items-start gap-3">
                         <div className={cn('mt-0.5 shrink-0', info.color)}>
                           <ActivityIcon className="w-5 h-5" />
@@ -210,16 +210,8 @@ export function ExploreClient() {
                           <div className="text-xs text-white/40 mt-0.5">{info.name} · {activity.estimatedMinutes}m</div>
                         </div>
                       </div>
-                      <p className="text-xs text-white/50 leading-relaxed flex-1">{activity.description}</p>
-                      <div className="flex justify-end">
-                        <button
-                          onClick={() => setLaunchItem({ name: activity.name })}
-                          className="text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors"
-                        >
-                          Launch →
-                        </button>
-                      </div>
-                    </div>
+                      <p className="text-xs text-white/50 leading-relaxed">{activity.description}</p>
+                    </button>
                   );
                 })}
               </div>
