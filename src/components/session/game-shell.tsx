@@ -145,10 +145,32 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
 
     // Determine if studentId is a roster student or a remote (non-roster) student.
     // Remote students (joined via /join link) pass their clientId as studentId.
+    // Try to match remote students to a roster entry by display name so scores
+    // accumulate on the correct leaderboard row instead of creating a phantom entry.
     const isRoster = studentsRef.current.some((s) => s.id === studentId);
-    const studentIdField = isRoster ? studentId : null;
-    const clientIdField = isRoster ? null : studentId;
-    const displayNameField = isRoster ? null : (clientInfoRef.current.get(studentId) ?? null);
+    let studentIdField: string | null;
+    let clientIdField: string | null;
+    let displayNameField: string | null;
+    if (isRoster) {
+      studentIdField = studentId;
+      clientIdField = null;
+      displayNameField = null;
+    } else {
+      const displayName = clientInfoRef.current.get(studentId) ?? null;
+      const rosterMatch = displayName
+        ? studentsRef.current.find((s) => s.name === displayName) ?? null
+        : null;
+      if (rosterMatch) {
+        // Matched to a roster student by name — attribute score to them directly
+        studentIdField = rosterMatch.id;
+        clientIdField = null;
+        displayNameField = null;
+      } else {
+        studentIdField = null;
+        clientIdField = studentId;
+        displayNameField = displayName;
+      }
+    }
 
     // Participation mode: flat points, no streaks
     if (scoringMode === 'participation') {
