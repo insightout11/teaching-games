@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, GROUP_COLORS } from './types';
@@ -21,8 +21,10 @@ interface RacePlayer {
   displayName: string;
   groupsFound: number;
   finished: boolean;
+  eliminated: boolean;
   finishPosition: number | null;
   score: number;
+  livesRemaining: number;
 }
 
 export function ConnectionsGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
@@ -42,6 +44,8 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   const [racePlayers, setRacePlayers] = useState<RacePlayer[]>([]);
   const [raceFinishCount, setRaceFinishCount] = useState(0);
   const [raceComplete, setRaceComplete] = useState(false);
+  const racePlayersRef = useRef<RacePlayer[]>([]);
+  useEffect(() => { racePlayersRef.current = racePlayers; }, [racePlayers]);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -183,12 +187,16 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
 
       const result: ConnectionsResult = await response.json();
 
+      // Check if player is already done (finished or eliminated) using ref to avoid stale closure
+      const currentPlayer = racePlayersRef.current.find(p => p.studentId === studentId);
+      if (currentPlayer?.finished || currentPlayer?.eliminated) return;
+
       if (result.isCorrect && result.matchedGroup) {
         setRacePlayers(prev => {
           const existing = prev.find(p => p.studentId === studentId);
           if (existing) {
             // Check if they already found this group
-            if (existing.groupsFound >= 4) return prev;
+            if (existing.finished || existing.eliminated) return prev;
 
             const newGroupsFound = existing.groupsFound + 1;
             const isComplete = newGroupsFound === 4;
@@ -222,14 +230,51 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
                 : p
             );
           } else {
-            // New player entry
+            // New player entry — first submission is correct
             return [...prev, {
               studentId,
               displayName: vote.displayName,
               groupsFound: 1,
               finished: false,
+              eliminated: false,
               finishPosition: null,
               score: 0,
+              livesRemaining: MAX_LIVES,
+            }];
+          }
+        });
+      } else {
+        // Wrong answer — deduct a life
+        setRacePlayers(prev => {
+          const existing = prev.find(p => p.studentId === studentId);
+          if (existing) {
+            if (existing.finished || existing.eliminated) return prev;
+            const newLives = existing.livesRemaining - 1;
+            const isEliminated = newLives === 0;
+            if (isEliminated) {
+              onScore(studentId, {
+                isCorrect: false,
+                points: 0,
+                responseData: { groupsFound: existing.groupsFound, livesRemaining: 0, eliminated: true },
+              });
+            }
+            return prev.map(p =>
+              p.studentId === studentId
+                ? { ...p, livesRemaining: newLives, eliminated: isEliminated }
+                : p
+            );
+          } else {
+            // New player — first submission is wrong
+            const newLives = MAX_LIVES - 1;
+            return [...prev, {
+              studentId,
+              displayName: vote.displayName,
+              groupsFound: 0,
+              finished: false,
+              eliminated: false,
+              finishPosition: null,
+              score: 0,
+              livesRemaining: newLives,
             }];
           }
         });
@@ -427,6 +472,8 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   // ============ SIMULTANEOUS RACE MODE ============
   if (isSimultaneous) {
     const sortedPlayers = [...racePlayers].sort((a, b) => {
+      if (a.eliminated && !b.eliminated) return 1;
+      if (!a.eliminated && b.eliminated) return -1;
       if (a.finished && !b.finished) return -1;
       if (!a.finished && b.finished) return 1;
       if (a.finished && b.finished) return (a.finishPosition || 99) - (b.finishPosition || 99);
@@ -512,15 +559,20 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                      player.finished
-                        ? player.finishPosition === 1
-                          ? 'bg-yellow-500/20 border border-yellow-500/30'
-                          : 'bg-emerald-500/10 border border-emerald-500/20'
-                        : 'bg-white/5 border border-white/10'
+                      player.eliminated
+                        ? 'bg-red-500/10 border border-red-500/20 opacity-60'
+                        : player.finished
+                          ? player.finishPosition === 1
+                            ? 'bg-yellow-500/20 border border-yellow-500/30'
+                            : 'bg-emerald-500/10 border border-emerald-500/20'
+                          : 'bg-white/5 border border-white/10'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      {player.finished && player.finishPosition && (
+                      {player.eliminated && (
+                        <span className="text-lg">💀</span>
+                      )}
+                      {!player.eliminated && player.finished && player.finishPosition && (
                         <span className={`text-lg font-black ${
                           player.finishPosition === 1 ? 'text-yellow-400' :
                           player.finishPosition === 2 ? 'text-slate-300' :
@@ -532,7 +584,17 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
                       <span className="font-semibold text-white">{player.displayName}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      {/* Progress dots */}
+                      {/* Lives (only show while in progress) */}
+                      {!player.finished && (
+                        <div className="flex gap-1">
+                          {Array.from({ length: MAX_LIVES }).map((_, i) => (
+                            <div key={i} className={`w-2 h-2 rounded-full ${
+                              i < (player.livesRemaining ?? MAX_LIVES) ? 'bg-red-500' : 'bg-slate-700'
+                            }`} />
+                          ))}
+                        </div>
+                      )}
+                      {/* Group progress dots */}
                       <div className="flex gap-1">
                         {[0, 1, 2, 3].map(i => (
                           <div key={i} className={`w-3 h-3 rounded-full ${
@@ -573,13 +635,16 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
                 <div
                   key={player.studentId}
                   className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                    player.finished && player.finishPosition === 1
-                      ? 'bg-yellow-500/20 border border-yellow-500/30'
-                      : 'bg-white/5 border border-white/10'
+                    player.eliminated
+                      ? 'bg-red-500/10 border border-red-500/20 opacity-60'
+                      : player.finished && player.finishPosition === 1
+                        ? 'bg-yellow-500/20 border border-yellow-500/30'
+                        : 'bg-white/5 border border-white/10'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    {player.finishPosition && (
+                    {player.eliminated && <span className="text-lg">💀</span>}
+                    {!player.eliminated && player.finishPosition && (
                       <span className={`text-lg font-black ${
                         player.finishPosition === 1 ? 'text-yellow-400' :
                         player.finishPosition === 2 ? 'text-slate-300' :
@@ -591,6 +656,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-slate-400">{player.groupsFound}/4 groups</span>
                     {player.score > 0 && <span className="font-game text-emerald-400">+{player.score}</span>}
+                    {player.eliminated && <span className="text-sm text-red-400">eliminated</span>}
                   </div>
                 </div>
               ))}

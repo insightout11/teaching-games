@@ -227,7 +227,11 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     // Shield: if wrong but has shield, don't break streak
     const shieldActive = currentModifier?.shield && !result.isCorrect;
     const effectiveIsCorrect = result.isCorrect || shieldActive;
-    const currentStreak = effectiveIsCorrect ? (currentStreaks[studentId] ?? 0) + 1 : 0;
+    // Use the resolved DB key (studentIdField or clientIdField) for streak lookup,
+    // not the raw studentId param — remote students pass clientId which also gets
+    // a streak increment from the proxy remote_vote score, causing double-counting.
+    const streakLookupKey = studentIdField ?? clientIdField ?? studentId;
+    const currentStreak = effectiveIsCorrect ? (currentStreaks[streakLookupKey] ?? 0) + 1 : 0;
 
     const scoreData = {
       session_id: sessionId,
