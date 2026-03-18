@@ -46,7 +46,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const [showHint, setShowHint] = useState<boolean>(false);
 
   // Simultaneous race mode
-  const isSimultaneous = students.length >= 3;
+  const isSimultaneous = students.length >= 2;
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
   const [raceFinished, setRaceFinished] = useState(false);
   const [reviewIndex, setReviewIndex] = useState(-1);
