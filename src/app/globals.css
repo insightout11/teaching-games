@@ -23,6 +23,22 @@
   --lc-danger: #FF4D4D;
 }
 
+html[data-theme="light"] {
+  --background: #F0F4FA;
+  --foreground: #0F172A;
+  --lc-bg: #F0F4FA;
+  --lc-surface: #FFFFFF;
+  --lc-card: #FFFFFF;
+  --lc-border: #D1DCF0;
+  --lc-border-subtle: #E6EDF8;
+  --lc-text: #0F172A;
+  --lc-text2: #4A5568;
+  --lc-text3: #718096;
+  --lc-blue: #2B8FFF;
+  --lc-blue-hover: #4DA3FF;
+  --lc-blue-glow: rgba(43,143,255,0.18);
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
@@ -43,6 +59,10 @@ body {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+html[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* Fast pulse animation */
@@ -222,4 +242,83 @@ select option {
   outline: none;
   cursor: pointer;
   opacity: 1;
+}
+
+/* ─── Light Mode Overrides for HUD / Session Theme ─────────────────────────── */
+html[data-theme="light"] .hud-bg {
+  background-color: #F0F4FA;
+  background-image:
+    linear-gradient(rgba(43,143,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,143,255,0.04) 1px, transparent 1px),
+    linear-gradient(
+      transparent calc(18% - 0.5px),
+      rgba(43,143,255,0.06) calc(18% - 0.5px),
+      rgba(43,143,255,0.06) calc(18% + 0.5px),
+      transparent calc(18% + 0.5px)
+    ),
+    linear-gradient(90deg,
+      transparent calc(70% - 0.5px),
+      rgba(43,143,255,0.06) calc(70% - 0.5px),
+      rgba(43,143,255,0.06) calc(70% + 0.5px),
+      transparent calc(70% + 0.5px)
+    ),
+    radial-gradient(circle at 70% 18%, transparent 149px, rgba(43,143,255,0.1) 150px, transparent 152px),
+    radial-gradient(circle at 70% 18%, transparent 269px, rgba(43,143,255,0.07) 270px, transparent 272px),
+    radial-gradient(circle at 70% 18%, transparent 389px, rgba(43,143,255,0.045) 390px, transparent 392px),
+    radial-gradient(ellipse 50% 45% at 70% 18%, rgba(43,143,255,0.06) 0%, transparent 70%);
+  background-size:
+    80px 80px,
+    80px 80px,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+}
+
+html[data-theme="light"] .hud-settings-panel {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(43, 143, 255, 0.2);
+}
+
+html[data-theme="light"] .panel-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(43, 143, 255, 0.2);
+}
+
+html[data-theme="light"] .panel-card::before,
+html[data-theme="light"] .panel-card::after {
+  border-color: rgba(43, 143, 255, 0.45);
+}
+
+html[data-theme="light"] .panel-card:hover {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(43, 143, 255, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(43, 143, 255, 0.15),
+    0 4px 28px rgba(43, 143, 255, 0.12),
+    inset 0 0 20px rgba(43, 143, 255, 0.03);
+}
+
+html[data-theme="light"] .hud-header-bar {
+  border-bottom: 1px solid rgba(43, 143, 255, 0.2);
+}
+
+html[data-theme="light"] .hud-control {
+  background: rgba(43, 143, 255, 0.08);
+  border: 1px solid rgba(43, 143, 255, 0.25);
+}
+
+html[data-theme="light"] .hud-control svg {
+  color: rgba(43, 143, 255, 0.7);
+}
+
+html[data-theme="light"] .hud-control select {
+  color: rgba(43, 143, 255, 0.9);
+}
+
+html[data-theme="light"] select option {
+  background-color: #ffffff;
+  color: #0F172A;
 }

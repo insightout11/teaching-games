@@ -9,7 +9,9 @@ import { cn } from '@/lib/utils';
 import { isMockMode } from '@/lib/mock/auth';
 import type { User } from '@supabase/supabase-js';
 import { CreditBadge } from './credit-badge';
+import { ThemeToggle } from './theme-toggle';
 import { Compass, GraduationCap, Route } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import type { ComponentType } from 'react';
 
 interface NavItem {
@@ -30,6 +32,7 @@ export function Sidebar({ user }: { user: User }) {
   const pathname = usePathname();
   const router = useRouter();
   const mockMode = isMockMode();
+  const { resolvedTheme } = useTheme();
 
   const handleSignOut = async () => {
     if (mockMode) {
@@ -45,9 +48,19 @@ export function Sidebar({ user }: { user: User }) {
   return (
     <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col">
       <div className="p-6 border-b border-lc-border-subtle">
-        <Link href="/explore" className="cursor-pointer">
-          <Image src="/lessoncaptain-logo-on-dark-v2.svg" alt="LessonCaptain" width={180} height={29} className="h-auto" unoptimized />
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link href="/explore" className="cursor-pointer">
+            <Image
+              src={resolvedTheme === 'light' ? '/lessoncaptain-logo-on-light.svg' : '/lessoncaptain-logo-on-dark-v2.svg'}
+              alt="LessonCaptain"
+              width={180}
+              height={29}
+              className="h-auto"
+              unoptimized
+            />
+          </Link>
+          <ThemeToggle className="text-lc-text3 hover:text-lc-text transition-colors" />
+        </div>
         {mockMode && (
           <span className="text-xs text-lc-warn bg-lc-warn/10 px-2 py-0.5 rounded-full">
             Demo Mode

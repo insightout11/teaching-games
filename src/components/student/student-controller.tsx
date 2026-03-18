@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import type { Team } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import { DynamicInput } from './dynamic-input';
@@ -325,12 +326,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               )}
             </div>
           </div>
-          <button
-            onClick={onLeave}
-            className="text-gray-400 hover:text-white text-sm"
-          >
-            Leave
-          </button>
+          <div className="flex items-center gap-3">
+            <ThemeToggle className="text-gray-400 hover:text-white transition-colors" />
+            <button
+              onClick={onLeave}
+              className="text-gray-400 hover:text-white text-sm"
+            >
+              Leave
+            </button>
+          </div>
         </div>
       </div>
 
