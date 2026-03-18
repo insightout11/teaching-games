@@ -22,9 +22,9 @@ interface Class {
 }
 
 function getStageBadge(stage: string | undefined) {
-  if (stage === 'presentation') return { label: 'Present', cls: 'bg-violet-500/15 text-violet-300' };
-  if (stage === 'practice') return { label: 'Practice', cls: 'bg-sky-500/15 text-sky-300' };
-  if (stage === 'production') return { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-300' };
+  if (stage === 'presentation') return { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' };
+  if (stage === 'practice') return { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' };
+  if (stage === 'production') return { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-600' };
   return null;
 }
 
@@ -77,8 +77,8 @@ export function ExploreClient() {
   return (
     <div className="hud-bg -mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Explore</h1>
-        <p className="text-white/50 mt-1">Run a game or activity with your class</p>
+        <h1 className="text-2xl font-bold text-lc-text">Explore</h1>
+        <p className="text-lc-text2 mt-1">Run a game or activity with your class</p>
       </div>
 
       {/* Type filter tabs */}
@@ -90,8 +90,8 @@ export function ExploreClient() {
             className={cn(
               'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors capitalize',
               filter === tab
-                ? 'bg-white/10 text-white border-white/20'
-                : 'bg-transparent text-white/50 border-white/10 hover:border-white/20'
+                ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+                : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
             )}
           >
             {tab === 'all' ? 'All' : tab === 'games' ? 'Games' : 'Activities'}
@@ -101,18 +101,18 @@ export function ExploreClient() {
 
       {/* PPP stage filter */}
       <div className="flex items-center gap-2 mb-8">
-        <span className="text-xs text-white/40 uppercase tracking-wider font-semibold mr-1">Stage:</span>
+        <span className="text-xs text-lc-text3 uppercase tracking-wider font-semibold mr-1">Stage:</span>
         {(['all', 'presentation', 'practice', 'production'] as PppFilter[]).map((stage) => (
           <button
             key={stage}
             onClick={() => setPppFilter(stage)}
             className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
               pppFilter === stage
-                ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-300 border-violet-500/40'
-                  : stage === 'practice' ? 'bg-sky-500/20 text-sky-300 border-sky-500/40'
-                  : stage === 'production' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                  : 'bg-white/10 text-white border-white/20'
-                : 'bg-transparent text-white/50 border-white/10 hover:border-white/20'
+                ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-400 border-violet-500/40'
+                  : stage === 'practice' ? 'bg-sky-500/20 text-sky-400 border-sky-500/40'
+                  : stage === 'production' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
+                  : 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+                : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
             }`}
           >
             {stage === 'all' ? 'All' : stage.charAt(0).toUpperCase() + stage.slice(1)}
@@ -134,7 +134,7 @@ export function ExploreClient() {
               <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
                 <CatIcon className={`w-4 h-4 ${info.color}`} />
                 <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
-                <span className="text-xs text-white/30 mr-1">— Games</span>
+                <span className="text-xs text-lc-text3 mr-1">— Games</span>
                 <div className="hud-rule" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -155,7 +155,7 @@ export function ExploreClient() {
                       <p className="text-sm opacity-70 mt-1">{game.description}</p>
                       <div className="flex flex-wrap gap-1 mt-3">
                         {game.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">{skill}</span>
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border/60 text-lc-text2 rounded-full">{skill}</span>
                         ))}
                       </div>
                       <div className="mt-3">
@@ -182,7 +182,7 @@ export function ExploreClient() {
               <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
                 <CatIcon className={`w-4 h-4 ${info.color}`} />
                 <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
-                <span className="text-xs text-white/30 mr-1">— Activities</span>
+                <span className="text-xs text-lc-text3 mr-1">— Activities</span>
                 <div className="hud-rule" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -203,7 +203,7 @@ export function ExploreClient() {
                       <p className="text-sm opacity-70 mt-2">{activity.description}</p>
                       <div className="flex flex-wrap gap-1 mt-3">
                         {activity.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">{skill}</span>
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border/60 text-lc-text2 rounded-full">{skill}</span>
                         ))}
                       </div>
                       <div className="mt-3">
