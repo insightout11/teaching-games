@@ -4,7 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
 import { useMemo, useEffect, useRef, useState } from 'react';
 
-const VALID_HELMET_SEEDS = new Set(['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow']);
+const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
+const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
+
+function resolveHelmet(avatarSeed: string | undefined, name: string): string {
+  if (avatarSeed && VALID_HELMET_SEEDS.has(avatarSeed)) return avatarSeed;
+  // Deterministic fallback based on name
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  return HELMET_SEEDS[hash % HELMET_SEEDS.length];
+}
 
 interface LeaderboardEntry {
   studentId: string;
@@ -145,20 +154,14 @@ export function Leaderboard() {
                   <span className={`text-sm font-bold w-6 ${entry.rank < 3 ? medalColors[entry.rank] : 'opacity-40'}`}>
                     {entry.rank + 1}
                   </span>
-                  {entry.avatarSeed && VALID_HELMET_SEEDS.has(entry.avatarSeed) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={`/avatars/avatar-${entry.avatarSeed}.png`}
-                      alt=""
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 rounded-full flex-shrink-0"
-                    />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-gray-400 flex-shrink-0">
-                      {entry.name.charAt(0).toUpperCase()}
-                    </div>
-                  )}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/avatars/avatar-${resolveHelmet(entry.avatarSeed, entry.name)}.png`}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 rounded-full flex-shrink-0"
+                  />
                   <span className="text-sm font-medium">{entry.name}</span>
                 </div>
                 <div className="flex items-center gap-3">

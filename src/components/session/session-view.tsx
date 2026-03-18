@@ -19,7 +19,15 @@ import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex } from '@/lib/flight-plan-helpers';
 
-const VALID_HELMET_SEEDS = new Set(['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow']);
+const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
+const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
+
+function resolveHelmet(avatarSeed: string, name: string): string {
+  if (VALID_HELMET_SEEDS.has(avatarSeed)) return avatarSeed;
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  return HELMET_SEEDS[hash % HELMET_SEEDS.length];
+}
 import { Button } from '@/components/ui/button';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
 import type { GamePlugin } from '@/games/types';
@@ -348,14 +356,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     key={s.id}
                     className="flex items-center gap-1.5 px-2 py-1 bg-white/10 rounded-full text-sm font-medium"
                   >
-                    {VALID_HELMET_SEEDS.has(s.avatar_seed) ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={`/avatars/avatar-${s.avatar_seed}.png`} alt="" width={20} height={20} className="w-5 h-5 rounded-full flex-shrink-0" />
-                    ) : (
-                      <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-bold flex-shrink-0">
-                        {s.name.charAt(0).toUpperCase()}
-                      </span>
-                    )}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={`/avatars/avatar-${resolveHelmet(s.avatar_seed, s.name)}.png`} alt="" width={20} height={20} className="w-5 h-5 rounded-full flex-shrink-0" />
                     {s.name}
                   </span>
                 ))}
