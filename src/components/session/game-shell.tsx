@@ -189,7 +189,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
         response_data: { ...result.responseData, scoringMode: 'participation' },
       }).select().single();
       promptIndexRef.current++;
-      if (error) console.error('[handleScore] participation insert failed', error);
+      if (error) console.error('[handleScore] participation insert failed', JSON.stringify(error));
       if (data) recordScore(data);
       clearModifier();
       return;
@@ -210,7 +210,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
         response_data: { ...result.responseData, scoringMode: 'accuracy' },
       }).select().single();
       promptIndexRef.current++;
-      if (error) console.error('[handleScore] accuracy insert failed', error);
+      if (error) console.error('[handleScore] accuracy insert failed', JSON.stringify(error));
       if (data) recordScore(data);
       clearModifier();
       return;
@@ -251,7 +251,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
 
     promptIndexRef.current++;
     const { data, error } = await supabase.from('scores').insert(scoreData).select().single();
-    if (error) console.error('[handleScore] insert failed', error, scoreData);
+    if (error) console.error('[handleScore] FAILED code=' + error.code + ' msg=' + error.message + ' hint=' + error.hint + ' data=' + JSON.stringify(scoreData));
     if (data) recordScore(data);
     clearModifier();
   }, [sessionId, supabase, recordScore, clearModifier]);
