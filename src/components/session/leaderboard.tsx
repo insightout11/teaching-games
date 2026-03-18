@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
 import { useMemo, useEffect, useRef, useState } from 'react';
 
+const VALID_HELMET_SEEDS = new Set(['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow']);
+
 interface LeaderboardEntry {
   studentId: string;
   name: string;
@@ -143,7 +145,7 @@ export function Leaderboard() {
                   <span className={`text-sm font-bold w-6 ${entry.rank < 3 ? medalColors[entry.rank] : 'opacity-40'}`}>
                     {entry.rank + 1}
                   </span>
-                  {entry.avatarSeed ? (
+                  {entry.avatarSeed && VALID_HELMET_SEEDS.has(entry.avatarSeed) ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={`/avatars/avatar-${entry.avatarSeed}.png`}

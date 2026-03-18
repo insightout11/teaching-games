@@ -18,6 +18,8 @@ import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activit
 import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex } from '@/lib/flight-plan-helpers';
+
+const VALID_HELMET_SEEDS = new Set(['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow']);
 import { Button } from '@/components/ui/button';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
 import type { GamePlugin } from '@/games/types';
@@ -344,8 +346,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 {students.map((s) => (
                   <span
                     key={s.id}
-                    className="px-3 py-1.5 bg-white/10 rounded-full text-sm font-medium"
+                    className="flex items-center gap-1.5 px-2 py-1 bg-white/10 rounded-full text-sm font-medium"
                   >
+                    {VALID_HELMET_SEEDS.has(s.avatar_seed) ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={`/avatars/avatar-${s.avatar_seed}.png`} alt="" width={20} height={20} className="w-5 h-5 rounded-full flex-shrink-0" />
+                    ) : (
+                      <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-bold flex-shrink-0">
+                        {s.name.charAt(0).toUpperCase()}
+                      </span>
+                    )}
                     {s.name}
                   </span>
                 ))}
