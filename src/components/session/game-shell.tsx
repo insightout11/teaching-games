@@ -185,7 +185,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
         streak_count: 0,
         streak_bonus: 0,
         is_correct: result.isCorrect,
-        prompt_index: promptIndexRef.current,
         response_data: { ...result.responseData, scoringMode: 'participation' },
       }).select().single();
       promptIndexRef.current++;
@@ -206,7 +205,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
         streak_count: 0,
         streak_bonus: 0,
         is_correct: result.isCorrect,
-        prompt_index: promptIndexRef.current,
         response_data: { ...result.responseData, scoringMode: 'accuracy' },
       }).select().single();
       promptIndexRef.current++;
@@ -240,7 +238,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
       streak_count: currentStreak,
       streak_bonus: 0,
       is_correct: result.isCorrect,
-      prompt_index: promptIndexRef.current,
       response_data: {
         ...result.responseData,
         basePoints,
