@@ -495,7 +495,7 @@ function NodeCard({
 
   return (
     <motion.div
-      className="absolute -translate-x-1/2"
+      className="absolute -translate-x-1/2 overflow-hidden"
       style={{
         left: `${point.cardXPercent}%`,
         top: `${point.cardYPercent}%`,
@@ -520,15 +520,15 @@ function NodeCard({
           <div className={`mt-0.5 rounded-full border border-white/10 bg-white/[0.08] ${iconWrapSize}`}>
             {getStepIcon(point.type, `${iconSize} text-cyan-200/90`)}
           </div>
-          <div className="min-w-0 flex-1">
-            <div className={`uppercase tracking-[0.14em] font-semibold ${
+          <div className="min-w-0 flex-1 overflow-hidden">
+            <div className={`uppercase tracking-[0.14em] font-semibold truncate ${
               isRuntime
                 ? 'text-[10px] text-cyan-200/70'
                 : 'text-[11px] text-cyan-200/65'
             }`}>
               {point.type}
             </div>
-            <div className={`leading-tight text-white/[0.92] ${
+            <div className={`leading-tight text-white/[0.92] break-words ${
               isRuntime ? 'mt-0.5 text-xs font-medium' : 'mt-1 text-sm font-medium'
             }`}>{point.name}</div>
           </div>
@@ -820,9 +820,10 @@ export function LessonCaptainFlightPlan({
   useEffect(() => setMounted(true), []);
 
   return (
+    <div className="overflow-x-auto">
     <div
       className={`relative w-full overflow-hidden ${mode === 'runtime' ? 'rounded-2xl' : 'rounded-[28px]'} border border-white/10 bg-[#07111f] shadow-[0_20px_80px_rgba(0,0,0,0.45)] ${className}`}
-      style={{ aspectRatio: `${width} / ${height}` }}
+      style={{ aspectRatio: `${width} / ${height}`, minWidth: mode === 'runtime' ? '480px' : '560px' }}
     >
       {!mounted ? null : (
         <>
@@ -852,6 +853,7 @@ export function LessonCaptainFlightPlan({
           <div className={`pointer-events-none absolute inset-x-0 bottom-0 ${mode === 'runtime' ? 'h-8' : 'h-28'} bg-gradient-to-t from-[#050b15] to-transparent`} />
         </>
       )}
+    </div>
     </div>
   );
 }

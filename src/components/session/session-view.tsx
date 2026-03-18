@@ -324,7 +324,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </code>
                 <button
                   onClick={handleCopyJoinLink}
-                  className="px-3 py-2 rounded-lg glass border border-white/10 text-xs hover:bg-white/10 transition-colors"
+                  className="px-3 py-2 rounded-lg glass border border-lc-border text-xs hover:bg-lc-card transition-colors"
                 >
                   {joinLinkCopied ? 'Copied!' : 'Copy'}
                 </button>
@@ -354,11 +354,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 {students.map((s) => (
                   <div
                     key={s.id}
-                    className="flex flex-col items-center gap-1.5 bg-white/10 rounded-2xl px-4 py-3 min-w-[72px]"
+                    className="flex flex-col items-center gap-1.5 bg-lc-card rounded-2xl px-4 py-3 min-w-[72px]"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={`/avatars/avatar-${resolveHelmet(s.avatar_seed, s.name)}.png`} alt="" width={48} height={48} className="w-12 h-12 rounded-xl" />
-                    <span className="text-sm font-semibold text-white truncate max-w-[72px] text-center">{s.name}</span>
+                    <span className="text-sm font-semibold text-lc-text truncate max-w-[72px] text-center">{s.name}</span>
                   </div>
                 ))}
               </div>
@@ -374,7 +374,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               {lesson.lessonSlots.map((slot, i) => (
                 <div
                   key={i}
-                  className="flex-shrink-0 px-3 py-2 bg-white/5 rounded-lg text-xs text-center min-w-[80px]"
+                  className="flex-shrink-0 px-3 py-2 bg-lc-surface rounded-lg text-xs text-center min-w-[80px]"
                 >
                   <p className="opacity-50 uppercase tracking-wider mb-0.5">{i + 1}</p>
                   <p className="font-medium truncate">{slot.name}</p>
@@ -447,7 +447,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               <div className="relative" ref={settingsPopoverRef}>
                 <button
                   onClick={() => setShowSettingsPopover(!showSettingsPopover)}
-                  className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-lc-card transition-colors"
                   title="Session settings"
                 >
                   <svg className="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -456,7 +456,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </svg>
                 </button>
                 {showSettingsPopover && (
-                  <div className="absolute right-0 top-full mt-2 z-50 glass rounded-xl p-3 shadow-xl border border-white/10 min-w-[320px]">
+                  <div className="absolute right-0 top-full mt-2 z-50 glass rounded-xl p-3 shadow-xl border border-lc-border min-w-[320px]">
                     <SessionSettingsBar />
                   </div>
                 )}
@@ -486,12 +486,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
             {/* Swap Suggestion Card */}
             {swapSuggestion && (
-              <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-                <p className="mb-2 text-xs font-medium text-white/40 uppercase tracking-wider">
+              <div className="rounded-xl border border-lc-border bg-lc-surface p-4">
+                <p className="mb-2 text-xs font-medium text-lc-text3 uppercase tracking-wider">
                   ✨ Try next
                 </p>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="font-semibold text-white">{swapSuggestion.plugin.name}</span>
+                  <span className="font-semibold text-lc-text">{swapSuggestion.plugin.name}</span>
                   <span className={`text-[10px] px-1.5 py-0.5 rounded ${
                     swapSuggestion.plugin.pppStage === 'presentation' ? 'bg-violet-500/15 text-violet-300'
                     : swapSuggestion.plugin.pppStage === 'practice' ? 'bg-sky-500/15 text-sky-300'
@@ -502,7 +502,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       : 'Produce'}
                   </span>
                 </div>
-                <p className="text-xs text-white/40 mb-3">~{swapSuggestion.plugin.estimatedMinutes} min</p>
+                <p className="text-xs text-lc-text3 mb-3">~{swapSuggestion.plugin.estimatedMinutes} min</p>
                 <div className="flex gap-2">
                   <button
                     onClick={() => {
@@ -512,13 +512,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                         handleSelectGame(swapSuggestion.plugin as GamePlugin);
                       }
                     }}
-                    className="rounded-lg bg-white/10 px-4 py-1.5 text-sm font-medium text-white hover:bg-white/20"
+                    className="rounded-lg bg-lc-card px-4 py-1.5 text-sm font-medium text-lc-text hover:bg-lc-border"
                   >
                     Launch Now
                   </button>
                   <button
                     onClick={() => setSwapSuggestion(null)}
-                    className="text-sm text-white/40 hover:text-white/60 px-2"
+                    className="text-sm text-lc-text3 hover:text-lc-text2 px-2"
                   >
                     Browse all →
                   </button>
@@ -538,8 +538,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-300 border-violet-500/40'
                         : stage === 'practice' ? 'bg-sky-500/20 text-sky-300 border-sky-500/40'
                         : stage === 'production' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                        : 'bg-white/10 text-white border-white/20'
-                      : 'bg-transparent text-white/50 border-white/10 hover:border-white/20'
+                        : 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+                      : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
                   }`}
                 >
                   {stage === 'all' ? 'All' : stage.charAt(0).toUpperCase() + stage.slice(1)}
@@ -598,7 +598,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             <p className="text-sm opacity-70 mt-2">{activity.description}</p>
                             <div className="flex flex-wrap gap-1 mt-3">
                               {activity.skills.map((skill) => (
-                                <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">
+                                <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">
                                   {skill}
                                 </span>
                               ))}
@@ -680,7 +680,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             <p className="text-sm opacity-70 mt-1">{game.description}</p>
                             <div className="flex flex-wrap gap-1 mt-3">
                               {game.skills.map((skill) => (
-                                <span key={skill} className="text-xs px-2 py-0.5 bg-white/10 rounded-full">
+                                <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">
                                   {skill}
                                 </span>
                               ))}
@@ -829,15 +829,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       {/* Answer overlay — shown on teacher's projected screen */}
       {screenAnswer && (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-8 bg-black/60 backdrop-blur-sm">
-          <div className="glass rounded-2xl shadow-2xl border border-white/10 max-w-3xl w-full p-8">
+          <div className="glass rounded-2xl shadow-2xl border border-lc-border max-w-3xl w-full p-8">
             <p className="text-sm opacity-50 uppercase tracking-wider font-semibold mb-3">Student Question</p>
             <p className="text-xl font-medium mb-6 leading-relaxed">{screenAnswer.question}</p>
-            <hr className="border-white/10 mb-6" />
+            <hr className="border-lc-border mb-6" />
             <p className="text-sm opacity-50 uppercase tracking-wider font-semibold mb-3">Answer</p>
             <p className="text-2xl leading-relaxed whitespace-pre-wrap">{screenAnswer.answer}</p>
             <button
               onClick={() => setScreenAnswer(null)}
-              className="mt-8 px-4 py-2 rounded-lg glass border border-white/10 text-sm hover:bg-white/10 transition-colors"
+              className="mt-8 px-4 py-2 rounded-lg glass border border-lc-border text-sm hover:bg-lc-card transition-colors"
             >
               Dismiss
             </button>

@@ -94,7 +94,7 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck={false}
-        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+        className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
       />
       <div className="flex items-center justify-between">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
@@ -153,7 +153,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
           </div>
           {myWords && myWords.length > 0 && (
             <div>
-              <p className="text-xs text-slate-400 uppercase tracking-wider mb-1.5">Words used</p>
+              <p className="text-xs text-lc-text2 uppercase tracking-wider mb-1.5">Words used</p>
               <div className="flex flex-wrap gap-1.5">
                 {myWords.map((w) => (
                   <span
@@ -161,7 +161,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
                     className={`px-2.5 py-1 rounded-full text-sm font-medium ${
                       sentenceResult.wordsUsed.includes(w)
                         ? 'bg-emerald-500/20 text-emerald-300'
-                        : 'bg-slate-700 text-slate-500'
+                        : 'bg-lc-border text-lc-text3'
                     }`}
                   >
                     {w}
@@ -170,7 +170,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
               </div>
             </div>
           )}
-          <p className="text-slate-300 text-sm italic">{sentenceResult.feedback}</p>
+          <p className="text-lc-text text-sm italic">{sentenceResult.feedback}</p>
           {sentenceResult.totalPoints === 0 && (
             <p className="text-red-400 text-xs">Needs 2+ of your words to earn points</p>
           )}
@@ -186,10 +186,10 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
       )}
       {myWords && myWords.length > 0 && (
         <div>
-          <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">Your Round 1 words:</p>
+          <p className="text-xs text-lc-text2 uppercase tracking-wider mb-2">Your Round 1 words:</p>
           <div className="flex flex-wrap gap-1.5">
             {myWords.map((w) => (
-              <span key={w} className="px-2.5 py-1 bg-slate-700 text-slate-200 rounded-full text-sm font-medium select-none">
+              <span key={w} className="px-2.5 py-1 bg-lc-card text-lc-text rounded-full text-sm font-medium select-none">
                 {w}
               </span>
             ))}
@@ -198,7 +198,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
       )}
       {hasResources && (
         <div>
-          <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">
+          <p className="text-xs text-lc-text2 uppercase tracking-wider mb-2">
             Tap a resource you used <span className="text-amber-400">*required</span>
           </p>
           <div className="flex flex-wrap gap-2">
@@ -212,7 +212,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                   selectedResources.includes(r)
                     ? 'bg-lime-500 text-white'
-                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                    : 'bg-lc-surface border border-lc-border text-lc-text2 hover:bg-lc-card'
                 }`}
               >
                 {r}
@@ -229,7 +229,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
           <button
             onClick={() => setShowHint(!showHint)}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide transition-colors ${
-              showHint ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-slate-400 hover:bg-white/20'
+              showHint ? 'bg-emerald-500/20 text-emerald-400' : 'bg-lc-surface text-lc-text2 hover:bg-lc-card'
             }`}
           >
             <svg className={`w-3 h-3 transition-transform ${showHint ? 'rotate-90' : ''}`} fill="currentColor" viewBox="0 0 20 20"><path d="M6 4l8 6-8 6V4z"/></svg>
@@ -272,12 +272,12 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         placeholder={spec.placeholder || 'Type your answer...'}
         maxLength={spec.maxLength || 1000}
         rows={4}
-        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
+        className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
       />
       <div className="flex items-center justify-between">
         <div>
           <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
-          <span className="text-gray-500 text-sm ml-2">{value.length}/{spec.maxLength || 1000}</span>
+          <span className="text-lc-text3 text-sm ml-2">{value.length}/{spec.maxLength || 1000}</span>
         </div>
         <Button
           onClick={handleSubmit}
@@ -326,7 +326,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
               className={`w-full p-4 rounded-xl text-left transition-all ${
                 selected === option
                   ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                  : 'bg-lc-surface text-lc-text hover:bg-lc-card'
               } disabled:opacity-50`}
             >
               {option}
@@ -336,7 +336,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
             <button
               onClick={() => { setSelected(null); setWriteInMode(true); }}
               disabled={isSubmitting}
-              className="w-full p-4 rounded-xl text-left transition-all bg-white/5 text-gray-400 hover:bg-white/10 border border-dashed border-white/20 disabled:opacity-50"
+              className="w-full p-4 rounded-xl text-left transition-all bg-lc-surface text-lc-text2 hover:bg-lc-card border border-dashed border-lc-border disabled:opacity-50"
             >
               ✏️ Write your own…
             </button>
@@ -352,13 +352,13 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
             placeholder="Write your mission in a few words…"
             rows={3}
             autoFocus
-            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
+            className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
           />
           <div className="flex items-center justify-between">
-            <span className="text-gray-500 text-xs">{writeInText.length}/100</span>
+            <span className="text-lc-text3 text-xs">{writeInText.length}/100</span>
             <button
               onClick={() => { setWriteInMode(false); setWriteInText(''); }}
-              className="text-sm text-gray-400 hover:text-white"
+              className="text-sm text-lc-text3 hover:text-lc-text"
             >
               ← Back
             </button>
@@ -401,7 +401,7 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
             key={index}
             onClick={() => handleChoice(index)}
             disabled={isSubmitting || submitStatus === 'rate_limited'}
-            className="p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 hover:from-cyan-500/30 hover:to-blue-500/30 hover:border-cyan-500/50 transition-all text-white font-bold text-xl disabled:opacity-50"
+            className="p-6 rounded-2xl bg-lc-surface border border-lc-border hover:border-cyan-500/50 hover:bg-lc-card transition-all text-lc-text font-bold text-xl disabled:opacity-50"
           >
             <div className="text-3xl mb-2">{labels[index]}</div>
             <div className="text-sm opacity-80">{option}</div>
@@ -439,7 +439,7 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
-      <p className="text-sm text-gray-400">Select {selectCount} items ({selected.size}/{selectCount})</p>
+      <p className="text-sm text-lc-text2">Select {selectCount} items ({selected.size}/{selectCount})</p>
       <div className="grid grid-cols-4 gap-2">
         {spec.options?.map((option, index) => (
           <button
@@ -449,7 +449,7 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
             className={`p-3 rounded-xl text-sm transition-all ${
               selected.has(option)
                 ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                : 'bg-lc-surface text-lc-text hover:bg-lc-card'
             } disabled:opacity-50`}
           >
             {option}
@@ -500,9 +500,9 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
       )}
 
       {/* Built sequence */}
-      <div className="min-h-[60px] p-3 bg-white/5 rounded-xl border border-dashed border-white/20">
+      <div className="min-h-[60px] p-3 bg-lc-surface rounded-xl border border-dashed border-lc-border">
         {sequence.length === 0 ? (
-          <p className="text-gray-500 text-sm">Tap words to build your sentence...</p>
+          <p className="text-lc-text3 text-sm">Tap words to build your sentence...</p>
         ) : (
           <div className="flex flex-wrap gap-2">
             {sequence.map((item, index) => (
@@ -525,7 +525,7 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
             key={index}
             onClick={() => addToSequence(item)}
             disabled={isSubmitting}
-            className="px-3 py-1.5 bg-white/10 text-gray-300 rounded-lg hover:bg-white/20 transition-colors disabled:opacity-50"
+            className="px-3 py-1.5 bg-lc-card text-lc-text rounded-lg hover:bg-lc-border transition-colors disabled:opacity-50"
           >
             {item}
           </button>
@@ -616,7 +616,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
                   ? 'bg-red-500/30 border border-red-500/50'
                   : isEditing
                   ? 'bg-yellow-500/30 border border-yellow-500/50 text-yellow-200'
-                  : 'bg-white/10 hover:bg-white/20 border border-transparent'
+                  : 'bg-lc-card hover:bg-lc-border border border-lc-border'
               } disabled:opacity-50`}
             >
               {hasCorrection ? (
@@ -636,7 +636,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
       {editingIndex !== null && (
         <div className="flex gap-2 items-end">
           <div className="flex-1">
-            <p className="text-xs text-gray-400 mb-1">
+            <p className="text-xs text-lc-text2 mb-1">
               Correct &quot;<span className="text-yellow-400">{words[editingIndex]}</span>&quot; to:
             </p>
             <input
@@ -646,7 +646,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
               onKeyDown={(e) => e.key === 'Enter' && handleAddCorrection()}
               placeholder="Type correction..."
               autoFocus
-              className="w-full px-3 py-2 bg-white/10 border border-yellow-500/50 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
+              className="w-full px-3 py-2 bg-lc-surface border border-yellow-500/50 rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
             />
           </div>
           <button
@@ -659,7 +659,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
         </div>
       )}
 
-      <p className="text-sm text-gray-400">{corrections.size} correction{corrections.size !== 1 ? 's' : ''} marked</p>
+      <p className="text-sm text-lc-text2">{corrections.size} correction{corrections.size !== 1 ? 's' : ''} marked</p>
 
       <div className="flex items-center justify-between">
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
@@ -698,7 +698,7 @@ function RankingInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds 
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
-      <p className="text-sm text-gray-400">Drag to reorder (1 = highest)</p>
+      <p className="text-sm text-lc-text2">Drag to reorder (1 = highest)</p>
 
       <div className="space-y-2">
         {items.map((item, index) => (
@@ -716,25 +716,25 @@ function RankingInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds 
             className={`flex items-center gap-3 p-3 rounded-xl cursor-move transition-all ${
               draggedIndex === index
                 ? 'bg-cyan-500/30 border border-cyan-500'
-                : 'bg-white/10 border border-transparent hover:bg-white/15'
+                : 'bg-lc-surface border border-lc-border hover:bg-lc-card'
             }`}
           >
-            <span className="w-6 h-6 flex items-center justify-center bg-white/10 rounded-full text-sm font-bold">
+            <span className="w-6 h-6 flex items-center justify-center bg-lc-card rounded-full text-sm font-bold">
               {index + 1}
             </span>
-            <span className="text-white">{item}</span>
+            <span className="text-lc-text">{item}</span>
             <div className="ml-auto flex gap-1">
               <button
                 onClick={() => index > 0 && moveItem(index, index - 1)}
                 disabled={index === 0}
-                className="p-1 text-gray-400 hover:text-white disabled:opacity-30"
+                className="p-1 text-lc-text3 hover:text-lc-text disabled:opacity-30"
               >
                 ↑
               </button>
               <button
                 onClick={() => index < items.length - 1 && moveItem(index, index + 1)}
                 disabled={index === items.length - 1}
-                className="p-1 text-gray-400 hover:text-white disabled:opacity-30"
+                className="p-1 text-lc-text3 hover:text-lc-text disabled:opacity-30"
               >
                 ↓
               </button>
