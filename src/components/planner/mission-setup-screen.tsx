@@ -34,23 +34,23 @@ export function MissionSetupScreen() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Tabs */}
-      <div className="flex gap-1 bg-lc-surface rounded-lg p-1">
+      <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-xl p-1">
         <button
           onClick={() => setActiveTab('build')}
-          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
+          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
             activeTab === 'build'
-              ? 'bg-lc-card text-lc-text shadow-sm'
-              : 'text-lc-text3 hover:text-lc-text'
+              ? 'bg-lc-blue text-white shadow-sm'
+              : 'text-lc-text2 hover:text-lc-text hover:bg-lc-card'
           }`}
         >
           Build
         </button>
         <button
           onClick={() => setActiveTab('presets')}
-          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
+          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
             activeTab === 'presets'
-              ? 'bg-lc-card text-lc-text shadow-sm'
-              : 'text-lc-text3 hover:text-lc-text'
+              ? 'bg-lc-blue text-white shadow-sm'
+              : 'text-lc-text2 hover:text-lc-text hover:bg-lc-card'
           }`}
         >
           Presets
