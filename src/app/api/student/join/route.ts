@@ -6,7 +6,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { sessionId, name } = body;
+    const { sessionId, name, avatarSeed } = body;
 
     if (!sessionId || !name) {
       return NextResponse.json(
@@ -64,11 +64,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Insert new student
+    const seed = typeof avatarSeed === 'string' && avatarSeed.trim() ? avatarSeed.trim() : 'ace';
     const { data: newStudent, error: insertError } = await supabase
       .from('students')
       .insert({
         class_id: session.class_id,
         name: trimmedName,
+        avatar_seed: seed,
       })
       .select('id, name')
       .single();

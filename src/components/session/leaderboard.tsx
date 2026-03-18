@@ -10,6 +10,7 @@ interface LeaderboardEntry {
   totalPoints: number;
   correctCount: number;
   bestStreak: number;
+  avatarSeed?: string;
 }
 
 export function Leaderboard() {
@@ -25,7 +26,7 @@ export function Leaderboard() {
 
     // Add roster students
     students.forEach((s) => {
-      map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0, correctCount: 0, bestStreak: 0 });
+      map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0, correctCount: 0, bestStreak: 0, avatarSeed: s.avatar_seed });
     });
 
     // Process scores, creating entries for remote students
@@ -142,6 +143,20 @@ export function Leaderboard() {
                   <span className={`text-sm font-bold w-6 ${entry.rank < 3 ? medalColors[entry.rank] : 'opacity-40'}`}>
                     {entry.rank + 1}
                   </span>
+                  {entry.avatarSeed ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${entry.avatarSeed}&size=32`}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="w-8 h-8 rounded-full flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-gray-400 flex-shrink-0">
+                      {entry.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                   <span className="text-sm font-medium">{entry.name}</span>
                 </div>
                 <div className="flex items-center gap-3">

@@ -12,6 +12,7 @@ interface StudentSession {
   studentId: string | null;
   displayName: string;
   team: Team | null;
+  avatarSeed?: string;
 }
 
 interface ActivePoll {

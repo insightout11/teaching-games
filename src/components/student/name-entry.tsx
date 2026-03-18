@@ -4,11 +4,18 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import type { Team } from '@/lib/supabase/types';
 
+const AVATAR_SEEDS = ['ace', 'falcon', 'nova', 'bolt', 'iris', 'storm', 'echo', 'raven'];
+
+function avatarUrl(seed: string) {
+  return `https://api.dicebear.com/9.x/pixel-art/svg?seed=${seed}&size=64`;
+}
+
 interface StudentSession {
   clientId: string;
   studentId: string | null;
   displayName: string;
   team: Team | null;
+  avatarSeed: string;
 }
 
 interface NameEntryProps {
@@ -27,7 +34,7 @@ function generateUUID(): string {
 
 export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
   const [name, setName] = useState('');
-  const [team, setTeam] = useState<Team | null>(null);
+  const [avatarSeed, setAvatarSeed] = useState(AVATAR_SEEDS[0]);
   const [isJoining, setIsJoining] = useState(false);
 
   const handleJoin = async () => {
@@ -59,7 +66,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
       const response = await fetch('/api/student/join', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, name: trimmedName }),
+        body: JSON.stringify({ sessionId, name: trimmedName, avatarSeed }),
       });
 
       if (response.ok) {
@@ -76,7 +83,8 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
       clientId,
       studentId,
       displayName: trimmedName,
-      team,
+      team: null,
+      avatarSeed,
     };
 
     // Save to localStorage
@@ -123,31 +131,30 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Team (Optional)
+              Choose Your Avatar
             </label>
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={() => setTeam(team === 'red' ? null : 'red')}
-                className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
-                  team === 'red'
-                    ? 'bg-red-500 text-white shadow-lg shadow-red-500/30'
-                    : 'bg-white/10 text-gray-400 hover:bg-white/20'
-                }`}
-              >
-                Red Team
-              </button>
-              <button
-                type="button"
-                onClick={() => setTeam(team === 'blue' ? null : 'blue')}
-                className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
-                  team === 'blue'
-                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                    : 'bg-white/10 text-gray-400 hover:bg-white/20'
-                }`}
-              >
-                Blue Team
-              </button>
+            <div className="grid grid-cols-4 gap-2">
+              {AVATAR_SEEDS.map((seed) => (
+                <button
+                  key={seed}
+                  type="button"
+                  onClick={() => setAvatarSeed(seed)}
+                  className={`relative p-1.5 rounded-xl transition-all ${
+                    avatarSeed === seed
+                      ? 'ring-2 ring-cyan-400 scale-105 bg-white/10'
+                      : 'opacity-50 hover:opacity-80 hover:bg-white/5'
+                  }`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={avatarUrl(seed)}
+                    alt={seed}
+                    width={64}
+                    height={64}
+                    className="w-full h-auto rounded-lg"
+                  />
+                </button>
+              ))}
             </div>
           </div>
         </div>
