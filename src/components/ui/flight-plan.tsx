@@ -29,6 +29,8 @@ interface LessonCaptainFlightPlanProps {
   activeIndex?: number;
   onNodeClick?: (stepId: string) => void;
   onMoveModule?: (index: number, direction: 'left' | 'right') => void;
+  slotBudgets?: number[];
+  pacingIndex?: number;
 }
 
 const DEFAULT_STEPS: FlightPlanStep[] = [
@@ -477,6 +479,7 @@ function NodeCard({
   onClick,
   onMoveLeft,
   onMoveRight,
+  estimatedMinutes,
 }: {
   point: NodePoint;
   delay?: number;
@@ -485,6 +488,7 @@ function NodeCard({
   onClick?: () => void;
   onMoveLeft?: () => void;
   onMoveRight?: () => void;
+  estimatedMinutes?: number;
 }) {
   const isClickable = !!onClick;
   const showMoveButtons = !!(onMoveLeft || onMoveRight);
@@ -531,6 +535,11 @@ function NodeCard({
             <div className={`leading-tight text-white/[0.92] break-words ${
               isRuntime ? 'mt-0.5 text-xs font-medium' : 'mt-1 text-sm font-medium'
             }`}>{point.name}</div>
+            {estimatedMinutes !== undefined && (
+              <div className="mt-1 text-[9px] text-white/40 font-normal tracking-wide">
+                ~{estimatedMinutes} min
+              </div>
+            )}
           </div>
         </div>
 
@@ -572,6 +581,7 @@ function NodeLayer({
   ids,
   onNodeClick,
   onMoveModule,
+  slotBudgets,
 }: {
   width: number;
   height: number;
@@ -581,6 +591,7 @@ function NodeLayer({
   ids: LayerIds;
   onNodeClick?: (stepId: string) => void;
   onMoveModule?: (index: number, direction: 'left' | 'right') => void;
+  slotBudgets?: number[];
 }) {
   // Module points only (excluding terminals) for move-button boundary logic
   const modulePoints = points.filter((p) => p.kind === 'module');
@@ -684,6 +695,7 @@ function NodeLayer({
             onClick={canClick ? () => onNodeClick!(point.id) : undefined}
             onMoveLeft={canMove && point.id !== firstModuleId ? () => onMoveModule!(i, 'left') : undefined}
             onMoveRight={canMove && point.id !== lastModuleId ? () => onMoveModule!(i, 'right') : undefined}
+            estimatedMinutes={slotBudgets?.[i]}
           />
         );
       })}
@@ -699,6 +711,7 @@ function PlaneLayer({
   mode = 'planner',
   activeIndex = 0,
   ids,
+  pacingIndex,
 }: {
   width: number;
   height: number;
@@ -707,9 +720,11 @@ function PlaneLayer({
   mode?: FlightPlanMode;
   activeIndex?: number;
   ids: LayerIds;
+  pacingIndex?: number;
 }) {
   if (!takeoffPoint) return null;
 
+  const derivedActiveIndex = activeIndex;
   const planeState = getPlaneState(points, activeIndex) ?? { x: takeoffPoint.x, y: takeoffPoint.y, angle: -12 };
   const isPlanner = mode === 'planner';
   const rawPlaneX = isPlanner ? takeoffPoint.x : planeState.x;
@@ -725,6 +740,26 @@ function PlaneLayer({
           <feGaussianBlur stdDeviation="8" />
         </filter>
       </defs>
+
+      {/* Ghost pacing dot — only when teacher is behind pace */}
+      {pacingIndex !== undefined && pacingIndex > derivedActiveIndex && mode === 'runtime' && (() => {
+        const ghostState = getPlaneState(points, pacingIndex);
+        if (!ghostState) return null;
+        return (
+          <motion.circle
+            r={5}
+            fill="white"
+            fillOpacity={0.3}
+            stroke="white"
+            strokeOpacity={0.45}
+            strokeWidth={1.5}
+            strokeDasharray="3 3"
+            animate={{ cx: ghostState.x, cy: ghostState.y }}
+            initial={false}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
+          />
+        );
+      })()}
 
       <motion.g
         initial={isPlanner ? { opacity: 0, scale: 0.88, x: planeX, y: planeY } : { opacity: 1, x: planeX, y: planeY }}
@@ -784,6 +819,8 @@ export function LessonCaptainFlightPlan({
   activeIndex: controlledActiveIndex,
   onNodeClick,
   onMoveModule,
+  slotBudgets,
+  pacingIndex,
 }: LessonCaptainFlightPlanProps) {
   const safeSteps = useMemo(() => {
     if (!Array.isArray(steps) || steps.length < 3) return DEFAULT_STEPS;
@@ -847,8 +884,8 @@ export function LessonCaptainFlightPlan({
           <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_18%,transparent_34%)]" />
 
           <PathLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
-          <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} />
-          <PlaneLayer width={width} height={height} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
+          <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} slotBudgets={slotBudgets} />
+          <PlaneLayer width={width} height={height} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} pacingIndex={pacingIndex} />
 
           <div className={`pointer-events-none absolute inset-x-0 bottom-0 ${mode === 'runtime' ? 'h-8' : 'h-28'} bg-gradient-to-t from-[#050b15] to-transparent`} />
         </>

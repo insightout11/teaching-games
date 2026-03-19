@@ -29,6 +29,7 @@ interface LessonPlanPayload {
   goal?: string;
   scoringMode?: ScoringMode;
   isMissionBased?: boolean;
+  lessonDurationMinutes?: number;
 }
 
 function getLessonPlanContent(): LessonPlanPayload | null {
@@ -45,6 +46,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         goal: parsed.goal,
         scoringMode: parsed.scoringMode,
         isMissionBased: parsed.isMissionBased,
+        lessonDurationMinutes: parsed.lessonDurationMinutes,
       };
     }
   } catch (e) {

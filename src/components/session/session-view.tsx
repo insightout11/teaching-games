@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
@@ -17,7 +17,8 @@ import { getAllGames, getGamesGrouped, GAME_CATEGORY_INFO } from '@/games/regist
 import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
-import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex } from '@/lib/flight-plan-helpers';
+import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration } from '@/lib/flight-plan-helpers';
+import { usePlannerStore } from '@/stores/planner-store';
 
 const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
 const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
@@ -91,6 +92,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length);
 
+  // ─── Pacing state ──────────────────────────────────────────────────────
+  const sessionStartTimeRef = useRef<number | null>(null);
+  const [pacingTick, setPacingTick] = useState(0);
+  const [showPacingNudge, setShowPacingNudge] = useState(false);
+  const nudgeDismissedForSlotRef = useRef<number>(-1);
+
+  const plannerDuration = usePlannerStore((s) => s.lessonDurationMinutes);
+
   // Tracks which activity key is being resolved — prevents stale async results
   const activeActivityKeyRef = useRef<string | null>(null);
 
@@ -125,6 +134,27 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson.phase]);
+
+  // Track session start time
+  useEffect(() => {
+    if (lesson.isLessonActive && sessionStartTimeRef.current === null) {
+      sessionStartTimeRef.current = Date.now();
+    } else if (!lesson.isLessonActive) {
+      sessionStartTimeRef.current = null;
+    }
+  }, [lesson.isLessonActive]);
+
+  // 60-second pacing tick
+  useEffect(() => {
+    if (!lesson.isLessonActive) return;
+    const id = setInterval(() => setPacingTick((c) => c + 1), 60_000);
+    return () => clearInterval(id);
+  }, [lesson.isLessonActive]);
+
+  // Reset nudge on slot advance
+  useEffect(() => {
+    setShowPacingNudge(false);
+  }, [lesson.currentSlotIndex]);
 
   // In mock mode, load students from localStorage
   useEffect(() => {
@@ -281,6 +311,45 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showSettingsPopover]);
+
+  // ─── Pacing derived values ─────────────────────────────────────────────
+  const lessonDurationMinutes =
+    lesson.lessonPlanContent?.lessonDurationMinutes ??
+    plannerDuration ??
+    inferLessonDuration(lesson.lessonSlots.length);
+
+  const slotBudgets = useMemo(
+    () =>
+      lesson.lessonSlots.length > 0
+        ? calculateSlotBudgets(lessonDurationMinutes, lesson.lessonSlots)
+        : null,
+    [lessonDurationMinutes, lesson.lessonSlots],
+  );
+
+  // pacingIndex recomputes on tick and slot change
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const pacingIndex = useMemo(() => {
+    if (!slotBudgets) return undefined;
+    const index = getExpectedPacingIndex(sessionStartTimeRef.current, slotBudgets);
+    return index ?? undefined;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slotBudgets, pacingTick]);
+
+  // Nudge check — fires on pacing tick (must be after slotBudgets + pacingIndex memos)
+  useEffect(() => {
+    if (!slotBudgets || sessionStartTimeRef.current === null) return;
+    if (nudgeDismissedForSlotRef.current === lesson.currentSlotIndex) return;
+    const i = lesson.currentSlotIndex;
+    const budget = slotBudgets[i] ?? 0;
+    if (budget === 0) return;
+    const slotStartMin = slotBudgets.slice(0, i).reduce((a, b) => a + b, 0);
+    const elapsedMin = (Date.now() - sessionStartTimeRef.current) / 60000;
+    const slotRunningMin = elapsedMin - slotStartMin;
+    if (slotRunningMin > budget * 1.5) {
+      setShowPacingNudge(true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pacingTick, lesson.currentSlotIndex, slotBudgets]);
 
   if (ended) {
     return <EndSessionSummary classId={cls.id} className={cls.name} sessionId={session.id} />;
@@ -717,8 +786,36 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   steps={buildRuntimeFlightPlanSteps(lesson.lessonSlots)}
                   mode="runtime"
                   activeIndex={getFlightPlanActiveIndex(lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length)}
+                  slotBudgets={slotBudgets ?? undefined}
+                  pacingIndex={pacingIndex}
                   height={120}
                 />
+                {showPacingNudge && lesson.isLessonActive && (
+                  <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white/80 mt-2">
+                    <span className="shrink-0 text-base">⏱️</span>
+                    <span className="grow text-white/70 text-xs">
+                      Suggested wrap-up time — ready to move on?
+                    </span>
+                    <button
+                      onClick={() => {
+                        nudgeDismissedForSlotRef.current = lesson.currentSlotIndex;
+                        setShowPacingNudge(false);
+                      }}
+                      className="shrink-0 text-xs text-white/40 hover:text-white/70 transition-colors px-2 py-1 rounded-lg hover:bg-white/10"
+                    >
+                      Keep Going
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowPacingNudge(false);
+                        lesson.advanceSlot();
+                      }}
+                      className="shrink-0 text-xs text-white font-medium px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/20 transition-colors"
+                    >
+                      Next Module →
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 
@@ -750,8 +847,36 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   steps={buildRuntimeFlightPlanSteps(lesson.lessonSlots)}
                   mode="runtime"
                   activeIndex={getFlightPlanActiveIndex(lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length)}
+                  slotBudgets={slotBudgets ?? undefined}
+                  pacingIndex={pacingIndex}
                   height={120}
                 />
+                {showPacingNudge && lesson.isLessonActive && (
+                  <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white/80 mt-2">
+                    <span className="shrink-0 text-base">⏱️</span>
+                    <span className="grow text-white/70 text-xs">
+                      Suggested wrap-up time — ready to move on?
+                    </span>
+                    <button
+                      onClick={() => {
+                        nudgeDismissedForSlotRef.current = lesson.currentSlotIndex;
+                        setShowPacingNudge(false);
+                      }}
+                      className="shrink-0 text-xs text-white/40 hover:text-white/70 transition-colors px-2 py-1 rounded-lg hover:bg-white/10"
+                    >
+                      Keep Going
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowPacingNudge(false);
+                        lesson.advanceSlot();
+                      }}
+                      className="shrink-0 text-xs text-white font-medium px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/20 transition-colors"
+                    >
+                      Next Module →
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 

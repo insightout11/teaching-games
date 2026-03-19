@@ -186,7 +186,7 @@ export const usePlannerStore = create<PlannerState>()(
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
       launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode } = get();
+        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes } = get();
         if (!selectedClassId) return;
 
         const primaryGoal = derivePrimaryGoal(goals);
@@ -211,6 +211,7 @@ export const usePlannerStore = create<PlannerState>()(
             customTopic: topic,
             difficulty,
             goal: primaryGoal,
+            lessonDurationMinutes,
             ...(overrideScoringMode ? { scoringMode: overrideScoringMode } : {}),
             ...(hasMissionSelector ? { isMissionBased: true } : {}),
             slots,
