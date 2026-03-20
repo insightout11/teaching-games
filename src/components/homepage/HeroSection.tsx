@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { LessonCaptainFlightPlan, type FlightPlanStep } from '@/components/ui/flight-plan';
 
@@ -21,10 +21,25 @@ const PLAN_SLOTS = [
   { stage: 'Landing', name: 'Quick Pulse', duration: '~3 min', status: 'upcoming' },
 ];
 
+const FLIGHT_PLAN_HEIGHT = 220;
+
 export function HeroSection() {
-  // Animate the active stop: 0 → 1 → 2, then hold at 2
   const [activeIndex, setActiveIndex] = useState(0);
   const [panelVisible, setPanelVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(560);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect.width;
+      if (width) setContainerWidth(width);
+    });
+    observer.observe(el);
+    setContainerWidth(el.offsetWidth);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const t1 = setTimeout(() => setActiveIndex(1), 1000);
@@ -103,11 +118,15 @@ export function HeroSection() {
           className="flex flex-col gap-0"
         >
           {/* The actual LessonCaptain flight plan visualization */}
-          <div className="w-full rounded-t-2xl overflow-hidden" style={{ height: 200 }}>
+          <div
+            ref={containerRef}
+            className="w-full rounded-t-2xl overflow-hidden"
+            style={{ height: FLIGHT_PLAN_HEIGHT }}
+          >
             <LessonCaptainFlightPlan
               steps={DEMO_STEPS}
-              width={560}
-              height={200}
+              width={containerWidth}
+              height={FLIGHT_PLAN_HEIGHT}
               mode="runtime"
               activeIndex={activeIndex}
             />
