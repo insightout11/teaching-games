@@ -1,48 +1,50 @@
 'use client';
 
-import { motion, useAnimation } from 'framer-motion';
-import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { LessonCaptainFlightPlan, type FlightPlanStep } from '@/components/ui/flight-plan';
 
-const ROUTE_PATH =
-  'M 10,30 C 55,10 120,50 165,30 C 210,10 285,50 330,30 C 375,10 445,50 490,30';
-
-const STOPS = [
-  { x: 10, y: 30, label: 'Takeoff', active: false },
-  { x: 165, y: 30, label: 'Practice', active: true },
-  { x: 330, y: 30, label: 'Production', active: false },
-  { x: 490, y: 30, label: 'Landing', active: false },
+const DEMO_STEPS: FlightPlanStep[] = [
+  { id: 'takeoff', type: 'Takeoff', name: 'Mission Selector', kind: 'terminal' },
+  { id: 'm1', type: 'Presentation', name: 'Vocab Radar', kind: 'module' },
+  { id: 'm2', type: 'Practice', name: 'Vocab Sprint', kind: 'module' },
+  { id: 'm3', type: 'Production', name: 'Story Sprint', kind: 'module' },
+  { id: 'landing', type: 'Landing', name: 'Quick Pulse', kind: 'terminal' },
 ];
 
 const PLAN_SLOTS = [
-  { stage: 'Takeoff', name: 'Vocab Radar', duration: '~5 min', status: 'done' },
+  { stage: 'Takeoff', name: 'Mission Selector', duration: '~2 min', status: 'done' },
+  { stage: 'Presentation', name: 'Vocab Radar', duration: '~5 min', status: 'done' },
   { stage: 'Practice', name: 'Vocab Sprint', duration: '~10 min', status: 'active' },
   { stage: 'Production', name: 'Story Sprint', duration: '~15 min', status: 'upcoming' },
   { stage: 'Landing', name: 'Quick Pulse', duration: '~3 min', status: 'upcoming' },
 ];
 
 export function HeroSection() {
-  const routeControls = useAnimation();
-  const stopControls = useAnimation();
-  const panelControls = useAnimation();
+  // Animate the active stop: 0 → 1 → 2, then hold at 2
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [panelVisible, setPanelVisible] = useState(false);
 
   useEffect(() => {
-    async function runSequence() {
-      await routeControls.start({ pathLength: 1, opacity: 1, transition: { duration: 2, ease: 'easeInOut' } });
-      await stopControls.start('show');
-      await panelControls.start({ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } });
-    }
-    runSequence();
-  }, [routeControls, stopControls, panelControls]);
+    const t1 = setTimeout(() => setActiveIndex(1), 1000);
+    const t2 = setTimeout(() => setActiveIndex(2), 2200);
+    const t3 = setTimeout(() => setPanelVisible(true), 2800);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, []);
 
   return (
-    <section className="relative overflow-hidden pt-20 pb-24 px-6">
-      {/* Subtle radial glow behind hero */}
+    <section className="relative overflow-hidden pt-16 pb-24 px-6">
+      {/* Subtle radial glow */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 80% 50% at 60% 40%, rgba(77,163,255,0.07) 0%, transparent 70%)',
+            'radial-gradient(ellipse 80% 50% at 60% 40%, rgba(77,163,255,0.06) 0%, transparent 70%)',
         }}
       />
 
@@ -93,102 +95,33 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Right: Flight path + mock panel */}
-        <div className="flex flex-col gap-4">
-          {/* SVG Route Animation */}
-          <div className="relative px-2">
-            <svg
-              viewBox="0 0 500 60"
-              fill="none"
-              className="w-full h-auto"
-              aria-hidden="true"
-            >
-              {/* Faint rail */}
-              <path
-                d={ROUTE_PATH}
-                stroke="var(--lc-border)"
-                strokeWidth="1.5"
-                fill="none"
-              />
-              {/* Animated route line */}
-              <motion.path
-                d={ROUTE_PATH}
-                stroke="var(--lc-blue)"
-                strokeWidth="2"
-                fill="none"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={routeControls}
-              />
-              {/* Stop dots */}
-              {STOPS.map((stop, i) => (
-                <motion.g
-                  key={stop.label}
-                  variants={{
-                    hidden: { opacity: 0, scale: 0 },
-                    show: {
-                      opacity: 1,
-                      scale: 1,
-                      transition: { delay: i * 0.25, duration: 0.3, type: 'spring', stiffness: 300 },
-                    },
-                  }}
-                  initial="hidden"
-                  animate={stopControls}
-                >
-                  {stop.active && (
-                    <>
-                      {/* Outer glow ring */}
-                      <motion.circle
-                        cx={stop.x}
-                        cy={stop.y}
-                        r={10}
-                        fill="none"
-                        stroke="var(--lc-blue)"
-                        strokeWidth="1"
-                        opacity={0.3}
-                        animate={{ r: [10, 14, 10] }}
-                        transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-                      />
-                      <circle cx={stop.x} cy={stop.y} r={5} fill="var(--lc-blue)" />
-                    </>
-                  )}
-                  {!stop.active && (
-                    <circle
-                      cx={stop.x}
-                      cy={stop.y}
-                      r={4}
-                      fill="var(--lc-card)"
-                      stroke="var(--lc-blue)"
-                      strokeWidth="1.5"
-                    />
-                  )}
-                </motion.g>
-              ))}
-            </svg>
-
-            {/* Stage labels */}
-            <div className="flex justify-between px-0 mt-1">
-              {STOPS.map((stop) => (
-                <span
-                  key={stop.label}
-                  className={`text-[10px] font-medium tracking-wide ${
-                    stop.active ? 'text-lc-blue' : 'text-lc-text3'
-                  }`}
-                >
-                  {stop.label}
-                </span>
-              ))}
-            </div>
+        {/* Right: Real flight plan component + panel */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col gap-0"
+        >
+          {/* The actual LessonCaptain flight plan visualization */}
+          <div className="w-full rounded-t-2xl overflow-hidden" style={{ height: 200 }}>
+            <LessonCaptainFlightPlan
+              steps={DEMO_STEPS}
+              width={560}
+              height={200}
+              mode="runtime"
+              activeIndex={activeIndex}
+            />
           </div>
 
-          {/* Mock Flight Plan Panel */}
+          {/* Mock Flight Plan panel — slides up after route settles */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={panelControls}
-            className="rounded-xl border border-lc-border bg-lc-card overflow-hidden"
+            initial={{ opacity: 0, y: 12 }}
+            animate={panelVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+            className="rounded-b-xl border border-t-0 border-lc-border bg-lc-card overflow-hidden"
           >
             {/* Panel header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-lc-border">
+            <div className="flex items-center justify-between px-4 py-2.5 border-b border-lc-border">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-lc-blue animate-pulse" />
                 <span className="text-sm font-semibold text-lc-text">Flight Plan</span>
@@ -201,7 +134,7 @@ export function HeroSection() {
               {PLAN_SLOTS.map((slot) => (
                 <div
                   key={slot.stage}
-                  className={`flex items-center justify-between px-4 py-3 ${
+                  className={`flex items-center justify-between px-4 py-2.5 ${
                     slot.status === 'active'
                       ? 'bg-lc-blue/5 border-l-2 border-lc-blue'
                       : 'border-l-2 border-transparent'
@@ -219,14 +152,14 @@ export function HeroSection() {
                     />
                     <div>
                       <p
-                        className={`text-xs font-medium ${
+                        className={`text-[10px] font-semibold uppercase tracking-wide ${
                           slot.status === 'active' ? 'text-lc-blue' : 'text-lc-text3'
                         }`}
                       >
                         {slot.stage}
                       </p>
                       <p
-                        className={`text-sm font-semibold ${
+                        className={`text-sm font-medium ${
                           slot.status === 'upcoming' ? 'text-lc-text2' : 'text-lc-text'
                         }`}
                       >
@@ -249,7 +182,7 @@ export function HeroSection() {
               ))}
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
