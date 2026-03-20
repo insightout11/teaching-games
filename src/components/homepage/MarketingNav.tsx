@@ -24,7 +24,7 @@ export function MarketingNav() {
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/lessoncaptain-logo-on-dark.svg"
+            src="/lessoncaptain-logo-on-dark-v2.svg"
             alt="LessonCaptain"
             width={160}
             height={26}
