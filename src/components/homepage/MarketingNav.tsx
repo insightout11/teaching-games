@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export function MarketingNav() {
@@ -22,12 +23,13 @@ export function MarketingNav() {
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/lessoncaptain-logo-on-dark.svg"
             alt="LessonCaptain"
             width={160}
-            height={32}
+            height={26}
+            unoptimized
+            priority
           />
         </Link>
 
