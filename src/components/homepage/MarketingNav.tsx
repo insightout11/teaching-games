@@ -26,8 +26,8 @@ export function MarketingNav() {
           <Image
             src="/lessoncaptain-logo-on-dark-v2.svg"
             alt="LessonCaptain"
-            width={220}
-            height={36}
+            width={440}
+            height={72}
             unoptimized
             priority
           />
