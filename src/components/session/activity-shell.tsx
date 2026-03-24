@@ -24,9 +24,10 @@ interface ActivityShellProps {
   generatedContent: ActivityGeneratedContent;
   timerSeconds: number;
   onPhaseChange?: (phase: string) => void;
+  onContentRegenerate?: (updatedContent: Record<string, ActivityGeneratedContent>) => void;
 }
 
-export function ActivityShell({ activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange }: ActivityShellProps) {
+export function ActivityShell({ activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange, onContentRegenerate }: ActivityShellProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const sessionId = useSessionStore((s) => s.sessionId);
   const students = useSessionStore((s) => s.students);
@@ -36,6 +37,9 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const recordScore = useSessionStore((s) => s.recordScore);
   const addStudent = useSessionStore((s) => s.addStudent);
   const studentMissions = useSessionStore((s) => s.studentMissions);
+  const classMission = useSessionStore((s) => s.classMission);
+  const openingStances = useSessionStore((s) => s.openingStances);
+  const characterAssignments = useSessionStore((s) => s.characterAssignments);
   const landingAnswers = useSessionStore((s) => s.landingAnswers);
   const addLandingAnswer = useSessionStore((s) => s.addLandingAnswer);
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
@@ -315,7 +319,11 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
             onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
             onScore={handleScore}
             studentMissions={studentMissions}
+            classMission={classMission}
+            openingStances={openingStances}
+            characterAssignments={characterAssignments}
             onLandingAnswer={handleLandingAnswer}
+            onContentRegenerate={onContentRegenerate}
           />
         </div>
 

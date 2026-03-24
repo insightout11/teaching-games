@@ -18,12 +18,18 @@ import { micDropPlugin } from './mic-drop';
 import { lightningRoundPlugin } from './lightning-round';
 import { missionSelectorPlugin } from './mission-selector';
 import { opinionShiftPlugin } from './opinion-shift';
+import { characterCardsPlugin } from './character-cards';
+import { grammarCheckInPlugin } from './grammar-check-in';
+import { grammarProofPlugin } from './grammar-proof';
+import { finalWordPlugin } from './final-word';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
 const activities: ActivityPlugin[] = [
-  // Icebreakers / Mission
+  // Icebreakers / Mission / Takeoffs
   missionSelectorPlugin,
+  characterCardsPlugin,
+  grammarCheckInPlugin,
   quickPulsePlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
@@ -45,6 +51,8 @@ const activities: ActivityPlugin[] = [
   opinionShiftPlugin,
   micDropPlugin,
   lightningRoundPlugin,
+  grammarProofPlugin,
+  finalWordPlugin,
 ];
 
 /**

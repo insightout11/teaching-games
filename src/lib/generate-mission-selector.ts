@@ -26,7 +26,7 @@ function getMissionType(goal?: string): MissionType {
 }
 
 const TYPE_INSTRUCTIONS: Record<MissionType, string> = {
-  curiosity: `Generate 6 personal opinion or challenge questions a student will answer at lesson end.
+  curiosity: `Generate 3 personal opinion or challenge questions a student will answer at lesson end.
 Each question should be:
 - Answerable in 2-3 sentences with a clear personal position
 - Revisitable after the lesson's activities (the student should have something new to say)
@@ -34,13 +34,13 @@ Each question should be:
 Examples for "travel": "Would you rather travel alone or with a group — and why?", "You just won a free trip anywhere. Where do you go and why?", "Your friend says travelling is a waste of money. How do you respond?"
 AVOID: broad philosophical debates ("Is travel important?"), yes/no questions with no follow-up, anything that reads like a test or worksheet.
 PREFER: "Would you rather…", "What would you do if…", "Your friend says… How do you respond?"`,
-  skill: `Generate 6 scenario-based challenges that naturally require a specific grammar structure or vocabulary target.
+  skill: `Generate 3 scenario-based challenges that naturally require a specific grammar structure or vocabulary target.
 Each must be achievable in 1-2 sentences. The grammar target must be IMPLICIT — the scenario naturally requires the target structure.
 NEVER use teacher language like "Write a sentence using X", "Use X to describe Y", or "Describe Y using…".
 Examples for "travel": "You forgot something important on a beach trip. What should you have brought?", "Which is more relaxing: swimming or lying in the sun? Compare them.", "A friend missed the last flight. What happened and what would you have done?"
 AVOID: grammar drills, worksheet instructions ("Use 'although' to…"), anything starting with "Write", "Use", or "Describe…using…".
 PREFER: mini-scenarios that force the target structure: "What would have happened if…", "Compare X and Y", "You just discovered that…"`,
-  performance: `Generate 6 scenario-based speaking or writing challenges a student will perform at lesson end.
+  performance: `Generate 3 scenario-based speaking or writing challenges a student will perform at lesson end.
 Each must be finite and completable in under 90 seconds. Frame as a scenario or challenge, not an instruction.
 Examples for "travel": "A tourist asks you for the best restaurant in town. Convince them to go there.", "You're a travel agent. Sell a holiday to a difficult customer in 3 sentences.", "Your friend had a terrible hotel experience. Tell them about yours — was it better or worse?"
 AVOID: vague or generic prompts, anything that reads like an assignment ("Write about…", "Describe…").
@@ -54,7 +54,7 @@ export async function generateMissionSelectorContent(
 ): Promise<MissionSelectorContent> {
   const missionType = getMissionType(goal);
 
-  const cached = await getCachedContent('mission-selector', topic, difficulty, [], missionType, 1);
+  const cached = await getCachedContent('mission-selector', topic, difficulty, [], missionType, 2);
   if (cached) {
     const c = cached.content_json as { questions: string[] };
     return { activityKey: 'mission-selector', topicContext: topic, questions: c.questions ?? [] };
@@ -74,7 +74,7 @@ Difficulty level: ${difficultyDescriptions[difficulty]}
 ${TYPE_INSTRUCTIONS[missionType]}
 
 Rules:
-- Write exactly 6 missions
+- Write exactly 3 missions
 - Each must be a complete sentence or clear task (max 15 words)
 - Must be relevant to the topic
 - Appropriate for the difficulty level
@@ -82,15 +82,15 @@ Rules:
 - Mission prompts must NEVER read like grammar exercises or worksheet instructions
 - Frame every mission as a scenario, challenge, or opinion task
 
-Return JSON with a "questions" array of exactly 6 strings.`;
+Return JSON with a "questions" array of exactly 3 strings.`;
 
   try {
     const data = await generateJSON<{ questions: string[] }>(aiPrompt, schema);
-    const questions = (Array.isArray(data.questions) ? data.questions : []).slice(0, 6);
+    const questions = (Array.isArray(data.questions) ? data.questions : []).slice(0, 3);
 
     const content: MissionSelectorContent = { activityKey: 'mission-selector', topicContext: topic, questions };
 
-    void storeCachedContent('mission-selector', topic, difficulty, { questions }, 1, missionType);
+    void storeCachedContent('mission-selector', topic, difficulty, { questions }, 2, missionType);
 
     return content;
   } catch {

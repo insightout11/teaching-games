@@ -31,6 +31,11 @@ import type {
   MicDropContent,
   LightningRoundContent,
   OpinionShiftContent,
+  CharacterCardsContent,
+  CharacterCard,
+  GrammarCheckInContent,
+  GrammarProofContent,
+  FinalWordContent,
   GameGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
@@ -43,6 +48,7 @@ import type {
   ConnectionsGeneratedContent,
 } from '@/activities/types';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
+import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 
 
 // ============================================
@@ -1352,6 +1358,219 @@ Return JSON with groups array. Words should be UPPERCASE.`;
   return { gameKey: 'connections', words: shuffledWords, groups: data.groups as ConnectionsGeneratedContent['groups'] };
 }
 
+// ============================================
+// New Lesson Type Generators
+// ============================================
+
+async function generateCharacterCards(topic: string, difficulty: Difficulty): Promise<CharacterCardsContent> {
+  const cached = await getCachedContent('character-cards', topic, difficulty, [], undefined, 1);
+  if (cached) {
+    const c = cached.content_json as { characters: CharacterCard[] };
+    return { activityKey: 'character-cards', topicContext: topic, characters: c.characters ?? [], topic };
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      characters: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            viewpoint: { type: 'string' },
+            sentenceStarter: { type: 'string' },
+          },
+          required: ['name', 'viewpoint', 'sentenceStarter'],
+        },
+      },
+    },
+    required: ['characters'],
+  };
+
+  const prompt = `Generate 9 characters for an ESL class warm-up activity on the topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Each character represents a DIFFERENT perspective or viewpoint on the topic. Their viewpoints should genuinely disagree with or contrast each other — not all be positive.
+
+Rules:
+- Name format: "The [Role]" (e.g. "The Skeptic", "The Expert", "The Newcomer")
+- viewpoint: One sentence describing their position on the topic (max 15 words). Second person: "You think…" or "You believe…"
+- sentenceStarter: A natural opening sentence the character would say about the topic (max 12 words). This is a scaffold for beginners.
+- Names must be memorable and appropriate for a classroom
+- Viewpoints must genuinely differ — avoid characters who all agree
+- Keep language at ${difficultyDescriptions[difficulty]} level
+
+Return JSON with a "characters" array of exactly 9 objects.`;
+
+  try {
+    const data = await generateJSON<{ characters: CharacterCard[] }>(prompt, schema);
+    const characters = Array.isArray(data.characters) ? data.characters.slice(0, 9) : [];
+    void storeCachedContent('character-cards', topic, difficulty, { characters }, 1);
+    return { activityKey: 'character-cards', topicContext: topic, characters, topic };
+  } catch {
+    // Fallback: generic characters
+    const fallback: CharacterCard[] = [
+      { name: 'The Enthusiast', viewpoint: `You love everything about ${topic}.`, sentenceStarter: `I think ${topic} is absolutely fascinating because...` },
+      { name: 'The Skeptic', viewpoint: `You are not convinced ${topic} is as important as people say.`, sentenceStarter: `I'm not sure I agree with all the excitement about ${topic}...` },
+      { name: 'The Expert', viewpoint: `You have studied ${topic} for years and have strong opinions.`, sentenceStarter: `From what I know about ${topic}, the most important thing is...` },
+      { name: 'The Newcomer', viewpoint: `You are just learning about ${topic} for the first time.`, sentenceStarter: `I only recently started thinking about ${topic}, and I think...` },
+      { name: 'The Traditionalist', viewpoint: `You prefer the old ways of thinking about ${topic}.`, sentenceStarter: `I believe we should stick to what has always worked with ${topic}...` },
+      { name: 'The Optimist', viewpoint: `You believe ${topic} will lead to great things in the future.`, sentenceStarter: `The future of ${topic} is really exciting because...` },
+      { name: 'The Realist', viewpoint: `You see both the good and bad sides of ${topic}.`, sentenceStarter: `There are pros and cons to ${topic}, but overall I think...` },
+      { name: 'The Activist', viewpoint: `You feel strongly that people need to take action on ${topic}.`, sentenceStarter: `We really need to do something about ${topic} because...` },
+      { name: 'The Philosopher', viewpoint: `You like to ask deep questions about the meaning of ${topic}.`, sentenceStarter: `When I think about ${topic}, the big question for me is...` },
+    ];
+    return { activityKey: 'character-cards', topicContext: topic, characters: fallback, topic };
+  }
+}
+
+async function generateGrammarCheckIn(topic: string, difficulty: Difficulty, grammarTarget?: string): Promise<GrammarCheckInContent> {
+  const cacheVariant = grammarTarget ?? 'auto';
+  const cached = await getCachedContent('grammar-check-in', topic, difficulty, [], cacheVariant, 1);
+  if (cached) {
+    const c = cached.content_json as { grammarTarget: string; sentences: GrammarCheckInContent['sentences'] };
+    return { activityKey: 'grammar-check-in', topicContext: topic, grammarTarget: c.grammarTarget ?? cacheVariant, sentences: c.sentences ?? [] };
+  }
+
+  const targetInstruction = grammarTarget
+    ? `Grammar target: ${grammarTarget}. Generate 3 sentences specifically using this structure.`
+    : `Pick the most appropriate grammar target for ${difficultyDescriptions[difficulty]} level and generate 3 sentences using it.`;
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      grammarTarget: { type: 'string' },
+      sentences: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            text: { type: 'string' },
+            isCorrect: { type: 'boolean' },
+            explanation: { type: 'string' },
+          },
+          required: ['text', 'isCorrect', 'explanation'],
+        },
+      },
+    },
+    required: ['grammarTarget', 'sentences'],
+  };
+
+  const prompt = `Generate a grammar confidence check for an ESL class.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+${targetInstruction}
+
+Create exactly 3 sentences about the topic. Mix correct and incorrect sentences (e.g. 2 correct + 1 incorrect, or 1 correct + 2 incorrect).
+Each sentence should feel natural and topic-relevant — not artificially awkward.
+The explanation is shown AFTER students vote — explain clearly WHY each sentence is correct or incorrect.
+
+Return JSON with:
+- grammarTarget: the grammar structure being tested (e.g. "past perfect", "passive voice")
+- sentences: array of 3 objects with text, isCorrect (boolean), explanation`;
+
+  try {
+    const data = await generateJSON<{ grammarTarget: string; sentences: GrammarCheckInContent['sentences'] }>(prompt, schema);
+    const result = {
+      grammarTarget: data.grammarTarget ?? (grammarTarget ?? 'grammar'),
+      sentences: Array.isArray(data.sentences) ? data.sentences.slice(0, 3) : [],
+    };
+    void storeCachedContent('grammar-check-in', topic, difficulty, result, 1, cacheVariant);
+    return { activityKey: 'grammar-check-in', topicContext: topic, ...result };
+  } catch {
+    return {
+      activityKey: 'grammar-check-in',
+      topicContext: topic,
+      grammarTarget: grammarTarget ?? 'present perfect',
+      sentences: [
+        { text: `I have visited many places related to ${topic}.`, isCorrect: true, explanation: 'Correct — "have visited" is the present perfect form.' },
+        { text: `She has went to the ${topic} event last year.`, isCorrect: false, explanation: 'Incorrect — should be "has gone", not "has went".' },
+        { text: `They have already finished learning about ${topic}.`, isCorrect: true, explanation: 'Correct — "have finished" uses the present perfect correctly.' },
+      ],
+    };
+  }
+}
+
+async function generateGrammarProof(topic: string, difficulty: Difficulty, grammarTarget: string): Promise<GrammarProofContent> {
+  const cached = await getCachedContent('grammar-proof', topic, difficulty, [], grammarTarget, 1);
+  if (cached) {
+    const c = cached.content_json as { prompt: string; exampleSentences: string[] };
+    return { activityKey: 'grammar-proof', topicContext: topic, grammarTarget, prompt: c.prompt ?? '', exampleSentences: c.exampleSentences ?? [] };
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      prompt: { type: 'string' },
+      exampleSentences: { type: 'array', items: { type: 'string' } },
+    },
+    required: ['prompt', 'exampleSentences'],
+  };
+
+  const aiPrompt = `Generate a grammar writing task for an ESL class.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+Grammar target: ${grammarTarget}
+
+Create:
+1. A writing prompt asking students to write 2 sentences about the topic using ${grammarTarget}. The prompt should be open-ended and natural — not a grammar drill instruction.
+2. Two example sentences (teacher-only model answers) that correctly use ${grammarTarget} in the context of ${topic}.
+
+Return JSON with:
+- prompt: the writing instruction (max 20 words, natural and topic-relevant)
+- exampleSentences: array of 2 model answer strings`;
+
+  try {
+    const data = await generateJSON<{ prompt: string; exampleSentences: string[] }>(aiPrompt, schema);
+    const result = { prompt: data.prompt ?? '', exampleSentences: Array.isArray(data.exampleSentences) ? data.exampleSentences.slice(0, 2) : [] };
+    void storeCachedContent('grammar-proof', topic, difficulty, result, 1, grammarTarget);
+    return { activityKey: 'grammar-proof', topicContext: topic, grammarTarget, ...result };
+  } catch {
+    return {
+      activityKey: 'grammar-proof',
+      topicContext: topic,
+      grammarTarget,
+      prompt: `Write 2 sentences about ${topic} using ${grammarTarget}.`,
+      exampleSentences: [`Example 1 using ${grammarTarget} about ${topic}.`, `Example 2 using ${grammarTarget} about ${topic}.`],
+    };
+  }
+}
+
+async function generateFinalWord(topic: string, difficulty: Difficulty): Promise<FinalWordContent> {
+  const cached = await getCachedContent('final-word', topic, difficulty, [], undefined, 1);
+  if (cached) {
+    const c = cached.content_json as { prompt: string };
+    return { activityKey: 'final-word', topicContext: topic, prompt: c.prompt ?? '' };
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: { prompt: { type: 'string' } },
+    required: ['prompt'],
+  };
+
+  const aiPrompt = `Generate a single spoken prompt for an ESL class closing activity on the topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+The prompt asks every student to say ONE sentence to the class — their genuine opinion or takeaway.
+Requirements:
+- Opinion-based, no wrong answer
+- Short and clear (max 15 words)
+- Accessible to all levels — if a student has been listening all lesson, they can answer this
+- Starts with "In one sentence..." or "Tell us..." or similar
+
+Return JSON with a single "prompt" string.`;
+
+  try {
+    const data = await generateJSON<{ prompt: string }>(aiPrompt, schema);
+    void storeCachedContent('final-word', topic, difficulty, { prompt: data.prompt }, 1);
+    return { activityKey: 'final-word', topicContext: topic, prompt: data.prompt ?? `In one sentence, what do you think is the most important thing about ${topic}?` };
+  } catch {
+    return { activityKey: 'final-word', topicContext: topic, prompt: `In one sentence, what do you think is the most important thing about ${topic}?` };
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Auth + credit gate
@@ -1359,7 +1578,7 @@ export async function POST(request: NextRequest) {
     if (authError) return authError;
 
     const body = (await request.json()) as LessonPlanGenerateRequest;
-    const { customTopic, difficulty, activities, games, studentCount, goal, missionContext } = body;
+    const { customTopic, difficulty, activities, games, studentCount, goal, missionContext, grammarTarget } = body as LessonPlanGenerateRequest & { grammarTarget?: string };
 
     // Allow requests with only games (no activities required)
     const hasActivities = activities && activities.length > 0;
@@ -1431,6 +1650,18 @@ export async function POST(request: NextRequest) {
             break;
           case 'mission-selector':
             generators.push(generateMissionSelectorContent(customTopic, diff, goal).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'character-cards':
+            generators.push(generateCharacterCards(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'grammar-check-in':
+            generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'grammar-proof':
+            generators.push(generateGrammarProof(customTopic, diff, grammarTarget ?? 'grammar').then((r) => { content[activityKey] = r; }));
+            break;
+          case 'final-word':
+            generators.push(generateFinalWord(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);

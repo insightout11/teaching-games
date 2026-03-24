@@ -20,7 +20,8 @@ export function OpinionShiftActivity({
   onRegisterRemoteVoteHandler,
   onScore,
   onLandingAnswer,
-  studentMissions,
+  openingStances,
+  classMission,
 }: ActivityProps) {
   const content = generatedContent as OpinionShiftContent;
   const timerSeconds = sessionSettings.timerSeconds ?? 60;
@@ -60,6 +61,9 @@ export function OpinionShiftActivity({
       prompt: `${content.beforePrompt} → ${content.nowPrompt}`,
       placeholder: 'Write your reflection here...',
       maxLength: 300,
+      ...(openingStances && Object.keys(openingStances).length > 0
+        ? { prefillByClientId: openingStances }
+        : {}),
     });
   }, [phase, content.beforePrompt, content.nowPrompt, onSetInputSpec]);
 
@@ -126,6 +130,11 @@ export function OpinionShiftActivity({
       {/* IDLE */}
       {phase === 'idle' && (
         <div className="space-y-5">
+          {classMission && (
+            <div className="glass px-4 py-3 rounded-xl border border-indigo-500/20 text-sm text-indigo-300 opacity-80">
+              Mission: <em>{classMission}</em>
+            </div>
+          )}
           <div className="glass p-5 rounded-2xl space-y-4">
             <div className="space-y-2">
               <span className="text-xs opacity-50 uppercase tracking-widest">Before</span>
@@ -189,15 +198,15 @@ export function OpinionShiftActivity({
 
           <div className="space-y-3">
             {sortedSubs.map(([clientId, sub]) => {
-              const mission = studentMissions?.[clientId];
+              const before = openingStances?.[clientId];
               return (
                 <div key={clientId} className="glass p-4 rounded-2xl border border-white/10 space-y-2">
-                  {mission && (
-                    <p className="text-xs text-indigo-300 opacity-70">
-                      Mission: <em>{mission}</em>
+                  <p className="text-sm font-semibold opacity-70">{sub.displayName}</p>
+                  {before && (
+                    <p className="text-xs text-indigo-300 opacity-70 italic">
+                      Before: &ldquo;{before}&rdquo;
                     </p>
                   )}
-                  <p className="text-sm font-semibold opacity-70">{sub.displayName}</p>
                   <p className="text-base leading-snug">{sub.text}</p>
                 </div>
               );

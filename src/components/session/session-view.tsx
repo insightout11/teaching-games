@@ -71,6 +71,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [selectedActivity, setSelectedActivity] = useState<ActivityPlugin | null>(null);
   const [activityContent, setActivityContent] = useState<ActivityGeneratedContent | null>(null);
   const [gameContent, setGameContent] = useState<GameGeneratedContent | null>(null);
+  // Content overrides from takeoff regeneration (mission/character context)
+  const [contentOverrides, setContentOverrides] = useState<Record<string, ActivityGeneratedContent>>({});
+  const contentOverridesRef = useRef(contentOverrides);
+  contentOverridesRef.current = contentOverrides;
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
   const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
@@ -251,9 +255,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     const resolved = await lesson.selectActivity(activity);
     // Only apply if this activity is still the active one (guards against rapid slot advances)
     if (activeActivityKeyRef.current === activity.key) {
-      setActivityContent(resolved);
+      // Apply regen override if available (set by a previous takeoff activity)
+      setActivityContent(contentOverridesRef.current[activity.key] ?? resolved);
     }
   };
+
+  const handleContentRegenerate = useCallback((updatedContent: Record<string, ActivityGeneratedContent>) => {
+    setContentOverrides((prev) => ({ ...prev, ...updatedContent }));
+  }, []);
 
   const getTimerForPlugin = useCallback((key: string, defaultTimer: number) => {
     return timerOverrides[key] ?? defaultTimer;
@@ -902,6 +911,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   generatedContent={activityContent}
                   timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
                   onPhaseChange={lesson.isLessonActive ? lesson.handlePhaseChange : undefined}
+                  onContentRegenerate={handleContentRegenerate}
                 />
               </ModuleErrorBoundary>
             ) : (

@@ -47,7 +47,9 @@ interface RaceSolver {
 
 export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
-  const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(GrammarTarget.PresentSimple);
+  const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(
+    sessionSettings.grammarTarget ?? GrammarTarget.PresentSimple
+  );
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
   const [studentSentence, setStudentSentence] = useState('');
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);

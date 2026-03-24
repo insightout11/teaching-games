@@ -55,6 +55,8 @@ export interface ActivityProps {
   openingStances?: Record<string, string>;          // clientId → opening stance text
   characterAssignments?: Record<string, CharacterCard>; // clientId → assigned character
   classMission?: string | null;
+  // Takeoff activities call this after content regeneration to update the shell's content map
+  onContentRegenerate?: (updatedContent: Record<string, ActivityGeneratedContent>) => void;
 }
 
 // Remote vote received from a student device
