@@ -31,6 +31,8 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       return <RankingInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'error-correction':
       return <ErrorCorrectionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+    case 'confirm':
+      return <ConfirmInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     default:
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
   }
@@ -112,7 +114,8 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
 
 // Multi-line textarea input
 function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId }: DynamicInputProps) {
-  const [value, setValue] = useState('');
+  const prefill = (clientId && spec.prefillByClientId?.[clientId]) ?? '';
+  const [value, setValue] = useState(prefill);
   const [showHint, setShowHint] = useState(false);
   const [selectedResources, setSelectedResources] = useState<string[]>([]);
 
@@ -671,6 +674,39 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
       </div>
+    </div>
+  );
+}
+
+// Confirm button — student taps once to confirm they've done something (spoken, read, etc.)
+function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus }: DynamicInputProps) {
+  const [confirmed, setConfirmed] = useState(false);
+
+  const handleConfirm = useCallback(async () => {
+    if (isSubmitting || confirmed) return;
+    setConfirmed(true);
+    await onSubmit('confirmed');
+  }, [isSubmitting, confirmed, onSubmit]);
+
+  return (
+    <div className="space-y-6 text-center">
+      {spec.prompt && (
+        <p className="text-lg text-cyan-400 font-medium leading-snug">{spec.prompt}</p>
+      )}
+      {confirmed || submitStatus === 'success' ? (
+        <div className="py-4 space-y-2">
+          <div className="text-4xl">✓</div>
+          <p className="text-emerald-400 font-semibold">Done!</p>
+        </div>
+      ) : (
+        <button
+          onClick={handleConfirm}
+          disabled={isSubmitting}
+          className="w-full py-5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? '…' : (spec.buttonLabel ?? 'Confirm')}
+        </button>
+      )}
     </div>
   );
 }
