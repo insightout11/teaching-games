@@ -377,10 +377,15 @@ export function useLessonSession(
   // ─── Actions ───────────────────────────────────────────────────────────
 
   const beginLesson = useCallback(() => {
-    setPhase('mission-select');
+    const firstSlot = lessonSlots[0];
+    const firstKey = firstSlot?.key ?? '';
+    const startPhase = firstKey === 'mission-selector' ? 'mission-select'
+      : LANDING_ACTIVITY_KEYS.has(firstKey) ? 'landing'
+      : 'live';
+    setPhase(startPhase);
     pendingAutoStartRef.current = 0;
     setSlotTrigger((c) => c + 1);
-  }, []);
+  }, [lessonSlots]);
 
   const advanceSlot = useCallback(() => {
     const nextIndex = currentSlotIndex + 1;
@@ -398,7 +403,7 @@ export function useLessonSession(
   // Stable ref-based callback to avoid identity changes propagating through ActivityShell → activity
   const handlePhaseChangeRef = useRef<(activityPhase: string) => void>(() => {});
   handlePhaseChangeRef.current = (activityPhase: string) => {
-    if (activityPhase === 'finished' && currentSlotIndex === 0 && phase === 'mission-select') {
+    if (activityPhase === 'finished' && currentSlotIndex === 0 && lessonSlots[0]?.key === 'mission-selector') {
       // Mission selector just finished — prefetch next 2 modules with mission context
       setTimeout(() => {
         prefetchModule(1);

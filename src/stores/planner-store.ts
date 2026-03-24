@@ -149,21 +149,26 @@ export const usePlannerStore = create<PlannerState>()(
         if (preset.skipTakeoffLanding) {
           modules = middle;
         } else {
+          const takeoffKey = preset.takeoff ?? 'mission-selector';
           const takeoff: PlanModule = {
             id: crypto.randomUUID(),
             slotType: 'takeoff',
-            key: 'mission-selector',
+            key: takeoffKey,
             isLocked: true,
           };
 
-          const landingCandidates = FLIGHT_PLAN_ITEMS.filter((item) => item.missionLanding);
-          const landingItem =
-            landingCandidates.find((item) => item.goalFit.includes(preset.goal)) ??
-            FLIGHT_PLAN_ITEMS.find((item) => item.key === 'final-answer')!;
+          let landingKey = preset.landing;
+          if (!landingKey) {
+            const landingCandidates = FLIGHT_PLAN_ITEMS.filter((item) => item.missionLanding);
+            const landingItem =
+              landingCandidates.find((item) => item.goalFit.includes(preset.goal)) ??
+              FLIGHT_PLAN_ITEMS.find((item) => item.key === 'final-answer')!;
+            landingKey = landingItem.key;
+          }
           const landing: PlanModule = {
             id: crypto.randomUUID(),
             slotType: 'landing',
-            key: landingItem.key,
+            key: landingKey,
             isLocked: true,
           };
 

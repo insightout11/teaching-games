@@ -33,7 +33,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     takeoff: 'grammar-check-in',
     landing: 'grammar-proof',
     moduleSequence: [
-      { slotType: 'presentation', key: 'fact-detective' },
+      { slotType: 'practice', key: 'error-hunter' },
       { slotType: 'practice', key: 'grammar-boss' },
     ],
   },
