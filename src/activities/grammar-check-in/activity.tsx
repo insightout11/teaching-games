@@ -29,7 +29,6 @@ function HeatBar({ label, count, total, colorClass }: { label: string; count: nu
 
 export function GrammarCheckInActivity({
   students,
-  sessionSettings,
   generatedContent,
   onPhaseChange,
   onSetInputSpec,
@@ -151,7 +150,7 @@ export function GrammarCheckInActivity({
           <p className="text-xl opacity-90">Quick confidence check before we start.</p>
           <p className="text-sm opacity-50">Students rate 3 sentences — you see the heat map.</p>
           {content.grammarTarget && (
-            <p className="text-sky-400 text-sm">Today's target: <strong>{content.grammarTarget}</strong></p>
+            <p className="text-sky-400 text-sm">Today&apos;s target: <strong>{content.grammarTarget}</strong></p>
           )}
           <button
             onClick={handleStart}
@@ -167,7 +166,7 @@ export function GrammarCheckInActivity({
         <div className="space-y-6">
           <div className="glass p-6 rounded-2xl border-2 border-sky-500/30 space-y-3">
             <p className="text-xs opacity-50 uppercase tracking-widest">Rate this sentence</p>
-            <p className="text-xl font-semibold leading-relaxed">"{sentences[currentIndex].text}"</p>
+            <p className="text-xl font-semibold leading-relaxed">&ldquo;{sentences[currentIndex].text}&rdquo;</p>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm opacity-50">{totalVotes} / {students.length} rated</span>
@@ -197,7 +196,7 @@ export function GrammarCheckInActivity({
                       {sentence.isCorrect ? 'Correct' : 'Incorrect'}
                     </span>
                   </div>
-                  <p className="font-medium">"{sentence.text}"</p>
+                  <p className="font-medium">&ldquo;{sentence.text}&rdquo;</p>
                   <div className="space-y-2">
                     {RATING_OPTIONS.map((opt, oi) => (
                       <HeatBar key={opt} label={opt} count={counts[oi]} total={total} colorClass={OPTION_COLORS[oi]} />

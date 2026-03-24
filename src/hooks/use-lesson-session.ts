@@ -171,7 +171,7 @@ export function useLessonSession(
       .finally(() => {
         prefetchingKeysRef.current.delete(key);
       });
-  }, [lessonSlots, lessonPlanContent, settings, studentCount, getMissionContext]);
+  }, [lessonSlots, lessonPlanContent, settings, studentCount, sessionId, getMissionContext]);
 
   // ─── Content resolution: activity ──────────────────────────────────────
   const selectActivity = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
@@ -236,7 +236,7 @@ export function useLessonSession(
       setIsGeneratingContent(false);
       setGeneratingModuleName(null);
     }
-  }, [lessonPlanContent, phase, settings, studentCount, getMissionContext]);
+  }, [lessonPlanContent, phase, settings, studentCount, sessionId, getMissionContext]);
 
   // ─── Content resolution: game ──────────────────────────────────────────
   const selectGame = useCallback((game: GamePlugin): GameGeneratedContent | null => {

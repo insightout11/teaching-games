@@ -1583,7 +1583,6 @@ export async function POST(request: NextRequest) {
     const {
       customTopic: rawCustomTopic,
       standardTopicId,
-      sessionId,
       difficulty,
       activities,
       games,
@@ -1602,7 +1601,7 @@ export async function POST(request: NextRequest) {
 
     // Auth + Pro-tier gate (credits are consumed at session creation, not per generation)
     const requestHasProModules = hasProModules(activities, games);
-    const { teacher, error: authError } = await requireAuthForGeneration({ requestHasProModules });
+    const { error: authError } = await requireAuthForGeneration({ requestHasProModules });
     if (authError) return authError;
 
     // Allow requests with only games (no activities required)
