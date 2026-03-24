@@ -11,7 +11,7 @@ type Phase = 'idle' | 'rating' | 'revealing' | 'done';
 // votes[sentenceIndex][clientId] = choice
 type VoteMap = Record<number, Record<string, string>>;
 
-const RATING_OPTIONS = ["I'd say this", 'Not sure', "I wouldn't say this"];
+const RATING_OPTIONS = ['Sounds correct', 'Not sure', 'Sounds wrong'];
 const OPTION_COLORS = ['bg-emerald-500/20 text-emerald-300', 'bg-yellow-500/20 text-yellow-300', 'bg-rose-500/20 text-rose-300'];
 
 function HeatBar({ label, count, total, colorClass }: { label: string; count: number; total: number; colorClass: string }) {
@@ -129,7 +129,7 @@ export function GrammarCheckInActivity({
   // Compute weakest area from votes
   const getWeakestCount = (idx: number) => {
     const v = votes[idx] ?? {};
-    return Object.values(v).filter((c) => c === "I wouldn't say this").length;
+    return Object.values(v).filter((c) => c === 'Sounds wrong').length;
   };
 
   const currentVotes = votes[currentIndex] ?? {};
