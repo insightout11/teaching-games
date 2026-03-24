@@ -175,6 +175,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     } catch (err) {
       console.error('Race evaluation failed:', err);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionSettings.difficulty, onScore]);
 
   // Turn-based vote handler

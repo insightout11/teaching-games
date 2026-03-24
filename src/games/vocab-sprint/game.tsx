@@ -285,6 +285,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     } finally {
       setIsFetchingBatch(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic, sessionSettings.tone, isFetchingBatch, addSeenItems, addSeenCacheId]);
 
   // Start a sprint round

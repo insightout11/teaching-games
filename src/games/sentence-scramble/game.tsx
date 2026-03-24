@@ -80,6 +80,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       });
 
     return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionSettings.topic, sessionSettings.customTopic, sessionSettings.difficulty]);
 
   const [sentenceIndex, setSentenceIndex] = useState(0);

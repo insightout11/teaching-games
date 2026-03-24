@@ -138,6 +138,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
       case 'vocabulary':
         return { type: 'vocabulary', description: hard ? 'Use an academic or specialized word' : 'Use an advanced or uncommon word' };
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionSettings.topic]);
 
   // Simple syllable count heuristic (vowel groups)

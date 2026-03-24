@@ -157,6 +157,7 @@ export function GridRushGame({
       setPhase(GamePhase.IDLE);
       phaseRef.current = GamePhase.IDLE;
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic]);
 
   // ------- TIMERS -------
@@ -403,6 +404,7 @@ export function GridRushGame({
         setR2SubmissionCount((prev) => prev - 1);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionSettings.difficulty, sessionSettings.topic, onScore]);
 
   useEffect(() => {
