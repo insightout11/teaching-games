@@ -44,12 +44,14 @@ export function PaywallModal({ open, onClose, creditsUsed = 0, isVerified = fals
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-lc-text">Free sessions used</h2>
+          <h2 className="text-xl font-bold text-lc-text">Pro intelligence required</h2>
           <p className="text-sm text-lc-text3">
-            You&apos;ve used all {creditsUsed} free session generations.
+            {creditsUsed > 0
+              ? `You've used your ${creditsUsed} Pro experience${creditsUsed !== 1 ? 's' : ''}.`
+              : 'This module uses Pro-level AI generation.'}
             {!isVerified
-              ? ' Verify your email for 3 more, or upgrade to Pro for unlimited.'
-              : ' Upgrade to Pro for unlimited content generation.'}
+              ? ' Verify your email to explore more, or upgrade to Pro for unlimited teaching.'
+              : ' Upgrade to Pro to generate content for your exact topic and curriculum.'}
           </p>
         </div>
 
@@ -95,7 +97,7 @@ export function PaywallModal({ open, onClose, creditsUsed = 0, isVerified = fals
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-lc-text">Upgrade to Pro</p>
-                <p className="text-xs text-lc-text3 mt-0.5">Unlimited AI content generation, session notes, and more</p>
+                <p className="text-xs text-lc-text3 mt-0.5">Any topic. Any game. Any activity. Your exact curriculum, every lesson.</p>
               </div>
             </div>
             <Button

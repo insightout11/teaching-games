@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { bulkSemaphore } from '@/lib/ai/concurrency';
-import { requireAuthWithCredits, consumeCredit } from '@/lib/auth-credits';
+import { requireAuthForGeneration } from '@/lib/auth-credits';
+import { hasProModules, isValidStandardTopicId, getStandardTopicLabel } from '@/lib/standard-topics';
 
 const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
   bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
@@ -1573,19 +1574,43 @@ Return JSON with a single "prompt" string.`;
 
 export async function POST(request: NextRequest) {
   try {
-    // Auth + credit gate
-    const { teacher, error: authError } = await requireAuthWithCredits();
-    if (authError) return authError;
+    const body = (await request.json()) as LessonPlanGenerateRequest & {
+      grammarTarget?: string;
+      standardTopicId?: string;
+      sessionId?: string;
+    };
 
-    const body = (await request.json()) as LessonPlanGenerateRequest;
-    const { customTopic, difficulty, activities, games, studentCount, goal, missionContext, grammarTarget } = body as LessonPlanGenerateRequest & { grammarTarget?: string };
+    const {
+      customTopic: rawCustomTopic,
+      standardTopicId,
+      sessionId,
+      difficulty,
+      activities,
+      games,
+      studentCount,
+      goal,
+      missionContext,
+      grammarTarget,
+    } = body;
+
+    // Resolve effective topic: Pro users send customTopic, Standard users send standardTopicId
+    const customTopic: string =
+      rawCustomTopic ||
+      (standardTopicId && isValidStandardTopicId(standardTopicId)
+        ? getStandardTopicLabel(standardTopicId)
+        : '');
+
+    // Auth + Pro-tier gate (credits are consumed at session creation, not per generation)
+    const requestHasProModules = hasProModules(activities, games);
+    const { teacher, error: authError } = await requireAuthForGeneration({ requestHasProModules });
+    if (authError) return authError;
 
     // Allow requests with only games (no activities required)
     const hasActivities = activities && activities.length > 0;
     const hasGames = games && games.length > 0;
 
     if (!customTopic || !difficulty || (!hasActivities && !hasGames)) {
-      return NextResponse.json({ error: 'Missing required fields: customTopic, difficulty, and at least one activity or game' }, { status: 400 });
+      return NextResponse.json({ error: 'Missing required fields: topic, difficulty, and at least one activity or game' }, { status: 400 });
     }
 
     const diff = difficulty as Difficulty;
@@ -1717,12 +1742,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Only charge credit if at least one generator succeeded
     const succeededCount = results.length - failedCount;
-    if (teacher && !teacher.isPro && succeededCount > 0) {
-      await consumeCredit(teacher.id);
-    }
-
     const response: LessonPlanGenerateResponse = {
       success: succeededCount > 0,
       content,

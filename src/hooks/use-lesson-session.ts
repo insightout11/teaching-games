@@ -146,8 +146,8 @@ export function useLessonSession(
     const body = isLanding
       ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty }
       : isGame
-        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], ...(missionContext.length > 0 ? { missionContext } : {}) }
-        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, ...(missionContext.length > 0 ? { missionContext } : {}) };
+        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}) }
+        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}) };
 
     fetch(endpoint, {
       method: 'POST',
@@ -204,6 +204,7 @@ export function useLessonSession(
             difficulty: settings.difficulty,
             activities: [activity.key],
             studentCount,
+            sessionId,
             ...(missionContext.length > 0 ? { missionContext } : {}),
           });
 
