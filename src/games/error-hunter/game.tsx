@@ -6,7 +6,7 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { GameStatus } from './types';
 import { getEffectiveTopic } from '@/stores/session-store';
-import type { Challenge, EvaluationResult, UserCorrection } from './types';
+import type { Challenge, EvaluationResult, UserCorrection, ErrorLocation } from './types';
 
 interface WordData {
   word: string;
