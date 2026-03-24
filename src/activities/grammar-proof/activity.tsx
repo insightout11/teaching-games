@@ -30,7 +30,6 @@ export function GrammarProofActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [submissions, setSubmissions] = useState<Record<string, Submission>>({});
   const [scores, setScores] = useState<LandingScore[]>([]);
-  const [scoring, setScoring] = useState(false);
 
   const submissionsRef = useRef(submissions);
   submissionsRef.current = submissions;
@@ -77,7 +76,6 @@ export function GrammarProofActivity({
   }, [onRegisterRemoteVoteHandler]);
 
   const handleScore = useCallback(async () => {
-    setScoring(true);
     setPhase('scoring');
     onPhaseChange?.('scoring');
 
@@ -115,7 +113,6 @@ export function GrammarProofActivity({
       setScores(fallback);
     }
 
-    setScoring(false);
     setPhase('results');
     onPhaseChange?.('results');
   }, [content.prompt, grammarTarget, onPhaseChange]);
@@ -169,7 +166,7 @@ export function GrammarProofActivity({
             <div className="glass p-4 rounded-xl text-left space-y-2">
               <p className="text-xs opacity-50 uppercase tracking-widest">Model answers (teacher only)</p>
               {content.exampleSentences.map((ex, i) => (
-                <p key={i} className="text-sm opacity-70 italic">"{ex}"</p>
+                <p key={i} className="text-sm opacity-70 italic">&ldquo;{ex}&rdquo;</p>
               ))}
             </div>
           )}
@@ -230,7 +227,7 @@ export function GrammarProofActivity({
                         </span>
                       )}
                     </div>
-                    <p className="text-sm opacity-80">"{sub.text}"</p>
+                    <p className="text-sm opacity-80">&ldquo;{sub.text}&rdquo;</p>
                   </div>
                 );
               })}
@@ -243,7 +240,7 @@ export function GrammarProofActivity({
               {Object.entries(submissions).map(([clientId, sub]) => (
                 <div key={clientId} className="flex items-start gap-3 text-sm">
                   <span className="opacity-50 shrink-0">{sub.displayName}</span>
-                  <span className="opacity-80">"{sub.text}"</span>
+                  <span className="opacity-80">&ldquo;{sub.text}&rdquo;</span>
                 </div>
               ))}
             </div>

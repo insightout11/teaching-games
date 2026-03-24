@@ -131,6 +131,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
     } catch (err) {
       console.error('Race evaluation failed:', err);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionSettings.difficulty, onScore]);
 
   // Register remote vote handler

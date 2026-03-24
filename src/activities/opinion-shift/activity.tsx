@@ -65,7 +65,7 @@ export function OpinionShiftActivity({
         ? { prefillByClientId: openingStances }
         : {}),
     });
-  }, [phase, content.beforePrompt, content.nowPrompt, onSetInputSpec]);
+  }, [phase, content.beforePrompt, content.nowPrompt, onSetInputSpec, openingStances]);
 
   // Vote handler
   useEffect(() => {

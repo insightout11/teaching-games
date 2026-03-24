@@ -110,6 +110,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     } catch {
       setConnectionStatus('disconnected');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
   useEffect(() => {
