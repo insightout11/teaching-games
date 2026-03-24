@@ -1,21 +1,5 @@
-export enum GrammarTarget {
-  // Tenses
-  PresentSimple = 'present simple',
-  PresentContinuous = 'present continuous',
-  PastSimple = 'past simple',
-  PastContinuous = 'past continuous',
-  PresentPerfect = 'present perfect',
-  PresentPerfectContinuous = 'present perfect continuous',
-  PastPerfect = 'past perfect',
-  FutureWill = 'future (will)',
-  FutureGoingTo = 'future (going to)',
-  FutureContinuous = 'future continuous',
-  // Structures
-  Conditional = 'conditional',
-  Passive = 'passive voice',
-  RelativeClause = 'relative clause',
-  ReportedSpeech = 'reported speech'
-}
+export { GrammarTarget } from '@/lib/grammar';
+import { GrammarTarget } from '@/lib/grammar';
 
 export interface Challenge {
   target: GrammarTarget;

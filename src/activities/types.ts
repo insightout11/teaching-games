@@ -51,6 +51,10 @@ export interface ActivityProps {
   studentMissions?: Record<string, string>;  // clientId → mission question
   // Landing activities call this to record the student's final answer
   onLandingAnswer?: (clientId: string, answer: string) => void;
+  // Character Cards / opening stance system
+  openingStances?: Record<string, string>;          // clientId → opening stance text
+  characterAssignments?: Record<string, CharacterCard>; // clientId → assigned character
+  classMission?: string | null;
 }
 
 // Remote vote received from a student device
@@ -518,6 +522,44 @@ export interface LightningRoundPrompt {
 export interface LightningRoundContent extends ActivityGeneratedContent {
   activityKey: 'lightning-round';
   prompts: LightningRoundPrompt[]; // 3-5 prompts
+}
+
+// Character Cards content
+export interface CharacterCard {
+  name: string;
+  viewpoint: string;
+  sentenceStarter: string;
+}
+export interface CharacterCardsContent extends ActivityGeneratedContent {
+  activityKey: 'character-cards';
+  characters: CharacterCard[];
+  topic: string;
+}
+
+// Grammar Check-In content
+export interface GrammarCheckInSentence {
+  text: string;
+  isCorrect: boolean;
+  explanation: string;
+}
+export interface GrammarCheckInContent extends ActivityGeneratedContent {
+  activityKey: 'grammar-check-in';
+  grammarTarget: string;
+  sentences: GrammarCheckInSentence[];
+}
+
+// Grammar Proof content
+export interface GrammarProofContent extends ActivityGeneratedContent {
+  activityKey: 'grammar-proof';
+  grammarTarget: string;
+  prompt: string;
+  exampleSentences: string[];
+}
+
+// Final Word content
+export interface FinalWordContent extends ActivityGeneratedContent {
+  activityKey: 'final-word';
+  prompt: string;
 }
 
 // Scene Igniter content

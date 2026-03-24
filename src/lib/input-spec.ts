@@ -8,7 +8,8 @@ export type InputType =
   | 'multi-select'   // Pick N from list
   | 'sequence'       // Order items (tap to build sequence)
   | 'ranking'        // Rank items (drag to reorder)
-  | 'error-correction'; // Select words and provide corrections
+  | 'error-correction' // Select words and provide corrections
+  | 'confirm';       // Single confirm button
 
 export interface InputSpec {
   type: InputType;
@@ -32,6 +33,10 @@ export interface InputSpec {
   keywords?: string[];
   /** When true, choice inputs show an "Other: write your own…" option */
   allowWriteIn?: boolean;
+  /** For confirm inputs: label for the confirm button */
+  buttonLabel?: string;
+  /** For textarea inputs: pre-filled content keyed by clientId */
+  prefillByClientId?: Record<string, string>;
 }
 
 // Submission handler result from games

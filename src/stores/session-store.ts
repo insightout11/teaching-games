@@ -3,6 +3,8 @@ import type { Student, Score } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import { createClient } from '@/lib/supabase/client';
 import type { Difficulty } from '@/lib/difficulty';
+import type { GrammarTarget } from '@/lib/grammar';
+import type { CharacterCard } from '@/activities/types';
 
 
 export type PickerMode = 'fair' | 'random';
@@ -36,6 +38,7 @@ export interface SessionSettings {
   tone: Tone;
   timerSeconds: number; // Per-game timer, injected by shells (not stored globally)
   scoringMode: ScoringMode;
+  grammarTarget: GrammarTarget | null;
 }
 
 // Helper to get the effective topic string (custom or dropdown)
@@ -92,6 +95,12 @@ interface SessionState {
   // Mission system
   studentMissions: Record<string, string>;   // clientId → mission question
   landingAnswers: Record<string, string>;     // clientId → landing answer
+
+  // Lesson type system
+  classMission: string | null;
+  openingStances: Record<string, string>;       // clientId → opening stance text
+  characterAssignments: Record<string, CharacterCard>; // clientId → assigned character
+
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
   setPickerMode: (mode: PickerMode) => void;
@@ -114,6 +123,10 @@ interface SessionState {
   addSeenCacheId: (id: string) => void;
   addStudentMission: (clientId: string, mission: string) => void;
   addLandingAnswer: (clientId: string, answer: string) => void;
+  setClassMission: (question: string) => void;
+  addOpeningStance: (clientId: string, stance: string) => void;
+  addCharacterAssignment: (clientId: string, character: CharacterCard) => void;
+  setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
 }
 
@@ -129,6 +142,7 @@ const DEFAULT_SETTINGS: SessionSettings = {
   tone: 'Neutral',
   timerSeconds: 30,
   scoringMode: 'competitive',
+  grammarTarget: null,
 };
 
 const SETTINGS_STORAGE_KEY = 'lc-session-settings';
@@ -190,6 +204,9 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   seenCacheIds: [],
   studentMissions: {},
   landingAnswers: {},
+  classMission: null,
+  openingStances: {},
+  characterAssignments: {},
 
   initSession: (sessionId, classId, students) => {
     lastWrittenInputSpec = undefined; // Reset per-session tracking
@@ -218,6 +235,9 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       seenCacheIds: [],
       studentMissions: {},
       landingAnswers: {},
+      classMission: null,
+      openingStances: {},
+      characterAssignments: {},
     });
   },
 
@@ -390,6 +410,20 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     landingAnswers: { ...state.landingAnswers, [clientId]: answer },
   })),
 
+  setClassMission: (question: string) => set({ classMission: question }),
+
+  addOpeningStance: (clientId: string, stance: string) => set((state) => ({
+    openingStances: { ...state.openingStances, [clientId]: stance },
+  })),
+
+  addCharacterAssignment: (clientId: string, character: CharacterCard) => set((state) => ({
+    characterAssignments: { ...state.characterAssignments, [clientId]: character },
+  })),
+
+  setGrammarTarget: (target: GrammarTarget | null) => set((state) => ({
+    settings: { ...state.settings, grammarTarget: target },
+  })),
+
   awardPoints: async (studentId: string, points: number) => {
     const { sessionId } = get();
     if (!sessionId) return;
@@ -434,6 +468,9 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       seenCacheIds: [],
       studentMissions: {},
       landingAnswers: {},
+      classMission: null,
+      openingStances: {},
+      characterAssignments: {},
     });
   },
 }));

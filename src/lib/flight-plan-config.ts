@@ -456,6 +456,62 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     strongWith: ['mission-selector'],
     missionLanding: true,
   },
+
+  {
+    key: 'character-cards',
+    slotFit: ['takeoff'],
+    goalFit: ['speaking-fluency', 'confidence-building', 'creativity'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['performance', 'role-based'],
+    speakingLoad: 'high',
+    writingLoad: 'low',
+    teacherControlLoad: 'medium',
+    avoidAfter: [],
+    strongWith: ['expert-panel', 'scenario-simulator', 'hot-take-arena'],
+  },
+
+  {
+    key: 'grammar-check-in',
+    slotFit: ['takeoff'],
+    goalFit: ['grammar-reinforcement'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'low',
+    interactionModel: ['simultaneous', 'voting'],
+    speakingLoad: 'low',
+    writingLoad: 'low',
+    teacherControlLoad: 'low',
+    avoidAfter: [],
+    strongWith: ['grammar-boss', 'error-hunter'],
+  },
+
+  {
+    key: 'grammar-proof',
+    slotFit: ['landing'],
+    goalFit: ['grammar-reinforcement'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'low',
+    interactionModel: ['submission'],
+    speakingLoad: 'low',
+    writingLoad: 'high',
+    teacherControlLoad: 'low',
+    avoidAfter: [],
+    strongWith: ['grammar-check-in', 'grammar-boss'],
+  },
+
+  {
+    key: 'final-word',
+    slotFit: ['landing'],
+    goalFit: ['speaking-fluency', 'confidence-building', 'creativity'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['performance'],
+    speakingLoad: 'high',
+    writingLoad: 'low',
+    teacherControlLoad: 'medium',
+    avoidAfter: [],
+    strongWith: ['character-cards', 'scenario-simulator'],
+  },
 ];
 
 /** Lookup a single item's config by key. Returns undefined if not found. */
