@@ -11,6 +11,7 @@ import {
   type Tone,
   type ScoringMode,
 } from '@/stores/session-store';
+import { GrammarTarget, GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 
 const SCORING_MODE_LABELS: Record<ScoringMode, string> = {
@@ -24,6 +25,7 @@ export function SessionSettingsBar() {
   const setSettings = useSessionStore((s) => s.setSettings);
   const setTopic = useSessionStore((s) => s.setTopic);
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
+  const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
   const scoringMode = settings.scoringMode;
   const [showCustomTopic, setShowCustomTopic] = useState(!!settings.customTopic);
   const teacherTier = useTeacherTier();
@@ -127,6 +129,25 @@ export function SessionSettingsBar() {
         >
           {TONES.map((t) => (
             <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
+
+        <div className="h-4 w-px bg-lc-border" />
+
+        {/* Grammar Target — optional, shown as a selector */}
+        <select
+          value={settings.grammarTarget ?? ''}
+          onChange={(e) => setGrammarTarget(e.target.value ? e.target.value as GrammarTarget : null)}
+          className="bg-transparent font-bold outline-none cursor-pointer"
+          title="Grammar focus (optional)"
+        >
+          <option value="">Grammar: Any</option>
+          {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
+            <optgroup key={group} label={group}>
+              {targets.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </optgroup>
           ))}
         </select>
 

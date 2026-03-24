@@ -43,40 +43,47 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], grammarTarget } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
+    grammarTarget?: string;
   };
 
   try {
-    // 1. Check cache first
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
-    if (cached) {
-      const c = cached.content_json as { paragraph: string; errorCount: number; _errors: unknown[] };
-      return NextResponse.json({
-        paragraph: c.paragraph,
-        errorCount: c.errorCount,
-        _errors: c._errors,
-        cacheId: cached.id,
-      });
+    // 1. Check cache — skip cache when grammarTarget set (live content needed)
+    if (!grammarTarget) {
+      const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+      if (cached) {
+        const c = cached.content_json as { paragraph: string; errorCount: number; _errors: unknown[] };
+        return NextResponse.json({
+          paragraph: c.paragraph,
+          errorCount: c.errorCount,
+          _errors: c._errors,
+          cacheId: cached.id,
+        });
+      }
     }
 
     // 2. Cache miss — generate via AI
     const config = difficultyConfig[difficulty];
+
+    const grammarFocusBlock = grammarTarget
+      ? `GRAMMAR FOCUS: All errors MUST be ${grammarTarget} errors. Do not include spelling errors or other error types — only errors related to ${grammarTarget}.`
+      : `Error types to include (mix them):
+- Spelling errors (e.g., "recieve" instead of "receive")
+- Subject-verb agreement (e.g., "he go" instead of "he goes")
+- Wrong tense (e.g., "Yesterday I go" instead of "Yesterday I went")
+- Wrong word form (e.g., "beautiful" instead of "beautifully")
+- Article errors (e.g., "a apple" instead of "an apple")
+- Preposition errors (e.g., "good in" instead of "good at")`;
 
     const prompt = `Generate a paragraph with exactly ${config.errors} intentional errors for ${config.description}
 Topic: ${topic}.
 
 Create a 3-4 sentence paragraph about ${topic} that contains exactly ${config.errors} errors.
 
-Error types to include (mix them):
-- Spelling errors (e.g., "recieve" instead of "receive")
-- Subject-verb agreement (e.g., "he go" instead of "he goes")
-- Wrong tense (e.g., "Yesterday I go" instead of "Yesterday I went")
-- Wrong word form (e.g., "beautiful" instead of "beautifully")
-- Article errors (e.g., "a apple" instead of "an apple")
-- Preposition errors (e.g., "good in" instead of "good at")
+${grammarFocusBlock}
 
 Requirements:
 - Include exactly ${config.errors} errors, spread across the paragraph

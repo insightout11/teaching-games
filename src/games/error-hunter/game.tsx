@@ -46,6 +46,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     timerSeconds: sessionSettings.timerSeconds,
   });
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
+  const [answerKey, setAnswerKey] = useState<ErrorLocation[]>([]);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -104,6 +105,11 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
       const result: EvaluationResult = await response.json();
 
+      // Capture answer key from first submission
+      if (result.solutions?.length && answerKey.length === 0) {
+        setAnswerKey(result.solutions);
+      }
+
       setRaceSolvers(prev => {
         if (prev.some(s => s.studentId === studentId)) return prev;
 
@@ -141,6 +147,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     } catch (err) {
       console.error('Failed to process race vote:', err);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [challenge, raceFinished, raceSolvers, sessionSettings.difficulty, onScore]);
 
   // Handle remote vote — turn-based mode
@@ -207,6 +214,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     setSelectedWordIndex(null);
     setCorrectionInput('');
     setRaceSolvers([]);
+    setAnswerKey([]);
     resetRace();
 
     try {
@@ -215,7 +223,8 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           topic: getEffectiveTopic(sessionSettings),
-          difficulty: sessionSettings.difficulty
+          difficulty: sessionSettings.difficulty,
+          ...(sessionSettings.grammarTarget ? { grammarTarget: sessionSettings.grammarTarget } : {}),
         })
       });
 
@@ -527,6 +536,22 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {answerKey.length > 0 && (
+              <div className="glass p-4 rounded-xl space-y-2">
+                <p className="text-xs opacity-50 uppercase tracking-widest">Answer Key</p>
+                <div className="space-y-2">
+                  {answerKey.map((err, i) => (
+                    <div key={i} className="flex items-center gap-3 text-sm">
+                      <span className="text-rose-400 line-through opacity-70">{err.word}</span>
+                      <span className="opacity-40">→</span>
+                      <span className="text-emerald-400">{err.correction}</span>
+                      <span className="ml-auto text-xs opacity-40 italic">{err.errorType}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
