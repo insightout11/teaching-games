@@ -6,7 +6,9 @@ ALTER TABLE public.teachers
   ADD COLUMN IF NOT EXISTS is_developer    boolean      NOT NULL DEFAULT false,
   ADD COLUMN IF NOT EXISTS promo_expires_at timestamptz;
 
--- Update RPC to include is_developer and evaluate promo window in is_pro
+-- Drop and recreate RPC: return type changes (added is_developer column)
+DROP FUNCTION IF EXISTS public.get_teacher_credits(uuid);
+
 CREATE OR REPLACE FUNCTION public.get_teacher_credits(teacher_id uuid)
 RETURNS TABLE(
   credits      int,
