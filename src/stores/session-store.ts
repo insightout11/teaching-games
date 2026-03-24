@@ -25,7 +25,7 @@ export const PARTICIPATION_POINTS = 5;
 
 export function goalToScoringMode(goal?: string | null): ScoringMode {
   const participationGoals = ['speaking-fluency', 'discussion-debate', 'confidence-building', 'collaboration', 'creativity'];
-  const accuracyGoals = ['grammar-reinforcement', 'critical-thinking'];
+  const accuracyGoals = ['grammar-reinforcement', 'critical-thinking', 'vocabulary-building'];
   if (goal && participationGoals.includes(goal)) return 'participation';
   if (goal && accuracyGoals.includes(goal)) return 'accuracy';
   return 'competitive';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useState, useEffect, useRef, useMemo } from 'react';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, PARTICIPATION_POINTS } from '@/stores/session-store';
 import type { ActivityPlugin } from '@/activities/types';
 import { CATEGORY_INFO } from '@/activities/registry';
 import type {
@@ -142,12 +142,14 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
     isCorrect: null;
   }) => {
     if (!sessionId) return;
+    const scoringMode = useSessionStore.getState().settings.scoringMode;
+    const finalPoints = scoringMode === 'participation' ? PARTICIPATION_POINTS : request.points;
     const { data, error } = await supabase.from('scores').insert({
       session_id: sessionId,
       student_id: request.studentId,
       client_id: request.clientId,
       display_name: request.displayName,
-      points: request.points,
+      points: finalPoints,
       is_correct: null,
       prompt_index: request.promptIndex,
       streak_count: 0,
