@@ -38,6 +38,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
   challengeRef.current = challenge;
   const statusRef = useRef<GameStatus>(status);
   statusRef.current = status;
+  const seenCacheIdsRef = useRef<string[]>([]);
   // Register input spec for student controller
   useEffect(() => {
     if (isSimultaneous) {
@@ -209,13 +210,15 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           topic: getEffectiveTopic(sessionSettings),
-          difficulty: sessionSettings.difficulty
+          difficulty: sessionSettings.difficulty,
+          excludeCacheIds: seenCacheIdsRef.current,
         })
       });
 
       if (!res.ok) throw new Error('Failed to generate');
 
       const data = await res.json();
+      if (data.cacheId) seenCacheIdsRef.current = [...seenCacheIdsRef.current, data.cacheId];
       setChallenge({
         speakerA_before: data.speakerA_before,
         speakerB_blank: true,
@@ -479,13 +482,13 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
             <div className="flex gap-3">
               <button
                 onClick={handleGenerate}
-                className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
+                className="flex-1 py-4 bg-gradient-to-br from-lc-blue to-blue-500 rounded-xl font-game transition-all text-white border-2 border-white/20 hover:scale-[1.02] active:scale-95 shadow-lg"
               >
                 NEW DIALOGUE
               </button>
               <button
                 onClick={handleSameChallenge}
-                className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30"
+                className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10 text-slate-400"
               >
                 SAME DIALOGUE, AGAIN
               </button>
@@ -653,10 +656,10 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
           </div>
 
           <div className="flex gap-3">
-            <button onClick={handleGenerate} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10">
+            <button onClick={handleGenerate} className="flex-1 py-4 bg-gradient-to-br from-lc-blue to-blue-500 rounded-xl font-game transition-all text-white border-2 border-white/20 hover:scale-[1.02] active:scale-95 shadow-lg">
               NEW DIALOGUE
             </button>
-            <button onClick={handleSameChallenge} className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30">
+            <button onClick={handleSameChallenge} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10 text-slate-400">
               SAME DIALOGUE, NEW STUDENT
             </button>
           </div>
