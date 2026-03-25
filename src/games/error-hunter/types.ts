@@ -3,6 +3,7 @@ export interface ErrorLocation {
   word: string;
   errorType: string;
   correction: string;
+  context?: string; // short phrase from the paragraph surrounding the error word
 }
 
 export interface Challenge {

@@ -544,11 +544,16 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
                 <p className="text-xs opacity-50 uppercase tracking-widest">Answer Key</p>
                 <div className="space-y-2">
                   {answerKey.map((err, i) => (
-                    <div key={i} className="flex items-center gap-3 text-sm">
-                      <span className="text-rose-400 line-through opacity-70">{err.word}</span>
-                      <span className="opacity-40">→</span>
-                      <span className="text-emerald-400">{err.correction}</span>
-                      <span className="ml-auto text-xs opacity-40 italic">{err.errorType}</span>
+                    <div key={i} className="flex items-start gap-3 text-sm">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <span className="text-rose-400 line-through opacity-70 shrink-0">{err.word}</span>
+                        <span className="opacity-40 shrink-0">→</span>
+                        <span className="text-emerald-400 shrink-0">{err.correction}</span>
+                        {err.context && (
+                          <span className="text-xs opacity-40 italic truncate">&ldquo;...{err.context}...&rdquo;</span>
+                        )}
+                      </div>
+                      <span className="text-xs opacity-40 italic shrink-0">{err.errorType}</span>
                     </div>
                   ))}
                 </div>

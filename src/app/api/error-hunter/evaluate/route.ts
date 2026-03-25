@@ -28,9 +28,10 @@ const schema: AISchema = {
           position: { type: 'integer' },
           word: { type: 'string' },
           errorType: { type: 'string' },
-          correction: { type: 'string' }
+          correction: { type: 'string' },
+          context: { type: 'string' }
         },
-        required: ['position', 'word', 'errorType', 'correction']
+        required: ['position', 'word', 'errorType', 'correction', 'context']
       }
     }
   },
@@ -76,7 +77,9 @@ Provide:
 - falsePositives: How many non-errors were marked
 - score: Overall score (1-10)
 - feedback: Brief feedback (2-3 sentences) - what they caught, what they missed
-- solutions: Array of ALL actual errors with correct fixes`;
+- solutions: Array of ALL actual errors with correct fixes. For each error include a "context" field: a 4-6 word excerpt from the paragraph surrounding the error word (e.g. "player he had ever seen"), so teachers can identify exactly which word is wrong when the same word appears multiple times.
+
+IMPORTANT: Double-check each solution — only flag words that are genuinely incorrect. Do not mark grammatically correct words as errors.`;
 
     const evaluation = await generateJSON<{
       totalErrors: number;
@@ -85,7 +88,7 @@ Provide:
       falsePositives: number;
       score: number;
       feedback: string;
-      solutions: Array<{ position: number; word: string; errorType: string; correction: string }>;
+      solutions: Array<{ position: number; word: string; errorType: string; correction: string; context: string }>;
     }>(prompt, schema, { taskClass: 'evaluation' });
     return NextResponse.json(evaluation);
   } catch (error) {

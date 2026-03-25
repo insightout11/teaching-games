@@ -1198,7 +1198,9 @@ Error types to include (mix them):
 - Article errors
 - Preposition errors
 
-Return the paragraph with errors embedded, plus an array of error details.`;
+Return the paragraph with errors embedded, plus an array of error details.
+
+IMPORTANT: Double-check each error before including it — only mark words that are genuinely incorrect. Do not mark grammatically correct words as errors.`;
 
   const data = await generateJSON<{ paragraph: string; errorCount: number; errors: Array<{ position: number; word: string; errorType: string; correction: string }> }>(prompt, schema);
   return { gameKey: 'error-hunter', paragraph: data.paragraph, errorCount: data.errorCount, _errors: data.errors };
