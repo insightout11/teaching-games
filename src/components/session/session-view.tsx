@@ -1,7 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, DIFFICULTIES } from '@/stores/session-store';
+import type { Difficulty } from '@/stores/session-store';
+import { GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
+import type { GrammarTarget } from '@/lib/grammar';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
 import { GameShell } from './game-shell';
@@ -67,6 +70,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const initSession = useSessionStore((s) => s.initSession);
   const settings = useSessionStore((s) => s.settings);
+  const setSettings = useSessionStore((s) => s.setSettings);
+  const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
   const addStudent = useSessionStore((s) => s.addStudent);
   const [viewMode, setViewMode] = useState<ViewMode>('selection');
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
@@ -476,6 +481,40 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
           </div>
 
+          {/* Lesson Settings */}
+          <div className="glass rounded-2xl p-6">
+            <h2 className="text-sm font-semibold opacity-70 uppercase tracking-wider mb-4">
+              Lesson Settings
+            </h2>
+            <div className="flex flex-wrap gap-6">
+              <label className="flex flex-col gap-1">
+                <span className="text-xs opacity-50 uppercase tracking-wider">Level</span>
+                <select
+                  value={settings.difficulty}
+                  onChange={(e) => setSettings({ difficulty: e.target.value as Difficulty })}
+                  className="bg-lc-surface border border-lc-border rounded-lg px-3 py-1.5 text-sm font-semibold outline-none cursor-pointer"
+                >
+                  {DIFFICULTIES.map((d) => <option key={d} value={d}>{d}</option>)}
+                </select>
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-xs opacity-50 uppercase tracking-wider">Grammar Focus</span>
+                <select
+                  value={settings.grammarTarget ?? ''}
+                  onChange={(e) => setGrammarTarget(e.target.value ? e.target.value as GrammarTarget : null)}
+                  className="bg-lc-surface border border-lc-border rounded-lg px-3 py-1.5 text-sm font-semibold outline-none cursor-pointer"
+                >
+                  <option value="">Any</option>
+                  {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
+                    <optgroup key={group} label={group}>
+                      {targets.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </div>
+
           {/* Mission Selector Status */}
           <div className="glass rounded-2xl p-4">
             <div className="flex items-center gap-3">
@@ -535,6 +574,30 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </p>
           </div>
           <div className="flex items-center gap-2">
+            {/* Visible level + grammar chips during gameplay */}
+            {viewMode !== 'selection' && (
+              <>
+                <select
+                  value={settings.difficulty}
+                  onChange={(e) => setSettings({ difficulty: e.target.value as Difficulty })}
+                  className="text-xs font-semibold bg-lc-card border border-lc-border rounded-lg px-2 py-1 outline-none cursor-pointer"
+                >
+                  {DIFFICULTIES.map((d) => <option key={d} value={d}>{d}</option>)}
+                </select>
+                <select
+                  value={settings.grammarTarget ?? ''}
+                  onChange={(e) => setGrammarTarget(e.target.value ? e.target.value as GrammarTarget : null)}
+                  className="text-xs font-semibold bg-lc-card border border-lc-border rounded-lg px-2 py-1 outline-none cursor-pointer"
+                >
+                  <option value="">Grammar: Any</option>
+                  {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
+                    <optgroup key={group} label={group}>
+                      {targets.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
+              </>
+            )}
             {/* Gear icon for settings during gameplay */}
             {viewMode !== 'selection' && (
               <div className="relative" ref={settingsPopoverRef}>

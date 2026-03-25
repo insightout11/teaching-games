@@ -70,7 +70,7 @@ export function GrammarCheckInActivity({
     onSetInputSpec?.({
       type: 'choice',
       gameKey: 'grammar-check-in',
-      prompt: sentence.text,
+      prompt: `\u201c${sentence.text}\u201d`,
       options: RATING_OPTIONS,
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps

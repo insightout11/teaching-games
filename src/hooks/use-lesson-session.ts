@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { SessionSettings, ScoringMode } from '@/stores/session-store';
+import type { Difficulty } from '@/stores/session-store';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
 import { missionSelectorFallback } from '@/lib/fallback-content';
@@ -30,6 +31,7 @@ interface LessonPlanPayload {
   scoringMode?: ScoringMode;
   isMissionBased?: boolean;
   lessonDurationMinutes?: number;
+  difficulty?: Difficulty;
 }
 
 function getLessonPlanContent(): LessonPlanPayload | null {
@@ -47,6 +49,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         scoringMode: parsed.scoringMode,
         isMissionBased: parsed.isMissionBased,
         lessonDurationMinutes: parsed.lessonDurationMinutes,
+        difficulty: parsed.difficulty,
       };
     }
   } catch (e) {
@@ -257,7 +260,10 @@ export function useLessonSession(
     if (content) {
       setLessonPlanContent(content);
       setCustomTopic(content.customTopic);
-      setSettings({ scoringMode: content.scoringMode ?? goalToScoringMode(content.goal) });
+      setSettings({
+        scoringMode: content.scoringMode ?? goalToScoringMode(content.goal),
+        ...(content.difficulty ? { difficulty: content.difficulty } : {}),
+      });
       if (content.isMissionBased) {
         setIsMissionBased(true);
       }
