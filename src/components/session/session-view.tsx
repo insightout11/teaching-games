@@ -97,6 +97,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  // Clear stale explore-session reference if this session is already ended
+  useEffect(() => {
+    if (session.status === 'ended') {
+      localStorage.removeItem('lc-explore-session');
+    }
+  }, [session.status]);
+
   // Teacher tier — used to gate Pro modules in the selection grid
   const teacherTier = useTeacherTier();
   // Separate from lesson.creditsExhausted (which fires on 402 from generate route);
