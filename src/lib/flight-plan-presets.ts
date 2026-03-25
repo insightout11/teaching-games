@@ -76,7 +76,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     takeoff: 'vocab-radar',
     landing: 'final-answer',
     moduleSequence: [
-      { slotType: 'presentation', key: 'vocab-radar' },
+      { slotType: 'presentation', key: 'synonym-showdown' },
       { slotType: 'practice', key: 'vocab-sprint' },
     ],
   },

@@ -142,12 +142,16 @@ export const usePlannerStore = create<PlannerState>()(
       setActiveTab: (activeTab) => set({ activeTab }),
 
       loadPreset: (preset) => {
-        const middle: PlanModule[] = preset.moduleSequence.map(({ slotType, key }) => ({
-          id: crypto.randomUUID(),
-          slotType,
-          key,
-          isLocked: false,
-        }));
+        const takeoffKey = preset.skipTakeoffLanding ? null : (preset.takeoff ?? 'mission-selector');
+
+        const middle: PlanModule[] = preset.moduleSequence
+          .filter(({ key }) => key !== takeoffKey)
+          .map(({ slotType, key }) => ({
+            id: crypto.randomUUID(),
+            slotType,
+            key,
+            isLocked: false,
+          }));
 
         let modules: PlanModule[];
         if (preset.skipTakeoffLanding) {
