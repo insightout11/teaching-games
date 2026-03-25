@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Difficulty } from '@/lib/difficulty';
 import { FLIGHT_PLAN_ITEMS, type GoalTag, type SlotType } from '@/lib/flight-plan-config';
+import type { GrammarTarget } from '@/lib/grammar';
 import { suggestModules, type PlanModule } from '@/lib/planner-utils';
 import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
 import type { ScoringMode } from '@/stores/session-store';
@@ -39,6 +40,7 @@ interface PlannerState {
 
   // Step 3 — Launch
   selectedClassId: string | null;
+  grammarTarget: GrammarTarget | null;
 
   // Derived
   primaryGoal: GoalTag;
@@ -63,6 +65,7 @@ interface PlannerState {
 
   // Actions — Step 3 (Launch)
   setSelectedClassId(id: string | null): void;
+  setGrammarTarget(t: GrammarTarget | null): void;
 
   // Handoff to session. Does NOT reset — caller decides when to reset.
   launchLesson(): Promise<void>;
@@ -90,6 +93,7 @@ export const usePlannerStore = create<PlannerState>()(
       replaceDrawerModuleId: null,
       overrideScoringMode: null,
       selectedClassId: null,
+      grammarTarget: null,
 
       // Derived
       get primaryGoal() {
@@ -188,10 +192,11 @@ export const usePlannerStore = create<PlannerState>()(
       setReplaceDrawerModuleId: (id) => set({ replaceDrawerModuleId: id }),
 
       setSelectedClassId: (id) => set({ selectedClassId: id }),
+      setGrammarTarget: (grammarTarget) => set({ grammarTarget }),
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
       launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes } = get();
+        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget } = get();
         if (!selectedClassId) return;
 
         const primaryGoal = derivePrimaryGoal(goals);
@@ -219,6 +224,7 @@ export const usePlannerStore = create<PlannerState>()(
             lessonDurationMinutes,
             ...(overrideScoringMode ? { scoringMode: overrideScoringMode } : {}),
             ...(hasMissionSelector ? { isMissionBased: true } : {}),
+            ...(grammarTarget ? { grammarTarget } : {}),
             slots,
             generatedContent: {},
             generatedGameContent: {},
@@ -254,6 +260,7 @@ export const usePlannerStore = create<PlannerState>()(
           replaceDrawerModuleId: null,
           overrideScoringMode: null,
           selectedClassId: null,
+          grammarTarget: null,
         }),
     }),
     {
@@ -274,6 +281,7 @@ export const usePlannerStore = create<PlannerState>()(
         activeTab: state.activeTab,
         loadedPresetId: state.loadedPresetId,
         selectedClassId: state.selectedClassId,
+        grammarTarget: state.grammarTarget,
       }),
     },
   ),

@@ -481,40 +481,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
           </div>
 
-          {/* Lesson Settings */}
-          <div className="glass rounded-2xl p-6">
-            <h2 className="text-sm font-semibold opacity-70 uppercase tracking-wider mb-4">
-              Lesson Settings
-            </h2>
-            <div className="flex flex-wrap gap-6">
-              <label className="flex flex-col gap-1">
-                <span className="text-xs opacity-50 uppercase tracking-wider">Level</span>
-                <select
-                  value={settings.difficulty}
-                  onChange={(e) => setSettings({ difficulty: e.target.value as Difficulty })}
-                  className="bg-lc-surface border border-lc-border rounded-lg px-3 py-1.5 text-sm font-semibold outline-none cursor-pointer"
-                >
-                  {DIFFICULTIES.map((d) => <option key={d} value={d}>{d}</option>)}
-                </select>
-              </label>
-              <label className="flex flex-col gap-1">
-                <span className="text-xs opacity-50 uppercase tracking-wider">Grammar Focus</span>
-                <select
-                  value={settings.grammarTarget ?? ''}
-                  onChange={(e) => setGrammarTarget(e.target.value ? e.target.value as GrammarTarget : null)}
-                  className="bg-lc-surface border border-lc-border rounded-lg px-3 py-1.5 text-sm font-semibold outline-none cursor-pointer"
-                >
-                  <option value="">Any</option>
-                  {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
-                    <optgroup key={group} label={group}>
-                      {targets.map((t) => <option key={t} value={t}>{t}</option>)}
-                    </optgroup>
-                  ))}
-                </select>
-              </label>
-            </div>
-          </div>
-
           {/* Mission Selector Status */}
           <div className="glass rounded-2xl p-4">
             <div className="flex items-center gap-3">

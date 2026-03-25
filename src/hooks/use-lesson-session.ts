@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { SessionSettings, ScoringMode } from '@/stores/session-store';
 import type { Difficulty } from '@/stores/session-store';
+import type { GrammarTarget } from '@/lib/grammar';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
 import { missionSelectorFallback } from '@/lib/fallback-content';
@@ -32,6 +33,7 @@ interface LessonPlanPayload {
   isMissionBased?: boolean;
   lessonDurationMinutes?: number;
   difficulty?: Difficulty;
+  grammarTarget?: GrammarTarget | null;
 }
 
 function getLessonPlanContent(): LessonPlanPayload | null {
@@ -50,6 +52,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         isMissionBased: parsed.isMissionBased,
         lessonDurationMinutes: parsed.lessonDurationMinutes,
         difficulty: parsed.difficulty,
+        grammarTarget: parsed.grammarTarget ?? null,
       };
     }
   } catch (e) {
@@ -98,6 +101,7 @@ export function useLessonSession(
 ): LessonSession {
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
   const setSettings = useSessionStore((s) => s.setSettings);
+  const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
 
   // ─── Core state ────────────────────────────────────────────────────────
   const [phase, setPhase] = useState<LessonPhase>('idle');
@@ -272,6 +276,9 @@ export function useLessonSession(
         scoringMode: content.scoringMode ?? goalToScoringMode(content.goal),
         ...(content.difficulty ? { difficulty: content.difficulty } : {}),
       });
+      if (content.grammarTarget) {
+        setGrammarTarget(content.grammarTarget);
+      }
       if (content.isMissionBased) {
         setIsMissionBased(true);
       }
@@ -292,7 +299,7 @@ export function useLessonSession(
         }
       }
     }
-  }, [setCustomTopic, setSettings]);
+  }, [setCustomTopic, setSettings, setGrammarTarget]);
 
   // ─── Mission rehydration from DB ───────────────────────────────────────
   useEffect(() => {

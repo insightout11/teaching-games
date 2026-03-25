@@ -6,6 +6,8 @@ import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import type { GoalTag } from '@/lib/flight-plan-config';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
+import { GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
+import type { GrammarTarget } from '@/lib/grammar';
 import { FlightPathSVG } from './flight-path-svg';
 import { createClient } from '@/lib/supabase/client';
 import { ArrowLeft, CheckCircle2, Loader2, Plus, Rocket, Users } from 'lucide-react';
@@ -25,6 +27,8 @@ export function ReviewLaunchScreen() {
     launchLesson,
     setDifficulty,
     setGoals,
+    grammarTarget,
+    setGrammarTarget,
   } = usePlannerStore();
 
   const [classes, setClasses] = useState<TeacherClass[]>([]);
@@ -184,6 +188,21 @@ export function ReviewLaunchScreen() {
                     </button>
                   ))}
                 </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-lc-text3">Grammar Focus</span>
+                <select
+                  value={grammarTarget ?? ''}
+                  onChange={(e) => setGrammarTarget(e.target.value ? e.target.value as GrammarTarget : null)}
+                  className="bg-lc-surface border border-lc-border rounded-md px-2 py-1 text-xs font-medium text-lc-text outline-none cursor-pointer"
+                >
+                  <option value="">Any</option>
+                  {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
+                    <optgroup key={group} label={group}>
+                      {targets.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
               </div>
               <Row label="Modules" value={String(modules.length)} />
             </div>
