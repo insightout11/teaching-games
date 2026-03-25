@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
-import { useMemo, useEffect, useRef, useState } from 'react';
+import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
 
 const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
 const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
@@ -31,6 +31,30 @@ export function Leaderboard() {
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
   const awardPoints = useSessionStore((s) => s.awardPoints);
   const scoringMode = useSessionStore((s) => s.settings.scoringMode);
+  const pickStudent = useSessionStore((s) => s.pickStudent);
+
+  // Student picker state
+  const [spinning, setSpinning] = useState(false);
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout>();
+
+  const handlePick = useCallback(() => {
+    if (students.length === 0) return;
+    setSpinning(true);
+    let count = 0;
+    intervalRef.current = setInterval(() => {
+      setDisplayIndex(Math.floor(Math.random() * students.length));
+      count++;
+      if (count > 15) {
+        clearInterval(intervalRef.current);
+        pickStudent();
+        setSpinning(false);
+      }
+    }, 100);
+  }, [students, pickStudent]);
+
+  const currentStudent = students.find((s) => s.id === currentStudentId);
+  const spinStudent = spinning ? students[displayIndex] : currentStudent;
 
   const entries = useMemo(() => {
     const map = new Map<string, LeaderboardEntry>();
@@ -132,7 +156,36 @@ export function Leaderboard() {
   return (
     <div className="glass rounded-2xl p-4">
       <h3 className="font-semibold text-sm opacity-70 mb-3 uppercase tracking-wider text-[10px]">Leaderboard</h3>
-      <div className="space-y-1">
+
+      {/* Student Picker */}
+      <div className="mb-3">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={spinStudent?.id ?? 'empty'}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            className="text-center py-2"
+          >
+            {spinStudent ? (
+              <p className={`text-2xl font-game ${spinning ? 'opacity-40' : 'text-lc-blue'}`}>
+                {spinStudent.name}
+              </p>
+            ) : (
+              <p className="opacity-40 text-sm">No student selected</p>
+            )}
+          </motion.div>
+        </AnimatePresence>
+        <button
+          onClick={handlePick}
+          disabled={spinning || students.length === 0}
+          className="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-game text-sm shadow-lg hover:scale-[1.02] active:scale-95 transition-all text-white disabled:opacity-30"
+        >
+          {spinning ? 'PICKING...' : 'PICK STUDENT'}
+        </button>
+      </div>
+
+      <div className="border-t border-lc-border/40 pt-3 space-y-1">
         <AnimatePresence>
           {visibleEntries.map((entry) => (
             <motion.div
@@ -217,3 +270,4 @@ export function Leaderboard() {
     </div>
   );
 }
+

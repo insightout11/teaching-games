@@ -12,7 +12,6 @@ import type {
 } from '@/activities/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { Score } from '@/lib/supabase/types';
-import { StudentPicker } from './student-picker';
 import { Leaderboard } from './leaderboard';
 import { ApprovalQueue } from './approval-queue';
 import { MissionControlSummary } from './mission-control-summary';
@@ -344,7 +343,6 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
 
       {/* Sidebar */}
       <div className="space-y-4">
-        <StudentPicker />
         <Leaderboard />
         {sessionId && (
           <ApprovalQueue

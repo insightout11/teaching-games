@@ -7,7 +7,6 @@ import type { GamePlugin, ScoreResult, GameRemoteVote } from '@/games/types';
 import type { GameGeneratedContent } from '@/activities/types';
 import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
-import { StudentPicker } from './student-picker';
 import { StreakIndicator } from './streak-indicator';
 import { Leaderboard } from './leaderboard';
 import { SpinWheel, ModifierBadge } from './spin-wheel';
@@ -369,7 +368,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
 
         {/* Sidebar */}
         <div className="space-y-4">
-          <StudentPicker />
           <Leaderboard />
           <TeamTotals />
           {sessionId && (
