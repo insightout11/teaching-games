@@ -75,6 +75,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   const [showRule, setShowRule] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [respondentName, setRespondentName] = useState<string | null>(null);
+  const seenCacheIdsRef = useRef<string[]>([]);
 
   // Simultaneous race mode
   const { isSimultaneous, raceActive, raceFinished, raceFinishedRef, timeRemaining, startRace, endRace, resetRace } = useRaceMode({
@@ -332,13 +333,15 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
         body: JSON.stringify({
           grammarTarget: selectedTarget,
           topic: getEffectiveTopic(sessionSettings),
-          difficulty: sessionSettings.difficulty
+          difficulty: sessionSettings.difficulty,
+          excludeCacheIds: seenCacheIdsRef.current,
         })
       });
 
       if (!response.ok) throw new Error('Failed to generate challenge');
 
       const data = await response.json();
+      if (data.cacheId) seenCacheIdsRef.current = [...seenCacheIdsRef.current, data.cacheId];
       setCurrentChallenge({
         target: selectedTarget,
         task: data.task,
@@ -612,8 +615,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
             )}
 
             <div className="flex gap-3">
-              <button onClick={handleGenerate} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10">NEW TASK</button>
-              <button onClick={handleSameChallenge} className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30">SAME TASK, AGAIN</button>
+              <button onClick={handleGenerate} className="flex-1 py-4 bg-gradient-to-br from-lc-blue to-blue-500 rounded-xl font-game transition-all text-white border-2 border-white/20 hover:scale-[1.02] active:scale-95 shadow-lg">NEW TASK</button>
+              <button onClick={handleSameChallenge} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10 text-slate-400">SAME TASK, AGAIN</button>
             </div>
           </motion.div>
         )}
@@ -743,8 +746,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
             feedback: evaluation.feedback,
           })}
           <div className="flex gap-3">
-            <button onClick={handleGenerate} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10">NEW TASK</button>
-            <button onClick={handleSameChallenge} className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30">SAME TASK, NEW STUDENT</button>
+            <button onClick={handleGenerate} className="flex-1 py-4 bg-gradient-to-br from-lc-blue to-blue-500 rounded-xl font-game transition-all text-white border-2 border-white/20 hover:scale-[1.02] active:scale-95 shadow-lg">NEW TASK</button>
+            <button onClick={handleSameChallenge} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10 text-slate-400">SAME TASK, NEW STUDENT</button>
           </div>
         </motion.div>
       )}

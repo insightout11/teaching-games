@@ -70,10 +70,19 @@ export function GrammarProofActivity({
           studentId: vote.studentId ?? null,
         },
       }));
+      // Award participation point immediately on submission
+      onScore?.({
+        studentId: vote.studentId ?? null,
+        clientId: vote.clientId,
+        displayName: vote.displayName,
+        promptIndex: 1,
+        points: 1,
+        isCorrect: null,
+      });
     });
     return () => onRegisterRemoteVoteHandler?.(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onRegisterRemoteVoteHandler]);
+  }, [onRegisterRemoteVoteHandler, onScore]);
 
   const handleScore = useCallback(async () => {
     setPhase('scoring');
@@ -117,21 +126,23 @@ export function GrammarProofActivity({
     onPhaseChange?.('results');
   }, [content.prompt, grammarTarget, onPhaseChange]);
 
-  // Award points when results are shown
+  // Award bonus points and record landing answers when results are shown
   useEffect(() => {
-    if (phase !== 'results' || scores.length === 0) return;
+    if (phase !== 'results') return;
     for (const score of scores) {
       const sub = submissionsRef.current[score.clientId];
       if (!sub) continue;
-      const points = 1 + (score.suggestedLabel ? 2 : 0);
-      onScore?.({
-        studentId: sub.studentId ?? null,
-        clientId: score.clientId,
-        displayName: sub.displayName,
-        promptIndex: 1,
-        points,
-        isCorrect: null,
-      });
+      // Bonus points for standout label (participation point already awarded on submission)
+      if (score.suggestedLabel) {
+        onScore?.({
+          studentId: sub.studentId ?? null,
+          clientId: score.clientId,
+          displayName: sub.displayName,
+          promptIndex: 1,
+          points: 2,
+          isCorrect: null,
+        });
+      }
       onLandingAnswer?.(score.clientId, sub.text);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
