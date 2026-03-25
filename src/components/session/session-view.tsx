@@ -234,6 +234,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const handleEndSession = async () => {
     await supabase.from('sessions').update({ status: 'ended', ended_at: new Date().toISOString() }).eq('id', session.id);
     sessionStorage.removeItem('lessonPlanContent');
+    localStorage.removeItem('lc-explore-session');
     setEnded(true);
   };
 
@@ -458,48 +459,52 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             )}
           </div>
 
-          {/* Flight Plan Summary */}
-          <div className="glass rounded-2xl p-6">
-            <h2 className="text-sm font-semibold opacity-70 uppercase tracking-wider mb-3">
-              Flight Plan
-            </h2>
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {lesson.lessonSlots.map((slot, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 px-3 py-2 bg-lc-surface rounded-lg text-xs text-center min-w-[80px]"
-                >
-                  <p className="opacity-50 uppercase tracking-wider mb-0.5">{i + 1}</p>
-                  <p className="font-medium truncate">{slot.name}</p>
-                </div>
-              ))}
+          {/* Flight Plan Summary — only for multi-slot lessons */}
+          {lesson.lessonSlots.length > 1 && (
+            <div className="glass rounded-2xl p-6">
+              <h2 className="text-sm font-semibold opacity-70 uppercase tracking-wider mb-3">
+                Flight Plan
+              </h2>
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {lesson.lessonSlots.map((slot, i) => (
+                  <div
+                    key={i}
+                    className="flex-shrink-0 px-3 py-2 bg-lc-surface rounded-lg text-xs text-center min-w-[80px]"
+                  >
+                    <p className="opacity-50 uppercase tracking-wider mb-0.5">{i + 1}</p>
+                    <p className="font-medium truncate">{slot.name}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Mission Selector Status */}
-          <div className="glass rounded-2xl p-4">
-            <div className="flex items-center gap-3">
-              {lesson.missionSelectorReady ? (
-                <>
-                  <div className="w-3 h-3 bg-emerald-400 rounded-full" />
-                  <span className="text-sm text-emerald-500">Mission Selector ready</span>
-                </>
-              ) : (
-                <>
-                  <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                  <span className="text-sm text-lc-blue">Preparing Mission Selector...</span>
-                </>
-              )}
+          {/* Mission Selector Status — only when mission-selector is in the plan */}
+          {lesson.lessonSlots.some((s) => s.key === 'mission-selector') && (
+            <div className="glass rounded-2xl p-4">
+              <div className="flex items-center gap-3">
+                {lesson.missionSelectorReady ? (
+                  <>
+                    <div className="w-3 h-3 bg-emerald-400 rounded-full" />
+                    <span className="text-sm text-emerald-500">Mission Selector ready</span>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                    <span className="text-sm text-lc-blue">Preparing Mission Selector...</span>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Begin Lesson */}
+          {/* Begin Lesson / Start item */}
           <button
             onClick={lesson.beginLesson}
             disabled={!lesson.missionSelectorReady}
             className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            Begin Lesson
+            {lesson.lessonSlots.length === 1 ? `Start ${lesson.lessonSlots[0].name}` : 'Begin Lesson'}
           </button>
 
           {/* End Session (escape hatch) */}

@@ -11,6 +11,8 @@ import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
 import type { GameCategory } from '@/games/types';
 import type { ActivityCategory } from '@/activities/types';
+import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
+import type { Topic, Difficulty } from '@/stores/session-store';
 
 type FilterTab = 'all' | 'games' | 'activities';
 type PppFilter = 'all' | 'presentation' | 'practice' | 'production';
@@ -18,6 +20,11 @@ type PppFilter = 'all' | 'presentation' | 'practice' | 'production';
 interface Class {
   id: string;
   name: string;
+}
+
+interface ActiveSession {
+  sessionId: string;
+  className: string;
 }
 
 function getStageBadge(stage: string | undefined) {
@@ -36,6 +43,17 @@ export function ExploreClient() {
   const [classes, setClasses] = useState<Class[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
   const [launching, setLaunching] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState<Topic | ''>('');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('Intermediate');
+  const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
+
+  // Read active session from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('lc-explore-session');
+      if (stored) setActiveSession(JSON.parse(stored));
+    } catch {}
+  }, []);
 
   useEffect(() => {
     if (!launchItem) return;
@@ -51,7 +69,23 @@ export function ExploreClient() {
       });
   }, [launchItem]);
 
-  async function handleSelectClass(classId: string) {
+  function writeAndNavigate(sessionId: string, directLaunch: boolean) {
+    if (!launchItem) return;
+    sessionStorage.setItem(
+      'lessonPlanContent',
+      JSON.stringify({
+        customTopic: selectedTopic,
+        difficulty: selectedDifficulty,
+        slots: [{ type: launchItem.type, key: launchItem.key, name: launchItem.name }],
+        generatedContent: {},
+        generatedGameContent: {},
+        ...(directLaunch ? { directLaunch: true } : {}),
+      }),
+    );
+    window.location.href = `/sessions/${sessionId}`;
+  }
+
+  async function handleSelectClass(classId: string, className: string) {
     if (!launchItem) return;
     setLaunching(true);
     try {
@@ -62,19 +96,17 @@ export function ExploreClient() {
       });
       if (!res.ok) throw new Error('Failed to create session');
       const { sessionId } = await res.json();
-      sessionStorage.setItem(
-        'lessonPlanContent',
-        JSON.stringify({
-          customTopic: '',
-          slots: [{ type: launchItem.type, key: launchItem.key, name: launchItem.name }],
-          generatedContent: {},
-          generatedGameContent: {},
-        }),
-      );
-      window.location.href = `/sessions/${sessionId}`;
+      localStorage.setItem('lc-explore-session', JSON.stringify({ sessionId, className }));
+      writeAndNavigate(sessionId, false);
     } catch {
       setLaunching(false);
     }
+  }
+
+  function handleContinueSession() {
+    if (!activeSession || !launchItem) return;
+    setLaunching(true);
+    writeAndNavigate(activeSession.sessionId, true);
   }
 
   const showGames = filter === 'all' || filter === 'games';
@@ -245,7 +277,53 @@ export function ExploreClient() {
         onClose={() => setLaunchItem(null)}
         title={launchItem ? `Launch ${launchItem.name}` : ''}
       >
-        <p className="text-sm text-lc-text3 mb-4">Select a class to launch this with:</p>
+        {/* Topic + Difficulty */}
+        <div className="flex gap-3 mb-5">
+          <div className="flex-1">
+            <label className="block text-xs text-lc-text3 mb-1">Topic</label>
+            <select
+              value={selectedTopic}
+              onChange={(e) => setSelectedTopic(e.target.value as Topic | '')}
+              className="w-full text-sm px-3 py-2 rounded-lg border border-lc-border bg-lc-surface text-lc-text"
+            >
+              <option value="">General</option>
+              {TOPICS.filter((t) => t !== 'General').map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex-1">
+            <label className="block text-xs text-lc-text3 mb-1">Difficulty</label>
+            <select
+              value={selectedDifficulty}
+              onChange={(e) => setSelectedDifficulty(e.target.value as Difficulty)}
+              className="w-full text-sm px-3 py-2 rounded-lg border border-lc-border bg-lc-surface text-lc-text"
+            >
+              {DIFFICULTIES.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Active session shortcut */}
+        {activeSession && (
+          <div className="mb-4">
+            <p className="text-xs text-lc-text3 mb-2">Active session:</p>
+            <button
+              onClick={handleContinueSession}
+              disabled={launching}
+              className="w-full text-left px-4 py-3 rounded-lg border border-cyan-500/40 bg-cyan-500/5 text-lc-text text-sm font-medium hover:border-cyan-500/70 hover:bg-cyan-500/10 transition-colors disabled:opacity-50"
+            >
+              ▶ Continue in {activeSession.className}
+            </button>
+          </div>
+        )}
+
+        {/* Class list */}
+        <p className="text-sm text-lc-text3 mb-3">
+          {activeSession ? 'Or start a new session:' : 'Select a class to launch this with:'}
+        </p>
         {classesLoading ? (
           <p className="text-sm text-lc-text3">Loading classes…</p>
         ) : classes.length === 0 ? (
@@ -264,7 +342,7 @@ export function ExploreClient() {
             {classes.map((cls) => (
               <button
                 key={cls.id}
-                onClick={() => handleSelectClass(cls.id)}
+                onClick={() => handleSelectClass(cls.id, cls.name)}
                 disabled={launching}
                 className="w-full text-left px-4 py-3 rounded-lg border border-lc-border bg-lc-surface text-lc-text text-sm font-medium hover:border-lc-blue/50 hover:bg-lc-blue/5 transition-colors disabled:opacity-50"
               >

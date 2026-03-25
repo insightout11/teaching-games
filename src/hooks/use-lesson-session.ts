@@ -34,6 +34,7 @@ interface LessonPlanPayload {
   lessonDurationMinutes?: number;
   difficulty?: Difficulty;
   grammarTarget?: GrammarTarget | null;
+  directLaunch?: boolean;
 }
 
 function getLessonPlanContent(): LessonPlanPayload | null {
@@ -53,6 +54,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         lessonDurationMinutes: parsed.lessonDurationMinutes,
         difficulty: parsed.difficulty,
         grammarTarget: parsed.grammarTarget ?? null,
+        directLaunch: parsed.directLaunch ?? false,
       };
     }
   } catch (e) {
@@ -286,12 +288,12 @@ export function useLessonSession(
         const hasPreGenerated = Object.keys(content.generatedContent).length > 0 ||
           Object.keys(content.generatedGameContent).length > 0;
 
-        if (hasPreGenerated) {
-          // Legacy path: content was pre-generated, start in live phase
+        if (hasPreGenerated || content.directLaunch) {
+          // Pre-generated content or direct Explore launch: skip lobby, go live immediately
           setPhase('live');
           pendingAutoStartRef.current = 0;
         } else {
-          // New path: structure-only, show lobby
+          // Structure-only from planner: show lobby for students to join
           setPhase('lobby');
         }
       }
