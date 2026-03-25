@@ -34,9 +34,10 @@ export function ExploreClient() {
   const router = useRouter();
   const [filter, setFilter] = useState<FilterTab>('all');
   const [pppFilter, setPppFilter] = useState<PppFilter>('all');
-  const [launchItem, setLaunchItem] = useState<{ name: string } | null>(null);
+  const [launchItem, setLaunchItem] = useState<{ name: string; key: string; type: 'game' | 'activity' } | null>(null);
   const [classes, setClasses] = useState<Class[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
+  const [launching, setLaunching] = useState(false);
 
   useEffect(() => {
     if (!launchItem) return;
@@ -52,8 +53,30 @@ export function ExploreClient() {
       });
   }, [launchItem]);
 
-  function handleSelectClass(classId: string) {
-    router.push(`/classes/${classId}`);
+  async function handleSelectClass(classId: string) {
+    if (!launchItem) return;
+    setLaunching(true);
+    try {
+      const res = await fetch('/api/session/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ classId }),
+      });
+      if (!res.ok) throw new Error('Failed to create session');
+      const { sessionId } = await res.json();
+      sessionStorage.setItem(
+        'lessonPlanContent',
+        JSON.stringify({
+          customTopic: '',
+          slots: [{ type: launchItem.type, key: launchItem.key, name: launchItem.name }],
+          generatedContent: {},
+          generatedGameContent: {},
+        }),
+      );
+      window.location.href = `/sessions/${sessionId}`;
+    } catch {
+      setLaunching(false);
+    }
   }
 
   const showGames = filter === 'all' || filter === 'games';
@@ -144,7 +167,7 @@ export function ExploreClient() {
                   return (
                     <button
                       key={game.key}
-                      onClick={() => setLaunchItem({ name: game.name })}
+                      onClick={() => setLaunchItem({ name: game.name, key: game.key, type: 'game' })}
                       className="panel-card p-6 text-left transition-all w-full"
                     >
                       <div className="flex items-center gap-2 mb-1">
@@ -192,7 +215,7 @@ export function ExploreClient() {
                   return (
                     <button
                       key={activity.key}
-                      onClick={() => setLaunchItem({ name: activity.name })}
+                      onClick={() => setLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
                       className="panel-card p-6 text-left transition-all w-full"
                     >
                       <div className="flex items-center gap-2 mb-1">
@@ -244,11 +267,21 @@ export function ExploreClient() {
               <button
                 key={cls.id}
                 onClick={() => handleSelectClass(cls.id)}
-                className="w-full text-left px-4 py-3 rounded-lg border border-lc-border bg-lc-surface text-lc-text text-sm font-medium hover:border-lc-blue/50 hover:bg-lc-blue/5 transition-colors"
+                disabled={launching}
+                className="w-full text-left px-4 py-3 rounded-lg border border-lc-border bg-lc-surface text-lc-text text-sm font-medium hover:border-lc-blue/50 hover:bg-lc-blue/5 transition-colors disabled:opacity-50"
               >
                 {cls.name}
               </button>
             ))}
+            <div className="pt-2 border-t border-lc-border mt-2">
+              <Link
+                href="/classes"
+                className="text-sm text-lc-text3 hover:text-lc-blue transition-colors"
+                onClick={() => setLaunchItem(null)}
+              >
+                + New class
+              </Link>
+            </div>
           </div>
         )}
       </Modal>
