@@ -27,6 +27,8 @@ export function ReviewLaunchScreen() {
     launchLesson,
     setDifficulty,
     setGoals,
+    setTopic,
+    setDuration,
     grammarTarget,
     setGrammarTarget,
   } = usePlannerStore();
@@ -157,8 +159,33 @@ export function ReviewLaunchScreen() {
             </h3>
 
             <div className="space-y-2 text-sm">
-              <Row label="Topic" value={topic} />
-              <Row label="Duration" value={`${lessonDurationMinutes} min`} />
+              <div className="flex justify-between items-center">
+                <span className="text-lc-text3">Topic</span>
+                <input
+                  type="text"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  className="bg-lc-surface border border-lc-border rounded-md px-2 py-1 text-xs font-medium text-lc-text outline-none focus:ring-1 focus:ring-lc-blue/50 text-right w-48"
+                />
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-lc-text3">Duration</span>
+                <div className="flex gap-1.5">
+                  {([30, 45, 60, 90] as const).map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDuration(d)}
+                      className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
+                        lessonDurationMinutes === d
+                          ? 'bg-lc-blue text-white'
+                          : 'bg-lc-surface border border-lc-border text-lc-text2 hover:border-lc-blue/50'
+                      }`}
+                    >
+                      {d}m
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div className="flex justify-between items-center">
                 <span className="text-lc-text3">Goals</span>
                 <select
