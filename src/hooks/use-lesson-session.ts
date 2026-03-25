@@ -183,8 +183,15 @@ export function useLessonSession(
     if (prefetched) return prefetched;
 
     // Pre-generated content from lesson planner
+    // Exception: grammar-check-in content must match the current grammarTarget.
+    // If the teacher changed the target in the lobby, skip stale pre-generated content
+    // so it regenerates with the correct sentences.
     if (lessonPlanContent?.generatedContent[activity.key]) {
-      return lessonPlanContent.generatedContent[activity.key];
+      const pregen = lessonPlanContent.generatedContent[activity.key] as ActivityGeneratedContent & { grammarTarget?: string };
+      const currentTarget = settings.grammarTarget;
+      if (activity.key !== 'grammar-check-in' || !currentTarget || pregen.grammarTarget === currentTarget) {
+        return pregen;
+      }
     }
 
     // Generate on-the-fly
@@ -209,6 +216,7 @@ export function useLessonSession(
             studentCount,
             sessionId,
             ...(missionContext.length > 0 ? { missionContext } : {}),
+            ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
           });
 
       const response = await fetch(endpoint, {
