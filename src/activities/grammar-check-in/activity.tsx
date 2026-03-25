@@ -38,11 +38,24 @@ export function GrammarCheckInActivity({
   const content = generatedContent as GrammarCheckInContent;
   const sentences = content.sentences ?? [];
   const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
+  const sessionGrammarTarget = useSessionStore((s) => s.settings.grammarTarget);
+
+  // Read from sessionStorage as reliable fallback (bypasses initSession timing issues)
+  function getLessonGrammarTarget(): string | null {
+    if (typeof window === 'undefined') return null;
+    try {
+      const stored = sessionStorage.getItem('lessonPlanContent');
+      if (!stored) return null;
+      return (JSON.parse(stored) as { grammarTarget?: string }).grammarTarget ?? null;
+    } catch { return null; }
+  }
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [votes, setVotes] = useState<VoteMap>({ 0: {}, 1: {}, 2: {} });
-  const [confirmedTarget, setConfirmedTarget] = useState<string>(content.grammarTarget ?? '');
+  const [confirmedTarget, setConfirmedTarget] = useState<string>(
+    sessionGrammarTarget ?? getLessonGrammarTarget() ?? content.grammarTarget ?? ''
+  );
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -54,10 +67,11 @@ export function GrammarCheckInActivity({
   const handleStart = useCallback(() => {
     setCurrentIndex(0);
     setVotes({ 0: {}, 1: {}, 2: {} });
-    setConfirmedTarget(content.grammarTarget ?? '');
+    setConfirmedTarget(sessionGrammarTarget ?? getLessonGrammarTarget() ?? content.grammarTarget ?? '');
     setPhase('rating');
     onPhaseChange?.('rating');
-  }, [content.grammarTarget, onPhaseChange]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionGrammarTarget, content.grammarTarget, onPhaseChange]);
 
   // Set input spec for current sentence
   useEffect(() => {

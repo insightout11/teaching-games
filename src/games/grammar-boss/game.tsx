@@ -45,14 +45,23 @@ interface RaceSolver {
   position: number;
 }
 
+function getLessonGrammarTarget(): GrammarTarget | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const stored = sessionStorage.getItem('lessonPlanContent');
+    if (!stored) return null;
+    const parsed = JSON.parse(stored) as { grammarTarget?: string };
+    return (parsed.grammarTarget as GrammarTarget) ?? null;
+  } catch { return null; }
+}
+
 export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(
-    sessionSettings.grammarTarget ?? GrammarTarget.PresentSimple
+    sessionSettings.grammarTarget ?? getLessonGrammarTarget() ?? GrammarTarget.PresentSimple
   );
 
-  // Sync dropdown when session grammarTarget becomes available after mount
-  // (guards against initSession timing where settings arrive after initial render)
+  // Sync if store updates after mount
   useEffect(() => {
     if (sessionSettings.grammarTarget && status === GameStatus.IDLE) {
       setSelectedTarget(sessionSettings.grammarTarget);
