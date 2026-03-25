@@ -47,11 +47,17 @@ export function ExploreClient() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('Intermediate');
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
 
-  // Read active session from localStorage on mount
+  // Read persisted settings + active session from localStorage on mount
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('lc-explore-session');
-      if (stored) setActiveSession(JSON.parse(stored));
+      const session = localStorage.getItem('lc-explore-session');
+      if (session) setActiveSession(JSON.parse(session));
+      const settings = localStorage.getItem('lc-explore-settings');
+      if (settings) {
+        const { topic, difficulty } = JSON.parse(settings);
+        if (topic !== undefined) setSelectedTopic(topic);
+        if (difficulty !== undefined) setSelectedDifficulty(difficulty);
+      }
     } catch {}
   }, []);
 
@@ -71,6 +77,7 @@ export function ExploreClient() {
 
   function writeAndNavigate(sessionId: string, directLaunch: boolean) {
     if (!launchItem) return;
+    localStorage.setItem('lc-explore-settings', JSON.stringify({ topic: selectedTopic, difficulty: selectedDifficulty }));
     sessionStorage.setItem(
       'lessonPlanContent',
       JSON.stringify({
