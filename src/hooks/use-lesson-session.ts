@@ -276,9 +276,6 @@ export function useLessonSession(
         scoringMode: content.scoringMode ?? goalToScoringMode(content.goal),
         ...(content.difficulty ? { difficulty: content.difficulty } : {}),
       });
-      if (content.grammarTarget) {
-        setGrammarTarget(content.grammarTarget);
-      }
       if (content.isMissionBased) {
         setIsMissionBased(true);
       }
@@ -299,7 +296,15 @@ export function useLessonSession(
         }
       }
     }
-  }, [setCustomTopic, setSettings, setGrammarTarget]);
+  }, [setCustomTopic, setSettings]);
+
+  // Apply grammarTarget from lesson plan AFTER initSession has run (initSession resets settings).
+  // This runs on the render where phase transitions to 'lobby', which is after the first effects flush.
+  useEffect(() => {
+    if (phase === 'lobby' && lessonPlanContent?.grammarTarget) {
+      setGrammarTarget(lessonPlanContent.grammarTarget as GrammarTarget);
+    }
+  }, [phase, lessonPlanContent, setGrammarTarget]);
 
   // ─── Mission rehydration from DB ───────────────────────────────────────
   useEffect(() => {
