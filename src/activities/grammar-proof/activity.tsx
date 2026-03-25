@@ -132,14 +132,17 @@ export function GrammarProofActivity({
     for (const score of scores) {
       const sub = submissionsRef.current[score.clientId];
       if (!sub) continue;
-      // Bonus points for standout label (participation point already awarded on submission)
-      if (score.suggestedLabel) {
+      // Bonus points based on score quality (participation point already awarded on submission)
+      const bonus = score.finalScore >= 70 ? 4 : score.finalScore >= 50 ? 2 : score.finalScore >= 30 ? 1 : 0;
+      const labelBonus = score.suggestedLabel ? 2 : 0;
+      const totalBonus = bonus + labelBonus;
+      if (totalBonus > 0) {
         onScore?.({
           studentId: sub.studentId ?? null,
           clientId: score.clientId,
           displayName: sub.displayName,
           promptIndex: 1,
-          points: 2,
+          points: totalBonus,
           isCorrect: null,
         });
       }
@@ -155,7 +158,11 @@ export function GrammarProofActivity({
   }, [onPhaseChange, onSetInputSpec]);
 
   const submissionCount = Object.keys(submissions).length;
-  const topScores = [...scores].sort((a, b) => b.finalScore - a.finalScore).slice(0, 3);
+  const sortedScores = [...scores].sort((a, b) => b.finalScore - a.finalScore);
+  const submittedClientIds = new Set(Object.keys(submissions));
+  const nonSubmitters = students.filter((s) => !Array.from(submittedClientIds).some(
+    (cid) => submissions[cid]?.displayName === s.name || submissions[cid]?.studentId === s.id
+  ));
 
   return (
     <div className="space-y-6">
@@ -221,41 +228,64 @@ export function GrammarProofActivity({
 
       {/* RESULTS */}
       {phase === 'results' && (
-        <div className="space-y-6">
-          {topScores.length > 0 && (
-            <div className="space-y-3">
-              <p className="text-sm font-semibold text-emerald-400">Standout responses</p>
-              {topScores.map((score) => {
-                const sub = submissions[score.clientId];
-                if (!sub) return null;
-                return (
-                  <div key={score.clientId} className="glass p-4 rounded-xl space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold">{sub.displayName}</span>
-                      {score.suggestedLabel && (
-                        <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">
-                          {score.suggestedLabel}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm opacity-80">&ldquo;{sub.text}&rdquo;</p>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+        <div className="space-y-4">
+          <p className="text-xs opacity-50 uppercase tracking-widest">{submissionCount} response{submissionCount !== 1 ? 's' : ''} evaluated</p>
 
-          <div className="glass p-4 rounded-xl space-y-2">
-            <p className="text-xs opacity-50 uppercase tracking-widest">All submissions</p>
-            <div className="space-y-2 max-h-48 overflow-y-auto">
-              {Object.entries(submissions).map(([clientId, sub]) => (
-                <div key={clientId} className="flex items-start gap-3 text-sm">
-                  <span className="opacity-50 shrink-0">{sub.displayName}</span>
-                  <span className="opacity-80">&ldquo;{sub.text}&rdquo;</span>
+          {/* Scored submissions */}
+          <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
+            {sortedScores.map((score) => {
+              const sub = submissions[score.clientId];
+              if (!sub) return null;
+              const usedGrammar = score.targetLanguage >= 0.4 || score.reasonTags?.includes('used_target_vocab');
+              const pct = score.finalScore;
+              const scoreColor = pct >= 70 ? 'text-emerald-400' : pct >= 45 ? 'text-yellow-400' : 'text-rose-400';
+              const barColor = pct >= 70 ? 'bg-emerald-500' : pct >= 45 ? 'bg-yellow-500' : 'bg-rose-500';
+              return (
+                <div key={score.clientId} className="glass p-4 rounded-xl space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-semibold text-sm">{sub.displayName}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      {usedGrammar ? (
+                        <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full">Grammar ✓</span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-full">Grammar?</span>
+                      )}
+                      {score.suggestedLabel && (
+                        <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full">{score.suggestedLabel}</span>
+                      )}
+                      <span className={`text-sm font-bold tabular-nums ${scoreColor}`}>{pct}/100</span>
+                    </div>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-1.5">
+                    <div className={`h-full rounded-full transition-all duration-500 ${barColor}`} style={{ width: `${pct}%` }} />
+                  </div>
+                  <p className="text-sm opacity-80 italic">&ldquo;{sub.text}&rdquo;</p>
+                </div>
+              );
+            })}
+
+            {/* Submissions with no AI score (fallback display) */}
+            {Object.entries(submissions)
+              .filter(([cid]) => !scores.find((s) => s.clientId === cid))
+              .map(([cid, sub]) => (
+                <div key={cid} className="glass p-4 rounded-xl space-y-2 opacity-70">
+                  <span className="font-semibold text-sm">{sub.displayName}</span>
+                  <p className="text-sm italic">&ldquo;{sub.text}&rdquo;</p>
                 </div>
               ))}
-            </div>
           </div>
+
+          {/* Did not submit */}
+          {nonSubmitters.length > 0 && (
+            <div className="glass p-3 rounded-xl">
+              <p className="text-xs opacity-40 uppercase tracking-widest mb-2">Did not submit</p>
+              <div className="flex flex-wrap gap-2">
+                {nonSubmitters.map((s) => (
+                  <span key={s.id} className="text-xs px-2 py-1 bg-white/5 rounded-full opacity-50">{s.name}</span>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="flex justify-end">
             <button
