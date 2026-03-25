@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Modal } from '@/components/ui/modal';
@@ -31,7 +30,6 @@ function getStageBadge(stage: string | undefined) {
 export function ExploreClient() {
   const games: GamePlugin[] = getAllGames();
   const activities: ActivityPlugin[] = getAllActivities();
-  const router = useRouter();
   const [filter, setFilter] = useState<FilterTab>('all');
   const [pppFilter, setPppFilter] = useState<PppFilter>('all');
   const [launchItem, setLaunchItem] = useState<{ name: string; key: string; type: 'game' | 'activity' } | null>(null);
