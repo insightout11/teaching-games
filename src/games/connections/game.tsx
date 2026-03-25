@@ -44,7 +44,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   const toggleReveal = useCallback((category: string) => {
     setRevealedCategories((prev) => {
       const next = new Set(prev);
-      next.has(category) ? next.delete(category) : next.add(category);
+      if (next.has(category)) { next.delete(category); } else { next.add(category); }
       return next;
     });
   }, []);
