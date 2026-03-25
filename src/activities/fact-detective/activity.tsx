@@ -7,7 +7,6 @@ import { ActivityStatus, type Vote, type FactDetectiveContent, type FactDetectiv
 import { VocabPill } from '@/components/ui/vocab-pill';
 
 export function FactDetectiveActivity({
-  students,
   generatedContent,
   onPhaseChange,
   customTopic,
@@ -79,16 +78,6 @@ export function FactDetectiveActivity({
     setVotes([]);
     onPhaseChange?.('voting');
   }, [onPhaseChange]);
-
-  const recordVote = useCallback((studentId: string, believesTrue: boolean) => {
-    const student = students.find((s) => s.id === studentId);
-    if (!student) return;
-
-    setVotes((prev) => {
-      const filtered = prev.filter((v) => v.studentId !== studentId);
-      return [...filtered, { studentId, studentName: student.name, believesTrue }];
-    });
-  }, [students]);
 
   const revealTruth = useCallback(() => {
     if (!currentClaim) return;
@@ -246,40 +235,6 @@ export function FactDetectiveActivity({
               <p className="text-red-400 font-bold mb-2">FALSE</p>
               <p className="text-4xl font-game text-red-400 mb-2">{voteStats.falseCount}</p>
               <p className="text-xs opacity-60">{voteStats.falseVoters.join(', ') || 'No votes'}</p>
-            </div>
-          </div>
-
-          <div className="glass p-4 rounded-xl">
-            <p className="text-sm font-bold mb-3 opacity-70">Record votes:</p>
-            <div className="flex flex-wrap gap-2">
-              {students.map((student) => {
-                const existingVote = votes.find((v) => v.studentId === student.id);
-                return (
-                  <div key={student.id} className="flex items-center gap-1">
-                    <span className="text-xs opacity-70 mr-1">{student.name}:</span>
-                    <button
-                      onClick={() => recordVote(student.id, true)}
-                      className={`px-2 py-1 text-xs rounded transition-all ${
-                        existingVote?.believesTrue === true
-                          ? 'bg-green-500 text-white'
-                          : 'bg-white/10 hover:bg-green-500/30'
-                      }`}
-                    >
-                      T
-                    </button>
-                    <button
-                      onClick={() => recordVote(student.id, false)}
-                      className={`px-2 py-1 text-xs rounded transition-all ${
-                        existingVote?.believesTrue === false
-                          ? 'bg-red-500 text-white'
-                          : 'bg-white/10 hover:bg-red-500/30'
-                      }`}
-                    >
-                      F
-                    </button>
-                  </div>
-                );
-              })}
             </div>
           </div>
 
