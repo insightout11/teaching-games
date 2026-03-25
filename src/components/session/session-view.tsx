@@ -398,7 +398,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── LOBBY VIEW ──────────────────────────────────────────────────────────
   if (lesson.phase === 'lobby') {
     const joinUrl = `${window.location.origin}/join/${session.id}`;
-    const joinCode = session.id.slice(0, 6).toUpperCase();
 
     return (
       <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
@@ -426,10 +425,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 >
                   {joinLinkCopied ? 'Copied!' : 'Copy'}
                 </button>
-              </div>
-              <div>
-                <p className="text-xs opacity-50 uppercase tracking-wider font-semibold mb-1">Join Code</p>
-                <span className="text-3xl font-mono font-bold tracking-[0.3em] text-lc-blue">{joinCode}</span>
               </div>
             </div>
           </div>
