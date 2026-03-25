@@ -50,6 +50,15 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(
     sessionSettings.grammarTarget ?? GrammarTarget.PresentSimple
   );
+
+  // Sync dropdown when session grammarTarget becomes available after mount
+  // (guards against initSession timing where settings arrive after initial render)
+  useEffect(() => {
+    if (sessionSettings.grammarTarget && status === GameStatus.IDLE) {
+      setSelectedTarget(sessionSettings.grammarTarget);
+    }
+  }, [sessionSettings.grammarTarget, status]);
+
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
   const [studentSentence, setStudentSentence] = useState('');
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
