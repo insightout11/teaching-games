@@ -55,6 +55,10 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   studentsRef.current = students;
   // Maps clientId → displayName for remote (non-roster) students in simultaneous mode
   const clientInfoRef = useRef(new Map<string, string>());
+  // Maps clientId → studentId — populated from the initial score INSERT (written by submit API)
+  // which always has both client_id and student_id. Used in handleScore to resolve student identity
+  // reliably instead of depending on fragile display-name matching.
+  const clientToStudentRef = useRef(new Map<string, string>());
 
   const GameComponent = game.component;
   const sessionSettings = useMemo(
@@ -95,6 +99,10 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
           // Cache display name for non-roster (remote) students so handleScore can use it
           if (score.client_id && score.display_name) {
             clientInfoRef.current.set(score.client_id, score.display_name);
+          }
+          // Cache clientId → studentId from the initial submit-API score (which has both set)
+          if (score.client_id && score.student_id) {
+            clientToStudentRef.current.set(score.client_id, score.student_id);
           }
           if (responseData?.type === 'remote_vote' && responseData?.gameKey === game.key) {
             // Call the registered vote handler
@@ -155,19 +163,28 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
       clientIdField = null;
       displayNameField = null;
     } else {
-      const displayName = clientInfoRef.current.get(studentId) ?? null;
-      const rosterMatch = displayName
-        ? studentsRef.current.find((s) => s.name === displayName) ?? null
-        : null;
-      if (rosterMatch) {
-        // Matched to a roster student by name — attribute score to them directly
-        studentIdField = rosterMatch.id;
+      // studentId is actually a clientId for remote students.
+      // First try: resolve via the clientId → studentId cache (most reliable).
+      const resolvedStudentId = clientToStudentRef.current.get(studentId);
+      if (resolvedStudentId && studentsRef.current.some((s) => s.id === resolvedStudentId)) {
+        studentIdField = resolvedStudentId;
         clientIdField = null;
         displayNameField = null;
       } else {
-        studentIdField = null;
-        clientIdField = studentId;
-        displayNameField = displayName;
+        // Fall back to display-name matching
+        const displayName = clientInfoRef.current.get(studentId) ?? null;
+        const rosterMatch = displayName
+          ? studentsRef.current.find((s) => s.name === displayName) ?? null
+          : null;
+        if (rosterMatch) {
+          studentIdField = rosterMatch.id;
+          clientIdField = null;
+          displayNameField = null;
+        } else {
+          studentIdField = null;
+          clientIdField = studentId;
+          displayNameField = displayName;
+        }
       }
     }
 

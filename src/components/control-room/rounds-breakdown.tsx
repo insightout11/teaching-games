@@ -15,9 +15,19 @@ function prettyGameName(gameType: string): string {
     .join(' ');
 }
 
+const TOP_ACCURACY_THRESHOLD = 80;
+
+function accuracyColor(accuracy: number | null): string {
+  if (accuracy === null) return 'text-lc-text3';
+  if (accuracy >= TOP_ACCURACY_THRESHOLD) return 'text-lc-success';
+  if (accuracy >= 50) return 'text-lc-text2';
+  return 'text-lc-text3';
+}
+
 interface RoundsBreakdownRow {
   gameType: string;
   rounds: number;
+  accuracy?: number | null;
 }
 
 interface RoundsBreakdownProps {
@@ -38,14 +48,19 @@ export function RoundsBreakdown({ rows }: RoundsBreakdownProps) {
     <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
       <h2 className="font-semibold text-lc-text mb-4">Games Played</h2>
       <div className="space-y-2">
-        {rows.map(({ gameType, rounds }) => {
+        {rows.map(({ gameType, rounds, accuracy }) => {
           const cap = FREE_ROUNDS_PER_SESSION[gameType] ?? null;
           const capReached = cap !== null && rounds >= cap;
 
           return (
             <div key={gameType} className="flex items-center justify-between">
               <span className="text-sm text-lc-text">{prettyGameName(gameType)}</span>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
+                {accuracy !== null && accuracy !== undefined && (
+                  <span className={`text-sm font-semibold ${accuracyColor(accuracy)}`}>
+                    {accuracy}%
+                  </span>
+                )}
                 <span className="text-sm text-lc-text3">
                   {rounds} {rounds === 1 ? 'round' : 'rounds'}
                   {cap !== null && <span className="text-lc-text3"> / {cap} free</span>}

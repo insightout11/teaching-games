@@ -84,7 +84,10 @@ export default async function ControlRoomPage({
 
   // Participation + per-student accuracy
   const participationRows = allStudents.map(student => {
-    const studentScores = allScores.filter(s => s.student_id === student.id);
+    const studentScores = allScores.filter(
+      s => s.student_id === student.id ||
+           (!s.student_id && s.display_name === student.name)
+    );
     const uniquePromptIndices = new Set(
       studentScores.filter(s => s.prompt_index != null).map(s => s.prompt_index!)
     );
@@ -104,8 +107,27 @@ export default async function ControlRoomPage({
     const prev = roundCountMap.get(r.game_type) ?? 0;
     if (r.round_number > prev) roundCountMap.set(r.game_type, r.round_number);
   }
+
+  // Per-game accuracy — derived from response_data.gameKey on existing scores
+  const gameAccuracyMap = new Map<string, { correct: number; total: number }>();
+  for (const score of allScores) {
+    const gameKey = (score.response_data as Record<string, unknown>)?.gameKey as string | undefined;
+    if (!gameKey || score.is_correct == null) continue;
+    const entry = gameAccuracyMap.get(gameKey) ?? { correct: 0, total: 0 };
+    entry.total++;
+    if (score.is_correct) entry.correct++;
+    gameAccuracyMap.set(gameKey, entry);
+  }
+
   const roundsBreakdownRows = Array.from(roundCountMap.entries())
-    .map(([gameType, roundCount]) => ({ gameType, rounds: roundCount }))
+    .map(([gameType, roundCount]) => {
+      const acc = gameAccuracyMap.get(gameType);
+      return {
+        gameType,
+        rounds: roundCount,
+        accuracy: acc && acc.total > 0 ? Math.round((acc.correct / acc.total) * 100) : null,
+      };
+    })
     .sort((a, b) => a.gameType.localeCompare(b.gameType));
 
   // Leaderboard with computed accuracy
