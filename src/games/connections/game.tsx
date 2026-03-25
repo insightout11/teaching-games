@@ -39,6 +39,16 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   const [feedback, setFeedback] = useState<string | null>(null);
   const [shakeWords, setShakeWords] = useState<string[]>([]);
 
+  // Revealed categories in results (click-to-reveal)
+  const [revealedCategories, setRevealedCategories] = useState<Set<string>>(new Set());
+  const toggleReveal = useCallback((category: string) => {
+    setRevealedCategories((prev) => {
+      const next = new Set(prev);
+      next.has(category) ? next.delete(category) : next.add(category);
+      return next;
+    });
+  }, []);
+
   // Simultaneous race mode
   const isSimultaneous = students.length >= 3;
   const [racePlayers, setRacePlayers] = useState<RacePlayer[]>([]);
@@ -447,6 +457,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
     setFeedback(null);
     setRacePlayers([]);
     setRaceComplete(false);
+    setRevealedCategories(new Set());
     setStatus(GameStatus.IDLE);
     if (!isSimultaneous) onPickStudent();
   };
@@ -664,16 +675,24 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
 
             {/* Show solution */}
             <div className="space-y-2">
-              <p className="text-sm text-center opacity-60 mb-2">The groups were:</p>
-              {challenge.groups.map((group) => (
-                <div
-                  key={group.category}
-                  className={`${GROUP_COLORS[group.color].bg} ${GROUP_COLORS[group.color].text} p-3 rounded-xl text-center`}
-                >
-                  <p className="font-bold text-sm uppercase tracking-wider">{group.category}</p>
-                  <p className="text-sm">{group.words.join(', ')}</p>
-                </div>
-              ))}
+              <p className="text-sm text-center opacity-60 mb-2">The groups were: <span className="italic">(tap a group to reveal its connection)</span></p>
+              {challenge.groups.map((group) => {
+                const revealed = revealedCategories.has(group.category);
+                return (
+                  <button
+                    key={group.category}
+                    onClick={() => toggleReveal(group.category)}
+                    className={`w-full ${GROUP_COLORS[group.color].bg} ${GROUP_COLORS[group.color].text} p-3 rounded-xl text-center transition-all hover:brightness-110 active:scale-[0.98]`}
+                  >
+                    {revealed ? (
+                      <p className="font-bold text-sm uppercase tracking-wider">{group.category}</p>
+                    ) : (
+                      <p className="font-bold text-sm uppercase tracking-wider opacity-40">? ? ?</p>
+                    )}
+                    <p className="text-sm">{group.words.join(', ')}</p>
+                  </button>
+                );
+              })}
             </div>
 
             <button
@@ -926,22 +945,30 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
           </div>
 
           <div className="space-y-2">
-            <p className="text-sm text-center opacity-60 mb-2">The groups were:</p>
+            <p className="text-sm text-center opacity-60 mb-2">The groups were: <span className="italic">(tap a group to reveal its connection)</span></p>
             {challenge.groups.map((group) => {
               const wasFound = foundGroups.some(fg => fg.category === group.category);
+              const revealed = revealedCategories.has(group.category);
               return (
-                <div
+                <button
                   key={group.category}
-                  className={`${GROUP_COLORS[group.color].bg} ${GROUP_COLORS[group.color].text} p-3 rounded-xl text-center ${
+                  onClick={() => toggleReveal(group.category)}
+                  className={`w-full ${GROUP_COLORS[group.color].bg} ${GROUP_COLORS[group.color].text} p-3 rounded-xl text-center transition-all hover:brightness-110 active:scale-[0.98] ${
                     !wasFound ? 'opacity-75' : ''
                   }`}
                 >
-                  <p className="font-bold text-sm uppercase tracking-wider">
-                    {group.category}
-                    {wasFound && ' ✓'}
-                  </p>
+                  {revealed ? (
+                    <p className="font-bold text-sm uppercase tracking-wider">
+                      {group.category}
+                      {wasFound && ' ✓'}
+                    </p>
+                  ) : (
+                    <p className="font-bold text-sm uppercase tracking-wider opacity-40">
+                      ? ? ?{wasFound && ' ✓'}
+                    </p>
+                  )}
                   <p className="text-sm">{group.words.join(', ')}</p>
-                </div>
+                </button>
               );
             })}
           </div>
