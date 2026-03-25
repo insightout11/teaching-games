@@ -412,7 +412,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         <div className="max-w-3xl mx-auto space-y-6 pt-8">
           {/* Header */}
           <div className="text-center space-y-2">
-            <h1 className="text-2xl font-bold text-lc-text">Launch Lobby</h1>
+            <h1 className="text-2xl font-bold text-lc-text">
+              {lesson.lessonSlots.length === 1 ? `Ready to play ${lesson.lessonSlots[0].name}` : 'Launch Lobby'}
+            </h1>
             <p className="text-sm text-lc-text2">
               {lesson.customTopic}
               {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission Lesson</span>}
