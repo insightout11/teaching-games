@@ -4,40 +4,28 @@ import { motion } from 'framer-motion';
 
 const PRESETS = [
   {
-    name: 'Vocab Blitz',
-    description: 'Vocabulary-first with game-based reinforcement',
-    bestFor: 'Lexical classes, review days',
-    duration: '45 min',
-  },
-  {
-    name: 'Grammar Clinic',
-    description: 'Sentence-level accuracy with writing-heavy games',
-    bestFor: 'Grammar focus, error correction',
-    duration: '45 min',
-  },
-  {
-    name: 'Speaking Circle',
-    description: 'High speaking load, confidence-building sequence',
-    bestFor: 'Conversation classes, fluency work',
-    duration: '60 min',
-  },
-  {
-    name: 'Debate Ready',
-    description: 'Opinion formation, structured argument, vote-and-discuss',
-    bestFor: 'Advanced classes, discussion practice',
-    duration: '60 min',
-  },
-  {
-    name: 'Creative Sprint',
-    description: 'Open-ended expression with story-driven production',
-    bestFor: 'Writing focus, creative output',
-    duration: '60 min',
-  },
-  {
     name: 'Game Day',
-    description: 'Pure competitive fun — 5 back-to-back games, running scoreboard',
-    bestFor: 'Review sessions, engagement days',
-    duration: '60 min',
+    description: '45 minutes of high-energy classroom games.',
+  },
+  {
+    name: 'Talk More',
+    description: 'A speaking-focused lesson that gets students using English more.',
+  },
+  {
+    name: 'Last 15 Minutes',
+    description: 'Strong closing activities when time is short.',
+  },
+  {
+    name: 'No One Hides',
+    description: 'Participation structures that bring every student into the lesson.',
+  },
+  {
+    name: 'Review That Sticks',
+    description: 'Active review activities that reinforce learning.',
+  },
+  {
+    name: 'Wake-Up Mode',
+    description: 'Fast starters and energizers that get everyone involved early.',
   },
 ];
 
@@ -75,17 +63,8 @@ export function PresetsSection() {
               whileHover={{ y: -3, boxShadow: '0 8px 30px rgba(77,163,255,0.08)' }}
               className="rounded-xl border border-lc-border bg-lc-card p-5 flex flex-col gap-3"
             >
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="text-base font-bold text-lc-text">{preset.name}</h3>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-lc-surface text-lc-text3 font-medium flex-shrink-0">
-                  {preset.duration}
-                </span>
-              </div>
+              <h3 className="text-base font-bold text-lc-text">{preset.name}</h3>
               <p className="text-sm text-lc-text2 leading-relaxed">{preset.description}</p>
-              <p className="text-xs text-lc-text3">
-                <span className="font-semibold text-lc-text3">Best for:</span>{' '}
-                {preset.bestFor}
-              </p>
             </motion.div>
           ))}
         </div>

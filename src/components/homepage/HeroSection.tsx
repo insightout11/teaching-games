@@ -76,7 +76,7 @@ export function HeroSection() {
               Live Classroom Platform
             </span>
             <h1 className="text-4xl sm:text-5xl font-bold text-lc-text leading-tight">
-              The live classroom platform for ESL teachers
+              Build and run a live lesson in seconds — with energy, structure, and built-in activities.
             </h1>
           </motion.div>
 
@@ -87,8 +87,7 @@ export function HeroSection() {
             className="flex flex-col gap-5"
           >
             <p className="text-lg text-lc-text2 leading-relaxed">
-              Build a structured lesson in minutes. Run it live with games, activities,
-              and instant student engagement — all from one screen.
+              LessonCaptain helps online ESL teachers launch live lessons fast. Start with a preset or generate a lesson flow, then run the class with built-in activities, live scoring, and structure that keeps students involved.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>

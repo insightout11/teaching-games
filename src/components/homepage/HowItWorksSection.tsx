@@ -9,21 +9,21 @@ const STEPS = [
     number: '01',
     title: 'Pick a goal',
     description:
-      'Choose from speaking, grammar, vocabulary, debate, or creativity. LessonCaptain builds the lesson structure around it.',
+      'Choose the outcome you want, your class level, topic, and time.',
   },
   {
     icon: Layers,
     number: '02',
     title: 'Get a lesson',
     description:
-      'A complete Flight Plan is generated — sequenced activities and games, pacing chips, your topic applied throughout.',
+      'LessonCaptain builds a clear lesson flow with activities ready to run.',
   },
   {
     icon: Zap,
     number: '03',
     title: 'Teach',
     description:
-      'Students join on their phones. Real-time responses, live leaderboard, full engagement from the first minute.',
+      'Run the class with built-in structure, scoring, and momentum.',
   },
 ];
 

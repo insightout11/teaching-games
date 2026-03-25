@@ -45,8 +45,7 @@ export function TestFlightSection() {
             </h2>
 
             <p className="text-lc-text2 max-w-md leading-relaxed">
-              Get free credits to run a complete live session — your topic, your class, a real lesson.
-              No commitment, no credit card.
+              Each Test Flight lets you run a full live session. Start with a preset or generate a custom lesson, then run it in class.
             </p>
 
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
@@ -59,7 +58,7 @@ export function TestFlightSection() {
             </motion.div>
 
             <p className="text-xs text-lc-text3">
-              Run a real live session with a preset or a custom lesson.
+              Verify your email to unlock your first credit.
             </p>
           </div>
         </motion.div>
