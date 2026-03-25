@@ -3,6 +3,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
+import type { GoalTag } from '@/lib/flight-plan-config';
+import { DIFFICULTIES } from '@/lib/difficulty';
+import type { Difficulty } from '@/lib/difficulty';
 import { FlightPathSVG } from './flight-path-svg';
 import { createClient } from '@/lib/supabase/client';
 import { ArrowLeft, CheckCircle2, Loader2, Plus, Rocket, Users } from 'lucide-react';
@@ -20,6 +23,8 @@ export function ReviewLaunchScreen() {
     setSelectedClassId,
     setStep,
     launchLesson,
+    setDifficulty,
+    setGoals,
   } = usePlannerStore();
 
   const [classes, setClasses] = useState<TeacherClass[]>([]);
@@ -150,15 +155,36 @@ export function ReviewLaunchScreen() {
             <div className="space-y-2 text-sm">
               <Row label="Topic" value={topic} />
               <Row label="Duration" value={`${lessonDurationMinutes} min`} />
-              <Row
-                label="Goals"
-                value={
-                  goals.length > 0
-                    ? goals.map((g) => GOAL_LABELS[g]).join(', ')
-                    : 'Default'
-                }
-              />
-              <Row label="Difficulty" value={difficulty} />
+              <div className="flex justify-between items-center">
+                <span className="text-lc-text3">Goals</span>
+                <select
+                  value={goals[0] ?? ''}
+                  onChange={(e) => setGoals([e.target.value as GoalTag])}
+                  className="bg-lc-surface border border-lc-border rounded-md px-2 py-1 text-xs font-medium text-lc-text outline-none cursor-pointer"
+                >
+                  {(Object.entries(GOAL_LABELS) as [GoalTag, string][]).map(([key, label]) => (
+                    <option key={key} value={key}>{label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-lc-text3">Difficulty</span>
+                <div className="flex gap-1.5">
+                  {DIFFICULTIES.map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDifficulty(d as Difficulty)}
+                      className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
+                        difficulty === d
+                          ? 'bg-lc-blue text-white'
+                          : 'bg-lc-surface border border-lc-border text-lc-text2 hover:border-lc-blue/50'
+                      }`}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <Row label="Modules" value={String(modules.length)} />
             </div>
           </div>
