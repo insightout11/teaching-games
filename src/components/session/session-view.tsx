@@ -110,8 +110,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // this fires when a Standard user clicks a Pro game that doesn't go through generate.
   const [showProGate, setShowProGate] = useState(false);
   const supabase = createClient();
-  const games = getAllGames();
-  const activities = getAllActivities();
+  const games = getAllGames().filter((g) => !g.flightPlanOnly);
+  const activities = getAllActivities().filter((a) => !a.flightPlanOnly);
 
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length);
