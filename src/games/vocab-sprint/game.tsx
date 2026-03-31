@@ -94,6 +94,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     }
   }, [isSimultaneous, status, currentSentence, raceFinished, onSetInputSpec]);
 
+  // Track in-flight evaluate calls to prevent duplicate concurrent requests for the same student
+  const inFlightRef = useRef(new Set<string>());
+
   // Handle race submissions from remote students
   const handleRaceSubmission = useCallback(async (vote: GameRemoteVote) => {
     if (raceFinishedRef.current) return;
@@ -108,12 +111,11 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     const replacement = vote.choice?.trim();
     if (!replacement) return;
 
-    // Prevent duplicate submissions
-    setRaceSolvers(prev => {
-      if (prev.some(s => s.studentId === studentId)) return prev;
-      return prev; // Will be updated after evaluation
-    });
+    // Prevent duplicate concurrent evaluate calls for the same student
+    if (inFlightRef.current.has(studentId)) return;
+    inFlightRef.current.add(studentId);
 
+    let result: EvaluationResult;
     try {
       const response = await fetch('/api/vocab-sprint/evaluate', {
         method: 'POST',
@@ -126,46 +128,52 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         }),
       });
 
-      if (!response.ok) return;
+      if (!response.ok) {
+        console.warn('[VocabSprint] evaluate API returned', response.status, '— using fallback score');
+        result = { score: 5, comment: '✓', isValid: true, suggestions: [] };
+      } else {
+        result = await response.json() as EvaluationResult;
+      }
+    } catch (err) {
+      console.warn('[VocabSprint] evaluate API failed:', err, '— using fallback score');
+      result = { score: 5, comment: '✓', isValid: true, suggestions: [] };
+    } finally {
+      inFlightRef.current.delete(studentId);
+    }
 
-      const result: EvaluationResult = await response.json();
+    setRaceSolvers(prev => {
+      if (prev.some(s => s.studentId === studentId)) return prev;
 
-      setRaceSolvers(prev => {
-        if (prev.some(s => s.studentId === studentId)) return prev;
+      const position = prev.length + 1;
 
-        const position = prev.length + 1;
-
-        onScore(studentId, {
-          isCorrect: result.score >= 5,
-          points: result.score,
-          responseData: {
-            replacement,
-            score: result.score,
-            comment: result.comment,
-            position,
-          },
-        });
-
-        try {
-          const audio = new Audio(result.score >= 5 ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
-          audio.volume = 0.5;
-          audio.play().catch(() => {});
-        } catch {}
-
-        return [...prev, {
-          studentId,
-          displayName: vote.displayName,
+      onScore(studentId, {
+        isCorrect: result.score >= 5,
+        points: result.score,
+        responseData: {
           replacement,
           score: result.score,
           comment: result.comment,
-          suggestions: result.suggestions || [],
-          isValid: result.isValid ?? (result.score >= 5),
           position,
-        }];
+        },
       });
-    } catch (err) {
-      console.error('Race evaluation failed:', err);
-    }
+
+      try {
+        const audio = new Audio(result.score >= 5 ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
+        audio.volume = 0.5;
+        audio.play().catch(() => {});
+      } catch {}
+
+      return [...prev, {
+        studentId,
+        displayName: vote.displayName,
+        replacement,
+        score: result.score,
+        comment: result.comment,
+        suggestions: result.suggestions || [],
+        isValid: result.isValid ?? (result.score >= 5),
+        position,
+      }];
+    });
   }, [sessionSettings.difficulty, onScore]);
 
   // Register remote vote handler
@@ -301,6 +309,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     setEvaluation(null);
     setRaceSolvers([]);
     setRaceFinished(false);
+    inFlightRef.current.clear();
     setReviewIndex(-1);
     setReviewShowSuggestions(false);
 
