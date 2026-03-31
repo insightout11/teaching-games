@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Clock } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin } from '@/games/types';
@@ -35,6 +36,21 @@ interface Class {
 interface ActiveSession {
   sessionId: string;
   className: string;
+}
+
+const CATEGORY_ACCENT: Record<string, string> = {
+  vocabulary: 'border-l-amber-500/50',
+  'grammar-writing': 'border-l-sky-500/50',
+  'logic-puzzles': 'border-l-emerald-500/50',
+  icebreaker: 'border-l-violet-500/50',
+  learning: 'border-l-teal-500/50',
+  practice: 'border-l-sky-500/50',
+  debate: 'border-l-rose-500/50',
+  closing: 'border-l-indigo-500/50',
+};
+
+function getCategoryAccent(cat: string): string {
+  return CATEGORY_ACCENT[cat] ?? 'border-l-lc-border';
 }
 
 function getStageBadge(stage: string | undefined) {
@@ -156,7 +172,7 @@ export function ExploreClient() {
     <div className="hud-bg -mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-lc-text">Explore</h1>
-        <p className="text-lc-text2 mt-1">Run a game or activity with your class</p>
+        <p className="text-lc-text2 mt-1">✈ Run a game or activity with your class</p>
       </div>
 
       {/* Type filter tabs */}
@@ -231,7 +247,7 @@ export function ExploreClient() {
                     <button
                       key={game.key}
                       onClick={() => setLaunchItem({ name: game.name, key: game.key, type: 'game' })}
-                      className="panel-card p-6 text-left transition-all w-full"
+                      className={cn('panel-card border-l-2 p-6 text-left transition-all w-full', getCategoryAccent(cat))}
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <GameIcon className={`w-5 h-5 ${info.color}`} />
@@ -244,8 +260,9 @@ export function ExploreClient() {
                           <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">{skill}</span>
                         ))}
                       </div>
-                      <div className="mt-3">
-                        <span className="text-xs opacity-50">~{game.estimatedMinutes} min</span>
+                      <div className="mt-3 flex items-center gap-1">
+                        <Clock className="w-3 h-3 opacity-40" />
+                        <span className="text-xs opacity-50">{game.estimatedMinutes} min</span>
                       </div>
                     </button>
                   );
@@ -279,7 +296,7 @@ export function ExploreClient() {
                     <button
                       key={activity.key}
                       onClick={() => setLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
-                      className="panel-card p-6 text-left transition-all w-full"
+                      className={cn('panel-card border-l-2 p-6 text-left transition-all w-full', getCategoryAccent(cat))}
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <ActivityIcon className={`w-5 h-5 ${info.color}`} />
@@ -292,8 +309,9 @@ export function ExploreClient() {
                           <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">{skill}</span>
                         ))}
                       </div>
-                      <div className="mt-3">
-                        <span className="text-xs opacity-50">~{activity.estimatedMinutes} min</span>
+                      <div className="mt-3 flex items-center gap-1">
+                        <Clock className="w-3 h-3 opacity-40" />
+                        <span className="text-xs opacity-50">{activity.estimatedMinutes} min</span>
                       </div>
                     </button>
                   );

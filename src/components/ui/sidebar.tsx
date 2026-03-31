@@ -10,7 +10,7 @@ import { isMockMode } from '@/lib/mock/auth';
 import type { User } from '@supabase/supabase-js';
 import { CreditBadge } from './credit-badge';
 import { ThemeToggle } from './theme-toggle';
-import { Compass, GraduationCap, Route } from 'lucide-react';
+import { Compass, GraduationCap, Plane } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import type { ComponentType } from 'react';
 
@@ -25,7 +25,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { href: '/explore',        label: 'Explore',      icon: Compass,       subtitle: null,               exact: false },
   { href: '/classes',        label: 'Classes',       icon: GraduationCap, subtitle: null,               exact: false },
-  { href: '/lesson-planner', label: 'Flight Plans',  icon: Route,         subtitle: 'Lesson sequences', exact: false },
+  { href: '/lesson-planner', label: 'Flight Plans',  icon: Plane,         subtitle: 'Lesson sequences', exact: false },
 ];
 
 export function Sidebar({ user }: { user: User }) {
@@ -78,8 +78,8 @@ export function Sidebar({ user }: { user: User }) {
               className={cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-lc-blue/10 text-lc-blue'
-                  : 'text-lc-text3 hover:bg-lc-card hover:text-lc-text'
+                  ? 'bg-lc-blue/10 text-lc-blue border-l-2 border-lc-blue'
+                  : 'text-lc-text3 hover:bg-lc-card hover:text-lc-text border-l-2 border-transparent'
               )}
             >
               <item.icon className="w-4 h-4 shrink-0" />
@@ -96,7 +96,7 @@ export function Sidebar({ user }: { user: User }) {
 
       <div className="p-4 border-t border-lc-border-subtle">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-8 h-8 rounded-full bg-lc-blue/15 flex items-center justify-center text-lc-blue text-sm font-medium">
+          <div className="w-8 h-8 rounded-full bg-lc-amber/15 flex items-center justify-center text-lc-amber text-sm font-medium">
             {user.email?.[0]?.toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">

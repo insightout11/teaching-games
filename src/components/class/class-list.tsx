@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { Class } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Modal } from '@/components/ui/modal';
 import Link from 'next/link';
+import { Radio } from 'lucide-react';
 
 export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
   const [classes, setClasses] = useState(initialClasses);
@@ -45,16 +45,17 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
 
       {classes.length === 0 ? (
         <div className="text-center py-16 text-lc-text3">
-          <p className="text-lg">No classes yet</p>
-          <p className="text-sm mt-1">Create your first class to get started</p>
+          <p className="text-lg">Your hangar is empty.</p>
+          <p className="text-sm mt-1">Create your first class to get started.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {classes.map((cls) => (
             <div key={cls.id} className="relative">
               <Link href={`/classes/${cls.id}`} className="block">
-                <Card className="hover:border-lc-blue/30 transition-colors cursor-pointer group">
-                  <div className="flex items-center justify-between">
+                <div className="panel-card p-6 cursor-pointer group">
+                  <div className="flex items-center gap-2">
+                    <Radio className="w-4 h-4 text-lc-text3 shrink-0" />
                     <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
                       {cls.name}
                     </h3>
@@ -63,7 +64,7 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
                     Created {new Date(cls.created_at).toLocaleDateString()}
                   </p>
                   <div className="mt-4 h-7" />
-                </Card>
+                </div>
               </Link>
               <Link
                 href={`/classes/${cls.id}/control-room`}

@@ -19,10 +19,11 @@ export function PlannerStepIndicator({ current }: { current: PlannerStep }) {
         return (
           <div key={step.key} className="flex items-center gap-3">
             <div className="flex items-center gap-2">
+              {/* Diamond marker — rotate a square 45° */}
               <div
-                className={`w-3 h-3 rounded-full transition-all ${
+                className={`w-2.5 h-2.5 rotate-45 transition-all ${
                   isActive
-                    ? 'bg-lc-blue scale-125 ring-2 ring-lc-blue/30'
+                    ? 'bg-lc-blue scale-125 ring-4 ring-lc-blue/20'
                     : isDone
                       ? 'bg-lc-success'
                       : 'bg-lc-border'
@@ -37,7 +38,7 @@ export function PlannerStepIndicator({ current }: { current: PlannerStep }) {
               </span>
             </div>
             {i < STEPS.length - 1 && (
-              <div className={`w-8 h-px ${isDone ? 'bg-lc-success' : 'bg-lc-border'}`} />
+              <div className={`w-10 border-t border-dashed ${isDone ? 'border-lc-success' : 'border-lc-border'}`} />
             )}
           </div>
         );
