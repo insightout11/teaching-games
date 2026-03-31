@@ -150,15 +150,15 @@ export default async function ControlRoomPage({
     <div className="max-w-5xl space-y-6">
       {/* Header */}
       <div>
-        <Link href={`/classes/${params.classId}`} className="inline-flex items-center gap-1 text-sm text-lc-text3 hover:text-lc-blue transition-colors mb-3">
-          ← {cls.name}
+        <Link href={`/classes/${params.classId}/control-room`} className="inline-flex items-center gap-1 text-sm text-lc-text3 hover:text-lc-blue transition-colors mb-3">
+          ← Control Room
         </Link>
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-xs font-semibold uppercase tracking-widest text-lc-blue">Control Room</span>
+              <span className="text-xs font-semibold uppercase tracking-widest text-lc-blue">Debrief</span>
             </div>
-            <h1 className="text-2xl font-bold text-lc-text">Flight Debrief</h1>
+            <h1 className="text-2xl font-bold text-lc-text">Session Debrief</h1>
           </div>
           <span className={`shrink-0 text-xs font-semibold px-3 py-1 rounded-full mt-1 ${
             session.status === 'active'

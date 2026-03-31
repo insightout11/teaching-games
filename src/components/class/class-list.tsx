@@ -51,18 +51,27 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {classes.map((cls) => (
-            <Link key={cls.id} href={`/classes/${cls.id}`}>
-              <Card className="hover:border-lc-blue/30 transition-colors cursor-pointer group">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
-                    {cls.name}
-                  </h3>
-                </div>
-                <p className="text-sm text-lc-text3 mt-2">
-                  Created {new Date(cls.created_at).toLocaleDateString()}
-                </p>
-              </Card>
-            </Link>
+            <div key={cls.id} className="relative">
+              <Link href={`/classes/${cls.id}`} className="block">
+                <Card className="hover:border-lc-blue/30 transition-colors cursor-pointer group">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
+                      {cls.name}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-lc-text3 mt-2">
+                    Created {new Date(cls.created_at).toLocaleDateString()}
+                  </p>
+                  <div className="mt-4 h-7" />
+                </Card>
+              </Link>
+              <Link
+                href={`/classes/${cls.id}/control-room`}
+                className="absolute bottom-4 right-4 text-xs font-semibold text-lc-blue hover:text-lc-blue-hover px-3 py-1.5 rounded-lg border border-lc-blue/30 hover:border-lc-blue/60 bg-lc-surface transition-colors z-10"
+              >
+                Control Room →
+              </Link>
+            </div>
           ))}
         </div>
       )}
