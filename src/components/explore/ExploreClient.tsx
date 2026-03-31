@@ -15,7 +15,17 @@ import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
 import type { Topic, Difficulty } from '@/stores/session-store';
 
 type FilterTab = 'all' | 'games' | 'activities';
-type PppFilter = 'all' | 'presentation' | 'practice' | 'production';
+type SkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
+
+const SKILL_FILTERS: { key: SkillFilter; label: string; skills: string[] }[] = [
+  { key: 'vocabulary',        label: 'Vocabulary',        skills: ['Vocabulary', 'Word Knowledge', 'Precision', 'Spelling', 'Association', 'Register', 'Context'] },
+  { key: 'grammar',           label: 'Grammar',           skills: ['Grammar', 'Sentence Structure', 'Proofreading', 'Attention'] },
+  { key: 'speaking',          label: 'Speaking',          skills: ['Speaking', 'Fluency', 'Pragmatics', 'Listening', 'Question Formation'] },
+  { key: 'writing',           label: 'Writing',           skills: ['Writing', 'Creative Writing', 'Storytelling'] },
+  { key: 'critical-thinking', label: 'Critical Thinking', skills: ['Critical Thinking', 'Questioning', 'Deduction', 'Pattern Recognition'] },
+  { key: 'debate',            label: 'Debate',            skills: ['Debate', 'Persuasion'] },
+  { key: 'creativity',        label: 'Creativity',        skills: ['Creativity', 'Creative Writing', 'Role-play'] },
+];
 
 interface Class {
   id: string;
@@ -38,7 +48,7 @@ export function ExploreClient() {
   const games: GamePlugin[] = getAllGames().filter((g) => !g.flightPlanOnly);
   const activities: ActivityPlugin[] = getAllActivities().filter((a) => !a.flightPlanOnly);
   const [filter, setFilter] = useState<FilterTab>('all');
-  const [pppFilter, setPppFilter] = useState<PppFilter>('all');
+  const [skillFilter, setSkillFilter] = useState<SkillFilter>('all');
   const [launchItem, setLaunchItem] = useState<{ name: string; key: string; type: 'game' | 'activity' } | null>(null);
   const [classes, setClasses] = useState<Class[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
@@ -121,6 +131,12 @@ export function ExploreClient() {
   const showGames = filter === 'all' || filter === 'games';
   const showActivities = filter === 'all' || filter === 'activities';
 
+  function matchesSkillFilter(skills: string[]): boolean {
+    if (skillFilter === 'all') return true;
+    const filterSkills = SKILL_FILTERS.find((f) => f.key === skillFilter)?.skills ?? [];
+    return skills.some((s) => filterSkills.includes(s));
+  }
+
   // Group games by category
   const gamesByCategory = games.reduce<Record<string, GamePlugin[]>>((acc, game) => {
     (acc[game.category] ??= []).push(game);
@@ -161,23 +177,31 @@ export function ExploreClient() {
         ))}
       </div>
 
-      {/* PPP stage filter */}
-      <div className="flex items-center gap-2 mb-8">
-        <span className="text-xs text-lc-text3 uppercase tracking-wider font-semibold mr-1">Stage:</span>
-        {(['all', 'presentation', 'practice', 'production'] as PppFilter[]).map((stage) => (
+      {/* Skill filter */}
+      <div className="flex flex-wrap gap-2 mb-8">
+        <button
+          onClick={() => setSkillFilter('all')}
+          className={cn(
+            'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors',
+            skillFilter === 'all'
+              ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+              : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
+          )}
+        >
+          All
+        </button>
+        {SKILL_FILTERS.map(({ key, label }) => (
           <button
-            key={stage}
-            onClick={() => setPppFilter(stage)}
-            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-              pppFilter === stage
-                ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-400 border-violet-500/40'
-                  : stage === 'practice' ? 'bg-sky-500/20 text-sky-400 border-sky-500/40'
-                  : stage === 'production' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
-                  : 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+            key={key}
+            onClick={() => setSkillFilter(key)}
+            className={cn(
+              'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors',
+              skillFilter === key
+                ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
                 : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
-            }`}
+            )}
           >
-            {stage === 'all' ? 'All' : stage.charAt(0).toUpperCase() + stage.slice(1)}
+            {label}
           </button>
         ))}
       </div>
@@ -187,7 +211,7 @@ export function ExploreClient() {
         {showGames && gameCategoryOrder.map((cat) => {
           const allCatGames = gamesByCategory[cat];
           if (!allCatGames?.length) return null;
-          const catGames = pppFilter === 'all' ? allCatGames : allCatGames.filter((g) => g.pppStage === pppFilter);
+          const catGames = allCatGames.filter((g) => matchesSkillFilter(g.skills));
           if (!catGames.length) return null;
           const info = GAME_CATEGORY_INFO[cat];
           const CatIcon = info.icon;
@@ -235,7 +259,7 @@ export function ExploreClient() {
         {showActivities && activityCategoryOrder.map((cat) => {
           const allCatActivities = activitiesByCategory[cat];
           if (!allCatActivities?.length) return null;
-          const catActivities = pppFilter === 'all' ? allCatActivities : allCatActivities.filter((a) => a.pppStage === pppFilter);
+          const catActivities = allCatActivities.filter((a) => matchesSkillFilter(a.skills));
           if (!catActivities.length) return null;
           const info = CATEGORY_INFO[cat];
           const CatIcon = info.icon;
