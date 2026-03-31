@@ -9,7 +9,6 @@ import { SessionStarter } from '@/components/class/session-starter';
 
 export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: number }) {
   const [name, setName] = useState(cls.name);
-  const [theme, setTheme] = useState(cls.theme);
   const [editing, setEditing] = useState(false);
   const supabase = createClient();
   const router = useRouter();
@@ -22,12 +21,6 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
       router.refresh();
     }
     setEditing(false);
-  };
-
-  const toggleTheme = async () => {
-    const next = theme === 'colorful' ? 'professional' : 'colorful';
-    setTheme(next);
-    await supabase.from('classes').update({ theme: next }).eq('id', cls.id);
   };
 
   const handleDelete = async () => {
@@ -66,14 +59,6 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
         )}
         <div className="flex items-center gap-2 mt-1.5">
           <span className="text-sm text-lc-text3">{studentCount} crew member{studentCount !== 1 ? 's' : ''}</span>
-          <span className="text-lc-border">·</span>
-          <button
-            onClick={toggleTheme}
-            className="text-xs px-2.5 py-0.5 rounded-full bg-lc-blue/15 text-lc-blue hover:bg-lc-blue/25 transition-colors capitalize font-medium"
-            title="Click to switch theme"
-          >
-            {theme}
-          </button>
           <span className="text-lc-border">·</span>
           <button
             onClick={handleDelete}

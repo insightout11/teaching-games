@@ -57,9 +57,6 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
                   <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
                     {cls.name}
                   </h3>
-                  <span className="text-xs px-2 py-1 rounded-full bg-lc-blue/15 text-lc-blue capitalize">
-                    {cls.theme}
-                  </span>
                 </div>
                 <p className="text-sm text-lc-text3 mt-2">
                   Created {new Date(cls.created_at).toLocaleDateString()}
