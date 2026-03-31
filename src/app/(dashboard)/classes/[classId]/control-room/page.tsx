@@ -2,7 +2,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { CalendarDays, Layers, Trophy, Users, Target, BarChart3 } from 'lucide-react';
-import type { Session, Class, Student, Score, LeaderboardEntry, Teacher, Round } from '@/lib/supabase/types';
+import type { Session, Class, Student, Score, LeaderboardEntry, Round } from '@/lib/supabase/types';
 import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gauge';
 import { RoundsBreakdown } from '@/components/control-room/rounds-breakdown';
 
@@ -25,11 +25,10 @@ export default async function ClassControlRoomPage({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  // Step 1: class, students, teacher in parallel
-  const [{ data: cls }, { data: students }, { data: teacher }] = await Promise.all([
+  // Step 1: class + students in parallel
+  const [{ data: cls }, { data: students }] = await Promise.all([
     supabase.from('classes').select('*').eq('id', params.classId).single() as Promise<{ data: Class | null }>,
     supabase.from('students').select('*').eq('class_id', params.classId).order('name') as Promise<{ data: Student[] | null }>,
-    supabase.from('teachers').select('subscription_status').eq('id', user.id).single() as Promise<{ data: Pick<Teacher, 'subscription_status'> | null }>,
   ]);
 
   if (!cls) notFound();
