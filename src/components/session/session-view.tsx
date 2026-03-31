@@ -543,7 +543,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               {lesson.isMissionBased && (
                 <span className="ml-2 text-amber-400">Mission Lesson</span>
               )}
-              {lesson.lessonPlanContent && !lesson.isMissionBased && (
+              {lesson.lessonPlanContent && !lesson.isMissionBased && lesson.lessonSlots.length > 1 && (
                 <span className="ml-2 text-cyan-400">Lesson Plan Loaded</span>
               )}
             </p>
@@ -850,7 +850,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : viewMode === 'game' && selectedGame ? (
           <div>
             {/* Lesson Flight Plan */}
-            {lesson.isLessonActive && (
+            {lesson.isLessonActive && lesson.lessonSlots.length > 1 && (
               <div className="mb-4">
                 <LessonCaptainFlightPlan
                   steps={buildRuntimeFlightPlanSteps(lesson.lessonSlots)}
@@ -911,7 +911,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : viewMode === 'activity' && selectedActivity ? (
           <div>
             {/* Lesson Flight Plan */}
-            {lesson.isLessonActive && (
+            {lesson.isLessonActive && lesson.lessonSlots.length > 1 && (
               <div className="mb-4">
                 <LessonCaptainFlightPlan
                   steps={buildRuntimeFlightPlanSteps(lesson.lessonSlots)}
