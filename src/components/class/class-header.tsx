@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import { Plane } from 'lucide-react';
 import type { Class } from '@/lib/supabase/types';
 import { SessionStarter } from '@/components/class/session-starter';
 
@@ -38,6 +39,10 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
   return (
     <div className="flex items-start justify-between gap-4">
       <div className="min-w-0">
+        <div className="flex items-center gap-2 mb-0.5">
+          <Plane className="w-4 h-4 text-lc-blue shrink-0" />
+          <span className="text-xs font-semibold uppercase tracking-widest text-lc-blue">Class</span>
+        </div>
         {editing ? (
           <input
             autoFocus
@@ -59,17 +64,17 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
             {name}
           </h1>
         )}
-        <div className="flex items-center gap-2 mt-1">
-          <span className="text-sm text-lc-text3">{studentCount} student{studentCount !== 1 ? 's' : ''}</span>
-          <span className="text-lc-text3">·</span>
+        <div className="flex items-center gap-2 mt-1.5">
+          <span className="text-sm text-lc-text3">{studentCount} crew member{studentCount !== 1 ? 's' : ''}</span>
+          <span className="text-lc-border">·</span>
           <button
             onClick={toggleTheme}
-            className="text-xs px-2 py-0.5 rounded-full bg-lc-blue/15 text-lc-blue hover:bg-lc-blue/25 transition-colors capitalize"
+            className="text-xs px-2.5 py-0.5 rounded-full bg-lc-blue/15 text-lc-blue hover:bg-lc-blue/25 transition-colors capitalize font-medium"
             title="Click to switch theme"
           >
             {theme}
           </button>
-          <span className="text-lc-text3">·</span>
+          <span className="text-lc-border">·</span>
           <button
             onClick={handleDelete}
             className="text-xs text-lc-text3 hover:text-lc-danger transition-colors"

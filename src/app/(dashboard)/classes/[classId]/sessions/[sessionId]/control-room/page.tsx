@@ -1,6 +1,7 @@
 import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
+import { CalendarDays, Clock, Layers, Trophy } from 'lucide-react';
 import type { Session, Class, Student, Score, LeaderboardEntry, SessionNote, Teacher, Round } from '@/lib/supabase/types';
 import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gauge';
 import { ParticipationGrid } from '@/components/control-room/participation-grid';
@@ -12,8 +13,8 @@ const TOP_ACCURACY_THRESHOLD = 80;
 function accuracyColor(accuracy: number | null): string {
   if (accuracy === null) return 'text-lc-text3';
   if (accuracy >= TOP_ACCURACY_THRESHOLD) return 'text-lc-success';
-  if (accuracy >= 50) return 'text-lc-text';
-  return 'text-lc-text3';
+  if (accuracy >= 50) return 'text-lc-warn';
+  return 'text-lc-danger';
 }
 
 export default async function ControlRoomPage({
@@ -142,102 +143,131 @@ export default async function ControlRoomPage({
   const isPro = teacher?.subscription_status === 'active' || teacher?.subscription_status === 'trial';
 
   const sessionDate = new Date(session.started_at).toLocaleDateString(undefined, {
-    year: 'numeric', month: 'long', day: 'numeric',
+    year: 'numeric', month: 'short', day: 'numeric',
   });
 
   return (
-    <div className="max-w-3xl space-y-6">
+    <div className="max-w-5xl space-y-6">
       {/* Header */}
       <div>
-        <Link href={`/classes/${params.classId}`} className="text-sm text-lc-blue hover:text-lc-blue-hover mb-2 inline-block">
-          ← Back to Class
+        <Link href={`/classes/${params.classId}`} className="inline-flex items-center gap-1 text-sm text-lc-text3 hover:text-lc-blue transition-colors mb-3">
+          ← {cls.name}
         </Link>
-        <h1 className="text-2xl font-bold text-lc-text">{cls.name} — Control Room</h1>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-xs font-semibold uppercase tracking-widest text-lc-blue">Control Room</span>
+            </div>
+            <h1 className="text-2xl font-bold text-lc-text">Flight Debrief</h1>
+          </div>
+          <span className={`shrink-0 text-xs font-semibold px-3 py-1 rounded-full mt-1 ${
+            session.status === 'active'
+              ? 'bg-lc-success/15 text-lc-success'
+              : 'bg-lc-surface text-lc-text3 border border-lc-border'
+          }`}>
+            {session.status}
+          </span>
+        </div>
       </div>
 
       {/* Session meta row */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
-          <p className="text-sm font-medium text-lc-text">{sessionDate}</p>
-          <p className="text-xs text-lc-text3 mt-1">Date</p>
+        <div className="bg-lc-card rounded-2xl border border-lc-border p-4">
+          <div className="flex items-center gap-1.5 mb-2">
+            <CalendarDays className="w-3.5 h-3.5 text-lc-text3" />
+            <span className="text-xs text-lc-text3 uppercase tracking-wide font-medium">Date</span>
+          </div>
+          <p className="text-sm font-semibold text-lc-text">{sessionDate}</p>
         </div>
-        <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
-          <p className="text-sm font-medium text-lc-text">
+        <div className="bg-lc-card rounded-2xl border border-lc-border p-4">
+          <div className="flex items-center gap-1.5 mb-2">
+            <Clock className="w-3.5 h-3.5 text-lc-text3" />
+            <span className="text-xs text-lc-text3 uppercase tracking-wide font-medium">Duration</span>
+          </div>
+          <p className="text-sm font-semibold text-lc-text">
             {durationMinutes !== null ? `${durationMinutes} min` : '—'}
           </p>
-          <p className="text-xs text-lc-text3 mt-1">Duration</p>
         </div>
-        <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
-          <p className="text-sm font-medium text-lc-text">{maxPromptIndex ?? 'N/A'}</p>
-          <p className="text-xs text-lc-text3 mt-1">Total Rounds</p>
+        <div className="bg-lc-card rounded-2xl border border-lc-border p-4">
+          <div className="flex items-center gap-1.5 mb-2">
+            <Layers className="w-3.5 h-3.5 text-lc-text3" />
+            <span className="text-xs text-lc-text3 uppercase tracking-wide font-medium">Rounds</span>
+          </div>
+          <p className="text-sm font-semibold text-lc-text">{maxPromptIndex ?? '—'}</p>
         </div>
       </div>
 
-      {/* Games Played */}
-      <RoundsBreakdown rows={roundsBreakdownRows} />
+      {/* Two-column layout: left = accuracy + games + leaderboard, right = participation + notes */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 items-start">
+        {/* Left column */}
+        <div className="space-y-6">
+          <ClassAccuracyGauge
+            accuracy={accuracy}
+            scorableAttempts={scorableAttempts}
+            correctCount={correctCount}
+          />
 
-      {/* Class Accuracy */}
-      <ClassAccuracyGauge
-        accuracy={accuracy}
-        scorableAttempts={scorableAttempts}
-        correctCount={correctCount}
-      />
+          <RoundsBreakdown rows={roundsBreakdownRows} />
 
-      {/* Participation */}
-      <ParticipationGrid rows={participationRows} maxPromptIndex={maxPromptIndex} />
-
-      {/* Leaderboard */}
-      <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
-        <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-semibold text-lc-text">Leaderboard</h2>
-          <span className="text-xs text-lc-text3">
-            Top accuracy ≥{TOP_ACCURACY_THRESHOLD}% highlighted
-          </span>
-        </div>
-        {leaderboardWithAccuracy.length === 0 ? (
-          <p className="text-lc-text3 text-sm">No scoring data yet</p>
-        ) : (
-          <div className="space-y-2">
-            {leaderboardWithAccuracy.map((entry, i) => (
-              <div key={entry.student_id} className="flex items-center gap-3 py-2 border-b border-lc-border-subtle last:border-0">
-                <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
-                  i === 0 ? 'bg-yellow-500/20 text-yellow-400' :
-                  i === 1 ? 'bg-lc-text3/20 text-lc-text3' :
-                  i === 2 ? 'bg-amber-500/20 text-amber-400' : 'bg-lc-surface text-lc-text3'
-                }`}>
-                  {i + 1}
-                </span>
-                <span className="flex-1 text-sm font-medium text-lc-text">{entry.student_name}</span>
-                <span className="text-xs text-lc-text3">{entry.correct_count}/{entry.total_attempts}</span>
-                <span className={`text-xs font-semibold w-10 text-right ${accuracyColor(entry.accuracy)}`}>
-                  {entry.accuracy !== null ? `${entry.accuracy}%` : '—'}
-                </span>
-                {entry.best_streak >= 2 && (
-                  <span className="text-xs text-lc-warn">🔥{entry.best_streak}</span>
-                )}
-                <span className="text-sm font-bold text-lc-blue w-16 text-right">{entry.total_points} pts</span>
+          {/* Leaderboard */}
+          <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Trophy className="w-4 h-4 text-lc-text3 shrink-0" />
+              <h2 className="font-semibold text-lc-text">Leaderboard</h2>
+              <span className="ml-auto text-xs text-lc-text3">
+                Top accuracy ≥{TOP_ACCURACY_THRESHOLD}%
+              </span>
+            </div>
+            {leaderboardWithAccuracy.length === 0 ? (
+              <p className="text-lc-text3 text-sm">No scoring data yet</p>
+            ) : (
+              <div className="space-y-1">
+                {leaderboardWithAccuracy.map((entry, i) => (
+                  <div key={entry.student_id} className="flex items-center gap-3 py-2 border-b border-lc-border-subtle last:border-0">
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                      i === 0 ? 'bg-yellow-500/20 text-yellow-400' :
+                      i === 1 ? 'bg-slate-400/20 text-slate-300' :
+                      i === 2 ? 'bg-amber-600/20 text-amber-500' : 'bg-lc-surface text-lc-text3'
+                    }`}>
+                      {i + 1}
+                    </span>
+                    <span className="flex-1 text-sm font-medium text-lc-text">{entry.student_name}</span>
+                    <span className="text-xs text-lc-text3 tabular-nums">{entry.correct_count}/{entry.total_attempts}</span>
+                    <span className={`text-xs font-semibold w-10 text-right tabular-nums ${accuracyColor(entry.accuracy)}`}>
+                      {entry.accuracy !== null ? `${entry.accuracy}%` : '—'}
+                    </span>
+                    {entry.best_streak >= 2 && (
+                      <span className="text-xs text-lc-warn">🔥{entry.best_streak}</span>
+                    )}
+                    <span className="text-sm font-bold text-lc-blue w-16 text-right tabular-nums">{entry.total_points} pts</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
-        )}
-      </div>
-
-      {/* Session Notes */}
-      {isPro ? (
-        <SessionNotesEditor
-          sessionId={session.id}
-          teacherId={user.id}
-          initialContent={notes?.content ?? ''}
-        />
-      ) : (
-        <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="font-semibold text-lc-text">Session Notes</h2>
-            <span className="text-xs text-lc-text3 bg-lc-surface px-2 py-0.5 rounded-full">Pro feature</span>
-          </div>
-          <p className="text-sm text-lc-text3">Upgrade to Pro to add notes to your sessions.</p>
         </div>
-      )}
+
+        {/* Right column */}
+        <div className="space-y-6">
+          <ParticipationGrid rows={participationRows} maxPromptIndex={maxPromptIndex} />
+
+          {isPro ? (
+            <SessionNotesEditor
+              sessionId={session.id}
+              teacherId={user.id}
+              initialContent={notes?.content ?? ''}
+            />
+          ) : (
+            <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="font-semibold text-lc-text">Debrief Notes</h2>
+                <span className="text-xs text-lc-text3 bg-lc-surface px-2 py-0.5 rounded-full border border-lc-border">Pro</span>
+              </div>
+              <p className="text-sm text-lc-text3">Upgrade to Pro to add notes to your sessions.</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

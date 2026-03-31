@@ -5,6 +5,24 @@ import { createClient } from '@/lib/supabase/client';
 import type { Student } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Users } from 'lucide-react';
+
+const AVATAR_COLORS = [
+  'bg-blue-500/20 text-blue-300',
+  'bg-violet-500/20 text-violet-300',
+  'bg-emerald-500/20 text-emerald-300',
+  'bg-amber-500/20 text-amber-300',
+  'bg-rose-500/20 text-rose-300',
+  'bg-cyan-500/20 text-cyan-300',
+  'bg-pink-500/20 text-pink-300',
+  'bg-indigo-500/20 text-indigo-300',
+];
+
+function avatarColor(name: string): string {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  return AVATAR_COLORS[h % AVATAR_COLORS.length];
+}
 
 const isMockMode = () => process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
 
@@ -216,7 +234,13 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
   return (
     <Card>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Roster</h2>
+        <div className="flex items-center gap-2">
+          <Users className="w-4 h-4 text-lc-text3 shrink-0" />
+          <h2 className="text-base font-semibold text-lc-text">Flight Crew</h2>
+          {students.length > 0 && (
+            <span className="text-xs text-lc-text3 tabular-nums">{students.length}</span>
+          )}
+        </div>
         <Button variant="ghost" size="sm" onClick={() => setBulkMode(!bulkMode)}>
           {bulkMode ? 'Single add' : 'Bulk add'}
         </Button>
@@ -270,15 +294,18 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
       )}
 
       {students.length === 0 ? (
-        <p className="text-sm text-lc-text3 text-center py-4">No students yet</p>
+        <p className="text-sm text-lc-text3 text-center py-6">No crew yet — add the first member</p>
       ) : (
         <ul className="space-y-1">
           {students.map((s) => (
-            <li key={s.id} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-lc-surface group">
-              <span className="text-sm text-lc-text">{s.name}</span>
+            <li key={s.id} className="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-lc-surface group">
+              <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${avatarColor(s.name)}`}>
+                {s.name.charAt(0).toUpperCase()}
+              </span>
+              <span className="flex-1 text-sm text-lc-text">{s.name}</span>
               <button
                 onClick={() => removeStudent(s.id)}
-                className="text-lc-danger/70 hover:text-lc-danger opacity-0 group-hover:opacity-100 transition-opacity text-sm"
+                className="text-lc-danger/60 hover:text-lc-danger opacity-0 group-hover:opacity-100 transition-opacity text-xs"
               >
                 Remove
               </button>
