@@ -44,6 +44,7 @@ export function ExploreClient() {
   const [classesLoading, setClassesLoading] = useState(false);
   const [launching, setLaunching] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<Topic | ''>('');
+  const [customTopic, setCustomTopic] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('Intermediate');
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
 
@@ -54,9 +55,10 @@ export function ExploreClient() {
       if (session) setActiveSession(JSON.parse(session));
       const settings = localStorage.getItem('lc-explore-settings');
       if (settings) {
-        const { topic, difficulty } = JSON.parse(settings);
+        const { topic, difficulty, customTopic: ct } = JSON.parse(settings);
         if (topic !== undefined) setSelectedTopic(topic);
         if (difficulty !== undefined) setSelectedDifficulty(difficulty);
+        if (ct !== undefined) setCustomTopic(ct);
       }
     } catch {}
   }, []);
@@ -77,11 +79,11 @@ export function ExploreClient() {
 
   function writeAndNavigate(sessionId: string, directLaunch: boolean) {
     if (!launchItem) return;
-    localStorage.setItem('lc-explore-settings', JSON.stringify({ topic: selectedTopic, difficulty: selectedDifficulty }));
+    localStorage.setItem('lc-explore-settings', JSON.stringify({ topic: selectedTopic, difficulty: selectedDifficulty, customTopic }));
     sessionStorage.setItem(
       'lessonPlanContent',
       JSON.stringify({
-        customTopic: selectedTopic,
+        customTopic: customTopic.trim() || selectedTopic,
         difficulty: selectedDifficulty,
         slots: [{ type: launchItem.type, key: launchItem.key, name: launchItem.name }],
         generatedContent: {},
@@ -285,7 +287,7 @@ export function ExploreClient() {
         title={launchItem ? `Launch ${launchItem.name}` : ''}
       >
         {/* Topic + Difficulty */}
-        <div className="flex gap-3 mb-5">
+        <div className="flex gap-3 mb-3">
           <div className="flex-1">
             <label className="block text-xs text-lc-text3 mb-1">Topic</label>
             <select
@@ -311,6 +313,15 @@ export function ExploreClient() {
               ))}
             </select>
           </div>
+        </div>
+        <div className="mb-5">
+          <input
+            type="text"
+            value={customTopic}
+            onChange={(e) => setCustomTopic(e.target.value)}
+            placeholder={`Or type a custom topic${selectedTopic ? ` (overrides ${selectedTopic})` : ''}…`}
+            className="w-full text-sm px-3 py-2 rounded-lg border border-lc-border bg-lc-surface text-lc-text placeholder:text-lc-text3"
+          />
         </div>
 
         {/* Active session shortcut */}
