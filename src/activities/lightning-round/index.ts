@@ -14,6 +14,7 @@ export const lightningRoundPlugin: ActivityPlugin = {
   estimatedMinutes: 6,
   defaultTimerSeconds: 30,
   icon: Flame,
+  flightPlanOnly: true,
 };
 
 export { LightningRoundActivity };

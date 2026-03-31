@@ -14,6 +14,7 @@ export const finalAnswerPlugin: ActivityPlugin = {
   estimatedMinutes: 4,
   defaultTimerSeconds: 60,
   icon: CheckCircle,
+  flightPlanOnly: true,
 };
 
 export { FinalAnswerActivity };

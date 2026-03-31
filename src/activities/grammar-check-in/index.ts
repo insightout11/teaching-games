@@ -14,6 +14,7 @@ export const grammarCheckInPlugin: ActivityPlugin = {
   estimatedMinutes: 4,
   defaultTimerSeconds: 30,
   icon: ClipboardCheck,
+  flightPlanOnly: true,
 };
 
 export { GrammarCheckInActivity };

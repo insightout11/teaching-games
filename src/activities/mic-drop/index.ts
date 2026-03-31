@@ -14,6 +14,7 @@ export const micDropPlugin: ActivityPlugin = {
   estimatedMinutes: 4,
   defaultTimerSeconds: 60,
   icon: Mic,
+  flightPlanOnly: true,
 };
 
 export { MicDropActivity };

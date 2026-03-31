@@ -60,4 +60,6 @@ export interface GamePlugin {
   maxPointsPerTurn: number;
   defaultTimerSeconds: number;
   estimatedMinutes: number;
+  /** When true, this game only makes sense within a Flight Plan and is hidden from Explore. */
+  flightPlanOnly?: boolean;
 }

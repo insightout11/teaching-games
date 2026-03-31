@@ -14,6 +14,7 @@ export const characterCardsPlugin: ActivityPlugin = {
   estimatedMinutes: 4,
   defaultTimerSeconds: 30,
   icon: Theater,
+  flightPlanOnly: true,
 };
 
 export { CharacterCardsActivity };

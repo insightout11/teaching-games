@@ -14,6 +14,7 @@ export const grammarProofPlugin: ActivityPlugin = {
   estimatedMinutes: 5,
   defaultTimerSeconds: 60,
   icon: CheckSquare,
+  flightPlanOnly: true,
 };
 
 export { GrammarProofActivity };

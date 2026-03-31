@@ -14,6 +14,7 @@ export const missionSelectorPlugin: ActivityPlugin = {
   estimatedMinutes: 4,
   defaultTimerSeconds: 30,
   icon: Crosshair,
+  flightPlanOnly: true,
 };
 
 export { MissionSelectorActivity };

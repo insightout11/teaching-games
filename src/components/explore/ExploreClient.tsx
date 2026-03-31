@@ -35,8 +35,8 @@ function getStageBadge(stage: string | undefined) {
 }
 
 export function ExploreClient() {
-  const games: GamePlugin[] = getAllGames();
-  const activities: ActivityPlugin[] = getAllActivities();
+  const games: GamePlugin[] = getAllGames().filter((g) => !g.flightPlanOnly);
+  const activities: ActivityPlugin[] = getAllActivities().filter((a) => !a.flightPlanOnly);
   const [filter, setFilter] = useState<FilterTab>('all');
   const [pppFilter, setPppFilter] = useState<PppFilter>('all');
   const [launchItem, setLaunchItem] = useState<{ name: string; key: string; type: 'game' | 'activity' } | null>(null);

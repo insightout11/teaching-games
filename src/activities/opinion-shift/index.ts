@@ -14,6 +14,7 @@ export const opinionShiftPlugin: ActivityPlugin = {
   estimatedMinutes: 4,
   defaultTimerSeconds: 60,
   icon: ArrowRightLeft,
+  flightPlanOnly: true,
 };
 
 export { OpinionShiftActivity };

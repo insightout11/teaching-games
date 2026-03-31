@@ -14,6 +14,7 @@ export const finalWordPlugin: ActivityPlugin = {
   estimatedMinutes: 3,
   defaultTimerSeconds: 30,
   icon: Mic,
+  flightPlanOnly: true,
 };
 
 export { FinalWordActivity };

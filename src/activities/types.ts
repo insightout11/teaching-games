@@ -87,6 +87,8 @@ export interface ActivityPlugin {
   defaultTimerSeconds: number;
   // Lucide icon component for UI
   icon: ComponentType<{ className?: string }>;
+  /** When true, this activity only makes sense within a Flight Plan and is hidden from Explore. */
+  flightPlanOnly?: boolean;
 }
 
 // Configuration field for activity-specific settings
