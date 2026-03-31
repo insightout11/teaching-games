@@ -46,7 +46,7 @@ export function Sidebar({ user }: { user: User }) {
   };
 
   return (
-    <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col">
+    <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col h-screen sticky top-0">
       <div className="p-6 border-b border-lc-border-subtle">
         <div className="flex items-center justify-between">
           <Link href="/explore" className="cursor-pointer">
@@ -68,7 +68,7 @@ export function Sidebar({ user }: { user: User }) {
         )}
       </div>
 
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
           return (
