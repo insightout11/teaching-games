@@ -267,7 +267,7 @@ export function ExploreClient() {
                       <p className="text-sm opacity-70 mt-1" aria-hidden="true">{game.description}</p>
                       <div className="flex flex-wrap gap-1 mt-3" aria-hidden="true">
                         {game.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded-full">{skill}</span>
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">{skill}</span>
                         ))}
                       </div>
                       <div className="mt-3 flex items-center gap-1" aria-hidden="true">
@@ -320,7 +320,7 @@ export function ExploreClient() {
                       <p className="text-sm opacity-70 mt-2" aria-hidden="true">{activity.description}</p>
                       <div className="flex flex-wrap gap-1 mt-3" aria-hidden="true">
                         {activity.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded-full">{skill}</span>
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">{skill}</span>
                         ))}
                       </div>
                       <div className="mt-3 flex items-center gap-1" aria-hidden="true">
