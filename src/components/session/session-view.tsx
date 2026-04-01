@@ -16,8 +16,8 @@ import { SessionSettingsBar } from './session-settings-bar';
 import { WidgetShell } from './widget-shell';
 import { WidgetLauncher } from './widget-launcher';
 import { WIDGET_REGISTRY } from './widget-registry';
-import { getAllGames, getGamesGrouped, GAME_CATEGORY_INFO } from '@/games/registry';
-import { getAllActivities, getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
+import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
+import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration } from '@/lib/flight-plan-helpers';
@@ -25,21 +25,6 @@ import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
 
-type SessionTypeFilter = 'all' | 'games' | 'activities';
-type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
-
-const SESSION_SKILL_FILTERS: { key: SessionSkillFilter; label: string; skills: string[] }[] = [
-  { key: 'vocabulary',        label: 'Vocabulary',        skills: ['Vocabulary', 'Word Knowledge', 'Precision', 'Spelling', 'Association', 'Register', 'Context'] },
-  { key: 'grammar',           label: 'Grammar',           skills: ['Grammar', 'Sentence Structure', 'Proofreading', 'Attention'] },
-  { key: 'speaking',          label: 'Speaking',          skills: ['Speaking', 'Fluency', 'Pragmatics', 'Listening', 'Question Formation'] },
-  { key: 'writing',           label: 'Writing',           skills: ['Writing', 'Creative Writing', 'Storytelling'] },
-  { key: 'critical-thinking', label: 'Critical Thinking', skills: ['Critical Thinking', 'Questioning', 'Deduction', 'Pattern Recognition'] },
-  { key: 'debate',            label: 'Debate',            skills: ['Debate', 'Persuasion'] },
-  { key: 'creativity',        label: 'Creativity',        skills: ['Creativity', 'Creative Writing', 'Role-play'] },
-];
-
-const GAME_CATEGORY_ORDER = ['vocabulary', 'grammar-writing', 'logic-puzzles'] as const;
-const ACTIVITY_CATEGORY_ORDER = ['icebreaker', 'learning', 'practice', 'debate', 'closing'] as const;
 
 const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
 const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
