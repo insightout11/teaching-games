@@ -184,12 +184,13 @@ export function ExploreClient() {
             aria-pressed={filter === tab}
             aria-label={tab === 'all' ? 'All types' : undefined}
             className={cn(
-              'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors capitalize',
+              'px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors',
               filter === tab
                 ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
                 : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
             )}
           >
+            {filter === tab && <span className="mr-1 opacity-70">◆</span>}
             {tab === 'all' ? 'All' : tab === 'games' ? 'Games' : 'Activities'}
           </button>
         ))}
@@ -202,13 +203,13 @@ export function ExploreClient() {
           aria-pressed={skillFilter === 'all'}
           aria-label="All skills"
           className={cn(
-            'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors',
+            'px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors',
             skillFilter === 'all'
               ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
               : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
           )}
         >
-          All
+          {skillFilter === 'all' && <span className="mr-1 opacity-70">◆</span>}All
         </button>
         {SKILL_FILTERS.map(({ key, label }) => (
           <button
@@ -216,13 +217,13 @@ export function ExploreClient() {
             onClick={() => setSkillFilter(key)}
             aria-pressed={skillFilter === key}
             className={cn(
-              'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors',
+              'px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors',
               skillFilter === key
                 ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
                 : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
             )}
           >
-            {label}
+            {skillFilter === key && <span className="mr-1 opacity-70">◆</span>}{label}
           </button>
         ))}
       </div>
@@ -241,7 +242,10 @@ export function ExploreClient() {
               <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
                 <CatIcon className={`w-4 h-4 ${info.color}`} aria-hidden="true" />
                 <h2 className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</h2>
-                <span className="text-xs text-lc-text3 mr-1" aria-hidden="true">— Games</span>
+                <span className="flex items-center gap-1 text-xs text-lc-text3 mr-1" aria-hidden="true">
+                  <svg width="6" height="6" viewBox="0 0 6 6" fill="currentColor"><path d="M3 0L6 3L3 6L0 3Z"/></svg>
+                  Games
+                </span>
                 <div className="hud-rule" aria-hidden="true" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -291,7 +295,10 @@ export function ExploreClient() {
               <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
                 <CatIcon className={`w-4 h-4 ${info.color}`} aria-hidden="true" />
                 <h2 className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</h2>
-                <span className="text-xs text-lc-text3 mr-1" aria-hidden="true">— Activities</span>
+                <span className="flex items-center gap-1 text-xs text-lc-text3 mr-1" aria-hidden="true">
+                  <svg width="6" height="6" viewBox="0 0 6 6" fill="currentColor"><path d="M3 0L6 3L3 6L0 3Z"/></svg>
+                  Activities
+                </span>
                 <div className="hud-rule" aria-hidden="true" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
