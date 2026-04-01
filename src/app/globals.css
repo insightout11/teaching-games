@@ -118,26 +118,39 @@ select option {
    Delete this entire block to fully revert the aviation theme.
    ──────────────────────────────────────────────────────────────────────── */
 
-/* Background: navigational chart paper grid + two large compass arcs +
-   ambient bloom + edge vignette. No targeting crosshairs — this reads as
-   an aeronautical chart, not a cockpit simulator. Arc centre upper-right. */
+/* Background: fine tech grid + crosshair targeting lines + concentric radar
+   rings + ambient bloom. All layers are very low opacity so content reads
+   cleanly on top. Ring center is at 70% 18% (upper-right open space). */
 .hud-bg {
   background-color: var(--lc-bg);
   background-image:
-    /* Navigational chart grid — 100px cells */
-    linear-gradient(rgba(77,163,255,0.030) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(77,163,255,0.030) 1px, transparent 1px),
-    /* Compass arc 1 — inner ring */
-    radial-gradient(circle at 70% 18%, transparent 179px, rgba(77,163,255,0.09) 180px, transparent 183px),
-    /* Compass arc 2 — outer ring, fainter */
-    radial-gradient(circle at 70% 18%, transparent 329px, rgba(77,163,255,0.055) 330px, transparent 333px),
-    /* Ambient bloom at compass origin */
-    radial-gradient(ellipse 50% 45% at 70% 18%, rgba(77,163,255,0.08) 0%, transparent 70%),
-    /* Edge vignette — worn page edges */
-    radial-gradient(ellipse 85% 85% at 50% 50%, transparent 42%, rgba(4,7,18,0.38) 100%);
+    /* Fine tech grid */
+    linear-gradient(rgba(77,163,255,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77,163,255,0.028) 1px, transparent 1px),
+    /* Crosshair lines through ring centre */
+    linear-gradient(
+      transparent calc(18% - 0.5px),
+      rgba(77,163,255,0.05) calc(18% - 0.5px),
+      rgba(77,163,255,0.05) calc(18% + 0.5px),
+      transparent calc(18% + 0.5px)
+    ),
+    linear-gradient(90deg,
+      transparent calc(70% - 0.5px),
+      rgba(77,163,255,0.05) calc(70% - 0.5px),
+      rgba(77,163,255,0.05) calc(70% + 0.5px),
+      transparent calc(70% + 0.5px)
+    ),
+    /* Concentric radar rings */
+    radial-gradient(circle at 70% 18%, transparent 149px, rgba(77,163,255,0.09) 150px, transparent 152px),
+    radial-gradient(circle at 70% 18%, transparent 269px, rgba(77,163,255,0.06) 270px, transparent 272px),
+    radial-gradient(circle at 70% 18%, transparent 389px, rgba(77,163,255,0.038) 390px, transparent 392px),
+    /* Ambient bloom at ring centre */
+    radial-gradient(ellipse 50% 45% at 70% 18%, rgba(77,163,255,0.08) 0%, transparent 70%);
   background-size:
-    100px 100px,
-    100px 100px,
+    80px 80px,
+    80px 80px,
+    100% 100%,
+    100% 100%,
     100% 100%,
     100% 100%,
     100% 100%,
