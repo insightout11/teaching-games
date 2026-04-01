@@ -80,7 +80,7 @@ export function Sidebar({ user }: { user: User }) {
               className={cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-lc-blue/10 text-lc-blue border-l-2 border-lc-blue'
+                  ? 'bg-lc-amber/10 text-lc-amber border-l-2 border-lc-amber'
                   : 'text-lc-text3 hover:bg-lc-card hover:text-lc-text border-l-2 border-transparent'
               )}
             >

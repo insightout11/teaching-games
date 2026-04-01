@@ -1,10 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;600;800&display=swap');
+/* Fonts loaded via next/font/google in layout.tsx */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  --font-display:    'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-body:       'Source Serif 4', Georgia, serif;
+  --font-instrument: 'IBM Plex Mono', var(--font-geist-mono), 'Courier New', monospace;
+
   --background: #070B14;
   --foreground: #EAF1FF;
   --lc-bg: #070B14;
@@ -45,13 +49,23 @@ html[data-theme="light"] {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
   transition: background 0.8s ease;
 }
 
-/* VocabSprint font */
+/* Display / game font — DM Serif Display italic for editorial personality */
 .font-game {
-  font-family: 'Bungee', cursive;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Instrument / data readout font — IBM Plex Mono */
+.font-instrument {
+  font-family: var(--font-instrument);
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+  letter-spacing: 0.04em;
 }
 
 /* Session theme */
@@ -104,39 +118,26 @@ select option {
    Delete this entire block to fully revert the aviation theme.
    ──────────────────────────────────────────────────────────────────────── */
 
-/* Background: fine tech grid + crosshair targeting lines + concentric radar
-   rings + ambient bloom. All layers are very low opacity so content reads
-   cleanly on top. Ring center is at 70% 18% (upper-right open space). */
+/* Background: navigational chart paper grid + two large compass arcs +
+   ambient bloom + edge vignette. No targeting crosshairs — this reads as
+   an aeronautical chart, not a cockpit simulator. Arc centre upper-right. */
 .hud-bg {
-  background-color: #070B14;
+  background-color: var(--lc-bg);
   background-image:
-    /* Fine tec grid */
-    linear-gradient(rgba(77,163,255,0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(77,163,255,0.028) 1px, transparent 1px),
-    /* Crosshair lines through ring centre */
-    linear-gradient(
-      transparent calc(18% - 0.5px),
-      rgba(77,163,255,0.05) calc(18% - 0.5px),
-      rgba(77,163,255,0.05) calc(18% + 0.5px),
-      transparent calc(18% + 0.5px)
-    ),
-    linear-gradient(90deg,
-      transparent calc(70% - 0.5px),
-      rgba(77,163,255,0.05) calc(70% - 0.5px),
-      rgba(77,163,255,0.05) calc(70% + 0.5px),
-      transparent calc(70% + 0.5px)
-    ),
-    /* Concentric radar rings */
-    radial-gradient(circle at 70% 18%, transparent 149px, rgba(77,163,255,0.09) 150px, transparent 152px),
-    radial-gradient(circle at 70% 18%, transparent 269px, rgba(77,163,255,0.06) 270px, transparent 272px),
-    radial-gradient(circle at 70% 18%, transparent 389px, rgba(77,163,255,0.038) 390px, transparent 392px),
-    /* Ambient bloom at ring centre */
-    radial-gradient(ellipse 50% 45% at 70% 18%, rgba(77,163,255,0.08) 0%, transparent 70%);
+    /* Navigational chart grid — 100px cells, slightly wider than before */
+    linear-gradient(rgba(77,163,255,0.030) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77,163,255,0.030) 1px, transparent 1px),
+    /* Compass arc 1 — inner ring */
+    radial-gradient(circle at 70% 18%, transparent 179px, rgba(77,163,255,0.09) 180px, transparent 183px),
+    /* Compass arc 2 — outer ring, fainter */
+    radial-gradient(circle at 70% 18%, transparent 329px, rgba(77,163,255,0.055) 330px, transparent 333px),
+    /* Ambient bloom at compass origin */
+    radial-gradient(ellipse 50% 45% at 70% 18%, rgba(77,163,255,0.08) 0%, transparent 70%),
+    /* Edge vignette — worn page edges */
+    radial-gradient(ellipse 85% 85% at 50% 50%, transparent 42%, rgba(4,7,18,0.38) 100%);
   background-size:
-    80px 80px,
-    80px 80px,
-    100% 100%,
-    100% 100%,
+    100px 100px,
+    100px 100px,
     100% 100%,
     100% 100%,
     100% 100%,
@@ -178,7 +179,7 @@ select option {
   transition: box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 
-/* L-shaped corner accent marks — top-left */
+/* L-shaped corner accent marks — top-left (amber: warm contrast to blue border) */
 .panel-card::before {
   content: '';
   position: absolute;
@@ -186,8 +187,8 @@ select option {
   left: 5px;
   width: 10px;
   height: 10px;
-  border-top: 1.5px solid rgba(77, 163, 255, 0.55);
-  border-left: 1.5px solid rgba(77, 163, 255, 0.55);
+  border-top: 1.5px solid rgba(245, 158, 11, 0.55);
+  border-left: 1.5px solid rgba(245, 158, 11, 0.55);
   pointer-events: none;
   z-index: 1;
 }
@@ -200,8 +201,8 @@ select option {
   right: 5px;
   width: 10px;
   height: 10px;
-  border-bottom: 1.5px solid rgba(77, 163, 255, 0.55);
-  border-right: 1.5px solid rgba(77, 163, 255, 0.55);
+  border-bottom: 1.5px solid rgba(245, 158, 11, 0.55);
+  border-right: 1.5px solid rgba(245, 158, 11, 0.55);
   pointer-events: none;
   z-index: 1;
 }
@@ -250,7 +251,7 @@ select option {
   background: transparent;
   color: rgba(77, 163, 255, 0.9);
   font-size: 0.7rem;
-  font-family: var(--font-geist-mono), 'Courier New', monospace;
+  font-family: var(--font-instrument);
   letter-spacing: 0.06em;
   font-weight: 500;
   cursor: pointer;
@@ -259,31 +260,17 @@ select option {
 
 /* ─── Light Mode Overrides for HUD / Session Theme ─────────────────────────── */
 html[data-theme="light"] .hud-bg {
-  background-color: #F0F4FA;
+  background-color: var(--lc-bg);
   background-image:
-    linear-gradient(rgba(43,143,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(43,143,255,0.04) 1px, transparent 1px),
-    linear-gradient(
-      transparent calc(18% - 0.5px),
-      rgba(43,143,255,0.06) calc(18% - 0.5px),
-      rgba(43,143,255,0.06) calc(18% + 0.5px),
-      transparent calc(18% + 0.5px)
-    ),
-    linear-gradient(90deg,
-      transparent calc(70% - 0.5px),
-      rgba(43,143,255,0.06) calc(70% - 0.5px),
-      rgba(43,143,255,0.06) calc(70% + 0.5px),
-      transparent calc(70% + 0.5px)
-    ),
-    radial-gradient(circle at 70% 18%, transparent 149px, rgba(43,143,255,0.1) 150px, transparent 152px),
-    radial-gradient(circle at 70% 18%, transparent 269px, rgba(43,143,255,0.07) 270px, transparent 272px),
-    radial-gradient(circle at 70% 18%, transparent 389px, rgba(43,143,255,0.045) 390px, transparent 392px),
-    radial-gradient(ellipse 50% 45% at 70% 18%, rgba(43,143,255,0.06) 0%, transparent 70%);
+    linear-gradient(rgba(43,143,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,143,255,0.045) 1px, transparent 1px),
+    radial-gradient(circle at 70% 18%, transparent 179px, rgba(43,143,255,0.10) 180px, transparent 183px),
+    radial-gradient(circle at 70% 18%, transparent 329px, rgba(43,143,255,0.065) 330px, transparent 333px),
+    radial-gradient(ellipse 50% 45% at 70% 18%, rgba(43,143,255,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 85% 85% at 50% 50%, transparent 42%, rgba(200,212,235,0.15) 100%);
   background-size:
-    80px 80px,
-    80px 80px,
-    100% 100%,
-    100% 100%,
+    100px 100px,
+    100px 100px,
     100% 100%,
     100% 100%,
     100% 100%,
@@ -302,7 +289,7 @@ html[data-theme="light"] .panel-card {
 
 html[data-theme="light"] .panel-card::before,
 html[data-theme="light"] .panel-card::after {
-  border-color: rgba(43, 143, 255, 0.45);
+  border-color: rgba(245, 158, 11, 0.45);
 }
 
 html[data-theme="light"] .panel-card:hover {
@@ -345,4 +332,116 @@ html[data-theme="light"] select option {
 
 html[data-theme="light"] :focus-visible {
   outline-color: #2B8FFF;
+}
+
+/* ─── Physical Easing Curves ───────────────────────────────────────────────── */
+:root {
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);  /* overshoot + settle */
+  --ease-needle: cubic-bezier(0.22, 1.40, 0.36, 1);  /* gauge arc */
+  --ease-paper:  cubic-bezier(0.12, 0.80, 0.32, 1);  /* content placement */
+  --ease-engage: cubic-bezier(0.40, 0.00, 0.20, 1);  /* toggles, color changes */
+}
+
+/* ─── Panel Card Depth ──────────────────────────────────────────────────────
+   Inset shadow stack gives the card a worn-surface physical feel.
+   Border colors stay in the blue family to preserve palette coherence.
+   ──────────────────────────────────────────────────────────────────────────── */
+.panel-card {
+  box-shadow:
+    inset 0 1px 0 rgba(180, 210, 255, 0.04),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.20),
+    0 1px 4px rgba(0, 0, 0, 0.28);
+  transition: box-shadow 0.22s var(--ease-spring),
+              border-color 0.18s var(--ease-engage),
+              background 0.18s var(--ease-engage);
+}
+
+.panel-card:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(180, 210, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.24),
+    0 0 0 1px rgba(77, 163, 255, 0.18),
+    0 4px 28px rgba(77, 163, 255, 0.12),
+    0 2px 16px rgba(245, 158, 11, 0.06);
+}
+
+/* ─── Animation: Paper Down ─────────────────────────────────────────────────
+   Modal and card appearances: slight rotation + drop + settle.
+   Replaces the generic opacity+scale animation.
+   ──────────────────────────────────────────────────────────────────────────── */
+@keyframes paper-down {
+  0%   { opacity: 0; transform: translateY(-8px) rotate(-0.4deg) scale(0.98); }
+  55%  { opacity: 1; transform: translateY(2px) rotate(0.12deg) scale(1.005); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+}
+.animate-paper-down {
+  animation: paper-down 0.40s var(--ease-paper) both;
+}
+
+/* ─── Animation: Gauge Settle ───────────────────────────────────────────────
+   Score reveals and numeric changes: needle overshoot + settle.
+   Apply with .animate-gauge-settle — fire-and-forget (add/remove class).
+   ──────────────────────────────────────────────────────────────────────────── */
+@keyframes gauge-settle {
+  0%   { transform: rotate(-8deg) scale(0.96); opacity: 0.4; }
+  55%  { transform: rotate(2.5deg) scale(1.01); opacity: 1; }
+  75%  { transform: rotate(-0.8deg) scale(1.0); }
+  90%  { transform: rotate(0.3deg); }
+  100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+.animate-gauge-settle {
+  animation: gauge-settle 0.55s var(--ease-needle) both;
+}
+
+/* ─── Animation: Beacon Warm ────────────────────────────────────────────────
+   Replaces existing .animate-beacon — adds a box-shadow pulse for a warm
+   instrument-panel indicator feel rather than generic scale-only.
+   ──────────────────────────────────────────────────────────────────────────── */
+@keyframes beacon-warm {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(77, 163, 255, 0);
+  }
+  50% {
+    transform: scale(1.035);
+    opacity: 0.88;
+    box-shadow: 0 0 0 8px rgba(77, 163, 255, 0.10);
+  }
+}
+.animate-beacon {
+  animation: beacon-warm 2.8s var(--ease-engage) infinite;
+}
+
+/* ─── Animation: Arc Trace ──────────────────────────────────────────────────
+   Flight arc on class cards draws on hover via stroke-dashoffset.
+   Requires pathLength="1" on the SVG path and className="flight-arc-path".
+   ──────────────────────────────────────────────────────────────────────────── */
+@keyframes arc-trace {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.panel-card .flight-arc-path {
+  stroke-dasharray: 0.04 0.065;
+  stroke-dashoffset: 0;
+  transition: opacity 0.3s ease;
+}
+
+.panel-card:hover .flight-arc-path {
+  animation: arc-trace 0.65s var(--ease-paper) both;
+}
+
+/* ─── Animation: Pulse Mechanical ──────────────────────────────────────────
+   One-shot score flash — fire-and-forget via class toggle.
+   ──────────────────────────────────────────────────────────────────────────── */
+@keyframes pulse-mechanical {
+  0%   { transform: scale(1); }
+  28%  { transform: scale(1.07); }
+  52%  { transform: scale(0.98); }
+  70%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+.animate-pulse-mechanical {
+  animation: pulse-mechanical 0.55s var(--ease-needle) 1 forwards;
 }

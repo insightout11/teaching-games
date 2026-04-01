@@ -62,11 +62,13 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
                     aria-hidden="true"
                   >
                     <path
+                      className="flight-arc-path"
                       d="M 20,120 Q 140,50 280,18"
                       fill="none"
                       stroke="#4DA3FF"
                       strokeWidth="1.5"
                       strokeDasharray="5,7"
+                      pathLength="1"
                     />
                     <circle cx="20" cy="120" r="3" fill="#4DA3FF"/>
                     <circle cx="280" cy="18" r="3" fill="#4DA3FF"/>
