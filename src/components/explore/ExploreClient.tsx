@@ -176,11 +176,13 @@ export function ExploreClient() {
       </div>
 
       {/* Type filter tabs */}
-      <div className="flex gap-2 mb-4">
+      <div role="group" aria-label="Content type" className="flex gap-2 mb-4">
         {(['all', 'games', 'activities'] as FilterTab[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setFilter(tab)}
+            aria-pressed={filter === tab}
+            aria-label={tab === 'all' ? 'All types' : undefined}
             className={cn(
               'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors capitalize',
               filter === tab
@@ -194,9 +196,11 @@ export function ExploreClient() {
       </div>
 
       {/* Skill filter */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div role="group" aria-label="Skill category" className="flex flex-wrap gap-2 mb-8">
         <button
           onClick={() => setSkillFilter('all')}
+          aria-pressed={skillFilter === 'all'}
+          aria-label="All skills"
           className={cn(
             'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors',
             skillFilter === 'all'
@@ -210,6 +214,7 @@ export function ExploreClient() {
           <button
             key={key}
             onClick={() => setSkillFilter(key)}
+            aria-pressed={skillFilter === key}
             className={cn(
               'px-4 py-1.5 rounded-full text-sm font-medium border transition-colors',
               skillFilter === key
@@ -232,12 +237,12 @@ export function ExploreClient() {
           const info = GAME_CATEGORY_INFO[cat];
           const CatIcon = info.icon;
           return (
-            <section key={cat}>
+            <section key={cat} aria-label={info.name}>
               <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
-                <CatIcon className={`w-4 h-4 ${info.color}`} />
-                <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
-                <span className="text-xs text-lc-text3 mr-1">— Games</span>
-                <div className="hud-rule" />
+                <CatIcon className={`w-4 h-4 ${info.color}`} aria-hidden="true" />
+                <h2 className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</h2>
+                <span className="text-xs text-lc-text3 mr-1" aria-hidden="true">— Games</span>
+                <div className="hud-rule" aria-hidden="true" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {catGames.map((game) => {
@@ -247,20 +252,21 @@ export function ExploreClient() {
                     <button
                       key={game.key}
                       onClick={() => setLaunchItem({ name: game.name, key: game.key, type: 'game' })}
+                      aria-label={`${game.name} – ${stageBadge?.label ?? 'Game'}, ${game.estimatedMinutes} min`}
                       className={cn('panel-card border-l-2 p-6 text-left transition-all w-full', getCategoryAccent(cat))}
                     >
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-2 mb-1" aria-hidden="true">
                         <GameIcon className={`w-5 h-5 ${info.color}`} />
-                        <h3 className="font-semibold">{game.name}</h3>
+                        <span className="font-semibold">{game.name}</span>
                         {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
                       </div>
-                      <p className="text-sm opacity-70 mt-1">{game.description}</p>
-                      <div className="flex flex-wrap gap-1 mt-3">
+                      <p className="text-sm opacity-70 mt-1" aria-hidden="true">{game.description}</p>
+                      <div className="flex flex-wrap gap-1 mt-3" aria-hidden="true">
                         {game.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">{skill}</span>
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded-full">{skill}</span>
                         ))}
                       </div>
-                      <div className="mt-3 flex items-center gap-1">
+                      <div className="mt-3 flex items-center gap-1" aria-hidden="true">
                         <Clock className="w-3 h-3 opacity-40" />
                         <span className="text-xs opacity-50">{game.estimatedMinutes} min</span>
                       </div>
@@ -281,12 +287,12 @@ export function ExploreClient() {
           const info = CATEGORY_INFO[cat];
           const CatIcon = info.icon;
           return (
-            <section key={cat}>
+            <section key={cat} aria-label={info.name}>
               <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
-                <CatIcon className={`w-4 h-4 ${info.color}`} />
-                <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
-                <span className="text-xs text-lc-text3 mr-1">— Activities</span>
-                <div className="hud-rule" />
+                <CatIcon className={`w-4 h-4 ${info.color}`} aria-hidden="true" />
+                <h2 className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</h2>
+                <span className="text-xs text-lc-text3 mr-1" aria-hidden="true">— Activities</span>
+                <div className="hud-rule" aria-hidden="true" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {catActivities.map((activity) => {
@@ -296,20 +302,21 @@ export function ExploreClient() {
                     <button
                       key={activity.key}
                       onClick={() => setLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
+                      aria-label={`${activity.name} – ${stageBadge?.label ?? 'Activity'}, ${activity.estimatedMinutes} min`}
                       className={cn('panel-card border-l-2 p-6 text-left transition-all w-full', getCategoryAccent(cat))}
                     >
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-2 mb-1" aria-hidden="true">
                         <ActivityIcon className={`w-5 h-5 ${info.color}`} />
-                        <h3 className="font-semibold">{activity.name}</h3>
+                        <span className="font-semibold">{activity.name}</span>
                         {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
                       </div>
-                      <p className="text-sm opacity-70 mt-2">{activity.description}</p>
-                      <div className="flex flex-wrap gap-1 mt-3">
+                      <p className="text-sm opacity-70 mt-2" aria-hidden="true">{activity.description}</p>
+                      <div className="flex flex-wrap gap-1 mt-3" aria-hidden="true">
                         {activity.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">{skill}</span>
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded-full">{skill}</span>
                         ))}
                       </div>
-                      <div className="mt-3 flex items-center gap-1">
+                      <div className="mt-3 flex items-center gap-1" aria-hidden="true">
                         <Clock className="w-3 h-3 opacity-40" />
                         <span className="text-xs opacity-50">{activity.estimatedMinutes} min</span>
                       </div>

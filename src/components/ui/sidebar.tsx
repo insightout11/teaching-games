@@ -46,7 +46,7 @@ export function Sidebar({ user }: { user: User }) {
   };
 
   return (
-    <aside className="w-64 bg-lc-surface border-r border-lc-border flex flex-col h-screen sticky top-0">
+    <header className="w-64 bg-lc-surface border-r border-lc-border flex flex-col h-screen sticky top-0">
       <div className="p-6 border-b border-lc-border-subtle">
         <div className="flex items-center justify-between">
           <Link href="/explore" className="cursor-pointer">
@@ -75,6 +75,8 @@ export function Sidebar({ user }: { user: User }) {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={isActive ? 'page' : undefined}
+              aria-label={item.subtitle ? `${item.label} – ${item.subtitle}` : undefined}
               className={cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                 isActive
@@ -86,7 +88,7 @@ export function Sidebar({ user }: { user: User }) {
               <span className="flex flex-col">
                 <span>{item.label}</span>
                 {item.subtitle && (
-                  <span className="text-xs text-lc-text3 font-normal">{item.subtitle}</span>
+                  <span className="text-xs text-lc-text3 font-normal" aria-hidden="true">{item.subtitle}</span>
                 )}
               </span>
             </Link>
@@ -113,6 +115,6 @@ export function Sidebar({ user }: { user: User }) {
           Sign out
         </button>
       </div>
-    </aside>
+    </header>
   );
 }
