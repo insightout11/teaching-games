@@ -138,12 +138,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     const slot = lesson.currentSlot;
 
     if (slot.type === 'activity') {
-      const activity = activities.find((a) => a.key === slot.key);
+      const activity = getAllActivities().find((a) => a.key === slot.key);
       if (activity) {
         handleSelectActivity(activity);
       }
     } else if (slot.type === 'game') {
-      const game = games.find((g) => g.key === slot.key);
+      const game = getAllGames().find((g) => g.key === slot.key);
       if (game) {
         handleSelectGame(game);
       }
@@ -664,7 +664,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 <button
                   key={stage}
                   onClick={() => setPppFilter(stage)}
-                  className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                  className={`text-xs px-3 py-1 rounded font-instrument tracking-wide uppercase border transition-colors ${
                     pppFilter === stage
                       ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-500 border-violet-500/40'
                         : stage === 'practice' ? 'bg-sky-500/20 text-sky-500 border-sky-500/40'
@@ -673,6 +673,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
                   }`}
                 >
+                  {pppFilter === stage && <span className="mr-1 opacity-70">◆</span>}
                   {stage === 'all' ? 'All' : stage.charAt(0).toUpperCase() + stage.slice(1)}
                 </button>
               ))}
@@ -688,7 +689,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </span>
                 )}
               </h2>
-              {(Object.entries(getActivitiesGrouped()) as [string, typeof activities][]).map(([category, categoryActivities]) => {
+              {(Object.entries(
+                activities.reduce((acc, a) => { (acc[a.category] = acc[a.category] ?? []).push(a); return acc; }, {} as Record<string, typeof activities>)
+              ) as [string, typeof activities][]).map(([category, categoryActivities]) => {
                 const filtered = pppFilter === 'all' ? categoryActivities : categoryActivities.filter((a) => a.pppStage === pppFilter);
                 if (filtered.length === 0) return null;
                 const info = CATEGORY_INFO[category as keyof typeof CATEGORY_INFO];
@@ -774,7 +777,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </span>
                 )}
               </h2>
-              {(Object.entries(getGamesGrouped()) as [string, typeof games][]).map(([category, categoryGames]) => {
+              {(Object.entries(
+                games.reduce((acc, g) => { (acc[g.category] = acc[g.category] ?? []).push(g); return acc; }, {} as Record<string, typeof games>)
+              ) as [string, typeof games][]).map(([category, categoryGames]) => {
                 const filtered = pppFilter === 'all' ? categoryGames : categoryGames.filter((g) => g.pppStage === pppFilter);
                 if (filtered.length === 0) return null;
                 const info = GAME_CATEGORY_INFO[category as keyof typeof GAME_CATEGORY_INFO];
