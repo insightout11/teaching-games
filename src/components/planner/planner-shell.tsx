@@ -11,7 +11,7 @@ export function PlannerShell() {
   const step = usePlannerStore((s) => s.step);
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] py-8 px-4">
+    <div className="hud-bg -mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-8 lg:px-8 pb-12 min-h-[calc(100vh-4rem)]">
       <div className="mb-8">
         <PlannerStepIndicator current={step} />
       </div>
