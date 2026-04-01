@@ -104,7 +104,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
-  const [pppFilter, setPppFilter] = useState<'all' | 'presentation' | 'practice' | 'production'>('all');
+  const [typeFilter, setTypeFilter] = useState<SessionTypeFilter>('all');
+  const [skillFilter, setSkillFilter] = useState<SessionSkillFilter>('all');
   const [swapSuggestion, setSwapSuggestion] = useState<{
     type: 'activity' | 'game';
     plugin: ActivityPlugin | GamePlugin;
@@ -625,7 +626,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
         {/* Selection / Game / Activity View */}
         {viewMode === 'selection' ? (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Settings on selection screen */}
             <div className="hud-settings-panel p-2 shadow-lg">
               <SessionSettingsBar />
@@ -673,200 +674,190 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             )}
 
-            {/* PPP Stage Filter */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-lc-text3 uppercase tracking-wider font-semibold mr-1">Stage:</span>
-              {(['all', 'presentation', 'practice', 'production'] as const).map((stage) => (
+            {/* Type filter tabs */}
+            <div role="group" aria-label="Content type" className="flex gap-2">
+              {(['all', 'games', 'activities'] as const).map((tab) => (
                 <button
-                  key={stage}
-                  onClick={() => setPppFilter(stage)}
-                  className={`text-xs px-3 py-1 rounded font-instrument tracking-wide uppercase border transition-colors ${
-                    pppFilter === stage
-                      ? stage === 'presentation' ? 'bg-violet-500/20 text-violet-500 border-violet-500/40'
-                        : stage === 'practice' ? 'bg-sky-500/20 text-sky-500 border-sky-500/40'
-                        : stage === 'production' ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/40'
-                        : 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+                  key={tab}
+                  onClick={() => setTypeFilter(tab)}
+                  aria-pressed={typeFilter === tab}
+                  className={`px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors ${
+                    typeFilter === tab
+                      ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
                       : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
                   }`}
                 >
-                  {pppFilter === stage && <span className="mr-1 opacity-70">◆</span>}
-                  {stage === 'all' ? 'All' : stage.charAt(0).toUpperCase() + stage.slice(1)}
+                  {typeFilter === tab && <span className="mr-1 opacity-70">◆</span>}
+                  {tab === 'all' ? 'All' : tab === 'games' ? 'Games' : 'Activities'}
                 </button>
               ))}
             </div>
 
-            {/* Activities Section */}
-            <div>
-              <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                Discussion Activities
-                {lesson.lessonPlanContent && (
-                  <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
-                    Content Ready
-                  </span>
-                )}
-              </h2>
-              {(Object.entries(
-                activities.reduce((acc, a) => { (acc[a.category] = acc[a.category] ?? []).push(a); return acc; }, {} as Record<string, typeof activities>)
-              ) as [string, typeof activities][]).map(([category, categoryActivities]) => {
-                const filtered = pppFilter === 'all' ? categoryActivities : categoryActivities.filter((a) => a.pppStage === pppFilter);
-                if (filtered.length === 0) return null;
-                const info = CATEGORY_INFO[category as keyof typeof CATEGORY_INFO];
-                const IconComponent = info.icon;
-                return (
-                  <div key={category}>
-                    <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
-                      <IconComponent className={`w-4 h-4 ${info.color}`} />
-                      <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
-                      <div className="hud-rule" />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {filtered.map((activity) => {
-                        const hasContent = lesson.lessonPlanContent?.generatedContent[activity.key];
-                        const ActivityIcon = activity.icon;
-                        const stageBadge = activity.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' }
-                          : activity.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' }
-                          : activity.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-500' }
-                          : null;
-                        const isProActivity = PRO_ACTIVITY_KEYS.has(activity.key);
-                        return (
-                          <button
-                            key={activity.key}
-                            onClick={() => handleSelectActivity(activity)}
-                            className={`panel-card p-6 text-left transition-all relative ${
-                              hasContent ? 'panel-card--ready' : ''
-                            }`}
-                          >
-                            {hasContent && (
-                              <div className="absolute top-2 right-2 w-2 h-2 bg-cyan-400 rounded-full" />
-                            )}
-                            <div className="flex items-center gap-2 mb-1">
-                              <ActivityIcon className={`w-5 h-5 ${info.color}`} />
-                              <h3 className="font-semibold">{activity.name}</h3>
-                              {stageBadge && (
-                                <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>
-                              )}
-                              {isProActivity && !teacherTier.isPro && (
-                                <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 ml-auto">Pro</span>
-                              )}
-                            </div>
-                            <p className="text-sm opacity-70 mt-2">{activity.description}</p>
-                            <div className="flex flex-wrap gap-1 mt-3">
-                              {activity.skills.map((skill) => (
-                                <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">
-                                  {skill}
-                                </span>
-                              ))}
-                            </div>
-                            <div className="flex items-center justify-between mt-3">
-                              <span className="text-xs opacity-50">~{activity.estimatedMinutes} min</span>
-                              <div className="hud-control" onClick={(e) => e.stopPropagation()}>
+            {/* Skill filter pills */}
+            <div role="group" aria-label="Skill category" className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setSkillFilter('all')}
+                aria-pressed={skillFilter === 'all'}
+                className={`px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors ${
+                  skillFilter === 'all'
+                    ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+                    : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
+                }`}
+              >
+                {skillFilter === 'all' && <span className="mr-1 opacity-70">◆</span>}All
+              </button>
+              {SESSION_SKILL_FILTERS.map(({ key, label }) => (
+                <button
+                  key={key}
+                  onClick={() => setSkillFilter(key)}
+                  aria-pressed={skillFilter === key}
+                  className={`px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors ${
+                    skillFilter === key
+                      ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+                      : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
+                  }`}
+                >
+                  {skillFilter === key && <span className="mr-1 opacity-70">◆</span>}{label}
+                </button>
+              ))}
+            </div>
+
+            {/* Games */}
+            {(typeFilter === 'all' || typeFilter === 'games') && (
+              <div className="space-y-6">
+                {GAME_CATEGORY_ORDER.map((cat) => {
+                  const catGames = games.filter((g) => g.category === cat && (
+                    skillFilter === 'all' || SESSION_SKILL_FILTERS.find((f) => f.key === skillFilter)?.skills.some((s) => g.skills.includes(s))
+                  ));
+                  if (!catGames.length) return null;
+                  const info = GAME_CATEGORY_INFO[cat];
+                  const IconComponent = info.icon;
+                  return (
+                    <div key={cat}>
+                      <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
+                        <IconComponent className={`w-4 h-4 ${info.color}`} />
+                        <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
+                        <span className="flex items-center gap-1 text-xs text-lc-text3 mr-1" aria-hidden="true">
+                          <svg width="6" height="6" viewBox="0 0 6 6" fill="currentColor"><path d="M3 0L6 3L3 6L0 3Z"/></svg>
+                          Games
+                        </span>
+                        <div className="hud-rule" />
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {catGames.map((game) => {
+                          const hasContent = lesson.lessonPlanContent?.generatedGameContent?.[game.key];
+                          const GameIcon = game.icon;
+                          const stageBadge = game.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' }
+                            : game.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-500' }
+                            : game.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' }
+                            : null;
+                          const isProGame = PRO_GAME_KEYS.has(game.key);
+                          return (
+                            <button
+                              key={game.key}
+                              onClick={() => handleSelectGame(game)}
+                              className={`panel-card p-6 text-left transition-all relative ${hasContent ? 'panel-card--ready' : ''}`}
+                            >
+                              {hasContent && <div className="absolute top-2 right-2 w-2 h-2 bg-lc-blue rounded-full" />}
+                              <div className="flex items-center gap-2 mb-1">
+                                <GameIcon className={`w-5 h-5 ${info.color}`} />
+                                <h3 className="font-semibold">{game.name}</h3>
+                                {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
+                                {isProGame && !teacherTier.isPro && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 ml-auto">Pro</span>}
+                              </div>
+                              <p className="text-sm opacity-70 mt-1">{game.description}</p>
+                              <div className="flex flex-wrap gap-1 mt-3">
+                                {game.skills.map((skill) => (
+                                  <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">{skill}</span>
+                                ))}
+                              </div>
+                              <div className="hud-control mt-3" onClick={(e) => e.stopPropagation()}>
                                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                <select
-                                  value={getTimerForPlugin(activity.key, activity.defaultTimerSeconds)}
-                                  onChange={(e) => handleTimerOverride(activity.key, Number(e.target.value))}
-                                  className="outline-none cursor-pointer"
-                                >
-                                  {[30, 45, 60, 90, 120, 180].map((s) => (
-                                    <option key={s} value={s}>{s}s</option>
-                                  ))}
+                                <select value={getTimerForPlugin(game.key, game.defaultTimerSeconds)} onChange={(e) => handleTimerOverride(game.key, Number(e.target.value))} className="outline-none cursor-pointer">
+                                  {[15, 20, 30, 45, 60, 90, 120].map((s) => <option key={s} value={s}>{s}s</option>)}
                                 </select>
                               </div>
-                            </div>
-                          </button>
-                        );
-                      })}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
 
-            {/* Skill Games Section */}
-            <div>
-              <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                Skill Games
-                {lesson.lessonPlanContent?.generatedGameContent && Object.keys(lesson.lessonPlanContent.generatedGameContent).length > 0 && (
-                  <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
-                    Content Ready
-                  </span>
-                )}
-              </h2>
-              {(Object.entries(
-                games.reduce((acc, g) => { (acc[g.category] = acc[g.category] ?? []).push(g); return acc; }, {} as Record<string, typeof games>)
-              ) as [string, typeof games][]).map(([category, categoryGames]) => {
-                const filtered = pppFilter === 'all' ? categoryGames : categoryGames.filter((g) => g.pppStage === pppFilter);
-                if (filtered.length === 0) return null;
-                const info = GAME_CATEGORY_INFO[category as keyof typeof GAME_CATEGORY_INFO];
-                const IconComponent = info.icon;
-                return (
-                  <div key={category}>
-                    <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
-                      <IconComponent className={`w-4 h-4 ${info.color}`} />
-                      <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
-                      <div className="hud-rule" />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {filtered.map((game) => {
-                        const hasContent = lesson.lessonPlanContent?.generatedGameContent?.[game.key];
-                        const GameIcon = game.icon;
-                        const stageBadge = game.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' }
-                          : game.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-500' }
-                          : game.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' }
-                          : null;
-                        const isProGame = PRO_GAME_KEYS.has(game.key);
-                        return (
-                          <button
-                            key={game.key}
-                            onClick={() => handleSelectGame(game)}
-                            className={`panel-card p-6 text-left transition-all relative ${
-                              hasContent ? 'panel-card--ready' : ''
-                            }`}
-                          >
-                            {hasContent && (
-                              <div className="absolute top-2 right-2 w-2 h-2 bg-lc-blue rounded-full" />
-                            )}
-                            <div className="flex items-center gap-2 mb-1">
-                              <GameIcon className={`w-5 h-5 ${info.color}`} />
-                              <h3 className="font-semibold">{game.name}</h3>
-                              {stageBadge && (
-                                <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>
-                              )}
-                              {isProGame && !teacherTier.isPro && (
-                                <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 ml-auto">Pro</span>
-                              )}
-                            </div>
-                            <p className="text-sm opacity-70 mt-1">{game.description}</p>
-                            <div className="flex flex-wrap gap-1 mt-3">
-                              {game.skills.map((skill) => (
-                                <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">
-                                  {skill}
-                                </span>
-                              ))}
-                            </div>
-                            <div className="hud-control mt-3" onClick={(e) => e.stopPropagation()}>
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              <select
-                                value={getTimerForPlugin(game.key, game.defaultTimerSeconds)}
-                                onChange={(e) => handleTimerOverride(game.key, Number(e.target.value))}
-                                className="outline-none cursor-pointer"
-                              >
-                                {[15, 20, 30, 45, 60, 90, 120].map((s) => (
-                                  <option key={s} value={s}>{s}s</option>
+            {/* Activities */}
+            {(typeFilter === 'all' || typeFilter === 'activities') && (
+              <div className="space-y-6">
+                {ACTIVITY_CATEGORY_ORDER.map((cat) => {
+                  const catActivities = activities.filter((a) => a.category === cat && (
+                    skillFilter === 'all' || SESSION_SKILL_FILTERS.find((f) => f.key === skillFilter)?.skills.some((s) => (a.skills as string[]).includes(s))
+                  ));
+                  if (!catActivities.length) return null;
+                  const info = CATEGORY_INFO[cat];
+                  const IconComponent = info.icon;
+                  return (
+                    <div key={cat}>
+                      <div className="flex items-center gap-2 mb-3 mt-6 first:mt-0">
+                        <IconComponent className={`w-4 h-4 ${info.color}`} />
+                        <span className={`text-sm font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
+                        <span className="flex items-center gap-1 text-xs text-lc-text3 mr-1" aria-hidden="true">
+                          <svg width="6" height="6" viewBox="0 0 6 6" fill="currentColor"><path d="M3 0L6 3L3 6L0 3Z"/></svg>
+                          Activities
+                        </span>
+                        <div className="hud-rule" />
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {catActivities.map((activity) => {
+                          const hasContent = lesson.lessonPlanContent?.generatedContent[activity.key];
+                          const ActivityIcon = activity.icon;
+                          const stageBadge = activity.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' }
+                            : activity.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' }
+                            : activity.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-500' }
+                            : null;
+                          const isProActivity = PRO_ACTIVITY_KEYS.has(activity.key);
+                          return (
+                            <button
+                              key={activity.key}
+                              onClick={() => handleSelectActivity(activity)}
+                              className={`panel-card p-6 text-left transition-all relative ${hasContent ? 'panel-card--ready' : ''}`}
+                            >
+                              {hasContent && <div className="absolute top-2 right-2 w-2 h-2 bg-cyan-400 rounded-full" />}
+                              <div className="flex items-center gap-2 mb-1">
+                                <ActivityIcon className={`w-5 h-5 ${info.color}`} />
+                                <h3 className="font-semibold">{activity.name}</h3>
+                                {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
+                                {isProActivity && !teacherTier.isPro && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 ml-auto">Pro</span>}
+                              </div>
+                              <p className="text-sm opacity-70 mt-2">{activity.description}</p>
+                              <div className="flex flex-wrap gap-1 mt-3">
+                                {activity.skills.map((skill) => (
+                                  <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">{skill}</span>
                                 ))}
-                              </select>
-                            </div>
-                          </button>
-                        );
-                      })}
+                              </div>
+                              <div className="flex items-center justify-between mt-3">
+                                <span className="text-xs opacity-50">~{activity.estimatedMinutes} min</span>
+                                <div className="hud-control" onClick={(e) => e.stopPropagation()}>
+                                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                  </svg>
+                                  <select value={getTimerForPlugin(activity.key, activity.defaultTimerSeconds)} onChange={(e) => handleTimerOverride(activity.key, Number(e.target.value))} className="outline-none cursor-pointer">
+                                    {[30, 45, 60, 90, 120, 180].map((s) => <option key={s} value={s}>{s}s</option>)}
+                                  </select>
+                                </div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         ) : viewMode === 'game' && selectedGame ? (
           <div>
