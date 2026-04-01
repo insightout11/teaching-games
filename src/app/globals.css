@@ -336,3 +336,24 @@ html[data-theme="light"] select option {
   background-color: #ffffff;
   color: #0F172A;
 }
+
+/* World map background overlay — applied alongside hud-bg on dashboard pages */
+.world-map-bg {
+  position: relative;
+}
+.world-map-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/world-map.svg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+.world-map-bg > * {
+  position: relative;
+  z-index: 1;
+}

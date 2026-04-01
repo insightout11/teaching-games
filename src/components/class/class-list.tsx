@@ -6,7 +6,7 @@ import type { Class } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import Link from 'next/link';
-import { Radio } from 'lucide-react';
+import { Plane } from 'lucide-react';
 
 export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
   const [classes, setClasses] = useState(initialClasses);
@@ -53,9 +53,29 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
           {classes.map((cls) => (
             <div key={cls.id} className="relative">
               <Link href={`/classes/${cls.id}`} className="block">
-                <div className="panel-card p-6 cursor-pointer group">
+                <div className="panel-card p-6 cursor-pointer group overflow-hidden">
+                  {/* Flight arc background */}
+                  <svg
+                    className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.07]"
+                    preserveAspectRatio="none"
+                    viewBox="0 0 300 140"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M 20,120 Q 140,50 280,18"
+                      fill="none"
+                      stroke="#4DA3FF"
+                      strokeWidth="1.5"
+                      strokeDasharray="5,7"
+                    />
+                    <circle cx="20" cy="120" r="3" fill="#4DA3FF"/>
+                    <circle cx="280" cy="18" r="3" fill="#4DA3FF"/>
+                  </svg>
+                  {/* Plane icon — upper right */}
+                  <div className="absolute top-4 right-5 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Plane className="w-12 h-12 text-lc-blue -rotate-12" />
+                  </div>
                   <div className="flex items-center gap-2">
-                    <Radio className="w-4 h-4 text-lc-text3 shrink-0" />
                     <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
                       {cls.name}
                     </h3>

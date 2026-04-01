@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1009 505">
+  <g fill="#4DA3FF" stroke="none">
+    <!-- Greenland -->
+    <polygon points="381,78 433,17 456,20 463,67"/>
+    <!-- North America -->
+    <polygon points="34,73 118,90 157,112 165,146 204,196 259,211 280,179 294,129 327,123 324,95 280,56 168,56"/>
+    <!-- South America -->
+    <polygon points="288,230 330,221 409,265 367,342 322,405 308,405 293,359 277,252"/>
+    <!-- Eurasia: Portugal → N Europe → Arctic Russia → Far East → SE Asia → India → Arabia → Egypt → Med back to Portugal -->
+    <polygon points="477,152 493,90 521,78 578,56 667,50 751,50 863,50 978,67 923,106 853,160 793,224 718,229 623,218 589,168"/>
+    <!-- Africa -->
+    <polygon points="486,152 469,174 452,211 454,245 470,253 533,303 548,347 577,347 602,303 621,218 592,168 534,149"/>
+    <!-- Australia -->
+    <polygon points="824,314 869,286 903,280 925,359 892,365 837,347"/>
+  </g>
+  <!-- Major flight route arcs -->
+  <g fill="none" stroke="#4DA3FF" stroke-width="0.8" stroke-dasharray="5,8" opacity="0.6">
+    <!-- NYC → London -->
+    <path d="M 297,137 Q 400,58 493,109"/>
+    <!-- London → Tokyo -->
+    <path d="M 493,109 Q 700,48 853,160"/>
+    <!-- LA → Tokyo (over Pacific) -->
+    <path d="M 165,149 Q 500,28 853,160"/>
+    <!-- NYC → São Paulo -->
+    <path d="M 297,137 Q 340,200 367,280"/>
+    <!-- London → Dubai -->
+    <path d="M 493,109 Q 580,130 623,190"/>
+  </g>
+  <!-- Waypoint dots at major airports -->
+  <g fill="#4DA3FF" opacity="0.7">
+    <circle cx="297" cy="137" r="2.5"/>
+    <circle cx="493" cy="109" r="2.5"/>
+    <circle cx="853" cy="160" r="2.5"/>
+    <circle cx="165" cy="149" r="2.5"/>
+    <circle cx="623" cy="190" r="2"/>
+    <circle cx="367" cy="280" r="2"/>
+  </g>
+</svg>
