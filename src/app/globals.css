@@ -124,7 +124,7 @@ select option {
 .hud-bg {
   background-color: var(--lc-bg);
   background-image:
-    /* Navigational chart grid — 100px cells, slightly wider than before */
+    /* Navigational chart grid — 100px cells */
     linear-gradient(rgba(77,163,255,0.030) 1px, transparent 1px),
     linear-gradient(90deg, rgba(77,163,255,0.030) 1px, transparent 1px),
     /* Compass arc 1 — inner ring */
