@@ -408,7 +408,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
             {/* Dialogue */}
             {renderDialogue()}
 
-            {/* Live solver feed */}
+            {/* Live solver feed — hide answers until race ends */}
             {raceSolvers.length > 0 && (
               <div className="space-y-2">
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Submissions</p>
@@ -418,20 +418,11 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
                       key={solver.studentId}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className={`flex items-center justify-between px-4 py-3 rounded-xl ${
-                        solver.score >= 8 ? 'bg-emerald-500/10 border border-emerald-500/20'
-                          : solver.score >= 5 ? 'bg-yellow-500/10 border border-yellow-500/20'
-                          : 'bg-red-500/10 border border-red-500/20'
-                      }`}
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10"
                     >
-                      <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <span className="text-lg font-black text-slate-500">#{solver.position}</span>
-                        <span className="font-semibold text-white shrink-0">{solver.displayName}</span>
-                        <span className="text-sm text-slate-400 italic truncate">&quot;{solver.response}&quot;</span>
-                      </div>
-                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white shrink-0 ml-2`}>
-                        {solver.score}
-                      </div>
+                      <span className="text-lg font-black text-slate-500">#{solver.position}</span>
+                      <span className="font-semibold text-white">{solver.displayName}</span>
+                      <span className="text-xs text-slate-500 italic">submitted</span>
                     </motion.div>
                   ))}
                 </AnimatePresence>
