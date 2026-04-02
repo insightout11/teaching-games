@@ -779,30 +779,25 @@ function PlaneLayer({
           opacity={isPlanner ? 0.22 : 0.24}
         />
 
-        <foreignObject
-          x={-30}
-          y={-40}
-          width="60"
-          height="60"
+        <motion.g
+          animate={
+            isPlanner
+              ? { y: [0, -2.5, 0], rotate: [-1.2, 0.4, -1.2] }
+              : { y: [0, -1.2, 0], rotate: planeAngle }
+          }
+          transition={isPlanner
+            ? { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }
+            : { y: { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } }
+          }
+          style={{ transformOrigin: '0px -10px' }}
         >
-          <motion.div
-            className="flex h-full w-full items-center justify-center"
-            animate={
-              isPlanner
-                ? { y: [0, -2.5, 0], rotate: [-1.2, 0.4, -1.2] }
-                : { y: [0, -1.2, 0], rotate: planeAngle }
-            }
-            transition={isPlanner
-              ? { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }
-              : { y: { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } }
-            }
-            style={{ transformOrigin: '50% 50%' }}
-          >
-            <div className="rounded-full border border-cyan-300/25 bg-[#0d1d32]/85 p-3 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-              <Plane className="h-6 w-6 text-cyan-200" strokeWidth={2.2} />
-            </div>
-          </motion.div>
-        </foreignObject>
+          {/* Circle background */}
+          <circle cx={0} cy={-10} r={22} fill="#0d1d32" fillOpacity={0.85} stroke="rgba(103,232,249,0.25)" strokeWidth={1} />
+          {/* Plane icon — Lucide path scaled to fit circle (original viewBox 0 0 24 24, centered at 12,12, scaled ~0.9 and offset) */}
+          <g transform="translate(-10.8, -22.8) scale(0.9)" stroke="rgb(165,243,252)" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" fill="none">
+            <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
+          </g>
+        </motion.g>
       </motion.g>
     </svg>
   );
