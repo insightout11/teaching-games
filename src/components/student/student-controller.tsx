@@ -79,6 +79,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [questionStatus, setQuestionStatus] = useState<'idle' | 'sent' | 'error' | 'rate_limited'>('idle');
   const [questionWait, setQuestionWait] = useState(0);
 
+  // Poll hide tracking (voted or dismissed)
+  const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
+
   // Optimistic voting state
   const [localVoteCounts, setLocalVoteCounts] = useState<Record<string, number>>({});
   const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
@@ -204,12 +207,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         }),
       });
 
-      if (!res.ok) {
+      if (res.ok) {
+        setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId));
+      } else {
         const data = await res.json();
         if (res.status !== 429) {
           setSelectedChoice(null);
         } else {
           console.log(`Vote rate limited, wait ${data.waitSeconds}s`);
+          setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId));
         }
       }
     } catch {
@@ -339,9 +345,18 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       </div>
 
       {/* Active Poll */}
-      {activePoll && (
+      {activePoll && !hiddenPollIds.has(activePoll.pollId) && (
         <div className="glass rounded-2xl p-6 mb-4">
-          <h2 className="font-bold text-white mb-1">Poll</h2>
+          <div className="flex items-center justify-between mb-1">
+            <h2 className="font-bold text-white">Poll</h2>
+            <button
+              onClick={() => setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId))}
+              className="text-gray-400 hover:text-white text-xl leading-none"
+              aria-label="Dismiss poll"
+            >
+              ×
+            </button>
+          </div>
           <p className="text-lg text-cyan-400 mb-4">{activePoll.question}</p>
           <div className="space-y-2">
             {activePoll.options.map((option) => (
