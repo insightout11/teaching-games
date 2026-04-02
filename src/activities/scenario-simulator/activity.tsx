@@ -422,6 +422,12 @@ export function ScenarioSimulatorActivity({
               ))}
             </div>
           )}
+          {content.storyContext && (
+            <div className="max-w-md mx-auto text-left space-y-1">
+              <p className="text-xs uppercase tracking-widest opacity-40">Mission</p>
+              <p className="text-sm opacity-60 leading-relaxed">{content.storyContext}</p>
+            </div>
+          )}
           <button
             onClick={handleBegin}
             className="px-12 py-6 bg-gradient-to-br from-lc-blue to-blue-500 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
@@ -508,6 +514,10 @@ export function ScenarioSimulatorActivity({
               {timeLeft}s
             </span>
           </div>
+
+          {round.situation && (
+            <p className="text-sm opacity-60 italic">{round.situation}</p>
+          )}
 
           <div className="space-y-3">
             {round.choices.map((choice) => (
