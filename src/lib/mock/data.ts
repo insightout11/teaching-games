@@ -21,6 +21,8 @@ const INITIAL_CLASSES: Class[] = [
     name: 'Demo Class',
     theme: 'colorful',
     ai_scoring_config: {},
+    default_difficulty: null,
+    default_tone: null,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
