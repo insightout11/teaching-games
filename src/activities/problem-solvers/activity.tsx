@@ -464,6 +464,7 @@ export function ProblemSolversActivity({
               <div className="glass p-3 rounded-xl text-center min-w-[4rem]">
                 <p className={`text-2xl font-game ${timerColor}`}>{timeLeft}</p>
                 <p className="text-xs opacity-40">sec</p>
+                <button onClick={() => setTimeLeft(prev => prev !== null ? prev + 30 : 30)} className="mt-1 px-2 py-0.5 rounded text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
               </div>
             )}
           </div>
@@ -716,6 +717,7 @@ export function ProblemSolversActivity({
               <div className="glass p-3 rounded-xl text-center min-w-[4rem]">
                 <p className={`text-2xl font-game ${timerColor}`}>{timeLeft}</p>
                 <p className="text-xs opacity-40">sec</p>
+                <button onClick={() => setTimeLeft(prev => prev !== null ? prev + 30 : 30)} className="mt-1 px-2 py-0.5 rounded text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
               </div>
             )}
           </div>

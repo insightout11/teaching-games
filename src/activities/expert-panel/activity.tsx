@@ -352,13 +352,16 @@ export function ExpertPanelActivity({
         <div className="space-y-5">
           <div className="flex items-center justify-between">
             <p className="text-sm uppercase tracking-widest opacity-60">Audience Voting</p>
-            <span
-              className={`text-4xl font-game tabular-nums transition-colors ${
-                voteTimer <= 3 ? 'text-red-400' : 'text-white'
-              }`}
-            >
-              {voteTimer}
-            </span>
+            <div className="flex items-center gap-2">
+              <span
+                className={`text-4xl font-game tabular-nums transition-colors ${
+                  voteTimer <= 3 ? 'text-red-400' : 'text-white'
+                }`}
+              >
+                {voteTimer}
+              </span>
+              <button onClick={() => setVoteTimer(prev => prev + 30)} className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
+            </div>
           </div>
 
           {/* Bar chart */}

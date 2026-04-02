@@ -219,7 +219,10 @@ export function MissionSelectorActivity({
           <span className="text-sm opacity-60">{pickCount} selected</span>
         )}
         {phase === 'stance' && (
-          <span className="text-sm opacity-60">{stanceTimer}s</span>
+          <>
+            <span className="text-sm opacity-60">{stanceTimer}s</span>
+            <button onClick={() => setStanceTimer(prev => prev + 30)} className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
+          </>
         )}
       </div>
 

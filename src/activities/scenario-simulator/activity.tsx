@@ -510,9 +510,12 @@ export function ScenarioSimulatorActivity({
         >
           <div className="flex items-center justify-between">
             <p className="text-xs uppercase tracking-widest opacity-50">Vote now</p>
-            <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
-              {timeLeft}s
-            </span>
+            <div className="flex items-center gap-2">
+              <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
+                {timeLeft}s
+              </span>
+              <button onClick={() => setTimeLeft(prev => prev + 30)} className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
+            </div>
           </div>
 
           {round.situation && (
@@ -618,9 +621,12 @@ export function ScenarioSimulatorActivity({
 
           <div className="flex items-center justify-between">
             <span className="text-sm opacity-50">{finaleSubmissions.length} submissions received</span>
-            <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
-              {timeLeft}s
-            </span>
+            <div className="flex items-center gap-2">
+              <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
+                {timeLeft}s
+              </span>
+              <button onClick={() => setTimeLeft(prev => prev + 30)} className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
+            </div>
           </div>
 
           {finaleSubmissions.length > 0 && (
@@ -671,9 +677,12 @@ export function ScenarioSimulatorActivity({
         >
           <div className="flex items-center justify-between">
             <p className="text-xs uppercase tracking-widest opacity-50">Choose the best final move</p>
-            <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
-              {timeLeft}s
-            </span>
+            <div className="flex items-center gap-2">
+              <span className={`text-2xl font-game tabular-nums ${timerUrgent ? 'text-red-400 animate-pulse' : 'opacity-60'}`}>
+                {timeLeft}s
+              </span>
+              <button onClick={() => setTimeLeft(prev => prev + 30)} className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
+            </div>
           </div>
 
           <div className="space-y-3">

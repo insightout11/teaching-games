@@ -313,6 +313,7 @@ export function LightningRoundActivity({
               <div className={`text-3xl font-game ${timeLeft <= 5 ? 'text-red-400' : 'text-orange-400'}`}>
                 {timeLeft}s
               </div>
+              <button onClick={() => setTimeLeft(prev => prev + 30)} className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10">+30s</button>
               <div className="text-sm opacity-50">{currentSubmissionCount} submitted</div>
             </div>
             <button
