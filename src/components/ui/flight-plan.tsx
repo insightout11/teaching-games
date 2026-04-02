@@ -798,7 +798,7 @@ function PlaneLayer({
             }
             style={{ transformOrigin: '50% 50%' }}
           >
-            <div className="rounded-full border border-cyan-300/25 bg-[#0d1d32]/85 p-3 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+            <div className="rounded-full border border-cyan-300/25 bg-[#0d1d32]/85 p-3 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
               <Plane className="h-6 w-6 text-cyan-200" strokeWidth={2.2} />
             </div>
           </motion.div>

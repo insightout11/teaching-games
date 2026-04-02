@@ -138,6 +138,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [pacingTick, setPacingTick] = useState(0);
   const [showPacingNudge, setShowPacingNudge] = useState(false);
   const nudgeDismissedForSlotRef = useRef<number>(-1);
+  const [modulePhase, setModulePhase] = useState<string>('idle');
 
   const plannerDuration = usePlannerStore((s) => s.lessonDurationMinutes);
 
@@ -348,6 +349,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const handleNextSlot = () => {
     lesson.advanceSlot();
   };
+
+  // Reset module phase when slot advances so the pulse clears on the new module
+  useEffect(() => {
+    setModulePhase('idle');
+  }, [lesson.currentSlotIndex]);
+
+  const handleActivityPhaseChange = useCallback((phase: string) => {
+    setModulePhase(phase);
+    lesson.handlePhaseChange(phase);
+  }, [lesson.handlePhaseChange]);
+
+  const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
 
   const handleExitLessonMode = () => {
     lesson.exitLesson();
@@ -910,7 +923,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   variant="primary"
                   size="sm"
                   onClick={handleNextSlot}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-600"
+                  className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
                 >
                   {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
                 </Button>
@@ -971,7 +984,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   variant="primary"
                   size="sm"
                   onClick={handleNextSlot}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-600"
+                  className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
                 >
                   {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
                 </Button>
@@ -983,7 +996,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   activity={selectedActivity}
                   generatedContent={activityContent}
                   timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
-                  onPhaseChange={lesson.isLessonActive ? lesson.handlePhaseChange : undefined}
+                  onPhaseChange={lesson.isLessonActive ? handleActivityPhaseChange : undefined}
                   onContentRegenerate={handleContentRegenerate}
                 />
               </ModuleErrorBoundary>
