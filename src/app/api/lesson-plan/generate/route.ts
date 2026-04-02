@@ -389,6 +389,7 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty, 
   const prompt = `Generate a "Scenario Simulator" activity for an ESL class.
 
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+Topic: ${topic}
 ${missionContextBlock(missionContext)}
 You are writing a choose-your-own-adventure story that will be told over 5 rounds.
 Only write Round 1 now. The other rounds will be generated live based on student votes.
