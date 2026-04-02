@@ -15,6 +15,11 @@ interface RaceSolver {
   score: number;
   feedback: string;
   position: number;
+  contextFit: number;
+  naturalness: number;
+  leadIn: number;
+  creativityBonus: number;
+  exampleResponse: string;
 }
 
 export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
@@ -127,6 +132,11 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
           score: result.score,
           feedback: result.feedback,
           position,
+          contextFit: result.contextFit,
+          naturalness: result.naturalness,
+          leadIn: result.leadIn,
+          creativityBonus: result.creativityBonus,
+          exampleResponse: result.exampleResponse,
         }];
       });
     } catch (err) {
@@ -460,7 +470,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
                 {[...raceSolvers].sort((a, b) => b.score - a.score).map((solver, i) => (
                   <div
                     key={solver.studentId}
-                    className={`px-4 py-3 rounded-xl ${
+                    className={`px-4 py-4 rounded-xl ${
                       i === 0 ? 'bg-yellow-500/20 border border-yellow-500/30' : 'bg-white/5 border border-white/10'
                     }`}
                   >
@@ -474,6 +484,20 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
                       </div>
                     </div>
                     <p className="text-sm text-slate-300 italic">&quot;{solver.response}&quot;</p>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <span className="px-2 py-0.5 bg-black/20 rounded text-xs text-slate-400">Context {solver.contextFit}</span>
+                      <span className="px-2 py-0.5 bg-black/20 rounded text-xs text-slate-400">Natural {solver.naturalness}</span>
+                      <span className="px-2 py-0.5 bg-black/20 rounded text-xs text-slate-400">Lead-in {solver.leadIn}</span>
+                      {solver.creativityBonus > 0 && (
+                        <span className="px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded text-xs">+{solver.creativityBonus} bonus</span>
+                      )}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-2 leading-relaxed">{solver.feedback}</p>
+                    {i === 0 && solver.exampleResponse && (
+                      <div className="mt-2 px-3 py-2 bg-amber-500/10 text-amber-200 rounded-lg text-xs italic border-l-2 border-amber-500">
+                        &quot;{solver.exampleResponse}&quot;
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
