@@ -1,6 +1,8 @@
 import { createServerSupabase } from '@/lib/supabase/server';
 import { ClassList } from '@/components/class/class-list';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ClassesPage() {
   const supabase = createServerSupabase();
   const { data: classes } = await supabase
