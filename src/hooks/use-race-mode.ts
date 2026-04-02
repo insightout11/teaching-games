@@ -81,6 +81,11 @@ export function useRaceMode<T = Record<string, unknown>>({
     return raceSolvers.some(s => s.studentId === studentId);
   }, [raceSolvers]);
 
+  const addTime = useCallback((seconds: number) => {
+    if (!raceActive || raceFinished) return;
+    setTimeRemaining(prev => prev + seconds);
+  }, [raceActive, raceFinished]);
+
   return {
     isSimultaneous,
     raceSolvers,
@@ -94,5 +99,6 @@ export function useRaceMode<T = Record<string, unknown>>({
     resetRace,
     addSolver,
     hasSolver,
+    addTime,
   };
 }

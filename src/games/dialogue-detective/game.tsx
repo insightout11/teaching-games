@@ -30,7 +30,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
   const [error, setError] = useState<string | null>(null);
 
   // Simultaneous race mode
-  const { isSimultaneous, raceActive, raceFinished, raceFinishedRef, timeRemaining, startRace, endRace, resetRace } = useRaceMode({
+  const { isSimultaneous, raceActive, raceFinished, raceFinishedRef, timeRemaining, startRace, endRace, resetRace, addTime } = useRaceMode({
     studentCount: students.length,
     timerSeconds: sessionSettings.timerSeconds,
   });
@@ -389,8 +389,16 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
             {/* Timer */}
             {raceActive && !raceFinished && (
               <div className="flex items-center justify-between">
-                <div className={`px-4 py-2 rounded-xl font-game text-2xl ${timeRemaining <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/10 text-white'}`}>
-                  {timeRemaining}s
+                <div className="flex items-center gap-2">
+                  <div className={`px-4 py-2 rounded-xl font-game text-2xl ${timeRemaining <= 10 ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-white/10 text-white'}`}>
+                    {timeRemaining}s
+                  </div>
+                  <button
+                    onClick={() => addTime(30)}
+                    className="px-3 py-1.5 rounded-lg text-sm font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
+                  >
+                    +30s
+                  </button>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-slate-400 uppercase">Submissions</p>

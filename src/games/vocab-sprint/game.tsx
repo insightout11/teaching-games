@@ -522,10 +522,18 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           <div className="space-y-6">
             {/* Timer */}
             <div className="flex items-center justify-between">
-              <div className={`text-5xl font-game transition-all ${
-                timeLeft <= 5 ? 'text-red-500 animate-pulse' : 'text-white'
-              }`}>
-                {timeLeft}s
+              <div className="flex items-center gap-2">
+                <div className={`text-5xl font-game transition-all ${
+                  timeLeft <= 5 ? 'text-red-500 animate-pulse' : 'text-white'
+                }`}>
+                  {timeLeft}s
+                </div>
+                <button
+                  onClick={() => setTimeLeft(prev => prev + 30)}
+                  className="px-3 py-1.5 rounded-lg text-sm font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
+                >
+                  +30s
+                </button>
               </div>
               <div className="text-right">
                 <p className="text-xs text-slate-400 uppercase">Submissions</p>
