@@ -150,6 +150,7 @@ export function QuickPulseActivity({
         gameKey: 'quick-pulse',
         prompt: prompt.text,
         options: ['1', '2', '3', '4', '5'],
+        optionLabels: ['1 – Strongly Disagree', '2', '3', '4', '5 – Strongly Agree'],
       });
     } else {
       onSetInputSpec?.({

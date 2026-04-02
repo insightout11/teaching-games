@@ -332,7 +332,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
                   : 'bg-lc-surface text-lc-text hover:bg-lc-card'
               } disabled:opacity-50`}
             >
-              {option}
+              {spec.optionLabels?.[index] ?? option}
             </button>
           ))}
           {spec.allowWriteIn && (
