@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useSessionStore, getEffectiveTopic, DIFFICULTIES } from '@/stores/session-store';
-import type { Difficulty } from '@/stores/session-store';
+import type { Difficulty, Tone } from '@/stores/session-store';
 import { GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
 import type { GrammarTarget } from '@/lib/grammar';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
@@ -212,6 +212,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (!initDone.current) {
       initSession(session.id, cls.id, students);
       existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
+      // Apply class presets (difficulty/tone) — overrides stale localStorage defaults
+      if (cls.default_difficulty || cls.default_tone) {
+        setSettings({
+          ...(cls.default_difficulty ? { difficulty: cls.default_difficulty as Difficulty } : {}),
+          ...(cls.default_tone ? { tone: cls.default_tone as Tone } : {}),
+        });
+      }
       initDone.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

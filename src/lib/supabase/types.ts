@@ -16,6 +16,8 @@ export interface Class {
   name: string;
   theme: 'colorful' | 'professional';
   ai_scoring_config: Record<string, unknown>;
+  default_difficulty: string | null;
+  default_tone: string | null;
   created_at: string;
   updated_at: string;
 }
