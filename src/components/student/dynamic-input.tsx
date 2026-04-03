@@ -24,7 +24,7 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'binary':
       return <BinaryInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'multi-select':
-      return <MultiSelectInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <MultiSelectInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'sequence':
       return <SequenceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'ranking':
@@ -417,11 +417,19 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
 }
 
 // Multi-select (pick N from list)
-function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId }: DynamicInputProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const selectCount = spec.selectCount || 4;
 
+  // Race mode per-student state (populated via perStudentData from the game)
+  const raceData = useMemo(() => {
+    if (!clientId || !spec.perStudentData?.[clientId]) return null;
+    return spec.perStudentData[clientId] as { foundWords?: string[]; groupsFound?: number; livesRemaining?: number };
+  }, [clientId, spec.perStudentData]);
+  const foundWords = useMemo(() => new Set(raceData?.foundWords ?? []), [raceData]);
+
   const toggleOption = (option: string) => {
+    if (foundWords.has(option)) return;
     const newSelected = new Set(selected);
     if (newSelected.has(option)) {
       newSelected.delete(option);
@@ -442,17 +450,25 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
+      {raceData && (
+        <div className="flex gap-4 text-sm text-lc-text2">
+          <span>{raceData.groupsFound ?? 0}/4 groups found</span>
+          <span>{'❤️'.repeat(raceData.livesRemaining ?? 4)} {raceData.livesRemaining ?? 4} lives</span>
+        </div>
+      )}
       <p className="text-sm text-lc-text2">Select {selectCount} items ({selected.size}/{selectCount})</p>
       <div className="grid grid-cols-4 gap-2">
         {spec.options?.map((option, index) => (
           <button
             key={index}
             onClick={() => toggleOption(option)}
-            disabled={isSubmitting}
+            disabled={isSubmitting || foundWords.has(option)}
             className={`p-3 rounded-xl text-sm transition-all ${
-              selected.has(option)
-                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                : 'bg-lc-surface text-lc-text hover:bg-lc-card'
+              foundWords.has(option)
+                ? 'opacity-40 cursor-not-allowed line-through bg-lc-surface text-lc-text'
+                : selected.has(option)
+                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                  : 'bg-lc-surface text-lc-text hover:bg-lc-card'
             } disabled:opacity-50`}
           >
             {option}

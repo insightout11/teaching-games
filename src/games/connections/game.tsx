@@ -18,6 +18,8 @@ function getPositionPoints(position: number): number {
 
 interface RacePlayer {
   studentId: string;
+  clientId: string;
+  foundWords: string[];
   displayName: string;
   groupsFound: number;
   finished: boolean;
@@ -80,6 +82,13 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
           prompt: 'Find 4 words that belong together — race to solve all groups!',
           options: challenge.words,
           selectCount: 4,
+          perStudentData: Object.fromEntries(
+            racePlayers.map(p => [p.clientId, {
+              foundWords: p.foundWords,
+              groupsFound: p.groupsFound,
+              livesRemaining: p.livesRemaining,
+            }])
+          ),
         });
       } else {
         onSetInputSpec?.(null);
@@ -97,7 +106,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, status, challenge, remainingWords, onSetInputSpec]);
+  }, [isSimultaneous, status, challenge, remainingWords, racePlayers, onSetInputSpec]);
 
   // Process remote submission (turn-based)
   const processRemoteSubmission = useCallback(async (selectedWords: string[]) => {
@@ -236,13 +245,15 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
 
             return prev.map(p =>
               p.studentId === studentId
-                ? { ...p, groupsFound: newGroupsFound, finished: isComplete, finishPosition, score: p.score + bonus }
+                ? { ...p, groupsFound: newGroupsFound, foundWords: [...p.foundWords, ...selectedWords], finished: isComplete, finishPosition, score: p.score + bonus }
                 : p
             );
           } else {
             // New player entry — first submission is correct
             return [...prev, {
               studentId,
+              clientId: vote.clientId,
+              foundWords: [...selectedWords],
               displayName: vote.displayName,
               groupsFound: 1,
               finished: false,
@@ -278,6 +289,8 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
             const newLives = MAX_LIVES - 1;
             return [...prev, {
               studentId,
+              clientId: vote.clientId,
+              foundWords: [],
               displayName: vote.displayName,
               groupsFound: 0,
               finished: false,
