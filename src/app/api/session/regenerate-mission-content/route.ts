@@ -80,11 +80,10 @@ async function regenHotTakeArena(topic: string, difficulty: Difficulty, context:
     required: ['statement', 'proArguments', 'conArguments', 'devilsAdvocatePro', 'devilsAdvocateCon', 'vocabularyWords'],
   };
 
-  const prompt = `Generate a hot take debate for an ESL classroom directly about: ${topic}
+  const debateSubject = contextType === 'mission' ? context : topic;
+  const prompt = `Generate a hot take debate for an ESL classroom based on this question: "${debateSubject}"
 Difficulty: ${difficultyDescriptions[difficulty]}
-${missionContextBlock(context, contextType)}
-IMPORTANT: The statement MUST be specifically about "${topic}" — not a generic topic. If the topic is "Extreme Weather", the statement should be about extreme weather specifically (e.g. climate policy, evacuation, preparedness, human impact).
-Create a provocative statement about the topic, 3-4 pro arguments, 3-4 con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words.
+Create a provocative debate statement inspired directly by this question, 3-4 pro arguments, 3-4 con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words.
 Return JSON with: statement, proArguments, conArguments, devilsAdvocatePro, devilsAdvocateCon, vocabularyWords.`;
 
   const data = await generateJSON<Record<string, unknown>>(prompt, schema);

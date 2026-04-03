@@ -151,7 +151,7 @@ export function MissionSelectorActivity({
           context: mission,
           contextType: 'mission',
           activityKeys: ['would-you-rather', 'expert-panel', 'scenario-simulator', 'hot-take-arena'],
-          topic: sessionSettings.topic,
+          topic: sessionSettings.customTopic?.trim() || sessionSettings.topic,
           difficulty: sessionSettings.difficulty,
         }),
       });
@@ -164,7 +164,7 @@ export function MissionSelectorActivity({
     } catch {
       // regen is best-effort — lesson continues without it
     }
-  }, [sessionId, regenFired, sessionSettings.topic, sessionSettings.difficulty, onContentRegenerate]);
+  }, [sessionId, regenFired, sessionSettings.customTopic, sessionSettings.topic, sessionSettings.difficulty, onContentRegenerate]);
 
   // ── Transition handlers ────────────────────────────────────────────────────
   const handleFinish = useCallback(() => {
