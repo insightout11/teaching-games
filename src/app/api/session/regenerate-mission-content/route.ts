@@ -6,7 +6,7 @@ import type { Difficulty } from '@/lib/difficulty';
 import type { ActivityGeneratedContent } from '@/activities/types';
 
 // Activities that can be regenerated with mission context
-const MISSION_AWARE_KEYS = new Set(['would-you-rather', 'expert-panel', 'scenario-simulator', 'hot-take-arena']);
+const MISSION_AWARE_KEYS = new Set(['would-you-rather', 'expert-panel', 'scenario-simulator', 'hot-take-arena', 'opinion-shift']);
 
 function missionContextBlock(context: string, contextType: 'mission' | 'characters'): string {
   if (contextType === 'mission') {
@@ -141,6 +141,36 @@ Return JSON with: roles (array of name + description), questions (array of strin
   return { activityKey: 'expert-panel', topicContext: topic, ...data };
 }
 
+async function regenOpinionShift(topic: string, difficulty: Difficulty, context: string, contextType: 'mission' | 'characters'): Promise<ActivityGeneratedContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      beforePrompt: { type: 'string' },
+      nowPrompt: { type: 'string' },
+    },
+    required: ['beforePrompt', 'nowPrompt'],
+  };
+
+  const missionLine = contextType === 'mission'
+    ? `The class chose this question as their lesson mission: "${context}"\nThe sentence starters should specifically connect to what students might have thought about this question before vs. after the lesson.`
+    : missionContextBlock(context, contextType);
+
+  const prompt = `Generate an "Opinion Shift" closing reflection activity for an ESL class.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+${missionLine}
+
+Create two sentence starters for a Before/Now reflection:
+- beforePrompt: A sentence starter beginning with "Before this lesson I thought..." — tied to the mission question above (max 12 words)
+- nowPrompt: A sentence starter beginning with "Now I think..." or "Now I believe..." — tied to the mission question above (max 12 words)
+
+The two prompts should contrast clearly to highlight learning progression.
+Return JSON.`;
+
+  const data = await generateJSON<{ beforePrompt: string; nowPrompt: string }>(prompt, schema);
+  return { activityKey: 'opinion-shift', topicContext: topic, beforePrompt: data.beforePrompt, nowPrompt: data.nowPrompt };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as {
@@ -171,6 +201,7 @@ export async function POST(request: NextRequest) {
           else if (key === 'hot-take-arena') result = await regenHotTakeArena(topic, difficulty, context, contextType);
           else if (key === 'scenario-simulator') result = await regenScenarioSimulator(topic, difficulty, context, contextType);
           else if (key === 'expert-panel') result = await regenExpertPanel(topic, difficulty, context, contextType);
+          else if (key === 'opinion-shift') result = await regenOpinionShift(topic, difficulty, context, contextType);
           if (result) updatedContent[key] = result;
         } catch (err) {
           console.warn(`[regenerate-mission-content] Failed to regen ${key}:`, err);
