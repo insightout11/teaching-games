@@ -81,9 +81,10 @@ async function regenHotTakeArena(topic: string, difficulty: Difficulty, context:
   };
 
   const debateSubject = contextType === 'mission' ? context : topic;
-  const prompt = `Generate a hot take debate for an ESL classroom based on this question: "${debateSubject}"
+  const prompt = `Generate a hot take debate for an ESL classroom inspired by this question: "${debateSubject}"
 Difficulty: ${difficultyDescriptions[difficulty]}
-Create a provocative debate statement inspired directly by this question, 3-4 pro arguments, 3-4 con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words.
+The "statement" field MUST be a bold opinionated assertion that students can AGREE or DISAGREE with — NOT a question. It should take a clear stance (e.g. "Bitcoin is a far better investment than Ethereum right now"). Never use question marks in the statement.
+Create 3-4 pro arguments, 3-4 con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words.
 Return JSON with: statement, proArguments, conArguments, devilsAdvocatePro, devilsAdvocateCon, vocabularyWords.`;
 
   const data = await generateJSON<Record<string, unknown>>(prompt, schema);
