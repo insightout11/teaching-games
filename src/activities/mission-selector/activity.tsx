@@ -97,13 +97,12 @@ export function MissionSelectorActivity({
   // ── Input spec ─────────────────────────────────────────────────────────────
   useEffect(() => {
     if (phase === 'presenting') {
-      const allowWriteIn = sessionSettings.difficulty !== 'Beginner';
       onSetInputSpec?.({
         type: 'choice',
         gameKey: 'mission-selector',
         prompt: 'Choose your mission for this lesson:',
         options: questions,
-        allowWriteIn,
+        allowWriteIn: false,
       });
     } else if (phase === 'stance') {
       if (sessionSettings.difficulty === 'Beginner') {
