@@ -117,16 +117,6 @@ export function HotTakeArenaActivity({
     onPhaseChange?.('side-selection');
   }, [onPhaseChange]);
 
-  const selectSide = useCallback((studentId: string, side: Side) => {
-    const student = students.find((s) => s.id === studentId);
-    if (!student) return;
-
-    setSideSelections((prev) => {
-      const filtered = prev.filter((s) => s.studentId !== studentId);
-      return [...filtered, { studentId, studentName: student.name, side }];
-    });
-  }, [students]);
-
   const startDebate = useCallback(() => {
     setStatus(ActivityStatus.DEBATE);
     onPhaseChange?.('debate');
@@ -452,41 +442,6 @@ export function HotTakeArenaActivity({
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-
-          {/* Student assignment */}
-          <div className="glass p-4 rounded-xl">
-            <p className="text-sm font-bold mb-3 opacity-70">Assign students to sides:</p>
-            <div className="flex flex-wrap gap-2">
-              {students.map((student) => {
-                const selection = sideSelections.find((s) => s.studentId === student.id);
-                return (
-                  <div key={student.id} className="flex items-center gap-1">
-                    <span className="text-xs opacity-70 mr-1">{student.name}:</span>
-                    <button
-                      onClick={() => selectSide(student.id, 'pro')}
-                      className={`px-2 py-1 text-xs rounded transition-all ${
-                        selection?.side === 'pro'
-                          ? 'bg-green-500 text-white'
-                          : 'bg-white/10 hover:bg-green-500/30'
-                      }`}
-                    >
-                      PRO
-                    </button>
-                    <button
-                      onClick={() => selectSide(student.id, 'con')}
-                      className={`px-2 py-1 text-xs rounded transition-all ${
-                        selection?.side === 'con'
-                          ? 'bg-red-500 text-white'
-                          : 'bg-white/10 hover:bg-red-500/30'
-                      }`}
-                    >
-                      CON
-                    </button>
-                  </div>
-                );
-              })}
             </div>
           </div>
 
