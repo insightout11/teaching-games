@@ -149,10 +149,10 @@ async function generateHotTakeArena(topic: string, difficulty: Difficulty, missi
     required: ['statement', 'proArguments', 'conArguments', 'devilsAdvocate', 'vocabularyHighlights'],
   };
 
-  const prompt = `Generate a debate topic for ESL "Hot Take Arena".
-Topic: ${topic}
+  const prompt = `Generate a debate topic for ESL "Hot Take Arena" directly about: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 ${missionContextBlock(missionContext)}
+IMPORTANT: The statement MUST be specifically about "${topic}" — not a generic topic. For example, if the topic is "Bangkok", the statement should be about Bangkok specifically (e.g. tourism, food, traffic, culture, modernisation).
 Create a provocative statement, 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words, each with a short student-facing definition (max 15 words).`;
 
   const parsed = await generateJSON<{
