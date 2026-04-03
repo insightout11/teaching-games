@@ -471,7 +471,10 @@ export function ScenarioSimulatorActivity({
                   }`}
                 >
                   {reader && (
-                    <p className="text-xs opacity-50 mb-1">({reader.name}) reads:</p>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className={`text-xl font-bold tracking-wide px-2 py-0.5 rounded-md ${isActive ? 'bg-lc-blue text-white' : 'bg-white/10 text-white/60'}`}>{reader.name}</span>
+                      <span className={`text-sm ${isActive ? 'text-white/70' : 'text-white/30'}`}>reads:</span>
+                    </div>
                   )}
                   <p className={`text-lg ${isActive ? 'font-semibold' : ''}`}>{line}</p>
                 </motion.div>

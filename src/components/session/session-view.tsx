@@ -93,6 +93,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<ActivityPlugin | null>(null);
   const [activityContent, setActivityContent] = useState<ActivityGeneratedContent | null>(null);
+  const [activityContentFailed, setActivityContentFailed] = useState(false);
   const [gameContent, setGameContent] = useState<GameGeneratedContent | null>(null);
   // Content overrides from takeoff regeneration (mission/character context)
   const [contentOverrides, setContentOverrides] = useState<Record<string, ActivityGeneratedContent>>({});
@@ -302,6 +303,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setSelectedActivity(activity);
     setSelectedGame(null);
     setActivityContent(null);
+    setActivityContentFailed(false);
     setGameContent(null);
     setViewMode('activity');
 
@@ -309,7 +311,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     // Only apply if this activity is still the active one (guards against rapid slot advances)
     if (activeActivityKeyRef.current === activity.key) {
       // Apply regen override if available (set by a previous takeoff activity)
-      setActivityContent(contentOverridesRef.current[activity.key] ?? resolved);
+      const content = contentOverridesRef.current[activity.key] ?? resolved;
+      if (content === null) {
+        setActivityContentFailed(true);
+      }
+      setActivityContent(content);
     }
   };
 
@@ -1007,6 +1013,19 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   onContentRegenerate={handleContentRegenerate}
                 />
               </ModuleErrorBoundary>
+            ) : activityContentFailed ? (
+              <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center text-center">
+                <p className="text-lg font-bold text-red-400 mb-2">Content generation failed</p>
+                <p className="text-sm text-lc-text3 mb-6">
+                  Couldn&apos;t generate content for {selectedActivity.name}. Check your connection and try again.
+                </p>
+                <button
+                  onClick={() => handleSelectActivity(selectedActivity)}
+                  className="px-6 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 transition-colors text-sm font-medium"
+                >
+                  Try Again
+                </button>
+              </div>
             ) : (
               <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
                 <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mb-4" />

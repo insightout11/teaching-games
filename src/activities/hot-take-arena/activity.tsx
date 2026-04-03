@@ -396,7 +396,7 @@ export function HotTakeArenaActivity({
           </div>
 
           {/* Vocabulary preview */}
-          {content.vocabularyHighlights.length > 0 && (
+          {(content.vocabularyHighlights?.length ?? 0) > 0 && (
             <div className="glass p-4 rounded-xl">
               <p className="text-xs uppercase tracking-widest opacity-50 mb-2">Key Vocabulary</p>
               <div className="flex flex-wrap gap-2">

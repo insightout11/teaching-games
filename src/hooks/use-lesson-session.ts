@@ -245,10 +245,7 @@ export function useLessonSession(
       throw new Error('Failed to generate activity content');
     } catch (error) {
       console.error('Failed to generate activity content:', error);
-      return {
-        activityKey: activity.key,
-        topicContext: getEffectiveTopic(settings),
-      };
+      return null;
     } finally {
       setIsGeneratingContent(false);
       setGeneratingModuleName(null);
