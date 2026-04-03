@@ -43,7 +43,7 @@ interface RaceSolver {
   position: number;
 }
 
-export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, onRegisterSubmissionHandler }: GameProps) {
+export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const [sentences, setSentences] = useState<string[]>(FALLBACK_SENTENCES);
   const [loadingSentences, setLoadingSentences] = useState(true);
   const fetchedRef = useRef<string>('');
@@ -199,10 +199,13 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     if (isSimultaneous) {
       onRegisterRemoteVoteHandler?.(handleRaceSubmission);
     } else {
-      // Turn-based remote handler
+      // Turn-based: auto-evaluate and score without teacher approval
       if (submitted || availableWords.length === 0) return;
 
       onRegisterRemoteVoteHandler?.((vote: GameRemoteVote) => {
+        const studentId = vote.studentId || vote.clientId;
+        if (!studentId) return;
+
         try {
           const orderedWords: string[] = JSON.parse(vote.choice);
           const allWords = words.map((word, idx) => ({ word, originalIndex: idx }));
@@ -211,8 +214,23 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
             .filter((item): item is { word: string; originalIndex: number } => item !== undefined);
 
           if (mapped.length === words.length) {
+            const isCorrect = orderedWords.join(' ') === words.join(' ');
             setSelectedWords(mapped);
             setAvailableWords([]);
+            setSubmitted(true);
+            setFeedback(isCorrect ? 'correct' : 'wrong');
+
+            try {
+              const audio = new Audio(isCorrect ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
+              audio.volume = 0.5;
+              audio.play().catch(() => {});
+            } catch {}
+
+            onScore(studentId, {
+              isCorrect,
+              points: isCorrect ? 10 : 0,
+              responseData: { answer: orderedWords.join(' '), expected: words.join(' ') },
+            });
           }
         } catch {
           // Invalid JSON, ignore
@@ -221,30 +239,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     }
 
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [isSimultaneous, submitted, availableWords, words, onRegisterRemoteVoteHandler, handleRaceSubmission]);
-
-  // Register submission handler in turn-based mode to properly evaluate word order
-  useEffect(() => {
-    if (isSimultaneous) return;
-
-    onRegisterSubmissionHandler?.({
-      handleSubmission: async (content: string) => {
-        try {
-          const orderedWords: string[] = JSON.parse(content);
-          const isCorrect = orderedWords.join(' ') === words.join(' ');
-          return {
-            isCorrect,
-            points: isCorrect ? 10 : 0,
-            feedback: isCorrect ? 'Correct!' : 'Not quite — wrong order.',
-          };
-        } catch {
-          return { isCorrect: false, points: 0, feedback: 'Invalid submission' };
-        }
-      },
-    });
-
-    return () => onRegisterSubmissionHandler?.(null);
-  }, [isSimultaneous, words, onRegisterSubmissionHandler]);
+  }, [isSimultaneous, submitted, availableWords, words, onRegisterRemoteVoteHandler, handleRaceSubmission, onScore]);
 
   // --- Turn-based handlers (unchanged) ---
   const handleSelectWord = (wordItem: { word: string; originalIndex: number }) => {
