@@ -10,9 +10,9 @@ const MISSION_AWARE_KEYS = new Set(['would-you-rather', 'expert-panel', 'scenari
 
 function missionContextBlock(context: string, contextType: 'mission' | 'characters'): string {
   if (contextType === 'mission') {
-    return `\nThe class chose this question as their lesson mission: "${context}"\nUse this to shape the content — choose scenarios, examples, or debate statements relevant to the themes this question suggests. Keep the format, difficulty level, and structure identical.\n`;
+    return `\nThe class chose this question as their lesson mission: "${context}"\nUse this to lightly shape examples, vocabulary, and scenarios — but do NOT change the subject of the content. The topic above always takes priority. Keep the format, difficulty level, and structure identical.\n`;
   }
-  return `\nThe class started the lesson with these character perspectives:\n${context}\nUse these themes to lightly shape the content — choose scenarios, examples, or debate statements that connect to these viewpoints. Keep the format, difficulty level, and structure identical.\n`;
+  return `\nThe class started the lesson with these character perspectives:\n${context}\nUse these themes to lightly shape examples, vocabulary, and scenarios — but do NOT change the subject of the content. The topic above always takes priority. Keep the format, difficulty level, and structure identical.\n`;
 }
 
 async function regenWouldYouRather(topic: string, difficulty: Difficulty, context: string, contextType: 'mission' | 'characters'): Promise<ActivityGeneratedContent> {
@@ -80,10 +80,10 @@ async function regenHotTakeArena(topic: string, difficulty: Difficulty, context:
     required: ['statement', 'proArguments', 'conArguments', 'devilsAdvocatePro', 'devilsAdvocateCon', 'vocabularyWords'],
   };
 
-  const prompt = `Generate a hot take debate for an ESL classroom.
-Topic: ${topic}
+  const prompt = `Generate a hot take debate for an ESL classroom directly about: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 ${missionContextBlock(context, contextType)}
+IMPORTANT: The statement MUST be specifically about "${topic}" — not a generic topic. If the topic is "Extreme Weather", the statement should be about extreme weather specifically (e.g. climate policy, evacuation, preparedness, human impact).
 Create a provocative statement about the topic, 3-4 pro arguments, 3-4 con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words.
 Return JSON with: statement, proArguments, conArguments, devilsAdvocatePro, devilsAdvocateCon, vocabularyWords.`;
 

@@ -59,7 +59,7 @@ import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 function missionContextBlock(missionContext?: string[]): string {
   if (!missionContext || missionContext.length === 0) return '';
   const list = missionContext.map((m) => `- "${m}"`).join('\n');
-  return `\nThe students in this class chose the following personal mission questions at the start of the lesson:\n${list}\nUse these to lightly shape the content — for example, choose scenarios, examples, or debate statements that are relevant to the themes these questions suggest. Keep the format, difficulty level, and structure identical.\n`;
+  return `\nThe students in this class chose the following personal mission questions at the start of the lesson:\n${list}\nUse these to lightly shape examples, vocabulary, and scenarios — but do NOT change the subject of the content. The topic above always takes priority. Keep the format, difficulty level, and structure identical.\n`;
 }
 
 // ============================================
