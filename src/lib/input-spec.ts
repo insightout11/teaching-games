@@ -37,6 +37,8 @@ export interface InputSpec {
   buttonLabel?: string;
   /** For textarea inputs: pre-filled content keyed by clientId */
   prefillByClientId?: Record<string, string>;
+  /** Short instructional label shown above the prompt */
+  instruction?: string;
 }
 
 // Submission handler result from games

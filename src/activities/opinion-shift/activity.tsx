@@ -58,6 +58,7 @@ export function OpinionShiftActivity({
     onSetInputSpec?.({
       type: 'textarea',
       gameKey: 'opinion-shift',
+      instruction: "Did your thinking shift? Complete the reflection below — or write your own if it didn't.",
       prompt: `${content.beforePrompt} → ${content.nowPrompt}`,
       placeholder: 'Write your reflection here...',
       maxLength: 300,

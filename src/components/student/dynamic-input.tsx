@@ -184,6 +184,9 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
 
   return (
     <div className="space-y-4">
+      {spec.instruction && (
+        <p className="text-sm text-lc-text2 mb-1">{spec.instruction}</p>
+      )}
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
