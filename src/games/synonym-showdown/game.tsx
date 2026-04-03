@@ -302,9 +302,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
       if (result.isValid) {
         setValidSynonyms(prev => [...prev, { word: synonym, score: result.score, quality: result.quality }]);
         setCurrentStreak(prev => prev + 1);
-        const streakBonus = Math.min(currentStreak, 5);
-        const points = result.score + streakBonus;
-        setTotalScore(prev => prev + points);
+        setTotalScore(prev => prev + result.score);
       } else {
         setCurrentStreak(0);
       }

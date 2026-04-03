@@ -12,7 +12,7 @@ export function TeamTotals() {
     scores.forEach((score) => {
       const team = score.team;
       if (team && (team === 'red' || team === 'blue')) {
-        totals[team] += score.points + score.streak_bonus;
+        totals[team] += score.points;
       }
     });
 

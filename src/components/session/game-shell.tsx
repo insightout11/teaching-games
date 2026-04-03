@@ -230,13 +230,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
       return;
     }
 
-    // Competitive mode: turn modifier, streak counter, streak bonus
-    function streakBonus(streak: number): number {
-      if (streak >= 8) return 3;
-      if (streak >= 5) return 2;
-      if (streak >= 3) return 1;
-      return 0;
-    }
+    // Competitive mode: turn modifier, streak counter
     const currentModifier = turnModifierRef.current;
     const currentStreaks = streaksRef.current;
 
@@ -255,15 +249,14 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     const streakLookupKey = studentIdField ?? clientIdField ?? studentId;
     const currentStreak = effectiveIsCorrect ? (currentStreaks[streakLookupKey] ?? 0) + 1 : 0;
 
-    const bonus = streakBonus(currentStreak);
     const scoreData = {
       session_id: sessionId,
       student_id: studentIdField,
       client_id: clientIdField,
       display_name: displayNameField,
-      points: modifiedPoints + bonus,
+      points: modifiedPoints,
       streak_count: currentStreak,
-      streak_bonus: bonus,
+      streak_bonus: 0,
       is_correct: result.isCorrect,
       response_data: {
         ...result.responseData,
@@ -358,7 +351,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
               <h2 className="text-lg font-bold">{game.name}</h2>
               <ModifierBadge />
             </div>
-            <StreakIndicator studentId={currentStudentId} />
+            {/* StreakIndicator hidden — streak bonuses removed */}
           </div>
           <div className="glass rounded-2xl p-6 min-h-[400px]">
             {/* Block game if spin needed */}

@@ -77,7 +77,7 @@ export function Leaderboard() {
       }
       if (!entry) return;
 
-      entry.totalPoints += sc.points + sc.streak_bonus;
+      entry.totalPoints += sc.points;
       if (sc.is_correct) entry.correctCount++;
       if (sc.streak_count > entry.bestStreak) entry.bestStreak = sc.streak_count;
     });
@@ -242,9 +242,6 @@ export function Leaderboard() {
                       +5
                     </span>
                   </div>
-                  {scoringMode === 'competitive' && entry.bestStreak >= 2 && (
-                    <span className="text-xs text-orange-400">🔥{entry.bestStreak}</span>
-                  )}
                   <span className="relative text-sm font-game text-yellow-400">
                     {entry.totalPoints}
                     <AnimatePresence>

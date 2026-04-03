@@ -32,7 +32,7 @@ export function EndSessionSummary({ classId, className, sessionId }: { classId: 
       }
       if (!entry) return;
 
-      entry.total += sc.points + sc.streak_bonus;
+      entry.total += sc.points;
       entry.attempts++;
       if (sc.is_correct) entry.correct++;
       if (sc.streak_count > entry.bestStreak) entry.bestStreak = sc.streak_count;
