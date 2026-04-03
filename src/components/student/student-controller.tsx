@@ -314,7 +314,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     <div className="min-h-screen p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
       <div className="relative glass rounded-2xl p-4 mb-4">
-        <img src="/lessoncaptain-mark-on-dark.svg" alt="LessonCaptain" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-8 opacity-50 pointer-events-none" />
+        <img src="/lessoncaptain-mark-on-dark.svg" alt="LessonCaptain" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-8 pointer-events-none" />
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className={`w-3 h-3 rounded-full ${
