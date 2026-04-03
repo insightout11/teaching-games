@@ -179,13 +179,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       } else {
         setSubmitStatus('success');
         setTimeout(() => setSubmitStatus('idle'), 2000);
+        // Re-poll quickly so per-student state (e.g. found words, lives) updates without waiting the full 5s interval
+        setTimeout(checkSession, 1500);
       }
     } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
     }
-  }, [sessionId, studentSession, inputSpec, isSubmitting]);
+  }, [sessionId, studentSession, inputSpec, isSubmitting, checkSession]);
 
   const handleVote = async (choice: string) => {
     if (!activePoll || isVoting) return;
