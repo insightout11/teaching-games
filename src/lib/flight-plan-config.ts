@@ -9,7 +9,8 @@ export type GoalTag =
   | 'collaboration'
   | 'creativity'
   | 'critical-thinking'
-  | 'confidence-building';
+  | 'confidence-building'
+  | 'functional-english';
 
 export type SlotType =
   | 'takeoff'
@@ -172,7 +173,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   {
     key: 'dialogue-detective',
     slotFit: ['practice', 'production'],
-    goalFit: ['grammar-reinforcement', 'speaking-fluency', 'critical-thinking'],
+    goalFit: ['grammar-reinforcement', 'speaking-fluency', 'critical-thinking', 'functional-english'],
     levelFit: ['intermediate', 'advanced'],
     energy: 'medium',
     interactionModel: ['turn-based', 'submission'],
@@ -230,7 +231,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   {
     key: 'vocab-radar',
     slotFit: ['takeoff', 'presentation'],
-    goalFit: ['vocabulary-building', 'confidence-building'],
+    goalFit: ['vocabulary-building', 'confidence-building', 'functional-english'],
     levelFit: ['beginner', 'intermediate', 'advanced'],
     energy: 'low',
     interactionModel: ['voting'],
@@ -258,7 +259,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   {
     key: 'scene-igniter',
     slotFit: ['takeoff', 'production'],
-    goalFit: ['speaking-fluency', 'creativity', 'confidence-building'],
+    goalFit: ['speaking-fluency', 'creativity', 'confidence-building', 'functional-english'],
     levelFit: ['beginner', 'intermediate', 'advanced'],
     energy: 'high',
     interactionModel: ['performance', 'role-based'],
@@ -329,7 +330,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   {
     key: 'expert-panel',
     slotFit: ['production'],
-    goalFit: ['speaking-fluency', 'collaboration', 'confidence-building'],
+    goalFit: ['speaking-fluency', 'collaboration', 'confidence-building', 'functional-english'],
     levelFit: ['intermediate', 'advanced'],
     energy: 'high',
     interactionModel: ['role-based', 'discussion'],
@@ -344,7 +345,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   {
     key: 'scenario-simulator',
     slotFit: ['practice', 'production'],
-    goalFit: ['discussion-debate', 'critical-thinking', 'collaboration'],
+    goalFit: ['discussion-debate', 'critical-thinking', 'collaboration', 'functional-english'],
     levelFit: ['intermediate', 'advanced'],
     energy: 'high',
     interactionModel: ['voting', 'discussion'],
@@ -528,4 +529,5 @@ export const GOAL_LABELS: Record<GoalTag, string> = {
   'creativity': 'Creativity',
   'critical-thinking': 'Critical Thinking',
   'confidence-building': 'Confidence Building',
+  'functional-english': 'Real-World English',
 };
