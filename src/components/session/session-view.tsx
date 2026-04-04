@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useSessionStore, getEffectiveTopic, DIFFICULTIES } from '@/stores/session-store';
-import type { Difficulty, Tone } from '@/stores/session-store';
+import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
 import { GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
 import type { GrammarTarget } from '@/lib/grammar';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
@@ -213,13 +213,22 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (!initDone.current) {
       initSession(session.id, cls.id, students);
       existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
-      // Apply class presets (difficulty/tone) — overrides stale localStorage defaults
-      if (cls.default_difficulty || cls.default_tone) {
-        setSettings({
-          ...(cls.default_difficulty ? { difficulty: cls.default_difficulty as Difficulty } : {}),
-          ...(cls.default_tone ? { tone: cls.default_tone as Tone } : {}),
-        });
+      // Apply class presets (difficulty/tone/scoringMode) — overrides stale localStorage defaults.
+      // For scoringMode: only apply class default when the lesson plan has no explicit mode
+      // (lesson plan explicit > class default > goal-derived, which use-lesson-session sets first).
+      const lessonPlanHasScoringMode = (() => {
+        try {
+          const s = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
+          return s ? !!JSON.parse(s).scoringMode : false;
+        } catch { return false; }
+      })();
+      const patch: Parameters<typeof setSettings>[0] = {};
+      if (cls.default_difficulty) patch.difficulty = cls.default_difficulty as Difficulty;
+      if (cls.default_tone) patch.tone = cls.default_tone as Tone;
+      if (cls.default_scoring_mode && !lessonPlanHasScoringMode) {
+        patch.scoringMode = cls.default_scoring_mode as ScoringMode;
       }
+      if (Object.keys(patch).length > 0) setSettings(patch);
       initDone.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
