@@ -3,6 +3,15 @@ import type { GoalTag, SlotType } from './flight-plan-config';
 
 export type LessonType = 'inquisitive' | 'skill-builder' | 'performance' | 'game-day';
 
+export interface PresetScenarios {
+  /** Heading shown above the option chips. */
+  label: string;
+  /** Placeholder for the free-text write-in input. */
+  placeholder: string;
+  /** Curated options — clicking one pre-fills the input. */
+  options: string[];
+}
+
 export interface FlightPlanPreset {
   id: string;
   name: string;
@@ -20,6 +29,11 @@ export interface FlightPlanPreset {
   landing?: string;
   /** Middle slots only — takeoff/landing are always auto-assigned. */
   moduleSequence: Array<{ slotType: SlotType; key: string }>;
+  /**
+   * When present, clicking this preset opens a scenario picker modal instead of
+   * loading immediately. The selected scenario string is written to the topic field.
+   */
+  scenarios?: PresetScenarios;
 }
 
 export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
@@ -140,6 +154,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'production', key: 'scene-igniter' },
       { slotType: 'production', key: 'scenario-simulator' },
     ],
+    scenarios: {
+      label: 'Choose a travel situation',
+      placeholder: 'e.g. Checking in at a budget hostel',
+      options: [
+        'Airport — check-in and boarding',
+        'Hotel — checking in and accommodation',
+        'Restaurant — ordering and dealing with issues',
+        'Shopping — markets, shops, and returns',
+        'Getting around — directions and public transport',
+        'Emergencies — problems, help, and medical situations',
+      ],
+    },
   },
   {
     id: 'job-english-60',
@@ -155,6 +181,19 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'dialogue-detective' },
       { slotType: 'production', key: 'expert-panel' },
     ],
+    scenarios: {
+      label: 'Choose a job role',
+      placeholder: 'e.g. Barista at a specialty coffee shop',
+      options: [
+        'Waiter or restaurant server',
+        'Cashier or retail assistant',
+        'Hotel receptionist or concierge',
+        'Customer service agent',
+        'Healthcare worker or medical receptionist',
+        'Office or admin assistant',
+        'Tour guide or tourism worker',
+      ],
+    },
   },
   {
     id: 'class-diagnostic-30',

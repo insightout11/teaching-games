@@ -18,11 +18,20 @@ const SCORING_MODE_CLASSES: Record<ScoringMode, string> = {
   participation: 'text-emerald-400 bg-emerald-400/10',
 };
 
-export function PresetCard({ preset, disabled = false }: { preset: FlightPlanPreset; disabled?: boolean }) {
+export function PresetCard({
+  preset,
+  disabled = false,
+  onClick,
+}: {
+  preset: FlightPlanPreset;
+  disabled?: boolean;
+  onClick?: () => void;
+}) {
   const { loadPreset, setStep } = usePlannerStore();
 
   const handleClick = () => {
     if (disabled) return;
+    if (onClick) { onClick(); return; }
     loadPreset(preset);
     setStep('flight-plan');
   };

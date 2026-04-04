@@ -1,10 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
-import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
+import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { PresetCard } from './preset-card';
+import { ScenarioPickerModal } from './scenario-picker-modal';
 
 const DURATIONS = [30, 45, 60, 90] as const;
 
@@ -22,7 +24,10 @@ export function MissionSetupScreen() {
     setActiveTab,
     initModules,
     setStep,
+    loadPreset,
   } = usePlannerStore();
+
+  const [pendingPreset, setPendingPreset] = useState<FlightPlanPreset | null>(null);
 
   const canGenerate = topic.trim().length > 0;
 
@@ -76,9 +81,26 @@ export function MissionSetupScreen() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {FLIGHT_PLAN_PRESETS.map((preset) => (
-              <PresetCard key={preset.id} preset={preset} disabled={!topic.trim()} />
+              <PresetCard
+                key={preset.id}
+                preset={preset}
+                disabled={preset.goal !== 'functional-english' && !topic.trim()}
+                onClick={preset.scenarios ? () => setPendingPreset(preset) : undefined}
+              />
             ))}
           </div>
+          {pendingPreset?.scenarios && (
+            <ScenarioPickerModal
+              preset={pendingPreset}
+              onConfirm={(scenario) => {
+                setTopic(scenario);
+                loadPreset(pendingPreset);
+                setStep('flight-plan');
+                setPendingPreset(null);
+              }}
+              onCancel={() => setPendingPreset(null)}
+            />
+          )}
         </div>
       ) : (
         <>
