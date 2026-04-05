@@ -712,6 +712,16 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus }: DynamicInp
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium leading-snug">{spec.prompt}</p>
       )}
+      {spec.keywords && spec.keywords.length > 0 && (
+        <div className="space-y-1 text-left">
+          <p className="text-xs opacity-50 uppercase tracking-widest text-center">Useful phrases</p>
+          <div className="flex flex-wrap gap-1.5 justify-center">
+            {spec.keywords.map((kw) => (
+              <span key={kw} className="text-xs px-2 py-1 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
+            ))}
+          </div>
+        </div>
+      )}
       {confirmed || submitStatus === 'success' ? (
         <div className="py-4 space-y-2">
           <div className="text-4xl">✓</div>

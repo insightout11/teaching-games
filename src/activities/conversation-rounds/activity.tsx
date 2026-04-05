@@ -37,7 +37,7 @@ export function ConversationRoundsActivity({
   const remaining = students.filter(s => !completedIds.includes(s.id));
   const complicationsLeft = (content.complications?.length ?? 0) - complicationIdx;
 
-  // Student device — show scenario context during active phases
+  // Student device — show scenario context + phrase chips during active phases
   useEffect(() => {
     if (phase === 'briefing' || phase === 'conversing' || phase === 'complication') {
       onSetInputSpec?.({
@@ -45,11 +45,15 @@ export function ConversationRoundsActivity({
         gameKey: 'conversation-rounds',
         prompt: content.context,
         buttonLabel: 'Ready',
+        keywords: [
+          ...(roleA?.phrases ?? []),
+          ...(roleB?.phrases ?? []),
+        ],
       });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, content.context, onSetInputSpec]);
+  }, [phase, content.context, roleA?.phrases, roleB?.phrases, onSetInputSpec]);
 
   const startRound = useCallback(() => {
     setShownLifelinesA(0);
