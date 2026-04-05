@@ -31,6 +31,8 @@ export interface InputSpec {
   allowMultiple?: boolean;
   /** Vocabulary words to display as chips to the student (e.g. Final Answer target keywords) */
   keywords?: string[];
+  /** Role-grouped phrases with labels (e.g. for Conversation Rounds). Preferred over flat keywords when present. */
+  keywordGroups?: { label: string; phrases: string[] }[];
   /** When true, choice inputs show an "Other: write your own…" option */
   allowWriteIn?: boolean;
   /** For confirm inputs: label for the confirm button */

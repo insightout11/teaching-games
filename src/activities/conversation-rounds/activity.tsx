@@ -45,9 +45,9 @@ export function ConversationRoundsActivity({
         gameKey: 'conversation-rounds',
         prompt: content.context,
         buttonLabel: 'Ready',
-        keywords: [
-          ...(roleA?.phrases ?? []),
-          ...(roleB?.phrases ?? []),
+        keywordGroups: [
+          { label: roleA?.title ?? 'Role A', phrases: roleA?.phrases ?? [] },
+          { label: roleB?.title ?? 'Role B', phrases: roleB?.phrases ?? [] },
         ],
       });
     } else {
@@ -237,10 +237,13 @@ export function ConversationRoundsActivity({
           <div className="grid grid-cols-2 gap-4">
             {([roleA, roleB] as const).map((role, i) => {
               const student = i === 0 ? studentA : studentB;
+              const borderClass = i === 0 ? 'border-teal-500/40' : 'border-violet-500/40';
+              const titleClass = i === 0 ? 'text-teal-400' : 'text-violet-400';
+              const chipClass = i === 0 ? 'bg-teal-500/15 text-teal-300' : 'bg-violet-500/15 text-violet-300';
               return (
-                <div key={i} className="glass p-5 rounded-2xl border-2 border-lc-blue/30 space-y-3">
+                <div key={i} className={`glass p-5 rounded-2xl border-2 ${borderClass} space-y-3`}>
                   <div>
-                    <p className="text-xs font-semibold text-lc-blue uppercase tracking-widest">{role.title}</p>
+                    <p className={`text-xs font-semibold ${titleClass} uppercase tracking-widest`}>{role.title}</p>
                     <p className="font-semibold text-sm mt-0.5">{student?.name ?? '—'}</p>
                   </div>
                   <div>
@@ -253,9 +256,9 @@ export function ConversationRoundsActivity({
                   </div>
                   <div>
                     <p className="text-xs opacity-40 uppercase tracking-widest mb-1">Key Phrases</p>
-                    <div className="space-y-1">
+                    <div className="flex flex-wrap gap-1">
                       {role.phrases.map((p, j) => (
-                        <p key={j} className="text-xs italic opacity-60">&ldquo;{p}&rdquo;</p>
+                        <span key={j} className={`text-xs px-2 py-0.5 rounded-full ${chipClass}`}>&ldquo;{p}&rdquo;</span>
                       ))}
                     </div>
                   </div>
@@ -301,12 +304,15 @@ export function ConversationRoundsActivity({
               const shownLifelines = i === 0 ? shownLifelinesA : shownLifelinesB;
               const setShown = i === 0 ? setShownLifelinesA : setShownLifelinesB;
               const hasMoreLifelines = shownLifelines < role.lifelines.length;
+              const borderClass = i === 0 ? 'border-teal-500/30' : 'border-violet-500/30';
+              const titleClass = i === 0 ? 'text-teal-400' : 'text-violet-400';
+              const chipClass = i === 0 ? 'bg-teal-500/15 text-teal-300' : 'bg-violet-500/15 text-violet-300';
 
               return (
-                <div key={i} className="glass p-4 rounded-2xl border border-lc-blue/20 space-y-3">
+                <div key={i} className={`glass p-4 rounded-2xl border ${borderClass} space-y-3`}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-semibold text-lc-blue uppercase tracking-widest">{role.title}</p>
+                      <p className={`text-xs font-semibold ${titleClass} uppercase tracking-widest`}>{role.title}</p>
                       <p className="text-sm font-medium">{student?.name ?? '—'}</p>
                     </div>
                   </div>
@@ -315,7 +321,7 @@ export function ConversationRoundsActivity({
                     <p className="text-xs opacity-40 uppercase tracking-widest mb-1">Phrases</p>
                     <div className="flex flex-wrap gap-1">
                       {role.phrases.map((p, j) => (
-                        <span key={j} className="px-2 py-0.5 bg-white/10 rounded text-xs opacity-70">&ldquo;{p}&rdquo;</span>
+                        <span key={j} className={`px-2 py-0.5 rounded-full text-xs ${chipClass}`}>&ldquo;{p}&rdquo;</span>
                       ))}
                     </div>
                   </div>
