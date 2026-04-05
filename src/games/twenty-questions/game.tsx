@@ -97,10 +97,9 @@ export function TwentyQuestionsGame({
   const [timeRemaining, setTimeRemaining] = useState(0);
 
   const isSimultaneous = students.length >= 3;
-  const totalQuestionsAsked = questions.length;
   const answeredQuestions = questions.filter((q) => q.answer !== null);
   const unansweredQuestions = questions.filter((q) => q.answer === null);
-
+  const totalQuestionsAsked = answeredQuestions.length;
   // ─── Refs ───
   const statusRef = useRef(status);
   statusRef.current = status;
@@ -196,8 +195,9 @@ export function TwentyQuestionsGame({
       if (!valid) return; // silently drop invalid
 
       const currentQuestions = questionsRef.current;
-      if (currentQuestions.length >= constraintsRef.current.questionLimit) {
-        // Auto-transition to guess phase
+      const answeredCount = currentQuestions.filter((q) => q.answer !== null).length;
+      if (answeredCount >= constraintsRef.current.questionLimit) {
+        // Limit already reached via answered questions — switch to guessing
         setStatus(GameStatus.GUESSING);
         return;
       }
@@ -210,15 +210,7 @@ export function TwentyQuestionsGame({
         answer: null,
         roundNumber: roundNumberRef.current,
       };
-      setQuestions((prev) => {
-        const updated = [...prev, newQuestion];
-        // Check question limit after adding
-        if (updated.length >= constraintsRef.current.questionLimit) {
-          // Use setTimeout to avoid state update during render
-          setTimeout(() => setStatus(GameStatus.GUESSING), 0);
-        }
-        return updated;
-      });
+      setQuestions((prev) => [...prev, newQuestion]);
 
       // In turn-based mode, transition to answering after each question
       if (!isSimultaneous) {
@@ -309,9 +301,14 @@ export function TwentyQuestionsGame({
   };
 
   const handleAnswerQuestion = (questionId: string, answer: string) => {
-    setQuestions((prev) =>
-      prev.map((q) => (q.id === questionId ? { ...q, answer } : q)),
-    );
+    setQuestions((prev) => {
+      const updated = prev.map((q) => (q.id === questionId ? { ...q, answer } : q));
+      const answeredCount = updated.filter((q) => q.answer !== null).length;
+      if (answeredCount >= constraintsRef.current.questionLimit) {
+        setTimeout(() => setStatus(GameStatus.GUESSING), 0);
+      }
+      return updated;
+    });
   };
 
   const handleAiAutoAnswer = async (questionId: string) => {
