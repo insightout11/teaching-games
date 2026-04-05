@@ -41,16 +41,6 @@ export function MissionSetupScreen() {
       {/* Tabs */}
       <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-xl p-1">
         <button
-          onClick={() => setActiveTab('build')}
-          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
-            activeTab === 'build'
-              ? 'bg-lc-blue text-white shadow-sm'
-              : 'text-lc-text2 hover:text-lc-text hover:bg-lc-card'
-          }`}
-        >
-          Build
-        </button>
-        <button
           onClick={() => setActiveTab('presets')}
           className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
             activeTab === 'presets'
@@ -59,6 +49,16 @@ export function MissionSetupScreen() {
           }`}
         >
           Presets
+        </button>
+        <button
+          onClick={() => setActiveTab('build')}
+          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
+            activeTab === 'build'
+              ? 'bg-lc-blue text-white shadow-sm'
+              : 'text-lc-text2 hover:text-lc-text hover:bg-lc-card'
+          }`}
+        >
+          Build
         </button>
       </div>
 
