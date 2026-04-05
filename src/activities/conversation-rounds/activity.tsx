@@ -196,7 +196,7 @@ export function ConversationRoundsActivity({
             {[
               { label: roleA.title, idx: roleAIdx, setIdx: setRoleAIdx, otherIdx: roleBIdx },
               { label: roleB.title, idx: roleBIdx, setIdx: setRoleBIdx, otherIdx: roleAIdx },
-            ].map(({ label, idx, setIdx, otherIdx }, col) => (
+            ].map(({ label, idx, setIdx }, col) => (
               <div key={col} className="glass p-4 rounded-2xl border border-white/10 space-y-2">
                 <p className="text-xs font-semibold text-lc-blue uppercase tracking-widest">{label}</p>
                 <select
