@@ -37,6 +37,7 @@ import type {
   GrammarCheckInContent,
   GrammarProofContent,
   FinalWordContent,
+  ConversationRoundsContent,
   GameGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
@@ -1574,6 +1575,83 @@ Return JSON with a single "prompt" string.`;
   }
 }
 
+async function generateConversationRounds(topic: string, difficulty: Difficulty): Promise<ConversationRoundsContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      scenario: { type: 'string' },
+      context: { type: 'string' },
+      roles: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            title: { type: 'string' },
+            goal: { type: 'string' },
+            situation: { type: 'string' },
+            phrases: { type: 'array', items: { type: 'string' } },
+            lifelines: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['title', 'goal', 'situation', 'phrases', 'lifelines'],
+        },
+      },
+      complications: { type: 'array', items: { type: 'string' } },
+    },
+    required: ['scenario', 'context', 'roles', 'complications'],
+  };
+
+  const prompt = `Generate a "Conversation Rounds" role-play activity for an ESL class.
+Topic/Scenario: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Create one realistic two-person scenario where both roles NEED each other to resolve a situation — not just exchange opinions. There must be a clear conflict of interest or an asymmetric goal.
+
+Rules:
+- scenario: short descriptive title (max 6 words)
+- context: 1-2 sentences that set the scene for the watching class (simple language, all levels can follow)
+- roles: EXACTLY 2 role objects
+  - title: role name (2-4 words, e.g. "Hotel Guest", "Restaurant Manager")
+  - goal: what they want to achieve — 1 sentence starting with a verb (${difficultyDescriptions[difficulty]})
+  - situation: their private context the other person doesn't know — 2-3 sentences (${difficultyDescriptions[difficulty]})
+  - phrases: 4-5 sentence starters useful for this role (max 8 words each, authentic spoken English)
+  - lifelines: 2-3 COMPLETE sentences they can say verbatim if stuck — full natural utterances (${difficultyDescriptions[difficulty]})
+- complications: exactly 4 short twist sentences the teacher reads aloud mid-conversation to raise the stakes (max 15 words each)
+
+Return JSON with scenario, context, roles (array of exactly 2), complications (array of exactly 4).`;
+
+  try {
+    const data = await generateJSON<{
+      scenario: string;
+      context: string;
+      roles: ConversationRoundsContent['roles'];
+      complications: string[];
+    }>(prompt, schema);
+    return {
+      activityKey: 'conversation-rounds',
+      topicContext: topic,
+      scenario: data.scenario ?? topic,
+      context: data.context ?? `Two students will role-play a situation related to ${topic}.`,
+      roles: data.roles ?? [
+        { title: 'Role A', goal: 'Resolve the situation', situation: 'You need help.', phrases: ['Could you help me...', 'I was hoping...'], lifelines: ['Excuse me, I need some help with this.'] },
+        { title: 'Role B', goal: 'Assist while managing constraints', situation: 'You want to help but have limits.', phrases: ["I understand...", 'What I can do is...'], lifelines: ['I completely understand. Let me see what I can do for you.'] },
+      ],
+      complications: (data.complications ?? []).slice(0, 4),
+    };
+  } catch {
+    return {
+      activityKey: 'conversation-rounds',
+      topicContext: topic,
+      scenario: topic,
+      context: `Two students will role-play a situation related to ${topic}.`,
+      roles: [
+        { title: 'Role A', goal: 'Resolve the situation', situation: 'You need help.', phrases: ['Could you help me...', 'I was hoping...'], lifelines: ['Excuse me, I need some help with this.'] },
+        { title: 'Role B', goal: 'Assist while managing constraints', situation: 'You want to help but have limits.', phrases: ["I understand...", 'What I can do is...'], lifelines: ['I completely understand. Let me see what I can do for you.'] },
+      ],
+      complications: [],
+    };
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as LessonPlanGenerateRequest & {
@@ -1688,6 +1766,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'final-word':
             generators.push(generateFinalWord(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'conversation-rounds':
+            generators.push(generateConversationRounds(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);

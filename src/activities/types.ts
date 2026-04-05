@@ -316,6 +316,26 @@ export interface ProblemComplication {
 }
 
 // ============================================
+// Conversation Rounds Content Types
+// ============================================
+
+export interface ConversationRoundsRole {
+  title: string;
+  goal: string;
+  situation: string;
+  phrases: string[];
+  lifelines: string[];
+}
+
+export interface ConversationRoundsContent extends ActivityGeneratedContent {
+  activityKey: 'conversation-rounds';
+  scenario: string;
+  context: string;
+  roles: [ConversationRoundsRole, ConversationRoundsRole];
+  complications: string[];
+}
+
+// ============================================
 // Dynamic Continue Types (called during class)
 // ============================================
 
@@ -346,6 +366,8 @@ export interface ActivityContinueResponse {
   vocabularyHighlight?: string[];
   top3Picks?: FinaleOption[];
   generatedRound?: ScenarioRound;
+  /** Full content replacement — used by Conversation Rounds scenario regeneration. */
+  regeneratedContent?: ActivityGeneratedContent;
 }
 
 // ============================================

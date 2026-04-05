@@ -152,7 +152,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'prediction-round' },
       { slotType: 'practice', key: 'dialogue-detective' },
       { slotType: 'production', key: 'scene-igniter' },
-      { slotType: 'production', key: 'scenario-simulator' },
+      { slotType: 'production', key: 'conversation-rounds' },
     ],
     scenarios: {
       label: 'Choose a travel situation',
@@ -179,7 +179,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     moduleSequence: [
       { slotType: 'presentation', key: 'vocab-radar' },
       { slotType: 'practice', key: 'dialogue-detective' },
-      { slotType: 'production', key: 'expert-panel' },
+      { slotType: 'production', key: 'conversation-rounds' },
     ],
     scenarios: {
       label: 'Choose a job role',

@@ -22,6 +22,7 @@ import { characterCardsPlugin } from './character-cards';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarProofPlugin } from './grammar-proof';
 import { finalWordPlugin } from './final-word';
+import { conversationRoundsPlugin } from './conversation-rounds';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
@@ -44,6 +45,7 @@ const activities: ActivityPlugin[] = [
   scenarioSimulatorPlugin,
   // VAULTED: interviewLabPlugin
   problemSolversPlugin,
+  conversationRoundsPlugin,
   // Debates
   hotTakeArenaPlugin,
   // Closing activities

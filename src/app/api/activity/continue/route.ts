@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import type { ActivityContinueRequest, ActivityContinueResponse, FinaleOption, ScenarioRound } from '@/activities/types';
+import type { ActivityContinueRequest, ActivityContinueResponse, ConversationRoundsContent, FinaleOption, ScenarioRound } from '@/activities/types';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 
@@ -306,6 +306,66 @@ If fewer than 3 submissions exist, invent plausible alternatives.
 Return top3Picks array with exactly 3 items, labels A/B/C.`;
       const parsed = await generateJSON<{ top3Picks: FinaleOption[] }>(pickPrompt, pickSchema, { taskClass: 'activity-facilitation' });
       return NextResponse.json({ top3Picks: parsed.top3Picks } satisfies ActivityContinueResponse);
+    }
+
+    // conversation-rounds: regenerate scenario on demand
+    if (activityKey === 'conversation-rounds' && requestType === 'generate-round') {
+      const { topic, difficulty } = JSON.parse(body.studentResponse ?? '{}') as {
+        topic: string;
+        difficulty: string;
+      };
+      const convSchema: AISchema = {
+        type: 'object',
+        properties: {
+          scenario: { type: 'string' },
+          context: { type: 'string' },
+          roles: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                title: { type: 'string' },
+                goal: { type: 'string' },
+                situation: { type: 'string' },
+                phrases: { type: 'array', items: { type: 'string' } },
+                lifelines: { type: 'array', items: { type: 'string' } },
+              },
+              required: ['title', 'goal', 'situation', 'phrases', 'lifelines'],
+            },
+          },
+          complications: { type: 'array', items: { type: 'string' } },
+        },
+        required: ['scenario', 'context', 'roles', 'complications'],
+      };
+      const diff = (difficulty ?? 'Intermediate') as Difficulty;
+      const convPrompt = `Generate a NEW "Conversation Rounds" role-play scenario for an ESL class.
+Topic/Scenario: ${topic}
+Difficulty: ${difficultyDescriptions[diff]}
+
+Create a DIFFERENT scenario from any you may have seen before — vary the situation and roles.
+Two-person scenario where both roles need each other to resolve a conflict or request.
+
+Rules:
+- scenario: short descriptive title (max 6 words)
+- context: 1-2 sentences setting the scene for the watching class
+- roles: EXACTLY 2 role objects with title, goal, situation (2-3 sentences of private context), phrases (4-5 starters max 8 words), lifelines (2-3 complete verbatim sentences)
+- complications: exactly 4 short twist sentences (max 15 words each)
+
+Return JSON with scenario, context, roles (array of 2), complications (array of 4).`;
+      const convData = await generateJSON<{
+        scenario: string; context: string;
+        roles: ConversationRoundsContent['roles'];
+        complications: string[];
+      }>(convPrompt, convSchema, { taskClass: 'activity-facilitation' });
+      const newContent: ConversationRoundsContent = {
+        activityKey: 'conversation-rounds',
+        topicContext: topic,
+        scenario: convData.scenario ?? topic,
+        context: convData.context ?? `Two students will role-play a situation related to ${topic}.`,
+        roles: convData.roles,
+        complications: (convData.complications ?? []).slice(0, 4),
+      };
+      return NextResponse.json({ regeneratedContent: newContent } satisfies ActivityContinueResponse);
     }
 
     // Get the appropriate prompt generator (or use generic fallback)

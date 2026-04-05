@@ -459,6 +459,20 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   },
 
   {
+    key: 'conversation-rounds',
+    slotFit: ['production'],
+    goalFit: ['speaking-fluency', 'confidence-building', 'functional-english'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'high',
+    interactionModel: ['role-based', 'performance'],
+    speakingLoad: 'high',
+    writingLoad: 'low',
+    teacherControlLoad: 'high',
+    avoidAfter: ['expert-panel'],
+    strongWith: ['scene-igniter', 'dialogue-detective', 'vocab-radar'],
+  },
+
+  {
     key: 'character-cards',
     slotFit: ['takeoff'],
     goalFit: ['speaking-fluency', 'confidence-building', 'creativity'],
