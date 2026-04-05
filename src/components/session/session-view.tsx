@@ -16,6 +16,7 @@ import { SessionSettingsBar } from './session-settings-bar';
 import { WidgetShell } from './widget-shell';
 import { WidgetLauncher } from './widget-launcher';
 import { WIDGET_REGISTRY } from './widget-registry';
+import { QRCodeSVG } from 'qrcode.react';
 import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
@@ -475,8 +476,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
           {/* Join Info */}
           <div className="glass rounded-2xl p-6 space-y-4">
-            <div className="text-center space-y-3">
+            <div className="text-center space-y-4">
               <p className="text-xs opacity-50 uppercase tracking-wider font-semibold">Join Link</p>
+              <div className="flex justify-center">
+                <div className="p-3 bg-white rounded-xl">
+                  <QRCodeSVG
+                    value={joinUrl}
+                    size={160}
+                    level="H"
+                    includeMargin={false}
+                  />
+                </div>
+              </div>
               <div className="flex items-center gap-2 justify-center">
                 <code className="text-cyan-400 text-sm bg-lc-surface border border-lc-border px-4 py-2 rounded-lg font-mono break-all">
                   {joinUrl}
