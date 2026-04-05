@@ -230,6 +230,19 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         patch.scoringMode = cls.default_scoring_mode as ScoringMode;
       }
       if (Object.keys(patch).length > 0) setSettings(patch);
+      // Write effective settings to DB so students can see topic/difficulty on the waiting screen.
+      // Read from getState() to capture any patches applied above.
+      const s = useSessionStore.getState().settings;
+      void fetch('/api/session/settings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: session.id,
+          topic: s.topic,
+          difficulty: s.difficulty,
+          customTopic: s.customTopic || null,
+        }),
+      });
       initDone.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
