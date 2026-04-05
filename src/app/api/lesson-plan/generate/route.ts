@@ -120,7 +120,7 @@ Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dile
   return { activityKey: 'would-you-rather', topicContext: topic, dilemmas: parsed.dilemmas, potentialFollowUps: followUpsRecord };
 }
 
-async function generateHotTakeArena(topic: string, difficulty: Difficulty, missionContext?: string[]): Promise<HotTakeArenaContent> {
+async function generateHotTakeArena(topic: string, difficulty: Difficulty): Promise<HotTakeArenaContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -1705,7 +1705,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateWouldYouRather(customTopic, diff, missionContext).then((r) => { content[activityKey] = r; }));
             break;
           case 'hot-take-arena':
-            generators.push(generateHotTakeArena(customTopic, diff, missionContext).then((r) => { content[activityKey] = r; }));
+            generators.push(generateHotTakeArena(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths':
             generators.push(generateTwoTruths(customTopic, diff).then((r) => { content[activityKey] = r; }));
