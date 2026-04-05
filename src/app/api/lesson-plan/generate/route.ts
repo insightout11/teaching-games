@@ -1711,8 +1711,8 @@ export async function POST(request: NextRequest) {
             generators.push(generateTwoTruths(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths-and-a-lie':
-            // No AI generation — content is student-generated at runtime; store stub so response.success is true
-            content[activityKey] = { activityKey, topicContext: customTopic };
+            // No AI generation — content is student-generated at runtime
+            generators.push(Promise.resolve().then(() => { content[activityKey] = { activityKey, topicContext: customTopic }; }));
             break;
           case 'rank-it':
             generators.push(generateRankIt(customTopic, diff).then((r) => { content[activityKey] = r; }));
