@@ -20,18 +20,29 @@ const SCORING_MODE_LABELS: Record<ScoringMode, string> = {
   competitive: 'Competitive Mode',
 };
 
+function persistSessionSettings(sessionId: string | null, patch: { topic?: string; difficulty?: string; customTopic?: string }) {
+  if (!sessionId) return;
+  void fetch('/api/session/settings', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sessionId, ...patch }),
+  });
+}
+
 export function SessionSettingsBar() {
   const settings = useSessionStore((s) => s.settings);
   const setSettings = useSessionStore((s) => s.setSettings);
   const setTopic = useSessionStore((s) => s.setTopic);
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
   const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
+  const sessionId = useSessionStore((s) => s.sessionId);
   const scoringMode = settings.scoringMode;
   const [showCustomTopic, setShowCustomTopic] = useState(!!settings.customTopic);
   const teacherTier = useTeacherTier();
 
   const handleTopicChange = (newTopic: Topic) => {
     setTopic(newTopic);
+    persistSessionSettings(sessionId, { topic: newTopic, difficulty: settings.difficulty });
     // Clear custom topic when using dropdown
     if (settings.customTopic) {
       setCustomTopic('');
@@ -55,7 +66,11 @@ export function SessionSettingsBar() {
         {/* Difficulty */}
         <select
           value={settings.difficulty}
-          onChange={(e) => setSettings({ difficulty: e.target.value as Difficulty })}
+          onChange={(e) => {
+            const d = e.target.value as Difficulty;
+            setSettings({ difficulty: d });
+            persistSessionSettings(sessionId, { difficulty: d, topic: settings.customTopic || settings.topic });
+          }}
           className="bg-transparent font-bold outline-none cursor-pointer"
         >
           {DIFFICULTIES.map((d) => (
@@ -103,6 +118,7 @@ export function SessionSettingsBar() {
               type="text"
               value={settings.customTopic}
               onChange={(e) => setCustomTopic(e.target.value)}
+              onBlur={(e) => persistSessionSettings(sessionId, { customTopic: e.target.value, difficulty: settings.difficulty })}
               placeholder="Custom topic..."
               className="bg-lc-surface border border-lc-border rounded px-2 py-0.5 text-[10px] w-32 outline-none focus:border-lc-blue text-lc-text"
               autoFocus

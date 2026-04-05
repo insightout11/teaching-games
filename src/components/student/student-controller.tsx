@@ -106,6 +106,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [personalMission, setPersonalMission] = useState<string | null>(null);
   const [tipIndex, setTipIndex] = useState(() => Math.floor(Math.random() * WAITING_TIPS.length));
+  const [sessionTopic, setSessionTopic] = useState<string | null>(null);
+  const [sessionDifficulty, setSessionDifficulty] = useState<string>('Intermediate');
+  const [topicTips, setTopicTips] = useState<{ category: string; color: string; text: string }[]>([]);
+  const [topicTipsLoaded, setTopicTipsLoaded] = useState(false);
 
   // Ask a Question section state
   const [questionText, setQuestionText] = useState('');
@@ -143,6 +147,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setFrozen(data.frozen ?? false);
       setPublishedQuestions(data.publishedQuestions ?? []);
       if (data.personalMission) setPersonalMission(data.personalMission);
+      if (data.topic) setSessionTopic(data.topic);
+      if (data.difficulty) setSessionDifficulty(data.difficulty);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -177,13 +183,41 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   }, [questionWait, questionStatus]);
 
   // Cycle through English spotlight tips while waiting for an activity
+  const allTips = [...topicTips, ...WAITING_TIPS];
   useEffect(() => {
     if (inputSpec) return;
     const interval = setInterval(() => {
-      setTipIndex((i) => (i + 1) % WAITING_TIPS.length);
+      setTipIndex((i) => (i + 1) % allTips.length);
     }, 10000);
     return () => clearInterval(interval);
-  }, [inputSpec]);
+  // allTips.length changes when topicTips load — restarting the interval is fine
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputSpec, allTips.length]);
+
+  // Fetch topic-aware tips once when topic becomes available
+  useEffect(() => {
+    if (!sessionTopic || topicTipsLoaded) return;
+    setTopicTipsLoaded(true);
+    fetch('/api/waiting-tips/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId }),
+    })
+      .then((r) => r.json())
+      .then((data: { tips?: { category: string; text: string }[] }) => {
+        if (data.tips && data.tips.length > 0) {
+          const mapped = data.tips.map((t) => ({
+            ...t,
+            color: t.category.toLowerCase().includes('vocab') ? 'teal'
+              : t.category === 'Did you know?' ? 'purple'
+              : 'amber',
+          }));
+          setTopicTips(mapped);
+          setTipIndex(0); // start from first topic tip
+        }
+      })
+      .catch(() => {}); // silent fail — static tips remain
+  }, [sessionTopic, topicTipsLoaded, sessionId]);
 
   const handleSubmit = useCallback(async (content: string) => {
     if (!content.trim() || isSubmitting) return;
@@ -462,34 +496,48 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           )
         ) : (
           <div className="space-y-4">
-            {/* English Spotlight tip card */}
-            <div
-              key={tipIndex}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
-              style={{ animation: 'lc-fade-in 0.5s ease-out' }}
-            >
-              {/* Category badge */}
-              <span className={`inline-block text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-3 ${
-                WAITING_TIPS[tipIndex].color === 'blue'   ? 'bg-blue-500/20 text-blue-300' :
-                WAITING_TIPS[tipIndex].color === 'teal'   ? 'bg-teal-500/20 text-teal-300' :
-                WAITING_TIPS[tipIndex].color === 'amber'  ? 'bg-amber-500/20 text-amber-300' :
-                'bg-purple-500/20 text-purple-300'
-              }`}>
-                {WAITING_TIPS[tipIndex].category}
-              </span>
-              <p className="text-gray-200 text-sm leading-relaxed">{WAITING_TIPS[tipIndex].text}</p>
-              {/* Progress dots */}
-              <div className="flex gap-1.5 mt-4 flex-wrap">
-                {WAITING_TIPS.map((_, i) => (
-                  <span
-                    key={i}
-                    className={`inline-block rounded-full transition-all duration-300 ${
-                      i === tipIndex ? 'w-3 h-1.5 bg-white/60' : 'w-1.5 h-1.5 bg-white/20'
-                    }`}
-                  />
-                ))}
+            {/* Topic + difficulty context label */}
+            {sessionTopic && (
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-gray-500 uppercase tracking-widest">Topic</span>
+                <span className="text-[10px] font-bold text-gray-300">{sessionTopic}</span>
+                <span className="text-gray-700">·</span>
+                <span className="text-[10px] text-gray-400">{sessionDifficulty}</span>
               </div>
-            </div>
+            )}
+            {/* English Spotlight tip card */}
+            {(() => {
+              const tip = allTips[tipIndex % allTips.length];
+              return (
+                <div
+                  key={tipIndex}
+                  className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  style={{ animation: 'lc-fade-in 0.5s ease-out' }}
+                >
+                  {/* Category badge */}
+                  <span className={`inline-block text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-3 ${
+                    tip.color === 'blue'   ? 'bg-blue-500/20 text-blue-300' :
+                    tip.color === 'teal'   ? 'bg-teal-500/20 text-teal-300' :
+                    tip.color === 'amber'  ? 'bg-amber-500/20 text-amber-300' :
+                    'bg-purple-500/20 text-purple-300'
+                  }`}>
+                    {tip.category}
+                  </span>
+                  <p className="text-gray-200 text-sm leading-relaxed">{tip.text}</p>
+                  {/* Progress dots */}
+                  <div className="flex gap-1.5 mt-4 flex-wrap">
+                    {allTips.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`inline-block rounded-full transition-all duration-300 ${
+                          i === tipIndex % allTips.length ? 'w-3 h-1.5 bg-white/60' : 'w-1.5 h-1.5 bg-white/20'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
             {/* Waiting label */}
             <div className="text-center py-2">
               <p className="text-gray-500 text-xs uppercase tracking-widest">Waiting for your teacher…</p>

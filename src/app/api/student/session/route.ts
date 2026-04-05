@@ -21,6 +21,8 @@ interface SessionPayload {
   frozen: boolean;
   publishedQuestions: PublishedQuestion[] | null;
   personalMission: string | null;
+  topic: string;
+  difficulty: string;
 }
 
 export async function GET(request: NextRequest) {
@@ -44,7 +46,7 @@ export async function GET(request: NextRequest) {
     // Check if session exists and is active, including input_spec and frozen flag
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, status, input_spec, frozen')
+      .select('id, status, input_spec, frozen, topic, difficulty, custom_topic')
       .eq('id', sessionId)
       .single();
 
@@ -129,6 +131,8 @@ export async function GET(request: NextRequest) {
       frozen: session.frozen ?? false,
       publishedQuestions,
       personalMission,
+      topic: (session.custom_topic as string | null) || (session.topic as string) || 'General',
+      difficulty: (session.difficulty as string) || 'Intermediate',
     };
 
     return NextResponse.json(payload, {
