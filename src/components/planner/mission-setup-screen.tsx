@@ -80,7 +80,7 @@ export function MissionSetupScreen() {
             </p>
           </div>
           {!topic.trim() && (
-            <p className="text-sm text-lc-blue/80 -mt-2">
+            <p className="text-sm font-semibold text-amber-400 -mt-2 animate-pulse">
               ↑ Enter a topic above to unlock these presets
             </p>
           )}

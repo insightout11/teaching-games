@@ -88,7 +88,7 @@ export const usePlannerStore = create<PlannerState>()(
       goals: [],
       lessonDurationMinutes: 30,
       modules: [],
-      activeTab: 'build',
+      activeTab: 'presets',
       loadedPresetId: null,
       replaceDrawerModuleId: null,
       overrideScoringMode: null,
