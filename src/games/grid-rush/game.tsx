@@ -499,8 +499,16 @@ export function GridRushGame({
             <span className="text-xs font-semibold uppercase tracking-widest text-cyan-400">Round 1</span>
             <h3 className="text-white font-bold text-lg">Word Race</h3>
           </div>
-          <div className={`text-3xl font-black tabular-nums ${isLow ? 'text-red-400 animate-pulse' : 'text-white'}`}>
-            {timeLeft}s
+          <div className="flex items-center gap-2">
+            <div className={`text-3xl font-black tabular-nums ${isLow ? 'text-red-400 animate-pulse' : 'text-white'}`}>
+              {timeLeft}s
+            </div>
+            <button
+              onClick={() => setTimeLeft((t) => t + 30)}
+              className="text-xs px-2 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-colors font-semibold"
+            >
+              +30s
+            </button>
           </div>
         </div>
 
@@ -615,8 +623,16 @@ export function GridRushGame({
             <span className="text-xs font-semibold uppercase tracking-widest text-violet-400">Round 2</span>
             <h3 className="text-white font-bold text-lg">Sentence Showdown</h3>
           </div>
-          <div className={`text-3xl font-black tabular-nums ${isLow ? 'text-red-400 animate-pulse' : 'text-white'}`}>
-            {timeLeft}s
+          <div className="flex items-center gap-2">
+            <div className={`text-3xl font-black tabular-nums ${isLow ? 'text-red-400 animate-pulse' : 'text-white'}`}>
+              {timeLeft}s
+            </div>
+            <button
+              onClick={() => setTimeLeft((t) => t + 30)}
+              className="text-xs px-2 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-colors font-semibold"
+            >
+              +30s
+            </button>
           </div>
         </div>
 
