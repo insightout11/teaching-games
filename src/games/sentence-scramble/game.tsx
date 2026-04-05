@@ -560,7 +560,13 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           className="text-center"
         >
           {feedback === 'correct' ? (
-            <p className="text-green-400 font-game text-lg">CORRECT! +10 points</p>
+            <div className="glass rounded-2xl px-6 py-4 border border-emerald-500/30 bg-emerald-500/10 space-y-1">
+              <p className="text-emerald-400 font-game text-xl">CORRECT!</p>
+              {currentStudent && (
+                <p className="text-white font-semibold text-lg">{currentStudent.name}</p>
+              )}
+              <p className="text-emerald-300 font-game text-base">+10 points</p>
+            </div>
           ) : (
             <div>
               <p className="text-red-400 font-game text-lg">NOT QUITE!</p>
