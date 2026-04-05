@@ -79,6 +79,11 @@ export function MissionSetupScreen() {
               Be specific! Good topics lead to better AI-generated content.
             </p>
           </div>
+          {!topic.trim() && (
+            <p className="text-sm text-lc-blue/80 -mt-2">
+              ↑ Enter a topic above to unlock these presets
+            </p>
+          )}
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {FLIGHT_PLAN_PRESETS.map((preset) => (
               <PresetCard
