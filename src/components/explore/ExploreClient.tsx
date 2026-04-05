@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Clock } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
+import { PaywallModal } from '@/components/ui/paywall-modal';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
@@ -73,6 +73,10 @@ export function ExploreClient() {
   const [customTopic, setCustomTopic] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('Intermediate');
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [showCreateClass, setShowCreateClass] = useState(false);
+  const [newClassName, setNewClassName] = useState('');
+  const [creatingClass, setCreatingClass] = useState(false);
 
   // Read persisted settings + active session from localStorage on mount
   useEffect(() => {
@@ -129,6 +133,12 @@ export function ExploreClient() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ classId }),
       });
+      if (res.status === 402) {
+        setLaunching(false);
+        setLaunchItem(null);
+        setShowPaywall(true);
+        return;
+      }
       if (!res.ok) throw new Error('Failed to create session');
       const { sessionId } = await res.json();
       localStorage.setItem('lc-explore-session', JSON.stringify({ sessionId, className }));
@@ -142,6 +152,27 @@ export function ExploreClient() {
     if (!activeSession || !launchItem) return;
     setLaunching(true);
     writeAndNavigate(activeSession.sessionId, true);
+  }
+
+  async function handleCreateClass(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newClassName.trim()) return;
+    setCreatingClass(true);
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setCreatingClass(false); return; }
+    const { data: newClass } = await supabase
+      .from('classes')
+      .insert({ name: newClassName.trim(), teacher_id: user.id })
+      .select('id, name')
+      .single();
+    if (newClass) {
+      setClasses([newClass, ...classes]);
+      setNewClassName('');
+      setShowCreateClass(false);
+      handleSelectClass(newClass.id, newClass.name);
+    }
+    setCreatingClass(false);
   }
 
   const showGames = filter === 'all' || filter === 'games';
@@ -339,7 +370,7 @@ export function ExploreClient() {
       {/* Launch modal */}
       <Modal
         open={!!launchItem}
-        onClose={() => setLaunchItem(null)}
+        onClose={() => { setLaunchItem(null); setShowCreateClass(false); setNewClassName(''); }}
         title={launchItem ? `Launch ${launchItem.name}` : ''}
       >
         {/* Topic + Difficulty */}
@@ -403,13 +434,32 @@ export function ExploreClient() {
         ) : classes.length === 0 ? (
           <div className="text-sm text-lc-text3">
             <p className="mb-3">You haven&apos;t created a class yet.</p>
-            <Link
-              href="/classes"
-              className="text-lc-blue hover:underline font-medium"
-              onClick={() => setLaunchItem(null)}
-            >
-              Create a class first →
-            </Link>
+            {showCreateClass ? (
+              <form onSubmit={handleCreateClass} className="flex gap-2">
+                <input
+                  type="text"
+                  value={newClassName}
+                  onChange={(e) => setNewClassName(e.target.value)}
+                  placeholder="Class name"
+                  autoFocus
+                  className="flex-1 text-sm px-3 py-1.5 rounded-lg border border-lc-border bg-lc-surface text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue/40"
+                />
+                <button
+                  type="submit"
+                  disabled={creatingClass || !newClassName.trim()}
+                  className="text-sm px-3 py-1.5 rounded-lg bg-lc-blue text-white font-medium disabled:opacity-50"
+                >
+                  {creatingClass ? '…' : 'Create'}
+                </button>
+              </form>
+            ) : (
+              <button
+                onClick={() => setShowCreateClass(true)}
+                className="text-lc-blue hover:underline font-medium"
+              >
+                + Create a class
+              </button>
+            )}
           </div>
         ) : (
           <div className="space-y-2">
@@ -424,17 +474,45 @@ export function ExploreClient() {
               </button>
             ))}
             <div className="pt-2 border-t border-lc-border mt-2">
-              <Link
-                href="/classes"
-                className="text-sm text-lc-text3 hover:text-lc-blue transition-colors"
-                onClick={() => setLaunchItem(null)}
-              >
-                + New class
-              </Link>
+              {showCreateClass ? (
+                <form onSubmit={handleCreateClass} className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newClassName}
+                    onChange={(e) => setNewClassName(e.target.value)}
+                    placeholder="Class name"
+                    autoFocus
+                    className="flex-1 text-sm px-3 py-1.5 rounded-lg border border-lc-border bg-lc-surface text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue/40"
+                  />
+                  <button
+                    type="submit"
+                    disabled={creatingClass || !newClassName.trim()}
+                    className="text-sm px-3 py-1.5 rounded-lg bg-lc-blue text-white font-medium disabled:opacity-50"
+                  >
+                    {creatingClass ? '…' : 'Create'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setShowCreateClass(false); setNewClassName(''); }}
+                    className="text-sm px-2 py-1.5 rounded-lg text-lc-text3 hover:text-lc-text transition-colors"
+                  >
+                    ✕
+                  </button>
+                </form>
+              ) : (
+                <button
+                  onClick={() => setShowCreateClass(true)}
+                  className="text-sm text-lc-text3 hover:text-lc-blue transition-colors"
+                >
+                  + New class
+                </button>
+              )}
             </div>
           </div>
         )}
       </Modal>
+
+      <PaywallModal open={showPaywall} onClose={() => setShowPaywall(false)} />
     </div>
   );
 }
