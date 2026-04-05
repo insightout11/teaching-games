@@ -37,7 +37,7 @@ export function MissionSetupScreen() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className={`${activeTab === 'presets' ? 'max-w-5xl' : 'max-w-3xl'} mx-auto space-y-6`}>
       {/* Tabs */}
       <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-xl p-1">
         <button
