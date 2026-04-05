@@ -62,9 +62,21 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     landing: 'final-word',
     moduleSequence: [
       { slotType: 'presentation', key: 'quick-pulse' },
-      { slotType: 'production', key: 'scenario-simulator' },
       { slotType: 'practice', key: 'dialogue-detective' },
+      { slotType: 'production', key: 'conversation-rounds' },
     ],
+    scenarios: {
+      label: 'Choose a speaking situation',
+      placeholder: 'e.g. Catching up with an old friend',
+      options: [
+        'Daily life — routines, home, neighbourhood',
+        'Social — meeting people, making plans, small talk',
+        'Opinions — sharing views on familiar topics',
+        'Problem-solving — navigating everyday issues together',
+        'Storytelling — sharing experiences and reactions',
+        'Workplace — simple professional interactions',
+      ],
+    },
   },
   {
     id: 'debate-ready-60',
