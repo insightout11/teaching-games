@@ -7,7 +7,6 @@ import type { GamePlugin, ScoreResult, GameRemoteVote } from '@/games/types';
 import type { GameGeneratedContent } from '@/activities/types';
 import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
-import { StreakIndicator } from './streak-indicator';
 import { Leaderboard } from './leaderboard';
 import { SpinWheel, ModifierBadge } from './spin-wheel';
 import { ApprovalQueue } from './approval-queue';

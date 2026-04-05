@@ -251,7 +251,7 @@ export function ConversationRoundsActivity({
                     <p className="text-xs opacity-40 uppercase tracking-widest mb-1">Key Phrases</p>
                     <div className="space-y-1">
                       {role.phrases.map((p, j) => (
-                        <p key={j} className="text-xs italic opacity-60">"{p}"</p>
+                        <p key={j} className="text-xs italic opacity-60">&ldquo;{p}&rdquo;</p>
                       ))}
                     </div>
                   </div>
@@ -277,7 +277,7 @@ export function ConversationRoundsActivity({
           {phase === 'complication' && activeComplication && (
             <div className="glass p-5 rounded-2xl border-2 border-amber-400/50 bg-amber-400/10 space-y-3">
               <p className="text-xs font-semibold text-amber-400 uppercase tracking-widest">⚡ Complication</p>
-              <p className="text-xl font-semibold leading-snug">"{activeComplication}"</p>
+              <p className="text-xl font-semibold leading-snug">&ldquo;{activeComplication}&rdquo;</p>
               <p className="text-xs opacity-50">Read this aloud — then let them continue</p>
               <div className="flex justify-center">
                 <button
@@ -311,7 +311,7 @@ export function ConversationRoundsActivity({
                     <p className="text-xs opacity-40 uppercase tracking-widest mb-1">Phrases</p>
                     <div className="flex flex-wrap gap-1">
                       {role.phrases.map((p, j) => (
-                        <span key={j} className="px-2 py-0.5 bg-white/10 rounded text-xs opacity-70">"{p}"</span>
+                        <span key={j} className="px-2 py-0.5 bg-white/10 rounded text-xs opacity-70">&ldquo;{p}&rdquo;</span>
                       ))}
                     </div>
                   </div>
@@ -321,7 +321,7 @@ export function ConversationRoundsActivity({
                     <div className="space-y-1.5">
                       {role.lifelines.slice(0, shownLifelines).map((l, j) => (
                         <p key={j} className="text-xs text-emerald-300 italic border-l-2 border-emerald-500/40 pl-2">
-                          "{l}"
+                          &ldquo;{l}&rdquo;
                         </p>
                       ))}
                     </div>

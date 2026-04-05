@@ -30,7 +30,6 @@ export function Leaderboard() {
   const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
   const awardPoints = useSessionStore((s) => s.awardPoints);
-  const scoringMode = useSessionStore((s) => s.settings.scoringMode);
   const pickStudent = useSessionStore((s) => s.pickStudent);
 
   // Student picker state
