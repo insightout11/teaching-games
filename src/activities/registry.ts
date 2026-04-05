@@ -12,6 +12,7 @@ import { problemSolversPlugin } from './problem-solvers';
 import { quickPulsePlugin } from './quick-pulse';
 import { vocabRadarPlugin } from './vocab-radar';
 import { predictionRoundPlugin } from './prediction-round';
+import { twoTruthsAndALiePlugin } from './two-truths-and-a-lie';
 import { sceneIgniterPlugin } from './scene-igniter';
 import { finalAnswerPlugin } from './final-answer';
 import { micDropPlugin } from './mic-drop';
@@ -34,6 +35,7 @@ const activities: ActivityPlugin[] = [
   quickPulsePlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
+  twoTruthsAndALiePlugin,
   sceneIgniterPlugin,
   wouldYouRatherPlugin,
   twoTruthsPlugin,

@@ -295,8 +295,22 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     speakingLoad: 'medium',
     writingLoad: 'low',
     teacherControlLoad: 'low',
-    avoidAfter: ['fact-detective'],
+    avoidAfter: ['fact-detective', 'two-truths-and-a-lie'],
     strongWith: ['quick-pulse', 'prediction-round'],
+  },
+
+  {
+    key: 'two-truths-and-a-lie',
+    slotFit: ['takeoff'],
+    goalFit: ['confidence-building', 'speaking-fluency'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['voting', 'discussion'],
+    speakingLoad: 'high',
+    writingLoad: 'medium',
+    teacherControlLoad: 'medium',
+    avoidAfter: ['two-truths'],
+    strongWith: ['quick-pulse', 'character-cards', 'would-you-rather'],
   },
 
   {

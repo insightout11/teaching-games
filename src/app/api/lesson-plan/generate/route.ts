@@ -1710,6 +1710,9 @@ export async function POST(request: NextRequest) {
           case 'two-truths':
             generators.push(generateTwoTruths(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
+          case 'two-truths-and-a-lie':
+            // No AI generation — content is student-generated at runtime
+            break;
           case 'rank-it':
             generators.push(generateRankIt(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;

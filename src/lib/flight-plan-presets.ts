@@ -208,6 +208,20 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     },
   },
   {
+    id: 'meet-the-class-45',
+    name: 'Meet the Class',
+    description: 'First-day icebreaker — students introduce themselves through guessing games and discussion',
+    lessonDurationMinutes: 45,
+    goal: 'confidence-building',
+    lessonType: 'performance',
+    takeoff: 'two-truths-and-a-lie',
+    landing: 'opinion-shift',
+    moduleSequence: [
+      { slotType: 'presentation', key: 'quick-pulse' },
+      { slotType: 'presentation', key: 'would-you-rather' },
+    ],
+  },
+  {
     id: 'class-diagnostic-30',
     name: 'Class Diagnostic',
     description: 'Quick vocabulary, grammar, and comprehension scan — find out where your class is before a new unit',
