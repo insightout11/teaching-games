@@ -83,6 +83,12 @@ html[data-theme="light"] .glass {
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+/* Waiting screen tip fade-in */
+@keyframes lc-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Fast pulse animation */
 @keyframes pulse-fast {
   0%, 100% { transform: scale(1); }

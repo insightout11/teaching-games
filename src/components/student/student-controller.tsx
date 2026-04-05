@@ -39,6 +39,40 @@ interface StudentControllerProps {
 // ---------------------------------------------------------------------------
 const VOTED_KEY = 'lc-voted-questions';
 
+// ---------------------------------------------------------------------------
+// English Spotlight tips — shown while waiting for an activity to start
+// ---------------------------------------------------------------------------
+const WAITING_TIPS: { category: string; color: string; text: string }[] = [
+  { category: 'Grammar Tip', color: 'blue', text: "Use 'a' before consonant sounds and 'an' before vowel sounds — it's about the sound, not the letter. 'An hour' is correct because 'hour' starts with a vowel sound." },
+  { category: 'Did you know?', color: 'purple', text: "English borrows words from over 350 languages. 'Café' comes from French, 'yoga' from Sanskrit, 'robot' from Czech, and 'ketchup' from Malay." },
+  { category: 'Idiom', color: 'amber', text: "'Break a leg' means 'good luck'. It comes from theatre tradition — wishing someone bad luck was thought to bring good luck instead." },
+  { category: 'Vocab Boost', color: 'teal', text: "Three useful prefixes: 'un-' means not (unhappy), 're-' means again (rewrite), 'pre-' means before (preview). Spot them and you can guess thousands of new words." },
+  { category: 'Grammar Tip', color: 'blue', text: "'I' vs 'me': remove the other person to test it. 'She gave it to I' sounds wrong — so say 'She gave it to me'. 'I' is for subjects; 'me' is for objects." },
+  { category: 'Did you know?', color: 'purple', text: "The word 'nice' originally meant 'foolish' or 'ignorant' in the 14th century. Word meanings shift dramatically over hundreds of years — this is called semantic change." },
+  { category: 'Idiom', color: 'amber', text: "'Hit the nail on the head' means to be exactly right. 'Cost an arm and a leg' means something is very expensive. Idioms say one thing but mean another." },
+  { category: 'Vocab Boost', color: 'teal', text: "The suffix '-tion' turns verbs into nouns: communicate → communication, educate → education, inform → information. It's one of the most common noun endings in English." },
+  { category: 'Grammar Tip', color: 'blue', text: "Commas join two sentences when paired with 'and', 'but', or 'so'. Without a conjunction, use a semicolon or a full stop instead of a comma alone." },
+  { category: 'Did you know?', color: 'purple', text: "Shakespeare invented over 1,700 words still used today — including 'bedroom', 'lonely', 'generous', and 'obscene'. He simply made them up when he needed them." },
+  { category: 'Idiom', color: 'amber', text: "'Under the weather' means feeling unwell. 'Once in a blue moon' means very rarely. Learning idioms helps you sound natural in everyday English." },
+  { category: 'Vocab Boost', color: 'teal', text: "Adjectives describe nouns; adverbs modify verbs, adjectives, or other adverbs. Many adverbs end in '-ly': quickly, carefully, honestly — but not always (fast, hard, well)." },
+  { category: 'Grammar Tip', color: 'blue', text: "'There', 'their', and 'they're' sound identical but mean different things. There = place, Their = belonging to them, They're = they are. Context is the key." },
+  { category: 'Did you know?', color: 'purple', text: "The longest word in a standard English dictionary is 'pneumonoultramicroscopicsilicovolcanoconiosis' — a lung disease. The most commonly used word is 'the'." },
+  { category: 'Idiom', color: 'amber', text: "'Spill the beans' means to accidentally reveal a secret. 'Let the cat out of the bag' means the same thing — idioms often have quirky origin stories." },
+  { category: 'Vocab Boost', color: 'teal', text: "Synonyms add variety to your writing. Instead of always using 'said', try: whispered, announced, argued, replied, admitted. Word choice shapes the reader's feeling." },
+  { category: 'Grammar Tip', color: 'blue', text: "Active voice is usually clearer than passive. 'The dog bit the man' (active) is more direct than 'The man was bitten by the dog' (passive)." },
+  { category: 'Did you know?', color: 'purple', text: "English has around 170,000 words in current use, with another 47,000 obsolete words. A well-educated adult uses about 20,000–35,000 words in daily life." },
+  { category: 'Idiom', color: 'amber', text: "'Bite the bullet' means to endure a painful situation with courage. 'Bite off more than you can chew' means to take on more than you can handle." },
+  { category: 'Vocab Boost', color: 'teal', text: "Collocations are words that naturally go together. We say 'make a mistake' (not 'do a mistake'), 'do homework' (not 'make homework'). Learning them sounds more natural." },
+  { category: 'Grammar Tip', color: 'blue', text: "Questions with 'who', 'what', 'where', 'when', 'why', and 'how' need full answers. Yes/no questions only need 'yes' or 'no' — but a full answer is always better." },
+  { category: 'Did you know?', color: 'purple', text: "'Goodbye' is a contraction of 'God be with ye', shortened over centuries. 'Hello' only became a standard greeting after the telephone was invented in the 1870s." },
+  { category: 'Idiom', color: 'amber', text: "'The ball is in your court' means it's your turn to take action. 'Get the ball rolling' means to start something. Many English idioms come from sport." },
+  { category: 'Vocab Boost', color: 'teal', text: "Antonyms are opposites: hot/cold, love/hate, succeed/fail. Using contrast in writing creates emphasis and helps readers feel the difference between two ideas." },
+  { category: 'Grammar Tip', color: 'blue', text: "First conditional: 'If it rains, I will stay inside.' Second conditional: 'If I were rich, I would travel.' The tense shift signals whether something is real or hypothetical." },
+  { category: 'Did you know?', color: 'purple', text: "The sentence 'The quick brown fox jumps over the lazy dog' contains every letter of the alphabet. This kind of sentence is called a pangram." },
+  { category: 'Idiom', color: 'amber', text: "'Burn the midnight oil' means to work late into the night. It comes from the days when people used oil lamps — and staying up late literally meant burning oil." },
+  { category: 'Vocab Boost', color: 'teal', text: "Abstract nouns name ideas or feelings you can't touch: freedom, justice, happiness, courage. Concrete nouns name physical things: table, rain, book, city." },
+];
+
 function loadVotedIds(sessionId: string): Set<string> {
   try {
     const raw = localStorage.getItem(VOTED_KEY);
@@ -71,6 +105,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [frozen, setFrozen] = useState(false);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [personalMission, setPersonalMission] = useState<string | null>(null);
+  const [tipIndex, setTipIndex] = useState(() => Math.floor(Math.random() * WAITING_TIPS.length));
 
   // Ask a Question section state
   const [questionText, setQuestionText] = useState('');
@@ -140,6 +175,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setQuestionStatus('idle');
     }
   }, [questionWait, questionStatus]);
+
+  // Cycle through English spotlight tips while waiting for an activity
+  useEffect(() => {
+    if (inputSpec) return;
+    const interval = setInterval(() => {
+      setTipIndex((i) => (i + 1) % WAITING_TIPS.length);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [inputSpec]);
 
   const handleSubmit = useCallback(async (content: string) => {
     if (!content.trim() || isSubmitting) return;
@@ -417,12 +461,39 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             </>
           )
         ) : (
-          <div className="text-center py-8">
-            <div className="text-4xl mb-4 opacity-50">⏳</div>
-            <h2 className="font-bold text-white mb-2">Waiting for Activity</h2>
-            <p className="text-gray-400 text-sm">
-              The input will appear when the teacher starts a game or activity
-            </p>
+          <div className="space-y-4">
+            {/* English Spotlight tip card */}
+            <div
+              key={tipIndex}
+              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              style={{ animation: 'lc-fade-in 0.5s ease-out' }}
+            >
+              {/* Category badge */}
+              <span className={`inline-block text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-3 ${
+                WAITING_TIPS[tipIndex].color === 'blue'   ? 'bg-blue-500/20 text-blue-300' :
+                WAITING_TIPS[tipIndex].color === 'teal'   ? 'bg-teal-500/20 text-teal-300' :
+                WAITING_TIPS[tipIndex].color === 'amber'  ? 'bg-amber-500/20 text-amber-300' :
+                'bg-purple-500/20 text-purple-300'
+              }`}>
+                {WAITING_TIPS[tipIndex].category}
+              </span>
+              <p className="text-gray-200 text-sm leading-relaxed">{WAITING_TIPS[tipIndex].text}</p>
+              {/* Progress dots */}
+              <div className="flex gap-1.5 mt-4 flex-wrap">
+                {WAITING_TIPS.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`inline-block rounded-full transition-all duration-300 ${
+                      i === tipIndex ? 'w-3 h-1.5 bg-white/60' : 'w-1.5 h-1.5 bg-white/20'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+            {/* Waiting label */}
+            <div className="text-center py-2">
+              <p className="text-gray-500 text-xs uppercase tracking-widest">Waiting for your teacher…</p>
+            </div>
           </div>
         )}
       </div>
