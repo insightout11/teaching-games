@@ -34,26 +34,31 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, seenItems = [], excludeCacheIds = [] } = await request.json() as {
+  const { topic, difficulty, seenItems = [], excludeCacheIds = [], seenSynonyms = [] } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     seenItems?: string[];       // targetWords seen this session — AI avoids repeating them
     excludeCacheIds?: string[]; // cache entry IDs already served this session
+    seenSynonyms?: string[];    // valid synonyms students already used — AI avoids same cluster
   };
 
   try {
     // 1. Check cache first (zero AI latency when hit)
     const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
-    if (cached) {
+    // Skip cached entry if its targetWord was already shown (prevents synonymous words from cache)
+    if (cached && !seenItems.includes((cached.content_json.targetWord ?? '').toLowerCase())) {
       return NextResponse.json(
         { ...cached.content_json, cacheId: cached.id },
         { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
       );
     }
 
-    // 2. Cache miss — build exclusion hint for AI prompt
+    // 2. Cache miss (or cached word was semantically used) — build exclusion hint for AI prompt
+    const seenSynonymsNote = seenSynonyms.length > 0
+      ? ` Students have already used these synonym answers this session: ${seenSynonyms.join(', ')}. Pick a word where NONE of these are valid synonyms.`
+      : '';
     const exclusionNote = seenItems.length > 0
-      ? `\nIMPORTANT: Do NOT use these target words that were recently shown this session: ${seenItems.join(', ')}. Choose a different word.\n`
+      ? `\nIMPORTANT: These target words were already shown this session: ${seenItems.join(', ')}. Do NOT use them, and do NOT choose a word that is a near-synonym or belongs to the same vocabulary cluster — students need a COMPLETELY DIFFERENT set of answers.${seenSynonymsNote}\n`
       : '';
 
     const prompt = `Generate a synonym challenge for ${difficultyPrompts[difficulty]}

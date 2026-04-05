@@ -43,6 +43,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const storeSeenCacheIds = useSessionStore((s) => s.seenCacheIds);
   const seenItemsRef = useRef<string[]>([]);
   const seenCacheIdsRef = useRef<string[]>([]);
+  const accumulatedValidSynonymsRef = useRef<string[]>([]);
   useEffect(() => { seenItemsRef.current = storeSeenItems; }, [storeSeenItems]);
   useEffect(() => { seenCacheIdsRef.current = storeSeenCacheIds; }, [storeSeenCacheIds]);
 
@@ -226,6 +227,14 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
       return;
     }
 
+    // Accumulate valid synonyms from this round before resetting, so the next word avoids this cluster
+    if (validSynonyms.length > 0) {
+      accumulatedValidSynonymsRef.current = [
+        ...accumulatedValidSynonymsRef.current,
+        ...validSynonyms.map(v => v.word),
+      ];
+    }
+
     setStatus(GameStatus.GENERATING);
     setError(null);
     setSubmittedSynonyms([]);
@@ -246,6 +255,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
           difficulty: sessionSettings.difficulty,
           seenItems: seenItemsRef.current,
           excludeCacheIds: seenCacheIdsRef.current,
+          seenSynonyms: accumulatedValidSynonymsRef.current,
         }),
         cache: 'no-store',
       });
