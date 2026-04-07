@@ -11,19 +11,9 @@ const wordCheckSchema: AISchema = {
   required: ['isWord'],
 };
 
-/**
- * Checks if the letters of `word` can be formed from the available `letters` pool.
- * Each letter in the pool may be used at most once per word.
- */
-function multisetCheck(word: string, letters: string[]): boolean {
-  const pool = letters.map((l) => l.toUpperCase());
-  const chars = word.toUpperCase().split('');
-  for (const ch of chars) {
-    const idx = pool.indexOf(ch);
-    if (idx === -1) return false;
-    pool.splice(idx, 1);
-  }
-  return true;
+function letterCheck(word: string, letters: string[]): boolean {
+  const pool = new Set(letters.map((l) => l.toUpperCase()));
+  return word.toUpperCase().split('').every((ch) => pool.has(ch));
 }
 
 function computePoints(word: string, hasBonusLetter: boolean, isTopicWord: boolean): number {
@@ -51,8 +41,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 2. Multiset check — must be doable from grid letters
-    if (!multisetCheck(normalized, letters)) {
+    // 2. Letter check — every char in word must exist somewhere in the grid
+    if (!letterCheck(normalized, letters)) {
       return NextResponse.json<WordValidationResult>({
         isValid: false, isTopicWord: false, hasBonusLetter: false, points: 0,
         reason: 'Uses letters not available in the grid',

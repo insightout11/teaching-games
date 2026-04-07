@@ -9,15 +9,10 @@ import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidati
 const ROUND1_DURATION = 90;
 const ROUND2_DURATION = 60;
 
-// Client-side multiset check (mirrors server-side logic for instant feedback)
-function clientMultisetCheck(word: string, letters: string[]): boolean {
-  const pool = letters.map((l) => l.toUpperCase());
-  for (const ch of word.toUpperCase()) {
-    const idx = pool.indexOf(ch);
-    if (idx === -1) return false;
-    pool.splice(idx, 1);
-  }
-  return true;
+// Client-side letter check — every char in word must exist somewhere in the grid (letters are reusable)
+function clientLetterCheck(word: string, letters: string[]): boolean {
+  const pool = new Set(letters.map((l) => l.toUpperCase()));
+  return word.toUpperCase().split('').every((ch) => pool.has(ch));
 }
 
 function estimatePoints(word: string, bonusLetter: string, topicWords: string[]): number {
@@ -115,9 +110,33 @@ export function GridRushGame({
     }
 
     setSpecialAwards({ longestWord, mostTopicWords, bestSentence });
+
+    // Award bonus points for special category winners
+    if (longestWord.studentId) {
+      onScore(longestWord.studentId, {
+        isCorrect: true,
+        points: 3,
+        responseData: { bonus: 'longestWord', word: longestWord.word },
+      });
+    }
+    if (mostTopicWords.studentId && mostTopicWords.count > 0) {
+      onScore(mostTopicWords.studentId, {
+        isCorrect: true,
+        points: 3,
+        responseData: { bonus: 'mostTopicWords', count: mostTopicWords.count },
+      });
+    }
+    if (bestSentence.studentId) {
+      onScore(bestSentence.studentId, {
+        isCorrect: true,
+        points: 3,
+        responseData: { bonus: 'bestSentence', score: bestSentence.score },
+      });
+    }
+
     setPhase(GamePhase.REVEALING);
     phaseRef.current = GamePhase.REVEALING;
-  }, [students]);
+  }, [students, onScore]);
 
   const startGame = useCallback(async () => {
     setPhase(GamePhase.GENERATING);
@@ -259,8 +278,8 @@ export function GridRushGame({
       }
       if (studentWordSetsRef.current[studentId].has(word)) return;
 
-      // Client-side multiset check for instant feedback
-      if (!clientMultisetCheck(word, currentGrid.letters)) return;
+      // Client-side letter check for instant feedback
+      if (!clientLetterCheck(word, currentGrid.letters)) return;
 
       // Optimistic add to dedup set
       studentWordSetsRef.current[studentId].add(word);
@@ -461,6 +480,7 @@ export function GridRushGame({
                 <li>Each letter can be reused — you don&apos;t &quot;spend&quot; them</li>
                 <li>Longer words score more points</li>
                 <li>Using the <span className="text-amber-300 font-semibold">★ bonus letter</span> earns extra points</li>
+                <li>Longest word &amp; most topic words each earn a <span className="text-cyan-300 font-semibold">+3 pt bonus</span></li>
               </ul>
             </div>
             <div>
@@ -468,6 +488,7 @@ export function GridRushGame({
               <ul className="text-slate-400 text-xs space-y-0.5 list-disc list-inside">
                 <li>Write one sentence using 2 or more of your Round 1 words</li>
                 <li>AI grades your sentence for quality (1–5 points × 2)</li>
+                <li>Best sentence earns a <span className="text-violet-300 font-semibold">+3 pt bonus</span></li>
               </ul>
             </div>
           </div>
@@ -764,7 +785,10 @@ export function GridRushGame({
               transition={{ delay: 0.4 }}
               className="bg-slate-800/60 rounded-xl border border-cyan-500/30 p-4"
             >
-              <p className="text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-1">🏆 Longest Word</p>
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">🏆 Longest Word</p>
+                {specialAwards.longestWord.studentId && <span className="text-cyan-300 text-xs font-bold">+3 pts</span>}
+              </div>
               {specialAwards.longestWord.studentId ? (
                 <>
                   <p className="text-white font-black text-lg uppercase tracking-wide">{specialAwards.longestWord.word}</p>
@@ -781,7 +805,10 @@ export function GridRushGame({
               transition={{ delay: 0.52 }}
               className="bg-slate-800/60 rounded-xl border border-emerald-500/30 p-4"
             >
-              <p className="text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1">🎯 Most Topic Words</p>
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-emerald-400 text-xs font-semibold uppercase tracking-wider">🎯 Most Topic Words</p>
+                {specialAwards.mostTopicWords.studentId && specialAwards.mostTopicWords.count > 0 && <span className="text-emerald-300 text-xs font-bold">+3 pts</span>}
+              </div>
               {specialAwards.mostTopicWords.studentId ? (
                 <>
                   <p className="text-white font-black text-lg">{specialAwards.mostTopicWords.count}</p>
@@ -798,7 +825,10 @@ export function GridRushGame({
               transition={{ delay: 0.64 }}
               className="bg-slate-800/60 rounded-xl border border-violet-500/30 p-4"
             >
-              <p className="text-violet-400 text-xs font-semibold uppercase tracking-wider mb-1">🧠 Best Sentence</p>
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-violet-400 text-xs font-semibold uppercase tracking-wider">🧠 Best Sentence</p>
+                {specialAwards.bestSentence.studentId && <span className="text-violet-300 text-xs font-bold">+3 pts</span>}
+              </div>
               {specialAwards.bestSentence.studentId ? (
                 <>
                   <p className="text-white text-xs leading-snug line-clamp-3 mb-1">&ldquo;{specialAwards.bestSentence.sentence}&rdquo;</p>
