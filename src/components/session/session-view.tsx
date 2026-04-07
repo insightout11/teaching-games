@@ -113,6 +113,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [sessionParticipants, setSessionParticipants] = useState<SessionParticipant[]>([]);
   const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
   const [typeFilter, setTypeFilter] = useState<SessionTypeFilter>('all');
@@ -331,8 +332,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setEnded(true);
   };
 
+  const joinUrl = `${window.location.origin}/join/${session.id}`;
+
   const handleCopyJoinLink = () => {
-    const joinUrl = `${window.location.origin}/join/${session.id}`;
     navigator.clipboard.writeText(joinUrl);
     setJoinLinkCopied(true);
     setTimeout(() => setJoinLinkCopied(false), 2000);
@@ -508,7 +510,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // ─── LOBBY VIEW ──────────────────────────────────────────────────────────
   if (lesson.phase === 'lobby') {
-    const joinUrl = `${window.location.origin}/join/${session.id}`;
 
     return (
       <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
@@ -713,6 +714,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               className="text-cyan-400 hover:text-cyan-300"
             >
               {joinLinkCopied ? 'Copied!' : 'Copy Join Link'}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowQrModal(true)}
+              className="text-cyan-400 hover:text-cyan-300"
+            >
+              Show QR
             </Button>
             <Button variant="danger" size="sm" onClick={handleEndSession}>
               End Session
@@ -1158,6 +1167,42 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             >
               Dismiss
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* QR code modal — shown when teacher clicks "Show QR" during session */}
+      {showQrModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+          onClick={() => setShowQrModal(false)}
+        >
+          <div
+            className="glass rounded-2xl p-8 space-y-4 text-center shadow-2xl border border-lc-border"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-xs opacity-50 uppercase tracking-wider font-semibold">Join Link</p>
+            <div className="flex justify-center">
+              <div className="p-3 bg-white rounded-xl">
+                <QRCodeSVG value={joinUrl} size={200} level="H" includeMargin={false} />
+              </div>
+            </div>
+            <code className="block text-cyan-400 text-sm bg-lc-surface border border-lc-border px-4 py-2 rounded-lg font-mono break-all">
+              {joinUrl}
+            </code>
+            <div className="flex gap-2 justify-center">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleCopyJoinLink}
+                className="text-cyan-400 hover:text-cyan-300"
+              >
+                {joinLinkCopied ? 'Copied!' : 'Copy Link'}
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setShowQrModal(false)}>
+                Close
+              </Button>
+            </div>
           </div>
         </div>
       )}
