@@ -29,6 +29,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   const turnModifier = useSessionStore((s) => s.turnModifier);
   const needsSpin = useSessionStore((s) => s.needsSpin);
   const pickStudent = useSessionStore((s) => s.pickStudent);
+  const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
   const recordScore = useSessionStore((s) => s.recordScore);
   const clearModifier = useSessionStore((s) => s.clearModifier);
   const setActiveGame = useSessionStore((s) => s.setActiveGame);
@@ -276,6 +277,10 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     pickStudent();
   }, [pickStudent]);
 
+  const handlePickSpecificStudent = useCallback((studentId: string) => {
+    setCurrentStudent(studentId);
+  }, [setCurrentStudent]);
+
   // Handle approved student submission
   // If game has registered a submission handler, use it for evaluation
   // Otherwise fall back to fixed participation points
@@ -365,6 +370,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
                 currentStudentId={currentStudentId}
                 onScore={handleScore}
                 onPickStudent={handlePickStudent}
+                onPickSpecificStudent={handlePickSpecificStudent}
                 config={gameConfig}
                 sessionSettings={sessionSettings}
                 onSetInputSpec={handleSetInputSpec}

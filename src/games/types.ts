@@ -28,6 +28,7 @@ export interface GameProps {
   currentStudentId: string | null;
   onScore: (studentId: string, result: ScoreResult) => void;
   onPickStudent: () => void;
+  onPickSpecificStudent?: (studentId: string) => void;
   config: Record<string, unknown>;
   sessionSettings: SessionSettings;
   // Input spec system - games set this to tell student controllers what input to show

@@ -20,7 +20,7 @@ interface TeamState {
   currentMemberIndex: number;
 }
 
-export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
+export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, onPickSpecificStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [startingWord, setStartingWord] = useState('');
   const [hint, setHint] = useState('');
@@ -500,6 +500,14 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     setStatus(GameStatus.FINISHED);
   };
 
+  const handleSkipTeamMember = () => {
+    const team = activeTeam;
+    setTeams(prev => ({
+      ...prev,
+      [team]: { ...prev[team], currentMemberIndex: prev[team].currentMemberIndex + 1 },
+    }));
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSubmitWord();
@@ -739,13 +747,26 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
             </AnimatePresence>
 
             {/* Active team + current member indicator */}
-            <div className={`glass p-4 rounded-xl border-2 ${activeTeamState.borderColor} text-center`}>
-              <p className={`text-xs font-bold uppercase tracking-widest ${activeTeamState.textColor}`}>
-                {activeTeamState.name}&apos;s Turn
-              </p>
-              {currentMember && (
-                <p className="text-lg font-bold text-white mt-1">{currentMember.name}</p>
-              )}
+            <div className={`glass p-4 rounded-xl border-2 ${activeTeamState.borderColor}`}>
+              <div className="flex items-center justify-between">
+                <div className="text-center flex-1">
+                  <p className={`text-xs font-bold uppercase tracking-widest ${activeTeamState.textColor}`}>
+                    {activeTeamState.name}&apos;s Turn
+                  </p>
+                  {currentMember && (
+                    <p className="text-lg font-bold text-white mt-1">{currentMember.name}</p>
+                  )}
+                </div>
+                {currentMember && activeTeamState.members.length > 1 && (
+                  <button
+                    onClick={handleSkipTeamMember}
+                    disabled={isEvaluating}
+                    className="text-xs text-slate-500 hover:text-slate-300 transition-colors disabled:opacity-30 px-2 py-1 rounded-lg hover:bg-white/5"
+                  >
+                    Skip
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Current Word */}
@@ -868,11 +889,22 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <div>
+        <div className="flex items-center gap-2">
           {currentStudent && (
-            <p className="text-lg font-semibold text-cyan-400">
-              {currentStudent.name}&apos;s turn
-            </p>
+            <>
+              <p className="text-lg font-semibold text-cyan-400">
+                {currentStudent.name}&apos;s turn
+              </p>
+              {status === GameStatus.PLAYING && (
+                <button
+                  onClick={onPickStudent}
+                  disabled={isEvaluating}
+                  className="text-xs text-slate-500 hover:text-slate-300 transition-colors disabled:opacity-30 px-2 py-1 rounded-lg hover:bg-white/5"
+                >
+                  Skip
+                </button>
+              )}
+            </>
           )}
           {!currentStudentId && (
             <p className="opacity-70 text-sm">Pick a student to start</p>
@@ -922,6 +954,33 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
               ))}
             </div>
           </div>
+
+          {students.length > 0 && (
+            <div className="glass p-4 rounded-xl border border-white/10">
+              <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-3 text-center">Choose Who Starts</p>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {students.map(s => (
+                  <button
+                    key={s.id}
+                    onClick={() => { if (onPickSpecificStudent) onPickSpecificStudent(s.id); }}
+                    className={`px-3 py-2 rounded-lg text-sm font-bold transition-all ${
+                      currentStudentId === s.id
+                        ? 'bg-cyan-500 text-white'
+                        : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    {s.name}
+                  </button>
+                ))}
+                <button
+                  onClick={onPickStudent}
+                  className="px-3 py-2 rounded-lg text-sm font-bold bg-white/5 text-slate-500 hover:bg-white/10 hover:text-white transition-all"
+                >
+                  Random
+                </button>
+              </div>
+            </div>
+          )}
 
           {!currentStudentId ? (
             <button
