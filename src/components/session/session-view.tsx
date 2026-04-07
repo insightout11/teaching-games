@@ -53,6 +53,14 @@ function resolveHelmet(avatarSeed: string, name: string): string {
 }
 import { Button } from '@/components/ui/button';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
+
+interface SessionParticipant {
+  id: string;
+  student_id: string | null;
+  display_name: string;
+  avatar_seed: string | null;
+  joined_at: string;
+}
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
 
@@ -102,6 +110,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   contentOverridesRef.current = contentOverrides;
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
+  const [sessionParticipants, setSessionParticipants] = useState<SessionParticipant[]>([]);
   const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
@@ -286,6 +295,34 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       clearInterval(interval);
     };
   }, [cls.id, addStudent]);
+
+  // Poll session_participants to show who actually joined this session in the lobby
+  useEffect(() => {
+    if (isMockMode()) return;
+
+    let cancelled = false;
+    const pollParticipants = async () => {
+      const sb = createClient();
+      const { data } = await sb
+        .from('session_participants')
+        .select('id, student_id, display_name, avatar_seed, joined_at')
+        .eq('session_id', session.id)
+        .order('joined_at') as { data: SessionParticipant[] | null };
+      if (cancelled || !data) return;
+      setSessionParticipants((prev) => {
+        if (data.length === prev.length && data.every((p, i) => p.id === prev[i]?.id)) return prev;
+        return data;
+      });
+    };
+
+    const interval = setInterval(pollParticipants, 3000);
+    pollParticipants();
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [session.id]);
 
   const handleEndSession = async () => {
     await supabase.from('sessions').update({ status: 'ended', ended_at: new Date().toISOString() }).eq('id', session.id);
@@ -515,29 +552,29 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
           </div>
 
-          {/* Student Roster */}
+          {/* Student Roster — shows only students who joined this session */}
           <div className="glass rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-semibold opacity-70 uppercase tracking-wider">
                 Students Joined
               </h2>
-              <span className="text-2xl font-bold text-lc-blue">{students.length}</span>
+              <span className="text-2xl font-bold text-lc-blue">{sessionParticipants.length}</span>
             </div>
-            {students.length === 0 ? (
+            {sessionParticipants.length === 0 ? (
               <div className="text-center py-8">
                 <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mx-auto mb-3" />
                 <p className="text-sm opacity-50">Waiting for students to join...</p>
               </div>
             ) : (
               <div className="flex flex-wrap gap-3">
-                {students.map((s) => (
+                {sessionParticipants.map((p) => (
                   <div
-                    key={s.id}
+                    key={p.id}
                     className="flex flex-col items-center gap-1.5 bg-lc-card rounded-2xl px-4 py-3 min-w-[72px]"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/avatars/avatar-${resolveHelmet(s.avatar_seed, s.name)}.png`} alt="" width={48} height={48} className="w-12 h-12 rounded-xl" />
-                    <span className="text-sm font-semibold text-lc-text truncate max-w-[72px] text-center">{s.name}</span>
+                    <img src={`/avatars/avatar-${resolveHelmet(p.avatar_seed ?? '', p.display_name)}.png`} alt="" width={48} height={48} className="w-12 h-12 rounded-xl" />
+                    <span className="text-sm font-semibold text-lc-text truncate max-w-[72px] text-center">{p.display_name}</span>
                   </div>
                 ))}
               </div>
