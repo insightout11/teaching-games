@@ -41,6 +41,8 @@ export interface InputSpec {
   prefillByClientId?: Record<string, string>;
   /** Short instructional label shown above the prompt */
   instruction?: string;
+  /** Result feedback pushed by game after evaluation (sequence inputs) */
+  result?: 'correct' | 'incorrect';
 }
 
 // Submission handler result from games

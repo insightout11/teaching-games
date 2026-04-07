@@ -87,6 +87,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const studentResultRef = useRef<'correct' | 'incorrect' | null>(null);
 
   // Simultaneous race mode state
   const { isSimultaneous, raceActive, raceFinished, timeRemaining, startRace, endRace, resetRace, addTime } = useRaceMode({
@@ -113,6 +114,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     setSubmitted(false);
     setRevealed(false);
     setFeedback(null);
+    studentResultRef.current = null;
     resetRace();
     setRaceSolvers([]);
   }, [sentenceIndex, words, resetRace]);
@@ -141,6 +143,13 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           gameKey: 'sentence-scramble',
           prompt: 'Tap words to build the sentence in correct order',
           options: availableWords.map(w => w.word),
+        });
+      } else if (submitted && studentResultRef.current) {
+        // Push result feedback to student device
+        onSetInputSpec?.({
+          type: 'sequence',
+          gameKey: 'sentence-scramble',
+          result: studentResultRef.current,
         });
       } else {
         onSetInputSpec?.(null);
@@ -215,6 +224,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
           if (mapped.length === words.length) {
             const isCorrect = orderedWords.join(' ') === words.join(' ');
+            studentResultRef.current = isCorrect ? 'correct' : 'incorrect';
             setSelectedWords(mapped);
             setAvailableWords([]);
             setSubmitted(true);
@@ -271,6 +281,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     const expected = words.join(' ');
     const isCorrect = answer === expected;
 
+    studentResultRef.current = isCorrect ? 'correct' : 'incorrect';
     setSubmitted(true);
     setFeedback(isCorrect ? 'correct' : 'wrong');
 

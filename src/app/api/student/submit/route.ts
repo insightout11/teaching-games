@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
     }
 
     // For simple choices (binary, choice, ranking), bypass approval and create score directly
-    const isDirectSubmission = inputType === 'binary' || inputType === 'choice' || inputType === 'ranking' || inputType === 'multi-select' || inputType === 'error-correction' || (inputType === 'text' && !!gameKey) || (inputType === 'textarea' && !!gameKey);
+    const isDirectSubmission = inputType === 'binary' || inputType === 'choice' || inputType === 'ranking' || inputType === 'multi-select' || inputType === 'error-correction' || inputType === 'sequence' || (inputType === 'text' && !!gameKey) || (inputType === 'textarea' && !!gameKey);
 
     if (isDirectSubmission) {
       // Delete any previous vote from this student for this game to prevent duplicates

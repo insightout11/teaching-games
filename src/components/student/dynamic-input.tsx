@@ -515,6 +515,21 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
     setRemaining(spec.options || []);
   }, [sequence, remaining.length, isSubmitting, onSubmit, spec.options]);
 
+  // Result feedback: game pushed correct/incorrect after evaluation
+  if (spec.result) {
+    const isCorrect = spec.result === 'correct';
+    return (
+      <div className={`flex flex-col items-center justify-center gap-4 py-10 rounded-2xl ${isCorrect ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
+        <div className={`text-6xl font-black ${isCorrect ? 'text-emerald-400' : 'text-red-400'}`}>
+          {isCorrect ? '✓' : '✗'}
+        </div>
+        <p className={`text-xl font-bold ${isCorrect ? 'text-emerald-300' : 'text-red-300'}`}>
+          {isCorrect ? 'Correct!' : 'Not quite!'}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {spec.prompt && (
