@@ -14,6 +14,16 @@ export function ScenarioPickerModal({ preset, onConfirm, onCancel }: ScenarioPic
   const [input, setInput] = useState('');
   const scenarios = preset.scenarios!;
 
+  const isCustom = input.trim() !== '' && !scenarios.options.includes(input);
+
+  const handleChipClick = (option: string) => {
+    setInput(input === option ? '' : option);
+  };
+
+  const handleCustomInput = (value: string) => {
+    setInput(value);
+  };
+
   return (
     <Modal open title={preset.name} onClose={onCancel}>
       <p className="text-sm text-lc-text2 -mt-2 mb-5">{preset.description}</p>
@@ -23,7 +33,7 @@ export function ScenarioPickerModal({ preset, onConfirm, onCancel }: ScenarioPic
         {scenarios.options.map((option) => (
           <button
             key={option}
-            onClick={() => setInput(option)}
+            onClick={() => handleChipClick(option)}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all border ${
               input === option
                 ? 'bg-lc-blue/15 text-lc-blue border-lc-blue/40'
@@ -35,13 +45,20 @@ export function ScenarioPickerModal({ preset, onConfirm, onCancel }: ScenarioPic
         ))}
       </div>
 
+      <div className="flex items-center gap-3 mb-4">
+        <div className="flex-1 h-px bg-lc-border" />
+        <span className="text-xs text-lc-text3">or</span>
+        <div className="flex-1 h-px bg-lc-border" />
+      </div>
+
+      <p className="text-sm font-medium text-lc-text2 mb-2">Use your own topic</p>
       <input
         type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
+        value={isCustom ? input : ''}
+        onChange={(e) => handleCustomInput(e.target.value)}
+        onFocus={() => { if (!isCustom) setInput(''); }}
         placeholder={scenarios.placeholder}
         className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue mb-5"
-        autoFocus
       />
 
       <div className="flex gap-3">

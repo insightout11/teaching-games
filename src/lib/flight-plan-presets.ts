@@ -50,6 +50,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'error-hunter' },
       { slotType: 'practice', key: 'grammar-boss' },
     ],
+    scenarios: {
+      label: 'Choose a topic',
+      placeholder: 'e.g. Shopping at the market',
+      options: [
+        'Technology and social media',
+        'Travel and transport',
+        'Health and wellbeing',
+        'Food and daily routines',
+        'Work and careers',
+        'The environment',
+      ],
+    },
   },
   {
     id: 'speaking-circle-60',
@@ -91,6 +103,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'production', key: 'hot-take-arena' },
       { slotType: 'practice', key: 'connections' },
     ],
+    scenarios: {
+      label: 'Choose a discussion theme',
+      placeholder: 'e.g. Should junk food be taxed?',
+      options: [
+        'Technology and society',
+        'Environment and sustainability',
+        'Education and learning',
+        'Health and lifestyle',
+        'Work and the future',
+        'Culture and identity',
+      ],
+    },
   },
   {
     id: 'vocab-blitz-45',
@@ -105,6 +129,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'synonym-showdown' },
       { slotType: 'practice', key: 'vocab-sprint' },
     ],
+    scenarios: {
+      label: 'Choose a topic',
+      placeholder: 'e.g. Street food around the world',
+      options: [
+        'Technology and the internet',
+        'Food and cooking',
+        'Travel and adventure',
+        'Health and fitness',
+        'Work and careers',
+        'Nature and the environment',
+      ],
+    },
   },
   {
     id: 'game-day-60',
@@ -122,6 +158,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'sentence-scramble' },
       { slotType: 'production', key: 'twenty-questions' },
     ],
+    scenarios: {
+      label: 'Choose a topic',
+      placeholder: 'e.g. Famous movies and TV shows',
+      options: [
+        'Pop culture and entertainment',
+        'Sport and competition',
+        'Food and drink',
+        'Travel and places',
+        'Nature and animals',
+        'Technology and gadgets',
+      ],
+    },
   },
   {
     id: 'creative-sprint-60',
@@ -136,6 +184,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'quick-pulse' },
       { slotType: 'production', key: 'story-sprint' },
     ],
+    scenarios: {
+      label: 'Choose a creative theme',
+      placeholder: 'e.g. A strange discovery in an old building',
+      options: [
+        'Adventure and exploration',
+        'Mystery and suspense',
+        'Friendship and relationships',
+        'Technology and the future',
+        'Nature and survival',
+        'Dreams and imagination',
+      ],
+    },
   },
   {
     id: 'think-tank-60',
@@ -150,6 +210,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'connections' },
       { slotType: 'production', key: 'twenty-questions' },
     ],
+    scenarios: {
+      label: 'Choose a thinking challenge',
+      placeholder: 'e.g. Should cities ban private cars?',
+      options: [
+        'Artificial intelligence and society',
+        'Climate change and the future',
+        'Education and learning',
+        'Health and medical ethics',
+        'Urban life and community',
+        'Media and truth',
+      ],
+    },
   },
   {
     id: 'travel-english-60',
@@ -220,6 +292,18 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'quick-pulse' },
       { slotType: 'presentation', key: 'would-you-rather' },
     ],
+    scenarios: {
+      label: 'Choose a theme',
+      placeholder: 'e.g. Things we all have in common',
+      options: [
+        'Hobbies and free time',
+        'Food and favourite things',
+        'School and learning',
+        'Dreams and ambitions',
+        'Family and home life',
+        'Technology in daily life',
+      ],
+    },
   },
   {
     id: 'class-diagnostic-30',
@@ -234,5 +318,17 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'prediction-round' },
       { slotType: 'practice', key: 'two-truths' },
     ],
+    scenarios: {
+      label: 'Choose a topic to assess',
+      placeholder: 'e.g. A topic from your current unit',
+      options: [
+        'Daily routines and habits',
+        'Travel and places',
+        'Food and shopping',
+        'Work and technology',
+        'Health and lifestyle',
+        'Nature and the environment',
+      ],
+    },
   },
 ];
