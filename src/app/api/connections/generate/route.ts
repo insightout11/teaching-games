@@ -126,7 +126,8 @@ Return JSON with this exact structure:
   ]
 }
 
-IMPORTANT: Words should be in UPPERCASE. Category names should be clear and concise (e.g., "Types of bread", "Words that can follow 'fire'").`;
+IMPORTANT: Words should be in UPPERCASE. Category names should be clear and concise (e.g., "Types of bread", "Words that can follow 'fire'").
+DO NOT use the topic name itself ("${topic.toUpperCase()}") as one of the 16 words — it is too obvious and breaks the puzzle.`;
 
     const data = await generateJSON<{ groups: Array<{ category: string; words: string[]; difficulty: string; color: string }> }>(prompt, schema, { temperature: 1.0, taskClass: 'content-generation' });
 
@@ -148,6 +149,17 @@ IMPORTANT: Words should be in UPPERCASE. Category names should be clear and conc
     const uniqueWords = new Set(allWords);
     if (uniqueWords.size !== 16) {
       throw new Error('Invalid response: words must be unique across all groups');
+    }
+
+    // Reject responses containing meta-words that the AI shouldn't use as puzzle words
+    const META_WORD_DENYLIST = new Set([
+      'CUSTOM', 'GENERAL', 'TOPIC', 'PUZZLE', 'GAME', 'CONNECTIONS',
+      'BEGINNER', 'EASY', 'INTERMEDIATE', 'ADVANCED', 'EXPERT',
+      'WORD', 'WORDS', 'GROUP', 'CATEGORY', 'LEVEL', 'DIFFICULTY',
+    ]);
+    const bannedFound = allWords.filter((w) => META_WORD_DENYLIST.has(w));
+    if (bannedFound.length > 0) {
+      throw new Error(`Invalid response: meta-words in puzzle: ${bannedFound.join(', ')}`);
     }
 
     // 3. Store in cache (store only groups — words get re-shuffled on each serve)
