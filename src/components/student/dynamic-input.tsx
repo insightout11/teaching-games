@@ -460,13 +460,13 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
         </div>
       )}
       <p className="text-sm text-lc-text2">Select {selectCount} items ({selected.size}/{selectCount})</p>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-1.5">
         {spec.options?.map((option, index) => (
           <button
             key={index}
             onClick={() => toggleOption(option)}
             disabled={isSubmitting || foundWords.has(option)}
-            className={`p-3 rounded-xl text-sm transition-all ${
+            className={`p-1.5 sm:p-2.5 rounded-xl text-xs sm:text-sm transition-all min-h-[3rem] flex items-center justify-center text-center leading-tight break-words hyphens-auto ${
               foundWords.has(option)
                 ? 'opacity-40 cursor-not-allowed line-through bg-lc-surface text-lc-text'
                 : selected.has(option)
