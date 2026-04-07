@@ -5,9 +5,15 @@ import { Button } from '@/components/ui/button';
 import type { Team } from '@/lib/supabase/types';
 
 const AVATAR_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
+const VALID_SEEDS = new Set(AVATAR_SEEDS);
+
+function resolveSeed(seed: string | null | undefined): string {
+  if (seed && VALID_SEEDS.has(seed)) return seed;
+  return 'teal';
+}
 
 function avatarUrl(seed: string) {
-  return `/avatars/avatar-${seed}.png`;
+  return `/avatars/avatar-${resolveSeed(seed)}.png`;
 }
 
 interface RosterStudent {
@@ -204,7 +210,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={avatarUrl(selected?.id === student.id ? avatarSeed : (student.avatar_seed || 'teal'))}
+                      src={avatarUrl(selected?.id === student.id ? avatarSeed : student.avatar_seed)}
                       alt=""
                       width={40}
                       height={40}
