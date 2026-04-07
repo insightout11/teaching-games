@@ -453,18 +453,30 @@ export function GridRushGame({
               </div>
             ))}
           </div>
-          <p className="text-slate-400 text-sm mb-1">
-            <span className="text-cyan-400 font-semibold">Round 1</span> — 90s word race from the grid
-          </p>
-          <p className="text-slate-400 text-sm mb-6">
-            <span className="text-violet-400 font-semibold">Round 2</span> — 60s sentence challenge
-          </p>
+          <div className="text-left space-y-3 mb-6">
+            <div>
+              <p className="text-cyan-400 font-semibold text-sm mb-1">Round 1 — 90 seconds</p>
+              <ul className="text-slate-400 text-xs space-y-0.5 list-disc list-inside">
+                <li>Type words using only the letters shown in the grid</li>
+                <li>Each letter can be reused — you don&apos;t &quot;spend&quot; them</li>
+                <li>Longer words score more points</li>
+                <li>Using the <span className="text-amber-300 font-semibold">★ bonus letter</span> earns extra points</li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-violet-400 font-semibold text-sm mb-1">Round 2 — 60 seconds</p>
+              <ul className="text-slate-400 text-xs space-y-0.5 list-disc list-inside">
+                <li>Write one sentence using 2 or more of your Round 1 words</li>
+                <li>AI grades your sentence for quality (1–5 points × 2)</li>
+              </ul>
+            </div>
+          </div>
           <div className="flex items-center justify-center gap-3 text-slate-500 text-sm mb-6">
             <span>{students.length} students</span>
             <span>·</span>
             <span>{sessionSettings.difficulty}</span>
             <span>·</span>
-            <span>{sessionSettings.topic}</span>
+            <span>{getEffectiveTopic(sessionSettings)}</span>
           </div>
           <button
             onClick={startGame}
@@ -483,7 +495,7 @@ export function GridRushGame({
       <div className="flex flex-col items-center justify-center h-full gap-4">
         <div className="w-10 h-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
         <p className="text-slate-300 font-medium">Building your letter grid…</p>
-        <p className="text-slate-500 text-sm">{sessionSettings.topic} · {sessionSettings.difficulty}</p>
+        <p className="text-slate-500 text-sm">{getEffectiveTopic(sessionSettings)} · {sessionSettings.difficulty}</p>
       </div>
     );
   }
