@@ -441,7 +441,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   // Render sentence with highlighted weak word
   const renderSentence = () => {
     if (!currentSentence) return null;
-    const parts = currentSentence.sentence.split(new RegExp(`(${currentSentence.weakWord})`, 'gi'));
+    const parts = currentSentence.sentence.split(new RegExp(`(\\b${currentSentence.weakWord}\\b)`, 'gi'));
     return (
       <div className="text-2xl md:text-4xl font-semibold leading-tight text-center px-2">
         {parts.map((part, i) => (
