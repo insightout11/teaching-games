@@ -26,10 +26,6 @@ const schema: AISchema = {
       type: 'array',
       items: { type: 'string' },
     },
-    sentenceAlternatives: {
-      type: 'object',
-      additionalProperties: { type: 'array', items: { type: 'string' } },
-    },
   },
   required: ['sentences'],
 };
