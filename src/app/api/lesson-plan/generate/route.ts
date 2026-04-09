@@ -413,8 +413,8 @@ ROUND 1 (the first decision moment):
 - situation: 1 short sentence (teacher context, ≤15 words) describing what's happening.
 - choices: exactly 3 (labels A/B/C, ≤10 words each, punchy, distinct strategies):
   - Each choice must be a DIFFERENT TYPE of action (not variations of the same verb)
-  - Each consequence: 1–2 sentences that DIRECTLY follow from that specific choice
-  - goalDelta/dangerDelta: -2 to +2, spread so no obvious best answer
+  - Each consequence: 1–2 sentences of plain narrative text ONLY — NEVER include "goalDelta", "dangerDelta", or any field names in this string
+  - goalDelta/dangerDelta: separate number fields, -2 to +2, spread so no obvious best answer
 
 STORY RULES:
 - tone: pick best fit [thriller, comedy, sci-fi, mystery, default]

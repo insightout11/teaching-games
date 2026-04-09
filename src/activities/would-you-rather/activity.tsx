@@ -6,7 +6,6 @@ import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type WouldYouRatherContent, type WouldYouRatherDilemma } from './types';
 
 export function WouldYouRatherActivity({
-  students,
   generatedContent,
   onContinue,
   onPhaseChange,
@@ -86,17 +85,6 @@ export function WouldYouRatherActivity({
     setVotes([]);
     onPhaseChange?.('voting');
   }, [onPhaseChange]);
-
-  const recordVote = useCallback((studentId: string, choice: 'A' | 'B') => {
-    const student = students.find((s) => s.id === studentId);
-    if (!student) return;
-
-    setVotes((prev) => {
-      // Remove existing vote from this student
-      const filtered = prev.filter((v) => v.studentId !== studentId);
-      return [...filtered, { studentId, studentName: student.name, choice }];
-    });
-  }, [students]);
 
   const endVoting = useCallback(() => {
     setStatus(ActivityStatus.DISCUSSING);
@@ -248,41 +236,6 @@ export function WouldYouRatherActivity({
               <p className="text-lg font-semibold mb-4">{currentDilemma.optionB}</p>
               <div className="text-4xl font-game text-sky-400 mb-2">{voteStats.bCount}</div>
               <p className="text-xs opacity-60">{voteStats.bVoters.join(', ') || 'No votes yet'}</p>
-            </div>
-          </div>
-
-          {/* Student voting buttons */}
-          <div className="glass p-4 rounded-2xl">
-            <p className="text-sm font-bold mb-3 opacity-70">Click to record votes:</p>
-            <div className="flex flex-wrap gap-2">
-              {students.map((student) => {
-                const existingVote = votes.find((v) => v.studentId === student.id);
-                return (
-                  <div key={student.id} className="flex items-center gap-1">
-                    <span className="text-xs opacity-70 mr-1">{student.name}:</span>
-                    <button
-                      onClick={() => recordVote(student.id, 'A')}
-                      className={`px-2 py-1 text-xs rounded transition-all ${
-                        existingVote?.choice === 'A'
-                          ? 'bg-lc-blue text-white'
-                          : 'bg-white/10 hover:bg-lc-blue/30'
-                      }`}
-                    >
-                      A
-                    </button>
-                    <button
-                      onClick={() => recordVote(student.id, 'B')}
-                      className={`px-2 py-1 text-xs rounded transition-all ${
-                        existingVote?.choice === 'B'
-                          ? 'bg-sky-500 text-white'
-                          : 'bg-white/10 hover:bg-sky-500/30'
-                      }`}
-                    >
-                      B
-                    </button>
-                  </div>
-                );
-              })}
             </div>
           </div>
 

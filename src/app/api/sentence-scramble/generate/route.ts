@@ -26,6 +26,10 @@ const schema: AISchema = {
       type: 'array',
       items: { type: 'string' },
     },
+    sentenceAlternatives: {
+      type: 'object',
+      additionalProperties: { type: 'array', items: { type: 'string' } },
+    },
   },
   required: ['sentences'],
 };
@@ -66,7 +70,10 @@ Requirements:
 - Do NOT repeat sentence patterns or openings
 - Each sentence should be self-contained and make sense on its own
 - Use natural, authentic language — not textbook-stilted
-- Generate DIFFERENT sentences each time — be creative!`;
+- Generate DIFFERENT sentences each time — be creative!
+
+For sentences where more than one word order is grammatically valid (e.g. adverbs of frequency like "often", "usually", "always" that can appear before or after the main verb), include those alternatives in "sentenceAlternatives" — a map from the canonical sentence to an array of alternative valid orderings. Only include entries where genuine alternatives exist; omit sentences that have only one correct order.
+Example: { "She always drinks coffee in the morning.": ["She drinks coffee in the morning always.", "Always she drinks coffee in the morning."] }`;
 
     const data = await generateJSON<{ sentences: string[] }>(prompt, schema, { temperature: 1.2, taskClass: 'content-generation' });
 

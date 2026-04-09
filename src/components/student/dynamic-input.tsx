@@ -26,9 +26,9 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'multi-select':
       return <MultiSelectInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'sequence':
-      return <SequenceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <SequenceInput key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'ranking':
-      return <RankingInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <RankingInput key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'error-correction':
       return <ErrorCorrectionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'confirm':

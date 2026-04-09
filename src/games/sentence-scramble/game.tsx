@@ -19,6 +19,10 @@ function tokenize(sentence: string): string[] {
   return sentence.split(/\s+/).filter(Boolean);
 }
 
+function isAnswerCorrect(answer: string, canonical: string, alternatives: string[]): boolean {
+  return answer === canonical || alternatives.includes(answer);
+}
+
 const FALLBACK_SENTENCES = [
   'The children are playing in the garden.',
   'She always drinks coffee in the morning.',
@@ -45,6 +49,7 @@ interface RaceSolver {
 
 export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const [sentences, setSentences] = useState<string[]>(FALLBACK_SENTENCES);
+  const [sentenceAlternatives, setSentenceAlternatives] = useState<Record<string, string[]>>({});
   const [loadingSentences, setLoadingSentences] = useState(true);
   const fetchedRef = useRef<string>('');
 
@@ -70,6 +75,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       .then(data => {
         if (!cancelled && Array.isArray(data.sentences) && data.sentences.length > 0) {
           setSentences(data.sentences);
+          setSentenceAlternatives(data.sentenceAlternatives ?? {});
         }
       })
       .catch(() => {
@@ -163,7 +169,8 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
     try {
       const orderedWords: string[] = JSON.parse(vote.choice);
-      const isCorrect = orderedWords.join(' ') === words.join(' ');
+      const answer = orderedWords.join(' ');
+      const isCorrect = isAnswerCorrect(answer, original, sentenceAlternatives[original] ?? []);
 
       if (!isCorrect) return; // Only track correct solvers
 
@@ -201,7 +208,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     } catch {
       // Invalid JSON, ignore
     }
-  }, [words, raceFinished, onScore]);
+  }, [original, sentenceAlternatives, raceFinished, onScore]);
 
   // Register remote vote handler
   useEffect(() => {
@@ -223,7 +230,8 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
             .filter((item): item is { word: string; originalIndex: number } => item !== undefined);
 
           if (mapped.length === words.length) {
-            const isCorrect = orderedWords.join(' ') === words.join(' ');
+            const answer = orderedWords.join(' ');
+            const isCorrect = isAnswerCorrect(answer, original, sentenceAlternatives[original] ?? []);
             studentResultRef.current = isCorrect ? 'correct' : 'incorrect';
             setSelectedWords(mapped);
             setAvailableWords([]);
@@ -239,7 +247,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
             onScore(studentId, {
               isCorrect,
               points: isCorrect ? 10 : 0,
-              responseData: { answer: orderedWords.join(' '), expected: words.join(' ') },
+              responseData: { answer, expected: original },
             });
           }
         } catch {
@@ -249,7 +257,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     }
 
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [isSimultaneous, submitted, availableWords, words, onRegisterRemoteVoteHandler, handleRaceSubmission, onScore]);
+  }, [isSimultaneous, submitted, availableWords, words, original, sentenceAlternatives, onRegisterRemoteVoteHandler, handleRaceSubmission, onScore]);
 
   // --- Turn-based handlers (unchanged) ---
   const handleSelectWord = (wordItem: { word: string; originalIndex: number }) => {
@@ -278,8 +286,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   const handleSubmit = useCallback(() => {
     if (!currentStudentId) return;
     const answer = selectedWords.map(w => w.word).join(' ');
-    const expected = words.join(' ');
-    const isCorrect = answer === expected;
+    const isCorrect = isAnswerCorrect(answer, original, sentenceAlternatives[original] ?? []);
 
     studentResultRef.current = isCorrect ? 'correct' : 'incorrect';
     setSubmitted(true);
@@ -294,9 +301,9 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     onScore(currentStudentId, {
       isCorrect,
       points: isCorrect ? 10 : 0,
-      responseData: { answer, expected },
+      responseData: { answer, expected: original },
     });
-  }, [currentStudentId, selectedWords, words, onScore]);
+  }, [currentStudentId, selectedWords, original, sentenceAlternatives, onScore]);
 
   const handleNext = () => {
     setSentenceIndex((i) => i + 1);

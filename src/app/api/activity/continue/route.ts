@@ -263,8 +263,8 @@ Rules:
 - choices: exactly 3 (labels A/B/C, ≤10 words each):
   - Must be DIFFERENT TYPE of action from any previous round's choices
   - Must be distinct strategies, not variations of the same verb
-  - Each consequence: 1–2 sentences that DIRECTLY and SPECIFICALLY follow from that choice
-  - goalDelta/dangerDelta: -2 to +2, no easy obvious best answer
+  - Each consequence: 1–2 sentences of plain narrative text ONLY — NEVER include "goalDelta", "dangerDelta", or any field names in this string
+  - goalDelta/dangerDelta: separate number fields, -2 to +2, no easy obvious best answer
 - The situation must feel like a new problem, not a repeat of Round ${roundNumber - 1}
 
 Return JSON with a single "generatedRound" object (id: ${roundNumber}).`;
