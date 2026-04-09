@@ -6,7 +6,6 @@ import type { ActivityProps } from '../types';
 import { ActivityStatus, type Guess, type TwoTruthsContent, type TwoTruthsRound } from './types';
 
 export function TwoTruthsActivity({
-  students,
   generatedContent,
   onPhaseChange,
   customTopic,
@@ -86,16 +85,6 @@ export function TwoTruthsActivity({
     setGuesses([]);
     onPhaseChange?.('guessing');
   }, [onPhaseChange]);
-
-  const recordGuess = useCallback((studentId: string, guessIndex: number) => {
-    const student = students.find((s) => s.id === studentId);
-    if (!student) return;
-
-    setGuesses((prev) => {
-      const filtered = prev.filter((g) => g.studentId !== studentId);
-      return [...filtered, { studentId, studentName: student.name, guessIndex }];
-    });
-  }, [students]);
 
   const revealAnswer = useCallback(() => {
     setStatus(ActivityStatus.REVEAL);
@@ -254,34 +243,6 @@ export function TwoTruthsActivity({
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Student guessing */}
-          <div className="glass p-4 rounded-xl">
-            <p className="text-sm font-bold mb-3 opacity-70">Record student guesses (which is FALSE?):</p>
-            <div className="space-y-2">
-              {students.map((student) => {
-                const existingGuess = guesses.find((g) => g.studentId === student.id);
-                return (
-                  <div key={student.id} className="flex items-center gap-2">
-                    <span className="text-sm w-24 truncate">{student.name}:</span>
-                    {[0, 1, 2].map((idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => recordGuess(student.id, idx)}
-                        className={`w-8 h-8 rounded-lg text-sm font-bold transition-all ${
-                          existingGuess?.guessIndex === idx
-                            ? 'bg-red-500 text-white'
-                            : 'bg-white/10 hover:bg-red-500/30'
-                        }`}
-                      >
-                        {idx + 1}
-                      </button>
-                    ))}
-                  </div>
-                );
-              })}
-            </div>
           </div>
 
           <div className="flex justify-center">
