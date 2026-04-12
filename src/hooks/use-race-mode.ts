@@ -18,7 +18,7 @@ interface UseRaceModeOptions {
 export function useRaceMode<T = Record<string, unknown>>({
   studentCount,
   timerSeconds,
-  minStudentsForRace = 3,
+  minStudentsForRace = 2,
 }: UseRaceModeOptions) {
   const isSimultaneous = studentCount >= minStudentsForRace;
 

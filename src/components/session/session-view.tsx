@@ -662,7 +662,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           <div>
             <h1 className="text-xl font-bold text-lc-text">{cls.name} — Live Session</h1>
             <p className="text-sm text-lc-text2">
-              {students.length} students
+              {sessionParticipants.length} students
               {lesson.isMissionBased && (
                 <span className="ml-2 text-amber-400">Mission Lesson</span>
               )}
