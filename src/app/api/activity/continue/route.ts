@@ -348,7 +348,7 @@ Two-person scenario where both roles need each other to resolve a conflict or re
 Rules:
 - scenario: short descriptive title (max 6 words)
 - context: 1-2 sentences setting the scene for the watching class
-- roles: EXACTLY 2 role objects with title, goal, situation (2-3 sentences of private context), phrases (4-5 starters max 8 words), lifelines (2-3 complete verbatim sentences)
+- roles: EXACTLY 2 role objects with title, goal, situation (1 sentence of private context only), phrases (4-5 starters max 8 words), lifelines (2-3 complete verbatim sentences)
 - complications: exactly 4 short twist sentences (max 15 words each)
 
 Return JSON with scenario, context, roles (array of 2), complications (array of 4).`;

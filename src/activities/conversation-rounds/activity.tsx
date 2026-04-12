@@ -241,24 +241,24 @@ export function ConversationRoundsActivity({
               const titleClass = i === 0 ? 'text-teal-400' : 'text-violet-400';
               const chipClass = i === 0 ? 'bg-teal-500/15 text-teal-300' : 'bg-violet-500/15 text-violet-300';
               return (
-                <div key={i} className={`glass p-5 rounded-2xl border-2 ${borderClass} space-y-3`}>
+                <div key={i} className={`glass p-6 rounded-2xl border-2 ${borderClass} space-y-3`}>
                   <div>
                     <p className={`text-xs font-semibold ${titleClass} uppercase tracking-widest`}>{role.title}</p>
-                    <p className="font-semibold text-sm mt-0.5">{student?.name ?? '—'}</p>
+                    <p className="font-bold text-lg mt-0.5">{student?.name ?? '—'}</p>
                   </div>
                   <div>
                     <p className="text-xs opacity-40 uppercase tracking-widest">Goal</p>
-                    <p className="text-sm mt-0.5">{role.goal}</p>
+                    <p className="text-base mt-0.5">{role.goal}</p>
                   </div>
                   <div>
                     <p className="text-xs opacity-40 uppercase tracking-widest">Situation</p>
-                    <p className="text-sm mt-0.5 opacity-80">{role.situation}</p>
+                    <p className="text-base mt-0.5">{role.situation}</p>
                   </div>
                   <div>
                     <p className="text-xs opacity-40 uppercase tracking-widest mb-1">Key Phrases</p>
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-wrap gap-1.5">
                       {role.phrases.map((p, j) => (
-                        <span key={j} className={`text-xs px-2 py-0.5 rounded-full ${chipClass}`}>&ldquo;{p}&rdquo;</span>
+                        <span key={j} className={`text-sm px-2.5 py-1 rounded-full ${chipClass}`}>&ldquo;{p}&rdquo;</span>
                       ))}
                     </div>
                   </div>

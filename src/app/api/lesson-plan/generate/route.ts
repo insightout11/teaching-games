@@ -1612,7 +1612,7 @@ Rules:
 - roles: EXACTLY 2 role objects
   - title: role name (2-4 words, e.g. "Hotel Guest", "Restaurant Manager")
   - goal: what they want to achieve — 1 sentence starting with a verb (${difficultyDescriptions[difficulty]})
-  - situation: their private context the other person doesn't know — 2-3 sentences (${difficultyDescriptions[difficulty]})
+  - situation: their private context the other person doesn't know — 1 sentence only (${difficultyDescriptions[difficulty]})
   - phrases: 4-5 sentence starters useful for this role (max 8 words each, authentic spoken English)
   - lifelines: 2-3 COMPLETE sentences they can say verbatim if stuck — full natural utterances (${difficultyDescriptions[difficulty]})
 - complications: exactly 4 short twist sentences the teacher reads aloud mid-conversation to raise the stakes (max 15 words each)
