@@ -222,7 +222,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const initDone = useRef(false);
   useEffect(() => {
     if (!initDone.current) {
-      initSession(session.id, cls.id, students);
+      initSession(session.id, cls.id, []);
       existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
       // Apply class presets (difficulty/tone/scoringMode) — overrides stale localStorage defaults.
       // For scoringMode: only apply class default when the lesson plan has no explicit mode
@@ -258,9 +258,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session.id, cls.id]);
 
-  // Sync new students into the store without resetting state
+  // In mock mode, sync roster students directly into the store (no session_participants)
   useEffect(() => {
-    if (!initDone.current) return;
+    if (!isMockMode() || !initDone.current) return;
     students.forEach((s) => addStudent(s));
   }, [students, addStudent]);
 
@@ -284,7 +284,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         if (data.length === prev.length && data.every((s: Student, i: number) => s.id === prev[i].id)) return prev;
         return data;
       });
-      data.forEach((s: Student) => addStudent(s));
     };
 
     const interval = setInterval(poll, 3000);
@@ -295,7 +294,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       cancelled = true;
       clearInterval(interval);
     };
-  }, [cls.id, addStudent]);
+  }, [cls.id]);
+
+  // Sync only joined participants into the store (prevents unjoined roster students from getting roles)
+  useEffect(() => {
+    if (isMockMode()) return;
+    sessionParticipants.forEach((p) => {
+      if (!p.student_id) return;
+      const student = students.find((s) => s.id === p.student_id);
+      if (student) addStudent(student);
+    });
+  }, [sessionParticipants, students, addStudent]);
 
   // Poll session_participants to show who actually joined this session in the lobby
   useEffect(() => {
