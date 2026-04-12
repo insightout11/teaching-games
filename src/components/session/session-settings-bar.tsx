@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   useSessionStore,
   DIFFICULTIES,
@@ -46,6 +46,22 @@ export function SessionSettingsBar() {
   const scoringMode = settings.scoringMode;
   const [showCustomTopic, setShowCustomTopic] = useState(!!settings.customTopic);
   const teacherTier = useTeacherTier();
+  const hasInitializedRef = useRef(false);
+
+  // On session load, write all current settings (including grammarTarget) to DB
+  // and trigger reference material generation. This covers sessions that were
+  // already running before a settings change fires the normal trigger.
+  useEffect(() => {
+    if (!sessionId || hasInitializedRef.current) return;
+    hasInitializedRef.current = true;
+    persistSessionSettings(sessionId, {
+      topic: settings.customTopic || settings.topic,
+      difficulty: settings.difficulty,
+      customTopic: settings.customTopic,
+      grammarTarget: settings.grammarTarget,
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionId]);
 
   const handleTopicChange = (newTopic: Topic) => {
     setTopic(newTopic);
