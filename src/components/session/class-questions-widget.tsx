@@ -6,7 +6,7 @@ import { isMockMode } from '@/lib/mock/auth';
 import type { StudentSubmission } from '@/lib/supabase/types';
 
 // Class Questions widget — teacher-side moderation UI.
-// Pending section: shows questions awaiting review (collapsed by default for screen-share safety).
+// Pending section: auto-opens when questions arrive; inline ✓/✗ per row + Publish all.
 // Published section: shows questions visible to students, with vote counts, AI draft, and remove.
 
 interface ClassQuestionsContentProps {
@@ -31,9 +31,8 @@ const MAX_PUBLISHED = 5;
 export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnswer }: ClassQuestionsContentProps) {
   const [pending, setPending] = useState<StudentSubmission[]>([]);
   const [published, setPublished] = useState<PublishedQuestion[]>([]);
-  const [selected, setSelected] = useState<Set<string>>(new Set());
   const [pendingOpen, setPendingOpen] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishingIds, setPublishingIds] = useState<Set<string>>(new Set());
   const [answerOpen, setAnswerOpen] = useState<Record<string, boolean>>({});
   const [answerText, setAnswerText] = useState<Record<string, string>>({});
   const [draftLoading, setDraftLoading] = useState<Record<string, boolean>>({});
@@ -76,6 +75,11 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
     loadQuestions();
   }, [loadQuestions]);
 
+  // Auto-open pending section when questions arrive
+  useEffect(() => {
+    if (pending.length > 0) setPendingOpen(true);
+  }, [pending.length]);
+
   // Realtime subscription
   useEffect(() => {
     if (isMockMode()) return;
@@ -106,7 +110,6 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
           filter: `session_id=eq.${sessionId}`,
         },
         () => {
-          // Re-fetch on any update to keep lists in sync
           loadQuestions();
         }
       )
@@ -127,35 +130,28 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
     return () => { supabase.removeChannel(channel); };
   }, [sessionId, supabase, loadQuestions]);
 
-  const handleToggleSelect = (id: string) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else if (next.size < MAX_PUBLISHED - published.length) {
-        next.add(id);
-      }
-      return next;
-    });
-  };
-
-  const handlePublish = async () => {
-    if (selected.size === 0 || isPublishing) return;
-
-    // Server-side guard is also present, but check client-side too
-    if (published.length + selected.size > MAX_PUBLISHED) return;
-
-    setIsPublishing(true);
-    const ids = Array.from(selected);
+  const handlePublishOne = async (id: string) => {
+    if (published.length >= MAX_PUBLISHED) return;
+    setPublishingIds((prev) => new Set(prev).add(id));
     const now = new Date().toISOString();
-
     await supabase
       .from('student_submissions')
       .update({ published_to_class: true, published_at: now })
-      .in('id', ids);
+      .eq('id', id);
+    setPublishingIds((prev) => { const n = new Set(prev); n.delete(id); return n; });
+    loadQuestions();
+  };
 
-    setSelected(new Set());
-    setIsPublishing(false);
+  const handlePublishAll = async () => {
+    const slots = MAX_PUBLISHED - published.length;
+    if (slots <= 0) return;
+    const toPublish = pending.slice(0, slots).map((s) => s.id);
+    if (toPublish.length === 0) return;
+    const now = new Date().toISOString();
+    await supabase
+      .from('student_submissions')
+      .update({ published_to_class: true, published_at: now })
+      .in('id', toPublish);
     loadQuestions();
   };
 
@@ -166,14 +162,13 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
       .eq('id', id);
 
     setPending((prev) => prev.filter((s) => s.id !== id));
-    setSelected((prev) => { const n = new Set(prev); n.delete(id); return n; });
   };
 
   const handleMarkAnswered = async (id: string) => {
     const now = new Date().toISOString();
     await supabase
       .from('student_submissions')
-      .update({ published_to_class: false, answered_at: now })
+      .update({ published_to_class: false, answered_at: now, status: 'answered' })
       .eq('id', id);
 
     setPublished((prev) => prev.filter((q) => q.id !== id));
@@ -184,7 +179,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
     const now = new Date().toISOString();
     await supabase
       .from('student_submissions')
-      .update({ published_to_class: false, answered_at: now })
+      .update({ published_to_class: false, answered_at: now, status: 'answered' })
       .eq('session_id', sessionId)
       .eq('published_to_class', true);
 
@@ -207,63 +202,70 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
     }
   };
 
-  const canSelectMore = selected.size < MAX_PUBLISHED - published.length;
+  const atLimit = published.length >= MAX_PUBLISHED;
 
   return (
     <div className="p-3 space-y-3 text-sm">
 
       {/* ── PENDING SECTION ── */}
       <div>
-        <button
-          onClick={() => setPendingOpen((o) => !o)}
-          className="w-full flex items-center justify-between text-xs font-semibold text-lc-text2 uppercase tracking-wider py-1 hover:text-lc-text transition-colors"
-        >
-          <span>Pending ({pending.length})</span>
-          <svg className={`w-3 h-3 transition-transform ${pendingOpen ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+        <div className="flex items-center justify-between py-1">
+          <button
+            onClick={() => setPendingOpen((o) => !o)}
+            className="flex items-center gap-1.5 text-xs font-semibold text-lc-text2 uppercase tracking-wider hover:text-lc-text transition-colors"
+          >
+            <svg className={`w-3 h-3 transition-transform ${pendingOpen ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
+            <span>Pending ({pending.length})</span>
+          </button>
+
+          {pending.length > 1 && !atLimit && (
+            <button
+              onClick={handlePublishAll}
+              className="text-xs font-medium text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 hover:border-emerald-400/50 hover:bg-emerald-500/10 px-2 py-0.5 rounded transition-colors"
+            >
+              Publish all
+            </button>
+          )}
+        </div>
 
         {pendingOpen && (
           <div className="mt-2 space-y-2">
             {pending.length === 0 ? (
               <p className="text-lc-text3 text-xs py-2 text-center">No pending questions</p>
             ) : (
-              <>
-                {pending.map((sub) => (
-                  <div
-                    key={sub.id}
-                    className={`flex items-start gap-2 p-2 rounded-lg border transition-colors ${
-                      selected.has(sub.id)
-                        ? 'bg-cyan-500/10 border-cyan-500/30'
-                        : 'bg-lc-surface border-lc-border'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selected.has(sub.id)}
-                      onChange={() => handleToggleSelect(sub.id)}
-                      disabled={!selected.has(sub.id) && !canSelectMore}
-                      className="mt-0.5 accent-cyan-500 flex-shrink-0"
-                    />
-                    <span className="flex-1 text-lc-text leading-snug break-words">{sub.content}</span>
+              pending.map((sub) => (
+                <div
+                  key={sub.id}
+                  className="flex items-start gap-2 p-2 rounded-lg border bg-lc-surface border-lc-border"
+                >
+                  <span className="flex-1 text-lc-text leading-snug break-words">{sub.content}</span>
+                  <div className="flex-shrink-0 flex gap-1">
+                    {/* Approve */}
+                    <button
+                      onClick={() => handlePublishOne(sub.id)}
+                      disabled={atLimit || publishingIds.has(sub.id)}
+                      title="Publish"
+                      className="w-7 h-7 flex items-center justify-center rounded-lg border text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/15 hover:border-emerald-400/50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </button>
+                    {/* Reject */}
                     <button
                       onClick={() => handleReject(sub.id)}
-                      className="flex-shrink-0 text-xs text-red-400 hover:text-red-300 transition-colors px-1.5 py-0.5 rounded border border-red-500/20 hover:border-red-400/40"
+                      title="Reject"
+                      className="w-7 h-7 flex items-center justify-center rounded-lg border text-red-400 border-red-500/30 hover:bg-red-500/15 hover:border-red-400/50 transition-colors"
                     >
-                      Reject
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
                     </button>
                   </div>
-                ))}
-
-                <button
-                  onClick={handlePublish}
-                  disabled={selected.size === 0 || isPublishing}
-                  className="w-full py-2 rounded-lg text-xs font-semibold transition-all border disabled:opacity-40 bg-cyan-500/20 text-cyan-400 border-cyan-500/30 hover:bg-cyan-500/30 disabled:cursor-not-allowed"
-                >
-                  {isPublishing ? 'Publishing…' : `Publish selected (${selected.size})`}
-                </button>
-              </>
+                </div>
+              ))
             )}
           </div>
         )}
