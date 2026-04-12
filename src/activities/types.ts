@@ -554,7 +554,6 @@ export interface LightningRoundContent extends ActivityGeneratedContent {
 export interface CharacterCard {
   name: string;
   viewpoint: string;
-  sentenceStarter: string;
 }
 export interface CharacterCardsContent extends ActivityGeneratedContent {
   activityKey: 'character-cards';

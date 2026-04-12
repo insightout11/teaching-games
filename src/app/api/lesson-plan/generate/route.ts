@@ -1383,9 +1383,8 @@ async function generateCharacterCards(topic: string, difficulty: Difficulty): Pr
           properties: {
             name: { type: 'string' },
             viewpoint: { type: 'string' },
-            sentenceStarter: { type: 'string' },
           },
-          required: ['name', 'viewpoint', 'sentenceStarter'],
+          required: ['name', 'viewpoint'],
         },
       },
     },
@@ -1399,8 +1398,7 @@ Each character represents a DIFFERENT perspective or viewpoint on the topic. The
 
 Rules:
 - Name format: "The [Role]" (e.g. "The Skeptic", "The Expert", "The Newcomer")
-- viewpoint: One sentence describing their position on the topic (max 15 words). Second person: "You think…" or "You believe…"
-- sentenceStarter: A natural opening sentence the character would say about the topic (max 12 words). This is a scaffold for beginners.
+- viewpoint: A complete, clearly readable statement of their position (max 20 words). Second person: "You think…" or "You believe…". Must be a full sentence — no trailing ellipses.
 - Names must be memorable and appropriate for a classroom
 - Viewpoints must genuinely differ — avoid characters who all agree
 - Keep language at ${difficultyDescriptions[difficulty]} level
@@ -1415,15 +1413,15 @@ Return JSON with a "characters" array of exactly 9 objects.`;
   } catch {
     // Fallback: generic characters
     const fallback: CharacterCard[] = [
-      { name: 'The Enthusiast', viewpoint: `You love everything about ${topic}.`, sentenceStarter: `I think ${topic} is absolutely fascinating because...` },
-      { name: 'The Skeptic', viewpoint: `You are not convinced ${topic} is as important as people say.`, sentenceStarter: `I'm not sure I agree with all the excitement about ${topic}...` },
-      { name: 'The Expert', viewpoint: `You have studied ${topic} for years and have strong opinions.`, sentenceStarter: `From what I know about ${topic}, the most important thing is...` },
-      { name: 'The Newcomer', viewpoint: `You are just learning about ${topic} for the first time.`, sentenceStarter: `I only recently started thinking about ${topic}, and I think...` },
-      { name: 'The Traditionalist', viewpoint: `You prefer the old ways of thinking about ${topic}.`, sentenceStarter: `I believe we should stick to what has always worked with ${topic}...` },
-      { name: 'The Optimist', viewpoint: `You believe ${topic} will lead to great things in the future.`, sentenceStarter: `The future of ${topic} is really exciting because...` },
-      { name: 'The Realist', viewpoint: `You see both the good and bad sides of ${topic}.`, sentenceStarter: `There are pros and cons to ${topic}, but overall I think...` },
-      { name: 'The Activist', viewpoint: `You feel strongly that people need to take action on ${topic}.`, sentenceStarter: `We really need to do something about ${topic} because...` },
-      { name: 'The Philosopher', viewpoint: `You like to ask deep questions about the meaning of ${topic}.`, sentenceStarter: `When I think about ${topic}, the big question for me is...` },
+      { name: 'The Enthusiast', viewpoint: `You love everything about ${topic} and can't stop talking about it.` },
+      { name: 'The Skeptic', viewpoint: `You are not convinced ${topic} is as important as people say.` },
+      { name: 'The Expert', viewpoint: `You have studied ${topic} for years and always share your knowledge.` },
+      { name: 'The Newcomer', viewpoint: `You are just learning about ${topic} for the first time.` },
+      { name: 'The Traditionalist', viewpoint: `You believe the old ways of thinking about ${topic} are still the best.` },
+      { name: 'The Optimist', viewpoint: `You believe ${topic} will lead to great things in the future.` },
+      { name: 'The Realist', viewpoint: `You see both the good and bad sides of ${topic} clearly.` },
+      { name: 'The Activist', viewpoint: `You feel strongly that people need to take action on ${topic}.` },
+      { name: 'The Philosopher', viewpoint: `You like to ask deep questions about what ${topic} really means.` },
     ];
     return { activityKey: 'character-cards', topicContext: topic, characters: fallback, topic };
   }

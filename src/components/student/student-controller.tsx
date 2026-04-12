@@ -499,6 +499,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 submitStatus={submitStatus}
                 waitSeconds={waitSeconds}
                 clientId={studentSession.clientId}
+                displayName={studentSession.displayName}
               />
             </>
           )

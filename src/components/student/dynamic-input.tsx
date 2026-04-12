@@ -11,9 +11,10 @@ interface DynamicInputProps {
   submitStatus: 'idle' | 'success' | 'error' | 'rate_limited';
   waitSeconds: number;
   clientId?: string;
+  displayName?: string;
 }
 
-export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId }: DynamicInputProps) {
+export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName }: DynamicInputProps) {
   switch (spec.type) {
     case 'text':
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
@@ -32,7 +33,7 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'error-correction':
       return <ErrorCorrectionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'confirm':
-      return <ConfirmInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <ConfirmInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
     default:
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
   }
@@ -713,7 +714,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
 }
 
 // Confirm button — student taps once to confirm they've done something (spoken, read, etc.)
-function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus }: DynamicInputProps) {
+function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName }: DynamicInputProps) {
   const [confirmed, setConfirmed] = useState(false);
 
   const handleConfirm = useCallback(async () => {
@@ -722,9 +723,21 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus }: DynamicInp
     await onSubmit('confirmed');
   }, [isSubmitting, confirmed, onSubmit]);
 
+  // Look up character card for this student by display name
+  const characterCard = displayName && spec.perStudentData
+    ? (spec.perStudentData[displayName] as { name?: string; viewpoint?: string } | undefined)
+    : undefined;
+  const hasCard = characterCard?.name && characterCard?.viewpoint;
+
   return (
     <div className="space-y-6 text-center">
-      {spec.prompt && (
+      {hasCard ? (
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6 space-y-3 text-left">
+          <p className="text-xs text-amber-400/70 uppercase tracking-widest font-semibold text-center">Your character</p>
+          <p className="text-2xl font-bold text-amber-400 text-center leading-tight">{characterCard!.name}</p>
+          <p className="text-base text-white/90 leading-relaxed text-center">{characterCard!.viewpoint}</p>
+        </div>
+      ) : spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium leading-snug">{spec.prompt}</p>
       )}
       {spec.keywordGroups && spec.keywordGroups.length > 0 ? (
