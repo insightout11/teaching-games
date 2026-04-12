@@ -255,9 +255,9 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
             <button
               type="button"
               onClick={() => { setFreeTextMode(true); setSelected(null); }}
-              className="w-full text-sm text-gray-500 hover:text-gray-300 transition-colors py-1"
+              className="w-full py-3 text-sm font-medium text-gray-300 border border-white/20 rounded-xl hover:bg-white/10 hover:border-white/40 hover:text-white transition-all"
             >
-              + I&apos;m not on the list
+              My name isn&apos;t here
             </button>
           </div>
         )}
