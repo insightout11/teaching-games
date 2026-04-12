@@ -9,6 +9,7 @@ import { VALIDATION } from '@/lib/config/rate-limits';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { grammarReference } from '@/lib/grammar';
+import { BookOpen, PencilLine, MessageSquare, HelpCircle } from 'lucide-react';
 
 interface StudentSession {
   clientId: string;
@@ -635,11 +636,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   expressions: 'Expressions',
                   question: 'Ask a Question',
                 };
-                const icons: Record<string, string> = {
-                  vocab: '📖',
-                  grammar: '✏️',
-                  expressions: '💬',
-                  question: '❓',
+                const icons: Record<string, JSX.Element> = {
+                  vocab: <BookOpen className="w-3.5 h-3.5" />,
+                  grammar: <PencilLine className="w-3.5 h-3.5" />,
+                  expressions: <MessageSquare className="w-3.5 h-3.5" />,
+                  question: <HelpCircle className="w-3.5 h-3.5" />,
                 };
                 return (
                   <button
@@ -648,7 +649,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                     className={tileClass(panel)}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="text-base leading-none">{icons[panel!]}</span>
+                      <span className="text-gray-400">{icons[panel!]}</span>
                       <span className="text-xs font-semibold text-white">{labels[panel!]}</span>
                     </div>
                     <svg
