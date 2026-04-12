@@ -73,8 +73,8 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     takeoff: 'character-cards',
     landing: 'final-word',
     moduleSequence: [
-      { slotType: 'presentation', key: 'quick-pulse' },
-      { slotType: 'practice', key: 'dialogue-detective' },
+      { slotType: 'presentation', key: 'would-you-rather' },
+      { slotType: 'practice', key: 'scene-igniter' },
       { slotType: 'production', key: 'conversation-rounds' },
     ],
     scenarios: {
