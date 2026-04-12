@@ -14,6 +14,16 @@ interface PublishedQuestion {
   voteCount: number;
 }
 
+interface VocabItem {
+  word: string;
+  definition: string;
+}
+
+interface ExpressionItem {
+  phrase: string;
+  example: string;
+}
+
 interface SessionPayload {
   isActive: boolean;
   activePoll: { pollId: string; question: string; options: string[] } | null;
@@ -23,6 +33,9 @@ interface SessionPayload {
   personalMission: string | null;
   topic: string;
   difficulty: string;
+  grammarTarget: string | null;
+  referenceVocab: VocabItem[] | null;
+  referenceExpressions: ExpressionItem[] | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -46,7 +59,7 @@ export async function GET(request: NextRequest) {
     // Check if session exists and is active, including input_spec and frozen flag
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, status, input_spec, frozen, topic, difficulty, custom_topic')
+      .select('id, status, input_spec, frozen, topic, difficulty, custom_topic, grammar_target, reference_vocab, reference_expressions')
       .eq('id', sessionId)
       .single();
 
@@ -133,6 +146,9 @@ export async function GET(request: NextRequest) {
       personalMission,
       topic: (session.custom_topic as string | null) || (session.topic as string) || 'General',
       difficulty: (session.difficulty as string) || 'Intermediate',
+      grammarTarget: (session.grammar_target as string | null) ?? null,
+      referenceVocab: (session.reference_vocab as VocabItem[] | null) ?? null,
+      referenceExpressions: (session.reference_expressions as ExpressionItem[] | null) ?? null,
     };
 
     return NextResponse.json(payload, {

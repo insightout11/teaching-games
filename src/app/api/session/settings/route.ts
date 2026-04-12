@@ -13,7 +13,7 @@ export async function PATCH(request: Request) {
   if (authError) return authError;
 
   const body = await request.json().catch(() => null);
-  const { sessionId, topic, difficulty, customTopic } = body ?? {};
+  const { sessionId, topic, difficulty, customTopic, grammarTarget } = body ?? {};
 
   if (!sessionId || typeof sessionId !== 'string') {
     return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
@@ -23,6 +23,8 @@ export async function PATCH(request: Request) {
   if (typeof topic === 'string') update.topic = topic;
   if (typeof difficulty === 'string') update.difficulty = difficulty;
   if (typeof customTopic === 'string') update.custom_topic = customTopic || null;
+  if (typeof grammarTarget === 'string') update.grammar_target = grammarTarget;
+  else if (grammarTarget === null) update.grammar_target = null;
 
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ ok: true });

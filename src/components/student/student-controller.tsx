@@ -8,6 +8,7 @@ import { DynamicInput } from './dynamic-input';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
+import { grammarReference } from '@/lib/grammar';
 
 interface StudentSession {
   clientId: string;
@@ -29,6 +30,18 @@ interface PublishedQuestion {
   publishedAt: string;
   voteCount: number;
 }
+
+interface VocabItem {
+  word: string;
+  definition: string;
+}
+
+interface ExpressionItem {
+  phrase: string;
+  example: string;
+}
+
+type ReferencePanel = 'vocab' | 'grammar' | 'expressions' | 'question' | null;
 
 interface StudentControllerProps {
   sessionId: string;
@@ -114,9 +127,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [topicTips, setTopicTips] = useState<{ category: string; color: string; text: string }[]>([]);
   const [topicTipsLoaded, setTopicTipsLoaded] = useState(false);
 
+  // Reference panel state
+  const [grammarTarget, setGrammarTarget] = useState<string | null>(null);
+  const [referenceVocab, setReferenceVocab] = useState<VocabItem[] | null>(null);
+  const [referenceExpressions, setReferenceExpressions] = useState<ExpressionItem[] | null>(null);
+  const [openPanel, setOpenPanel] = useState<ReferencePanel>(null);
+
   // Ask a Question section state
   const [questionText, setQuestionText] = useState('');
-  const [questionOpen, setQuestionOpen] = useState(false);
   const [isAskingQuestion, setIsAskingQuestion] = useState(false);
   const [questionStatus, setQuestionStatus] = useState<'idle' | 'sent' | 'error' | 'rate_limited'>('idle');
   const [questionWait, setQuestionWait] = useState(0);
@@ -152,6 +170,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (data.personalMission) setPersonalMission(data.personalMission);
       if (data.topic) setSessionTopic(data.topic);
       if (data.difficulty) setSessionDifficulty(data.difficulty);
+      setGrammarTarget(data.grammarTarget ?? null);
+      if (data.referenceVocab) setReferenceVocab(data.referenceVocab);
+      if (data.referenceExpressions) setReferenceExpressions(data.referenceExpressions);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -347,7 +368,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       } else {
         setQuestionStatus('sent');
         setQuestionText('');
-        setQuestionOpen(false);
         setTimeout(() => setQuestionStatus('idle'), 3000);
       }
     } catch {
@@ -585,56 +605,147 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         </div>
       )}
 
-      {/* Ask a Question — always visible, collapsible */}
-      <div className="glass rounded-2xl mb-4">
-        <button
-          onClick={() => setQuestionOpen((o) => !o)}
-          className="w-full flex items-center justify-between p-4 text-left"
-        >
-          <span className="font-bold text-white text-sm">Ask a Question</span>
-          <svg className={`w-4 h-4 text-gray-400 transition-transform ${questionOpen ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+      {/* Reference panel — 2×2 grid of collapsible tiles */}
+      {(() => {
+        const grammarEntry = grammarTarget ? grammarReference[grammarTarget as keyof typeof grammarReference] : null;
+        const tiles = [
+          referenceVocab ? 'vocab' : null,
+          grammarEntry ? 'grammar' : null,
+          referenceExpressions ? 'expressions' : null,
+          'question',
+        ].filter(Boolean) as ReferencePanel[];
 
-        {questionOpen && (
-          <div className="px-4 pb-4 space-y-3">
-            {questionStatus === 'sent' ? (
-              <p className="text-green-400 text-sm text-center py-2">
-                Question sent! The teacher will review it.
-              </p>
-            ) : (
-              <>
-                <textarea
-                  value={questionText}
-                  onChange={(e) => setQuestionText(e.target.value.slice(0, VALIDATION.QUESTION_MAX))}
-                  placeholder="Type your question for the teacher…"
-                  rows={3}
-                  className="w-full bg-white/10 text-white rounded-xl p-3 text-sm resize-none placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                />
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">
-                    {questionText.length}/{VALIDATION.QUESTION_MAX}
-                  </span>
-                  {questionStatus === 'error' && (
-                    <span className="text-xs text-red-400">Something went wrong, try again.</span>
-                  )}
-                  {questionStatus === 'rate_limited' && (
-                    <span className="text-xs text-yellow-400">Wait {questionWait}s before asking again.</span>
-                  )}
+        const togglePanel = (panel: ReferencePanel) =>
+          setOpenPanel((p) => (p === panel ? null : panel));
+
+        const tileClass = (panel: ReferencePanel) =>
+          `flex items-center justify-between px-4 py-3 rounded-2xl text-left transition-all ${
+            openPanel === panel
+              ? 'bg-white/15 border border-white/20'
+              : 'glass border border-transparent hover:border-white/10'
+          }`;
+
+        return (
+          <div className="space-y-2 mb-4">
+            <div className="grid grid-cols-2 gap-2">
+              {tiles.map((panel) => {
+                const labels: Record<string, string> = {
+                  vocab: 'Vocabulary',
+                  grammar: 'Grammar',
+                  expressions: 'Expressions',
+                  question: 'Ask a Question',
+                };
+                const icons: Record<string, string> = {
+                  vocab: '📖',
+                  grammar: '✏️',
+                  expressions: '💬',
+                  question: '❓',
+                };
+                return (
+                  <button
+                    key={panel!}
+                    onClick={() => togglePanel(panel)}
+                    className={tileClass(panel)}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-base leading-none">{icons[panel!]}</span>
+                      <span className="text-xs font-semibold text-white">{labels[panel!]}</span>
+                    </div>
+                    <svg
+                      className={`w-3.5 h-3.5 text-gray-400 transition-transform flex-shrink-0 ${openPanel === panel ? '' : '-rotate-90'}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Expanded panel content — full width below grid */}
+            {openPanel === 'vocab' && referenceVocab && (
+              <div className="glass rounded-2xl p-4">
+                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Key Vocabulary</p>
+                <div className="space-y-2.5">
+                  {referenceVocab.map((item) => (
+                    <div key={item.word}>
+                      <span className="text-sm font-semibold text-cyan-400">{item.word}</span>
+                      <span className="text-gray-400 text-xs"> — {item.definition}</span>
+                    </div>
+                  ))}
                 </div>
-                <button
-                  onClick={handleAskQuestion}
-                  disabled={!questionText.trim() || isAskingQuestion || questionStatus === 'rate_limited'}
-                  className="w-full py-2.5 rounded-xl text-sm font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  {isAskingQuestion ? 'Sending…' : 'Send Question'}
-                </button>
-              </>
+              </div>
+            )}
+
+            {openPanel === 'grammar' && grammarEntry && (
+              <div className="glass rounded-2xl p-4">
+                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Grammar Focus</p>
+                <p className="text-xs font-semibold text-violet-400 mb-2 capitalize">{grammarTarget}</p>
+                <p className="text-sm text-gray-200 leading-relaxed mb-3">{grammarEntry.rule}</p>
+                <div className="space-y-1.5">
+                  {grammarEntry.examples.map((ex) => (
+                    <p key={ex} className="text-xs text-gray-400 italic">&ldquo;{ex}&rdquo;</p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {openPanel === 'expressions' && referenceExpressions && (
+              <div className="glass rounded-2xl p-4">
+                <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-3">Useful Expressions</p>
+                <div className="space-y-3">
+                  {referenceExpressions.map((item) => (
+                    <div key={item.phrase}>
+                      <p className="text-sm font-semibold text-emerald-400">{item.phrase}</p>
+                      <p className="text-xs text-gray-400 mt-0.5 italic">{item.example}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {openPanel === 'question' && (
+              <div className="glass rounded-2xl p-4 space-y-3">
+                {questionStatus === 'sent' ? (
+                  <p className="text-green-400 text-sm text-center py-2">
+                    Question sent! The teacher will review it.
+                  </p>
+                ) : (
+                  <>
+                    <textarea
+                      value={questionText}
+                      onChange={(e) => setQuestionText(e.target.value.slice(0, VALIDATION.QUESTION_MAX))}
+                      placeholder="Type your question for the teacher…"
+                      rows={3}
+                      className="w-full bg-white/10 text-white rounded-xl p-3 text-sm resize-none placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    />
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">
+                        {questionText.length}/{VALIDATION.QUESTION_MAX}
+                      </span>
+                      {questionStatus === 'error' && (
+                        <span className="text-xs text-red-400">Something went wrong, try again.</span>
+                      )}
+                      {questionStatus === 'rate_limited' && (
+                        <span className="text-xs text-yellow-400">Wait {questionWait}s before asking again.</span>
+                      )}
+                    </div>
+                    <button
+                      onClick={handleAskQuestion}
+                      disabled={!questionText.trim() || isAskingQuestion || questionStatus === 'rate_limited'}
+                      className="w-full py-2.5 rounded-xl text-sm font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {isAskingQuestion ? 'Sending…' : 'Send Question'}
+                    </button>
+                  </>
+                )}
+              </div>
             )}
           </div>
-        )}
-      </div>
+        );
+      })()}
 
       {/* Instructions */}
       <div className="mt-4 text-center text-gray-500 text-sm">

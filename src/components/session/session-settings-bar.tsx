@@ -20,13 +20,20 @@ const SCORING_MODE_LABELS: Record<ScoringMode, string> = {
   competitive: 'Competitive Mode',
 };
 
-function persistSessionSettings(sessionId: string | null, patch: { topic?: string; difficulty?: string; customTopic?: string }) {
+function persistSessionSettings(sessionId: string | null, patch: { topic?: string; difficulty?: string; customTopic?: string; grammarTarget?: string | null }) {
   if (!sessionId) return;
   void fetch('/api/session/settings', {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ sessionId, ...patch }),
-  });
+  }).then(() => {
+    // Fire-and-forget: regenerate student reference materials whenever settings change
+    fetch('/api/session/reference-materials', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId }),
+    }).catch(() => {});
+  }).catch(() => {});
 }
 
 export function SessionSettingsBar() {
@@ -42,7 +49,7 @@ export function SessionSettingsBar() {
 
   const handleTopicChange = (newTopic: Topic) => {
     setTopic(newTopic);
-    persistSessionSettings(sessionId, { topic: newTopic, difficulty: settings.difficulty });
+    persistSessionSettings(sessionId, { topic: newTopic, difficulty: settings.difficulty, grammarTarget: settings.grammarTarget });
     // Clear custom topic when using dropdown
     if (settings.customTopic) {
       setCustomTopic('');
@@ -69,7 +76,7 @@ export function SessionSettingsBar() {
           onChange={(e) => {
             const d = e.target.value as Difficulty;
             setSettings({ difficulty: d });
-            persistSessionSettings(sessionId, { difficulty: d, topic: settings.customTopic || settings.topic });
+            persistSessionSettings(sessionId, { difficulty: d, topic: settings.customTopic || settings.topic, grammarTarget: settings.grammarTarget });
           }}
           className="bg-transparent font-bold outline-none cursor-pointer"
         >
@@ -153,7 +160,11 @@ export function SessionSettingsBar() {
         {/* Grammar Target — optional, shown as a selector */}
         <select
           value={settings.grammarTarget ?? ''}
-          onChange={(e) => setGrammarTarget(e.target.value ? e.target.value as GrammarTarget : null)}
+          onChange={(e) => {
+            const target = e.target.value ? e.target.value as GrammarTarget : null;
+            setGrammarTarget(target);
+            persistSessionSettings(sessionId, { grammarTarget: target });
+          }}
           className="bg-transparent font-bold outline-none cursor-pointer"
           title="Grammar focus (optional)"
         >
