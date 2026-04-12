@@ -216,7 +216,9 @@ export function CharacterCardsActivity({
             {briefingChar && (
               <div className="bg-amber-500/10 rounded-xl p-6 space-y-3">
                 <p className="text-3xl font-bold text-amber-400 leading-tight">{briefingChar.name}</p>
-                <p className="text-lg opacity-80 leading-relaxed">{briefingChar.viewpoint}</p>
+                <p className="text-base opacity-60 leading-relaxed">{briefingChar.viewpoint}</p>
+                <p className="text-xs opacity-40 uppercase tracking-widest pt-1">They will say</p>
+                <p className="text-2xl font-bold leading-snug">&ldquo;{briefingChar.speakingLine}&rdquo;</p>
               </div>
             )}
           </div>
@@ -256,9 +258,10 @@ export function CharacterCardsActivity({
           <div className="glass p-6 rounded-2xl border-2 border-amber-500/40 space-y-3 text-center">
             <p className="text-xs opacity-50 uppercase tracking-widest">Now speaking</p>
             <p className="text-2xl font-semibold">{currentStudent.name}</p>
-            <div className="bg-amber-500/10 rounded-xl p-5 space-y-2">
-              <p className="text-2xl font-bold text-amber-400">{currentChar.name}</p>
-              <p className="text-base opacity-80 leading-relaxed">{currentChar.viewpoint}</p>
+            <div className="bg-amber-500/10 rounded-xl p-5 space-y-3">
+              <p className="text-base font-semibold text-amber-400">{currentChar.name}</p>
+              <p className="text-xs opacity-40 uppercase tracking-widest">Read this aloud</p>
+              <p className="text-3xl font-bold leading-snug">&ldquo;{currentChar.speakingLine}&rdquo;</p>
             </div>
           </div>
 

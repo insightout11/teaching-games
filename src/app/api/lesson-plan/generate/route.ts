@@ -1383,8 +1383,9 @@ async function generateCharacterCards(topic: string, difficulty: Difficulty): Pr
           properties: {
             name: { type: 'string' },
             viewpoint: { type: 'string' },
+            speakingLine: { type: 'string' },
           },
-          required: ['name', 'viewpoint'],
+          required: ['name', 'viewpoint', 'speakingLine'],
         },
       },
     },
@@ -1398,9 +1399,10 @@ Each character represents a DIFFERENT perspective or viewpoint on the topic. The
 
 Rules:
 - Name format: "The [Role]" (e.g. "The Skeptic", "The Expert", "The Newcomer")
-- viewpoint: A complete, clearly readable statement of their position (max 20 words). Second person: "You think…" or "You believe…". Must be a full sentence — no trailing ellipses.
+- viewpoint: A complete description of their position (max 20 words). Second person: "You think…" or "You believe…". Full sentence, no trailing ellipses.
+- speakingLine: A complete sentence the student reads aloud AS this character (max 20 words). First person: "I think…", "I believe…", "In my opinion…". Natural spoken English, no trailing ellipses.
 - Names must be memorable and appropriate for a classroom
-- Viewpoints must genuinely differ — avoid characters who all agree
+- Viewpoints and speaking lines must genuinely differ — avoid characters who all agree
 - Keep language at ${difficultyDescriptions[difficulty]} level
 
 Return JSON with a "characters" array of exactly 9 objects.`;
@@ -1413,15 +1415,15 @@ Return JSON with a "characters" array of exactly 9 objects.`;
   } catch {
     // Fallback: generic characters
     const fallback: CharacterCard[] = [
-      { name: 'The Enthusiast', viewpoint: `You love everything about ${topic} and can't stop talking about it.` },
-      { name: 'The Skeptic', viewpoint: `You are not convinced ${topic} is as important as people say.` },
-      { name: 'The Expert', viewpoint: `You have studied ${topic} for years and always share your knowledge.` },
-      { name: 'The Newcomer', viewpoint: `You are just learning about ${topic} for the first time.` },
-      { name: 'The Traditionalist', viewpoint: `You believe the old ways of thinking about ${topic} are still the best.` },
-      { name: 'The Optimist', viewpoint: `You believe ${topic} will lead to great things in the future.` },
-      { name: 'The Realist', viewpoint: `You see both the good and bad sides of ${topic} clearly.` },
-      { name: 'The Activist', viewpoint: `You feel strongly that people need to take action on ${topic}.` },
-      { name: 'The Philosopher', viewpoint: `You like to ask deep questions about what ${topic} really means.` },
+      { name: 'The Enthusiast', viewpoint: `You love everything about ${topic} and can't stop talking about it.`, speakingLine: `I absolutely love ${topic} — it's one of the most exciting things I know.` },
+      { name: 'The Skeptic', viewpoint: `You are not convinced ${topic} is as important as people say.`, speakingLine: `Honestly, I'm not sure ${topic} is really as important as everyone claims.` },
+      { name: 'The Expert', viewpoint: `You have studied ${topic} for years and always share your knowledge.`, speakingLine: `In my experience, the most important thing to understand about ${topic} is the details.` },
+      { name: 'The Newcomer', viewpoint: `You are just learning about ${topic} for the first time.`, speakingLine: `I only just started learning about ${topic}, and I find it really interesting.` },
+      { name: 'The Traditionalist', viewpoint: `You believe the old ways of thinking about ${topic} are still the best.`, speakingLine: `I think the traditional approach to ${topic} has worked well and shouldn't change.` },
+      { name: 'The Optimist', viewpoint: `You believe ${topic} will lead to great things in the future.`, speakingLine: `I believe ${topic} is going to lead to some really wonderful things in the future.` },
+      { name: 'The Realist', viewpoint: `You see both the good and bad sides of ${topic} clearly.`, speakingLine: `I think ${topic} has real benefits, but we also need to be honest about its problems.` },
+      { name: 'The Activist', viewpoint: `You feel strongly that people need to take action on ${topic}.`, speakingLine: `I feel very strongly that we all need to take action on ${topic} right now.` },
+      { name: 'The Philosopher', viewpoint: `You like to ask deep questions about what ${topic} really means.`, speakingLine: `I think the big question about ${topic} is what it really means for how we live.` },
     ];
     return { activityKey: 'character-cards', topicContext: topic, characters: fallback, topic };
   }

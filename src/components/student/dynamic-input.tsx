@@ -725,17 +725,24 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
 
   // Look up character card for this student by display name
   const characterCard = displayName && spec.perStudentData
-    ? (spec.perStudentData[displayName] as { name?: string; viewpoint?: string } | undefined)
+    ? (spec.perStudentData[displayName] as { name?: string; viewpoint?: string; speakingLine?: string } | undefined)
     : undefined;
-  const hasCard = characterCard?.name && characterCard?.viewpoint;
+  const hasCard = characterCard?.name && (characterCard?.viewpoint || characterCard?.speakingLine);
 
   return (
     <div className="space-y-6 text-center">
       {hasCard ? (
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6 space-y-3 text-left">
-          <p className="text-xs text-amber-400/70 uppercase tracking-widest font-semibold text-center">Your character</p>
-          <p className="text-2xl font-bold text-amber-400 text-center leading-tight">{characterCard!.name}</p>
-          <p className="text-base text-white/90 leading-relaxed text-center">{characterCard!.viewpoint}</p>
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6 space-y-3">
+          <p className="text-xs text-amber-400/70 uppercase tracking-widest font-semibold">Your character</p>
+          <p className="text-xl font-bold text-amber-400 leading-tight">{characterCard!.name}</p>
+          {characterCard!.speakingLine ? (
+            <>
+              <p className="text-xs opacity-40 uppercase tracking-widest">Say this aloud</p>
+              <p className="text-2xl font-bold text-white leading-snug">&ldquo;{characterCard!.speakingLine}&rdquo;</p>
+            </>
+          ) : (
+            <p className="text-base text-white/90 leading-relaxed">{characterCard!.viewpoint}</p>
+          )}
         </div>
       ) : spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium leading-snug">{spec.prompt}</p>
