@@ -51,6 +51,13 @@ function renderWithBlanks(text: string): React.ReactNode {
   ));
 }
 
+function substituteNames(text: string, charToStudent: Map<string, Student>): string {
+  return text.replace(/((?:,\s|\s|^))([A-D])(?=[!?,])/g, (match, prefix, char) => {
+    const name = charToStudent.get(char)?.name;
+    return name ? prefix + name : match;
+  });
+}
+
 
 export function SceneIgniterActivity({
   students,
@@ -383,7 +390,7 @@ export function SceneIgniterActivity({
                   {line.direction && (
                     <span className="italic text-amber-400/70 text-xs mr-1">({line.direction})</span>
                   )}
-                  <span className={isCurrent ? 'text-base font-medium' : 'text-sm'}>{line.text}</span>
+                  <span className={isCurrent ? 'text-xl font-semibold' : 'text-base'}>{substituteNames(line.text, charToStudent)}</span>
                 </div>
               </div>
             );
@@ -552,7 +559,7 @@ export function SceneIgniterActivity({
                   <span className="px-1.5 py-0.5 bg-amber-500/15 text-amber-300 rounded text-xs font-mono font-bold shrink-0">{line.character}</span>
                   <div className="flex-1 min-w-0">
                     <span className="text-xs opacity-50 mr-1">{assignedStudent?.name ?? '—'}</span>
-                    <span className={isCurrent ? 'text-base font-medium' : 'text-sm'}>{renderWithBlanks(line.text)}</span>
+                    <span className={isCurrent ? 'text-xl font-semibold' : 'text-base'}>{renderWithBlanks(substituteNames(line.text, charToStudent))}</span>
                     {isCurrent && hasBlank && line.hint && (
                       <p className="text-xs opacity-50 italic mt-1">{line.hint}</p>
                     )}
