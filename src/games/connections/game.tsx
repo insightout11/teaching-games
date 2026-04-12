@@ -52,7 +52,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   }, []);
 
   // Simultaneous race mode
-  const isSimultaneous = students.length >= 3;
+  const isSimultaneous = students.length >= 2;
   const [racePlayers, setRacePlayers] = useState<RacePlayer[]>([]);
   const [raceFinishCount, setRaceFinishCount] = useState(0);
   const [raceComplete, setRaceComplete] = useState(false);

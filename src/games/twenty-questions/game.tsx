@@ -96,7 +96,7 @@ export function TwentyQuestionsGame({
   // Timer for collecting questions in simultaneous mode
   const [timeRemaining, setTimeRemaining] = useState(0);
 
-  const isSimultaneous = students.length >= 3;
+  const isSimultaneous = students.length >= 2;
   const answeredQuestions = questions.filter((q) => q.answer !== null);
   const unansweredQuestions = questions.filter((q) => q.answer === null);
   const totalQuestionsAsked = answeredQuestions.length;

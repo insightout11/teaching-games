@@ -31,7 +31,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const [error, setError] = useState<string | null>(null);
 
   // Remote player submissions (simultaneous mode)
-  const isSimultaneous = students.length >= 3;
+  const isSimultaneous = students.length >= 2;
   const [remoteSynonyms, setRemoteSynonyms] = useState<RemoteSynonym[]>([]);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);

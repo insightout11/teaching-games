@@ -42,7 +42,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
 
   // Team mode
-  const isTeamMode = students.length >= 3;
+  const isTeamMode = students.length >= 2;
   const [teams, setTeams] = useState<Record<TeamId, TeamState>>({
     A: { name: 'Team Alpha', color: 'from-cyan-500 to-blue-500', borderColor: 'border-cyan-500/30', bgColor: 'bg-cyan-500/20', textColor: 'text-cyan-400', score: 0, members: [], currentMemberIndex: 0 },
     B: { name: 'Team Beta', color: 'from-orange-500 to-red-500', borderColor: 'border-orange-500/30', bgColor: 'bg-orange-500/20', textColor: 'text-orange-400', score: 0, members: [], currentMemberIndex: 0 },
