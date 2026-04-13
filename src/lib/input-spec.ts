@@ -45,6 +45,8 @@ export interface InputSpec {
   result?: 'correct' | 'incorrect';
   /** When set, student device shows a countdown timer for this many seconds (quiz mode) */
   timerSeconds?: number;
+  /** Unix ms timestamp when the question was broadcast — student uses this to sync their countdown */
+  startedAt?: number;
 }
 
 // Submission handler result from games

@@ -317,7 +317,11 @@ const QUIZ_LABELS = ['A', 'B', 'C', 'D'];
 
 function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInputProps) {
   const timerSeconds = spec.timerSeconds ?? 30;
-  const [timeLeft, setTimeLeft] = useState(timerSeconds);
+  // Sync to teacher timer: subtract time already elapsed since question was broadcast
+  const initialTime = spec.startedAt
+    ? Math.max(0, timerSeconds - Math.floor((Date.now() - spec.startedAt) / 1000))
+    : timerSeconds;
+  const [timeLeft, setTimeLeft] = useState(initialTime);
   const [submitted, setSubmitted] = useState(false);
 
   // Countdown timer

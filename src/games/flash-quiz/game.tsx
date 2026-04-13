@@ -139,6 +139,7 @@ export function FlashQuizGame({
       prompt: question.question,
       options: question.options,
       timerSeconds: timerSecondsRef.current,
+      startedAt: roundStartRef.current,
       perStudentData,
     } as InputSpec);
   }, [onSetInputSpec]);
@@ -212,6 +213,7 @@ export function FlashQuizGame({
           prompt: q.question,
           options: q.options,
           timerSeconds: timerSecondsRef.current,
+          startedAt: roundStartRef.current,
           perStudentData,
         } as InputSpec);
       }
@@ -304,6 +306,7 @@ export function FlashQuizGame({
       prompt: question.question,
       options: question.options,
       timerSeconds: timerSecondsRef.current,
+      startedAt: roundStartRef.current,
       perStudentData,
     } as InputSpec);
   }, [onSetInputSpec]);
