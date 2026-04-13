@@ -213,18 +213,6 @@ export function ImposterActivity({
     onPhaseChange?.('reveal');
   }, [students, imposterName, onScore, onPhaseChange]);
 
-  const handleAwardCorrectVoters = useCallback(async () => {
-    // Award bonus points to students who voted for the imposter
-    for (const [name, count] of Object.entries(voteCounts)) {
-      if (name === imposterName && count > 0) {
-        // Find voters — we don't track which clientId voted for whom, so we award all voters who picked the imposter
-        // We can't easily identify them individually from aggregated counts, so skip per-voter bonus here
-        // This is a known simplification: all voters already got participation points
-        break;
-      }
-    }
-  }, [voteCounts, imposterName]);
-
   const handleNextRound = useCallback(() => {
     setRoundIndex((i) => i + 1);
     setPhase('idle');
@@ -302,8 +290,7 @@ export function ImposterActivity({
 
         <div className="flex flex-wrap gap-2">
           {students.map((student) => {
-            const ready = Array.from(confirmedClientIds).length > 0;
-            // We track by clientId but show by name — approximate readiness by count
+            // Approximate readiness by count (we track clientIds, not names)
             const readyCount = confirmedClientIds.size;
             const studentIdx = students.indexOf(student);
             const isReady = studentIdx < readyCount;
