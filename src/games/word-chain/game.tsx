@@ -43,6 +43,8 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
 
   // Team mode
   const isTeamMode = students.length >= 2;
+  const difficultyRef = useRef(sessionSettings.difficulty);
+  difficultyRef.current = sessionSettings.difficulty;
   const [teams, setTeams] = useState<Record<TeamId, TeamState>>({
     A: { name: 'Team Alpha', color: 'from-cyan-500 to-blue-500', borderColor: 'border-cyan-500/30', bgColor: 'bg-cyan-500/20', textColor: 'text-cyan-400', score: 0, members: [], currentMemberIndex: 0 },
     B: { name: 'Team Beta', color: 'from-orange-500 to-red-500', borderColor: 'border-orange-500/30', bgColor: 'bg-orange-500/20', textColor: 'text-orange-400', score: 0, members: [], currentMemberIndex: 0 },
@@ -223,7 +225,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           previousWord: prevWord,
           newWord: word.toLowerCase(),
           chainHistory: allWords,
-          difficulty: sessionSettings.difficulty,
+          difficulty: difficultyRef.current,
           ...(bonus && (bonus.type === 'topic' || bonus.type === 'vocabulary') ? { bonusChallenge: bonus } : {}),
         }),
       });
@@ -306,7 +308,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
       setLastFeedback('Error evaluating. Try again!');
       return { valid: false };
     }
-  }, [sessionSettings.difficulty, onScore, checkClientBonus]);
+  }, [onScore, checkClientBonus]);
 
   // Remote vote handler for team mode
   const handleRemoteVote = useCallback(async (vote: GameRemoteVote) => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
@@ -48,6 +48,18 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   const [raceSolvers, setRaceSolvers] = useState<RaceSolver[]>([]);
   const [answerKey, setAnswerKey] = useState<ErrorLocation[]>([]);
 
+  // Stable refs so handleRaceVote / handleTurnBasedVote don't need to be recreated on state changes
+  const challengeRef = useRef<Challenge | null>(null);
+  challengeRef.current = challenge;
+  const raceFinishedRef = useRef(raceFinished);
+  raceFinishedRef.current = raceFinished;
+  const raceSolversRef = useRef<RaceSolver[]>([]);
+  raceSolversRef.current = raceSolvers;
+  const answerKeyRef = useRef<ErrorLocation[]>([]);
+  answerKeyRef.current = answerKey;
+  const difficultyRef = useRef(sessionSettings.difficulty);
+  difficultyRef.current = sessionSettings.difficulty;
+
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
   // Register input spec for student controller
@@ -79,7 +91,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
 
   // Handle remote vote — race mode
   const handleRaceVote = useCallback(async (vote: GameRemoteVote) => {
-    if (!challenge || raceFinished) return;
+    if (!challengeRef.current || raceFinishedRef.current) return;
 
     const studentId = vote.studentId || vote.clientId;
     if (!studentId) return;
@@ -89,15 +101,15 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
       if (!Array.isArray(corrections)) return;
 
       // Check for duplicate submissions
-      if (raceSolvers.some(s => s.studentId === studentId)) return;
+      if (raceSolversRef.current.some(s => s.studentId === studentId)) return;
 
       const response = await fetch('/api/error-hunter/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          paragraph: challenge.paragraph,
+          paragraph: challengeRef.current.paragraph,
           corrections,
-          difficulty: sessionSettings.difficulty,
+          difficulty: difficultyRef.current,
         }),
       });
 
@@ -106,7 +118,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
       const result: EvaluationResult = await response.json();
 
       // Capture answer key from first submission
-      if (result.solutions?.length && answerKey.length === 0) {
+      if (result.solutions?.length && answerKeyRef.current.length === 0) {
         setAnswerKey(result.solutions);
       }
 
@@ -147,12 +159,11 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     } catch (err) {
       console.error('Failed to process race vote:', err);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [challenge, raceFinished, raceSolvers, sessionSettings.difficulty, onScore]);
+  }, [onScore]);
 
   // Handle remote vote — turn-based mode
   const handleTurnBasedVote = useCallback(async (vote: GameRemoteVote) => {
-    if (!challenge) return;
+    if (!challengeRef.current) return;
 
     try {
       const corrections: UserCorrection[] = JSON.parse(vote.choice);
@@ -162,9 +173,9 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          paragraph: challenge.paragraph,
+          paragraph: challengeRef.current.paragraph,
           corrections,
-          difficulty: sessionSettings.difficulty,
+          difficulty: difficultyRef.current,
         }),
       });
 
@@ -189,7 +200,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
     } catch (err) {
       console.error('Failed to process remote error-hunter vote:', err);
     }
-  }, [challenge, sessionSettings.difficulty, onScore]);
+  }, [onScore]);
 
   // Register remote vote handler
   useEffect(() => {

@@ -59,6 +59,14 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   const racePlayersRef = useRef<RacePlayer[]>([]);
   useEffect(() => { racePlayersRef.current = racePlayers; }, [racePlayers]);
 
+  // Stable refs so handleRaceSubmission doesn't recreate on every state change
+  const challengeRef = useRef<ConnectionsChallenge | null>(null);
+  challengeRef.current = challenge;
+  const statusRef = useRef<GameStatus>(status);
+  statusRef.current = status;
+  const raceCompleteRef = useRef(raceComplete);
+  raceCompleteRef.current = raceComplete;
+
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
   // Get remaining groups (not yet found) — for turn-based mode
@@ -183,7 +191,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
 
   // Handle race mode submissions
   const handleRaceSubmission = useCallback(async (vote: GameRemoteVote) => {
-    if (!challenge || status !== GameStatus.PLAYING || raceComplete) return;
+    if (!challengeRef.current || statusRef.current !== GameStatus.PLAYING || raceCompleteRef.current) return;
 
     const studentId = vote.studentId || vote.clientId;
     if (!studentId) return;
@@ -198,7 +206,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           selectedWords,
-          remainingGroups: challenge.groups, // all groups for evaluation
+          remainingGroups: challengeRef.current.groups, // all groups for evaluation
         })
       });
 
@@ -305,7 +313,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
     } catch (err) {
       console.error('Failed to process race submission:', err);
     }
-  }, [challenge, status, raceComplete, onScore]);
+  }, [onScore]);
 
   // Register remote vote handler
   useEffect(() => {
@@ -313,7 +321,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
       onRegisterRemoteVoteHandler?.(handleRaceSubmission);
     } else {
       onRegisterRemoteVoteHandler?.((vote: GameRemoteVote) => {
-        if (status !== GameStatus.PLAYING) return;
+        if (statusRef.current !== GameStatus.PLAYING) return;
         try {
           const selectedWords = JSON.parse(vote.choice) as string[];
           if (Array.isArray(selectedWords) && selectedWords.length === 4) {
@@ -326,7 +334,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
     }
 
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [isSimultaneous, status, onRegisterRemoteVoteHandler, processRemoteSubmission, handleRaceSubmission]);
+  }, [isSimultaneous, onRegisterRemoteVoteHandler, processRemoteSubmission, handleRaceSubmission]);
 
   // Check if race is complete (all finished or enough have)
   useEffect(() => {

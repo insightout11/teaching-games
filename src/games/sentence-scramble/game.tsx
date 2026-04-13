@@ -105,6 +105,14 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   const original = sentences[sentenceIndex % sentences.length];
   const words = useMemo(() => tokenize(original), [original]);
 
+  // Stable refs so handleRaceSubmission doesn't recreate on every state change
+  const originalRef = useRef(original);
+  originalRef.current = original;
+  const sentenceAlternativesRef = useRef(sentenceAlternatives);
+  sentenceAlternativesRef.current = sentenceAlternatives;
+  const raceFinishedRef = useRef(raceFinished);
+  raceFinishedRef.current = raceFinished;
+
   const [availableWords, setAvailableWords] = useState<{ word: string; originalIndex: number }[]>([]);
   const [selectedWords, setSelectedWords] = useState<{ word: string; originalIndex: number }[]>([]);
 
@@ -165,12 +173,12 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   // Handle remote submissions in simultaneous race mode
   const handleRaceSubmission = useCallback((vote: GameRemoteVote) => {
-    if (raceFinished) return;
+    if (raceFinishedRef.current) return;
 
     try {
       const orderedWords: string[] = JSON.parse(vote.choice);
       const answer = orderedWords.join(' ');
-      const isCorrect = isAnswerCorrect(answer, original, sentenceAlternatives[original] ?? []);
+      const isCorrect = isAnswerCorrect(answer, originalRef.current, sentenceAlternativesRef.current[originalRef.current] ?? []);
 
       if (!isCorrect) return; // Only track correct solvers
 
@@ -208,7 +216,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     } catch {
       // Invalid JSON, ignore
     }
-  }, [original, sentenceAlternatives, raceFinished, onScore]);
+  }, [onScore]);
 
   // Register remote vote handler
   useEffect(() => {

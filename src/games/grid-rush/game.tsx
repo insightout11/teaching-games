@@ -371,8 +371,8 @@ export function GridRushGame({
         }));
       }
 
-    // ---- ROUND 2: sentence submission ----
-    } else if (currentPhase === GamePhase.ROUND2) {
+    // ---- ROUND 2: sentence submission (also accept during REVEALING for late-arriving votes) ----
+    } else if (currentPhase === GamePhase.ROUND2 || currentPhase === GamePhase.REVEALING) {
       if (r2SubmittedRef.current[studentId]) return;
       r2SubmittedRef.current[studentId] = true;
 

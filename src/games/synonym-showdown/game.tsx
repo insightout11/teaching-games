@@ -54,6 +54,8 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   submittedSynonymsRef.current = submittedSynonyms;
   const statusRef = useRef<GameStatus>(status);
   statusRef.current = status;
+  const difficultyRef = useRef(sessionSettings.difficulty);
+  difficultyRef.current = sessionSettings.difficulty;
 
   // Register input spec for student controller
   useEffect(() => {
@@ -98,7 +100,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
           targetWord: ch.targetWord,
           contextSentence: ch.contextSentence,
           synonym,
-          difficulty: sessionSettings.difficulty,
+          difficulty: difficultyRef.current,
         }),
       })
         .then(res => res.json())
@@ -128,7 +130,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     });
 
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [sessionSettings.difficulty, onRegisterRemoteVoteHandler, onScore]);
+  }, [onRegisterRemoteVoteHandler, onScore]);
 
   // Register submission handler (fallback for approval-based flow)
   useEffect(() => {
