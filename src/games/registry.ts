@@ -12,9 +12,11 @@ import { dialogueDetectivePlugin } from './dialogue-detective';
 import { connectionsPlugin } from './connections';
 import { twentyQuestionsPlugin } from './twenty-questions';
 import { gridRushPlugin } from './grid-rush';
-import { BookA, PenLine, Brain } from 'lucide-react';
+import { BookA, PenLine, Brain, Zap } from 'lucide-react';
+import { flashQuizPlugin } from './flash-quiz';
 
 const games: GamePlugin[] = [
+  flashQuizPlugin,
   vocabSprintPlugin,
   synonymShowdownPlugin,
   wordChainPlugin,
@@ -49,6 +51,7 @@ export function getGamesByCategory(category: GameCategory): GamePlugin[] {
  */
 export function getGamesGrouped(): Record<GameCategory, GamePlugin[]> {
   return {
+    quiz: getGamesByCategory('quiz'),
     vocabulary: getGamesByCategory('vocabulary'),
     'grammar-writing': getGamesByCategory('grammar-writing'),
     'logic-puzzles': getGamesByCategory('logic-puzzles'),
@@ -64,6 +67,12 @@ export const GAME_CATEGORY_INFO: Record<GameCategory, {
   icon: ComponentType<{ className?: string }>;
   color: string;
 }> = {
+  quiz: {
+    name: 'Quiz',
+    description: 'Fast-paced simultaneous quiz games',
+    icon: Zap,
+    color: 'text-violet-400',
+  },
   vocabulary: {
     name: 'Vocabulary',
     description: 'Build and strengthen word knowledge',

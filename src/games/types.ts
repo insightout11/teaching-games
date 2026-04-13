@@ -4,7 +4,7 @@ import type { SessionSettings } from '@/stores/session-store';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 
 // Game categories
-export type GameCategory = 'vocabulary' | 'grammar-writing' | 'logic-puzzles';
+export type GameCategory = 'vocabulary' | 'grammar-writing' | 'logic-puzzles' | 'quiz';
 
 export interface ScoreResult {
   isCorrect: boolean;

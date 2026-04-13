@@ -43,6 +43,8 @@ export interface InputSpec {
   instruction?: string;
   /** Result feedback pushed by game after evaluation (sequence inputs) */
   result?: 'correct' | 'incorrect';
+  /** When set, student device shows a countdown timer for this many seconds (quiz mode) */
+  timerSeconds?: number;
 }
 
 // Submission handler result from games

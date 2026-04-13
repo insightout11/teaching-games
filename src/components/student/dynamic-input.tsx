@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useRef } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -21,7 +21,12 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'textarea':
       return <TextareaInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'choice':
-      return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      if (spec.timerSeconds) {
+        return <QuizChoiceInput
+          key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`}
+          spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
+      }
+      return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'binary':
       return <BinaryInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'multi-select':
@@ -296,6 +301,119 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
       </div>
       {resourcesRequired && value.trim() && (
         <p className="text-xs text-amber-400">Select at least one resource above to submit.</p>
+      )}
+    </div>
+  );
+}
+
+// Quiz-mode choice input: 2×2 grid, auto-submit, timer, locked state
+const QUIZ_COLORS = [
+  'bg-red-600 hover:bg-red-500 active:bg-red-700',
+  'bg-blue-600 hover:bg-blue-500 active:bg-blue-700',
+  'bg-amber-500 hover:bg-amber-400 active:bg-amber-600',
+  'bg-green-600 hover:bg-green-500 active:bg-green-700',
+];
+const QUIZ_LABELS = ['A', 'B', 'C', 'D'];
+
+function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInputProps) {
+  const timerSeconds = spec.timerSeconds ?? 30;
+  const [timeLeft, setTimeLeft] = useState(timerSeconds);
+  const [submitted, setSubmitted] = useState(false);
+
+  // Countdown timer
+  useEffect(() => {
+    if (submitted) return;
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => Math.max(0, prev - 1));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [submitted]);
+
+  // Per-student data from game
+  const myData = (clientId ? spec.perStudentData?.[clientId] : undefined) as
+    | { locked?: boolean; result?: 'correct' | 'incorrect'; pointsEarned?: number }
+    | undefined;
+  const isLocked = myData?.locked === true || submitted;
+  const result = myData?.result;
+
+  const handlePick = useCallback(async (index: number) => {
+    if (isSubmitting || isLocked || timeLeft === 0) return;
+    setSubmitted(true);
+    await onSubmit(String(index));
+  }, [isSubmitting, isLocked, timeLeft, onSubmit]);
+
+  // Locked + result state
+  if (isLocked && result) {
+    return (
+      <div className="flex flex-col items-center gap-3 py-4">
+        {result === 'correct' ? (
+          <>
+            <div className="text-4xl">✓</div>
+            <p className="text-green-400 font-black text-xl">Correct!</p>
+            {myData?.pointsEarned !== undefined && (
+              <p className="text-yellow-400 font-bold text-lg">+{myData.pointsEarned} pts</p>
+            )}
+          </>
+        ) : (
+          <>
+            <div className="text-4xl">✗</div>
+            <p className="text-red-400 font-black text-xl">Wrong</p>
+            <p className="text-lc-text2 text-sm">+0 pts</p>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  // Locked but no result yet (waiting for reveal)
+  if (isLocked) {
+    return (
+      <div className="flex flex-col items-center gap-3 py-6 text-center">
+        <div className="text-3xl">✓</div>
+        <p className="text-green-400 font-bold text-lg">Locked in!</p>
+        <p className="text-lc-text2 text-sm">Waiting for others…</p>
+      </div>
+    );
+  }
+
+  // Active — show timer + answer grid
+  const timerPct = (timeLeft / timerSeconds) * 100;
+  const timerColor = timerPct > 50 ? 'bg-green-500' : timerPct > 25 ? 'bg-amber-500' : 'bg-red-500';
+
+  return (
+    <div className="space-y-4">
+      {spec.prompt && (
+        <p className="text-base text-lc-text font-medium leading-snug">{spec.prompt}</p>
+      )}
+      {/* Timer bar */}
+      <div className="space-y-1">
+        <div className="flex justify-between text-xs text-lc-text2">
+          <span>Time left</span>
+          <span className={timeLeft <= 5 ? 'text-red-400 font-bold' : ''}>{timeLeft}s</span>
+        </div>
+        <div className="w-full h-2 bg-lc-surface rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
+            style={{ width: `${timerPct}%` }}
+          />
+        </div>
+      </div>
+      {/* 2×2 answer grid */}
+      <div className="grid grid-cols-2 gap-3">
+        {(spec.options ?? []).slice(0, 4).map((option, i) => (
+          <button
+            key={i}
+            onClick={() => handlePick(i)}
+            disabled={isSubmitting || timeLeft === 0}
+            className={`${QUIZ_COLORS[i]} text-white rounded-xl p-4 text-left shadow-lg transition-all disabled:opacity-40 active:scale-95`}
+          >
+            <div className="text-xs font-black uppercase tracking-widest opacity-70 mb-1">{QUIZ_LABELS[i]}</div>
+            <div className="text-sm font-semibold leading-snug">{option}</div>
+          </button>
+        ))}
+      </div>
+      {timeLeft === 0 && (
+        <p className="text-center text-lc-text2 text-sm">Time&apos;s up!</p>
       )}
     </div>
   );
