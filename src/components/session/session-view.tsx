@@ -39,7 +39,7 @@ const SESSION_SKILL_FILTERS: { key: SessionSkillFilter; label: string; skills: s
   { key: 'creativity',        label: 'Creativity',        skills: ['Creativity', 'Creative Writing', 'Role-play'] },
 ];
 
-const GAME_CATEGORY_ORDER = ['vocabulary', 'grammar-writing', 'logic-puzzles'] as const;
+const GAME_CATEGORY_ORDER = ['quiz', 'vocabulary', 'grammar-writing', 'logic-puzzles'] as const;
 const ACTIVITY_CATEGORY_ORDER = ['icebreaker', 'learning', 'practice', 'debate', 'closing'] as const;
 
 const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];

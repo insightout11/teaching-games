@@ -39,6 +39,7 @@ interface ActiveSession {
 }
 
 const CATEGORY_ACCENT: Record<string, string> = {
+  quiz: 'border-l-violet-500/50',
   vocabulary: 'border-l-amber-500/50',
   'grammar-writing': 'border-l-sky-500/50',
   'logic-puzzles': 'border-l-emerald-500/50',
@@ -196,7 +197,7 @@ export function ExploreClient() {
     return acc;
   }, {});
 
-  const gameCategoryOrder: GameCategory[] = ['vocabulary', 'grammar-writing', 'logic-puzzles'];
+  const gameCategoryOrder: GameCategory[] = ['quiz', 'vocabulary', 'grammar-writing', 'logic-puzzles'];
   const activityCategoryOrder: ActivityCategory[] = ['icebreaker', 'learning', 'practice', 'debate', 'closing'];
 
   return (
