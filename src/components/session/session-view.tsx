@@ -719,14 +719,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <Button
               variant="ghost"
               size="sm"
-              onClick={handleCopyJoinLink}
-              className="text-cyan-400 hover:text-cyan-300"
-            >
-              {joinLinkCopied ? 'Copied!' : 'Copy Join Link'}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
               onClick={() => setShowQrModal(true)}
               className="text-cyan-400 hover:text-cyan-300"
             >
