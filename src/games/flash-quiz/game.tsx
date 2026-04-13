@@ -35,7 +35,7 @@ const OPTION_LABELS = ['A', 'B', 'C', 'D'];
 
 // ─── In-game leaderboard ──────────────────────────────────────────────────────
 
-interface LeaderEntry { studentId: string; name: string; totalPoints: number }
+interface LeaderEntry { studentId: string; name: string; totalPoints: number; rankAward?: number }
 
 function MiniLeaderboard({ entries }: { entries: LeaderEntry[] }) {
   const medals = ['🥇', '🥈', '🥉'];
@@ -55,7 +55,14 @@ function MiniLeaderboard({ entries }: { entries: LeaderEntry[] }) {
             <span className="text-lg w-7">{medals[i] ?? <span className="text-lc-text2 font-bold text-sm">{i + 1}</span>}</span>
             <span className="font-semibold">{e.name}</span>
           </div>
-          <span className="font-game text-yellow-400">{e.totalPoints}</span>
+          <div className="flex items-center gap-2">
+            {e.rankAward !== undefined && (
+              <span className="text-xs font-bold text-green-400 bg-green-500/15 border border-green-500/25 px-2 py-0.5 rounded-full">
+                +{e.rankAward}
+              </span>
+            )}
+            <span className="font-game text-yellow-400">{e.totalPoints}</span>
+          </div>
         </div>
       ))}
     </div>
@@ -82,6 +89,7 @@ export function FlashQuizGame({
   // Internal quiz scores — NOT written to session store until quiz ends
   const [internalScores, setInternalScores] = useState<Map<string, { name: string; totalPoints: number }>>(() => new Map());
   const internalScoresRef = useRef<Map<string, { name: string; totalPoints: number }>>(new Map());
+  const [rankAwards, setRankAwards] = useState<Map<string, number>>(() => new Map());
 
   // Refs for use inside callbacks (avoid stale closures)
   const phaseRef = useRef<QuizPhase>('idle');
@@ -237,6 +245,7 @@ export function FlashQuizGame({
     setPhase('loading');
     setInternalScores(new Map());
     internalScoresRef.current = new Map();
+    setRankAwards(new Map());
     try {
       const res = await fetch('/api/flash-quiz/generate', {
         method: 'POST',
@@ -326,14 +335,17 @@ export function FlashQuizGame({
       // Quiz finished — award rank-based points to the session leaderboard
       const sorted = Array.from(internalScoresRef.current.entries())
         .sort(([, a], [, b]) => b.totalPoints - a.totalPoints);
+      const awards = new Map<string, number>();
       sorted.forEach(([studentId, data], rank) => {
         const rankPoints = RANK_POINTS[rank] ?? 2;
+        awards.set(studentId, rankPoints);
         onScore(studentId, {
           isCorrect: true,
           points: rankPoints,
           responseData: { rank: rank + 1, quizPoints: data.totalPoints },
         });
       });
+      setRankAwards(awards);
       setPhase('finished');
     } else {
       startQuestion(nextIndex);
@@ -632,7 +644,7 @@ export function FlashQuizGame({
           <h2 className="text-2xl font-game text-lc-text">Quiz Complete!</h2>
           <p className="text-lc-text2 text-sm">{questions.length} questions answered</p>
         </div>
-        <MiniLeaderboard entries={leaderboardEntries} />
+        <MiniLeaderboard entries={leaderboardEntries.map((e) => ({ ...e, rankAward: rankAwards.get(e.studentId) }))} />
         <button
           onClick={fetchQuestions}
           className="w-full py-3 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all"
