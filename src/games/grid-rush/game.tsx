@@ -55,6 +55,13 @@ export function GridRushGame({
   // R2 one-shot guard per student
   const r2SubmittedRef = useRef<Record<string, boolean>>({});
 
+  // Stable refs for sessionSettings values used inside handleVote
+  // Avoids recreating handleVote when settings change mid-session (which would cause a handler null gap)
+  const difficultyRef = useRef(sessionSettings.difficulty);
+  difficultyRef.current = sessionSettings.difficulty;
+  const topicRef = useRef(getEffectiveTopic(sessionSettings));
+  topicRef.current = getEffectiveTopic(sessionSettings);
+
   // Maps internal studentId key → clientId (localStorage UUID) so perStudentData can be keyed by clientId
   const studentIdToClientIdRef = useRef<Record<string, string>>({});
 
@@ -258,8 +265,8 @@ export function GridRushGame({
     const studentId = vote.studentId || vote.clientId;
     if (!studentId) return;
 
-    // ---- ROUND 1: word submission ----
-    if (currentPhase === GamePhase.ROUND1) {
+    // ---- ROUND 1: word submission (also accept during ROUND1_ENDING for late-arriving votes) ----
+    if (currentPhase === GamePhase.ROUND1 || currentPhase === GamePhase.ROUND1_ENDING) {
       const word = (vote.choice ?? '').trim().toLowerCase();
       if (!word || word.length < 3) return;
 
@@ -310,8 +317,8 @@ export function GridRushGame({
             letters: currentGrid.letters,
             bonusLetter: currentGrid.bonusLetter,
             topicWords: currentGrid.topicWords,
-            topic: getEffectiveTopic(sessionSettings),
-            difficulty: sessionSettings.difficulty,
+            topic: topicRef.current,
+            difficulty: difficultyRef.current,
           }),
         });
 
@@ -385,8 +392,8 @@ export function GridRushGame({
           body: JSON.stringify({
             sentence,
             studentWords: myWords,
-            topic: getEffectiveTopic(sessionSettings),
-            difficulty: sessionSettings.difficulty,
+            topic: topicRef.current,
+            difficulty: difficultyRef.current,
           }),
         });
 
@@ -423,8 +430,7 @@ export function GridRushGame({
         setR2SubmissionCount((prev) => prev - 1);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionSettings.difficulty, sessionSettings.topic, onScore]);
+  }, [onScore]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.(handleVote);

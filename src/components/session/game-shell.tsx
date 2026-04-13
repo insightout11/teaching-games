@@ -37,6 +37,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   const supabase = createClient();
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: GameRemoteVote) => void) | null>(null);
+  // Buffer for votes that arrive while handler is null (e.g. during useCallback re-registration)
+  const pendingVotesRef = useRef<GameRemoteVote[]>([]);
   const [autoApprove, setAutoApprove] = useState(false);
   // Tracks which teacher-initiated round produced each score.
   // Increments after every handleScore call so each score row gets a unique, sequential index.
@@ -105,17 +107,27 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
             clientToStudentRef.current.set(score.client_id, score.student_id);
           }
           if (responseData?.type === 'remote_vote' && responseData?.gameKey === game.key) {
-            // Call the registered vote handler
+            const vote: GameRemoteVote = {
+              clientId: score.client_id || '',
+              studentId: score.student_id || null,
+              displayName: score.display_name || 'Anonymous',
+              choice: responseData.choice as string,
+              team: score.team as 'red' | 'blue' | null,
+              gameKey: responseData.gameKey as string,
+              inputType: responseData.inputType as string,
+            };
             if (remoteVoteHandlerRef.current) {
-              remoteVoteHandlerRef.current({
-                clientId: score.client_id || '',
-                studentId: score.student_id || null,
-                displayName: score.display_name || 'Anonymous',
-                choice: responseData.choice as string,
-                team: score.team as 'red' | 'blue' | null,
-                gameKey: responseData.gameKey as string,
-                inputType: responseData.inputType as string,
-              });
+              remoteVoteHandlerRef.current(vote);
+            } else {
+              // Handler is temporarily null (game re-registering between renders) — buffer and retry
+              pendingVotesRef.current.push(vote);
+              setTimeout(() => {
+                const idx = pendingVotesRef.current.indexOf(vote);
+                if (idx !== -1) {
+                  pendingVotesRef.current.splice(idx, 1);
+                  remoteVoteHandlerRef.current?.(vote);
+                }
+              }, 500);
             }
           }
           // Also record the score in the store
@@ -143,6 +155,11 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   // Callback for games to register remote vote handler
   const handleRegisterRemoteVoteHandler = useCallback((handler: ((vote: GameRemoteVote) => void) | null) => {
     remoteVoteHandlerRef.current = handler;
+    // Flush any votes that arrived while the handler was null (re-registration gap)
+    if (handler && pendingVotesRef.current.length > 0) {
+      const pending = pendingVotesRef.current.splice(0);
+      pending.forEach((v) => handler(v));
+    }
   }, []);
 
   const handleScore = useCallback(async (studentId: string, result: ScoreResult) => {
