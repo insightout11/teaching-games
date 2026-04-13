@@ -59,11 +59,11 @@ function SubmitStatus({ status, waitSeconds }: { status: 'idle' | 'success' | 'e
 // Single line text input
 function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  // Ref-based guard — avoids stale-closure issues with state-based isSubmitting
   const inFlightRef = useRef(false);
+  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec);
 
   const handleSubmit = useCallback(async () => {
-    if (inFlightRef.current) return;
+    if (inFlightRef.current || isExpired) return;
     const el = inputRef.current;
     if (!el) return;
     const word = el.value.trim();
@@ -91,6 +91,7 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
+      {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
       <input
         ref={inputRef}
         type="text"
@@ -108,7 +109,7 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
-          disabled={isSubmitting || submitStatus === 'rate_limited'}
+          disabled={isSubmitting || submitStatus === 'rate_limited' || isExpired}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
@@ -124,12 +125,13 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
   const [value, setValue] = useState(prefill);
   const [showHint, setShowHint] = useState(false);
   const [selectedResources, setSelectedResources] = useState<string[]>([]);
+  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec);
 
   const hasResources = (spec.resources?.length ?? 0) > 0;
   const resourcesRequired = hasResources && selectedResources.length === 0;
 
   const handleSubmit = useCallback(async () => {
-    if (!value.trim() || isSubmitting || resourcesRequired) return;
+    if (!value.trim() || isSubmitting || resourcesRequired || isExpired) return;
     // Encode as structured JSON when resources are involved so the API can extract resourcesUsed
     const payload = hasResources
       ? JSON.stringify({ choice: value.trim(), resourcesUsed: selectedResources })
@@ -196,6 +198,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
+      {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
       {myWords && myWords.length > 0 && (
         <div>
           <p className="text-xs text-lc-text2 uppercase tracking-wider mb-2">Your Round 1 words:</p>
@@ -293,7 +296,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         </div>
         <Button
           onClick={handleSubmit}
-          disabled={!value.trim() || isSubmitting || submitStatus === 'rate_limited' || resourcesRequired}
+          disabled={!value.trim() || isSubmitting || submitStatus === 'rate_limited' || resourcesRequired || isExpired}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
@@ -302,6 +305,56 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
       {resourcesRequired && value.trim() && (
         <p className="text-xs text-amber-400">Select at least one resource above to submit.</p>
       )}
+    </div>
+  );
+}
+
+// ─── Shared timer primitives ──────────────────────────────────────────────────
+
+const INPUT_GRACE_MS = 1500;
+
+/** Synced countdown timer for any timed input. Returns timeLeft, isExpired. */
+function useInputTimer(spec: InputSpec, submitted = false) {
+  const timerSeconds = spec.timerSeconds ?? 0;
+  const initialTime = spec.startedAt && timerSeconds
+    ? Math.max(0, timerSeconds - Math.floor((Date.now() - spec.startedAt) / 1000))
+    : timerSeconds;
+  const [timeLeft, setTimeLeft] = useState(initialTime);
+  const [isExpired, setIsExpired] = useState(false);
+
+  useEffect(() => {
+    if (submitted || !timerSeconds) return;
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => Math.max(0, prev - 1));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [submitted, timerSeconds]);
+
+  useEffect(() => {
+    if (submitted || timeLeft > 0 || !timerSeconds) return;
+    const grace = setTimeout(() => setIsExpired(true), INPUT_GRACE_MS);
+    return () => clearTimeout(grace);
+  }, [submitted, timeLeft, timerSeconds]);
+
+  return { timeLeft, isExpired, timerSeconds };
+}
+
+/** Visual countdown bar shown above inputs when a timer is active. */
+function TimerBar({ timeLeft, timerSeconds }: { timeLeft: number; timerSeconds: number }) {
+  const timerPct = timerSeconds > 0 ? (timeLeft / timerSeconds) * 100 : 0;
+  const timerColor = timerPct > 50 ? 'bg-green-500' : timerPct > 25 ? 'bg-amber-500' : 'bg-red-500';
+  return (
+    <div className="space-y-1">
+      <div className="flex justify-between text-xs text-lc-text2">
+        <span>Time left</span>
+        <span className={timeLeft <= 5 ? 'text-red-400 font-bold' : ''}>{timeLeft}s</span>
+      </div>
+      <div className="w-full h-2 bg-lc-surface rounded-full overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
+          style={{ width: `${timerPct}%` }}
+        />
+      </div>
     </div>
   );
 }
@@ -315,34 +368,9 @@ const QUIZ_COLORS = [
 ];
 const QUIZ_LABELS = ['A', 'B', 'C', 'D'];
 
-const QUIZ_GRACE_MS = 1500;
-
 function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInputProps) {
-  const timerSeconds = spec.timerSeconds ?? 30;
-  // Sync to teacher timer: subtract time already elapsed since question was broadcast
-  const initialTime = spec.startedAt
-    ? Math.max(0, timerSeconds - Math.floor((Date.now() - spec.startedAt) / 1000))
-    : timerSeconds;
-  const [timeLeft, setTimeLeft] = useState(initialTime);
   const [submitted, setSubmitted] = useState(false);
-  // Grace period: keep buttons active for QUIZ_GRACE_MS after timer hits 0
-  const [isExpired, setIsExpired] = useState(false);
-
-  // Countdown timer
-  useEffect(() => {
-    if (submitted) return;
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => Math.max(0, prev - 1));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [submitted]);
-
-  // Expire buttons after grace period once timer hits 0
-  useEffect(() => {
-    if (submitted || timeLeft > 0) return;
-    const grace = setTimeout(() => setIsExpired(true), QUIZ_GRACE_MS);
-    return () => clearTimeout(grace);
-  }, [submitted, timeLeft]);
+  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec, submitted);
 
   // Per-student data from game
   const myData = (clientId ? spec.perStudentData?.[clientId] : undefined) as
@@ -392,27 +420,12 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInpu
   }
 
   // Active — show timer + answer grid
-  const timerPct = (timeLeft / timerSeconds) * 100;
-  const timerColor = timerPct > 50 ? 'bg-green-500' : timerPct > 25 ? 'bg-amber-500' : 'bg-red-500';
-
   return (
     <div className="space-y-4">
       {spec.prompt && (
         <p className="text-base text-lc-text font-medium leading-snug">{spec.prompt}</p>
       )}
-      {/* Timer bar */}
-      <div className="space-y-1">
-        <div className="flex justify-between text-xs text-lc-text2">
-          <span>Time left</span>
-          <span className={timeLeft <= 5 ? 'text-red-400 font-bold' : ''}>{timeLeft}s</span>
-        </div>
-        <div className="w-full h-2 bg-lc-surface rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
-            style={{ width: `${timerPct}%` }}
-          />
-        </div>
-      </div>
+      <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />
       {/* 2×2 answer grid */}
       <div className="grid grid-cols-2 gap-3">
         {(spec.options ?? []).slice(0, 4).map((option, i) => (
@@ -427,9 +440,6 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInpu
           </button>
         ))}
       </div>
-      {timeLeft === 0 && (
-        <p className="text-center text-lc-text2 text-sm">Time&apos;s up!</p>
-      )}
     </div>
   );
 }
@@ -630,6 +640,7 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
 function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
   const [sequence, setSequence] = useState<string[]>([]);
   const [remaining, setRemaining] = useState<string[]>(spec.options || []);
+  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec);
 
   const addToSequence = (item: string) => {
     setSequence([...sequence, item]);
@@ -643,11 +654,11 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
   };
 
   const handleSubmit = useCallback(async () => {
-    if (remaining.length > 0 || isSubmitting) return;
+    if (remaining.length > 0 || isSubmitting || isExpired) return;
     await onSubmit(JSON.stringify(sequence));
     setSequence([]);
     setRemaining(spec.options || []);
-  }, [sequence, remaining.length, isSubmitting, onSubmit, spec.options]);
+  }, [sequence, remaining.length, isSubmitting, isExpired, onSubmit, spec.options]);
 
   // Result feedback: game pushed correct/incorrect after evaluation
   if (spec.result) {
@@ -669,6 +680,7 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
+      {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
 
       {/* Built sequence */}
       <div className="min-h-[60px] p-3 bg-lc-surface rounded-xl border border-dashed border-lc-border">
@@ -707,7 +719,7 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
-          disabled={remaining.length > 0 || isSubmitting || submitStatus === 'rate_limited'}
+          disabled={remaining.length > 0 || isSubmitting || isExpired || submitStatus === 'rate_limited'}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
@@ -722,6 +734,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
   const [corrections, setCorrections] = useState<Map<number, string>>(new Map());
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [correctionText, setCorrectionText] = useState('');
+  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec);
 
   const words = useMemo(() => spec.options || [], [spec.options]);
 
@@ -754,7 +767,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
   };
 
   const handleSubmit = useCallback(async () => {
-    if (corrections.size === 0 || isSubmitting) return;
+    if (corrections.size === 0 || isSubmitting || isExpired) return;
     const payload = Array.from(corrections.entries()).map(([index, correction]) => ({
       position: index,
       original: words[index]?.replace(/[.,!?;:'"]/g, '') || '',
@@ -764,13 +777,14 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
     setCorrections(new Map());
     setEditingIndex(null);
     setCorrectionText('');
-  }, [corrections, isSubmitting, onSubmit, words]);
+  }, [corrections, isSubmitting, isExpired, onSubmit, words]);
 
   return (
     <div className="space-y-4">
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
+      {timerSeconds > 0 && <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />}
 
       {/* Word chips */}
       <div className="flex flex-wrap gap-1.5">
@@ -836,7 +850,7 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
         <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
         <Button
           onClick={handleSubmit}
-          disabled={corrections.size === 0 || isSubmitting || submitStatus === 'rate_limited'}
+          disabled={corrections.size === 0 || isSubmitting || isExpired || submitStatus === 'rate_limited'}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}

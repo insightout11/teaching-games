@@ -55,22 +55,27 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const statusRef = useRef<GameStatus>(status);
   statusRef.current = status;
   const difficultyRef = useRef(sessionSettings.difficulty);
+  const challengeStartedAtRef = useRef(0);
   difficultyRef.current = sessionSettings.difficulty;
 
   // Register input spec for student controller
   useEffect(() => {
     if (status === GameStatus.PLAYING && challenge) {
+      if (!challengeStartedAtRef.current) challengeStartedAtRef.current = Date.now();
       onSetInputSpec?.({
         type: 'text',
         gameKey: 'synonym-showdown',
         prompt: `Find synonyms for: "${challenge.targetWord}"`,
         placeholder: 'Type a synonym...',
         maxLength: 50,
+        timerSeconds: sessionSettings.timerSeconds,
+        startedAt: challengeStartedAtRef.current,
       });
     } else {
+      challengeStartedAtRef.current = 0;
       onSetInputSpec?.(null);
     }
-  }, [status, challenge, onSetInputSpec]);
+  }, [status, challenge, onSetInputSpec, sessionSettings.timerSeconds]);
 
   // Register remote vote handler for direct real-time submissions
   useEffect(() => {

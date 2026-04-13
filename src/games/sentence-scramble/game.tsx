@@ -112,6 +112,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   sentenceAlternativesRef.current = sentenceAlternatives;
   const raceFinishedRef = useRef(raceFinished);
   raceFinishedRef.current = raceFinished;
+  const raceStartedAtRef = useRef(0);
 
   const [availableWords, setAvailableWords] = useState<{ word: string; originalIndex: number }[]>([]);
   const [selectedWords, setSelectedWords] = useState<{ word: string; originalIndex: number }[]>([]);
@@ -140,25 +141,33 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     if (isSimultaneous) {
       // In simultaneous mode, broadcast when race is active
       if (raceActive && !raceFinished && availableWords.length > 0) {
+        if (!raceStartedAtRef.current) raceStartedAtRef.current = Date.now();
         onSetInputSpec?.({
           type: 'sequence',
           gameKey: 'sentence-scramble',
           prompt: 'Arrange the words in the correct order — race!',
           options: availableWords.map(w => w.word),
+          timerSeconds: sessionSettings.timerSeconds,
+          startedAt: raceStartedAtRef.current,
         });
       } else {
+        raceStartedAtRef.current = 0;
         onSetInputSpec?.(null);
       }
     } else {
       // Turn-based: only show to current student
       if (!submitted && availableWords.length > 0) {
+        if (!raceStartedAtRef.current) raceStartedAtRef.current = Date.now();
         onSetInputSpec?.({
           type: 'sequence',
           gameKey: 'sentence-scramble',
           prompt: 'Tap words to build the sentence in correct order',
           options: availableWords.map(w => w.word),
+          timerSeconds: sessionSettings.timerSeconds,
+          startedAt: raceStartedAtRef.current,
         });
       } else if (submitted && studentResultRef.current) {
+        raceStartedAtRef.current = 0;
         // Push result feedback to student device
         onSetInputSpec?.({
           type: 'sequence',
@@ -166,10 +175,11 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           result: studentResultRef.current,
         });
       } else {
+        raceStartedAtRef.current = 0;
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec]);
+  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec, sessionSettings.timerSeconds]);
 
   // Handle remote submissions in simultaneous race mode
   const handleRaceSubmission = useCallback((vote: GameRemoteVote) => {

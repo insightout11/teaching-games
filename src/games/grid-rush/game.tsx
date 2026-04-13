@@ -55,6 +55,10 @@ export function GridRushGame({
   // R2 one-shot guard per student
   const r2SubmittedRef = useRef<Record<string, boolean>>({});
 
+  // Round start timestamps for student timer sync
+  const r1StartedAtRef = useRef(0);
+  const r2StartedAtRef = useRef(0);
+
   // Stable refs for sessionSettings values used inside handleVote
   // Avoids recreating handleVote when settings change mid-session (which would cause a handler null gap)
   const difficultyRef = useRef(sessionSettings.difficulty);
@@ -215,6 +219,7 @@ export function GridRushGame({
 
   useEffect(() => {
     if (phase === GamePhase.ROUND1 && grid) {
+      if (!r1StartedAtRef.current) r1StartedAtRef.current = Date.now();
       const rows = [
         grid.letters.slice(0, 3),
         grid.letters.slice(3, 6),
@@ -234,8 +239,11 @@ export function GridRushGame({
         prompt: `${gridText} — bonus letter: ${grid.bonusLetter}`,
         placeholder: 'Type a word from the grid...',
         maxLength: 20,
+        timerSeconds: ROUND1_DURATION,
+        startedAt: r1StartedAtRef.current,
       });
     } else if (phase === GamePhase.ROUND2) {
+      if (!r2StartedAtRef.current) r2StartedAtRef.current = Date.now();
       const perStudentData: Record<string, { round1Words: string[]; sentenceResult?: SentenceEntry }> = {};
       for (const [sid, entries] of Object.entries(studentWords)) {
         // Key by clientId (localStorage UUID) so TextareaInput can look it up
@@ -252,8 +260,12 @@ export function GridRushGame({
         placeholder: 'Your sentence...',
         maxLength: 300,
         perStudentData,
+        timerSeconds: ROUND2_DURATION,
+        startedAt: r2StartedAtRef.current,
       });
     } else {
+      r1StartedAtRef.current = 0;
+      r2StartedAtRef.current = 0;
       onSetInputSpec?.(null);
     }
   }, [phase, grid, studentWords, studentSentences, onSetInputSpec]);

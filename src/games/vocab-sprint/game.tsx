@@ -64,35 +64,44 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   statusRef.current = status;
   const raceFinishedRef = useRef(false);
   raceFinishedRef.current = raceFinished;
+  const raceStartedAtRef = useRef(0);
 
   // Register input spec for student controller
   useEffect(() => {
     if (isSimultaneous) {
       if (status === GameStatus.RUNNING && currentSentence && !raceFinished) {
+        if (!raceStartedAtRef.current) raceStartedAtRef.current = Date.now();
         onSetInputSpec?.({
           type: 'text',
           gameKey: 'vocab-sprint',
           prompt: `Replace the weak word "${currentSentence.weakWord}" with a stronger word — race!`,
           placeholder: 'Type an upgrade word...',
           maxLength: 50,
+          timerSeconds: sessionSettings.timerSeconds,
+          startedAt: raceStartedAtRef.current,
         });
       } else {
+        raceStartedAtRef.current = 0;
         onSetInputSpec?.(null);
       }
     } else {
       if (status === GameStatus.RUNNING && currentSentence) {
+        if (!raceStartedAtRef.current) raceStartedAtRef.current = Date.now();
         onSetInputSpec?.({
           type: 'text',
           gameKey: 'vocab-sprint',
           prompt: `Replace the weak word "${currentSentence.weakWord}" with a stronger word`,
           placeholder: 'Type an upgrade word...',
           maxLength: 50,
+          timerSeconds: sessionSettings.timerSeconds,
+          startedAt: raceStartedAtRef.current,
         });
       } else {
+        raceStartedAtRef.current = 0;
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, status, currentSentence, raceFinished, onSetInputSpec]);
+  }, [isSimultaneous, status, currentSentence, raceFinished, onSetInputSpec, sessionSettings.timerSeconds]);
 
   // Track in-flight evaluate calls to prevent duplicate concurrent requests for the same student
   const inFlightRef = useRef(new Set<string>());

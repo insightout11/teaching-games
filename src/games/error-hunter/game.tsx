@@ -59,6 +59,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   answerKeyRef.current = answerKey;
   const difficultyRef = useRef(sessionSettings.difficulty);
   difficultyRef.current = sessionSettings.difficulty;
+  const raceStartedAtRef = useRef(0);
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
 
@@ -66,28 +67,36 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
   useEffect(() => {
     if (isSimultaneous) {
       if (raceActive && !raceFinished && challenge && words.length > 0) {
+        if (!raceStartedAtRef.current) raceStartedAtRef.current = Date.now();
         onSetInputSpec?.({
           type: 'error-correction',
           gameKey: 'error-hunter',
           options: words.map(w => w.word),
           prompt: `Find and correct the ${challenge.errorCount} error${challenge.errorCount !== 1 ? 's' : ''} — race!`,
+          timerSeconds: sessionSettings.timerSeconds,
+          startedAt: raceStartedAtRef.current,
         });
       } else {
+        raceStartedAtRef.current = 0;
         onSetInputSpec?.(null);
       }
     } else {
       if (status === GameStatus.PLAYING && challenge && words.length > 0) {
+        if (!raceStartedAtRef.current) raceStartedAtRef.current = Date.now();
         onSetInputSpec?.({
           type: 'error-correction',
           gameKey: 'error-hunter',
           options: words.map(w => w.word),
           prompt: `Find and correct the ${challenge.errorCount} error${challenge.errorCount !== 1 ? 's' : ''} in this paragraph`,
+          timerSeconds: sessionSettings.timerSeconds,
+          startedAt: raceStartedAtRef.current,
         });
       } else {
+        raceStartedAtRef.current = 0;
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, raceActive, raceFinished, status, challenge, words, onSetInputSpec]);
+  }, [isSimultaneous, raceActive, raceFinished, status, challenge, words, onSetInputSpec, sessionSettings.timerSeconds]);
 
   // Handle remote vote — race mode
   const handleRaceVote = useCallback(async (vote: GameRemoteVote) => {
