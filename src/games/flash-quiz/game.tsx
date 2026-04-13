@@ -27,11 +27,13 @@ interface StudentAnswer {
 
 type QuizPhase = 'idle' | 'loading' | 'answering' | 'revealing' | 'leaderboard' | 'finished';
 
-const TIMER_SECONDS = 30;
+// Rank-based points awarded to session leaderboard at end of quiz
+const RANK_POINTS = [10, 8, 6, 4, 4, 4, 2];
+
 const OPTION_COLORS = ['bg-red-600', 'bg-blue-600', 'bg-amber-500', 'bg-green-600'];
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
 
-// ─── Leaderboard snapshot ─────────────────────────────────────────────────────
+// ─── In-game leaderboard ──────────────────────────────────────────────────────
 
 interface LeaderEntry { studentId: string; name: string; totalPoints: number }
 
@@ -66,18 +68,20 @@ export function FlashQuizGame({
   students,
   onScore,
   sessionSettings,
-  config,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
 }: GameProps) {
   const [phase, setPhase] = useState<QuizPhase>('idle');
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(TIMER_SECONDS);
+  const [timeLeft, setTimeLeft] = useState(30);
   const [roundAnswers, setRoundAnswers] = useState<StudentAnswer[]>([]);
   const [, setCacheId] = useState<string | null>(null);
+  const [questionCount, setQuestionCount] = useState<10 | 20>(10);
 
-  const scores = useSessionStore((s) => s.scores);
+  // Internal quiz scores — NOT written to session store until quiz ends
+  const [internalScores, setInternalScores] = useState<Map<string, { name: string; totalPoints: number }>>(() => new Map());
+  const internalScoresRef = useRef<Map<string, { name: string; totalPoints: number }>>(new Map());
 
   // Refs for use inside callbacks (avoid stale closures)
   const phaseRef = useRef<QuizPhase>('idle');
@@ -91,27 +95,29 @@ export function FlashQuizGame({
   const roundStartRef = useRef<number>(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const questionCount = config.questionCount === '20' ? 20 : 10;
+  // Timer seconds comes from session settings (controlled by the dropdown on the game card)
+  const timerSeconds = sessionSettings.timerSeconds ?? 30;
+  const timerSecondsRef = useRef(timerSeconds);
+  timerSecondsRef.current = timerSeconds;
+
   const topic = getEffectiveTopic(sessionSettings);
   const { difficulty } = sessionSettings;
   const seenCacheIds = useSessionStore((s) => s.seenCacheIds);
   const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
 
-  // ── Build leaderboard from store scores ──────────────────────────────────
+  // ── Build in-game leaderboard from internalScores ─────────────────────────
   const leaderboardEntries: LeaderEntry[] = (() => {
-    const map = new Map<string, LeaderEntry>();
-    students.forEach((s) => map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0 }));
-    scores.forEach((sc) => {
-      const key = sc.student_id || sc.client_id;
-      if (!key) return;
-      let entry = map.get(key);
-      if (!entry && sc.display_name) {
-        entry = { studentId: key, name: sc.display_name, totalPoints: 0 };
-        map.set(key, entry);
-      }
-      if (entry) entry.totalPoints += sc.points;
+    const entries: LeaderEntry[] = [];
+    internalScores.forEach((data, studentId) => {
+      entries.push({ studentId, name: data.name, totalPoints: data.totalPoints });
     });
-    return Array.from(map.values()).sort((a, b) => b.totalPoints - a.totalPoints);
+    // Include students who haven't scored yet
+    students.forEach((s) => {
+      if (!internalScores.has(s.id)) {
+        entries.push({ studentId: s.id, name: s.name, totalPoints: 0 });
+      }
+    });
+    return entries.sort((a, b) => b.totalPoints - a.totalPoints);
   })();
 
   // ── InputSpec broadcasting ────────────────────────────────────────────────
@@ -124,7 +130,7 @@ export function FlashQuizGame({
       gameKey: 'flash-quiz',
       prompt: question.question,
       options: question.options,
-      timerSeconds: TIMER_SECONDS,
+      timerSeconds: timerSecondsRef.current,
       perStudentData,
     } as InputSpec);
   }, [onSetInputSpec]);
@@ -147,11 +153,12 @@ export function FlashQuizGame({
 
     // Calculate time remaining from round start
     const elapsedSec = (Date.now() - roundStartRef.current) / 1000;
-    const timeRemaining = Math.max(0, TIMER_SECONDS - elapsedSec);
+    const ts = timerSecondsRef.current;
+    const timeRemaining = Math.max(0, ts - elapsedSec);
 
     const isCorrect = choiceIndex === question.correctIndex;
     const base = isCorrect ? 100 : 0;
-    const speedBonus = isCorrect ? Math.round((timeRemaining / TIMER_SECONDS) * 25) : 0;
+    const speedBonus = isCorrect ? Math.round((timeRemaining / ts) * 25) : 0;
     const pointsEarned = base + speedBonus;
 
     const answer: StudentAnswer = {
@@ -164,11 +171,16 @@ export function FlashQuizGame({
       pointsEarned,
     };
 
-    // Score immediately so leaderboard stays live
-    onScore(studentId, {
-      isCorrect,
-      points: pointsEarned,
-      responseData: { choiceIndex, timeRemaining, questionIndex: currentIndexRef.current },
+    // Accumulate into internal quiz scores (NOT session store)
+    setInternalScores((prev) => {
+      const next = new Map(prev);
+      const existing = next.get(studentId);
+      next.set(studentId, {
+        name: vote.displayName || studentId,
+        totalPoints: (existing?.totalPoints ?? 0) + pointsEarned,
+      });
+      internalScoresRef.current = next;
+      return next;
     });
 
     // Sound
@@ -182,23 +194,23 @@ export function FlashQuizGame({
       const updated = [...prev, answer];
 
       // Lock this student on their device
-      const question = questionsRef.current[currentIndexRef.current];
-      if (question) {
+      const q = questionsRef.current[currentIndexRef.current];
+      if (q) {
         const perStudentData: Record<string, unknown> = {};
         updated.forEach((a) => { perStudentData[a.clientId] = { locked: true }; });
         onSetInputSpec?.({
           type: 'choice',
           gameKey: 'flash-quiz',
-          prompt: question.question,
-          options: question.options,
-          timerSeconds: TIMER_SECONDS,
+          prompt: q.question,
+          options: q.options,
+          timerSeconds: timerSecondsRef.current,
           perStudentData,
         } as InputSpec);
       }
 
       return updated;
     });
-  }, [onScore, onSetInputSpec]);
+  }, [onSetInputSpec]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.(handleVote);
@@ -223,6 +235,8 @@ export function FlashQuizGame({
   // ── Fetch questions ───────────────────────────────────────────────────────
   const fetchQuestions = useCallback(async () => {
     setPhase('loading');
+    setInternalScores(new Map());
+    internalScoresRef.current = new Map();
     try {
       const res = await fetch('/api/flash-quiz/generate', {
         method: 'POST',
@@ -252,7 +266,7 @@ export function FlashQuizGame({
     if (!question) return;
     setCurrentIndex(index);
     setRoundAnswers([]);
-    setTimeLeft(TIMER_SECONDS);
+    setTimeLeft(timerSecondsRef.current);
     roundStartRef.current = Date.now();
     setPhase('answering');
     broadcastQuestion(question);
@@ -260,6 +274,7 @@ export function FlashQuizGame({
 
   // ── Reveal current question ───────────────────────────────────────────────
   const revealQuestion = useCallback(() => {
+    if (phaseRef.current !== 'answering') return; // guard against double-calls
     if (timerRef.current) clearInterval(timerRef.current);
     setPhase('revealing');
 
@@ -279,7 +294,7 @@ export function FlashQuizGame({
       gameKey: 'flash-quiz',
       prompt: question.question,
       options: question.options,
-      timerSeconds: TIMER_SECONDS,
+      timerSeconds: timerSecondsRef.current,
       perStudentData,
     } as InputSpec);
   }, [onSetInputSpec]);
@@ -291,6 +306,13 @@ export function FlashQuizGame({
     }
   }, [phase, timeLeft, revealQuestion]);
 
+  // Auto-reveal when all students have answered
+  useEffect(() => {
+    if (phase === 'answering' && students.length > 0 && roundAnswers.length >= students.length) {
+      revealQuestion();
+    }
+  }, [phase, roundAnswers.length, students.length, revealQuestion]);
+
   // ── Advance to leaderboard ────────────────────────────────────────────────
   const showLeaderboard = useCallback(() => {
     onSetInputSpec?.(null);
@@ -301,11 +323,22 @@ export function FlashQuizGame({
   const advance = useCallback(() => {
     const nextIndex = currentIndexRef.current + 1;
     if (nextIndex >= questionsRef.current.length) {
+      // Quiz finished — award rank-based points to the session leaderboard
+      const sorted = Array.from(internalScoresRef.current.entries())
+        .sort(([, a], [, b]) => b.totalPoints - a.totalPoints);
+      sorted.forEach(([studentId, data], rank) => {
+        const rankPoints = RANK_POINTS[rank] ?? 2;
+        onScore(studentId, {
+          isCorrect: true,
+          points: rankPoints,
+          responseData: { rank: rank + 1, quizPoints: data.totalPoints },
+        });
+      });
       setPhase('finished');
     } else {
       startQuestion(nextIndex);
     }
-  }, [startQuestion]);
+  }, [startQuestion, onScore]);
 
   // ── Derived data for reveal phase ─────────────────────────────────────────
   const currentQuestion = questions[currentIndex] ?? null;
@@ -339,9 +372,25 @@ export function FlashQuizGame({
         <div className="text-center space-y-2">
           <h2 className="text-2xl font-game text-lc-text">Flash Quiz</h2>
           <p className="text-lc-text2 text-sm max-w-xs">
-            AI-generated quiz — {questionCount} questions, 30 seconds each.
+            AI-generated quiz — {timerSeconds} seconds per question.
             All students answer simultaneously.
           </p>
+        </div>
+        {/* Question count toggle */}
+        <div className="flex items-center gap-1 p-1 bg-lc-surface rounded-xl border border-lc-border">
+          {([10, 20] as const).map((n) => (
+            <button
+              key={n}
+              onClick={() => setQuestionCount(n)}
+              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+                questionCount === n
+                  ? 'bg-violet-500 text-white shadow'
+                  : 'text-lc-text2 hover:text-lc-text'
+              }`}
+            >
+              {n} questions
+            </button>
+          ))}
         </div>
         <button
           onClick={fetchQuestions}
@@ -372,7 +421,7 @@ export function FlashQuizGame({
         </div>
         <div className="text-center space-y-1">
           <h2 className="text-2xl font-game text-lc-text">Ready!</h2>
-          <p className="text-lc-text2 text-sm">{questions.length} questions · 30s each · Speed bonus active</p>
+          <p className="text-lc-text2 text-sm">{questions.length} questions · {timerSeconds}s each · Speed bonus active</p>
         </div>
         <button
           onClick={() => startQuestion(0)}
@@ -386,7 +435,7 @@ export function FlashQuizGame({
 
   // ANSWERING
   if (phase === 'answering' && currentQuestion) {
-    const timerPct = (timeLeft / TIMER_SECONDS) * 100;
+    const timerPct = (timeLeft / timerSeconds) * 100;
     const timerColor = timerPct > 50 ? 'bg-green-500' : timerPct > 25 ? 'bg-amber-500' : 'bg-red-500';
 
     return (
@@ -550,7 +599,7 @@ export function FlashQuizGame({
     return (
       <div className="space-y-5">
         <div className="flex items-center justify-between">
-          <h3 className="font-game text-lg text-lc-text">Leaderboard</h3>
+          <h3 className="font-game text-lg text-lc-text">Quiz Standings</h3>
           <span className="text-xs text-lc-text2">After Q{currentIndex + 1}</span>
         </div>
         <MiniLeaderboard entries={leaderboardEntries} />
