@@ -30,6 +30,9 @@ type QuizPhase = 'idle' | 'loading' | 'answering' | 'revealing' | 'leaderboard' 
 // Rank-based points awarded to session leaderboard at end of quiz
 const RANK_POINTS = [10, 8, 6, 4, 4, 4, 2];
 
+// Grace period after timer hits 0 — keeps phase 'answering' so in-flight votes still land
+const REVEAL_GRACE_MS = 1500;
+
 const OPTION_COLORS = ['bg-red-600', 'bg-blue-600', 'bg-amber-500', 'bg-green-600'];
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
 
@@ -311,11 +314,11 @@ export function FlashQuizGame({
     } as InputSpec);
   }, [onSetInputSpec]);
 
-  // Auto-reveal when timer hits 0
+  // Auto-reveal when timer hits 0, with grace period for in-flight submissions
   useEffect(() => {
-    if (phase === 'answering' && timeLeft === 0) {
-      revealQuestion();
-    }
+    if (phase !== 'answering' || timeLeft !== 0) return;
+    const grace = setTimeout(() => revealQuestion(), REVEAL_GRACE_MS);
+    return () => clearTimeout(grace);
   }, [phase, timeLeft, revealQuestion]);
 
   // Auto-reveal when all students have answered

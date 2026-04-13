@@ -315,6 +315,8 @@ const QUIZ_COLORS = [
 ];
 const QUIZ_LABELS = ['A', 'B', 'C', 'D'];
 
+const QUIZ_GRACE_MS = 1500;
+
 function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInputProps) {
   const timerSeconds = spec.timerSeconds ?? 30;
   // Sync to teacher timer: subtract time already elapsed since question was broadcast
@@ -323,6 +325,8 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInpu
     : timerSeconds;
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [submitted, setSubmitted] = useState(false);
+  // Grace period: keep buttons active for QUIZ_GRACE_MS after timer hits 0
+  const [isExpired, setIsExpired] = useState(false);
 
   // Countdown timer
   useEffect(() => {
@@ -333,6 +337,13 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInpu
     return () => clearInterval(interval);
   }, [submitted]);
 
+  // Expire buttons after grace period once timer hits 0
+  useEffect(() => {
+    if (submitted || timeLeft > 0) return;
+    const grace = setTimeout(() => setIsExpired(true), QUIZ_GRACE_MS);
+    return () => clearTimeout(grace);
+  }, [submitted, timeLeft]);
+
   // Per-student data from game
   const myData = (clientId ? spec.perStudentData?.[clientId] : undefined) as
     | { locked?: boolean; result?: 'correct' | 'incorrect'; pointsEarned?: number }
@@ -341,10 +352,10 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInpu
   const result = myData?.result;
 
   const handlePick = useCallback(async (index: number) => {
-    if (isSubmitting || isLocked || timeLeft === 0) return;
+    if (isSubmitting || isLocked || isExpired) return;
     setSubmitted(true);
     await onSubmit(String(index));
-  }, [isSubmitting, isLocked, timeLeft, onSubmit]);
+  }, [isSubmitting, isLocked, isExpired, onSubmit]);
 
   // Locked + result state
   if (isLocked && result) {
@@ -408,7 +419,7 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInpu
           <button
             key={i}
             onClick={() => handlePick(i)}
-            disabled={isSubmitting || timeLeft === 0}
+            disabled={isSubmitting || isExpired}
             className={`${QUIZ_COLORS[i]} text-white rounded-xl p-4 text-left shadow-lg transition-all disabled:opacity-40 active:scale-95`}
           >
             <div className="text-xs font-black uppercase tracking-widest opacity-70 mb-1">{QUIZ_LABELS[i]}</div>
