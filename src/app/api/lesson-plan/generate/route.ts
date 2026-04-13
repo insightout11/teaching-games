@@ -34,6 +34,8 @@ import type {
   OpinionShiftContent,
   CharacterCardsContent,
   CharacterCard,
+  ImposterContent,
+  ImposterRound,
   GrammarCheckInContent,
   GrammarProofContent,
   FinalWordContent,
@@ -1429,6 +1431,58 @@ Return JSON with a "characters" array of exactly 9 objects.`;
   }
 }
 
+async function generateImposter(topic: string, difficulty: Difficulty): Promise<ImposterContent> {
+  const cached = await getCachedContent('imposter', topic, difficulty, [], undefined, 1);
+  if (cached) {
+    const c = cached.content_json as { rounds: ImposterRound[] };
+    return { activityKey: 'imposter', topicContext: topic, rounds: c.rounds ?? [], topic };
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      rounds: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            word: { type: 'string' },
+            description: { type: 'string' },
+          },
+          required: ['word', 'description'],
+        },
+      },
+    },
+    required: ['rounds'],
+  };
+
+  const prompt = `Generate 3 secret words for an ESL classroom Imposter game on the topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Rules:
+- Each word must be a single concrete noun, verb, or short phrase (1–3 words) related to the topic
+- The word must be clearly describable without saying it directly (good for giving one-word clues)
+- The description (1 sentence, max 20 words) is revealed to the class after the round — it explains the word simply
+- Words must be distinct from each other and appropriately challenging for ${difficultyDescriptions[difficulty]} level
+- Avoid proper nouns, brand names, or anything culturally specific to one region
+
+Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "description".`;
+
+  try {
+    const data = await generateJSON<{ rounds: ImposterRound[] }>(prompt, schema);
+    const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
+    void storeCachedContent('imposter', topic, difficulty, { rounds }, 1);
+    return { activityKey: 'imposter', topicContext: topic, rounds, topic };
+  } catch {
+    const fallback: ImposterRound[] = [
+      { word: 'conversation', description: 'A spoken exchange of thoughts and ideas between two or more people.' },
+      { word: 'deadline', description: 'The latest time by which something must be finished or submitted.' },
+      { word: 'compromise', description: 'An agreement where each side gives up something to reach a solution.' },
+    ];
+    return { activityKey: 'imposter', topicContext: topic, rounds: fallback, topic };
+  }
+}
+
 async function generateGrammarCheckIn(topic: string, difficulty: Difficulty, grammarTarget?: string): Promise<GrammarCheckInContent> {
   const cacheVariant = grammarTarget ?? 'auto';
   const cached = await getCachedContent('grammar-check-in', topic, difficulty, [], cacheVariant, 1);
@@ -1761,6 +1815,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'character-cards':
             generators.push(generateCharacterCards(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'imposter':
+            generators.push(generateImposter(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-check-in':
             generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget).then((r) => { content[activityKey] = r; }));

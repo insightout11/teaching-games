@@ -257,6 +257,20 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   },
 
   {
+    key: 'imposter',
+    slotFit: ['takeoff', 'presentation'],
+    goalFit: ['speaking-fluency', 'confidence-building', 'discussion-debate'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'high',
+    interactionModel: ['voting', 'discussion'],
+    speakingLoad: 'medium',
+    writingLoad: 'low',
+    teacherControlLoad: 'medium',
+    avoidAfter: ['quick-pulse', 'prediction-round'],
+    strongWith: ['two-truths', 'fact-detective'],
+  },
+
+  {
     key: 'scene-igniter',
     slotFit: ['takeoff', 'production'],
     goalFit: ['speaking-fluency', 'creativity', 'confidence-building', 'functional-english'],

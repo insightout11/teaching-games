@@ -876,9 +876,29 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
     : undefined;
   const hasCard = characterCard?.name && (characterCard?.viewpoint || characterCard?.speakingLine);
 
+  // Look up imposter assignment for this student
+  const imposterCard = spec.gameKey === 'imposter' && displayName && spec.perStudentData
+    ? (spec.perStudentData[displayName] as { role: 'insider' | 'imposter'; word?: string } | undefined)
+    : undefined;
+
   return (
     <div className="space-y-6 text-center">
-      {hasCard ? (
+      {imposterCard ? (
+        imposterCard.role === 'imposter' ? (
+          <div className="bg-rose-500/10 border border-rose-500/30 rounded-2xl p-6 space-y-3">
+            <p className="text-xs text-rose-400/70 uppercase tracking-widest font-semibold">Your role</p>
+            <p className="text-4xl font-bold text-rose-400">🕵️</p>
+            <p className="text-2xl font-bold text-rose-300">YOU ARE THE IMPOSTER</p>
+            <p className="text-base opacity-60">You don&apos;t know the word. Listen carefully and blend in!</p>
+          </div>
+        ) : (
+          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6 space-y-3">
+            <p className="text-xs text-emerald-400/70 uppercase tracking-widest font-semibold">Your secret word</p>
+            <p className="text-4xl font-bold text-emerald-300">{imposterCard.word}</p>
+            <p className="text-sm opacity-50">Give a clue without saying this word. Find the imposter!</p>
+          </div>
+        )
+      ) : hasCard ? (
         <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6 space-y-3">
           <p className="text-xs text-amber-400/70 uppercase tracking-widest font-semibold">Your character</p>
           <p className="text-xl font-bold text-amber-400 leading-tight">{characterCard!.name}</p>

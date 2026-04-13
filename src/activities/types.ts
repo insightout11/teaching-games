@@ -562,6 +562,18 @@ export interface CharacterCardsContent extends ActivityGeneratedContent {
   topic: string;
 }
 
+// Imposter content
+export interface ImposterRound {
+  word: string;
+  description: string;
+}
+
+export interface ImposterContent extends ActivityGeneratedContent {
+  activityKey: 'imposter';
+  rounds: ImposterRound[];
+  topic: string;
+}
+
 // Grammar Check-In content
 export interface GrammarCheckInSentence {
   text: string;
