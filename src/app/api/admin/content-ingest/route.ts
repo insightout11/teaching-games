@@ -24,7 +24,8 @@ export async function POST(request: NextRequest) {
   const authHeader = request.headers.get('Authorization') ?? '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
   if (!token || token !== process.env.CONTENT_INGEST_API_KEY) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const reason = !process.env.CONTENT_INGEST_API_KEY ? 'key_not_set' : 'key_mismatch';
+    return NextResponse.json({ error: 'Unauthorized', reason }, { status: 401 });
   }
 
   let body: {
