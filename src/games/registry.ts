@@ -14,9 +14,11 @@ import { twentyQuestionsPlugin } from './twenty-questions';
 import { gridRushPlugin } from './grid-rush';
 import { BookA, PenLine, Brain, Zap } from 'lucide-react';
 import { flashQuizPlugin } from './flash-quiz';
+import { brainTeasersPlugin } from './brain-teasers';
 
 const games: GamePlugin[] = [
   flashQuizPlugin,
+  brainTeasersPlugin,
   vocabSprintPlugin,
   synonymShowdownPlugin,
   wordChainPlugin,

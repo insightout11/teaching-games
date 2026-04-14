@@ -14,6 +14,7 @@ const ALLOWED_GAME_KEYS = [
   'final-answer',
   'mic-drop',
   'lightning-round',
+  'brain-teasers',
 ] as const;
 
 const MAX_CONTENT_SIZE_BYTES = 50 * 1024; // 50 KB
