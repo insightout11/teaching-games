@@ -25,7 +25,6 @@ function normalizeAnswer(text: string): string {
 
 export function BrainTeasersGame({
   students,
-  onScore,
   sessionSettings,
   onSetInputSpec,
   onRegisterSubmissionHandler,
