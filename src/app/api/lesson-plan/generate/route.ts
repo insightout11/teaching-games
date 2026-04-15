@@ -14,6 +14,7 @@ import type {
   LessonPlanGenerateRequest,
   LessonPlanGenerateResponse,
   ActivityGeneratedContent,
+  WonderBoardContent,
   WouldYouRatherContent,
   HotTakeArenaContent,
   TwoTruthsContent,
@@ -598,6 +599,33 @@ Return JSON matching the schema exactly.`;
     sentenceStarters: string[];
   }>(prompt, schema);
   return { activityKey: 'problem-solvers', topicContext: topic, ...parsed };
+}
+
+async function generateWonderBoard(topic: string, difficulty: Difficulty): Promise<WonderBoardContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      framingPrompt: { type: 'string', description: 'One sentence introducing the board to students' },
+    },
+    required: ['framingPrompt'],
+  };
+
+  const prompt = `Generate one short sentence a teacher can say to introduce a student question board about this topic.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+The sentence should invite students to ask questions about the topic. It should be natural, encouraging, and under 20 words.
+Example: "What are you wondering about climate change? Ask your question now."
+
+Return JSON with a "framingPrompt" field.`;
+
+  const parsed = await generateJSON<{ framingPrompt: string }>(prompt, schema);
+
+  return {
+    activityKey: 'wonder-board',
+    topicContext: topic,
+    framingPrompt: parsed.framingPrompt ?? `What are you wondering about ${topic}? Ask your question now.`,
+  };
 }
 
 async function generateQuickPulse(topic: string, difficulty: Difficulty): Promise<QuickPulseContent> {
@@ -1785,6 +1813,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'problem-solvers':
             generators.push(generateProblemSolvers(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'wonder-board':
+            generators.push(generateWonderBoard(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'quick-pulse':
             generators.push(generateQuickPulse(customTopic, diff).then((r) => { content[activityKey] = r; }));

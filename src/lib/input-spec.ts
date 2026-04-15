@@ -47,6 +47,8 @@ export interface InputSpec {
   timerSeconds?: number;
   /** Unix ms timestamp when the question was broadcast — student uses this to sync their countdown */
   startedAt?: number;
+  /** For wonder-board follow-ups: the parent question ID this reply belongs to */
+  wonderParentId?: string;
 }
 
 // Submission handler result from games

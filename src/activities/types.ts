@@ -126,6 +126,12 @@ export interface ActivityGeneratedContent {
   [key: string]: unknown;
 }
 
+// Wonder Board content
+export interface WonderBoardContent extends ActivityGeneratedContent {
+  activityKey: 'wonder-board';
+  framingPrompt: string; // One sentence the teacher uses to introduce the board
+}
+
 // Would You Rather content
 export interface WouldYouRatherContent extends ActivityGeneratedContent {
   activityKey: 'would-you-rather';

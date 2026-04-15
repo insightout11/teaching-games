@@ -33,6 +33,16 @@ interface PublishedQuestion {
   voteCount: number;
 }
 
+interface WonderQuestion {
+  id: string;
+  starter: string;
+  content: string;
+  displayName: string;
+  answeredAt: string | null;
+  parentId: string | null;
+  voteCount: number;
+}
+
 interface VocabItem {
   word: string;
   definition: string;
@@ -91,6 +101,16 @@ const WAITING_TIPS: { category: string; color: string; text: string; minLevel: s
   { category: 'Vocab Boost', color: 'teal', minLevel: 'Intermediate', text: "Abstract nouns name ideas or feelings you can't touch: freedom, justice, happiness, courage. Concrete nouns name physical things: table, rain, book, city." },
 ];
 
+// Deterministic starter assignment from clientId (no server coordination needed)
+const WONDER_STARTERS = ['Why', 'How', 'What', 'When', 'Where', 'Should', 'What if'];
+function getAssignedStarter(clientId: string): string {
+  let hash = 0;
+  for (let i = 0; i < clientId.length; i++) {
+    hash = (hash * 31 + clientId.charCodeAt(i)) >>> 0;
+  }
+  return WONDER_STARTERS[hash % WONDER_STARTERS.length];
+}
+
 function loadVotedIds(sessionId: string): Set<string> {
   try {
     const raw = localStorage.getItem(VOTED_KEY);
@@ -122,6 +142,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
   const [frozen, setFrozen] = useState(false);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
+  const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
+  const [wonderVotedIds, setWonderVotedIds] = useState<Set<string>>(new Set());
+  const [wonderLocalCounts, setWonderLocalCounts] = useState<Record<string, number>>({});
   const [personalMission, setPersonalMission] = useState<string | null>(null);
   const [tipIndex, setTipIndex] = useState(() => Math.floor(Math.random() * WAITING_TIPS.length));
   const [sessionTopic, setSessionTopic] = useState<string | null>(null);
@@ -175,6 +198,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setInputSpec(data.inputSpec);
       setFrozen(data.frozen ?? false);
       setPublishedQuestions(data.publishedQuestions ?? []);
+      setWonderQuestions(data.wonderQuestions ?? []);
       if (data.personalMission) setPersonalMission(data.personalMission);
       if (data.topic) setSessionTopic(data.topic);
       if (data.difficulty) setSessionDifficulty(data.difficulty);
@@ -277,20 +301,36 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     setSubmitStatus('idle');
 
     try {
-      const res = await fetch('/api/student/submit', {
+      // Wonder Board questions go to a dedicated endpoint
+      const isWonderBoard = inputSpec?.gameKey === 'wonder-board';
+      const endpoint = isWonderBoard ? '/api/wonder-board/submit' : '/api/student/submit';
+      const body = isWonderBoard
+        ? {
+            sessionId,
+            clientId: studentSession.clientId,
+            displayName: studentSession.displayName,
+            content: content.trim(),
+            starter: inputSpec?.wonderParentId
+              ? 'Follow-up'
+              : getAssignedStarter(studentSession.clientId),
+            parentId: inputSpec?.wonderParentId ?? null,
+          }
+        : {
+            sessionId,
+            clientId: studentSession.clientId,
+            displayName: studentSession.displayName,
+            content: content.trim(),
+            team: studentSession.team,
+            gameKey: inputSpec?.gameKey,
+            inputType: inputSpec?.type,
+            studentId: studentSession.studentId,
+            allowMultiple: inputSpec?.allowMultiple,
+          };
+
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          clientId: studentSession.clientId,
-          displayName: studentSession.displayName,
-          content: content.trim(),
-          team: studentSession.team,
-          gameKey: inputSpec?.gameKey,
-          inputType: inputSpec?.type,
-          studentId: studentSession.studentId,
-          allowMultiple: inputSpec?.allowMultiple,
-        }),
+        body: JSON.stringify(body),
       });
 
       const data = await res.json();
@@ -437,6 +477,29 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     } catch { /* optimistic update stays */ }
   };
 
+  const handleWonderVote = async (question: WonderQuestion) => {
+    if (wonderVotedIds.has(question.id)) return;
+
+    const newVotedIds = new Set(wonderVotedIds).add(question.id);
+    setWonderVotedIds(newVotedIds);
+    setWonderLocalCounts((prev) => ({
+      ...prev,
+      [question.id]: Math.max(prev[question.id] ?? 0, question.voteCount) + 1,
+    }));
+
+    try {
+      await fetch('/api/wonder-board/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          questionId: question.id,
+          clientId: studentSession.clientId,
+        }),
+      });
+    } catch { /* optimistic update stays */ }
+  };
+
   if (!sessionActive) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -552,11 +615,23 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           ) : (
             <>
               <div className="flex items-center gap-2 mb-4">
-                <h2 className="font-bold text-white">Submit Answer</h2>
-                <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
-                  {inputSpec.gameKey}
-                </span>
+                <h2 className="font-bold text-white">
+                  {inputSpec.gameKey === 'wonder-board' ? 'Wonder Board' : 'Submit Answer'}
+                </h2>
+                {inputSpec.gameKey !== 'wonder-board' && (
+                  <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
+                    {inputSpec.gameKey}
+                  </span>
+                )}
               </div>
+              {inputSpec.gameKey === 'wonder-board' && !inputSpec.wonderParentId && (
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-xs text-gray-400">Your question word:</span>
+                  <span className="text-sm font-bold text-violet-400 bg-violet-500/10 px-3 py-1 rounded-full">
+                    {getAssignedStarter(studentSession.clientId)}
+                  </span>
+                </div>
+              )}
               <DynamicInput
                 spec={inputSpec}
                 onSubmit={handleSubmit}
@@ -619,6 +694,48 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           </div>
         )}
       </div>
+
+      {/* Wonder Board — upvote section shown when wonder-board is active */}
+      {inputSpec?.gameKey === 'wonder-board' && wonderQuestions.filter((q) => !q.parentId).length > 0 && (
+        <div className="glass rounded-2xl p-6 mb-4">
+          <h2 className="font-bold text-white mb-1">Wonder Board</h2>
+          <p className="text-xs text-gray-400 mb-3">Upvote questions you want answered</p>
+          <div className="space-y-2">
+            {wonderQuestions
+              .filter((q) => !q.parentId)
+              .map((q) => {
+                const displayCount = Math.max(wonderLocalCounts[q.id] ?? 0, q.voteCount);
+                const hasVoted = wonderVotedIds.has(q.id);
+                const isAnswered = !!q.answeredAt;
+                return (
+                  <div
+                    key={q.id}
+                    className={`flex items-start gap-3 rounded-xl p-3 ${isAnswered ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5'}`}
+                  >
+                    {!isAnswered && (
+                      <button
+                        onClick={() => handleWonderVote(q)}
+                        disabled={hasVoted}
+                        className={`flex-shrink-0 flex flex-col items-center gap-0.5 transition-colors ${
+                          hasVoted ? 'text-violet-400' : 'text-gray-500 hover:text-violet-400'
+                        } disabled:cursor-default`}
+                      >
+                        <svg className="w-4 h-4" fill={hasVoted ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                        </svg>
+                        <span className="text-xs font-bold">{displayCount}</span>
+                      </button>
+                    )}
+                    {isAnswered && (
+                      <span className="flex-shrink-0 text-emerald-400 text-xs font-bold mt-1">✓</span>
+                    )}
+                    <p className="text-gray-200 text-sm leading-relaxed">{q.content}</p>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      )}
 
       {/* Class Questions — visible only when there are published questions */}
       {publishedQuestions.length > 0 && (

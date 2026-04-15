@@ -10,6 +10,7 @@ import { scenarioSimulatorPlugin } from './scenario-simulator';
 // VAULTED: interviewLabPlugin (teacher transcription, AI latency, niche use case)
 import { problemSolversPlugin } from './problem-solvers';
 import { quickPulsePlugin } from './quick-pulse';
+import { wonderBoardPlugin } from './wonder-board';
 import { vocabRadarPlugin } from './vocab-radar';
 import { predictionRoundPlugin } from './prediction-round';
 import { twoTruthsAndALiePlugin } from './two-truths-and-a-lie';
@@ -35,6 +36,7 @@ const activities: ActivityPlugin[] = [
   imposterPlugin,
   grammarCheckInPlugin,
   quickPulsePlugin,
+  wonderBoardPlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
   twoTruthsAndALiePlugin,
