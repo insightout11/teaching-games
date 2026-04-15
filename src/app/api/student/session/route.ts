@@ -138,40 +138,45 @@ export async function GET(request: NextRequest) {
     }
 
     // Get wonder board questions with vote counts (for student upvoting)
+    // Wrapped in try/catch — degrades gracefully if migration not yet applied
     let wonderQuestions: WonderQuestion[] | null = null;
     if (isActive) {
-      const { data: wqs } = await supabase
-        .from('wonder_questions')
-        .select(`
-          id,
-          starter,
-          content,
-          display_name,
-          answered_at,
-          parent_id,
-          wonder_votes(count)
-        `)
-        .eq('session_id', sessionId)
-        .order('created_at', { ascending: true });
+      try {
+        const { data: wqs } = await supabase
+          .from('wonder_questions')
+          .select(`
+            id,
+            starter,
+            content,
+            display_name,
+            answered_at,
+            parent_id,
+            wonder_votes(count)
+          `)
+          .eq('session_id', sessionId)
+          .order('created_at', { ascending: true });
 
-      if (wqs && wqs.length > 0) {
-        wonderQuestions = (wqs as Array<{
-          id: string;
-          starter: string;
-          content: string;
-          display_name: string;
-          answered_at: string | null;
-          parent_id: string | null;
-          wonder_votes: { count: number }[];
-        }>).map((q) => ({
-          id: q.id,
-          starter: q.starter,
-          content: q.content,
-          displayName: q.display_name,
-          answeredAt: q.answered_at,
-          parentId: q.parent_id,
-          voteCount: q.wonder_votes?.[0]?.count ?? 0,
-        }));
+        if (wqs && wqs.length > 0) {
+          wonderQuestions = (wqs as Array<{
+            id: string;
+            starter: string;
+            content: string;
+            display_name: string;
+            answered_at: string | null;
+            parent_id: string | null;
+            wonder_votes: { count: number }[];
+          }>).map((q) => ({
+            id: q.id,
+            starter: q.starter,
+            content: q.content,
+            displayName: q.display_name,
+            answeredAt: q.answered_at,
+            parentId: q.parent_id,
+            voteCount: q.wonder_votes?.[0]?.count ?? 0,
+          }));
+        }
+      } catch {
+        // Table not yet migrated — return null silently
       }
     }
 
