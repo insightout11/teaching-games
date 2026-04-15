@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import type { Student, Score } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
-import { createClient } from '@/lib/supabase/client';
 import type { Difficulty } from '@/lib/difficulty';
 import type { GrammarTarget } from '@/lib/grammar';
 import type { CharacterCard } from '@/activities/types';
@@ -428,6 +427,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     const { sessionId } = get();
     if (!sessionId) return;
 
+    const { createClient } = await import('@/lib/supabase/client');
     const supabase = createClient();
     const { data, error } = await supabase.from('scores').insert({
       session_id: sessionId,
