@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
-import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
 import type { WonderBoardContent } from '../types';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 // Question starters assigned round-robin to students
 const STARTERS = ['Why', 'How', 'What', 'When', 'Where', 'Should', 'What if'];
@@ -231,6 +230,7 @@ function QuestionCard({
 // -----------------------------------------------------------------------
 
 export function WonderBoardActivity({
+  sessionId,
   generatedContent,
   onPhaseChange,
   onSetInputSpec,
@@ -241,9 +241,14 @@ export function WonderBoardActivity({
   const [questions, setQuestions] = useState<WonderQuestion[]>([]);
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
   const [activeFollowUpId, setActiveFollowUpId] = useState<string | null>(null);
+  const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
 
-  const sessionId = useSessionStore((s) => s.sessionId);
-  const supabase = createClient();
+  // Lazy-import Supabase browser client to avoid Edge Runtime bundling issues
+  useEffect(() => {
+    import('@/lib/supabase/client').then(({ createClient }) => {
+      setSupabase(createClient());
+    });
+  }, []);
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -255,10 +260,10 @@ export function WonderBoardActivity({
   // -----------------------------------------------------------------------
   // Load questions + votes from DB on mount and when phase becomes collecting
   // -----------------------------------------------------------------------
-  const loadFromDB = useCallback(async (sid: string) => {
+  const loadFromDB = useCallback(async (sid: string, client: SupabaseClient) => {
     if (isMockMode()) return;
 
-    const { data: qs } = await supabase
+    const { data: qs } = await client
       .from('wonder_questions')
       .select('*')
       .eq('session_id', sid)
@@ -266,7 +271,7 @@ export function WonderBoardActivity({
 
     if (qs) setQuestions(qs as WonderQuestion[]);
 
-    const { data: vs } = await supabase
+    const { data: vs } = await client
       .from('wonder_votes')
       .select('question_id')
       .eq('session_id', sid);
@@ -278,16 +283,16 @@ export function WonderBoardActivity({
       }
       setVoteCounts(counts);
     }
-  }, [supabase]);
+  }, []);
 
   // -----------------------------------------------------------------------
   // Realtime subscriptions — active during collecting phase
   // -----------------------------------------------------------------------
   useEffect(() => {
-    if (phase !== 'collecting' || isMockMode() || !sessionId) return;
+    if (phase !== 'collecting' || isMockMode() || !sessionId || !supabase) return;
 
     const sid = sessionId;
-    loadFromDB(sid);
+    loadFromDB(sid, supabase);
 
     const questionsChannel = supabase
       .channel(`wonder-questions-${sid}`)

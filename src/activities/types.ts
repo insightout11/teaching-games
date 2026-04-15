@@ -21,6 +21,7 @@ export type ActivitySkill =
 
 // Base props that all activities receive
 export interface ActivityProps {
+  sessionId: string | null;
   students: Student[];
   currentStudentId: string | null;
   sessionSettings: SessionSettings;
