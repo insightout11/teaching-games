@@ -103,7 +103,16 @@ export interface Poll {
   question: string;
   options: string[];
   is_active: boolean;
+  metadata: Record<string, unknown> | null;
   created_at: string;
+}
+
+export interface StudentSessionPref {
+  id: string;
+  session_id: string;
+  client_id: string;
+  score_visible: boolean;
+  updated_at: string;
 }
 
 export interface PollVote {
@@ -186,6 +195,7 @@ export interface Database {
       activity_responses: { Row: ActivityResponse; Insert: Partial<ActivityResponse> & Pick<ActivityResponse, 'session_id' | 'activity_key' | 'student_id'>; Update: Partial<ActivityResponse> };
       student_submissions: { Row: StudentSubmission; Insert: Partial<StudentSubmission> & Pick<StudentSubmission, 'session_id' | 'client_id' | 'display_name' | 'submission_type' | 'content'>; Update: Partial<StudentSubmission> };
       polls: { Row: Poll; Insert: Partial<Poll> & Pick<Poll, 'session_id' | 'question' | 'options'>; Update: Partial<Poll> };
+      student_session_prefs: { Row: StudentSessionPref; Insert: Partial<StudentSessionPref> & Pick<StudentSessionPref, 'session_id' | 'client_id'>; Update: Partial<StudentSessionPref> };
       poll_votes: { Row: PollVote; Insert: Partial<PollVote> & Pick<PollVote, 'poll_id' | 'session_id' | 'client_id' | 'display_name' | 'choice'>; Update: Partial<PollVote> };
       submission_rate_limits: { Row: SubmissionRateLimit; Insert: Partial<SubmissionRateLimit> & Pick<SubmissionRateLimit, 'session_id' | 'client_id'>; Update: Partial<SubmissionRateLimit> };
       question_votes: { Row: QuestionVote; Insert: Partial<QuestionVote> & Pick<QuestionVote, 'question_id' | 'session_id' | 'client_id'>; Update: Partial<QuestionVote> };

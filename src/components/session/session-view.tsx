@@ -25,6 +25,7 @@ import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBud
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
+import { usePollVotes } from '@/hooks/use-poll-votes';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -122,6 +123,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     type: 'activity' | 'game';
     plugin: ActivityPlugin | GamePlugin;
   } | null>(null);
+
+  // Bonus vote state
+  const [bonusVotePollId, setBonusVotePollId] = useState<string | null>(null);
+  const [bonusVoteCandidates, setBonusVoteCandidates] = useState<GamePlugin[]>([]);
+  const { tallies: bonusTallies, votes: bonusVotes } = usePollVotes(bonusVotePollId);
   const settingsPopoverRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -335,10 +341,62 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [session.id]);
 
   const handleEndSession = async () => {
+    if (bonusVotePollId) {
+      await supabase.from('polls').update({ is_active: false }).eq('id', bonusVotePollId);
+    }
     await supabase.from('sessions').update({ status: 'ended', ended_at: new Date().toISOString() }).eq('id', session.id);
     sessionStorage.removeItem('lessonPlanContent');
     localStorage.removeItem('lc-explore-session');
     setEnded(true);
+  };
+
+  const handleLaunchBonusVote = async () => {
+    const lastKey = selectedGame?.key ?? selectedActivity?.key ?? null;
+    const eligibleGames = games.filter((g) => !PRO_GAME_KEYS.has(g.key) && g.key !== lastKey);
+    // Pick 3 random candidates
+    const shuffled = [...eligibleGames].sort(() => Math.random() - 0.5);
+    const candidates = shuffled.slice(0, 3);
+    if (candidates.length < 2) return;
+
+    const { data, error } = await supabase
+      .from('polls')
+      .insert({
+        session_id: session.id,
+        question: 'Vote for your bonus game!',
+        options: candidates.map((g) => g.name),
+        is_active: true,
+        metadata: {
+          poll_type: 'bonus_vote',
+          games: candidates.map((g) => ({ key: g.key, name: g.name })),
+        },
+      })
+      .select('id')
+      .single();
+
+    if (!error && data) {
+      setBonusVoteCandidates(candidates);
+      setBonusVotePollId(data.id);
+    }
+  };
+
+  const handleConfirmBonusWinner = async (winnerKey: string) => {
+    if (bonusVotePollId) {
+      await supabase.from('polls').update({ is_active: false }).eq('id', bonusVotePollId);
+    }
+    setBonusVotePollId(null);
+    const winnerGame = games.find((g) => g.key === winnerKey);
+    if (winnerGame) {
+      setSelectedGame(winnerGame);
+      setViewMode('game');
+    }
+  };
+
+  const handleDismissBonusVote = async () => {
+    if (bonusVotePollId) {
+      await supabase.from('polls').update({ is_active: false }).eq('id', bonusVotePollId);
+    }
+    setBonusVotePollId(null);
+    setBonusVoteCandidates([]);
   };
 
   const joinUrl = `${window.location.origin}/join/${session.id}`;
@@ -737,6 +795,84 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <div className="hud-settings-panel p-2 shadow-lg">
               <SessionSettingsBar />
             </div>
+
+            {/* Bonus Round — shown when lesson is complete and session still active */}
+            {lesson.phase === 'ended' && !bonusVotePollId && (
+              <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 p-5 flex items-center justify-between gap-4">
+                <div>
+                  <p className="font-semibold text-lc-text text-sm">Lesson complete — got time to spare?</p>
+                  <p className="text-xs text-lc-text3 mt-0.5">Let the class vote on a bonus game.</p>
+                </div>
+                <button
+                  onClick={handleLaunchBonusVote}
+                  className="flex-shrink-0 px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold text-sm text-white shadow hover:scale-[1.02] active:scale-95 transition-all"
+                >
+                  Bonus Round?
+                </button>
+              </div>
+            )}
+
+            {/* Bonus Vote Live Panel */}
+            {bonusVotePollId && bonusVoteCandidates.length > 0 && (
+              <div className="rounded-2xl border border-cyan-500/30 bg-lc-surface p-5 space-y-4">
+                <div className="flex items-center justify-between">
+                  <p className="font-semibold text-lc-text text-sm">Vote: Bonus Game — {bonusVotes.length} vote{bonusVotes.length !== 1 ? 's' : ''}</p>
+                  <button onClick={handleDismissBonusVote} className="text-xs text-lc-text3 hover:text-lc-text">Cancel</button>
+                </div>
+                <div className="space-y-2">
+                  {bonusVoteCandidates.map((g) => {
+                    const count = bonusTallies[g.name] ?? 0;
+                    const total = bonusVotes.length;
+                    const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                    return (
+                      <div key={g.key} className="space-y-1">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-lc-text font-medium">{g.name}</span>
+                          <span className="text-lc-text3 tabular-nums">{count} ({pct}%)</span>
+                        </div>
+                        <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-500"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {(() => {
+                  const maxCount = Math.max(...bonusVoteCandidates.map((g) => bonusTallies[g.name] ?? 0));
+                  const leaders = maxCount > 0 ? bonusVoteCandidates.filter((g) => (bonusTallies[g.name] ?? 0) === maxCount) : [];
+                  return (
+                    <div className="flex gap-2 flex-wrap">
+                      {leaders.length === 1 ? (
+                        <button
+                          onClick={() => handleConfirmBonusWinner(leaders[0].key)}
+                          className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold text-sm text-white shadow hover:scale-[1.02] active:scale-95 transition-all"
+                        >
+                          Launch {leaders[0].name}
+                        </button>
+                      ) : leaders.length > 1 ? (
+                        <>
+                          <p className="w-full text-xs text-lc-text3">Tie — you pick:</p>
+                          {leaders.map((g) => (
+                            <button
+                              key={g.key}
+                              onClick={() => handleConfirmBonusWinner(g.key)}
+                              className="px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl text-sm text-lc-text font-medium transition-all"
+                            >
+                              {g.name}
+                            </button>
+                          ))}
+                        </>
+                      ) : (
+                        <p className="text-xs text-lc-text3">Waiting for votes…</p>
+                      )}
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
 
             {/* Swap Suggestion Card */}
             {swapSuggestion && (

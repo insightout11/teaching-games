@@ -26,7 +26,7 @@ interface ExpressionItem {
 
 interface SessionPayload {
   isActive: boolean;
-  activePoll: { pollId: string; question: string; options: string[] } | null;
+  activePoll: { pollId: string; question: string; options: string[]; metadata?: Record<string, unknown> | null } | null;
   inputSpec: unknown;
   frozen: boolean;
   publishedQuestions: PublishedQuestion[] | null;
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
     if (isActive) {
       const { data: poll } = await supabase
         .from('polls')
-        .select('id, question, options')
+        .select('id, question, options, metadata')
         .eq('session_id', sessionId)
         .eq('is_active', true)
         .order('created_at', { ascending: false })
@@ -86,6 +86,7 @@ export async function GET(request: NextRequest) {
           pollId: poll.id,
           question: poll.question,
           options: poll.options as string[],
+          metadata: poll.metadata as Record<string, unknown> | null,
         };
       }
     }

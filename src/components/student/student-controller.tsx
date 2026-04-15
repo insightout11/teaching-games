@@ -23,6 +23,7 @@ interface ActivePoll {
   pollId: string;
   question: string;
   options: string[];
+  metadata?: Record<string, unknown> | null;
 }
 
 interface PublishedQuestion {
@@ -140,6 +141,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [questionStatus, setQuestionStatus] = useState<'idle' | 'sent' | 'error' | 'rate_limited'>('idle');
   const [questionWait, setQuestionWait] = useState(0);
 
+  // My Flight Deck state
+  const [flightDeckOpen, setFlightDeckOpen] = useState(false);
+  const [scoreVisible, setScoreVisible] = useState(true);
+  const [isSavingPrefs, setIsSavingPrefs] = useState(false);
+  const [prefsSaved, setPrefsSaved] = useState(false);
+
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
 
@@ -186,6 +193,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     const interval = setInterval(checkSession, 5000); // Poll every 5 seconds
     return () => clearInterval(interval);
   }, [checkSession]);
+
+  // Load score privacy pref once on mount
+  useEffect(() => {
+    fetch(`/api/student/prefs?sessionId=${sessionId}&clientId=${studentSession.clientId}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => { if (data) setScoreVisible(data.score_visible ?? true); })
+      .catch(() => {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionId]);
 
   // Countdown timer for game submission rate limiting
   useEffect(() => {
@@ -378,6 +394,23 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   };
 
+  const handleSavePrefs = async () => {
+    setIsSavingPrefs(true);
+    try {
+      const res = await fetch('/api/student/prefs', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, clientId: studentSession.clientId, score_visible: scoreVisible }),
+      });
+      if (res.ok) {
+        setPrefsSaved(true);
+        setTimeout(() => setPrefsSaved(false), 2500);
+      }
+    } finally {
+      setIsSavingPrefs(false);
+    }
+  };
+
   const handleUpvote = async (question: PublishedQuestion) => {
     if (votedIds.has(question.id)) return;
 
@@ -455,34 +488,45 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {/* Active Poll */}
       {activePoll && !hiddenPollIds.has(activePoll.pollId) && (
-        <div className="glass rounded-2xl p-6 mb-4">
+        <div className={`glass rounded-2xl p-6 mb-4 ${activePoll.metadata?.poll_type === 'bonus_vote' ? 'border border-cyan-500/30' : ''}`}>
           <div className="flex items-center justify-between mb-1">
-            <h2 className="font-bold text-white">Poll</h2>
-            <button
-              onClick={() => setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId))}
-              className="text-gray-400 hover:text-white text-xl leading-none"
-              aria-label="Dismiss poll"
-            >
-              ×
-            </button>
+            <h2 className="font-bold text-white">
+              {activePoll.metadata?.poll_type === 'bonus_vote' ? 'Bonus Round! Vote for your game:' : 'Poll'}
+            </h2>
+            {activePoll.metadata?.poll_type !== 'bonus_vote' && (
+              <button
+                onClick={() => setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId))}
+                className="text-gray-400 hover:text-white text-xl leading-none"
+                aria-label="Dismiss poll"
+              >
+                ×
+              </button>
+            )}
           </div>
-          <p className="text-lg text-cyan-400 mb-4">{activePoll.question}</p>
+          {activePoll.metadata?.poll_type !== 'bonus_vote' && (
+            <p className="text-lg text-cyan-400 mb-4">{activePoll.question}</p>
+          )}
           <div className="space-y-2">
             {activePoll.options.map((option) => (
               <button
                 key={option}
                 onClick={() => handleVote(option)}
                 disabled={isVoting}
-                className={`w-full p-4 rounded-xl text-left transition-all ${
+                className={`w-full p-4 rounded-xl text-left font-medium transition-all ${
                   selectedChoice === option
                     ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                    : activePoll.metadata?.poll_type === 'bonus_vote'
+                      ? 'bg-white/10 text-gray-200 hover:bg-white/20 text-center'
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
                 } disabled:opacity-50`}
               >
                 {option}
               </button>
             ))}
           </div>
+          {selectedChoice && activePoll.metadata?.poll_type === 'bonus_vote' && (
+            <p className="text-xs text-cyan-400 text-center mt-3">Voted for {selectedChoice} ✓</p>
+          )}
         </div>
       )}
 
@@ -747,6 +791,60 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           </div>
         );
       })()}
+
+      {/* My Flight Deck */}
+      <div className="mt-2">
+        <button
+          onClick={() => setFlightDeckOpen((o) => !o)}
+          className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-left transition-all ${
+            flightDeckOpen ? 'bg-white/15 border border-white/20' : 'glass border border-transparent hover:border-white/10'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            </svg>
+            <span className="text-xs font-semibold text-white">My Flight Deck</span>
+          </div>
+          <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform ${flightDeckOpen ? '' : '-rotate-90'}`}
+            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        {flightDeckOpen && (
+          <div className="glass rounded-2xl p-4 mt-2 space-y-4">
+            <div>
+              <p className="text-xs text-gray-400 mb-2">Scoreboard visibility</p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setScoreVisible(true)}
+                  className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${
+                    scoreVisible ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/40' : 'bg-white/5 text-gray-400'
+                  }`}
+                >
+                  Show my name
+                </button>
+                <button
+                  onClick={() => setScoreVisible(false)}
+                  className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${
+                    !scoreVisible ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-white/5 text-gray-400'
+                  }`}
+                >
+                  Fly anonymous
+                </button>
+              </div>
+            </div>
+            <button
+              onClick={handleSavePrefs}
+              disabled={isSavingPrefs}
+              className="w-full py-2.5 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 hover:from-cyan-500/30 hover:to-blue-600/30 border border-cyan-500/20 rounded-xl text-xs font-semibold text-white transition-all disabled:opacity-50"
+            >
+              {isSavingPrefs ? 'Saving…' : prefsSaved ? 'Confirmed!' : 'Save'}
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Instructions */}
       <div className="mt-4 text-center text-gray-500 text-sm">
