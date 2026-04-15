@@ -326,9 +326,13 @@ export function WonderBoardActivity({
       )
       .subscribe();
 
+    // Polling fallback — catches questions if realtime publication isn't yet enabled
+    const pollInterval = setInterval(() => loadFromDB(sid, supabase), 4000);
+
     return () => {
       supabase.removeChannel(questionsChannel);
       supabase.removeChannel(votesChannel);
+      clearInterval(pollInterval);
     };
   }, [phase, sessionId, supabase, loadFromDB]);
 
