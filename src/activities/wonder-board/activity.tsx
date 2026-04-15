@@ -231,7 +231,6 @@ function QuestionCard({
 // -----------------------------------------------------------------------
 
 export function WonderBoardActivity({
-  sessionSettings,
   generatedContent,
   onPhaseChange,
   onSetInputSpec,
