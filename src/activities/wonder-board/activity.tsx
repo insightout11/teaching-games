@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
 import type { WonderBoardContent } from '../types';
 
@@ -57,8 +57,6 @@ interface QuestionCardProps {
   followUps: WonderQuestion[];
   voteCount: number;
   sessionId: string;
-  topic: string;
-  difficulty: string;
   activeFollowUpId: string | null;
   onOpenFollowUp: (id: string | null) => void;
 }
@@ -68,8 +66,6 @@ function QuestionCard({
   followUps,
   voteCount,
   sessionId,
-  topic,
-  difficulty,
   activeFollowUpId,
   onOpenFollowUp,
 }: QuestionCardProps) {
@@ -256,8 +252,6 @@ export function WonderBoardActivity({
   const activeFollowUpIdRef = useRef(activeFollowUpId);
   activeFollowUpIdRef.current = activeFollowUpId;
 
-  const topic = getEffectiveTopic(sessionSettings);
-  const difficulty = sessionSettings.difficulty ?? 'Intermediate';
 
   // -----------------------------------------------------------------------
   // Load questions + votes from DB on mount and when phase becomes collecting
@@ -477,9 +471,7 @@ export function WonderBoardActivity({
                     question={q}
                     followUps={getFollowUps(q.id)}
                     voteCount={voteCounts[q.id] ?? 0}
-                    sessionId={q.session_id as unknown as string}
-                    topic={topic}
-                    difficulty={difficulty}
+                    sessionId={q.session_id}
                     activeFollowUpId={activeFollowUpId}
                     onOpenFollowUp={handleOpenFollowUp}
                   />
@@ -499,9 +491,7 @@ export function WonderBoardActivity({
                     question={q}
                     followUps={getFollowUps(q.id)}
                     voteCount={voteCounts[q.id] ?? 0}
-                    sessionId={q.session_id as unknown as string}
-                    topic={topic}
-                    difficulty={difficulty}
+                    sessionId={q.session_id}
                     activeFollowUpId={activeFollowUpId}
                     onOpenFollowUp={handleOpenFollowUp}
                   />
@@ -533,9 +523,7 @@ export function WonderBoardActivity({
                   question={q}
                   followUps={getFollowUps(q.id)}
                   voteCount={voteCounts[q.id] ?? 0}
-                  sessionId={q.session_id as unknown as string}
-                  topic={topic}
-                  difficulty={difficulty}
+                  sessionId={q.session_id}
                   activeFollowUpId={null}
                   onOpenFollowUp={() => {}}
                 />
