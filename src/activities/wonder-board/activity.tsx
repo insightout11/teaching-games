@@ -349,8 +349,8 @@ export function WonderBoardActivity({
     onSetInputSpec?.({
       type: 'textarea',
       gameKey: 'wonder-board',
-      prompt: 'Ask your question — start with your assigned word!',
-      placeholder: 'Type your question here...',
+      prompt: content.framingPrompt,
+      placeholder: 'Start with your assigned word...',
       maxLength: 200,
       allowMultiple: true,
     });
