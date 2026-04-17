@@ -27,8 +27,7 @@ interface LeaderboardEntry {
 export function Leaderboard() {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
-  const sessionId = useSessionStore((s) => s.sessionId);
-  const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
+const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
   const awardPoints = useSessionStore((s) => s.awardPoints);
   const pickStudent = useSessionStore((s) => s.pickStudent);
