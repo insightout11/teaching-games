@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
 import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
-import { useStudentPrefs } from '@/hooks/use-student-prefs';
 
 const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
 const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
@@ -25,7 +24,7 @@ interface LeaderboardEntry {
   avatarSeed?: string;
 }
 
-export function Leaderboard({ teacherView = true }: { teacherView?: boolean }) {
+export function Leaderboard() {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
   const sessionId = useSessionStore((s) => s.sessionId);
@@ -33,8 +32,6 @@ export function Leaderboard({ teacherView = true }: { teacherView?: boolean }) {
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
   const awardPoints = useSessionStore((s) => s.awardPoints);
   const pickStudent = useSessionStore((s) => s.pickStudent);
-
-  const prefsMap = useStudentPrefs(sessionId);
 
   // Student picker state
   const [spinning, setSpinning] = useState(false);
@@ -58,15 +55,6 @@ export function Leaderboard({ teacherView = true }: { teacherView?: boolean }) {
 
   const currentStudent = students.find((s) => s.id === currentStudentId);
   const spinStudent = spinning ? students[displayIndex] : currentStudent;
-
-  // Map student_id → client_id for roster students (prefs are keyed by client_id)
-  const studentIdToClientId = useMemo(() => {
-    const m = new Map<string, string>();
-    scores.forEach((sc) => {
-      if (sc.student_id && sc.client_id) m.set(sc.student_id, sc.client_id);
-    });
-    return m;
-  }, [scores]);
 
   const entries = useMemo(() => {
     const map = new Map<string, LeaderboardEntry>();
@@ -99,23 +87,16 @@ export function Leaderboard({ teacherView = true }: { teacherView?: boolean }) {
 
   // During-session view: Top 3 + own entry (locked invariant).
   // Rank reflects actual position in the full sorted list.
-  // When !teacherView, students who chose "fly anonymous" are excluded entirely.
   const visibleEntries = useMemo(() => {
-    const isHidden = (studentId: string) => {
-      if (teacherView) return false;
-      const clientId = studentIdToClientId.get(studentId) ?? studentId;
-      return prefsMap.get(clientId)?.score_visible === false;
-    };
-
     const ranked = entries.map((e, i) => ({ ...e, rank: i }));
-    const top3 = ranked.filter((e) => !isHidden(e.studentId)).slice(0, 3);
+    const top3 = ranked.slice(0, 3);
     if (!currentStudentId) return top3;
     const selfInTop3 = top3.some((e) => e.studentId === currentStudentId);
     if (selfInTop3) return top3;
     const self = ranked.find((e) => e.studentId === currentStudentId);
-    if (!self || isHidden(self.studentId)) return top3;
+    if (!self) return top3;
     return [...top3, self];
-  }, [entries, currentStudentId, teacherView, prefsMap, studentIdToClientId]);
+  }, [entries, currentStudentId]);
 
   // Delta animation tracking
   const prevTotals = useRef<Map<string, number>>(new Map());
@@ -236,9 +217,7 @@ export function Leaderboard({ teacherView = true }: { teacherView?: boolean }) {
                     className="w-8 h-8 rounded-full flex-shrink-0"
                   />
                   <span className="text-sm font-medium">
-                    {prefsMap.get(studentIdToClientId.get(entry.studentId) ?? entry.studentId)?.score_visible === false
-                      ? 'Anonymous pilot'
-                      : entry.name}
+                    {entry.name}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
