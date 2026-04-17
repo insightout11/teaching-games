@@ -72,16 +72,20 @@ function QuestionCard({
   const [manualAnswer, setManualAnswer] = useState('');
   const [isAnswering, setIsAnswering] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [answerError, setAnswerError] = useState<string | null>(null);
+  const [localAnswerText, setLocalAnswerText] = useState<string | null>(null);
 
-  const isAnswered = !!question.answer_text;
+  const isAnswered = !!(question.answer_text || localAnswerText);
+  const displayAnswerText = question.answer_text ?? localAnswerText;
   const isOpenForFollowUp = activeFollowUpId === question.id;
   const borderColor = STARTER_COLORS[question.starter]?.split(' ')[1] ?? 'border-white/10';
 
   const handleAnswer = useCallback(async (type: 'teacher' | 'ai') => {
     if (type === 'teacher' && !manualAnswer.trim()) return;
     setIsAnswering(true);
+    setAnswerError(null);
     try {
-      await fetch('/api/wonder-board/answer', {
+      const res = await fetch('/api/wonder-board/answer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -91,8 +95,17 @@ function QuestionCard({
           answerText: type === 'teacher' ? manualAnswer.trim() : undefined,
         }),
       });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        setAnswerError((errData as { error?: string }).error ?? `Error ${res.status}`);
+        return;
+      }
+      const data = await res.json() as { answerText: string };
+      setLocalAnswerText(data.answerText);
       setAnswerOpen(false);
       setManualAnswer('');
+    } catch {
+      setAnswerError('Network error — please try again');
     } finally {
       setIsAnswering(false);
     }
@@ -136,7 +149,7 @@ function QuestionCard({
       {/* Answer area */}
       {isAnswered && (
         <div className="bg-white/5 rounded-xl p-3 space-y-1 border border-white/10">
-          {renderAnswer(question.answer_text!)}
+          {renderAnswer(displayAnswerText!)}
           {followUps.length > 0 && (
             <div className="mt-3 space-y-2 border-t border-white/10 pt-2">
               {followUps.map((fu) => (
@@ -151,6 +164,11 @@ function QuestionCard({
             </div>
           )}
         </div>
+      )}
+
+      {/* Error message */}
+      {answerError && (
+        <p className="text-xs text-red-400 bg-red-500/10 rounded-lg px-2 py-1">{answerError}</p>
       )}
 
       {/* Action buttons — stop card click from triggering focus toggle */}
