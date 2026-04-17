@@ -63,9 +63,10 @@ export async function POST(request: NextRequest) {
     const serviceClient = createServiceClient();
 
     // Verify the question belongs to a session owned by this teacher
+    // sessions.teacher_id doesn't exist — ownership is via sessions.class_id → classes.teacher_id
     const { data: session, error: sessionError } = await serviceClient
       .from('sessions')
-      .select('id, status, teacher_id, topic, custom_topic, difficulty')
+      .select('id, status, class_id, topic, custom_topic, difficulty')
       .eq('id', sessionId)
       .single();
 
@@ -73,7 +74,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
-    if (session.teacher_id !== user.id) {
+    const { data: cls, error: clsError } = await serviceClient
+      .from('classes')
+      .select('teacher_id')
+      .eq('id', session.class_id)
+      .single();
+
+    if (clsError || !cls || cls.teacher_id !== user.id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
