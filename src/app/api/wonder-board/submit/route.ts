@@ -42,8 +42,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid parentId format' }, { status: 400 });
     }
 
-    // Validate starter
-    if (!VALID_STARTERS.includes(starter)) {
+    // Validate starter — follow-ups use 'Follow-up' which isn't in the normal list
+    if (!parentId && !VALID_STARTERS.includes(starter)) {
       return NextResponse.json({ error: 'Invalid starter word' }, { status: 400 });
     }
 
