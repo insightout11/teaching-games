@@ -39,6 +39,8 @@ export interface GameProps {
   onRegisterRemoteVoteHandler?: (handler: ((vote: GameRemoteVote) => void) | null) => void;
   // Per-student prefs — keyed by clientId. Games use this to respect score_visible (stealth mode).
   prefsMap?: Map<string, { score_visible: boolean; scoring_mode: string | null }>;
+  // Race-mode games call this to show the top-3 overlay on the teacher's screen.
+  onRevealTopSubmissions?: (submissions: TopSubmission[]) => void;
 }
 
 export interface GameConfigField {

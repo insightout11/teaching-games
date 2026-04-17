@@ -459,18 +459,32 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   };
 
+  const savePrefs = async (overrides?: { score_visible?: boolean; scoring_mode?: string | null }) => {
+    const payload = {
+      sessionId,
+      clientId: studentSession.clientId,
+      score_visible: overrides?.score_visible ?? scoreVisible,
+      scoring_mode: overrides?.scoring_mode !== undefined ? overrides.scoring_mode : scoringMode,
+    };
+    await fetch('/api/student/prefs', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  };
+
+  const handleToggleStealth = async () => {
+    const next = !scoreVisible;
+    setScoreVisible(next);
+    await savePrefs({ score_visible: next });
+  };
+
   const handleSavePrefs = async () => {
     setIsSavingPrefs(true);
     try {
-      const res = await fetch('/api/student/prefs', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, clientId: studentSession.clientId, score_visible: scoreVisible, scoring_mode: scoringMode }),
-      });
-      if (res.ok) {
-        setPrefsSaved(true);
-        setTimeout(() => setPrefsSaved(false), 2500);
-      }
+      await savePrefs();
+      setPrefsSaved(true);
+      setTimeout(() => setPrefsSaved(false), 2500);
     } finally {
       setIsSavingPrefs(false);
     }
@@ -1062,7 +1076,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             </div>
             <div>
               <button
-                onClick={() => setScoreVisible((v) => !v)}
+                onClick={handleToggleStealth}
                 className="w-full flex items-center justify-between py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
               >
                 <span className="text-xs text-gray-300">Don&apos;t share my answers with the class</span>

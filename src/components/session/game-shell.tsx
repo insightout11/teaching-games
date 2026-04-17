@@ -472,6 +472,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
                 onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
                 onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
                 prefsMap={prefsMap}
+                onRevealTopSubmissions={onRevealTopSubmissionsRef.current}
               />
             )}
           </div>

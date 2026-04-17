@@ -56,7 +56,7 @@ function getLessonGrammarTarget(): GrammarTarget | null {
   } catch { return null; }
 }
 
-export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
+export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(
     sessionSettings.grammarTarget ?? getLessonGrammarTarget() ?? GrammarTarget.PresentSimple
@@ -634,7 +634,21 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
               </button>
             )}
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
+              {onRevealTopSubmissions && raceSolvers.length > 0 && (
+                <button
+                  onClick={() => onRevealTopSubmissions(sortedSolvers.slice(0, 3).map((s) => ({
+                    content: s.sentence,
+                    feedback: s.feedback,
+                    points: s.avgScore,
+                    clientId: s.clientId,
+                    displayName: s.displayName,
+                  })))}
+                  className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-xl font-game text-sm shadow hover:bg-cyan-500/30 transition-all"
+                >
+                  REVEAL TOP 3
+                </button>
+              )}
               <button onClick={handleGenerate} className="flex-1 py-4 bg-gradient-to-br from-lc-blue to-blue-500 rounded-xl font-game transition-all text-white border-2 border-white/20 hover:scale-[1.02] active:scale-95 shadow-lg">NEW TASK</button>
               <button onClick={handleSameChallenge} className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10 text-slate-400">SAME TASK, AGAIN</button>
             </div>

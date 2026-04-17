@@ -21,7 +21,7 @@ interface RaceSolver {
   position: number;
 }
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
+export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -662,6 +662,20 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                         className="flex-1 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
                       >
                         REVIEW ANSWERS
+                      </button>
+                    )}
+                    {onRevealTopSubmissions && sorted.length > 0 && (
+                      <button
+                        onClick={() => onRevealTopSubmissions(sorted.slice(0, 3).map((s) => ({
+                          content: s.replacement,
+                          feedback: s.comment,
+                          points: s.score,
+                          clientId: s.clientId,
+                          displayName: s.displayName,
+                        })))}
+                        className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-xl font-game text-sm shadow hover:bg-cyan-500/30 transition-all"
+                      >
+                        REVEAL TOP 3
                       </button>
                     )}
                     <button
