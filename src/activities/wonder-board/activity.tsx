@@ -56,8 +56,6 @@ interface QuestionCardProps {
   followUps: WonderQuestion[];
   voteCount: number;
   sessionId: string;
-  activeFollowUpId: string | null;
-  onOpenFollowUp: (id: string | null) => void;
 }
 
 function QuestionCard({
@@ -65,8 +63,6 @@ function QuestionCard({
   followUps,
   voteCount,
   sessionId,
-  activeFollowUpId,
-  onOpenFollowUp,
 }: QuestionCardProps) {
   const [answerOpen, setAnswerOpen] = useState(false);
   const [manualAnswer, setManualAnswer] = useState('');
@@ -77,7 +73,6 @@ function QuestionCard({
 
   const isAnswered = !!(question.answer_text || localAnswerText);
   const displayAnswerText = question.answer_text ?? localAnswerText;
-  const isOpenForFollowUp = activeFollowUpId === question.id;
   const borderColor = STARTER_COLORS[question.starter]?.split(' ')[1] ?? 'border-white/10';
 
   const handleAnswer = useCallback(async (type: 'teacher' | 'ai') => {
@@ -226,18 +221,6 @@ function QuestionCard({
           </div>
         )}
 
-        {isAnswered && followUps.length === 0 && (
-          <button
-            onClick={() => onOpenFollowUp(isOpenForFollowUp ? null : question.id)}
-            className={`px-3 py-1.5 text-xs rounded-lg transition-colors font-medium ${
-              isOpenForFollowUp
-                ? 'bg-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20'
-                : 'bg-white/10 hover:bg-white/20'
-            }`}
-          >
-            {isOpenForFollowUp ? 'Close Follow-up' : 'Open for Follow-up'}
-          </button>
-        )}
       </div>
     </div>
   );
@@ -258,7 +241,7 @@ export function WonderBoardActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [questions, setQuestions] = useState<WonderQuestion[]>([]);
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
-  const [activeFollowUpId, setActiveFollowUpId] = useState<string | null>(null);
+  const [followUpMode, setFollowUpMode] = useState(false);
   const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
 
   // Lazy-import Supabase browser client to avoid Edge Runtime bundling issues
@@ -270,9 +253,6 @@ export function WonderBoardActivity({
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
-
-  const activeFollowUpIdRef = useRef(activeFollowUpId);
-  activeFollowUpIdRef.current = activeFollowUpId;
 
 
   // -----------------------------------------------------------------------
@@ -355,7 +335,7 @@ export function WonderBoardActivity({
   }, [phase, sessionId, supabase, loadFromDB]);
 
   // -----------------------------------------------------------------------
-  // Update InputSpec when phase or follow-up changes
+  // Update InputSpec when phase or follow-up mode changes
   // -----------------------------------------------------------------------
   useEffect(() => {
     if (phase !== 'collecting') {
@@ -363,20 +343,17 @@ export function WonderBoardActivity({
       return;
     }
 
-    if (activeFollowUpId) {
-      const parentQ = questions.find((q) => q.id === activeFollowUpId);
-      if (parentQ) {
-        onSetInputSpec?.({
-          type: 'textarea',
-          gameKey: 'wonder-board',
-          prompt: `Follow-up on: "${parentQ.content}"`,
-          placeholder: 'Ask your follow-up question...',
-          maxLength: 200,
-          allowMultiple: false,
-          wonderParentId: activeFollowUpId,
-        });
-        return;
-      }
+    if (followUpMode) {
+      onSetInputSpec?.({
+        type: 'textarea',
+        gameKey: 'wonder-board',
+        prompt: 'Choose a question to follow up on:',
+        placeholder: 'Ask your follow-up question...',
+        maxLength: 200,
+        allowMultiple: true,
+        wonderFollowUpMode: true,
+      });
+      return;
     }
 
     onSetInputSpec?.({
@@ -387,14 +364,7 @@ export function WonderBoardActivity({
       maxLength: 200,
       allowMultiple: true,
     });
-  }, [phase, activeFollowUpId, questions, onSetInputSpec]);
-
-  // -----------------------------------------------------------------------
-  // Handle follow-up toggle — update InputSpec via state change above
-  // -----------------------------------------------------------------------
-  const handleOpenFollowUp = useCallback((id: string | null) => {
-    setActiveFollowUpId(id);
-  }, []);
+  }, [phase, followUpMode, onSetInputSpec]);
 
   // -----------------------------------------------------------------------
   // Phase transitions
@@ -402,14 +372,14 @@ export function WonderBoardActivity({
   const handleStart = useCallback(() => {
     setQuestions([]);
     setVoteCounts({});
-    setActiveFollowUpId(null);
+    setFollowUpMode(false);
     setPhase('collecting');
     onPhaseChange?.('collecting');
   }, [onPhaseChange]);
 
   const handleEnd = useCallback(() => {
     setPhase('done');
-    setActiveFollowUpId(null);
+    setFollowUpMode(false);
     onPhaseChange?.('finished');
     onSetInputSpec?.(null);
   }, [onPhaseChange, onSetInputSpec]);
@@ -470,11 +440,11 @@ export function WonderBoardActivity({
       {/* COLLECTING */}
       {phase === 'collecting' && (
         <div className="space-y-5">
-          {activeFollowUpId && (
+          {followUpMode && (
             <div className="text-xs bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 rounded-xl px-4 py-2">
-              Students can now submit follow-up questions.
+              Students can pick any answered question to follow up on.
               <button
-                onClick={() => handleOpenFollowUp(null)}
+                onClick={() => setFollowUpMode(false)}
                 className="ml-2 underline opacity-70 hover:opacity-100"
               >
                 Close
@@ -498,8 +468,6 @@ export function WonderBoardActivity({
                     followUps={getFollowUps(q.id)}
                     voteCount={voteCounts[q.id] ?? 0}
                     sessionId={q.session_id}
-                    activeFollowUpId={activeFollowUpId}
-                    onOpenFollowUp={handleOpenFollowUp}
                   />
                 ))}
               </div>
@@ -518,15 +486,25 @@ export function WonderBoardActivity({
                     followUps={getFollowUps(q.id)}
                     voteCount={voteCounts[q.id] ?? 0}
                     sessionId={q.session_id}
-                    activeFollowUpId={activeFollowUpId}
-                    onOpenFollowUp={handleOpenFollowUp}
                   />
                 ))}
               </div>
             </div>
           )}
 
-          <div className="flex justify-end pt-2">
+          <div className="flex items-center justify-between pt-2">
+            {answered.length > 0 ? (
+              <button
+                onClick={() => setFollowUpMode((m) => !m)}
+                className={`px-4 py-2 text-xs rounded-xl font-medium transition-all ${
+                  followUpMode
+                    ? 'bg-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20'
+                    : 'bg-white/10 hover:bg-white/20'
+                }`}
+              >
+                {followUpMode ? 'Close Follow-ups' : 'Open for Follow-ups'}
+              </button>
+            ) : <div />}
             <button
               onClick={handleEnd}
               className="px-6 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-game text-sm transition-all"
@@ -550,8 +528,6 @@ export function WonderBoardActivity({
                   followUps={getFollowUps(q.id)}
                   voteCount={voteCounts[q.id] ?? 0}
                   sessionId={q.session_id}
-                  activeFollowUpId={null}
-                  onOpenFollowUp={() => {}}
                 />
               ))}
             </div>

@@ -49,6 +49,8 @@ export interface InputSpec {
   startedAt?: number;
   /** For wonder-board follow-ups: the parent question ID this reply belongs to */
   wonderParentId?: string;
+  /** When true, student picks which answered question to follow up on (no locked parentId) */
+  wonderFollowUpMode?: boolean;
 }
 
 // Submission handler result from games

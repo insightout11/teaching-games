@@ -158,6 +158,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [referenceExpressions, setReferenceExpressions] = useState<ExpressionItem[] | null>(null);
   const [openPanel, setOpenPanel] = useState<ReferencePanel>(null);
 
+  // Wonder Board follow-up picker state
+  const [selectedFollowUpId, setSelectedFollowUpId] = useState<string | null>(null);
+  const [followUpText, setFollowUpText] = useState('');
+
   // Ask a Question section state
   const [questionText, setQuestionText] = useState('');
   const [isAskingQuestion, setIsAskingQuestion] = useState(false);
@@ -201,6 +205,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);
       setInputSpec(data.inputSpec);
+      if (!data.inputSpec?.wonderFollowUpMode) {
+        setSelectedFollowUpId(null);
+        setFollowUpText('');
+      }
       setFrozen(data.frozen ?? false);
       setPublishedQuestions(data.publishedQuestions ?? []);
       setWonderQuestions(data.wonderQuestions ?? []);
@@ -314,6 +322,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     try {
       // Wonder Board questions go to a dedicated endpoint
       const isWonderBoard = inputSpec?.gameKey === 'wonder-board';
+      const effectiveParentId = inputSpec?.wonderFollowUpMode
+        ? selectedFollowUpId
+        : (inputSpec?.wonderParentId ?? null);
       const endpoint = isWonderBoard ? '/api/wonder-board/submit' : '/api/student/submit';
       const body = isWonderBoard
         ? {
@@ -321,10 +332,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             clientId: studentSession.clientId,
             displayName: studentSession.displayName,
             content: content.trim(),
-            starter: inputSpec?.wonderParentId
-              ? 'Follow-up'
-              : getAssignedStarter(studentSession.clientId),
-            parentId: inputSpec?.wonderParentId ?? null,
+            starter: effectiveParentId ? 'Follow-up' : getAssignedStarter(studentSession.clientId),
+            parentId: effectiveParentId,
           }
         : {
             sessionId,
@@ -354,6 +363,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       } else {
         setSubmitStatus('success');
         setTimeout(() => setSubmitStatus('idle'), 2000);
+        // Clear follow-up selection after successful submit
+        if (inputSpec?.wonderFollowUpMode) {
+          setSelectedFollowUpId(null);
+          setFollowUpText('');
+        }
         // Re-poll quickly so per-student state (e.g. found words, lives) updates without waiting the full 5s interval
         setTimeout(checkSession, 1500);
       }
@@ -640,6 +654,64 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 Your teacher has temporarily paused submissions.
               </p>
             </div>
+          ) : inputSpec.wonderFollowUpMode ? (
+            /* Wonder Board — student picks which answered question to follow up on */
+            <>
+              <h2 className="font-bold text-white mb-3">Wonder Board — Follow-up</h2>
+              {!selectedFollowUpId ? (
+                /* Step 1: pick a question */
+                <div className="space-y-2">
+                  <p className="text-xs text-gray-400 mb-2">Tap a question to follow up on:</p>
+                  {wonderQuestions.filter((q) => !q.parentId && !!q.answeredAt).length === 0 ? (
+                    <p className="text-sm text-gray-500 italic">No answered questions yet.</p>
+                  ) : (
+                    wonderQuestions
+                      .filter((q) => !q.parentId && !!q.answeredAt)
+                      .map((q) => (
+                        <button
+                          key={q.id}
+                          onClick={() => setSelectedFollowUpId(q.id)}
+                          className="w-full text-left rounded-xl bg-white/5 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/30 px-4 py-3 text-sm text-gray-200 transition-colors"
+                        >
+                          {q.content}
+                        </button>
+                      ))
+                  )}
+                </div>
+              ) : (
+                /* Step 2: write and submit the follow-up */
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <button
+                      onClick={() => { setSelectedFollowUpId(null); setFollowUpText(''); }}
+                      className="text-gray-500 hover:text-white text-lg leading-none mt-0.5"
+                    >←</button>
+                    <p className="text-xs text-emerald-400 italic leading-relaxed">
+                      {wonderQuestions.find((q) => q.id === selectedFollowUpId)?.content}
+                    </p>
+                  </div>
+                  <textarea
+                    className="w-full bg-white/10 rounded-xl p-3 text-sm resize-none border border-white/20 focus:outline-none focus:border-white/40 text-white placeholder-gray-500"
+                    rows={3}
+                    maxLength={200}
+                    placeholder="Ask your follow-up question..."
+                    value={followUpText}
+                    onChange={(e) => setFollowUpText(e.target.value)}
+                    autoFocus
+                  />
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600">{followUpText.length}/200</span>
+                    <button
+                      onClick={() => { if (followUpText.trim()) handleSubmit(followUpText); }}
+                      disabled={!followUpText.trim() || isSubmitting}
+                      className="px-5 py-2 bg-emerald-500/80 hover:bg-emerald-500 disabled:opacity-40 rounded-xl text-sm font-semibold text-white transition-colors"
+                    >
+                      {isSubmitting ? 'Sending...' : submitStatus === 'success' ? 'Sent ✓' : 'Submit Follow-up'}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
           ) : (
             <>
               <div className="flex items-center gap-2 mb-4">
