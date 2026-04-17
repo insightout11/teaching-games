@@ -354,7 +354,7 @@ export function WonderBoardActivity({
       maxLength: 200,
       allowMultiple: true,
     });
-  }, [phase, followUpMode, onSetInputSpec]);
+  }, [phase, followUpMode, onSetInputSpec, content.framingPrompt]);
 
   // -----------------------------------------------------------------------
   // Phase transitions
