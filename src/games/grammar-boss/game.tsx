@@ -473,13 +473,10 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
   // Render evaluation card (shared between turn-based result and race review)
   const renderEvaluationCard = (solver: { clientId?: string; displayName?: string; sentence: string; grammarScore: number; fluencyScore: number; correctedSentence: string; feedback: string }) => {
-    const resolvedName = solver.clientId && prefsMap?.get(solver.clientId)?.score_visible === false
-      ? 'Anonymous pilot'
-      : (solver.displayName ?? null);
     return (
     <div className="space-y-4">
       <div className="glass p-4 rounded-xl border border-white/10">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{resolvedName ? `${resolvedName}'s Response` : 'Student Response'}</p>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Student Response</p>
         <p className="text-white italic">&quot;{solver.sentence}&quot;</p>
       </div>
       <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30">

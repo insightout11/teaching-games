@@ -181,9 +181,14 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Get latest AI feedback for this student (for private phone delivery)
+    // Get latest AI feedback for this student (for private phone delivery).
+    // Two pathways:
+    // 1. Approval-queue games: feedback written to student_submissions.ai_feedback
+    // 2. Race-mode games: feedback stored in scores.response_data.feedback (browser client
+    //    cannot INSERT into student_submissions due to RLS — all writes are service-role only)
     let latestFeedback: SessionPayload['latestFeedback'] = null;
     if (isActive && clientId) {
+      // Pathway 1: approval-queue games
       const { data: fb } = await supabase
         .from('student_submissions')
         .select('id, ai_feedback, ai_score')
@@ -195,6 +200,26 @@ export async function GET(request: NextRequest) {
         .maybeSingle();
       if (fb?.ai_feedback) {
         latestFeedback = { feedback: fb.ai_feedback, points: fb.ai_score ?? 0, submissionId: fb.id };
+      }
+
+      // Pathway 2: race-mode games (feedback in scores.response_data.feedback)
+      if (!latestFeedback) {
+        const { data: sc } = await supabase
+          .from('scores')
+          .select('id, points, response_data')
+          .eq('session_id', sessionId)
+          .eq('client_id', clientId)
+          .not('response_data->>feedback', 'is', null)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (sc) {
+          const rd = sc.response_data as Record<string, unknown> | null;
+          const feedbackStr = typeof rd?.feedback === 'string' ? rd.feedback : null;
+          if (feedbackStr) {
+            latestFeedback = { feedback: feedbackStr, points: sc.points, submissionId: sc.id };
+          }
+        }
       }
     }
 

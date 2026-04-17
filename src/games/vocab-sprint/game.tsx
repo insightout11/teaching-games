@@ -642,9 +642,6 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                         >
                           <div className="flex items-center gap-3">
                             {i === 0 && <span className="text-lg font-black text-yellow-400">BEST</span>}
-                            <span className="font-semibold text-white">
-                              {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
-                            </span>
                             <span className="text-sm text-slate-400 italic">&quot;{solver.replacement}&quot;</span>
                           </div>
                           <div className={`w-10 h-10 rounded-lg ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white`}>
@@ -711,9 +708,6 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                         <span className="text-4xl font-black">{currentReview.score}</span>
                       </div>
                       <div className="text-left flex-grow">
-                        <p className="text-sm font-bold text-slate-400 mb-1">
-                          {prefsMap?.get(currentReview.clientId)?.score_visible === false ? 'Anonymous pilot' : currentReview.displayName}
-                        </p>
                         <p className="text-3xl font-black leading-none mb-2 tracking-tight">
                           {currentReview.replacement.toUpperCase()}
                         </p>

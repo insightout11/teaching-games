@@ -298,28 +298,11 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
     if (data) recordScore(data);
     clearModifier();
 
-    // Deliver AI feedback privately to the student's device via student_submissions.
-    // Remote-vote games (e.g. Dialogue Detective race mode) pass clientId + feedback in responseData
-    // because the vote path never creates a student_submissions row to update.
-    const feedbackText = result.responseData?.feedback as string | undefined;
-    const feedbackClientId = result.responseData?.clientId as string | undefined;
-    if (feedbackText && feedbackClientId && sessionId) {
-      supabase
-        .from('student_submissions')
-        .insert({
-          session_id: sessionId,
-          client_id: feedbackClientId,
-          display_name: displayNameField ?? clientInfoRef.current.get(feedbackClientId) ?? 'Student',
-          submission_type: 'text',
-          content: (result.responseData?.response as string | undefined) ?? '',
-          status: 'approved',
-          game_key: game.key,
-          ai_feedback: feedbackText,
-          ai_score: result.points,
-        })
-        .then(() => {});
-    }
-  }, [sessionId, supabase, recordScore, clearModifier, game.key]);
+    // AI feedback for race-mode games is stored in scores.response_data.feedback
+    // and read by the student's polling via /api/student/session (pathway 2).
+    // No additional DB write needed here — INSERT into student_submissions is blocked by RLS
+    // (all student_submissions writes require service-role, not the browser client).
+  }, [sessionId, supabase, recordScore, clearModifier]);
 
   const handlePickStudent = useCallback(() => {
     pickStudent();

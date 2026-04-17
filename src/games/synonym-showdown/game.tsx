@@ -608,7 +608,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
                         key={i}
                         className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getQualityColor(syn.quality)}`}
                       >
-                        {syn.word} ({prefsMap?.get(syn.clientId)?.score_visible === false ? 'Anonymous pilot' : syn.displayName}) +{syn.score}
+                        {syn.word} +{syn.score}
                       </span>
                     ))
                   : validSynonyms.map((syn, i) => (

@@ -482,9 +482,6 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
                         {i === 0 && <span className="text-sm font-black text-yellow-400">BEST</span>}
-                        <span className="font-semibold text-white">
-                          {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
-                        </span>
                       </div>
                       <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${getScoreColor(solver.score)} flex items-center justify-center text-sm font-black text-white`}>
                         {solver.score}

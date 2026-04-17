@@ -235,7 +235,11 @@ export function Leaderboard({ teacherView = true }: { teacherView?: boolean }) {
                     height={32}
                     className="w-8 h-8 rounded-full flex-shrink-0"
                   />
-                  <span className="text-sm font-medium">{entry.name}</span>
+                  <span className="text-sm font-medium">
+                    {prefsMap.get(studentIdToClientId.get(entry.studentId) ?? entry.studentId)?.score_visible === false
+                      ? 'Anonymous pilot'
+                      : entry.name}
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Quick award buttons - appear on hover */}
