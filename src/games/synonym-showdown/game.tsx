@@ -120,7 +120,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
           onScore(studentId, {
             isCorrect: result.isValid,
             points: result.score,
-            responseData: { synonym, quality: result.quality },
+            responseData: { clientId: vote.clientId, synonym, quality: result.quality },
           });
 
           // Track remote submission for display

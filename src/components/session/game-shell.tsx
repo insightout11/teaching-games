@@ -181,12 +181,17 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
     // Try to match remote students to a roster entry by display name so scores
     // accumulate on the correct leaderboard row instead of creating a phantom entry.
     const isRoster = studentsRef.current.some((s) => s.id === studentId);
+    // Race-mode games store clientId in responseData so feedback can reach the student's device.
+    // Preserve it even for roster students so Pathway 2 (scores.response_data.feedback) is findable.
+    const responseClientId = typeof (result.responseData as Record<string, unknown> | null)?.clientId === 'string'
+      ? (result.responseData as Record<string, unknown>).clientId as string
+      : null;
     let studentIdField: string | null;
     let clientIdField: string | null;
     let displayNameField: string | null;
     if (isRoster) {
       studentIdField = studentId;
-      clientIdField = null;
+      clientIdField = responseClientId; // null for turn-based, set for race-mode
       displayNameField = null;
     } else {
       // studentId is actually a clientId for remote students.
