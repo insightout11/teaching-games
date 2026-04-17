@@ -106,17 +106,7 @@ function QuestionCard({
     }
   }, [sessionId, question.id, manualAnswer]);
 
-  // Render the answer text — split at double-newline for answer vs provocation
   function renderAnswer(text: string) {
-    const parts = text.split('\n\n');
-    if (parts.length >= 2) {
-      return (
-        <>
-          <p className="text-sm opacity-90">{parts[0]}</p>
-          <p className="text-sm opacity-60 italic mt-1">{parts.slice(1).join(' ')}</p>
-        </>
-      );
-    }
     return <p className="text-sm opacity-90">{text}</p>;
   }
 
@@ -181,7 +171,7 @@ function QuestionCard({
               disabled={isAnswering}
               className="px-3 py-1.5 text-xs bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 rounded-lg transition-colors font-medium disabled:opacity-50"
             >
-              {isAnswering ? 'Thinking...' : 'AI Answer'}
+              {isAnswering ? 'Thinking...' : 'Quick Answer'}
             </button>
           </>
         )}
@@ -209,7 +199,7 @@ function QuestionCard({
                 disabled={isAnswering}
                 className="px-3 py-1.5 text-xs bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 rounded-lg transition-colors font-medium disabled:opacity-50"
               >
-                AI instead
+                Quick Answer instead
               </button>
               <button
                 onClick={() => { setAnswerOpen(false); setManualAnswer(''); }}

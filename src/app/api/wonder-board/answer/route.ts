@@ -17,7 +17,6 @@ interface AnswerRequest {
 
 interface AIAnswerResponse {
   answer: string;
-  provocation: string;
 }
 
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -25,10 +24,9 @@ const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
 const aiAnswerSchema: AISchema = {
   type: 'object',
   properties: {
-    answer: { type: 'string', description: '2-3 sentence definitive answer, difficulty-appropriate' },
-    provocation: { type: 'string', description: 'One open question that deepens curiosity rather than closing it' },
+    answer: { type: 'string', description: 'One clear sentence, difficulty-appropriate' },
   },
-  required: ['answer', 'provocation'],
+  required: ['answer'],
 };
 
 export async function POST(request: NextRequest) {
@@ -106,15 +104,13 @@ export async function POST(request: NextRequest) {
 Topic: "${topic}" | Level: "${difficulty}"
 Student question: "${question.content}"
 
-Give a short, clear answer followed by one open provocation that deepens curiosity.
-- answer: 2-3 sentences, ${difficulty}-appropriate language
-- provocation: one open question (not a yes/no) that invites further thinking`;
+Give one clear, direct sentence that answers the question. ${difficulty}-appropriate language. No follow-up question.`;
 
       const data = await generateJSON<AIAnswerResponse>(prompt, aiAnswerSchema, {
         taskClass: 'activity-facilitation',
       });
 
-      finalAnswerText = `${data.answer}\n\n${data.provocation}`;
+      finalAnswerText = data.answer;
     } else {
       finalAnswerText = answerText!.trim();
     }
