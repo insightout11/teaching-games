@@ -11,6 +11,7 @@ const EMPTY_SEEN: string[] = [];
 
 interface RaceSolver {
   studentId: string;
+  clientId: string;
   displayName: string;
   replacement: string;
   score: number;
@@ -20,7 +21,7 @@ interface RaceSolver {
   position: number;
 }
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
+export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -159,7 +160,10 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         isCorrect: result.score >= 5,
         points: result.score,
         responseData: {
+          clientId: vote.clientId,
           replacement,
+          response: replacement,
+          feedback: result.comment,
           score: result.score,
           comment: result.comment,
           position,
@@ -174,6 +178,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
       return [...prev, {
         studentId,
+        clientId: vote.clientId,
         displayName: vote.displayName,
         replacement,
         score: result.score,
@@ -578,7 +583,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                       className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="font-semibold text-white">{solver.displayName}</span>
+                        <span className="font-semibold text-white">
+                          {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
+                        </span>
                       </div>
                       <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
                         <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -635,7 +642,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                         >
                           <div className="flex items-center gap-3">
                             {i === 0 && <span className="text-lg font-black text-yellow-400">BEST</span>}
-                            <span className="font-semibold text-white">{solver.displayName}</span>
+                            <span className="font-semibold text-white">
+                              {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
+                            </span>
                             <span className="text-sm text-slate-400 italic">&quot;{solver.replacement}&quot;</span>
                           </div>
                           <div className={`w-10 h-10 rounded-lg ${getScoreColor(solver.score)} flex items-center justify-center text-lg font-black text-white`}>
@@ -688,7 +697,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                         <span className="text-4xl font-black">{currentReview.score}</span>
                       </div>
                       <div className="text-left flex-grow">
-                        <p className="text-sm font-bold text-slate-400 mb-1">{currentReview.displayName}</p>
+                        <p className="text-sm font-bold text-slate-400 mb-1">
+                          {prefsMap?.get(currentReview.clientId)?.score_visible === false ? 'Anonymous pilot' : currentReview.displayName}
+                        </p>
                         <p className="text-3xl font-black leading-none mb-2 tracking-tight">
                           {currentReview.replacement.toUpperCase()}
                         </p>

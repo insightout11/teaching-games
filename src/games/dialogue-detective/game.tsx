@@ -10,6 +10,7 @@ import type { Challenge, EvaluationResult } from './types';
 
 interface RaceSolver {
   studentId: string;
+  clientId: string;
   displayName: string;
   response: string;
   score: number;
@@ -22,7 +23,7 @@ interface RaceSolver {
   exampleResponse: string;
 }
 
-export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
+export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [response, setResponse] = useState('');
@@ -112,6 +113,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
           isCorrect: result.score >= 5,
           points: result.score,
           responseData: {
+            clientId: vote.clientId,
             response: studentResponse,
             score: result.score,
             feedback: result.feedback,
@@ -127,6 +129,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
 
         return [...prev, {
           studentId,
+          clientId: vote.clientId,
           displayName: vote.displayName,
           response: studentResponse,
           score: result.score,
@@ -430,7 +433,9 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
                       className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10"
                     >
                       <span className="text-lg font-black text-slate-500">#{solver.position}</span>
-                      <span className="font-semibold text-white">{solver.displayName}</span>
+                      <span className="font-semibold text-white">
+                        {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
+                      </span>
                       <span className="text-xs text-slate-500 italic">submitted</span>
                     </motion.div>
                   ))}
@@ -477,7 +482,9 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
                         {i === 0 && <span className="text-sm font-black text-yellow-400">BEST</span>}
-                        <span className="font-semibold text-white">{solver.displayName}</span>
+                        <span className="font-semibold text-white">
+                          {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
+                        </span>
                       </div>
                       <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${getScoreColor(solver.score)} flex items-center justify-center text-sm font-black text-white`}>
                         {solver.score}

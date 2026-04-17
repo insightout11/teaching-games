@@ -37,6 +37,8 @@ export interface GameProps {
   onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
   // Remote vote handler - register to receive votes from remote students in real-time
   onRegisterRemoteVoteHandler?: (handler: ((vote: GameRemoteVote) => void) | null) => void;
+  // Per-student prefs — keyed by clientId. Games use this to respect score_visible (stealth mode).
+  prefsMap?: Map<string, { score_visible: boolean; scoring_mode: string | null }>;
 }
 
 export interface GameConfigField {

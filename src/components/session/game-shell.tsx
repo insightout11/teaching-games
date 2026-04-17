@@ -297,7 +297,29 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
     if (error) console.error('[handleScore] FAILED code=' + error.code + ' msg=' + error.message + ' hint=' + error.hint + ' data=' + JSON.stringify(scoreData));
     if (data) recordScore(data);
     clearModifier();
-  }, [sessionId, supabase, recordScore, clearModifier]);
+
+    // Deliver AI feedback privately to the student's device via student_submissions.
+    // Remote-vote games (e.g. Dialogue Detective race mode) pass clientId + feedback in responseData
+    // because the vote path never creates a student_submissions row to update.
+    const feedbackText = result.responseData?.feedback as string | undefined;
+    const feedbackClientId = result.responseData?.clientId as string | undefined;
+    if (feedbackText && feedbackClientId && sessionId) {
+      supabase
+        .from('student_submissions')
+        .insert({
+          session_id: sessionId,
+          client_id: feedbackClientId,
+          display_name: displayNameField ?? clientInfoRef.current.get(feedbackClientId) ?? 'Student',
+          submission_type: 'text',
+          content: (result.responseData?.response as string | undefined) ?? '',
+          status: 'approved',
+          game_key: game.key,
+          ai_feedback: feedbackText,
+          ai_score: result.points,
+        })
+        .then(() => {});
+    }
+  }, [sessionId, supabase, recordScore, clearModifier, game.key]);
 
   const handlePickStudent = useCallback(() => {
     pickStudent();
@@ -449,6 +471,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
                 onSetInputSpec={handleSetInputSpec}
                 onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
                 onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
+                prefsMap={prefsMap}
               />
             )}
           </div>

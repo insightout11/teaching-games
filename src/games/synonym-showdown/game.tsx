@@ -10,6 +10,7 @@ import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 const EMPTY_SEEN: string[] = [];
 
 interface RemoteSynonym {
+  clientId: string;
   displayName: string;
   word: string;
   score: number;
@@ -17,7 +18,7 @@ interface RemoteSynonym {
   isValid: boolean;
 }
 
-export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
+export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [currentInput, setCurrentInput] = useState('');
@@ -124,6 +125,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
 
           // Track remote submission for display
           setRemoteSynonyms(prev => [...prev, {
+            clientId: vote.clientId,
             displayName: vote.displayName,
             word: synonym,
             score: result.score,
@@ -533,7 +535,9 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
                     className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="font-semibold text-white">{syn.displayName}</span>
+                      <span className="font-semibold text-white">
+                        {prefsMap?.get(syn.clientId)?.score_visible === false ? 'Anonymous pilot' : syn.displayName}
+                      </span>
                     </div>
                     <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
                       <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -604,7 +608,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
                         key={i}
                         className={`px-3 py-1 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getQualityColor(syn.quality)}`}
                       >
-                        {syn.word} ({syn.displayName}) +{syn.score}
+                        {syn.word} ({prefsMap?.get(syn.clientId)?.score_visible === false ? 'Anonymous pilot' : syn.displayName}) +{syn.score}
                       </span>
                     ))
                   : validSynonyms.map((syn, i) => (

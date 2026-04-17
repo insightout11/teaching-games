@@ -35,6 +35,7 @@ function capitalize(s: string) {
 
 interface RaceSolver {
   studentId: string;
+  clientId: string;
   displayName: string;
   sentence: string;
   grammarScore: number;
@@ -55,7 +56,7 @@ function getLessonGrammarTarget(): GrammarTarget | null {
   } catch { return null; }
 }
 
-export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
+export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(
     sessionSettings.grammarTarget ?? getLessonGrammarTarget() ?? GrammarTarget.PresentSimple
@@ -165,6 +166,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           isCorrect: avgScore >= 5,
           points: avgScore,
           responseData: {
+            clientId: vote.clientId,
+            response: sentence,
             sentence,
             grammarScore: result.grammarScore,
             fluencyScore: result.fluencyScore,
@@ -181,6 +184,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
         return [...prev, {
           studentId,
+          clientId: vote.clientId,
           displayName: vote.displayName,
           sentence,
           grammarScore: result.grammarScore,
@@ -468,10 +472,14 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   };
 
   // Render evaluation card (shared between turn-based result and race review)
-  const renderEvaluationCard = (solver: { displayName?: string; sentence: string; grammarScore: number; fluencyScore: number; correctedSentence: string; feedback: string }) => (
+  const renderEvaluationCard = (solver: { clientId?: string; displayName?: string; sentence: string; grammarScore: number; fluencyScore: number; correctedSentence: string; feedback: string }) => {
+    const resolvedName = solver.clientId && prefsMap?.get(solver.clientId)?.score_visible === false
+      ? 'Anonymous pilot'
+      : (solver.displayName ?? null);
+    return (
     <div className="space-y-4">
       <div className="glass p-4 rounded-xl border border-white/10">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{solver.displayName ? `${solver.displayName}'s Response` : 'Student Response'}</p>
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{resolvedName ? `${resolvedName}'s Response` : 'Student Response'}</p>
         <p className="text-white italic">&quot;{solver.sentence}&quot;</p>
       </div>
       <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30">
@@ -499,6 +507,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
       </div>
     </div>
   );
+  };
 
   // ============ SIMULTANEOUS RACE MODE ============
   if (isSimultaneous) {
@@ -580,7 +589,9 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
                       animate={{ opacity: 1, x: 0 }}
                       className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10"
                     >
-                      <span className="font-semibold text-white">{solver.displayName}</span>
+                      <span className="font-semibold text-white">
+                        {prefsMap?.get(solver.clientId)?.score_visible === false ? 'Anonymous pilot' : solver.displayName}
+                      </span>
                       <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
                         <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
