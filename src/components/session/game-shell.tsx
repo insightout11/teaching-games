@@ -395,7 +395,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       .limit(3);
 
     if (data?.length) {
-      const submissions: TopSubmission[] = data.map((s) => ({
+      const submissions: TopSubmission[] = data.map((s: Score) => ({
         content: (s.response_data as Record<string, unknown>)?.content as string ?? '',
         feedback: (s.response_data as Record<string, unknown>)?.feedback as string ?? '',
         points: s.points,
