@@ -376,7 +376,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     } finally {
       setIsSubmitting(false);
     }
-  }, [sessionId, studentSession, inputSpec, isSubmitting, checkSession]);
+  }, [sessionId, studentSession, inputSpec, isSubmitting, checkSession, selectedFollowUpId]);
 
   const handleVote = async (choice: string) => {
     if (!activePoll || isVoting) return;
@@ -1065,7 +1065,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 onClick={() => setScoreVisible((v) => !v)}
                 className="w-full flex items-center justify-between py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
               >
-                <span className="text-xs text-gray-300">Play stealth · hide my name everywhere</span>
+                <span className="text-xs text-gray-300">Don't share my answers with the class</span>
                 <span className={`w-8 h-4 rounded-full transition-all flex-shrink-0 ${!scoreVisible ? 'bg-violet-500' : 'bg-white/20'}`}>
                   <span className={`block w-3 h-3 rounded-full bg-white mt-0.5 transition-all ${!scoreVisible ? 'translate-x-4' : 'translate-x-0.5'}`} />
                 </span>
