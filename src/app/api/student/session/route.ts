@@ -47,6 +47,7 @@ interface SessionPayload {
   grammarTarget: string | null;
   referenceVocab: VocabItem[] | null;
   referenceExpressions: ExpressionItem[] | null;
+  latestFeedback: { feedback: string; points: number; submissionId: string } | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -180,6 +181,23 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Get latest AI feedback for this student (for private phone delivery)
+    let latestFeedback: SessionPayload['latestFeedback'] = null;
+    if (isActive && clientId) {
+      const { data: fb } = await supabase
+        .from('student_submissions')
+        .select('id, ai_feedback, ai_score')
+        .eq('session_id', sessionId)
+        .eq('client_id', clientId)
+        .not('ai_feedback', 'is', null)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (fb?.ai_feedback) {
+        latestFeedback = { feedback: fb.ai_feedback, points: fb.ai_score ?? 0, submissionId: fb.id };
+      }
+    }
+
     // Get personal mission for this student if clientId provided
     let personalMission: string | null = null;
     if (isActive && clientId) {
@@ -205,6 +223,7 @@ export async function GET(request: NextRequest) {
       grammarTarget: (session.grammar_target as string | null) ?? null,
       referenceVocab: (session.reference_vocab as VocabItem[] | null) ?? null,
       referenceExpressions: (session.reference_expressions as ExpressionItem[] | null) ?? null,
+      latestFeedback,
     };
 
     return NextResponse.json(payload, {

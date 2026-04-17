@@ -26,6 +26,8 @@ import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
 import { usePollVotes } from '@/hooks/use-poll-votes';
+import { useStudentPrefs } from '@/hooks/use-student-prefs';
+import type { TopSubmission } from '@/games/types';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -128,6 +130,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [bonusVotePollId, setBonusVotePollId] = useState<string | null>(null);
   const [bonusVoteCandidates, setBonusVoteCandidates] = useState<GamePlugin[]>([]);
   const { tallies: bonusTallies, votes: bonusVotes } = usePollVotes(bonusVotePollId);
+
+  // Top 3 reveal state
+  const [featuredSubmissions, setFeaturedSubmissions] = useState<TopSubmission[] | null>(null);
+  const prefsMap = useStudentPrefs(session.id);
   const settingsPopoverRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -1159,7 +1165,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               )}
             </div>
             <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
-              <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} />
+              <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} />
             </ModuleErrorBoundary>
           </div>
         ) : viewMode === 'activity' && selectedActivity ? (
@@ -1301,6 +1307,42 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <button
               onClick={() => setScreenAnswer(null)}
               className="mt-8 px-4 py-2 rounded-lg glass border border-lc-border text-sm hover:bg-lc-card transition-colors"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Top 3 reveal overlay — shown when teacher taps "Reveal Top 3" */}
+      {featuredSubmissions && (
+        <div
+          className="fixed inset-0 bg-black/80 z-[150] flex items-center justify-center p-6"
+          onClick={() => setFeaturedSubmissions(null)}
+        >
+          <div className="max-w-2xl w-full space-y-4" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-2xl font-bold text-white text-center mb-6">Top Answers</h2>
+            {featuredSubmissions.map((sub, i) => {
+              const pref = prefsMap.get(sub.clientId);
+              const showName = pref?.score_visible !== false;
+              return (
+                <div key={i} className="glass rounded-2xl p-5 border border-white/10">
+                  <div className="flex items-start justify-between gap-4">
+                    <p className="text-lg text-white leading-relaxed flex-1">&ldquo;{sub.content}&rdquo;</p>
+                    <span className="text-xl font-bold text-yellow-400 flex-shrink-0">{sub.points} pts</span>
+                  </div>
+                  {sub.feedback && (
+                    <p className="text-sm text-cyan-400 mt-3 leading-relaxed">{sub.feedback}</p>
+                  )}
+                  <p className="text-xs text-gray-500 mt-2">
+                    {showName ? sub.displayName : 'Anonymous pilot'}
+                  </p>
+                </div>
+              );
+            })}
+            <button
+              onClick={() => setFeaturedSubmissions(null)}
+              className="w-full py-3 text-gray-400 hover:text-white text-sm transition-colors"
             >
               Dismiss
             </button>

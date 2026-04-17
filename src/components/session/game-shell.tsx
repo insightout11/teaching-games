@@ -3,10 +3,11 @@
 import { useCallback, useEffect, useRef, useMemo, useState } from 'react';
 import { useSessionStore, PARTICIPATION_POINTS } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
-import type { GamePlugin, ScoreResult, GameRemoteVote } from '@/games/types';
+import type { GamePlugin, ScoreResult, GameRemoteVote, TopSubmission } from '@/games/types';
 import type { GameGeneratedContent } from '@/activities/types';
 import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
+import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import { Leaderboard } from './leaderboard';
 import { SpinWheel, ModifierBadge } from './spin-wheel';
 import { ApprovalQueue } from './approval-queue';
@@ -17,9 +18,10 @@ interface GameShellProps {
   config: Record<string, unknown>;
   preGeneratedContent?: GameGeneratedContent | null;
   timerSeconds: number;
+  onRevealTopSubmissions?: (submissions: TopSubmission[]) => void;
 }
 
-export function GameShell({ game, config, preGeneratedContent, timerSeconds }: GameShellProps) {
+export function GameShell({ game, config, preGeneratedContent, timerSeconds, onRevealTopSubmissions }: GameShellProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const sessionId = useSessionStore((s) => s.sessionId);
   const students = useSessionStore((s) => s.students);
@@ -61,6 +63,13 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
   // which always has both client_id and student_id. Used in handleScore to resolve student identity
   // reliably instead of depending on fragile display-name matching.
   const clientToStudentRef = useRef(new Map<string, string>());
+  // Student prefs (score_visible, scoring_mode) — used in handleApprovedSubmission
+  const prefsMap = useStudentPrefs(sessionId);
+  const prefsMapRef = useRef(prefsMap);
+  prefsMapRef.current = prefsMap;
+  // Stable ref for onRevealTopSubmissions prop
+  const onRevealTopSubmissionsRef = useRef(onRevealTopSubmissions);
+  onRevealTopSubmissionsRef.current = onRevealTopSubmissions;
 
   const GameComponent = game.component;
   const sessionSettings = useMemo(
@@ -329,13 +338,19 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
       (s) => s.name === submission.display_name
     );
 
+    // Respect per-student scoring_mode pref; fall back to session default
+    const pref = prefsMapRef.current.get(submission.client_id);
+    const effectiveMode = pref?.scoring_mode ?? settingsRef.current.scoringMode;
+    const finalPoints = effectiveMode === 'participation' ? PARTICIPATION_POINTS : points;
+
     const scoreData = {
       session_id: sessionId,
       student_id: matchedStudent?.id || null,
-      points,
+      points: finalPoints,
       streak_count: 0,
       streak_bonus: 0,
       is_correct: isCorrect,
+      prompt_index: promptIndexRef.current,
       response_data: {
         submission_id: submission.id,
         content: submission.content,
@@ -357,7 +372,41 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
     if (data) {
       recordScore(data);
     }
+
+    // Write AI feedback back to student_submissions for private phone delivery
+    if (feedback) {
+      supabase
+        .from('student_submissions')
+        .update({ ai_feedback: feedback, ai_score: points })
+        .eq('id', submission.id)
+        .then(() => {});
+    }
   }, [sessionId, students, supabase, recordScore, game.key]);
+
+  const handleRevealTop3 = useCallback(async () => {
+    if (!sessionId) return;
+    const { data } = await supabase
+      .from('scores')
+      .select('*')
+      .eq('session_id', sessionId)
+      .eq('prompt_index', promptIndexRef.current)
+      .filter('response_data->>type', 'eq', 'remote_submission')
+      .order('points', { ascending: false })
+      .limit(3);
+
+    if (data?.length) {
+      const submissions: TopSubmission[] = data.map((s) => ({
+        content: (s.response_data as Record<string, unknown>)?.content as string ?? '',
+        feedback: (s.response_data as Record<string, unknown>)?.feedback as string ?? '',
+        points: s.points,
+        clientId: s.client_id ?? s.student_id ?? '',
+        displayName: s.display_name ?? studentsRef.current.find((st) => st.id === s.student_id)?.name ?? 'Unknown',
+      }));
+      onRevealTopSubmissionsRef.current?.(submissions);
+      // Advance prompt index so the next round's submissions are tracked separately
+      promptIndexRef.current++;
+    }
+  }, [sessionId, supabase]);
 
   return (
     <>
@@ -372,7 +421,14 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds }: G
               <h2 className="text-lg font-bold">{game.name}</h2>
               <ModifierBadge />
             </div>
-            {/* StreakIndicator hidden — streak bonuses removed */}
+            {autoApprove && (
+              <button
+                onClick={handleRevealTop3}
+                className="px-3 py-1.5 text-xs font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg hover:bg-cyan-500/30 transition-all"
+              >
+                Reveal Top 3
+              </button>
+            )}
           </div>
           <div className="glass rounded-2xl p-6 min-h-[400px]">
             {/* Block game if spin needed */}

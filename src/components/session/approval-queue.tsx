@@ -46,6 +46,11 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
     setProcessingId(null);
   };
 
+  if (autoApprove) {
+    // Silent processor — no UI shown, but auto-approval useEffect fires above
+    return null;
+  }
+
   if (isLoading) {
     return (
       <div className="glass rounded-xl p-4">

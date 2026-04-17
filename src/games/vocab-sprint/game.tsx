@@ -200,6 +200,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     if (isSimultaneous) return;
 
     onRegisterSubmissionHandler?.({
+      autoApprove: true,
       handleSubmission: async (content: string) => {
         const sentence = currentSentenceRef.current;
         if (!sentence) {

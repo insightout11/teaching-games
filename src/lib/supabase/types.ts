@@ -87,6 +87,8 @@ export interface StudentSubmission {
   published_to_class: boolean;
   published_at: string | null;
   answered_at: string | null;
+  ai_feedback: string | null;
+  ai_score: number | null;
 }
 
 export interface QuestionVote {
@@ -112,6 +114,7 @@ export interface StudentSessionPref {
   session_id: string;
   client_id: string;
   score_visible: boolean;
+  scoring_mode: string | null;
   updated_at: string;
 }
 

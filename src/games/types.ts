@@ -47,6 +47,14 @@ export interface GameConfigField {
   default: unknown;
 }
 
+export interface TopSubmission {
+  content: string;
+  feedback: string;
+  points: number;
+  clientId: string;
+  displayName: string;
+}
+
 export interface GamePlugin {
   key: string;
   name: string;

@@ -140,6 +140,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   // Register submission handler (fallback for approval-based flow)
   useEffect(() => {
     onRegisterSubmissionHandler?.({
+      autoApprove: true,
       handleSubmission: async (content: string) => {
         const ch = challengeRef.current;
         if (!ch) {

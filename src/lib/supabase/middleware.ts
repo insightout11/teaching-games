@@ -40,7 +40,15 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    // If Supabase auth fails (e.g. Edge Runtime issue, network error), pass through
+    // rather than crashing with MIDDLEWARE_INVOCATION_FAILED
+    return supabaseResponse;
+  }
 
   // Protect dashboard routes
   const isDashboard = request.nextUrl.pathname.startsWith('/classes') ||

@@ -160,6 +160,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
     if (isSimultaneous) return;
 
     onRegisterSubmissionHandler?.({
+      autoApprove: true,
       handleSubmission: async (content: string) => {
         const ch = challengeRef.current;
         if (!ch) {

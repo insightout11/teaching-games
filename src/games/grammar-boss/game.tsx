@@ -275,6 +275,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     if (isSimultaneous) return;
 
     onRegisterSubmissionHandler?.({
+      autoApprove: true,
       handleSubmission: async (content: string) => {
         const ch = currentChallengeRef.current;
         if (!ch) return { isCorrect: false, points: 1, feedback: 'No active challenge' };

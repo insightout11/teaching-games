@@ -167,8 +167,13 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // My Flight Deck state
   const [flightDeckOpen, setFlightDeckOpen] = useState(false);
   const [scoreVisible, setScoreVisible] = useState(true);
+  const [scoringMode, setScoringMode] = useState<string | null>(null);
   const [isSavingPrefs, setIsSavingPrefs] = useState(false);
   const [prefsSaved, setPrefsSaved] = useState(false);
+
+  // AI feedback state
+  const [latestFeedback, setLatestFeedback] = useState<{ feedback: string; points: number; submissionId: string } | null>(null);
+  const [seenFeedbackId, setSeenFeedbackId] = useState<string | null>(null);
 
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
@@ -205,6 +210,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setGrammarTarget(data.grammarTarget ?? null);
       if (data.referenceVocab) setReferenceVocab(data.referenceVocab);
       if (data.referenceExpressions) setReferenceExpressions(data.referenceExpressions);
+      if (data.latestFeedback) setLatestFeedback(data.latestFeedback);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -218,11 +224,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     return () => clearInterval(interval);
   }, [checkSession]);
 
-  // Load score privacy pref once on mount
+  // Load flight deck prefs once on mount
   useEffect(() => {
     fetch(`/api/student/prefs?sessionId=${sessionId}&clientId=${studentSession.clientId}`)
       .then((r) => r.ok ? r.json() : null)
-      .then((data) => { if (data) setScoreVisible(data.score_visible ?? true); })
+      .then((data) => {
+        if (data) {
+          setScoreVisible(data.score_visible ?? true);
+          setScoringMode(data.scoring_mode ?? null);
+        }
+      })
       .catch(() => {});
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
@@ -440,7 +451,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       const res = await fetch('/api/student/prefs', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, clientId: studentSession.clientId, score_visible: scoreVisible }),
+        body: JSON.stringify({ sessionId, clientId: studentSession.clientId, score_visible: scoreVisible, scoring_mode: scoringMode }),
       });
       if (res.ok) {
         setPrefsSaved(true);
@@ -598,6 +609,23 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         <div className="glass rounded-2xl px-5 py-3 mb-4 border border-violet-500/30">
           <p className="text-xs text-violet-400 uppercase tracking-widest mb-1">Your Mission</p>
           <p className="text-sm text-white leading-snug">{personalMission}</p>
+        </div>
+      )}
+
+      {/* AI Feedback card — shown after auto-evaluated submission */}
+      {latestFeedback && latestFeedback.submissionId !== seenFeedbackId && (
+        <div className="glass rounded-2xl p-4 mb-4 border border-cyan-500/20">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-cyan-400 uppercase tracking-widest">AI Feedback</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-bold text-yellow-400">{latestFeedback.points} pts</span>
+              <button
+                onClick={() => setSeenFeedbackId(latestFeedback.submissionId)}
+                className="text-gray-500 hover:text-white text-lg leading-none"
+              >×</button>
+            </div>
+          </div>
+          <p className="text-sm text-gray-200 leading-relaxed">{latestFeedback.feedback}</p>
         </div>
       )}
 
@@ -932,25 +960,44 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         {flightDeckOpen && (
           <div className="glass rounded-2xl p-4 mt-2 space-y-4">
             <div>
-              <p className="text-xs text-gray-400 mb-2">Scoreboard visibility</p>
+              <p className="text-xs text-gray-400 mb-2">Scoring mode</p>
               <div className="flex gap-2">
                 <button
-                  onClick={() => setScoreVisible(true)}
+                  onClick={() => setScoringMode(null)}
                   className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${
-                    scoreVisible ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/40' : 'bg-white/5 text-gray-400'
+                    scoringMode === null ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/40' : 'bg-white/5 text-gray-400'
                   }`}
                 >
-                  Show my name
+                  Default
                 </button>
                 <button
-                  onClick={() => setScoreVisible(false)}
+                  onClick={() => setScoringMode('competitive')}
                   className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${
-                    !scoreVisible ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-white/5 text-gray-400'
+                    scoringMode === 'competitive' ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/40' : 'bg-white/5 text-gray-400'
                   }`}
                 >
-                  Fly anonymous
+                  Competitive
+                </button>
+                <button
+                  onClick={() => setScoringMode('participation')}
+                  className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${
+                    scoringMode === 'participation' ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-white/5 text-gray-400'
+                  }`}
+                >
+                  Participation
                 </button>
               </div>
+            </div>
+            <div>
+              <button
+                onClick={() => setScoreVisible((v) => !v)}
+                className="w-full flex items-center justify-between py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
+              >
+                <span className="text-xs text-gray-300">Play stealth · hide my name everywhere</span>
+                <span className={`w-8 h-4 rounded-full transition-all flex-shrink-0 ${!scoreVisible ? 'bg-violet-500' : 'bg-white/20'}`}>
+                  <span className={`block w-3 h-3 rounded-full bg-white mt-0.5 transition-all ${!scoreVisible ? 'translate-x-4' : 'translate-x-0.5'}`} />
+                </span>
+              </button>
             </div>
             <button
               onClick={handleSavePrefs}
