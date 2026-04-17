@@ -186,11 +186,6 @@ export function BrainTeasersGame({
             <p className="text-2xl font-semibold leading-relaxed">{riddle.riddle}</p>
           </div>
 
-          {/* Teacher-only answer peek */}
-          <div className="w-full max-w-2xl bg-amber-500/10 border border-amber-500/20 rounded-xl px-5 py-3">
-            <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1">Answer (teacher only)</p>
-            <p className="text-amber-200 font-medium">{riddle.answers[0]}</p>
-          </div>
         </div>
 
         {/* Bottom bar */}
