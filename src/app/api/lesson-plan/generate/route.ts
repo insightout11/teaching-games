@@ -1488,7 +1488,8 @@ async function generateImposter(topic: string, difficulty: Difficulty): Promise<
 Difficulty: ${difficultyDescriptions[difficulty]}
 
 Rules:
-- Each word must be a single concrete noun, verb, or short phrase (1–3 words) related to the topic
+- Each word must be a single concrete NOUN directly from the topic category (e.g. if topic is "food", use words like "noodle", "spice", "broth")
+- No verbs, adjectives, or abstract concepts — nouns only
 - The word must be clearly describable without saying it directly (good for giving one-word clues)
 - The description (1 sentence, max 20 words) is revealed to the class after the round — it explains the word simply
 - Words must be distinct from each other and appropriately challenging for ${difficultyDescriptions[difficulty]} level
@@ -1503,9 +1504,9 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "de
     return { activityKey: 'imposter', topicContext: topic, rounds, topic };
   } catch {
     const fallback: ImposterRound[] = [
-      { word: 'conversation', description: 'A spoken exchange of thoughts and ideas between two or more people.' },
-      { word: 'deadline', description: 'The latest time by which something must be finished or submitted.' },
-      { word: 'compromise', description: 'An agreement where each side gives up something to reach a solution.' },
+      { word: 'classroom', description: 'A room in a school where students gather to learn.' },
+      { word: 'notebook', description: 'A small book with blank or lined pages used for writing notes.' },
+      { word: 'dictionary', description: 'A book that lists words and explains what they mean.' },
     ];
     return { activityKey: 'imposter', topicContext: topic, rounds: fallback, topic };
   }
