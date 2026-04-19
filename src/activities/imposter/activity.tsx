@@ -9,9 +9,6 @@ type Phase = 'idle' | 'briefing' | 'clues' | 'voting' | 'redemption' | 'reveal' 
 
 type ImposterAssignment = { role: 'insider'; word: string } | { role: 'imposter' };
 
-function pickImposter(students: Student[]): string {
-  return students[Math.floor(Math.random() * students.length)].name;
-}
 
 function buildAssignments(students: Student[], imposterName: string, word: string): Record<string, ImposterAssignment> {
   const result: Record<string, ImposterAssignment> = {};
@@ -56,6 +53,7 @@ export function ImposterActivity({
   confirmedClientIdsRef.current = confirmedClientIds;
   const scoredVoterClientIdsRef = useRef(scoredVoterClientIds);
   scoredVoterClientIdsRef.current = scoredVoterClientIds;
+  const usedImposterNamesRef = useRef<string[]>([]);
 
   const currentRound = content.rounds?.[roundIndex] ?? content.rounds?.[0];
   const hasNextRound = roundIndex + 1 < (content.rounds?.length ?? 0);
@@ -119,7 +117,11 @@ export function ImposterActivity({
   // ─── Handlers ─────────────────────────────────────────────────────────────
   const handleStart = useCallback(() => {
     if (!currentRound) return;
-    const newImposter = pickImposter(students);
+    const usedNames = usedImposterNamesRef.current;
+    const available = students.filter(s => !usedNames.includes(s.name));
+    const pool = available.length > 0 ? available : students;
+    const newImposter = pool[Math.floor(Math.random() * pool.length)].name;
+    usedImposterNamesRef.current = [...usedNames, newImposter];
     const newAssignments = buildAssignments(students, newImposter, currentRound.word);
     setImposterName(newImposter);
     setAssignments(newAssignments);
@@ -246,10 +248,8 @@ export function ImposterActivity({
         </div>
 
         {currentRound && (
-          <div className="glass p-4 rounded-2xl border border-white/10 space-y-1">
-            <p className="text-xs opacity-40 uppercase tracking-wide">Secret word (Round {roundIndex + 1})</p>
-            <p className="text-3xl font-bold text-rose-400">{currentRound.word}</p>
-            <p className="text-xs opacity-50 leading-relaxed">{currentRound.description}</p>
+          <div className="glass p-4 rounded-2xl border border-white/10 text-center">
+            <p className="text-sm opacity-40">Round {roundIndex + 1} of {content.rounds?.length ?? 1}</p>
           </div>
         )}
 
@@ -280,12 +280,6 @@ export function ImposterActivity({
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-rose-400">Reading Cards…</h3>
           <span className="text-sm opacity-60">{confirmedCount} / {students.length} ready</span>
-        </div>
-
-        <div className="glass p-5 rounded-2xl border border-rose-500/20 bg-rose-500/5 text-center space-y-2">
-          <p className="text-xs opacity-40 uppercase tracking-widest">The imposter is</p>
-          <p className="text-2xl font-bold text-rose-400">{imposterName}</p>
-          <p className="text-xs opacity-40">(only visible to you)</p>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -324,7 +318,6 @@ export function ImposterActivity({
   // ─── CLUES ─────────────────────────────────────────────────────────────────
   if (phase === 'clues') {
     const currentStudent = students[currentIdx];
-    const isImposter = currentStudent?.name === imposterName;
     const isLastStudent = currentIdx + 1 >= students.length;
 
     return (
@@ -332,15 +325,6 @@ export function ImposterActivity({
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-rose-400">Clue Round</h3>
           <span className="text-sm opacity-60">{currentIdx + 1} / {students.length}</span>
-        </div>
-
-        {/* Secret word reminder for teacher */}
-        <div className="glass px-4 py-2 rounded-xl border border-rose-500/20 flex items-center gap-3">
-          <span className="text-xs opacity-40 uppercase tracking-wide">Word</span>
-          <span className="font-bold text-rose-400">{currentRound?.word}</span>
-          {isImposter && (
-            <span className="ml-auto text-xs px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded-full">← imposter!</span>
-          )}
         </div>
 
         {/* Current speaker */}
