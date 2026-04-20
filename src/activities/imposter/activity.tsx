@@ -9,6 +9,14 @@ type Phase = 'idle' | 'briefing' | 'clues' | 'voting' | 'redemption' | 'reveal' 
 
 type ImposterAssignment = { role: 'insider'; word: string } | { role: 'imposter' };
 
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 function buildAssignments(students: Student[], imposterName: string, word: string): Record<string, ImposterAssignment> {
   const result: Record<string, ImposterAssignment> = {};
@@ -41,6 +49,8 @@ export function ImposterActivity({
   const [scoredVoterClientIds, setScoredVoterClientIds] = useState<Set<string>>(new Set());
   const [imposterGuessResult, setImposterGuessResult] = useState<'correct' | 'incorrect' | null>(null);
   const [clueScored, setClueScored] = useState<Set<number>>(new Set());
+  const [shuffledStudents, setShuffledStudents] = useState<Student[]>([]);
+  const [imposterCaught, setImposterCaught] = useState(false);
 
   // Refs for vote handler (same pattern as character-cards)
   const phaseRef = useRef(phase);
@@ -131,7 +141,9 @@ export function ImposterActivity({
     setVotedClientIds(new Set());
     setScoredVoterClientIds(new Set());
     setImposterGuessResult(null);
+    setImposterCaught(false);
     setClueScored(new Set());
+    setShuffledStudents(shuffle(students));
     setPhase('briefing');
     onPhaseChange?.('briefing');
   }, [currentRound, students, onPhaseChange]);
@@ -143,7 +155,7 @@ export function ImposterActivity({
   }, [onPhaseChange]);
 
   const handleNextClue = useCallback(async () => {
-    const student = students[currentIdx];
+    const student = shuffledStudents[currentIdx];
     if (student && !clueScored.has(currentIdx)) {
       setClueScored((prev) => new Set(Array.from(prev).concat([currentIdx])));
       await onScore?.({
@@ -156,43 +168,40 @@ export function ImposterActivity({
       });
     }
     const next = currentIdx + 1;
-    if (next >= students.length) {
+    if (next >= shuffledStudents.length) {
       setPhase('voting');
       onPhaseChange?.('voting');
     } else {
       setCurrentIdx(next);
     }
-  }, [currentIdx, students, clueScored, onScore, onPhaseChange]);
+  }, [currentIdx, shuffledStudents, clueScored, onScore, onPhaseChange]);
 
   const handleSkipClue = useCallback(() => {
     const next = currentIdx + 1;
-    if (next >= students.length) {
+    if (next >= shuffledStudents.length) {
       setPhase('voting');
       onPhaseChange?.('voting');
     } else {
       setCurrentIdx(next);
     }
-  }, [currentIdx, students.length, onPhaseChange]);
+  }, [currentIdx, shuffledStudents.length, onPhaseChange]);
 
   const handleEndVoting = useCallback(() => {
     // Find most-voted student
     const entries = Object.entries(voteCounts);
     if (entries.length === 0) {
-      setPhase('reveal');
-      onPhaseChange?.('reveal');
+      setImposterCaught(false);
+      setPhase('redemption');
+      onPhaseChange?.('redemption');
       return;
     }
     const maxVotes = Math.max(...entries.map(([, c]) => c));
     const topNames = entries.filter(([, c]) => c === maxVotes).map(([n]) => n);
     const accused = topNames.length === 1 ? topNames[0] : null; // null = tie
 
-    if (accused && accused === imposterName) {
-      setPhase('redemption');
-      onPhaseChange?.('redemption');
-    } else {
-      setPhase('reveal');
-      onPhaseChange?.('reveal');
-    }
+    setImposterCaught(!!(accused && accused === imposterName));
+    setPhase('redemption');
+    onPhaseChange?.('redemption');
   }, [voteCounts, imposterName, onPhaseChange]);
 
   const handleRedemption = useCallback(async (result: 'correct' | 'incorrect') => {
@@ -317,14 +326,14 @@ export function ImposterActivity({
 
   // ─── CLUES ─────────────────────────────────────────────────────────────────
   if (phase === 'clues') {
-    const currentStudent = students[currentIdx];
-    const isLastStudent = currentIdx + 1 >= students.length;
+    const currentStudent = shuffledStudents[currentIdx];
+    const isLastStudent = currentIdx + 1 >= shuffledStudents.length;
 
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-rose-400">Clue Round</h3>
-          <span className="text-sm opacity-60">{currentIdx + 1} / {students.length}</span>
+          <span className="text-sm opacity-60">{currentIdx + 1} / {shuffledStudents.length}</span>
         </div>
 
         {/* Current speaker */}
@@ -338,7 +347,7 @@ export function ImposterActivity({
 
         {/* Upcoming speakers */}
         <div className="flex flex-wrap gap-2">
-          {students.map((student, i) => (
+          {shuffledStudents.map((student, i) => (
             <span
               key={student.id}
               className={`text-xs px-3 py-1 rounded-full ${
@@ -421,12 +430,20 @@ export function ImposterActivity({
     return (
       <div className="space-y-6">
         <div className="text-center space-y-2">
-          <p className="text-2xl font-bold text-rose-400">Imposter Caught!</p>
-          <p className="text-sm opacity-60">The class voted for <strong>{imposterName}</strong>.</p>
+          <p className="text-2xl font-bold text-rose-400">
+            {imposterCaught ? 'Imposter Caught!' : 'Imposter Wins!'}
+          </p>
+          <p className="text-sm opacity-60">
+            {imposterCaught
+              ? <>The class voted for <strong>{imposterName}</strong>.</>
+              : <><strong>{imposterName}</strong> got away — but can they still guess the word?</>}
+          </p>
         </div>
 
         <div className="glass p-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 text-center space-y-3">
-          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">Last Chance</p>
+          <p className="text-xs font-semibold text-amber-400/80 uppercase tracking-wide">
+            {imposterCaught ? 'Last Chance' : 'Bonus Round'}
+          </p>
           <p className="text-base leading-snug opacity-90">
             <strong>{imposterName}</strong>, what was the secret word?
           </p>
