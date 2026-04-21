@@ -26,7 +26,7 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
           key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`}
           spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
       }
-      return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
+      return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} displayName={displayName} />;
     case 'binary':
       return <BinaryInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'multi-select':
@@ -445,7 +445,7 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInpu
 }
 
 // Multiple choice (pick one)
-function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, displayName }: DynamicInputProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [writeInMode, setWriteInMode] = useState(false);
   const [writeInText, setWriteInText] = useState('');
@@ -460,6 +460,21 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
     setWriteInMode(false);
     setWriteInText('');
   }, [submitValue, isSubmitting, onSubmit]);
+
+  const isSpeaker =
+    spec.gameKey === 'defend-it' &&
+    displayName != null &&
+    (spec.perStudentData?.[displayName] as { isSpeaker?: boolean } | undefined)?.isSpeaker === true;
+
+  if (isSpeaker) {
+    return (
+      <div className="flex flex-col items-center gap-3 py-8 text-center">
+        <p className="text-4xl">🎤</p>
+        <p className="text-xl font-black text-amber-400">You&apos;re speaking!</p>
+        <p className="text-sm opacity-60">Your classmates are reacting live</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -886,9 +901,32 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
     ? (spec.perStudentData[displayName] as { role: 'speaker' | 'guesser'; word?: string } | undefined)
     : undefined;
 
+  // Look up defend-it side assignment for this student
+  const defendItCard = spec.gameKey === 'defend-it' && displayName && spec.perStudentData
+    ? (spec.perStudentData[displayName] as { side?: 'DEFEND' | 'ATTACK' } | undefined)
+    : undefined;
+
   return (
     <div className="space-y-6 text-center">
-      {passwordCard ? (
+      {defendItCard?.side ? (
+        <div className={`rounded-2xl p-6 space-y-3 ${
+          defendItCard.side === 'DEFEND'
+            ? 'bg-emerald-500/10 border border-emerald-500/30'
+            : 'bg-rose-500/10 border border-rose-500/30'
+        }`}>
+          <p className={`text-xs uppercase tracking-widest font-semibold ${
+            defendItCard.side === 'DEFEND' ? 'text-emerald-400/70' : 'text-rose-400/70'
+          }`}>Your side</p>
+          <p className={`text-3xl font-black ${
+            defendItCard.side === 'DEFEND' ? 'text-emerald-300' : 'text-rose-300'
+          }`}>{defendItCard.side === 'DEFEND' ? '🛡️ DEFEND' : '⚔️ ATTACK'}</p>
+          <p className="text-sm opacity-60">
+            {defendItCard.side === 'DEFEND'
+              ? 'Argue FOR this statement when called on!'
+              : 'Argue AGAINST this statement when called on!'}
+          </p>
+        </div>
+      ) : passwordCard ? (
         passwordCard.role === 'speaker' ? (
           <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6 space-y-3">
             <p className="text-xs text-emerald-400/70 uppercase tracking-widest font-semibold">Your password</p>

@@ -15,6 +15,7 @@ import { gridRushPlugin } from './grid-rush';
 import { BookA, PenLine, Brain, Zap } from 'lucide-react';
 import { flashQuizPlugin } from './flash-quiz';
 import { brainTeasersPlugin } from './brain-teasers';
+import { defendItPlugin } from './defend-it';
 
 const games: GamePlugin[] = [
   flashQuizPlugin,
@@ -31,6 +32,7 @@ const games: GamePlugin[] = [
   dialogueDetectivePlugin,
   connectionsPlugin,
   twentyQuestionsPlugin,
+  defendItPlugin,
 ];
 
 export function getGame(key: string): GamePlugin | undefined {
