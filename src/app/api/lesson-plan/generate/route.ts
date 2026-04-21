@@ -37,6 +37,8 @@ import type {
   CharacterCard,
   ImposterContent,
   ImposterRound,
+  PasswordContent,
+  PasswordRound,
   GrammarCheckInContent,
   GrammarProofContent,
   FinalWordContent,
@@ -1512,6 +1514,59 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "de
   }
 }
 
+async function generatePassword(topic: string, difficulty: Difficulty): Promise<PasswordContent> {
+  const cached = await getCachedContent('password', topic, difficulty, [], undefined, 1);
+  if (cached) {
+    const c = cached.content_json as { rounds: PasswordRound[] };
+    return { activityKey: 'password', topicContext: topic, rounds: c.rounds ?? [], topic };
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      rounds: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            word: { type: 'string' },
+            description: { type: 'string' },
+          },
+          required: ['word', 'description'],
+        },
+      },
+    },
+    required: ['rounds'],
+  };
+
+  const prompt = `Generate 3 secret passwords for an ESL classroom Password game on the topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Rules:
+- Each word must be a single word (noun, verb, or adjective) related to the topic
+- The word must be natural to include in conversation about the topic without sounding forced
+- Avoid words so central that every sentence would obviously contain them (e.g. for "food" avoid "eat")
+- Not too obscure — students should recognise it; not too obvious — it should take skill to hide
+- description: one sentence (max 20 words) explaining the word, revealed to the class after the round
+- All 3 words must be different parts of speech or difficulty level for variety
+
+Return JSON: { "rounds": [{ "word": string, "description": string }] } — exactly 3 rounds.`;
+
+  try {
+    const data = await generateJSON<{ rounds: PasswordRound[] }>(prompt, schema);
+    const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
+    void storeCachedContent('password', topic, difficulty, { rounds }, 1);
+    return { activityKey: 'password', topicContext: topic, rounds, topic };
+  } catch {
+    const fallback: PasswordRound[] = [
+      { word: 'practice', description: 'Doing something repeatedly to get better at it.' },
+      { word: 'fluent', description: 'Able to speak a language easily and accurately.' },
+      { word: 'mistake', description: 'An error made when doing or saying something.' },
+    ];
+    return { activityKey: 'password', topicContext: topic, rounds: fallback, topic };
+  }
+}
+
 async function generateGrammarCheckIn(topic: string, difficulty: Difficulty, grammarTarget?: string): Promise<GrammarCheckInContent> {
   const cacheVariant = grammarTarget ?? 'auto';
   const cached = await getCachedContent('grammar-check-in', topic, difficulty, [], cacheVariant, 1);
@@ -1850,6 +1905,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'imposter':
             generators.push(generateImposter(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'password':
+            generators.push(generatePassword(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-check-in':
             generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget).then((r) => { content[activityKey] = r; }));

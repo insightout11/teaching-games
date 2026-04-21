@@ -22,6 +22,7 @@ import { missionSelectorPlugin } from './mission-selector';
 import { opinionShiftPlugin } from './opinion-shift';
 import { characterCardsPlugin } from './character-cards';
 import { imposterPlugin } from './imposter';
+import { passwordPlugin } from './password';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarProofPlugin } from './grammar-proof';
 import { finalWordPlugin } from './final-word';
@@ -34,6 +35,7 @@ const activities: ActivityPlugin[] = [
   missionSelectorPlugin,
   characterCardsPlugin,
   imposterPlugin,
+  passwordPlugin,
   grammarCheckInPlugin,
   quickPulsePlugin,
   wonderBoardPlugin,

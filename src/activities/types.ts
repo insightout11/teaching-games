@@ -581,6 +581,18 @@ export interface ImposterContent extends ActivityGeneratedContent {
   topic: string;
 }
 
+// Password content
+export interface PasswordRound {
+  word: string;
+  description: string;
+}
+
+export interface PasswordContent extends ActivityGeneratedContent {
+  activityKey: 'password';
+  rounds: PasswordRound[];
+  topic: string;
+}
+
 // Grammar Check-In content
 export interface GrammarCheckInSentence {
   text: string;

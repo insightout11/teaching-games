@@ -881,9 +881,28 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
     ? (spec.perStudentData[displayName] as { role: 'insider' | 'imposter'; word?: string } | undefined)
     : undefined;
 
+  // Look up password assignment for this student
+  const passwordCard = spec.gameKey === 'password' && displayName && spec.perStudentData
+    ? (spec.perStudentData[displayName] as { role: 'speaker' | 'guesser'; word?: string } | undefined)
+    : undefined;
+
   return (
     <div className="space-y-6 text-center">
-      {imposterCard ? (
+      {passwordCard ? (
+        passwordCard.role === 'speaker' ? (
+          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6 space-y-3">
+            <p className="text-xs text-emerald-400/70 uppercase tracking-widest font-semibold">Your password</p>
+            <p className="text-4xl font-bold text-emerald-300">{passwordCard.word}</p>
+            <p className="text-sm opacity-60">Use it naturally in conversation — don&apos;t make it obvious!</p>
+          </div>
+        ) : (
+          <div className="bg-sky-500/10 border border-sky-500/30 rounded-2xl p-6 space-y-3">
+            <p className="text-xs text-sky-400/70 uppercase tracking-widest font-semibold">Listen carefully</p>
+            <p className="text-4xl">👂</p>
+            <p className="text-base opacity-70">What word did every speaker have in common?</p>
+          </div>
+        )
+      ) : imposterCard ? (
         imposterCard.role === 'imposter' ? (
           <div className="bg-rose-500/10 border border-rose-500/30 rounded-2xl p-6 space-y-3">
             <p className="text-xs text-rose-400/70 uppercase tracking-widest font-semibold">Your role</p>
