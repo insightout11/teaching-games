@@ -2,6 +2,8 @@ export interface GameSentence {
   sentence: string;
   weakWord: string;
   hint: string;
+  level: 'easy' | 'medium' | 'hard';
+  targetWord?: string; // hard rounds only: the precise term expected
 }
 
 export interface EvaluationResult {

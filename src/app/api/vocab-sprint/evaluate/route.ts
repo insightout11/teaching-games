@@ -26,14 +26,29 @@ const schema: AISchema = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { originalSentence, weakWord, replacement, difficulty } = await request.json() as {
+    const { originalSentence, weakWord, replacement, difficulty, level, targetWord } = await request.json() as {
       originalSentence: string;
       weakWord: string;
       replacement: string;
       difficulty: Difficulty;
+      level?: 'easy' | 'medium' | 'hard';
+      targetWord?: string;
     };
 
-    const prompt = `Original Sentence: "${originalSentence}"
+    const prompt = level === 'hard' && targetWord
+      ? `Original sentence: "${originalSentence}"
+Descriptive phrase: "${weakWord}"
+Expected precise term: "${targetWord}"
+Student's answer: "${replacement}"
+Difficulty: ${difficulty}
+
+Task: The student must recall the exact vocabulary term described by the phrase.
+- Score 10 if the student produced "${targetWord}" or a very close equivalent.
+- Score 6–9 for related terms that show understanding but lack precision.
+- Score 1–5 for wrong or unrelated answers.
+- Short, energetic comment (max 10 words).
+- For score < 10: suggestions should include "${targetWord}" as the first item plus 1–2 related terms.`
+      : `Original Sentence: "${originalSentence}"
 Weak word targeted: "${weakWord}"
 Student's suggested replacement: "${replacement}"
 Context Difficulty: ${difficulty}

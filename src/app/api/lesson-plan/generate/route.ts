@@ -1074,7 +1074,7 @@ async function generateSceneIgniter(topic: string, difficulty: Difficulty): Prom
 // Game Generators
 // ============================================
 
-async function generateVocabSprint(topic: string, difficulty: Difficulty): Promise<VocabSprintGeneratedContent> {
+async function generateVocabSprint(topic: string, difficulty: Difficulty, keyVocabWords?: string[]): Promise<VocabSprintGeneratedContent> {
   const schema: AISchema = {
     type: 'array',
     items: {
@@ -1083,28 +1083,49 @@ async function generateVocabSprint(topic: string, difficulty: Difficulty): Promi
         sentence: { type: 'string' },
         weakWord: { type: 'string' },
         hint: { type: 'string' },
+        level: { type: 'string' },
+        targetWord: { type: 'string' },
       },
-      required: ['sentence', 'weakWord', 'hint'],
+      required: ['sentence', 'weakWord', 'hint', 'level', 'targetWord'],
     },
   };
 
-  const prompt = `Generate 5 unique, natural English sentences for an English learner at ${difficultyDescriptions[difficulty]}
+  const hardRoundInstructions = keyVocabWords?.length
+    ? `Use EXACTLY these vocabulary words as the targetWord for your 2 hard sentences (one word per sentence): ${keyVocabWords.slice(0, 2).join(', ')}.`
+    : 'Choose 2 challenging topic-specific vocabulary terms appropriate for this difficulty level.';
+
+  const prompt = `Generate exactly 6 English sentences for vocabulary practice at ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
 
-CRITICAL RULES:
-1. Each sentence must contain exactly ONE 'generic' or 'weak' word (the 'weakWord') to be replaced.
-2. EVERY sentence must use a DIFFERENT weak word - NO REPEATS across the 5 sentences.
-3. Prioritize VERBS and ADJECTIVES as weak words.
+DISTRIBUTE EXACTLY: 2 easy + 2 medium + 2 hard sentences (level field must be "easy", "medium", or "hard").
 
-Choose weak words from this list (use variety - pick 5 DIFFERENT ones):
-- Adjectives: good, bad, big, small, nice, interesting, important, happy, sad, great, amazing, terrible, beautiful
-- Verbs: said, went, got, think, look, make, do, take, give, show, change, tell, walk, run
+--- EASY (2 sentences) ---
+Each sentence contains ONE generic weak word (the "weakWord") for the student to replace with a stronger synonym.
+Choose from: good, bad, big, small, nice, interesting, important, happy, sad, great, amazing, terrible, said, went, got, think, look, make, walk, run.
+Set targetWord to "" for easy sentences.
 
-Provide a 'hint' for each sentence—a short, friendly piece of advice (max 10 words).
-Return exactly 5 objects as a JSON array with varied weak words.`;
+--- MEDIUM (2 sentences) ---
+Each sentence uses a topic-adjacent phrase that is imprecise (the "weakWord") which the student replaces with more precise vocabulary.
+Example: "The factory puts out a lot of gas." → weakWord: "puts out" → better: "emits"
+Set targetWord to "" for medium sentences.
 
-  const sentences = await generateJSON<Array<{ sentence: string; weakWord: string; hint: string }>>(prompt, schema);
-  return { gameKey: 'vocab-sprint', sentences };
+--- HARD (2 sentences) ---
+Each sentence describes a key vocabulary concept in plain language. The "weakWord" is the descriptive phrase. The student must type the PRECISE vocabulary term.
+${hardRoundInstructions}
+Example: "We need to cut down our total effect on the climate from energy use." → weakWord: "total effect on the climate from energy use" → targetWord: "carbon footprint"
+Set targetWord to the exact precise term expected.
+
+Return exactly 6 objects as a JSON array ordered: 2 easy, 2 medium, 2 hard.`;
+
+  const sentences = await generateJSON<Array<{ sentence: string; weakWord: string; hint: string; level: string; targetWord: string }>>(prompt, schema);
+  return {
+    gameKey: 'vocab-sprint',
+    sentences: sentences.map(s => ({
+      ...s,
+      level: (['easy', 'medium', 'hard'].includes(s.level) ? s.level : 'easy') as 'easy' | 'medium' | 'hard',
+      targetWord: s.targetWord || undefined,
+    })),
+  };
 }
 
 async function generateGrammarBoss(topic: string, difficulty: Difficulty): Promise<GrammarBossGeneratedContent> {
@@ -1835,9 +1856,20 @@ export async function POST(request: NextRequest) {
     const gameContent: Record<string, GameGeneratedContent> = {};
     const generators: Promise<void>[] = [];
 
+    // Vocab Blitz shared word list: run Vocab Radar first, pass words to Vocab Sprint
+    const vocabBlitzMode = hasActivities && hasGames &&
+      activities.includes('vocab-radar') && games.includes('vocab-sprint');
+    if (vocabBlitzMode) {
+      const vocabRadarResult = await generateVocabRadar(customTopic, diff);
+      content['vocab-radar'] = vocabRadarResult;
+      const keyVocabWords = vocabRadarResult.words.map((w) => w.word);
+      gameContent['vocab-sprint'] = await generateVocabSprint(customTopic, diff, keyVocabWords);
+    }
+
     // Generate activity content
     if (hasActivities) {
       for (const activityKey of activities) {
+        if (vocabBlitzMode && activityKey === 'vocab-radar') continue; // already generated above
         switch (activityKey) {
           case 'would-you-rather':
             generators.push(generateWouldYouRather(customTopic, diff, missionContext).then((r) => { content[activityKey] = r; }));
@@ -1932,6 +1964,7 @@ export async function POST(request: NextRequest) {
       for (const gameKey of games) {
         switch (gameKey) {
           case 'vocab-sprint':
+            if (vocabBlitzMode) break; // already generated sequentially above
             generators.push(generateVocabSprint(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'grammar-boss':

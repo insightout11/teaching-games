@@ -413,7 +413,7 @@ export interface LessonPlanGenerateRequest {
 // Game generated content types for lesson planner
 export interface VocabSprintGeneratedContent {
   gameKey: 'vocab-sprint';
-  sentences: Array<{ sentence: string; weakWord: string; hint: string }>;
+  sentences: Array<{ sentence: string; weakWord: string; hint: string; level: 'easy' | 'medium' | 'hard'; targetWord?: string }>;
 }
 
 export interface GrammarBossGeneratedContent {

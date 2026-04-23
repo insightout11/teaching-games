@@ -75,8 +75,10 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         onSetInputSpec?.({
           type: 'text',
           gameKey: 'vocab-sprint',
-          prompt: `Replace the weak word "${currentSentence.weakWord}" with a stronger word — race!`,
-          placeholder: 'Type an upgrade word...',
+          prompt: currentSentence.level === 'hard'
+            ? `What's the precise term for: "${currentSentence.weakWord}"? — race!`
+            : `Replace the weak word "${currentSentence.weakWord}" with a stronger word — race!`,
+          placeholder: currentSentence.level === 'hard' ? 'Type the precise term...' : 'Type an upgrade word...',
           maxLength: 50,
           timerSeconds: sessionSettings.timerSeconds,
           startedAt: raceStartedAtRef.current,
@@ -91,8 +93,10 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         onSetInputSpec?.({
           type: 'text',
           gameKey: 'vocab-sprint',
-          prompt: `Replace the weak word "${currentSentence.weakWord}" with a stronger word`,
-          placeholder: 'Type an upgrade word...',
+          prompt: currentSentence.level === 'hard'
+            ? `What's the precise term for: "${currentSentence.weakWord}"?`
+            : `Replace the weak word "${currentSentence.weakWord}" with a stronger word`,
+          placeholder: currentSentence.level === 'hard' ? 'Type the precise term...' : 'Type an upgrade word...',
           maxLength: 50,
           timerSeconds: sessionSettings.timerSeconds,
           startedAt: raceStartedAtRef.current,
@@ -135,6 +139,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           weakWord: sentence.weakWord,
           replacement,
           difficulty: sessionSettings.difficulty,
+          level: sentence.level,
+          targetWord: sentence.targetWord,
         }),
       });
 
@@ -220,7 +226,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
               originalSentence: sentence.sentence,
               weakWord: sentence.weakWord,
               replacement: content.trim(),
-              difficulty: sessionSettings.difficulty
+              difficulty: sessionSettings.difficulty,
+              level: sentence.level,
+              targetWord: sentence.targetWord,
             })
           });
 
@@ -401,7 +409,9 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           originalSentence: currentSentence.sentence,
           weakWord: currentSentence.weakWord,
           replacement: replacementInput.trim(),
-          difficulty: sessionSettings.difficulty
+          difficulty: sessionSettings.difficulty,
+          level: currentSentence.level,
+          targetWord: currentSentence.targetWord,
         })
       });
 
@@ -453,10 +463,22 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     }
   }, [isSimultaneous, status]);
 
-  // Render sentence with highlighted weak word
+  const LEVEL_LABELS: Record<'easy' | 'medium' | 'hard', string> = {
+    easy: 'EASY',
+    medium: 'MEDIUM',
+    hard: 'HARD',
+  };
+  const LEVEL_COLORS: Record<'easy' | 'medium' | 'hard', string> = {
+    easy: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
+    medium: 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10',
+    hard: 'text-red-400 border-red-500/30 bg-red-500/10',
+  };
+
+  // Render sentence with highlighted weak word or phrase
   const renderSentence = () => {
     if (!currentSentence) return null;
-    const parts = currentSentence.sentence.split(new RegExp(`(\\b${currentSentence.weakWord}\\b)`, 'gi'));
+    const escaped = currentSentence.weakWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const parts = currentSentence.sentence.split(new RegExp(`(${escaped})`, 'gi'));
     return (
       <div className="text-2xl md:text-4xl font-semibold leading-tight text-center px-2">
         {parts.map((part, i) => (
@@ -558,13 +580,20 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
             {/* Sentence Card */}
             <div className="glass p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-white/10">
+              {currentSentence.level && (
+                <div className="flex justify-center mb-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest border ${LEVEL_COLORS[currentSentence.level]}`}>
+                    {LEVEL_LABELS[currentSentence.level]}
+                  </span>
+                </div>
+              )}
               {renderSentence()}
               <div className="flex justify-between items-center mt-4 border-t border-white/5 pt-3 gap-2 opacity-50 text-[8px] font-black uppercase tracking-widest">
                 <div className="flex gap-2">
                   <span>{sessionSettings.difficulty}</span>
                   <span>{sessionSettings.topic}</span>
                 </div>
-                <p>Replace the highlighted word</p>
+                <p>{currentSentence.level === 'hard' ? "What's the precise term?" : 'Replace the highlighted word'}</p>
               </div>
             </div>
 
@@ -882,13 +911,20 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
           {/* Sentence Card */}
           <div className="glass p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-white/10 relative overflow-hidden">
+            {currentSentence?.level && (
+              <div className="flex justify-center mb-4">
+                <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest border ${LEVEL_COLORS[currentSentence.level]}`}>
+                  {LEVEL_LABELS[currentSentence.level]}
+                </span>
+              </div>
+            )}
             {renderSentence()}
             <div className="flex justify-between items-center mt-4 border-t border-white/5 pt-3 gap-2 opacity-50 text-[8px] font-black uppercase tracking-widest">
               <div className="flex gap-2">
                 <span>{sessionSettings.difficulty}</span>
                 <span>{sessionSettings.topic}</span>
               </div>
-              <p>Replace the highlighted word</p>
+              <p>{currentSentence?.level === 'hard' ? "What's the precise term?" : 'Replace the highlighted word'}</p>
             </div>
           </div>
 
@@ -915,7 +951,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                   type="text"
                   value={replacementInput}
                   onChange={(e) => setReplacementInput(e.target.value)}
-                  placeholder="Upgrade word..."
+                  placeholder={currentSentence?.level === 'hard' ? 'Type the precise term...' : 'Upgrade word...'}
                   autoFocus
                   className="flex-grow bg-black/40 border-2 border-white/10 p-4 rounded-2xl text-2xl font-bold focus:border-cyan-500 outline-none text-center"
                   onKeyDown={(e) => e.key === 'Enter' && submitEvaluation()}
@@ -940,7 +976,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                 disabled={!replacementInput.trim()}
                 className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl font-game text-xl hover:translate-y-[-2px] active:scale-95 transition-all text-white shadow-lg disabled:opacity-30 disabled:hover:translate-y-0"
               >
-                SUBMIT WORD
+                {currentSentence?.level === 'hard' ? 'SUBMIT ANSWER' : 'SUBMIT WORD'}
               </button>
             </div>
           )}

@@ -11,11 +11,12 @@ import type { GridContent } from '@/games/grid-rush/types';
 
 export function vocabSprintFallback(topic: string): GameSentence[] {
   return [
-    { sentence: `Learning about ${topic} can be very good for students.`, weakWord: 'good', hint: 'What kind of good? Be more specific.' },
-    { sentence: `Many people said that ${topic} is important.`, weakWord: 'said', hint: 'How did they express it?' },
-    { sentence: `There are big changes happening in ${topic}.`, weakWord: 'big', hint: 'What kind of changes — significant? dramatic?' },
-    { sentence: `She went to learn more about ${topic}.`, weakWord: 'went', hint: 'Try a more specific movement verb.' },
-    { sentence: `The presentation about ${topic} was nice.`, weakWord: 'nice', hint: 'Describe the quality more precisely.' },
+    { sentence: `Learning about ${topic} can be very good for students.`, weakWord: 'good', hint: 'What kind of good? Be more specific.', level: 'easy' },
+    { sentence: `Many people said that ${topic} is important.`, weakWord: 'said', hint: 'How did they express it?', level: 'easy' },
+    { sentence: `There are big changes happening in ${topic}.`, weakWord: 'big', hint: 'What kind of changes — significant? dramatic?', level: 'medium' },
+    { sentence: `She went to learn more about ${topic}.`, weakWord: 'went', hint: 'Try a more specific movement verb.', level: 'medium' },
+    { sentence: `The presentation about ${topic} was nice.`, weakWord: 'nice', hint: 'Describe the quality more precisely.', level: 'hard' },
+    { sentence: `He made a very fast decision about ${topic}.`, weakWord: 'fast', hint: 'Try a more precise adverb for speed.', level: 'hard' },
   ];
 }
 
