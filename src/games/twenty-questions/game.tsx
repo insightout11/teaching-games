@@ -76,9 +76,10 @@ export function TwentyQuestionsGame({
   const [secretOverride, setSecretOverride] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [guesses, setGuesses] = useState<Guess[]>([]);
-  const [roundNumber, setRoundNumber] = useState(1);
   const [winner, setWinner] = useState<{ name: string; id: string } | null>(null);
-  const [aiLoading, setAiLoading] = useState<string | null>(null); // question id being AI-answered
+  const [aiLoading, setAiLoading] = useState<string | null>(null);
+  const [aiPickingSecret, setAiPickingSecret] = useState(false);
+  const [aiMode, setAiMode] = useState(false);
   const [secretVisible, setSecretVisible] = useState(false);
   const [secretOverrideVisible, setSecretOverrideVisible] = useState(false);
   const [customAnswerDraft, setCustomAnswerDraft] = useState<Record<string, string>>({});
@@ -92,9 +93,6 @@ export function TwentyQuestionsGame({
     questionLimit: 20,
     turnTimerSeconds: 30,
   });
-
-  // Timer for collecting questions in simultaneous mode
-  const [timeRemaining, setTimeRemaining] = useState(0);
 
   const isSimultaneous = students.length >= 2;
   const answeredQuestions = questions.filter((q) => q.answer !== null);
@@ -111,25 +109,8 @@ export function TwentyQuestionsGame({
   questionsRef.current = questions;
   const constraintsRef = useRef(constraints);
   constraintsRef.current = constraints;
-  const roundNumberRef = useRef(roundNumber);
-  roundNumberRef.current = roundNumber;
   const guessesRef = useRef(guesses);
   guessesRef.current = guesses;
-
-  // ─── Timer Effect (simultaneous question collection) ───
-  useEffect(() => {
-    if (status !== GameStatus.COLLECTING_QUESTIONS || !isSimultaneous || timeRemaining <= 0) return;
-    const interval = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          setStatus(GameStatus.ANSWERING);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [status, isSimultaneous, timeRemaining]);
 
   // ─── InputSpec Effect ───
   useEffect(() => {
@@ -179,12 +160,7 @@ export function TwentyQuestionsGame({
       if (studentId !== hostIdRef.current) return;
       setSecret(text);
       setSecretVisible(false);
-      if (isSimultaneous) {
-        setTimeRemaining(constraintsRef.current.turnTimerSeconds);
-        setStatus(GameStatus.COLLECTING_QUESTIONS);
-      } else {
-        setStatus(GameStatus.COLLECTING_QUESTIONS);
-      }
+      setStatus(GameStatus.COLLECTING_QUESTIONS);
       return;
     }
 
@@ -208,14 +184,9 @@ export function TwentyQuestionsGame({
         askerName: vote.displayName,
         askerId: studentId,
         answer: null,
-        roundNumber: roundNumberRef.current,
+        roundNumber: 1,
       };
       setQuestions((prev) => [...prev, newQuestion]);
-
-      // In turn-based mode, transition to answering after each question
-      if (!isSimultaneous) {
-        setTimeout(() => setStatus(GameStatus.ANSWERING), 0);
-      }
       return;
     }
 
@@ -230,7 +201,7 @@ export function TwentyQuestionsGame({
         guesserName: vote.displayName,
         guesserId: studentId,
         isCorrect,
-        roundNumber: roundNumberRef.current,
+        roundNumber: 1,
       };
       setGuesses((prev) => [...prev, newGuess]);
 
@@ -289,15 +260,40 @@ export function TwentyQuestionsGame({
     }
   }, [status, currentStudentId, students]);
 
+  // ─── AI Auto-Answer Effect ───
+  useEffect(() => {
+    if (!aiMode || status !== GameStatus.COLLECTING_QUESTIONS || aiLoading !== null) return;
+    const next = questions.find((q) => q.answer === null);
+    if (next) handleAiAutoAnswer(next.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [aiMode, status, aiLoading, questions]);
+
   const handleTeacherOverrideSecret = () => {
     if (!secretOverride.trim()) return;
     setSecret(secretOverride.trim());
     setSecretOverride('');
     setSecretVisible(false);
-    if (isSimultaneous) {
-      setTimeRemaining(constraints.turnTimerSeconds);
-    }
     setStatus(GameStatus.COLLECTING_QUESTIONS);
+  };
+
+  const handleAiPickSecret = async () => {
+    setAiPickingSecret(true);
+    try {
+      const res = await fetch('/api/twenty-questions/pick-secret', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: sessionSettings.customTopic || sessionSettings.topic, difficulty: sessionSettings.difficulty }),
+      });
+      if (!res.ok) throw new Error('Failed');
+      const data: { secret: string } = await res.json();
+      setSecret(data.secret);
+      setSecretVisible(false);
+      setStatus(GameStatus.COLLECTING_QUESTIONS);
+    } catch {
+      // fall back — teacher types it manually
+    } finally {
+      setAiPickingSecret(false);
+    }
   };
 
   const handleAnswerQuestion = (questionId: string, answer: string) => {
@@ -342,26 +338,8 @@ export function TwentyQuestionsGame({
     }
   };
 
-  const handleAiAutoAnswerAll = async () => {
-    for (const q of unansweredQuestions) {
-      await handleAiAutoAnswer(q.id);
-    }
-  };
-
-  const handleNextRound = () => {
-    setRoundNumber((prev) => prev + 1);
-    if (isSimultaneous) {
-      setTimeRemaining(constraints.turnTimerSeconds);
-    }
-    setStatus(GameStatus.COLLECTING_QUESTIONS);
-  };
-
   const handleGuessPhase = () => {
     setStatus(GameStatus.GUESSING);
-  };
-
-  const handleStopRound = () => {
-    setStatus(GameStatus.ANSWERING);
   };
 
   const handleRevealAndEnd = () => {
@@ -384,9 +362,7 @@ export function TwentyQuestionsGame({
     setSecretOverride('');
     setQuestions([]);
     setGuesses([]);
-    setRoundNumber(1);
     setWinner(null);
-    setTimeRemaining(0);
     setAiLoading(null);
   };
 
@@ -511,11 +487,23 @@ export function TwentyQuestionsGame({
           </div>
         </div>
 
+        {/* AI Mode toggle */}
+        <button
+          onClick={() => setAiMode((v) => !v)}
+          className={`w-full py-3 rounded-xl font-game text-sm transition-all border ${
+            aiMode
+              ? 'bg-blue-500/20 border-blue-500/40 text-blue-300'
+              : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'
+          }`}
+        >
+          {aiMode ? '🤖 AI MODE ON — AI picks secret & auto-answers' : '🤖 AI MODE — AI picks & answers everything'}
+        </button>
+
         <button
           onClick={handlePickHost}
           className="w-full px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
         >
-          PICK HOST & START
+          {aiMode ? 'START (AI PICKS SECRET)' : 'PICK HOST & START'}
         </button>
       </motion.div>
     );
@@ -571,6 +559,15 @@ export function TwentyQuestionsGame({
             </button>
           </div>
         </div>
+        {aiMode && (
+          <button
+            onClick={handleAiPickSecret}
+            disabled={aiPickingSecret}
+            className="w-full py-3 bg-blue-500/20 text-blue-300 rounded-xl font-game text-sm border border-blue-500/30 hover:bg-blue-500/30 disabled:opacity-50"
+          >
+            {aiPickingSecret ? 'AI is picking...' : '🤖 AI PICKS THE SECRET'}
+          </button>
+        )}
       </motion.div>
     );
   }
@@ -578,233 +575,134 @@ export function TwentyQuestionsGame({
   // ===== COLLECTING_QUESTIONS =====
   if (status === GameStatus.COLLECTING_QUESTIONS) {
     const remaining = constraints.questionLimit - totalQuestionsAsked;
+    const nextQ = unansweredQuestions[0] ?? null;
 
     return (
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-xs font-bold text-violet-400 uppercase tracking-widest">Round {roundNumber}</p>
+            <p className="text-xs font-bold text-violet-400 uppercase tracking-widest">
+              {aiMode ? '🤖 AI Mode' : `${hostName} is the host`}
+            </p>
             <p className="text-sm text-slate-400">
               {remaining} question{remaining !== 1 ? 's' : ''} remaining
             </p>
           </div>
-          <div className="px-3 py-1 bg-violet-500/20 text-violet-300 rounded-lg text-sm font-bold">
-            {totalQuestionsAsked}/{constraints.questionLimit}
-          </div>
-        </div>
-
-        {/* Timer (simultaneous) */}
-        {isSimultaneous && timeRemaining > 0 && (
-          <div className={`text-center text-3xl font-mono font-bold ${
-            timeRemaining <= 10 ? 'text-red-400' : timeRemaining <= 20 ? 'text-yellow-400' : 'text-violet-400'
-          }`}>
-            {timeRemaining}s
-          </div>
-        )}
-
-        {/* Constraint rules reminder */}
-        {getConstraintRules(constraints) && (
-          <div className="px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-xl text-xs text-amber-300">
-            {getConstraintRules(constraints)}
-          </div>
-        )}
-
-        {/* Live feed of incoming questions */}
-        <div className="glass p-4 rounded-xl border border-white/10 max-h-64 overflow-y-auto">
-          <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-3">
-            Incoming Questions ({questions.filter((q) => q.roundNumber === roundNumber && q.answer === null).length})
-          </p>
-          {questions.filter((q) => q.roundNumber === roundNumber).length === 0 ? (
-            <p className="text-sm text-slate-500 text-center py-4">Waiting for students to submit questions...</p>
-          ) : (
-            <div className="space-y-2">
-              {questions
-                .filter((q) => q.roundNumber === roundNumber)
-                .map((q) => (
-                  <motion.div
-                    key={q.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-start gap-2 p-2 bg-white/5 rounded-lg"
-                  >
-                    <span className="text-xs text-slate-500 shrink-0">{q.askerName}:</span>
-                    <span className="text-sm text-white">{q.text}</span>
-                    {q.answer && (
-                      <span className="ml-auto">{renderAnswerBadge(q.answer)}</span>
-                    )}
-                  </motion.div>
-                ))}
+          <div className="flex items-center gap-2">
+            <div className="px-3 py-1 bg-violet-500/20 text-violet-300 rounded-lg text-sm font-bold">
+              {totalQuestionsAsked}/{constraints.questionLimit}
             </div>
-          )}
-        </div>
-
-        {/* Teacher controls */}
-        <div className="flex gap-3">
-          {isSimultaneous && (
-            <button
-              onClick={handleStopRound}
-              className="flex-1 py-3 glass hover:bg-white/10 rounded-xl font-game text-sm transition-all border border-white/10"
-            >
-              STOP ROUND
-            </button>
-          )}
-          {!isSimultaneous && questions.filter((q) => q.answer === null).length > 0 && (
-            <button
-              onClick={() => setStatus(GameStatus.ANSWERING)}
-              className="flex-1 py-3 bg-violet-500/20 text-violet-300 rounded-xl font-game text-sm border border-violet-500/30"
-            >
-              ANSWER QUESTIONS
-            </button>
-          )}
-        </div>
-      </motion.div>
-    );
-  }
-
-  // ===== ANSWERING =====
-  if (status === GameStatus.ANSWERING) {
-    return (
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-xs font-bold text-violet-400 uppercase tracking-widest">Answer Questions</p>
-            <p className="text-sm text-slate-400">
-              {hostName} answers verbally — teacher clicks the response
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-xs text-slate-500">Secret</p>
-            <button
-              onClick={() => setSecretVisible((v) => !v)}
-              className="text-sm font-bold text-violet-300 relative"
-              title={secretVisible ? 'Click to hide' : 'Click to reveal'}
-            >
-              <span className={secretVisible ? '' : 'blur-sm select-none'}>
-                {secret}
-              </span>
+            <button onClick={handleGuessPhase} className="px-3 py-1.5 bg-amber-500/20 text-amber-300 rounded-lg font-game text-xs border border-amber-500/30 hover:bg-amber-500/30">
+              GUESS
             </button>
           </div>
         </div>
 
-        {/* Unanswered questions */}
-        {unansweredQuestions.length > 0 && (
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <p className="text-xs font-bold uppercase tracking-widest opacity-60">
-                Unanswered ({unansweredQuestions.length})
-              </p>
-              {unansweredQuestions.length > 1 && (
-                <button
-                  onClick={handleAiAutoAnswerAll}
-                  disabled={aiLoading !== null}
-                  className="text-xs px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 disabled:opacity-30"
-                >
-                  AI Auto-Answer All
-                </button>
-              )}
+        {/* Secret (teacher-only blur) */}
+        <div className="flex justify-between items-center px-4 py-2 bg-violet-500/10 border border-violet-500/20 rounded-xl">
+          <span className="text-xs text-slate-500">Secret</span>
+          <button onClick={() => setSecretVisible((v) => !v)} className="text-violet-300 font-bold text-sm">
+            <span className={secretVisible ? '' : 'blur-sm select-none'}>{secret}</span>
+          </button>
+        </div>
+
+        {/* Next unanswered question — answering zone */}
+        {nextQ ? (
+          <div className="glass p-5 rounded-2xl border-2 border-violet-500/30 space-y-4">
+            <div>
+              <p className="text-xs text-slate-500 mb-1">{nextQ.askerName} asks:</p>
+              <p className="text-xl font-semibold text-white">{nextQ.text}</p>
             </div>
-            {unansweredQuestions.map((q) => (
-              <motion.div
-                key={q.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="glass p-4 rounded-xl border border-white/10"
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <span className="text-xs text-slate-500">{q.askerName}</span>
-                    <p className="text-white font-medium">{q.text}</p>
-                  </div>
-                </div>
+            {aiMode ? (
+              <div className="flex items-center gap-2 text-blue-300 text-sm animate-pulse">
+                <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" />
+                AI is answering…
+              </div>
+            ) : (
+              <>
                 <div className="flex gap-2">
                   {(['yes', 'no', 'maybe'] as const).map((ans) => (
                     <button
                       key={ans}
-                      onClick={() => handleAnswerQuestion(q.id, ans)}
-                      disabled={aiLoading === q.id}
-                      className={`flex-1 py-2 rounded-lg font-bold text-sm transition-all ${
+                      onClick={() => handleAnswerQuestion(nextQ.id, ans)}
+                      disabled={aiLoading === nextQ.id}
+                      className={`flex-1 py-2.5 rounded-xl font-bold text-sm transition-all disabled:opacity-30 ${
                         ans === 'yes' ? 'bg-green-500/20 text-green-300 hover:bg-green-500/30 border border-green-500/30'
                         : ans === 'no' ? 'bg-red-500/20 text-red-300 hover:bg-red-500/30 border border-red-500/30'
                         : 'bg-yellow-500/20 text-yellow-300 hover:bg-yellow-500/30 border border-yellow-500/30'
-                      } disabled:opacity-30`}
+                      }`}
                     >
                       {ans.toUpperCase()}
                     </button>
                   ))}
                   <button
-                    onClick={() => handleAiAutoAnswer(q.id)}
+                    onClick={() => handleAiAutoAnswer(nextQ.id)}
                     disabled={aiLoading !== null}
-                    className="px-3 py-2 bg-blue-500/20 text-blue-300 rounded-lg text-xs font-bold hover:bg-blue-500/30 disabled:opacity-30 border border-blue-500/30"
+                    className="px-3 py-2.5 bg-blue-500/20 text-blue-300 rounded-xl text-xs font-bold hover:bg-blue-500/30 disabled:opacity-30 border border-blue-500/30"
                   >
-                    {aiLoading === q.id ? '...' : 'AI'}
+                    {aiLoading === nextQ.id ? '…' : 'AI'}
                   </button>
                 </div>
-                {/* Free-text answer (for W-questions) */}
-                <div className="flex gap-2 mt-2">
+                <div className="flex gap-2">
                   <input
                     type="text"
                     placeholder="Or type a custom answer..."
-                    value={customAnswerDraft[q.id] ?? ''}
-                    onChange={(e) => setCustomAnswerDraft((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                    value={customAnswerDraft[nextQ.id] ?? ''}
+                    onChange={(e) => setCustomAnswerDraft((prev) => ({ ...prev, [nextQ.id]: e.target.value }))}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' && customAnswerDraft[q.id]?.trim()) {
-                        handleAnswerQuestion(q.id, customAnswerDraft[q.id].trim());
-                        setCustomAnswerDraft((prev) => ({ ...prev, [q.id]: '' }));
+                      if (e.key === 'Enter' && customAnswerDraft[nextQ.id]?.trim()) {
+                        handleAnswerQuestion(nextQ.id, customAnswerDraft[nextQ.id].trim());
+                        setCustomAnswerDraft((prev) => ({ ...prev, [nextQ.id]: '' }));
                       }
                     }}
                     className="flex-1 bg-black/40 border border-white/10 text-white rounded-lg px-3 py-1.5 text-sm focus:border-violet-500 outline-none"
                   />
                   <button
                     onClick={() => {
-                      const val = customAnswerDraft[q.id]?.trim();
-                      if (val) {
-                        handleAnswerQuestion(q.id, val);
-                        setCustomAnswerDraft((prev) => ({ ...prev, [q.id]: '' }));
-                      }
+                      const val = customAnswerDraft[nextQ.id]?.trim();
+                      if (val) { handleAnswerQuestion(nextQ.id, val); setCustomAnswerDraft((prev) => ({ ...prev, [nextQ.id]: '' })); }
                     }}
-                    disabled={!customAnswerDraft[q.id]?.trim()}
+                    disabled={!customAnswerDraft[nextQ.id]?.trim()}
                     className="px-3 py-1.5 bg-slate-500/20 text-slate-300 rounded-lg text-sm font-bold hover:bg-slate-500/30 border border-slate-500/30 disabled:opacity-30"
                   >
-                    Answer
+                    Set
                   </button>
                 </div>
-              </motion.div>
-            ))}
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="glass p-5 rounded-2xl border border-white/10 text-center">
+            <p className="text-slate-400 text-sm">Waiting for students to ask questions…</p>
+            {getConstraintRules(constraints) && (
+              <p className="text-xs text-amber-300 mt-2">{getConstraintRules(constraints)}</p>
+            )}
           </div>
         )}
 
-        {/* Answered questions */}
+        {/* Q&A history */}
         {answeredQuestions.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-widest opacity-60">
-              Answered ({answeredQuestions.length}/{constraints.questionLimit})
-            </p>
-            <div className="glass p-3 rounded-xl border border-white/5 max-h-48 overflow-y-auto space-y-1">
-              {answeredQuestions.map((q) => (
-                <div key={q.id}>{renderAnsweredRow(q, 'text-sm py-1')}</div>
+          <div className="glass p-4 rounded-xl border border-white/5 max-h-48 overflow-y-auto">
+            <p className="text-xs font-bold uppercase tracking-widest opacity-50 mb-2">Q&A History</p>
+            <div className="space-y-1">
+              {answeredQuestions.map((q, i) => (
+                <div key={q.id} className="flex items-start gap-2">
+                  <span className="text-slate-600 w-5 shrink-0 text-xs mt-0.5">{i + 1}.</span>
+                  <div className="flex-1">{renderAnsweredRow(q, 'text-sm py-0.5')}</div>
+                </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Bottom controls */}
-        <div className="flex gap-3">
-          {unansweredQuestions.length === 0 && (
-            <button
-              onClick={handleNextRound}
-              className="flex-1 py-3 bg-violet-500/20 text-violet-300 rounded-xl font-game text-sm border border-violet-500/30 hover:bg-violet-500/40"
-            >
-              NEXT ROUND
-            </button>
-          )}
-          <button
-            onClick={handleGuessPhase}
-            className="flex-1 py-3 bg-amber-500/20 text-amber-300 rounded-xl font-game text-sm border border-amber-500/30 hover:bg-amber-500/40"
-          >
-            GUESS PHASE
-          </button>
-        </div>
+        {/* Pending unanswered (beyond the first) */}
+        {unansweredQuestions.length > 1 && (
+          <div className="px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-xs text-slate-400">
+            +{unansweredQuestions.length - 1} more question{unansweredQuestions.length - 1 !== 1 ? 's' : ''} queued
+          </div>
+        )}
+
       </motion.div>
     );
   }
