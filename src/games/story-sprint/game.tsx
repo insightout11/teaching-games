@@ -9,7 +9,7 @@ import type { StorySentence, AIScoreResponse, FinalStoryResult } from './types';
 
 const MAX_SENTENCES = 10;
 
-export function StorySprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
+export function StorySprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, config }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [story, setStory] = useState<StorySentence[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -17,6 +17,9 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
   const [starter, setStarter] = useState<string | null>(null);
   const [finalResult, setFinalResult] = useState<FinalStoryResult | null>(null);
   const storyEndRef = useRef<HTMLDivElement>(null);
+
+  const preGenContent = config?.preGeneratedContent as Record<string, { gameKey: string; starterSentence?: string }> | undefined;
+  const preGenStarter = preGenContent?.['story-sprint']?.starterSentence ?? null;
 
   const topic = getEffectiveTopic(sessionSettings);
   const currentStudent = students.find((s) => s.id === currentStudentId);
@@ -166,6 +169,10 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
 
   // --- Generate Starter ---
   const handleGenerateStarter = async () => {
+    if (preGenStarter) {
+      setStarter(preGenStarter);
+      return;
+    }
     setStatus(GameStatus.GENERATING_STARTER);
     try {
       const response = await fetch('/api/story-sprint/starter', {

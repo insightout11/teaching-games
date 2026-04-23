@@ -646,6 +646,11 @@ export interface SceneIgniterContent extends ActivityGeneratedContent {
   scenes: SceneIgniterScene[]; // [g1original, g2original, g1alt, g2alt]
 }
 
+export interface StorySprintGeneratedContent {
+  gameKey: 'story-sprint';
+  starterSentence: string;
+}
+
 export type GameGeneratedContent =
   | VocabSprintGeneratedContent
   | GrammarBossGeneratedContent
@@ -655,7 +660,8 @@ export type GameGeneratedContent =
   | DialogueDetectiveGeneratedContent
   | ToneTransformerGeneratedContent
   | ConnectionGeneratedContent
-  | ConnectionsGeneratedContent;
+  | ConnectionsGeneratedContent
+  | StorySprintGeneratedContent;
 
 // Response from lesson plan generation
 export interface LessonPlanGenerateResponse {

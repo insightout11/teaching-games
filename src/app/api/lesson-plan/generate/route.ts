@@ -44,6 +44,7 @@ import type {
   FinalWordContent,
   ConversationRoundsContent,
   GameGeneratedContent,
+  StorySprintGeneratedContent,
   VocabSprintGeneratedContent,
   GrammarBossGeneratedContent,
   WordChainGeneratedContent,
@@ -1734,7 +1735,7 @@ Return JSON with a single "prompt" string.`;
   }
 }
 
-async function generateConversationRounds(topic: string, difficulty: Difficulty): Promise<ConversationRoundsContent> {
+async function generateConversationRounds(topic: string, difficulty: Difficulty, sceneContext?: { title: string; context: string }): Promise<ConversationRoundsContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -1759,9 +1760,13 @@ async function generateConversationRounds(topic: string, difficulty: Difficulty)
     required: ['scenario', 'context', 'roles', 'complications'],
   };
 
+  const sceneNote = sceneContext
+    ? `\nIMPORTANT: Base this role-play directly on the Scene Igniter scene the class just performed: "${sceneContext.title}" — ${sceneContext.context}\nThe roles and situation must continue naturally from that scene. Do not invent an unrelated scenario.\n`
+    : '';
+
   const prompt = `Generate a "Conversation Rounds" role-play activity for an ESL class.
 Topic/Scenario: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+Difficulty: ${difficultyDescriptions[difficulty]}${sceneNote}
 
 Create one realistic two-person scenario where both roles NEED each other to resolve a situation — not just exchange opinions. There must be a clear conflict of interest or an asymmetric goal.
 
@@ -1808,6 +1813,34 @@ Return JSON with scenario, context, roles (array of exactly 2), complications (a
       ],
       complications: [],
     };
+  }
+}
+
+async function generateStorySprint(topic: string, difficulty: Difficulty, sceneContext?: { title: string; context: string }): Promise<StorySprintGeneratedContent> {
+  const difficultyLevels: Record<Difficulty, string> = {
+    'Beginner': 'A1 beginner — use simple words and short sentences',
+    'Easy': 'A2 elementary — use basic vocabulary and simple structure',
+    'Intermediate': 'B1/B2 intermediate — use varied vocabulary and engaging detail',
+    'Advanced': 'C1 advanced — use sophisticated language and vivid imagery',
+    'Expert': 'C2/Native expert — use masterful prose with rich detail',
+  };
+  const schema: AISchema = {
+    type: 'object',
+    properties: { starterSentence: { type: 'string' } },
+    required: ['starterSentence'],
+  };
+  const prompt = sceneContext
+    ? `Generate an engaging opening sentence for a collaborative story that continues naturally from this classroom scene: "${sceneContext.title}" — ${sceneContext.context}
+Write at ${difficultyLevels[difficulty]} level.
+Exactly ONE sentence (15-30 words). Leave the story open for students to continue.`
+    : `Generate an engaging opening sentence for a collaborative story about "${topic}".
+Write at ${difficultyLevels[difficulty]} level.
+Exactly ONE sentence (15-30 words). Leave it open for continuation.`;
+  try {
+    const parsed = await generateJSON<{ starterSentence: string }>(prompt, schema);
+    return { gameKey: 'story-sprint', starterSentence: parsed.starterSentence ?? `Something unexpected happened that changed everything about ${topic}.` };
+  } catch {
+    return { gameKey: 'story-sprint', starterSentence: `Something unexpected happened that changed everything about ${topic}.` };
   }
 }
 
@@ -1866,6 +1899,20 @@ export async function POST(request: NextRequest) {
       gameContent['vocab-sprint'] = await generateVocabSprint(customTopic, diff, keyVocabWords);
     }
 
+    // Scene chain: Scene Igniter feeds Conversation Rounds and/or Story Sprint
+    const hasSceneIgniter = hasActivities && activities.includes('scene-igniter');
+    const hasConvRounds = hasActivities && activities.includes('conversation-rounds');
+    const hasStorySprint = hasGames && games?.includes('story-sprint');
+    const sceneChainMode = hasSceneIgniter && (hasConvRounds || hasStorySprint);
+    if (sceneChainMode) {
+      const sceneResult = await generateSceneIgniter(customTopic, diff);
+      content['scene-igniter'] = sceneResult;
+      const primaryScene = sceneResult.scenes[0];
+      const sceneCtx = { title: primaryScene.title, context: primaryScene.context };
+      if (hasConvRounds) content['conversation-rounds'] = await generateConversationRounds(customTopic, diff, sceneCtx);
+      if (hasStorySprint) gameContent['story-sprint'] = await generateStorySprint(customTopic, diff, sceneCtx);
+    }
+
     // Generate activity content
     if (hasActivities) {
       for (const activityKey of activities) {
@@ -1915,6 +1962,7 @@ export async function POST(request: NextRequest) {
             generators.push(generatePredictionRound(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'scene-igniter':
+            if (sceneChainMode) break; // already generated sequentially above
             generators.push(generateSceneIgniter(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'final-answer':
@@ -1951,6 +1999,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateFinalWord(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           case 'conversation-rounds':
+            if (sceneChainMode) break; // already generated sequentially above
             generators.push(generateConversationRounds(customTopic, diff).then((r) => { content[activityKey] = r; }));
             break;
           default:
@@ -1990,6 +2039,10 @@ export async function POST(request: NextRequest) {
             break;
           case 'connections':
             generators.push(generateConnections(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
+            break;
+          case 'story-sprint':
+            if (sceneChainMode) break; // already generated sequentially above
+            generators.push(generateStorySprint(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
             break;
           default:
             console.warn(`Unknown game: ${gameKey}`);
