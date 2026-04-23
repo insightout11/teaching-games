@@ -6,13 +6,46 @@ import type { Difficulty } from '@/lib/difficulty';
 import type { ActivityGeneratedContent } from '@/activities/types';
 
 // Activities that can be regenerated with mission context
-const MISSION_AWARE_KEYS = new Set(['would-you-rather', 'expert-panel', 'scenario-simulator', 'hot-take-arena', 'opinion-shift']);
+const MISSION_AWARE_KEYS = new Set(['fact-detective', 'would-you-rather', 'expert-panel', 'scenario-simulator', 'hot-take-arena', 'opinion-shift']);
 
 function missionContextBlock(context: string, contextType: 'mission' | 'characters'): string {
   if (contextType === 'mission') {
     return `\nThe class chose this question as their lesson mission: "${context}"\nUse this to lightly shape examples, vocabulary, and scenarios — but do NOT change the subject of the content. The topic above always takes priority. Keep the format, difficulty level, and structure identical.\n`;
   }
   return `\nThe class started the lesson with these character perspectives:\n${context}\nUse these themes to lightly shape examples, vocabulary, and scenarios — but do NOT change the subject of the content. The topic above always takes priority. Keep the format, difficulty level, and structure identical.\n`;
+}
+
+async function regenFactDetective(topic: string, difficulty: Difficulty, context: string, contextType: 'mission' | 'characters'): Promise<ActivityGeneratedContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      claims: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            statement: { type: 'string' },
+            isTrue: { type: 'boolean' },
+            explanation: { type: 'string' },
+            vocabulary: { type: 'array', items: { type: 'object', properties: { word: { type: 'string' }, definition: { type: 'string' } }, required: ['word', 'definition'] } },
+            difficulty: { type: 'string' },
+          },
+          required: ['id', 'statement', 'isTrue', 'explanation', 'vocabulary', 'difficulty'],
+        },
+      },
+    },
+    required: ['claims'],
+  };
+  const factTopic = contextType === 'mission' ? context : topic;
+  const prompt = `Generate 6 fact/myth claims for "Fact Detective" ESL activity.
+Topic: ${factTopic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+
+Mix of true facts and plausible myths about this specific topic. Include explanation and 2-3 vocabulary words per claim, each with a short student-facing definition (max 15 words).
+Make claims progressively harder to guess.`;
+  const parsed = await generateJSON<{ claims: unknown[] }>(prompt, schema);
+  return { activityKey: 'fact-detective', topicContext: factTopic, claims: parsed.claims };
 }
 
 async function regenWouldYouRather(topic: string, difficulty: Difficulty, context: string, contextType: 'mission' | 'characters'): Promise<ActivityGeneratedContent> {
@@ -197,7 +230,8 @@ export async function POST(request: NextRequest) {
       const regen = async () => {
         try {
           let result: ActivityGeneratedContent | null = null;
-          if (key === 'would-you-rather') result = await regenWouldYouRather(topic, difficulty, context, contextType);
+          if (key === 'fact-detective') result = await regenFactDetective(topic, difficulty, context, contextType);
+          else if (key === 'would-you-rather') result = await regenWouldYouRather(topic, difficulty, context, contextType);
           else if (key === 'hot-take-arena') result = await regenHotTakeArena(topic, difficulty, context, contextType);
           else if (key === 'scenario-simulator') result = await regenScenarioSimulator(topic, difficulty, context, contextType);
           else if (key === 'expert-panel') result = await regenExpertPanel(topic, difficulty, context, contextType);

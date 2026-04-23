@@ -150,7 +150,7 @@ export function MissionSelectorActivity({
           sessionId,
           context: mission,
           contextType: 'mission',
-          activityKeys: ['would-you-rather', 'expert-panel', 'scenario-simulator', 'hot-take-arena'],
+          activityKeys: ['fact-detective', 'would-you-rather', 'expert-panel', 'scenario-simulator', 'hot-take-arena', 'opinion-shift'],
           topic: sessionSettings.customTopic?.trim() || sessionSettings.topic,
           difficulty: sessionSettings.difficulty,
         }),

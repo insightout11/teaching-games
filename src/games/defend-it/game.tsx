@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Shield, Sword, Mic, ChevronRight } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { getEffectiveTopic, useSessionStore } from '@/stores/session-store';
 import {
   type DefendItPhase,
   type DebateSide,
@@ -33,7 +33,8 @@ export function DefendItGame({
   onRegisterRemoteVoteHandler,
 }: GameProps) {
   const roundCount = Number(config.roundCount ?? 3);
-  const topic = getEffectiveTopic(sessionSettings);
+  const classMission = useSessionStore((s) => s.classMission);
+  const topic = classMission || getEffectiveTopic(sessionSettings);
 
   // ─── State ───
   const [phase, setPhase] = useState<DefendItPhase>('idle');
