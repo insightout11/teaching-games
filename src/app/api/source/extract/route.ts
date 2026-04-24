@@ -17,12 +17,19 @@ async function fetchYouTubeTranscript(videoId: string): Promise<Array<{ text: st
     headers: YT_HEADERS,
     cache: 'no-store',
   });
-  if (!pageRes.ok) throw new Error('Failed to fetch YouTube page');
+  if (!pageRes.ok) {
+    console.error(`[yt-transcript] page fetch failed: ${pageRes.status} for ${videoId}`);
+    throw new Error('Failed to fetch YouTube page');
+  }
   const html = await pageRes.text();
+  console.log(`[yt-transcript] page length=${html.length} hasCaptionTracks=${html.includes('captionTracks')} hasConsent=${html.includes('consent.youtube')}`);
 
   // Extract captionTracks array directly — avoids parsing the huge ytInitialPlayerResponse JSON
   const tracksMatch = html.match(/"captionTracks":(\[.*?\])/);
-  if (!tracksMatch) throw new Error('NO_TRANSCRIPT');
+  if (!tracksMatch) {
+    console.error(`[yt-transcript] captionTracks not found for ${videoId}`);
+    throw new Error('NO_TRANSCRIPT');
+  }
 
   let tracks: CaptionTrack[];
   try {
