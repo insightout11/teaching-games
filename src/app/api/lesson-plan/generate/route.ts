@@ -816,23 +816,30 @@ ${source.summary}
 
 Generate exactly ${count} multiple-choice comprehension checkpoints spread across the video.
 Each checkpoint:
-- Has a timestampLabel like "2:30" showing approximately when in the video it would be asked
+- Has a timestampLabel like "2:30" — this is when the question fires. Place it just AFTER the relevant content has been introduced but BEFORE the video explicitly states the answer (so students must think, not just echo back)
 - Asks a clear comprehension question about content covered up to that point
 - Has exactly 4 options (A–D), only one correct
 - Tests understanding, not recall of trivial details
 
-Space them evenly through the video. correctIndex is 0-based (0=A, 1=B, 2=C, 3=D).
+Space them across the video (not all clustered at the end). correctIndex is 0-based (0=A, 1=B, 2=C, 3=D).
 Return JSON with a "checkpoints" array of ${count} objects.`;
 
   const parsed = await generateJSON<{ checkpoints: Array<{ timestampLabel: string; question: string; options: string[]; correctIndex: number }> }>(prompt, schema);
 
-  return (parsed.checkpoints ?? []).slice(0, count).map((c, i) => ({
-    timestamp: source.duration ? Math.round((source.duration / count) * (i + 0.5)) : (i + 1) * 120,
-    timestampLabel: c.timestampLabel ?? `${i + 1}:00`,
+  return (parsed.checkpoints ?? []).slice(0, count).map((c, i) => {
+    const label = c.timestampLabel ?? `${i + 1}:00`;
+    const [minStr, secStr] = label.split(':');
+    const parsedSecs = (parseInt(minStr ?? '0', 10) * 60) + parseInt(secStr ?? '0', 10);
+    const fallbackSecs = source.duration ? Math.round((source.duration / count) * (i + 0.5)) : (i + 1) * 120;
+    const timestamp = parsedSecs > 0 ? parsedSecs : fallbackSecs;
+    return {
+    timestamp,
+    timestampLabel: label,
     question: c.question ?? 'What is the main idea of this section?',
     options: c.options?.slice(0, 4) ?? ['Option A', 'Option B', 'Option C', 'Option D'],
     correctIndex: typeof c.correctIndex === 'number' ? Math.min(c.correctIndex, 3) : 0,
-  }));
+  };
+  });
 }
 
 async function generateSingleScene(
