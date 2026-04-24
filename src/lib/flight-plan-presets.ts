@@ -180,10 +180,10 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     lessonDurationMinutes: 60,
     goal: 'critical-thinking',
     lessonType: 'inquisitive',
-    takeoff: 'wonder-board',
+    takeoff: 'fact-detective',
     landing: 'final-word',
     moduleSequence: [
-      { slotType: 'presentation', key: 'fact-detective' },
+      { slotType: 'presentation', key: 'wonder-board' },
       { slotType: 'practice', key: 'connections' },
       { slotType: 'production', key: 'twenty-questions' },
     ],
