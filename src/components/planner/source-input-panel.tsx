@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
-import { TedLibraryModal } from './ted-library-modal';
+import { VideoLibraryModal } from './video-library-modal';
 import type { SourceMaterial } from '@/types/source-material';
 
 type Tab = 'ted' | 'youtube' | 'text';
 
 const TABS: { key: Tab; label: string }[] = [
-  { key: 'ted', label: 'TED Library' },
+  { key: 'ted', label: 'Video Library' },
   { key: 'youtube', label: 'YouTube' },
   { key: 'text', label: 'Text / Notes' },
 ];
@@ -142,18 +142,17 @@ export function SourceInputPanel() {
                   ))}
                 </div>
 
-                {/* TED Library */}
+                {/* Video Library */}
                 {activeTab === 'ted' && (
                   <div className="space-y-2">
                     <p className="text-xs text-lc-text3">
-                      {/* eslint-disable-next-line react/no-unescaped-entities */}
-                      Browse 30 curated TED talks with built-in transcripts — no extraction needed.
+                      Browse curated TED talks with built-in transcripts and auto-generated comprehension checkpoints.
                     </p>
                     <button
                       onClick={() => setShowTedModal(true)}
                       className="w-full rounded-lg border border-red-500/30 bg-red-500/10 py-2.5 text-sm font-semibold text-red-400 hover:bg-red-500/20 transition-colors"
                     >
-                      Browse TED Library →
+                      Open Video Library →
                     </button>
                   </div>
                 )}
@@ -207,7 +206,7 @@ export function SourceInputPanel() {
       </div>
 
       {showTedModal && (
-        <TedLibraryModal
+        <VideoLibraryModal
           onSelect={(talkId) => {
             setShowTedModal(false);
             process('ted', talkId);
