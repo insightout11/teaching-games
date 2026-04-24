@@ -100,7 +100,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     goal: 'vocabulary-building',
     lessonType: 'skill-builder',
     takeoff: 'vocab-radar',
-    landing: 'final-answer',
+    landing: 'in-your-words',
     moduleSequence: [
       { slotType: 'practice', key: 'synonym-showdown' },
       { slotType: 'practice', key: 'vocab-sprint' },

@@ -1897,6 +1897,7 @@ export async function POST(request: NextRequest) {
       content['vocab-radar'] = vocabRadarResult;
       const keyVocabWords = vocabRadarResult.words.map((w) => w.word);
       gameContent['vocab-sprint'] = await generateVocabSprint(customTopic, diff, keyVocabWords);
+      content['in-your-words'] = { activityKey: 'in-your-words', topicContext: customTopic, words: keyVocabWords };
     }
 
     // Scene chain: Scene Igniter feeds Conversation Rounds and/or Story Sprint
@@ -1997,6 +1998,10 @@ export async function POST(request: NextRequest) {
             break;
           case 'final-word':
             generators.push(generateFinalWord(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'in-your-words':
+            if (vocabBlitzMode) break; // already built from Vocab Radar words above
+            generators.push(Promise.resolve().then(() => { content[activityKey] = { activityKey: 'in-your-words', topicContext: customTopic, words: [] }; }));
             break;
           case 'conversation-rounds':
             if (sceneChainMode) break; // already generated sequentially above

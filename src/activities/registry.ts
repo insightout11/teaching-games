@@ -26,6 +26,7 @@ import { passwordPlugin } from './password';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarProofPlugin } from './grammar-proof';
 import { finalWordPlugin } from './final-word';
+import { inYourWordsPlugin } from './in-your-words';
 import { conversationRoundsPlugin } from './conversation-rounds';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
@@ -63,6 +64,7 @@ const activities: ActivityPlugin[] = [
   lightningRoundPlugin,
   grammarProofPlugin,
   finalWordPlugin,
+  inYourWordsPlugin,
 ];
 
 /**

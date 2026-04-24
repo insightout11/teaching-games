@@ -619,6 +619,12 @@ export interface FinalWordContent extends ActivityGeneratedContent {
   prompt: string;
 }
 
+// In Your Words content
+export interface InYourWordsContent extends ActivityGeneratedContent {
+  activityKey: 'in-your-words';
+  words: string[]; // key vocabulary from Vocab Radar
+}
+
 // Scene Igniter content
 export interface SceneIgniterLine {
   lineIndex: number;   // 1-based, maps to prompt_index in scores
