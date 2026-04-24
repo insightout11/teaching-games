@@ -63,6 +63,9 @@ export function MissionSetupScreen() {
         </button>
       </div>
 
+      {/* Source material — available in both tabs */}
+      <SourceInputPanel />
+
       {activeTab === 'presets' ? (
         <div className="space-y-6">
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
@@ -89,9 +92,6 @@ export function MissionSetupScreen() {
         </div>
       ) : (
         <>
-          {/* Source material */}
-          <SourceInputPanel />
-
           {/* Topic */}
           <div>
             <label className="block text-sm font-medium text-lc-text2 mb-2">
