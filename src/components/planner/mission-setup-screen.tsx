@@ -28,14 +28,25 @@ export function MissionSetupScreen() {
     loadPreset,
   } = usePlannerStore();
 
+  const { sourceMaterial } = usePlannerStore();
   const [pendingPreset, setPendingPreset] = useState<FlightPlanPreset | null>(null);
 
-  const canGenerate = topic.trim().length > 0;
+  const canGenerate = topic.trim().length > 0 || !!sourceMaterial;
 
   const handleGenerate = () => {
     initModules();
     setStep('flight-plan');
   };
+
+  function handlePresetClick(preset: FlightPlanPreset) {
+    // When source material is active, skip the scenario picker — topic comes from the video
+    if (sourceMaterial) {
+      loadPreset(preset);
+      setStep('flight-plan');
+      return;
+    }
+    setPendingPreset(preset);
+  }
 
   return (
     <div className={`${activeTab === 'presets' ? 'max-w-5xl' : 'max-w-3xl'} mx-auto space-y-6`}>
@@ -73,7 +84,7 @@ export function MissionSetupScreen() {
               <PresetCard
                 key={preset.id}
                 preset={preset}
-                onClick={() => setPendingPreset(preset)}
+                onClick={() => handlePresetClick(preset)}
               />
             ))}
           </div>
@@ -101,11 +112,11 @@ export function MissionSetupScreen() {
               type="text"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              placeholder="e.g., What will the world be like in 50 years?"
+              placeholder={sourceMaterial ? sourceMaterial.title : "e.g., What will the world be like in 50 years?"}
               className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-lg focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
             />
             <p className="text-xs text-lc-text3 mt-1">
-              Be specific! Good topics lead to better AI-generated content.
+              {sourceMaterial ? 'Topic auto-filled from source — edit if needed.' : 'Be specific! Good topics lead to better AI-generated content.'}
             </p>
           </div>
 
