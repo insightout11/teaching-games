@@ -207,9 +207,9 @@ export function SourceInputPanel() {
 
       {showTedModal && (
         <VideoLibraryModal
-          onSelect={(talkId) => {
+          onSelect={(talkId, source) => {
             setShowTedModal(false);
-            process('ted', talkId);
+            process(source, talkId);
           }}
           onClose={() => setShowTedModal(false)}
         />

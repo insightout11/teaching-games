@@ -1,4 +1,4 @@
-export type SourceType = 'youtube' | 'ted' | 'pdf' | 'lyrics' | 'text';
+export type SourceType = 'youtube' | 'ted' | 'teded' | 'pdf' | 'lyrics' | 'text';
 
 export interface SourceMaterial {
   sourceType: SourceType;

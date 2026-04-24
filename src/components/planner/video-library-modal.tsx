@@ -17,7 +17,14 @@ type TedTalkMeta = {
 };
 
 import tedLibraryRaw from '@/data/ted-library.json';
+import tededLibraryRaw from '@/data/teded-library.json';
+
 const TED_TALKS: TedTalkMeta[] = (tedLibraryRaw as TedTalkMeta[]).map(
+  ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId }) => ({
+    id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId,
+  }),
+);
+const TEDED_TALKS: TedTalkMeta[] = (tededLibraryRaw as TedTalkMeta[]).map(
   ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId }) => ({
     id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId,
   }),
@@ -62,14 +69,15 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
   const [activeDifficulty, setActiveDifficulty] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
+  const activeTalks = activeSource === 'teded' ? TEDED_TALKS : TED_TALKS;
+
   const ALL_TAGS = useMemo(
-    () => Array.from(new Set(TED_TALKS.flatMap((t) => t.topicTags))).sort(),
-    [],
+    () => Array.from(new Set(activeTalks.flatMap((t) => t.topicTags))).sort(),
+    [activeTalks],
   );
 
   const filtered = useMemo(() => {
-    if (activeSource !== 'ted') return [];
-    return TED_TALKS.filter((t) => {
+    return activeTalks.filter((t) => {
       if (activeTag && !t.topicTags.includes(activeTag)) return false;
       if (activeDifficulty && t.difficultyLevel !== activeDifficulty) return false;
       if (query) {
@@ -83,7 +91,7 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
       }
       return true;
     });
-  }, [query, activeTag, activeDifficulty, activeSource]);
+  }, [query, activeTag, activeDifficulty, activeTalks]);
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-lc-bg">
@@ -92,13 +100,13 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
         <div className="flex items-center gap-6">
           <div>
             <h2 className="font-bold text-lc-text text-xl tracking-tight">Video Library</h2>
-            <p className="text-xs text-lc-text3 mt-0.5">{TED_TALKS.length} curated talks with transcripts & auto-checkpoints</p>
+            <p className="text-xs text-lc-text3 mt-0.5">{TED_TALKS.length + TEDED_TALKS.length} curated talks with transcripts & auto-checkpoints</p>
           </div>
 
           {/* Source tabs */}
           <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-lg p-1">
             <button
-              onClick={() => setActiveSource('ted')}
+              onClick={() => { setActiveSource('ted'); setActiveTag(null); setActiveDifficulty(null); setQuery(''); }}
               className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${
                 activeSource === 'ted' ? 'bg-red-600 text-white' : 'text-lc-text3 hover:text-lc-text'
               }`}
@@ -106,15 +114,12 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
               TED
             </button>
             <button
-              onClick={() => setActiveSource('teded')}
-              className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all flex items-center gap-1.5 ${
+              onClick={() => { setActiveSource('teded'); setActiveTag(null); setActiveDifficulty(null); setQuery(''); }}
+              className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${
                 activeSource === 'teded' ? 'bg-red-600 text-white' : 'text-lc-text3 hover:text-lc-text'
               }`}
             >
               TED-Ed
-              <span className="text-[10px] font-medium bg-lc-border/60 text-lc-text3 px-1.5 py-0.5 rounded-full">
-                Soon
-              </span>
             </button>
           </div>
         </div>
@@ -184,20 +189,8 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
         <p className="text-xs text-lc-text3">{filtered.length} talk{filtered.length !== 1 ? 's' : ''}</p>
       </div>
 
-      {/* Coming soon pane */}
-      {activeSource === 'teded' && (
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center space-y-3">
-            <span className="text-5xl">🎓</span>
-            <p className="text-lg font-semibold text-lc-text">TED-Ed coming soon</p>
-            <p className="text-sm text-lc-text3 max-w-xs">Animated educational videos with transcripts and lesson questions — coming to the library soon.</p>
-          </div>
-        </div>
-      )}
-
       {/* Grid */}
-      {activeSource === 'ted' && (
-        <div className="flex-1 overflow-y-auto px-6 py-5">
+      <div className="flex-1 overflow-y-auto px-6 py-5">
           {filtered.length === 0 && (
             <p className="text-sm text-lc-text3 text-center py-20">No talks match your filters.</p>
           )}
@@ -207,7 +200,7 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
               return (
                 <button
                   key={talk.id}
-                  onClick={() => onSelect(talk.id, 'ted')}
+                  onClick={() => onSelect(talk.id, activeSource)}
                   onMouseEnter={() => setHoveredId(talk.id)}
                   onMouseLeave={() => setHoveredId(null)}
                   className={`group text-left rounded-xl overflow-hidden border transition-all duration-200 ${
@@ -254,7 +247,6 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
             })}
           </div>
         </div>
-      )}
     </div>
   );
 }

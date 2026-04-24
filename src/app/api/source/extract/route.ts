@@ -5,12 +5,14 @@ import { generateJSON } from '@/lib/ai';
 import { createServiceClient } from '@/lib/supabase/service';
 import type { SourceType } from '@/types/source-material';
 import tedLibrary from '@/data/ted-library.json';
+import tededLibrary from '@/data/teded-library.json';
 
 type TedTalk = {
   id: string;
   title: string;
   speaker: string;
   url: string;
+  youtubeId?: string;
   durationSecs: number;
   topicTags: string[];
   difficultyLevel: string;
@@ -228,6 +230,31 @@ export async function POST(request: NextRequest) {
           summary: talk.summary,
           sourceKey: talkId,
           sourceType: 'ted',
+          duration: talk.durationSecs,
+        });
+      }
+
+      // ── TED-Ed Library ──────────────────────────────────────────────────────────
+      case 'teded': {
+        const talkId = payload.trim();
+        const talk = (tededLibrary as TedTalk[]).find((t) => t.id === talkId);
+        if (!talk) {
+          return NextResponse.json({ error: 'TED-Ed talk not found' }, { status: 404 });
+        }
+
+        void storeExtraction({
+          sourceType: 'teded',
+          sourceKey: talkId,
+          title: `${talk.title} — ${talk.speaker}`,
+          summary: talk.summary,
+          durationSecs: talk.durationSecs,
+        });
+
+        return NextResponse.json({
+          title: `${talk.title} — ${talk.speaker}`,
+          summary: talk.summary,
+          sourceKey: talkId,
+          sourceType: 'teded',
           duration: talk.durationSecs,
         });
       }
