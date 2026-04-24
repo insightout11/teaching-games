@@ -1,9 +1,68 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { YoutubeTranscript } from 'youtube-transcript';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
 import { generateJSON } from '@/lib/ai';
 import { createServiceClient } from '@/lib/supabase/service';
 import type { SourceType } from '@/types/source-material';
+
+const YT_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Accept-Language': 'en-US,en;q=0.9',
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+};
+
+type CaptionTrack = { baseUrl: string; languageCode: string; kind?: string };
+
+async function fetchYouTubeTranscript(videoId: string): Promise<Array<{ text: string }>> {
+  const pageRes = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
+    headers: YT_HEADERS,
+    cache: 'no-store',
+  });
+  if (!pageRes.ok) throw new Error('Failed to fetch YouTube page');
+  const html = await pageRes.text();
+
+  // Extract captionTracks array directly — avoids parsing the huge ytInitialPlayerResponse JSON
+  const tracksMatch = html.match(/"captionTracks":(\[.*?\])/);
+  if (!tracksMatch) throw new Error('NO_TRANSCRIPT');
+
+  let tracks: CaptionTrack[];
+  try {
+    tracks = JSON.parse(tracksMatch[1]) as CaptionTrack[];
+  } catch {
+    throw new Error('NO_TRANSCRIPT');
+  }
+
+  if (!tracks || tracks.length === 0) throw new Error('NO_TRANSCRIPT');
+
+  // Prefer manual English, then ASR English, then first available
+  const track =
+    tracks.find((t) => t.languageCode === 'en' && t.kind !== 'asr') ??
+    tracks.find((t) => t.languageCode === 'en') ??
+    tracks.find((t) => t.languageCode?.startsWith('en')) ??
+    tracks[0];
+
+  const xmlRes = await fetch(track.baseUrl, { headers: YT_HEADERS, cache: 'no-store' });
+  if (!xmlRes.ok) throw new Error('Failed to fetch transcript XML');
+  const xml = await xmlRes.text();
+
+  // Parse <text> nodes from XML
+  const items: Array<{ text: string }> = [];
+  const re = /<text[^>]*>([\s\S]*?)<\/text>/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(xml)) !== null) {
+    const text = m[1]
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/<[^>]+>/g, '')
+      .trim();
+    if (text) items.push({ text });
+  }
+
+  if (items.length === 0) throw new Error('NO_TRANSCRIPT');
+  return items;
+}
 
 function extractVideoId(url: string): string | null {
   const patterns = [
@@ -137,15 +196,19 @@ export async function POST(request: NextRequest) {
         // Fetch transcript
         let transcriptItems: Array<{ text: string }>;
         try {
-          transcriptItems = await YoutubeTranscript.fetchTranscript(videoId);
-        } catch {
-          return NextResponse.json(
-            {
-              error: 'No transcript available for this video. Try pasting the text content manually.',
-              code: 'NO_TRANSCRIPT',
-            },
-            { status: 422 },
-          );
+          transcriptItems = await fetchYouTubeTranscript(videoId);
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : '';
+          if (msg === 'NO_TRANSCRIPT' || msg.includes('NO_TRANSCRIPT')) {
+            return NextResponse.json(
+              {
+                error: 'No transcript available for this video. Try pasting the text content manually.',
+                code: 'NO_TRANSCRIPT',
+              },
+              { status: 422 },
+            );
+          }
+          throw e;
         }
 
         const rawTranscript = sanitizeText(
