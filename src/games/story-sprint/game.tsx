@@ -18,8 +18,8 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
   const [finalResult, setFinalResult] = useState<FinalStoryResult | null>(null);
   const storyEndRef = useRef<HTMLDivElement>(null);
 
-  const preGenContent = config?.preGeneratedContent as Record<string, { gameKey: string; starterSentence?: string }> | undefined;
-  const preGenStarter = preGenContent?.['story-sprint']?.starterSentence ?? null;
+  const preGenContent = config?.preGeneratedContent as { gameKey?: string; starterSentence?: string } | undefined;
+  const preGenStarter = preGenContent?.gameKey === 'story-sprint' ? (preGenContent.starterSentence ?? null) : null;
 
   const topic = getEffectiveTopic(sessionSettings);
   const currentStudent = students.find((s) => s.id === currentStudentId);

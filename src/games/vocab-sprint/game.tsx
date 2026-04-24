@@ -21,7 +21,7 @@ interface RaceSolver {
   position: number;
 }
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions }: GameProps) {
+export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions, config }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -35,8 +35,11 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   useEffect(() => { seenItemsRef.current = storeSeenItems; }, [storeSeenItems]);
   useEffect(() => { seenCacheIdsRef.current = storeSeenCacheIds; }, [storeSeenCacheIds]);
 
-  // Prefetching logic
-  const [sentenceQueue, setSentenceQueue] = useState<GameSentence[]>([]);
+  // Prefetching logic — seed from pre-generated content if provided (e.g. Vocab Blitz)
+  const [sentenceQueue, setSentenceQueue] = useState<GameSentence[]>(() => {
+    const preGen = (config?.preGeneratedContent as { gameKey?: string; sentences?: GameSentence[] } | undefined);
+    return preGen?.gameKey === 'vocab-sprint' && preGen.sentences?.length ? preGen.sentences : [];
+  });
   const [isFetchingBatch, setIsFetchingBatch] = useState(false);
   const [currentFact, setCurrentFact] = useState(ENGLISH_FACTS[0]);
 
