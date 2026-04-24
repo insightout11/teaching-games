@@ -4,41 +4,35 @@ import { generateJSON } from '@/lib/ai';
 import { createServiceClient } from '@/lib/supabase/service';
 import type { SourceType } from '@/types/source-material';
 
-const YT_HEADERS = {
-  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-  'Accept-Language': 'en-US,en;q=0.9',
-  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-};
-
 type CaptionTrack = { baseUrl: string; languageCode: string; kind?: string };
 
+// Uses YouTube's internal Innertube API — same endpoint as the YouTube web app,
+// returns structured JSON regardless of server IP (unlike the watch page which strips captions for datacenters)
 async function fetchYouTubeTranscript(videoId: string): Promise<Array<{ text: string }>> {
-  const pageRes = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
-    headers: YT_HEADERS,
+  const playerRes = await fetch('https://www.youtube.com/youtubei/v1/player', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-YouTube-Client-Name': '1',
+      'X-YouTube-Client-Version': '2.20240101.00.00',
+    },
+    body: JSON.stringify({
+      videoId,
+      context: {
+        client: { clientName: 'WEB', clientVersion: '2.20240101.00.00', hl: 'en', gl: 'US' },
+      },
+    }),
     cache: 'no-store',
   });
-  if (!pageRes.ok) {
-    console.error(`[yt-transcript] page fetch failed: ${pageRes.status} for ${videoId}`);
-    throw new Error('Failed to fetch YouTube page');
-  }
-  const html = await pageRes.text();
-  console.log(`[yt-transcript] page length=${html.length} hasCaptionTracks=${html.includes('captionTracks')} hasConsent=${html.includes('consent.youtube')}`);
 
-  // Extract captionTracks array directly — avoids parsing the huge ytInitialPlayerResponse JSON
-  const tracksMatch = html.match(/"captionTracks":(\[.*?\])/);
-  if (!tracksMatch) {
-    console.error(`[yt-transcript] captionTracks not found for ${videoId}`);
-    throw new Error('NO_TRANSCRIPT');
-  }
+  if (!playerRes.ok) throw new Error('NO_TRANSCRIPT');
 
-  let tracks: CaptionTrack[];
-  try {
-    tracks = JSON.parse(tracksMatch[1]) as CaptionTrack[];
-  } catch {
-    throw new Error('NO_TRANSCRIPT');
-  }
+  const player = await playerRes.json() as {
+    captions?: { playerCaptionsTracklistRenderer?: { captionTracks?: CaptionTrack[] } };
+  };
+  const tracks = player?.captions?.playerCaptionsTracklistRenderer?.captionTracks ?? [];
 
-  if (!tracks || tracks.length === 0) throw new Error('NO_TRANSCRIPT');
+  if (tracks.length === 0) throw new Error('NO_TRANSCRIPT');
 
   // Prefer manual English, then ASR English, then first available
   const track =
@@ -47,23 +41,29 @@ async function fetchYouTubeTranscript(videoId: string): Promise<Array<{ text: st
     tracks.find((t) => t.languageCode?.startsWith('en')) ??
     tracks[0];
 
-  const xmlRes = await fetch(track.baseUrl, { headers: YT_HEADERS, cache: 'no-store' });
-  if (!xmlRes.ok) throw new Error('Failed to fetch transcript XML');
-  const xml = await xmlRes.text();
+  // Request JSON3 format — cleaner than XML
+  const xmlRes = await fetch(`${track.baseUrl}&fmt=json3`, { cache: 'no-store' });
+  if (!xmlRes.ok) throw new Error('NO_TRANSCRIPT');
+  const body = await xmlRes.text();
 
-  // Parse <text> nodes from XML
+  // Parse JSON3 format
+  if (body.trimStart().startsWith('{')) {
+    const json = JSON.parse(body) as { events?: Array<{ segs?: Array<{ utf8?: string }> }> };
+    const items = (json.events ?? [])
+      .flatMap((e) => e.segs ?? [])
+      .map((s) => s.utf8 ?? '')
+      .filter((t) => t.trim() && t !== '\n');
+    if (items.length > 0) return items.map((text) => ({ text }));
+  }
+
+  // XML fallback
   const items: Array<{ text: string }> = [];
   const re = /<text[^>]*>([\s\S]*?)<\/text>/g;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(xml)) !== null) {
+  while ((m = re.exec(body)) !== null) {
     const text = m[1]
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .replace(/<[^>]+>/g, '')
-      .trim();
+      .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/<[^>]+>/g, '').trim();
     if (text) items.push({ text });
   }
 
