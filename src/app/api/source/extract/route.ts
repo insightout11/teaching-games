@@ -9,21 +9,29 @@ type CaptionTrack = { baseUrl: string; languageCode: string; kind?: string };
 // Uses YouTube's internal Innertube API — same endpoint as the YouTube web app,
 // returns structured JSON regardless of server IP (unlike the watch page which strips captions for datacenters)
 async function fetchYouTubeTranscript(videoId: string): Promise<Array<{ text: string }>> {
-  const playerRes = await fetch('https://www.youtube.com/youtubei/v1/player', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-YouTube-Client-Name': '1',
-      'X-YouTube-Client-Version': '2.20240101.00.00',
-    },
-    body: JSON.stringify({
-      videoId,
-      context: {
-        client: { clientName: 'WEB', clientVersion: '2.20240101.00.00', hl: 'en', gl: 'US' },
+  // TVHTML5_SIMPLY_EMBEDDED_PLAYER (clientName 85) is designed for third-party embeds
+  // and does not require authentication — works from server IPs unlike the WEB client
+  const playerRes = await fetch(
+    'https://www.youtube.com/youtubei/v1/player?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-YouTube-Client-Name': '85',
+        'X-YouTube-Client-Version': '2.0',
+        'Origin': 'https://www.youtube.com',
+        'Referer': 'https://www.youtube.com/',
       },
-    }),
-    cache: 'no-store',
-  });
+      body: JSON.stringify({
+        videoId,
+        context: {
+          client: { clientName: 'TVHTML5_SIMPLY_EMBEDDED_PLAYER', clientVersion: '2.0', hl: 'en', gl: 'US' },
+          thirdParty: { embedUrl: 'https://www.youtube.com/' },
+        },
+      }),
+      cache: 'no-store',
+    },
+  );
 
   if (!playerRes.ok) {
     console.error(`[yt-innertube] player API ${playerRes.status} for ${videoId}`);
