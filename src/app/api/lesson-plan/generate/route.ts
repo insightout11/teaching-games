@@ -60,6 +60,7 @@ import type { CheckpointQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import type { SourceMaterial } from '@/types/source-material';
+import tedLibrary from '@/data/ted-library.json';
 
 
 // ============================================
@@ -2044,10 +2045,19 @@ export async function POST(request: NextRequest) {
           case 'video-player': {
             if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted') && sourceMaterial.sourceKey) {
               generators.push(generateVideoCheckpoints(sourceMaterial).then((checkpoints) => {
+                let videoUrl: string;
+                if (sourceMaterial.sourceType === 'ted') {
+                  // Look up the TED talk URL from the library to build the embed URL
+                  const tedTalk = (tedLibrary as Array<{ id: string; url: string }>).find((t) => t.id === sourceMaterial.sourceKey);
+                  const slug = tedTalk?.url.split('/').pop() ?? sourceMaterial.sourceKey;
+                  videoUrl = `https://embed.ted.com/talks/${slug}`;
+                } else {
+                  videoUrl = `https://www.youtube.com/watch?v=${sourceMaterial.sourceKey}`;
+                }
                 const videoContent: VideoPlayerContent = {
                   activityKey: 'video-player',
                   topicContext: customTopic,
-                  videoUrl: `https://www.youtube.com/watch?v=${sourceMaterial.sourceKey}`,
+                  videoUrl,
                   videoTitle: sourceMaterial.title,
                   checkpoints,
                 };

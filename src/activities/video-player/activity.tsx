@@ -28,11 +28,12 @@ export function VideoPlayerActivity({
   const [activeCheckpointIdx, setActiveCheckpointIdx] = useState<number | null>(null);
   const scoredRef = useRef<Set<string>>(new Set());
 
-  // Extract YouTube embed ID
-  const videoId = videoUrl.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
-  const embedUrl = videoId
-    ? `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&modestbranding=1`
-    : null;
+  // Build embed URL — handles both YouTube and TED
+  const embedUrl = (() => {
+    if (videoUrl.includes('embed.ted.com')) return videoUrl;
+    const videoId = videoUrl.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+    return videoId ? `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&modestbranding=1` : null;
+  })();
 
   const pushCheckpoint = useCallback(
     (idx: number) => {
