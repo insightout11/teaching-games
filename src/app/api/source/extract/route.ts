@@ -25,12 +25,17 @@ async function fetchYouTubeTranscript(videoId: string): Promise<Array<{ text: st
     cache: 'no-store',
   });
 
-  if (!playerRes.ok) throw new Error('NO_TRANSCRIPT');
+  if (!playerRes.ok) {
+    console.error(`[yt-innertube] player API ${playerRes.status} for ${videoId}`);
+    throw new Error('NO_TRANSCRIPT');
+  }
 
   const player = await playerRes.json() as {
     captions?: { playerCaptionsTracklistRenderer?: { captionTracks?: CaptionTrack[] } };
+    playabilityStatus?: { status?: string; reason?: string };
   };
   const tracks = player?.captions?.playerCaptionsTracklistRenderer?.captionTracks ?? [];
+  console.log(`[yt-innertube] videoId=${videoId} status=${player?.playabilityStatus?.status} tracks=${tracks.length}`);
 
   if (tracks.length === 0) throw new Error('NO_TRANSCRIPT');
 
