@@ -20,6 +20,7 @@ declare global {
 interface CheckpointState {
   pushed: boolean;
   votes: Record<string, string>;
+  revealed: boolean;
 }
 
 export function VideoPlayerActivity({
@@ -35,7 +36,6 @@ export function VideoPlayerActivity({
   const isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
   const isTed = videoUrl.includes('ted.com');
 
-  // Extract YouTube embed ID
   const youtubeId = isYouTube
     ? videoUrl.match(/(?:v=|embed\/)([a-zA-Z0-9_-]{11})/)?.[1]
     : null;
@@ -48,16 +48,15 @@ export function VideoPlayerActivity({
   })();
 
   const [checkpointStates, setCheckpointStates] = useState<CheckpointState[]>(
-    () => checkpoints.map(() => ({ pushed: false, votes: {} })),
+    () => checkpoints.map(() => ({ pushed: false, votes: {}, revealed: false })),
   );
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
-  const [revealed, setRevealed] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
   const scoredRef = useRef<Set<string>>(new Set());
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const playerRef = useRef<{ getCurrentTime(): number; getPlayerState(): number } | null>(null);
   const firedRef = useRef<Set<number>>(new Set());
 
-  // ── YouTube auto-fire via iframe API ────────────────────────────────────────
   const pushCheckpoint = useCallback(
     (idx: number) => {
       if (firedRef.current.has(idx)) return;
@@ -66,7 +65,6 @@ export function VideoPlayerActivity({
       if (!cp) return;
 
       setActiveIdx(idx);
-      setRevealed(false);
       setCheckpointStates((prev) => {
         const next = [...prev];
         next[idx] = { ...next[idx], pushed: true };
@@ -117,8 +115,14 @@ export function VideoPlayerActivity({
       playerRef.current = new window.YT.Player(iframeRef.current, {
         events: {
           onStateChange: (e) => {
-            // 1 = playing
-            if (e.data === 1 && !pollInterval) {
+            if (e.data === 0) {
+              // Video ended
+              if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+              setVideoEnded(true);
+              setActiveIdx(null);
+              onSetInputSpec?.(null);
+              onRegisterRemoteVoteHandler?.(null);
+            } else if (e.data === 1 && !pollInterval) {
               pollInterval = setInterval(() => {
                 const t = playerRef.current?.getCurrentTime() ?? 0;
                 checkpoints.forEach((cp, idx) => {
@@ -150,28 +154,41 @@ export function VideoPlayerActivity({
     return () => {
       if (pollInterval) clearInterval(pollInterval);
     };
-  }, [isYouTube, youtubeId, checkpoints, pushCheckpoint]);
+  }, [isYouTube, youtubeId, checkpoints, pushCheckpoint, onSetInputSpec, onRegisterRemoteVoteHandler]);
 
   function closeQuestion() {
     setActiveIdx(null);
-    setRevealed(false);
     onSetInputSpec?.(null);
     onRegisterRemoteVoteHandler?.(null);
+  }
+
+  function toggleReveal(idx: number) {
+    setCheckpointStates((prev) => {
+      const next = [...prev];
+      next[idx] = { ...next[idx], revealed: !next[idx].revealed };
+      return next;
+    });
   }
 
   const activeCheckpoint = activeIdx !== null ? checkpoints[activeIdx] : null;
   const activeState = activeIdx !== null ? checkpointStates[activeIdx] : null;
   const voteCount = activeState ? Object.keys(activeState.votes).length : 0;
   const totalStudents = students.length;
+  const pushedCheckpoints = checkpoints.filter((_, i) => checkpointStates[i].pushed);
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <span className="text-lg">🎬</span>
         <h2 className="text-base font-semibold text-lc-text truncate">{videoTitle}</h2>
-        {isYouTube && (
+        {isYouTube && !videoEnded && (
           <span className="text-xs text-lc-text3 bg-lc-bg border border-lc-border rounded-full px-2 py-0.5">
             Auto-fire enabled
+          </span>
+        )}
+        {videoEnded && (
+          <span className="text-xs text-lc-success bg-lc-success/10 border border-lc-success/30 rounded-full px-2 py-0.5">
+            Video finished
           </span>
         )}
       </div>
@@ -194,8 +211,8 @@ export function VideoPlayerActivity({
         </div>
       )}
 
-      {/* Active question — full-width results panel */}
-      {activeCheckpoint && activeState && (
+      {/* Active question — live vote collection only, no reveal */}
+      {activeCheckpoint && activeState && !videoEnded && (
         <div className="rounded-xl border border-lc-blue/50 bg-lc-blue/5 p-4 space-y-3">
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -205,26 +222,24 @@ export function VideoPlayerActivity({
             <span className="text-xs text-lc-text3 shrink-0">{voteCount}/{totalStudents} answered</span>
           </div>
 
-          {/* Tally bars */}
+          {/* Tally bars — no correct highlight until post-video */}
           <div className="space-y-2">
             {activeCheckpoint.options.map((opt, oi) => {
               const count = Object.values(activeState.votes).filter((v) => v === opt).length;
               const pct = voteCount > 0 ? Math.round((count / voteCount) * 100) : 0;
-              const isCorrect = oi === activeCheckpoint.correctIndex;
-              const showCorrect = revealed && isCorrect;
               return (
                 <div key={oi} className="flex items-center gap-3">
-                  <span className={`text-xs font-bold w-5 shrink-0 ${showCorrect ? 'text-lc-success' : 'text-lc-text3'}`}>
+                  <span className="text-xs font-bold w-5 shrink-0 text-lc-text3">
                     {String.fromCharCode(65 + oi)}
                   </span>
                   <div className="flex-1">
                     <div className="flex items-center justify-between text-xs mb-0.5">
-                      <span className={showCorrect ? 'text-lc-success font-semibold' : 'text-lc-text2'}>{opt}</span>
+                      <span className="text-lc-text2">{opt}</span>
                       <span className="text-lc-text3">{count} ({pct}%)</span>
                     </div>
                     <div className="h-2 rounded-full bg-lc-bg overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all duration-500 ${showCorrect ? 'bg-lc-success' : 'bg-lc-blue/60'}`}
+                        className="h-full rounded-full transition-all duration-500 bg-lc-blue/60"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -234,61 +249,128 @@ export function VideoPlayerActivity({
             })}
           </div>
 
-          <div className="flex gap-2 pt-1">
-            {!revealed && (
-              <button
-                onClick={() => setRevealed(true)}
-                className="px-4 py-1.5 rounded-lg bg-lc-success/20 text-lc-success text-xs font-semibold hover:bg-lc-success/30 transition-colors"
-              >
-                Reveal Answer
-              </button>
-            )}
-            <button
-              onClick={closeQuestion}
-              className="px-4 py-1.5 rounded-lg bg-lc-surface border border-lc-border text-xs font-semibold text-lc-text2 hover:text-lc-text transition-colors"
-            >
-              Close Question
-            </button>
-          </div>
+          <p className="text-xs text-lc-text3 italic">Answers will be revealed after the video finishes.</p>
+
+          <button
+            onClick={closeQuestion}
+            className="px-4 py-1.5 rounded-lg bg-lc-surface border border-lc-border text-xs font-semibold text-lc-text2 hover:text-lc-text transition-colors"
+          >
+            Dismiss
+          </button>
         </div>
       )}
 
-      {/* Checkpoint list — manual push for TED / already-fired summary for YouTube */}
-      <div className="space-y-1.5">
-        <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wide">
-          Checkpoints
-          {isTed && <span className="ml-2 font-normal text-lc-text3 normal-case">Push manually at the right moment</span>}
-        </p>
-        {checkpoints.map((cp: CheckpointQuestion, idx: number) => {
-          const state = checkpointStates[idx];
-          const isActive = activeIdx === idx;
-          return (
-            <div
-              key={idx}
-              className={`flex items-center gap-3 rounded-lg border px-3 py-2 transition-all ${
-                isActive ? 'border-lc-blue/50 bg-lc-blue/10' : state.pushed ? 'border-lc-border/40 opacity-50' : 'border-lc-border bg-lc-surface'
-              }`}
-            >
-              <span className="text-xs font-mono text-lc-text3 shrink-0 w-8">{cp.timestampLabel}</span>
-              <span className="text-xs text-lc-text flex-1 leading-snug">{cp.question}</span>
-              {state.pushed ? (
-                <span className="text-xs text-lc-text3 shrink-0">
-                  {Object.keys(state.votes).length} votes
-                </span>
-              ) : (
-                isTed && !isActive && (
-                  <button
-                    onClick={() => pushCheckpoint(idx)}
-                    className="shrink-0 px-2.5 py-1 rounded-md bg-lc-blue/15 text-lc-blue text-xs font-semibold hover:bg-lc-blue/25 transition-colors"
-                  >
-                    Push
-                  </button>
-                )
-              )}
-            </div>
-          );
-        })}
-      </div>
+      {/* TED manual end button */}
+      {isTed && !videoEnded && pushedCheckpoints.length > 0 && (
+        <button
+          onClick={() => { setVideoEnded(true); closeQuestion(); }}
+          className="w-full py-2 rounded-lg border border-lc-border bg-lc-surface text-xs font-semibold text-lc-text2 hover:text-lc-text transition-colors"
+        >
+          Mark Video as Finished — Review Answers
+        </button>
+      )}
+
+      {/* Post-video review */}
+      {videoEnded && pushedCheckpoints.length > 0 && (
+        <div className="space-y-3">
+          <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wide">Review Checkpoint Answers</p>
+          {checkpoints.map((cp: CheckpointQuestion, idx: number) => {
+            const state = checkpointStates[idx];
+            if (!state.pushed) return null;
+            const votes = state.votes;
+            const total = Object.keys(votes).length;
+            return (
+              <div key={idx} className="rounded-xl border border-lc-border bg-lc-surface p-4 space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs text-lc-text3 mb-1">{cp.timestampLabel}</p>
+                    <p className="text-sm font-medium text-lc-text">{cp.question}</p>
+                  </div>
+                  <span className="text-xs text-lc-text3 shrink-0">{total} votes</span>
+                </div>
+
+                <div className="space-y-2">
+                  {cp.options.map((opt, oi) => {
+                    const count = Object.values(votes).filter((v) => v === opt).length;
+                    const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                    const isCorrect = oi === cp.correctIndex;
+                    const showCorrect = state.revealed && isCorrect;
+                    return (
+                      <div key={oi} className="flex items-center gap-3">
+                        <span className={`text-xs font-bold w-5 shrink-0 ${showCorrect ? 'text-lc-success' : 'text-lc-text3'}`}>
+                          {String.fromCharCode(65 + oi)}
+                        </span>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between text-xs mb-0.5">
+                            <span className={showCorrect ? 'text-lc-success font-semibold' : 'text-lc-text2'}>{opt}</span>
+                            <span className="text-lc-text3">{count} ({pct}%)</span>
+                          </div>
+                          <div className="h-2 rounded-full bg-lc-bg overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-500 ${showCorrect ? 'bg-lc-success' : 'bg-lc-blue/60'}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <button
+                  onClick={() => toggleReveal(idx)}
+                  className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    state.revealed
+                      ? 'bg-lc-surface border border-lc-border text-lc-text2 hover:text-lc-text'
+                      : 'bg-lc-success/20 text-lc-success hover:bg-lc-success/30'
+                  }`}
+                >
+                  {state.revealed ? 'Hide Answer' : 'Reveal Answer'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Checkpoint list — manual push for TED, status summary for YouTube */}
+      {!videoEnded && (
+        <div className="space-y-1.5">
+          <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wide">
+            Checkpoints
+            {isTed && <span className="ml-2 font-normal text-lc-text3 normal-case">Push manually at the right moment</span>}
+          </p>
+          {checkpoints.map((cp: CheckpointQuestion, idx: number) => {
+            const state = checkpointStates[idx];
+            const isActive = activeIdx === idx;
+            return (
+              <div
+                key={idx}
+                className={`flex items-center gap-3 rounded-lg border px-3 py-2 transition-all ${
+                  isActive ? 'border-lc-blue/50 bg-lc-blue/10' : state.pushed ? 'border-lc-border/40 opacity-50' : 'border-lc-border bg-lc-surface'
+                }`}
+              >
+                <span className="text-xs font-mono text-lc-text3 shrink-0 w-8">{cp.timestampLabel}</span>
+                <span className="text-xs text-lc-text flex-1 leading-snug">{cp.question}</span>
+                {state.pushed ? (
+                  <span className="text-xs text-lc-text3 shrink-0">
+                    {Object.keys(state.votes).length} votes
+                  </span>
+                ) : (
+                  isTed && !isActive && (
+                    <button
+                      onClick={() => pushCheckpoint(idx)}
+                      className="shrink-0 px-2.5 py-1 rounded-md bg-lc-blue/15 text-lc-blue text-xs font-semibold hover:bg-lc-blue/25 transition-colors"
+                    >
+                      Push
+                    </button>
+                  )
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
