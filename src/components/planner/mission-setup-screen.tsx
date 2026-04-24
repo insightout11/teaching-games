@@ -7,6 +7,7 @@ import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { PresetCard } from './preset-card';
 import { ScenarioPickerModal } from './scenario-picker-modal';
+import { SourceInputPanel } from './source-input-panel';
 
 const DURATIONS = [30, 45, 60, 90] as const;
 
@@ -88,6 +89,9 @@ export function MissionSetupScreen() {
         </div>
       ) : (
         <>
+          {/* Source material */}
+          <SourceInputPanel />
+
           {/* Topic */}
           <div>
             <label className="block text-sm font-medium text-lc-text2 mb-2">

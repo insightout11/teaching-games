@@ -408,6 +408,15 @@ export interface LessonPlanGenerateRequest {
   studentCount?: number; // used by Expert Panel generator; defaults to 9
   goal?: string; // GoalTag — used by mission-selector generator for mission type selection
   missionContext?: string[]; // Up to 5 unique student mission questions for mission-aware generators
+  sourceMaterial?: import('@/types/source-material').SourceMaterial; // External source for grounded generation
+}
+
+// Video Player activity content (source-based lessons)
+export interface VideoPlayerContent extends ActivityGeneratedContent {
+  activityKey: 'video-player';
+  videoUrl: string;
+  videoTitle: string;
+  checkpoints: import('@/types/source-material').CheckpointQuestion[];
 }
 
 // Game generated content types for lesson planner

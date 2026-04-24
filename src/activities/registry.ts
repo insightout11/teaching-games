@@ -28,6 +28,7 @@ import { grammarProofPlugin } from './grammar-proof';
 import { finalWordPlugin } from './final-word';
 import { inYourWordsPlugin } from './in-your-words';
 import { conversationRoundsPlugin } from './conversation-rounds';
+import { videoPlayerPlugin } from './video-player';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
@@ -48,6 +49,7 @@ const activities: ActivityPlugin[] = [
   twoTruthsPlugin,
   rankItPlugin,
   // Learning modules
+  videoPlayerPlugin,
   factDetectivePlugin,
   expertPanelPlugin,
   // Practice activities

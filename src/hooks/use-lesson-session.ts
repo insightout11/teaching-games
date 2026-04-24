@@ -7,6 +7,7 @@ import type { Difficulty } from '@/stores/session-store';
 import type { GrammarTarget } from '@/lib/grammar';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
+import type { SourceMaterial } from '@/types/source-material';
 import { missionSelectorFallback } from '@/lib/fallback-content';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
@@ -35,6 +36,7 @@ interface LessonPlanPayload {
   difficulty?: Difficulty;
   grammarTarget?: GrammarTarget | null;
   directLaunch?: boolean;
+  sourceMaterial?: SourceMaterial;
 }
 
 function getLessonPlanContent(): LessonPlanPayload | null {
@@ -55,6 +57,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         difficulty: parsed.difficulty,
         grammarTarget: parsed.grammarTarget ?? null,
         directLaunch: parsed.directLaunch ?? false,
+        sourceMaterial: parsed.sourceMaterial ?? undefined,
       };
     }
   } catch (e) {
@@ -152,11 +155,12 @@ export function useLessonSession(
     const isGame = slot.type === 'game';
 
     const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
+    const sourceMaterial = lessonPlanContent?.sourceMaterial;
     const body = isLanding
       ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty }
       : isGame
-        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}) }
-        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}) };
+        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}) }
+        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}) };
 
     fetch(endpoint, {
       method: 'POST',
@@ -213,6 +217,7 @@ export function useLessonSession(
       const effectiveTopic = getEffectiveTopic(settings);
       const missionContext = getMissionContext();
       const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
+      const sourceMaterial = lessonPlanContent?.sourceMaterial;
       const body = isLanding
         ? JSON.stringify({ activityKey: activity.key, topic: effectiveTopic, difficulty: settings.difficulty })
         : JSON.stringify({
@@ -223,6 +228,7 @@ export function useLessonSession(
             sessionId,
             ...(missionContext.length > 0 ? { missionContext } : {}),
             ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
+            ...(sourceMaterial ? { sourceMaterial } : {}),
           });
 
       const response = await fetch(endpoint, {

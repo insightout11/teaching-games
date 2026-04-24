@@ -8,6 +8,7 @@ import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
 import type { ScoringMode } from '@/stores/session-store';
 import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
+import type { SourceMaterial } from '@/types/source-material';
 
 export type { PlanModule };
 
@@ -41,6 +42,7 @@ interface PlannerState {
   // Step 3 — Launch
   selectedClassId: string | null;
   grammarTarget: GrammarTarget | null;
+  sourceMaterial: SourceMaterial | null;
 
   // Derived
   primaryGoal: GoalTag;
@@ -66,6 +68,7 @@ interface PlannerState {
   // Actions — Step 3 (Launch)
   setSelectedClassId(id: string | null): void;
   setGrammarTarget(t: GrammarTarget | null): void;
+  setSourceMaterial(s: SourceMaterial | null): void;
 
   // Handoff to session. Does NOT reset — caller decides when to reset.
   launchLesson(): Promise<void>;
@@ -94,6 +97,7 @@ export const usePlannerStore = create<PlannerState>()(
       overrideScoringMode: null,
       selectedClassId: null,
       grammarTarget: null,
+      sourceMaterial: null,
 
       // Derived
       get primaryGoal() {
@@ -118,9 +122,21 @@ export const usePlannerStore = create<PlannerState>()(
 
       // Step 2
       initModules: () => {
-        const { goals, difficulty, lessonDurationMinutes } = get();
+        const { goals, difficulty, lessonDurationMinutes, sourceMaterial } = get();
         const primaryGoal = derivePrimaryGoal(goals);
-        set({ modules: suggestModules(primaryGoal, difficulty, lessonDurationMinutes) });
+        const base = suggestModules(primaryGoal, difficulty, lessonDurationMinutes);
+        if (sourceMaterial && !base.some((m) => m.key === 'video-player')) {
+          const takeoffIdx = base.findIndex((m) => m.slotType === 'takeoff');
+          const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
+          const videoSlot: PlanModule = {
+            id: crypto.randomUUID(),
+            slotType: 'presentation',
+            key: 'video-player',
+            isLocked: false,
+          };
+          base.splice(insertAt, 0, videoSlot);
+        }
+        set({ modules: base });
       },
 
       moveModule: (fromIndex, toIndex) =>
@@ -183,6 +199,18 @@ export const usePlannerStore = create<PlannerState>()(
           modules = [takeoff, ...middle, landing];
         }
 
+        const { sourceMaterial } = get();
+        if (sourceMaterial && !modules.some((m) => m.key === 'video-player')) {
+          const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
+          const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
+          modules.splice(insertAt, 0, {
+            id: crypto.randomUUID(),
+            slotType: 'presentation',
+            key: 'video-player',
+            isLocked: false,
+          });
+        }
+
         set({
           goals: [preset.goal],
           lessonDurationMinutes: preset.lessonDurationMinutes,
@@ -197,10 +225,11 @@ export const usePlannerStore = create<PlannerState>()(
 
       setSelectedClassId: (id) => set({ selectedClassId: id }),
       setGrammarTarget: (grammarTarget) => set({ grammarTarget }),
+      setSourceMaterial: (sourceMaterial) => set({ sourceMaterial }),
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
       launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget } = get();
+        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial } = get();
         if (!selectedClassId) return;
 
         const primaryGoal = derivePrimaryGoal(goals);
@@ -229,6 +258,7 @@ export const usePlannerStore = create<PlannerState>()(
             ...(overrideScoringMode ? { scoringMode: overrideScoringMode } : {}),
             ...(hasMissionSelector ? { isMissionBased: true } : {}),
             ...(grammarTarget ? { grammarTarget } : {}),
+            ...(sourceMaterial ? { sourceMaterial } : {}),
             slots,
             generatedContent: {},
             generatedGameContent: {},
@@ -265,6 +295,7 @@ export const usePlannerStore = create<PlannerState>()(
           overrideScoringMode: null,
           selectedClassId: null,
           grammarTarget: null,
+          sourceMaterial: null,
         }),
     }),
     {

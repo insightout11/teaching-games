@@ -54,14 +54,22 @@ import type {
   ToneTransformerGeneratedContent,
   ConnectionGeneratedContent,
   ConnectionsGeneratedContent,
+  VideoPlayerContent,
 } from '@/activities/types';
+import type { CheckpointQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import type { SourceMaterial } from '@/types/source-material';
 
 
 // ============================================
 // Mission Context Helper
 // ============================================
+
+function buildSourceContext(source?: SourceMaterial): string {
+  if (!source?.summary) return '';
+  return `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${source.summary}\n`;
+}
 
 function missionContextBlock(missionContext?: string[]): string {
   if (!missionContext || missionContext.length === 0) return '';
@@ -73,7 +81,7 @@ function missionContextBlock(missionContext?: string[]): string {
 // Activity Generators
 // ============================================
 
-async function generateWouldYouRather(topic: string, difficulty: Difficulty, missionContext?: string[]): Promise<WouldYouRatherContent> {
+async function generateWouldYouRather(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<WouldYouRatherContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -108,7 +116,7 @@ async function generateWouldYouRather(topic: string, difficulty: Difficulty, mis
   const prompt = `Generate 5 "Would You Rather?" dilemmas for an ESL classroom.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${missionContextBlock(missionContext)}
+${missionContextBlock(missionContext)}${sourceContext}
 Each dilemma needs two options (both appealing OR both unappealing), a discussion prompt, and 3 follow-up questions.
 Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dilemmaId and questions).`;
 
@@ -126,7 +134,7 @@ Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dile
   return { activityKey: 'would-you-rather', topicContext: topic, dilemmas: parsed.dilemmas, potentialFollowUps: followUpsRecord };
 }
 
-async function generateHotTakeArena(topic: string, difficulty: Difficulty): Promise<HotTakeArenaContent> {
+async function generateHotTakeArena(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<HotTakeArenaContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -158,7 +166,7 @@ async function generateHotTakeArena(topic: string, difficulty: Difficulty): Prom
 
   const prompt = `Generate a debate for ESL "Hot Take Arena" about the topic: "${topic}"
 Difficulty: ${difficultyDescriptions[difficulty]}
-The "statement" field MUST be a bold opinionated assertion specifically about "${topic}" that students can AGREE or DISAGREE with — NOT a question. It should take a clear stance (e.g. if the topic is guitars: "Electric guitars are superior to acoustic in every way"). Never use question marks in the statement.
+${sourceContext}The "statement" field MUST be a bold opinionated assertion specifically about "${topic}" that students can AGREE or DISAGREE with — NOT a question. It should take a clear stance (e.g. if the topic is guitars: "Electric guitars are superior to acoustic in every way"). Never use question marks in the statement.
 Create 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words, each with a short student-facing definition (max 15 words).`;
 
   const parsed = await generateJSON<{
@@ -171,7 +179,7 @@ Create 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vo
   return { activityKey: 'hot-take-arena', topicContext: topic, ...parsed };
 }
 
-async function generateTwoTruths(topic: string, difficulty: Difficulty): Promise<TwoTruthsContent> {
+async function generateTwoTruths(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<TwoTruthsContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -196,7 +204,7 @@ async function generateTwoTruths(topic: string, difficulty: Difficulty): Promise
   const prompt = `Generate 5 rounds of "Two Truths & A Fabrication" for ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${sourceContext}
 Each round: 3 statements (2 true, 1 false about the topic), fabricationIndex (0-2), explanation why it's false.
 Mix difficulty levels (easy/medium/hard).`;
 
@@ -204,7 +212,7 @@ Mix difficulty levels (easy/medium/hard).`;
   return { activityKey: 'two-truths', topicContext: topic, rounds: parsed.rounds };
 }
 
-async function generateRankIt(topic: string, difficulty: Difficulty): Promise<RankItContent> {
+async function generateRankIt(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<RankItContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -239,7 +247,7 @@ async function generateRankIt(topic: string, difficulty: Difficulty): Promise<Ra
   const prompt = `Generate 3 "Rank It!" challenges for ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${sourceContext}
 Each challenge: a ranking prompt, 4-5 items with hidden facts that might change minds.
 Example: "Rank these animals by survival ability" with surprising facts about each.`;
 
@@ -247,7 +255,7 @@ Example: "Rank these animals by survival ability" with surprising facts about ea
   return { activityKey: 'rank-it', topicContext: topic, challenges: parsed.challenges };
 }
 
-async function generateFactDetective(topic: string, difficulty: Difficulty): Promise<FactDetectiveContent> {
+async function generateFactDetective(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<FactDetectiveContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -283,7 +291,7 @@ async function generateFactDetective(topic: string, difficulty: Difficulty): Pro
   const prompt = `Generate 6 fact/myth claims for "Fact Detective" ESL activity.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${sourceContext}
 Mix of true facts and plausible myths. Include explanation and 2-3 vocabulary words per claim, each with a short student-facing definition (max 15 words).
 Make claims progressively harder to guess.`;
 
@@ -291,7 +299,7 @@ Make claims progressively harder to guess.`;
   return { activityKey: 'fact-detective', topicContext: topic, claims: parsed.claims };
 }
 
-async function generateExpertPanel(topic: string, difficulty: Difficulty, n: number = 9, missionContext?: string[]): Promise<ExpertPanelContent> {
+async function generateExpertPanel(topic: string, difficulty: Difficulty, n: number = 9, missionContext?: string[], sourceContext = ''): Promise<ExpertPanelContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -326,7 +334,7 @@ async function generateExpertPanel(topic: string, difficulty: Difficulty, n: num
   const prompt = `Generate an "Expert Panel" talk show activity for an ESL class of ${n} students.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${missionContextBlock(missionContext)}
+${missionContextBlock(missionContext)}${sourceContext}
 Create exactly ${n} expert role cards — one per student.
 Each role: id (slug like "role-1"), title (2–4 words), tags (exactly 3 short noun phrases, max 3 words each),
 starters (exactly 2 short sentence starters, max 10 words each, e.g. "From my view, ..." / "A real example is ...").
@@ -348,7 +356,7 @@ Return JSON: { "roles": [...${n} items], "questions": [...${n} items] }`;
   return { activityKey: 'expert-panel', topicContext: topic, roles, questions };
 }
 
-async function generateScenarioSimulator(topic: string, difficulty: Difficulty, missionContext?: string[]): Promise<ScenarioSimulatorContent> {
+async function generateScenarioSimulator(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<ScenarioSimulatorContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -396,7 +404,7 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty, 
 
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
 Topic: ${topic}
-${missionContextBlock(missionContext)}
+${missionContextBlock(missionContext)}${sourceContext}
 You are writing a choose-your-own-adventure story that will be told over 5 rounds.
 Only write Round 1 now. The other rounds will be generated live based on student votes.
 
@@ -452,7 +460,7 @@ Return valid JSON.`;
   return { activityKey: 'scenario-simulator', topicContext: topic, ...parsed } as ScenarioSimulatorContent;
 }
 
-async function generateInterviewLab(topic: string, difficulty: Difficulty): Promise<InterviewLabContent> {
+async function generateInterviewLab(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<InterviewLabContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -477,7 +485,7 @@ async function generateInterviewLab(topic: string, difficulty: Difficulty): Prom
   const prompt = `Generate an "Interview Lab" character for ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${sourceContext}
 Create an interesting character to interview:
 - Name, role, background, personality
 - Expertise areas
@@ -494,7 +502,7 @@ Create an interesting character to interview:
   return { activityKey: 'interview-lab', topicContext: topic, ...parsed };
 }
 
-async function generateProblemSolvers(topic: string, difficulty: Difficulty): Promise<ProblemSolversContent> {
+async function generateProblemSolvers(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<ProblemSolversContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -580,6 +588,7 @@ async function generateProblemSolvers(topic: string, difficulty: Difficulty): Pr
 
 Generate a "Problem Solvers" activity for an ESL class.
 Topic: ${topic}
+${sourceContext}
 
 DIFFICULTY STRUCTURE (${difficulty}):
 - Problem: short concrete title + 1–2 sentence description using the language rule above (no jargon, no abstract concepts for lower levels)
@@ -604,7 +613,7 @@ Return JSON matching the schema exactly.`;
   return { activityKey: 'problem-solvers', topicContext: topic, ...parsed };
 }
 
-async function generateWonderBoard(topic: string, difficulty: Difficulty): Promise<WonderBoardContent> {
+async function generateWonderBoard(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<WonderBoardContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -616,6 +625,7 @@ async function generateWonderBoard(topic: string, difficulty: Difficulty): Promi
   const prompt = `Generate one short sentence a teacher can say to introduce a student question board about this topic.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 The sentence should invite students to ask questions about the topic. It should be natural, encouraging, and under 20 words.
 Example: "What are you wondering about climate change? Ask your question now."
@@ -631,7 +641,7 @@ Return JSON with a "framingPrompt" field.`;
   };
 }
 
-async function generateQuickPulse(topic: string, difficulty: Difficulty): Promise<QuickPulseContent> {
+async function generateQuickPulse(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<QuickPulseContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -653,6 +663,7 @@ async function generateQuickPulse(topic: string, difficulty: Difficulty): Promis
   const prompt = `Generate 3 quick icebreaker mini-prompts for an ESL classroom about the topic below.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 Prompt types (use this exact order): likert, yesno, likert
 - likert: A statement students rate 1–5 (1=strongly disagree, 5=strongly agree). Keep it engaging and topic-relevant.
@@ -678,7 +689,7 @@ Return JSON with a "prompts" array of exactly 3 objects, each with "type" (liker
   };
 }
 
-async function generateVocabRadar(topic: string, difficulty: Difficulty): Promise<VocabRadarContent> {
+async function generateVocabRadar(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<VocabRadarContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -701,6 +712,7 @@ async function generateVocabRadar(topic: string, difficulty: Difficulty): Promis
   const prompt = `Generate 5 key vocabulary words for an ESL classroom lesson about the topic below.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 Choose words that:
 - Are central to understanding the topic
@@ -720,7 +732,7 @@ Return JSON with a "words" array of exactly 5 objects, each with "word", "partOf
   };
 }
 
-async function generatePredictionRound(topic: string, difficulty: Difficulty): Promise<PredictionRoundContent> {
+async function generatePredictionRound(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<PredictionRoundContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -745,6 +757,7 @@ async function generatePredictionRound(topic: string, difficulty: Difficulty): P
   const prompt = `Generate 3 prediction questions for an ESL classroom lesson about the topic below.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 Each question should:
 - Present a surprising or debatable claim about the topic that students can predict on before being taught
@@ -771,10 +784,61 @@ Return JSON with a "questions" array of exactly 3 objects with: text, optionA, o
   };
 }
 
+async function generateVideoCheckpoints(source: SourceMaterial, count = 4): Promise<CheckpointQuestion[]> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      checkpoints: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            timestampLabel: { type: 'string' },
+            question: { type: 'string' },
+            options: { type: 'array', items: { type: 'string' } },
+            correctIndex: { type: 'number' },
+          },
+          required: ['timestampLabel', 'question', 'options', 'correctIndex'],
+        },
+      },
+    },
+    required: ['checkpoints'],
+  };
+
+  const prompt = `You are generating comprehension checkpoint questions for an ESL classroom watching this video.
+
+Title: "${source.title}"
+Duration: ${source.duration ? `${Math.floor(source.duration / 60)}:${String(source.duration % 60).padStart(2, '0')}` : 'unknown'}
+
+Summary of content:
+${source.summary}
+
+Generate exactly ${count} multiple-choice comprehension checkpoints spread across the video.
+Each checkpoint:
+- Has a timestampLabel like "2:30" showing approximately when in the video it would be asked
+- Asks a clear comprehension question about content covered up to that point
+- Has exactly 4 options (A–D), only one correct
+- Tests understanding, not recall of trivial details
+
+Space them evenly through the video. correctIndex is 0-based (0=A, 1=B, 2=C, 3=D).
+Return JSON with a "checkpoints" array of ${count} objects.`;
+
+  const parsed = await generateJSON<{ checkpoints: Array<{ timestampLabel: string; question: string; options: string[]; correctIndex: number }> }>(prompt, schema);
+
+  return (parsed.checkpoints ?? []).slice(0, count).map((c, i) => ({
+    timestamp: source.duration ? Math.round((source.duration / count) * (i + 0.5)) : (i + 1) * 120,
+    timestampLabel: c.timestampLabel ?? `${i + 1}:00`,
+    question: c.question ?? 'What is the main idea of this section?',
+    options: c.options?.slice(0, 4) ?? ['Option A', 'Option B', 'Option C', 'Option D'],
+    correctIndex: typeof c.correctIndex === 'number' ? Math.min(c.correctIndex, 3) : 0,
+  }));
+}
+
 async function generateSingleScene(
   topic: string,
   difficulty: Difficulty,
-  charCount: 4 | 3
+  charCount: 4 | 3,
+  sourceContext = '',
 ): Promise<SceneIgniterScene> {
   const schema: AISchema = {
     type: 'object',
@@ -820,6 +884,7 @@ async function generateSingleScene(
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
 
 Topic: ${topic}
+${sourceContext}
 
 Requirements:
 - A catchy short title for the scene
@@ -906,7 +971,7 @@ Return JSON: { title: string, context: string, improvPrompt: string, improvScrip
   };
 }
 
-async function generateFinalAnswer(topic: string, difficulty: Difficulty): Promise<FinalAnswerContent> {
+async function generateFinalAnswer(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<FinalAnswerContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -921,6 +986,7 @@ async function generateFinalAnswer(topic: string, difficulty: Difficulty): Promi
   const aiPrompt = `Generate a closing consolidation prompt for an ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 Create:
 - prompt: An open-ended consolidating question (max 15 words) that asks students to summarise or apply today's learning
@@ -941,7 +1007,7 @@ Return JSON.`;
   };
 }
 
-async function generateMicDrop(topic: string, difficulty: Difficulty): Promise<MicDropContent> {
+async function generateMicDrop(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<MicDropContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -955,6 +1021,7 @@ async function generateMicDrop(topic: string, difficulty: Difficulty): Promise<M
   const aiPrompt = `Generate a "Mic Drop" expressive writing prompt for an ESL closing activity.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 Create:
 - prompt: An expressive opinion or reflection prompt (max 15 words) asking for a powerful personal statement
@@ -973,7 +1040,7 @@ Return JSON.`;
   };
 }
 
-async function generateLightningRound(topic: string, difficulty: Difficulty): Promise<LightningRoundContent> {
+async function generateLightningRound(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<LightningRoundContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -995,6 +1062,7 @@ async function generateLightningRound(topic: string, difficulty: Difficulty): Pr
   const aiPrompt = `Generate 4 rapid-fire closing prompts for an ESL Lightning Round activity.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 Create exactly 4 prompts in this order:
 1. Vocabulary recall — ask for one word or fact from the lesson
@@ -1027,7 +1095,7 @@ Return JSON with a "prompts" array of exactly 4 items.`;
   return { activityKey: 'lightning-round', topicContext: topic, prompts };
 }
 
-async function generateOpinionShift(topic: string, difficulty: Difficulty): Promise<OpinionShiftContent> {
+async function generateOpinionShift(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<OpinionShiftContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -1040,6 +1108,7 @@ async function generateOpinionShift(topic: string, difficulty: Difficulty): Prom
   const aiPrompt = `Generate an "Opinion Shift" closing reflection activity for an ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 Create two sentence starters for a Before/Now reflection:
 - beforePrompt: A sentence starter beginning with "Before this lesson I thought..." — students complete it to describe their original thinking about the topic (max 12 words)
@@ -1057,12 +1126,12 @@ Return JSON.`;
   };
 }
 
-async function generateSceneIgniter(topic: string, difficulty: Difficulty): Promise<SceneIgniterContent> {
+async function generateSceneIgniter(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<SceneIgniterContent> {
   const [scene1, scene2, scene1alt, scene2alt] = await Promise.all([
-    generateSingleScene(topic, difficulty, 4),
-    generateSingleScene(topic, difficulty, 3),
-    generateSingleScene(topic, difficulty, 4),
-    generateSingleScene(topic, difficulty, 3),
+    generateSingleScene(topic, difficulty, 4, sourceContext),
+    generateSingleScene(topic, difficulty, 3, sourceContext),
+    generateSingleScene(topic, difficulty, 4, sourceContext),
+    generateSingleScene(topic, difficulty, 3, sourceContext),
   ]);
   return {
     activityKey: 'scene-igniter',
@@ -1075,7 +1144,7 @@ async function generateSceneIgniter(topic: string, difficulty: Difficulty): Prom
 // Game Generators
 // ============================================
 
-async function generateVocabSprint(topic: string, difficulty: Difficulty, keyVocabWords?: string[]): Promise<VocabSprintGeneratedContent> {
+async function generateVocabSprint(topic: string, difficulty: Difficulty, keyVocabWords?: string[], sourceContext = ''): Promise<VocabSprintGeneratedContent> {
   const schema: AISchema = {
     type: 'array',
     items: {
@@ -1097,6 +1166,7 @@ async function generateVocabSprint(topic: string, difficulty: Difficulty, keyVoc
 
   const prompt = `Generate exactly 6 English sentences for vocabulary practice at ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
+${sourceContext}
 
 DISTRIBUTE EXACTLY: 2 easy + 2 medium + 2 hard sentences (level field must be "easy", "medium", or "hard").
 
@@ -1154,7 +1224,7 @@ Provide:
   return { gameKey: 'grammar-boss', task: data.task, exampleSentence: data.exampleSentence };
 }
 
-async function generateWordChain(topic: string, difficulty: Difficulty): Promise<WordChainGeneratedContent> {
+async function generateWordChain(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<WordChainGeneratedContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -1166,6 +1236,7 @@ async function generateWordChain(topic: string, difficulty: Difficulty): Promise
 
   const prompt = `Generate a starting word for a word association chain game at ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
+${sourceContext}
 
 Choose a starting word that:
 1. Has MANY possible associations (at least 10+ related concepts)
@@ -1179,7 +1250,7 @@ Also provide a short hint about the type of associations expected (max 8 words).
   return { gameKey: 'word-chain', startingWord: data.startingWord, hint: data.hint };
 }
 
-async function generateSynonymShowdown(topic: string, difficulty: Difficulty): Promise<SynonymShowdownGeneratedContent> {
+async function generateSynonymShowdown(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<SynonymShowdownGeneratedContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -1192,6 +1263,7 @@ async function generateSynonymShowdown(topic: string, difficulty: Difficulty): P
 
   const prompt = `Generate a synonym challenge for ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
+${sourceContext}
 
 Create:
 1. A target word that has MANY possible synonyms (at least 5-10 valid alternatives)
@@ -1359,7 +1431,7 @@ Guidelines:
   return { gameKey: 'connection', word1: data.word1, word2: data.word2, category: data.category, hint: data.hint };
 }
 
-async function generateConnections(topic: string, difficulty: Difficulty): Promise<ConnectionsGeneratedContent> {
+async function generateConnections(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<ConnectionsGeneratedContent> {
   const difficultyPrompts: Record<Difficulty, string> = {
     'Beginner': 'All 4 groups should have very obvious, straightforward connections. Use basic vocabulary.',
     'Easy': 'Groups should be clear with common vocabulary. Minimal red herrings.',
@@ -1391,6 +1463,7 @@ async function generateConnections(topic: string, difficulty: Difficulty): Promi
   const prompt = `Generate a Connections puzzle (like NYT Connections) for ESL learners.
 Topic: ${topic}
 ${difficultyPrompts[difficulty]}
+${sourceContext}
 
 Create exactly 4 groups of 4 words each (16 words total). Each word must be a single word.
 
@@ -1420,8 +1493,8 @@ Return JSON with groups array. Words should be UPPERCASE.`;
 // New Lesson Type Generators
 // ============================================
 
-async function generateCharacterCards(topic: string, difficulty: Difficulty): Promise<CharacterCardsContent> {
-  const cached = await getCachedContent('character-cards', topic, difficulty, [], undefined, 1);
+async function generateCharacterCards(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<CharacterCardsContent> {
+  const cached = skipCache ? null : await getCachedContent('character-cards', topic, difficulty, [], undefined, 1);
   if (cached) {
     const c = cached.content_json as { characters: CharacterCard[] };
     return { activityKey: 'character-cards', topicContext: topic, characters: c.characters ?? [], topic };
@@ -1448,7 +1521,7 @@ async function generateCharacterCards(topic: string, difficulty: Difficulty): Pr
 
   const prompt = `Generate 9 characters for an ESL class warm-up activity on the topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${sourceContext}
 Each character represents a DIFFERENT perspective or viewpoint on the topic. Their viewpoints should genuinely disagree with or contrast each other — not all be positive.
 
 Rules:
@@ -1464,7 +1537,7 @@ Return JSON with a "characters" array of exactly 9 objects.`;
   try {
     const data = await generateJSON<{ characters: CharacterCard[] }>(prompt, schema);
     const characters = Array.isArray(data.characters) ? data.characters.slice(0, 9) : [];
-    void storeCachedContent('character-cards', topic, difficulty, { characters }, 1);
+    if (!skipCache) void storeCachedContent('character-cards', topic, difficulty, { characters }, 1);
     return { activityKey: 'character-cards', topicContext: topic, characters, topic };
   } catch {
     // Fallback: generic characters
@@ -1483,8 +1556,8 @@ Return JSON with a "characters" array of exactly 9 objects.`;
   }
 }
 
-async function generateImposter(topic: string, difficulty: Difficulty): Promise<ImposterContent> {
-  const cached = await getCachedContent('imposter', topic, difficulty, [], undefined, 1);
+async function generateImposter(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<ImposterContent> {
+  const cached = skipCache ? null : await getCachedContent('imposter', topic, difficulty, [], undefined, 1);
   if (cached) {
     const c = cached.content_json as { rounds: ImposterRound[] };
     return { activityKey: 'imposter', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -1510,7 +1583,7 @@ async function generateImposter(topic: string, difficulty: Difficulty): Promise<
 
   const prompt = `Generate 3 secret words for an ESL classroom Imposter game on the topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${sourceContext}
 Rules:
 - Each word must be a single concrete NOUN directly from the topic category (e.g. if topic is "food", use words like "noodle", "spice", "broth")
 - No verbs, adjectives, or abstract concepts — nouns only
@@ -1524,7 +1597,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "de
   try {
     const data = await generateJSON<{ rounds: ImposterRound[] }>(prompt, schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
-    void storeCachedContent('imposter', topic, difficulty, { rounds }, 1);
+    if (!skipCache) void storeCachedContent('imposter', topic, difficulty, { rounds }, 1);
     return { activityKey: 'imposter', topicContext: topic, rounds, topic };
   } catch {
     const fallback: ImposterRound[] = [
@@ -1536,8 +1609,8 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "de
   }
 }
 
-async function generatePassword(topic: string, difficulty: Difficulty): Promise<PasswordContent> {
-  const cached = await getCachedContent('password', topic, difficulty, [], undefined, 1);
+async function generatePassword(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<PasswordContent> {
+  const cached = skipCache ? null : await getCachedContent('password', topic, difficulty, [], undefined, 1);
   if (cached) {
     const c = cached.content_json as { rounds: PasswordRound[] };
     return { activityKey: 'password', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -1563,7 +1636,7 @@ async function generatePassword(topic: string, difficulty: Difficulty): Promise<
 
   const prompt = `Generate 3 secret passwords for an ESL classroom Password game on the topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${sourceContext}
 Rules:
 - Each word must be a single word (noun, verb, or adjective) related to the topic
 - The word must be natural to include in conversation about the topic without sounding forced
@@ -1577,7 +1650,7 @@ Return JSON: { "rounds": [{ "word": string, "description": string }] } — exact
   try {
     const data = await generateJSON<{ rounds: PasswordRound[] }>(prompt, schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
-    void storeCachedContent('password', topic, difficulty, { rounds }, 1);
+    if (!skipCache) void storeCachedContent('password', topic, difficulty, { rounds }, 1);
     return { activityKey: 'password', topicContext: topic, rounds, topic };
   } catch {
     const fallback: PasswordRound[] = [
@@ -1589,9 +1662,9 @@ Return JSON: { "rounds": [{ "word": string, "description": string }] } — exact
   }
 }
 
-async function generateGrammarCheckIn(topic: string, difficulty: Difficulty, grammarTarget?: string): Promise<GrammarCheckInContent> {
+async function generateGrammarCheckIn(topic: string, difficulty: Difficulty, grammarTarget?: string, skipCache = false): Promise<GrammarCheckInContent> {
   const cacheVariant = grammarTarget ?? 'auto';
-  const cached = await getCachedContent('grammar-check-in', topic, difficulty, [], cacheVariant, 1);
+  const cached = skipCache ? null : await getCachedContent('grammar-check-in', topic, difficulty, [], cacheVariant, 1);
   if (cached) {
     const c = cached.content_json as { grammarTarget: string; sentences: GrammarCheckInContent['sentences'] };
     return { activityKey: 'grammar-check-in', topicContext: topic, grammarTarget: c.grammarTarget ?? cacheVariant, sentences: c.sentences ?? [] };
@@ -1640,7 +1713,7 @@ Return JSON with:
       grammarTarget: data.grammarTarget ?? (grammarTarget ?? 'grammar'),
       sentences: Array.isArray(data.sentences) ? data.sentences.slice(0, 3) : [],
     };
-    void storeCachedContent('grammar-check-in', topic, difficulty, result, 1, cacheVariant);
+    if (!skipCache) void storeCachedContent('grammar-check-in', topic, difficulty, result, 1, cacheVariant);
     return { activityKey: 'grammar-check-in', topicContext: topic, ...result };
   } catch {
     return {
@@ -1656,8 +1729,8 @@ Return JSON with:
   }
 }
 
-async function generateGrammarProof(topic: string, difficulty: Difficulty, grammarTarget: string): Promise<GrammarProofContent> {
-  const cached = await getCachedContent('grammar-proof', topic, difficulty, [], grammarTarget, 1);
+async function generateGrammarProof(topic: string, difficulty: Difficulty, grammarTarget: string, skipCache = false): Promise<GrammarProofContent> {
+  const cached = skipCache ? null : await getCachedContent('grammar-proof', topic, difficulty, [], grammarTarget, 1);
   if (cached) {
     const c = cached.content_json as { prompt: string; exampleSentences: string[] };
     return { activityKey: 'grammar-proof', topicContext: topic, grammarTarget, prompt: c.prompt ?? '', exampleSentences: c.exampleSentences ?? [] };
@@ -1688,7 +1761,7 @@ Return JSON with:
   try {
     const data = await generateJSON<{ prompt: string; exampleSentences: string[] }>(aiPrompt, schema);
     const result = { prompt: data.prompt ?? '', exampleSentences: Array.isArray(data.exampleSentences) ? data.exampleSentences.slice(0, 2) : [] };
-    void storeCachedContent('grammar-proof', topic, difficulty, result, 1, grammarTarget);
+    if (!skipCache) void storeCachedContent('grammar-proof', topic, difficulty, result, 1, grammarTarget);
     return { activityKey: 'grammar-proof', topicContext: topic, grammarTarget, ...result };
   } catch {
     return {
@@ -1701,8 +1774,8 @@ Return JSON with:
   }
 }
 
-async function generateFinalWord(topic: string, difficulty: Difficulty): Promise<FinalWordContent> {
-  const cached = await getCachedContent('final-word', topic, difficulty, [], undefined, 1);
+async function generateFinalWord(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<FinalWordContent> {
+  const cached = skipCache ? null : await getCachedContent('final-word', topic, difficulty, [], undefined, 1);
   if (cached) {
     const c = cached.content_json as { prompt: string };
     return { activityKey: 'final-word', topicContext: topic, prompt: c.prompt ?? '' };
@@ -1716,6 +1789,7 @@ async function generateFinalWord(topic: string, difficulty: Difficulty): Promise
 
   const aiPrompt = `Generate a single spoken prompt for an ESL class closing activity on the topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
 
 The prompt asks every student to say ONE sentence to the class — their genuine opinion or takeaway.
 Requirements:
@@ -1728,14 +1802,14 @@ Return JSON with a single "prompt" string.`;
 
   try {
     const data = await generateJSON<{ prompt: string }>(aiPrompt, schema);
-    void storeCachedContent('final-word', topic, difficulty, { prompt: data.prompt }, 1);
+    if (!skipCache) void storeCachedContent('final-word', topic, difficulty, { prompt: data.prompt }, 1);
     return { activityKey: 'final-word', topicContext: topic, prompt: data.prompt ?? `In one sentence, what do you think is the most important thing about ${topic}?` };
   } catch {
     return { activityKey: 'final-word', topicContext: topic, prompt: `In one sentence, what do you think is the most important thing about ${topic}?` };
   }
 }
 
-async function generateConversationRounds(topic: string, difficulty: Difficulty, sceneContext?: { title: string; context: string }): Promise<ConversationRoundsContent> {
+async function generateConversationRounds(topic: string, difficulty: Difficulty, sceneContext?: { title: string; context: string }, sourceContext = ''): Promise<ConversationRoundsContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -1767,6 +1841,7 @@ async function generateConversationRounds(topic: string, difficulty: Difficulty,
   const prompt = `Generate a "Conversation Rounds" role-play activity for an ESL class.
 Topic/Scenario: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}${sceneNote}
+${sourceContext}
 
 Create one realistic two-person scenario where both roles NEED each other to resolve a situation — not just exchange opinions. There must be a clear conflict of interest or an asymmetric goal.
 
@@ -1816,7 +1891,7 @@ Return JSON with scenario, context, roles (array of exactly 2), complications (a
   }
 }
 
-async function generateStorySprint(topic: string, difficulty: Difficulty, sceneContext?: { title: string; context: string }): Promise<StorySprintGeneratedContent> {
+async function generateStorySprint(topic: string, difficulty: Difficulty, sceneContext?: { title: string; context: string }, sourceContext = ''): Promise<StorySprintGeneratedContent> {
   const difficultyLevels: Record<Difficulty, string> = {
     'Beginner': 'A1 beginner — use simple words and short sentences',
     'Easy': 'A2 elementary — use basic vocabulary and simple structure',
@@ -1834,7 +1909,7 @@ async function generateStorySprint(topic: string, difficulty: Difficulty, sceneC
 Write at ${difficultyLevels[difficulty]} level.
 Exactly ONE sentence (15-30 words). Leave the story open for students to continue.`
     : `Generate an engaging opening sentence for a collaborative story about "${topic}".
-Write at ${difficultyLevels[difficulty]} level.
+${sourceContext}Write at ${difficultyLevels[difficulty]} level.
 Exactly ONE sentence (15-30 words). Leave it open for continuation.`;
   try {
     const parsed = await generateJSON<{ starterSentence: string }>(prompt, schema);
@@ -1862,7 +1937,11 @@ export async function POST(request: NextRequest) {
       goal,
       missionContext,
       grammarTarget,
+      sourceMaterial,
     } = body;
+
+    const sourceCtx = buildSourceContext(sourceMaterial);
+    const skipCache = !!sourceMaterial;
 
     // Resolve effective topic: Pro users send customTopic, Standard users send standardTopicId
     const customTopic: string =
@@ -1893,10 +1972,10 @@ export async function POST(request: NextRequest) {
     const vocabBlitzMode = hasActivities && hasGames &&
       activities.includes('vocab-radar') && games.includes('vocab-sprint');
     if (vocabBlitzMode) {
-      const vocabRadarResult = await generateVocabRadar(customTopic, diff);
+      const vocabRadarResult = await generateVocabRadar(customTopic, diff, sourceCtx);
       content['vocab-radar'] = vocabRadarResult;
       const keyVocabWords = vocabRadarResult.words.map((w) => w.word);
-      gameContent['vocab-sprint'] = await generateVocabSprint(customTopic, diff, keyVocabWords);
+      gameContent['vocab-sprint'] = await generateVocabSprint(customTopic, diff, keyVocabWords, sourceCtx);
       content['in-your-words'] = { activityKey: 'in-your-words', topicContext: customTopic, words: keyVocabWords };
     }
 
@@ -1906,12 +1985,12 @@ export async function POST(request: NextRequest) {
     const hasStorySprint = hasGames && games?.includes('story-sprint');
     const sceneChainMode = hasSceneIgniter && (hasConvRounds || hasStorySprint);
     if (sceneChainMode) {
-      const sceneResult = await generateSceneIgniter(customTopic, diff);
+      const sceneResult = await generateSceneIgniter(customTopic, diff, sourceCtx);
       content['scene-igniter'] = sceneResult;
       const primaryScene = sceneResult.scenes[0];
       const sceneCtx = { title: primaryScene.title, context: primaryScene.context };
-      if (hasConvRounds) content['conversation-rounds'] = await generateConversationRounds(customTopic, diff, sceneCtx);
-      if (hasStorySprint) gameContent['story-sprint'] = await generateStorySprint(customTopic, diff, sceneCtx);
+      if (hasConvRounds) content['conversation-rounds'] = await generateConversationRounds(customTopic, diff, sceneCtx, sourceCtx);
+      if (hasStorySprint) gameContent['story-sprint'] = await generateStorySprint(customTopic, diff, sceneCtx, sourceCtx);
     }
 
     // Generate activity content
@@ -1920,84 +1999,99 @@ export async function POST(request: NextRequest) {
         if (vocabBlitzMode && activityKey === 'vocab-radar') continue; // already generated above
         switch (activityKey) {
           case 'would-you-rather':
-            generators.push(generateWouldYouRather(customTopic, diff, missionContext).then((r) => { content[activityKey] = r; }));
+            generators.push(generateWouldYouRather(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'hot-take-arena':
-            generators.push(generateHotTakeArena(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateHotTakeArena(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths':
-            generators.push(generateTwoTruths(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateTwoTruths(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths-and-a-lie':
             // No AI generation — content is student-generated at runtime
             generators.push(Promise.resolve().then(() => { content[activityKey] = { activityKey, topicContext: customTopic }; }));
             break;
           case 'rank-it':
-            generators.push(generateRankIt(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateRankIt(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'fact-detective':
-            generators.push(generateFactDetective(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateFactDetective(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'expert-panel':
-            generators.push(generateExpertPanel(customTopic, diff, studentCount ?? 9, missionContext).then((r) => { content[activityKey] = r; }));
+            generators.push(generateExpertPanel(customTopic, diff, studentCount ?? 9, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'scenario-simulator':
-            generators.push(generateScenarioSimulator(customTopic, diff, missionContext).then((r) => { content[activityKey] = r; }));
+            generators.push(generateScenarioSimulator(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'interview-lab':
-            generators.push(generateInterviewLab(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateInterviewLab(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'problem-solvers':
-            generators.push(generateProblemSolvers(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateProblemSolvers(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'wonder-board':
-            generators.push(generateWonderBoard(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateWonderBoard(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'quick-pulse':
-            generators.push(generateQuickPulse(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateQuickPulse(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'vocab-radar':
-            generators.push(generateVocabRadar(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateVocabRadar(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'prediction-round':
-            generators.push(generatePredictionRound(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generatePredictionRound(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
+          case 'video-player': {
+            if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted') && sourceMaterial.sourceKey) {
+              generators.push(generateVideoCheckpoints(sourceMaterial).then((checkpoints) => {
+                const videoContent: VideoPlayerContent = {
+                  activityKey: 'video-player',
+                  topicContext: customTopic,
+                  videoUrl: `https://www.youtube.com/watch?v=${sourceMaterial.sourceKey}`,
+                  videoTitle: sourceMaterial.title,
+                  checkpoints,
+                };
+                content[activityKey] = videoContent;
+              }));
+            }
+            break;
+          }
           case 'scene-igniter':
             if (sceneChainMode) break; // already generated sequentially above
-            generators.push(generateSceneIgniter(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateSceneIgniter(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'final-answer':
-            generators.push(generateFinalAnswer(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateFinalAnswer(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'mic-drop':
-            generators.push(generateMicDrop(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateMicDrop(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'lightning-round':
-            generators.push(generateLightningRound(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateLightningRound(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'opinion-shift':
-            generators.push(generateOpinionShift(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateOpinionShift(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'mission-selector':
             generators.push(generateMissionSelectorContent(customTopic, diff, goal).then((r) => { content[activityKey] = r; }));
             break;
           case 'character-cards':
-            generators.push(generateCharacterCards(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateCharacterCards(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'imposter':
-            generators.push(generateImposter(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateImposter(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'password':
-            generators.push(generatePassword(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generatePassword(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-check-in':
-            generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget).then((r) => { content[activityKey] = r; }));
+            generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-proof':
-            generators.push(generateGrammarProof(customTopic, diff, grammarTarget ?? 'grammar').then((r) => { content[activityKey] = r; }));
+            generators.push(generateGrammarProof(customTopic, diff, grammarTarget ?? 'grammar', skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'final-word':
-            generators.push(generateFinalWord(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateFinalWord(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'in-your-words':
             if (vocabBlitzMode) break; // already built from Vocab Radar words above
@@ -2005,7 +2099,7 @@ export async function POST(request: NextRequest) {
             break;
           case 'conversation-rounds':
             if (sceneChainMode) break; // already generated sequentially above
-            generators.push(generateConversationRounds(customTopic, diff).then((r) => { content[activityKey] = r; }));
+            generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);
@@ -2019,16 +2113,16 @@ export async function POST(request: NextRequest) {
         switch (gameKey) {
           case 'vocab-sprint':
             if (vocabBlitzMode) break; // already generated sequentially above
-            generators.push(generateVocabSprint(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
+            generators.push(generateVocabSprint(customTopic, diff, undefined, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'grammar-boss':
             generators.push(generateGrammarBoss(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'word-chain':
-            generators.push(generateWordChain(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
+            generators.push(generateWordChain(customTopic, diff, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'synonym-showdown':
-            generators.push(generateSynonymShowdown(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
+            generators.push(generateSynonymShowdown(customTopic, diff, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'error-hunter':
             generators.push(generateErrorHunter(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
@@ -2043,11 +2137,11 @@ export async function POST(request: NextRequest) {
             generators.push(generateConnection(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'connections':
-            generators.push(generateConnections(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
+            generators.push(generateConnections(customTopic, diff, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'story-sprint':
             if (sceneChainMode) break; // already generated sequentially above
-            generators.push(generateStorySprint(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
+            generators.push(generateStorySprint(customTopic, diff, undefined, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
             break;
           default:
             console.warn(`Unknown game: ${gameKey}`);

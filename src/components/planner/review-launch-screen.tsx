@@ -31,6 +31,8 @@ export function ReviewLaunchScreen() {
     setDuration,
     grammarTarget,
     setGrammarTarget,
+    sourceMaterial,
+    setSourceMaterial,
   } = usePlannerStore();
 
   const [classes, setClasses] = useState<TeacherClass[]>([]);
@@ -242,6 +244,32 @@ export function ReviewLaunchScreen() {
             </h3>
             <FlightPathSVG compact />
           </div>
+
+          {/* Source material card */}
+          {sourceMaterial && (
+            <div className="bg-lc-card rounded-xl border border-lc-blue/30 p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider flex items-center gap-2">
+                  <span>🎬</span> Source Material
+                </h3>
+                <button
+                  onClick={() => setSourceMaterial(null)}
+                  className="text-xs text-lc-text3 hover:text-red-400 transition-colors"
+                >
+                  Remove
+                </button>
+              </div>
+              <p className="text-sm font-medium text-lc-text">{sourceMaterial.title}</p>
+              {sourceMaterial.duration && (
+                <p className="text-xs text-lc-text3">
+                  {Math.floor(sourceMaterial.duration / 60)}:{String(sourceMaterial.duration % 60).padStart(2, '0')} • {sourceMaterial.sourceType}
+                </p>
+              )}
+              <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3">
+                {sourceMaterial.summary}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Right column — Class selector + checklist */}
