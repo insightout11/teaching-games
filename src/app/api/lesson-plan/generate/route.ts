@@ -62,6 +62,12 @@ import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import type { SourceMaterial } from '@/types/source-material';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
+import bbcLibrary from '@/data/bbc-library.json';
+import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
+import kurzgesagtLibrary from '@/data/kurzgesagt-library.json';
+import bigthinkLibrary from '@/data/bigthink-library.json';
+import voxLibrary from '@/data/vox-library.json';
+import kidsLibrary from '@/data/kids-library.json';
 
 
 // ============================================
@@ -2147,7 +2153,16 @@ export async function POST(request: NextRequest) {
             generators.push(generatePredictionRound(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'video-player': {
-            if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted' || sourceMaterial.sourceType === 'teded') && sourceMaterial.sourceKey) {
+            const youtubeLibraries: Record<string, Array<{ id: string; youtubeId: string }>> = {
+              bbc: bbcLibrary as Array<{ id: string; youtubeId: string }>,
+              'bbc-ideas': bbcIdeasLibrary as Array<{ id: string; youtubeId: string }>,
+              kurzgesagt: kurzgesagtLibrary as Array<{ id: string; youtubeId: string }>,
+              bigthink: bigthinkLibrary as Array<{ id: string; youtubeId: string }>,
+              vox: voxLibrary as Array<{ id: string; youtubeId: string }>,
+              kids: kidsLibrary as Array<{ id: string; youtubeId: string }>,
+            };
+            const isYouTubeLibrary = sourceMaterial?.sourceType != null && sourceMaterial.sourceType in youtubeLibraries;
+            if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted' || sourceMaterial.sourceType === 'teded' || isYouTubeLibrary) && sourceMaterial.sourceKey) {
               generators.push(generateVideoCheckpoints(sourceMaterial).then((checkpoints) => {
                 let videoUrl: string;
                 if (sourceMaterial.sourceType === 'ted') {
@@ -2157,6 +2172,10 @@ export async function POST(request: NextRequest) {
                 } else if (sourceMaterial.sourceType === 'teded') {
                   const tedEdTalk = (tededLibrary as Array<{ id: string; youtubeId: string }>).find((t) => t.id === sourceMaterial.sourceKey);
                   videoUrl = `https://www.youtube.com/watch?v=${tedEdTalk?.youtubeId ?? sourceMaterial.sourceKey}`;
+                } else if (isYouTubeLibrary) {
+                  const lib = youtubeLibraries[sourceMaterial.sourceType];
+                  const entry = lib.find((t) => t.id === sourceMaterial.sourceKey);
+                  videoUrl = `https://www.youtube.com/watch?v=${entry?.youtubeId ?? sourceMaterial.sourceKey}`;
                 } else {
                   videoUrl = `https://www.youtube.com/watch?v=${sourceMaterial.sourceKey}`;
                 }
