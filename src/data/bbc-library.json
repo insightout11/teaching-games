@@ -1,0 +1,178 @@
+[
+  {
+    "id": "bbc_grammar_advanced_learner_mistakes",
+    "title": "Grammar: Advanced Learner Mistakes",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=79zqFG7zdnA",
+    "youtubeId": "79zqFG7zdnA",
+    "durationSecs": 300,
+    "topicTags": ["grammar", "mistakes", "advanced"],
+    "difficultyLevel": "Advanced",
+    "description": "Dan explains the most common grammar mistakes made by advanced English learners — misuse of articles, prepositions, and complex tenses — and how to fix them."
+  },
+  {
+    "id": "bbc_grammar_present_past",
+    "title": "Grammar: Present to Talk About the Past",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=WbtrD-As0Nw",
+    "youtubeId": "WbtrD-As0Nw",
+    "durationSecs": 270,
+    "topicTags": ["grammar", "tense", "narrative"],
+    "difficultyLevel": "Advanced",
+    "description": "Dan explores the 'historical present' — how English speakers use present tenses to tell past stories, narrate sports, and create dramatic effects."
+  },
+  {
+    "id": "bbc_grammar_formal_informal",
+    "title": "Grammar: Formal English and Informal English",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=hdKYl8Tg_FQ",
+    "youtubeId": "hdKYl8Tg_FQ",
+    "durationSecs": 330,
+    "topicTags": ["grammar", "formality", "register", "vocabulary"],
+    "difficultyLevel": "Intermediate",
+    "description": "Dan breaks down the key differences between formal and informal English — vocabulary choices, grammatical structures, and when to use each register."
+  },
+  {
+    "id": "bbc_grammar_giving_emphasis",
+    "title": "Grammar: Giving Emphasis in English",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=P7dcdEoNA_E",
+    "youtubeId": "P7dcdEoNA_E",
+    "durationSecs": 300,
+    "topicTags": ["grammar", "emphasis", "cleft sentences"],
+    "difficultyLevel": "Advanced",
+    "description": "Dan teaches advanced emphasis structures — cleft sentences, fronting, and do-support — to make English more expressive and persuasive."
+  },
+  {
+    "id": "bbc_grammar_native_speaker_mistakes",
+    "title": "Grammar: 'Mistakes' Native English Speakers Make",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=4-NLgxlBe54",
+    "youtubeId": "4-NLgxlBe54",
+    "durationSecs": 330,
+    "topicTags": ["grammar", "mistakes", "native speakers"],
+    "difficultyLevel": "Advanced",
+    "description": "Dan reveals common grammatical 'mistakes' that native English speakers make — and explains which ones are now considered acceptable in modern usage."
+  },
+  {
+    "id": "bbc_grammar_mixing_conditionals",
+    "title": "Grammar: Mixing Conditionals",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=_Mv7fBqauvc",
+    "youtubeId": "_Mv7fBqauvc",
+    "durationSecs": 390,
+    "topicTags": ["grammar", "conditionals", "mixed conditionals"],
+    "difficultyLevel": "Advanced",
+    "description": "Dan teaches mixed conditionals — combining different conditional forms to talk about unreal situations with complex time relationships between past and present."
+  },
+  {
+    "id": "bbc_grammar_question_tags",
+    "title": "Grammar: Question Tags",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=plvBNpPKkTc",
+    "youtubeId": "plvBNpPKkTc",
+    "durationSecs": 345,
+    "topicTags": ["grammar", "question tags", "spoken english"],
+    "difficultyLevel": "Intermediate",
+    "description": "Dan explains how to form and use question tags in British English — including the difference between falling and rising intonation and how tags function in natural conversation."
+  },
+  {
+    "id": "bbc_grammar_linking_words_contrast",
+    "title": "Grammar: Linking Words of Contrast",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=M_2N2Ts8DxQ",
+    "youtubeId": "M_2N2Ts8DxQ",
+    "durationSecs": 270,
+    "topicTags": ["grammar", "linking words", "contrast", "writing"],
+    "difficultyLevel": "Intermediate",
+    "description": "Dan presents four key ways to express contrast in English — although, despite, however, and while — with clear examples of when and how to use each."
+  },
+  {
+    "id": "bbc_grammar_more_advanced_mistakes",
+    "title": "Grammar: More Advanced Learner Mistakes",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=yKN-GysbTnQ",
+    "youtubeId": "yKN-GysbTnQ",
+    "durationSecs": 270,
+    "topicTags": ["grammar", "mistakes", "advanced"],
+    "difficultyLevel": "Advanced",
+    "description": "Dan continues the advanced learner mistakes series — covering more subtle errors in grammar and usage that prevent advanced speakers from sounding fully natural."
+  },
+  {
+    "id": "bbc_grammar_what_emphasis",
+    "title": "Grammar: Using 'What' to Give Emphasis",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=-80zSEMCrgw",
+    "youtubeId": "-80zSEMCrgw",
+    "durationSecs": 360,
+    "topicTags": ["grammar", "emphasis", "cleft sentences"],
+    "difficultyLevel": "Advanced",
+    "description": "Dan dives into 'what' as a focus marker in cleft sentences — a powerful structure that adds emphasis and contrast, often misused by even advanced learners."
+  },
+  {
+    "id": "bbc_masterclass_conversation_phrases",
+    "title": "Useful Phrases for English Conversation",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=HaJ01IG-50U",
+    "youtubeId": "HaJ01IG-50U",
+    "durationSecs": 330,
+    "topicTags": ["conversation", "phrases", "spoken english", "vocabulary"],
+    "difficultyLevel": "Intermediate",
+    "description": "Dan shares a collection of the most useful phrases for natural English conversation — from agreeing and disagreeing to hedging, softening, and changing the subject."
+  },
+  {
+    "id": "bbc_masterclass_inversion_1",
+    "title": "Inversion 1: After Negative or Limiting Adverbs",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=AzNxZGC-Hg0",
+    "youtubeId": "AzNxZGC-Hg0",
+    "durationSecs": 330,
+    "topicTags": ["grammar", "inversion", "formality", "advanced"],
+    "difficultyLevel": "Advanced",
+    "description": "Dan introduces inversion after negative adverbs like 'never', 'rarely', and 'not only' — a formal structure used for emphasis in written and spoken English."
+  },
+  {
+    "id": "bbc_masterclass_inversion_2",
+    "title": "Inversion 2: Reduced Conditionals and More",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=RmQH6B9P8r8",
+    "youtubeId": "RmQH6B9P8r8",
+    "durationSecs": 390,
+    "topicTags": ["grammar", "inversion", "conditionals", "advanced"],
+    "difficultyLevel": "Expert",
+    "description": "Dan covers reduced conditionals ('Had I known...', 'Were I to...') and other advanced inversions — formal structures found in literary, academic, and professional English."
+  },
+  {
+    "id": "bbc_masterclass_choose_tense",
+    "title": "How to Choose the Correct Tense in English",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=GiI3wjFWSXQ",
+    "youtubeId": "GiI3wjFWSXQ",
+    "durationSecs": 315,
+    "topicTags": ["grammar", "tense", "present perfect", "past simple"],
+    "difficultyLevel": "Intermediate",
+    "description": "Dan tackles one of the most confusing areas for English learners — when to use the present perfect vs. past simple, and other key tense distinctions in context."
+  },
+  {
+    "id": "bbc_masterclass_linking_words",
+    "title": "How to Use Linking Words in English",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=BECe_ok1RI8",
+    "youtubeId": "BECe_ok1RI8",
+    "durationSecs": 360,
+    "topicTags": ["grammar", "linking words", "discourse", "writing"],
+    "difficultyLevel": "Intermediate",
+    "description": "Dan explains how to use discourse markers and linking words to structure arguments, add information, show cause and effect, and improve coherence in writing and speaking."
+  },
+  {
+    "id": "bbc_grammar_verb_patterns",
+    "title": "Grammar: 'Stop Buying' or 'Stop to Buy'?",
+    "speaker": "BBC Learning English",
+    "url": "https://www.youtube.com/watch?v=XZupSm_EyHA",
+    "youtubeId": "XZupSm_EyHA",
+    "durationSecs": 315,
+    "topicTags": ["grammar", "verb patterns", "gerunds", "infinitives"],
+    "difficultyLevel": "Intermediate",
+    "description": "Dan explains the difference between gerunds and infinitives after verbs like 'stop', 'remember', 'try', and 'regret' — verbs that change meaning depending on which form follows."
+  }
+]

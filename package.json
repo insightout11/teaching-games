@@ -14,7 +14,8 @@
     "prewarm:dry": "tsx scripts/nightly-prewarm.ts --dry-run",
     "validate-content": "tsx src/scripts/validate-content.ts",
     "ingest-brain-teasers": "tsx src/scripts/ingest-brain-teasers.ts",
-    "prefetch-transcripts": "tsx scripts/prefetch-library-transcripts.ts"
+    "prefetch-transcripts": "tsx scripts/prefetch-library-transcripts.ts",
+    "check-transcripts": "tsx scripts/check-transcripts.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

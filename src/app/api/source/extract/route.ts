@@ -7,6 +7,12 @@ import type { SourceType } from '@/types/source-material';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
 import voaLibrary from '@/data/voa-library.json';
+import bbcLibrary from '@/data/bbc-library.json';
+import kurzgesagtLibrary from '@/data/kurzgesagt-library.json';
+import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
+import bigthinkLibrary from '@/data/bigthink-library.json';
+import voxLibrary from '@/data/vox-library.json';
+import kidsLibrary from '@/data/kids-library.json';
 
 type TedTalk = {
   id: string;
@@ -422,6 +428,73 @@ export async function POST(request: NextRequest) {
           sourceKey: articleId,
           sourceType: 'voa',
           duration: article.durationSecs,
+        });
+      }
+
+      // ── Generic video library handler (BBC, Kurzgesagt, BBC Ideas, Big Think, Vox, Kids) ──
+      case 'bbc':
+      case 'kurzgesagt':
+      case 'bbc-ideas':
+      case 'bigthink':
+      case 'vox':
+      case 'kids': {
+        const libraryMap: Record<string, TedTalk[]> = {
+          bbc: bbcLibrary as TedTalk[],
+          kurzgesagt: kurzgesagtLibrary as TedTalk[],
+          'bbc-ideas': bbcIdeasLibrary as TedTalk[],
+          bigthink: bigthinkLibrary as TedTalk[],
+          vox: voxLibrary as TedTalk[],
+          kids: kidsLibrary as TedTalk[],
+        };
+        const entryId = payload.trim();
+        const library = libraryMap[type];
+        const entry = library.find((t) => t.id === entryId);
+        if (!entry) {
+          return NextResponse.json({ error: `${type} video not found` }, { status: 404 });
+        }
+
+        const cachedEntry = await getCachedExtraction(type, entryId);
+        if (cachedEntry?.raw_transcript) {
+          const needsRegen = cachedEntry.summary.length < 600 && !cachedEntry.summary.includes('.');
+          if (needsRegen) {
+            void (async () => {
+              try {
+                const segments = JSON.parse(cachedEntry.raw_transcript!) as Array<{ text: string }>;
+                const plainText = segments.map((s) => s.text).join(' ');
+                const newSummary = await summariseText(sanitizeText(plainText), cachedEntry.title);
+                await storeExtraction({
+                  sourceType: type, sourceKey: entryId,
+                  title: cachedEntry.title, summary: newSummary,
+                  rawTranscript: cachedEntry.raw_transcript!,
+                  durationSecs: cachedEntry.duration_secs ?? entry.durationSecs,
+                });
+              } catch { /* non-critical */ }
+            })();
+          }
+          return NextResponse.json({
+            title: cachedEntry.title,
+            summary: needsRegen ? entry.summary : cachedEntry.summary,
+            sourceKey: entryId,
+            sourceType: type,
+            duration: cachedEntry.duration_secs ?? entry.durationSecs,
+            fromCache: true,
+          });
+        }
+
+        void storeExtraction({
+          sourceType: type,
+          sourceKey: entryId,
+          title: `${entry.title} — ${entry.speaker}`,
+          summary: entry.summary,
+          durationSecs: entry.durationSecs,
+        });
+
+        return NextResponse.json({
+          title: `${entry.title} — ${entry.speaker}`,
+          summary: entry.summary,
+          sourceKey: entryId,
+          sourceType: type,
+          duration: entry.durationSecs,
         });
       }
 

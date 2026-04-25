@@ -2,10 +2,42 @@
 
 import { useState, useMemo } from 'react';
 import { X, Clock, Search, ChevronRight } from 'lucide-react';
+import { DIFFICULTIES } from '@/lib/difficulty';
 
-type VideoSource = 'ted' | 'teded' | 'voa';
+// ── Library source config ─────────────────────────────────────────────────────
 
-type TedTalkMeta = {
+type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'voa';
+type TabKey = 'all' | LibrarySourceKey;
+
+const SOURCE_CONFIG: { key: TabKey; label: string; activeClass: string }[] = [
+  { key: 'all',        label: 'All',        activeClass: 'bg-lc-text text-lc-bg'         },
+  { key: 'ted',        label: 'TED',        activeClass: 'bg-red-600 text-white'          },
+  { key: 'teded',      label: 'TED-Ed',     activeClass: 'bg-red-600 text-white'          },
+  { key: 'bbc',        label: 'BBC',        activeClass: 'bg-amber-500 text-white'        },
+  { key: 'kurzgesagt', label: 'Kurzgesagt', activeClass: 'bg-orange-500 text-white'       },
+  { key: 'bbc-ideas',  label: 'BBC Ideas',  activeClass: 'bg-cyan-500 text-white'         },
+  { key: 'bigthink',   label: 'Big Think',  activeClass: 'bg-purple-600 text-white'       },
+  { key: 'vox',        label: 'Vox',        activeClass: 'bg-violet-600 text-white'       },
+  { key: 'kids',       label: 'For Kids',   activeClass: 'bg-green-600 text-white'        },
+  { key: 'voa',        label: 'VOA',        activeClass: 'bg-blue-600 text-white'         },
+];
+
+// Source badge colors for cards in the ALL tab
+const SOURCE_BADGE: Record<LibrarySourceKey, string> = {
+  ted:        'bg-red-900/40 text-red-400',
+  teded:      'bg-red-900/40 text-red-400',
+  bbc:        'bg-amber-900/40 text-amber-400',
+  kurzgesagt: 'bg-orange-900/40 text-orange-400',
+  'bbc-ideas':'bg-cyan-900/40 text-cyan-400',
+  bigthink:   'bg-purple-900/40 text-purple-400',
+  vox:        'bg-violet-900/40 text-violet-400',
+  kids:       'bg-green-900/40 text-green-400',
+  voa:        'bg-blue-900/40 text-blue-400',
+};
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+type LibraryEntry = {
   id: string;
   title: string;
   speaker: string;
@@ -14,29 +46,40 @@ type TedTalkMeta = {
   difficultyLevel: string;
   description: string;
   youtubeId?: string | null;
+  audience?: 'kids';
+  // injected at load time
+  sourceType: LibrarySourceKey;
 };
 
-import tedLibraryRaw from '@/data/ted-library.json';
-import tededLibraryRaw from '@/data/teded-library.json';
-import voaLibraryRaw from '@/data/voa-library.json';
+// ── Import all library data ───────────────────────────────────────────────────
 
-const TED_TALKS: TedTalkMeta[] = (tedLibraryRaw as TedTalkMeta[]).map(
-  ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId }) => ({
-    id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId,
-  }),
-);
-const TEDED_TALKS: TedTalkMeta[] = (tededLibraryRaw as TedTalkMeta[]).map(
-  ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId }) => ({
-    id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId,
-  }),
-);
-const VOA_TALKS: TedTalkMeta[] = (voaLibraryRaw as TedTalkMeta[]).map(
-  ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId }) => ({
-    id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId,
-  }),
-);
+import tedRaw from '@/data/ted-library.json';
+import tededRaw from '@/data/teded-library.json';
+import bbcRaw from '@/data/bbc-library.json';
+import kurzgesagtRaw from '@/data/kurzgesagt-library.json';
+import bbcIdeasRaw from '@/data/bbc-ideas-library.json';
+import bigthinkRaw from '@/data/bigthink-library.json';
+import voxRaw from '@/data/vox-library.json';
+import kidsRaw from '@/data/kids-library.json';
+import voaRaw from '@/data/voa-library.json';
 
-const DIFFICULTIES = ['Beginner', 'Pre-Intermediate', 'Intermediate', 'Upper-Intermediate', 'Advanced'];
+function tag<K extends LibrarySourceKey>(raw: unknown[], key: K): LibraryEntry[] {
+  return (raw as LibraryEntry[]).map((e) => ({ ...e, sourceType: key }));
+}
+
+const ALL_ENTRIES: LibraryEntry[] = [
+  ...tag(tedRaw, 'ted'),
+  ...tag(tededRaw, 'teded'),
+  ...tag(bbcRaw, 'bbc'),
+  ...tag(kurzgesagtRaw, 'kurzgesagt'),
+  ...tag(bbcIdeasRaw, 'bbc-ideas'),
+  ...tag(bigthinkRaw, 'bigthink'),
+  ...tag(voxRaw, 'vox'),
+  ...tag(kidsRaw, 'kids'),
+  ...tag(voaRaw, 'voa'),
+];
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function formatDuration(secs: number) {
   return `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
@@ -44,7 +87,6 @@ function formatDuration(secs: number) {
 
 function ThumbnailImage({ youtubeId, title }: { youtubeId?: string; title: string }) {
   const [failed, setFailed] = useState(false);
-
   if (!youtubeId || failed) {
     return (
       <div className="absolute inset-0 bg-gradient-to-br from-red-900/40 to-red-950/60 flex items-center justify-center">
@@ -52,7 +94,6 @@ function ThumbnailImage({ youtubeId, title }: { youtubeId?: string; title: strin
       </div>
     );
   }
-
   return (
     <img
       src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`}
@@ -63,27 +104,33 @@ function ThumbnailImage({ youtubeId, title }: { youtubeId?: string; title: strin
   );
 }
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 interface Props {
-  onSelect: (talkId: string, source: VideoSource) => void;
+  onSelect: (talkId: string, source: LibrarySourceKey) => void;
   onClose: () => void;
 }
 
 export function VideoLibraryModal({ onSelect, onClose }: Props) {
-  const [activeSource, setActiveSource] = useState<VideoSource>('ted');
+  const [activeTab, setActiveTab] = useState<TabKey>('all');
   const [query, setQuery] = useState('');
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [activeDifficulty, setActiveDifficulty] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const activeTalks = activeSource === 'teded' ? TEDED_TALKS : activeSource === 'voa' ? VOA_TALKS : TED_TALKS;
+  const tabEntries = useMemo(() => {
+    if (activeTab === 'all') return ALL_ENTRIES.filter((e) => e.audience !== 'kids');
+    if (activeTab === 'kids') return ALL_ENTRIES.filter((e) => e.audience === 'kids');
+    return ALL_ENTRIES.filter((e) => e.sourceType === activeTab);
+  }, [activeTab]);
 
-  const ALL_TAGS = useMemo(
-    () => Array.from(new Set(activeTalks.flatMap((t) => t.topicTags))).sort(),
-    [activeTalks],
+  const allTags = useMemo(
+    () => Array.from(new Set(tabEntries.flatMap((t) => t.topicTags))).sort(),
+    [tabEntries],
   );
 
   const filtered = useMemo(() => {
-    return activeTalks.filter((t) => {
+    return tabEntries.filter((t) => {
       if (activeTag && !t.topicTags.includes(activeTag)) return false;
       if (activeDifficulty && t.difficultyLevel !== activeDifficulty) return false;
       if (query) {
@@ -97,50 +144,52 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
       }
       return true;
     });
-  }, [query, activeTag, activeDifficulty, activeTalks]);
+  }, [query, activeTag, activeDifficulty, tabEntries]);
+
+  const totalCount = ALL_ENTRIES.length;
+  const showSourceBadge = activeTab === 'all';
+
+  function switchTab(key: TabKey) {
+    setActiveTab(key);
+    setActiveTag(null);
+    setActiveDifficulty(null);
+    setQuery('');
+  }
+
+  // Only show tabs that have content (or are 'all')
+  const visibleTabs = SOURCE_CONFIG.filter(
+    (s) => s.key === 'all' || ALL_ENTRIES.some((e) =>
+      s.key === 'kids' ? e.audience === 'kids' : e.sourceType === s.key
+    ),
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-lc-bg">
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-lc-border shrink-0 bg-lc-card">
-        <div className="flex items-center gap-6">
-          <div>
+        <div className="flex items-center gap-4 min-w-0">
+          <div className="shrink-0">
             <h2 className="font-bold text-lc-text text-xl tracking-tight">Video Library</h2>
-            <p className="text-xs text-lc-text3 mt-0.5">{TED_TALKS.length + TEDED_TALKS.length + VOA_TALKS.length} curated videos & articles with transcripts & auto-checkpoints</p>
+            <p className="text-xs text-lc-text3 mt-0.5">{totalCount} curated videos with transcripts &amp; auto-checkpoints</p>
           </div>
-
-          {/* Source tabs */}
-          <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-lg p-1">
-            <button
-              onClick={() => { setActiveSource('ted'); setActiveTag(null); setActiveDifficulty(null); setQuery(''); }}
-              className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${
-                activeSource === 'ted' ? 'bg-red-600 text-white' : 'text-lc-text3 hover:text-lc-text'
-              }`}
-            >
-              TED
-            </button>
-            <button
-              onClick={() => { setActiveSource('teded'); setActiveTag(null); setActiveDifficulty(null); setQuery(''); }}
-              className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${
-                activeSource === 'teded' ? 'bg-red-600 text-white' : 'text-lc-text3 hover:text-lc-text'
-              }`}
-            >
-              TED-Ed
-            </button>
-            <button
-              onClick={() => { setActiveSource('voa'); setActiveTag(null); setActiveDifficulty(null); setQuery(''); }}
-              className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${
-                activeSource === 'voa' ? 'bg-blue-600 text-white' : 'text-lc-text3 hover:text-lc-text'
-              }`}
-            >
-              VOA
-            </button>
+          {/* Source tabs — scrollable on small screens */}
+          <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-lg p-1 overflow-x-auto max-w-full scrollbar-hide">
+            {visibleTabs.map((src) => (
+              <button
+                key={src.key}
+                onClick={() => switchTab(src.key)}
+                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap shrink-0 ${
+                  activeTab === src.key ? src.activeClass : 'text-lc-text3 hover:text-lc-text'
+                }`}
+              >
+                {src.label}
+              </button>
+            ))}
           </div>
         </div>
-
         <button
           onClick={onClose}
-          className="p-2 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors"
+          className="p-2 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors shrink-0 ml-3"
         >
           <X className="w-5 h-5" />
         </button>
@@ -159,22 +208,24 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
           />
         </div>
         <div className="flex gap-4 flex-wrap items-center">
-          <div className="flex gap-1.5 flex-wrap items-center">
-            <span className="text-xs text-lc-text3 font-medium">Topic:</span>
-            {ALL_TAGS.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-                className={`px-2.5 py-0.5 rounded-full text-xs font-medium transition-all capitalize ${
-                  activeTag === tag
-                    ? 'bg-red-600/20 text-red-400 border border-red-500/40'
-                    : 'bg-lc-bg border border-lc-border text-lc-text3 hover:text-lc-text'
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
+          {allTags.length > 0 && (
+            <div className="flex gap-1.5 flex-wrap items-center">
+              <span className="text-xs text-lc-text3 font-medium">Topic:</span>
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                  className={`px-2.5 py-0.5 rounded-full text-xs font-medium transition-all capitalize ${
+                    activeTag === tag
+                      ? 'bg-red-600/20 text-red-400 border border-red-500/40'
+                      : 'bg-lc-bg border border-lc-border text-lc-text3 hover:text-lc-text'
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="flex gap-1.5 flex-wrap items-center">
             <span className="text-xs text-lc-text3 font-medium">Level:</span>
             {DIFFICULTIES.map((d) => (
@@ -200,67 +251,72 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
             </button>
           )}
         </div>
-        <p className="text-xs text-lc-text3">{filtered.length} talk{filtered.length !== 1 ? 's' : ''}</p>
+        <p className="text-xs text-lc-text3">{filtered.length} video{filtered.length !== 1 ? 's' : ''}</p>
       </div>
 
       {/* Grid */}
       <div className="flex-1 overflow-y-auto px-6 py-5">
-          {filtered.length === 0 && (
-            <p className="text-sm text-lc-text3 text-center py-20">No talks match your filters.</p>
-          )}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {filtered.map((talk) => {
-              const isHovered = hoveredId === talk.id;
-              return (
-                <button
-                  key={talk.id}
-                  onClick={() => onSelect(talk.id, activeSource)}
-                  onMouseEnter={() => setHoveredId(talk.id)}
-                  onMouseLeave={() => setHoveredId(null)}
-                  className={`group text-left rounded-xl overflow-hidden border transition-all duration-200 ${
-                    isHovered
-                      ? 'border-red-500/60 shadow-lg shadow-red-900/20 scale-[1.02]'
-                      : 'border-lc-border hover:border-lc-border/80'
-                  } bg-lc-surface`}
-                >
-                  {/* Thumbnail */}
-                  <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                    <ThumbnailImage youtubeId={talk.youtubeId ?? undefined} title={talk.title} />
-                    {/* Duration badge */}
-                    <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
-                      <Clock className="w-2.5 h-2.5" />
-                      {formatDuration(talk.durationSecs)}
-                    </span>
-                    {/* Play overlay */}
-                    <div className={`absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-                      <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
-                        <ChevronRight className="w-5 h-5 text-gray-900 ml-0.5" />
-                      </div>
+        {filtered.length === 0 && (
+          <p className="text-sm text-lc-text3 text-center py-20">
+            {tabEntries.length === 0 ? 'Coming soon — this library is being curated.' : 'No videos match your filters.'}
+          </p>
+        )}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {filtered.map((entry) => {
+            const isHovered = hoveredId === entry.id;
+            return (
+              <button
+                key={`${entry.sourceType}-${entry.id}`}
+                onClick={() => onSelect(entry.id, entry.sourceType)}
+                onMouseEnter={() => setHoveredId(entry.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                className={`group text-left rounded-xl overflow-hidden border transition-all duration-200 ${
+                  isHovered
+                    ? 'border-red-500/60 shadow-lg shadow-red-900/20 scale-[1.02]'
+                    : 'border-lc-border hover:border-lc-border/80'
+                } bg-lc-surface`}
+              >
+                {/* Thumbnail */}
+                <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                  <ThumbnailImage youtubeId={entry.youtubeId ?? undefined} title={entry.title} />
+                  <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <Clock className="w-2.5 h-2.5" />
+                    {formatDuration(entry.durationSecs)}
+                  </span>
+                  <div className={`absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
+                      <ChevronRight className="w-5 h-5 text-gray-900 ml-0.5" />
                     </div>
                   </div>
+                </div>
 
-                  {/* Info */}
-                  <div className="p-2.5 space-y-1">
-                    <p className="text-xs font-semibold text-lc-text leading-snug line-clamp-2 group-hover:text-red-400 transition-colors">
-                      {talk.title}
-                    </p>
-                    <p className="text-[11px] text-lc-text3">{talk.speaker}</p>
-                    <div className="flex flex-wrap gap-1 pt-0.5">
-                      <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">
-                        {talk.difficultyLevel}
+                {/* Info */}
+                <div className="p-2.5 space-y-1">
+                  <p className="text-xs font-semibold text-lc-text leading-snug line-clamp-2 group-hover:text-red-400 transition-colors">
+                    {entry.title}
+                  </p>
+                  <p className="text-[11px] text-lc-text3">{entry.speaker}</p>
+                  <div className="flex flex-wrap gap-1 pt-0.5">
+                    {showSourceBadge && (
+                      <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${SOURCE_BADGE[entry.sourceType]}`}>
+                        {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                       </span>
-                      {talk.topicTags.slice(0, 2).map((tag) => (
-                        <span key={tag} className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    )}
+                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">
+                      {entry.difficultyLevel}
+                    </span>
+                    {entry.topicTags.slice(0, 2).map((tag) => (
+                      <span key={tag} className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                </button>
-              );
-            })}
-          </div>
+                </div>
+              </button>
+            );
+          })}
         </div>
+      </div>
     </div>
   );
 }
