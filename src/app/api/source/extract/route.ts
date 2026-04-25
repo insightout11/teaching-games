@@ -6,13 +6,14 @@ import { createServiceClient } from '@/lib/supabase/service';
 import type { SourceType } from '@/types/source-material';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
+import voaLibrary from '@/data/voa-library.json';
 
 type TedTalk = {
   id: string;
   title: string;
   speaker: string;
   url: string;
-  youtubeId?: string;
+  youtubeId?: string | null;
   durationSecs: number;
   topicTags: string[];
   difficultyLevel: string;
@@ -256,6 +257,31 @@ export async function POST(request: NextRequest) {
           sourceKey: talkId,
           sourceType: 'teded',
           duration: talk.durationSecs,
+        });
+      }
+
+      // ── VOA Learning English ─────────────────────────────────────────────────
+      case 'voa': {
+        const articleId = payload.trim();
+        const article = (voaLibrary as TedTalk[]).find((t) => t.id === articleId);
+        if (!article) {
+          return NextResponse.json({ error: 'VOA article not found' }, { status: 404 });
+        }
+
+        void storeExtraction({
+          sourceType: 'voa',
+          sourceKey: articleId,
+          title: article.title,
+          summary: article.summary,
+          durationSecs: article.durationSecs,
+        });
+
+        return NextResponse.json({
+          title: article.title,
+          summary: article.summary,
+          sourceKey: articleId,
+          sourceType: 'voa',
+          duration: article.durationSecs,
         });
       }
 

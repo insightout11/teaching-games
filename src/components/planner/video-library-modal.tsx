@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import { X, Clock, Search, ChevronRight } from 'lucide-react';
 
-type VideoSource = 'ted' | 'teded';
+type VideoSource = 'ted' | 'teded' | 'voa';
 
 type TedTalkMeta = {
   id: string;
@@ -13,11 +13,12 @@ type TedTalkMeta = {
   topicTags: string[];
   difficultyLevel: string;
   description: string;
-  youtubeId?: string;
+  youtubeId?: string | null;
 };
 
 import tedLibraryRaw from '@/data/ted-library.json';
 import tededLibraryRaw from '@/data/teded-library.json';
+import voaLibraryRaw from '@/data/voa-library.json';
 
 const TED_TALKS: TedTalkMeta[] = (tedLibraryRaw as TedTalkMeta[]).map(
   ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId }) => ({
@@ -25,6 +26,11 @@ const TED_TALKS: TedTalkMeta[] = (tedLibraryRaw as TedTalkMeta[]).map(
   }),
 );
 const TEDED_TALKS: TedTalkMeta[] = (tededLibraryRaw as TedTalkMeta[]).map(
+  ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId }) => ({
+    id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId,
+  }),
+);
+const VOA_TALKS: TedTalkMeta[] = (voaLibraryRaw as TedTalkMeta[]).map(
   ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId }) => ({
     id, title, speaker, durationSecs, topicTags, difficultyLevel, description, youtubeId,
   }),
@@ -69,7 +75,7 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
   const [activeDifficulty, setActiveDifficulty] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const activeTalks = activeSource === 'teded' ? TEDED_TALKS : TED_TALKS;
+  const activeTalks = activeSource === 'teded' ? TEDED_TALKS : activeSource === 'voa' ? VOA_TALKS : TED_TALKS;
 
   const ALL_TAGS = useMemo(
     () => Array.from(new Set(activeTalks.flatMap((t) => t.topicTags))).sort(),
@@ -100,7 +106,7 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
         <div className="flex items-center gap-6">
           <div>
             <h2 className="font-bold text-lc-text text-xl tracking-tight">Video Library</h2>
-            <p className="text-xs text-lc-text3 mt-0.5">{TED_TALKS.length + TEDED_TALKS.length} curated talks with transcripts & auto-checkpoints</p>
+            <p className="text-xs text-lc-text3 mt-0.5">{TED_TALKS.length + TEDED_TALKS.length + VOA_TALKS.length} curated videos & articles with transcripts & auto-checkpoints</p>
           </div>
 
           {/* Source tabs */}
@@ -120,6 +126,14 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
               }`}
             >
               TED-Ed
+            </button>
+            <button
+              onClick={() => { setActiveSource('voa'); setActiveTag(null); setActiveDifficulty(null); setQuery(''); }}
+              className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${
+                activeSource === 'voa' ? 'bg-blue-600 text-white' : 'text-lc-text3 hover:text-lc-text'
+              }`}
+            >
+              VOA
             </button>
           </div>
         </div>
@@ -211,7 +225,7 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
                 >
                   {/* Thumbnail */}
                   <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                    <ThumbnailImage youtubeId={talk.youtubeId} title={talk.title} />
+                    <ThumbnailImage youtubeId={talk.youtubeId ?? undefined} title={talk.title} />
                     {/* Duration badge */}
                     <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
                       <Clock className="w-2.5 h-2.5" />
