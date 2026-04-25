@@ -276,9 +276,27 @@ export async function POST(request: NextRequest) {
 
         const cachedTed = await getCachedExtraction('ted', talkId);
         if (cachedTed?.raw_transcript) {
+          // If the summary looks like a raw transcript placeholder (< 600 chars, no sentence structure),
+          // regenerate a proper AI summary and update the record async.
+          const needsSummaryRegen = cachedTed.summary.length < 600 && !cachedTed.summary.includes('.');
+          if (needsSummaryRegen) {
+            void (async () => {
+              try {
+                const segments = JSON.parse(cachedTed.raw_transcript!) as Array<{ text: string }>;
+                const plainText = segments.map((s) => s.text).join(' ');
+                const newSummary = await summariseText(sanitizeText(plainText), cachedTed.title);
+                await storeExtraction({
+                  sourceType: 'ted', sourceKey: talkId,
+                  title: cachedTed.title, summary: newSummary,
+                  rawTranscript: cachedTed.raw_transcript!,
+                  durationSecs: cachedTed.duration_secs ?? talk.durationSecs,
+                });
+              } catch { /* non-critical */ }
+            })();
+          }
           return NextResponse.json({
             title: cachedTed.title,
-            summary: cachedTed.summary,
+            summary: needsSummaryRegen ? talk.summary : cachedTed.summary,
             sourceKey: talkId,
             sourceType: 'ted',
             duration: cachedTed.duration_secs ?? talk.durationSecs,
@@ -286,22 +304,14 @@ export async function POST(request: NextRequest) {
           });
         }
 
-        // Fetch real timestamped transcript via youtubeId
-        let tedRawTranscript: string | undefined;
-        if (talk.youtubeId && process.env.SUPADATA_API_KEY) {
-          try {
-            const result = await fetchYouTubeTranscript(talk.youtubeId);
-            tedRawTranscript = result.rawTranscript;
-          } catch { /* fall through — use pre-written summary */ }
-        }
-
+        // No transcript in DB yet — return pre-written summary so teacher isn't blocked.
+        // Transcript will be populated by running: npm run prefetch-transcripts
         void storeExtraction({
           sourceType: 'ted',
           sourceKey: talkId,
           title: `${talk.title} — ${talk.speaker}`,
           summary: talk.summary,
           durationSecs: talk.durationSecs,
-          rawTranscript: tedRawTranscript,
         });
 
         return NextResponse.json({
@@ -323,9 +333,25 @@ export async function POST(request: NextRequest) {
 
         const cached = await getCachedExtraction('teded', talkId);
         if (cached?.raw_transcript) {
+          const needsSummaryRegen = cached.summary.length < 600 && !cached.summary.includes('.');
+          if (needsSummaryRegen) {
+            void (async () => {
+              try {
+                const segments = JSON.parse(cached.raw_transcript!) as Array<{ text: string }>;
+                const plainText = segments.map((s) => s.text).join(' ');
+                const newSummary = await summariseText(sanitizeText(plainText), cached.title);
+                await storeExtraction({
+                  sourceType: 'teded', sourceKey: talkId,
+                  title: cached.title, summary: newSummary,
+                  rawTranscript: cached.raw_transcript!,
+                  durationSecs: cached.duration_secs ?? talk.durationSecs,
+                });
+              } catch { /* non-critical */ }
+            })();
+          }
           return NextResponse.json({
             title: cached.title,
-            summary: cached.summary,
+            summary: needsSummaryRegen ? talk.summary : cached.summary,
             sourceKey: talkId,
             sourceType: 'teded',
             duration: cached.duration_secs ?? talk.durationSecs,
@@ -333,22 +359,14 @@ export async function POST(request: NextRequest) {
           });
         }
 
-        // Fetch timestamped transcript via youtubeId if available
-        let rawTranscript: string | undefined;
-        if (talk.youtubeId && process.env.SUPADATA_API_KEY) {
-          try {
-            const result = await fetchYouTubeTranscript(talk.youtubeId);
-            rawTranscript = result.rawTranscript;
-          } catch { /* fall through — use pre-written summary */ }
-        }
-
+        // No transcript yet — return pre-written summary.
+        // Populate via: npm run prefetch-transcripts
         void storeExtraction({
           sourceType: 'teded',
           sourceKey: talkId,
           title: `${talk.title} — ${talk.speaker}`,
           summary: talk.summary,
           durationSecs: talk.durationSecs,
-          rawTranscript,
         });
 
         return NextResponse.json({
