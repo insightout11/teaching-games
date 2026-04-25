@@ -23,12 +23,19 @@ type TedTalk = {
 
 // ─── YouTube via Supadata (optional) ────────────────────────────────────────
 
-async function fetchYouTubeSummary(videoId: string): Promise<{ title: string; summary: string }> {
+interface TranscriptSegment {
+  text: string;
+  offset: number; // milliseconds
+  duration: number; // milliseconds
+}
+
+async function fetchYouTubeTranscript(videoId: string): Promise<{ title: string; summary: string; rawTranscript: string }> {
   const apiKey = process.env.SUPADATA_API_KEY;
   if (!apiKey) throw new Error('SUPADATA_NOT_CONFIGURED');
 
+  // Fetch without text=true to get timestamped segments
   const res = await fetch(
-    `https://api.supadata.ai/v1/youtube/transcript?url=https://www.youtube.com/watch?v=${videoId}&text=true`,
+    `https://api.supadata.ai/v1/youtube/transcript?url=https://www.youtube.com/watch?v=${videoId}`,
     { headers: { 'x-api-key': apiKey }, cache: 'no-store' },
   );
   if (!res.ok) {
@@ -36,8 +43,19 @@ async function fetchYouTubeSummary(videoId: string): Promise<{ title: string; su
     console.error(`[supadata] ${res.status}:`, body);
     throw new Error('NO_TRANSCRIPT');
   }
-  const data = await res.json() as { content?: string; lang?: string };
-  if (!data.content?.trim()) throw new Error('NO_TRANSCRIPT');
+  const data = await res.json() as { content?: TranscriptSegment[] | string; lang?: string };
+
+  let segments: TranscriptSegment[] = [];
+  let plainText = '';
+
+  if (Array.isArray(data.content) && data.content.length > 0) {
+    segments = data.content as TranscriptSegment[];
+    plainText = segments.map((s) => s.text).join(' ');
+  } else if (typeof data.content === 'string') {
+    plainText = data.content;
+  }
+
+  if (!plainText.trim()) throw new Error('NO_TRANSCRIPT');
 
   // Get title via oEmbed
   let title = `YouTube Video (${videoId})`;
@@ -51,8 +69,9 @@ async function fetchYouTubeSummary(videoId: string): Promise<{ title: string; su
     }
   } catch { /* keep fallback title */ }
 
-  const summary = await summariseText(sanitizeText(data.content), title);
-  return { title, summary };
+  const summary = await summariseText(sanitizeText(plainText), title);
+  const rawTranscript = segments.length > 0 ? JSON.stringify(segments) : plainText;
+  return { title, summary, rawTranscript };
 }
 
 // ─── Text sanitisation ───────────────────────────────────────────────────────
@@ -109,7 +128,7 @@ async function getCachedExtraction(sourceType: string, sourceKey: string) {
   const supabase = createServiceClient();
   const { data } = await supabase
     .from('source_extractions')
-    .select('summary, title, duration_secs')
+    .select('summary, title, duration_secs, raw_transcript')
     .eq('source_type', sourceType)
     .eq('source_key', sourceKey)
     .single();
@@ -122,6 +141,7 @@ async function storeExtraction(params: {
   title: string;
   summary: string;
   durationSecs?: number;
+  rawTranscript?: string;
 }) {
   const supabase = createServiceClient();
   await supabase.from('source_extractions').upsert(
@@ -131,6 +151,7 @@ async function storeExtraction(params: {
       title: params.title,
       summary: params.summary,
       duration_secs: params.durationSecs ?? null,
+      raw_transcript: params.rawTranscript ?? null,
     },
     { onConflict: 'source_type,source_key', ignoreDuplicates: false },
   );
@@ -191,8 +212,8 @@ export async function POST(request: NextRequest) {
         }
 
         try {
-          const { title, summary } = await fetchYouTubeSummary(videoId);
-          void storeExtraction({ sourceType: 'youtube', sourceKey: videoId, title, summary });
+          const { title, summary, rawTranscript } = await fetchYouTubeTranscript(videoId);
+          void storeExtraction({ sourceType: 'youtube', sourceKey: videoId, title, summary, rawTranscript });
           return NextResponse.json({ title, summary, sourceKey: videoId, sourceType: 'youtube' });
         } catch (e) {
           const msg = e instanceof Error ? e.message : '';
@@ -243,12 +264,34 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'TED-Ed talk not found' }, { status: 404 });
         }
 
+        const cached = await getCachedExtraction('teded', talkId);
+        if (cached?.raw_transcript) {
+          return NextResponse.json({
+            title: cached.title,
+            summary: cached.summary,
+            sourceKey: talkId,
+            sourceType: 'teded',
+            duration: cached.duration_secs ?? talk.durationSecs,
+            fromCache: true,
+          });
+        }
+
+        // Fetch timestamped transcript via youtubeId if available
+        let rawTranscript: string | undefined;
+        if (talk.youtubeId && process.env.SUPADATA_API_KEY) {
+          try {
+            const result = await fetchYouTubeTranscript(talk.youtubeId);
+            rawTranscript = result.rawTranscript;
+          } catch { /* fall through — use pre-written summary */ }
+        }
+
         void storeExtraction({
           sourceType: 'teded',
           sourceKey: talkId,
           title: `${talk.title} — ${talk.speaker}`,
           summary: talk.summary,
           durationSecs: talk.durationSecs,
+          rawTranscript,
         });
 
         return NextResponse.json({

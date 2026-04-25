@@ -786,6 +786,42 @@ Return JSON with a "questions" array of exactly 3 objects with: text, optionA, o
   };
 }
 
+function formatTranscriptForAI(rawTranscript: string): string {
+  let segments: Array<{ text: string; offset: number }> = [];
+  try {
+    const parsed = JSON.parse(rawTranscript) as Array<{ text: string; offset: number }>;
+    if (Array.isArray(parsed)) segments = parsed;
+  } catch {
+    // Plain text fallback — no timestamps available
+    return rawTranscript.slice(0, 12000);
+  }
+
+  // Group into ~15-second chunks to keep the prompt readable
+  const CHUNK_MS = 15000;
+  const chunks: Array<{ startMs: number; text: string }> = [];
+  let currentChunk: { startMs: number; parts: string[] } | null = null;
+
+  for (const seg of segments) {
+    if (!currentChunk || seg.offset - currentChunk.startMs >= CHUNK_MS) {
+      if (currentChunk) chunks.push({ startMs: currentChunk.startMs, text: currentChunk.parts.join(' ') });
+      currentChunk = { startMs: seg.offset, parts: [seg.text] };
+    } else {
+      currentChunk.parts.push(seg.text);
+    }
+  }
+  if (currentChunk) chunks.push({ startMs: currentChunk.startMs, text: currentChunk.parts.join(' ') });
+
+  return chunks
+    .map((c) => {
+      const totalSec = Math.floor(c.startMs / 1000);
+      const m = Math.floor(totalSec / 60);
+      const s = String(totalSec % 60).padStart(2, '0');
+      return `[${m}:${s}] ${c.text}`;
+    })
+    .join('\n')
+    .slice(0, 14000);
+}
+
 async function generateVideoCheckpoints(source: SourceMaterial, count = 4): Promise<CheckpointQuestion[]> {
   const schema: AISchema = {
     type: 'object',
@@ -807,23 +843,54 @@ async function generateVideoCheckpoints(source: SourceMaterial, count = 4): Prom
     required: ['checkpoints'],
   };
 
-  const prompt = `You are generating comprehension checkpoint questions for an ESL classroom watching this video.
+  // Try to fetch the stored timestamped transcript from DB
+  let transcriptBlock: string | null = null;
+  if (source.sourceKey && (source.sourceType === 'youtube' || source.sourceType === 'teded')) {
+    try {
+      const { createServiceClient } = await import('@/lib/supabase/service');
+      const supabase = createServiceClient();
+      const { data } = await supabase
+        .from('source_extractions')
+        .select('raw_transcript')
+        .eq('source_type', source.sourceType)
+        .eq('source_key', source.sourceKey)
+        .single();
+      if (data?.raw_transcript) {
+        transcriptBlock = formatTranscriptForAI(data.raw_transcript);
+      }
+    } catch { /* fall through to summary */ }
+  }
+
+  const prompt = transcriptBlock
+    ? `You are generating comprehension checkpoint questions for an ESL classroom watching this video.
+
+Title: "${source.title}"
+
+Below is the timestamped transcript. Each line shows [M:SS] followed by what is said at that moment.
+
+TRANSCRIPT:
+${transcriptBlock}
+
+Generate exactly ${count} multiple-choice comprehension checkpoints tied to specific moments in this transcript.
+Each checkpoint:
+- timestampLabel: the [M:SS] timestamp shown in the transcript — place it at the end of a section where a key idea has JUST been explained (students have enough information to answer)
+- question: asks about content that was clearly explained in the transcript up to that timestamp
+- 4 options (A–D), only one correct — base the correct answer on what the transcript actually says
+- Tests understanding, not trivial word recall
+
+Space them across the video. correctIndex is 0-based (0=A, 1=B, 2=C, 3=D).
+Return JSON with a "checkpoints" array of ${count} objects.`
+    : `You are generating comprehension checkpoint questions for an ESL classroom watching this video.
 
 Title: "${source.title}"
 Duration: ${source.duration ? `${Math.floor(source.duration / 60)}:${String(source.duration % 60).padStart(2, '0')}` : 'unknown'}
 
-Summary of content:
+Summary:
 ${source.summary}
 
 Generate exactly ${count} multiple-choice comprehension checkpoints spread across the video.
-Each checkpoint:
-- Has a timestampLabel like "2:30" — this is when the question fires. Place it just AFTER the relevant content has been introduced but BEFORE the video explicitly states the answer (so students must think, not just echo back)
-- Asks a clear comprehension question about content covered up to that point
-- Has exactly 4 options (A–D), only one correct
-- Tests understanding, not recall of trivial details
-
-Space them across the video (not all clustered at the end). correctIndex is 0-based (0=A, 1=B, 2=C, 3=D).
-Return JSON with a "checkpoints" array of ${count} objects.`;
+Each checkpoint has a timestampLabel like "2:30", a question, 4 options, and correctIndex (0-based).
+Space them across the video. Return JSON with a "checkpoints" array of ${count} objects.`;
 
   const parsed = await generateJSON<{ checkpoints: Array<{ timestampLabel: string; question: string; options: string[]; correctIndex: number }> }>(prompt, schema);
 
@@ -834,12 +901,12 @@ Return JSON with a "checkpoints" array of ${count} objects.`;
     const fallbackSecs = source.duration ? Math.round((source.duration / count) * (i + 0.5)) : (i + 1) * 120;
     const timestamp = parsedSecs > 0 ? parsedSecs : fallbackSecs;
     return {
-    timestamp,
-    timestampLabel: label,
-    question: c.question ?? 'What is the main idea of this section?',
-    options: c.options?.slice(0, 4) ?? ['Option A', 'Option B', 'Option C', 'Option D'],
-    correctIndex: typeof c.correctIndex === 'number' ? Math.min(c.correctIndex, 3) : 0,
-  };
+      timestamp,
+      timestampLabel: label,
+      question: c.question ?? 'What is the main idea of this section?',
+      options: c.options?.slice(0, 4) ?? ['Option A', 'Option B', 'Option C', 'Option D'],
+      correctIndex: typeof c.correctIndex === 'number' ? Math.min(c.correctIndex, 3) : 0,
+    };
   });
 }
 
