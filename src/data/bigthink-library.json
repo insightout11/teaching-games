@@ -1,1 +1,112 @@
-[]
+[
+  {
+    "id": "bigthink_free_will_physics",
+    "title": "Why Physics Ends the Free Will Debate",
+    "speaker": "Michio Kaku",
+    "url": "https://www.youtube.com/watch?v=Jint5kjoy6I",
+    "youtubeId": "Jint5kjoy6I",
+    "durationSecs": 180,
+    "topicTags": ["philosophy", "physics", "free will", "science"],
+    "difficultyLevel": "Advanced",
+    "description": "Michio Kaku argues that quantum mechanics undermines the concept of free will — and what that means for how we think about consciousness, choice, and human identity."
+  },
+  {
+    "id": "bigthink_fermi_paradox",
+    "title": "Don't Advertise to Aliens — The Fermi Paradox",
+    "speaker": "Michio Kaku",
+    "url": "https://www.youtube.com/watch?v=C2HJEMmQyIo",
+    "youtubeId": "C2HJEMmQyIo",
+    "durationSecs": 240,
+    "topicTags": ["science", "space", "philosophy", "technology"],
+    "difficultyLevel": "Intermediate",
+    "description": "Kaku explains the Fermi Paradox — if aliens exist, why haven't we heard from them? — and why broadcasting our location into space might be a dangerous idea."
+  },
+  {
+    "id": "bigthink_unconscious_decisions",
+    "title": "The Unconscious Makes the Best Decisions",
+    "speaker": "Eric Kandel",
+    "url": "https://www.youtube.com/watch?v=ph7LcupAENw",
+    "youtubeId": "ph7LcupAENw",
+    "durationSecs": 210,
+    "topicTags": ["psychology", "neuroscience", "decision making", "science"],
+    "difficultyLevel": "Advanced",
+    "description": "Nobel laureate Eric Kandel explains how the unconscious brain processes information and makes decisions before our conscious mind is even aware — with surprising implications for creativity."
+  },
+  {
+    "id": "bigthink_free_will_pinker",
+    "title": "Free Will: Is It an Illusion?",
+    "speaker": "Steven Pinker",
+    "url": "https://www.youtube.com/watch?v=VQxJi0COTBo",
+    "youtubeId": "VQxJi0COTBo",
+    "durationSecs": 270,
+    "topicTags": ["philosophy", "psychology", "science", "free will"],
+    "difficultyLevel": "Advanced",
+    "description": "Cognitive scientist Steven Pinker tackles the age-old question of free will — exploring what neuroscience says about conscious choice and why the debate matters for morality and law."
+  },
+  {
+    "id": "bigthink_psychology_happiness",
+    "title": "The Psychology of Happiness",
+    "speaker": "Sheila Heen",
+    "url": "https://www.youtube.com/watch?v=BoLVO-OdfC8",
+    "youtubeId": "BoLVO-OdfC8",
+    "durationSecs": 330,
+    "topicTags": ["psychology", "happiness", "wellbeing", "self-improvement"],
+    "difficultyLevel": "Intermediate",
+    "description": "Harvard negotiation expert Sheila Heen explores what psychological research reveals about happiness — why we're bad at predicting what will make us happy, and what actually does."
+  },
+  {
+    "id": "bigthink_evolution_intelligence",
+    "title": "The Evolution of Human Intelligence",
+    "speaker": "Michio Kaku",
+    "url": "https://www.youtube.com/watch?v=bu7VulZUUdE",
+    "youtubeId": "bu7VulZUUdE",
+    "durationSecs": 390,
+    "topicTags": ["science", "evolution", "neuroscience", "technology"],
+    "difficultyLevel": "Intermediate",
+    "description": "Michio Kaku traces the evolution of the human brain — from primates to modern Homo sapiens — and asks whether artificial intelligence could surpass us on the same evolutionary scale."
+  },
+  {
+    "id": "bigthink_reverse_unhappiness",
+    "title": "How I Reversed My Unhappiness",
+    "speaker": "Tal Ben-Shahar",
+    "url": "https://www.youtube.com/watch?v=mOn5317w8AM",
+    "youtubeId": "mOn5317w8AM",
+    "durationSecs": 360,
+    "topicTags": ["psychology", "happiness", "self-improvement", "wellbeing"],
+    "difficultyLevel": "Intermediate",
+    "description": "Positive psychology pioneer Tal Ben-Shahar shares the personal crisis that led him to study happiness — and the counterintuitive lessons about meaning, acceptance, and what makes life worthwhile."
+  },
+  {
+    "id": "bigthink_teenage_brain",
+    "title": "Why the Teenage Brain Craves Risk",
+    "speaker": "Robert Sapolsky",
+    "url": "https://www.youtube.com/watch?v=rZDmmaElY2Y",
+    "youtubeId": "rZDmmaElY2Y",
+    "durationSecs": 480,
+    "topicTags": ["neuroscience", "psychology", "adolescence", "science"],
+    "difficultyLevel": "Advanced",
+    "description": "Robert Sapolsky explains the neuroscience behind teenage risk-taking — why adolescent brains are wired differently, how the prefrontal cortex develops, and what this means for how we treat young people."
+  },
+  {
+    "id": "bigthink_neuroscience_creativity",
+    "title": "The Neuroscience of Creativity",
+    "speaker": "Beau Lotto",
+    "url": "https://www.youtube.com/watch?v=vR2P5vW-nVc",
+    "youtubeId": "vR2P5vW-nVc",
+    "durationSecs": 510,
+    "topicTags": ["neuroscience", "creativity", "psychology", "science"],
+    "difficultyLevel": "Advanced",
+    "description": "Neuroscientist Beau Lotto reveals how the brain generates creative ideas — why uncertainty is essential for innovation, and how changing your perceptions can unlock new ways of thinking."
+  },
+  {
+    "id": "bigthink_growth_mindset",
+    "title": "Developing a Growth Mindset",
+    "speaker": "Carol Dweck",
+    "url": "https://www.youtube.com/watch?v=hiiEeMN7vbQ",
+    "youtubeId": "hiiEeMN7vbQ",
+    "durationSecs": 510,
+    "topicTags": ["psychology", "education", "self-improvement", "mindset"],
+    "difficultyLevel": "Intermediate",
+    "description": "Stanford psychologist Carol Dweck explains the difference between a fixed mindset and a growth mindset — and how believing your abilities can develop changes what you achieve."
+  }
+]
