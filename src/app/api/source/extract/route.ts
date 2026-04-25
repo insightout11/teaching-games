@@ -368,17 +368,39 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'VOA article not found' }, { status: 404 });
         }
 
+        const cachedVoa = await getCachedExtraction('voa', articleId);
+        if (cachedVoa?.raw_transcript) {
+          return NextResponse.json({
+            title: cachedVoa.title,
+            summary: cachedVoa.summary,
+            sourceKey: articleId,
+            sourceType: 'voa',
+            duration: cachedVoa.duration_secs ?? article.durationSecs,
+            fromCache: true,
+          });
+        }
+
+        // Try fetching real article text; fall back to pre-written summary as raw_transcript
+        let voaRawTranscript = article.summary;
+        let voaSummary = article.summary;
+        try {
+          const articleText = await fetchVOAArticleText(article.url);
+          voaRawTranscript = articleText;
+          voaSummary = await summariseText(sanitizeText(articleText), article.title);
+        } catch { /* use pre-written summary */ }
+
         void storeExtraction({
           sourceType: 'voa',
           sourceKey: articleId,
           title: article.title,
-          summary: article.summary,
+          summary: voaSummary,
           durationSecs: article.durationSecs,
+          rawTranscript: voaRawTranscript,
         });
 
         return NextResponse.json({
           title: article.title,
-          summary: article.summary,
+          summary: voaSummary,
           sourceKey: articleId,
           sourceType: 'voa',
           duration: article.durationSecs,

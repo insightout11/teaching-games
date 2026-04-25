@@ -68,8 +68,21 @@ import tededLibrary from '@/data/teded-library.json';
 // Mission Context Helper
 // ============================================
 
-function buildSourceContext(source?: SourceMaterial): string {
-  if (!source?.summary) return '';
+function extractPlainText(rawTranscript: string): string {
+  try {
+    const parsed = JSON.parse(rawTranscript) as Array<{ text: string }>;
+    if (Array.isArray(parsed)) return parsed.map((s) => s.text).join(' ');
+  } catch { /* plain text */ }
+  return rawTranscript;
+}
+
+function buildSourceContext(source?: SourceMaterial, rawTranscript?: string): string {
+  if (!source) return '';
+  if (rawTranscript) {
+    const text = extractPlainText(rawTranscript).slice(0, 10000);
+    return `\nSource material — ground ALL content ONLY in this transcript. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nTranscript:\n${text}\n`;
+  }
+  if (!source.summary) return '';
   return `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${source.summary}\n`;
 }
 
@@ -845,7 +858,7 @@ async function generateVideoCheckpoints(source: SourceMaterial, count = 4): Prom
 
   // Try to fetch the stored timestamped transcript from DB
   let transcriptBlock: string | null = null;
-  if (source.sourceKey && (source.sourceType === 'youtube' || source.sourceType === 'teded')) {
+  if (source.sourceKey && (source.sourceType === 'youtube' || source.sourceType === 'teded' || source.sourceType === 'ted')) {
     try {
       const { createServiceClient } = await import('@/lib/supabase/service');
       const supabase = createServiceClient();
@@ -2016,7 +2029,23 @@ export async function POST(request: NextRequest) {
       sourceMaterial,
     } = body;
 
-    const sourceCtx = buildSourceContext(sourceMaterial);
+    // Fetch real transcript from DB — used by ALL generators, not just checkpoints
+    let sourceRawTranscript: string | undefined;
+    if (sourceMaterial?.sourceKey) {
+      try {
+        const { createServiceClient } = await import('@/lib/supabase/service');
+        const supabase = createServiceClient();
+        const { data } = await supabase
+          .from('source_extractions')
+          .select('raw_transcript')
+          .eq('source_type', sourceMaterial.sourceType)
+          .eq('source_key', sourceMaterial.sourceKey)
+          .single();
+        if (data?.raw_transcript) sourceRawTranscript = data.raw_transcript;
+      } catch { /* continue — falls back to summary */ }
+    }
+
+    const sourceCtx = buildSourceContext(sourceMaterial, sourceRawTranscript);
     const skipCache = !!sourceMaterial;
 
     // Resolve effective topic: Pro users send customTopic, Standard users send standardTopicId
