@@ -6,7 +6,7 @@ import { DIFFICULTIES } from '@/lib/difficulty';
 
 // ── Library source config ─────────────────────────────────────────────────────
 
-type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'voa';
+type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids';
 type TabKey = 'all' | LibrarySourceKey;
 
 const SOURCE_CONFIG: { key: TabKey; label: string; activeClass: string }[] = [
@@ -19,7 +19,6 @@ const SOURCE_CONFIG: { key: TabKey; label: string; activeClass: string }[] = [
   { key: 'bigthink',   label: 'Big Think',  activeClass: 'bg-purple-600 text-white'       },
   { key: 'vox',        label: 'Vox',        activeClass: 'bg-violet-600 text-white'       },
   { key: 'kids',       label: 'For Kids',   activeClass: 'bg-green-600 text-white'        },
-  { key: 'voa',        label: 'VOA',        activeClass: 'bg-blue-600 text-white'         },
 ];
 
 // Source badge colors for cards in the ALL tab
@@ -32,7 +31,6 @@ const SOURCE_BADGE: Record<LibrarySourceKey, string> = {
   bigthink:   'bg-purple-900/40 text-purple-400',
   vox:        'bg-violet-900/40 text-violet-400',
   kids:       'bg-green-900/40 text-green-400',
-  voa:        'bg-blue-900/40 text-blue-400',
 };
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -61,7 +59,6 @@ import bbcIdeasRaw from '@/data/bbc-ideas-library.json';
 import bigthinkRaw from '@/data/bigthink-library.json';
 import voxRaw from '@/data/vox-library.json';
 import kidsRaw from '@/data/kids-library.json';
-import voaRaw from '@/data/voa-library.json';
 
 function tag<K extends LibrarySourceKey>(raw: unknown[], key: K): LibraryEntry[] {
   return (raw as LibraryEntry[]).map((e) => ({ ...e, sourceType: key }));
@@ -76,7 +73,6 @@ const ALL_ENTRIES: LibraryEntry[] = [
   ...tag(bigthinkRaw, 'bigthink'),
   ...tag(voxRaw, 'vox'),
   ...tag(kidsRaw, 'kids'),
-  ...tag(voaRaw, 'voa'),
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

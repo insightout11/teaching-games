@@ -6,7 +6,6 @@ import { createServiceClient } from '@/lib/supabase/service';
 import type { SourceType } from '@/types/source-material';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
-import voaLibrary from '@/data/voa-library.json';
 import bbcLibrary from '@/data/bbc-library.json';
 import kurzgesagtLibrary from '@/data/kurzgesagt-library.json';
 import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
@@ -161,42 +160,6 @@ async function storeExtraction(params: {
     },
     { onConflict: 'source_type,source_key', ignoreDuplicates: false },
   );
-}
-
-// ─── VOA article fetcher ─────────────────────────────────────────────────────
-
-function stripHtml(html: string): string {
-  return html
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-async function fetchVOAArticleText(url: string): Promise<string> {
-  const res = await fetch(url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      'Accept': 'text/html,application/xhtml+xml',
-      'Accept-Language': 'en-US,en;q=0.9',
-    },
-    cache: 'no-store',
-  });
-  if (!res.ok) throw new Error(`VOA_FETCH_FAILED:${res.status}`);
-  const html = await res.text();
-  // Extract main article content from VOA's wsw container
-  const match = html.match(/class="[^"]*wsw[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
-  const content = match ? match[1] : html;
-  const text = stripHtml(content);
-  if (text.length < 100) throw new Error('VOA_CONTENT_TOO_SHORT');
-  return text.slice(0, 60000);
 }
 
 // ─── Video ID extraction ─────────────────────────────────────────────────────
@@ -384,53 +347,6 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      // ── VOA Learning English ─────────────────────────────────────────────────
-      case 'voa': {
-        const articleId = payload.trim();
-        const article = (voaLibrary as TedTalk[]).find((t) => t.id === articleId);
-        if (!article) {
-          return NextResponse.json({ error: 'VOA article not found' }, { status: 404 });
-        }
-
-        const cachedVoa = await getCachedExtraction('voa', articleId);
-        if (cachedVoa?.raw_transcript) {
-          return NextResponse.json({
-            title: cachedVoa.title,
-            summary: cachedVoa.summary,
-            sourceKey: articleId,
-            sourceType: 'voa',
-            duration: cachedVoa.duration_secs ?? article.durationSecs,
-            fromCache: true,
-          });
-        }
-
-        // Try fetching real article text; fall back to pre-written summary as raw_transcript
-        let voaRawTranscript = article.summary;
-        let voaSummary = article.summary;
-        try {
-          const articleText = await fetchVOAArticleText(article.url);
-          voaRawTranscript = articleText;
-          voaSummary = await summariseText(sanitizeText(articleText), article.title);
-        } catch { /* use pre-written summary */ }
-
-        void storeExtraction({
-          sourceType: 'voa',
-          sourceKey: articleId,
-          title: article.title,
-          summary: voaSummary,
-          durationSecs: article.durationSecs,
-          rawTranscript: voaRawTranscript,
-        });
-
-        return NextResponse.json({
-          title: article.title,
-          summary: voaSummary,
-          sourceKey: articleId,
-          sourceType: 'voa',
-          duration: article.durationSecs,
-        });
-      }
-
       // ── Generic video library handler (BBC, Kurzgesagt, BBC Ideas, Big Think, Vox, Kids) ──
       case 'bbc':
       case 'kurzgesagt':
@@ -444,7 +360,7 @@ export async function POST(request: NextRequest) {
           'bbc-ideas': bbcIdeasLibrary as TedTalk[],
           bigthink: bigthinkLibrary as TedTalk[],
           vox: voxLibrary as TedTalk[],
-          kids: kidsLibrary as TedTalk[],
+          kids: kidsLibrary as unknown as TedTalk[],
         };
         const entryId = payload.trim();
         const library = libraryMap[type];
