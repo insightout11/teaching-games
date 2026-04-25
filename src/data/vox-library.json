@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "id": "vox_world_maps_wrong",
+    "title": "Why All World Maps Are Wrong",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=kIID5FDi2JQ",
+    "youtubeId": "kIID5FDi2JQ",
+    "durationSecs": 336,
+    "topicTags": ["geography", "science", "maps", "history"],
+    "difficultyLevel": "Intermediate",
+    "description": "Every world map you've seen is wrong — but in different ways. Vox explains why it's mathematically impossible to flatten a sphere without distortion, and how different map projections warp size, shape, and distance."
+  },
+  {
+    "id": "vox_gerrymandering_overview",
+    "title": "Gerrymandering: How Politicians Rig Elections",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=QZZwoObFMhU",
+    "youtubeId": "QZZwoObFMhU",
+    "durationSecs": 180,
+    "topicTags": ["politics", "democracy", "elections", "USA"],
+    "difficultyLevel": "Intermediate",
+    "description": "Politicians can legally choose their own voters — and it's called gerrymandering. Vox explains how district lines are drawn to favor one party, why it's so hard to stop, and what a fair map would actually look like."
+  },
+  {
+    "id": "vox_hostile_architecture",
+    "title": "Why Cities Are Full of Uncomfortable Benches",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=WeyLEe1T0yo",
+    "youtubeId": "WeyLEe1T0yo",
+    "durationSecs": 270,
+    "topicTags": ["cities", "design", "society", "inequality"],
+    "difficultyLevel": "Intermediate",
+    "description": "Why do park benches have armrests in the middle? Why are doorways spiked? Vox explores 'hostile architecture' — the intentional design of public spaces to exclude homeless people — and what it says about who cities are built for."
+  },
+  {
+    "id": "vox_gerrymandering_thomas",
+    "title": "The Man Who Rigged America's Election Maps",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=KpamjJtXqFI",
+    "youtubeId": "KpamjJtXqFI",
+    "durationSecs": 456,
+    "topicTags": ["politics", "democracy", "elections", "history"],
+    "difficultyLevel": "Advanced",
+    "description": "How did one political operative redraw the maps of an entire country to lock in partisan power for a decade? Vox investigates the story of Thomas Hofeller — the architect of modern gerrymandering — and the documents he left behind."
+  },
+  {
+    "id": "vox_affordable_housing",
+    "title": "How the US Made Affordable Homes Illegal",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=0Flsg_mzG-M",
+    "youtubeId": "0Flsg_mzG-M",
+    "durationSecs": 570,
+    "topicTags": ["cities", "housing", "economics", "policy"],
+    "difficultyLevel": "Intermediate",
+    "description": "America has a housing shortage — and zoning laws are a big reason why. Vox explains how local rules made affordable, dense housing illegal in most neighborhoods, and why this drives up costs and inequality."
+  },
+  {
+    "id": "vox_healthcare_cost",
+    "title": "The Real Reason American Health Care Is So Expensive",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=tNla9nyRMmQ",
+    "youtubeId": "tNla9nyRMmQ",
+    "durationSecs": 570,
+    "topicTags": ["healthcare", "economics", "policy", "USA"],
+    "difficultyLevel": "Advanced",
+    "description": "The US spends more on healthcare than any country on Earth — but why? Vox breaks down the structural reasons behind America's uniquely expensive medical system, and why simply switching to single-payer wouldn't fix it."
+  },
+  {
+    "id": "vox_future_of_work",
+    "title": "The Big Debate About the Future of Work, Explained",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=TUmyygCMMGA",
+    "youtubeId": "TUmyygCMMGA",
+    "durationSecs": 540,
+    "topicTags": ["economics", "technology", "automation", "work"],
+    "difficultyLevel": "Intermediate",
+    "description": "Will robots take our jobs? Economists and futurists disagree sharply about how automation will reshape work — with some predicting mass unemployment and others expecting adaptation. Vox maps out both sides of the debate."
+  },
+  {
+    "id": "vox_america_superpower",
+    "title": "How America Became a Superpower",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=BShvYeyMm_Y",
+    "youtubeId": "BShvYeyMm_Y",
+    "durationSecs": 534,
+    "topicTags": ["history", "geopolitics", "USA", "war"],
+    "difficultyLevel": "Intermediate",
+    "description": "In just 200 years, the US went from a small coastal republic to the world's dominant superpower. Vox traces the history of American expansion — from westward conquest to world wars — and asks what it means to be a superpower today."
+  },
+  {
+    "id": "vox_democracy_problem",
+    "title": "The Roots of America's Democracy Problem",
+    "speaker": "Vox",
+    "url": "https://www.youtube.com/watch?v=0ySL82WbcvU",
+    "youtubeId": "0ySL82WbcvU",
+    "durationSecs": 510,
+    "topicTags": ["politics", "democracy", "USA", "elections"],
+    "difficultyLevel": "Advanced",
+    "description": "America's political system is increasingly giving minority-rule outcomes — where the party with fewer votes wins power. Vox explains the structural features of US democracy that make this possible, and what reformers want to change."
+  }
+]
