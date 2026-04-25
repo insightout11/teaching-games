@@ -157,6 +157,42 @@ async function storeExtraction(params: {
   );
 }
 
+// ─── VOA article fetcher ─────────────────────────────────────────────────────
+
+function stripHtml(html: string): string {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+async function fetchVOAArticleText(url: string): Promise<string> {
+  const res = await fetch(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml',
+      'Accept-Language': 'en-US,en;q=0.9',
+    },
+    cache: 'no-store',
+  });
+  if (!res.ok) throw new Error(`VOA_FETCH_FAILED:${res.status}`);
+  const html = await res.text();
+  // Extract main article content from VOA's wsw container
+  const match = html.match(/class="[^"]*wsw[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+  const content = match ? match[1] : html;
+  const text = stripHtml(content);
+  if (text.length < 100) throw new Error('VOA_CONTENT_TOO_SHORT');
+  return text.slice(0, 60000);
+}
+
 // ─── Video ID extraction ─────────────────────────────────────────────────────
 
 function extractVideoId(url: string): string | null {
@@ -238,13 +274,34 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'TED talk not found' }, { status: 404 });
         }
 
-        // TED summaries are pre-written — no AI call needed, just cache and return
+        const cachedTed = await getCachedExtraction('ted', talkId);
+        if (cachedTed?.raw_transcript) {
+          return NextResponse.json({
+            title: cachedTed.title,
+            summary: cachedTed.summary,
+            sourceKey: talkId,
+            sourceType: 'ted',
+            duration: cachedTed.duration_secs ?? talk.durationSecs,
+            fromCache: true,
+          });
+        }
+
+        // Fetch real timestamped transcript via youtubeId
+        let tedRawTranscript: string | undefined;
+        if (talk.youtubeId && process.env.SUPADATA_API_KEY) {
+          try {
+            const result = await fetchYouTubeTranscript(talk.youtubeId);
+            tedRawTranscript = result.rawTranscript;
+          } catch { /* fall through — use pre-written summary */ }
+        }
+
         void storeExtraction({
           sourceType: 'ted',
           sourceKey: talkId,
           title: `${talk.title} — ${talk.speaker}`,
           summary: talk.summary,
           durationSecs: talk.durationSecs,
+          rawTranscript: tedRawTranscript,
         });
 
         return NextResponse.json({
