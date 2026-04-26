@@ -4,16 +4,18 @@ import { useState, useMemo } from 'react';
 import { X, BookOpen, Search, ChevronRight } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
 
-type TextSourceKey = 'stories';
+type TextSourceKey = 'stories' | 'voa';
 type TabKey = 'all' | TextSourceKey;
 
 const SOURCE_CONFIG: { key: TabKey; label: string; activeClass: string }[] = [
   { key: 'all',     label: 'All',     activeClass: 'bg-lc-text text-lc-bg'    },
   { key: 'stories', label: 'Stories', activeClass: 'bg-amber-500 text-white'  },
+  { key: 'voa',     label: 'VOA',     activeClass: 'bg-blue-600 text-white'   },
 ];
 
 const SOURCE_BADGE: Record<TextSourceKey, string> = {
   stories: 'bg-amber-900/40 text-amber-400',
+  voa:     'bg-blue-900/40 text-blue-400',
 };
 
 const TOPIC_COLORS: Record<string, string> = {
@@ -47,6 +49,7 @@ type TextEntry = {
 };
 
 import storiesRaw from '@/data/stories-library.json';
+import voaRaw from '@/data/voa-library.json';
 
 function tag<K extends TextSourceKey>(raw: unknown[], key: K): TextEntry[] {
   return (raw as TextEntry[]).map((e) => ({ ...e, sourceType: key }));
@@ -54,6 +57,7 @@ function tag<K extends TextSourceKey>(raw: unknown[], key: K): TextEntry[] {
 
 const ALL_ENTRIES: TextEntry[] = [
   ...tag(storiesRaw, 'stories'),
+  ...tag(voaRaw as unknown[], 'voa'),
 ];
 
 function TextThumbnail({ entry }: { entry: TextEntry }) {
@@ -127,7 +131,7 @@ export function TextLibraryModal({ onSelect, onClose }: Props) {
         <div className="flex items-center gap-4 min-w-0">
           <div className="shrink-0">
             <h2 className="font-bold text-lc-text text-xl tracking-tight">Text Library</h2>
-            <p className="text-xs text-lc-text3 mt-0.5">{ALL_ENTRIES.length} stories for classroom reading</p>
+            <p className="text-xs text-lc-text3 mt-0.5">{ALL_ENTRIES.length} texts for classroom reading</p>
           </div>
           <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-lg p-1 overflow-x-auto scrollbar-hide">
             {SOURCE_CONFIG.map((src) => (

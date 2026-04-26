@@ -165,7 +165,7 @@ export function SourceInputPanel() {
                 {activeTab === 'reading' && (
                   <div className="space-y-2">
                     <p className="text-xs text-lc-text3">
-                      Browse Aesop fables and classic stories — ready to use with Read Aloud.
+                      Browse classic stories and VOA Learning English articles — ready to use with Read Aloud.
                     </p>
                     <button
                       onClick={() => setShowTextModal(true)}
