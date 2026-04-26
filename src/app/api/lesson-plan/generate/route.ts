@@ -2083,11 +2083,15 @@ export async function POST(request: NextRequest) {
     const vocabBlitzMode = hasActivities && hasGames &&
       activities.includes('vocab-radar') && games.includes('vocab-sprint');
     if (vocabBlitzMode) {
-      const vocabRadarResult = await generateVocabRadar(customTopic, diff, sourceCtx);
-      content['vocab-radar'] = vocabRadarResult;
-      const keyVocabWords = vocabRadarResult.words.map((w) => w.word);
-      gameContent['vocab-sprint'] = await generateVocabSprint(customTopic, diff, keyVocabWords, sourceCtx);
-      content['in-your-words'] = { activityKey: 'in-your-words', topicContext: customTopic, words: keyVocabWords };
+      try {
+        const vocabRadarResult = await generateVocabRadar(customTopic, diff, sourceCtx);
+        content['vocab-radar'] = vocabRadarResult;
+        const keyVocabWords = vocabRadarResult.words.map((w) => w.word);
+        gameContent['vocab-sprint'] = await generateVocabSprint(customTopic, diff, keyVocabWords, sourceCtx);
+        content['in-your-words'] = { activityKey: 'in-your-words', topicContext: customTopic, words: keyVocabWords };
+      } catch (err) {
+        console.warn('Vocab blitz sequential chain failed, continuing:', err instanceof Error ? err.message.slice(0, 100) : err);
+      }
     }
 
     // Scene chain: Scene Igniter feeds Conversation Rounds and/or Story Sprint
@@ -2096,12 +2100,16 @@ export async function POST(request: NextRequest) {
     const hasStorySprint = hasGames && games?.includes('story-sprint');
     const sceneChainMode = hasSceneIgniter && (hasConvRounds || hasStorySprint);
     if (sceneChainMode) {
-      const sceneResult = await generateSceneIgniter(customTopic, diff, sourceCtx);
-      content['scene-igniter'] = sceneResult;
-      const primaryScene = sceneResult.scenes[0];
-      const sceneCtx = { title: primaryScene.title, context: primaryScene.context };
-      if (hasConvRounds) content['conversation-rounds'] = await generateConversationRounds(customTopic, diff, sceneCtx, sourceCtx);
-      if (hasStorySprint) gameContent['story-sprint'] = await generateStorySprint(customTopic, diff, sceneCtx, sourceCtx);
+      try {
+        const sceneResult = await generateSceneIgniter(customTopic, diff, sourceCtx);
+        content['scene-igniter'] = sceneResult;
+        const primaryScene = sceneResult.scenes[0];
+        const sceneCtx = { title: primaryScene.title, context: primaryScene.context };
+        if (hasConvRounds) content['conversation-rounds'] = await generateConversationRounds(customTopic, diff, sceneCtx, sourceCtx);
+        if (hasStorySprint) gameContent['story-sprint'] = await generateStorySprint(customTopic, diff, sceneCtx, sourceCtx);
+      } catch (err) {
+        console.warn('Scene chain sequential generation failed, continuing:', err instanceof Error ? err.message.slice(0, 100) : err);
+      }
     }
 
     // Generate activity content

@@ -48,6 +48,7 @@ const circuitBreakers = new Map<ProviderName, CircuitState>();
 const CB_FAILURE_THRESHOLD = 3;
 const CB_WINDOW_MS = 60_000;
 const CB_OPEN_DURATION_MS = 60_000;
+const CB_RATE_LIMIT_OPEN_MS = 30_000; // shorter backoff for rate limits
 
 function isCircuitOpen(name: ProviderName): boolean {
   const state = circuitBreakers.get(name);
@@ -77,6 +78,15 @@ function recordFailure(name: ProviderName): void {
 
 function recordSuccess(name: ProviderName): void {
   circuitBreakers.delete(name);
+}
+
+function circuitBreakRateLimit(name: ProviderName): void {
+  const now = Date.now();
+  circuitBreakers.set(name, {
+    failures: CB_FAILURE_THRESHOLD,
+    openUntil: now + CB_RATE_LIMIT_OPEN_MS,
+    firstFailureAt: now,
+  });
 }
 
 function circuitBreak(name: ProviderName): void {
@@ -145,7 +155,12 @@ export async function reliableGenerateJSON<T>(
       continue; // try next provider
     }
     if (errorClass === 'rate-limit') {
-      continue; // skip to next, no circuit-break
+      circuitBreakRateLimit(providerName); // back off for 30s before using this provider again
+      continue;
+    }
+    if (errorClass === 'content-filter') {
+      // Content is blocked — retrying with another provider won't help for this prompt
+      throw new Error(`content-filter: ${attempt1Result.message.slice(0, 200)}`);
     }
     if (errorClass === 'bad-request') {
       continue; // our fault, try next provider

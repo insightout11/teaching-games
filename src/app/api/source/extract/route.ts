@@ -6,6 +6,8 @@ import { createServiceClient } from '@/lib/supabase/service';
 import type { SourceType } from '@/types/source-material';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
+import voaLibrary from '@/data/voa-library.json';
+import storiesLibrary from '@/data/stories-library.json';
 import bbcLibrary from '@/data/bbc-library.json';
 import kurzgesagtLibrary from '@/data/kurzgesagt-library.json';
 import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
@@ -20,6 +22,18 @@ type TedTalk = {
   url: string;
   youtubeId?: string | null;
   durationSecs: number;
+  topicTags: string[];
+  difficultyLevel: string;
+  description: string;
+  summary: string;
+};
+
+type TextEntry = {
+  id: string;
+  title: string;
+  author?: string;
+  speaker?: string;
+  wordCount?: number;
   topicTags: string[];
   difficultyLevel: string;
   description: string;
@@ -432,6 +446,27 @@ export async function POST(request: NextRequest) {
         const summary = await summariseText(cleaned, title);
         void storeExtraction({ sourceType: 'text', sourceKey: hash, title, summary });
         return NextResponse.json({ title, summary, sourceType: 'text' });
+      }
+
+      case 'voa':
+      case 'stories': {
+        const textLibraryMap: Record<string, TextEntry[]> = {
+          voa:     voaLibrary as unknown as TextEntry[],
+          stories: storiesLibrary as TextEntry[],
+        };
+        const textEntryId = payload.trim();
+        const textEntry = textLibraryMap[type]?.find((e) => e.id === textEntryId);
+        if (!textEntry) {
+          return NextResponse.json({ error: `Text entry not found in ${type} library` }, { status: 404 });
+        }
+        const wc = textEntry.wordCount ?? Math.round(textEntry.summary.split(/\s+/).length);
+        return NextResponse.json({
+          title:      textEntry.title,
+          summary:    textEntry.summary,
+          sourceKey:  textEntryId,
+          sourceType: type,
+          wordCount:  wc,
+        });
       }
 
       default:

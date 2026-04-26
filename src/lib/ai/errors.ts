@@ -2,6 +2,7 @@ export type ErrorClass =
   | 'auth'
   | 'rate-limit'
   | 'bad-request'
+  | 'content-filter'
   | 'timeout'
   | 'network'
   | 'server'
@@ -27,6 +28,18 @@ export function classifyError(error: unknown): ErrorClass {
         : typeof err.code === 'number'
           ? err.code
           : null;
+
+  // Check for content filtering before generic 400 — the message is the signal
+  const rawMessage = typeof err.message === 'string' ? err.message : '';
+  const lowerMessage = rawMessage.toLowerCase();
+  if (
+    lowerMessage.includes('output blocked') ||
+    lowerMessage.includes('content filtering') ||
+    lowerMessage.includes('content_filter') ||
+    lowerMessage.includes('safety') && lowerMessage.includes('blocked')
+  ) {
+    return 'content-filter';
+  }
 
   if (status !== null) {
     if (status === 401 || status === 403) return 'auth';
