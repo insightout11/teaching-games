@@ -15,6 +15,8 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'bbc-ideas', 'bigthink', 'vox', 'kids',
 ]);
 
+const TEXT_SOURCE_TYPES = new Set<SourceType>(['stories', 'voa']);
+
 export type { PlanModule };
 
 /** Internal type used by launchLesson() to build sessionStorage payload. */
@@ -133,13 +135,12 @@ export const usePlannerStore = create<PlannerState>()(
         if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !base.some((m) => m.key === 'video-player')) {
           const takeoffIdx = base.findIndex((m) => m.slotType === 'takeoff');
           const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
-          const videoSlot: PlanModule = {
-            id: crypto.randomUUID(),
-            slotType: 'presentation',
-            key: 'video-player',
-            isLocked: false,
-          };
-          base.splice(insertAt, 0, videoSlot);
+          base.splice(insertAt, 0, { id: crypto.randomUUID(), slotType: 'presentation', key: 'video-player', isLocked: false });
+        }
+        if (sourceMaterial && TEXT_SOURCE_TYPES.has(sourceMaterial.sourceType) && !base.some((m) => m.key === 'read-aloud')) {
+          const takeoffIdx = base.findIndex((m) => m.slotType === 'takeoff');
+          const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
+          base.splice(insertAt, 0, { id: crypto.randomUUID(), slotType: 'presentation', key: 'read-aloud', isLocked: false });
         }
         set({ modules: base });
       },
@@ -208,12 +209,12 @@ export const usePlannerStore = create<PlannerState>()(
         if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !modules.some((m) => m.key === 'video-player')) {
           const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
           const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
-          modules.splice(insertAt, 0, {
-            id: crypto.randomUUID(),
-            slotType: 'presentation',
-            key: 'video-player',
-            isLocked: false,
-          });
+          modules.splice(insertAt, 0, { id: crypto.randomUUID(), slotType: 'presentation', key: 'video-player', isLocked: false });
+        }
+        if (sourceMaterial && TEXT_SOURCE_TYPES.has(sourceMaterial.sourceType) && !modules.some((m) => m.key === 'read-aloud')) {
+          const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
+          const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
+          modules.splice(insertAt, 0, { id: crypto.randomUUID(), slotType: 'presentation', key: 'read-aloud', isLocked: false });
         }
 
         set({
