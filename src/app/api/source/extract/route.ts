@@ -9,6 +9,8 @@ import tededLibrary from '@/data/teded-library.json';
 import storiesLibrary from '@/data/stories-library.json';
 import voaLibrary from '@/data/voa-library.json';
 import bbcLibrary from '@/data/bbc-library.json';
+import natgeoLibrary from '@/data/natgeo-library.json';
+import crashCourseLibrary from '@/data/crash-course-library.json';
 import kurzgesagtLibrary from '@/data/kurzgesagt-library.json';
 import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
 import bigthinkLibrary from '@/data/bigthink-library.json';
@@ -355,7 +357,9 @@ export async function POST(request: NextRequest) {
       case 'bbc-ideas':
       case 'bigthink':
       case 'vox':
-      case 'kids': {
+      case 'kids':
+      case 'natgeo':
+      case 'crash-course': {
         const libraryMap: Record<string, TedTalk[]> = {
           bbc: bbcLibrary as TedTalk[],
           kurzgesagt: kurzgesagtLibrary as TedTalk[],
@@ -363,6 +367,8 @@ export async function POST(request: NextRequest) {
           bigthink: bigthinkLibrary as TedTalk[],
           vox: voxLibrary as TedTalk[],
           kids: kidsLibrary as unknown as TedTalk[],
+          natgeo: natgeoLibrary as TedTalk[],
+          'crash-course': crashCourseLibrary as TedTalk[],
         };
         const entryId = payload.trim();
         const library = libraryMap[type];
