@@ -30,6 +30,25 @@ interface CheckpointState {
 
 const ANSWER_SECONDS = 30;
 
+function fsRequest(el: HTMLElement) {
+  if (el.requestFullscreen) return el.requestFullscreen();
+  // @ts-expect-error webkit prefix
+  if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
+}
+
+function fsExit() {
+  if (document.exitFullscreen) return document.exitFullscreen();
+  // @ts-expect-error webkit prefix
+  if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
+}
+
+function fsElement() {
+  return document.fullscreenElement
+    // @ts-expect-error webkit prefix
+    ?? document.webkitFullscreenElement
+    ?? null;
+}
+
 export function VideoPlayerActivity({
   generatedContent,
   students,
@@ -47,10 +66,11 @@ export function VideoPlayerActivity({
     ? videoUrl.match(/(?:v=|embed\/)([a-zA-Z0-9_-]{11})/)?.[1]
     : null;
 
+  // fs=0 disables YouTube's own fullscreen button — we provide our own that wraps the overlay
   const embedUrl = (() => {
     if (isTed) return videoUrl;
     return youtubeId
-      ? `https://www.youtube.com/embed/${youtubeId}?enablejsapi=1&rel=0&modestbranding=1&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`
+      ? `https://www.youtube.com/embed/${youtubeId}?enablejsapi=1&rel=0&modestbranding=1&fs=0&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`
       : null;
   })();
 
@@ -61,12 +81,36 @@ export function VideoPlayerActivity({
   const [videoEnded, setVideoEnded] = useState(false);
   const [pausedForQuestion, setPausedForQuestion] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
-  const scoredRef = useRef<Set<string>>(new Set());
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const playerRef = useRef<InstanceType<Window['YT']['Player']> | null>(null);
+  const scoredRef = useRef<Set<string>>(new Set());
   const firedRef = useRef<Set<number>>(new Set());
 
-  // Countdown timer — runs while a question is active
+  // Track fullscreen state
+  useEffect(() => {
+    function onFsChange() {
+      setIsFullscreen(fsElement() === containerRef.current);
+    }
+    document.addEventListener('fullscreenchange', onFsChange);
+    document.addEventListener('webkitfullscreenchange', onFsChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', onFsChange);
+      document.removeEventListener('webkitfullscreenchange', onFsChange);
+    };
+  }, []);
+
+  function toggleFullscreen() {
+    if (isFullscreen) {
+      fsExit();
+    } else if (containerRef.current) {
+      void fsRequest(containerRef.current);
+    }
+  }
+
+  // Countdown timer
   const isQuestionActive = activeIdx !== null;
   useEffect(() => {
     if (!isQuestionActive || timeLeft <= 0) return;
@@ -74,7 +118,6 @@ export function VideoPlayerActivity({
     return () => clearTimeout(id);
   }, [isQuestionActive, timeLeft]);
 
-  // Auto-close question when countdown expires
   useEffect(() => {
     if (isQuestionActive && timeLeft === 0) {
       closeQuestion(false);
@@ -140,7 +183,6 @@ export function VideoPlayerActivity({
 
   useEffect(() => {
     if (!isYouTube || !youtubeId) return;
-
     let pollInterval: ReturnType<typeof setInterval> | null = null;
 
     function initPlayer() {
@@ -149,7 +191,6 @@ export function VideoPlayerActivity({
         events: {
           onStateChange: (e) => {
             if (e.data === 0) {
-              // Video ended
               if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
               setVideoEnded(true);
               setPausedForQuestion(false);
@@ -157,7 +198,6 @@ export function VideoPlayerActivity({
               onSetInputSpec?.(null);
               onRegisterRemoteVoteHandler?.(null);
             } else if (e.data === 1) {
-              // Video playing — clear paused state and start polling
               setPausedForQuestion(false);
               if (!pollInterval) {
                 pollInterval = setInterval(() => {
@@ -189,9 +229,7 @@ export function VideoPlayerActivity({
       }
     }
 
-    return () => {
-      if (pollInterval) clearInterval(pollInterval);
-    };
+    return () => { if (pollInterval) clearInterval(pollInterval); };
   }, [isYouTube, youtubeId, checkpoints, pushCheckpoint, onSetInputSpec, onRegisterRemoteVoteHandler]);
 
   function closeQuestion(resume: boolean) {
@@ -222,13 +260,15 @@ export function VideoPlayerActivity({
   const activeState = activeIdx !== null ? checkpointStates[activeIdx] : null;
   const voteCount = activeState ? Object.keys(activeState.votes).length : 0;
   const totalStudents = students.length;
+  const pushedCount = checkpointStates.filter((s) => s.pushed).length;
   const pushedCheckpoints = checkpoints.filter((_, i) => checkpointStates[i].pushed);
 
   const timerPct = ANSWER_SECONDS > 0 ? (timeLeft / ANSWER_SECONDS) * 100 : 0;
-  const timerColor = timerPct > 50 ? 'bg-lc-success' : timerPct > 25 ? 'bg-amber-500' : 'bg-red-500';
+  const timerColor = timerPct > 50 ? 'bg-lc-success' : timerPct > 25 ? 'bg-amber-400' : 'bg-red-500';
 
   return (
     <div className="space-y-4">
+      {/* Title bar — hidden in fullscreen (fullscreen hides everything outside the container) */}
       <div className="flex items-center gap-2">
         <span className="text-lg">🎬</span>
         <h2 className="text-base font-semibold text-lc-text truncate">{videoTitle}</h2>
@@ -249,17 +289,135 @@ export function VideoPlayerActivity({
         )}
       </div>
 
-      {/* Video */}
+      {/* ── Video container — this div is what goes fullscreen ── */}
       {embedUrl ? (
-        <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+        <div
+          ref={containerRef}
+          className="relative w-full bg-black"
+          style={isFullscreen ? { height: '100%' } : { paddingBottom: '56.25%' }}
+        >
           <iframe
             ref={iframeRef}
             src={embedUrl}
-            className="absolute inset-0 w-full h-full rounded-xl border border-lc-border"
+            className="absolute inset-0 w-full h-full"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
             title={videoTitle}
           />
+
+          {/* ── Fullscreen: active question overlay ── */}
+          {isFullscreen && activeCheckpoint && activeState && !videoEnded && (
+            <div className="absolute inset-0 z-20 bg-black/65 flex items-center justify-center p-6">
+              <div className="w-full max-w-xl bg-gray-900/95 border border-amber-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {isYouTube && (
+                      <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">⏸ Paused</span>
+                    )}
+                    <span className="text-xs font-semibold text-white/60 uppercase tracking-wide">Question Live</span>
+                  </div>
+                  <span className="text-sm text-white/50">{voteCount}/{totalStudents} answered</span>
+                </div>
+
+                {/* Question + countdown */}
+                <div>
+                  <p className="text-white font-semibold text-base leading-snug mb-3">{activeCheckpoint.question}</p>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
+                        style={{ width: `${timerPct}%` }}
+                      />
+                    </div>
+                    <span className={`text-sm font-mono font-bold tabular-nums w-8 text-right ${timeLeft <= 5 ? 'text-red-400' : 'text-white/70'}`}>
+                      {timeLeft}s
+                    </span>
+                  </div>
+                </div>
+
+                {/* Vote tally */}
+                <div className="space-y-2">
+                  {activeCheckpoint.options.map((opt, oi) => {
+                    const count = Object.values(activeState.votes).filter((v) => v === opt).length;
+                    const pct = voteCount > 0 ? Math.round((count / voteCount) * 100) : 0;
+                    return (
+                      <div key={oi} className="flex items-center gap-3">
+                        <span className="text-xs font-bold w-5 shrink-0 text-white/40">
+                          {String.fromCharCode(65 + oi)}
+                        </span>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between text-xs mb-1">
+                            <span className="text-white/80">{opt}</span>
+                            <span className="text-white/40 shrink-0 ml-2">{count} ({pct}%)</span>
+                          </div>
+                          <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+                            <div
+                              className="h-full rounded-full transition-all duration-500 bg-lc-blue/70"
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <p className="text-xs text-white/30 italic">Answers revealed after video finishes.</p>
+
+                <button
+                  onClick={() => closeQuestion(isYouTube)}
+                  className="px-5 py-2 rounded-lg bg-white/10 border border-white/20 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
+                >
+                  {isYouTube ? 'Dismiss & Resume Video ▶' : 'Dismiss'}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ── Fullscreen: resume overlay (after timer expires, teacher discusses then continues) ── */}
+          {isFullscreen && pausedForQuestion && !isQuestionActive && !videoEnded && isYouTube && (
+            <div className="absolute inset-0 z-20 bg-black/50 flex items-center justify-center">
+              <div className="text-center space-y-3">
+                <p className="text-white/60 text-sm">Discuss the answer with your class</p>
+                <button
+                  onClick={resumeVideo}
+                  className="px-8 py-3 rounded-xl bg-lc-blue text-white font-bold text-base hover:bg-lc-blue/80 transition-colors shadow-lg"
+                >
+                  ▶ Resume Video
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ── Fullscreen: checkpoint progress HUD (bottom-left) ── */}
+          {isFullscreen && !videoEnded && checkpoints.length > 0 && !isQuestionActive && (
+            <div className="absolute bottom-4 left-4 z-10 flex items-center gap-1.5 bg-black/50 rounded-full px-3 py-1.5">
+              {checkpoints.map((_, i) => (
+                <div
+                  key={i}
+                  className={`w-2 h-2 rounded-full ${checkpointStates[i].pushed ? 'bg-lc-success' : 'bg-white/30'}`}
+                />
+              ))}
+              <span className="text-xs text-white/60 ml-1 font-mono">{pushedCount}/{checkpoints.length}</span>
+            </div>
+          )}
+
+          {/* ── Fullscreen toggle button (bottom-right) ── */}
+          <button
+            onClick={toggleFullscreen}
+            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            className="absolute bottom-4 right-4 z-10 p-2 rounded-lg bg-black/50 text-white/70 hover:bg-black/70 hover:text-white transition-all"
+          >
+            {isFullscreen ? (
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path d="M4 8a1 1 0 001-1V5.414l2.293 2.293a1 1 0 001.414-1.414L6.414 4H8a1 1 0 000-2H4a1 1 0 00-1 1v4a1 1 0 001 1zm12 4a1 1 0 00-1 1v1.586l-2.293-2.293a1 1 0 00-1.414 1.414L13.586 16H12a1 1 0 000 2h4a1 1 0 001-1v-4a1 1 0 00-1-1zM4 12a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 000-2H6.414l2.293-2.293a1 1 0 00-1.414-1.414L5 14.586V13a1 1 0 00-1-1zm12-8a1 1 0 001-1V3a1 1 0 00-1-1h-4a1 1 0 000 2h1.586l-2.293 2.293a1 1 0 001.414 1.414L15 4.414V6a1 1 0 001 1z"/>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path d="M3 4a1 1 0 011-1h3a1 1 0 010 2H5.414l2.293 2.293a1 1 0 01-1.414 1.414L4 6.414V8a1 1 0 01-2 0V4zm14 0a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 01-1.414-1.414L14.586 5H13a1 1 0 010-2h4zm-14 12a1 1 0 001-1v-1.586l2.293 2.293a1 1 0 001.414-1.414L5.414 12H8a1 1 0 000-2H4a1 1 0 00-1 1v4a1 1 0 001 1zm14-1a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 12.586V11a1 1 0 012 0v4z"/>
+              </svg>
+            )}
+          </button>
         </div>
       ) : (
         <div className="flex items-center justify-center h-48 rounded-xl border border-lc-border bg-lc-surface text-lc-text3 text-sm">
@@ -267,10 +425,11 @@ export function VideoPlayerActivity({
         </div>
       )}
 
-      {/* Active question — prominent pause/countdown banner */}
+      {/* ── Below-video UI (non-fullscreen only — browser hides this when fullscreen) ── */}
+
+      {/* Active question panel */}
       {activeCheckpoint && activeState && !videoEnded && (
         <div className="rounded-xl border border-amber-500/50 bg-amber-500/5 p-4 space-y-3">
-          {/* Banner header */}
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               {isYouTube && (
@@ -283,7 +442,6 @@ export function VideoPlayerActivity({
             <span className="text-xs text-lc-text3 shrink-0">{voteCount}/{totalStudents} answered</span>
           </div>
 
-          {/* Countdown bar */}
           <div className="space-y-1">
             <div className="flex justify-between text-xs text-lc-text2">
               <span>{activeCheckpoint.question}</span>
@@ -299,26 +457,20 @@ export function VideoPlayerActivity({
             </div>
           </div>
 
-          {/* Vote tally bars */}
           <div className="space-y-2">
             {activeCheckpoint.options.map((opt, oi) => {
               const count = Object.values(activeState.votes).filter((v) => v === opt).length;
               const pct = voteCount > 0 ? Math.round((count / voteCount) * 100) : 0;
               return (
                 <div key={oi} className="flex items-center gap-3">
-                  <span className="text-xs font-bold w-5 shrink-0 text-lc-text3">
-                    {String.fromCharCode(65 + oi)}
-                  </span>
+                  <span className="text-xs font-bold w-5 shrink-0 text-lc-text3">{String.fromCharCode(65 + oi)}</span>
                   <div className="flex-1">
                     <div className="flex items-center justify-between text-xs mb-0.5">
                       <span className="text-lc-text2">{opt}</span>
                       <span className="text-lc-text3">{count} ({pct}%)</span>
                     </div>
                     <div className="h-2 rounded-full bg-lc-bg overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all duration-500 bg-lc-blue/60"
-                        style={{ width: `${pct}%` }}
-                      />
+                      <div className="h-full rounded-full transition-all duration-500 bg-lc-blue/60" style={{ width: `${pct}%` }} />
                     </div>
                   </div>
                 </div>
@@ -337,7 +489,7 @@ export function VideoPlayerActivity({
         </div>
       )}
 
-      {/* Resume video button — shown after countdown expires, teacher clicks to continue */}
+      {/* Resume video button */}
       {pausedForQuestion && !isQuestionActive && !videoEnded && isYouTube && (
         <button
           onClick={resumeVideo}
@@ -347,7 +499,7 @@ export function VideoPlayerActivity({
         </button>
       )}
 
-      {/* TED manual end button */}
+      {/* TED manual end */}
       {isTed && !videoEnded && pushedCheckpoints.length > 0 && (
         <button
           onClick={() => { setVideoEnded(true); closeQuestion(false); }}
@@ -375,7 +527,6 @@ export function VideoPlayerActivity({
                   </div>
                   <span className="text-xs text-lc-text3 shrink-0">{total} votes</span>
                 </div>
-
                 <div className="space-y-2">
                   {cp.options.map((opt, oi) => {
                     const count = Object.values(votes).filter((v) => v === opt).length;
@@ -403,7 +554,6 @@ export function VideoPlayerActivity({
                     );
                   })}
                 </div>
-
                 <button
                   onClick={() => toggleReveal(idx)}
                   className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
@@ -420,7 +570,7 @@ export function VideoPlayerActivity({
         </div>
       )}
 
-      {/* Checkpoint list — manual push for TED, status summary for YouTube */}
+      {/* Checkpoint list */}
       {!videoEnded && (
         <div className="space-y-1.5">
           <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wide">
@@ -434,15 +584,17 @@ export function VideoPlayerActivity({
               <div
                 key={idx}
                 className={`flex items-center gap-3 rounded-lg border px-3 py-2 transition-all ${
-                  isActive ? 'border-amber-500/50 bg-amber-500/10' : state.pushed ? 'border-lc-border/40 opacity-50' : 'border-lc-border bg-lc-surface'
+                  isActive
+                    ? 'border-amber-500/50 bg-amber-500/10'
+                    : state.pushed
+                      ? 'border-lc-border/40 opacity-50'
+                      : 'border-lc-border bg-lc-surface'
                 }`}
               >
                 <span className="text-xs font-mono text-lc-text3 shrink-0 w-8">{cp.timestampLabel}</span>
                 <span className="text-xs text-lc-text flex-1 leading-snug">{cp.question}</span>
                 {state.pushed ? (
-                  <span className="text-xs text-lc-text3 shrink-0">
-                    {Object.keys(state.votes).length} votes
-                  </span>
+                  <span className="text-xs text-lc-text3 shrink-0">{Object.keys(state.votes).length} votes</span>
                 ) : (
                   isTed && !isActive && (
                     <button
