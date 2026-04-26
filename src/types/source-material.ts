@@ -5,7 +5,8 @@ export interface SourceMaterial {
   sourceKey?: string; // YouTube video ID or TED talk ID
   title: string;
   summary: string; // ~500 words, used in AI prompts
-  duration?: number; // seconds — video sources
+  duration?: number;  // seconds — video sources
+  rawText?: string;   // original unprocessed text (text/paste sources only)
 }
 
 export interface CheckpointQuestion {

@@ -2165,7 +2165,7 @@ export async function POST(request: NextRequest) {
               content[activityKey] = {
                 activityKey: 'read-aloud',
                 topicContext: customTopic,
-                sourceText: sourceMaterial?.summary ?? '',
+                sourceText: sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '',
                 sourceTitle: sourceMaterial?.title ?? customTopic,
               };
             }));

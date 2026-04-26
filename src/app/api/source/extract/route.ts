@@ -425,13 +425,13 @@ export async function POST(request: NextRequest) {
         const hash = Buffer.from(cleaned.slice(0, 500)).toString('base64').slice(0, 40);
         const cached = await getCachedExtraction('text', hash);
         if (cached) {
-          return NextResponse.json({ title: cached.title, summary: cached.summary, sourceType: 'text', fromCache: true });
+          return NextResponse.json({ title: cached.title, summary: cached.summary, rawText: cleaned, sourceType: 'text', fromCache: true });
         }
 
         const title = 'Pasted Text';
         const summary = await summariseText(cleaned, title);
         void storeExtraction({ sourceType: 'text', sourceKey: hash, title, summary });
-        return NextResponse.json({ title, summary, sourceType: 'text' });
+        return NextResponse.json({ title, summary, rawText: cleaned, sourceType: 'text' });
       }
 
       default:

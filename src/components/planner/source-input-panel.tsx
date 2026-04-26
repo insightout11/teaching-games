@@ -53,6 +53,7 @@ export function SourceInputPanel() {
         title: data.title,
         summary: data.summary,
         duration: data.duration,
+        ...(data.rawText ? { rawText: data.rawText } : {}),
       };
       setSourceMaterial(material);
       setTopic(data.title);
