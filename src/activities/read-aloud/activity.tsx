@@ -92,7 +92,7 @@ export function ReadAloudActivity({
       const idx = currentIndexRef.current;
       next[idx] = { ...next[idx], status: 'done' };
 
-      let nextIdx = idx + 1;
+      const nextIdx = idx + 1;
 
       // If skipping, reassign upcoming paragraphs for this student to others
       if (skipName && nextIdx < next.length) {
