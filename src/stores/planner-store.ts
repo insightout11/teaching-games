@@ -8,7 +8,12 @@ import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
 import type { ScoringMode } from '@/stores/session-store';
 import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
-import type { SourceMaterial } from '@/types/source-material';
+import type { SourceMaterial, SourceType } from '@/types/source-material';
+
+const VIDEO_SOURCE_TYPES = new Set<SourceType>([
+  'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
+  'bbc-ideas', 'bigthink', 'vox', 'kids',
+]);
 
 export type { PlanModule };
 
@@ -125,7 +130,7 @@ export const usePlannerStore = create<PlannerState>()(
         const { goals, difficulty, lessonDurationMinutes, sourceMaterial } = get();
         const primaryGoal = derivePrimaryGoal(goals);
         const base = suggestModules(primaryGoal, difficulty, lessonDurationMinutes);
-        if (sourceMaterial && !base.some((m) => m.key === 'video-player')) {
+        if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !base.some((m) => m.key === 'video-player')) {
           const takeoffIdx = base.findIndex((m) => m.slotType === 'takeoff');
           const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
           const videoSlot: PlanModule = {
@@ -200,7 +205,7 @@ export const usePlannerStore = create<PlannerState>()(
         }
 
         const { sourceMaterial } = get();
-        if (sourceMaterial && !modules.some((m) => m.key === 'video-player')) {
+        if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !modules.some((m) => m.key === 'video-player')) {
           const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
           const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
           modules.splice(insertAt, 0, {
