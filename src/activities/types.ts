@@ -419,6 +419,12 @@ export interface VideoPlayerContent extends ActivityGeneratedContent {
   checkpoints: import('@/types/source-material').CheckpointQuestion[];
 }
 
+export interface ReadAloudContent extends ActivityGeneratedContent {
+  activityKey: 'read-aloud';
+  sourceText: string;
+  sourceTitle: string;
+}
+
 // Game generated content types for lesson planner
 export interface VocabSprintGeneratedContent {
   gameKey: 'vocab-sprint';

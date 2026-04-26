@@ -29,6 +29,7 @@ import { finalWordPlugin } from './final-word';
 import { inYourWordsPlugin } from './in-your-words';
 import { conversationRoundsPlugin } from './conversation-rounds';
 import { videoPlayerPlugin } from './video-player';
+import { readAloudPlugin } from './read-aloud';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
@@ -50,6 +51,7 @@ const activities: ActivityPlugin[] = [
   rankItPlugin,
   // Learning modules
   videoPlayerPlugin,
+  readAloudPlugin,
   factDetectivePlugin,
   expertPanelPlugin,
   // Practice activities

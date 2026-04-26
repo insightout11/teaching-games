@@ -2160,6 +2160,16 @@ export async function POST(request: NextRequest) {
           case 'prediction-round':
             generators.push(generatePredictionRound(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
+          case 'read-aloud':
+            generators.push(Promise.resolve().then(() => {
+              content[activityKey] = {
+                activityKey: 'read-aloud',
+                topicContext: customTopic,
+                sourceText: sourceMaterial?.summary ?? '',
+                sourceTitle: sourceMaterial?.title ?? customTopic,
+              };
+            }));
+            break;
           case 'video-player': {
             const youtubeLibraries: Record<string, Array<{ id: string; youtubeId: string }>> = {
               bbc: bbcLibrary as Array<{ id: string; youtubeId: string }>,

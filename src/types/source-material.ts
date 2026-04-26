@@ -1,4 +1,4 @@
-export type SourceType = 'youtube' | 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'pdf' | 'lyrics' | 'text' | 'voa' | 'stories';
+export type SourceType = 'youtube' | 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'pdf' | 'lyrics' | 'text';
 
 export interface SourceMaterial {
   sourceType: SourceType;
@@ -6,7 +6,6 @@ export interface SourceMaterial {
   title: string;
   summary: string; // ~500 words, used in AI prompts
   duration?: number; // seconds — video sources
-  wordCount?: number; // text sources only
 }
 
 export interface CheckpointQuestion {

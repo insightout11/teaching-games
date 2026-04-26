@@ -342,6 +342,20 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   },
 
   {
+    key: 'read-aloud',
+    slotFit: ['presentation'],
+    goalFit: ['discussion-debate', 'critical-thinking', 'vocabulary-building'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'low',
+    interactionModel: ['turn-based'],
+    speakingLoad: 'high',
+    writingLoad: 'low',
+    teacherControlLoad: 'low',
+    avoidAfter: [],
+    strongWith: ['vocab-radar', 'fact-detective', 'would-you-rather'],
+  },
+
+  {
     key: 'fact-detective',
     slotFit: ['presentation', 'practice'],
     goalFit: ['critical-thinking', 'vocabulary-building'],

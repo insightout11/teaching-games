@@ -39,6 +39,8 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       return <ErrorCorrectionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'confirm':
       return <ConfirmInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
+    case 'read-aloud':
+      return <ReadAloudInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
     default:
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
   }
@@ -1093,6 +1095,79 @@ function RankingInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds 
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
+      </div>
+    </div>
+  );
+}
+
+// ── Read Aloud ─────────────────────────────────────────────────────────────
+
+function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<DynamicInputProps, 'spec' | 'onSubmit' | 'isSubmitting' | 'displayName'>) {
+  const [done, setDone] = useState(false);
+  const queue = spec.readAloudQueue ?? [];
+  const active = queue.find((e) => e.status === 'active');
+  // Match by displayName — the common identifier across student device and DB roster
+  const isMyTurn = !!active && active.studentName === displayName;
+  const myUpcoming = queue.find((e) => e.status === 'upcoming' && e.studentName === displayName);
+
+  const handleDone = useCallback(async () => {
+    if (done || isSubmitting) return;
+    setDone(true);
+    await onSubmit('done');
+  }, [done, isSubmitting, onSubmit]);
+
+  return (
+    <div className="space-y-4">
+      {isMyTurn ? (
+        <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/40 p-5 space-y-4">
+          <p className="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Your turn to read</p>
+          <p className="text-base leading-relaxed text-white">{active.text}</p>
+          <button
+            onClick={handleDone}
+            disabled={done || isSubmitting}
+            className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-white font-bold py-3 transition-colors"
+          >
+            {done ? 'Done \u2713' : 'Done Reading'}
+          </button>
+        </div>
+      ) : myUpcoming ? (
+        <div className="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-4 space-y-2">
+          <p className="text-xs uppercase tracking-widest text-amber-400 font-semibold">Your paragraph is coming up</p>
+          <p className="text-sm text-white/70 leading-relaxed line-clamp-3">{myUpcoming.text}</p>
+        </div>
+      ) : (
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
+          <p className="text-sm text-white/50 text-center">
+            {queue.every((e) => e.status === 'done') ? 'Reading complete!' : 'Listening\u2026'}
+          </p>
+        </div>
+      )}
+      <div className="space-y-1.5">
+        {queue.slice(0, 6).map((entry) => (
+          <div
+            key={entry.index}
+            className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-colors ${
+              entry.status === 'active' ? 'bg-emerald-500/15 text-white' :
+              entry.status === 'done'   ? 'opacity-30 text-white/60' :
+              entry.studentName === displayName ? 'bg-amber-500/10 text-amber-300' :
+              'text-white/50'
+            }`}
+          >
+            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
+              entry.status === 'active' ? 'bg-emerald-500 text-white' :
+              entry.status === 'done'   ? 'bg-white/20 text-white/40' :
+              entry.studentName === displayName ? 'bg-amber-500 text-black' :
+              'bg-white/10 text-white/50'
+            }`}>
+              {entry.status === 'done' ? '\u2713' : entry.index + 1}
+            </span>
+            <span className="truncate">{entry.studentName}</span>
+            {entry.status === 'active' && <span className="ml-auto text-emerald-400 text-xs">reading\u2026</span>}
+          </div>
+        ))}
+        {queue.length > 6 && (
+          <p className="text-xs text-white/30 text-center">+{queue.length - 6} more</p>
+        )}
       </div>
     </div>
   );

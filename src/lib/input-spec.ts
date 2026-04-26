@@ -9,7 +9,8 @@ export type InputType =
   | 'sequence'       // Order items (tap to build sequence)
   | 'ranking'        // Rank items (drag to reorder)
   | 'error-correction' // Select words and provide corrections
-  | 'confirm';       // Single confirm button
+  | 'confirm'        // Single confirm button
+  | 'read-aloud';    // Queue display + done button for current reader
 
 export interface InputSpec {
   type: InputType;
@@ -51,6 +52,16 @@ export interface InputSpec {
   wonderParentId?: string;
   /** When true, student picks which answered question to follow up on (no locked parentId) */
   wonderFollowUpMode?: boolean;
+  /** For read-aloud: ordered paragraph queue with per-entry status */
+  readAloudQueue?: ReadAloudQueueEntry[];
+}
+
+export interface ReadAloudQueueEntry {
+  index: number;
+  text: string;
+  clientId: string;
+  studentName: string;
+  status: 'done' | 'active' | 'upcoming';
 }
 
 // Submission handler result from games
