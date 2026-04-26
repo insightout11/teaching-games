@@ -4,14 +4,16 @@ import { useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { VideoLibraryModal } from './video-library-modal';
+import { TextLibraryModal } from './text-library-modal';
 import type { SourceMaterial } from '@/types/source-material';
 
-type Tab = 'ted' | 'youtube' | 'text';
+type Tab = 'ted' | 'youtube' | 'reading' | 'text';
 
 const TABS: { key: Tab; label: string }[] = [
-  { key: 'ted', label: 'Video Library' },
-  { key: 'youtube', label: 'YouTube' },
-  { key: 'text', label: 'Text / Notes' },
+  { key: 'ted',     label: 'Video Library' },
+  { key: 'youtube', label: 'YouTube'        },
+  { key: 'reading', label: 'Text Library'   },
+  { key: 'text',    label: 'Text / Notes'   },
 ];
 
 function formatDuration(secs: number) {
@@ -28,6 +30,7 @@ export function SourceInputPanel() {
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showTedModal, setShowTedModal] = useState(false);
+  const [showTextModal, setShowTextModal] = useState(false);
 
   async function process(type: string, value: string) {
     setProcessing(true);
@@ -158,6 +161,21 @@ export function SourceInputPanel() {
                   </div>
                 )}
 
+                {/* Text Library */}
+                {activeTab === 'reading' && (
+                  <div className="space-y-2">
+                    <p className="text-xs text-lc-text3">
+                      Browse Aesop fables and classic stories — ready to use with Read Aloud.
+                    </p>
+                    <button
+                      onClick={() => setShowTextModal(true)}
+                      className="w-full rounded-lg border border-amber-500/30 bg-amber-500/10 py-2.5 text-sm font-semibold text-amber-400 hover:bg-amber-500/20 transition-colors"
+                    >
+                      Open Text Library →
+                    </button>
+                  </div>
+                )}
+
                 {/* YouTube */}
                 {activeTab === 'youtube' && (
                   <div className="space-y-2">
@@ -213,6 +231,15 @@ export function SourceInputPanel() {
             process(source, talkId);
           }}
           onClose={() => setShowTedModal(false)}
+        />
+      )}
+      {showTextModal && (
+        <TextLibraryModal
+          onSelect={(entryId, source) => {
+            setShowTextModal(false);
+            process(source, entryId);
+          }}
+          onClose={() => setShowTextModal(false)}
         />
       )}
     </>

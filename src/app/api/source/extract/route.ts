@@ -6,6 +6,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import type { SourceType } from '@/types/source-material';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
+import storiesLibrary from '@/data/stories-library.json';
 import bbcLibrary from '@/data/bbc-library.json';
 import kurzgesagtLibrary from '@/data/kurzgesagt-library.json';
 import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
@@ -432,6 +433,13 @@ export async function POST(request: NextRequest) {
         const summary = await summariseText(cleaned, title);
         void storeExtraction({ sourceType: 'text', sourceKey: hash, title, summary });
         return NextResponse.json({ title, summary, rawText: cleaned, sourceType: 'text' });
+      }
+
+      case 'stories': {
+        type StoryEntry = { id: string; title: string; author: string; wordCount: number; topicTags: string[]; difficultyLevel: string; description: string; summary: string; };
+        const entry = (storiesLibrary as StoryEntry[]).find((e) => e.id === payload.trim());
+        if (!entry) return NextResponse.json({ error: 'Story not found' }, { status: 404 });
+        return NextResponse.json({ title: entry.title, summary: entry.summary, rawText: entry.summary, sourceKey: entry.id, sourceType: 'stories', wordCount: entry.wordCount });
       }
 
       default:
