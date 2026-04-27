@@ -6,7 +6,7 @@ import { DIFFICULTIES } from '@/lib/difficulty';
 
 // ── Library source config ─────────────────────────────────────────────────────
 
-type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course';
+type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft';
 type TabKey = 'all' | LibrarySourceKey;
 
 const SOURCE_CONFIG: { key: TabKey; label: string; activeClass: string }[] = [
@@ -19,8 +19,12 @@ const SOURCE_CONFIG: { key: TabKey; label: string; activeClass: string }[] = [
   { key: 'bigthink',   label: 'Big Think',  activeClass: 'bg-purple-600 text-white'       },
   { key: 'vox',        label: 'Vox',        activeClass: 'bg-violet-600 text-white'       },
   { key: 'kids',         label: 'For Kids',     activeClass: 'bg-green-600 text-white'        },
-  { key: 'natgeo',       label: 'NatGeo',       activeClass: 'bg-yellow-500 text-black'       },
-  { key: 'crash-course', label: 'Crash Course', activeClass: 'bg-red-500 text-white'          },
+  { key: 'natgeo',           label: 'NatGeo',       activeClass: 'bg-yellow-500 text-black'   },
+  { key: 'crash-course',    label: 'Crash Course', activeClass: 'bg-red-500 text-white'      },
+  { key: 'travel-english',  label: 'Travel',       activeClass: 'bg-sky-500 text-white'      },
+  { key: 'business-english',label: 'Business',     activeClass: 'bg-blue-600 text-white'     },
+  { key: 'internet-memes',  label: 'Memes',        activeClass: 'bg-pink-600 text-white'     },
+  { key: 'minecraft',       label: 'Minecraft',    activeClass: 'bg-green-600 text-white'    },
 ];
 
 // Source badge colors for cards in the ALL tab
@@ -32,9 +36,13 @@ const SOURCE_BADGE: Record<LibrarySourceKey, string> = {
   'bbc-ideas':'bg-cyan-900/40 text-cyan-400',
   bigthink:   'bg-purple-900/40 text-purple-400',
   vox:        'bg-violet-900/40 text-violet-400',
-  kids:           'bg-green-900/40 text-green-400',
-  natgeo:         'bg-yellow-900/40 text-yellow-400',
-  'crash-course': 'bg-red-900/40 text-red-400',
+  kids:               'bg-green-900/40 text-green-400',
+  natgeo:             'bg-yellow-900/40 text-yellow-400',
+  'crash-course':     'bg-red-900/40 text-red-400',
+  'travel-english':   'bg-sky-900/40 text-sky-400',
+  'business-english': 'bg-blue-900/40 text-blue-400',
+  'internet-memes':   'bg-pink-900/40 text-pink-400',
+  minecraft:          'bg-green-900/40 text-green-400',
 };
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -65,6 +73,10 @@ import voxRaw from '@/data/vox-library.json';
 import kidsRaw from '@/data/kids-library.json';
 import natgeoRaw from '@/data/natgeo-library.json';
 import crashCourseRaw from '@/data/crash-course-library.json';
+import travelEnglishRaw from '@/data/travel-english-library.json';
+import businessEnglishRaw from '@/data/business-english-library.json';
+import internetMemesRaw from '@/data/internet-memes-library.json';
+import minecraftRaw from '@/data/minecraft-library.json';
 
 function tag<K extends LibrarySourceKey>(raw: unknown[], key: K): LibraryEntry[] {
   return (raw as LibraryEntry[]).map((e) => ({ ...e, sourceType: key }));
@@ -81,6 +93,10 @@ const ALL_ENTRIES: LibraryEntry[] = [
   ...tag(kidsRaw, 'kids'),
   ...tag(natgeoRaw, 'natgeo'),
   ...tag(crashCourseRaw, 'crash-course'),
+  ...tag(travelEnglishRaw, 'travel-english'),
+  ...tag(businessEnglishRaw, 'business-english'),
+  ...tag(internetMemesRaw, 'internet-memes'),
+  ...tag(minecraftRaw, 'minecraft'),
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

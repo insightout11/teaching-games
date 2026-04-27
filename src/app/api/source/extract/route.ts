@@ -11,6 +11,10 @@ import voaLibrary from '@/data/voa-library.json';
 import bbcLibrary from '@/data/bbc-library.json';
 import natgeoLibrary from '@/data/natgeo-library.json';
 import crashCourseLibrary from '@/data/crash-course-library.json';
+import travelEnglishLibrary from '@/data/travel-english-library.json';
+import businessEnglishLibrary from '@/data/business-english-library.json';
+import internetMemesLibrary from '@/data/internet-memes-library.json';
+import minecraftLibrary from '@/data/minecraft-library.json';
 import kurzgesagtLibrary from '@/data/kurzgesagt-library.json';
 import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
 import bigthinkLibrary from '@/data/bigthink-library.json';
@@ -359,7 +363,11 @@ export async function POST(request: NextRequest) {
       case 'vox':
       case 'kids':
       case 'natgeo':
-      case 'crash-course': {
+      case 'crash-course':
+      case 'travel-english':
+      case 'business-english':
+      case 'internet-memes':
+      case 'minecraft': {
         const libraryMap: Record<string, TedTalk[]> = {
           bbc: bbcLibrary as TedTalk[],
           kurzgesagt: kurzgesagtLibrary as TedTalk[],
@@ -369,6 +377,10 @@ export async function POST(request: NextRequest) {
           kids: kidsLibrary as unknown as TedTalk[],
           natgeo: natgeoLibrary as TedTalk[],
           'crash-course': crashCourseLibrary as TedTalk[],
+          'travel-english': travelEnglishLibrary as TedTalk[],
+          'business-english': businessEnglishLibrary as TedTalk[],
+          'internet-memes': internetMemesLibrary as TedTalk[],
+          minecraft: minecraftLibrary as TedTalk[],
         };
         const entryId = payload.trim();
         const library = libraryMap[type];
