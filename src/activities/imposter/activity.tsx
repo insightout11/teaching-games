@@ -7,7 +7,7 @@ import type { Student } from '@/lib/supabase/types';
 
 type Phase = 'idle' | 'briefing' | 'clues' | 'voting' | 'redemption' | 'reveal' | 'done';
 
-type ImposterAssignment = { role: 'insider'; word: string } | { role: 'imposter' };
+type ImposterAssignment = { role: 'insider'; word: string; definition: string } | { role: 'imposter' };
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -18,12 +18,12 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function buildAssignments(students: Student[], imposterName: string, word: string): Record<string, ImposterAssignment> {
+function buildAssignments(students: Student[], imposterName: string, word: string, definition: string): Record<string, ImposterAssignment> {
   const result: Record<string, ImposterAssignment> = {};
   for (const student of students) {
     result[student.name] = student.name === imposterName
       ? { role: 'imposter' }
-      : { role: 'insider', word };
+      : { role: 'insider', word, definition };
   }
   return result;
 }
@@ -132,7 +132,7 @@ export function ImposterActivity({
     const pool = available.length > 0 ? available : students;
     const newImposter = pool[Math.floor(Math.random() * pool.length)].name;
     usedImposterNamesRef.current = [...usedNames, newImposter];
-    const newAssignments = buildAssignments(students, newImposter, currentRound.word);
+    const newAssignments = buildAssignments(students, newImposter, currentRound.word, currentRound.description);
     setImposterName(newImposter);
     setAssignments(newAssignments);
     setCurrentIdx(0);

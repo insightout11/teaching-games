@@ -895,7 +895,7 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
 
   // Look up imposter assignment for this student
   const imposterCard = spec.gameKey === 'imposter' && displayName && spec.perStudentData
-    ? (spec.perStudentData[displayName] as { role: 'insider' | 'imposter'; word?: string } | undefined)
+    ? (spec.perStudentData[displayName] as { role: 'insider' | 'imposter'; word?: string; definition?: string } | undefined)
     : undefined;
 
   // Look up password assignment for this student
@@ -954,6 +954,9 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
           <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6 space-y-3">
             <p className="text-xs text-emerald-400/70 uppercase tracking-widest font-semibold">Your secret word</p>
             <p className="text-4xl font-bold text-emerald-300">{imposterCard.word}</p>
+            {imposterCard.definition && (
+              <p className="text-sm opacity-70 leading-snug">{imposterCard.definition}</p>
+            )}
             <p className="text-sm opacity-50">Give a clue without saying this word. Find the imposter!</p>
           </div>
         )
@@ -1109,6 +1112,7 @@ function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<Dyna
   // Match by displayName — the common identifier across student device and DB roster
   const isMyTurn = !!active && active.studentName === displayName;
   const myUpcoming = queue.find((e) => e.status === 'upcoming' && e.studentName === displayName);
+  const currentSlideUrl = spec.currentSlideUrl;
 
   const handleDone = useCallback(async () => {
     if (done || isSubmitting) return;
@@ -1118,6 +1122,17 @@ function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<Dyna
 
   return (
     <div className="space-y-4">
+      {currentSlideUrl && (
+        <div className="rounded-2xl overflow-hidden bg-black/40 border border-white/10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={currentSlideUrl}
+            alt=""
+            className="w-full object-contain max-h-52"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).parentElement!.style.display = 'none'; }}
+          />
+        </div>
+      )}
       {isMyTurn ? (
         <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/40 p-5 space-y-4">
           <p className="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Your turn to read</p>
