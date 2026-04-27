@@ -410,6 +410,12 @@ async function main() {
     ...loadLibrary('bigthink-library.json').map((e) => ({ ...e, sourceType: 'bigthink' as const })),
     ...loadLibrary('vox-library.json').map((e) => ({ ...e, sourceType: 'vox' as const })),
     ...loadLibrary('kids-library.json').map((e) => ({ ...e, sourceType: 'kids' as const })),
+    ...loadLibrary('natgeo-library.json').map((e) => ({ ...e, sourceType: 'natgeo' as const })),
+    ...loadLibrary('crash-course-library.json').map((e) => ({ ...e, sourceType: 'crash-course' as const })),
+    ...loadLibrary('travel-english-library.json').map((e) => ({ ...e, sourceType: 'travel-english' as const })),
+    ...loadLibrary('business-english-library.json').map((e) => ({ ...e, sourceType: 'business-english' as const })),
+    ...loadLibrary('internet-memes-library.json').map((e) => ({ ...e, sourceType: 'internet-memes' as const })),
+    ...loadLibrary('minecraft-library.json').map((e) => ({ ...e, sourceType: 'minecraft' as const })),
   ];
 
   console.log(`\n${'─'.repeat(50)}`);

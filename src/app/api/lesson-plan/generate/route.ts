@@ -870,7 +870,7 @@ async function generateVideoCheckpoints(source: SourceMaterial, count = 4): Prom
 
   // Try to fetch the stored timestamped transcript from DB
   let transcriptBlock: string | null = null;
-  if (source.sourceKey && (source.sourceType === 'youtube' || source.sourceType === 'teded' || source.sourceType === 'ted')) {
+  if (source.sourceKey) {
     try {
       const { createServiceClient } = await import('@/lib/supabase/service');
       const supabase = createServiceClient();
