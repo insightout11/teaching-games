@@ -54,6 +54,8 @@ export interface InputSpec {
   wonderFollowUpMode?: boolean;
   /** For read-aloud: ordered paragraph queue with per-entry status */
   readAloudQueue?: ReadAloudQueueEntry[];
+  /** For picture-book read-aloud: current slide image URL synced to all students */
+  currentSlideUrl?: string;
 }
 
 export interface ReadAloudQueueEntry {

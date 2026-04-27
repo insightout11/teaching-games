@@ -17,7 +17,7 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'travel-english', 'business-english', 'internet-memes', 'minecraft',
 ]);
 
-const TEXT_SOURCE_TYPES = new Set<SourceType>(['stories', 'voa']);
+const TEXT_SOURCE_TYPES = new Set<SourceType>(['stories', 'voa', 'picture-books']);
 
 export type { PlanModule };
 

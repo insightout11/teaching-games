@@ -4,23 +4,27 @@ import { useState, useMemo } from 'react';
 import { X, BookOpen, Search, ChevronRight } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
 
-type TextSourceKey = 'stories' | 'voa';
+type TextSourceKey = 'stories' | 'voa' | 'picture-books';
 type TabKey = 'all' | TextSourceKey;
 
 const SOURCE_CONFIG: { key: TabKey; label: string; activeClass: string }[] = [
-  { key: 'all',     label: 'All',     activeClass: 'bg-lc-text text-lc-bg'    },
-  { key: 'stories', label: 'Stories', activeClass: 'bg-amber-500 text-white'  },
-  { key: 'voa',     label: 'VOA',     activeClass: 'bg-blue-600 text-white'   },
+  { key: 'all',           label: 'All',           activeClass: 'bg-lc-text text-lc-bg'    },
+  { key: 'picture-books', label: 'Picture Books', activeClass: 'bg-rose-500 text-white'   },
+  { key: 'stories',       label: 'Stories',       activeClass: 'bg-amber-500 text-white'  },
+  { key: 'voa',           label: 'VOA',           activeClass: 'bg-blue-600 text-white'   },
 ];
 
 const SOURCE_BADGE: Record<TextSourceKey, string> = {
-  stories: 'bg-amber-900/40 text-amber-400',
-  voa:     'bg-blue-900/40 text-blue-400',
+  'picture-books': 'bg-rose-900/40 text-rose-400',
+  stories:         'bg-amber-900/40 text-amber-400',
+  voa:             'bg-blue-900/40 text-blue-400',
 };
 
 const TOPIC_COLORS: Record<string, string> = {
   animals:        'from-amber-900/50 to-amber-950/70',
   'fairy tale':   'from-violet-900/50 to-violet-950/70',
+  'folk tale':    'from-rose-900/50 to-rose-950/70',
+  fable:          'from-emerald-900/50 to-emerald-950/70',
   identity:       'from-blue-900/50 to-blue-950/70',
   honesty:        'from-emerald-900/50 to-emerald-950/70',
   greed:          'from-red-900/50 to-red-950/70',
@@ -28,12 +32,23 @@ const TOPIC_COLORS: Record<string, string> = {
   'hard work':    'from-orange-900/50 to-orange-950/70',
   kindness:       'from-pink-900/50 to-pink-950/70',
   'problem solving': 'from-cyan-900/50 to-cyan-950/70',
+  bravery:        'from-orange-900/50 to-orange-950/70',
+  teamwork:       'from-teal-900/50 to-teal-950/70',
+  adventure:      'from-indigo-900/50 to-indigo-950/70',
+  magic:          'from-purple-900/50 to-purple-950/70',
+  food:           'from-yellow-900/50 to-yellow-950/70',
+  home:           'from-sky-900/50 to-sky-950/70',
+  danger:         'from-red-900/50 to-red-950/70',
+  pride:          'from-rose-900/50 to-rose-950/70',
 };
 
 const TOPIC_ICONS: Record<string, string> = {
-  animals: '🦊', 'fairy tale': '🏰', identity: '🦢', honesty: '🐑',
-  greed: '🥚', nature: '🌤️', 'hard work': '🐜', kindness: '🦁',
-  'problem solving': '🐦', perseverance: '🐢', trust: '🐺', danger: '🌲',
+  animals: '🦊', 'fairy tale': '🏰', 'folk tale': '🌾', fable: '🦉',
+  identity: '🦢', honesty: '🐑', greed: '🥚', nature: '🌤️',
+  'hard work': '🐜', kindness: '🦁', 'problem solving': '🐦',
+  perseverance: '🐢', trust: '🐺', danger: '🌲', bravery: '🛡️',
+  teamwork: '🤝', adventure: '⚔️', magic: '✨', food: '🍞',
+  home: '🏡', pride: '🦅',
 };
 
 type TextEntry = {
@@ -45,17 +60,20 @@ type TextEntry = {
   difficultyLevel: string;
   description: string;
   summary: string;
+  slides?: string[];
   sourceType: TextSourceKey;
 };
 
 import storiesRaw from '@/data/stories-library.json';
 import voaRaw from '@/data/voa-library.json';
+import pictureBookRaw from '@/data/picture-books-library.json';
 
 function tag<K extends TextSourceKey>(raw: unknown[], key: K): TextEntry[] {
   return (raw as TextEntry[]).map((e) => ({ ...e, sourceType: key }));
 }
 
 const ALL_ENTRIES: TextEntry[] = [
+  ...tag(pictureBookRaw as unknown[], 'picture-books'),
   ...tag(storiesRaw, 'stories'),
   ...tag(voaRaw as unknown[], 'voa'),
 ];
@@ -65,10 +83,26 @@ function TextThumbnail({ entry }: { entry: TextEntry }) {
   const gradient = TOPIC_COLORS[primaryTag] ?? 'from-slate-800/50 to-slate-900/70';
   const icon = TOPIC_ICONS[primaryTag] ?? '📖';
   const readMins = Math.ceil(entry.wordCount / 150);
+  const coverSlide = entry.slides?.[0];
   return (
-    <div className={`absolute inset-0 bg-gradient-to-br ${gradient} flex flex-col items-center justify-center gap-2`}>
-      <span className="text-3xl opacity-70">{icon}</span>
-      <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+    <div className={`absolute inset-0 bg-gradient-to-br ${gradient} flex flex-col items-center justify-center gap-2 overflow-hidden`}>
+      {coverSlide ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={coverSlide}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+        />
+      ) : (
+        <span className="text-3xl opacity-70">{icon}</span>
+      )}
+      {entry.slides && entry.slides.length > 0 && (
+        <span className="absolute top-1.5 left-1.5 bg-rose-500/90 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 z-10">
+          🖼 {entry.slides.length} slides
+        </span>
+      )}
+      <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 z-10">
         <BookOpen className="w-2.5 h-2.5" />
         ~{readMins} min
       </span>

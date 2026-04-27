@@ -2167,6 +2167,7 @@ export async function POST(request: NextRequest) {
                 topicContext: customTopic,
                 sourceText: sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '',
                 sourceTitle: sourceMaterial?.title ?? customTopic,
+                ...(sourceMaterial?.slides ? { slides: sourceMaterial.slides } : {}),
               };
             }));
             break;

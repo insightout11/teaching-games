@@ -423,6 +423,7 @@ export interface ReadAloudContent extends ActivityGeneratedContent {
   activityKey: 'read-aloud';
   sourceText: string;
   sourceTitle: string;
+  slides?: string[];
 }
 
 // Game generated content types for lesson planner

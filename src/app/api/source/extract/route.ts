@@ -8,6 +8,7 @@ import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
 import storiesLibrary from '@/data/stories-library.json';
 import voaLibrary from '@/data/voa-library.json';
+import pictureBookLibrary from '@/data/picture-books-library.json';
 import bbcLibrary from '@/data/bbc-library.json';
 import natgeoLibrary from '@/data/natgeo-library.json';
 import crashCourseLibrary from '@/data/crash-course-library.json';
@@ -466,6 +467,13 @@ export async function POST(request: NextRequest) {
         const entry = (voaLibrary as VoaEntry[]).find((e) => e.id === payload.trim());
         if (!entry) return NextResponse.json({ error: 'Article not found' }, { status: 404 });
         return NextResponse.json({ title: entry.title, summary: entry.summary, rawText: entry.summary, sourceKey: entry.id, sourceType: 'voa', wordCount: entry.wordCount });
+      }
+
+      case 'picture-books': {
+        type PictureBookEntry = { id: string; title: string; author: string; wordCount: number; topicTags: string[]; difficultyLevel: string; description: string; summary: string; slides: string[]; };
+        const entry = (pictureBookLibrary as PictureBookEntry[]).find((e) => e.id === payload.trim());
+        if (!entry) return NextResponse.json({ error: 'Picture book not found' }, { status: 404 });
+        return NextResponse.json({ title: entry.title, summary: entry.summary, rawText: entry.summary, sourceKey: entry.id, sourceType: 'picture-books', wordCount: entry.wordCount, slides: entry.slides });
       }
 
       default:

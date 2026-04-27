@@ -44,13 +44,19 @@ export function ReadAloudActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as ReadAloudContent;
-  const { sourceText = '', sourceTitle = 'Text' } = content;
+  const { sourceText = '', sourceTitle = 'Text', slides } = content;
 
   const paragraphs = useRef(splitParagraphs(sourceText)).current;
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [queue, setQueue] = useState<ReadAloudQueueEntry[]>([]);
+
+  function getSlideUrl(index: number): string | undefined {
+    if (!slides || slides.length === 0) return undefined;
+    const slideIndex = Math.min(Math.floor(index * slides.length / Math.max(paragraphs.length, 1)), slides.length - 1);
+    return slides[slideIndex];
+  }
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -65,13 +71,16 @@ export function ReadAloudActivity({
       onSetInputSpec?.(null);
       return;
     }
+    const currentSlideUrl = getSlideUrl(currentIndex);
     onSetInputSpec?.({
       type: 'read-aloud',
       gameKey: 'read-aloud',
       prompt: `Reading: ${sourceTitle}`,
       readAloudQueue: queue,
+      ...(currentSlideUrl ? { currentSlideUrl } : {}),
     });
-  }, [phase, queue, sourceTitle, onSetInputSpec]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, queue, currentIndex, sourceTitle, onSetInputSpec]);
 
   // Student taps "Done Reading" → advance
   useEffect(() => {
@@ -163,7 +172,11 @@ export function ReadAloudActivity({
         ) : (
           <>
             <div className="text-sm text-lc-text3 space-y-1">
-              <p>{paragraphs.length} paragraph{paragraphs.length !== 1 ? 's' : ''} · {students.length} student{students.length !== 1 ? 's' : ''}</p>
+              <p>
+                {paragraphs.length} paragraph{paragraphs.length !== 1 ? 's' : ''}
+                {slides && slides.length > 0 ? ` · ${slides.length} slides` : ''}
+                {` · ${students.length} student${students.length !== 1 ? 's' : ''}`}
+              </p>
               <p className="opacity-60">Students take turns reading one paragraph each and tap &ldquo;Done&rdquo; when finished.</p>
             </div>
             <div className="bg-white/5 rounded-2xl p-4 max-h-40 overflow-y-auto">
@@ -197,6 +210,8 @@ export function ReadAloudActivity({
     );
   }
 
+  const currentSlideUrl = getSlideUrl(currentIndex);
+
   // ── READING ───────────────────────────────────────────────────────────────
   return (
     <div className="space-y-4 max-w-2xl mx-auto">
@@ -207,6 +222,18 @@ export function ReadAloudActivity({
         </div>
         <span className="text-sm text-lc-text3">{currentIndex + 1} / {paragraphs.length}</span>
       </div>
+
+      {currentSlideUrl && (
+        <div className="rounded-2xl overflow-hidden border border-white/10 bg-black/30">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={currentSlideUrl}
+            alt={`Illustration for ${sourceTitle}`}
+            className="w-full object-contain max-h-64"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).parentElement!.style.display = 'none'; }}
+          />
+        </div>
+      )}
 
       {activeEntry && (
         <div className="flex items-center gap-3">
