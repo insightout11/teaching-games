@@ -57,6 +57,7 @@ export function SourceInputPanel() {
         summary: data.summary,
         duration: data.duration,
         ...(data.rawText ? { rawText: data.rawText } : {}),
+        ...(data.slides ? { slides: data.slides } : {}),
       };
       setSourceMaterial(material);
       setTopic(data.title);
