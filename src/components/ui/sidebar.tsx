@@ -10,7 +10,7 @@ import { isMockMode } from '@/lib/mock/auth';
 import type { User } from '@supabase/supabase-js';
 import { CreditBadge } from './credit-badge';
 import { ThemeToggle } from './theme-toggle';
-import { Compass, GraduationCap, Plane } from 'lucide-react';
+import { Compass, GraduationCap, Plane, Library } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import type { ComponentType } from 'react';
 
@@ -23,9 +23,10 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { href: '/explore',        label: 'Explore',      icon: Compass,       subtitle: null,               exact: false },
-  { href: '/classes',        label: 'Classes',       icon: GraduationCap, subtitle: null,               exact: false },
-  { href: '/lesson-planner', label: 'Flight Plans',  icon: Plane,         subtitle: 'Lesson sequences', exact: false },
+  { href: '/explore',        label: 'Explore',       icon: Compass,       subtitle: null,               exact: false },
+  { href: '/classes',        label: 'Classes',        icon: GraduationCap, subtitle: null,               exact: false },
+  { href: '/lesson-planner', label: 'Flight Plans',   icon: Plane,         subtitle: 'Lesson sequences', exact: false },
+  { href: '/library',        label: 'Video Library',  icon: Library,       subtitle: null,               exact: false },
 ];
 
 export function Sidebar({ user }: { user: User }) {

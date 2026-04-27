@@ -128,10 +128,11 @@ function ThumbnailImage({ youtubeId, title }: { youtubeId?: string; title: strin
 
 interface Props {
   onSelect: (talkId: string, source: LibrarySourceKey) => void;
-  onClose: () => void;
+  onClose?: () => void;
+  mode?: 'modal' | 'page';
 }
 
-export function VideoLibraryModal({ onSelect, onClose }: Props) {
+export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
   const [activeTab, setActiveTab] = useState<TabKey>('all');
   const [query, setQuery] = useState('');
   const [activeTag, setActiveTag] = useState<string | null>(null);
@@ -184,7 +185,7 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-lc-bg">
+    <div className={mode === 'page' ? 'flex flex-col h-full bg-lc-bg' : 'fixed inset-0 z-50 flex flex-col bg-lc-bg'}>
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-lc-border shrink-0 bg-lc-card">
         <div className="flex items-center gap-4 min-w-0">
@@ -207,12 +208,14 @@ export function VideoLibraryModal({ onSelect, onClose }: Props) {
             ))}
           </div>
         </div>
-        <button
-          onClick={onClose}
-          className="p-2 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors shrink-0 ml-3"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        {mode === 'modal' && onClose && (
+          <button
+            onClick={onClose}
+            className="p-2 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors shrink-0 ml-3"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Filters */}
