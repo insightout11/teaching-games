@@ -139,7 +139,7 @@ function ThumbnailImage({ youtubeId, title }: { youtubeId?: string; title: strin
   );
 }
 
-function PreviewCard({ preview, onSelect }: { preview: PreviewState; onSelect: (id: string, source: LibrarySourceKey) => void }) {
+function PreviewCard({ preview }: { preview: PreviewState }) {
   if (!preview) return null;
   const { entry, rect } = preview;
   const cardWidth = 288;
@@ -481,7 +481,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
         )}
       </div>
 
-      <PreviewCard preview={preview} onSelect={onSelect} />
+      <PreviewCard preview={preview} />
     </div>
   );
 }
