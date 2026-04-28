@@ -766,7 +766,7 @@ function PlaneLayer({
         animate={isPlanner ? { opacity: 1, scale: 1, x: planeX, y: planeY } : { opacity: 1, x: planeX, y: planeY }}
         transition={isPlanner
           ? { opacity: { delay: 1.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }, scale: { delay: 1.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
-          : { x: { duration: 3.5, ease: [0.22, 1, 0.36, 1] }, y: { duration: 3.5, ease: [0.22, 1, 0.36, 1] } }
+          : { x: { duration: 4.0, ease: [0.22, 1, 0.36, 1] }, y: { duration: 4.0, ease: [0.22, 1, 0.36, 1] } }
         }
       >
         <ellipse
