@@ -1,17 +1,15 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { X, BookOpen, Search, ChevronRight } from 'lucide-react';
+import { X, BookOpen, Search, ChevronRight, LayoutGrid, List, SlidersHorizontal } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
 
 type TextSourceKey = 'stories' | 'voa' | 'picture-books';
-type TabKey = 'all' | TextSourceKey;
 
-const SOURCE_CONFIG: { key: TabKey; label: string; activeClass: string }[] = [
-  { key: 'all',           label: 'All',           activeClass: 'bg-lc-text text-lc-bg'    },
-  { key: 'picture-books', label: 'Picture Books', activeClass: 'bg-rose-500 text-white'   },
-  { key: 'stories',       label: 'Stories',       activeClass: 'bg-amber-500 text-white'  },
-  { key: 'voa',           label: 'VOA',           activeClass: 'bg-blue-600 text-white'   },
+const SOURCE_CONFIG: { key: TextSourceKey; label: string; activeClass: string; inactiveClass: string }[] = [
+  { key: 'picture-books', label: 'Picture Books', activeClass: 'bg-rose-500 text-white',  inactiveClass: 'bg-rose-900/20 text-rose-400 border border-rose-800/40'  },
+  { key: 'stories',       label: 'Stories',       activeClass: 'bg-amber-500 text-white', inactiveClass: 'bg-amber-900/20 text-amber-400 border border-amber-800/40' },
+  { key: 'voa',           label: 'VOA',           activeClass: 'bg-blue-600 text-white',  inactiveClass: 'bg-blue-900/20 text-blue-400 border border-blue-800/40'   },
 ];
 
 const SOURCE_BADGE: Record<TextSourceKey, string> = {
@@ -21,25 +19,25 @@ const SOURCE_BADGE: Record<TextSourceKey, string> = {
 };
 
 const TOPIC_COLORS: Record<string, string> = {
-  animals:        'from-amber-900/50 to-amber-950/70',
-  'fairy tale':   'from-violet-900/50 to-violet-950/70',
-  'folk tale':    'from-rose-900/50 to-rose-950/70',
-  fable:          'from-emerald-900/50 to-emerald-950/70',
-  identity:       'from-blue-900/50 to-blue-950/70',
-  honesty:        'from-emerald-900/50 to-emerald-950/70',
-  greed:          'from-red-900/50 to-red-950/70',
-  nature:         'from-teal-900/50 to-teal-950/70',
-  'hard work':    'from-orange-900/50 to-orange-950/70',
-  kindness:       'from-pink-900/50 to-pink-950/70',
+  animals:           'from-amber-900/50 to-amber-950/70',
+  'fairy tale':      'from-violet-900/50 to-violet-950/70',
+  'folk tale':       'from-rose-900/50 to-rose-950/70',
+  fable:             'from-emerald-900/50 to-emerald-950/70',
+  identity:          'from-blue-900/50 to-blue-950/70',
+  honesty:           'from-emerald-900/50 to-emerald-950/70',
+  greed:             'from-red-900/50 to-red-950/70',
+  nature:            'from-teal-900/50 to-teal-950/70',
+  'hard work':       'from-orange-900/50 to-orange-950/70',
+  kindness:          'from-pink-900/50 to-pink-950/70',
   'problem solving': 'from-cyan-900/50 to-cyan-950/70',
-  bravery:        'from-orange-900/50 to-orange-950/70',
-  teamwork:       'from-teal-900/50 to-teal-950/70',
-  adventure:      'from-indigo-900/50 to-indigo-950/70',
-  magic:          'from-purple-900/50 to-purple-950/70',
-  food:           'from-yellow-900/50 to-yellow-950/70',
-  home:           'from-sky-900/50 to-sky-950/70',
-  danger:         'from-red-900/50 to-red-950/70',
-  pride:          'from-rose-900/50 to-rose-950/70',
+  bravery:           'from-orange-900/50 to-orange-950/70',
+  teamwork:          'from-teal-900/50 to-teal-950/70',
+  adventure:         'from-indigo-900/50 to-indigo-950/70',
+  magic:             'from-purple-900/50 to-purple-950/70',
+  food:              'from-yellow-900/50 to-yellow-950/70',
+  home:              'from-sky-900/50 to-sky-950/70',
+  danger:            'from-red-900/50 to-red-950/70',
+  pride:             'from-rose-900/50 to-rose-950/70',
 };
 
 const TOPIC_ICONS: Record<string, string> = {
@@ -59,10 +57,13 @@ type TextEntry = {
   topicTags: string[];
   difficultyLevel: string;
   description: string;
-  summary: string;
+  summary?: string;
   slides?: string[];
   sourceType: TextSourceKey;
 };
+
+type ViewMode = 'grid' | 'list';
+type PreviewState = { entry: TextEntry; rect: DOMRect } | null;
 
 import storiesRaw from '@/data/stories-library.json';
 import voaRaw from '@/data/voa-library.json';
@@ -88,12 +89,7 @@ function TextThumbnail({ entry }: { entry: TextEntry }) {
     <div className={`absolute inset-0 bg-gradient-to-br ${gradient} flex flex-col items-center justify-center gap-2 overflow-hidden`}>
       {coverSlide ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={coverSlide}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-80"
-          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-        />
+        <img src={coverSlide} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
       ) : (
         <span className="text-3xl opacity-70">{icon}</span>
       )}
@@ -103,9 +99,64 @@ function TextThumbnail({ entry }: { entry: TextEntry }) {
         </span>
       )}
       <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 z-10">
-        <BookOpen className="w-2.5 h-2.5" />
-        ~{readMins} min
+        <BookOpen className="w-2.5 h-2.5" />~{readMins} min
       </span>
+    </div>
+  );
+}
+
+function TextThumbnailSmall({ entry }: { entry: TextEntry }) {
+  const primaryTag = entry.topicTags[0] ?? '';
+  const gradient = TOPIC_COLORS[primaryTag] ?? 'from-slate-800/50 to-slate-900/70';
+  const icon = TOPIC_ICONS[primaryTag] ?? '📖';
+  const coverSlide = entry.slides?.[0];
+  return (
+    <div className={`absolute inset-0 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden`}>
+      {coverSlide ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={coverSlide} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+      ) : (
+        <span className="text-xl opacity-70">{icon}</span>
+      )}
+    </div>
+  );
+}
+
+function PreviewCard({ preview }: { preview: PreviewState }) {
+  if (!preview) return null;
+  const { entry, rect } = preview;
+  const cardWidth = 272;
+  const viewportW = typeof window !== 'undefined' ? window.innerWidth : 1200;
+  const viewportH = typeof window !== 'undefined' ? window.innerHeight : 800;
+  const spaceRight = viewportW - rect.right - 16;
+  const left = spaceRight >= cardWidth ? rect.right + 12 : rect.left - cardWidth - 12;
+  const top = Math.max(8, Math.min(rect.top, viewportH - 320));
+  const readMins = Math.ceil(entry.wordCount / 150);
+  const cfg = SOURCE_CONFIG.find((s) => s.key === entry.sourceType);
+
+  return (
+    <div
+      className="fixed z-[200] w-68 bg-lc-card border border-lc-border rounded-2xl shadow-2xl shadow-black/40 overflow-hidden pointer-events-none animate-in fade-in duration-150"
+      style={{ top, left, width: cardWidth }}
+    >
+      <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+        <TextThumbnail entry={entry} />
+      </div>
+      <div className="p-4 space-y-2">
+        <p className="text-sm font-semibold text-lc-text leading-snug">{entry.title}</p>
+        <div className="flex items-center gap-2 flex-wrap">
+          <p className="text-xs text-lc-text3">{entry.author}</p>
+          {cfg && <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${cfg.inactiveClass}`}>{cfg.label}</span>}
+          <span className="text-xs text-lc-text3">~{readMins} min · {entry.wordCount}w</span>
+        </div>
+        <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3">{entry.description}</p>
+        <div className="flex flex-wrap gap-1 pt-1">
+          <span className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
+          {entry.topicTags.slice(0, 3).map((t) => (
+            <span key={t} className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">{t}</span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -117,24 +168,22 @@ interface Props {
 }
 
 export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
-  const [activeTab, setActiveTab] = useState<TabKey>('all');
   const [query, setQuery] = useState('');
+  const [activeSource, setActiveSource] = useState<TextSourceKey | null>(null);
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [activeDifficulty, setActiveDifficulty] = useState<string | null>(null);
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-
-  const tabEntries = useMemo(() => {
-    if (activeTab === 'all') return ALL_ENTRIES;
-    return ALL_ENTRIES.filter((e) => e.sourceType === activeTab);
-  }, [activeTab]);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [preview, setPreview] = useState<PreviewState>(null);
 
   const allTags = useMemo(
-    () => Array.from(new Set(tabEntries.flatMap((e) => e.topicTags))).sort(),
-    [tabEntries],
+    () => Array.from(new Set(ALL_ENTRIES.flatMap((e) => e.topicTags))).sort(),
+    [],
   );
 
   const filtered = useMemo(() => {
-    return tabEntries.filter((e) => {
+    return ALL_ENTRIES.filter((e) => {
+      if (activeSource && e.sourceType !== activeSource) return false;
       if (activeTag && !e.topicTags.includes(activeTag)) return false;
       if (activeDifficulty && e.difficultyLevel !== activeDifficulty) return false;
       if (query) {
@@ -148,63 +197,135 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
       }
       return true;
     });
-  }, [query, activeTag, activeDifficulty, tabEntries]);
+  }, [query, activeSource, activeTag, activeDifficulty]);
 
-  function switchTab(key: TabKey) {
-    setActiveTab(key);
+  const activeFilterCount = [activeSource, activeTag, activeDifficulty].filter(Boolean).length;
+
+  function clearFilters() {
+    setActiveSource(null);
     setActiveTag(null);
     setActiveDifficulty(null);
     setQuery('');
   }
 
-  const showSourceBadge = activeTab === 'all';
+  function handleMouseEnter(e: React.MouseEvent<HTMLButtonElement>, entry: TextEntry) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setPreview({ entry, rect });
+  }
 
   return (
     <div className={mode === 'page' ? 'w-full h-full flex flex-col bg-lc-bg' : 'fixed inset-0 z-50 flex flex-col bg-lc-bg'}>
-      {/* Top bar */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-lc-border shrink-0 bg-lc-card">
-        <div className="flex items-center gap-4 min-w-0">
-          <div className="shrink-0">
-            <h2 className="font-bold text-lc-text text-xl tracking-tight">Text Library</h2>
-            <p className="text-xs text-lc-text3 mt-0.5">{ALL_ENTRIES.length} texts for classroom reading</p>
-          </div>
-          <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-lg p-1 overflow-x-auto scrollbar-hide">
-            {SOURCE_CONFIG.map((src) => (
-              <button
-                key={src.key}
-                onClick={() => switchTab(src.key)}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap shrink-0 ${
-                  activeTab === src.key ? src.activeClass : 'text-lc-text3 hover:text-lc-text'
-                }`}
-              >
-                {src.label}
-              </button>
-            ))}
-          </div>
-        </div>
-        {mode !== 'page' && onClose && (
-          <button onClick={onClose} className="p-2 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors shrink-0 ml-3">
-            <X className="w-5 h-5" />
-          </button>
-        )}
-      </div>
 
-      {/* Filters */}
-      <div className="px-6 py-3 border-b border-lc-border bg-lc-card shrink-0 space-y-2">
-        <div className="relative max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-lc-text3" />
+      {/* ── Header ── */}
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-lc-border shrink-0 bg-lc-card">
+        <div className="shrink-0">
+          <h2 className="font-bold text-lc-text text-xl tracking-tight">Text Library</h2>
+          <p className="text-xs text-lc-text3 mt-0.5">{ALL_ENTRIES.length} texts · {filtered.length} shown</p>
+        </div>
+
+        {/* Search */}
+        <div className="flex-1 relative max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-lc-text3 pointer-events-none" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search title, author, or topic…"
+            placeholder="Search title, author, topic…"
             className="w-full pl-9 pr-3 py-2 bg-lc-bg border border-lc-border rounded-lg text-sm text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow"
           />
         </div>
-        <div className="flex gap-4 flex-wrap items-center">
-          {allTags.length > 0 && (
-            <div className="flex gap-1.5 flex-wrap items-center">
-              <span className="text-xs text-lc-text3 font-medium">Topic:</span>
+
+        <div className="flex items-center gap-2 ml-auto shrink-0">
+          {/* View toggle */}
+          <div className="flex rounded-lg border border-lc-border overflow-hidden">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-lc-text text-lc-bg' : 'text-lc-text3 hover:text-lc-text'}`}
+              title="Grid view"
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-2 border-l border-lc-border transition-colors ${viewMode === 'list' ? 'bg-lc-text text-lc-bg' : 'text-lc-text3 hover:text-lc-text'}`}
+              title="List view"
+            >
+              <List className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Filter toggle */}
+          <button
+            onClick={() => setFiltersOpen((v) => !v)}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-semibold transition-colors ${
+              filtersOpen || activeFilterCount > 0
+                ? 'bg-lc-text text-lc-bg border-lc-text'
+                : 'border-lc-border text-lc-text3 hover:text-lc-text hover:border-lc-text3'
+            }`}
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5" />
+            Filters
+            {activeFilterCount > 0 && (
+              <span className="bg-lc-amber text-lc-bg text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
+
+          {mode !== 'page' && onClose && (
+            <button onClick={onClose} className="p-2 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors">
+              <X className="w-5 h-5" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* ── Collapsible filter panel ── */}
+      {filtersOpen && (
+        <div className="px-6 py-4 border-b border-lc-border bg-lc-card shrink-0 space-y-4">
+
+          {/* Source */}
+          <div>
+            <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Collection</p>
+            <div className="flex flex-wrap gap-1.5">
+              {SOURCE_CONFIG.map((src) => (
+                <button
+                  key={src.key}
+                  onClick={() => setActiveSource(activeSource === src.key ? null : src.key)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${
+                    activeSource === src.key ? src.activeClass : src.inactiveClass
+                  }`}
+                >
+                  {src.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Level */}
+          <div>
+            <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Level</p>
+            <div className="flex gap-1.5 flex-wrap">
+              {DIFFICULTIES.map((d) => (
+                <button
+                  key={d}
+                  onClick={() => setActiveDifficulty(activeDifficulty === d ? null : d)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${
+                    activeDifficulty === d
+                      ? 'bg-lc-blue/20 text-lc-blue border border-lc-blue/40'
+                      : 'bg-lc-bg border border-lc-border text-lc-text3 hover:text-lc-text'
+                  }`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Topic */}
+          <div>
+            <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Topic</p>
+            <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
               {allTags.map((t) => (
                 <button
                   key={t}
@@ -219,92 +340,96 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                 </button>
               ))}
             </div>
-          )}
-          <div className="flex gap-1.5 flex-wrap items-center">
-            <span className="text-xs text-lc-text3 font-medium">Level:</span>
-            {DIFFICULTIES.map((d) => (
-              <button
-                key={d}
-                onClick={() => setActiveDifficulty(activeDifficulty === d ? null : d)}
-                className={`px-2.5 py-0.5 rounded-full text-xs font-medium transition-all ${
-                  activeDifficulty === d
-                    ? 'bg-lc-blue/20 text-lc-blue border border-lc-blue/40'
-                    : 'bg-lc-bg border border-lc-border text-lc-text3 hover:text-lc-text'
-                }`}
-              >
-                {d}
-              </button>
-            ))}
           </div>
-          {(activeTag || activeDifficulty || query) && (
-            <button
-              onClick={() => { setActiveTag(null); setActiveDifficulty(null); setQuery(''); }}
-              className="text-xs text-lc-text3 hover:text-lc-text transition-colors underline underline-offset-2"
-            >
-              Clear filters
+
+          {activeFilterCount > 0 && (
+            <button onClick={clearFilters} className="text-xs text-lc-text3 hover:text-lc-text underline underline-offset-2 transition-colors">
+              Clear all filters
             </button>
           )}
         </div>
-        <p className="text-xs text-lc-text3">{filtered.length} text{filtered.length !== 1 ? 's' : ''}</p>
-      </div>
+      )}
 
-      {/* Grid */}
-      <div className="flex-1 overflow-y-auto px-6 py-5">
+      {/* ── Content ── */}
+      <div className="flex-1 overflow-y-auto px-6 py-5" onMouseLeave={() => setPreview(null)}>
         {filtered.length === 0 && (
           <p className="text-sm text-lc-text3 text-center py-20">No texts match your filters.</p>
         )}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {filtered.map((entry) => {
-            const isHovered = hoveredId === entry.id;
-            return (
+
+        {viewMode === 'grid' ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {filtered.map((entry) => (
               <button
                 key={entry.id}
                 onClick={() => onSelect(entry.id, entry.sourceType)}
-                onMouseEnter={() => setHoveredId(entry.id)}
-                onMouseLeave={() => setHoveredId(null)}
-                className={`group text-left rounded-xl overflow-hidden border transition-all duration-200 ${
-                  isHovered
-                    ? 'border-amber-500/60 shadow-lg shadow-amber-900/20 scale-[1.02]'
-                    : 'border-lc-border hover:border-lc-border/80'
-                } bg-lc-surface`}
+                onMouseEnter={(e) => handleMouseEnter(e, entry)}
+                onMouseLeave={() => setPreview(null)}
+                className="group text-left rounded-xl overflow-hidden border border-lc-border hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/20 hover:scale-[1.02] transition-all duration-200 bg-lc-surface"
               >
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                   <TextThumbnail entry={entry} />
-                  <div className={`absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
                       <ChevronRight className="w-5 h-5 text-gray-900 ml-0.5" />
                     </div>
                   </div>
                 </div>
                 <div className="p-2.5 space-y-1">
-                  <p className="text-xs font-semibold text-lc-text leading-snug line-clamp-2 group-hover:text-amber-400 transition-colors">
-                    {entry.title}
-                  </p>
+                  <p className="text-xs font-semibold text-lc-text leading-snug line-clamp-2 group-hover:text-amber-400 transition-colors">{entry.title}</p>
                   <p className="text-[11px] text-lc-text3">{entry.author}</p>
                   <div className="flex flex-wrap gap-1 pt-0.5">
-                    {showSourceBadge && (
-                      <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${SOURCE_BADGE[entry.sourceType]}`}>
-                        {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
-                      </span>
-                    )}
-                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">
-                      {entry.difficultyLevel}
+                    <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${SOURCE_BADGE[entry.sourceType]}`}>
+                      {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">
-                      {entry.wordCount}w
-                    </span>
-                    {entry.topicTags.slice(0, 1).map((t) => (
-                      <span key={t} className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">
-                        {t}
-                      </span>
-                    ))}
+                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.wordCount}w</span>
                   </div>
                 </div>
               </button>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {filtered.map((entry) => {
+              const readMins = Math.ceil(entry.wordCount / 150);
+              return (
+                <button
+                  key={entry.id}
+                  onClick={() => onSelect(entry.id, entry.sourceType)}
+                  onMouseEnter={(e) => handleMouseEnter(e, entry)}
+                  onMouseLeave={() => setPreview(null)}
+                  className="group w-full text-left flex items-start gap-3 p-3 rounded-xl border border-lc-border hover:border-amber-500/40 hover:bg-lc-surface/60 transition-all bg-lc-surface"
+                >
+                  <div className="relative shrink-0 w-24 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
+                    <TextThumbnailSmall entry={entry} />
+                    {entry.slides && entry.slides.length > 0 && (
+                      <span className="absolute top-0.5 left-0.5 bg-rose-500/90 text-white text-[8px] font-bold px-1 py-0.5 rounded">
+                        🖼 {entry.slides.length}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0 space-y-1">
+                    <p className="text-sm font-semibold text-lc-text leading-snug line-clamp-1 group-hover:text-amber-400 transition-colors">{entry.title}</p>
+                    <p className="text-xs text-lc-text3">{entry.author} · ~{readMins} min · {entry.wordCount} words</p>
+                    <p className="text-xs text-lc-text3 line-clamp-2 leading-relaxed">{entry.description}</p>
+                    <div className="flex flex-wrap gap-1 pt-0.5">
+                      <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${SOURCE_BADGE[entry.sourceType]}`}>
+                        {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
+                      {entry.topicTags.slice(0, 2).map((t) => (
+                        <span key={t} className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
+
+      <PreviewCard preview={preview} />
     </div>
   );
 }
