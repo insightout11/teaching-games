@@ -464,3 +464,38 @@ html[data-theme="light"] :focus-visible {
 .animate-pulse-mechanical {
   animation: pulse-mechanical 0.55s var(--ease-needle) 1 forwards;
 }
+
+/* ─── Sky Background: Cloud Drift Animations ────────────────────────────────
+   Three parallax layers — far/mid/near — at different speeds for depth.
+   Layer divs are 300vw wide so clouds loop seamlessly off-screen.
+   Transition burst temporarily overrides via inline --cloud-speed-* vars.
+   ──────────────────────────────────────────────────────────────────────── */
+@keyframes cloud-drift-far {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-200vw); }
+}
+@keyframes cloud-drift-mid {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-200vw); }
+}
+@keyframes cloud-drift-near {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-200vw); }
+}
+.cloud-layer-far {
+  animation: cloud-drift-far var(--cloud-duration-far, 130s) linear infinite;
+}
+.cloud-layer-mid {
+  animation: cloud-drift-mid var(--cloud-duration-mid, 85s) linear infinite;
+}
+.cloud-layer-near {
+  animation: cloud-drift-near var(--cloud-duration-near, 55s) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-layer-far,
+  .cloud-layer-mid,
+  .cloud-layer-near {
+    animation: none;
+  }
+}

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { isMockMode } from '@/lib/mock/auth';
+import { SkyBackground } from '@/components/ui/sky-background';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,8 +25,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-lc-bg">
-      <div className="bg-lc-card border border-lc-border rounded-2xl shadow-xl p-8 max-w-md w-full mx-4 text-center">
+    <div className="relative min-h-screen flex items-center justify-center bg-lc-bg">
+      <SkyBackground intensity="moderate" />
+      <div className="relative z-10 bg-lc-card border border-lc-border rounded-2xl shadow-xl p-8 max-w-md w-full mx-4 text-center">
         <Image src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" width={200} height={32} className="h-auto mx-auto mb-2" unoptimized />
         <p className="text-lc-text2 mb-8">Your interactive classroom command center</p>
 

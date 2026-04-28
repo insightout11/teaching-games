@@ -28,6 +28,8 @@ import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
 import { usePollVotes } from '@/hooks/use-poll-votes';
 import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import type { TopSubmission } from '@/games/types';
+import { SkyBackground } from '@/components/ui/sky-background';
+import type { WeatherState } from '@/components/ui/sky-background';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -156,6 +158,22 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length);
+
+  // ─── Sky weather state ─────────────────────────────────────────────────
+  const weatherState = useMemo<WeatherState>(() => {
+    if (!lesson.isLessonActive) return 'idle';
+    if (lesson.phase === 'lobby') return 'climbing';
+    if (lesson.phase === 'landing' || lesson.phase === 'ended') return 'landing';
+    const slot = lesson.currentSlot;
+    if (!slot) return 'cruising';
+    const plugin = slot.type === 'game'
+      ? getAllGames().find((g) => g.key === slot.key)
+      : getAllActivities().find((a) => a.key === slot.key);
+    const stage = plugin?.pppStage ?? 'practice';
+    if (stage === 'presentation') return 'climbing';
+    if (stage === 'production') return 'golden';
+    return 'cruising';
+  }, [lesson.isLessonActive, lesson.phase, lesson.currentSlot]);
 
   // ─── Pacing state ──────────────────────────────────────────────────────
   const sessionStartTimeRef = useRef<number | null>(null);
@@ -573,8 +591,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Prevent SSR/hydration mismatch: render a loading shell until client mounts
   if (!mounted) {
     return (
-      <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <div className="flex items-center justify-center pt-24">
+      <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+        <SkyBackground intensity="subtle" />
+        <div className="relative z-10 flex items-center justify-center pt-24">
           <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
         </div>
       </div>
@@ -585,8 +604,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (lesson.phase === 'lobby') {
 
     return (
-      <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <div className="max-w-3xl mx-auto space-y-6 pt-8">
+      <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+        <SkyBackground weatherState="climbing" intensity="subtle" />
+        <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8">
           {/* Header */}
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold text-lc-text">
@@ -719,8 +739,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // ─── MAIN SESSION VIEW ───────────────────────────────────────────────────
   return (
-    <div className="min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-      <div className="space-y-4">
+    <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+      <SkyBackground
+        weatherState={weatherState}
+        currentSlotIndex={lesson.currentSlotIndex}
+        intensity="subtle"
+      />
+      <div className="relative z-10 space-y-4">
         {/* Session header */}
         <div className="flex items-center justify-between hud-header-bar">
           <div>
