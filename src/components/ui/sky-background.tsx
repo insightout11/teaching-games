@@ -199,85 +199,129 @@ const CIRRUS_CLOUDS = [
 ];
 
 // ─── Earth layer ─────────────────────────────────────────────────────────────
+// Pure gradient-based atmosphere — no blob shapes.
+// The SVG is 1440×180: a horizon gradient band that fades from transparent
+// at the top to a terrain color at the bottom. Specific features (runway,
+// city lights) are small detail elements near the bottom edge.
 
-function EarthLayer({ earthState, fill }: { earthState: EarthState; fill: string }) {
+function EarthLayer({ earthState }: { earthState: EarthState }) {
+  const isLanding = earthState === 'landing';
+  const isTakeoff = earthState === 'takeoff';
+
+  // Terrain color at the bottom of the gradient
+  const terrainColor = isLanding ? '#1a100a' : isTakeoff ? '#0e1a10' : '#0a1018';
+  // Atmosphere haze color at the horizon
+  const hazeColor = isLanding ? 'rgba(160,90,20,0.22)' : isTakeoff ? 'rgba(40,120,60,0.12)' : 'rgba(30,80,120,0.10)';
+
   return (
     <svg
-      viewBox="0 0 1440 260"
+      viewBox="0 0 1440 180"
       width="100%"
-      height="260"
+      height="180"
       preserveAspectRatio="xMidYMax slice"
       style={{ display: 'block' }}
       aria-hidden
     >
       <defs>
-        <radialGradient id="earth-haze" cx="50%" cy="0%" r="80%">
-          <stop offset="0%" stopColor={fill} stopOpacity="0.18" />
-          <stop offset="100%" stopColor={fill} stopOpacity="0" />
-        </radialGradient>
-        <filter id="earth-blur" x="-5%" y="-5%" width="110%" height="110%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+        {/* Vertical gradient: transparent at horizon → terrain color at bottom */}
+        <linearGradient id="earth-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={hazeColor} stopOpacity="0" />
+          <stop offset="40%" stopColor={terrainColor} stopOpacity="0.55" />
+          <stop offset="100%" stopColor={terrainColor} stopOpacity="0.95" />
+        </linearGradient>
+        {/* Soft cluster bloom for city lights */}
+        <filter id="bloom" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b" />
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
-        {/* City glow filter for landing state */}
-        <filter id="city-glow" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        <filter id="bloom-soft" x="-150%" y="-150%" width="400%" height="400%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="14" />
         </filter>
       </defs>
 
-      {/* Atmosphere haze at horizon */}
-      <ellipse cx="720" cy="0" rx="900" ry="80" fill="url(#earth-haze)" />
+      {/* Horizon atmosphere fill */}
+      <rect x="0" y="0" width="1440" height="180" fill="url(#earth-grad)" />
 
-      {/* Ocean base */}
-      <ellipse cx="720" cy="320" rx="900" ry="220" fill="#0d1a2e" opacity="0.92" />
-
-      {/* Abstract land masses */}
-      <ellipse cx="320" cy="230" rx="180" ry="55" fill="#1a2e1a" opacity="0.7" filter="url(#earth-blur)" />
-      <ellipse cx="680" cy="215" rx="240" ry="65" fill="#1c2e1a" opacity="0.65" filter="url(#earth-blur)" />
-      <ellipse cx="1100" cy="235" rx="200" ry="50" fill="#1a2a1a" opacity="0.68" filter="url(#earth-blur)" />
-      <ellipse cx="90" cy="245" rx="110" ry="40" fill="#1e2e14" opacity="0.55" filter="url(#earth-blur)" />
-      <ellipse cx="1350" cy="240" rx="130" ry="45" fill="#1c2c14" opacity="0.58" filter="url(#earth-blur)" />
-
-      {/* Takeoff: runway */}
-      {earthState === 'takeoff' && (
-        <g opacity="0.7">
-          {/* Tarmac */}
-          <rect x="640" y="195" width="160" height="55" rx="4" fill="#1a1f2e" />
-          {/* Runway center dashes */}
-          <rect x="717" y="202" width="6" height="12" rx="2" fill="#e8d870" opacity="0.8" />
-          <rect x="717" y="220" width="6" height="12" rx="2" fill="#e8d870" opacity="0.8" />
-          <rect x="717" y="238" width="6" height="10" rx="2" fill="#e8d870" opacity="0.6" />
-          {/* Runway edge lights */}
-          <circle cx="642" cy="200" r="2.5" fill="#fff8d0" opacity="0.9" />
-          <circle cx="642" cy="218" r="2" fill="#fff8d0" opacity="0.7" />
-          <circle cx="642" cy="236" r="2" fill="#fff8d0" opacity="0.5" />
-          <circle cx="796" cy="200" r="2.5" fill="#fff8d0" opacity="0.9" />
-          <circle cx="796" cy="218" r="2" fill="#fff8d0" opacity="0.7" />
-          <circle cx="796" cy="236" r="2" fill="#fff8d0" opacity="0.5" />
+      {/* Takeoff: runway perspective lines + edge lights */}
+      {isTakeoff && (
+        <g opacity="0.75">
+          {/* Converging runway lines (perspective) */}
+          <line x1="680" y1="100" x2="560" y2="178" stroke="#c8d080" strokeWidth="1.5" opacity="0.5" />
+          <line x1="760" y1="100" x2="880" y2="178" stroke="#c8d080" strokeWidth="1.5" opacity="0.5" />
+          {/* Center dashes */}
+          <rect x="717" y="108" width="6" height="10" rx="2" fill="#e8d870" opacity="0.7" />
+          <rect x="716" y="126" width="8" height="12" rx="2" fill="#e8d870" opacity="0.6" />
+          <rect x="714" y="148" width="12" height="14" rx="2" fill="#e8d870" opacity="0.5" />
+          {/* Edge marker lights — left */}
+          <circle cx="565" cy="175" r="2" fill="#d0e8ff" opacity="0.9" />
+          <circle cx="592" cy="162" r="1.5" fill="#d0e8ff" opacity="0.7" />
+          <circle cx="617" cy="148" r="1.5" fill="#d0e8ff" opacity="0.5" />
+          <circle cx="644" cy="132" r="1" fill="#d0e8ff" opacity="0.35" />
+          {/* Edge marker lights — right */}
+          <circle cx="875" cy="175" r="2" fill="#d0e8ff" opacity="0.9" />
+          <circle cx="848" cy="162" r="1.5" fill="#d0e8ff" opacity="0.7" />
+          <circle cx="823" cy="148" r="1.5" fill="#d0e8ff" opacity="0.5" />
+          <circle cx="796" cy="132" r="1" fill="#d0e8ff" opacity="0.35" />
         </g>
       )}
 
-      {/* Landing: city glow clusters */}
-      {earthState === 'landing' && (
-        <g filter="url(#city-glow)">
-          <circle cx="280" cy="228" r="18" fill="#f5c842" opacity="0.25" />
-          <circle cx="310" cy="238" r="10" fill="#f5d060" opacity="0.20" />
-          <circle cx="260" cy="240" r="8"  fill="#f5c030" opacity="0.18" />
-          <circle cx="650" cy="218" r="22" fill="#f5c842" opacity="0.28" />
-          <circle cx="688" cy="230" r="14" fill="#f0d070" opacity="0.22" />
-          <circle cx="622" cy="232" r="12" fill="#f5b820" opacity="0.20" />
-          <circle cx="670" cy="245" r="8"  fill="#ffe080" opacity="0.16" />
-          <circle cx="1080" cy="225" r="20" fill="#f5c842" opacity="0.26" />
-          <circle cx="1110" cy="238" r="12" fill="#f0c840" opacity="0.20" />
-          <circle cx="1055" cy="240" r="9"  fill="#f5b030" opacity="0.18" />
-          <circle cx="420" cy="242" r="7"  fill="#ffd060" opacity="0.15" />
-          <circle cx="850" cy="235" r="9"  fill="#ffc840" opacity="0.16" />
-          <circle cx="1260" cy="238" r="8" fill="#ffd060" opacity="0.14" />
+      {/* Landing: city light grid — tiny dots with cluster blooms */}
+      {isLanding && (
+        <g>
+          {/* Soft area blooms behind clusters */}
+          <ellipse cx="260" cy="165" rx="40" ry="14" fill="#f5a020" opacity="0.07" filter="url(#bloom-soft)" />
+          <ellipse cx="660" cy="155" rx="55" ry="18" fill="#f5c030" opacity="0.09" filter="url(#bloom-soft)" />
+          <ellipse cx="1090" cy="162" rx="45" ry="14" fill="#f5a820" opacity="0.08" filter="url(#bloom-soft)" />
+          <ellipse cx="430" cy="170" rx="30" ry="10" fill="#f0b020" opacity="0.06" filter="url(#bloom-soft)" />
+          <ellipse cx="880" cy="168" rx="35" ry="11" fill="#f5b020" opacity="0.06" filter="url(#bloom-soft)" />
+          {/* Point lights — cluster A (left) */}
+          <g filter="url(#bloom)">
+            <circle cx="228" cy="168" r="1.5" fill="#ffe090" opacity="0.9" />
+            <circle cx="238" cy="164" r="1" fill="#ffd070" opacity="0.8" />
+            <circle cx="248" cy="170" r="1.5" fill="#ffcc60" opacity="0.85" />
+            <circle cx="258" cy="162" r="1" fill="#ffe080" opacity="0.75" />
+            <circle cx="268" cy="167" r="1.5" fill="#ffd060" opacity="0.9" />
+            <circle cx="278" cy="163" r="1" fill="#ffe090" opacity="0.7" />
+            <circle cx="286" cy="170" r="1" fill="#ffcc60" opacity="0.65" />
+            <circle cx="295" cy="165" r="1.5" fill="#ffd070" opacity="0.8" />
+          </g>
+          {/* Point lights — cluster B (center) */}
+          <g filter="url(#bloom)">
+            <circle cx="612" cy="160" r="1.5" fill="#ffe090" opacity="0.9" />
+            <circle cx="624" cy="165" r="1" fill="#ffd060" opacity="0.8" />
+            <circle cx="636" cy="158" r="1.5" fill="#ffcc60" opacity="0.85" />
+            <circle cx="648" cy="163" r="1" fill="#ffe080" opacity="0.8" />
+            <circle cx="660" cy="157" r="2" fill="#ffd070" opacity="0.9" />
+            <circle cx="672" cy="162" r="1" fill="#ffe090" opacity="0.75" />
+            <circle cx="684" cy="158" r="1.5" fill="#ffcc60" opacity="0.85" />
+            <circle cx="695" cy="165" r="1" fill="#ffd060" opacity="0.7" />
+            <circle cx="706" cy="160" r="1.5" fill="#ffe080" opacity="0.8" />
+          </g>
+          {/* Point lights — cluster C (right) */}
+          <g filter="url(#bloom)">
+            <circle cx="1052" cy="165" r="1.5" fill="#ffe090" opacity="0.85" />
+            <circle cx="1064" cy="160" r="1" fill="#ffd070" opacity="0.8" />
+            <circle cx="1076" cy="166" r="1.5" fill="#ffcc60" opacity="0.9" />
+            <circle cx="1088" cy="161" r="1" fill="#ffe080" opacity="0.75" />
+            <circle cx="1100" cy="165" r="1.5" fill="#ffd060" opacity="0.85" />
+            <circle cx="1112" cy="160" r="1" fill="#ffe090" opacity="0.7" />
+            <circle cx="1122" cy="167" r="1" fill="#ffcc60" opacity="0.65" />
+          </g>
+          {/* Scattered individual lights */}
+          <g filter="url(#bloom)">
+            <circle cx="410" cy="172" r="1" fill="#ffd060" opacity="0.7" />
+            <circle cx="422" cy="168" r="1.5" fill="#ffe080" opacity="0.65" />
+            <circle cx="436" cy="173" r="1" fill="#ffc840" opacity="0.6" />
+            <circle cx="848" cy="170" r="1" fill="#ffd070" opacity="0.65" />
+            <circle cx="862" cy="166" r="1.5" fill="#ffe090" opacity="0.7" />
+            <circle cx="878" cy="171" r="1" fill="#ffc840" opacity="0.6" />
+            <circle cx="1248" cy="170" r="1" fill="#ffd060" opacity="0.6" />
+            <circle cx="1262" cy="167" r="1.5" fill="#ffe080" opacity="0.65" />
+            <circle cx="145" cy="174" r="1" fill="#ffd060" opacity="0.5" />
+            <circle cx="158" cy="170" r="1" fill="#ffe070" opacity="0.45" />
+          </g>
         </g>
       )}
-
-      {/* Horizon line — subtle bright edge */}
-      <line x1="0" y1="180" x2="1440" y2="180" stroke={fill} strokeWidth="0.5" opacity="0.12" />
     </svg>
   );
 }
@@ -326,13 +370,18 @@ export function SkyBackground({
 
   // Altitude-driven values
   // Cirrus: invisible below altitude 0.5, fully visible at 1.0
-  const cirrusOpacity = Math.max(0, altitude - 0.5) * 2 * mult;
+  const cirrusOpacity = Math.max(0, altitude - 0.5) * 2 * (intensity === 'subtle' ? 0.7 : 1);
+  // Cumulus opacity drops as you climb above them; boost at ground level
+  const cumulusAltFactor = 1 - altitude * 0.75;
+  const opFarAlt  = opFar  * cumulusAltFactor;
+  const opMidAlt  = opMid  * cumulusAltFactor;
+  const opNearAlt = opNear * cumulusAltFactor;
   // Cumulus layers shift down as altitude rises (clouds are below you)
-  const farShift  = altitude * 40;
-  const midShift  = altitude * 80;
-  const nearShift = altitude * 120;
-  // Earth: at altitude=0 fills ~40% (translateY 0%), at altitude=1 just a sliver (translateY 62%)
-  const earthShift = `${altitude * 62}%`;
+  const farShift  = altitude * 70;
+  const midShift  = altitude * 130;
+  const nearShift = altitude * 200;
+  // Earth: at altitude=0 translateY=0 (fully visible); at altitude=1 translate down 70% of SVG height
+  const earthShift = altitude * 70;
 
   return (
     <div
@@ -356,14 +405,14 @@ export function SkyBackground({
         transition={{ duration: 4, ease: 'easeInOut' }}
       />
 
-      {/* Earth layer — anchored to bottom, slides up with altitude */}
+      {/* Earth layer — anchored to bottom, shifts down as altitude rises */}
       <motion.div
         className="absolute bottom-0 left-0 right-0"
         style={{ zIndex: 2 }}
         animate={{ y: earthShift }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
-        <EarthLayer earthState={earthState} fill={config.cloudFill} />
+        <EarthLayer earthState={earthState} />
       </motion.div>
 
       {/* Cirrus layer — wispy streaks only visible at high altitude */}
@@ -418,7 +467,7 @@ export function SkyBackground({
               key={cloud.id}
               className="absolute"
               style={{ left: `${cloud.xVw}vw`, top: cloud.yPx }}
-              animate={{ opacity: opFar }}
+              animate={{ opacity: opFarAlt }}
               transition={{ duration: opDur, ease: 'easeInOut' }}
             >
               <CloudShape circles={cloud.circles} blur={cloud.blur} fill={config.cloudFill} filterId={`sky-${cloud.id}`} />
@@ -440,7 +489,7 @@ export function SkyBackground({
               key={cloud.id}
               className="absolute"
               style={{ left: `${cloud.xVw}vw`, top: cloud.yPx }}
-              animate={{ opacity: opMid }}
+              animate={{ opacity: opMidAlt }}
               transition={{ duration: opDur, ease: 'easeInOut' }}
             >
               <CloudShape circles={cloud.circles} blur={cloud.blur} fill={config.cloudFill} filterId={`sky-${cloud.id}`} />
@@ -462,7 +511,7 @@ export function SkyBackground({
               key={cloud.id}
               className="absolute"
               style={{ left: `${cloud.xVw}vw`, top: cloud.yPx }}
-              animate={{ opacity: opNear }}
+              animate={{ opacity: opNearAlt }}
               transition={{ duration: opDur, ease: 'easeInOut' }}
             >
               <CloudShape circles={cloud.circles} blur={cloud.blur} fill={config.cloudFill} filterId={`sky-${cloud.id}`} />
