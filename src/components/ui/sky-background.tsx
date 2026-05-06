@@ -195,10 +195,23 @@ function CirrusShape({ cloud }: { cloud: CirrusFormation }) {
       style={{ overflow: 'visible', display: 'block' }}
       aria-hidden
     >
+      <defs>
+        {cloud.strands.map((s, i) => (
+          <filter key={i} id={`${cloud.id}-f${i}`} x="-30%" y="-300%" width="160%" height="700%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation={s.blur} />
+          </filter>
+        ))}
+      </defs>
       {cloud.strands.map((s, i) => (
-        <g key={i} style={{ filter: `blur(${s.blur}px)` }}>
-          <path d={s.d} stroke="rgb(235,245,255)" strokeWidth={s.sw} fill="none" opacity={s.op} />
-        </g>
+        <path
+          key={i}
+          d={s.d}
+          stroke="rgb(235,245,255)"
+          strokeWidth={s.sw}
+          fill="none"
+          opacity={s.op}
+          filter={`url(#${cloud.id}-f${i})`}
+        />
       ))}
     </svg>
   );
@@ -435,6 +448,7 @@ export function SkyBackground({
       <motion.div
         className="absolute inset-0"
         style={{ zIndex: 3 }}
+        initial={{ opacity: 0 }}
         animate={{ opacity: cirrusOpacity }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
