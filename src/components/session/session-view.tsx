@@ -760,7 +760,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         currentSlotIndex={lesson.currentSlotIndex}
         altitude={altitude}
         earthState={earthState}
-        intensity="subtle"
+        intensity="moderate"
       />
       <div className="relative z-10 space-y-4">
         {/* Session header */}

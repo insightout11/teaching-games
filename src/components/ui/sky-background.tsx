@@ -19,6 +19,7 @@ interface SkyBackgroundProps {
 
 const WEATHER: Record<WeatherState, {
   skyTop: string;
+  skyMid: string;
   skyBottom: string;
   horizonGlow: string;
   cloudFill: string;
@@ -27,51 +28,120 @@ const WEATHER: Record<WeatherState, {
   opacityNear: number;
 }> = {
   idle: {
-    skyTop: '#070B14',
-    skyBottom: '#0A1223',
-    horizonGlow: 'rgba(77,163,255,0.08)',
-    cloudFill: 'rgb(180,210,255)',
-    opacityFar: 0.22,
-    opacityMid: 0.32,
-    opacityNear: 0.50,
+    skyTop:    '#02060E',
+    skyMid:    '#07142A',
+    skyBottom: '#0D2242',
+    horizonGlow: 'rgba(65,140,245,0.30)',
+    cloudFill: 'rgb(200,220,255)',
+    opacityFar: 0.45,
+    opacityMid: 0.62,
+    opacityNear: 0.82,
   },
   climbing: {
-    skyTop: '#08101C',
-    skyBottom: '#0C1632',
-    horizonGlow: 'rgba(77,163,255,0.10)',
-    cloudFill: 'rgb(200,225,255)',
-    opacityFar: 0.25,
-    opacityMid: 0.36,
-    opacityNear: 0.55,
+    skyTop:    '#030912',
+    skyMid:    '#091428',
+    skyBottom: '#102242',
+    horizonGlow: 'rgba(85,158,255,0.38)',
+    cloudFill: 'rgb(215,232,255)',
+    opacityFar: 0.50,
+    opacityMid: 0.68,
+    opacityNear: 0.88,
   },
   cruising: {
-    skyTop: '#060A16',
-    skyBottom: '#08122A',
-    horizonGlow: 'rgba(100,175,255,0.12)',
-    cloudFill: 'rgb(215,235,255)',
-    opacityFar: 0.28,
-    opacityMid: 0.40,
-    opacityNear: 0.60,
+    skyTop:    '#010508',
+    skyMid:    '#040C1C',
+    skyBottom: '#08142A',
+    horizonGlow: 'rgba(70,145,255,0.22)',
+    cloudFill: 'rgb(228,240,255)',
+    opacityFar: 0.55,
+    opacityMid: 0.74,
+    opacityNear: 0.94,
   },
   golden: {
-    skyTop: '#080A14',
-    skyBottom: '#12101E',
-    horizonGlow: 'rgba(200,140,60,0.16)',
-    cloudFill: 'rgb(240,225,195)',
-    opacityFar: 0.28,
-    opacityMid: 0.40,
-    opacityNear: 0.58,
+    skyTop:    '#060412',
+    skyMid:    '#110A1E',
+    skyBottom: '#1E0E24',
+    horizonGlow: 'rgba(245,130,32,0.55)',
+    cloudFill: 'rgb(255,228,195)',
+    opacityFar: 0.52,
+    opacityMid: 0.70,
+    opacityNear: 0.90,
   },
   landing: {
-    skyTop: '#0A0812',
-    skyBottom: '#160E16',
-    horizonGlow: 'rgba(220,140,50,0.22)',
-    cloudFill: 'rgb(255,220,160)',
-    opacityFar: 0.32,
-    opacityMid: 0.45,
-    opacityNear: 0.65,
+    skyTop:    '#040308',
+    skyMid:    '#0C0812',
+    skyBottom: '#1A0C1A',
+    horizonGlow: 'rgba(255,138,22,0.68)',
+    cloudFill: 'rgb(255,218,155)',
+    opacityFar: 0.58,
+    opacityMid: 0.78,
+    opacityNear: 0.96,
   },
 };
+
+// ─── Star field ──────────────────────────────────────────────────────────────
+// Pre-positioned stars scattered across the upper sky (y: 0–62px range in a
+// 1440×72 viewBox). Rendered into a 72px-tall strip at the very top.
+
+const STARS: Array<{ x: number; y: number; r: number; op: number }> = [
+  { x: 48,   y: 22, r: 1.3, op: 0.90 },
+  { x: 136,  y: 9,  r: 1.1, op: 0.80 },
+  { x: 312,  y: 18, r: 1.4, op: 0.92 },
+  { x: 498,  y: 7,  r: 1.2, op: 0.85 },
+  { x: 672,  y: 25, r: 1.3, op: 0.88 },
+  { x: 864,  y: 12, r: 1.1, op: 0.82 },
+  { x: 1008, y: 6,  r: 1.4, op: 0.90 },
+  { x: 1200, y: 20, r: 1.2, op: 0.86 },
+  { x: 1390, y: 10, r: 1.3, op: 0.88 },
+  { x: 88,   y: 40, r: 0.9, op: 0.68 },
+  { x: 175,  y: 28, r: 1.0, op: 0.72 },
+  { x: 230,  y: 50, r: 0.9, op: 0.65 },
+  { x: 380,  y: 35, r: 1.0, op: 0.70 },
+  { x: 425,  y: 14, r: 0.9, op: 0.68 },
+  { x: 560,  y: 46, r: 1.0, op: 0.72 },
+  { x: 618,  y: 31, r: 0.9, op: 0.66 },
+  { x: 736,  y: 52, r: 1.0, op: 0.70 },
+  { x: 795,  y: 16, r: 0.9, op: 0.74 },
+  { x: 924,  y: 42, r: 1.0, op: 0.68 },
+  { x: 978,  y: 27, r: 0.9, op: 0.72 },
+  { x: 1060, y: 50, r: 1.0, op: 0.66 },
+  { x: 1128, y: 33, r: 0.9, op: 0.70 },
+  { x: 1260, y: 44, r: 1.0, op: 0.68 },
+  { x: 1320, y: 22, r: 0.9, op: 0.74 },
+  { x: 62,   y: 54, r: 0.6, op: 0.45 },
+  { x: 158,  y: 44, r: 0.7, op: 0.42 },
+  { x: 265,  y: 60, r: 0.6, op: 0.40 },
+  { x: 348,  y: 48, r: 0.7, op: 0.44 },
+  { x: 444,  y: 56, r: 0.6, op: 0.40 },
+  { x: 530,  y: 36, r: 0.7, op: 0.46 },
+  { x: 648,  y: 58, r: 0.6, op: 0.42 },
+  { x: 718,  y: 38, r: 0.7, op: 0.44 },
+  { x: 830,  y: 55, r: 0.6, op: 0.40 },
+  { x: 902,  y: 30, r: 0.7, op: 0.46 },
+  { x: 1042, y: 60, r: 0.6, op: 0.42 },
+  { x: 1148, y: 50, r: 0.7, op: 0.44 },
+  { x: 1218, y: 58, r: 0.6, op: 0.40 },
+  { x: 1345, y: 36, r: 0.7, op: 0.46 },
+  { x: 1418, y: 52, r: 0.6, op: 0.42 },
+  { x: 194,  y: 62, r: 0.5, op: 0.35 },
+];
+
+function StarField() {
+  return (
+    <svg
+      viewBox="0 0 1440 72"
+      width="100%"
+      height="72"
+      preserveAspectRatio="none"
+      style={{ display: 'block' }}
+      aria-hidden
+    >
+      {STARS.map((s, i) => (
+        <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="white" opacity={s.op} />
+      ))}
+    </svg>
+  );
+}
 
 // ─── Cloud shapes ────────────────────────────────────────────────────────────
 
@@ -116,11 +186,6 @@ function CloudShape({
 // Containers are 200vw wide. Each cloud has a duplicate at xVw + 100 so the
 // second copy enters from the right as the first exits left.
 // Animation: translateX(0) → translateX(-100vw), seamless restart.
-//
-// yPx values are distributed across three vertical bands:
-//   Far  →  top 10–55px   (distant cirrus near horizon)
-//   Mid  →  55–200px      (mid-altitude cumulus)
-//   Near →  120–360px     (foreground clouds across the screen)
 
 const FAR_CLOUDS = [
   { id: 'fc1',  xVw: 5,   yPx: 14,  blur: 9,
@@ -131,7 +196,6 @@ const FAR_CLOUDS = [
     circles: [{ cx:50,cy:30,r:26 },{ cx:82,cy:22,r:20 },{ cx:110,cy:28,r:16 },{ cx:30,cy:34,r:18 },{ cx:135,cy:32,r:13 }] },
   { id: 'fc4',  xVw: 88,  yPx: 20,  blur: 8,
     circles: [{ cx:35,cy:20,r:18 },{ cx:60,cy:14,r:22 },{ cx:88,cy:18,r:16 }] },
-  // Seamless copies (+100vw)
   { id: 'fc1b', xVw: 105, yPx: 14,  blur: 9,
     circles: [{ cx:60,cy:32,r:28 },{ cx:95,cy:26,r:22 },{ cx:125,cy:30,r:18 },{ cx:45,cy:36,r:20 },{ cx:150,cy:34,r:16 }] },
   { id: 'fc2b', xVw: 138, yPx: 8,   blur: 8,
@@ -151,7 +215,6 @@ const MID_CLOUDS = [
     circles: [{ cx:90,cy:65,r:55 },{ cx:148,cy:50,r:62 },{ cx:205,cy:60,r:48 },{ cx:55,cy:74,r:42 }] },
   { id: 'mc4',  xVw: 82,  yPx: 195, blur: 11,
     circles: [{ cx:55,cy:44,r:38 },{ cx:98,cy:32,r:46 },{ cx:145,cy:40,r:36 },{ cx:34,cy:52,r:28 }] },
-  // Seamless copies
   { id: 'mc1b', xVw: 102, yPx: 68,  blur: 13,
     circles: [{ cx:80,cy:60,r:50 },{ cx:130,cy:45,r:58 },{ cx:185,cy:55,r:46 },{ cx:50,cy:68,r:40 },{ cx:220,cy:62,r:36 }] },
   { id: 'mc2b', xVw: 135, yPx: 150, blur: 12,
@@ -169,7 +232,6 @@ const NEAR_CLOUDS = [
     circles: [{ cx:95,cy:70,r:65 },{ cx:165,cy:52,r:76 },{ cx:238,cy:64,r:58 },{ cx:58,cy:80,r:48 }] },
   { id: 'nc3',  xVw: 74,  yPx: 180, blur: 20,
     circles: [{ cx:120,cy:90,r:78 },{ cx:200,cy:70,r:88 },{ cx:282,cy:82,r:68 },{ cx:75,cy:102,r:60 }] },
-  // Seamless copies
   { id: 'nc1b', xVw: 108, yPx: 125, blur: 18,
     circles: [{ cx:110,cy:85,r:72 },{ cx:185,cy:65,r:82 },{ cx:260,cy:78,r:64 },{ cx:70,cy:96,r:55 },{ cx:310,cy:88,r:52 }] },
   { id: 'nc2b', xVw: 142, yPx: 285, blur: 16,
@@ -179,10 +241,8 @@ const NEAR_CLOUDS = [
 ];
 
 // ─── Cirrus cloud shapes ─────────────────────────────────────────────────────
-// Stroked bezier paths that look like real high-altitude cirrus:
-// irregular, wispy, varying thickness. Each formation has multiple strands
-// at different blur/opacity levels to create natural feathering.
-// strands: [ { d, sw (strokeWidth), blur, op (opacity) } ]
+// SVG-native feGaussianBlur on each stroked path — avoids dark premultiplied-
+// alpha artifacts that CSS filter:blur() causes on transparent SVG canvases.
 
 type CirrusStrand = { d: string; sw: number; blur: number; op: number };
 type CirrusFormation = { id: string; xVw: number; yPx: number; w: number; h: number; strands: CirrusStrand[] };
@@ -219,59 +279,57 @@ function CirrusShape({ cloud }: { cloud: CirrusFormation }) {
 
 // Horsetail — long sweeping strand with fanning tails on the right (1400×90px)
 const HORSETAIL: CirrusStrand[] = [
-  { d: 'M 0,45 C 350,28 820,64 1400,36',                              sw: 40, blur: 18, op: 0.09 },
-  { d: 'M 15,43 C 350,26 820,62 1385,33',                             sw: 12, blur: 6,  op: 0.55 },
-  { d: 'M 42,33 C 360,15 830,52 1360,23',                             sw: 5,  blur: 3,  op: 0.38 },
-  { d: 'M 950,38 C 1090,22 1230,10 1388,5',                           sw: 5,  blur: 3,  op: 0.34 },
-  { d: 'M 965,48 C 1100,35 1235,26 1380,22',                          sw: 3,  blur: 3,  op: 0.26 },
-  { d: 'M 920,44 C 1055,31 1185,22 1315,18',                          sw: 3,  blur: 2,  op: 0.20 },
+  { d: 'M 0,45 C 350,28 820,64 1400,36',                              sw: 40, blur: 18, op: 0.12 },
+  { d: 'M 15,43 C 350,26 820,62 1385,33',                             sw: 14, blur: 6,  op: 0.70 },
+  { d: 'M 42,33 C 360,15 830,52 1360,23',                             sw: 6,  blur: 3,  op: 0.52 },
+  { d: 'M 950,38 C 1090,22 1230,10 1388,5',                           sw: 6,  blur: 3,  op: 0.46 },
+  { d: 'M 965,48 C 1100,35 1235,26 1380,22',                          sw: 4,  blur: 3,  op: 0.36 },
+  { d: 'M 920,44 C 1055,31 1185,22 1315,18',                          sw: 3,  blur: 2,  op: 0.28 },
 ];
 
 // Parallel streaks — evenly-spaced thin lines spanning full width (1100×65px)
 const PARALLEL: CirrusStrand[] = [
-  { d: 'M 0,25 C 250,14 560,40 1100,18',                              sw: 28, blur: 14, op: 0.08 },
-  { d: 'M 0,22 C 250,11 560,36 1100,14',                              sw: 8,  blur: 4,  op: 0.48 },
-  { d: 'M 0,36 C 250,25 560,51 1100,28',                              sw: 7,  blur: 4,  op: 0.42 },
-  { d: 'M 0,48 C 250,38 560,63 1100,41',                              sw: 5,  blur: 4,  op: 0.36 },
-  { d: 'M 15,12 C 265,1  572,26 1085,4',                              sw: 3,  blur: 3,  op: 0.28 },
-  { d: 'M 28,58 C 272,48 574,73 1082,51',                             sw: 3,  blur: 3,  op: 0.22 },
+  { d: 'M 0,25 C 250,14 560,40 1100,18',                              sw: 28, blur: 14, op: 0.11 },
+  { d: 'M 0,22 C 250,11 560,36 1100,14',                              sw: 10, blur: 4,  op: 0.62 },
+  { d: 'M 0,36 C 250,25 560,51 1100,28',                              sw: 8,  blur: 4,  op: 0.56 },
+  { d: 'M 0,48 C 250,38 560,63 1100,41',                              sw: 6,  blur: 4,  op: 0.48 },
+  { d: 'M 15,12 C 265,1  572,26 1085,4',                              sw: 4,  blur: 3,  op: 0.38 },
+  { d: 'M 28,58 C 272,48 574,73 1082,51',                             sw: 3,  blur: 3,  op: 0.30 },
 ];
 
 // Hooked — main strand that curves sharply upward at one end (900×95px)
 const HOOKED: CirrusStrand[] = [
-  { d: 'M 0,65 C 220,50 460,34 600,30 C 680,27 760,17 900,7',        sw: 30, blur: 14, op: 0.09 },
-  { d: 'M 0,65 C 220,50 460,34 600,30 C 680,27 760,17 900,7',        sw: 10, blur: 6,  op: 0.52 },
-  { d: 'M 0,78 C 220,63 460,47 596,43 C 676,40 756,30 892,20',       sw: 5,  blur: 3,  op: 0.36 },
-  { d: 'M 625,22 C 700,9  768,3  855,0',                              sw: 5,  blur: 3,  op: 0.30 },
-  { d: 'M 608,32 C 682,17 750,9  822,5',                              sw: 3,  blur: 3,  op: 0.22 },
+  { d: 'M 0,65 C 220,50 460,34 600,30 C 680,27 760,17 900,7',        sw: 30, blur: 14, op: 0.12 },
+  { d: 'M 0,65 C 220,50 460,34 600,30 C 680,27 760,17 900,7',        sw: 12, blur: 6,  op: 0.66 },
+  { d: 'M 0,78 C 220,63 460,47 596,43 C 676,40 756,30 892,20',       sw: 6,  blur: 3,  op: 0.48 },
+  { d: 'M 625,22 C 700,9  768,3  855,0',                              sw: 6,  blur: 3,  op: 0.42 },
+  { d: 'M 608,32 C 682,17 750,9  822,5',                              sw: 4,  blur: 3,  op: 0.32 },
 ];
 
 // Fan — strands radiating outward from a single origin (820×90px)
 const FAN: CirrusStrand[] = [
-  { d: 'M 60,62 C 210,42 440,22 820,5',                               sw: 32, blur: 16, op: 0.08 },
-  { d: 'M 60,62 C 210,40 440,20 820,4',                               sw: 8,  blur: 5,  op: 0.46 },
-  { d: 'M 60,62 C 210,50 440,36 820,26',                              sw: 7,  blur: 5,  op: 0.42 },
-  { d: 'M 60,62 C 210,62 440,58 815,54',                              sw: 7,  blur: 5,  op: 0.38 },
-  { d: 'M 60,62 C 210,29 395,12 748,0',                               sw: 5,  blur: 3,  op: 0.30 },
-  { d: 'M 60,62 C 210,70 440,70 800,68',                              sw: 4,  blur: 3,  op: 0.24 },
+  { d: 'M 60,62 C 210,42 440,22 820,5',                               sw: 32, blur: 16, op: 0.11 },
+  { d: 'M 60,62 C 210,40 440,20 820,4',                               sw: 10, blur: 5,  op: 0.60 },
+  { d: 'M 60,62 C 210,50 440,36 820,26',                              sw: 8,  blur: 5,  op: 0.55 },
+  { d: 'M 60,62 C 210,62 440,58 815,54',                              sw: 8,  blur: 5,  op: 0.50 },
+  { d: 'M 60,62 C 210,29 395,12 748,0',                               sw: 5,  blur: 3,  op: 0.40 },
+  { d: 'M 60,62 C 210,70 440,70 800,68',                              sw: 4,  blur: 3,  op: 0.32 },
 ];
 
 // Wisps — shorter diffuse formations (640×65px)
 const WISPS: CirrusStrand[] = [
-  { d: 'M 0,32 C 170,20 350,44 640,28',                               sw: 32, blur: 18, op: 0.10 },
-  { d: 'M 0,30 C 170,18 350,42 640,26',                               sw: 12, blur: 8,  op: 0.42 },
-  { d: 'M 22,46 C 188,34 368,56 625,40',                              sw: 8,  blur: 8,  op: 0.34 },
-  { d: 'M 48,16 C 208,6  388,24 628,12',                              sw: 5,  blur: 5,  op: 0.28 },
+  { d: 'M 0,32 C 170,20 350,44 640,28',                               sw: 32, blur: 18, op: 0.14 },
+  { d: 'M 0,30 C 170,18 350,42 640,26',                               sw: 14, blur: 8,  op: 0.56 },
+  { d: 'M 22,46 C 188,34 368,56 625,40',                              sw: 9,  blur: 8,  op: 0.46 },
+  { d: 'M 48,16 C 208,6  388,24 628,12',                              sw: 6,  blur: 5,  op: 0.36 },
 ];
 
-// 5 formations per 100vw cycle — formations are now wide enough that 5 covers the loop
 const CIRRUS_FORMATIONS: CirrusFormation[] = [
   { id: 'ci1',  xVw: 0,   yPx: 8,  w: 1400, h: 90, strands: HORSETAIL },
   { id: 'ci2',  xVw: 20,  yPx: 38, w: 1100, h: 65, strands: PARALLEL  },
   { id: 'ci3',  xVw: 42,  yPx: 14, w: 900,  h: 95, strands: HOOKED    },
   { id: 'ci4',  xVw: 60,  yPx: 52, w: 820,  h: 90, strands: FAN       },
   { id: 'ci5',  xVw: 78,  yPx: 26, w: 640,  h: 65, strands: WISPS     },
-  // Seamless copies (+100vw)
   { id: 'ci1b', xVw: 100, yPx: 8,  w: 1400, h: 90, strands: HORSETAIL },
   { id: 'ci2b', xVw: 120, yPx: 38, w: 1100, h: 65, strands: PARALLEL  },
   { id: 'ci3b', xVw: 142, yPx: 14, w: 900,  h: 95, strands: HOOKED    },
@@ -280,75 +338,60 @@ const CIRRUS_FORMATIONS: CirrusFormation[] = [
 ];
 
 // ─── Earth layer ─────────────────────────────────────────────────────────────
-// Pure gradient-based atmosphere — no blob shapes.
-// The SVG is 1440×180: a horizon gradient band that fades from transparent
-// at the top to a terrain color at the bottom. Specific features (runway,
-// city lights) are small detail elements near the bottom edge.
 
 function EarthLayer({ earthState }: { earthState: EarthState }) {
   const isLanding = earthState === 'landing';
   const isTakeoff = earthState === 'takeoff';
 
-  // Terrain color at the bottom of the gradient
-  const terrainColor = isLanding ? '#1a100a' : isTakeoff ? '#0e1a10' : '#0a1018';
-  // Atmosphere haze color at the horizon
-  const hazeColor = isLanding ? 'rgba(160,90,20,0.22)' : isTakeoff ? 'rgba(40,120,60,0.12)' : 'rgba(30,80,120,0.10)';
+  const terrainColor = isLanding ? '#14090A' : isTakeoff ? '#0A1810' : '#081018';
+  const hazeColor    = isLanding ? 'rgba(210,100,18,0.40)' : isTakeoff ? 'rgba(35,115,50,0.22)' : 'rgba(25,75,120,0.16)';
 
   return (
     <svg
-      viewBox="0 0 1440 180"
+      viewBox="0 0 1440 220"
       width="100%"
-      height="180"
+      height="220"
       preserveAspectRatio="xMidYMax slice"
       style={{ display: 'block' }}
       aria-hidden
     >
       <defs>
-        {/* Vertical gradient: transparent at horizon → terrain color at bottom */}
         <linearGradient id="earth-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={hazeColor} stopOpacity="0" />
-          <stop offset="40%" stopColor={terrainColor} stopOpacity="0.55" />
-          <stop offset="100%" stopColor={terrainColor} stopOpacity="0.95" />
+          <stop offset="0%"   stopColor={hazeColor}    stopOpacity="0.2" />
+          <stop offset="28%"  stopColor={terrainColor} stopOpacity="0.5" />
+          <stop offset="65%"  stopColor={terrainColor} stopOpacity="0.88" />
+          <stop offset="100%" stopColor={terrainColor} stopOpacity="1.0" />
         </linearGradient>
-        {/* Soft cluster bloom for city lights */}
-        <filter id="bloom" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b" />
-          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
         <filter id="bloom-soft" x="-150%" y="-150%" width="400%" height="400%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="14" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="20" />
         </filter>
       </defs>
 
-      {/* Horizon atmosphere fill */}
-      <rect x="0" y="0" width="1440" height="180" fill="url(#earth-grad)" />
+      <rect x="0" y="0" width="1440" height="220" fill="url(#earth-grad)" />
 
-      {/* Takeoff: tarmac strip + grass bands — passenger side-window view looking down */}
+      {/* Takeoff: tarmac strip + grass bands — passenger side-window view */}
       {isTakeoff && (
         <g>
-          {/* Upper grass band */}
-          <rect x="0" y="88" width="1440" height="32" fill="#1e3820" opacity="0.50" />
-          {/* Grey tarmac strip — the runway surface below */}
-          <rect x="0" y="120" width="1440" height="30" fill="#28303c" opacity="0.60" />
-          {/* Lower grass band */}
-          <rect x="0" y="150" width="1440" height="30" fill="#1a3018" opacity="0.40" />
+          <rect x="0" y="100" width="1440" height="42" fill="#1c3e20" opacity="0.80" />
+          <rect x="0" y="142" width="1440" height="38" fill="#222c3a" opacity="0.90" />
+          <rect x="0" y="180" width="1440" height="40" fill="#152c18" opacity="0.70" />
         </g>
       )}
 
-      {/* Landing: pure atmospheric city glow — no dots, just warm area light */}
+      {/* Landing: warm atmospheric city glow from below */}
       {isLanding && (
         <g>
-          {/* Large diffuse region glow — the overall lit-up city atmosphere */}
-          <ellipse cx="720" cy="175" rx="680" ry="35" fill="#f09010" opacity="0.09" filter="url(#bloom-soft)" />
-          {/* Major cluster glows */}
-          <ellipse cx="265" cy="162" rx="110" ry="22" fill="#f5a828" opacity="0.16" filter="url(#bloom-soft)" />
-          <ellipse cx="670" cy="155" rx="130" ry="28" fill="#f5b530" opacity="0.18" filter="url(#bloom-soft)" />
-          <ellipse cx="1085" cy="160" rx="115" ry="23" fill="#f5a828" opacity="0.16" filter="url(#bloom-soft)" />
-          {/* Secondary glows between clusters */}
-          <ellipse cx="440" cy="168" rx="70" ry="16" fill="#f0a020" opacity="0.10" filter="url(#bloom-soft)" />
-          <ellipse cx="870" cy="166" rx="75" ry="17" fill="#f0a820" opacity="0.11" filter="url(#bloom-soft)" />
-          <ellipse cx="145" cy="170" rx="55" ry="13" fill="#f09018" opacity="0.08" filter="url(#bloom-soft)" />
-          <ellipse cx="1290" cy="168" rx="60" ry="14" fill="#f09018" opacity="0.08" filter="url(#bloom-soft)" />
+          {/* Panoramic warm base */}
+          <ellipse cx="720"  cy="218" rx="720" ry="60"  fill="#f08010" opacity="0.28" filter="url(#bloom-soft)" />
+          {/* Major city cluster glows */}
+          <ellipse cx="265"  cy="198" rx="145" ry="44"  fill="#f5a028" opacity="0.52" filter="url(#bloom-soft)" />
+          <ellipse cx="670"  cy="190" rx="168" ry="52"  fill="#f5b030" opacity="0.60" filter="url(#bloom-soft)" />
+          <ellipse cx="1085" cy="196" rx="152" ry="46"  fill="#f5a028" opacity="0.54" filter="url(#bloom-soft)" />
+          {/* Secondary fills */}
+          <ellipse cx="440"  cy="208" rx="96"  ry="28"  fill="#f0a020" opacity="0.38" filter="url(#bloom-soft)" />
+          <ellipse cx="870"  cy="205" rx="102" ry="30"  fill="#f0a820" opacity="0.40" filter="url(#bloom-soft)" />
+          <ellipse cx="148"  cy="212" rx="70"  ry="20"  fill="#f09018" opacity="0.30" filter="url(#bloom-soft)" />
+          <ellipse cx="1298" cy="210" rx="75"  ry="22"  fill="#f09018" opacity="0.32" filter="url(#bloom-soft)" />
         </g>
       )}
     </svg>
@@ -366,10 +409,10 @@ export function SkyBackground({
   className,
 }: SkyBackgroundProps) {
   const config = WEATHER[weatherState];
-  const mult = intensity === 'subtle' ? 0.45 : 1;
+  // subtle = 0.75 (non-session pages); moderate = 1.0 (session)
+  const mult = intensity === 'subtle' ? 0.75 : 1;
 
   // Transition burst: fires when the slot index advances.
-  // Burst lasts 4 s (matching the 4 s plane animation), then fades over 3 s.
   const prevSlotRef = useRef(currentSlotIndex);
   const [transitioning, setTransitioning] = useState(false);
   const burstTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -391,26 +434,30 @@ export function SkyBackground({
     ? { '--cloud-duration-far': '26s', '--cloud-duration-mid': '17s', '--cloud-duration-near': '11s' } as React.CSSProperties
     : {};
 
-  const opFar  = config.opacityFar  * mult * (transitioning ? 2.0 : 1);
-  const opMid  = config.opacityMid  * mult * (transitioning ? 2.0 : 1);
-  const opNear = config.opacityNear * mult * (transitioning ? 2.0 : 1);
-  // Burst fades in over 1.2 s so it feels deliberate; weather crossfades over 3 s
+  const opFar  = config.opacityFar  * mult * (transitioning ? 1.8 : 1);
+  const opMid  = config.opacityMid  * mult * (transitioning ? 1.8 : 1);
+  const opNear = config.opacityNear * mult * (transitioning ? 1.6 : 1);
   const opDur  = transitioning ? 1.2 : 3.0;
 
-  // Altitude-driven values
-  // Cirrus: invisible below altitude 0.5, fully visible at 1.0
-  const cirrusOpacity = Math.max(0, altitude - 0.5) * 2 * (intensity === 'subtle' ? 0.7 : 1);
-  // Cumulus opacity drops as you climb above them; boost at ground level
-  const cumulusAltFactor = 1 - altitude * 0.75;
+  // Stars: subtle at ground, bright at cruise altitude
+  const starOpacity = (0.28 + Math.min(0.62, altitude * 0.90)) * mult;
+
+  // Cirrus: begins fading in from altitude 0.3, fully visible at 0.7+
+  const cirrusOpacity = Math.min(1, Math.max(0, altitude - 0.3) * 2.5) * mult;
+
+  // Cumulus fade as you climb above them
+  const cumulusAltFactor = Math.max(0.08, 1 - altitude * 0.88);
   const opFarAlt  = opFar  * cumulusAltFactor;
   const opMidAlt  = opMid  * cumulusAltFactor;
   const opNearAlt = opNear * cumulusAltFactor;
-  // Cumulus layers shift down as altitude rises (clouds are below you)
+
+  // Cumulus shift down as altitude rises (clouds are below you)
   const farShift  = altitude * 70;
   const midShift  = altitude * 130;
   const nearShift = altitude * 200;
-  // Earth: at altitude=0 translateY=0 (fully visible); at altitude=1 translate down 70% of SVG height
-  const earthShift = altitude * 70;
+
+  // Earth slides below viewport as altitude rises
+  const earthShift = altitude * 80;
 
   return (
     <div
@@ -418,26 +465,37 @@ export function SkyBackground({
       style={{ zIndex: 0, ...burstDurations }}
       aria-hidden
     >
-      {/* Sky gradient */}
+      {/* Sky gradient — 3-stop for visible depth */}
       <motion.div
         className="absolute inset-0"
-        animate={{ background: `linear-gradient(180deg, ${config.skyTop} 0%, ${config.skyBottom} 100%)` }}
+        animate={{ background: `linear-gradient(180deg, ${config.skyTop} 0%, ${config.skyMid} 50%, ${config.skyBottom} 100%)` }}
         transition={{ duration: 3, ease: 'easeInOut' }}
         style={{ zIndex: 0 }}
       />
 
-      {/* Horizon warmth glow — sits along the bottom edge */}
+      {/* Horizon warmth / atmosphere glow */}
       <motion.div
         className="absolute bottom-0 left-0 right-0"
-        style={{ height: '40%', zIndex: 1 }}
-        animate={{ background: `radial-gradient(ellipse 100% 60% at 50% 100%, ${config.horizonGlow} 0%, transparent 100%)` }}
+        style={{ height: '52%', zIndex: 1 }}
+        animate={{ background: `radial-gradient(ellipse 110% 65% at 50% 100%, ${config.horizonGlow} 0%, transparent 100%)` }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       />
+
+      {/* Stars — visible in upper sky, brighten with altitude */}
+      <motion.div
+        className="absolute top-0 left-0 right-0"
+        style={{ zIndex: 2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: starOpacity }}
+        transition={{ duration: 4, ease: 'easeInOut' }}
+      >
+        <StarField />
+      </motion.div>
 
       {/* Earth layer — anchored to bottom, shifts down as altitude rises */}
       <motion.div
         className="absolute bottom-0 left-0 right-0"
-        style={{ zIndex: 2 }}
+        style={{ zIndex: 3 }}
         animate={{ y: earthShift }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
@@ -447,7 +505,7 @@ export function SkyBackground({
       {/* Cirrus layer — wispy streaks only visible at high altitude */}
       <motion.div
         className="absolute inset-0"
-        style={{ zIndex: 3 }}
+        style={{ zIndex: 4 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: cirrusOpacity }}
         transition={{ duration: 4, ease: 'easeInOut' }}
@@ -468,7 +526,7 @@ export function SkyBackground({
       {/* Far layer */}
       <motion.div
         className="absolute inset-0"
-        style={{ zIndex: 4 }}
+        style={{ zIndex: 5 }}
         animate={{ y: farShift }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
@@ -490,7 +548,7 @@ export function SkyBackground({
       {/* Mid layer */}
       <motion.div
         className="absolute inset-0"
-        style={{ zIndex: 5 }}
+        style={{ zIndex: 6 }}
         animate={{ y: midShift }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
@@ -512,7 +570,7 @@ export function SkyBackground({
       {/* Near layer */}
       <motion.div
         className="absolute inset-0"
-        style={{ zIndex: 6 }}
+        style={{ zIndex: 7 }}
         animate={{ y: nearShift }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
