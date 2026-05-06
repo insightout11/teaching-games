@@ -607,7 +607,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (!mounted) {
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <SkyBackground intensity="subtle" />
+        <SkyBackground intensity="subtle" className="!left-64" />
         <div className="relative z-10 flex items-center justify-center pt-24">
           <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
         </div>
@@ -620,7 +620,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <SkyBackground weatherState="climbing" intensity="subtle" />
+        <SkyBackground weatherState="climbing" intensity="subtle" className="!left-64" />
         <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8">
           {/* Header */}
           <div className="text-center space-y-2">
@@ -761,6 +761,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         altitude={altitude}
         earthState={earthState}
         intensity="moderate"
+        className="!left-64"
       />
       <div className="relative z-10 space-y-4">
         {/* Session header */}

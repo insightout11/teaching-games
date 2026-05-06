@@ -25,7 +25,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="relative min-h-screen flex bg-lc-bg text-lc-text">
-      <SkyBackground intensity="subtle" />
+      <SkyBackground intensity="subtle" className="!left-64" />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-lc-blue focus:text-white focus:font-medium focus:outline-none"
