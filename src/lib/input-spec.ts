@@ -56,6 +56,8 @@ export interface InputSpec {
   readAloudQueue?: ReadAloudQueueEntry[];
   /** For picture-book read-aloud: current slide image URL synced to all students */
   currentSlideUrl?: string;
+  /** Vocab words to highlight inline in the read-aloud passage */
+  readAloudVocabWords?: string[];
 }
 
 export interface ReadAloudQueueEntry {

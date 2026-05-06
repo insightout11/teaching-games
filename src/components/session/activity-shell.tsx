@@ -286,47 +286,48 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
       {/* Main activity area */}
       <div className="lg:col-span-3 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h2 className="text-lg font-bold">{activity.name}</h2>
-            {(() => {
-              const catInfo = CATEGORY_INFO[activity.category];
-              const Icon = activity.icon;
-              return <Icon className={`w-5 h-5 ${catInfo.color}`} />;
-            })()}
-            <span className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">
-              {activity.category}
-            </span>
+        <div className="glass rounded-2xl min-h-[480px] max-h-[680px] flex flex-col overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.06] shrink-0">
+            <div className="flex items-center gap-3">
+              <h2 className="text-lg font-bold">{activity.name}</h2>
+              {(() => {
+                const catInfo = CATEGORY_INFO[activity.category];
+                const Icon = activity.icon;
+                return <Icon className={`w-5 h-5 ${catInfo.color}`} />;
+              })()}
+              <span className="text-xs px-2 py-0.5 bg-lc-border text-lc-text3 rounded-full">
+                {activity.category}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs opacity-50">Phase:</span>
+              <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
+                {currentPhase}
+              </span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs opacity-50">Phase:</span>
-            <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
-              {currentPhase}
-            </span>
+          <div className="flex-1 overflow-y-auto p-6">
+            <ActivityComponent
+              sessionId={sessionId}
+              students={students}
+              currentStudentId={currentStudentId}
+              sessionSettings={sessionSettings}
+              generatedContent={generatedContent}
+              onContinue={handleContinue}
+              onPhaseChange={handlePhaseChange}
+              customTopic={customTopic}
+              onSetInputSpec={handleSetInputSpec}
+              onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
+              onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
+              onScore={handleScore}
+              studentMissions={studentMissions}
+              classMission={classMission}
+              openingStances={openingStances}
+              characterAssignments={characterAssignments}
+              onLandingAnswer={handleLandingAnswer}
+              onContentRegenerate={onContentRegenerate}
+            />
           </div>
-        </div>
-
-        <div className="glass rounded-2xl p-6 min-h-[480px] max-h-[680px] overflow-y-auto">
-          <ActivityComponent
-            sessionId={sessionId}
-            students={students}
-            currentStudentId={currentStudentId}
-            sessionSettings={sessionSettings}
-            generatedContent={generatedContent}
-            onContinue={handleContinue}
-            onPhaseChange={handlePhaseChange}
-            customTopic={customTopic}
-            onSetInputSpec={handleSetInputSpec}
-            onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
-            onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
-            onScore={handleScore}
-            studentMissions={studentMissions}
-            classMission={classMission}
-            openingStances={openingStances}
-            characterAssignments={characterAssignments}
-            onLandingAnswer={handleLandingAnswer}
-            onContentRegenerate={onContentRegenerate}
-          />
         </div>
 
         {/* Activity info footer */}

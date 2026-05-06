@@ -21,6 +21,7 @@ const WEATHER: Record<WeatherState, {
   skyTop: string;
   skyMid: string;
   skyBottom: string;
+  horizonInner: string;
   horizonGlow: string;
   cloudFill: string;
   opacityFar: number;
@@ -28,50 +29,55 @@ const WEATHER: Record<WeatherState, {
   opacityNear: number;
 }> = {
   idle: {
-    skyTop:    '#02060E',
-    skyMid:    '#07142A',
-    skyBottom: '#0D2242',
-    horizonGlow: 'rgba(65,140,245,0.16)',
+    skyTop:       '#02060E',
+    skyMid:       '#07142A',
+    skyBottom:    '#0D2242',
+    horizonInner: 'rgba(140,190,255,0.22)',
+    horizonGlow:  'rgba(65,140,245,0.16)',
     cloudFill: 'rgb(200,220,255)',
     opacityFar: 0.38,
     opacityMid: 0.54,
     opacityNear: 0.70,
   },
   climbing: {
-    skyTop:    '#030912',
-    skyMid:    '#091428',
-    skyBottom: '#102242',
-    horizonGlow: 'rgba(85,158,255,0.20)',
+    skyTop:       '#030912',
+    skyMid:       '#091428',
+    skyBottom:    '#102242',
+    horizonInner: 'rgba(160,205,255,0.28)',
+    horizonGlow:  'rgba(85,158,255,0.20)',
     cloudFill: 'rgb(215,232,255)',
     opacityFar: 0.42,
     opacityMid: 0.58,
     opacityNear: 0.75,
   },
   cruising: {
-    skyTop:    '#010508',
-    skyMid:    '#040C1C',
-    skyBottom: '#08142A',
-    horizonGlow: 'rgba(70,145,255,0.12)',
+    skyTop:       '#010508',
+    skyMid:       '#040C1C',
+    skyBottom:    '#08142A',
+    horizonInner: 'rgba(100,165,255,0.16)',
+    horizonGlow:  'rgba(70,145,255,0.12)',
     cloudFill: 'rgb(228,240,255)',
     opacityFar: 0.46,
     opacityMid: 0.62,
     opacityNear: 0.80,
   },
   golden: {
-    skyTop:    '#060412',
-    skyMid:    '#110A1E',
-    skyBottom: '#1E0E24',
-    horizonGlow: 'rgba(245,130,32,0.28)',
+    skyTop:       '#060412',
+    skyMid:       '#110A1E',
+    skyBottom:    '#1E0E24',
+    horizonInner: 'rgba(255,160,40,0.40)',
+    horizonGlow:  'rgba(245,130,32,0.28)',
     cloudFill: 'rgb(255,228,195)',
     opacityFar: 0.44,
     opacityMid: 0.60,
     opacityNear: 0.76,
   },
   landing: {
-    skyTop:    '#040308',
-    skyMid:    '#0C0812',
-    skyBottom: '#1A0C1A',
-    horizonGlow: 'rgba(255,138,22,0.38)',
+    skyTop:       '#040308',
+    skyMid:       '#0C0812',
+    skyBottom:    '#1A0C1A',
+    horizonInner: 'rgba(255,175,50,0.50)',
+    horizonGlow:  'rgba(255,138,22,0.38)',
     cloudFill: 'rgb(255,218,155)',
     opacityFar: 0.48,
     opacityMid: 0.65,
@@ -235,6 +241,45 @@ const NEAR_CLOUDS = [
     circles: [{ cx:120,cy:90,r:78 },{ cx:200,cy:70,r:88 },{ cx:282,cy:82,r:68 },{ cx:75,cy:102,r:60 }] },
 ];
 
+// ─── City lights ─────────────────────────────────────────────────────────────
+
+const CITY_LIGHT_COLORS = ['#ffb83a', '#ffc850', '#ff9020', '#ffe070'];
+
+const CITY_LIGHTS: Array<{ x: number; y: number; r: number }> = [
+  // Left cluster
+  { x: 198, y: 212, r: 1.8 }, { x: 208, y: 207, r: 1.5 }, { x: 215, y: 214, r: 2.4 },
+  { x: 224, y: 205, r: 1.2 }, { x: 232, y: 211, r: 1.8 }, { x: 240, y: 207, r: 2.0 },
+  { x: 248, y: 215, r: 1.5 }, { x: 256, y: 203, r: 1.2 }, { x: 263, y: 210, r: 2.2 },
+  { x: 271, y: 207, r: 1.5 }, { x: 278, y: 213, r: 1.8 }, { x: 285, y: 205, r: 1.2 },
+  { x: 293, y: 211, r: 2.0 }, { x: 300, y: 208, r: 1.5 }, { x: 308, y: 214, r: 1.8 },
+  // Center cluster
+  { x: 612, y: 208, r: 1.8 }, { x: 621, y: 213, r: 2.2 }, { x: 630, y: 205, r: 1.5 },
+  { x: 639, y: 211, r: 1.8 }, { x: 647, y: 207, r: 1.2 }, { x: 655, y: 214, r: 2.5 },
+  { x: 663, y: 204, r: 1.5 }, { x: 671, y: 210, r: 1.8 }, { x: 679, y: 206, r: 2.0 },
+  { x: 687, y: 213, r: 1.5 }, { x: 695, y: 205, r: 1.2 }, { x: 703, y: 211, r: 2.2 },
+  { x: 711, y: 208, r: 1.5 }, { x: 719, y: 215, r: 1.8 }, { x: 727, y: 204, r: 1.2 },
+  { x: 735, y: 210, r: 2.0 }, { x: 743, y: 207, r: 1.5 }, { x: 751, y: 213, r: 1.8 },
+  { x: 758, y: 205, r: 1.2 },
+  // Right cluster
+  { x: 1057, y: 210, r: 1.8 }, { x: 1066, y: 207, r: 1.5 }, { x: 1073, y: 214, r: 2.2 },
+  { x: 1081, y: 205, r: 1.2 }, { x: 1089, y: 211, r: 1.8 }, { x: 1097, y: 208, r: 2.0 },
+  { x: 1104, y: 215, r: 1.5 }, { x: 1112, y: 203, r: 1.2 }, { x: 1119, y: 210, r: 2.4 },
+  { x: 1127, y: 207, r: 1.5 }, { x: 1134, y: 213, r: 1.8 }, { x: 1141, y: 205, r: 1.2 },
+  { x: 1149, y: 211, r: 2.0 }, { x: 1156, y: 208, r: 1.5 },
+  // Scattered
+  { x: 148, y: 213, r: 1.5 }, { x: 161, y: 208, r: 1.2 }, { x: 174, y: 215, r: 1.8 },
+  { x: 356, y: 211, r: 1.5 }, { x: 368, y: 207, r: 1.2 }, { x: 380, y: 214, r: 1.8 },
+  { x: 442, y: 210, r: 1.5 }, { x: 455, y: 213, r: 1.2 },
+  { x: 516, y: 208, r: 1.5 }, { x: 529, y: 214, r: 1.8 }, { x: 541, y: 207, r: 1.2 },
+  { x: 850, y: 211, r: 1.5 }, { x: 862, y: 208, r: 1.2 }, { x: 874, y: 214, r: 1.8 },
+  { x: 922, y: 210, r: 1.5 }, { x: 934, y: 207, r: 1.2 },
+  { x: 997, y: 213, r: 1.5 }, { x: 1010, y: 208, r: 1.8 },
+  { x: 1202, y: 210, r: 1.5 }, { x: 1215, y: 207, r: 1.2 }, { x: 1228, y: 214, r: 1.8 },
+  { x: 1282, y: 211, r: 1.5 }, { x: 1295, y: 208, r: 1.2 },
+  { x: 1352, y: 213, r: 1.5 }, { x: 1365, y: 208, r: 1.8 },
+  { x: 1412, y: 211, r: 1.5 }, { x: 1425, y: 207, r: 1.2 },
+];
+
 // ─── Earth layer ─────────────────────────────────────────────────────────────
 
 function EarthLayer({ earthState }: { earthState: EarthState }) {
@@ -295,6 +340,13 @@ function EarthLayer({ earthState }: { earthState: EarthState }) {
         <filter id="bloom-soft" x="-150%" y="-150%" width="400%" height="400%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="18" />
         </filter>
+        <filter id="dot-glow" x="-200%" y="-200%" width="500%" height="500%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
 
       <rect x="0" y="0" width="1440" height="220" fill="url(#earth-grad)" />
@@ -308,17 +360,25 @@ function EarthLayer({ earthState }: { earthState: EarthState }) {
         </g>
       )}
 
-      {/* Landing: warm atmospheric city glow from below */}
+      {/* Landing: city lights as warm glowing dots with cluster halos */}
       {isLanding && (
         <g>
-          <ellipse cx="720"  cy="218" rx="720" ry="55"  fill="#f08010" opacity="0.18" filter="url(#bloom-soft)" />
-          <ellipse cx="265"  cy="198" rx="140" ry="40"  fill="#f5a028" opacity="0.36" filter="url(#bloom-soft)" />
-          <ellipse cx="670"  cy="190" rx="162" ry="48"  fill="#f5b030" opacity="0.42" filter="url(#bloom-soft)" />
-          <ellipse cx="1085" cy="196" rx="148" ry="42"  fill="#f5a028" opacity="0.38" filter="url(#bloom-soft)" />
-          <ellipse cx="440"  cy="208" rx="92"  ry="26"  fill="#f0a020" opacity="0.26" filter="url(#bloom-soft)" />
-          <ellipse cx="870"  cy="205" rx="98"  ry="28"  fill="#f0a820" opacity="0.28" filter="url(#bloom-soft)" />
-          <ellipse cx="148"  cy="212" rx="65"  ry="18"  fill="#f09018" opacity="0.20" filter="url(#bloom-soft)" />
-          <ellipse cx="1298" cy="210" rx="70"  ry="20"  fill="#f09018" opacity="0.22" filter="url(#bloom-soft)" />
+          {/* Cluster halos to tie groups together */}
+          <ellipse cx="253"  cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
+          <ellipse cx="685"  cy="219" rx="82" ry="14" fill="#f5a030" opacity="0.10" filter="url(#bloom-soft)" />
+          <ellipse cx="1107" cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
+          {/* Individual glowing dots */}
+          <g filter="url(#dot-glow)">
+            {CITY_LIGHTS.map((dot, i) => (
+              <circle
+                key={i}
+                cx={dot.x}
+                cy={dot.y}
+                r={dot.r}
+                fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]}
+              />
+            ))}
+          </g>
         </g>
       )}
     </svg>
@@ -398,8 +458,8 @@ export function SkyBackground({
       {/* Horizon atmosphere glow */}
       <motion.div
         className="absolute bottom-0 left-0 right-0"
-        style={{ height: '42%', zIndex: 1 }}
-        animate={{ background: `radial-gradient(ellipse 100% 60% at 50% 100%, ${config.horizonGlow} 0%, transparent 100%)` }}
+        style={{ height: '52%', zIndex: 1 }}
+        animate={{ background: `radial-gradient(ellipse 80% 30% at 50% 100%, ${config.horizonInner} 0%, transparent 100%), radial-gradient(ellipse 140% 62% at 50% 100%, ${config.horizonGlow} 0%, transparent 100%)` }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       />
 

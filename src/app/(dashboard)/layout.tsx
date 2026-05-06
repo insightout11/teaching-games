@@ -24,7 +24,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!user) redirect('/login');
 
   return (
-    <div className="relative min-h-screen flex bg-lc-bg text-lc-text">
+    <div className="relative min-h-screen flex text-lc-text">
       <SkyBackground intensity="subtle" className="!left-64" />
       <a
         href="#main-content"

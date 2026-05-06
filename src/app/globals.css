@@ -30,6 +30,10 @@
   --lc-amber-muted: rgba(245,158,11,0.08);
 }
 
+html, body {
+  background-color: var(--lc-bg);
+}
+
 html[data-theme="light"] {
   --background: #F0F4FA;
   --foreground: #0F172A;

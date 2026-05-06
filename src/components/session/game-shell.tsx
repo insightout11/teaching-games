@@ -426,43 +426,45 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
         {/* Main game area */}
         <div className="lg:col-span-3 space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <h2 className="text-lg font-bold">{game.name}</h2>
-              <ModifierBadge />
-            </div>
-            {autoApprove && (
-              <button
-                onClick={handleRevealTop3}
-                className="px-3 py-1.5 text-xs font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg hover:bg-cyan-500/30 transition-all"
-              >
-                Reveal Top 3
-              </button>
-            )}
-          </div>
-          <div className="glass rounded-2xl p-6 min-h-[480px] max-h-[680px] overflow-y-auto">
-            {/* Block game if spin needed */}
-            {needsSpin ? (
-              <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
-                <p className="text-xl font-game text-cyan-400 mb-2">Spin Required!</p>
-                <p className="opacity-60 text-sm">Click the SPIN button to get your modifier</p>
+          <div className="glass rounded-2xl min-h-[480px] max-h-[680px] flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.06] shrink-0">
+              <div className="flex items-center gap-3">
+                <h2 className="text-lg font-bold">{game.name}</h2>
+                <ModifierBadge />
               </div>
-            ) : (
-              <GameComponent
-                students={students}
-                currentStudentId={currentStudentId}
-                onScore={handleScore}
-                onPickStudent={handlePickStudent}
-                onPickSpecificStudent={handlePickSpecificStudent}
-                config={gameConfig}
-                sessionSettings={sessionSettings}
-                onSetInputSpec={handleSetInputSpec}
-                onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
-                onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
-                prefsMap={prefsMap}
-                onRevealTopSubmissions={onRevealTopSubmissionsRef.current}
-              />
-            )}
+              {autoApprove && (
+                <button
+                  onClick={handleRevealTop3}
+                  className="px-3 py-1.5 text-xs font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg hover:bg-cyan-500/30 transition-all"
+                >
+                  Reveal Top 3
+                </button>
+              )}
+            </div>
+            <div className="flex-1 overflow-y-auto p-6">
+              {/* Block game if spin needed */}
+              {needsSpin ? (
+                <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
+                  <p className="text-xl font-game text-cyan-400 mb-2">Spin Required!</p>
+                  <p className="opacity-60 text-sm">Click the SPIN button to get your modifier</p>
+                </div>
+              ) : (
+                <GameComponent
+                  students={students}
+                  currentStudentId={currentStudentId}
+                  onScore={handleScore}
+                  onPickStudent={handlePickStudent}
+                  onPickSpecificStudent={handlePickSpecificStudent}
+                  config={gameConfig}
+                  sessionSettings={sessionSettings}
+                  onSetInputSpec={handleSetInputSpec}
+                  onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
+                  onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
+                  prefsMap={prefsMap}
+                  onRevealTopSubmissions={onRevealTopSubmissionsRef.current}
+                />
+              )}
+            </div>
           </div>
         </div>
 
