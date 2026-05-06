@@ -179,23 +179,92 @@ const NEAR_CLOUDS = [
 ];
 
 // ─── Cirrus cloud shapes ─────────────────────────────────────────────────────
-// Thin wispy streaks visible only at high altitude.
-// Paths are elongated ellipses with very low blur for a filament look.
+// Stroked bezier paths that look like real high-altitude cirrus:
+// irregular, wispy, varying thickness. Each formation has multiple strands
+// at different blur/opacity levels to create natural feathering.
+// strands: [ { d, sw (strokeWidth), blur, op (opacity) } ]
 
-const CIRRUS_CLOUDS = [
-  { id: 'ci1', xVw: 3,   yPx: 18, w: 260, h: 10, blur: 3, rx: 50 },
-  { id: 'ci2', xVw: 28,  yPx: 8,  w: 340, h: 7,  blur: 2, rx: 50 },
-  { id: 'ci3', xVw: 55,  yPx: 30, w: 210, h: 12, blur: 4, rx: 50 },
-  { id: 'ci4', xVw: 72,  yPx: 14, w: 290, h: 8,  blur: 3, rx: 50 },
-  { id: 'ci5', xVw: 15,  yPx: 42, w: 180, h: 9,  blur: 3, rx: 50 },
-  { id: 'ci6', xVw: 85,  yPx: 24, w: 240, h: 11, blur: 4, rx: 50 },
+type CirrusStrand = { d: string; sw: number; blur: number; op: number };
+type CirrusFormation = { id: string; xVw: number; yPx: number; w: number; h: number; strands: CirrusStrand[] };
+
+function CirrusShape({ cloud }: { cloud: CirrusFormation }) {
+  return (
+    <svg
+      width={cloud.w} height={cloud.h}
+      viewBox={`0 0 ${cloud.w} ${cloud.h}`}
+      style={{ overflow: 'visible', display: 'block' }}
+      aria-hidden
+    >
+      {cloud.strands.map((s, i) => (
+        <g key={i} style={{ filter: `blur(${s.blur}px)` }}>
+          <path d={s.d} stroke="rgb(235,245,255)" strokeWidth={s.sw} fill="none" opacity={s.op} />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// Horsetail — long sweep with fanning tails on the right
+const HORSETAIL: CirrusStrand[] = [
+  { d: 'M 0,28 C 200,18 440,38 650,22',              sw: 22, blur: 10, op: 0.09 }, // diffuse base
+  { d: 'M 10,26 C 200,16 440,36 645,20',             sw: 7,  blur: 4,  op: 0.55 }, // main strand
+  { d: 'M 25,20 C 210,10 445,30 630,14',             sw: 3,  blur: 2,  op: 0.38 }, // thin parallel
+  { d: 'M 450,24 C 510,14 572,7  640,4',             sw: 3,  blur: 2,  op: 0.34 }, // tail 1
+  { d: 'M 460,30 C 515,22 572,16 638,14',            sw: 2,  blur: 2,  op: 0.26 }, // tail 2
+  { d: 'M 435,28 C 490,20 548,14 606,12',            sw: 2,  blur: 2,  op: 0.20 }, // tail 3
+];
+
+// Parallel streaks — evenly-spaced thin lines
+const PARALLEL: CirrusStrand[] = [
+  { d: 'M 0,15 C 120,9  270,22 500,11',              sw: 16, blur: 9,  op: 0.08 }, // diffuse
+  { d: 'M 0,13 C 120,7  270,20 500,9',               sw: 5,  blur: 3,  op: 0.48 },
+  { d: 'M 0,22 C 120,16 270,29 500,18',              sw: 4,  blur: 3,  op: 0.42 },
+  { d: 'M 0,29 C 120,23 270,36 500,25',              sw: 3,  blur: 3,  op: 0.36 },
+  { d: 'M 10,7  C 130,1  275,14 490,3',              sw: 2,  blur: 2,  op: 0.28 },
+  { d: 'M 20,36 C 135,30 278,43 490,32',             sw: 2,  blur: 2,  op: 0.22 },
+];
+
+// Hooked cirrus — curves upward at one end
+const HOOKED: CirrusStrand[] = [
+  { d: 'M 0,40 C 100,30 220,20 290,18 C 330,16 370,10 410,4',  sw: 18, blur: 9,  op: 0.09 },
+  { d: 'M 0,40 C 100,30 220,20 290,18 C 330,16 370,10 410,4',  sw: 6,  blur: 4,  op: 0.52 },
+  { d: 'M 0,48 C 100,38 220,28 288,26 C 328,24 368,18 405,12', sw: 3,  blur: 2,  op: 0.36 },
+  { d: 'M 300,14 C 330,6  358,2  390,0',                        sw: 3,  blur: 2,  op: 0.30 },
+  { d: 'M 285,20 C 315,11 344,6  375,4',                        sw: 2,  blur: 2,  op: 0.22 },
+];
+
+// Fan — strands radiating from a single point
+const FAN: CirrusStrand[] = [
+  { d: 'M 30,38 C 100,25 200,14 380,4',              sw: 20, blur: 10, op: 0.08 },
+  { d: 'M 30,38 C 100,24 200,13 380,3',              sw: 5,  blur: 3,  op: 0.46 },
+  { d: 'M 30,38 C 100,31 200,22 380,16',             sw: 4,  blur: 3,  op: 0.42 },
+  { d: 'M 30,38 C 100,38 200,35 375,32',             sw: 4,  blur: 3,  op: 0.38 },
+  { d: 'M 30,38 C 100,18 185,8  345,0',              sw: 3,  blur: 2,  op: 0.30 },
+  { d: 'M 30,38 C 100,42 200,42 370,40',             sw: 2,  blur: 2,  op: 0.24 },
+];
+
+// Diffuse wisps — short, soft, scattered
+const WISPS: CirrusStrand[] = [
+  { d: 'M 0,20 C 80,12 165,24 280,16',              sw: 20, blur: 12, op: 0.10 },
+  { d: 'M 0,18 C 80,10 165,22 280,14',              sw: 8,  blur: 5,  op: 0.42 },
+  { d: 'M 15,28 C 90,20 172,32 268,24',             sw: 5,  blur: 5,  op: 0.34 },
+  { d: 'M 30,10 C 100,4  175,14 265,8',             sw: 3,  blur: 3,  op: 0.28 },
+];
+
+const CIRRUS_FORMATIONS: CirrusFormation[] = [
+  { id: 'ci1',  xVw: 2,   yPx: 12, w: 650, h: 55, strands: HORSETAIL },
+  { id: 'ci2',  xVw: 30,  yPx: 38, w: 500, h: 45, strands: PARALLEL  },
+  { id: 'ci3',  xVw: 56,  yPx: 18, w: 410, h: 60, strands: HOOKED    },
+  { id: 'ci4',  xVw: 70,  yPx: 44, w: 380, h: 55, strands: FAN       },
+  { id: 'ci5',  xVw: 14,  yPx: 55, w: 280, h: 40, strands: WISPS     },
+  { id: 'ci6',  xVw: 82,  yPx: 28, w: 500, h: 45, strands: PARALLEL  },
   // Seamless copies (+100vw)
-  { id: 'ci1b', xVw: 103, yPx: 18, w: 260, h: 10, blur: 3, rx: 50 },
-  { id: 'ci2b', xVw: 128, yPx: 8,  w: 340, h: 7,  blur: 2, rx: 50 },
-  { id: 'ci3b', xVw: 155, yPx: 30, w: 210, h: 12, blur: 4, rx: 50 },
-  { id: 'ci4b', xVw: 172, yPx: 14, w: 290, h: 8,  blur: 3, rx: 50 },
-  { id: 'ci5b', xVw: 115, yPx: 42, w: 180, h: 9,  blur: 3, rx: 50 },
-  { id: 'ci6b', xVw: 185, yPx: 24, w: 240, h: 11, blur: 4, rx: 50 },
+  { id: 'ci1b', xVw: 102, yPx: 12, w: 650, h: 55, strands: HORSETAIL },
+  { id: 'ci2b', xVw: 130, yPx: 38, w: 500, h: 45, strands: PARALLEL  },
+  { id: 'ci3b', xVw: 156, yPx: 18, w: 410, h: 60, strands: HOOKED    },
+  { id: 'ci4b', xVw: 170, yPx: 44, w: 380, h: 55, strands: FAN       },
+  { id: 'ci5b', xVw: 114, yPx: 55, w: 280, h: 40, strands: WISPS     },
+  { id: 'ci6b', xVw: 182, yPx: 28, w: 500, h: 45, strands: PARALLEL  },
 ];
 
 // ─── Earth layer ─────────────────────────────────────────────────────────────
@@ -265,61 +334,20 @@ function EarthLayer({ earthState }: { earthState: EarthState }) {
         </g>
       )}
 
-      {/* Landing: city light grid — tiny dots with cluster blooms */}
+      {/* Landing: pure atmospheric city glow — no dots, just warm area light */}
       {isLanding && (
         <g>
-          {/* Soft area blooms behind clusters */}
-          <ellipse cx="260" cy="165" rx="40" ry="14" fill="#f5a020" opacity="0.07" filter="url(#bloom-soft)" />
-          <ellipse cx="660" cy="155" rx="55" ry="18" fill="#f5c030" opacity="0.09" filter="url(#bloom-soft)" />
-          <ellipse cx="1090" cy="162" rx="45" ry="14" fill="#f5a820" opacity="0.08" filter="url(#bloom-soft)" />
-          <ellipse cx="430" cy="170" rx="30" ry="10" fill="#f0b020" opacity="0.06" filter="url(#bloom-soft)" />
-          <ellipse cx="880" cy="168" rx="35" ry="11" fill="#f5b020" opacity="0.06" filter="url(#bloom-soft)" />
-          {/* Point lights — cluster A (left) */}
-          <g filter="url(#bloom)">
-            <circle cx="228" cy="168" r="1.5" fill="#ffe090" opacity="0.9" />
-            <circle cx="238" cy="164" r="1" fill="#ffd070" opacity="0.8" />
-            <circle cx="248" cy="170" r="1.5" fill="#ffcc60" opacity="0.85" />
-            <circle cx="258" cy="162" r="1" fill="#ffe080" opacity="0.75" />
-            <circle cx="268" cy="167" r="1.5" fill="#ffd060" opacity="0.9" />
-            <circle cx="278" cy="163" r="1" fill="#ffe090" opacity="0.7" />
-            <circle cx="286" cy="170" r="1" fill="#ffcc60" opacity="0.65" />
-            <circle cx="295" cy="165" r="1.5" fill="#ffd070" opacity="0.8" />
-          </g>
-          {/* Point lights — cluster B (center) */}
-          <g filter="url(#bloom)">
-            <circle cx="612" cy="160" r="1.5" fill="#ffe090" opacity="0.9" />
-            <circle cx="624" cy="165" r="1" fill="#ffd060" opacity="0.8" />
-            <circle cx="636" cy="158" r="1.5" fill="#ffcc60" opacity="0.85" />
-            <circle cx="648" cy="163" r="1" fill="#ffe080" opacity="0.8" />
-            <circle cx="660" cy="157" r="2" fill="#ffd070" opacity="0.9" />
-            <circle cx="672" cy="162" r="1" fill="#ffe090" opacity="0.75" />
-            <circle cx="684" cy="158" r="1.5" fill="#ffcc60" opacity="0.85" />
-            <circle cx="695" cy="165" r="1" fill="#ffd060" opacity="0.7" />
-            <circle cx="706" cy="160" r="1.5" fill="#ffe080" opacity="0.8" />
-          </g>
-          {/* Point lights — cluster C (right) */}
-          <g filter="url(#bloom)">
-            <circle cx="1052" cy="165" r="1.5" fill="#ffe090" opacity="0.85" />
-            <circle cx="1064" cy="160" r="1" fill="#ffd070" opacity="0.8" />
-            <circle cx="1076" cy="166" r="1.5" fill="#ffcc60" opacity="0.9" />
-            <circle cx="1088" cy="161" r="1" fill="#ffe080" opacity="0.75" />
-            <circle cx="1100" cy="165" r="1.5" fill="#ffd060" opacity="0.85" />
-            <circle cx="1112" cy="160" r="1" fill="#ffe090" opacity="0.7" />
-            <circle cx="1122" cy="167" r="1" fill="#ffcc60" opacity="0.65" />
-          </g>
-          {/* Scattered individual lights */}
-          <g filter="url(#bloom)">
-            <circle cx="410" cy="172" r="1" fill="#ffd060" opacity="0.7" />
-            <circle cx="422" cy="168" r="1.5" fill="#ffe080" opacity="0.65" />
-            <circle cx="436" cy="173" r="1" fill="#ffc840" opacity="0.6" />
-            <circle cx="848" cy="170" r="1" fill="#ffd070" opacity="0.65" />
-            <circle cx="862" cy="166" r="1.5" fill="#ffe090" opacity="0.7" />
-            <circle cx="878" cy="171" r="1" fill="#ffc840" opacity="0.6" />
-            <circle cx="1248" cy="170" r="1" fill="#ffd060" opacity="0.6" />
-            <circle cx="1262" cy="167" r="1.5" fill="#ffe080" opacity="0.65" />
-            <circle cx="145" cy="174" r="1" fill="#ffd060" opacity="0.5" />
-            <circle cx="158" cy="170" r="1" fill="#ffe070" opacity="0.45" />
-          </g>
+          {/* Large diffuse region glow — the overall lit-up city atmosphere */}
+          <ellipse cx="720" cy="175" rx="680" ry="35" fill="#f09010" opacity="0.09" filter="url(#bloom-soft)" />
+          {/* Major cluster glows */}
+          <ellipse cx="265" cy="162" rx="110" ry="22" fill="#f5a828" opacity="0.16" filter="url(#bloom-soft)" />
+          <ellipse cx="670" cy="155" rx="130" ry="28" fill="#f5b530" opacity="0.18" filter="url(#bloom-soft)" />
+          <ellipse cx="1085" cy="160" rx="115" ry="23" fill="#f5a828" opacity="0.16" filter="url(#bloom-soft)" />
+          {/* Secondary glows between clusters */}
+          <ellipse cx="440" cy="168" rx="70" ry="16" fill="#f0a020" opacity="0.10" filter="url(#bloom-soft)" />
+          <ellipse cx="870" cy="166" rx="75" ry="17" fill="#f0a820" opacity="0.11" filter="url(#bloom-soft)" />
+          <ellipse cx="145" cy="170" rx="55" ry="13" fill="#f09018" opacity="0.08" filter="url(#bloom-soft)" />
+          <ellipse cx="1290" cy="168" rx="60" ry="14" fill="#f09018" opacity="0.08" filter="url(#bloom-soft)" />
         </g>
       )}
     </svg>
@@ -385,7 +413,7 @@ export function SkyBackground({
 
   return (
     <div
-      className={`absolute inset-0 overflow-hidden pointer-events-none select-none ${className ?? ''}`}
+      className={`fixed inset-0 overflow-hidden pointer-events-none select-none ${className ?? ''}`}
       style={{ zIndex: 0, ...burstDurations }}
       aria-hidden
     >
@@ -423,32 +451,13 @@ export function SkyBackground({
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
         <div className="cloud-layer-cirrus absolute top-0 left-0" style={{ width: '200vw' }}>
-          {CIRRUS_CLOUDS.map((c) => (
+          {CIRRUS_FORMATIONS.map((c) => (
             <div
               key={c.id}
               className="absolute"
               style={{ left: `${c.xVw}vw`, top: c.yPx }}
             >
-              <svg
-                width={c.w}
-                height={c.h + 16}
-                viewBox={`0 0 ${c.w} ${c.h + 16}`}
-                style={{ display: 'block', overflow: 'visible' }}
-                aria-hidden
-              >
-                <defs>
-                  <filter id={`cf-${c.id}`} x="-20%" y="-100%" width="140%" height="300%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation={c.blur} />
-                  </filter>
-                </defs>
-                <rect
-                  x="0" y={c.h / 2} width={c.w} height={c.h}
-                  rx={c.rx} ry={c.h / 2}
-                  fill="rgb(230,242,255)"
-                  opacity="0.85"
-                  filter={`url(#cf-${c.id})`}
-                />
-              </svg>
+              <CirrusShape cloud={c} />
             </div>
           ))}
         </div>
