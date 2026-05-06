@@ -204,67 +204,66 @@ function CirrusShape({ cloud }: { cloud: CirrusFormation }) {
   );
 }
 
-// Horsetail — long sweep with fanning tails on the right
+// Horsetail — long sweeping strand with fanning tails on the right (1400×90px)
 const HORSETAIL: CirrusStrand[] = [
-  { d: 'M 0,28 C 200,18 440,38 650,22',              sw: 22, blur: 10, op: 0.09 }, // diffuse base
-  { d: 'M 10,26 C 200,16 440,36 645,20',             sw: 7,  blur: 4,  op: 0.55 }, // main strand
-  { d: 'M 25,20 C 210,10 445,30 630,14',             sw: 3,  blur: 2,  op: 0.38 }, // thin parallel
-  { d: 'M 450,24 C 510,14 572,7  640,4',             sw: 3,  blur: 2,  op: 0.34 }, // tail 1
-  { d: 'M 460,30 C 515,22 572,16 638,14',            sw: 2,  blur: 2,  op: 0.26 }, // tail 2
-  { d: 'M 435,28 C 490,20 548,14 606,12',            sw: 2,  blur: 2,  op: 0.20 }, // tail 3
+  { d: 'M 0,45 C 350,28 820,64 1400,36',                              sw: 40, blur: 18, op: 0.09 },
+  { d: 'M 15,43 C 350,26 820,62 1385,33',                             sw: 12, blur: 6,  op: 0.55 },
+  { d: 'M 42,33 C 360,15 830,52 1360,23',                             sw: 5,  blur: 3,  op: 0.38 },
+  { d: 'M 950,38 C 1090,22 1230,10 1388,5',                           sw: 5,  blur: 3,  op: 0.34 },
+  { d: 'M 965,48 C 1100,35 1235,26 1380,22',                          sw: 3,  blur: 3,  op: 0.26 },
+  { d: 'M 920,44 C 1055,31 1185,22 1315,18',                          sw: 3,  blur: 2,  op: 0.20 },
 ];
 
-// Parallel streaks — evenly-spaced thin lines
+// Parallel streaks — evenly-spaced thin lines spanning full width (1100×65px)
 const PARALLEL: CirrusStrand[] = [
-  { d: 'M 0,15 C 120,9  270,22 500,11',              sw: 16, blur: 9,  op: 0.08 }, // diffuse
-  { d: 'M 0,13 C 120,7  270,20 500,9',               sw: 5,  blur: 3,  op: 0.48 },
-  { d: 'M 0,22 C 120,16 270,29 500,18',              sw: 4,  blur: 3,  op: 0.42 },
-  { d: 'M 0,29 C 120,23 270,36 500,25',              sw: 3,  blur: 3,  op: 0.36 },
-  { d: 'M 10,7  C 130,1  275,14 490,3',              sw: 2,  blur: 2,  op: 0.28 },
-  { d: 'M 20,36 C 135,30 278,43 490,32',             sw: 2,  blur: 2,  op: 0.22 },
+  { d: 'M 0,25 C 250,14 560,40 1100,18',                              sw: 28, blur: 14, op: 0.08 },
+  { d: 'M 0,22 C 250,11 560,36 1100,14',                              sw: 8,  blur: 4,  op: 0.48 },
+  { d: 'M 0,36 C 250,25 560,51 1100,28',                              sw: 7,  blur: 4,  op: 0.42 },
+  { d: 'M 0,48 C 250,38 560,63 1100,41',                              sw: 5,  blur: 4,  op: 0.36 },
+  { d: 'M 15,12 C 265,1  572,26 1085,4',                              sw: 3,  blur: 3,  op: 0.28 },
+  { d: 'M 28,58 C 272,48 574,73 1082,51',                             sw: 3,  blur: 3,  op: 0.22 },
 ];
 
-// Hooked cirrus — curves upward at one end
+// Hooked — main strand that curves sharply upward at one end (900×95px)
 const HOOKED: CirrusStrand[] = [
-  { d: 'M 0,40 C 100,30 220,20 290,18 C 330,16 370,10 410,4',  sw: 18, blur: 9,  op: 0.09 },
-  { d: 'M 0,40 C 100,30 220,20 290,18 C 330,16 370,10 410,4',  sw: 6,  blur: 4,  op: 0.52 },
-  { d: 'M 0,48 C 100,38 220,28 288,26 C 328,24 368,18 405,12', sw: 3,  blur: 2,  op: 0.36 },
-  { d: 'M 300,14 C 330,6  358,2  390,0',                        sw: 3,  blur: 2,  op: 0.30 },
-  { d: 'M 285,20 C 315,11 344,6  375,4',                        sw: 2,  blur: 2,  op: 0.22 },
+  { d: 'M 0,65 C 220,50 460,34 600,30 C 680,27 760,17 900,7',        sw: 30, blur: 14, op: 0.09 },
+  { d: 'M 0,65 C 220,50 460,34 600,30 C 680,27 760,17 900,7',        sw: 10, blur: 6,  op: 0.52 },
+  { d: 'M 0,78 C 220,63 460,47 596,43 C 676,40 756,30 892,20',       sw: 5,  blur: 3,  op: 0.36 },
+  { d: 'M 625,22 C 700,9  768,3  855,0',                              sw: 5,  blur: 3,  op: 0.30 },
+  { d: 'M 608,32 C 682,17 750,9  822,5',                              sw: 3,  blur: 3,  op: 0.22 },
 ];
 
-// Fan — strands radiating from a single point
+// Fan — strands radiating outward from a single origin (820×90px)
 const FAN: CirrusStrand[] = [
-  { d: 'M 30,38 C 100,25 200,14 380,4',              sw: 20, blur: 10, op: 0.08 },
-  { d: 'M 30,38 C 100,24 200,13 380,3',              sw: 5,  blur: 3,  op: 0.46 },
-  { d: 'M 30,38 C 100,31 200,22 380,16',             sw: 4,  blur: 3,  op: 0.42 },
-  { d: 'M 30,38 C 100,38 200,35 375,32',             sw: 4,  blur: 3,  op: 0.38 },
-  { d: 'M 30,38 C 100,18 185,8  345,0',              sw: 3,  blur: 2,  op: 0.30 },
-  { d: 'M 30,38 C 100,42 200,42 370,40',             sw: 2,  blur: 2,  op: 0.24 },
+  { d: 'M 60,62 C 210,42 440,22 820,5',                               sw: 32, blur: 16, op: 0.08 },
+  { d: 'M 60,62 C 210,40 440,20 820,4',                               sw: 8,  blur: 5,  op: 0.46 },
+  { d: 'M 60,62 C 210,50 440,36 820,26',                              sw: 7,  blur: 5,  op: 0.42 },
+  { d: 'M 60,62 C 210,62 440,58 815,54',                              sw: 7,  blur: 5,  op: 0.38 },
+  { d: 'M 60,62 C 210,29 395,12 748,0',                               sw: 5,  blur: 3,  op: 0.30 },
+  { d: 'M 60,62 C 210,70 440,70 800,68',                              sw: 4,  blur: 3,  op: 0.24 },
 ];
 
-// Diffuse wisps — short, soft, scattered
+// Wisps — shorter diffuse formations (640×65px)
 const WISPS: CirrusStrand[] = [
-  { d: 'M 0,20 C 80,12 165,24 280,16',              sw: 20, blur: 12, op: 0.10 },
-  { d: 'M 0,18 C 80,10 165,22 280,14',              sw: 8,  blur: 5,  op: 0.42 },
-  { d: 'M 15,28 C 90,20 172,32 268,24',             sw: 5,  blur: 5,  op: 0.34 },
-  { d: 'M 30,10 C 100,4  175,14 265,8',             sw: 3,  blur: 3,  op: 0.28 },
+  { d: 'M 0,32 C 170,20 350,44 640,28',                               sw: 32, blur: 18, op: 0.10 },
+  { d: 'M 0,30 C 170,18 350,42 640,26',                               sw: 12, blur: 8,  op: 0.42 },
+  { d: 'M 22,46 C 188,34 368,56 625,40',                              sw: 8,  blur: 8,  op: 0.34 },
+  { d: 'M 48,16 C 208,6  388,24 628,12',                              sw: 5,  blur: 5,  op: 0.28 },
 ];
 
+// 5 formations per 100vw cycle — formations are now wide enough that 5 covers the loop
 const CIRRUS_FORMATIONS: CirrusFormation[] = [
-  { id: 'ci1',  xVw: 2,   yPx: 12, w: 650, h: 55, strands: HORSETAIL },
-  { id: 'ci2',  xVw: 30,  yPx: 38, w: 500, h: 45, strands: PARALLEL  },
-  { id: 'ci3',  xVw: 56,  yPx: 18, w: 410, h: 60, strands: HOOKED    },
-  { id: 'ci4',  xVw: 70,  yPx: 44, w: 380, h: 55, strands: FAN       },
-  { id: 'ci5',  xVw: 14,  yPx: 55, w: 280, h: 40, strands: WISPS     },
-  { id: 'ci6',  xVw: 82,  yPx: 28, w: 500, h: 45, strands: PARALLEL  },
+  { id: 'ci1',  xVw: 0,   yPx: 8,  w: 1400, h: 90, strands: HORSETAIL },
+  { id: 'ci2',  xVw: 20,  yPx: 38, w: 1100, h: 65, strands: PARALLEL  },
+  { id: 'ci3',  xVw: 42,  yPx: 14, w: 900,  h: 95, strands: HOOKED    },
+  { id: 'ci4',  xVw: 60,  yPx: 52, w: 820,  h: 90, strands: FAN       },
+  { id: 'ci5',  xVw: 78,  yPx: 26, w: 640,  h: 65, strands: WISPS     },
   // Seamless copies (+100vw)
-  { id: 'ci1b', xVw: 102, yPx: 12, w: 650, h: 55, strands: HORSETAIL },
-  { id: 'ci2b', xVw: 130, yPx: 38, w: 500, h: 45, strands: PARALLEL  },
-  { id: 'ci3b', xVw: 156, yPx: 18, w: 410, h: 60, strands: HOOKED    },
-  { id: 'ci4b', xVw: 170, yPx: 44, w: 380, h: 55, strands: FAN       },
-  { id: 'ci5b', xVw: 114, yPx: 55, w: 280, h: 40, strands: WISPS     },
-  { id: 'ci6b', xVw: 182, yPx: 28, w: 500, h: 45, strands: PARALLEL  },
+  { id: 'ci1b', xVw: 100, yPx: 8,  w: 1400, h: 90, strands: HORSETAIL },
+  { id: 'ci2b', xVw: 120, yPx: 38, w: 1100, h: 65, strands: PARALLEL  },
+  { id: 'ci3b', xVw: 142, yPx: 14, w: 900,  h: 95, strands: HOOKED    },
+  { id: 'ci4b', xVw: 160, yPx: 52, w: 820,  h: 90, strands: FAN       },
+  { id: 'ci5b', xVw: 178, yPx: 26, w: 640,  h: 65, strands: WISPS     },
 ];
 
 // ─── Earth layer ─────────────────────────────────────────────────────────────
@@ -311,26 +310,15 @@ function EarthLayer({ earthState }: { earthState: EarthState }) {
       {/* Horizon atmosphere fill */}
       <rect x="0" y="0" width="1440" height="180" fill="url(#earth-grad)" />
 
-      {/* Takeoff: runway perspective lines + edge lights */}
+      {/* Takeoff: tarmac strip + grass bands — passenger side-window view looking down */}
       {isTakeoff && (
-        <g opacity="0.75">
-          {/* Converging runway lines (perspective) */}
-          <line x1="680" y1="100" x2="560" y2="178" stroke="#c8d080" strokeWidth="1.5" opacity="0.5" />
-          <line x1="760" y1="100" x2="880" y2="178" stroke="#c8d080" strokeWidth="1.5" opacity="0.5" />
-          {/* Center dashes */}
-          <rect x="717" y="108" width="6" height="10" rx="2" fill="#e8d870" opacity="0.7" />
-          <rect x="716" y="126" width="8" height="12" rx="2" fill="#e8d870" opacity="0.6" />
-          <rect x="714" y="148" width="12" height="14" rx="2" fill="#e8d870" opacity="0.5" />
-          {/* Edge marker lights — left */}
-          <circle cx="565" cy="175" r="2" fill="#d0e8ff" opacity="0.9" />
-          <circle cx="592" cy="162" r="1.5" fill="#d0e8ff" opacity="0.7" />
-          <circle cx="617" cy="148" r="1.5" fill="#d0e8ff" opacity="0.5" />
-          <circle cx="644" cy="132" r="1" fill="#d0e8ff" opacity="0.35" />
-          {/* Edge marker lights — right */}
-          <circle cx="875" cy="175" r="2" fill="#d0e8ff" opacity="0.9" />
-          <circle cx="848" cy="162" r="1.5" fill="#d0e8ff" opacity="0.7" />
-          <circle cx="823" cy="148" r="1.5" fill="#d0e8ff" opacity="0.5" />
-          <circle cx="796" cy="132" r="1" fill="#d0e8ff" opacity="0.35" />
+        <g>
+          {/* Upper grass band */}
+          <rect x="0" y="88" width="1440" height="32" fill="#1e3820" opacity="0.50" />
+          {/* Grey tarmac strip — the runway surface below */}
+          <rect x="0" y="120" width="1440" height="30" fill="#28303c" opacity="0.60" />
+          {/* Lower grass band */}
+          <rect x="0" y="150" width="1440" height="30" fill="#1a3018" opacity="0.40" />
         </g>
       )}
 
