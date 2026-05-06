@@ -306,7 +306,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
           </div>
         </div>
 
-        <div className="glass rounded-2xl p-6 min-h-[400px]">
+        <div className="glass rounded-2xl p-6 min-h-[480px] max-h-[680px] overflow-y-auto">
           <ActivityComponent
             sessionId={sessionId}
             students={students}

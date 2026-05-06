@@ -21,7 +21,8 @@ import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
-import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration } from '@/lib/flight-plan-helpers';
+import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration, computeAltitude, computeEarthState } from '@/lib/flight-plan-helpers';
+import type { EarthState } from '@/lib/flight-plan-helpers';
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
@@ -174,6 +175,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (stage === 'production') return 'golden';
     return 'cruising';
   }, [lesson.isLessonActive, lesson.phase, lesson.currentSlot]);
+
+  const altitude = useMemo(
+    () => lesson.isLessonActive
+      ? computeAltitude(lesson.currentSlotIndex, lesson.lessonSlots.length)
+      : 0.8,
+    [lesson.isLessonActive, lesson.currentSlotIndex, lesson.lessonSlots.length],
+  );
+
+  const earthState = useMemo<EarthState>(
+    () => lesson.isLessonActive
+      ? computeEarthState(lesson.currentSlotIndex, lesson.lessonSlots.length)
+      : 'flight',
+    [lesson.isLessonActive, lesson.currentSlotIndex, lesson.lessonSlots.length],
+  );
 
   // ─── Pacing state ──────────────────────────────────────────────────────
   const sessionStartTimeRef = useRef<number | null>(null);
@@ -743,6 +758,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       <SkyBackground
         weatherState={weatherState}
         currentSlotIndex={lesson.currentSlotIndex}
+        altitude={altitude}
+        earthState={earthState}
         intensity="subtle"
       />
       <div className="relative z-10 space-y-4">

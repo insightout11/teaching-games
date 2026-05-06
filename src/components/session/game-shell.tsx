@@ -440,7 +440,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
               </button>
             )}
           </div>
-          <div className="glass rounded-2xl p-6 min-h-[400px]">
+          <div className="glass rounded-2xl p-6 min-h-[480px] max-h-[680px] overflow-y-auto">
             {/* Block game if spin needed */}
             {needsSpin ? (
               <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center">

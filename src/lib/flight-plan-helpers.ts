@@ -67,6 +67,28 @@ export function getFlightPlanActiveIndex(
   return Math.min(currentSlotIndex, totalSlots - 1);
 }
 
+// ─── Altitude utilities ──────────────────────────────────────────────────────
+
+export type EarthState = 'takeoff' | 'flight' | 'landing';
+
+/**
+ * Returns a 0–1 altitude value following the lesson arc bell curve.
+ * 0 = ground (takeoff/landing), 1 = cruise peak (middle slot).
+ */
+export function computeAltitude(currentSlotIndex: number, totalSlots: number): number {
+  if (totalSlots <= 2) return 0;
+  return 1 - Math.pow(2 * currentSlotIndex / (totalSlots - 1) - 1, 2);
+}
+
+/**
+ * Returns what the earth layer should show based on lesson position.
+ */
+export function computeEarthState(currentSlotIndex: number, totalSlots: number): EarthState {
+  if (currentSlotIndex === 0) return 'takeoff';
+  if (currentSlotIndex >= totalSlots - 1) return 'landing';
+  return 'flight';
+}
+
 // ─── Pacing utilities ────────────────────────────────────────────────────────
 
 const SLOT_TYPE_WEIGHTS: Record<string, number> = {
