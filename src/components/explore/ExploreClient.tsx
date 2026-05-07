@@ -201,7 +201,7 @@ export function ExploreClient() {
   const activityCategoryOrder: ActivityCategory[] = ['icebreaker', 'learning', 'practice', 'debate', 'closing'];
 
   return (
-    <div className="hud-bg -mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
+    <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-lc-text">Explore</h1>
         <p className="text-lc-text2 mt-1">✈ Run a game or activity with your class</p>
