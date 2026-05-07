@@ -140,9 +140,118 @@ function StarField() {
       style={{ display: 'block' }}
       aria-hidden
     >
-      {STARS.map((s, i) => (
-        <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="white" opacity={s.op} />
-      ))}
+      <defs>
+        <style>{`
+          @keyframes star-twinkle {
+            0%, 100% { opacity: var(--s-op); }
+            50%       { opacity: calc(var(--s-op) * 0.14); }
+          }
+        `}</style>
+      </defs>
+      {STARS.map((s, i) => {
+        const twinkles = i % 3 !== 1;
+        const dur  = 2.6 + (i % 11) * 0.52;
+        const delay = -((i * 0.71) % 7);
+        return (
+          <circle
+            key={i}
+            cx={s.x} cy={s.y} r={s.r}
+            fill="white"
+            style={{
+              '--s-op': s.op,
+              opacity: s.op,
+              ...(twinkles ? { animation: `star-twinkle ${dur}s ${delay}s infinite ease-in-out` } : {}),
+            } as React.CSSProperties}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
+// ─── Moon layer ──────────────────────────────────────────────────────────────
+
+function MoonLayer() {
+  return (
+    <svg viewBox="0 0 160 160" width="160" height="160" aria-hidden style={{ display: 'block', overflow: 'visible' }}>
+      <defs>
+        <radialGradient id="moon-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor="rgba(180,210,255,0.22)" />
+          <stop offset="45%"  stopColor="rgba(130,170,255,0.08)" />
+          <stop offset="100%" stopColor="rgba(80,130,255,0)" />
+        </radialGradient>
+        <radialGradient id="moon-disk" cx="38%" cy="32%" r="65%">
+          <stop offset="0%"   stopColor="#F2F6FF" />
+          <stop offset="55%"  stopColor="#D4E2FF" />
+          <stop offset="100%" stopColor="#B0C4EE" />
+        </radialGradient>
+      </defs>
+      {/* Soft halo */}
+      <circle cx="80" cy="80" r="74" fill="url(#moon-glow)" />
+      {/* Moon disk */}
+      <circle cx="80" cy="80" r="22" fill="url(#moon-disk)" opacity="0.93" />
+      {/* Crescent shadow — matches cruising sky so it reads as a crescent */}
+      <circle cx="87" cy="77" r="18" fill="#010610" opacity="0.90" />
+      {/* Subtle crater marks on the lit face */}
+      <circle cx="70" cy="76" r="2.8" fill="#A8BCDE" opacity="0.22" />
+      <circle cx="74" cy="85" r="1.8" fill="#A8BCDE" opacity="0.18" />
+      <circle cx="65" cy="83" r="1.4" fill="#A8BCDE" opacity="0.16" />
+    </svg>
+  );
+}
+
+// ─── Aurora layer ─────────────────────────────────────────────────────────────
+
+function AuroraLayer() {
+  return (
+    <svg
+      viewBox="0 0 1440 340"
+      width="100%"
+      height="100%"
+      preserveAspectRatio="none"
+      aria-hidden
+      style={{ display: 'block' }}
+    >
+      <defs>
+        <filter id="aurora-blur" x="-5%" y="-60%" width="110%" height="220%">
+          <feGaussianBlur stdDeviation="16" />
+        </filter>
+        <style>{`
+          @keyframes aurora-a {
+            0%,100% { opacity:0.20; transform:translateY(0px); }
+            50%      { opacity:0.32; transform:translateY(-11px); }
+          }
+          @keyframes aurora-b {
+            0%,100% { opacity:0.13; transform:translateY(0px); }
+            50%      { opacity:0.22; transform:translateY(9px); }
+          }
+          @keyframes aurora-c {
+            0%,100% { opacity:0.08; transform:translateY(0px); }
+            50%      { opacity:0.15; transform:translateY(-7px); }
+          }
+        `}</style>
+      </defs>
+      {/* Primary green ribbon */}
+      <path
+        d="M -60 155 C 180 110 420 170 720 140 C 1020 110 1260 160 1500 128"
+        stroke="#1aee7a" strokeWidth="52" fill="none"
+        filter="url(#aurora-blur)"
+        style={{ animation: 'aurora-a 9s ease-in-out infinite' }}
+      />
+      {/* Teal secondary ribbon */}
+      <path
+        d="M -60 205 C 220 165 480 220 780 195 C 1080 170 1290 210 1500 180"
+        stroke="#00c8ff" strokeWidth="38" fill="none"
+        filter="url(#aurora-blur)"
+        style={{ animation: 'aurora-b 11s 2.5s ease-in-out infinite' }}
+      />
+      {/* Pale green accent */}
+      <path
+        d="M -60 110 C 160 82 370 122 660 100 C 950 78 1190 112 1500 85"
+        stroke="#aaffe0" strokeWidth="24" fill="none"
+        filter="url(#aurora-blur)"
+        style={{ animation: 'aurora-c 14s 5s ease-in-out infinite' }}
+      />
     </svg>
   );
 }
@@ -550,6 +659,16 @@ export function SkyBackground({
         transition={{ duration: 4, ease: 'easeInOut' }}
       />
 
+      {/* Aurora — cruising/midnight only, sits behind stars */}
+      <motion.div
+        className="absolute top-0 left-0 right-0"
+        style={{ height: '48%', zIndex: 1 }}
+        animate={{ opacity: weatherState === 'cruising' ? 1 : 0 }}
+        transition={{ duration: 6, ease: 'easeInOut' }}
+      >
+        <AuroraLayer />
+      </motion.div>
+
       {/* Stars */}
       <motion.div
         className="absolute top-0 left-0 right-0"
@@ -559,6 +678,16 @@ export function SkyBackground({
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
         <StarField />
+      </motion.div>
+
+      {/* Moon — cruising/midnight only */}
+      <motion.div
+        className="absolute"
+        style={{ top: '8%', right: '14%', zIndex: 2 }}
+        animate={{ opacity: weatherState === 'cruising' ? 1 : 0 }}
+        transition={{ duration: 5, ease: 'easeInOut' }}
+      >
+        <MoonLayer />
       </motion.div>
 
       {/* Earth layer */}
