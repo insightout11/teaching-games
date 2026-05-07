@@ -160,21 +160,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length);
 
-  // ─── Sky weather state ─────────────────────────────────────────────────
+  // ─── Sky weather state — position-based for linear narrative arc ──────
   const weatherState = useMemo<WeatherState>(() => {
     if (!lesson.isLessonActive) return 'idle';
     if (lesson.phase === 'lobby') return 'climbing';
     if (lesson.phase === 'landing' || lesson.phase === 'ended') return 'landing';
-    const slot = lesson.currentSlot;
-    if (!slot) return 'cruising';
-    const plugin = slot.type === 'game'
-      ? getAllGames().find((g) => g.key === slot.key)
-      : getAllActivities().find((a) => a.key === slot.key);
-    const stage = plugin?.pppStage ?? 'practice';
-    if (stage === 'presentation') return 'climbing';
-    if (stage === 'production') return 'golden';
-    return 'cruising';
-  }, [lesson.isLessonActive, lesson.phase, lesson.currentSlot]);
+    const totalSlots = lesson.lessonSlots.length;
+    const idx = lesson.currentSlotIndex;
+    if (idx === 0) return 'climbing';
+    if (idx >= totalSlots - 1) return 'landing';
+    const progress = idx / (totalSlots - 1);
+    if (progress < 0.35) return 'climbing';
+    if (progress < 0.65) return 'cruising';
+    return 'golden';
+  }, [lesson.isLessonActive, lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length]);
 
   const altitude = useMemo(
     () => lesson.isLessonActive
