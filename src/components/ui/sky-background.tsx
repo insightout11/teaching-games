@@ -241,78 +241,11 @@ const NEAR_CLOUDS = [
     circles: [{ cx:120,cy:90,r:78 },{ cx:200,cy:70,r:88 },{ cx:282,cy:82,r:68 },{ cx:75,cy:102,r:60 }] },
 ];
 
-// ─── Sun layer ───────────────────────────────────────────────────────────────
-
-function SunLayer({ weatherState }: { weatherState: WeatherState }) {
-  const isDawn = weatherState === 'landing';
-  const sunCore = isDawn ? '#FFF0C0' : '#FFDC90';
-  const glow1   = isDawn ? 'rgba(255,200,60,0.80)'  : 'rgba(255,120,20,0.80)';
-  const glow2   = isDawn ? 'rgba(255,110,20,0.35)'  : 'rgba(200,50,0,0.30)';
-  return (
-    <svg
-      viewBox="0 0 1440 80"
-      width="100%"
-      height="80"
-      preserveAspectRatio="none"
-      aria-hidden
-      style={{ display: 'block', overflow: 'visible' }}
-    >
-      <defs>
-        <radialGradient id="sun-grad" cx="50%" cy="100%" r="100%" fx="50%" fy="100%">
-          <stop offset="0%"   stopColor={sunCore} stopOpacity="0.95" />
-          <stop offset="18%"  stopColor={glow1}   stopOpacity="0.80" />
-          <stop offset="55%"  stopColor={glow2}   stopOpacity="1" />
-          <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <ellipse cx="720" cy="80" rx="340" ry="80" fill="url(#sun-grad)" />
-      <ellipse cx="720" cy={isDawn ? 71 : 88} rx="28" ry={isDawn ? 17 : 12} fill={sunCore} opacity="0.96" />
-    </svg>
-  );
-}
-
 // ─── Runway edge lights ───────────────────────────────────────────────────────
 
 const RUNWAY_EDGE_LIGHTS: number[] = Array.from({ length: 25 }, (_, i) => 22 + i * 58);
 
-// ─── City skyline shapes ──────────────────────────────────────────────────────
-
-// [x, y, w, h] rects for distant skyline (takeoff/landing horizon)
-const SKYLINE_LEFT: [number, number, number, number][] = [
-  [82, 125, 20, 30], [105, 112, 14, 43], [122, 120, 28, 35], [153, 108, 16, 47],
-  [172, 118, 22, 37], [197, 104, 12, 51], [212, 115, 30, 40], [245, 110, 18, 45],
-  [266, 122, 25, 33], [294, 113, 16, 42], [313, 119, 22, 36], [338, 106, 14, 49],
-];
-const SKYLINE_RIGHT: [number, number, number, number][] = [
-  [1088, 119, 22, 36], [1113, 106, 14, 49], [1130, 113, 30, 42], [1163, 122, 18, 33],
-  [1184, 108, 16, 47], [1203, 115, 25, 40], [1231, 104, 12, 51], [1246, 118, 22, 37],
-  [1271, 112, 20, 43], [1294, 120, 28, 35], [1325, 108, 14, 47], [1342, 115, 18, 40],
-];
-// Denser skyline for landing (closer city)
-const SKYLINE_LANDING: [number, number, number, number][] = [
-  // left cluster
-  [55, 148, 18, 27], [76, 138, 12, 37], [91, 145, 24, 30], [118, 135, 15, 40],
-  [136, 142, 20, 33], [159, 132, 11, 43], [173, 140, 26, 35], [202, 136, 16, 39],
-  [221, 144, 22, 31],
-  // center cluster
-  [540, 140, 14, 35], [557, 132, 20, 43], [580, 138, 28, 37], [611, 128, 16, 47],
-  [630, 135, 22, 40], [655, 130, 12, 45], [670, 140, 25, 35],
-  [695, 132, 18, 43], [716, 142, 20, 33],
-  [740, 130, 14, 45], [757, 138, 22, 37], [782, 128, 16, 47], [801, 136, 28, 39],
-  [832, 140, 12, 35], [847, 132, 20, 43],
-  // right cluster
-  [1219, 144, 22, 31], [1244, 136, 16, 39], [1263, 140, 26, 35], [1292, 132, 11, 43],
-  [1306, 142, 20, 33], [1329, 135, 15, 40], [1347, 145, 24, 30], [1374, 138, 12, 37],
-  [1389, 148, 18, 27],
-];
-
-// Runway approach lights (landing view from above)
-const APPROACH_LEFT_X  = 658;
-const APPROACH_RIGHT_X = 782;
-const APPROACH_YS: number[] = [192, 198, 204, 210, 216];
-const THRESHOLD_XS: number[] = Array.from({ length: 10 }, (_, i) => 665 + i * 12);
-
-// ─── City lights ─────────────────────────────────────────────────────────────
+// ─── City lights — ground level (takeoff / landing at altitude=0) ─────────────
 
 const CITY_LIGHT_COLORS = ['#ffb83a', '#ffc850', '#ff9020', '#ffe070'];
 
@@ -351,6 +284,42 @@ const CITY_LIGHTS: Array<{ x: number; y: number; r: number }> = [
   { x: 1412, y: 211, r: 1.5 }, { x: 1425, y: 207, r: 1.2 },
 ];
 
+// City lights — elevated (for flight states at altitude≈0.75, visible above earthShift)
+const CITY_LIGHTS_SKY: Array<{ x: number; y: number; r: number }> = [
+  // Left cluster
+  { x: 198, y: 128, r: 2.5 }, { x: 208, y: 120, r: 2.0 }, { x: 215, y: 130, r: 3.2 },
+  { x: 224, y: 118, r: 1.8 }, { x: 232, y: 126, r: 2.5 }, { x: 240, y: 122, r: 2.8 },
+  { x: 248, y: 131, r: 2.0 }, { x: 256, y: 116, r: 1.8 }, { x: 263, y: 125, r: 3.0 },
+  { x: 271, y: 122, r: 2.0 }, { x: 278, y: 128, r: 2.5 }, { x: 285, y: 119, r: 1.8 },
+  { x: 293, y: 126, r: 2.8 }, { x: 300, y: 123, r: 2.0 }, { x: 308, y: 129, r: 2.5 },
+  // Center cluster
+  { x: 612, y: 123, r: 2.5 }, { x: 621, y: 128, r: 3.0 }, { x: 630, y: 120, r: 2.0 },
+  { x: 639, y: 126, r: 2.5 }, { x: 647, y: 122, r: 1.8 }, { x: 655, y: 131, r: 3.5 },
+  { x: 663, y: 119, r: 2.0 }, { x: 671, y: 125, r: 2.5 }, { x: 679, y: 121, r: 2.8 },
+  { x: 687, y: 128, r: 2.0 }, { x: 695, y: 120, r: 1.8 }, { x: 703, y: 126, r: 3.0 },
+  { x: 711, y: 123, r: 2.0 }, { x: 719, y: 131, r: 2.5 }, { x: 727, y: 119, r: 1.8 },
+  { x: 735, y: 125, r: 2.8 }, { x: 743, y: 122, r: 2.0 }, { x: 751, y: 128, r: 2.5 },
+  { x: 758, y: 120, r: 1.8 },
+  // Right cluster
+  { x: 1057, y: 125, r: 2.5 }, { x: 1066, y: 122, r: 2.0 }, { x: 1073, y: 129, r: 3.0 },
+  { x: 1081, y: 120, r: 1.8 }, { x: 1089, y: 126, r: 2.5 }, { x: 1097, y: 123, r: 2.8 },
+  { x: 1104, y: 130, r: 2.0 }, { x: 1112, y: 118, r: 1.8 }, { x: 1119, y: 125, r: 3.2 },
+  { x: 1127, y: 122, r: 2.0 }, { x: 1134, y: 128, r: 2.5 }, { x: 1141, y: 120, r: 1.8 },
+  { x: 1149, y: 126, r: 2.8 }, { x: 1156, y: 123, r: 2.0 },
+  // Scattered
+  { x: 148, y: 128, r: 2.0 }, { x: 161, y: 123, r: 1.8 }, { x: 174, y: 130, r: 2.5 },
+  { x: 356, y: 126, r: 2.0 }, { x: 368, y: 122, r: 1.8 }, { x: 380, y: 129, r: 2.5 },
+  { x: 442, y: 125, r: 2.0 }, { x: 455, y: 128, r: 1.8 },
+  { x: 516, y: 123, r: 2.0 }, { x: 529, y: 129, r: 2.5 }, { x: 541, y: 122, r: 1.8 },
+  { x: 850, y: 126, r: 2.0 }, { x: 862, y: 123, r: 1.8 }, { x: 874, y: 129, r: 2.5 },
+  { x: 922, y: 125, r: 2.0 }, { x: 934, y: 122, r: 1.8 },
+  { x: 997, y: 128, r: 2.0 }, { x: 1010, y: 123, r: 2.5 },
+  { x: 1202, y: 125, r: 2.0 }, { x: 1215, y: 122, r: 1.8 }, { x: 1228, y: 129, r: 2.5 },
+  { x: 1282, y: 126, r: 2.0 }, { x: 1295, y: 123, r: 1.8 },
+  { x: 1352, y: 128, r: 2.0 }, { x: 1365, y: 123, r: 2.5 },
+  { x: 1412, y: 126, r: 2.0 }, { x: 1425, y: 122, r: 1.8 },
+];
+
 // ─── Earth layer ─────────────────────────────────────────────────────────────
 
 function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weatherState: WeatherState }) {
@@ -361,10 +330,9 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
   const isCityDepart   = isFlight && weatherState === 'climbing';
   const isCityApproach = isFlight && (weatherState === 'golden' || weatherState === 'landing');
 
-  const terrainColor = isLanding ? '#14090A' : isTakeoff ? '#0A1810' : isOcean ? '#010A18' : '#081018';
-  const hazeColor    = isLanding ? 'rgba(210,100,18,0.28)'
-    : isTakeoff  ? 'rgba(35,115,50,0.16)'
-    : isOcean    ? 'rgba(10,40,100,0.20)'
+  const terrainColor = isOcean ? '#010A18' : isTakeoff || isLanding ? '#0A1810' : '#081018';
+  const hazeColor    = isOcean    ? 'rgba(10,40,100,0.20)'
+    : isTakeoff || isLanding ? 'rgba(35,115,50,0.16)'
     : 'rgba(25,75,120,0.10)';
 
   return (
@@ -453,14 +421,12 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
         <rect x="0" y="0" width="1440" height="220" fill="url(#earth-grad)" />
       )}
 
-      {/* ── Takeoff: runway + city silhouette ── */}
+      {/* ── Takeoff: runway + yellow edge lights ── */}
       {isTakeoff && (
         <g>
-          {/* Ground bands */}
           <rect x="0" y="100" width="1440" height="42" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
           <rect x="0" y="142" width="1440" height="38" fill="url(#tarmac-g)"    filter="url(#tarmac-tex)" />
           <rect x="0" y="180" width="1440" height="40" fill="url(#grass-bot-g)" filter="url(#grass-tex)" />
-          {/* Runway edge lights — top and bottom of tarmac strip */}
           <g filter="url(#dot-glow)">
             {RUNWAY_EDGE_LIGHTS.map((x) => (
               <g key={x}>
@@ -469,79 +435,64 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
               </g>
             ))}
           </g>
-          {/* Distant city skyline silhouette */}
-          <g fill="#080C12" opacity="0.55">
-            {SKYLINE_LEFT.map(([x, y, w, h], i) => (
-              <rect key={i} x={x} y={y} width={w} height={h} />
-            ))}
-            {SKYLINE_RIGHT.map(([x, y, w, h], i) => (
-              <rect key={i} x={x} y={y} width={w} height={h} />
-            ))}
-          </g>
         </g>
       )}
 
-      {/* ── Flight + city departing (climbing slot 1) ── */}
-      {isCityDepart && (
-        <g opacity="0.72">
-          <ellipse cx="253"  cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.06" filter="url(#bloom-soft)" />
-          <ellipse cx="685"  cy="219" rx="82" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
-          <ellipse cx="1107" cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.06" filter="url(#bloom-soft)" />
-          <g filter="url(#dot-glow)">
-            {CITY_LIGHTS.map((dot, i) => (
-              <circle key={i} cx={dot.x} cy={dot.y} r={dot.r}
-                fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]} />
-            ))}
-          </g>
-        </g>
-      )}
-
-      {/* ── Flight + city approaching (golden/pre-dawn) ── */}
-      {isCityApproach && !isLanding && (
-        <g>
-          <ellipse cx="253"  cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
-          <ellipse cx="685"  cy="219" rx="82" ry="14" fill="#f5a030" opacity="0.10" filter="url(#bloom-soft)" />
-          <ellipse cx="1107" cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
-          <g filter="url(#dot-glow)">
-            {CITY_LIGHTS.map((dot, i) => (
-              <circle key={i} cx={dot.x} cy={dot.y} r={dot.r}
-                fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]} />
-            ))}
-          </g>
-        </g>
-      )}
-
-      {/* ── Landing: city dots + skyline + runway approach lights ── */}
+      {/* ── Landing: same close-ground view, blue-white approach lights ── */}
       {isLanding && (
         <g>
-          {/* City light halos */}
+          {/* City light halos behind ground bands */}
           <ellipse cx="253"  cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
           <ellipse cx="685"  cy="219" rx="82" ry="14" fill="#f5a030" opacity="0.10" filter="url(#bloom-soft)" />
           <ellipse cx="1107" cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
-          {/* City light dots */}
+          {/* City light dots (visible at bottom through grass texture) */}
           <g filter="url(#dot-glow)">
             {CITY_LIGHTS.map((dot, i) => (
               <circle key={i} cx={dot.x} cy={dot.y} r={dot.r}
                 fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]} />
             ))}
           </g>
-          {/* City skyline silhouette */}
-          <g fill="#06080F" opacity="0.60">
-            {SKYLINE_LANDING.map(([x, y, w, h], i) => (
-              <rect key={i} x={x} y={y} width={w} height={h} />
-            ))}
-          </g>
-          {/* Runway approach lights */}
+          {/* Same ground bands as takeoff */}
+          <rect x="0" y="100" width="1440" height="42" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
+          <rect x="0" y="142" width="1440" height="38" fill="url(#tarmac-g)"    filter="url(#tarmac-tex)" />
+          <rect x="0" y="180" width="1440" height="40" fill="url(#grass-bot-g)" filter="url(#grass-tex)" />
+          {/* Blue-white approach lights on tarmac */}
           <g filter="url(#dot-glow-cool)">
-            {APPROACH_YS.map((y) => (
-              <g key={y}>
-                <circle cx={APPROACH_LEFT_X}  cy={y} r={1.8} fill="#D8E8FF" />
-                <circle cx={APPROACH_RIGHT_X} cy={y} r={1.8} fill="#D8E8FF" />
+            {RUNWAY_EDGE_LIGHTS.map((x) => (
+              <g key={x}>
+                <circle cx={x} cy={145} r={2.2} fill="#C8DCFF" />
+                <circle cx={x} cy={177} r={2.2} fill="#C8DCFF" />
               </g>
             ))}
-            {/* Threshold bar */}
-            {THRESHOLD_XS.map((x) => (
-              <circle key={x} cx={x} cy={219} r={1.4} fill="#E8F0FF" />
+          </g>
+        </g>
+      )}
+
+      {/* ── Flight + city departing (climbing, slot 1) — elevated city dots ── */}
+      {isCityDepart && (
+        <g opacity="0.72">
+          <ellipse cx="253"  cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
+          <ellipse cx="685"  cy="135" rx="82" ry="16" fill="#f5a030" opacity="0.08" filter="url(#bloom-soft)" />
+          <ellipse cx="1107" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
+          <g filter="url(#dot-glow)">
+            {CITY_LIGHTS_SKY.map((dot, i) => (
+              <circle key={i} cx={dot.x} cy={dot.y} r={dot.r}
+                fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]} />
+            ))}
+          </g>
+        </g>
+      )}
+
+      {/* ── Flight + city approaching (golden/pre-dawn) — elevated city dots ── */}
+      {isCityApproach && (
+        <g>
+          <ellipse cx="253"  cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
+          <ellipse cx="685"  cy="135" rx="82" ry="16" fill="#f5a030" opacity="0.10" filter="url(#bloom-soft)" />
+          <ellipse cx="1107" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
+          <g filter="url(#dot-glow)">
+            {CITY_LIGHTS_SKY.map((dot, i) => (
+              <circle key={i} cx={dot.x} cy={dot.y} r={dot.r}
+                fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]} />
             ))}
           </g>
         </g>
@@ -609,6 +560,16 @@ export function SkyBackground({
   // Earth slides below viewport as altitude rises
   const earthShift = altitude * 80;
 
+  // Sun disk baked into horizon gradient — only for ground states (takeoff=left, landing=right)
+  const showSun   = earthState === 'takeoff' || earthState === 'landing';
+  const sunX      = earthState === 'landing' ? '82%' : '18%';
+  const sunCore   = earthState === 'landing' ? 'rgba(255,255,200,0.97)' : 'rgba(255,250,180,0.97)';
+  const sunInner  = earthState === 'landing' ? 'rgba(255,190,50,0.88)'  : 'rgba(255,110,18,0.84)';
+  const sunOuter  = earthState === 'landing' ? 'rgba(230,90,10,0.48)'   : 'rgba(195,40,0,0.46)';
+  const sunGradient = showSun
+    ? `radial-gradient(ellipse 5% 16% at ${sunX} 100%, ${sunCore} 0%, transparent 100%), radial-gradient(ellipse 18% 32% at ${sunX} 100%, ${sunInner} 0%, transparent 100%), radial-gradient(ellipse 38% 56% at ${sunX} 100%, ${sunOuter} 0%, transparent 100%), `
+    : '';
+
   return (
     <div
       className={`fixed inset-0 overflow-hidden pointer-events-none select-none ${className ?? ''}`}
@@ -623,11 +584,11 @@ export function SkyBackground({
         style={{ zIndex: 0 }}
       />
 
-      {/* Horizon atmosphere glow */}
+      {/* Horizon atmosphere glow + directional sun disk for takeoff/landing */}
       <motion.div
         className="absolute bottom-0 left-0 right-0"
         style={{ height: '52%', zIndex: 1 }}
-        animate={{ background: `radial-gradient(ellipse 80% 30% at 50% 100%, ${config.horizonInner} 0%, transparent 100%), radial-gradient(ellipse 140% 62% at 50% 100%, ${config.horizonGlow} 0%, transparent 100%)` }}
+        animate={{ background: `${sunGradient}radial-gradient(ellipse 80% 30% at 50% 100%, ${config.horizonInner} 0%, transparent 100%), radial-gradient(ellipse 140% 62% at 50% 100%, ${config.horizonGlow} 0%, transparent 100%)` }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       />
 
@@ -640,19 +601,6 @@ export function SkyBackground({
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
         <StarField />
-      </motion.div>
-
-      {/* Sun layer — fades in for sunset (climbing) and dawn (landing) */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0"
-        style={{ zIndex: 2, marginBottom: '220px' }}
-        animate={{
-          y: earthShift,
-          opacity: (weatherState === 'climbing' || weatherState === 'landing') ? 1 : 0,
-        }}
-        transition={{ duration: 4, ease: 'easeInOut' }}
-      >
-        <SunLayer weatherState={weatherState} />
       </motion.div>
 
       {/* Earth layer */}
