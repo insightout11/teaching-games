@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -1105,6 +1105,19 @@ function RankingInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds 
 
 // ── Read Aloud ─────────────────────────────────────────────────────────────
 
+function highlightVocabReadAloud(text: string, vocabWords: string[]): React.ReactNode {
+  const clean = text.replace(/\*([^*]+)\*/g, '$1');
+  if (!vocabWords.length) return clean;
+  const escaped = vocabWords.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const pattern = new RegExp(`\\b(${escaped.join('|')})\\b`, 'gi');
+  const parts = clean.split(pattern);
+  return parts.map((part, i) =>
+    pattern.test(part)
+      ? <mark key={i} className="bg-emerald-500/30 text-emerald-200 rounded px-0.5 not-italic font-medium">{part}</mark>
+      : part
+  );
+}
+
 function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<DynamicInputProps, 'spec' | 'onSubmit' | 'isSubmitting' | 'displayName'>) {
   const [done, setDone] = useState(false);
   const queue = spec.readAloudQueue ?? [];
@@ -1113,6 +1126,7 @@ function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<Dyna
   const isMyTurn = !!active && active.studentName === displayName;
   const myUpcoming = queue.find((e) => e.status === 'upcoming' && e.studentName === displayName);
   const currentSlideUrl = spec.currentSlideUrl;
+  const vocabWords = spec.readAloudVocabWords ?? [];
 
   const handleDone = useCallback(async () => {
     if (done || isSubmitting) return;
@@ -1136,7 +1150,7 @@ function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<Dyna
       {isMyTurn ? (
         <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/40 p-5 space-y-4">
           <p className="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Your turn to read</p>
-          <p className="text-base leading-relaxed text-white">{active.text}</p>
+          <p className="text-base leading-relaxed text-white">{highlightVocabReadAloud(active.text, vocabWords)}</p>
           <button
             onClick={handleDone}
             disabled={done || isSubmitting}

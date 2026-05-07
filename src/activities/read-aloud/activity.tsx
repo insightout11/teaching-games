@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { ActivityProps } from '../types';
 import type { ReadAloudContent } from '../types';
 import type { ReadAloudQueueEntry } from '@/lib/input-spec';
@@ -9,7 +9,8 @@ import { BookOpen, ChevronRight, SkipForward, RotateCcw } from 'lucide-react';
 type Phase = 'idle' | 'reading' | 'complete';
 
 function splitParagraphs(text: string): string[] {
-  const raw = text.split(/\n\s*\n/).map((p) => p.replace(/\n/g, ' ').trim()).filter((p) => p.length > 30);
+  const cleaned = text.replace(/\*([^*]+)\*/g, '$1');
+  const raw = cleaned.split(/\n\s*\n/).map((p) => p.replace(/\n/g, ' ').trim()).filter((p) => p.length > 30);
   const result: string[] = [];
   for (const para of raw) {
     const words = para.split(/\s+/);
@@ -36,6 +37,18 @@ function splitParagraphs(text: string): string[] {
   return result;
 }
 
+function highlightVocab(text: string, vocabWords: string[]): React.ReactNode {
+  if (!vocabWords.length) return text;
+  const escaped = vocabWords.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const pattern = new RegExp(`\\b(${escaped.join('|')})\\b`, 'gi');
+  const parts = text.split(pattern);
+  return parts.map((part, i) =>
+    pattern.test(part)
+      ? <mark key={i} className="bg-emerald-500/25 text-emerald-200 rounded px-0.5 not-italic font-medium">{part}</mark>
+      : part
+  );
+}
+
 export function ReadAloudActivity({
   generatedContent,
   students,
@@ -44,7 +57,7 @@ export function ReadAloudActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as ReadAloudContent;
-  const { sourceText = '', sourceTitle = 'Text', slides } = content;
+  const { sourceText = '', sourceTitle = 'Text', slides, vocabWords = [] } = content;
 
   const paragraphs = useRef(splitParagraphs(sourceText)).current;
 
@@ -77,6 +90,7 @@ export function ReadAloudActivity({
       gameKey: 'read-aloud',
       prompt: `Reading: ${sourceTitle}`,
       readAloudQueue: queue,
+      ...(vocabWords.length > 0 ? { readAloudVocabWords: vocabWords } : {}),
       ...(currentSlideUrl ? { currentSlideUrl } : {}),
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -246,7 +260,7 @@ export function ReadAloudActivity({
       )}
 
       <div className="glass rounded-2xl p-6">
-        <p className="text-lg leading-relaxed">{activeEntry?.text}</p>
+        <p className="text-lg leading-relaxed">{activeEntry ? highlightVocab(activeEntry.text, vocabWords) : null}</p>
       </div>
 
       <div className="flex gap-3">

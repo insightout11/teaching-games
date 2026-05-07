@@ -716,6 +716,15 @@ Return JSON with a "prompts" array of exactly 3 objects, each with "type" (liker
   };
 }
 
+function extractAsteriskWords(text: string): string[] {
+  const matches = text.match(/\*([^*]+)\*/g) ?? [];
+  return Array.from(new Set(matches.map((m) => m.replace(/\*/g, '').trim()).filter(Boolean)));
+}
+
+function stripAsterisks(text: string): string {
+  return text.replace(/\*([^*]+)\*/g, '$1');
+}
+
 async function generateVocabRadar(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<VocabRadarContent> {
   const schema: AISchema = {
     type: 'object',
@@ -2100,6 +2109,20 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Read-Aloud + Vocab Radar: run Vocab Radar first so both share the same word list
+    const readAloudVocabMode = hasActivities &&
+      activities.includes('read-aloud') && activities.includes('vocab-radar') && !vocabBlitzMode;
+    let readAloudVocabWords: string[] | undefined;
+    if (readAloudVocabMode) {
+      try {
+        const radarResult = await generateVocabRadar(customTopic, diff, sourceCtx);
+        content['vocab-radar'] = radarResult;
+        readAloudVocabWords = radarResult.words.map((w) => w.word);
+      } catch (err) {
+        console.warn('readAloudVocabMode vocab-radar failed:', err instanceof Error ? err.message.slice(0, 100) : err);
+      }
+    }
+
     // Scene chain: Scene Igniter feeds Conversation Rounds and/or Story Sprint
     const hasSceneIgniter = hasActivities && activities.includes('scene-igniter');
     const hasConvRounds = hasActivities && activities.includes('conversation-rounds');
@@ -2161,22 +2184,28 @@ export async function POST(request: NextRequest) {
             generators.push(generateQuickPulse(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'vocab-radar':
+            if (readAloudVocabMode) break; // already generated above
             generators.push(generateVocabRadar(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'prediction-round':
             generators.push(generatePredictionRound(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
-          case 'read-aloud':
+          case 'read-aloud': {
+            const rawText = sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '';
+            const cleanText = stripAsterisks(rawText);
+            const vocabWords = readAloudVocabWords ?? extractAsteriskWords(rawText);
             generators.push(Promise.resolve().then(() => {
               content[activityKey] = {
                 activityKey: 'read-aloud',
                 topicContext: customTopic,
-                sourceText: sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '',
+                sourceText: cleanText,
                 sourceTitle: sourceMaterial?.title ?? customTopic,
+                ...(vocabWords.length > 0 ? { vocabWords } : {}),
                 ...(sourceMaterial?.slides ? { slides: sourceMaterial.slides } : {}),
               };
             }));
             break;
+          }
           case 'video-player': {
             const youtubeLibraries: Record<string, Array<{ id: string; youtubeId: string }>> = {
               bbc: bbcLibrary as Array<{ id: string; youtubeId: string }>,
