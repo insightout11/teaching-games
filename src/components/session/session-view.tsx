@@ -619,7 +619,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <SkyBackground weatherState="climbing" intensity="subtle" className="!left-64" />
+        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className="!left-64" />
         <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8">
           {/* Header */}
           <div className="text-center space-y-2">
