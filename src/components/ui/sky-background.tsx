@@ -286,9 +286,29 @@ const NEAR_CLOUDS = [
     circles: [{ cx:120,cy:90,r:78 },{ cx:200,cy:70,r:88 },{ cx:282,cy:82,r:68 },{ cx:75,cy:102,r:60 }] },
 ];
 
-// ─── Runway edge lights ───────────────────────────────────────────────────────
+// ─── Runway perspective geometry ─────────────────────────────────────────────
 
-const RUNWAY_EDGE_LIGHTS: number[] = Array.from({ length: 25 }, (_, i) => 22 + i * 58);
+const CENTERLINE_DASHES = [
+  { y: 206, h: 22, w: 12 },
+  { y: 189, h: 18, w: 10 },
+  { y: 174, h: 14, w:  8 },
+  { y: 161, h: 11, w:  6 },
+  { y: 150, h:  9, w:  5 },
+  { y: 141, h:  7, w:  4 },
+  { y: 133, h:  5, w:  3 },
+  { y: 127, h:  4, w:  2 },
+];
+
+const PERSP_LIGHTS = Array.from({ length: 8 }, (_, i) => {
+  const t = i / 7;
+  const r = 2.8 - t * 1.8;
+  return {
+    lx: 120 + t * (560 - 120),
+    rx: 1320 + t * (880 - 1320),
+    y:  220 + t * (114 - 220),
+    r,
+  };
+});
 
 // ─── City lights ─────────────────────────────────────────────────────────────
 
@@ -439,20 +459,23 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
           <rect x="0" y="100" width="1440" height="14" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
           {/* Wide tarmac */}
           <rect x="0" y="114" width="1440" height="106" fill="url(#tarmac-g)" filter="url(#tarmac-tex)" />
-          {/* Threshold stripes at top of tarmac */}
-          {Array.from({ length: 16 }, (_, i) => (
-            <rect key={i} x={216 + i * 64} y={114} width={42} height={11} fill="white" opacity="0.34" rx="1" />
+          {/* Converging runway boundary lines */}
+          <line x1="120" y1="220" x2="560" y2="114" stroke="white" strokeWidth="1.5" opacity="0.28" />
+          <line x1="1320" y1="220" x2="880" y2="114" stroke="white" strokeWidth="1.5" opacity="0.28" />
+          {/* Perspective centerline dashes — shrink near→far */}
+          {CENTERLINE_DASHES.map((d, i) => (
+            <rect key={i} x={720 - d.w / 2} y={d.y} width={d.w} height={d.h} fill="white" opacity="0.42" rx="0.5" />
           ))}
-          {/* Centerline dashes */}
-          {Array.from({ length: 20 }, (_, i) => (
-            <rect key={i} x={i * 68 + 22} y={158} width={44} height={8} fill="white" opacity="0.40" rx="1" />
+          {/* Far threshold marks — tiny at horizon end */}
+          {Array.from({ length: 8 }, (_, i) => (
+            <rect key={i} x={560 + i * 40 + 10} y={114} width={6} height={3} fill="white" opacity="0.28" rx="0.5" />
           ))}
-          {/* Edge lights */}
+          {/* Perspective edge lights — shrink along converging lines */}
           <g filter={isTakeoff ? 'url(#dot-glow)' : 'url(#dot-glow-cool)'}>
-            {RUNWAY_EDGE_LIGHTS.map((x) => (
-              <g key={x}>
-                <circle cx={x} cy={116} r={2.2} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
-                <circle cx={x} cy={218} r={2.2} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
+            {PERSP_LIGHTS.map((p, i) => (
+              <g key={i}>
+                <circle cx={p.lx} cy={p.y} r={p.r} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
+                <circle cx={p.rx} cy={p.y} r={p.r} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
               </g>
             ))}
           </g>
@@ -615,7 +638,7 @@ export function SkyBackground({
       {/* Moon — cruising/midnight only */}
       <motion.div
         className="absolute"
-        style={{ top: '10%', right: '14%', zIndex: 2 }}
+        style={{ top: '4%', right: '14%', zIndex: 2 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: weatherState === 'cruising' ? 1 : 0 }}
         transition={{ duration: 5, ease: 'easeInOut' }}
@@ -625,8 +648,8 @@ export function SkyBackground({
 
       {/* Earth layer */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0"
-        style={{ zIndex: 3 }}
+        className="absolute bottom-0 right-0"
+        style={{ zIndex: 3, left: '-64px' }}
         animate={{ y: earthShift, x: earthX }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
