@@ -140,14 +140,6 @@ function StarField() {
       style={{ display: 'block' }}
       aria-hidden
     >
-      <defs>
-        <style>{`
-          @keyframes star-twinkle {
-            0%, 100% { opacity: var(--s-op); }
-            50%       { opacity: calc(var(--s-op) * 0.14); }
-          }
-        `}</style>
-      </defs>
       {STARS.map((s, i) => {
         const twinkles = i % 3 !== 1;
         const dur  = 2.6 + (i % 11) * 0.52;
@@ -173,11 +165,11 @@ function StarField() {
 
 function MoonLayer() {
   return (
-    <svg viewBox="0 0 160 160" width="160" height="160" aria-hidden style={{ display: 'block', overflow: 'visible' }}>
+    <svg viewBox="0 0 240 240" width="240" height="240" aria-hidden style={{ display: 'block', overflow: 'visible' }}>
       <defs>
         <radialGradient id="moon-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%"   stopColor="rgba(180,210,255,0.22)" />
-          <stop offset="45%"  stopColor="rgba(130,170,255,0.08)" />
+          <stop offset="0%"   stopColor="rgba(180,210,255,0.20)" />
+          <stop offset="40%"  stopColor="rgba(130,170,255,0.07)" />
           <stop offset="100%" stopColor="rgba(80,130,255,0)" />
         </radialGradient>
         <radialGradient id="moon-disk" cx="38%" cy="32%" r="65%">
@@ -187,71 +179,15 @@ function MoonLayer() {
         </radialGradient>
       </defs>
       {/* Soft halo */}
-      <circle cx="80" cy="80" r="74" fill="url(#moon-glow)" />
+      <circle cx="120" cy="120" r="110" fill="url(#moon-glow)" />
       {/* Moon disk */}
-      <circle cx="80" cy="80" r="22" fill="url(#moon-disk)" opacity="0.93" />
-      {/* Crescent shadow — matches cruising sky so it reads as a crescent */}
-      <circle cx="87" cy="77" r="18" fill="#010610" opacity="0.90" />
-      {/* Subtle crater marks on the lit face */}
-      <circle cx="70" cy="76" r="2.8" fill="#A8BCDE" opacity="0.22" />
-      <circle cx="74" cy="85" r="1.8" fill="#A8BCDE" opacity="0.18" />
-      <circle cx="65" cy="83" r="1.4" fill="#A8BCDE" opacity="0.16" />
-    </svg>
-  );
-}
-
-// ─── Aurora layer ─────────────────────────────────────────────────────────────
-
-function AuroraLayer() {
-  return (
-    <svg
-      viewBox="0 0 1440 340"
-      width="100%"
-      height="100%"
-      preserveAspectRatio="none"
-      aria-hidden
-      style={{ display: 'block' }}
-    >
-      <defs>
-        <filter id="aurora-blur" x="-5%" y="-60%" width="110%" height="220%">
-          <feGaussianBlur stdDeviation="16" />
-        </filter>
-        <style>{`
-          @keyframes aurora-a {
-            0%,100% { opacity:0.20; transform:translateY(0px); }
-            50%      { opacity:0.32; transform:translateY(-11px); }
-          }
-          @keyframes aurora-b {
-            0%,100% { opacity:0.13; transform:translateY(0px); }
-            50%      { opacity:0.22; transform:translateY(9px); }
-          }
-          @keyframes aurora-c {
-            0%,100% { opacity:0.08; transform:translateY(0px); }
-            50%      { opacity:0.15; transform:translateY(-7px); }
-          }
-        `}</style>
-      </defs>
-      {/* Primary green ribbon */}
-      <path
-        d="M -60 155 C 180 110 420 170 720 140 C 1020 110 1260 160 1500 128"
-        stroke="#1aee7a" strokeWidth="52" fill="none"
-        filter="url(#aurora-blur)"
-        style={{ animation: 'aurora-a 9s ease-in-out infinite' }}
-      />
-      {/* Teal secondary ribbon */}
-      <path
-        d="M -60 205 C 220 165 480 220 780 195 C 1080 170 1290 210 1500 180"
-        stroke="#00c8ff" strokeWidth="38" fill="none"
-        filter="url(#aurora-blur)"
-        style={{ animation: 'aurora-b 11s 2.5s ease-in-out infinite' }}
-      />
-      {/* Pale green accent */}
-      <path
-        d="M -60 110 C 160 82 370 122 660 100 C 950 78 1190 112 1500 85"
-        stroke="#aaffe0" strokeWidth="24" fill="none"
-        filter="url(#aurora-blur)"
-        style={{ animation: 'aurora-c 14s 5s ease-in-out infinite' }}
-      />
+      <circle cx="120" cy="120" r="30" fill="url(#moon-disk)" opacity="0.94" />
+      {/* Crescent shadow — matches cruising sky */}
+      <circle cx="130" cy="116" r="25" fill="#010610" opacity="0.90" />
+      {/* Crater marks on lit face */}
+      <circle cx="106" cy="114" r="3.8" fill="#A8BCDE" opacity="0.22" />
+      <circle cx="112" cy="127" r="2.4" fill="#A8BCDE" opacity="0.18" />
+      <circle cx="98"  cy="124" r="1.8" fill="#A8BCDE" opacity="0.16" />
     </svg>
   );
 }
@@ -496,39 +432,45 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
         <rect x="0" y="0" width="1440" height="220" fill="url(#earth-grad)" />
       )}
 
-      {/* ── Takeoff: runway + yellow edge lights ── */}
-      {isTakeoff && (
+      {/* ── Shared runway markings (takeoff + landing) ── */}
+      {(isTakeoff || isLanding) && (
         <g>
-          <rect x="0" y="100" width="1440" height="42" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
-          <rect x="0" y="142" width="1440" height="38" fill="url(#tarmac-g)"    filter="url(#tarmac-tex)" />
-          <rect x="0" y="180" width="1440" height="40" fill="url(#grass-bot-g)" filter="url(#grass-tex)" />
-          <g filter="url(#dot-glow)">
+          {/* Far grass strip */}
+          <rect x="0" y="100" width="1440" height="14" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
+          {/* Wide tarmac */}
+          <rect x="0" y="114" width="1440" height="106" fill="url(#tarmac-g)" filter="url(#tarmac-tex)" />
+          {/* Threshold stripes at top of tarmac */}
+          {Array.from({ length: 16 }, (_, i) => (
+            <rect key={i} x={216 + i * 64} y={114} width={42} height={11} fill="white" opacity="0.34" rx="1" />
+          ))}
+          {/* Centerline dashes */}
+          {Array.from({ length: 20 }, (_, i) => (
+            <rect key={i} x={i * 68 + 22} y={158} width={44} height={8} fill="white" opacity="0.40" rx="1" />
+          ))}
+          {/* Edge lights */}
+          <g filter={isTakeoff ? 'url(#dot-glow)' : 'url(#dot-glow-cool)'}>
             {RUNWAY_EDGE_LIGHTS.map((x) => (
               <g key={x}>
-                <circle cx={x} cy={145} r={2.2} fill="#FFE8A0" />
-                <circle cx={x} cy={177} r={2.2} fill="#FFE8A0" />
+                <circle cx={x} cy={116} r={2.2} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
+                <circle cx={x} cy={218} r={2.2} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
               </g>
             ))}
           </g>
-        </g>
-      )}
-
-      {/* ── Landing: same close-ground view, blue-white approach lights ── */}
-      {isLanding && (
-        <g>
-          {/* Ground bands */}
-          <rect x="0" y="100" width="1440" height="42" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
-          <rect x="0" y="142" width="1440" height="38" fill="url(#tarmac-g)"    filter="url(#tarmac-tex)" />
-          <rect x="0" y="180" width="1440" height="40" fill="url(#grass-bot-g)" filter="url(#grass-tex)" />
-          {/* Blue-white approach lights on tarmac */}
-          <g filter="url(#dot-glow-cool)">
-            {RUNWAY_EDGE_LIGHTS.map((x) => (
-              <g key={x}>
-                <circle cx={x} cy={145} r={2.2} fill="#C8DCFF" />
-                <circle cx={x} cy={177} r={2.2} fill="#C8DCFF" />
-              </g>
-            ))}
+          {/* Control tower — left horizon */}
+          <g fill="#06090F" opacity="0.68">
+            <rect x="148" y="98"  width="12" height="16" />
+            <rect x="142" y="94"  width="24" height="9"  />
+            <rect x="144" y="96"  width="20" height="4"  fill="#1a2840" opacity="0.5" />
           </g>
+          <circle cx="154" cy="92" r="2.4" fill="#FF6020" opacity="0.88" filter="url(#dot-glow)" />
+          {/* Terminal building — right (landing only) */}
+          {isLanding && (
+            <g fill="#06090F" opacity="0.55">
+              <rect x="1230" y="104" width="120" height="10" />
+              <rect x="1260" y="94"  width="30"  height="20" />
+              <rect x="1282" y="98"  width="18"  height="16" />
+            </g>
+          )}
         </g>
       )}
 
@@ -659,16 +601,6 @@ export function SkyBackground({
         transition={{ duration: 4, ease: 'easeInOut' }}
       />
 
-      {/* Aurora — cruising/midnight only, sits behind stars */}
-      <motion.div
-        className="absolute top-0 left-0 right-0"
-        style={{ height: '48%', zIndex: 1 }}
-        animate={{ opacity: weatherState === 'cruising' ? 1 : 0 }}
-        transition={{ duration: 6, ease: 'easeInOut' }}
-      >
-        <AuroraLayer />
-      </motion.div>
-
       {/* Stars */}
       <motion.div
         className="absolute top-0 left-0 right-0"
@@ -683,7 +615,8 @@ export function SkyBackground({
       {/* Moon — cruising/midnight only */}
       <motion.div
         className="absolute"
-        style={{ top: '8%', right: '14%', zIndex: 2 }}
+        style={{ top: '10%', right: '14%', zIndex: 2 }}
+        initial={{ opacity: 0 }}
         animate={{ opacity: weatherState === 'cruising' ? 1 : 0 }}
         transition={{ duration: 5, ease: 'easeInOut' }}
       >
