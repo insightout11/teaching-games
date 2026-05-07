@@ -441,18 +441,7 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
       {/* ── Landing: same close-ground view, blue-white approach lights ── */}
       {isLanding && (
         <g>
-          {/* City light halos behind ground bands */}
-          <ellipse cx="253"  cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
-          <ellipse cx="685"  cy="219" rx="82" ry="14" fill="#f5a030" opacity="0.10" filter="url(#bloom-soft)" />
-          <ellipse cx="1107" cy="219" rx="68" ry="12" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
-          {/* City light dots (visible at bottom through grass texture) */}
-          <g filter="url(#dot-glow)">
-            {CITY_LIGHTS.map((dot, i) => (
-              <circle key={i} cx={dot.x} cy={dot.y} r={dot.r}
-                fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]} />
-            ))}
-          </g>
-          {/* Same ground bands as takeoff */}
+          {/* Ground bands */}
           <rect x="0" y="100" width="1440" height="42" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
           <rect x="0" y="142" width="1440" height="38" fill="url(#tarmac-g)"    filter="url(#tarmac-tex)" />
           <rect x="0" y="180" width="1440" height="40" fill="url(#grass-bot-g)" filter="url(#grass-tex)" />
@@ -470,7 +459,7 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
 
       {/* ── Flight + city departing (climbing, slot 1) — elevated city dots ── */}
       {isCityDepart && (
-        <g opacity="0.72">
+        <g opacity="0.52">
           <ellipse cx="253"  cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
           <ellipse cx="685"  cy="135" rx="82" ry="16" fill="#f5a030" opacity="0.08" filter="url(#bloom-soft)" />
           <ellipse cx="1107" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
@@ -560,6 +549,9 @@ export function SkyBackground({
   // Earth slides below viewport as altitude rises
   const earthShift = altitude * 80;
 
+  // City drifts right as plane banks away during climbout (takeoff → cruising)
+  const earthX = (earthState === 'flight' && weatherState === 'climbing') ? altitude * 50 : 0;
+
   // Sun disk baked into horizon gradient — only for ground states (takeoff=left, landing=right)
   const showSun   = earthState === 'takeoff' || earthState === 'landing';
   const sunX      = earthState === 'landing' ? '82%' : '18%';
@@ -607,7 +599,7 @@ export function SkyBackground({
       <motion.div
         className="absolute bottom-0 left-0 right-0"
         style={{ zIndex: 3 }}
-        animate={{ y: earthShift }}
+        animate={{ y: earthShift, x: earthX }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       >
         <EarthLayer earthState={earthState} weatherState={weatherState} />
