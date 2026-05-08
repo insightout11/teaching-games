@@ -505,7 +505,7 @@ export function GridRushGame({
               <p className="text-violet-400 font-semibold text-sm mb-1">Round 2 — 60 seconds</p>
               <ul className="text-slate-400 text-xs space-y-0.5 list-disc list-inside">
                 <li>Write one sentence using 2 or more of your Round 1 words</li>
-                <li>AI grades your sentence for quality (1–5 points × 2)</li>
+                <li>Smart grading for quality (1–5 points × 2)</li>
                 <li>Best sentence earns a <span className="text-violet-300 font-semibold">+3 pt bonus</span></li>
               </ul>
             </div>

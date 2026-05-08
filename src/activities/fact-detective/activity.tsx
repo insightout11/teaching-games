@@ -169,7 +169,7 @@ export function FactDetectiveActivity({
         >
           <p className="text-xl mb-2 opacity-90">Fact or Fiction?</p>
           <p className="opacity-60 text-sm mb-8">
-            AI presents claims mixing facts with myths. Can you spot the truth?
+            topic-generated claims mixing facts with myths. Can you spot the truth?
           </p>
           <button
             onClick={startActivity}

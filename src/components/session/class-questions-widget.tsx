@@ -330,7 +330,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                     <textarea
                       value={answerText[q.id] ?? ''}
                       onChange={(e) => setAnswerText((t) => ({ ...t, [q.id]: e.target.value }))}
-                      placeholder="Type an answer or use AI draft…"
+                      placeholder="Type an answer or use smart draft…"
                       rows={3}
                       className="w-full bg-lc-surface border border-lc-border rounded-lg px-2 py-1.5 text-xs text-lc-text placeholder:text-lc-text3 resize-none focus:outline-none focus:border-lc-text3"
                     />
@@ -340,7 +340,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                         disabled={draftLoading[q.id]}
                         className="text-xs px-2 py-1 rounded border text-purple-400 border-purple-500/20 hover:border-purple-400/40 hover:bg-purple-500/10 transition-colors disabled:opacity-50"
                       >
-                        {draftLoading[q.id] ? 'Getting draft…' : 'Get AI draft'}
+                        {draftLoading[q.id] ? 'Getting draft…' : 'Get smart draft'}
                       </button>
                       <button
                         onClick={() => {

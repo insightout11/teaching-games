@@ -5,7 +5,7 @@ import { Sparkles } from 'lucide-react';
 export const rankItPlugin: ActivityPlugin = {
   key: 'rank-it',
   name: 'Rank It!',
-  description: 'Students rank items related to the topic, explain their reasoning, then AI reveals facts that might change their minds.',
+  description: 'Students rank items related to the topic, explain their reasoning, then topic-generated facts might change their minds.',
   category: 'icebreaker',
   pppStage: 'production',
   skills: ['Speaking', 'Critical Thinking', 'Collaboration'],

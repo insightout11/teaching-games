@@ -481,7 +481,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
       </div>
       <div className="glass p-6 rounded-2xl border-2 border-emerald-500/30">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-white">AI Evaluation Report</h3>
+          <h3 className="text-xl font-bold text-white">Smart Evaluation Report</h3>
           <div className="flex gap-4">
             <div className="text-center">
               <p className="text-[10px] font-bold text-slate-400 uppercase">Grammar</p>

@@ -390,7 +390,7 @@ export function FlashQuizGame({
         <div className="text-center space-y-2">
           <h2 className="text-2xl font-game text-lc-text">Flash Quiz</h2>
           <p className="text-lc-text2 text-sm max-w-xs">
-            AI-generated quiz — {timerSeconds} seconds per question.
+            topic-generated quiz — {timerSeconds} seconds per question.
             All students answer simultaneously.
           </p>
         </div>

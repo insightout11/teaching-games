@@ -328,7 +328,7 @@ export function FinalAnswerActivity({
       {phase === 'highlights' && (
         <div className="space-y-5">
           <p className="text-sm opacity-50">
-            {scores.length} response{scores.length !== 1 ? 's' : ''} · scored by {scoreSource === 'ai' ? 'AI' : 'heuristic'}
+            {scores.length} response{scores.length !== 1 ? 's' : ''} · scored by {scoreSource === 'ai' ? 'smart scoring' : 'heuristic'}
           </p>
           {content.targetKeywords.length > 0 && (
             <div className="flex flex-wrap items-center gap-2">

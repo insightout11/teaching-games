@@ -496,14 +496,14 @@ export function TwentyQuestionsGame({
               : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'
           }`}
         >
-          {aiMode ? '🤖 AI MODE ON — AI picks secret & auto-answers' : '🤖 AI MODE — AI picks & answers everything'}
+          {aiMode ? '🤖 AUTO MODE ON — picks secret & auto-answers' : '🤖 AUTO MODE — picks & answers everything'}
         </button>
 
         <button
           onClick={handlePickHost}
           className="w-full px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
         >
-          {aiMode ? 'START (AI PICKS SECRET)' : 'PICK HOST & START'}
+          {aiMode ? 'START (AUTO PICKS SECRET)' : 'PICK HOST & START'}
         </button>
       </motion.div>
     );
@@ -565,7 +565,7 @@ export function TwentyQuestionsGame({
             disabled={aiPickingSecret}
             className="w-full py-3 bg-blue-500/20 text-blue-300 rounded-xl font-game text-sm border border-blue-500/30 hover:bg-blue-500/30 disabled:opacity-50"
           >
-            {aiPickingSecret ? 'AI is picking...' : '🤖 AI PICKS THE SECRET'}
+            {aiPickingSecret ? 'Picking...' : '🤖 AUTO PICKS THE SECRET'}
           </button>
         )}
       </motion.div>
@@ -583,7 +583,7 @@ export function TwentyQuestionsGame({
         <div className="flex justify-between items-center">
           <div>
             <p className="text-xs font-bold text-violet-400 uppercase tracking-widest">
-              {aiMode ? '🤖 AI Mode' : `${hostName} is the host`}
+              {aiMode ? '🤖 Auto Mode' : `${hostName} is the host`}
             </p>
             <p className="text-sm text-slate-400">
               {remaining} question{remaining !== 1 ? 's' : ''} remaining
@@ -617,7 +617,7 @@ export function TwentyQuestionsGame({
             {aiMode ? (
               <div className="flex items-center gap-2 text-blue-300 text-sm animate-pulse">
                 <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" />
-                AI is answering…
+                Auto-answering…
               </div>
             ) : (
               <>
@@ -641,7 +641,7 @@ export function TwentyQuestionsGame({
                     disabled={aiLoading !== null}
                     className="px-3 py-2.5 bg-blue-500/20 text-blue-300 rounded-xl text-xs font-bold hover:bg-blue-500/30 disabled:opacity-30 border border-blue-500/30"
                   >
-                    {aiLoading === nextQ.id ? '…' : 'AI'}
+                    {aiLoading === nextQ.id ? '…' : 'Auto'}
                   </button>
                 </div>
                 <div className="flex gap-2">

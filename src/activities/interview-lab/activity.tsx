@@ -167,7 +167,7 @@ export function InterviewLabActivity({
         >
           <p className="text-xl mb-2 opacity-90">Meet the Expert!</p>
           <p className="opacity-60 text-sm mb-8">
-            Practice interviewing an AI character. Ask questions and practice conversation skills.
+            Practice interviewing a smart character. Ask questions and practice conversation skills.
           </p>
           <button
             onClick={startActivity}

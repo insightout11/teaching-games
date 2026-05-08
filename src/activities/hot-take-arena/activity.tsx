@@ -312,7 +312,7 @@ export function HotTakeArenaActivity({
                 <button
                   onClick={() => triggerArgChallenge(arg)}
                   disabled={isLoadingThis}
-                  title="Generate AI counter-argument"
+                  title="Generate smart counter-argument"
                   className="p-1 rounded text-xs text-white/30 hover:text-yellow-400 hover:bg-yellow-500/10 disabled:opacity-30 transition-all"
                 >
                   {isLoadingThis ? '…' : '✦'}
@@ -322,7 +322,7 @@ export function HotTakeArenaActivity({
           </div>
           {aiChallenge && (
             <div className="mt-2 pt-2 border-t border-white/10 flex gap-1.5 items-start">
-              <span className="text-yellow-400 text-xs shrink-0">✦ AI:</span>
+              <span className="text-yellow-400 text-xs shrink-0">✦ Smart:</span>
               <p className="text-xs text-yellow-200/80 italic">{aiChallenge}</p>
             </div>
           )}

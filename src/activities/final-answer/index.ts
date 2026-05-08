@@ -5,7 +5,7 @@ import { CheckCircle } from 'lucide-react';
 export const finalAnswerPlugin: ActivityPlugin = {
   key: 'final-answer',
   name: 'Final Answer',
-  description: 'One prompt. Every student writes their best sentence. AI highlights the standouts.',
+  description: 'One prompt. Every student writes their best sentence. Instantly highlights the standouts.',
   category: 'closing',
   pppStage: 'landing',
   skills: ['Vocabulary', 'Critical Thinking'],

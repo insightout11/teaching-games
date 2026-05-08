@@ -5,7 +5,7 @@ import { Scale } from 'lucide-react';
 export const hotTakeArenaPlugin: ActivityPlugin = {
   key: 'hot-take-arena',
   name: 'Hot Take Arena',
-  description: 'Students debate a provocative statement. AI plays devil\'s advocate, challenging BOTH sides with counter-arguments.',
+  description: 'Students debate a provocative statement. Smart devil\'s advocate challenges BOTH sides with counter-arguments.',
   category: 'debate',
   pppStage: 'production',
   skills: ['Speaking', 'Critical Thinking', 'Debate', 'Persuasion'],

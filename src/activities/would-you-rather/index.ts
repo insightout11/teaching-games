@@ -5,7 +5,7 @@ import { Sparkles } from 'lucide-react';
 export const wouldYouRatherPlugin: ActivityPlugin = {
   key: 'would-you-rather',
   name: 'Would You Rather?',
-  description: 'AI generates topic-relevant dilemmas with no "right" answer. Students choose, explain why, and discuss differences.',
+  description: 'topic-generated dilemmas with no "right" answer. Students choose, explain why, and discuss differences.',
   category: 'icebreaker',
   pppStage: 'practice',
   skills: ['Speaking', 'Critical Thinking', 'Debate'],

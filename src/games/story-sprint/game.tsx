@@ -362,7 +362,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
             <p className="text-lg font-semibold text-amber-400">Generating story starter...</p>
           )}
           {status === GameStatus.ENDING && (
-            <p className="text-lg font-semibold text-purple-400">AI is evaluating the story...</p>
+            <p className="text-lg font-semibold text-purple-400">Evaluating the story...</p>
           )}
         </div>
         <div className="flex items-center gap-4">
@@ -410,7 +410,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx === story.length - 1 ? 0.2 : 0 }}
-                  title={s.isStarter ? 'AI Starter' : `${s.studentName}: ${s.totalScore}%`}
+                  title={s.isStarter ? 'Story Starter' : `${s.studentName}: ${s.totalScore}%`}
                   className={`text-xl md:text-2xl leading-relaxed cursor-help hover:scale-105 transition-transform inline ${
                     s.isStarter
                       ? 'italic text-slate-500'
@@ -442,7 +442,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
           animate={{ opacity: 1, y: 0 }}
           className="glass rounded-2xl p-6 border border-amber-500/30"
         >
-          <div className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3">AI Story Starter</div>
+          <div className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3">Story Starter</div>
           <p className="text-xl italic text-slate-200 mb-6">&quot;{starter}&quot;</p>
           <div className="flex gap-3">
             <button
@@ -496,7 +496,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
       {status === GameStatus.ENDING && (
         <div className="flex flex-col items-center justify-center py-12 gap-4">
           <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin" />
-          <p className="text-slate-400 font-medium">The AI is reading the whole story...</p>
+          <p className="text-slate-400 font-medium">Reading the whole story...</p>
         </div>
       )}
 
@@ -521,7 +521,7 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder={status === GameStatus.ANALYZING ? 'AI is analyzing...' : 'Continue the story with one sentence...'}
+              placeholder={status === GameStatus.ANALYZING ? 'Analyzing...' : 'Continue the story with one sentence...'}
               disabled={status === GameStatus.ANALYZING}
               autoFocus
               className={`w-full py-5 px-6 pr-24 rounded-2xl border-2 transition-all outline-none text-lg ${

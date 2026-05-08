@@ -5,7 +5,7 @@ import { BookOpen } from 'lucide-react';
 export const factDetectivePlugin: ActivityPlugin = {
   key: 'fact-detective',
   name: 'Fact Detective',
-  description: 'AI presents claims mixing true facts with plausible myths. Students discuss, predict, then learn the truth with highlighted vocabulary.',
+  description: 'topic-generated claims mixing true facts with plausible myths. Students discuss, predict, then learn the truth with highlighted vocabulary.',
   category: 'learning',
   pppStage: 'practice',
   skills: ['Vocabulary', 'Critical Thinking', 'Listening'],

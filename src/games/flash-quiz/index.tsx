@@ -5,7 +5,7 @@ import { FlashQuizGame } from './game';
 export const flashQuizPlugin: GamePlugin = {
   key: 'flash-quiz',
   name: 'Flash Quiz',
-  description: 'AI-generated quiz race. All students answer simultaneously — speed and accuracy both earn points.',
+  description: 'topic-generated quiz race. All students answer simultaneously — speed and accuracy both earn points.',
   category: 'quiz',
   pppStage: 'practice',
   icon: Zap,

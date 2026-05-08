@@ -5,7 +5,7 @@ import { Mic } from 'lucide-react';
 export const micDropPlugin: ActivityPlugin = {
   key: 'mic-drop',
   name: 'Mic Drop',
-  description: 'Write your most powerful line. AI finds the standout voices.',
+  description: 'Write your most powerful line. Instantly highlights the standout voices.',
   category: 'closing',
   pppStage: 'landing',
   skills: ['Vocabulary', 'Creativity'],

@@ -290,7 +290,7 @@ export function MicDropActivity({
       {phase === 'highlights' && (
         <div className="space-y-5">
           <p className="text-sm opacity-50">
-            {scores.length} response{scores.length !== 1 ? 's' : ''} · scored by {scoreSource === 'ai' ? 'AI' : 'heuristic'}
+            {scores.length} response{scores.length !== 1 ? 's' : ''} · scored by {scoreSource === 'ai' ? 'smart scoring' : 'heuristic'}
           </p>
 
           {/* Spotlight Mode — single submission */}

@@ -667,7 +667,7 @@ export function ScenarioSimulatorActivity({
             transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
             className="w-12 h-12 border-4 border-lc-blue border-t-transparent rounded-full mx-auto"
           />
-          <p className="text-lg opacity-70">AI is picking the top 3…</p>
+          <p className="text-lg opacity-70">Picking the top 3…</p>
         </motion.div>
       )}
 

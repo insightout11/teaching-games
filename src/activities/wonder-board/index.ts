@@ -5,7 +5,7 @@ import { HelpCircle } from 'lucide-react';
 export const wonderBoardPlugin: ActivityPlugin = {
   key: 'wonder-board',
   name: 'Wonder Board',
-  description: 'Students ask questions about the topic — assigned starters, live board, upvotes, AI answers',
+  description: 'Students ask questions about the topic — assigned starters, live board, upvotes, smart answers',
   category: 'icebreaker',
   pppStage: 'presentation',
   skills: ['Critical Thinking', 'Question Formation'],

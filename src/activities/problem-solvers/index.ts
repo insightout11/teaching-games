@@ -5,7 +5,7 @@ import { Users } from 'lucide-react';
 export const problemSolversPlugin: ActivityPlugin = {
   key: 'problem-solvers',
   name: 'Problem Solvers',
-  description: 'Teams brainstorm solutions with limited resources. AI introduces complications that force adaptation and defense of ideas.',
+  description: 'Teams brainstorm solutions with limited resources. topic-generated complications force adaptation and defense of ideas.',
   category: 'practice',
   pppStage: 'production',
   skills: ['Speaking', 'Critical Thinking', 'Collaboration', 'Creativity'],
