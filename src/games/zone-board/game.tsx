@@ -646,59 +646,108 @@ export function ZoneBoardGame({
       {/* Board */}
       <div className="flex-1 flex flex-col gap-3 min-w-0">
         <div
-          className="relative rounded-2xl overflow-hidden border border-gray-700 flex-shrink-0"
-          style={{ width: 800, height: 560 }}
+          className="relative rounded-2xl overflow-hidden flex-shrink-0"
+          style={{ width: 800, height: 560, border: '2px solid rgba(34,197,94,0.25)', boxShadow: '0 0 40px rgba(34,197,94,0.08)' }}
         >
           {/* SVG track */}
           <svg className="absolute inset-0" width={800} height={560} viewBox="0 0 800 560">
-            <rect x="0" y="0" width="800" height="560" fill="#080c14" />
-            {/* Course corridors */}
+            {/* Board background */}
+            <rect x="0" y="0" width="800" height="560" fill="#020b04" />
+            {/* Subtle grid texture on background */}
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(34,197,94,0.04)" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect x="0" y="0" width="800" height="560" fill="url(#grid)" />
+
+            {/* Course surface — bright green felt */}
             {CORRIDOR_RECTS.map((r, i) => (
-              <rect key={i} x={r.x} y={r.y} width={r.w} height={r.h} fill="#111827" rx="4" />
+              <rect key={`cf${i}`} x={r.x} y={r.y} width={r.w} height={r.h} fill="#14532d" rx="8" />
             ))}
-            {/* Walls */}
+            {/* Corridor inner highlight */}
+            {CORRIDOR_RECTS.map((r, i) => (
+              <rect key={`ch${i}`} x={r.x + 4} y={r.y + 4} width={r.w - 8} height={r.h - 8}
+                fill="none" stroke="#22c55e" strokeWidth="1" rx="5" opacity="0.25" />
+            ))}
+
+            {/* Path connector */}
+            <polyline
+              points={BOARD_LAYOUT.squares.map(s => `${s.x},${s.y}`).join(' ')}
+              fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="2.5"
+              strokeDasharray="8 9" strokeLinejoin="round" strokeLinecap="round"
+            />
+
+            {/* Wall outer glow */}
             {BOARD_LAYOUT.walls.map((w, i) => (
-              <line
-                key={i}
-                x1={w.x1} y1={w.y1} x2={w.x2} y2={w.y2}
-                stroke="#1e3a5f"
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
+              <line key={`wg${i}`} x1={w.x1} y1={w.y1} x2={w.x2} y2={w.y2}
+                stroke="#4ade80" strokeWidth="14" strokeLinecap="round" opacity="0.08" />
             ))}
-            {/* Hole zones */}
+            {/* Wall solid */}
+            {BOARD_LAYOUT.walls.map((w, i) => (
+              <line key={`ws${i}`} x1={w.x1} y1={w.y1} x2={w.x2} y2={w.y2}
+                stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity="0.9" />
+            ))}
+
+            {/* Hole danger zones */}
             {BOARD_LAYOUT.holes.map((h, i) => (
-              <circle key={i} cx={h.x} cy={h.y} r={h.radius}
-                fill="#030712" stroke="#1e1b4b" strokeWidth="2"
-              />
+              <g key={`hz${i}`}>
+                <circle cx={h.x} cy={h.y} r={h.radius + 16} fill="rgba(239,68,68,0.08)" />
+                <circle cx={h.x} cy={h.y} r={h.radius + 8} fill="none" stroke="#ef4444" strokeWidth="1.5" opacity="0.3" strokeDasharray="4 4" />
+                <circle cx={h.x} cy={h.y} r={h.radius} fill="#050505" stroke="#ef4444" strokeWidth="2.5" opacity="0.95" />
+                <text x={h.x} y={h.y + 4} textAnchor="middle" fill="#ef4444" fontSize="10" fontWeight="900" opacity="0.8">HOLE</text>
+              </g>
             ))}
           </svg>
 
-          {/* Square divs */}
+          {/* Square tiles */}
           {boardSquares.map(sq => {
             const cfg = SQUARE_CONFIG[sq.type];
             const hidden = !sq.revealed;
             const isLanding = landingSquareIndex === sq.index;
+            const isSpecial = sq.type === 'start' || sq.type === 'finish';
             return (
               <div
                 key={sq.index}
-                className="absolute flex flex-col items-center justify-center rounded-lg border text-center transition-all duration-300"
+                className="absolute rounded-xl transition-all duration-300"
                 style={{
-                  left: sq.x - 22,
-                  top: sq.y - 22,
-                  width: 44,
-                  height: 44,
-                  borderColor: isLanding ? '#fff' : cfg.color + '66',
-                  background: isLanding ? cfg.color + '44' : cfg.color + '18',
-                  boxShadow: isLanding ? `0 0 18px ${cfg.color}88` : undefined,
-                  transform: isLanding ? 'scale(1.25)' : undefined,
+                  left: sq.x - 30,
+                  top: sq.y - 30,
+                  width: 60,
+                  height: 60,
+                  background: hidden
+                    ? 'rgba(15,23,42,0.97)'
+                    : isLanding
+                    ? cfg.color + 'ee'
+                    : isSpecial
+                    ? cfg.color + 'cc'
+                    : cfg.color + '99',
+                  border: isLanding
+                    ? '2.5px solid #fff'
+                    : hidden
+                    ? '2px solid #334155'
+                    : `2px solid ${cfg.color}`,
+                  boxShadow: isLanding
+                    ? `0 0 30px ${cfg.color}, 0 0 12px ${cfg.color}cc`
+                    : isSpecial
+                    ? `0 0 14px ${cfg.color}aa`
+                    : '0 2px 10px rgba(0,0,0,0.7)',
+                  transform: isLanding ? 'scale(1.35)' : 'scale(1)',
                   zIndex: isLanding ? 10 : 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                <span className="text-base leading-none">{hidden ? '?' : cfg.emoji}</span>
-                <span className="text-[9px] leading-tight font-bold mt-0.5"
-                  style={{ color: cfg.color }}>
-                  {hidden ? sq.index : cfg.label.slice(0, 4)}
+                <span className="absolute top-0.5 left-1.5 text-[8px] font-bold leading-none"
+                  style={{ color: hidden ? '#475569' : 'rgba(255,255,255,0.5)' }}>
+                  {sq.index}
+                </span>
+                <span style={{ fontSize: 22, lineHeight: 1 }}>{hidden ? '🎲' : cfg.emoji}</span>
+                <span className="text-[9px] font-black leading-none mt-0.5"
+                  style={{ color: 'rgba(255,255,255,0.92)', textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
+                  {hidden ? '???' : cfg.label}
                 </span>
               </div>
             );

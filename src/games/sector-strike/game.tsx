@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { LayoutGrid, Check, X as XIcon, Clock, Trophy } from 'lucide-react';
+import { LayoutGrid, Check, X as XIcon, Clock, Trophy, Star, Repeat, Zap, Bomb } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
 import { getEffectiveTopic } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
@@ -37,19 +37,20 @@ const GAME_DURATION = 20 * 60;
 const CLAIM_POINTS = 10;
 const FREE_SQUARE_POINTS = 5;
 
-const BONUS_LABELS: Record<BonusType, string> = {
-  'double-down': '★',
-  'steal': '↺',
-  'free-square': '⚡',
-  'bomb': '✦',
-};
-
 const BONUS_NAMES: Record<BonusType, string> = {
   'double-down': 'Double Down',
   'steal': 'Steal',
   'free-square': 'Free Sector',
   'bomb': 'Bomb',
 };
+
+function BonusIcon({ bonus, className }: { bonus: BonusType; className?: string }) {
+  if (bonus === 'double-down') return <Star className={className} />;
+  if (bonus === 'steal')       return <Repeat className={className} />;
+  if (bonus === 'free-square') return <Zap className={className} />;
+  if (bonus === 'bomb')        return <Bomb className={className} />;
+  return null;
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -157,6 +158,7 @@ export function SectorStrikeGame({
   const [winner, setWinner] = useState<Team | null>(null);
   const [bonusPickTargets, setBonusPickTargets] = useState<number[]>([]);
   const [lastResult, setLastResult] = useState<'correct' | 'wrong' | null>(null);
+  const [lastBombedCell, setLastBombedCell] = useState<number | null>(null);
 
   // ── Refs (avoids stale closures in callbacks) ─────────────────────────────
   const phaseRef = useRef<Phase>('idle');
@@ -334,7 +336,17 @@ export function SectorStrikeGame({
 
     setCells(updated);
     setBonusPickTargets([]);
-    advanceTurn(updated, team);
+
+    if (bonus === 'bomb') {
+      setLastBombedCell(targetIdx);
+      setPhase('applying');
+      applyingTimerRef.current = setTimeout(() => {
+        setLastBombedCell(null);
+        advanceTurn(updated, team, false);
+      }, 1600);
+    } else {
+      advanceTurn(updated, team);
+    }
   }, [advanceTurn]);
 
   // ── Handle auto-bonus cells (free-square / bomb) ──────────────────────────
@@ -359,18 +371,17 @@ export function SectorStrikeGame({
     }
 
     if (cell?.bonus === 'bomb') {
-      const adjOpponent = getAdjacent(cellIdx).filter(
-        (i) => snapshotCells[i]?.team === opposite(team)
-      );
-      if (adjOpponent.length > 0) {
-        setCells(snapshotCells);
-        setBonusPickTargets(adjOpponent);
-        setPhase('bonus-pick');
-      } else {
-        // No targets — show brief applying phase so the bomb reveal is visible
+      const targets = snapshotCells
+        .filter((c) => c.team === opposite(team))
+        .map((c) => c.index);
+      if (targets.length === 0) {
         setPhase('applying');
-        applyingTimerRef.current = setTimeout(() => advanceTurn(snapshotCells, team, false), 1400);
+        applyingTimerRef.current = setTimeout(() => advanceTurn(snapshotCells, team, false), 1600);
+        return;
       }
+      setCells(snapshotCells);
+      setBonusPickTargets(targets);
+      setPhase('bonus-pick');
     }
   }, [onScore, advanceTurn]);
 
@@ -682,9 +693,17 @@ export function SectorStrikeGame({
       )}
 
       {phase === 'bonus-pick' && currentCell?.bonus && (
-        <div className="rounded-xl px-3 py-2 text-xs font-semibold text-center bg-yellow-500/15 text-yellow-300 border border-yellow-500/25">
-          {BONUS_LABELS[currentCell.bonus]} {BONUS_NAMES[currentCell.bonus]} — tap a highlighted sector
-        </div>
+        currentCell.bonus === 'bomb' ? (
+          <div className="rounded-xl px-3 py-2.5 text-sm font-bold text-center bg-red-500/15 text-red-300 border border-red-500/30 flex items-center justify-center gap-2">
+            <Bomb className="w-4 h-4" />
+            Bomb! {currentPicker?.name} — choose an opponent sector to destroy
+          </div>
+        ) : (
+          <div className="rounded-xl px-3 py-2 text-xs font-semibold text-center bg-yellow-500/15 text-yellow-300 border border-yellow-500/25 flex items-center justify-center gap-1.5">
+            <BonusIcon bonus={currentCell.bonus} className="w-3.5 h-3.5" />
+            {BONUS_NAMES[currentCell.bonus]} — tap a highlighted sector
+          </div>
+        )
       )}
 
       {/* 8×8 Grid */}
@@ -692,6 +711,7 @@ export function SectorStrikeGame({
         {cells.map((cell) => {
           const isSelected = cell.index === selectedCell;
           const isTarget = bonusPickTargets.includes(cell.index);
+          const wasBombed = cell.index === lastBombedCell;
           const canPick = phase === 'picking' && cell.team === null;
           const canBonus = phase === 'bonus-pick' && isTarget;
           const showResult = phase === 'applying' && isSelected;
@@ -712,6 +732,7 @@ export function SectorStrikeGame({
                 isSelected && !showResult ? 'ring-2 ring-white/60 scale-105' : '',
                 showResult && lastResult === 'correct' ? 'ring-2 ring-green-400 scale-105' : '',
                 showResult && lastResult === 'wrong' ? 'ring-2 ring-red-400' : '',
+                wasBombed ? 'ring-2 ring-red-500 animate-pulse scale-90' : '',
                 isTarget ? 'ring-2 ring-yellow-400 animate-pulse cursor-pointer' : '',
                 canPick ? 'hover:bg-lc-card hover:scale-105 cursor-pointer' : 'cursor-default',
               ].filter(Boolean).join(' ')}
@@ -719,7 +740,7 @@ export function SectorStrikeGame({
               {cell.team === 'x' && 'X'}
               {cell.team === 'o' && 'O'}
               {!cell.team && cell.bonusRevealed && cell.bonus && (
-                <span className="text-yellow-400">{BONUS_LABELS[cell.bonus]}</span>
+                <BonusIcon bonus={cell.bonus} className="w-3 h-3 text-yellow-400" />
               )}
               {!cell.team && !cell.bonusRevealed && phase === 'picking' && (
                 <span className="opacity-40 text-[10px]">{cell.index + 1}</span>
@@ -743,15 +764,28 @@ export function SectorStrikeGame({
             <>
               {/* Bonus banner — shown for all bonus cells, prominent */}
               {currentCell?.bonus && currentCell.bonusRevealed && (
-                <div className="rounded-lg bg-yellow-500/15 border border-yellow-500/30 px-3 py-2 text-center">
-                  <div className="text-xl mb-0.5">{BONUS_LABELS[currentCell.bonus]}</div>
-                  <div className="text-sm font-bold text-yellow-300">{BONUS_NAMES[currentCell.bonus]}!</div>
-                  {currentCell.bonus === 'free-square' && (
-                    <p className="text-xs text-yellow-400/70 mt-0.5">Sector auto-claimed — no question needed</p>
-                  )}
-                  {currentCell.bonus === 'bomb' && bonusPickTargets.length === 0 && (
-                    <p className="text-xs text-yellow-400/70 mt-0.5">No adjacent opponent sectors to destroy</p>
-                  )}
+                <div className={`rounded-lg border px-3 py-2.5 flex items-center gap-3 ${
+                  currentCell.bonus === 'bomb'
+                    ? 'bg-red-500/15 border-red-500/30'
+                    : 'bg-yellow-500/15 border-yellow-500/30'
+                }`}>
+                  <BonusIcon bonus={currentCell.bonus} className={`w-6 h-6 flex-shrink-0 ${
+                    currentCell.bonus === 'bomb' ? 'text-red-400' : 'text-yellow-400'
+                  }`} />
+                  <div>
+                    <p className={`text-sm font-bold ${currentCell.bonus === 'bomb' ? 'text-red-300' : 'text-yellow-300'}`}>
+                      {BONUS_NAMES[currentCell.bonus]}!
+                    </p>
+                    {currentCell.bonus === 'free-square' && (
+                      <p className="text-xs text-yellow-400/70">Sector auto-claimed</p>
+                    )}
+                    {currentCell.bonus === 'bomb' && lastBombedCell !== null && (
+                      <p className="text-xs text-red-400/70">Sector {lastBombedCell + 1} destroyed!</p>
+                    )}
+                    {currentCell.bonus === 'bomb' && lastBombedCell === null && phase === 'applying' && (
+                      <p className="text-xs text-red-400/70">No opponent sectors to target</p>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -837,19 +871,14 @@ export function SectorStrikeGame({
           Tap any opponent sector to take it
         </p>
       )}
-      {phase === 'bonus-pick' && currentCell?.bonus === 'bomb' && (
-        <p className="text-xs text-lc-text3 text-center">
-          Tap an adjacent opponent sector to destroy it
-        </p>
-      )}
 
       {/* Legend (only during picking, compact) */}
       {phase === 'picking' && (
         <div className="flex items-center justify-center gap-4 text-[10px] text-lc-text3 pt-1">
-          <span className="flex items-center gap-1"><span className="text-yellow-400">★</span> Double Down</span>
-          <span className="flex items-center gap-1"><span className="text-yellow-400">↺</span> Steal</span>
-          <span className="flex items-center gap-1"><span className="text-yellow-400">⚡</span> Free</span>
-          <span className="flex items-center gap-1"><span className="text-yellow-400">✦</span> Bomb</span>
+          <span className="flex items-center gap-1"><Star className="w-3 h-3 text-yellow-400" /> Double Down</span>
+          <span className="flex items-center gap-1"><Repeat className="w-3 h-3 text-yellow-400" /> Steal</span>
+          <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-yellow-400" /> Free</span>
+          <span className="flex items-center gap-1"><Bomb className="w-3 h-3 text-yellow-400" /> Bomb</span>
         </div>
       )}
 
