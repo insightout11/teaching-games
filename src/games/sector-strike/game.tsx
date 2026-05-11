@@ -28,6 +28,8 @@ interface Cell {
   bonusRevealed: boolean;
   qType: QType;
   question: string | null;
+  options: string[] | null;
+  correctIndex: number | null;
 }
 
 const GAME_DURATION = 20 * 60;
@@ -112,7 +114,9 @@ function buildCells(questionMode: string): Cell[] {
       questionMode === 'written' ? 'written' :
       Math.random() < 0.5 ? 'speaking' : 'written',
     question: null,
-  }));
+    options: null,
+    correctIndex: null,
+  } as Cell));
 }
 
 function formatTime(seconds: number): string {
@@ -147,7 +151,7 @@ export function SectorStrikeGame({
   const [currentTeam, setCurrentTeam] = useState<Team>('x');
   const [currentPicker, setCurrentPicker] = useState<Student | null>(null);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
-  const [submittedAnswer, setSubmittedAnswer] = useState<string | null>(null);
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [winner, setWinner] = useState<Team | null>(null);
   const [bonusPickTargets, setBonusPickTargets] = useState<number[]>([]);
@@ -172,6 +176,8 @@ export function SectorStrikeGame({
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const applyingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fetchControllerRef = useRef<AbortController | null>(null);
+  const selectedOptionIndexRef = useRef<number | null>(null);
+  const seenCacheIdsRef = useRef<string[]>([]);
 
   // ── Derived ───────────────────────────────────────────────────────────────
   const xCount = cells.filter((c) => c.team === 'x').length;
@@ -234,7 +240,8 @@ export function SectorStrikeGame({
     setCurrentTeam(nextTeam);
     setCurrentPicker(pickRandom(nextTeamStudents));
     setSelectedCell(null);
-    setSubmittedAnswer(null);
+    setSelectedOptionIndex(null);
+    selectedOptionIndexRef.current = null;
     setLastResult(null);
     onSetInputSpec?.(null);
     setPhase('picking');
@@ -377,44 +384,59 @@ export function SectorStrikeGame({
       const res = await fetch('/api/sector-strike/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty, qType: cell.qType }),
+        body: JSON.stringify({ topic, difficulty, qType: cell.qType, seenCacheIds: seenCacheIdsRef.current }),
         signal: fetchControllerRef.current.signal,
       });
       if (livePhase() !== 'loading') return;
 
-      const data = await res.json() as { question: string };
-      const question = data.question;
+      const data = await res.json() as { question: string; options?: string[]; correctIndex?: number; cacheId?: string };
+      if (data.cacheId) seenCacheIdsRef.current = [...seenCacheIdsRef.current, data.cacheId];
 
       setCells((prev) =>
-        prev.map((c) => c.index === cellIdx ? { ...c, question } : c)
+        prev.map((c) =>
+          c.index === cellIdx
+            ? { ...c, question: data.question, options: data.options ?? null, correctIndex: data.correctIndex ?? null }
+            : c
+        )
       );
 
-      if (cell.qType === 'written') {
+      if (cell.qType === 'written' && data.options) {
         onSetInputSpec?.({
-          type: 'text',
+          type: 'choice',
           gameKey: 'sector-strike',
-          prompt: question,
-          placeholder: 'Type your answer…',
-          maxLength: 200,
+          prompt: data.question,
+          options: data.options,
         });
       }
       setPhase('answering');
     } catch (err: unknown) {
       if (err instanceof Error && err.name === 'AbortError') return;
       if (livePhase() !== 'loading') return;
-      const fallback =
-        cell.qType === 'speaking'
-          ? `What do you know about ${topic}? Share at least two ideas.`
-          : `Write one sentence that describes something important about ${topic}.`;
-      setCells((prev) =>
-        prev.map((c) => c.index === cellIdx ? { ...c, question: fallback } : c)
-      );
-      if (cell.qType === 'written') {
+
+      if (cell.qType === 'speaking') {
+        const fallback = `What do you know about ${topic}? Share at least two ideas.`;
+        setCells((prev) =>
+          prev.map((c) => c.index === cellIdx ? { ...c, question: fallback } : c)
+        );
+      } else {
+        const fallbackOptions = [
+          `It is commonly studied and discussed`,
+          `It has no real-world applications`,
+          `It was invented last year`,
+          `It only exists in one country`,
+        ];
+        setCells((prev) =>
+          prev.map((c) =>
+            c.index === cellIdx
+              ? { ...c, question: `Which of the following is true about ${topic}?`, options: fallbackOptions, correctIndex: 0 }
+              : c
+          )
+        );
         onSetInputSpec?.({
-          type: 'text',
+          type: 'choice',
           gameKey: 'sector-strike',
-          prompt: fallback,
-          placeholder: 'Type your answer…',
+          prompt: `Which of the following is true about ${topic}?`,
+          options: fallbackOptions,
         });
       }
       setPhase('answering');
@@ -426,8 +448,18 @@ export function SectorStrikeGame({
     if (phaseRef.current !== 'answering') return;
     const pickerId = currentPickerRef.current?.id;
     if (!pickerId || vote.studentId !== pickerId) return;
-    setSubmittedAnswer(vote.choice);
-  }, []);
+    const cell = cellsRef.current[selectedCellRef.current!];
+    if (!cell || cell.qType !== 'written') return;
+    if (selectedOptionIndexRef.current !== null) return;
+    const choiceIndex = parseInt(vote.choice, 10);
+    if (isNaN(choiceIndex) || choiceIndex < 0 || choiceIndex > 3) return;
+    selectedOptionIndexRef.current = choiceIndex;
+    setSelectedOptionIndex(choiceIndex);
+    setTimeout(() => {
+      if (choiceIndex === cell.correctIndex) handleCorrect();
+      else handleWrong();
+    }, 800);
+  }, [handleCorrect, handleWrong]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.(handleVote);
@@ -449,7 +481,9 @@ export function SectorStrikeGame({
     setCurrentTeam('x');
     setCurrentPicker(pickRandom(x));
     setSelectedCell(null);
-    setSubmittedAnswer(null);
+    setSelectedOptionIndex(null);
+    selectedOptionIndexRef.current = null;
+    seenCacheIdsRef.current = [];
     setLastResult(null);
     setBonusPickTargets([]);
     setWinner(null);
@@ -519,11 +553,11 @@ export function SectorStrikeGame({
           </div>
         </div>
 
-        <div className="grid grid-cols-8 gap-0.5">
+        <div className="grid grid-cols-8 grid-rows-8 gap-0.5 h-64">
           {cells.map((cell) => (
             <div
               key={cell.index}
-              className={`aspect-square rounded flex items-center justify-center text-xs font-black ${
+              className={`rounded flex items-center justify-center text-xs font-black ${
                 cell.team === 'x' ? 'bg-blue-500 text-white' :
                 cell.team === 'o' ? 'bg-orange-500 text-white' :
                 'bg-lc-surface'
@@ -592,7 +626,7 @@ export function SectorStrikeGame({
       )}
 
       {/* 8×8 Grid */}
-      <div className="grid grid-cols-8 gap-0.5">
+      <div className="grid grid-cols-8 grid-rows-8 gap-0.5 h-64">
         {cells.map((cell) => {
           const isSelected = cell.index === selectedCell;
           const isTarget = bonusPickTargets.includes(cell.index);
@@ -609,7 +643,7 @@ export function SectorStrikeGame({
               }}
               disabled={!canPick && !canBonus}
               className={[
-                'aspect-square rounded flex items-center justify-center text-xs font-black transition-all select-none',
+                'w-full h-full rounded flex items-center justify-center text-xs font-black transition-all select-none',
                 cell.team === 'x' ? 'bg-blue-500 text-white' :
                 cell.team === 'o' ? 'bg-orange-500 text-white' :
                 'bg-lc-surface text-lc-text3',
@@ -657,21 +691,37 @@ export function SectorStrikeGame({
                 {currentCell.question}
               </p>
 
-              {/* Written: waiting or showing answer */}
-              {currentCell.qType === 'written' && phase === 'answering' && !submittedAnswer && (
-                <p className="text-xs text-lc-text3 italic">
-                  Waiting for {currentPicker?.name} to submit…
-                </p>
-              )}
-              {currentCell.qType === 'written' && submittedAnswer && (
-                <div className="rounded-lg bg-lc-card border border-lc-border px-3 py-2">
-                  <p className="text-xs text-lc-text3 mb-0.5">{currentPicker?.name}:</p>
-                  <p className="text-sm text-lc-text">{submittedAnswer}</p>
+              {/* Written: MC option grid */}
+              {currentCell.qType === 'written' && currentCell.options && (
+                <div className="grid grid-cols-2 gap-1.5">
+                  {currentCell.options.map((opt, i) => {
+                    const LABELS = ['A', 'B', 'C', 'D'];
+                    const COLORS = ['bg-red-600', 'bg-blue-600', 'bg-amber-500', 'bg-green-600'];
+                    const isPicked = selectedOptionIndex === i;
+                    const isCorrect = i === currentCell.correctIndex;
+                    return (
+                      <div
+                        key={i}
+                        className={`rounded-lg px-2 py-1.5 transition-all ${COLORS[i]} ${
+                          selectedOptionIndex !== null && (isPicked || isCorrect) ? 'opacity-100' :
+                          selectedOptionIndex !== null ? 'opacity-40' : 'opacity-80'
+                        }${isPicked ? ' ring-2 ring-white' : ''}`}
+                      >
+                        <span className="text-[10px] font-black text-white/70 uppercase">{LABELS[i]}</span>
+                        <p className="text-xs font-semibold text-white leading-snug">{opt}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
+              {currentCell.qType === 'written' && phase === 'answering' && selectedOptionIndex === null && (
+                <p className="text-xs text-lc-text3 italic">
+                  Waiting for {currentPicker?.name} to pick an answer…
+                </p>
+              )}
 
-              {/* Approve/reject buttons */}
-              {phase === 'answering' && (currentCell.qType === 'speaking' || submittedAnswer) && (
+              {/* Speaking: approve/reject buttons */}
+              {phase === 'answering' && currentCell.qType === 'speaking' && (
                 <div className="flex gap-2">
                   <button
                     onClick={handleCorrect}

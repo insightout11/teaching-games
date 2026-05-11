@@ -10,9 +10,13 @@ import { difficultyDescriptions } from '@/lib/difficulty';
 export const dynamic = 'force-dynamic';
 
 const GAME_KEY = 'sector-strike';
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
-const schema: AISchema = {
+interface SpeakingResult { question: string }
+interface WrittenResult { question: string; options: string[]; correctIndex: number }
+type GenerateResult = SpeakingResult | WrittenResult;
+
+const speakingSchema: AISchema = {
   type: 'object',
   properties: {
     question: { type: 'string' },
@@ -20,32 +24,49 @@ const schema: AISchema = {
   required: ['question'],
 };
 
+const writtenSchema: AISchema = {
+  type: 'object',
+  properties: {
+    question:     { type: 'string' },
+    options:      { type: 'array', items: { type: 'string' } },
+    correctIndex: { type: 'number' },
+  },
+  required: ['question', 'options', 'correctIndex'],
+};
+
 const speakingPromptSuffix = `The question must:
 - Require 2–3 spoken sentences to answer fully
 - Ask for an opinion, description, comparison, or explanation
-- Not be answerable with a single yes or no`;
+- Not be answerable with a single yes or no
 
-const writtenPromptSuffix = `The question must:
-- Be answerable in 1–2 written sentences
-- Have a clear focus that a student can address directly
-- Not require spoken output`;
+Return JSON: { "question": "..." }`;
+
+const writtenPromptSuffix = `Create a multiple choice question with exactly 4 options. One must be clearly correct; the others must be plausible distractors related to the topic.
+
+Return JSON:
+{
+  "question": "...",
+  "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
+  "correctIndex": 0
+}
+correctIndex is the 0-based index of the correct option (0–3).`;
 
 export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, qType } = await request.json() as {
+  const { topic, difficulty, qType, seenCacheIds } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     qType: 'speaking' | 'written';
+    seenCacheIds?: string[];
   };
 
   try {
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, [], qType);
+    const cached = await getCachedContent(GAME_KEY, topic, difficulty, seenCacheIds ?? [], qType, SCHEMA_VERSION);
     if (cached) {
-      const { question } = cached.content_json as { question: string };
       return NextResponse.json(
-        { question, cacheId: cached.id },
+        { ...cached.content_json, cacheId: cached.id },
         { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
       );
     }
@@ -54,15 +75,14 @@ export async function POST(request: NextRequest) {
     const prompt = `Generate one classroom question about "${topic}" for ESL learners.
 
 Language level: ${difficultyDescriptions[difficulty]}
-Question type: ${qType}
 Random seed: ${randomSeed}
 
 ${qType === 'speaking' ? speakingPromptSuffix : writtenPromptSuffix}
 
-Return JSON: { "question": "..." }
-One question only. No preamble, no numbering.`;
+No preamble, no numbering.`;
 
-    const data = await generateJSON<{ question: string }>(prompt, schema, {
+    const schema = qType === 'speaking' ? speakingSchema : writtenSchema;
+    const data = await generateJSON<GenerateResult>(prompt, schema, {
       temperature: 1.0,
       taskClass: 'content-generation',
     });
@@ -71,40 +91,67 @@ One question only. No preamble, no numbering.`;
       throw new Error('Invalid question generated');
     }
 
-    const cacheId = await storeCachedContent(
-      GAME_KEY,
-      topic,
-      difficulty,
-      { question: data.question.trim() },
-      SCHEMA_VERSION,
-      qType,
-    );
+    if (qType === 'written') {
+      const wr = data as WrittenResult;
+      if (!Array.isArray(wr.options) || wr.options.length !== 4) throw new Error('Invalid MC options');
+      if (typeof wr.correctIndex !== 'number' || wr.correctIndex < 0 || wr.correctIndex > 3) {
+        throw new Error('Invalid correctIndex');
+      }
+      const payload = {
+        question: data.question.trim(),
+        options: wr.options.map((o) => String(o).trim()),
+        correctIndex: wr.correctIndex,
+      };
+      const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, payload, SCHEMA_VERSION, qType);
+      return NextResponse.json(
+        { ...payload, cacheId },
+        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+      );
+    }
 
+    const payload = { question: data.question.trim() };
+    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, payload, SCHEMA_VERSION, qType);
     return NextResponse.json(
-      { question: data.question.trim(), cacheId },
+      { ...payload, cacheId },
       { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
     );
   } catch (error) {
     console.error('[sector-strike/generate] error:', error);
 
     try {
-      const emergency = await getCachedContent(GAME_KEY, topic, difficulty, [], qType);
+      const emergency = await getCachedContent(GAME_KEY, topic, difficulty, [], qType, SCHEMA_VERSION);
       if (emergency) {
-        const { question } = emergency.content_json as { question: string };
         return NextResponse.json(
-          { question, cacheId: emergency.id, degraded: true },
+          { ...emergency.content_json, cacheId: emergency.id, degraded: true },
           { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
         );
       }
     } catch { /* cache also failed */ }
 
-    const fallback =
-      qType === 'speaking'
-        ? `What do you know about ${topic}? Share at least two ideas.`
-        : `Write one sentence that describes something important about ${topic}.`;
+    if (qType === 'written') {
+      return NextResponse.json(
+        {
+          question: `Which of the following is true about ${topic}?`,
+          options: [
+            `It is commonly studied and discussed`,
+            `It has no real-world applications`,
+            `It was invented last year`,
+            `It only exists in one country`,
+          ],
+          correctIndex: 0,
+          cacheId: null,
+          degraded: true,
+        },
+        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+      );
+    }
 
     return NextResponse.json(
-      { question: fallback, cacheId: null, degraded: true },
+      {
+        question: `What do you know about ${topic}? Share at least two ideas.`,
+        cacheId: null,
+        degraded: true,
+      },
       { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
     );
   }
