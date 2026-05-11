@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import type { InputSpec } from '@/lib/input-spec';
+import { ShuffleboardInput } from './shuffleboard-input';
 
 interface DynamicInputProps {
   spec: InputSpec;
@@ -41,6 +42,8 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       return <ConfirmInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
     case 'read-aloud':
       return <ReadAloudInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
+    case 'shuffleboard':
+      return <ShuffleboardInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
     default:
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
   }

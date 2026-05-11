@@ -17,6 +17,7 @@ import { flashQuizPlugin } from './flash-quiz';
 import { brainTeasersPlugin } from './brain-teasers';
 import { defendItPlugin } from './defend-it';
 import { sectorStrikePlugin } from './sector-strike';
+import { zoneBoardPlugin } from './zone-board';
 
 const games: GamePlugin[] = [
   flashQuizPlugin,
@@ -35,6 +36,7 @@ const games: GamePlugin[] = [
   twentyQuestionsPlugin,
   defendItPlugin,
   sectorStrikePlugin,
+  zoneBoardPlugin,
 ];
 
 export function getGame(key: string): GamePlugin | undefined {

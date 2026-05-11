@@ -10,7 +10,8 @@ export type InputType =
   | 'ranking'        // Rank items (drag to reorder)
   | 'error-correction' // Select words and provide corrections
   | 'confirm'        // Single confirm button
-  | 'read-aloud';    // Queue display + done button for current reader
+  | 'read-aloud'     // Queue display + done button for current reader
+  | 'shuffleboard';  // Drag-and-release physics shot (Zone Board)
 
 export interface InputSpec {
   type: InputType;
