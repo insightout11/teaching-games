@@ -109,14 +109,14 @@ export const CORRIDOR_RECTS = [
 ];
 
 // Square type configuration
-export const SQUARE_CONFIG: Record<string, { color: string; label: string; emoji: string }> = {
-  start:            { color: '#10b981', label: 'START',   emoji: '🏁' },
-  finish:           { color: '#f59e0b', label: 'FINISH',  emoji: '🏆' },
-  question:         { color: '#3b82f6', label: 'Q?',      emoji: '❓' },
-  safe:             { color: '#64748b', label: 'SAFE',     emoji: '—'  },
-  boost:            { color: '#f59e0b', label: 'BOOST',   emoji: '⭐' },
-  trap:             { color: '#ef4444', label: 'TRAP',    emoji: '💥' },
-  'question-boost': { color: '#a855f7', label: 'Q+BOOST', emoji: '🚀' },
-  freeze:           { color: '#06b6d4', label: 'FREEZE',  emoji: '❄️' },
-  hole:             { color: '#ef4444', label: 'DANGER',  emoji: '🕳️' },
+export const SQUARE_CONFIG: Record<string, { color: string; label: string }> = {
+  start:            { color: '#10b981', label: 'START'   },
+  finish:           { color: '#f59e0b', label: 'FINISH'  },
+  question:         { color: '#3b82f6', label: 'Q?'      },
+  safe:             { color: '#64748b', label: 'SAFE'    },
+  boost:            { color: '#f59e0b', label: 'BOOST'   },
+  trap:             { color: '#ef4444', label: 'TRAP'    },
+  'question-boost': { color: '#a855f7', label: 'Q+BOOST' },
+  freeze:           { color: '#06b6d4', label: 'FREEZE'  },
+  hole:             { color: '#ef4444', label: 'DANGER'  },
 };

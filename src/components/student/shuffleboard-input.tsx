@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react';
 import type { InputSpec } from '@/lib/input-spec';
+import { Eye, Target } from 'lucide-react';
 
 interface ShuffleboardInputProps {
   spec: InputSpec;
@@ -26,7 +27,7 @@ export function ShuffleboardInput({ spec, onSubmit, isSubmitting, displayName }:
   if (!isShooter) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
-        <div className="text-5xl">👀</div>
+        <Eye size={48} className="text-lc-text2" />
         <p className="text-lg font-bold text-lc-text">Watch the board!</p>
         <p className="text-sm text-lc-text2">Your teammate is shooting…</p>
       </div>
@@ -74,7 +75,7 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
   if (hasShot) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
-        <div className="text-5xl animate-bounce">🎯</div>
+        <Target size={52} className="text-cyan-400 animate-bounce" />
         <p className="text-xl font-black text-cyan-400">Shot fired!</p>
         <p className="text-sm text-lc-text2">Watch the board…</p>
       </div>
@@ -85,7 +86,7 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
   const puckY = PUCK_REST_Y - power * MAX_PULL_Y * 0.88;
 
   const powerHex = power > 0.75 ? '#ef4444' : power > 0.4 ? '#f59e0b' : '#3b82f6';
-  const powerLabel = power > 0.75 ? '🔥 MAX' : power > 0.4 ? '💪 MED' : power > 0.1 ? '🌬️ LOW' : '';
+  const powerLabel = power > 0.75 ? 'MAX' : power > 0.4 ? 'MED' : power > 0.1 ? 'LOW' : '';
 
   const trajEndX = puckX + angle * 55 * power;
   const trajEndY = Math.max(12, puckY - power * (AREA_H - 95));

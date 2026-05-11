@@ -7,6 +7,11 @@ import type { TeamState, GamePhase, ActiveQuestion, PuckPhysics, BoardSquare } f
 import type { Wall, HoleZone } from './types';
 import { getEffectiveTopic } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
+import type { LucideIcon } from 'lucide-react';
+import {
+  Flag, Trophy, HelpCircle, Shield, Zap, Bomb,
+  Rocket, Snowflake, CircleOff, Crosshair,
+} from 'lucide-react';
 
 // ─── Physics constants ────────────────────────────────────────────────────────
 
@@ -17,6 +22,20 @@ const STOP_THRESHOLD = 0.38;
 const MAX_SPEED = 13;
 const MAX_ANGLE_RAD = (Math.PI / 180) * 55;
 const LANDING_THRESHOLD = 72; // px — max distance from square center to register landing
+
+// ─── Square icons ────────────────────────────────────────────────────────────
+
+const SQUARE_ICONS: Record<string, LucideIcon> = {
+  start:            Flag,
+  finish:           Trophy,
+  question:         HelpCircle,
+  safe:             Shield,
+  boost:            Zap,
+  trap:             Bomb,
+  'question-boost': Rocket,
+  freeze:           Snowflake,
+  hole:             CircleOff,
+};
 
 // ─── Team config ─────────────────────────────────────────────────────────────
 
@@ -291,7 +310,7 @@ export function ZoneBoardGame({
 
       case 'boost': {
         const newIndex = Math.min(24, squareIndex + 4);
-        setResolveMessage('⭐ Boost! Jump forward 4 squares!');
+        setResolveMessage('Boost! Jump forward 4 squares!');
         const boostedTeams = teamsWithToken.map((t, i) =>
           i === teamIdx ? { ...t, squareIndex: newIndex } : t
         );
@@ -307,7 +326,7 @@ export function ZoneBoardGame({
 
       case 'trap': {
         const newIndex = Math.max(0, squareIndex - 4);
-        setResolveMessage('💥 Trap! Slide back 4 squares!');
+        setResolveMessage('Trap! Slide back 4 squares!');
         const trappedTeams = teamsWithToken.map((t, i) =>
           i === teamIdx ? { ...t, squareIndex: newIndex } : t
         );
@@ -321,7 +340,7 @@ export function ZoneBoardGame({
       }
 
       case 'freeze': {
-        setResolveMessage('❄️ Freeze! Lose your next turn.');
+        setResolveMessage('Freeze! Lose your next turn.');
         const frozenTeams = teamsWithToken.map((t, i) =>
           i === teamIdx ? { ...t, skipNextTurn: true } : t
         );
@@ -336,7 +355,7 @@ export function ZoneBoardGame({
 
       case 'hole': {
         const newIndex = Math.max(0, squareIndex - 4);
-        setResolveMessage('🕳️ Hole! Back 4 squares and lose a turn.');
+        setResolveMessage('Hole! Back 4 squares and lose a turn.');
         const holedTeams = teamsWithToken.map((t, i) =>
           i === teamIdx ? { ...t, squareIndex: newIndex, skipNextTurn: true } : t
         );
@@ -744,7 +763,10 @@ export function ZoneBoardGame({
                   style={{ color: hidden ? '#475569' : 'rgba(255,255,255,0.5)' }}>
                   {sq.index}
                 </span>
-                <span style={{ fontSize: 22, lineHeight: 1 }}>{hidden ? '🎲' : cfg.emoji}</span>
+                {(() => {
+                  const Icon = hidden ? HelpCircle : (SQUARE_ICONS[sq.type] ?? HelpCircle);
+                  return <Icon size={22} color="rgba(255,255,255,0.95)" strokeWidth={2} />;
+                })()}
                 <span className="text-[9px] font-black leading-none mt-0.5"
                   style={{ color: 'rgba(255,255,255,0.92)', textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
                   {hidden ? '???' : cfg.label}
@@ -829,9 +851,12 @@ export function ZoneBoardGame({
             </p>
           )}
           {phase === 'shooting' && shooter && (
-            <p className="text-lg font-bold" style={{ color: activeTeam?.color }}>
-              🎯 Waiting for {shooter.name} ({activeTeam?.name} Team) to shoot…
-            </p>
+            <div className="flex items-center gap-2">
+              <Crosshair size={20} style={{ color: activeTeam?.color }} />
+              <p className="text-lg font-bold" style={{ color: activeTeam?.color }}>
+                Waiting for {shooter.name} ({activeTeam?.name} Team) to shoot…
+              </p>
+            </div>
           )}
           {phase === 'animating' && (
             <p className="text-lg font-bold text-white animate-pulse">Puck in motion…</p>
@@ -875,9 +900,13 @@ export function ZoneBoardGame({
             </div>
           )}
           {phase === 'game_over' && winner && (
-            <p className="text-xl font-black" style={{ color: winner.color }}>
-              🏆 {winner.name} Team wins! 🏆
-            </p>
+            <div className="flex items-center gap-3">
+              <Trophy size={24} style={{ color: winner.color }} />
+              <p className="text-xl font-black" style={{ color: winner.color }}>
+                {winner.name} Team wins!
+              </p>
+              <Trophy size={24} style={{ color: winner.color }} />
+            </div>
           )}
         </div>
       </div>
