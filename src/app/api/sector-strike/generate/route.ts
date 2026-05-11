@@ -30,12 +30,29 @@ const writtenSchema: AISchema = {
   required: ['question', 'options', 'correctIndex'],
 };
 
-const speakingPromptSuffix = `The question must:
+const SPEAKING_ANGLES = [
+  'a personal experience or memory related to the topic',
+  'a comparison between two aspects, options, or viewpoints',
+  'a problem you might face and how you would solve it',
+  'the pros and cons of something related to the topic',
+  'a prediction or hypothetical future scenario',
+  'an opinion you would defend and why',
+  'a step-by-step explanation of a process',
+  'a recommendation with at least two reasons',
+  'what advice you would give someone new to the topic',
+  'how the topic affects daily life',
+];
+
+function speakingPromptSuffix(): string {
+  const angle = SPEAKING_ANGLES[Math.floor(Math.random() * SPEAKING_ANGLES.length)];
+  return `The question must focus on: ${angle}.
+
+It must:
 - Require 2–3 spoken sentences to answer fully
-- Ask for an opinion, description, comparison, or explanation
 - Not be answerable with a single yes or no
 
 Return JSON: { "question": "..." }`;
+}
 
 const writtenPromptSuffix = `Create a multiple choice question with exactly 4 options. One must be clearly correct; the others must be plausible distractors related to the topic.
 

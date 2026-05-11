@@ -13,6 +13,7 @@ type BonusType = 'double-down' | 'steal' | 'free-square' | 'bomb';
 type QType = 'speaking' | 'written';
 type Phase =
   | 'idle'
+  | 'preparing'
   | 'picking'
   | 'loading'
   | 'answering'
@@ -207,11 +208,27 @@ export function SectorStrikeGame({
     }, 500);
   }, [stopTimer]);
 
+  // ── Fetch one question (used during pre-generation) ──────────────────────
+  const fetchOneQuestion = useCallback(async (qType: QType): Promise<{ question: string; options?: string[]; correctIndex?: number } | null> => {
+    try {
+      const res = await fetch('/api/sector-strike/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic, difficulty, qType }),
+      });
+      if (!res.ok) return null;
+      return await res.json() as { question: string; options?: string[]; correctIndex?: number };
+    } catch {
+      return null;
+    }
+  }, [topic, difficulty]);
+
   // Handle timeout when timeLeft hits 0
   useEffect(() => {
     if (
       timeLeft === 0 &&
       phase !== 'idle' &&
+      phase !== 'preparing' &&
       phase !== 'won' &&
       phase !== 'timeout'
     ) {
@@ -357,14 +374,12 @@ export function SectorStrikeGame({
 
   // ── Handle cell tap (picking phase) ──────────────────────────────────────
   const handleCellClick = useCallback(async (cellIdx: number) => {
-    // Use a function to read phase — prevents TypeScript from narrowing across awaits
     const livePhase = (): Phase => phaseRef.current;
     if (livePhase() !== 'picking') return;
     const cell = cellsRef.current[cellIdx];
     if (!cell || cell.team !== null) return;
 
     setSelectedCell(cellIdx);
-
     const revealedCells = cellsRef.current.map((c) =>
       c.index === cellIdx ? { ...c, bonusRevealed: true } : c
     );
@@ -375,6 +390,22 @@ export function SectorStrikeGame({
       return;
     }
 
+    // Question pre-generated at game start — instant reveal
+    if (cell.question) {
+      if (cell.qType === 'written' && cell.options) {
+        onSetInputSpec?.({
+          type: 'choice',
+          gameKey: 'sector-strike',
+          prompt: cell.question,
+          options: cell.options,
+          timerSeconds: 60,
+        });
+      }
+      setPhase('answering');
+      return;
+    }
+
+    // Fallback: pre-generation failed for this cell, fetch now
     setPhase('loading');
     fetchControllerRef.current?.abort();
     fetchControllerRef.current = new AbortController();
@@ -389,7 +420,6 @@ export function SectorStrikeGame({
       if (livePhase() !== 'loading') return;
 
       const data = await res.json() as { question: string; options?: string[]; correctIndex?: number };
-
       setCells((prev) =>
         prev.map((c) =>
           c.index === cellIdx
@@ -397,7 +427,6 @@ export function SectorStrikeGame({
             : c
         )
       );
-
       if (cell.qType === 'written' && data.options) {
         onSetInputSpec?.({
           type: 'choice',
@@ -411,33 +440,24 @@ export function SectorStrikeGame({
     } catch (err: unknown) {
       if (err instanceof Error && err.name === 'AbortError') return;
       if (livePhase() !== 'loading') return;
-
-      if (cell.qType === 'speaking') {
-        const fallback = `What do you know about ${topic}? Share at least two ideas.`;
-        setCells((prev) =>
-          prev.map((c) => c.index === cellIdx ? { ...c, question: fallback } : c)
-        );
-      } else {
-        const fallbackOptions = [
-          `It is commonly studied and discussed`,
-          `It has no real-world applications`,
-          `It was invented last year`,
-          `It only exists in one country`,
-        ];
-        setCells((prev) =>
-          prev.map((c) =>
-            c.index === cellIdx
-              ? { ...c, question: `Which of the following is true about ${topic}?`, options: fallbackOptions, correctIndex: 0 }
-              : c
-          )
-        );
-        onSetInputSpec?.({
-          type: 'choice',
-          gameKey: 'sector-strike',
-          prompt: `Which of the following is true about ${topic}?`,
-          options: fallbackOptions,
-          timerSeconds: 60,
-        });
+      const fallback = cell.qType === 'speaking'
+        ? `What do you know about ${topic}? Share at least two ideas.`
+        : `Which of the following is true about ${topic}?`;
+      const fallbackOptions = [
+        'It is commonly studied and discussed',
+        'It has no real-world applications',
+        'It was invented last year',
+        'It only exists in one country',
+      ];
+      setCells((prev) =>
+        prev.map((c) =>
+          c.index === cellIdx
+            ? { ...c, question: fallback, options: cell.qType === 'written' ? fallbackOptions : null, correctIndex: cell.qType === 'written' ? 0 : null }
+            : c
+        )
+      );
+      if (cell.qType === 'written') {
+        onSetInputSpec?.({ type: 'choice', gameKey: 'sector-strike', prompt: fallback, options: fallbackOptions, timerSeconds: 60 });
       }
       setPhase('answering');
     }
@@ -469,7 +489,7 @@ export function SectorStrikeGame({
   }, [onRegisterRemoteVoteHandler, handleVote]);
 
   // ── Start game ────────────────────────────────────────────────────────────
-  const startGame = useCallback(() => {
+  const startGame = useCallback(async () => {
     if (students.length < 2) return;
     if (applyingTimerRef.current) clearTimeout(applyingTimerRef.current);
 
@@ -479,7 +499,9 @@ export function SectorStrikeGame({
     const o = shuffled.slice(mid);
     setXTeam(x);
     setOTeam(o);
-    setCells(buildCells(questionMode));
+
+    const initialCells = buildCells(questionMode);
+    setCells(initialCells);
     setCurrentTeam('x');
     setCurrentPicker(pickRandom(x));
     setSelectedCell(null);
@@ -489,9 +511,35 @@ export function SectorStrikeGame({
     setBonusPickTargets([]);
     setWinner(null);
     setTimeLeft(GAME_DURATION);
+    setPhase('preparing');
+
+    // Pre-generate questions for all cells that need them (not free-square or bomb)
+    const cellsToFetch = initialCells.filter(
+      (c) => c.bonus !== 'free-square' && c.bonus !== 'bomb'
+    );
+    const results = await Promise.allSettled(
+      cellsToFetch.map(async (cell) => {
+        const data = await fetchOneQuestion(cell.qType);
+        return { index: cell.index, data };
+      })
+    );
+
+    setCells((prev) =>
+      prev.map((cell) => {
+        const hit = results.find(
+          (r) => r.status === 'fulfilled' && r.value.index === cell.index
+        );
+        if (hit && hit.status === 'fulfilled' && hit.value.data) {
+          const { question, options, correctIndex } = hit.value.data;
+          return { ...cell, question: question ?? null, options: options ?? null, correctIndex: correctIndex ?? null };
+        }
+        return cell;
+      })
+    );
+
     startTimer();
     setPhase('picking');
-  }, [students, questionMode, startTimer]);
+  }, [students, questionMode, startTimer, fetchOneQuestion]);
 
   // ── Render: IDLE ──────────────────────────────────────────────────────────
   if (phase === 'idle') {
@@ -526,6 +574,17 @@ export function SectorStrikeGame({
         >
           Start Game
         </button>
+      </div>
+    );
+  }
+
+  // ── Render: PREPARING ────────────────────────────────────────────────────
+  if (phase === 'preparing') {
+    return (
+      <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
+        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-lc-text2 text-sm">Preparing board…</p>
+        <p className="text-xs text-lc-text3">Generating questions for all 64 sectors</p>
       </div>
     );
   }
