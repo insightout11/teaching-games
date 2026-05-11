@@ -22,7 +22,6 @@ const LANDING_THRESHOLD = 72; // px — max distance from square center to regis
 
 const TEAM_NAMES = ['Red', 'Blue', 'Green', 'Yellow'];
 const TEAM_COLORS = ['#ef4444', '#3b82f6', '#22c55e', '#eab308'];
-const TEAM_TEXT_CLASSES = ['text-red-400', 'text-blue-400', 'text-green-400', 'text-yellow-400'];
 const TEAM_BG_CLASSES = ['bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500'];
 
 // ─── Pure physics helpers ─────────────────────────────────────────────────────
@@ -205,7 +204,7 @@ export function ZoneBoardGame({
 
   // ─── Question resolution ────────────────────────────────────────────────────
 
-  function resolveQuestion(isCorrect: boolean, question: ActiveQuestion) {
+  function resolveQuestion(isCorrect: boolean, _question: ActiveQuestion) {
     const teamIdx = activeTeamIndexRef.current;
     const teams = teamsRef.current;
     const activeTeam = teams[teamIdx];
@@ -258,7 +257,6 @@ export function ZoneBoardGame({
     const sq = BOARD_LAYOUT.squares[squareIndex];
     const teamIdx = activeTeamIndexRef.current;
     const teams = teamsRef.current;
-    const activeTeam = teams[teamIdx];
 
     // Reveal hidden squares (boost/trap)
     if (!sq.revealed) {
