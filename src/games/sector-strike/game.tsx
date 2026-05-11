@@ -367,7 +367,9 @@ export function SectorStrikeGame({
         setBonusPickTargets(adjOpponent);
         setPhase('bonus-pick');
       } else {
-        advanceTurn(snapshotCells, team, false);
+        // No targets — show brief applying phase so the bomb reveal is visible
+        setPhase('applying');
+        applyingTimerRef.current = setTimeout(() => advanceTurn(snapshotCells, team, false), 1400);
       }
     }
   }, [onScore, advanceTurn]);
@@ -720,7 +722,7 @@ export function SectorStrikeGame({
                 <span className="text-yellow-400">{BONUS_LABELS[cell.bonus]}</span>
               )}
               {!cell.team && !cell.bonusRevealed && phase === 'picking' && (
-                <span className="opacity-15 text-[9px]">{cell.index + 1}</span>
+                <span className="opacity-40 text-[10px]">{cell.index + 1}</span>
               )}
             </button>
           );
@@ -737,22 +739,31 @@ export function SectorStrikeGame({
             </div>
           )}
 
-          {(phase === 'answering' || phase === 'applying') && currentCell?.question && (
+          {(phase === 'answering' || phase === 'applying') && (
             <>
-              {/* Bonus badge */}
-              {currentCell.bonus && currentCell.bonusRevealed && (
-                <div className="flex items-center gap-1.5 text-xs text-yellow-400 font-semibold">
-                  <span>{BONUS_LABELS[currentCell.bonus]}</span>
-                  <span>{BONUS_NAMES[currentCell.bonus]} bonus active!</span>
+              {/* Bonus banner — shown for all bonus cells, prominent */}
+              {currentCell?.bonus && currentCell.bonusRevealed && (
+                <div className="rounded-lg bg-yellow-500/15 border border-yellow-500/30 px-3 py-2 text-center">
+                  <div className="text-xl mb-0.5">{BONUS_LABELS[currentCell.bonus]}</div>
+                  <div className="text-sm font-bold text-yellow-300">{BONUS_NAMES[currentCell.bonus]}!</div>
+                  {currentCell.bonus === 'free-square' && (
+                    <p className="text-xs text-yellow-400/70 mt-0.5">Sector auto-claimed — no question needed</p>
+                  )}
+                  {currentCell.bonus === 'bomb' && bonusPickTargets.length === 0 && (
+                    <p className="text-xs text-yellow-400/70 mt-0.5">No adjacent opponent sectors to destroy</p>
+                  )}
                 </div>
               )}
 
-              <p className="text-sm font-semibold text-lc-text leading-snug">
-                {currentCell.question}
-              </p>
+              {/* Question text */}
+              {currentCell?.question && (
+                <p className="text-sm font-semibold text-lc-text leading-snug">
+                  {currentCell.question}
+                </p>
+              )}
 
               {/* Written: MC option grid */}
-              {currentCell.qType === 'written' && currentCell.options && (
+              {currentCell?.qType === 'written' && currentCell.options && (
                 <div className="grid grid-cols-2 gap-1.5">
                   {currentCell.options.map((opt, i) => {
                     const LABELS = ['A', 'B', 'C', 'D'];
@@ -774,14 +785,14 @@ export function SectorStrikeGame({
                   })}
                 </div>
               )}
-              {currentCell.qType === 'written' && phase === 'answering' && selectedOptionIndex === null && (
+              {currentCell?.qType === 'written' && phase === 'answering' && selectedOptionIndex === null && (
                 <p className="text-xs text-lc-text3 italic">
                   Waiting for {currentPicker?.name} to pick an answer…
                 </p>
               )}
 
               {/* Speaking: approve/reject buttons */}
-              {phase === 'answering' && currentCell.qType === 'speaking' && (
+              {phase === 'answering' && currentCell?.qType === 'speaking' && (
                 <div className="flex gap-2">
                   <button
                     onClick={handleCorrect}
@@ -800,8 +811,8 @@ export function SectorStrikeGame({
                 </div>
               )}
 
-              {/* Applying result */}
-              {phase === 'applying' && (
+              {/* Applying result — only for answered questions */}
+              {phase === 'applying' && lastResult !== null && (
                 <div className={`text-center font-bold text-sm py-1.5 rounded-lg ${
                   lastResult === 'correct'
                     ? 'text-green-400 bg-green-500/10'

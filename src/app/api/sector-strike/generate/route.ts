@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
 Language level: ${difficultyDescriptions[difficulty]}
 Random seed: ${randomSeed}
 
-${qType === 'speaking' ? speakingPromptSuffix : writtenPromptSuffix}
+${qType === 'speaking' ? speakingPromptSuffix() : writtenPromptSuffix}
 
 No preamble, no numbering.`;
 
