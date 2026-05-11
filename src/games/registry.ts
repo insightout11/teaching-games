@@ -16,6 +16,7 @@ import { BookA, PenLine, Brain, Zap } from 'lucide-react';
 import { flashQuizPlugin } from './flash-quiz';
 import { brainTeasersPlugin } from './brain-teasers';
 import { defendItPlugin } from './defend-it';
+import { sectorStrikePlugin } from './sector-strike';
 
 const games: GamePlugin[] = [
   flashQuizPlugin,
@@ -33,6 +34,7 @@ const games: GamePlugin[] = [
   connectionsPlugin,
   twentyQuestionsPlugin,
   defendItPlugin,
+  sectorStrikePlugin,
 ];
 
 export function getGame(key: string): GamePlugin | undefined {
