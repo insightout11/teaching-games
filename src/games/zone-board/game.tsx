@@ -661,13 +661,13 @@ export function ZoneBoardGame({
   const shooter = activeTeam?.members[activeTeam.shooterIndex] ?? null;
 
   return (
-    <div className="flex gap-4 h-full min-h-0">
-      {/* Board */}
-      <div className="flex-1 flex flex-col gap-3 min-w-0">
-        <div
-          className="relative rounded-2xl overflow-hidden flex-shrink-0"
-          style={{ width: 800, height: 560, border: '2px solid rgba(34,197,94,0.25)', boxShadow: '0 0 40px rgba(34,197,94,0.08)' }}
-        >
+    <div className="flex gap-4">
+      {/* Board — scaled to 85% (680×476) so side panel stays visible */}
+      <div
+        className="rounded-2xl overflow-hidden flex-shrink-0 relative"
+        style={{ width: 680, height: 476, border: '2px solid rgba(34,197,94,0.25)', boxShadow: '0 0 40px rgba(34,197,94,0.08)' }}
+      >
+        <div style={{ position: 'absolute', top: 0, left: 0, width: 800, height: 560, transform: 'scale(0.85)', transformOrigin: 'top left' }}>
           {/* SVG track */}
           <svg className="absolute inset-0" width={800} height={560} viewBox="0 0 800 560">
             {/* Board background */}
@@ -839,156 +839,157 @@ export function ZoneBoardGame({
               }}
             />
           )}
-        </div>
+        </div>{/* end scale wrapper */}
+      </div>{/* end board */}
 
-        {/* Phase bar */}
-        <div className="bg-lc-card rounded-xl border border-lc-border p-4 min-h-[80px]">
+      {/* Side panel — phase controls + team list */}
+      <div className="flex-1 flex flex-col gap-3 min-w-0">
+
+        {/* Phase info card */}
+        <div className="bg-lc-card rounded-xl border border-lc-border p-4 flex-1">
           {phase === 'idle' && (
-            <p className="text-lc-text2 text-sm">
-              {students.length === 0
-                ? 'Waiting for students to join…'
-                : `${students.length} student${students.length !== 1 ? 's' : ''} connected. Ready to start.`}
-            </p>
-          )}
-          {phase === 'shooting' && shooter && (
-            <div className="flex items-center gap-2">
-              <Crosshair size={20} style={{ color: activeTeam?.color }} />
-              <p className="text-lg font-bold" style={{ color: activeTeam?.color }}>
-                Waiting for {shooter.name} ({activeTeam?.name} Team) to shoot…
+            <div className="space-y-3">
+              <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wider">Teams</p>
+              {Array.from({ length: numberOfTeams }, (_, i) => {
+                const shuffled = [...students].sort(() => 0.5 - Math.random());
+                const teamMembers = shuffled.filter((_, j) => j % numberOfTeams === i);
+                return (
+                  <div key={i} className="space-y-0.5">
+                    <p className="text-sm font-bold" style={{ color: TEAM_COLORS[i] }}>{TEAM_NAMES[i]} Team</p>
+                    <p className="text-xs text-lc-text2">
+                      {teamMembers.length > 0 ? teamMembers.map(s => s.name).join(', ') : 'Auto-assigned on start'}
+                    </p>
+                  </div>
+                );
+              })}
+              <p className="text-xs text-lc-text2 pt-1 border-t border-lc-border">
+                {students.length === 0 ? 'Waiting for students to join…' : `${students.length} student${students.length !== 1 ? 's' : ''} ready`}
               </p>
             </div>
           )}
+
+          {phase === 'shooting' && shooter && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Crosshair size={16} style={{ color: activeTeam?.color }} />
+                <p className="text-xs font-bold uppercase tracking-wider" style={{ color: activeTeam?.color }}>
+                  {activeTeam?.name} Team
+                </p>
+              </div>
+              <p className="text-base font-black text-white">{shooter.name}</p>
+              <p className="text-xs text-lc-text2">Waiting for shot on student device…</p>
+            </div>
+          )}
+
           {phase === 'animating' && (
-            <p className="text-lg font-bold text-white animate-pulse">Puck in motion…</p>
+            <p className="text-base font-bold text-white animate-pulse">Puck in motion…</p>
           )}
-          {phase === 'resolving' && !currentQuestion && (
-            <p className="text-lg font-bold text-white">{resolveMessage || 'Resolving…'}</p>
+
+          {(phase === 'resolving' || (phase === 'scoring' && !currentQuestion)) && (
+            <div className="space-y-3">
+              <p className="text-base font-bold text-white">{resolveMessage || 'Resolving…'}</p>
+              {phase === 'scoring' && (
+                <button
+                  onClick={() => { if (scoringTimerRef.current) clearTimeout(scoringTimerRef.current); advanceTurn(); }}
+                  className="w-full px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 text-sm font-bold transition-colors"
+                >
+                  Next Turn →
+                </button>
+              )}
+            </div>
           )}
+
           {phase === 'answering' && currentQuestion && (
             <div className="space-y-2">
-              <p className="text-base font-semibold text-white">{currentQuestion.question}</p>
-              <div className="grid grid-cols-2 gap-2">
+              <p className="text-sm font-semibold text-white leading-snug">{currentQuestion.question}</p>
+              <div className="space-y-1.5">
                 {currentQuestion.options.map((opt, i) => {
                   const voteCount = Array.from(teamVotes.values()).filter(v => v === i).length;
                   return (
                     <div key={i}
-                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm"
+                      className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs"
                       style={{ background: ['#ef4444', '#3b82f6', '#f59e0b', '#22c55e'][i] + '22' }}>
-                      <span className="font-bold text-white/60">{['A','B','C','D'][i]}</span>
+                      <span className="font-bold text-white/60 w-4 shrink-0">{['A','B','C','D'][i]}</span>
                       <span className="flex-1 text-white/90">{opt}</span>
-                      {voteCount > 0 && (
-                        <span className="text-white/60 text-xs font-bold">{voteCount}</span>
-                      )}
+                      {voteCount > 0 && <span className="text-white/60 font-bold">{voteCount}</span>}
                     </div>
                   );
                 })}
               </div>
             </div>
           )}
-          {phase === 'scoring' && (
-            <div className="flex items-center justify-between">
-              <p className="text-base font-bold text-white">{resolveMessage}</p>
-              {currentQuestion && (
-                <p className="text-sm text-lc-text2">{currentQuestion.explanation}</p>
-              )}
+
+          {phase === 'scoring' && currentQuestion && (
+            <div className="space-y-2">
+              <p className="text-sm font-bold text-white">{resolveMessage}</p>
+              <p className="text-xs text-lc-text2">{currentQuestion.explanation}</p>
               <button
                 onClick={() => { if (scoringTimerRef.current) clearTimeout(scoringTimerRef.current); advanceTurn(); }}
-                className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 text-sm font-bold transition-colors"
+                className="w-full px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 text-sm font-bold transition-colors"
               >
                 Next Turn →
               </button>
             </div>
           )}
+
           {phase === 'game_over' && winner && (
-            <div className="flex items-center gap-3">
-              <Trophy size={24} style={{ color: winner.color }} />
-              <p className="text-xl font-black" style={{ color: winner.color }}>
-                {winner.name} Team wins!
-              </p>
-              <Trophy size={24} style={{ color: winner.color }} />
+            <div className="flex flex-col items-center gap-3 py-4">
+              <Trophy size={36} style={{ color: winner.color }} />
+              <p className="text-2xl font-black" style={{ color: winner.color }}>{winner.name} Team wins!</p>
             </div>
           )}
         </div>
-      </div>
 
-      {/* Side panel */}
-      <div className="w-64 flex flex-col gap-3 flex-shrink-0">
-        {phase === 'idle' ? (
-          <>
-            <div className="bg-lc-card rounded-xl border border-lc-border p-4 space-y-3">
-              <p className="text-sm font-semibold text-lc-text2 uppercase tracking-wider">Preview Teams</p>
-              {Array.from({ length: numberOfTeams }, (_, i) => {
-                const shuffled = [...students].sort(() => 0.5 - Math.random());
-                const teamMembers = shuffled.filter((_, j) => j % numberOfTeams === i);
-                return (
-                  <div key={i} className="space-y-1">
-                    <p className="text-sm font-bold" style={{ color: TEAM_COLORS[i] }}>
-                      {TEAM_NAMES[i]} Team
-                    </p>
-                    <p className="text-xs text-lc-text2">
-                      {teamMembers.length > 0
-                        ? teamMembers.map(s => s.name).join(', ')
-                        : 'Auto-assigned on start'}
-                    </p>
+        {/* Team list (during game) */}
+        {phase !== 'idle' && (
+          <div className="bg-lc-card rounded-xl border border-lc-border p-3 space-y-2">
+            {teams.map((team, i) => {
+              const sq = boardSquares[team.squareIndex];
+              const isActive = i === activeTeamIndex && phase !== 'game_over';
+              return (
+                <div
+                  key={team.id}
+                  className={`rounded-lg px-3 py-2 border transition-all ${isActive ? 'border-white/30' : 'border-lc-border'}`}
+                  style={{ background: isActive ? team.color + '18' : undefined }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-black text-sm flex items-center gap-1" style={{ color: team.color }}>
+                      {team.name}
+                      {team.skipNextTurn && <Snowflake size={11} color="#06b6d4" />}
+                      {team.finished && <Trophy size={11} color="#f59e0b" />}
+                    </span>
+                    <span className="text-xs text-lc-text2">Sq {team.squareIndex}{sq ? ` · ${sq.type}` : ''}</span>
                   </div>
-                );
-              })}
-            </div>
-            <button
-              onClick={startGame}
-              disabled={students.length === 0}
-              className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-black text-lg disabled:opacity-40 transition-colors"
-            >
-              Start Game
-            </button>
-          </>
-        ) : (
-          <>
-            <div className="bg-lc-card rounded-xl border border-lc-border p-4 space-y-3 flex-1">
-              <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wider">Teams</p>
-              {teams.map((team, i) => {
-                const sq = boardSquares[team.squareIndex];
-                const isActive = i === activeTeamIndex && phase !== 'game_over';
-                return (
-                  <div
-                    key={team.id}
-                    className={`rounded-lg p-3 border transition-all ${isActive ? 'border-white/30' : 'border-lc-border'}`}
-                    style={{ background: isActive ? team.color + '18' : undefined }}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-black text-sm" style={{ color: team.color }}>
-                        {team.name}
-                        {team.skipNextTurn && ' ❄️'}
-                        {team.finished && ' 🏆'}
+                  <p className="text-xs text-lc-text2 truncate mt-0.5">
+                    {team.members.map((m, j) => (
+                      <span key={m.id} className={j === team.shooterIndex && isActive ? 'font-bold text-white' : ''}>
+                        {j > 0 ? ', ' : ''}{j === team.shooterIndex && isActive ? '▶ ' : ''}{m.name}
                       </span>
-                      <span className="text-xs text-lc-text2">
-                        Sq {team.squareIndex}
-                        {sq && <span> — {sq.type}</span>}
-                      </span>
-                    </div>
-                    <p className="text-xs text-lc-text2">
-                      {team.members.map((m, j) => (
-                        <span key={m.id}
-                          className={j === team.shooterIndex && isActive ? 'font-bold text-white' : ''}>
-                          {j === team.shooterIndex && isActive ? '🎯 ' : ''}{m.name}
-                          {j < team.members.length - 1 ? ', ' : ''}
-                        </span>
-                      ))}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+                    ))}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-            {phase !== 'game_over' && (
-              <button
-                onClick={endGame}
-                className="w-full py-2 rounded-xl border border-lc-border text-lc-text2 hover:text-red-400 hover:border-red-500/50 text-sm transition-colors"
-              >
-                End Game
-              </button>
-            )}
-          </>
+        {/* Action button */}
+        {phase === 'idle' && (
+          <button
+            onClick={startGame}
+            disabled={students.length === 0}
+            className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-black text-lg disabled:opacity-40 transition-colors"
+          >
+            Start Game
+          </button>
+        )}
+        {phase !== 'idle' && phase !== 'game_over' && (
+          <button
+            onClick={endGame}
+            className="w-full py-2 rounded-xl border border-lc-border text-lc-text2 hover:text-red-400 hover:border-red-500/50 text-sm transition-colors"
+          >
+            End Game
+          </button>
         )}
       </div>
     </div>
