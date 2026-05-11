@@ -12,13 +12,13 @@ interface ShuffleboardInputProps {
 }
 
 const AREA_W = 300;
-const AREA_H = 330;
+const AREA_H = 340;
 const CX = AREA_W / 2;
-const PUCK_REST_Y = AREA_H - 70;
+const PEG_Y = 60;           // pegs near top (fork tips)
+const PUCK_REST_Y = 78;     // puck rests just below pegs
 const PUCK_R = 20;
 const PEG_SPREAD = 54;
-const PEG_Y = PUCK_REST_Y - 12;
-const MAX_PULL_Y = 185;
+const MAX_PULL_Y = 200;     // max downward pull
 const MAX_PULL_X = 78;
 
 export function ShuffleboardInput({ spec, onSubmit, isSubmitting, displayName }: ShuffleboardInputProps) {
@@ -55,7 +55,7 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
     if (!isDragging) return;
     const dx = e.clientX - dragStartRef.current.x;
-    const dy = dragStartRef.current.y - e.clientY;
+    const dy = e.clientY - dragStartRef.current.y;  // drag DOWN = positive = more power
     setPower(Math.min(1, Math.max(0, dy / MAX_PULL_Y)));
     setAngle(Math.min(1, Math.max(-1, dx / MAX_PULL_X)));
   }, [isDragging]);
@@ -82,16 +82,18 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
     );
   }
 
+  // Puck position: starts at top (PUCK_REST_Y), pulled DOWN as power increases
   const puckX = CX + angle * MAX_PULL_X * 0.85;
-  const puckY = PUCK_REST_Y - power * MAX_PULL_Y * 0.88;
+  const puckY = PUCK_REST_Y + power * MAX_PULL_Y * 0.88;
 
   const powerHex = power > 0.75 ? '#ef4444' : power > 0.4 ? '#f59e0b' : '#3b82f6';
   const powerLabel = power > 0.75 ? 'MAX' : power > 0.4 ? 'MED' : power > 0.1 ? 'LOW' : '';
 
+  // Trajectory arc shoots UP from puck toward top of area
   const trajEndX = puckX + angle * 55 * power;
-  const trajEndY = Math.max(12, puckY - power * (AREA_H - 95));
+  const trajEndY = Math.max(8, puckY - power * (AREA_H - 60));
   const trajCpX = (puckX + trajEndX) / 2 + angle * 25 * power;
-  const trajCpY = puckY - power * (AREA_H - 95) * 0.52;
+  const trajCpY = puckY - power * (AREA_H - 60) * 0.52;
 
   return (
     <div className="flex flex-col items-center gap-3 select-none">
@@ -105,7 +107,7 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
         style={{
           width: AREA_W,
           height: AREA_H,
-          background: 'radial-gradient(ellipse at 50% 88%, #071a0e 0%, #040c07 55%, #030712 100%)',
+          background: 'radial-gradient(ellipse at 50% 12%, #071a0e 0%, #040c07 55%, #030712 100%)',
           boxShadow: '0 0 0 1px rgba(34,197,94,0.12) inset, 0 4px 24px rgba(0,0,0,0.6)',
           cursor: 'crosshair',
         }}
@@ -120,22 +122,26 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
           height={AREA_H}
           viewBox={`0 0 ${AREA_W} ${AREA_H}`}
         >
-          {/* Idle targeting rings */}
+          {/* Slingshot Y-frame arms */}
+          <line x1={CX} y1={AREA_H - 20} x2={CX - PEG_SPREAD} y2={PEG_Y + 12}
+            stroke="#1e293b" strokeWidth="9" strokeLinecap="round" />
+          <line x1={CX} y1={AREA_H - 20} x2={CX + PEG_SPREAD} y2={PEG_Y + 12}
+            stroke="#1e293b" strokeWidth="9" strokeLinecap="round" />
+          {/* Handle */}
+          <rect x={CX - 5} y={AREA_H - 65} width={10} height={55} rx="5" fill="#1e293b" />
+
+          {/* Idle targeting rings at top (where puck rests) */}
           {!isDragging && (
             <>
               <circle cx={CX} cy={PUCK_REST_Y} r={46} fill="none" stroke="rgba(99,102,241,0.10)" strokeWidth="1" strokeDasharray="5 5" />
               <circle cx={CX} cy={PUCK_REST_Y} r={28} fill="none" stroke="rgba(99,102,241,0.14)" strokeWidth="1" />
-              <line x1={CX} y1={PUCK_REST_Y - 32} x2={CX} y2={PUCK_REST_Y - 14}
+              <line x1={CX} y1={PUCK_REST_Y + 14} x2={CX} y2={PUCK_REST_Y + 32}
                 stroke="rgba(99,102,241,0.25)" strokeWidth="1.5" strokeLinecap="round" />
-              <text x={CX} y={PUCK_REST_Y - 36} textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize="9" fontWeight="600">AIM</text>
+              <text x={CX} y={PUCK_REST_Y + 46} textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize="9" fontWeight="600">PULL DOWN</text>
             </>
           )}
 
-          {/* Peg posts */}
-          <rect x={CX - PEG_SPREAD - 3} y={PEG_Y + 7} width={6} height={AREA_H - PEG_Y - 17} rx="3" fill="#0a1628" />
-          <rect x={CX + PEG_SPREAD - 3} y={PEG_Y + 7} width={6} height={AREA_H - PEG_Y - 17} rx="3" fill="#0a1628" />
-
-          {/* Trajectory arc */}
+          {/* Trajectory arc (goes UP toward top of area) */}
           {isDragging && power > 0.05 && (
             <>
               <path
@@ -167,7 +173,7 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
             </>
           )}
 
-          {/* Pegs */}
+          {/* Pegs (fork tips) */}
           <circle cx={CX - PEG_SPREAD} cy={PEG_Y} r={8} fill="#1e293b" stroke={isDragging ? powerHex : '#475569'} strokeWidth="2" />
           <circle cx={CX + PEG_SPREAD} cy={PEG_Y} r={8} fill="#1e293b" stroke={isDragging ? powerHex : '#475569'} strokeWidth="2" />
           <circle cx={CX - PEG_SPREAD} cy={PEG_Y} r={3.5} fill={isDragging ? powerHex : '#64748b'} />
@@ -194,16 +200,16 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
           }}
         />
 
-        {/* Idle hint */}
+        {/* Idle hint at bottom */}
         {!isDragging && (
           <div className="absolute inset-x-0 bottom-3 flex justify-center pointer-events-none">
-            <p className="text-[11px] text-white/22 tracking-wide">hold &amp; drag up to shoot</p>
+            <p className="text-[11px] text-white/22 tracking-wide">hold &amp; drag down to shoot</p>
           </div>
         )}
 
         {/* Power label while dragging */}
         {isDragging && powerLabel && (
-          <div className="absolute top-3 inset-x-0 flex justify-center pointer-events-none">
+          <div className="absolute bottom-3 inset-x-0 flex justify-center pointer-events-none">
             <span
               className="text-xs font-black px-3 py-1 rounded-full"
               style={{ color: powerHex, background: powerHex + '22', border: `1px solid ${powerHex}44` }}
