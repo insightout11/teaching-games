@@ -406,6 +406,7 @@ export function SectorStrikeGame({
           gameKey: 'sector-strike',
           prompt: data.question,
           options: data.options,
+          timerSeconds: 60,
         });
       }
       setPhase('answering');
@@ -437,6 +438,7 @@ export function SectorStrikeGame({
           gameKey: 'sector-strike',
           prompt: `Which of the following is true about ${topic}?`,
           options: fallbackOptions,
+          timerSeconds: 60,
         });
       }
       setPhase('answering');
@@ -451,8 +453,10 @@ export function SectorStrikeGame({
     const cell = cellsRef.current[selectedCellRef.current!];
     if (!cell || cell.qType !== 'written') return;
     if (selectedOptionIndexRef.current !== null) return;
-    const choiceIndex = parseInt(vote.choice, 10);
-    if (isNaN(choiceIndex) || choiceIndex < 0 || choiceIndex > 3) return;
+    // ChoiceInput submits option text; QuizChoiceInput submits index string — handle both
+    let choiceIndex = parseInt(vote.choice, 10);
+    if (isNaN(choiceIndex)) choiceIndex = cell.options?.indexOf(vote.choice) ?? -1;
+    if (choiceIndex < 0 || choiceIndex > 3) return;
     selectedOptionIndexRef.current = choiceIndex;
     setSelectedOptionIndex(choiceIndex);
     setTimeout(() => {
@@ -553,7 +557,7 @@ export function SectorStrikeGame({
           </div>
         </div>
 
-        <div className="grid grid-cols-8 grid-rows-8 gap-0.5 h-64">
+        <div className="grid grid-cols-8 grid-rows-8 gap-0.5 w-full max-w-sm mx-auto aspect-square">
           {cells.map((cell) => (
             <div
               key={cell.index}
@@ -626,7 +630,7 @@ export function SectorStrikeGame({
       )}
 
       {/* 8×8 Grid */}
-      <div className="grid grid-cols-8 grid-rows-8 gap-0.5 h-64">
+      <div className="grid grid-cols-8 grid-rows-8 gap-0.5 w-full max-w-sm mx-auto aspect-square">
         {cells.map((cell) => {
           const isSelected = cell.index === selectedCell;
           const isTarget = bonusPickTargets.includes(cell.index);
