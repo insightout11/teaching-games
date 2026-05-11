@@ -177,7 +177,6 @@ export function SectorStrikeGame({
   const applyingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fetchControllerRef = useRef<AbortController | null>(null);
   const selectedOptionIndexRef = useRef<number | null>(null);
-  const seenCacheIdsRef = useRef<string[]>([]);
 
   // ── Derived ───────────────────────────────────────────────────────────────
   const xCount = cells.filter((c) => c.team === 'x').length;
@@ -384,13 +383,12 @@ export function SectorStrikeGame({
       const res = await fetch('/api/sector-strike/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty, qType: cell.qType, seenCacheIds: seenCacheIdsRef.current }),
+        body: JSON.stringify({ topic, difficulty, qType: cell.qType }),
         signal: fetchControllerRef.current.signal,
       });
       if (livePhase() !== 'loading') return;
 
-      const data = await res.json() as { question: string; options?: string[]; correctIndex?: number; cacheId?: string };
-      if (data.cacheId) seenCacheIdsRef.current = [...seenCacheIdsRef.current, data.cacheId];
+      const data = await res.json() as { question: string; options?: string[]; correctIndex?: number };
 
       setCells((prev) =>
         prev.map((c) =>
@@ -487,7 +485,6 @@ export function SectorStrikeGame({
     setSelectedCell(null);
     setSelectedOptionIndex(null);
     selectedOptionIndexRef.current = null;
-    seenCacheIdsRef.current = [];
     setLastResult(null);
     setBonusPickTargets([]);
     setWinner(null);

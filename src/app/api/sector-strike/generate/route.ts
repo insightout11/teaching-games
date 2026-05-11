@@ -3,14 +3,10 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
 import type { Topic } from '@/stores/session-store';
-import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { difficultyDescriptions } from '@/lib/difficulty';
 
 export const dynamic = 'force-dynamic';
-
-const GAME_KEY = 'sector-strike';
-const SCHEMA_VERSION = 2;
 
 interface SpeakingResult { question: string }
 interface WrittenResult { question: string; options: string[]; correctIndex: number }
@@ -55,22 +51,13 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, qType, seenCacheIds } = await request.json() as {
+  const { topic, difficulty, qType } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     qType: 'speaking' | 'written';
-    seenCacheIds?: string[];
   };
 
   try {
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, seenCacheIds ?? [], qType, SCHEMA_VERSION);
-    if (cached) {
-      return NextResponse.json(
-        { ...cached.content_json, cacheId: cached.id },
-        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
-      );
-    }
-
     const randomSeed = Math.random().toString(36).substring(7);
     const prompt = `Generate one classroom question about "${topic}" for ESL learners.
 
@@ -97,36 +84,22 @@ No preamble, no numbering.`;
       if (typeof wr.correctIndex !== 'number' || wr.correctIndex < 0 || wr.correctIndex > 3) {
         throw new Error('Invalid correctIndex');
       }
-      const payload = {
-        question: data.question.trim(),
-        options: wr.options.map((o) => String(o).trim()),
-        correctIndex: wr.correctIndex,
-      };
-      const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, payload, SCHEMA_VERSION, qType);
       return NextResponse.json(
-        { ...payload, cacheId },
+        {
+          question: data.question.trim(),
+          options: wr.options.map((o) => String(o).trim()),
+          correctIndex: wr.correctIndex,
+        },
         { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
       );
     }
 
-    const payload = { question: data.question.trim() };
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, payload, SCHEMA_VERSION, qType);
     return NextResponse.json(
-      { ...payload, cacheId },
+      { question: data.question.trim() },
       { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
     );
   } catch (error) {
     console.error('[sector-strike/generate] error:', error);
-
-    try {
-      const emergency = await getCachedContent(GAME_KEY, topic, difficulty, [], qType, SCHEMA_VERSION);
-      if (emergency) {
-        return NextResponse.json(
-          { ...emergency.content_json, cacheId: emergency.id, degraded: true },
-          { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
-        );
-      }
-    } catch { /* cache also failed */ }
 
     if (qType === 'written') {
       return NextResponse.json(
@@ -139,7 +112,6 @@ No preamble, no numbering.`;
             `It only exists in one country`,
           ],
           correctIndex: 0,
-          cacheId: null,
           degraded: true,
         },
         { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
@@ -149,7 +121,6 @@ No preamble, no numbering.`;
     return NextResponse.json(
       {
         question: `What do you know about ${topic}? Share at least two ideas.`,
-        cacheId: null,
         degraded: true,
       },
       { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
