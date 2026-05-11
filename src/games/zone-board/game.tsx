@@ -757,24 +757,43 @@ export function ZoneBoardGame({
           {teams.map((team, ti) => {
             const sq = boardSquares[team.squareIndex];
             if (!sq) return null;
-            const offset = (ti - (teams.length - 1) / 2) * 10;
+            const offset = (ti - (teams.length - 1) / 2) * 13;
+            const rowOffset = ti % 2 === 0 ? -16 : 16;
+            const vertOffset = teams.length > 2 && ti >= 2 ? -rowOffset : 0;
+            const isActiveTi = activeTeamIndex === ti;
             return (
-              <div
-                key={team.id}
-                className="absolute rounded-full border-2 border-white/70 flex items-center justify-center text-xs font-black text-white shadow-lg pointer-events-none"
-                style={{
-                  width: 28,
-                  height: 28,
-                  backgroundColor: team.color,
-                  left: sq.x - 14 + offset,
-                  top: sq.y - 14 - (ti % 2 === 0 ? 14 : -14) * (ti > 1 ? 1 : 0),
-                  zIndex: activeTeamIndex === ti ? 20 : 15,
-                  transition: 'left 0.5s ease-in-out, top 0.5s ease-in-out',
-                  boxShadow: activeTeamIndex === ti
-                    ? `0 0 14px ${team.color}` : undefined,
-                }}
-              >
-                {team.name[0]}
+              <div key={team.id}>
+                {isActiveTi && (
+                  <div
+                    className="absolute rounded-full animate-ping pointer-events-none"
+                    style={{
+                      width: 44, height: 44,
+                      backgroundColor: team.color + '35',
+                      left: sq.x - 22 + offset,
+                      top: sq.y - 22 + vertOffset,
+                      zIndex: 19,
+                      transition: 'left 0.5s ease-in-out, top 0.5s ease-in-out',
+                    }}
+                  />
+                )}
+                <div
+                  className="absolute rounded-full flex items-center justify-center font-black text-white pointer-events-none"
+                  style={{
+                    width: 34, height: 34,
+                    fontSize: 14,
+                    backgroundColor: team.color,
+                    left: sq.x - 17 + offset,
+                    top: sq.y - 17 + vertOffset,
+                    zIndex: isActiveTi ? 22 : 16,
+                    transition: 'left 0.5s ease-in-out, top 0.5s ease-in-out',
+                    border: isActiveTi ? '3px solid #fff' : '2px solid rgba(255,255,255,0.65)',
+                    boxShadow: isActiveTi
+                      ? `0 0 20px ${team.color}, 0 0 8px ${team.color}, 0 4px 12px rgba(0,0,0,0.8)`
+                      : '0 3px 10px rgba(0,0,0,0.6)',
+                  }}
+                >
+                  {team.name[0]}
+                </div>
               </div>
             );
           })}

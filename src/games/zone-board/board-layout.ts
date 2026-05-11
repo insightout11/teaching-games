@@ -110,13 +110,13 @@ export const CORRIDOR_RECTS = [
 
 // Square type configuration
 export const SQUARE_CONFIG: Record<string, { color: string; label: string; emoji: string }> = {
-  start:          { color: '#10b981', label: 'START',    emoji: '🏁' },
-  finish:         { color: '#f59e0b', label: 'FINISH',   emoji: '🏆' },
-  question:       { color: '#3b82f6', label: 'QUESTION', emoji: '❓' },
-  safe:           { color: '#6b7280', label: 'SAFE',     emoji: '—'  },
-  boost:          { color: '#f59e0b', label: 'BOOST',    emoji: '⭐' },
-  trap:           { color: '#ef4444', label: 'TRAP',     emoji: '💥' },
-  'question-boost': { color: '#8b5cf6', label: 'Q+BOOST', emoji: '🚀' },
-  freeze:         { color: '#06b6d4', label: 'FREEZE',   emoji: '❄️' },
-  hole:           { color: '#1a1a2e', label: 'HOLE',     emoji: '🕳️' },
+  start:            { color: '#10b981', label: 'START',   emoji: '🏁' },
+  finish:           { color: '#f59e0b', label: 'FINISH',  emoji: '🏆' },
+  question:         { color: '#3b82f6', label: 'Q?',      emoji: '❓' },
+  safe:             { color: '#64748b', label: 'SAFE',     emoji: '—'  },
+  boost:            { color: '#f59e0b', label: 'BOOST',   emoji: '⭐' },
+  trap:             { color: '#ef4444', label: 'TRAP',    emoji: '💥' },
+  'question-boost': { color: '#a855f7', label: 'Q+BOOST', emoji: '🚀' },
+  freeze:           { color: '#06b6d4', label: 'FREEZE',  emoji: '❄️' },
+  hole:             { color: '#ef4444', label: 'DANGER',  emoji: '🕳️' },
 };
