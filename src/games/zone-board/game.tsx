@@ -198,13 +198,13 @@ export function ZoneBoardGame({
     const majorityChoice = topChoices.length === 1 ? topChoices[0] : -1;
     const isCorrect = majorityChoice === question.correctIndex;
 
-    resolveQuestion(isCorrect, question);
+    resolveQuestion(isCorrect);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ─── Question resolution ────────────────────────────────────────────────────
 
-  function resolveQuestion(isCorrect: boolean, _question: ActiveQuestion) {
+  function resolveQuestion(isCorrect: boolean) {
     const teamIdx = activeTeamIndexRef.current;
     const teams = teamsRef.current;
     const activeTeam = teams[teamIdx];
