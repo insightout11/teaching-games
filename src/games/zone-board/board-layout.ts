@@ -1,112 +1,100 @@
 import type { BoardLayout, BoardSquare, Wall, HoleZone } from './types';
 
-// S-shaped course: bottom row goes right→left, middle row left→right, top row right→left
-// Start: bottom-right. Finish: top-left.
+// Winding diagonal path: bottom-center → spiral up and across the 800×560 canvas.
+// Squares spaced 80–110px apart. Holes sit in dead-end alcoves off the path,
+// not at corners, so banking shots are rewarded rather than punished.
 const rawSquares: Omit<BoardSquare, 'revealed'>[] = [
-  // Bottom row (right → left, y=500)
-  { index: 0,  x: 700, y: 500, type: 'start' },
-  { index: 1,  x: 600, y: 500, type: 'question' },
-  { index: 2,  x: 500, y: 500, type: 'safe' },
-  { index: 3,  x: 400, y: 500, type: 'boost' },       // hidden
-  { index: 4,  x: 300, y: 500, type: 'question' },
-  { index: 5,  x: 200, y: 500, type: 'trap' },         // hidden
-  { index: 6,  x: 120, y: 500, type: 'question-boost' },
-
-  // Left turn (going up)
-  { index: 7,  x: 80,  y: 430, type: 'safe' },
-  { index: 8,  x: 80,  y: 350, type: 'question' },
-
-  // Middle row (left → right, y=300)
-  { index: 9,  x: 80,  y: 300, type: 'safe' },
-  { index: 10, x: 180, y: 300, type: 'hole' },
-  { index: 11, x: 280, y: 300, type: 'question' },
-  { index: 12, x: 380, y: 300, type: 'question' },
-  { index: 13, x: 480, y: 300, type: 'question' },
-  { index: 14, x: 580, y: 300, type: 'freeze' },
-  { index: 15, x: 680, y: 300, type: 'question-boost' },
-
-  // Right turn (going up)
-  { index: 16, x: 720, y: 240, type: 'safe' },
-  { index: 17, x: 720, y: 170, type: 'trap' },         // hidden
-
-  // Top row (right → left, y=110)
-  { index: 18, x: 680, y: 110, type: 'question' },
-  { index: 19, x: 580, y: 110, type: 'hole' },
-  { index: 20, x: 480, y: 110, type: 'safe' },
-  { index: 21, x: 380, y: 110, type: 'question' },
-  { index: 22, x: 280, y: 110, type: 'question' },
-  { index: 23, x: 180, y: 110, type: 'boost' },        // hidden
-  { index: 24, x: 100, y: 110, type: 'finish' },
+  { index: 0,  x: 400, y: 520, type: 'start' },
+  { index: 1,  x: 310, y: 490, type: 'question' },
+  { index: 2,  x: 220, y: 455, type: 'safe' },
+  { index: 3,  x: 150, y: 400, type: 'question' },
+  { index: 4,  x: 110, y: 330, type: 'boost' },        // hidden
+  { index: 5,  x: 130, y: 260, type: 'question' },
+  { index: 6,  x: 180, y: 200, type: 'question-boost' },
+  { index: 7,  x: 250, y: 155, type: 'safe' },
+  { index: 8,  x: 340, y: 120, type: 'question' },
+  { index: 9,  x: 440, y: 100, type: 'safe' },
+  { index: 10, x: 540, y: 115, type: 'question' },
+  { index: 11, x: 630, y: 155, type: 'trap' },          // hidden
+  { index: 12, x: 690, y: 220, type: 'question' },
+  { index: 13, x: 700, y: 300, type: 'freeze' },
+  { index: 14, x: 670, y: 375, type: 'question' },
+  { index: 15, x: 610, y: 440, type: 'safe' },
+  { index: 16, x: 530, y: 470, type: 'question' },
+  { index: 17, x: 450, y: 455, type: 'question' },
+  { index: 18, x: 370, y: 430, type: 'safe' },
+  { index: 19, x: 290, y: 400, type: 'question' },
+  { index: 20, x: 230, y: 350, type: 'boost' },         // hidden
+  { index: 21, x: 200, y: 285, type: 'question-boost' },
+  { index: 22, x: 155, y: 210, type: 'trap' },          // hidden
+  { index: 23, x: 120, y: 145, type: 'question' },
+  { index: 24, x: 80,  y: 80,  type: 'finish' },
 ];
 
 const squares: BoardSquare[] = rawSquares.map(s => ({
   ...s,
-  // Boost and trap squares start hidden (face-down)
   revealed: s.type !== 'boost' && s.type !== 'trap',
 }));
 
-// Corridor walls (line segments). Corridors are 80px wide.
-// Bottom corridor: y=460 to y=540, x=120 to x=740
-// Left transition: x=40 to x=120, y=260 to y=460
-// Middle corridor: y=260 to y=340, x=40 to x=680
-// Right transition: x=680 to x=760, y=70 to y=340
-// Top corridor: y=70 to y=150, x=60 to x=760
-const walls: Wall[] = [
-  // Bottom corridor
-  { x1: 120, y1: 540, x2: 740, y2: 540 }, // bottom
-  { x1: 120, y1: 460, x2: 740, y2: 460 }, // top
-  { x1: 740, y1: 460, x2: 740, y2: 540 }, // right end (near START)
+// Generate corridor walls from path segments.
+// For each consecutive pair of squares, produce two wall lines offset ±HALF_WIDTH
+// perpendicular to the segment direction.
+const HALF_WIDTH = 38;
 
-  // Left transition
-  { x1: 40,  y1: 260, x2: 40,  y2: 450 }, // outer/left wall (gap at bottom for Hole 1)
-  { x1: 120, y1: 260, x2: 120, y2: 460 }, // inner/right wall
+function corridorWalls(pts: { x: number; y: number }[]): Wall[] {
+  const walls: Wall[] = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const ax = pts[i].x, ay = pts[i].y;
+    const bx = pts[i + 1].x, by = pts[i + 1].y;
+    const len = Math.hypot(bx - ax, by - ay);
+    if (len < 1) continue;
+    // Perpendicular unit vector
+    const nx = -(by - ay) / len;
+    const ny =  (bx - ax) / len;
+    walls.push(
+      { x1: ax + nx * HALF_WIDTH, y1: ay + ny * HALF_WIDTH, x2: bx + nx * HALF_WIDTH, y2: by + ny * HALF_WIDTH },
+      { x1: ax - nx * HALF_WIDTH, y1: ay - ny * HALF_WIDTH, x2: bx - nx * HALF_WIDTH, y2: by - ny * HALF_WIDTH },
+    );
+  }
+  return walls;
+}
 
-  // Middle corridor
-  { x1: 40,  y1: 260, x2: 680, y2: 260 }, // top wall
-  { x1: 40,  y1: 340, x2: 680, y2: 340 }, // bottom wall
+const pathPts = rawSquares.map(s => ({ x: s.x, y: s.y }));
+const corridorWallList = corridorWalls(pathPts);
 
-  // Right transition
-  { x1: 760, y1: 155, x2: 760, y2: 350 }, // outer/right wall (gap at top for Hole 2)
-  { x1: 680, y1: 155, x2: 680, y2: 260 }, // inner/left partial wall
-
-  // Top corridor
-  { x1: 60,  y1: 70,  x2: 760, y2: 70  }, // top wall
-  { x1: 60,  y1: 150, x2: 680, y2: 150 }, // bottom wall
-  { x1: 60,  y1: 70,  x2: 60,  y2: 150 }, // left end wall (FINISH area)
-
-  // Right transition top connector
-  { x1: 680, y1: 70,  x2: 760, y2: 70  },
-  { x1: 760, y1: 70,  x2: 760, y2: 155 },
-
-  // Canvas boundary
+// Canvas boundary walls
+const boundaryWalls: Wall[] = [
   { x1: 10,  y1: 10,  x2: 790, y2: 10  },
-  { x1: 10,  y1: 590, x2: 790, y2: 590 },
-  { x1: 10,  y1: 10,  x2: 10,  y2: 590 },
-  { x1: 790, y1: 10,  x2: 790, y2: 590 },
+  { x1: 10,  y1: 550, x2: 790, y2: 550 },
+  { x1: 10,  y1: 10,  x2: 10,  y2: 550 },
+  { x1: 790, y1: 10,  x2: 790, y2: 550 },
 ];
 
-// Hole zones: puck disappears when it enters these regions during animation
+const walls: Wall[] = [...corridorWallList, ...boundaryWalls];
+
+// Holes sit in dead-end alcoves off the path, not at corner-banking spots.
+// Hole A: bottom-left pocket — catches hard-left shots from sq3→sq4 corridor.
+// Hole B: top-right pocket — catches overpowered shots from sq10→sq11 corridor.
 const holes: HoleZone[] = [
-  { x: 55,  y: 490, radius: 28 }, // bottom-left outer corner pocket
-  { x: 745, y: 295, radius: 28 }, // middle-right outer corner pocket
+  { x: 60,  y: 475, radius: 32 },
+  { x: 740, y: 95,  radius: 32 },
 ];
 
 export const BOARD_LAYOUT: BoardLayout = {
   width: 800,
-  height: 600,
+  height: 560,
   squares,
   walls,
   holes,
 };
 
-// Corridor rects for SVG track rendering (background fill)
-export const CORRIDOR_RECTS = [
-  { x: 120, y: 460, w: 620, h: 80 }, // bottom
-  { x: 40,  y: 260, w: 80,  h: 200 }, // left transition
-  { x: 40,  y: 260, w: 640, h: 80 },  // middle
-  { x: 680, y: 70,  w: 80,  h: 270 }, // right transition
-  { x: 60,  y: 70,  w: 700, h: 80 },  // top
-];
+// SVG polyline points string for the track center-line (used as thick stroke background)
+export const TRACK_POLYLINE = rawSquares
+  .map(s => `${s.x},${s.y}`)
+  .join(' ');
+
+// Track stroke width (corridor visual width)
+export const TRACK_STROKE_WIDTH = HALF_WIDTH * 2;
 
 // Square type configuration
 export const SQUARE_CONFIG: Record<string, { color: string; label: string }> = {

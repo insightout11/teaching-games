@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { GameProps, GameRemoteVote } from '../types';
-import { BOARD_LAYOUT, CORRIDOR_RECTS, SQUARE_CONFIG } from './board-layout';
+import { BOARD_LAYOUT, TRACK_POLYLINE, TRACK_STROKE_WIDTH, SQUARE_CONFIG } from './board-layout';
 import type { TeamState, GamePhase, ActiveQuestion, PuckPhysics, BoardSquare } from './types';
 import type { Wall, HoleZone } from './types';
 import { getEffectiveTopic } from '@/stores/session-store';
@@ -569,7 +569,6 @@ export function ZoneBoardGame({
     setResolveMessage('');
     setLandingSquareIndex(null);
     setPuckVisible(false);
-    onSetInputSpec?.(null);
 
     broadcastShootSpec(nextIdx, teamsRef.current);
     transitionTo('shooting');
@@ -680,15 +679,19 @@ export function ZoneBoardGame({
             </defs>
             <rect x="0" y="0" width="800" height="560" fill="url(#grid)" />
 
-            {/* Course surface — bright green felt */}
-            {CORRIDOR_RECTS.map((r, i) => (
-              <rect key={`cf${i}`} x={r.x} y={r.y} width={r.w} height={r.h} fill="#14532d" rx="8" />
-            ))}
-            {/* Corridor inner highlight */}
-            {CORRIDOR_RECTS.map((r, i) => (
-              <rect key={`ch${i}`} x={r.x + 4} y={r.y + 4} width={r.w - 8} height={r.h - 8}
-                fill="none" stroke="#22c55e" strokeWidth="1" rx="5" opacity="0.25" />
-            ))}
+            {/* Course surface — bright green felt track */}
+            <polyline
+              points={TRACK_POLYLINE}
+              fill="none" stroke="#14532d"
+              strokeWidth={TRACK_STROKE_WIDTH} strokeLinejoin="round" strokeLinecap="round"
+            />
+            {/* Track inner highlight */}
+            <polyline
+              points={TRACK_POLYLINE}
+              fill="none" stroke="#22c55e"
+              strokeWidth={TRACK_STROKE_WIDTH - 8} strokeLinejoin="round" strokeLinecap="round"
+              opacity="0.12"
+            />
 
             {/* Path connector */}
             <polyline
