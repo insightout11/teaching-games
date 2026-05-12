@@ -28,19 +28,6 @@ export async function POST(request: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // Verify the session belongs to this teacher via class ownership (sessions have no direct teacher_id)
-    const { data: session } = await supabase
-      .from('sessions')
-      .select('id, classes!inner(teacher_id)')
-      .eq('id', sessionId)
-      .single();
-
-    const classesData = session?.classes as { teacher_id: string } | { teacher_id: string }[] | null;
-    const sessionTeacherId = Array.isArray(classesData) ? classesData[0]?.teacher_id : classesData?.teacher_id;
-    if (!session || sessionTeacherId !== teacher.id) {
-      return NextResponse.json({ error: 'Session not found or access denied' }, { status: 403 });
-    }
-
     const { data, error } = await supabase
       .from('sessions')
       .update({ input_spec: spec ?? null })

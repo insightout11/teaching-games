@@ -398,19 +398,31 @@ export function ZoneBoardGame({
     waypoints: Array<{ x: number; y: number }>,
     onComplete: () => void,
   ) => {
-    if (waypoints.length === 0) { onComplete(); return; }
+    let done = false;
+    function finish() {
+      if (done) return;
+      done = true;
+      clearTimeout(safetyTimer);
+      onComplete();
+    }
+
+    if (waypoints.length === 0) { finish(); return; }
+
+    const totalTime = Math.max(300, (waypoints.length - 1) * MS_PER_STEP);
+
+    // Safety valve: if RAF never completes (e.g. tab hidden, cancelled frame), force resolution
+    const safetyTimer = setTimeout(finish, totalTime + 600);
 
     if (waypoints.length === 1) {
       if (puckDomRef.current) {
         const p = waypoints[0];
         puckDomRef.current.style.transform = `translate(${p.x - PUCK_R}px, ${p.y - PUCK_R}px)`;
       }
-      setTimeout(onComplete, 300);
+      setTimeout(finish, 300);
       return;
     }
 
     const startTime = performance.now();
-    const totalTime = (waypoints.length - 1) * MS_PER_STEP;
 
     function frame(now: number) {
       const t = Math.min(1, (now - startTime) / totalTime);
@@ -429,7 +441,7 @@ export function ZoneBoardGame({
       if (t < 1) {
         rafRef.current = requestAnimationFrame(frame);
       } else {
-        onComplete();
+        finish();
       }
     }
 
@@ -832,7 +844,6 @@ export function ZoneBoardGame({
                 border: '2px solid #bae6fd',
                 boxShadow: puckFellInHole ? 'none' : '0 0 16px #38bdf880',
                 transition: puckFellInHole ? 'all 0.5s ease-in' : undefined,
-                transform: 'scale(0)',
                 zIndex: 30,
               }}
             />
