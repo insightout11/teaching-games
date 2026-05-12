@@ -154,6 +154,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
   }, [session.status]);
 
+  // Receive "Share answer on screen" messages from the questions popup window
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const ch = new BroadcastChannel(`lc-session-${session.id}`);
+    ch.onmessage = (e: MessageEvent) => {
+      if (e.data?.kind === 'show-answer') {
+        setScreenAnswer({ question: e.data.question, answer: e.data.answer });
+      }
+    };
+    return () => ch.close();
+  }, [session.id]);
+
   // Teacher tier — used to gate Pro modules in the selection grid
   const teacherTier = useTeacherTier();
   // Separate from lesson.creditsExhausted (which fires on 402 from generate route);
