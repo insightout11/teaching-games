@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
+import { requireAuth } from '@/lib/auth-credits';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,6 +11,9 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {
+    const { teacher, error: authError } = await requireAuth();
+    if (authError || !teacher) return authError!;
+
     const body = await request.json();
     const { sessionId, spec } = body as { sessionId: string; spec: unknown };
 
@@ -23,6 +27,19 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createServiceClient();
+
+    // Verify the session belongs to this teacher before writing
+    const { data: session } = await supabase
+      .from('sessions')
+      .select('id')
+      .eq('id', sessionId)
+      .eq('teacher_id', teacher.id)
+      .single();
+
+    if (!session) {
+      return NextResponse.json({ error: 'Session not found or access denied' }, { status: 403 });
+    }
+
     const { data, error } = await supabase
       .from('sessions')
       .update({ input_spec: spec ?? null })
