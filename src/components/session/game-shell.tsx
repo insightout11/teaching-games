@@ -219,8 +219,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       }
     }
 
-    console.log('[handleScore]', { studentId, isRoster, studentIdField, clientIdField, displayNameField, scoringMode, points: result.points });
-
     // Participation mode: flat points, no streaks
     if (scoringMode === 'participation') {
       const { data, error } = await supabase.from('scores').insert({
