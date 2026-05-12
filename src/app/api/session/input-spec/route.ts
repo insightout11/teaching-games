@@ -28,12 +28,12 @@ export async function POST(request: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // Verify the session belongs to this teacher before writing
+    // Verify the session belongs to this teacher via class ownership (sessions have no direct teacher_id)
     const { data: session } = await supabase
       .from('sessions')
-      .select('id')
+      .select('id, classes!inner(teacher_id)')
       .eq('id', sessionId)
-      .eq('teacher_id', teacher.id)
+      .eq('classes.teacher_id', teacher.id)
       .single();
 
     if (!session) {
