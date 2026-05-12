@@ -17,7 +17,7 @@ const WALL_RESTITUTION = 0.62;
 const PUCK_R = 13;
 const STOP_THRESHOLD = 0.38;
 const MAX_SPEED = 13;
-const LANDING_THRESHOLD = 72; // px — max distance from square center to register landing
+const LANDING_THRESHOLD = 100; // px — max distance from square center to register landing
 
 // ─── Team config ─────────────────────────────────────────────────────────────
 
@@ -718,15 +718,6 @@ export function ZoneBoardGame({
             <ellipse cx={845} cy={415} rx={58} ry={26} fill="#78350f" opacity="0.70" />
             <ellipse cx={845} cy={415} rx={42} ry={18} fill="#d97706" opacity="0.50" />
 
-            {/* Hole danger zones */}
-            {BOARD_LAYOUT.holes.map((h, i) => (
-              <g key={`hz${i}`}>
-                <circle cx={h.x} cy={h.y} r={h.radius + 14} fill="rgba(239,68,68,0.07)" />
-                <circle cx={h.x} cy={h.y} r={h.radius + 6}  fill="none" stroke="#ef4444" strokeWidth="1" opacity="0.25" strokeDasharray="3 4" />
-                <circle cx={h.x} cy={h.y} r={h.radius}      fill="#030712" stroke="#ef4444" strokeWidth="2" opacity="0.95" />
-                <text x={h.x} y={h.y + 4} textAnchor="middle" fill="#ef4444" fontSize="9" fontWeight="900" opacity="0.75">HOLE</text>
-              </g>
-            ))}
 
             {/* Square markers — small circles embedded in the course */}
             {boardSquares.map(sq => {

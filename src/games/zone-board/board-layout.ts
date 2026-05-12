@@ -65,21 +65,22 @@ function corridorWalls(pts: { x: number; y: number }[]): Wall[] {
 
 const sq = rawSquares;
 
-// Open junction point 40px past the fork — prevents wall overlap from both branches starting at sq3
-const forkJunction = { x: 395, y: 227 };
+// Open junction points — prevent wall overlap at fork and merge junctions.
+// Each junction is ~40px inside the open zone so corridor walls don't collide there.
+const forkJunction       = { x: 395, y: 227 };  // 40px past sq3 toward branches
+const upperMergeJunction = { x: 768, y: 214 };  // 40px before sq12 along upper exit
+const lowerMergeJunction = { x: 771, y: 270 };  // 40px before sq12 along lower exit
+const endSectionStart    = { x: 837, y: 231 };  // 40px after sq12 toward sq13
 
 const corridorWallList: Wall[] = [
   // Shared start
   ...corridorWalls([sq[0], sq[1], sq[2], sq[3]]),
-  // Upper branch — starts from open junction to avoid wall collision pocket at fork
-  ...corridorWalls([forkJunction, sq[4], sq[5], sq[6], sq[7]]),
+  // Upper branch — open junction at fork entry and merge exit
+  ...corridorWalls([forkJunction, sq[4], sq[5], sq[6], sq[7], upperMergeJunction]),
   // Lower branch — same
-  ...corridorWalls([forkJunction, sq[8], sq[9], sq[10], sq[11]]),
-  // Branch exits to merge
-  ...corridorWalls([sq[7], sq[12]]),
-  ...corridorWalls([sq[11], sq[12]]),
-  // Shared end
-  ...corridorWalls([sq[12], sq[13], sq[14], sq[15], sq[16], sq[17], sq[18], sq[19], sq[20], sq[21], sq[22], sq[23], sq[24]]),
+  ...corridorWalls([forkJunction, sq[8], sq[9], sq[10], sq[11], lowerMergeJunction]),
+  // Shared end — open junction at merge entry
+  ...corridorWalls([endSectionStart, sq[13], sq[14], sq[15], sq[16], sq[17], sq[18], sq[19], sq[20], sq[21], sq[22], sq[23], sq[24]]),
 ];
 
 const boundaryWalls: Wall[] = [
@@ -91,11 +92,8 @@ const boundaryWalls: Wall[] = [
 
 const walls: Wall[] = [...corridorWallList, ...boundaryWalls];
 
-// Holes — dead-end pockets off the main path
-const holes: HoleZone[] = [
-  { x: 958, y: 348, radius: 32 }, // bottom-right — sq6→sq7 overshoot
-  { x:  48, y:  88, radius: 32 }, // top-left — end section overshoot left
-];
+// No holes — with 360° aiming the corner holes were too accessible and caused frustration
+const holes: HoleZone[] = [];
 
 export const CANVAS_W = 1000;
 export const CANVAS_H = 460;
