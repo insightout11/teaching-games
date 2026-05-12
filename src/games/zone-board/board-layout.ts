@@ -65,22 +65,15 @@ function corridorWalls(pts: { x: number; y: number }[]): Wall[] {
 
 const sq = rawSquares;
 
-// Open junction points — prevent wall overlap at fork and merge junctions.
-// Each junction is ~40px inside the open zone so corridor walls don't collide there.
-const forkJunction       = { x: 395, y: 227 };  // 40px past sq3 toward branches
-const upperMergeJunction = { x: 768, y: 214 };  // 40px before sq12 along upper exit
-const lowerMergeJunction = { x: 771, y: 270 };  // 40px before sq12 along lower exit
-const endSectionStart    = { x: 837, y: 231 };  // 40px after sq12 toward sq13
-
 const corridorWallList: Wall[] = [
-  // Shared start
+  // Shared start — walls from sq0 to sq3
   ...corridorWalls([sq[0], sq[1], sq[2], sq[3]]),
-  // Upper branch — open junction at fork entry and merge exit
-  ...corridorWalls([forkJunction, sq[4], sq[5], sq[6], sq[7], upperMergeJunction]),
-  // Lower branch — same
-  ...corridorWalls([forkJunction, sq[8], sq[9], sq[10], sq[11], lowerMergeJunction]),
-  // Shared end — open junction at merge entry
-  ...corridorWalls([endSectionStart, sq[13], sq[14], sq[15], sq[16], sq[17], sq[18], sq[19], sq[20], sq[21], sq[22], sq[23], sq[24]]),
+  // Upper branch — walls START at sq4 (open zone: sq3→sq4, no walls)
+  ...corridorWalls([sq[4], sq[5], sq[6], sq[7]]),
+  // Lower branch — walls start at sq8 (open zone: sq3→sq8, no walls)
+  ...corridorWalls([sq[8], sq[9], sq[10], sq[11]]),
+  // End section — walls from sq12 (open merge zone: sq7/sq11→sq12, no walls)
+  ...corridorWalls([sq[12], sq[13], sq[14], sq[15], sq[16], sq[17], sq[18], sq[19], sq[20], sq[21], sq[22], sq[23], sq[24]]),
 ];
 
 const boundaryWalls: Wall[] = [
