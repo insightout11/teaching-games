@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { GameProps, GameRemoteVote } from '../types';
 import { BOARD_LAYOUT, CANVAS_W, CANVAS_H, TRACK_SECTIONS, TRACK_STROKE_WIDTH, SQUARE_CONFIG } from './board-layout';
-import type { TeamState, GamePhase, ActiveQuestion, PuckPhysics, BoardSquare } from './types';
+import type { TeamState, GamePhase, ActiveQuestion, BoardSquare } from './types';
 import { getEffectiveTopic, useSessionStore } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
 import type { Student } from '@/lib/supabase/types';
@@ -83,7 +83,6 @@ export function ZoneBoardGame({
   const teamsRef = useRef<TeamState[]>([]);
   const activeTeamIndexRef = useRef(0);
   const puckDomRef = useRef<HTMLDivElement>(null);
-  const puckStateRef = useRef<PuckPhysics>({ x: 0, y: 0, vx: 0, vy: 0, active: false, fellInHole: false });
   const rafRef = useRef<number>(0);
   const currentQuestionRef = useRef<ActiveQuestion | null>(null);
   const teamVotesRef = useRef<Map<string, number>>(new Map());
