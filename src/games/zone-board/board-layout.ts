@@ -46,6 +46,7 @@ const squares: BoardSquare[] = rawSquares.map(s => ({
 
 const HALF_WIDTH = 38;
 
+// Full-width corridor walls for each segment
 function corridorWalls(pts: { x: number; y: number }[]): Wall[] {
   const walls: Wall[] = [];
   for (let i = 0; i < pts.length - 1; i++) {
@@ -65,14 +66,31 @@ function corridorWalls(pts: { x: number; y: number }[]): Wall[] {
 
 const sq = rawSquares;
 
+// Single outer wall for fork/merge transition zones — avoids inner walls crossing between branch corridors
+function singleWall(a: { x: number; y: number }, b: { x: number; y: number }, usePositiveOffset: boolean): Wall {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const len = Math.hypot(dx, dy);
+  const nx = -dy / len, ny = dx / len;
+  const s = usePositiveOffset ? 1 : -1;
+  return {
+    x1: a.x + s * nx * HALF_WIDTH, y1: a.y + s * ny * HALF_WIDTH,
+    x2: b.x + s * nx * HALF_WIDTH, y2: b.y + s * ny * HALF_WIDTH,
+  };
+}
+
 const corridorWallList: Wall[] = [
-  // Shared start — walls from sq0 to sq3
+  // Shared start — full double walls sq0→sq3
   ...corridorWalls([sq[0], sq[1], sq[2], sq[3]]),
-  // Upper branch — walls START at sq4 (open zone: sq3→sq4, no walls)
+  // Fork entries: outer wall only per branch (inner walls would cross each other between sq3 and first branch square)
+  singleWall(sq[3], sq[4], false),   // upper fork entry: outer/top wall only
+  singleWall(sq[3], sq[8], true),    // lower fork entry: outer/bottom wall only
+  // Branch bodies: full double walls
   ...corridorWalls([sq[4], sq[5], sq[6], sq[7]]),
-  // Lower branch — walls start at sq8 (open zone: sq3→sq8, no walls)
   ...corridorWalls([sq[8], sq[9], sq[10], sq[11]]),
-  // End section — walls from sq12 (open merge zone: sq7/sq11→sq12, no walls)
+  // Merge exits: outer wall only per branch (inner walls would cross each other approaching sq12)
+  singleWall(sq[7],  sq[12], false), // upper merge exit: outer/top wall only
+  singleWall(sq[11], sq[12], true),  // lower merge exit: outer/bottom wall only
+  // End section — full double walls sq12→sq24
   ...corridorWalls([sq[12], sq[13], sq[14], sq[15], sq[16], sq[17], sq[18], sq[19], sq[20], sq[21], sq[22], sq[23], sq[24]]),
 ];
 
