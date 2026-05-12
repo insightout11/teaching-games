@@ -28,8 +28,6 @@ import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
 import { usePollVotes } from '@/hooks/use-poll-votes';
 import { useStudentPrefs } from '@/hooks/use-student-prefs';
-import { useDisplayBroadcast } from '@/hooks/use-display-broadcast';
-import type { DisplayInputSpec } from '@/lib/display-types';
 import type { TopSubmission } from '@/games/types';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
@@ -106,9 +104,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const setSettings = useSessionStore((s) => s.setSettings);
   const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
   const addStudent = useSessionStore((s) => s.addStudent);
-  // Subscribed for display broadcaster — intentional re-renders on change are acceptable here.
-  const sessionInputSpec = useSessionStore((s) => s.inputSpec);
-  const sessionScores = useSessionStore((s) => s.scores);
   const [viewMode, setViewMode] = useState<ViewMode>('selection');
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<ActivityPlugin | null>(null);
@@ -212,62 +207,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     },
     [lesson.isLessonActive, lesson.currentSlotIndex, lesson.lessonSlots.length],
   );
-
-  // ─── Display broadcaster ───────────────────────────────────────────────
-  const displayInputSpec = useMemo<DisplayInputSpec | null>(() => {
-    if (!sessionInputSpec) return null;
-    return {
-      type: sessionInputSpec.type,
-      gameKey: sessionInputSpec.gameKey,
-      prompt: sessionInputSpec.prompt,
-      options: sessionInputSpec.options,
-      optionLabels: sessionInputSpec.optionLabels,
-      timerSeconds: sessionInputSpec.timerSeconds,
-      startedAt: sessionInputSpec.startedAt,
-      instruction: sessionInputSpec.instruction,
-      keywords: sessionInputSpec.keywords,
-      keywordGroups: sessionInputSpec.keywordGroups,
-      readAloudQueue: sessionInputSpec.readAloudQueue,
-      currentSlideUrl: sessionInputSpec.currentSlideUrl,
-      readAloudVocabWords: sessionInputSpec.readAloudVocabWords,
-      buttonLabel: sessionInputSpec.buttonLabel,
-    };
-  }, [sessionInputSpec]);
-
-  const displayTopScores = useMemo(() => {
-    const map = new Map<string, { clientId: string; name: string; points: number }>();
-    for (const score of sessionScores) {
-      const clientId = score.client_id ?? score.student_id ?? '';
-      if (!clientId) continue;
-      const existing = map.get(clientId);
-      if (existing) {
-        existing.points += score.points;
-      } else {
-        map.set(clientId, { clientId, name: score.display_name ?? 'Student', points: score.points });
-      }
-    }
-    return Array.from(map.values())
-      .map((entry) => {
-        const pref = prefsMap.get(entry.clientId);
-        return pref?.score_visible === false ? { ...entry, name: '—' } : entry;
-      })
-      .sort((a, b) => b.points - a.points)
-      .slice(0, 5);
-  }, [sessionScores, prefsMap]);
-
-  const displayState = useMemo(() => ({
-    version: 1 as const,
-    updatedAt: Date.now(),
-    phase: ended ? 'ended' as const : viewMode === 'selection' ? 'lobby' as const : 'live' as const,
-    displayInputSpec,
-    moduleLabel: selectedGame?.name ?? selectedActivity?.name ?? null,
-    topic: getEffectiveTopic(settings),
-    joinCode: session.id,
-    topScores: displayTopScores,
-    studentCount: sessionParticipants.length,
-  }), [ended, viewMode, displayInputSpec, selectedGame, selectedActivity, settings, displayTopScores, sessionParticipants.length, session.id]);
-
-  useDisplayBroadcast(session.id, displayState);
 
   // ─── Pacing state ──────────────────────────────────────────────────────
   const sessionStartTimeRef = useRef<number | null>(null);
