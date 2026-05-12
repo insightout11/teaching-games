@@ -5,7 +5,8 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { BOARD_LAYOUT, CANVAS_W, CANVAS_H, TRACK_SECTIONS, TRACK_STROKE_WIDTH, SQUARE_CONFIG } from './board-layout';
 import type { TeamState, GamePhase, ActiveQuestion, PuckPhysics, BoardSquare } from './types';
 import type { Wall, HoleZone } from './types';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { getEffectiveTopic, useSessionStore } from '@/stores/session-store';
+import { createClient } from '@/lib/supabase/client';
 import type { Student } from '@/lib/supabase/types';
 import { Trophy, Crosshair, Snowflake } from 'lucide-react';
 
@@ -134,6 +135,8 @@ export function ZoneBoardGame({
 
   const [boardScale, setBoardScale] = useState(0.90);
   const boardContainerRef = useRef<HTMLDivElement>(null);
+  const sessionId = useSessionStore(state => state.sessionId);
+  const [liveAim, setLiveAim] = useState<{ power: number; angle: number } | null>(null);
 
   const phaseRef = useRef<GamePhase>('idle');
   const teamsRef = useRef<TeamState[]>([]);
@@ -568,6 +571,7 @@ export function ZoneBoardGame({
       gameKey: 'zone-board',
       prompt: `${shooter.name}'s turn — aim and shoot!`,
       perStudentData: { [shooter.name]: { isShooter: true } },
+      sessionId: sessionId ?? undefined,
     });
   }
 
@@ -650,6 +654,17 @@ export function ZoneBoardGame({
     return () => obs.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (phase !== 'shooting' || !sessionId) { setLiveAim(null); return; }
+    const supabase = createClient();
+    const ch = supabase.channel(`${sessionId}-aim`)
+      .on('broadcast', { event: 'aim' }, (msg: { payload: unknown }) => {
+        setLiveAim(msg.payload as { power: number; angle: number });
+      })
+      .subscribe();
+    return () => { void ch.unsubscribe(); setLiveAim(null); };
+  }, [phase, sessionId]);
+
   // ─── Render ──────────────────────────────────────────────────────────────────
 
   const activeTeam = teams[activeTeamIndex] ?? null;
@@ -694,15 +709,6 @@ export function ZoneBoardGame({
               />
             ))}
 
-            {/* Course edge trim */}
-            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
-              <polyline key={`e${key}`}
-                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
-                fill="none" stroke="#22c55e"
-                strokeWidth={TRACK_STROKE_WIDTH + 4} strokeLinejoin="round" strokeLinecap="round"
-                opacity="0.18"
-              />
-            ))}
 
             {/* Water hazard between the two branches */}
             <ellipse cx={560} cy={253} rx={138} ry={54} fill="#0c4a6e" opacity="0.90" />
@@ -716,10 +722,6 @@ export function ZoneBoardGame({
             <ellipse cx={845} cy={415} rx={58} ry={26} fill="#78350f" opacity="0.70" />
             <ellipse cx={845} cy={415} rx={42} ry={18} fill="#d97706" opacity="0.50" />
 
-            {/* Rough markers at fork and merge */}
-            <circle cx={380} cy={252} r={28} fill="#052e16" opacity="0.60" />
-            <circle cx={776} cy={250} r={24} fill="#052e16" opacity="0.50" />
-
             {/* Hole danger zones */}
             {BOARD_LAYOUT.holes.map((h, i) => (
               <g key={`hz${i}`}>
@@ -730,28 +732,34 @@ export function ZoneBoardGame({
               </g>
             ))}
 
-            {/* Direction dashes along path sections */}
-            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
-              <polyline key={`d${key}`}
-                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
-                fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="2"
-                strokeDasharray="6 10" strokeLinejoin="round" strokeLinecap="round"
-              />
-            ))}
-
             {/* Square markers — small circles embedded in the course */}
             {boardSquares.map(sq => {
               const cfg = SQUARE_CONFIG[sq.type];
               const hidden = !sq.revealed;
               const isLanding = landingSquareIndex === sq.index;
               const color = hidden ? '#334155' : cfg.color;
+              const r = sq.type === 'start' ? 20 : (isLanding ? 18 : 16);
+
+              if (sq.type === 'finish') {
+                return (
+                  <g key={sq.index}>
+                    {isLanding && <circle cx={sq.x} cy={sq.y} r={32} fill="#f59e0b" opacity="0.20" />}
+                    <line x1={sq.x} y1={sq.y - 24} x2={sq.x} y2={sq.y + 12}
+                      stroke="#fbbf24" strokeWidth="2.5" strokeLinecap="round" />
+                    <polygon points={`${sq.x},${sq.y - 24} ${sq.x + 17},${sq.y - 16} ${sq.x},${sq.y - 8}`}
+                      fill="#fbbf24" />
+                    <circle cx={sq.x} cy={sq.y + 12} r={5} fill="#fbbf24" opacity="0.55" />
+                  </g>
+                );
+              }
+
               return (
                 <g key={sq.index}>
                   {isLanding && (
                     <circle cx={sq.x} cy={sq.y} r={30} fill={color} opacity="0.22" />
                   )}
                   <circle
-                    cx={sq.x} cy={sq.y} r={isLanding ? 18 : 16}
+                    cx={sq.x} cy={sq.y} r={r}
                     fill={color + (isLanding ? 'ff' : 'cc')}
                     stroke={isLanding ? '#fff' : color}
                     strokeWidth={isLanding ? 2.5 : 1.5}
@@ -767,6 +775,27 @@ export function ZoneBoardGame({
                 </g>
               );
             })}
+
+            {/* Live aim arc — streamed from student device via broadcast channel */}
+            {phase === 'shooting' && liveAim && liveAim.power > 0.05 && activeTeam && (() => {
+              const curSq = BOARD_LAYOUT.squares[activeTeam.squareIndex];
+              const nextSq = BOARD_LAYOUT.squares[Math.min(24, activeTeam.squareIndex + 1)];
+              const fwdAngle = Math.atan2(nextSq.y - curSq.y, nextSq.x - curSq.x);
+              const shotAngle = fwdAngle + liveAim.angle * MAX_ANGLE_RAD;
+              const arcLen = liveAim.power * 260;
+              const ex = curSq.x + Math.cos(shotAngle) * arcLen;
+              const ey = curSq.y + Math.sin(shotAngle) * arcLen;
+              const col = liveAim.power > 0.75 ? '#ef4444' : liveAim.power > 0.4 ? '#f59e0b' : '#3b82f6';
+              return (
+                <g>
+                  <line x1={curSq.x} y1={curSq.y} x2={ex} y2={ey}
+                    stroke={col} strokeWidth="3.5" strokeDasharray="10 7"
+                    strokeLinecap="round" opacity="0.80" />
+                  <circle cx={ex} cy={ey} r={7} fill={col} opacity="0.50" />
+                  <circle cx={curSq.x} cy={curSq.y} r={5} fill={col} opacity="0.70" />
+                </g>
+              );
+            })()}
           </svg>
 
           {/* Team tokens */}

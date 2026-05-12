@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import type { InputSpec } from '@/lib/input-spec';
 import { Eye, Target } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 
 interface ShuffleboardInputProps {
   spec: InputSpec;
@@ -34,15 +36,26 @@ export function ShuffleboardInput({ spec, onSubmit, isSubmitting, displayName }:
     );
   }
 
-  return <ShooterUI spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} />;
+  return <ShooterUI spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} sessionId={spec.sessionId} />;
 }
 
-function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps, 'displayName'>) {
+function ShooterUI({ spec, onSubmit, isSubmitting, sessionId }: Omit<ShuffleboardInputProps, 'displayName'> & { sessionId?: string }) {
   const [power, setPower] = useState(0);
   const [angle, setAngle] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [hasShot, setHasShot] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
+  const channelRef = useRef<RealtimeChannel | null>(null);
+  const lastBroadcastRef = useRef(0);
+
+  useEffect(() => {
+    if (!sessionId) return;
+    const sb = createClient();
+    const ch = sb.channel(`${sessionId}-aim`);
+    ch.subscribe();
+    channelRef.current = ch;
+    return () => { void ch.unsubscribe(); channelRef.current = null; };
+  }, [sessionId]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     if (hasShot || isSubmitting) return;
@@ -56,8 +69,16 @@ function ShooterUI({ spec, onSubmit, isSubmitting }: Omit<ShuffleboardInputProps
     if (!isDragging) return;
     const dx = e.clientX - dragStartRef.current.x;
     const dy = e.clientY - dragStartRef.current.y;  // drag DOWN = positive = more power
-    setPower(Math.min(1, Math.max(0, dy / MAX_PULL_Y)));
-    setAngle(Math.min(1, Math.max(-1, dx / MAX_PULL_X)));
+    const p = Math.min(1, Math.max(0, dy / MAX_PULL_Y));
+    const a = Math.min(1, Math.max(-1, dx / MAX_PULL_X));
+    setPower(p);
+    setAngle(a);
+
+    const now = Date.now();
+    if (now - lastBroadcastRef.current >= 50 && channelRef.current) {
+      lastBroadcastRef.current = now;
+      void channelRef.current.send({ type: 'broadcast', event: 'aim', payload: { power: p, angle: a } });
+    }
   }, [isDragging]);
 
   const handlePointerUp = useCallback(async () => {
