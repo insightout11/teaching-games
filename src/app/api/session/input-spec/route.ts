@@ -33,10 +33,11 @@ export async function POST(request: NextRequest) {
       .from('sessions')
       .select('id, classes!inner(teacher_id)')
       .eq('id', sessionId)
-      .eq('classes.teacher_id', teacher.id)
       .single();
 
-    if (!session) {
+    const classesData = session?.classes as { teacher_id: string } | { teacher_id: string }[] | null;
+    const sessionTeacherId = Array.isArray(classesData) ? classesData[0]?.teacher_id : classesData?.teacher_id;
+    if (!session || sessionTeacherId !== teacher.id) {
       return NextResponse.json({ error: 'Session not found or access denied' }, { status: 403 });
     }
 
