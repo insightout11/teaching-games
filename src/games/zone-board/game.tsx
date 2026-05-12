@@ -2,16 +2,12 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { GameProps, GameRemoteVote } from '../types';
-import { BOARD_LAYOUT, CANVAS_W, CANVAS_H, TRACK_POLYLINE, TRACK_STROKE_WIDTH, SQUARE_CONFIG } from './board-layout';
+import { BOARD_LAYOUT, CANVAS_W, CANVAS_H, TRACK_SECTIONS, TRACK_STROKE_WIDTH, SQUARE_CONFIG } from './board-layout';
 import type { TeamState, GamePhase, ActiveQuestion, PuckPhysics, BoardSquare } from './types';
 import type { Wall, HoleZone } from './types';
 import { getEffectiveTopic } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
-import type { LucideIcon } from 'lucide-react';
-import {
-  Flag, Trophy, HelpCircle, Shield, Zap, Bomb,
-  Rocket, Snowflake, CircleOff, Crosshair,
-} from 'lucide-react';
+import { Trophy, Crosshair, Snowflake } from 'lucide-react';
 
 // ─── Physics constants ────────────────────────────────────────────────────────
 
@@ -22,20 +18,6 @@ const STOP_THRESHOLD = 0.38;
 const MAX_SPEED = 13;
 const MAX_ANGLE_RAD = (Math.PI / 180) * 55;
 const LANDING_THRESHOLD = 72; // px — max distance from square center to register landing
-
-// ─── Square icons ────────────────────────────────────────────────────────────
-
-const SQUARE_ICONS: Record<string, LucideIcon> = {
-  start:            Flag,
-  finish:           Trophy,
-  question:         HelpCircle,
-  safe:             Shield,
-  boost:            Zap,
-  trap:             Bomb,
-  'question-boost': Rocket,
-  freeze:           Snowflake,
-  hole:             CircleOff,
-};
 
 // ─── Team config ─────────────────────────────────────────────────────────────
 
@@ -694,104 +676,98 @@ export function ZoneBoardGame({
             </defs>
             <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="url(#grid)" />
 
-            {/* Course surface — bright green felt track */}
-            <polyline
-              points={TRACK_POLYLINE}
-              fill="none" stroke="#14532d"
-              strokeWidth={TRACK_STROKE_WIDTH} strokeLinejoin="round" strokeLinecap="round"
-            />
-            {/* Track inner highlight */}
-            <polyline
-              points={TRACK_POLYLINE}
-              fill="none" stroke="#22c55e"
-              strokeWidth={TRACK_STROKE_WIDTH - 8} strokeLinejoin="round" strokeLinecap="round"
-              opacity="0.12"
-            />
-
-            {/* Path connector */}
-            <polyline
-              points={BOARD_LAYOUT.squares.map(s => `${s.x},${s.y}`).join(' ')}
-              fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="2.5"
-              strokeDasharray="8 9" strokeLinejoin="round" strokeLinecap="round"
-            />
-
-            {/* Wall outer glow */}
-            {BOARD_LAYOUT.walls.map((w, i) => (
-              <line key={`wg${i}`} x1={w.x1} y1={w.y1} x2={w.x2} y2={w.y2}
-                stroke="#4ade80" strokeWidth="14" strokeLinecap="round" opacity="0.08" />
+            {/* Course sections — separate polylines create visible Y-fork */}
+            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
+              <polyline key={`c${key}`}
+                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
+                fill="none" stroke="#14532d"
+                strokeWidth={TRACK_STROKE_WIDTH} strokeLinejoin="round" strokeLinecap="round"
+              />
             ))}
-            {/* Wall solid */}
-            {BOARD_LAYOUT.walls.map((w, i) => (
-              <line key={`ws${i}`} x1={w.x1} y1={w.y1} x2={w.x2} y2={w.y2}
-                stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity="0.9" />
+            {/* Turf highlight */}
+            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
+              <polyline key={`h${key}`}
+                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
+                fill="none" stroke="#4ade80"
+                strokeWidth={TRACK_STROKE_WIDTH - 16} strokeLinejoin="round" strokeLinecap="round"
+                opacity="0.09"
+              />
             ))}
+
+            {/* Course edge trim */}
+            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
+              <polyline key={`e${key}`}
+                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
+                fill="none" stroke="#22c55e"
+                strokeWidth={TRACK_STROKE_WIDTH + 4} strokeLinejoin="round" strokeLinecap="round"
+                opacity="0.18"
+              />
+            ))}
+
+            {/* Water hazard between the two branches */}
+            <ellipse cx={560} cy={253} rx={138} ry={54} fill="#0c4a6e" opacity="0.90" />
+            <ellipse cx={560} cy={253} rx={118} ry={38} fill="#0ea5e9" opacity="0.30" />
+            <ellipse cx={560} cy={253} rx={95}  ry={24} fill="#38bdf8" opacity="0.10" />
+            <text x={560} y={257} textAnchor="middle" fill="#7dd3fc" fontSize="10" fontWeight="600" opacity="0.65" letterSpacing="2">WATER HAZARD</text>
+
+            {/* Sand bunkers at corners */}
+            <ellipse cx={175} cy={415} rx={58} ry={26} fill="#78350f" opacity="0.70" />
+            <ellipse cx={175} cy={415} rx={42} ry={18} fill="#d97706" opacity="0.50" />
+            <ellipse cx={845} cy={415} rx={58} ry={26} fill="#78350f" opacity="0.70" />
+            <ellipse cx={845} cy={415} rx={42} ry={18} fill="#d97706" opacity="0.50" />
+
+            {/* Rough markers at fork and merge */}
+            <circle cx={380} cy={252} r={28} fill="#052e16" opacity="0.60" />
+            <circle cx={776} cy={250} r={24} fill="#052e16" opacity="0.50" />
 
             {/* Hole danger zones */}
             {BOARD_LAYOUT.holes.map((h, i) => (
               <g key={`hz${i}`}>
-                <circle cx={h.x} cy={h.y} r={h.radius + 16} fill="rgba(239,68,68,0.08)" />
-                <circle cx={h.x} cy={h.y} r={h.radius + 8} fill="none" stroke="#ef4444" strokeWidth="1.5" opacity="0.3" strokeDasharray="4 4" />
-                <circle cx={h.x} cy={h.y} r={h.radius} fill="#050505" stroke="#ef4444" strokeWidth="2.5" opacity="0.95" />
-                <text x={h.x} y={h.y + 4} textAnchor="middle" fill="#ef4444" fontSize="10" fontWeight="900" opacity="0.8">HOLE</text>
+                <circle cx={h.x} cy={h.y} r={h.radius + 14} fill="rgba(239,68,68,0.07)" />
+                <circle cx={h.x} cy={h.y} r={h.radius + 6}  fill="none" stroke="#ef4444" strokeWidth="1" opacity="0.25" strokeDasharray="3 4" />
+                <circle cx={h.x} cy={h.y} r={h.radius}      fill="#030712" stroke="#ef4444" strokeWidth="2" opacity="0.95" />
+                <text x={h.x} y={h.y + 4} textAnchor="middle" fill="#ef4444" fontSize="9" fontWeight="900" opacity="0.75">HOLE</text>
               </g>
             ))}
-          </svg>
 
-          {/* Square tiles */}
-          {boardSquares.map(sq => {
-            const cfg = SQUARE_CONFIG[sq.type];
-            const hidden = !sq.revealed;
-            const isLanding = landingSquareIndex === sq.index;
-            const isSpecial = sq.type === 'start' || sq.type === 'finish';
-            return (
-              <div
-                key={sq.index}
-                className="absolute rounded-xl transition-all duration-300"
-                style={{
-                  left: sq.x - 30,
-                  top: sq.y - 30,
-                  width: 60,
-                  height: 60,
-                  background: hidden
-                    ? 'rgba(15,23,42,0.97)'
-                    : isLanding
-                    ? cfg.color + 'ee'
-                    : isSpecial
-                    ? cfg.color + 'cc'
-                    : cfg.color + '99',
-                  border: isLanding
-                    ? '2.5px solid #fff'
-                    : hidden
-                    ? '2px solid #334155'
-                    : `2px solid ${cfg.color}`,
-                  boxShadow: isLanding
-                    ? `0 0 30px ${cfg.color}, 0 0 12px ${cfg.color}cc`
-                    : isSpecial
-                    ? `0 0 14px ${cfg.color}aa`
-                    : '0 2px 10px rgba(0,0,0,0.7)',
-                  transform: isLanding ? 'scale(1.35)' : 'scale(1)',
-                  zIndex: isLanding ? 10 : 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <span className="absolute top-0.5 left-1.5 text-[8px] font-bold leading-none"
-                  style={{ color: hidden ? '#475569' : 'rgba(255,255,255,0.5)' }}>
-                  {sq.index}
-                </span>
-                {(() => {
-                  const Icon = hidden ? HelpCircle : (SQUARE_ICONS[sq.type] ?? HelpCircle);
-                  return <Icon size={22} color="rgba(255,255,255,0.95)" strokeWidth={2} />;
-                })()}
-                <span className="text-[9px] font-black leading-none mt-0.5"
-                  style={{ color: 'rgba(255,255,255,0.92)', textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
-                  {hidden ? '???' : cfg.label}
-                </span>
-              </div>
-            );
-          })}
+            {/* Direction dashes along path sections */}
+            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
+              <polyline key={`d${key}`}
+                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
+                fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="2"
+                strokeDasharray="6 10" strokeLinejoin="round" strokeLinecap="round"
+              />
+            ))}
+
+            {/* Square markers — small circles embedded in the course */}
+            {boardSquares.map(sq => {
+              const cfg = SQUARE_CONFIG[sq.type];
+              const hidden = !sq.revealed;
+              const isLanding = landingSquareIndex === sq.index;
+              const color = hidden ? '#334155' : cfg.color;
+              return (
+                <g key={sq.index}>
+                  {isLanding && (
+                    <circle cx={sq.x} cy={sq.y} r={30} fill={color} opacity="0.22" />
+                  )}
+                  <circle
+                    cx={sq.x} cy={sq.y} r={isLanding ? 18 : 16}
+                    fill={color + (isLanding ? 'ff' : 'cc')}
+                    stroke={isLanding ? '#fff' : color}
+                    strokeWidth={isLanding ? 2.5 : 1.5}
+                  />
+                  <text x={sq.x} y={sq.y - 22} textAnchor="middle"
+                    fill="rgba(255,255,255,0.30)" fontSize="8" fontWeight="700">
+                    {sq.index}
+                  </text>
+                  <text x={sq.x} y={sq.y + 4} textAnchor="middle"
+                    fill="white" fontSize={sq.type === 'question-boost' ? '7' : '8'} fontWeight="800">
+                    {hidden ? '?' : cfg.label}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
 
           {/* Team tokens */}
           {teams.map((team, ti) => {
