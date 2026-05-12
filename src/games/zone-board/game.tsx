@@ -4,20 +4,27 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import type { GameProps, GameRemoteVote } from '../types';
 import { BOARD_LAYOUT, CANVAS_W, CANVAS_H, TRACK_SECTIONS, TRACK_STROKE_WIDTH, SQUARE_CONFIG } from './board-layout';
 import type { TeamState, GamePhase, ActiveQuestion, PuckPhysics, BoardSquare } from './types';
-import type { Wall, HoleZone } from './types';
 import { getEffectiveTopic, useSessionStore } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
 import type { Student } from '@/lib/supabase/types';
 import { Trophy, Crosshair, Snowflake } from 'lucide-react';
 
-// ─── Physics constants ────────────────────────────────────────────────────────
+// ─── Movement constants ───────────────────────────────────────────────────────
 
-const FRICTION = 0.986;
-const WALL_RESTITUTION = 0.62;
 const PUCK_R = 13;
-const STOP_THRESHOLD = 0.38;
-const MAX_SPEED = 13;
-const LANDING_THRESHOLD = 100; // px — max distance from square center to register landing
+const LANDING_THRESHOLD = 100;
+const MS_PER_STEP = 160; // ms to animate between consecutive squares
+
+// Full ordered paths through the board (upper branch takes sq4-7, lower takes sq8-11)
+const UPPER_PATH = [0,1,2,3,4,5,6,7,12,13,14,15,16,17,18,19,20,21,22,23,24];
+const LOWER_PATH = [0,1,2,3,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+
+function getPath(squareIndex: number, branchChoice?: 'upper' | 'lower'): number[] {
+  if (squareIndex >= 4 && squareIndex <= 7) return UPPER_PATH;
+  if (squareIndex >= 8 && squareIndex <= 11) return LOWER_PATH;
+  if (squareIndex === 3 && branchChoice === 'lower') return LOWER_PATH;
+  return UPPER_PATH;
+}
 
 // ─── Team config ─────────────────────────────────────────────────────────────
 
@@ -25,71 +32,6 @@ const TEAM_NAMES = ['Red', 'Blue', 'Green', 'Yellow'];
 const TEAM_COLORS = ['#ef4444', '#3b82f6', '#22c55e', '#eab308'];
 const TEAM_BG_CLASSES = ['bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500'];
 
-// ─── Pure physics helpers ─────────────────────────────────────────────────────
-
-function closestPointOnSegment(
-  px: number, py: number,
-  x1: number, y1: number,
-  x2: number, y2: number
-) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const lenSq = dx * dx + dy * dy;
-  if (lenSq === 0) return { x: x1, y: y1 };
-  const t = Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / lenSq));
-  return { x: x1 + t * dx, y: y1 + t * dy };
-}
-
-function circleHitsWall(cx: number, cy: number, r: number, wall: Wall): boolean {
-  const cp = closestPointOnSegment(cx, cy, wall.x1, wall.y1, wall.x2, wall.y2);
-  return Math.hypot(cx - cp.x, cy - cp.y) <= r;
-}
-
-function wallNormal(wall: Wall) {
-  const dx = wall.x2 - wall.x1;
-  const dy = wall.y2 - wall.y1;
-  const len = Math.hypot(dx, dy);
-  if (len === 0) return { nx: 0, ny: 1 };
-  return { nx: -dy / len, ny: dx / len };
-}
-
-function stepPhysics(state: PuckPhysics, walls: Wall[], holes: HoleZone[]): PuckPhysics {
-  let { x, y, vx, vy } = state;
-
-  for (const hole of holes) {
-    if (Math.hypot(x - hole.x, y - hole.y) < hole.radius) {
-      return { x, y, vx: 0, vy: 0, active: false, fellInHole: true };
-    }
-  }
-
-  vx *= FRICTION;
-  vy *= FRICTION;
-  x += vx;
-  y += vy;
-
-  for (const wall of walls) {
-    if (circleHitsWall(x, y, PUCK_R, wall)) {
-      const { nx, ny } = wallNormal(wall);
-      const dot = vx * nx + vy * ny;
-      if (dot < 0) {
-        vx = (vx - 2 * dot * nx) * WALL_RESTITUTION;
-        vy = (vy - 2 * dot * ny) * WALL_RESTITUTION;
-      }
-      const cp = closestPointOnSegment(x, y, wall.x1, wall.y1, wall.x2, wall.y2);
-      const dist = Math.hypot(x - cp.x, y - cp.y);
-      if (dist < PUCK_R && dist > 0.001) {
-        const push = (PUCK_R - dist) + 0.5;
-        x += ((x - cp.x) / dist) * push;
-        y += ((y - cp.y) / dist) * push;
-      }
-    }
-  }
-
-  if (Math.hypot(vx, vy) < STOP_THRESHOLD) {
-    return { x, y, vx: 0, vy: 0, active: false, fellInHole: false };
-  }
-  return { x, y, vx, vy, active: true, fellInHole: false };
-}
 
 function splitIntoTeams(students: Student[], count: number): TeamState[] {
   const shuffled = [...students].sort(() => Math.random() - 0.5);
@@ -451,55 +393,85 @@ export function ZoneBoardGame({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ─── Physics loop ───────────────────────────────────────────────────────────
+  // ─── Path animation ──────────────────────────────────────────────────────────
 
-  const startPhysicsLoop = useCallback(() => {
-    function step() {
-      const state = puckStateRef.current;
-      if (!state.active) return;
+  const animatePuckAlongPath = useCallback((
+    waypoints: Array<{ x: number; y: number }>,
+    onComplete: () => void,
+  ) => {
+    if (waypoints.length === 0) { onComplete(); return; }
 
-      const next = stepPhysics(state, BOARD_LAYOUT.walls, BOARD_LAYOUT.holes);
-      puckStateRef.current = next;
+    if (waypoints.length === 1) {
+      if (puckDomRef.current) {
+        const p = waypoints[0];
+        puckDomRef.current.style.transform = `translate(${p.x - PUCK_R}px, ${p.y - PUCK_R}px)`;
+      }
+      setTimeout(onComplete, 300);
+      return;
+    }
+
+    const startTime = performance.now();
+    const totalTime = (waypoints.length - 1) * MS_PER_STEP;
+
+    function frame(now: number) {
+      const t = Math.min(1, (now - startTime) / totalTime);
+      const segT = t * (waypoints.length - 1);
+      const segIdx = Math.min(Math.floor(segT), waypoints.length - 2);
+      const localT = segT - segIdx;
+      const a = waypoints[segIdx];
+      const b = waypoints[segIdx + 1];
+      const px = a.x + (b.x - a.x) * localT;
+      const py = a.y + (b.y - a.y) * localT;
 
       if (puckDomRef.current) {
-        puckDomRef.current.style.transform = `translate(${next.x - PUCK_R}px, ${next.y - PUCK_R}px)`;
+        puckDomRef.current.style.transform = `translate(${px - PUCK_R}px, ${py - PUCK_R}px)`;
       }
 
-      if (!next.active) {
-        onPuckStopped(next.x, next.y, next.fellInHole);
-        return;
+      if (t < 1) {
+        rafRef.current = requestAnimationFrame(frame);
+      } else {
+        onComplete();
       }
-
-      rafRef.current = requestAnimationFrame(step);
     }
-    rafRef.current = requestAnimationFrame(step);
-  }, [onPuckStopped]);
+
+    rafRef.current = requestAnimationFrame(frame);
+  }, []);
 
   // ─── Handle shot ────────────────────────────────────────────────────────────
 
   function handleShot(power: number, angleRad: number) {
     const teamIdx = activeTeamIndexRef.current;
     const team = teamsRef.current[teamIdx];
-    const curSq = BOARD_LAYOUT.squares[team.squareIndex];
+    const curIdx = team.squareIndex;
 
-    const speed = power * MAX_SPEED;
+    // At the fork (sq3) the angle's y-component picks the branch
+    const branchChoice: 'upper' | 'lower' | undefined =
+      curIdx === 3 ? (Math.sin(angleRad) < 0 ? 'upper' : 'lower') : undefined;
 
-    puckStateRef.current = {
-      x: curSq.x,
-      y: curSq.y,
-      vx: Math.cos(angleRad) * speed,
-      vy: Math.sin(angleRad) * speed,
-      active: true,
-      fellInHole: false,
-    };
+    const path = getPath(curIdx, branchChoice);
+    const posInPath = path.indexOf(curIdx);
 
+    // Power maps to 1-5 squares forward
+    const squaresForward = Math.max(1, Math.round(power * 5));
+    const newPosInPath = Math.min(path.length - 1, posInPath + squaresForward);
+    const targetIdx = path[newPosInPath];
+
+    const waypoints = path
+      .slice(posInPath, newPosInPath + 1)
+      .map(idx => BOARD_LAYOUT.squares[idx]);
+
+    const startSq = BOARD_LAYOUT.squares[curIdx];
     if (puckDomRef.current) {
-      puckDomRef.current.style.transform = `translate(${curSq.x - PUCK_R}px, ${curSq.y - PUCK_R}px)`;
+      puckDomRef.current.style.transform = `translate(${startSq.x - PUCK_R}px, ${startSq.y - PUCK_R}px)`;
     }
     setPuckVisible(true);
     setLandingSquareIndex(null);
     transitionTo('animating');
-    startPhysicsLoop();
+
+    animatePuckAlongPath(waypoints, () => {
+      const sq = BOARD_LAYOUT.squares[targetIdx];
+      onPuckStopped(sq.x, sq.y, false);
+    });
   }
 
   // ─── Turn management ────────────────────────────────────────────────────────
@@ -766,10 +738,25 @@ export function ZoneBoardGame({
             {/* Live aim arc — streamed from student device via broadcast channel */}
             {phase === 'shooting' && liveAim && liveAim.power > 0.05 && activeTeam && (() => {
               const curSq = BOARD_LAYOUT.squares[activeTeam.squareIndex];
-              const arcLen = liveAim.power * 260;
-              const ex = curSq.x + Math.cos(liveAim.angleRad) * arcLen;
-              const ey = curSq.y + Math.sin(liveAim.angleRad) * arcLen;
               const col = liveAim.power > 0.75 ? '#ef4444' : liveAim.power > 0.4 ? '#f59e0b' : '#3b82f6';
+              let ex: number, ey: number, branchLabel: string | null = null;
+
+              if (activeTeam.squareIndex === 3) {
+                // At fork: snap arc to chosen branch direction
+                const choice = Math.sin(liveAim.angleRad) < 0 ? 'upper' : 'lower';
+                branchLabel = choice === 'upper' ? 'UPPER' : 'LOWER';
+                const nextSq = BOARD_LAYOUT.squares[choice === 'upper' ? 4 : 8];
+                const dx = nextSq.x - curSq.x, dy = nextSq.y - curSq.y;
+                const dl = Math.hypot(dx, dy);
+                const arcLen = liveAim.power * 260;
+                ex = curSq.x + (dx / dl) * Math.min(arcLen, dl * 1.4);
+                ey = curSq.y + (dy / dl) * Math.min(arcLen, dl * 1.4);
+              } else {
+                const arcLen = liveAim.power * 260;
+                ex = curSq.x + Math.cos(liveAim.angleRad) * arcLen;
+                ey = curSq.y + Math.sin(liveAim.angleRad) * arcLen;
+              }
+
               return (
                 <g>
                   <line x1={curSq.x} y1={curSq.y} x2={ex} y2={ey}
@@ -777,6 +764,11 @@ export function ZoneBoardGame({
                     strokeLinecap="round" opacity="0.80" />
                   <circle cx={ex} cy={ey} r={7} fill={col} opacity="0.50" />
                   <circle cx={curSq.x} cy={curSq.y} r={5} fill={col} opacity="0.70" />
+                  {branchLabel && (
+                    <text x={ex + 12} y={ey + 4} fill={col} fontSize="11" fontWeight="800" opacity="0.90">
+                      {branchLabel}
+                    </text>
+                  )}
                 </g>
               );
             })()}
