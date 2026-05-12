@@ -167,6 +167,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (lesson.phase === 'landing' || lesson.phase === 'ended') return 'landing';
     const totalSlots = lesson.lessonSlots.length;
     const idx = lesson.currentSlotIndex;
+    // Single-slot sessions (explore quick-play) cruise at altitude — no runway
+    if (totalSlots <= 1) return 'cruising';
     if (idx === 0) return 'climbing';
     if (idx >= totalSlots - 1) return 'landing';
     const progress = idx / (totalSlots - 1);
@@ -176,16 +178,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [lesson.isLessonActive, lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length]);
 
   const altitude = useMemo(
-    () => lesson.isLessonActive
-      ? computeAltitude(lesson.currentSlotIndex, lesson.lessonSlots.length)
-      : 0.8,
+    () => {
+      if (!lesson.isLessonActive) return 0.8;
+      if (lesson.lessonSlots.length <= 1) return 0.75;
+      return computeAltitude(lesson.currentSlotIndex, lesson.lessonSlots.length);
+    },
     [lesson.isLessonActive, lesson.currentSlotIndex, lesson.lessonSlots.length],
   );
 
   const earthState = useMemo<EarthState>(
-    () => lesson.isLessonActive
-      ? computeEarthState(lesson.currentSlotIndex, lesson.lessonSlots.length)
-      : 'flight',
+    () => {
+      if (!lesson.isLessonActive) return 'flight';
+      if (lesson.lessonSlots.length <= 1) return 'flight';
+      return computeEarthState(lesson.currentSlotIndex, lesson.lessonSlots.length);
+    },
     [lesson.isLessonActive, lesson.currentSlotIndex, lesson.lessonSlots.length],
   );
 
