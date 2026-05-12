@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
   // Auth: Bearer token check — TEMP: accepting hardcoded ingest token for one-time riddle seeding
   const authHeader = request.headers.get('Authorization') ?? '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
-  const validKey = process.env.CONTENT_INGEST_API_KEY || 'lc-ingest-seed-2026';
+  const validKey = process.env.CONTENT_INGEST_API_KEY ?? '';
   if (!token || token !== validKey) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
