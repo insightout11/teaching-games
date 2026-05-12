@@ -26,6 +26,48 @@ function getPath(squareIndex: number, branchChoice?: 'upper' | 'lower'): number[
   return UPPER_PATH;
 }
 
+// ─── Segment rendering helpers ────────────────────────────────────────────────
+
+function segPoly(
+  a: { x: number; y: number },
+  b: { x: number; y: number },
+  hw: number,
+): string {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const len = Math.hypot(dx, dy);
+  if (len < 1) return '';
+  const nx = (-dy / len) * hw, ny = (dx / len) * hw;
+  return [
+    `${a.x + nx},${a.y + ny}`,
+    `${b.x + nx},${b.y + ny}`,
+    `${b.x - nx},${b.y - ny}`,
+    `${a.x - nx},${a.y - ny}`,
+  ].join(' ');
+}
+
+// All consecutive [from, to] index pairs that make up the course
+const COURSE_SEGMENTS: [number, number][] = [
+  [0,1],[1,2],[2,3],
+  [3,4],[4,5],[5,6],[6,7],
+  [3,8],[8,9],[9,10],[10,11],
+  [7,12],[11,12],
+  [12,13],[13,14],[14,15],[15,16],[16,17],[17,18],[18,19],[20,21],[21,22],[22,23],[23,24],
+];
+const SEG_HW = 35; // half-width of colored segment polygons
+
+// Richer tile colors designed for dark background
+const SEG_COLOR: Record<string, string> = {
+  start:            '#065f46',
+  finish:           '#92400e',
+  question:         '#1e40af',
+  safe:             '#1e4d2a',
+  boost:            '#92400e',
+  trap:             '#7f1d1d',
+  'question-boost': '#581c87',
+  freeze:           '#164e63',
+  hole:             '#450a0a',
+};
+
 // ─── Team config ─────────────────────────────────────────────────────────────
 
 const TEAM_NAMES = ['Red', 'Blue', 'Green', 'Yellow'];
@@ -656,65 +698,79 @@ export function ZoneBoardGame({
       <div
         ref={boardContainerRef}
         className="w-full rounded-2xl overflow-hidden flex-shrink-0 relative"
-        style={{ height: Math.round(CANVAS_H * boardScale), border: '2px solid rgba(34,197,94,0.25)', boxShadow: '0 0 40px rgba(34,197,94,0.08)' }}
+        style={{ height: Math.round(CANVAS_H * boardScale), border: '2px solid rgba(99,102,241,0.30)', boxShadow: '0 0 40px rgba(99,102,241,0.10)' }}
       >
         <div style={{ position: 'absolute', top: 0, left: 0, width: CANVAS_W, height: CANVAS_H, transform: `scale(${boardScale})`, transformOrigin: 'top left' }}>
           {/* SVG track */}
           <svg className="absolute inset-0" width={CANVAS_W} height={CANVAS_H} viewBox={`0 0 ${CANVAS_W} ${CANVAS_H}`}>
-            {/* Defs */}
+            {/* ── Defs ───────────────────────────────────────────────────────── */}
             <defs>
-              <pattern id="roughGrass" width="10" height="10" patternUnits="userSpaceOnUse">
-                <circle cx="2.5" cy="2.5" r="1.3" fill="rgba(52,211,153,0.09)" />
-                <circle cx="7.5" cy="7.5" r="0.9" fill="rgba(52,211,153,0.06)" />
+              <pattern id="boardDots" width="18" height="18" patternUnits="userSpaceOnUse">
+                <circle cx="9" cy="9" r="1" fill="rgba(255,255,255,0.04)" />
               </pattern>
               <radialGradient id="waterGrad" cx="40%" cy="38%" r="65%">
-                <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.75" />
-                <stop offset="100%" stopColor="#075985" stopOpacity="0.95" />
+                <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.80" />
+                <stop offset="100%" stopColor="#075985" stopOpacity="0.98" />
               </radialGradient>
-              <filter id="sqShadow" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="0" dy="1.5" stdDeviation="2.5" floodColor="rgba(0,0,0,0.45)" />
+              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
               </filter>
             </defs>
 
-            {/* Background rough */}
-            <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="#0b2612" />
-            <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="url(#roughGrass)" />
+            {/* ── Game board background ───────────────────────────────────────── */}
+            <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="#0f172a" />
+            <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="url(#boardDots)" />
 
-            {/* Fairway — shadow base */}
+            {/* ── Course shadow / base outline ────────────────────────────────── */}
             {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
-              <polyline key={`fs${key}`}
+              <polyline key={`sh${key}`}
                 points={pts.map(p => `${p.x},${p.y}`).join(' ')}
-                fill="none" stroke="rgba(0,0,0,0.35)"
-                strokeWidth={TRACK_STROKE_WIDTH + 6} strokeLinejoin="round" strokeLinecap="round"
-              />
-            ))}
-            {/* Fairway — green fill */}
-            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
-              <polyline key={`f${key}`}
-                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
-                fill="none" stroke="#166534"
-                strokeWidth={TRACK_STROKE_WIDTH} strokeLinejoin="round" strokeLinecap="round"
-              />
-            ))}
-            {/* Fairway — lighter inner tone */}
-            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
-              <polyline key={`fl${key}`}
-                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
-                fill="none" stroke="#1a7a3d"
-                strokeWidth={TRACK_STROKE_WIDTH - 16} strokeLinejoin="round" strokeLinecap="round"
-              />
-            ))}
-            {/* Fairway — centre highlight stripe */}
-            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
-              <polyline key={`fh${key}`}
-                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
-                fill="none" stroke="#4ade80"
-                strokeWidth="4" strokeLinejoin="round" strokeLinecap="round"
-                opacity="0.14"
+                fill="none" stroke="rgba(0,0,0,0.55)"
+                strokeWidth={TRACK_STROKE_WIDTH + 10} strokeLinejoin="round" strokeLinecap="round"
               />
             ))}
 
-            {/* Trees in rough */}
+            {/* ── Coloured segment tiles — each gap between squares is its own tile ── */}
+            {COURSE_SEGMENTS.map(([fi, ti]) => {
+              const a = BOARD_LAYOUT.squares[fi];
+              const b = BOARD_LAYOUT.squares[ti];
+              const sq = boardSquares[ti];
+              const baseColor = sq.revealed ? SEG_COLOR[sq.type] ?? '#1e293b' : '#1e293b';
+              const poly = segPoly(a, b, SEG_HW);
+              if (!poly) return null;
+              return (
+                <polygon key={`seg${fi}-${ti}`}
+                  points={poly}
+                  fill={baseColor}
+                  stroke="#0f172a"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+              );
+            })}
+
+            {/* ── Tile dividers — thin bright line at each square boundary ──────── */}
+            {COURSE_SEGMENTS.map(([fi, ti]) => {
+              const a = BOARD_LAYOUT.squares[fi];
+              const b = BOARD_LAYOUT.squares[ti];
+              const dx = b.x - a.x, dy = b.y - a.y;
+              const len = Math.hypot(dx, dy);
+              if (len < 1) return null;
+              const nx = (-dy / len) * (SEG_HW + 2), ny = (dx / len) * (SEG_HW + 2);
+              return (
+                <line key={`div${fi}-${ti}`}
+                  x1={b.x + nx} y1={b.y + ny} x2={b.x - nx} y2={b.y - ny}
+                  stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" strokeLinecap="round"
+                />
+              );
+            })}
+
+            {/* ── Fork / merge junction patches ───────────────────────────────── */}
+            <circle cx={BOARD_LAYOUT.squares[3].x} cy={BOARD_LAYOUT.squares[3].y} r={SEG_HW + 2} fill="#0f172a" />
+            <circle cx={BOARD_LAYOUT.squares[12].x} cy={BOARD_LAYOUT.squares[12].y} r={SEG_HW + 2} fill="#0f172a" />
+
+            {/* ── Trees in rough ───────────────────────────────────────────────── */}
             {([
               [50, 150], [50, 360],
               [120, 418], [220, 422], [310, 420],
@@ -728,44 +784,44 @@ export function ZoneBoardGame({
               </g>
             ))}
 
-            {/* Sand bunkers */}
-            <ellipse cx={148} cy={418} rx={54} ry={22} fill="#92400e" opacity="0.65" />
-            <ellipse cx={148} cy={418} rx={40} ry={16} fill="#d97706" opacity="0.48" />
-            <ellipse cx={848} cy={418} rx={54} ry={22} fill="#92400e" opacity="0.65" />
-            <ellipse cx={848} cy={418} rx={40} ry={16} fill="#d97706" opacity="0.48" />
+            {/* ── Sand bunkers ─────────────────────────────────────────────────── */}
+            <ellipse cx={148} cy={418} rx={52} ry={20} fill="#78350f" opacity="0.70" />
+            <ellipse cx={148} cy={418} rx={38} ry={14} fill="#d97706" opacity="0.50" />
+            <ellipse cx={848} cy={418} rx={52} ry={20} fill="#78350f" opacity="0.70" />
+            <ellipse cx={848} cy={418} rx={38} ry={14} fill="#d97706" opacity="0.50" />
 
-            {/* Water hazard */}
-            <ellipse cx={560} cy={253} rx={142} ry={56} fill="url(#waterGrad)" />
-            <ellipse cx={548} cy={248} rx={96} ry={34} fill="#38bdf8" opacity="0.18" />
-            <ellipse cx={572} cy={258} rx={66} ry={22} fill="#7dd3fc" opacity="0.10" />
-            <ellipse cx={560} cy={253} rx={116} ry={44} fill="none" stroke="#38bdf8" strokeWidth="0.8" opacity="0.22" />
-            <ellipse cx={560} cy={253} rx={86} ry={32} fill="none" stroke="#38bdf8" strokeWidth="0.8" opacity="0.18" />
-            <text x={560} y={258} textAnchor="middle" fill="#7dd3fc" fontSize="9" fontWeight="700" opacity="0.55" letterSpacing="2">WATER</text>
+            {/* ── Water hazard ─────────────────────────────────────────────────── */}
+            <ellipse cx={560} cy={253} rx={146} ry={58} fill="url(#waterGrad)" />
+            <ellipse cx={548} cy={247} rx={100} ry={36} fill="#38bdf8" opacity="0.16" />
+            <ellipse cx={572} cy={258} rx={68} ry={23} fill="#7dd3fc" opacity="0.09" />
+            <ellipse cx={560} cy={253} rx={120} ry={46} fill="none" stroke="#38bdf8" strokeWidth="0.8" opacity="0.20" />
+            <ellipse cx={560} cy={253} rx={88} ry={33} fill="none" stroke="#38bdf8" strokeWidth="0.8" opacity="0.15" />
+            <text x={560} y={258} textAnchor="middle" fill="#7dd3fc" fontSize="9" fontWeight="700" opacity="0.60" letterSpacing="3">WATER HAZARD</text>
 
-            {/* Windmill */}
-            <rect x={488} y={232} width={4} height={26} fill="#92400e" rx={2} />
-            <line x1={472} y1={238} x2={508} y2={258} stroke="#d97706" strokeWidth="3.5" strokeLinecap="round" />
-            <line x1={508} y1={238} x2={472} y2={258} stroke="#d97706" strokeWidth="3.5" strokeLinecap="round" />
-            <circle cx={490} cy={248} r={5} fill="#fbbf24" />
+            {/* ── Windmill on water ────────────────────────────────────────────── */}
+            <rect x={488} y={230} width={4} height={28} fill="#92400e" rx={2} />
+            <line x1={474} y1={236} x2={506} y2={260} stroke="#d97706" strokeWidth="4" strokeLinecap="round" />
+            <line x1={506} y1={236} x2={474} y2={260} stroke="#d97706" strokeWidth="4" strokeLinecap="round" />
+            <circle cx={490} cy={248} r={6} fill="#fbbf24" />
             <circle cx={490} cy={248} r={2.5} fill="#78350f" />
 
-            {/* Zone tiles */}
+            {/* ── Square type labels on tiles ───────────────────────────────────── */}
             {boardSquares.map(sq => {
               const cfg = SQUARE_CONFIG[sq.type];
               const hidden = !sq.revealed;
               const isLanding = landingSquareIndex === sq.index;
-              const color = hidden ? '#334155' : cfg.color;
 
               if (sq.type === 'finish') {
                 return (
                   <g key={sq.index}>
-                    {isLanding && <circle cx={sq.x} cy={sq.y} r={32} fill="#f59e0b" opacity="0.22" />}
-                    <line x1={sq.x} y1={sq.y - 28} x2={sq.x} y2={sq.y + 10}
-                      stroke="#fbbf24" strokeWidth="2.5" strokeLinecap="round" />
-                    <polygon points={`${sq.x},${sq.y - 28} ${sq.x + 18},${sq.y - 20} ${sq.x},${sq.y - 12}`}
+                    {isLanding && <circle cx={sq.x} cy={sq.y} r={36} fill="#f59e0b" opacity="0.25" filter="url(#glow)" />}
+                    <line x1={sq.x} y1={sq.y - 32} x2={sq.x} y2={sq.y + 14}
+                      stroke="#fbbf24" strokeWidth="3" strokeLinecap="round" />
+                    <polygon points={`${sq.x},${sq.y - 32} ${sq.x + 20},${sq.y - 22} ${sq.x},${sq.y - 12}`}
                       fill="#f59e0b" />
-                    <circle cx={sq.x} cy={sq.y + 10} r={5} fill="#050a05" />
-                    <circle cx={sq.x} cy={sq.y + 10} r={5} fill="none" stroke="rgba(251,191,36,0.40)" strokeWidth="1.5" />
+                    <circle cx={sq.x} cy={sq.y + 14} r={6} fill="#050a05" />
+                    <circle cx={sq.x} cy={sq.y + 14} r={6} fill="none" stroke="rgba(251,191,36,0.50)" strokeWidth="1.5" />
+                    <text x={sq.x} y={sq.y - 40} textAnchor="middle" fill="#fbbf24" fontSize="8" fontWeight="900" letterSpacing="1">FINISH</text>
                   </g>
                 );
               }
@@ -773,37 +829,34 @@ export function ZoneBoardGame({
               if (sq.type === 'start') {
                 return (
                   <g key={sq.index}>
-                    {isLanding && <circle cx={sq.x} cy={sq.y} r={30} fill="#10b981" opacity="0.22" />}
-                    <circle cx={sq.x} cy={sq.y} r={21} fill="#065f46" stroke="#34d399" strokeWidth="2" />
-                    <text x={sq.x} y={sq.y + 4} textAnchor="middle" fill="#34d399" fontSize="7.5" fontWeight="900" letterSpacing="0.5">START</text>
+                    <circle cx={sq.x} cy={sq.y} r={22} fill="#065f46" stroke="#34d399" strokeWidth="2.5" />
+                    <text x={sq.x} y={sq.y + 4} textAnchor="middle" fill="#34d399" fontSize="8" fontWeight="900" letterSpacing="0.5">START</text>
                   </g>
                 );
               }
 
-              const tw = 42, th = 28;
+              // Normal tile — label on top of the segment colour already painted beneath
+              const labelColor = isLanding ? '#ffffff' : cfg.color;
+              const borderColor = isLanding ? '#ffffff' : cfg.color + '88';
               return (
                 <g key={sq.index}>
                   {isLanding && (
-                    <rect
-                      x={sq.x - tw / 2 - 7} y={sq.y - th / 2 - 7}
-                      width={tw + 14} height={th + 14} rx={13}
-                      fill={color} opacity="0.24"
-                    />
+                    <circle cx={sq.x} cy={sq.y} r={SEG_HW - 2} fill={cfg.color} opacity="0.30" filter="url(#glow)" />
                   )}
-                  <rect
-                    x={sq.x - tw / 2} y={sq.y - th / 2} width={tw} height={th} rx={9}
-                    fill={color + (isLanding ? 'ff' : 'd0')}
-                    stroke={isLanding ? '#ffffff' : color + '55'}
-                    strokeWidth={isLanding ? 2 : 1}
-                    filter={isLanding ? 'url(#sqShadow)' : undefined}
-                  />
-                  <text x={sq.x + tw / 2 - 5} y={sq.y - th / 2 + 8} textAnchor="middle"
-                    fill="rgba(255,255,255,0.40)" fontSize="6" fontWeight="700">
-                    {sq.index}
-                  </text>
-                  <text x={sq.x} y={sq.y + 5} textAnchor="middle" fill="white"
-                    fontSize={sq.type === 'question-boost' ? '7' : '8.5'} fontWeight="800">
+                  {/* Outlined label — reads against both light and dark segment colours */}
+                  <text x={sq.x} y={sq.y + 5} textAnchor="middle"
+                    fill="#000000" fontSize={sq.type === 'question-boost' ? '9' : '10'} fontWeight="900"
+                    stroke="#000000" strokeWidth="3" paintOrder="stroke">
                     {hidden ? '?' : cfg.label}
+                  </text>
+                  <text x={sq.x} y={sq.y + 5} textAnchor="middle"
+                    fill={labelColor} fontSize={sq.type === 'question-boost' ? '9' : '10'} fontWeight="900">
+                    {hidden ? '?' : cfg.label}
+                  </text>
+                  {/* Square index (small) */}
+                  <text x={sq.x} y={sq.y - 14} textAnchor="middle"
+                    fill={borderColor} fontSize="7" fontWeight="700">
+                    {sq.index}
                   </text>
                 </g>
               );
