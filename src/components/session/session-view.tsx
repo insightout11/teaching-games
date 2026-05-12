@@ -126,6 +126,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
+  const [shareMode, setShareMode] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
   const [typeFilter, setTypeFilter] = useState<SessionTypeFilter>('all');
   const [skillFilter, setSkillFilter] = useState<SessionSkillFilter>('all');
@@ -254,7 +255,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     studentCount: sessionParticipants.length,
   }), [ended, viewMode, displayInputSpec, selectedGame, selectedActivity, settings, displayTopScores, sessionParticipants.length, session.id]);
 
-  const { displayConnected } = useDisplayBroadcast(session.id, displayState);
+  useDisplayBroadcast(session.id, displayState);
 
   // ─── Pacing state ──────────────────────────────────────────────────────
   const sessionStartTimeRef = useRef<number | null>(null);
@@ -900,12 +901,28 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => window.open(`/display/${session.id}`, '_blank')}
-              className="text-violet-400 hover:text-violet-300"
-              title="Open class display in a new tab — share that tab on Zoom"
+              onClick={() => setShareMode((v) => !v)}
+              className={shareMode ? 'text-green-400 hover:text-green-300' : 'text-lc-text3 hover:text-lc-text2'}
+              title={shareMode ? 'Exit Zoom Mode — class questions widget visible again' : 'Zoom Mode — hides class questions from shared screen'}
             >
-              {displayConnected ? '● Display' : 'Open Display'}
+              {shareMode ? '● Zoom' : 'Zoom Mode'}
             </Button>
+            {shareMode && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  const url = new URL(`/questions/${session.id}`, window.location.origin);
+                  url.searchParams.set('topic', getEffectiveTopic(settings));
+                  url.searchParams.set('difficulty', settings.difficulty);
+                  window.open(url.toString(), 'classquestions', 'popup=true,width=700,height=760,scrollbars=yes');
+                }}
+                className="text-amber-400 hover:text-amber-300"
+                title="Open class questions in a private popup window"
+              >
+                Questions ↗
+              </Button>
+            )}
             <Button variant="danger" size="sm" onClick={handleEndSession}>
               End Session
             </Button>
@@ -1390,8 +1407,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : null}
       </div>
 
-      {/* Floating widget system */}
-      {WIDGET_REGISTRY.map((widget) => (
+      {/* Floating widget system — class-questions hidden in Zoom Mode */}
+      {WIDGET_REGISTRY.filter((w) => !shareMode || w.id !== 'class-questions').map((widget) => (
         <WidgetShell
           key={widget.id}
           id={widget.id}
@@ -1411,7 +1428,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             }) ?? {})} />
         </WidgetShell>
       ))}
-      <WidgetLauncher sessionId={session.id} />
+      <WidgetLauncher sessionId={session.id} shareMode={shareMode} />
 
       {/* Answer overlay — shown on teacher's projected screen */}
       {screenAnswer && (

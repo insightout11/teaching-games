@@ -10,9 +10,10 @@ import { computeDefaultPositions } from './widget-shell';
 
 interface WidgetLauncherProps {
   sessionId?: string;
+  shareMode?: boolean;
 }
 
-export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
+export function WidgetLauncher({ sessionId, shareMode }: WidgetLauncherProps) {
   const { widgets, openWidget, resetLayout } = useWidgetStore();
   const [mounted, setMounted] = useState(false);
   const [trayOpen, setTrayOpen] = useState(false);
@@ -69,8 +70,9 @@ export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
     setMounted(true);
   }, []);
 
-  // Widgets that are currently closed
+  // Widgets that are currently closed, excluding class-questions in share mode
   const closedWidgets = WIDGET_REGISTRY.filter((w) => {
+    if (shareMode && w.id === 'class-questions') return false;
     const entry = widgets[w.id];
     return entry ? !entry.isOpen : false;
   });
