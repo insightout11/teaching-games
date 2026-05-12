@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
+import { requireAuth } from '@/lib/auth-credits';
 import type { WordValidationResult } from '@/games/grid-rush/types';
 
 const wordCheckSchema: AISchema = {
@@ -23,6 +24,9 @@ function computePoints(word: string, hasBonusLetter: boolean, isTopicWord: boole
 }
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
+
   try {
     const { word, letters, bonusLetter, topicWords } = await request.json() as {
       word: string;

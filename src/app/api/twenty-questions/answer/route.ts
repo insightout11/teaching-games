@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
+import { requireAuth } from '@/lib/auth-credits';
 
 interface AnswerRequest {
   secret: string;
@@ -43,6 +44,9 @@ const wAnswerSchema: AISchema = {
 const W_QUESTION = /^(who|what|where|when|why|how)\b/i;
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
+
   try {
     const { secret, question, tone, questionsHistory } =
       (await request.json()) as AnswerRequest;

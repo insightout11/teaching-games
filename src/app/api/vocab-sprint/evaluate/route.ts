@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
+import { requireAuth } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 
 export interface EvaluationResult {
@@ -25,6 +26,9 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
+
   try {
     const { originalSentence, weakWord, replacement, difficulty, level, targetWord } = await request.json() as {
       originalSentence: string;

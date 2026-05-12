@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
+import { requireAuth } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 
 const difficultyPrompts: Record<Difficulty, string> = {
@@ -25,6 +26,9 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
+
   try {
     const { speakerA_before, speakerA_after, response, goal, difficulty } = await request.json() as {
       speakerA_before: string;

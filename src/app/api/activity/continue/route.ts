@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
+import { requireAuth } from '@/lib/auth-credits';
 import type { ActivityContinueRequest, ActivityContinueResponse, ConversationRoundsContent, FinaleOption, ScenarioRound } from '@/activities/types';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
@@ -179,6 +180,9 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
+
   try {
     const body = (await request.json()) as ActivityContinueRequest;
     const { activityKey, requestType } = body;
