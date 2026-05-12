@@ -54,7 +54,28 @@ It must:
 Return JSON: { "question": "..." }`;
 }
 
-const writtenPromptSuffix = `Create a multiple choice question with exactly 4 options. One must be clearly correct; the others must be plausible distractors related to the topic.
+const WRITTEN_ANGLES = [
+  'vocabulary in context — a fill-in-the-blank with the correct word or phrase',
+  'grammar in use — identify the grammatically correct sentence or completion',
+  'topic knowledge — a factual question where all 4 options are closely related',
+  'meaning — choose the best definition or paraphrase of a word or phrase from the topic',
+  'word choice — which word fits the meaning and register of the sentence correctly',
+  'cause and effect — what best explains why something happens related to the topic',
+  'inference — what can logically be concluded from a short scenario',
+  'collocation — which word or phrase naturally pairs with a key term from the topic',
+  'error correction — which option correctly fixes or completes a sentence with a common learner mistake',
+  'function — choose the sentence that best achieves a communicative goal related to the topic',
+];
+
+function writtenPromptSuffix(): string {
+  const angle = WRITTEN_ANGLES[Math.floor(Math.random() * WRITTEN_ANGLES.length)];
+  return `Question type: ${angle}.
+
+Create a multiple choice question with exactly 4 options at the stated language level.
+- The correct answer must genuinely require knowledge at this level — not obvious common sense
+- The 3 wrong options must be plausible: things a learner at this level might realistically confuse with the correct answer
+- Never use distractors that are trivially false (e.g. "It was invented last year", "It only exists in one country")
+- All 4 options should be similar in length and grammatical form
 
 Return JSON:
 {
@@ -63,6 +84,7 @@ Return JSON:
   "correctIndex": 0
 }
 correctIndex is the 0-based index of the correct option (0–3).`;
+}
 
 export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
@@ -81,7 +103,7 @@ export async function POST(request: NextRequest) {
 Language level: ${difficultyDescriptions[difficulty]}
 Random seed: ${randomSeed}
 
-${qType === 'speaking' ? speakingPromptSuffix() : writtenPromptSuffix}
+${qType === 'speaking' ? speakingPromptSuffix() : writtenPromptSuffix()}
 
 No preamble, no numbering.`;
 
