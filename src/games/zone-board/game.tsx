@@ -17,7 +17,6 @@ const WALL_RESTITUTION = 0.62;
 const PUCK_R = 13;
 const STOP_THRESHOLD = 0.38;
 const MAX_SPEED = 13;
-const MAX_ANGLE_RAD = (Math.PI / 180) * 55;
 const LANDING_THRESHOLD = 72; // px — max distance from square center to register landing
 
 // ─── Team config ─────────────────────────────────────────────────────────────
@@ -136,7 +135,7 @@ export function ZoneBoardGame({
   const [boardScale, setBoardScale] = useState(0.90);
   const boardContainerRef = useRef<HTMLDivElement>(null);
   const sessionId = useSessionStore(state => state.sessionId);
-  const [liveAim, setLiveAim] = useState<{ power: number; angle: number } | null>(null);
+  const [liveAim, setLiveAim] = useState<{ power: number; angleRad: number } | null>(null);
 
   const phaseRef = useRef<GamePhase>('idle');
   const teamsRef = useRef<TeamState[]>([]);
@@ -478,21 +477,18 @@ export function ZoneBoardGame({
 
   // ─── Handle shot ────────────────────────────────────────────────────────────
 
-  function handleShot(power: number, angle: number) {
+  function handleShot(power: number, angleRad: number) {
     const teamIdx = activeTeamIndexRef.current;
     const team = teamsRef.current[teamIdx];
     const curSq = BOARD_LAYOUT.squares[team.squareIndex];
-    const nextSq = BOARD_LAYOUT.squares[Math.min(24, team.squareIndex + 1)];
 
-    const forwardAngle = Math.atan2(nextSq.y - curSq.y, nextSq.x - curSq.x);
-    const shotAngle = forwardAngle + angle * MAX_ANGLE_RAD;
     const speed = power * MAX_SPEED;
 
     puckStateRef.current = {
       x: curSq.x,
       y: curSq.y,
-      vx: Math.cos(shotAngle) * speed,
-      vy: Math.sin(shotAngle) * speed,
+      vx: Math.cos(angleRad) * speed,
+      vy: Math.sin(angleRad) * speed,
       active: true,
       fellInHole: false,
     };
@@ -610,8 +606,8 @@ export function ZoneBoardGame({
         const shooter = activeTeam?.members[activeTeam.shooterIndex];
         if (!shooter || vote.displayName !== shooter.name) return;
         try {
-          const { power, angle } = JSON.parse(vote.choice) as { power: number; angle: number };
-          handleShot(power, angle);
+          const { power, angleRad } = JSON.parse(vote.choice) as { power: number; angleRad: number };
+          handleShot(power, angleRad);
         } catch { /* ignore malformed */ }
         return;
       }
@@ -659,7 +655,7 @@ export function ZoneBoardGame({
     const supabase = createClient();
     const ch = supabase.channel(`${sessionId}-aim`)
       .on('broadcast', { event: 'aim' }, (msg: { payload: unknown }) => {
-        setLiveAim(msg.payload as { power: number; angle: number });
+        setLiveAim(msg.payload as { power: number; angleRad: number });
       })
       .subscribe();
     return () => { void ch.unsubscribe(); setLiveAim(null); };
@@ -779,12 +775,9 @@ export function ZoneBoardGame({
             {/* Live aim arc — streamed from student device via broadcast channel */}
             {phase === 'shooting' && liveAim && liveAim.power > 0.05 && activeTeam && (() => {
               const curSq = BOARD_LAYOUT.squares[activeTeam.squareIndex];
-              const nextSq = BOARD_LAYOUT.squares[Math.min(24, activeTeam.squareIndex + 1)];
-              const fwdAngle = Math.atan2(nextSq.y - curSq.y, nextSq.x - curSq.x);
-              const shotAngle = fwdAngle + liveAim.angle * MAX_ANGLE_RAD;
               const arcLen = liveAim.power * 260;
-              const ex = curSq.x + Math.cos(shotAngle) * arcLen;
-              const ey = curSq.y + Math.sin(shotAngle) * arcLen;
+              const ex = curSq.x + Math.cos(liveAim.angleRad) * arcLen;
+              const ey = curSq.y + Math.sin(liveAim.angleRad) * arcLen;
               const col = liveAim.power > 0.75 ? '#ef4444' : liveAim.power > 0.4 ? '#f59e0b' : '#3b82f6';
               return (
                 <g>

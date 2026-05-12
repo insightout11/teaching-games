@@ -44,7 +44,7 @@ const squares: BoardSquare[] = rawSquares.map(s => ({
   revealed: s.type !== 'boost' && s.type !== 'trap',
 }));
 
-const HALF_WIDTH = 32;
+const HALF_WIDTH = 38;
 
 function corridorWalls(pts: { x: number; y: number }[]): Wall[] {
   const walls: Wall[] = [];
@@ -65,24 +65,21 @@ function corridorWalls(pts: { x: number; y: number }[]): Wall[] {
 
 const sq = rawSquares;
 
+// Open junction point 40px past the fork — prevents wall overlap from both branches starting at sq3
+const forkJunction = { x: 395, y: 227 };
+
 const corridorWallList: Wall[] = [
   // Shared start
   ...corridorWalls([sq[0], sq[1], sq[2], sq[3]]),
-  // Upper branch
-  ...corridorWalls([sq[3], sq[4], sq[5], sq[6], sq[7]]),
-  // Lower branch
-  ...corridorWalls([sq[3], sq[8], sq[9], sq[10], sq[11]]),
+  // Upper branch — starts from open junction to avoid wall collision pocket at fork
+  ...corridorWalls([forkJunction, sq[4], sq[5], sq[6], sq[7]]),
+  // Lower branch — same
+  ...corridorWalls([forkJunction, sq[8], sq[9], sq[10], sq[11]]),
   // Branch exits to merge
   ...corridorWalls([sq[7], sq[12]]),
   ...corridorWalls([sq[11], sq[12]]),
   // Shared end
   ...corridorWalls([sq[12], sq[13], sq[14], sq[15], sq[16], sq[17], sq[18], sq[19], sq[20], sq[21], sq[22], sq[23], sq[24]]),
-];
-
-// Center divider walls — prevent puck from wandering in the gap between upper and lower branches
-const dividerWalls: Wall[] = [
-  { x1: 380, y1: 222, x2: 775, y2: 222 },
-  { x1: 380, y1: 276, x2: 775, y2: 276 },
 ];
 
 const boundaryWalls: Wall[] = [
@@ -92,7 +89,7 @@ const boundaryWalls: Wall[] = [
   { x1: 990, y1: 10,  x2: 990, y2: 450 },
 ];
 
-const walls: Wall[] = [...corridorWallList, ...dividerWalls, ...boundaryWalls];
+const walls: Wall[] = [...corridorWallList, ...boundaryWalls];
 
 // Holes — dead-end pockets off the main path
 const holes: HoleZone[] = [
