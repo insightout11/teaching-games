@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import confetti from 'canvas-confetti';
 import { LayoutGrid, Check, X as XIcon, Clock, Trophy, Star, Repeat, Zap, Bomb } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
 import { getEffectiveTopic } from '@/stores/session-store';
@@ -78,21 +79,29 @@ function getAdjacent(index: number): number[] {
   return adj;
 }
 
-function checkWin(cells: Cell[], team: Team): boolean {
+function checkWin(cells: Cell[], team: Team): number[] | null {
   const owns = (i: number) => cells[i]?.team === team;
   for (let r = 0; r < 8; r++)
-    for (let c = 0; c <= 4; c++)
-      if ([0, 1, 2, 3].every((d) => owns(r * 8 + c + d))) return true;
+    for (let c = 0; c <= 4; c++) {
+      const idx = [0,1,2,3].map(d => r*8+c+d);
+      if (idx.every(owns)) return idx;
+    }
   for (let c = 0; c < 8; c++)
-    for (let r = 0; r <= 4; r++)
-      if ([0, 1, 2, 3].every((d) => owns((r + d) * 8 + c))) return true;
+    for (let r = 0; r <= 4; r++) {
+      const idx = [0,1,2,3].map(d => (r+d)*8+c);
+      if (idx.every(owns)) return idx;
+    }
   for (let r = 0; r <= 4; r++)
-    for (let c = 0; c <= 4; c++)
-      if ([0, 1, 2, 3].every((d) => owns((r + d) * 8 + c + d))) return true;
+    for (let c = 0; c <= 4; c++) {
+      const idx = [0,1,2,3].map(d => (r+d)*8+c+d);
+      if (idx.every(owns)) return idx;
+    }
   for (let r = 3; r < 8; r++)
-    for (let c = 0; c <= 4; c++)
-      if ([0, 1, 2, 3].every((d) => owns((r - d) * 8 + c + d))) return true;
-  return false;
+    for (let c = 0; c <= 4; c++) {
+      const idx = [0,1,2,3].map(d => (r-d)*8+c+d);
+      if (idx.every(owns)) return idx;
+    }
+  return null;
 }
 
 function buildCells(questionMode: string): Cell[] {
@@ -159,6 +168,8 @@ export function SectorStrikeGame({
   const [bonusPickTargets, setBonusPickTargets] = useState<number[]>([]);
   const [lastResult, setLastResult] = useState<'correct' | 'wrong' | null>(null);
   const [lastBombedCell, setLastBombedCell] = useState<number | null>(null);
+  const [animatingCells, setAnimatingCells] = useState<number[]>([]);
+  const [winningCells,   setWinningCells]   = useState<number[]>([]);
 
   // ── Refs (avoids stale closures in callbacks) ─────────────────────────────
   const phaseRef = useRef<Phase>('idle');
@@ -243,13 +254,29 @@ export function SectorStrikeGame({
     }
   }, [timeLeft, phase, stopTimer, onSetInputSpec]);
 
+  // ── Claim animation helper ────────────────────────────────────────────────
+  const animateClaim = useCallback((indices: number[]) => {
+    setAnimatingCells(indices);
+    setTimeout(() => setAnimatingCells([]), 550);
+  }, []);
+
   // ── Advance to next turn ──────────────────────────────────────────────────
   const advanceTurn = useCallback((updatedCells: Cell[], scoringTeam: Team, checkForWin = true) => {
-    if (checkForWin && checkWin(updatedCells, scoringTeam)) {
+    const win = checkForWin ? checkWin(updatedCells, scoringTeam) : null;
+    if (win) {
       stopTimer();
       setWinner(scoringTeam);
+      setWinningCells(win);
       setPhase('won');
       onSetInputSpec?.(null);
+      confetti({
+        particleCount: 140,
+        spread: 80,
+        origin: { y: 0.55 },
+        colors: scoringTeam === 'x'
+          ? ['#3b82f6', '#93c5fd', '#ffffff']
+          : ['#f97316', '#fdba74', '#ffffff'],
+      });
       return;
     }
     const nextTeam = opposite(scoringTeam);
@@ -283,6 +310,7 @@ export function SectorStrikeGame({
       c.index === cellIdx ? { ...c, team, bonusRevealed: true } : c
     );
     setCells(updated);
+    animateClaim([cellIdx]);
     setLastResult('correct');
     setPhase('applying');
 
@@ -299,7 +327,7 @@ export function SectorStrikeGame({
       }
       advanceTurn(updated, team);
     }, 1400);
-  }, [onScore, advanceTurn]);
+  }, [onScore, advanceTurn, animateClaim]);
 
   // ── Handle ✗ wrong answer ─────────────────────────────────────────────────
   const handleWrong = useCallback(() => {
@@ -345,9 +373,10 @@ export function SectorStrikeGame({
         advanceTurn(updated, team, false);
       }, 1600);
     } else {
+      animateClaim([targetIdx]);
       advanceTurn(updated, team);
     }
-  }, [advanceTurn]);
+  }, [advanceTurn, animateClaim]);
 
   // ── Handle auto-bonus cells (free-square / bomb) ──────────────────────────
   const applyAutoBonus = useCallback((cellIdx: number, snapshotCells: Cell[], team: Team) => {
@@ -359,6 +388,7 @@ export function SectorStrikeGame({
         c.index === cellIdx ? { ...c, team } : c
       );
       setCells(updated);
+      animateClaim([cellIdx]);
       setLastResult('correct');
       setPhase('applying');
       onScore(picker?.id ?? '', {
@@ -383,7 +413,7 @@ export function SectorStrikeGame({
       setBonusPickTargets(targets);
       setPhase('bonus-pick');
     }
-  }, [onScore, advanceTurn]);
+  }, [onScore, advanceTurn, animateClaim]);
 
   // ── Handle cell tap (picking phase) ──────────────────────────────────────
   const handleCellClick = useCallback(async (cellIdx: number) => {
@@ -524,6 +554,8 @@ export function SectorStrikeGame({
     setBonusPickTargets([]);
     setWinner(null);
     setTimeLeft(GAME_DURATION);
+    setAnimatingCells([]);
+    setWinningCells([]);
     setPhase('preparing');
 
     // Pre-generate questions for all cells that need them (not free-square or bomb)
@@ -630,11 +662,13 @@ export function SectorStrikeGame({
           {cells.map((cell) => (
             <div
               key={cell.index}
-              className={`rounded flex items-center justify-center text-xs font-black ${
+              className={[
+                'rounded flex items-center justify-center text-xs font-black',
                 cell.team === 'x' ? 'bg-blue-500 text-white' :
                 cell.team === 'o' ? 'bg-orange-500 text-white' :
-                'bg-lc-surface'
-              }`}
+                'bg-lc-surface',
+                winningCells.includes(cell.index) ? 'animate-cell-flash ring-2 ring-white' : '',
+              ].filter(Boolean).join(' ')}
             >
               {cell.team === 'x' ? 'X' : cell.team === 'o' ? 'O' : ''}
             </div>
@@ -712,6 +746,8 @@ export function SectorStrikeGame({
           const isSelected = cell.index === selectedCell;
           const isTarget = bonusPickTargets.includes(cell.index);
           const wasBombed = cell.index === lastBombedCell;
+          const isClaiming = animatingCells.includes(cell.index);
+          const isWinning = winningCells.includes(cell.index);
           const canPick = phase === 'picking' && cell.team === null;
           const canBonus = phase === 'bonus-pick' && isTarget;
           const showResult = phase === 'applying' && isSelected;
@@ -725,15 +761,17 @@ export function SectorStrikeGame({
               }}
               disabled={!canPick && !canBonus}
               className={[
-                'w-full h-full rounded flex items-center justify-center text-xs font-black transition-all select-none',
+                'w-full h-full rounded flex items-center justify-center text-xs font-black transition-colors select-none',
                 cell.team === 'x' ? 'bg-blue-500 text-white' :
                 cell.team === 'o' ? 'bg-orange-500 text-white' :
                 'bg-lc-surface text-lc-text3',
-                isSelected && !showResult ? 'ring-2 ring-white/60 scale-105' : '',
-                showResult && lastResult === 'correct' ? 'ring-2 ring-green-400 scale-105' : '',
-                showResult && lastResult === 'wrong' ? 'ring-2 ring-red-400' : '',
-                wasBombed ? 'ring-2 ring-red-500 animate-pulse scale-90' : '',
-                isTarget ? 'ring-2 ring-yellow-400 animate-pulse cursor-pointer' : '',
+                isClaiming                                         ? 'animate-cell-claim' : '',
+                wasBombed                                          ? 'animate-cell-shake ring-2 ring-red-500' : '',
+                isWinning                                          ? 'animate-cell-flash ring-2 ring-white' : '',
+                isSelected && !showResult && !isClaiming           ? 'ring-2 ring-white/60 scale-105' : '',
+                showResult && lastResult === 'correct' && !isClaiming ? 'ring-2 ring-green-400' : '',
+                showResult && lastResult === 'wrong'               ? 'ring-2 ring-red-400' : '',
+                isTarget                                           ? 'ring-2 ring-yellow-400 animate-pulse cursor-pointer' : '',
                 canPick ? 'hover:bg-lc-card hover:scale-105 cursor-pointer' : 'cursor-default',
               ].filter(Boolean).join(' ')}
             >

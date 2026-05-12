@@ -10,6 +10,29 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        'cell-claim': {
+          '0%':   { transform: 'scale(0.4)', opacity: '0' },
+          '60%':  { transform: 'scale(1.2)' },
+          '100%': { transform: 'scale(1)',   opacity: '1' },
+        },
+        'cell-shake': {
+          '0%, 100%': { transform: 'translateX(0)   scale(0.88)' },
+          '20%':      { transform: 'translateX(-5px) scale(0.82)' },
+          '40%':      { transform: 'translateX(5px)  scale(0.82)' },
+          '60%':      { transform: 'translateX(-3px) scale(0.85)' },
+          '80%':      { transform: 'translateX(3px)  scale(0.85)' },
+        },
+        'cell-flash': {
+          '0%, 100%': { opacity: '1',   transform: 'scale(1.08)' },
+          '50%':      { opacity: '0.4', transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        'cell-claim': 'cell-claim 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        'cell-shake': 'cell-shake 0.55s ease-in-out forwards',
+        'cell-flash': 'cell-flash 0.5s ease-in-out infinite',
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
