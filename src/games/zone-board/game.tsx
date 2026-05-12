@@ -11,7 +11,7 @@ import { Trophy, Crosshair, Snowflake } from 'lucide-react';
 
 // ─── Movement constants ───────────────────────────────────────────────────────
 
-const PUCK_R = 13;
+const PUCK_R = 8;
 const LANDING_THRESHOLD = 100;
 const MS_PER_STEP = 160; // ms to animate between consecutive squares
 
@@ -462,8 +462,9 @@ export function ZoneBoardGame({
     const path = getPath(curIdx, branchChoice);
     const posInPath = path.indexOf(curIdx);
 
-    // Power maps to 1-5 squares forward
-    const squaresForward = Math.max(1, Math.round(power * 5));
+    // Power maps to 1-5 squares forward; ±1 variance keeps shots unpredictable
+    const variance = Math.floor(Math.random() * 3) - 1;
+    const squaresForward = Math.max(1, Math.round(power * 5) + variance);
     const newPosInPath = Math.min(path.length - 1, posInPath + squaresForward);
     const targetIdx = path[newPosInPath];
 
@@ -660,86 +661,148 @@ export function ZoneBoardGame({
         <div style={{ position: 'absolute', top: 0, left: 0, width: CANVAS_W, height: CANVAS_H, transform: `scale(${boardScale})`, transformOrigin: 'top left' }}>
           {/* SVG track */}
           <svg className="absolute inset-0" width={CANVAS_W} height={CANVAS_H} viewBox={`0 0 ${CANVAS_W} ${CANVAS_H}`}>
-            {/* Board background */}
-            <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="#020b04" />
-            {/* Subtle grid texture on background */}
+            {/* Defs */}
             <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(34,197,94,0.04)" strokeWidth="0.5" />
+              <pattern id="roughGrass" width="10" height="10" patternUnits="userSpaceOnUse">
+                <circle cx="2.5" cy="2.5" r="1.3" fill="rgba(52,211,153,0.09)" />
+                <circle cx="7.5" cy="7.5" r="0.9" fill="rgba(52,211,153,0.06)" />
               </pattern>
+              <radialGradient id="waterGrad" cx="40%" cy="38%" r="65%">
+                <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#075985" stopOpacity="0.95" />
+              </radialGradient>
+              <filter id="sqShadow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="1.5" stdDeviation="2.5" floodColor="rgba(0,0,0,0.45)" />
+              </filter>
             </defs>
-            <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="url(#grid)" />
 
-            {/* Course sections — separate polylines create visible Y-fork */}
+            {/* Background rough */}
+            <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="#0b2612" />
+            <rect x="0" y="0" width={CANVAS_W} height={CANVAS_H} fill="url(#roughGrass)" />
+
+            {/* Fairway — shadow base */}
             {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
-              <polyline key={`c${key}`}
+              <polyline key={`fs${key}`}
                 points={pts.map(p => `${p.x},${p.y}`).join(' ')}
-                fill="none" stroke="#14532d"
+                fill="none" stroke="rgba(0,0,0,0.35)"
+                strokeWidth={TRACK_STROKE_WIDTH + 6} strokeLinejoin="round" strokeLinecap="round"
+              />
+            ))}
+            {/* Fairway — green fill */}
+            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
+              <polyline key={`f${key}`}
+                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
+                fill="none" stroke="#166534"
                 strokeWidth={TRACK_STROKE_WIDTH} strokeLinejoin="round" strokeLinecap="round"
               />
             ))}
-            {/* Turf highlight */}
+            {/* Fairway — lighter inner tone */}
             {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
-              <polyline key={`h${key}`}
+              <polyline key={`fl${key}`}
+                points={pts.map(p => `${p.x},${p.y}`).join(' ')}
+                fill="none" stroke="#1a7a3d"
+                strokeWidth={TRACK_STROKE_WIDTH - 16} strokeLinejoin="round" strokeLinecap="round"
+              />
+            ))}
+            {/* Fairway — centre highlight stripe */}
+            {Object.entries(TRACK_SECTIONS).map(([key, pts]) => (
+              <polyline key={`fh${key}`}
                 points={pts.map(p => `${p.x},${p.y}`).join(' ')}
                 fill="none" stroke="#4ade80"
-                strokeWidth={TRACK_STROKE_WIDTH - 16} strokeLinejoin="round" strokeLinecap="round"
-                opacity="0.09"
+                strokeWidth="4" strokeLinejoin="round" strokeLinecap="round"
+                opacity="0.14"
               />
             ))}
 
+            {/* Trees in rough */}
+            {([
+              [50, 150], [50, 360],
+              [120, 418], [220, 422], [310, 420],
+              [660, 420], [770, 416], [875, 405],
+              [185, 22], [265, 18], [355, 20],
+            ] as [number, number][]).map(([tx, ty], i) => (
+              <g key={`tree${i}`}>
+                <rect x={tx - 2} y={ty + 6} width={4} height={6} fill="#713f12" rx={1} />
+                <polygon points={`${tx},${ty - 16} ${tx - 9},${ty + 7} ${tx + 9},${ty + 7}`} fill="#14532d" />
+                <polygon points={`${tx},${ty - 9} ${tx - 6},${ty + 4} ${tx + 6},${ty + 4}`} fill="#4ade80" opacity="0.40" />
+              </g>
+            ))}
 
-            {/* Water hazard between the two branches */}
-            <ellipse cx={560} cy={253} rx={138} ry={54} fill="#0c4a6e" opacity="0.90" />
-            <ellipse cx={560} cy={253} rx={118} ry={38} fill="#0ea5e9" opacity="0.30" />
-            <ellipse cx={560} cy={253} rx={95}  ry={24} fill="#38bdf8" opacity="0.10" />
-            <text x={560} y={257} textAnchor="middle" fill="#7dd3fc" fontSize="10" fontWeight="600" opacity="0.65" letterSpacing="2">WATER HAZARD</text>
+            {/* Sand bunkers */}
+            <ellipse cx={148} cy={418} rx={54} ry={22} fill="#92400e" opacity="0.65" />
+            <ellipse cx={148} cy={418} rx={40} ry={16} fill="#d97706" opacity="0.48" />
+            <ellipse cx={848} cy={418} rx={54} ry={22} fill="#92400e" opacity="0.65" />
+            <ellipse cx={848} cy={418} rx={40} ry={16} fill="#d97706" opacity="0.48" />
 
-            {/* Sand bunkers at corners */}
-            <ellipse cx={175} cy={415} rx={58} ry={26} fill="#78350f" opacity="0.70" />
-            <ellipse cx={175} cy={415} rx={42} ry={18} fill="#d97706" opacity="0.50" />
-            <ellipse cx={845} cy={415} rx={58} ry={26} fill="#78350f" opacity="0.70" />
-            <ellipse cx={845} cy={415} rx={42} ry={18} fill="#d97706" opacity="0.50" />
+            {/* Water hazard */}
+            <ellipse cx={560} cy={253} rx={142} ry={56} fill="url(#waterGrad)" />
+            <ellipse cx={548} cy={248} rx={96} ry={34} fill="#38bdf8" opacity="0.18" />
+            <ellipse cx={572} cy={258} rx={66} ry={22} fill="#7dd3fc" opacity="0.10" />
+            <ellipse cx={560} cy={253} rx={116} ry={44} fill="none" stroke="#38bdf8" strokeWidth="0.8" opacity="0.22" />
+            <ellipse cx={560} cy={253} rx={86} ry={32} fill="none" stroke="#38bdf8" strokeWidth="0.8" opacity="0.18" />
+            <text x={560} y={258} textAnchor="middle" fill="#7dd3fc" fontSize="9" fontWeight="700" opacity="0.55" letterSpacing="2">WATER</text>
 
+            {/* Windmill */}
+            <rect x={488} y={232} width={4} height={26} fill="#92400e" rx={2} />
+            <line x1={472} y1={238} x2={508} y2={258} stroke="#d97706" strokeWidth="3.5" strokeLinecap="round" />
+            <line x1={508} y1={238} x2={472} y2={258} stroke="#d97706" strokeWidth="3.5" strokeLinecap="round" />
+            <circle cx={490} cy={248} r={5} fill="#fbbf24" />
+            <circle cx={490} cy={248} r={2.5} fill="#78350f" />
 
-            {/* Square markers — small circles embedded in the course */}
+            {/* Zone tiles */}
             {boardSquares.map(sq => {
               const cfg = SQUARE_CONFIG[sq.type];
               const hidden = !sq.revealed;
               const isLanding = landingSquareIndex === sq.index;
               const color = hidden ? '#334155' : cfg.color;
-              const r = sq.type === 'start' ? 20 : (isLanding ? 18 : 16);
 
               if (sq.type === 'finish') {
                 return (
                   <g key={sq.index}>
-                    {isLanding && <circle cx={sq.x} cy={sq.y} r={32} fill="#f59e0b" opacity="0.20" />}
-                    <line x1={sq.x} y1={sq.y - 24} x2={sq.x} y2={sq.y + 12}
+                    {isLanding && <circle cx={sq.x} cy={sq.y} r={32} fill="#f59e0b" opacity="0.22" />}
+                    <line x1={sq.x} y1={sq.y - 28} x2={sq.x} y2={sq.y + 10}
                       stroke="#fbbf24" strokeWidth="2.5" strokeLinecap="round" />
-                    <polygon points={`${sq.x},${sq.y - 24} ${sq.x + 17},${sq.y - 16} ${sq.x},${sq.y - 8}`}
-                      fill="#fbbf24" />
-                    <circle cx={sq.x} cy={sq.y + 12} r={5} fill="#fbbf24" opacity="0.55" />
+                    <polygon points={`${sq.x},${sq.y - 28} ${sq.x + 18},${sq.y - 20} ${sq.x},${sq.y - 12}`}
+                      fill="#f59e0b" />
+                    <circle cx={sq.x} cy={sq.y + 10} r={5} fill="#050a05" />
+                    <circle cx={sq.x} cy={sq.y + 10} r={5} fill="none" stroke="rgba(251,191,36,0.40)" strokeWidth="1.5" />
                   </g>
                 );
               }
 
+              if (sq.type === 'start') {
+                return (
+                  <g key={sq.index}>
+                    {isLanding && <circle cx={sq.x} cy={sq.y} r={30} fill="#10b981" opacity="0.22" />}
+                    <circle cx={sq.x} cy={sq.y} r={21} fill="#065f46" stroke="#34d399" strokeWidth="2" />
+                    <text x={sq.x} y={sq.y + 4} textAnchor="middle" fill="#34d399" fontSize="7.5" fontWeight="900" letterSpacing="0.5">START</text>
+                  </g>
+                );
+              }
+
+              const tw = 42, th = 28;
               return (
                 <g key={sq.index}>
                   {isLanding && (
-                    <circle cx={sq.x} cy={sq.y} r={30} fill={color} opacity="0.22" />
+                    <rect
+                      x={sq.x - tw / 2 - 7} y={sq.y - th / 2 - 7}
+                      width={tw + 14} height={th + 14} rx={13}
+                      fill={color} opacity="0.24"
+                    />
                   )}
-                  <circle
-                    cx={sq.x} cy={sq.y} r={r}
-                    fill={color + (isLanding ? 'ff' : 'cc')}
-                    stroke={isLanding ? '#fff' : color}
-                    strokeWidth={isLanding ? 2.5 : 1.5}
+                  <rect
+                    x={sq.x - tw / 2} y={sq.y - th / 2} width={tw} height={th} rx={9}
+                    fill={color + (isLanding ? 'ff' : 'd0')}
+                    stroke={isLanding ? '#ffffff' : color + '55'}
+                    strokeWidth={isLanding ? 2 : 1}
+                    filter={isLanding ? 'url(#sqShadow)' : undefined}
                   />
-                  <text x={sq.x} y={sq.y - 22} textAnchor="middle"
-                    fill="rgba(255,255,255,0.30)" fontSize="8" fontWeight="700">
+                  <text x={sq.x + tw / 2 - 5} y={sq.y - th / 2 + 8} textAnchor="middle"
+                    fill="rgba(255,255,255,0.40)" fontSize="6" fontWeight="700">
                     {sq.index}
                   </text>
-                  <text x={sq.x} y={sq.y + 4} textAnchor="middle"
-                    fill="white" fontSize={sq.type === 'question-boost' ? '7' : '8'} fontWeight="800">
+                  <text x={sq.x} y={sq.y + 5} textAnchor="middle" fill="white"
+                    fontSize={sq.type === 'question-boost' ? '7' : '8.5'} fontWeight="800">
                     {hidden ? '?' : cfg.label}
                   </text>
                 </g>
@@ -830,7 +893,7 @@ export function ZoneBoardGame({
             );
           })}
 
-          {/* Puck */}
+          {/* Golf ball */}
           {puckVisible && (
             <div
               ref={puckDomRef}
@@ -840,9 +903,9 @@ export function ZoneBoardGame({
                 height: PUCK_R * 2,
                 background: puckFellInHole
                   ? '#030712'
-                  : 'radial-gradient(circle at 35% 35%, #e0f2fe, #0284c7)',
-                border: '2px solid #bae6fd',
-                boxShadow: puckFellInHole ? 'none' : '0 0 16px #38bdf880',
+                  : 'radial-gradient(circle at 38% 32%, #ffffff, #c8cdd4)',
+                border: `1px solid ${puckFellInHole ? 'transparent' : 'rgba(0,0,0,0.30)'}`,
+                boxShadow: puckFellInHole ? 'none' : '0 2px 10px rgba(0,0,0,0.70), 0 0 4px rgba(255,255,255,0.30)',
                 transition: puckFellInHole ? 'all 0.5s ease-in' : undefined,
                 zIndex: 30,
               }}
