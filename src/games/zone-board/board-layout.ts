@@ -40,29 +40,20 @@ const squares: BoardSquare[] = rawSquares.map(s => ({
   revealed: s.type !== 'boost' && s.type !== 'trap' && s.type !== 'double' && s.type !== 'steal',
 }));
 
-const walls: Wall[] = [];
-
-// Four physics bumpers in the rough between track rows. Index 2 is the windmill obstacle.
+// Physics bumpers placed ON the course between squares.
+// Index 2 is the windmill — rendered differently, same collision shape.
 export const BUMPERS: Bumper[] = [
-  { cx: 545, cy: 348, r: 17 },  // bottom rough, center-right
-  { cx: 195, cy: 345, r: 17 },  // bottom rough, center-left
-  { cx: 720, cy: 190, r: 22 },  // windmill (between middle + top rows, right side)
-  { cx: 375, cy: 186, r: 17 },  // between middle + top rows, left side
+  { cx: 262, cy: 443, r: 13 },  // bottom row, between sq1–sq2
+  { cx: 640, cy: 429, r: 13 },  // bottom row, between sq4–sq5
+  { cx: 736, cy: 256, r: 18 },  // WINDMILL — middle row, in front of FREEZE (sq9)
+  { cx: 442, cy: 244, r: 13 },  // middle row, between sq11–sq12
+  { cx: 316, cy: 127, r: 13 },  // top row, between sq16–sq17
 ];
 
 const holes: HoleZone[] = [];
 
 export const CANVAS_W = 1000;
 export const CANVAS_H = 500;
-
-export const BOARD_LAYOUT: BoardLayout = {
-  width: CANVAS_W,
-  height: CANVAS_H,
-  squares,
-  walls,
-  bumpers: BUMPERS,
-  holes,
-};
 
 const HALF_WIDTH = 38;
 
@@ -77,6 +68,42 @@ export const TRACK_SECTIONS: Record<string, Pt[]> = {
 };
 
 export const TRACK_STROKE_WIDTH = HALF_WIDTH * 2;
+
+// Generate wall segment pairs (one each side) along a polyline
+function genWalls(pts: Pt[], hw: number): Wall[] {
+  const out: Wall[] = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i], b = pts[i + 1];
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const len = Math.hypot(dx, dy);
+    if (len < 1) continue;
+    const nx = (-dy / len) * hw, ny = (dx / len) * hw;
+    out.push({ x1: a.x + nx, y1: a.y + ny, x2: b.x + nx, y2: b.y + ny }); // left wall
+    out.push({ x1: a.x - nx, y1: a.y - ny, x2: b.x - nx, y2: b.y - ny }); // right wall
+  }
+  return out;
+}
+
+const WALL_HW = HALF_WIDTH + 3; // slightly wider than visual track
+
+export const COURSE_WALLS: Wall[] = [
+  ...genWalls(TRACK_SECTIONS.bottom, WALL_HW),
+  ...genWalls(TRACK_SECTIONS.right,  WALL_HW),
+  ...genWalls(TRACK_SECTIONS.middle, WALL_HW),
+  ...genWalls(TRACK_SECTIONS.left,   WALL_HW),
+  ...genWalls(TRACK_SECTIONS.top,    WALL_HW),
+];
+
+const walls: Wall[] = [];
+
+export const BOARD_LAYOUT: BoardLayout = {
+  width: CANVAS_W,
+  height: CANVAS_H,
+  squares,
+  walls,
+  bumpers: BUMPERS,
+  holes,
+};
 
 export const SQUARE_CONFIG: Record<string, { color: string; label: string }> = {
   start:            { color: '#10b981', label: 'START'  },

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { GameProps, GameRemoteVote } from '../types';
-import { BOARD_LAYOUT, BUMPERS, CANVAS_W, CANVAS_H, TRACK_SECTIONS, TRACK_STROKE_WIDTH, SQUARE_CONFIG } from './board-layout';
+import { BOARD_LAYOUT, BUMPERS, COURSE_WALLS, CANVAS_W, CANVAS_H, TRACK_SECTIONS, TRACK_STROKE_WIDTH, SQUARE_CONFIG } from './board-layout';
 import type { TeamState, GamePhase, ActiveQuestion, BoardSquare } from './types';
 import { getEffectiveTopic, useSessionStore } from '@/stores/session-store';
 import { createClient } from '@/lib/supabase/client';
@@ -16,6 +16,7 @@ const MAX_SPEED    = 14;    // px per frame at 60fps
 const FRICTION     = 0.985; // velocity multiplier per frame
 const BOUNCE_DAMP  = 0.72;  // energy retained on collision
 const STOP_SPEED   = 0.65;  // px/frame below which puck is considered stopped
+const WALL_BOUNCE  = 0.60;  // energy retained on wall collision (less bouncy than bumpers)
 const MAX_PHYS_MS  = 8000;  // hard cutoff
 
 const LANDING_THRESHOLD = 80; // max px from nearest square to count as a landing
@@ -554,6 +555,27 @@ export function ZoneBoardGame({
         }
       }
 
+      // Wall collisions — each wall is a line segment; reflect velocity off the nearest point
+      for (const w of COURSE_WALLS) {
+        const wdx = w.x2 - w.x1, wdy = w.y2 - w.y1;
+        const wlen2 = wdx * wdx + wdy * wdy;
+        if (wlen2 < 0.01) continue;
+        const t = Math.max(0, Math.min(1, ((px - w.x1) * wdx + (py - w.y1) * wdy) / wlen2));
+        const cpx = w.x1 + t * wdx, cpy = w.y1 + t * wdy;
+        const wnx = px - cpx, wny = py - cpy;
+        const wd = Math.hypot(wnx, wny);
+        if (wd < PUCK_R && wd > 0.01) {
+          const nx = wnx / wd, ny = wny / wd;
+          const dot = vx * nx + vy * ny;
+          if (dot < 0) {
+            vx = (vx - 2 * dot * nx) * WALL_BOUNCE;
+            vy = (vy - 2 * dot * ny) * WALL_BOUNCE;
+          }
+          px = cpx + nx * (PUCK_R + 0.5);
+          py = cpy + ny * (PUCK_R + 0.5);
+        }
+      }
+
       if (puckDomRef.current) {
         puckDomRef.current.style.transform = `translate(${px - PUCK_R}px, ${py - PUCK_R}px)`;
       }
@@ -825,42 +847,38 @@ export function ZoneBoardGame({
             <ellipse cx={242} cy={187} rx={44} ry={18} fill="#78350f" opacity="0.65" />
             <ellipse cx={242} cy={187} rx={31} ry={12} fill="#d97706" opacity="0.45" />
 
-            {/* ── Bumpers (regular red balls — indices 0, 1, 3) ── */}
+            {/* ── On-course bumpers (red cylinders) and windmill ── */}
             {BUMPERS.map((b, i) => {
-              if (i === 2) return null; // windmill rendered below
+              if (i === 2) {
+                // Windmill obstacle — spins, on course in front of FREEZE
+                return (
+                  <g key="windmill">
+                    <circle cx={b.cx} cy={b.cy} r={b.r + 8} fill="none" stroke="#22d3ee" strokeWidth="1" opacity="0.22" />
+                    <g ref={windmillRef}>
+                      {[0, 60, 120, 180, 240, 300].map(d => {
+                        const rad = d * Math.PI / 180;
+                        return (
+                          <line key={d}
+                            x1={b.cx} y1={b.cy}
+                            x2={b.cx + Math.cos(rad) * (b.r + 5)}
+                            y2={b.cy + Math.sin(rad) * (b.r + 5)}
+                            stroke="#22d3ee" strokeWidth="3.5" strokeLinecap="round" opacity="0.92"
+                          />
+                        );
+                      })}
+                      <circle cx={b.cx} cy={b.cy} r={5} fill="#06b6d4" stroke="#a5f3fc" strokeWidth="1.5" />
+                    </g>
+                  </g>
+                );
+              }
               return (
                 <g key={`bump${i}`} filter="url(#bumpGlow)">
-                  <circle cx={b.cx} cy={b.cy} r={b.r + 6} fill="#ef4444" opacity="0.18" />
+                  <circle cx={b.cx} cy={b.cy} r={b.r + 5} fill="#ef4444" opacity="0.18" />
                   <circle cx={b.cx} cy={b.cy} r={b.r} fill="#dc2626" stroke="#f87171" strokeWidth="2.5" />
                   <circle cx={b.cx - b.r * 0.28} cy={b.cy - b.r * 0.28} r={b.r * 0.28} fill="white" opacity="0.22" />
                 </g>
               );
             })}
-
-            {/* ── Windmill obstacle (bumper index 2) ── */}
-            {(() => {
-              const wm = BUMPERS[2];
-              return (
-                <g>
-                  <circle cx={wm.cx} cy={wm.cy} r={wm.r + 10} fill="none" stroke="#22d3ee" strokeWidth="1" opacity="0.18" />
-                  <g ref={windmillRef}>
-                    {[0, 60, 120, 180, 240, 300].map(d => {
-                      const rad = d * Math.PI / 180;
-                      return (
-                        <line key={d}
-                          x1={wm.cx} y1={wm.cy}
-                          x2={wm.cx + Math.cos(rad) * (wm.r + 6)}
-                          y2={wm.cy + Math.sin(rad) * (wm.r + 6)}
-                          stroke="#22d3ee" strokeWidth="3.5" strokeLinecap="round" opacity="0.90"
-                        />
-                      );
-                    })}
-                    <circle cx={wm.cx} cy={wm.cy} r={6} fill="#06b6d4" stroke="#a5f3fc" strokeWidth="1.5" />
-                  </g>
-                  <text x={wm.cx} y={wm.cy + wm.r + 14} textAnchor="middle" fill="#22d3ee" fontSize="8" fontWeight="700" opacity="0.70">WINDMILL</text>
-                </g>
-              );
-            })()}
 
             {/* ── Square labels ── */}
             {boardSquares.map(sq => {
