@@ -1,6 +1,11 @@
 import type { Student } from '@/lib/supabase/types';
 
-export type SquareType = 'start' | 'finish' | 'question' | 'safe' | 'boost' | 'trap' | 'question-boost' | 'freeze' | 'hole';
+export type SquareType =
+  | 'start' | 'finish'
+  | 'question' | 'safe'
+  | 'boost' | 'trap'
+  | 'question-boost' | 'freeze' | 'hole'
+  | 'double' | 'steal' | 'shortcut' | 'bounce';
 
 export type GamePhase =
   | 'idle'
@@ -26,6 +31,12 @@ export interface Wall {
   y2: number;
 }
 
+export interface Bumper {
+  cx: number;
+  cy: number;
+  r: number;
+}
+
 export interface HoleZone {
   x: number;
   y: number;
@@ -37,6 +48,7 @@ export interface BoardLayout {
   height: number;
   squares: BoardSquare[];
   walls: Wall[];
+  bumpers: Bumper[];
   holes: HoleZone[];
 }
 

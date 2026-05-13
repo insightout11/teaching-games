@@ -1,87 +1,95 @@
-import type { BoardLayout, BoardSquare, Wall, HoleZone } from './types';
+import type { BoardLayout, BoardSquare, Wall, HoleZone, Bumper } from './types';
 
-// "The Gauntlet" — diagonal start, high/low fork, winding end sweep
-// Upper branch (sq4-7): cuts high through tight quarters — risky shortcut
-// Lower branch (sq8-11): stays low, longer but safer route
+// Winding snake course: bottom (left→right) → right connector (up) → middle (right→left) → left connector (up) → top (left→right) → finish
 const rawSquares: Omit<BoardSquare, 'revealed'>[] = [
-  // Shared start — diagonal from bottom-left going upper-right
-  { index: 0,  x:  65, y: 400, type: 'start' },
-  { index: 1,  x: 182, y: 362, type: 'question' },
-  { index: 2,  x: 298, y: 315, type: 'safe' },
-  { index: 3,  x: 400, y: 258, type: 'question' },   // ← fork point
+  // Bottom row — left to right
+  { index: 0,  x:  75, y: 455, type: 'start'         },
+  { index: 1,  x: 200, y: 448, type: 'safe'           },
+  { index: 2,  x: 325, y: 440, type: 'question'       },
+  { index: 3,  x: 450, y: 435, type: 'bounce'         },
+  { index: 4,  x: 575, y: 432, type: 'trap'           },
+  { index: 5,  x: 695, y: 428, type: 'safe'           },
 
-  // Upper branch — cuts sharply upward (riskier, shorter)
-  { index: 4,  x: 455, y: 182, type: 'question-boost' },
-  { index: 5,  x: 572, y: 148, type: 'safe' },
-  { index: 6,  x: 695, y: 155, type: 'question' },
-  { index: 7,  x: 802, y: 180, type: 'boost' },       // hidden
+  // Right connector — going up
+  { index: 6,  x: 800, y: 382, type: 'shortcut'       },
+  { index: 7,  x: 842, y: 313, type: 'safe'           },
 
-  // Lower branch — stays lower (safer, longer route)
-  { index: 8,  x: 448, y: 332, type: 'question' },
-  { index: 9,  x: 572, y: 358, type: 'freeze' },
-  { index: 10, x: 695, y: 342, type: 'question' },
-  { index: 11, x: 805, y: 298, type: 'trap' },        // hidden
+  // Middle row — right to left
+  { index: 8,  x: 800, y: 260, type: 'question'       },
+  { index: 9,  x: 672, y: 252, type: 'freeze'         },
+  { index: 10, x: 548, y: 245, type: 'boost'          },
+  { index: 11, x: 424, y: 245, type: 'question'       },
+  { index: 12, x: 300, y: 248, type: 'question-boost' },
+  { index: 13, x: 176, y: 255, type: 'double'         },
 
-  // Merge point
-  { index: 12, x: 872, y: 238, type: 'safe' },
+  // Left connector — going up
+  { index: 14, x:  98, y: 202, type: 'steal'          },
 
-  // End section — sweeps right, curves up and back left across the top
-  { index: 13, x: 935, y: 196, type: 'question' },
-  { index: 14, x: 972, y: 145, type: 'question-boost' },
-  { index: 15, x: 960, y:  94, type: 'safe' },
-  { index: 16, x: 914, y:  60, type: 'question' },
-  { index: 17, x: 845, y:  65, type: 'boost' },       // hidden
-  { index: 18, x: 768, y:  72, type: 'question' },
-  { index: 19, x: 686, y:  63, type: 'safe' },
-  { index: 20, x: 602, y:  75, type: 'question' },
-  { index: 21, x: 515, y:  82, type: 'trap' },        // hidden
-  { index: 22, x: 430, y:  90, type: 'question' },
-  { index: 23, x: 342, y:  96, type: 'safe' },
-  { index: 24, x: 258, y: 102, type: 'finish' },
+  // Top row — left to right
+  { index: 15, x: 128, y: 145, type: 'safe'           },
+  { index: 16, x: 252, y: 132, type: 'question'       },
+  { index: 17, x: 378, y: 125, type: 'trap'           },
+  { index: 18, x: 504, y: 122, type: 'question'       },
+  { index: 19, x: 630, y: 120, type: 'boost'          },
+  { index: 20, x: 756, y: 122, type: 'safe'           },
+  { index: 21, x: 880, y: 105, type: 'finish'         },
 ];
 
 const squares: BoardSquare[] = rawSquares.map(s => ({
   ...s,
-  revealed: s.type !== 'boost' && s.type !== 'trap',
+  revealed: s.type !== 'boost' && s.type !== 'trap' && s.type !== 'double' && s.type !== 'steal',
 }));
 
 const walls: Wall[] = [];
+
+// Four physics bumpers in the rough between track rows. Index 2 is the windmill obstacle.
+export const BUMPERS: Bumper[] = [
+  { cx: 545, cy: 348, r: 17 },  // bottom rough, center-right
+  { cx: 195, cy: 345, r: 17 },  // bottom rough, center-left
+  { cx: 720, cy: 190, r: 22 },  // windmill (between middle + top rows, right side)
+  { cx: 375, cy: 186, r: 17 },  // between middle + top rows, left side
+];
+
 const holes: HoleZone[] = [];
 
 export const CANVAS_W = 1000;
-export const CANVAS_H = 460;
+export const CANVAS_H = 500;
 
 export const BOARD_LAYOUT: BoardLayout = {
   width: CANVAS_W,
   height: CANVAS_H,
   squares,
   walls,
+  bumpers: BUMPERS,
   holes,
 };
 
-const HALF_WIDTH = 40;
+const HALF_WIDTH = 38;
 
 type Pt = { x: number; y: number };
 const sq = rawSquares;
 export const TRACK_SECTIONS: Record<string, Pt[]> = {
-  start:       [sq[0], sq[1], sq[2], sq[3]],
-  upper:       [sq[3], sq[4], sq[5], sq[6], sq[7]],
-  lower:       [sq[3], sq[8], sq[9], sq[10], sq[11]],
-  upper_exit:  [sq[7], sq[12]],
-  lower_exit:  [sq[11], sq[12]],
-  end:         [sq[12], sq[13], sq[14], sq[15], sq[16], sq[17], sq[18], sq[19], sq[20], sq[21], sq[22], sq[23], sq[24]],
+  bottom: [sq[0], sq[1], sq[2], sq[3], sq[4], sq[5]],
+  right:  [sq[5], sq[6], sq[7]],
+  middle: [sq[7], sq[8], sq[9], sq[10], sq[11], sq[12], sq[13]],
+  left:   [sq[13], sq[14], sq[15]],
+  top:    [sq[15], sq[16], sq[17], sq[18], sq[19], sq[20], sq[21]],
 };
 
 export const TRACK_STROKE_WIDTH = HALF_WIDTH * 2;
 
 export const SQUARE_CONFIG: Record<string, { color: string; label: string }> = {
-  start:            { color: '#10b981', label: 'START'   },
-  finish:           { color: '#f59e0b', label: 'FINISH'  },
-  question:         { color: '#3b82f6', label: 'Q?'      },
-  safe:             { color: '#64748b', label: 'SAFE'    },
-  boost:            { color: '#f59e0b', label: 'BOOST'   },
-  trap:             { color: '#ef4444', label: 'TRAP'    },
-  'question-boost': { color: '#a855f7', label: 'Q+B'     },
-  freeze:           { color: '#06b6d4', label: 'FREEZE'  },
-  hole:             { color: '#ef4444', label: 'HOLE'    },
+  start:            { color: '#10b981', label: 'START'  },
+  finish:           { color: '#f59e0b', label: 'HOLE'   },
+  question:         { color: '#60a5fa', label: 'Q?'     },
+  safe:             { color: '#4ade80', label: 'SAFE'   },
+  boost:            { color: '#fbbf24', label: 'BONUS'  },
+  trap:             { color: '#f87171', label: 'TRAP'   },
+  'question-boost': { color: '#c084fc', label: 'Q+B'    },
+  freeze:           { color: '#22d3ee', label: 'FREEZE' },
+  double:           { color: '#a78bfa', label: '2X'     },
+  steal:            { color: '#818cf8', label: 'STEAL'  },
+  shortcut:         { color: '#fb923c', label: 'SKIP+'  },
+  bounce:           { color: '#fcd34d', label: 'BNCE'   },
+  hole:             { color: '#ef4444', label: 'HOLE'   },
 };
