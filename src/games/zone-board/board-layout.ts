@@ -1,42 +1,43 @@
 import type { BoardLayout, BoardSquare, Wall, HoleZone } from './types';
 
-// Mini-golf style course: shared start → Y-fork → upper or lower branch → merge → curved end → finish
-// Upper branch: y≈158 (bonus risk). Lower branch: y≈348 (safer). Water hazard in the gap between.
+// "The Gauntlet" — diagonal start, high/low fork, winding end sweep
+// Upper branch (sq4-7): cuts high through tight quarters — risky shortcut
+// Lower branch (sq8-11): stays low, longer but safer route
 const rawSquares: Omit<BoardSquare, 'revealed'>[] = [
-  // Shared start — left side, going right
-  { index: 0,  x:  80, y: 240, type: 'start' },
-  { index: 1,  x: 175, y: 235, type: 'question' },
-  { index: 2,  x: 268, y: 230, type: 'safe' },
-  { index: 3,  x: 355, y: 227, type: 'question' },   // ← fork point
+  // Shared start — diagonal from bottom-left going upper-right
+  { index: 0,  x:  65, y: 400, type: 'start' },
+  { index: 1,  x: 182, y: 362, type: 'question' },
+  { index: 2,  x: 298, y: 315, type: 'safe' },
+  { index: 3,  x: 400, y: 258, type: 'question' },   // ← fork point
 
-  // Upper branch — elevated corridor
-  { index: 4,  x: 415, y: 165, type: 'question-boost' },
-  { index: 5,  x: 510, y: 152, type: 'safe' },
-  { index: 6,  x: 608, y: 150, type: 'question' },
-  { index: 7,  x: 705, y: 160, type: 'boost' },       // hidden
+  // Upper branch — cuts sharply upward (riskier, shorter)
+  { index: 4,  x: 455, y: 182, type: 'question-boost' },
+  { index: 5,  x: 572, y: 148, type: 'safe' },
+  { index: 6,  x: 695, y: 155, type: 'question' },
+  { index: 7,  x: 802, y: 180, type: 'boost' },       // hidden
 
-  // Lower branch — lower corridor
-  { index: 8,  x: 415, y: 338, type: 'question' },
-  { index: 9,  x: 510, y: 352, type: 'freeze' },
-  { index: 10, x: 608, y: 355, type: 'question' },
-  { index: 11, x: 705, y: 342, type: 'trap' },        // hidden
+  // Lower branch — stays lower (safer, longer route)
+  { index: 8,  x: 448, y: 332, type: 'question' },
+  { index: 9,  x: 572, y: 358, type: 'freeze' },
+  { index: 10, x: 695, y: 342, type: 'question' },
+  { index: 11, x: 805, y: 298, type: 'trap' },        // hidden
 
   // Merge point
-  { index: 12, x: 798, y: 240, type: 'safe' },        // ← merge
+  { index: 12, x: 872, y: 238, type: 'safe' },
 
-  // Shared end — sweeps right then curves up across the top → finish
-  { index: 13, x: 875, y: 222, type: 'question' },
-  { index: 14, x: 935, y: 195, type: 'question-boost' },
-  { index: 15, x: 960, y: 145, type: 'safe' },
-  { index: 16, x: 942, y:  92, type: 'question' },
-  { index: 17, x: 882, y:  58, type: 'boost' },       // hidden
-  { index: 18, x: 808, y:  48, type: 'question' },
-  { index: 19, x: 728, y:  55, type: 'safe' },
-  { index: 20, x: 645, y:  64, type: 'question' },
-  { index: 21, x: 558, y:  72, type: 'trap' },        // hidden
-  { index: 22, x: 468, y:  78, type: 'question' },
-  { index: 23, x: 382, y:  82, type: 'safe' },
-  { index: 24, x: 295, y:  80, type: 'finish' },
+  // End section — sweeps right, curves up and back left across the top
+  { index: 13, x: 935, y: 196, type: 'question' },
+  { index: 14, x: 972, y: 145, type: 'question-boost' },
+  { index: 15, x: 960, y:  94, type: 'safe' },
+  { index: 16, x: 914, y:  60, type: 'question' },
+  { index: 17, x: 845, y:  65, type: 'boost' },       // hidden
+  { index: 18, x: 768, y:  72, type: 'question' },
+  { index: 19, x: 686, y:  63, type: 'safe' },
+  { index: 20, x: 602, y:  75, type: 'question' },
+  { index: 21, x: 515, y:  82, type: 'trap' },        // hidden
+  { index: 22, x: 430, y:  90, type: 'question' },
+  { index: 23, x: 342, y:  96, type: 'safe' },
+  { index: 24, x: 258, y: 102, type: 'finish' },
 ];
 
 const squares: BoardSquare[] = rawSquares.map(s => ({
@@ -44,7 +45,6 @@ const squares: BoardSquare[] = rawSquares.map(s => ({
   revealed: s.type !== 'boost' && s.type !== 'trap',
 }));
 
-// No physics walls — puck uses path-based movement (walls caused phantom collisions)
 const walls: Wall[] = [];
 const holes: HoleZone[] = [];
 
@@ -59,9 +59,8 @@ export const BOARD_LAYOUT: BoardLayout = {
   holes,
 };
 
-const HALF_WIDTH = 38;
+const HALF_WIDTH = 40;
 
-// Track section point arrays for multi-polyline rendering (creates visible fork shape)
 type Pt = { x: number; y: number };
 const sq = rawSquares;
 export const TRACK_SECTIONS: Record<string, Pt[]> = {
