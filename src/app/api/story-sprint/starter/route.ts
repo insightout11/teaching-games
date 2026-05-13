@@ -26,6 +26,9 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireAuth();
+  if (authError) return authError;
+
   const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
     topic: string;
     difficulty: Difficulty;
