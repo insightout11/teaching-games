@@ -39,6 +39,10 @@ import type {
   ImposterRound,
   PasswordContent,
   PasswordRound,
+  BluffDefinitionContent,
+  BluffDefinitionRound,
+  TabooSprintContent,
+  TabooRound,
   GrammarCheckInContent,
   GrammarProofContent,
   FinalWordContent,
@@ -1772,6 +1776,120 @@ Return JSON: { "rounds": [{ "word": string, "description": string }] } — exact
   }
 }
 
+async function generateBluffDefinition(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<BluffDefinitionContent> {
+  const cached = skipCache ? null : await getCachedContent('bluff-definition', topic, difficulty, [], undefined, 1);
+  if (cached) {
+    const c = cached.content_json as { rounds: BluffDefinitionRound[] };
+    return { activityKey: 'bluff-definition', topicContext: topic, rounds: c.rounds ?? [], topic };
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      rounds: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            word: { type: 'string' },
+            correctDefinition: { type: 'string' },
+          },
+          required: ['word', 'correctDefinition'],
+        },
+      },
+    },
+    required: ['rounds'],
+  };
+
+  const prompt = `Generate 3 words for an ESL classroom Bluff Definition (Balderdash-style) game on the topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
+Rules:
+- Each word must be a single noun or adjective that students may recognise but not know precisely
+- The word should be interesting enough that students can write a plausible-sounding fake definition (not too obscure, not too obvious)
+- correctDefinition: one clear sentence (max 20 words) that defines the word — this is revealed after voting
+- The definition must be factual and specific enough that a teacher can confirm it
+- Words must be distinct from each other and directly related to the topic
+- Avoid words with obviously guessable definitions (e.g. "transport" for a travel topic)
+
+Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "correctDefinition".`;
+
+  try {
+    const data = await generateJSON<{ rounds: BluffDefinitionRound[] }>(prompt, schema);
+    const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
+    if (!skipCache) void storeCachedContent('bluff-definition', topic, difficulty, { rounds }, 1);
+    return { activityKey: 'bluff-definition', topicContext: topic, rounds, topic };
+  } catch {
+    const fallback: BluffDefinitionRound[] = [
+      { word: 'lexicon', correctDefinition: 'The vocabulary of a person, language, or branch of knowledge.' },
+      { word: 'syntax', correctDefinition: 'The set of rules governing how words are arranged to form sentences.' },
+      { word: 'nuance', correctDefinition: 'A subtle difference in meaning, expression, or tone.' },
+    ];
+    return { activityKey: 'bluff-definition', topicContext: topic, rounds: fallback, topic };
+  }
+}
+
+async function generateTabooSprint(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<TabooSprintContent> {
+  const cached = skipCache ? null : await getCachedContent('taboo-sprint', topic, difficulty, [], undefined, 1);
+  if (cached) {
+    const c = cached.content_json as { rounds: TabooRound[] };
+    return { activityKey: 'taboo-sprint', topicContext: topic, rounds: c.rounds ?? [], topic };
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      rounds: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            word: { type: 'string' },
+            description: { type: 'string' },
+            forbiddenWords: {
+              type: 'array',
+              items: { type: 'string' },
+            },
+          },
+          required: ['word', 'description', 'forbiddenWords'],
+        },
+      },
+    },
+    required: ['rounds'],
+  };
+
+  const prompt = `Generate 3 rounds for an ESL classroom Taboo Sprint game on the topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceContext}
+Rules:
+- Each round needs a secret word and exactly 4 forbidden words
+- The secret word must be natural to use in conversation about the topic (noun, verb, or adjective)
+- The 4 forbidden words must be thematically related to the secret word but NOT synonyms — they are the obvious words speakers would normally reach for
+  (e.g. for word="explore" forbidden=["discover", "travel", "find", "journey"])
+- Choosing forbidden words well forces speakers to find creative, less obvious angles
+- description: one sentence (max 20 words) defining the secret word — revealed after guessing
+- All 3 secret words must be different parts of speech or difficulty level
+
+Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWords": string[] }] } — exactly 3 rounds, each with exactly 4 forbidden words.`;
+
+  try {
+    const data = await generateJSON<{ rounds: TabooRound[] }>(prompt, schema);
+    const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3).map((r) => ({
+      ...r,
+      forbiddenWords: Array.isArray(r.forbiddenWords) ? r.forbiddenWords.slice(0, 4) : [],
+    })) : [];
+    if (!skipCache) void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 1);
+    return { activityKey: 'taboo-sprint', topicContext: topic, rounds, topic };
+  } catch {
+    const fallback: TabooRound[] = [
+      { word: 'communicate', description: 'To share information or ideas with others.', forbiddenWords: ['talk', 'speak', 'tell', 'say'] },
+      { word: 'strategy', description: 'A plan designed to achieve a long-term goal.', forbiddenWords: ['plan', 'method', 'approach', 'idea'] },
+      { word: 'inspire', description: 'To fill someone with the urge or ability to do something creative.', forbiddenWords: ['motivate', 'encourage', 'influence', 'push'] },
+    ];
+    return { activityKey: 'taboo-sprint', topicContext: topic, rounds: fallback, topic };
+  }
+}
+
 async function generateGrammarCheckIn(topic: string, difficulty: Difficulty, grammarTarget?: string, skipCache = false): Promise<GrammarCheckInContent> {
   const cacheVariant = grammarTarget ?? 'auto';
   const cached = skipCache ? null : await getCachedContent('grammar-check-in', topic, difficulty, [], cacheVariant, 1);
@@ -2278,6 +2396,12 @@ export async function POST(request: NextRequest) {
             break;
           case 'password':
             generators.push(generatePassword(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'bluff-definition':
+            generators.push(generateBluffDefinition(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'taboo-sprint':
+            generators.push(generateTabooSprint(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-check-in':
             generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget, skipCache).then((r) => { content[activityKey] = r; }));

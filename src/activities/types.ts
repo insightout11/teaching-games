@@ -610,6 +610,31 @@ export interface PasswordContent extends ActivityGeneratedContent {
   topic: string;
 }
 
+// Bluff Definition content
+export interface BluffDefinitionRound {
+  word: string;
+  correctDefinition: string;
+}
+
+export interface BluffDefinitionContent extends ActivityGeneratedContent {
+  activityKey: 'bluff-definition';
+  rounds: BluffDefinitionRound[];
+  topic: string;
+}
+
+// Taboo Sprint content
+export interface TabooRound {
+  word: string;
+  description: string;
+  forbiddenWords: string[];
+}
+
+export interface TabooSprintContent extends ActivityGeneratedContent {
+  activityKey: 'taboo-sprint';
+  rounds: TabooRound[];
+  topic: string;
+}
+
 // Grammar Check-In content
 export interface GrammarCheckInSentence {
   text: string;

@@ -23,6 +23,8 @@ import { opinionShiftPlugin } from './opinion-shift';
 import { characterCardsPlugin } from './character-cards';
 import { imposterPlugin } from './imposter';
 import { passwordPlugin } from './password';
+import { bluffDefinitionPlugin } from './bluff-definition';
+import { tabooSprintPlugin } from './taboo-sprint';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarProofPlugin } from './grammar-proof';
 import { finalWordPlugin } from './final-word';
@@ -39,6 +41,8 @@ const activities: ActivityPlugin[] = [
   characterCardsPlugin,
   imposterPlugin,
   passwordPlugin,
+  bluffDefinitionPlugin,
+  tabooSprintPlugin,
   grammarCheckInPlugin,
   quickPulsePlugin,
   wonderBoardPlugin,
