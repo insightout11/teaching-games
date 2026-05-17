@@ -678,12 +678,11 @@ export function ZoneBoardGame({
       const phase = phaseRef.current;
 
       if (phase === 'shooting' && vote.inputType === 'shuffleboard') {
-        const activeTeam = teamsRef.current[activeTeamIndexRef.current];
-        const shooter = activeTeam?.members[activeTeam.shooterIndex];
-        if (!shooter || vote.displayName !== shooter.name) return;
         try {
           const { power, angleRad } = JSON.parse(vote.choice) as { power: number; angleRad: number };
-          handleShot(power, angleRad);
+          if (typeof power === 'number' && typeof angleRad === 'number') {
+            handleShot(power, angleRad);
+          }
         } catch { /* ignore malformed */ }
         return;
       }

@@ -569,6 +569,34 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     avoidAfter: [],
     strongWith: ['character-cards', 'scenario-simulator'],
   },
+
+  {
+    key: 'bluff-definition',
+    slotFit: ['practice', 'production'],
+    goalFit: ['vocabulary-building', 'critical-thinking', 'creativity'],
+    levelFit: ['intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['submission', 'voting'],
+    speakingLoad: 'low',
+    writingLoad: 'high',
+    teacherControlLoad: 'medium',
+    avoidAfter: ['story-sprint', 'problem-solvers'],
+    strongWith: ['vocab-radar', 'vocab-sprint', 'connections'],
+  },
+
+  {
+    key: 'taboo-sprint',
+    slotFit: ['practice', 'production'],
+    goalFit: ['speaking-fluency', 'vocabulary-building', 'creativity', 'confidence-building'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'high',
+    interactionModel: ['role-based', 'performance'],
+    speakingLoad: 'high',
+    writingLoad: 'low',
+    teacherControlLoad: 'medium',
+    avoidAfter: ['expert-panel', 'conversation-rounds'],
+    strongWith: ['vocab-sprint', 'vocab-radar', 'bluff-definition'],
+  },
 ];
 
 /** Lookup a single item's config by key. Returns undefined if not found. */
