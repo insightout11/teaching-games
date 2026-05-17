@@ -4,7 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { DraggableAttributes } from '@dnd-kit/core';
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
-import { Lock, GripHorizontal, RefreshCw } from 'lucide-react';
+import { Lock, GripHorizontal, RefreshCw, X } from 'lucide-react';
 import { getModuleDisplayInfo } from '@/lib/planner-utils';
 import type { PlanModule } from '@/stores/planner-store';
 
@@ -21,12 +21,16 @@ interface ModuleNodeProps {
   index: number;
   total: number;
   onReplace?: (id: string) => void;
+  onRemove?: (id: string) => void;
+  canRemove?: boolean;
   compact?: boolean;
 }
 
 function ModuleNodeInner({
   module,
   onReplace,
+  onRemove,
+  canRemove,
   compact,
   isDragging,
   dragAttributes,
@@ -36,6 +40,8 @@ function ModuleNodeInner({
 }: {
   module: PlanModule;
   onReplace?: (id: string) => void;
+  onRemove?: (id: string) => void;
+  canRemove?: boolean;
   compact?: boolean;
   isDragging?: boolean;
   dragAttributes?: DraggableAttributes;
@@ -87,6 +93,16 @@ function ModuleNodeInner({
             <RefreshCw className="w-2.5 h-2.5 text-lc-text3" />
           </div>
         )}
+
+        {canRemove && !compact && onRemove && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onRemove(module.id); }}
+            className="absolute -top-2 -left-2 w-5 h-5 bg-lc-surface border border-lc-border rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/10 hover:border-red-500/40"
+            aria-label="Remove module"
+          >
+            <X className="w-2.5 h-2.5 text-lc-text3 hover:text-red-400" />
+          </button>
+        )}
       </div>
 
       <span
@@ -111,24 +127,28 @@ function ModuleNodeInner({
   );
 }
 
-export function ModuleNode({ module, onReplace, compact }: ModuleNodeProps) {
+export function ModuleNode({ module, onReplace, onRemove, canRemove, compact }: ModuleNodeProps) {
   if (module.isLocked || compact) {
     return (
       <div className="group">
-        <ModuleNodeInner module={module} onReplace={onReplace} compact={compact} />
+        <ModuleNodeInner module={module} onReplace={onReplace} onRemove={onRemove} canRemove={canRemove} compact={compact} />
       </div>
     );
   }
 
-  return <SortableModuleNode module={module} onReplace={onReplace} />;
+  return <SortableModuleNode module={module} onReplace={onReplace} onRemove={onRemove} canRemove={canRemove} />;
 }
 
 function SortableModuleNode({
   module,
   onReplace,
+  onRemove,
+  canRemove,
 }: {
   module: PlanModule;
   onReplace?: (id: string) => void;
+  onRemove?: (id: string) => void;
+  canRemove?: boolean;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: module.id,
@@ -144,6 +164,8 @@ function SortableModuleNode({
       <ModuleNodeInner
         module={module}
         onReplace={onReplace}
+        onRemove={onRemove}
+        canRemove={canRemove}
         isDragging={isDragging}
         dragAttributes={attributes}
         dragListeners={listeners}

@@ -43,7 +43,7 @@ export function suggestModules(
     id: crypto.randomUUID(),
     slotType: 'takeoff',
     key: 'mission-selector',
-    isLocked: true,
+    isLocked: false,
   };
 
   // Best missionLanding item for the goal, fallback to final-answer
@@ -55,7 +55,7 @@ export function suggestModules(
     id: crypto.randomUUID(),
     slotType: 'landing',
     key: landingItem.key,
-    isLocked: true,
+    isLocked: false,
   };
 
   // Greedy fill: for each target slot, pick highest-scoring unused item

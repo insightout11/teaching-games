@@ -93,6 +93,8 @@ export interface LessonSession {
   // Actions
   beginLesson: () => void;
   advanceSlot: () => void;
+  /** Bail out of the current activity and immediately start a different one. */
+  insertAndPivotSlot: (key: string, type: 'game' | 'activity', name: string) => void;
   handlePhaseChange: (phase: string) => void;
   exitLesson: () => void;
 }
@@ -431,6 +433,20 @@ export function useLessonSession(
     }
   }, [currentSlotIndex, lessonSlots]);
 
+  const insertAndPivotSlot = useCallback((key: string, type: 'game' | 'activity', name: string) => {
+    const newSlot: LessonSlot = { key, type, name };
+    const insertAt = currentSlotIndex + 1;
+    setLessonSlots((prev) => {
+      const next = [...prev];
+      next.splice(insertAt, 0, newSlot);
+      return next;
+    });
+    const isLanding = LANDING_ACTIVITY_KEYS.has(key);
+    setPhase(isLanding ? 'landing' : 'live');
+    pendingAutoStartRef.current = insertAt;
+    setSlotTrigger((c) => c + 1);
+  }, [currentSlotIndex]);
+
   // Stable ref-based callback to avoid identity changes propagating through ActivityShell → activity
   const handlePhaseChangeRef = useRef<(activityPhase: string) => void>(() => {});
   handlePhaseChangeRef.current = (activityPhase: string) => {
@@ -477,6 +493,7 @@ export function useLessonSession(
 
     beginLesson,
     advanceSlot,
+    insertAndPivotSlot,
     handlePhaseChange,
     exitLesson,
   };

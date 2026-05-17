@@ -23,7 +23,7 @@ interface FlightPathSVGProps {
 }
 
 export function FlightPathSVG({ compact }: FlightPathSVGProps) {
-  const { modules, moveModule, setReplaceDrawerModuleId } = usePlannerStore();
+  const { modules, moveModule, setReplaceDrawerModuleId, removeModule } = usePlannerStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const [, setContainerWidth] = useState(800);
 
@@ -148,6 +148,8 @@ export function FlightPathSVG({ compact }: FlightPathSVGProps) {
               index={i}
               total={modules.length}
               onReplace={handleReplace}
+              onRemove={removeModule}
+              canRemove={!compact && modules.length > 1}
               compact={compact}
             />
           </div>

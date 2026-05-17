@@ -46,6 +46,7 @@ interface PlannerState {
   activeTab: 'build' | 'presets';
   loadedPresetId: string | null;
   replaceDrawerModuleId: string | null;
+  insertAfterIndex: number | null;
   overrideScoringMode: ScoringMode | null;
 
   // Step 3 — Launch
@@ -73,6 +74,11 @@ interface PlannerState {
   setActiveTab(tab: 'build' | 'presets'): void;
   loadPreset(preset: FlightPlanPreset): void;
   setReplaceDrawerModuleId(id: string | null): void;
+  setInsertAfterIndex(index: number | null): void;
+  /** Insert a new module after the given index. */
+  insertModule(afterIndex: number, key: string): void;
+  /** Remove a module by id. No-op if it would leave 0 modules. */
+  removeModule(id: string): void;
   /** Seed the flight plan with a single game/activity and jump to the flight-plan step. */
   seedWithModule(key: string, slotType: SlotType): void;
 
@@ -105,6 +111,7 @@ export const usePlannerStore = create<PlannerState>()(
       activeTab: 'presets',
       loadedPresetId: null,
       replaceDrawerModuleId: null,
+      insertAfterIndex: null,
       overrideScoringMode: null,
       selectedClassId: null,
       grammarTarget: null,
@@ -188,7 +195,7 @@ export const usePlannerStore = create<PlannerState>()(
             id: crypto.randomUUID(),
             slotType: 'takeoff',
             key: takeoffKey,
-            isLocked: true,
+            isLocked: false,
           };
 
           let landingKey = preset.landing;
@@ -203,7 +210,7 @@ export const usePlannerStore = create<PlannerState>()(
             id: crypto.randomUUID(),
             slotType: 'landing',
             key: landingKey,
-            isLocked: true,
+            isLocked: false,
           };
 
           modules = [takeoff, ...middle, landing];
@@ -232,11 +239,28 @@ export const usePlannerStore = create<PlannerState>()(
       },
 
       setReplaceDrawerModuleId: (id) => set({ replaceDrawerModuleId: id }),
+      setInsertAfterIndex: (index) => set({ insertAfterIndex: index }),
+      insertModule: (afterIndex, key) => {
+        const fpItem = FLIGHT_PLAN_ITEMS.find((i) => i.key === key);
+        const slotType = fpItem?.slotFit[0] ?? 'practice';
+        const insertAt = Math.max(0, afterIndex + 1);
+        set((state) => {
+          const mods = [...state.modules];
+          mods.splice(insertAt, 0, { id: crypto.randomUUID(), slotType, key, isLocked: false });
+          return { modules: mods, insertAfterIndex: null };
+        });
+      },
+
+      removeModule: (id) =>
+        set((state) => {
+          if (state.modules.length <= 1) return state;
+          return { modules: state.modules.filter((m) => m.id !== id) };
+        }),
 
       seedWithModule: (key, slotType) => {
-        const takeoff: PlanModule = { id: crypto.randomUUID(), slotType: 'takeoff', key: 'mission-selector', isLocked: true };
+        const takeoff: PlanModule = { id: crypto.randomUUID(), slotType: 'takeoff', key: 'mission-selector', isLocked: false };
         const middle: PlanModule = { id: crypto.randomUUID(), slotType, key, isLocked: false };
-        const landing: PlanModule = { id: crypto.randomUUID(), slotType: 'landing', key: 'opinion-shift', isLocked: true };
+        const landing: PlanModule = { id: crypto.randomUUID(), slotType: 'landing', key: 'opinion-shift', isLocked: false };
         set({
           step: 'flight-plan',
           activeTab: 'build',
@@ -315,6 +339,7 @@ export const usePlannerStore = create<PlannerState>()(
           activeTab: 'build',
           loadedPresetId: null,
           replaceDrawerModuleId: null,
+          insertAfterIndex: null,
           overrideScoringMode: null,
           selectedClassId: null,
           grammarTarget: null,

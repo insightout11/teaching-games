@@ -129,6 +129,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     type: 'activity' | 'game';
     plugin: ActivityPlugin | GamePlugin;
   } | null>(null);
+  const [showPivotDrawer, setShowPivotDrawer] = useState(false);
 
   // Bonus vote state
   const [bonusVotePollId, setBonusVotePollId] = useState<string | null>(null);
@@ -1239,16 +1240,25 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               <Button variant="ghost" size="sm" onClick={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}>
                 ← {lesson.isLessonActive ? 'Exit Lesson' : 'Switch Activity'}
               </Button>
-              {lesson.isLessonActive && (
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={handleNextSlot}
-                  className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowPivotDrawer(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-lc-text3 hover:text-amber-400 hover:bg-amber-500/10 border border-lc-border hover:border-amber-500/30 rounded-lg transition-all"
+                  title="Swap to a different activity right now"
                 >
-                  {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
-                </Button>
-              )}
+                  ⚡ Swap
+                </button>
+                {lesson.isLessonActive && (
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={handleNextSlot}
+                    className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
+                  >
+                    {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
+                  </Button>
+                )}
+              </div>
             </div>
             <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
               <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} />
@@ -1300,16 +1310,25 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               <Button variant="ghost" size="sm" onClick={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}>
                 ← {lesson.isLessonActive ? 'Exit Lesson' : 'Switch Activity'}
               </Button>
-              {lesson.isLessonActive && (
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={handleNextSlot}
-                  className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowPivotDrawer(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-lc-text3 hover:text-amber-400 hover:bg-amber-500/10 border border-lc-border hover:border-amber-500/30 rounded-lg transition-all"
+                  title="Swap to a different activity right now"
                 >
-                  {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
-                </Button>
-              )}
+                  ⚡ Swap
+                </button>
+                {lesson.isLessonActive && (
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={handleNextSlot}
+                    className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
+                  >
+                    {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
+                  </Button>
+                )}
+              </div>
             </div>
             {activityContent ? (
               <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
@@ -1470,6 +1489,102 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
           </div>
         </div>
+      )}
+
+      {/* Emergency Pivot Drawer — swap the currently running activity/game */}
+      {showPivotDrawer && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40" onClick={() => setShowPivotDrawer(false)} />
+          <div className="fixed right-0 top-0 bottom-0 w-[440px] max-w-[90vw] bg-lc-card border-l border-lc-border z-50 flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-lc-border">
+              <div>
+                <h2 className="font-semibold text-lc-text">Swap Activity</h2>
+                <p className="text-xs text-lc-text3 mt-0.5">Ends current activity, starts new one immediately</p>
+              </div>
+              <button onClick={() => setShowPivotDrawer(false)} className="p-1 hover:bg-lc-surface rounded-lg">
+                <svg className="w-5 h-5 text-lc-text3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-6">
+              {GAME_CATEGORY_ORDER.map((cat) => {
+                const currentKey = selectedGame?.key ?? selectedActivity?.key;
+                const catGames = games.filter((g) => g.category === cat && g.key !== currentKey);
+                if (!catGames.length) return null;
+                const info = GAME_CATEGORY_INFO[cat];
+                const IconComponent = info.icon;
+                return (
+                  <div key={cat}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <IconComponent className={`w-4 h-4 ${info.color}`} />
+                      <span className={`text-xs font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {catGames.map((game) => {
+                        const GameIcon = game.icon;
+                        return (
+                          <button
+                            key={game.key}
+                            onClick={() => {
+                              lesson.insertAndPivotSlot(game.key, 'game', game.name);
+                              setShowPivotDrawer(false);
+                            }}
+                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left"
+                          >
+                            <GameIcon className="w-5 h-5 text-lc-text3 flex-shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-lc-text">{game.name}</p>
+                              <p className="text-xs text-lc-text3 truncate">{game.description}</p>
+                            </div>
+                            <span className="text-xs text-lc-text3 flex-shrink-0">~{game.estimatedMinutes}m</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+              {ACTIVITY_CATEGORY_ORDER.map((cat) => {
+                const currentKey = selectedGame?.key ?? selectedActivity?.key;
+                const catActivities = activities.filter((a) => a.category === cat && a.key !== currentKey);
+                if (!catActivities.length) return null;
+                const info = CATEGORY_INFO[cat];
+                const IconComponent = info.icon;
+                return (
+                  <div key={cat}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <IconComponent className={`w-4 h-4 ${info.color}`} />
+                      <span className={`text-xs font-medium ${info.color} uppercase tracking-wider`}>{info.name}</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {catActivities.map((activity) => {
+                        const ActivityIcon = activity.icon;
+                        return (
+                          <button
+                            key={activity.key}
+                            onClick={() => {
+                              lesson.insertAndPivotSlot(activity.key, 'activity', activity.name);
+                              setShowPivotDrawer(false);
+                            }}
+                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left"
+                          >
+                            <ActivityIcon className="w-5 h-5 text-lc-text3 flex-shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-lc-text">{activity.name}</p>
+                              <p className="text-xs text-lc-text3 truncate">{activity.description}</p>
+                            </div>
+                            <span className="text-xs text-lc-text3 flex-shrink-0">~{activity.estimatedMinutes}m</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </>
       )}
 
       {/* Paywall modal — shown when generation credits are exhausted or a Pro module is clicked */}
