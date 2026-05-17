@@ -50,11 +50,13 @@ const VALID_GAME_SLUG_LIST = [
   'vocab-sprint', 'synonym-showdown', 'word-chain', 'sentence-scramble',
   'grammar-boss', 'error-hunter', 'story-sprint', 'dialogue-detective',
   'connections', 'twenty-questions',
+  'flash-quiz', 'brain-teasers', 'defend-it',
 ];
 
 const VALID_ACTIVITY_SLUG_LIST = [
   'would-you-rather', 'two-truths', 'rank-it', 'fact-detective',
   'expert-panel', 'scenario-simulator', 'problem-solvers', 'hot-take-arena',
+  'bluff-definition', 'taboo-sprint', 'wonder-board', 'password', 'in-your-words',
 ];
 
 const VALID_SLUGS = new Set([...VALID_GAME_SLUG_LIST, ...VALID_ACTIVITY_SLUG_LIST]);

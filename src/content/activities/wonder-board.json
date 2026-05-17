@@ -1,0 +1,52 @@
+{
+  "slug": "wonder-board",
+  "schemaVersion": 1,
+  "headline": "Wonder Board Activity — Student Question Wall for ESL Lessons",
+  "outcomes": [
+    "Students activate genuine curiosity about the lesson topic before instruction begins — questions they form are topics they'll actually remember",
+    "Practise question formation with assigned question starters — a targeted grammar focus that feels natural rather than mechanical",
+    "Build a student-driven inquiry agenda: the teacher sees what the class actually wants to know, not just what the curriculum says they should",
+    "Develop listening and critical evaluation skills as students read, upvote, and discuss each other's questions"
+  ],
+  "howItWorks": [
+    "Students receive an assigned question starter (What if…, Why does…, How would…) and type their question about the lesson topic",
+    "All questions appear on the live Wonder Board on the teacher screen — the class can see the wall build in real time",
+    "Students upvote the questions they most want answered; top questions float to the top",
+    "The teacher selects the most interesting questions to address — live AI answers are available for factual questions"
+  ],
+  "teacherUseCases": [
+    "Pre-reading activation — run Wonder Board before a reading or listening task to surface prior knowledge and set a purpose for comprehension",
+    "Unit opener — start a new topic by finding out what students already wonder about it; their questions become the thread of the unit",
+    "Grammar focus on question formation — assign specific starters that practise the target structure (e.g. all students must use a reported question form)"
+  ],
+  "estimatedTime": "10 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What are question starters and why use them?",
+      "a": "Question starters are the opening few words of a question — What causes…, How might…, Should we… — assigned to each student before they type. They serve two purposes: they remove the blank-page anxiety of forming a question from scratch, and they ensure grammatical variety across the board rather than 20 identical 'What is…?' questions."
+    },
+    {
+      "q": "Can students see each other's questions as they're typed?",
+      "a": "Questions appear on the teacher screen as they're submitted, and the teacher controls whether the live board is visible to the class. In most classrooms the board is projected, so yes — students see the wall filling up in real time, which sparks further ideas."
+    },
+    {
+      "q": "How does upvoting work?",
+      "a": "Once all questions are submitted, students browse the board on their own devices and tap questions they want answered. Each student gets a limited number of votes so they have to prioritise. The teacher sees vote counts updating live and can use them to sequence the discussion."
+    },
+    {
+      "q": "What do the AI answers look like?",
+      "a": "For factual questions, the teacher can request a concise AI-generated answer with a follow-up example — useful for questions that are genuinely curious but outside the teacher's immediate knowledge. The teacher always reviews the answer before sharing it with the class."
+    },
+    {
+      "q": "Does Wonder Board work for all proficiency levels?",
+      "a": "Yes. Lower-level students benefit from the question starter scaffolding and the freedom to write short, simple questions. Higher-level students naturally produce more complex structures. The teacher can adapt discussion depth regardless of the written question quality."
+    },
+    {
+      "q": "Is Wonder Board free?",
+      "a": "Yes. Students access it through a shared browser link on any device — no download or sign-in required."
+    }
+  ],
+  "related": ["fact-detective", "two-truths", "expert-panel"],
+  "ogImageTheme": "icebreakers"
+}

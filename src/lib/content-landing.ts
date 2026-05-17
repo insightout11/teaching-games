@@ -13,6 +13,9 @@ import storySprintJson from '@/content/games/story-sprint.json';
 import dialogueDetectiveJson from '@/content/games/dialogue-detective.json';
 import connectionsJson from '@/content/games/connections.json';
 import twentyQuestionsJson from '@/content/games/twenty-questions.json';
+import flashQuizJson from '@/content/games/flash-quiz.json';
+import brainTeasersJson from '@/content/games/brain-teasers.json';
+import defendItJson from '@/content/games/defend-it.json';
 
 import wouldYouRatherJson from '@/content/activities/would-you-rather.json';
 import twoTruthsJson from '@/content/activities/two-truths.json';
@@ -24,6 +27,9 @@ import problemSolversJson from '@/content/activities/problem-solvers.json';
 import hotTakeArenaJson from '@/content/activities/hot-take-arena.json';
 import bluffDefinitionJson from '@/content/activities/bluff-definition.json';
 import tabooSprintJson from '@/content/activities/taboo-sprint.json';
+import wonderBoardJson from '@/content/activities/wonder-board.json';
+import passwordJson from '@/content/activities/password.json';
+import inYourWordsJson from '@/content/activities/in-your-words.json';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -97,6 +103,9 @@ const GAME_CONTENT: Record<string, LandingContent> = {
   'dialogue-detective': dialogueDetectiveJson as LandingContent,
   'connections': connectionsJson as LandingContent,
   'twenty-questions': twentyQuestionsJson as LandingContent,
+  'flash-quiz': flashQuizJson as LandingContent,
+  'brain-teasers': brainTeasersJson as LandingContent,
+  'defend-it': defendItJson as LandingContent,
 };
 
 const ACTIVITY_CONTENT: Record<string, LandingContent> = {
@@ -110,6 +119,9 @@ const ACTIVITY_CONTENT: Record<string, LandingContent> = {
   'hot-take-arena': hotTakeArenaJson as LandingContent,
   'bluff-definition': bluffDefinitionJson as LandingContent,
   'taboo-sprint': tabooSprintJson as LandingContent,
+  'wonder-board': wonderBoardJson as LandingContent,
+  'password': passwordJson as LandingContent,
+  'in-your-words': inYourWordsJson as LandingContent,
 };
 
 export function getGameContent(slug: string): LandingContent | undefined {

@@ -1,0 +1,52 @@
+{
+  "slug": "brain-teasers",
+  "schemaVersion": 1,
+  "headline": "Brain Teasers Game — Lateral Thinking Riddles for ESL Classes",
+  "outcomes": [
+    "Students stretch beyond literal comprehension to interpret indirect, figurative, and ambiguous language — a high-order skill rarely drilled in standard lessons",
+    "Build confidence with creative and exploratory language: guessing requires students to commit to an answer, not just recognise one",
+    "Class-wide discussion of each answer produces rich negotiation of meaning in the target language",
+    "Exposure to wordplay, idiom, and cultural logic embedded in riddles expands pragmatic language awareness"
+  ],
+  "howItWorks": [
+    "The AI generates a lateral thinking riddle suited to the class level — displayed on the teacher's screen",
+    "Students type their best guess on their device; all answers appear on the teacher's screen anonymously",
+    "The teacher reads out favourite guesses before revealing the trick answer",
+    "The class discusses why the answer works — often the richest part of the activity"
+  ],
+  "teacherUseCases": [
+    "Warm-up energy boost — Brain Teasers breaks lesson inertia and gets students thinking creatively within the first 5 minutes",
+    "Creative writing spark — run a riddle before a story or writing task to prime imaginative, lateral thinking",
+    "Vocabulary extension — many lateral riddles hinge on double meanings; use them to surface and teach polysemy in context"
+  ],
+  "estimatedTime": "10 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What makes a riddle 'lateral thinking' rather than just a knowledge question?",
+      "a": "Lateral thinking riddles require you to question your assumptions rather than recall a fact. The answer is always logical in hindsight — but it requires you to look at the problem from an unexpected angle. This is what makes them especially useful for language learners: you can't Google your way to the answer."
+    },
+    {
+      "q": "Are the riddles topic-related?",
+      "a": "Loosely — the AI tries to connect riddles to your lesson topic where natural. For a lesson on travel, riddles might involve journeys, maps, or transport. But some riddles work best as pure lateral puzzles with no topic anchor."
+    },
+    {
+      "q": "What if the class gets stuck?",
+      "a": "The teacher can give progressive hints from the teacher screen. Each hint nudges students toward the right angle without giving away the answer. If the class is truly stuck, you can reveal the answer and discuss why it works — often more valuable than solving it."
+    },
+    {
+      "q": "Can lower-level students participate?",
+      "a": "Yes. Difficulty settings produce simpler riddles with more familiar vocabulary and shorter sentences. Lower-level riddles focus on basic wordplay and visual logic rather than complex cultural references."
+    },
+    {
+      "q": "How many riddles can I run in one session?",
+      "a": "Most classes work through 3–5 riddles in 10 minutes. You control the pace — move on whenever the discussion feels complete. The generator produces a fresh set each time, so you can run Brain Teasers every week without repeating."
+    },
+    {
+      "q": "Is Brain Teasers free to use?",
+      "a": "Yes, it's free. Students join via a shared browser link with no account or download required."
+    }
+  ],
+  "related": ["connections", "twenty-questions", "fact-detective"],
+  "ogImageTheme": "logic"
+}

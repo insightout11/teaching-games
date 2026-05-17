@@ -1,0 +1,52 @@
+{
+  "slug": "flash-quiz",
+  "schemaVersion": 1,
+  "headline": "Flash Quiz Game — Simultaneous Quiz Race for ESL Classrooms",
+  "outcomes": [
+    "Students consolidate vocabulary, grammar, and topic knowledge under timed conditions — retrieval practice that sticks",
+    "Build speed and automaticity: repeated exposure to target language at pace reduces hesitation in real communication",
+    "Every student answers every question simultaneously — no dead time, no passenger seats",
+    "Instant answer reveal creates a natural comprehension check moment after each question"
+  ],
+  "howItWorks": [
+    "The AI generates 10–20 topic-relevant questions covering vocabulary, grammar, or comprehension",
+    "All students see the question on their device at the same time and submit their answer before the timer runs out",
+    "Points are awarded for both accuracy and speed — early correct answers score highest",
+    "Live leaderboard updates after every question so the class can track the race in real time"
+  ],
+  "teacherUseCases": [
+    "Mid-lesson comprehension check — run a 10-question Flash Quiz after input to see who understood before moving on",
+    "End-of-unit vocabulary review — generate questions around the unit topic to surface gaps before the test",
+    "Warm-up retrieval — start class with a 5-minute quiz on last lesson's content to activate prior knowledge"
+  ],
+  "estimatedTime": "12–25 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How are the quiz questions generated?",
+      "a": "The AI creates questions matched to your topic and difficulty level — covering vocabulary definitions, grammar choices, comprehension, and topic facts. You can regenerate the set before starting if any questions don't fit."
+    },
+    {
+      "q": "Does faster answering always win?",
+      "a": "Speed matters, but accuracy matters more. A fast wrong answer scores zero; a slower correct answer still earns full points. The scoring formula rewards students who get it right first, while still giving points to everyone who answers correctly."
+    },
+    {
+      "q": "What happens if a student joins late?",
+      "a": "Late joiners pick up from the current question — they won't see questions they missed, but they're included in the leaderboard going forward. Their score reflects only the questions they answered."
+    },
+    {
+      "q": "Can I use my own questions instead of AI-generated ones?",
+      "a": "Not in the current version — Flash Quiz is designed for instant, on-demand generation. If you want full custom question sets, Vocab Sprint or Sentence Scramble give you more manual control over content."
+    },
+    {
+      "q": "How difficult are the questions?",
+      "a": "Difficulty is tied to the session level you set (Beginner through Advanced). Beginner questions use simple recall and clear multiple-choice options; Advanced questions include inference, nuance, and open-form input."
+    },
+    {
+      "q": "Is Flash Quiz free to use?",
+      "a": "Yes, Flash Quiz is free. Students join through a shared browser link — no app download or student account needed."
+    }
+  ],
+  "related": ["vocab-sprint", "grammar-boss", "connections"],
+  "ogImageTheme": "practice"
+}

@@ -1,0 +1,52 @@
+{
+  "slug": "defend-it",
+  "schemaVersion": 1,
+  "headline": "Defend the Indefensible — Persuasive Speaking Game for ESL Classes",
+  "outcomes": [
+    "Students practise spontaneous persuasive speaking — forming and delivering arguments under time pressure with no preparation",
+    "Build resilience and fluency: students must speak even when they disagree with their assigned position, a real-world skill for debate and negotiation",
+    "Develop listening and critical evaluation as classmates react live to each argument with audience votes",
+    "Exposure to the language of concession, contrast, and hedging — 'admittedly', 'despite this', 'you could argue' — in a high-stakes context"
+  ],
+  "howItWorks": [
+    "The AI generates a wild or controversial statement — students are randomly assigned to DEFEND or ATTACK it",
+    "Each speaker has one minute to make their case while classmates watch on the teacher screen",
+    "Audience members react live on their devices — votes accumulate in real time as the speech unfolds",
+    "The student with the most audience reactions wins the round; the teacher can add commentary before revealing the next statement"
+  ],
+  "teacherUseCases": [
+    "Speaking fluency sprint — forces students to produce extended, connected speech without a script or preparation time",
+    "Debate preparation — run Defend the Indefensible as a warm-up before a formal debate unit to lower inhibition around arguing positions you don't personally hold",
+    "Opinion language practice — the game creates natural demand for concession phrases, modal verbs of possibility, and hedging expressions"
+  ],
+  "estimatedTime": "10–20 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What if a student is assigned a position they find offensive?",
+      "a": "Statements are intentionally absurd and playful rather than genuinely controversial — designed to provoke laughter and creative thinking, not real debate. The teacher can skip any statement using the Skip button before it's shown to the class."
+    },
+    {
+      "q": "Do shy students have to speak?",
+      "a": "The teacher controls assignment and can manually swap students between DEFEND and ATTACK — or volunteer a speaker rather than using random assignment. Students who aren't speaking are always engaged as the live audience."
+    },
+    {
+      "q": "How does the audience voting work?",
+      "a": "While a student speaks, their classmates tap reaction buttons on their devices. Reactions accumulate live on the teacher screen — the speaker can see the count climbing (or stalling) in real time. Final vote totals determine the round winner."
+    },
+    {
+      "q": "Can I use custom statements instead of AI-generated ones?",
+      "a": "Yes — teachers can type their own statements into the statement field before each round. This is useful if you want to tie the debate positions directly to the lesson topic or a specific text the class has been reading."
+    },
+    {
+      "q": "How many rounds fit in a lesson?",
+      "a": "A 10-minute session covers 3 rounds comfortably. With 5 rounds and longer speeches, plan for 20 minutes. Each round generates a new statement automatically so there's no preparation between rounds."
+    },
+    {
+      "q": "Is Defend the Indefensible free?",
+      "a": "Yes. Students join on any phone or tablet through a shared browser link — no download or account required."
+    }
+  ],
+  "related": ["hot-take-arena", "expert-panel", "scenario-simulator"],
+  "ogImageTheme": "logic"
+}
