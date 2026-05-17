@@ -34,6 +34,14 @@ interface ExpressionItem {
   example: string;
 }
 
+interface PersonalResults {
+  totalPoints: number;
+  accuracy: number | null;
+  bestStreak: number;
+  rank: number | null;
+  totalParticipants: number | null;
+}
+
 interface SessionPayload {
   isActive: boolean;
   activePoll: { pollId: string; question: string; options: string[]; metadata?: Record<string, unknown> | null } | null;
@@ -48,6 +56,7 @@ interface SessionPayload {
   referenceVocab: VocabItem[] | null;
   referenceExpressions: ExpressionItem[] | null;
   latestFeedback: { feedback: string; points: number; submissionId: string } | null;
+  personalResults: PersonalResults | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -223,6 +232,51 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Get personal results when session has ended
+    let personalResults: PersonalResults | null = null;
+    if (!isActive && clientId) {
+      const [{ data: myScores }, { data: lb }, { data: pref }] = await Promise.all([
+        supabase
+          .from('scores')
+          .select('points, is_correct, streak_count')
+          .eq('session_id', sessionId)
+          .eq('client_id', clientId),
+        supabase
+          .from('session_leaderboard')
+          .select('total_points')
+          .eq('session_id', sessionId)
+          .order('total_points', { ascending: false }),
+        supabase
+          .from('student_session_prefs')
+          .select('score_visible')
+          .eq('session_id', sessionId)
+          .eq('client_id', clientId)
+          .maybeSingle(),
+      ]);
+
+      const rows = myScores ?? [];
+      const totalPoints = rows.reduce((s, r) => s + (r.points ?? 0), 0);
+      const scorable = rows.filter((r) => r.is_correct !== null);
+      const accuracy = scorable.length > 0
+        ? Math.round(scorable.filter((r) => r.is_correct === true).length / scorable.length * 100)
+        : null;
+      const bestStreak = rows.length > 0 ? Math.max(...rows.map((r) => r.streak_count ?? 0)) : 0;
+
+      const scoreVisible = pref?.score_visible !== false;
+      const lbRows = lb ?? [];
+      const rank = scoreVisible && lbRows.length > 0
+        ? lbRows.filter((e) => e.total_points > totalPoints).length + 1
+        : null;
+
+      personalResults = {
+        totalPoints,
+        accuracy,
+        bestStreak,
+        rank,
+        totalParticipants: scoreVisible ? lbRows.length : null,
+      };
+    }
+
     // Get personal mission for this student if clientId provided
     let personalMission: string | null = null;
     if (isActive && clientId) {
@@ -249,6 +303,7 @@ export async function GET(request: NextRequest) {
       referenceVocab: (session.reference_vocab as VocabItem[] | null) ?? null,
       referenceExpressions: (session.reference_expressions as ExpressionItem[] | null) ?? null,
       latestFeedback,
+      personalResults,
     };
 
     return NextResponse.json(payload, {

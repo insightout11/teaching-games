@@ -179,6 +179,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [latestFeedback, setLatestFeedback] = useState<{ feedback: string; points: number; submissionId: string } | null>(null);
   const [seenFeedbackId, setSeenFeedbackId] = useState<string | null>(null);
 
+  // End-of-session personal results
+  const [personalResults, setPersonalResults] = useState<{
+    totalPoints: number;
+    accuracy: number | null;
+    bestStreak: number;
+    rank: number | null;
+    totalParticipants: number | null;
+  } | null>(null);
+
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
 
@@ -219,6 +228,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (data.referenceVocab) setReferenceVocab(data.referenceVocab);
       if (data.referenceExpressions) setReferenceExpressions(data.referenceExpressions);
       if (data.latestFeedback) setLatestFeedback(data.latestFeedback);
+      if (data.personalResults) setPersonalResults(data.personalResults);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -542,10 +552,56 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   if (!sessionActive) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="glass rounded-3xl p-8 w-full max-w-md text-center">
-          <div className="text-6xl mb-4">!</div>
-          <h1 className="text-xl font-bold text-white mb-2">Session Ended</h1>
-          <p className="text-gray-400 mb-6">This session is no longer active.</p>
+        <div className="glass rounded-3xl p-8 w-full max-w-md text-center space-y-6">
+          <div>
+            <div className="text-4xl mb-3">✈</div>
+            <h1 className="text-2xl font-bold text-white">Session Complete</h1>
+            <p className="text-gray-400 text-sm mt-1">Great work today!</p>
+          </div>
+
+          {personalResults ? (
+            <>
+              {/* Stat tiles */}
+              <div className={`grid gap-3 ${
+                personalResults.accuracy !== null && personalResults.bestStreak >= 2
+                  ? 'grid-cols-3'
+                  : personalResults.accuracy !== null || personalResults.bestStreak >= 2
+                  ? 'grid-cols-2'
+                  : 'grid-cols-1'
+              }`}>
+                <div className="bg-white/5 rounded-2xl p-4">
+                  <p className="text-2xl font-bold text-cyan-400">{personalResults.totalPoints}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">Points</p>
+                </div>
+                {personalResults.accuracy !== null && (
+                  <div className="bg-white/5 rounded-2xl p-4">
+                    <p className={`text-2xl font-bold ${
+                      personalResults.accuracy >= 80 ? 'text-emerald-400'
+                      : personalResults.accuracy >= 50 ? 'text-amber-400'
+                      : 'text-red-400'
+                    }`}>{personalResults.accuracy}%</p>
+                    <p className="text-xs text-gray-400 mt-0.5">Accuracy</p>
+                  </div>
+                )}
+                {personalResults.bestStreak >= 2 && (
+                  <div className="bg-white/5 rounded-2xl p-4">
+                    <p className="text-2xl font-bold text-orange-400">🔥{personalResults.bestStreak}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">Best Streak</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Rank */}
+              {personalResults.rank !== null && personalResults.totalParticipants !== null && (
+                <p className="text-sm text-gray-300">
+                  You ranked <span className="font-bold text-white">#{personalResults.rank}</span> of {personalResults.totalParticipants} students
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-gray-400 text-sm">This session is no longer active.</p>
+          )}
+
           <Button onClick={onLeave} variant="ghost">
             Back
           </Button>
