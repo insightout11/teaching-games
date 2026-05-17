@@ -212,6 +212,48 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     strongWith: ['vocab-sprint', 'connections'],
   },
 
+  {
+    key: 'flash-quiz',
+    slotFit: ['practice'],
+    goalFit: ['vocabulary-building', 'grammar-reinforcement', 'critical-thinking'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['simultaneous'],
+    speakingLoad: 'low',
+    writingLoad: 'low',
+    teacherControlLoad: 'low',
+    avoidAfter: ['vocab-sprint', 'connections'],
+    strongWith: ['vocab-radar', 'grammar-boss', 'sentence-scramble'],
+  },
+
+  {
+    key: 'brain-teasers',
+    slotFit: ['practice'],
+    goalFit: ['critical-thinking', 'confidence-building', 'collaboration'],
+    levelFit: ['intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['simultaneous', 'submission'],
+    speakingLoad: 'low',
+    writingLoad: 'low',
+    teacherControlLoad: 'medium',
+    avoidAfter: ['connections', 'twenty-questions'],
+    strongWith: ['fact-detective', 'prediction-round'],
+  },
+
+  {
+    key: 'defend-it',
+    slotFit: ['production'],
+    goalFit: ['discussion-debate', 'speaking-fluency', 'critical-thinking'],
+    levelFit: ['intermediate', 'advanced'],
+    energy: 'high',
+    interactionModel: ['role-based', 'voting', 'discussion'],
+    speakingLoad: 'high',
+    writingLoad: 'low',
+    teacherControlLoad: 'medium',
+    avoidAfter: ['hot-take-arena', 'expert-panel'],
+    strongWith: ['rank-it', 'scenario-simulator', 'would-you-rather'],
+  },
+
   // ─── ACTIVITIES ──────────────────────────────────────────────────────────
 
   {
@@ -568,6 +610,48 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     teacherControlLoad: 'medium',
     avoidAfter: [],
     strongWith: ['character-cards', 'scenario-simulator'],
+  },
+
+  {
+    key: 'wonder-board',
+    slotFit: ['takeoff', 'presentation'],
+    goalFit: ['critical-thinking', 'speaking-fluency', 'confidence-building'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['submission', 'voting', 'discussion'],
+    speakingLoad: 'medium',
+    writingLoad: 'low',
+    teacherControlLoad: 'low',
+    avoidAfter: ['quick-pulse', 'prediction-round'],
+    strongWith: ['vocab-radar', 'fact-detective'],
+  },
+
+  {
+    key: 'password',
+    slotFit: ['practice', 'production'],
+    goalFit: ['speaking-fluency', 'vocabulary-building', 'confidence-building'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'high',
+    interactionModel: ['role-based', 'performance'],
+    speakingLoad: 'high',
+    writingLoad: 'low',
+    teacherControlLoad: 'medium',
+    avoidAfter: ['taboo-sprint', 'conversation-rounds'],
+    strongWith: ['vocab-sprint', 'vocab-radar', 'taboo-sprint'],
+  },
+
+  {
+    key: 'in-your-words',
+    slotFit: ['landing'],
+    goalFit: ['vocabulary-building', 'grammar-reinforcement', 'confidence-building'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'low',
+    interactionModel: ['submission'],
+    speakingLoad: 'low',
+    writingLoad: 'medium',
+    teacherControlLoad: 'low',
+    avoidAfter: ['final-answer', 'grammar-proof'],
+    strongWith: ['vocab-sprint', 'vocab-radar', 'synonym-showdown'],
   },
 
   {
