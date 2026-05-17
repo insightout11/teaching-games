@@ -7,14 +7,17 @@ import { VideoLibraryModal } from './video-library-modal';
 import { TextLibraryModal } from './text-library-modal';
 import type { SourceMaterial } from '@/types/source-material';
 
-type Tab = 'ted' | 'youtube' | 'reading' | 'text';
+type Tab = 'ted' | 'youtube' | 'reading' | 'text' | 'upload';
 
 const TABS: { key: Tab; label: string }[] = [
   { key: 'ted',     label: 'Video Library' },
   { key: 'youtube', label: 'YouTube'        },
   { key: 'reading', label: 'Text Library'   },
   { key: 'text',    label: 'Text / Notes'   },
+  { key: 'upload',  label: 'Upload'         },
 ];
+
+const UPLOAD_ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
 
 function formatDuration(secs: number) {
   return `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
@@ -31,6 +34,7 @@ export function SourceInputPanel() {
   const [error, setError] = useState<string | null>(null);
   const [showTedModal, setShowTedModal] = useState(false);
   const [showTextModal, setShowTextModal] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
 
   async function process(type: string, value: string) {
     setProcessing(true);
@@ -69,10 +73,52 @@ export function SourceInputPanel() {
     }
   }
 
+  function handleFileSelect(file: File) {
+    setError(null);
+    if (file.size > 10 * 1024 * 1024) {
+      setError('File is too large. Maximum size is 10 MB.');
+      return;
+    }
+    if (!UPLOAD_ALLOWED.includes(file.type)) {
+      setError('Unsupported file type. Please upload a PDF or image (JPG, PNG, WebP).');
+      return;
+    }
+    setUploadFile(file);
+  }
+
+  async function processUpload() {
+    if (!uploadFile) return;
+    setProcessing(true);
+    setError(null);
+    try {
+      const fd = new FormData();
+      fd.append('file', uploadFile);
+      const res = await fetch('/api/source/extract-document', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? 'Failed to process file');
+        return;
+      }
+      const material: SourceMaterial = {
+        sourceType: data.sourceType,
+        title: data.title,
+        summary: data.summary,
+      };
+      setSourceMaterial(material);
+      setTopic(data.title);
+      setUploadFile(null);
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setProcessing(false);
+    }
+  }
+
   function handleRemove() {
     setSourceMaterial(null);
     setError(null);
     setPayload('');
+    setUploadFile(null);
   }
 
   if (tierLoading) return null;
@@ -135,7 +181,7 @@ export function SourceInputPanel() {
                   {TABS.map((tab) => (
                     <button
                       key={tab.key}
-                      onClick={() => { setActiveTab(tab.key); setError(null); }}
+                      onClick={() => { setActiveTab(tab.key); setError(null); setUploadFile(null); }}
                       className={`flex-1 rounded-md py-1.5 text-xs font-semibold transition-all ${
                         activeTab === tab.key
                           ? 'bg-lc-card text-lc-text shadow-sm'
@@ -217,6 +263,65 @@ export function SourceInputPanel() {
                       {processing ? 'Processing…' : 'Process Source'}
                     </button>
                     <p className="text-xs text-lc-text3">AI will summarise the content and ground all lesson activities in it.</p>
+                  </div>
+                )}
+
+                {/* Upload */}
+                {activeTab === 'upload' && (
+                  <div className="space-y-2">
+                    {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+                    <div
+                      className={`relative rounded-lg border-2 border-dashed p-6 text-center transition-colors ${
+                        uploadFile
+                          ? 'border-lc-blue/50 bg-lc-blue/5'
+                          : 'border-lc-border hover:border-lc-blue/40 cursor-pointer'
+                      }`}
+                      onClick={() => !uploadFile && document.getElementById('doc-upload')?.click()}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        const f = e.dataTransfer.files[0];
+                        if (f) handleFileSelect(f);
+                      }}
+                    >
+                      <input
+                        id="doc-upload"
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png,.webp"
+                        className="sr-only"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) handleFileSelect(f);
+                          e.target.value = '';
+                        }}
+                      />
+                      {uploadFile ? (
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium text-lc-text">{uploadFile.name}</p>
+                          <p className="text-xs text-lc-text3">{(uploadFile.size / 1024).toFixed(0)} KB</p>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setUploadFile(null); setError(null); }}
+                            className="text-xs text-lc-text3 hover:text-red-400 transition-colors"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="space-y-1">
+                          <p className="text-sm text-lc-text2">Drop a file here or click to browse</p>
+                          <p className="text-xs text-lc-text3">PDF, JPG, PNG, WebP — max 10 MB</p>
+                        </div>
+                      )}
+                    </div>
+                    {error && <p className="text-xs text-red-400">{error}</p>}
+                    <button
+                      onClick={processUpload}
+                      disabled={processing || !uploadFile}
+                      className="w-full rounded-lg bg-lc-blue py-2 text-sm font-semibold text-white hover:bg-lc-blue-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {processing ? 'Extracting content…' : 'Extract Content'}
+                    </button>
+                    <p className="text-xs text-lc-text3">Upload your own materials only.</p>
                   </div>
                 )}
               </div>

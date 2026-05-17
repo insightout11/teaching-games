@@ -1,4 +1,4 @@
-export type SourceType = 'youtube' | 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft' | 'pdf' | 'lyrics' | 'text' | 'stories' | 'voa' | 'picture-books';
+export type SourceType = 'youtube' | 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft' | 'pdf' | 'image' | 'lyrics' | 'text' | 'stories' | 'voa' | 'picture-books';
 
 export interface SourceMaterial {
   sourceType: SourceType;
