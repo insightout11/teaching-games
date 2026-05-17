@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import type { Team } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
@@ -10,6 +10,8 @@ import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { grammarReference } from '@/lib/grammar';
 import { BookOpen, PencilLine, MessageSquare, HelpCircle } from 'lucide-react';
+import { getGame } from '@/games/registry';
+import { getActivity } from '@/activities/registry';
 
 interface StudentSession {
   clientId: string;
@@ -188,6 +190,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     totalParticipants: number | null;
   } | null>(null);
 
+  // "Get ready" transition when inputSpec first arrives
+  const [transitionActivityName, setTransitionActivityName] = useState<string | null>(null);
+  const prevInputSpecRef = useRef<InputSpec | null>(null);
+
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
 
@@ -199,6 +205,19 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   useEffect(() => {
     setVotedIds(loadVotedIds(sessionId));
   }, [sessionId]);
+
+  // Fire "Get ready" splash when inputSpec transitions null → set
+  useEffect(() => {
+    if (inputSpec && !prevInputSpecRef.current) {
+      const name = getGame(inputSpec.gameKey)?.name ?? getActivity(inputSpec.gameKey)?.name;
+      if (name) {
+        setTransitionActivityName(name);
+        const t = setTimeout(() => setTransitionActivityName(null), 1500);
+        return () => clearTimeout(t);
+      }
+    }
+    prevInputSpecRef.current = inputSpec;
+  }, [inputSpec]);
 
   // Poll for session status, active polls, and input spec
   const checkSession = useCallback(async () => {
@@ -716,7 +735,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       {/* Dynamic Input based on game/activity */}
       <div className="glass rounded-2xl p-6 mb-4">
         {inputSpec ? (
-          frozen ? (
+          transitionActivityName ? (
+            <div
+              className="flex flex-col items-center justify-center py-10 gap-3"
+              style={{ animation: 'lc-fade-in 0.35s ease-out' }}
+            >
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">Up Next</p>
+              <p className="text-xl font-bold text-white">{transitionActivityName}</p>
+              <p className="text-xs text-gray-400">Get ready…</p>
+            </div>
+          ) : frozen ? (
             <div className="text-center py-8">
               <div className="text-4xl mb-4">🔒</div>
               <h2 className="font-bold text-white mb-2">Input Paused</h2>
