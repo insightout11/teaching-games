@@ -1,0 +1,52 @@
+{
+  "slug": "taboo-sprint",
+  "schemaVersion": 1,
+  "headline": "Taboo Sprint Activity — Forbidden Words Speaking Game for ESL Classes",
+  "outcomes": [
+    "Students rapidly expand active vocabulary by finding synonyms, definitions, and circumlocutions under pressure",
+    "Build speaking fluency and spontaneity — students must communicate without their usual go-to words",
+    "Develop listening comprehension as students decode descriptions without the expected keyword",
+    "Practise the real-world skill of explaining meaning when a word is unknown — essential for fluent communication"
+  ],
+  "howItWorks": [
+    "The AI generates a target word and four forbidden words related to it — all shown on the teacher's screen",
+    "One student describes the target word to their team without using any of the five forbidden words",
+    "Team members guess the word on their devices while the teacher monitors for violations with a buzz button",
+    "Rounds are timed — the team scores for each correct guess, with bonus points for speed"
+  ],
+  "teacherUseCases": [
+    "Vocabulary production practice — students move from passive recognition to active, flexible use of words",
+    "Speaking fluency drill — the time pressure and forbidden words force students to speak without pausing to translate",
+    "Review lesson — run Taboo Sprint at the end of a unit to surface which words students can explain vs which they just recognise"
+  ],
+  "estimatedTime": "15–20 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "How are the forbidden words chosen?",
+      "a": "The AI selects the four most natural helper words for the target — the words students would normally reach for first. Banning them forces creative circumlocution. For example, for 'migration', the AI might forbid: move, country, travel, birds."
+    },
+    {
+      "q": "What counts as a violation?",
+      "a": "Using a forbidden word, the target word itself, or any part of it (e.g. saying 'migrate' when 'migration' is the target). The teacher controls the buzz button and is the final judge — there's no automated detection."
+    },
+    {
+      "q": "Can shy or lower-level students participate?",
+      "a": "Yes. Lower-difficulty settings produce simpler target words and more obvious circumlocutions. You can also let students pass a round if they're stuck — the game supports skipping to the next word without a penalty."
+    },
+    {
+      "q": "How many rounds does a session typically cover?",
+      "a": "A 20-minute session typically covers 6–10 words depending on the pace of guessing. The AI generates a full set of words upfront so there's no loading delay between rounds."
+    },
+    {
+      "q": "Does the whole class play at once or do teams compete?",
+      "a": "The standard mode is team-based — one speaker per round, team guesses together. For smaller groups, the whole class can guess simultaneously. The teacher controls when to advance to the next word."
+    },
+    {
+      "q": "Is Taboo Sprint free to use?",
+      "a": "Yes, Taboo Sprint is free. Students join on any phone or tablet through a shared browser link — no download or student account required."
+    }
+  ],
+  "related": ["bluff-definition", "expert-panel", "conversation-rounds"],
+  "ogImageTheme": "practice"
+}

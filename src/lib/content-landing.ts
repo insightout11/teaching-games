@@ -22,6 +22,8 @@ import expertPanelJson from '@/content/activities/expert-panel.json';
 import scenarioSimulatorJson from '@/content/activities/scenario-simulator.json';
 import problemSolversJson from '@/content/activities/problem-solvers.json';
 import hotTakeArenaJson from '@/content/activities/hot-take-arena.json';
+import bluffDefinitionJson from '@/content/activities/bluff-definition.json';
+import tabooSprintJson from '@/content/activities/taboo-sprint.json';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -106,6 +108,8 @@ const ACTIVITY_CONTENT: Record<string, LandingContent> = {
   'scenario-simulator': scenarioSimulatorJson as LandingContent,
   'problem-solvers': problemSolversJson as LandingContent,
   'hot-take-arena': hotTakeArenaJson as LandingContent,
+  'bluff-definition': bluffDefinitionJson as LandingContent,
+  'taboo-sprint': tabooSprintJson as LandingContent,
 };
 
 export function getGameContent(slug: string): LandingContent | undefined {

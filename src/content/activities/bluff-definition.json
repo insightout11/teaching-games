@@ -1,0 +1,52 @@
+{
+  "slug": "bluff-definition",
+  "schemaVersion": 1,
+  "headline": "Bluff Definition Activity — Balderdash-Style Vocabulary Game for ESL Classes",
+  "outcomes": [
+    "Students engage deeply with new vocabulary by constructing plausible definitions, not just memorising them",
+    "Build critical reading skills by evaluating multiple definitions and identifying linguistic tells",
+    "Develop persuasive writing in English — a convincing bluff requires precise, confident language",
+    "Generate genuine motivation to learn word meanings when fooling classmates becomes the goal"
+  ],
+  "howItWorks": [
+    "The AI selects a challenging or unusual word from the lesson topic and keeps it secret from the class",
+    "Every student writes their own fake definition on their device — the more convincing, the better",
+    "The real definition is mixed in with the student bluffs and all definitions are displayed on screen",
+    "Students vote for what they believe is the real definition — scoring rewards both spotting the truth and fooling others"
+  ],
+  "teacherUseCases": [
+    "Vocabulary introduction — surface prior knowledge before teaching formal definitions",
+    "Academic word study — work with subject-specific or IELTS/TOEFL vocabulary lists",
+    "Creative writing warm-up — students practise writing with precision and authority in English"
+  ],
+  "estimatedTime": "10–15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What kind of words work best?",
+      "a": "Low-frequency vocabulary where students genuinely don't know the answer. Academic words, topic-specific terms, and unusual English idioms all work well. If students already know the word, the bluffing game collapses — the AI picks words calibrated to the difficulty level you set."
+    },
+    {
+      "q": "How does the scoring work?",
+      "a": "Students earn 1 point for submitting a definition and 1 point for voting for the real definition. They also earn 2 points for every classmate they fool — so a great bluff that tricks half the class is worth far more than just being correct."
+    },
+    {
+      "q": "What if students write offensive or inappropriate definitions?",
+      "a": "The teacher sees all submitted definitions before the vote phase begins. You can remove any definition that isn't suitable before displaying them to the class — the game waits for you to approve the reveal."
+    },
+    {
+      "q": "Can I set the target word myself?",
+      "a": "The AI generates words based on your topic and difficulty setting. If you want a specific word, set a very narrow topic (e.g. 'the word photosynthesis') and the AI will build the round around it."
+    },
+    {
+      "q": "What proficiency level suits this activity?",
+      "a": "Bluff Definition works best from A2 upward. The writing task is low-stakes enough that beginners can attempt it, but the vocabulary challenge scales with difficulty — Advanced mode surfaces genuinely rare words that even strong students find tricky."
+    },
+    {
+      "q": "Is Bluff Definition free to use?",
+      "a": "Yes, Bluff Definition is free. Students join on any phone or tablet through a browser link — no account or app download required."
+    }
+  ],
+  "related": ["vocab-radar", "two-truths", "fact-detective"],
+  "ogImageTheme": "practice"
+}
