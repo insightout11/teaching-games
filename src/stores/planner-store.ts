@@ -73,6 +73,8 @@ interface PlannerState {
   setActiveTab(tab: 'build' | 'presets'): void;
   loadPreset(preset: FlightPlanPreset): void;
   setReplaceDrawerModuleId(id: string | null): void;
+  /** Seed the flight plan with a single game/activity and jump to the flight-plan step. */
+  seedWithModule(key: string, slotType: SlotType): void;
 
   // Actions — Step 3 (Launch)
   setSelectedClassId(id: string | null): void;
@@ -230,6 +232,19 @@ export const usePlannerStore = create<PlannerState>()(
       },
 
       setReplaceDrawerModuleId: (id) => set({ replaceDrawerModuleId: id }),
+
+      seedWithModule: (key, slotType) => {
+        const takeoff: PlanModule = { id: crypto.randomUUID(), slotType: 'takeoff', key: 'mission-selector', isLocked: true };
+        const middle: PlanModule = { id: crypto.randomUUID(), slotType, key, isLocked: false };
+        const landing: PlanModule = { id: crypto.randomUUID(), slotType: 'landing', key: 'opinion-shift', isLocked: true };
+        set({
+          step: 'flight-plan',
+          activeTab: 'build',
+          modules: [takeoff, middle, landing],
+          loadedPresetId: null,
+          overrideScoringMode: null,
+        });
+      },
 
       setSelectedClassId: (id) => set({ selectedClassId: id }),
       setGrammarTarget: (grammarTarget) => set({ grammarTarget }),

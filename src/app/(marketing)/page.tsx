@@ -22,7 +22,7 @@ export default async function HomePage() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect('/explore');
+    redirect('/home');
   }
 
   return (

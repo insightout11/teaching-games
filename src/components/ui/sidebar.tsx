@@ -25,7 +25,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { href: '/explore',        label: 'Explore',       icon: Compass,       subtitle: null,               exact: false },
   { href: '/classes',        label: 'Classes',        icon: GraduationCap, subtitle: null,               exact: false },
-  { href: '/lesson-planner', label: 'Flight Plans',   icon: Plane,         subtitle: 'Lesson sequences', exact: false },
+  { href: '/lesson-planner', label: 'Lesson Planner', icon: Plane,         subtitle: null,               exact: false },
   { href: '/library',        label: 'Library',        icon: Library,       subtitle: null,               exact: false },
 ];
 
@@ -50,7 +50,7 @@ export function Sidebar({ user }: { user: User }) {
     <header className="w-64 bg-lc-surface border-r border-lc-border flex flex-col h-screen sticky top-0">
       <div className="p-6 border-b border-lc-border-subtle">
         <div className="flex items-center justify-between">
-          <Link href="/explore" className="cursor-pointer">
+          <Link href="/home" className="cursor-pointer">
             <Image
               src={resolvedTheme === 'light' ? '/lessoncaptain-logo-on-light.svg' : '/lessoncaptain-logo-on-dark-v2.svg'}
               alt="LessonCaptain"

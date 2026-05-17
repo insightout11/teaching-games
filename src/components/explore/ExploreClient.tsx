@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Clock } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
@@ -14,6 +15,8 @@ import type { GameCategory } from '@/games/types';
 import type { ActivityCategory } from '@/activities/types';
 import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
 import type { Topic, Difficulty } from '@/stores/session-store';
+import { usePlannerStore } from '@/stores/planner-store';
+import type { SlotType } from '@/lib/flight-plan-config';
 
 type FilterTab = 'all' | 'games' | 'activities';
 type SkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -62,6 +65,8 @@ function getStageBadge(stage: string | undefined) {
 }
 
 export function ExploreClient() {
+  const router = useRouter();
+  const { seedWithModule } = usePlannerStore();
   const games: GamePlugin[] = getAllGames().filter((g) => !g.flightPlanOnly);
   const activities: ActivityPlugin[] = getAllActivities().filter((a) => !a.flightPlanOnly);
   const [filter, setFilter] = useState<FilterTab>('all');
@@ -200,6 +205,11 @@ export function ExploreClient() {
   const gameCategoryOrder: GameCategory[] = ['quiz', 'vocabulary', 'grammar-writing', 'logic-puzzles'];
   const activityCategoryOrder: ActivityCategory[] = ['icebreaker', 'learning', 'practice', 'debate', 'closing'];
 
+  function handleAddToPlan(key: string, slotType: SlotType) {
+    seedWithModule(key, slotType);
+    router.push('/lesson-planner');
+  }
+
   return (
     <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
       <div className="mb-6">
@@ -285,28 +295,37 @@ export function ExploreClient() {
                   const GameIcon = game.icon;
                   const stageBadge = getStageBadge(game.pppStage);
                   return (
-                    <button
-                      key={game.key}
-                      onClick={() => setLaunchItem({ name: game.name, key: game.key, type: 'game' })}
-                      aria-label={`${game.name} – ${stageBadge?.label ?? 'Game'}, ${game.estimatedMinutes} min`}
-                      className={cn('panel-card border-l-2 p-6 text-left transition-all w-full', getCategoryAccent(cat))}
-                    >
-                      <div className="flex items-center gap-2 mb-1" aria-hidden="true">
-                        <GameIcon className={`w-5 h-5 ${info.color}`} />
-                        <span className="font-semibold">{game.name}</span>
-                        {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
+                    <div key={game.key} className={cn('panel-card border-l-2 text-left transition-all overflow-hidden flex flex-col', getCategoryAccent(cat))}>
+                      <button
+                        onClick={() => setLaunchItem({ name: game.name, key: game.key, type: 'game' })}
+                        aria-label={`${game.name} – ${stageBadge?.label ?? 'Game'}, ${game.estimatedMinutes} min`}
+                        className="flex-1 p-6 text-left w-full block"
+                      >
+                        <div className="flex items-center gap-2 mb-1" aria-hidden="true">
+                          <GameIcon className={`w-5 h-5 ${info.color}`} />
+                          <span className="font-semibold">{game.name}</span>
+                          {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
+                        </div>
+                        <p className="text-sm opacity-70 mt-1">{game.description}</p>
+                        <div className="flex flex-wrap gap-1 mt-3">
+                          {game.skills.map((skill) => (
+                            <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">{skill}</span>
+                          ))}
+                        </div>
+                        <div className="mt-3 flex items-center gap-1">
+                          <Clock className="w-3 h-3 opacity-40" />
+                          <span className="text-xs opacity-50">{game.estimatedMinutes} min</span>
+                        </div>
+                      </button>
+                      <div className="px-6 pb-3 pt-1 border-t border-lc-border/40 flex items-center justify-end">
+                        <button
+                          onClick={() => handleAddToPlan(game.key, game.pppStage)}
+                          className="text-xs text-lc-text3 hover:text-lc-amber transition-colors"
+                        >
+                          + Add to lesson plan
+                        </button>
                       </div>
-                      <p className="text-sm opacity-70 mt-1" aria-hidden="true">{game.description}</p>
-                      <div className="flex flex-wrap gap-1 mt-3" aria-hidden="true">
-                        {game.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">{skill}</span>
-                        ))}
-                      </div>
-                      <div className="mt-3 flex items-center gap-1" aria-hidden="true">
-                        <Clock className="w-3 h-3 opacity-40" />
-                        <span className="text-xs opacity-50">{game.estimatedMinutes} min</span>
-                      </div>
-                    </button>
+                    </div>
                   );
                 })}
               </div>
@@ -338,28 +357,37 @@ export function ExploreClient() {
                   const ActivityIcon = activity.icon;
                   const stageBadge = getStageBadge(activity.pppStage);
                   return (
-                    <button
-                      key={activity.key}
-                      onClick={() => setLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
-                      aria-label={`${activity.name} – ${stageBadge?.label ?? 'Activity'}, ${activity.estimatedMinutes} min`}
-                      className={cn('panel-card border-l-2 p-6 text-left transition-all w-full', getCategoryAccent(cat))}
-                    >
-                      <div className="flex items-center gap-2 mb-1" aria-hidden="true">
-                        <ActivityIcon className={`w-5 h-5 ${info.color}`} />
-                        <span className="font-semibold">{activity.name}</span>
-                        {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
+                    <div key={activity.key} className={cn('panel-card border-l-2 text-left transition-all overflow-hidden flex flex-col', getCategoryAccent(cat))}>
+                      <button
+                        onClick={() => setLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
+                        aria-label={`${activity.name} – ${stageBadge?.label ?? 'Activity'}, ${activity.estimatedMinutes} min`}
+                        className="flex-1 p-6 text-left w-full block"
+                      >
+                        <div className="flex items-center gap-2 mb-1" aria-hidden="true">
+                          <ActivityIcon className={`w-5 h-5 ${info.color}`} />
+                          <span className="font-semibold">{activity.name}</span>
+                          {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
+                        </div>
+                        <p className="text-sm opacity-70 mt-2">{activity.description}</p>
+                        <div className="flex flex-wrap gap-1 mt-3">
+                          {activity.skills.map((skill) => (
+                            <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">{skill}</span>
+                          ))}
+                        </div>
+                        <div className="mt-3 flex items-center gap-1">
+                          <Clock className="w-3 h-3 opacity-40" />
+                          <span className="text-xs opacity-50">{activity.estimatedMinutes} min</span>
+                        </div>
+                      </button>
+                      <div className="px-6 pb-3 pt-1 border-t border-lc-border/40 flex items-center justify-end">
+                        <button
+                          onClick={() => handleAddToPlan(activity.key, activity.pppStage)}
+                          className="text-xs text-lc-text3 hover:text-lc-amber transition-colors"
+                        >
+                          + Add to lesson plan
+                        </button>
                       </div>
-                      <p className="text-sm opacity-70 mt-2" aria-hidden="true">{activity.description}</p>
-                      <div className="flex flex-wrap gap-1 mt-3" aria-hidden="true">
-                        {activity.skills.map((skill) => (
-                          <span key={skill} className="text-xs px-2 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">{skill}</span>
-                        ))}
-                      </div>
-                      <div className="mt-3 flex items-center gap-1" aria-hidden="true">
-                        <Clock className="w-3 h-3 opacity-40" />
-                        <span className="text-xs opacity-50">{activity.estimatedMinutes} min</span>
-                      </div>
-                    </button>
+                    </div>
                   );
                 })}
               </div>

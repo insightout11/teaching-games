@@ -74,6 +74,13 @@ export function MissionSetupScreen() {
         </button>
       </div>
 
+      {/* Tab hint */}
+      <p className="text-xs text-lc-text3 -mt-2">
+        {activeTab === 'presets'
+          ? 'Start from a ready-made template — fastest way to get going.'
+          : 'Set every detail yourself — topic, goals, difficulty, and source material.'}
+      </p>
+
       {/* Source material — available in both tabs */}
       <SourceInputPanel />
 
