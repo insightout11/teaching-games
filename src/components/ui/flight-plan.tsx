@@ -231,15 +231,21 @@ function getStepIcon(type: string, className: string) {
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
-function BackgroundLayer({ width, height }: { width: number; height: number }) {
+type BgIds = { radarPulse: string; clipPath: string; cityGlow: string };
+
+function BackgroundLayer({ width, height, bgIds }: { width: number; height: number; bgIds: BgIds }) {
   const radarRings = buildRadarRings(width * 0.16, height * 0.8, [110, 170, 230, 290]);
 
   const gR = height * 4.8;
   const gcx = width * 0.5;
   const gcy = height * 0.73 + gR;
   const landY = height * 0.73 + height * 0.14;
-  const lcx = width * 0.22;
-  const rcx = width * 0.78;
+  // Clamp continent positions so they stay inside the clip circle at any aspect ratio.
+  // At wide/short dimensions (session strip) the width-based spread exceeds gR, clipping continents away.
+  const cityDotY = landY - height * 0.05;
+  const safeSpread = Math.sqrt(Math.max(0, gR * gR - (gcy - cityDotY) ** 2)) * 0.95;
+  const lcx = gcx - Math.min(width * 0.28, safeSpread);
+  const rcx = gcx + Math.min(width * 0.28, safeSpread);
 
   return (
     <div className="absolute inset-0 overflow-hidden rounded-[28px]">
@@ -268,14 +274,14 @@ function BackgroundLayer({ width, height }: { width: number; height: number }) {
 
       <svg className="absolute inset-0 h-full w-full" viewBox={`0 0 ${width} ${height}`} fill="none">
         <defs>
-          <radialGradient id="radarPulse" cx="50%" cy="50%" r="50%">
+          <radialGradient id={bgIds.radarPulse} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="rgba(102,241,255,0.14)" />
             <stop offset="100%" stopColor="rgba(102,241,255,0)" />
           </radialGradient>
-          <clipPath id="fp-gc">
+          <clipPath id={bgIds.clipPath}>
             <circle cx={gcx} cy={gcy} r={gR} />
           </clipPath>
-          <filter id="fp-cglow" x="-200%" y="-200%" width="500%" height="500%">
+          <filter id={bgIds.cityGlow} x="-200%" y="-200%" width="500%" height="500%">
             <feGaussianBlur stdDeviation="6" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
@@ -288,24 +294,24 @@ function BackgroundLayer({ width, height }: { width: number; height: number }) {
         <circle cx={gcx} cy={gcy} r={gR} fill="#061525" opacity={0.95} />
 
         {/* Left continent — departure side */}
-        <ellipse cx={lcx} cy={landY} rx={width * 0.088} ry={height * 0.088} fill="#0d2016" clipPath="url(#fp-gc)" />
-        <ellipse cx={lcx - width * 0.032} cy={landY - height * 0.04} rx={width * 0.048} ry={height * 0.058} fill="#0d2016" clipPath="url(#fp-gc)" />
-        <ellipse cx={lcx + width * 0.04} cy={landY + height * 0.05} rx={width * 0.055} ry={height * 0.048} fill="#0d2016" clipPath="url(#fp-gc)" />
+        <ellipse cx={lcx} cy={landY} rx={width * 0.088} ry={height * 0.088} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
+        <ellipse cx={lcx - width * 0.032} cy={landY - height * 0.04} rx={width * 0.048} ry={height * 0.058} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
+        <ellipse cx={lcx + width * 0.04} cy={landY + height * 0.05} rx={width * 0.055} ry={height * 0.048} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
 
         {/* Right continent — arrival side */}
-        <ellipse cx={rcx} cy={landY} rx={width * 0.078} ry={height * 0.082} fill="#0d2016" clipPath="url(#fp-gc)" />
-        <ellipse cx={rcx + width * 0.028} cy={landY - height * 0.032} rx={width * 0.044} ry={height * 0.054} fill="#0d2016" clipPath="url(#fp-gc)" />
-        <ellipse cx={rcx - width * 0.038} cy={landY + height * 0.042} rx={width * 0.052} ry={height * 0.042} fill="#0d2016" clipPath="url(#fp-gc)" />
+        <ellipse cx={rcx} cy={landY} rx={width * 0.078} ry={height * 0.082} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
+        <ellipse cx={rcx + width * 0.028} cy={landY - height * 0.032} rx={width * 0.044} ry={height * 0.054} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
+        <ellipse cx={rcx - width * 0.038} cy={landY + height * 0.042} rx={width * 0.052} ry={height * 0.042} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
 
         {/* City glow dots */}
-        <circle cx={lcx} cy={landY - height * 0.05} r={4} fill="rgba(255,180,60,0.7)" filter="url(#fp-cglow)" />
-        <circle cx={rcx} cy={landY - height * 0.038} r={4} fill="rgba(255,180,60,0.7)" filter="url(#fp-cglow)" />
+        <circle cx={lcx} cy={cityDotY} r={4} fill="rgba(255,180,60,0.7)" filter={`url(#${bgIds.cityGlow})`} />
+        <circle cx={rcx} cy={landY - height * 0.038} r={4} fill="rgba(255,180,60,0.7)" filter={`url(#${bgIds.cityGlow})`} />
 
         {/* Atmosphere rim */}
         <circle cx={gcx} cy={gcy} r={gR + 3} stroke="rgba(70,155,255,0.18)" strokeWidth={6} />
         <circle cx={gcx} cy={gcy} r={gR + 10} stroke="rgba(50,130,255,0.06)" strokeWidth={14} />
 
-        <circle cx={width * 0.16} cy={height * 0.8} r="320" fill="url(#radarPulse)" />
+        <circle cx={width * 0.16} cy={height * 0.8} r="320" fill={`url(#${bgIds.radarPulse})`} />
 
         {radarRings.map((ring) => (
           <path
@@ -877,6 +883,11 @@ export function LessonCaptainFlightPlan({
     };
   }, [baseId]);
 
+  const bgIds = useMemo(() => {
+    const s = baseId.replace(/:/g, '');
+    return { radarPulse: `${s}-bg-rp`, clipPath: `${s}-bg-gc`, cityGlow: `${s}-bg-cg` };
+  }, [baseId]);
+
   const derivedActiveIndex = useMemo(() => {
     if (mode === 'planner') return 0;
     if (typeof controlledActiveIndex === 'number') {
@@ -897,7 +908,7 @@ export function LessonCaptainFlightPlan({
     >
       {!mounted ? null : (
         <>
-          <BackgroundLayer width={width} height={height} />
+          <BackgroundLayer width={width} height={height} bgIds={bgIds} />
 
           {mode !== 'runtime' && (
             <motion.div
