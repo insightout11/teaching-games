@@ -110,6 +110,15 @@ function missionContextBlock(missionContext?: string[]): string {
   return `\nThe students in this class chose the following personal mission questions at the start of the lesson:\n${list}\nUse these to lightly shape examples, vocabulary, and scenarios — but do NOT change the subject of the content. The topic above always takes priority. Keep the format, difficulty level, and structure identical.\n`;
 }
 
+function pppContextBlock(stage: 'presentation' | 'practice' | 'production'): string {
+  const map: Record<string, string> = {
+    presentation: 'LESSON STAGE: Presentation — this is an opening activity to activate prior knowledge and set the scene. Keep language accessible, examples familiar, and tasks low-stakes.',
+    practice: 'LESSON STAGE: Practice — students are applying language in a structured, guided context. Prioritize clear scaffolding and controlled tasks over open-ended ones.',
+    production: 'LESSON STAGE: Production — students are expected to use language freely and creatively. Prioritize open-ended, expressive tasks with minimal scaffolding.',
+  };
+  return `\n${map[stage]}\n`;
+}
+
 // ============================================
 // Activity Generators
 // ============================================
@@ -149,7 +158,7 @@ async function generateWouldYouRather(topic: string, difficulty: Difficulty, mis
   const prompt = `Generate 5 "Would You Rather?" dilemmas for an ESL classroom.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${missionContextBlock(missionContext)}${sourceContext}
+${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
 Each dilemma needs two options (both appealing OR both unappealing), a discussion prompt, and 3 follow-up questions.
 Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dilemmaId and questions).`;
 
@@ -167,7 +176,7 @@ Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dile
   return { activityKey: 'would-you-rather', topicContext: topic, dilemmas: parsed.dilemmas, potentialFollowUps: followUpsRecord };
 }
 
-async function generateHotTakeArena(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<HotTakeArenaContent> {
+async function generateHotTakeArena(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<HotTakeArenaContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -199,7 +208,7 @@ async function generateHotTakeArena(topic: string, difficulty: Difficulty, sourc
 
   const prompt = `Generate a debate for ESL "Hot Take Arena" about the topic: "${topic}"
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}The "statement" field MUST be a bold opinionated assertion specifically about "${topic}" that students can AGREE or DISAGREE with — NOT a question. It should take a clear stance (e.g. if the topic is guitars: "Electric guitars are superior to acoustic in every way"). Never use question marks in the statement.
+${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}The "statement" field MUST be a bold opinionated assertion specifically about "${topic}" that students can AGREE or DISAGREE with — NOT a question. It should take a clear stance (e.g. if the topic is guitars: "Electric guitars are superior to acoustic in every way"). Never use question marks in the statement.
 Create 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words, each with a short student-facing definition (max 15 words).`;
 
   const parsed = await generateJSON<{
@@ -212,7 +221,7 @@ Create 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vo
   return { activityKey: 'hot-take-arena', topicContext: topic, ...parsed };
 }
 
-async function generateTwoTruths(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<TwoTruthsContent> {
+async function generateTwoTruths(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<TwoTruthsContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -237,7 +246,7 @@ async function generateTwoTruths(topic: string, difficulty: Difficulty, sourceCo
   const prompt = `Generate 5 rounds of "Two Truths & A Fabrication" for ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}
+${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
 Each round: 3 statements (2 true, 1 false about the topic), fabricationIndex (0-2), explanation why it's false.
 Mix difficulty levels (easy/medium/hard).`;
 
@@ -245,7 +254,7 @@ Mix difficulty levels (easy/medium/hard).`;
   return { activityKey: 'two-truths', topicContext: topic, rounds: parsed.rounds };
 }
 
-async function generateRankIt(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<RankItContent> {
+async function generateRankIt(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<RankItContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -280,7 +289,7 @@ async function generateRankIt(topic: string, difficulty: Difficulty, sourceConte
   const prompt = `Generate 3 "Rank It!" challenges for ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}
+${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
 Each challenge: a ranking prompt, 4-5 items with hidden facts that might change minds.
 Example: "Rank these animals by survival ability" with surprising facts about each.`;
 
@@ -288,7 +297,7 @@ Example: "Rank these animals by survival ability" with surprising facts about ea
   return { activityKey: 'rank-it', topicContext: topic, challenges: parsed.challenges };
 }
 
-async function generateFactDetective(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<FactDetectiveContent> {
+async function generateFactDetective(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<FactDetectiveContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -324,7 +333,7 @@ async function generateFactDetective(topic: string, difficulty: Difficulty, sour
   const prompt = `Generate 6 fact/myth claims for "Fact Detective" ESL activity.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}
+${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
 Mix of true facts and plausible myths. Include explanation and 2-3 vocabulary words per claim, each with a short student-facing definition (max 15 words).
 Make claims progressively harder to guess.`;
 
@@ -367,7 +376,7 @@ async function generateExpertPanel(topic: string, difficulty: Difficulty, n: num
   const prompt = `Generate an "Expert Panel" talk show activity for an ESL class of ${n} students.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${missionContextBlock(missionContext)}${sourceContext}
+${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
 Create exactly ${n} expert role cards — one per student.
 Each role: id (slug like "role-1"), title (2–4 words), tags (exactly 3 short noun phrases, max 3 words each),
 starters (exactly 2 short sentence starters, max 10 words each, e.g. "From my view, ..." / "A real example is ...").
@@ -437,7 +446,7 @@ async function generateScenarioSimulator(topic: string, difficulty: Difficulty, 
 
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
 Topic: ${topic}
-${missionContextBlock(missionContext)}${sourceContext}
+${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
 You are writing a choose-your-own-adventure story that will be told over 5 rounds.
 Only write Round 1 now. The other rounds will be generated live based on student votes.
 
@@ -493,7 +502,7 @@ Return valid JSON.`;
   return { activityKey: 'scenario-simulator', topicContext: topic, ...parsed } as ScenarioSimulatorContent;
 }
 
-async function generateInterviewLab(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<InterviewLabContent> {
+async function generateInterviewLab(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<InterviewLabContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -518,7 +527,7 @@ async function generateInterviewLab(topic: string, difficulty: Difficulty, sourc
   const prompt = `Generate an "Interview Lab" character for ESL class.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}
+${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
 Create an interesting character to interview:
 - Name, role, background, personality
 - Expertise areas
@@ -535,7 +544,7 @@ Create an interesting character to interview:
   return { activityKey: 'interview-lab', topicContext: topic, ...parsed };
 }
 
-async function generateProblemSolvers(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<ProblemSolversContent> {
+async function generateProblemSolvers(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<ProblemSolversContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -621,7 +630,7 @@ async function generateProblemSolvers(topic: string, difficulty: Difficulty, sou
 
 Generate a "Problem Solvers" activity for an ESL class.
 Topic: ${topic}
-${sourceContext}
+${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
 
 DIFFICULTY STRUCTURE (${difficulty}):
 - Problem: short concrete title + 1–2 sentence description using the language rule above (no jargon, no abstract concepts for lower levels)
@@ -1687,7 +1696,7 @@ Return JSON with groups array. Words should be UPPERCASE.`;
 // New Lesson Type Generators
 // ============================================
 
-async function generateCharacterCards(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<CharacterCardsContent> {
+async function generateCharacterCards(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = '', skipCache = false): Promise<CharacterCardsContent> {
   const cached = skipCache ? null : await getCachedContent('character-cards', topic, difficulty, [], undefined, 1);
   if (cached) {
     const c = cached.content_json as { characters: CharacterCard[] };
@@ -1715,7 +1724,7 @@ async function generateCharacterCards(topic: string, difficulty: Difficulty, sou
 
   const prompt = `Generate 9 characters for an ESL class warm-up activity on the topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}
+${pppContextBlock('presentation')}${missionContextBlock(missionContext)}${sourceContext}
 Each character represents a DIFFERENT perspective or viewpoint on the topic. Their viewpoints should genuinely disagree with or contrast each other — not all be positive.
 
 Rules:
@@ -2149,8 +2158,7 @@ async function generateConversationRounds(topic: string, difficulty: Difficulty,
   const prompt = `Generate a "Conversation Rounds" role-play activity for an ESL class.
 Topic/Scenario: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}${sceneNote}
-${sourceContext}
-
+${pppContextBlock('production')}${sourceContext}
 Create one realistic two-person scenario where both roles NEED each other to resolve a situation — not just exchange opinions. There must be a clear conflict of interest or an asymmetric goal.
 
 Rules:
@@ -2348,20 +2356,20 @@ export async function POST(request: NextRequest) {
             generators.push(generateWouldYouRather(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'hot-take-arena':
-            generators.push(generateHotTakeArena(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateHotTakeArena(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths':
-            generators.push(generateTwoTruths(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateTwoTruths(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths-and-a-lie':
             // No AI generation — content is student-generated at runtime
             generators.push(Promise.resolve().then(() => { content[activityKey] = { activityKey, topicContext: customTopic }; }));
             break;
           case 'rank-it':
-            generators.push(generateRankIt(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateRankIt(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'fact-detective':
-            generators.push(generateFactDetective(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateFactDetective(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'expert-panel':
             generators.push(generateExpertPanel(customTopic, diff, studentCount ?? 9, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
@@ -2370,10 +2378,10 @@ export async function POST(request: NextRequest) {
             generators.push(generateScenarioSimulator(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'interview-lab':
-            generators.push(generateInterviewLab(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateInterviewLab(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'problem-solvers':
-            generators.push(generateProblemSolvers(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateProblemSolvers(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'wonder-board':
             generators.push(generateWonderBoard(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
@@ -2472,7 +2480,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateMissionSelectorContent(customTopic, diff, goal).then((r) => { content[activityKey] = r; }));
             break;
           case 'character-cards':
-            generators.push(generateCharacterCards(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            generators.push(generateCharacterCards(customTopic, diff, missionContext, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'imposter':
             generators.push(generateImposter(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
