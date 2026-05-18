@@ -53,7 +53,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden pt-16 pb-24 px-6">
+    <section className="relative overflow-hidden pt-10 pb-20 px-6">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -62,15 +62,14 @@ export function HeroSection() {
         }}
       />
 
-      <div className="max-w-6xl mx-auto flex flex-col gap-10">
-        {/* Top: headline + CTA — left aligned */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-end">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col gap-4"
-          >
+      <div className="max-w-6xl mx-auto flex flex-col gap-6">
+        {/* Top: headline + CTA — single column glass card */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="max-w-2xl bg-lc-bg/50 backdrop-blur-sm border border-white/[0.06] rounded-2xl px-8 py-7 flex flex-col gap-5">
             <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-widest uppercase text-lc-blue">
               <span className="w-4 h-px bg-lc-blue" />
               Live Lesson Layer for Online ESL
@@ -78,14 +77,6 @@ export function HeroSection() {
             <h1 className="text-4xl sm:text-5xl font-bold text-lc-text leading-tight">
               Run interactive ESL lessons on any video call.
             </h1>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="flex flex-col gap-5"
-          >
             <p className="text-lg text-lc-text2 leading-relaxed">
               Plan a structured lesson, screen-share the teacher view, and let students join from any browser to answer questions, play games, vote, and participate live.
             </p>
@@ -106,12 +97,12 @@ export function HeroSection() {
                   Browse games and activities
                 </Link>
               </div>
-              <p className="text-sm text-lc-text3">
+              <p className="text-sm text-lc-text2">
                 Works with Zoom, Google Meet, Teams, or any video call.
               </p>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
         {/* Full-width flight plan visualization */}
         <motion.div
