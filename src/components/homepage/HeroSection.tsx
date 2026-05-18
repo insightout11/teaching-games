@@ -78,7 +78,7 @@ export function HeroSection() {
               className="text-4xl sm:text-5xl font-bold text-lc-text leading-tight"
               style={{ textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
             >
-              Run interactive ESL lessons on any video call.
+              Run interactive ESL lessons while you screen share.
             </h1>
             <p className="text-lg text-lc-text2 leading-relaxed">
               Plan a structured lesson, screen-share the teacher view, and let students join from any browser to answer questions, play games, vote, and participate live.
@@ -101,7 +101,7 @@ export function HeroSection() {
                 </Link>
               </div>
               <p className="text-sm text-lc-text2">
-                Works with Zoom, Google Meet, Teams, or any video call.
+                Works with Zoom, Google Meet, Teams, or any screen-sharing setup.
               </p>
             </div>
           </div>
