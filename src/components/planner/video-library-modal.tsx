@@ -9,8 +9,8 @@ import { DIFFICULTIES } from '@/lib/difficulty';
 type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft';
 
 const SOURCE_CONFIG: { key: LibrarySourceKey; label: string; activeClass: string; inactiveClass: string }[] = [
-  { key: 'ted',              label: 'TED',          activeClass: 'bg-red-600 text-white',          inactiveClass: 'bg-red-900/20 text-red-400 border border-red-800/40'          },
   { key: 'teded',            label: 'TED-Ed',        activeClass: 'bg-red-600 text-white',          inactiveClass: 'bg-red-900/20 text-red-400 border border-red-800/40'          },
+  { key: 'ted',              label: 'TED',          activeClass: 'bg-red-600 text-white',          inactiveClass: 'bg-red-900/20 text-red-400 border border-red-800/40'          },
   { key: 'bbc',              label: 'BBC',           activeClass: 'bg-amber-500 text-white',        inactiveClass: 'bg-amber-900/20 text-amber-400 border border-amber-800/40'    },
   { key: 'kurzgesagt',       label: 'Kurzgesagt',    activeClass: 'bg-orange-500 text-white',       inactiveClass: 'bg-orange-900/20 text-orange-400 border border-orange-800/40' },
   { key: 'bbc-ideas',        label: 'BBC Ideas',     activeClass: 'bg-cyan-500 text-white',         inactiveClass: 'bg-cyan-900/20 text-cyan-400 border border-cyan-800/40'        },
@@ -98,8 +98,8 @@ function tag<K extends LibrarySourceKey>(raw: unknown[], key: K): LibraryEntry[]
 }
 
 const ALL_ENTRIES: LibraryEntry[] = [
-  ...tag(tedRaw, 'ted'),
   ...tag(tededRaw, 'teded'),
+  ...tag(tedRaw, 'ted'),
   ...tag(bbcRaw, 'bbc'),
   ...tag(kurzgesagtRaw, 'kurzgesagt'),
   ...tag(bbcIdeasRaw, 'bbc-ideas'),
