@@ -9,7 +9,6 @@ import { cn } from '@/lib/utils';
 import { isMockMode } from '@/lib/mock/auth';
 import type { User } from '@supabase/supabase-js';
 import { CreditBadge } from './credit-badge';
-import { ThemeToggle } from './theme-toggle';
 import { Compass, GraduationCap, Plane, Library } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import type { ComponentType } from 'react';
@@ -60,7 +59,6 @@ export function Sidebar({ user }: { user: User }) {
               unoptimized
             />
           </Link>
-          <ThemeToggle className="text-lc-text3 hover:text-lc-text transition-colors" />
         </div>
         {mockMode && (
           <span className="text-xs text-lc-warn bg-lc-warn/10 px-2 py-0.5 rounded-full">
