@@ -56,7 +56,8 @@ export function HowItWorksSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.05 }}
-          className="text-3xl font-bold text-white text-center mb-14"
+          className="text-3xl font-bold text-center mb-14"
+          style={{ color: 'white' }}
         >
           Plan. Share. Teach.
         </motion.h2>

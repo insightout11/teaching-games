@@ -15,7 +15,8 @@ export function PresetsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-3xl sm:text-4xl font-bold text-white text-center mb-3"
+          className="text-3xl sm:text-4xl font-bold text-center mb-3"
+          style={{ color: 'white' }}
         >
           Two ways to start
         </motion.h2>

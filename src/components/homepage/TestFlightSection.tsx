@@ -40,7 +40,7 @@ export function TestFlightSection() {
               <div className="w-2 h-2 rounded-full bg-lc-blue" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-bold text-white max-w-lg leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold max-w-lg leading-tight" style={{ color: 'white' }}>
               Run your first live lesson free
             </h2>
 
