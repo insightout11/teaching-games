@@ -611,6 +611,7 @@ export function SkyBackground({
       {/* Sky gradient — 3-stop for visible depth */}
       <motion.div
         className="absolute inset-0"
+        initial={{ background: `linear-gradient(180deg, ${config.skyTop} 0%, ${config.skyMid} 50%, ${config.skyBottom} 100%)` }}
         animate={{ background: `linear-gradient(180deg, ${config.skyTop} 0%, ${config.skyMid} 50%, ${config.skyBottom} 100%)` }}
         transition={{ duration: 3, ease: 'easeInOut' }}
         style={{ zIndex: 0 }}
@@ -620,6 +621,7 @@ export function SkyBackground({
       <motion.div
         className="absolute bottom-0 left-0 right-0"
         style={{ height: '52%', zIndex: 1 }}
+        initial={{ background: `${sunGradient}radial-gradient(ellipse 80% 30% at 50% 100%, ${config.horizonInner} 0%, transparent 100%), radial-gradient(ellipse 140% 62% at 50% 100%, ${config.horizonGlow} 0%, transparent 100%)` }}
         animate={{ background: `${sunGradient}radial-gradient(ellipse 80% 30% at 50% 100%, ${config.horizonInner} 0%, transparent 100%), radial-gradient(ellipse 140% 62% at 50% 100%, ${config.horizonGlow} 0%, transparent 100%)` }}
         transition={{ duration: 4, ease: 'easeInOut' }}
       />
