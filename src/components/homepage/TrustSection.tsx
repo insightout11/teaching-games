@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 
 const BULLETS = [
-  'Less prep — build a complete lesson in minutes, not hours',
-  'More participation — students respond on their own devices in real time',
-  'Clearer lesson flow — structured pacing from Takeoff to Landing',
-  'Stronger live-class energy — competitive games and instant feedback',
+  'Participation by student',
+  'Accuracy per round',
+  'Leaderboard and scoring history',
+  'Session notes for continuity',
 ];
 
 export function TrustSection() {
@@ -21,7 +21,7 @@ export function TrustSection() {
           transition={{ duration: 0.4 }}
           className="text-3xl font-bold text-lc-text mb-6"
         >
-          Made for online ESL teachers
+          After class, the data is waiting
         </motion.h2>
 
         <motion.p
@@ -31,9 +31,8 @@ export function TrustSection() {
           transition={{ duration: 0.4, delay: 0.08 }}
           className="text-lc-text2 leading-relaxed mb-10"
         >
-          LessonCaptain is designed around how online language classes actually work — limited screen
-          time, students on phones, lessons that need energy and direction at the same time. It
-          gives you the structure to stay in control and the tools to keep students genuinely engaged.
+          LessonCaptain keeps what's useful: who participated, what students got right, leaderboard
+          results, round history, and notes for next time.
         </motion.p>
 
         <div className="flex flex-col gap-4">

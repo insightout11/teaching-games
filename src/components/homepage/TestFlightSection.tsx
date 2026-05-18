@@ -41,11 +41,11 @@ export function TestFlightSection() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-bold text-lc-text max-w-lg leading-tight">
-              Try a real live session with Test Flight credits
+              Run your first live lesson free
             </h2>
 
             <p className="text-lc-text2 max-w-md leading-relaxed">
-              Each Test Flight lets you run a full live session. Start with a preset or generate a custom lesson, then run it in class.
+              Pick a game or activity, type in your topic, and run it live with your class. We call each free session a Test Flight — one credit, one full lesson.
             </p>
 
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
@@ -58,7 +58,7 @@ export function TestFlightSection() {
             </motion.div>
 
             <p className="text-xs text-lc-text3">
-              Verify your email to unlock your first credit.
+              Sign in with Google — no credit card needed.
             </p>
           </div>
         </motion.div>

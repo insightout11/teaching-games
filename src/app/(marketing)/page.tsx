@@ -6,13 +6,14 @@ import { HowItWorksSection } from '@/components/homepage/HowItWorksSection';
 import { CoreValueSection } from '@/components/homepage/CoreValueSection';
 import { PresetsSection } from '@/components/homepage/PresetsSection';
 import { ProductDetailStrip } from '@/components/homepage/ProductDetailStrip';
+import { SourceBasedSection } from '@/components/homepage/SourceBasedSection';
 import { TestFlightSection } from '@/components/homepage/TestFlightSection';
 import { TrustSection } from '@/components/homepage/TrustSection';
 
 export const metadata: Metadata = {
-  title: 'LessonCaptain — Live Classroom Games for ESL Teachers',
+  title: 'LessonCaptain — Run ESL Lessons Alongside Zoom',
   description:
-    'Build structured lessons in minutes and run them live with games, activities, and real-time student engagement. Made for online ESL teachers.',
+    'Plan a structured lesson, screen-share the teacher view, and let students join from any browser. Games, activities, and live participation for online ESL teachers.',
 };
 
 export default async function HomePage() {
@@ -32,6 +33,7 @@ export default async function HomePage() {
       <CoreValueSection />
       <PresetsSection />
       <ProductDetailStrip />
+      <SourceBasedSection />
       <TestFlightSection />
       <TrustSection />
     </>

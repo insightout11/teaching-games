@@ -73,10 +73,10 @@ export function HeroSection() {
           >
             <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-widest uppercase text-lc-blue">
               <span className="w-4 h-px bg-lc-blue" />
-              Live Classroom Platform
+              Zoom Companion for Online ESL
             </span>
             <h1 className="text-4xl sm:text-5xl font-bold text-lc-text leading-tight">
-              Build and run a live lesson in seconds — with energy, structure, and built-in activities.
+              Run interactive ESL lessons alongside Zoom.
             </h1>
           </motion.div>
 
@@ -87,19 +87,27 @@ export function HeroSection() {
             className="flex flex-col gap-5"
           >
             <p className="text-lg text-lc-text2 leading-relaxed">
-              LessonCaptain helps online ESL teachers launch live lessons fast. Start with a preset or generate a lesson flow, then run the class with built-in activities, live scoring, and structure that keeps students involved.
+              Plan a structured lesson, screen-share the teacher view, and let students join from any browser to answer questions, play games, vote, and participate live.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 items-start">
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href="/login"
+                    className="inline-block px-6 py-3 rounded-lg bg-lc-blue text-[#070B14] font-semibold text-base hover:bg-lc-blue-hover transition-colors"
+                  >
+                    Start a Test Flight
+                  </Link>
+                </motion.div>
                 <Link
-                  href="/login"
-                  className="inline-block px-6 py-3 rounded-lg bg-lc-blue text-[#070B14] font-semibold text-base hover:bg-lc-blue-hover transition-colors"
+                  href="/classroom-games"
+                  className="inline-block px-6 py-3 rounded-lg border border-lc-border text-lc-text2 font-semibold text-base hover:border-lc-blue hover:text-lc-text transition-colors"
                 >
-                  Start a Test Flight
+                  Browse games and activities
                 </Link>
-              </motion.div>
+              </div>
               <p className="text-sm text-lc-text3">
-                Run a real live session with a preset or a custom lesson.
+                Works with Zoom, Google Meet, Teams, or any video call.
               </p>
             </div>
           </motion.div>

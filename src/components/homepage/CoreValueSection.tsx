@@ -1,27 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Radio, Map, Activity } from 'lucide-react';
+import { Check } from 'lucide-react';
 
-const CARDS = [
-  {
-    icon: Activity,
-    title: 'Energy without chaos',
-    description:
-      'Competitive games and live scoring keep students engaged, while structured pacing keeps the class on track.',
-  },
-  {
-    icon: Map,
-    title: 'Structure without overplanning',
-    description:
-      'Your Flight Plan sequences the lesson for you. Adjust as you go — no rigid scripts, no prep spirals.',
-  },
-  {
-    icon: Radio,
-    title: 'Live-class support built in',
-    description:
-      'Activities, polls, and games are the lesson. Real-time responses feed directly into your teaching decisions.',
-  },
+const BULLETS = [
+  'Students participate from their own browser — no app or login',
+  'Teacher keeps control while screen sharing',
+  'Works in one-to-one, small group, and online class settings',
+  'No student login required',
+  'Designed for speaking, vocabulary, grammar, discussion, and review',
+  'Works with Zoom, Google Meet, Teams, or any screen-sharing setup',
 ];
 
 export function CoreValueSection() {
@@ -33,43 +21,29 @@ export function CoreValueSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-3xl sm:text-4xl font-bold text-lc-text text-center mb-4"
+          className="text-3xl sm:text-4xl font-bold text-lc-text text-center mb-14"
         >
-          The control room for live teaching
+          Built for online ESL teachers
         </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.08 }}
-          className="text-lc-text2 text-center max-w-xl mx-auto mb-14"
-        >
-          One interface to plan, launch, and manage your entire lesson from a single screen.
-        </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {CARDS.map((card, i) => {
-            const Icon = card.icon;
-            return (
+        <div className="rounded-2xl border border-lc-border bg-lc-card p-8 sm:p-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {BULLETS.map((bullet, i) => (
               <motion.div
-                key={card.title}
-                initial={{ opacity: 0, y: 20 }}
+                key={bullet}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.1 }}
-                whileHover={{ y: -4 }}
-                className="rounded-xl border border-lc-border bg-lc-card p-6 flex flex-col gap-4 cursor-default"
+                transition={{ duration: 0.35, delay: i * 0.07 }}
+                className="flex items-start gap-3"
               >
-                <div className="w-10 h-10 rounded-lg bg-lc-blue/10 flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-lc-blue" />
+                <div className="w-5 h-5 rounded-full bg-lc-success/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Check className="w-3 h-3 text-lc-success" />
                 </div>
-                <div>
-                  <h3 className="text-base font-bold text-lc-text mb-2">{card.title}</h3>
-                  <p className="text-sm text-lc-text2 leading-relaxed">{card.description}</p>
-                </div>
+                <p className="text-sm text-lc-text leading-relaxed">{bullet}</p>
               </motion.div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>

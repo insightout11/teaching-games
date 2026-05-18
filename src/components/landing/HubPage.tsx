@@ -65,7 +65,7 @@ export function HubPage({ type, categories, crossLinkHref, crossLinkLabel }: Hub
                 isGame ? 'bg-blue-600 hover:bg-blue-700' : 'bg-emerald-600 hover:bg-emerald-700'
               }`}
             >
-              Try free — no account needed →
+              Try free with Google →
             </Link>
           </div>
         </div>

@@ -128,7 +128,7 @@ export function ActivityDetailLayout({
         <div className="mx-auto max-w-5xl px-6">
           <h2 className="text-2xl font-bold">Ready to try {plugin.name}?</h2>
           <p className="mt-2 text-emerald-100">
-            Free to use. No student accounts needed. Start in under a minute.
+            Free teacher account — sign in with Google. No student accounts or setup required.
           </p>
           <Link
             href="/login"

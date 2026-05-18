@@ -1,29 +1,40 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Target, Layers, Zap } from 'lucide-react';
+import { BookOpen, Monitor, Zap } from 'lucide-react';
+
+const CONTROL_CHIPS = [
+  'Live leaderboard',
+  'Timer',
+  'Student picker',
+  'Freeze input',
+  'Activity swap',
+];
 
 const STEPS = [
   {
-    icon: Target,
+    icon: BookOpen,
     number: '01',
-    title: 'Pick a goal',
+    title: 'Plan',
     description:
-      'Choose the outcome you want, your class level, topic, and time.',
+      'Choose a preset, topic, level, goal, video, text, or uploaded material.',
+    chips: [] as string[],
   },
   {
-    icon: Layers,
+    icon: Monitor,
     number: '02',
-    title: 'Get a lesson',
+    title: 'Share',
     description:
-      'LessonCaptain builds a clear lesson flow with activities ready to run.',
+      'Screen-share the teacher view. Give students a join link or QR code. No student accounts needed.',
+    chips: [] as string[],
   },
   {
     icon: Zap,
     number: '03',
     title: 'Teach',
     description:
-      'Run the class with built-in structure, scoring, and momentum.',
+      'Run games, activities, and live responses without leaving your call.',
+    chips: CONTROL_CHIPS,
   },
 ];
 
@@ -47,7 +58,7 @@ export function HowItWorksSection() {
           transition={{ duration: 0.4, delay: 0.05 }}
           className="text-3xl font-bold text-lc-text text-center mb-14"
         >
-          Pick a goal. Get a lesson. Teach.
+          Plan. Share. Teach.
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
@@ -68,12 +79,24 @@ export function HowItWorksSection() {
                 <div className="relative z-10 w-20 h-20 rounded-2xl bg-lc-card border border-lc-border flex items-center justify-center">
                   <Icon className="w-8 h-8 text-lc-blue" />
                 </div>
-                <div>
-                  <p className="text-xs font-semibold tracking-widest uppercase text-lc-text3 mb-1">
+                <div className="flex flex-col items-center gap-2">
+                  <p className="text-xs font-semibold tracking-widest uppercase text-lc-text3">
                     {step.number}
                   </p>
-                  <h3 className="text-lg font-bold text-lc-text mb-2">{step.title}</h3>
+                  <h3 className="text-lg font-bold text-lc-text">{step.title}</h3>
                   <p className="text-sm text-lc-text2 leading-relaxed">{step.description}</p>
+                  {step.chips.length > 0 && (
+                    <div className="flex flex-wrap justify-center gap-1.5 mt-1">
+                      {step.chips.map((chip) => (
+                        <span
+                          key={chip}
+                          className="rounded-full border border-lc-border px-2.5 py-0.5 text-xs text-lc-text3"
+                        >
+                          {chip}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             );
