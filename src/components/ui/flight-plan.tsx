@@ -234,6 +234,13 @@ function getStepIcon(type: string, className: string) {
 function BackgroundLayer({ width, height }: { width: number; height: number }) {
   const radarRings = buildRadarRings(width * 0.16, height * 0.8, [110, 170, 230, 290]);
 
+  const gR = height * 4.8;
+  const gcx = width * 0.5;
+  const gcy = height * 0.73 + gR;
+  const landY = height * 0.73 + height * 0.14;
+  const lcx = width * 0.22;
+  const rcx = width * 0.78;
+
   return (
     <div className="absolute inset-0 overflow-hidden rounded-[28px]">
       <div className="absolute inset-0 bg-[#07111f]" />
@@ -265,7 +272,38 @@ function BackgroundLayer({ width, height }: { width: number; height: number }) {
             <stop offset="0%" stopColor="rgba(102,241,255,0.14)" />
             <stop offset="100%" stopColor="rgba(102,241,255,0)" />
           </radialGradient>
+          <clipPath id="fp-gc">
+            <circle cx={gcx} cy={gcy} r={gR} />
+          </clipPath>
+          <filter id="fp-cglow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
+
+        {/* Globe ocean */}
+        <circle cx={gcx} cy={gcy} r={gR} fill="#061525" opacity={0.95} />
+
+        {/* Left continent — departure side */}
+        <ellipse cx={lcx} cy={landY} rx={width * 0.088} ry={height * 0.088} fill="#0d2016" clipPath="url(#fp-gc)" />
+        <ellipse cx={lcx - width * 0.032} cy={landY - height * 0.04} rx={width * 0.048} ry={height * 0.058} fill="#0d2016" clipPath="url(#fp-gc)" />
+        <ellipse cx={lcx + width * 0.04} cy={landY + height * 0.05} rx={width * 0.055} ry={height * 0.048} fill="#0d2016" clipPath="url(#fp-gc)" />
+
+        {/* Right continent — arrival side */}
+        <ellipse cx={rcx} cy={landY} rx={width * 0.078} ry={height * 0.082} fill="#0d2016" clipPath="url(#fp-gc)" />
+        <ellipse cx={rcx + width * 0.028} cy={landY - height * 0.032} rx={width * 0.044} ry={height * 0.054} fill="#0d2016" clipPath="url(#fp-gc)" />
+        <ellipse cx={rcx - width * 0.038} cy={landY + height * 0.042} rx={width * 0.052} ry={height * 0.042} fill="#0d2016" clipPath="url(#fp-gc)" />
+
+        {/* City glow dots */}
+        <circle cx={lcx} cy={landY - height * 0.05} r={4} fill="rgba(255,180,60,0.7)" filter="url(#fp-cglow)" />
+        <circle cx={rcx} cy={landY - height * 0.038} r={4} fill="rgba(255,180,60,0.7)" filter="url(#fp-cglow)" />
+
+        {/* Atmosphere rim */}
+        <circle cx={gcx} cy={gcy} r={gR + 3} stroke="rgba(70,155,255,0.18)" strokeWidth={6} />
+        <circle cx={gcx} cy={gcy} r={gR + 10} stroke="rgba(50,130,255,0.06)" strokeWidth={14} />
 
         <circle cx={width * 0.16} cy={height * 0.8} r="320" fill="url(#radarPulse)" />
 
