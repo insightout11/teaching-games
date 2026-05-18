@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-const LEFT_PRESETS = ['Game Day', 'Last 15 Minutes', 'No One Hides'];
-const RIGHT_PRESETS = ['Talk More', 'Wake-Up Mode', 'Review That Sticks'];
+const LEFT_PRESETS = ['Game Day', 'Vocab Blitz', 'Speaking Circle'];
+const RIGHT_PRESETS = ['Hot Take Arena', 'Connections', 'Vocab Sprint'];
 
 export function PresetsSection() {
   return (
