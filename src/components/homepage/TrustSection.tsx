@@ -31,7 +31,7 @@ export function TrustSection() {
           transition={{ duration: 0.4, delay: 0.08 }}
           className="text-lc-text2 leading-relaxed mb-10"
         >
-          LessonCaptain keeps what's useful: who participated, what students got right, leaderboard
+          LessonCaptain keeps the data that matters: who participated, what students got right, leaderboard
           results, round history, and notes for next time.
         </motion.p>
 
