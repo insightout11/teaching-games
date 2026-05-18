@@ -231,7 +231,7 @@ function getStepIcon(type: string, className: string) {
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
-type BgIds = { radarPulse: string; clipPath: string; cityGlow: string };
+type BgIds = { radarPulse: string; clipPath: string };
 
 function BackgroundLayer({ width, height, bgIds }: { width: number; height: number; bgIds: BgIds }) {
   const radarRings = buildRadarRings(width * 0.16, height * 0.8, [110, 170, 230, 290]);
@@ -244,7 +244,6 @@ function BackgroundLayer({ width, height, bgIds }: { width: number; height: numb
   const gcx = width * 0.5;
   const gcy = height * 0.73 + gR;
   const landY = height * 0.73 + height * 0.14;
-  const cityDotY = landY - height * 0.05;
   const lcx = width * 0.22;
   const rcx = width * 0.78;
 
@@ -282,13 +281,6 @@ function BackgroundLayer({ width, height, bgIds }: { width: number; height: numb
           <clipPath id={bgIds.clipPath}>
             <circle cx={gcx} cy={gcy} r={gR} />
           </clipPath>
-          <filter id={bgIds.cityGlow} x="-200%" y="-200%" width="500%" height="500%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
         </defs>
 
         {/* Globe ocean */}
@@ -304,9 +296,6 @@ function BackgroundLayer({ width, height, bgIds }: { width: number; height: numb
         <ellipse cx={rcx + width * 0.028} cy={landY - height * 0.032} rx={width * 0.044} ry={height * 0.054} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
         <ellipse cx={rcx - width * 0.038} cy={landY + height * 0.042} rx={width * 0.052} ry={height * 0.042} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
 
-        {/* City glow dots */}
-        <circle cx={lcx} cy={cityDotY} r={4} fill="rgba(255,180,60,0.7)" filter={`url(#${bgIds.cityGlow})`} />
-        <circle cx={rcx} cy={landY - height * 0.038} r={4} fill="rgba(255,180,60,0.7)" filter={`url(#${bgIds.cityGlow})`} />
 
         {/* Atmosphere rim */}
         <circle cx={gcx} cy={gcy} r={gR + 3} stroke="rgba(70,155,255,0.18)" strokeWidth={6} />
@@ -886,7 +875,7 @@ export function LessonCaptainFlightPlan({
 
   const bgIds = useMemo(() => {
     const s = baseId.replace(/:/g, '');
-    return { radarPulse: `${s}-bg-rp`, clipPath: `${s}-bg-gc`, cityGlow: `${s}-bg-cg` };
+    return { radarPulse: `${s}-bg-rp`, clipPath: `${s}-bg-gc` };
   }, [baseId]);
 
   const derivedActiveIndex = useMemo(() => {
