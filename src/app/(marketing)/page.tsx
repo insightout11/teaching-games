@@ -11,7 +11,7 @@ import { TestFlightSection } from '@/components/homepage/TestFlightSection';
 import { TrustSection } from '@/components/homepage/TrustSection';
 
 export const metadata: Metadata = {
-  title: 'LessonCaptain — Run ESL Lessons Alongside Zoom',
+  title: 'LessonCaptain — Live ESL Lessons on Any Video Call',
   description:
     'Plan a structured lesson, screen-share the teacher view, and let students join from any browser. Games, activities, and live participation for online ESL teachers.',
 };

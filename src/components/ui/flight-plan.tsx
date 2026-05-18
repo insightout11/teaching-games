@@ -231,8 +231,27 @@ function getStepIcon(type: string, className: string) {
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
+// City buildings: [xFrac, wFrac, hFrac] — position/width as fraction of total width, height as fraction of city zone
+const CITY_BLDGS: [number, number, number][] = [
+  [0.000, 0.048, 0.52], [0.046, 0.038, 0.80], [0.082, 0.052, 0.40], [0.131, 0.033, 0.72],
+  [0.162, 0.060, 0.33], [0.219, 0.030, 0.90], [0.247, 0.048, 0.56], [0.292, 0.040, 0.44],
+  [0.330, 0.046, 0.74], [0.374, 0.052, 0.36], [0.423, 0.036, 0.64], [0.457, 0.048, 0.48],
+  [0.502, 0.040, 0.86], [0.540, 0.034, 0.40], [0.571, 0.055, 0.66], [0.623, 0.038, 0.52],
+  [0.659, 0.060, 0.35], [0.716, 0.036, 0.80], [0.750, 0.046, 0.56], [0.793, 0.033, 0.42],
+  [0.824, 0.048, 0.72], [0.869, 0.036, 0.60], [0.903, 0.060, 0.45], [0.960, 0.052, 0.82],
+];
+
+// Window positions as [xFrac, yFrac] within each building
+const WIN_POS: [number, number][] = [
+  [0.20, 0.14], [0.50, 0.14], [0.80, 0.14],
+  [0.20, 0.38], [0.50, 0.38], [0.80, 0.38],
+  [0.20, 0.62], [0.50, 0.62],
+];
+
 function BackgroundLayer({ width, height }: { width: number; height: number }) {
   const radarRings = buildRadarRings(width * 0.16, height * 0.8, [110, 170, 230, 290]);
+  const cityZoneH = height * 0.26;
+  const cityBottom = height;
 
   return (
     <div className="absolute inset-0 overflow-hidden rounded-[28px]">
@@ -265,6 +284,11 @@ function BackgroundLayer({ width, height }: { width: number; height: number }) {
             <stop offset="0%" stopColor="rgba(102,241,255,0.14)" />
             <stop offset="100%" stopColor="rgba(102,241,255,0)" />
           </radialGradient>
+          <linearGradient id="cityHorizonGlow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="rgba(255,130,50,0)" />
+            <stop offset="45%" stopColor="rgba(255,120,40,0.10)" />
+            <stop offset="100%" stopColor="rgba(255,90,20,0)" />
+          </linearGradient>
         </defs>
 
         <circle cx={width * 0.16} cy={height * 0.8} r="320" fill="url(#radarPulse)" />
@@ -294,6 +318,30 @@ function BackgroundLayer({ width, height }: { width: number; height: number }) {
               stroke="rgba(113, 205, 255, 0.10)"
               strokeWidth="1"
             />
+          );
+        })}
+
+        {/* City lights */}
+        <rect x={0} y={cityBottom - cityZoneH - 18} width={width} height={36} fill="url(#cityHorizonGlow)" />
+        {CITY_BLDGS.map(([xF, wF, hF], bi) => {
+          const bx = xF * width;
+          const bw = Math.max(wF * width, 4);
+          const bh = cityZoneH * hF;
+          const by = cityBottom - bh;
+          return (
+            <g key={bi}>
+              <rect x={bx} y={by} width={bw} height={bh} fill="rgba(3,10,22,0.90)" />
+              {WIN_POS.map(([wxF, wyF], wi) => {
+                const isLit = ((bi * 5 + wi * 7) % 5) !== 2;
+                if (!isLit) return null;
+                const wx = bx + wxF * bw - 1;
+                const wy = by + wyF * bh;
+                return (
+                  <rect key={wi} x={wx} y={wy} width={2} height={3}
+                    fill="rgba(255,200,80,0.72)" />
+                );
+              })}
+            </g>
           );
         })}
       </svg>
@@ -510,10 +558,10 @@ function NodeCard({
       transition={{ delay, duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
     >
       <div
-        className={`relative w-full rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.28)] ${cardOpacity} ${
+        className={`relative w-full rounded-2xl border border-white/[0.14] bg-[#0a1a2e]/85 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.45)] ${cardOpacity} ${
           isRuntime ? 'px-3 py-2' : 'px-4 py-3'
         } ${
-          isClickable ? 'cursor-pointer hover:border-cyan-300/30 hover:bg-white/[0.10] transition-colors' : ''
+          isClickable ? 'cursor-pointer hover:border-cyan-300/30 hover:bg-[#0d2040]/90 transition-colors' : ''
         }`}
         onClick={onClick}
       >

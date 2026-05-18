@@ -73,10 +73,10 @@ export function HeroSection() {
           >
             <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-widest uppercase text-lc-blue">
               <span className="w-4 h-px bg-lc-blue" />
-              Zoom Companion for Online ESL
+              Live Lesson Layer for Online ESL
             </span>
             <h1 className="text-4xl sm:text-5xl font-bold text-lc-text leading-tight">
-              Run interactive ESL lessons alongside Zoom.
+              Run interactive ESL lessons on any video call.
             </h1>
           </motion.div>
 
