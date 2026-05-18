@@ -33,7 +33,7 @@ const STEPS = [
     number: '03',
     title: 'Teach',
     description:
-      'Run games, activities, and live responses without leaving your call.',
+      'Run games, activities, and live responses without leaving your screen share.',
     chips: CONTROL_CHIPS,
   },
 ];

@@ -42,7 +42,7 @@ export function PresetsSection() {
             <div>
               <h3 className="text-lg font-bold text-lc-text mb-2">Plan a full lesson</h3>
               <p className="text-sm text-lc-text2 leading-relaxed">
-                Build a Flight Plan with takeoff, practice, production, and landing activities. AI generates the content — you run the class.
+                Build a Flight Plan with takeoff, practice, production, and landing activities. Content generates automatically — you run the class.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
