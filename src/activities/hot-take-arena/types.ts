@@ -1,18 +1,15 @@
 import type { HotTakeArenaContent } from '../types';
 
-// Activity states
 export enum ActivityStatus {
   IDLE = 'IDLE',
   PRESENTING = 'PRESENTING',
   SIDE_SELECTION = 'SIDE_SELECTION',
   DEBATE = 'DEBATE',
-  DEVILS_ADVOCATE = 'DEVILS_ADVOCATE',
-  REBUTTAL = 'REBUTTAL',
-  SUMMARY = 'SUMMARY',
+  MIND_CHANGE_VOTE = 'MIND_CHANGE_VOTE',
+  RESULTS = 'RESULTS',
   FINISHED = 'FINISHED',
 }
 
-// Side selection
 export type Side = 'pro' | 'con';
 
 export interface SideSelection {
@@ -21,23 +18,26 @@ export interface SideSelection {
   side: Side;
 }
 
-// Argument tracking
-export interface Argument {
+export interface SpokeEntry {
   id: string;
   studentId: string;
   studentName: string;
   side: Side;
-  content: string;
+  claimTag: string;
   timestamp: number;
-  replyToArgId?: string;
+  isStarred: boolean;
 }
 
-// Devil's advocate challenge
+export interface MindChangeVote {
+  studentId: string;
+  displayName: string;
+  side: Side;
+  wasConvinced: boolean;
+}
+
 export interface DevilsAdvocateChallenge {
   targetSide: Side;
   challenge: string;
-  isAnswered: boolean;
 }
 
-// Re-export content type
 export type { HotTakeArenaContent };

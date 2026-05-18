@@ -32,6 +32,7 @@ import { inYourWordsPlugin } from './in-your-words';
 import { conversationRoundsPlugin } from './conversation-rounds';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
+import { listeningGapFillPlugin } from './listening-gap-fill';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
@@ -56,6 +57,7 @@ const activities: ActivityPlugin[] = [
   // Learning modules
   videoPlayerPlugin,
   readAloudPlugin,
+  listeningGapFillPlugin,
   factDetectivePlugin,
   expertPanelPlugin,
   // Practice activities

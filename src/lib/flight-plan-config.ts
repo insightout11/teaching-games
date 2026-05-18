@@ -398,6 +398,20 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   },
 
   {
+    key: 'listening-gap-fill',
+    slotFit: ['practice'],
+    goalFit: ['vocabulary-building', 'grammar-reinforcement'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'low',
+    interactionModel: ['simultaneous'],
+    speakingLoad: 'low',
+    writingLoad: 'medium',
+    teacherControlLoad: 'low',
+    avoidAfter: ['vocab-radar'],
+    strongWith: ['video-player', 'read-aloud', 'vocab-radar'],
+  },
+
+  {
     key: 'fact-detective',
     slotFit: ['presentation', 'practice'],
     goalFit: ['critical-thinking', 'vocabulary-building'],

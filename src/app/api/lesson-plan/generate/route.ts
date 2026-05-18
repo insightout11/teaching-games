@@ -27,6 +27,8 @@ import type {
   QuickPulseContent,
   VocabRadarContent,
   PredictionRoundContent,
+  ListeningGapFillContent,
+  GapFillItem,
   SceneIgniterContent,
   SceneIgniterScene,
   FinalAnswerContent,
@@ -822,6 +824,84 @@ Return JSON with a "questions" array of exactly 3 objects with: text, optionA, o
       { text: parsed.questions[2]?.text ?? fallback.text, optionA: parsed.questions[2]?.optionA ?? 'True', optionB: parsed.questions[2]?.optionB ?? 'False', correctAnswer: (parsed.questions[2]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[2]?.revealFact ?? fallback.revealFact },
     ],
   };
+}
+
+async function generateListeningGapFill(
+  topic: string,
+  difficulty: Difficulty,
+  sourceContext = '',
+  grammarTarget?: string,
+): Promise<ListeningGapFillContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      items: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            display:      { type: 'string' },
+            full:         { type: 'string' },
+            answer:       { type: 'string' },
+            alternatives: { type: 'array', items: { type: 'string' } },
+            hint:         { type: 'string' },
+          },
+          required: ['display', 'full', 'answer'],
+        },
+      },
+    },
+    required: ['items'],
+  };
+
+  const grammarLine = grammarTarget
+    ? `Focus blanks on the grammar target: ${grammarTarget}.`
+    : 'Focus blanks on key vocabulary words (nouns, verbs, adjectives).';
+
+  const sourceRule = sourceContext
+    ? 'Extract real sentences from the transcript above and blank out key words. Do not invent facts.'
+    : 'Generate topic-relevant original sentences.';
+
+  const prompt = `Generate 5–6 gap-fill sentences for an ESL classroom listening activity.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+${grammarLine}
+${sourceContext}
+
+Rules:
+- Each sentence must have EXACTLY one blank, shown as ___ in the "display" field.
+- "full" is the complete sentence with the correct word restored.
+- "answer" is the correct word, lowercase and normalized (e.g. "discovered").
+- "alternatives" lists other accepted spellings or inflections (e.g. ["discovers", "discover"]) — omit if none.
+- "hint" is a 1–3 word grammatical label, e.g. "verb (past tense)", "adjective", "noun" — keep it brief.
+- Sentences should be 8–16 words long, natural, and related to the topic.
+- Vary the part of speech blanked across items.
+- ${sourceRule}
+
+Return JSON with an "items" array of 5–6 objects with fields: display, full, answer, alternatives (optional), hint (optional).`;
+
+  const parsed = await generateJSON<{ items: Array<Partial<GapFillItem>> }>(prompt, schema);
+
+  const fallback: GapFillItem = {
+    display: `This topic is ___ for English learners.`,
+    full: `This topic is important for English learners.`,
+    answer: 'important',
+    hint: 'adjective',
+  };
+
+  const rawItems = Array.isArray(parsed.items) ? parsed.items : [];
+  const items: GapFillItem[] = rawItems.length >= 3
+    ? rawItems.slice(0, 6).map((item) => ({
+        display: item.display ?? fallback.display,
+        full: item.full ?? fallback.full,
+        answer: (item.answer ?? 'important').toLowerCase().trim(),
+        ...(Array.isArray(item.alternatives) && item.alternatives.length > 0
+          ? { alternatives: item.alternatives.map((a) => a.toLowerCase().trim()) }
+          : {}),
+        ...(item.hint ? { hint: item.hint } : {}),
+      }))
+    : [fallback];
+
+  return { activityKey: 'listening-gap-fill', topicContext: topic, items };
 }
 
 function formatTranscriptForAI(rawTranscript: string): string {
@@ -2307,6 +2387,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'prediction-round':
             generators.push(generatePredictionRound(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'listening-gap-fill':
+            generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined).then((r) => { content[activityKey] = r; }));
             break;
           case 'read-aloud': {
             const rawText = sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '';

@@ -519,6 +519,20 @@ export interface VocabRadarContent extends ActivityGeneratedContent {
   words: VocabRadarWord[]; // 5–6 words
 }
 
+// Listening Gap Fill content
+export interface GapFillItem {
+  display: string;        // Sentence with ___ in place of the blank
+  full: string;           // Complete sentence for reveal
+  answer: string;         // Correct word, lowercase normalized
+  alternatives?: string[]; // Other accepted forms (e.g. plural/conjugation variants)
+  hint?: string;          // Brief grammatical label e.g. "verb (past tense)"
+}
+
+export interface ListeningGapFillContent extends ActivityGeneratedContent {
+  activityKey: 'listening-gap-fill';
+  items: GapFillItem[];   // 5–6 items
+}
+
 // Prediction Round content
 export interface PredictionRoundQuestion {
   text: string;        // The prediction statement / question
