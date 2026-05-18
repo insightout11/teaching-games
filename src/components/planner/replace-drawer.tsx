@@ -13,11 +13,21 @@ export function ReplaceDrawer() {
     replaceDrawerModuleId,
     insertAfterIndex,
     goals,
+    sourceMaterial,
     setReplaceDrawerModuleId,
     setInsertAfterIndex,
     replaceModule,
     insertModule,
   } = usePlannerStore();
+
+  const sourceKind: 'video' | 'text' | null = useMemo(() => {
+    if (!sourceMaterial) return null;
+    const videoTypes = new Set(['youtube', 'ted', 'teded', 'bbc', 'kurzgesagt', 'bbc-ideas', 'bigthink', 'vox', 'kids', 'natgeo', 'crash-course', 'travel-english', 'business-english', 'internet-memes', 'minecraft']);
+    const textTypes = new Set(['stories', 'voa', 'picture-books']);
+    if (videoTypes.has(sourceMaterial.sourceType)) return 'video';
+    if (textTypes.has(sourceMaterial.sourceType)) return 'text';
+    return null;
+  }, [sourceMaterial]);
   const [search, setSearch] = useState('');
 
   const isOpen = replaceDrawerModuleId !== null || insertAfterIndex !== null;
@@ -44,7 +54,10 @@ export function ReplaceDrawer() {
     if (!isOpen) return { smartPicks: [], allItems: [] };
 
     const items = FLIGHT_PLAN_ITEMS.filter(
-      (item) => !usedKeys.has(item.key) && item.key !== 'mission-selector',
+      (item) =>
+        !usedKeys.has(item.key) &&
+        item.key !== 'mission-selector' &&
+        (!item.requiresSource || item.requiresSource === sourceKind),
     );
 
     const searchLower = search.toLowerCase();
@@ -90,7 +103,7 @@ export function ReplaceDrawer() {
     const threshold = isInsertMode ? 2 : 5;
     const picks = scored.filter((s) => s.score >= threshold).slice(0, 4);
     return { smartPicks: picks, allItems: scored };
-  }, [isOpen, isInsertMode, targetModule, usedKeys, goals, search, insertNeighbourKeys]);
+  }, [isOpen, isInsertMode, targetModule, usedKeys, goals, search, insertNeighbourKeys, sourceKind]);
 
   const handleSelect = (key: string) => {
     if (isInsertMode && insertAfterIndex !== null) {

@@ -33,6 +33,7 @@ export function suggestModules(
   goal: GoalTag,
   difficulty: Difficulty,
   durationMinutes: 30 | 45 | 60 | 90,
+  sourceKind?: 'video' | 'text' | null,
 ): PlanModule[] {
   const total = moduleCountForDuration(durationMinutes);
   const middleCount = total - 2;
@@ -68,7 +69,10 @@ export function suggestModules(
       ? (FLIGHT_PLAN_ITEMS.find((i) => i.key === prevKey)?.avoidAfter ?? [])
       : [];
     const candidates = FLIGHT_PLAN_ITEMS.filter(
-      (item) => !usedKeys.has(item.key) && !prevAvoid.includes(item.key),
+      (item) =>
+        !usedKeys.has(item.key) &&
+        !prevAvoid.includes(item.key) &&
+        (!item.requiresSource || item.requiresSource === sourceKind),
     );
     const best = pickBest(candidates, goal, level, slotType, prevKey);
     if (!best) continue;

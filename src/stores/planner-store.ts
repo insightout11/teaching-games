@@ -142,7 +142,12 @@ export const usePlannerStore = create<PlannerState>()(
       initModules: () => {
         const { goals, difficulty, lessonDurationMinutes, sourceMaterial } = get();
         const primaryGoal = derivePrimaryGoal(goals);
-        const base = suggestModules(primaryGoal, difficulty, lessonDurationMinutes);
+        const sourceKind = sourceMaterial
+          ? VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) ? 'video'
+          : TEXT_SOURCE_TYPES.has(sourceMaterial.sourceType) ? 'text'
+          : null
+          : null;
+        const base = suggestModules(primaryGoal, difficulty, lessonDurationMinutes, sourceKind);
         if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !base.some((m) => m.key === 'video-player')) {
           const takeoffIdx = base.findIndex((m) => m.slotType === 'takeoff');
           const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;

@@ -53,6 +53,8 @@ export interface FlightPlanItem {
   missionAware?: boolean;
   /** Landing activities eligible for mission-based Flight Plan sessions. */
   missionLanding?: boolean;
+  /** Only show this item when the lesson has a source of the given type attached. */
+  requiresSource?: 'video' | 'text';
 }
 
 export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
@@ -409,6 +411,7 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     teacherControlLoad: 'low',
     avoidAfter: ['vocab-radar'],
     strongWith: ['video-player', 'read-aloud', 'vocab-radar'],
+    requiresSource: 'video',
   },
 
   {
