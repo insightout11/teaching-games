@@ -86,7 +86,7 @@ export default function RootLayout({
       <body
         className={`${dmSerifDisplay.variable} ${sourceSerif.variable} ${ibmPlexMono.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false} disableTransitionOnChange={false}>
+        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false} storageKey="lc-theme" disableTransitionOnChange={true}>
           {children}
         </ThemeProvider>
       </body>
