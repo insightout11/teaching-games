@@ -34,6 +34,18 @@ export function MarketingNav() {
           />
         </Link>
 
+        <nav className="hidden md:flex items-center gap-8">
+          <Link href="#how-it-works" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+            How it works
+          </Link>
+          <Link href="/classroom-games" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+            Games
+          </Link>
+          <Link href="/classroom-activities" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+            Activities
+          </Link>
+        </nav>
+
         <Link
           href="/login"
           className="px-4 py-2 rounded-lg bg-lc-blue text-[#070B14] font-semibold text-sm hover:bg-lc-blue-hover transition-colors"

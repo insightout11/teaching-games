@@ -40,7 +40,7 @@ const STEPS = [
 
 export function HowItWorksSection() {
   return (
-    <section className="py-20 px-6 border-t border-lc-border">
+    <section id="how-it-works" className="py-20 px-6 border-t border-lc-border bg-lc-bg/40">
       <div className="max-w-6xl mx-auto">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
@@ -80,7 +80,7 @@ export function HowItWorksSection() {
                   <Icon className="w-8 h-8 text-lc-blue" />
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  <p className="text-xs font-semibold tracking-widest uppercase text-lc-text3">
+                  <p className="text-xs font-semibold tracking-widest uppercase text-lc-text2">
                     {step.number}
                   </p>
                   <h3 className="text-lg font-bold text-lc-text">{step.title}</h3>
@@ -90,7 +90,7 @@ export function HowItWorksSection() {
                       {step.chips.map((chip) => (
                         <span
                           key={chip}
-                          className="rounded-full border border-lc-border px-2.5 py-0.5 text-xs text-lc-text3"
+                          className="rounded-full border border-lc-border px-2.5 py-0.5 text-xs text-lc-text2"
                         >
                           {chip}
                         </span>

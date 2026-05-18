@@ -53,7 +53,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden pt-10 pb-20 px-6">
+    <section className="relative overflow-hidden pt-6 pb-16 px-6">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -62,19 +62,22 @@ export function HeroSection() {
         }}
       />
 
-      <div className="max-w-6xl mx-auto flex flex-col gap-6">
-        {/* Top: headline + CTA — single column glass card */}
+      <div className="max-w-6xl mx-auto flex flex-col gap-4">
+        {/* Top: headline + CTA — single column, integrated into scene */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="max-w-2xl bg-lc-bg/50 backdrop-blur-sm border border-white/[0.06] rounded-2xl px-8 py-7 flex flex-col gap-5">
+          <div className="max-w-3xl mx-auto flex flex-col gap-5">
             <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-widest uppercase text-lc-blue">
               <span className="w-4 h-px bg-lc-blue" />
               Live Lesson Layer for Online ESL
             </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-lc-text leading-tight">
+            <h1
+              className="text-4xl sm:text-5xl font-bold text-lc-text leading-tight"
+              style={{ textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
+            >
               Run interactive ESL lessons on any video call.
             </h1>
             <p className="text-lg text-lc-text2 leading-relaxed">
