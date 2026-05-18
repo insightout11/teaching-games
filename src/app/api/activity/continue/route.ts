@@ -92,13 +92,6 @@ ${req.requestType === 'evaluate' ? `Evaluate the argument:
 - Note any good vocabulary usage
 - Suggest improvements` : ''}
 
-${req.requestType === 'counter-argument' ? `Generate a targeted counter-argument or question that:
-- Directly challenges the specific claim just made (not a general debate point)
-- Is 1–2 sentences, fair, and not a strawman
-- Could be posed verbally by the teacher: "How would you respond to someone who says..."
-- Uses vocabulary appropriate for ESL learners
-Put the result in the 'challenge' field.` : ''}
-
 Include a teacher note and relevant vocabulary when appropriate.`;
   },
 
@@ -396,9 +389,6 @@ Return JSON with scenario, context, roles (array of 2), complications (array of 
     }
     if (requestType === 'challenge' && !response.challenge) {
       response.challenge = 'What would you say to someone who completely disagrees?';
-    }
-    if (requestType === 'counter-argument' && !response.challenge) {
-      response.challenge = 'What evidence would you give to someone who completely disagrees?';
     }
     if (requestType === 'hint' && !response.hint) {
       response.hint = 'Think about the consequences of each choice.';
