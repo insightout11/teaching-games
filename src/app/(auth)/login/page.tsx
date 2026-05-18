@@ -29,7 +29,8 @@ export default function LoginPage() {
       <SkyBackground intensity="moderate" />
       <div className="relative z-10 bg-lc-card border border-lc-border rounded-2xl shadow-xl p-8 max-w-md w-full mx-4 text-center">
         <Image src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" width={200} height={32} className="h-auto mx-auto mb-2" unoptimized />
-        <p className="text-lc-text2 mb-8">Your interactive classroom command center</p>
+        <p className="text-lc-text2 mb-2">Sign in to get Test Flight credits and save your lessons.</p>
+        <p className="text-xs text-lc-text3 mb-6">Your account keeps your Flight Plans, class history, and debriefs. Students never need accounts.</p>
 
         {mockMode ? (
           <button

@@ -50,7 +50,7 @@ export function TestFlightSection() {
             </h2>
 
             <p className="text-lc-text2 max-w-md leading-relaxed">
-              Pick a game or activity, type in your topic, and run it live with your class. We call each free session a Test Flight — one credit, one full lesson.
+              Pick a game or activity, type in your topic, and run it live with your class. Your account includes free Test Flight credits, so you can run live lessons before upgrading.
             </p>
 
             <div ref={sparkRef}>
