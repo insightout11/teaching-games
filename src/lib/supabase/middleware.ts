@@ -63,7 +63,7 @@ export async function updateSession(request: NextRequest) {
   // Redirect logged-in users away from login
   if (user && request.nextUrl.pathname === '/login') {
     const url = request.nextUrl.clone();
-    url.pathname = '/classes';
+    url.pathname = '/home';
     return NextResponse.redirect(url);
   }
 

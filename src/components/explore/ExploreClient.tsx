@@ -83,6 +83,7 @@ export function ExploreClient() {
   const [showCreateClass, setShowCreateClass] = useState(false);
   const [newClassName, setNewClassName] = useState('');
   const [creatingClass, setCreatingClass] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Read persisted settings + active session from localStorage on mount
   useEffect(() => {
@@ -100,7 +101,18 @@ export function ExploreClient() {
   }, []);
 
   useEffect(() => {
-    if (!launchItem) return;
+    let cancelled = false;
+    async function checkAuth() {
+      const supabase = createClient();
+      const { data } = await supabase.auth.getUser();
+      if (!cancelled) setIsAuthenticated(!!data.user);
+    }
+    checkAuth();
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    if (!launchItem || !isAuthenticated) return;
     setClassesLoading(true);
     const supabase = createClient();
     supabase
@@ -111,7 +123,7 @@ export function ExploreClient() {
         setClasses(data ?? []);
         setClassesLoading(false);
       });
-  }, [launchItem]);
+  }, [launchItem, isAuthenticated]);
 
   function writeAndNavigate(sessionId: string, directLaunch: boolean) {
     if (!launchItem) return;
@@ -206,8 +218,20 @@ export function ExploreClient() {
   const activityCategoryOrder: ActivityCategory[] = ['icebreaker', 'learning', 'practice', 'debate', 'closing'];
 
   function handleAddToPlan(key: string, slotType: SlotType) {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
     seedWithModule(key, slotType);
     router.push('/lesson-planner');
+  }
+
+  function handleLaunchItem(item: { name: string; key: string; type: 'game' | 'activity' }) {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    setLaunchItem(item);
   }
 
   return (
@@ -297,7 +321,7 @@ export function ExploreClient() {
                   return (
                     <div key={game.key} className={cn('panel-card border-l-2 text-left transition-all overflow-hidden flex flex-col', getCategoryAccent(cat))}>
                       <button
-                        onClick={() => setLaunchItem({ name: game.name, key: game.key, type: 'game' })}
+                        onClick={() => handleLaunchItem({ name: game.name, key: game.key, type: 'game' })}
                         aria-label={`${game.name} – ${stageBadge?.label ?? 'Game'}, ${game.estimatedMinutes} min`}
                         className="flex-1 p-6 text-left w-full block"
                       >
@@ -359,7 +383,7 @@ export function ExploreClient() {
                   return (
                     <div key={activity.key} className={cn('panel-card border-l-2 text-left transition-all overflow-hidden flex flex-col', getCategoryAccent(cat))}>
                       <button
-                        onClick={() => setLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
+                        onClick={() => handleLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
                         aria-label={`${activity.name} – ${stageBadge?.label ?? 'Activity'}, ${activity.estimatedMinutes} min`}
                         className="flex-1 p-6 text-left w-full block"
                       >
