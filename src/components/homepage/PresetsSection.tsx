@@ -88,7 +88,7 @@ export function PresetsSection() {
               ))}
             </div>
             <Link
-              href="/classroom-games"
+              href="/explore"
               className="mt-auto inline-block text-sm font-semibold text-lc-blue hover:text-lc-blue-hover transition-colors"
             >
               Browse activities →

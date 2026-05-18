@@ -1,8 +1,7 @@
 import Link from 'next/link';
 
 const LINKS = [
-  { label: 'Classroom Games', href: '/classroom-games' },
-  { label: 'Classroom Activities', href: '/classroom-activities' },
+  { label: 'Explore', href: '/explore' },
   { label: 'Login', href: '/login' },
 ];
 

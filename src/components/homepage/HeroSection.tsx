@@ -94,7 +94,7 @@ export function HeroSection() {
                   </Link>
                 </motion.div>
                 <Link
-                  href="/classroom-games"
+                  href="/explore"
                   className="inline-block px-6 py-3 rounded-lg border border-lc-border text-lc-text2 font-semibold text-base hover:border-lc-blue hover:text-lc-text transition-colors"
                 >
                   Browse games and activities
