@@ -22,7 +22,6 @@ interface RaisedHand {
 }
 
 export function HotTakeArenaActivity({
-  students: _students,
   generatedContent,
   onContinue,
   onPhaseChange,
