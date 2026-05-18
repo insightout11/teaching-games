@@ -212,6 +212,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     if (inputSpec && !prevInputSpecRef.current) {
       const name = getGame(inputSpec.gameKey)?.name ?? getActivity(inputSpec.gameKey)?.name;
       if (name) {
+        prevInputSpecRef.current = inputSpec;
         setTransitionActivityName(name);
         const t = setTimeout(() => setTransitionActivityName(null), 1500);
         return () => clearTimeout(t);
