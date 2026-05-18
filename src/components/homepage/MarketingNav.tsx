@@ -38,11 +38,8 @@ export function MarketingNav() {
           <Link href="#how-it-works" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
             How it works
           </Link>
-          <Link href="/classroom-games" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
-            Games
-          </Link>
-          <Link href="/classroom-activities" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
-            Activities
+          <Link href="#games" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+            Explore
           </Link>
         </nav>
 
