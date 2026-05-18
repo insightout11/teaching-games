@@ -1,9 +1,14 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
+import { useRef } from 'react';
+import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 
 export function TestFlightSection() {
+  const sparkRef = useRef(null);
+  const sparkInView = useInView(sparkRef, { once: true, margin: '-80px' });
+
   return (
     <section className="py-20 px-6 border-t border-lc-border">
       <div className="max-w-6xl mx-auto">
@@ -47,6 +52,10 @@ export function TestFlightSection() {
             <p className="text-lc-text2 max-w-md leading-relaxed">
               Pick a game or activity, type in your topic, and run it live with your class. We call each free session a Test Flight — one credit, one full lesson.
             </p>
+
+            <div ref={sparkRef}>
+              {sparkInView && <TakeoffSpark size={160} />}
+            </div>
 
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
               <Link

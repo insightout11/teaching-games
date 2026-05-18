@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { LessonCaptainFlightPlan, type FlightPlanStep } from '@/components/ui/flight-plan';
-import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 
 const DEMO_STEPS: FlightPlanStep[] = [
   { id: 'takeoff', type: 'Takeoff', name: 'Mission Selector', kind: 'terminal' },
@@ -85,8 +84,7 @@ export function HeroSection() {
               Plan a structured lesson, screen-share the teacher view, and let students join from any browser to answer questions, play games, vote, and participate live.
             </p>
             <div className="flex flex-col gap-3">
-              <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-                <TakeoffSpark size={44} />
+              <div className="flex flex-col sm:flex-row gap-3 items-start">
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <Link
                     href="/login"
