@@ -43,7 +43,7 @@ export function ProductDetailStrip() {
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
           className="text-2xl sm:text-3xl font-bold text-center mb-12"
-          style={{ color: 'white' }}
+          style={{ color: 'white', textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
         >
           What you can run live
         </motion.h2>

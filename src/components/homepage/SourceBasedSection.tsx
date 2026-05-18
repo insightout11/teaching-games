@@ -14,7 +14,7 @@ export function SourceBasedSection() {
           transition={{ duration: 0.5 }}
           className="max-w-2xl mx-auto text-center flex flex-col gap-5"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold" style={{ color: 'white' }}>
+          <h2 className="text-3xl sm:text-4xl font-bold" style={{ color: 'white', textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}>
             Teach from the material you already have
           </h2>
           <p className="text-lc-text2 leading-relaxed">

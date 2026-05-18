@@ -9,7 +9,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <div className="relative z-10 flex flex-col flex-1">
         <div
           className="pointer-events-none absolute inset-0"
-          style={{ background: 'linear-gradient(180deg, rgba(7,11,20,0.55) 0%, rgba(7,11,20,0.35) 40%, rgba(7,11,20,0.15) 100%)' }}
+          style={{ background: 'linear-gradient(180deg, rgba(7,11,20,0.60) 0%, rgba(7,11,20,0.58) 25%, rgba(7,11,20,0.52) 55%, rgba(7,11,20,0.42) 100%)' }}
         />
         <MarketingNav />
         <main className="flex-1">{children}</main>
