@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import type { Team } from '@/lib/supabase/types';
 
 const AVATAR_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
@@ -163,8 +164,9 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
   // Loading state
   if (!rosterLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
+      <div className="min-h-screen flex flex-col items-center justify-center gap-3 p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <TakeoffSpark size={48} loading />
+        <p className="text-xs text-gray-500 uppercase tracking-widest">Loading...</p>
       </div>
     );
   }

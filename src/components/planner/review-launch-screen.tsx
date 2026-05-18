@@ -11,6 +11,7 @@ import type { GrammarTarget } from '@/lib/grammar';
 import { FlightPathSVG } from './flight-path-svg';
 import { createClient } from '@/lib/supabase/client';
 import { ArrowLeft, CheckCircle2, Loader2, Plus, Rocket, Users } from 'lucide-react';
+import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 
 type TeacherClass = { id: string; name: string; studentCount: number };
 
@@ -387,11 +388,11 @@ export function ReviewLaunchScreen() {
             className="w-full flex items-center justify-center gap-2 py-4 bg-lc-success text-lc-bg rounded-xl font-bold text-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLaunching ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <TakeoffSpark size={24} loading />
             ) : (
               <Rocket className="w-5 h-5" />
             )}
-            {isLaunching ? 'Launching...' : 'Launch Mission'}
+            {isLaunching ? 'Launching your live lesson...' : 'Launch Mission'}
           </button>
         </div>
       </div>

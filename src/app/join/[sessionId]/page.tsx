@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { NameEntry } from '@/components/student/name-entry';
 import { StudentController } from '@/components/student/student-controller';
+import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import type { Team } from '@/lib/supabase/types';
 
 interface StudentSession {
@@ -72,8 +73,9 @@ export default function JoinSessionPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="w-8 h-8 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
+      <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <TakeoffSpark size={48} loading />
+        <p className="text-xs text-gray-500 uppercase tracking-widest">Joining the session...</p>
       </div>
     );
   }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
+import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import type { Team } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import { DynamicInput } from './dynamic-input';
@@ -886,7 +887,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               );
             })()}
             {/* Waiting label */}
-            <div className="text-center py-2">
+            <div className="flex flex-col items-center gap-2 py-2">
+              <TakeoffSpark size={40} loading />
               <p className="text-gray-500 text-xs uppercase tracking-widest">Waiting for your teacher…</p>
             </div>
           </div>

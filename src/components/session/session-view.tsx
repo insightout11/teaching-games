@@ -31,6 +31,7 @@ import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import type { TopSubmission } from '@/games/types';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
+import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -1355,22 +1356,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             ) : (
               <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
-                <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mb-4" />
+                <TakeoffSpark size={56} loading className="mb-4" />
                 <p className="text-lg font-game text-lc-blue">
                   Preparing {lesson.generatingModuleName || selectedActivity.name}
                 </p>
                 <p className="text-sm text-lc-text3 mt-2">
                   Generating content for your lesson...
                 </p>
-                <div className="flex gap-1 mt-4">
-                  {[0, 1, 2].map((i) => (
-                    <div
-                      key={i}
-                      className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"
-                      style={{ animationDelay: `${i * 200}ms` }}
-                    />
-                  ))}
-                </div>
               </div>
             )}
           </div>
