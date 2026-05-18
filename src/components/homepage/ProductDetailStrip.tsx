@@ -4,32 +4,40 @@ import { motion } from 'framer-motion';
 
 const CATEGORIES = [
   {
-    name: 'Vocabulary games',
-    examples: ['Vocab Sprint', 'Synonym Showdown', 'Word Chain'],
+    name: 'Vocabulary',
+    examples: ['Vocab Sprint', 'Synonym Showdown', 'Word Chain', 'Bluff Definition', 'Taboo Sprint'],
   },
   {
-    name: 'Grammar & writing games',
+    name: 'Grammar & writing',
     examples: ['Grammar Boss', 'Error Hunter', 'Sentence Scramble'],
   },
   {
-    name: 'Logic & puzzle games',
-    examples: ['Connections', 'Dialogue Detective'],
+    name: 'Logic & puzzles',
+    examples: ['Connections', 'Brain Teasers', 'Twenty Questions', 'Dialogue Detective'],
   },
   {
-    name: 'Speaking activities',
-    examples: ['Hot Take Arena', 'Expert Panel', 'Would You Rather'],
+    name: 'Speed & competition',
+    examples: ['Flash Quiz', 'Grid Rush', 'Sector Strike', 'Zone Board'],
   },
   {
-    name: 'Debate prompts',
-    examples: ['Rank It', 'Problem Solvers'],
+    name: 'Icebreakers',
+    examples: ['Imposter', 'Two Truths and a Lie', 'Password', 'Wonder Board', 'Character Cards'],
   },
   {
-    name: 'Video & text-based lessons',
-    examples: ['Scenario Simulator', 'Scene Igniter'],
+    name: 'Speaking & debate',
+    examples: ['Hot Take Arena', 'Would You Rather', 'Rank It', 'Expert Panel', 'Defend It'],
   },
   {
-    name: 'Closing reflections',
-    examples: ['Quick Pulse', 'Prediction Round'],
+    name: 'Video & listening',
+    examples: ['Listening Gap Fill', 'Scenario Simulator', 'Read Aloud'],
+  },
+  {
+    name: 'Storytelling',
+    examples: ['Story Sprint', 'Scene Igniter', 'Conversation Rounds'],
+  },
+  {
+    name: 'Check-ins & warm-up',
+    examples: ['Quick Pulse', 'Vocab Radar', 'Prediction Round', 'Fact Detective'],
   },
 ];
 
