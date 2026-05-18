@@ -236,16 +236,17 @@ type BgIds = { radarPulse: string; clipPath: string; cityGlow: string };
 function BackgroundLayer({ width, height, bgIds }: { width: number; height: number; bgIds: BgIds }) {
   const radarRings = buildRadarRings(width * 0.16, height * 0.8, [110, 170, 230, 290]);
 
-  const gR = height * 4.8;
+  // At wide/short aspect ratios (session strip) the height-based gR is too small and the
+  // globe arc spans only a fraction of the width. Scale up gR so the arc always covers ~75% of width.
+  const gRBase = height * 4.8;
+  const ld = height * 0.14;
+  const gR = Math.max(gRBase, ((width * 0.375) ** 2 / ld + ld) / 2);
   const gcx = width * 0.5;
   const gcy = height * 0.73 + gR;
   const landY = height * 0.73 + height * 0.14;
-  // Clamp continent positions so they stay inside the clip circle at any aspect ratio.
-  // At wide/short dimensions (session strip) the width-based spread exceeds gR, clipping continents away.
   const cityDotY = landY - height * 0.05;
-  const safeSpread = Math.sqrt(Math.max(0, gR * gR - (gcy - cityDotY) ** 2)) * 0.95;
-  const lcx = gcx - Math.min(width * 0.28, safeSpread);
-  const rcx = gcx + Math.min(width * 0.28, safeSpread);
+  const lcx = width * 0.22;
+  const rcx = width * 0.78;
 
   return (
     <div className="absolute inset-0 overflow-hidden rounded-[28px]">
