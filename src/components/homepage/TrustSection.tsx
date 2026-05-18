@@ -19,8 +19,7 @@ export function TrustSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-3xl font-bold text-lc-text mb-6"
-          style={{ textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
+          className="text-3xl font-bold text-white mb-6"
         >
           After class, the data is waiting
         </motion.h2>
