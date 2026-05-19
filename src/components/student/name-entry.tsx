@@ -173,7 +173,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="glass rounded-3xl p-8 w-full max-w-md space-y-6">
+      <div className="glass rounded-3xl p-5 sm:p-8 w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-2">Join Session</h1>
           <p className="text-gray-400 text-sm">
@@ -233,7 +233,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Choose Your Avatar
                 </label>
-                <div className="grid grid-cols-6 gap-2">
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
                   {AVATAR_SEEDS.map((seed) => (
                     <button
                       key={seed}

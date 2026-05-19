@@ -624,13 +624,13 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
         </div>
       )}
       <p className="text-sm text-lc-text2">Select {selectCount} items ({selected.size}/{selectCount})</p>
-      <div className="grid grid-cols-4 gap-1.5">
+      <div className="grid grid-cols-4 gap-1 sm:gap-1.5">
         {spec.options?.map((option, index) => (
           <button
             key={index}
             onClick={() => toggleOption(option)}
             disabled={isSubmitting || foundWords.has(option)}
-            className={`p-1.5 sm:p-2.5 rounded-xl text-xs sm:text-sm transition-all min-h-[3rem] flex items-center justify-center text-center leading-tight break-words hyphens-auto ${
+            className={`p-1.5 sm:p-2.5 rounded-xl text-xs sm:text-sm transition-all min-h-[3rem] flex items-center justify-center text-center leading-tight break-words overflow-hidden hyphens-auto ${
               foundWords.has(option)
                 ? 'opacity-40 cursor-not-allowed line-through bg-lc-surface text-lc-text'
                 : selected.has(option)
@@ -1047,7 +1047,7 @@ function RankingInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds 
       {spec.prompt && (
         <p className="text-lg text-cyan-400 font-medium">{spec.prompt}</p>
       )}
-      <p className="text-sm text-lc-text2">Drag to reorder (1 = highest)</p>
+      <p className="text-sm text-lc-text2">Tap ↑↓ to reorder — 1 is highest</p>
 
       <div className="space-y-2">
         {items.map((item, index) => (
@@ -1076,14 +1076,14 @@ function RankingInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds 
               <button
                 onClick={() => index > 0 && moveItem(index, index - 1)}
                 disabled={index === 0}
-                className="p-1 text-lc-text3 hover:text-lc-text disabled:opacity-30"
+                className="p-2 text-lc-text3 hover:text-lc-text disabled:opacity-30"
               >
                 ↑
               </button>
               <button
                 onClick={() => index < items.length - 1 && moveItem(index, index + 1)}
                 disabled={index === items.length - 1}
-                className="p-1 text-lc-text3 hover:text-lc-text disabled:opacity-30"
+                className="p-2 text-lc-text3 hover:text-lc-text disabled:opacity-30"
               >
                 ↓
               </button>
