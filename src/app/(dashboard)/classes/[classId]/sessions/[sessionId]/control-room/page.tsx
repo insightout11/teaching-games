@@ -56,7 +56,7 @@ export default async function ControlRoomPage({
     supabase.from('scores').select('*').eq('session_id', session.id).order('created_at') as Promise<{ data: Score[] | null }>,
     supabase.from('rounds').select('game_type, round_number').eq('session_id', session.id) as Promise<{ data: Pick<Round, 'game_type' | 'round_number'>[] | null }>,
     supabase.from('session_leaderboard').select('*').eq('session_id', session.id).order('total_points', { ascending: false }) as Promise<{ data: LeaderboardEntry[] | null }>,
-    supabase.from('teachers').select('subscription_status').eq('id', user.id).single() as Promise<{ data: Pick<Teacher, 'subscription_status'> | null }>,
+    supabase.from('teachers').select('subscription_status, is_developer, promo_expires_at').eq('id', user.id).single() as Promise<{ data: Pick<Teacher, 'subscription_status'> & { is_developer: boolean; promo_expires_at: string | null } | null }>,
     supabase.from('session_notes').select('*').eq('session_id', session.id).eq('teacher_id', user.id).maybeSingle() as Promise<{ data: SessionNote | null }>,
   ]);
 
@@ -140,7 +140,10 @@ export default async function ControlRoomPage({
   }));
 
   // Pro gate
-  const isPro = teacher?.subscription_status === 'active' || teacher?.subscription_status === 'trial';
+  const isPro = teacher?.is_developer === true
+    || teacher?.subscription_status === 'active'
+    || teacher?.subscription_status === 'trial'
+    || (teacher?.promo_expires_at != null && new Date(teacher.promo_expires_at) > new Date());
 
   const sessionDate = new Date(session.started_at).toLocaleDateString(undefined, {
     year: 'numeric', month: 'short', day: 'numeric',

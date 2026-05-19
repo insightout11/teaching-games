@@ -34,6 +34,24 @@ async function getRecentSessions(userId: string): Promise<RecentSession[]> {
   }));
 }
 
+async function getTeacherCredits(userId: string): Promise<number> {
+  const supabase = createServerSupabase();
+  const { data } = await supabase
+    .from('teachers')
+    .select('generation_credits, subscription_status, is_developer, promo_expires_at')
+    .eq('id', userId)
+    .single();
+
+  if (!data) return 0;
+
+  const isPro =
+    data.is_developer ||
+    data.subscription_status === 'active' ||
+    (data.promo_expires_at != null && new Date(data.promo_expires_at) > new Date());
+
+  return isPro ? -1 : (data.generation_credits as number);
+}
+
 function formatDate(iso: string) {
   const d = new Date(iso);
   const now = new Date();
@@ -50,8 +68,13 @@ export default async function HomePage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const recentSessions = await getRecentSessions(user.id);
+  const [recentSessions, credits] = await Promise.all([
+    getRecentSessions(user.id),
+    getTeacherCredits(user.id),
+  ]);
+
   const isFirstVisit = recentSessions.length === 0;
+  const isPro = credits === -1;
 
   return (
     <div className="max-w-3xl mx-auto space-y-10">
@@ -64,24 +87,54 @@ export default async function HomePage() {
 
       {/* First-visit welcome */}
       {isFirstVisit && (
-        <div className="bg-lc-amber/10 border border-lc-amber/30 rounded-2xl p-6">
-          <p className="text-sm font-semibold text-lc-amber uppercase tracking-wide mb-1">Getting started</p>
-          <h2 className="text-xl font-bold text-lc-text mb-2">Welcome to LessonCaptain</h2>
-          <p className="text-lc-text2 text-sm mb-5">
-            Build a structured lesson plan in minutes, then run it live with your class. Start by planning your first lesson below.
-          </p>
-          <Link
-            href="/lesson-planner"
-            className="inline-flex items-center gap-2 bg-lc-amber text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-lc-amber/90 transition-colors"
-          >
-            <Plane className="w-4 h-4" />
-            Plan your first lesson
-          </Link>
+        <div className="bg-lc-amber/10 border border-lc-amber/30 rounded-2xl p-6 space-y-4">
+          <div>
+            <p className="text-sm font-semibold text-lc-amber uppercase tracking-wide mb-1">Getting started</p>
+            <h2 className="text-xl font-bold text-lc-text mb-2">Welcome to LessonCaptain</h2>
+            <p className="text-lc-text2 text-sm leading-relaxed">
+              {isPro
+                ? 'Build a structured lesson plan in minutes, then run it live with your class. The best first run is a complete Flight Plan — warm-up, practice, production, and landing.'
+                : 'You have 5 free Test Flights. The best first run is a complete Flight Plan — structured warm-up, practice, production, and landing. Takes about 10 minutes to plan.'}
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/lesson-planner"
+              className="inline-flex items-center gap-2 bg-lc-amber text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-lc-amber/90 transition-colors"
+            >
+              <Plane className="w-4 h-4" />
+              Run your first Flight Plan
+            </Link>
+            {!isPro && credits > 0 && (
+              <span className="text-xs text-lc-text3">
+                {credits} Test Flight{credits !== 1 ? 's' : ''} remaining
+              </span>
+            )}
+          </div>
         </div>
       )}
 
-      {/* Primary action cards */}
+      {/* Primary action cards — Flight Plan first */}
       <div className="grid grid-cols-2 gap-4">
+        <Link
+          href="/lesson-planner"
+          className="group relative bg-lc-card border border-lc-border rounded-2xl p-6 hover:border-lc-amber/50 hover:bg-lc-amber/5 transition-all"
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div className="w-10 h-10 rounded-xl bg-lc-amber/15 flex items-center justify-center">
+              <Plane className="w-5 h-5 text-lc-amber" />
+            </div>
+            <span className="text-[10px] font-semibold text-lc-amber bg-lc-amber/10 px-2 py-0.5 rounded-full uppercase tracking-wide">
+              Recommended
+            </span>
+          </div>
+          <h2 className="text-base font-bold text-lc-text mb-1">Run a Flight Plan</h2>
+          <p className="text-sm text-lc-text3 leading-snug">
+            A complete live lesson — warm-up, practice, production, and landing — built around your topic.
+          </p>
+          <ChevronRight className="absolute bottom-6 right-6 w-4 h-4 text-lc-text3 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </Link>
+
         <Link
           href="/explore"
           className="group relative bg-lc-card border border-lc-border rounded-2xl p-6 hover:border-sky-500/50 hover:bg-sky-500/5 transition-all"
@@ -89,25 +142,11 @@ export default async function HomePage() {
           <div className="w-10 h-10 rounded-xl bg-sky-500/15 flex items-center justify-center mb-4">
             <Compass className="w-5 h-5 text-sky-500" />
           </div>
-          <h2 className="text-base font-bold text-lc-text mb-1">Launch a Game</h2>
+          <h2 className="text-base font-bold text-lc-text mb-1">Launch one activity</h2>
           <p className="text-sm text-lc-text3 leading-snug">
-            Pick any game or activity and run it live right now — no lesson plan needed.
+            Pick any game or activity for a quick warm-up, review round, or speaking drill.
           </p>
-          <ChevronRight className="absolute top-6 right-6 w-4 h-4 text-lc-text3 opacity-0 group-hover:opacity-100 transition-opacity" />
-        </Link>
-
-        <Link
-          href="/lesson-planner"
-          className="group relative bg-lc-card border border-lc-border rounded-2xl p-6 hover:border-lc-amber/50 hover:bg-lc-amber/5 transition-all"
-        >
-          <div className="w-10 h-10 rounded-xl bg-lc-amber/15 flex items-center justify-center mb-4">
-            <Plane className="w-5 h-5 text-lc-amber" />
-          </div>
-          <h2 className="text-base font-bold text-lc-text mb-1">Plan a Lesson</h2>
-          <p className="text-sm text-lc-text3 leading-snug">
-            Build a structured lesson from a preset or your own content in a few steps.
-          </p>
-          <ChevronRight className="absolute top-6 right-6 w-4 h-4 text-lc-text3 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <ChevronRight className="absolute bottom-6 right-6 w-4 h-4 text-lc-text3 opacity-0 group-hover:opacity-100 transition-opacity" />
         </Link>
       </div>
 

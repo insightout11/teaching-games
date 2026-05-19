@@ -10,6 +10,7 @@ import { GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
 import type { GrammarTarget } from '@/lib/grammar';
 import { FlightPathSVG } from './flight-path-svg';
 import { createClient } from '@/lib/supabase/client';
+import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { ArrowLeft, CheckCircle2, Loader2, Plus, Rocket, Users } from 'lucide-react';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 
@@ -36,6 +37,7 @@ export function ReviewLaunchScreen() {
     setSourceMaterial,
   } = usePlannerStore();
 
+  const { loading: tierLoading, isPro, credits } = useTeacherTier();
   const [classes, setClasses] = useState<TeacherClass[]>([]);
   const [loadingClasses, setLoadingClasses] = useState(true);
   const [isLaunching, setIsLaunching] = useState(false);
@@ -381,19 +383,40 @@ export function ReviewLaunchScreen() {
             </div>
           )}
 
-          {/* Launch button */}
-          <button
-            onClick={handleLaunch}
-            disabled={!canLaunch}
-            className="w-full flex items-center justify-center gap-2 py-4 bg-lc-success text-lc-bg rounded-xl font-bold text-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLaunching ? (
-              <TakeoffSpark size={24} loading />
-            ) : (
-              <Rocket className="w-5 h-5" />
-            )}
-            {isLaunching ? 'Launching your live lesson...' : 'Launch Mission'}
-          </button>
+          {/* Low-credit warning */}
+          {!tierLoading && !isPro && credits === 2 && (
+            <div className="px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
+              2 Test Flights left. Pro removes the limit when you&apos;re ready.
+            </div>
+          )}
+          {!tierLoading && !isPro && credits === 1 && (
+            <div className="px-4 py-2.5 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm">
+              This is your last free Test Flight. Upgrade after this lesson to keep teaching.
+            </div>
+          )}
+
+          {/* Launch button — replaced with upgrade CTA when credits exhausted */}
+          {!tierLoading && !isPro && credits === 0 ? (
+            <a
+              href="/pro"
+              className="w-full flex items-center justify-center gap-2 py-4 bg-lc-blue/10 border border-lc-blue/30 text-lc-blue rounded-xl font-bold text-base hover:bg-lc-blue/20 transition-all"
+            >
+              Upgrade to Pro to launch more lessons →
+            </a>
+          ) : (
+            <button
+              onClick={handleLaunch}
+              disabled={!canLaunch}
+              className="w-full flex items-center justify-center gap-2 py-4 bg-lc-success text-lc-bg rounded-xl font-bold text-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLaunching ? (
+                <TakeoffSpark size={24} loading />
+              ) : (
+                <Rocket className="w-5 h-5" />
+              )}
+              {isLaunching ? 'Launching your live lesson...' : 'Launch Mission'}
+            </button>
+          )}
         </div>
       </div>
 

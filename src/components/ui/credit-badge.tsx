@@ -1,14 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 
-/**
- * Tier badge shown in the sidebar.
- *
- * Pro → blue "Pro" pill
- * Standard + credits remaining → green "N Pro experiences left" pill
- * Standard + no credits → amber "Standard" pill
- */
 export function CreditBadge() {
   const { loading, isPro, credits } = useTeacherTier();
 
@@ -22,17 +16,36 @@ export function CreditBadge() {
     );
   }
 
-  if (credits > 0) {
+  if (credits >= 3) {
     return (
       <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-medium">
-        {credits} Pro experience{credits !== 1 ? 's' : ''} left
+        {credits} Test Flight{credits !== 1 ? 's' : ''} left
+      </span>
+    );
+  }
+
+  if (credits === 2) {
+    return (
+      <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-medium">
+        2 Test Flights left
+      </span>
+    );
+  }
+
+  if (credits === 1) {
+    return (
+      <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 font-medium">
+        1 Test Flight left
       </span>
     );
   }
 
   return (
-    <span className="text-xs px-2 py-0.5 rounded-full bg-lc-surface text-lc-text3 font-medium border border-lc-border">
-      Standard
-    </span>
+    <Link
+      href="/pro"
+      className="text-xs px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 font-medium hover:bg-red-500/20 transition-colors"
+    >
+      Upgrade to Pro
+    </Link>
   );
 }

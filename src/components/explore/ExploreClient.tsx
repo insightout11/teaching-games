@@ -7,6 +7,7 @@ import { Clock } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { createClient } from '@/lib/supabase/client';
+import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
@@ -67,6 +68,7 @@ function getStageBadge(stage: string | undefined) {
 export function ExploreClient() {
   const router = useRouter();
   const { seedWithModule } = usePlannerStore();
+  const { loading: tierLoading, isPro, credits } = useTeacherTier();
   const games: GamePlugin[] = getAllGames().filter((g) => !g.flightPlanOnly);
   const activities: ActivityPlugin[] = getAllActivities().filter((a) => !a.flightPlanOnly);
   const [filter, setFilter] = useState<FilterTab>('all');
@@ -229,6 +231,10 @@ export function ExploreClient() {
   function handleLaunchItem(item: { name: string; key: string; type: 'game' | 'activity' }) {
     if (!isAuthenticated) {
       router.push('/login');
+      return;
+    }
+    if (!tierLoading && !isPro && credits === 0) {
+      setShowPaywall(true);
       return;
     }
     setLaunchItem(item);
@@ -463,6 +469,18 @@ export function ExploreClient() {
             className="w-full text-sm px-3 py-2 rounded-lg border border-lc-border bg-lc-surface text-lc-text placeholder:text-lc-text3"
           />
         </div>
+
+        {/* Low-credit warning */}
+        {!tierLoading && !isPro && credits === 2 && (
+          <div className="mb-4 px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
+            2 Test Flights left. Pro removes the limit when you&apos;re ready.
+          </div>
+        )}
+        {!tierLoading && !isPro && credits === 1 && (
+          <div className="mb-4 px-4 py-2.5 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm">
+            This is your last free Test Flight. Upgrade after this lesson to keep teaching.
+          </div>
+        )}
 
         {/* Active session shortcut */}
         {activeSession && (
