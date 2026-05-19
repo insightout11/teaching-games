@@ -114,11 +114,11 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="rounded-2xl overflow-hidden border border-lc-border"
         >
-          {/* Flight plan animation — full width */}
+          {/* Flight plan animation — hidden on mobile (layout breaks below ~480px) */}
           <div
             ref={containerRef}
             style={{ height: FLIGHT_PLAN_HEIGHT }}
-            className="w-full"
+            className="hidden sm:block w-full"
           >
             <LessonCaptainFlightPlan
               steps={DEMO_STEPS}

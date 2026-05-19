@@ -30,7 +30,7 @@ export function MarketingNav() {
             height={58}
             unoptimized
             priority
-            className="h-10 w-auto"
+            className="h-7 w-auto sm:h-10"
           />
         </Link>
 
@@ -48,9 +48,10 @@ export function MarketingNav() {
 
         <Link
           href="/login"
-          className="px-4 py-2 rounded-lg bg-lc-blue text-[#070B14] font-semibold text-sm hover:bg-lc-blue-hover transition-colors"
+          className="px-4 py-2 rounded-lg bg-lc-blue text-[#070B14] font-semibold text-sm hover:bg-lc-blue-hover transition-colors whitespace-nowrap"
         >
-          Start a Test Flight
+          <span className="hidden sm:inline">Start a Test Flight</span>
+          <span className="sm:hidden">Try free</span>
         </Link>
       </div>
     </header>
