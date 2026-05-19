@@ -6,6 +6,7 @@ import type { Student } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Users } from 'lucide-react';
+import { ProgressReportModal } from './progress-report-modal';
 
 const AVATAR_COLORS = [
   'bg-blue-500/20 text-blue-300',
@@ -77,6 +78,7 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
   const [bulkMode, setBulkMode] = useState(false);
   const [bulkNames, setBulkNames] = useState('');
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [reportStudent, setReportStudent] = useState<Student | null>(null);
   const supabase = createClient();
 
   // In mock mode, load from localStorage on mount
@@ -296,22 +298,36 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
       {students.length === 0 ? (
         <p className="text-sm text-lc-text3 text-center py-6">No crew yet — add the first member</p>
       ) : (
-        <ul className="space-y-1">
-          {students.map((s) => (
-            <li key={s.id} className="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-lc-surface group">
-              <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${avatarColor(s.name)}`}>
-                {s.name.charAt(0).toUpperCase()}
-              </span>
-              <span className="flex-1 text-sm text-lc-text">{s.name}</span>
-              <button
-                onClick={() => removeStudent(s.id)}
-                className="text-lc-danger/60 hover:text-lc-danger opacity-0 group-hover:opacity-100 transition-opacity text-xs"
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="space-y-1">
+            {students.map((s) => (
+              <li key={s.id} className="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-lc-surface group">
+                <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${avatarColor(s.name)}`}>
+                  {s.name.charAt(0).toUpperCase()}
+                </span>
+                <span className="flex-1 text-sm text-lc-text">{s.name}</span>
+                <button
+                  onClick={() => setReportStudent(s)}
+                  className="text-lc-text3/50 hover:text-lc-blue opacity-0 group-hover:opacity-100 transition-opacity text-xs"
+                >
+                  Progress report
+                </button>
+                <button
+                  onClick={() => removeStudent(s.id)}
+                  className="text-lc-danger/60 hover:text-lc-danger opacity-0 group-hover:opacity-100 transition-opacity text-xs"
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+          <ProgressReportModal
+            student={reportStudent}
+            classId={classId}
+            open={!!reportStudent}
+            onClose={() => setReportStudent(null)}
+          />
+        </>
       )}
     </Card>
   );
