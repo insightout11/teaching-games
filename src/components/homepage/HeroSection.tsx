@@ -6,19 +6,19 @@ import Link from 'next/link';
 import { LessonCaptainFlightPlan, type FlightPlanStep } from '@/components/ui/flight-plan';
 
 const DEMO_STEPS: FlightPlanStep[] = [
-  { id: 'takeoff', type: 'Takeoff', name: 'Mission Selector', kind: 'terminal' },
-  { id: 'm1', type: 'Presentation', name: 'Prediction Round', kind: 'module' },
-  { id: 'm2', type: 'Practice', name: 'Dialogue Detective', kind: 'module' },
-  { id: 'm3', type: 'Production', name: 'Hot Take Arena', kind: 'module' },
-  { id: 'landing', type: 'Landing', name: 'Quick Pulse', kind: 'terminal' },
+  { id: 'takeoff', type: 'Takeoff', name: 'Character Cards', kind: 'terminal' },
+  { id: 'm1', type: 'Presentation', name: 'Would You Rather', kind: 'module' },
+  { id: 'm2', type: 'Practice', name: 'Scene Igniter', kind: 'module' },
+  { id: 'm3', type: 'Production', name: 'Conversation Rounds', kind: 'module' },
+  { id: 'landing', type: 'Landing', name: 'Final Word', kind: 'terminal' },
 ];
 
 const PLAN_SLOTS = [
-  { stage: 'Takeoff', name: 'Mission Selector', duration: '~2 min', status: 'done' },
-  { stage: 'Presentation', name: 'Prediction Round', duration: '~5 min', status: 'done' },
-  { stage: 'Practice', name: 'Dialogue Detective', duration: '~12 min', status: 'active' },
-  { stage: 'Production', name: 'Hot Take Arena', duration: '~15 min', status: 'upcoming' },
-  { stage: 'Landing', name: 'Quick Pulse', duration: '~3 min', status: 'upcoming' },
+  { stage: 'Takeoff', name: 'Character Cards', duration: '~5 min', status: 'done' },
+  { stage: 'Presentation', name: 'Would You Rather', duration: '~10 min', status: 'done' },
+  { stage: 'Practice', name: 'Scene Igniter', duration: '~15 min', status: 'active' },
+  { stage: 'Production', name: 'Conversation Rounds', duration: '~25 min', status: 'upcoming' },
+  { stage: 'Landing', name: 'Final Word', duration: '~5 min', status: 'upcoming' },
 ];
 
 const FLIGHT_PLAN_HEIGHT = 300;
@@ -142,7 +142,7 @@ export function HeroSection() {
                 <div className="w-2 h-2 rounded-full bg-lc-blue animate-pulse" />
                 <span className="text-sm font-semibold text-lc-text">Flight Plan</span>
               </div>
-              <span className="text-xs text-lc-text3 font-medium">Speaking Circle · 37 min</span>
+              <span className="text-xs text-lc-text3 font-medium">Speaking Circle · 60 min</span>
             </div>
 
             {/* Slots — horizontal on wider screens */}
