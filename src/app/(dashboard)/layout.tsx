@@ -32,6 +32,36 @@ export default async function DashboardLayout({ children }: { children: React.Re
       >
         Skip to main content
       </a>
+
+      {/* Mobile fallback — the teaching dashboard requires a larger screen */}
+      <div className="md:hidden fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 p-8 text-center bg-[#07111f]">
+        <div className="space-y-3 max-w-xs">
+          <div className="w-12 h-12 rounded-2xl bg-lc-blue/15 flex items-center justify-center mx-auto">
+            <svg className="w-6 h-6 text-lc-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h1 className="text-lg font-bold text-white">Open on a laptop or tablet</h1>
+          <p className="text-sm text-gray-400 leading-relaxed">
+            LessonCaptain is designed for screen sharing and live classroom control. The teaching dashboard works best on a larger screen.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3 w-full max-w-xs">
+          <a
+            href="/pro"
+            className="block w-full py-2.5 rounded-xl bg-lc-blue text-[#070B14] font-semibold text-sm"
+          >
+            View pricing
+          </a>
+          <a
+            href="/"
+            className="block w-full py-2.5 rounded-xl border border-white/15 text-white/70 font-medium text-sm"
+          >
+            Back to homepage
+          </a>
+        </div>
+      </div>
+
       <div className="relative z-10 flex flex-1 min-w-0">
         <Sidebar user={user} />
         <div className="flex-1 flex flex-col min-w-0">
