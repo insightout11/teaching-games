@@ -1,4 +1,7 @@
+'use client';
+
 import { Radio } from 'lucide-react';
+import { StudentNoteEditor } from './student-note-editor';
 
 interface ParticipationRow {
   studentId: string;
@@ -11,6 +14,10 @@ interface ParticipationRow {
 interface ParticipationGridProps {
   rows: ParticipationRow[];
   maxPromptIndex: number | null;
+  sessionId: string;
+  classId: string;
+  teacherId: string;
+  initialNotes: Record<string, string>;
 }
 
 function accuracyColor(accuracy: number | null): string {
@@ -37,7 +44,7 @@ function avatarColor(name: string): string {
   return AVATAR_COLORS[h % AVATAR_COLORS.length];
 }
 
-export function ParticipationGrid({ rows, maxPromptIndex }: ParticipationGridProps) {
+export function ParticipationGrid({ rows, maxPromptIndex, sessionId, classId, teacherId, initialNotes }: ParticipationGridProps) {
   const sorted = [...rows].sort((a, b) => {
     if (a.coverage === null && b.coverage === null) return a.name.localeCompare(b.name);
     if (a.coverage === null) return 1;
@@ -62,28 +69,37 @@ export function ParticipationGrid({ rows, maxPromptIndex }: ParticipationGridPro
       {sorted.length === 0 ? (
         <p className="text-lc-text3 text-sm">No crew on record</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-1">
           {sorted.map((row) => (
-            <div key={row.studentId} className="flex items-center gap-3">
-              <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${avatarColor(row.name)}`}>
-                {row.name.charAt(0).toUpperCase()}
-              </span>
-              <span className="w-28 text-sm text-lc-text truncate shrink-0">{row.name}</span>
-              <div className="flex-1 bg-lc-surface rounded-full h-2 overflow-hidden">
-                <div
-                  className="h-2 rounded-full bg-lc-blue transition-all duration-500"
-                  style={{ width: `${row.coverage ?? 0}%` }}
-                />
+            <div key={row.studentId} className="pb-2 border-b border-lc-border-subtle last:border-0">
+              <div className="flex items-center gap-3 py-1">
+                <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${avatarColor(row.name)}`}>
+                  {row.name.charAt(0).toUpperCase()}
+                </span>
+                <span className="w-28 text-sm text-lc-text truncate shrink-0">{row.name}</span>
+                <div className="flex-1 bg-lc-surface rounded-full h-2 overflow-hidden">
+                  <div
+                    className="h-2 rounded-full bg-lc-blue transition-all duration-500"
+                    style={{ width: `${row.coverage ?? 0}%` }}
+                  />
+                </div>
+                <span className="w-10 text-xs text-lc-text3 text-right shrink-0 tabular-nums">
+                  {row.coverage !== null ? `${row.coverage}%` : 'N/A'}
+                </span>
+                <span className={`w-10 text-xs font-semibold text-right shrink-0 tabular-nums ${accuracyColor(row.accuracy)}`}>
+                  {row.accuracy !== null ? `${row.accuracy}%` : '—'}
+                </span>
               </div>
-              <span className="w-10 text-xs text-lc-text3 text-right shrink-0 tabular-nums">
-                {row.coverage !== null ? `${row.coverage}%` : 'N/A'}
-              </span>
-              <span className={`w-10 text-xs font-semibold text-right shrink-0 tabular-nums ${accuracyColor(row.accuracy)}`}>
-                {row.accuracy !== null ? `${row.accuracy}%` : '—'}
-              </span>
+              <StudentNoteEditor
+                sessionId={sessionId}
+                studentId={row.studentId}
+                classId={classId}
+                teacherId={teacherId}
+                initialNote={initialNotes[row.studentId] ?? ''}
+              />
             </div>
           ))}
-          <div className="flex items-center gap-3 pt-1 border-t border-lc-border-subtle">
+          <div className="flex items-center gap-3 pt-2">
             <span className="w-7 shrink-0" />
             <span className="w-28 shrink-0" />
             <span className="flex-1" />

@@ -2,7 +2,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { CalendarDays, Clock, Layers, Trophy } from 'lucide-react';
-import type { Session, Class, Student, Score, LeaderboardEntry, SessionNote, Teacher, Round } from '@/lib/supabase/types';
+import type { Session, Class, Student, Score, LeaderboardEntry, SessionNote, StudentSessionNote, Teacher, Round } from '@/lib/supabase/types';
 import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gauge';
 import { ParticipationGrid } from '@/components/control-room/participation-grid';
 import { RoundsBreakdown } from '@/components/control-room/rounds-breakdown';
@@ -51,6 +51,7 @@ export default async function ControlRoomPage({
     { data: leaderboard },
     { data: teacher },
     { data: notes },
+    { data: studentNotes },
   ] = await Promise.all([
     supabase.from('students').select('*').eq('class_id', cls.id).order('name') as Promise<{ data: Student[] | null }>,
     supabase.from('scores').select('*').eq('session_id', session.id).order('created_at') as Promise<{ data: Score[] | null }>,
@@ -58,6 +59,7 @@ export default async function ControlRoomPage({
     supabase.from('session_leaderboard').select('*').eq('session_id', session.id).order('total_points', { ascending: false }) as Promise<{ data: LeaderboardEntry[] | null }>,
     supabase.from('teachers').select('subscription_status, is_developer, promo_expires_at').eq('id', user.id).single() as Promise<{ data: Pick<Teacher, 'subscription_status'> & { is_developer: boolean; promo_expires_at: string | null } | null }>,
     supabase.from('session_notes').select('*').eq('session_id', session.id).eq('teacher_id', user.id).maybeSingle() as Promise<{ data: SessionNote | null }>,
+    supabase.from('student_session_notes').select('*').eq('session_id', session.id) as Promise<{ data: StudentSessionNote[] | null }>,
   ]);
 
   const allScores = scores ?? [];
@@ -138,6 +140,12 @@ export default async function ControlRoomPage({
       ? Math.round((entry.correct_count / entry.total_attempts) * 100)
       : null,
   }));
+
+  // Student notes map: studentId → note body
+  const studentNotesMap: Record<string, string> = {};
+  for (const sn of studentNotes ?? []) {
+    studentNotesMap[sn.student_id] = sn.note;
+  }
 
   // Pro gate
   const isPro = teacher?.is_developer === true
@@ -252,7 +260,14 @@ export default async function ControlRoomPage({
 
         {/* Right column */}
         <div className="space-y-6">
-          <ParticipationGrid rows={participationRows} maxPromptIndex={maxPromptIndex} />
+          <ParticipationGrid
+            rows={participationRows}
+            maxPromptIndex={maxPromptIndex}
+            sessionId={session.id}
+            classId={cls.id}
+            teacherId={user.id}
+            initialNotes={studentNotesMap}
+          />
 
           {isPro ? (
             <SessionNotesEditor

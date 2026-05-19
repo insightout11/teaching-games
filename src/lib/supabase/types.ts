@@ -175,6 +175,18 @@ export interface SessionNote {
   updated_at: string;
 }
 
+export interface StudentSessionNote {
+  id: string;
+  teacher_id: string;
+  class_id: string;
+  session_id: string;
+  student_id: string;
+  note: string;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ActivityResponse {
   id: string;
   session_id: string;
@@ -203,6 +215,7 @@ export interface Database {
       submission_rate_limits: { Row: SubmissionRateLimit; Insert: Partial<SubmissionRateLimit> & Pick<SubmissionRateLimit, 'session_id' | 'client_id'>; Update: Partial<SubmissionRateLimit> };
       question_votes: { Row: QuestionVote; Insert: Partial<QuestionVote> & Pick<QuestionVote, 'question_id' | 'session_id' | 'client_id'>; Update: Partial<QuestionVote> };
       session_notes: { Row: SessionNote; Insert: Partial<SessionNote> & Pick<SessionNote, 'session_id' | 'teacher_id'>; Update: Partial<SessionNote> };
+      student_session_notes: { Row: StudentSessionNote; Insert: Partial<StudentSessionNote> & Pick<StudentSessionNote, 'session_id' | 'student_id' | 'class_id' | 'teacher_id'>; Update: Partial<StudentSessionNote> };
     };
     Views: {
       session_leaderboard: { Row: LeaderboardEntry };
