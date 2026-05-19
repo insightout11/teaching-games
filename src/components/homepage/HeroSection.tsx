@@ -7,17 +7,17 @@ import { LessonCaptainFlightPlan, type FlightPlanStep } from '@/components/ui/fl
 
 const DEMO_STEPS: FlightPlanStep[] = [
   { id: 'takeoff', type: 'Takeoff', name: 'Mission Selector', kind: 'terminal' },
-  { id: 'm1', type: 'Presentation', name: 'Vocab Radar', kind: 'module' },
-  { id: 'm2', type: 'Practice', name: 'Vocab Sprint', kind: 'module' },
-  { id: 'm3', type: 'Production', name: 'Story Sprint', kind: 'module' },
+  { id: 'm1', type: 'Presentation', name: 'Prediction Round', kind: 'module' },
+  { id: 'm2', type: 'Practice', name: 'Dialogue Detective', kind: 'module' },
+  { id: 'm3', type: 'Production', name: 'Hot Take Arena', kind: 'module' },
   { id: 'landing', type: 'Landing', name: 'Quick Pulse', kind: 'terminal' },
 ];
 
 const PLAN_SLOTS = [
   { stage: 'Takeoff', name: 'Mission Selector', duration: '~2 min', status: 'done' },
-  { stage: 'Presentation', name: 'Vocab Radar', duration: '~5 min', status: 'done' },
-  { stage: 'Practice', name: 'Vocab Sprint', duration: '~10 min', status: 'active' },
-  { stage: 'Production', name: 'Story Sprint', duration: '~15 min', status: 'upcoming' },
+  { stage: 'Presentation', name: 'Prediction Round', duration: '~5 min', status: 'done' },
+  { stage: 'Practice', name: 'Dialogue Detective', duration: '~12 min', status: 'active' },
+  { stage: 'Production', name: 'Hot Take Arena', duration: '~15 min', status: 'upcoming' },
   { stage: 'Landing', name: 'Quick Pulse', duration: '~3 min', status: 'upcoming' },
 ];
 
@@ -142,7 +142,7 @@ export function HeroSection() {
                 <div className="w-2 h-2 rounded-full bg-lc-blue animate-pulse" />
                 <span className="text-sm font-semibold text-lc-text">Flight Plan</span>
               </div>
-              <span className="text-xs text-lc-text3 font-medium">Vocab Blitz · 45 min</span>
+              <span className="text-xs text-lc-text3 font-medium">Speaking Circle · 37 min</span>
             </div>
 
             {/* Slots — horizontal on wider screens */}
