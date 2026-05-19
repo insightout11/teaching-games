@@ -41,6 +41,9 @@ export function MarketingNav() {
           <Link href="#games" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
             Explore
           </Link>
+          <Link href="/pro" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+            Pricing
+          </Link>
         </nav>
 
         <Link
