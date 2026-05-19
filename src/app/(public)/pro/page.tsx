@@ -23,6 +23,7 @@ const PRO_FEATURES = [
   'Ongoing class history and debriefs for every lesson',
   'Custom topics for your exact curriculum',
   'Students always join free — no accounts needed',
+  'Editable progress report drafts from your notes and session history',
 ];
 
 const FAQ = [
@@ -32,7 +33,7 @@ const FAQ = [
   },
   {
     q: 'What happens to my free session history if I upgrade?',
-    a: 'It stays saved. Your Test Flight debriefs are always accessible whether you upgrade or not.',
+    a: 'It stays saved. Your Test Flight debriefs are always accessible whether you upgrade or not. Pro teachers can also add private notes per student and generate editable progress report drafts from their session history.',
   },
   {
     q: 'When will self-serve checkout be available?',

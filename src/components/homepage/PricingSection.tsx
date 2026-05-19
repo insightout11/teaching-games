@@ -16,6 +16,7 @@ const PRO_ITEMS = [
   'Saved and reusable Flight Plans',
   'Ongoing class history and debriefs',
   'Custom topics',
+  'Editable progress report drafts',
 ];
 
 export function PricingSection() {
