@@ -9,6 +9,7 @@ import { ProductDetailStrip } from '@/components/homepage/ProductDetailStrip';
 import { SourceBasedSection } from '@/components/homepage/SourceBasedSection';
 import { TestFlightSection } from '@/components/homepage/TestFlightSection';
 import { TrustSection } from '@/components/homepage/TrustSection';
+import { PricingSection } from '@/components/homepage/PricingSection';
 
 export const metadata: Metadata = {
   title: 'LessonCaptain — Live ESL Lessons While You Screen Share',
@@ -34,8 +35,9 @@ export default async function HomePage() {
       <PresetsSection />
       <ProductDetailStrip />
       <SourceBasedSection />
-      <TestFlightSection />
       <TrustSection />
+      <PricingSection />
+      <TestFlightSection />
     </>
   );
 }
