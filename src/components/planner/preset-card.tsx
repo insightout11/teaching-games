@@ -50,7 +50,7 @@ export function PresetCard({
         {preset.name}
       </h3>
       <p className="text-sm text-lc-text2 mt-1">{preset.description}</p>
-      <div className="flex items-center gap-3 mt-3 text-xs text-lc-text3">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3 text-xs text-lc-text3">
         <span>{preset.lessonDurationMinutes} min</span>
         <span className="w-1 h-1 rounded-full bg-lc-border" />
         <span>{GOAL_LABELS[preset.goal]}</span>

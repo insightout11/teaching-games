@@ -31,7 +31,7 @@ export default function LoginPage() {
         className="pointer-events-none fixed inset-0"
         style={{ zIndex: 5, background: 'linear-gradient(180deg, rgba(7,11,20,0.55) 0%, rgba(7,11,20,0.65) 40%, rgba(7,11,20,0.72) 100%)' }}
       />
-      <div className="relative z-10 bg-lc-card/85 backdrop-blur-md border border-lc-blue/20 rounded-2xl shadow-xl p-8 max-w-md w-full mx-4 text-center">
+      <div className="relative z-10 bg-lc-card/85 backdrop-blur-md border border-lc-blue/20 rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full mx-4 text-center">
         <Image src="/lessoncaptain-logo-on-dark-v2.svg" alt="LessonCaptain" width={200} height={32} className="h-auto mx-auto mb-2" unoptimized />
         <p className="text-lc-text2 mb-2">Sign in to get Test Flight credits and save your lessons.</p>
         <p className="text-xs text-lc-text3 mb-6">Your account keeps your Flight Plans, class history, and debriefs. Students never need accounts.</p>

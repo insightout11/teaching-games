@@ -148,8 +148,8 @@ export default function ProPage() {
 
       {/* Bottom nav */}
       <div className="text-center">
-        <Link href="/home" className="text-xs text-lc-text3 hover:text-lc-text2 transition-colors">
-          Back to dashboard
+        <Link href="/" className="text-xs text-lc-text3 hover:text-lc-text2 transition-colors">
+          ← Back to home
         </Link>
       </div>
     </div>
