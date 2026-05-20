@@ -15,6 +15,7 @@ export const finalWordPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: Mic,
   flightPlanOnly: true,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { FinalWordActivity };

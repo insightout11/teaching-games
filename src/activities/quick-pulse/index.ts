@@ -14,6 +14,7 @@ export const quickPulsePlugin: ActivityPlugin = {
   estimatedMinutes: 3,
   defaultTimerSeconds: 30,
   icon: Zap,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { QuickPulseActivity };

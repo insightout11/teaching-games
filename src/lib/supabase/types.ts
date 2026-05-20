@@ -68,6 +68,12 @@ export interface Score {
   team?: string | null;
   client_id?: string | null;
   display_name?: string | null;
+  // Scoring V2 fields (null for pre-V2 rows)
+  outcome?: string | null;
+  accuracy_status?: string | null;
+  counts_for_accuracy?: boolean | null;
+  counts_for_leaderboard?: boolean | null;
+  scoring_version?: number | null;
 }
 
 // Student Input Types

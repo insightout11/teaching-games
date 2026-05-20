@@ -14,6 +14,7 @@ export const twoTruthsPlugin: ActivityPlugin = {
   estimatedMinutes: 10,
   defaultTimerSeconds: 45,
   icon: Sparkles,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };
 
 export { TwoTruthsActivity };

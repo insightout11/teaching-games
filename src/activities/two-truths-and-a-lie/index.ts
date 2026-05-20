@@ -14,6 +14,7 @@ export const twoTruthsAndALiePlugin: ActivityPlugin = {
   estimatedMinutes: 15,
   defaultTimerSeconds: 30,
   icon: Users,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };
 
 export { TwoTruthsAndALieActivity };

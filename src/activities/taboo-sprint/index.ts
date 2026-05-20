@@ -15,6 +15,7 @@ export const tabooSprintPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: Ban,
   flightPlanOnly: false,
+  scoringProfile: { displayMode: 'team', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { TabooSprintActivity };

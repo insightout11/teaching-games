@@ -15,6 +15,7 @@ export const opinionShiftPlugin: ActivityPlugin = {
   defaultTimerSeconds: 60,
   icon: ArrowRightLeft,
   flightPlanOnly: true,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { OpinionShiftActivity };

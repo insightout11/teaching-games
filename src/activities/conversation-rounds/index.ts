@@ -15,4 +15,5 @@ export const conversationRoundsPlugin: ActivityPlugin = {
   defaultTimerSeconds: 0,
   icon: MessageSquare,
   flightPlanOnly: false,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };

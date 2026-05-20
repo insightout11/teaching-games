@@ -73,9 +73,11 @@ export interface ReadAloudQueueEntry {
 
 // Submission handler result from games
 export interface SubmissionResult {
-  isCorrect: boolean;
+  isCorrect: boolean | null;
   points: number;
   feedback?: string;
+  outcome?: import('@/lib/score-engine').ScoreOutcome;
+  isEmpty?: boolean;
 }
 
 // Handler that games register to process approved submissions

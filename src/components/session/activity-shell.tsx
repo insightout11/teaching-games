@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useState, useEffect, useRef, useMemo } from 'react';
-import { useSessionStore, getEffectiveTopic, PARTICIPATION_POINTS } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { runScoreEngine } from '@/lib/score-engine';
+import type { ScoreOutcome } from '@/lib/score-engine';
 import type { ActivityPlugin } from '@/activities/types';
 import { CATEGORY_INFO } from '@/activities/registry';
 import type {
@@ -131,25 +133,36 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
     };
   }, [sessionId, activity.key, supabase, recordScore, addStudent]);
 
-  // Score writing for participation-only activities
+  // Score writing for activities — routes through score engine
   const handleScore = useCallback(async (request: {
     studentId: string | null;
     clientId: string | null;
     displayName: string;
     promptIndex: number;
     points: number;
-    isCorrect: null;
+    isCorrect: boolean | null;
+    outcome?: ScoreOutcome;
+    isEmpty?: boolean;
   }) => {
     if (!sessionId) return;
-    const scoringMode = useSessionStore.getState().settings.scoringMode;
-    const finalPoints = scoringMode === 'participation' ? PARTICIPATION_POINTS : request.points;
+    const engineResult = runScoreEngine({
+      explicitOutcome: request.outcome,
+      isCorrect: request.isCorrect,
+      isEmpty: request.isEmpty,
+      profile: activity.scoringProfile,
+    });
     const { data, error } = await supabase.from('scores').insert({
       session_id: sessionId,
       student_id: request.studentId,
       client_id: request.clientId,
       display_name: request.displayName,
-      points: finalPoints,
-      is_correct: null,
+      points: engineResult.points,
+      is_correct: engineResult.isCorrect,
+      outcome: engineResult.outcome,
+      accuracy_status: engineResult.accuracyStatus,
+      counts_for_accuracy: engineResult.countsForAccuracy,
+      counts_for_leaderboard: true,
+      scoring_version: engineResult.scoringVersion,
       prompt_index: request.promptIndex,
       streak_count: 0,
       streak_bonus: 0,
@@ -160,7 +173,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       return;
     }
     if (data) recordScore(data);
-  }, [sessionId, supabase, recordScore]);
+  }, [sessionId, supabase, recordScore, activity.scoringProfile]);
 
   // Callback for activities to set input spec
   const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
@@ -177,12 +190,13 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
     remoteVoteHandlerRef.current = handler;
   }, []);
 
-  // Handle approved student submission
+  // Handle approved student submission — routes through score engine
   const handleApprovedSubmission = useCallback(async (submission: StudentSubmission) => {
     if (!sessionId) return;
 
-    let points = 5;
-    let isCorrect = true;
+    let handlerIsCorrect: boolean | null = null;
+    let handlerOutcome: ScoreOutcome | undefined;
+    let handlerIsEmpty: boolean | undefined;
     let feedback: string | undefined;
 
     if (submissionHandlerRef.current) {
@@ -191,26 +205,36 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
           submission.content,
           { activityKey: activity.key, submissionId: submission.id }
         );
-        points = result.points;
-        isCorrect = result.isCorrect;
+        handlerIsCorrect = result.isCorrect;
+        handlerOutcome = result.outcome;
+        handlerIsEmpty = result.isEmpty;
         feedback = result.feedback;
       } catch (error) {
         console.error('Submission handler error:', error);
       }
     }
 
-    // Look up matching student from store by display_name
-    const matchedStudent = students.find(
-      (s) => s.name === submission.display_name
-    );
+    const engineResult = runScoreEngine({
+      explicitOutcome: handlerOutcome,
+      isCorrect: handlerIsCorrect,
+      isEmpty: handlerIsEmpty,
+      profile: activity.scoringProfile,
+    });
+
+    const matchedStudent = students.find((s) => s.name === submission.display_name);
 
     const scoreData = {
       session_id: sessionId,
       student_id: matchedStudent?.id || null,
-      points,
+      points: engineResult.points,
       streak_count: 0,
       streak_bonus: 0,
-      is_correct: isCorrect,
+      is_correct: engineResult.isCorrect,
+      outcome: engineResult.outcome,
+      accuracy_status: engineResult.accuracyStatus,
+      counts_for_accuracy: engineResult.countsForAccuracy,
+      counts_for_leaderboard: true,
+      scoring_version: engineResult.scoringVersion,
       response_data: {
         submission_id: submission.id,
         content: submission.content,
@@ -229,10 +253,8 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       throw new Error(error.message);
     }
 
-    if (data) {
-      recordScore(data);
-    }
-  }, [sessionId, students, supabase, recordScore, activity.key]);
+    if (data) recordScore(data);
+  }, [sessionId, students, supabase, recordScore, activity.key, activity.scoringProfile]);
 
   // Handler for dynamic follow-ups during the activity
   const handleContinue = useCallback(async (request: Omit<ActivityContinueRequest, 'sessionId'>): Promise<ActivityContinueResponse> => {
@@ -345,7 +367,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
 
       {/* Sidebar */}
       <div className="space-y-4">
-        <Leaderboard />
+        <Leaderboard displayMode={activity.scoringProfile?.displayMode ?? 'class'} />
         {sessionId && (
           <ApprovalQueue
             sessionId={sessionId}

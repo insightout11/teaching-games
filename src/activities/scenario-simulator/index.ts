@@ -14,6 +14,7 @@ export const scenarioSimulatorPlugin: ActivityPlugin = {
   estimatedMinutes: 15,
   defaultTimerSeconds: 20,
   icon: Users,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { ScenarioSimulatorActivity };

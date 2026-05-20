@@ -2,13 +2,16 @@ import { ComponentType } from 'react';
 import type { Student } from '@/lib/supabase/types';
 import type { SessionSettings } from '@/stores/session-store';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
+import type { ScoreOutcome, ScoringProfile } from '@/lib/score-engine';
 
 // Game categories
 export type GameCategory = 'vocabulary' | 'grammar-writing' | 'logic-puzzles' | 'quiz';
 
 export interface ScoreResult {
-  isCorrect: boolean;
+  isCorrect: boolean | null;
   points: number;
+  outcome?: ScoreOutcome;
+  isEmpty?: boolean;
   responseData?: Record<string, unknown>;
 }
 
@@ -38,7 +41,7 @@ export interface GameProps {
   // Remote vote handler - register to receive votes from remote students in real-time
   onRegisterRemoteVoteHandler?: (handler: ((vote: GameRemoteVote) => void) | null) => void;
   // Per-student prefs — keyed by clientId. Games use this to respect score_visible (stealth mode).
-  prefsMap?: Map<string, { score_visible: boolean; scoring_mode: string | null }>;
+  prefsMap?: Map<string, { score_visible: boolean }>;
   // Race-mode games call this to show the top-3 overlay on the teacher's screen.
   onRevealTopSubmissions?: (submissions: TopSubmission[]) => void;
 }
@@ -75,4 +78,6 @@ export interface GamePlugin {
   estimatedMinutes: number;
   /** When true, this game only makes sense within a Flight Plan and is hidden from Explore. */
   flightPlanOnly?: boolean;
+  /** Scoring V2: how this game classifies outcomes and what the leaderboard shows. */
+  scoringProfile?: ScoringProfile;
 }

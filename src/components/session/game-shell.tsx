@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useMemo, useState } from 'react';
-import { useSessionStore, PARTICIPATION_POINTS } from '@/stores/session-store';
+import { useSessionStore } from '@/stores/session-store';
+import { runScoreEngine } from '@/lib/score-engine';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin, ScoreResult, GameRemoteVote, TopSubmission } from '@/games/types';
 import type { GameGeneratedContent } from '@/activities/types';
@@ -174,15 +175,9 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   const handleScore = useCallback(async (studentId: string, result: ScoreResult) => {
     if (!sessionId) return;
 
-    const scoringMode = settingsRef.current.scoringMode;
-
-    // Determine if studentId is a roster student or a remote (non-roster) student.
-    // Remote students (joined via /join link) pass their clientId as studentId.
-    // Try to match remote students to a roster entry by display name so scores
-    // accumulate on the correct leaderboard row instead of creating a phantom entry.
+    // Resolve identity: roster student (student UUID) vs remote student (clientId).
+    // Race-mode games store clientId in responseData so feedback can reach the student device.
     const isRoster = studentsRef.current.some((s) => s.id === studentId);
-    // Race-mode games store clientId in responseData so feedback can reach the student's device.
-    // Preserve it even for roster students so Pathway 2 (scores.response_data.feedback) is findable.
     const responseClientId = typeof (result.responseData as Record<string, unknown> | null)?.clientId === 'string'
       ? (result.responseData as Record<string, unknown>).clientId as string
       : null;
@@ -191,18 +186,15 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
     let displayNameField: string | null;
     if (isRoster) {
       studentIdField = studentId;
-      clientIdField = responseClientId; // null for turn-based, set for race-mode
+      clientIdField = responseClientId;
       displayNameField = null;
     } else {
-      // studentId is actually a clientId for remote students.
-      // First try: resolve via the clientId → studentId cache (most reliable).
       const resolvedStudentId = clientToStudentRef.current.get(studentId);
       if (resolvedStudentId && studentsRef.current.some((s) => s.id === resolvedStudentId)) {
         studentIdField = resolvedStudentId;
         clientIdField = null;
         displayNameField = null;
       } else {
-        // Fall back to display-name matching
         const displayName = clientInfoRef.current.get(studentId) ?? null;
         const rosterMatch = displayName
           ? studentsRef.current.find((s) => s.name === displayName) ?? null
@@ -219,80 +211,40 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       }
     }
 
-    // Participation mode: flat points, no streaks
-    if (scoringMode === 'participation') {
-      const { data, error } = await supabase.from('scores').insert({
-        session_id: sessionId,
-        student_id: studentIdField,
-        client_id: clientIdField,
-        display_name: displayNameField,
-        points: PARTICIPATION_POINTS,
-        streak_count: 0,
-        streak_bonus: 0,
-        is_correct: result.isCorrect,
-        response_data: { ...result.responseData, scoringMode: 'participation' },
-      }).select().single();
-      promptIndexRef.current++;
-      if (error) console.error('[handleScore] participation insert failed', JSON.stringify(error));
-      if (data) recordScore(data);
-      clearModifier();
-      return;
-    }
+    const engineResult = runScoreEngine({
+      explicitOutcome: result.outcome,
+      isCorrect: result.isCorrect,
+      isEmpty: result.isEmpty,
+      profile: game.scoringProfile,
+    });
 
-    // Accuracy mode: correctness-based points, no streaks
-    if (scoringMode === 'accuracy') {
-      const { data, error } = await supabase.from('scores').insert({
-        session_id: sessionId,
-        student_id: studentIdField,
-        client_id: clientIdField,
-        display_name: displayNameField,
-        points: result.points,
-        streak_count: 0,
-        streak_bonus: 0,
-        is_correct: result.isCorrect,
-        response_data: { ...result.responseData, scoringMode: 'accuracy' },
-      }).select().single();
-      promptIndexRef.current++;
-      if (error) console.error('[handleScore] accuracy insert failed', JSON.stringify(error));
-      if (data) recordScore(data);
-      clearModifier();
-      return;
-    }
-
-    // Competitive mode: turn modifier, streak counter
-    const currentModifier = turnModifierRef.current;
-    const currentStreaks = streaksRef.current;
-
-    const basePoints = result.points;
-    let modifiedPoints = basePoints;
-    if (currentModifier) {
-      modifiedPoints = basePoints * currentModifier.multiplier + currentModifier.bonus;
-    }
-
-    // Shield: if wrong but has shield, don't break streak
-    const shieldActive = currentModifier?.shield && !result.isCorrect;
-    const effectiveIsCorrect = result.isCorrect || shieldActive;
-    // Use the resolved DB key (studentIdField or clientIdField) for streak lookup,
-    // not the raw studentId param — remote students pass clientId which also gets
-    // a streak increment from the proxy remote_vote score, causing double-counting.
+    // Streak: advance on correct (accuracy games), hold on participation (accuracy=not_applicable)
     const streakLookupKey = studentIdField ?? clientIdField ?? studentId;
-    const currentStreak = effectiveIsCorrect ? (currentStreaks[streakLookupKey] ?? 0) + 1 : 0;
+    const currentStreak = engineResult.isCorrect
+      ? (streaksRef.current[streakLookupKey] ?? 0) + 1
+      : 0;
+
+    const teamFromResult = typeof (result.responseData as Record<string, unknown> | null)?.team === 'string'
+      ? (result.responseData as Record<string, unknown>).team as string
+      : null;
 
     const scoreData = {
       session_id: sessionId,
       student_id: studentIdField,
       client_id: clientIdField,
       display_name: displayNameField,
-      points: modifiedPoints,
+      points: engineResult.points,
       streak_count: currentStreak,
       streak_bonus: 0,
-      is_correct: result.isCorrect,
-      response_data: {
-        ...result.responseData,
-        basePoints,
-        modifier: currentModifier,
-        shieldUsed: shieldActive,
-      },
+      is_correct: engineResult.isCorrect,
+      outcome: engineResult.outcome,
+      accuracy_status: engineResult.accuracyStatus,
+      counts_for_accuracy: engineResult.countsForAccuracy,
+      counts_for_leaderboard: true,
+      scoring_version: engineResult.scoringVersion,
+      prompt_index: promptIndexRef.current,
+      response_data: result.responseData ?? null,
+      team: teamFromResult,
     };
 
     promptIndexRef.current++;
@@ -300,12 +252,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
     if (error) console.error('[handleScore] FAILED code=' + error.code + ' msg=' + error.message + ' hint=' + error.hint + ' data=' + JSON.stringify(scoreData));
     if (data) recordScore(data);
     clearModifier();
-
-    // AI feedback for race-mode games is stored in scores.response_data.feedback
-    // and read by the student's polling via /api/student/session (pathway 2).
-    // No additional DB write needed here — INSERT into student_submissions is blocked by RLS
-    // (all student_submissions writes require service-role, not the browser client).
-  }, [sessionId, supabase, recordScore, clearModifier]);
+  }, [sessionId, supabase, recordScore, clearModifier, game]);
 
   const handlePickStudent = useCallback(() => {
     pickStudent();
@@ -315,49 +262,51 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
     setCurrentStudent(studentId);
   }, [setCurrentStudent]);
 
-  // Handle approved student submission
-  // If game has registered a submission handler, use it for evaluation
-  // Otherwise fall back to fixed participation points
+  // Handle approved student submission — routes through score engine
   const handleApprovedSubmission = useCallback(async (submission: StudentSubmission) => {
     if (!sessionId) return;
 
-    let points = 5; // Default participation points
-    let isCorrect = true;
+    let handlerIsCorrect: boolean | null = null;
+    let handlerOutcome: import('@/lib/score-engine').ScoreOutcome | undefined;
+    let handlerIsEmpty: boolean | undefined;
     let feedback: string | undefined;
 
-    // If game has a submission handler, use it to evaluate
     if (submissionHandlerRef.current) {
       try {
         const result = await submissionHandlerRef.current.handleSubmission(
           submission.content,
           { gameKey: game.key, submissionId: submission.id }
         );
-        points = result.points;
-        isCorrect = result.isCorrect;
+        handlerIsCorrect = result.isCorrect;
+        handlerOutcome = result.outcome;
+        handlerIsEmpty = result.isEmpty;
         feedback = result.feedback;
       } catch (error) {
         console.error('Submission handler error:', error);
-        // Fall back to participation points on error
       }
     }
 
-    // Look up matching student from store by display_name
-    const matchedStudent = students.find(
-      (s) => s.name === submission.display_name
-    );
+    const engineResult = runScoreEngine({
+      explicitOutcome: handlerOutcome,
+      isCorrect: handlerIsCorrect,
+      isEmpty: handlerIsEmpty,
+      profile: game.scoringProfile,
+    });
 
-    // Respect per-student scoring_mode pref; fall back to session default
-    const pref = prefsMapRef.current.get(submission.client_id);
-    const effectiveMode = pref?.scoring_mode ?? settingsRef.current.scoringMode;
-    const finalPoints = effectiveMode === 'participation' ? PARTICIPATION_POINTS : points;
+    const matchedStudent = students.find((s) => s.name === submission.display_name);
 
     const scoreData = {
       session_id: sessionId,
       student_id: matchedStudent?.id || null,
-      points: finalPoints,
+      points: engineResult.points,
       streak_count: 0,
       streak_bonus: 0,
-      is_correct: isCorrect,
+      is_correct: engineResult.isCorrect,
+      outcome: engineResult.outcome,
+      accuracy_status: engineResult.accuracyStatus,
+      counts_for_accuracy: engineResult.countsForAccuracy,
+      counts_for_leaderboard: true,
+      scoring_version: engineResult.scoringVersion,
       prompt_index: promptIndexRef.current,
       response_data: {
         submission_id: submission.id,
@@ -377,19 +326,16 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       throw new Error(error.message);
     }
 
-    if (data) {
-      recordScore(data);
-    }
+    if (data) recordScore(data);
 
-    // Write AI feedback back to student_submissions for private phone delivery
     if (feedback) {
       supabase
         .from('student_submissions')
-        .update({ ai_feedback: feedback, ai_score: points })
+        .update({ ai_feedback: feedback, ai_score: engineResult.points })
         .eq('id', submission.id)
         .then(() => {});
     }
-  }, [sessionId, students, supabase, recordScore, game.key]);
+  }, [sessionId, students, supabase, recordScore, game]);
 
   const handleRevealTop3 = useCallback(async () => {
     if (!sessionId) return;
@@ -468,7 +414,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
 
         {/* Sidebar */}
         <div className="space-y-4">
-          <Leaderboard />
+          <Leaderboard displayMode={game.scoringProfile?.displayMode ?? 'competitive'} />
           <TeamTotals />
           {sessionId && (
             <ApprovalQueue

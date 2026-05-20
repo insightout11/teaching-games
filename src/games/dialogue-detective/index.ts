@@ -15,4 +15,5 @@ export const dialogueDetectivePlugin: GamePlugin = {
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 45,
   estimatedMinutes: 10,
+  scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };

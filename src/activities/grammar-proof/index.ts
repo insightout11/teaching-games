@@ -15,6 +15,7 @@ export const grammarProofPlugin: ActivityPlugin = {
   defaultTimerSeconds: 60,
   icon: CheckSquare,
   flightPlanOnly: true,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };
 
 export { GrammarProofActivity };

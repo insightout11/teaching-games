@@ -77,15 +77,23 @@ export function EndSessionSummary({
 
       entry.total += sc.points;
       entry.attempts++;
-      if (sc.is_correct) entry.correct++;
+      // V2: use accuracy_status; legacy: fall back to is_correct
+      if (sc.accuracy_status === 'correct' || (!sc.accuracy_status && sc.is_correct)) entry.correct++;
       if (sc.streak_count > entry.bestStreak) entry.bestStreak = sc.streak_count;
     });
     return Array.from(map.values()).sort((a, b) => b.total - a.total);
   }, [students, scores]);
 
   const totalRounds = scores.length;
-  const overallAccuracy = totalRounds > 0
-    ? Math.round((scores.filter((s) => s.is_correct).length / totalRounds) * 100)
+  // V2: use counts_for_accuracy + accuracy_status; legacy: is_correct != null
+  const accuracyRows = scores.filter(s =>
+    s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct != null)
+  );
+  const overallAccuracy = accuracyRows.length > 0
+    ? Math.round((
+        accuracyRows.filter(s => s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct)).length
+        / accuracyRows.length
+      ) * 100)
     : 0;
 
   return (

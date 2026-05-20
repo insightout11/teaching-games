@@ -20,7 +20,6 @@ export const TONES: Tone[] = ['Neutral', 'Casual', 'Formal', 'Humorous', 'Profes
 
 export type ScoringMode = 'participation' | 'accuracy' | 'competitive';
 export const SCORING_MODES: ScoringMode[] = ['participation', 'accuracy', 'competitive'];
-export const PARTICIPATION_POINTS = 5;
 
 export function goalToScoringMode(goal?: string | null): ScoringMode {
   const participationGoals = ['speaking-fluency', 'discussion-debate', 'confidence-building', 'collaboration', 'creativity'];
@@ -114,7 +113,6 @@ interface SessionState {
   setTopic: (topic: Topic) => void;
   setCustomTopic: (customTopic: string) => void;
   nextRound: () => void;
-  awardPoints: (studentId: string, points: number) => Promise<void>;
   setActiveGame: (gameKey: string | null) => void;
   setInputSpec: (spec: InputSpec | null) => Promise<void>;
   addStudent: (student: Student) => void;
@@ -297,7 +295,11 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       // Use student_id for roster students, client_id for remote students
       const streakKey = score.student_id || score.client_id;
       if (streakKey) {
-        if (score.is_correct) {
+        // V2: use accuracy_status; legacy: fall back to is_correct
+        const isCorrectForStreak = score.accuracy_status != null
+          ? score.accuracy_status === 'correct'
+          : score.is_correct;
+        if (isCorrectForStreak) {
           newStreaks[streakKey] = (newStreaks[streakKey] ?? 0) + 1;
         } else {
           newStreaks[streakKey] = 0;
@@ -422,29 +424,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   setGrammarTarget: (target: GrammarTarget | null) => set((state) => ({
     settings: { ...state.settings, grammarTarget: target },
   })),
-
-  awardPoints: async (studentId: string, points: number) => {
-    const { sessionId } = get();
-    if (!sessionId) return;
-
-    const { createClient } = await import('@/lib/supabase/client');
-    const supabase = createClient();
-    const { data, error } = await supabase.from('scores').insert({
-      session_id: sessionId,
-      student_id: studentId,
-      points,
-      streak_count: 0,
-      streak_bonus: 0,
-      is_correct: true,
-      response_data: { type: 'participation' },
-    }).select().single();
-
-    if (!error && data) {
-      set((state) => ({
-        scores: [...state.scores, data as Score],
-      }));
-    }
-  },
 
   reset: () => {
     lastWrittenInputSpec = undefined;

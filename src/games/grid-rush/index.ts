@@ -15,4 +15,5 @@ export const gridRushPlugin: GamePlugin = {
   maxPointsPerTurn: 40,
   defaultTimerSeconds: 60,
   estimatedMinutes: 15,
+  scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };

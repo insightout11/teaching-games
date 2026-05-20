@@ -14,6 +14,7 @@ export const wonderBoardPlugin: ActivityPlugin = {
   estimatedMinutes: 10,
   defaultTimerSeconds: 0,
   icon: HelpCircle,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { WonderBoardActivity };

@@ -14,6 +14,7 @@ export const rankItPlugin: ActivityPlugin = {
   estimatedMinutes: 12,
   defaultTimerSeconds: 60,
   icon: Sparkles,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { RankItActivity };

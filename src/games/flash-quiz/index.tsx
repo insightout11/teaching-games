@@ -26,4 +26,5 @@ export const flashQuizPlugin: GamePlugin = {
   maxPointsPerTurn: 125,
   defaultTimerSeconds: 30,
   estimatedMinutes: 12,
+  scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };

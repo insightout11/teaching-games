@@ -27,4 +27,5 @@ export const zoneBoardPlugin: GamePlugin = {
   maxPointsPerTurn: 0,
   defaultTimerSeconds: 20,
   estimatedMinutes: 20,
+  scoringProfile: { displayMode: 'team', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };

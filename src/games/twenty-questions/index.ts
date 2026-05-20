@@ -15,4 +15,5 @@ export const twentyQuestionsPlugin: GamePlugin = {
   maxPointsPerTurn: 15,
   defaultTimerSeconds: 30,
   estimatedMinutes: 15,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };

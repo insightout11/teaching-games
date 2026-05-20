@@ -15,6 +15,7 @@ export const missionSelectorPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: Crosshair,
   flightPlanOnly: true,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { MissionSelectorActivity };

@@ -15,6 +15,7 @@ export const imposterPlugin: ActivityPlugin = {
   defaultTimerSeconds: 0,
   icon: UserX,
   flightPlanOnly: false,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { ImposterActivity };

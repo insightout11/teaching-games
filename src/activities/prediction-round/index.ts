@@ -14,6 +14,7 @@ export const predictionRoundPlugin: ActivityPlugin = {
   estimatedMinutes: 4,
   defaultTimerSeconds: 30,
   icon: Lightbulb,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };
 
 export { PredictionRoundActivity };

@@ -15,4 +15,5 @@ export const brainTeasersPlugin: GamePlugin = {
   maxPointsPerTurn: 3,
   defaultTimerSeconds: 0,
   estimatedMinutes: 10,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };

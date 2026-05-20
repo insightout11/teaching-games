@@ -14,6 +14,7 @@ export const factDetectivePlugin: ActivityPlugin = {
   estimatedMinutes: 12,
   defaultTimerSeconds: 45,
   icon: BookOpen,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { FactDetectiveActivity };

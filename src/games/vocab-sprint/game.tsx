@@ -168,6 +168,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
       onScore(studentId, {
         isCorrect: result.score >= 5,
         points: result.score,
+        // First solver in a simultaneous round is standout (+5)
+        outcome: position === 1 && result.score >= 5 ? 'standout' : undefined,
         responseData: {
           clientId: vote.clientId,
           replacement,

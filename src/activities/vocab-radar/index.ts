@@ -14,6 +14,7 @@ export const vocabRadarPlugin: ActivityPlugin = {
   estimatedMinutes: 4,
   defaultTimerSeconds: 20,
   icon: ScanSearch,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { VocabRadarActivity };

@@ -15,4 +15,5 @@ export const connectionsPlugin: GamePlugin = {
   maxPointsPerTurn: 45,  // 10+10+10+10+5 bonus
   defaultTimerSeconds: 120,
   estimatedMinutes: 15,
+  scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };

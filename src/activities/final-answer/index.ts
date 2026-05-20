@@ -15,6 +15,7 @@ export const finalAnswerPlugin: ActivityPlugin = {
   defaultTimerSeconds: 60,
   icon: CheckCircle,
   flightPlanOnly: true,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { FinalAnswerActivity };

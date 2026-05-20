@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   const supabase = createServiceClient();
   const { data, error } = await supabase
     .from('student_session_prefs')
-    .select('score_visible, scoring_mode')
+    .select('score_visible')
     .eq('session_id', sessionId)
     .eq('client_id', clientId)
     .maybeSingle();
@@ -28,14 +28,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ score_visible: data?.score_visible ?? true, scoring_mode: data?.scoring_mode ?? null });
+  return NextResponse.json({ score_visible: data?.score_visible ?? true });
 }
 
 // PATCH /api/student/prefs
 export async function PATCH(request: NextRequest) {
   try {
-    const body = await request.json() as { sessionId: string; clientId: string; score_visible: boolean; scoring_mode?: string | null };
-    const { sessionId, clientId, score_visible, scoring_mode } = body;
+    const body = await request.json() as { sessionId: string; clientId: string; score_visible: boolean };
+    const { sessionId, clientId, score_visible } = body;
 
     if (!sessionId || !clientId || typeof score_visible !== 'boolean') {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -43,15 +43,12 @@ export async function PATCH(request: NextRequest) {
     if (!UUID_REGEX.test(sessionId) || !UUID_REGEX.test(clientId)) {
       return NextResponse.json({ error: 'Invalid UUID format' }, { status: 400 });
     }
-    if (scoring_mode !== undefined && scoring_mode !== null && !['competitive', 'participation'].includes(scoring_mode)) {
-      return NextResponse.json({ error: 'Invalid scoring_mode value' }, { status: 400 });
-    }
 
     const supabase = createServiceClient();
     const { data, error } = await supabase
       .from('student_session_prefs')
       .upsert(
-        { session_id: sessionId, client_id: clientId, score_visible, scoring_mode: scoring_mode ?? null, updated_at: new Date().toISOString() },
+        { session_id: sessionId, client_id: clientId, score_visible, updated_at: new Date().toISOString() },
         { onConflict: 'session_id,client_id' }
       )
       .select()

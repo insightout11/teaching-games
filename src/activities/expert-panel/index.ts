@@ -14,6 +14,7 @@ export const expertPanelPlugin: ActivityPlugin = {
   estimatedMinutes: 15,
   defaultTimerSeconds: 0,
   icon: Users,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { ExpertPanelActivity };

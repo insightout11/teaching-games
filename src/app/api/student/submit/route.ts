@@ -112,10 +112,13 @@ export async function POST(request: NextRequest) {
         .insert({
           session_id: sessionId,
           student_id: studentId || null,
-          points: 0, // No participation points for direct submissions
+          points: 0,
           streak_count: 0,
           streak_bonus: 0,
-          is_correct: true,
+          is_correct: false,
+          counts_for_leaderboard: false,
+          counts_for_accuracy: false,
+          scoring_version: 1,
           response_data: {
             type: 'remote_vote',
             gameKey: gameKey,

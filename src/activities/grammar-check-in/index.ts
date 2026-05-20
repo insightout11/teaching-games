@@ -15,6 +15,7 @@ export const grammarCheckInPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: ClipboardCheck,
   flightPlanOnly: true,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { GrammarCheckInActivity };

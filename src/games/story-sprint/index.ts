@@ -15,4 +15,5 @@ export const storySprintPlugin: GamePlugin = {
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 60,
   estimatedMinutes: 18,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };

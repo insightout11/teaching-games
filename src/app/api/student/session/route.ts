@@ -238,7 +238,7 @@ export async function GET(request: NextRequest) {
       const [{ data: myScores }, { data: lb }, { data: pref }] = await Promise.all([
         supabase
           .from('scores')
-          .select('points, is_correct, streak_count')
+          .select('points, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, streak_count')
           .eq('session_id', sessionId)
           .eq('client_id', clientId),
         supabase
@@ -254,11 +254,24 @@ export async function GET(request: NextRequest) {
           .maybeSingle(),
       ]);
 
-      const rows = myScores ?? [];
-      const totalPoints = rows.reduce((s, r) => s + (r.points ?? 0), 0);
-      const scorable = rows.filter((r) => r.is_correct !== null);
+      const rows = (myScores ?? []) as Array<{
+        points: number; is_correct: boolean; accuracy_status?: string | null;
+        counts_for_accuracy?: boolean | null; counts_for_leaderboard?: boolean | null;
+        scoring_version?: number | null; streak_count: number;
+      }>;
+      // Only count leaderboard rows for points (exclude proxy remote_vote rows)
+      const leaderboardRows = rows.filter((r) => r.counts_for_leaderboard !== false);
+      const totalPoints = leaderboardRows.reduce((s, r) => s + (r.points ?? 0), 0);
+      // V2-aware accuracy: use counts_for_accuracy + accuracy_status; fall back to is_correct
+      const scorable = rows.filter((r) =>
+        r.counts_for_accuracy === true || (r.scoring_version !== 2 && r.is_correct !== null)
+      );
       const accuracy = scorable.length > 0
-        ? Math.round(scorable.filter((r) => r.is_correct === true).length / scorable.length * 100)
+        ? Math.round(
+            scorable.filter((r) =>
+              r.accuracy_status === 'correct' || (!r.accuracy_status && r.is_correct === true)
+            ).length / scorable.length * 100
+          )
         : null;
       const bestStreak = rows.length > 0 ? Math.max(...rows.map((r) => r.streak_count ?? 0)) : 0;
 

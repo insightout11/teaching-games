@@ -15,6 +15,7 @@ export const lightningRoundPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: Flame,
   flightPlanOnly: true,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { LightningRoundActivity };

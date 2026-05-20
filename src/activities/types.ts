@@ -2,6 +2,7 @@ import { ComponentType } from 'react';
 import type { Student } from '@/lib/supabase/types';
 import type { SessionSettings } from '@/stores/session-store';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
+import type { ScoreOutcome, ScoringProfile } from '@/lib/score-engine';
 
 // Activity categories
 export type ActivityCategory = 'icebreaker' | 'learning' | 'practice' | 'debate' | 'closing';
@@ -39,14 +40,16 @@ export interface ActivityProps {
   onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
   // Remote vote handler - register to receive votes from remote students in real-time
   onRegisterRemoteVoteHandler?: (handler: ((vote: RemoteVote) => void) | null) => void;
-  // Score writing - participation-only activities pass promptIndex from the activity
+  // Score writing - activities pass promptIndex; use outcome for V2 classification
   onScore?: (request: {
     studentId: string | null;
     clientId: string | null;
     displayName: string;
     promptIndex: number;
     points: number;
-    isCorrect: null;
+    isCorrect: boolean | null;
+    outcome?: ScoreOutcome;
+    isEmpty?: boolean;
   }) => Promise<void>;
   // Mission system — populated for Landing activities in mission-based lessons
   studentMissions?: Record<string, string>;  // clientId → mission question
@@ -90,6 +93,8 @@ export interface ActivityPlugin {
   icon: ComponentType<{ className?: string }>;
   /** When true, this activity only makes sense within a Flight Plan and is hidden from Explore. */
   flightPlanOnly?: boolean;
+  /** Scoring V2: how this activity classifies outcomes and what the leaderboard shows. */
+  scoringProfile?: ScoringProfile;
 }
 
 // Configuration field for activity-specific settings

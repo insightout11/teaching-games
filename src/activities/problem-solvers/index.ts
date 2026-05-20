@@ -14,6 +14,7 @@ export const problemSolversPlugin: ActivityPlugin = {
   estimatedMinutes: 20,
   defaultTimerSeconds: 120,
   icon: Users,
+  scoringProfile: { displayMode: 'team', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { ProblemSolversActivity };

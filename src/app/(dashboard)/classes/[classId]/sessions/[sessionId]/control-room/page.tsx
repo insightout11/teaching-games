@@ -79,10 +79,14 @@ export default async function ControlRoomPage({
     ? Math.max(...scoredPrompts.map(s => s.prompt_index!))
     : null;
 
-  // Class accuracy
-  const scorableScores = allScores.filter(s => s.is_correct != null);
+  // Class accuracy — V2-aware: counts_for_accuracy (V2) or is_correct not null (legacy)
+  const scorableScores = allScores.filter(s =>
+    s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct != null)
+  );
   const scorableAttempts = scorableScores.length;
-  const correctCount = scorableScores.filter(s => s.is_correct === true).length;
+  const correctCount = scorableScores.filter(s =>
+    s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct === true)
+  ).length;
   const accuracy = scorableAttempts > 0 ? Math.round((correctCount / scorableAttempts) * 100) : null;
 
   // Participation + per-student accuracy
@@ -97,9 +101,14 @@ export default async function ControlRoomPage({
     const coverage = maxPromptIndex
       ? Math.round((uniquePromptIndices.size / maxPromptIndex) * 100)
       : null;
-    const scorable = studentScores.filter(s => s.is_correct != null);
+    const scorable = studentScores.filter(s =>
+      s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct != null)
+    );
     const studentAccuracy = scorable.length > 0
-      ? Math.round((scorable.filter(s => s.is_correct === true).length / scorable.length) * 100)
+      ? Math.round((
+          scorable.filter(s => s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct === true)).length
+          / scorable.length
+        ) * 100)
       : null;
     return { studentId: student.id, name: student.name, attempts: studentScores.length, coverage, accuracy: studentAccuracy };
   });
@@ -111,14 +120,16 @@ export default async function ControlRoomPage({
     if (r.round_number > prev) roundCountMap.set(r.game_type, r.round_number);
   }
 
-  // Per-game accuracy — derived from response_data.gameKey on existing scores
+  // Per-game accuracy — V2-aware
   const gameAccuracyMap = new Map<string, { correct: number; total: number }>();
   for (const score of allScores) {
     const gameKey = (score.response_data as Record<string, unknown>)?.gameKey as string | undefined;
-    if (!gameKey || score.is_correct == null) continue;
+    const countsForAccuracy = score.counts_for_accuracy === true ||
+      (score.scoring_version !== 2 && score.is_correct != null);
+    if (!gameKey || !countsForAccuracy) continue;
     const entry = gameAccuracyMap.get(gameKey) ?? { correct: 0, total: 0 };
     entry.total++;
-    if (score.is_correct) entry.correct++;
+    if (score.accuracy_status === 'correct' || (!score.accuracy_status && score.is_correct)) entry.correct++;
     gameAccuracyMap.set(gameKey, entry);
   }
 
@@ -133,13 +144,20 @@ export default async function ControlRoomPage({
     })
     .sort((a, b) => a.gameType.localeCompare(b.gameType));
 
-  // Leaderboard with computed accuracy
-  const leaderboardWithAccuracy = allLeaderboard.map(entry => ({
-    ...entry,
-    accuracy: entry.total_attempts > 0
-      ? Math.round((entry.correct_count / entry.total_attempts) * 100)
-      : null,
-  }));
+  // Leaderboard with computed accuracy — V2 view provides accuracy_attempts + v2_correct_count
+  const leaderboardWithAccuracy = allLeaderboard.map(entry => {
+    const v2Entry = entry as typeof entry & { accuracy_attempts?: number; v2_correct_count?: number };
+    const accuracyAttempts = v2Entry.accuracy_attempts ?? 0;
+    const v2Correct = v2Entry.v2_correct_count ?? 0;
+    return {
+      ...entry,
+      accuracy: accuracyAttempts > 0
+        ? Math.round((v2Correct / accuracyAttempts) * 100)
+        : entry.total_attempts > 0
+          ? Math.round((entry.correct_count / entry.total_attempts) * 100)
+          : null,
+    };
+  });
 
   // Student notes map: studentId → note body
   const studentNotesMap: Record<string, string> = {};

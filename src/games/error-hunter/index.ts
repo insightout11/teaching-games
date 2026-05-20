@@ -15,4 +15,5 @@ export const errorHunterPlugin: GamePlugin = {
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 90,
   estimatedMinutes: 10,
+  scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };

@@ -15,6 +15,7 @@ export const bluffDefinitionPlugin: ActivityPlugin = {
   defaultTimerSeconds: 0,
   icon: Pencil,
   flightPlanOnly: false,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };
 
 export { BluffDefinitionActivity };

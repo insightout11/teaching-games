@@ -15,6 +15,7 @@ export const inYourWordsPlugin: ActivityPlugin = {
   defaultTimerSeconds: 60,
   icon: PenLine,
   flightPlanOnly: true,
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
 };
 
 export { InYourWordsActivity };

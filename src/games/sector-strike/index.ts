@@ -27,4 +27,5 @@ export const sectorStrikePlugin: GamePlugin = {
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 1200,
   estimatedMinutes: 20,
+  scoringProfile: { displayMode: 'team', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };

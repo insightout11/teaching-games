@@ -174,7 +174,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // My Flight Deck state
   const [flightDeckOpen, setFlightDeckOpen] = useState(false);
   const [scoreVisible, setScoreVisible] = useState(true);
-  const [scoringMode, setScoringMode] = useState<string | null>(null);
   const [isSavingPrefs, setIsSavingPrefs] = useState(false);
   const [prefsSaved, setPrefsSaved] = useState(false);
 
@@ -270,7 +269,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       .then((data) => {
         if (data) {
           setScoreVisible(data.score_visible ?? true);
-          setScoringMode(data.scoring_mode ?? null);
         }
       })
       .catch(() => {});
@@ -490,12 +488,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   };
 
-  const savePrefs = async (overrides?: { score_visible?: boolean; scoring_mode?: string | null }) => {
+  const savePrefs = async (overrides?: { score_visible?: boolean }) => {
     const payload = {
       sessionId,
       clientId: studentSession.clientId,
       score_visible: overrides?.score_visible ?? scoreVisible,
-      scoring_mode: overrides?.scoring_mode !== undefined ? overrides.scoring_mode : scoringMode,
     };
     await fetch('/api/student/prefs', {
       method: 'PATCH',
@@ -1132,35 +1129,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
         {flightDeckOpen && (
           <div className="glass rounded-2xl p-4 mt-2 space-y-4">
-            <div>
-              <p className="text-xs text-gray-400 mb-2">Scoring mode</p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setScoringMode(null)}
-                  className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${
-                    scoringMode === null ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/40' : 'bg-white/5 text-gray-400'
-                  }`}
-                >
-                  Default
-                </button>
-                <button
-                  onClick={() => setScoringMode('competitive')}
-                  className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${
-                    scoringMode === 'competitive' ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/40' : 'bg-white/5 text-gray-400'
-                  }`}
-                >
-                  Competitive
-                </button>
-                <button
-                  onClick={() => setScoringMode('participation')}
-                  className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${
-                    scoringMode === 'participation' ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-white/5 text-gray-400'
-                  }`}
-                >
-                  Participation
-                </button>
-              </div>
-            </div>
             <div>
               <button
                 onClick={handleToggleStealth}

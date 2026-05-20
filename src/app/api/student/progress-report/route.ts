@@ -23,7 +23,7 @@ function gameKeyToLabel(key: string): string {
     .join(' ');
 }
 
-interface ScoreRow { session_id: string; is_correct: boolean | null; streak_count: number; points: number; }
+interface ScoreRow { session_id: string; is_correct: boolean | null; accuracy_status: string | null; counts_for_accuracy: boolean | null; scoring_version: number | null; streak_count: number; points: number; }
 interface RoundRow  { session_id: string; game_type: string; }
 interface NoteRow   { session_id: string; note: string; }
 interface SessionRow { id: string; started_at: string; ended_at: string | null; topic: string | null; difficulty: string | null; custom_topic: string | null; }
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
   const [{ data: allScores }, { data: allRounds }, { data: allNotes }] = await Promise.all([
     supabase
       .from('scores')
-      .select('session_id, is_correct, streak_count, points')
+      .select('session_id, is_correct, accuracy_status, counts_for_accuracy, scoring_version, streak_count, points')
       .in('session_id', sessionIdsFinal)
       .eq('student_id', studentId),
     supabase
@@ -125,8 +125,13 @@ export async function POST(request: NextRequest) {
     const sessionRounds = rounds.filter((r) => r.session_id === session.id);
     const sessionNote   = notes.find((n)   => n.session_id === session.id);
 
-    const scorable  = sessionScores.filter((s) => s.is_correct !== null);
-    const correct   = scorable.filter((s) => s.is_correct === true).length;
+    // V2-aware: use counts_for_accuracy + accuracy_status; fall back to legacy is_correct
+    const scorable = sessionScores.filter((s) =>
+      s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct !== null)
+    );
+    const correct = scorable.filter((s) =>
+      s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct === true)
+    ).length;
     const accuracy  = scorable.length > 0 ? Math.round((correct / scorable.length) * 100) : null;
     const bestStreak = sessionScores.reduce((max, s) => Math.max(max, s.streak_count ?? 0), 0);
     const games = Array.from(new Set(sessionRounds.map((r) => gameKeyToLabel(r.game_type))));

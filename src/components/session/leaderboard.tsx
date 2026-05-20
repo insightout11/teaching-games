@@ -24,12 +24,11 @@ interface LeaderboardEntry {
   avatarSeed?: string;
 }
 
-export function Leaderboard() {
+export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'class' | 'team' | 'competitive' }) {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
-const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
+  const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
-  const awardPoints = useSessionStore((s) => s.awardPoints);
   const pickStudent = useSessionStore((s) => s.pickStudent);
 
   // Student picker state
@@ -63,28 +62,30 @@ const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
       map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0, correctCount: 0, bestStreak: 0, avatarSeed: s.avatar_seed });
     });
 
-    // Process scores, creating entries for remote students
-    scores.forEach((sc) => {
-      const key = sc.student_id || sc.client_id; // Use client_id for remote students
+    // Filter proxy rows (counts_for_leaderboard=false); null = legacy, include it
+    const leaderboardScores = scores.filter(sc => sc.counts_for_leaderboard !== false);
+
+    leaderboardScores.forEach((sc) => {
+      const key = sc.student_id || sc.client_id;
       if (!key) return;
 
       let entry = map.get(key);
       if (!entry && sc.display_name) {
-        // Remote student - create new entry
         entry = { studentId: key, name: sc.display_name, totalPoints: 0, correctCount: 0, bestStreak: 0 };
         map.set(key, entry);
       }
       if (!entry) return;
 
       entry.totalPoints += sc.points;
-      if (sc.is_correct) entry.correctCount++;
+      // V2: use accuracy_status; legacy: fall back to is_correct
+      if (sc.accuracy_status === 'correct' || (!sc.accuracy_status && sc.is_correct)) entry.correctCount++;
       if (sc.streak_count > entry.bestStreak) entry.bestStreak = sc.streak_count;
     });
 
     return Array.from(map.values()).sort((a, b) => b.totalPoints - a.totalPoints);
   }, [students, scores]);
 
-  // During-session view: Top 3 + own entry (locked invariant).
+  // Competitive/class mode: Top 3 + own entry (locked invariant).
   // Rank reflects actual position in the full sorted list.
   const visibleEntries = useMemo(() => {
     const ranked = entries.map((e, i) => ({ ...e, rank: i }));
@@ -96,6 +97,26 @@ const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
     if (!self) return top3;
     return [...top3, self];
   }, [entries, currentStudentId]);
+
+  // Team mode: aggregate by team key (generic — supports 'x'/'o', 'red'/'blue', etc.)
+  const teamTotals = useMemo(() => {
+    if (displayMode !== 'team') return null;
+    const leaderboardScores = scores.filter(sc => sc.counts_for_leaderboard !== false);
+    const map = new Map<string, number>();
+    leaderboardScores.forEach((sc) => {
+      if (!sc.team) return;
+      map.set(sc.team, (map.get(sc.team) ?? 0) + sc.points);
+    });
+    return map.size > 0 ? Array.from(map.entries()).sort((a, b) => a[0].localeCompare(b[0])) : null;
+  }, [displayMode, scores]);
+
+  // Class mode: count distinct participants
+  const participantCount = useMemo(() => {
+    if (displayMode !== 'class') return null;
+    const leaderboardScores = scores.filter(sc => sc.counts_for_leaderboard !== false);
+    const ids = new Set(leaderboardScores.map(sc => sc.student_id || sc.client_id).filter(Boolean));
+    return { participated: ids.size, total: students.length };
+  }, [displayMode, scores, students]);
 
   // Delta animation tracking
   const prevTotals = useRef<Map<string, number>>(new Map());
@@ -185,86 +206,96 @@ const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
         </button>
       </div>
 
-      <div className="border-t border-lc-border/40 pt-3 space-y-1">
-        <AnimatePresence>
-          {visibleEntries.map((entry) => (
-            <motion.div
-              key={entry.studentId}
-              layout
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="group"
-            >
-              <button
-                onClick={() => setCurrentStudent(entry.studentId)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${
-                  entry.studentId === currentStudentId
-                    ? 'bg-cyan-500/20 ring-1 ring-cyan-500/50'
-                    : 'hover:bg-lc-card'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <span className={`text-sm font-bold w-6 ${entry.rank < 3 ? medalColors[entry.rank] : 'opacity-40'}`}>
-                    {entry.rank + 1}
-                  </span>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`/avatars/avatar-${resolveHelmet(entry.avatarSeed, entry.name)}.png`}
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 rounded-full flex-shrink-0"
-                  />
-                  <span className="text-sm font-medium">
-                    {entry.name}
-                  </span>
+      <div className="border-t border-lc-border/40 pt-3">
+
+        {/* Team mode: generic two-team totals */}
+        {displayMode === 'team' && teamTotals && (
+          <div className="grid grid-cols-2 gap-2">
+            {teamTotals.slice(0, 2).map(([key, pts], idx) => {
+              const label = key.charAt(0).toUpperCase() + key.slice(1);
+              const palette = idx === 0
+                ? { bg: 'bg-blue-500/10', border: 'border-blue-500/30', text: 'text-blue-400' }
+                : { bg: 'bg-orange-500/10', border: 'border-orange-500/30', text: 'text-orange-400' };
+              return (
+                <div key={key} className={`${palette.bg} border ${palette.border} rounded-xl p-3 text-center`}>
+                  <p className={`text-xs ${palette.text} font-semibold uppercase tracking-wider mb-1`}>{label}</p>
+                  <p className={`text-2xl font-game ${palette.text}`}>{pts}</p>
                 </div>
-                <div className="flex items-center gap-3">
-                  {/* Quick award buttons - appear on hover */}
-                  <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
-                    <span
-                      role="button"
-                      onClick={(e) => { e.stopPropagation(); awardPoints(entry.studentId, 1); }}
-                      className="px-1.5 py-0.5 text-xs bg-green-500/20 hover:bg-green-500/40 text-green-400 rounded cursor-pointer"
-                    >
-                      +1
-                    </span>
-                    <span
-                      role="button"
-                      onClick={(e) => { e.stopPropagation(); awardPoints(entry.studentId, 2); }}
-                      className="px-1.5 py-0.5 text-xs bg-green-500/20 hover:bg-green-500/40 text-green-400 rounded cursor-pointer"
-                    >
-                      +2
-                    </span>
-                    <span
-                      role="button"
-                      onClick={(e) => { e.stopPropagation(); awardPoints(entry.studentId, 5); }}
-                      className="px-1.5 py-0.5 text-xs bg-green-500/20 hover:bg-green-500/40 text-green-400 rounded cursor-pointer"
-                    >
-                      +5
-                    </span>
-                  </div>
-                  <span className="relative text-sm font-game text-yellow-400">
-                    {entry.totalPoints}
-                    <AnimatePresence>
-                      {deltas.has(entry.studentId) && (
-                        <motion.span
-                          key={`delta-${entry.studentId}-${deltas.get(entry.studentId)!.ts}`}
-                          initial={{ opacity: 1, y: 0 }}
-                          animate={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 1.5, ease: 'easeOut' }}
-                          className="absolute -top-3 right-0 text-xs font-bold text-green-400 pointer-events-none"
-                        >
-                          +{deltas.get(entry.studentId)!.value}
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </span>
-                </div>
-              </button>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Class mode: participation count only — no ranked list */}
+        {displayMode === 'class' && participantCount && (
+          <div className="py-2 text-center">
+            <p className="text-xs text-gray-400">
+              <span className="text-white font-semibold">{participantCount.participated}</span>
+              {' / '}{participantCount.total} responded
+            </p>
+          </div>
+        )}
+
+        {/* Competitive only: ranked list (Top 3 + own) */}
+        {displayMode === 'competitive' && (
+          <div className="space-y-1">
+            <AnimatePresence>
+              {visibleEntries.map((entry) => (
+                <motion.div
+                  key={entry.studentId}
+                  layout
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="group"
+                >
+                  <button
+                    onClick={() => setCurrentStudent(entry.studentId)}
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${
+                      entry.studentId === currentStudentId
+                        ? 'bg-cyan-500/20 ring-1 ring-cyan-500/50'
+                        : 'hover:bg-lc-card'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className={`text-sm font-bold w-6 ${entry.rank < 3 ? medalColors[entry.rank] : 'opacity-40'}`}>
+                        {entry.rank + 1}
+                      </span>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/avatars/avatar-${resolveHelmet(entry.avatarSeed, entry.name)}.png`}
+                        alt=""
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 rounded-full flex-shrink-0"
+                      />
+                      <span className="text-sm font-medium">
+                        {entry.name}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="relative text-sm font-game text-yellow-400">
+                        {entry.totalPoints}
+                        <AnimatePresence>
+                          {deltas.has(entry.studentId) && (
+                            <motion.span
+                              key={`delta-${entry.studentId}-${deltas.get(entry.studentId)!.ts}`}
+                              initial={{ opacity: 1, y: 0 }}
+                              animate={{ opacity: 0, y: -20 }}
+                              transition={{ duration: 1.5, ease: 'easeOut' }}
+                              className="absolute -top-3 right-0 text-xs font-bold text-green-400 pointer-events-none"
+                            >
+                              +{deltas.get(entry.studentId)!.value}
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
+                      </span>
+                    </div>
+                  </button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </div>
   );

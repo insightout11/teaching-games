@@ -27,4 +27,5 @@ export const defendItPlugin: GamePlugin = {
   maxPointsPerTurn: 15,
   defaultTimerSeconds: 60,
   estimatedMinutes: 10,
+  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
 };

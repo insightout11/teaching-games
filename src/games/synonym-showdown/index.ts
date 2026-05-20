@@ -15,4 +15,5 @@ export const synonymShowdownPlugin: GamePlugin = {
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 30,
   estimatedMinutes: 8,
+  scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };

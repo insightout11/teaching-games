@@ -2,7 +2,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { CalendarDays, Layers, Trophy, Users, Target, BarChart3 } from 'lucide-react';
-import type { Session, Class, Student, Score, LeaderboardEntry, Round } from '@/lib/supabase/types';
+import type { Session, Class, Student, Score, Round } from '@/lib/supabase/types';
 import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gauge';
 import { RoundsBreakdown } from '@/components/control-room/rounds-breakdown';
 
@@ -44,52 +44,61 @@ export default async function ClassControlRoomPage({
   const allSessions = sessions ?? [];
   const sessionIds = allSessions.map(s => s.id);
 
-  // Step 3: scores, leaderboard, rounds across all sessions
+  // Step 3: scores and rounds across all sessions
   let allScores: Score[] = [];
-  let allLeaderboard: LeaderboardEntry[] = [];
   let allRounds: Pick<Round, 'game_type' | 'round_number' | 'session_id'>[] = [];
 
   if (sessionIds.length > 0) {
-    const [{ data: scores }, { data: leaderboard }, { data: rounds }] = await Promise.all([
+    const [{ data: scores }, { data: rounds }] = await Promise.all([
       supabase.from('scores').select('*').in('session_id', sessionIds) as Promise<{ data: Score[] | null }>,
-      supabase.from('session_leaderboard').select('*').in('session_id', sessionIds) as Promise<{ data: LeaderboardEntry[] | null }>,
       supabase.from('rounds').select('game_type, round_number, session_id').in('session_id', sessionIds) as Promise<{ data: Pick<Round, 'game_type' | 'round_number' | 'session_id'>[] | null }>,
     ]);
     allScores = scores ?? [];
-    allLeaderboard = leaderboard ?? [];
     allRounds = rounds ?? [];
   }
 
-  // Overall accuracy
-  const scorableScores = allScores.filter(s => s.is_correct != null);
-  const correctCount = scorableScores.filter(s => s.is_correct === true).length;
+  // Overall accuracy — V2-aware
+  const scorableScores = allScores.filter(s =>
+    s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct != null)
+  );
+  const correctCount = scorableScores.filter(s =>
+    s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct === true)
+  ).length;
   const accuracy = scorableScores.length > 0 ? Math.round((correctCount / scorableScores.length) * 100) : null;
 
   // Total rounds
   const totalRounds = allRounds.length;
 
-  // Cumulative leaderboard — group by student_id across all sessions
+  // Cumulative leaderboard — V2 rows only, built from raw scores to exclude all V1 data
+  const studentNameMap = new Map((students ?? []).map(s => [s.id, s.name]));
+  const v2LeaderboardScores = allScores.filter(s =>
+    s.scoring_version === 2 && s.counts_for_leaderboard !== false
+  );
   const cumulativeMap = new Map<string, { name: string; totalPoints: number; correctCount: number; totalAttempts: number; bestStreak: number }>();
-  for (const entry of allLeaderboard) {
-    const key = String(entry.student_id);
-    const existing = cumulativeMap.get(key) ?? { name: entry.student_name, totalPoints: 0, correctCount: 0, totalAttempts: 0, bestStreak: 0 };
-    existing.totalPoints += entry.total_points;
-    existing.correctCount += entry.correct_count;
-    existing.totalAttempts += entry.total_attempts;
-    existing.bestStreak = Math.max(existing.bestStreak, entry.best_streak);
+  for (const score of v2LeaderboardScores) {
+    const key = score.student_id ?? score.client_id;
+    if (!key) continue;
+    const name = (score.student_id && studentNameMap.get(score.student_id)) || score.display_name || 'Unknown';
+    const existing = cumulativeMap.get(key) ?? { name, totalPoints: 0, correctCount: 0, totalAttempts: 0, bestStreak: 0 };
+    existing.totalPoints += score.points;
+    if (score.counts_for_accuracy) existing.totalAttempts++;
+    if (score.accuracy_status === 'correct') existing.correctCount++;
+    existing.bestStreak = Math.max(existing.bestStreak, score.streak_count);
     cumulativeMap.set(key, existing);
   }
   const cumulativeLeaderboard = Array.from(cumulativeMap.values())
     .sort((a, b) => b.totalPoints - a.totalPoints);
 
-  // Game breakdown across all sessions
+  // Game breakdown across all sessions — V2-aware
   const gameDataMap = new Map<string, { correct: number; total: number; rounds: number }>();
   for (const score of allScores) {
     const gameKey = (score.response_data as Record<string, unknown>)?.gameKey as string | undefined;
-    if (!gameKey || score.is_correct == null) continue;
+    const countsForAccuracy = score.counts_for_accuracy === true ||
+      (score.scoring_version !== 2 && score.is_correct != null);
+    if (!gameKey || !countsForAccuracy) continue;
     const entry = gameDataMap.get(gameKey) ?? { correct: 0, total: 0, rounds: 0 };
     entry.total++;
-    if (score.is_correct) entry.correct++;
+    if (score.accuracy_status === 'correct' || (!score.accuracy_status && score.is_correct)) entry.correct++;
     gameDataMap.set(gameKey, entry);
   }
   for (const r of allRounds) {
@@ -111,9 +120,14 @@ export default async function ClassControlRoomPage({
   // Per-session summary rows
   const sessionRows = allSessions.map(s => {
     const sessionScores = allScores.filter(sc => sc.session_id === s.id);
-    const scorable = sessionScores.filter(sc => sc.is_correct != null);
+    const scorable = sessionScores.filter(sc =>
+      sc.counts_for_accuracy === true || (sc.scoring_version !== 2 && sc.is_correct != null)
+    );
     const acc = scorable.length > 0
-      ? Math.round(scorable.filter(sc => sc.is_correct === true).length / scorable.length * 100)
+      ? Math.round(
+          scorable.filter(sc => sc.accuracy_status === 'correct' || (!sc.accuracy_status && sc.is_correct === true)).length
+          / scorable.length * 100
+        )
       : null;
     const sessionRounds = allRounds.filter(r => r.session_id === s.id);
     const roundCount = sessionRounds.length > 0 ? Math.max(...sessionRounds.map(r => r.round_number)) : 0;
