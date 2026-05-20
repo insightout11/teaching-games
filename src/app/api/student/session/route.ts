@@ -50,6 +50,13 @@ interface LastResult {
   accuracyStatus: string | null;
 }
 
+interface HeldCard {
+  cardId: string;
+  cardKey: string;
+  moduleKey: string;
+  activationsCount: number;
+}
+
 interface SessionPayload {
   isActive: boolean;
   activePoll: { pollId: string; question: string; options: string[]; metadata?: Record<string, unknown> | null } | null;
@@ -69,6 +76,7 @@ interface SessionPayload {
   sessionPoints: number;
   responseCount: number;
   sessionAccuracy: number | null;
+  heldCard: HeldCard | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -344,6 +352,30 @@ export async function GET(request: NextRequest) {
       personalMission = missionRow?.mission_text ?? null;
     }
 
+    // Get held/active flight card for this student
+    let heldCard: HeldCard | null = null;
+    if (clientId) {
+      try {
+        const { data: cardRow } = await supabase
+          .from('flight_cards')
+          .select('id, card_key, module_key, activations_count')
+          .eq('session_id', sessionId)
+          .eq('client_id', clientId)
+          .in('status', ['held', 'active'])
+          .maybeSingle();
+        if (cardRow) {
+          heldCard = {
+            cardId: cardRow.id,
+            cardKey: cardRow.card_key,
+            moduleKey: cardRow.module_key,
+            activationsCount: cardRow.activations_count ?? 0,
+          };
+        }
+      } catch {
+        // flight_cards table not yet migrated — degrade gracefully
+      }
+    }
+
     const payload: SessionPayload = {
       isActive,
       activePoll,
@@ -363,6 +395,7 @@ export async function GET(request: NextRequest) {
       sessionPoints,
       responseCount,
       sessionAccuracy,
+      heldCard,
     };
 
     return NextResponse.json(payload, {

@@ -157,6 +157,24 @@ export interface LeaderboardEntry {
   best_streak: number;
 }
 
+export interface FlightCard {
+  id: string;
+  session_id: string;
+  client_id: string;
+  student_id: string | null;
+  display_name: string | null;
+  card_key: string;
+  status: 'offered' | 'declined' | 'replaced' | 'held' | 'active' | 'used' | 'expired';
+  deal_index: number;
+  module_key: string;
+  activations_count: number;
+  bonus_points_total: number;
+  offered_at: string;
+  held_at: string | null;
+  expired_at: string | null;
+  created_at: string;
+}
+
 // Lesson Planning Types
 export interface LessonPlan {
   id: string;
