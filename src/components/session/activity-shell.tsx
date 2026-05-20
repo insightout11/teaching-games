@@ -169,7 +169,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
         prompt_index: request.promptIndex,
         streak_count: 0,
         streak_bonus: 0,
-        response_data: { type: 'activity_participation' },
+        response_data: { type: 'activity_participation', activityKey: activity.key },
       }),
     });
     if (!res.ok) {
@@ -179,7 +179,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
     }
     const { data } = await res.json() as { data: Score };
     if (data) recordScore(data);
-  }, [sessionId, recordScore, activity.scoringProfile]);
+  }, [sessionId, recordScore, activity.key, activity.scoringProfile]);
 
   // Callback for activities to set input spec
   const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
@@ -245,6 +245,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
         submission_id: submission.id,
         content: submission.content,
         type: 'remote_submission',
+        activityKey: activity.key,
         feedback,
       },
       team: submission.team,

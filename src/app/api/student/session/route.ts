@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
+import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 
 export const dynamic = 'force-dynamic';
 
@@ -260,17 +261,12 @@ export async function GET(request: NextRequest) {
         scoring_version?: number | null; streak_count: number;
       }>;
       // Only count leaderboard rows for points (exclude proxy remote_vote rows)
-      const leaderboardRows = rows.filter((r) => r.counts_for_leaderboard !== false);
+      const leaderboardRows = rows.filter(countsForLeaderboard);
       const totalPoints = leaderboardRows.reduce((s, r) => s + (r.points ?? 0), 0);
-      // V2-aware accuracy: use counts_for_accuracy + accuracy_status; fall back to is_correct
-      const scorable = rows.filter((r) =>
-        r.counts_for_accuracy === true || (r.scoring_version !== 2 && r.is_correct !== null)
-      );
+      const scorable = leaderboardRows.filter(countsForAccuracy);
       const accuracy = scorable.length > 0
         ? Math.round(
-            scorable.filter((r) =>
-              r.accuracy_status === 'correct' || (!r.accuracy_status && r.is_correct === true)
-            ).length / scorable.length * 100
+            scorable.filter(isCorrectScore).length / scorable.length * 100
           )
         : null;
       const bestStreak = rows.length > 0 ? Math.max(...rows.map((r) => r.streak_count ?? 0)) : 0;

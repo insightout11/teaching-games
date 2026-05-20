@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import type { StudentSessionPref } from '@/lib/supabase/types';
+import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 
 export function EndSessionSummary({
   classId,
@@ -56,45 +57,45 @@ export function EndSessionSummary({
   };
 
   const summary = useMemo(() => {
-    const map = new Map<string, { name: string; total: number; correct: number; attempts: number; bestStreak: number; key: string }>();
+    const map = new Map<string, { name: string; total: number; correct: number; accuracyAttempts: number; responses: number; bestStreak: number; key: string }>();
 
     // Add roster students
     students.forEach((s) => {
-      map.set(s.id, { key: s.id, name: s.name, total: 0, correct: 0, attempts: 0, bestStreak: 0 });
+      map.set(s.id, { key: s.id, name: s.name, total: 0, correct: 0, accuracyAttempts: 0, responses: 0, bestStreak: 0 });
     });
 
     // Process scores, including remote students
-    scores.forEach((sc) => {
+    scores.filter(countsForLeaderboard).forEach((sc) => {
       const key = sc.student_id || sc.client_id;
       if (!key) return;
 
       let entry = map.get(key);
       if (!entry && sc.display_name) {
-        entry = { key, name: sc.display_name, total: 0, correct: 0, attempts: 0, bestStreak: 0 };
+        entry = { key, name: sc.display_name, total: 0, correct: 0, accuracyAttempts: 0, responses: 0, bestStreak: 0 };
         map.set(key, entry);
       }
       if (!entry) return;
 
       entry.total += sc.points;
-      entry.attempts++;
-      // V2: use accuracy_status; legacy: fall back to is_correct
-      if (sc.accuracy_status === 'correct' || (!sc.accuracy_status && sc.is_correct)) entry.correct++;
+      entry.responses++;
+      if (countsForAccuracy(sc)) {
+        entry.accuracyAttempts++;
+        if (isCorrectScore(sc)) entry.correct++;
+      }
       if (sc.streak_count > entry.bestStreak) entry.bestStreak = sc.streak_count;
     });
     return Array.from(map.values()).sort((a, b) => b.total - a.total);
   }, [students, scores]);
 
-  const totalRounds = scores.length;
-  // V2: use counts_for_accuracy + accuracy_status; legacy: is_correct != null
-  const accuracyRows = scores.filter(s =>
-    s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct != null)
-  );
+  const leaderboardScores = scores.filter(countsForLeaderboard);
+  const totalResponses = leaderboardScores.length;
+  const accuracyRows = leaderboardScores.filter(countsForAccuracy);
   const overallAccuracy = accuracyRows.length > 0
     ? Math.round((
-        accuracyRows.filter(s => s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct)).length
+        accuracyRows.filter(isCorrectScore).length
         / accuracyRows.length
       ) * 100)
-    : 0;
+    : null;
 
   return (
     <div className="max-w-2xl mx-auto py-8">
@@ -104,12 +105,14 @@ export function EndSessionSummary({
 
         <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
-            <p className="text-2xl font-bold text-lc-blue">{totalRounds}</p>
-            <p className="text-sm text-lc-text3">Total Turns</p>
+            <p className="text-2xl font-bold text-lc-blue">{totalResponses}</p>
+            <p className="text-sm text-lc-text3">Scored Responses</p>
           </div>
           <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
-            <p className="text-2xl font-bold text-lc-success">{overallAccuracy}%</p>
-            <p className="text-sm text-lc-text3">Accuracy</p>
+            <p className="text-2xl font-bold text-lc-success">
+              {overallAccuracy !== null ? `${overallAccuracy}%` : '—'}
+            </p>
+            <p className="text-sm text-lc-text3">Scorable Accuracy</p>
           </div>
           <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
             <p className="text-2xl font-bold text-lc-warn">
@@ -159,7 +162,9 @@ export function EndSessionSummary({
                       <span className="text-lc-text3 text-xs">— —</span>
                     ) : (
                       <>
-                        <span className="text-lc-text3">{entry.correct}/{entry.attempts}</span>
+                        <span className="text-lc-text3">
+                          {entry.accuracyAttempts > 0 ? `${entry.correct}/${entry.accuracyAttempts}` : '—'}
+                        </span>
                         {entry.bestStreak >= 2 && <span className="text-lc-warn">🔥{entry.bestStreak}</span>}
                         <span className="font-bold text-lc-blue w-16 text-right">{entry.total} pts</span>
                       </>

@@ -5,6 +5,7 @@ import { CalendarDays, Layers, Trophy, Users, Target, BarChart3 } from 'lucide-r
 import type { Session, Class, Student, Score, Round } from '@/lib/supabase/types';
 import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gauge';
 import { RoundsBreakdown } from '@/components/control-room/rounds-breakdown';
+import { countsForAccuracy, getScoreModuleKey, isCorrectScore } from '@/lib/scoring-reporting';
 
 const TOP_ACCURACY_THRESHOLD = 80;
 
@@ -58,12 +59,8 @@ export default async function ClassControlRoomPage({
   }
 
   // Overall accuracy — V2-aware
-  const scorableScores = allScores.filter(s =>
-    s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct != null)
-  );
-  const correctCount = scorableScores.filter(s =>
-    s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct === true)
-  ).length;
+  const scorableScores = allScores.filter(countsForAccuracy);
+  const correctCount = scorableScores.filter(isCorrectScore).length;
   const accuracy = scorableScores.length > 0 ? Math.round((correctCount / scorableScores.length) * 100) : null;
 
   // Total rounds
@@ -92,13 +89,11 @@ export default async function ClassControlRoomPage({
   // Game breakdown across all sessions — V2-aware
   const gameDataMap = new Map<string, { correct: number; total: number; rounds: number }>();
   for (const score of allScores) {
-    const gameKey = (score.response_data as Record<string, unknown>)?.gameKey as string | undefined;
-    const countsForAccuracy = score.counts_for_accuracy === true ||
-      (score.scoring_version !== 2 && score.is_correct != null);
-    if (!gameKey || !countsForAccuracy) continue;
+    const gameKey = getScoreModuleKey(score);
+    if (!gameKey || !countsForAccuracy(score)) continue;
     const entry = gameDataMap.get(gameKey) ?? { correct: 0, total: 0, rounds: 0 };
     entry.total++;
-    if (score.accuracy_status === 'correct' || (!score.accuracy_status && score.is_correct)) entry.correct++;
+    if (isCorrectScore(score)) entry.correct++;
     gameDataMap.set(gameKey, entry);
   }
   for (const r of allRounds) {
@@ -120,12 +115,10 @@ export default async function ClassControlRoomPage({
   // Per-session summary rows
   const sessionRows = allSessions.map(s => {
     const sessionScores = allScores.filter(sc => sc.session_id === s.id);
-    const scorable = sessionScores.filter(sc =>
-      sc.counts_for_accuracy === true || (sc.scoring_version !== 2 && sc.is_correct != null)
-    );
+    const scorable = sessionScores.filter(countsForAccuracy);
     const acc = scorable.length > 0
       ? Math.round(
-          scorable.filter(sc => sc.accuracy_status === 'correct' || (!sc.accuracy_status && sc.is_correct === true)).length
+          scorable.filter(isCorrectScore).length
           / scorable.length * 100
         )
       : null;

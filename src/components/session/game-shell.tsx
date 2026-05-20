@@ -243,7 +243,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       counts_for_leaderboard: true,
       scoring_version: engineResult.scoringVersion,
       prompt_index: promptIndexRef.current,
-      response_data: result.responseData ?? null,
+      response_data: { ...(result.responseData ?? {}), gameKey: game.key },
       team: teamFromResult,
     };
 
@@ -321,6 +321,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
         submission_id: submission.id,
         content: submission.content,
         type: 'remote_submission',
+        gameKey: game.key,
         feedback,
       },
       team: submission.team,

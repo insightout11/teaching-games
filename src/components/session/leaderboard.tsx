@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
 import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
+import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 
 const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
 const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
@@ -62,8 +63,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
       map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0, correctCount: 0, bestStreak: 0, avatarSeed: s.avatar_seed });
     });
 
-    // Filter proxy rows (counts_for_leaderboard=false); null = legacy, include it
-    const leaderboardScores = scores.filter(sc => sc.counts_for_leaderboard !== false);
+    const leaderboardScores = scores.filter(countsForLeaderboard);
 
     leaderboardScores.forEach((sc) => {
       const key = sc.student_id || sc.client_id;
@@ -77,8 +77,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
       if (!entry) return;
 
       entry.totalPoints += sc.points;
-      // V2: use accuracy_status; legacy: fall back to is_correct
-      if (sc.accuracy_status === 'correct' || (!sc.accuracy_status && sc.is_correct)) entry.correctCount++;
+      if (isCorrectScore(sc)) entry.correctCount++;
       if (sc.streak_count > entry.bestStreak) entry.bestStreak = sc.streak_count;
     });
 
@@ -101,7 +100,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
   // Team mode: aggregate by team key (generic — supports 'x'/'o', 'red'/'blue', etc.)
   const teamTotals = useMemo(() => {
     if (displayMode !== 'team') return null;
-    const leaderboardScores = scores.filter(sc => sc.counts_for_leaderboard !== false);
+    const leaderboardScores = scores.filter(countsForLeaderboard);
     const map = new Map<string, number>();
     leaderboardScores.forEach((sc) => {
       if (!sc.team) return;
@@ -113,7 +112,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
   // Class mode: count distinct participants
   const participantCount = useMemo(() => {
     if (displayMode !== 'class') return null;
-    const leaderboardScores = scores.filter(sc => sc.counts_for_leaderboard !== false);
+    const leaderboardScores = scores.filter(countsForLeaderboard);
     const ids = new Set(leaderboardScores.map(sc => sc.student_id || sc.client_id).filter(Boolean));
     return { participated: ids.size, total: students.length };
   }, [displayMode, scores, students]);
@@ -300,4 +299,3 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
     </div>
   );
 }
-

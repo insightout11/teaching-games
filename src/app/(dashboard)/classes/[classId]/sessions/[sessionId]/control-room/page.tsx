@@ -7,6 +7,7 @@ import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gau
 import { ParticipationGrid } from '@/components/control-room/participation-grid';
 import { RoundsBreakdown } from '@/components/control-room/rounds-breakdown';
 import { SessionNotesEditor } from '@/components/control-room/session-notes-editor';
+import { countsForAccuracy, getScoreModuleKey, isCorrectScore } from '@/lib/scoring-reporting';
 
 const TOP_ACCURACY_THRESHOLD = 80;
 
@@ -79,14 +80,9 @@ export default async function ControlRoomPage({
     ? Math.max(...scoredPrompts.map(s => s.prompt_index!))
     : null;
 
-  // Class accuracy — V2-aware: counts_for_accuracy (V2) or is_correct not null (legacy)
-  const scorableScores = allScores.filter(s =>
-    s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct != null)
-  );
+  const scorableScores = allScores.filter(countsForAccuracy);
   const scorableAttempts = scorableScores.length;
-  const correctCount = scorableScores.filter(s =>
-    s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct === true)
-  ).length;
+  const correctCount = scorableScores.filter(isCorrectScore).length;
   const accuracy = scorableAttempts > 0 ? Math.round((correctCount / scorableAttempts) * 100) : null;
 
   // Participation + per-student accuracy
@@ -101,12 +97,10 @@ export default async function ControlRoomPage({
     const coverage = maxPromptIndex
       ? Math.round((uniquePromptIndices.size / maxPromptIndex) * 100)
       : null;
-    const scorable = studentScores.filter(s =>
-      s.counts_for_accuracy === true || (s.scoring_version !== 2 && s.is_correct != null)
-    );
+    const scorable = studentScores.filter(countsForAccuracy);
     const studentAccuracy = scorable.length > 0
       ? Math.round((
-          scorable.filter(s => s.accuracy_status === 'correct' || (!s.accuracy_status && s.is_correct === true)).length
+          scorable.filter(isCorrectScore).length
           / scorable.length
         ) * 100)
       : null;
@@ -123,13 +117,11 @@ export default async function ControlRoomPage({
   // Per-game accuracy — V2-aware
   const gameAccuracyMap = new Map<string, { correct: number; total: number }>();
   for (const score of allScores) {
-    const gameKey = (score.response_data as Record<string, unknown>)?.gameKey as string | undefined;
-    const countsForAccuracy = score.counts_for_accuracy === true ||
-      (score.scoring_version !== 2 && score.is_correct != null);
-    if (!gameKey || !countsForAccuracy) continue;
+    const gameKey = getScoreModuleKey(score);
+    if (!gameKey || !countsForAccuracy(score)) continue;
     const entry = gameAccuracyMap.get(gameKey) ?? { correct: 0, total: 0 };
     entry.total++;
-    if (score.accuracy_status === 'correct' || (!score.accuracy_status && score.is_correct)) entry.correct++;
+    if (isCorrectScore(score)) entry.correct++;
     gameAccuracyMap.set(gameKey, entry);
   }
 
@@ -151,6 +143,8 @@ export default async function ControlRoomPage({
     const v2Correct = v2Entry.v2_correct_count ?? 0;
     return {
       ...entry,
+      accuracyAttempts,
+      accuracyCorrect: v2Correct,
       accuracy: accuracyAttempts > 0
         ? Math.round((v2Correct / accuracyAttempts) * 100)
         : entry.total_attempts > 0
@@ -261,7 +255,9 @@ export default async function ControlRoomPage({
                       {i + 1}
                     </span>
                     <span className="flex-1 text-sm font-medium text-lc-text">{entry.student_name}</span>
-                    <span className="text-xs text-lc-text3 tabular-nums">{entry.correct_count}/{entry.total_attempts}</span>
+                    <span className="text-xs text-lc-text3 tabular-nums">
+                      {entry.accuracyAttempts > 0 ? `${entry.accuracyCorrect}/${entry.accuracyAttempts}` : '—'}
+                    </span>
                     <span className={`text-xs font-semibold w-10 text-right tabular-nums ${accuracyColor(entry.accuracy)}`}>
                       {entry.accuracy !== null ? `${entry.accuracy}%` : '—'}
                     </span>
