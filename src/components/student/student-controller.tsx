@@ -181,6 +181,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [latestFeedback, setLatestFeedback] = useState<{ feedback: string; points: number; submissionId: string } | null>(null);
   const [seenFeedbackId, setSeenFeedbackId] = useState<string | null>(null);
 
+  // Scored result card state
+  const [lastResult, setLastResult] = useState<{ scoreId: string; outcome: string; points: number; accuracyStatus: string | null } | null>(null);
+  const [seenResultId, setSeenResultId] = useState<string | null>(null);
+  const [sessionPoints, setSessionPoints] = useState(0);
+  const [responseCount, setResponseCount] = useState(0);
+
   // End-of-session personal results
   const [personalResults, setPersonalResults] = useState<{
     totalPoints: number;
@@ -249,6 +255,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (data.referenceExpressions) setReferenceExpressions(data.referenceExpressions);
       if (data.latestFeedback) setLatestFeedback(data.latestFeedback);
       if (data.personalResults) setPersonalResults(data.personalResults);
+      if (data.lastResult) setLastResult(data.lastResult);
+      if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
+      if (typeof data.responseCount === 'number') setResponseCount(data.responseCount);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -294,6 +303,13 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setQuestionStatus('idle');
     }
   }, [questionWait, questionStatus]);
+
+  // Auto-dismiss result card after 4 seconds
+  useEffect(() => {
+    if (!lastResult || lastResult.scoreId === seenResultId) return;
+    const t = setTimeout(() => setSeenResultId(lastResult.scoreId), 4000);
+    return () => clearTimeout(t);
+  }, [lastResult, seenResultId]);
 
   // Cycle through English spotlight tips while waiting for an activity
   const difficultyRank = DIFFICULTIES.indexOf(sessionDifficulty as Difficulty);
@@ -652,7 +668,13 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             </div>
           </div>
           <div className="flex items-center gap-3">
-<button
+            {sessionPoints > 0 && (
+              <span className="text-xs text-gray-400">
+                <span className="text-cyan-400 font-semibold">{sessionPoints}</span> pts
+                {responseCount > 0 && <span className="ml-1">· {responseCount}</span>}
+              </span>
+            )}
+            <button
               onClick={onLeave}
               className="text-gray-400 hover:text-white text-sm"
             >
@@ -730,6 +752,47 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           <p className="text-sm text-gray-200 leading-relaxed">{latestFeedback.feedback}</p>
         </div>
       )}
+
+      {/* Scored result card — shown after each V2 score is recorded, auto-dismisses */}
+      {lastResult && lastResult.scoreId !== seenResultId && (() => {
+        const outcomeLabel: Record<string, string> = {
+          'standout': 'Standout',
+          'on-task': 'On task',
+          'genuine': 'Submitted',
+          'invalid': 'Not counted',
+        };
+        const outcomeColor: Record<string, string> = {
+          'standout': 'text-yellow-400',
+          'on-task': 'text-cyan-400',
+          'genuine': 'text-gray-300',
+          'invalid': 'text-gray-500',
+        };
+        const label = outcomeLabel[lastResult.outcome] ?? lastResult.outcome;
+        const color = outcomeColor[lastResult.outcome] ?? 'text-gray-300';
+        const showAccuracy = lastResult.accuracyStatus === 'correct' || lastResult.accuracyStatus === 'incorrect';
+        return (
+          <div className="glass rounded-2xl px-4 py-3 mb-4 border border-white/10 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className={`text-2xl font-game ${color}`}>
+                {lastResult.points > 0 ? `+${lastResult.points}` : '0'}
+              </span>
+              <div>
+                <p className={`text-sm font-semibold ${color}`}>{label}</p>
+                {showAccuracy && (
+                  <p className={`text-xs ${lastResult.accuracyStatus === 'correct' ? 'text-emerald-400' : 'text-amber-400'}`}>
+                    {lastResult.accuracyStatus === 'correct' ? 'Correct' : 'Not quite'}
+                  </p>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={() => setSeenResultId(lastResult.scoreId)}
+              className="text-gray-500 hover:text-white text-lg leading-none"
+              aria-label="Dismiss"
+            >×</button>
+          </div>
+        );
+      })()}
 
       {/* Dynamic Input based on game/activity */}
       <div className="glass rounded-2xl p-6 mb-4">

@@ -43,6 +43,13 @@ interface PersonalResults {
   totalParticipants: number | null;
 }
 
+interface LastResult {
+  scoreId: string;
+  outcome: string;
+  points: number;
+  accuracyStatus: string | null;
+}
+
 interface SessionPayload {
   isActive: boolean;
   activePoll: { pollId: string; question: string; options: string[]; metadata?: Record<string, unknown> | null } | null;
@@ -58,6 +65,9 @@ interface SessionPayload {
   referenceExpressions: ExpressionItem[] | null;
   latestFeedback: { feedback: string; points: number; submissionId: string } | null;
   personalResults: PersonalResults | null;
+  lastResult: LastResult | null;
+  sessionPoints: number;
+  responseCount: number;
 }
 
 export async function GET(request: NextRequest) {
@@ -233,6 +243,35 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // During-session personal stats: last scored result + running totals
+    let lastResult: LastResult | null = null;
+    let sessionPoints = 0;
+    let responseCount = 0;
+    if (isActive && clientId) {
+      const { data: activeScores } = await supabase
+        .from('scores')
+        .select('id, outcome, points, accuracy_status')
+        .eq('session_id', sessionId)
+        .eq('client_id', clientId)
+        .eq('scoring_version', 2)
+        .eq('counts_for_leaderboard', true)
+        .order('created_at', { ascending: false });
+
+      const rows = activeScores ?? [];
+      responseCount = rows.length;
+      sessionPoints = rows.reduce((s, r: { points: number }) => s + (r.points ?? 0), 0);
+      const latest = (rows as Array<{ id: string; outcome: string | null; points: number; accuracy_status: string | null }>)
+        .find((r) => r.outcome);
+      if (latest) {
+        lastResult = {
+          scoreId: latest.id,
+          outcome: latest.outcome!,
+          points: latest.points,
+          accuracyStatus: latest.accuracy_status ?? null,
+        };
+      }
+    }
+
     // Get personal results when session has ended
     let personalResults: PersonalResults | null = null;
     if (!isActive && clientId) {
@@ -313,6 +352,9 @@ export async function GET(request: NextRequest) {
       referenceExpressions: (session.reference_expressions as ExpressionItem[] | null) ?? null,
       latestFeedback,
       personalResults,
+      lastResult,
+      sessionPoints,
+      responseCount,
     };
 
     return NextResponse.json(payload, {
