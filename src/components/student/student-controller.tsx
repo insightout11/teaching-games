@@ -133,6 +133,13 @@ function persistVotedIds(sessionId: string, ids: string[]) {
   } catch { /* ignore */ }
 }
 
+const OUTCOME_LABELS: Record<string, string> = {
+  'standout': 'Standout',
+  'on-task': 'On task',
+  'genuine': 'Submitted',
+  'invalid': 'Not counted',
+};
+
 export function StudentController({ sessionId, studentSession, onLeave }: StudentControllerProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error' | 'rate_limited'>('idle');
@@ -186,6 +193,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [seenResultId, setSeenResultId] = useState<string | null>(null);
   const [sessionPoints, setSessionPoints] = useState(0);
   const [responseCount, setResponseCount] = useState(0);
+  const [sessionAccuracy, setSessionAccuracy] = useState<number | null>(null);
 
   // End-of-session personal results
   const [personalResults, setPersonalResults] = useState<{
@@ -258,6 +266,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (data.lastResult) setLastResult(data.lastResult);
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
       if (typeof data.responseCount === 'number') setResponseCount(data.responseCount);
+      if ('sessionAccuracy' in data) setSessionAccuracy((data.sessionAccuracy as number | null) ?? null);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -668,12 +677,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {sessionPoints > 0 && (
-              <span className="text-xs text-gray-400">
-                <span className="text-cyan-400 font-semibold">{sessionPoints}</span> pts
-                {responseCount > 0 && <span className="ml-1">· {responseCount}</span>}
-              </span>
-            )}
             <button
               onClick={onLeave}
               className="text-gray-400 hover:text-white text-sm"
@@ -755,19 +758,13 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {/* Scored result card — shown after each V2 score is recorded, auto-dismisses */}
       {lastResult && lastResult.scoreId !== seenResultId && (() => {
-        const outcomeLabel: Record<string, string> = {
-          'standout': 'Standout',
-          'on-task': 'On task',
-          'genuine': 'Submitted',
-          'invalid': 'Not counted',
-        };
         const outcomeColor: Record<string, string> = {
           'standout': 'text-yellow-400',
           'on-task': 'text-cyan-400',
           'genuine': 'text-gray-300',
           'invalid': 'text-gray-500',
         };
-        const label = outcomeLabel[lastResult.outcome] ?? lastResult.outcome;
+        const label = OUTCOME_LABELS[lastResult.outcome] ?? lastResult.outcome;
         const color = outcomeColor[lastResult.outcome] ?? 'text-gray-300';
         const showAccuracy = lastResult.accuracyStatus === 'correct' || lastResult.accuracyStatus === 'incorrect';
         return (
@@ -1169,6 +1166,44 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           </div>
         );
       })()}
+
+      {/* Your Flight — personal session progress */}
+      {responseCount > 0 && (
+        <div className="glass rounded-2xl px-4 py-3 mb-4">
+          <div className="flex items-center justify-between mb-1.5">
+            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Your Flight</p>
+            {lastResult && (
+              <p className="text-[10px] text-gray-400">
+                Last: {OUTCOME_LABELS[lastResult.outcome] ?? lastResult.outcome}
+              </p>
+            )}
+          </div>
+          <div className="flex items-baseline gap-2.5 flex-wrap">
+            <span>
+              <span className="text-sm font-game text-cyan-400">{sessionPoints}</span>
+              <span className="text-[10px] text-gray-500 ml-0.5">pts</span>
+            </span>
+            <span className="text-gray-600 text-[10px]">·</span>
+            <span>
+              <span className="text-sm font-game text-white">{responseCount}</span>
+              <span className="text-[10px] text-gray-500 ml-0.5">responses</span>
+            </span>
+            {sessionAccuracy !== null && (
+              <>
+                <span className="text-gray-600 text-[10px]">·</span>
+                <span>
+                  <span className={`text-sm font-game ${
+                    sessionAccuracy >= 80 ? 'text-emerald-400' :
+                    sessionAccuracy >= 50 ? 'text-amber-400' :
+                    'text-red-400'
+                  }`}>{sessionAccuracy}%</span>
+                  <span className="text-[10px] text-gray-500 ml-0.5">accuracy</span>
+                </span>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* My Flight Deck */}
       <div className="mt-2">

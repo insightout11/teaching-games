@@ -68,6 +68,7 @@ interface SessionPayload {
   lastResult: LastResult | null;
   sessionPoints: number;
   responseCount: number;
+  sessionAccuracy: number | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -247,21 +248,27 @@ export async function GET(request: NextRequest) {
     let lastResult: LastResult | null = null;
     let sessionPoints = 0;
     let responseCount = 0;
+    let sessionAccuracy: number | null = null;
     if (isActive && clientId) {
       const { data: activeScores } = await supabase
         .from('scores')
-        .select('id, outcome, points, accuracy_status')
+        .select('id, outcome, points, accuracy_status, counts_for_accuracy')
         .eq('session_id', sessionId)
         .eq('client_id', clientId)
         .eq('scoring_version', 2)
         .eq('counts_for_leaderboard', true)
         .order('created_at', { ascending: false });
 
-      const rows = activeScores ?? [];
+      type ActiveRow = { id: string; outcome: string | null; points: number; accuracy_status: string | null; counts_for_accuracy: boolean | null };
+      const rows = (activeScores ?? []) as ActiveRow[];
       responseCount = rows.length;
-      sessionPoints = rows.reduce((s, r: { points: number }) => s + (r.points ?? 0), 0);
-      const latest = (rows as Array<{ id: string; outcome: string | null; points: number; accuracy_status: string | null }>)
-        .find((r) => r.outcome);
+      sessionPoints = rows.reduce((s, r) => s + (r.points ?? 0), 0);
+
+      const scorable = rows.filter(r => r.counts_for_accuracy === true);
+      const correct = scorable.filter(r => r.accuracy_status === 'correct').length;
+      sessionAccuracy = scorable.length > 0 ? Math.round((correct / scorable.length) * 100) : null;
+
+      const latest = rows.find((r) => r.outcome);
       if (latest) {
         lastResult = {
           scoreId: latest.id,
@@ -355,6 +362,7 @@ export async function GET(request: NextRequest) {
       lastResult,
       sessionPoints,
       responseCount,
+      sessionAccuracy,
     };
 
     return NextResponse.json(payload, {
