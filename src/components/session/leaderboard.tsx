@@ -10,7 +10,6 @@ const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
 
 function resolveHelmet(avatarSeed: string | undefined, name: string): string {
   if (avatarSeed && VALID_HELMET_SEEDS.has(avatarSeed)) return avatarSeed;
-  // Deterministic fallback based on name
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
   return HELMET_SEEDS[hash % HELMET_SEEDS.length];
@@ -58,7 +57,6 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
   const entries = useMemo(() => {
     const map = new Map<string, LeaderboardEntry>();
 
-    // Add roster students
     students.forEach((s) => {
       map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0, correctCount: 0, bestStreak: 0, avatarSeed: s.avatar_seed });
     });
@@ -84,8 +82,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
     return Array.from(map.values()).sort((a, b) => b.totalPoints - a.totalPoints);
   }, [students, scores]);
 
-  // Competitive/class mode: Top 3 + own entry (locked invariant).
-  // Rank reflects actual position in the full sorted list.
+  // Top 3 + own entry (locked invariant for competitive mode)
   const visibleEntries = useMemo(() => {
     const ranked = entries.map((e, i) => ({ ...e, rank: i }));
     const top3 = ranked.slice(0, 3);
@@ -97,7 +94,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
     return [...top3, self];
   }, [entries, currentStudentId]);
 
-  // Team mode: aggregate by team key (generic — supports 'x'/'o', 'red'/'blue', etc.)
+  // Team mode: aggregate by team key
   const teamTotals = useMemo(() => {
     if (displayMode !== 'team') return null;
     const leaderboardScores = scores.filter(countsForLeaderboard);
@@ -109,13 +106,12 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
     return map.size > 0 ? Array.from(map.entries()).sort((a, b) => a[0].localeCompare(b[0])) : null;
   }, [displayMode, scores]);
 
-  // Class mode: count distinct participants
-  const participantCount = useMemo(() => {
-    if (displayMode !== 'class') return null;
+  // Session summary: all modes — counts V2 leaderboard rows only (no proxy rows)
+  const sessionSummary = useMemo(() => {
     const leaderboardScores = scores.filter(countsForLeaderboard);
     const ids = new Set(leaderboardScores.map(sc => sc.student_id || sc.client_id).filter(Boolean));
-    return { participated: ids.size, total: students.length };
-  }, [displayMode, scores, students]);
+    return { participated: ids.size, total: students.length, responseCount: leaderboardScores.length };
+  }, [scores, students]);
 
   // Delta animation tracking
   const prevTotals = useRef<Map<string, number>>(new Map());
@@ -124,7 +120,6 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
 
   useEffect(() => {
     if (isFirstRender.current) {
-      // Populate ref on first render without triggering deltas
       isFirstRender.current = false;
       const initial = new Map<string, number>();
       entries.forEach((e) => initial.set(e.studentId, e.totalPoints));
@@ -142,7 +137,6 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
       }
     });
 
-    // Update ref to current totals
     const updated = new Map<string, number>();
     entries.forEach((e) => updated.set(e.studentId, e.totalPoints));
     prevTotals.current = updated;
@@ -154,13 +148,11 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
         return merged;
       });
 
-      // Clear these deltas after animation completes
       const keys = Array.from(newDeltas.keys());
       const timeout = setTimeout(() => {
         setDeltas((prev) => {
           const next = new Map(prev);
           keys.forEach((k) => {
-            // Only clear if timestamp matches (avoid clearing a newer delta)
             if (next.get(k)?.ts === now) next.delete(k);
           });
           return next;
@@ -175,7 +167,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
 
   return (
     <div className="glass rounded-2xl p-4">
-      <h3 className="font-semibold text-sm opacity-70 mb-3 uppercase tracking-wider text-[10px]">Leaderboard</h3>
+      <h3 className="font-semibold text-sm opacity-70 mb-3 uppercase tracking-wider text-[10px]">Flight Status</h3>
 
       {/* Student Picker */}
       <div className="mb-3">
@@ -205,7 +197,20 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
         </button>
       </div>
 
-      <div className="border-t border-lc-border/40 pt-3">
+      <div className="border-t border-lc-border/40 pt-3 space-y-3">
+
+        {/* Session summary — always visible, all modes */}
+        {sessionSummary.responseCount === 0 ? (
+          <p className="text-[10px] text-lc-text3 uppercase tracking-wider">Waiting for responses</p>
+        ) : (
+          <p className="text-xs text-lc-text3">
+            <span className="text-white font-semibold">{sessionSummary.participated}</span>
+            {sessionSummary.total > 0 && <span className="opacity-60"> / {sessionSummary.total}</span>}
+            {' '}participated
+            <span className="opacity-40 mx-1.5">·</span>
+            <span className="text-white font-semibold">{sessionSummary.responseCount}</span> responses
+          </p>
+        )}
 
         {/* Team mode: generic two-team totals */}
         {displayMode === 'team' && teamTotals && (
@@ -225,21 +230,11 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
           </div>
         )}
 
-        {/* Class mode: participation count only — no ranked list */}
-        {displayMode === 'class' && participantCount && (
-          <div className="py-2 text-center">
-            <p className="text-xs text-gray-400">
-              <span className="text-white font-semibold">{participantCount.participated}</span>
-              {' / '}{participantCount.total} responded
-            </p>
-          </div>
-        )}
-
-        {/* Competitive only: ranked list (Top 3 + own) */}
-        {displayMode === 'competitive' && (
+        {/* Competitive mode: ranked list (Top 3 + own), only shown once there are responses */}
+        {displayMode === 'competitive' && sessionSummary.responseCount > 0 && (
           <div className="space-y-1">
             <AnimatePresence>
-              {visibleEntries.map((entry) => (
+              {visibleEntries.filter(e => e.totalPoints > 0).map((entry) => (
                 <motion.div
                   key={entry.studentId}
                   layout
