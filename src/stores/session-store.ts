@@ -4,6 +4,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import type { Difficulty } from '@/lib/difficulty';
 import type { GrammarTarget } from '@/lib/grammar';
 import type { CharacterCard } from '@/activities/types';
+import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 
 
 export type PickerMode = 'fair' | 'random';
@@ -294,12 +295,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       const newStreaks = { ...state.streaks };
       // Use student_id for roster students, client_id for remote students
       const streakKey = score.student_id || score.client_id;
-      if (streakKey) {
-        // V2: use accuracy_status; legacy: fall back to is_correct
-        const isCorrectForStreak = score.accuracy_status != null
-          ? score.accuracy_status === 'correct'
-          : score.is_correct;
-        if (isCorrectForStreak) {
+      if (streakKey && countsForLeaderboard(score)) {
+        if (isCorrectScore(score)) {
           newStreaks[streakKey] = (newStreaks[streakKey] ?? 0) + 1;
         } else {
           newStreaks[streakKey] = 0;

@@ -395,7 +395,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
             <p className="text-slate-300 text-sm leading-relaxed">
               {isSimultaneous
                 ? 'All students type synonyms on their devices before time runs out! Each valid synonym earns points.'
-                : 'List as many synonyms as you can before time runs out! Build streaks for bonus points.'
+                : 'List as many synonyms as you can before time runs out! Each valid synonym earns points.'
               }
             </p>
           </div>

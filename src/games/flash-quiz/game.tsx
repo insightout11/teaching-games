@@ -439,7 +439,7 @@ export function FlashQuizGame({
         </div>
         <div className="text-center space-y-1">
           <h2 className="text-2xl font-game text-lc-text">Ready!</h2>
-          <p className="text-lc-text2 text-sm">{questions.length} questions · {timerSeconds}s each · Speed bonus active</p>
+          <p className="text-lc-text2 text-sm">{questions.length} questions · {timerSeconds}s each</p>
         </div>
         <button
           onClick={() => startQuestion(0)}

@@ -498,7 +498,7 @@ export function GridRushGame({
                 <li>Each letter can be reused — you don&apos;t &quot;spend&quot; them</li>
                 <li>Longer words score more points</li>
                 <li>Using the <span className="text-amber-300 font-semibold">★ bonus letter</span> earns extra points</li>
-                <li>Longest word &amp; most topic words each earn a <span className="text-cyan-300 font-semibold">+3 pt bonus</span></li>
+                <li>Longest word &amp; most topic words each earn extra points</li>
               </ul>
             </div>
             <div>
@@ -506,7 +506,7 @@ export function GridRushGame({
               <ul className="text-slate-400 text-xs space-y-0.5 list-disc list-inside">
                 <li>Write one sentence using 2 or more of your Round 1 words</li>
                 <li>Smart grading for quality (1–5 points × 2)</li>
-                <li>Best sentence earns a <span className="text-violet-300 font-semibold">+3 pt bonus</span></li>
+                <li>Best sentence earns extra points</li>
               </ul>
             </div>
           </div>

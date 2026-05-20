@@ -15,6 +15,7 @@ import type {
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { Score } from '@/lib/supabase/types';
 import { Leaderboard } from './leaderboard';
+import { DealCardsPanel } from './deal-cards-panel';
 import { ApprovalQueue } from './approval-queue';
 import { MissionControlSummary } from './mission-control-summary';
 import type { StudentSubmission } from '@/lib/supabase/types';
@@ -379,6 +380,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       {/* Sidebar */}
       <div className="space-y-4">
         <Leaderboard displayMode={activity.scoringProfile?.displayMode ?? 'class'} />
+        {sessionId && <DealCardsPanel sessionId={sessionId} moduleKey={activity.key} />}
         {sessionId && (
           <ApprovalQueue
             sessionId={sessionId}

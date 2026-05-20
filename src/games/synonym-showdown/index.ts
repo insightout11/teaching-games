@@ -5,7 +5,7 @@ import { BookA } from 'lucide-react';
 export const synonymShowdownPlugin: GamePlugin = {
   key: 'synonym-showdown',
   name: 'Synonym Showdown',
-  description: 'Race to list synonyms before time runs out. Build streaks for bonus points!',
+  description: 'Race to list synonyms before time runs out. Each valid synonym earns points!',
   category: 'vocabulary',
   pppStage: 'practice',
   icon: BookA,

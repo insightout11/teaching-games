@@ -10,6 +10,7 @@ import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import { Leaderboard } from './leaderboard';
+import { DealCardsPanel } from './deal-cards-panel';
 import { SpinWheel, ModifierBadge } from './spin-wheel';
 import { ApprovalQueue } from './approval-queue';
 import { TeamTotals } from './team-totals';
@@ -429,6 +430,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
         {/* Sidebar */}
         <div className="space-y-4">
           <Leaderboard displayMode={game.scoringProfile?.displayMode ?? 'competitive'} />
+          {sessionId && <DealCardsPanel sessionId={sessionId} moduleKey={game.key} />}
           <TeamTotals />
           {sessionId && (
             <ApprovalQueue

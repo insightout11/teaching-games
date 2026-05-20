@@ -537,7 +537,7 @@ export function DefendItGame({
           <Flame className="w-12 h-12 text-orange-400 mx-auto" />
           <p className="text-xs font-bold text-orange-400 uppercase tracking-widest">Game Over</p>
           <p className="text-3xl font-black text-white">Debate complete!</p>
-          <p className="text-slate-400 text-sm">Check the leaderboard for final scores.</p>
+          <p className="text-slate-400 text-sm">Check the main screen for final scores.</p>
         </div>
 
         <button

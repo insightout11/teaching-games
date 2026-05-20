@@ -55,6 +55,12 @@ interface HeldCard {
   cardKey: string;
   moduleKey: string;
   activationsCount: number;
+  status: 'held' | 'active';
+}
+
+interface OfferedCards {
+  dealIndex: number;
+  cards: Array<{ cardId: string; cardKey: string; moduleKey: string }>;
 }
 
 interface SessionPayload {
@@ -77,6 +83,7 @@ interface SessionPayload {
   responseCount: number;
   sessionAccuracy: number | null;
   heldCard: HeldCard | null;
+  offeredCards: OfferedCards | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -352,24 +359,43 @@ export async function GET(request: NextRequest) {
       personalMission = missionRow?.mission_text ?? null;
     }
 
-    // Get held/active flight card for this student
+    // Get held/active/offered flight cards for this student
     let heldCard: HeldCard | null = null;
+    let offeredCards: OfferedCards | null = null;
     if (clientId) {
       try {
-        const { data: cardRow } = await supabase
+        const { data: liveCards } = await supabase
           .from('flight_cards')
-          .select('id, card_key, module_key, activations_count')
+          .select('id, card_key, module_key, status, activations_count, deal_index')
           .eq('session_id', sessionId)
           .eq('client_id', clientId)
-          .in('status', ['held', 'active'])
-          .maybeSingle();
-        if (cardRow) {
-          heldCard = {
-            cardId: cardRow.id,
-            cardKey: cardRow.card_key,
-            moduleKey: cardRow.module_key,
-            activationsCount: cardRow.activations_count ?? 0,
-          };
+          .in('status', ['offered', 'held', 'active'])
+          .order('deal_index', { ascending: false });
+
+        if (liveCards && liveCards.length > 0) {
+          type CardRow = { id: string; card_key: string; module_key: string; status: string; activations_count: number; deal_index: number };
+          const rows = liveCards as CardRow[];
+
+          const heldRow = rows.find(r => r.status === 'held' || r.status === 'active');
+          if (heldRow) {
+            heldCard = {
+              cardId: heldRow.id,
+              cardKey: heldRow.card_key,
+              moduleKey: heldRow.module_key,
+              activationsCount: heldRow.activations_count ?? 0,
+              status: heldRow.status as 'held' | 'active',
+            };
+          }
+
+          const offeredRows = rows.filter(r => r.status === 'offered');
+          if (offeredRows.length > 0) {
+            const maxDealIndex = Math.max(...offeredRows.map(r => r.deal_index));
+            const latestOffered = offeredRows.filter(r => r.deal_index === maxDealIndex);
+            offeredCards = {
+              dealIndex: maxDealIndex,
+              cards: latestOffered.map(r => ({ cardId: r.id, cardKey: r.card_key, moduleKey: r.module_key })),
+            };
+          }
         }
       } catch {
         // flight_cards table not yet migrated — degrade gracefully
@@ -396,6 +422,7 @@ export async function GET(request: NextRequest) {
       responseCount,
       sessionAccuracy,
       heldCard,
+      offeredCards,
     };
 
     return NextResponse.json(payload, {

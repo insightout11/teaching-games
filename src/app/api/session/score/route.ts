@@ -73,5 +73,105 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // Phase 1c: standard card bonus (Contrail excluded until Phase 1e)
+  // Cards resolve on the next official score row (counts_for_leaderboard=true) — win or lose.
+  // Proxy rows (counts_for_leaderboard=false) are skipped; card stays active.
+  // bonus > 0 → 'used'; bonus = 0 → 'expired'. card_id always written for audit trail.
+  // Best-effort — score is already committed; failures here do not roll back the score.
+  if (data && scoreInsert.client_id && scoreInsert.counts_for_leaderboard !== false) {
+    try {
+      const { data: card } = await service
+        .from('flight_cards')
+        .select('id, card_key, bonus_points_total')
+        .eq('session_id', sessionId)
+        .eq('client_id', scoreInsert.client_id)
+        .eq('status', 'active')
+        .neq('card_key', 'contrail')
+        .maybeSingle();
+
+      if (card) {
+        const outcome = scoreInsert.outcome as string | null;
+        const accuracyStatus = scoreInsert.accuracy_status as string | null;
+        let cardBonus = 0;
+
+        switch (card.card_key) {
+          case 'takeoff':
+            if (outcome === 'genuine' || outcome === 'on-task' || outcome === 'standout') cardBonus = 1;
+            break;
+          case 'clear-skies':
+            if (accuracyStatus === 'correct') cardBonus = 1;
+            break;
+          case 'afterburner':
+            if (accuracyStatus === 'correct') cardBonus = 2;
+            break;
+          case 'full-throttle':
+            if (outcome === 'standout') cardBonus = 3;
+            break;
+        }
+
+        const now = new Date().toISOString();
+        const newStatus = cardBonus > 0 ? 'used' : 'expired';
+
+        await service
+          .from('scores')
+          .update({ card_id: card.id, card_bonus: cardBonus })
+          .eq('id', data.id);
+        await service
+          .from('flight_cards')
+          .update({
+            status: newStatus,
+            expired_at: now,
+            ...(cardBonus > 0 ? { bonus_points_total: (card.bonus_points_total ?? 0) + cardBonus } : {}),
+          })
+          .eq('id', card.id);
+      }
+    } catch (e) {
+      console.error('[api/session/score] card bonus error:', e);
+    }
+
+    // Phase 1e: Contrail — multi-submission card, auto-activates, capped at 3 bonuses
+    // Auto-activates on first official score row (held → active).
+    // +1 per genuine/on-task/standout; invalid rows leave card active without bonus.
+    // At 3 activations → 'used'. Module end → expire API handles remaining held/active Contrail.
+    try {
+      const { data: contrailCard } = await service
+        .from('flight_cards')
+        .select('id, activations_count, bonus_points_total')
+        .eq('session_id', sessionId)
+        .eq('client_id', scoreInsert.client_id)
+        .eq('card_key', 'contrail')
+        .in('status', ['held', 'active'])
+        .maybeSingle();
+
+      if (contrailCard) {
+        const outcome = scoreInsert.outcome as string | null;
+        const earnsBonus = outcome === 'genuine' || outcome === 'on-task' || outcome === 'standout';
+        const newActivations = (contrailCard.activations_count ?? 0) + (earnsBonus ? 1 : 0);
+        const newBonusTotal = (contrailCard.bonus_points_total ?? 0) + (earnsBonus ? 1 : 0);
+        const atCap = newActivations >= 3;
+        const newStatus = atCap ? 'used' : 'active';
+
+        if (earnsBonus) {
+          await service
+            .from('scores')
+            .update({ card_id: contrailCard.id, card_bonus: 1 })
+            .eq('id', data.id);
+        }
+
+        await service
+          .from('flight_cards')
+          .update({
+            status: newStatus,
+            activations_count: newActivations,
+            bonus_points_total: newBonusTotal,
+            ...(atCap ? { expired_at: new Date().toISOString() } : {}),
+          })
+          .eq('id', contrailCard.id);
+      }
+    } catch (e) {
+      console.error('[api/session/score] contrail bonus error:', e);
+    }
+  }
+
   return NextResponse.json({ data });
 }

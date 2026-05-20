@@ -924,7 +924,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
             <div className="text-4xl font-black text-white">
               {score} <span className="text-lg font-normal opacity-60">points</span>
             </div>
-            <p className="text-sm text-emerald-400 mt-2">+5 bonus for completing!</p>
+            <p className="text-sm text-emerald-400 mt-2">All groups found!</p>
           </div>
 
           <div className="space-y-2">

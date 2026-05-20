@@ -12,7 +12,7 @@
     "The AI generates a target word and four forbidden words related to it — all shown on the teacher's screen",
     "One student describes the target word to their team without using any of the five forbidden words",
     "Team members guess the word on their devices while the teacher monitors for violations with a buzz button",
-    "Rounds are timed — the team scores for each correct guess, with bonus points for speed"
+    "Rounds are timed — the team scores for each correct guess"
   ],
   "teacherUseCases": [
     "Vocabulary production practice — students move from passive recognition to active, flexible use of words",

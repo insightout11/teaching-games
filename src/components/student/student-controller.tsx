@@ -10,7 +10,7 @@ import { VALIDATION } from '@/lib/config/rate-limits';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { grammarReference } from '@/lib/grammar';
-import { BookOpen, PencilLine, MessageSquare, HelpCircle } from 'lucide-react';
+import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, Send, Zap, Award, Wind } from 'lucide-react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
 
@@ -58,6 +58,19 @@ interface ExpressionItem {
 
 type ReferencePanel = 'vocab' | 'grammar' | 'expressions' | 'question' | null;
 
+interface HeldCard {
+  cardId: string;
+  cardKey: string;
+  moduleKey: string;
+  activationsCount: number;
+  status: 'held' | 'active';
+}
+
+interface OfferedCards {
+  dealIndex: number;
+  cards: Array<{ cardId: string; cardKey: string; moduleKey: string }>;
+}
+
 interface StudentControllerProps {
   sessionId: string;
   studentSession: StudentSession;
@@ -103,6 +116,22 @@ const WAITING_TIPS: { category: string; color: string; text: string; minLevel: s
   { category: 'Idiom', color: 'amber', minLevel: 'Advanced', text: "'Burn the midnight oil' means to work late into the night. It comes from the days when people used oil lamps — and staying up late literally meant burning oil." },
   { category: 'Vocab Boost', color: 'teal', minLevel: 'Intermediate', text: "Abstract nouns name ideas or feelings you can't touch: freedom, justice, happiness, courage. Concrete nouns name physical things: table, rain, book, city." },
 ];
+
+const CARD_DESCRIPTIONS: Record<string, { name: string; description: string }> = {
+  'takeoff':       { name: 'Takeoff',       description: '+1 on your next genuine-or-better response.' },
+  'clear-skies':   { name: 'Clear Skies',   description: '+1 if your next response is on task.' },
+  'afterburner':   { name: 'Afterburner',   description: '+2 if your next response is on task.' },
+  'full-throttle': { name: 'Full Throttle', description: '+3 only for a Standout response.' },
+  'contrail':      { name: 'Contrail',      description: '+1 per submitted response next module, up to 3.' },
+};
+
+const CARD_ICONS: Record<string, React.ElementType> = {
+  'takeoff':       Plane,
+  'clear-skies':   Send,
+  'afterburner':   Zap,
+  'full-throttle': Award,
+  'contrail':      Wind,
+};
 
 // Deterministic starter assignment from clientId (no server coordination needed)
 const WONDER_STARTERS = ['Why', 'How', 'What', 'When', 'Where', 'Should', 'What if'];
@@ -177,6 +206,13 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [isAskingQuestion, setIsAskingQuestion] = useState(false);
   const [questionStatus, setQuestionStatus] = useState<'idle' | 'sent' | 'error' | 'rate_limited'>('idle');
   const [questionWait, setQuestionWait] = useState(0);
+
+  // Flight card state
+  const [offeredCards, setOfferedCards] = useState<OfferedCards | null>(null);
+  const [heldCard, setHeldCard] = useState<HeldCard | null>(null);
+  const [dismissedDealIndices, setDismissedDealIndices] = useState<Set<number>>(new Set());
+  const [isPickingCard, setIsPickingCard] = useState(false);
+  const [cardConflict, setCardConflict] = useState<{ pendingCardId: string; heldCard: { cardId: string; cardKey: string; moduleKey: string } } | null>(null);
 
   // My Flight Deck state
   const [flightDeckOpen, setFlightDeckOpen] = useState(false);
@@ -267,6 +303,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
       if (typeof data.responseCount === 'number') setResponseCount(data.responseCount);
       if ('sessionAccuracy' in data) setSessionAccuracy((data.sessionAccuracy as number | null) ?? null);
+      setOfferedCards(data.offeredCards ?? null);
+      setHeldCard(data.heldCard ?? null);
       setConnectionStatus('connected');
     } catch {
       setConnectionStatus('disconnected');
@@ -525,6 +563,41 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       body: JSON.stringify(payload),
     });
   };
+
+  const handlePickCard = useCallback(async (cardId: string, forceReplace = false) => {
+    setIsPickingCard(true);
+    try {
+      const res = await fetch('/api/student/flight-cards/pick', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, clientId: studentSession.clientId, cardId, replace: forceReplace || undefined }),
+      });
+      const data = await res.json();
+      if (data.conflict) {
+        setCardConflict({ pendingCardId: cardId, heldCard: data.heldCard });
+      } else if (data.held) {
+        setCardConflict(null);
+        setOfferedCards(null);
+        setHeldCard({ cardId: data.card.cardId, cardKey: data.card.cardKey, moduleKey: data.card.moduleKey, activationsCount: 0, status: 'held' });
+      }
+    } catch { /* silent — poll will correct */ }
+    finally { setIsPickingCard(false); }
+  }, [sessionId, studentSession.clientId]);
+
+  const handleActivateCard = useCallback(async (active: boolean) => {
+    if (!heldCard || heldCard.cardKey === 'contrail') return;
+    try {
+      const res = await fetch('/api/student/flight-cards/activate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, clientId: studentSession.clientId, cardId: heldCard.cardId, active }),
+      });
+      const data = await res.json();
+      if (data.status) {
+        setHeldCard(prev => prev ? { ...prev, status: data.status } : null);
+      }
+    } catch { /* silent */ }
+  }, [sessionId, studentSession.clientId, heldCard]);
 
   const handleToggleStealth = async () => {
     const next = !scoreVisible;
@@ -902,6 +975,56 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           )
         ) : (
           <div className="space-y-4">
+            {/* Flight Card Offer */}
+            {offeredCards && !dismissedDealIndices.has(offeredCards.dealIndex) && !cardConflict && (
+              <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4">
+                <p className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-3">Choose your card</p>
+                <div className="grid grid-cols-3 gap-2">
+                  {offeredCards.cards.map((card) => {
+                    const def = CARD_DESCRIPTIONS[card.cardKey];
+                    const CardIcon = CARD_ICONS[card.cardKey] ?? Plane;
+                    return (
+                      <button
+                        key={card.cardId}
+                        onClick={() => handlePickCard(card.cardId)}
+                        disabled={isPickingCard}
+                        className="flex flex-col items-center gap-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-amber-400/40 p-3 transition-all text-center disabled:opacity-40"
+                      >
+                        <CardIcon className="w-4 h-4 text-amber-300" />
+                        <span className="text-xs font-bold text-white leading-tight">{def?.name ?? card.cardKey}</span>
+                        <span className="text-[10px] text-gray-400 leading-tight">{def?.description ?? ''}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Conflict — student has existing card and was dealt a new offer */}
+            {cardConflict && (
+              <div className="rounded-2xl border border-violet-500/30 bg-violet-500/10 p-4">
+                <p className="text-xs font-bold text-violet-300 uppercase tracking-wider mb-1">You already have a card</p>
+                <p className="text-xs text-gray-400 mb-3">
+                  Keep your <span className="text-white font-semibold">{CARD_DESCRIPTIONS[cardConflict.heldCard.cardKey]?.name ?? cardConflict.heldCard.cardKey}</span>, or replace it with the new one?
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => { setCardConflict(null); setDismissedDealIndices(prev => { const next = new Set(Array.from(prev)); next.add(offeredCards?.dealIndex ?? -1); return next; }); }}
+                    className="flex-1 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition-all"
+                  >
+                    Keep Current
+                  </button>
+                  <button
+                    onClick={() => handlePickCard(cardConflict.pendingCardId, true)}
+                    disabled={isPickingCard}
+                    className="flex-1 py-2 rounded-xl bg-violet-500/30 hover:bg-violet-500/50 border border-violet-500/40 text-xs font-semibold text-violet-200 transition-all disabled:opacity-40"
+                  >
+                    Replace
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Topic + difficulty context label */}
             {sessionTopic && (
               <div className="flex items-center gap-2">
@@ -952,6 +1075,38 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           </div>
         )}
       </div>
+
+      {/* Held card chip */}
+      {heldCard && (() => {
+        const HeldIcon = CARD_ICONS[heldCard.cardKey] ?? Plane;
+        return (
+          <div className="glass rounded-2xl px-4 py-3 mb-4 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <HeldIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-white truncate">{CARD_DESCRIPTIONS[heldCard.cardKey]?.name ?? heldCard.cardKey}</p>
+                <p className="text-[10px] text-gray-500">
+                  {heldCard.cardKey === 'contrail'
+                    ? `Auto-activates · ${heldCard.activationsCount}/3 used`
+                    : heldCard.status === 'active' ? 'Active' : 'Held'}
+                </p>
+              </div>
+            </div>
+            {heldCard.cardKey !== 'contrail' && (
+              <button
+                onClick={() => handleActivateCard(heldCard.status === 'held')}
+                className={`flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${
+                  heldCard.status === 'active'
+                    ? 'bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30'
+                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                }`}
+              >
+                {heldCard.status === 'active' ? 'Deactivate' : 'Activate'}
+              </button>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Wonder Board — upvote section shown when wonder-board is active */}
       {inputSpec?.gameKey === 'wonder-board' && wonderQuestions.filter((q) => !q.parentId).length > 0 && (

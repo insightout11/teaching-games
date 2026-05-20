@@ -12,12 +12,12 @@ interface CardDef {
   isCompatible: (profile: ScoringProfile) => boolean;
 }
 
-// Phase 1a pool. Contrail ('contrail') is added in Phase 1e.
 const CARD_POOL: CardDef[] = [
   { key: 'takeoff',       weight: 35, isCompatible: ()  => true },
   { key: 'clear-skies',   weight: 22, isCompatible: (p) => p.tracksAccuracy === true },
   { key: 'afterburner',   weight: 18, isCompatible: (p) => p.tracksAccuracy === true },
   { key: 'full-throttle', weight: 10, isCompatible: (p) => p.supportsStandout === true },
+  { key: 'contrail',      weight: 15, isCompatible: ()  => true },
 ];
 
 export function getScoringProfileForModule(moduleKey: string): ScoringProfile | null {

@@ -104,11 +104,6 @@ export function SpinWheel({ onComplete }: { onComplete?: (modifier: TurnModifier
                 <p className="text-2xl font-game text-yellow-400">
                   {result.label}
                 </p>
-                <p className="text-sm opacity-60">
-                  {result.multiplier > 1 && `Points multiplied by ${result.multiplier}!`}
-                  {result.bonus > 0 && `+${result.bonus} bonus points!`}
-                  {result.shield && 'Shield active - keeps streak if wrong!'}
-                </p>
                 <button
                   onClick={handleContinue}
                   className="px-10 py-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-2 border-white/20"
