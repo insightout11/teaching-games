@@ -248,11 +248,20 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
     };
 
     promptIndexRef.current++;
-    const { data, error } = await supabase.from('scores').insert(scoreData).select().single();
-    if (error) console.error('[handleScore] FAILED code=' + error.code + ' msg=' + error.message + ' hint=' + error.hint + ' data=' + JSON.stringify(scoreData));
-    if (data) recordScore(data);
+    const res = await fetch('/api/session/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(scoreData),
+    });
+    if (!res.ok) {
+      const err = await res.json() as { error?: string };
+      console.error('[handleScore] FAILED', err.error, JSON.stringify(scoreData));
+    } else {
+      const { data } = await res.json() as { data: Score };
+      if (data) recordScore(data);
+    }
     clearModifier();
-  }, [sessionId, supabase, recordScore, clearModifier, game]);
+  }, [sessionId, recordScore, clearModifier, game]);
 
   const handlePickStudent = useCallback(() => {
     pickStudent();
@@ -319,13 +328,17 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       display_name: submission.display_name,
     };
 
-    const { data, error } = await supabase.from('scores').insert(scoreData).select().single();
-
-    if (error) {
-      console.error('Failed to insert score:', error);
-      throw new Error(error.message);
+    const res = await fetch('/api/session/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(scoreData),
+    });
+    if (!res.ok) {
+      const err = await res.json() as { error?: string };
+      console.error('Failed to insert score:', err.error);
+      throw new Error(err.error ?? 'Score insert failed');
     }
-
+    const { data } = await res.json() as { data: Score };
     if (data) recordScore(data);
 
     if (feedback) {

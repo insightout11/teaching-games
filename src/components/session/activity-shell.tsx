@@ -151,29 +151,35 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       isEmpty: request.isEmpty,
       profile: activity.scoringProfile,
     });
-    const { data, error } = await supabase.from('scores').insert({
-      session_id: sessionId,
-      student_id: request.studentId,
-      client_id: request.clientId,
-      display_name: request.displayName,
-      points: engineResult.points,
-      is_correct: engineResult.isCorrect,
-      outcome: engineResult.outcome,
-      accuracy_status: engineResult.accuracyStatus,
-      counts_for_accuracy: engineResult.countsForAccuracy,
-      counts_for_leaderboard: true,
-      scoring_version: engineResult.scoringVersion,
-      prompt_index: request.promptIndex,
-      streak_count: 0,
-      streak_bonus: 0,
-      response_data: { type: 'activity_participation' },
-    }).select().single();
-    if (error) {
-      console.error('Failed to insert activity score:', error);
+    const res = await fetch('/api/session/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        session_id: sessionId,
+        student_id: request.studentId,
+        client_id: request.clientId,
+        display_name: request.displayName,
+        points: engineResult.points,
+        is_correct: engineResult.isCorrect,
+        outcome: engineResult.outcome,
+        accuracy_status: engineResult.accuracyStatus,
+        counts_for_accuracy: engineResult.countsForAccuracy,
+        counts_for_leaderboard: true,
+        scoring_version: engineResult.scoringVersion,
+        prompt_index: request.promptIndex,
+        streak_count: 0,
+        streak_bonus: 0,
+        response_data: { type: 'activity_participation' },
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.json() as { error?: string };
+      console.error('Failed to insert activity score:', err.error);
       return;
     }
+    const { data } = await res.json() as { data: Score };
     if (data) recordScore(data);
-  }, [sessionId, supabase, recordScore, activity.scoringProfile]);
+  }, [sessionId, recordScore, activity.scoringProfile]);
 
   // Callback for activities to set input spec
   const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
@@ -246,15 +252,19 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       display_name: submission.display_name,
     };
 
-    const { data, error } = await supabase.from('scores').insert(scoreData).select().single();
-
-    if (error) {
-      console.error('Failed to insert score:', error);
-      throw new Error(error.message);
+    const res = await fetch('/api/session/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(scoreData),
+    });
+    if (!res.ok) {
+      const err = await res.json() as { error?: string };
+      console.error('Failed to insert score:', err.error);
+      throw new Error(err.error ?? 'Score insert failed');
     }
-
+    const { data } = await res.json() as { data: Score };
     if (data) recordScore(data);
-  }, [sessionId, students, supabase, recordScore, activity.key, activity.scoringProfile]);
+  }, [sessionId, students, recordScore, activity.key, activity.scoringProfile]);
 
   // Handler for dynamic follow-ups during the activity
   const handleContinue = useCallback(async (request: Omit<ActivityContinueRequest, 'sessionId'>): Promise<ActivityContinueResponse> => {
