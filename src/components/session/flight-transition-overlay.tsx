@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
@@ -41,25 +41,6 @@ export function FlightTransitionOverlay({
   const prefersReducedMotion = useReducedMotion();
   const cfg = LEG_CONFIG[leg];
 
-  // Animate altitude over the transition so the sky shifts as the plane climbs/descends
-  const [currentAltitude, setCurrentAltitude] = useState(altitudeFrom);
-  useEffect(() => {
-    if (prefersReducedMotion || altitudeFrom === altitudeTo) {
-      setCurrentAltitude(altitudeTo);
-      return;
-    }
-    const start = performance.now();
-    let rafId: number;
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / TRAVEL_DURATION, 1);
-      setCurrentAltitude(altitudeFrom + (altitudeTo - altitudeFrom) * t);
-      if (t < 1) rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useEffect(() => {
     const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3000);
     return () => clearTimeout(id);
@@ -70,32 +51,18 @@ export function FlightTransitionOverlay({
       className="fixed inset-0 z-[60] cursor-pointer"
       onClick={onDismiss}
     >
-      {/* Full sky */}
+      {/* Sky — real earth/cloud layers animate from altitudeFrom → altitudeTo over the
+          overlay lifetime. parallaxScale=4 makes the shift 4× larger so the ground
+          visibly falls away (takeoff) or rises to meet you (descent). */}
       <SkyBackground
         weatherState={weatherState}
-        altitude={currentAltitude}
+        altitude={altitudeTo}
+        altitudeInitial={prefersReducedMotion ? altitudeTo : altitudeFrom}
         earthState="flight"
         intensity="moderate"
+        parallaxScale={prefersReducedMotion ? 1 : 4}
+        parallaxDuration={TRAVEL_DURATION / 1000}
       />
-
-      {/* Ground parallax — takeoff: earth falls away; descent: earth rises to meet you.
-          Near-opaque at bottom so it reads as real terrain, not fog. */}
-      {!prefersReducedMotion && leg !== 'cruise' && (
-        <motion.div
-          className="absolute inset-x-0 pointer-events-none"
-          style={{
-            bottom: 0,
-            height: '55%',
-            zIndex: 6,
-            background: leg === 'descent'
-              ? 'linear-gradient(to top, rgba(8,20,14,0.92) 0%, rgba(6,14,10,0.55) 28%, rgba(3,8,6,0.12) 62%, transparent 100%)'
-              : 'linear-gradient(to top, rgba(12,8,4,0.90) 0%, rgba(8,5,3,0.52) 28%, rgba(5,3,2,0.10) 62%, transparent 100%)',
-          }}
-          initial={{ y: leg === 'takeoff' ? '0%' : '100%' }}
-          animate={{ y: leg === 'takeoff' ? '100%' : '0%' }}
-          transition={{ duration: TRAVEL_DURATION / 1000, ease: 'linear' }}
-        />
-      )}
 
       {/* Cruise: horizontal cloud-mist drift for forward-motion feel */}
       {!prefersReducedMotion && leg === 'cruise' && (

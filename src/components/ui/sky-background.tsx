@@ -9,9 +9,12 @@ export type WeatherState = 'idle' | 'climbing' | 'cruising' | 'golden' | 'landin
 interface SkyBackgroundProps {
   weatherState?: WeatherState;
   currentSlotIndex?: number;
-  altitude?: number;      // 0.0 (ground) → 1.0 (cruise peak)
+  altitude?: number;         // 0.0 (ground) → 1.0 (cruise peak)
+  altitudeInitial?: number;  // override starting altitude for a single-shot parallax animation
   earthState?: EarthState;
   intensity?: 'subtle' | 'moderate';
+  parallaxScale?: number;    // multiplier on all layer shifts (default 1 — session behavior)
+  parallaxDuration?: number; // transition duration for layer shifts in seconds (default 4)
   className?: string;
 }
 
@@ -536,12 +539,17 @@ export function SkyBackground({
   weatherState = 'idle',
   currentSlotIndex,
   altitude = 0,
+  altitudeInitial,
   earthState = 'flight',
   intensity = 'moderate',
+  parallaxScale = 1,
+  parallaxDuration = 4,
   className,
 }: SkyBackgroundProps) {
   const config = WEATHER[weatherState];
   const mult = intensity === 'subtle' ? 0.75 : 1;
+  const parallaxEase = parallaxDuration === 4 ? 'easeInOut' : 'linear';
+  const altInit = altitudeInitial ?? altitude;
 
   const prevSlotRef = useRef(currentSlotIndex);
   const [transitioning, setTransitioning] = useState(false);
@@ -581,16 +589,21 @@ export function SkyBackground({
   const opMidAlt  = opMid  * cumulusAltFactor;
   const opNearAlt = opNear * cumulusAltFactor;
 
-  // Cumulus shift down as altitude rises
-  const farShift  = altitude * 70;
-  const midShift  = altitude * 130;
-  const nearShift = altitude * 200;
+  // Cumulus shift down as altitude rises (parallaxScale amplifies for overlay use)
+  const farShift      = altitude * 70  * parallaxScale;
+  const midShift      = altitude * 130 * parallaxScale;
+  const nearShift     = altitude * 200 * parallaxScale;
+  const farShiftInit  = altInit  * 70  * parallaxScale;
+  const midShiftInit  = altInit  * 130 * parallaxScale;
+  const nearShiftInit = altInit  * 200 * parallaxScale;
 
   // Earth slides below viewport as altitude rises
-  const earthShift = altitude * 80;
+  const earthShift     = altitude * 80 * parallaxScale;
+  const earthShiftInit = altInit  * 80 * parallaxScale;
 
-  // City drifts right as plane banks away during climbout (takeoff → cruising)
-  const earthX = (earthState === 'flight' && weatherState === 'climbing') ? altitude * 50 : 0;
+  // City drifts right as plane banks away during climbout (not scaled — avoids excess drift)
+  const earthX     = (earthState === 'flight' && weatherState === 'climbing') ? altitude * 50 : 0;
+  const earthXInit = (earthState === 'flight' && weatherState === 'climbing') ? altInit  * 50 : 0;
 
   // Sun disk baked into horizon gradient — only for ground states (takeoff=left, landing=right)
   const showSun   = earthState === 'takeoff' || earthState === 'landing';
@@ -652,8 +665,9 @@ export function SkyBackground({
       <motion.div
         className="absolute bottom-0 right-0"
         style={{ zIndex: 3, left: '-64px' }}
+        initial={{ y: earthShiftInit, x: earthXInit }}
         animate={{ y: earthShift, x: earthX }}
-        transition={{ duration: 4, ease: 'easeInOut' }}
+        transition={{ duration: parallaxDuration, ease: parallaxEase }}
       >
         <EarthLayer earthState={earthState} weatherState={weatherState} />
       </motion.div>
@@ -662,8 +676,9 @@ export function SkyBackground({
       <motion.div
         className="absolute inset-0"
         style={{ zIndex: 4 }}
+        initial={{ y: farShiftInit }}
         animate={{ y: farShift }}
-        transition={{ duration: 4, ease: 'easeInOut' }}
+        transition={{ duration: parallaxDuration, ease: parallaxEase }}
       >
         <div className="cloud-layer-far absolute top-0 left-0" style={{ width: '200vw' }}>
           {FAR_CLOUDS.map((cloud) => (
@@ -684,8 +699,9 @@ export function SkyBackground({
       <motion.div
         className="absolute inset-0"
         style={{ zIndex: 5 }}
+        initial={{ y: midShiftInit }}
         animate={{ y: midShift }}
-        transition={{ duration: 4, ease: 'easeInOut' }}
+        transition={{ duration: parallaxDuration, ease: parallaxEase }}
       >
         <div className="cloud-layer-mid absolute top-0 left-0" style={{ width: '200vw' }}>
           {MID_CLOUDS.map((cloud) => (
@@ -706,8 +722,9 @@ export function SkyBackground({
       <motion.div
         className="absolute inset-0"
         style={{ zIndex: 6 }}
+        initial={{ y: nearShiftInit }}
         animate={{ y: nearShift }}
-        transition={{ duration: 4, ease: 'easeInOut' }}
+        transition={{ duration: parallaxDuration, ease: parallaxEase }}
       >
         <div className="cloud-layer-near absolute top-0 left-0" style={{ width: '200vw' }}>
           {NEAR_CLOUDS.map((cloud) => (

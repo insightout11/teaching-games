@@ -674,10 +674,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
         <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" className="!left-64" />
         {/* Plane parked on right taxiway — class has landed */}
-        <div className="absolute bottom-0 left-[62%] -translate-x-1/2 z-[7] pointer-events-none">
-          <RunwayPlaneScene planeSize="xl" showRunway={false} />
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
+          <div className="absolute bottom-0 left-[62%] -translate-x-1/2">
+            <RunwayPlaneScene planeSize="xl" showRunway={false} />
+          </div>
         </div>
-        <div className="relative z-10">
+        <div className="relative z-10 pb-52">
           <EndSessionSummary classId={cls.id} className={cls.name} sessionId={session.id} />
         </div>
       </div>
@@ -703,10 +705,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
         <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className="!left-64" />
         {/* Plane parked on left taxiway — above sky layers (z-7), below cards (z-10) */}
-        <div className="absolute bottom-0 left-[38%] -translate-x-1/2 z-[7] pointer-events-none">
-          <RunwayPlaneScene planeSize="xl" showRunway={false} />
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
+          <div className="absolute bottom-0 left-[38%] -translate-x-1/2">
+            <RunwayPlaneScene planeSize="xl" showRunway={false} />
+          </div>
         </div>
-        <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8">
+        <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8 pb-52">
           {/* Header */}
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold text-lc-text">
@@ -848,10 +852,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         intensity="moderate"
         className="!left-64"
       />
-      {/* Plane on runway during activity content generation */}
-      {viewMode === 'activity' && selectedActivity && !activityContent && !activityContentFailed && (earthState === 'takeoff' || earthState === 'landing') && (
-        <div className="absolute bottom-0 left-[38%] -translate-x-1/2 z-[7] pointer-events-none">
-          <RunwayPlaneScene planeSize="xl" showRunway={false} />
+      {/* Plane on runway — left taxiway (takeoff) or right taxiway (landing) */}
+      {(earthState === 'takeoff' || earthState === 'landing') && (
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
+          <div className={`absolute bottom-0 ${earthState === 'takeoff' ? 'left-[38%]' : 'left-[62%]'} -translate-x-1/2`}>
+            <RunwayPlaneScene planeSize="xl" showRunway={false} />
+          </div>
         </div>
       )}
       <div className="relative z-10 space-y-4">
