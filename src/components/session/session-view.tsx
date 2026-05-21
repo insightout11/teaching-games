@@ -31,7 +31,7 @@ import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import type { TopSubmission } from '@/games/types';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
-import { TakeoffSpark } from '@/components/ui/takeoff-spark';
+import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 
@@ -694,6 +694,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8">
           {/* Header */}
           <div className="text-center space-y-2">
+            <div className="flex justify-center mb-4">
+              <RunwayPlaneScene planeSize="sm" />
+            </div>
             <h1 className="text-2xl font-bold text-lc-text">
               {lesson.lessonSlots.length === 1 ? `Ready to play ${lesson.lessonSlots[0].name}` : 'Launch Lobby'}
             </h1>
@@ -1406,7 +1409,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             ) : (
               <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
-                <TakeoffSpark size={56} loading className="mb-4" />
+                <RunwayPlaneScene planeSize="md" className="mb-4" />
                 <p className="text-lg font-game text-lc-blue">
                   Preparing {lesson.generatingModuleName || selectedActivity.name}
                 </p>
