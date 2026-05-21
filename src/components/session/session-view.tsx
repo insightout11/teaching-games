@@ -702,7 +702,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (lesson.phase === 'lobby') {
 
     return (
-      <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+      <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
         <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className="!left-64" />
         {/* Plane parked on left taxiway — above sky layers (z-7), below cards (z-10) */}
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
@@ -710,7 +710,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <RunwayPlaneScene planeSize="xl" showRunway={false} />
           </div>
         </div>
-        <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8 pb-52">
+        <div className="relative z-10 h-[74vh] overflow-y-auto">
+          <div className="max-w-3xl mx-auto px-6 lg:px-8 pt-8 pb-6 space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold text-lc-text">
@@ -835,6 +836,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             >
               End Session
             </button>
+          </div>
           </div>
         </div>
       </div>
