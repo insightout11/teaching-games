@@ -17,7 +17,6 @@ interface FlightTransitionOverlayProps {
   onDismiss: () => void;
 }
 
-// Per-leg: fixed pitch angle + vertical travel range (framer-motion transforms)
 const LEG_CONFIG: Record<FlightTransitionLeg, {
   yInitial: string;
   yFinal: string;
@@ -28,7 +27,7 @@ const LEG_CONFIG: Record<FlightTransitionLeg, {
   descent: { yInitial: '-8vh',  yFinal: '16vh',  rotate:  6 },
 };
 
-const TRAVEL_DURATION = 2800; // ms — matches plane motion duration
+const TRAVEL_DURATION = 2800;
 
 export function FlightTransitionOverlay({
   from,
@@ -42,7 +41,7 @@ export function FlightTransitionOverlay({
   const prefersReducedMotion = useReducedMotion();
   const cfg = LEG_CONFIG[leg];
 
-  // Animate altitude over the transition so the sky shifts with the plane
+  // Animate altitude over the transition so the sky shifts as the plane climbs/descends
   const [currentAltitude, setCurrentAltitude] = useState(altitudeFrom);
   useEffect(() => {
     if (prefersReducedMotion || altitudeFrom === altitudeTo) {
@@ -59,20 +58,24 @@ export function FlightTransitionOverlay({
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // intentional: only run on mount; props are stable for overlay lifetime
+  }, []);
 
-  // Auto-dismiss timeout — cleared on unmount to prevent double-invoke
   useEffect(() => {
     const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3000);
     return () => clearTimeout(id);
   }, [onDismiss, prefersReducedMotion]);
+
+  // Parallax ground-haze layer: takeoff → drifts down (ground falls away);
+  // descent → rises into view (ground approaches); cruise → mostly hidden.
+  const hazeInitialY = leg === 'takeoff' ? '0%' : leg === 'descent' ? '85%' : '30%';
+  const hazeFinalY   = leg === 'takeoff' ? '85%' : leg === 'descent' ? '0%'  : '30%';
 
   return (
     <div
       className="fixed inset-0 z-[60] cursor-pointer"
       onClick={onDismiss}
     >
-      {/* Sky — earthState forced to "flight" so runway never appears during side-view */}
+      {/* Full sky */}
       <SkyBackground
         weatherState={weatherState}
         altitude={currentAltitude}
@@ -80,7 +83,38 @@ export function FlightTransitionOverlay({
         intensity="moderate"
       />
 
-      {/* Plane — constant linear travel; child div handles cruise bob separately */}
+      {/* Parallax haze — provides direction-of-travel feedback */}
+      {!prefersReducedMotion && (
+        <motion.div
+          className="absolute inset-x-0 pointer-events-none"
+          style={{
+            bottom: 0,
+            height: '55%',
+            zIndex: 6,
+            background: leg === 'descent'
+              ? 'linear-gradient(to top, rgba(40,14,6,0.55) 0%, rgba(20,7,3,0.25) 45%, transparent 100%)'
+              : 'linear-gradient(to top, rgba(28,10,5,0.45) 0%, rgba(14,5,2,0.2) 45%, transparent 100%)',
+          }}
+          initial={{ y: hazeInitialY }}
+          animate={{ y: hazeFinalY }}
+          transition={{ duration: TRAVEL_DURATION / 1000, ease: 'linear' }}
+        />
+      )}
+
+      {/* Cruise: horizontal cloud-mist drift for forward-motion feel */}
+      {!prefersReducedMotion && leg === 'cruise' && (
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            zIndex: 7,
+            background: 'radial-gradient(ellipse 70% 30% at 40% 45%, rgba(80,130,220,0.07) 0%, transparent 100%)',
+          }}
+          animate={{ x: ['-6%', '6%'] }}
+          transition={{ duration: 3.5, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }}
+        />
+      )}
+
+      {/* Plane — constant linear travel; child handles cruise bob */}
       {!prefersReducedMotion && (
         <div
           className="absolute inset-0 overflow-hidden pointer-events-none"
@@ -93,7 +127,6 @@ export function FlightTransitionOverlay({
             animate={{ x: '110vw',  y: cfg.yFinal }}
             transition={{ duration: TRAVEL_DURATION / 1000, ease: 'linear' }}
           >
-            {/* Contrail glow */}
             <div
               className="absolute top-1/2 right-full -translate-y-1/2 pointer-events-none"
               style={{
@@ -104,7 +137,6 @@ export function FlightTransitionOverlay({
                 borderRadius: '9999px',
               }}
             />
-            {/* Child div: cruise bob only — does not affect linear travel */}
             <motion.div
               animate={leg === 'cruise' ? { y: [0, -4, 0, 4, 0] } : undefined}
               transition={leg === 'cruise' ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut' } : undefined}
@@ -121,45 +153,42 @@ export function FlightTransitionOverlay({
         </div>
       )}
 
-      {/* Route card — flight announcement panel */}
+      {/* Route card — arrives after the plane passes center (~1.2s) */}
       <div
-        className="absolute inset-x-0 flex justify-center pointer-events-none"
-        style={{ zIndex: 20, bottom: '20%' }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[38%] pointer-events-none"
+        style={{ zIndex: 20, width: 'min(520px, 86vw)' }}
       >
         <motion.div
-          className="mx-6 w-full max-w-sm rounded-2xl overflow-hidden"
+          className="rounded-2xl overflow-hidden"
           style={{
-            background: 'rgba(6, 14, 30, 0.62)',
-            backdropFilter: 'blur(14px)',
-            WebkitBackdropFilter: 'blur(14px)',
-            border: '1px solid rgba(255,255,255,0.10)',
+            background: 'rgba(4, 12, 26, 0.70)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid rgba(255,255,255,0.11)',
           }}
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.25, duration: 0.45 }}
+          initial={{ opacity: 0, scale: 0.93, y: 18 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={prefersReducedMotion
+            ? { duration: 0 }
+            : { delay: 1.2, duration: 0.45, ease: 'easeOut' }}
         >
-          <div className="px-7 pt-6 pb-5 space-y-4">
+          <div className="px-8 pt-7 pb-6 space-y-5">
             {from && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.35, duration: 0.4 }}
-              >
-                <p className="text-[9px] font-bold tracking-[0.22em] text-amber-400/70 uppercase mb-1">
+              <div>
+                <p className="text-[9px] font-bold tracking-[0.24em] text-amber-400/65 uppercase mb-1.5">
                   Now Departing
                 </p>
-                <p className="text-lg font-semibold text-white leading-snug"
-                  style={{ textShadow: '0 1px 10px rgba(0,0,0,0.5)' }}>
+                <p className="text-lg font-semibold text-white/85 leading-snug"
+                  style={{ textShadow: '0 1px 10px rgba(0,0,0,0.55)' }}>
                   {from}
                 </p>
-              </motion.div>
+              </div>
             )}
 
             {from && to && (
-              <div className="flex items-center gap-3 opacity-30">
+              <div className="flex items-center gap-3" style={{ opacity: 0.28 }}>
                 <div className="flex-1 h-px bg-white" />
-                {/* Minimal inline plane silhouette */}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-white flex-shrink-0">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-white flex-shrink-0">
                   <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                 </svg>
                 <div className="flex-1 h-px bg-white" />
@@ -167,23 +196,19 @@ export function FlightTransitionOverlay({
             )}
 
             {to && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={prefersReducedMotion ? { duration: 0 } : { delay: 1.0, duration: 0.45 }}
-              >
-                <p className="text-[9px] font-bold tracking-[0.22em] text-cyan-400/70 uppercase mb-1">
+              <div>
+                <p className="text-[9px] font-bold tracking-[0.24em] text-cyan-400/70 uppercase mb-1.5">
                   Next Stop
                 </p>
-                <p className="text-2xl font-bold text-white leading-snug"
-                  style={{ textShadow: '0 2px 14px rgba(0,0,0,0.55)' }}>
+                <p className="text-2xl font-bold text-white md:text-3xl leading-snug"
+                  style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6)' }}>
                   {to}
                 </p>
-              </motion.div>
+              </div>
             )}
           </div>
 
-          <div className="px-7 pb-4">
+          <div className="px-8 pb-5">
             <p className="text-[9px] tracking-widest text-white/22 text-center uppercase">
               Tap to skip
             </p>
