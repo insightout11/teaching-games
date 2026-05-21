@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 
 interface RunwayPlaneSceneProps {
   planeSize?: 'sm' | 'md' | 'lg';
+  showRunway?: boolean;
   className?: string;
 }
 
@@ -13,20 +14,21 @@ const PLANE_HEIGHT: Record<NonNullable<RunwayPlaneSceneProps['planeSize']>, stri
   lg: 'h-28',
 };
 
-export function RunwayPlaneScene({ planeSize = 'md', className }: RunwayPlaneSceneProps) {
+export function RunwayPlaneScene({ planeSize = 'md', showRunway = true, className }: RunwayPlaneSceneProps) {
   const planeH = PLANE_HEIGHT[planeSize];
 
   return (
     <div className={`relative inline-flex flex-col items-center ${className ?? ''}`}>
-      {/* Ambient runway glow — warm orange underneath */}
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
-        style={{
-          width: '260px',
-          height: '64px',
-          background: 'radial-gradient(ellipse at 50% 100%, rgba(190,90,18,0.32) 0%, transparent 72%)',
-        }}
-      />
+      {showRunway && (
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          style={{
+            width: '260px',
+            height: '64px',
+            background: 'radial-gradient(ellipse at 50% 100%, rgba(190,90,18,0.32) 0%, transparent 72%)',
+          }}
+        />
+      )}
 
       {/* Biplane — subtle engine-idle vibration */}
       <motion.div
@@ -42,43 +44,46 @@ export function RunwayPlaneScene({ planeSize = 'md', className }: RunwayPlaneSce
         />
       </motion.div>
 
-      {/* Runway surface */}
-      <div
-        className="relative mt-0.5 rounded-sm overflow-hidden"
-        style={{ width: '220px', height: '10px', background: 'rgba(18,26,16,0.92)' }}
-      >
-        {/* Center dashes */}
-        <div className="absolute inset-0 flex items-center justify-center gap-2.5 px-4">
-          {[0, 1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className="flex-1 h-px"
-              style={{ background: 'rgba(205,170,55,0.45)' }}
-            />
-          ))}
-        </div>
-      </div>
+      {showRunway && (
+        <>
+          {/* Runway surface */}
+          <div
+            className="relative mt-0.5 rounded-sm overflow-hidden"
+            style={{ width: '220px', height: '10px', background: 'rgba(18,26,16,0.92)' }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center gap-2.5 px-4">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <div
+                  key={i}
+                  className="flex-1 h-px"
+                  style={{ background: 'rgba(205,170,55,0.45)' }}
+                />
+              ))}
+            </div>
+          </div>
 
-      {/* Runway edge lights — staggered amber pulse */}
-      <div className="absolute bottom-1.5 flex gap-[196px]">
-        {[0, 1].map((side) => (
-          <motion.div
-            key={side}
-            className="w-1.5 h-1.5 rounded-full"
-            style={{
-              background: 'rgba(255,162,38,0.92)',
-              boxShadow: '0 0 5px 2px rgba(255,138,18,0.5)',
-            }}
-            animate={{ opacity: [0.45, 1, 0.45] }}
-            transition={{
-              duration: 1.9,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: side * 0.55,
-            }}
-          />
-        ))}
-      </div>
+          {/* Runway edge lights — staggered amber pulse */}
+          <div className="absolute bottom-1.5 flex gap-[196px]">
+            {[0, 1].map((side) => (
+              <motion.div
+                key={side}
+                className="w-1.5 h-1.5 rounded-full"
+                style={{
+                  background: 'rgba(255,162,38,0.92)',
+                  boxShadow: '0 0 5px 2px rgba(255,138,18,0.5)',
+                }}
+                animate={{ opacity: [0.45, 1, 0.45] }}
+                transition={{
+                  duration: 1.9,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: side * 0.55,
+                }}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

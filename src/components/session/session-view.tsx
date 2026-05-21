@@ -691,12 +691,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
         <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className="!left-64" />
+        {/* Plane parked on the real runway — above sky layers (z-7), below cards (z-10) */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[7] pointer-events-none">
+          <RunwayPlaneScene planeSize="lg" showRunway={false} />
+        </div>
         <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8">
           {/* Header */}
           <div className="text-center space-y-2">
-            <div className="flex justify-center mb-4">
-              <RunwayPlaneScene planeSize="sm" />
-            </div>
             <h1 className="text-2xl font-bold text-lc-text">
               {lesson.lessonSlots.length === 1 ? `Ready to play ${lesson.lessonSlots[0].name}` : 'Launch Lobby'}
             </h1>
@@ -836,6 +837,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         intensity="moderate"
         className="!left-64"
       />
+      {/* Plane on runway during activity content generation */}
+      {viewMode === 'activity' && selectedActivity && !activityContent && !activityContentFailed && (earthState === 'takeoff' || earthState === 'landing') && (
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[7] pointer-events-none">
+          <RunwayPlaneScene planeSize="lg" showRunway={false} />
+        </div>
+      )}
       <div className="relative z-10 space-y-4">
         {/* Session header */}
         <div className="flex items-center justify-between hud-header-bar">
@@ -1408,12 +1415,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </button>
               </div>
             ) : (
-              <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center">
-                <RunwayPlaneScene planeSize="md" className="mb-4" />
-                <p className="text-lg font-game text-lc-blue">
+              <div className="flex flex-col items-center justify-center py-24">
+                <p className="text-2xl font-game text-lc-blue">
                   Preparing {lesson.generatingModuleName || selectedActivity.name}
                 </p>
-                <p className="text-sm text-lc-text3 mt-2">
+                <p className="text-sm text-lc-text3 mt-3 opacity-60">
                   Generating content for your lesson...
                 </p>
               </div>
