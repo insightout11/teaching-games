@@ -13,32 +13,20 @@ interface FlightTransitionOverlayProps {
   to: string | null;
   weatherState: WeatherState;
   altitude: number;
-  earthState: EarthState;   // accepted but overridden — see SkyBackground below
+  earthState: EarthState;
   leg: FlightTransitionLeg;
   onDismiss: () => void;
 }
 
-// Per-leg keyframe profiles (x/y are framer-motion transforms, not layout)
-const LEG_MOTION: Record<FlightTransitionLeg, {
-  x: string[];
-  y: string[];
-  rotate: number[];
+// Per-leg start/end values. Rotate is a fixed pitch — not animated, just applied.
+const LEG_CONFIG: Record<FlightTransitionLeg, {
+  yInitial: string;
+  yFinal: string;
+  rotate: number;
 }> = {
-  takeoff: {
-    x: ['-18vw', '45vw', '110vw'],
-    y: ['16vh',  '0vh',  '-8vh'],
-    rotate: [-6, -9, -4],
-  },
-  cruise: {
-    x: ['-18vw', '46vw', '110vw'],
-    y: ['0vh',  '-2vh',  '1vh'],
-    rotate: [-2, 1, -1],
-  },
-  landing: {
-    x: ['-18vw', '45vw', '110vw'],
-    y: ['-8vh',  '4vh',  '16vh'],
-    rotate: [2, 5, 7],
-  },
+  takeoff: { yInitial: '18vh',  yFinal: '-10vh', rotate: -7 },
+  cruise:  { yInitial: '0vh',   yFinal: '0vh',   rotate:  0 },
+  landing: { yInitial: '-8vh',  yFinal: '16vh',  rotate:  6 },
 };
 
 export function FlightTransitionOverlay({
@@ -50,7 +38,7 @@ export function FlightTransitionOverlay({
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
-  const motion3 = LEG_MOTION[leg];
+  const cfg = LEG_CONFIG[leg];
 
   useEffect(() => {
     const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3000);
@@ -62,8 +50,7 @@ export function FlightTransitionOverlay({
       className="fixed inset-0 z-[60] cursor-pointer"
       onClick={onDismiss}
     >
-      {/* Full sky — no sidebar offset; earthState forced to "flight" so
-          the runway/city layer doesn't fight the side-view plane motion */}
+      {/* Full sky — earthState forced to "flight" to avoid runway during side-view */}
       <SkyBackground
         weatherState={weatherState}
         altitude={altitude}
@@ -71,7 +58,7 @@ export function FlightTransitionOverlay({
         intensity="moderate"
       />
 
-      {/* Plane — anchored to upper-sky area; y animation moves it along flight path */}
+      {/* Plane travel — constant linear velocity, no easing */}
       {!prefersReducedMotion && (
         <div
           className="absolute inset-0 overflow-hidden pointer-events-none"
@@ -79,15 +66,12 @@ export function FlightTransitionOverlay({
         >
           <motion.div
             className="absolute"
-            style={{ top: '32%', left: 0, marginTop: '-4rem' }}
-            animate={{
-              x: motion3.x,
-              y: motion3.y,
-              rotate: motion3.rotate,
-            }}
-            transition={{ duration: 2.8, ease: 'easeInOut' }}
+            style={{ top: '32%', left: 0, marginTop: '-4rem', rotate: cfg.rotate }}
+            initial={{ x: '-20vw', y: cfg.yInitial }}
+            animate={{ x: '110vw',  y: cfg.yFinal }}
+            transition={{ duration: 2.8, ease: 'linear' }}
           >
-            {/* Contrail glow trailing behind */}
+            {/* Contrail — sibling of image, not affecting travel path */}
             <div
               className="absolute top-1/2 right-full -translate-y-1/2 pointer-events-none"
               style={{
@@ -98,18 +82,25 @@ export function FlightTransitionOverlay({
                 borderRadius: '9999px',
               }}
             />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/flight/plane-biplane-starter-b.webp"
-              alt=""
-              draggable={false}
-              className="h-24 w-auto select-none md:h-28 lg:h-32"
-            />
+
+            {/* Child div handles decorative bob on cruise only — parent stays linear */}
+            <motion.div
+              animate={leg === 'cruise' ? { y: [0, -4, 0, 4, 0] } : undefined}
+              transition={leg === 'cruise' ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut' } : undefined}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/flight/plane-biplane-starter-b.webp"
+                alt=""
+                draggable={false}
+                className="h-24 w-auto select-none md:h-28 lg:h-32"
+              />
+            </motion.div>
           </motion.div>
         </div>
       )}
 
-      {/* Text — lower-mid sky, clear of plane and runway */}
+      {/* Text — lower-mid sky */}
       <div
         className="absolute inset-x-0 flex flex-col items-center gap-3 pointer-events-none"
         style={{ zIndex: 20, bottom: '24%' }}
