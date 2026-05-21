@@ -32,6 +32,7 @@ import type { TopSubmission } from '@/games/types';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
+import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -131,6 +132,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     plugin: ActivityPlugin | GamePlugin;
   } | null>(null);
   const [showPivotDrawer, setShowPivotDrawer] = useState(false);
+  const [moduleTransition, setModuleTransition] = useState<{
+    from: string | null;
+    to: string | null;
+    weatherState: WeatherState;
+    altitude: number;
+    earthState: EarthState;
+  } | null>(null);
 
   // Bonus vote state
   const [bonusVotePollId, setBonusVotePollId] = useState<string | null>(null);
@@ -547,9 +555,38 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
   };
 
-  const handleNextSlot = () => {
+  const handleNextSlotWithTransition = useCallback(() => {
+    const nextIndex = lesson.currentSlotIndex + 1;
+    const hasNextSlot = nextIndex < lesson.lessonSlots.length;
+    if (lesson.isLessonActive && hasNextSlot) {
+      const fromName = selectedGame?.name ?? selectedActivity?.name ?? null;
+      const nextSlot = lesson.lessonSlots[nextIndex];
+      const found = nextSlot
+        ? (nextSlot.type === 'game'
+            ? getAllGames().find((g) => g.key === nextSlot.key)
+            : getAllActivities().find((a) => a.key === nextSlot.key))
+        : undefined;
+      const toName = found?.name ?? nextSlot?.name ?? null;
+      const totalSlots = lesson.lessonSlots.length;
+      let toWeather: WeatherState = 'cruising';
+      if (nextIndex >= totalSlots - 1) toWeather = 'landing';
+      else if (totalSlots > 1) {
+        const progress = nextIndex / (totalSlots - 1);
+        if (progress < 0.35) toWeather = 'climbing';
+        else if (progress < 0.65) toWeather = 'cruising';
+        else toWeather = 'golden';
+      }
+      setModuleTransition({
+        from: fromName,
+        to: toName,
+        weatherState: toWeather,
+        altitude: totalSlots > 1 ? computeAltitude(nextIndex, totalSlots) : 0.75,
+        earthState: totalSlots > 1 ? computeEarthState(nextIndex, totalSlots) : 'flight',
+      });
+    }
     lesson.advanceSlot();
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson, selectedGame, selectedActivity]);
 
   // Reset module phase when slot advances so the pulse clears on the new module
   useEffect(() => {
@@ -1253,7 +1290,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   <Button
                     variant="primary"
                     size="sm"
-                    onClick={handleNextSlot}
+                    onClick={handleNextSlotWithTransition}
                     className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
                   >
                     {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
@@ -1323,7 +1360,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   <Button
                     variant="primary"
                     size="sm"
-                    onClick={handleNextSlot}
+                    onClick={handleNextSlotWithTransition}
                     className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
                   >
                     {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
@@ -1368,6 +1405,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         ) : null}
       </div>
+
+      {/* Flight transition overlay — between lesson modules */}
+      {moduleTransition && (
+        <FlightTransitionOverlay
+          from={moduleTransition.from}
+          to={moduleTransition.to}
+          weatherState={moduleTransition.weatherState}
+          altitude={moduleTransition.altitude}
+          earthState={moduleTransition.earthState}
+          onDismiss={() => setModuleTransition(null)}
+        />
+      )}
 
       {/* Floating widget system — class-questions hidden in Zoom Mode */}
       {WIDGET_REGISTRY.filter((w) => !shareMode || w.id !== 'class-questions').map((widget) => (
