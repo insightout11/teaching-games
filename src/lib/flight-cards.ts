@@ -35,18 +35,25 @@ function buildCompatiblePool(profile: ScoringProfile): CardDef[] {
 
 export function drawCards(moduleKey: string, count: number): string[] {
   const profile = getScoringProfileForModule(moduleKey) ?? {};
-  const pool = buildCompatiblePool(profile);
-  const totalWeight = pool.reduce((sum, c) => sum + c.weight, 0);
+  const initialPool = buildCompatiblePool(profile);
+  let pool = [...initialPool];
 
   const results: string[] = [];
   for (let i = 0; i < count; i++) {
-    let r = Math.random() * totalWeight;
-    let drawn = pool[0].key;
-    for (const card of pool) {
-      r -= card.weight;
-      if (r <= 0) { drawn = card.key; break; }
+    if (pool.length === 0) {
+      pool = [...initialPool];
     }
-    results.push(drawn);
+
+    const totalWeight = pool.reduce((sum, c) => sum + c.weight, 0);
+    let r = Math.random() * totalWeight;
+    let drawnIndex = 0;
+    for (let cardIndex = 0; cardIndex < pool.length; cardIndex++) {
+      const card = pool[cardIndex];
+      r -= card.weight;
+      if (r <= 0) { drawnIndex = cardIndex; break; }
+    }
+    const [drawn] = pool.splice(drawnIndex, 1);
+    results.push(drawn.key);
   }
   return results;
 }

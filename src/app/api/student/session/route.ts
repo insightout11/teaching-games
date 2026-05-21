@@ -60,7 +60,7 @@ interface HeldCard {
 
 interface OfferedCards {
   dealIndex: number;
-  cards: Array<{ cardId: string; cardKey: string; moduleKey: string }>;
+  cards: Array<{ cardId: string }>;
 }
 
 interface SessionPayload {
@@ -393,7 +393,7 @@ export async function GET(request: NextRequest) {
             const latestOffered = offeredRows.filter(r => r.deal_index === maxDealIndex);
             offeredCards = {
               dealIndex: maxDealIndex,
-              cards: latestOffered.map(r => ({ cardId: r.id, cardKey: r.card_key, moduleKey: r.module_key })),
+              cards: latestOffered.map(r => ({ cardId: r.id })),
             };
           }
         }

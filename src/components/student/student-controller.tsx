@@ -68,7 +68,7 @@ interface HeldCard {
 
 interface OfferedCards {
   dealIndex: number;
-  cards: Array<{ cardId: string; cardKey: string; moduleKey: string }>;
+  cards: Array<{ cardId: string }>;
 }
 
 interface StudentControllerProps {
@@ -978,24 +978,19 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             {/* Flight Card Offer */}
             {offeredCards && !dismissedDealIndices.has(offeredCards.dealIndex) && !cardConflict && (
               <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4">
-                <p className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-3">Choose your card</p>
+                <p className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-3">Draw a card</p>
                 <div className="grid grid-cols-3 gap-2">
-                  {offeredCards.cards.map((card) => {
-                    const def = CARD_DESCRIPTIONS[card.cardKey];
-                    const CardIcon = CARD_ICONS[card.cardKey] ?? Plane;
-                    return (
-                      <button
-                        key={card.cardId}
-                        onClick={() => handlePickCard(card.cardId)}
-                        disabled={isPickingCard}
-                        className="flex flex-col items-center gap-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-amber-400/40 p-3 transition-all text-center disabled:opacity-40"
-                      >
-                        <CardIcon className="w-4 h-4 text-amber-300" />
-                        <span className="text-xs font-bold text-white leading-tight">{def?.name ?? card.cardKey}</span>
-                        <span className="text-[10px] text-gray-400 leading-tight">{def?.description ?? ''}</span>
-                      </button>
-                    );
-                  })}
+                  {offeredCards.cards.map((card, index) => (
+                    <button
+                      key={card.cardId}
+                      onClick={() => handlePickCard(card.cardId)}
+                      disabled={isPickingCard}
+                      className="flex min-h-[104px] flex-col items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-amber-400/40 p-3 transition-all text-center disabled:opacity-40"
+                    >
+                      <Plane className="w-5 h-5 text-amber-300" />
+                      <span className="text-xs font-bold text-white leading-tight">Card {index + 1}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
