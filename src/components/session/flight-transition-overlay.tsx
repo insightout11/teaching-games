@@ -65,11 +65,6 @@ export function FlightTransitionOverlay({
     return () => clearTimeout(id);
   }, [onDismiss, prefersReducedMotion]);
 
-  // Parallax ground-haze layer: takeoff → drifts down (ground falls away);
-  // descent → rises into view (ground approaches); cruise → mostly hidden.
-  const hazeInitialY = leg === 'takeoff' ? '0%' : leg === 'descent' ? '85%' : '30%';
-  const hazeFinalY   = leg === 'takeoff' ? '85%' : leg === 'descent' ? '0%'  : '30%';
-
   return (
     <div
       className="fixed inset-0 z-[60] cursor-pointer"
@@ -83,8 +78,9 @@ export function FlightTransitionOverlay({
         intensity="moderate"
       />
 
-      {/* Parallax haze — provides direction-of-travel feedback */}
-      {!prefersReducedMotion && (
+      {/* Ground parallax — takeoff: earth falls away; descent: earth rises to meet you.
+          Near-opaque at bottom so it reads as real terrain, not fog. */}
+      {!prefersReducedMotion && leg !== 'cruise' && (
         <motion.div
           className="absolute inset-x-0 pointer-events-none"
           style={{
@@ -92,11 +88,11 @@ export function FlightTransitionOverlay({
             height: '55%',
             zIndex: 6,
             background: leg === 'descent'
-              ? 'linear-gradient(to top, rgba(40,14,6,0.55) 0%, rgba(20,7,3,0.25) 45%, transparent 100%)'
-              : 'linear-gradient(to top, rgba(28,10,5,0.45) 0%, rgba(14,5,2,0.2) 45%, transparent 100%)',
+              ? 'linear-gradient(to top, rgba(8,20,14,0.92) 0%, rgba(6,14,10,0.55) 28%, rgba(3,8,6,0.12) 62%, transparent 100%)'
+              : 'linear-gradient(to top, rgba(12,8,4,0.90) 0%, rgba(8,5,3,0.52) 28%, rgba(5,3,2,0.10) 62%, transparent 100%)',
           }}
-          initial={{ y: hazeInitialY }}
-          animate={{ y: hazeFinalY }}
+          initial={{ y: leg === 'takeoff' ? '0%' : '100%' }}
+          animate={{ y: leg === 'takeoff' ? '100%' : '0%' }}
           transition={{ duration: TRAVEL_DURATION / 1000, ease: 'linear' }}
         />
       )}

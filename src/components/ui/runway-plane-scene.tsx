@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 
 interface RunwayPlaneSceneProps {
-  planeSize?: 'sm' | 'md' | 'lg';
+  planeSize?: 'sm' | 'md' | 'lg' | 'xl';
   showRunway?: boolean;
   className?: string;
 }
@@ -12,6 +12,7 @@ const PLANE_HEIGHT: Record<NonNullable<RunwayPlaneSceneProps['planeSize']>, stri
   sm: 'h-14',
   md: 'h-20',
   lg: 'h-28',
+  xl: 'h-44',
 };
 
 export function RunwayPlaneScene({ planeSize = 'md', showRunway = true, className }: RunwayPlaneSceneProps) {

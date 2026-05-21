@@ -670,7 +670,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [pacingTick, lesson.currentSlotIndex, slotBudgets]);
 
   if (ended) {
-    return <EndSessionSummary classId={cls.id} className={cls.name} sessionId={session.id} />;
+    return (
+      <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+        <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" className="!left-64" />
+        {/* Plane parked on right taxiway — class has landed */}
+        <div className="absolute bottom-0 left-[62%] -translate-x-1/2 z-[7] pointer-events-none">
+          <RunwayPlaneScene planeSize="xl" showRunway={false} />
+        </div>
+        <div className="relative z-10">
+          <EndSessionSummary classId={cls.id} className={cls.name} sessionId={session.id} />
+        </div>
+      </div>
+    );
   }
 
   // Prevent SSR/hydration mismatch: render a loading shell until client mounts
@@ -691,9 +702,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
         <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className="!left-64" />
-        {/* Plane parked on the real runway — above sky layers (z-7), below cards (z-10) */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[7] pointer-events-none">
-          <RunwayPlaneScene planeSize="lg" showRunway={false} />
+        {/* Plane parked on left taxiway — above sky layers (z-7), below cards (z-10) */}
+        <div className="absolute bottom-0 left-[38%] -translate-x-1/2 z-[7] pointer-events-none">
+          <RunwayPlaneScene planeSize="xl" showRunway={false} />
         </div>
         <div className="relative z-10 max-w-3xl mx-auto space-y-6 pt-8">
           {/* Header */}
@@ -839,8 +850,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       />
       {/* Plane on runway during activity content generation */}
       {viewMode === 'activity' && selectedActivity && !activityContent && !activityContentFailed && (earthState === 'takeoff' || earthState === 'landing') && (
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[7] pointer-events-none">
-          <RunwayPlaneScene planeSize="lg" showRunway={false} />
+        <div className="absolute bottom-0 left-[38%] -translate-x-1/2 z-[7] pointer-events-none">
+          <RunwayPlaneScene planeSize="xl" showRunway={false} />
         </div>
       )}
       <div className="relative z-10 space-y-4">
