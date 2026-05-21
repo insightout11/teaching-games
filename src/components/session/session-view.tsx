@@ -137,8 +137,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     from: string | null;
     to: string | null;
     weatherState: WeatherState;
-    altitude: number;
-    earthState: EarthState;
+    altitudeFrom: number;
+    altitudeTo: number;
     leg: FlightTransitionLeg;
   } | null>(null);
 
@@ -558,7 +558,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleNextSlotWithTransition = useCallback(() => {
-    const nextIndex = lesson.currentSlotIndex + 1;
+    const currentIndex = lesson.currentSlotIndex;
+    const nextIndex = currentIndex + 1;
     const hasNextSlot = nextIndex < lesson.lessonSlots.length;
     if (lesson.isLessonActive && hasNextSlot) {
       const fromName = selectedGame?.name ?? selectedActivity?.name ?? null;
@@ -570,6 +571,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         : undefined;
       const toName = found?.name ?? nextSlot?.name ?? null;
       const totalSlots = lesson.lessonSlots.length;
+      // Destination sky phase (same formula as weatherState memo)
       let toWeather: WeatherState = 'cruising';
       if (nextIndex >= totalSlots - 1) toWeather = 'landing';
       else if (totalSlots > 1) {
@@ -578,16 +580,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         else if (progress < 0.65) toWeather = 'cruising';
         else toWeather = 'golden';
       }
+      // Leg type: takeoff = first transition; descent = last two slots; cruise = middle
       const leg: FlightTransitionLeg =
         nextIndex === 1 ? 'takeoff'
-        : nextIndex >= totalSlots - 1 ? 'landing'
+        : nextIndex >= totalSlots - 2 ? 'descent'
         : 'cruise';
+      // Altitude animates from current slot to destination slot
+      const altFrom = totalSlots > 2 ? computeAltitude(currentIndex, totalSlots) : 0;
+      const altTo   = totalSlots > 2 ? computeAltitude(nextIndex,    totalSlots) : 0;
       setModuleTransition({
         from: fromName,
         to: toName,
         weatherState: toWeather,
-        altitude: totalSlots > 1 ? computeAltitude(nextIndex, totalSlots) : 0.75,
-        earthState: totalSlots > 1 ? computeEarthState(nextIndex, totalSlots) : 'flight',
+        altitudeFrom: altFrom,
+        altitudeTo: altTo,
         leg,
       });
     }
@@ -1419,8 +1425,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           from={moduleTransition.from}
           to={moduleTransition.to}
           weatherState={moduleTransition.weatherState}
-          altitude={moduleTransition.altitude}
-          earthState={moduleTransition.earthState}
+          altitudeFrom={moduleTransition.altitudeFrom}
+          altitudeTo={moduleTransition.altitudeTo}
           leg={moduleTransition.leg}
           onDismiss={() => setModuleTransition(null)}
         />
