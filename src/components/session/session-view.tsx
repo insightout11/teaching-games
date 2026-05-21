@@ -710,133 +710,132 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <RunwayPlaneScene planeSize="xl" showRunway={false} />
           </div>
         </div>
-        <div className="relative z-10 h-[74vh] overflow-y-auto">
-          <div className="max-w-3xl mx-auto px-6 lg:px-8 pt-8 pb-6 space-y-6">
-          {/* Header */}
-          <div className="text-center space-y-2">
-            <h1 className="text-2xl font-bold text-lc-text">
-              {lesson.lessonSlots.length === 1 ? `Ready to play ${lesson.lessonSlots[0].name}` : 'Launch Lobby'}
-            </h1>
-            <p className="text-sm text-lc-text2">
-              {lesson.customTopic}
-              {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission Lesson</span>}
-            </p>
-          </div>
+        <div className="relative z-10 h-[74vh] overflow-hidden">
+          <div className="h-full flex flex-col max-w-5xl mx-auto px-6 lg:px-8 pt-5 pb-4">
 
-          {/* Join Info */}
-          <div className="glass rounded-2xl p-6 space-y-4">
-            <div className="text-center space-y-4">
-              <p className="text-xs opacity-50 uppercase tracking-wider font-semibold">Join Link</p>
-              <div className="flex justify-center">
-                <div className="p-3 bg-white rounded-xl">
-                  <QRCodeSVG
-                    value={joinUrl}
-                    size={160}
-                    level="H"
-                    includeMargin={false}
-                  />
+            {/* Title */}
+            <div className="text-center mb-4 flex-shrink-0">
+              <h1 className="text-2xl font-bold text-lc-text">
+                {lesson.lessonSlots.length === 1 ? `Ready to play ${lesson.lessonSlots[0].name}` : 'Launch Lobby'}
+              </h1>
+              <p className="text-sm text-lc-text2">
+                {lesson.customTopic}
+                {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission Lesson</span>}
+              </p>
+            </div>
+
+            {/* 2-column grid */}
+            <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
+
+              {/* Left column: Join QR + Flight Plan */}
+              <div className="flex flex-col gap-4 overflow-y-auto min-h-0">
+                <div className="glass rounded-2xl p-5 flex-shrink-0">
+                  <p className="text-xs opacity-50 uppercase tracking-wider font-semibold text-center mb-3">Join Link</p>
+                  <div className="flex justify-center mb-3">
+                    <div className="p-2.5 bg-white rounded-xl">
+                      <QRCodeSVG value={joinUrl} size={120} level="H" includeMargin={false} />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="text-cyan-400 text-xs bg-lc-surface border border-lc-border px-3 py-1.5 rounded-lg font-mono break-all flex-1 min-w-0">
+                      {joinUrl}
+                    </code>
+                    <button
+                      onClick={handleCopyJoinLink}
+                      className="flex-shrink-0 px-3 py-1.5 rounded-lg glass border border-lc-border text-xs hover:bg-lc-card transition-colors"
+                    >
+                      {joinLinkCopied ? 'Copied!' : 'Copy'}
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-2 justify-center">
-                <code className="text-cyan-400 text-sm bg-lc-surface border border-lc-border px-4 py-2 rounded-lg font-mono break-all">
-                  {joinUrl}
-                </code>
-                <button
-                  onClick={handleCopyJoinLink}
-                  className="px-3 py-2 rounded-lg glass border border-lc-border text-xs hover:bg-lc-card transition-colors"
-                >
-                  {joinLinkCopied ? 'Copied!' : 'Copy'}
-                </button>
-              </div>
-            </div>
-          </div>
 
-          {/* Student Roster — shows only students who joined this session */}
-          <div className="glass rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sm font-semibold opacity-70 uppercase tracking-wider">
-                Students Joined
-              </h2>
-              <span className="text-2xl font-bold text-lc-blue">{sessionParticipants.length}</span>
-            </div>
-            {sessionParticipants.length === 0 ? (
-              <div className="text-center py-8">
-                <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mx-auto mb-3" />
-                <p className="text-sm opacity-50">Waiting for students to join...</p>
-              </div>
-            ) : (
-              <div className="flex flex-wrap gap-3">
-                {sessionParticipants.map((p) => (
-                  <div
-                    key={p.id}
-                    className="flex flex-col items-center gap-1.5 bg-lc-card rounded-2xl px-4 py-3 min-w-[72px]"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/avatars/avatar-${resolveHelmet(p.avatar_seed ?? '', p.display_name)}.png`} alt="" width={48} height={48} className="w-12 h-12 rounded-xl" />
-                    <span className="text-sm font-semibold text-lc-text truncate max-w-[72px] text-center">{p.display_name}</span>
+                {lesson.lessonSlots.length > 1 && (
+                  <div className="glass rounded-2xl p-5 flex-shrink-0">
+                    <h2 className="text-xs font-semibold opacity-70 uppercase tracking-wider mb-3">Flight Plan</h2>
+                    <div className="flex gap-2 overflow-x-auto pb-1">
+                      {lesson.lessonSlots.map((slot, i) => (
+                        <div
+                          key={i}
+                          className="flex-shrink-0 px-3 py-2 bg-lc-surface rounded-lg text-xs text-center min-w-[72px]"
+                        >
+                          <p className="opacity-50 uppercase tracking-wider mb-0.5">{i + 1}</p>
+                          <p className="font-medium truncate">{slot.name}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
+                )}
               </div>
-            )}
-          </div>
 
-          {/* Flight Plan Summary — only for multi-slot lessons */}
-          {lesson.lessonSlots.length > 1 && (
-            <div className="glass rounded-2xl p-6">
-              <h2 className="text-sm font-semibold opacity-70 uppercase tracking-wider mb-3">
-                Flight Plan
-              </h2>
-              <div className="flex gap-2 overflow-x-auto pb-1">
-                {lesson.lessonSlots.map((slot, i) => (
-                  <div
-                    key={i}
-                    className="flex-shrink-0 px-3 py-2 bg-lc-surface rounded-lg text-xs text-center min-w-[80px]"
-                  >
-                    <p className="opacity-50 uppercase tracking-wider mb-0.5">{i + 1}</p>
-                    <p className="font-medium truncate">{slot.name}</p>
+              {/* Right column: Students Joined + Mission status */}
+              <div className="flex flex-col gap-4 min-h-0">
+                <div className="glass rounded-2xl p-5 flex-1 min-h-0 flex flex-col">
+                  <div className="flex items-center justify-between mb-3 flex-shrink-0">
+                    <h2 className="text-xs font-semibold opacity-70 uppercase tracking-wider">Students Joined</h2>
+                    <span className="text-2xl font-bold text-lc-blue">{sessionParticipants.length}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                  <div className="flex-1 overflow-y-auto min-h-0">
+                    {sessionParticipants.length === 0 ? (
+                      <div className="text-center py-6">
+                        <div className="w-10 h-10 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mx-auto mb-2" />
+                        <p className="text-sm opacity-50">Waiting for students to join...</p>
+                      </div>
+                    ) : (
+                      <div className="flex flex-wrap gap-2">
+                        {sessionParticipants.map((p) => (
+                          <div
+                            key={p.id}
+                            className="flex flex-col items-center gap-1 bg-lc-card rounded-2xl px-3 py-2 min-w-[64px]"
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={`/avatars/avatar-${resolveHelmet(p.avatar_seed ?? '', p.display_name)}.png`} alt="" width={40} height={40} className="w-10 h-10 rounded-xl" />
+                            <span className="text-xs font-semibold text-lc-text truncate max-w-[64px] text-center">{p.display_name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
 
-          {/* Mission Selector Status — only when mission-selector is in the plan */}
-          {lesson.lessonSlots.some((s) => s.key === 'mission-selector') && (
-            <div className="glass rounded-2xl p-4">
-              <div className="flex items-center gap-3">
-                {lesson.missionSelectorReady ? (
-                  <>
-                    <div className="w-3 h-3 bg-emerald-400 rounded-full" />
-                    <span className="text-sm text-emerald-500">Mission Selector ready</span>
-                  </>
-                ) : (
-                  <>
-                    <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                    <span className="text-sm text-lc-blue">Preparing Mission Selector...</span>
-                  </>
+                {lesson.lessonSlots.some((s) => s.key === 'mission-selector') && (
+                  <div className="glass rounded-2xl p-4 flex-shrink-0">
+                    <div className="flex items-center gap-3">
+                      {lesson.missionSelectorReady ? (
+                        <>
+                          <div className="w-3 h-3 bg-emerald-400 rounded-full" />
+                          <span className="text-sm text-emerald-500">Mission Selector ready</span>
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                          <span className="text-sm text-lc-blue">Preparing Mission Selector...</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
-          )}
 
-          {/* Begin Lesson / Start item */}
-          <button
-            onClick={lesson.beginLesson}
-            disabled={!lesson.missionSelectorReady}
-            className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-          >
-            {lesson.lessonSlots.length === 1 ? `Start ${lesson.lessonSlots[0].name}` : 'Begin Lesson'}
-          </button>
+            {/* Begin Lesson + End Session — pinned at bottom */}
+            <div className="flex-shrink-0 pt-4 space-y-2">
+              <button
+                onClick={lesson.beginLesson}
+                disabled={!lesson.missionSelectorReady}
+                className="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
+                {lesson.lessonSlots.length === 1 ? `Start ${lesson.lessonSlots[0].name}` : 'Begin Lesson'}
+              </button>
+              <div className="text-center">
+                <button
+                  onClick={handleEndSession}
+                  className="text-xs text-red-400/60 hover:text-red-400 transition-colors"
+                >
+                  End Session
+                </button>
+              </div>
+            </div>
 
-          {/* End Session (escape hatch) */}
-          <div className="text-center">
-            <button
-              onClick={handleEndSession}
-              className="text-xs text-red-400/60 hover:text-red-400 transition-colors"
-            >
-              End Session
-            </button>
-          </div>
           </div>
         </div>
       </div>
