@@ -33,6 +33,7 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
+import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -138,6 +139,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     weatherState: WeatherState;
     altitude: number;
     earthState: EarthState;
+    leg: FlightTransitionLeg;
   } | null>(null);
 
   // Bonus vote state
@@ -576,12 +578,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         else if (progress < 0.65) toWeather = 'cruising';
         else toWeather = 'golden';
       }
+      const leg: FlightTransitionLeg =
+        nextIndex === 1 ? 'takeoff'
+        : nextIndex >= totalSlots - 1 ? 'landing'
+        : 'cruise';
       setModuleTransition({
         from: fromName,
         to: toName,
         weatherState: toWeather,
         altitude: totalSlots > 1 ? computeAltitude(nextIndex, totalSlots) : 0.75,
         earthState: totalSlots > 1 ? computeEarthState(nextIndex, totalSlots) : 'flight',
+        leg,
       });
     }
     lesson.advanceSlot();
@@ -1414,6 +1421,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           weatherState={moduleTransition.weatherState}
           altitude={moduleTransition.altitude}
           earthState={moduleTransition.earthState}
+          leg={moduleTransition.leg}
           onDismiss={() => setModuleTransition(null)}
         />
       )}
