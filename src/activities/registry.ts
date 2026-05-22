@@ -33,6 +33,8 @@ import { conversationRoundsPlugin } from './conversation-rounds';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
 import { listeningGapFillPlugin } from './listening-gap-fill';
+// VAULTED: cabinMysteryPlugin (in development — static Switched Suitcase case, not yet reviewed for launch)
+import { cabinMysteryPlugin } from './cabin-mystery';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
@@ -67,6 +69,8 @@ const activities: ActivityPlugin[] = [
   conversationRoundsPlugin,
   // Debates
   hotTakeArenaPlugin,
+  // In development (flightPlanOnly: true — hidden from browse, accessible via flight plan):
+  cabinMysteryPlugin,
   // Closing activities
   finalAnswerPlugin,
   opinionShiftPlugin,

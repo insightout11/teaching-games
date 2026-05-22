@@ -44,6 +44,12 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       return <ReadAloudInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
     case 'shuffleboard':
       return <ShuffleboardInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
+    case 'cabin-question':
+      return <CabinQuestionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
+    case 'cabin-vote':
+      return <CabinVoteInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
+    case 'cabin-culprit':
+      return <CabinCulpritInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
     default:
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
   }
@@ -890,6 +896,11 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
     await onSubmit('confirmed');
   }, [isSubmitting, confirmed, onSubmit]);
 
+  // Cabin Mystery role card (briefing confirm)
+  const cabinRoleCard = spec.gameKey === 'cabin-mystery' && displayName && spec.perStudentData
+    ? (spec.perStudentData[displayName] as CabinRoleCardData | undefined)
+    : undefined;
+
   // Look up character card for this student by display name
   const characterCard = displayName && spec.perStudentData
     ? (spec.perStudentData[displayName] as { name?: string; viewpoint?: string; speakingLine?: string } | undefined)
@@ -910,6 +921,10 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
   const defendItCard = spec.gameKey === 'defend-it' && displayName && spec.perStudentData
     ? (spec.perStudentData[displayName] as { side?: 'DEFEND' | 'ATTACK' } | undefined)
     : undefined;
+
+  if (cabinRoleCard) {
+    return <CabinRoleCardView role={cabinRoleCard} onConfirm={handleConfirm} confirmed={confirmed || submitStatus === 'success'} isSubmitting={isSubmitting} buttonLabel={spec.buttonLabel} />;
+  }
 
   return (
     <div className="space-y-6 text-center">
@@ -1201,6 +1216,446 @@ function ReadAloudInput({ spec, onSubmit, isSubmitting, displayName }: Pick<Dyna
           <p className="text-xs text-white/30 text-center">+{queue.length - 6} more</p>
         )}
       </div>
+    </div>
+  );
+}
+
+// ── Cabin Mystery ─────────────────────────────────────────────────────────────
+
+interface CabinRoleCardData {
+  publicIdentity: string;
+  alibi: string;
+  privateSecret: string;
+  clue: string;
+  isCulprit: boolean;
+  sentenceStems: string[];
+  mustRevealTrigger: { condition: string; reveal: string };
+  answerBank: {
+    safeAnswer: string;
+    locationAnswer: string;
+    conditionalAnswers: Array<{ trigger: string; response: string; isRequired: boolean }>;
+    deflectionLines: string[];
+    improv: string;
+  };
+  goal: string;
+  culpritContext?: string;
+}
+
+interface CabinQuestionStudentData {
+  mySuspectId: string;
+  myRole: CabinRoleCardData;
+  suspects: Array<{ id: string; name: string; seatOrRole: string }>;
+  availableByTarget: Record<string, Array<{ id: string; text: string }>>;
+  isCurrentTarget: boolean;
+  currentQuestionText: string | null;
+  currentQuestionAskerName: string | null;
+  roundNumber: 1 | 2;
+}
+
+function CabinRoleCardView({
+  role,
+  onConfirm,
+  confirmed,
+  isSubmitting,
+  buttonLabel,
+}: {
+  role: CabinRoleCardData;
+  onConfirm: () => void;
+  confirmed: boolean;
+  isSubmitting: boolean;
+  buttonLabel?: string;
+}) {
+  return (
+    <div className="space-y-4 text-left">
+      {/* Public identity */}
+      <div className="rounded-2xl bg-indigo-500/10 border border-indigo-500/30 p-4 space-y-2">
+        <p className="text-[10px] uppercase tracking-widest text-indigo-400 font-semibold">Your Character</p>
+        <p className="text-sm text-white leading-relaxed">{role.publicIdentity}</p>
+      </div>
+
+      {/* Alibi */}
+      <div className="rounded-xl bg-white/5 border border-white/10 p-3 space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Your Alibi</p>
+        <p className="text-sm text-slate-200 leading-relaxed italic">&ldquo;{role.alibi}&rdquo;</p>
+      </div>
+
+      {/* Private secret */}
+      <div className="rounded-xl bg-rose-500/10 border border-rose-500/30 p-3 space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-rose-400 font-semibold">
+          Private Secret — Only you can see this
+        </p>
+        <p className="text-sm text-rose-200 leading-relaxed">{role.privateSecret}</p>
+        {role.culpritContext && (
+          <p className="text-xs text-rose-300/80 italic mt-1">{role.culpritContext}</p>
+        )}
+      </div>
+
+      {/* Clue */}
+      <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-3 space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-amber-400 font-semibold">Your Clue</p>
+        <p className="text-sm text-amber-200 leading-relaxed">{role.clue}</p>
+      </div>
+
+      {/* Must-reveal trigger */}
+      <div className="rounded-xl bg-white/5 border border-white/10 p-3 space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Must Reveal If…</p>
+        <p className="text-xs text-slate-400 italic">{role.mustRevealTrigger.condition}</p>
+        <p className="text-sm text-white">→ &ldquo;{role.mustRevealTrigger.reveal}&rdquo;</p>
+      </div>
+
+      {/* Sentence stems */}
+      {role.sentenceStems.length > 0 && (
+        <div className="rounded-xl bg-teal-500/10 border border-teal-500/20 p-3 space-y-2">
+          <p className="text-[10px] uppercase tracking-widest text-teal-400 font-semibold">Useful Phrases</p>
+          {role.sentenceStems.map((stem, i) => (
+            <p key={i} className="text-xs text-teal-200 italic">&ldquo;{stem}&rdquo;</p>
+          ))}
+        </div>
+      )}
+
+      {/* Goal */}
+      <div className="rounded-xl bg-white/5 border border-white/10 p-3">
+        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mb-1">Your Goal</p>
+        <p className="text-sm text-slate-200">{role.goal}</p>
+      </div>
+
+      {/* Confirm button */}
+      {confirmed ? (
+        <div className="py-4 text-center space-y-1">
+          <div className="text-3xl">✓</div>
+          <p className="text-emerald-400 font-semibold text-sm">Card read — investigation begins soon</p>
+        </div>
+      ) : (
+        <button
+          onClick={onConfirm}
+          disabled={isSubmitting}
+          className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-blue-600 text-white font-bold text-base shadow-lg hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? '…' : (buttonLabel ?? 'I\'ve read my card')}
+        </button>
+      )}
+    </div>
+  );
+}
+
+function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displayName }: DynamicInputProps) {
+  const [step, setStep] = useState<'pick-target' | 'pick-question'>('pick-target');
+  const [selectedTarget, setSelectedTarget] = useState<string | null>(null);
+  const [selectedQuestion, setSelectedQuestion] = useState<{ id: string; text: string } | null>(null);
+
+  const myData = displayName && spec.perStudentData
+    ? (spec.perStudentData[displayName] as CabinQuestionStudentData | undefined)
+    : undefined;
+
+  const handleSubmit = useCallback(async () => {
+    if (!selectedTarget || !selectedQuestion || isSubmitting) return;
+    await onSubmit(JSON.stringify({
+      targetSuspectId: selectedTarget,
+      questionId: selectedQuestion.id,
+      questionText: selectedQuestion.text,
+    }));
+  }, [selectedTarget, selectedQuestion, isSubmitting, onSubmit]);
+
+  if (!myData) {
+    return <p className="text-sm text-lc-text2 text-center py-4">Loading investigation…</p>;
+  }
+
+  // If this student's character is being questioned right now — show answer bank
+  if (myData.isCurrentTarget) {
+    return (
+      <div className="space-y-3">
+        <div className="rounded-2xl bg-amber-500/15 border border-amber-500/40 p-4 space-y-3">
+          <p className="text-[10px] uppercase tracking-widest text-amber-400 font-semibold">
+            You are being questioned!
+          </p>
+          {myData.currentQuestionAskerName && (
+            <p className="text-xs text-slate-400">
+              <span className="text-slate-300 font-semibold">{myData.currentQuestionAskerName}</span> asks:
+            </p>
+          )}
+          {myData.currentQuestionText && (
+            <p className="text-base font-semibold text-white">&ldquo;{myData.currentQuestionText}&rdquo;</p>
+          )}
+        </div>
+
+        {/* Answer bank */}
+        <div className="rounded-xl bg-white/5 border border-white/10 p-3 space-y-2">
+          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Answer Options</p>
+          <div className="space-y-2">
+            <p className="text-xs text-slate-300">
+              <span className="text-slate-500">Safe:</span> {myData.myRole.answerBank.safeAnswer}
+            </p>
+            <p className="text-xs text-slate-300">
+              <span className="text-slate-500">Location:</span> {myData.myRole.answerBank.locationAnswer}
+            </p>
+            {myData.myRole.answerBank.conditionalAnswers.map((ca, i) => (
+              <p key={i} className="text-xs text-slate-300">
+                <span className="text-slate-500 italic">If {ca.trigger}:</span> {ca.response}
+                {ca.isRequired && <span className="text-rose-400 ml-1">*must say</span>}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        {myData.myRole.answerBank.deflectionLines.length > 0 && (
+          <div className="rounded-xl bg-white/5 border border-white/10 p-3 space-y-1">
+            <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Deflections</p>
+            {myData.myRole.answerBank.deflectionLines.map((line, i) => (
+              <p key={i} className="text-xs text-slate-300 italic">&ldquo;{line}&rdquo;</p>
+            ))}
+          </div>
+        )}
+
+        {myData.myRole.sentenceStems.length > 0 && (
+          <div className="rounded-xl bg-teal-500/10 border border-teal-500/20 p-3 space-y-1">
+            <p className="text-[10px] uppercase tracking-widest text-teal-400 font-semibold">Useful Phrases</p>
+            {myData.myRole.sentenceStems.map((stem, i) => (
+              <p key={i} className="text-xs text-teal-200 italic">&ldquo;{stem}&rdquo;</p>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Submitted — waiting state
+  if (submitStatus === 'success') {
+    return (
+      <div className="flex flex-col items-center gap-3 py-6 text-center">
+        <div className="text-3xl">✓</div>
+        <p className="text-green-400 font-semibold">Question sent!</p>
+        <p className="text-sm text-lc-text2">Waiting for your teacher to call on you.</p>
+        <div className="mt-2 rounded-xl bg-white/5 border border-white/10 p-3 w-full text-left space-y-1">
+          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Your Role Card</p>
+          <p className="text-xs text-slate-300 leading-relaxed">{myData.myRole.publicIdentity}</p>
+          <p className="text-xs text-slate-400 italic mt-1">{myData.myRole.alibi}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 1: pick target
+  if (step === 'pick-target') {
+    return (
+      <div className="space-y-3">
+        <p className="text-sm font-semibold text-lc-text">
+          Round {myData.roundNumber} — Who do you want to question?
+        </p>
+        <div className="space-y-2">
+          {myData.suspects.map((suspect) => (
+            <button
+              key={suspect.id}
+              onClick={() => {
+                setSelectedTarget(suspect.id);
+                setSelectedQuestion(null);
+                setStep('pick-question');
+              }}
+              className="w-full text-left rounded-xl bg-lc-surface border border-lc-border hover:border-indigo-500/50 hover:bg-indigo-500/10 px-4 py-3 transition-all"
+            >
+              <p className="text-sm font-semibold text-lc-text">{suspect.name}</p>
+              <p className="text-xs text-lc-text3">{suspect.seatOrRole}</p>
+            </button>
+          ))}
+        </div>
+        {/* Compact role card reference */}
+        <div className="rounded-xl bg-white/5 border border-white/10 p-3 space-y-1">
+          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Your Alibi</p>
+          <p className="text-xs text-slate-400 italic">&ldquo;{myData.myRole.alibi}&rdquo;</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 2: pick question
+  const targetName = myData.suspects.find((s) => s.id === selectedTarget)?.name ?? selectedTarget ?? '';
+  const questions = selectedTarget ? (myData.availableByTarget[selectedTarget] ?? []) : [];
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => { setSelectedTarget(null); setSelectedQuestion(null); setStep('pick-target'); }}
+          className="text-lc-text3 hover:text-lc-text text-lg leading-none"
+        >
+          ←
+        </button>
+        <p className="text-sm font-semibold text-lc-text">Ask {targetName}:</p>
+      </div>
+      <div className="space-y-2">
+        {questions.map((q) => (
+          <button
+            key={q.id}
+            onClick={() => setSelectedQuestion(q)}
+            className={`w-full text-left rounded-xl px-4 py-3 text-sm transition-all border ${
+              selectedQuestion?.id === q.id
+                ? 'bg-indigo-500 text-white border-indigo-400'
+                : 'bg-lc-surface text-lc-text border-lc-border hover:bg-lc-card'
+            }`}
+          >
+            {q.text}
+          </button>
+        ))}
+      </div>
+      <div className="flex items-center justify-between pt-1">
+        <SubmitStatus status={submitStatus} waitSeconds={0} />
+        <Button
+          onClick={handleSubmit}
+          disabled={!selectedQuestion || isSubmitting}
+          className="bg-gradient-to-r from-indigo-500 to-blue-600"
+        >
+          {isSubmitting ? 'Sending…' : 'Ask Question'}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// ── Cabin Mystery: Final Vote ─────────────────────────────────────────────────
+
+interface CabinVoteStudentData {
+  suspects: Array<{ id: string; name: string; seatOrRole: string }>;
+  revealedCards: Array<{ cardNumber: number; label: string }>;
+}
+
+function CabinVoteInput({ spec, onSubmit, isSubmitting, submitStatus, displayName }: DynamicInputProps) {
+  const [step, setStep] = useState<'pick-suspect' | 'write-motive'>('pick-suspect');
+  const [selectedSuspect, setSelectedSuspect] = useState<{ id: string; name: string } | null>(null);
+  const [motive, setMotive] = useState('');
+
+  const myData = displayName && spec.perStudentData
+    ? (spec.perStudentData[displayName] as CabinVoteStudentData | undefined)
+    : undefined;
+
+  const handleSubmit = useCallback(async () => {
+    if (!selectedSuspect || !motive.trim() || isSubmitting) return;
+    await onSubmit(JSON.stringify({ suspectId: selectedSuspect.id, motive: motive.trim() }));
+  }, [selectedSuspect, motive, isSubmitting, onSubmit]);
+
+  if (!myData) {
+    return <p className="text-sm text-lc-text2 text-center py-4">Loading…</p>;
+  }
+
+  if (submitStatus === 'success') {
+    return (
+      <div className="flex flex-col items-center gap-3 py-6 text-center">
+        <div className="text-3xl">✓</div>
+        <p className="text-green-400 font-semibold">Theory submitted!</p>
+        <p className="text-sm text-lc-text2">Waiting for the teacher to reveal the truth.</p>
+      </div>
+    );
+  }
+
+  if (step === 'pick-suspect') {
+    return (
+      <div className="space-y-3">
+        <p className="text-sm font-semibold text-lc-text">Who do you think is responsible?</p>
+        <p className="text-xs text-lc-text3">Select the suspect you believe is the culprit.</p>
+        {myData.suspects.map((s) => (
+          <button
+            key={s.id}
+            onClick={() => { setSelectedSuspect(s); setStep('write-motive'); }}
+            className="w-full text-left rounded-xl bg-lc-surface border border-lc-border hover:border-rose-500/50 hover:bg-rose-500/10 px-4 py-3 transition-all"
+          >
+            <p className="text-sm font-semibold text-lc-text">{s.name}</p>
+            <p className="text-xs text-lc-text3">{s.seatOrRole}</p>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => { setSelectedSuspect(null); setStep('pick-suspect'); }}
+          className="text-lc-text3 hover:text-lc-text text-lg leading-none"
+        >
+          ←
+        </button>
+        <p className="text-sm font-semibold text-rose-300">{selectedSuspect?.name}</p>
+      </div>
+      <div>
+        <p className="text-sm font-semibold text-lc-text mb-1">Why do you think so?</p>
+        {myData.revealedCards.length > 0 && (
+          <p className="text-xs text-lc-text3 mb-2">
+            Evidence: {myData.revealedCards.map((c) => c.label).join(' · ')}
+          </p>
+        )}
+        <textarea
+          value={motive}
+          onChange={(e) => setMotive(e.target.value)}
+          maxLength={180}
+          rows={4}
+          placeholder="Explain your reasoning using the evidence…"
+          autoFocus
+          className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-rose-500/50 resize-none"
+        />
+        <p className="text-xs text-lc-text3 mt-1 text-right">{motive.length}/180</p>
+      </div>
+      <div className="flex items-center justify-between">
+        <SubmitStatus status={submitStatus} waitSeconds={0} />
+        <Button
+          onClick={handleSubmit}
+          disabled={!motive.trim() || isSubmitting}
+          className="bg-gradient-to-r from-rose-500 to-red-600"
+        >
+          {isSubmitting ? 'Submitting…' : 'Submit Theory'}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// ── Cabin Mystery: Culprit Side ───────────────────────────────────────────────
+
+interface CabinCulpritStudentData {
+  isCulprit: boolean;
+  characterName: string;
+  culpritSidePrompt?: string;
+  sentenceStems?: string[];
+}
+
+function CabinCulpritInput({ spec, displayName }: DynamicInputProps) {
+  const myData = displayName && spec.perStudentData
+    ? (spec.perStudentData[displayName] as CabinCulpritStudentData | undefined)
+    : undefined;
+
+  if (!myData) {
+    return (
+      <div className="flex flex-col items-center gap-2 py-4 text-center">
+        <p className="text-2xl">🎤</p>
+        <p className="text-sm text-lc-text2">Listening…</p>
+      </div>
+    );
+  }
+
+  if (myData.isCulprit) {
+    return (
+      <div className="space-y-4">
+        <div className="rounded-2xl bg-rose-500/15 border border-rose-500/40 p-4 space-y-2">
+          <p className="text-[10px] uppercase tracking-widest text-rose-400 font-semibold">
+            Your moment — speak in character as {myData.characterName}
+          </p>
+          <p className="text-sm text-rose-200 leading-relaxed">{myData.culpritSidePrompt}</p>
+        </div>
+        {(myData.sentenceStems?.length ?? 0) > 0 && (
+          <div className="rounded-xl bg-teal-500/10 border border-teal-500/20 p-3 space-y-1">
+            <p className="text-[10px] uppercase tracking-widest text-teal-400 font-semibold">Useful Phrases</p>
+            {myData.sentenceStems!.map((stem, i) => (
+              <p key={i} className="text-xs text-teal-200 italic">&ldquo;{stem}&rdquo;</p>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-3 py-6 text-center">
+      <p className="text-2xl">🎤</p>
+      <p className="text-base font-bold text-purple-300">{myData.characterName} is speaking</p>
+      <p className="text-sm text-lc-text2">Listen carefully to their side of the story.</p>
     </div>
   );
 }

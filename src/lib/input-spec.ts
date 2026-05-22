@@ -11,7 +11,10 @@ export type InputType =
   | 'error-correction' // Select words and provide corrections
   | 'confirm'        // Single confirm button
   | 'read-aloud'     // Queue display + done button for current reader
-  | 'shuffleboard';  // Drag-and-release physics shot (Zone Board)
+  | 'shuffleboard'   // Drag-and-release physics shot (Zone Board)
+  | 'cabin-question' // Cabin Mystery two-step question picker (target → question)
+  | 'cabin-vote'     // Cabin Mystery final theory form (suspect + motive)
+  | 'cabin-culprit'; // Cabin Mystery culprit-side — prompt for culprit, listening state for others
 
 export interface InputSpec {
   type: InputType;
