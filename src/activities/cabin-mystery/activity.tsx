@@ -322,11 +322,13 @@ export function CabinMysteryActivity({
     setActiveCards(newActiveCards);
     setConfirmedClientIds(new Set());
     setRevealedCardCount(0);
+    setCurrentRound(1);
     setQuestionLog([]);
     setCurrentQuestion(null);
     setQuestionRoundOpen(false);
     setVotes([]);
     votedClientIdsRef.current = new Set();
+    askedThisRoundRef.current = new Set();
     setPhase('briefing');
     onPhaseChange?.('briefing');
   }, [students, content, onPhaseChange]);
@@ -702,7 +704,7 @@ function EvidenceSlot({ card, revealed }: { card: CabinEvidence; revealed: boole
   return (
     <div className="rounded-lg bg-amber-950/40 border border-amber-700/40 p-3">
       <p className="text-xs font-semibold text-amber-400 mb-1">{card.label}</p>
-      <p className="text-xs text-slate-300 leading-relaxed">{card.content}</p>
+      <p className="text-sm text-slate-200 leading-relaxed">{card.content}</p>
       <p className="text-xs text-amber-300/70 italic mt-2">{card.implication}</p>
     </div>
   );
@@ -722,9 +724,12 @@ function RoleAssignmentPanel({
     <div className="bg-slate-900/50 border border-slate-700/30 rounded-xl overflow-hidden">
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="w-full flex items-center justify-between px-4 py-3 text-xs font-semibold text-slate-500 hover:text-slate-300 transition-colors"
+        className="w-full flex items-center justify-between px-4 py-3 text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors"
       >
-        <span>ROLE ASSIGNMENTS (teacher private — keep collapsed when screen-sharing)</span>
+        <span>
+          ROLE ASSIGNMENTS{' '}
+          <span className="text-amber-500 font-normal">— keep collapsed when screen-sharing</span>
+        </span>
         <ChevronRight className={`w-4 h-4 transition-transform ${expanded ? 'rotate-90' : ''}`} />
       </button>
       {expanded && (

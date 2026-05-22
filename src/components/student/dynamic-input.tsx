@@ -922,6 +922,18 @@ function ConfirmInput({ spec, onSubmit, isSubmitting, submitStatus, displayName 
     ? (spec.perStudentData[displayName] as { side?: 'DEFEND' | 'ATTACK' } | undefined)
     : undefined;
 
+  if (spec.gameKey === 'cabin-mystery' && displayName && spec.perStudentData && !cabinRoleCard) {
+    return (
+      <div className="flex flex-col items-center gap-3 py-8 text-center">
+        <p className="text-2xl">✈️</p>
+        <p className="text-sm font-semibold text-lc-text">Waiting for a role</p>
+        <p className="text-sm text-lc-text2 max-w-xs">
+          Roles haven&apos;t been assigned to you yet. Ask your teacher to assign you a character.
+        </p>
+      </div>
+    );
+  }
+
   if (cabinRoleCard) {
     return <CabinRoleCardView role={cabinRoleCard} onConfirm={handleConfirm} confirmed={confirmed || submitStatus === 'success'} isSubmitting={isSubmitting} buttonLabel={spec.buttonLabel} />;
   }
@@ -1357,7 +1369,15 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
   }, [selectedTarget, selectedQuestion, isSubmitting, onSubmit]);
 
   if (!myData) {
-    return <p className="text-sm text-lc-text2 text-center py-4">Loading investigation…</p>;
+    return (
+      <div className="flex flex-col items-center gap-3 py-8 text-center">
+        <p className="text-2xl">🔍</p>
+        <p className="text-sm font-semibold text-lc-text">Investigation in progress</p>
+        <p className="text-sm text-lc-text2 max-w-xs">
+          You joined after roles were assigned. Ask your teacher to restart or reassign roles.
+        </p>
+      </div>
+    );
   }
 
   // If this student's character is being questioned right now — show answer bank
@@ -1434,29 +1454,36 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
     );
   }
 
-  // Step 1: pick target
+  // Step 1: pick target (exclude own character)
   if (step === 'pick-target') {
+    const targetSuspects = myData.suspects.filter((s) => s.id !== myData.mySuspectId);
     return (
       <div className="space-y-3">
         <p className="text-sm font-semibold text-lc-text">
           Round {myData.roundNumber} — Who do you want to question?
         </p>
-        <div className="space-y-2">
-          {myData.suspects.map((suspect) => (
-            <button
-              key={suspect.id}
-              onClick={() => {
-                setSelectedTarget(suspect.id);
-                setSelectedQuestion(null);
-                setStep('pick-question');
-              }}
-              className="w-full text-left rounded-xl bg-lc-surface border border-lc-border hover:border-indigo-500/50 hover:bg-indigo-500/10 px-4 py-3 transition-all"
-            >
-              <p className="text-sm font-semibold text-lc-text">{suspect.name}</p>
-              <p className="text-xs text-lc-text3">{suspect.seatOrRole}</p>
-            </button>
-          ))}
-        </div>
+        {targetSuspects.length === 0 ? (
+          <p className="text-sm text-lc-text2 text-center py-2">
+            No other suspects available to question.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {targetSuspects.map((suspect) => (
+              <button
+                key={suspect.id}
+                onClick={() => {
+                  setSelectedTarget(suspect.id);
+                  setSelectedQuestion(null);
+                  setStep('pick-question');
+                }}
+                className="w-full text-left rounded-xl bg-lc-surface border border-lc-border hover:border-indigo-500/50 hover:bg-indigo-500/10 px-4 py-3 transition-all"
+              >
+                <p className="text-sm font-semibold text-lc-text">{suspect.name}</p>
+                <p className="text-xs text-lc-text3">{suspect.seatOrRole}</p>
+              </button>
+            ))}
+          </div>
+        )}
         {/* Compact role card reference */}
         <div className="rounded-xl bg-white/5 border border-white/10 p-3 space-y-1">
           <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Your Alibi</p>
@@ -1532,7 +1559,15 @@ function CabinVoteInput({ spec, onSubmit, isSubmitting, submitStatus, displayNam
   }, [selectedSuspect, motive, isSubmitting, onSubmit]);
 
   if (!myData) {
-    return <p className="text-sm text-lc-text2 text-center py-4">Loading…</p>;
+    return (
+      <div className="flex flex-col items-center gap-3 py-8 text-center">
+        <p className="text-2xl">🗳️</p>
+        <p className="text-sm font-semibold text-lc-text">Final theory phase in progress</p>
+        <p className="text-sm text-lc-text2 max-w-xs">
+          You joined after roles were assigned. Ask your teacher to restart or reassign roles.
+        </p>
+      </div>
+    );
   }
 
   if (submitStatus === 'success') {
