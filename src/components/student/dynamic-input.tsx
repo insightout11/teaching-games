@@ -1350,6 +1350,68 @@ function CabinRoleCardView({
   );
 }
 
+function CabinAnswerRuleCard() {
+  return (
+    <div className="rounded-xl bg-sky-500/10 border border-sky-500/25 p-3 space-y-1 text-left">
+      <p className="text-[10px] uppercase tracking-widest text-sky-300 font-semibold">Answer Rule</p>
+      <p className="text-xs text-slate-200 leading-relaxed">
+        Use only facts from your role card. If your card does not mention the answer, say
+        <span className="font-semibold text-white"> &quot;I don&apos;t know&quot;</span> or
+        <span className="font-semibold text-white"> &quot;I didn&apos;t see that.&quot;</span> You can phrase
+        answers in your own words, but do not invent new facts.
+      </p>
+    </div>
+  );
+}
+
+function CabinRoleReference({
+  role,
+  title = 'Role Card Reference',
+}: {
+  role: CabinRoleCardData;
+  title?: string;
+}) {
+  return (
+    <div className="rounded-2xl bg-white/5 border border-white/10 p-4 space-y-3 text-left">
+      <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">{title}</p>
+
+      <div className="space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-indigo-300 font-semibold">Character</p>
+        <p className="text-xs text-slate-200 leading-relaxed">{role.publicIdentity}</p>
+      </div>
+
+      <div className="space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Alibi</p>
+        <p className="text-xs text-slate-300 leading-relaxed italic">&ldquo;{role.alibi}&rdquo;</p>
+      </div>
+
+      <div className="rounded-xl bg-rose-500/10 border border-rose-500/25 p-3 space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-rose-300 font-semibold">Private Secret</p>
+        <p className="text-xs text-rose-100 leading-relaxed">{role.privateSecret}</p>
+        {role.culpritContext && (
+          <p className="text-xs text-rose-200/80 italic">{role.culpritContext}</p>
+        )}
+      </div>
+
+      <div className="rounded-xl bg-amber-500/10 border border-amber-500/25 p-3 space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-amber-300 font-semibold">Your Clue</p>
+        <p className="text-xs text-amber-100 leading-relaxed">{role.clue}</p>
+      </div>
+
+      <div className="space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Must Reveal If Asked</p>
+        <p className="text-xs text-slate-400 italic">{role.mustRevealTrigger.condition}</p>
+        <p className="text-xs text-white leading-relaxed">&ldquo;{role.mustRevealTrigger.reveal}&rdquo;</p>
+      </div>
+
+      <div className="space-y-1">
+        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Goal</p>
+        <p className="text-xs text-slate-200 leading-relaxed">{role.goal}</p>
+      </div>
+    </div>
+  );
+}
+
 function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displayName }: DynamicInputProps) {
   const [step, setStep] = useState<'pick-target' | 'pick-question'>('pick-target');
   const [selectedTarget, setSelectedTarget] = useState<string | null>(null);
@@ -1398,6 +1460,8 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
           )}
         </div>
 
+        <CabinAnswerRuleCard />
+
         {/* Answer bank */}
         <div className="rounded-xl bg-white/5 border border-white/10 p-3 space-y-2">
           <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Answer Options</p>
@@ -1414,6 +1478,11 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
                 {ca.isRequired && <span className="text-rose-400 ml-1">*must say</span>}
               </p>
             ))}
+            {myData.myRole.answerBank.improv && (
+              <p className="text-xs text-slate-300">
+                <span className="text-slate-500">Improv:</span> {myData.myRole.answerBank.improv}
+              </p>
+            )}
           </div>
         </div>
 
@@ -1434,6 +1503,8 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
             ))}
           </div>
         )}
+
+        <CabinRoleReference role={myData.myRole} />
       </div>
     );
   }
@@ -1445,10 +1516,9 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
         <div className="text-3xl">✓</div>
         <p className="text-green-400 font-semibold">Question sent!</p>
         <p className="text-sm text-lc-text2">Waiting for your teacher to call on you.</p>
-        <div className="mt-2 rounded-xl bg-white/5 border border-white/10 p-3 w-full text-left space-y-1">
-          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Your Role Card</p>
-          <p className="text-xs text-slate-300 leading-relaxed">{myData.myRole.publicIdentity}</p>
-          <p className="text-xs text-slate-400 italic mt-1">{myData.myRole.alibi}</p>
+        <div className="w-full space-y-3">
+          <CabinAnswerRuleCard />
+          <CabinRoleReference role={myData.myRole} />
         </div>
       </div>
     );
@@ -1487,11 +1557,8 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
             ))}
           </div>
         )}
-        {/* Compact role card reference */}
-        <div className="rounded-xl bg-white/5 border border-white/10 p-3 space-y-1">
-          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Your Alibi</p>
-          <p className="text-xs text-slate-400 italic">&ldquo;{myData.myRole.alibi}&rdquo;</p>
-        </div>
+        <CabinAnswerRuleCard />
+        <CabinRoleReference role={myData.myRole} />
       </div>
     );
   }
@@ -1542,6 +1609,8 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
           {isSubmitting ? 'Sending…' : 'Ask Question'}
         </Button>
       </div>
+      <CabinAnswerRuleCard />
+      <CabinRoleReference role={myData.myRole} />
     </div>
   );
 }
