@@ -1,26 +1,75 @@
+export interface PlaneDisplayMeta {
+  /** CSS scale applied when parked on runway (transform-origin: center bottom). Default 1.0. */
+  parkedScale: number;
+  /** CSS scale applied when flying in transition overlay (transform-origin: center center). Default 1.0. */
+  flyingScale: number;
+  /**
+   * Vertical offset in px for parked state, applied after scale.
+   * Positive = float up from runway, negative = sink into runway. Default 0.
+   */
+  runwayYOffset: number;
+  /**
+   * Vertical offset in px for flying state. Positive = shift up, negative = shift down. Default 0.
+   */
+  transitionYOffset: number;
+}
+
+const DEFAULT_META: PlaneDisplayMeta = {
+  parkedScale: 1,
+  flyingScale: 1,
+  runwayYOffset: 0,
+  transitionYOffset: 0,
+};
+
 export interface PlaneEntry {
   key: string;
   name: string;
   webp: string;
   png: string;
+  displayMeta: PlaneDisplayMeta;
 }
 
 export const DEFAULT_PLANE_KEY = 'starter-biplane';
 
+// Aspect ratios (w/h from actual assets):
+//   starter-biplane 1.96 · scout-monoplane 1.82 · cloud-hopper 1.79 · trailblazer-biplane 1.78
+//   sky-racer 2.09 · cargo-cruiser 1.88 · twin-prop-scout 1.95
+//   solar-flyer 2.00 · aurora-glider 2.20 · storm-runner 2.07
+//   future-flyer 2.01 · starliner-mini 2.00 · comet-jet 2.04
+//
+// aurora-glider is the clear outlier at 2.20 — mostly wing, tiny fuselage.
+// All others are within ±15% of each other and render acceptably at default size.
+
+function entry(
+  key: string,
+  name: string,
+  meta: Partial<PlaneDisplayMeta> = {},
+): PlaneEntry {
+  return {
+    key,
+    name,
+    webp: `/assets/flight/planes/${key}.webp`,
+    png:  `/assets/flight/planes/${key}.png`,
+    displayMeta: { ...DEFAULT_META, ...meta },
+  };
+}
+
 const PLANE_ENTRIES: PlaneEntry[] = [
-  { key: 'starter-biplane',     name: 'Starter Biplane',     webp: '/assets/flight/planes/starter-biplane.webp',     png: '/assets/flight/planes/starter-biplane.png' },
-  { key: 'scout-monoplane',     name: 'Scout Monoplane',     webp: '/assets/flight/planes/scout-monoplane.webp',     png: '/assets/flight/planes/scout-monoplane.png' },
-  { key: 'cloud-hopper',        name: 'Cloud Hopper',        webp: '/assets/flight/planes/cloud-hopper.webp',        png: '/assets/flight/planes/cloud-hopper.png' },
-  { key: 'trailblazer-biplane', name: 'Trailblazer Biplane', webp: '/assets/flight/planes/trailblazer-biplane.webp', png: '/assets/flight/planes/trailblazer-biplane.png' },
-  { key: 'sky-racer',           name: 'Sky Racer',           webp: '/assets/flight/planes/sky-racer.webp',           png: '/assets/flight/planes/sky-racer.png' },
-  { key: 'cargo-cruiser',       name: 'Cargo Cruiser',       webp: '/assets/flight/planes/cargo-cruiser.webp',       png: '/assets/flight/planes/cargo-cruiser.png' },
-  { key: 'twin-prop-scout',     name: 'Twin-Prop Scout',     webp: '/assets/flight/planes/twin-prop-scout.webp',     png: '/assets/flight/planes/twin-prop-scout.png' },
-  { key: 'solar-flyer',         name: 'Solar Flyer',         webp: '/assets/flight/planes/solar-flyer.webp',         png: '/assets/flight/planes/solar-flyer.png' },
-  { key: 'aurora-glider',       name: 'Aurora Glider',       webp: '/assets/flight/planes/aurora-glider.webp',       png: '/assets/flight/planes/aurora-glider.png' },
-  { key: 'storm-runner',        name: 'Storm Runner',        webp: '/assets/flight/planes/storm-runner.webp',        png: '/assets/flight/planes/storm-runner.png' },
-  { key: 'future-flyer',        name: 'Future Flyer',        webp: '/assets/flight/planes/future-flyer.webp',        png: '/assets/flight/planes/future-flyer.png' },
-  { key: 'starliner-mini',      name: 'Starliner Mini',      webp: '/assets/flight/planes/starliner-mini.webp',      png: '/assets/flight/planes/starliner-mini.png' },
-  { key: 'comet-jet',           name: 'Comet Jet',           webp: '/assets/flight/planes/comet-jet.webp',           png: '/assets/flight/planes/comet-jet.png' },
+  entry('starter-biplane',     'Starter Biplane'),
+  entry('scout-monoplane',     'Scout Monoplane'),
+  entry('cloud-hopper',        'Cloud Hopper'),
+  entry('trailblazer-biplane', 'Trailblazer Biplane'),
+  entry('sky-racer',           'Sky Racer'),
+  entry('cargo-cruiser',       'Cargo Cruiser'),
+  entry('twin-prop-scout',     'Twin-Prop Scout'),
+  entry('solar-flyer',         'Solar Flyer'),
+  // Aurora Glider is 2.20 aspect ratio — mostly wingspan, tiny fuselage.
+  // Scale it down so it doesn't visually dwarf every other plane on the runway.
+  entry('aurora-glider',       'Aurora Glider',       { parkedScale: 0.85, flyingScale: 0.9 }),
+  entry('storm-runner',        'Storm Runner'),
+  entry('future-flyer',        'Future Flyer'),
+  entry('starliner-mini',      'Starliner Mini'),
+  entry('comet-jet',           'Comet Jet'),
 ];
 
 const PLANE_MAP = new Map(PLANE_ENTRIES.map((p) => [p.key, p]));

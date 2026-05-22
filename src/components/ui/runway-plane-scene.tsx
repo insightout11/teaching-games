@@ -29,7 +29,7 @@ export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true
         animate={{ y: [0, -1.5, 0], rotate: [0, 0.25, 0, -0.25, 0] }}
         transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <ClassPlaneSprite planeKey={planeKey} size={planeSize} />
+        <ClassPlaneSprite planeKey={planeKey} size={planeSize} variant="parked" />
       </motion.div>
 
       {showRunway && (

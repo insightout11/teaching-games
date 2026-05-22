@@ -107,7 +107,7 @@ export function FlightTransitionOverlay({
               animate={leg === 'cruise' ? { y: [0, -4, 0, 4, 0] } : undefined}
               transition={leg === 'cruise' ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut' } : undefined}
             >
-              <ClassPlaneSprite planeKey={planeKey} size="lg" />
+              <ClassPlaneSprite planeKey={planeKey} size="lg" variant="flying" />
             </motion.div>
           </motion.div>
         </div>
