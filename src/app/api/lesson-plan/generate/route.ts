@@ -80,6 +80,7 @@ import travelEnglishLibrary from '@/data/travel-english-library.json';
 import businessEnglishLibrary from '@/data/business-english-library.json';
 import internetMemesLibrary from '@/data/internet-memes-library.json';
 import minecraftLibrary from '@/data/minecraft-library.json';
+import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
 
 
 // ============================================
@@ -2510,6 +2511,12 @@ export async function POST(request: NextRequest) {
           case 'conversation-rounds':
             if (sceneChainMode) break; // already generated sequentially above
             generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'cabin-mystery':
+            // V1 is a static hand-authored case. No AI generation required.
+            generators.push(Promise.resolve().then(() => {
+              content[activityKey] = { ...switchedSuitcase, topicContext: customTopic };
+            }));
             break;
           default:
             console.warn(`Unknown activity: ${activityKey}`);

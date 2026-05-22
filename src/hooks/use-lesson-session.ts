@@ -9,6 +9,7 @@ import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import { missionSelectorFallback } from '@/lib/fallback-content';
+import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -190,6 +191,10 @@ export function useLessonSession(
 
   // ─── Content resolution: activity ──────────────────────────────────────
   const selectActivity = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
+    if (activity.key === 'cabin-mystery') {
+      return { ...switchedSuitcase, topicContext: getEffectiveTopic(settings) };
+    }
+
     // Prefetched content
     const prefetched = prefetchedContentRef.current[activity.key] as ActivityGeneratedContent | undefined;
     if (prefetched) return prefetched;
