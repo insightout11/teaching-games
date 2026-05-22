@@ -30,3 +30,23 @@ export function getPlaneAsset(planeKey?: string | null): PlaneEntry {
   if (!planeKey) return DEFAULT_PLANE;
   return PLANE_MAP.get(planeKey) ?? DEFAULT_PLANE;
 }
+
+export interface PlaneTier {
+  tier: number;
+  label: string;
+  choices: PlaneEntry[];
+}
+
+export const PLANE_TIERS: PlaneTier[] = (
+  [
+    { tier: 0, label: 'Starter',       keys: ['starter-biplane'] },
+    { tier: 1, label: 'First Upgrade', keys: ['scout-monoplane', 'cloud-hopper', 'trailblazer-biplane'] },
+    { tier: 2, label: 'Specialist',    keys: ['sky-racer', 'cargo-cruiser', 'twin-prop-scout'] },
+    { tier: 3, label: 'Advanced',      keys: ['solar-flyer', 'aurora-glider', 'storm-runner'] },
+    { tier: 4, label: 'Prestige',      keys: ['future-flyer', 'starliner-mini', 'comet-jet'] },
+  ] as { tier: number; label: string; keys: string[] }[]
+).map(({ tier, label, keys }) => ({
+  tier,
+  label,
+  choices: keys.map((k) => PLANE_MAP.get(k)!),
+}));

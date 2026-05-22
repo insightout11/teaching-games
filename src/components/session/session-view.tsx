@@ -34,6 +34,7 @@ import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
+import { DEFAULT_PLANE_KEY, PLANE_TIERS } from '@/lib/plane-progression';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -133,6 +134,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     plugin: ActivityPlugin | GamePlugin;
   } | null>(null);
   const [showPivotDrawer, setShowPivotDrawer] = useState(false);
+  const [selectedPlaneKey, setSelectedPlaneKey] = useState(DEFAULT_PLANE_KEY);
   const [moduleTransition, setModuleTransition] = useState<{
     from: string | null;
     to: string | null;
@@ -676,7 +678,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         {/* Plane parked on right taxiway — class has landed */}
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
           <div className="absolute bottom-0 left-[62%] -translate-x-1/2">
-            <RunwayPlaneScene planeSize="xl" showRunway={false} />
+            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
           </div>
         </div>
         <div className="relative z-10 pb-52">
@@ -707,7 +709,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         {/* Plane parked on left taxiway — above sky layers (z-7), below cards (z-10) */}
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
           <div className="absolute bottom-0 left-[38%] -translate-x-1/2">
-            <RunwayPlaneScene planeSize="xl" showRunway={false} />
+            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
           </div>
         </div>
         <div className="relative z-10 h-[74vh] overflow-hidden">
@@ -722,6 +724,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 {lesson.customTopic}
                 {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission Lesson</span>}
               </p>
+              <div className="flex items-center justify-center gap-1.5 mt-2">
+                <span className="text-[10px] opacity-40 uppercase tracking-wider">Plane</span>
+                <select
+                  value={selectedPlaneKey}
+                  onChange={(e) => setSelectedPlaneKey(e.target.value)}
+                  className="text-xs bg-lc-card border border-lc-border rounded-lg px-2 py-0.5 outline-none cursor-pointer opacity-60 hover:opacity-100 transition-opacity"
+                >
+                  {PLANE_TIERS.map((t) => (
+                    <optgroup key={t.tier} label={t.label}>
+                      {t.choices.map((p) => <option key={p.key} value={p.key}>{p.name}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
+              </div>
             </div>
 
             {/* 2-column grid */}
@@ -857,7 +873,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       {(earthState === 'takeoff' || earthState === 'landing') && (
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
           <div className={`absolute bottom-0 ${earthState === 'takeoff' ? 'left-[38%]' : 'left-[62%]'} -translate-x-1/2`}>
-            <RunwayPlaneScene planeSize="xl" showRunway={false} />
+            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
           </div>
         </div>
       )}
@@ -921,6 +937,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
               </div>
             )}
+            <select
+              value={selectedPlaneKey}
+              onChange={(e) => setSelectedPlaneKey(e.target.value)}
+              className="text-xs font-semibold bg-lc-card border border-lc-border rounded-lg px-2 py-1 outline-none cursor-pointer"
+              title="Class plane (dev)"
+            >
+              {PLANE_TIERS.map((t) => (
+                <optgroup key={t.tier} label={t.label}>
+                  {t.choices.map((p) => <option key={p.key} value={p.key}>{p.name}</option>)}
+                </optgroup>
+              ))}
+            </select>
             <Button
               variant="ghost"
               size="sm"
@@ -1455,6 +1483,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           altitudeFrom={moduleTransition.altitudeFrom}
           altitudeTo={moduleTransition.altitudeTo}
           leg={moduleTransition.leg}
+          planeKey={selectedPlaneKey}
           onDismiss={() => setModuleTransition(null)}
         />
       )}
