@@ -15,7 +15,7 @@ export const cabinMysteryPlugin: ActivityPlugin = {
   estimatedMinutes: 50,
   defaultTimerSeconds: 0,
   icon: Plane,
-  flightPlanOnly: true, // hidden from public browse until launch-ready
+  flightPlanOnly: false,
   scoringProfile: {
     displayMode: 'class',
     supportsOnTask: true,
