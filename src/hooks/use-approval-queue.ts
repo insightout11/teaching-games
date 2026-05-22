@@ -39,6 +39,7 @@ export function useApprovalQueue(sessionId: string | null): UseApprovalQueueRetu
         .eq('session_id', sessionId)
         .eq('status', 'pending')
         .not('game_key', 'is', null)
+        .neq('game_key', 'cabin-mystery')
         .order('created_at', { ascending: true });
 
       if (!error && data) {
@@ -63,7 +64,7 @@ export function useApprovalQueue(sessionId: string | null): UseApprovalQueueRetu
         (payload: { new: unknown }) => {
           const newSubmission = payload.new as StudentSubmission;
           // Only add to approval queue if it's a game response (game_key present)
-          if (newSubmission.status === 'pending' && newSubmission.game_key !== null) {
+          if (newSubmission.status === 'pending' && newSubmission.game_key !== null && newSubmission.game_key !== 'cabin-mystery') {
             setPending((prev) => [...prev, newSubmission]);
           }
         }

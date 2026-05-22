@@ -1256,7 +1256,7 @@ interface CabinRoleCardData {
 interface CabinQuestionStudentData {
   mySuspectId: string;
   myRole: CabinRoleCardData;
-  suspects: Array<{ id: string; name: string; seatOrRole: string }>;
+  suspects: Array<{ id: string; name: string; seatOrRole: string; playedBy?: string | null }>;
   availableByTarget: Record<string, Array<{ id: string; text: string }>>;
   isCurrentTarget: boolean;
   currentQuestionText: string | null;
@@ -1456,7 +1456,7 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
 
   // Step 1: pick target (exclude own character)
   if (step === 'pick-target') {
-    const targetSuspects = myData.suspects.filter((s) => s.id !== myData.mySuspectId);
+    const targetSuspects = myData.suspects.filter((s) => s.id !== myData.mySuspectId && s.playedBy);
     return (
       <div className="space-y-3">
         <p className="text-sm font-semibold text-lc-text">
@@ -1479,7 +1479,10 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
                 className="w-full text-left rounded-xl bg-lc-surface border border-lc-border hover:border-indigo-500/50 hover:bg-indigo-500/10 px-4 py-3 transition-all"
               >
                 <p className="text-sm font-semibold text-lc-text">{suspect.name}</p>
-                <p className="text-xs text-lc-text3">{suspect.seatOrRole}</p>
+                <p className="text-xs text-lc-text3">
+                  {suspect.seatOrRole}
+                  {suspect.playedBy ? ` · played by ${suspect.playedBy}` : ''}
+                </p>
               </button>
             ))}
           </div>
@@ -1494,7 +1497,8 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
   }
 
   // Step 2: pick question
-  const targetName = myData.suspects.find((s) => s.id === selectedTarget)?.name ?? selectedTarget ?? '';
+  const target = myData.suspects.find((s) => s.id === selectedTarget);
+  const targetName = target?.name ?? selectedTarget ?? '';
   const questions = selectedTarget ? (myData.availableByTarget[selectedTarget] ?? []) : [];
 
   return (
@@ -1506,7 +1510,12 @@ function CabinQuestionInput({ spec, onSubmit, isSubmitting, submitStatus, displa
         >
           ←
         </button>
-        <p className="text-sm font-semibold text-lc-text">Ask {targetName}:</p>
+        <div>
+          <p className="text-sm font-semibold text-lc-text">Ask {targetName}:</p>
+          {target?.playedBy && (
+            <p className="text-xs text-lc-text3">Ask {target.playedBy} out loud when your teacher calls you.</p>
+          )}
+        </div>
       </div>
       <div className="space-y-2">
         {questions.map((q) => (

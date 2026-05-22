@@ -87,6 +87,13 @@ function buildInvestigationSpec(
   currentRound: 1 | 2,
   currentQuestion: CabinQuestionRecord | null
 ): InputSpec {
+  const playedByBySuspectId = Object.fromEntries(
+    Object.entries(assignments).map(([studentName, role]) => [role.suspectId, studentName])
+  );
+  const suspectsWithPlayers = content.suspects.map((suspect) => ({
+    ...suspect,
+    playedBy: playedByBySuspectId[suspect.id] ?? null,
+  }));
   const always = content.questionBank.alwaysAvailable;
   const evidenceSpecific = content.questionBank.evidenceSpecific
     .filter((g) => g.afterCardNumber <= revealedCardCount)
@@ -110,7 +117,7 @@ function buildInvestigationSpec(
     perStudentData[studentName] = {
       mySuspectId: role.suspectId,
       myRole: role,
-      suspects: content.suspects,
+      suspects: suspectsWithPlayers,
       availableByTarget,
       isCurrentTarget: currentQuestion
         ? role.suspectId === currentQuestion.targetSuspectId
@@ -582,6 +589,9 @@ function CabinCaseBoard({
   const currentTargetName = currentQuestion
     ? content.suspects.find((s) => s.id === currentQuestion.targetSuspectId)?.name
     : null;
+  const playedByBySuspectId = Object.fromEntries(
+    Object.entries(assignments).map(([studentName, role]) => [role.suspectId, studentName])
+  );
 
   return (
     <div className="flex-1 p-6 flex flex-col gap-4 overflow-auto">
@@ -621,7 +631,11 @@ function CabinCaseBoard({
           <p className="text-xs text-slate-400 mb-1">
             <span className="text-slate-200 font-semibold">{currentQuestion.askerName}</span>
             {' asks '}
-            <span className="text-indigo-300 font-semibold">{currentTargetName}</span>:
+            <span className="text-indigo-300 font-semibold">{currentTargetName}</span>
+            {currentQuestion.targetStudentName && (
+              <span className="text-slate-400"> ({currentQuestion.targetStudentName})</span>
+            )}
+            :
           </p>
           <p className="text-base text-white font-medium">&ldquo;{currentQuestion.questionText}&rdquo;</p>
         </div>
@@ -635,10 +649,16 @@ function CabinCaseBoard({
           <ul className="space-y-2">
             {content.suspects.map((suspect) => {
               const isCurrentTarget = currentQuestion?.targetSuspectId === suspect.id;
+              const playedBy = playedByBySuspectId[suspect.id];
               return (
                 <li key={suspect.id} className={`flex items-center gap-2 text-sm ${isCurrentTarget ? 'text-indigo-300' : ''}`}>
                   <span className={`w-2 h-2 rounded-full shrink-0 ${isCurrentTarget ? 'bg-indigo-400' : 'bg-slate-600'}`} />
                   <span className={isCurrentTarget ? 'font-semibold' : 'text-slate-200'}>{suspect.name}</span>
+                  {playedBy && (
+                    <span className="text-cyan-300/80 text-xs">
+                      played by {playedBy}
+                    </span>
+                  )}
                   <span className="text-slate-500 text-xs ml-auto">{suspect.seatOrRole}</span>
                 </li>
               );
