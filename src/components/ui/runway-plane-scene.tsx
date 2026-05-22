@@ -1,23 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 
 interface RunwayPlaneSceneProps {
+  planeKey?: string | null;
   planeSize?: 'sm' | 'md' | 'lg' | 'xl';
   showRunway?: boolean;
   className?: string;
 }
 
-const PLANE_HEIGHT: Record<NonNullable<RunwayPlaneSceneProps['planeSize']>, string> = {
-  sm: 'h-14',
-  md: 'h-20',
-  lg: 'h-28',
-  xl: 'h-44',
-};
-
-export function RunwayPlaneScene({ planeSize = 'md', showRunway = true, className }: RunwayPlaneSceneProps) {
-  const planeH = PLANE_HEIGHT[planeSize];
-
+export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true, className }: RunwayPlaneSceneProps) {
   return (
     <div className={`relative inline-flex flex-col items-center ${className ?? ''}`}>
       {showRunway && (
@@ -31,18 +24,12 @@ export function RunwayPlaneScene({ planeSize = 'md', showRunway = true, classNam
         />
       )}
 
-      {/* Biplane — subtle engine-idle vibration */}
+      {/* Plane — subtle engine-idle vibration */}
       <motion.div
         animate={{ y: [0, -1.5, 0], rotate: [0, 0.25, 0, -0.25, 0] }}
         transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/assets/flight/plane-biplane-starter-b.webp"
-          alt=""
-          draggable={false}
-          className={`${planeH} w-auto select-none`}
-        />
+        <ClassPlaneSprite planeKey={planeKey} size={planeSize} />
       </motion.div>
 
       {showRunway && (

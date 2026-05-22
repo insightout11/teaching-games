@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
+import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
 
@@ -14,6 +15,7 @@ interface FlightTransitionOverlayProps {
   altitudeFrom: number;
   altitudeTo: number;
   leg: FlightTransitionLeg;
+  planeKey?: string | null;
   onDismiss: () => void;
 }
 
@@ -36,6 +38,7 @@ export function FlightTransitionOverlay({
   altitudeFrom,
   altitudeTo,
   leg,
+  planeKey,
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -104,13 +107,7 @@ export function FlightTransitionOverlay({
               animate={leg === 'cruise' ? { y: [0, -4, 0, 4, 0] } : undefined}
               transition={leg === 'cruise' ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut' } : undefined}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/assets/flight/plane-biplane-starter-b.webp"
-                alt=""
-                draggable={false}
-                className="h-24 w-auto select-none md:h-28 lg:h-32"
-              />
+              <ClassPlaneSprite planeKey={planeKey} size="lg" />
             </motion.div>
           </motion.div>
         </div>
