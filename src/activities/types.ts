@@ -674,6 +674,12 @@ export interface GrammarProofContent extends ActivityGeneratedContent {
   exampleSentences: string[];
 }
 
+// Contribution Break content
+export interface ContributionBreakContent extends ActivityGeneratedContent {
+  activityKey: 'contribution-break';
+  prompt: string;
+}
+
 // Final Word content
 export interface FinalWordContent extends ActivityGeneratedContent {
   activityKey: 'final-word';

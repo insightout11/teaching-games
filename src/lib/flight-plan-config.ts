@@ -630,6 +630,20 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   },
 
   {
+    key: 'contribution-break',
+    slotFit: ['practice'],
+    goalFit: ['critical-thinking', 'speaking-fluency', 'creativity', 'collaboration'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'low',
+    interactionModel: ['submission'],
+    speakingLoad: 'low',
+    writingLoad: 'medium',
+    teacherControlLoad: 'low',
+    avoidAfter: [],
+    strongWith: ['hot-take-arena', 'conversation-rounds', 'scenario-simulator'],
+  },
+
+  {
     key: 'wonder-board',
     slotFit: ['takeoff', 'presentation'],
     goalFit: ['critical-thinking', 'speaking-fluency', 'confidence-building'],

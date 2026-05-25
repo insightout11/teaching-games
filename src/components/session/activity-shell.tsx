@@ -268,6 +268,20 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
     if (data) recordScore(data);
   }, [sessionId, students, recordScore, activity.key, activity.scoringProfile]);
 
+  const handleSpotlight = useCallback(async (submission: StudentSubmission) => {
+    if (!sessionId) return;
+    await fetch('/api/session/spotlight', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        submissionId: submission.id,
+        studentName: submission.display_name,
+        text: submission.content,
+      }),
+    });
+  }, [sessionId]);
+
   // Handler for dynamic follow-ups during the activity
   const handleContinue = useCallback(async (request: Omit<ActivityContinueRequest, 'sessionId'>): Promise<ActivityContinueResponse> => {
     try {
@@ -385,6 +399,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
           <ApprovalQueue
             sessionId={sessionId}
             onApprove={handleApprovedSubmission}
+            onSpotlight={handleSpotlight}
             hideContent
           />
         )}

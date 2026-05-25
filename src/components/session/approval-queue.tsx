@@ -8,11 +8,12 @@ import type { StudentSubmission } from '@/lib/supabase/types';
 interface ApprovalQueueProps {
   sessionId: string;
   onApprove: (submission: StudentSubmission) => Promise<void>;
+  onSpotlight?: (submission: StudentSubmission) => Promise<void>;
   hideContent?: boolean;
   autoApprove?: boolean;
 }
 
-export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }: ApprovalQueueProps) {
+export function ApprovalQueue({ sessionId, onApprove, onSpotlight, hideContent, autoApprove }: ApprovalQueueProps) {
   const { pending, approve, reject, setError, isLoading } = useApprovalQueue(sessionId);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -45,6 +46,20 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
     await reject(submissionId);
     setProcessingId(null);
   };
+
+  const handleSpotlight = useCallback(async (submission: StudentSubmission) => {
+    if (!onSpotlight) return;
+    setProcessingId(submission.id);
+    try {
+      await onApprove(submission); // score the submission
+      await onSpotlight(submission); // approve + write spotlight payload
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Spotlight failed';
+      await setError(submission.id, message);
+    } finally {
+      setProcessingId(null);
+    }
+  }, [onApprove, onSpotlight, setError]);
 
   if (autoApprove) {
     // Silent processor — no UI shown, but auto-approval useEffect fires above
@@ -129,6 +144,17 @@ export function ApprovalQueue({ sessionId, onApprove, hideContent, autoApprove }
                   )}
 
                   <div className="flex gap-2">
+                    {onSpotlight && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleSpotlight(submission)}
+                        disabled={processingId === submission.id}
+                        className="flex-1 text-xs py-1 hover:bg-amber-500/20 hover:text-amber-400 text-amber-400/70"
+                      >
+                        ✦ Spotlight
+                      </Button>
+                    )}
                     <Button
                       size="sm"
                       variant="primary"

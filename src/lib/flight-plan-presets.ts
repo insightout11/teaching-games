@@ -34,6 +34,8 @@ export interface FlightPlanPreset {
    * loading immediately. The selected scenario string is written to the topic field.
    */
   scenarios?: PresetScenarios;
+  /** When true, only visible to teachers with is_developer = true. */
+  isDeveloper?: boolean;
 }
 
 export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
@@ -308,5 +310,22 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'Health and lifestyle',
       ],
     },
+  },
+  {
+    id: 'all-around-flight-60',
+    name: 'All-Around Flight (Experimental)',
+    description: 'Full ESL flight journey — warmup, briefing, language discovery, contribution break, production, end game',
+    lessonDurationMinutes: 60,
+    goal: 'speaking-fluency',
+    lessonType: 'skill-builder',
+    isDeveloper: true,
+    takeoff: 'quick-pulse',
+    landing: 'final-word',
+    moduleSequence: [
+      { slotType: 'presentation', key: 'fact-detective' },
+      { slotType: 'practice', key: 'error-hunter' },
+      { slotType: 'practice', key: 'contribution-break' },
+      { slotType: 'production', key: 'hot-take-arena' },
+    ],
   },
 ];

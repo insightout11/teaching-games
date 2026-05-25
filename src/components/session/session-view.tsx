@@ -33,6 +33,7 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
+import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY, PLANE_TIERS } from '@/lib/plane-progression';
 
@@ -335,12 +336,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session.id, cls.id]);
 
-  // In mock mode, sync roster students directly into the store (no session_participants)
-  useEffect(() => {
-    if (!isMockMode() || !initDone.current) return;
-    students.forEach((s) => addStudent(s));
-  }, [students, addStudent]);
-
   // Realtime subscription for leaderboard
   useRealtimeLeaderboard(session.id);
 
@@ -375,7 +370,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // Sync only joined participants into the store (prevents unjoined roster students from getting roles)
   useEffect(() => {
-    if (isMockMode()) return;
     sessionParticipants.forEach((p) => {
       if (!p.student_id) return;
       const student = students.find((s) => s.id === p.student_id);
@@ -385,10 +379,21 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // Poll session_participants to show who actually joined this session in the lobby
   useEffect(() => {
-    if (isMockMode()) return;
-
     let cancelled = false;
     const pollParticipants = async () => {
+      if (isMockMode()) {
+        const res = await fetch(`/api/student/participants?sessionId=${session.id}`);
+        if (!res.ok) return;
+        const body = await res.json() as { participants?: SessionParticipant[] };
+        const data = body.participants ?? [];
+        if (cancelled) return;
+        setSessionParticipants((prev) => {
+          if (data.length === prev.length && data.every((p, i) => p.id === prev[i]?.id)) return prev;
+          return data;
+        });
+        return;
+      }
+
       const sb = createClient();
       const { data } = await sb
         .from('session_participants')
@@ -1473,6 +1478,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         ) : null}
       </div>
+
+      {/* Captain's Pick card — spotlight overlay triggered by teacher */}
+      {session && <CaptainPickCard sessionId={session.id} />}
 
       {/* Flight transition overlay — between lesson modules */}
       {moduleTransition && (

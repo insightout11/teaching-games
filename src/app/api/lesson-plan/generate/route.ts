@@ -2397,6 +2397,16 @@ export async function POST(request: NextRequest) {
           case 'prediction-round':
             generators.push(generatePredictionRound(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
+          case 'contribution-break':
+            generators.push(Promise.resolve().then(() => {
+              const topicLabel = customTopic ? ` about ${customTopic}` : '';
+              content[activityKey] = {
+                activityKey: 'contribution-break',
+                topicContext: customTopic,
+                prompt: `Submit one useful idea, question, or phrase${topicLabel} for the next stage`,
+              };
+            }));
+            break;
           case 'listening-gap-fill':
             generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined).then((r) => { content[activityKey] = r; }));
             break;
