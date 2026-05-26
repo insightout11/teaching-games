@@ -327,5 +327,17 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'contribution-break' },
       { slotType: 'production', key: 'hot-take-arena' },
     ],
+    scenarios: {
+      label: 'Choose an all-around lesson theme',
+      placeholder: 'e.g. Should schools use AI tutors?',
+      options: [
+        'Technology and daily life',
+        'Environment and everyday choices',
+        'Social media and relationships',
+        'Food, health, and habits',
+        'Travel and cultural differences',
+        'Work, school, and the future',
+      ],
+    },
   },
 ];

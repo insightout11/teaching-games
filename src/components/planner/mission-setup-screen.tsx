@@ -42,8 +42,8 @@ export function MissionSetupScreen() {
   };
 
   function handlePresetClick(preset: FlightPlanPreset) {
-    // When source material is active, skip the scenario picker — topic comes from the video
-    if (sourceMaterial) {
+    // Source-backed lessons and presets without scenarios can load directly.
+    if (sourceMaterial || !preset.scenarios) {
       loadPreset(preset);
       setStep('flight-plan');
       return;
