@@ -34,8 +34,9 @@ import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
+import { FlightSessionView } from '@/components/session/flight-session-view';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
-import { DEFAULT_PLANE_KEY, PLANE_TIERS } from '@/lib/plane-progression';
+import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -136,7 +137,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     plugin: ActivityPlugin | GamePlugin;
   } | null>(null);
   const [showPivotDrawer, setShowPivotDrawer] = useState(false);
-  const [selectedPlaneKey, setSelectedPlaneKey] = useState(DEFAULT_PLANE_KEY);
+  const [selectedPlaneKey] = useState(DEFAULT_PLANE_KEY);
   const [moduleTransition, setModuleTransition] = useState<{
     from: string | null;
     to: string | null;
@@ -620,6 +621,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [lesson.handlePhaseChange]);
 
   const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
+  const flightConfig = lesson.lessonPlanContent?.flightConfig;
+  const isAllAroundFlight = lesson.lessonPlanContent?.flightPresetId === 'all-around-flight-60' && Boolean(flightConfig);
 
   const handleExitLessonMode = () => {
     lesson.exitLesson();
@@ -730,20 +733,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 {lesson.customTopic}
                 {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission Lesson</span>}
               </p>
-              <div className="flex items-center justify-center gap-1.5 mt-2">
-                <span className="text-[10px] opacity-40 uppercase tracking-wider">Plane</span>
-                <select
-                  value={selectedPlaneKey}
-                  onChange={(e) => setSelectedPlaneKey(e.target.value)}
-                  className="text-xs bg-lc-card border border-lc-border rounded-lg px-2 py-0.5 outline-none cursor-pointer opacity-60 hover:opacity-100 transition-opacity"
-                >
-                  {PLANE_TIERS.map((t) => (
-                    <optgroup key={t.tier} label={t.label}>
-                      {t.choices.map((p) => <option key={p.key} value={p.key}>{p.name}</option>)}
-                    </optgroup>
-                  ))}
-                </select>
-              </div>
             </div>
 
             {/* 2-column grid */}
@@ -943,18 +932,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
               </div>
             )}
-            <select
-              value={selectedPlaneKey}
-              onChange={(e) => setSelectedPlaneKey(e.target.value)}
-              className="text-xs font-semibold bg-lc-card border border-lc-border rounded-lg px-2 py-1 outline-none cursor-pointer"
-              title="Class plane (dev)"
-            >
-              {PLANE_TIERS.map((t) => (
-                <optgroup key={t.tier} label={t.label}>
-                  {t.choices.map((p) => <option key={p.key} value={p.key}>{p.name}</option>)}
-                </optgroup>
-              ))}
-            </select>
             <Button
               variant="ghost"
               size="sm"
@@ -1337,6 +1314,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             )}
           </div>
         ) : viewMode === 'game' && selectedGame ? (
+          isAllAroundFlight && flightConfig ? (
+            <FlightSessionView
+              slots={lesson.lessonSlots}
+              currentSlotIndex={lesson.currentSlotIndex}
+              phase={lesson.phase}
+              flightConfig={flightConfig}
+              currentModuleName={selectedGame.name}
+              isModuleFinished={isModuleFinished}
+              onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
+              onSwap={() => setShowPivotDrawer(true)}
+              onNext={handleNextSlotWithTransition}
+            >
+              <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
+                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} />
+              </ModuleErrorBoundary>
+            </FlightSessionView>
+          ) : (
           <div>
             {/* Lesson Flight Plan */}
             {lesson.isLessonActive && lesson.lessonSlots.length > 1 && (
@@ -1406,7 +1400,55 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} />
             </ModuleErrorBoundary>
           </div>
+          )
         ) : viewMode === 'activity' && selectedActivity ? (
+          isAllAroundFlight && flightConfig ? (
+            <FlightSessionView
+              slots={lesson.lessonSlots}
+              currentSlotIndex={lesson.currentSlotIndex}
+              phase={lesson.phase}
+              flightConfig={flightConfig}
+              currentModuleName={lesson.generatingModuleName || selectedActivity.name}
+              isModuleFinished={isModuleFinished}
+              onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
+              onSwap={() => setShowPivotDrawer(true)}
+              onNext={handleNextSlotWithTransition}
+            >
+              {activityContent ? (
+                <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
+                  <ActivityShell
+                    activity={selectedActivity}
+                    generatedContent={activityContent}
+                    timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
+                    onPhaseChange={lesson.isLessonActive ? handleActivityPhaseChange : undefined}
+                    onContentRegenerate={handleContentRegenerate}
+                  />
+                </ModuleErrorBoundary>
+              ) : activityContentFailed ? (
+                <div className="glass rounded-2xl p-12 flex flex-col items-center justify-center text-center">
+                  <p className="text-lg font-bold text-red-400 mb-2">Content generation failed</p>
+                  <p className="text-sm text-lc-text3 mb-6">
+                    Couldn&apos;t generate content for {selectedActivity.name}. Check your connection and try again.
+                  </p>
+                  <button
+                    onClick={() => handleSelectActivity(selectedActivity)}
+                    className="px-6 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 transition-colors text-sm font-medium"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-24">
+                  <p className="text-2xl font-game text-lc-blue">
+                    Preparing {lesson.generatingModuleName || selectedActivity.name}
+                  </p>
+                  <p className="text-sm text-lc-text3 mt-3 opacity-60">
+                    Generating content for your lesson...
+                  </p>
+                </div>
+              )}
+            </FlightSessionView>
+          ) : (
           <div>
             {/* Lesson Flight Plan */}
             {lesson.isLessonActive && lesson.lessonSlots.length > 1 && (
@@ -1506,6 +1548,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             )}
           </div>
+          )
         ) : null}
       </div>
 
