@@ -11,6 +11,9 @@ export interface PlanModule {
   slotType: SlotType;
   key: string;
   isLocked: boolean;
+  stageId?: string;
+  stageLabel?: string;
+  isMicroEvent?: boolean;
 }
 
 export function moduleCountForDuration(minutes: 30 | 45 | 60 | 90): number {

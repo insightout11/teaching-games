@@ -4,7 +4,7 @@ import type { Difficulty } from '@/lib/difficulty';
 import { FLIGHT_PLAN_ITEMS, type GoalTag, type SlotType } from '@/lib/flight-plan-config';
 import type { GrammarTarget } from '@/lib/grammar';
 import { suggestModules, type PlanModule } from '@/lib/planner-utils';
-import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
+import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import type { ScoringMode } from '@/stores/session-store';
 import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
@@ -19,6 +19,35 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
 
 const TEXT_SOURCE_TYPES = new Set<SourceType>(['stories', 'voa', 'picture-books']);
 
+function withFlightMeta(
+  preset: FlightPlanPreset | null | undefined,
+  key: string,
+  overrides?: { stageId?: string; stageLabel?: string; isMicroEvent?: boolean },
+): Pick<PlanModule, 'stageId' | 'stageLabel' | 'isMicroEvent'> {
+  const stageId = overrides?.stageId ?? preset?.flightConfig?.stageByKey[key];
+  const stage = stageId ? preset?.flightConfig?.stages.find((s) => s.stageId === stageId) : undefined;
+  return {
+    ...(stageId ? { stageId } : {}),
+    ...(overrides?.stageLabel || stage?.label ? { stageLabel: overrides?.stageLabel ?? stage?.label } : {}),
+    ...((overrides?.isMicroEvent ?? stage?.kind === 'micro-event') ? { isMicroEvent: true } : {}),
+  };
+}
+
+function makePresetModule(
+  preset: FlightPlanPreset,
+  slotType: SlotType,
+  key: string,
+  overrides?: { stageId?: string; stageLabel?: string; isMicroEvent?: boolean },
+): PlanModule {
+  return {
+    id: crypto.randomUUID(),
+    slotType,
+    key,
+    isLocked: false,
+    ...withFlightMeta(preset, key, overrides),
+  };
+}
+
 export type { PlanModule };
 
 /** Internal type used by launchLesson() to build sessionStorage payload. */
@@ -27,6 +56,9 @@ type LessonSlot = {
   key: string;
   name: string;
   category?: string;
+  stageId?: string;
+  stageLabel?: string;
+  isMicroEvent?: boolean;
 };
 
 export type PlannerStep = 'mission-setup' | 'flight-plan' | 'launch';
@@ -184,24 +216,16 @@ export const usePlannerStore = create<PlannerState>()(
 
         const middle: PlanModule[] = preset.moduleSequence
           .filter(({ key }) => key !== takeoffKey)
-          .map(({ slotType, key }) => ({
-            id: crypto.randomUUID(),
-            slotType,
-            key,
-            isLocked: false,
-          }));
+          .map(({ slotType, key, stageId, stageLabel, isMicroEvent }) =>
+            makePresetModule(preset, slotType, key, { stageId, stageLabel, isMicroEvent }),
+          );
 
         let modules: PlanModule[];
         if (preset.skipTakeoffLanding) {
           modules = middle;
         } else {
           const takeoffKey = preset.takeoff ?? 'mission-selector';
-          const takeoff: PlanModule = {
-            id: crypto.randomUUID(),
-            slotType: 'takeoff',
-            key: takeoffKey,
-            isLocked: false,
-          };
+          const takeoff = makePresetModule(preset, 'takeoff', takeoffKey);
 
           let landingKey = preset.landing;
           if (!landingKey) {
@@ -211,26 +235,27 @@ export const usePlannerStore = create<PlannerState>()(
               FLIGHT_PLAN_ITEMS.find((item) => item.key === 'final-answer')!;
             landingKey = landingItem.key;
           }
-          const landing: PlanModule = {
-            id: crypto.randomUUID(),
-            slotType: 'landing',
-            key: landingKey,
-            isLocked: false,
-          };
+          const landing = makePresetModule(preset, 'landing', landingKey);
 
           modules = [takeoff, ...middle, landing];
         }
 
         const { sourceMaterial } = get();
-        if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !modules.some((m) => m.key === 'video-player')) {
+        if (preset.id === 'all-around-flight-60' && sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType)) {
+          modules = modules.map((m) =>
+            m.stageId === 'briefing' || m.key === 'read-aloud'
+              ? { ...m, key: 'video-player', slotType: 'presentation', ...withFlightMeta(preset, 'video-player') }
+              : m,
+          );
+        } else if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !modules.some((m) => m.key === 'video-player')) {
           const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
           const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
-          modules.splice(insertAt, 0, { id: crypto.randomUUID(), slotType: 'presentation', key: 'video-player', isLocked: false });
+          modules.splice(insertAt, 0, makePresetModule(preset, 'presentation', 'video-player'));
         }
         if (sourceMaterial && TEXT_SOURCE_TYPES.has(sourceMaterial.sourceType) && !modules.some((m) => m.key === 'read-aloud')) {
           const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
           const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
-          modules.splice(insertAt, 0, { id: crypto.randomUUID(), slotType: 'presentation', key: 'read-aloud', isLocked: false });
+          modules.splice(insertAt, 0, makePresetModule(preset, 'presentation', 'read-aloud'));
         }
 
         set({
@@ -281,21 +306,27 @@ export const usePlannerStore = create<PlannerState>()(
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
       launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial } = get();
+        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId } = get();
         if (!selectedClassId) return;
 
         const primaryGoal = derivePrimaryGoal(goals);
+        const loadedPreset = loadedPresetId ? FLIGHT_PLAN_PRESETS.find((p) => p.id === loadedPresetId) : null;
 
         const slots: LessonSlot[] = modules.map((m) => {
+          const meta = {
+            ...(m.stageId ? { stageId: m.stageId } : {}),
+            ...(m.stageLabel ? { stageLabel: m.stageLabel } : {}),
+            ...(m.isMicroEvent ? { isMicroEvent: true } : {}),
+          };
           const activity = getActivity(m.key);
           if (activity) {
-            return { type: 'activity' as const, key: m.key, name: activity.name, category: activity.category };
+            return { type: 'activity' as const, key: m.key, name: activity.name, category: activity.category, ...meta };
           }
           const game = getGame(m.key);
           if (game) {
-            return { type: 'game' as const, key: m.key, name: game.name, category: game.category };
+            return { type: 'game' as const, key: m.key, name: game.name, category: game.category, ...meta };
           }
-          return { type: 'activity' as const, key: m.key, name: m.key };
+          return { type: 'activity' as const, key: m.key, name: m.key, ...meta };
         });
 
         const hasMissionSelector = modules.some((m) => m.key === 'mission-selector');
@@ -311,6 +342,7 @@ export const usePlannerStore = create<PlannerState>()(
             ...(hasMissionSelector ? { isMissionBased: true } : {}),
             ...(grammarTarget ? { grammarTarget } : {}),
             ...(sourceMaterial ? { sourceMaterial } : {}),
+            ...(loadedPreset?.flightConfig ? { flightPresetId: loadedPreset.id, flightConfig: loadedPreset.flightConfig } : {}),
             slots,
             generatedContent: {},
             generatedGameContent: {},

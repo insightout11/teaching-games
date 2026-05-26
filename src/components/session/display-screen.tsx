@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { QRCodeSVG } from 'qrcode.react'
 import { useDisplayReceiver } from '@/hooks/use-display-receiver'
+import { CaptainPickCard } from '@/components/session/captain-pick-card'
 import type { DisplayInputSpec } from '@/lib/display-types'
 
 const MEDALS = ['🥇', '🥈', '🥉']
@@ -222,6 +223,8 @@ export function DisplayScreen({ sessionId }: { sessionId: string }) {
           <span className="text-xs text-gray-400 font-mono">{joinCode}</span>
         </div>
       )}
+
+      <CaptainPickCard sessionId={sessionId} />
     </div>
   )
 }

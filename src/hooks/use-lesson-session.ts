@@ -8,6 +8,7 @@ import type { GrammarTarget } from '@/lib/grammar';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
+import type { FlightPresetConfig } from '@/lib/flight-plan-presets';
 import { missionSelectorFallback } from '@/lib/fallback-content';
 import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
 
@@ -19,6 +20,10 @@ export type LessonSlot = {
   type: 'activity' | 'game';
   key: string;
   name: string;
+  category?: string;
+  stageId?: string;
+  stageLabel?: string;
+  isMicroEvent?: boolean;
 };
 
 const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-round', 'opinion-shift']);
@@ -30,6 +35,8 @@ interface LessonPlanPayload {
   slots: LessonSlot[];
   generatedContent: Record<string, ActivityGeneratedContent>;
   generatedGameContent: Record<string, GameGeneratedContent>;
+  flightPresetId?: string;
+  flightConfig?: FlightPresetConfig;
   goal?: string;
   scoringMode?: ScoringMode;
   isMissionBased?: boolean;
@@ -51,6 +58,8 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         slots: parsed.slots || [],
         generatedContent: parsed.generatedContent || {},
         generatedGameContent: parsed.generatedGameContent || {},
+        flightPresetId: parsed.flightPresetId,
+        flightConfig: parsed.flightConfig,
         goal: parsed.goal,
         scoringMode: parsed.scoringMode,
         isMissionBased: parsed.isMissionBased,

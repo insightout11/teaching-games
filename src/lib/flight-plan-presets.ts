@@ -12,6 +12,19 @@ export interface PresetScenarios {
   options: string[];
 }
 
+export type FlightStageKind = 'stage' | 'micro-event' | 'end-game' | 'landing';
+
+export interface FlightStageDefinition {
+  stageId: string;
+  label: string;
+  kind: FlightStageKind;
+}
+
+export interface FlightPresetConfig {
+  stages: FlightStageDefinition[];
+  stageByKey: Record<string, string>;
+}
+
 export interface FlightPlanPreset {
   id: string;
   name: string;
@@ -28,7 +41,9 @@ export interface FlightPlanPreset {
   /** Explicit landing activity key — overrides auto-assignment when set. */
   landing?: string;
   /** Middle slots only — takeoff/landing are always auto-assigned. */
-  moduleSequence: Array<{ slotType: SlotType; key: string }>;
+  moduleSequence: Array<{ slotType: SlotType; key: string; stageId?: string; stageLabel?: string; isMicroEvent?: boolean }>;
+  /** Dedicated journey metadata for curated flight modes. */
+  flightConfig?: FlightPresetConfig;
   /**
    * When present, clicking this preset opens a scenario picker modal instead of
    * loading immediately. The selected scenario string is written to the topic field.
@@ -313,20 +328,56 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   },
   {
     id: 'all-around-flight-60',
-    name: 'All-Around Flight (Experimental)',
-    description: 'Full ESL flight journey — warmup, briefing, language discovery, contribution break, production, end game',
+    name: 'All-Around Flight',
+    description: 'Flagship ESL journey: prediction, source briefing, quick votes, mission prep, accuracy check, council, game, landing',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'skill-builder',
     isDeveloper: true,
-    takeoff: 'quick-pulse',
+    takeoff: 'prediction-round',
     landing: 'final-word',
     moduleSequence: [
-      { slotType: 'presentation', key: 'fact-detective' },
-      { slotType: 'practice', key: 'error-hunter' },
-      { slotType: 'practice', key: 'contribution-break' },
-      { slotType: 'production', key: 'hot-take-arena' },
+      { slotType: 'presentation', key: 'read-aloud', stageId: 'briefing' },
+      { slotType: 'practice', key: 'listening-gap-fill', stageId: 'listening-check', isMicroEvent: true },
+      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true },
+      { slotType: 'presentation', key: 'wonder-board', stageId: 'mission-board' },
+      { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true },
+      { slotType: 'production', key: 'decision-council', stageId: 'production' },
+      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game' },
     ],
+    flightConfig: {
+      stages: [
+        { stageId: 'icebreaker', label: 'Icebreaker', kind: 'stage' },
+        { stageId: 'briefing', label: "Captain's Briefing", kind: 'stage' },
+        { stageId: 'listening-check', label: 'Listening Check', kind: 'micro-event' },
+        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event' },
+        { stageId: 'mission-board', label: 'Mission Board', kind: 'stage' },
+        { stageId: 'accuracy-check', label: 'Accuracy Check', kind: 'micro-event' },
+        { stageId: 'production', label: 'Decision Council', kind: 'stage' },
+        { stageId: 'end-game', label: 'End Game', kind: 'end-game' },
+        { stageId: 'landing', label: 'Landing', kind: 'landing' },
+      ],
+      stageByKey: {
+        'prediction-round': 'icebreaker',
+        'video-player': 'briefing',
+        'read-aloud': 'briefing',
+        'listening-gap-fill': 'listening-check',
+        'would-you-rather': 'opinion-pulse',
+        'rank-it': 'opinion-pulse',
+        'two-truths': 'opinion-pulse',
+        'wonder-board': 'mission-board',
+        'error-hunter': 'accuracy-check',
+        'sentence-scramble': 'accuracy-check',
+        'synonym-showdown': 'accuracy-check',
+        'vocab-sprint': 'accuracy-check',
+        'decision-council': 'production',
+        'flash-quiz': 'end-game',
+        'imposter': 'end-game',
+        'password': 'end-game',
+        'connections': 'end-game',
+        'final-word': 'landing',
+      },
+    },
     scenarios: {
       label: 'Choose an all-around lesson theme',
       placeholder: 'e.g. Should schools use AI tutors?',
