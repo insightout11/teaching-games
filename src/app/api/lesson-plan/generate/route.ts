@@ -61,6 +61,7 @@ import type {
   ConnectionGeneratedContent,
   ConnectionsGeneratedContent,
   VideoPlayerContent,
+  DecisionCouncilContent,
 } from '@/activities/types';
 import type { CheckpointQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
@@ -220,6 +221,44 @@ Create 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vo
     vocabularyHighlights: Array<{ word: string; definition: string }>;
   }>(prompt, schema);
   return { activityKey: 'hot-take-arena', topicContext: topic, ...parsed };
+}
+
+async function generateDecisionCouncil(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<DecisionCouncilContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      councilQuestion: { type: 'string' },
+      contextBrief: { type: 'string' },
+      stanceOptions: { type: 'array', items: { type: 'string' } },
+      sourceDetails: { type: 'array', items: { type: 'string' } },
+      usefulPhrases: { type: 'array', items: { type: 'string' } },
+      challengeStarters: { type: 'array', items: { type: 'string' } },
+    },
+    required: ['councilQuestion', 'contextBrief', 'stanceOptions', 'usefulPhrases', 'challengeStarters'],
+  };
+
+  const prompt = `Generate content for an ESL "Decision Council" production speaking activity about: "${topic}"
+Difficulty: ${difficultyDescriptions[difficulty]}
+${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
+Rules:
+- councilQuestion: One open-ended decision question ≤20 words. Must feel real and debatable. E.g. "What should the school do about phone use during lessons?"
+- contextBrief: 2–3 sentences of background. Students must read it in under 30 seconds. Match the difficulty level.
+- stanceOptions: 3–4 possible positions students might take (short noun phrases ≤8 words each). E.g. "Ban phones entirely", "Allow limited use during breaks".
+- sourceDetails: ${sourceContext ? '3–5 key facts drawn directly from the source material above.' : 'Leave as empty array — no source provided.'}
+- usefulPhrases: 5–6 sentence starters for proposing and defending. E.g. "I believe we should...", "The strongest reason is...", "Evidence shows that..."
+- challengeStarters: 4–5 sentence starters for challenging other proposals. E.g. "Have you considered...", "What about the impact on...", "Couldn't we argue that..."
+Return JSON only.`;
+
+  const parsed = await generateJSON<{
+    councilQuestion: string;
+    contextBrief: string;
+    stanceOptions?: string[];
+    sourceDetails?: string[];
+    usefulPhrases?: string[];
+    challengeStarters?: string[];
+  }>(prompt, schema);
+
+  return { activityKey: 'decision-council', topicContext: topic, ...parsed };
 }
 
 async function generateTwoTruths(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<TwoTruthsContent> {
@@ -2358,6 +2397,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'hot-take-arena':
             generators.push(generateHotTakeArena(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'decision-council':
+            generators.push(generateDecisionCouncil(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths':
             generators.push(generateTwoTruths(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));

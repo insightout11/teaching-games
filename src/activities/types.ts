@@ -680,6 +680,17 @@ export interface ContributionBreakContent extends ActivityGeneratedContent {
   prompt: string;
 }
 
+// Decision Council content
+export interface DecisionCouncilContent extends ActivityGeneratedContent {
+  activityKey: 'decision-council';
+  councilQuestion: string;      // Open-ended decision question ≤20 words
+  contextBrief: string;         // 2–3 sentence background, student-readable in 30s
+  stanceOptions?: string[];     // 3–4 possible positions (noun phrases ≤8 words)
+  sourceDetails?: string[];     // Key facts from source material
+  usefulPhrases?: string[];     // Proposal language starters (5–6)
+  challengeStarters?: string[]; // Challenge language starters (4–5)
+}
+
 // Final Word content
 export interface FinalWordContent extends ActivityGeneratedContent {
   activityKey: 'final-word';

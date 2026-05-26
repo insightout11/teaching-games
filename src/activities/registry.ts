@@ -36,6 +36,7 @@ import { listeningGapFillPlugin } from './listening-gap-fill';
 // VAULTED: cabinMysteryPlugin (in development — static Switched Suitcase case, not yet reviewed for launch)
 import { cabinMysteryPlugin } from './cabin-mystery';
 import { contributionBreakPlugin } from './contribution-break';
+import { decisionCouncilPlugin } from './decision-council';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
@@ -70,6 +71,7 @@ const activities: ActivityPlugin[] = [
   conversationRoundsPlugin,
   // Debates
   hotTakeArenaPlugin,
+  decisionCouncilPlugin,
   // In development (flightPlanOnly: true — hidden from browse, accessible via flight plan):
   cabinMysteryPlugin,
   contributionBreakPlugin,

@@ -488,6 +488,21 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
   },
 
   {
+    key: 'decision-council',
+    slotFit: ['production'],
+    goalFit: ['discussion-debate', 'speaking-fluency', 'critical-thinking', 'collaboration'],
+    levelFit: ['intermediate', 'advanced'],
+    energy: 'high',
+    interactionModel: ['submission', 'voting', 'discussion'],
+    speakingLoad: 'high',
+    writingLoad: 'medium',
+    teacherControlLoad: 'high',
+    avoidAfter: ['hot-take-arena', 'expert-panel', 'problem-solvers'],
+    strongWith: ['rank-it', 'scenario-simulator', 'fact-detective'],
+    missionAware: true,
+  },
+
+  {
     key: 'final-answer',
     slotFit: ['landing'],
     goalFit: ['speaking-fluency', 'vocabulary-building', 'confidence-building'],
