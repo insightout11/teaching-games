@@ -125,6 +125,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
+  const [showCockpitQr, setShowCockpitQr] = useState(false);
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
   const [shareMode, setShareMode] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
@@ -987,6 +988,35 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 Questions ↗
               </Button>
             )}
+            <div className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => window.open(`/sessions/${session.id}/cockpit`, '_blank')}
+                onContextMenu={(e) => { e.preventDefault(); setShowCockpitQr((v) => !v); }}
+                className="text-violet-400 hover:text-violet-300"
+                title="Open Teacher Cockpit on phone (right-click for QR code)"
+              >
+                📱 Cockpit ↗
+              </Button>
+              {showCockpitQr && (
+                <div className="absolute top-full right-0 mt-2 p-3 bg-white rounded-xl shadow-2xl z-50 flex flex-col items-center gap-2">
+                  <QRCodeSVG
+                    value={`${window.location.origin}/sessions/${session.id}/cockpit`}
+                    size={140}
+                    level="H"
+                    includeMargin={false}
+                  />
+                  <p className="text-xs text-gray-500 font-medium">Scan to open cockpit</p>
+                  <button
+                    onClick={() => setShowCockpitQr(false)}
+                    className="text-xs text-gray-400 hover:text-gray-600"
+                  >
+                    ✕ close
+                  </button>
+                </div>
+              )}
+            </div>
             <Button variant="danger" size="sm" onClick={handleEndSession}>
               End Session
             </Button>
