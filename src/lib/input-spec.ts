@@ -34,6 +34,8 @@ export interface InputSpec {
   resources?: string[];
   /** When true, the submit API does not delete previous submissions from this student (allows multiple per session) */
   allowMultiple?: boolean;
+  /** Force text/textarea submissions through teacher review instead of direct scoring. */
+  reviewMode?: 'approval' | 'direct';
   /** Vocabulary words to display as chips to the student (e.g. Final Answer target keywords) */
   keywords?: string[];
   /** Role-grouped phrases with labels (e.g. for Conversation Rounds). Preferred over flat keywords when present. */
