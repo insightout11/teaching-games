@@ -329,7 +329,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'all-around-flight-60',
     name: 'All-Around Flight',
-    description: 'Flagship ESL journey: prediction, source briefing, quick votes, mission prep, accuracy check, council, game, landing',
+    description: 'Flagship ESL journey: prediction, source briefing, language toolkit, quick pulse, mission prep, accuracy check, council, game, landing',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'skill-builder',
@@ -339,7 +339,6 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     moduleSequence: [
       { slotType: 'presentation', key: 'read-aloud', stageId: 'briefing' },
       { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
-      { slotType: 'practice', key: 'listening-gap-fill', stageId: 'listening-check', isMicroEvent: true },
       { slotType: 'practice', key: 'opinion-micro', stageId: 'opinion-pulse', isMicroEvent: true },
       { slotType: 'presentation', key: 'wonder-board', stageId: 'mission-board' },
       { slotType: 'practice', key: 'accuracy-micro', stageId: 'accuracy-check', isMicroEvent: true },
@@ -351,7 +350,6 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'icebreaker', label: 'Icebreaker', kind: 'stage' },
         { stageId: 'briefing', label: "Captain's Briefing", kind: 'stage' },
         { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage' },
-        { stageId: 'listening-check', label: 'Listening Check', kind: 'micro-event' },
         { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event' },
         { stageId: 'mission-board', label: 'Mission Board', kind: 'stage' },
         { stageId: 'accuracy-check', label: 'Accuracy Check', kind: 'micro-event' },
@@ -364,7 +362,6 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'video-player': 'briefing',
         'read-aloud': 'briefing',
         'language-toolkit': 'language-toolkit',
-        'listening-gap-fill': 'listening-check',
         'opinion-micro': 'opinion-pulse',
         'would-you-rather': 'opinion-pulse',
         'rank-it': 'opinion-pulse',

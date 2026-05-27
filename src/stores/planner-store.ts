@@ -70,20 +70,14 @@ function applyAllAroundSourceRouting(
   if (preset.id !== 'all-around-flight-60') return modules;
 
   if (sourceKind === 'video') {
-    return modules
-      .filter((m) => m.key !== 'listening-gap-fill' && m.stageId !== 'listening-check')
-      .map((m) =>
-        m.stageId === 'briefing' || m.key === 'read-aloud'
-          ? { ...m, key: 'video-player', slotType: 'presentation', ...withFlightMeta(preset, 'video-player') }
-          : m,
-      );
+    return modules.map((m) =>
+      m.stageId === 'briefing' || m.key === 'read-aloud'
+        ? { ...m, key: 'video-player', slotType: 'presentation', ...withFlightMeta(preset, 'video-player') }
+        : m,
+    );
   }
 
-  return modules.map((m) =>
-    m.key === 'listening-gap-fill' || m.stageId === 'listening-check'
-      ? { ...m, stageLabel: 'Reading Check' }
-      : m,
-  );
+  return modules;
 }
 
 function buildFlightConfigForSlots(
