@@ -154,6 +154,21 @@ export function DecisionCouncilActivity({
 
   const totalVotes = votes.length;
 
+  const challengeStats = useMemo(
+    () =>
+      selectedProposals.map((p, i) => {
+        const label = LABELS[i] ?? String.fromCharCode(65 + i);
+        const support = challengePoints.filter(
+          (c) => c.targetLabel === label && c.kind === 'support'
+        ).length;
+        const challenge = challengePoints.filter(
+          (c) => c.targetLabel === label && c.kind === 'challenge'
+        ).length;
+        return { proposal: p, label, support, challenge };
+      }),
+    [selectedProposals, challengePoints]
+  );
+
   const winner = useMemo(() => {
     if (voteStats.length === 0 || totalVotes === 0) return null;
     return voteStats.reduce((best, curr) => (curr.count > best.count ? curr : best));
@@ -179,14 +194,21 @@ export function DecisionCouncilActivity({
         options: proposals.map((_, i) => `${LABELS[i] ?? String.fromCharCode(65 + i)}: Proposal ${LABELS[i] ?? String.fromCharCode(65 + i)}`),
       });
     } else if (phase === 'challenge') {
+      const options = selectedProposals.flatMap((_, i) => {
+        const label = LABELS[i] ?? String.fromCharCode(65 + i);
+        return [`support:${label}`, `challenge:${label}`];
+      });
+      const optionLabels = selectedProposals.flatMap((_, i) => {
+        const label = LABELS[i] ?? String.fromCharCode(65 + i);
+        return [`Support ${label}`, `Challenge ${label}`];
+      });
       onSetInputSpec?.({
-        type: 'textarea',
+        type: 'choice',
         gameKey: 'decision-council',
-        prompt: 'Submit a challenge or support point for any proposal',
-        placeholder: 'I challenge... / I support...',
-        maxLength: 150,
-        reviewMode: 'approval',
-        instruction: 'Challenge or support',
+        prompt: 'Tap where the discussion should go next',
+        options,
+        optionLabels,
+        instruction: 'Support or challenge',
       });
     } else if (phase === 'voting' && selectedProposals.length > 0) {
       onSetInputSpec?.({
@@ -243,6 +265,39 @@ export function DecisionCouncilActivity({
             spotlit: false,
           },
         ]);
+        return;
+      }
+
+      if (currentPhase === 'challenge') {
+        const challengeId = `tap-ch-${vote.clientId}`;
+        if (capturedChallengeIds.current.has(challengeId)) return;
+        capturedChallengeIds.current.add(challengeId);
+
+        const [kindRaw, labelRaw] = vote.choice.split(':');
+        const kind = kindRaw === 'challenge' ? 'challenge' : 'support';
+        const targetLabel = (labelRaw || '').trim();
+        const text = `${kind === 'challenge' ? 'Challenge' : 'Support'} for Proposal ${targetLabel}`;
+
+        setChallengePoints((prev) => [
+          ...prev,
+          {
+            id: challengeId,
+            clientId: vote.clientId,
+            displayName: vote.displayName,
+            text,
+            kind,
+            targetLabel,
+            spotlit: false,
+          },
+        ]);
+        void onScore?.({
+          studentId: vote.studentId ?? null,
+          clientId: vote.clientId,
+          displayName: vote.displayName,
+          promptIndex: promptIndexRef.current++,
+          points: 1,
+          isCorrect: null,
+        });
         return;
       }
 
@@ -572,10 +627,13 @@ export function DecisionCouncilActivity({
 
   if (phase === 'council-select') {
     const totalSignalsForHint = Object.keys(signals).length;
+    const minSelected = proposals.length <= 1 ? 1 : 2;
     return (
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <p className="text-sm opacity-70 font-medium">Select 2–4 proposals to bring forward</p>
+          <p className="text-sm opacity-70 font-medium">
+            {proposals.length <= 1 ? 'Select the proposal to bring forward' : 'Select 2-4 proposals to bring forward'}
+          </p>
           <span className="text-xs opacity-50">{selectedProposals.length} / 4</span>
         </div>
         {totalSignalsForHint > 0 && (
@@ -636,7 +694,7 @@ export function DecisionCouncilActivity({
         <div className="flex justify-end">
           <button
             onClick={presentCouncil}
-            disabled={selectedProposals.length < 2}
+            disabled={selectedProposals.length < minSelected}
             className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             PRESENT COUNCIL ({selectedProposals.length} selected)
@@ -679,7 +737,7 @@ export function DecisionCouncilActivity({
             onClick={openChallenges}
             className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
           >
-            OPEN CHALLENGES →
+            OPEN DISCUSSION CHECK -&gt;
           </button>
         </div>
       </div>
@@ -691,32 +749,47 @@ export function DecisionCouncilActivity({
   if (phase === 'challenge') {
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-2">
-          {selectedProposals.map((p, i) => (
-            <div key={p.id} className="glass p-2.5 rounded-lg border border-indigo-400/15">
-              <span className="text-indigo-400 font-bold text-xs">
-                {LABELS[i] ?? String.fromCharCode(65 + i)}:{' '}
-              </span>
-              <span className="opacity-70 text-xs">
-                {p.text.length > 60 ? `${p.text.slice(0, 60)}…` : p.text}
-              </span>
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-medium opacity-70 uppercase tracking-wide text-xs">
+            Discussion Check
+          </p>
+          <span className="px-2.5 py-1 text-xs font-semibold bg-violet-500/20 text-violet-300 rounded-full">
+            {challengePoints.length} taps
+          </span>
+        </div>
+        <p className="text-sm opacity-55">
+          Students tap support or challenge. Use the split to guide the spoken discussion.
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          {challengeStats.map((stat) => (
+            <div key={stat.proposal.id} className="glass p-4 rounded-xl border border-indigo-400/15 space-y-3">
+              <div>
+                <span className="text-indigo-400 font-bold text-xs">
+                  Proposal {stat.label}
+                </span>
+                <p className="mt-1 opacity-75 text-sm leading-relaxed">
+                  {stat.proposal.text.length > 100
+                    ? `${stat.proposal.text.slice(0, 100)}...`
+                    : stat.proposal.text}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-center">
+                <div className="rounded-lg bg-emerald-500/10 border border-emerald-400/20 px-3 py-2">
+                  <p className="text-xs uppercase tracking-wide text-emerald-300/60">Support</p>
+                  <p className="text-lg font-bold text-emerald-300">{stat.support}</p>
+                </div>
+                <div className="rounded-lg bg-amber-500/10 border border-amber-400/20 px-3 py-2">
+                  <p className="text-xs uppercase tracking-wide text-amber-300/60">Challenge</p>
+                  <p className="text-lg font-bold text-amber-300">{stat.challenge}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-medium opacity-70 uppercase tracking-wide text-xs">
-            Challenges &amp; Support
-          </p>
-          <span className="px-2.5 py-1 text-xs font-semibold bg-violet-500/20 text-violet-300 rounded-full">
-            {challengePoints.length} received
-          </span>
-        </div>
         {challengeStartersSection}
-        <div className="space-y-2 max-h-72 overflow-y-auto">
-          {challengePoints.length === 0 ? (
-            <p className="text-center opacity-40 text-sm py-8">Waiting for challenges...</p>
-          ) : (
-            challengePoints.map((c) => (
+        {challengePoints.some((c) => !c.kind) && (
+          <div className="space-y-2 max-h-40 overflow-y-auto">
+            {challengePoints.filter((c) => !c.kind).map((c) => (
               <motion.div
                 key={c.id}
                 initial={{ opacity: 0, x: -16 }}
@@ -743,9 +816,9 @@ export function DecisionCouncilActivity({
                   </button>
                 </div>
               </motion.div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
         <div className="flex justify-end">
           <button
             onClick={startVote}
