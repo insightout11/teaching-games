@@ -2,6 +2,7 @@ export type CouncilPhase =
   | 'idle'
   | 'briefing'
   | 'proposal-collect'
+  | 'signal-pass'
   | 'council-select'
   | 'presenting'
   | 'challenge'

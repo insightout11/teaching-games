@@ -30,6 +30,7 @@ export function DecisionCouncilActivity({
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [challengePoints, setChallengePoints] = useState<ChallengePoint[]>([]);
   const [votes, setVotes] = useState<VoteRecord[]>([]);
+  const [signals, setSignals] = useState<Record<string, string>>({});
 
   // UI state
   const [phrasesOpen, setPhrasesOpen] = useState(false);
@@ -39,6 +40,7 @@ export function DecisionCouncilActivity({
   const capturedProposalIds = useRef(new Set<string>());
   const capturedChallengeIds = useRef(new Set<string>());
   const capturedVoteClientIds = useRef(new Set<string>());
+  const capturedSignalClientIds = useRef(new Set<string>());
   const promptIndexRef = useRef(1);
 
   // Capture proposal and challenge submissions through the shell approval pipeline.
@@ -116,6 +118,29 @@ export function DecisionCouncilActivity({
   // Derived
   const selectedProposals = useMemo(() => proposals.filter((p) => p.selected), [proposals]);
 
+  const signalCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    Object.values(signals).forEach((label) => {
+      counts[label] = (counts[label] ?? 0) + 1;
+    });
+    return counts;
+  }, [signals]);
+
+  const proposalLabelMap = useMemo(
+    () => Object.fromEntries(proposals.map((p, i) => [p.id, LABELS[i] ?? String.fromCharCode(65 + i)])),
+    [proposals]
+  );
+
+  const sortedProposals = useMemo(
+    () =>
+      [...proposals].sort((a, b) => {
+        const lA = proposalLabelMap[a.id] ?? '';
+        const lB = proposalLabelMap[b.id] ?? '';
+        return (signalCounts[lB] ?? 0) - (signalCounts[lA] ?? 0);
+      }),
+    [proposals, proposalLabelMap, signalCounts]
+  );
+
   const voteStats = useMemo(
     () =>
       selectedProposals.map((p, i) => {
@@ -146,6 +171,13 @@ export function DecisionCouncilActivity({
         reviewMode: 'approval',
         instruction: 'Propose your solution',
       });
+    } else if (phase === 'signal-pass' && proposals.length > 0) {
+      onSetInputSpec?.({
+        type: 'choice',
+        gameKey: 'decision-council',
+        prompt: 'Which proposal should we discuss?',
+        options: proposals.map((_, i) => `${LABELS[i] ?? String.fromCharCode(65 + i)}: Proposal ${LABELS[i] ?? String.fromCharCode(65 + i)}`),
+      });
     } else if (phase === 'challenge') {
       onSetInputSpec?.({
         type: 'textarea',
@@ -168,7 +200,7 @@ export function DecisionCouncilActivity({
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, content.councilQuestion, selectedProposals, onSetInputSpec]);
+  }, [phase, content.councilQuestion, proposals, selectedProposals, onSetInputSpec]);
 
   // Remote vote handler — voting phase only
   useEffect(() => {
@@ -214,6 +246,22 @@ export function DecisionCouncilActivity({
         return;
       }
 
+      if (currentPhase === 'signal-pass') {
+        if (capturedSignalClientIds.current.has(vote.clientId)) return;
+        capturedSignalClientIds.current.add(vote.clientId);
+        const label = vote.choice.split(':')[0].trim();
+        setSignals((prev) => ({ ...prev, [vote.clientId]: label }));
+        void onScore?.({
+          studentId: vote.studentId ?? null,
+          clientId: vote.clientId,
+          displayName: vote.displayName,
+          promptIndex: promptIndexRef.current++,
+          points: 1,
+          isCorrect: null,
+        });
+        return;
+      }
+
       if (currentPhase !== 'voting') return;
       if (capturedVoteClientIds.current.has(vote.clientId)) return;
       capturedVoteClientIds.current.add(vote.clientId);
@@ -245,6 +293,7 @@ export function DecisionCouncilActivity({
 
   const startBriefing = useCallback(() => advanceTo('briefing'), [advanceTo]);
   const startProposalCollect = useCallback(() => advanceTo('proposal-collect'), [advanceTo]);
+  const startSignalPass = useCallback(() => advanceTo('signal-pass'), [advanceTo]);
   const openCouncilSelect = useCallback(() => advanceTo('council-select'), [advanceTo]);
   const presentCouncil = useCallback(() => advanceTo('presenting'), [advanceTo]);
   const openChallenges = useCallback(() => advanceTo('challenge'), [advanceTo]);
@@ -416,7 +465,7 @@ export function DecisionCouncilActivity({
           {proposals.length === 0 ? (
             <p className="text-center opacity-40 text-sm py-10">Waiting for proposals...</p>
           ) : (
-            proposals.map((p) => (
+            proposals.map((p, idx) => (
               <motion.div
                 key={p.id}
                 initial={{ opacity: 0, x: -16 }}
@@ -425,7 +474,9 @@ export function DecisionCouncilActivity({
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs text-indigo-400/70 font-semibold mb-0.5">{p.displayName}</p>
+                    <p className="text-xs text-indigo-400/70 font-semibold mb-0.5">
+                      Proposal {LABELS[idx] ?? String.fromCharCode(65 + idx)}
+                    </p>
                     <p className="text-sm leading-relaxed">{p.text}</p>
                   </div>
                   <button
@@ -440,13 +491,77 @@ export function DecisionCouncilActivity({
             ))
           )}
         </div>
+        <div className="flex items-center justify-end gap-3">
+          {proposals.length >= 2 && (
+            <button
+              onClick={openCouncilSelect}
+              className="text-xs opacity-40 hover:opacity-70 transition-opacity"
+            >
+              Skip signals →
+            </button>
+          )}
+          <button
+            onClick={proposals.length >= 2 ? startSignalPass : openCouncilSelect}
+            disabled={proposals.length < 1}
+            className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+          >
+            {proposals.length >= 2
+              ? `START CLASS SIGNALS (${proposals.length})`
+              : proposals.length === 1
+              ? 'OPEN COUNCIL (1 proposal)'
+              : 'OPEN COUNCIL'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── SIGNAL PASS ─────────────────────────────────────────────────────────────
+
+  if (phase === 'signal-pass') {
+    const totalSignals = Object.keys(signals).length;
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-sm opacity-50 truncate">{content.councilQuestion}</p>
+          <span className="shrink-0 px-2.5 py-1 text-xs font-semibold bg-sky-500/20 text-sky-300 rounded-full">
+            {totalSignals} signals
+          </span>
+        </div>
+        <div className="space-y-2">
+          {proposals.map((p, idx) => {
+            const label = LABELS[idx] ?? String.fromCharCode(65 + idx);
+            const count = signalCounts[label] ?? 0;
+            const pct = totalSignals > 0 ? Math.round((count / totalSignals) * 100) : 0;
+            return (
+              <div key={p.id} className="glass p-4 rounded-xl border border-white/10 space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <span className="w-7 h-7 rounded-full bg-sky-500/80 text-white font-bold text-sm flex items-center justify-center shrink-0">
+                      {label}
+                    </span>
+                    <p className="text-sm leading-relaxed truncate">{p.text}</p>
+                  </div>
+                  <span className="shrink-0 text-sm font-semibold">
+                    {count} <span className="opacity-40 font-normal text-xs">({pct}%)</span>
+                  </span>
+                </div>
+                <div className="bg-white/10 rounded-full h-2 overflow-hidden">
+                  <div
+                    className="h-full bg-sky-500 rounded-full transition-all duration-500"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
         <div className="flex justify-end">
           <button
             onClick={openCouncilSelect}
-            disabled={proposals.length < 2}
-            className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
           >
-            OPEN COUNCIL ({proposals.length} proposals)
+            OPEN SELECTION →
           </button>
         </div>
       </div>
@@ -456,14 +571,21 @@ export function DecisionCouncilActivity({
   // ─── COUNCIL SELECT ───────────────────────────────────────────────────────────
 
   if (phase === 'council-select') {
+    const totalSignalsForHint = Object.keys(signals).length;
     return (
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <p className="text-sm opacity-70 font-medium">Select 2–4 proposals to bring forward</p>
           <span className="text-xs opacity-50">{selectedProposals.length} / 4</span>
         </div>
+        {totalSignalsForHint > 0 && (
+          <p className="text-xs opacity-40 italic">Signals guide selection; teacher chooses final council.</p>
+        )}
         <div className="space-y-2 max-h-96 overflow-y-auto">
-          {proposals.map((p) => (
+          {sortedProposals.map((p) => {
+            const label = proposalLabelMap[p.id] ?? '';
+            const sigCount = signalCounts[label] ?? 0;
+            return (
             <div
               key={p.id}
               className={`glass p-4 rounded-xl border-2 transition-colors ${
@@ -491,7 +613,12 @@ export function DecisionCouncilActivity({
                   )}
                 </button>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-indigo-400/70 font-semibold mb-0.5">{p.displayName}</p>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <p className="text-xs text-indigo-400/70 font-semibold">Proposal {label}</p>
+                    {sigCount > 0 && (
+                      <span className="text-xs text-sky-400/80 font-medium">▲ {sigCount}</span>
+                    )}
+                  </div>
                   <p className="text-sm leading-relaxed">{p.text}</p>
                 </div>
                 <button
@@ -503,7 +630,8 @@ export function DecisionCouncilActivity({
                 </button>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
         <div className="flex justify-end">
           <button
