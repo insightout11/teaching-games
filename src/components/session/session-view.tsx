@@ -1349,6 +1349,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
               onSwap={() => setShowPivotDrawer(true)}
               onNext={handleNextSlotWithTransition}
+              onGoToSlot={lesson.goToSlot}
             >
               <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
                 <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} />
@@ -1437,6 +1438,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
               onSwap={() => setShowPivotDrawer(true)}
               onNext={handleNextWithRouteChoice}
+              onGoToSlot={lesson.goToSlot}
             >
               {activityContent ? (
                 <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>

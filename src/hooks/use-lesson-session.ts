@@ -107,6 +107,8 @@ export interface LessonSession {
   insertAndPivotSlot: (key: string, type: 'game' | 'activity', name: string) => void;
   /** Replace the next slot in place, preserving stageId/stageLabel/isMicroEvent. */
   replaceNextSlot: (key: string, type: 'game' | 'activity', name: string) => void;
+  /** Jump directly to any slot index (skip ahead or go back). */
+  goToSlot: (index: number) => void;
   handlePhaseChange: (phase: string) => void;
   exitLesson: () => void;
 }
@@ -463,6 +465,15 @@ export function useLessonSession(
     setSlotTrigger((c) => c + 1);
   }, [currentSlotIndex]);
 
+  const goToSlot = useCallback((index: number) => {
+    if (index < 0 || index >= lessonSlots.length) return;
+    const slot = lessonSlots[index];
+    const isLanding = LANDING_ACTIVITY_KEYS.has(slot.key);
+    setPhase(isLanding ? 'landing' : 'live');
+    pendingAutoStartRef.current = index;
+    setSlotTrigger((c) => c + 1);
+  }, [lessonSlots]);
+
   const replaceNextSlot = useCallback((key: string, type: 'game' | 'activity', name: string) => {
     setLessonSlots((prev) => {
       const next = [...prev];
@@ -522,6 +533,7 @@ export function useLessonSession(
     advanceSlot,
     insertAndPivotSlot,
     replaceNextSlot,
+    goToSlot,
     handlePhaseChange,
     exitLesson,
   };
