@@ -62,6 +62,8 @@ import type {
   ConnectionsGeneratedContent,
   VideoPlayerContent,
   DecisionCouncilContent,
+  OpinionMicroContent,
+  AccuracyMicroContent,
 } from '@/activities/types';
 import type { CheckpointQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
@@ -1576,6 +1578,65 @@ IMPORTANT: Double-check each error before including it — only mark words that 
   return { gameKey: 'error-hunter', paragraph: data.paragraph, errorCount: data.errorCount, _errors: data.errors };
 }
 
+async function generateOpinionMicro(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<OpinionMicroContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      optionA: { type: 'string' },
+      optionB: { type: 'string' },
+      discussionPrompt: { type: 'string' },
+    },
+    required: ['optionA', 'optionB', 'discussionPrompt'],
+  };
+
+  const prompt = `Generate ONE "Would You Rather?" dilemma for an ESL classroom.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
+Make both options genuinely interesting and debatable — not obvious. Keep each option under 12 words.
+Include a short discussion prompt (under 15 words) that encourages students to explain their choice.
+Return JSON with: optionA, optionB, discussionPrompt.`;
+
+  const data = await generateJSON<{ optionA: string; optionB: string; discussionPrompt: string }>(prompt, schema);
+  return { activityKey: 'opinion-micro', topicContext: topic, dilemma: { optionA: data.optionA, optionB: data.optionB, discussionPrompt: data.discussionPrompt } };
+}
+
+async function generateAccuracyMicro(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<AccuracyMicroContent> {
+  const difficultyConfig: Record<Difficulty, string> = {
+    'Beginner': 'Beginner (A1): very simple sentence, obvious error (e.g. spelling or basic subject-verb).',
+    'Easy': 'Easy (A2): simple sentence, one clear grammar error (e.g. wrong tense, article, preposition).',
+    'Intermediate': 'Intermediate (B1/B2): standard sentence, one subtle grammar or word-form error.',
+    'Advanced': 'Advanced (C1): complex sentence, one nuanced error (e.g. aspect, collocation, register).',
+    'Expert': 'Expert (C2): sophisticated sentence, one near-native error (e.g. idiom misuse, subtle syntax).',
+  };
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      sentence: { type: 'string' },
+      correctedSentence: { type: 'string' },
+      errorType: { type: 'string' },
+      explanation: { type: 'string' },
+    },
+    required: ['sentence', 'correctedSentence', 'errorType', 'explanation'],
+  };
+
+  const prompt = `Generate ONE sentence with exactly one grammatical error for an ESL accuracy check.
+Topic: ${topic}
+Level: ${difficultyConfig[difficulty]}
+${sourceContext}
+Rules:
+- The error must be exactly ONE word or morpheme — do not introduce multiple errors.
+- sentence: the incorrect version.
+- correctedSentence: the same sentence with that single error fixed.
+- errorType: a short label, e.g. "subject-verb agreement", "wrong tense", "missing article".
+- explanation: one sentence explaining why the original is wrong and what the fix is.
+Return JSON with: sentence, correctedSentence, errorType, explanation.`;
+
+  const data = await generateJSON<{ sentence: string; correctedSentence: string; errorType: string; explanation: string }>(prompt, schema);
+  return { activityKey: 'accuracy-micro', topicContext: topic, sentence: data.sentence, correctedSentence: data.correctedSentence, errorType: data.errorType, explanation: data.explanation };
+}
+
 async function generateDialogueDetective(topic: string, difficulty: Difficulty): Promise<DialogueDetectiveGeneratedContent> {
   const schema: AISchema = {
     type: 'object',
@@ -2420,6 +2481,12 @@ export async function POST(request: NextRequest) {
         switch (activityKey) {
           case 'would-you-rather':
             generators.push(generateWouldYouRather(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'opinion-micro':
+            generators.push(generateOpinionMicro(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'accuracy-micro':
+            generators.push(generateAccuracyMicro(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'hot-take-arena':
             generators.push(generateHotTakeArena(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));

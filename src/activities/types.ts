@@ -680,6 +680,27 @@ export interface ContributionBreakContent extends ActivityGeneratedContent {
   prompt: string;
 }
 
+// Opinion Micro content (flight-plan-only: one dilemma, one vote, done)
+export interface OpinionMicroContent extends ActivityGeneratedContent {
+  activityKey: 'opinion-micro';
+  topicContext: string;
+  dilemma: {
+    optionA: string;
+    optionB: string;
+    discussionPrompt: string;
+  };
+}
+
+// Accuracy Micro content (flight-plan-only: one sentence, one vote, reveal, done)
+export interface AccuracyMicroContent extends ActivityGeneratedContent {
+  activityKey: 'accuracy-micro';
+  topicContext: string;
+  sentence: string;           // sentence containing one error (shown as option A)
+  correctedSentence: string;  // fixed version (shown as option B)
+  errorType: string;          // e.g. "subject-verb agreement"
+  explanation: string;        // one sentence explaining the error
+}
+
 // Decision Council content
 export interface DecisionCouncilContent extends ActivityGeneratedContent {
   activityKey: 'decision-council';
