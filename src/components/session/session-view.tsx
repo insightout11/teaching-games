@@ -35,6 +35,7 @@ import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
+import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
 
@@ -183,6 +184,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Separate from lesson.creditsExhausted (which fires on 402 from generate route);
   // this fires when a Standard user clicks a Pro game that doesn't go through generate.
   const [showProGate, setShowProGate] = useState(false);
+  const [showRouteChoice, setShowRouteChoice] = useState(false);
   const supabase = createClient();
   const games = getAllGames().filter((g) => !g.flightPlanOnly);
   const activities = getAllActivities().filter((a) => !a.flightPlanOnly);
@@ -623,6 +625,21 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
   const flightConfig = lesson.lessonPlanContent?.flightConfig;
   const isAllAroundFlight = lesson.lessonPlanContent?.flightPresetId === 'all-around-flight-60' && Boolean(flightConfig);
+
+  const handleNextWithRouteChoice = useCallback(() => {
+    if (isAllAroundFlight && lesson.currentSlot?.key === 'decision-council') {
+      setShowRouteChoice(true);
+    } else {
+      handleNextSlotWithTransition();
+    }
+  }, [isAllAroundFlight, lesson, handleNextSlotWithTransition]);
+
+  const { replaceNextSlot } = lesson;
+  const handleRouteChosen = useCallback((key: string, type: 'game' | 'activity', name: string) => {
+    replaceNextSlot(key, type, name);
+    setShowRouteChoice(false);
+    handleNextSlotWithTransition();
+  }, [replaceNextSlot, handleNextSlotWithTransition]);
 
   const handleExitLessonMode = () => {
     lesson.exitLesson();
@@ -1412,7 +1429,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               isModuleFinished={isModuleFinished}
               onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
               onSwap={() => setShowPivotDrawer(true)}
-              onNext={handleNextSlotWithTransition}
+              onNext={handleNextWithRouteChoice}
             >
               {activityContent ? (
                 <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
@@ -1777,6 +1794,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
           </div>
         </>
+      )}
+
+      {showRouteChoice && (
+        <RouteChoicePanel sessionId={session.id} onRouteChosen={handleRouteChosen} />
       )}
 
       {/* Paywall modal — shown when generation credits are exhausted or a Pro module is clicked */}

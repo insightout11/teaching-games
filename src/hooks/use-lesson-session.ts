@@ -105,6 +105,8 @@ export interface LessonSession {
   advanceSlot: () => void;
   /** Bail out of the current activity and immediately start a different one. */
   insertAndPivotSlot: (key: string, type: 'game' | 'activity', name: string) => void;
+  /** Replace the next slot in place, preserving stageId/stageLabel/isMicroEvent. */
+  replaceNextSlot: (key: string, type: 'game' | 'activity', name: string) => void;
   handlePhaseChange: (phase: string) => void;
   exitLesson: () => void;
 }
@@ -461,6 +463,17 @@ export function useLessonSession(
     setSlotTrigger((c) => c + 1);
   }, [currentSlotIndex]);
 
+  const replaceNextSlot = useCallback((key: string, type: 'game' | 'activity', name: string) => {
+    setLessonSlots((prev) => {
+      const next = [...prev];
+      const nextIdx = currentSlotIndex + 1;
+      if (nextIdx < next.length) {
+        next[nextIdx] = { ...next[nextIdx], key, type, name };
+      }
+      return next;
+    });
+  }, [currentSlotIndex]);
+
   // Stable ref-based callback to avoid identity changes propagating through ActivityShell → activity
   const handlePhaseChangeRef = useRef<(activityPhase: string) => void>(() => {});
   handlePhaseChangeRef.current = (activityPhase: string) => {
@@ -508,6 +521,7 @@ export function useLessonSession(
     beginLesson,
     advanceSlot,
     insertAndPivotSlot,
+    replaceNextSlot,
     handlePhaseChange,
     exitLesson,
   };
