@@ -13,6 +13,8 @@ interface SubmitRequest {
   studentId?: string | null;
   /** When true, skip deleting previous submissions from this student (allows multiple per session) */
   allowMultiple?: boolean;
+  /** When set to approval, text/textarea submissions are saved for teacher review. */
+  reviewMode?: 'approval' | 'direct';
 }
 
 // POST /api/student/submit
@@ -20,7 +22,7 @@ interface SubmitRequest {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as SubmitRequest;
-    const { sessionId, clientId, displayName, content, team, gameKey, inputType, studentId, allowMultiple } = body;
+    const { sessionId, clientId, displayName, content, team, gameKey, inputType, studentId, allowMultiple, reviewMode } = body;
 
     // Validate required fields
     if (!sessionId || !clientId || !displayName || !content) {
@@ -76,8 +78,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
     }
 
-    // For simple choices (binary, choice, ranking), bypass approval and create score directly
-    const isDirectSubmission = inputType === 'binary' || inputType === 'choice' || inputType === 'ranking' || inputType === 'multi-select' || inputType === 'error-correction' || inputType === 'sequence' || inputType === 'confirm' || inputType === 'shuffleboard' || inputType === 'cabin-question' || inputType === 'cabin-vote' || (inputType === 'text' && !!gameKey) || (inputType === 'textarea' && !!gameKey);
+    // For simple choices (binary, choice, ranking), bypass approval and create score directly.
+    // Decision Council text must always go through student_submissions so the council
+    // activity can build proposal/challenge cards from real submission IDs.
+    const isDecisionCouncilText =
+      gameKey === 'decision-council' && (inputType === 'text' || inputType === 'textarea');
+    const shouldReviewText = reviewMode === 'approval' || isDecisionCouncilText;
+    const isDirectSubmission =
+      inputType === 'binary' ||
+      inputType === 'choice' ||
+      inputType === 'ranking' ||
+      inputType === 'multi-select' ||
+      inputType === 'error-correction' ||
+      inputType === 'sequence' ||
+      inputType === 'confirm' ||
+      inputType === 'shuffleboard' ||
+      inputType === 'cabin-question' ||
+      inputType === 'cabin-vote' ||
+      (!shouldReviewText && inputType === 'text' && !!gameKey) ||
+      (!shouldReviewText && inputType === 'textarea' && !!gameKey);
 
     if (isDirectSubmission) {
       // Delete any previous vote from this student for this game to prevent duplicates

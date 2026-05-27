@@ -173,7 +173,48 @@ export function DecisionCouncilActivity({
   // Remote vote handler — voting phase only
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
-      if (phaseRef.current !== 'voting') return;
+      if (vote.gameKey !== 'decision-council') return;
+      const currentPhase = phaseRef.current;
+      const isTextSubmission = vote.inputType === 'text' || vote.inputType === 'textarea';
+
+      if (currentPhase === 'proposal-collect' && isTextSubmission) {
+        const fallbackId = `direct-prop-${vote.clientId}`;
+        setProposals((prev) => {
+          const nextProposal: Proposal = {
+            id: fallbackId,
+            clientId: vote.clientId,
+            displayName: vote.displayName,
+            text: vote.choice,
+            selected: false,
+          };
+          const existingIndex = prev.findIndex((p) => p.clientId === vote.clientId);
+          if (existingIndex === -1) return [...prev, nextProposal];
+          const next = [...prev];
+          next[existingIndex] = {
+            ...nextProposal,
+            selected: next[existingIndex].selected,
+          };
+          return next;
+        });
+        return;
+      }
+
+      if (currentPhase === 'challenge' && isTextSubmission) {
+        const fallbackId = `direct-ch-${vote.clientId}-${Date.now()}`;
+        setChallengePoints((prev) => [
+          ...prev,
+          {
+            id: fallbackId,
+            clientId: vote.clientId,
+            displayName: vote.displayName,
+            text: vote.choice,
+            spotlit: false,
+          },
+        ]);
+        return;
+      }
+
+      if (currentPhase !== 'voting') return;
       if (capturedVoteClientIds.current.has(vote.clientId)) return;
       capturedVoteClientIds.current.add(vote.clientId);
       setVotes((prev) => [
