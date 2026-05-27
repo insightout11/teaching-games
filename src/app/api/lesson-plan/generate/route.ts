@@ -64,6 +64,8 @@ import type {
   DecisionCouncilContent,
   OpinionMicroContent,
   AccuracyMicroContent,
+  LanguageToolkitContent,
+  LanguageToolkitItem,
 } from '@/activities/types';
 import type { CheckpointQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
@@ -822,6 +824,76 @@ Return JSON with a "words" array of exactly 5 objects, each with "word", "partOf
     activityKey: 'vocab-radar',
     topicContext: topic,
     words: parsed.words.slice(0, 6).map((w) => ({ word: w.word, partOfSpeech: w.partOfSpeech, definition: w.definition })),
+  };
+}
+
+async function generateLanguageToolkit(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<LanguageToolkitContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      items: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            term: { type: 'string' },
+            meaning: { type: 'string' },
+            example: { type: 'string' },
+            prompt: { type: 'string' },
+            sourceContext: { type: 'string' },
+          },
+          required: ['term', 'meaning', 'example', 'prompt'],
+        },
+      },
+    },
+    required: ['items'],
+  };
+
+  const sourceSection = sourceContext
+    ? `Source material (prefer terms that appear in this text):\n${sourceContext.slice(0, 1500)}\n\n`
+    : '';
+
+  const aiPrompt = `Generate 6 vocabulary terms for an ESL classroom lesson about the topic below.
+Topic: ${topic}
+Difficulty: ${difficultyDescriptions[difficulty]}
+${sourceSection}
+Choose terms that:
+- Will recur naturally in student discussion about this topic
+- Range from mid-frequency to topic-specific (mix of useful and precise)
+- Are appropriate for the difficulty level
+
+For each term provide:
+- meaning: plain English definition, ≤15 words, no circular definitions
+- example: a natural sentence using the term in context
+- prompt: one open discussion or reflection question that prompts students to use the term (e.g. "What is one example of X in your daily life?")
+- sourceContext (optional): a sentence from the source material where the term appears, if applicable
+
+Return JSON with an "items" array of exactly 6 objects, each with "term", "meaning", "example", "prompt", and optionally "sourceContext".`;
+
+  const parsed = await generateJSON<{ items: Array<{ term?: string; meaning?: string; example?: string; prompt?: string; sourceContext?: string }> }>(aiPrompt, schema);
+
+  const seen = new Set<string>();
+  const normalized: LanguageToolkitItem[] = [];
+  for (const raw of parsed.items) {
+    const term = (raw.term ?? '').trim();
+    if (!term) continue;
+    const key = term.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    normalized.push({
+      term,
+      meaning: (raw.meaning ?? '').trim(),
+      example: (raw.example ?? '').trim(),
+      prompt: (raw.prompt ?? '').trim(),
+      sourceContext: raw.sourceContext ? raw.sourceContext.trim() : undefined,
+    });
+    if (normalized.length >= 8) break;
+  }
+
+  return {
+    activityKey: 'language-toolkit',
+    topicContext: topic,
+    items: normalized,
   };
 }
 
@@ -2541,6 +2613,9 @@ export async function POST(request: NextRequest) {
                 prompt: `Submit one useful idea, question, or phrase${topicLabel} for the next stage`,
               };
             }));
+            break;
+          case 'language-toolkit':
+            generators.push(generateLanguageToolkit(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'listening-gap-fill':
             generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined).then((r) => { content[activityKey] = r; }));

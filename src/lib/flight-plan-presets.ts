@@ -338,6 +338,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     landing: 'final-word',
     moduleSequence: [
       { slotType: 'presentation', key: 'read-aloud', stageId: 'briefing' },
+      { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'listening-gap-fill', stageId: 'listening-check', isMicroEvent: true },
       { slotType: 'practice', key: 'opinion-micro', stageId: 'opinion-pulse', isMicroEvent: true },
       { slotType: 'presentation', key: 'wonder-board', stageId: 'mission-board' },
@@ -349,6 +350,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       stages: [
         { stageId: 'icebreaker', label: 'Icebreaker', kind: 'stage' },
         { stageId: 'briefing', label: "Captain's Briefing", kind: 'stage' },
+        { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage' },
         { stageId: 'listening-check', label: 'Listening Check', kind: 'micro-event' },
         { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event' },
         { stageId: 'mission-board', label: 'Mission Board', kind: 'stage' },
@@ -361,6 +363,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'prediction-round': 'icebreaker',
         'video-player': 'briefing',
         'read-aloud': 'briefing',
+        'language-toolkit': 'language-toolkit',
         'listening-gap-fill': 'listening-check',
         'opinion-micro': 'opinion-pulse',
         'would-you-rather': 'opinion-pulse',

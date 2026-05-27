@@ -115,6 +115,19 @@ export interface VocabWord {
   definition: string;
 }
 
+export interface LanguageToolkitItem {
+  term: string;
+  meaning: string;        // ≤15 words, plain English
+  example: string;        // Natural sentence using the term
+  prompt: string;         // Use-it discussion/reflection question
+  sourceContext?: string; // Sentence from source material where term appears
+}
+
+export interface LanguageToolkitContent extends ActivityGeneratedContent {
+  activityKey: 'language-toolkit';
+  items: LanguageToolkitItem[];
+}
+
 export function normalizeVocabWord(item: string | VocabWord): VocabWord {
   if (typeof item === 'string') return { word: item, definition: '' };
   return item;
