@@ -23,7 +23,6 @@ interface FlightSessionViewProps {
 export function FlightSessionView({
   slots,
   currentSlotIndex,
-  phase: _phase,
   flightConfig,
   currentModuleName,
   isModuleFinished,
