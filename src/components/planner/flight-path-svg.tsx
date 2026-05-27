@@ -17,6 +17,7 @@ import {
 } from '@dnd-kit/sortable';
 import { usePlannerStore } from '@/stores/planner-store';
 import { ModuleNode } from './module-node';
+import { FlightPathTrack } from '@/components/ui/flight-path-track';
 
 interface FlightPathSVGProps {
   compact?: boolean;
@@ -60,13 +61,10 @@ export function FlightPathSVG({ compact }: FlightPathSVGProps) {
 
   const nodeSpacing = compact ? 80 : 140;
   const paddingX = compact ? 30 : 60;
-  const svgWidth = paddingX * 2 + (modules.length - 1) * nodeSpacing;
   const svgHeight = compact ? 40 : 60;
   const cy = svgHeight / 2;
+  const svgWidth = paddingX * 2 + (modules.length - 1) * nodeSpacing;
 
-  const nodePositions = modules.map((_, i) => paddingX + i * nodeSpacing);
-
-  // Middle (sortable) modules
   const middleModules = modules.filter((m) => !m.isLocked);
   const middleIds = middleModules.map((m) => m.id);
 
@@ -76,52 +74,27 @@ export function FlightPathSVG({ compact }: FlightPathSVGProps) {
 
   const pathContent = (
     <div ref={containerRef} className="relative w-full overflow-x-auto">
-      {/* SVG Path Layer */}
-      <svg
-        width={svgWidth}
-        height={svgHeight}
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-        className="block"
-        style={{ minWidth: svgWidth }}
-      >
-        {/* PathLayer: bezier connectors */}
-        {nodePositions.map((x, i) => {
-          if (i === 0) return null;
-          const x1 = nodePositions[i - 1];
-          const x2 = x;
-          const cpOffset = (x2 - x1) * 0.35;
-          return (
-            <path
-              key={`path-${i}`}
-              d={`M ${x1} ${cy} C ${x1 + cpOffset} ${cy - 12}, ${x2 - cpOffset} ${cy + 12}, ${x2} ${cy}`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={compact ? 1.5 : 2}
-              className="text-lc-border"
-              strokeDasharray={compact ? undefined : '6 3'}
-            />
-          );
-        })}
-
-        {/* NodeLayer: dots at positions */}
-        {nodePositions.map((x, i) => (
-          <circle
-            key={`dot-${i}`}
-            cx={x}
-            cy={cy}
-            r={compact ? 3 : 4}
-            className={
-              modules[i].isLocked
-                ? modules[i].slotType === 'takeoff'
-                  ? 'fill-amber-400'
-                  : 'fill-teal-400'
-                : 'fill-lc-blue'
-            }
-          />
-        ))}
-
-        {/* PlaneLayer: placeholder for Phase 3 */}
-      </svg>
+      <FlightPathTrack
+        count={modules.length}
+        nodeSpacing={nodeSpacing}
+        paddingX={paddingX}
+        cy={cy}
+        svgHeight={svgHeight}
+        segments={modules.slice(1).map(() => ({
+          stroke: 'currentColor',
+          className: 'text-lc-border',
+          strokeDasharray: compact ? undefined : '6 3',
+          strokeWidth: compact ? 1.5 : 2,
+        }))}
+        nodes={modules.map((m) => ({
+          r: compact ? 3 : 4,
+          fillClassName: m.isLocked
+            ? m.slotType === 'takeoff'
+              ? 'fill-amber-400'
+              : 'fill-teal-400'
+            : 'fill-lc-blue',
+        }))}
+      />
 
       {/* Module nodes positioned over the SVG */}
       <div
