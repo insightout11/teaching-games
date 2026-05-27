@@ -5,7 +5,14 @@ import { motion } from 'framer-motion';
 import { CheckCircle, Circle } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import type { DecisionCouncilContent } from '../types';
-import type { CouncilPhase, Proposal, ChallengePoint, VoteRecord } from './types';
+import type {
+  CouncilPhase,
+  Proposal,
+  ProposalSupport,
+  CouncilSupportTab,
+  ChallengePoint,
+  VoteRecord,
+} from './types';
 
 const LABELS = ['A', 'B', 'C', 'D'];
 
@@ -35,12 +42,17 @@ export function DecisionCouncilActivity({
   // UI state
   const [phrasesOpen, setPhrasesOpen] = useState(false);
   const [startersOpen, setStartersOpen] = useState(false);
+  const [proposalSupports, setProposalSupports] = useState<Record<string, ProposalSupport>>({});
+  const [supportLoading, setSupportLoading] = useState(false);
+  const [supportError, setSupportError] = useState<string | null>(null);
+  const [openSupport, setOpenSupport] = useState<Record<string, CouncilSupportTab | null>>({});
 
   // Dedup refs
   const capturedProposalIds = useRef(new Set<string>());
   const capturedChallengeIds = useRef(new Set<string>());
   const capturedVoteClientIds = useRef(new Set<string>());
   const capturedSignalClientIds = useRef(new Set<string>());
+  const supportRequestKeyRef = useRef<string | null>(null);
   const promptIndexRef = useRef(1);
 
   // Capture proposal and challenge submissions through the shell approval pipeline.
@@ -118,6 +130,27 @@ export function DecisionCouncilActivity({
   // Derived
   const selectedProposals = useMemo(() => proposals.filter((p) => p.selected), [proposals]);
 
+  const selectedProposalCards = useMemo(
+    () =>
+      selectedProposals.map((proposal, i) => {
+        const originalIndex = proposals.findIndex((p) => p.id === proposal.id);
+        const labelIndex = originalIndex >= 0 ? originalIndex : i;
+        return {
+          proposal,
+          label: LABELS[labelIndex] ?? String.fromCharCode(65 + labelIndex),
+        };
+      }),
+    [proposals, selectedProposals]
+  );
+
+  const selectedSupportRequestKey = useMemo(
+    () =>
+      selectedProposalCards
+        .map(({ proposal, label }) => `${proposal.id}:${label}:${proposal.text}`)
+        .join('|'),
+    [selectedProposalCards]
+  );
+
   const signalCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     Object.values(signals).forEach((label) => {
@@ -143,21 +176,19 @@ export function DecisionCouncilActivity({
 
   const voteStats = useMemo(
     () =>
-      selectedProposals.map((p, i) => {
-        const label = LABELS[i] ?? String.fromCharCode(65 + i);
-        const choiceKey = `${label}: ${p.displayName}`;
+      selectedProposalCards.map(({ proposal: p, label }) => {
+        const choiceKey = `${label}: Proposal ${label}`;
         const count = votes.filter((v) => v.choice === choiceKey).length;
         return { proposal: p, label, choiceKey, count };
       }),
-    [selectedProposals, votes]
+    [selectedProposalCards, votes]
   );
 
   const totalVotes = votes.length;
 
   const challengeStats = useMemo(
     () =>
-      selectedProposals.map((p, i) => {
-        const label = LABELS[i] ?? String.fromCharCode(65 + i);
+      selectedProposalCards.map(({ proposal: p, label }) => {
         const support = challengePoints.filter(
           (c) => c.targetLabel === label && c.kind === 'support'
         ).length;
@@ -166,7 +197,7 @@ export function DecisionCouncilActivity({
         ).length;
         return { proposal: p, label, support, challenge };
       }),
-    [selectedProposals, challengePoints]
+    [selectedProposalCards, challengePoints]
   );
 
   const winner = useMemo(() => {
@@ -194,12 +225,10 @@ export function DecisionCouncilActivity({
         options: proposals.map((_, i) => `${LABELS[i] ?? String.fromCharCode(65 + i)}: Proposal ${LABELS[i] ?? String.fromCharCode(65 + i)}`),
       });
     } else if (phase === 'challenge') {
-      const options = selectedProposals.flatMap((_, i) => {
-        const label = LABELS[i] ?? String.fromCharCode(65 + i);
+      const options = selectedProposalCards.flatMap(({ label }) => {
         return [`support:${label}`, `challenge:${label}`];
       });
-      const optionLabels = selectedProposals.flatMap((_, i) => {
-        const label = LABELS[i] ?? String.fromCharCode(65 + i);
+      const optionLabels = selectedProposalCards.flatMap(({ label }) => {
         return [`Support ${label}`, `Challenge ${label}`];
       });
       onSetInputSpec?.({
@@ -215,14 +244,12 @@ export function DecisionCouncilActivity({
         type: 'choice',
         gameKey: 'decision-council',
         prompt: 'Vote for the strongest proposal',
-        options: selectedProposals.map(
-          (p, i) => `${LABELS[i] ?? String.fromCharCode(65 + i)}: ${p.displayName}`
-        ),
+        options: selectedProposalCards.map(({ label }) => `${label}: Proposal ${label}`),
       });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, content.councilQuestion, proposals, selectedProposals, onSetInputSpec]);
+  }, [phase, content.councilQuestion, proposals, selectedProposals, selectedProposalCards, onSetInputSpec]);
 
   // Remote vote handler — voting phase only
   useEffect(() => {
@@ -391,6 +418,187 @@ export function DecisionCouncilActivity({
     [handleSpotlight]
   );
 
+  const fallbackSupportFor = useCallback(
+    (proposal: Proposal, label: string): ProposalSupport => {
+      const evidence =
+        content.sourceDetails && content.sourceDetails.length > 0
+          ? content.sourceDetails.slice(0, 2)
+          : [
+              content.contextBrief ||
+                `Use one lesson detail to test whether Proposal ${label} is realistic.`,
+            ];
+
+      return {
+        proposalId: proposal.id,
+        proposalLabel: label,
+        forPoints: [
+          'This proposal gives the class a clear action to evaluate.',
+          'It directly answers the council question and can be explained quickly.',
+        ],
+        againstPoints: [
+          'It may need a more realistic plan or clearer limits.',
+          'It may not work equally well for every person or situation.',
+        ],
+        evidence,
+        speakerPrompt: `Explain why Proposal ${label} is practical, then respond to one concern.`,
+      };
+    },
+    [content.contextBrief, content.sourceDetails]
+  );
+
+  useEffect(() => {
+    if ((phase !== 'presenting' && phase !== 'challenge') || selectedProposalCards.length === 0) return;
+    if (supportRequestKeyRef.current === selectedSupportRequestKey) return;
+
+    supportRequestKeyRef.current = selectedSupportRequestKey;
+
+    const fallbackMap = Object.fromEntries(
+      selectedProposalCards.map(({ proposal, label }) => [
+        proposal.id,
+        fallbackSupportFor(proposal, label),
+      ])
+    );
+
+    async function loadSupports() {
+      setSupportLoading(true);
+      setSupportError(null);
+
+      try {
+        const response = await fetch('/api/decision-council/supports', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId,
+            topic: content.topicContext ?? content.councilQuestion,
+            councilQuestion: content.councilQuestion,
+            contextBrief: content.contextBrief,
+            sourceDetails: content.sourceDetails ?? [],
+            usefulPhrases: content.usefulPhrases ?? [],
+            proposals: selectedProposalCards.map(({ proposal, label }) => ({
+              id: proposal.id,
+              label,
+              text: proposal.text,
+            })),
+          }),
+        });
+
+        if (!response.ok) throw new Error(`Support request failed: ${response.status}`);
+
+        const data = (await response.json()) as {
+          supports?: ProposalSupport[];
+          fallback?: boolean;
+        };
+        const supportsById = Object.fromEntries(
+          (data.supports ?? []).map((support) => [support.proposalId, support])
+        );
+
+        if (supportRequestKeyRef.current === selectedSupportRequestKey) {
+          setProposalSupports((prev) => ({
+            ...prev,
+            ...fallbackMap,
+            ...supportsById,
+          }));
+          setSupportError(data.fallback ? 'Using basic discussion notes.' : null);
+        }
+      } catch (error) {
+        console.warn('[DecisionCouncil] support generation failed:', error);
+        if (supportRequestKeyRef.current === selectedSupportRequestKey) {
+          setProposalSupports((prev) => ({ ...prev, ...fallbackMap }));
+          setSupportError('Using basic discussion notes.');
+        }
+      } finally {
+        if (supportRequestKeyRef.current === selectedSupportRequestKey) setSupportLoading(false);
+      }
+    }
+
+    void loadSupports();
+  }, [
+    phase,
+    selectedProposalCards,
+    selectedSupportRequestKey,
+    sessionId,
+    content.topicContext,
+    content.councilQuestion,
+    content.contextBrief,
+    content.sourceDetails,
+    content.usefulPhrases,
+    fallbackSupportFor,
+  ]);
+
+  const toggleSupportPanel = useCallback((proposalId: string, tab: CouncilSupportTab) => {
+    setOpenSupport((prev) => ({
+      ...prev,
+      [proposalId]: prev[proposalId] === tab ? null : tab,
+    }));
+  }, []);
+
+  const getSupportItems = (support: ProposalSupport, tab: CouncilSupportTab) => {
+    if (tab === 'for') return support.forPoints;
+    if (tab === 'against') return support.againstPoints;
+    if (tab === 'evidence') return support.evidence;
+    return support.speakerPrompt ? [support.speakerPrompt] : [];
+  };
+
+  const supportTabs: Array<{ id: CouncilSupportTab; label: string; className: string }> = [
+    { id: 'for', label: 'For', className: 'border-emerald-400/30 text-emerald-200 bg-emerald-500/10' },
+    { id: 'against', label: 'Against', className: 'border-amber-400/30 text-amber-200 bg-amber-500/10' },
+    { id: 'evidence', label: 'Evidence', className: 'border-sky-400/30 text-sky-200 bg-sky-500/10' },
+    { id: 'prompt', label: 'Prompt', className: 'border-violet-400/30 text-violet-200 bg-violet-500/10' },
+  ];
+
+  const renderSupportControls = (proposal: Proposal, label: string) => {
+    const support = proposalSupports[proposal.id] ?? fallbackSupportFor(proposal, label);
+    const activeTab = openSupport[proposal.id];
+    const items = activeTab ? getSupportItems(support, activeTab) : [];
+    const activeConfig = supportTabs.find((tab) => tab.id === activeTab);
+
+    return (
+      <div className="space-y-3">
+        <div className="grid grid-cols-4 gap-2">
+          {supportTabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => toggleSupportPanel(proposal.id, tab.id)}
+                className={`min-h-10 rounded-lg border px-2 text-xs font-semibold transition-colors ${
+                  isActive
+                    ? tab.className
+                    : 'border-white/10 bg-white/5 text-white/55 hover:bg-white/10 hover:text-white/80'
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {supportLoading && !proposalSupports[proposal.id] && (
+          <p className="text-xs text-sky-300/70">Preparing council notes...</p>
+        )}
+
+        {activeTab && (
+          <div className={`rounded-xl border p-3 ${activeConfig?.className ?? 'border-white/10 bg-white/5'}`}>
+            <p className="text-xs uppercase tracking-widest opacity-55 mb-2">
+              Proposal {label} {activeConfig?.label}
+            </p>
+            <div className="space-y-1.5">
+              {items.map((item, idx) => (
+                <p key={idx} className="text-sm leading-relaxed text-white/85">
+                  {activeTab === 'prompt' ? item : `- ${item}`}
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {supportError && !supportLoading && (
+          <p className="text-xs text-amber-300/70">{supportError}</p>
+        )}
+      </div>
+    );
+  };
+
   // Shared UI elements
   const usefulPhrasesSection = content.usefulPhrases && content.usefulPhrases.length > 0 && (
     <div className="glass rounded-xl overflow-hidden">
@@ -520,7 +728,9 @@ export function DecisionCouncilActivity({
           {proposals.length === 0 ? (
             <p className="text-center opacity-40 text-sm py-10">Waiting for proposals...</p>
           ) : (
-            proposals.map((p, idx) => (
+            proposals.map((p, idx) => {
+              const label = LABELS[idx] ?? String.fromCharCode(65 + idx);
+              return (
               <motion.div
                 key={p.id}
                 initial={{ opacity: 0, x: -16 }}
@@ -530,12 +740,12 @@ export function DecisionCouncilActivity({
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-indigo-400/70 font-semibold mb-0.5">
-                      Proposal {LABELS[idx] ?? String.fromCharCode(65 + idx)}
+                      Proposal {label}
                     </p>
                     <p className="text-sm leading-relaxed">{p.text}</p>
                   </div>
                   <button
-                    onClick={() => void handleSpotlight(p.submissionId, p.displayName, p.text)}
+                    onClick={() => void handleSpotlight(p.submissionId, `Proposal ${label}`, p.text)}
                     className="shrink-0 text-amber-400/40 hover:text-amber-400 transition-colors text-base"
                     title="Spotlight"
                   >
@@ -543,7 +753,8 @@ export function DecisionCouncilActivity({
                   </button>
                 </div>
               </motion.div>
-            ))
+              );
+            })
           )}
         </div>
         <div className="flex items-center justify-end gap-3">
@@ -680,7 +891,7 @@ export function DecisionCouncilActivity({
                   <p className="text-sm leading-relaxed">{p.text}</p>
                 </div>
                 <button
-                  onClick={() => void handleSpotlight(p.submissionId, p.displayName, p.text)}
+                  onClick={() => void handleSpotlight(p.submissionId, `Proposal ${label}`, p.text)}
                   className="shrink-0 text-amber-400/40 hover:text-amber-400 transition-colors text-base"
                   title="Spotlight"
                 >
@@ -714,7 +925,7 @@ export function DecisionCouncilActivity({
           <p className="text-xl font-bold leading-snug">{content.councilQuestion}</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {selectedProposals.map((p, i) => (
+          {selectedProposalCards.map(({ proposal: p, label }, i) => (
             <motion.div
               key={p.id}
               initial={{ opacity: 0, y: 16 }}
@@ -724,11 +935,12 @@ export function DecisionCouncilActivity({
             >
               <div className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-indigo-500 text-white font-bold text-sm flex items-center justify-center shrink-0">
-                  {LABELS[i] ?? String.fromCharCode(65 + i)}
+                  {label}
                 </span>
-                <p className="text-xs opacity-60 font-medium">{p.displayName}</p>
+                <p className="text-xs opacity-60 font-medium">Proposal {label}</p>
               </div>
               <p className="text-base leading-relaxed">{p.text}</p>
+              {renderSupportControls(p, label)}
             </motion.div>
           ))}
         </div>
@@ -783,6 +995,7 @@ export function DecisionCouncilActivity({
                   <p className="text-lg font-bold text-amber-300">{stat.challenge}</p>
                 </div>
               </div>
+              {renderSupportControls(stat.proposal, stat.label)}
             </div>
           ))}
         </div>
@@ -902,7 +1115,7 @@ export function DecisionCouncilActivity({
               <span className="w-10 h-10 rounded-full bg-indigo-500 text-white font-bold text-lg flex items-center justify-center">
                 {winner.label}
               </span>
-              <p className="text-lg font-semibold text-indigo-300">{winner.proposal.displayName}</p>
+              <p className="text-lg font-semibold text-indigo-300">Proposal {winner.label}</p>
             </div>
             <p className="text-xl font-bold leading-snug">{winner.proposal.text}</p>
             <p className="text-sm opacity-50">

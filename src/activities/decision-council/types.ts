@@ -9,6 +9,17 @@ export type CouncilPhase =
   | 'voting'
   | 'results';
 
+export type CouncilSupportTab = 'for' | 'against' | 'evidence' | 'prompt';
+
+export interface ProposalSupport {
+  proposalId: string;
+  proposalLabel: string;
+  forPoints: string[];
+  againstPoints: string[];
+  evidence: string[];
+  speakerPrompt?: string;
+}
+
 export interface Proposal {
   id: string;
   submissionId?: string;  // student_submissions.id — used by spotlight API
@@ -32,5 +43,5 @@ export interface ChallengePoint {
 export interface VoteRecord {
   clientId: string;
   displayName: string;
-  choice: string;  // e.g. "A: Maya"
+  choice: string;  // e.g. "A: Proposal A"
 }
