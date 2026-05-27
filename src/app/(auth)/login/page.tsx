@@ -6,17 +6,29 @@ import { useRouter } from 'next/navigation';
 import { isMockMode } from '@/lib/mock/auth';
 import { SkyBackground } from '@/components/ui/sky-background';
 
+const AUTH_NEXT_COOKIE = 'lc-auth-next';
+
+function getSafeNextPath(): string {
+  const params = new URLSearchParams(window.location.search);
+  const nextPath = params.get('next');
+  return nextPath && nextPath.startsWith('/') && !nextPath.startsWith('//')
+    ? nextPath
+    : '/home';
+}
+
+function rememberAuthNext(nextPath: string) {
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${AUTH_NEXT_COOKIE}=${encodeURIComponent(nextPath)}; Max-Age=600; Path=/; SameSite=Lax${secure}`;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const mockMode = isMockMode();
 
   const handleLogin = async () => {
     const supabase = createClient();
-    const params = new URLSearchParams(window.location.search);
-    const nextPath = params.get('next');
-    const safeNextPath = nextPath && nextPath.startsWith('/') && !nextPath.startsWith('//')
-      ? nextPath
-      : '/home';
+    const safeNextPath = getSafeNextPath();
+    rememberAuthNext(safeNextPath);
     const callbackUrl = new URL('/callback', window.location.origin);
     callbackUrl.searchParams.set('next', safeNextPath);
 
@@ -29,9 +41,7 @@ export default function LoginPage() {
   };
 
   const handleDemoLogin = () => {
-    const params = new URLSearchParams(window.location.search);
-    const nextPath = params.get('next');
-    router.push(nextPath && nextPath.startsWith('/') && !nextPath.startsWith('//') ? nextPath : '/classes');
+    router.push(getSafeNextPath());
   };
 
   return (
