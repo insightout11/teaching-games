@@ -435,6 +435,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
           {sessionId && (
             <ApprovalQueue
               sessionId={sessionId}
+              gameKey={game.key}
               onApprove={handleApprovedSubmission}
               hideContent
               autoApprove={autoApprove}

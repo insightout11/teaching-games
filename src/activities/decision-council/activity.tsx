@@ -6,7 +6,6 @@ import { CheckCircle, Circle } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import type { DecisionCouncilContent } from '../types';
 import type { CouncilPhase, Proposal, ChallengePoint, VoteRecord } from './types';
-import { useApprovalQueue } from '@/hooks/use-approval-queue';
 
 const LABELS = ['A', 'B', 'C', 'D'];
 
@@ -15,6 +14,7 @@ export function DecisionCouncilActivity({
   students,
   generatedContent,
   onSetInputSpec,
+  onRegisterSubmissionHandler,
   onRegisterRemoteVoteHandler,
   onPhaseChange,
   onScore,
@@ -41,62 +41,77 @@ export function DecisionCouncilActivity({
   const capturedVoteClientIds = useRef(new Set<string>());
   const promptIndexRef = useRef(1);
 
-  // Subscribe to pending submissions — used for proposal and challenge phases
-  const { pending, approve } = useApprovalQueue(sessionId);
-
-  // Capture incoming submissions into local state
+  // Capture proposal and challenge submissions through the shell approval pipeline.
   useEffect(() => {
-    for (const sub of pending) {
-      if (sub.game_key !== 'decision-council') continue;
-      const currentPhase = phaseRef.current;
+    onRegisterSubmissionHandler?.({
+      autoApprove: true,
+      handleSubmission: async (submissionContent, metadata = {}) => {
+        const currentPhase = phaseRef.current;
+        const text = submissionContent.trim();
+        const submissionId =
+          typeof metadata.submissionId === 'string'
+            ? metadata.submissionId
+            : `local-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        const clientId = typeof metadata.clientId === 'string' ? metadata.clientId : submissionId;
+        const displayName =
+          typeof metadata.displayName === 'string' && metadata.displayName.trim().length > 0
+            ? metadata.displayName
+            : 'Student';
 
-      if (currentPhase === 'proposal-collect' && !capturedProposalIds.current.has(sub.id)) {
-        capturedProposalIds.current.add(sub.id);
-        setProposals((prev) => [
-          ...prev,
-          {
-            id: `prop-${sub.id}`,
-            submissionId: sub.id,
-            clientId: sub.client_id,
-            displayName: sub.display_name,
-            text: sub.content,
-            selected: false,
-          },
-        ]);
-        void approve(sub.id);
-        void onScore?.({
-          studentId: null,
-          clientId: sub.client_id,
-          displayName: sub.display_name,
-          promptIndex: promptIndexRef.current++,
-          points: 5,
+        if (currentPhase === 'proposal-collect') {
+          if (!capturedProposalIds.current.has(submissionId)) {
+            capturedProposalIds.current.add(submissionId);
+            const nextProposal: Proposal = {
+              id: `prop-${submissionId}`,
+              submissionId,
+              clientId,
+              displayName,
+              text,
+              selected: false,
+            };
+            setProposals((prev) => {
+              const existingIndex = prev.findIndex((p) => p.clientId === clientId);
+              if (existingIndex === -1) return [...prev, nextProposal];
+              const next = [...prev];
+              next[existingIndex] = {
+                ...nextProposal,
+                selected: next[existingIndex].selected,
+              };
+              return next;
+            });
+          }
+          return { isCorrect: null, points: 5, outcome: 'standout' as const };
+        }
+
+        if (currentPhase === 'challenge') {
+          if (!capturedChallengeIds.current.has(submissionId)) {
+            capturedChallengeIds.current.add(submissionId);
+            setChallengePoints((prev) => [
+              ...prev,
+              {
+                id: `ch-${submissionId}`,
+                submissionId,
+                clientId,
+                displayName,
+                text,
+                spotlit: false,
+              },
+            ]);
+          }
+          return { isCorrect: null, points: 3, outcome: 'on-task' as const };
+        }
+
+        return {
           isCorrect: null,
-        });
-      } else if (currentPhase === 'challenge' && !capturedChallengeIds.current.has(sub.id)) {
-        capturedChallengeIds.current.add(sub.id);
-        setChallengePoints((prev) => [
-          ...prev,
-          {
-            id: `ch-${sub.id}`,
-            submissionId: sub.id,
-            clientId: sub.client_id,
-            displayName: sub.display_name,
-            text: sub.content,
-            spotlit: false,
-          },
-        ]);
-        void approve(sub.id);
-        void onScore?.({
-          studentId: null,
-          clientId: sub.client_id,
-          displayName: sub.display_name,
-          promptIndex: promptIndexRef.current++,
-          points: 3,
-          isCorrect: null,
-        });
-      }
-    }
-  }, [pending, approve, onScore]);
+          points: 0,
+          outcome: 'invalid' as const,
+          feedback: 'No active council prompt',
+        };
+      },
+    });
+
+    return () => onRegisterSubmissionHandler?.(null);
+  }, [onRegisterSubmissionHandler]);
 
   // Derived
   const selectedProposals = useMemo(() => proposals.filter((p) => p.selected), [proposals]);

@@ -7,17 +7,19 @@ import type { StudentSubmission } from '@/lib/supabase/types';
 
 interface ApprovalQueueProps {
   sessionId: string;
+  gameKey?: string;
   onApprove: (submission: StudentSubmission) => Promise<void>;
   onSpotlight?: (submission: StudentSubmission) => Promise<void>;
   hideContent?: boolean;
   autoApprove?: boolean;
 }
 
-export function ApprovalQueue({ sessionId, onApprove, onSpotlight, hideContent, autoApprove }: ApprovalQueueProps) {
+export function ApprovalQueue({ sessionId, gameKey, onApprove, onSpotlight, hideContent, autoApprove }: ApprovalQueueProps) {
   const { pending, approve, reject, setError, isLoading } = useApprovalQueue(sessionId);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
+  const visiblePending = gameKey ? pending.filter((submission) => submission.game_key === gameKey) : pending;
 
   const handleApprove = useCallback(async (submission: StudentSubmission) => {
     setProcessingId(submission.id);
@@ -37,9 +39,9 @@ export function ApprovalQueue({ sessionId, onApprove, onSpotlight, hideContent, 
 
   // Auto-approve: process submissions without teacher action when the game opts in
   useEffect(() => {
-    if (!autoApprove || pending.length === 0 || processingId !== null) return;
-    handleApproveRef.current(pending[0]);
-  }, [autoApprove, pending, processingId]);
+    if (!autoApprove || visiblePending.length === 0 || processingId !== null) return;
+    handleApproveRef.current(visiblePending[0]);
+  }, [autoApprove, visiblePending, processingId]);
 
   const handleReject = async (submissionId: string) => {
     setProcessingId(submissionId);
@@ -86,9 +88,9 @@ export function ApprovalQueue({ sessionId, onApprove, onSpotlight, hideContent, 
       >
         <div className="flex items-center gap-2">
           <span className="font-semibold text-sm">Student Submissions</span>
-          {pending.length > 0 && (
+          {visiblePending.length > 0 && (
             <span className="px-2 py-0.5 text-xs bg-yellow-500/20 text-yellow-400 rounded-full">
-              {pending.length} pending
+              {visiblePending.length} pending
             </span>
           )}
         </div>
@@ -98,13 +100,13 @@ export function ApprovalQueue({ sessionId, onApprove, onSpotlight, hideContent, 
       {/* Queue */}
       {!isCollapsed && (
         <div className="border-t border-lc-border">
-          {pending.length === 0 ? (
+          {visiblePending.length === 0 ? (
             <div className="p-4 text-center text-gray-500 text-sm">
               No pending submissions
             </div>
           ) : (
             <div className="max-h-64 overflow-y-auto">
-              {pending.map((submission) => (
+              {visiblePending.map((submission) => (
                 <div
                   key={submission.id}
                   className="p-4 border-b border-lc-border-subtle last:border-b-0"

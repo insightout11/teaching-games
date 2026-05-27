@@ -46,6 +46,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const addLandingAnswer = useSessionStore((s) => s.addLandingAnswer);
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
   const [showMissionSummary, setShowMissionSummary] = useState(false);
+  const [autoApprove, setAutoApprove] = useState(false);
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: RemoteVote) => void) | null>(null);
   const supabase = createClient();
@@ -190,6 +191,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   // Callback for activities to register submission handler
   const handleRegisterSubmissionHandler = useCallback((handler: SubmissionHandler | null) => {
     submissionHandlerRef.current = handler;
+    setAutoApprove(handler?.autoApprove ?? false);
   }, []);
 
   // Callback for activities to register remote vote handler
@@ -210,7 +212,13 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       try {
         const result = await submissionHandlerRef.current.handleSubmission(
           submission.content,
-          { activityKey: activity.key, submissionId: submission.id }
+          {
+            activityKey: activity.key,
+            submissionId: submission.id,
+            clientId: submission.client_id,
+            displayName: submission.display_name,
+            team: submission.team,
+          }
         );
         handlerIsCorrect = result.isCorrect;
         handlerOutcome = result.outcome;
@@ -398,9 +406,11 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
         {sessionId && (
           <ApprovalQueue
             sessionId={sessionId}
+            gameKey={activity.key}
             onApprove={handleApprovedSubmission}
             onSpotlight={handleSpotlight}
             hideContent
+            autoApprove={autoApprove}
           />
         )}
       </div>

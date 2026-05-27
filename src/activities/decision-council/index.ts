@@ -16,8 +16,8 @@ export const decisionCouncilPlugin: ActivityPlugin = {
   icon: Scale,
   scoringProfile: {
     displayMode: 'class',
-    supportsOnTask: false,
-    supportsStandout: false,
+    supportsOnTask: true,
+    supportsStandout: true,
     tracksAccuracy: false,
     defaultOutcome: 'genuine',
   },
