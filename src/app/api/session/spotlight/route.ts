@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
+import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,26 +49,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'text is required' }, { status: 400 });
     }
 
+    const ownership = await verifyTeacherOwnsSession(sessionId, teacher.id, { requireActive: true });
+    if (ownership.error) return ownership.error;
+
     const supabase = createServiceClient();
 
     // Approve the submission first so it doesn't surface as raw pending content
-    const { error: approveError } = await supabase
+    const { data: submission, error: approveError } = await supabase
       .from('student_submissions')
       .update({ status: 'approved' })
       .eq('id', submissionId)
-      .eq('session_id', sessionId);
+      .eq('session_id', sessionId)
+      .select('id, display_name, content')
+      .maybeSingle();
 
     if (approveError) {
       console.error('[spotlight POST] approve error:', approveError);
       return NextResponse.json({ error: 'Failed to approve submission' }, { status: 500 });
+    }
+    if (!submission) {
+      return NextResponse.json({ error: 'Submission not found' }, { status: 404 });
     }
 
     // Upsert spotlight payload — UNIQUE on (session_id, key) so this replaces any prior spotlight
     const payload: SpotlightPayload = {
       type: 'spotlight',
       label,
-      studentName,
-      text,
+      studentName: submission.display_name || studentName,
+      text: submission.content || text,
       createdAt: new Date().toISOString(),
     };
 

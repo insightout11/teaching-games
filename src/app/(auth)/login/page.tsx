@@ -12,16 +12,26 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     const supabase = createClient();
+    const params = new URLSearchParams(window.location.search);
+    const nextPath = params.get('next');
+    const safeNextPath = nextPath && nextPath.startsWith('/') && !nextPath.startsWith('//')
+      ? nextPath
+      : '/home';
+    const callbackUrl = new URL('/callback', window.location.origin);
+    callbackUrl.searchParams.set('next', safeNextPath);
+
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/callback`,
+        redirectTo: callbackUrl.toString(),
       },
     });
   };
 
   const handleDemoLogin = () => {
-    router.push('/classes');
+    const params = new URLSearchParams(window.location.search);
+    const nextPath = params.get('next');
+    router.push(nextPath && nextPath.startsWith('/') && !nextPath.startsWith('//') ? nextPath : '/classes');
   };
 
   return (

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
 import { mockStore } from '@/lib/mock/data';
+import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import type { Session } from '@/lib/supabase/types';
 
 export const dynamic = 'force-dynamic';
@@ -41,6 +42,9 @@ export async function POST(request: NextRequest) {
     if (!uuidRegex.test(sessionId)) {
       return NextResponse.json({ error: 'Invalid sessionId format' }, { status: 400 });
     }
+
+    const ownership = await verifyTeacherOwnsSession(sessionId, teacher.id, { requireActive: true });
+    if (ownership.error) return ownership.error;
 
     const supabase = createServiceClient();
 

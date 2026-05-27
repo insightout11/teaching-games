@@ -5,6 +5,15 @@ function isMockModeServer(): boolean {
   return process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
 }
 
+function getSafeNextParam(request: NextRequest): string {
+  return `${request.nextUrl.pathname}${request.nextUrl.search}`;
+}
+
+function getSafeRedirectPath(value: string | null): string | null {
+  if (!value || !value.startsWith('/') || value.startsWith('//')) return null;
+  return value;
+}
+
 export async function updateSession(request: NextRequest) {
   // In mock mode, skip Supabase auth entirely
   if (isMockModeServer()) {
@@ -57,13 +66,20 @@ export async function updateSession(request: NextRequest) {
   if (!user && isDashboard) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
+    url.search = '';
+    url.searchParams.set('next', getSafeNextParam(request));
     return NextResponse.redirect(url);
   }
 
   // Redirect logged-in users away from login
   if (user && request.nextUrl.pathname === '/login') {
+    const nextPath = getSafeRedirectPath(request.nextUrl.searchParams.get('next'));
+    if (nextPath) {
+      return NextResponse.redirect(new URL(nextPath, request.url));
+    }
     const url = request.nextUrl.clone();
     url.pathname = '/home';
+    url.search = '';
     return NextResponse.redirect(url);
   }
 

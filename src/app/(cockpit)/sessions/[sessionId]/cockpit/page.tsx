@@ -50,7 +50,7 @@ export default async function CockpitPage({
   const supabase = createServerSupabase();
 
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
+  if (!user) redirect(`/login?next=/sessions/${params.sessionId}/cockpit`);
 
   const { data: session } = await supabase
     .from('sessions')
