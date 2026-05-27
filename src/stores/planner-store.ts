@@ -4,7 +4,7 @@ import type { Difficulty } from '@/lib/difficulty';
 import { FLIGHT_PLAN_ITEMS, type GoalTag, type SlotType } from '@/lib/flight-plan-config';
 import type { GrammarTarget } from '@/lib/grammar';
 import { suggestModules, type PlanModule } from '@/lib/planner-utils';
-import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
+import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset, type FlightPresetConfig } from '@/lib/flight-plan-presets';
 import type { ScoringMode } from '@/stores/session-store';
 import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
@@ -17,7 +17,16 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'travel-english', 'business-english', 'internet-memes', 'minecraft',
 ]);
 
-const TEXT_SOURCE_TYPES = new Set<SourceType>(['stories', 'voa', 'picture-books']);
+const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics', 'stories', 'voa', 'picture-books']);
+
+type PlannerSourceKind = 'video' | 'text' | null;
+
+function getSourceKind(sourceMaterial: SourceMaterial | null | undefined): PlannerSourceKind {
+  if (!sourceMaterial) return null;
+  if (VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType)) return 'video';
+  if (TEXT_SOURCE_TYPES.has(sourceMaterial.sourceType)) return 'text';
+  return null;
+}
 
 function withFlightMeta(
   preset: FlightPlanPreset | null | undefined,
@@ -46,6 +55,104 @@ function makePresetModule(
     isLocked: false,
     ...withFlightMeta(preset, key, overrides),
   };
+}
+
+function applyAllAroundSourceRouting(
+  modules: PlanModule[],
+  preset: FlightPlanPreset,
+  sourceKind: PlannerSourceKind,
+): PlanModule[] {
+  if (preset.id !== 'all-around-flight-60') return modules;
+
+  if (sourceKind === 'video') {
+    return modules
+      .filter((m) => m.key !== 'listening-gap-fill' && m.stageId !== 'listening-check')
+      .map((m) =>
+        m.stageId === 'briefing' || m.key === 'read-aloud'
+          ? { ...m, key: 'video-player', slotType: 'presentation', ...withFlightMeta(preset, 'video-player') }
+          : m,
+      );
+  }
+
+  return modules.map((m) =>
+    m.key === 'listening-gap-fill' || m.stageId === 'listening-check'
+      ? { ...m, stageLabel: 'Reading Check' }
+      : m,
+  );
+}
+
+function buildFlightConfigForSlots(
+  flightConfig: FlightPresetConfig | undefined,
+  slots: LessonSlot[],
+): FlightPresetConfig | undefined {
+  if (!flightConfig) return undefined;
+
+  const activeStageIds = new Set(slots.map((slot) => slot.stageId).filter(Boolean));
+  const stageLabelOverrides = new Map<string, string>();
+
+  slots.forEach((slot) => {
+    if (slot.stageId && slot.stageLabel) {
+      stageLabelOverrides.set(slot.stageId, slot.stageLabel);
+    }
+  });
+
+  return {
+    ...flightConfig,
+    stages: flightConfig.stages
+      .filter((stage) => activeStageIds.has(stage.stageId))
+      .map((stage) => ({
+        ...stage,
+        label: stageLabelOverrides.get(stage.stageId) ?? stage.label,
+      })),
+  };
+}
+
+function buildModulesFromPreset(
+  preset: FlightPlanPreset,
+  sourceKind: PlannerSourceKind,
+): PlanModule[] {
+  const takeoffKey = preset.skipTakeoffLanding ? null : (preset.takeoff ?? 'mission-selector');
+
+  const middle: PlanModule[] = preset.moduleSequence
+    .filter(({ key }) => key !== takeoffKey)
+    .map(({ slotType, key, stageId, stageLabel, isMicroEvent }) =>
+      makePresetModule(preset, slotType, key, { stageId, stageLabel, isMicroEvent }),
+    );
+
+  let modules: PlanModule[];
+  if (preset.skipTakeoffLanding) {
+    modules = middle;
+  } else {
+    const resolvedTakeoffKey = preset.takeoff ?? 'mission-selector';
+    const takeoff = makePresetModule(preset, 'takeoff', resolvedTakeoffKey);
+
+    let landingKey = preset.landing;
+    if (!landingKey) {
+      const landingCandidates = FLIGHT_PLAN_ITEMS.filter((item) => item.missionLanding);
+      const landingItem =
+        landingCandidates.find((item) => item.goalFit.includes(preset.goal)) ??
+        FLIGHT_PLAN_ITEMS.find((item) => item.key === 'final-answer')!;
+      landingKey = landingItem.key;
+    }
+    const landing = makePresetModule(preset, 'landing', landingKey);
+
+    modules = [takeoff, ...middle, landing];
+  }
+
+  modules = applyAllAroundSourceRouting(modules, preset, sourceKind);
+
+  if (preset.id !== 'all-around-flight-60' && sourceKind === 'video' && !modules.some((m) => m.key === 'video-player')) {
+    const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
+    const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
+    modules.splice(insertAt, 0, makePresetModule(preset, 'presentation', 'video-player'));
+  }
+  if (preset.id !== 'all-around-flight-60' && sourceKind === 'text' && !modules.some((m) => m.key === 'read-aloud')) {
+    const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
+    const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
+    modules.splice(insertAt, 0, makePresetModule(preset, 'presentation', 'read-aloud'));
+  }
+
+  return modules;
 }
 
 export type { PlanModule };
@@ -174,11 +281,7 @@ export const usePlannerStore = create<PlannerState>()(
       initModules: () => {
         const { goals, difficulty, lessonDurationMinutes, sourceMaterial } = get();
         const primaryGoal = derivePrimaryGoal(goals);
-        const sourceKind = sourceMaterial
-          ? VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) ? 'video'
-          : TEXT_SOURCE_TYPES.has(sourceMaterial.sourceType) ? 'text'
-          : null
-          : null;
+        const sourceKind = getSourceKind(sourceMaterial);
         const base = suggestModules(primaryGoal, difficulty, lessonDurationMinutes, sourceKind);
         if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !base.some((m) => m.key === 'video-player')) {
           const takeoffIdx = base.findIndex((m) => m.slotType === 'takeoff');
@@ -212,51 +315,8 @@ export const usePlannerStore = create<PlannerState>()(
       setActiveTab: (activeTab) => set({ activeTab }),
 
       loadPreset: (preset) => {
-        const takeoffKey = preset.skipTakeoffLanding ? null : (preset.takeoff ?? 'mission-selector');
-
-        const middle: PlanModule[] = preset.moduleSequence
-          .filter(({ key }) => key !== takeoffKey)
-          .map(({ slotType, key, stageId, stageLabel, isMicroEvent }) =>
-            makePresetModule(preset, slotType, key, { stageId, stageLabel, isMicroEvent }),
-          );
-
-        let modules: PlanModule[];
-        if (preset.skipTakeoffLanding) {
-          modules = middle;
-        } else {
-          const takeoffKey = preset.takeoff ?? 'mission-selector';
-          const takeoff = makePresetModule(preset, 'takeoff', takeoffKey);
-
-          let landingKey = preset.landing;
-          if (!landingKey) {
-            const landingCandidates = FLIGHT_PLAN_ITEMS.filter((item) => item.missionLanding);
-            const landingItem =
-              landingCandidates.find((item) => item.goalFit.includes(preset.goal)) ??
-              FLIGHT_PLAN_ITEMS.find((item) => item.key === 'final-answer')!;
-            landingKey = landingItem.key;
-          }
-          const landing = makePresetModule(preset, 'landing', landingKey);
-
-          modules = [takeoff, ...middle, landing];
-        }
-
         const { sourceMaterial } = get();
-        if (preset.id === 'all-around-flight-60' && sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType)) {
-          modules = modules.map((m) =>
-            m.stageId === 'briefing' || m.key === 'read-aloud'
-              ? { ...m, key: 'video-player', slotType: 'presentation', ...withFlightMeta(preset, 'video-player') }
-              : m,
-          );
-        } else if (sourceMaterial && VIDEO_SOURCE_TYPES.has(sourceMaterial.sourceType) && !modules.some((m) => m.key === 'video-player')) {
-          const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
-          const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
-          modules.splice(insertAt, 0, makePresetModule(preset, 'presentation', 'video-player'));
-        }
-        if (sourceMaterial && TEXT_SOURCE_TYPES.has(sourceMaterial.sourceType) && !modules.some((m) => m.key === 'read-aloud')) {
-          const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
-          const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
-          modules.splice(insertAt, 0, makePresetModule(preset, 'presentation', 'read-aloud'));
-        }
+        const modules = buildModulesFromPreset(preset, getSourceKind(sourceMaterial));
 
         set({
           goals: [preset.goal],
@@ -302,7 +362,20 @@ export const usePlannerStore = create<PlannerState>()(
 
       setSelectedClassId: (id) => set({ selectedClassId: id }),
       setGrammarTarget: (grammarTarget) => set({ grammarTarget }),
-      setSourceMaterial: (sourceMaterial) => set({ sourceMaterial }),
+      setSourceMaterial: (sourceMaterial) => {
+        const { loadedPresetId } = get();
+        const loadedPreset = loadedPresetId ? FLIGHT_PLAN_PRESETS.find((p) => p.id === loadedPresetId) : null;
+
+        if (loadedPreset?.id === 'all-around-flight-60') {
+          set({
+            sourceMaterial,
+            modules: buildModulesFromPreset(loadedPreset, getSourceKind(sourceMaterial)),
+          });
+          return;
+        }
+
+        set({ sourceMaterial });
+      },
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
       launchLesson: async () => {
@@ -330,6 +403,7 @@ export const usePlannerStore = create<PlannerState>()(
         });
 
         const hasMissionSelector = modules.some((m) => m.key === 'mission-selector');
+        const flightConfig = buildFlightConfigForSlots(loadedPreset?.flightConfig, slots);
 
         sessionStorage.setItem(
           'lessonPlanContent',
@@ -342,7 +416,7 @@ export const usePlannerStore = create<PlannerState>()(
             ...(hasMissionSelector ? { isMissionBased: true } : {}),
             ...(grammarTarget ? { grammarTarget } : {}),
             ...(sourceMaterial ? { sourceMaterial } : {}),
-            ...(loadedPreset?.flightConfig ? { flightPresetId: loadedPreset.id, flightConfig: loadedPreset.flightConfig } : {}),
+            ...(flightConfig && loadedPreset ? { flightPresetId: loadedPreset.id, flightConfig } : {}),
             slots,
             generatedContent: {},
             generatedGameContent: {},

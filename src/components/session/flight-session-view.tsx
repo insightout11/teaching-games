@@ -166,6 +166,7 @@ export function FlightSessionView({
   const currentStage =
     flightConfig.stages.find((stage) => stage.stageId === currentSlot?.stageId) ??
     null;
+  const currentStageLabel = currentSlot?.stageLabel ?? currentStage?.label;
   const nextLabel = nextSlot?.stageLabel ?? nextSlot?.name;
   const isFinalSlot = currentSlotIndex + 1 >= slots.length;
   const actionLabel = isFinalSlot ? 'Complete Flight' : `Continue to ${nextLabel}`;
@@ -188,8 +189,8 @@ export function FlightSessionView({
               <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-cyan-100">
                 {phaseLabel}
               </span>
-              {currentStage && (
-                <span className="text-sm font-semibold text-white">{currentStage.label}</span>
+              {currentStageLabel && (
+                <span className="text-sm font-semibold text-white">{currentStageLabel}</span>
               )}
             </div>
             <p className="mt-1 truncate text-xs text-white/55">{currentModuleName}</p>

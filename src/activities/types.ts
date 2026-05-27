@@ -548,6 +548,9 @@ export interface GapFillItem {
 
 export interface ListeningGapFillContent extends ActivityGeneratedContent {
   activityKey: 'listening-gap-fill';
+  mode?: 'listening' | 'reading';
+  title?: string;
+  instruction?: string;
   items: GapFillItem[];   // 5–6 items
 }
 

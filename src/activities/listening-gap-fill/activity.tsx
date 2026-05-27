@@ -115,6 +115,13 @@ export function ListeningGapFillActivity({
   const content = generatedContent as ListeningGapFillContent;
   const items = useMemo(() => content.items ?? [], [content.items]);
   const itemCount = items.length;
+  const mode = content.mode ?? 'listening';
+  const activityTitle = content.title ?? (mode === 'reading' ? 'Reading Check' : 'Listening Gap Fill');
+  const activityInstruction =
+    content.instruction ??
+    (mode === 'reading'
+      ? 'Students use the briefing text to fill in the missing word.'
+      : 'Students type what they think the missing word is.');
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -249,7 +256,7 @@ export function ListeningGapFillActivity({
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-teal-400">Listening Gap Fill</h3>
+        <h3 className="text-lg font-semibold text-teal-400">{activityTitle}</h3>
         {phase !== 'idle' && phase !== 'summary' && (
           <span className="text-sm opacity-60">
             Sentence {currentIndex + 1} of {itemCount}
@@ -261,9 +268,7 @@ export function ListeningGapFillActivity({
       {phase === 'idle' && (
         <div className="text-center py-12 space-y-4">
           <p className="text-xl opacity-90">{itemCount} sentences — fill in the missing word.</p>
-          <p className="text-sm opacity-50">
-            Students type what they think the missing word is.
-          </p>
+          <p className="text-sm opacity-50">{activityInstruction}</p>
           <button
             onClick={handleStart}
             className="px-12 py-6 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"

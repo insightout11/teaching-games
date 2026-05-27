@@ -110,6 +110,17 @@ function buildSourceContext(source?: SourceMaterial, rawTranscript?: string): st
   return `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${source.summary}\n`;
 }
 
+const VIDEO_SOURCE_TYPES = new Set<SourceMaterial['sourceType']>([
+  'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
+  'bbc-ideas', 'bigthink', 'vox', 'kids',
+  'natgeo', 'crash-course',
+  'travel-english', 'business-english', 'internet-memes', 'minecraft',
+]);
+
+function getGapFillMode(source?: SourceMaterial): 'listening' | 'reading' {
+  return source && VIDEO_SOURCE_TYPES.has(source.sourceType) ? 'listening' : 'reading';
+}
+
 function missionContextBlock(missionContext?: string[]): string {
   if (!missionContext || missionContext.length === 0) return '';
   const list = missionContext.map((m) => `- "${m}"`).join('\n');
@@ -954,6 +965,7 @@ async function generateListeningGapFill(
   difficulty: Difficulty,
   sourceContext = '',
   grammarTarget?: string,
+  mode: 'listening' | 'reading' = 'listening',
 ): Promise<ListeningGapFillContent> {
   const schema: AISchema = {
     type: 'object',
@@ -980,8 +992,15 @@ async function generateListeningGapFill(
     ? `Focus blanks on the grammar target: ${grammarTarget}.`
     : 'Focus blanks on key vocabulary words (nouns, verbs, adjectives).';
 
+  const isListening = mode === 'listening';
+  const sourceNoun = isListening ? 'transcript' : 'source text';
+  const activityLabel = isListening ? 'listening activity' : 'reading check';
+  const title = isListening ? 'Listening Check' : 'Reading Check';
+  const instruction = isListening
+    ? 'Students listen back for the missing word.'
+    : 'Students use the briefing text to fill in the missing word.';
   const sourceRule = sourceContext
-    ? 'Extract real sentences from the transcript above and blank out key words. Do not invent facts.'
+    ? `Extract real sentences from the ${sourceNoun} above and blank out key words. Do not invent facts.`
     : 'Generate topic-relevant original sentences.';
 
   const prompt = `Generate 5–6 gap-fill sentences for an ESL classroom listening activity.
@@ -1002,7 +1021,10 @@ Rules:
 
 Return JSON with an "items" array of 5–6 objects with fields: display, full, answer, alternatives (optional), hint (optional).`;
 
-  const parsed = await generateJSON<{ items: Array<Partial<GapFillItem>> }>(prompt, schema);
+  const parsed = await generateJSON<{ items: Array<Partial<GapFillItem>> }>(
+    prompt.replace('listening activity', activityLabel),
+    schema,
+  );
 
   const fallback: GapFillItem = {
     display: `This topic is ___ for English learners.`,
@@ -1024,7 +1046,7 @@ Return JSON with an "items" array of 5–6 objects with fields: display, full, a
       }))
     : [fallback];
 
-  return { activityKey: 'listening-gap-fill', topicContext: topic, items };
+  return { activityKey: 'listening-gap-fill', topicContext: topic, mode, title, instruction, items };
 }
 
 function formatTranscriptForAI(rawTranscript: string): string {
@@ -2618,7 +2640,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateLanguageToolkit(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'listening-gap-fill':
-            generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined).then((r) => { content[activityKey] = r; }));
+            generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined, getGapFillMode(sourceMaterial)).then((r) => { content[activityKey] = r; }));
             break;
           case 'read-aloud': {
             const rawText = sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '';
