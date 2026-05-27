@@ -41,7 +41,6 @@ export function DecisionCouncilActivity({
 
   // UI state
   const [phrasesOpen, setPhrasesOpen] = useState(false);
-  const [startersOpen, setStartersOpen] = useState(false);
   const [proposalSupports, setProposalSupports] = useState<Record<string, ProposalSupport>>({});
   const [supportLoading, setSupportLoading] = useState(false);
   const [supportError, setSupportError] = useState<string | null>(null);
@@ -195,7 +194,10 @@ export function DecisionCouncilActivity({
         const challenge = challengePoints.filter(
           (c) => c.targetLabel === label && c.kind === 'challenge'
         ).length;
-        return { proposal: p, label, support, challenge };
+        const evidence = challengePoints.filter(
+          (c) => c.targetLabel === label && c.kind === 'evidence'
+        ).length;
+        return { proposal: p, label, support, challenge, evidence };
       }),
     [selectedProposalCards, challengePoints]
   );
@@ -226,10 +228,10 @@ export function DecisionCouncilActivity({
       });
     } else if (phase === 'challenge') {
       const options = selectedProposalCards.flatMap(({ label }) => {
-        return [`support:${label}`, `challenge:${label}`];
+        return [`support:${label}`, `challenge:${label}`, `evidence:${label}`];
       });
       const optionLabels = selectedProposalCards.flatMap(({ label }) => {
-        return [`Support ${label}`, `Challenge ${label}`];
+        return [`Support ${label}`, `Challenge ${label}`, `Need evidence ${label}`];
       });
       onSetInputSpec?.({
         type: 'choice',
@@ -237,7 +239,7 @@ export function DecisionCouncilActivity({
         prompt: 'Tap where the discussion should go next',
         options,
         optionLabels,
-        instruction: 'Support or challenge',
+        instruction: 'Choose one discussion signal',
       });
     } else if (phase === 'voting' && selectedProposals.length > 0) {
       onSetInputSpec?.({
@@ -301,9 +303,15 @@ export function DecisionCouncilActivity({
         capturedChallengeIds.current.add(challengeId);
 
         const [kindRaw, labelRaw] = vote.choice.split(':');
-        const kind = kindRaw === 'challenge' ? 'challenge' : 'support';
+        const kind =
+          kindRaw === 'challenge' || kindRaw === 'evidence'
+            ? kindRaw
+            : 'support';
         const targetLabel = (labelRaw || '').trim();
-        const text = `${kind === 'challenge' ? 'Challenge' : 'Support'} for Proposal ${targetLabel}`;
+        const text =
+          kind === 'evidence'
+            ? `Need evidence for Proposal ${targetLabel}`
+            : `${kind === 'challenge' ? 'Challenge' : 'Support'} for Proposal ${targetLabel}`;
 
         setChallengePoints((prev) => [
           ...prev,
@@ -613,25 +621,6 @@ export function DecisionCouncilActivity({
         <div className="border-t border-lc-border px-4 pb-3 pt-2 space-y-1.5">
           {content.usefulPhrases.map((p, i) => (
             <p key={i} className="text-sm text-indigo-300/90">• {p}</p>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-
-  const challengeStartersSection = content.challengeStarters && content.challengeStarters.length > 0 && (
-    <div className="glass rounded-xl overflow-hidden">
-      <button
-        onClick={() => setStartersOpen((o) => !o)}
-        className="w-full flex items-center justify-between px-4 py-3 text-sm hover:bg-white/5 transition-colors"
-      >
-        <span className="font-medium opacity-60">Challenge Starters</span>
-        <span className="opacity-40 text-lg leading-none">{startersOpen ? '−' : '+'}</span>
-      </button>
-      {startersOpen && (
-        <div className="border-t border-lc-border px-4 pb-3 pt-2 space-y-1.5">
-          {content.challengeStarters.map((s, i) => (
-            <p key={i} className="text-sm text-violet-300/90">• {s}</p>
           ))}
         </div>
       )}
@@ -970,7 +959,7 @@ export function DecisionCouncilActivity({
           </span>
         </div>
         <p className="text-sm opacity-55">
-          Students tap support or challenge. Use the split to guide the spoken discussion.
+          Students tap support, challenge, or need evidence. Use the split to guide the spoken discussion.
         </p>
         <div className="grid grid-cols-2 gap-3">
           {challengeStats.map((stat) => (
@@ -985,7 +974,7 @@ export function DecisionCouncilActivity({
                     : stat.proposal.text}
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-2 text-center">
+              <div className="grid grid-cols-3 gap-2 text-center">
                 <div className="rounded-lg bg-emerald-500/10 border border-emerald-400/20 px-3 py-2">
                   <p className="text-xs uppercase tracking-wide text-emerald-300/60">Support</p>
                   <p className="text-lg font-bold text-emerald-300">{stat.support}</p>
@@ -994,12 +983,15 @@ export function DecisionCouncilActivity({
                   <p className="text-xs uppercase tracking-wide text-amber-300/60">Challenge</p>
                   <p className="text-lg font-bold text-amber-300">{stat.challenge}</p>
                 </div>
+                <div className="rounded-lg bg-sky-500/10 border border-sky-400/20 px-3 py-2">
+                  <p className="text-xs uppercase tracking-wide text-sky-300/60">Evidence</p>
+                  <p className="text-lg font-bold text-sky-300">{stat.evidence}</p>
+                </div>
               </div>
               {renderSupportControls(stat.proposal, stat.label)}
             </div>
           ))}
         </div>
-        {challengeStartersSection}
         {challengePoints.some((c) => !c.kind) && (
           <div className="space-y-2 max-h-40 overflow-y-auto">
             {challengePoints.filter((c) => !c.kind).map((c) => (

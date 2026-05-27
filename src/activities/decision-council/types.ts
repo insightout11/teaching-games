@@ -35,7 +35,7 @@ export interface ChallengePoint {
   clientId: string;
   displayName: string;
   text: string;
-  kind?: 'support' | 'challenge';
+  kind?: 'support' | 'challenge' | 'evidence';
   targetLabel?: string;
   spotlit: boolean;
 }
