@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
+import { mockStore } from '@/lib/mock/data';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 
 export const dynamic = 'force-dynamic';
@@ -94,6 +95,41 @@ export async function GET(request: NextRequest) {
 
     if (!sessionId) {
       return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
+    }
+
+    if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+      const session = mockStore.ensureSession(sessionId);
+      if (!session) {
+        return NextResponse.json({ error: 'Session not found' }, { status: 404 });
+      }
+
+      const mockInputSpec = (session as { input_spec?: unknown }).input_spec || null;
+      const payload: SessionPayload = {
+        isActive: session.status === 'active',
+        activePoll: null,
+        inputSpec: mockInputSpec,
+        frozen: session.frozen ?? false,
+        publishedQuestions: null,
+        wonderQuestions: null,
+        personalMission: null,
+        topic: session.custom_topic || session.topic || 'General',
+        difficulty: session.difficulty || 'Intermediate',
+        grammarTarget: null,
+        referenceVocab: null,
+        referenceExpressions: null,
+        latestFeedback: null,
+        personalResults: null,
+        lastResult: null,
+        sessionPoints: 0,
+        responseCount: 0,
+        sessionAccuracy: null,
+        heldCard: null,
+        offeredCards: null,
+      };
+
+      return NextResponse.json(payload, {
+        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
+      });
     }
 
     // Validate UUID format

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
+import { mockStore } from '@/lib/mock/data';
+import type { Session } from '@/lib/supabase/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,6 +21,20 @@ export async function POST(request: NextRequest) {
 
     if (!sessionId || typeof sessionId !== 'string') {
       return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
+    }
+
+    if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+      const session = mockStore.ensureSession(sessionId);
+      if (!session) {
+        return NextResponse.json({ error: 'Session not found' }, { status: 404 });
+      }
+
+      const updates = { input_spec: spec ?? null } as Partial<Session> & { input_spec?: unknown };
+      mockStore.updateSession(sessionId, updates);
+
+      return NextResponse.json({ ok: true }, {
+        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
+      });
     }
 
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

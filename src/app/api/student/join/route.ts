@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
+import { mockStore } from '@/lib/mock/data';
 
 // POST /api/student/join
 //
@@ -17,6 +18,72 @@ export async function POST(request: NextRequest) {
 
     if (!sessionId) {
       return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
+    }
+
+    if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+      const session = mockStore.ensureSession(sessionId);
+      if (!session) {
+        return NextResponse.json({ error: 'Session not found' }, { status: 404 });
+      }
+
+      if (session.status !== 'active') {
+        return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
+      }
+
+      if (!studentId && !newName) {
+        return NextResponse.json({ error: 'studentId or newName is required' }, { status: 400 });
+      }
+
+      const seed = typeof avatarSeed === 'string' && avatarSeed.trim() ? avatarSeed.trim() : 'teal';
+      const participantClientId = typeof clientId === 'string' && clientId.trim()
+        ? clientId.trim()
+        : `mock-client-${Date.now()}`;
+
+      if (studentId) {
+        const student = mockStore.getStudent(String(studentId));
+        if (!student) {
+          return NextResponse.json({ error: 'Student not found' }, { status: 404 });
+        }
+
+        mockStore.updateStudent(student.id, { avatar_seed: seed });
+        mockStore.upsertSessionParticipant({
+          session_id: sessionId,
+          student_id: student.id,
+          client_id: participantClientId,
+          display_name: student.name,
+          avatar_seed: seed,
+        });
+
+        return NextResponse.json({ studentId: student.id, name: student.name, isExisting: true });
+      }
+
+      const trimmedName = String(newName).trim();
+      if (!trimmedName || trimmedName.length > 40) {
+        return NextResponse.json({ error: 'Name must be 1-40 characters' }, { status: 400 });
+      }
+
+      const existingStudent = mockStore
+        .getStudents(session.class_id)
+        .find((student) => student.name.toLowerCase() === trimmedName.toLowerCase());
+      const student = existingStudent ?? mockStore.createStudent({
+        class_id: session.class_id,
+        name: trimmedName,
+        avatar_seed: seed,
+      });
+
+      if (existingStudent) {
+        mockStore.updateStudent(existingStudent.id, { avatar_seed: seed });
+      }
+
+      mockStore.upsertSessionParticipant({
+        session_id: sessionId,
+        student_id: student.id,
+        client_id: participantClientId,
+        display_name: student.name,
+        avatar_seed: seed,
+      });
+
+      return NextResponse.json({ studentId: student.id, name: student.name, isExisting: Boolean(existingStudent) });
     }
 
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

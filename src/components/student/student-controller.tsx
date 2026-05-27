@@ -437,6 +437,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             inputType: inputSpec?.type,
             studentId: studentSession.studentId,
             allowMultiple: inputSpec?.allowMultiple,
+            reviewMode: inputSpec?.reviewMode,
           };
 
       const res = await fetch(endpoint, {

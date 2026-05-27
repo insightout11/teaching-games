@@ -25,6 +25,7 @@ export function ContributionBreakActivity({
       prompt: content.prompt,
       placeholder: 'Write your contribution...',
       maxLength: 200,
+      reviewMode: 'approval',
     });
   }, [phase, content.prompt, onSetInputSpec]);
 

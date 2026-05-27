@@ -1,5 +1,15 @@
 import type { Class, Student, Session, Score, Round, LeaderboardEntry } from '@/lib/supabase/types';
 
+export interface MockSessionParticipant {
+  id: string;
+  session_id: string;
+  student_id: string | null;
+  client_id: string;
+  display_name: string;
+  avatar_seed: string | null;
+  joined_at: string;
+}
+
 // Mock user
 export const MOCK_USER = {
   id: 'demo-teacher-1',
@@ -46,6 +56,7 @@ class MockDataStore {
   sessions: Session[] = [];
   scores: Score[] = [];
   rounds: Round[] = [];
+  sessionParticipants: MockSessionParticipant[] = [];
 
   private constructor() {}
 
@@ -62,6 +73,7 @@ class MockDataStore {
     this.sessions = [];
     this.scores = [];
     this.rounds = [];
+    this.sessionParticipants = [];
   }
 
   // Classes
@@ -149,6 +161,25 @@ class MockDataStore {
     return this.sessions.find(s => s.id === id);
   }
 
+  ensureSession(id: string): Session | undefined {
+    let session = this.getSession(id);
+    if (session) return session;
+
+    const targetClass = this.classes[0];
+    if (!targetClass || !id.startsWith('session-')) return undefined;
+
+    session = {
+      id,
+      class_id: targetClass.id,
+      status: 'active',
+      started_at: new Date().toISOString(),
+      ended_at: null,
+      frozen: false,
+    };
+    this.sessions.push(session);
+    return session;
+  }
+
   createSession(data: Partial<Session> & Pick<Session, 'class_id'>): Session {
     const newSession: Session = {
       id: `session-${Date.now()}`,
@@ -167,6 +198,37 @@ class MockDataStore {
     if (idx === -1) return undefined;
     this.sessions[idx] = { ...this.sessions[idx], ...data };
     return this.sessions[idx];
+  }
+
+  // Session participants
+  getSessionParticipants(sessionId: string): MockSessionParticipant[] {
+    return this.sessionParticipants.filter(p => p.session_id === sessionId);
+  }
+
+  upsertSessionParticipant(data: {
+    session_id: string;
+    student_id: string | null;
+    client_id: string;
+    display_name: string;
+    avatar_seed: string | null;
+  }): MockSessionParticipant {
+    const now = new Date().toISOString();
+    const existing = this.sessionParticipants.find(
+      p => p.session_id === data.session_id && p.client_id === data.client_id
+    );
+
+    if (existing) {
+      Object.assign(existing, data);
+      return existing;
+    }
+
+    const participant: MockSessionParticipant = {
+      id: `participant-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      joined_at: now,
+      ...data,
+    };
+    this.sessionParticipants.push(participant);
+    return participant;
   }
 
   // Scores
@@ -244,4 +306,8 @@ class MockDataStore {
   }
 }
 
-export const mockStore = MockDataStore.getInstance();
+const globalMockStore = globalThis as typeof globalThis & {
+  __lessonCaptainMockStore?: MockDataStore;
+};
+
+export const mockStore = globalMockStore.__lessonCaptainMockStore ??= MockDataStore.getInstance();
