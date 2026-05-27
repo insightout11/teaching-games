@@ -19,6 +19,11 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
 
 const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics', 'stories', 'voa', 'picture-books']);
 
+const MICRO_STAGE_FORCED: Record<string, { key: string; slotType: SlotType }> = {
+  'opinion-pulse': { key: 'opinion-micro', slotType: 'practice' },
+  'accuracy-check': { key: 'accuracy-micro', slotType: 'practice' },
+};
+
 type PlannerSourceKind = 'video' | 'text' | null;
 
 function getSourceKind(sourceMaterial: SourceMaterial | null | undefined): PlannerSourceKind {
@@ -307,9 +312,16 @@ export const usePlannerStore = create<PlannerState>()(
 
       replaceModule: (id, newKey, newSlotType) =>
         set((state) => ({
-          modules: state.modules.map((m) =>
-            m.id === id ? { ...m, key: newKey, slotType: newSlotType } : m,
-          ),
+          modules: state.modules.map((m) => {
+            if (m.id !== id) return m;
+            const forced = m.isMicroEvent && m.stageId ? MICRO_STAGE_FORCED[m.stageId] : null;
+            return {
+              ...m,
+              key: forced?.key ?? newKey,
+              slotType: forced?.slotType ?? newSlotType,
+              isMicroEvent: forced ? true : m.isMicroEvent,
+            };
+          }),
         })),
 
       setActiveTab: (activeTab) => set({ activeTab }),
