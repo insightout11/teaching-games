@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import { useSubmissionsFeed } from '@/hooks/use-submissions-feed';
+import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import Link from 'next/link';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
@@ -18,6 +19,19 @@ interface CockpitViewProps {
 }
 
 type ActiveEvent = 'opinion' | 'contribution' | 'accuracy' | null;
+
+// Stage label lookup derived from the All-Around Flight preset
+const _aaConfig = FLIGHT_PLAN_PRESETS.find(p => p.id === 'all-around-flight-60')?.flightConfig;
+const STAGE_BY_GAMEKEY: Record<string, string> = _aaConfig?.stageByKey ?? {};
+const STAGE_LABEL: Record<string, string> = Object.fromEntries(
+  (_aaConfig?.stages ?? []).map(s => [s.stageId, s.label])
+);
+
+function getStageLabelForKey(gameKey: string | undefined | null): string | null {
+  if (!gameKey) return null;
+  const stageId = STAGE_BY_GAMEKEY[gameKey];
+  return STAGE_LABEL[stageId] ?? gameKey;
+}
 
 function formatRelativeTime(isoString: string): string {
   const diffMs = Date.now() - new Date(isoString).getTime();
@@ -34,25 +48,24 @@ function truncate(str: string, max: number): string {
   return str.slice(0, max) + '…';
 }
 
-function inputSpecLabel(spec: InputSpec | null): string {
-  if (!spec) return 'Nothing on student devices';
-  const prompt = spec.prompt ? ` — ${truncate(spec.prompt, 40)}` : '';
-  return `Current: ${spec.gameKey}${prompt}`;
-}
-
 export function CockpitView({ session, cls, students, initialInputSpec }: CockpitViewProps) {
-  const { submissions, isLoading } = useSubmissionsFeed(session.id);
-
   const [currentInputSpec, setCurrentInputSpec] = useState<InputSpec | null>(initialInputSpec);
   const [spotlighting, setSpotlighting] = useState<string | null>(null);
   const [spotlightedIds, setSpotlightedIds] = useState<Set<string>>(new Set());
   const [clearingEvent, setClearingEvent] = useState(false);
+  const [showAllSubmissions, setShowAllSubmissions] = useState(false);
 
   const [activeEvent, setActiveEvent] = useState<ActiveEvent>(null);
   const [eventPrompt, setEventPrompt] = useState('');
   const [isSendingEvent, setIsSendingEvent] = useState(false);
 
   const promptTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Derived filter: null = show all, string = filter by that gameKey
+  const filterKey: string | null =
+    showAllSubmissions || !currentInputSpec?.gameKey ? null : currentInputSpec.gameKey;
+
+  const { submissions, isLoading } = useSubmissionsFeed(session.id, filterKey);
 
   // Subscribe to session input_spec changes
   useEffect(() => {
@@ -80,6 +93,11 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
       supabase.removeChannel(channel);
     };
   }, [session.id]);
+
+  // Reset filter toggle when the active module changes
+  useEffect(() => {
+    setShowAllSubmissions(false);
+  }, [currentInputSpec?.gameKey]);
 
   // Auto-focus prompt textarea when event panel opens
   useEffect(() => {
@@ -177,6 +195,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
     accuracy: { label: 'Accuracy Challenge', hint: 'Students type their answer for review' },
   };
 
+  const stageLabel = getStageLabelForKey(currentInputSpec?.gameKey);
+
   return (
     <div className="min-h-screen bg-[#07111f] text-white">
       <div className="max-w-lg mx-auto p-4 space-y-4 pb-12">
@@ -205,24 +225,39 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
 
         {/* Status Strip */}
         <div className="bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
-          <div className="flex items-center justify-between gap-3">
-            <div className="space-y-1 min-w-0">
-              <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Student Devices</p>
-              <p className="text-sm text-white/80 truncate">{inputSpecLabel(currentInputSpec)}</p>
+          {currentInputSpec ? (
+            <>
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1 min-w-0 flex-1">
+                  <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Now</p>
+                  {stageLabel && (
+                    <p className="text-base font-bold text-white leading-tight">{stageLabel}</p>
+                  )}
+                  <p className="text-sm text-white/60 leading-snug">
+                    {truncate(currentInputSpec.prompt ?? currentInputSpec.gameKey, 60)}
+                  </p>
+                </div>
+                <button
+                  onClick={handleClearEvent}
+                  disabled={clearingEvent}
+                  className="shrink-0 text-xs text-red-400 hover:text-red-300 border border-red-500/30 hover:border-red-400/50 rounded-lg px-3 min-h-[36px] transition-colors disabled:opacity-50"
+                >
+                  {clearingEvent ? 'Clearing…' : 'Clear'}
+                </button>
+              </div>
+              <div className="text-xs text-white/35">
+                {students.length} student{students.length !== 1 ? 's' : ''} in class
+              </div>
+            </>
+          ) : (
+            <div className="space-y-1">
+              <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Now</p>
+              <p className="text-sm text-white/40">Nothing on student devices</p>
+              <div className="text-xs text-white/25 pt-1">
+                {students.length} student{students.length !== 1 ? 's' : ''} in class
+              </div>
             </div>
-            {currentInputSpec && (
-              <button
-                onClick={handleClearEvent}
-                disabled={clearingEvent}
-                className="shrink-0 text-xs text-red-400 hover:text-red-300 border border-red-500/30 hover:border-red-400/50 rounded-lg px-3 min-h-[36px] transition-colors disabled:opacity-50"
-              >
-                {clearingEvent ? 'Clearing…' : 'Clear'}
-              </button>
-            )}
-          </div>
-          <div className="text-xs text-white/35">
-            {students.length} student{students.length !== 1 ? 's' : ''} in class
-          </div>
+          )}
         </div>
 
         {/* Quick Event Launcher */}
@@ -283,10 +318,32 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
 
         {/* Submissions Feed */}
         <div className="bg-[#0d1f35] rounded-2xl border border-white/10 overflow-hidden">
-          <div className="px-4 py-3 border-b border-white/8">
-            <p className="text-xs text-white/40 uppercase tracking-widest font-medium">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/8 gap-3">
+            <p className="text-xs text-white/40 uppercase tracking-widest font-medium shrink-0">
               Submissions {isLoading ? '…' : `(${submissions.length})`}
             </p>
+            {currentInputSpec?.gameKey && (
+              <div className="flex rounded-lg overflow-hidden border border-white/10">
+                <button
+                  onClick={() => setShowAllSubmissions(false)}
+                  className={[
+                    'px-3 min-h-[36px] text-xs font-medium transition-colors',
+                    !showAllSubmissions ? 'bg-white/15 text-white' : 'text-white/40 hover:text-white/70',
+                  ].join(' ')}
+                >
+                  Current
+                </button>
+                <button
+                  onClick={() => setShowAllSubmissions(true)}
+                  className={[
+                    'px-3 min-h-[36px] text-xs font-medium transition-colors border-l border-white/10',
+                    showAllSubmissions ? 'bg-white/15 text-white' : 'text-white/40 hover:text-white/70',
+                  ].join(' ')}
+                >
+                  All recent
+                </button>
+              </div>
+            )}
           </div>
 
           {isLoading ? (

@@ -10,7 +10,10 @@ interface UseSubmissionsFeedReturn {
   isLoading: boolean;
 }
 
-export function useSubmissionsFeed(sessionId: string | null): UseSubmissionsFeedReturn {
+export function useSubmissionsFeed(
+  sessionId: string | null,
+  filterGameKey?: string | null,
+): UseSubmissionsFeedReturn {
   const [submissions, setSubmissions] = useState<StudentSubmission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,15 +29,22 @@ export function useSubmissionsFeed(sessionId: string | null): UseSubmissionsFeed
     }
 
     const supabase = createClient();
+    setIsLoading(true);
 
     async function loadSubmissions() {
-      const { data, error } = await supabase
+      let query = supabase
         .from('student_submissions')
         .select('*')
         .eq('session_id', sessionId)
         .in('status', ['pending', 'approved'])
         .not('game_key', 'is', null)
-        .neq('game_key', 'cabin-mystery')
+        .neq('game_key', 'cabin-mystery');
+
+      if (filterGameKey) {
+        query = query.eq('game_key', filterGameKey);
+      }
+
+      const { data, error } = await query
         .order('created_at', { ascending: false })
         .limit(50);
 
@@ -47,7 +57,7 @@ export function useSubmissionsFeed(sessionId: string | null): UseSubmissionsFeed
     loadSubmissions();
 
     const channel = supabase
-      .channel(`cockpit-feed:${sessionId}`)
+      .channel(`cockpit-feed:${sessionId}:${filterGameKey ?? 'all'}`)
       .on(
         'postgres_changes',
         {
@@ -58,9 +68,9 @@ export function useSubmissionsFeed(sessionId: string | null): UseSubmissionsFeed
         },
         (payload: { new: unknown }) => {
           const sub = payload.new as StudentSubmission;
-          if (sub.game_key !== null && sub.game_key !== 'cabin-mystery') {
-            setSubmissions((prev) => [sub, ...prev].slice(0, 50));
-          }
+          if (sub.game_key === null || sub.game_key === 'cabin-mystery') return;
+          if (filterGameKey && sub.game_key !== filterGameKey) return;
+          setSubmissions((prev) => [sub, ...prev].slice(0, 50));
         }
       )
       .on(
@@ -83,7 +93,7 @@ export function useSubmissionsFeed(sessionId: string | null): UseSubmissionsFeed
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [sessionId]);
+  }, [sessionId, filterGameKey]);
 
   return { submissions, isLoading };
 }
