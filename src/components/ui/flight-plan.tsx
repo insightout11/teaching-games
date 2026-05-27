@@ -15,7 +15,7 @@ export type FlightPlanStep = {
   id: string;
   type: string;
   name: string;
-  kind: 'terminal' | 'module';
+  kind: 'terminal' | 'module' | 'checkpoint';
 };
 
 type FlightPlanMode = 'planner' | 'runtime';
@@ -85,6 +85,10 @@ type NodePoint = FlightPlanStep & {
   cardWidthPercent: number;
 };
 
+function isCheckpoint(point: FlightPlanStep) {
+  return point.kind === 'checkpoint';
+}
+
 function computeNodeLayout(steps: FlightPlanStep[], width: number, height: number, mode: FlightPlanMode = 'planner'): NodePoint[] {
   const isRuntime = mode === 'runtime';
   const left = isRuntime ? 140 : 200;
@@ -95,7 +99,7 @@ function computeNodeLayout(steps: FlightPlanStep[], width: number, height: numbe
   const baseY = height * (isRuntime ? 0.72 : 0.66);
   const arcLift = isRuntime ? clamp(28 + count * 3, 36, 56) : clamp(42 + count * 4, 54, 82);
   const cardRowY = isRuntime ? clamp(height * 0.12, 14, 40) : clamp(height * 0.18, 80, 100);
-  const cardWidth = isRuntime ? 148 : 188;
+  const cardWidth = isRuntime ? 136 : 188;
 
   return steps.map((step, index) => {
     const t = count === 1 ? 0 : index / (count - 1);
@@ -606,6 +610,66 @@ function NodeCard({
   );
 }
 
+function CheckpointMarker({
+  point,
+  delay = 0,
+  nodeState = 'future',
+  onClick,
+}: {
+  point: NodePoint;
+  delay?: number;
+  nodeState?: 'completed' | 'current' | 'future';
+  onClick?: () => void;
+}) {
+  const isClickable = !!onClick;
+  const isCurrent = nodeState === 'current';
+
+  return (
+    <motion.div
+      className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
+      style={{
+        left: `${point.xPercent}%`,
+        top: `${point.yPercent}%`,
+      }}
+      initial={{ opacity: 0, scale: 0.72 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay, duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <button
+        type="button"
+        aria-label={`${point.type}: ${point.name}`}
+        title={`${point.type}: ${point.name}`}
+        onClick={onClick}
+        className={[
+          'relative flex h-8 w-8 items-center justify-center rounded-full border backdrop-blur-sm transition-colors',
+          isCurrent
+            ? 'border-cyan-200/75 bg-cyan-300/15 shadow-[0_0_18px_rgba(103,232,249,0.45)]'
+            : nodeState === 'completed'
+              ? 'border-cyan-200/35 bg-cyan-300/10'
+              : 'border-cyan-200/20 bg-[#0a1a2e]/45 hover:border-cyan-200/45',
+          isClickable ? 'cursor-pointer' : 'cursor-default',
+        ].join(' ')}
+      >
+        <CircleDot className="h-3.5 w-3.5 text-cyan-100/85" strokeWidth={2.2} />
+      </button>
+
+      {isCurrent && (
+        <motion.div
+          className="pointer-events-none absolute left-1/2 top-9 w-max max-w-[180px] -translate-x-1/2 rounded-full border border-cyan-200/20 bg-[#07111f]/90 px-3 py-1.5 text-center shadow-[0_12px_28px_rgba(0,0,0,0.38)] backdrop-blur-md"
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: delay + 0.08, duration: 0.24 }}
+        >
+          <span className="mr-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-cyan-200/70">
+            {point.type}
+          </span>
+          <span className="text-[11px] font-semibold text-white/90">{point.name}</span>
+        </motion.div>
+      )}
+    </motion.div>
+  );
+}
+
 function NodeLayer({
   width,
   height,
@@ -648,24 +712,27 @@ function NodeLayer({
           const isCompleted = mode === 'runtime' && activeIndex > i;
           const isActive = mode === 'runtime' && activeIndex >= i && activeIndex < i + 1;
           const isFuture = mode === 'runtime' && !isCompleted && !isActive;
+          const checkpoint = isCheckpoint(point);
           return (
             <g key={point.id}>
-              <motion.line
-                x1={point.x}
-                y1={point.y - 12}
-                x2={point.x}
-                y2={point.cardY + point.cardHeight}
-                stroke={isActive ? 'rgba(192, 240, 255, 0.50)' : isCompleted ? 'rgba(192, 240, 255, 0.30)' : 'rgba(170, 225, 255, 0.18)'}
-                strokeWidth={isActive ? '1.5' : '1.2'}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.52 + i * 0.12, duration: 0.28 }}
-              />
+              {!checkpoint && (
+                <motion.line
+                  x1={point.x}
+                  y1={point.y - 12}
+                  x2={point.x}
+                  y2={point.cardY + point.cardHeight}
+                  stroke={isActive ? 'rgba(192, 240, 255, 0.50)' : isCompleted ? 'rgba(192, 240, 255, 0.30)' : 'rgba(170, 225, 255, 0.18)'}
+                  strokeWidth={isActive ? '1.5' : '1.2'}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.52 + i * 0.12, duration: 0.28 }}
+                />
+              )}
 
               <motion.circle
                 cx={point.x}
                 cy={point.y}
-                r={isActive ? 26 : 17}
+                r={checkpoint ? (isActive ? 16 : 10) : isActive ? 26 : 17}
                 fill={isActive ? 'rgba(95, 226, 255, 0.18)' : isCompleted ? 'rgba(175, 244, 255, 0.10)' : 'rgba(95, 226, 255, 0.06)'}
                 filter={`url(#${ids.nodePulseGlow})`}
                 initial={{ opacity: 0, scale: 0.5 }}
@@ -684,7 +751,7 @@ function NodeLayer({
               <motion.circle
                 cx={point.x}
                 cy={point.y}
-                r={isActive ? 14 : isCompleted ? 12 : 11}
+                r={checkpoint ? (isActive ? 8 : 6.5) : isActive ? 14 : isCompleted ? 12 : 11}
                 fill={isActive ? 'rgba(95, 226, 255, 0.32)' : isCompleted ? 'rgba(170, 246, 255, 0.20)' : isFuture ? 'rgba(95, 226, 255, 0.10)' : 'rgba(95, 226, 255, 0.18)'}
                 filter={`url(#${ids.nodeGlow})`}
                 initial={{ opacity: 0, scale: 0.6 }}
@@ -696,10 +763,10 @@ function NodeLayer({
               <motion.circle
                 cx={point.x}
                 cy={point.y}
-                r={isActive ? '6.5' : '5.3'}
+                r={checkpoint ? (isActive ? '4.6' : '3.7') : isActive ? '6.5' : '5.3'}
                 fill={isActive ? '#ffffff' : isCompleted ? '#c8edf5' : isFuture ? '#8ecdd9' : '#dff9ff'}
                 stroke={isActive ? 'rgba(95, 226, 255, 1)' : isCompleted ? 'rgba(200, 237, 245, 0.70)' : isFuture ? 'rgba(95, 226, 255, 0.45)' : 'rgba(95, 226, 255, 0.85)'}
-                strokeWidth={isActive ? '2.5' : '2'}
+                strokeWidth={checkpoint ? (isActive ? '2' : '1.5') : isActive ? '2.5' : '2'}
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + i * 0.12, duration: 0.3 }}
@@ -712,12 +779,25 @@ function NodeLayer({
 
       {points.map((point, i) => {
         const isModule = point.kind === 'module';
-        const canClick = isModule && !!onNodeClick;
+        const checkpoint = isCheckpoint(point);
+        const canClick = (isModule || checkpoint) && !!onNodeClick;
         const canMove = isModule && !!onMoveModule;
         const isRuntime = mode === 'runtime';
         const nodeState: 'completed' | 'current' | 'future' =
           isRuntime && activeIndex > i ? 'completed' :
           isRuntime && activeIndex >= i && activeIndex < i + 1 ? 'current' : 'future';
+
+        if (checkpoint) {
+          return (
+            <CheckpointMarker
+              key={point.id}
+              point={point}
+              delay={0.5 + i * 0.12}
+              nodeState={isRuntime ? nodeState : 'future'}
+              onClick={canClick ? () => onNodeClick!(point.id) : undefined}
+            />
+          );
+        }
 
         return (
           <NodeCard

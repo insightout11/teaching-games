@@ -60,7 +60,12 @@ export function FlightSessionView({
                 ? 'Check'
                 : 'Stage',
         name: stage.label,
-        kind: i === 0 || stage.kind === 'landing' ? 'terminal' : 'module',
+        kind:
+          i === 0 || stage.kind === 'landing'
+            ? 'terminal'
+            : stage.kind === 'micro-event'
+              ? 'checkpoint'
+              : 'module',
       })),
     [flightConfig.stages],
   );
@@ -70,8 +75,10 @@ export function FlightSessionView({
   );
   const activeIndex = currentStageIndex >= 0 ? currentStageIndex : 0;
 
-  // Ensure cards don't overlap for wide stage lists (9 stages needs ~1720px)
-  const planWidth = Math.max(1280, 280 + flightConfig.stages.length * 170);
+  // Main stages get full cards; micro-events are compact route markers.
+  const mainStageCount = flightConfig.stages.filter((stage) => stage.kind !== 'micro-event').length;
+  const microEventCount = flightConfig.stages.length - mainStageCount;
+  const planWidth = Math.max(1120, 260 + mainStageCount * 150 + microEventCount * 56);
 
   const currentStage =
     flightConfig.stages.find((stage) => stage.stageId === currentSlot?.stageId) ?? null;
