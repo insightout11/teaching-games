@@ -64,8 +64,7 @@ import type {
   DecisionCouncilContent,
   OpinionMicroContent,
   AccuracyMicroContent,
-  LanguageToolkitContent,
-  LanguageToolkitItem,
+  SourceVocabItem,
 } from '@/activities/types';
 import type { CheckpointQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
@@ -106,8 +105,13 @@ function buildSourceContext(source?: SourceMaterial, rawTranscript?: string): st
     const text = extractPlainText(rawTranscript).slice(0, 10000);
     return `\nSource material — ground ALL content ONLY in this transcript. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nTranscript:\n${text}\n`;
   }
-  if (!source.summary) return '';
-  return `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${source.summary}\n`;
+  const body = source.rawText ?? source.summary ?? '';
+  if (!body) return '';
+  const text = body.slice(0, 10000);
+  if (source.rawText) {
+    return `\nSource material — ground ALL content ONLY in this source text. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nText:\n${text}\n`;
+  }
+  return `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${body}\n`;
 }
 
 const VIDEO_SOURCE_TYPES = new Set<SourceMaterial['sourceType']>([
@@ -838,7 +842,15 @@ Return JSON with a "words" array of exactly 5 objects, each with "word", "partOf
   };
 }
 
-async function generateLanguageToolkit(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<LanguageToolkitContent> {
+const SOURCE_VOCAB_FALLBACK: SourceVocabItem[] = [
+  { term: 'perspective', meaning: 'a particular way of thinking about something', example: "From a student's perspective, homework can feel overwhelming.", prompt: 'Share your perspective on this topic in one sentence.' },
+  { term: 'significant', meaning: 'important or large enough to have an effect', example: 'Climate change has had a significant impact on weather patterns.', prompt: 'What is one significant fact about this topic?' },
+  { term: 'approach', meaning: 'a way of dealing with a situation or problem', example: 'Scientists use a careful approach when testing new ideas.', prompt: 'Describe one approach someone could take to address this issue.' },
+  { term: 'impact', meaning: 'a strong effect or influence on something', example: 'Technology has had a huge impact on how we communicate.', prompt: 'What impact does this topic have on everyday life?' },
+  { term: 'consider', meaning: 'to think carefully about something before deciding', example: 'Before acting, it is important to consider all options.', prompt: 'What should people consider when thinking about this issue?' },
+];
+
+async function generateSourceVocab(topic: string, difficulty: Difficulty, sourceContext: string): Promise<SourceVocabItem[]> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -860,52 +872,50 @@ async function generateLanguageToolkit(topic: string, difficulty: Difficulty, so
     required: ['items'],
   };
 
-  const sourceSection = sourceContext
-    ? `Source material (prefer terms that appear in this text):\n${sourceContext.slice(0, 1500)}\n\n`
-    : '';
+  const isSourceGrounded = sourceContext.length > 0;
+  const extractInstruction = isSourceGrounded
+    ? `${sourceContext}\n\nExtract vocabulary from the source above. Terms MUST come from this source text — do not invent topic-general words. Every term must appear in the provided text.`
+    : `Choose terms that will recur naturally in student discussion about the topic: ${topic}.`;
 
-  const aiPrompt = `Generate 6 vocabulary terms for an ESL classroom lesson about the topic below.
-Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceSection}
-Choose terms that:
-- Will recur naturally in student discussion about this topic
-- Range from mid-frequency to topic-specific (mix of useful and precise)
-- Are appropriate for the difficulty level
+  const aiPrompt = `Generate 6 vocabulary terms for an ESL classroom lesson.
+${isSourceGrounded ? '' : `Topic: ${topic}\n`}Difficulty: ${difficultyDescriptions[difficulty]}
+${extractInstruction}
 
 For each term provide:
 - meaning: plain English definition, ≤15 words, no circular definitions
 - example: a natural sentence using the term in context
-- prompt: one open discussion or reflection question that prompts students to use the term (e.g. "What is one example of X in your daily life?")
-- sourceContext (optional): a sentence from the source material where the term appears, if applicable
+- prompt: one open discussion or reflection question prompting students to use the term
+- sourceContext (optional): exact sentence from source where the term appears
 
-Return JSON with an "items" array of exactly 6 objects, each with "term", "meaning", "example", "prompt", and optionally "sourceContext".`;
+Return JSON with an "items" array of exactly 6 objects.`;
 
   const parsed = await generateJSON<{ items: Array<{ term?: string; meaning?: string; example?: string; prompt?: string; sourceContext?: string }> }>(aiPrompt, schema);
 
   const seen = new Set<string>();
-  const normalized: LanguageToolkitItem[] = [];
+  const normalized: SourceVocabItem[] = [];
   for (const raw of parsed.items) {
     const term = (raw.term ?? '').trim();
-    if (!term) continue;
+    const meaning = (raw.meaning ?? '').trim();
+    const example = (raw.example ?? '').trim();
+    const prompt = (raw.prompt ?? '').trim();
+    if (!term || !meaning || !example || !prompt) continue;
     const key = term.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
-    normalized.push({
-      term,
-      meaning: (raw.meaning ?? '').trim(),
-      example: (raw.example ?? '').trim(),
-      prompt: (raw.prompt ?? '').trim(),
-      sourceContext: raw.sourceContext ? raw.sourceContext.trim() : undefined,
-    });
+    normalized.push({ term, meaning, example, prompt, ...(raw.sourceContext ? { sourceContext: raw.sourceContext.trim() } : {}) });
     if (normalized.length >= 8) break;
   }
 
-  return {
-    activityKey: 'language-toolkit',
-    topicContext: topic,
-    items: normalized,
-  };
+  // Only top-up with generic fallbacks for true topic-only (no source text)
+  if (!isSourceGrounded) {
+    const existing = new Set(normalized.map((i) => i.term.toLowerCase()));
+    for (const fb of SOURCE_VOCAB_FALLBACK) {
+      if (normalized.length >= 5) break;
+      if (!existing.has(fb.term.toLowerCase())) { normalized.push(fb); existing.add(fb.term.toLowerCase()); }
+    }
+  }
+
+  return normalized;
 }
 
 async function generatePredictionRound(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<PredictionRoundContent> {
@@ -2475,6 +2485,8 @@ export async function POST(request: NextRequest) {
       missionContext,
       grammarTarget,
       sourceMaterial,
+      needsSourceVocab,
+      sourceVocab: sourceVocabFromRequest,
     } = body;
 
     // Fetch real transcript from DB — used by ALL generators, not just checkpoints
@@ -2520,6 +2532,16 @@ export async function POST(request: NextRequest) {
     const content: Record<string, ActivityGeneratedContent> = {};
     const gameContent: Record<string, GameGeneratedContent> = {};
     const generators: Promise<void>[] = [];
+
+    // Canonical source vocab: generate once at start, carry forward to all source-grounded activities
+    let sourceVocab: SourceVocabItem[] = sourceVocabFromRequest ?? [];
+    if (needsSourceVocab && sourceVocab.length === 0 && sourceCtx.length > 0) {
+      try {
+        sourceVocab = await generateSourceVocab(customTopic, diff, sourceCtx);
+      } catch (err) {
+        console.warn('generateSourceVocab failed:', err instanceof Error ? err.message.slice(0, 100) : err);
+      }
+    }
 
     // Vocab Blitz shared word list: run Vocab Radar first, pass words to Vocab Sprint
     const vocabBlitzMode = hasActivities && hasGames &&
@@ -2621,6 +2643,15 @@ export async function POST(request: NextRequest) {
             break;
           case 'vocab-radar':
             if (readAloudVocabMode) break; // already generated above
+            if (vocabBlitzMode) break; // already generated above
+            if (sourceVocab.length > 0) {
+              content[activityKey] = {
+                activityKey: 'vocab-radar',
+                topicContext: customTopic,
+                words: sourceVocab.slice(0, 6).map((v) => ({ word: v.term, definition: v.meaning })),
+              };
+              break;
+            }
             generators.push(generateVocabRadar(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'prediction-round':
@@ -2637,7 +2668,20 @@ export async function POST(request: NextRequest) {
             }));
             break;
           case 'language-toolkit':
-            generators.push(generateLanguageToolkit(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            if (sourceVocab.length > 0) {
+              content[activityKey] = { activityKey: 'language-toolkit', topicContext: customTopic, items: sourceVocab };
+            } else if (needsSourceVocab) {
+              // sourceVocab still empty — generate inline (source stage may not have run yet)
+              generators.push(generateSourceVocab(customTopic, diff, sourceCtx).then((items) => {
+                if (items.length) sourceVocab = items;
+                content[activityKey] = { activityKey: 'language-toolkit', topicContext: customTopic, items };
+              }));
+            } else {
+              // Standalone use (not in a source-vocab lesson)
+              generators.push(generateSourceVocab(customTopic, diff, sourceCtx).then((items) => {
+                content[activityKey] = { activityKey: 'language-toolkit', topicContext: customTopic, items };
+              }));
+            }
             break;
           case 'listening-gap-fill':
             generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined, getGapFillMode(sourceMaterial)).then((r) => { content[activityKey] = r; }));
@@ -2646,7 +2690,9 @@ export async function POST(request: NextRequest) {
             const rawText = sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '';
             if (rawText.length > 0) {
               const cleanText = stripAsterisks(rawText);
-              const vocabWords = readAloudVocabWords ?? extractAsteriskWords(rawText);
+              const vocabWords = sourceVocab.length > 0
+                ? sourceVocab.map((v) => v.term)
+                : (readAloudVocabWords ?? extractAsteriskWords(rawText));
               generators.push(Promise.resolve().then(() => {
                 content[activityKey] = {
                   activityKey: 'read-aloud',
@@ -2658,12 +2704,22 @@ export async function POST(request: NextRequest) {
                 };
               }));
             } else {
-              generators.push(generateTopicBrief(customTopic, diff).then((brief) => {
+              // Topic-only: generate brief first, then extract canonical vocab from it
+              generators.push(generateTopicBrief(customTopic, diff).then(async (brief) => {
+                if (needsSourceVocab && sourceVocab.length === 0 && brief.text) {
+                  try {
+                    const briefCtx = `Source material — ground ALL content ONLY in this text:\n\n${brief.text}`;
+                    sourceVocab = await generateSourceVocab(customTopic, diff, briefCtx);
+                  } catch (err) {
+                    console.warn('generateSourceVocab from brief failed:', err instanceof Error ? err.message.slice(0, 100) : err);
+                  }
+                }
                 content[activityKey] = {
                   activityKey: 'read-aloud',
                   topicContext: customTopic,
                   sourceText: brief.text,
                   sourceTitle: brief.title,
+                  ...(sourceVocab.length > 0 ? { vocabWords: sourceVocab.map((v) => v.term) } : {}),
                 };
               }));
             }
@@ -2836,6 +2892,7 @@ export async function POST(request: NextRequest) {
       content,
       gameContent,
       ...(failedCount > 0 && { degraded: true, failedCount }),
+      ...(sourceVocab.length > 0 && needsSourceVocab ? { sourceVocab } : {}),
     };
     return NextResponse.json(response);
   } catch (error) {

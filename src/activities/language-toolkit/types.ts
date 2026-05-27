@@ -1,1 +1,1 @@
-export type { LanguageToolkitContent, LanguageToolkitItem } from '../types';
+export type { LanguageToolkitContent, SourceVocabItem } from '../types';

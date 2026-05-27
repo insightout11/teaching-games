@@ -38,6 +38,8 @@ export interface InputSpec {
   reviewMode?: 'approval' | 'direct';
   /** Vocabulary words to display as chips to the student (e.g. Final Answer target keywords) */
   keywords?: string[];
+  /** Language Toolkit vocab cards shown above the input on student devices. */
+  toolkitItems?: Array<{ term: string; meaning: string; example: string; prompt: string }>;
   /** Role-grouped phrases with labels (e.g. for Conversation Rounds). Preferred over flat keywords when present. */
   keywordGroups?: { label: string; phrases: string[] }[];
   /** When true, choice inputs show an "Other: write your own…" option */

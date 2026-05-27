@@ -963,6 +963,18 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   </span>
                 </div>
               )}
+              {inputSpec.gameKey === 'language-toolkit' && inputSpec.toolkitItems && inputSpec.toolkitItems.length > 0 && (
+                <div className="space-y-2 mb-4">
+                  {inputSpec.toolkitItems.map((item) => (
+                    <div key={item.term} className="p-3 rounded-xl border border-white/10 bg-white/5 space-y-1">
+                      <p className="font-bold text-sky-300 text-sm">{item.term}</p>
+                      <p className="text-xs opacity-70 leading-snug">{item.meaning}</p>
+                      <p className="text-xs italic opacity-50 leading-snug">&ldquo;{item.example}&rdquo;</p>
+                      {item.prompt && <p className="text-xs font-medium text-amber-300 leading-snug pt-1">{item.prompt}</p>}
+                    </div>
+                  ))}
+                </div>
+              )}
               <DynamicInput
                 spec={inputSpec}
                 onSubmit={handleSubmit}

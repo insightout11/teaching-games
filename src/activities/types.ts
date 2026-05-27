@@ -115,17 +115,17 @@ export interface VocabWord {
   definition: string;
 }
 
-export interface LanguageToolkitItem {
+export interface SourceVocabItem {
   term: string;
   meaning: string;        // ≤15 words, plain English
   example: string;        // Natural sentence using the term
-  prompt: string;         // Use-it discussion/reflection question
+  prompt?: string;        // Use-it discussion/reflection question (required for Language Toolkit, optional elsewhere)
   sourceContext?: string; // Sentence from source material where term appears
 }
 
 export interface LanguageToolkitContent extends ActivityGeneratedContent {
   activityKey: 'language-toolkit';
-  items: LanguageToolkitItem[];
+  items: SourceVocabItem[];
 }
 
 export function normalizeVocabWord(item: string | VocabWord): VocabWord {
@@ -427,6 +427,10 @@ export interface LessonPlanGenerateRequest {
   goal?: string; // GoalTag — used by mission-selector generator for mission type selection
   missionContext?: string[]; // Up to 5 unique student mission questions for mission-aware generators
   sourceMaterial?: import('@/types/source-material').SourceMaterial; // External source for grounded generation
+  /** When true, this lesson has a canonical vocab flow (language-toolkit in slots). */
+  needsSourceVocab?: boolean;
+  /** Canonical vocab already generated — skip generation and use directly. */
+  sourceVocab?: SourceVocabItem[];
 }
 
 // Video Player activity content (source-based lessons)
@@ -792,6 +796,8 @@ export interface LessonPlanGenerateResponse {
   error?: string;
   degraded?: boolean;
   failedCount?: number;
+  /** Canonical source vocab — returned when generated for the first time in this lesson. */
+  sourceVocab?: SourceVocabItem[];
 }
 
 // ============================================

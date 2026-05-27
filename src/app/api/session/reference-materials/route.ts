@@ -5,6 +5,7 @@ import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
+import type { SourceVocabItem } from '@/activities/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
   if (authError) return authError;
 
   const body = await request.json().catch(() => null);
-  const { sessionId } = body ?? {};
+  const { sessionId, sourceVocab } = body ?? {} as { sessionId?: string; sourceVocab?: SourceVocabItem[] };
 
   if (!sessionId || typeof sessionId !== 'string') {
     return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
@@ -66,14 +67,28 @@ export async function POST(request: Request) {
 
   const supabase = createServiceClient();
 
+  // Canonical write path: if sourceVocab is provided, write it directly and return (idempotent)
+  if (Array.isArray(sourceVocab) && sourceVocab.length > 0) {
+    await supabase
+      .from('sessions')
+      .update({ reference_vocab: sourceVocab.map((v) => ({ word: v.term, definition: v.meaning })) })
+      .eq('id', sessionId);
+    return NextResponse.json({ ok: true });
+  }
+
   const { data: session, error: sessionError } = await supabase
     .from('sessions')
-    .select('topic, difficulty, custom_topic, status')
+    .select('topic, difficulty, custom_topic, status, reference_vocab')
     .eq('id', sessionId)
     .single();
 
   if (sessionError || !session) {
     return NextResponse.json({ error: 'Session not found' }, { status: 404 });
+  }
+
+  // Idempotency: skip if canonical vocab already written
+  if (session.reference_vocab) {
+    return NextResponse.json({ ok: true });
   }
 
   const topic = (session.custom_topic as string | null) || (session.topic as string) || 'General';
