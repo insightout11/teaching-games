@@ -11,7 +11,7 @@ import type { GrammarTarget } from '@/lib/grammar';
 import { FlightPathSVG } from './flight-path-svg';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
-import { ArrowLeft, CheckCircle2, Loader2, Plus, Rocket, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CheckCircle2, Loader2, Plus, Rocket, Users } from 'lucide-react';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 
 type TeacherClass = { id: string; name: string; studentCount: number };
@@ -35,6 +35,7 @@ export function ReviewLaunchScreen() {
     setGrammarTarget,
     sourceMaterial,
     setSourceMaterial,
+    loadedPresetId,
   } = usePlannerStore();
 
   const { loading: tierLoading, isPro, credits } = useTeacherTier();
@@ -140,11 +141,17 @@ export function ReviewLaunchScreen() {
 
   const canLaunch = modules.length > 0 && !!selectedClassId && !isLaunching;
 
-  const checklist = [
+  const isAllAroundFlight = loadedPresetId === 'all-around-flight-60';
+  const needsSourceWarning = isAllAroundFlight && !sourceMaterial;
+
+  const checklist: Array<{ label: string; done: boolean; warn?: boolean }> = [
     { label: 'Flight plan structured', done: modules.length > 0 },
     { label: 'Modules configured', done: modules.length > 0 },
     { label: 'Class selected', done: !!selectedClassId },
     { label: 'Content generates at runtime', done: true },
+    ...(isAllAroundFlight
+      ? [{ label: "Captain's Briefing source", done: !!sourceMaterial, warn: !sourceMaterial }]
+      : []),
   ];
 
   return (
@@ -247,6 +254,16 @@ export function ReviewLaunchScreen() {
             </h3>
             <FlightPathSVG compact />
           </div>
+
+          {/* Source warning for All-Around Flight */}
+          {needsSourceWarning && (
+            <div className="bg-amber-500/10 rounded-xl border border-amber-500/30 p-4 flex gap-3">
+              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <p className="text-xs text-amber-300 leading-relaxed">
+                No source added — Captain&apos;s Briefing will use a generated reader from your topic. Add a video or text source for a richer briefing.
+              </p>
+            </div>
+          )}
 
           {/* Source material card */}
           {sourceMaterial && (
@@ -363,11 +380,15 @@ export function ReviewLaunchScreen() {
             <div className="space-y-2">
               {checklist.map((item) => (
                 <div key={item.label} className="flex items-center gap-2">
-                  <CheckCircle2
-                    className={`w-4 h-4 ${item.done ? 'text-lc-success' : 'text-lc-text3'}`}
-                  />
+                  {item.done ? (
+                    <CheckCircle2 className="w-4 h-4 text-lc-success" />
+                  ) : item.warn ? (
+                    <AlertTriangle className="w-4 h-4 text-amber-400" />
+                  ) : (
+                    <CheckCircle2 className="w-4 h-4 text-lc-text3" />
+                  )}
                   <span
-                    className={`text-sm ${item.done ? 'text-lc-text' : 'text-lc-text3'}`}
+                    className={`text-sm ${item.done ? 'text-lc-text' : item.warn ? 'text-amber-300' : 'text-lc-text3'}`}
                   >
                     {item.label}
                   </span>

@@ -2275,6 +2275,32 @@ Exactly ONE sentence (15-30 words). Leave it open for continuation.`;
   }
 }
 
+async function generateTopicBrief(topic: string, difficulty: Difficulty): Promise<{ title: string; text: string }> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      title: { type: 'string' },
+      text: { type: 'string' },
+    },
+    required: ['title', 'text'],
+  };
+
+  const prompt = `Write a short classroom reading passage for ESL students.
+Topic: "${topic}"
+Difficulty: ${difficultyDescriptions[difficulty]}
+${pppContextBlock('presentation')}
+Requirements:
+- 4–5 paragraphs, approximately 280–320 words total
+- Clear, natural prose at the specified language level
+- Grounded in real facts or common perspectives about the topic
+- No headers, bullet points, or lists — flowing paragraphs only
+- End the final paragraph with an open question or debatable claim students can discuss
+Return JSON with "title" (short, engaging) and "text" (the full passage).`;
+
+  const parsed = await generateJSON<{ title: string; text: string }>(prompt, schema);
+  return { title: parsed.title ?? topic, text: parsed.text ?? '' };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as LessonPlanGenerateRequest & {
@@ -2454,18 +2480,29 @@ export async function POST(request: NextRequest) {
             break;
           case 'read-aloud': {
             const rawText = sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '';
-            const cleanText = stripAsterisks(rawText);
-            const vocabWords = readAloudVocabWords ?? extractAsteriskWords(rawText);
-            generators.push(Promise.resolve().then(() => {
-              content[activityKey] = {
-                activityKey: 'read-aloud',
-                topicContext: customTopic,
-                sourceText: cleanText,
-                sourceTitle: sourceMaterial?.title ?? customTopic,
-                ...(vocabWords.length > 0 ? { vocabWords } : {}),
-                ...(sourceMaterial?.slides ? { slides: sourceMaterial.slides } : {}),
-              };
-            }));
+            if (rawText.length > 0) {
+              const cleanText = stripAsterisks(rawText);
+              const vocabWords = readAloudVocabWords ?? extractAsteriskWords(rawText);
+              generators.push(Promise.resolve().then(() => {
+                content[activityKey] = {
+                  activityKey: 'read-aloud',
+                  topicContext: customTopic,
+                  sourceText: cleanText,
+                  sourceTitle: sourceMaterial?.title ?? customTopic,
+                  ...(vocabWords.length > 0 ? { vocabWords } : {}),
+                  ...(sourceMaterial?.slides ? { slides: sourceMaterial.slides } : {}),
+                };
+              }));
+            } else {
+              generators.push(generateTopicBrief(customTopic, diff).then((brief) => {
+                content[activityKey] = {
+                  activityKey: 'read-aloud',
+                  topicContext: customTopic,
+                  sourceText: brief.text,
+                  sourceTitle: brief.title,
+                };
+              }));
+            }
             break;
           }
           case 'video-player': {
