@@ -114,7 +114,7 @@ function PoolSpinner({
   stageLabel?: string;
   onResolved: (key: string) => void;
 }) {
-  const poolNames = pool.map((key) => {
+  const poolItems = pool.map((key) => {
     const a = getAllActivities().find((act) => act.key === key);
     if (a) return { key, name: a.name };
     const g = getAllGames().find((gm) => gm.key === key);
@@ -128,46 +128,103 @@ function PoolSpinner({
   onResolvedRef.current = onResolved;
 
   useEffect(() => {
+    let alive = true;
     let count = 0;
-    const CYCLES = 20;
-    const id = setInterval(() => {
+
+    function tick() {
+      if (!alive) return;
       count++;
-      if (count < CYCLES) {
+      const FAST = 18;   // 18 rapid cycles
+      const SLOW = 8;    // 8 decelerating cycles
+      if (count <= FAST) {
         setDisplayIdx(Math.floor(Math.random() * pool.length));
+        setTimeout(tick, 55);
+      } else if (count <= FAST + SLOW) {
+        const t = (count - FAST) / SLOW;
+        setDisplayIdx(Math.floor(Math.random() * pool.length));
+        setTimeout(tick, 80 + t * 340); // 80ms → 420ms
       } else {
-        clearInterval(id);
-        const winnerIdx = pool.indexOf(winnerKey);
-        setDisplayIdx(winnerIdx >= 0 ? winnerIdx : 0);
+        const wi = pool.indexOf(winnerKey);
+        setDisplayIdx(wi >= 0 ? wi : 0);
         setRevealed(true);
-        setTimeout(() => onResolvedRef.current(winnerKey), 900);
+        setTimeout(() => { if (alive) onResolvedRef.current(winnerKey); }, 1600);
       }
-    }, 70);
-    return () => clearInterval(id);
+    }
+
+    tick();
+    return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const current = poolNames[displayIdx];
+  const current = poolItems[displayIdx];
+  const winnerIdx = pool.indexOf(winnerKey);
 
   return (
-    <div className="flex flex-col items-center justify-center py-16 gap-6">
-      <p className="text-xs uppercase tracking-widest opacity-40">
-        {stageLabel ? `${stageLabel} · ` : ''}Selecting activity
+    // Full-screen overlay so nothing can obscure it
+    <div
+      className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-8"
+      style={{ background: 'rgba(8,12,22,0.93)', backdropFilter: 'blur(18px)' }}
+    >
+      {/* Stage label */}
+      <p className="text-[11px] uppercase tracking-[0.25em] text-white/35">
+        {stageLabel ? `${stageLabel} · ` : ''}Choosing next activity
       </p>
+
+      {/* Slot-machine display card */}
       <div
-        className={`px-8 py-5 rounded-2xl font-game text-2xl text-center transition-all duration-200 ${
+        className={`relative px-14 py-8 rounded-3xl font-game text-4xl text-center transition-all ${
           revealed
-            ? 'bg-lc-blue/15 border-2 border-lc-blue/50 text-lc-blue shadow-lg'
-            : 'glass border border-white/10'
+            ? 'border-2 border-cyan-400 text-cyan-200 scale-110'
+            : 'border border-white/20 text-white scale-100'
         }`}
+        style={revealed ? {
+          background: 'rgba(34,211,238,0.09)',
+          boxShadow: '0 0 50px rgba(34,211,238,0.45), 0 0 100px rgba(34,211,238,0.18)',
+          transition: 'all 0.35s cubic-bezier(0.34,1.56,0.64,1)',
+        } : {
+          background: 'rgba(255,255,255,0.05)',
+          transition: 'all 0.12s ease',
+        }}
       >
-        {current?.name ?? '...'}
+        <span style={{ minWidth: 260, display: 'inline-block' }}>{current?.name ?? '…'}</span>
       </div>
-      {revealed && (
-        <div className="flex items-center gap-2 text-sm opacity-50">
-          <div className="w-3 h-3 border-2 border-lc-blue/30 border-t-lc-blue rounded-full animate-spin" />
-          Preparing content...
+
+      {/* Spinning dots / ready label */}
+      {!revealed ? (
+        <div className="flex gap-2">
+          {[0, 1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="w-2.5 h-2.5 rounded-full bg-white/40 animate-bounce"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-cyan-300 font-semibold tracking-wide text-lg">Selected!</span>
+          <div className="flex items-center gap-2 text-sm text-white/40">
+            <div className="w-3 h-3 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin" />
+            Preparing content…
+          </div>
         </div>
       )}
+
+      {/* All candidates shown at bottom — winner lights up */}
+      <div className="flex flex-wrap justify-center gap-2 max-w-lg px-8 mt-4">
+        {poolItems.map((item, i) => (
+          <span
+            key={item.key}
+            className={`px-3.5 py-1 rounded-full text-sm border transition-all duration-500 ${
+              revealed && i === winnerIdx
+                ? 'border-cyan-400/70 text-cyan-300 bg-cyan-500/12'
+                : 'border-white/10 text-white/25'
+            }`}
+          >
+            {item.name}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -1451,34 +1508,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             )}
           </div>
         ) : poolSpinning !== null ? (
-          isAllAroundFlight && flightConfig ? (
-            <FlightSessionView
-              slots={lesson.lessonSlots}
-              currentSlotIndex={lesson.currentSlotIndex}
-              phase={lesson.phase}
-              flightConfig={flightConfig}
-              currentModuleName={poolSpinning.stageLabel ?? 'Picking...'}
-              isModuleFinished={false}
-              onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
-              onSwap={() => setShowPivotDrawer(true)}
-              onNext={handleNextSlotWithTransition}
-              onGoToSlot={lesson.goToSlot}
-            >
-              <PoolSpinner
-                pool={poolSpinning.pool}
-                stageLabel={poolSpinning.stageLabel}
-                onResolved={handlePoolResolved}
-              />
-            </FlightSessionView>
-          ) : (
-            <div className="glass rounded-2xl p-4">
-              <PoolSpinner
-                pool={poolSpinning.pool}
-                stageLabel={poolSpinning.stageLabel}
-                onResolved={handlePoolResolved}
-              />
-            </div>
-          )
+          <PoolSpinner
+            pool={poolSpinning.pool}
+            stageLabel={poolSpinning.stageLabel}
+            onResolved={handlePoolResolved}
+          />
         ) : viewMode === 'game' && selectedGame ? (
           isAllAroundFlight && flightConfig ? (
             <FlightSessionView
