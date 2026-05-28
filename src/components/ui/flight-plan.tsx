@@ -362,6 +362,29 @@ function BackgroundLayer({
           <clipPath id={bgIds.clipPath}>
             <circle cx={gcx} cy={gcy} r={gR} />
           </clipPath>
+          {/* Land terrain gradients — bright inland center fading to dark coastal edges */}
+          <radialGradient id={`${bgIds.radarPulse}-ll`} cx={lcx} cy={landY} r={width * 0.17} gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#2a7040" />
+            <stop offset="35%" stopColor="#19502a" />
+            <stop offset="70%" stopColor="#0d2f17" />
+            <stop offset="100%" stopColor="#061308" />
+          </radialGradient>
+          <radialGradient id={`${bgIds.radarPulse}-lr`} cx={lcx - width * 0.01} cy={landY - height * 0.04} r={width * 0.08} gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#348a4e" />
+            <stop offset="60%" stopColor="#1a5530" />
+            <stop offset="100%" stopColor="#0a2214" stopOpacity={0} />
+          </radialGradient>
+          <radialGradient id={`${bgIds.radarPulse}-rl`} cx={rcx} cy={landY} r={width * 0.16} gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#267a3c" />
+            <stop offset="35%" stopColor="#174b25" />
+            <stop offset="70%" stopColor="#0c2c15" />
+            <stop offset="100%" stopColor="#050f08" />
+          </radialGradient>
+          <radialGradient id={`${bgIds.radarPulse}-rr`} cx={rcx + width * 0.01} cy={landY - height * 0.02} r={width * 0.07} gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#308046" />
+            <stop offset="60%" stopColor="#175230" />
+            <stop offset="100%" stopColor="#0a1f10" stopOpacity={0} />
+          </radialGradient>
         </defs>
 
         {/* Globe ocean */}
@@ -374,11 +397,11 @@ function BackgroundLayer({
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* Stylized landmasses: flat, irregular paths read as continents on the globe. */}
-        <motion.path d={leftLandPath} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#1f7542' : '#0d2016', opacity: emphasized ? 0.92 : 0.16 }} transition={{ duration: 0.45 }} />
-        <motion.path d={leftLandRidgePath} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#155b35' : '#0a1712', opacity: emphasized ? 0.5 : 0.08 }} transition={{ duration: 0.45 }} />
-        <motion.path d={rightLandPath} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#1d6f3d' : '#0d2016', opacity: emphasized ? 0.82 : 0.14 }} transition={{ duration: 0.45 }} />
-        <motion.path d={rightLandRidgePath} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#155734' : '#0a1712', opacity: emphasized ? 0.44 : 0.08 }} transition={{ duration: 0.45 }} />
+        {/* Stylized landmasses — gradient fills give brighter inland, darker coastal edges */}
+        <motion.path d={leftLandPath} fill={`url(#${bgIds.radarPulse}-ll)`} clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.95 : 0.18 }} transition={{ duration: 0.45 }} />
+        <motion.path d={leftLandRidgePath} fill={`url(#${bgIds.radarPulse}-lr)`} clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.55 : 0.10 }} transition={{ duration: 0.45 }} />
+        <motion.path d={rightLandPath} fill={`url(#${bgIds.radarPulse}-rl)`} clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.88 : 0.16 }} transition={{ duration: 0.45 }} />
+        <motion.path d={rightLandRidgePath} fill={`url(#${bgIds.radarPulse}-rr)`} clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.48 : 0.09 }} transition={{ duration: 0.45 }} />
 
 
         {/* Atmosphere rim */}
