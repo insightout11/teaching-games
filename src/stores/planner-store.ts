@@ -382,7 +382,13 @@ export const usePlannerStore = create<PlannerState>()(
         const primaryGoal = derivePrimaryGoal(goals);
         const loadedPreset = loadedPresetId ? FLIGHT_PLAN_PRESETS.find((p) => p.id === loadedPresetId) : null;
 
-        const slots: LessonSlot[] = modules.map((m) => {
+        // Always rebuild from the latest preset definition for all-around-flight so that
+        // pool arrays and isMicroEvent flags are never stale from a persisted planner state.
+        const freshModules = loadedPreset?.id === 'all-around-flight-60'
+          ? buildModulesFromPreset(loadedPreset, getSourceKind(sourceMaterial))
+          : modules;
+
+        const slots: LessonSlot[] = freshModules.map((m) => {
           const meta = {
             ...(m.stageId ? { stageId: m.stageId } : {}),
             ...(m.stageLabel ? { stageLabel: m.stageLabel } : {}),

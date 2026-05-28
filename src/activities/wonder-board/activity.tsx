@@ -21,6 +21,29 @@ const STARTER_COLORS: Record<string, string> = {
   'Follow-up': 'text-slate-400 border-slate-500/40',
 };
 
+// RGB values for drop-shadow glow (follows cloud clip-path outline)
+const STARTER_GLOW_RGB: Record<string, string> = {
+  'Why':       '251,113,133',
+  'How':       '56,189,248',
+  'What':      '167,139,250',
+  'When':      '251,191,36',
+  'Where':     '52,211,153',
+  'Should':    '251,146,60',
+  'What if':   '244,114,182',
+  'Follow-up': '148,163,184',
+};
+
+function getCloudGlow(starter: string, focused: boolean): string {
+  const rgb = STARTER_GLOW_RGB[starter] ?? STARTER_GLOW_RGB['Follow-up'];
+  const alpha = focused ? 0.9 : 0.6;
+  const blur = focused ? 12 : 7;
+  return `drop-shadow(0 0 ${blur}px rgba(${rgb},${alpha}))${focused ? ' drop-shadow(0 6px 16px rgba(0,0,0,0.5))' : ''}`;
+}
+
+// Two-bump cloud polygon — peaks at ~30% and ~70% width, bumps occupy top 30px
+const CLOUD_CLIP_PATH =
+  'polygon(0px 30px, 3% 24px, 10% 14px, 20% 6px, 30% 2px, 40% 6px, 47% 18px, 50% 22px, 53% 18px, 60% 6px, 70% 2px, 80% 6px, 90% 14px, 97% 24px, 100% 30px, 100% 100%, 0px 100%)';
+
 type Phase = 'idle' | 'collecting' | 'done';
 
 interface WonderQuestion {
