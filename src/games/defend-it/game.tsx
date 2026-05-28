@@ -31,6 +31,7 @@ export function DefendItGame({
   sessionSettings,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  isMicroEvent,
 }: GameProps) {
   const roundCount = Number(config.roundCount ?? 3);
   const classMission = useSessionStore((s) => s.classMission);
@@ -518,14 +519,21 @@ export function DefendItGame({
           })}
         </div>
 
-        <button
-          onClick={handleNextRound}
-          className="w-full py-5 bg-gradient-to-r from-orange-500 to-rose-600 rounded-2xl font-game text-lg shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20 flex items-center justify-center gap-2"
-        >
-          {currentRound >= roundCount ? 'FINISH GAME' : (
-            <>NEXT ROUND <ChevronRight className="w-5 h-5" /></>
-          )}
-        </button>
+        {isMicroEvent ? (
+          <div className="glass p-4 rounded-xl text-center">
+            <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+            <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+          </div>
+        ) : (
+          <button
+            onClick={handleNextRound}
+            className="w-full py-5 bg-gradient-to-r from-orange-500 to-rose-600 rounded-2xl font-game text-lg shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20 flex items-center justify-center gap-2"
+          >
+            {currentRound >= roundCount ? 'FINISH GAME' : (
+              <>NEXT ROUND <ChevronRight className="w-5 h-5" /></>
+            )}
+          </button>
+        )}
       </motion.div>
     );
   }

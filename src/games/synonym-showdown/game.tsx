@@ -18,7 +18,7 @@ interface RemoteSynonym {
   isValid: boolean;
 }
 
-export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap }: GameProps) {
+export function SynonymShowdownGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, isMicroEvent }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [currentInput, setCurrentInput] = useState('');
@@ -631,20 +631,27 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
             )}
           </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={handleGenerate}
-              className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
-            >
-              NEW WORD
-            </button>
-            <button
-              onClick={handleSameChallenge}
-              className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30"
-            >
-              {isSimultaneous ? 'SAME WORD, AGAIN' : 'SAME WORD, NEW STUDENT'}
-            </button>
-          </div>
+          {isMicroEvent ? (
+            <div className="glass p-4 rounded-xl text-center">
+              <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+              <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+            </div>
+          ) : (
+            <div className="flex gap-3">
+              <button
+                onClick={handleGenerate}
+                className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
+              >
+                NEW WORD
+              </button>
+              <button
+                onClick={handleSameChallenge}
+                className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30"
+              >
+                {isSimultaneous ? 'SAME WORD, AGAIN' : 'SAME WORD, NEW STUDENT'}
+              </button>
+            </div>
+          )}
         </motion.div>
       )}
     </div>

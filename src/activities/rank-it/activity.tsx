@@ -11,6 +11,7 @@ export function RankItActivity({
   customTopic,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  isMicroEvent,
 }: ActivityProps) {
   const content = generatedContent as RankItContent;
 
@@ -109,7 +110,7 @@ export function RankItActivity({
   }, [onPhaseChange]);
 
   const nextChallenge = useCallback(() => {
-    if (currentChallengeIndex < (content.challenges?.length || 0) - 1) {
+    if (!isMicroEvent && currentChallengeIndex < (content.challenges?.length || 0) - 1) {
       setCurrentChallengeIndex((prev) => prev + 1);
       const nextChallenge = content.challenges?.[currentChallengeIndex + 1];
       if (nextChallenge) {
@@ -123,7 +124,7 @@ export function RankItActivity({
       setStatus(ActivityStatus.FINISHED);
       onPhaseChange?.('finished');
     }
-  }, [currentChallengeIndex, content.challenges, onPhaseChange]);
+  }, [isMicroEvent, currentChallengeIndex, content.challenges, onPhaseChange]);
 
   const restartActivity = useCallback(() => {
     setCurrentChallengeIndex(0);
@@ -156,9 +157,11 @@ export function RankItActivity({
             <p className="text-xs opacity-60">Topic: {customTopic}</p>
           )}
         </div>
-        <div className="text-sm opacity-60">
-          Challenge {currentChallengeIndex + 1} / {content.challenges.length}
-        </div>
+        {!isMicroEvent && (
+          <div className="text-sm opacity-60">
+            Challenge {currentChallengeIndex + 1} / {content.challenges.length}
+          </div>
+        )}
       </div>
 
       {/* IDLE State */}

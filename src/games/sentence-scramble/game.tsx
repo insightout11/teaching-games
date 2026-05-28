@@ -47,7 +47,7 @@ interface RaceSolver {
   position: number;
 }
 
-export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
+export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, isMicroEvent }: GameProps) {
   const [sentences, setSentences] = useState<string[]>(FALLBACK_SENTENCES);
   const [sentenceAlternatives, setSentenceAlternatives] = useState<Record<string, string[]>>({});
   const [loadingSentences, setLoadingSentences] = useState(true);
@@ -505,12 +505,19 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
             </button>
           )}
           {raceFinished && (
-            <button
-              onClick={handleNext}
-              className="px-8 py-3 bg-white text-slate-900 rounded-xl font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
-            >
-              NEXT SENTENCE
-            </button>
+            isMicroEvent ? (
+              <div className="glass p-4 rounded-xl text-center">
+                <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+                <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+              </div>
+            ) : (
+              <button
+                onClick={handleNext}
+                className="px-8 py-3 bg-white text-slate-900 rounded-xl font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+              >
+                NEXT SENTENCE
+              </button>
+            )
           )}
         </div>
       </div>
@@ -651,12 +658,19 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           </button>
         )}
         {submitted && (
-          <button
-            onClick={handleNext}
-            className="px-8 py-3 bg-white text-slate-900 rounded-xl font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
-          >
-            NEXT
-          </button>
+          isMicroEvent ? (
+            <div className="glass p-4 rounded-xl text-center">
+              <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+              <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+            </div>
+          ) : (
+            <button
+              onClick={handleNext}
+              className="px-8 py-3 bg-white text-slate-900 rounded-xl font-game text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+            >
+              NEXT
+            </button>
+          )
         )}
       </div>
     </div>

@@ -19,11 +19,6 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
 
 const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics', 'stories', 'voa', 'picture-books']);
 
-const MICRO_STAGE_FORCED: Record<string, { key: string; slotType: SlotType }> = {
-  'opinion-pulse': { key: 'opinion-micro', slotType: 'practice' },
-  'accuracy-check': { key: 'accuracy-micro', slotType: 'practice' },
-};
-
 type PlannerSourceKind = 'video' | 'text' | null;
 
 function getSourceKind(sourceMaterial: SourceMaterial | null | undefined): PlannerSourceKind {
@@ -51,7 +46,7 @@ function makePresetModule(
   preset: FlightPlanPreset,
   slotType: SlotType,
   key: string,
-  overrides?: { stageId?: string; stageLabel?: string; isMicroEvent?: boolean },
+  overrides?: { stageId?: string; stageLabel?: string; isMicroEvent?: boolean; pool?: string[] },
 ): PlanModule {
   return {
     id: crypto.randomUUID(),
@@ -59,6 +54,7 @@ function makePresetModule(
     key,
     isLocked: false,
     ...withFlightMeta(preset, key, overrides),
+    ...(overrides?.pool ? { pool: overrides.pool } : {}),
   };
 }
 
@@ -114,8 +110,8 @@ function buildModulesFromPreset(
 
   const middle: PlanModule[] = preset.moduleSequence
     .filter(({ key }) => key !== takeoffKey)
-    .map(({ slotType, key, stageId, stageLabel, isMicroEvent }) =>
-      makePresetModule(preset, slotType, key, { stageId, stageLabel, isMicroEvent }),
+    .map(({ slotType, key, stageId, stageLabel, isMicroEvent, pool }) =>
+      makePresetModule(preset, slotType, key, { stageId, stageLabel, isMicroEvent, pool }),
     );
 
   let modules: PlanModule[];
@@ -165,6 +161,7 @@ type LessonSlot = {
   stageId?: string;
   stageLabel?: string;
   isMicroEvent?: boolean;
+  pool?: string[];
 };
 
 export type PlannerStep = 'mission-setup' | 'flight-plan' | 'launch';
@@ -308,13 +305,7 @@ export const usePlannerStore = create<PlannerState>()(
         set((state) => ({
           modules: state.modules.map((m) => {
             if (m.id !== id) return m;
-            const forced = m.isMicroEvent && m.stageId ? MICRO_STAGE_FORCED[m.stageId] : null;
-            return {
-              ...m,
-              key: forced?.key ?? newKey,
-              slotType: forced?.slotType ?? newSlotType,
-              isMicroEvent: forced ? true : m.isMicroEvent,
-            };
+            return { ...m, key: newKey, slotType: newSlotType };
           }),
         })),
 
@@ -396,6 +387,7 @@ export const usePlannerStore = create<PlannerState>()(
             ...(m.stageId ? { stageId: m.stageId } : {}),
             ...(m.stageLabel ? { stageLabel: m.stageLabel } : {}),
             ...(m.isMicroEvent ? { isMicroEvent: true } : {}),
+            ...(m.pool ? { pool: m.pool } : {}),
           };
           const activity = getActivity(m.key);
           if (activity) {

@@ -12,6 +12,7 @@ export function FactDetectiveActivity({
   customTopic,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  isMicroEvent,
 }: ActivityProps) {
   const content = generatedContent as FactDetectiveContent;
 
@@ -100,7 +101,7 @@ export function FactDetectiveActivity({
   }, [onPhaseChange]);
 
   const nextClaim = useCallback(() => {
-    if (currentClaimIndex < (content.claims?.length || 0) - 1) {
+    if (!isMicroEvent && currentClaimIndex < (content.claims?.length || 0) - 1) {
       setCurrentClaimIndex((prev) => prev + 1);
       setVotes([]);
       setShowVocabulary(false);
@@ -110,7 +111,7 @@ export function FactDetectiveActivity({
       setStatus(ActivityStatus.FINISHED);
       onPhaseChange?.('finished');
     }
-  }, [currentClaimIndex, content.claims?.length, onPhaseChange]);
+  }, [isMicroEvent, currentClaimIndex, content.claims?.length, onPhaseChange]);
 
   const restartActivity = useCallback(() => {
     setCurrentClaimIndex(0);
@@ -149,9 +150,11 @@ export function FactDetectiveActivity({
           )}
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm opacity-60">
-            Claim {currentClaimIndex + 1} / {content.claims.length}
-          </span>
+          {!isMicroEvent && (
+            <span className="text-sm opacity-60">
+              Claim {currentClaimIndex + 1} / {content.claims.length}
+            </span>
+          )}
           {currentClaim && (
             <span className={`text-xs uppercase px-2 py-0.5 rounded ${getDifficultyColor(currentClaim.difficulty)}`}>
               {currentClaim.difficulty}

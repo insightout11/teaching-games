@@ -21,7 +21,7 @@ interface RaceSolver {
   position: number;
 }
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions, config }: GameProps) {
+export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions, config, isMicroEvent }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -709,12 +709,19 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                         REVEAL TOP 3
                       </button>
                     )}
-                    <button
-                      onClick={startSprint}
-                      className="flex-1 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-                    >
-                      NEXT SENTENCE
-                    </button>
+                    {isMicroEvent ? (
+                      <div className="glass p-4 rounded-xl text-center flex-1">
+                        <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+                        <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={startSprint}
+                        className="flex-1 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                      >
+                        NEXT SENTENCE
+                      </button>
+                    )}
                   </div>
                 </>
               )}
@@ -794,6 +801,11 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                       >
                         NEXT STUDENT
                       </button>
+                    ) : isMicroEvent ? (
+                      <div className="glass p-4 rounded-xl text-center flex-1">
+                        <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+                        <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+                      </div>
                     ) : (
                       <button
                         onClick={startSprint}
@@ -810,12 +822,19 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
               {reviewIndex >= 0 && !currentReview && (
                 <div className="text-center space-y-4">
                   <p className="text-lg font-bold text-emerald-400">All answers reviewed!</p>
-                  <button
-                    onClick={startSprint}
-                    className="w-full py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-                  >
-                    NEXT SENTENCE
-                  </button>
+                  {isMicroEvent ? (
+                    <div className="glass p-4 rounded-xl text-center">
+                      <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+                      <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={startSprint}
+                      className="w-full py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-xl font-game text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                    >
+                      NEXT SENTENCE
+                    </button>
+                  )}
                 </div>
               )}
             </motion.div>
@@ -1049,12 +1068,19 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                 >
                   RETRY
                 </button>
-                <button
-                  onClick={startSprint}
-                  className="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-xs shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-                >
-                  NEXT SENTENCE
-                </button>
+                {isMicroEvent ? (
+                  <div className="glass p-4 rounded-xl text-center flex-1">
+                    <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+                    <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+                  </div>
+                ) : (
+                  <button
+                    onClick={startSprint}
+                    className="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-xs shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+                  >
+                    NEXT SENTENCE
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     setStatus(GameStatus.IDLE);

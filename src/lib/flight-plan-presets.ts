@@ -41,7 +41,7 @@ export interface FlightPlanPreset {
   /** Explicit landing activity key — overrides auto-assignment when set. */
   landing?: string;
   /** Middle slots only — takeoff/landing are always auto-assigned. */
-  moduleSequence: Array<{ slotType: SlotType; key: string; stageId?: string; stageLabel?: string; isMicroEvent?: boolean }>;
+  moduleSequence: Array<{ slotType: SlotType; key: string; stageId?: string; stageLabel?: string; isMicroEvent?: boolean; pool?: string[] }>;
   /** Dedicated journey metadata for curated flight modes. */
   flightConfig?: FlightPresetConfig;
   /**
@@ -339,9 +339,9 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     moduleSequence: [
       { slotType: 'presentation', key: 'read-aloud', stageId: 'briefing' },
       { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
-      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true },
+      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it', 'defend-it', 'two-truths'] },
       { slotType: 'presentation', key: 'wonder-board', stageId: 'mission-board' },
-      { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true },
+      { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint', 'fact-detective'] },
       { slotType: 'production', key: 'decision-council', stageId: 'production' },
       { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game' },
     ],
@@ -370,6 +370,8 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'sentence-scramble': 'accuracy-check',
         'synonym-showdown': 'accuracy-check',
         'vocab-sprint': 'accuracy-check',
+        'fact-detective': 'accuracy-check',
+        'defend-it': 'opinion-pulse',
         'decision-council': 'production',
         'flash-quiz': 'end-game',
         'imposter': 'end-game',

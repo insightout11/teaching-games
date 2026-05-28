@@ -104,6 +104,75 @@ interface SessionViewProps {
 
 const EMPTY_CONFIG: Record<string, unknown> = {};
 
+// ─── Pool Spinner ─────────────────────────────────────────────────────────────
+
+function PoolSpinner({
+  pool,
+  stageLabel,
+  onResolved,
+}: {
+  pool: string[];
+  stageLabel?: string;
+  onResolved: (key: string) => void;
+}) {
+  const poolNames = pool.map((key) => {
+    const a = getAllActivities().find((act) => act.key === key);
+    if (a) return { key, name: a.name };
+    const g = getAllGames().find((gm) => gm.key === key);
+    return { key, name: g?.name ?? key };
+  });
+
+  const winnerKey = useRef(pool[Math.floor(Math.random() * pool.length)]).current;
+  const [displayIdx, setDisplayIdx] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+  const onResolvedRef = useRef(onResolved);
+  onResolvedRef.current = onResolved;
+
+  useEffect(() => {
+    let count = 0;
+    const CYCLES = 20;
+    const id = setInterval(() => {
+      count++;
+      if (count < CYCLES) {
+        setDisplayIdx(Math.floor(Math.random() * pool.length));
+      } else {
+        clearInterval(id);
+        const winnerIdx = pool.indexOf(winnerKey);
+        setDisplayIdx(winnerIdx >= 0 ? winnerIdx : 0);
+        setRevealed(true);
+        setTimeout(() => onResolvedRef.current(winnerKey), 900);
+      }
+    }, 70);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const current = poolNames[displayIdx];
+
+  return (
+    <div className="flex flex-col items-center justify-center py-16 gap-6">
+      <p className="text-xs uppercase tracking-widest opacity-40">
+        {stageLabel ? `${stageLabel} · ` : ''}Selecting activity
+      </p>
+      <div
+        className={`px-8 py-5 rounded-2xl font-game text-2xl text-center transition-all duration-200 ${
+          revealed
+            ? 'bg-lc-blue/15 border-2 border-lc-blue/50 text-lc-blue shadow-lg'
+            : 'glass border border-white/10'
+        }`}
+      >
+        {current?.name ?? '...'}
+      </div>
+      {revealed && (
+        <div className="flex items-center gap-2 text-sm opacity-50">
+          <div className="w-3 h-3 border-2 border-lc-blue/30 border-t-lc-blue rounded-full animate-spin" />
+          Preparing content...
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function SessionView({ session, cls, students: serverStudents, existingScores }: SessionViewProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes where possible.
   const initSession = useSessionStore((s) => s.initSession);
@@ -149,6 +218,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     altitudeTo: number;
     leg: FlightTransitionLeg;
   } | null>(null);
+  const [poolSpinning, setPoolSpinning] = useState<{ pool: string[]; stageLabel?: string } | null>(null);
 
   // Bonus vote state
   const [bonusVotePollId, setBonusVotePollId] = useState<string | null>(null);
@@ -254,6 +324,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
     lastAutoStartedSlotRef.current = lesson.currentSlotIndex;
     const slot = lesson.currentSlot;
+
+    // Pool slot — show spinner, resolve randomly at runtime
+    if (slot.pool && slot.pool.length > 1) {
+      setPoolSpinning({ pool: slot.pool, stageLabel: slot.stageLabel });
+      return;
+    }
 
     if (slot.type === 'activity') {
       const activity = getAllActivities().find((a) => a.key === slot.key);
@@ -585,6 +661,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       }
     }
   };
+
+  const handlePoolResolved = useCallback((key: string) => {
+    setPoolSpinning(null);
+    const activity = getAllActivities().find((a) => a.key === key);
+    if (activity) {
+      handleSelectActivity(activity);
+      return;
+    }
+    const game = getAllGames().find((g) => g.key === key);
+    if (game) {
+      handleSelectGame(game);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleNextSlotWithTransition = useCallback(() => {
     const currentIndex = lesson.currentSlotIndex;
@@ -1337,6 +1427,35 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             )}
           </div>
+        ) : poolSpinning !== null ? (
+          isAllAroundFlight && flightConfig ? (
+            <FlightSessionView
+              slots={lesson.lessonSlots}
+              currentSlotIndex={lesson.currentSlotIndex}
+              phase={lesson.phase}
+              flightConfig={flightConfig}
+              currentModuleName={poolSpinning.stageLabel ?? 'Picking...'}
+              isModuleFinished={false}
+              onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
+              onSwap={() => setShowPivotDrawer(true)}
+              onNext={handleNextSlotWithTransition}
+              onGoToSlot={lesson.goToSlot}
+            >
+              <PoolSpinner
+                pool={poolSpinning.pool}
+                stageLabel={poolSpinning.stageLabel}
+                onResolved={handlePoolResolved}
+              />
+            </FlightSessionView>
+          ) : (
+            <div className="glass rounded-2xl p-4">
+              <PoolSpinner
+                pool={poolSpinning.pool}
+                stageLabel={poolSpinning.stageLabel}
+                onResolved={handlePoolResolved}
+              />
+            </div>
+          )
         ) : viewMode === 'game' && selectedGame ? (
           isAllAroundFlight && flightConfig ? (
             <FlightSessionView

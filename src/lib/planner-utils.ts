@@ -14,6 +14,7 @@ export interface PlanModule {
   stageId?: string;
   stageLabel?: string;
   isMicroEvent?: boolean;
+  pool?: string[];
 }
 
 export function moduleCountForDuration(minutes: 30 | 45 | 60 | 90): number {

@@ -11,6 +11,7 @@ export function TwoTruthsActivity({
   customTopic,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  isMicroEvent,
 }: ActivityProps) {
   const content = generatedContent as TwoTruthsContent;
 
@@ -93,7 +94,7 @@ export function TwoTruthsActivity({
   }, [guessStats.correct, onPhaseChange]);
 
   const nextRound = useCallback(() => {
-    if (currentRoundIndex < (content.rounds?.length || 0) - 1) {
+    if (!isMicroEvent && currentRoundIndex < (content.rounds?.length || 0) - 1) {
       setCurrentRoundIndex((prev) => prev + 1);
       setGuesses([]);
       setShowExplanation(false);
@@ -103,7 +104,7 @@ export function TwoTruthsActivity({
       setStatus(ActivityStatus.FINISHED);
       onPhaseChange?.('finished');
     }
-  }, [currentRoundIndex, content.rounds?.length, onPhaseChange]);
+  }, [isMicroEvent, currentRoundIndex, content.rounds?.length, onPhaseChange]);
 
   const restartActivity = useCallback(() => {
     setCurrentRoundIndex(0);
@@ -142,9 +143,11 @@ export function TwoTruthsActivity({
           )}
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm opacity-60">
-            Round {currentRoundIndex + 1} / {content.rounds.length}
-          </span>
+          {!isMicroEvent && (
+            <span className="text-sm opacity-60">
+              Round {currentRoundIndex + 1} / {content.rounds.length}
+            </span>
+          )}
           {currentRound && (
             <span className={`text-xs uppercase ${getDifficultyColor(currentRound.difficulty)}`}>
               {currentRound.difficulty}

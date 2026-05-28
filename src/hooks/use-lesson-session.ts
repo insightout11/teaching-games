@@ -24,6 +24,7 @@ export type LessonSlot = {
   stageId?: string;
   stageLabel?: string;
   isMicroEvent?: boolean;
+  pool?: string[];
 };
 
 const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-round', 'opinion-shift']);
