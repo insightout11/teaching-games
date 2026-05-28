@@ -61,14 +61,16 @@ export function FlightTransitionOverlay({
       className="fixed inset-0 z-[60] cursor-pointer"
       onClick={onDismiss}
     >
-      {/* Sky — real earth/cloud layers animate from altitudeFrom → altitudeTo over the
-          overlay lifetime. parallaxScale=4 makes the shift 4× larger so the ground
-          visibly falls away (takeoff) or rises to meet you (descent). */}
+      {/* Sky — earth state drives which ground is shown.
+          takeoff: runway with amber lights, falls away as plane climbs.
+          landing: runway with cool lights, rises up as plane descends.
+          cruise:  city lights / ocean, continues normal flight.
+          parallaxScale=4 makes the runway shift dramatic. */}
       <SkyBackground
         weatherState={weatherState}
         altitude={altitudeTo}
         altitudeInitial={prefersReducedMotion ? altitudeTo : altitudeFrom}
-        earthState="flight"
+        earthState={leg === 'takeoff' ? 'takeoff' : leg === 'descent' ? 'landing' : 'flight'}
         intensity="moderate"
         parallaxScale={prefersReducedMotion ? 1 : 4}
         parallaxDuration={TRAVEL_DURATION / 1000}
