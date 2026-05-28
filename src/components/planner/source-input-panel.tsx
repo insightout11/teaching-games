@@ -5,6 +5,7 @@ import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { VideoLibraryModal } from './video-library-modal';
 import { TextLibraryModal } from './text-library-modal';
+import { CheckCircle2, FileText, Film, Library, Link2, UploadCloud } from 'lucide-react';
 import type { SourceBriefingMode, SourceBriefingOption, SourceMaterial } from '@/types/source-material';
 
 type Tab = 'video' | 'text' | 'upload';
@@ -18,6 +19,12 @@ const TABS: { key: Tab; label: string }[] = [
   { key: 'text',   label: 'Text'   },
   { key: 'upload', label: 'Upload' },
 ];
+
+const TAB_HELPER: Record<Tab, string> = {
+  video: 'Use a curated classroom video or paste a YouTube link.',
+  text: 'Choose a reading or paste your own source text.',
+  upload: 'Upload a PDF or image and choose the student reading.',
+};
 
 const UPLOAD_ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
 const BRIEFING_MODE_LABEL: Record<SourceBriefingMode, string> = {
@@ -113,6 +120,18 @@ function withGeneratedOption(material: SourceMaterial): SourceBriefingOption[] {
     mode: material.briefingMode ?? 'adapted',
     wordCount: countWords(text),
   }];
+}
+
+function SourceProcessingNotice({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-3 rounded-lg border border-lc-blue/30 bg-lc-blue/10 p-3">
+      <span className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-lc-blue/30 border-t-lc-blue" />
+      <div>
+        <p className="text-sm font-semibold text-lc-text">{label}</p>
+        <p className="text-xs text-lc-text3">Reading the source and preparing lesson-ready material.</p>
+      </div>
+    </div>
+  );
 }
 
 function buildSourceMaterial(data: SourceExtractResponse): SourceMaterial {
@@ -297,9 +316,16 @@ export function SourceInputPanel() {
   return (
     <>
       <div className="rounded-xl border border-lc-border bg-lc-surface">
-        <div className="px-4 py-3 border-b border-lc-border">
-          <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wide">Source material <span className="ml-1 rounded-full bg-lc-text3/10 px-1.5 py-0.5 text-lc-text3 normal-case font-normal tracking-normal">optional</span></p>
-          <p className="text-xs text-lc-text3 mt-0.5">Ground all activities in a video, article, or your own materials.</p>
+        <div className="border-b border-lc-border px-4 py-3">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wide">Source material</p>
+              <p className="text-xs text-lc-text3 mt-0.5">Ground the briefing, vocabulary, checks, and discussion in one source.</p>
+            </div>
+            <span className="shrink-0 rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
+              Optional
+            </span>
+          </div>
         </div>
 
         <div className="px-4 pb-4 pt-3 space-y-3">
@@ -408,10 +434,13 @@ export function SourceInputPanel() {
           ) : sourceMaterial ? (
             /* Active source summary */
             <div className="space-y-2">
-              <div className="rounded-lg bg-lc-bg border border-lc-blue/30 p-3 space-y-1">
+              <div className="rounded-lg border border-emerald-400/25 bg-emerald-400/5 p-3 space-y-2">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-lc-blue uppercase tracking-wide mb-0.5">Source active</p>
+                    <p className="flex items-center gap-1.5 text-xs font-semibold text-emerald-300 uppercase tracking-wide mb-0.5">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      Source ready
+                    </p>
                     <p className="text-sm font-medium text-lc-text">{sourceMaterial.title}</p>
                     {sourceMaterial.duration && (
                       <p className="text-xs text-lc-text3">{formatDuration(sourceMaterial.duration)} - {sourceMaterial.sourceType}</p>
@@ -424,52 +453,81 @@ export function SourceInputPanel() {
                     <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3 mt-1">{activeSourcePreview}</p>
                   </div>
                 </div>
+                <p className="text-[11px] text-emerald-200/70">
+                  This source will feed the briefing, vocabulary, checks, and discussion prompts.
+                </p>
               </div>
-              <button onClick={handleRemove} className="text-xs text-lc-text3 hover:text-red-400 transition-colors">
-                Remove source
+              <button onClick={handleRemove} className="text-xs font-semibold text-lc-text3 hover:text-lc-blue transition-colors">
+                Change source
               </button>
             </div>
           ) : (
             /* Input form */
             <div className="space-y-3">
               {/* 3-tab switcher */}
-              <div className="flex gap-1 rounded-lg bg-lc-bg p-1">
-                {TABS.map((tab) => (
-                  <button
-                    key={tab.key}
-                    onClick={() => { setActiveTab(tab.key); setError(null); setUploadFile(null); }}
-                    className={`flex-1 rounded-md py-1.5 text-xs font-semibold transition-all ${
-                      activeTab === tab.key
-                        ? 'bg-lc-card text-lc-text shadow-sm'
-                        : 'text-lc-text3 hover:text-lc-text2'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
+              <div className="space-y-2">
+                <p className="text-[10px] font-semibold uppercase tracking-wide text-lc-text3">Choose source type</p>
+                <div className="grid grid-cols-3 gap-1 rounded-lg bg-lc-bg p-1">
+                  {TABS.map((tab) => (
+                    <button
+                      key={tab.key}
+                      onClick={() => { setActiveTab(tab.key); setError(null); setUploadFile(null); }}
+                      className={`rounded-md px-2 py-2 text-xs font-semibold transition-all ${
+                        activeTab === tab.key
+                          ? 'bg-lc-card text-lc-text shadow-sm'
+                          : 'text-lc-text3 hover:text-lc-text2'
+                      }`}
+                    >
+                      <span className="flex items-center justify-center gap-1.5">
+                        {tab.key === 'video' && <Film className="h-3.5 w-3.5" />}
+                        {tab.key === 'text' && <FileText className="h-3.5 w-3.5" />}
+                        {tab.key === 'upload' && <UploadCloud className="h-3.5 w-3.5" />}
+                        {tab.label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs text-lc-text3">{TAB_HELPER[activeTab]}</p>
               </div>
 
               {/* Video: curated library + YouTube */}
               {activeTab === 'video' && (
                 <div className="space-y-3">
+                  {processing && <SourceProcessingNotice label="Processing video source" />}
                   <button
                     onClick={() => setShowTedModal(true)}
-                    className="w-full rounded-lg border border-red-500/30 bg-red-500/10 py-2.5 text-sm font-semibold text-red-400 hover:bg-red-500/20 transition-colors"
+                    disabled={processing}
+                    className="group w-full rounded-lg border border-lc-blue/35 bg-lc-blue/10 p-3 text-left transition-colors hover:border-lc-blue/60 hover:bg-lc-blue/15 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    Browse Video Library →
+                    <span className="flex items-center justify-between gap-3">
+                      <span className="flex items-center gap-3">
+                        <span className="rounded-lg bg-lc-blue/15 p-2 text-lc-blue">
+                          <Library className="h-4 w-4" />
+                        </span>
+                        <span>
+                          <span className="block text-sm font-semibold text-lc-text">Browse Video Library</span>
+                          <span className="mt-0.5 block text-xs text-lc-text3">Pick a pre-vetted classroom video.</span>
+                        </span>
+                      </span>
+                      <span className="text-sm font-semibold text-lc-blue transition-transform group-hover:translate-x-0.5">-&gt;</span>
+                    </span>
                   </button>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-px bg-lc-border" />
                     <span className="text-xs text-lc-text3">or paste a YouTube URL</span>
                     <div className="flex-1 h-px bg-lc-border" />
                   </div>
-                  <input
-                    type="text"
-                    value={videoPayload}
-                    onChange={(e) => { setVideoPayload(e.target.value); setError(null); }}
-                    placeholder="https://youtube.com/watch?v=…"
-                    className="w-full rounded-lg border border-lc-border bg-lc-bg px-3 py-2 text-sm text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow"
-                  />
+                  <label className="flex items-center gap-2 rounded-lg border border-lc-border bg-lc-bg px-3 py-2 focus-within:border-lc-blue focus-within:ring-1 focus-within:ring-lc-blue-glow">
+                    <Link2 className="h-4 w-4 shrink-0 text-lc-text3" />
+                    <input
+                      type="text"
+                      value={videoPayload}
+                      onChange={(e) => { setVideoPayload(e.target.value); setError(null); }}
+                      disabled={processing}
+                      placeholder="https://youtube.com/watch?v=..."
+                      className="min-w-0 flex-1 bg-transparent text-sm text-lc-text placeholder-lc-text3 outline-none disabled:cursor-not-allowed"
+                    />
+                  </label>
                   {error && <p className="text-xs text-red-400">{error}</p>}
                   {videoPayload.trim() && (
                     <button
@@ -486,11 +544,24 @@ export function SourceInputPanel() {
               {/* Text: curated library + paste */}
               {activeTab === 'text' && (
                 <div className="space-y-3">
+                  {processing && <SourceProcessingNotice label="Processing text source" />}
                   <button
                     onClick={() => setShowTextModal(true)}
-                    className="w-full rounded-lg border border-amber-500/30 bg-amber-500/10 py-2.5 text-sm font-semibold text-amber-400 hover:bg-amber-500/20 transition-colors"
+                    disabled={processing}
+                    className="group w-full rounded-lg border border-lc-blue/35 bg-lc-blue/10 p-3 text-left transition-colors hover:border-lc-blue/60 hover:bg-lc-blue/15 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    Browse Text Library →
+                    <span className="flex items-center justify-between gap-3">
+                      <span className="flex items-center gap-3">
+                        <span className="rounded-lg bg-lc-blue/15 p-2 text-lc-blue">
+                          <Library className="h-4 w-4" />
+                        </span>
+                        <span>
+                          <span className="block text-sm font-semibold text-lc-text">Browse Text Library</span>
+                          <span className="mt-0.5 block text-xs text-lc-text3">Choose a ready-to-use reading source.</span>
+                        </span>
+                      </span>
+                      <span className="text-sm font-semibold text-lc-blue transition-transform group-hover:translate-x-0.5">-&gt;</span>
+                    </span>
                   </button>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-px bg-lc-border" />
@@ -500,9 +571,10 @@ export function SourceInputPanel() {
                   <textarea
                     value={textPayload}
                     onChange={(e) => { setTextPayload(e.target.value); setError(null); }}
+                    disabled={processing}
                     placeholder="Paste article text, lesson notes, lyrics, or any content (min 50 characters)…"
                     rows={4}
-                    className="w-full rounded-lg border border-lc-border bg-lc-bg px-3 py-2 text-sm text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow resize-none"
+                    className="w-full rounded-lg border border-lc-border bg-lc-bg px-3 py-2 text-sm text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow resize-none disabled:cursor-not-allowed disabled:opacity-60"
                   />
                   {error && <p className="text-xs text-red-400">{error}</p>}
                   <button
@@ -565,15 +637,7 @@ export function SourceInputPanel() {
                       </div>
                     )}
                   </div>
-                  {processing && (
-                    <div className="flex items-center gap-3 rounded-lg border border-lc-blue/30 bg-lc-blue/10 p-3">
-                      <span className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-lc-blue/30 border-t-lc-blue" />
-                      <div>
-                        <p className="text-sm font-semibold text-lc-text">Extracting source material</p>
-                        <p className="text-xs text-lc-text3">Reading the upload and preparing briefing options...</p>
-                      </div>
-                    </div>
-                  )}
+                  {processing && <SourceProcessingNotice label="Extracting source material" />}
                   {error && <p className="text-xs text-red-400">{error}</p>}
                   <button
                     onClick={processUpload}
