@@ -96,7 +96,6 @@ function QuestionCard({
 
   const isAnswered = !!(question.answer_text || localAnswerText);
   const displayAnswerText = question.answer_text ?? localAnswerText;
-  const borderColor = STARTER_COLORS[question.starter]?.split(' ')[1] ?? 'border-white/10';
 
   const handleAnswer = useCallback(async (type: 'teacher' | 'ai') => {
     if (type === 'teacher' && !manualAnswer.trim()) return;
@@ -118,7 +117,7 @@ function QuestionCard({
         setAnswerError((errData as { error?: string }).error ?? `Error ${res.status}`);
         return;
       }
-      const data = await res.json() as { answerText: string };
+      const data = (await res.json()) as { answerText: string };
       setLocalAnswerText(data.answerText);
       setAnswerOpen(false);
       setManualAnswer('');
@@ -135,105 +134,119 @@ function QuestionCard({
 
   return (
     <div
-      className={`glass rounded-2xl border-2 ${borderColor} p-4 space-y-3 transition-all duration-200 ${focused ? 'ring-2 ring-white/20 scale-[1.02]' : ''}`}
+      className={`transition-all duration-200 cursor-pointer ${focused ? 'scale-[1.02]' : ''}`}
+      style={{ filter: getCloudGlow(question.starter, focused) }}
       onClick={() => setFocused(!focused)}
     >
-      {/* Header row */}
-      <div className="flex items-start justify-between gap-2">
-        <StarterBadge starter={question.starter} />
-        <div className="flex items-center gap-2 opacity-60 text-xs">
-          <span>{question.display_name}</span>
-          {voteCount > 0 && (
-            <span className="flex items-center gap-1 text-amber-400 font-semibold">
-              ↑ {voteCount}
-            </span>
-          )}
+      <div
+        className="px-4 pb-4 space-y-3"
+        style={{
+          clipPath: CLOUD_CLIP_PATH,
+          paddingTop: '36px',
+          background: 'rgba(255,255,255,0.07)',
+          backdropFilter: 'blur(16px)',
+          borderRadius: '0 0 16px 16px',
+        }}
+      >
+        {/* Header row */}
+        <div className="flex items-start justify-between gap-2">
+          <StarterBadge starter={question.starter} />
+          <div className="flex items-center gap-2 opacity-60 text-xs">
+            <span>{question.display_name}</span>
+            {voteCount > 0 && (
+              <span className="flex items-center gap-1 text-amber-400 font-semibold">
+                ↑ {voteCount}
+              </span>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Question text */}
-      <p className="text-sm font-medium leading-snug">{question.content}</p>
+        {/* Question text */}
+        <p className="text-sm font-medium leading-snug">{question.content}</p>
 
-      {/* Answer area */}
-      {isAnswered && (
-        <div className="bg-white/5 rounded-xl p-3 space-y-1 border border-white/10">
-          {renderAnswer(displayAnswerText!)}
-          {followUps.length > 0 && (
-            <div className="mt-3 space-y-2 border-t border-white/10 pt-2">
-              {followUps.map((fu) => (
-                <div key={fu.id} className="text-xs opacity-70">
-                  <span className="opacity-50 mr-1">{fu.display_name}:</span>
-                  {fu.content}
-                  {fu.answer_text && (
-                    <div className="mt-1 opacity-60 italic text-xs">{fu.answer_text}</div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Error message */}
-      {answerError && (
-        <p className="text-xs text-red-400 bg-red-500/10 rounded-lg px-2 py-1">{answerError}</p>
-      )}
-
-      {/* Action buttons — stop card click from triggering focus toggle */}
-      <div className="flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
-        {!isAnswered && !answerOpen && (
-          <>
-            <button
-              onClick={() => setAnswerOpen(true)}
-              className="px-3 py-1.5 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors font-medium"
-            >
-              Answer
-            </button>
-            <button
-              onClick={() => handleAnswer('ai')}
-              disabled={isAnswering}
-              className="px-3 py-1.5 text-xs bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 rounded-lg transition-colors font-medium disabled:opacity-50"
-            >
-              {isAnswering ? 'Thinking...' : 'Quick Answer'}
-            </button>
-          </>
+        {/* Answer area */}
+        {isAnswered && (
+          <div className="bg-white/5 rounded-xl p-3 space-y-1 border border-white/10">
+            {renderAnswer(displayAnswerText!)}
+            {followUps.length > 0 && (
+              <div className="mt-3 space-y-2 border-t border-white/10 pt-2">
+                {followUps.map((fu) => (
+                  <div key={fu.id} className="text-xs opacity-70">
+                    <span className="opacity-50 mr-1">{fu.display_name}:</span>
+                    {fu.content}
+                    {fu.answer_text && (
+                      <div className="mt-1 opacity-60 italic text-xs">{fu.answer_text}</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         )}
 
-        {!isAnswered && answerOpen && (
-          <div className="w-full space-y-2">
-            <textarea
-              className="w-full bg-white/10 rounded-lg p-2 text-sm resize-none border border-white/20 focus:outline-none focus:border-white/40"
-              rows={2}
-              placeholder="Type your answer..."
-              value={manualAnswer}
-              onChange={(e) => setManualAnswer(e.target.value)}
-              autoFocus
-            />
-            <div className="flex gap-2">
+        {/* Error message */}
+        {answerError && (
+          <p className="text-xs text-red-400 bg-red-500/10 rounded-lg px-2 py-1">{answerError}</p>
+        )}
+
+        {/* Action buttons — stop card click from triggering focus toggle */}
+        <div className="flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
+          {!isAnswered && !answerOpen && (
+            <>
               <button
-                onClick={() => handleAnswer('teacher')}
-                disabled={isAnswering || !manualAnswer.trim()}
-                className="px-3 py-1.5 text-xs bg-lc-blue hover:bg-lc-blue/80 rounded-lg transition-colors font-medium text-white disabled:opacity-40"
+                onClick={() => setAnswerOpen(true)}
+                className="px-3 py-1.5 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors font-medium"
               >
-                {isAnswering ? 'Saving...' : 'Save Answer'}
+                Answer
               </button>
               <button
                 onClick={() => handleAnswer('ai')}
                 disabled={isAnswering}
                 className="px-3 py-1.5 text-xs bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 rounded-lg transition-colors font-medium disabled:opacity-50"
               >
-                Quick Answer instead
+                {isAnswering ? 'Thinking...' : 'Quick Answer'}
               </button>
-              <button
-                onClick={() => { setAnswerOpen(false); setManualAnswer(''); }}
-                className="px-3 py-1.5 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
+            </>
+          )}
 
+          {!isAnswered && answerOpen && (
+            <div className="w-full space-y-2">
+              <textarea
+                className="w-full bg-white/10 rounded-lg p-2 text-sm resize-none border border-white/20 focus:outline-none focus:border-white/40"
+                rows={2}
+                placeholder="Type your answer..."
+                value={manualAnswer}
+                onChange={(e) => setManualAnswer(e.target.value)}
+                autoFocus
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleAnswer('teacher')}
+                  disabled={isAnswering || !manualAnswer.trim()}
+                  className="px-3 py-1.5 text-xs bg-lc-blue hover:bg-lc-blue/80 rounded-lg transition-colors font-medium text-white disabled:opacity-40"
+                >
+                  {isAnswering ? 'Saving...' : 'Save Answer'}
+                </button>
+                <button
+                  onClick={() => handleAnswer('ai')}
+                  disabled={isAnswering}
+                  className="px-3 py-1.5 text-xs bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 rounded-lg transition-colors font-medium disabled:opacity-50"
+                >
+                  Quick Answer instead
+                </button>
+                <button
+                  onClick={() => {
+                    setAnswerOpen(false);
+                    setManualAnswer('');
+                  }}
+                  className="px-3 py-1.5 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
