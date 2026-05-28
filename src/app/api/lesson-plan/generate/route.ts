@@ -2887,8 +2887,11 @@ export async function POST(request: NextRequest) {
     }
 
     const succeededCount = results.length - failedCount;
+    // Some cases (e.g. language-toolkit from cached sourceVocab) populate content synchronously
+    // without pushing to generators[]. Count those as successes too.
+    const hasDirectContent = Object.keys(content).length > 0 || Object.keys(gameContent).length > 0;
     const response: LessonPlanGenerateResponse = {
-      success: succeededCount > 0,
+      success: succeededCount > 0 || hasDirectContent,
       content,
       gameContent,
       ...(failedCount > 0 && { degraded: true, failedCount }),
