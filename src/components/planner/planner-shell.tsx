@@ -7,14 +7,24 @@ import { MissionSetupScreen } from './mission-setup-screen';
 import { FlightPlanScreen } from './flight-plan-screen';
 import { ReviewLaunchScreen } from './review-launch-screen';
 import { FlightEnvironment } from '@/components/ui/flight-environment';
+import { GateSceneOverlay } from '@/components/ui/gate-scene-overlay';
+
+const STEP_SCENE = {
+  'mission-setup': 'gate',
+  'flight-plan':   'route',
+  'launch':        'preflight',
+} as const;
 
 export function PlannerShell() {
   const step = usePlannerStore((s) => s.step);
+  const scene = STEP_SCENE[step];
 
   return (
     <>
-      {/* Gate scene overrides the dashboard's global golden sky while planning */}
-      <FlightEnvironment scene="gate" className="!left-64" />
+      {/* Pre-flight sky + ambient gate visuals; overrides dashboard's global sky */}
+      <FlightEnvironment scene={scene} className="!left-64">
+        <GateSceneOverlay scene={scene} />
+      </FlightEnvironment>
       <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-8 lg:px-8 pb-12 min-h-[calc(100vh-4rem)]">
       <div className="mb-8">
         <PlannerStepIndicator current={step} />
