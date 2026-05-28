@@ -64,40 +64,33 @@ interface WonderQuestion {
 // Sub-components
 // -----------------------------------------------------------------------
 
-// Generates a complete cloud SVG path — 3 bezier bumps on top, rounded bottom corners.
-// bH = height of bump section (fixed pixels so bumps don't stretch with card height).
-function buildCloudPath(w: number, h: number): string {
-  const bH = 58;
-  const r = 16;
-  return [
-    `M ${r} ${h}`,
-    `L ${w - r} ${h}`,
-    `Q ${w} ${h} ${w} ${h - r}`,
-    `L ${w} ${bH}`,
-    // Right edge curves into right bump
-    `C ${w} ${bH * 0.5} ${w * 0.90} ${bH * 0.2} ${w * 0.82} ${bH * 0.2}`,
-    // Right bump arc (peaks ~74% x)
-    `C ${w * 0.78} 0 ${w * 0.70} 0 ${w * 0.66} ${bH * 0.2}`,
-    // Valley between right and center bumps
-    `C ${w * 0.62} ${bH * 0.42} ${w * 0.62} ${bH * 0.5} ${w * 0.58} ${bH * 0.5}`,
-    // Ascent to center bump (peaks at 50% x — tallest)
-    `C ${w * 0.54} ${bH * 0.5} ${w * 0.52} 0 ${w * 0.50} 0`,
-    // Descent of center bump
-    `C ${w * 0.48} 0 ${w * 0.44} ${bH * 0.5} ${w * 0.40} ${bH * 0.5}`,
-    // Valley between center and left bumps
-    `C ${w * 0.36} ${bH * 0.5} ${w * 0.32} ${bH * 0.42} ${w * 0.28} ${bH * 0.2}`,
-    // Left bump arc (peaks ~18% x)
-    `C ${w * 0.24} 0 ${w * 0.16} 0 ${w * 0.12} ${bH * 0.2}`,
-    // Left edge curves down to body
-    `C ${w * 0.06} ${bH * 0.5} 0 ${bH * 0.72} 0 ${bH}`,
-    `L 0 ${h - r}`,
-    `Q 0 ${h} ${r} ${h}`,
-    `Z`,
-  ].join(' ');
+// SVG goo filter — blurs overlapping shapes then sharpens the alpha so they
+// merge into one smooth organic blob. Rendered once; all cards reference it.
+function CloudGooFilter() {
+  return (
+    <svg
+      aria-hidden="true"
+      style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}
+    >
+      <defs>
+        <filter id="cloud-goo" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -12"
+            result="goo"
+          />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+    </svg>
+  );
 }
 
-// The card is drawn entirely as a cloud SVG path — no rectangle anywhere.
-// ResizeObserver keeps the path updated as content expands (answer textarea etc).
+// Cloud card: three large overlapping circles are merged by the goo SVG filter
+// into a smooth organic cloud blob. No rectangles, no straight lines.
+// The blob layer is purely decorative; content sits above it at z-index 1.
 function CloudCard({
   starter,
   focused,
@@ -109,42 +102,33 @@ function CloudCard({
   onClick: () => void;
   children: React.ReactNode;
 }) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
-
-  useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => {
-      setDims({ w: el.offsetWidth, h: el.offsetHeight });
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
   return (
     <div
-      ref={wrapperRef}
       className={`transition-all duration-200 cursor-pointer ${focused ? 'scale-[1.02]' : ''}`}
-      style={{
-        position: 'relative',
-        paddingTop: 70,
-        paddingLeft: 18,
-        paddingRight: 18,
-        paddingBottom: 18,
-        filter: getCloudGlow(starter, focused),
-      }}
+      style={{ position: 'relative', paddingTop: 64 }}
       onClick={onClick}
     >
-      {dims && (
-        <svg
-          aria-hidden="true"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-        >
-          <path d={buildCloudPath(dims.w, dims.h)} fill={CLOUD_BG} />
-        </svg>
-      )}
-      <div style={{ position: 'relative', zIndex: 1 }}>
+      {/* Blob layer: goo merges circles + body into one cloud shape */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          filter: `url(#cloud-goo) ${getCloudGlow(starter, focused)}`,
+        }}
+      >
+        {/* Left bump */}
+        <div style={{ position: 'absolute', top: 10, left: '6%',  width: '40%', height: 56, background: CLOUD_BG, borderRadius: '50%' }} />
+        {/* Center bump — tallest */}
+        <div style={{ position: 'absolute', top: 0,  left: '23%', width: '54%', height: 70, background: CLOUD_BG, borderRadius: '50%' }} />
+        {/* Right bump */}
+        <div style={{ position: 'absolute', top: 14, right: '6%', width: '36%', height: 48, background: CLOUD_BG, borderRadius: '50%' }} />
+        {/* Body — fills from bump base to bottom */}
+        <div style={{ position: 'absolute', top: 38, left: 0, right: 0, bottom: 0, background: CLOUD_BG, borderRadius: 18 }} />
+      </div>
+      {/* Content — unfiltered, interactive */}
+      <div style={{ position: 'relative', zIndex: 1, padding: '0 16px 16px' }}>
         {children}
       </div>
     </div>
@@ -496,6 +480,7 @@ export function WonderBoardActivity({
 
   return (
     <div className="space-y-5">
+      <CloudGooFilter />
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-violet-400">Wonder Board</h3>
