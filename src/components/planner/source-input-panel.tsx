@@ -45,6 +45,7 @@ function getSourcePreview(material: SourceMaterial) {
 }
 
 function getBriefingOptionLabel(option: SourceBriefingOption) {
+  if (option.id === 'original-full') return 'Full original reading';
   if (option.id === 'recommended') return 'Recommended student reading';
   if (option.id === 'source-excerpt') return 'Original source passage';
   if (option.label === 'Recommended briefing') return 'Recommended student reading';
@@ -53,6 +54,7 @@ function getBriefingOptionLabel(option: SourceBriefingOption) {
 }
 
 function getBriefingOptionBadge(option: SourceBriefingOption) {
+  if (option.id === 'original-full') return 'Original passage';
   if (option.id === 'recommended') return 'Best for class';
   if (option.id === 'source-excerpt') return 'Original passage';
   return BRIEFING_MODE_LABEL[option.mode];
@@ -60,11 +62,16 @@ function getBriefingOptionBadge(option: SourceBriefingOption) {
 
 function getBriefingOptionTypeBadge(option: SourceBriefingOption) {
   if (option.id === 'recommended') return BRIEFING_MODE_LABEL[option.mode];
+  if (option.id === 'original-full') return null;
   if (option.id === 'source-excerpt') return null;
   return null;
 }
 
 function getBriefingOptionExplanation(option: SourceBriefingOption) {
+  if (option.id === 'original-full') {
+    return 'Original wording from the upload. It may be longer or less polished, but it has not been adapted.';
+  }
+
   if (option.id === 'source-excerpt') {
     return 'Original wording from the upload. Choose this if you want students to read the source more directly.';
   }
@@ -120,6 +127,7 @@ function buildSourceMaterial(data: SourceExtractResponse): SourceMaterial {
     ...(data.briefingMode ? { briefingMode: data.briefingMode } : {}),
     ...(data.briefingOptions ? { briefingOptions: data.briefingOptions } : {}),
     ...(data.sourceText ? { sourceText: data.sourceText } : {}),
+    ...(data.originalText ? { originalText: data.originalText } : {}),
     ...(data.documentKind ? { documentKind: data.documentKind } : {}),
     ...(data.wordCount ? { wordCount: data.wordCount } : {}),
     ...(data.slides ? { slides: data.slides } : {}),
@@ -349,6 +357,11 @@ export function SourceInputPanel() {
                     );
                   })}
                 </div>
+                {!(pendingSource.briefingOptions ?? []).some((option) => option.id === 'original-full') && (
+                  <p className="text-xs text-lc-text3 leading-relaxed">
+                    Full original text is shown when the upload has one clean reading passage under about 1,200 words. Longer or fragmented PDFs use excerpts instead.
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2 border-t border-lc-border pt-3">
@@ -512,11 +525,12 @@ export function SourceInputPanel() {
                         ? 'border-lc-blue/50 bg-lc-blue/5'
                         : 'border-lc-border hover:border-lc-blue/40 cursor-pointer'
                     }`}
-                    onClick={() => !uploadFile && document.getElementById('doc-upload')?.click()}
-                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') document.getElementById('doc-upload')?.click(); }}
+                    onClick={() => !processing && !uploadFile && document.getElementById('doc-upload')?.click()}
+                    onKeyDown={(e) => { if (!processing && (e.key === 'Enter' || e.key === ' ')) document.getElementById('doc-upload')?.click(); }}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => {
                       e.preventDefault();
+                      if (processing) return;
                       const f = e.dataTransfer.files[0];
                       if (f) handleFileSelect(f);
                     }}
@@ -538,6 +552,7 @@ export function SourceInputPanel() {
                         <p className="text-xs text-lc-text3">{(uploadFile.size / 1024).toFixed(0)} KB</p>
                         <button
                           onClick={(e) => { e.stopPropagation(); setUploadFile(null); setError(null); }}
+                          disabled={processing}
                           className="text-xs text-lc-text3 hover:text-red-400 transition-colors"
                         >
                           Remove
@@ -550,13 +565,23 @@ export function SourceInputPanel() {
                       </div>
                     )}
                   </div>
+                  {processing && (
+                    <div className="flex items-center gap-3 rounded-lg border border-lc-blue/30 bg-lc-blue/10 p-3">
+                      <span className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-lc-blue/30 border-t-lc-blue" />
+                      <div>
+                        <p className="text-sm font-semibold text-lc-text">Extracting source material</p>
+                        <p className="text-xs text-lc-text3">Reading the upload and preparing briefing options...</p>
+                      </div>
+                    </div>
+                  )}
                   {error && <p className="text-xs text-red-400">{error}</p>}
                   <button
                     onClick={processUpload}
                     disabled={processing || !uploadFile}
-                    className="w-full rounded-lg bg-lc-blue py-2 text-sm font-semibold text-white hover:bg-lc-blue-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-lc-blue py-2 text-sm font-semibold text-white hover:bg-lc-blue-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    {processing ? 'Extracting content…' : 'Extract Content'}
+                    {processing && <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />}
+                    {processing ? 'Extracting content...' : 'Extract Content'}
                   </button>
                 </div>
               )}

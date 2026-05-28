@@ -32,6 +32,8 @@ Rules for studentBriefing:
 
 Also return sourceText: the best exact passage or extracted text you used as the basis for the briefing. For long documents, do not return the full document; return the chosen excerpt.
 
+Also return originalText only when the upload contains one clean, coherent original reading passage under about 1,200 words. originalText should preserve the uploaded wording except for OCR cleanup, page numbers, headers, and footers. If the upload is longer, fragmented, worksheet-like, or mostly visual, return an empty string for originalText.
+
 Also return title, documentKind, recommendedMode ("exact", "excerpt", "adapted", or "generated"), and wordCount for sourceText when possible.
 
 Return 1-3 suggestedExcerpts. Each should be a usable teacher choice for the briefing. Include exact excerpts when possible.`;
@@ -48,6 +50,7 @@ type ExtractedDocumentPayload = {
   documentKind?: string;
   summary?: string;
   sourceText?: string;
+  originalText?: string;
   studentBriefing?: string;
   recommendedMode?: string;
   wordCount?: number;
@@ -122,6 +125,7 @@ function buildBriefingOptions(params: {
   briefingText: string;
   mode: SourceBriefingMode;
   sourceText: string;
+  originalText: string;
   suggestedExcerpts?: ExtractedBriefingOption[];
 }): SourceBriefingOption[] {
   const seen = new Set<string>();
@@ -145,6 +149,23 @@ function buildBriefingOptions(params: {
     text: params.briefingText,
     mode: params.mode,
   });
+
+  const originalWordCount = countWords(params.originalText);
+  const briefingWordCount = countWords(params.briefingText);
+  const originalIsMeaningfullyLonger = originalWordCount > briefingWordCount + 40 && originalWordCount > briefingWordCount * 1.2;
+  if (
+    params.originalText &&
+    originalWordCount <= 1200 &&
+    (!textsAreNearDuplicates(params.originalText, params.briefingText) || originalIsMeaningfullyLonger)
+  ) {
+    addOption({
+      id: 'original-full',
+      label: 'Full original reading',
+      description: 'Original upload wording with only cleanup for OCR, headers, and footers.',
+      text: params.originalText,
+      mode: 'exact',
+    });
+  }
 
   if (params.sourceText && !textsAreNearDuplicates(params.sourceText, params.briefingText)) {
     addOption({
@@ -224,6 +245,7 @@ export async function POST(request: NextRequest) {
             documentKind: { type: GeminiSchemaType.STRING },
             summary: { type: GeminiSchemaType.STRING },
             sourceText: { type: GeminiSchemaType.STRING },
+            originalText: { type: GeminiSchemaType.STRING },
             studentBriefing: { type: GeminiSchemaType.STRING },
             recommendedMode: { type: GeminiSchemaType.STRING },
             wordCount: { type: GeminiSchemaType.NUMBER },
@@ -261,12 +283,14 @@ export async function POST(request: NextRequest) {
     const title = sanitizeText(parsed.title ?? fallbackTitle).split('\n')[0] || fallbackTitle;
     const summary = sanitizeText(parsed.summary ?? '');
     const sourceText = sanitizeText(parsed.sourceText ?? parsed.studentBriefing ?? summary);
+    const originalText = sanitizeText(parsed.originalText ?? '');
     const briefingText = sanitizeText(parsed.studentBriefing ?? (sourceText || summary));
     const briefingMode = normalizeMode(parsed.recommendedMode, briefingText, sourceText);
     const briefingOptions = buildBriefingOptions({
       briefingText,
       mode: briefingMode,
       sourceText,
+      originalText,
       suggestedExcerpts: parsed.suggestedExcerpts,
     });
     const wordCount = parsed.wordCount ?? countWords(sourceText || briefingText);
@@ -279,6 +303,7 @@ export async function POST(request: NextRequest) {
       briefingText,
       briefingMode,
       sourceText,
+      originalText,
       documentKind: sanitizeText(parsed.documentKind ?? ''),
       wordCount,
       briefingOptions,

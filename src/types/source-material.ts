@@ -24,6 +24,8 @@ export interface SourceMaterial {
   briefingOptions?: SourceBriefingOption[];
   /** Best extracted document text/excerpt retained for teacher review, not automatically shown to students. */
   sourceText?: string;
+  /** Full original reading text when the upload is short and clean enough to offer as-is. */
+  originalText?: string;
   documentKind?: string;
   wordCount?: number;
   slides?: string[];  // picture book slide image URLs, synced during read-aloud
