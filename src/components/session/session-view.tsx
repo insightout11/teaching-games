@@ -386,6 +386,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // Tracks which activity key is being resolved — prevents stale async results
   const activeActivityKeyRef = useRef<string | null>(null);
 
+  // Holds pool data for a slot that arrived while the flight animation was still playing
+  const pendingPoolSlotRef = useRef<{ pool: string[]; stageLabel?: string } | null>(null);
+
   // Auto-start the current slot when it changes (driven by the hook)
   const lastAutoStartedSlotRef = useRef<number>(-1);
   useEffect(() => {
@@ -396,9 +399,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     lastAutoStartedSlotRef.current = lesson.currentSlotIndex;
     const slot = lesson.currentSlot;
 
-    // Pool slot — show spinner, resolve randomly at runtime
+    // Pool slot — wait for the flight animation to finish before showing the spinner
     if (slot.pool && slot.pool.length > 1) {
-      setPoolSpinning({ pool: slot.pool, stageLabel: slot.stageLabel });
+      if (moduleTransition) {
+        // Flight animation still playing — defer until onDismiss
+        pendingPoolSlotRef.current = { pool: slot.pool, stageLabel: slot.stageLabel };
+      } else {
+        setPoolSpinning({ pool: slot.pool, stageLabel: slot.stageLabel });
+      }
       return;
     }
 
@@ -414,7 +422,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson.currentSlotIndex, lesson.phase, lesson.currentSlot]);
+  }, [lesson.currentSlotIndex, lesson.phase, lesson.currentSlot, moduleTransition]);
+
+  // When the flight transition clears, fire any pool spinner that was deferred
+  useEffect(() => {
+    if (moduleTransition === null && pendingPoolSlotRef.current) {
+      const pending = pendingPoolSlotRef.current;
+      pendingPoolSlotRef.current = null;
+      setPoolSpinning(pending);
+    }
+  }, [moduleTransition]);
 
   // When lesson ends, return to selection grid
   useEffect(() => {
