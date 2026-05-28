@@ -6,12 +6,16 @@ import { PlannerStepIndicator } from './planner-step-indicator';
 import { MissionSetupScreen } from './mission-setup-screen';
 import { FlightPlanScreen } from './flight-plan-screen';
 import { ReviewLaunchScreen } from './review-launch-screen';
+import { FlightEnvironment } from '@/components/ui/flight-environment';
 
 export function PlannerShell() {
   const step = usePlannerStore((s) => s.step);
 
   return (
-    <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-8 lg:px-8 pb-12 min-h-[calc(100vh-4rem)]">
+    <>
+      {/* Gate scene overrides the dashboard's global golden sky while planning */}
+      <FlightEnvironment scene="gate" className="!left-64" />
+      <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-8 lg:px-8 pb-12 min-h-[calc(100vh-4rem)]">
       <div className="mb-8">
         <PlannerStepIndicator current={step} />
       </div>
@@ -30,5 +34,6 @@ export function PlannerShell() {
         </motion.div>
       </AnimatePresence>
     </div>
+    </>
   );
 }
