@@ -518,35 +518,3 @@ html[data-theme="light"] :focus-visible {
   }
 }
 
-/* Wonder Board — cloud question cards */
-.cloud-question-card {
-  position: relative;
-  background: #111a2e;
-  border-radius: 14px;
-  padding: 12px 16px 16px;
-}
-.cloud-question-card::before {
-  content: '';
-  position: absolute;
-  background: #111a2e;
-  border-radius: 50%;
-  width: 44%;
-  height: 40px;
-  top: -20px;
-  left: 6%;
-}
-.cloud-question-card::after {
-  content: '';
-  position: absolute;
-  background: #111a2e;
-  border-radius: 50%;
-  width: 36%;
-  height: 30px;
-  top: -14px;
-  right: 8%;
-}
-html[data-theme="light"] .cloud-question-card,
-html[data-theme="light"] .cloud-question-card::before,
-html[data-theme="light"] .cloud-question-card::after {
-  background: rgba(255, 255, 255, 0.88);
-}

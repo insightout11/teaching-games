@@ -41,6 +41,9 @@ function getCloudGlow(starter: string, focused: boolean): string {
 }
 
 
+// Shared background for all cloud card parts — must be solid so bumps merge seamlessly
+const CLOUD_BG = '#111a2e';
+
 type Phase = 'idle' | 'collecting' | 'done';
 
 interface WonderQuestion {
@@ -60,6 +63,39 @@ interface WonderQuestion {
 // -----------------------------------------------------------------------
 // Sub-components
 // -----------------------------------------------------------------------
+
+// Cloud-shaped card wrapper: 3 overlapping ellipses form the fluffy top,
+// a rounded rectangle forms the body. All share CLOUD_BG so they merge.
+function CloudCard({
+  starter,
+  focused,
+  onClick,
+  children,
+}: {
+  starter: string;
+  focused: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`transition-all duration-200 cursor-pointer ${focused ? 'scale-[1.02]' : ''}`}
+      style={{ position: 'relative', paddingTop: 28, filter: getCloudGlow(starter, focused) }}
+      onClick={onClick}
+    >
+      {/* Three overlapping bumps — left, center (tallest), right */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 46, pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', bottom: 0, left: '4%',  width: '40%', height: 26, background: CLOUD_BG, borderRadius: '50%' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: '20%', width: '58%', height: 38, background: CLOUD_BG, borderRadius: '50%' }} />
+        <div style={{ position: 'absolute', bottom: 0, right: '4%', width: '36%', height: 22, background: CLOUD_BG, borderRadius: '50%' }} />
+      </div>
+      {/* Card body — top rounded corners are hidden behind the bumps */}
+      <div style={{ background: CLOUD_BG, borderRadius: 14, padding: '12px 16px 16px', position: 'relative' }}>
+        {children}
+      </div>
+    </div>
+  );
+}
 
 function StarterBadge({ starter }: { starter: string }) {
   const colors = STARTER_COLORS[starter] ?? 'text-slate-400 border-slate-500/40';
@@ -130,12 +166,8 @@ function QuestionCard({
   }
 
   return (
-    <div
-      className={`transition-all duration-200 cursor-pointer ${focused ? 'scale-[1.02]' : ''}`}
-      style={{ filter: getCloudGlow(question.starter, focused) }}
-      onClick={() => setFocused(!focused)}
-    >
-      <div className="cloud-question-card space-y-3">
+    <CloudCard starter={question.starter} focused={focused} onClick={() => setFocused(!focused)}>
+      <div className="space-y-3">
         {/* Header row */}
         <div className="flex items-start justify-between gap-2">
           <StarterBadge starter={question.starter} />
@@ -236,7 +268,7 @@ function QuestionCard({
           )}
         </div>
       </div>
-    </div>
+    </CloudCard>
   );
 }
 
