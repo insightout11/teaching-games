@@ -560,6 +560,27 @@ export interface ListeningGapFillContent extends ActivityGeneratedContent {
   items: GapFillItem[];   // 5–6 items
 }
 
+// Opinion Micro content (flight-plan micro-event — single dilemma)
+export interface OpinionMicroDilemma {
+  optionA: string;
+  optionB: string;
+  discussionPrompt: string;
+}
+
+export interface OpinionMicroContent extends ActivityGeneratedContent {
+  activityKey: 'opinion-micro';
+  dilemma: OpinionMicroDilemma;
+}
+
+// Accuracy Micro content (flight-plan micro-event — single sentence correction)
+export interface AccuracyMicroContent extends ActivityGeneratedContent {
+  activityKey: 'accuracy-micro';
+  sentence: string;          // version with the error (Option A)
+  correctedSentence: string; // corrected version (Option B)
+  errorType: string;         // e.g. "subject-verb agreement"
+  explanation: string;       // why the correction is right
+}
+
 // Prediction Round content
 export interface PredictionRoundQuestion {
   text: string;        // The prediction statement / question
