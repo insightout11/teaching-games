@@ -260,6 +260,34 @@ function BackgroundLayer({
   const landY = height * 0.73 + height * 0.14;
   const lcx = width * 0.22;
   const rcx = width * 0.78;
+  const leftLandPath = `
+    M ${lcx - width * 0.19} ${landY + height * 0.034}
+    C ${lcx - width * 0.145} ${landY - height * 0.028}, ${lcx - width * 0.065} ${landY - height * 0.055}, ${lcx + width * 0.006} ${landY - height * 0.047}
+    C ${lcx + width * 0.07} ${landY - height * 0.04}, ${lcx + width * 0.14} ${landY - height * 0.014}, ${lcx + width * 0.185} ${landY + height * 0.032}
+    C ${lcx + width * 0.125} ${landY + height * 0.066}, ${lcx + width * 0.025} ${landY + height * 0.078}, ${lcx - width * 0.085} ${landY + height * 0.068}
+    C ${lcx - width * 0.15} ${landY + height * 0.062}, ${lcx - width * 0.19} ${landY + height * 0.048}, ${lcx - width * 0.19} ${landY + height * 0.034}
+    Z
+  `;
+  const leftLandRidgePath = `
+    M ${lcx - width * 0.12} ${landY + height * 0.022}
+    C ${lcx - width * 0.055} ${landY - height * 0.006}, ${lcx + width * 0.04} ${landY - height * 0.002}, ${lcx + width * 0.11} ${landY + height * 0.026}
+    C ${lcx + width * 0.045} ${landY + height * 0.04}, ${lcx - width * 0.055} ${landY + height * 0.044}, ${lcx - width * 0.12} ${landY + height * 0.022}
+    Z
+  `;
+  const rightLandPath = `
+    M ${rcx - width * 0.155} ${landY + height * 0.04}
+    C ${rcx - width * 0.105} ${landY - height * 0.018}, ${rcx - width * 0.025} ${landY - height * 0.038}, ${rcx + width * 0.06} ${landY - height * 0.025}
+    C ${rcx + width * 0.13} ${landY - height * 0.014}, ${rcx + width * 0.17} ${landY + height * 0.006}, ${rcx + width * 0.18} ${landY + height * 0.032}
+    C ${rcx + width * 0.11} ${landY + height * 0.056}, ${rcx + width * 0.02} ${landY + height * 0.064}, ${rcx - width * 0.075} ${landY + height * 0.058}
+    C ${rcx - width * 0.13} ${landY + height * 0.054}, ${rcx - width * 0.158} ${landY + height * 0.047}, ${rcx - width * 0.155} ${landY + height * 0.04}
+    Z
+  `;
+  const rightLandRidgePath = `
+    M ${rcx - width * 0.075} ${landY + height * 0.018}
+    C ${rcx - width * 0.02} ${landY + height * 0.002}, ${rcx + width * 0.07} ${landY + height * 0.003}, ${rcx + width * 0.13} ${landY + height * 0.026}
+    C ${rcx + width * 0.06} ${landY + height * 0.038}, ${rcx - width * 0.026} ${landY + height * 0.04}, ${rcx - width * 0.075} ${landY + height * 0.018}
+    Z
+  `;
 
   return (
     <div className="absolute inset-0 overflow-hidden rounded-[28px]">
@@ -273,7 +301,7 @@ function BackgroundLayer({
         className="absolute -inset-x-20 inset-y-0"
         style={{
           background:
-            'radial-gradient(circle at 24% 78%, rgba(47, 255, 158, 0.64), transparent 24%), radial-gradient(circle at 38% 42%, rgba(67, 249, 220, 0.32), transparent 32%), radial-gradient(circle at 52% 35%, rgba(70, 214, 255, 0.34), transparent 31%), radial-gradient(circle at 77% 52%, rgba(119, 111, 255, 0.32), transparent 29%)',
+            'radial-gradient(ellipse 38% 16% at 28% 78%, rgba(47, 255, 158, 0.56), transparent 62%), radial-gradient(ellipse 32% 14% at 76% 79%, rgba(50, 222, 129, 0.35), transparent 66%), radial-gradient(ellipse 34% 28% at 44% 42%, rgba(67, 249, 220, 0.30), transparent 64%), radial-gradient(ellipse 36% 28% at 64% 36%, rgba(70, 214, 255, 0.28), transparent 64%), radial-gradient(ellipse 32% 30% at 80% 52%, rgba(119, 111, 255, 0.32), transparent 65%)',
         }}
         animate={{
           opacity: emphasized ? 0.9 : 0.13,
@@ -321,7 +349,7 @@ function BackgroundLayer({
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         style={{
           background:
-            'radial-gradient(circle at 20% 68%, rgba(83, 255, 176, 0.22), transparent 34%), radial-gradient(circle at 50% 18%, rgba(63, 158, 255, 0.19), transparent 30%), radial-gradient(circle at 18% 70%, rgba(71, 237, 255, 0.16), transparent 35%), radial-gradient(circle at 82% 24%, rgba(132, 101, 255, 0.14), transparent 28%)',
+            'radial-gradient(ellipse 34% 18% at 22% 70%, rgba(83, 255, 176, 0.18), transparent 64%), radial-gradient(ellipse 36% 28% at 50% 18%, rgba(63, 158, 255, 0.19), transparent 62%), radial-gradient(ellipse 32% 26% at 18% 70%, rgba(71, 237, 255, 0.13), transparent 66%), radial-gradient(ellipse 30% 28% at 82% 24%, rgba(132, 101, 255, 0.14), transparent 64%)',
         }}
       />
 
@@ -346,15 +374,11 @@ function BackgroundLayer({
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* Left continent — departure side */}
-        <motion.ellipse cx={lcx} cy={landY} rx={width * 0.088} ry={height * 0.088} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#1f6f3d' : '#0d2016', opacity: emphasized ? 0.98 : 0.2 }} transition={{ duration: 0.45 }} />
-        <motion.ellipse cx={lcx - width * 0.032} cy={landY - height * 0.04} rx={width * 0.048} ry={height * 0.058} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#245f35' : '#0d2016', opacity: emphasized ? 0.98 : 0.2 }} transition={{ duration: 0.45 }} />
-        <motion.ellipse cx={lcx + width * 0.04} cy={landY + height * 0.05} rx={width * 0.055} ry={height * 0.048} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#1b7a42' : '#0d2016', opacity: emphasized ? 0.98 : 0.2 }} transition={{ duration: 0.45 }} />
-
-        {/* Right continent — arrival side */}
-        <motion.ellipse cx={rcx} cy={landY} rx={width * 0.078} ry={height * 0.082} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#1c6b38' : '#0d2016', opacity: emphasized ? 0.92 : 0.18 }} transition={{ duration: 0.45 }} />
-        <motion.ellipse cx={rcx + width * 0.028} cy={landY - height * 0.032} rx={width * 0.044} ry={height * 0.054} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#214f31' : '#0d2016', opacity: emphasized ? 0.92 : 0.18 }} transition={{ duration: 0.45 }} />
-        <motion.ellipse cx={rcx - width * 0.038} cy={landY + height * 0.042} rx={width * 0.052} ry={height * 0.042} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#1e7440' : '#0d2016', opacity: emphasized ? 0.92 : 0.18 }} transition={{ duration: 0.45 }} />
+        {/* Stylized landmasses: flat, irregular paths read as continents on the globe. */}
+        <motion.path d={leftLandPath} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#1f7542' : '#0d2016', opacity: emphasized ? 0.92 : 0.16 }} transition={{ duration: 0.45 }} />
+        <motion.path d={leftLandRidgePath} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#155b35' : '#0a1712', opacity: emphasized ? 0.5 : 0.08 }} transition={{ duration: 0.45 }} />
+        <motion.path d={rightLandPath} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#1d6f3d' : '#0d2016', opacity: emphasized ? 0.82 : 0.14 }} transition={{ duration: 0.45 }} />
+        <motion.path d={rightLandRidgePath} clipPath={`url(#${bgIds.clipPath})`} animate={{ fill: emphasized ? '#155734' : '#0a1712', opacity: emphasized ? 0.44 : 0.08 }} transition={{ duration: 0.45 }} />
 
 
         {/* Atmosphere rim */}
