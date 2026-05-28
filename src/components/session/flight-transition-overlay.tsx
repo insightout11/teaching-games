@@ -24,9 +24,11 @@ const LEG_CONFIG: Record<FlightTransitionLeg, {
   yFinal: string;
   rotate: number;
 }> = {
-  takeoff: { yInitial: '18vh',  yFinal: '-10vh', rotate: -7 },
-  cruise:  { yInitial: '0vh',   yFinal: '0vh',   rotate:  0 },
-  descent: { yInitial: '-8vh',  yFinal: '16vh',  rotate:  6 },
+  // Takeoff: starts near ground level (42vh below 32% base ≈ 74% from top)
+  takeoff: { yInitial: '42vh',  yFinal: '-12vh', rotate: -10 },
+  cruise:  { yInitial: '0vh',   yFinal: '0vh',   rotate:   0 },
+  // Descent base values — overridden dynamically from altitudeTo below
+  descent: { yInitial: '-10vh', yFinal: '16vh',  rotate:   6 },
 };
 
 const TRAVEL_DURATION = 2800;
@@ -43,6 +45,11 @@ export function FlightTransitionOverlay({
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
   const cfg = LEG_CONFIG[leg];
+
+  // Descent depth tracks altitudeTo: higher altitude = modest drop, near-zero = close to ground.
+  // 16vh at altitudeTo=1.0, 48vh at altitudeTo=0 (touches ground line).
+  const descentYFinal  = leg === 'descent' ? `${16 + Math.round((1 - altitudeTo) * 32)}vh` : cfg.yFinal;
+  const descentRotate  = leg === 'descent' ? 6 + Math.round((1 - altitudeTo) * 5) : cfg.rotate;
 
   useEffect(() => {
     const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3000);
@@ -88,9 +95,9 @@ export function FlightTransitionOverlay({
         >
           <motion.div
             className="absolute"
-            style={{ top: '32%', left: 0, marginTop: '-4rem', rotate: cfg.rotate }}
+            style={{ top: '32%', left: 0, marginTop: '-4rem', rotate: descentRotate }}
             initial={{ x: '-20vw', y: cfg.yInitial }}
-            animate={{ x: '110vw',  y: cfg.yFinal }}
+            animate={{ x: '110vw',  y: descentYFinal }}
             transition={{ duration: TRAVEL_DURATION / 1000, ease: 'linear' }}
           >
             <div
