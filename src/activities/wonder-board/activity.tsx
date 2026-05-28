@@ -40,9 +40,6 @@ function getCloudGlow(starter: string, focused: boolean): string {
   return `drop-shadow(0 0 ${blur}px rgba(${rgb},${alpha}))${focused ? ' drop-shadow(0 6px 16px rgba(0,0,0,0.5))' : ''}`;
 }
 
-// Two-bump cloud polygon — peaks at ~30% and ~70% width, bumps occupy top 30px
-const CLOUD_CLIP_PATH =
-  'polygon(0px 30px, 3% 24px, 10% 14px, 20% 6px, 30% 2px, 40% 6px, 47% 18px, 50% 22px, 53% 18px, 60% 6px, 70% 2px, 80% 6px, 90% 14px, 97% 24px, 100% 30px, 100% 100%, 0px 100%)';
 
 type Phase = 'idle' | 'collecting' | 'done';
 
@@ -138,16 +135,7 @@ function QuestionCard({
       style={{ filter: getCloudGlow(question.starter, focused) }}
       onClick={() => setFocused(!focused)}
     >
-      <div
-        className="px-4 pb-4 space-y-3"
-        style={{
-          clipPath: CLOUD_CLIP_PATH,
-          paddingTop: '36px',
-          background: 'rgba(255,255,255,0.07)',
-          backdropFilter: 'blur(16px)',
-          borderRadius: '0 0 16px 16px',
-        }}
-      >
+      <div className="cloud-question-card space-y-3">
         {/* Header row */}
         <div className="flex items-start justify-between gap-2">
           <StarterBadge starter={question.starter} />
@@ -486,7 +474,7 @@ export function WonderBoardActivity({
           {unanswered.length > 0 && (
             <div>
               <p className="text-xs opacity-40 uppercase tracking-widest mb-3">Unanswered</p>
-              <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
+              <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', columnGap: '12px', rowGap: '28px' }}>
                 {unanswered.map((q) => (
                   <QuestionCard
                     key={q.id}
@@ -504,7 +492,7 @@ export function WonderBoardActivity({
           {answered.length > 0 && (
             <div>
               <p className="text-xs opacity-40 uppercase tracking-widest mb-3">Answered</p>
-              <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
+              <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', columnGap: '12px', rowGap: '28px' }}>
                 {answered.map((q) => (
                   <QuestionCard
                     key={q.id}
@@ -546,7 +534,7 @@ export function WonderBoardActivity({
         <div className="space-y-4">
           <p className="text-center opacity-50 text-sm py-2">Board closed.</p>
           {topLevelQuestions.length > 0 && (
-            <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', columnGap: '12px', rowGap: '28px' }}>
               {topLevelQuestions.map((q) => (
                 <QuestionCard
                   key={q.id}
