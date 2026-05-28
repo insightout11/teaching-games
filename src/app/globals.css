@@ -510,20 +510,26 @@ html[data-theme="light"] :focus-visible {
   animation: cloud-drift-near var(--cloud-duration-near, 55s) linear infinite;
 }
 
-/* Terrain mid-layer: mountains/skyline silhouette, much slower than clouds */
-@keyframes terrain-drift {
+/* Ground drift: city lights and ocean scroll at ground-level parallax speeds.
+   Applied to SVG <g> elements inside EarthLayer; -100vw = one 1440-unit tile
+   at any viewport width because the SVG scales via preserveAspectRatio. */
+@keyframes city-drift {
   from { transform: translateX(0); }
   to   { transform: translateX(-100vw); }
 }
-.terrain-layer {
-  animation: terrain-drift var(--terrain-duration, 240s) linear infinite;
+@keyframes ocean-drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100vw); }
 }
+.city-drift  { animation: city-drift  200s linear infinite; }
+.ocean-drift { animation: ocean-drift 300s linear infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   .cloud-layer-far,
   .cloud-layer-mid,
   .cloud-layer-near,
-  .terrain-layer {
+  .city-drift,
+  .ocean-drift {
     animation: none;
   }
 }

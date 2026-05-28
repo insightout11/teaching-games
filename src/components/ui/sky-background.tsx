@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { EarthState } from '@/lib/flight-plan-helpers';
 
 export type WeatherState = 'idle' | 'climbing' | 'cruising' | 'golden' | 'landing';
@@ -354,133 +354,15 @@ const CITY_LIGHTS_SKY: Array<{ x: number; y: number; r: number }> = [
   { x: 1412, y: 126, r: 2.0 }, { x: 1425, y: 122, r: 1.8 },
 ];
 
-// ─── Terrain mid-layer ───────────────────────────────────────────────────────
-// Rendered as an absolute-positioned child INSIDE the Earth layer's motion.div
-// so it inherits the earth parallax shift automatically. Positioned at
-// bottom: 148px (= EarthLayer y≈68, just above the ocean/horizon line).
-// Two mountain layers for depth; single skyline layer for climbing/landing.
-
-// Far range — taller peaks, slightly lighter fill (atmospheric distance effect)
-const MTN_FAR =
-  'M 0 88 L 0 78' +
-  ' C 35 74 72 68 110 59' +
-  ' C 142 51 170 41 198 29' +
-  ' C 224 18 244 8 264 4' +
-  ' C 282 1 300 2 318 7' +
-  ' C 336 12 356 20 378 26' +
-  ' C 400 32 424 30 448 20' +
-  ' C 470 10 490 3 510 2' +
-  ' C 528 1 546 4 564 8' +
-  ' C 582 12 600 18 620 14' +
-  ' C 638 10 656 3 674 2' +
-  ' C 690 1 707 4 724 10' +
-  ' C 740 16 756 26 774 34' +
-  ' C 792 42 810 48 828 44' +
-  ' C 846 40 862 30 878 20' +
-  ' C 894 10 910 6 926 10' +
-  ' C 942 14 958 24 976 36' +
-  ' C 994 48 1014 58 1036 66' +
-  ' C 1058 73 1082 77 1108 80' +
-  ' C 1134 82 1162 83 1194 84' +
-  ' C 1226 85 1262 85 1305 86' +
-  ' C 1348 86 1398 87 1440 88 L 1440 88 Z';
-
-// Near range — lower ridgeline, darker fill (closer foreground ridge)
-const MTN_NEAR =
-  'M 0 88 L 0 75' +
-  ' C 45 72 90 68 130 62' +
-  ' C 168 56 200 50 232 44' +
-  ' C 264 38 294 34 324 38' +
-  ' C 352 42 378 48 405 52' +
-  ' C 430 56 455 54 480 48' +
-  ' C 505 42 528 36 552 38' +
-  ' C 575 40 598 46 625 42' +
-  ' C 650 38 672 32 695 36' +
-  ' C 718 40 740 50 762 56' +
-  ' C 784 62 806 66 830 62' +
-  ' C 854 58 876 50 898 44' +
-  ' C 920 38 942 36 966 40' +
-  ' C 990 44 1015 52 1042 58' +
-  ' C 1068 64 1096 68 1125 71' +
-  ' C 1154 73 1185 74 1220 75' +
-  ' C 1255 75 1295 75 1345 75' +
-  ' C 1385 75 1415 75 1440 75 L 1440 88 Z';
-
-// City skyline — angular profile with landmark spires, no uniform boxes
-const SKYLINE =
-  'M 0 108 L 0 96 L 25 96 L 25 85 L 45 85 L 45 72 L 62 72 L 62 58' +
-  ' L 75 58 L 75 46 L 88 46 L 88 33 L 100 33 L 100 22 L 110 22 L 110 14' +
-  ' L 118 14 L 118 22 L 128 22 L 128 35 L 140 35 L 140 45 L 152 45 L 152 33' +
-  ' L 162 33 L 162 22 L 170 22 L 170 15 L 177 15 L 177 8 L 180 4 L 183 8' +
-  ' L 186 15 L 186 22 L 194 22 L 194 33 L 206 33 L 206 45 L 220 45 L 220 58' +
-  ' L 238 58 L 238 68 L 258 68 L 258 80 L 282 80 L 282 88 L 312 88 L 312 78' +
-  ' L 335 78 L 335 62 L 352 62 L 352 48 L 366 48 L 366 35 L 378 35 L 378 22' +
-  ' L 388 22 L 388 14 L 396 14 L 396 8 L 402 4 L 406 8 L 410 14 L 410 22' +
-  ' L 420 22 L 420 12 L 428 8 L 434 12 L 440 22 L 440 35 L 454 35 L 454 22' +
-  ' L 464 22 L 464 14 L 474 14 L 474 22 L 484 22 L 484 36 L 498 36 L 498 52' +
-  ' L 516 52 L 516 66 L 538 66 L 538 75 L 562 75 L 562 82 L 590 82 L 590 72' +
-  ' L 612 72 L 612 60 L 630 60 L 630 48 L 645 48 L 645 58 L 660 58 L 660 70' +
-  ' L 678 70 L 678 80 L 700 80 L 700 88 L 728 88 L 728 78 L 752 78 L 752 62' +
-  ' L 768 62 L 768 45 L 782 45 L 782 30 L 794 30 L 794 18 L 804 18 L 804 10' +
-  ' L 812 6 L 818 10 L 824 18 L 824 28 L 836 28 L 836 18 L 845 12 L 850 6' +
-  ' L 854 10 L 858 18 L 868 28 L 868 40 L 882 40 L 882 55 L 900 55 L 900 66' +
-  ' L 920 66 L 920 75 L 944 75 L 944 82 L 968 82 L 968 72 L 988 72 L 988 58' +
-  ' L 1005 58 L 1005 45 L 1018 45 L 1018 32 L 1030 32 L 1030 22 L 1042 22' +
-  ' L 1042 32 L 1054 32 L 1054 45 L 1068 45 L 1068 58 L 1085 58 L 1085 70' +
-  ' L 1105 70 L 1105 80 L 1128 80 L 1128 88 L 1155 88 L 1155 80 L 1178 80' +
-  ' L 1178 72 L 1198 72 L 1198 82 L 1218 82 L 1218 90 L 1245 90 L 1245 96' +
-  ' L 1280 96 L 1280 100 L 1320 100 L 1320 104 L 1380 104 L 1380 107 L 1440 108 Z';
-
-function TerrainStrip({ kind }: { kind: 'mountains' | 'skyline' }) {
-  const h = kind === 'mountains' ? 88 : 108;
-  return (
-    <div className="terrain-layer" style={{ position: 'absolute', bottom: 0, left: 0, width: '200vw', height: h }}>
-      {([0, 1] as const).map((i) => (
-        <svg
-          key={i}
-          viewBox={`0 0 1440 ${h}`}
-          style={{ position: 'absolute', bottom: 0, left: i === 0 ? 0 : '100vw', width: '100vw', height: h, display: 'block' }}
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          <defs>
-            {kind === 'mountains' ? (
-              <>
-                {/* Far range: peaks lighter for atmospheric distance */}
-                <linearGradient id="tmf" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stopColor="#0E1C30" stopOpacity="0.60" />
-                  <stop offset="100%" stopColor="#050E1C" stopOpacity="0.86" />
-                </linearGradient>
-                {/* Near range: darker, more solid */}
-                <linearGradient id="tmn" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stopColor="#060E1E" stopOpacity="0.80" />
-                  <stop offset="100%" stopColor="#030810" stopOpacity="0.96" />
-                </linearGradient>
-              </>
-            ) : (
-              <linearGradient id="tsg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stopColor="#060C1C" stopOpacity="0.78" />
-                <stop offset="100%" stopColor="#030810" stopOpacity="0.96" />
-              </linearGradient>
-            )}
-          </defs>
-          {kind === 'mountains' ? (
-            <>
-              <path d={MTN_FAR}  fill="url(#tmf)" />
-              <path d={MTN_NEAR} fill="url(#tmn)" />
-            </>
-          ) : (
-            <path d={SKYLINE} fill="url(#tsg)" />
-          )}
-        </svg>
-      ))}
-    </div>
-  );
-}
+// Second copy of city lights offset by one tile (1440 SVG units) for seamless loop
+const CITY_LIGHTS_DOUBLED = [
+  ...CITY_LIGHTS_SKY,
+  ...CITY_LIGHTS_SKY.map(d => ({ x: d.x + 1440, y: d.y, r: d.r })),
+];
 
 // ─── Earth layer ─────────────────────────────────────────────────────────────
 
-function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weatherState: WeatherState }) {
+function EarthLayer({ earthState, weatherState, animate = false }: { earthState: EarthState; weatherState: WeatherState; animate?: boolean }) {
   const isLanding  = earthState === 'landing';
   const isTakeoff  = earthState === 'takeoff';
   const isFlight   = earthState === 'flight';
@@ -499,7 +381,7 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
       width="100%"
       height="220"
       preserveAspectRatio="xMidYMax slice"
-      style={{ display: 'block' }}
+      style={{ display: 'block', overflow: animate ? 'visible' : 'hidden' }}
       aria-hidden
     >
       <defs>
@@ -568,13 +450,15 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
         </filter>
       </defs>
 
-      {/* Base terrain / ocean — curved top edge for ocean state */}
+      {/* Base terrain / ocean */}
       {isOcean ? (
-        <path
-          d="M 0 80 Q 720 58 1440 80 L 1440 220 L 0 220 Z"
-          fill="url(#ocean-grad)"
-          filter="url(#ocean-shimmer)"
-        />
+        <g className={animate ? 'ocean-drift' : undefined}>
+          {/* Two tiled copies for seamless loop — second copy at x+1440 */}
+          <path d="M 0 80 Q 720 58 1440 80 L 1440 220 L 0 220 Z"
+            fill="url(#ocean-grad)" filter="url(#ocean-shimmer)" />
+          <path d="M 1440 80 Q 2160 58 2880 80 L 2880 220 L 1440 220 Z"
+            fill="url(#ocean-grad)" filter="url(#ocean-shimmer)" />
+        </g>
       ) : (
         <rect x="0" y="0" width="1440" height="220" fill="url(#earth-grad)" />
       )}
@@ -624,14 +508,18 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
         </g>
       )}
 
-      {/* ── Flight + city departing (climbing, slot 1) — elevated city dots ── */}
+      {/* ── Flight + city departing (climbing) — elevated city dots, scrolling when animate ── */}
       {isCityDepart && (
-        <g opacity="0.52">
+        <g opacity="0.52" className={animate ? 'city-drift' : undefined}>
+          {/* Bloom — original + second copy at cx+1440 */}
           <ellipse cx="253"  cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
           <ellipse cx="685"  cy="135" rx="82" ry="16" fill="#f5a030" opacity="0.08" filter="url(#bloom-soft)" />
           <ellipse cx="1107" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
+          <ellipse cx="1693" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
+          <ellipse cx="2125" cy="135" rx="82" ry="16" fill="#f5a030" opacity="0.08" filter="url(#bloom-soft)" />
+          <ellipse cx="2547" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
           <g filter="url(#dot-glow)">
-            {CITY_LIGHTS_SKY.map((dot, i) => (
+            {(animate ? CITY_LIGHTS_DOUBLED : CITY_LIGHTS_SKY).map((dot, i) => (
               <circle key={i} cx={dot.x} cy={dot.y} r={dot.r}
                 fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]} />
             ))}
@@ -639,14 +527,17 @@ function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weat
         </g>
       )}
 
-      {/* ── Flight + city approaching (golden/pre-dawn) — elevated city dots ── */}
+      {/* ── Flight + city approaching (golden/pre-dawn) — elevated city dots, scrolling when animate ── */}
       {isCityApproach && (
-        <g>
+        <g className={animate ? 'city-drift' : undefined}>
           <ellipse cx="253"  cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
           <ellipse cx="685"  cy="135" rx="82" ry="16" fill="#f5a030" opacity="0.10" filter="url(#bloom-soft)" />
           <ellipse cx="1107" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
+          <ellipse cx="1693" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
+          <ellipse cx="2125" cy="135" rx="82" ry="16" fill="#f5a030" opacity="0.10" filter="url(#bloom-soft)" />
+          <ellipse cx="2547" cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
           <g filter="url(#dot-glow)">
-            {CITY_LIGHTS_SKY.map((dot, i) => (
+            {(animate ? CITY_LIGHTS_DOUBLED : CITY_LIGHTS_SKY).map((dot, i) => (
               <circle key={i} cx={dot.x} cy={dot.y} r={dot.r}
                 fill={CITY_LIGHT_COLORS[i % CITY_LIGHT_COLORS.length]} />
             ))}
@@ -670,6 +561,7 @@ export function SkyBackground({
   parallaxDuration = 4,
   className,
 }: SkyBackgroundProps) {
+  const prefersReducedMotion = useReducedMotion();
   const config = WEATHER[weatherState];
   const mult = intensity === 'subtle' ? 0.75 : 1;
   const parallaxEase = parallaxDuration === 4 ? 'easeInOut' : 'linear';
@@ -729,11 +621,8 @@ export function SkyBackground({
   const earthX     = (earthState === 'flight' && weatherState === 'climbing') ? altitude * 50 : 0;
   const earthXInit = (earthState === 'flight' && weatherState === 'climbing') ? altInit  * 50 : 0;
 
-  // Terrain mid-layer: only during flight; fades as plane climbs above it
-  const showTerrain   = earthState === 'flight';
-  const terrainKind   = (weatherState === 'cruising' || weatherState === 'golden') ? 'mountains' : 'skyline';
-  const terrainOpacity     = showTerrain ? Math.max(0, (0.85 - altitude * 1.15) * mult) : 0;
-  const terrainOpacityInit = showTerrain ? Math.max(0, (0.85 - altInit  * 1.15) * mult) : 0;
+  // Ground elements animate (city lights, ocean drift) only during flight and when motion is allowed
+  const animateGround = earthState === 'flight' && !prefersReducedMotion;
 
   // Sun disk baked into horizon gradient — only for ground states (takeoff=left, landing=right)
   const showSun   = earthState === 'takeoff' || earthState === 'landing';
@@ -799,19 +688,7 @@ export function SkyBackground({
         animate={{ y: earthShift, x: earthX }}
         transition={{ duration: parallaxDuration, ease: parallaxEase }}
       >
-        <EarthLayer earthState={earthState} weatherState={weatherState} />
-        {/* Terrain strip: absolute inside this wrapper so it shares earth parallax.
-            bottom: 148px ≈ EarthLayer y=72 (just above ocean/horizon line). */}
-        {showTerrain && (
-          <motion.div
-            style={{ position: 'absolute', bottom: 148, left: 0, right: 0, height: terrainKind === 'mountains' ? 88 : 108 }}
-            initial={{ opacity: terrainOpacityInit }}
-            animate={{ opacity: terrainOpacity }}
-            transition={{ duration: 3, ease: 'easeInOut' }}
-          >
-            <TerrainStrip kind={terrainKind} />
-          </motion.div>
-        )}
+        <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} />
       </motion.div>
 
       {/* Far layer */}
