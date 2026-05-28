@@ -91,6 +91,33 @@ function normalizeMode(mode: string | undefined, briefingText: string, sourceTex
   return 'adapted';
 }
 
+function normalizeForComparison(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
+}
+
+function textsAreNearDuplicates(a: string, b: string): boolean {
+  const aWords = normalizeForComparison(a);
+  const bWords = normalizeForComparison(b);
+  if (aWords.length === 0 || bWords.length === 0) return false;
+  const aText = aWords.join(' ');
+  const bText = bWords.join(' ');
+  const shorter = aText.length < bText.length ? aText : bText;
+  const longer = aText.length < bText.length ? bText : aText;
+  if (shorter.length > 200 && longer.includes(shorter)) return true;
+
+  const aSet = new Set(aWords);
+  const bSet = new Set(bWords);
+  let overlap = 0;
+  aSet.forEach((word) => {
+    if (bSet.has(word)) overlap += 1;
+  });
+  return overlap / Math.min(aSet.size, bSet.size) > 0.9;
+}
+
 function buildBriefingOptions(params: {
   briefingText: string;
   mode: SourceBriefingMode;
@@ -111,19 +138,19 @@ function buildBriefingOptions(params: {
 
   addOption({
     id: 'recommended',
-    label: 'Recommended briefing',
+    label: 'Recommended student reading',
     description: params.mode === 'adapted'
-      ? 'Cleaned and adapted for a short ESL reading.'
-      : 'Best classroom-ready passage from the uploaded source.',
+      ? 'Best fit for a short class briefing, cleaned for student reading.'
+      : 'Best fit for a short class briefing.',
     text: params.briefingText,
     mode: params.mode,
   });
 
-  if (params.sourceText && params.sourceText !== params.briefingText) {
+  if (params.sourceText && !textsAreNearDuplicates(params.sourceText, params.briefingText)) {
     addOption({
       id: 'source-excerpt',
-      label: 'Closest source excerpt',
-      description: 'More faithful to the uploaded text; may be denser.',
+      label: 'Original source passage',
+      description: 'Closer to the uploaded wording; may be denser.',
       text: params.sourceText,
       mode: 'excerpt',
     });

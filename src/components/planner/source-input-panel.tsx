@@ -21,10 +21,10 @@ const TABS: { key: Tab; label: string }[] = [
 
 const UPLOAD_ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
 const BRIEFING_MODE_LABEL: Record<SourceBriefingMode, string> = {
-  exact: 'Exact text',
-  excerpt: 'Excerpt',
-  adapted: 'Adapted',
-  generated: 'Generated',
+  exact: 'Original passage',
+  excerpt: 'Short section',
+  adapted: 'Adapted reading',
+  generated: 'Generated reading',
 };
 
 function formatDuration(secs: number) {
@@ -44,6 +44,20 @@ function getSourcePreview(material: SourceMaterial) {
   return material.briefingText ?? material.rawText ?? material.summary;
 }
 
+function getBriefingOptionLabel(option: SourceBriefingOption) {
+  if (option.id === 'recommended') return 'Recommended student reading';
+  if (option.id === 'source-excerpt') return 'Original source passage';
+  if (option.label === 'Recommended briefing') return 'Recommended student reading';
+  if (option.label === 'Closest source excerpt') return 'Original source passage';
+  return option.label;
+}
+
+function getBriefingOptionBadge(option: SourceBriefingOption) {
+  if (option.id === 'recommended') return 'Best for class';
+  if (option.id === 'source-excerpt') return 'Original passage';
+  return BRIEFING_MODE_LABEL[option.mode];
+}
+
 function withGeneratedOption(material: SourceMaterial): SourceBriefingOption[] {
   const existing = Array.isArray(material.briefingOptions)
     ? material.briefingOptions.filter((option) => option.text?.trim().length > 0)
@@ -53,8 +67,8 @@ function withGeneratedOption(material: SourceMaterial): SourceBriefingOption[] {
   const text = getSourcePreview(material);
   return [{
     id: 'recommended',
-    label: 'Recommended briefing',
-    description: 'Classroom-ready text for Captain\'s Briefing.',
+    label: 'Recommended student reading',
+    description: 'Best fit for a short class briefing.',
     text,
     mode: material.briefingMode ?? 'adapted',
     wordCount: countWords(text),
@@ -250,11 +264,11 @@ export function SourceInputPanel() {
         <div className="px-4 pb-4 pt-3 space-y-3">
           {pendingSource ? (
             <div className="space-y-3">
-              <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
-                <p className="text-xs font-semibold text-amber-300 uppercase tracking-wide">Review Captain&apos;s Briefing</p>
+              <div className="rounded-lg border border-lc-blue/30 bg-lc-blue/10 p-3">
+                <p className="text-xs font-semibold text-lc-blue uppercase tracking-wide">Review Captain&apos;s Briefing</p>
                 <p className="mt-1 text-sm font-medium text-lc-text">{pendingSource.title}</p>
                 <p className="mt-1 text-xs text-lc-text3 leading-relaxed">
-                  Choose the exact text students will see in the reader. This selected text will also feed vocabulary and later activities.
+                  Review and edit the text students will read in the briefing.
                 </p>
               </div>
 
@@ -275,13 +289,13 @@ export function SourceInputPanel() {
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <p className="text-sm font-semibold text-lc-text">{option.label}</p>
+                          <p className="text-sm font-semibold text-lc-text">{getBriefingOptionLabel(option)}</p>
                           {option.description && (
                             <p className="mt-0.5 text-xs text-lc-text3">{option.description}</p>
                           )}
                         </div>
                         <span className="shrink-0 rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
-                          {BRIEFING_MODE_LABEL[option.mode]}
+                          {getBriefingOptionBadge(option)}
                         </span>
                       </div>
                       <p className="mt-2 text-xs text-lc-text3">
@@ -308,11 +322,14 @@ export function SourceInputPanel() {
                   rows={8}
                   className="w-full resize-y rounded-lg border border-lc-border bg-lc-bg px-3 py-2 text-sm leading-relaxed text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow"
                 />
+                <p className="text-xs text-lc-blue leading-relaxed">
+                  This text will be used for the reader, vocabulary, checks, and discussion prompts.
+                </p>
               </div>
 
               {error && <p className="text-xs text-red-400">{error}</p>}
 
-              <div className="flex items-center justify-between gap-2">
+              <div className="sticky bottom-0 -mx-4 -mb-4 flex items-center justify-between gap-2 border-t border-lc-border bg-lc-surface/95 px-4 py-3 backdrop-blur">
                 <button
                   type="button"
                   onClick={cancelPendingSource}
