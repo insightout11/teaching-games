@@ -38,6 +38,7 @@ import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
+import { Maximize2, Minimize2 } from 'lucide-react';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -200,7 +201,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [showCockpitQr, setShowCockpitQr] = useState(false);
   const [browserOrigin, setBrowserOrigin] = useState('');
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
-  const [shareMode, setShareMode] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [screenAnswer, setScreenAnswer] = useState<{ question: string; answer: string } | null>(null);
   const [typeFilter, setTypeFilter] = useState<SessionTypeFilter>('all');
   const [skillFilter, setSkillFilter] = useState<SessionSkillFilter>('all');
@@ -231,6 +232,22 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const settingsPopoverRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (isFullScreen) {
+      document.documentElement.dataset.sessionFullscreen = 'true';
+    } else {
+      delete document.documentElement.dataset.sessionFullscreen;
+    }
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsFullScreen(false);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      delete document.documentElement.dataset.sessionFullscreen;
+    };
+  }, [isFullScreen]);
 
   // Clear stale explore-session reference if this session is already ended
   useEffect(() => {
@@ -808,9 +825,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (ended) {
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" className="!left-64" />
+        <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" className={isFullScreen ? '' : '!left-64'} />
         {/* Plane parked on right taxiway — class has landed */}
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
           <div className="absolute bottom-0 left-[62%] -translate-x-1/2">
             <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
           </div>
@@ -826,7 +843,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (!mounted) {
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <SkyBackground intensity="subtle" className="!left-64" />
+        <SkyBackground intensity="subtle" className={isFullScreen ? '' : '!left-64'} />
         <div className="relative z-10 flex items-center justify-center pt-24">
           <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
         </div>
@@ -839,9 +856,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
-        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className="!left-64" />
+        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className={isFullScreen ? '' : '!left-64'} />
         {/* Plane parked on left taxiway — above sky layers (z-7), below cards (z-10) */}
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
           <div className="absolute bottom-0 left-[38%] -translate-x-1/2">
             <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
           </div>
@@ -987,11 +1004,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         altitude={altitude}
         earthState={earthState}
         intensity="moderate"
-        className="!left-64"
+        className={isFullScreen ? '' : '!left-64'}
       />
       {/* Plane on runway — left taxiway (takeoff) or right taxiway (landing) */}
       {(earthState === 'takeoff' || earthState === 'landing') && (
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: '256px' }}>
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
           <div className={`absolute bottom-0 ${earthState === 'takeoff' ? 'left-[38%]' : 'left-[62%]'} -translate-x-1/2`}>
             <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
           </div>
@@ -1068,28 +1085,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setShareMode((v) => !v)}
-              className={shareMode ? 'text-green-400 hover:text-green-300' : 'text-lc-text3 hover:text-lc-text2'}
-              title={shareMode ? 'Exit Zoom Mode — class questions widget visible again' : 'Zoom Mode — hides class questions from shared screen'}
+              onClick={() => setIsFullScreen((v) => !v)}
+              className={isFullScreen ? 'text-cyan-400 hover:text-cyan-300' : 'text-lc-text3 hover:text-lc-text2'}
+              title={isFullScreen ? 'Exit Full Screen (Esc)' : 'Full Screen — hide sidebar for more space'}
             >
-              {shareMode ? '● Zoom' : 'Zoom Mode'}
+              {isFullScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
             </Button>
-            {shareMode && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  const url = new URL(`/questions/${session.id}`, window.location.origin);
-                  url.searchParams.set('topic', getEffectiveTopic(settings));
-                  url.searchParams.set('difficulty', settings.difficulty);
-                  window.open(url.toString(), 'classquestions', 'popup=true,width=700,height=760,scrollbars=yes');
-                }}
-                className="text-amber-400 hover:text-amber-300"
-                title="Open class questions in a private popup window"
-              >
-                Questions ↗
-              </Button>
-            )}
             <Button
               variant="ghost"
               size="sm"
@@ -1716,8 +1717,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         />
       )}
 
-      {/* Floating widget system — class-questions hidden in Zoom Mode */}
-      {WIDGET_REGISTRY.filter((w) => !shareMode || w.id !== 'class-questions').map((widget) => (
+      {/* Floating widget system */}
+      {WIDGET_REGISTRY.map((widget) => (
         <WidgetShell
           key={widget.id}
           id={widget.id}
@@ -1737,7 +1738,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             }) ?? {})} />
         </WidgetShell>
       ))}
-      <WidgetLauncher sessionId={session.id} shareMode={shareMode} />
+      <WidgetLauncher sessionId={session.id} />
 
       {/* Answer overlay — shown on teacher's projected screen */}
       {screenAnswer && (

@@ -350,6 +350,12 @@ html[data-theme="light"] select option {
   color: #0F172A;
 }
 
+/* ─── Session Full Screen Mode ──────────────────────────────────────────────
+   Hides the left nav sidebar; content area expands via flex-1. */
+[data-session-fullscreen="true"] .lc-sidebar {
+  display: none;
+}
+
 /* ─── Accessible Focus Indicators ─────────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid #4DA3FF;

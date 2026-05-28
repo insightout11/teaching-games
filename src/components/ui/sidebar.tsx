@@ -46,7 +46,7 @@ export function Sidebar({ user }: { user: User }) {
   };
 
   return (
-    <header className="w-64 bg-lc-surface border-r border-lc-border flex flex-col h-screen sticky top-0">
+    <header className="lc-sidebar w-64 bg-lc-surface border-r border-lc-border flex flex-col h-screen sticky top-0">
       <div className="p-6 border-b border-lc-border-subtle">
         <div className="flex items-center justify-between">
           <Link href="/home" className="cursor-pointer">

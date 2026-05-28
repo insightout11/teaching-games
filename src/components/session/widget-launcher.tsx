@@ -10,10 +10,9 @@ import { computeDefaultPositions } from './widget-shell';
 
 interface WidgetLauncherProps {
   sessionId?: string;
-  shareMode?: boolean;
 }
 
-export function WidgetLauncher({ sessionId, shareMode }: WidgetLauncherProps) {
+export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
   const { widgets, openWidget, resetLayout } = useWidgetStore();
   const [mounted, setMounted] = useState(false);
   const [trayOpen, setTrayOpen] = useState(false);
@@ -70,9 +69,7 @@ export function WidgetLauncher({ sessionId, shareMode }: WidgetLauncherProps) {
     setMounted(true);
   }, []);
 
-  // Widgets that are currently closed, excluding class-questions in share mode
   const closedWidgets = WIDGET_REGISTRY.filter((w) => {
-    if (shareMode && w.id === 'class-questions') return false;
     const entry = widgets[w.id];
     return entry ? !entry.isOpen : false;
   });
@@ -146,7 +143,7 @@ export function WidgetLauncher({ sessionId, shareMode }: WidgetLauncherProps) {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
-          {pendingQuestions > 0 && !shareMode && (
+          {pendingQuestions > 0 && (
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full text-[9px] font-bold flex items-center justify-center text-white">
               {pendingQuestions}
             </span>
