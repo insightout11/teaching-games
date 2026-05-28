@@ -19,19 +19,104 @@ interface FlightTransitionOverlayProps {
   onDismiss: () => void;
 }
 
+// y value that places the plane on the sideways runway tarmac.
+// Tarmac centre ≈ 44px from screen bottom; plane base top: 32% - 4rem.
+// 63vh lands the plane on the tarmac across common screen heights (768–1080px).
+const RUNWAY_Y = '63vh';
+
 const LEG_CONFIG: Record<FlightTransitionLeg, {
   yInitial: string;
   yFinal: string;
   rotate: number;
 }> = {
-  // Takeoff: starts near ground level (42vh below 32% base ≈ 74% from top)
-  takeoff: { yInitial: '42vh',  yFinal: '-12vh', rotate: -10 },
-  cruise:  { yInitial: '0vh',   yFinal: '0vh',   rotate:   0 },
-  // Descent base values — overridden dynamically from altitudeTo below
-  descent: { yInitial: '-10vh', yFinal: '16vh',  rotate:   6 },
+  takeoff: { yInitial: RUNWAY_Y, yFinal: '-12vh', rotate: -10 },
+  cruise:  { yInitial: '0vh',    yFinal: '0vh',   rotate:   0 },
+  descent: { yInitial: '-10vh',  yFinal: RUNWAY_Y, rotate:   8 },
 };
 
 const TRAVEL_DURATION = 2800;
+const RUNWAY_LIGHT_COUNT = 12;
+
+// ─── Sideways runway strip ────────────────────────────────────────────────────
+// Horizontal runway visible during takeoff and descent transitions.
+// The plane flies left-to-right across this runway, which is the correct
+// geometry (left-right plane motion, left-right runway orientation).
+
+function SidewaysRunway({ animate }: { animate: boolean }) {
+  return (
+    <div
+      className="absolute bottom-0 left-0 right-0 pointer-events-none"
+      style={{ height: 88, zIndex: 8 }}
+      aria-hidden
+    >
+      <svg
+        viewBox="0 0 1440 88"
+        width="100%"
+        height="88"
+        preserveAspectRatio="none"
+        style={{ display: 'block' }}
+        aria-hidden
+      >
+        <defs>
+          <filter id="rwy-glow" x="-150%" y="-150%" width="400%" height="400%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* Upper grass */}
+        <rect x="0" y="0" width="1440" height="18" fill="#0A1A0E" />
+        {/* Tarmac surface */}
+        <rect x="0" y="18" width="1440" height="52" fill="#101C26" />
+        {/* Lower ground */}
+        <rect x="0" y="70" width="1440" height="18" fill="#0A1810" />
+
+        {/* Tarmac edge lines */}
+        <line x1="0" y1="18.5" x2="1440" y2="18.5" stroke="rgba(255,255,255,0.24)" strokeWidth="1.5" />
+        <line x1="0" y1="69.5" x2="1440" y2="69.5" stroke="rgba(255,255,255,0.24)" strokeWidth="1.5" />
+
+        {/* Centerline dashes */}
+        {Array.from({ length: 20 }, (_, i) => (
+          <rect key={i} x={i * 72 + 8} y="43" width="36" height="2.5" fill="rgba(255,255,255,0.36)" rx="1" />
+        ))}
+
+        {/* Left threshold markings */}
+        {[0, 1, 2, 3, 4].map(i => (
+          <rect key={i} x={10 + i * 14} y="22" width="9" height="36" fill="rgba(255,255,255,0.22)" rx="0.5" />
+        ))}
+
+        {/* Right threshold markings */}
+        {[0, 1, 2, 3, 4].map(i => (
+          <rect key={i} x={1360 + i * 14} y="22" width="9" height="36" fill="rgba(255,255,255,0.22)" rx="0.5" />
+        ))}
+
+        {/* Edge lights */}
+        <g filter="url(#rwy-glow)">
+          {Array.from({ length: RUNWAY_LIGHT_COUNT }, (_, i) => {
+            const cx = 20 + (i / (RUNWAY_LIGHT_COUNT - 1)) * 1400;
+            return (
+              <g key={i}>
+                <circle
+                  cx={cx} cy="14" r="3.5" fill="#FFA226"
+                  className={animate ? 'runway-edge-light' : undefined}
+                  style={{ animationDelay: `-${(i * 0.17) % 1.9}s` }}
+                />
+                <circle
+                  cx={cx} cy="74" r="3.5" fill="#FFA226"
+                  className={animate ? 'runway-edge-light' : undefined}
+                  style={{ animationDelay: `-${((i * 0.17) + 0.09) % 1.9}s` }}
+                />
+              </g>
+            );
+          })}
+        </g>
+      </svg>
+    </div>
+  );
+}
 
 export function FlightTransitionOverlay({
   from,
@@ -45,11 +130,7 @@ export function FlightTransitionOverlay({
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
   const cfg = LEG_CONFIG[leg];
-
-  // Descent depth tracks altitudeTo: higher altitude = modest drop, near-zero = close to ground.
-  // 16vh at altitudeTo=1.0, 48vh at altitudeTo=0 (touches ground line).
-  const descentYFinal  = leg === 'descent' ? `${16 + Math.round((1 - altitudeTo) * 32)}vh` : cfg.yFinal;
-  const descentRotate  = leg === 'descent' ? 6 + Math.round((1 - altitudeTo) * 5) : cfg.rotate;
+  const showRunway = leg === 'takeoff' || leg === 'descent';
 
   useEffect(() => {
     const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3000);
@@ -87,6 +168,11 @@ export function FlightTransitionOverlay({
         />
       )}
 
+      {/* Sideways runway strip — only for takeoff and descent legs */}
+      {showRunway && (
+        <SidewaysRunway animate={!prefersReducedMotion} />
+      )}
+
       {/* Plane — constant linear travel; child handles cruise bob */}
       {!prefersReducedMotion && (
         <div
@@ -95,9 +181,9 @@ export function FlightTransitionOverlay({
         >
           <motion.div
             className="absolute"
-            style={{ top: '32%', left: 0, marginTop: '-4rem', rotate: descentRotate }}
+            style={{ top: '32%', left: 0, marginTop: '-4rem', rotate: cfg.rotate }}
             initial={{ x: '-20vw', y: cfg.yInitial }}
-            animate={{ x: '110vw',  y: descentYFinal }}
+            animate={{ x: '110vw',  y: cfg.yFinal }}
             transition={{ duration: TRAVEL_DURATION / 1000, ease: 'linear' }}
           >
             <div
