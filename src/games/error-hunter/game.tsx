@@ -31,7 +31,7 @@ interface RaceSolver {
   position: number;
 }
 
-export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
+export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, isMicroEvent }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [words, setWords] = useState<WordData[]>([]);
@@ -588,12 +588,19 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
               </div>
             )}
 
-            <button
-              onClick={handleNewRound}
-              className="w-full py-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl font-game text-lg text-white hover:scale-[1.02] active:scale-95 transition-all"
-            >
-              NEW PARAGRAPH
-            </button>
+            {isMicroEvent ? (
+              <div className="glass p-4 rounded-xl text-center">
+                <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+                <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+              </div>
+            ) : (
+              <button
+                onClick={handleNewRound}
+                className="w-full py-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl font-game text-lg text-white hover:scale-[1.02] active:scale-95 transition-all"
+              >
+                NEW PARAGRAPH
+              </button>
+            )}
           </motion.div>
         )}
       </div>
@@ -831,20 +838,27 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
             )}
           </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={handleNewRound}
-              className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
-            >
-              NEW PARAGRAPH
-            </button>
-            <button
-              onClick={handleSameChallenge}
-              className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30"
-            >
-              SAME TEXT, NEW STUDENT
-            </button>
-          </div>
+          {isMicroEvent ? (
+            <div className="glass p-4 rounded-xl text-center">
+              <p className="text-sm text-emerald-400 font-bold">Round complete</p>
+              <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
+            </div>
+          ) : (
+            <div className="flex gap-3">
+              <button
+                onClick={handleNewRound}
+                className="flex-1 py-4 glass hover:bg-white/10 rounded-xl font-game transition-all border border-white/10"
+              >
+                NEW PARAGRAPH
+              </button>
+              <button
+                onClick={handleSameChallenge}
+                className="flex-1 py-4 bg-cyan-500/20 text-cyan-300 rounded-xl font-game transition-all border border-cyan-500/30 hover:bg-cyan-500/30"
+              >
+                SAME TEXT, NEW STUDENT
+              </button>
+            </div>
+          )}
         </motion.div>
       )}
     </div>

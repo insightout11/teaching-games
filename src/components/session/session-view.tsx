@@ -1352,7 +1352,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onGoToSlot={lesson.goToSlot}
             >
               <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
-                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} />
+                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} />
               </ModuleErrorBoundary>
             </FlightSessionView>
           ) : (
@@ -1422,7 +1422,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
             <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
-              <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} />
+              <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} />
             </ModuleErrorBoundary>
           </div>
           )
@@ -1448,6 +1448,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
                     onPhaseChange={lesson.isLessonActive ? handleActivityPhaseChange : undefined}
                     onContentRegenerate={handleContentRegenerate}
+                    isMicroEvent={lesson.currentSlot?.isMicroEvent}
                   />
                 </ModuleErrorBoundary>
               ) : activityContentFailed ? (
@@ -1548,6 +1549,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
                   onPhaseChange={lesson.isLessonActive ? handleActivityPhaseChange : undefined}
                   onContentRegenerate={handleContentRegenerate}
+                  isMicroEvent={lesson.currentSlot?.isMicroEvent}
                 />
               </ModuleErrorBoundary>
             ) : activityContentFailed ? (

@@ -44,6 +44,8 @@ export interface GameProps {
   prefsMap?: Map<string, { score_visible: boolean }>;
   // Race-mode games call this to show the top-3 overlay on the teacher's screen.
   onRevealTopSubmissions?: (submissions: TopSubmission[]) => void;
+  // When true, the game is a flight-plan micro-event and must stop after exactly one round
+  isMicroEvent?: boolean;
 }
 
 export interface GameConfigField {

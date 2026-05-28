@@ -37,8 +37,6 @@ import { listeningGapFillPlugin } from './listening-gap-fill';
 import { cabinMysteryPlugin } from './cabin-mystery';
 import { contributionBreakPlugin } from './contribution-break';
 import { languageToolkitPlugin } from './language-toolkit';
-import { opinionMicroPlugin } from './opinion-micro';
-import { accuracyMicroPlugin } from './accuracy-micro';
 import { decisionCouncilPlugin } from './decision-council';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
@@ -79,8 +77,6 @@ const activities: ActivityPlugin[] = [
   cabinMysteryPlugin,
   contributionBreakPlugin,
   languageToolkitPlugin,
-  opinionMicroPlugin,
-  accuracyMicroPlugin,
   // Closing activities
   finalAnswerPlugin,
   opinionShiftPlugin,

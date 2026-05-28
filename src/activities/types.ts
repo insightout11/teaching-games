@@ -61,6 +61,8 @@ export interface ActivityProps {
   classMission?: string | null;
   // Takeoff activities call this after content regeneration to update the shell's content map
   onContentRegenerate?: (updatedContent: Record<string, ActivityGeneratedContent>) => void;
+  // When true, the activity is a flight-plan micro-event and must stop after exactly one round
+  isMicroEvent?: boolean;
 }
 
 // Remote vote received from a student device
@@ -698,27 +700,6 @@ export interface GrammarProofContent extends ActivityGeneratedContent {
 export interface ContributionBreakContent extends ActivityGeneratedContent {
   activityKey: 'contribution-break';
   prompt: string;
-}
-
-// Opinion Micro content (flight-plan-only: one dilemma, one vote, done)
-export interface OpinionMicroContent extends ActivityGeneratedContent {
-  activityKey: 'opinion-micro';
-  topicContext: string;
-  dilemma: {
-    optionA: string;
-    optionB: string;
-    discussionPrompt: string;
-  };
-}
-
-// Accuracy Micro content (flight-plan-only: one sentence, one vote, reveal, done)
-export interface AccuracyMicroContent extends ActivityGeneratedContent {
-  activityKey: 'accuracy-micro';
-  topicContext: string;
-  sentence: string;           // sentence containing one error (shown as option A)
-  correctedSentence: string;  // fixed version (shown as option B)
-  errorType: string;          // e.g. "subject-verb agreement"
-  explanation: string;        // one sentence explaining the error
 }
 
 // Decision Council content

@@ -12,6 +12,7 @@ export function WouldYouRatherActivity({
   customTopic,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  isMicroEvent,
 }: ActivityProps) {
   const content = generatedContent as WouldYouRatherContent;
 
@@ -130,7 +131,7 @@ export function WouldYouRatherActivity({
   }, [currentDilemma, content, voteStats, onContinue, onPhaseChange]);
 
   const nextDilemma = useCallback(() => {
-    if (currentDilemmaIndex < content.dilemmas.length - 1) {
+    if (!isMicroEvent && currentDilemmaIndex < content.dilemmas.length - 1) {
       setCurrentDilemmaIndex((prev) => prev + 1);
       setVotes([]);
       setFollowUpQuestion(null);
@@ -140,7 +141,7 @@ export function WouldYouRatherActivity({
       setStatus(ActivityStatus.FINISHED);
       onPhaseChange?.('finished');
     }
-  }, [currentDilemmaIndex, content.dilemmas.length, onPhaseChange]);
+  }, [isMicroEvent, currentDilemmaIndex, content.dilemmas.length, onPhaseChange]);
 
   const restartActivity = useCallback(() => {
     setCurrentDilemmaIndex(0);
@@ -160,9 +161,11 @@ export function WouldYouRatherActivity({
             <p className="text-xs opacity-60">Topic: {customTopic}</p>
           )}
         </div>
-        <div className="text-sm opacity-60">
-          {currentDilemmaIndex + 1} / {content.dilemmas.length}
-        </div>
+        {!isMicroEvent && (
+          <div className="text-sm opacity-60">
+            {currentDilemmaIndex + 1} / {content.dilemmas.length}
+          </div>
+        )}
       </div>
 
       {/* IDLE State */}
@@ -314,7 +317,7 @@ export function WouldYouRatherActivity({
               onClick={nextDilemma}
               className="px-8 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
-              {currentDilemmaIndex < content.dilemmas.length - 1 ? 'NEXT DILEMMA' : 'FINISH'}
+              {(!isMicroEvent && currentDilemmaIndex < content.dilemmas.length - 1) ? 'NEXT DILEMMA' : 'FINISH'}
             </button>
           </div>
         </motion.div>
@@ -366,7 +369,7 @@ export function WouldYouRatherActivity({
                 onClick={nextDilemma}
                 className="px-8 py-3 bg-gradient-to-r from-lc-blue to-blue-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
               >
-                {currentDilemmaIndex < content.dilemmas.length - 1 ? 'NEXT DILEMMA' : 'FINISH'}
+                {(!isMicroEvent && currentDilemmaIndex < content.dilemmas.length - 1) ? 'NEXT DILEMMA' : 'FINISH'}
               </button>
             </div>
           )}

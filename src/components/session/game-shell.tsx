@@ -21,9 +21,10 @@ interface GameShellProps {
   preGeneratedContent?: GameGeneratedContent | null;
   timerSeconds: number;
   onRevealTopSubmissions?: (submissions: TopSubmission[]) => void;
+  isMicroEvent?: boolean;
 }
 
-export function GameShell({ game, config, preGeneratedContent, timerSeconds, onRevealTopSubmissions }: GameShellProps) {
+export function GameShell({ game, config, preGeneratedContent, timerSeconds, onRevealTopSubmissions, isMicroEvent }: GameShellProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const sessionId = useSessionStore((s) => s.sessionId);
   const students = useSessionStore((s) => s.students);
@@ -421,6 +422,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
                   onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
                   prefsMap={prefsMap}
                   onRevealTopSubmissions={onRevealTopSubmissionsRef.current}
+                  isMicroEvent={isMicroEvent}
                 />
               )}
             </div>

@@ -27,9 +27,10 @@ interface ActivityShellProps {
   timerSeconds: number;
   onPhaseChange?: (phase: string) => void;
   onContentRegenerate?: (updatedContent: Record<string, ActivityGeneratedContent>) => void;
+  isMicroEvent?: boolean;
 }
 
-export function ActivityShell({ activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange, onContentRegenerate }: ActivityShellProps) {
+export function ActivityShell({ activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange, onContentRegenerate, isMicroEvent }: ActivityShellProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const sessionId = useSessionStore((s) => s.sessionId);
   const students = useSessionStore((s) => s.students);
@@ -382,6 +383,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
               characterAssignments={characterAssignments}
               onLandingAnswer={handleLandingAnswer}
               onContentRegenerate={onContentRegenerate}
+              isMicroEvent={isMicroEvent}
             />
           </div>
         </div>
