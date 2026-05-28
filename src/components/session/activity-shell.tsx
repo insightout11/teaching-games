@@ -15,7 +15,6 @@ import type {
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { Score } from '@/lib/supabase/types';
 import { Leaderboard } from './leaderboard';
-import { DealCardsPanel } from './deal-cards-panel';
 import { ApprovalQueue } from './approval-queue';
 import { MissionControlSummary } from './mission-control-summary';
 import type { StudentSubmission } from '@/lib/supabase/types';
@@ -340,9 +339,9 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full">
       {/* Main activity area */}
-      <div className="lg:col-span-3 space-y-4">
+      <div className="min-w-0 space-y-4">
         <div className="glass rounded-2xl min-h-[480px] max-h-[680px] flex flex-col overflow-hidden">
           <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.06] shrink-0">
             <div className="flex items-center gap-3">
@@ -404,7 +403,6 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       {/* Sidebar */}
       <div className="space-y-4">
         <Leaderboard displayMode={activity.scoringProfile?.displayMode ?? 'class'} />
-        {sessionId && <DealCardsPanel sessionId={sessionId} moduleKey={activity.key} />}
         {sessionId && (
           <ApprovalQueue
             sessionId={sessionId}
@@ -413,6 +411,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
             onSpotlight={handleSpotlight}
             hideContent
             autoApprove={autoApprove}
+            showPanel={false}
           />
         )}
       </div>

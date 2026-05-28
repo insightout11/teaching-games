@@ -12,9 +12,18 @@ interface ApprovalQueueProps {
   onSpotlight?: (submission: StudentSubmission) => Promise<void>;
   hideContent?: boolean;
   autoApprove?: boolean;
+  showPanel?: boolean;
 }
 
-export function ApprovalQueue({ sessionId, gameKey, onApprove, onSpotlight, hideContent, autoApprove }: ApprovalQueueProps) {
+export function ApprovalQueue({
+  sessionId,
+  gameKey,
+  onApprove,
+  onSpotlight,
+  hideContent,
+  autoApprove,
+  showPanel = true,
+}: ApprovalQueueProps) {
   const { pending, approve, reject, setError, isLoading } = useApprovalQueue(sessionId);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -63,8 +72,8 @@ export function ApprovalQueue({ sessionId, gameKey, onApprove, onSpotlight, hide
     }
   }, [onApprove, onSpotlight, setError]);
 
-  if (autoApprove) {
-    // Silent processor — no UI shown, but auto-approval useEffect fires above
+  if (autoApprove || !showPanel) {
+    // Silent processor: keep auto-approval side effects mounted without projecting the private review UI.
     return null;
   }
 

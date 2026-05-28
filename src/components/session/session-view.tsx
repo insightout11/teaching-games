@@ -1,10 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { useSessionStore, getEffectiveTopic, DIFFICULTIES } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
-import { GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
-import type { GrammarTarget } from '@/lib/grammar';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
 import { GameShell } from './game-shell';
@@ -38,7 +36,7 @@ import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
-import { Maximize2, Minimize2 } from 'lucide-react';
+import { ExternalLink, Maximize2, Minimize2, QrCode, Settings, Smartphone } from 'lucide-react';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -179,7 +177,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const initSession = useSessionStore((s) => s.initSession);
   const settings = useSessionStore((s) => s.settings);
   const setSettings = useSessionStore((s) => s.setSettings);
-  const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
   const addStudent = useSessionStore((s) => s.addStudent);
   const [viewMode, setViewMode] = useState<ViewMode>('selection');
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
@@ -902,6 +899,41 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </div>
                 </div>
 
+                <div className="glass rounded-2xl p-5 flex-shrink-0">
+                  <p className="text-xs opacity-50 uppercase tracking-wider font-semibold mb-3">Teacher Device</p>
+                  <div className="flex items-center gap-3">
+                    <div className="shrink-0 rounded-xl bg-white p-2">
+                      <QRCodeSVG value={cockpitUrl} size={72} level="H" includeMargin={false} />
+                    </div>
+                    <div className="min-w-0 flex-1 space-y-2">
+                      <p className="text-sm font-semibold text-lc-text">Open cockpit before launch</p>
+                      <p className="text-xs text-lc-text3 leading-snug">Private controls require the class owner login.</p>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')}
+                          className="min-h-9 rounded-lg border border-violet-400/25 bg-violet-400/10 px-3 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
+                        >
+                          <span className="inline-flex items-center gap-1.5">
+                            <ExternalLink className="h-3.5 w-3.5" />
+                            Open
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowCockpitQr(true)}
+                          className="min-h-9 rounded-lg border border-violet-400/25 bg-violet-400/10 px-3 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
+                        >
+                          <span className="inline-flex items-center gap-1.5">
+                            <QrCode className="h-3.5 w-3.5" />
+                            QR
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {lesson.lessonSlots.length > 1 && (
                   <div className="glass rounded-2xl p-5 flex-shrink-0">
                     <h2 className="text-xs font-semibold opacity-70 uppercase tracking-wider mb-3">Flight Plan</h2>
@@ -1030,58 +1062,66 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </p>
           </div>
           <div className="flex items-center gap-2">
-            {/* Visible level + grammar chips during gameplay */}
-            {viewMode !== 'selection' && (
-              <>
-                <select
-                  value={settings.difficulty}
-                  onChange={(e) => setSettings({ difficulty: e.target.value as Difficulty })}
-                  className="text-xs font-semibold bg-lc-card border border-lc-border rounded-lg px-2 py-1 outline-none cursor-pointer"
-                >
-                  {DIFFICULTIES.map((d) => <option key={d} value={d}>{d}</option>)}
-                </select>
-                <select
-                  value={settings.grammarTarget ?? ''}
-                  onChange={(e) => setGrammarTarget(e.target.value ? e.target.value as GrammarTarget : null)}
-                  className="text-xs font-semibold bg-lc-card border border-lc-border rounded-lg px-2 py-1 outline-none cursor-pointer"
-                >
-                  <option value="">Grammar: Any</option>
-                  {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
-                    <optgroup key={group} label={group}>
-                      {targets.map((t) => <option key={t} value={t}>{t}</option>)}
-                    </optgroup>
-                  ))}
-                </select>
-              </>
-            )}
-            {/* Gear icon for settings during gameplay */}
             {viewMode !== 'selection' && (
               <div className="relative" ref={settingsPopoverRef}>
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => setShowSettingsPopover(!showSettingsPopover)}
-                  className="p-1.5 rounded-lg hover:bg-lc-card transition-colors"
-                  title="Session settings"
+                  className="gap-2 text-lc-text2 hover:text-lc-text"
+                  title="Teacher tools and session settings"
                 >
-                  <svg className="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </button>
+                  <Settings className="w-4 h-4" />
+                  <span className="hidden xl:inline">Teacher Tools</span>
+                </Button>
                 {showSettingsPopover && (
-                  <div className="absolute right-0 top-full mt-2 z-50 glass rounded-xl p-3 shadow-xl border border-lc-border min-w-[320px]">
-                    <SessionSettingsBar />
+                  <div className="absolute right-0 top-full mt-2 z-50 w-[min(92vw,430px)] glass rounded-2xl p-4 shadow-xl border border-lc-border space-y-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wider text-lc-text3">Teacher Tools</p>
+                      <p className="mt-1 text-sm text-lc-text2">
+                        {settings.difficulty} - Grammar: {settings.grammarTarget ?? 'Any'}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-lc-border/70 bg-lc-surface/70 p-3 overflow-x-auto">
+                      <SessionSettingsBar />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')}
+                        className="min-h-11 rounded-xl border border-violet-400/25 bg-violet-400/10 px-3 text-sm font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          <Smartphone className="h-4 w-4" />
+                          Open Cockpit
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowCockpitQr(true)}
+                        className="min-h-11 rounded-xl border border-violet-400/25 bg-violet-400/10 px-3 text-sm font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          <QrCode className="h-4 w-4" />
+                          Cockpit QR
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
             )}
-            <Button
-              variant="ghost"
-              size="sm"
+            <button
+              type="button"
               onClick={() => setShowQrModal(true)}
-              className="text-cyan-400 hover:text-cyan-300"
+              className="flex min-h-9 items-center gap-2 rounded-xl border border-cyan-400/20 bg-cyan-400/10 px-2.5 text-sm font-semibold text-cyan-200 transition-colors hover:bg-cyan-400/15"
+              title="Show student join QR"
             >
-              Show QR
-            </Button>
+              <span className="rounded bg-white p-0.5">
+                <QRCodeSVG value={joinUrl} size={24} bgColor="#ffffff" fgColor="#0f172a" includeMargin={false} />
+              </span>
+              <span className="hidden lg:inline">Join QR</span>
+            </button>
             <Button
               variant="ghost"
               size="sm"
@@ -1090,24 +1130,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               title={isFullScreen ? 'Exit Full Screen (Esc)' : 'Full Screen — hide sidebar for more space'}
             >
               {isFullScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')}
-              className="text-violet-400 hover:text-violet-300"
-              title="Open Teacher Cockpit"
-            >
-              Cockpit ↗
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowCockpitQr(true)}
-              className="text-violet-400 hover:text-violet-300"
-              title="Show Teacher Cockpit QR"
-            >
-              Cockpit QR
             </Button>
             <Button variant="danger" size="sm" onClick={handleEndSession}>
               End Session

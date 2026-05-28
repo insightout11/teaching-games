@@ -10,7 +10,6 @@ import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import { Leaderboard } from './leaderboard';
-import { DealCardsPanel } from './deal-cards-panel';
 import { SpinWheel, ModifierBadge } from './spin-wheel';
 import { ApprovalQueue } from './approval-queue';
 import { TeamTotals } from './team-totals';
@@ -383,9 +382,9 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       {/* Spin Wheel Modal */}
       <SpinWheel />
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full">
         {/* Main game area */}
-        <div className="lg:col-span-3 space-y-4">
+        <div className="min-w-0 space-y-4">
           <div className="glass rounded-2xl min-h-[480px] max-h-[680px] flex flex-col overflow-hidden">
             <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.06] shrink-0">
               <div className="flex items-center gap-3">
@@ -432,7 +431,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
         {/* Sidebar */}
         <div className="space-y-4">
           <Leaderboard displayMode={game.scoringProfile?.displayMode ?? 'competitive'} />
-          {sessionId && <DealCardsPanel sessionId={sessionId} moduleKey={game.key} />}
           <TeamTotals />
           {sessionId && (
             <ApprovalQueue
@@ -441,6 +439,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
               onApprove={handleApprovedSubmission}
               hideContent
               autoApprove={autoApprove}
+              showPanel={false}
             />
           )}
         </div>
