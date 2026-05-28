@@ -58,6 +58,39 @@ function getBriefingOptionBadge(option: SourceBriefingOption) {
   return BRIEFING_MODE_LABEL[option.mode];
 }
 
+function getBriefingOptionTypeBadge(option: SourceBriefingOption) {
+  if (option.id === 'recommended') return BRIEFING_MODE_LABEL[option.mode];
+  if (option.id === 'source-excerpt') return null;
+  return null;
+}
+
+function getBriefingOptionExplanation(option: SourceBriefingOption) {
+  if (option.id === 'source-excerpt') {
+    return 'Original wording from the upload. Choose this if you want students to read the source more directly.';
+  }
+
+  if (option.id === 'recommended') {
+    if (option.mode === 'exact') {
+      return 'Best classroom choice. Uses the original uploaded wording with cleanup only.';
+    }
+    if (option.mode === 'excerpt') {
+      return 'Best classroom choice. A selected section from the original upload, shortened for the briefing.';
+    }
+    if (option.mode === 'adapted') {
+      return 'Best classroom choice. Rewritten for student readability while staying grounded in the upload.';
+    }
+    return 'Best classroom choice. Generated from the uploaded source details when no clean passage was available.';
+  }
+
+  if (option.mode === 'excerpt' || option.mode === 'exact') {
+    return 'A shorter original section from the uploaded source.';
+  }
+  if (option.mode === 'adapted') {
+    return 'Adapted for student readability while preserving the source content.';
+  }
+  return 'Generated from the uploaded source details.';
+}
+
 function withGeneratedOption(material: SourceMaterial): SourceBriefingOption[] {
   const existing = Array.isArray(material.briefingOptions)
     ? material.briefingOptions.filter((option) => option.text?.trim().length > 0)
@@ -263,50 +296,62 @@ export function SourceInputPanel() {
 
         <div className="px-4 pb-4 pt-3 space-y-3">
           {pendingSource ? (
-            <div className="space-y-3">
-              <div className="rounded-lg border border-lc-blue/30 bg-lc-blue/10 p-3">
+            <div className="space-y-4">
+              <div className="border-b border-lc-border pb-3">
                 <p className="text-xs font-semibold text-lc-blue uppercase tracking-wide">Review Captain&apos;s Briefing</p>
-                <p className="mt-1 text-sm font-medium text-lc-text">{pendingSource.title}</p>
+                <p className="mt-1 text-base font-semibold text-lc-text">{pendingSource.title}</p>
                 <p className="mt-1 text-xs text-lc-text3 leading-relaxed">
-                  Review and edit the text students will read in the briefing.
+                  Choose the reading version students will see, then edit the final text if needed.
                 </p>
               </div>
 
-              <div className="grid gap-2">
-                {(pendingSource.briefingOptions ?? []).map((option) => {
-                  const selected = selectedBriefingOptionId === option.id;
-                  const words = option.wordCount ?? countWords(option.text);
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      onClick={() => applyBriefingOption(option)}
-                      className={`rounded-lg border p-3 text-left transition-colors ${
-                        selected
-                          ? 'border-lc-blue bg-lc-blue/10'
-                          : 'border-lc-border bg-lc-bg hover:border-lc-blue/40'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <p className="text-sm font-semibold text-lc-text">{getBriefingOptionLabel(option)}</p>
-                          {option.description && (
-                            <p className="mt-0.5 text-xs text-lc-text3">{option.description}</p>
-                          )}
+              <div className="ml-3 space-y-2 border-l border-lc-blue/20 pl-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-lc-text2">Reading options</p>
+                <div className="grid gap-2">
+                  {(pendingSource.briefingOptions ?? []).map((option) => {
+                    const selected = selectedBriefingOptionId === option.id;
+                    const words = option.wordCount ?? countWords(option.text);
+                    const typeBadge = getBriefingOptionTypeBadge(option);
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        onClick={() => applyBriefingOption(option)}
+                        className={`rounded-lg border p-3 text-left transition-colors ${
+                          selected
+                            ? 'border-lc-blue bg-lc-blue/10 shadow-[inset_3px_0_0_rgba(59,130,246,0.9)]'
+                            : 'border-lc-border/80 bg-lc-bg/70 hover:border-lc-blue/40 hover:bg-lc-bg'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-lc-text">{getBriefingOptionLabel(option)}</p>
+                            <p className="mt-1 text-xs text-lc-text2 leading-relaxed">{getBriefingOptionExplanation(option)}</p>
+                            {option.description && (
+                              <p className="mt-1 text-xs text-lc-text3">{option.description}</p>
+                            )}
+                          </div>
+                          <div className="flex shrink-0 flex-col items-end gap-1">
+                            <span className="rounded-full bg-lc-blue/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-blue">
+                              {getBriefingOptionBadge(option)}
+                            </span>
+                            {typeBadge && (
+                              <span className="rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
+                                {typeBadge}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <span className="shrink-0 rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
-                          {getBriefingOptionBadge(option)}
-                        </span>
-                      </div>
-                      <p className="mt-2 text-xs text-lc-text3">
-                        {words} words - ~{estimateReadMinutes(words)} min read
-                      </p>
-                    </button>
-                  );
-                })}
+                        <p className="mt-2 text-xs text-lc-text3">
+                          {words} words - ~{estimateReadMinutes(words)} min read
+                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2 border-t border-lc-border pt-3">
                 <div className="flex items-center justify-between gap-2">
                   <label htmlFor="briefing-review-text" className="text-xs font-semibold uppercase tracking-wide text-lc-text2">
                     Briefing text
