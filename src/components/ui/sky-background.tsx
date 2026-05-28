@@ -354,76 +354,6 @@ const CITY_LIGHTS_SKY: Array<{ x: number; y: number; r: number }> = [
   { x: 1412, y: 126, r: 2.0 }, { x: 1425, y: 122, r: 1.8 },
 ];
 
-// ─── Terrain mid-layer ───────────────────────────────────────────────────────
-// Sits between earth (z=3) and far clouds (z=4). Mountain silhouette for
-// high-altitude/cruise states; city skyline silhouette for climbing/landing.
-// Uses the same seamless-loop CSS animation pattern as the cloud layers.
-
-// viewBox "0 0 1440 200", ground at y=200. Start y≈183, end y≈183 → seamless tile.
-const MOUNTAIN_PATH =
-  'M 0 200 L 0 183 Q 65 176 130 168 Q 175 161 220 150 Q 265 138 302 124 ' +
-  'Q 338 110 368 96 Q 395 83 416 87 Q 440 91 468 95 Q 498 99 525 88 ' +
-  'Q 552 77 578 67 Q 605 57 630 53 Q 657 49 680 58 Q 705 67 730 70 ' +
-  'Q 758 73 788 62 Q 814 51 835 45 Q 858 39 882 43 Q 906 49 932 55 ' +
-  'Q 958 61 982 67 Q 1006 73 1028 67 Q 1050 61 1073 55 Q 1096 47 1118 55 ' +
-  'Q 1142 65 1166 78 Q 1192 92 1218 106 Q 1245 120 1270 132 ' +
-  'Q 1296 144 1320 154 Q 1346 164 1380 172 Q 1408 178 1440 181 L 1440 200 Z';
-
-// viewBox "0 0 1440 200", ground at y=200. Angular city profile; start≈y172, end≈y170.
-const SKYLINE_PATH =
-  'M 0 200 L 0 172 L 28 172 L 28 158 L 48 158 L 48 142 L 65 142 L 65 120 ' +
-  'L 80 120 L 80 104 L 95 104 L 95 88 L 108 88 L 108 72 L 120 72 ' +
-  'L 120 88 L 132 88 L 132 102 L 148 102 L 148 118 L 165 118 L 165 135 ' +
-  'L 182 135 L 182 148 L 210 148 L 210 158 L 240 158 L 240 148 L 262 148 ' +
-  'L 262 132 L 280 132 L 280 148 L 300 148 L 300 160 L 330 160 L 330 168 ' +
-  'L 362 168 L 362 155 L 385 155 L 385 138 L 402 138 L 402 118 L 418 118 ' +
-  'L 418 98 L 432 98 L 432 80 L 445 80 L 445 68 L 458 68 L 458 80 ' +
-  'L 470 80 L 470 95 L 485 95 L 485 112 L 502 112 L 502 128 L 522 128 ' +
-  'L 522 142 L 548 142 L 548 155 L 575 155 L 575 162 L 608 162 L 608 150 ' +
-  'L 632 150 L 632 132 L 650 132 L 650 115 L 668 115 L 668 98 L 682 98 ' +
-  'L 682 82 L 695 82 L 695 68 L 708 68 L 708 82 L 720 82 L 720 95 ' +
-  'L 736 95 L 736 110 L 752 110 L 752 125 L 772 125 L 772 140 L 795 140 ' +
-  'L 795 155 L 825 155 L 825 162 L 855 162 L 855 152 L 878 152 L 878 138 ' +
-  'L 895 138 L 895 122 L 912 122 L 912 108 L 928 108 L 928 122 L 945 122 ' +
-  'L 945 138 L 962 138 L 962 152 L 988 152 L 988 162 L 1018 162 L 1018 152 ' +
-  'L 1042 152 L 1042 135 L 1062 135 L 1062 118 L 1080 118 L 1080 100 ' +
-  'L 1095 100 L 1095 82 L 1110 82 L 1110 68 L 1124 68 L 1124 82 ' +
-  'L 1136 82 L 1136 98 L 1150 98 L 1150 115 L 1165 115 L 1165 130 ' +
-  'L 1182 130 L 1182 145 L 1202 145 L 1202 158 L 1228 158 L 1228 162 ' +
-  'L 1258 162 L 1258 152 L 1280 152 L 1280 138 L 1298 138 L 1298 122 ' +
-  'L 1315 122 L 1315 112 L 1332 112 L 1332 128 L 1350 128 L 1350 142 ' +
-  'L 1368 142 L 1368 155 L 1392 155 L 1392 162 L 1420 162 L 1420 170 ' +
-  'L 1440 170 L 1440 200 Z';
-
-function TerrainMidLayer({ kind, drifts }: { kind: 'mountains' | 'skyline'; drifts: boolean }) {
-  const path = kind === 'mountains' ? MOUNTAIN_PATH : SKYLINE_PATH;
-  return (
-    <div
-      className={drifts ? 'terrain-layer' : undefined}
-      style={{ position: 'absolute', bottom: 0, left: 0, width: '200vw', height: '200px' }}
-    >
-      {([0, 1] as const).map((i) => (
-        <svg
-          key={i}
-          viewBox="0 0 1440 200"
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: i === 0 ? 0 : '100vw',
-            width: '100vw',
-            height: '200px',
-            display: 'block',
-          }}
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          <path d={path} fill="#040C18" />
-        </svg>
-      ))}
-    </div>
-  );
-}
-
 // ─── Earth layer ─────────────────────────────────────────────────────────────
 
 function EarthLayer({ earthState, weatherState }: { earthState: EarthState; weatherState: WeatherState }) {
@@ -675,16 +605,6 @@ export function SkyBackground({
   const earthX     = (earthState === 'flight' && weatherState === 'climbing') ? altitude * 50 : 0;
   const earthXInit = (earthState === 'flight' && weatherState === 'climbing') ? altInit  * 50 : 0;
 
-  // Terrain mid-layer — silhouette between ground and far clouds
-  const terrainKind: 'mountains' | 'skyline' =
-    (weatherState === 'climbing' || weatherState === 'landing') ? 'skyline' : 'mountains';
-  // Fades as plane climbs above it; fully visible on ground, gone by cruise altitude
-  const terrainOpacity  = Math.max(0, (0.82 - altitude * 1.05) * mult);
-  const terrainShift    = altitude * 88 * parallaxScale;
-  const terrainShiftInit = altInit * 88 * parallaxScale;
-  // Only drift horizontally when airborne
-  const terrainDrifts = earthState === 'flight';
-
   // Sun disk baked into horizon gradient — only for ground states (takeoff=left, landing=right)
   const showSun   = earthState === 'takeoff' || earthState === 'landing';
   const sunX      = earthState === 'landing' ? '82%' : '18%';
@@ -750,17 +670,6 @@ export function SkyBackground({
         transition={{ duration: parallaxDuration, ease: parallaxEase }}
       >
         <EarthLayer earthState={earthState} weatherState={weatherState} />
-      </motion.div>
-
-      {/* Terrain mid-layer — mountains/skyline silhouette above ground, below clouds */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ zIndex: 3 }}
-        initial={{ y: terrainShiftInit, opacity: terrainOpacity }}
-        animate={{ y: terrainShift, opacity: terrainOpacity }}
-        transition={{ duration: parallaxDuration, ease: parallaxEase }}
-      >
-        <TerrainMidLayer kind={terrainKind} drifts={terrainDrifts} />
       </motion.div>
 
       {/* Far layer */}
