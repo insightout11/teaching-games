@@ -237,7 +237,17 @@ function getStepIcon(type: string, className: string) {
 
 type BgIds = { radarPulse: string; clipPath: string };
 
-function BackgroundLayer({ width, height, bgIds }: { width: number; height: number; bgIds: BgIds }) {
+function BackgroundLayer({
+  width,
+  height,
+  bgIds,
+  emphasized = false,
+}: {
+  width: number;
+  height: number;
+  bgIds: BgIds;
+  emphasized?: boolean;
+}) {
   const radarRings = buildRadarRings(width * 0.16, height * 0.8, [110, 170, 230, 290]);
 
   // At wide/short aspect ratios (session strip) the height-based gR is too small and the
@@ -253,10 +263,47 @@ function BackgroundLayer({ width, height, bgIds }: { width: number; height: numb
 
   return (
     <div className="absolute inset-0 overflow-hidden rounded-[28px]">
-      <div className="absolute inset-0 bg-[#07111f]" />
+      <motion.div
+        className="absolute inset-0 bg-[#07111f]"
+        animate={{ opacity: emphasized ? 0.82 : 0.48 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      />
+
+      <motion.div
+        className="absolute -inset-x-20 inset-y-0"
+        style={{
+          background:
+            'radial-gradient(circle at 25% 76%, rgba(49, 210, 145, 0.34), transparent 22%), radial-gradient(circle at 47% 34%, rgba(79, 220, 255, 0.26), transparent 30%), radial-gradient(circle at 76% 52%, rgba(103, 113, 255, 0.24), transparent 28%)',
+        }}
+        animate={{
+          opacity: emphasized ? 0.72 : 0.26,
+          x: emphasized ? ['-2%', '2%', '-2%'] : ['-1%', '1%', '-1%'],
+        }}
+        transition={{
+          opacity: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+          x: { duration: emphasized ? 8 : 14, repeat: Infinity, ease: 'easeInOut' },
+        }}
+      />
+
+      <motion.div
+        className="absolute inset-y-0 -left-1/3 w-2/3 rotate-[-9deg]"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent 0%, rgba(120, 245, 255, 0.10) 38%, rgba(132, 255, 197, 0.14) 50%, rgba(119, 147, 255, 0.10) 62%, transparent 100%)',
+          filter: 'blur(18px)',
+        }}
+        animate={{
+          opacity: emphasized ? 0.82 : 0.2,
+          x: emphasized ? ['-12%', '95%'] : ['-8%', '38%'],
+        }}
+        transition={{
+          opacity: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+          x: { duration: emphasized ? 7.5 : 18, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' },
+        }}
+      />
 
       <div
-        className="absolute inset-0 opacity-[0.11]"
+        className="absolute inset-0 opacity-[0.09] transition-opacity duration-500 group-hover/flightplan:opacity-[0.17] group-focus-within/flightplan:opacity-[0.17]"
         style={{
           backgroundImage: `
             linear-gradient(rgba(120,160,255,0.08) 1px, transparent 1px),
@@ -268,8 +315,10 @@ function BackgroundLayer({ width, height, bgIds }: { width: number; height: numb
         }}
       />
 
-      <div
+      <motion.div
         className="absolute inset-0"
+        animate={{ opacity: emphasized ? 1 : 0.62 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         style={{
           background:
             'radial-gradient(circle at 50% 18%, rgba(63, 139, 255, 0.16), transparent 30%), radial-gradient(circle at 18% 70%, rgba(71, 222, 255, 0.11), transparent 35%), radial-gradient(circle at 82% 24%, rgba(118, 92, 255, 0.10), transparent 28%)',
@@ -288,17 +337,24 @@ function BackgroundLayer({ width, height, bgIds }: { width: number; height: numb
         </defs>
 
         {/* Globe ocean */}
-        <circle cx={gcx} cy={gcy} r={gR} fill="#061525" opacity={0.95} />
+        <motion.circle
+          cx={gcx}
+          cy={gcy}
+          r={gR}
+          fill="#061525"
+          animate={{ opacity: emphasized ? 0.92 : 0.44 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        />
 
         {/* Left continent — departure side */}
-        <ellipse cx={lcx} cy={landY} rx={width * 0.088} ry={height * 0.088} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
-        <ellipse cx={lcx - width * 0.032} cy={landY - height * 0.04} rx={width * 0.048} ry={height * 0.058} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
-        <ellipse cx={lcx + width * 0.04} cy={landY + height * 0.05} rx={width * 0.055} ry={height * 0.048} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
+        <motion.ellipse cx={lcx} cy={landY} rx={width * 0.088} ry={height * 0.088} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.95 : 0.42 }} transition={{ duration: 0.45 }} />
+        <motion.ellipse cx={lcx - width * 0.032} cy={landY - height * 0.04} rx={width * 0.048} ry={height * 0.058} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.95 : 0.42 }} transition={{ duration: 0.45 }} />
+        <motion.ellipse cx={lcx + width * 0.04} cy={landY + height * 0.05} rx={width * 0.055} ry={height * 0.048} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.95 : 0.42 }} transition={{ duration: 0.45 }} />
 
         {/* Right continent — arrival side */}
-        <ellipse cx={rcx} cy={landY} rx={width * 0.078} ry={height * 0.082} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
-        <ellipse cx={rcx + width * 0.028} cy={landY - height * 0.032} rx={width * 0.044} ry={height * 0.054} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
-        <ellipse cx={rcx - width * 0.038} cy={landY + height * 0.042} rx={width * 0.052} ry={height * 0.042} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} />
+        <motion.ellipse cx={rcx} cy={landY} rx={width * 0.078} ry={height * 0.082} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.95 : 0.42 }} transition={{ duration: 0.45 }} />
+        <motion.ellipse cx={rcx + width * 0.028} cy={landY - height * 0.032} rx={width * 0.044} ry={height * 0.054} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.95 : 0.42 }} transition={{ duration: 0.45 }} />
+        <motion.ellipse cx={rcx - width * 0.038} cy={landY + height * 0.042} rx={width * 0.052} ry={height * 0.042} fill="#0d2016" clipPath={`url(#${bgIds.clipPath})`} animate={{ opacity: emphasized ? 0.95 : 0.42 }} transition={{ duration: 0.45 }} />
 
 
         {/* Atmosphere rim */}
@@ -356,6 +412,7 @@ function PathLayer({
   mode = 'planner',
   activeIndex = 0,
   ids,
+  emphasized = false,
 }: {
   width: number;
   height: number;
@@ -363,6 +420,7 @@ function PathLayer({
   mode?: FlightPlanMode;
   activeIndex?: number;
   ids: LayerIds;
+  emphasized?: boolean;
 }) {
   const fullPath = useMemo(() => buildSmoothPath(points), [points]);
   const segmentPaths = useMemo(() => buildSegmentPaths(points), [points]);
@@ -399,25 +457,25 @@ function PathLayer({
       <motion.path
         d={fullPath}
         stroke={`url(#${ids.routeGradient})`}
-        strokeWidth="10"
+        strokeWidth={emphasized ? '12' : '8'}
         strokeLinecap="round"
         fill="none"
         filter={`url(#${ids.routeBloom})`}
         initial={{ pathLength: 0, opacity: 0.25 }}
-        animate={{ pathLength: 1, opacity: 0.9 }}
-        transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ pathLength: 1, opacity: emphasized ? 0.95 : 0.5 }}
+        transition={{ duration: emphasized ? 0.6 : 1.35, ease: [0.22, 1, 0.36, 1] }}
       />
 
       <motion.path
         d={fullPath}
         stroke={`url(#${ids.routeGradient})`}
-        strokeWidth="3.2"
+        strokeWidth={emphasized ? '3.8' : '2.6'}
         strokeLinecap="round"
         fill="none"
         filter={`url(#${ids.routeGlow})`}
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ pathLength: 0, opacity: 0.72 }}
+        animate={{ pathLength: 1, opacity: emphasized ? 1 : 0.62 }}
+        transition={{ duration: emphasized ? 0.6 : 1.35, ease: [0.22, 1, 0.36, 1] }}
       />
 
       <motion.path
@@ -427,7 +485,7 @@ function PathLayer({
         strokeLinecap="round"
         fill="none"
         initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 0.55 }}
+        animate={{ pathLength: 1, opacity: emphasized ? 0.7 : 0.34 }}
         transition={{ duration: 1.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
       />
 
@@ -453,8 +511,8 @@ function PathLayer({
                 strokeLinecap="round"
                 fill="none"
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: progress, opacity: progress > 0 ? 0.95 : 0 }}
-                transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+                animate={{ pathLength: progress, opacity: progress > 0 ? (emphasized ? 0.95 : 0.58) : 0 }}
+                transition={{ duration: emphasized ? 0.7 : 1.6, ease: [0.22, 1, 0.36, 1] }}
               />
             )}
           </g>
@@ -488,7 +546,7 @@ function PathLayer({
               strokeLinecap="round"
               fill="none"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.9 }}
+              animate={{ opacity: emphasized ? 0.9 : 0.46 }}
               transition={{ duration: 0.35 }}
               strokeDasharray="6 8"
             />
@@ -499,7 +557,7 @@ function PathLayer({
               strokeLinecap="round"
               fill="none"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
+              animate={{ opacity: emphasized ? 0.4 : 0.18 }}
               transition={{ duration: 0.35 }}
             />
           </>
@@ -968,17 +1026,28 @@ export function LessonCaptainFlightPlan({
 
   // Prevent SSR of framer-motion + SVG foreignObject content (causes hydration mismatch #418)
   const [mounted, setMounted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasFocusWithin, setHasFocusWithin] = useState(false);
   useEffect(() => setMounted(true), []);
+  const isEngaged = isHovered || hasFocusWithin;
 
   return (
     <div className="overflow-x-auto">
     <div
-      className={`relative w-full overflow-hidden ${mode === 'runtime' ? 'rounded-2xl' : 'rounded-[28px]'} border border-white/10 bg-[#07111f] shadow-[0_20px_80px_rgba(0,0,0,0.45)] ${className}`}
+      className={`group/flightplan relative w-full overflow-hidden ${mode === 'runtime' ? 'rounded-2xl' : 'rounded-[28px]'} border border-white/10 bg-[#07111f]/35 shadow-[0_20px_80px_rgba(0,0,0,0.32)] backdrop-blur-[2px] transition-all duration-500 hover:border-cyan-300/25 hover:shadow-[0_20px_90px_rgba(24,182,214,0.16)] focus-within:border-cyan-300/25 focus-within:shadow-[0_20px_90px_rgba(24,182,214,0.16)] ${className}`}
       style={{ aspectRatio: `${width} / ${height}`, minWidth: mode === 'runtime' ? '480px' : '560px' }}
+      onPointerEnter={() => setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
+      onFocusCapture={() => setHasFocusWithin(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setHasFocusWithin(false);
+        }
+      }}
     >
       {!mounted ? null : (
         <>
-          <BackgroundLayer width={width} height={height} bgIds={bgIds} />
+          <BackgroundLayer width={width} height={height} bgIds={bgIds} emphasized={isEngaged} />
 
           {mode !== 'runtime' && (
             <motion.div
@@ -994,10 +1063,10 @@ export function LessonCaptainFlightPlan({
             </motion.div>
           )}
 
-          <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/[0.06]" />
-          <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_18%,transparent_34%)]" />
+          <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/[0.06] transition-colors duration-500 group-hover/flightplan:ring-cyan-200/[0.12] group-focus-within/flightplan:ring-cyan-200/[0.12]" />
+          <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01)_18%,transparent_34%)] opacity-70 transition-opacity duration-500 group-hover/flightplan:opacity-100 group-focus-within/flightplan:opacity-100" />
 
-          <PathLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} />
+          <PathLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} emphasized={isEngaged} />
           <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} slotBudgets={slotBudgets} />
           <PlaneLayer width={width} height={height} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} pacingIndex={pacingIndex} />
 
