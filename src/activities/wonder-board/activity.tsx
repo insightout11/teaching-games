@@ -64,8 +64,40 @@ interface WonderQuestion {
 // Sub-components
 // -----------------------------------------------------------------------
 
-// Cloud-shaped card wrapper: 3 overlapping ellipses form the fluffy top,
-// a rounded rectangle forms the body. All share CLOUD_BG so they merge.
+// Generates a complete cloud SVG path — 3 bezier bumps on top, rounded bottom corners.
+// bH = height of bump section (fixed pixels so bumps don't stretch with card height).
+function buildCloudPath(w: number, h: number): string {
+  const bH = 58;
+  const r = 16;
+  return [
+    `M ${r} ${h}`,
+    `L ${w - r} ${h}`,
+    `Q ${w} ${h} ${w} ${h - r}`,
+    `L ${w} ${bH}`,
+    // Right edge curves into right bump
+    `C ${w} ${bH * 0.5} ${w * 0.90} ${bH * 0.2} ${w * 0.82} ${bH * 0.2}`,
+    // Right bump arc (peaks ~74% x)
+    `C ${w * 0.78} 0 ${w * 0.70} 0 ${w * 0.66} ${bH * 0.2}`,
+    // Valley between right and center bumps
+    `C ${w * 0.62} ${bH * 0.42} ${w * 0.62} ${bH * 0.5} ${w * 0.58} ${bH * 0.5}`,
+    // Ascent to center bump (peaks at 50% x — tallest)
+    `C ${w * 0.54} ${bH * 0.5} ${w * 0.52} 0 ${w * 0.50} 0`,
+    // Descent of center bump
+    `C ${w * 0.48} 0 ${w * 0.44} ${bH * 0.5} ${w * 0.40} ${bH * 0.5}`,
+    // Valley between center and left bumps
+    `C ${w * 0.36} ${bH * 0.5} ${w * 0.32} ${bH * 0.42} ${w * 0.28} ${bH * 0.2}`,
+    // Left bump arc (peaks ~18% x)
+    `C ${w * 0.24} 0 ${w * 0.16} 0 ${w * 0.12} ${bH * 0.2}`,
+    // Left edge curves down to body
+    `C ${w * 0.06} ${bH * 0.5} 0 ${bH * 0.72} 0 ${bH}`,
+    `L 0 ${h - r}`,
+    `Q 0 ${h} ${r} ${h}`,
+    `Z`,
+  ].join(' ');
+}
+
+// The card is drawn entirely as a cloud SVG path — no rectangle anywhere.
+// ResizeObserver keeps the path updated as content expands (answer textarea etc).
 function CloudCard({
   starter,
   focused,
@@ -77,20 +109,42 @@ function CloudCard({
   onClick: () => void;
   children: React.ReactNode;
 }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      setDims({ w: el.offsetWidth, h: el.offsetHeight });
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <div
+      ref={wrapperRef}
       className={`transition-all duration-200 cursor-pointer ${focused ? 'scale-[1.02]' : ''}`}
-      style={{ position: 'relative', paddingTop: 28, filter: getCloudGlow(starter, focused) }}
+      style={{
+        position: 'relative',
+        paddingTop: 70,
+        paddingLeft: 18,
+        paddingRight: 18,
+        paddingBottom: 18,
+        filter: getCloudGlow(starter, focused),
+      }}
       onClick={onClick}
     >
-      {/* Three overlapping bumps — left, center (tallest), right */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 46, pointerEvents: 'none' }}>
-        <div style={{ position: 'absolute', bottom: 0, left: '4%',  width: '40%', height: 26, background: CLOUD_BG, borderRadius: '50%' }} />
-        <div style={{ position: 'absolute', bottom: 0, left: '20%', width: '58%', height: 38, background: CLOUD_BG, borderRadius: '50%' }} />
-        <div style={{ position: 'absolute', bottom: 0, right: '4%', width: '36%', height: 22, background: CLOUD_BG, borderRadius: '50%' }} />
-      </div>
-      {/* Card body — top rounded corners are hidden behind the bumps */}
-      <div style={{ background: CLOUD_BG, borderRadius: 14, padding: '12px 16px 16px', position: 'relative' }}>
+      {dims && (
+        <svg
+          aria-hidden="true"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+        >
+          <path d={buildCloudPath(dims.w, dims.h)} fill={CLOUD_BG} />
+        </svg>
+      )}
+      <div style={{ position: 'relative', zIndex: 1 }}>
         {children}
       </div>
     </div>
