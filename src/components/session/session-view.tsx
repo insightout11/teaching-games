@@ -1116,7 +1116,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         </div>
 
         {/* Selection / Game / Activity View */}
-        {viewMode === 'selection' ? (
+        {viewMode === 'selection' && poolSpinning === null ? (
           <div className="space-y-6">
             {/* Settings on selection screen */}
             <div className="hud-settings-panel p-2 shadow-lg">
