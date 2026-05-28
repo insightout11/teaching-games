@@ -510,10 +510,20 @@ html[data-theme="light"] :focus-visible {
   animation: cloud-drift-near var(--cloud-duration-near, 55s) linear infinite;
 }
 
+/* Terrain mid-layer: mountains/skyline silhouette, much slower than clouds */
+@keyframes terrain-drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100vw); }
+}
+.terrain-layer {
+  animation: terrain-drift var(--terrain-duration, 240s) linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cloud-layer-far,
   .cloud-layer-mid,
-  .cloud-layer-near {
+  .cloud-layer-near,
+  .terrain-layer {
     animation: none;
   }
 }
