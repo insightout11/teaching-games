@@ -286,7 +286,7 @@ export function ReviewLaunchScreen() {
                 </p>
               )}
               <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3">
-                {sourceMaterial.summary}
+                {sourceMaterial.briefingText ?? sourceMaterial.rawText ?? sourceMaterial.summary}
               </p>
             </div>
           )}

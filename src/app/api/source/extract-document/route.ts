@@ -2,6 +2,7 @@ import 'server-only';
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI, SchemaType as GeminiSchemaType } from '@google/generative-ai';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
+import type { SourceBriefingMode, SourceBriefingOption } from '@/types/source-material';
 
 const ALLOWED_TYPES = new Set([
   'image/jpeg',
@@ -13,16 +14,45 @@ const ALLOWED_TYPES = new Set([
 
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 
-const EXTRACTION_PROMPT = `You are helping an ESL teacher extract educational content from their own teaching material.
-Examine this material carefully. It may be a textbook page, worksheet, article, or lesson handout.
+const EXTRACTION_PROMPT = `You are helping an ESL teacher turn uploaded teaching material into a short classroom briefing.
+The material may be a story, article, worksheet, textbook page, slide deck, or image.
 
-Summarize the educational content in 400–500 words of clear prose. Include:
-- Main topic and key vocabulary (bold key terms with *word*)
-- Core concepts, facts, or language points
-- Any exercises, questions, or activities described
-- Contextual details useful for generating ESL lesson activities
+Return content for two different purposes:
 
-Do not include page numbers, headers, footers, or formatting artifacts. Write as clear running text.`;
+1. summary: a concise teacher-facing note, 120-180 words, describing what the material is about and what it can support in class.
+2. studentBriefing: the actual text students can read in Captain's Briefing. This must be direct student-facing prose, not a summary about a text.
+
+Rules for studentBriefing:
+- If the material contains a coherent story/article/passage under about 900 words, preserve the original wording as much as possible.
+- If it is longer, choose one strong 250-650 word excerpt that can stand alone in class.
+- If the source is dense, fragmented, visual, or worksheet-like, adapt it into a clear 250-450 word reading.
+- Do not start paragraphs with phrases like "The article explains", "This document discusses", or "The text is about".
+- Remove page numbers, headers, footers, answer keys, and OCR artifacts.
+- Keep names, facts, examples, and key vocabulary from the uploaded source.
+
+Also return sourceText: the best exact passage or extracted text you used as the basis for the briefing. For long documents, do not return the full document; return the chosen excerpt.
+
+Also return title, documentKind, recommendedMode ("exact", "excerpt", "adapted", or "generated"), and wordCount for sourceText when possible.
+
+Return 1-3 suggestedExcerpts. Each should be a usable teacher choice for the briefing. Include exact excerpts when possible.`;
+
+type ExtractedBriefingOption = {
+  label?: string;
+  text?: string;
+  rationale?: string;
+  wordCount?: number;
+};
+
+type ExtractedDocumentPayload = {
+  title?: string;
+  documentKind?: string;
+  summary?: string;
+  sourceText?: string;
+  studentBriefing?: string;
+  recommendedMode?: string;
+  wordCount?: number;
+  suggestedExcerpts?: ExtractedBriefingOption[];
+};
 
 function sanitizeText(text: string): string {
   return text
@@ -38,6 +68,8 @@ function sanitizeText(text: string): string {
       );
     })
     .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
     .slice(0, 60000);
 }
 
@@ -47,6 +79,68 @@ function filenameToTitle(filename: string): string {
     .replace(/[-_]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+function countWords(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function normalizeMode(mode: string | undefined, briefingText: string, sourceText: string): SourceBriefingMode {
+  if (mode === 'exact' || mode === 'excerpt' || mode === 'adapted' || mode === 'generated') return mode;
+  if (sourceText && briefingText && sourceText.trim() === briefingText.trim()) return 'excerpt';
+  return 'adapted';
+}
+
+function buildBriefingOptions(params: {
+  briefingText: string;
+  mode: SourceBriefingMode;
+  sourceText: string;
+  suggestedExcerpts?: ExtractedBriefingOption[];
+}): SourceBriefingOption[] {
+  const seen = new Set<string>();
+  const options: SourceBriefingOption[] = [];
+
+  function addOption(option: SourceBriefingOption) {
+    const text = sanitizeText(option.text);
+    if (text.length < 50) return;
+    const key = text.replace(/\s+/g, ' ').trim().toLowerCase().slice(0, 300);
+    if (seen.has(key)) return;
+    seen.add(key);
+    options.push({ ...option, text, wordCount: option.wordCount ?? countWords(text) });
+  }
+
+  addOption({
+    id: 'recommended',
+    label: 'Recommended briefing',
+    description: params.mode === 'adapted'
+      ? 'Cleaned and adapted for a short ESL reading.'
+      : 'Best classroom-ready passage from the uploaded source.',
+    text: params.briefingText,
+    mode: params.mode,
+  });
+
+  if (params.sourceText && params.sourceText !== params.briefingText) {
+    addOption({
+      id: 'source-excerpt',
+      label: 'Closest source excerpt',
+      description: 'More faithful to the uploaded text; may be denser.',
+      text: params.sourceText,
+      mode: 'excerpt',
+    });
+  }
+
+  for (const excerpt of params.suggestedExcerpts ?? []) {
+    addOption({
+      id: `excerpt-${options.length + 1}`,
+      label: excerpt.label?.trim() || `Excerpt ${options.length + 1}`,
+      description: excerpt.rationale?.trim(),
+      text: excerpt.text ?? '',
+      mode: 'excerpt',
+      wordCount: excerpt.wordCount,
+    });
+  }
+
+  return options.slice(0, 4);
 }
 
 export async function POST(request: NextRequest) {
@@ -87,7 +181,7 @@ export async function POST(request: NextRequest) {
   const bytes = await file.arrayBuffer();
   const base64 = Buffer.from(bytes).toString('base64');
   const rawTitle = filenameToTitle(file.name);
-  const title = rawTitle || (file.type === 'application/pdf' ? 'Uploaded Document' : 'Uploaded Image');
+  const fallbackTitle = rawTitle || (file.type === 'application/pdf' ? 'Uploaded Document' : 'Uploaded Image');
   const sourceType = file.type === 'application/pdf' ? 'pdf' : 'image';
 
   try {
@@ -98,8 +192,29 @@ export async function POST(request: NextRequest) {
         responseMimeType: 'application/json',
         responseSchema: {
           type: GeminiSchemaType.OBJECT,
-          properties: { summary: { type: GeminiSchemaType.STRING } },
-          required: ['summary'],
+          properties: {
+            title: { type: GeminiSchemaType.STRING },
+            documentKind: { type: GeminiSchemaType.STRING },
+            summary: { type: GeminiSchemaType.STRING },
+            sourceText: { type: GeminiSchemaType.STRING },
+            studentBriefing: { type: GeminiSchemaType.STRING },
+            recommendedMode: { type: GeminiSchemaType.STRING },
+            wordCount: { type: GeminiSchemaType.NUMBER },
+            suggestedExcerpts: {
+              type: GeminiSchemaType.ARRAY,
+              items: {
+                type: GeminiSchemaType.OBJECT,
+                properties: {
+                  label: { type: GeminiSchemaType.STRING },
+                  text: { type: GeminiSchemaType.STRING },
+                  rationale: { type: GeminiSchemaType.STRING },
+                  wordCount: { type: GeminiSchemaType.NUMBER },
+                },
+                required: ['label', 'text', 'rationale'],
+              },
+            },
+          },
+          required: ['summary', 'studentBriefing', 'recommendedMode'],
         },
       },
     });
@@ -115,10 +230,32 @@ export async function POST(request: NextRequest) {
     });
 
     const raw = result.response.text();
-    const parsed = JSON.parse(raw) as { summary: string };
-    const summary = sanitizeText(parsed.summary);
+    const parsed = JSON.parse(raw) as ExtractedDocumentPayload;
+    const title = sanitizeText(parsed.title ?? fallbackTitle).split('\n')[0] || fallbackTitle;
+    const summary = sanitizeText(parsed.summary ?? '');
+    const sourceText = sanitizeText(parsed.sourceText ?? parsed.studentBriefing ?? summary);
+    const briefingText = sanitizeText(parsed.studentBriefing ?? (sourceText || summary));
+    const briefingMode = normalizeMode(parsed.recommendedMode, briefingText, sourceText);
+    const briefingOptions = buildBriefingOptions({
+      briefingText,
+      mode: briefingMode,
+      sourceText,
+      suggestedExcerpts: parsed.suggestedExcerpts,
+    });
+    const wordCount = parsed.wordCount ?? countWords(sourceText || briefingText);
 
-    return NextResponse.json({ title, summary, sourceType });
+    return NextResponse.json({
+      title,
+      summary,
+      sourceType,
+      rawText: briefingText,
+      briefingText,
+      briefingMode,
+      sourceText,
+      documentKind: sanitizeText(parsed.documentKind ?? ''),
+      wordCount,
+      briefingOptions,
+    });
   } catch (err) {
     console.error('[extract-document]', err);
     return NextResponse.json(

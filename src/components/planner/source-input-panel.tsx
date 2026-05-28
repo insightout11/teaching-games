@@ -5,9 +5,13 @@ import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { VideoLibraryModal } from './video-library-modal';
 import { TextLibraryModal } from './text-library-modal';
-import type { SourceMaterial } from '@/types/source-material';
+import type { SourceBriefingMode, SourceBriefingOption, SourceMaterial } from '@/types/source-material';
 
 type Tab = 'video' | 'text' | 'upload';
+type SourceExtractResponse = SourceMaterial & {
+  error?: string;
+  code?: string;
+};
 
 const TABS: { key: Tab; label: string }[] = [
   { key: 'video',  label: 'Video'  },
@@ -16,9 +20,63 @@ const TABS: { key: Tab; label: string }[] = [
 ];
 
 const UPLOAD_ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
+const BRIEFING_MODE_LABEL: Record<SourceBriefingMode, string> = {
+  exact: 'Exact text',
+  excerpt: 'Excerpt',
+  adapted: 'Adapted',
+  generated: 'Generated',
+};
 
 function formatDuration(secs: number) {
   return `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+}
+
+function countWords(text = '') {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function estimateReadMinutes(wordCount: number) {
+  if (wordCount <= 0) return 0;
+  return Math.max(1, Math.ceil(wordCount / 140));
+}
+
+function getSourcePreview(material: SourceMaterial) {
+  return material.briefingText ?? material.rawText ?? material.summary;
+}
+
+function withGeneratedOption(material: SourceMaterial): SourceBriefingOption[] {
+  const existing = Array.isArray(material.briefingOptions)
+    ? material.briefingOptions.filter((option) => option.text?.trim().length > 0)
+    : [];
+  if (existing.length > 0) return existing;
+
+  const text = getSourcePreview(material);
+  return [{
+    id: 'recommended',
+    label: 'Recommended briefing',
+    description: 'Classroom-ready text for Captain\'s Briefing.',
+    text,
+    mode: material.briefingMode ?? 'adapted',
+    wordCount: countWords(text),
+  }];
+}
+
+function buildSourceMaterial(data: SourceExtractResponse): SourceMaterial {
+  return {
+    sourceType: data.sourceType,
+    sourceKey: data.sourceKey,
+    title: data.title,
+    summary: data.summary,
+    duration: data.duration,
+    ...(data.rawText ? { rawText: data.rawText } : {}),
+    ...(data.briefingText ? { briefingText: data.briefingText } : {}),
+    ...(data.briefingMode ? { briefingMode: data.briefingMode } : {}),
+    ...(data.briefingOptions ? { briefingOptions: data.briefingOptions } : {}),
+    ...(data.sourceText ? { sourceText: data.sourceText } : {}),
+    ...(data.documentKind ? { documentKind: data.documentKind } : {}),
+    ...(data.wordCount ? { wordCount: data.wordCount } : {}),
+    ...(data.slides ? { slides: data.slides } : {}),
+  };
 }
 
 export function SourceInputPanel() {
@@ -33,6 +91,63 @@ export function SourceInputPanel() {
   const [showTedModal, setShowTedModal] = useState(false);
   const [showTextModal, setShowTextModal] = useState(false);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [pendingSource, setPendingSource] = useState<SourceMaterial | null>(null);
+  const [selectedBriefingOptionId, setSelectedBriefingOptionId] = useState<string | null>(null);
+  const [briefingDraft, setBriefingDraft] = useState('');
+
+  const activeSourcePreview = sourceMaterial ? getSourcePreview(sourceMaterial) : '';
+  const activeSourceWordCount = countWords(activeSourcePreview);
+  const briefingDraftWordCount = countWords(briefingDraft);
+
+  function startBriefingReview(material: SourceMaterial) {
+    const briefingOptions = withGeneratedOption(material);
+    const firstOption = briefingOptions[0];
+    setPendingSource({
+      ...material,
+      briefingOptions,
+      briefingText: firstOption.text,
+      rawText: firstOption.text,
+      briefingMode: firstOption.mode,
+    });
+    setSelectedBriefingOptionId(firstOption.id);
+    setBriefingDraft(firstOption.text);
+  }
+
+  function applyBriefingOption(option: SourceBriefingOption) {
+    setSelectedBriefingOptionId(option.id);
+    setBriefingDraft(option.text);
+  }
+
+  function confirmPendingSource() {
+    if (!pendingSource) return;
+    const finalText = briefingDraft.trim();
+    if (finalText.length < 50) {
+      setError('Briefing text is too short. Keep at least a short passage for students.');
+      return;
+    }
+    const selectedOption = pendingSource.briefingOptions?.find((option) => option.id === selectedBriefingOptionId);
+    const material: SourceMaterial = {
+      ...pendingSource,
+      briefingText: finalText,
+      rawText: finalText,
+      briefingMode: selectedOption?.mode ?? pendingSource.briefingMode ?? 'adapted',
+      wordCount: countWords(finalText),
+    };
+    setSourceMaterial(material);
+    setTopic(material.title);
+    setPendingSource(null);
+    setSelectedBriefingOptionId(null);
+    setBriefingDraft('');
+    setUploadFile(null);
+    setError(null);
+  }
+
+  function cancelPendingSource() {
+    setPendingSource(null);
+    setSelectedBriefingOptionId(null);
+    setBriefingDraft('');
+    setError(null);
+  }
 
   async function process(type: string, value: string) {
     setProcessing(true);
@@ -43,7 +158,7 @@ export function SourceInputPanel() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, payload: value }),
       });
-      const data = await res.json();
+      const data = await res.json() as SourceExtractResponse;
       if (!res.ok) {
         if (data.code === 'NOT_CONFIGURED') {
           setError('YouTube extraction is not enabled. Use Video Library or paste text directly.');
@@ -52,15 +167,7 @@ export function SourceInputPanel() {
         }
         return;
       }
-      const material: SourceMaterial = {
-        sourceType: data.sourceType,
-        sourceKey: data.sourceKey,
-        title: data.title,
-        summary: data.summary,
-        duration: data.duration,
-        ...(data.rawText ? { rawText: data.rawText } : {}),
-        ...(data.slides ? { slides: data.slides } : {}),
-      };
+      const material = buildSourceMaterial(data);
       setSourceMaterial(material);
       setTopic(data.title);
       setVideoPayload('');
@@ -93,19 +200,12 @@ export function SourceInputPanel() {
       const fd = new FormData();
       fd.append('file', uploadFile);
       const res = await fetch('/api/source/extract-document', { method: 'POST', body: fd });
-      const data = await res.json();
+      const data = await res.json() as SourceExtractResponse;
       if (!res.ok) {
         setError(data.error ?? 'Failed to process file');
         return;
       }
-      const material: SourceMaterial = {
-        sourceType: data.sourceType,
-        title: data.title,
-        summary: data.summary,
-      };
-      setSourceMaterial(material);
-      setTopic(data.title);
-      setUploadFile(null);
+      startBriefingReview(buildSourceMaterial(data));
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -119,6 +219,7 @@ export function SourceInputPanel() {
     setVideoPayload('');
     setTextPayload('');
     setUploadFile(null);
+    cancelPendingSource();
   }
 
   if (tierLoading) return null;
@@ -147,7 +248,89 @@ export function SourceInputPanel() {
         </div>
 
         <div className="px-4 pb-4 pt-3 space-y-3">
-          {sourceMaterial ? (
+          {pendingSource ? (
+            <div className="space-y-3">
+              <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
+                <p className="text-xs font-semibold text-amber-300 uppercase tracking-wide">Review Captain&apos;s Briefing</p>
+                <p className="mt-1 text-sm font-medium text-lc-text">{pendingSource.title}</p>
+                <p className="mt-1 text-xs text-lc-text3 leading-relaxed">
+                  Choose the exact text students will see in the reader. This selected text will also feed vocabulary and later activities.
+                </p>
+              </div>
+
+              <div className="grid gap-2">
+                {(pendingSource.briefingOptions ?? []).map((option) => {
+                  const selected = selectedBriefingOptionId === option.id;
+                  const words = option.wordCount ?? countWords(option.text);
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => applyBriefingOption(option)}
+                      className={`rounded-lg border p-3 text-left transition-colors ${
+                        selected
+                          ? 'border-lc-blue bg-lc-blue/10'
+                          : 'border-lc-border bg-lc-bg hover:border-lc-blue/40'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <p className="text-sm font-semibold text-lc-text">{option.label}</p>
+                          {option.description && (
+                            <p className="mt-0.5 text-xs text-lc-text3">{option.description}</p>
+                          )}
+                        </div>
+                        <span className="shrink-0 rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
+                          {BRIEFING_MODE_LABEL[option.mode]}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-xs text-lc-text3">
+                        {words} words - ~{estimateReadMinutes(words)} min read
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <label htmlFor="briefing-review-text" className="text-xs font-semibold uppercase tracking-wide text-lc-text2">
+                    Briefing text
+                  </label>
+                  <span className="text-xs text-lc-text3">
+                    {briefingDraftWordCount} words - ~{estimateReadMinutes(briefingDraftWordCount)} min
+                  </span>
+                </div>
+                <textarea
+                  id="briefing-review-text"
+                  value={briefingDraft}
+                  onChange={(e) => setBriefingDraft(e.target.value)}
+                  rows={8}
+                  className="w-full resize-y rounded-lg border border-lc-border bg-lc-bg px-3 py-2 text-sm leading-relaxed text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow"
+                />
+              </div>
+
+              {error && <p className="text-xs text-red-400">{error}</p>}
+
+              <div className="flex items-center justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={cancelPendingSource}
+                  className="rounded-lg border border-lc-border px-3 py-2 text-xs font-semibold text-lc-text2 hover:bg-lc-bg transition-colors"
+                >
+                  Back to upload
+                </button>
+                <button
+                  type="button"
+                  onClick={confirmPendingSource}
+                  disabled={briefingDraft.trim().length < 50}
+                  className="rounded-lg bg-lc-blue px-4 py-2 text-xs font-semibold text-white hover:bg-lc-blue-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  Use this briefing
+                </button>
+              </div>
+            </div>
+          ) : sourceMaterial ? (
             /* Active source summary */
             <div className="space-y-2">
               <div className="rounded-lg bg-lc-bg border border-lc-blue/30 p-3 space-y-1">
@@ -156,9 +339,14 @@ export function SourceInputPanel() {
                     <p className="text-xs font-semibold text-lc-blue uppercase tracking-wide mb-0.5">Source active</p>
                     <p className="text-sm font-medium text-lc-text">{sourceMaterial.title}</p>
                     {sourceMaterial.duration && (
-                      <p className="text-xs text-lc-text3">{formatDuration(sourceMaterial.duration)} · {sourceMaterial.sourceType}</p>
+                      <p className="text-xs text-lc-text3">{formatDuration(sourceMaterial.duration)} - {sourceMaterial.sourceType}</p>
                     )}
-                    <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3 mt-1">{sourceMaterial.summary}</p>
+                    {sourceMaterial.briefingMode && (
+                      <p className="text-xs text-lc-text3">
+                        Captain&apos;s Briefing: {BRIEFING_MODE_LABEL[sourceMaterial.briefingMode]} - {activeSourceWordCount} words
+                      </p>
+                    )}
+                    <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3 mt-1">{activeSourcePreview}</p>
                   </div>
                 </div>
               </div>

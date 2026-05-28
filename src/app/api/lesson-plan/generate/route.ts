@@ -103,10 +103,10 @@ function buildSourceContext(source?: SourceMaterial, rawTranscript?: string): st
     const text = extractPlainText(rawTranscript).slice(0, 10000);
     return `\nSource material — ground ALL content ONLY in this transcript. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nTranscript:\n${text}\n`;
   }
-  const body = source.rawText ?? source.summary ?? '';
+  const body = source.briefingText ?? source.rawText ?? source.summary ?? '';
   if (!body) return '';
   const text = body.slice(0, 10000);
-  if (source.rawText) {
+  if (source.briefingText || source.rawText) {
     return `\nSource material — ground ALL content ONLY in this source text. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nText:\n${text}\n`;
   }
   return `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${body}\n`;
@@ -2620,7 +2620,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateListeningGapFill(customTopic, diff, sourceCtx, grammarTarget ?? undefined, getGapFillMode(sourceMaterial)).then((r) => { content[activityKey] = r; }));
             break;
           case 'read-aloud': {
-            const rawText = sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '';
+            const rawText = sourceMaterial?.briefingText ?? sourceMaterial?.rawText ?? sourceMaterial?.summary ?? '';
             if (rawText.length > 0) {
               const cleanText = stripAsterisks(rawText);
               const vocabWords = sourceVocab.length > 0
