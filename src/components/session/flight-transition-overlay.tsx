@@ -109,68 +109,140 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
 }
 
 // ─── City skyline at horizon ─────────────────────────────────────────────────
-// Protrudes 60px above the runway grass top edge (i.e. sits in the sky zone).
-// Buildings are flush with y=60 (= horizon line); taller buildings reach toward y=0.
+// Protrudes 80px above the runway grass top edge (sky zone).
+// SVG y=80 = horizon line; taller towers reach near y=0.
+
+type SkyWin = { x: number; y: number; cool?: true };
+
+function winGrid(
+  xs: number[], ys: number[],
+  skip: (xi: number, y: number) => boolean = () => false,
+  cool: (y: number) => boolean = () => false,
+): SkyWin[] {
+  return ys.flatMap((y) =>
+    xs
+      .filter((_, xi) => !skip(xi, y))
+      .map((x): SkyWin => ({ x, y, ...(cool(y) ? { cool: true } : {}) }))
+  );
+}
+
+const SKYLINE_WINDOWS: SkyWin[] = [
+  // Control tower head
+  { x: 161, y: 5 }, { x: 168, y: 5 }, { x: 175, y: 5 },
+  { x: 161, y: 11 }, { x: 175, y: 11 },
+  // Terminal annex — 3 rows, drop every 3rd window
+  ...winGrid([84,90,96,102,108,114,120,126,132,138,144,150], [51,57,63], (xi) => xi % 3 === 2),
+  // Tower A (x=608, y=8)
+  ...winGrid([611,618,625,632], [12,18,24,30,36,42,48,54,60,66],
+    (xi, y) => (y === 36 && xi === 1) || (y === 54 && xi === 3),
+    (y) => y < 24),
+  // Tower B tallest (x=694, y=4)
+  ...winGrid([697,703,709,715], [8,14,20,26,32,38,44,50,56,62,68,74],
+    (xi, y) => (y === 32 && xi === 2) || (y === 50 && xi === 0) || (y === 62 && xi === 3),
+    (y) => y < 22),
+  // Tower C (x=754, y=6)
+  ...winGrid([757,763,769], [10,16,22,28,34,40,46,52,58,64,70],
+    (xi, y) => (y === 28 && xi === 1) || (y === 46 && xi === 2)),
+  // Tall at x=810
+  ...winGrid([813,819,825], [16,22,28,34,40,46,52,58,64]),
+  // Right tall tower (x=1134)
+  ...winGrid([1137,1143,1149], [16,22,28,34,40,46,52,58,64],
+    (xi, y) => (y === 34 && xi === 1) || (y === 52 && xi === 0),
+    (y) => y < 28),
+  // Scattered on medium buildings
+  { x:583,y:54 }, { x:583,y:60 }, { x:589,y:57 },
+  { x:649,y:22 }, { x:655,y:22 }, { x:649,y:28 }, { x:649,y:34 }, { x:655,y:34 },
+  { x:731,y:22 }, { x:731,y:28 }, { x:731,y:34 },
+  { x:783,y:26 }, { x:789,y:26 }, { x:783,y:32 },
+  { x:841,y:30 }, { x:841,y:36 },
+  { x:1099,y:34 }, { x:1105,y:34 }, { x:1099,y:40 },
+  { x:1165,y:28 }, { x:1165,y:34 },
+  { x:1247,y:22 }, { x:1247,y:28 },
+  { x:1271,y:32 }, { x:1277,y:32 }, { x:1271,y:38 },
+];
 
 function SkylineHorizon() {
-  const f = 'rgba(6,10,16,0.90)';
+  const f  = 'rgba(8,12,20,0.92)';
+  const ww = 'rgba(255,200,65,0.65)';
+  const wc = 'rgba(180,220,255,0.50)';
   return (
     <div
-      style={{ position: 'absolute', top: -60, left: 0, right: 0, height: 60, pointerEvents: 'none' }}
+      style={{ position: 'absolute', top: -80, left: 0, right: 0, height: 80, pointerEvents: 'none' }}
       aria-hidden
     >
       <svg
-        viewBox="0 0 1440 60"
+        viewBox="0 0 1440 80"
         width="100%"
-        height="60"
+        height="80"
         preserveAspectRatio="none"
-        style={{ display: 'block' }}
+        style={{ display: 'block', overflow: 'visible' }}
         aria-hidden
       >
-        {/* ── Airport / left zone ── */}
-        {/* Wide terminal */}
-        <rect x="20"  y="44" width="200" height="16" fill={f} />
-        <rect x="80"  y="30" width="80"  height="30" fill={f} />
-        {/* Control tower */}
-        <rect x="167" y="4"  width="10"  height="56" fill={f} />
-        <rect x="158" y="2"  width="28"  height="14" fill={f} />
-        <circle cx="172" cy="1" r="2.2" fill="#FF5500" opacity="0.92" />
-        {/* Hangar right of tower */}
-        <rect x="260" y="38" width="100" height="22" fill={f} />
-        <rect x="310" y="28" width="40"  height="32" fill={f} />
-        {/* Scattered small buildings */}
-        <rect x="372" y="42" width="50"  height="18" fill={f} />
-        <rect x="430" y="46" width="36"  height="14" fill={f} />
-        <rect x="474" y="48" width="28"  height="12" fill={f} />
-        <rect x="510" y="46" width="36"  height="14" fill={f} />
+        <defs>
+          <filter id="city-bloom" x="-80%" y="-100%" width="260%" height="300%">
+            <feGaussianBlur stdDeviation="20" />
+          </filter>
+          <filter id="win-glow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
 
-        {/* ── City centre ── */}
-        <rect x="556" y="48" width="44"  height="12" fill={f} />
-        <rect x="578" y="36" width="26"  height="24" fill={f} />
-        <rect x="608" y="18" width="32"  height="42" fill={f} />
-        <rect x="644" y="22" width="24"  height="38" fill={f} />
-        <rect x="672" y="32" width="18"  height="28" fill={f} />
-        <rect x="694" y="12" width="28"  height="48" fill={f} />
-        <rect x="726" y="22" width="22"  height="38" fill={f} />
-        <rect x="752" y="14" width="20"  height="46" fill={f} />
-        <rect x="776" y="26" width="26"  height="34" fill={f} />
-        <rect x="806" y="18" width="24"  height="42" fill={f} />
-        <rect x="834" y="28" width="30"  height="32" fill={f} />
-        <rect x="868" y="36" width="36"  height="24" fill={f} />
-        <rect x="908" y="44" width="44"  height="16" fill={f} />
-        <rect x="958" y="48" width="52"  height="12" fill={f} />
+        {/* City ambient bloom — warm haze above downtown */}
+        <ellipse cx="730" cy="64" rx="260" ry="52" fill="rgba(255,130,20,0.09)" filter="url(#city-bloom)" />
 
-        {/* ── Right cluster ── */}
-        <rect x="1020" y="46" width="44"  height="14" fill={f} />
-        <rect x="1058" y="38" width="66"  height="22" fill={f} />
-        <rect x="1094" y="26" width="34"  height="34" fill={f} />
-        <rect x="1132" y="14" width="24"  height="46" fill={f} />
-        <rect x="1160" y="22" width="28"  height="38" fill={f} />
-        <rect x="1192" y="32" width="56"  height="28" fill={f} />
-        <rect x="1240" y="18" width="20"  height="42" fill={f} />
-        <rect x="1264" y="28" width="46"  height="32" fill={f} />
-        <rect x="1314" y="36" width="62"  height="24" fill={f} />
-        <rect x="1384" y="44" width="56"  height="16" fill={f} />
+        {/* ── LEFT AIRPORT ── */}
+        <rect x="20"  y="62" width="200" height="18" fill={f} />  {/* terminal base */}
+        <rect x="80"  y="46" width="80"  height="34" fill={f} />  {/* terminal annex */}
+        <rect x="95"  y="42" width="52"  height="4"  fill={f} />  {/* annex setback */}
+        <rect x="167" y="4"  width="10"  height="76" fill={f} />  {/* tower neck */}
+        <rect x="158" y="2"  width="28"  height="14" fill={f} />  {/* tower head */}
+        <circle cx="172" cy="2" r="2.2" fill="#FF5500" opacity="0.92" />
+        <rect x="260" y="56" width="100" height="24" fill={f} />
+        <rect x="310" y="48" width="40"  height="32" fill={f} />
+        <rect x="372" y="62" width="50"  height="18" fill={f} />
+        <rect x="430" y="65" width="36"  height="15" fill={f} />
+        <rect x="474" y="67" width="28"  height="13" fill={f} />
+        <rect x="510" y="65" width="36"  height="15" fill={f} />
+
+        {/* ── CITY CENTRE ── */}
+        <rect x="556" y="68" width="44"  height="12" fill={f} />
+        <rect x="580" y="50" width="26"  height="30" fill={f} />
+        <rect x="608" y="8"  width="34"  height="72" fill={f} />  {/* Tower A */}
+        <rect x="614" y="4"  width="22"  height="4"  fill={f} />  {/* A setback */}
+        <rect x="646" y="18" width="24"  height="62" fill={f} />
+        <rect x="672" y="34" width="18"  height="46" fill={f} />
+        <rect x="694" y="4"  width="30"  height="76" fill={f} />  {/* Tower B — tallest */}
+        <rect x="701" y="0"  width="16"  height="4"  fill={f} />  {/* B spire base */}
+        <rect x="728" y="18" width="22"  height="62" fill={f} />
+        <rect x="754" y="6"  width="22"  height="74" fill={f} />  {/* Tower C */}
+        <rect x="763" y="2"  width="4"   height="4"  fill={f} />  {/* C antenna stub */}
+        <rect x="780" y="22" width="26"  height="58" fill={f} />
+        <rect x="810" y="12" width="24"  height="68" fill={f} />
+        <rect x="838" y="26" width="30"  height="54" fill={f} />
+        <rect x="872" y="40" width="36"  height="40" fill={f} />
+        <rect x="912" y="50" width="44"  height="30" fill={f} />
+        <rect x="960" y="62" width="52"  height="18" fill={f} />
+
+        {/* ── RIGHT CLUSTER ── */}
+        <rect x="1020" y="64" width="44"  height="16" fill={f} />
+        <rect x="1058" y="52" width="66"  height="28" fill={f} />
+        <rect x="1096" y="30" width="34"  height="50" fill={f} />
+        <rect x="1134" y="12" width="24"  height="68" fill={f} />  {/* tall */}
+        <rect x="1140" y="8"  width="12"  height="4"  fill={f} />  {/* setback */}
+        <rect x="1162" y="24" width="28"  height="56" fill={f} />
+        <rect x="1194" y="44" width="56"  height="36" fill={f} />
+        <rect x="1244" y="18" width="20"  height="62" fill={f} />
+        <rect x="1268" y="28" width="46"  height="52" fill={f} />
+        <rect x="1318" y="44" width="62"  height="36" fill={f} />
+        <rect x="1386" y="56" width="54"  height="24" fill={f} />
+
+        {/* ── WINDOW LIGHTS ── */}
+        <g filter="url(#win-glow)">
+          {SKYLINE_WINDOWS.map(({ x, y, cool }, i) => (
+            <rect key={i} x={x} y={y} width="3" height="3" fill={cool ? wc : ww} />
+          ))}
+        </g>
       </svg>
     </div>
   );
