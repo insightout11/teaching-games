@@ -48,6 +48,7 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
       style={{ height: 140, zIndex: 8 }}
       aria-hidden
     >
+      <SkylineHorizon />
       <svg
         viewBox="0 0 1440 140"
         width="100%"
@@ -82,14 +83,6 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
           <rect key={i} x={i * 120} y="66" width="60" height="8" fill="rgba(255,255,255,0.55)" rx="1" />
         ))}
 
-        {/* Aiming point markings — two solid bars flanking the centerline, left and right */}
-        {/* Left pair */}
-        <rect x="230" y="34" width="68" height="26" fill="rgba(255,255,255,0.45)" rx="0.5" />
-        <rect x="230" y="80" width="68" height="26" fill="rgba(255,255,255,0.45)" rx="0.5" />
-        {/* Right pair */}
-        <rect x="1142" y="34" width="68" height="26" fill="rgba(255,255,255,0.45)" rx="0.5" />
-        <rect x="1142" y="80" width="68" height="26" fill="rgba(255,255,255,0.45)" rx="0.5" />
-
         {/* Edge lights — 10 per row, amber */}
         <g filter="url(#rwy-glow)">
           {Array.from({ length: 10 }, (_, i) => {
@@ -110,6 +103,74 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
             );
           })}
         </g>
+      </svg>
+    </div>
+  );
+}
+
+// ─── City skyline at horizon ─────────────────────────────────────────────────
+// Protrudes 60px above the runway grass top edge (i.e. sits in the sky zone).
+// Buildings are flush with y=60 (= horizon line); taller buildings reach toward y=0.
+
+function SkylineHorizon() {
+  const f = 'rgba(6,10,16,0.90)';
+  return (
+    <div
+      style={{ position: 'absolute', top: -60, left: 0, right: 0, height: 60, pointerEvents: 'none' }}
+      aria-hidden
+    >
+      <svg
+        viewBox="0 0 1440 60"
+        width="100%"
+        height="60"
+        preserveAspectRatio="none"
+        style={{ display: 'block' }}
+        aria-hidden
+      >
+        {/* ── Airport / left zone ── */}
+        {/* Wide terminal */}
+        <rect x="20"  y="44" width="200" height="16" fill={f} />
+        <rect x="80"  y="30" width="80"  height="30" fill={f} />
+        {/* Control tower */}
+        <rect x="167" y="4"  width="10"  height="56" fill={f} />
+        <rect x="158" y="2"  width="28"  height="14" fill={f} />
+        <circle cx="172" cy="1" r="2.2" fill="#FF5500" opacity="0.92" />
+        {/* Hangar right of tower */}
+        <rect x="260" y="38" width="100" height="22" fill={f} />
+        <rect x="310" y="28" width="40"  height="32" fill={f} />
+        {/* Scattered small buildings */}
+        <rect x="372" y="42" width="50"  height="18" fill={f} />
+        <rect x="430" y="46" width="36"  height="14" fill={f} />
+        <rect x="474" y="48" width="28"  height="12" fill={f} />
+        <rect x="510" y="46" width="36"  height="14" fill={f} />
+
+        {/* ── City centre ── */}
+        <rect x="556" y="48" width="44"  height="12" fill={f} />
+        <rect x="578" y="36" width="26"  height="24" fill={f} />
+        <rect x="608" y="18" width="32"  height="42" fill={f} />
+        <rect x="644" y="22" width="24"  height="38" fill={f} />
+        <rect x="672" y="32" width="18"  height="28" fill={f} />
+        <rect x="694" y="12" width="28"  height="48" fill={f} />
+        <rect x="726" y="22" width="22"  height="38" fill={f} />
+        <rect x="752" y="14" width="20"  height="46" fill={f} />
+        <rect x="776" y="26" width="26"  height="34" fill={f} />
+        <rect x="806" y="18" width="24"  height="42" fill={f} />
+        <rect x="834" y="28" width="30"  height="32" fill={f} />
+        <rect x="868" y="36" width="36"  height="24" fill={f} />
+        <rect x="908" y="44" width="44"  height="16" fill={f} />
+        <rect x="958" y="48" width="52"  height="12" fill={f} />
+
+        {/* ── Right cluster ── */}
+        <rect x="1020" y="46" width="44"  height="14" fill={f} />
+        <rect x="1058" y="38" width="66"  height="22" fill={f} />
+        <rect x="1094" y="26" width="34"  height="34" fill={f} />
+        <rect x="1132" y="14" width="24"  height="46" fill={f} />
+        <rect x="1160" y="22" width="28"  height="38" fill={f} />
+        <rect x="1192" y="32" width="56"  height="28" fill={f} />
+        <rect x="1240" y="18" width="20"  height="42" fill={f} />
+        <rect x="1264" y="28" width="46"  height="32" fill={f} />
+        <rect x="1314" y="36" width="62"  height="24" fill={f} />
+        <rect x="1384" y="44" width="56"  height="16" fill={f} />
       </svg>
     </div>
   );
@@ -169,14 +230,14 @@ export function FlightTransitionOverlay({
       {/* Sideways runway strip — only for takeoff and descent legs */}
       {showRunway && (
         <>
-          {/* Horizon atmosphere — warm gradient where sky meets the ground strip */}
+          {/* Horizon atmosphere — dark-green gradient just above the grass top */}
           <div
             className="absolute left-0 right-0 pointer-events-none"
             style={{
-              bottom: 116,
-              height: 72,
+              bottom: 140,
+              height: 80,
               zIndex: 7,
-              background: 'linear-gradient(to bottom, transparent 0%, rgba(18,30,14,0.28) 60%, rgba(28,44,18,0.50) 100%)',
+              background: 'linear-gradient(to bottom, transparent 0%, rgba(14,24,10,0.22) 55%, rgba(22,38,14,0.48) 100%)',
             }}
           />
           <SidewaysRunway animate={!prefersReducedMotion} />
