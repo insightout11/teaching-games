@@ -491,21 +491,6 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
               </g>
             ))}
           </g>
-          {/* Control tower — left horizon */}
-          <g fill="#06090F" opacity="0.68">
-            <rect x="148" y="98"  width="12" height="16" />
-            <rect x="142" y="94"  width="24" height="9"  />
-            <rect x="144" y="96"  width="20" height="4"  fill="#1a2840" opacity="0.5" />
-          </g>
-          <circle cx="154" cy="92" r="2.4" fill="#FF6020" opacity="0.88" filter="url(#dot-glow)" />
-          {/* Terminal building — right (landing only) */}
-          {isLanding && (
-            <g fill="#06090F" opacity="0.55">
-              <rect x="1230" y="104" width="120" height="10" />
-              <rect x="1260" y="94"  width="30"  height="20" />
-              <rect x="1282" y="98"  width="18"  height="16" />
-            </g>
-          )}
         </g>
       )}
 
