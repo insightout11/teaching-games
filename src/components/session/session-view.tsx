@@ -1031,9 +1031,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           className="fixed pointer-events-none"
           style={{
             zIndex: 7,
-            bottom: 0,
+            // Seat the base up near the grass/horizon line (~the back of the
+            // tarmac) rather than the very front edge of the viewport.
+            bottom: 105,
             left: isFullScreen ? '1.5vw' : 'calc(256px + 1.5vw)',
-            width: 'min(42vw, 620px)',
+            width: 'min(48vw, 720px)',
             aspectRatio: '1200 / 700',
           }}
         >
