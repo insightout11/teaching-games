@@ -1055,10 +1055,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           className="fixed pointer-events-none"
           style={{
             zIndex: 7,
-            bottom: 105,
+            // Seated a touch further back than the hangar so its base meets the grass line.
+            bottom: 122,
             right: '1.5vw',
-            width: 'min(26vw, 360px)',
-            aspectRatio: '460 / 700',
+            width: 'min(28vw, 400px)',
+            aspectRatio: '480 / 820',
           }}
         >
           <ControlTowerScene className="absolute inset-0" />
@@ -1183,19 +1184,25 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
 
-            {/* Begin Lesson — pinned at bottom, same max-width as grid */}
-            <div className="flex-shrink-0 pt-3 space-y-1.5 w-full mx-auto" style={{ maxWidth: '1100px' }}>
-              <button
-                onClick={lesson.beginLesson}
-                disabled={!lesson.missionSelectorReady}
-                className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-              >
-                {lesson.lessonSlots.length === 1 ? `Start ${lesson.lessonSlots[0].name}` : 'Begin Lesson'}
-              </button>
-              <div className="text-center">
-                <button onClick={handleEndSession} className="text-xs text-red-400/60 hover:text-red-400 transition-colors">
-                  End Session
-                </button>
+            {/* Begin Lesson — aligned to the Departures column (middle of the grid) */}
+            <div className="flex-shrink-0 pt-3 w-full mx-auto" style={{ maxWidth: '1100px' }}>
+              <div className="grid gap-4" style={{ gridTemplateColumns: '240px minmax(300px, 560px) 260px' }}>
+                <div />
+                <div className="space-y-1.5">
+                  <button
+                    onClick={lesson.beginLesson}
+                    disabled={!lesson.missionSelectorReady}
+                    className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    {lesson.lessonSlots.length === 1 ? `Start ${lesson.lessonSlots[0].name}` : 'Begin Lesson'}
+                  </button>
+                  <div className="text-center">
+                    <button onClick={handleEndSession} className="text-xs text-red-400/60 hover:text-red-400 transition-colors">
+                      End Session
+                    </button>
+                  </div>
+                </div>
+                <div />
               </div>
             </div>
 
