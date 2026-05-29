@@ -1165,6 +1165,46 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
 
         </div>
+
+        {/* Cockpit QR modal — must be inside lobby return; the main-view modal can't render during early-return */}
+        {showCockpitQr && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
+            onClick={() => setShowCockpitQr(false)}
+          >
+            <div
+              className="glass w-full max-w-md rounded-2xl border border-lc-border p-7 text-center shadow-2xl space-y-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="space-y-1">
+                <p className="text-xs opacity-50 uppercase tracking-wider font-semibold">Teacher Cockpit</p>
+                <h2 className="text-xl font-bold text-lc-text">Open controls on your device</h2>
+                <p className="text-sm text-lc-text3">Scan this while signed in as the class teacher. Students who scan it cannot access controls unless they pass the teacher ownership check.</p>
+              </div>
+              <div className="flex justify-center">
+                <div className="rounded-xl bg-white p-3">
+                  <QRCodeSVG value={cockpitUrl} size={210} level="H" includeMargin={false} />
+                </div>
+              </div>
+              <code className="block rounded-lg border border-lc-border bg-lc-surface px-4 py-2 font-mono text-sm text-violet-300 break-all">{cockpitUrl}</code>
+              {cockpitUrlNeedsLan && (
+                <div className="rounded-xl border border-amber-400/25 bg-amber-400/10 px-4 py-3 text-left">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-300">Phone access note</p>
+                  <p className="mt-1 text-sm text-amber-100/80">This QR uses localhost, which phones cannot reach. Open from a deployed URL or LAN address first.</p>
+                </div>
+              )}
+              <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-3 text-left">
+                <p className="text-xs font-semibold uppercase tracking-wide text-cyan-300">Access protection</p>
+                <p className="mt-1 text-sm text-cyan-100/75">Cockpit loads only for the authenticated owner of this class.</p>
+              </div>
+              <div className="flex flex-wrap justify-center gap-2">
+                <Button variant="ghost" size="sm" onClick={handleCopyCockpitLink} className="text-violet-300 hover:text-violet-200">{cockpitLinkCopied ? 'Copied!' : 'Copy Link'}</Button>
+                <Button variant="ghost" size="sm" onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')} className="text-cyan-400 hover:text-cyan-300">Open Cockpit</Button>
+                <Button variant="ghost" size="sm" onClick={() => setShowCockpitQr(false)}>Close</Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
