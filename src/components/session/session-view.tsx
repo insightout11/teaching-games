@@ -109,7 +109,7 @@ function DepartureBoardPanel({
               </span>
               {isUndetermined ? (
                 <span className="text-[11px] font-mono text-amber-400/35 italic tracking-wide">
-                  ✦ Crew Vote
+                  ✦ Waypoint
                 </span>
               ) : (
                 <span
@@ -870,7 +870,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             : getAllActivities().find((a) => a.key === nextSlot.key))
         : undefined;
       const isNextUndetermined = nextSlot?.key === 'mission-selector' || (nextSlot?.pool?.length ?? 0) > 0;
-      const toName = isNextUndetermined ? 'Crew Vote' : (found?.name ?? nextSlot?.name ?? null);
+      const toName = isNextUndetermined ? 'Waypoint' : (found?.name ?? nextSlot?.name ?? null);
       const totalSlots = lesson.lessonSlots.length;
       // Destination sky phase (same formula as weatherState memo)
       let toWeather: WeatherState = 'cruising';
