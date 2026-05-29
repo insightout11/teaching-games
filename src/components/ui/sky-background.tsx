@@ -12,6 +12,7 @@ interface SkyBackgroundProps {
   altitude?: number;         // 0.0 (ground) → 1.0 (cruise peak)
   altitudeInitial?: number;  // override starting altitude for a single-shot parallax animation
   earthState?: EarthState;
+  showCityLights?: boolean;
   intensity?: 'subtle' | 'moderate';
   parallaxScale?: number;    // multiplier on all layer shifts (default 1 — session behavior)
   parallaxDuration?: number; // transition duration for layer shifts in seconds (default 4)
@@ -362,7 +363,7 @@ const CITY_LIGHTS_DOUBLED = [
 
 // ─── Earth layer ─────────────────────────────────────────────────────────────
 
-function EarthLayer({ earthState, weatherState, animate = false }: { earthState: EarthState; weatherState: WeatherState; animate?: boolean }) {
+function EarthLayer({ earthState, weatherState, animate = false, showCityLights = true }: { earthState: EarthState; weatherState: WeatherState; animate?: boolean; showCityLights?: boolean }) {
   const isLanding  = earthState === 'landing';
   const isTakeoff  = earthState === 'takeoff';
   const isFlight   = earthState === 'flight';
@@ -509,7 +510,7 @@ function EarthLayer({ earthState, weatherState, animate = false }: { earthState:
       )}
 
       {/* ── Flight + city departing (climbing) — elevated city dots, scrolling when animate ── */}
-      {isCityDepart && (
+      {isCityDepart && showCityLights && (
         <g opacity="0.52" className={animate ? 'city-drift' : undefined}>
           {/* Bloom — original + second copy at cx+1440 */}
           <ellipse cx="253"  cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.07" filter="url(#bloom-soft)" />
@@ -528,7 +529,7 @@ function EarthLayer({ earthState, weatherState, animate = false }: { earthState:
       )}
 
       {/* ── Flight + city approaching (golden/pre-dawn) — elevated city dots, scrolling when animate ── */}
-      {isCityApproach && (
+      {isCityApproach && showCityLights && (
         <g className={animate ? 'city-drift' : undefined}>
           <ellipse cx="253"  cy="135" rx="68" ry="14" fill="#f5a030" opacity="0.09" filter="url(#bloom-soft)" />
           <ellipse cx="685"  cy="135" rx="82" ry="16" fill="#f5a030" opacity="0.10" filter="url(#bloom-soft)" />
@@ -556,6 +557,7 @@ export function SkyBackground({
   altitude = 0,
   altitudeInitial,
   earthState = 'flight',
+  showCityLights = true,
   intensity = 'moderate',
   parallaxScale = 1,
   parallaxDuration = 4,
@@ -688,7 +690,7 @@ export function SkyBackground({
         animate={{ y: earthShift, x: earthX }}
         transition={{ duration: parallaxDuration, ease: parallaxEase }}
       >
-        <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} />
+        <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} showCityLights={showCityLights} />
       </motion.div>
 
       {/* Far layer */}

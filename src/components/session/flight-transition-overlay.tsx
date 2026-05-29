@@ -20,9 +20,9 @@ interface FlightTransitionOverlayProps {
 }
 
 // y value that places the plane on the sideways runway tarmac.
-// Tarmac centre ≈ 44px from screen bottom; plane base top: 32% - 4rem.
-// 63vh lands the plane on the tarmac across common screen heights (768–1080px).
-const RUNWAY_Y = '63vh';
+// Tarmac centre ≈ 70px from screen bottom (140px runway, tarmac y=24–116); plane base top: 32% - 4rem.
+// 66vh lands the plane on the tarmac across common screen heights (768–1080px).
+const RUNWAY_Y = '66vh';
 
 const LEG_CONFIG: Record<FlightTransitionLeg, {
   yInitial: string;
@@ -35,7 +35,6 @@ const LEG_CONFIG: Record<FlightTransitionLeg, {
 };
 
 const TRAVEL_DURATION = 2800;
-const RUNWAY_LIGHT_COUNT = 12;
 
 // ─── Sideways runway strip ────────────────────────────────────────────────────
 // Horizontal runway visible during takeoff and descent transitions.
@@ -46,20 +45,20 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
   return (
     <div
       className="absolute bottom-0 left-0 right-0 pointer-events-none"
-      style={{ height: 88, zIndex: 8 }}
+      style={{ height: 140, zIndex: 8 }}
       aria-hidden
     >
       <svg
-        viewBox="0 0 1440 88"
+        viewBox="0 0 1440 140"
         width="100%"
-        height="88"
+        height="140"
         preserveAspectRatio="none"
         style={{ display: 'block' }}
         aria-hidden
       >
         <defs>
           <filter id="rwy-glow" x="-150%" y="-150%" width="400%" height="400%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="b" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2.8" result="b" />
             <feMerge>
               <feMergeNode in="b" />
               <feMergeNode in="SourceGraphic" />
@@ -68,46 +67,44 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
         </defs>
 
         {/* Upper grass */}
-        <rect x="0" y="0" width="1440" height="18" fill="#0A1A0E" />
-        {/* Tarmac surface */}
-        <rect x="0" y="18" width="1440" height="52" fill="#101C26" />
-        {/* Lower ground */}
-        <rect x="0" y="70" width="1440" height="18" fill="#0A1810" />
+        <rect x="0" y="0" width="1440" height="24" fill="#081408" />
+        {/* Tarmac — y=24 to y=116, 92px tall */}
+        <rect x="0" y="24" width="1440" height="92" fill="#0C1820" />
+        {/* Lower grass */}
+        <rect x="0" y="116" width="1440" height="24" fill="#091408" />
 
         {/* Tarmac edge lines */}
-        <line x1="0" y1="18.5" x2="1440" y2="18.5" stroke="rgba(255,255,255,0.24)" strokeWidth="1.5" />
-        <line x1="0" y1="69.5" x2="1440" y2="69.5" stroke="rgba(255,255,255,0.24)" strokeWidth="1.5" />
+        <line x1="0" y1="24.5" x2="1440" y2="24.5" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
+        <line x1="0" y1="115.5" x2="1440" y2="115.5" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
 
-        {/* Centerline dashes */}
-        {Array.from({ length: 20 }, (_, i) => (
-          <rect key={i} x={i * 72 + 8} y="43" width="36" height="2.5" fill="rgba(255,255,255,0.36)" rx="1" />
+        {/* Centerline dashes — 12 dashes, 60px wide, 60px gap, y_center=70 */}
+        {Array.from({ length: 12 }, (_, i) => (
+          <rect key={i} x={i * 120} y="67" width="60" height="6" fill="rgba(255,255,255,0.38)" rx="1" />
         ))}
 
-        {/* Left threshold markings */}
-        {[0, 1, 2, 3, 4].map(i => (
-          <rect key={i} x={10 + i * 14} y="22" width="9" height="36" fill="rgba(255,255,255,0.22)" rx="0.5" />
-        ))}
+        {/* Aiming point markings — two solid bars flanking the centerline, left and right */}
+        {/* Left pair */}
+        <rect x="240" y="37" width="60" height="22" fill="rgba(255,255,255,0.28)" rx="0.5" />
+        <rect x="240" y="81" width="60" height="22" fill="rgba(255,255,255,0.28)" rx="0.5" />
+        {/* Right pair */}
+        <rect x="1140" y="37" width="60" height="22" fill="rgba(255,255,255,0.28)" rx="0.5" />
+        <rect x="1140" y="81" width="60" height="22" fill="rgba(255,255,255,0.28)" rx="0.5" />
 
-        {/* Right threshold markings */}
-        {[0, 1, 2, 3, 4].map(i => (
-          <rect key={i} x={1360 + i * 14} y="22" width="9" height="36" fill="rgba(255,255,255,0.22)" rx="0.5" />
-        ))}
-
-        {/* Edge lights */}
+        {/* Edge lights — 10 per row, amber */}
         <g filter="url(#rwy-glow)">
-          {Array.from({ length: RUNWAY_LIGHT_COUNT }, (_, i) => {
-            const cx = 20 + (i / (RUNWAY_LIGHT_COUNT - 1)) * 1400;
+          {Array.from({ length: 10 }, (_, i) => {
+            const cx = 32 + (i / 9) * 1376;
             return (
               <g key={i}>
                 <circle
-                  cx={cx} cy="14" r="3.5" fill="#FFA226"
+                  cx={cx} cy="15" r="4" fill="#FFA226"
                   className={animate ? 'runway-edge-light' : undefined}
-                  style={{ animationDelay: `-${(i * 0.17) % 1.9}s` }}
+                  style={{ animationDelay: `-${(i * 0.19) % 1.9}s` }}
                 />
                 <circle
-                  cx={cx} cy="74" r="3.5" fill="#FFA226"
+                  cx={cx} cy="125" r="4" fill="#FFA226"
                   className={animate ? 'runway-edge-light' : undefined}
-                  style={{ animationDelay: `-${((i * 0.17) + 0.09) % 1.9}s` }}
+                  style={{ animationDelay: `-${((i * 0.19) + 0.09) % 1.9}s` }}
                 />
               </g>
             );
@@ -150,6 +147,7 @@ export function FlightTransitionOverlay({
         altitude={altitudeTo}
         altitudeInitial={prefersReducedMotion ? altitudeTo : altitudeFrom}
         earthState="flight"
+        showCityLights={!showRunway}
         intensity="moderate"
         parallaxScale={prefersReducedMotion ? 1 : 4}
         parallaxDuration={TRAVEL_DURATION / 1000}
