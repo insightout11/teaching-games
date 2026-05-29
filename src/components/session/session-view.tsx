@@ -80,48 +80,47 @@ function DepartureBoardPanel({
       </div>
 
       {/* Column labels */}
-      <div className="grid px-4 py-1" style={{ gridTemplateColumns: '28px 1fr 28px 72px', gap: '0 12px', borderBottom: '1px solid rgba(251,191,36,0.07)' }}>
-        {(['FLT', 'DESTINATION', 'GT', 'STATUS'] as const).map((h) => (
+      <div className="grid px-4 py-1 flex-shrink-0" style={{ gridTemplateColumns: '36px 1fr 86px', gap: '0 12px', borderBottom: '1px solid rgba(251,191,36,0.07)' }}>
+        {(['FLT', 'DESTINATION', 'STATUS'] as const).map((h) => (
           <span key={h} className="text-[8px] font-mono text-amber-400/28 tracking-[0.18em]">{h}</span>
         ))}
       </div>
 
-      {/* Rows — flex-1 fills available height when board is in a tall container */}
-      <div className="flex-1 flex flex-col justify-start overflow-y-auto min-h-0">
-      {slots.map((slot, i) => {
-        const st = getStatus(i);
-        const isNext = i === 0;
-        return (
-          <div
-            key={i}
-            className="grid px-4 py-2 items-center"
-            style={{
-              gridTemplateColumns: '28px 1fr 28px 72px',
-              gap: '0 12px',
-              borderBottom: i < slots.length - 1 ? '1px solid rgba(251,191,36,0.05)' : 'none',
-              background: isNext ? 'rgba(251,191,36,0.025)' : 'transparent',
-            }}
-          >
-            <span className="text-[11px] font-mono font-bold text-amber-400/50" style={isNext ? amber : {}}>
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <span
-              className="text-[11px] font-mono truncate"
+      {/* Rows — flex-1 on the wrapper + flex-1 on each row distributes height evenly */}
+      <div className="flex-1 flex flex-col overflow-y-auto min-h-0">
+        {slots.map((slot, i) => {
+          const st = getStatus(i);
+          const isNext = i === 0;
+          return (
+            <div
+              key={i}
+              className="grid px-4 items-center flex-1"
               style={{
-                color: isNext ? 'rgba(251,191,36,0.95)' : 'rgba(251,191,36,0.55)',
-                textShadow: isNext ? amber.textShadow : 'none',
+                gridTemplateColumns: '36px 1fr 86px',
+                gap: '0 12px',
+                minHeight: '36px',
+                borderBottom: i < slots.length - 1 ? '1px solid rgba(251,191,36,0.05)' : 'none',
+                background: isNext ? 'rgba(251,191,36,0.03)' : 'transparent',
               }}
             >
-              {slot.name.toUpperCase()}
-            </span>
-            <span className="text-[11px] font-mono text-amber-400/40 text-center">{i + 1}</span>
-            <span className={`text-[9px] font-mono font-bold tracking-[0.1em] ${st.cls} ${st.pulse ? 'animate-pulse' : ''}`}>
-              {st.label}
-            </span>
-          </div>
-        );
-      })}
-
+              <span className="text-[11px] font-mono font-bold text-amber-400/50" style={isNext ? amber : {}}>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span
+                className="text-[12px] font-mono truncate"
+                style={{
+                  color: isNext ? 'rgba(251,191,36,0.95)' : 'rgba(251,191,36,0.55)',
+                  textShadow: isNext ? amber.textShadow : 'none',
+                }}
+              >
+                {slot.name}
+              </span>
+              <span className={`text-[9px] font-mono font-bold tracking-[0.1em] ${st.cls} ${st.pulse ? 'animate-pulse' : ''}`}>
+                {st.label}
+              </span>
+            </div>
+          );
+        })}
       </div>
       {/* Footer */}
       <div className="flex items-center gap-2 px-4 py-2 flex-shrink-0" style={{ borderTop: '1px solid rgba(251,191,36,0.07)' }}>
