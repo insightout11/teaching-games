@@ -12,13 +12,13 @@ import { getPlaneAsset } from '@/lib/plane-progression';
 // above reveals the SkyBackground sky. Ground rects bleed well past the viewBox
 // (overflow visible) so the tarmac fills the bottom corners on any aspect.
 //
-// Layout in scene units (ground line GRASS_Y = 648):
-//   Hangar  — left,  g transform translate(20,298) scale(0.5)   [art 1200×700]
-//   Plane   — parked in the hangar mouth (centre x≈343, floor 648)
-//   Tower   — right, g transform translate(1293,222) scale(0.52) [art 480×820]
-//   Distant planes — small, near the grass line between hangar and tower
+// Depth staging — two ground references create near/far perspective:
+//   FORE_Y (≈890, near/bottom) — the hangar + hero plane sit here: low, big, close.
+//   GRASS_Y (≈740, far/horizon) — tower, windsock and distant planes sit here:
+//     higher up and smaller, so their size reads as DISTANCE, not a scale mismatch.
 
-const GRASS_Y = 790;
+const GRASS_Y = 740; // far horizon line (background elements)
+const FORE_Y = 890;  // foreground apron line (hangar + hero plane)
 
 // ── Hangar art (local coords, base at y=700) ─────────────────────────────────
 const H_FRONT_OUTER =
@@ -37,7 +37,7 @@ const H_LIGHTS = [485, 645, 805] as const;
 
 function Hangar() {
   return (
-    <g transform={`translate(20,${GRASS_Y - 350}) scale(0.5)`}>
+    <g transform={`translate(20,${FORE_Y - 350}) scale(0.5)`}>
       {/* depth: roof behind + receding side wall */}
       <path d={H_BACK_ARCH} fill="#1a222d" />
       <polygon points={H_LEFT_WALL} fill="#111720" />
@@ -145,10 +145,10 @@ function MiniPlane({ x, s, nav }: { x: number; s: number; nav: string }) {
 
 export function AirfieldScene({ planeKey, className }: { planeKey?: string | null; className?: string }) {
   const planeWebp = getPlaneAsset(planeKey).webp;
-  // Plane parked in the hangar mouth (mouth centre ≈ 20 + 645*0.5 = 342.5, floor = GRASS_Y)
+  // Plane parked in the hangar mouth (mouth centre ≈ 20 + 645*0.5 = 342.5, floor = FORE_Y)
   const PW = 340, PH = 170;
   const PX = 342.5 - PW / 2;
-  const PY = GRASS_Y - PH;
+  const PY = FORE_Y - PH;
 
   return (
     <svg
