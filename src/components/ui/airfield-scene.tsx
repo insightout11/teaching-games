@@ -3,8 +3,9 @@
 import { motion } from 'framer-motion';
 import { getPlaneAsset } from '@/lib/plane-progression';
 
-// Single consolidated lobby airfield: ground + hangar + parked plane + control
-// tower + windsock + distant planes, ALL in one coordinate system so they stay
+// Single consolidated lobby airfield: ground + hangar + parked plane (with
+// blinking nav lights) + control tower + windsock + taxiway edge lights + a
+// dusk moon and twinkling stars, ALL in one coordinate system so they stay
 // locked together and scale as a unit at every screen size.
 //
 // viewBox 0 0 1600 900 (16:9), preserveAspectRatio="xMidYMax meet" — the whole
@@ -21,6 +22,49 @@ import { getPlaneAsset } from '@/lib/plane-progression';
 const GRASS_Y = 720; // far horizon line — the control tower sits here
 const APRON_Y = 856; // grass field → foreground tarmac apron transition
 const FORE_Y = 884;  // foreground apron line — hangar + hero plane + windsock sit here
+
+// A few brighter twinkling stars in the upper sky (over the SkyBackground dusk)
+const STARS = [
+  { x: 120, y: 70, r: 1.7, o: 0.9 }, { x: 250, y: 120, r: 1.2, o: 0.7 },
+  { x: 340, y: 60, r: 1.4, o: 0.85 }, { x: 470, y: 110, r: 1.1, o: 0.65 },
+  { x: 560, y: 50, r: 1.5, o: 0.8 }, { x: 720, y: 90, r: 1.2, o: 0.7 },
+  { x: 880, y: 55, r: 1.3, o: 0.75 }, { x: 1010, y: 120, r: 1.1, o: 0.6 },
+  { x: 1140, y: 70, r: 1.5, o: 0.82 }, { x: 1280, y: 105, r: 1.2, o: 0.7 },
+  { x: 1420, y: 60, r: 1.4, o: 0.8 }, { x: 1520, y: 130, r: 1.1, o: 0.6 },
+] as const;
+
+// Blinking navigation/beacon light: soft glow + bright core, fading in/out
+function NavLight({ cx, cy, r, core, glow, dur, delay = 0 }: {
+  cx: number; cy: number; r: number; core: string; glow: string; dur: number; delay?: number;
+}) {
+  return (
+    <motion.g
+      animate={{ opacity: [1, 0.12, 1] }}
+      transition={{ duration: dur, repeat: Infinity, ease: 'easeInOut', delay }}
+    >
+      <circle cx={cx} cy={cy} r={r * 3.2} fill={glow} filter="url(#af-bulb)" />
+      <circle cx={cx} cy={cy} r={r} fill={core} />
+    </motion.g>
+  );
+}
+
+// Blue taxiway edge lights receding from the hangar apron into the field
+function TaxiwayLights() {
+  const dots = [
+    { x: 585, y: 872, r: 3.6 }, { x: 648, y: 838, r: 3.1 }, { x: 702, y: 808, r: 2.6 },
+    { x: 747, y: 783, r: 2.2 }, { x: 784, y: 763, r: 1.9 }, { x: 814, y: 747, r: 1.6 },
+  ];
+  return (
+    <g>
+      {dots.map((d, i) => (
+        <g key={i}>
+          <circle cx={d.x} cy={d.y} r={d.r * 2.6} fill="rgba(80,150,255,0.16)" filter="url(#af-bulb)" />
+          <circle cx={d.x} cy={d.y} r={d.r} fill="rgba(150,200,255,0.9)" />
+        </g>
+      ))}
+    </g>
+  );
+}
 
 // ── Hangar art (local coords, base at y=700) ─────────────────────────────────
 const H_FRONT_OUTER =
@@ -56,11 +100,17 @@ function Hangar() {
       <path d={H_BACK_WALL} fill="url(#af-backwall)" />
       <ellipse cx="645" cy="470" rx="250" ry="170"
         fill="rgba(210,120,30,0.22)" filter="url(#af-soft)" />
-      {H_LIGHTS.map((lx) => (
+      {H_LIGHTS.map((lx, i) => (
         <g key={lx}>
           <rect x={lx - 1.5} y={258} width="3" height="20" fill="rgba(150,130,90,0.5)" />
-          <ellipse cx={lx} cy={288} rx="13" ry="5" fill="rgba(255,210,110,0.85)" filter="url(#af-bulb)" />
-          <circle cx={lx} cy={288} r="28" fill="rgba(255,180,60,0.18)" filter="url(#af-bulb)" />
+          {/* subtle independent flicker per pendant */}
+          <motion.g
+            animate={{ opacity: [1, 0.8, 0.95, 0.84, 1] }}
+            transition={{ duration: 3.4 + i * 0.8, repeat: Infinity, ease: 'easeInOut', delay: i * 0.5 }}
+          >
+            <ellipse cx={lx} cy={288} rx="13" ry="5" fill="rgba(255,210,110,0.85)" filter="url(#af-bulb)" />
+            <circle cx={lx} cy={288} r="28" fill="rgba(255,180,60,0.18)" filter="url(#af-bulb)" />
+          </motion.g>
         </g>
       ))}
       {/* rim */}
@@ -192,22 +242,43 @@ export function AirfieldScene({ planeKey, className }: { planeKey?: string | nul
         </filter>
       </defs>
 
+      {/* SKY EXTRAS — pale dusk moon + a few twinkling stars (over SkyBackground) */}
+      <g>
+        <circle cx="200" cy="110" r="58" fill="rgba(255,232,205,0.10)" filter="url(#af-soft)" />
+        <circle cx="200" cy="110" r="23" fill="rgba(255,240,222,0.82)" />
+        <circle cx="208" cy="103" r="4" fill="rgba(220,205,185,0.35)" />
+        <circle cx="194" cy="118" r="2.6" fill="rgba(220,205,185,0.3)" />
+      </g>
+      {STARS.map((s, i) => (
+        <motion.circle
+          key={i}
+          cx={s.x} cy={s.y} r={s.r} fill="rgba(255,255,255,0.95)"
+          animate={{ opacity: [s.o, s.o * 0.28, s.o] }}
+          transition={{ duration: 2.6 + (i % 5) * 0.7, repeat: Infinity, ease: 'easeInOut', delay: (i * 0.5) % 3 }}
+        />
+      ))}
+
       {/* GROUND — bleeds past the viewBox so it fills the bottom corners.
           Mostly grass field, with a small tarmac apron in the foreground. */}
       <rect x="-800" y={GRASS_Y} width="3200" height={APRON_Y - GRASS_Y} fill="url(#af-grass)" />
       <rect x="-800" y={APRON_Y} width="3200" height={900 - APRON_Y + 200} fill="url(#af-tarmac)" />
       <rect x="-800" y={APRON_Y} width="3200" height="2" fill="rgba(255,255,255,0.06)" />
 
+      <TaxiwayLights />
       <Tower />
       <Windsock />
       <Hangar />
 
-      {/* Plane parked in the hangar mouth */}
+      {/* Plane parked in the hangar mouth — bobs gently; nav lights blink with it */}
       <motion.g
         animate={{ y: [0, -3, 0] }}
         transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
       >
         <image href={planeWebp} x={PX} y={PY} width={PW} height={PH} preserveAspectRatio="xMidYMax meet" />
+        {/* red anti-collision beacon (top), green starboard, red port */}
+        <NavLight cx={310} cy={786} r={2.4} core="#ff5038" glow="rgba(255,70,50,0.5)" dur={1.2} />
+        <NavLight cx={400} cy={812} r={2.4} core="#46e07a" glow="rgba(70,224,122,0.5)" dur={2.4} delay={0.3} />
+        <NavLight cx={236} cy={812} r={2.4} core="#ff5038" glow="rgba(255,70,50,0.5)" dur={2.4} delay={1.4} />
       </motion.g>
     </svg>
   );
