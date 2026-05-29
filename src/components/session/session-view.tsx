@@ -36,6 +36,7 @@ import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
+import { avatarUrl } from '@/lib/avatar-options';
 import { ExternalLink, Maximize2, Minimize2, QrCode, Settings, Smartphone } from 'lucide-react';
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
@@ -54,15 +55,6 @@ const SESSION_SKILL_FILTERS: { key: SessionSkillFilter; label: string; skills: s
 const GAME_CATEGORY_ORDER = ['quiz', 'vocabulary', 'grammar-writing', 'logic-puzzles'] as const;
 const ACTIVITY_CATEGORY_ORDER = ['icebreaker', 'learning', 'practice', 'debate', 'closing'] as const;
 
-const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
-const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
-
-function resolveHelmet(avatarSeed: string, name: string): string {
-  if (VALID_HELMET_SEEDS.has(avatarSeed)) return avatarSeed;
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
-  return HELMET_SEEDS[hash % HELMET_SEEDS.length];
-}
 import { Button } from '@/components/ui/button';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
 
@@ -787,10 +779,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         else if (progress < 0.65) toWeather = 'cruising';
         else toWeather = 'golden';
       }
-      // Leg type: takeoff = first transition; descent = last two slots; cruise = middle
+      // Leg type: takeoff = first transition; descent = final transition only; cruise = middle
       const leg: FlightTransitionLeg =
         nextIndex === 1 ? 'takeoff'
-        : nextIndex >= totalSlots - 2 ? 'descent'
+        : nextIndex >= totalSlots - 1 ? 'descent'
         : 'cruise';
       // Altitude animates from current slot to destination slot
       const altFrom = totalSlots > 2 ? computeAltitude(currentIndex, totalSlots) : 0;
@@ -1047,7 +1039,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             className="flex flex-col items-center gap-1 bg-lc-card rounded-2xl px-3 py-2 min-w-[64px]"
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={`/avatars/avatar-${resolveHelmet(p.avatar_seed ?? '', p.display_name)}.png`} alt="" width={40} height={40} className="w-10 h-10 rounded-xl" />
+                            <img src={avatarUrl(p.avatar_seed, p.display_name)} alt="" width={40} height={40} className="w-10 h-10 rounded-xl" />
                             <span className="text-xs font-semibold text-lc-text truncate max-w-[64px] text-center">{p.display_name}</span>
                           </div>
                         ))}

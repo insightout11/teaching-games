@@ -163,8 +163,8 @@ const SKYLINE_WINDOWS: SkyWin[] = [
 
 function SkylineHorizon() {
   const f  = 'rgba(8,12,20,0.92)';
-  const ww = 'rgba(255,200,65,0.65)';
-  const wc = 'rgba(180,220,255,0.50)';
+  const ww = 'rgba(255,195,60,0.55)';
+  const wc = 'rgba(190,225,255,0.42)';
   return (
     <div
       style={{ position: 'absolute', top: -80, left: 0, right: 0, height: 80, pointerEvents: 'none' }}
@@ -334,7 +334,7 @@ export function FlightTransitionOverlay({
               style={{
                 width: '200px',
                 height: '7px',
-                background: 'linear-gradient(to left, rgba(100,220,255,0.5) 0%, transparent 100%)',
+                background: 'linear-gradient(to left, rgba(200,230,255,0.45) 0%, transparent 100%)',
                 filter: 'blur(4px)',
                 borderRadius: '9999px',
               }}
