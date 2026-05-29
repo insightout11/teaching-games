@@ -44,9 +44,11 @@ import { ExternalLink, Maximize2, Minimize2, QrCode, Settings, Smartphone } from
 function DepartureBoardPanel({
   slots,
   flightCode,
+  className,
 }: {
   slots: Array<{ name: string }>;
   flightCode: string;
+  className?: string;
 }) {
   const getStatus = (i: number) => {
     if (i === 0) return { label: 'BOARDING', cls: 'text-emerald-400', pulse: true };
@@ -57,7 +59,7 @@ function DepartureBoardPanel({
 
   return (
     <div
-      className="rounded-2xl overflow-hidden flex-shrink-0"
+      className={`rounded-2xl overflow-hidden flex flex-col ${className ?? ''}`}
       style={{
         background: 'rgba(3,6,12,0.97)',
         border: '1px solid rgba(251,191,36,0.18)',
@@ -84,7 +86,8 @@ function DepartureBoardPanel({
         ))}
       </div>
 
-      {/* Rows */}
+      {/* Rows — flex-1 fills available height when board is in a tall container */}
+      <div className="flex-1 flex flex-col justify-start overflow-y-auto min-h-0">
       {slots.map((slot, i) => {
         const st = getStatus(i);
         const isNext = i === 0;
@@ -119,8 +122,9 @@ function DepartureBoardPanel({
         );
       })}
 
+      </div>
       {/* Footer */}
-      <div className="flex items-center gap-2 px-4 py-2" style={{ borderTop: '1px solid rgba(251,191,36,0.07)' }}>
+      <div className="flex items-center gap-2 px-4 py-2 flex-shrink-0" style={{ borderTop: '1px solid rgba(251,191,36,0.07)' }}>
         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
         <span className="text-[8px] font-mono text-amber-400/32 tracking-[0.15em] uppercase">
           Gate open · All passengers board
@@ -1017,89 +1021,83 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
           </div>
         </div>
-        <div className="relative z-10 h-[74vh] overflow-hidden">
-          <div className="h-full flex flex-col max-w-5xl mx-auto px-6 lg:px-8 pt-5 pb-4">
+        <div className="relative z-10 flex flex-col h-[78vh] px-6 lg:px-8 pt-4 pb-3">
 
-            {/* Title */}
-            <div className="text-center mb-4 flex-shrink-0">
-              <h1 className="text-2xl font-bold text-lc-text">
-                {lesson.lessonSlots.length === 1 ? `Ready to play ${lesson.lessonSlots[0].name}` : 'Launch Lobby'}
+            {/* Slim title bar */}
+            <div className="flex items-baseline justify-between mb-3 flex-shrink-0">
+              <h1 className="text-lg font-bold text-lc-text">
+                {lesson.lessonSlots.length === 1 ? `Ready · ${lesson.lessonSlots[0].name}` : 'Launch Lobby'}
               </h1>
-              <p className="text-sm text-lc-text2">
+              <p className="text-sm text-lc-text2 truncate ml-4">
                 {lesson.customTopic}
-                {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission Lesson</span>}
+                {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission</span>}
               </p>
             </div>
 
-            {/* 2-column grid */}
-            <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
+            {/* 3-column grid: QR | Departure board | Passengers */}
+            <div className="grid gap-4 flex-1 min-h-0" style={{ gridTemplateColumns: '240px 1fr 260px' }}>
 
-              {/* Left column: Join QR + Flight Plan */}
-              <div className="flex flex-col gap-4 overflow-y-auto min-h-0">
-                <div className="glass rounded-2xl p-5 flex-shrink-0">
-                  <p className="text-xs opacity-50 uppercase tracking-wider font-semibold text-center mb-3">Join Link</p>
-                  <div className="flex justify-center mb-3">
-                    <div className="p-2.5 bg-white rounded-xl">
-                      <QRCodeSVG value={joinUrl} size={120} level="H" includeMargin={false} />
+              {/* Left: Join QR + Teacher Device */}
+              <div className="flex flex-col gap-3 min-h-0">
+                <div className="glass rounded-2xl p-4 flex-shrink-0">
+                  <p className="text-[10px] opacity-50 uppercase tracking-wider font-semibold text-center mb-2.5">Join Link</p>
+                  <div className="flex justify-center mb-2.5">
+                    <div className="p-2 bg-white rounded-xl">
+                      <QRCodeSVG value={joinUrl} size={148} level="H" includeMargin={false} />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <code className="text-cyan-400 text-xs bg-lc-surface border border-lc-border px-3 py-1.5 rounded-lg font-mono break-all flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <code className="text-cyan-400 text-[10px] bg-lc-surface border border-lc-border px-2 py-1 rounded-lg font-mono truncate flex-1 min-w-0">
                       {joinUrl}
                     </code>
                     <button
                       onClick={handleCopyJoinLink}
-                      className="flex-shrink-0 px-3 py-1.5 rounded-lg glass border border-lc-border text-xs hover:bg-lc-card transition-colors"
+                      className="flex-shrink-0 px-2.5 py-1 rounded-lg glass border border-lc-border text-xs hover:bg-lc-card transition-colors"
                     >
-                      {joinLinkCopied ? 'Copied!' : 'Copy'}
+                      {joinLinkCopied ? '✓' : 'Copy'}
                     </button>
                   </div>
                 </div>
 
-                <div className="glass rounded-2xl p-5 flex-shrink-0">
-                  <p className="text-xs opacity-50 uppercase tracking-wider font-semibold mb-3">Teacher Device</p>
-                  <div className="flex items-center gap-3">
-                    <div className="shrink-0 rounded-xl bg-white p-2">
-                      <QRCodeSVG value={cockpitUrl} size={72} level="H" includeMargin={false} />
+                <div className="glass rounded-2xl p-3 flex-shrink-0">
+                  <p className="text-[10px] opacity-50 uppercase tracking-wider font-semibold mb-2">Teacher Device</p>
+                  <div className="flex items-center gap-2.5">
+                    <div className="shrink-0 rounded-lg bg-white p-1.5">
+                      <QRCodeSVG value={cockpitUrl} size={56} level="H" includeMargin={false} />
                     </div>
-                    <div className="min-w-0 flex-1 space-y-2">
-                      <p className="text-sm font-semibold text-lc-text">Open cockpit before launch</p>
-                      <p className="text-xs text-lc-text3 leading-snug">Private controls require the class owner login.</p>
-                      <div className="flex flex-wrap gap-2">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-semibold text-lc-text mb-1.5 leading-tight">Open cockpit before launch</p>
+                      <div className="flex gap-1.5">
                         <button
                           type="button"
                           onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')}
-                          className="min-h-9 rounded-lg border border-violet-400/25 bg-violet-400/10 px-3 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
+                          className="min-h-8 rounded-lg border border-violet-400/25 bg-violet-400/10 px-2.5 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
                         >
-                          <span className="inline-flex items-center gap-1.5">
-                            <ExternalLink className="h-3.5 w-3.5" />
-                            Open
-                          </span>
+                          <span className="inline-flex items-center gap-1"><ExternalLink className="h-3 w-3" />Open</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => setShowCockpitQr(true)}
-                          className="min-h-9 rounded-lg border border-violet-400/25 bg-violet-400/10 px-3 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
+                          className="min-h-8 rounded-lg border border-violet-400/25 bg-violet-400/10 px-2.5 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
                         >
-                          <span className="inline-flex items-center gap-1.5">
-                            <QrCode className="h-3.5 w-3.5" />
-                            QR
-                          </span>
+                          <span className="inline-flex items-center gap-1"><QrCode className="h-3 w-3" />QR</span>
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-
-                <DepartureBoardPanel
-                  slots={lesson.lessonSlots}
-                  flightCode={`LC-${session.id.slice(-4).toUpperCase()}`}
-                />
               </div>
 
-              {/* Right column: Students Joined + Mission status */}
-              <div className="flex flex-col gap-4 min-h-0">
-                <div className="glass rounded-2xl p-5 flex-1 min-h-0 flex flex-col">
+              {/* Center: Departure board — fills full height */}
+              <DepartureBoardPanel
+                slots={lesson.lessonSlots}
+                flightCode={`LC-${session.id.slice(-4).toUpperCase()}`}
+                className="h-full"
+              />
+
+              {/* Right: Passengers */}
+              <div className="flex flex-col gap-3 min-h-0">
+                <div className="glass rounded-2xl p-4 flex-1 min-h-0 flex flex-col">
                   <div className="flex items-center justify-between mb-3 flex-shrink-0">
                     <h2 className="text-xs font-semibold opacity-70 uppercase tracking-wider">Passengers</h2>
                     <div className="flex items-center gap-2">
@@ -1112,19 +1110,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   <div className="flex-1 overflow-y-auto min-h-0">
                     {sessionParticipants.length === 0 ? (
                       <div className="text-center py-6">
-                        <div className="w-10 h-10 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mx-auto mb-2" />
-                        <p className="text-sm opacity-50">Waiting for students to join...</p>
+                        <div className="w-8 h-8 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mx-auto mb-2" />
+                        <p className="text-xs opacity-50">Waiting for students…</p>
                       </div>
                     ) : (
                       <div className="flex flex-wrap gap-2">
                         {sessionParticipants.map((p) => (
-                          <div
-                            key={p.id}
-                            className="flex flex-col items-center gap-1 bg-lc-card rounded-2xl px-3 py-2 min-w-[64px]"
-                          >
+                          <div key={p.id} className="flex flex-col items-center gap-1 bg-lc-card rounded-2xl px-2.5 py-2 min-w-[56px]">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={avatarUrl(p.avatar_seed, p.display_name)} alt="" width={40} height={40} className="w-10 h-10 rounded-xl" />
-                            <span className="text-xs font-semibold text-lc-text truncate max-w-[64px] text-center">{p.display_name}</span>
+                            <img src={avatarUrl(p.avatar_seed, p.display_name)} alt="" width={36} height={36} className="w-9 h-9 rounded-xl" />
+                            <span className="text-[10px] font-semibold text-lc-text truncate max-w-[56px] text-center">{p.display_name}</span>
                           </div>
                         ))}
                       </div>
@@ -1133,18 +1128,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </div>
 
                 {lesson.lessonSlots.some((s) => s.key === 'mission-selector') && (
-                  <div className="glass rounded-2xl p-4 flex-shrink-0">
-                    <div className="flex items-center gap-3">
+                  <div className="glass rounded-2xl p-3 flex-shrink-0">
+                    <div className="flex items-center gap-2.5">
                       {lesson.missionSelectorReady ? (
-                        <>
-                          <div className="w-3 h-3 bg-emerald-400 rounded-full" />
-                          <span className="text-sm text-emerald-500">Mission Selector ready</span>
-                        </>
+                        <><div className="w-2.5 h-2.5 bg-emerald-400 rounded-full" /><span className="text-xs text-emerald-500">Mission Selector ready</span></>
                       ) : (
-                        <>
-                          <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                          <span className="text-sm text-lc-blue">Preparing Mission Selector...</span>
-                        </>
+                        <><div className="w-2.5 h-2.5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" /><span className="text-xs text-lc-blue">Preparing Mission Selector…</span></>
                       )}
                     </div>
                   </div>
@@ -1152,20 +1141,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
 
-            {/* Begin Lesson + End Session — pinned at bottom */}
-            <div className="flex-shrink-0 pt-4 space-y-2">
+            {/* Begin Lesson — pinned at bottom */}
+            <div className="flex-shrink-0 pt-3 space-y-1.5">
               <button
                 onClick={lesson.beginLesson}
                 disabled={!lesson.missionSelectorReady}
-                className="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {lesson.lessonSlots.length === 1 ? `Start ${lesson.lessonSlots[0].name}` : 'Begin Lesson'}
               </button>
               <div className="text-center">
-                <button
-                  onClick={handleEndSession}
-                  className="text-xs text-red-400/60 hover:text-red-400 transition-colors"
-                >
+                <button onClick={handleEndSession} className="text-xs text-red-400/60 hover:text-red-400 transition-colors">
                   End Session
                 </button>
               </div>
