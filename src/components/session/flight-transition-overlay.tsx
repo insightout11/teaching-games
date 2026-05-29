@@ -23,25 +23,55 @@ interface FlightTransitionOverlayProps {
 // Tarmac centre ≈ 70px from screen bottom (140px runway, tarmac y=24–116).
 // Plane anchor: top=32%, marginTop=-4rem. Formula: y = 0.68H - 62 → 60–62vh across 768–1080px.
 const RUNWAY_Y = '61vh';
+const RUNWAY_Y_BOUNCE = '59vh'; // 2vh above runway — touchdown bounce apex
 
-const LEG_CONFIG: Record<FlightTransitionLeg, {
-  yInitial: string;
-  yFinal: string;
-  rotate: number;
-}> = {
-  takeoff: { yInitial: RUNWAY_Y, yFinal: '-12vh', rotate: -10 },
-  cruise:  { yInitial: '0vh',    yFinal: '0vh',   rotate:   0 },
-  descent: { yInitial: '-10vh',  yFinal: RUNWAY_Y, rotate:   8 },
-};
+const TRAVEL_DURATION = 3200; // ms — longer to accommodate roll and deceleration phases
 
-const TRAVEL_DURATION = 2800;
+// Per-leg keyframe animation configs.
+// takeoff: stationary roll → rotate nose-up → climb
+// descent: glide approach → touchdown bounce → decelerate to stop on runway
+// cruise:  level flight across screen
+function buildPlaneAnim(leg: FlightTransitionLeg) {
+  if (leg === 'takeoff') {
+    return {
+      initial: { x: '-22vw', y: RUNWAY_Y, rotate: 0 },
+      animate: {
+        x: ['-22vw', '12vw', '110vw'] as string[],
+        y: [RUNWAY_Y, RUNWAY_Y, '-12vh'] as string[],
+        rotate: [0, 0, -11],
+      },
+      transition: { duration: TRAVEL_DURATION / 1000, times: [0, 0.28, 1.0], ease: 'linear' as const },
+    };
+  }
+  if (leg === 'descent') {
+    return {
+      initial: { x: '-22vw', y: '-10vh', rotate: 8 },
+      animate: {
+        x: ['-22vw', '36vw', '40vw', '66vw'] as string[],
+        y: ['-10vh', RUNWAY_Y, RUNWAY_Y_BOUNCE, RUNWAY_Y] as string[],
+        rotate: [8, 2, 0, 0],
+      },
+      transition: { duration: TRAVEL_DURATION / 1000, times: [0, 0.52, 0.60, 1.0], ease: 'linear' as const },
+    };
+  }
+  // cruise — unchanged level flight
+  return {
+    initial: { x: '-22vw', y: '0vh', rotate: 0 },
+    animate: { x: '110vw', y: '0vh', rotate: 0 },
+    transition: { duration: TRAVEL_DURATION / 1000, ease: 'linear' as const },
+  };
+}
 
 // ─── Sideways runway strip ────────────────────────────────────────────────────
 // Horizontal runway visible during takeoff and descent transitions.
 // The plane flies left-to-right across this runway, which is the correct
 // geometry (left-right plane motion, left-right runway orientation).
 
-function SidewaysRunway({ animate }: { animate: boolean }) {
+function SidewaysRunway({ animate, leg }: { animate: boolean; leg: 'takeoff' | 'descent' }) {
+  // Lights sequence in the direction the plane moves:
+  // takeoff → left-to-right chase; descent → right-to-left approach
+  const topDelay  = (i: number) => leg === 'takeoff' ? `-${(i * 0.19).toFixed(2)}s`       : `-${((9 - i) * 0.19).toFixed(2)}s`;
+  const botDelay  = (i: number) => leg === 'takeoff' ? `-${(i * 0.19 + 0.09).toFixed(2)}s` : `-${((9 - i) * 0.19 + 0.09).toFixed(2)}s`;
   return (
     <div
       className="absolute bottom-0 left-0 right-0 pointer-events-none"
@@ -83,7 +113,7 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
           <rect key={i} x={i * 120} y="66" width="60" height="8" fill="rgba(255,255,255,0.55)" rx="1" />
         ))}
 
-        {/* Edge lights — 10 per row, amber */}
+        {/* Edge lights — 10 per row, amber, sequenced in plane-travel direction */}
         <g filter="url(#rwy-glow)">
           {Array.from({ length: 10 }, (_, i) => {
             const cx = 32 + (i / 9) * 1376;
@@ -92,12 +122,12 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
                 <circle
                   cx={cx} cy="15" r="4" fill="#FFA226"
                   className={animate ? 'runway-edge-light' : undefined}
-                  style={{ animationDelay: `-${(i * 0.19) % 1.9}s` }}
+                  style={{ animationDelay: topDelay(i) }}
                 />
                 <circle
                   cx={cx} cy="125" r="4" fill="#FFA226"
                   className={animate ? 'runway-edge-light' : undefined}
-                  style={{ animationDelay: `-${((i * 0.19) + 0.09) % 1.9}s` }}
+                  style={{ animationDelay: botDelay(i) }}
                 />
               </g>
             );
@@ -259,11 +289,11 @@ export function FlightTransitionOverlay({
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
-  const cfg = LEG_CONFIG[leg];
   const showRunway = leg === 'takeoff' || leg === 'descent';
+  const planeAnim = buildPlaneAnim(leg);
 
   useEffect(() => {
-    const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3000);
+    const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3500);
     return () => clearTimeout(id);
   }, [onDismiss, prefersReducedMotion]);
 
@@ -312,11 +342,11 @@ export function FlightTransitionOverlay({
               background: 'linear-gradient(to bottom, transparent 0%, rgba(14,24,10,0.22) 55%, rgba(22,38,14,0.48) 100%)',
             }}
           />
-          <SidewaysRunway animate={!prefersReducedMotion} />
+          <SidewaysRunway animate={!prefersReducedMotion} leg={leg as 'takeoff' | 'descent'} />
         </>
       )}
 
-      {/* Plane — constant linear travel; child handles cruise bob */}
+      {/* Plane — multi-phase keyframe animation per leg */}
       {!prefersReducedMotion && (
         <div
           className="absolute inset-0 overflow-hidden pointer-events-none"
@@ -324,11 +354,14 @@ export function FlightTransitionOverlay({
         >
           <motion.div
             className="absolute"
-            style={{ top: '32%', left: 0, marginTop: '-4rem', rotate: cfg.rotate }}
-            initial={{ x: '-20vw', y: cfg.yInitial }}
-            animate={{ x: '110vw',  y: cfg.yFinal }}
-            transition={{ duration: TRAVEL_DURATION / 1000, ease: 'linear' }}
+            style={{ top: '32%', left: 0, marginTop: '-4rem' }}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            initial={planeAnim.initial as any}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            animate={planeAnim.animate as any}
+            transition={planeAnim.transition}
           >
+            {/* Contrail — hidden during ground roll (takeoff first 28%, landing last 40%) */}
             <div
               className="absolute top-1/2 right-full -translate-y-1/2 pointer-events-none"
               style={{
@@ -366,7 +399,7 @@ export function FlightTransitionOverlay({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={prefersReducedMotion
             ? { duration: 0 }
-            : { delay: 1.2, duration: 0.45, ease: 'easeOut' }}
+            : { delay: 1.4, duration: 0.45, ease: 'easeOut' }}
         >
           <div className="px-8 pt-7 pb-6 space-y-5">
             {from && (
