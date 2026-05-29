@@ -13,16 +13,14 @@ import { getPlaneAsset } from '@/lib/plane-progression';
 // (overflow visible) so the tarmac fills the bottom corners on any aspect.
 //
 // Depth staging — near/far perspective on a mostly-grass airfield:
-//   FORE_Y (≈884, near) — hangar + hero plane on a small foreground tarmac apron.
-//   GRASS_Y (≈720, far/horizon) — tower + windsock at the back of the grass field.
-//   DIST_Y (≈778) — distant parked planes mid-field; smaller, so size reads as distance.
+//   FORE_Y (≈884, near) — hangar + hero plane + windsock on the foreground apron.
+//   GRASS_Y (≈720, far/horizon) — control tower at the back of the grass field.
 // Most of the ground is a grass field (GRASS_Y→APRON_Y); only the foreground
 // (APRON_Y→bottom) is tarmac, so it reads as an airfield, not a runway.
 
-const GRASS_Y = 720; // far horizon line — tower, windsock, distant planes sit here
-const DIST_Y = 778;  // distant parked planes (mid grass field)
+const GRASS_Y = 720; // far horizon line — the control tower sits here
 const APRON_Y = 856; // grass field → foreground tarmac apron transition
-const FORE_Y = 884;  // foreground apron line — hangar + hero plane sit here
+const FORE_Y = 884;  // foreground apron line — hangar + hero plane + windsock sit here
 
 // ── Hangar art (local coords, base at y=700) ─────────────────────────────────
 const H_FRONT_OUTER =
@@ -73,25 +71,10 @@ function Hangar() {
   );
 }
 
-// ── Tower + windsock art (local coords, base at y=820) ───────────────────────
-function TowerAndWindsock() {
+// ── Control tower (far, at the back of the field) ────────────────────────────
+function Tower() {
   return (
     <g transform={`translate(1293,${GRASS_Y - 410}) scale(0.5)`}>
-      {/* WINDSOCK (short pole, streams left, downwind) */}
-      <rect x="170" y="814" width="20" height="8" rx="2" fill="#1b222b" />
-      <rect x="177" y="632" width="6" height="188" fill="url(#af-metal)" />
-      <circle cx="180" cy="642" r="5" fill="none" stroke="#2a333f" strokeWidth="3" />
-      <motion.g
-        style={{ transformBox: 'fill-box', transformOrigin: 'right center' }}
-        animate={{ rotate: [0, 3, 0, -3.5, 0] }}
-        transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <polygon points="180,627 143,630 143,659 180,661" fill="#e07b1e" />
-        <polygon points="143,630 108,634 108,656 143,659" fill="rgba(244,238,230,0.92)" />
-        <polygon points="108,634 81,638 81,653 108,656" fill="#e07b1e" />
-        <polygon points="81,638 60,645 81,653" fill="rgba(244,238,230,0.92)" />
-      </motion.g>
-
       {/* TOWER */}
       <polygon points="298,820 382,820 372,793 308,793" fill="#161c25" />
       <polygon points="305,820 375,820 356,250 324,250" fill="url(#af-metal)" />
@@ -132,17 +115,26 @@ function TowerAndWindsock() {
   );
 }
 
-// ── Distant parked-plane silhouette ──────────────────────────────────────────
-function MiniPlane({ x, s, nav }: { x: number; s: number; nav: string }) {
+// ── Windsock — foreground, on the tarmac apron at the hangar's line ──────────
+function Windsock() {
+  // pole base at FORE_Y, on the right of the apron
+  const px = 1330, top = FORE_Y - 150;
   return (
-    <g transform={`translate(${x},${DIST_Y}) scale(${s})`}>
-      <ellipse cx="-2" cy="3" rx="32" ry="3.5" fill="rgba(0,0,0,0.35)" />
-      <path d="M-32,-9 Q-36,-9 -32,-12 L18,-14 Q31,-13 31,-9 Q31,-5 18,-5 L-28,-5 Q-36,-5 -32,-9 Z" fill="rgba(17,23,31,0.95)" />
-      <path d="M15,-14 L27,-28 L31,-13 Z" fill="rgba(17,23,31,0.95)" />
-      <path d="M21,-14 L35,-19 L31,-12 Z" fill="rgba(17,23,31,0.95)" />
-      <path d="M-8,-8 L8,-8 L-2,5 L-20,5 Z" fill="rgba(10,14,20,0.96)" />
-      <line x1="-32" y1="-9" x2="-38" y2="-9" stroke="rgba(17,23,31,0.95)" strokeWidth="2" strokeLinecap="round" />
-      <circle cx="-37" cy="-9" r="1.8" fill={nav} />
+    <g>
+      <rect x={px - 10} y={FORE_Y - 6} width="20" height="8" rx="2" fill="#1b222b" />
+      <rect x={px - 3} y={top} width="6" height={FORE_Y - top} fill="url(#af-metal)" />
+      <circle cx={px} cy={top + 10} r="5" fill="none" stroke="#2a333f" strokeWidth="3" />
+      {/* sock streams left (downwind), fluttering from the pole */}
+      <motion.g
+        style={{ transformBox: 'fill-box', transformOrigin: 'right center' }}
+        animate={{ rotate: [0, 3, 0, -3.5, 0] }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <polygon points={`${px},${top + 4} ${px - 40},${top + 7} ${px - 40},${top + 39} ${px},${top + 41}`} fill="#e07b1e" />
+        <polygon points={`${px - 40},${top + 7} ${px - 77},${top + 11} ${px - 77},${top + 35} ${px - 40},${top + 39}`} fill="rgba(244,238,230,0.92)" />
+        <polygon points={`${px - 77},${top + 11} ${px - 107},${top + 15} ${px - 107},${top + 31} ${px - 77},${top + 35}`} fill="#e07b1e" />
+        <polygon points={`${px - 107},${top + 15} ${px - 130},${top + 23} ${px - 107},${top + 31}`} fill="rgba(244,238,230,0.92)" />
+      </motion.g>
     </g>
   );
 }
@@ -206,12 +198,8 @@ export function AirfieldScene({ planeKey, className }: { planeKey?: string | nul
       <rect x="-800" y={APRON_Y} width="3200" height={900 - APRON_Y + 200} fill="url(#af-tarmac)" />
       <rect x="-800" y={APRON_Y} width="3200" height="2" fill="rgba(255,255,255,0.06)" />
 
-      {/* Distant parked planes (mid-distance, near the grass) */}
-      <MiniPlane x={760} s={0.72} nav="rgba(255,170,60,0.8)" />
-      <MiniPlane x={985} s={0.62} nav="rgba(120,220,140,0.75)" />
-      <MiniPlane x={1180} s={0.68} nav="rgba(255,90,70,0.8)" />
-
-      <TowerAndWindsock />
+      <Tower />
+      <Windsock />
       <Hangar />
 
       {/* Plane parked in the hangar mouth */}
