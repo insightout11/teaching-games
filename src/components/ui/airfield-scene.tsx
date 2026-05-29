@@ -74,7 +74,7 @@ function Hangar() {
 // ── Control tower (far, at the back of the field) ────────────────────────────
 function Tower() {
   return (
-    <g transform={`translate(1293,${GRASS_Y - 410}) scale(0.5)`}>
+    <g transform={`translate(1380,${GRASS_Y - 410}) scale(0.5)`}>
       {/* TOWER */}
       <polygon points="298,820 382,820 372,793 308,793" fill="#161c25" />
       <polygon points="305,820 375,820 356,250 324,250" fill="url(#af-metal)" />
