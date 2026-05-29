@@ -1024,19 +1024,27 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
-        {/* Sky shows through the hangar's open door slivers (z-base) */}
-        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className={isFullScreen ? '' : '!left-64'} />
-        {/* Full-screen hangar interior — you're looking in through the open doors (z-1) */}
-        <HangarBackground className={isFullScreen ? '' : '!left-64'} />
-        {/* Plane parked inside the hangar, standing on the floor (z-7, below content cards z-10) */}
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
+        {/* Sky + existing runway, stripped of lines/lights (z-base) */}
+        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showRunwayMarkings={false} className={isFullScreen ? '' : '!left-64'} />
+        {/* Hangar parked bottom-left on the runway, plane inside its mouth (z-7, below content cards z-10) */}
+        <div
+          className="fixed pointer-events-none"
+          style={{
+            zIndex: 7,
+            bottom: 0,
+            left: isFullScreen ? '1.5vw' : 'calc(256px + 1.5vw)',
+            width: 'min(42vw, 620px)',
+            aspectRatio: '1200 / 700',
+          }}
+        >
+          <HangarBackground className="absolute inset-0" />
           <motion.div
-            className="absolute left-1/2 -translate-x-1/2"
-            style={{ bottom: '4vh' }}
+            className="absolute"
+            style={{ bottom: '1%', left: '53.75%', x: '-50%' }}
             animate={{ y: [0, -1.5, 0], rotate: [0, 0.12, 0, -0.12, 0] }}
             transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <ClassPlaneSprite planeKey={selectedPlaneKey} size="lg" variant="parked" />
+            <ClassPlaneSprite planeKey={selectedPlaneKey} size="xl" variant="parked" />
           </motion.div>
         </div>
         <div className="relative z-10 flex flex-col h-[78vh] px-6 lg:px-8 pt-4 pb-3">

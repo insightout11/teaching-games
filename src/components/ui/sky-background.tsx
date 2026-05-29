@@ -13,6 +13,7 @@ interface SkyBackgroundProps {
   altitudeInitial?: number;  // override starting altitude for a single-shot parallax animation
   earthState?: EarthState;
   showCityLights?: boolean;
+  showRunwayMarkings?: boolean; // converging lines, centerline dashes, edge lights (default true)
   intensity?: 'subtle' | 'moderate';
   parallaxScale?: number;    // multiplier on all layer shifts (default 1 — session behavior)
   parallaxDuration?: number; // transition duration for layer shifts in seconds (default 4)
@@ -363,7 +364,7 @@ const CITY_LIGHTS_DOUBLED = [
 
 // ─── Earth layer ─────────────────────────────────────────────────────────────
 
-function EarthLayer({ earthState, weatherState, animate = false, showCityLights = true }: { earthState: EarthState; weatherState: WeatherState; animate?: boolean; showCityLights?: boolean }) {
+function EarthLayer({ earthState, weatherState, animate = false, showCityLights = true, showRunwayMarkings = true }: { earthState: EarthState; weatherState: WeatherState; animate?: boolean; showCityLights?: boolean; showRunwayMarkings?: boolean }) {
   const isLanding  = earthState === 'landing';
   const isTakeoff  = earthState === 'takeoff';
   const isFlight   = earthState === 'flight';
@@ -471,26 +472,30 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
           <rect x="0" y="100" width="1440" height="14" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
           {/* Wide tarmac */}
           <rect x="0" y="114" width="1440" height="106" fill="url(#tarmac-g)" filter="url(#tarmac-tex)" />
-          {/* Converging runway boundary lines */}
-          <line x1="120" y1="220" x2="560" y2="114" stroke="white" strokeWidth="1.5" opacity="0.28" />
-          <line x1="1320" y1="220" x2="880" y2="114" stroke="white" strokeWidth="1.5" opacity="0.28" />
-          {/* Perspective centerline dashes — shrink near→far */}
-          {CENTERLINE_DASHES.map((d, i) => (
-            <rect key={i} x={720 - d.w / 2} y={d.y} width={d.w} height={d.h} fill="white" opacity="0.42" rx="0.5" />
-          ))}
-          {/* Far threshold marks — tiny at horizon end */}
-          {Array.from({ length: 8 }, (_, i) => (
-            <rect key={i} x={560 + i * 40 + 10} y={114} width={6} height={3} fill="white" opacity="0.28" rx="0.5" />
-          ))}
-          {/* Perspective edge lights — shrink along converging lines */}
-          <g filter={isTakeoff ? 'url(#dot-glow)' : 'url(#dot-glow-cool)'}>
-            {PERSP_LIGHTS.map((p, i) => (
-              <g key={i}>
-                <circle cx={p.lx} cy={p.y} r={p.r} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
-                <circle cx={p.rx} cy={p.y} r={p.r} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
+          {showRunwayMarkings && (
+            <>
+              {/* Converging runway boundary lines */}
+              <line x1="120" y1="220" x2="560" y2="114" stroke="white" strokeWidth="1.5" opacity="0.28" />
+              <line x1="1320" y1="220" x2="880" y2="114" stroke="white" strokeWidth="1.5" opacity="0.28" />
+              {/* Perspective centerline dashes — shrink near→far */}
+              {CENTERLINE_DASHES.map((d, i) => (
+                <rect key={i} x={720 - d.w / 2} y={d.y} width={d.w} height={d.h} fill="white" opacity="0.42" rx="0.5" />
+              ))}
+              {/* Far threshold marks — tiny at horizon end */}
+              {Array.from({ length: 8 }, (_, i) => (
+                <rect key={i} x={560 + i * 40 + 10} y={114} width={6} height={3} fill="white" opacity="0.28" rx="0.5" />
+              ))}
+              {/* Perspective edge lights — shrink along converging lines */}
+              <g filter={isTakeoff ? 'url(#dot-glow)' : 'url(#dot-glow-cool)'}>
+                {PERSP_LIGHTS.map((p, i) => (
+                  <g key={i}>
+                    <circle cx={p.lx} cy={p.y} r={p.r} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
+                    <circle cx={p.rx} cy={p.y} r={p.r} fill={isTakeoff ? '#FFE8A0' : '#C8DCFF'} />
+                  </g>
+                ))}
               </g>
-            ))}
-          </g>
+            </>
+          )}
         </g>
       )}
 
@@ -543,6 +548,7 @@ export function SkyBackground({
   altitudeInitial,
   earthState = 'flight',
   showCityLights = true,
+  showRunwayMarkings = true,
   intensity = 'moderate',
   parallaxScale = 1,
   parallaxDuration = 4,
@@ -675,7 +681,7 @@ export function SkyBackground({
         animate={{ y: earthShift, x: earthX }}
         transition={{ duration: parallaxDuration, ease: parallaxEase }}
       >
-        <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} showCityLights={showCityLights} />
+        <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} showCityLights={showCityLights} showRunwayMarkings={showRunwayMarkings} />
       </motion.div>
 
       {/* Far layer */}
