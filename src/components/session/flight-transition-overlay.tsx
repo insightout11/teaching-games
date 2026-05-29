@@ -20,9 +20,9 @@ interface FlightTransitionOverlayProps {
 }
 
 // y value that places the plane on the sideways runway tarmac.
-// Tarmac centre ≈ 70px from screen bottom (140px runway, tarmac y=24–116); plane base top: 32% - 4rem.
-// 66vh lands the plane on the tarmac across common screen heights (768–1080px).
-const RUNWAY_Y = '66vh';
+// Tarmac centre ≈ 70px from screen bottom (140px runway, tarmac y=24–116).
+// Plane anchor: top=32%, marginTop=-4rem. Formula: y = 0.68H - 62 → 60–62vh across 768–1080px.
+const RUNWAY_Y = '61vh';
 
 const LEG_CONFIG: Record<FlightTransitionLeg, {
   yInitial: string;
@@ -79,16 +79,16 @@ function SidewaysRunway({ animate }: { animate: boolean }) {
 
         {/* Centerline dashes — 12 dashes, 60px wide, 60px gap, y_center=70 */}
         {Array.from({ length: 12 }, (_, i) => (
-          <rect key={i} x={i * 120} y="67" width="60" height="6" fill="rgba(255,255,255,0.38)" rx="1" />
+          <rect key={i} x={i * 120} y="66" width="60" height="8" fill="rgba(255,255,255,0.55)" rx="1" />
         ))}
 
         {/* Aiming point markings — two solid bars flanking the centerline, left and right */}
         {/* Left pair */}
-        <rect x="240" y="37" width="60" height="22" fill="rgba(255,255,255,0.28)" rx="0.5" />
-        <rect x="240" y="81" width="60" height="22" fill="rgba(255,255,255,0.28)" rx="0.5" />
+        <rect x="230" y="34" width="68" height="26" fill="rgba(255,255,255,0.45)" rx="0.5" />
+        <rect x="230" y="80" width="68" height="26" fill="rgba(255,255,255,0.45)" rx="0.5" />
         {/* Right pair */}
-        <rect x="1140" y="37" width="60" height="22" fill="rgba(255,255,255,0.28)" rx="0.5" />
-        <rect x="1140" y="81" width="60" height="22" fill="rgba(255,255,255,0.28)" rx="0.5" />
+        <rect x="1142" y="34" width="68" height="26" fill="rgba(255,255,255,0.45)" rx="0.5" />
+        <rect x="1142" y="80" width="68" height="26" fill="rgba(255,255,255,0.45)" rx="0.5" />
 
         {/* Edge lights — 10 per row, amber */}
         <g filter="url(#rwy-glow)">
@@ -168,7 +168,19 @@ export function FlightTransitionOverlay({
 
       {/* Sideways runway strip — only for takeoff and descent legs */}
       {showRunway && (
-        <SidewaysRunway animate={!prefersReducedMotion} />
+        <>
+          {/* Horizon atmosphere — warm gradient where sky meets the ground strip */}
+          <div
+            className="absolute left-0 right-0 pointer-events-none"
+            style={{
+              bottom: 116,
+              height: 72,
+              zIndex: 7,
+              background: 'linear-gradient(to bottom, transparent 0%, rgba(18,30,14,0.28) 60%, rgba(28,44,18,0.50) 100%)',
+            }}
+          />
+          <SidewaysRunway animate={!prefersReducedMotion} />
+        </>
       )}
 
       {/* Plane — constant linear travel; child handles cruise bob */}
