@@ -46,7 +46,7 @@ function DepartureBoardPanel({
   flightCode,
   className,
 }: {
-  slots: Array<{ name: string }>;
+  slots: Array<{ name: string; key: string; pool?: string[] }>;
   flightCode: string;
   className?: string;
 }) {
@@ -91,6 +91,7 @@ function DepartureBoardPanel({
         {slots.map((slot, i) => {
           const st = getStatus(i);
           const isNext = i === 0;
+          const isUndetermined = slot.key === 'mission-selector' || (slot.pool?.length ?? 0) > 0;
           return (
             <div
               key={i}
@@ -106,15 +107,21 @@ function DepartureBoardPanel({
               <span className="text-[11px] font-mono font-bold text-amber-400/50" style={isNext ? amber : {}}>
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <span
-                className="text-[12px] font-mono truncate"
-                style={{
-                  color: isNext ? 'rgba(251,191,36,0.95)' : 'rgba(251,191,36,0.55)',
-                  textShadow: isNext ? amber.textShadow : 'none',
-                }}
-              >
-                {slot.name}
-              </span>
+              {isUndetermined ? (
+                <span className="text-[11px] font-mono text-amber-400/35 italic tracking-wide">
+                  ✦ Crew Vote
+                </span>
+              ) : (
+                <span
+                  className="text-[12px] font-mono truncate"
+                  style={{
+                    color: isNext ? 'rgba(251,191,36,0.95)' : 'rgba(251,191,36,0.55)',
+                    textShadow: isNext ? amber.textShadow : 'none',
+                  }}
+                >
+                  {slot.name}
+                </span>
+              )}
               <span className={`text-[9px] font-mono font-bold tracking-[0.1em] ${st.cls} ${st.pulse ? 'animate-pulse' : ''}`}>
                 {st.label}
               </span>
@@ -862,7 +869,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             ? getAllGames().find((g) => g.key === nextSlot.key)
             : getAllActivities().find((a) => a.key === nextSlot.key))
         : undefined;
-      const toName = found?.name ?? nextSlot?.name ?? null;
+      const isNextUndetermined = nextSlot?.key === 'mission-selector' || (nextSlot?.pool?.length ?? 0) > 0;
+      const toName = isNextUndetermined ? 'Crew Vote' : (found?.name ?? nextSlot?.name ?? null);
       const totalSlots = lesson.lessonSlots.length;
       // Destination sky phase (same formula as weatherState memo)
       let toWeather: WeatherState = 'cruising';
@@ -1140,8 +1148,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
 
-            {/* Begin Lesson — pinned at bottom */}
-            <div className="flex-shrink-0 pt-3 space-y-1.5">
+            {/* Begin Lesson — pinned at bottom, same max-width as grid */}
+            <div className="flex-shrink-0 pt-3 space-y-1.5 w-full mx-auto" style={{ maxWidth: '1100px' }}>
               <button
                 onClick={lesson.beginLesson}
                 disabled={!lesson.missionSelectorReady}
