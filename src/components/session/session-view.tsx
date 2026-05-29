@@ -1033,8 +1033,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </p>
             </div>
 
-            {/* 3-column grid: QR | Departure board | Passengers */}
-            <div className="grid gap-4 flex-1 min-h-0" style={{ gridTemplateColumns: '240px 1fr 260px' }}>
+            {/* 3-column grid: QR | Departure board | Passengers — capped width so board stays compact */}
+            <div className="grid gap-4 flex-1 min-h-0 w-full mx-auto" style={{ gridTemplateColumns: '240px minmax(300px, 560px) 260px', maxWidth: '1100px' }}>
 
               {/* Left: Join QR + Teacher Device */}
               <div className="flex flex-col gap-3 min-h-0">
