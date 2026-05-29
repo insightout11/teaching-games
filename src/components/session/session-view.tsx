@@ -31,6 +31,7 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { HangarBackground } from '@/components/ui/hangar-background';
+import { ControlTowerScene } from '@/components/ui/control-tower-scene';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 import { motion } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
@@ -1042,12 +1043,25 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           <HangarBackground className="absolute inset-0" />
           <motion.div
             className="absolute"
-            style={{ bottom: '1%', left: '53.75%', x: '-50%' }}
+            style={{ bottom: '-7px', left: '53.75%', x: '-50%' }}
             animate={{ y: [0, -1.5, 0], rotate: [0, 0.12, 0, -0.12, 0] }}
             transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
           >
             <ClassPlaneSprite planeKey={selectedPlaneKey} size="xl" variant="parked" />
           </motion.div>
+        </div>
+        {/* Control tower + windsock parked bottom-right, balancing the hangar (z-7) */}
+        <div
+          className="fixed pointer-events-none"
+          style={{
+            zIndex: 7,
+            bottom: 105,
+            right: '1.5vw',
+            width: 'min(26vw, 360px)',
+            aspectRatio: '460 / 700',
+          }}
+        >
+          <ControlTowerScene className="absolute inset-0" />
         </div>
         <div className="relative z-10 flex flex-col h-[78vh] px-6 lg:px-8 pt-4 pb-3">
 
