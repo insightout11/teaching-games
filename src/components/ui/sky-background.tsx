@@ -15,6 +15,7 @@ interface SkyBackgroundProps {
   showCityLights?: boolean;
   showRunwayMarkings?: boolean; // converging lines, centerline dashes, edge lights (default true)
   showEarth?: boolean;         // render the ground/runway EarthLayer at all (default true)
+  showMoon?: boolean;          // force the moon visible regardless of weather (default false)
   intensity?: 'subtle' | 'moderate';
   parallaxScale?: number;    // multiplier on all layer shifts (default 1 — session behavior)
   parallaxDuration?: number; // transition duration for layer shifts in seconds (default 4)
@@ -551,6 +552,7 @@ export function SkyBackground({
   showCityLights = true,
   showRunwayMarkings = true,
   showEarth = true,
+  showMoon = false,
   intensity = 'moderate',
   parallaxScale = 1,
   parallaxDuration = 4,
@@ -669,7 +671,7 @@ export function SkyBackground({
         className="absolute"
         style={{ top: '4%', right: '14%', zIndex: 2 }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: weatherState === 'cruising' ? 1 : 0 }}
+        animate={{ opacity: (weatherState === 'cruising' || showMoon) ? 1 : 0 }}
         transition={{ duration: 5, ease: 'easeInOut' }}
       >
         <MoonLayer />

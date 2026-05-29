@@ -1023,7 +1023,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
         {/* Sky only — the airfield scene owns the ground (z-base) */}
-        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showEarth={false} className={isFullScreen ? '' : '!left-64'} />
+        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showEarth={false} showMoon className={isFullScreen ? '' : '!left-64'} />
         {/* Consolidated airfield: ground + hangar + plane + tower + windsock + distant
             planes in one scaling SVG, so they stay locked together at any screen size (z-1) */}
         <div
