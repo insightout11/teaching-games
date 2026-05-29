@@ -18,7 +18,7 @@ import { getPlaneAsset } from '@/lib/plane-progression';
 //   Tower   — right, g transform translate(1293,222) scale(0.52) [art 480×820]
 //   Distant planes — small, near the grass line between hangar and tower
 
-const GRASS_Y = 648;
+const GRASS_Y = 790;
 
 // ── Hangar art (local coords, base at y=700) ─────────────────────────────────
 const H_FRONT_OUTER =
@@ -37,7 +37,7 @@ const H_LIGHTS = [485, 645, 805] as const;
 
 function Hangar() {
   return (
-    <g transform="translate(20,298) scale(0.5)">
+    <g transform={`translate(20,${GRASS_Y - 350}) scale(0.5)`}>
       {/* depth: roof behind + receding side wall */}
       <path d={H_BACK_ARCH} fill="#1a222d" />
       <polygon points={H_LEFT_WALL} fill="#111720" />
@@ -72,7 +72,7 @@ function Hangar() {
 // ── Tower + windsock art (local coords, base at y=820) ───────────────────────
 function TowerAndWindsock() {
   return (
-    <g transform="translate(1293,222) scale(0.52)">
+    <g transform={`translate(1293,${GRASS_Y - 426}) scale(0.52)`}>
       {/* WINDSOCK (streams left, downwind) */}
       <rect x="170" y="814" width="20" height="8" rx="2" fill="#1b222b" />
       <rect x="177" y="505" width="6" height="315" fill="url(#af-metal)" />

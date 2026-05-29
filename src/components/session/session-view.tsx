@@ -1027,7 +1027,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         {/* Consolidated airfield: ground + hangar + plane + tower + windsock + distant
             planes in one scaling SVG, so they stay locked together at any screen size (z-1) */}
         <div
-          className="fixed inset-0 pointer-events-none"
+          className="fixed inset-0 overflow-hidden pointer-events-none"
           style={{ zIndex: 1, left: isFullScreen ? 0 : 256 }}
         >
           <AirfieldScene planeKey={selectedPlaneKey} className="absolute inset-0" />
