@@ -3,19 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
+import { AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl } from '@/lib/avatar-options';
 import type { Team } from '@/lib/supabase/types';
-
-const AVATAR_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
-const VALID_SEEDS = new Set(AVATAR_SEEDS);
-
-function resolveSeed(seed: string | null | undefined): string {
-  if (seed && VALID_SEEDS.has(seed)) return seed;
-  return 'teal';
-}
-
-function avatarUrl(seed: string) {
-  return `/avatars/avatar-${resolveSeed(seed)}.png`;
-}
 
 interface RosterStudent {
   id: string;
@@ -61,7 +50,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
   const [rosterLoaded, setRosterLoaded] = useState(false);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<RosterStudent | null>(null);
-  const [avatarSeed, setAvatarSeed] = useState(AVATAR_SEEDS[0]);
+  const [avatarSeed, setAvatarSeed] = useState<string>(DEFAULT_AVATAR_SEED);
   const [freeTextMode, setFreeTextMode] = useState(false);
   const [freeName, setFreeName] = useState('');
   const [isJoining, setIsJoining] = useState(false);

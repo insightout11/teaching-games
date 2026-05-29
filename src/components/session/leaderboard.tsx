@@ -4,16 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
 import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
-
-const HELMET_SEEDS = ['teal', 'amber', 'red', 'blue', 'violet', 'green', 'white', 'gold', 'black', 'pink', 'silver', 'rainbow'];
-const VALID_HELMET_SEEDS = new Set(HELMET_SEEDS);
-
-function resolveHelmet(avatarSeed: string | undefined, name: string): string {
-  if (avatarSeed && VALID_HELMET_SEEDS.has(avatarSeed)) return avatarSeed;
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
-  return HELMET_SEEDS[hash % HELMET_SEEDS.length];
-}
+import { avatarUrl } from '@/lib/avatar-options';
 
 interface LeaderboardEntry {
   studentId: string;
@@ -265,7 +256,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
                     </span>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`/avatars/avatar-${resolveHelmet(entry.avatarSeed, entry.name)}.png`}
+                      src={avatarUrl(entry.avatarSeed, entry.name)}
                       alt=""
                       width={28}
                       height={28}
