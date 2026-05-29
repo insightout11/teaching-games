@@ -30,6 +30,7 @@ import type { TopSubmission } from '@/games/types';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
+import { HangarScene } from '@/components/ui/hangar-scene';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
@@ -1022,10 +1023,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
         <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" className={isFullScreen ? '' : '!left-64'} />
-        {/* Plane parked on left taxiway — above sky layers (z-7), below cards (z-10) */}
+        {/* Plane in hangar — centered on runway, above sky (z-7), below content cards (z-10) */}
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
-          <div className="absolute bottom-0 left-[38%] -translate-x-1/2">
-            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
+            <HangarScene planeKey={selectedPlaneKey} />
           </div>
         </div>
         <div className="relative z-10 flex flex-col h-[78vh] px-6 lg:px-8 pt-4 pb-3">
