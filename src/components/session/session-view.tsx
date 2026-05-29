@@ -39,6 +39,97 @@ import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
 import { avatarUrl } from '@/lib/avatar-options';
 import { ExternalLink, Maximize2, Minimize2, QrCode, Settings, Smartphone } from 'lucide-react';
 
+// ─── Departure board ────────────────────────────────────────────────────────
+
+function DepartureBoardPanel({
+  slots,
+  flightCode,
+}: {
+  slots: Array<{ name: string }>;
+  flightCode: string;
+}) {
+  const getStatus = (i: number) => {
+    if (i === 0) return { label: 'BOARDING', cls: 'text-emerald-400', pulse: true };
+    if (i < 3)   return { label: 'ON TIME',  cls: 'text-amber-400/70', pulse: false };
+    return         { label: 'SCHED',     cls: 'text-amber-400/38', pulse: false };
+  };
+  const amber = { textShadow: '0 0 10px rgba(251,191,36,0.35)' };
+
+  return (
+    <div
+      className="rounded-2xl overflow-hidden flex-shrink-0"
+      style={{
+        background: 'rgba(3,6,12,0.97)',
+        border: '1px solid rgba(251,191,36,0.18)',
+        boxShadow: '0 0 28px rgba(251,191,36,0.05), inset 0 1px 0 rgba(251,191,36,0.07)',
+      }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-2.5" style={{ borderBottom: '1px solid rgba(251,191,36,0.12)' }}>
+        <div className="flex items-center gap-2">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-amber-400/80" aria-hidden>
+            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+          </svg>
+          <span className="text-[10px] font-mono font-bold tracking-[0.22em] text-amber-400/90 uppercase" style={amber}>
+            Departures
+          </span>
+        </div>
+        <span className="text-[10px] font-mono tracking-[0.18em] text-amber-400/40">{flightCode}</span>
+      </div>
+
+      {/* Column labels */}
+      <div className="grid px-4 py-1" style={{ gridTemplateColumns: '28px 1fr 28px 72px', gap: '0 12px', borderBottom: '1px solid rgba(251,191,36,0.07)' }}>
+        {(['FLT', 'DESTINATION', 'GT', 'STATUS'] as const).map((h) => (
+          <span key={h} className="text-[8px] font-mono text-amber-400/28 tracking-[0.18em]">{h}</span>
+        ))}
+      </div>
+
+      {/* Rows */}
+      {slots.map((slot, i) => {
+        const st = getStatus(i);
+        const isNext = i === 0;
+        return (
+          <div
+            key={i}
+            className="grid px-4 py-2 items-center"
+            style={{
+              gridTemplateColumns: '28px 1fr 28px 72px',
+              gap: '0 12px',
+              borderBottom: i < slots.length - 1 ? '1px solid rgba(251,191,36,0.05)' : 'none',
+              background: isNext ? 'rgba(251,191,36,0.025)' : 'transparent',
+            }}
+          >
+            <span className="text-[11px] font-mono font-bold text-amber-400/50" style={isNext ? amber : {}}>
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span
+              className="text-[11px] font-mono truncate"
+              style={{
+                color: isNext ? 'rgba(251,191,36,0.95)' : 'rgba(251,191,36,0.55)',
+                textShadow: isNext ? amber.textShadow : 'none',
+              }}
+            >
+              {slot.name.toUpperCase()}
+            </span>
+            <span className="text-[11px] font-mono text-amber-400/40 text-center">{i + 1}</span>
+            <span className={`text-[9px] font-mono font-bold tracking-[0.1em] ${st.cls} ${st.pulse ? 'animate-pulse' : ''}`}>
+              {st.label}
+            </span>
+          </div>
+        );
+      })}
+
+      {/* Footer */}
+      <div className="flex items-center gap-2 px-4 py-2" style={{ borderTop: '1px solid rgba(251,191,36,0.07)' }}>
+        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+        <span className="text-[8px] font-mono text-amber-400/32 tracking-[0.15em] uppercase">
+          Gate open · All passengers board
+        </span>
+      </div>
+    </div>
+  );
+}
+
 type SessionTypeFilter = 'all' | 'games' | 'activities';
 type SessionSkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
 
@@ -1000,30 +1091,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </div>
                 </div>
 
-                {lesson.lessonSlots.length > 1 && (
-                  <div className="glass rounded-2xl p-5 flex-shrink-0">
-                    <h2 className="text-xs font-semibold opacity-70 uppercase tracking-wider mb-3">Flight Plan</h2>
-                    <div className="flex gap-2 overflow-x-auto pb-1">
-                      {lesson.lessonSlots.map((slot, i) => (
-                        <div
-                          key={i}
-                          className="flex-shrink-0 px-3 py-2 bg-lc-surface rounded-lg text-xs text-center min-w-[72px]"
-                        >
-                          <p className="opacity-50 uppercase tracking-wider mb-0.5">{i + 1}</p>
-                          <p className="font-medium truncate">{slot.name}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <DepartureBoardPanel
+                  slots={lesson.lessonSlots}
+                  flightCode={`LC-${session.id.slice(-4).toUpperCase()}`}
+                />
               </div>
 
               {/* Right column: Students Joined + Mission status */}
               <div className="flex flex-col gap-4 min-h-0">
                 <div className="glass rounded-2xl p-5 flex-1 min-h-0 flex flex-col">
                   <div className="flex items-center justify-between mb-3 flex-shrink-0">
-                    <h2 className="text-xs font-semibold opacity-70 uppercase tracking-wider">Students Joined</h2>
-                    <span className="text-2xl font-bold text-lc-blue">{sessionParticipants.length}</span>
+                    <h2 className="text-xs font-semibold opacity-70 uppercase tracking-wider">Passengers</h2>
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl font-bold text-lc-blue">{sessionParticipants.length}</span>
+                      {sessionParticipants.length > 0 && (
+                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] text-emerald-400 animate-pulse">BOARDED</span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex-1 overflow-y-auto min-h-0">
                     {sessionParticipants.length === 0 ? (
