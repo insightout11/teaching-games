@@ -14,6 +14,7 @@ interface SkyBackgroundProps {
   earthState?: EarthState;
   showCityLights?: boolean;
   showRunwayMarkings?: boolean; // converging lines, centerline dashes, edge lights (default true)
+  showEarth?: boolean;         // render the ground/runway EarthLayer at all (default true)
   intensity?: 'subtle' | 'moderate';
   parallaxScale?: number;    // multiplier on all layer shifts (default 1 — session behavior)
   parallaxDuration?: number; // transition duration for layer shifts in seconds (default 4)
@@ -549,6 +550,7 @@ export function SkyBackground({
   earthState = 'flight',
   showCityLights = true,
   showRunwayMarkings = true,
+  showEarth = true,
   intensity = 'moderate',
   parallaxScale = 1,
   parallaxDuration = 4,
@@ -674,15 +676,17 @@ export function SkyBackground({
       </motion.div>
 
       {/* Earth layer */}
-      <motion.div
-        className="absolute bottom-0 right-0"
-        style={{ zIndex: 3, left: '-64px' }}
-        initial={{ y: earthShiftInit, x: earthXInit }}
-        animate={{ y: earthShift, x: earthX }}
-        transition={{ duration: parallaxDuration, ease: parallaxEase }}
-      >
-        <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} showCityLights={showCityLights} showRunwayMarkings={showRunwayMarkings} />
-      </motion.div>
+      {showEarth && (
+        <motion.div
+          className="absolute bottom-0 right-0"
+          style={{ zIndex: 3, left: '-64px' }}
+          initial={{ y: earthShiftInit, x: earthXInit }}
+          animate={{ y: earthShift, x: earthX }}
+          transition={{ duration: parallaxDuration, ease: parallaxEase }}
+        >
+          <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} showCityLights={showCityLights} showRunwayMarkings={showRunwayMarkings} />
+        </motion.div>
+      )}
 
       {/* Far layer */}
       <motion.div

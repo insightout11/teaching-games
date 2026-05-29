@@ -30,11 +30,7 @@ import type { TopSubmission } from '@/games/types';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
-import { HangarBackground } from '@/components/ui/hangar-background';
-import { ControlTowerScene } from '@/components/ui/control-tower-scene';
-import { DistantAirfield } from '@/components/ui/distant-airfield';
-import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
-import { motion } from 'framer-motion';
+import { AirfieldScene } from '@/components/ui/airfield-scene';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
@@ -1026,51 +1022,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
-        {/* Sky + existing runway, stripped of lines/lights (z-base) */}
-        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showRunwayMarkings={false} className={isFullScreen ? '' : '!left-64'} />
-        {/* Distant parked planes near the grass line, behind the hangar/tower (z-6) */}
+        {/* Sky only — the airfield scene owns the ground (z-base) */}
+        <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showEarth={false} className={isFullScreen ? '' : '!left-64'} />
+        {/* Consolidated airfield: ground + hangar + plane + tower + windsock + distant
+            planes in one scaling SVG, so they stay locked together at any screen size (z-1) */}
         <div
-          className="fixed pointer-events-none"
-          style={{ zIndex: 6, bottom: 168, left: isFullScreen ? 0 : 256, right: 0, height: 90 }}
+          className="fixed inset-0 pointer-events-none"
+          style={{ zIndex: 1, left: isFullScreen ? 0 : 256 }}
         >
-          <DistantAirfield />
-        </div>
-        {/* Hangar parked bottom-left on the runway, plane inside its mouth (z-7, below content cards z-10) */}
-        <div
-          className="fixed pointer-events-none"
-          style={{
-            zIndex: 7,
-            // Seat the base up near the grass/horizon line (~the back of the
-            // tarmac) rather than the very front edge of the viewport.
-            bottom: 105,
-            left: isFullScreen ? '1.5vw' : 'calc(256px + 1.5vw)',
-            width: 'min(48vw, 720px)',
-            aspectRatio: '1200 / 700',
-          }}
-        >
-          <HangarBackground className="absolute inset-0" />
-          <motion.div
-            className="absolute"
-            style={{ bottom: '-7px', left: '53.75%', x: '-50%' }}
-            animate={{ y: [0, -1.5, 0], rotate: [0, 0.12, 0, -0.12, 0] }}
-            transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <ClassPlaneSprite planeKey={selectedPlaneKey} size="xl" variant="parked" />
-          </motion.div>
-        </div>
-        {/* Control tower + windsock parked bottom-right, balancing the hangar (z-7) */}
-        <div
-          className="fixed pointer-events-none"
-          style={{
-            zIndex: 7,
-            // Seated back at the grass line (further up than the hangar) for correct perspective.
-            bottom: 200,
-            right: '1.5vw',
-            width: 'min(28vw, 400px)',
-            aspectRatio: '480 / 820',
-          }}
-        >
-          <ControlTowerScene className="absolute inset-0" />
+          <AirfieldScene planeKey={selectedPlaneKey} className="absolute inset-0" />
         </div>
         <div className="relative z-10 flex flex-col h-[78vh] px-6 lg:px-8 pt-4 pb-3">
 
