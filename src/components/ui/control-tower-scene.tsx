@@ -34,6 +34,10 @@ export function ControlTowerScene({ className }: { className?: string }) {
           <stop offset="0" stopColor="rgba(120,210,230,0.80)" />
           <stop offset="1" stopColor="rgba(45,120,150,0.80)" />
         </linearGradient>
+        <radialGradient id="cts-beam" cx="0.5" cy="1" r="1">
+          <stop offset="0" stopColor="rgba(150,225,245,0.55)" />
+          <stop offset="1" stopColor="rgba(150,225,245,0)" />
+        </radialGradient>
         <filter id="cts-soft" x="-120%" y="-120%" width="340%" height="340%">
           <feGaussianBlur stdDeviation="10" />
         </filter>
@@ -75,6 +79,21 @@ export function ControlTowerScene({ className }: { className?: string }) {
       {/* Lit shaft windows */}
       <rect x="334" y="290" width="12" height="24" rx="1.5" fill="rgba(120,200,225,0.5)" />
       <rect x="334" y="340" width="12" height="24" rx="1.5" fill="rgba(120,200,225,0.4)" />
+
+      {/* Sweeping beacon searchlight from the cab (behind the cab structure) */}
+      <motion.g
+        style={{ transformBox: 'view-box', transformOrigin: '340px 205px' }}
+        animate={{ rotate: [-30, 30, -30] }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <motion.polygon
+          points="340,205 298,52 382,52"
+          fill="url(#cts-beam)"
+          filter="url(#cts-soft)"
+          animate={{ opacity: [0.1, 0.32, 0.1] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </motion.g>
 
       {/* Cab (overhanging control room) */}
       <polygon points="322,250 310,200 318,150 362,150 370,200 358,250" fill="url(#cts-metal)" />

@@ -32,6 +32,7 @@ import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { HangarBackground } from '@/components/ui/hangar-background';
 import { ControlTowerScene } from '@/components/ui/control-tower-scene';
+import { DistantAirfield } from '@/components/ui/distant-airfield';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 import { motion } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
@@ -1027,6 +1028,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
         {/* Sky + existing runway, stripped of lines/lights (z-base) */}
         <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showRunwayMarkings={false} className={isFullScreen ? '' : '!left-64'} />
+        {/* Distant parked planes near the grass line, behind the hangar/tower (z-6) */}
+        <div
+          className="fixed pointer-events-none"
+          style={{ zIndex: 6, bottom: 168, left: isFullScreen ? 0 : 256, right: 0, height: 90 }}
+        >
+          <DistantAirfield />
+        </div>
         {/* Hangar parked bottom-left on the runway, plane inside its mouth (z-7, below content cards z-10) */}
         <div
           className="fixed pointer-events-none"
@@ -1055,8 +1063,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           className="fixed pointer-events-none"
           style={{
             zIndex: 7,
-            // Seated a touch further back than the hangar so its base meets the grass line.
-            bottom: 122,
+            // Seated back at the grass line (further up than the hangar) for correct perspective.
+            bottom: 200,
             right: '1.5vw',
             width: 'min(28vw, 400px)',
             aspectRatio: '480 / 820',
