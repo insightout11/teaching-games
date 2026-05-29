@@ -1157,7 +1157,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
 
-          </div>
         </div>
       </div>
     );
