@@ -1,28 +1,39 @@
 'use client';
 
-// Full-screen hangar interior background for the lobby.
-// SVG viewBox 0 0 1440 900, preserveAspectRatio="xMidYMid slice" fills any screen.
+// Arched aircraft hangar drawn as a BOUNDED building sitting in a scene.
+// viewBox 0 0 1440 900, preserveAspectRatio="xMidYMid meet" so the WHOLE
+// building is always visible — the transparent area around it lets the
+// SkyBackground behind show as sky (top corners + side gaps).
 //
-// Layout zones (% of 900px height):
-//   Ceiling  y=0–198  (22%) — dark with structural beams + pendant lights
-//   Interior y=198–792 (66%) — warm dark interior visible through open door
-//   Floor    y=792–900 (12%) — dark concrete
-//
-// Left/right door openings (x=0–115 and x=1325–1440) are SVG-transparent,
-// so the SkyBackground behind shows as sky slivers.
+// Composition (back-to-front draw order):
+//   1. Tarmac ground (lower portion) with perspective centerline
+//   2. Back arch silhouette (roof, peeks up-left of the front = depth)
+//   3. Left side wall (parallelogram receding back = depth)
+//   4. Front face arch (the building's front silhouette, lit metal)
+//   5. Opening cut into the front face — recessed interior you look INTO
+//      (receding side walls + floor + warm-lit back wall + ceiling lights)
+//   6. Rim highlight + roof corrugation texture
 
 export function HangarBackground({ className }: { className?: string }) {
   const VW = 1440, VH = 900;
-  const CY  = 198;   // ceiling bottom / interior top
-  const FY  = 792;   // interior bottom / floor top
-  const PW  = 115;   // door pillar width on each side
 
-  const dark     = 'rgba(4,7,12,0.98)';
-  const interior = 'rgba(14,7,2,0.97)';
-  const concrete = 'rgba(6,9,14,0.97)';
-  const seam     = 'rgba(255,255,255,0.028)';
+  // ── Geometry ──────────────────────────────────────────────────────────────
+  const FRONT_OUTER =
+    'M180,700 L180,380 C180,200 430,70 720,70 C1010,70 1260,200 1260,380 L1260,700 Z';
+  const OPENING =
+    'M235,700 L235,400 C235,235 470,120 720,120 C970,120 1205,235 1205,400 L1205,700 Z';
+  const BACK_ARCH =
+    'M90,645 L90,325 C90,145 340,15 630,15 C920,15 1170,145 1170,325 L1170,645 Z';
+  const LEFT_WALL = '180,700 90,645 90,325 180,380';
+  // Interior recess
+  const BACK_WALL =
+    'M360,670 L360,430 C360,310 520,230 720,230 C920,230 1080,310 1080,430 L1080,670 Z';
+  const INT_FLOOR = '235,700 1205,700 1080,670 360,670';
+  const INT_WALL_L = '235,700 360,670 360,430 235,400';
+  const INT_WALL_R = '1205,700 1080,670 1080,430 1205,400';
+  const GROUND = '-200,900 1640,900 1320,700 120,700';
 
-  const lights = [360, 720, 1080] as const;
+  const lights = [560, 720, 880] as const;
 
   return (
     <div
@@ -34,123 +45,110 @@ export function HangarBackground({ className }: { className?: string }) {
         viewBox={`0 0 ${VW} ${VH}`}
         width="100%"
         height="100%"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio="xMidYMid meet"
         style={{ display: 'block' }}
         aria-hidden
       >
         <defs>
-          <filter id="hbg-glow" x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur stdDeviation="38" />
+          <linearGradient id="hbg-front" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#3a4655" />
+            <stop offset="0.55" stopColor="#28323e" />
+            <stop offset="1" stopColor="#1b222b" />
+          </linearGradient>
+          <radialGradient id="hbg-backwall" cx="0.5" cy="0.62" r="0.75">
+            <stop offset="0" stopColor="rgba(150,92,30,0.95)" />
+            <stop offset="0.5" stopColor="rgba(78,44,14,0.95)" />
+            <stop offset="1" stopColor="rgba(30,17,6,0.98)" />
+          </radialGradient>
+          <linearGradient id="hbg-ground" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#0d1219" />
+            <stop offset="1" stopColor="#070a0f" />
+          </linearGradient>
+          <filter id="hbg-soft" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="26" />
           </filter>
-          <filter id="hbg-fix" x="-200%" y="-200%" width="500%" height="500%">
-            <feGaussianBlur stdDeviation="11" result="b" />
+          <filter id="hbg-bulb" x="-300%" y="-300%" width="700%" height="700%">
+            <feGaussianBlur stdDeviation="7" result="b" />
             <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-          </filter>
-          <filter id="hbg-cone" x="-60%" y="-20%" width="220%" height="140%">
-            <feGaussianBlur stdDeviation="20" />
-          </filter>
-          <filter id="hbg-edge" x="-60%" y="-10%" width="220%" height="120%">
-            <feGaussianBlur stdDeviation="6" />
           </filter>
         </defs>
 
-        {/* ── CEILING ─────────────────────────────────────────────────────── */}
-        <rect x="0" y="0" width={VW} height={CY} fill={dark} />
-
-        {/* Horizontal ceiling panel seams */}
-        {([44, 98, 150] as const).map(y => (
-          <rect key={y} x="0" y={y} width={VW} height="1.5" fill={seam} />
+        {/* ── GROUND / TARMAC ──────────────────────────────────────────────── */}
+        <polygon points={GROUND} fill="url(#hbg-ground)" />
+        {/* Tarmac edge highlight where it meets the building */}
+        <polygon points="120,700 1320,700 1320,704 120,704" fill="rgba(255,255,255,0.05)" />
+        {/* Perspective centerline — tapering dashes toward the mouth */}
+        {([
+          { y: 880, w: 64 },
+          { y: 815, w: 48 },
+          { y: 760, w: 34 },
+          { y: 720, w: 22 },
+        ] as const).map(({ y, w }) => (
+          <rect key={y} x={720 - w / 2} y={y} width={w} height={y > 850 ? 18 : 12} rx="2"
+            fill="rgba(235,195,60,0.32)" />
         ))}
+        {/* Warm light bleeding from the open mouth onto the apron in front */}
+        <ellipse cx="720" cy="720" rx="430" ry="80"
+          fill="rgba(220,135,35,0.16)" filter="url(#hbg-soft)" />
 
-        {/* Structural vertical sub-beams */}
-        {([350, 720, 1090] as const).map(x => (
-          <rect key={x} x={x - 4} y="0" width="8" height={CY} fill="rgba(255,255,255,0.018)" />
-        ))}
+        {/* ── DEPTH: roof seen behind + receding side wall ─────────────────── */}
+        <path d={BACK_ARCH} fill="#1a222d" />
+        <polygon points={LEFT_WALL} fill="#111720" />
+        {/* shading seam on the side wall */}
+        <polygon points="180,700 90,645 90,325 180,380" fill="rgba(0,0,0,0.25)" />
 
-        {/* Main fascia beam at ceiling/interior join */}
-        <rect x="0" y={CY - 22} width={VW} height="22" fill="rgba(3,5,9,1)" />
-        <rect x="0" y={CY - 23} width={VW} height="2" fill="rgba(255,255,255,0.04)" />
+        {/* ── FRONT FACE ───────────────────────────────────────────────────── */}
+        <path d={FRONT_OUTER} fill="url(#hbg-front)" />
+        {/* Roof corrugation ribs following the arch */}
+        {([0.18, 0.34, 0.5, 0.66, 0.82] as const).map((t) => {
+          const x = 180 + t * (1260 - 180);
+          return (
+            <path
+              key={t}
+              d={`M${x},700 L${x},380 C${x},${230 + Math.abs(t - 0.5) * 180} ${720 + (x - 720) * 0.4},${90 + Math.abs(t - 0.5) * 120} 720,${72 + 0}`}
+              fill="none"
+              stroke="rgba(255,255,255,0.035)"
+              strokeWidth="2"
+            />
+          );
+        })}
+        {/* Eave shadow line just inside the front silhouette top */}
+        <path d="M180,380 C180,200 430,70 720,70 C1010,70 1260,200 1260,380"
+          fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="2.5" />
 
-        {/* ── LIGHT CONES — drawn before walls so they fade naturally ─────── */}
-        {lights.map(lx => (
-          <polygon
-            key={lx}
-            points={`${lx - 90},${CY} ${lx + 90},${CY} ${lx + 290},${FY} ${lx - 290},${FY}`}
-            fill="rgba(215,130,25,0.055)"
-            filter="url(#hbg-cone)"
-          />
-        ))}
+        {/* ── OPENING (recessed interior you look INTO) ────────────────────── */}
+        {/* base dark fill of the mouth */}
+        <path d={OPENING} fill="#0a0805" />
+        {/* receding interior side walls + floor */}
+        <polygon points={INT_WALL_L} fill="rgba(28,16,6,0.96)" />
+        <polygon points={INT_WALL_R} fill="rgba(20,11,4,0.96)" />
+        <polygon points={INT_FLOOR} fill="rgba(34,19,7,0.97)" />
+        {/* warm-lit back wall at the depth of the hangar */}
+        <path d={BACK_WALL} fill="url(#hbg-backwall)" />
+        {/* ambient interior glow */}
+        <ellipse cx="720" cy="500" rx="300" ry="190"
+          fill="rgba(210,120,30,0.20)" filter="url(#hbg-soft)" />
 
-        {/* ── INTERIOR BACK WALL ──────────────────────────────────────────── */}
-        <rect x={PW} y={CY} width={VW - 2 * PW} height={FY - CY} fill={interior} />
-
-        {/* Central ambient glow from all lights combined */}
-        <ellipse
-          cx={VW / 2} cy={(CY + FY) / 2} rx="580" ry="270"
-          fill="rgba(185,90,10,0.11)" filter="url(#hbg-glow)"
-        />
-
-        {/* Back wall structural panel lines */}
-        {([260, 440, 600] as const).map(dy => (
-          <rect key={dy} x={PW} y={CY + dy} width={VW - 2 * PW} height="1.5" fill={seam} />
-        ))}
-
-        {/* ── PENDANT LIGHTS ──────────────────────────────────────────────── */}
-        {lights.map(lx => (
+        {/* Interior ceiling lights (small, on the back wall) */}
+        {lights.map((lx) => (
           <g key={lx}>
-            {/* Pendant stem */}
-            <rect x={lx - 2} y={CY - 22} width="4" height="44"
-              fill="rgba(160,140,100,0.45)" />
-            {/* Fixture disc */}
-            <ellipse cx={lx} cy={CY + 24} rx="32" ry="11"
-              fill="rgba(215,175,70,0.72)" filter="url(#hbg-fix)" />
-            {/* Bulb core */}
-            <circle cx={lx} cy={CY + 24} r="15" fill="rgba(255,225,100,0.92)" />
-            {/* Wide halo */}
-            <circle cx={lx} cy={CY + 24} r="56"
-              fill="rgba(255,175,45,0.22)" filter="url(#hbg-fix)" />
+            <rect x={lx - 1.5} y={258} width="3" height="20" fill="rgba(150,130,90,0.5)" />
+            <ellipse cx={lx} cy={288} rx="14" ry="5"
+              fill="rgba(255,210,110,0.85)" filter="url(#hbg-bulb)" />
+            <circle cx={lx} cy={288} r="30"
+              fill="rgba(255,180,60,0.18)" filter="url(#hbg-bulb)" />
           </g>
         ))}
 
-        {/* ── DOOR FRAME PILLARS ──────────────────────────────────────────── */}
-        {/* Left pillar */}
-        <rect x="0" y={CY} width={PW} height={FY - CY} fill={dark} />
-        <rect x={PW - 2}  y={CY} width="2" height={FY - CY} fill="rgba(255,255,255,0.034)" />
-        <rect x={PW - 12} y={CY} width="2" height={FY - CY} fill={seam} />
-        <rect x={PW - 22} y={CY} width="2" height={FY - CY} fill={seam} />
-        {/* Warm light spill onto left pillar inner edge */}
-        <rect x={PW - 2} y={CY} width="20" height={FY - CY}
-          fill="rgba(185,85,8,0.18)" filter="url(#hbg-edge)" />
+        {/* ── RIM: lit metal frame around the opening ──────────────────────── */}
+        <path d={OPENING} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="3" />
+        {/* warm spill on the inner edge of the rim */}
+        <path d={OPENING} fill="none" stroke="rgba(225,135,35,0.30)" strokeWidth="9"
+          filter="url(#hbg-soft)" />
 
-        {/* Right pillar */}
-        <rect x={VW - PW} y={CY} width={PW} height={FY - CY} fill={dark} />
-        <rect x={VW - PW}     y={CY} width="2" height={FY - CY} fill="rgba(255,255,255,0.034)" />
-        <rect x={VW - PW + 10} y={CY} width="2" height={FY - CY} fill={seam} />
-        <rect x={VW - PW + 20} y={CY} width="2" height={FY - CY} fill={seam} />
-        {/* Warm light spill onto right pillar inner edge */}
-        <rect x={VW - PW - 18} y={CY} width="20" height={FY - CY}
-          fill="rgba(185,85,8,0.18)" filter="url(#hbg-edge)" />
-
-        {/* ── FLOOR ───────────────────────────────────────────────────────── */}
-        <rect x="0" y={FY} width={VW} height={VH - FY} fill={concrete} />
-
-        {/* Floor/wall join highlight */}
-        <rect x="0" y={FY} width={VW} height="2" fill="rgba(255,255,255,0.04)" />
-
-        {/* Floor expansion joint lines */}
-        {([350, 720, 1090] as const).map(x => (
-          <rect key={x} x={x} y={FY} width="1.5" height={VH - FY} fill="rgba(255,255,255,0.04)" />
-        ))}
-
-        {/* Floor centerline taxi marking */}
-        <rect x={VW / 2 - 48} y={FY + 10} width="96" height="3" rx="1"
-          fill="rgba(255,255,255,0.08)" />
-
-        {/* Floor light pools below each pendant */}
-        {lights.map(lx => (
-          <ellipse key={lx} cx={lx} cy={FY + 22} rx="120" ry="24"
-            fill="rgba(215,130,25,0.09)" filter="url(#hbg-glow)" />
-        ))}
+        {/* Company-stripe accent on the front fascia (top of arch) */}
+        <path d="M470,118 C570,96 870,96 970,118"
+          fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
       </svg>
     </div>
   );

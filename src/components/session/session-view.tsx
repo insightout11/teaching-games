@@ -1032,11 +1032,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
           <motion.div
             className="absolute left-1/2 -translate-x-1/2"
-            style={{ bottom: '8vh' }}
-            animate={{ y: [0, -2, 0], rotate: [0, 0.15, 0, -0.15, 0] }}
+            style={{ bottom: '4vh' }}
+            animate={{ y: [0, -1.5, 0], rotate: [0, 0.12, 0, -0.12, 0] }}
             transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <ClassPlaneSprite planeKey={selectedPlaneKey} size="xl" variant="parked" />
+            <ClassPlaneSprite planeKey={selectedPlaneKey} size="lg" variant="parked" />
           </motion.div>
         </div>
         <div className="relative z-10 flex flex-col h-[78vh] px-6 lg:px-8 pt-4 pb-3">
