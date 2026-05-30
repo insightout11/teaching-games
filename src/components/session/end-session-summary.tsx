@@ -97,32 +97,47 @@ export function EndSessionSummary({
       ) * 100)
     : null;
 
+  // Collective "class" stats for the arrival celebration
+  const bestStreak = summary.length > 0 ? Math.max(...summary.map((s) => s.bestStreak)) : 0;
+  const responders = summary.filter((s) => s.responses > 0).length;
+  const rosterTotal = students.length || responders;
+
   return (
     <div className="max-w-2xl mx-auto py-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-3xl font-bold text-center text-lc-text mb-2">Session Complete!</h1>
-        <p className="text-center text-lc-text3 mb-8">{className}</p>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        {/* ── Class arrival beat — the whole class has landed ── */}
+        <motion.div
+          className="text-center"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 220, damping: 18, delay: 0.05 }}
+        >
+          <span className="inline-block text-5xl">🛬</span>
+        </motion.div>
+        <h1 className="text-4xl font-extrabold text-center text-lc-text tracking-tight mt-1">You&apos;ve Landed!</h1>
+        <p className="text-center text-lc-text3 mb-8">{className} · flight complete</p>
 
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
-            <p className="text-2xl font-bold text-lc-blue">{totalResponses}</p>
-            <p className="text-sm text-lc-text3">Scored Responses</p>
-          </div>
-          <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
-            <p className="text-2xl font-bold text-lc-success">
-              {overallAccuracy !== null ? `${overallAccuracy}%` : '—'}
-            </p>
-            <p className="text-sm text-lc-text3">Scorable Accuracy</p>
-          </div>
-          <div className="bg-lc-card rounded-2xl border border-lc-border p-4 text-center">
-            <p className="text-2xl font-bold text-lc-warn">
-              {summary.length > 0 ? Math.max(...summary.map((s) => s.bestStreak)) : 0}
-            </p>
-            <p className="text-sm text-lc-text3">Best Streak</p>
-          </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+          {[
+            { v: `${responders}/${rosterTotal}`, l: 'Aboard', c: 'text-cyan-300' },
+            { v: totalResponses, l: 'Responses', c: 'text-sky-300' },
+            { v: overallAccuracy !== null ? `${overallAccuracy}%` : '—', l: 'Accuracy', c: 'text-emerald-300' },
+            { v: bestStreak, l: 'Best Streak', c: 'text-amber-300' },
+          ].map((s, i) => (
+            <motion.div
+              key={s.l}
+              className="glass rounded-2xl border border-lc-border p-4 text-center"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18 + i * 0.08 }}
+            >
+              <p className={`text-3xl font-bold ${s.c}`}>{s.v}</p>
+              <p className="text-[11px] text-lc-text3 mt-0.5 uppercase tracking-wider">{s.l}</p>
+            </motion.div>
+          ))}
         </div>
 
-        <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+        <div className="glass rounded-2xl border border-lc-border p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-lc-text">Final Standings</h2>
             {teacherView && prefsMap.size > 0 && Array.from(prefsMap.values()).some((v) => !v) && (

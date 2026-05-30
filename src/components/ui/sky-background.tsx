@@ -428,6 +428,11 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
           <stop offset="0%"   stopColor="rgba(255,180,90,0.55)" />
           <stop offset="100%" stopColor="rgba(255,180,90,0)" />
         </radialGradient>
+        {/* warm sun reflection streak down the tarmac */}
+        <linearGradient id="sun-reflect" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stopColor="rgba(255,195,115,0.50)" />
+          <stop offset="100%" stopColor="rgba(255,195,115,0)" />
+        </linearGradient>
 
         <linearGradient id="grass-top-g" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%"   stopColor="#1e4226" stopOpacity="0.38" />
@@ -539,6 +544,10 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
           <rect x="0" y="100" width="1440" height="14" fill="url(#grass-top-g)" filter="url(#grass-tex)" />
           {/* Wide tarmac */}
           <rect x="0" y="114" width="1440" height="106" fill="url(#tarmac-g)" filter="url(#tarmac-tex)" />
+          {/* warm sun reflection on the tarmac (arrival) */}
+          {showSkyline && (
+            <polygon points="1000,114 1020,114 1052,220 968,220" fill="url(#sun-reflect)" filter="url(#bloom-soft)" />
+          )}
           {showRunwayMarkings && (
             <>
               {/* Converging runway boundary lines */}
