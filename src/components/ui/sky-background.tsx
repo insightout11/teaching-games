@@ -367,17 +367,17 @@ const CITY_LIGHTS_DOUBLED = [
 
 // ─── Destination skyline (shown on arrival via showSkyline) ──────────────────
 
-const SKYLINE_BASE_Y = 102;
+const SKYLINE_BASE_Y = 104;
 const SKYLINE = (() => {
   let s = 7;
   const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
   const b: { x: number; w: number; h: number }[] = [];
   let x = -40;
-  while (x < 1480) {
-    const w = 24 + Math.floor(rnd() * 40);
-    const h = 16 + Math.floor(rnd() * 62);
+  while (x < 1500) {
+    const w = 30 + Math.floor(rnd() * 46);
+    const h = 34 + Math.floor(rnd() * 150); // tall, varied — needs overflow:visible to show
     b.push({ x, w, h });
-    x += w + 3 + Math.floor(rnd() * 16);
+    x += w + 2 + Math.floor(rnd() * 14);
   }
   return b;
 })();
@@ -403,7 +403,7 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
       width="100%"
       height="220"
       preserveAspectRatio="xMidYMax slice"
-      style={{ display: 'block', overflow: animate ? 'visible' : 'hidden' }}
+      style={{ display: 'block', overflow: (animate || showSkyline) ? 'visible' : 'hidden' }}
       aria-hidden
     >
       <defs>
@@ -415,9 +415,19 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
         </linearGradient>
         {/* warm dawn backlight behind the destination skyline */}
         <linearGradient id="skyline-glow" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%"   stopColor="rgba(255,165,95,0.30)" />
+          <stop offset="0%"   stopColor="rgba(255,165,95,0.34)" />
           <stop offset="100%" stopColor="rgba(255,165,95,0)" />
         </linearGradient>
+        {/* rising sun */}
+        <radialGradient id="arrival-sun" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor="rgba(255,248,225,1)" />
+          <stop offset="45%"  stopColor="rgba(255,205,110,0.98)" />
+          <stop offset="100%" stopColor="rgba(255,150,50,0)" />
+        </radialGradient>
+        <radialGradient id="arrival-sun-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor="rgba(255,180,90,0.55)" />
+          <stop offset="100%" stopColor="rgba(255,180,90,0)" />
+        </radialGradient>
 
         <linearGradient id="grass-top-g" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%"   stopColor="#1e4226" stopOpacity="0.38" />
@@ -490,21 +500,32 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
         <rect x="0" y="0" width="1440" height="220" fill="url(#earth-grad)" />
       )}
 
-      {/* ── Distant destination skyline at the horizon (arrival) ── */}
+      {/* ── Rising sun + distant destination skyline at the horizon (arrival) ── */}
       {showSkyline && (
         <g>
-          {/* warm dawn glow so the city silhouette reads against the dark sky */}
-          <rect x="0" y={SKYLINE_BASE_Y - 86} width="1440" height="90" fill="url(#skyline-glow)" />
+          {/* warm dawn band along the horizon */}
+          <rect x="0" y={SKYLINE_BASE_Y - 150} width="1440" height="154" fill="url(#skyline-glow)" />
+          {/* rising sun behind the city (half-risen over the horizon) */}
+          <circle cx="1010" cy={SKYLINE_BASE_Y - 18} r="150" fill="url(#arrival-sun-glow)" />
+          <circle cx="1010" cy={SKYLINE_BASE_Y - 18} r="58" fill="url(#arrival-sun)" />
+          {/* tall, varied skyline silhouette backlit by the sun */}
           {SKYLINE.map((bld, i) => {
             const top = SKYLINE_BASE_Y - bld.h;
+            const winRows = Math.min(6, Math.floor(bld.h / 26));
             return (
               <g key={i}>
-                <rect x={bld.x} y={top} width={bld.w} height={bld.h} fill="#3a4a68" />
-                {/* warm dawn rim-light on the rooftops */}
-                <rect x={bld.x} y={top} width={bld.w} height="2.5" fill="rgba(255,195,135,0.5)" />
-                {bld.h > 30 && <rect x={bld.x + 4} y={top + 8} width="3.5" height="5" fill="rgba(255,212,135,0.8)" />}
-                {bld.h > 42 && <rect x={bld.x + bld.w - 8} y={top + 18} width="3.5" height="5" fill="rgba(165,210,245,0.7)" />}
-                {bld.h > 52 && <circle cx={bld.x + bld.w / 2} cy={top - 3} r="2" fill="#ff5038" />}
+                <rect x={bld.x} y={top} width={bld.w} height={bld.h} fill="#141d2b" />
+                {/* faint warm rim-light catching the dawn on the rooftops */}
+                <rect x={bld.x} y={top} width={bld.w} height="2" fill="rgba(255,190,130,0.35)" />
+                {/* a few lit windows */}
+                {Array.from({ length: winRows }).map((_, r) =>
+                  (i + r) % 2 === 0 ? (
+                    <rect key={r} x={bld.x + (r % 2 ? bld.w - 9 : 5)} y={top + 12 + r * 24}
+                      width="4" height="6"
+                      fill={(i + r) % 3 ? 'rgba(255,205,130,0.6)' : 'rgba(160,205,245,0.5)'} />
+                  ) : null
+                )}
+                {bld.h > 120 && <circle cx={bld.x + bld.w / 2} cy={top - 3} r="2.2" fill="#ff5038" />}
               </g>
             );
           })}
