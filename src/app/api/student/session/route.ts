@@ -333,15 +333,30 @@ export async function GET(request: NextRequest) {
     // Get personal results when session has ended
     let personalResults: PersonalResults | null = null;
     if (!isActive && clientId) {
+      // Resolve this device's roster identity. The leaderboard view buckets a
+      // student's rows by COALESCE(student_id, client_id), so points earned under
+      // their student_id or a previous client_id (after a rejoin) are invisible to
+      // a plain client_id match — the source of the 26-vs-3 own-total mismatch.
+      const { data: participant } = await supabase
+        .from('session_participants')
+        .select('student_id')
+        .eq('session_id', sessionId)
+        .eq('client_id', clientId)
+        .maybeSingle();
+      const studentId = (participant?.student_id as string | undefined) ?? null;
+      const safeClient = uuidRegex.test(clientId);
+
+      const myScoresQuery = supabase
+        .from('scores')
+        .select('points, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, streak_count')
+        .eq('session_id', sessionId);
       const [{ data: myScores }, { data: lb }, { data: pref }] = await Promise.all([
-        supabase
-          .from('scores')
-          .select('points, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, streak_count')
-          .eq('session_id', sessionId)
-          .eq('client_id', clientId),
+        studentId && safeClient
+          ? myScoresQuery.or(`client_id.eq.${clientId},student_id.eq.${studentId}`)
+          : myScoresQuery.eq('client_id', clientId),
         supabase
           .from('session_leaderboard')
-          .select('total_points')
+          .select('student_id, total_points')
           .eq('session_id', sessionId)
           .order('total_points', { ascending: false }),
         supabase
@@ -357,9 +372,8 @@ export async function GET(request: NextRequest) {
         counts_for_accuracy?: boolean | null; counts_for_leaderboard?: boolean | null;
         scoring_version?: number | null; streak_count: number;
       }>;
-      // Only count leaderboard rows for points (exclude proxy remote_vote rows)
+      // Accuracy + streak from this student's own (identity-matched) score rows.
       const leaderboardRows = rows.filter(countsForLeaderboard);
-      const totalPoints = leaderboardRows.reduce((s, r) => s + (r.points ?? 0), 0);
       const scorable = leaderboardRows.filter(countsForAccuracy);
       const accuracy = scorable.length > 0
         ? Math.round(
@@ -368,9 +382,16 @@ export async function GET(request: NextRequest) {
         : null;
       const bestStreak = rows.length > 0 ? Math.max(...rows.map((r) => r.streak_count ?? 0)) : 0;
 
+      // Points and rank come from the SAME leaderboard view the teacher's final
+      // standings use, so the student's total always matches their standings entry.
+      const lbRows = (lb ?? []) as Array<{ student_id: string; total_points: number }>;
+      const ownKeys = new Set<string>([clientId]);
+      if (studentId) ownKeys.add(studentId);
+      const ownRow = lbRows.find((e) => ownKeys.has(e.student_id));
+      const totalPoints = ownRow?.total_points ?? 0;
+
       const scoreVisible = pref?.score_visible !== false;
-      const lbRows = lb ?? [];
-      const rank = scoreVisible && lbRows.length > 0
+      const rank = scoreVisible && ownRow
         ? lbRows.filter((e) => e.total_points > totalPoints).length + 1
         : null;
 
