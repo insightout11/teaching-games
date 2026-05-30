@@ -7,10 +7,22 @@ interface RunwayPlaneSceneProps {
   planeKey?: string | null;
   planeSize?: 'sm' | 'md' | 'lg' | 'xl';
   showRunway?: boolean;
+  // Front-facing view (faces the camera, for forward-facing runway scenes).
+  // Uses the starter biplane front art for now, regardless of planeKey.
+  frontFacing?: boolean;
+  frontVariant?: 'headon' | '3q';
   className?: string;
 }
 
-export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true, className }: RunwayPlaneSceneProps) {
+const FRONT_SRC: Record<NonNullable<RunwayPlaneSceneProps['frontVariant']>, string> = {
+  headon: '/assets/flight/planes/starter-biplane-front.webp',
+  '3q': '/assets/flight/planes/starter-biplane-front-3q.webp',
+};
+const FRONT_H: Record<NonNullable<RunwayPlaneSceneProps['planeSize']>, number> = {
+  sm: 96, md: 140, lg: 180, xl: 232,
+};
+
+export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true, frontFacing = false, frontVariant = '3q', className }: RunwayPlaneSceneProps) {
   return (
     <div className={`relative inline-flex flex-col items-center ${className ?? ''}`}>
       {showRunway && (
@@ -26,10 +38,21 @@ export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true
 
       {/* Plane — subtle engine-idle vibration */}
       <motion.div
-        animate={{ y: [0, -1.5, 0], rotate: [0, 0.25, 0, -0.25, 0] }}
+        animate={{ y: [0, -1.5, 0], rotate: frontFacing ? [0, 0, 0] : [0, 0.25, 0, -0.25, 0] }}
         transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <ClassPlaneSprite planeKey={planeKey} size={planeSize} variant="parked" />
+        {frontFacing ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={FRONT_SRC[frontVariant]}
+            alt=""
+            draggable={false}
+            style={{ height: FRONT_H[planeSize], width: 'auto' }}
+            className="select-none w-auto"
+          />
+        ) : (
+          <ClassPlaneSprite planeKey={planeKey} size={planeSize} variant="parked" />
+        )}
       </motion.div>
 
       {showRunway && (

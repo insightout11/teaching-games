@@ -993,10 +993,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
         {/* Existing airport runway at sunrise — the class has arrived (landed) */}
         <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" className={isFullScreen ? '' : '!left-64'} />
-        {/* Plane landed on the runway centerline */}
+        {/* Plane landed on the runway centerline — front-facing */}
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
+            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
           </div>
         </div>
         <div className="relative z-10 pb-52">
@@ -1235,7 +1235,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       {(earthState === 'takeoff' || earthState === 'landing') && (
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
           <div className={`absolute bottom-0 ${earthState === 'takeoff' ? 'left-[38%]' : 'left-[62%]'} -translate-x-1/2`}>
-            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
+            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
           </div>
         </div>
       )}
