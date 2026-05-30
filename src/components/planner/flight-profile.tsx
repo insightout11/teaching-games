@@ -1,6 +1,6 @@
 'use client';
 
-import { computeAltitude, calculateSlotBudgets } from '@/lib/flight-plan-helpers';
+import { calculateSlotBudgets } from '@/lib/flight-plan-helpers';
 import type { LessonSlot } from '@/hooks/use-lesson-session';
 import type { PlanModule } from '@/lib/planner-utils';
 
