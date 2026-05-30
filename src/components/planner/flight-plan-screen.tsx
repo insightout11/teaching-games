@@ -50,11 +50,11 @@ export function FlightPlanScreen() {
         </div>
       </div>
 
-      {/* Flight plan overview — the existing icon-based path (consistent with Launch) */}
+      {/* Flight plan — the full icon-based path (same as Launch, image-matched) */}
       {modules.length > 1 && (
         <div className="bg-lc-card rounded-xl border border-lc-border p-4">
           <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider mb-3">Flight Plan</h3>
-          <FlightPathSVG compact />
+          <FlightPathSVG />
         </div>
       )}
 
