@@ -7,15 +7,14 @@ import { MissionSetupScreen } from './mission-setup-screen';
 import { FlightPlanScreen } from './flight-plan-screen';
 import { ReviewLaunchScreen } from './review-launch-screen';
 import { SkyBackground } from '@/components/ui/sky-background';
-import { PlannerHorizon } from './planner-horizon';
 
 export function PlannerShell() {
   const step = usePlannerStore((s) => s.step);
 
   return (
     <div className="relative -mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-8 lg:px-8 pb-12 min-h-[calc(100vh-4rem)]">
-      {/* Pre-flight sunset sky (grounded, not cruising) + distant departure
-          airfield on the horizon — flows into the lobby's dusk departure. */}
+      {/* Quiet pre-flight sunset sky (grounded) — soft clouds + a faint warm
+          horizon, muted by a dark scrim so it stays premium, not a bold scene. */}
       <SkyBackground
         weatherState="climbing"
         altitude={0}
@@ -24,7 +23,11 @@ export function PlannerShell() {
         showCityLights={false}
         className="!left-64"
       />
-      <PlannerHorizon className="!left-64" />
+      <div
+        className="fixed inset-0 pointer-events-none bg-gradient-to-t from-[#070b14]/70 via-[#080c16]/45 to-[#080c16]/20 !left-64"
+        style={{ zIndex: 0 }}
+        aria-hidden
+      />
 
       <div className="relative z-10">
         <div className="mb-8">
