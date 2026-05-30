@@ -6,7 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { PlaneLanding } from 'lucide-react';
+import { PlaneLanding, Crown } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 
@@ -105,6 +105,10 @@ export function EndSessionSummary({
   const responders = summary.filter((s) => s.responses > 0).length;
   const rosterTotal = students.length || responders;
 
+  // Student beat — "Captain of the Day" (top scorer; only when there's a real winner)
+  const captain = summary[0];
+  const captainTies = captain ? summary.filter((s) => s.total === captain.total).length : 0;
+
   return (
     <div className="max-w-2xl mx-auto py-8">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -142,6 +146,40 @@ export function EndSessionSummary({
             </motion.div>
           ))}
         </div>
+
+        {/* ── Student beat — Captain of the Day ── */}
+        {captain && captain.total > 0 && (
+          <motion.div
+            className="relative glass rounded-2xl border border-amber-400/30 p-5 mb-6 overflow-hidden"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, type: 'spring', stiffness: 200, damping: 18 }}
+          >
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-amber-400/10 via-transparent to-transparent" />
+            <div className="relative flex items-center gap-4">
+              <motion.div
+                className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-amber-400/30 bg-amber-400/15"
+                initial={{ scale: 0, rotate: -20 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.66, type: 'spring', stiffness: 380, damping: 14 }}
+              >
+                <Crown className="h-7 w-7 text-amber-300" strokeWidth={1.75} />
+              </motion.div>
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-300/80">Captain of the Day</p>
+                <p className="text-2xl font-bold text-lc-text truncate">
+                  {isHidden(captain.key) ? 'Anonymous Captain' : captain.name}
+                  {captainTies > 1 && <span className="text-lc-text3 font-medium"> +{captainTies - 1}</span>}
+                </p>
+                <p className="text-sm text-lc-text3 mt-0.5">
+                  {captain.total} pts
+                  {captain.accuracyAttempts > 0 && <> · {captain.correct}/{captain.accuracyAttempts} correct</>}
+                  {captain.bestStreak >= 2 && <> · {captain.bestStreak} streak</>}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         <div className="glass rounded-2xl border border-lc-border p-6">
           <div className="flex items-center justify-between mb-4">
