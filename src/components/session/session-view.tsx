@@ -991,16 +991,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   if (ended) {
     return (
-      <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+      <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
         {/* Existing airport runway at sunrise + distant destination skyline — arrived */}
         <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" showSkyline className={isFullScreen ? '' : '!left-64'} />
-        {/* Plane landed on the runway centerline — front-facing */}
+        {/* Plane landed on the runway centerline — front-facing (pinned background) */}
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
             <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
           </div>
         </div>
-        <div className="relative z-10 pb-52">
+        {/* Only the results scroll — the airfield stays pinned behind */}
+        <div className="relative z-10 h-full overflow-y-auto px-6 lg:px-8 py-6 pb-24">
           <EndSessionSummary
             classId={cls.id}
             className={cls.name}
