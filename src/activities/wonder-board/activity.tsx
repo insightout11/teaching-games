@@ -88,8 +88,9 @@ function CloudGooFilter() {
   );
 }
 
-// Cloud card: three large overlapping circles are merged by the goo SVG filter
-// into a smooth organic cloud blob. No rectangles, no straight lines.
+// Cloud card: overlapping circular puffs on ALL four edges (top, bottom, left,
+// right) are merged with an inset body fill by the goo SVG filter into one
+// smooth cumulus silhouette — puffy all the way around, no flat edges.
 // The blob layer is purely decorative; content sits above it at z-index 1.
 function CloudCard({
   starter,
@@ -105,10 +106,10 @@ function CloudCard({
   return (
     <div
       className={`transition-all duration-200 cursor-pointer ${focused ? 'scale-[1.02]' : ''}`}
-      style={{ position: 'relative', paddingTop: 64 }}
+      style={{ position: 'relative' }}
       onClick={onClick}
     >
-      {/* Blob layer: goo merges circles + body into one cloud shape */}
+      {/* Blob layer: goo merges every puff + the inset body into one cloud */}
       <div
         aria-hidden="true"
         style={{
@@ -118,17 +119,22 @@ function CloudCard({
           filter: `url(#cloud-goo) ${getCloudGlow(starter, focused)}`,
         }}
       >
-        {/* Left bump */}
-        <div style={{ position: 'absolute', top: 10, left: '6%',  width: '40%', height: 56, background: CLOUD_BG, borderRadius: '50%' }} />
-        {/* Center bump — tallest */}
-        <div style={{ position: 'absolute', top: 0,  left: '23%', width: '54%', height: 70, background: CLOUD_BG, borderRadius: '50%' }} />
-        {/* Right bump */}
-        <div style={{ position: 'absolute', top: 14, right: '6%', width: '36%', height: 48, background: CLOUD_BG, borderRadius: '50%' }} />
-        {/* Body — fills from bump base to bottom */}
-        <div style={{ position: 'absolute', top: 38, left: 0, right: 0, bottom: 0, background: CLOUD_BG, borderRadius: 18 }} />
+        {/* Body fill — inset on all sides so its straight edges hide under puffs */}
+        <div style={{ position: 'absolute', top: 30, bottom: 28, left: 26, right: 26, background: CLOUD_BG, borderRadius: 36 }} />
+        {/* Top puffs */}
+        <div style={{ position: 'absolute', top: 8, left: '5%',  width: '38%', height: 60, background: CLOUD_BG, borderRadius: '50%' }} />
+        <div style={{ position: 'absolute', top: 0, left: '31%', width: '42%', height: 72, background: CLOUD_BG, borderRadius: '50%' }} />
+        <div style={{ position: 'absolute', top: 8, right: '5%', width: '36%', height: 58, background: CLOUD_BG, borderRadius: '50%' }} />
+        {/* Bottom puffs */}
+        <div style={{ position: 'absolute', bottom: 4, left: '8%',  width: '36%', height: 52, background: CLOUD_BG, borderRadius: '50%' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: '33%', width: '38%', height: 58, background: CLOUD_BG, borderRadius: '50%' }} />
+        <div style={{ position: 'absolute', bottom: 4, right: '8%', width: '34%', height: 50, background: CLOUD_BG, borderRadius: '50%' }} />
+        {/* Side puffs — round the left & right edges */}
+        <div style={{ position: 'absolute', top: '26%', bottom: '26%', left: 0,  width: 66, background: CLOUD_BG, borderRadius: '50%' }} />
+        <div style={{ position: 'absolute', top: '26%', bottom: '26%', right: 0, width: 66, background: CLOUD_BG, borderRadius: '50%' }} />
       </div>
       {/* Content — unfiltered, interactive */}
-      <div style={{ position: 'relative', zIndex: 1, padding: '0 16px 16px' }}>
+      <div style={{ position: 'relative', zIndex: 1, padding: '44px 38px 38px' }}>
         {children}
       </div>
     </div>

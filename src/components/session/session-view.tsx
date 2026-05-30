@@ -724,6 +724,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
   };
 
+  // From the You've Landed screen — "take off again" for a bonus round:
+  // re-open the session and launch the vote, dropping back to the grid.
+  const handleBonusFromArrival = async () => {
+    await supabase.from('sessions').update({ status: 'active', ended_at: null }).eq('id', session.id);
+    setEnded(false);
+    await handleLaunchBonusVote();
+  };
+
   const handleConfirmBonusWinner = async (winnerKey: string) => {
     if (bonusVotePollId) {
       await supabase.from('polls').update({ is_active: false }).eq('id', bonusVotePollId);
@@ -901,6 +909,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       });
     }
     lesson.advanceSlot();
+    // Final module complete — fly straight to the "You've Landed" arrival
+    // instead of dropping back on the selection grid.
+    if (lesson.isLessonActive && !hasNextSlot) {
+      void handleEndSession();
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson, selectedGame, selectedActivity]);
 
@@ -1007,6 +1020,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             className={cls.name}
             sessionId={session.id}
             flightCode={lesson.lessonPlanContent?.callsign ?? `LC-${session.id.slice(-4).toUpperCase()}`}
+            onLaunchBonusVote={handleBonusFromArrival}
           />
         </div>
       </div>
