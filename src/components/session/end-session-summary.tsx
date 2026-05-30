@@ -6,6 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { PlaneLanding } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 
@@ -112,7 +113,7 @@ export function EndSessionSummary({
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 220, damping: 18, delay: 0.05 }}
         >
-          <span className="inline-block text-5xl">🛬</span>
+          <PlaneLanding className="mx-auto h-11 w-11 text-cyan-300" strokeWidth={1.5} />
         </motion.div>
         <h1 className="text-4xl font-extrabold text-center text-lc-text tracking-tight mt-1">You&apos;ve Landed!</h1>
         <p className="text-center text-lc-text3 mb-8">{className} · flight complete</p>
