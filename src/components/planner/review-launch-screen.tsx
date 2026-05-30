@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { usePlannerStore } from '@/stores/planner-store';
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import type { GoalTag } from '@/lib/flight-plan-config';
@@ -299,7 +300,7 @@ export function ReviewLaunchScreen() {
           <div className="bg-lc-card rounded-xl border border-lc-border p-5">
             <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider mb-4 flex items-center gap-2">
               <Users className="w-4 h-4" />
-              Select Class
+              Crew · Select Class
             </h3>
 
             {loadingClasses ? (
@@ -335,7 +336,7 @@ export function ReviewLaunchScreen() {
                 {/* Selected class info */}
                 {selectedClass && (
                   <p className="text-xs text-lc-text3">
-                    {selectedClass.studentCount} student{selectedClass.studentCount !== 1 ? 's' : ''} in roster
+                    {selectedClass.studentCount} crew aboard
                   </p>
                 )}
 
@@ -379,10 +380,22 @@ export function ReviewLaunchScreen() {
               Pre-Flight Checklist
             </h3>
             <div className="space-y-2">
-              {checklist.map((item) => (
-                <div key={item.label} className="flex items-center gap-2">
+              {checklist.map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  className="flex items-center gap-2"
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15 + i * 0.16 }}
+                >
                   {item.done ? (
-                    <CheckCircle2 className="w-4 h-4 text-lc-success" />
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.15 + i * 0.16 + 0.06, type: 'spring', stiffness: 420, damping: 15 }}
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-lc-success" />
+                    </motion.span>
                   ) : item.warn ? (
                     <AlertTriangle className="w-4 h-4 text-amber-400" />
                   ) : (
@@ -393,7 +406,7 @@ export function ReviewLaunchScreen() {
                   >
                     {item.label}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
