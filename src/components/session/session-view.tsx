@@ -31,6 +31,7 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { AirfieldScene } from '@/components/ui/airfield-scene';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
@@ -1131,15 +1132,25 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                         <p className="text-xs opacity-50">Waiting for students…</p>
                       </div>
                     ) : (
-                      <div className="flex flex-wrap gap-2">
-                        {sessionParticipants.map((p) => (
-                          <div key={p.id} className="flex flex-col items-center gap-1 bg-lc-card rounded-2xl px-2.5 py-2 min-w-[56px]">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={avatarUrl(p.avatar_seed, p.display_name)} alt="" width={36} height={36} className="w-9 h-9 rounded-xl" />
-                            <span className="text-[10px] font-semibold text-lc-text truncate max-w-[56px] text-center">{p.display_name}</span>
-                          </div>
-                        ))}
-                      </div>
+                      <motion.div layout className="flex flex-wrap gap-2">
+                        <AnimatePresence>
+                          {sessionParticipants.map((p) => (
+                            <motion.div
+                              key={p.id}
+                              layout
+                              initial={{ opacity: 0, scale: 0.5, y: 12 }}
+                              animate={{ opacity: 1, scale: 1, y: 0 }}
+                              exit={{ opacity: 0, scale: 0.5 }}
+                              transition={{ type: 'spring', stiffness: 420, damping: 22 }}
+                              className="flex flex-col items-center gap-1 bg-lc-card rounded-2xl px-2.5 py-2 min-w-[56px]"
+                            >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={avatarUrl(p.avatar_seed, p.display_name)} alt="" width={36} height={36} className="w-9 h-9 rounded-xl" />
+                              <span className="text-[10px] font-semibold text-lc-text truncate max-w-[56px] text-center">{p.display_name}</span>
+                            </motion.div>
+                          ))}
+                        </AnimatePresence>
+                      </motion.div>
                     )}
                   </div>
                 </div>

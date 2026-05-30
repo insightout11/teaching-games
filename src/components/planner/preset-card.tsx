@@ -42,8 +42,10 @@ export function PresetCard({
     <button
       onClick={handleClick}
       disabled={disabled}
-      className={`text-left p-4 bg-lc-surface rounded-xl border border-lc-border transition-all group ${
-        disabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-lc-blue/50'
+      className={`text-left p-4 bg-lc-surface rounded-xl border border-lc-border transition-all duration-200 group ${
+        disabled
+          ? 'opacity-40 cursor-not-allowed'
+          : 'hover:border-lc-blue/50 hover:bg-lc-card hover:-translate-y-0.5 hover:shadow-lg hover:shadow-lc-blue/10 active:translate-y-0 active:scale-[0.99]'
       }`}
     >
       <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
