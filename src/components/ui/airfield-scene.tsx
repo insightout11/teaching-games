@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { getPlaneAsset } from '@/lib/plane-progression';
 
 // Single consolidated lobby airfield: ground + hangar + parked plane + control
 // tower + windsock + twinkling stars, ALL in one coordinate system so they stay
@@ -162,10 +161,12 @@ function Windsock() {
   );
 }
 
-export function AirfieldScene({ planeKey, className }: { planeKey?: string | null; className?: string }) {
-  const planeWebp = getPlaneAsset(planeKey).webp;
-  // Plane parked in the hangar mouth (mouth centre ≈ 30 + 645*0.44 = 313.8, floor = FORE_Y)
-  const PW = 280, PH = 140;
+export function AirfieldScene({ className }: { planeKey?: string | null; className?: string }) {
+  // Front-facing plane parked nose-out in the hangar mouth (faces the open door).
+  // Starter front art for now (front views aren't authored per plane yet).
+  const planeWebp = '/assets/flight/planes/starter-biplane-front-3q.webp';
+  // mouth centre ≈ 30 + 645*0.44 = 313.8, floor = FORE_Y
+  const PW = 300, PH = 188;
   const PX = 313.8 - PW / 2;
   const PY = FORE_Y - PH;
 
