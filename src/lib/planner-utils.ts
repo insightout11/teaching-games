@@ -17,6 +17,15 @@ export interface PlanModule {
   pool?: string[];
 }
 
+/**
+ * A slot is "undetermined" — decided live, not pre-set — when it's the mission
+ * selector or has a pool to pick from. Such slots are masked as "Waypoint" so
+ * the specific module isn't revealed (matches the lobby departures board).
+ */
+export function isUndeterminedModule(m: { key: string; pool?: string[] }): boolean {
+  return m.key === 'mission-selector' || (m.pool?.length ?? 0) > 0;
+}
+
 export function moduleCountForDuration(minutes: 30 | 45 | 60 | 90): number {
   return { 30: 4, 45: 4, 60: 5, 90: 7 }[minutes];
 }

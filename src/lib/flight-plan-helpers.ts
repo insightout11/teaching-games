@@ -1,6 +1,6 @@
 import type { FlightPlanStep } from '@/components/ui/flight-plan';
 import type { PlanModule } from '@/lib/planner-utils';
-import { getModuleDisplayInfo } from '@/lib/planner-utils';
+import { getModuleDisplayInfo, isUndeterminedModule } from '@/lib/planner-utils';
 import type { LessonSlot } from '@/hooks/use-lesson-session';
 import type { LessonPhase } from '@/hooks/use-lesson-session';
 import { getGame } from '@/games/registry';
@@ -18,7 +18,10 @@ export function buildPlannerFlightPlanSteps(modules: PlanModule[]): FlightPlanSt
   return modules.map((mod) => ({
     id: mod.id,
     type: capitalize(mod.slotType),
-    name: getModuleDisplayInfo(mod.key)?.name ?? capitalize(mod.slotType),
+    // Undetermined slots are masked as "Waypoint" (matches the lobby/session view)
+    name: isUndeterminedModule(mod)
+      ? 'Waypoint'
+      : (getModuleDisplayInfo(mod.key)?.name ?? capitalize(mod.slotType)),
     kind: (mod.slotType === 'takeoff' || mod.slotType === 'landing') ? 'terminal' : 'module',
   }));
 }

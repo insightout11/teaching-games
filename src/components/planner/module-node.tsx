@@ -4,8 +4,8 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { DraggableAttributes } from '@dnd-kit/core';
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
-import { Lock, GripHorizontal, RefreshCw, X } from 'lucide-react';
-import { getModuleDisplayInfo } from '@/lib/planner-utils';
+import { Lock, GripHorizontal, RefreshCw, X, Sparkles } from 'lucide-react';
+import { getModuleDisplayInfo, isUndeterminedModule } from '@/lib/planner-utils';
 import type { PlanModule } from '@/stores/planner-store';
 
 const SLOT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
@@ -51,7 +51,10 @@ function ModuleNodeInner({
 }) {
   const info = getModuleDisplayInfo(module.key);
   const colors = SLOT_COLORS[module.slotType] ?? SLOT_COLORS.practice;
-  const Icon = info?.icon;
+  // Undetermined slots are masked as "Waypoint" so the module isn't revealed
+  const undetermined = isUndeterminedModule(module);
+  const Icon = undetermined ? Sparkles : info?.icon;
+  const displayName = undetermined ? 'Waypoint' : (info?.name ?? module.key);
 
   return (
     <div
@@ -113,9 +116,9 @@ function ModuleNodeInner({
 
       <span
         className={`text-lc-text text-center leading-tight ${compact ? 'text-[9px]' : 'text-xs'}`}
-        title={info?.name}
+        title={displayName}
       >
-        {info?.name ?? module.key}
+        {displayName}
       </span>
 
       {!module.isLocked && !compact && (
