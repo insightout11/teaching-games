@@ -516,20 +516,31 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
           {/* tall, varied skyline silhouette backlit by the sun */}
           {SKYLINE.map((bld, i) => {
             const top = SKYLINE_BASE_Y - bld.h;
-            const winRows = Math.min(6, Math.floor(bld.h / 26));
+            // dense grid of lit windows — most are on, warm/cool mix
+            const cols = Math.max(1, Math.floor((bld.w - 8) / 13));
+            const rows = Math.max(1, Math.floor((bld.h - 14) / 16));
+            const windows: React.ReactNode[] = [];
+            for (let r = 0; r < rows; r++) {
+              for (let c = 0; c < cols; c++) {
+                if ((i * 71 + r * 23 + c * 11) % 100 < 32) continue; // ~68% lit
+                const warm = (i + r * 2 + c) % 3 !== 0;
+                windows.push(
+                  <rect
+                    key={`${r}-${c}`}
+                    x={bld.x + 5 + c * 13}
+                    y={top + 9 + r * 16}
+                    width="4.5" height="6" rx="0.5"
+                    fill={warm ? 'rgba(255,208,130,0.75)' : 'rgba(165,210,245,0.65)'}
+                  />
+                );
+              }
+            }
             return (
               <g key={i}>
                 <rect x={bld.x} y={top} width={bld.w} height={bld.h} fill="#141d2b" />
                 {/* faint warm rim-light catching the dawn on the rooftops */}
                 <rect x={bld.x} y={top} width={bld.w} height="2" fill="rgba(255,190,130,0.35)" />
-                {/* a few lit windows */}
-                {Array.from({ length: winRows }).map((_, r) =>
-                  (i + r) % 2 === 0 ? (
-                    <rect key={r} x={bld.x + (r % 2 ? bld.w - 9 : 5)} y={top + 12 + r * 24}
-                      width="4" height="6"
-                      fill={(i + r) % 3 ? 'rgba(255,205,130,0.6)' : 'rgba(160,205,245,0.5)'} />
-                  ) : null
-                )}
+                {windows}
                 {bld.h > 120 && <circle cx={bld.x + bld.w / 2} cy={top - 3} r="2.2" fill="#ff5038" />}
               </g>
             );
