@@ -3,6 +3,7 @@
 import { usePlannerStore } from '@/stores/planner-store';
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import { ReplaceDrawer } from './replace-drawer';
+import { FlightProfile } from './flight-profile';
 import { ArrowLeft, RefreshCw, ArrowRight, Plus, X } from 'lucide-react';
 import { getModuleDisplayInfo } from '@/lib/planner-utils';
 
@@ -48,6 +49,16 @@ export function FlightPlanScreen() {
           </div>
         </div>
       </div>
+
+      {/* Flight profile — altitude arc over the dusk→dawn journey */}
+      {modules.length > 1 && (
+        <div className="bg-lc-card rounded-xl border border-lc-border p-4">
+          <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider mb-2">Flight Profile</h3>
+          <div style={{ aspectRatio: '1000 / 170' }} className="w-full">
+            <FlightProfile modules={modules} durationMinutes={lessonDurationMinutes} />
+          </div>
+        </div>
+      )}
 
       {/* Module list editor */}
       <div className="space-y-1">
