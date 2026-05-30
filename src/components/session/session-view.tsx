@@ -31,6 +31,7 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { AirfieldScene } from '@/components/ui/airfield-scene';
+import { ArrivalScene } from '@/components/ui/arrival-scene';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
@@ -991,12 +992,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (ended) {
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        <SkyBackground weatherState="landing" earthState="flight" altitude={0} intensity="moderate" />
-        {/* Plane parked on right taxiway — class has landed */}
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
-          <div className="absolute bottom-0 left-[62%] -translate-x-1/2">
-            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} />
-          </div>
+        {/* Locked sunrise sky; the arrival scene owns the ground */}
+        <SkyBackground weatherState="landing" earthState="flight" altitude={0} intensity="moderate" showEarth={false} />
+        {/* Arrival airfield at a new destination — scene behind the summary (z-1) */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1, left: isFullScreen ? 0 : 256 }}>
+          <ArrivalScene planeKey={selectedPlaneKey} className="absolute inset-0" />
         </div>
         <div className="relative z-10 pb-52">
           <EndSessionSummary classId={cls.id} className={cls.name} sessionId={session.id} />
