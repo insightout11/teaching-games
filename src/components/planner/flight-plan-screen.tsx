@@ -3,7 +3,9 @@
 import { usePlannerStore } from '@/stores/planner-store';
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import { ReplaceDrawer } from './replace-drawer';
-import { FlightPathSVG } from './flight-path-svg';
+import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
+import { buildPlannerFlightPlanSteps, calculateSlotBudgets } from '@/lib/flight-plan-helpers';
+import type { LessonSlot } from '@/hooks/use-lesson-session';
 import { ArrowLeft, RefreshCw, ArrowRight, Plus, X } from 'lucide-react';
 import { getModuleDisplayInfo } from '@/lib/planner-utils';
 
@@ -26,6 +28,7 @@ export function FlightPlanScreen() {
     setReplaceDrawerModuleId,
     setInsertAfterIndex,
     removeModule,
+    moveModule,
   } = usePlannerStore();
 
   return (
@@ -50,12 +53,15 @@ export function FlightPlanScreen() {
         </div>
       </div>
 
-      {/* Flight plan — the full icon-based path (same as Launch, image-matched) */}
-      {modules.length > 1 && (
-        <div className="bg-lc-card rounded-xl border border-lc-border p-4">
-          <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider mb-3">Flight Plan</h3>
-          <FlightPathSVG />
-        </div>
+      {/* Flight plan — the custom premium SVG route (same as in-session / landing) */}
+      {modules.length >= 3 && (
+        <LessonCaptainFlightPlan
+          steps={buildPlannerFlightPlanSteps(modules)}
+          mode="planner"
+          slotBudgets={calculateSlotBudgets(lessonDurationMinutes, modules as unknown as LessonSlot[])}
+          onMoveModule={(i, dir) => moveModule(i, dir === 'left' ? i - 1 : i + 1)}
+          onNodeClick={(id) => setReplaceDrawerModuleId(id)}
+        />
       )}
 
       {/* Module list editor */}

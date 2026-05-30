@@ -6,30 +6,16 @@ import { PlannerStepIndicator } from './planner-step-indicator';
 import { MissionSetupScreen } from './mission-setup-screen';
 import { FlightPlanScreen } from './flight-plan-screen';
 import { ReviewLaunchScreen } from './review-launch-screen';
-import { SkyBackground } from '@/components/ui/sky-background';
-import type { WeatherState } from '@/components/ui/sky-background';
-
-// Pre-flight time-of-day arc — warms toward the dusk departure (lobby = climbing).
-// blue hour → dusk twilight → sunset, grounded at the departure airfield.
-const STEP_WEATHER: Record<string, WeatherState> = {
-  'mission-setup': 'idle',     // blue hour — calm planning
-  'flight-plan': 'golden',     // dusk gathering
-  'launch': 'climbing',        // sunset — cleared for departure
-};
+import { PlannerOpsBackground } from './planner-ops-background';
 
 export function PlannerShell() {
   const step = usePlannerStore((s) => s.step);
 
   return (
     <div className="relative -mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-8 lg:px-8 pb-12 min-h-[calc(100vh-4rem)]">
-      {/* Planner-scoped sky — one persistent instance that crossfades per step */}
-      <SkyBackground
-        weatherState={STEP_WEATHER[step] ?? 'idle'}
-        earthState="takeoff"
-        altitude={0}
-        intensity="subtle"
-        className="!left-64"
-      />
+      {/* Mission Control ops backdrop — radar + route plotting that progresses
+          per step (pin → route → cleared), with dusk through the window. */}
+      <PlannerOpsBackground step={step} className="!left-64" />
 
       <div className="relative z-10">
         <div className="mb-8">
