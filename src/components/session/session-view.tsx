@@ -1014,7 +1014,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         </div>
         {/* Only the results scroll — the airfield stays pinned behind */}
-        <div className="relative z-10 h-full overflow-y-auto px-6 lg:px-8 py-6 pb-24">
+        <div className="relative z-10 h-full overflow-y-auto px-6 lg:px-8 py-6 pb-80">
           <EndSessionSummary
             classId={cls.id}
             className={cls.name}
