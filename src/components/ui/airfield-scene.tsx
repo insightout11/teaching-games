@@ -165,8 +165,9 @@ export function AirfieldScene({ className }: { planeKey?: string | null; classNa
   // Front-facing plane parked nose-out in the hangar mouth (faces the open door).
   // Starter front art for now (front views aren't authored per plane yet).
   const planeWebp = '/assets/flight/planes/starter-biplane-front-3q.webp';
-  // mouth centre ≈ 30 + 645*0.44 = 313.8, floor = FORE_Y
-  const PW = 300, PH = 188;
+  // mouth centre ≈ 30 + 645*0.44 = 313.8, floor = FORE_Y — sized to sit inside
+  // the hangar with clear margin (not filling the opening).
+  const PW = 220, PH = 138;
   const PX = 313.8 - PW / 2;
   const PY = FORE_Y - PH;
 
