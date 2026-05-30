@@ -103,13 +103,26 @@ function CloudCard({
   onClick: () => void;
   children: React.ReactNode;
 }) {
+  // Round lobes (equal w/h ⇒ true circles) of varied size, merged by the goo
+  // filter into one cumulus. Positioned by %-center (translateX) so they spread
+  // with card width; sized in px so they stay round at the ~220–260px card width.
+  const lobes: { top?: number; bottom?: number; left: string; d: number; midY?: boolean }[] = [
+    { top: 4,   left: '25%', d: 106 },  // top-left
+    { top: -16, left: '50%', d: 134 },  // top-center (biggest, peaks above)
+    { top: 2,   left: '75%', d: 110 },  // top-right
+    { bottom: 2,  left: '27%', d: 92 }, // bottom-left
+    { bottom: -8, left: '52%', d: 108 },// bottom-center
+    { bottom: 2,  left: '73%', d: 86 }, // bottom-right
+    { left: '7%',  d: 96, midY: true }, // left edge
+    { left: '93%', d: 96, midY: true }, // right edge
+  ];
   return (
     <div
       className={`transition-all duration-200 cursor-pointer ${focused ? 'scale-[1.02]' : ''}`}
       style={{ position: 'relative' }}
       onClick={onClick}
     >
-      {/* Blob layer: goo merges every puff + the inset body into one cloud */}
+      {/* Blob layer: goo merges round lobes + an inset body into one cloud */}
       <div
         aria-hidden="true"
         style={{
@@ -119,22 +132,27 @@ function CloudCard({
           filter: `url(#cloud-goo) ${getCloudGlow(starter, focused)}`,
         }}
       >
-        {/* Body fill — inset on all sides so its straight edges hide under puffs */}
-        <div style={{ position: 'absolute', top: 30, bottom: 28, left: 26, right: 26, background: CLOUD_BG, borderRadius: 36 }} />
-        {/* Top puffs */}
-        <div style={{ position: 'absolute', top: 8, left: '5%',  width: '38%', height: 60, background: CLOUD_BG, borderRadius: '50%' }} />
-        <div style={{ position: 'absolute', top: 0, left: '31%', width: '42%', height: 72, background: CLOUD_BG, borderRadius: '50%' }} />
-        <div style={{ position: 'absolute', top: 8, right: '5%', width: '36%', height: 58, background: CLOUD_BG, borderRadius: '50%' }} />
-        {/* Bottom puffs */}
-        <div style={{ position: 'absolute', bottom: 4, left: '8%',  width: '36%', height: 52, background: CLOUD_BG, borderRadius: '50%' }} />
-        <div style={{ position: 'absolute', bottom: 0, left: '33%', width: '38%', height: 58, background: CLOUD_BG, borderRadius: '50%' }} />
-        <div style={{ position: 'absolute', bottom: 4, right: '8%', width: '34%', height: 50, background: CLOUD_BG, borderRadius: '50%' }} />
-        {/* Side puffs — round the left & right edges */}
-        <div style={{ position: 'absolute', top: '26%', bottom: '26%', left: 0,  width: 66, background: CLOUD_BG, borderRadius: '50%' }} />
-        <div style={{ position: 'absolute', top: '26%', bottom: '26%', right: 0, width: 66, background: CLOUD_BG, borderRadius: '50%' }} />
+        {/* Body fill — connects all lobes; inset so its edges hide under them */}
+        <div style={{ position: 'absolute', top: 34, bottom: 32, left: '9%', right: '9%', background: CLOUD_BG, borderRadius: 28 }} />
+        {lobes.map((l, i) => (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              width: l.d,
+              height: l.d,
+              borderRadius: '50%',
+              background: CLOUD_BG,
+              left: l.left,
+              top: l.midY ? '50%' : l.top,
+              bottom: l.midY ? undefined : l.bottom,
+              transform: l.midY ? 'translate(-50%, -50%)' : 'translateX(-50%)',
+            }}
+          />
+        ))}
       </div>
       {/* Content — unfiltered, interactive */}
-      <div style={{ position: 'relative', zIndex: 1, padding: '44px 38px 38px' }}>
+      <div style={{ position: 'relative', zIndex: 1, padding: '48px 30px 42px' }}>
         {children}
       </div>
     </div>
