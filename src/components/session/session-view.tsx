@@ -39,7 +39,7 @@ import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
 import { avatarUrl } from '@/lib/avatar-options';
-import { ExternalLink, Maximize2, Minimize2, QrCode, Settings, Smartphone } from 'lucide-react';
+import { ExternalLink, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone } from 'lucide-react';
 
 // ─── Departure board ────────────────────────────────────────────────────────
 
@@ -1355,20 +1355,44 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               <SessionSettingsBar />
             </div>
 
-            {/* Bonus Round — shown when lesson is complete and session still active */}
+            {/* Flight complete — land to arrival, or run a bonus round first */}
             {lesson.phase === 'ended' && !bonusVotePollId && (
-              <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 p-5 flex items-center justify-between gap-4">
-                <div>
-                  <p className="font-semibold text-lc-text text-sm">Lesson complete — got time to spare?</p>
-                  <p className="text-xs text-lc-text3 mt-0.5">Let the class vote on a bonus game.</p>
+              <motion.div
+                initial={{ opacity: 0, y: 14, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                className="rounded-2xl border border-cyan-400/30 bg-gradient-to-r from-cyan-500/12 via-sky-500/8 to-amber-500/10 p-5"
+              >
+                <div className="flex items-center gap-2.5">
+                  <motion.div
+                    initial={{ scale: 0, rotate: -15 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ delay: 0.12, type: 'spring', stiffness: 360, damping: 14 }}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/15"
+                  >
+                    <PlaneLanding className="h-5 w-5 text-cyan-300" strokeWidth={1.75} />
+                  </motion.div>
+                  <div>
+                    <p className="font-semibold text-lc-text text-sm">Flight complete — ready to land?</p>
+                    <p className="text-xs text-lc-text3 mt-0.5">Every module is done. Land to arrive at the results, or run a quick bonus round first.</p>
+                  </div>
                 </div>
-                <button
-                  onClick={handleLaunchBonusVote}
-                  className="flex-shrink-0 px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold text-sm text-white shadow hover:scale-[1.02] active:scale-95 transition-all"
-                >
-                  Bonus Round?
-                </button>
-              </div>
+                <div className="flex flex-wrap items-center gap-3 mt-4 pl-[46px]">
+                  <button
+                    onClick={handleEndSession}
+                    className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold text-sm text-white shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-95 transition-all"
+                  >
+                    <PlaneLanding className="h-4 w-4" strokeWidth={2} />
+                    Land · View Results
+                  </button>
+                  <button
+                    onClick={handleLaunchBonusVote}
+                    className="px-5 py-2.5 rounded-xl font-semibold text-sm text-cyan-200 border border-cyan-400/25 bg-cyan-400/5 hover:bg-cyan-400/10 active:scale-95 transition-all"
+                  >
+                    Bonus Round
+                  </button>
+                </div>
+              </motion.div>
             )}
 
             {/* Bonus Vote Live Panel */}
