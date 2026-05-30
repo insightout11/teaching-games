@@ -991,8 +991,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (ended) {
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-        {/* Existing airport runway at sunrise — the class has arrived (landed) */}
-        <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" className={isFullScreen ? '' : '!left-64'} />
+        {/* Existing airport runway at sunrise + distant destination skyline — arrived */}
+        <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" showSkyline className={isFullScreen ? '' : '!left-64'} />
         {/* Plane landed on the runway centerline — front-facing */}
         <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2">

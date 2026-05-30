@@ -16,6 +16,7 @@ interface SkyBackgroundProps {
   showRunwayMarkings?: boolean; // converging lines, centerline dashes, edge lights (default true)
   showEarth?: boolean;         // render the ground/runway EarthLayer at all (default true)
   showMoon?: boolean;          // force the moon visible regardless of weather (default false)
+  showSkyline?: boolean;       // distant destination city skyline at the horizon (default false)
   intensity?: 'subtle' | 'moderate';
   parallaxScale?: number;    // multiplier on all layer shifts (default 1 — session behavior)
   parallaxDuration?: number; // transition duration for layer shifts in seconds (default 4)
@@ -364,9 +365,26 @@ const CITY_LIGHTS_DOUBLED = [
   ...CITY_LIGHTS_SKY.map(d => ({ x: d.x + 1440, y: d.y, r: d.r })),
 ];
 
+// ─── Destination skyline (shown on arrival via showSkyline) ──────────────────
+
+const SKYLINE_BASE_Y = 102;
+const SKYLINE = (() => {
+  let s = 7;
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const b: { x: number; w: number; h: number }[] = [];
+  let x = -40;
+  while (x < 1480) {
+    const w = 24 + Math.floor(rnd() * 40);
+    const h = 16 + Math.floor(rnd() * 62);
+    b.push({ x, w, h });
+    x += w + 3 + Math.floor(rnd() * 16);
+  }
+  return b;
+})();
+
 // ─── Earth layer ─────────────────────────────────────────────────────────────
 
-function EarthLayer({ earthState, weatherState, animate = false, showCityLights = true, showRunwayMarkings = true }: { earthState: EarthState; weatherState: WeatherState; animate?: boolean; showCityLights?: boolean; showRunwayMarkings?: boolean }) {
+function EarthLayer({ earthState, weatherState, animate = false, showCityLights = true, showRunwayMarkings = true, showSkyline = false }: { earthState: EarthState; weatherState: WeatherState; animate?: boolean; showCityLights?: boolean; showRunwayMarkings?: boolean; showSkyline?: boolean }) {
   const isLanding  = earthState === 'landing';
   const isTakeoff  = earthState === 'takeoff';
   const isFlight   = earthState === 'flight';
@@ -467,6 +485,25 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
         <rect x="0" y="0" width="1440" height="220" fill="url(#earth-grad)" />
       )}
 
+      {/* ── Distant destination skyline at the horizon (arrival) ── */}
+      {showSkyline && (
+        <g>
+          {SKYLINE.map((bld, i) => (
+            <g key={i}>
+              <rect x={bld.x} y={SKYLINE_BASE_Y - bld.h} width={bld.w} height={bld.h} fill="#121a27" />
+              <rect x={bld.x} y={SKYLINE_BASE_Y - bld.h} width={bld.w} height="1" fill="rgba(255,180,120,0.10)" />
+              {bld.h > 34 && (
+                <>
+                  <rect x={bld.x + 4} y={SKYLINE_BASE_Y - bld.h + 7} width="3" height="4" fill="rgba(255,200,120,0.5)" />
+                  <rect x={bld.x + bld.w - 7} y={SKYLINE_BASE_Y - bld.h + 16} width="3" height="4" fill="rgba(150,200,235,0.45)" />
+                </>
+              )}
+              {bld.h > 52 && <circle cx={bld.x + bld.w / 2} cy={SKYLINE_BASE_Y - bld.h - 2} r="1.6" fill="#ff5038" />}
+            </g>
+          ))}
+        </g>
+      )}
+
       {/* ── Shared runway markings (takeoff + landing) ── */}
       {(isTakeoff || isLanding) && (
         <g>
@@ -553,6 +590,7 @@ export function SkyBackground({
   showRunwayMarkings = true,
   showEarth = true,
   showMoon = false,
+  showSkyline = false,
   intensity = 'moderate',
   parallaxScale = 1,
   parallaxDuration = 4,
@@ -686,7 +724,7 @@ export function SkyBackground({
           animate={{ y: earthShift, x: earthX }}
           transition={{ duration: parallaxDuration, ease: parallaxEase }}
         >
-          <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} showCityLights={showCityLights} showRunwayMarkings={showRunwayMarkings} />
+          <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} showCityLights={showCityLights} showRunwayMarkings={showRunwayMarkings} showSkyline={showSkyline} />
         </motion.div>
       )}
 
