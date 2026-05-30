@@ -21,8 +21,9 @@ export function FlightPlanScreen() {
     moveModule,
   } = usePlannerStore();
 
-  // Give each node room so cards never overlap; scrolls horizontally for long plans.
-  const planWidth = Math.max(900, 215 * modules.length);
+  // Large viewBox width → node cards shrink (by %) to fit the column with no
+  // overlap and no horizontal scroll, however many modules there are.
+  const planWidth = Math.max(1280, 188 * (modules.length - 1) + 470);
 
   return (
     <div className="max-w-5xl mx-auto space-y-5">
@@ -47,21 +48,17 @@ export function FlightPlanScreen() {
       </div>
 
       {/* Flight plan — the custom premium SVG route (same as in-session / landing).
-          Sized so node cards never overlap; scrolls horizontally for long plans. */}
+          Fits the column (cards shrink by %); no horizontal scroll. */}
       {modules.length >= 3 && (
-        <div className="overflow-x-auto pb-1">
-          <div style={{ width: planWidth }}>
-            <LessonCaptainFlightPlan
-              steps={buildPlannerFlightPlanSteps(modules)}
-              width={planWidth}
-              height={360}
-              mode="planner"
-              slotBudgets={calculateSlotBudgets(lessonDurationMinutes, modules as unknown as LessonSlot[])}
-              onMoveModule={(i, dir) => moveModule(i, dir === 'left' ? i - 1 : i + 1)}
-              onNodeClick={(id) => setReplaceDrawerModuleId(id)}
-            />
-          </div>
-        </div>
+        <LessonCaptainFlightPlan
+          steps={buildPlannerFlightPlanSteps(modules)}
+          width={planWidth}
+          height={Math.round(planWidth * 0.28)}
+          mode="planner"
+          slotBudgets={calculateSlotBudgets(lessonDurationMinutes, modules as unknown as LessonSlot[])}
+          onMoveModule={(i, dir) => moveModule(i, dir === 'left' ? i - 1 : i + 1)}
+          onNodeClick={(id) => setReplaceDrawerModuleId(id)}
+        />
       )}
 
       <p className="text-xs text-lc-text3 text-center">
