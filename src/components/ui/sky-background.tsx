@@ -413,6 +413,11 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
           <stop offset="70%"  stopColor={terrainColor} stopOpacity="0.85" />
           <stop offset="100%" stopColor={terrainColor} stopOpacity="1.0" />
         </linearGradient>
+        {/* warm dawn backlight behind the destination skyline */}
+        <linearGradient id="skyline-glow" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%"   stopColor="rgba(255,165,95,0.30)" />
+          <stop offset="100%" stopColor="rgba(255,165,95,0)" />
+        </linearGradient>
 
         <linearGradient id="grass-top-g" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%"   stopColor="#1e4226" stopOpacity="0.38" />
@@ -488,19 +493,21 @@ function EarthLayer({ earthState, weatherState, animate = false, showCityLights 
       {/* ── Distant destination skyline at the horizon (arrival) ── */}
       {showSkyline && (
         <g>
-          {SKYLINE.map((bld, i) => (
-            <g key={i}>
-              <rect x={bld.x} y={SKYLINE_BASE_Y - bld.h} width={bld.w} height={bld.h} fill="#121a27" />
-              <rect x={bld.x} y={SKYLINE_BASE_Y - bld.h} width={bld.w} height="1" fill="rgba(255,180,120,0.10)" />
-              {bld.h > 34 && (
-                <>
-                  <rect x={bld.x + 4} y={SKYLINE_BASE_Y - bld.h + 7} width="3" height="4" fill="rgba(255,200,120,0.5)" />
-                  <rect x={bld.x + bld.w - 7} y={SKYLINE_BASE_Y - bld.h + 16} width="3" height="4" fill="rgba(150,200,235,0.45)" />
-                </>
-              )}
-              {bld.h > 52 && <circle cx={bld.x + bld.w / 2} cy={SKYLINE_BASE_Y - bld.h - 2} r="1.6" fill="#ff5038" />}
-            </g>
-          ))}
+          {/* warm dawn glow so the city silhouette reads against the dark sky */}
+          <rect x="0" y={SKYLINE_BASE_Y - 86} width="1440" height="90" fill="url(#skyline-glow)" />
+          {SKYLINE.map((bld, i) => {
+            const top = SKYLINE_BASE_Y - bld.h;
+            return (
+              <g key={i}>
+                <rect x={bld.x} y={top} width={bld.w} height={bld.h} fill="#3a4a68" />
+                {/* warm dawn rim-light on the rooftops */}
+                <rect x={bld.x} y={top} width={bld.w} height="2.5" fill="rgba(255,195,135,0.5)" />
+                {bld.h > 30 && <rect x={bld.x + 4} y={top + 8} width="3.5" height="5" fill="rgba(255,212,135,0.8)" />}
+                {bld.h > 42 && <rect x={bld.x + bld.w - 8} y={top + 18} width="3.5" height="5" fill="rgba(165,210,245,0.7)" />}
+                {bld.h > 52 && <circle cx={bld.x + bld.w / 2} cy={top - 3} r="2" fill="#ff5038" />}
+              </g>
+            );
+          })}
         </g>
       )}
 
