@@ -14,12 +14,14 @@ export function EndSessionSummary({
   classId,
   className,
   sessionId,
+  flightCode,
   teacherView = true,
   onLaunchBonusVote,
 }: {
   classId: string;
   className: string;
   sessionId: string;
+  flightCode?: string;
   teacherView?: boolean;
   onLaunchBonusVote?: () => void;
 }) {
@@ -115,6 +117,9 @@ export function EndSessionSummary({
         >
           <PlaneLanding className="mx-auto h-11 w-11 text-cyan-300" strokeWidth={1.5} />
         </motion.div>
+        {flightCode && (
+          <p className="text-center text-[11px] font-mono tracking-[0.2em] text-amber-400/50 mt-2">{flightCode} · ARRIVED</p>
+        )}
         <h1 className="text-4xl font-extrabold text-center text-lc-text tracking-tight mt-1">You&apos;ve Landed!</h1>
         <p className="text-center text-lc-text3 mb-8">{className} · flight complete</p>
 

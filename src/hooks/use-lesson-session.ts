@@ -33,6 +33,7 @@ const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-ro
 
 interface LessonPlanPayload {
   customTopic: string;
+  callsign?: string;
   slots: LessonSlot[];
   generatedContent: Record<string, ActivityGeneratedContent>;
   generatedGameContent: Record<string, GameGeneratedContent>;
@@ -56,6 +57,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
       const parsed = JSON.parse(stored);
       return {
         customTopic: parsed.customTopic,
+        callsign: parsed.callsign,
         slots: parsed.slots || [],
         generatedContent: parsed.generatedContent || {},
         generatedGameContent: parsed.generatedGameContent || {},

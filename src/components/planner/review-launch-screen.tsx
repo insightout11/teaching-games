@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import type { GoalTag } from '@/lib/flight-plan-config';
@@ -36,6 +36,8 @@ export function ReviewLaunchScreen() {
     sourceMaterial,
     setSourceMaterial,
     loadedPresetId,
+    callsign: storedCallsign,
+    ensureCallsign,
   } = usePlannerStore();
 
   const { loading: tierLoading, isPro, credits } = useTeacherTier();
@@ -47,10 +49,9 @@ export function ReviewLaunchScreen() {
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const callsign = useMemo(
-    () => `MISSION LC-${String(Math.floor(1000 + Math.random() * 9000))}`,
-    [],
-  );
+  // Stable flight number for this plan — shared with the lobby & arrival boards
+  useEffect(() => { ensureCallsign(); }, [ensureCallsign]);
+  const callsign = `MISSION ${storedCallsign ?? ''}`;
 
   // Fetch teacher's classes on mount
   useEffect(() => {

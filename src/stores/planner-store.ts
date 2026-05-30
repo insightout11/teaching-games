@@ -188,6 +188,7 @@ interface PlannerState {
   selectedClassId: string | null;
   grammarTarget: GrammarTarget | null;
   sourceMaterial: SourceMaterial | null;
+  callsign: string | null; // stable flight number for this plan (e.g. "LC-3544")
 
   // Derived
   primaryGoal: GoalTag;
@@ -222,6 +223,9 @@ interface PlannerState {
   setGrammarTarget(t: GrammarTarget | null): void;
   setSourceMaterial(s: SourceMaterial | null): void;
 
+  // Generate the flight callsign once per plan (idempotent); returns it.
+  ensureCallsign(): string;
+
   // Handoff to session. Does NOT reset — caller decides when to reset.
   launchLesson(): Promise<void>;
 
@@ -251,6 +255,7 @@ export const usePlannerStore = create<PlannerState>()(
       selectedClassId: null,
       grammarTarget: null,
       sourceMaterial: null,
+      callsign: null,
 
       // Derived
       get primaryGoal() {
@@ -375,9 +380,18 @@ export const usePlannerStore = create<PlannerState>()(
       },
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
+      ensureCallsign: () => {
+        const existing = get().callsign;
+        if (existing) return existing;
+        const code = `LC-${Math.floor(1000 + Math.random() * 9000)}`;
+        set({ callsign: code });
+        return code;
+      },
+
       launchLesson: async () => {
         const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId } = get();
         if (!selectedClassId) return;
+        const callsign = get().ensureCallsign();
 
         const primaryGoal = derivePrimaryGoal(goals);
         const loadedPreset = loadedPresetId ? FLIGHT_PLAN_PRESETS.find((p) => p.id === loadedPresetId) : null;
@@ -413,6 +427,7 @@ export const usePlannerStore = create<PlannerState>()(
           'lessonPlanContent',
           JSON.stringify({
             customTopic: topic,
+            callsign,
             difficulty,
             goal: primaryGoal,
             lessonDurationMinutes,
@@ -459,6 +474,7 @@ export const usePlannerStore = create<PlannerState>()(
           selectedClassId: null,
           grammarTarget: null,
           sourceMaterial: null,
+          callsign: null,
         }),
     }),
     {

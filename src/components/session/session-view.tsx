@@ -1000,7 +1000,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         </div>
         <div className="relative z-10 pb-52">
-          <EndSessionSummary classId={cls.id} className={cls.name} sessionId={session.id} />
+          <EndSessionSummary
+            classId={cls.id}
+            className={cls.name}
+            sessionId={session.id}
+            flightCode={lesson.lessonPlanContent?.callsign ?? `LC-${session.id.slice(-4).toUpperCase()}`}
+          />
         </div>
       </div>
     );
@@ -1103,7 +1108,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               {/* Center: Departure board — fills full height */}
               <DepartureBoardPanel
                 slots={lesson.lessonSlots}
-                flightCode={`LC-${session.id.slice(-4).toUpperCase()}`}
+                flightCode={lesson.lessonPlanContent?.callsign ?? `LC-${session.id.slice(-4).toUpperCase()}`}
                 className="h-full"
               />
 
