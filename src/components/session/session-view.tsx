@@ -993,7 +993,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
         {/* Locked sunrise sky; the arrival scene owns the ground */}
-        <SkyBackground weatherState="landing" earthState="flight" altitude={0} intensity="moderate" showEarth={false} />
+        <SkyBackground weatherState="landing" earthState="flight" altitude={0} intensity="moderate" showEarth={false} className={isFullScreen ? '' : '!left-64'} />
         {/* Arrival airfield at a new destination — scene behind the summary (z-1) */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1, left: isFullScreen ? 0 : 256 }}>
           <ArrivalScene planeKey={selectedPlaneKey} className="absolute inset-0" />

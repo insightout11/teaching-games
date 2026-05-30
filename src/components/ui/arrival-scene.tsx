@@ -3,34 +3,37 @@
 import { motion } from 'framer-motion';
 import { getPlaneAsset } from '@/lib/plane-progression';
 
-// Arrival airfield — the matching bookend to the Launch Lobby (departure).
-// The overnight flight has landed at SUNRISE at a *new destination*: a generic
-// city skyline on the horizon (so it reads as "somewhere new" without bespoke
-// per-topic art), big-city tarmac, the plane landed in the foreground, and an
-// ARRIVALS board. Sits on the locked landing/sunrise SkyBackground.
+// Arrival airport — the matching bookend to the Launch Lobby (departure).
+// Forward-facing perspective RUNWAY receding toward the horizon at SUNRISE,
+// with a small distant city skyline at the vanishing line (so it reads as a
+// new destination without bespoke per-topic art). The plane has landed and is
+// taxiing off in the foreground. Sits on the locked landing/sunrise sky.
 //
 // Same architecture as airfield-scene: one viewBox (1600x900, xMidYMax meet),
-// depth-staged near/far, ground bleeds past the viewBox; wrapper clips it.
+// ground bleeds past the viewBox; the wrapper clips it.
 
-const HORIZON_Y = 560; // skyline base / where the distant city meets the ground
-const APRON_Y = 600;   // start of the foreground tarmac apron
-const FORE_Y = 884;    // foreground line — landed plane sits here
+const HORIZON = 470;        // sky / ground meet; runway vanishing line
+const VP_X = 800;           // vanishing point x (centre)
+// Runway trapezoid (1-point perspective)
+const RW_NEAR_L = 470, RW_NEAR_R = 1130, RW_NEAR_Y = 900;
+const RW_FAR_L = 773, RW_FAR_R = 827, RW_FAR_Y = 486;
 
-// Deterministic skyline so a given session always looks the same, but different
-// seeds feel like different cities.
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+// Distant low city skyline sitting on the horizon
 function makeSkyline(seed: number) {
   let s = seed % 2147483647;
   if (s <= 0) s += 2147483646;
   const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
-  const buildings: { x: number; w: number; h: number }[] = [];
+  const b: { x: number; w: number; h: number }[] = [];
   let x = -60;
   while (x < 1660) {
-    const w = 34 + Math.floor(rnd() * 64);
-    const h = 70 + Math.floor(rnd() * 230);
-    buildings.push({ x, w, h });
-    x += w + 4 + Math.floor(rnd() * 20);
+    const w = 28 + Math.floor(rnd() * 52);
+    const h = 30 + Math.floor(rnd() * 120);
+    b.push({ x, w, h });
+    x += w + 4 + Math.floor(rnd() * 18);
   }
-  return buildings;
+  return b;
 }
 
 function Skyline({ seed }: { seed: number }) {
@@ -38,35 +41,22 @@ function Skyline({ seed }: { seed: number }) {
   return (
     <g>
       {buildings.map((b, i) => {
-        const top = HORIZON_Y - b.h;
-        const tall = b.h > 220;
-        // sparse lit windows
-        const winCols = Math.max(1, Math.floor(b.w / 16));
-        const winRows = Math.max(1, Math.floor(b.h / 26));
-        const windows = [];
-        for (let r = 0; r < winRows; r++) {
-          for (let c = 0; c < winCols; c++) {
-            if ((i + r * 3 + c * 5) % 4 !== 0) continue; // ~1/4 lit
-            windows.push(
-              <rect
-                key={`${r}-${c}`}
-                x={b.x + 6 + c * 16}
-                y={top + 10 + r * 26}
-                width="6" height="9" rx="1"
-                fill={(i + c) % 2 ? 'rgba(255,200,120,0.45)' : 'rgba(150,200,235,0.4)'}
-              />
-            );
-          }
-        }
+        const top = HORIZON - b.h;
+        const tall = b.h > 110;
         return (
           <g key={i}>
-            <rect x={b.x} y={top} width={b.w} height={b.h} fill="#1a2230" />
-            <rect x={b.x} y={top} width={b.w} height="2" fill="rgba(255,180,120,0.12)" />
-            {windows}
+            <rect x={b.x} y={top} width={b.w} height={b.h} fill="#171f2c" opacity="0.92" />
+            <rect x={b.x} y={top} width={b.w} height="1.5" fill="rgba(255,180,120,0.10)" />
+            {/* a couple of lit windows */}
+            {b.h > 60 && (i % 2 === 0) && (
+              <>
+                <rect x={b.x + 5} y={top + 10} width="4" height="6" fill="rgba(255,200,120,0.4)" />
+                <rect x={b.x + b.w - 9} y={top + 22} width="4" height="6" fill="rgba(150,200,235,0.35)" />
+              </>
+            )}
             {tall && (
               <motion.circle
-                cx={b.x + b.w / 2} cy={top - 4} r="3"
-                fill="#ff5038"
+                cx={b.x + b.w / 2} cy={top - 3} r="2.5" fill="#ff5038"
                 animate={{ opacity: [1, 0.2, 1] }}
                 transition={{ duration: 1.6 + (i % 3) * 0.4, repeat: Infinity, ease: 'easeInOut' }}
               />
@@ -74,29 +64,25 @@ function Skyline({ seed }: { seed: number }) {
           </g>
         );
       })}
-      {/* atmospheric haze over the base of the skyline */}
-      <rect x="-200" y={HORIZON_Y - 60} width="2000" height="60" fill="url(#ar-haze)" />
     </g>
   );
 }
 
 // ARRIVALS board on posts (destination name optional)
 function ArrivalsBoard({ destination }: { destination?: string }) {
-  const bx = 1150, by = 632, bw = 300, bh = 96;
+  const bx = 1230, by = 560, bw = 250, bh = 80;
   return (
     <g>
-      {/* posts */}
-      <rect x={bx + 24} y={by + bh} width="7" height={FORE_Y - (by + bh)} fill="#1b222b" />
-      <rect x={bx + bw - 31} y={by + bh} width="7" height={FORE_Y - (by + bh)} fill="#1b222b" />
-      {/* board */}
+      <rect x={bx + 20} y={by + bh} width="6" height={760 - (by + bh)} fill="#161c25" />
+      <rect x={bx + bw - 26} y={by + bh} width="6" height={760 - (by + bh)} fill="#161c25" />
       <rect x={bx} y={by} width={bw} height={bh} rx="6" fill="#0b1018" stroke="rgba(255,255,255,0.10)" strokeWidth="1.5" />
-      <rect x={bx} y={by} width={bw} height="22" rx="6" fill="#10202c" />
-      <text x={bx + 14} y={by + 16} fill="#46c8e6" fontFamily="monospace" fontSize="12" fontWeight="bold" letterSpacing="2">✈ ARRIVALS</text>
-      <text x={bx + bw - 14} y={by + 16} fill="rgba(255,255,255,0.35)" fontFamily="monospace" fontSize="11" textAnchor="end">LC-1038</text>
-      <text x={bx + bw / 2} y={by + 58} fill="#ffd27a" fontFamily="monospace" fontSize="22" fontWeight="bold" textAnchor="middle" letterSpacing="1">
+      <rect x={bx} y={by} width={bw} height="20" rx="6" fill="#10202c" />
+      <text x={bx + 12} y={by + 14} fill="#46c8e6" fontFamily="monospace" fontSize="11" fontWeight="bold" letterSpacing="2">✈ ARRIVALS</text>
+      <text x={bx + bw - 12} y={by + 14} fill="rgba(255,255,255,0.35)" fontFamily="monospace" fontSize="10" textAnchor="end">LC-1038</text>
+      <text x={bx + bw / 2} y={by + 50} fill="#ffd27a" fontFamily="monospace" fontSize="19" fontWeight="bold" textAnchor="middle" letterSpacing="1">
         {destination ? destination.toUpperCase() : 'WELCOME'}
       </text>
-      <text x={bx + bw / 2} y={by + 80} fill="#46e07a" fontFamily="monospace" fontSize="11" textAnchor="middle" letterSpacing="2">● LANDED · ON TIME</text>
+      <text x={bx + bw / 2} y={by + 69} fill="#46e07a" fontFamily="monospace" fontSize="10" textAnchor="middle" letterSpacing="2">● LANDED · ON TIME</text>
     </g>
   );
 }
@@ -105,11 +91,27 @@ export function ArrivalScene({ planeKey, destination, seed = 1, className }: {
   planeKey?: string | null; destination?: string; seed?: number; className?: string;
 }) {
   const planeWebp = getPlaneAsset(planeKey).webp;
-  // Landed plane in the foreground, left of centre (clear of the summary card)
-  const PW = 300, PH = 150;
-  const PCX = 360;
-  const PX = PCX - PW / 2;
-  const PY = FORE_Y - PH;
+
+  // Perspective edge lights down both runway sides (near→far, shrinking)
+  const ts = [0, 0.16, 0.31, 0.44, 0.55, 0.65, 0.74, 0.82];
+  const edge = ts.map((t) => ({
+    lx: lerp(RW_NEAR_L, RW_FAR_L, t),
+    rx: lerp(RW_NEAR_R, RW_FAR_R, t),
+    y: lerp(RW_NEAR_Y, RW_FAR_Y, t),
+    r: lerp(4.5, 1, t),
+  }));
+
+  // Perspective centreline dashes
+  const cts = [0.02, 0.14, 0.27, 0.4, 0.52, 0.63, 0.73];
+  const center = cts.map((t) => ({
+    y: lerp(RW_NEAR_Y - 30, RW_FAR_Y, t),
+    h: lerp(34, 4, t),
+    w: lerp(11, 2, t),
+  }));
+
+  // Landed plane taxiing off in the lower-left foreground
+  const PW = 300, PH = 150, PCX = 430;
+  const PX = PCX - PW / 2, PY = 900 - PH;
 
   return (
     <svg
@@ -122,37 +124,53 @@ export function ArrivalScene({ planeKey, destination, seed = 1, className }: {
       aria-hidden
     >
       <defs>
-        <linearGradient id="ar-tarmac" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#3a2a26" />
-          <stop offset="0.25" stopColor="#222a36" />
-          <stop offset="1" stopColor="#0f151d" />
+        <linearGradient id="ar-ground" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#3a2620" />
+          <stop offset="0.18" stopColor="#1d2a22" />
+          <stop offset="1" stopColor="#0c140e" />
         </linearGradient>
-        <linearGradient id="ar-haze" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="rgba(255,150,90,0)" />
-          <stop offset="1" stopColor="rgba(255,150,90,0.22)" />
+        <linearGradient id="ar-runway" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#2a3340" />
+          <stop offset="1" stopColor="#0e141c" />
         </linearGradient>
-        <radialGradient id="ar-sheen" cx="0.5" cy="0" r="0.9">
-          <stop offset="0" stopColor="rgba(255,160,90,0.20)" />
-          <stop offset="1" stopColor="rgba(255,160,90,0)" />
-        </radialGradient>
         <filter id="ar-bulb" x="-300%" y="-300%" width="700%" height="700%">
-          <feGaussianBlur stdDeviation="4" result="b" />
+          <feGaussianBlur stdDeviation="3.5" result="b" />
           <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
 
-      {/* Distant city skyline at sunrise */}
+      {/* Distant city skyline at the horizon (sunrise) */}
       <Skyline seed={seed} />
 
-      {/* GROUND — big-city tarmac apron (bleeds past viewBox to fill corners) */}
-      <rect x="-800" y={APRON_Y} width="3200" height={900 - APRON_Y + 200} fill="url(#ar-tarmac)" />
-      {/* warm sunrise sheen reflecting on the tarmac near the horizon */}
-      <rect x="-800" y={APRON_Y} width="3200" height="200" fill="url(#ar-sheen)" />
-      <rect x="-800" y={APRON_Y} width="3200" height="2" fill="rgba(255,190,130,0.10)" />
+      {/* GROUND — grassy airfield, bleeds past the viewBox to fill corners */}
+      <rect x="-800" y={HORIZON} width="3200" height={900 - HORIZON + 200} fill="url(#ar-ground)" />
+
+      {/* RUNWAY — forward-facing 1-point perspective */}
+      <polygon
+        points={`${RW_NEAR_L},${RW_NEAR_Y} ${RW_NEAR_R},${RW_NEAR_Y} ${RW_FAR_R},${RW_FAR_Y} ${RW_FAR_L},${RW_FAR_Y}`}
+        fill="url(#ar-runway)"
+      />
+      {/* threshold "piano keys" at the near end */}
+      {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+        <rect key={i} x={RW_NEAR_L + 40 + i * 86} y={RW_NEAR_Y - 34} width="34" height="30" fill="rgba(255,255,255,0.16)" />
+      ))}
+      {/* centreline dashes */}
+      {center.map((d, i) => (
+        <rect key={i} x={VP_X - d.w / 2} y={d.y - d.h} width={d.w} height={d.h} rx="1" fill="rgba(255,255,255,0.5)" />
+      ))}
+      {/* edge lights */}
+      <g filter="url(#ar-bulb)">
+        {edge.map((p, i) => (
+          <g key={i}>
+            <circle cx={p.lx} cy={p.y} r={p.r} fill="#bfe0ff" />
+            <circle cx={p.rx} cy={p.y} r={p.r} fill="#bfe0ff" />
+          </g>
+        ))}
+      </g>
 
       <ArrivalsBoard destination={destination} />
 
-      {/* Landed plane in the foreground — bobs gently */}
+      {/* Landed plane taxiing off — bobs gently */}
       <motion.g
         animate={{ y: [0, -3, 0] }}
         transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
