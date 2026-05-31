@@ -440,7 +440,9 @@ export interface VideoPlayerContent extends ActivityGeneratedContent {
   activityKey: 'video-player';
   videoUrl: string;
   videoTitle: string;
-  checkpoints: import('@/types/source-material').CheckpointQuestion[];
+  comprehensionQuestions: import('@/types/source-material').ComprehensionQuestion[];
+  /** Optional open-ended speaking prompt shown after the comprehension questions. */
+  discussionPrompt?: string;
 }
 
 export interface ReadAloudContent extends ActivityGeneratedContent {
@@ -449,6 +451,10 @@ export interface ReadAloudContent extends ActivityGeneratedContent {
   sourceTitle: string;
   slides?: string[];
   vocabWords?: string[];
+  /** Optional end-of-reading comprehension check. If absent, the reader skips the quiz. */
+  comprehensionQuestions?: import('@/types/source-material').ComprehensionQuestion[];
+  /** Optional open-ended speaking prompt shown after the comprehension questions. */
+  discussionPrompt?: string;
 }
 
 // Game generated content types for lesson planner

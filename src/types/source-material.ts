@@ -31,10 +31,16 @@ export interface SourceMaterial {
   slides?: string[];  // picture book slide image URLs, synced during read-aloud
 }
 
-export interface CheckpointQuestion {
-  timestamp: number; // seconds into video
-  timestampLabel: string; // "4:32"
+/** A single end-of-content multiple-choice comprehension question (video or reader). */
+export interface ComprehensionQuestion {
   question: string;
-  options: string[];
-  correctIndex: number;
+  options: string[]; // 3–4 options
+  correctIndex: number; // 0-based
+  /** One-sentence rationale for the correct answer, shown to the teacher on reveal. */
+  explanation?: string;
+  /** Short supporting quote from the source, shown on reveal. */
+  evidence?: string;
+  /** Video only: the [M:SS] moment this question relates to, for an on-demand rewatch. */
+  timestampLabel?: string;
+  timestamp?: number; // seconds, derived from timestampLabel
 }

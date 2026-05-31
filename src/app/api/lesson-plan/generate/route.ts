@@ -64,7 +64,7 @@ import type {
   DecisionCouncilContent,
   SourceVocabItem,
 } from '@/activities/types';
-import type { CheckpointQuestion } from '@/types/source-material';
+import type { ComprehensionQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import type { SourceMaterial } from '@/types/source-material';
@@ -1093,29 +1093,109 @@ function formatTranscriptForAI(rawTranscript: string): string {
     .slice(0, 14000);
 }
 
-async function generateVideoCheckpoints(source: SourceMaterial, count = 4): Promise<CheckpointQuestion[]> {
+export interface ComprehensionSet {
+  questions: ComprehensionQuestion[];
+  discussionPrompt?: string;
+}
+
+/**
+ * Generate an end-of-content comprehension check from a block of text (video
+ * transcript/summary or reading text). Q1 tests the main idea; the rest test
+ * details/inferences, with one optionally probing a target vocab word in
+ * context. Each question carries a one-sentence rationale and a short evidence
+ * quote; video questions also carry the [M:SS] moment they relate to (for
+ * on-demand rewatch). A closing open-ended discussion prompt is included.
+ * Used by both the video player and the reader.
+ */
+async function generateComprehensionQuestions(
+  title: string,
+  contentBlock: string,
+  kind: 'video' | 'reading',
+  difficulty: Difficulty,
+  opts: { vocabWords?: string[]; count?: number } = {},
+): Promise<ComprehensionSet> {
+  const count = opts.count ?? 3;
+  const isVideo = kind === 'video';
+  const noun = isVideo ? 'video' : 'reading';
+  const vocab = (opts.vocabWords ?? []).slice(0, 8);
+
   const schema: AISchema = {
     type: 'object',
     properties: {
-      checkpoints: {
+      questions: {
         type: 'array',
         items: {
           type: 'object',
           properties: {
-            timestampLabel: { type: 'string' },
             question: { type: 'string' },
             options: { type: 'array', items: { type: 'string' } },
             correctIndex: { type: 'number' },
+            explanation: { type: 'string' },
+            evidence: { type: 'string' },
+            ...(isVideo ? { timestampLabel: { type: 'string' } } : {}),
           },
-          required: ['timestampLabel', 'question', 'options', 'correctIndex'],
+          required: ['question', 'options', 'correctIndex', 'explanation', 'evidence'],
         },
       },
+      discussionPrompt: { type: 'string' },
     },
-    required: ['checkpoints'],
+    required: ['questions', 'discussionPrompt'],
   };
 
-  // Try to fetch the stored timestamped transcript from DB
-  let transcriptBlock: string | null = null;
+  const prompt = `You are generating an end-of-${noun} comprehension check for an ESL classroom that has just finished the ${noun} below.
+
+LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
+All questions, options, explanations and the discussion prompt must use language at this level.
+
+Title: "${title}"
+
+CONTENT:
+${contentBlock.slice(0, 14000)}
+
+Generate exactly ${count} multiple-choice comprehension questions:
+- Question 1 tests the MAIN IDEA / overall gist of the whole ${noun}.
+- The remaining questions test specific details or reasonable inferences drawn from the content.
+${vocab.length > 0 ? `- Make ONE question test the meaning or use, in context, of one of these key words: ${vocab.join(', ')}.\n` : ''}- Each question has 4 options (A–D), exactly one correct, based on what the content actually says.
+- Test understanding, not trivial word recall.
+
+For every question also provide:
+- explanation: ONE short sentence saying why the correct answer is right.
+- evidence: a SHORT direct quote (a phrase or sentence) from the content that supports the answer.
+${isVideo ? '- timestampLabel: the [M:SS] timestamp from the transcript where this is discussed (use a real timestamp shown in the content).\n' : ''}
+Finally, write ONE open-ended discussionPrompt: a speaking question about the ${noun} that has no single correct answer and invites students to share opinions or experiences.
+
+correctIndex is 0-based (0=A, 1=B, 2=C, 3=D). Return JSON with a "questions" array of ${count} objects and a "discussionPrompt" string.`;
+
+  const parsed = await generateJSON<{
+    questions: Array<{ question: string; options: string[]; correctIndex: number; explanation?: string; evidence?: string; timestampLabel?: string }>;
+    discussionPrompt?: string;
+  }>(prompt, schema);
+
+  const questions: ComprehensionQuestion[] = (parsed.questions ?? []).slice(0, count).map((q, i) => {
+    const base: ComprehensionQuestion = {
+      question: q.question ?? (i === 0 ? 'What is the main idea?' : 'What is one detail mentioned?'),
+      options: q.options?.slice(0, 4) ?? ['Option A', 'Option B', 'Option C', 'Option D'],
+      correctIndex: typeof q.correctIndex === 'number' ? Math.max(0, Math.min(q.correctIndex, 3)) : 0,
+      ...(q.explanation ? { explanation: q.explanation } : {}),
+      ...(q.evidence ? { evidence: q.evidence } : {}),
+    };
+    if (isVideo && q.timestampLabel) {
+      const [minStr, secStr] = q.timestampLabel.split(':');
+      const secs = (parseInt(minStr ?? '0', 10) * 60) + parseInt(secStr ?? '0', 10);
+      if (secs > 0) {
+        base.timestampLabel = q.timestampLabel;
+        base.timestamp = secs;
+      }
+    }
+    return base;
+  });
+
+  return { questions, ...(parsed.discussionPrompt ? { discussionPrompt: parsed.discussionPrompt } : {}) };
+}
+
+/** Video variant: prefers the stored timestamped transcript, falls back to the summary. */
+async function generateVideoComprehensionQuestions(source: SourceMaterial, difficulty: Difficulty, count = 3): Promise<ComprehensionSet> {
+  let contentBlock = source.summary;
   if (source.sourceKey) {
     try {
       const { createServiceClient } = await import('@/lib/supabase/service');
@@ -1127,58 +1207,11 @@ async function generateVideoCheckpoints(source: SourceMaterial, count = 4): Prom
         .eq('source_key', source.sourceKey)
         .single();
       if (data?.raw_transcript) {
-        transcriptBlock = formatTranscriptForAI(data.raw_transcript);
+        contentBlock = formatTranscriptForAI(data.raw_transcript);
       }
     } catch { /* fall through to summary */ }
   }
-
-  const prompt = transcriptBlock
-    ? `You are generating comprehension checkpoint questions for an ESL classroom watching this video.
-
-Title: "${source.title}"
-
-Below is the timestamped transcript. Each line shows [M:SS] followed by what is said at that moment.
-
-TRANSCRIPT:
-${transcriptBlock}
-
-Generate exactly ${count} multiple-choice comprehension checkpoints tied to specific moments in this transcript.
-Each checkpoint:
-- timestampLabel: the [M:SS] timestamp shown in the transcript — place it at the end of a section where a key idea has JUST been explained (students have enough information to answer)
-- question: asks about content that was clearly explained in the transcript up to that timestamp
-- 4 options (A–D), only one correct — base the correct answer on what the transcript actually says
-- Tests understanding, not trivial word recall
-
-Space them across the video. correctIndex is 0-based (0=A, 1=B, 2=C, 3=D).
-Return JSON with a "checkpoints" array of ${count} objects.`
-    : `You are generating comprehension checkpoint questions for an ESL classroom watching this video.
-
-Title: "${source.title}"
-Duration: ${source.duration ? `${Math.floor(source.duration / 60)}:${String(source.duration % 60).padStart(2, '0')}` : 'unknown'}
-
-Summary:
-${source.summary}
-
-Generate exactly ${count} multiple-choice comprehension checkpoints spread across the video.
-Each checkpoint has a timestampLabel like "2:30", a question, 4 options, and correctIndex (0-based).
-Space them across the video. Return JSON with a "checkpoints" array of ${count} objects.`;
-
-  const parsed = await generateJSON<{ checkpoints: Array<{ timestampLabel: string; question: string; options: string[]; correctIndex: number }> }>(prompt, schema);
-
-  return (parsed.checkpoints ?? []).slice(0, count).map((c, i) => {
-    const label = c.timestampLabel ?? `${i + 1}:00`;
-    const [minStr, secStr] = label.split(':');
-    const parsedSecs = (parseInt(minStr ?? '0', 10) * 60) + parseInt(secStr ?? '0', 10);
-    const fallbackSecs = source.duration ? Math.round((source.duration / count) * (i + 0.5)) : (i + 1) * 120;
-    const timestamp = parsedSecs > 0 ? parsedSecs : fallbackSecs;
-    return {
-      timestamp,
-      timestampLabel: label,
-      question: c.question ?? 'What is the main idea of this section?',
-      options: c.options?.slice(0, 4) ?? ['Option A', 'Option B', 'Option C', 'Option D'],
-      correctIndex: typeof c.correctIndex === 'number' ? Math.min(c.correctIndex, 3) : 0,
-    };
-  });
+  return generateComprehensionQuestions(source.title, contentBlock, 'video', difficulty, { count });
 }
 
 async function generateSingleScene(
@@ -2626,16 +2659,23 @@ export async function POST(request: NextRequest) {
               const vocabWords = sourceVocab.length > 0
                 ? sourceVocab.map((v) => v.term)
                 : (readAloudVocabWords ?? extractAsteriskWords(rawText));
-              generators.push(Promise.resolve().then(() => {
-                content[activityKey] = {
-                  activityKey: 'read-aloud',
-                  topicContext: customTopic,
-                  sourceText: cleanText,
-                  sourceTitle: sourceMaterial?.title ?? customTopic,
-                  ...(vocabWords.length > 0 ? { vocabWords } : {}),
-                  ...(sourceMaterial?.slides ? { slides: sourceMaterial.slides } : {}),
-                };
-              }));
+              const readTitle = sourceMaterial?.title ?? customTopic;
+              generators.push(
+                generateComprehensionQuestions(readTitle, cleanText, 'reading', diff, { vocabWords })
+                  .catch((): ComprehensionSet => ({ questions: [] }))
+                  .then(({ questions, discussionPrompt }) => {
+                    content[activityKey] = {
+                      activityKey: 'read-aloud',
+                      topicContext: customTopic,
+                      sourceText: cleanText,
+                      sourceTitle: readTitle,
+                      ...(vocabWords.length > 0 ? { vocabWords } : {}),
+                      ...(sourceMaterial?.slides ? { slides: sourceMaterial.slides } : {}),
+                      ...(questions.length > 0 ? { comprehensionQuestions: questions } : {}),
+                      ...(discussionPrompt ? { discussionPrompt } : {}),
+                    };
+                  }),
+              );
             } else {
               // Topic-only: generate brief first, then extract canonical vocab from it
               generators.push(generateTopicBrief(customTopic, diff).then(async (brief) => {
@@ -2647,12 +2687,18 @@ export async function POST(request: NextRequest) {
                     console.warn('generateSourceVocab from brief failed:', err instanceof Error ? err.message.slice(0, 100) : err);
                   }
                 }
+                const briefVocab = sourceVocab.map((v) => v.term);
+                const { questions, discussionPrompt } = brief.text
+                  ? await generateComprehensionQuestions(brief.title, brief.text, 'reading', diff, { vocabWords: briefVocab }).catch((): ComprehensionSet => ({ questions: [] }))
+                  : { questions: [], discussionPrompt: undefined };
                 content[activityKey] = {
                   activityKey: 'read-aloud',
                   topicContext: customTopic,
                   sourceText: brief.text,
                   sourceTitle: brief.title,
-                  ...(sourceVocab.length > 0 ? { vocabWords: sourceVocab.map((v) => v.term) } : {}),
+                  ...(briefVocab.length > 0 ? { vocabWords: briefVocab } : {}),
+                  ...(questions.length > 0 ? { comprehensionQuestions: questions } : {}),
+                  ...(discussionPrompt ? { discussionPrompt } : {}),
                 };
               }));
             }
@@ -2675,7 +2721,7 @@ export async function POST(request: NextRequest) {
             };
             const isYouTubeLibrary = sourceMaterial?.sourceType != null && sourceMaterial.sourceType in youtubeLibraries;
             if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted' || sourceMaterial.sourceType === 'teded' || isYouTubeLibrary) && sourceMaterial.sourceKey) {
-              generators.push(generateVideoCheckpoints(sourceMaterial).then((checkpoints) => {
+              generators.push(generateVideoComprehensionQuestions(sourceMaterial, diff).then(({ questions, discussionPrompt }) => {
                 let videoUrl: string;
                 if (sourceMaterial.sourceType === 'ted') {
                   const tedTalk = (tedLibrary as Array<{ id: string; url: string }>).find((t) => t.id === sourceMaterial.sourceKey);
@@ -2696,7 +2742,8 @@ export async function POST(request: NextRequest) {
                   topicContext: customTopic,
                   videoUrl,
                   videoTitle: sourceMaterial.title,
-                  checkpoints,
+                  comprehensionQuestions: questions,
+                  ...(discussionPrompt ? { discussionPrompt } : {}),
                 };
                 content[activityKey] = videoContent;
               }));
