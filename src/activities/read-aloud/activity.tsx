@@ -4,9 +4,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { ActivityProps } from '../types';
 import type { ReadAloudContent } from '../types';
 import type { ReadAloudQueueEntry } from '@/lib/input-spec';
-import { BookOpen, ChevronRight, SkipForward, RotateCcw } from 'lucide-react';
+import { ComprehensionQuiz } from '../shared/comprehension-quiz';
+import { BookOpen, ChevronRight, SkipForward, RotateCcw, ListChecks } from 'lucide-react';
 
-type Phase = 'idle' | 'reading' | 'complete';
+type Phase = 'idle' | 'reading' | 'complete' | 'quiz';
 
 function splitParagraphs(text: string): string[] {
   const cleaned = text.replace(/\*([^*]+)\*/g, '$1');
@@ -57,7 +58,8 @@ export function ReadAloudActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as ReadAloudContent;
-  const { sourceText = '', sourceTitle = 'Text', slides, vocabWords = [] } = content;
+  const { sourceText = '', sourceTitle = 'Text', slides, vocabWords = [], comprehensionQuestions = [], discussionPrompt } = content;
+  const hasQuestions = comprehensionQuestions.length > 0;
 
   const paragraphs = useRef(splitParagraphs(sourceText)).current;
 
@@ -80,6 +82,8 @@ export function ReadAloudActivity({
 
   // Push input spec whenever queue/phase changes
   useEffect(() => {
+    // During the quiz the ComprehensionQuiz owns the input spec — don't clobber it.
+    if (phase === 'quiz') return;
     if (phase !== 'reading' || queue.length === 0) {
       onSetInputSpec?.(null);
       return;
@@ -210,6 +214,29 @@ export function ReadAloudActivity({
     );
   }
 
+  // ── QUIZ ────────────────────────────────────────────────────────────────
+  if (phase === 'quiz') {
+    return (
+      <div className="space-y-4 max-w-2xl mx-auto">
+        <div className="flex items-center gap-2 text-sm text-lc-text3">
+          <BookOpen className="w-4 h-4" />
+          <span>{sourceTitle}</span>
+        </div>
+        <ComprehensionQuiz
+          questions={comprehensionQuestions}
+          students={students}
+          gameKey="read-aloud"
+          discussionPrompt={discussionPrompt}
+          promptIndexOffset={paragraphs.length}
+          onSetInputSpec={onSetInputSpec}
+          onRegisterRemoteVoteHandler={onRegisterRemoteVoteHandler}
+          onScore={onScore}
+          onComplete={() => setPhase('complete')}
+        />
+      </div>
+    );
+  }
+
   // ── COMPLETE ──────────────────────────────────────────────────────────────
   if (phase === 'complete') {
     return (
@@ -217,6 +244,15 @@ export function ReadAloudActivity({
         <BookOpen className="w-10 h-10 text-emerald-400 mx-auto" />
         <h2 className="text-2xl font-bold">Reading Complete!</h2>
         <p className="text-lc-text3">{paragraphs.length} paragraph{paragraphs.length !== 1 ? 's' : ''} read by the class.</p>
+        {hasQuestions && (
+          <button
+            onClick={() => setPhase('quiz')}
+            className="w-full rounded-2xl bg-lc-blue hover:bg-lc-blue/80 text-white font-bold py-3.5 transition-colors flex items-center justify-center gap-2"
+          >
+            <ListChecks className="w-5 h-5" /> Start Comprehension Questions
+            <span className="text-xs font-normal opacity-80">({comprehensionQuestions.length})</span>
+          </button>
+        )}
         <button onClick={handleRestart} className="flex items-center gap-2 mx-auto text-sm text-lc-text3 hover:text-white transition-colors">
           <RotateCcw className="w-4 h-4" /> Read again
         </button>
