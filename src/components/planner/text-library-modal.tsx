@@ -1,7 +1,12 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { X, BookOpen, Search, ChevronRight, LayoutGrid, List, SlidersHorizontal } from 'lucide-react';
+import {
+  X, BookOpen, Search, ChevronRight, LayoutGrid, List, SlidersHorizontal, Images,
+  HeartPulse, Cpu, Leaf, Palette, GraduationCap, Brain, Briefcase, Newspaper, Users,
+  Hammer, Trophy, Utensils, FlaskConical, Languages, PawPrint, Castle, TreePine,
+  UserRound, Scale, Coins, Pickaxe, Heart, Compass, Sparkles, type LucideIcon,
+} from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
 
 type TextSourceKey = 'stories' | 'voa' | 'picture-books';
@@ -19,6 +24,22 @@ const SOURCE_BADGE: Record<TextSourceKey, string> = {
 };
 
 const TOPIC_COLORS: Record<string, string> = {
+  // VOA subjects
+  health:            'from-rose-900/50 to-rose-950/70',
+  technology:        'from-indigo-900/50 to-indigo-950/70',
+  environment:       'from-green-900/50 to-green-950/70',
+  culture:           'from-fuchsia-900/50 to-fuchsia-950/70',
+  education:         'from-violet-900/50 to-violet-950/70',
+  psychology:        'from-purple-900/50 to-purple-950/70',
+  business:          'from-slate-800/60 to-slate-950/80',
+  media:             'from-sky-900/50 to-sky-950/70',
+  society:           'from-blue-900/50 to-blue-950/70',
+  work:              'from-stone-800/60 to-stone-950/80',
+  sports:            'from-orange-900/50 to-orange-950/70',
+  food:              'from-yellow-900/50 to-yellow-950/70',
+  science:           'from-cyan-900/50 to-cyan-950/70',
+  language:          'from-teal-900/50 to-teal-950/70',
+  // Story / fable subjects
   animals:           'from-amber-900/50 to-amber-950/70',
   'fairy tale':      'from-violet-900/50 to-violet-950/70',
   'folk tale':       'from-rose-900/50 to-rose-950/70',
@@ -34,19 +55,21 @@ const TOPIC_COLORS: Record<string, string> = {
   teamwork:          'from-teal-900/50 to-teal-950/70',
   adventure:         'from-indigo-900/50 to-indigo-950/70',
   magic:             'from-purple-900/50 to-purple-950/70',
-  food:              'from-yellow-900/50 to-yellow-950/70',
   home:              'from-sky-900/50 to-sky-950/70',
   danger:            'from-red-900/50 to-red-950/70',
   pride:             'from-rose-900/50 to-rose-950/70',
 };
 
-const TOPIC_ICONS: Record<string, string> = {
-  animals: '🦊', 'fairy tale': '🏰', 'folk tale': '🌾', fable: '🦉',
-  identity: '🦢', honesty: '🐑', greed: '🥚', nature: '🌤️',
-  'hard work': '🐜', kindness: '🦁', 'problem solving': '🐦',
-  perseverance: '🐢', trust: '🐺', danger: '🌲', bravery: '🛡️',
-  teamwork: '🤝', adventure: '⚔️', magic: '✨', food: '🍞',
-  home: '🏡', pride: '🦅',
+const TOPIC_ICONS: Record<string, LucideIcon> = {
+  // VOA subjects
+  health: HeartPulse, technology: Cpu, environment: Leaf, culture: Palette,
+  education: GraduationCap, psychology: Brain, business: Briefcase, media: Newspaper,
+  society: Users, work: Hammer, sports: Trophy, food: Utensils, science: FlaskConical,
+  language: Languages,
+  // Story / fable subjects
+  animals: PawPrint, 'fairy tale': Castle, nature: TreePine, identity: UserRound,
+  honesty: Scale, justice: Scale, greed: Coins, 'hard work': Pickaxe, kindness: Heart,
+  adventure: Compass, magic: Sparkles,
 };
 
 type TextEntry = {
@@ -82,20 +105,25 @@ const ALL_ENTRIES: TextEntry[] = [
 function TextThumbnail({ entry }: { entry: TextEntry }) {
   const primaryTag = entry.topicTags[0] ?? '';
   const gradient = TOPIC_COLORS[primaryTag] ?? 'from-slate-800/50 to-slate-900/70';
-  const icon = TOPIC_ICONS[primaryTag] ?? '📖';
+  const Icon = TOPIC_ICONS[primaryTag] ?? BookOpen;
   const readMins = Math.ceil(entry.wordCount / 150);
   const coverSlide = entry.slides?.[0];
   return (
-    <div className={`absolute inset-0 bg-gradient-to-br ${gradient} flex flex-col items-center justify-center gap-2 overflow-hidden`}>
+    <div className={`absolute inset-0 bg-gradient-to-br ${gradient} flex flex-col items-center justify-center gap-1.5 overflow-hidden`}>
       {coverSlide ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={coverSlide} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
       ) : (
-        <span className="text-3xl opacity-70">{icon}</span>
+        <>
+          <Icon className="w-7 h-7 text-white/70" strokeWidth={1.5} />
+          {primaryTag && (
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-white/55">{primaryTag}</span>
+          )}
+        </>
       )}
       {entry.slides && entry.slides.length > 0 && (
         <span className="absolute top-1.5 left-1.5 bg-rose-500/90 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 z-10">
-          🖼 {entry.slides.length} slides
+          <Images className="w-2.5 h-2.5" />{entry.slides.length} slides
         </span>
       )}
       <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 z-10">
@@ -108,7 +136,7 @@ function TextThumbnail({ entry }: { entry: TextEntry }) {
 function TextThumbnailSmall({ entry }: { entry: TextEntry }) {
   const primaryTag = entry.topicTags[0] ?? '';
   const gradient = TOPIC_COLORS[primaryTag] ?? 'from-slate-800/50 to-slate-900/70';
-  const icon = TOPIC_ICONS[primaryTag] ?? '📖';
+  const Icon = TOPIC_ICONS[primaryTag] ?? BookOpen;
   const coverSlide = entry.slides?.[0];
   return (
     <div className={`absolute inset-0 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden`}>
@@ -116,7 +144,7 @@ function TextThumbnailSmall({ entry }: { entry: TextEntry }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={coverSlide} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
       ) : (
-        <span className="text-xl opacity-70">{icon}</span>
+        <Icon className="w-[18px] h-[18px] text-white/70" strokeWidth={1.5} />
       )}
     </div>
   );
@@ -377,6 +405,7 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                 <div className="p-2.5 space-y-1">
                   <p className="text-xs font-semibold text-lc-text leading-snug line-clamp-2 group-hover:text-amber-400 transition-colors">{entry.title}</p>
                   <p className="text-[11px] text-lc-text3">{entry.author}</p>
+                  <p className="text-[11px] text-lc-text3 leading-relaxed line-clamp-2">{entry.description}</p>
                   <div className="flex flex-wrap gap-1 pt-0.5">
                     <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${SOURCE_BADGE[entry.sourceType]}`}>
                       {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
@@ -403,8 +432,8 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                   <div className="relative shrink-0 w-24 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
                     <TextThumbnailSmall entry={entry} />
                     {entry.slides && entry.slides.length > 0 && (
-                      <span className="absolute top-0.5 left-0.5 bg-rose-500/90 text-white text-[8px] font-bold px-1 py-0.5 rounded">
-                        🖼 {entry.slides.length}
+                      <span className="absolute top-0.5 left-0.5 bg-rose-500/90 text-white text-[8px] font-bold px-1 py-0.5 rounded flex items-center gap-0.5">
+                        <Images className="w-2 h-2" />{entry.slides.length}
                       </span>
                     )}
                   </div>
