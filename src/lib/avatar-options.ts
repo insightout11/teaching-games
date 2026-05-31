@@ -1,18 +1,3 @@
-export const CREW_AVATAR_SEEDS = [
-  'navigator',
-  'signal',
-  'meteorology',
-  'logbook',
-  'runway',
-  'starchart',
-  'radio',
-  'wing',
-  'beacon',
-  'cargo-tag',
-  'captain-stripes',
-  'comet',
-] as const;
-
 export const HELMET_AVATAR_SEEDS = [
   'teal',
   'amber',
@@ -28,12 +13,9 @@ export const HELMET_AVATAR_SEEDS = [
   'rainbow',
 ] as const;
 
-export const AVATAR_SEEDS = [
-  ...CREW_AVATAR_SEEDS,
-  ...HELMET_AVATAR_SEEDS,
-] as const;
+export const AVATAR_SEEDS = [...HELMET_AVATAR_SEEDS] as const;
 
-export const DEFAULT_AVATAR_SEED = CREW_AVATAR_SEEDS[0];
+export const DEFAULT_AVATAR_SEED = HELMET_AVATAR_SEEDS[0];
 
 const VALID_AVATAR_SEEDS = new Set<string>(AVATAR_SEEDS);
 
