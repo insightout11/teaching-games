@@ -86,7 +86,6 @@ type TextEntry = {
 };
 
 type ViewMode = 'grid' | 'list';
-type PreviewState = { entry: TextEntry; rect: DOMRect } | null;
 
 import storiesRaw from '@/data/stories-library.json';
 import voaRaw from '@/data/voa-library.json';
@@ -150,45 +149,6 @@ function TextThumbnailSmall({ entry }: { entry: TextEntry }) {
   );
 }
 
-function PreviewCard({ preview }: { preview: PreviewState }) {
-  if (!preview) return null;
-  const { entry, rect } = preview;
-  const cardWidth = 272;
-  const viewportW = typeof window !== 'undefined' ? window.innerWidth : 1200;
-  const viewportH = typeof window !== 'undefined' ? window.innerHeight : 800;
-  const spaceRight = viewportW - rect.right - 16;
-  const left = spaceRight >= cardWidth ? rect.right + 12 : rect.left - cardWidth - 12;
-  const top = Math.max(8, Math.min(rect.top, viewportH - 320));
-  const readMins = Math.ceil(entry.wordCount / 150);
-  const cfg = SOURCE_CONFIG.find((s) => s.key === entry.sourceType);
-
-  return (
-    <div
-      className="fixed z-[200] w-68 bg-lc-card border border-lc-border rounded-2xl shadow-2xl shadow-black/40 overflow-hidden pointer-events-none animate-in fade-in duration-150"
-      style={{ top, left, width: cardWidth }}
-    >
-      <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-        <TextThumbnail entry={entry} />
-      </div>
-      <div className="p-4 space-y-2">
-        <p className="text-sm font-semibold text-lc-text leading-snug">{entry.title}</p>
-        <div className="flex items-center gap-2 flex-wrap">
-          <p className="text-xs text-lc-text3">{entry.author}</p>
-          {cfg && <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${cfg.inactiveClass}`}>{cfg.label}</span>}
-          <span className="text-xs text-lc-text3">~{readMins} min · {entry.wordCount}w</span>
-        </div>
-        <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3">{entry.description}</p>
-        <div className="flex flex-wrap gap-1 pt-1">
-          <span className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
-          {entry.topicTags.slice(0, 3).map((t) => (
-            <span key={t} className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">{t}</span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 interface Props {
   onSelect: (entryId: string, source: TextSourceKey) => void;
   onClose?: () => void;
@@ -202,7 +162,6 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
   const [activeDifficulty, setActiveDifficulty] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
-  const [preview, setPreview] = useState<PreviewState>(null);
 
   const allTags = useMemo(
     () => Array.from(new Set(ALL_ENTRIES.flatMap((e) => e.topicTags))).sort(),
@@ -234,11 +193,6 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
     setActiveTag(null);
     setActiveDifficulty(null);
     setQuery('');
-  }
-
-  function handleMouseEnter(e: React.MouseEvent<HTMLButtonElement>, entry: TextEntry) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setPreview({ entry, rect });
   }
 
   return (
@@ -379,7 +333,7 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
       )}
 
       {/* ── Content ── */}
-      <div className="flex-1 overflow-y-auto px-6 py-5" onMouseLeave={() => setPreview(null)}>
+      <div className="flex-1 overflow-y-auto px-6 py-5">
         {filtered.length === 0 && (
           <p className="text-sm text-lc-text3 text-center py-20">No texts match your filters.</p>
         )}
@@ -390,8 +344,6 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
               <button
                 key={entry.id}
                 onClick={() => onSelect(entry.id, entry.sourceType)}
-                onMouseEnter={(e) => handleMouseEnter(e, entry)}
-                onMouseLeave={() => setPreview(null)}
                 className="group text-left rounded-xl overflow-hidden border border-lc-border hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/20 hover:scale-[1.02] transition-all duration-200 bg-lc-surface"
               >
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
@@ -425,8 +377,6 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                 <button
                   key={entry.id}
                   onClick={() => onSelect(entry.id, entry.sourceType)}
-                  onMouseEnter={(e) => handleMouseEnter(e, entry)}
-                  onMouseLeave={() => setPreview(null)}
                   className="group w-full text-left flex items-start gap-3 p-3 rounded-xl border border-lc-border hover:border-amber-500/40 hover:bg-lc-surface/60 transition-all bg-lc-surface"
                 >
                   <div className="relative shrink-0 w-24 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -457,8 +407,6 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
           </div>
         )}
       </div>
-
-      <PreviewCard preview={preview} />
     </div>
   );
 }

@@ -74,7 +74,6 @@ type LibraryEntry = {
 };
 
 type ViewMode = 'grid' | 'list';
-type PreviewState = { entry: LibraryEntry; rect: DOMRect } | null;
 
 // ── Import all library data ───────────────────────────────────────────────────
 
@@ -139,52 +138,6 @@ function ThumbnailImage({ youtubeId, title }: { youtubeId?: string; title: strin
   );
 }
 
-function PreviewCard({ preview }: { preview: PreviewState }) {
-  if (!preview) return null;
-  const { entry, rect } = preview;
-  const cardWidth = 288;
-  const viewportW = typeof window !== 'undefined' ? window.innerWidth : 1200;
-  const viewportH = typeof window !== 'undefined' ? window.innerHeight : 800;
-  const spaceRight = viewportW - rect.right - 16;
-  const left = spaceRight >= cardWidth ? rect.right + 12 : rect.left - cardWidth - 12;
-  const top = Math.max(8, Math.min(rect.top, viewportH - 340));
-  const cfg = SOURCE_CONFIG.find((s) => s.key === entry.sourceType);
-
-  return (
-    <div
-      className="fixed z-[200] w-72 bg-lc-card border border-lc-border rounded-2xl shadow-2xl shadow-black/40 overflow-hidden pointer-events-none animate-in fade-in duration-150"
-      style={{ top, left }}
-    >
-      <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-        <ThumbnailImage youtubeId={entry.youtubeId ?? undefined} title={entry.title} />
-        <span className="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
-          <Clock className="w-2.5 h-2.5" />{formatDuration(entry.durationSecs)}
-        </span>
-      </div>
-      <div className="p-4 space-y-2">
-        <div className="flex items-start justify-between gap-2">
-          <p className="text-sm font-semibold text-lc-text leading-snug">{entry.title}</p>
-        </div>
-        <div className="flex items-center gap-2 flex-wrap">
-          <p className="text-xs text-lc-text3">{entry.speaker}</p>
-          {cfg && (
-            <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${cfg.inactiveClass}`}>
-              {cfg.label}
-            </span>
-          )}
-        </div>
-        <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3">{entry.description}</p>
-        <div className="flex flex-wrap gap-1 pt-1">
-          <span className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
-          {entry.topicTags.slice(0, 3).map((t) => (
-            <span key={t} className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">{t}</span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ── Component ─────────────────────────────────────────────────────────────────
 
 interface Props {
@@ -201,7 +154,6 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
   const [activeDuration, setActiveDuration] = useState<DurationBand | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
-  const [preview, setPreview] = useState<PreviewState>(null);
 
   const baseEntries = useMemo(() => ALL_ENTRIES, []);
 
@@ -237,11 +189,6 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
     setActiveDifficulty(null);
     setActiveDuration(null);
     setQuery('');
-  }
-
-  function handleMouseEnter(e: React.MouseEvent<HTMLButtonElement>, entry: LibraryEntry) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setPreview({ entry, rect });
   }
 
   const visibleChannels = SOURCE_CONFIG.filter((s) =>
@@ -406,7 +353,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
       )}
 
       {/* ── Content ── */}
-      <div className="flex-1 overflow-y-auto px-6 py-5" onMouseLeave={() => setPreview(null)}>
+      <div className="flex-1 overflow-y-auto px-6 py-5">
         {filtered.length === 0 && (
           <p className="text-sm text-lc-text3 text-center py-20">No videos match your filters.</p>
         )}
@@ -417,8 +364,6 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
               <button
                 key={`${entry.sourceType}-${entry.id}`}
                 onClick={() => onSelect(entry.id, entry.sourceType)}
-                onMouseEnter={(e) => handleMouseEnter(e, entry)}
-                onMouseLeave={() => setPreview(null)}
                 className="group text-left rounded-xl overflow-hidden border border-lc-border hover:border-red-500/60 hover:shadow-lg hover:shadow-red-900/20 hover:scale-[1.02] transition-all duration-200 bg-lc-surface"
               >
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
@@ -451,8 +396,6 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
               <button
                 key={`${entry.sourceType}-${entry.id}`}
                 onClick={() => onSelect(entry.id, entry.sourceType)}
-                onMouseEnter={(e) => handleMouseEnter(e, entry)}
-                onMouseLeave={() => setPreview(null)}
                 className="group w-full text-left flex items-start gap-3 p-3 rounded-xl border border-lc-border hover:border-red-500/40 hover:bg-lc-surface/60 transition-all bg-lc-surface"
               >
                 <div className="relative shrink-0 w-28 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -480,8 +423,6 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
           </div>
         )}
       </div>
-
-      <PreviewCard preview={preview} />
     </div>
   );
 }
