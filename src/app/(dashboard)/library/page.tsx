@@ -6,7 +6,7 @@ import { VideoLibraryModal } from '@/components/planner/video-library-modal';
 import { TextLibraryModal } from '@/components/planner/text-library-modal';
 import { usePlannerStore } from '@/stores/planner-store';
 import type { SourceMaterial } from '@/types/source-material';
-import { BookOpen, Video, Map, GraduationCap, type LucideIcon } from 'lucide-react';
+import { BookOpen, Video, Map, GraduationCap, X, type LucideIcon } from 'lucide-react';
 
 type LibraryTab = 'videos' | 'texts' | 'flight-plans' | 'courses';
 
@@ -31,18 +31,26 @@ export default function LibraryPage() {
   const router = useRouter();
   const { setSourceMaterial, setTopic } = usePlannerStore();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<LibraryTab>('videos');
 
   async function handleSelect(talkId: string, source: string) {
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch('/api/source/extract', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: source, payload: talkId }),
       });
-      const data = await res.json();
-      if (!res.ok) return;
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data) {
+        setError(
+          (data && typeof data.error === 'string' && data.error) ||
+            "Couldn't load that material. It may be temporarily unavailable — please try another or try again.",
+        );
+        return;
+      }
       const material: SourceMaterial = {
         sourceType: data.sourceType,
         sourceKey: data.sourceKey,
@@ -55,6 +63,8 @@ export default function LibraryPage() {
       setSourceMaterial(material);
       setTopic(data.title);
       router.push('/lesson-planner');
+    } catch {
+      setError("Couldn't load that material. Check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -83,6 +93,19 @@ export default function LibraryPage() {
           );
         })}
       </div>
+
+      {error && (
+        <div className="shrink-0 flex items-center gap-3 px-6 py-2.5 bg-red-950/40 border-b border-red-800/40 text-sm text-red-300">
+          <span className="grow">{error}</span>
+          <button
+            onClick={() => setError(null)}
+            className="shrink-0 p-1 rounded-md text-red-300/70 hover:text-red-200 hover:bg-red-900/40 transition-colors"
+            aria-label="Dismiss"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* Content area */}
       <div className="flex-1 overflow-hidden relative">

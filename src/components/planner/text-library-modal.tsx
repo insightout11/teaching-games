@@ -2,12 +2,17 @@
 
 import { useState, useMemo } from 'react';
 import {
-  X, BookOpen, Search, ChevronRight, LayoutGrid, List, SlidersHorizontal, Images, Info, Clock,
+  X, BookOpen, Search, ChevronRight, LayoutGrid, List, SlidersHorizontal, Images, Info, Clock, Star,
   HeartPulse, Cpu, Leaf, Palette, GraduationCap, Brain, Briefcase, Newspaper, Users,
   Hammer, Trophy, Utensils, FlaskConical, Languages, PawPrint, Castle, TreePine,
   UserRound, Scale, Coins, Pickaxe, Heart, Compass, Sparkles, type LucideIcon,
 } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
+import {
+  useDrawerA11y, usePersistedState, useFavorites, useRecentlyUsed, useIncremental,
+  SortSelect, ActiveFilterChips, FavoriteStar, ClampText, SlideLightbox,
+  compareByTitle, compareByDifficulty, recentRank,
+} from './library-shared';
 
 type TextSourceKey = 'stories' | 'voa' | 'picture-books';
 
@@ -101,6 +106,18 @@ const ALL_ENTRIES: TextEntry[] = [
   ...tag(voaRaw as unknown[], 'voa'),
 ];
 
+// Stable per-entry key for favorites / recent / React keys (ids can repeat across sources).
+const entryKey = (e: TextEntry) => `${e.sourceType}-${e.id}`;
+
+const SORT_OPTIONS = [
+  { key: 'relevance', label: 'Default order' },
+  { key: 'recent', label: 'Recently used' },
+  { key: 'length-asc', label: 'Shortest first' },
+  { key: 'length-desc', label: 'Longest first' },
+  { key: 'level', label: 'Level: easy → hard' },
+  { key: 'title', label: 'Title: A–Z' },
+];
+
 function TextThumbnail({ entry }: { entry: TextEntry }) {
   const primaryTag = entry.topicTags[0] ?? '';
   const gradient = TOPIC_COLORS[primaryTag] ?? 'from-slate-800/50 to-slate-900/70';
@@ -153,17 +170,30 @@ function TextDetailDrawer({
   entry,
   onClose,
   onUse,
+  isFav,
+  onToggleFav,
 }: {
   entry: TextEntry;
   onClose: () => void;
   onUse: () => void;
+  isFav: boolean;
+  onToggleFav: () => void;
 }) {
   const cfg = SOURCE_CONFIG.find((s) => s.key === entry.sourceType);
   const readMins = Math.ceil(entry.wordCount / 150);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  const panelRef = useDrawerA11y(onClose, lightbox === null);
   return (
     <div className="fixed inset-0 z-[100] flex justify-end">
       <div className="absolute inset-0 bg-black/50 animate-in fade-in duration-150" onClick={onClose} />
-      <div className="relative w-full max-w-md h-full bg-lc-card border-l border-lc-border shadow-2xl shadow-black/50 flex flex-col animate-in slide-in-from-right duration-200">
+      <div
+        ref={panelRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Text details: ${entry.title}`}
+        className="relative w-full max-w-md h-full bg-lc-card border-l border-lc-border shadow-2xl shadow-black/50 flex flex-col animate-in slide-in-from-right duration-200 outline-none"
+      >
         <div className="flex items-center justify-between px-5 py-3 border-b border-lc-border shrink-0">
           <p className="text-sm font-semibold text-lc-text">Text details</p>
           <button onClick={onClose} className="p-1.5 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors">
@@ -186,22 +216,36 @@ function TextDetailDrawer({
           </div>
 
           {(entry.summary || entry.description) && (
-            <p className="text-sm text-lc-text3 leading-relaxed whitespace-pre-line">{entry.summary || entry.description}</p>
+            <ClampText text={entry.summary || entry.description} />
           )}
 
           {entry.slides && entry.slides.length > 0 && (
-            <div className="grid grid-cols-3 gap-2">
-              {entry.slides.slice(0, 6).map((s, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={i}
-                  src={s}
-                  alt=""
-                  className="w-full rounded-lg border border-lc-border object-cover"
-                  style={{ aspectRatio: '1 / 1' }}
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                />
-              ))}
+            <div>
+              <div className="grid grid-cols-3 gap-2">
+                {entry.slides.slice(0, 6).map((s, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setLightbox(i)}
+                    className="relative block rounded-lg overflow-hidden border border-lc-border hover:border-rose-400/60 transition-colors"
+                    style={{ aspectRatio: '1 / 1' }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={s}
+                      alt={`Slide ${i + 1}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                    />
+                    {i === 5 && entry.slides!.length > 6 && (
+                      <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-sm font-semibold">
+                        +{entry.slides!.length - 6}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-1.5 text-[11px] text-lc-text3">Tap a slide to flip through all {entry.slides.length}.</p>
             </div>
           )}
 
@@ -213,15 +257,27 @@ function TextDetailDrawer({
           </div>
         </div>
 
-        <div className="px-5 py-4 border-t border-lc-border shrink-0">
+        <div className="px-5 py-4 border-t border-lc-border shrink-0 flex items-center gap-2">
+          <button
+            onClick={onToggleFav}
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-lg border text-sm font-semibold transition-colors ${
+              isFav ? 'border-amber-400/50 text-amber-300 bg-amber-400/10' : 'border-lc-border text-lc-text3 hover:text-lc-text'
+            }`}
+          >
+            <Star className={`w-4 h-4 ${isFav ? 'fill-amber-300' : ''}`} />{isFav ? 'Saved' : 'Save'}
+          </button>
           <button
             onClick={onUse}
-            className="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold transition-colors"
+            className="flex-1 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold transition-colors"
           >
             Use this text
           </button>
         </div>
       </div>
+
+      {lightbox !== null && entry.slides && (
+        <SlideLightbox slides={entry.slides} startIndex={lightbox} onClose={() => setLightbox(null)} />
+      )}
     </div>
   );
 }
@@ -234,12 +290,17 @@ interface Props {
 
 export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
   const [query, setQuery] = useState('');
-  const [activeSource, setActiveSource] = useState<TextSourceKey | null>(null);
-  const [activeTag, setActiveTag] = useState<string | null>(null);
-  const [activeDifficulty, setActiveDifficulty] = useState<string | null>(null);
+  const [activeSource, setActiveSource] = usePersistedState<TextSourceKey | null>('lc-lib-text-source', null);
+  const [activeTag, setActiveTag] = usePersistedState<string | null>('lc-lib-text-tag', null);
+  const [activeDifficulty, setActiveDifficulty] = usePersistedState<string | null>('lc-lib-text-level', null);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [viewMode, setViewMode] = usePersistedState<ViewMode>('lc-lib-text-view', 'grid');
+  const [sortKey, setSortKey] = usePersistedState<string>('lc-lib-text-sort', 'relevance');
+  const [favsOnly, setFavsOnly] = usePersistedState<boolean>('lc-lib-text-favsonly', false);
   const [detail, setDetail] = useState<TextEntry | null>(null);
+
+  const { favs, toggle: toggleFav } = useFavorites('text');
+  const { recent, pushRecent } = useRecentlyUsed('text');
 
   const allTags = useMemo(
     () => Array.from(new Set(ALL_ENTRIES.flatMap((e) => e.topicTags))).sort(),
@@ -248,6 +309,7 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
 
   const filtered = useMemo(() => {
     return ALL_ENTRIES.filter((e) => {
+      if (favsOnly && !favs.has(entryKey(e))) return false;
       if (activeSource && e.sourceType !== activeSource) return false;
       if (activeTag && !e.topicTags.includes(activeTag)) return false;
       if (activeDifficulty && e.difficultyLevel !== activeDifficulty) return false;
@@ -262,14 +324,38 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
       }
       return true;
     });
-  }, [query, activeSource, activeTag, activeDifficulty]);
+  }, [query, activeSource, activeTag, activeDifficulty, favsOnly, favs]);
 
-  const activeFilterCount = [activeSource, activeTag, activeDifficulty].filter(Boolean).length;
+  const sorted = useMemo(() => {
+    const arr = [...filtered];
+    switch (sortKey) {
+      case 'recent': arr.sort((a, b) => recentRank(entryKey(a), recent) - recentRank(entryKey(b), recent)); break;
+      case 'length-asc': arr.sort((a, b) => a.wordCount - b.wordCount); break;
+      case 'length-desc': arr.sort((a, b) => b.wordCount - a.wordCount); break;
+      case 'level': arr.sort(compareByDifficulty); break;
+      case 'title': arr.sort(compareByTitle); break;
+      default: break;
+    }
+    return arr;
+  }, [filtered, sortKey, recent]);
+
+  const activeFilterCount = [activeSource, activeTag, activeDifficulty, favsOnly].filter(Boolean).length;
+
+  const filterSig = `${query}|${activeSource}|${activeTag}|${activeDifficulty}|${favsOnly}|${sortKey}`;
+  const { count, more } = useIncremental(filterSig, 24);
+  const visible = sorted.slice(0, count);
+
+  const chips: { key: string; label: string; onRemove: () => void }[] = [];
+  if (activeSource) chips.push({ key: 'source', label: SOURCE_CONFIG.find((s) => s.key === activeSource)?.label ?? activeSource, onRemove: () => setActiveSource(null) });
+  if (activeDifficulty) chips.push({ key: 'level', label: activeDifficulty, onRemove: () => setActiveDifficulty(null) });
+  if (activeTag) chips.push({ key: 'tag', label: activeTag, onRemove: () => setActiveTag(null) });
+  if (favsOnly) chips.push({ key: 'saved', label: 'Saved', onRemove: () => setFavsOnly(false) });
 
   function clearFilters() {
     setActiveSource(null);
     setActiveTag(null);
     setActiveDifficulty(null);
+    setFavsOnly(false);
     setQuery('');
   }
 
@@ -296,6 +382,21 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
         </div>
 
         <div className="flex items-center gap-2 ml-auto shrink-0">
+          {/* Saved toggle */}
+          <button
+            onClick={() => setFavsOnly(!favsOnly)}
+            title="Show saved only"
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-semibold transition-colors ${
+              favsOnly ? 'bg-amber-400/15 text-amber-300 border-amber-400/40' : 'border-lc-border text-lc-text3 hover:text-lc-text hover:border-lc-text3'
+            }`}
+          >
+            <Star className={`w-3.5 h-3.5 ${favsOnly ? 'fill-amber-300' : ''}`} />
+            Saved
+          </button>
+
+          {/* Sort */}
+          <SortSelect value={sortKey} onChange={setSortKey} options={SORT_OPTIONS} />
+
           {/* View toggle */}
           <div className="flex rounded-lg border border-lc-border overflow-hidden">
             <button
@@ -412,20 +513,30 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
 
       {/* ── Content ── */}
       <div className="flex-1 overflow-y-auto px-6 py-5">
+        <ActiveFilterChips chips={chips} onClearAll={clearFilters} />
+
         {filtered.length === 0 && (
-          <p className="text-sm text-lc-text3 text-center py-20">No texts match your filters.</p>
+          <p className="text-sm text-lc-text3 text-center py-20">
+            {favsOnly ? 'No saved texts yet — tap the star on any text to save it.' : 'No texts match your filters.'}
+          </p>
         )}
 
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {filtered.map((entry) => (
-              <button
-                key={entry.id}
+            {visible.map((entry) => (
+              <div
+                key={entryKey(entry)}
+                role="button"
+                tabIndex={0}
                 onClick={() => setDetail(entry)}
-                className="group text-left rounded-xl overflow-hidden border border-lc-border hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/20 hover:scale-[1.02] transition-all duration-200 bg-lc-surface"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setDetail(entry); } }}
+                className="group text-left rounded-xl overflow-hidden border border-lc-border hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/20 hover:scale-[1.02] transition-all duration-200 bg-lc-surface cursor-pointer"
               >
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                   <TextThumbnail entry={entry} />
+                  <div className="absolute bottom-1.5 left-1.5 z-10">
+                    <FavoriteStar active={favs.has(entryKey(entry))} onToggle={() => toggleFav(entryKey(entry))} />
+                  </div>
                   {/* Persistent affordance: always signals the card opens details */}
                   <span className="absolute top-1.5 right-1.5 z-10 flex items-center gap-1 rounded-full bg-black/65 px-1.5 py-0.5 text-[9px] font-semibold text-white/85 backdrop-blur-sm group-hover:bg-black/80 group-hover:text-white transition-colors">
                     <Info className="w-2.5 h-2.5" />Details
@@ -449,18 +560,21 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                     <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.wordCount}w</span>
                   </div>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         ) : (
           <div className="space-y-2">
-            {filtered.map((entry) => {
+            {visible.map((entry) => {
               const readMins = Math.ceil(entry.wordCount / 150);
               return (
-                <button
-                  key={entry.id}
+                <div
+                  key={entryKey(entry)}
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setDetail(entry)}
-                  className="group w-full text-left flex items-start gap-3 p-3 rounded-xl border border-lc-border hover:border-amber-500/40 hover:bg-lc-surface/60 transition-all bg-lc-surface"
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setDetail(entry); } }}
+                  className="group w-full text-left flex items-start gap-3 p-3 rounded-xl border border-lc-border hover:border-amber-500/40 hover:bg-lc-surface/60 transition-all bg-lc-surface cursor-pointer"
                 >
                   <div className="relative shrink-0 w-24 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
                     <TextThumbnailSmall entry={entry} />
@@ -484,14 +598,26 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                       ))}
                     </div>
                   </div>
-                  {/* Persistent affordance: row opens text details */}
-                  <div className="shrink-0 self-center flex items-center gap-1 text-lc-text3 group-hover:text-amber-400 transition-colors">
+                  {/* Persistent affordance: save + row opens text details */}
+                  <div className="shrink-0 self-center flex items-center gap-2 text-lc-text3 group-hover:text-amber-400 transition-colors">
+                    <FavoriteStar active={favs.has(entryKey(entry))} onToggle={() => toggleFav(entryKey(entry))} />
                     <span className="hidden sm:inline text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity">View details</span>
                     <ChevronRight className="w-4 h-4" />
                   </div>
-                </button>
+                </div>
               );
             })}
+          </div>
+        )}
+
+        {visible.length < sorted.length && (
+          <div className="flex justify-center pt-6">
+            <button
+              onClick={more}
+              className="px-5 py-2 rounded-lg border border-lc-border text-sm font-semibold text-lc-text3 hover:text-lc-text hover:border-lc-text3 transition-colors"
+            >
+              Show more ({sorted.length - visible.length} left)
+            </button>
           </div>
         )}
       </div>
@@ -500,7 +626,9 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
         <TextDetailDrawer
           entry={detail}
           onClose={() => setDetail(null)}
-          onUse={() => { onSelect(detail.id, detail.sourceType); setDetail(null); }}
+          onUse={() => { pushRecent(entryKey(detail)); onSelect(detail.id, detail.sourceType); setDetail(null); }}
+          isFav={favs.has(entryKey(detail))}
+          onToggleFav={() => toggleFav(entryKey(detail))}
         />
       )}
     </div>

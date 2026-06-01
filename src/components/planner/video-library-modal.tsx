@@ -1,8 +1,13 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { X, Clock, Search, Play, LayoutGrid, List, SlidersHorizontal, Info, ChevronRight } from 'lucide-react';
+import { X, Clock, Search, Play, LayoutGrid, List, SlidersHorizontal, Info, ChevronRight, Star } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
+import {
+  useDrawerA11y, usePersistedState, useFavorites, useRecentlyUsed, useIncremental,
+  SortSelect, ActiveFilterChips, FavoriteStar, ClampText,
+  compareByTitle, compareByDifficulty, recentRank,
+} from './library-shared';
 
 // ── Library source config ─────────────────────────────────────────────────────
 
@@ -119,6 +124,18 @@ function formatDuration(secs: number) {
   return `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
 }
 
+// Stable per-entry key for favorites / recent / React keys (ids can repeat across sources).
+const entryKey = (e: LibraryEntry) => `${e.sourceType}-${e.id}`;
+
+const SORT_OPTIONS = [
+  { key: 'relevance', label: 'Default order' },
+  { key: 'recent', label: 'Recently used' },
+  { key: 'duration-asc', label: 'Shortest first' },
+  { key: 'duration-desc', label: 'Longest first' },
+  { key: 'level', label: 'Level: easy → hard' },
+  { key: 'title', label: 'Title: A–Z' },
+];
+
 function ThumbnailImage({ youtubeId, title }: { youtubeId?: string; title: string }) {
   const [failed, setFailed] = useState(false);
   if (!youtubeId || failed) {
@@ -142,16 +159,28 @@ function VideoDetailDrawer({
   entry,
   onClose,
   onUse,
+  isFav,
+  onToggleFav,
 }: {
   entry: LibraryEntry;
   onClose: () => void;
   onUse: () => void;
+  isFav: boolean;
+  onToggleFav: () => void;
 }) {
   const cfg = SOURCE_CONFIG.find((s) => s.key === entry.sourceType);
+  const panelRef = useDrawerA11y(onClose);
   return (
     <div className="fixed inset-0 z-[100] flex justify-end">
       <div className="absolute inset-0 bg-black/50 animate-in fade-in duration-150" onClick={onClose} />
-      <div className="relative w-full max-w-md h-full bg-lc-card border-l border-lc-border shadow-2xl shadow-black/50 flex flex-col animate-in slide-in-from-right duration-200">
+      <div
+        ref={panelRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Video details: ${entry.title}`}
+        className="relative w-full max-w-md h-full bg-lc-card border-l border-lc-border shadow-2xl shadow-black/50 flex flex-col animate-in slide-in-from-right duration-200 outline-none"
+      >
         <div className="flex items-center justify-between px-5 py-3 border-b border-lc-border shrink-0">
           <p className="text-sm font-semibold text-lc-text">Video details</p>
           <button onClick={onClose} className="p-1.5 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors">
@@ -184,7 +213,7 @@ function VideoDetailDrawer({
           </div>
 
           {(entry.summary || entry.description) && (
-            <p className="text-sm text-lc-text3 leading-relaxed whitespace-pre-line">{entry.summary || entry.description}</p>
+            <ClampText text={entry.summary || entry.description} />
           )}
 
           <div className="flex flex-wrap gap-1.5">
@@ -195,10 +224,18 @@ function VideoDetailDrawer({
           </div>
         </div>
 
-        <div className="px-5 py-4 border-t border-lc-border shrink-0">
+        <div className="px-5 py-4 border-t border-lc-border shrink-0 flex items-center gap-2">
+          <button
+            onClick={onToggleFav}
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-lg border text-sm font-semibold transition-colors ${
+              isFav ? 'border-amber-400/50 text-amber-300 bg-amber-400/10' : 'border-lc-border text-lc-text3 hover:text-lc-text'
+            }`}
+          >
+            <Star className={`w-4 h-4 ${isFav ? 'fill-amber-300' : ''}`} />{isFav ? 'Saved' : 'Save'}
+          </button>
           <button
             onClick={onUse}
-            className="w-full py-2.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors"
+            className="flex-1 py-2.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors"
           >
             Use this video
           </button>
@@ -218,13 +255,18 @@ interface Props {
 
 export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
   const [query, setQuery] = useState('');
-  const [activeChannel, setActiveChannel] = useState<LibrarySourceKey | null>(null);
-  const [activeTag, setActiveTag] = useState<string | null>(null);
-  const [activeDifficulty, setActiveDifficulty] = useState<string | null>(null);
-  const [activeDuration, setActiveDuration] = useState<DurationBand | null>(null);
+  const [activeChannel, setActiveChannel] = usePersistedState<LibrarySourceKey | null>('lc-lib-video-channel', null);
+  const [activeTag, setActiveTag] = usePersistedState<string | null>('lc-lib-video-tag', null);
+  const [activeDifficulty, setActiveDifficulty] = usePersistedState<string | null>('lc-lib-video-level', null);
+  const [activeDuration, setActiveDuration] = usePersistedState<DurationBand | null>('lc-lib-video-duration', null);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [viewMode, setViewMode] = usePersistedState<ViewMode>('lc-lib-video-view', 'grid');
+  const [sortKey, setSortKey] = usePersistedState<string>('lc-lib-video-sort', 'relevance');
+  const [favsOnly, setFavsOnly] = usePersistedState<boolean>('lc-lib-video-favsonly', false);
   const [detail, setDetail] = useState<LibraryEntry | null>(null);
+
+  const { favs, toggle: toggleFav } = useFavorites('video');
+  const { recent, pushRecent } = useRecentlyUsed('video');
 
   const baseEntries = useMemo(() => ALL_ENTRIES, []);
 
@@ -235,6 +277,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
 
   const filtered = useMemo(() => {
     return baseEntries.filter((e) => {
+      if (favsOnly && !favs.has(entryKey(e))) return false;
       if (activeChannel && e.sourceType !== activeChannel) return false;
       if (activeTag && !e.topicTags.includes(activeTag)) return false;
       if (activeDifficulty && e.difficultyLevel !== activeDifficulty) return false;
@@ -250,15 +293,40 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
       }
       return true;
     });
-  }, [query, activeChannel, activeTag, activeDifficulty, activeDuration, baseEntries]);
+  }, [query, activeChannel, activeTag, activeDifficulty, activeDuration, favsOnly, favs, baseEntries]);
 
-  const activeFilterCount = [activeChannel, activeTag, activeDifficulty, activeDuration].filter(Boolean).length;
+  const sorted = useMemo(() => {
+    const arr = [...filtered];
+    switch (sortKey) {
+      case 'recent': arr.sort((a, b) => recentRank(entryKey(a), recent) - recentRank(entryKey(b), recent)); break;
+      case 'duration-asc': arr.sort((a, b) => a.durationSecs - b.durationSecs); break;
+      case 'duration-desc': arr.sort((a, b) => b.durationSecs - a.durationSecs); break;
+      case 'level': arr.sort(compareByDifficulty); break;
+      case 'title': arr.sort(compareByTitle); break;
+      default: break;
+    }
+    return arr;
+  }, [filtered, sortKey, recent]);
+
+  const activeFilterCount = [activeChannel, activeTag, activeDifficulty, activeDuration, favsOnly].filter(Boolean).length;
+
+  const filterSig = `${query}|${activeChannel}|${activeTag}|${activeDifficulty}|${activeDuration}|${favsOnly}|${sortKey}`;
+  const { count, more } = useIncremental(filterSig, 24);
+  const visible = sorted.slice(0, count);
+
+  const chips: { key: string; label: string; onRemove: () => void }[] = [];
+  if (activeChannel) chips.push({ key: 'channel', label: SOURCE_CONFIG.find((s) => s.key === activeChannel)?.label ?? activeChannel, onRemove: () => setActiveChannel(null) });
+  if (activeDuration) chips.push({ key: 'duration', label: DURATION_BANDS.find((d) => d.key === activeDuration)?.label ?? activeDuration, onRemove: () => setActiveDuration(null) });
+  if (activeDifficulty) chips.push({ key: 'level', label: activeDifficulty, onRemove: () => setActiveDifficulty(null) });
+  if (activeTag) chips.push({ key: 'tag', label: activeTag, onRemove: () => setActiveTag(null) });
+  if (favsOnly) chips.push({ key: 'saved', label: 'Saved', onRemove: () => setFavsOnly(false) });
 
   function clearFilters() {
     setActiveChannel(null);
     setActiveTag(null);
     setActiveDifficulty(null);
     setActiveDuration(null);
+    setFavsOnly(false);
     setQuery('');
   }
 
@@ -289,6 +357,21 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
         </div>
 
         <div className="flex items-center gap-2 ml-auto shrink-0">
+          {/* Saved toggle */}
+          <button
+            onClick={() => setFavsOnly(!favsOnly)}
+            title="Show saved only"
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-semibold transition-colors ${
+              favsOnly ? 'bg-amber-400/15 text-amber-300 border-amber-400/40' : 'border-lc-border text-lc-text3 hover:text-lc-text hover:border-lc-text3'
+            }`}
+          >
+            <Star className={`w-3.5 h-3.5 ${favsOnly ? 'fill-amber-300' : ''}`} />
+            Saved
+          </button>
+
+          {/* Sort */}
+          <SortSelect value={sortKey} onChange={setSortKey} options={SORT_OPTIONS} />
+
           {/* View toggle */}
           <div className="flex rounded-lg border border-lc-border overflow-hidden">
             <button
@@ -425,20 +508,30 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
 
       {/* ── Content ── */}
       <div className="flex-1 overflow-y-auto px-6 py-5">
+        <ActiveFilterChips chips={chips} onClearAll={clearFilters} />
+
         {filtered.length === 0 && (
-          <p className="text-sm text-lc-text3 text-center py-20">No videos match your filters.</p>
+          <p className="text-sm text-lc-text3 text-center py-20">
+            {favsOnly ? 'No saved videos yet — tap the star on any video to save it.' : 'No videos match your filters.'}
+          </p>
         )}
 
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {filtered.map((entry) => (
-              <button
+            {visible.map((entry) => (
+              <div
                 key={`${entry.sourceType}-${entry.id}`}
+                role="button"
+                tabIndex={0}
                 onClick={() => setDetail(entry)}
-                className="group text-left rounded-xl overflow-hidden border border-lc-border hover:border-red-500/60 hover:shadow-lg hover:shadow-red-900/20 hover:scale-[1.02] transition-all duration-200 bg-lc-surface"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setDetail(entry); } }}
+                className="group text-left rounded-xl overflow-hidden border border-lc-border hover:border-red-500/60 hover:shadow-lg hover:shadow-red-900/20 hover:scale-[1.02] transition-all duration-200 bg-lc-surface cursor-pointer"
               >
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                   <ThumbnailImage youtubeId={entry.youtubeId ?? undefined} title={entry.title} />
+                  <div className="absolute bottom-1.5 left-1.5 z-10">
+                    <FavoriteStar active={favs.has(entryKey(entry))} onToggle={() => toggleFav(entryKey(entry))} />
+                  </div>
                   {/* Persistent affordance: always signals the card opens details */}
                   <span className="absolute top-1.5 right-1.5 flex items-center gap-1 rounded-full bg-black/65 px-1.5 py-0.5 text-[9px] font-semibold text-white/85 backdrop-blur-sm group-hover:bg-black/80 group-hover:text-white transition-colors">
                     <Info className="w-2.5 h-2.5" />Details
@@ -463,16 +556,19 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                     <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
                   </div>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         ) : (
           <div className="space-y-2">
-            {filtered.map((entry) => (
-              <button
+            {visible.map((entry) => (
+              <div
                 key={`${entry.sourceType}-${entry.id}`}
+                role="button"
+                tabIndex={0}
                 onClick={() => setDetail(entry)}
-                className="group w-full text-left flex items-start gap-3 p-3 rounded-xl border border-lc-border hover:border-red-500/40 hover:bg-lc-surface/60 transition-all bg-lc-surface"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setDetail(entry); } }}
+                className="group w-full text-left flex items-start gap-3 p-3 rounded-xl border border-lc-border hover:border-red-500/40 hover:bg-lc-surface/60 transition-all bg-lc-surface cursor-pointer"
               >
                 <div className="relative shrink-0 w-28 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
                   <ThumbnailImage youtubeId={entry.youtubeId ?? undefined} title={entry.title} />
@@ -494,13 +590,25 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                     ))}
                   </div>
                 </div>
-                {/* Persistent affordance: row opens video details */}
-                <div className="shrink-0 self-center flex items-center gap-1 text-lc-text3 group-hover:text-red-400 transition-colors">
+                {/* Persistent affordance: save + row opens video details */}
+                <div className="shrink-0 self-center flex items-center gap-2 text-lc-text3 group-hover:text-red-400 transition-colors">
+                  <FavoriteStar active={favs.has(entryKey(entry))} onToggle={() => toggleFav(entryKey(entry))} />
                   <span className="hidden sm:inline text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity">View details</span>
                   <ChevronRight className="w-4 h-4" />
                 </div>
-              </button>
+              </div>
             ))}
+          </div>
+        )}
+
+        {visible.length < sorted.length && (
+          <div className="flex justify-center pt-6">
+            <button
+              onClick={more}
+              className="px-5 py-2 rounded-lg border border-lc-border text-sm font-semibold text-lc-text3 hover:text-lc-text hover:border-lc-text3 transition-colors"
+            >
+              Show more ({sorted.length - visible.length} left)
+            </button>
           </div>
         )}
       </div>
@@ -509,7 +617,9 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
         <VideoDetailDrawer
           entry={detail}
           onClose={() => setDetail(null)}
-          onUse={() => { onSelect(detail.id, detail.sourceType); setDetail(null); }}
+          onUse={() => { pushRecent(entryKey(detail)); onSelect(detail.id, detail.sourceType); setDetail(null); }}
+          isFav={favs.has(entryKey(detail))}
+          onToggleFav={() => toggleFav(entryKey(detail))}
         />
       )}
     </div>
