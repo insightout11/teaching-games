@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { X, Clock, Search, Play, LayoutGrid, List, SlidersHorizontal } from 'lucide-react';
+import { X, Clock, Search, Play, LayoutGrid, List, SlidersHorizontal, Info, ChevronRight } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
 
 // ── Library source config ─────────────────────────────────────────────────────
@@ -439,13 +439,18 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
               >
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                   <ThumbnailImage youtubeId={entry.youtubeId ?? undefined} title={entry.title} />
+                  {/* Persistent affordance: always signals the card opens details */}
+                  <span className="absolute top-1.5 right-1.5 flex items-center gap-1 rounded-full bg-black/65 px-1.5 py-0.5 text-[9px] font-semibold text-white/85 backdrop-blur-sm group-hover:bg-black/80 group-hover:text-white transition-colors">
+                    <Info className="w-2.5 h-2.5" />Details
+                  </span>
                   <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
                     <Clock className="w-2.5 h-2.5" />{formatDuration(entry.durationSecs)}
                   </span>
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 bg-black/35 flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
                       <Play className="w-4 h-4 text-gray-900 ml-0.5 fill-gray-900" />
                     </div>
+                    <span className="text-[11px] font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">View details</span>
                   </div>
                 </div>
                 <div className="p-2.5 space-y-1">
@@ -488,6 +493,11 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                       <span key={t} className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">{t}</span>
                     ))}
                   </div>
+                </div>
+                {/* Persistent affordance: row opens video details */}
+                <div className="shrink-0 self-center flex items-center gap-1 text-lc-text3 group-hover:text-red-400 transition-colors">
+                  <span className="hidden sm:inline text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity">View details</span>
+                  <ChevronRight className="w-4 h-4" />
                 </div>
               </button>
             ))}
