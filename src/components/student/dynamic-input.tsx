@@ -60,9 +60,9 @@ function SubmitStatus({ status, waitSeconds }: { status: 'idle' | 'success' | 'e
   if (status === 'idle') return null;
   return (
     <div className="text-sm mt-2">
-      {status === 'success' && <span className="text-green-400">Submitted!</span>}
-      {status === 'error' && <span className="text-red-400">Failed to submit</span>}
-      {status === 'rate_limited' && <span className="text-yellow-400">Wait {waitSeconds}s...</span>}
+      {status === 'success' && <span className="text-emerald-400">Signal sent</span>}
+      {status === 'error' && <span className="text-red-400">Signal failed</span>}
+      {status === 'rate_limited' && <span className="text-yellow-400">Stand by {waitSeconds}s...</span>}
     </div>
   );
 }
@@ -88,7 +88,7 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
     } finally {
       inFlightRef.current = false;
     }
-  }, [onSubmit]);
+  }, [isExpired, onSubmit]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -150,7 +150,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
     await onSubmit(payload);
     setValue('');
     setSelectedResources([]);
-  }, [value, isSubmitting, hasResources, selectedResources, resourcesRequired, onSubmit]);
+  }, [value, isSubmitting, hasResources, selectedResources, resourcesRequired, isExpired, onSubmit]);
 
   const hintContent = spec.hint?.content;
   const hasStructuredHint = hintContent && typeof hintContent === 'object';

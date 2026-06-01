@@ -52,6 +52,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const [currentInputSpec, setCurrentInputSpec] = useState<InputSpec | null>(initialInputSpec);
   const [spotlighting, setSpotlighting] = useState<string | null>(null);
   const [spotlightedIds, setSpotlightedIds] = useState<Set<string>>(new Set());
+  const [lastSpotlightName, setLastSpotlightName] = useState<string | null>(null);
   const [clearingEvent, setClearingEvent] = useState(false);
   const [showAllSubmissions, setShowAllSubmissions] = useState(false);
 
@@ -120,6 +121,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
         }),
       });
       if (res.ok) {
+        setLastSpotlightName(sub.display_name);
         setSpotlightedIds((prev) => new Set(prev).add(sub.id));
         setTimeout(() => {
           setSpotlightedIds((prev) => {
@@ -191,15 +193,18 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
 
   const EVENT_LABELS: Record<NonNullable<ActiveEvent>, { label: string; hint: string }> = {
     opinion: { label: 'Opinion Pulse', hint: 'Students pick Option A or B' },
-    contribution: { label: 'Contribution Prompt', hint: 'Students type a free-text response' },
-    accuracy: { label: 'Accuracy Challenge', hint: 'Students type their answer for review' },
+    contribution: { label: 'Crew Prompt', hint: 'Students send a short written signal' },
+    accuracy: { label: 'Accuracy Check', hint: 'Students type an answer for review' },
   };
 
   const stageLabel = getStageLabelForKey(currentInputSpec?.gameKey);
+  const pendingCount = submissions.filter((sub) => sub.status === 'pending').length;
+  const approvedCount = submissions.filter((sub) => sub.status === 'approved').length;
+  const deviceState = currentInputSpec ? 'Collecting' : 'Standby';
 
   return (
     <div className="min-h-screen bg-[#07111f] text-white">
-      <div className="max-w-lg mx-auto p-4 space-y-4 pb-12">
+      <div className="max-w-lg mx-auto p-4 flex flex-col gap-4 pb-12">
 
         {/* Header */}
         <div className="flex items-center justify-between py-2">
@@ -210,59 +215,90 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Session
+            Display
           </Link>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-white truncate max-w-[180px]">{cls.name}</span>
+          <div className="min-w-0 text-right">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/60">Captain Console</p>
+            <div className="flex items-center justify-end gap-2">
+              <span className="truncate text-sm font-semibold text-white max-w-[180px]">{cls.name}</span>
             {session.status === 'active' && (
               <span className="flex items-center gap-1 text-xs text-emerald-400 font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 LIVE
               </span>
             )}
+            </div>
           </div>
         </div>
 
-        {/* Status Strip */}
-        <div className="bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
+        {/* Now */}
+        <div className="order-1 bg-[#0d1f35] rounded-2xl border border-cyan-400/15 p-4 space-y-3 shadow-[0_0_26px_rgba(34,211,238,0.06)]">
           {currentInputSpec ? (
             <>
-              <div className="flex items-start justify-between gap-3">
-                <div className="space-y-1 min-w-0 flex-1">
-                  <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Now</p>
+              <div className="space-y-1 min-w-0">
+                  <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Now</p>
                   {stageLabel && (
                     <p className="text-base font-bold text-white leading-tight">{stageLabel}</p>
                   )}
                   <p className="text-sm text-white/60 leading-snug">
                     {truncate(currentInputSpec.prompt ?? currentInputSpec.gameKey, 60)}
                   </p>
-                </div>
-                <button
-                  onClick={handleClearEvent}
-                  disabled={clearingEvent}
-                  className="shrink-0 text-xs text-red-400 hover:text-red-300 border border-red-500/30 hover:border-red-400/50 rounded-lg px-3 min-h-[36px] transition-colors disabled:opacity-50"
-                >
-                  {clearingEvent ? 'Clearing…' : 'Clear'}
-                </button>
               </div>
-              <div className="text-xs text-white/35">
-                {students.length} student{students.length !== 1 ? 's' : ''} in class
+              <div className="flex flex-wrap items-center gap-2 text-xs text-white/35">
+                <span>{deviceState} on student devices</span>
+                <span className="text-white/15">/</span>
+                <span>{students.length} student{students.length !== 1 ? 's' : ''}</span>
+                {lastSpotlightName && (
+                  <>
+                    <span className="text-white/15">/</span>
+                    <span className="text-amber-300/80">Last pick: {lastSpotlightName}</span>
+                  </>
+                )}
               </div>
             </>
           ) : (
             <div className="space-y-1">
-              <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Now</p>
+              <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Now</p>
               <p className="text-sm text-white/40">Nothing on student devices</p>
-              <div className="text-xs text-white/25 pt-1">
-                {students.length} student{students.length !== 1 ? 's' : ''} in class
+              <div className="flex flex-wrap items-center gap-2 text-xs text-white/25 pt-1">
+                <span>{students.length} student{students.length !== 1 ? 's' : ''}</span>
+                {lastSpotlightName && (
+                  <>
+                    <span className="text-white/15">/</span>
+                    <span className="text-amber-300/70">Last pick: {lastSpotlightName}</span>
+                  </>
+                )}
               </div>
             </div>
           )}
         </div>
 
-        {/* Quick Event Launcher */}
-        <div className="bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
-          <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Quick Event</p>
+        {/* Controls */}
+        <div className="order-4 bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
+          <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Controls</p>
+          <div className="grid grid-cols-2 gap-2">
+            <Link
+              href={`/sessions/${session.id}`}
+              className="flex min-h-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 text-center text-sm font-semibold text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              Open Display
+            </Link>
+            <button
+              onClick={handleClearEvent}
+              disabled={!currentInputSpec || clearingEvent}
+              className="min-h-12 rounded-xl border border-red-500/25 bg-red-500/5 px-3 text-sm font-semibold text-red-300 transition-colors hover:border-red-400/45 hover:bg-red-500/10 disabled:border-white/10 disabled:bg-white/5 disabled:text-white/25"
+            >
+              {clearingEvent ? 'Clearing...' : 'Clear Devices'}
+            </button>
+          </div>
+        </div>
+
+        {/* Signals */}
+        <div className="order-3 bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
+          <div>
+            <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Signals</p>
+            <p className="mt-1 text-xs text-white/35">Send a quick class prompt without changing the main screen.</p>
+          </div>
 
           <div className="grid grid-cols-3 gap-2">
             {(['opinion', 'contribution', 'accuracy'] as const).map((ev) => (
@@ -280,8 +316,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
                 ].join(' ')}
               >
                 {ev === 'opinion' && 'Opinion\nPulse'}
-                {ev === 'contribution' && 'Contribution\nPrompt'}
-                {ev === 'accuracy' && 'Accuracy\nChallenge'}
+                {ev === 'contribution' && 'Crew\nPrompt'}
+                {ev === 'accuracy' && 'Accuracy\nCheck'}
               </button>
             ))}
           </div>
@@ -316,12 +352,15 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           )}
         </div>
 
-        {/* Submissions Feed */}
-        <div className="bg-[#0d1f35] rounded-2xl border border-white/10 overflow-hidden">
+        {/* Needs Review */}
+        <div className="order-2 bg-[#0d1f35] rounded-2xl border border-white/10 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/8 gap-3">
-            <p className="text-xs text-white/40 uppercase tracking-widest font-medium shrink-0">
-              Submissions {isLoading ? '…' : `(${submissions.length})`}
-            </p>
+            <div className="min-w-0">
+              <p className="text-xs text-white/40 uppercase tracking-widest font-medium shrink-0">Needs Review</p>
+              <p className="mt-1 text-xs text-white/30">
+                {isLoading ? 'Loading...' : `${pendingCount} pending / ${approvedCount} ready`}
+              </p>
+            </div>
             {currentInputSpec?.gameKey && (
               <div className="flex rounded-lg overflow-hidden border border-white/10">
                 <button
@@ -380,6 +419,7 @@ interface SubmissionRowProps {
 function SubmissionRow({ sub, spotlighting, spotlightedIds, onSpotlight }: SubmissionRowProps) {
   const isSpotlighting = spotlighting === sub.id;
   const wasSpotlighted = spotlightedIds.has(sub.id);
+  const submissionLabel = getStageLabelForKey(sub.game_key) ?? sub.game_key;
 
   return (
     <div className="px-4 py-3 space-y-1.5">
@@ -387,9 +427,9 @@ function SubmissionRow({ sub, spotlighting, spotlightedIds, onSpotlight }: Submi
         <div className="min-w-0 flex-1 space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-semibold text-white">{sub.display_name}</span>
-            {sub.game_key && (
+            {submissionLabel && (
               <span className="text-xs font-mono bg-white/8 text-white/50 px-1.5 py-0.5 rounded">
-                {sub.game_key}
+                {submissionLabel}
               </span>
             )}
             <StatusBadge status={sub.status} />
@@ -409,7 +449,7 @@ function SubmissionRow({ sub, spotlighting, spotlightedIds, onSpotlight }: Submi
             isSpotlighting && 'opacity-50',
           ].join(' ')}
         >
-          {wasSpotlighted ? '✓ Sent' : isSpotlighting ? '…' : '✦ Spotlight'}
+          {wasSpotlighted ? 'Pick sent' : isSpotlighting ? '...' : "Captain's Pick"}
         </button>
       </div>
     </div>
@@ -427,7 +467,7 @@ function StatusBadge({ status }: { status: string }) {
   if (status === 'approved') {
     return (
       <span className="text-xs font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
-        approved
+        ready
       </span>
     );
   }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import type { Team } from '@/lib/supabase/types';
@@ -10,7 +11,7 @@ import { VALIDATION } from '@/lib/config/rate-limits';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { grammarReference } from '@/lib/grammar';
-import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, Send, Zap, Award, Wind } from 'lucide-react';
+import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, Send, Zap, Award, Wind, Radio, ClipboardCheck } from 'lucide-react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
 
@@ -168,6 +169,26 @@ const OUTCOME_LABELS: Record<string, string> = {
   'genuine': 'Submitted',
   'invalid': 'Not counted',
 };
+
+function getInputActionLabel(spec: InputSpec): string {
+  if (spec.gameKey === 'wonder-board') return 'Wonder Board';
+  if (spec.gameKey === 'language-toolkit') return 'Use a Term';
+  if (spec.type === 'binary') return 'Cast Vote';
+  if (spec.type === 'choice') return 'Choose';
+  if (spec.type === 'multi-select') return 'Select';
+  if (spec.type === 'sequence') return 'Build Signal';
+  if (spec.type === 'ranking') return 'Rank';
+  if (spec.type === 'error-correction') return 'Fix Signal';
+  if (spec.type === 'confirm') return 'Confirm';
+  if (spec.type === 'read-aloud') return 'Reading Queue';
+  if (spec.type === 'text' || spec.type === 'textarea') return 'Send Signal';
+  return 'Respond';
+}
+
+function getSignalName(gameKey: string | null | undefined): string {
+  if (!gameKey) return 'Crew Signal';
+  return getGame(gameKey)?.name ?? getActivity(gameKey)?.name ?? gameKey;
+}
 
 export function StudentController({ sessionId, studentSession, onLeave }: StudentControllerProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -666,6 +687,17 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     } catch { /* optimistic update stays */ }
   };
 
+  const currentSignalName = inputSpec ? getSignalName(inputSpec.gameKey) : null;
+  const connectionLabel =
+    connectionStatus === 'connected' ? 'Connected' :
+    connectionStatus === 'checking' ? 'Checking' :
+    'Offline';
+  const connectionClass =
+    connectionStatus === 'connected' ? 'bg-emerald-400 shadow-emerald-400/40' :
+    connectionStatus === 'checking' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
+    'bg-red-400 shadow-red-400/40';
+  const lastResultLabel = lastResult ? (OUTCOME_LABELS[lastResult.outcome] ?? lastResult.outcome) : null;
+
   if (!sessionActive) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -730,34 +762,46 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   return (
     <div className="min-h-screen p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <div className="relative glass rounded-2xl p-4 mb-4">
-        <img src="/lessoncaptain-mark-on-dark.svg" alt="LessonCaptain" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-8 pointer-events-none" />
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className={`w-3 h-3 rounded-full ${
-              connectionStatus === 'connected' ? 'bg-green-500' :
-              connectionStatus === 'checking' ? 'bg-yellow-500 animate-pulse' :
-              'bg-red-500'
-            }`} />
-            <div>
-              <p className="font-semibold text-white">{studentSession.displayName}</p>
+      <div className="relative overflow-hidden rounded-2xl border border-cyan-400/15 bg-slate-950/65 p-4 mb-4 shadow-[0_0_28px_rgba(34,211,238,0.08)]">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/50 to-transparent" />
+        <Image
+          src="/lessoncaptain-mark-on-dark.svg"
+          alt="LessonCaptain"
+          width={32}
+          height={32}
+          className="absolute left-1/2 top-4 h-8 w-auto -translate-x-1/2 opacity-30 pointer-events-none"
+        />
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className={`h-2.5 w-2.5 rounded-full shadow-lg ${connectionClass}`} />
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/70">Crew Console</p>
+            </div>
+            <p className="mt-1 truncate text-lg font-bold text-white">{studentSession.displayName}</p>
+            <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
+              <span>{connectionLabel}</span>
               {studentSession.team && (
-                <span className={`text-xs px-2 py-0.5 rounded-full ${
-                  studentSession.team === 'red' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
-                }`}>
-                  {studentSession.team === 'red' ? 'Red Team' : 'Blue Team'}
-                </span>
+                <>
+                  <span className="text-slate-600">/</span>
+                  <span className={studentSession.team === 'red' ? 'text-red-300' : 'text-blue-300'}>
+                    {studentSession.team === 'red' ? 'Red Team' : 'Blue Team'}
+                  </span>
+                </>
+              )}
+              {currentSignalName && (
+                <>
+                  <span className="text-slate-600">/</span>
+                  <span className="truncate text-cyan-200/80">{currentSignalName}</span>
+                </>
               )}
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onLeave}
-              className="text-gray-400 hover:text-white text-sm"
-            >
-              Leave
-            </button>
-          </div>
+          <button
+            onClick={onLeave}
+            className="min-h-10 shrink-0 rounded-xl border border-white/10 px-3 text-sm text-slate-300 transition-colors hover:border-white/25 hover:text-white"
+          >
+            Leave
+          </button>
         </div>
       </div>
 
@@ -815,9 +859,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {/* AI Feedback card — shown after auto-evaluated submission */}
       {latestFeedback && latestFeedback.submissionId !== seenFeedbackId && (
-        <div className="glass rounded-2xl p-4 mb-4 border border-cyan-500/20">
+        <div className="rounded-2xl border border-cyan-400/25 bg-cyan-400/8 p-4 mb-4 shadow-[0_0_24px_rgba(34,211,238,0.08)]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-cyan-400 uppercase tracking-widest">AI Feedback</span>
+            <span className="text-xs font-semibold text-cyan-300 uppercase tracking-widest">Flight Note</span>
             <div className="flex items-center gap-2">
               <span className="text-sm font-bold text-yellow-400">{latestFeedback.points} pts</span>
               <button
@@ -842,12 +886,13 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         const color = outcomeColor[lastResult.outcome] ?? 'text-gray-300';
         const showAccuracy = lastResult.accuracyStatus === 'correct' || lastResult.accuracyStatus === 'incorrect';
         return (
-          <div className="glass rounded-2xl px-4 py-3 mb-4 border border-white/10 flex items-center justify-between">
+          <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/8 px-4 py-3 mb-4 flex items-center justify-between shadow-[0_0_24px_rgba(52,211,153,0.08)]">
             <div className="flex items-center gap-3">
               <span className={`text-2xl font-game ${color}`}>
                 {lastResult.points > 0 ? `+${lastResult.points}` : '0'}
               </span>
               <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-300/70">Signal logged</p>
                 <p className={`text-sm font-semibold ${color}`}>{label}</p>
                 {showAccuracy && (
                   <p className={`text-xs ${lastResult.accuracyStatus === 'correct' ? 'text-emerald-400' : 'text-amber-400'}`}>
@@ -865,24 +910,28 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         );
       })()}
 
-      {/* Dynamic Input based on game/activity */}
-      <div className="glass rounded-2xl p-6 mb-4">
+      {/* Current Signal */}
+      <div className={`rounded-2xl p-5 mb-4 border transition-all ${
+        inputSpec
+          ? 'bg-slate-950/70 border-cyan-400/25 shadow-[0_0_32px_rgba(34,211,238,0.09)]'
+          : 'bg-white/5 border-white/10'
+      }`}>
         {inputSpec ? (
           transitionActivityName ? (
             <div
               className="flex flex-col items-center justify-center py-10 gap-3"
               style={{ animation: 'lc-fade-in 0.35s ease-out' }}
             >
-              <p className="text-[10px] uppercase tracking-widest text-gray-500">Up Next</p>
+              <p className="text-[10px] uppercase tracking-widest text-cyan-300/60">Signal incoming</p>
               <p className="text-xl font-bold text-white">{transitionActivityName}</p>
-              <p className="text-xs text-gray-400">Get ready…</p>
+              <p className="text-xs text-gray-400">Stand by...</p>
             </div>
           ) : frozen ? (
             <div className="text-center py-8">
               <div className="text-4xl mb-4">🔒</div>
-              <h2 className="font-bold text-white mb-2">Input Paused</h2>
+              <h2 className="font-bold text-white mb-2">Signal Paused</h2>
               <p className="text-gray-400 text-sm">
-                Your teacher has temporarily paused submissions.
+                Your teacher has temporarily paused student responses.
               </p>
             </div>
           ) : inputSpec.wonderFollowUpMode ? (
@@ -945,15 +994,20 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             </>
           ) : (
             <>
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="font-bold text-white">
-                  {inputSpec.gameKey === 'wonder-board' ? 'Wonder Board' : 'Submit Answer'}
-                </h2>
-                {inputSpec.gameKey !== 'wonder-board' && (
-                  <span className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full">
-                    {inputSpec.gameKey}
-                  </span>
-                )}
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <Radio className="h-4 w-4 text-cyan-300" />
+                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/70">Current Signal</p>
+                  </div>
+                  <h2 className="mt-1 text-xl font-bold text-white">{getInputActionLabel(inputSpec)}</h2>
+                  {currentSignalName && (
+                    <p className="mt-0.5 truncate text-xs text-slate-400">{currentSignalName}</p>
+                  )}
+                </div>
+                <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-cyan-200">
+                  Live
+                </span>
               </div>
               {inputSpec.gameKey === 'wonder-board' && !inputSpec.wonderParentId && (
                 <div className="flex items-center gap-2 mb-4">
@@ -1036,7 +1090,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             {/* Topic + difficulty context label */}
             {sessionTopic && (
               <div className="flex items-center gap-2">
-                <span className="text-[10px] text-gray-500 uppercase tracking-widest">Topic</span>
+                <span className="text-[10px] text-cyan-300/50 uppercase tracking-widest">Flight topic</span>
                 <span className="text-[10px] font-bold text-gray-300">{sessionTopic}</span>
                 <span className="text-gray-700">·</span>
                 <span className="text-[10px] text-gray-400">{sessionDifficulty}</span>
@@ -1078,7 +1132,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             {/* Waiting label */}
             <div className="flex flex-col items-center gap-2 py-2">
               <TakeoffSpark size={40} loading />
-              <p className="text-gray-500 text-xs uppercase tracking-widest">Waiting for your teacher…</p>
+              <p className="text-gray-500 text-xs uppercase tracking-widest">Standing by for captain signal...</p>
             </div>
           </div>
         )}
@@ -1210,13 +1264,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
         return (
           <div className="space-y-2 mb-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">Crew Tools</p>
             <div className="grid grid-cols-2 gap-2">
               {tiles.map((panel) => {
                 const labels: Record<string, string> = {
-                  vocab: 'Vocabulary',
-                  grammar: 'Grammar',
-                  expressions: 'Expressions',
-                  question: 'Ask a Question',
+                  vocab: 'Crew Notes',
+                  grammar: 'Grammar Check',
+                  expressions: 'Flight Phrases',
+                  question: 'Ask Captain',
                 };
                 const icons: Record<string, JSX.Element> = {
                   vocab: <BookOpen className="w-3.5 h-3.5" />,
@@ -1331,13 +1386,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       })()}
 
       {/* Your Flight — personal session progress */}
-      {responseCount > 0 && (
-        <div className="glass rounded-2xl px-4 py-3 mb-4">
+      <div className="glass rounded-2xl px-4 py-3 mb-4">
           <div className="flex items-center justify-between mb-1.5">
-            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Your Flight</p>
-            {lastResult && (
+            <p className="flex items-center gap-1.5 text-[10px] text-gray-500 uppercase tracking-wider">
+              <ClipboardCheck className="h-3 w-3" />
+              Flight Log
+            </p>
+            {lastResultLabel && (
               <p className="text-[10px] text-gray-400">
-                Last: {OUTCOME_LABELS[lastResult.outcome] ?? lastResult.outcome}
+                Last: {lastResultLabel}
               </p>
             )}
           </div>
@@ -1366,9 +1423,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             )}
           </div>
         </div>
-      )}
 
-      {/* My Flight Deck */}
+      {/* Flight Deck */}
       <div className="mt-2">
         <button
           onClick={() => setFlightDeckOpen((o) => !o)}
@@ -1380,7 +1436,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
             </svg>
-            <span className="text-xs font-semibold text-white">My Flight Deck</span>
+            <span className="text-xs font-semibold text-white">Flight Deck</span>
           </div>
           <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform ${flightDeckOpen ? '' : '-rotate-90'}`}
             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1414,7 +1470,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {/* Instructions */}
       <div className="mt-4 text-center text-gray-500 text-sm">
-        <p>Your answers will be reviewed by the teacher</p>
+        <p>Your signals are private unless your teacher spotlights them.</p>
       </div>
     </div>
   );
