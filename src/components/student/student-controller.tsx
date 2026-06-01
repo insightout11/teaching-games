@@ -1268,9 +1268,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             <div className="grid grid-cols-2 gap-2">
               {tiles.map((panel) => {
                 const labels: Record<string, string> = {
-                  vocab: 'Crew Notes',
+                  vocab: 'Vocabulary',
                   grammar: 'Grammar Check',
-                  expressions: 'Flight Phrases',
+                  expressions: 'Phrases',
                   question: 'Ask Captain',
                 };
                 const icons: Record<string, JSX.Element> = {
