@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import {
-  X, BookOpen, Search, ChevronRight, LayoutGrid, List, SlidersHorizontal, Images,
+  X, BookOpen, Search, ChevronRight, LayoutGrid, List, SlidersHorizontal, Images, Info, Clock,
   HeartPulse, Cpu, Leaf, Palette, GraduationCap, Brain, Briefcase, Newspaper, Users,
   Hammer, Trophy, Utensils, FlaskConical, Languages, PawPrint, Castle, TreePine,
   UserRound, Scale, Coins, Pickaxe, Heart, Compass, Sparkles, type LucideIcon,
@@ -149,6 +149,83 @@ function TextThumbnailSmall({ entry }: { entry: TextEntry }) {
   );
 }
 
+function TextDetailDrawer({
+  entry,
+  onClose,
+  onUse,
+}: {
+  entry: TextEntry;
+  onClose: () => void;
+  onUse: () => void;
+}) {
+  const cfg = SOURCE_CONFIG.find((s) => s.key === entry.sourceType);
+  const readMins = Math.ceil(entry.wordCount / 150);
+  return (
+    <div className="fixed inset-0 z-[100] flex justify-end">
+      <div className="absolute inset-0 bg-black/50 animate-in fade-in duration-150" onClick={onClose} />
+      <div className="relative w-full max-w-md h-full bg-lc-card border-l border-lc-border shadow-2xl shadow-black/50 flex flex-col animate-in slide-in-from-right duration-200">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-lc-border shrink-0">
+          <p className="text-sm font-semibold text-lc-text">Text details</p>
+          <button onClick={onClose} className="p-1.5 rounded-lg text-lc-text3 hover:text-lc-text hover:bg-lc-surface transition-colors">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-5 space-y-4">
+          <div className="relative w-full rounded-xl overflow-hidden" style={{ paddingBottom: '56.25%' }}>
+            <TextThumbnail entry={entry} />
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-lg font-bold text-lc-text leading-snug">{entry.title}</h3>
+            <div className="flex items-center gap-2 flex-wrap text-xs text-lc-text3">
+              <span>{entry.author}</span>
+              {cfg && <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${cfg.inactiveClass}`}>{cfg.label}</span>}
+              <span className="flex items-center gap-1"><Clock className="w-3 h-3" />~{readMins} min · {entry.wordCount} words</span>
+            </div>
+          </div>
+
+          {(entry.summary || entry.description) && (
+            <p className="text-sm text-lc-text3 leading-relaxed whitespace-pre-line">{entry.summary || entry.description}</p>
+          )}
+
+          {entry.slides && entry.slides.length > 0 && (
+            <div className="grid grid-cols-3 gap-2">
+              {entry.slides.slice(0, 6).map((s, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={s}
+                  alt=""
+                  className="w-full rounded-lg border border-lc-border object-cover"
+                  style={{ aspectRatio: '1 / 1' }}
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                />
+              ))}
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-1.5">
+            <span className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[11px] text-lc-text3">{entry.difficultyLevel}</span>
+            {entry.topicTags.map((t) => (
+              <span key={t} className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[11px] text-lc-text3 capitalize">{t}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="px-5 py-4 border-t border-lc-border shrink-0">
+          <button
+            onClick={onUse}
+            className="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold transition-colors"
+          >
+            Use this text
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface Props {
   onSelect: (entryId: string, source: TextSourceKey) => void;
   onClose?: () => void;
@@ -162,6 +239,7 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
   const [activeDifficulty, setActiveDifficulty] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [detail, setDetail] = useState<TextEntry | null>(null);
 
   const allTags = useMemo(
     () => Array.from(new Set(ALL_ENTRIES.flatMap((e) => e.topicTags))).sort(),
@@ -343,15 +421,20 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
             {filtered.map((entry) => (
               <button
                 key={entry.id}
-                onClick={() => onSelect(entry.id, entry.sourceType)}
+                onClick={() => setDetail(entry)}
                 className="group text-left rounded-xl overflow-hidden border border-lc-border hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-900/20 hover:scale-[1.02] transition-all duration-200 bg-lc-surface"
               >
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                   <TextThumbnail entry={entry} />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  {/* Persistent affordance: always signals the card opens details */}
+                  <span className="absolute top-1.5 right-1.5 z-10 flex items-center gap-1 rounded-full bg-black/65 px-1.5 py-0.5 text-[9px] font-semibold text-white/85 backdrop-blur-sm group-hover:bg-black/80 group-hover:text-white transition-colors">
+                    <Info className="w-2.5 h-2.5" />Details
+                  </span>
+                  <div className="absolute inset-0 bg-black/35 flex flex-col items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
                       <ChevronRight className="w-5 h-5 text-gray-900 ml-0.5" />
                     </div>
+                    <span className="text-[11px] font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">View details</span>
                   </div>
                 </div>
                 <div className="p-2.5 space-y-1">
@@ -376,7 +459,7 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
               return (
                 <button
                   key={entry.id}
-                  onClick={() => onSelect(entry.id, entry.sourceType)}
+                  onClick={() => setDetail(entry)}
                   className="group w-full text-left flex items-start gap-3 p-3 rounded-xl border border-lc-border hover:border-amber-500/40 hover:bg-lc-surface/60 transition-all bg-lc-surface"
                 >
                   <div className="relative shrink-0 w-24 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
@@ -401,12 +484,25 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                       ))}
                     </div>
                   </div>
+                  {/* Persistent affordance: row opens text details */}
+                  <div className="shrink-0 self-center flex items-center gap-1 text-lc-text3 group-hover:text-amber-400 transition-colors">
+                    <span className="hidden sm:inline text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity">View details</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </div>
                 </button>
               );
             })}
           </div>
         )}
       </div>
+
+      {detail && (
+        <TextDetailDrawer
+          entry={detail}
+          onClose={() => setDetail(null)}
+          onUse={() => { onSelect(detail.id, detail.sourceType); setDetail(null); }}
+        />
+      )}
     </div>
   );
 }
