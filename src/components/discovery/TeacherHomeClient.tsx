@@ -85,14 +85,14 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     setSelected(item);
   }
 
-  // DESCENT narrative: top = high cruise sky (ground pushed far below), bottom =
-  // runway/gate (the action point). Altitude falls as you scroll so the runway/skyline
-  // rise INTO view; weather color phases cross-fade cruise → approach → gate.
-  // parallaxScale amplifies the shift so the ground is genuinely OFF-SCREEN up high
-  // (SkyBackground's default parallax is too subtle to clear it). earthState stays
-  // 'takeoff' so nothing swaps/pops — the ground simply slides in from below.
+  // DESCENT narrative: top = high cruise sky, bottom = runway/gate (the action point).
+  // The ground is simply NOT RENDERED up high (showEarth=false) — the most reliable way
+  // to keep the hero in clean sky — then the runway appears and the city follows as you
+  // scroll down, with altitude parallax sliding them up into view.
+  const groundVisible = !reduce && depth > 0.42; // runway / apron
+  const cityVisible = !reduce && depth > 0.55; // distant skyline (appears a touch later)
   const skyPhase: 'idle' | 'cruising' | 'golden' =
-    reduce ? 'cruising' : depth < 0.33 ? 'cruising' : depth < 0.66 ? 'golden' : 'idle';
+    reduce ? 'cruising' : depth < 0.42 ? 'cruising' : depth < 0.7 ? 'golden' : 'idle';
   const skyAltitude = reduce ? 0.85 : (1 - depth) * 0.85;
 
   return (
@@ -102,14 +102,15 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
           runway glide vertically into place before the teacher scrolls. */}
       <SkyBackground
         weatherState={skyPhase}
-        earthState="takeoff"
+        earthState={groundVisible ? 'takeoff' : 'flight'}
         altitude={skyAltitude}
         altitudeInitial={reduce ? undefined : 1.1}
-        parallaxScale={3.5}
+        parallaxScale={2.5}
         parallaxDuration={0.7}
+        showEarth={groundVisible}
         showMoon={skyPhase === 'cruising'}
-        showRunwayMarkings
-        showSkyline
+        showRunwayMarkings={groundVisible}
+        showSkyline={cityVisible}
         intensity="subtle"
         className="md:!left-64"
       />

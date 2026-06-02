@@ -6,12 +6,12 @@
 // (line draws in, plane tracks across). One amber CTA + tactile source controls.
 // All motion transform/opacity only; disabled under prefers-reduced-motion.
 
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 import { Plane, ArrowRight, Video, FileText, Type } from 'lucide-react';
-import { usePlannerStore } from '@/stores/planner-store';
-import { getFeaturedPreset, getFeaturedRoute } from '@/lib/discovery-shelves';
+import { getFeaturedRoute } from '@/lib/discovery-shelves';
+import { FeaturedFlightLaunchModal } from './FeaturedFlightLaunchModal';
 
 // Subtle paper grain (tiled SVG noise).
 const GRAIN =
@@ -21,19 +21,19 @@ const GRAIN =
 const BARCODE = [3, 1, 2, 1, 1, 3, 1, 2, 2, 1, 3, 1, 1, 2, 1, 3, 2, 1, 1, 2, 1, 3, 1, 2, 1, 1, 2, 3, 1, 2, 1, 1];
 
 export function FeaturedFlightHero() {
-  const router = useRouter();
-  const loadPreset = usePlannerStore((s) => s.loadPreset);
   const reduce = useReducedMotion();
-  const preset = getFeaturedPreset();
   const route = getFeaturedRoute();
+  const [launchOpen, setLaunchOpen] = useState(false);
+  const [expandSource, setExpandSource] = useState(false);
 
-  function launch() {
-    if (preset) loadPreset(preset);
-    router.push('/lesson-planner');
+  function openLaunch(withSource: boolean) {
+    setExpandSource(withSource);
+    setLaunchOpen(true);
   }
 
   return (
     <div className="relative">
+      <FeaturedFlightLaunchModal open={launchOpen} expandSource={expandSource} onClose={() => setLaunchOpen(false)} />
       {/* Outer glow halo */}
       <div
         aria-hidden
@@ -96,7 +96,7 @@ export function FeaturedFlightHero() {
           <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-4">
             <button
               type="button"
-              onClick={launch}
+              onClick={() => openLaunch(false)}
               className="group inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-b from-lc-amber to-[#e08600] px-7 py-3.5 text-base font-bold text-[#1a0f00] shadow-[0_8px_24px_-6px_rgba(245,158,11,0.6)] transition-all hover:shadow-[0_10px_30px_-6px_rgba(245,158,11,0.85)] hover:brightness-105"
             >
               <Plane className="h-5 w-5" aria-hidden />
@@ -116,7 +116,7 @@ export function FeaturedFlightHero() {
                 <button
                   key={label}
                   type="button"
-                  onClick={launch}
+                  onClick={() => openLaunch(label !== 'Topic')}
                   className="inline-flex items-center gap-2 rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] px-4 py-3 text-sm font-medium text-lc-text2 transition-colors hover:border-cyan-300/55 hover:bg-cyan-300/12 hover:text-lc-text"
                 >
                   <ChipIcon className="h-[18px] w-[18px]" aria-hidden />
