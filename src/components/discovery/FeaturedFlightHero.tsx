@@ -6,7 +6,7 @@
 // (line draws in, plane tracks across). One amber CTA + tactile source controls.
 // All motion transform/opacity only; disabled under prefers-reduced-motion.
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 import { Plane, ArrowRight, Video, FileText, Type } from 'lucide-react';
@@ -207,6 +207,10 @@ function RouteStrip({
   const n = route.length;
   // Index of the waypoint the signal has reached; dots with index ≤ activeIdx are lit.
   const [activeIdx, setActiveIdx] = useState(reduce ? n - 1 : -1);
+  // Measured dot centers (px, relative to the track) so the signal lands exactly on them.
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dotRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const [dotXs, setDotXs] = useState<number[]>([]);
 
   useEffect(() => {
     if (reduce) {
@@ -233,7 +237,30 @@ function RouteStrip({
     return () => clearTimeout(timer);
   }, [reduce, n]);
 
-  const cometPct = activeIdx <= 0 ? 0 : (activeIdx / Math.max(1, n - 1)) * 100;
+  // Measure dot centers once laid out (and on resize) so the signal aligns precisely.
+  useEffect(() => {
+    const measure = () => {
+      const track = trackRef.current;
+      if (!track) return;
+      const base = track.getBoundingClientRect().left;
+      setDotXs(
+        dotRefs.current.map((d) => {
+          if (!d) return 0;
+          const r = d.getBoundingClientRect();
+          return r.left - base + r.width / 2;
+        }),
+      );
+    };
+    measure();
+    const settle = setTimeout(measure, 350); // re-measure after fonts/labels settle
+    window.addEventListener('resize', measure);
+    return () => {
+      clearTimeout(settle);
+      window.removeEventListener('resize', measure);
+    };
+  }, [n]);
+
+  const cometReady = !reduce && activeIdx >= 0 && dotXs.length === n;
 
   return (
     <div className="mt-11">
@@ -241,7 +268,7 @@ function RouteStrip({
         <span>Dep · Icebreaker</span>
         <span>Arr · Landing</span>
       </div>
-      <div className="relative pt-1.5">
+      <div ref={trackRef} className="relative pt-1.5">
         {/* Base track */}
         <div className="absolute left-0 right-0 top-[11px] h-px bg-cyan-300/15" />
         {/* Drawn line */}
@@ -251,13 +278,13 @@ function RouteStrip({
           animate={{ scaleX: 1 }}
           transition={{ duration: reduce ? 0 : 1.2, delay: 0.3, ease: [0.12, 0.8, 0.32, 1] }}
         />
-        {/* Signal — eases into each waypoint (easeInOut) and dwells there */}
-        {!reduce && activeIdx >= 0 && (
+        {/* Signal — eases into each waypoint (easeInOut), dwells, and lands on the dot */}
+        {cometReady && (
           <motion.div
             aria-hidden
-            className="absolute top-[11px] -translate-y-1/2"
-            initial={{ left: '0%' }}
-            animate={{ left: `${cometPct}%` }}
+            className="absolute top-[11px] -translate-x-1/2 -translate-y-1/2"
+            initial={false}
+            animate={{ left: dotXs[activeIdx] ?? 0 }}
             transition={{ duration: 0.45, ease: 'easeInOut' }}
           >
             <div className="relative">
@@ -280,6 +307,9 @@ function RouteStrip({
                 transition={{ duration: 0.35, delay: reduce ? 0 : 0.35 + i * 0.07 }}
               >
                 <span
+                  ref={(el) => {
+                    dotRefs.current[i] = el;
+                  }}
                   className={cn(
                     'h-4 w-4 rounded-full border-2 transition-all duration-300',
                     lit
