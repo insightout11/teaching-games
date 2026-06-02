@@ -89,8 +89,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
   // The ground is simply NOT RENDERED up high (showEarth=false) — the most reliable way
   // to keep the hero in clean sky — then the runway appears and the city follows as you
   // scroll down, with altitude parallax sliding them up into view.
-  const groundVisible = !reduce && depth > 0.42; // runway / apron
-  const cityVisible = !reduce && depth > 0.55; // distant skyline (appears a touch later)
+  // Runway + skyline appear together (one coherent airport on approach) — never
+  // runway-before-city.
+  const groundVisible = !reduce && depth > 0.42;
   const skyPhase: 'idle' | 'cruising' | 'golden' =
     reduce ? 'cruising' : depth < 0.42 ? 'cruising' : depth < 0.7 ? 'golden' : 'idle';
   const skyAltitude = reduce ? 0.85 : (1 - depth) * 0.85;
@@ -110,7 +111,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
         showEarth={groundVisible}
         showMoon={skyPhase === 'cruising'}
         showRunwayMarkings={groundVisible}
-        showSkyline={cityVisible}
+        showSkyline={groundVisible}
         intensity="subtle"
         className="md:!left-64"
       />
