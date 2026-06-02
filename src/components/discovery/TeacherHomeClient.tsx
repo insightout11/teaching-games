@@ -51,20 +51,31 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
   // Scroll-linked climb: gentle altitude rise drives the sky's parallax (gate → climb).
   useEffect(() => {
     if (reduce) return;
-    const scroller = wrapperRef.current?.closest('main');
-    if (!scroller) return;
+    // The dashboard <main> is overflow-auto but its parent isn't height-constrained,
+    // so depending on content the WINDOW may scroll instead of <main>. Listen to both
+    // and read depth from whichever is actually scrollable.
+    const main = wrapperRef.current?.closest('main') as HTMLElement | null;
     let raf = 0;
+    const compute = () => {
+      const doc = document.scrollingElement || document.documentElement;
+      const mainMax = main ? main.scrollHeight - main.clientHeight : 0;
+      const docMax = doc.scrollHeight - doc.clientHeight;
+      const { top, max } =
+        mainMax > 8
+          ? { top: main!.scrollTop, max: mainMax }
+          : { top: doc.scrollTop || window.scrollY, max: docMax };
+      setDepth(max > 0 ? Math.min(1, top / max) : 0);
+    };
     const onScroll = () => {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const max = scroller.scrollHeight - scroller.clientHeight;
-        setDepth(max > 0 ? Math.min(1, scroller.scrollTop / max) : 0);
-      });
+      raf = requestAnimationFrame(compute);
     };
-    scroller.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    main?.addEventListener('scroll', onScroll, { passive: true });
+    compute();
     return () => {
-      scroller.removeEventListener('scroll', onScroll);
+      window.removeEventListener('scroll', onScroll);
+      main?.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(raf);
     };
   }, [reduce]);
