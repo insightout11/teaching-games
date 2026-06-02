@@ -10,7 +10,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Clock, Users, Plus, ListPlus, ChevronLeft, Plane } from 'lucide-react';
+import { Clock, Users, Plus, ListPlus, ChevronLeft, Plane, Paperclip } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { cn } from '@/lib/utils';
@@ -67,6 +67,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
   const [newClassName, setNewClassName] = useState('');
   const [creatingClass, setCreatingClass] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [showOptionalSource, setShowOptionalSource] = useState(false);
 
   // Reset to overview + load classes whenever the drawer opens for an item.
   useEffect(() => {
@@ -74,6 +75,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
     setView('overview');
     setLaunching(false);
     setShowCreateClass(false);
+    setShowOptionalSource(!!usePlannerStore.getState().sourceMaterial);
     setClassesLoading(true);
     const supabase = createClient();
     supabase
@@ -273,8 +275,8 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                   Back to overview
                 </button>
 
-                {/* Source step — required for source-grounded activities */}
-                {requiresSource && (
+                {/* Source step — required for source-grounded activities, optional otherwise */}
+                {requiresSource ? (
                   <div className="rounded-xl border border-cyan-300/25 bg-cyan-300/[0.04] p-3">
                     <p className="font-instrument mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-cyan-300/85">
                       Add a {requiresSource === 'video' ? 'video' : 'reading'}
@@ -282,6 +284,29 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                     </p>
                     <SourceInputPanel />
                   </div>
+                ) : showOptionalSource ? (
+                  <div className="rounded-xl border border-lc-border bg-lc-surface/40 p-3">
+                    <div className="mb-2 flex items-center justify-between">
+                      <p className="font-instrument flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-lc-text3">
+                        Source
+                        <span className="rounded bg-white/5 px-1.5 py-0.5 text-[9px] tracking-normal text-lc-text3">Optional</span>
+                      </p>
+                      {!sourceAttached && (
+                        <button onClick={() => setShowOptionalSource(false)} className="text-[11px] text-lc-text3 hover:text-lc-text">
+                          Hide
+                        </button>
+                      )}
+                    </div>
+                    <SourceInputPanel />
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowOptionalSource(true)}
+                    className="inline-flex items-center gap-2 rounded-lg border border-lc-border bg-lc-surface px-3 py-2 text-sm text-lc-text2 transition-colors hover:border-cyan-400/40 hover:text-lc-text"
+                  >
+                    <Paperclip className="h-4 w-4" aria-hidden />
+                    Add a source <span className="text-lc-text3">(optional)</span>
+                  </button>
                 )}
 
                 <div className="flex gap-3">

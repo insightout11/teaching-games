@@ -85,12 +85,15 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     setSelected(item);
   }
 
-  // DESCENT narrative: top = high cruise sky, bottom = runway/gate (the action point).
-  // Altitude falls as you scroll, so the runway/skyline rise INTO view; weather color
-  // phases cross-fade cruise → approach → gate. earthState stays 'takeoff' (no pop).
+  // DESCENT narrative: top = high cruise sky (ground pushed far below), bottom =
+  // runway/gate (the action point). Altitude falls as you scroll so the runway/skyline
+  // rise INTO view; weather color phases cross-fade cruise → approach → gate.
+  // parallaxScale amplifies the shift so the ground is genuinely OFF-SCREEN up high
+  // (SkyBackground's default parallax is too subtle to clear it). earthState stays
+  // 'takeoff' so nothing swaps/pops — the ground simply slides in from below.
   const skyPhase: 'idle' | 'cruising' | 'golden' =
-    reduce ? 'idle' : depth < 0.33 ? 'cruising' : depth < 0.66 ? 'golden' : 'idle';
-  const skyAltitude = reduce ? 0 : (1 - depth) * 0.85;
+    reduce ? 'cruising' : depth < 0.33 ? 'cruising' : depth < 0.66 ? 'golden' : 'idle';
+  const skyAltitude = reduce ? 0.85 : (1 - depth) * 0.85;
 
   return (
     <div ref={wrapperRef} className="relative -mx-6 -mt-6 min-h-full lg:-mx-8 lg:-mt-8">
@@ -101,7 +104,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
         weatherState={skyPhase}
         earthState="takeoff"
         altitude={skyAltitude}
-        altitudeInitial={reduce ? undefined : 1}
+        altitudeInitial={reduce ? undefined : 1.1}
+        parallaxScale={3.5}
+        parallaxDuration={0.7}
         showMoon={skyPhase === 'cruising'}
         showRunwayMarkings
         showSkyline
