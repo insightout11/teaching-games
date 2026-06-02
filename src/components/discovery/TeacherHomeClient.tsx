@@ -7,14 +7,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useReducedMotion } from 'framer-motion';
 import { Compass, Library as LibraryIcon, Plane, ChevronRight } from 'lucide-react';
 import { SkyBackground } from '@/components/ui/sky-background';
-import { usePlannerStore } from '@/stores/planner-store';
 import { buildShelves, type DiscoveryItem } from '@/lib/discovery-shelves';
 import { FeaturedFlightHero } from './FeaturedFlightHero';
 import { DiscoveryShelf } from './DiscoveryShelf';
+import { DiscoveryDetailDrawer } from './DiscoveryDetailDrawer';
 
 export interface RecentSession {
   id: string;
@@ -42,11 +41,10 @@ function formatDate(iso: string) {
 }
 
 export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit }: TeacherHomeClientProps) {
-  const router = useRouter();
-  const seedWithModule = usePlannerStore((s) => s.seedWithModule);
   const reduce = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [depth, setDepth] = useState(0);
+  const [selected, setSelected] = useState<DiscoveryItem | null>(null);
 
   const shelves = buildShelves();
 
@@ -71,9 +69,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     };
   }, [reduce]);
 
+  // Card click opens a detail drawer (Library-style) — it never commits an action.
   function handleSelect(item: DiscoveryItem) {
-    seedWithModule(item.key, item.meta?.slotFit?.[0] ?? 'practice');
-    router.push('/lesson-planner');
+    setSelected(item);
   }
 
   return (
@@ -198,6 +196,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
           </section>
         </div>
       </div>
+
+      {/* Library-style detail drawer for the clicked activity/game */}
+      <DiscoveryDetailDrawer item={selected} onClose={() => setSelected(null)} />
     </div>
   );
 }

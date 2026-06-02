@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { DiscoveryItem } from '@/lib/discovery-shelves';
-import { LessonCard } from './LessonCard';
+import { DiscoveryCard } from './DiscoveryCard';
 
 interface DiscoveryShelfProps {
   label: string;
@@ -79,7 +79,7 @@ export function DiscoveryShelf({
       {isGrid ? (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
-            <LessonCard key={item.key} item={item} onSelect={onSelect} />
+            <DiscoveryCard key={item.key} item={item} onSelect={onSelect} />
           ))}
         </div>
       ) : (
@@ -106,7 +106,7 @@ export function DiscoveryShelf({
           >
             {items.map((item) => (
               <div key={item.key} className="w-[340px] shrink-0 snap-start">
-                <LessonCard item={item} onSelect={onSelect} />
+                <DiscoveryCard item={item} onSelect={onSelect} />
               </div>
             ))}
           </div>

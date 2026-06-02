@@ -1,11 +1,12 @@
 'use client';
 
-// Lesson-poster card for the Teacher Home shelves.
+// Discovery card for the Teacher Home shelves. Renders ACTIVITIES and GAMES (and,
+// later, lessons) — clicking opens a detail drawer; it never silently commits.
 //
 // CRITICAL: every decision metadatum is visible AT REST — hover does not exist on
 // touch devices. Each card belongs to a FAMILY (speaking/debate/game/vocab/grammar/
-// source) that drives its tone + a central motif, so the shelves read as distinct
-// families rather than repeated dark boxes. Metadata is reduced to four clear chips.
+// source) that drives its tone + a central motif, plus a TYPE label so an activity
+// is never mistaken for a lesson.
 
 import type { ComponentType } from 'react';
 import { cn } from '@/lib/utils';
@@ -17,10 +18,11 @@ import {
   getInteractionGlyphs,
   getCardFamily,
   getCardTone,
+  getTypeLabel,
   TONE_STYLES,
 } from '@/lib/discovery-shelves';
 
-interface LessonCardProps {
+interface DiscoveryCardProps {
   item: DiscoveryItem;
   onSelect: (item: DiscoveryItem) => void;
   /** Future personalization slot — flips class-size chip to "Best for your setup" when wired. */
@@ -36,10 +38,11 @@ const MODE_LABEL: Record<CardFamily, string> = {
   source: 'Source-based',
 };
 
-export function LessonCard({ item, onSelect, profile }: LessonCardProps) {
+export function DiscoveryCard({ item, onSelect, profile }: DiscoveryCardProps) {
   const Icon = item.icon;
   const family = getCardFamily(item);
   const tone = TONE_STYLES[getCardTone(item)];
+  const typeLabel = getTypeLabel(item);
   const glyphs = getInteractionGlyphs(item);
   const classSize = getClassSizeChip(item, profile);
   const source = getSourceChip(item);
@@ -49,7 +52,7 @@ export function LessonCard({ item, onSelect, profile }: LessonCardProps) {
     <button
       type="button"
       onClick={() => onSelect(item)}
-      aria-label={`${item.name} — ${item.useCase}, about ${item.estimatedMinutes} minutes, ${classSize}, ${mode}`}
+      aria-label={`${item.name} — ${typeLabel}, ${item.useCase}, about ${item.estimatedMinutes} minutes. Opens details.`}
       className={cn(
         'panel-card group/card relative flex h-full w-full flex-col overflow-hidden p-5 pt-6 text-left',
         'transition-transform duration-200 ease-out motion-safe:hover:-translate-y-1.5',
@@ -71,11 +74,11 @@ export function LessonCard({ item, onSelect, profile }: LessonCardProps) {
         )}
       </div>
 
-      {/* Title + use case */}
+      {/* Title + type · use case */}
       <div className="mt-4 min-w-0">
         <h3 className="text-[1.35rem] font-semibold leading-tight text-lc-text">{item.name}</h3>
         <p className="font-instrument mt-1 text-[10px] uppercase tracking-[0.16em] text-lc-text3">
-          {item.useCase}
+          <span className={tone.iconText}>{typeLabel}</span> · {item.useCase}
         </p>
       </div>
 
@@ -175,7 +178,6 @@ const GrammarMotif: ComponentType = () => (
   <svg viewBox="0 0 140 54" className="h-14 w-full" aria-hidden preserveAspectRatio="xMinYMid meet">
     <line x1="4" y1="18" x2="120" y2="18" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.4" />
     <line x1="4" y1="32" x2="92" y2="32" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.28" />
-    {/* proofreading caret + check */}
     <path d="M60 18 l6 9 l-12 0 Z" fill="currentColor" opacity="0.45" />
     <path d="M104 40 l6 7 l13 -16" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
   </svg>

@@ -168,6 +168,13 @@ export function getCardTone(item: DiscoveryItem): CardTone {
   return FAMILY_TONE[getCardFamily(item)];
 }
 
+/** Human label for what a card IS — so an activity never gets mistaken for a lesson. */
+export function getTypeLabel(item: DiscoveryItem): string {
+  if (item.type === 'game') return 'Game';
+  if (getCardFamily(item) === 'source') return 'Source activity';
+  return 'Activity';
+}
+
 export interface ToneStyle {
   bar: string;
   iconBg: string;
