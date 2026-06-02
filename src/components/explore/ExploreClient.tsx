@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Clock } from 'lucide-react';
+import { Clock, Search, X } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { createClient } from '@/lib/supabase/client';
@@ -73,6 +73,7 @@ export function ExploreClient() {
   const activities: ActivityPlugin[] = getAllActivities().filter((a) => !a.flightPlanOnly);
   const [filter, setFilter] = useState<FilterTab>('all');
   const [skillFilter, setSkillFilter] = useState<SkillFilter>('all');
+  const [search, setSearch] = useState('');
   const [launchItem, setLaunchItem] = useState<{ name: string; key: string; type: 'game' | 'activity' } | null>(null);
   const [classes, setClasses] = useState<Class[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
@@ -204,6 +205,20 @@ export function ExploreClient() {
     return skills.some((s) => filterSkills.includes(s));
   }
 
+  const query = search.trim().toLowerCase();
+  function matchesSearch(name: string, description: string, skills: string[]): boolean {
+    if (!query) return true;
+    return (
+      name.toLowerCase().includes(query) ||
+      description.toLowerCase().includes(query) ||
+      skills.some((s) => s.toLowerCase().includes(query))
+    );
+  }
+
+  const resultCount =
+    (showGames ? games.filter((g) => matchesSkillFilter(g.skills) && matchesSearch(g.name, g.description, g.skills)).length : 0) +
+    (showActivities ? activities.filter((a) => matchesSkillFilter(a.skills) && matchesSearch(a.name, a.description, a.skills)).length : 0);
+
   // Group games by category
   const gamesByCategory = games.reduce<Record<string, GamePlugin[]>>((acc, game) => {
     (acc[game.category] ??= []).push(game);
@@ -242,9 +257,31 @@ export function ExploreClient() {
 
   return (
     <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-lc-text">Explore</h1>
+      <div className="mb-5">
+        <h1 className="text-2xl font-bold text-lc-text">Browse</h1>
         <p className="text-lc-text2 mt-1">✈ Run a game or activity with your class</p>
+      </div>
+
+      {/* Search */}
+      <div className="relative mb-4 max-w-md">
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-lc-text3" aria-hidden />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search games and activities…"
+          aria-label="Search games and activities"
+          className="w-full rounded-lg border border-lc-border bg-lc-surface py-2 pl-9 pr-9 text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue/40"
+        />
+        {search && (
+          <button
+            onClick={() => setSearch('')}
+            aria-label="Clear search"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-lc-text3 transition-colors hover:text-lc-text"
+          >
+            <X className="h-4 w-4" aria-hidden />
+          </button>
+        )}
       </div>
 
       {/* Type filter tabs */}
@@ -301,11 +338,16 @@ export function ExploreClient() {
       </div>
 
       <div className="space-y-6">
+        {resultCount === 0 && (
+          <div className="rounded-xl border border-lc-border bg-lc-surface/40 px-6 py-10 text-center text-sm text-lc-text3">
+            No games or activities match{search ? ` “${search.trim()}”` : ' those filters'}.
+          </div>
+        )}
         {/* Games */}
         {showGames && gameCategoryOrder.map((cat) => {
           const allCatGames = gamesByCategory[cat];
           if (!allCatGames?.length) return null;
-          const catGames = allCatGames.filter((g) => matchesSkillFilter(g.skills));
+          const catGames = allCatGames.filter((g) => matchesSkillFilter(g.skills) && matchesSearch(g.name, g.description, g.skills));
           if (!catGames.length) return null;
           const info = GAME_CATEGORY_INFO[cat];
           const CatIcon = info.icon;
@@ -367,7 +409,7 @@ export function ExploreClient() {
         {showActivities && activityCategoryOrder.map((cat) => {
           const allCatActivities = activitiesByCategory[cat];
           if (!allCatActivities?.length) return null;
-          const catActivities = allCatActivities.filter((a) => matchesSkillFilter(a.skills));
+          const catActivities = allCatActivities.filter((a) => matchesSkillFilter(a.skills) && matchesSearch(a.name, a.description, a.skills));
           if (!catActivities.length) return null;
           const info = CATEGORY_INFO[cat];
           const CatIcon = info.icon;
