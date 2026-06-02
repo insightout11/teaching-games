@@ -39,14 +39,18 @@ export function FeaturedFlightHero() {
         aria-hidden
         className="pointer-events-none absolute -inset-x-10 -inset-y-8 rounded-[2.5rem] bg-[radial-gradient(60%_80%_at_28%_42%,rgba(34,211,238,0.20),transparent)] blur-2xl"
       />
+      {/* Grounded contact shadow — gives the pass weight on the scene */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-10 -bottom-5 h-10 rounded-[50%] bg-black/65 blur-2xl" />
 
       <motion.article
         initial={reduce ? false : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.12, 0.8, 0.32, 1] }}
         aria-label="Featured lesson: All-Around Flight"
-        className="relative flex flex-col overflow-hidden rounded-[1.5rem] border border-cyan-300/30 bg-gradient-to-br from-[#0b1c38]/90 to-[#060f1f]/92 shadow-[0_30px_90px_-22px_rgba(2,8,20,0.95),0_0_80px_-26px_rgba(34,211,238,0.5)] backdrop-blur-xl lg:flex-row"
+        className="relative flex flex-col overflow-hidden rounded-[1.5rem] border border-cyan-300/30 bg-gradient-to-br from-[#0b1c38]/90 to-[#060f1f]/92 shadow-[inset_0_1px_0_rgba(180,220,255,0.12),0_22px_44px_-12px_rgba(0,0,0,0.9),0_46px_96px_-30px_rgba(2,8,20,0.95),0_0_80px_-30px_rgba(34,211,238,0.42)] backdrop-blur-xl lg:flex-row"
       >
+        {/* Bottom paper edge — implies ticket thickness */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2 bg-gradient-to-t from-black/50 to-transparent" />
         {/* Paper grain */}
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: GRAIN, backgroundSize: '160px' }} />
         {/* Glass sheen */}
@@ -124,11 +128,11 @@ export function FeaturedFlightHero() {
         </div>
 
         {/* ── Perforated stub ──────────────────────────────────────── */}
-        <div className="relative shrink-0 border-t border-dashed border-cyan-300/30 bg-cyan-300/[0.05] p-7 lg:w-72 lg:border-l lg:border-t-0">
+        <div className="relative shrink-0 border-t-2 border-dashed border-cyan-300/35 bg-cyan-300/[0.05] p-7 lg:w-72 lg:border-l-2 lg:border-t-0 lg:shadow-[inset_12px_0_18px_-12px_rgba(0,0,0,0.6)]">
           {/* Hole-punch perforation along the seam (lg) */}
-          <div aria-hidden className="absolute left-0 top-0 hidden h-full -translate-x-1/2 flex-col items-center justify-around py-4 lg:flex">
-            {Array.from({ length: 11 }).map((_, i) => (
-              <span key={i} className="h-2.5 w-2.5 rounded-full bg-[#070B14]" />
+          <div aria-hidden className="absolute left-0 top-0 hidden h-full -translate-x-1/2 flex-col items-center justify-around py-3 lg:flex">
+            {Array.from({ length: 13 }).map((_, i) => (
+              <span key={i} className="h-3 w-3 rounded-full bg-[#070B14] shadow-[inset_0_1px_2px_rgba(0,0,0,0.7)]" />
             ))}
           </div>
           {/* Tear notches at seam ends */}

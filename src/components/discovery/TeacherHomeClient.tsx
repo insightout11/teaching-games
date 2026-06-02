@@ -85,10 +85,11 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     setSelected(item);
   }
 
-  // Scroll depth drives a real sky phase: gate → climb → cruise.
+  // Scroll depth drives a real sky phase: gate → climb → cruise. The weather color
+  // phases cross-fade (~3s) to carry the journey; earthState stays 'takeoff' so the
+  // runway/skyline RECEDE via rising altitude instead of being swapped out (no pop).
   const skyPhase: 'idle' | 'climbing' | 'cruising' =
-    reduce || depth < 0.22 ? 'idle' : depth < 0.6 ? 'climbing' : 'cruising';
-  const skyEarth: 'takeoff' | 'flight' = reduce || depth < 0.22 ? 'takeoff' : 'flight';
+    reduce || depth < 0.25 ? 'idle' : depth < 0.62 ? 'climbing' : 'cruising';
   const skyAltitude = reduce ? 0 : Math.min(0.92, depth * 1.05);
 
   return (
@@ -98,12 +99,12 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
           runway glide vertically into place before the teacher scrolls. */}
       <SkyBackground
         weatherState={skyPhase}
-        earthState={skyEarth}
+        earthState="takeoff"
         altitude={skyAltitude}
         altitudeInitial={reduce ? undefined : 0.55}
         showMoon={skyPhase === 'cruising'}
-        showRunwayMarkings={skyEarth === 'takeoff'}
-        showSkyline={skyEarth === 'takeoff'}
+        showRunwayMarkings
+        showSkyline
         intensity="subtle"
         className="md:!left-64"
       />
@@ -132,11 +133,16 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             )}
           </div>
 
-          {/* HERO — dominates the first viewport; heading is a quiet prompt */}
+          {/* HERO — dominates the first viewport; heading is a deliberate gate-board label */}
           <section className="flex min-h-[74vh] flex-col justify-center py-6">
-            <h1 className="mb-5 text-sm font-normal text-lc-text3">
-              What are you teaching today?
-            </h1>
+            <div className="mb-6 inline-flex w-fit items-center gap-3 rounded-lg border border-cyan-300/20 bg-[#040a14]/70 px-3.5 py-2 backdrop-blur-sm">
+              <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.85)] motion-safe:animate-pulse" aria-hidden />
+              <span className="font-instrument text-[11px] uppercase tracking-[0.24em] text-emerald-300/90">Now boarding</span>
+              <span className="h-3.5 w-px bg-cyan-300/20" aria-hidden />
+              <h1 className="font-instrument text-[11px] font-medium uppercase tracking-[0.18em] text-cyan-100/90">
+                What are you teaching today?
+              </h1>
+            </div>
             <FeaturedFlightHero />
             {isFirstVisit && (
               <p className="mt-5 text-sm text-lc-text3">
