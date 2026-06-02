@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { Clock, Users, Plus, ListPlus } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
+import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
@@ -23,6 +24,8 @@ import {
   getClassSizeChip,
   getSourceChip,
   getInteractionGlyphs,
+  getCardTone,
+  TONE_STYLES,
 } from '@/lib/discovery-shelves';
 
 interface ClassRow {
@@ -143,17 +146,26 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
       <Modal open={!!item && !showPaywall} onClose={() => { reset(); onClose(); }} title={item?.name}>
         {item && (
           <div className="space-y-5">
-            {/* Type + use case */}
-            <div className="flex items-center justify-between gap-2 -mt-2">
-              <p className="font-instrument text-[10px] uppercase tracking-[0.18em] text-cyan-300/80">
-                {getTypeLabel(item)} · {item.useCase}
-              </p>
-              {item.isPro && (
-                <span className="font-instrument rounded-full border border-lc-amber/40 bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-lc-amber">
-                  Pro
-                </span>
-              )}
-            </div>
+            {/* Inspection-card header: icon stamp + type · use case */}
+            {(() => {
+              const tone = TONE_STYLES[getCardTone(item)];
+              const Icon = item.icon;
+              return (
+                <div className="-mt-2 flex items-center gap-3">
+                  <span className={cn('flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border', tone.iconBg)}>
+                    <Icon className={cn('h-6 w-6', tone.iconText)} />
+                  </span>
+                  <p className="font-instrument min-w-0 flex-1 text-[10px] uppercase tracking-[0.18em] text-cyan-300/80">
+                    {getTypeLabel(item)} · {item.useCase}
+                  </p>
+                  {item.isPro && (
+                    <span className="font-instrument shrink-0 rounded-full border border-lc-amber/40 bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-lc-amber">
+                      Pro
+                    </span>
+                  )}
+                </div>
+              );
+            })()}
 
             <p className="text-sm leading-relaxed text-lc-text2">{item.description}</p>
 

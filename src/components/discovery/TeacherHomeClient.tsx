@@ -93,11 +93,14 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
 
   return (
     <div ref={wrapperRef} className="relative -mx-6 -mt-6 min-h-full lg:-mx-8 lg:-mt-8">
-      {/* Cinematic night-departure atmosphere; morphs gate → climb → cruise on scroll */}
+      {/* Cinematic night-departure atmosphere; morphs gate → climb → cruise on scroll.
+          altitudeInitial triggers a one-shot parallax "fly-in" on load — the clouds and
+          runway glide vertically into place before the teacher scrolls. */}
       <SkyBackground
         weatherState={skyPhase}
         earthState={skyEarth}
         altitude={skyAltitude}
+        altitudeInitial={reduce ? undefined : 0.55}
         showMoon={skyPhase === 'cruising'}
         showRunwayMarkings={skyEarth === 'takeoff'}
         intensity="subtle"
@@ -107,6 +110,14 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
       <div aria-hidden className="pointer-events-none fixed inset-x-0 bottom-0 z-[1] h-[55vh] md:!left-64">
         <div className="absolute -bottom-[12%] left-[14%] h-[45vh] w-[42%] rounded-full bg-[radial-gradient(closest-side,rgba(245,158,11,0.13),transparent)] blur-3xl" />
         <div className="absolute -bottom-[8%] right-[12%] h-[38vh] w-[36%] rounded-full bg-[radial-gradient(closest-side,rgba(34,211,238,0.10),transparent)] blur-3xl" />
+      </div>
+      {/* Parked aircraft at the gate — fades out as the scene climbs */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed -right-[3vw] bottom-0 z-[1] hidden h-[42vh] max-h-[440px] md:block"
+        style={{ opacity: reduce ? 0.8 : Math.max(0, 0.8 - depth * 2.4) }}
+      >
+        <GateAircraft />
       </div>
       {/* Legibility veil — sky stays vivid behind the hero, darkens over the shelves */}
       <div
@@ -222,5 +233,47 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
       {/* Library-style detail drawer for the clicked activity/game */}
       <DiscoveryDetailDrawer item={selected} onClose={() => setSelected(null)} />
     </div>
+  );
+}
+
+// Parked-jet silhouette (tail fin + fuselage) for the departure-lounge foreground.
+function GateAircraft() {
+  return (
+    <svg viewBox="0 0 360 360" className="h-full w-auto" preserveAspectRatio="xMaxYMax meet" aria-hidden>
+      <defs>
+        <linearGradient id="gate-ac" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#0b1b30" />
+          <stop offset="100%" stopColor="#03070f" />
+        </linearGradient>
+      </defs>
+      {/* fuselage band sitting on the apron */}
+      <rect x="0" y="306" width="360" height="70" rx="34" fill="url(#gate-ac)" />
+      {/* swept-back vertical tail fin */}
+      <path
+        d="M86 318 L250 318 L250 64 L150 64 Z"
+        fill="url(#gate-ac)"
+        stroke="rgba(120,200,255,0.20)"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      {/* leading-edge rim light */}
+      <line x1="150" y1="64" x2="86" y2="318" stroke="rgba(140,210,255,0.28)" strokeWidth="2" />
+      {/* livery chevron on the fin */}
+      <path d="M250 120 L168 96 L168 150 L250 168 Z" fill="rgba(34,211,238,0.07)" />
+      {/* tail navigation light */}
+      <circle cx="246" cy="70" r="3.5" fill="#ff5a5a" opacity="0.85" />
+      {/* lit cabin windows */}
+      {Array.from({ length: 7 }).map((_, i) => (
+        <rect
+          key={i}
+          x={36 + i * 30}
+          y="330"
+          width="11"
+          height="9"
+          rx="2"
+          fill={i % 4 === 3 ? '#0a1422' : 'rgba(245,205,130,0.55)'}
+        />
+      ))}
+    </svg>
   );
 }

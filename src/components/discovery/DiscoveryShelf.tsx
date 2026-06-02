@@ -27,7 +27,6 @@ export function DiscoveryShelf({
   viewAllHref = '/explore',
 }: DiscoveryShelfProps) {
   const shown = items.slice(0, PREVIEW_COUNT);
-  const total = items.length;
 
   return (
     <section aria-label={label}>
@@ -43,7 +42,7 @@ export function DiscoveryShelf({
             href={viewAllHref}
             className="font-instrument inline-flex shrink-0 items-center gap-1 text-[11px] uppercase tracking-wider text-cyan-300/80 transition-colors hover:text-cyan-200"
           >
-            View all{total > PREVIEW_COUNT ? ` · ${total}` : ''}
+            View all
             <ChevronRight className="h-3.5 w-3.5" aria-hidden />
           </Link>
         </div>

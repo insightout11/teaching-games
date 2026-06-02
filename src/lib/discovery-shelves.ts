@@ -178,6 +178,22 @@ export function getTypeLabel(item: DiscoveryItem): string {
   return 'Activity';
 }
 
+/** Short, decision-helpful "what students actually do" line for the card body. */
+export function getStudentAction(item: DiscoveryItem): string {
+  const m = item.meta?.interactionModel ?? [];
+  const family = getCardFamily(item);
+  if (family === 'source') return 'Runs on your video or reading';
+  if (m.includes('voting')) return 'Students vote from their phones';
+  if (m.includes('team-based') || m.includes('role-based')) return 'Teams compete in rounds';
+  if (m.includes('submission')) return 'Students type their answers';
+  if (family === 'debate') return 'Students take sides and argue';
+  if (item.type === 'game') return 'Fast, competitive rounds';
+  if (m.includes('discussion') || m.includes('performance') || family === 'speaking') {
+    return 'Students speak and react out loud';
+  }
+  return 'Whole-class participation';
+}
+
 export interface ToneStyle {
   bar: string;
   iconBg: string;
