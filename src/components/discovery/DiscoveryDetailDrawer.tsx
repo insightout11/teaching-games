@@ -19,6 +19,7 @@ import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
 import type { Topic, Difficulty } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
+import { SourceInputPanel } from '@/components/planner/source-input-panel';
 import {
   type DiscoveryItem,
   getTypeLabel,
@@ -48,7 +49,11 @@ function readLastClass(): ClassRow | null {
 export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem | null; onClose: () => void }) {
   const router = useRouter();
   const seedWithModule = usePlannerStore((s) => s.seedWithModule);
+  const sourceAttached = usePlannerStore((s) => s.sourceMaterial);
   const { loading: tierLoading, isPro, credits } = useTeacherTier();
+
+  // 'video' | 'text' when the activity needs a source; undefined when it doesn't.
+  const requiresSource = item?.meta?.requiresSource;
 
   const [view, setView] = useState<'overview' | 'setup'>('overview');
   const [classes, setClasses] = useState<ClassRow[]>([]);
@@ -130,6 +135,8 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
         /* ignore */
       }
       // One slot only — NO takeoff/landing wrapper. This is an activity, not a lesson.
+      // Carry the attached source through so source-grounded activities can generate.
+      const source = usePlannerStore.getState().sourceMaterial;
       sessionStorage.setItem(
         'lessonPlanContent',
         JSON.stringify({
@@ -138,6 +145,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
           slots: [{ type: item.type, key: item.key, name: item.name }],
           generatedContent: {},
           generatedGameContent: {},
+          ...(source ? { sourceMaterial: source } : {}),
         }),
       );
       window.location.href = `/sessions/${sessionId}`;
@@ -265,6 +273,17 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                   Back to overview
                 </button>
 
+                {/* Source step — required for source-grounded activities */}
+                {requiresSource && (
+                  <div className="rounded-xl border border-cyan-300/25 bg-cyan-300/[0.04] p-3">
+                    <p className="font-instrument mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-cyan-300/85">
+                      Add a {requiresSource === 'video' ? 'video' : 'reading'}
+                      <span className="rounded bg-cyan-300/15 px-1.5 py-0.5 text-[9px] tracking-normal text-cyan-100">Required</span>
+                    </p>
+                    <SourceInputPanel />
+                  </div>
+                )}
+
                 <div className="flex gap-3">
                   <div className="flex-1">
                     <label className="mb-1 block text-xs text-lc-text3">Topic</label>
@@ -366,11 +385,15 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                     <div className="sticky bottom-0 -mx-6 -mb-6 mt-5 border-t border-lc-border bg-lc-card/95 px-6 py-4 backdrop-blur">
                       <button
                         onClick={() => runWithClass(selectedClassId)}
-                        disabled={launching || !selectedClassId}
+                        disabled={launching || !selectedClassId || (!!requiresSource && !sourceAttached)}
                         className="flex w-full items-center justify-center gap-2 rounded-xl bg-lc-amber px-4 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90 disabled:opacity-50"
                       >
                         <Plane className="h-4 w-4" aria-hidden />
-                        {launching ? 'Starting…' : `Run in ${selectedName}`}
+                        {launching
+                          ? 'Starting…'
+                          : !!requiresSource && !sourceAttached
+                            ? `Add a ${requiresSource === 'video' ? 'video' : 'reading'} to run`
+                            : `Run in ${selectedName}`}
                       </button>
                     </div>
                   </div>

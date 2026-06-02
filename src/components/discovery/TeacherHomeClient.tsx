@@ -85,12 +85,12 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     setSelected(item);
   }
 
-  // Scroll depth drives a real sky phase: gate → climb → cruise. The weather color
-  // phases cross-fade (~3s) to carry the journey; earthState stays 'takeoff' so the
-  // runway/skyline RECEDE via rising altitude instead of being swapped out (no pop).
-  const skyPhase: 'idle' | 'climbing' | 'cruising' =
-    reduce || depth < 0.25 ? 'idle' : depth < 0.62 ? 'climbing' : 'cruising';
-  const skyAltitude = reduce ? 0 : Math.min(0.92, depth * 1.05);
+  // DESCENT narrative: top = high cruise sky, bottom = runway/gate (the action point).
+  // Altitude falls as you scroll, so the runway/skyline rise INTO view; weather color
+  // phases cross-fade cruise → approach → gate. earthState stays 'takeoff' (no pop).
+  const skyPhase: 'idle' | 'cruising' | 'golden' =
+    reduce ? 'idle' : depth < 0.33 ? 'cruising' : depth < 0.66 ? 'golden' : 'idle';
+  const skyAltitude = reduce ? 0 : (1 - depth) * 0.85;
 
   return (
     <div ref={wrapperRef} className="relative -mx-6 -mt-6 min-h-full lg:-mx-8 lg:-mt-8">
@@ -101,7 +101,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
         weatherState={skyPhase}
         earthState="takeoff"
         altitude={skyAltitude}
-        altitudeInitial={reduce ? undefined : 0.55}
+        altitudeInitial={reduce ? undefined : 1}
         showMoon={skyPhase === 'cruising'}
         showRunwayMarkings
         showSkyline
