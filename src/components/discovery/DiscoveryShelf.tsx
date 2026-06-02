@@ -77,7 +77,7 @@ export function DiscoveryShelf({
       </div>
 
       {isGrid ? (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <LessonCard key={item.key} item={item} onSelect={onSelect} />
           ))}
@@ -105,7 +105,7 @@ export function DiscoveryShelf({
             className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {items.map((item) => (
-              <div key={item.key} className="w-[244px] shrink-0 snap-start">
+              <div key={item.key} className="w-[300px] shrink-0 snap-start">
                 <LessonCard item={item} onSelect={onSelect} />
               </div>
             ))}

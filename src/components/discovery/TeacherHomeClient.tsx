@@ -1,15 +1,16 @@
 'use client';
 
-// Teacher Home — the "what should I run?" command center.
-// Twilight-cockpit backdrop (deep-night HUD), All-Around Flight hero, recent flights,
-// and teacher-job shelves. The brief: "here are today's best lesson routes for your
-// class," not "a catalog of stuff."
+// Teacher Home — the "Departure Lounge". A cinematic, full-width command center:
+// real night-sky atmosphere, an All-Around Flight boarding pass that dominates the
+// first viewport, a compact "previous flights" strip, then teacher-job shelves.
+// Brief: "here are today's best lesson routes for your class," not a catalog.
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useReducedMotion } from 'framer-motion';
-import { Compass, Library as LibraryIcon, Clock, ChevronRight, Plane } from 'lucide-react';
+import { Compass, Library as LibraryIcon, Plane, ChevronRight } from 'lucide-react';
+import { SkyBackground } from '@/components/ui/sky-background';
 import { usePlannerStore } from '@/stores/planner-store';
 import { buildShelves, type DiscoveryItem } from '@/lib/discovery-shelves';
 import { FeaturedFlightHero } from './FeaturedFlightHero';
@@ -36,22 +37,22 @@ function formatDate(iso: string) {
   const diffDays = Math.floor((Date.now() - d.getTime()) / 86_400_000);
   if (diffDays <= 0) return 'Today';
   if (diffDays === 1) return 'Yesterday';
-  if (diffDays < 7) return `${diffDays} days ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit }: TeacherHomeClientProps) {
   const router = useRouter();
   const seedWithModule = usePlannerStore((s) => s.seedWithModule);
-  const prefersReducedMotion = useReducedMotion();
+  const reduce = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [depth, setDepth] = useState(0);
 
   const shelves = buildShelves();
 
-  // Subtle scroll-driven depth (gate → cruise). Transform/opacity only; off when reduced-motion.
+  // Scroll-linked climb: gentle altitude rise drives the sky's parallax (gate → climb).
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    if (reduce) return;
     const scroller = wrapperRef.current?.closest('main');
     if (!scroller) return;
     let raf = 0;
@@ -68,142 +69,132 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
       scroller.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(raf);
     };
-  }, [prefersReducedMotion]);
+  }, [reduce]);
 
   function handleSelect(item: DiscoveryItem) {
-    const slot = item.meta?.slotFit?.[0] ?? 'practice';
-    seedWithModule(item.key, slot);
+    seedWithModule(item.key, item.meta?.slotFit?.[0] ?? 'practice');
     router.push('/lesson-planner');
   }
 
   return (
-    <div
-      ref={wrapperRef}
-      className="hud-bg relative -mx-6 -mt-6 min-h-full px-6 pb-16 pt-6 lg:-mx-8 lg:-mt-8 lg:px-8 lg:pt-8"
-    >
-      {/* Atmosphere: slow drifting cloud band + scroll-reactive cockpit glow */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="cloud-layer-far absolute left-0 top-[6%]" style={{ width: '200vw' }}>
-          <div className="h-40 w-[40vw] rounded-full bg-cyan-300/[0.04] blur-3xl" />
-          <div className="absolute left-[80vw] top-10 h-32 w-[34vw] rounded-full bg-sky-300/[0.035] blur-3xl" />
-        </div>
-        <div
-          className="absolute left-1/2 top-0 h-[70vh] w-[120vw] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgba(34,211,238,0.10),transparent)] blur-2xl"
-          style={{ transform: `translate(-50%, ${depth * 220}px)`, opacity: 0.45 + depth * 0.5 }}
-        />
-      </div>
+    <div ref={wrapperRef} className="relative -mx-6 -mt-6 min-h-full lg:-mx-8 lg:-mt-8">
+      {/* Cinematic night-departure atmosphere (covers the global golden sky on this route) */}
+      <SkyBackground
+        weatherState="idle"
+        earthState="takeoff"
+        altitude={reduce ? 0 : depth * 0.55}
+        showMoon
+        showRunwayMarkings
+        intensity="moderate"
+        className="md:!left-64"
+      />
+      {/* Legibility veil so text reads cleanly over the sky */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#060b16]/40 via-transparent to-[#060b16]/85"
+      />
 
-      <div className="relative mx-auto max-w-6xl space-y-10">
-        {/* Greeting */}
-        <header className="flex items-end justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-lc-text">What are you teaching today?</h1>
-            <p className="mt-1 text-sm text-lc-text3">
-              Start with a complete flight, or drop in a single activity.
+      <div className="relative z-10 px-6 pb-20 pt-7 lg:px-10">
+        <div className="mx-auto w-full max-w-[1500px]">
+          {/* Slim top bar */}
+          <div className="mb-2 flex items-center justify-between">
+            <p className="font-instrument text-[11px] uppercase tracking-[0.26em] text-cyan-300/80">
+              Departure Lounge
             </p>
+            {!isPro && (
+              <span className="font-instrument rounded-full border border-cyan-300/20 bg-white/[0.03] px-3 py-1 text-[11px] uppercase tracking-wider text-lc-text2">
+                {credits} Test Flight{credits === 1 ? '' : 's'} left
+              </span>
+            )}
           </div>
-          {!isPro && (
-            <span className="font-instrument shrink-0 rounded-full border border-lc-border bg-lc-card/70 px-3 py-1 text-[11px] uppercase tracking-wider text-lc-text2">
-              {credits} Test Flight{credits === 1 ? '' : 's'} left
-            </span>
-          )}
-        </header>
 
-        {/* First-visit nudge */}
-        {isFirstVisit && (
-          <div className="rounded-2xl border border-cyan-400/25 bg-cyan-500/[0.06] px-5 py-4 text-sm text-lc-text2">
-            New here? The best first run is a complete <span className="text-lc-text">All-Around Flight</span> —
-            warm-up, language, discussion, a game, and a landing, built around your topic in minutes.
-          </div>
-        )}
-
-        {/* Hero */}
-        <FeaturedFlightHero />
-
-        {/* Continue / Recent — "previous flights" */}
-        {recentSessions.length > 0 && (
-          <section aria-label="Recent lessons">
-            <h2 className="font-instrument mb-3 text-[11px] uppercase tracking-[0.18em] text-lc-text3">
-              Previous flights
-            </h2>
-            <div className="space-y-2">
-              {recentSessions.map((s) => (
-                <div
-                  key={s.id}
-                  className="flex items-center justify-between rounded-xl border border-lc-border bg-lc-card/70 px-5 py-3.5 transition-colors hover:border-lc-border-subtle"
-                >
-                  <div className="flex min-w-0 items-center gap-3">
-                    <Clock className="h-4 w-4 shrink-0 text-lc-text3" aria-hidden />
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-lc-text">{s.custom_topic || s.topic}</p>
-                      <p className="text-xs text-lc-text3">
-                        {s.class_name} · {formatDate(s.started_at)}
-                      </p>
-                    </div>
-                  </div>
-                  <Link
-                    href="/lesson-planner"
-                    className="ml-4 shrink-0 rounded-lg border border-lc-amber/30 px-3 py-1.5 text-xs font-semibold text-lc-amber transition-colors hover:border-lc-amber/60"
-                  >
-                    Run again
-                  </Link>
-                </div>
-              ))}
-            </div>
+          {/* HERO — dominates the first viewport */}
+          <section className="flex min-h-[74vh] flex-col justify-center py-6">
+            <h1 className="mb-7 max-w-2xl text-3xl font-bold leading-tight text-lc-text sm:text-[2.5rem]">
+              What are you teaching today?
+            </h1>
+            <FeaturedFlightHero />
+            {isFirstVisit && (
+              <p className="mt-5 text-sm text-lc-text3">
+                New here? Start with a complete flight — it sequences the whole lesson for you in minutes.
+              </p>
+            )}
           </section>
-        )}
 
-        {/* Teacher-job shelves */}
-        {shelves.map((shelf) => (
-          <DiscoveryShelf
-            key={shelf.id}
-            label={shelf.label}
-            description={shelf.description}
-            items={shelf.items}
-            onSelect={handleSelect}
-          />
-        ))}
+          {/* Previous flights — compact strip */}
+          {recentSessions.length > 0 && (
+            <section aria-label="Recent lessons" className="mt-6">
+              <h2 className="font-instrument mb-3 text-[11px] uppercase tracking-[0.2em] text-lc-text3">
+                Previous flights
+              </h2>
+              <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {recentSessions.map((s) => (
+                  <Link
+                    key={s.id}
+                    href="/lesson-planner"
+                    className="group flex w-56 shrink-0 items-center gap-3 rounded-xl border border-cyan-300/15 bg-white/[0.03] px-4 py-3 backdrop-blur-sm transition-colors hover:border-cyan-300/40 hover:bg-white/[0.06]"
+                  >
+                    <Plane className="h-4 w-4 shrink-0 rotate-45 text-cyan-300/70" aria-hidden />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-[13px] font-medium text-lc-text">
+                        {s.custom_topic || s.topic}
+                      </span>
+                      <span className="font-instrument block truncate text-[10px] uppercase tracking-wider text-lc-text3">
+                        {s.class_name} · {formatDate(s.started_at)}
+                      </span>
+                    </span>
+                    <span className="font-instrument text-[9px] uppercase tracking-wider text-lc-amber opacity-0 transition-opacity group-hover:opacity-100">
+                      Run
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
-        {/* Browse + Library entries */}
-        <section aria-label="Browse more" className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Link
-            href="/explore"
-            className="panel-card group flex items-center gap-4 p-5 transition-transform duration-200 motion-safe:hover:-translate-y-0.5"
-          >
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/15">
-              <Compass className="h-5 w-5 text-cyan-400" aria-hidden />
-            </span>
-            <span className="min-w-0">
-              <span className="block text-sm font-semibold text-lc-text">Browse all activities</span>
-              <span className="block text-[13px] text-lc-text3">Every game and activity, with filters.</span>
-            </span>
-            <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-lc-text3 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
-          </Link>
-          <Link
-            href="/library"
-            className="panel-card group flex items-center gap-4 p-5 transition-transform duration-200 motion-safe:hover:-translate-y-0.5"
-          >
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-lc-amber/15">
-              <LibraryIcon className="h-5 w-5 text-lc-amber" aria-hidden />
-            </span>
-            <span className="min-w-0">
-              <span className="block text-sm font-semibold text-lc-text">Open your library</span>
-              <span className="block text-[13px] text-lc-text3">Videos, readings, courses, and saved plans.</span>
-            </span>
-            <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-lc-text3 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
-          </Link>
-        </section>
+          {/* Teacher-job shelves */}
+          <div className="mt-14 space-y-12">
+            {shelves.map((shelf) => (
+              <DiscoveryShelf
+                key={shelf.id}
+                label={shelf.label}
+                description={shelf.description}
+                items={shelf.items}
+                onSelect={handleSelect}
+              />
+            ))}
+          </div>
 
-        {/* Fallback if every shelf was filtered out (shouldn't happen with the live catalog) */}
-        {shelves.length === 0 && (
-          <Link
-            href="/lesson-planner"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-lc-amber"
-          >
-            <Plane className="h-4 w-4" aria-hidden />
-            Plan a Flight
-          </Link>
-        )}
+          {/* Browse + Library */}
+          <section aria-label="Browse more" className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Link
+              href="/explore"
+              className="group flex items-center gap-4 rounded-2xl border border-cyan-300/15 bg-white/[0.03] p-5 backdrop-blur-sm transition-colors hover:border-cyan-300/40"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/15">
+                <Compass className="h-5 w-5 text-cyan-300" aria-hidden />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold text-lc-text">Browse all activities</span>
+                <span className="block text-[13px] text-lc-text3">Every game and activity, with filters.</span>
+              </span>
+              <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-lc-text3 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </Link>
+            <Link
+              href="/library"
+              className="group flex items-center gap-4 rounded-2xl border border-lc-amber/15 bg-white/[0.03] p-5 backdrop-blur-sm transition-colors hover:border-lc-amber/40"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-lc-amber/15">
+                <LibraryIcon className="h-5 w-5 text-lc-amber" aria-hidden />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold text-lc-text">Open your library</span>
+                <span className="block text-[13px] text-lc-text3">Videos, readings, courses, and saved plans.</span>
+              </span>
+              <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-lc-text3 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </Link>
+          </section>
+        </div>
       </div>
     </div>
   );
