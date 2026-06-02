@@ -89,9 +89,11 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
   // The ground is simply NOT RENDERED up high (showEarth=false) — the most reliable way
   // to keep the hero in clean sky — then the runway appears and the city follows as you
   // scroll down, with altitude parallax sliding them up into view.
-  // Runway + skyline appear together (one coherent airport on approach) — never
-  // runway-before-city.
-  const groundVisible = !reduce && depth > 0.42;
+  // Ground (runway + skyline together) FADES in/out with scroll rather than toggling,
+  // so scrolling back up never pops. earthState only flips to 'takeoff' once the ground
+  // is essentially invisible, so the terrain swap + takeoff sun cross-fade smoothly too.
+  const earthOpacity = reduce ? 0 : Math.max(0, Math.min(1, (depth - 0.3) / 0.22));
+  const skyEarthState: 'flight' | 'takeoff' = reduce || depth < 0.32 ? 'flight' : 'takeoff';
   const skyPhase: 'idle' | 'cruising' | 'golden' =
     reduce ? 'cruising' : depth < 0.42 ? 'cruising' : depth < 0.7 ? 'golden' : 'idle';
   const skyAltitude = reduce ? 0.85 : (1 - depth) * 0.85;
@@ -103,15 +105,16 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
           runway glide vertically into place before the teacher scrolls. */}
       <SkyBackground
         weatherState={skyPhase}
-        earthState={groundVisible ? 'takeoff' : 'flight'}
+        earthState={skyEarthState}
         altitude={skyAltitude}
         altitudeInitial={reduce ? undefined : 3.2}
         parallaxScale={1.6}
         parallaxDuration={0.9}
-        showEarth={groundVisible}
+        showEarth
+        earthOpacity={earthOpacity}
         showMoon
-        showRunwayMarkings={groundVisible}
-        showSkyline={groundVisible}
+        showRunwayMarkings
+        showSkyline
         intensity="subtle"
         className="md:!left-64"
       />

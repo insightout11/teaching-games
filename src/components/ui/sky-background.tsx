@@ -15,6 +15,7 @@ interface SkyBackgroundProps {
   showCityLights?: boolean;
   showRunwayMarkings?: boolean; // converging lines, centerline dashes, edge lights (default true)
   showEarth?: boolean;         // render the ground/runway EarthLayer at all (default true)
+  earthOpacity?: number;       // 0–1 fade for the ground/runway/skyline layer (default 1) — lets the ground fade in/out smoothly instead of toggling
   showMoon?: boolean;          // force the moon visible regardless of weather (default false)
   showSkyline?: boolean;       // distant destination city skyline at the horizon (default false)
   intensity?: 'subtle' | 'moderate';
@@ -637,6 +638,7 @@ export function SkyBackground({
   showCityLights = true,
   showRunwayMarkings = true,
   showEarth = true,
+  earthOpacity = 1,
   showMoon = false,
   showSkyline = false,
   intensity = 'moderate',
@@ -768,8 +770,8 @@ export function SkyBackground({
         <motion.div
           className="absolute bottom-0 right-0"
           style={{ zIndex: 3, left: '-64px' }}
-          initial={{ y: earthShiftInit, x: earthXInit }}
-          animate={{ y: earthShift, x: earthX }}
+          initial={{ y: earthShiftInit, x: earthXInit, opacity: earthOpacity }}
+          animate={{ y: earthShift, x: earthX, opacity: earthOpacity }}
           transition={{ duration: parallaxDuration, ease: parallaxEase }}
         >
           <EarthLayer earthState={earthState} weatherState={weatherState} animate={animateGround} showCityLights={showCityLights} showRunwayMarkings={showRunwayMarkings} showSkyline={showSkyline} />
