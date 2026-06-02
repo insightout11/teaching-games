@@ -328,7 +328,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   },
   {
     id: 'all-around-flight-60',
-    name: 'All-Around Flight',
+    name: "Captain's Flight",
     description: 'Flagship ESL journey: prediction, source briefing, language toolkit, quick pulse, mission prep, accuracy check, council, game, landing',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
@@ -381,7 +381,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       },
     },
     scenarios: {
-      label: 'Choose an all-around lesson theme',
+      label: 'Choose a lesson theme',
       placeholder: 'e.g. Should schools use AI tutors?',
       options: [
         'Technology and daily life',

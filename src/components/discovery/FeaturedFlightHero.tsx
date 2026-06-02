@@ -47,7 +47,7 @@ export function FeaturedFlightHero() {
         initial={reduce ? false : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.12, 0.8, 0.32, 1] }}
-        aria-label="Featured lesson: All-Around Flight"
+        aria-label="Featured lesson: Captain's Flight"
         className="relative flex flex-col overflow-hidden rounded-[1.5rem] border border-cyan-300/30 bg-gradient-to-br from-[#0b1c38]/90 to-[#060f1f]/92 shadow-[inset_0_1px_0_rgba(180,220,255,0.12),0_22px_44px_-12px_rgba(0,0,0,0.9),0_46px_96px_-30px_rgba(2,8,20,0.95),0_0_80px_-30px_rgba(34,211,238,0.42)] backdrop-blur-xl lg:flex-row"
       >
         {/* Bottom paper edge — implies ticket thickness */}
@@ -84,7 +84,7 @@ export function FeaturedFlightHero() {
           </div>
 
           <h2 className="font-game mt-5 text-[2.8rem] leading-[0.92] text-lc-text sm:text-[4rem]">
-            All-Around Flight
+            Captain&apos;s Flight
           </h2>
           <p className="mt-4 max-w-md text-base text-lc-text2">
             One complete live lesson, built around any topic, video, or article.
