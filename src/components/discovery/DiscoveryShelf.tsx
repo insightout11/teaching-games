@@ -84,18 +84,18 @@ export function DiscoveryShelf({
         </div>
       ) : (
         <div className="relative">
-          {/* Edge fade masks */}
+          {/* Edge fade masks — soft, so the peeking card invites scrolling (not "cut off") */}
           <div
             aria-hidden
             className={cn(
-              'pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-lc-bg to-transparent transition-opacity',
+              'pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[#070B14]/55 to-transparent transition-opacity',
               canLeft ? 'opacity-100' : 'opacity-0',
             )}
           />
           <div
             aria-hidden
             className={cn(
-              'pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-lc-bg to-transparent transition-opacity',
+              'pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-[#070B14]/55 to-transparent transition-opacity',
               canRight ? 'opacity-100' : 'opacity-0',
             )}
           />
@@ -105,7 +105,7 @@ export function DiscoveryShelf({
             className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {items.map((item) => (
-              <div key={item.key} className="w-[300px] shrink-0 snap-start">
+              <div key={item.key} className="w-[340px] shrink-0 snap-start">
                 <LessonCard item={item} onSelect={onSelect} />
               </div>
             ))}

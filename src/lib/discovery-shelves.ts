@@ -140,14 +140,32 @@ export function getInteractionGlyphs(item: DiscoveryItem): GlyphChip[] {
 
 export type CardTone = 'cyan' | 'violet' | 'emerald' | 'amber' | 'rose' | 'sky';
 
-export function getCardTone(item: DiscoveryItem): CardTone {
-  if (item.meta?.requiresSource) return 'amber';
-  if (item.type === 'game') return 'violet';
+/** Card family drives tone + the in-card motif, so each use case reads distinctly. */
+export type CardFamily = 'speaking' | 'debate' | 'game' | 'vocab' | 'grammar' | 'source';
+
+const SPEAKING_SKILLS = ['Speaking', 'Fluency', 'Pragmatics', 'Persuasion', 'Role-play', 'Question Formation'];
+
+export function getCardFamily(item: DiscoveryItem): CardFamily {
+  if (item.meta?.requiresSource || item.useCase === 'Learning Modules') return 'source';
+  if (item.type === 'game') return 'game';
   const goals = item.meta?.goalFit ?? [];
-  if (item.useCase === 'Vocabulary' || goals.includes('vocabulary-building')) return 'emerald';
-  if (item.useCase === 'Debates' || goals.includes('discussion-debate')) return 'rose';
-  if (item.useCase === 'Grammar & Writing' || goals.includes('grammar-reinforcement')) return 'sky';
-  return 'cyan';
+  if (item.useCase === 'Debates' || goals.includes('discussion-debate')) return 'debate';
+  if (item.useCase === 'Vocabulary' || goals.includes('vocabulary-building')) return 'vocab';
+  if (item.useCase === 'Grammar & Writing' || goals.includes('grammar-reinforcement')) return 'grammar';
+  return 'speaking';
+}
+
+const FAMILY_TONE: Record<CardFamily, CardTone> = {
+  speaking: 'cyan',
+  debate: 'rose',
+  game: 'violet',
+  vocab: 'emerald',
+  grammar: 'sky',
+  source: 'amber',
+};
+
+export function getCardTone(item: DiscoveryItem): CardTone {
+  return FAMILY_TONE[getCardFamily(item)];
 }
 
 export interface ToneStyle {
@@ -201,6 +219,8 @@ export interface ShelfDefinition {
   label: string;
   description: string;
   predicate: (item: DiscoveryItem) => boolean;
+  /** Keys to front-load (in order) so the strongest fits lead the shelf. */
+  priority?: string[];
 }
 
 const STARTER_FAVORITE_KEYS = new Set([
@@ -219,13 +239,24 @@ export const SHELVES: ShelfDefinition[] = [
     id: 'speaking',
     label: 'Get them speaking',
     description: 'High-talk activities that pull every student into the conversation.',
+    priority: [
+      'decision-council',
+      'conversation-rounds',
+      'scene-igniter',
+      'hot-take-arena',
+      'expert-panel',
+      'scenario-simulator',
+      'would-you-rather',
+      'rank-it',
+    ],
     predicate: (i) => {
       const goals = i.meta?.goalFit ?? [];
       return (
         i.meta?.speakingLoad === 'high' ||
         goals.includes('speaking-fluency') ||
         goals.includes('discussion-debate') ||
-        goals.includes('confidence-building')
+        i.useCase === 'Debates' ||
+        i.skills.some((s) => SPEAKING_SKILLS.includes(s))
       );
     },
   },
@@ -233,26 +264,32 @@ export const SHELVES: ShelfDefinition[] = [
     id: 'end-with-a-game',
     label: 'End with a game',
     description: 'Fast, competitive rounds to close class on a high.',
+    priority: ['flash-quiz', 'connections', 'grid-rush', 'sector-strike', 'word-chain', 'brain-teasers'],
     predicate: (i) => i.type === 'game',
   },
   {
     id: 'quick',
     label: 'Ready in 5–10 minutes',
     description: 'Drop-in moments for the gap at the start, middle, or end.',
+    priority: ['quick-pulse', 'would-you-rather', 'prediction-round', 'flash-quiz'],
     predicate: (i) => i.estimatedMinutes <= 10,
   },
   {
     id: 'source',
     label: 'Bring a video or article',
     description: 'Built to run on top of a clip, reading, or PDF you already have.',
-    predicate: (i) => i.meta?.requiresSource != null,
+    priority: ['read-aloud', 'video-player', 'listening-gap-fill', 'dialogue-detective'],
+    predicate: (i) => i.meta?.requiresSource != null || i.useCase === 'Learning Modules',
   },
   {
     id: 'vocabulary',
     label: 'Vocabulary builders',
     description: 'Grow and stress-test word knowledge.',
+    priority: ['vocab-sprint', 'synonym-showdown', 'word-chain', 'vocab-radar', 'password'],
     predicate: (i) =>
-      i.useCase === 'Vocabulary' || (i.meta?.goalFit ?? []).includes('vocabulary-building'),
+      i.useCase === 'Vocabulary' ||
+      (i.meta?.goalFit ?? []).includes('vocabulary-building') ||
+      i.skills.includes('Vocabulary'),
   },
   {
     id: 'starters',
@@ -262,12 +299,21 @@ export const SHELVES: ShelfDefinition[] = [
   },
 ];
 
-/** Build the ordered shelves, dropping any that don't have enough items to look intentional. */
+/** Build the ordered shelves, front-loading priority keys and dropping thin shelves. */
 export function buildShelves(minItems = 3): Array<ShelfDefinition & { items: DiscoveryItem[] }> {
   const all = getDiscoveryItems();
-  return SHELVES.map((shelf) => ({ ...shelf, items: all.filter(shelf.predicate) })).filter(
-    (shelf) => shelf.items.length >= minItems,
-  );
+  return SHELVES.map((shelf) => {
+    let items = all.filter(shelf.predicate);
+    if (shelf.priority) {
+      const order = shelf.priority;
+      const rank = (k: string) => {
+        const idx = order.indexOf(k);
+        return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
+      };
+      items = [...items].sort((a, b) => rank(a.key) - rank(b.key));
+    }
+    return { ...shelf, items };
+  }).filter((shelf) => shelf.items.length >= minItems);
 }
 
 // ─── Featured flight (All-Around Flight) ──────────────────────────────────────

@@ -51,6 +51,8 @@ export function FeaturedFlightHero() {
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: GRAIN, backgroundSize: '160px' }} />
         {/* Glass sheen */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/[0.07] to-transparent" />
+        {/* Warm paper tint — keeps it from reading as a cold HUD panel */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(85%_70%_at_95%_112%,rgba(245,158,11,0.12),transparent)]" />
         {/* Corner registration marks */}
         <CornerMarks />
         {/* Scanning sheen */}
@@ -98,9 +100,9 @@ export function FeaturedFlightHero() {
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </button>
 
-            <div className="flex items-center gap-2">
-              <span className="font-instrument mr-1 text-[10px] uppercase tracking-[0.18em] text-lc-text3">
-                Start from
+            <div className="flex items-center gap-2.5">
+              <span className="font-instrument mr-0.5 text-[10px] uppercase tracking-[0.18em] text-lc-text3">
+                or from
               </span>
               {[
                 { icon: Video, label: 'Video' },
@@ -111,9 +113,9 @@ export function FeaturedFlightHero() {
                   key={label}
                   type="button"
                   onClick={launch}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-300/20 bg-cyan-300/[0.04] px-3 py-2 text-sm text-lc-text2 transition-colors hover:border-cyan-300/50 hover:bg-cyan-300/10 hover:text-lc-text"
+                  className="inline-flex items-center gap-2 rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] px-4 py-3 text-sm font-medium text-lc-text2 transition-colors hover:border-cyan-300/55 hover:bg-cyan-300/12 hover:text-lc-text"
                 >
-                  <ChipIcon className="h-4 w-4" aria-hidden />
+                  <ChipIcon className="h-[18px] w-[18px]" aria-hidden />
                   {label}
                 </button>
               ))}
