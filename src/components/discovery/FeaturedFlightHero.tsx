@@ -6,10 +6,11 @@
 // (line draws in, plane tracks across). One amber CTA + tactile source controls.
 // All motion transform/opacity only; disabled under prefers-reduced-motion.
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 import { Plane, ArrowRight, Video, FileText, Type } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { getFeaturedRoute } from '@/lib/discovery-shelves';
 import { FeaturedFlightLaunchModal } from './FeaturedFlightLaunchModal';
 
@@ -194,7 +195,8 @@ function CornerMarks() {
   );
 }
 
-// ── Route strip: drawn line + traveling plane + waypoints ─────────────────────
+// ── Route strip: drawn line + a signal that eases into each waypoint, dwells, and
+//    lights it up as it passes ──────────────────────────────────────────────────
 function RouteStrip({
   route,
   reduce,
@@ -202,6 +204,37 @@ function RouteStrip({
   route: { label: string; kind: 'stage' | 'micro-event' | 'end-game' | 'landing' }[];
   reduce: boolean;
 }) {
+  const n = route.length;
+  // Index of the waypoint the signal has reached; dots with index ≤ activeIdx are lit.
+  const [activeIdx, setActiveIdx] = useState(reduce ? n - 1 : -1);
+
+  useEffect(() => {
+    if (reduce) {
+      setActiveIdx(n - 1);
+      return;
+    }
+    let idx = -1;
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      idx += 1;
+      if (idx >= n) {
+        setActiveIdx(n - 1); // hold the fully-lit route
+        timer = setTimeout(() => {
+          idx = -1;
+          setActiveIdx(-1); // reset dark, then sweep again
+          timer = setTimeout(tick, 700);
+        }, 1600);
+        return;
+      }
+      setActiveIdx(idx);
+      timer = setTimeout(tick, 600); // dwell at each dot (≈ travel 0.45s + brief pause)
+    };
+    timer = setTimeout(tick, 900);
+    return () => clearTimeout(timer);
+  }, [reduce, n]);
+
+  const cometPct = activeIdx <= 0 ? 0 : (activeIdx / Math.max(1, n - 1)) * 100;
+
   return (
     <div className="mt-11">
       <div className="font-instrument mb-4 flex items-center justify-between text-[9px] uppercase tracking-[0.22em] text-lc-text3">
@@ -218,15 +251,14 @@ function RouteStrip({
           animate={{ scaleX: 1 }}
           transition={{ duration: reduce ? 0 : 1.2, delay: 0.3, ease: [0.12, 0.8, 0.32, 1] }}
         />
-        {/* Traveling signal — a comet of light running the route (reads as motion
-            without a mis-oriented plane glyph) */}
-        {!reduce && (
+        {/* Signal — eases into each waypoint (easeInOut) and dwells there */}
+        {!reduce && activeIdx >= 0 && (
           <motion.div
             aria-hidden
             className="absolute top-[11px] -translate-y-1/2"
-            initial={{ left: '0%', opacity: 0 }}
-            animate={{ left: ['0%', '100%'], opacity: [0, 1, 1, 0] }}
-            transition={{ duration: 3, delay: 1.3, repeat: Infinity, repeatDelay: 1.8, ease: 'easeInOut' }}
+            initial={{ left: '0%' }}
+            animate={{ left: `${cometPct}%` }}
+            transition={{ duration: 0.45, ease: 'easeInOut' }}
           >
             <div className="relative">
               <div className="absolute right-1 top-1/2 h-[3px] w-16 -translate-y-1/2 rounded-full bg-gradient-to-l from-cyan-200 to-transparent" />
@@ -236,29 +268,40 @@ function RouteStrip({
         )}
 
         <ol className="relative flex justify-between">
-          {route.map((wp, i) => (
-            <motion.li
-              key={`${wp.label}-${i}`}
-              className="flex flex-col items-center gap-2.5"
-              initial={reduce ? false : { opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: reduce ? 0 : 0.35 + i * 0.07 }}
-            >
-              <span
-                className={
-                  'h-4 w-4 rounded-full border-2 ' +
-                  (wp.kind === 'landing'
-                    ? 'border-lc-amber bg-lc-amber/40 shadow-[0_0_10px_rgba(245,158,11,0.7)]'
-                    : wp.kind === 'end-game'
-                      ? 'border-cyan-100 bg-cyan-300/50'
-                      : 'border-cyan-300/70 bg-[#0a1a33]')
-                }
-              />
-              <span className="font-instrument hidden text-[9px] uppercase tracking-wider text-lc-text3 sm:block">
-                {wp.label}
-              </span>
-            </motion.li>
-          ))}
+          {route.map((wp, i) => {
+            const lit = i <= activeIdx;
+            const isLanding = wp.kind === 'landing';
+            return (
+              <motion.li
+                key={`${wp.label}-${i}`}
+                className="flex flex-col items-center gap-2.5"
+                initial={reduce ? false : { opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: reduce ? 0 : 0.35 + i * 0.07 }}
+              >
+                <span
+                  className={cn(
+                    'h-4 w-4 rounded-full border-2 transition-all duration-300',
+                    lit
+                      ? isLanding
+                        ? 'border-lc-amber bg-lc-amber shadow-[0_0_14px_rgba(245,158,11,0.95)]'
+                        : 'border-cyan-100 bg-cyan-200 shadow-[0_0_14px_rgba(34,211,238,0.95)]'
+                      : isLanding
+                        ? 'border-lc-amber/45 bg-lc-amber/10'
+                        : 'border-cyan-300/45 bg-[#0a1a33]',
+                  )}
+                />
+                <span
+                  className={cn(
+                    'font-instrument hidden text-[9px] uppercase tracking-wider transition-colors duration-300 sm:block',
+                    lit ? 'text-cyan-100' : 'text-lc-text3',
+                  )}
+                >
+                  {wp.label}
+                </span>
+              </motion.li>
+            );
+          })}
         </ol>
       </div>
     </div>
