@@ -105,8 +105,8 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
         weatherState={skyPhase}
         earthState={groundVisible ? 'takeoff' : 'flight'}
         altitude={skyAltitude}
-        altitudeInitial={reduce ? undefined : 2.5}
-        parallaxScale={2.5}
+        altitudeInitial={reduce ? undefined : 3.2}
+        parallaxScale={1.6}
         parallaxDuration={0.9}
         showEarth={groundVisible}
         showMoon
