@@ -133,6 +133,67 @@ export function getInteractionGlyphs(item: DiscoveryItem): GlyphChip[] {
   return glyphs;
 }
 
+// ─── Per-use-case card identity ───────────────────────────────────────────────
+// Each card gets a "tone" so speaking / games / source / vocab / debate / grammar
+// read as distinct families rather than repeated dark boxes. Class strings are
+// literal so Tailwind's JIT picks them up.
+
+export type CardTone = 'cyan' | 'violet' | 'emerald' | 'amber' | 'rose' | 'sky';
+
+export function getCardTone(item: DiscoveryItem): CardTone {
+  if (item.meta?.requiresSource) return 'amber';
+  if (item.type === 'game') return 'violet';
+  const goals = item.meta?.goalFit ?? [];
+  if (item.useCase === 'Vocabulary' || goals.includes('vocabulary-building')) return 'emerald';
+  if (item.useCase === 'Debates' || goals.includes('discussion-debate')) return 'rose';
+  if (item.useCase === 'Grammar & Writing' || goals.includes('grammar-reinforcement')) return 'sky';
+  return 'cyan';
+}
+
+export interface ToneStyle {
+  bar: string;
+  iconBg: string;
+  iconText: string;
+  glyph: string;
+  fill: string;
+  glow: string;
+}
+
+export const TONE_STYLES: Record<CardTone, ToneStyle> = {
+  cyan: {
+    bar: 'bg-cyan-400', iconBg: 'border-cyan-300/25 bg-cyan-400/10', iconText: 'text-cyan-300',
+    glyph: 'text-cyan-300/80', fill: 'bg-cyan-400', glow: 'group-hover/card:shadow-[0_0_30px_-8px_rgba(34,211,238,0.5)]',
+  },
+  violet: {
+    bar: 'bg-violet-400', iconBg: 'border-violet-300/25 bg-violet-400/10', iconText: 'text-violet-300',
+    glyph: 'text-violet-300/80', fill: 'bg-violet-400', glow: 'group-hover/card:shadow-[0_0_30px_-8px_rgba(167,139,250,0.5)]',
+  },
+  emerald: {
+    bar: 'bg-emerald-400', iconBg: 'border-emerald-300/25 bg-emerald-400/10', iconText: 'text-emerald-300',
+    glyph: 'text-emerald-300/80', fill: 'bg-emerald-400', glow: 'group-hover/card:shadow-[0_0_30px_-8px_rgba(52,211,153,0.5)]',
+  },
+  amber: {
+    bar: 'bg-amber-400', iconBg: 'border-amber-300/25 bg-amber-400/10', iconText: 'text-amber-300',
+    glyph: 'text-amber-300/80', fill: 'bg-amber-400', glow: 'group-hover/card:shadow-[0_0_30px_-8px_rgba(245,158,11,0.5)]',
+  },
+  rose: {
+    bar: 'bg-rose-400', iconBg: 'border-rose-300/25 bg-rose-400/10', iconText: 'text-rose-300',
+    glyph: 'text-rose-300/80', fill: 'bg-rose-400', glow: 'group-hover/card:shadow-[0_0_30px_-8px_rgba(251,113,133,0.5)]',
+  },
+  sky: {
+    bar: 'bg-sky-400', iconBg: 'border-sky-300/25 bg-sky-400/10', iconText: 'text-sky-300',
+    glyph: 'text-sky-300/80', fill: 'bg-sky-400', glow: 'group-hover/card:shadow-[0_0_30px_-8px_rgba(56,189,248,0.5)]',
+  },
+};
+
+/** Energy level (1–3) for the card's little energy meter. */
+export function getEnergyLevel(item: DiscoveryItem): number {
+  const e = item.meta?.energy;
+  if (e === 'high') return 3;
+  if (e === 'low') return 1;
+  return 2;
+}
+
 // ─── Shelves (teacher jobs, not internal categories) ──────────────────────────
 
 export interface ShelfDefinition {

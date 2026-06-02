@@ -85,13 +85,13 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
         altitude={reduce ? 0 : depth * 0.55}
         showMoon
         showRunwayMarkings
-        intensity="moderate"
+        intensity="subtle"
         className="md:!left-64"
       />
-      {/* Legibility veil so text reads cleanly over the sky */}
+      {/* Legibility veil — sky stays vivid behind the hero, darkens over the shelves */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#060b16]/40 via-transparent to-[#060b16]/85"
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#060b16]/30 via-[#060b16]/55 to-[#060b16]/92"
       />
 
       <div className="relative z-10 px-6 pb-20 pt-7 lg:px-10">
@@ -108,9 +108,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             )}
           </div>
 
-          {/* HERO — dominates the first viewport */}
+          {/* HERO — dominates the first viewport; heading is a quiet prompt */}
           <section className="flex min-h-[74vh] flex-col justify-center py-6">
-            <h1 className="mb-7 max-w-2xl text-3xl font-bold leading-tight text-lc-text sm:text-[2.5rem]">
+            <h1 className="mb-5 text-sm font-normal text-lc-text3">
               What are you teaching today?
             </h1>
             <FeaturedFlightHero />
@@ -165,33 +165,35 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             ))}
           </div>
 
-          {/* Browse + Library */}
-          <section aria-label="Browse more" className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {/* Catalog + Library — two distinct destinations */}
+          <section aria-label="Browse more" className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Link
               href="/explore"
-              className="group flex items-center gap-4 rounded-2xl border border-cyan-300/15 bg-white/[0.03] p-5 backdrop-blur-sm transition-colors hover:border-cyan-300/40"
+              className="group relative flex items-center gap-5 overflow-hidden rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/[0.10] to-transparent p-6 backdrop-blur-sm transition-colors hover:border-cyan-300/50"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/15">
-                <Compass className="h-5 w-5 text-cyan-300" aria-hidden />
+              <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-cyan-400/70" />
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-cyan-300/25 bg-cyan-400/10">
+                <Compass className="h-7 w-7 text-cyan-300" aria-hidden />
               </span>
               <span className="min-w-0">
-                <span className="block text-sm font-semibold text-lc-text">Browse all activities</span>
-                <span className="block text-[13px] text-lc-text3">Every game and activity, with filters.</span>
+                <span className="block text-base font-semibold text-lc-text">Open Activity Catalog</span>
+                <span className="mt-0.5 block text-[13px] text-lc-text3">Browse every game and activity, with filters.</span>
               </span>
-              <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-lc-text3 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              <ChevronRight className="ml-auto h-5 w-5 shrink-0 text-cyan-300/70 transition-transform group-hover:translate-x-1" aria-hidden />
             </Link>
             <Link
               href="/library"
-              className="group flex items-center gap-4 rounded-2xl border border-lc-amber/15 bg-white/[0.03] p-5 backdrop-blur-sm transition-colors hover:border-lc-amber/40"
+              className="group relative flex items-center gap-5 overflow-hidden rounded-2xl border border-lc-amber/25 bg-gradient-to-br from-lc-amber/[0.10] to-transparent p-6 backdrop-blur-sm transition-colors hover:border-lc-amber/50"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-lc-amber/15">
-                <LibraryIcon className="h-5 w-5 text-lc-amber" aria-hidden />
+              <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-lc-amber/70" />
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-lc-amber/25 bg-lc-amber/10">
+                <LibraryIcon className="h-7 w-7 text-lc-amber" aria-hidden />
               </span>
               <span className="min-w-0">
-                <span className="block text-sm font-semibold text-lc-text">Open your library</span>
-                <span className="block text-[13px] text-lc-text3">Videos, readings, courses, and saved plans.</span>
+                <span className="block text-base font-semibold text-lc-text">Open Source Library</span>
+                <span className="mt-0.5 block text-[13px] text-lc-text3">Your videos, readings, courses, and saved plans.</span>
               </span>
-              <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-lc-text3 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              <ChevronRight className="ml-auto h-5 w-5 shrink-0 text-lc-amber/70 transition-transform group-hover:translate-x-1" aria-hidden />
             </Link>
           </section>
         </div>
