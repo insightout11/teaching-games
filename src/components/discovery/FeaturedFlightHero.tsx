@@ -214,15 +214,20 @@ function RouteStrip({
           animate={{ scaleX: 1 }}
           transition={{ duration: reduce ? 0 : 1.2, delay: 0.3, ease: [0.12, 0.8, 0.32, 1] }}
         />
-        {/* Traveling plane */}
+        {/* Traveling signal — a comet of light running the route (reads as motion
+            without a mis-oriented plane glyph) */}
         {!reduce && (
           <motion.div
-            className="absolute top-[1px] -ml-2.5 text-cyan-100 drop-shadow-[0_0_7px_rgba(34,211,238,0.95)]"
+            aria-hidden
+            className="absolute top-[11px] -translate-y-1/2"
             initial={{ left: '0%', opacity: 0 }}
             animate={{ left: ['0%', '100%'], opacity: [0, 1, 1, 0] }}
-            transition={{ duration: 3.4, delay: 1.3, repeat: Infinity, repeatDelay: 1.6, ease: 'easeInOut' }}
+            transition={{ duration: 3, delay: 1.3, repeat: Infinity, repeatDelay: 1.8, ease: 'easeInOut' }}
           >
-            <Plane className="h-5 w-5 rotate-90" aria-hidden />
+            <div className="relative">
+              <div className="absolute right-1 top-1/2 h-[3px] w-16 -translate-y-1/2 rounded-full bg-gradient-to-l from-cyan-200 to-transparent" />
+              <div className="h-2.5 w-2.5 rounded-full bg-cyan-50 shadow-[0_0_14px_4px_rgba(34,211,238,0.95)]" />
+            </div>
           </motion.div>
         )}
 

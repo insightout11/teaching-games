@@ -74,22 +74,33 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     setSelected(item);
   }
 
+  // Scroll depth drives a real sky phase: gate → climb → cruise.
+  const skyPhase: 'idle' | 'climbing' | 'cruising' =
+    reduce || depth < 0.22 ? 'idle' : depth < 0.6 ? 'climbing' : 'cruising';
+  const skyEarth: 'takeoff' | 'flight' = reduce || depth < 0.22 ? 'takeoff' : 'flight';
+  const skyAltitude = reduce ? 0 : Math.min(0.92, depth * 1.05);
+
   return (
     <div ref={wrapperRef} className="relative -mx-6 -mt-6 min-h-full lg:-mx-8 lg:-mt-8">
-      {/* Cinematic night-departure atmosphere (covers the global golden sky on this route) */}
+      {/* Cinematic night-departure atmosphere; morphs gate → climb → cruise on scroll */}
       <SkyBackground
-        weatherState="idle"
-        earthState="takeoff"
-        altitude={reduce ? 0 : depth * 0.55}
-        showMoon
-        showRunwayMarkings
+        weatherState={skyPhase}
+        earthState={skyEarth}
+        altitude={skyAltitude}
+        showMoon={skyPhase === 'cruising'}
+        showRunwayMarkings={skyEarth === 'takeoff'}
         intensity="subtle"
         className="md:!left-64"
       />
+      {/* Gate / apron glow — warms the airfield into a lit "departure lounge" */}
+      <div aria-hidden className="pointer-events-none fixed inset-x-0 bottom-0 z-[1] h-[55vh] md:!left-64">
+        <div className="absolute -bottom-[12%] left-[14%] h-[45vh] w-[42%] rounded-full bg-[radial-gradient(closest-side,rgba(245,158,11,0.13),transparent)] blur-3xl" />
+        <div className="absolute -bottom-[8%] right-[12%] h-[38vh] w-[36%] rounded-full bg-[radial-gradient(closest-side,rgba(34,211,238,0.10),transparent)] blur-3xl" />
+      </div>
       {/* Legibility veil — sky stays vivid behind the hero, darkens over the shelves */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#060b16]/30 via-[#060b16]/55 to-[#060b16]/92"
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#060b16]/25 via-[#060b16]/55 to-[#060b16]/92"
       />
 
       <div className="relative z-10 px-6 pb-20 pt-7 lg:px-10">

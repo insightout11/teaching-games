@@ -62,23 +62,28 @@ export function DiscoveryCard({ item, onSelect, profile }: DiscoveryCardProps) {
       {/* Top accent bar — family identity */}
       <span aria-hidden className={cn('absolute inset-x-0 top-0 h-1', tone.bar)} />
 
-      {/* Header: family icon + Pro flag */}
+      {/* Header: family icon + type/Pro tags */}
       <div className="flex items-start justify-between gap-2">
         <span className={cn('flex h-12 w-12 items-center justify-center rounded-xl border', tone.iconBg)}>
           <Icon className={cn('h-6 w-6', tone.iconText)} />
         </span>
-        {item.isPro && (
-          <span className="font-instrument rounded-full border border-lc-amber/40 bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-lc-amber">
-            Pro
+        <div className="flex items-center gap-1.5">
+          {item.isPro && (
+            <span className="font-instrument rounded-md border border-lc-amber/40 bg-lc-amber/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-lc-amber">
+              Pro
+            </span>
+          )}
+          <span className={cn('font-instrument rounded-md border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em]', tone.iconBg, tone.iconText)}>
+            {typeLabel}
           </span>
-        )}
+        </div>
       </div>
 
-      {/* Title + type · use case */}
+      {/* Title + use case */}
       <div className="mt-4 min-w-0">
         <h3 className="text-[1.35rem] font-semibold leading-tight text-lc-text">{item.name}</h3>
         <p className="font-instrument mt-1 text-[10px] uppercase tracking-[0.16em] text-lc-text3">
-          <span className={tone.iconText}>{typeLabel}</span> · {item.useCase}
+          {item.useCase}
         </p>
       </div>
 
@@ -87,12 +92,16 @@ export function DiscoveryCard({ item, onSelect, profile }: DiscoveryCardProps) {
         <CardMotif family={family} />
       </div>
 
-      {/* Four clear chips for fast decisions */}
-      <div className="flex flex-wrap gap-1.5">
-        <Chip>{item.estimatedMinutes} min</Chip>
-        <Chip>{classSize}</Chip>
-        <Chip accentClass={tone.iconText}>{mode}</Chip>
-        <Chip>{source}</Chip>
+      {/* Ticket-stub: perforated tear + side notches + four clear chips */}
+      <div className="relative -mx-5 border-t border-dashed border-white/15 px-5 pt-4">
+        <span aria-hidden className="absolute -left-2 -top-2 h-4 w-4 rounded-full bg-[#070B14]" />
+        <span aria-hidden className="absolute -right-2 -top-2 h-4 w-4 rounded-full bg-[#070B14]" />
+        <div className="flex flex-wrap gap-1.5">
+          <Chip>{item.estimatedMinutes} min</Chip>
+          <Chip>{classSize}</Chip>
+          <Chip accentClass={tone.iconText}>{mode}</Chip>
+          <Chip>{source}</Chip>
+        </div>
       </div>
     </button>
   );

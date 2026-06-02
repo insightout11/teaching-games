@@ -155,12 +155,15 @@ export function getCardFamily(item: DiscoveryItem): CardFamily {
   return 'speaking';
 }
 
+// Tightened, controlled aviation palette: cyan is the core/default (speaking +
+// grammar), amber = source/boarding, emerald = vocab/growth; violet & rose are used
+// sparingly for games & debate accents only.
 const FAMILY_TONE: Record<CardFamily, CardTone> = {
   speaking: 'cyan',
   debate: 'rose',
   game: 'violet',
   vocab: 'emerald',
-  grammar: 'sky',
+  grammar: 'cyan',
   source: 'amber',
 };
 
@@ -276,8 +279,8 @@ export const SHELVES: ShelfDefinition[] = [
   },
   {
     id: 'quick',
-    label: 'Ready in 5–10 minutes',
-    description: 'Drop-in moments for the gap at the start, middle, or end.',
+    label: 'Short class moments',
+    description: 'Quick activities for the gap at the start, middle, or end of class.',
     priority: ['quick-pulse', 'would-you-rather', 'prediction-round', 'flash-quiz'],
     predicate: (i) => i.estimatedMinutes <= 10,
   },
