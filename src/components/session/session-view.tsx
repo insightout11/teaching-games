@@ -417,6 +417,47 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return () => ch.close();
   }, [session.id]);
 
+  // Receive cross-device answer display events from the teacher cockpit.
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') return;
+
+    const client = createClient();
+    const channel = client
+      .channel(`session-screen-answer:${session.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'session_private_state',
+          filter: `session_id=eq.${session.id}`,
+        },
+        (payload: { new: unknown }) => {
+          const row = payload.new as {
+            key: string;
+            payload?: { type?: string; question?: string; answer?: string };
+          } | null;
+
+          if (
+            row?.key === 'screen-answer' &&
+            row.payload?.type === 'screen-answer' &&
+            row.payload.question &&
+            row.payload.answer
+          ) {
+            setScreenAnswer({
+              question: row.payload.question,
+              answer: row.payload.answer,
+            });
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      client.removeChannel(channel);
+    };
+  }, [session.id]);
+
   // Teacher tier — used to gate Pro modules in the selection grid
   const teacherTier = useTeacherTier();
   // Separate from lesson.creditsExhausted (which fires on 402 from generate route);
@@ -446,16 +487,21 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (idx === 0) return 'climbing';
     if (idx >= totalSlots - 1) return 'landing';
     const progress = idx / (totalSlots - 1);
-    if (progress < 0.35) return 'climbing';
-    if (progress < 0.65) return 'cruising';
+    // Wide cruise window so you're "over the ocean" for most of the flight (the ocean
+    // only renders during cruising) — and the ocean drift stays continuous instead of
+    // appearing/vanishing in a narrow band.
+    if (progress < 0.2) return 'climbing';
+    if (progress < 0.8) return 'cruising';
     return 'golden';
   }, [lesson.isLessonActive, lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length]);
 
   const altitude = useMemo(
     () => {
       if (!lesson.isLessonActive) return 0.8;
-      if (lesson.lessonSlots.length <= 1) return 0.75;
-      return computeAltitude(lesson.currentSlotIndex, lesson.lessonSlots.length);
+      if (lesson.lessonSlots.length <= 1) return 0.6;
+      // Cap cruise altitude — at peak (1) the parallax pushes the ocean down behind the
+      // panels; keeping it lower leaves a visible ocean band under the flight.
+      return Math.min(0.6, computeAltitude(lesson.currentSlotIndex, lesson.lessonSlots.length));
     },
     [lesson.isLessonActive, lesson.currentSlotIndex, lesson.lessonSlots.length],
   );
@@ -887,8 +933,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       if (nextIndex >= totalSlots - 1) toWeather = 'landing';
       else if (totalSlots > 1) {
         const progress = nextIndex / (totalSlots - 1);
-        if (progress < 0.35) toWeather = 'climbing';
-        else if (progress < 0.65) toWeather = 'cruising';
+        if (progress < 0.2) toWeather = 'climbing';
+        else if (progress < 0.8) toWeather = 'cruising';
         else toWeather = 'golden';
       }
       // Leg type: takeoff = first transition; descent = final transition only; cruise = middle

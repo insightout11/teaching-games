@@ -25,7 +25,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="relative min-h-screen flex text-lc-text">
-      <SkyBackground weatherState="golden" altitude={0.75} intensity="subtle" className="!left-64" />
+      <SkyBackground weatherState="golden" altitude={0.75} intensity="subtle" showCityLights={false} className="!left-64" />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-lc-blue focus:text-white focus:font-medium focus:outline-none"
