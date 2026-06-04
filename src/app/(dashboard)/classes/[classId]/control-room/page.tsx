@@ -5,6 +5,7 @@ import { CalendarDays, Layers, Trophy, Users, Target, BarChart3 } from 'lucide-r
 import type { Session, Class, Student, Score, Round } from '@/lib/supabase/types';
 import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gauge';
 import { RoundsBreakdown } from '@/components/control-room/rounds-breakdown';
+import { Surface } from '@/components/ui/surface';
 import { countsForAccuracy, getScoreModuleKey, isCorrectScore } from '@/lib/scoring-reporting';
 
 const TOP_ACCURACY_THRESHOLD = 80;
@@ -205,7 +206,7 @@ export default async function ClassControlRoomPage({
             </div>
 
             {/* Right: all-time leaderboard */}
-            <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+            <Surface variant="card">
               <div className="flex items-center gap-2 mb-4">
                 <Trophy className="w-4 h-4 text-lc-text3 shrink-0" />
                 <h2 className="font-semibold text-lc-text">All-Time Leaderboard</h2>
@@ -242,11 +243,11 @@ export default async function ClassControlRoomPage({
                   })}
                 </div>
               )}
-            </div>
+            </Surface>
           </div>
 
           {/* Sessions list */}
-          <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+          <Surface variant="card">
             <div className="flex items-center gap-2 mb-4">
               <BarChart3 className="w-4 h-4 text-lc-text3 shrink-0" />
               <h2 className="font-semibold text-lc-text">Sessions</h2>
@@ -297,7 +298,7 @@ export default async function ClassControlRoomPage({
                 );
               })}
             </div>
-          </div>
+          </Surface>
         </>
       )}
     </div>

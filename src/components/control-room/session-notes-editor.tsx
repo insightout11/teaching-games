@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { Surface } from '@/components/ui/surface';
 
 interface SessionNotesEditorProps {
   sessionId: string;
@@ -36,7 +37,7 @@ export function SessionNotesEditor({ sessionId, teacherId, initialContent }: Ses
   }
 
   return (
-    <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+    <Surface variant="card">
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-semibold text-lc-text">Session Notes</h2>
         {saveStatus === 'saving' && <span className="text-xs text-lc-text3">Saving…</span>}
@@ -48,6 +49,6 @@ export function SessionNotesEditor({ sessionId, teacherId, initialContent }: Ses
         value={content}
         onChange={(e) => handleChange(e.target.value)}
       />
-    </div>
+    </Surface>
   );
 }

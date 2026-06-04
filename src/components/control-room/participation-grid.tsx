@@ -2,6 +2,7 @@
 
 import { Radio } from 'lucide-react';
 import { StudentNoteEditor } from './student-note-editor';
+import { Surface } from '@/components/ui/surface';
 
 interface ParticipationRow {
   studentId: string;
@@ -54,7 +55,7 @@ export function ParticipationGrid({ rows, maxPromptIndex, sessionId, classId, te
   });
 
   return (
-    <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+    <Surface variant="card">
       <div className="flex items-center gap-2 mb-4">
         <Radio className="w-4 h-4 text-lc-text3 shrink-0" />
         <h2 className="font-semibold text-lc-text">Crew Activity</h2>
@@ -108,6 +109,6 @@ export function ParticipationGrid({ rows, maxPromptIndex, sessionId, classId, te
           </div>
         </div>
       )}
-    </div>
+    </Surface>
   );
 }

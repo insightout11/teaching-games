@@ -1,4 +1,5 @@
 import { Target } from 'lucide-react';
+import { Surface } from '@/components/ui/surface';
 
 interface ClassAccuracyGaugeProps {
   accuracy: number | null;
@@ -18,7 +19,7 @@ export function ClassAccuracyGauge({ accuracy, scorableAttempts, correctCount }:
     : 'bg-lc-danger';
 
   return (
-    <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+    <Surface variant="card">
       <div className="flex items-center gap-2 mb-4">
         <Target className="w-4 h-4 text-lc-text3 shrink-0" />
         <h2 className="font-semibold text-lc-text">Hit Rate</h2>
@@ -39,6 +40,6 @@ export function ClassAccuracyGauge({ accuracy, scorableAttempts, correctCount }:
           </div>
         </>
       )}
-    </div>
+    </Surface>
   );
 }
