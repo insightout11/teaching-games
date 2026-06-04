@@ -26,6 +26,7 @@ html {
   --lc-blue: #4DA3FF;
   --lc-blue-hover: #78BCFF;
   --lc-blue-glow: rgba(77,163,255,0.22);
+  --lc-info: var(--lc-blue);
   --lc-success: #2FE59B;
   --lc-warn: #F6C177;
   --lc-danger: #FF4D4D;

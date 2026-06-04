@@ -7,6 +7,7 @@ import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gau
 import { ParticipationGrid } from '@/components/control-room/participation-grid';
 import { RoundsBreakdown } from '@/components/control-room/rounds-breakdown';
 import { SessionNotesEditor } from '@/components/control-room/session-notes-editor';
+import { Surface } from '@/components/ui/surface';
 import { countsForAccuracy, getScoreModuleKey, isCorrectScore } from '@/lib/scoring-reporting';
 
 const TOP_ACCURACY_THRESHOLD = 80;
@@ -233,7 +234,7 @@ export default async function ControlRoomPage({
           <RoundsBreakdown rows={roundsBreakdownRows} />
 
           {/* Leaderboard */}
-          <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+          <Surface variant="card">
             <div className="flex items-center gap-2 mb-4">
               <Trophy className="w-4 h-4 text-lc-text3 shrink-0" />
               <h2 className="font-semibold text-lc-text">Leaderboard</h2>
@@ -269,7 +270,7 @@ export default async function ControlRoomPage({
                 ))}
               </div>
             )}
-          </div>
+          </Surface>
         </div>
 
         {/* Right column */}
@@ -290,13 +291,13 @@ export default async function ControlRoomPage({
               initialContent={notes?.content ?? ''}
             />
           ) : (
-            <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+            <Surface variant="card">
               <div className="flex items-center justify-between mb-2">
                 <h2 className="font-semibold text-lc-text">Debrief Notes</h2>
                 <span className="text-xs text-lc-text3 bg-lc-surface px-2 py-0.5 rounded-full border border-lc-border">Pro</span>
               </div>
               <p className="text-sm text-lc-text3">Upgrade to Pro to add notes to your sessions.</p>
-            </div>
+            </Surface>
           )}
         </div>
       </div>

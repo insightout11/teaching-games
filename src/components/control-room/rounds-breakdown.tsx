@@ -1,4 +1,5 @@
 import { Layers } from 'lucide-react';
+import { Surface } from '@/components/ui/surface';
 
 // Free-tier round caps per game, hardcoded until subscription.ts exists
 const FREE_ROUNDS_PER_SESSION: Record<string, number> = {
@@ -38,7 +39,7 @@ interface RoundsBreakdownProps {
 
 export function RoundsBreakdown({ rows }: RoundsBreakdownProps) {
   return (
-    <div className="bg-lc-card rounded-2xl border border-lc-border p-6">
+    <Surface variant="card">
       <div className="flex items-center gap-2 mb-4">
         <Layers className="w-4 h-4 text-lc-text3 shrink-0" />
         <h2 className="font-semibold text-lc-text">Mission Debrief</h2>
@@ -73,6 +74,6 @@ export function RoundsBreakdown({ rows }: RoundsBreakdownProps) {
           })}
         </div>
       )}
-    </div>
+    </Surface>
   );
 }

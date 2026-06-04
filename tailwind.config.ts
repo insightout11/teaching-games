@@ -47,6 +47,7 @@ const config: Config = {
         'lc-blue': 'var(--lc-blue)',
         'lc-blue-hover': 'var(--lc-blue-hover)',
         'lc-blue-glow': 'var(--lc-blue-glow)',
+        'lc-info': 'var(--lc-info)',
         'lc-success': '#2FE59B',
         'lc-warn': '#F6C177',
         'lc-danger': '#FF4D4D',
