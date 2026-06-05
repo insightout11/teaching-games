@@ -15,12 +15,10 @@ vi.mock('@/lib/content-cache', () => ({
   storeCachedContent: vi.fn().mockResolvedValue('cache-id'),
 }));
 
+// The route gates on requireAuthForGeneration. Credits are consumed at session
+// creation, NOT per generation, so the route never calls consumeCredit.
 vi.mock('@/lib/auth-credits', () => ({
-  requireAuthWithCredits: vi.fn().mockResolvedValue({
-    teacher: { id: 'test', email: 'test@test.com', credits: 10, isPro: false },
-    error: null,
-  }),
-  consumeCredit: vi.fn().mockResolvedValue(undefined),
+  requireAuthForGeneration: vi.fn().mockResolvedValue({ error: null }),
 }));
 
 vi.mock('@/lib/generate-mission-selector', () => ({
@@ -32,7 +30,6 @@ vi.mock('@/lib/generate-mission-selector', () => ({
 }));
 
 import { POST } from '@/app/api/lesson-plan/generate/route';
-import { consumeCredit } from '@/lib/auth-credits';
 
 function makeRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/lesson-plan/generate', {
@@ -82,11 +79,9 @@ describe('POST /api/lesson-plan/generate — degraded mode', () => {
     expect(data.content['would-you-rather']).toBeDefined();
     // The failed generator left gameContent empty
     expect(data.gameContent['vocab-sprint']).toBeUndefined();
-    // Credit still charged (at least one succeeded)
-    expect(consumeCredit).toHaveBeenCalled();
   });
 
-  it('does not charge credit when all generators fail', async () => {
+  it('reports success:false when all generators fail', async () => {
     mockGenerateJSON.mockRejectedValue(new Error('all down'));
 
     const req = makeRequest({
@@ -102,6 +97,5 @@ describe('POST /api/lesson-plan/generate — degraded mode', () => {
     expect(data.success).toBe(false);
     expect(data.degraded).toBe(true);
     expect(data.failedCount).toBe(1);
-    expect(consumeCredit).not.toHaveBeenCalled();
   });
 });

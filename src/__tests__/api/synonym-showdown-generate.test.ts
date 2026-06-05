@@ -81,7 +81,7 @@ describe('POST /api/synonym-showdown/generate', () => {
 
     const promptArg = vi.mocked(generateJSON).mock.calls[0][0] as string;
     expect(promptArg).toContain('happy, sad, angry');
-    expect(promptArg).toContain('Do NOT use these target words');
+    expect(promptArg).toContain('These target words were already shown this session');
   });
 
   it('returns 200 with degraded fallback when AI throws and cache misses', async () => {

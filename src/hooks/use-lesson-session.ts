@@ -29,6 +29,12 @@ export type LessonSlot = {
 
 const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-round', 'opinion-shift']);
 
+// Games that actually consume `config.preGeneratedContent`. Every other game
+// fetches its own (now source-aware) content live via its own route and ignores
+// the dispatcher's copy — so prefetching it is a wasted AI generation. Keep this
+// in sync with games that read preGeneratedContent in their component.
+const GAMES_WITH_PREFETCHED_CONTENT = new Set(['vocab-sprint', 'story-sprint']);
+
 // ─── sessionStorage reader ─────────────────────────────────────────────────
 
 interface LessonPlanPayload {
@@ -182,6 +188,9 @@ export function useLessonSession(
 
     if (prefetchedContentRef.current[key] || prefetchingKeysRef.current.has(key)) return;
     if (lessonPlanContent?.generatedContent[key] || lessonPlanContent?.generatedGameContent?.[key]) return;
+
+    // Self-generating games ignore preGeneratedContent — skip the wasted prefetch.
+    if (slot.type === 'game' && !GAMES_WITH_PREFETCHED_CONTENT.has(key)) return;
 
     const needsSourceVocab = lessonSlots.some((s) => s.key === 'language-toolkit');
 

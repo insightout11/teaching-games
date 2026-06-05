@@ -18,12 +18,14 @@ import { POST } from '@/app/api/vocab-sprint/generate/route';
 import { generateJSON } from '@/lib/ai';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 
+// Includes `level` so the route's normalisation (which defaults missing/invalid
+// levels to 'easy') round-trips these fixtures unchanged.
 const FAKE_SENTENCES = [
-  { sentence: 'The dog went to the park.', weakWord: 'went', hint: 'Use a more specific movement verb.' },
-  { sentence: 'She said hello to her friend.', weakWord: 'said', hint: 'Try a more expressive verb.' },
-  { sentence: 'He ate a good meal.', weakWord: 'good', hint: 'Use a more descriptive adjective.' },
-  { sentence: 'The movie was nice.', weakWord: 'nice', hint: 'Be more specific about quality.' },
-  { sentence: 'It was a big day.', weakWord: 'big', hint: 'What kind of big exactly?' },
+  { sentence: 'The dog went to the park.', weakWord: 'went', hint: 'Use a more specific movement verb.', level: 'easy' },
+  { sentence: 'She said hello to her friend.', weakWord: 'said', hint: 'Try a more expressive verb.', level: 'easy' },
+  { sentence: 'He ate a good meal.', weakWord: 'good', hint: 'Use a more descriptive adjective.', level: 'medium' },
+  { sentence: 'The movie was nice.', weakWord: 'nice', hint: 'Be more specific about quality.', level: 'medium' },
+  { sentence: 'It was a big day.', weakWord: 'big', hint: 'What kind of big exactly?', level: 'hard' },
 ];
 
 function makeRequest(body: Record<string, unknown>) {
@@ -69,7 +71,7 @@ describe('POST /api/vocab-sprint/generate', () => {
     expect(data.sentences).toEqual(FAKE_SENTENCES);
     expect(data.cacheId).toBe('new-cache-uuid');
     expect(generateJSON).toHaveBeenCalledOnce();
-    expect(storeCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Business', 'Advanced', FAKE_SENTENCES, 1);
+    expect(storeCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Business', 'Advanced', FAKE_SENTENCES, 2);
   });
 
   it('passes seenItems as exclusion list to AI on cache miss', async () => {
@@ -105,7 +107,7 @@ describe('POST /api/vocab-sprint/generate', () => {
     });
     await POST(req as never);
 
-    expect(getCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Travel', 'Easy', excludeIds);
+    expect(getCachedContent).toHaveBeenCalledWith('vocab-sprint', 'Travel', 'Easy', excludeIds, undefined, 2);
   });
 
   it('returns 200 with degraded fallback when AI throws and cache misses', async () => {
