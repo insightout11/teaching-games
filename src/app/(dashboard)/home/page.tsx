@@ -2,6 +2,38 @@ export const dynamic = 'force-dynamic';
 
 import { createServerSupabase } from '@/lib/supabase/server';
 import { TeacherHomeClient, type RecentSession } from '@/components/discovery/TeacherHomeClient';
+import type { TeacherProfile } from '@/lib/teacher-profile';
+
+interface ProfileResult {
+  profile: TeacherProfile | null;
+  onboardingCompleted: boolean;
+}
+
+// Defensive: if migration 034 hasn't been applied yet the select errors — treat that as
+// "no profile / not onboarded" so /home keeps working.
+async function getTeacherProfile(userId: string): Promise<ProfileResult> {
+  const supabase = createServerSupabase();
+  try {
+    const { data, error } = await supabase
+      .from('teachers')
+      .select('onboarding_completed, profile_class_size, profile_level, profile_focus, profile_age, profile_mode')
+      .eq('id', userId)
+      .single();
+    if (error || !data) return { profile: null, onboardingCompleted: false };
+    return {
+      onboardingCompleted: !!data.onboarding_completed,
+      profile: {
+        classSize: (data.profile_class_size as TeacherProfile['classSize']) ?? null,
+        level: (data.profile_level as TeacherProfile['level']) ?? null,
+        focus: (data.profile_focus as TeacherProfile['focus']) ?? null,
+        age: (data.profile_age as TeacherProfile['age']) ?? null,
+        mode: (data.profile_mode as TeacherProfile['mode']) ?? null,
+      },
+    };
+  } catch {
+    return { profile: null, onboardingCompleted: false };
+  }
+}
 
 async function getRecentSessions(userId: string): Promise<RecentSession[]> {
   const supabase = createServerSupabase();
@@ -49,9 +81,10 @@ export default async function HomePage() {
   } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const [recentSessions, credits] = await Promise.all([
+  const [recentSessions, credits, { profile, onboardingCompleted }] = await Promise.all([
     getRecentSessions(user.id),
     getTeacherCredits(user.id),
+    getTeacherProfile(user.id),
   ]);
 
   return (
@@ -60,6 +93,8 @@ export default async function HomePage() {
       isPro={credits === -1}
       credits={credits === -1 ? 0 : credits}
       isFirstVisit={recentSessions.length === 0}
+      profile={profile}
+      onboardingCompleted={onboardingCompleted}
     />
   );
 }

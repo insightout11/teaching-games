@@ -7,16 +7,22 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useReducedMotion } from 'framer-motion';
-import { Compass, Library as LibraryIcon, Plane, ChevronRight } from 'lucide-react';
+import { Compass, Library as LibraryIcon, Plane, ChevronRight, Sparkles } from 'lucide-react';
 import { SkyBackground } from '@/components/ui/sky-background';
 import { buildShelves, type DiscoveryItem } from '@/lib/discovery-shelves';
+import type { TeacherProfile } from '@/lib/teacher-profile';
 import { FeaturedFlightHero } from './FeaturedFlightHero';
 import { FullFlightsLane } from './FullFlightsLane';
 import { ReadyToTeachLane } from './ReadyToTeachLane';
 import { SpecialFeaturesLane } from './SpecialFeaturesLane';
+import { RecommendedLane } from './RecommendedLane';
+import { OnboardingFlow } from './OnboardingFlow';
 import { DiscoveryShelf } from './DiscoveryShelf';
 import { DiscoveryDetailDrawer } from './DiscoveryDetailDrawer';
+
+const ONBOARDING_DISMISSED_KEY = 'lc-onboarding-dismissed';
 
 // Only the highest-urgency shelves live on the home; the rest stay in Browse so the
 // page reads as a home, not a catalog (docs/home-screen-redesign-audit-jun2026.md §3).
@@ -36,6 +42,8 @@ interface TeacherHomeClientProps {
   isPro: boolean;
   credits: number;
   isFirstVisit: boolean;
+  profile: TeacherProfile | null;
+  onboardingCompleted: boolean;
 }
 
 function formatDate(iso: string) {
@@ -47,11 +55,31 @@ function formatDate(iso: string) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit }: TeacherHomeClientProps) {
+export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit, profile, onboardingCompleted }: TeacherHomeClientProps) {
+  const router = useRouter();
   const reduce = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [depth, setDepth] = useState(0);
   const [selected, setSelected] = useState<DiscoveryItem | null>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // First-run, skippable: open once if not completed and not dismissed before.
+  useEffect(() => {
+    if (onboardingCompleted) return;
+    try {
+      if (localStorage.getItem(ONBOARDING_DISMISSED_KEY) === '1') return;
+    } catch { /* ignore */ }
+    setShowOnboarding(true);
+  }, [onboardingCompleted]);
+
+  function dismissOnboarding() {
+    try { localStorage.setItem(ONBOARDING_DISMISSED_KEY, '1'); } catch { /* ignore */ }
+    setShowOnboarding(false);
+  }
+  function completeOnboarding() {
+    setShowOnboarding(false);
+    router.refresh(); // re-fetch the profile so Recommended updates
+  }
 
   const shelves = buildShelves().filter((s) => HOME_SHELF_IDS.includes(s.id));
   const shelfById = new Map(shelves.map((s) => [s.id, s] as const));
@@ -156,11 +184,22 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             <p className="font-instrument text-[11px] uppercase tracking-[0.26em] text-cyan-300/80">
               Departure Lounge
             </p>
-            {!isPro && (
-              <span className="font-instrument rounded-full border border-cyan-300/20 bg-white/[0.03] px-3 py-1 text-[11px] uppercase tracking-wider text-lc-text2">
-                {credits} Test Flight{credits === 1 ? '' : 's'} left
-              </span>
-            )}
+            <div className="flex items-center gap-3">
+              {!onboardingCompleted && (
+                <button
+                  onClick={() => setShowOnboarding(true)}
+                  className="font-instrument inline-flex items-center gap-1.5 rounded-full border border-cyan-300/30 bg-cyan-400/[0.06] px-3 py-1 text-[11px] uppercase tracking-wider text-cyan-200 transition-colors hover:border-cyan-300/60 hover:bg-cyan-400/10"
+                >
+                  <Sparkles className="h-3 w-3" aria-hidden />
+                  Personalize your home
+                </button>
+              )}
+              {!isPro && (
+                <span className="font-instrument rounded-full border border-cyan-300/20 bg-white/[0.03] px-3 py-1 text-[11px] uppercase tracking-wider text-lc-text2">
+                  {credits} Test Flight{credits === 1 ? '' : 's'} left
+                </span>
+              )}
+            </div>
           </div>
 
           {/* HERO — dominates the first viewport; heading is a deliberate gate-board label */}
@@ -179,6 +218,11 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
                 New here? Start with a complete flight — it sequences the whole lesson for you in minutes.
               </p>
             )}
+          </section>
+
+          {/* Recommended for you — driven by the onboarding profile (cold-start = starting points) */}
+          <section className="mt-4">
+            <RecommendedLane profile={profile} />
           </section>
 
           {/* Jump back in — compact strip of recent flights */}
@@ -260,6 +304,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
 
       {/* Library-style detail drawer for the clicked activity/game */}
       <DiscoveryDetailDrawer item={selected} onClose={() => setSelected(null)} />
+
+      {/* First-run personalization */}
+      <OnboardingFlow open={showOnboarding} onClose={dismissOnboarding} onCompleted={completeOnboarding} />
     </div>
   );
 }
