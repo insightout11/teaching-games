@@ -6,6 +6,8 @@ import { cn } from '@/lib/utils';
 import { Clock, Search, X } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import type { GamePlugin } from '@/games/types';
@@ -265,13 +267,14 @@ export function ExploreClient() {
       {/* Search */}
       <div className="relative mb-4 max-w-md">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-lc-text3" aria-hidden />
-        <input
+        <Input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search games and activities…"
           aria-label="Search games and activities"
-          className="w-full rounded-lg border border-lc-border bg-lc-surface py-2 pl-9 pr-9 text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue/40"
+          inputSize="compact"
+          variant="search"
         />
         {search && (
           <button
@@ -478,37 +481,37 @@ export function ExploreClient() {
         <div className="flex gap-3 mb-3">
           <div className="flex-1">
             <label className="block text-xs text-lc-text3 mb-1">Topic</label>
-            <select
+            <Select
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value as Topic | '')}
-              className="w-full text-sm px-3 py-2 rounded-lg border border-lc-border bg-lc-surface text-lc-text"
+              inputSize="compact"
             >
               <option value="">General</option>
               {TOPICS.filter((t) => t !== 'General').map((t) => (
                 <option key={t} value={t}>{t}</option>
               ))}
-            </select>
+            </Select>
           </div>
           <div className="flex-1">
             <label className="block text-xs text-lc-text3 mb-1">Difficulty</label>
-            <select
+            <Select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value as Difficulty)}
-              className="w-full text-sm px-3 py-2 rounded-lg border border-lc-border bg-lc-surface text-lc-text"
+              inputSize="compact"
             >
               {DIFFICULTIES.map((d) => (
                 <option key={d} value={d}>{d}</option>
               ))}
-            </select>
+            </Select>
           </div>
         </div>
         <div className="mb-5">
-          <input
+          <Input
             type="text"
             value={customTopic}
             onChange={(e) => setCustomTopic(e.target.value)}
             placeholder={`Or type a custom topic${selectedTopic ? ` (overrides ${selectedTopic})` : ''}…`}
-            className="w-full text-sm px-3 py-2 rounded-lg border border-lc-border bg-lc-surface text-lc-text placeholder:text-lc-text3"
+            inputSize="compact"
           />
         </div>
 
@@ -549,13 +552,14 @@ export function ExploreClient() {
             <p className="mb-3">You haven&apos;t created a class yet.</p>
             {showCreateClass ? (
               <form onSubmit={handleCreateClass} className="flex gap-2">
-                <input
+                <Input
                   type="text"
                   value={newClassName}
                   onChange={(e) => setNewClassName(e.target.value)}
                   placeholder="Class name"
                   autoFocus
-                  className="flex-1 text-sm px-3 py-1.5 rounded-lg border border-lc-border bg-lc-surface text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue/40"
+                  inputSize="sm"
+                  className="w-auto flex-1 rounded-lg"
                 />
                 <button
                   type="submit"
@@ -589,13 +593,14 @@ export function ExploreClient() {
             <div className="pt-2 border-t border-lc-border mt-2">
               {showCreateClass ? (
                 <form onSubmit={handleCreateClass} className="flex gap-2">
-                  <input
+                  <Input
                     type="text"
                     value={newClassName}
                     onChange={(e) => setNewClassName(e.target.value)}
                     placeholder="Class name"
                     autoFocus
-                    className="flex-1 text-sm px-3 py-1.5 rounded-lg border border-lc-border bg-lc-surface text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue/40"
+                    inputSize="sm"
+                    className="w-auto flex-1 rounded-lg"
                   />
                   <button
                     type="submit"
