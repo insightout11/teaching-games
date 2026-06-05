@@ -90,7 +90,7 @@ export function ReadyToTeachLane() {
               key={l.id}
               type="button"
               className={cn(
-                'group relative flex flex-col items-start overflow-hidden rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition-all hover:-translate-y-0.5',
+                'group relative flex h-full flex-col items-start overflow-hidden rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition-all hover:-translate-y-0.5',
                 l.gradient,
                 l.ring,
               )}
@@ -117,7 +117,7 @@ export function ReadyToTeachLane() {
               </div>
 
               {/* CTA — emphasizes zero prep */}
-              <span className="mt-5 inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/[0.05] px-3.5 py-2 text-[13px] font-semibold text-lc-text transition-colors group-hover:bg-white/[0.1]">
+              <span className="mt-auto inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/[0.05] px-3.5 py-2 text-[13px] font-semibold text-lc-text transition-colors group-hover:bg-white/[0.1]">
                 <Zap className="h-4 w-4" aria-hidden />
                 Launch — no prep
               </span>

@@ -41,43 +41,50 @@ const SAMPLE_FULL_FLIGHTS: PresetCardData[] = [
     id: 'sample-speaking-circle', name: 'Speaking Circle', focus: 'Speaking', durationMinutes: 60,
     classFit: 'Whole class', flightNumber: 'LC-S1', preview: true, accent: ACCENTS.cyan,
     route: [
-      { label: 'Warm-up', kind: 'stage' }, { label: 'Scene', kind: 'stage' },
-      { label: 'Rounds', kind: 'micro-event' }, { label: 'Debate', kind: 'stage' },
-      { label: 'Final Word', kind: 'landing' },
+      { label: 'Warm-up', kind: 'stage' }, { label: 'Briefing', kind: 'stage' },
+      { label: 'Vocab', kind: 'micro-event' }, { label: 'Scene', kind: 'stage' },
+      { label: 'Rounds', kind: 'micro-event' }, { label: 'Roleplay', kind: 'stage' },
+      { label: 'Debate', kind: 'stage' }, { label: 'Final Word', kind: 'landing' },
     ],
   },
   {
     id: 'sample-debate-ready', name: 'Debate Ready', focus: 'Discussion', durationMinutes: 60,
     classFit: 'Whole class', flightNumber: 'LC-D1', preview: true, accent: ACCENTS.violet,
     route: [
-      { label: 'Take', kind: 'stage' }, { label: 'Evidence', kind: 'stage' },
-      { label: 'Defend', kind: 'micro-event' }, { label: 'Vote', kind: 'stage' },
-      { label: 'Shift', kind: 'landing' },
+      { label: 'Hook', kind: 'stage' }, { label: 'Briefing', kind: 'stage' },
+      { label: 'Take', kind: 'micro-event' }, { label: 'Evidence', kind: 'stage' },
+      { label: 'Rebuttal', kind: 'stage' }, { label: 'Defend', kind: 'micro-event' },
+      { label: 'Vote', kind: 'stage' }, { label: 'Shift', kind: 'landing' },
     ],
   },
   {
     id: 'sample-grammar-clinic', name: 'Grammar Clinic', focus: 'Grammar', durationMinutes: 45,
     classFit: 'Any size', flightNumber: 'LC-G1', preview: true, accent: ACCENTS.emerald,
     route: [
-      { label: 'Check-in', kind: 'stage' }, { label: 'Hunt', kind: 'micro-event' },
-      { label: 'Build', kind: 'stage' }, { label: 'Proof', kind: 'landing' },
+      { label: 'Check-in', kind: 'stage' }, { label: 'Briefing', kind: 'stage' },
+      { label: 'Hunt', kind: 'micro-event' }, { label: 'Build', kind: 'stage' },
+      { label: 'Drill', kind: 'micro-event' }, { label: 'Apply', kind: 'stage' },
+      { label: 'Proof', kind: 'stage' }, { label: 'Final Word', kind: 'landing' },
     ],
   },
   {
     id: 'sample-game-day', name: 'Game Day', focus: 'Games', durationMinutes: 45,
     classFit: 'Whole class', flightNumber: 'LC-X1', preview: true, accent: ACCENTS.amber,
     route: [
-      { label: 'Connect', kind: 'stage' }, { label: 'Rush', kind: 'end-game' },
-      { label: 'Imposter', kind: 'end-game' }, { label: 'Quiz', kind: 'landing' },
+      { label: 'Warm-up', kind: 'stage' }, { label: 'Connect', kind: 'stage' },
+      { label: 'Rush', kind: 'end-game' }, { label: 'Imposter', kind: 'end-game' },
+      { label: 'Password', kind: 'end-game' }, { label: 'Quiz', kind: 'end-game' },
+      { label: 'Scores', kind: 'stage' }, { label: 'Landing', kind: 'landing' },
     ],
   },
   {
     id: 'sample-travel-english', name: 'Travel English', focus: 'Functional', durationMinutes: 60,
     classFit: '1–on–1 · small', flightNumber: 'LC-T1', preview: true, accent: ACCENTS.rose,
     route: [
-      { label: 'Vocab', kind: 'stage' }, { label: 'Dialogue', kind: 'stage' },
-      { label: 'Scene', kind: 'micro-event' }, { label: 'Rounds', kind: 'stage' },
-      { label: 'Final Word', kind: 'landing' },
+      { label: 'Vocab', kind: 'stage' }, { label: 'Briefing', kind: 'stage' },
+      { label: 'Dialogue', kind: 'stage' }, { label: 'Scene', kind: 'micro-event' },
+      { label: 'Roleplay', kind: 'stage' }, { label: 'Rounds', kind: 'stage' },
+      { label: 'Recap', kind: 'stage' }, { label: 'Final Word', kind: 'landing' },
     ],
   },
 ];
@@ -97,7 +104,7 @@ export function FullFlightsLane() {
         <p className="mt-1.5 text-sm text-lc-text3">Complete, ready-to-run lessons — pick a route and launch the whole class.</p>
       </div>
 
-      <CardRail itemWidthClass="w-[340px] sm:w-[440px]">
+      <CardRail itemWidthClass="w-[360px] sm:w-[560px]">
         {SAMPLE_FULL_FLIGHTS.map((preset) => (
           <PresetCard key={preset.id} data={preset} />
         ))}

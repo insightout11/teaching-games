@@ -64,7 +64,7 @@ export function SpecialFeaturesLane() {
           <article
             key={id}
             className={cn(
-              'group relative flex flex-col overflow-hidden rounded-2xl border bg-gradient-to-br p-6 backdrop-blur-md transition-all hover:-translate-y-0.5',
+              'group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-gradient-to-br p-6 backdrop-blur-md transition-all hover:-translate-y-0.5',
               gradient,
               ring,
             )}
@@ -84,7 +84,7 @@ export function SpecialFeaturesLane() {
             <h3 className="mt-4 text-xl font-bold text-lc-text">{title}</h3>
             <p className="mt-1.5 text-[13px] leading-relaxed text-lc-text2">{blurb}</p>
 
-            <div className="mt-5 flex items-center justify-between">
+            <div className="mt-auto flex items-center justify-between pt-5">
               <span className="font-instrument text-[11px] uppercase tracking-[0.18em] text-lc-text2 transition-colors group-hover:text-lc-text">
                 Launch →
               </span>
