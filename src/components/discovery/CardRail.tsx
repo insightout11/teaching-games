@@ -70,9 +70,11 @@ export function CardRail({ children, itemWidthClass = 'w-[300px] sm:w-[320px]' }
         </button>
       )}
 
+      {/* overflow-x-auto forces overflow-y to clip; pad vertically (offset with -my)
+          so the cards' hover lift + glow aren't chopped at the scroll box edges. */}
       <div
         ref={scrollerRef}
-        className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-my-3 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-1 py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {Children.map(children, (child) => (
           <div className={cn('shrink-0 snap-start', itemWidthClass)}>{child}</div>
