@@ -49,11 +49,14 @@ export interface FlightPlanPreset {
    * loading immediately. The selected scenario string is written to the topic field.
    */
   scenarios?: PresetScenarios;
-  /** When true, only visible to teachers with is_developer = true. */
-  isDeveloper?: boolean;
 }
 
-export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
+/**
+ * Archived presets — built in the old style, kept in code for reference/revival but
+ * NOT shown anywhere live. Only Captain's Flight (in FLIGHT_PLAN_PRESETS below) is live.
+ * These will be rebuilt one by one in the new card/lesson style (June 2026 redesign).
+ */
+export const ARCHIVED_PRESETS: FlightPlanPreset[] = [
   {
     id: 'game-day-60',
     name: 'Game Day',
@@ -326,6 +329,13 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       ],
     },
   },
+];
+
+/**
+ * Live presets shown to teachers. Captain's Flight is the only ready/real preset today;
+ * the rest are in ARCHIVED_PRESETS pending a rebuild in the new style.
+ */
+export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'all-around-flight-60',
     name: "Captain's Flight",
@@ -333,7 +343,6 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'skill-builder',
-    isDeveloper: true,
     takeoff: 'prediction-round',
     landing: 'final-word',
     moduleSequence: [
@@ -341,7 +350,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it', 'defend-it', 'two-truths'] },
       { slotType: 'presentation', key: 'wonder-board', stageId: 'mission-board' },
-      { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint', 'fact-detective'] },
+      { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint'] },
       { slotType: 'production', key: 'decision-council', stageId: 'production' },
       { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game' },
     ],

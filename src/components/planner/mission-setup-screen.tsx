@@ -8,7 +8,6 @@ import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-pr
 import { PresetCard } from './preset-card';
 import { ScenarioPickerModal } from './scenario-picker-modal';
 import { SourceInputPanel } from './source-input-panel';
-import { useTeacherTier } from '@/hooks/use-teacher-tier';
 
 const DURATIONS = [30, 45, 60, 90] as const;
 
@@ -31,8 +30,7 @@ export function MissionSetupScreen() {
 
   const { sourceMaterial } = usePlannerStore();
   const [pendingPreset, setPendingPreset] = useState<FlightPlanPreset | null>(null);
-  const { isDeveloper } = useTeacherTier();
-  const visiblePresets = FLIGHT_PLAN_PRESETS.filter((p) => !p.isDeveloper || isDeveloper);
+  const visiblePresets = FLIGHT_PLAN_PRESETS;
 
   const canGenerate = topic.trim().length > 0 || !!sourceMaterial;
 
