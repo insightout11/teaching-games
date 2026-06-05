@@ -13,7 +13,7 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import { buildShelves, type DiscoveryItem } from '@/lib/discovery-shelves';
 import { FeaturedFlightHero } from './FeaturedFlightHero';
 import { FullFlightsLane } from './FullFlightsLane';
-import { SourceLessonsLane } from './SourceLessonsLane';
+import { ReadyToTeachLane } from './ReadyToTeachLane';
 import { SpecialFeaturesLane } from './SpecialFeaturesLane';
 import { DiscoveryShelf } from './DiscoveryShelf';
 import { DiscoveryDetailDrawer } from './DiscoveryDetailDrawer';
@@ -204,9 +204,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             <FullFlightsLane />
           </div>
 
-          {/* Great with a video or reading — lessons curated to shine with a source */}
+          {/* Ready to Teach — fully pre-built, zero-prep lessons (topic + source chosen) */}
           <div className="mt-14">
-            <SourceLessonsLane />
+            <ReadyToTeachLane />
           </div>
 
           {/* Special Features — one-tap, pre-themed experiences */}
