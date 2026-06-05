@@ -13,6 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
+import { useTeacherProfile } from '@/hooks/use-teacher-profile';
+import { levelToDifficulty } from '@/lib/teacher-profile';
 import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
 import type { Topic, Difficulty } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
@@ -41,6 +43,7 @@ export function FeaturedFlightLaunchModal({
   const launchLesson = usePlannerStore((s) => s.launchLesson);
   const sourceAttached = usePlannerStore((s) => s.sourceMaterial);
   const { loading: tierLoading, isPro, credits } = useTeacherTier();
+  const { profile } = useTeacherProfile();
 
   const [classes, setClasses] = useState<ClassRow[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
@@ -71,6 +74,12 @@ export function FeaturedFlightLaunchModal({
         setClassesLoading(false);
       });
   }, [open, expandSource]);
+
+  // Pre-fill difficulty from the teacher's onboarding level when the launcher opens.
+  useEffect(() => {
+    const fromProfile = levelToDifficulty(profile.level);
+    if (open && fromProfile) setDifficulty(fromProfile);
+  }, [open, profile.level]);
 
   useEffect(() => {
     if (classes.length === 0) {
