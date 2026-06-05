@@ -149,7 +149,7 @@ export function FeaturedFlightLaunchModal({
 
   return (
     <>
-      <Modal open={open && !showPaywall} onClose={() => { setLaunching(false); onClose(); }} title="Build Captain's Flight">
+      <Modal open={open && !showPaywall} onClose={() => { setLaunching(false); onClose(); }} title="Start Captain's Flight">
         <div className="space-y-4">
           <p className="text-sm leading-relaxed text-lc-text2">
             A complete live lesson — warm-up, language, discussion, a game, and a landing — generated around

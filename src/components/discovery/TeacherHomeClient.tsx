@@ -215,7 +215,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             <FeaturedFlightHero />
             {isFirstVisit && (
               <p className="mt-5 text-sm text-lc-text3">
-                New here? Start with a complete flight — it sequences the whole lesson for you in minutes.
+                New here? Start with a complete lesson — it sequences the whole class for you in minutes.
               </p>
             )}
           </section>
@@ -258,13 +258,14 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
 
           {/* Interleaved: rich featured lanes punctuate the plain card rows so the page
               reads as a home, not a catalog (docs/home-screen-redesign-audit-jun2026.md §3).
-              Rhythm: Full Flights → row → Ready to Teach → row → Special Features → row. */}
+              The two strongest "ready to run" options lead (Full Flights → Ready to Teach);
+              End with a Game is a garnish shelf and sits below them. */}
           <div className="mt-14 space-y-14">
             <FullFlightsLane />
-            {renderShelf('end-with-a-game')}
             <ReadyToTeachLane />
-            {renderShelf('quick')}
+            {renderShelf('end-with-a-game')}
             <SpecialFeaturesLane />
+            {renderShelf('quick')}
             {renderShelf('speaking')}
           </div>
 

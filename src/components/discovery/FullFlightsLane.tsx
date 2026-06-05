@@ -92,12 +92,12 @@ const SAMPLE_FULL_FLIGHTS: PresetCardData[] = [
 
 export function FullFlightsLane() {
   return (
-    <section aria-label="Full Flights">
+    <section aria-label="Full Lessons">
       <div className="mb-5">
         <div className="flex items-center gap-4">
           <div className="flex shrink-0 items-center gap-3">
             <span aria-hidden className="h-6 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.6)]" />
-            <h2 className="text-2xl font-bold tracking-tight text-lc-text">Full Flights</h2>
+            <h2 className="text-2xl font-bold tracking-tight text-lc-text">Full Lessons</h2>
           </div>
           <div className="hud-rule hidden sm:block" aria-hidden />
         </div>

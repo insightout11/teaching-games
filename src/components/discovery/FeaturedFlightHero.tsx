@@ -8,7 +8,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { QRCodeSVG } from 'qrcode.react';
 import { Plane, ArrowRight, Video, FileText, Type } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getFeaturedRoute } from '@/lib/discovery-shelves';
@@ -76,55 +75,63 @@ export function FeaturedFlightHero() {
           <div className="flex items-center justify-between">
             <span className="font-instrument inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-cyan-300/90">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_8px_2px_rgba(34,211,238,0.8)]" />
-              Featured Flight
+              Featured · Captain&apos;s Flight
             </span>
             <span className="font-instrument text-[11px] uppercase tracking-[0.2em] text-lc-text3">
               LessonCaptain Airways
             </span>
           </div>
 
-          <h2 className="font-game mt-5 text-[2.8rem] leading-[0.92] text-lc-text sm:text-[4rem]">
-            Captain&apos;s Flight
+          <h2 className="font-game mt-5 text-[2.4rem] leading-[0.95] text-lc-text sm:text-[3.4rem]">
+            A complete lesson,
+            <br className="hidden sm:block" /> start to finish
           </h2>
-          <p className="mt-4 max-w-md text-base text-lc-text2">
-            One complete live lesson, built around any topic, video, or article.
+          <p className="mt-4 max-w-lg text-base text-lc-text2">
+            Every stage from warm-up to wrap-up &mdash; speaking, vocabulary, and a closing
+            game &mdash; sequenced for you. Built around any topic, video, or article, at the
+            level you choose.
           </p>
 
           {/* Route — the centerpiece */}
           {route.length > 0 && <RouteStrip route={route} reduce={!!reduce} />}
 
           {/* CTA + source controls */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-4">
-            <button
-              type="button"
-              onClick={() => openLaunch(false)}
-              className="group inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-b from-lc-amber to-[#e08600] px-7 py-3.5 text-base font-bold text-[#1a0f00] shadow-[0_8px_24px_-6px_rgba(245,158,11,0.6)] transition-all hover:shadow-[0_10px_30px_-6px_rgba(245,158,11,0.85)] hover:brightness-105"
-            >
-              <Plane className="h-5 w-5" aria-hidden />
-              Build this lesson
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden />
-            </button>
+          <div className="mt-10">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
+              <button
+                type="button"
+                onClick={() => openLaunch(false)}
+                className="group inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-b from-lc-amber to-[#e08600] px-7 py-3.5 text-base font-bold text-[#1a0f00] shadow-[0_8px_24px_-6px_rgba(245,158,11,0.6)] transition-all hover:shadow-[0_10px_30px_-6px_rgba(245,158,11,0.85)] hover:brightness-105"
+              >
+                <Plane className="h-5 w-5" aria-hidden />
+                Start this lesson
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              </button>
 
-            <div className="flex items-center gap-2.5">
-              <span className="font-instrument mr-0.5 text-[10px] uppercase tracking-[0.18em] text-lc-text3">
-                or from
-              </span>
-              {[
-                { icon: Video, label: 'Video' },
-                { icon: FileText, label: 'Article' },
-                { icon: Type, label: 'Topic' },
-              ].map(({ icon: ChipIcon, label }) => (
-                <button
-                  key={label}
-                  type="button"
-                  onClick={() => openLaunch(label !== 'Topic')}
-                  className="inline-flex items-center gap-2 rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] px-4 py-3 text-sm font-medium text-lc-text2 transition-colors hover:border-cyan-300/55 hover:bg-cyan-300/12 hover:text-lc-text"
-                >
-                  <ChipIcon className="h-[18px] w-[18px]" aria-hidden />
-                  {label}
-                </button>
-              ))}
+              <div className="flex items-center gap-2.5">
+                <span className="font-instrument mr-0.5 text-[10px] uppercase tracking-[0.18em] text-lc-text3">
+                  or add
+                </span>
+                {[
+                  { icon: Video, label: 'Video' },
+                  { icon: FileText, label: 'Article' },
+                  { icon: Type, label: 'Topic' },
+                ].map(({ icon: ChipIcon, label }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => openLaunch(label !== 'Topic')}
+                    className="inline-flex items-center gap-2 rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] px-4 py-3 text-sm font-medium text-lc-text2 transition-colors hover:border-cyan-300/55 hover:bg-cyan-300/12 hover:text-lc-text"
+                  >
+                    <ChipIcon className="h-[18px] w-[18px]" aria-hidden />
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
+            <p className="mt-4 text-[13px] text-lc-text3">
+              Runs from just a topic &mdash; or bring a video or article, yours or one from the Library.
+            </p>
           </div>
         </div>
 
@@ -149,8 +156,9 @@ export function FeaturedFlightHero() {
             {[
               ['Duration', '≈ 60 min'],
               ['Class', 'Whole class'],
+              ['Level', 'You choose'],
+              ['Skills', 'All-around'],
               ['Source', 'Optional'],
-              ['Focus', 'Speaking'],
             ].map(([k, v]) => (
               <div key={k} className="flex items-baseline gap-2">
                 <dt className="font-instrument shrink-0 text-[9px] uppercase tracking-[0.16em] text-lc-text3">{k}</dt>
@@ -160,15 +168,12 @@ export function FeaturedFlightHero() {
             ))}
           </dl>
 
-          <div className="mt-6 flex items-center gap-3 border-t border-cyan-300/15 pt-5">
-            <div className="rounded-md bg-white/90 p-1.5">
-              <QRCodeSVG value="lessoncaptain://all-around-flight" size={46} bgColor="#ffffff" fgColor="#06121f" level="L" />
-            </div>
-            <div className="font-instrument text-[9px] uppercase leading-relaxed tracking-[0.16em] text-lc-text3">
-              Gate&nbsp;A1
-              <br />
+          <div className="mt-6 flex items-center justify-between border-t border-cyan-300/15 pt-5">
+            <span className="font-instrument text-[9px] uppercase tracking-[0.16em] text-lc-text3">Gate&nbsp;A1</span>
+            <span className="font-instrument inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-emerald-300/90">
+              <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
               Ready to board
-            </div>
+            </span>
           </div>
 
           {/* Barcode */}
@@ -264,9 +269,12 @@ function RouteStrip({
 
   return (
     <div className="mt-11">
+      <p className="font-instrument mb-1.5 text-[10px] uppercase tracking-[0.22em] text-cyan-300/80">
+        The lesson, stage by stage
+      </p>
       <div className="font-instrument mb-4 flex items-center justify-between text-[9px] uppercase tracking-[0.22em] text-lc-text3">
-        <span>Dep · Icebreaker</span>
-        <span>Arr · Landing</span>
+        <span>Start · {route[0]?.label}</span>
+        <span>Finish · {route[n - 1]?.label}</span>
       </div>
       <div ref={trackRef} className="relative pt-1.5">
         {/* Base track */}
@@ -323,8 +331,8 @@ function RouteStrip({
                 />
                 <span
                   className={cn(
-                    'font-instrument hidden text-[9px] uppercase tracking-wider transition-colors duration-300 sm:block',
-                    lit ? 'text-cyan-100' : 'text-lc-text3',
+                    'font-instrument hidden text-[10px] uppercase tracking-wider transition-colors duration-300 sm:block',
+                    lit ? 'text-cyan-100' : 'text-lc-text2',
                   )}
                 >
                   {wp.label}
