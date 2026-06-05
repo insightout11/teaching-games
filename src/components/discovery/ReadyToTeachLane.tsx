@@ -90,7 +90,7 @@ export function ReadyToTeachLane() {
               key={l.id}
               type="button"
               className={cn(
-                'group relative flex h-full flex-col items-start overflow-hidden rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition-all hover:-translate-y-0.5',
+                'group relative flex h-full min-h-[300px] flex-col items-start overflow-hidden rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition-all hover:-translate-y-0.5',
                 l.gradient,
                 l.ring,
               )}
