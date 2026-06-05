@@ -8,7 +8,7 @@
 // Presentational for now (the prototype). Wiring real launches comes when the new
 // preset SET is designed — see docs/home-screen-redesign-audit-jun2026.md §8.
 
-import { Plane, ArrowRight } from 'lucide-react';
+import { Plane, ArrowRight, Paperclip } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { RouteWaypoint } from '@/lib/discovery-shelves';
 
@@ -20,6 +20,8 @@ export interface PresetCardData {
   classFit: string;
   flightNumber: string;
   route: RouteWaypoint[];
+  /** Optional source-pairing badge, e.g. "Best with a video" — for source-featured lessons. */
+  pairsWith?: string;
   /** Tailwind accent classes — kept explicit so Tailwind never purges a dynamic string. */
   accent: {
     border: string;
@@ -35,7 +37,7 @@ export interface PresetCardData {
 }
 
 export function PresetCard({ data }: { data: PresetCardData }) {
-  const { name, focus, durationMinutes, classFit, flightNumber, route, accent, preview, onSelect } = data;
+  const { name, focus, durationMinutes, classFit, flightNumber, route, accent, preview, onSelect, pairsWith } = data;
 
   return (
     <article
@@ -60,6 +62,14 @@ export function PresetCard({ data }: { data: PresetCardData }) {
 
       {/* Title */}
       <h3 className="font-game mt-3 text-[1.7rem] leading-[0.95] text-lc-text">{name}</h3>
+
+      {/* Source-pairing badge (source-featured lessons only) */}
+      {pairsWith && (
+        <span className={cn('mt-2 inline-flex w-fit items-center gap-1.5 rounded-md border bg-white/[0.04] px-2 py-1 text-[10px] font-medium', accent.border, accent.text)}>
+          <Paperclip className="h-3 w-3" aria-hidden />
+          {pairsWith}
+        </span>
+      )}
 
       {/* Focus / duration / class chips */}
       <div className="mt-3 flex flex-wrap gap-2">
