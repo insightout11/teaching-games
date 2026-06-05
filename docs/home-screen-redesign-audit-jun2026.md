@@ -1,8 +1,18 @@
 # Home Screen Redesign — Audit & Design Plan
 
-> Status: **Design discussion only** (no implementation). June 2026.
+> Status: **Design + early cleanup.** June 2026.
 > Scope: the logged-in teacher Home (`/home`, "Departure Lounge"). Hierarchy, visual
 > system, card taxonomy, section ordering, and an onboarding → personalization vision.
+>
+> **Done (shipped to `main`, commit `8c6993b`):** archived the 10 old presets → only
+> Captain's Flight is live; removed the preset-level dev gate; fixed the 402 leak.
+> **Defined (this doc, §8):** the new preset template — flexible-arc journey + boarding-pass
+> card, as one spec every new preset follows.
+> **Next up (deferred — needs real thought, not started):** design a **new set of presets
+> from scratch** — NOT a rebuild of the old 10, and NOT necessarily 10 of them. The archived
+> presets are reference/inspiration only. Open questions: how many, which jobs they cover, and
+> their names. When resuming, also do the §6 code generalization (parametrize
+> `FeaturedFlightHero`, add card-metadata fields to `FlightPlanPreset`).
 
 ---
 
@@ -140,7 +150,8 @@ from a catalog into "here's your class, set up."
   Done: the 10 old presets (Game Day, Debate Ready, Vocab Blitz, Speaking Circle, Grammar
   Clinic, Think Tank, Travel English, Job English, Creative Sprint, First Day) moved to
   `ARCHIVED_PRESETS` in `flight-plan-presets.ts` — fully hidden, preserved in code, revivable.
-  Only Captain's Flight is live. The "Full Flights" lane gets re-populated as each is remade.
+  Only Captain's Flight is live. The "Full Flights" lane gets populated by a NEW set of presets
+  designed from scratch (see §8 note) — not by reviving these archived ones.
 - **Developer mode removed (preset-level).** Done: dropped the preset `isDeveloper?` flag and
   the `mission-setup-screen.tsx` dev-gate filter. Visibility is now controlled by what's in the
   live array, not a dev gate. NOTE: the teacher-account `is_developer` billing bypass is a
@@ -161,9 +172,54 @@ from a catalog into "here's your class, set up."
 
 ---
 
+## 8. The new preset template — "what a preset is now" (Jun 5)
+
+Decided: a new-style preset is **inseparably a rich journey AND a boarding-pass card**, defined
+together as one template that every new preset follows. The journey uses a **flexible arc that
+scales** (NOT one rigid shape) — one recognizable spine, stage count flexes by the preset's job.
+
+> NOTE: the preset SET is being designed **from scratch** — we are NOT rebuilding the old 10,
+> and the final count is open (likely fewer / different jobs). The archived presets are
+> reference only. This §8 defines the per-preset *template*; the *set* (how many, which jobs,
+> names) is the deferred design work.
+
+### A. The journey (lesson side)
+Every preset defines a `flightConfig` whose named stages map onto a common spine:
+
+| Phase | Job | Always? | Captain's Flight stages |
+|---|---|---|---|
+| **Takeoff** | Warm-up / activate | ✅ mandatory bookend | Icebreaker |
+| **Climb** | Input / language load | flexes (0–N) | Briefing, Language Toolkit |
+| **Cruise** | Main practice + production — identity lives here; micro-events + curated pools | ✅ the core | Opinion Pulse, Mission Board, Accuracy Check, Decision Council |
+| **Descent** | Consolidate / compete | flexes (0–N) | End Game |
+| **Landing** | Close / reflect | ✅ mandatory bookend | Landing |
+
+Rules: Takeoff + Landing mandatory; Cruise always present; Climb/Descent expand/collapse by
+job (Speaking Circle = full Climb + rich Cruise; Game Day = "all-Cruise," thin Climb/Descent).
+Stage kinds: `stage` / `micro-event` / `end-game` / `landing`. Micro-events carry a curated
+pool of swappable alternatives. **Free-tier safety is a hard rule**: every default key AND
+every pool member must be free (no Pro leak — see §6).
+
+### B. The card (home-screen side)
+Auto-rendered as a boarding pass (the `FeaturedFlightHero` object): themed name/color · route
+strip **derived straight from `flightConfig.stages`** · stub (Duration · Class fit · Source
+mode · Focus) · flight no. `LC-xx` · QR · barcode · amber "Build this lesson" CTA + Video/
+Article/Topic source chips.
+
+### C. Code generalization required when we build (not yet)
+- `FeaturedFlightHero.tsx` is hardcoded to Captain's Flight (`getFeaturedPreset`, hardcoded
+  stub values, `LC-60`, QR string) → **parametrize by preset**; route comes from `flightConfig`.
+- `FlightPlanPreset` needs card-metadata fields: focus label, class fit, source mode
+  (required/optional/none), flight number, theme color.
+- See also the §6 "single launcher" cleanup — do that before multiplying card launch behavior.
+
+---
+
 ## 7. Open forks (need a call)
 
-1. **Presets section shape** — a horizontal carousel of all 10, or a categorized block
-   ("By skill" / "By situation") so Travel/Job English don't get lost next to Grammar Clinic?
-2. **Onboarding timing** — mandatory at sign-up (best personalization, more friction) vs. a
+1. **How many presets, and which jobs?** The new set is designed from scratch — decide the
+   count and what each covers before any build. (Earlier "all 10" framing is dead.)
+2. **Presets section shape** — once the set exists: a horizontal carousel, or a categorized
+   block ("By skill" / "By situation") so situational presets don't get lost next to skill ones?
+3. **Onboarding timing** — mandatory at sign-up (best personalization, more friction) vs. a
    skippable / progressive prompt that personalizes as they go?
