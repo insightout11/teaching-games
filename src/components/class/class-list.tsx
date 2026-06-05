@@ -8,30 +8,16 @@ import { Modal } from '@/components/ui/modal';
 import Link from 'next/link';
 import { Plane } from 'lucide-react';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
-import { TONES, type Tone, SCORING_MODES, type ScoringMode } from '@/stores/session-store';
-
-const SCORING_MODE_LABELS: Record<ScoringMode, string> = {
-  participation: 'Participation',
-  accuracy: 'Accuracy',
-  competitive: 'Competitive',
-};
-
-const SCORING_TOOLTIP =
-  'Auto: follows lesson goal\n' +
-  'Participation: everyone gets 5 pts for responding\n' +
-  'Accuracy: points for correct answers\n' +
-  'Competitive: spin wheel, multipliers & streaks';
+import { TONES, type Tone } from '@/stores/session-store';
 
 function ClassCard({ cls }: { cls: Class }) {
   const [difficulty, setDifficulty] = useState<string>(cls.default_difficulty ?? '');
   const [tone, setTone] = useState<string>(cls.default_tone ?? '');
-  const [scoringMode, setScoringMode] = useState<string>(cls.default_scoring_mode ?? '');
   const supabase = createClient();
 
   const updatePreset = async (patch: {
     default_difficulty?: string | null;
     default_tone?: string | null;
-    default_scoring_mode?: string | null;
   }) => {
     await supabase.from('classes').update(patch).eq('id', cls.id);
   };
@@ -46,12 +32,6 @@ function ClassCard({ cls }: { cls: Class }) {
     const newVal = value || null;
     setTone(value);
     updatePreset({ default_tone: newVal });
-  };
-
-  const handleScoringModeChange = (value: string) => {
-    const newVal = value || null;
-    setScoringMode(value);
-    updatePreset({ default_scoring_mode: newVal });
   };
 
   return (
@@ -115,17 +95,6 @@ function ClassCard({ cls }: { cls: Class }) {
           <option value="">Tone</option>
           {TONES.map((t: Tone) => (
             <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
-        <select
-          value={scoringMode}
-          onChange={(e) => handleScoringModeChange(e.target.value)}
-          className="bg-lc-surface border border-lc-border rounded-lg px-2 py-1 text-xs text-lc-text cursor-pointer outline-none focus:ring-1 focus:ring-lc-blue/40"
-          title={SCORING_TOOLTIP}
-        >
-          <option value="">Scoring</option>
-          {SCORING_MODES.map((m: ScoringMode) => (
-            <option key={m} value={m}>{SCORING_MODE_LABELS[m]}</option>
           ))}
         </select>
       </div>

@@ -15,7 +15,7 @@ export const videoPlayerPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: Play,
   flightPlanOnly: true,
-  scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
 };
 
 export { VideoPlayerActivity };

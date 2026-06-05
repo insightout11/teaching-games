@@ -214,6 +214,15 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
     const allWords = [startingWordRef.current, ...chainRef.current.map(c => c.word.toLowerCase())];
     if (allWords.includes(word.toLowerCase())) {
       setLastFeedback('Already used! Try a different word.');
+      onScore(studentId, {
+        isCorrect: false,
+        points: 1,
+        responseData: {
+          word: word.toLowerCase(),
+          rejected: true,
+          reason: 'duplicate',
+        },
+      });
       return { valid: false };
     }
 
@@ -297,6 +306,15 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           audio.play().catch(() => {});
         } catch {}
       } else {
+        onScore(studentId, {
+          isCorrect: false,
+          points: result.score,
+          responseData: {
+            word: word.toLowerCase(),
+            rejected: true,
+            feedback: result.feedback,
+          },
+        });
         try {
           const audio = new Audio('/sounds/wrong.mp3');
           audio.volume = 0.5;

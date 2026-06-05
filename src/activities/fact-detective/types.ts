@@ -12,7 +12,8 @@ export enum ActivityStatus {
 
 // Student vote
 export interface Vote {
-  studentId: string;
+  clientId: string;
+  studentId: string | null;
   studentName: string;
   believesTrue: boolean;
 }

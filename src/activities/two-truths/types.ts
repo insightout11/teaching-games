@@ -11,7 +11,8 @@ export enum ActivityStatus {
 
 // Student guess tracking
 export interface Guess {
-  studentId: string;
+  clientId: string;
+  studentId: string | null;
   studentName: string;
   guessIndex: number; // Which statement they think is false (0, 1, or 2)
 }

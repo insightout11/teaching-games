@@ -10,7 +10,6 @@ import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import { Leaderboard } from './leaderboard';
-import { SpinWheel, ModifierBadge } from './spin-wheel';
 import { ApprovalQueue } from './approval-queue';
 import { TeamTotals } from './team-totals';
 
@@ -30,12 +29,9 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
   const settings = useSessionStore((s) => s.settings);
   const streaks = useSessionStore((s) => s.streaks);
-  const turnModifier = useSessionStore((s) => s.turnModifier);
-  const needsSpin = useSessionStore((s) => s.needsSpin);
   const pickStudent = useSessionStore((s) => s.pickStudent);
   const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
   const recordScore = useSessionStore((s) => s.recordScore);
-  const clearModifier = useSessionStore((s) => s.clearModifier);
   const setActiveGame = useSessionStore((s) => s.setActiveGame);
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
   const supabase = createClient();
@@ -53,8 +49,6 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   // so games that list onScore in effect deps don't re-run on every score.
   const streaksRef = useRef(streaks);
   streaksRef.current = streaks;
-  const turnModifierRef = useRef(turnModifier);
-  turnModifierRef.current = turnModifier;
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
   const studentsRef = useRef(students);
@@ -261,8 +255,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       const { data } = await res.json() as { data: Score };
       if (data) recordScore(data);
     }
-    clearModifier();
-  }, [sessionId, recordScore, clearModifier, game]);
+  }, [sessionId, recordScore, game]);
 
   const handlePickStudent = useCallback(() => {
     pickStudent();
@@ -378,18 +371,13 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   }, [sessionId, supabase]);
 
   return (
-    <>
-      {/* Spin Wheel Modal */}
-      <SpinWheel />
-
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full">
         {/* Main game area */}
         <div className="min-w-0 space-y-4">
           <div className="glass rounded-2xl min-h-[480px] max-h-[680px] flex flex-col overflow-hidden">
             <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.06] shrink-0">
               <div className="flex items-center gap-3">
                 <h2 className="text-lg font-bold">{game.name}</h2>
-                <ModifierBadge />
               </div>
               {autoApprove && (
                 <button
@@ -401,29 +389,21 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
               )}
             </div>
             <div className="flex-1 overflow-y-auto p-6">
-              {/* Block game if spin needed */}
-              {needsSpin ? (
-                <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
-                  <p className="text-xl font-game text-cyan-400 mb-2">Spin Required!</p>
-                  <p className="opacity-60 text-sm">Click the SPIN button to get your modifier</p>
-                </div>
-              ) : (
-                <GameComponent
-                  students={students}
-                  currentStudentId={currentStudentId}
-                  onScore={handleScore}
-                  onPickStudent={handlePickStudent}
-                  onPickSpecificStudent={handlePickSpecificStudent}
-                  config={gameConfig}
-                  sessionSettings={sessionSettings}
-                  onSetInputSpec={handleSetInputSpec}
-                  onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
-                  onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
-                  prefsMap={prefsMap}
-                  onRevealTopSubmissions={onRevealTopSubmissionsRef.current}
-                  isMicroEvent={isMicroEvent}
-                />
-              )}
+              <GameComponent
+                students={students}
+                currentStudentId={currentStudentId}
+                onScore={handleScore}
+                onPickStudent={handlePickStudent}
+                onPickSpecificStudent={handlePickSpecificStudent}
+                config={gameConfig}
+                sessionSettings={sessionSettings}
+                onSetInputSpec={handleSetInputSpec}
+                onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
+                onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
+                prefsMap={prefsMap}
+                onRevealTopSubmissions={onRevealTopSubmissionsRef.current}
+                isMicroEvent={isMicroEvent}
+              />
             </div>
           </div>
         </div>
@@ -444,6 +424,5 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
           )}
         </div>
       </div>
-    </>
   );
 }

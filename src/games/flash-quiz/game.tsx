@@ -27,9 +27,6 @@ interface StudentAnswer {
 
 type QuizPhase = 'idle' | 'loading' | 'answering' | 'revealing' | 'leaderboard' | 'finished';
 
-// Rank-based points awarded to session leaderboard at end of quiz
-const RANK_POINTS = [10, 8, 6, 4, 4, 4, 2];
-
 // Grace period after timer hits 0 — keeps phase 'answering' so in-flight votes still land
 const REVEAL_GRACE_MS = 1500;
 
@@ -103,6 +100,7 @@ export function FlashQuizGame({
   questionsRef.current = questions;
   const roundAnswersRef = useRef<StudentAnswer[]>([]);
   roundAnswersRef.current = roundAnswers;
+  const scoredAnswersRef = useRef<Set<string>>(new Set());
   const roundStartRef = useRef<number>(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -251,6 +249,7 @@ export function FlashQuizGame({
     setPhase('loading');
     setInternalScores(new Map());
     internalScoresRef.current = new Map();
+    scoredAnswersRef.current = new Set();
     setRankAwards(new Map());
     try {
       const res = await fetch('/api/flash-quiz/generate', {
@@ -298,6 +297,22 @@ export function FlashQuizGame({
     // Push result feedback to each student device
     const question = questionsRef.current[currentIndexRef.current];
     if (!question) return;
+    roundAnswersRef.current.forEach((answer) => {
+      const scoreKey = `${currentIndexRef.current}:${answer.studentId}`;
+      if (scoredAnswersRef.current.has(scoreKey)) return;
+      scoredAnswersRef.current.add(scoreKey);
+      onScore(answer.studentId, {
+        isCorrect: answer.isCorrect,
+        points: answer.isCorrect ? 3 : 1,
+        responseData: {
+          clientId: answer.clientId,
+          questionIndex: currentIndexRef.current,
+          choiceIndex: answer.choiceIndex,
+          quizPoints: answer.pointsEarned,
+          timeRemaining: answer.timeRemaining,
+        },
+      });
+    });
     const perStudentData: Record<string, unknown> = {};
     roundAnswersRef.current.forEach((a) => {
       perStudentData[a.clientId] = {
@@ -315,7 +330,7 @@ export function FlashQuizGame({
       startedAt: roundStartRef.current,
       perStudentData,
     } as InputSpec);
-  }, [onSetInputSpec]);
+  }, [onScore, onSetInputSpec]);
 
   // Auto-reveal when timer hits 0, with grace period for in-flight submissions
   useEffect(() => {
@@ -341,25 +356,11 @@ export function FlashQuizGame({
   const advance = useCallback(() => {
     const nextIndex = currentIndexRef.current + 1;
     if (nextIndex >= questionsRef.current.length) {
-      // Quiz finished — award rank-based points to the session leaderboard
-      const sorted = Array.from(internalScoresRef.current.entries())
-        .sort(([, a], [, b]) => b.totalPoints - a.totalPoints);
-      const awards = new Map<string, number>();
-      sorted.forEach(([studentId, data], rank) => {
-        const rankPoints = RANK_POINTS[rank] ?? 2;
-        awards.set(studentId, rankPoints);
-        onScore(studentId, {
-          isCorrect: true,
-          points: rankPoints,
-          responseData: { rank: rank + 1, quizPoints: data.totalPoints },
-        });
-      });
-      setRankAwards(awards);
       setPhase('finished');
     } else {
       startQuestion(nextIndex);
     }
-  }, [startQuestion, onScore]);
+  }, [startQuestion]);
 
   // ── Derived data for reveal phase ─────────────────────────────────────────
   const currentQuestion = questions[currentIndex] ?? null;

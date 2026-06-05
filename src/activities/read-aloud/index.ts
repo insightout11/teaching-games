@@ -15,7 +15,7 @@ export const readAloudPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: BookOpen,
   flightPlanOnly: true,
-  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
+  scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true, defaultOutcome: 'on-task' },
 };
 
 export { ReadAloudActivity };

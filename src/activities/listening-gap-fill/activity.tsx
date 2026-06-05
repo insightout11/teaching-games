@@ -6,8 +6,15 @@ import type { ListeningGapFillContent, GapFillItem } from '../types';
 
 type Phase = 'idle' | 'prompting' | 'revealing' | 'summary';
 
-// votes[itemIndex][clientId] = raw typed answer
-type VoteMap = Record<number, Record<string, string>>;
+interface GapFillVote {
+  studentId: string | null;
+  clientId: string;
+  displayName: string;
+  answer: string;
+}
+
+// votes[itemIndex][clientId] = answer metadata
+type VoteMap = Record<number, Record<string, GapFillVote>>;
 // results[itemIndex][clientId] = correct?
 type ResultMap = Record<number, Record<string, boolean>>;
 
@@ -37,7 +44,7 @@ function GapFillResultCard({
   compact = false,
 }: {
   item: GapFillItem;
-  votes: Record<string, string>;
+  votes: Record<string, GapFillVote>;
   results: Record<string, boolean>;
   compact?: boolean;
 }) {
@@ -48,8 +55,8 @@ function GapFillResultCard({
 
   const wrongAnswers = Object.entries(votes)
     .filter(([clientId]) => results[clientId] === false)
-    .reduce<Record<string, number>>((acc, [, ans]) => {
-      const norm = ans.trim().toLowerCase();
+    .reduce<Record<string, number>>((acc, [, vote]) => {
+      const norm = vote.answer.trim().toLowerCase();
       acc[norm] = (acc[norm] ?? 0) + 1;
       return acc;
     }, {});
@@ -135,6 +142,9 @@ export function ListeningGapFillActivity({
   currentIndexRef.current = currentIndex;
   const votesRef = useRef(votes);
   votesRef.current = votes;
+  const resultsRef = useRef(results);
+  resultsRef.current = results;
+  const scoredVotesRef = useRef<Set<string>>(new Set());
 
   const timerSeconds = sessionSettings.timerSeconds ?? 30;
 
@@ -167,20 +177,20 @@ export function ListeningGapFillActivity({
 
       setVotes((prev) => ({
         ...prev,
-        [idx]: { ...prev[idx], [vote.clientId]: vote.choice },
+        [idx]: {
+          ...prev[idx],
+          [vote.clientId]: {
+            studentId: vote.studentId ?? null,
+            clientId: vote.clientId,
+            displayName: vote.displayName,
+            answer: vote.choice,
+          },
+        },
       }));
       setResults((prev) => ({
         ...prev,
         [idx]: { ...prev[idx], [vote.clientId]: correct },
       }));
-      onScore?.({
-        studentId: vote.studentId ?? null,
-        clientId: vote.clientId,
-        displayName: vote.displayName,
-        promptIndex: idx + 1,
-        points: correct ? 2 : 1,
-        isCorrect: null,
-      });
     });
     return () => onRegisterRemoteVoteHandler?.(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -210,15 +220,36 @@ export function ListeningGapFillActivity({
     setCurrentIndex(0);
     setVotes({});
     setResults({});
+    scoredVotesRef.current = new Set();
     setTimeLeft(timerSeconds);
     setPhase('prompting');
     onPhaseChange?.('prompting');
   }, [timerSeconds, onPhaseChange]);
 
+  const scoreCurrentVotes = useCallback(() => {
+    if (!onScore) return;
+    const idx = currentIndexRef.current;
+    Object.values(votesRef.current[idx] ?? {}).forEach((vote) => {
+      const scoreKey = `${idx}:${vote.clientId}`;
+      if (scoredVotesRef.current.has(scoreKey)) return;
+      scoredVotesRef.current.add(scoreKey);
+      const isCorrect = resultsRef.current[idx]?.[vote.clientId] === true;
+      void onScore({
+        studentId: vote.studentId,
+        clientId: vote.clientId,
+        displayName: vote.displayName,
+        promptIndex: idx + 1,
+        points: isCorrect ? 3 : 1,
+        isCorrect,
+      });
+    });
+  }, [onScore]);
+
   const handleReveal = useCallback(() => {
+    scoreCurrentVotes();
     setPhase('revealing');
     onPhaseChange?.('revealing');
-  }, [onPhaseChange]);
+  }, [scoreCurrentVotes, onPhaseChange]);
 
   const handleNext = useCallback(() => {
     const nextIndex = currentIndex + 1;

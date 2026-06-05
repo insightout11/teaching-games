@@ -26,6 +26,8 @@ interface ComprehensionQuizProps {
 }
 
 interface VoteRecord {
+  clientId: string;
+  studentId: string | null;
   choice: string;
   name: string;
 }
@@ -91,26 +93,39 @@ export function ComprehensionQuiz({
 
       setVotes((prev) => ({
         ...prev,
-        [qIdx]: { ...(prev[qIdx] ?? {}), [clientId]: { choice, name: displayName } },
+        [qIdx]: {
+          ...(prev[qIdx] ?? {}),
+          [clientId]: {
+            clientId,
+            studentId: vote.studentId ?? null,
+            choice,
+            name: displayName,
+          },
+        },
       }));
-
-      const scoreKey = `${qIdx}:${clientId}`;
-      if (!scoredRef.current.has(scoreKey)) {
-        scoredRef.current.add(scoreKey);
-        const isCorrect = cp.options.indexOf(choice) === cp.correctIndex;
-        void onScore?.({
-          studentId: null,
-          clientId,
-          displayName,
-          promptIndex: promptIndexOffset + qIdx + 1,
-          points: isCorrect ? 5 : 1,
-          isCorrect: null,
-        });
-      }
     });
     return () => onRegisterRemoteVoteHandler?.(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onRegisterRemoteVoteHandler]);
+
+  const scoreCurrentQuestion = useCallback(() => {
+    if (!question || !onScore) return;
+    const qIdx = indexRef.current;
+    Object.values(votes[qIdx] ?? {}).forEach((vote) => {
+      const scoreKey = `${qIdx}:${vote.clientId}`;
+      if (scoredRef.current.has(scoreKey)) return;
+      scoredRef.current.add(scoreKey);
+      const isCorrect = question.options.indexOf(vote.choice) === question.correctIndex;
+      void onScore({
+        studentId: vote.studentId,
+        clientId: vote.clientId,
+        displayName: vote.name,
+        promptIndex: promptIndexOffset + qIdx + 1,
+        points: isCorrect ? 3 : 1,
+        isCorrect,
+      });
+    });
+  }, [onScore, promptIndexOffset, question, votes]);
 
   const handleNext = useCallback(() => {
     onSetInputSpec?.(null);
@@ -240,7 +255,10 @@ export function ComprehensionQuiz({
 
       {!revealed ? (
         <button
-          onClick={() => setPhase('revealed')}
+          onClick={() => {
+            scoreCurrentQuestion();
+            setPhase('revealed');
+          }}
           className="w-full py-3 rounded-xl bg-lc-success/20 text-lc-success font-bold text-sm hover:bg-lc-success/30 transition-colors"
         >
           Reveal Answer

@@ -30,6 +30,7 @@ export function GrammarProofActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [submissions, setSubmissions] = useState<Record<string, Submission>>({});
   const [scores, setScores] = useState<LandingScore[]>([]);
+  const scoredResultsRef = useRef<Set<string>>(new Set());
 
   const submissionsRef = useRef(submissions);
   submissionsRef.current = submissions;
@@ -37,6 +38,7 @@ export function GrammarProofActivity({
   const handleStart = useCallback(() => {
     setSubmissions({});
     setScores([]);
+    scoredResultsRef.current = new Set();
     setPhase('writing');
     onPhaseChange?.('writing');
   }, [onPhaseChange]);
@@ -132,20 +134,17 @@ export function GrammarProofActivity({
     for (const score of scores) {
       const sub = submissionsRef.current[score.clientId];
       if (!sub) continue;
-      // Bonus points based on score quality (participation point already awarded on submission)
-      const bonus = score.finalScore >= 70 ? 4 : score.finalScore >= 50 ? 2 : score.finalScore >= 30 ? 1 : 0;
-      const labelBonus = score.suggestedLabel ? 2 : 0;
-      const totalBonus = bonus + labelBonus;
-      if (totalBonus > 0) {
-        onScore?.({
-          studentId: sub.studentId ?? null,
-          clientId: score.clientId,
-          displayName: sub.displayName,
-          promptIndex: 1,
-          points: totalBonus,
-          isCorrect: null,
-        });
-      }
+      if (scoredResultsRef.current.has(score.clientId)) continue;
+      scoredResultsRef.current.add(score.clientId);
+      const usedGrammar = score.targetLanguage >= 0.4 || score.reasonTags?.includes('used_target_vocab');
+      onScore?.({
+        studentId: sub.studentId ?? null,
+        clientId: score.clientId,
+        displayName: sub.displayName,
+        promptIndex: 2,
+        points: usedGrammar ? 3 : 1,
+        isCorrect: usedGrammar,
+      });
       onLandingAnswer?.(score.clientId, sub.text);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

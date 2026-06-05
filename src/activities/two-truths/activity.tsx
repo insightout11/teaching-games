@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Guess, type TwoTruthsContent, type TwoTruthsRound } from './types';
@@ -11,6 +11,7 @@ export function TwoTruthsActivity({
   customTopic,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  onScore,
   isMicroEvent,
 }: ActivityProps) {
   const content = generatedContent as TwoTruthsContent;
@@ -20,6 +21,7 @@ export function TwoTruthsActivity({
   const [guesses, setGuesses] = useState<Guess[]>([]);
   const [showExplanation, setShowExplanation] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
+  const scoredGuessesRef = useRef<Set<string>>(new Set());
 
   const currentRound: TwoTruthsRound | undefined = content.rounds?.[currentRoundIndex];
 
@@ -47,9 +49,10 @@ export function TwoTruthsActivity({
       if (guessIndex === -1) return;
 
       setGuesses((prev) => {
-        const filtered = prev.filter((g) => g.studentId !== vote.clientId);
+        const filtered = prev.filter((g) => g.clientId !== vote.clientId);
         return [...filtered, {
-          studentId: vote.clientId,
+          clientId: vote.clientId,
+          studentId: vote.studentId ?? null,
           studentName: vote.displayName,
           guessIndex,
         }];
@@ -77,6 +80,7 @@ export function TwoTruthsActivity({
   }, [guesses, currentRound]);
 
   const startActivity = useCallback(() => {
+    scoredGuessesRef.current = new Set();
     setStatus(ActivityStatus.PRESENTING);
     onPhaseChange?.('presenting');
   }, [onPhaseChange]);
@@ -88,10 +92,25 @@ export function TwoTruthsActivity({
   }, [onPhaseChange]);
 
   const revealAnswer = useCallback(() => {
+    if (!currentRound) return;
+    guesses.forEach((guess) => {
+      const scoreKey = `${currentRoundIndex}:${guess.clientId}`;
+      if (scoredGuessesRef.current.has(scoreKey)) return;
+      scoredGuessesRef.current.add(scoreKey);
+      const isCorrect = guess.guessIndex === currentRound.fabricationIndex;
+      void onScore?.({
+        studentId: guess.studentId,
+        clientId: guess.clientId,
+        displayName: guess.studentName,
+        promptIndex: currentRoundIndex + 1,
+        points: isCorrect ? 3 : 1,
+        isCorrect,
+      });
+    });
     setStatus(ActivityStatus.REVEAL);
     setCorrectCount((prev) => prev + guessStats.correct);
     onPhaseChange?.('reveal');
-  }, [guessStats.correct, onPhaseChange]);
+  }, [currentRound, currentRoundIndex, guesses, guessStats.correct, onScore, onPhaseChange]);
 
   const nextRound = useCallback(() => {
     if (!isMicroEvent && currentRoundIndex < (content.rounds?.length || 0) - 1) {

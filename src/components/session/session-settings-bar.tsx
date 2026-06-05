@@ -9,16 +9,9 @@ import {
   type Difficulty,
   type Topic,
   type Tone,
-  type ScoringMode,
 } from '@/stores/session-store';
 import { GrammarTarget, GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
-
-const SCORING_MODE_LABELS: Record<ScoringMode, string> = {
-  participation: 'Participation Mode',
-  accuracy: 'Accuracy Mode',
-  competitive: 'Competitive Mode',
-};
 
 function persistSessionSettings(sessionId: string | null, patch: { topic?: string; difficulty?: string; customTopic?: string; grammarTarget?: string | null }) {
   if (!sessionId) return;
@@ -43,7 +36,6 @@ export function SessionSettingsBar() {
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
   const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
   const sessionId = useSessionStore((s) => s.sessionId);
-  const scoringMode = settings.scoringMode;
   const [showCustomTopic, setShowCustomTopic] = useState(!!settings.customTopic);
   const teacherTier = useTeacherTier();
   const hasInitializedRef = useRef(false);
@@ -194,12 +186,6 @@ export function SessionSettingsBar() {
           ))}
         </select>
 
-        <div className="h-4 w-px bg-lc-border" />
-
-        {/* Scoring mode badge (read-only) */}
-        <span className="text-sm font-medium text-lc-text2">
-          {SCORING_MODE_LABELS[scoringMode]}
-        </span>
       </div>
 
       {/* Custom Topic Indicator */}

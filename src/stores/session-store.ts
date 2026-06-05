@@ -249,20 +249,20 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   setPickerMode: (mode) => set({ pickerMode: mode }),
 
-  setGameMode: (mode) => set({ gameMode: mode }),
+  setGameMode: () => set({ gameMode: 'normal', turnModifier: null, needsSpin: false }),
 
   setCurrentStudent: (studentId) => {
-    const { callCounts, gameMode } = get();
+    const { callCounts } = get();
     set({
       currentStudentId: studentId,
       callCounts: { ...callCounts, [studentId]: (callCounts[studentId] ?? 0) + 1 },
-      needsSpin: gameMode === 'spinner',
-      turnModifier: gameMode === 'spinner' ? null : get().turnModifier,
+      needsSpin: false,
+      turnModifier: null,
     });
   },
 
   pickStudent: () => {
-    const { students, pickerMode, callCounts, gameMode } = get();
+    const { students, pickerMode, callCounts } = get();
     if (students.length === 0) return null;
 
     let picked: Student;
@@ -278,8 +278,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     set({
       currentStudentId: picked.id,
       callCounts: { ...callCounts, [picked.id]: (callCounts[picked.id] ?? 0) + 1 },
-      needsSpin: gameMode === 'spinner',
-      turnModifier: gameMode === 'spinner' ? null : get().turnModifier,
+      needsSpin: false,
+      turnModifier: null,
     });
     return picked.id;
   },

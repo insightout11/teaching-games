@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type FactDetectiveContent, type FactDetectiveClaim } from './types';
@@ -12,6 +12,7 @@ export function FactDetectiveActivity({
   customTopic,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  onScore,
   isMicroEvent,
 }: ActivityProps) {
   const content = generatedContent as FactDetectiveContent;
@@ -21,6 +22,7 @@ export function FactDetectiveActivity({
   const [votes, setVotes] = useState<Vote[]>([]);
   const [showVocabulary, setShowVocabulary] = useState(false);
   const [score, setScore] = useState({ correct: 0, total: 0 });
+  const scoredVotesRef = useRef<Set<string>>(new Set());
 
   const currentClaim: FactDetectiveClaim | undefined = content.claims?.[currentClaimIndex];
 
@@ -45,9 +47,10 @@ export function FactDetectiveActivity({
 
       const believesTrue = vote.choice === 'TRUE';
       setVotes((prev) => {
-        const filtered = prev.filter((v) => v.studentId !== vote.clientId);
+        const filtered = prev.filter((v) => v.clientId !== vote.clientId);
         return [...filtered, {
-          studentId: vote.clientId,
+          clientId: vote.clientId,
+          studentId: vote.studentId ?? null,
           studentName: vote.displayName,
           believesTrue,
         }];
@@ -70,6 +73,7 @@ export function FactDetectiveActivity({
   }, [votes]);
 
   const startActivity = useCallback(() => {
+    scoredVotesRef.current = new Set();
     setStatus(ActivityStatus.CLAIM);
     onPhaseChange?.('claim');
   }, [onPhaseChange]);
@@ -89,10 +93,24 @@ export function FactDetectiveActivity({
       correct: prev.correct + correctVotes.length,
       total: prev.total + votes.length,
     }));
+    votes.forEach((vote) => {
+      const scoreKey = `${currentClaimIndex}:${vote.clientId}`;
+      if (scoredVotesRef.current.has(scoreKey)) return;
+      scoredVotesRef.current.add(scoreKey);
+      const isCorrect = vote.believesTrue === currentClaim.isTrue;
+      void onScore?.({
+        studentId: vote.studentId,
+        clientId: vote.clientId,
+        displayName: vote.studentName,
+        promptIndex: currentClaimIndex + 1,
+        points: isCorrect ? 3 : 1,
+        isCorrect,
+      });
+    });
 
     setStatus(ActivityStatus.REVEAL);
     onPhaseChange?.('reveal');
-  }, [currentClaim, votes, onPhaseChange]);
+  }, [currentClaim, currentClaimIndex, votes, onScore, onPhaseChange]);
 
   const showVocab = useCallback(() => {
     setShowVocabulary(true);

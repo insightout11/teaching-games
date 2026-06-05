@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useSessionStore, type GameMode } from '@/stores/session-store';
+import { useSessionStore } from '@/stores/session-store';
 import { useState, useCallback, useRef } from 'react';
 
 export function StudentPicker() {
@@ -10,9 +10,6 @@ export function StudentPicker() {
   const pickerMode = useSessionStore((s) => s.pickerMode);
   const setPickerMode = useSessionStore((s) => s.setPickerMode);
   const pickStudent = useSessionStore((s) => s.pickStudent);
-  const gameMode = useSessionStore((s) => s.gameMode);
-  const setGameMode = useSessionStore((s) => s.setGameMode);
-  const scoringMode = useSessionStore((s) => s.settings.scoringMode);
   const [spinning, setSpinning] = useState(false);
   const [displayIndex, setDisplayIndex] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout>();
@@ -54,21 +51,6 @@ export function StudentPicker() {
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Game Mode Dropdown */}
-      <div className="mb-3">
-        <label className="text-xs uppercase tracking-wider opacity-60 mb-1 block">Game Mode</label>
-        <select
-          value={gameMode}
-          onChange={(e) => setGameMode(e.target.value as GameMode)}
-          className="w-full bg-lc-surface border border-lc-border text-lc-text rounded-lg px-3 py-2 text-sm focus:border-lc-blue outline-none"
-        >
-          <option value="normal">Normal Mode</option>
-          {scoringMode === 'competitive' && (
-            <option value="spinner">Spinner Mode</option>
-          )}
-        </select>
       </div>
 
       <AnimatePresence mode="wait">

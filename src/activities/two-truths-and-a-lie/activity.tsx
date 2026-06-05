@@ -174,6 +174,7 @@ export function TwoTruthsAndALieActivity({
           promptIndex: promptIdx,
           points: 5,
           isCorrect: null,
+          outcome: 'on-task',
         });
       }
 
@@ -188,7 +189,7 @@ export function TwoTruthsAndALieActivity({
             displayName: v.displayName,
             promptIndex: promptIdx,
             points: correct ? 10 : 3,
-            isCorrect: null,
+            isCorrect: correct,
           });
         }
       }

@@ -126,22 +126,25 @@ export function GridRushGame({
     // Award bonus points for special category winners
     if (longestWord.studentId) {
       onScore(longestWord.studentId, {
-        isCorrect: true,
+        isCorrect: null,
         points: 3,
+        outcome: 'on-task',
         responseData: { bonus: 'longestWord', word: longestWord.word },
       });
     }
     if (mostTopicWords.studentId && mostTopicWords.count > 0) {
       onScore(mostTopicWords.studentId, {
-        isCorrect: true,
+        isCorrect: null,
         points: 3,
+        outcome: 'on-task',
         responseData: { bonus: 'mostTopicWords', count: mostTopicWords.count },
       });
     }
     if (bestSentence.studentId) {
       onScore(bestSentence.studentId, {
-        isCorrect: true,
+        isCorrect: null,
         points: 3,
+        outcome: 'on-task',
         responseData: { bonus: 'bestSentence', score: bestSentence.score },
       });
     }
@@ -346,6 +349,16 @@ export function GridRushGame({
             ...prev,
             [studentId]: (prev[studentId] ?? []).filter((e) => e.submittedAt !== submittedAt),
           }));
+          onScore(studentId, {
+            isCorrect: false,
+            points: 1,
+            responseData: {
+              round: 1,
+              word,
+              rejected: true,
+              reason: result.reason,
+            },
+          });
           return;
         }
 

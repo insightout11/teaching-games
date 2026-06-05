@@ -393,8 +393,9 @@ export function SectorStrikeGame({
       setLastResult('correct');
       setPhase('applying');
       onScore(picker?.id ?? '', {
-        isCorrect: true,
+        isCorrect: null,
         points: FREE_SQUARE_POINTS,
+        outcome: 'on-task',
         responseData: { cell: cellIdx, team, bonus: 'free-square' },
       });
       applyingTimerRef.current = setTimeout(() => advanceTurn(updated, team), 1400);

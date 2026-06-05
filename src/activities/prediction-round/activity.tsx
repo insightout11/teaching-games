@@ -6,8 +6,15 @@ import type { PredictionRoundContent, PredictionRoundQuestion } from '../types';
 
 type Phase = 'idle' | 'prompting' | 'revealing' | 'summary';
 
-// votes[questionIndex][clientId] = 'A' | 'B'
-type VoteMap = Record<number, Record<string, string>>;
+interface PredictionVote {
+  studentId: string | null;
+  clientId: string;
+  displayName: string;
+  choice: string;
+}
+
+// votes[questionIndex][clientId] = vote metadata
+type VoteMap = Record<number, Record<string, PredictionVote>>;
 
 function PredictionChart({
   question,
@@ -15,11 +22,11 @@ function PredictionChart({
   showAnswer,
 }: {
   question: PredictionRoundQuestion;
-  votes: Record<string, string>;
+  votes: Record<string, PredictionVote>;
   showAnswer: boolean;
 }) {
-  const countA = Object.values(votes).filter((v) => v === question.optionA).length;
-  const countB = Object.values(votes).filter((v) => v === question.optionB).length;
+  const countA = Object.values(votes).filter((v) => v.choice === question.optionA).length;
+  const countB = Object.values(votes).filter((v) => v.choice === question.optionB).length;
   const total = countA + countB;
 
   const pctA = total > 0 ? Math.round((countA / total) * 100) : 0;
@@ -106,6 +113,7 @@ export function PredictionRoundActivity({
   phaseRef.current = phase;
   const votesRef = useRef(votes);
   votesRef.current = votes;
+  const scoredVotesRef = useRef<Set<string>>(new Set());
 
   const timerSeconds = sessionSettings.timerSeconds ?? 30;
 
@@ -133,16 +141,16 @@ export function PredictionRoundActivity({
       if (!alreadyVoted) {
         setVotes((prev) => ({
           ...prev,
-          [idx]: { ...prev[idx], [vote.clientId]: vote.choice },
+          [idx]: {
+            ...prev[idx],
+            [vote.clientId]: {
+              studentId: vote.studentId ?? null,
+              clientId: vote.clientId,
+              displayName: vote.displayName,
+              choice: vote.choice,
+            },
+          },
         }));
-        onScore?.({
-          studentId: vote.studentId ?? null,
-          clientId: vote.clientId,
-          displayName: vote.displayName,
-          promptIndex: idx + 1,
-          points: 1,
-          isCorrect: null,
-        });
       }
     });
     return () => onRegisterRemoteVoteHandler?.(null);
@@ -168,15 +176,41 @@ export function PredictionRoundActivity({
   const handleStart = useCallback(() => {
     setCurrentIndex(0);
     setVotes({ 0: {}, 1: {}, 2: {} });
+    scoredVotesRef.current = new Set();
     setTimeLeft(timerSeconds);
     setPhase('prompting');
     onPhaseChange?.('prompting');
   }, [timerSeconds, onPhaseChange]);
 
+  const scoreCurrentVotes = useCallback(() => {
+    if (!onScore) return;
+    const idx = currentIndexRef.current;
+    const question = questions[idx];
+    if (!question) return;
+    Object.values(votesRef.current[idx] ?? {}).forEach((vote) => {
+      const scoreKey = `${idx}:${vote.clientId}`;
+      if (scoredVotesRef.current.has(scoreKey)) return;
+      scoredVotesRef.current.add(scoreKey);
+      const isCorrect = (
+        (question.correctAnswer === 'A' && vote.choice === question.optionA)
+        || (question.correctAnswer === 'B' && vote.choice === question.optionB)
+      );
+      void onScore({
+        studentId: vote.studentId,
+        clientId: vote.clientId,
+        displayName: vote.displayName,
+        promptIndex: idx + 1,
+        points: isCorrect ? 3 : 1,
+        isCorrect,
+      });
+    });
+  }, [onScore, questions]);
+
   const handleReveal = useCallback(() => {
+    scoreCurrentVotes();
     setPhase('revealing');
     onPhaseChange?.('revealing');
-  }, [onPhaseChange]);
+  }, [scoreCurrentVotes, onPhaseChange]);
 
   const handleNext = useCallback(() => {
     const nextIndex = currentIndex + 1;
