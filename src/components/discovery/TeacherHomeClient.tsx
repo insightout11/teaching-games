@@ -54,6 +54,19 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
   const [selected, setSelected] = useState<DiscoveryItem | null>(null);
 
   const shelves = buildShelves().filter((s) => HOME_SHELF_IDS.includes(s.id));
+  const shelfById = new Map(shelves.map((s) => [s.id, s] as const));
+  const renderShelf = (id: string) => {
+    const shelf = shelfById.get(id);
+    if (!shelf) return null;
+    return (
+      <DiscoveryShelf
+        label={shelf.label}
+        description={shelf.description}
+        items={shelf.items}
+        onSelect={handleSelect}
+      />
+    );
+  };
 
   // Scroll-linked climb: gentle altitude rise drives the sky's parallax (gate → climb).
   useEffect(() => {
@@ -199,32 +212,16 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             </section>
           )}
 
-          {/* Full Flights — whole-lesson presets (the hero's siblings) */}
-          <div className="mt-14">
+          {/* Interleaved: rich featured lanes punctuate the plain card rows so the page
+              reads as a home, not a catalog (docs/home-screen-redesign-audit-jun2026.md §3).
+              Rhythm: Full Flights → row → Ready to Teach → row → Special Features → row. */}
+          <div className="mt-14 space-y-14">
             <FullFlightsLane />
-          </div>
-
-          {/* Ready to Teach — fully pre-built, zero-prep lessons (topic + source chosen) */}
-          <div className="mt-14">
+            {renderShelf('end-with-a-game')}
             <ReadyToTeachLane />
-          </div>
-
-          {/* Special Features — one-tap, pre-themed experiences */}
-          <div className="mt-14">
+            {renderShelf('speaking')}
             <SpecialFeaturesLane />
-          </div>
-
-          {/* Teacher-job shelves */}
-          <div className="mt-14 space-y-12">
-            {shelves.map((shelf) => (
-              <DiscoveryShelf
-                key={shelf.id}
-                label={shelf.label}
-                description={shelf.description}
-                items={shelf.items}
-                onSelect={handleSelect}
-              />
-            ))}
+            {renderShelf('quick')}
           </div>
 
           {/* Catalog + Library — two distinct destinations */}
