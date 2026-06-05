@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { FileText, Copy, Check, Loader2 } from 'lucide-react';
 import type { Student } from '@/lib/supabase/types';
 
@@ -128,8 +129,9 @@ export function ProgressReportModal({ student, classId, open, onClose }: Progres
                 Regenerate
               </button>
             </div>
-            <textarea
-              className="w-full h-72 bg-lc-surface border border-lc-border rounded-xl px-4 py-3 text-sm text-lc-text resize-none focus:outline-none focus:ring-1 focus:ring-lc-blue/50 font-mono leading-relaxed"
+            <Textarea
+              inputSize="lg"
+              className="h-72 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-lc-blue/50 font-mono leading-relaxed"
               value={report}
               onChange={(e) => setReport(e.target.value)}
             />

@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { Class } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Modal } from '@/components/ui/modal';
+import { Select } from '@/components/ui/select';
 import Link from 'next/link';
 import { Plane } from 'lucide-react';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
@@ -75,28 +77,30 @@ function ClassCard({ cls }: { cls: Class }) {
 
       {/* Preset dropdowns — outside Link so they don't trigger navigation */}
       <div className="absolute bottom-14 left-4 flex gap-2 z-10">
-        <select
+        <Select
           value={difficulty}
           onChange={(e) => handleDifficultyChange(e.target.value)}
-          className="bg-lc-surface border border-lc-border rounded-lg px-2 py-1 text-xs text-lc-text cursor-pointer outline-none focus:ring-1 focus:ring-lc-blue/40"
+          inputSize="compact"
+          className="w-auto px-2 py-1 text-xs outline-none focus:ring-1 focus:ring-lc-blue/40"
           title="Default difficulty"
         >
           <option value="">Level</option>
           {DIFFICULTIES.map((d: Difficulty) => (
             <option key={d} value={d}>{d}</option>
           ))}
-        </select>
-        <select
+        </Select>
+        <Select
           value={tone}
           onChange={(e) => handleToneChange(e.target.value)}
-          className="bg-lc-surface border border-lc-border rounded-lg px-2 py-1 text-xs text-lc-text cursor-pointer outline-none focus:ring-1 focus:ring-lc-blue/40"
+          inputSize="compact"
+          className="w-auto px-2 py-1 text-xs outline-none focus:ring-1 focus:ring-lc-blue/40"
           title="Default tone"
         >
           <option value="">Tone</option>
           {TONES.map((t: Tone) => (
             <option key={t} value={t}>{t}</option>
           ))}
-        </select>
+        </Select>
       </div>
 
       <Link
@@ -159,12 +163,13 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
 
       <Modal open={showCreate} onClose={() => setShowCreate(false)} title="Create Class">
         <form onSubmit={handleCreate} className="space-y-4">
-          <input
+          <Input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Class name"
-            className="w-full px-4 py-2 bg-lc-surface border border-lc-border rounded-xl text-lc-text focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
+            inputSize="lg"
+            className="py-2 focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
             autoFocus
           />
           <div className="flex justify-end gap-2">

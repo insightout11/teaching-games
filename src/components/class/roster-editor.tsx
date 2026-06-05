@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/client';
 import type { Student } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Users } from 'lucide-react';
 import { ProgressReportModal } from './progress-report-modal';
 
@@ -257,7 +259,7 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
 
       {bulkMode ? (
         <div className="space-y-2 mb-4">
-          <textarea
+          <Textarea
             value={bulkNames}
             onChange={(e) => setBulkNames(e.target.value)}
             onKeyDown={(e) => {
@@ -268,7 +270,8 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
             }}
             placeholder="Alice&#10;Bob&#10;Charlie&#10;(or paste comma-separated: Alice, Bob, Charlie)"
             rows={5}
-            className="w-full px-4 py-2 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-sm font-mono focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
+            inputSize="md"
+            className="py-2 resize font-mono focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
           />
           <div className="flex items-center justify-between">
             <span className="text-xs text-lc-text3">
@@ -281,13 +284,14 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
         </div>
       ) : (
         <div className="flex gap-2 mb-4">
-          <input
+          <Input
             type="text"
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && addStudent()}
             placeholder="Student name"
-            className="flex-1 px-4 py-2 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-sm focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
+            inputSize="md"
+            className="w-auto flex-1 py-2 focus:outline-none focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
           />
           <Button size="sm" onClick={addStudent} disabled={!newName.trim()}>
             Add
