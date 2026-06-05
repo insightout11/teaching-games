@@ -8,6 +8,10 @@
 > Captain's Flight is live; removed the preset-level dev gate; fixed the 402 leak.
 > **Defined (this doc, §8):** the new preset template — flexible-arc journey + boarding-pass
 > card, as one spec every new preset follows.
+> **Built (home redesign prototype):** urgency-first reorder; Recommended for you · Full
+> Flights · Ready to Teach · Special Features lanes; shared `CardRail` scroll; and first-run
+> skippable **onboarding** (migration `034`, `teacher-profile.ts`) that powers Recommended.
+> Lane content is sample data pending the real preset set; onboarding profile persistence is real.
 > **Next up (deferred — needs real thought, not started):** design a **new set of presets
 > from scratch** — NOT a rebuild of the old 10, and NOT necessarily 10 of them. The archived
 > presets are reference/inspiration only. Open questions: how many, which jobs they cover, and
@@ -221,8 +225,9 @@ Article/Topic source chips.
    count and what each covers before any build. (Earlier "all 10" framing is dead.)
 2. **Presets section shape** — once the set exists: a horizontal carousel, or a categorized
    block ("By skill" / "By situation") so situational presets don't get lost next to skill ones?
-3. **Onboarding timing** — mandatory at sign-up (best personalization, more friction) vs. a
-   skippable / progressive prompt that personalizes as they go?
+3. **Onboarding timing** — RESOLVED: first-run **skippable** modal (re-openable via
+   "Personalize your home"), profile persisted to the DB (migration `034`). Drives the
+   Recommended rail; profile-based hero swap / shelf re-rank still to come.
 
 ## Future polish (logged, not now)
 
