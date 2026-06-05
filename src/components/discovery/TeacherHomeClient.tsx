@@ -13,9 +13,14 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import { buildShelves, type DiscoveryItem } from '@/lib/discovery-shelves';
 import { FeaturedFlightHero } from './FeaturedFlightHero';
 import { FullFlightsLane } from './FullFlightsLane';
+import { BringYourMaterialLane } from './BringYourMaterialLane';
 import { SpecialFeaturesLane } from './SpecialFeaturesLane';
 import { DiscoveryShelf } from './DiscoveryShelf';
 import { DiscoveryDetailDrawer } from './DiscoveryDetailDrawer';
+
+// Only the highest-urgency shelves live on the home; the rest stay in Browse so the
+// page reads as a home, not a catalog (docs/home-screen-redesign-audit-jun2026.md §3).
+const HOME_SHELF_IDS = ['end-with-a-game', 'speaking', 'quick'];
 
 export interface RecentSession {
   id: string;
@@ -48,7 +53,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
   const [depth, setDepth] = useState(0);
   const [selected, setSelected] = useState<DiscoveryItem | null>(null);
 
-  const shelves = buildShelves();
+  const shelves = buildShelves().filter((s) => HOME_SHELF_IDS.includes(s.id));
 
   // Scroll-linked climb: gentle altitude rise drives the sky's parallax (gate → climb).
   useEffect(() => {
@@ -197,6 +202,11 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
           {/* Full Flights — whole-lesson presets (the hero's siblings) */}
           <div className="mt-14">
             <FullFlightsLane />
+          </div>
+
+          {/* Build from your material — video / article / topic → a full lesson */}
+          <div className="mt-14">
+            <BringYourMaterialLane />
           </div>
 
           {/* Special Features — one-tap, pre-themed experiences */}
