@@ -5,6 +5,8 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { dialogueDetectiveFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 const GAME_KEY = 'dialogue-detective';
 const SCHEMA_VERSION = 1;
@@ -32,15 +34,20 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
+    sourceMaterial?: SourceMaterial;
   };
 
+  // Ground the dialogue's setting/topic in the lesson's source material when attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial;
+
   try {
-    // 1. Check cache first
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+    // 1. Check cache first (skipped when grounding in source material)
+    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
       return NextResponse.json({ ...cached.content_json, cacheId: cached.id });
     }
@@ -48,7 +55,7 @@ export async function POST(request: NextRequest) {
     // 2. Cache miss — generate via AI
     const prompt = `Generate a dialogue puzzle for ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
-
+${sourceContext}${sourceContext ? 'Set the conversation in a context drawn from the source material above, using its situations and vocabulary.\n' : ''}
 Create a 3-line conversation where:
 - Speaker A says something (line 1)
 - Speaker B responds (line 2) - THIS IS THE BLANK the student fills in
@@ -80,8 +87,8 @@ Requirements:
       goal: data.goal,
     };
 
-    // 3. Store in cache for future sessions
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, result, SCHEMA_VERSION);
+    // 3. Store in cache for future sessions (never cache source-grounded content)
+    const cacheId = skipCache ? null : await storeCachedContent(GAME_KEY, topic, difficulty, result, SCHEMA_VERSION);
 
     return NextResponse.json({ ...result, cacheId });
   } catch (error) {

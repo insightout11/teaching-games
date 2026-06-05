@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { GamePhase } from './types';
 import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidationResult, SentenceEvaluationResult } from './types';
 const ROUND1_DURATION = 90;
@@ -65,6 +65,7 @@ export function GridRushGame({
   difficultyRef.current = sessionSettings.difficulty;
   const topicRef = useRef(getEffectiveTopic(sessionSettings));
   topicRef.current = getEffectiveTopic(sessionSettings);
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
 
   // Maps internal studentId key → clientId (localStorage UUID) so perStudentData can be keyed by clientId
   const studentIdToClientIdRef = useRef<Record<string, string>>({});
@@ -171,6 +172,7 @@ export function GridRushGame({
         body: JSON.stringify({
           topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
+          ...(sourceMaterial ? { sourceMaterial } : {}),
         }),
       });
 
@@ -188,7 +190,7 @@ export function GridRushGame({
       phaseRef.current = GamePhase.IDLE;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic]);
+  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic, sourceMaterial]);
 
   // ------- TIMERS -------
 

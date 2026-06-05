@@ -5,6 +5,8 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import type { GridContent } from '@/games/grid-rush/types';
 import { requireAuth } from '@/lib/auth-credits';
 import { gridRushFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) — words of 3-5 letters, simple consonants and short vowels',
@@ -29,17 +31,21 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty } = await request.json() as {
+  const { topic, difficulty, sourceMaterial } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
+    sourceMaterial?: SourceMaterial;
   };
+
+  // Ground the topic words (and letter bias) in the lesson's source material when attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
 
   try {
     // Always generate fresh — no cache. Grid-rush needs variety every game.
     const prompt = `Generate a 3x3 letter grid for a word-building race game.
 Difficulty: ${difficultyPrompts[difficulty]}
 Topic: ${topic}
-
+${sourceContext}${sourceContext ? 'Draw the "topicWords" from key vocabulary in the source material above, and bias the letters toward those words.\n' : ''}
 REQUIREMENTS:
 1. Provide exactly 9 uppercase single letters in a flat array called "letters" (indices 0-8).
 2. Choose a good vowel/consonant balance: 3-4 vowels (A,E,I,O,U) and 5-6 consonants.

@@ -115,6 +115,7 @@ export function FlashQuizGame({
   const { difficulty } = sessionSettings;
   const seenCacheIds = useSessionStore((s) => s.seenCacheIds);
   const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
 
   // ── Build in-game leaderboard from internalScores ─────────────────────────
   const leaderboardEntries: LeaderEntry[] = (() => {
@@ -260,6 +261,8 @@ export function FlashQuizGame({
           difficulty,
           count: questionCount,
           excludeCacheIds: seenCacheIds,
+          // Ground the quiz in the lesson's article/video when one is attached.
+          ...(sourceMaterial ? { sourceMaterial } : {}),
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -272,7 +275,7 @@ export function FlashQuizGame({
       console.error('[FlashQuiz] generation failed:', err);
       setPhase('idle');
     }
-  }, [topic, difficulty, questionCount, seenCacheIds, addSeenCacheId]);
+  }, [topic, difficulty, questionCount, seenCacheIds, addSeenCacheId, sourceMaterial]);
 
   // ── Start a question round ────────────────────────────────────────────────
   const startQuestion = useCallback((index: number) => {

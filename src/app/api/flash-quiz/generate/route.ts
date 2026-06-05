@@ -5,6 +5,8 @@ import type { Difficulty } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { difficultyDescriptions } from '@/lib/difficulty';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
 
@@ -86,19 +88,28 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, count = 10, excludeCacheIds = [] } = await request.json() as {
+  const { topic, difficulty, count = 10, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     topic: string;
     difficulty: Difficulty;
     count?: number;
     excludeCacheIds?: string[];
+    sourceMaterial?: SourceMaterial;
   };
 
   const questionCount = count === 20 ? 20 : 10;
   const variant = String(questionCount);
 
+  // When a lesson has source material (an article/video), ground the quiz in it.
+  // Generic topic-only content is never served for a source-grounded lesson — so
+  // skip the shared topic cache for both reads and writes (mirrors lesson-plan/generate).
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial;
+
   try {
-    // 1. Check cache first
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, variant, SCHEMA_VERSION);
+    // 1. Check cache first (skipped when grounding in source material)
+    const cached = skipCache
+      ? null
+      : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, variant, SCHEMA_VERSION);
     if (cached) {
       const data = cached.content_json as { questions: QuizQuestion[] };
       return NextResponse.json(
@@ -116,7 +127,7 @@ Topic: "${topic}"
 Difficulty: ${difficultyDescriptions[difficulty]}
 Timer per question: ${TIMER_SECONDS} seconds
 Random seed (for variety): ${randomSeed}
-
+${sourceContext}${sourceContext ? '\nEvery question, option, and explanation MUST be answerable from the source material above — test comprehension of what it actually says, not outside general knowledge.\n' : ''}
 QUESTION STYLE — adapt to the topic:
 - Grammar topics (tenses, conditionals, articles, etc.) → sentence correction or fill-in-the-blank style
 - Vocabulary topics (business, academic, travel, etc.) → definition, synonym, or usage-in-context
@@ -167,8 +178,11 @@ Return JSON:
     // Trim to exact count in case AI over-generates
     const questions = data.questions.slice(0, questionCount);
 
-    // 3. Store in cache
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, { questions }, SCHEMA_VERSION, variant);
+    // 3. Store in cache — but never cache source-grounded content under the
+    // shared topic key, or it would leak into non-source sessions on that topic.
+    const cacheId = skipCache
+      ? null
+      : await storeCachedContent(GAME_KEY, topic, difficulty, { questions }, SCHEMA_VERSION, variant);
 
     return NextResponse.json(
       { questions, cacheId },

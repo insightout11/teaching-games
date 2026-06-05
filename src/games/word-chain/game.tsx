@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { ExtendedChainLink, ValidationResult, BonusChallenge } from './types';
 
 type TeamId = 'A' | 'B';
@@ -21,6 +21,7 @@ interface TeamState {
 }
 
 export function WordChainGame({ currentStudentId, students, onScore, onPickStudent, onPickSpecificStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler }: GameProps) {
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [startingWord, setStartingWord] = useState('');
   const [hint, setHint] = useState('');
@@ -444,7 +445,8 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           topic: getEffectiveTopic(sessionSettings),
-          difficulty: sessionSettings.difficulty
+          difficulty: sessionSettings.difficulty,
+          ...(sourceMaterial ? { sourceMaterial } : {}),
         })
       });
 

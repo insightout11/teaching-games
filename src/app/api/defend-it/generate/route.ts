@@ -4,6 +4,8 @@ import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { requireAuth } from '@/lib/auth-credits';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,17 +24,21 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, count = 3 } = await request.json() as {
+  const { topic, difficulty, count = 3, sourceMaterial } = await request.json() as {
     topic: string;
     difficulty: Difficulty;
     count?: number;
+    sourceMaterial?: SourceMaterial;
   };
+
+  // Springboard the statements off the lesson's source material when one is attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
 
   try {
     const prompt = `Generate ${count} statements for an ESL classroom debate game called "Defend the Indefensible".
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-
+${sourceContext}${sourceContext ? 'Use ideas, claims, and details from the source material above as the springboard for the statements.\n' : ''}
 Rules:
 - Each statement is a bold, opinionated assertion students must argue FOR or AGAINST (randomly assigned)
 - Make them playfully absurd or mildly provocative — funny, not offensive or inappropriate

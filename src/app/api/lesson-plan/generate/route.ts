@@ -68,6 +68,7 @@ import type { ComprehensionQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import type { SourceMaterial } from '@/types/source-material';
+import { buildSourceContext, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
 import bbcLibrary from '@/data/bbc-library.json';
@@ -88,40 +89,6 @@ import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suit
 // ============================================
 // Mission Context Helper
 // ============================================
-
-function extractPlainText(rawTranscript: string): string {
-  try {
-    const parsed = JSON.parse(rawTranscript) as Array<{ text: string }>;
-    if (Array.isArray(parsed)) return parsed.map((s) => s.text).join(' ');
-  } catch { /* plain text */ }
-  return rawTranscript;
-}
-
-function buildSourceContext(source?: SourceMaterial, rawTranscript?: string): string {
-  if (!source) return '';
-  if (rawTranscript) {
-    const text = extractPlainText(rawTranscript).slice(0, 10000);
-    return `\nSource material — ground ALL content ONLY in this transcript. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nTranscript:\n${text}\n`;
-  }
-  const body = source.briefingText ?? source.rawText ?? source.summary ?? '';
-  if (!body) return '';
-  const text = body.slice(0, 10000);
-  if (source.briefingText || source.rawText) {
-    return `\nSource material — ground ALL content ONLY in this source text. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nText:\n${text}\n`;
-  }
-  return `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${body}\n`;
-}
-
-const VIDEO_SOURCE_TYPES = new Set<SourceMaterial['sourceType']>([
-  'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
-  'bbc-ideas', 'bigthink', 'vox', 'kids',
-  'natgeo', 'crash-course',
-  'travel-english', 'business-english', 'internet-memes', 'minecraft',
-]);
-
-function getGapFillMode(source?: SourceMaterial): 'listening' | 'reading' {
-  return source && VIDEO_SOURCE_TYPES.has(source.sourceType) ? 'listening' : 'reading';
-}
 
 function missionContextBlock(missionContext?: string[]): string {
   if (!missionContext || missionContext.length === 0) return '';
@@ -2462,20 +2429,7 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // Fetch real transcript from DB — used by ALL generators, not just checkpoints
-    let sourceRawTranscript: string | undefined;
-    if (sourceMaterial?.sourceKey) {
-      try {
-        const { createServiceClient } = await import('@/lib/supabase/service');
-        const supabase = createServiceClient();
-        const { data } = await supabase
-          .from('source_extractions')
-          .select('raw_transcript')
-          .eq('source_type', sourceMaterial.sourceType)
-          .eq('source_key', sourceMaterial.sourceKey)
-          .single();
-        if (data?.raw_transcript) sourceRawTranscript = data.raw_transcript;
-      } catch { /* continue — falls back to summary */ }
-    }
+    const sourceRawTranscript = await fetchSourceTranscript(sourceMaterial);
 
     const sourceCtx = buildSourceContext(sourceMaterial, sourceRawTranscript);
     const skipCache = !!sourceMaterial;

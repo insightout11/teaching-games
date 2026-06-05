@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Question, Guess, GameConstraints } from './types';
+import { useSessionStore } from '@/stores/session-store';
 
 // ─── Constraint Validation ────────────────────────────────────────
 
@@ -68,6 +69,7 @@ export function TwentyQuestionsGame({
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
 }: GameProps) {
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   // ─── State ───
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [hostId, setHostId] = useState<string | null>(null);
@@ -282,7 +284,7 @@ export function TwentyQuestionsGame({
       const res = await fetch('/api/twenty-questions/pick-secret', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: sessionSettings.customTopic || sessionSettings.topic, difficulty: sessionSettings.difficulty }),
+        body: JSON.stringify({ topic: sessionSettings.customTopic || sessionSettings.topic, difficulty: sessionSettings.difficulty, ...(sourceMaterial ? { sourceMaterial } : {}) }),
       });
       if (!res.ok) throw new Error('Failed');
       const data: { secret: string } = await res.json();

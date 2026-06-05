@@ -4,6 +4,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import type { Difficulty } from '@/lib/difficulty';
 import type { GrammarTarget } from '@/lib/grammar';
 import type { CharacterCard } from '@/activities/types';
+import type { SourceMaterial } from '@/types/source-material';
 import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 
 
@@ -77,6 +78,11 @@ interface SessionState {
   // Session settings
   settings: SessionSettings;
 
+  // Lesson source material (article/video) — set on lesson load. Lets games that
+  // generate live via their own routes (e.g. flash-quiz) ground content in the
+  // same source the lesson-plan generator uses. Not persisted to localStorage.
+  sourceMaterial: SourceMaterial | null;
+
   // Spin wheel modifier (null = needs to spin)
   turnModifier: TurnModifier | null;
   needsSpin: boolean;
@@ -113,6 +119,7 @@ interface SessionState {
   setSettings: (settings: Partial<SessionSettings>) => void;
   setTopic: (topic: Topic) => void;
   setCustomTopic: (customTopic: string) => void;
+  setSourceMaterial: (sourceMaterial: SourceMaterial | null) => void;
   nextRound: () => void;
   setActiveGame: (gameKey: string | null) => void;
   setInputSpec: (spec: InputSpec | null) => Promise<void>;
@@ -194,6 +201,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   currentStudentId: null,
   roundNumber: 1,
   settings: getInitialSettings(),
+  sourceMaterial: null,
   turnModifier: null,
   needsSpin: false,
   activeGameKey: null,
@@ -335,6 +343,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     return { settings: next };
   }),
 
+  setSourceMaterial: (sourceMaterial: SourceMaterial | null) => set({ sourceMaterial }),
+
   nextRound: () => set((state) => ({ roundNumber: state.roundNumber + 1 })),
 
   setActiveGame: (gameKey: string | null) => set({ activeGameKey: gameKey }),
@@ -436,6 +446,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       currentStudentId: null,
       roundNumber: 1,
       settings: { ...DEFAULT_SETTINGS },
+      sourceMaterial: null,
       turnModifier: null,
       needsSpin: false,
       activeGameKey: null,

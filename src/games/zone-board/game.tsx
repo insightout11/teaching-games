@@ -130,6 +130,7 @@ export function ZoneBoardGame({
 
   const boardContainerRef = useRef<HTMLDivElement>(null);
   const sessionId = useSessionStore(state => state.sessionId);
+  const sourceMaterial = useSessionStore(state => state.sourceMaterial);
 
   const phaseRef            = useRef<GamePhase>('idle');
   const teamsRef            = useRef<TeamState[]>([]);
@@ -177,6 +178,7 @@ export function ZoneBoardGame({
         topic,
         difficulty: sessionSettings.difficulty,
         excludeCacheIds: excludeCacheIdsRef.current,
+        ...(sourceMaterial ? { sourceMaterial } : {}),
       }),
     })
       .then(r => r.json())

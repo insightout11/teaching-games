@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, GROUP_COLORS } from './types';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { ConnectionsChallenge, ConnectionsGroup, ConnectionsResult, GroupColor } from './types';
 
 const MAX_LIVES = 4;
@@ -30,6 +30,7 @@ interface RacePlayer {
 }
 
 export function ConnectionsGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<ConnectionsChallenge | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
@@ -368,7 +369,8 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           topic: getEffectiveTopic(sessionSettings),
-          difficulty: sessionSettings.difficulty
+          difficulty: sessionSettings.difficulty,
+          ...(sourceMaterial ? { sourceMaterial } : {}),
         }),
         cache: 'no-store',
       });

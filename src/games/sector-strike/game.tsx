@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { LayoutGrid, Check, X as XIcon, Clock, Trophy, Star, Repeat, Zap, Bomb } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -152,6 +152,7 @@ export function SectorStrikeGame({
 }: GameProps) {
   const topic = getEffectiveTopic(sessionSettings);
   const { difficulty } = sessionSettings;
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const questionMode = (config.questionMode as string) ?? 'both';
 
   // ── State ─────────────────────────────────────────────────────────────────
@@ -227,14 +228,14 @@ export function SectorStrikeGame({
       const res = await fetch('/api/sector-strike/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty, qType }),
+        body: JSON.stringify({ topic, difficulty, qType, ...(sourceMaterial ? { sourceMaterial } : {}) }),
       });
       if (!res.ok) return null;
       return await res.json() as { question: string; options?: string[]; correctIndex?: number };
     } catch {
       return null;
     }
-  }, [topic, difficulty]);
+  }, [topic, difficulty, sourceMaterial]);
 
   // Handle timeout when timeLeft hits 0
   useEffect(() => {
@@ -457,7 +458,7 @@ export function SectorStrikeGame({
       const res = await fetch('/api/sector-strike/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty, qType: cell.qType }),
+        body: JSON.stringify({ topic, difficulty, qType: cell.qType, ...(sourceMaterial ? { sourceMaterial } : {}) }),
         signal: fetchControllerRef.current.signal,
       });
       if (livePhase() !== 'loading') return;
@@ -504,7 +505,7 @@ export function SectorStrikeGame({
       }
       setPhase('answering');
     }
-  }, [topic, difficulty, applyAutoBonus, onSetInputSpec]);
+  }, [topic, difficulty, sourceMaterial, applyAutoBonus, onSetInputSpec]);
 
   // ── Written answer vote handler ───────────────────────────────────────────
   const handleVote = useCallback((vote: GameRemoteVote) => {

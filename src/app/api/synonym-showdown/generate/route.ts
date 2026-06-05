@@ -5,6 +5,8 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { synonymShowdownFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 // Prevent Next.js from caching this route
 export const dynamic = 'force-dynamic';
@@ -34,17 +36,24 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, seenItems = [], excludeCacheIds = [], seenSynonyms = [] } = await request.json() as {
+  const { topic, difficulty, seenItems = [], excludeCacheIds = [], seenSynonyms = [], sourceMaterial } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     seenItems?: string[];       // targetWords seen this session — AI avoids repeating them
     excludeCacheIds?: string[]; // cache entry IDs already served this session
     seenSynonyms?: string[];    // valid synonyms students already used — AI avoids same cluster
+    sourceMaterial?: SourceMaterial;
   };
+
+  // Ground the challenge in the lesson's source material when one is attached.
+  // Source-grounded content is never served from (or written to) the shared
+  // topic cache, so it can't leak into non-source sessions on the same topic.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial;
 
   try {
     // 1. Check cache first (zero AI latency when hit)
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     // Skip cached entry if its targetWord was already shown (prevents synonymous words from cache)
     if (cached && !seenItems.includes((cached.content_json.targetWord ?? '').toLowerCase())) {
       return NextResponse.json(
@@ -63,7 +72,7 @@ export async function POST(request: NextRequest) {
 
     const prompt = `Generate a synonym challenge for ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
-${exclusionNote}
+${sourceContext}${sourceContext ? 'Choose a target word that ACTUALLY APPEARS in the source material above (a meaningful content word from it), so the challenge reinforces the lesson.\n' : ''}${exclusionNote}
 Create:
 1. A target word that has MANY possible synonyms (at least 5-10 valid alternatives)
 2. A context sentence using that word, showing its meaning clearly
@@ -85,8 +94,8 @@ Good target words have many alternatives: happy, big, said, walk, good, bad, nic
 
     const data = await generateJSON<{ targetWord: string; contextSentence: string; hint: string }>(prompt, schema, { temperature: 1.2, taskClass: 'content-generation' });
 
-    // 3. Store in cache for future sessions
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, data, SCHEMA_VERSION);
+    // 3. Store in cache for future sessions (never cache source-grounded content)
+    const cacheId = skipCache ? null : await storeCachedContent(GAME_KEY, topic, difficulty, data, SCHEMA_VERSION);
 
     return NextResponse.json(
       { ...data, cacheId },

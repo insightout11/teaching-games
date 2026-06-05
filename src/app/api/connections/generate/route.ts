@@ -5,6 +5,8 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { connectionsFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
 
@@ -75,15 +77,20 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
+    sourceMaterial?: SourceMaterial;
   };
 
+  // Ground the puzzle's words/categories in the lesson's source material when attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial;
+
   try {
-    // 1. Check cache first
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+    // 1. Check cache first (skipped when grounding in source material)
+    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
       const cachedData = cached.content_json as { groups: Array<{ category: string; words: string[]; difficulty: string; color: string }> };
       // Re-shuffle words for variety even on cache hit
@@ -101,6 +108,7 @@ export async function POST(request: NextRequest) {
 Topic: ${topic}
 ${difficultyPrompts[difficulty]}
 Random seed: ${randomSeed}
+${sourceContext}${sourceContext ? 'Draw the 16 words and their group categories from key vocabulary, names, and concepts in the source material above so the puzzle reinforces the lesson.\n' : ''}
 
 Create exactly 4 groups of 4 words each (16 words total). Each word must be a single word (no phrases).
 
@@ -162,8 +170,9 @@ DO NOT use the topic name itself ("${topic.toUpperCase()}") as one of the 16 wor
       throw new Error(`Invalid response: meta-words in puzzle: ${bannedFound.join(', ')}`);
     }
 
-    // 3. Store in cache (store only groups — words get re-shuffled on each serve)
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, { groups: data.groups }, SCHEMA_VERSION);
+    // 3. Store in cache (store only groups — words get re-shuffled on each serve).
+    // Never cache source-grounded content under the shared topic key.
+    const cacheId = skipCache ? null : await storeCachedContent(GAME_KEY, topic, difficulty, { groups: data.groups }, SCHEMA_VERSION);
 
     // Shuffle all words for the grid
     const shuffledWords = shuffleArray(allWords);

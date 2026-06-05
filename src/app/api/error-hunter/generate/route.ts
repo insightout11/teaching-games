@@ -5,6 +5,8 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { errorHunterFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 const GAME_KEY = 'error-hunter';
 const SCHEMA_VERSION = 1;
@@ -43,16 +45,21 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, excludeCacheIds = [], grammarTarget } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], grammarTarget, sourceMaterial } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
     grammarTarget?: string;
+    sourceMaterial?: SourceMaterial;
   };
 
+  // Ground the paragraph in the lesson's source material when one is attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial || !!grammarTarget;
+
   try {
-    // 1. Check cache — skip cache when grammarTarget set (live content needed)
-    if (!grammarTarget) {
+    // 1. Check cache — skip when grammarTarget or source material is set (live content needed)
+    if (!skipCache) {
       const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
       if (cached) {
         const c = cached.content_json as { paragraph: string; errorCount: number; _errors: unknown[] };
@@ -80,7 +87,7 @@ export async function POST(request: NextRequest) {
 
     const prompt = `Generate a paragraph with exactly ${config.errors} intentional errors for ${config.description}
 Topic: ${topic}.
-
+${sourceContext}${sourceContext ? 'Base the paragraph on facts and ideas from the source material above so students proofread content from the lesson.\n' : ''}
 Create a 3-4 sentence paragraph about ${topic} that contains exactly ${config.errors} errors.
 
 ${grammarFocusBlock}
@@ -102,8 +109,9 @@ Return the paragraph with errors embedded, plus an array of error details.`;
       _errors: data.errors, // Stored for evaluation
     };
 
-    // 3. Store in cache for future sessions
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, result, SCHEMA_VERSION);
+    // 3. Store in cache for future sessions — never cache grammar-targeted or
+    // source-grounded content under the shared topic key.
+    const cacheId = skipCache ? null : await storeCachedContent(GAME_KEY, topic, difficulty, result, SCHEMA_VERSION);
 
     return NextResponse.json({ ...result, cacheId });
   } catch (error) {

@@ -5,6 +5,8 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { sentenceScrambleFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,15 +36,20 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
+    sourceMaterial?: SourceMaterial;
   };
 
+  // Ground the sentences in the lesson's source material when one is attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial;
+
   try {
-    // 1. Check cache first
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+    // 1. Check cache first (skipped when grounding in source material)
+    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
       return NextResponse.json(
         { ...cached.content_json, cacheId: cached.id },
@@ -58,7 +65,7 @@ export async function POST(request: NextRequest) {
 Difficulty: ${difficultyPrompts[difficulty]}
 Topic: ${topic}
 Random seed: ${randomSeed}
-
+${sourceContext}${sourceContext ? 'Base the sentences on facts, ideas, and vocabulary from the source material above so they reinforce the lesson content.\n' : ''}
 Requirements:
 - Each sentence MUST relate to the topic "${topic}"
 - Each sentence must be grammatically complete and properly punctuated
@@ -73,8 +80,8 @@ Example: { "She always drinks coffee in the morning.": ["She drinks coffee in th
 
     const data = await generateJSON<{ sentences: string[] }>(prompt, schema, { temperature: 1.2, taskClass: 'content-generation' });
 
-    // 3. Store in cache for future sessions
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, data, SCHEMA_VERSION);
+    // 3. Store in cache for future sessions (never cache source-grounded content)
+    const cacheId = skipCache ? null : await storeCachedContent(GAME_KEY, topic, difficulty, data, SCHEMA_VERSION);
 
     return NextResponse.json(
       { ...data, cacheId },

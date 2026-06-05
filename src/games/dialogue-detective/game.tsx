@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { GameStatus } from './types';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { Challenge, EvaluationResult } from './types';
 
 interface RaceSolver {
@@ -24,6 +24,7 @@ interface RaceSolver {
 }
 
 export function DialogueDetectiveGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions }: GameProps) {
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [response, setResponse] = useState('');
@@ -226,6 +227,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
           topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
           excludeCacheIds: seenCacheIdsRef.current,
+          ...(sourceMaterial ? { sourceMaterial } : {}),
         })
       });
 

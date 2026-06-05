@@ -126,6 +126,7 @@ export function useLessonSession(
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
   const setSettings = useSessionStore((s) => s.setSettings);
   const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
+  const setSourceMaterial = useSessionStore((s) => s.setSourceMaterial);
 
   // ─── Core state ────────────────────────────────────────────────────────
   const [phase, setPhase] = useState<LessonPhase>('idle');
@@ -327,6 +328,7 @@ export function useLessonSession(
     if (content) {
       setLessonPlanContent(content);
       setCustomTopic(content.customTopic);
+      setSourceMaterial(content.sourceMaterial ?? null);
       setSettings({
         scoringMode: content.scoringMode ?? goalToScoringMode(content.goal),
         ...(content.difficulty ? { difficulty: content.difficulty } : {}),
@@ -351,7 +353,7 @@ export function useLessonSession(
         }
       }
     }
-  }, [setCustomTopic, setSettings]);
+  }, [setCustomTopic, setSettings, setSourceMaterial]);
 
   // Apply grammarTarget from lesson plan AFTER initSession has run (initSession resets settings).
   // This runs on the render where phase transitions to 'lobby', which is after the first effects flush.

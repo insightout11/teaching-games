@@ -6,6 +6,8 @@ import { GrammarTarget } from '@/games/grammar-boss/types';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { grammarBossFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 const GAME_KEY = 'grammar-boss';
 const SCHEMA_VERSION = 1;
@@ -31,16 +33,21 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { grammarTarget, topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+  const { grammarTarget, topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     grammarTarget: GrammarTarget;
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
+    sourceMaterial?: SourceMaterial;
   };
+
+  // Ground the speaking task in the lesson's source material when one is attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial;
 
   try {
     // 1. Check cache first — variant = grammarTarget to scope cache per grammar structure
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, grammarTarget);
+    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, grammarTarget);
     if (cached) {
       return NextResponse.json({ ...cached.content_json, cacheId: cached.id });
     }
@@ -49,6 +56,7 @@ export async function POST(request: NextRequest) {
     const prompt = `Generate a short speaking challenge for an English learner at ${difficultyPrompts[difficulty]}
 Topic: ${topic}. The task MUST be directly about this topic — do not use a generic or unrelated scenario.
 Target Grammar: ${grammarTarget}.
+${sourceContext}${sourceContext ? 'Base the speaking task and example sentence on the situations and content of the source material above.\n' : ''}
 
 Provide:
 1. A concise, engaging speaking task (1-2 sentences) appropriate for a ${difficulty} level student that naturally requires the target grammar (${grammarTarget}).
@@ -63,8 +71,8 @@ The task should prompt the student to speak about the given topic while using th
       exampleSentence: data.exampleSentence || 'I have been working on this project for three months.'
     };
 
-    // 3. Store in cache — variant = grammarTarget
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, result, SCHEMA_VERSION, grammarTarget);
+    // 3. Store in cache — variant = grammarTarget (never cache source-grounded content)
+    const cacheId = skipCache ? null : await storeCachedContent(GAME_KEY, topic, difficulty, result, SCHEMA_VERSION, grammarTarget);
 
     return NextResponse.json({ ...result, cacheId });
   } catch (error) {

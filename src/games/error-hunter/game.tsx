@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { GameStatus } from './types';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { Challenge, EvaluationResult, UserCorrection, ErrorLocation } from './types';
 
 interface WordData {
@@ -32,6 +32,7 @@ interface RaceSolver {
 }
 
 export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, isMicroEvent }: GameProps) {
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [words, setWords] = useState<WordData[]>([]);
@@ -245,6 +246,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
           topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
           ...(sessionSettings.grammarTarget ? { grammarTarget: sessionSettings.grammarTarget } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}),
         })
       });
 

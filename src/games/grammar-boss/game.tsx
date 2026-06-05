@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { GrammarTarget, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 import { GRAMMAR_RULES } from './grammar-rules';
@@ -57,6 +57,7 @@ function getLessonGrammarTarget(): GrammarTarget | null {
 }
 
 export function GrammarBossGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions }: GameProps) {
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [selectedTarget, setSelectedTarget] = useState<GrammarTarget>(
     sessionSettings.grammarTarget ?? getLessonGrammarTarget() ?? GrammarTarget.PresentSimple
@@ -340,6 +341,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           topic: getEffectiveTopic(sessionSettings),
           difficulty: sessionSettings.difficulty,
           excludeCacheIds: seenCacheIdsRef.current,
+          ...(sourceMaterial ? { sourceMaterial } : {}),
         })
       });
 

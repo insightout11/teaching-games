@@ -5,6 +5,8 @@ import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
 import { wordChainFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 const GAME_KEY = 'word-chain';
 const SCHEMA_VERSION = 1;
@@ -30,15 +32,20 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
+    sourceMaterial?: SourceMaterial;
   };
 
+  // Ground the starting word in the lesson's source material when one is attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial;
+
   try {
-    // 1. Check cache first
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
+    // 1. Check cache first (skipped when grounding in source material)
+    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds);
     if (cached) {
       return NextResponse.json({ ...cached.content_json, cacheId: cached.id });
     }
@@ -46,7 +53,7 @@ export async function POST(request: NextRequest) {
     // 2. Cache miss — generate via AI
     const prompt = `Generate a starting word for a word association chain game at ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
-
+${sourceContext}${sourceContext ? 'Choose a starting word that appears in (or is central to) the source material above.\n' : ''}
 Choose a starting word that:
 1. Has MANY possible associations (at least 10+ related concepts)
 2. Is appropriate for ${difficulty} level
@@ -59,8 +66,8 @@ Good starting words have rich associations: ocean, music, family, city, food, te
 
     const data = await generateJSON<{ startingWord: string; hint: string }>(prompt, schema, { taskClass: 'content-generation' });
 
-    // 3. Store in cache for future sessions
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, data, SCHEMA_VERSION);
+    // 3. Store in cache for future sessions (never cache source-grounded content)
+    const cacheId = skipCache ? null : await storeCachedContent(GAME_KEY, topic, difficulty, data, SCHEMA_VERSION);
 
     return NextResponse.json({ ...data, cacheId });
   } catch (error) {

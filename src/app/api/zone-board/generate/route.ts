@@ -5,6 +5,8 @@ import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth } from '@/lib/auth-credits';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 export interface ZoneBoardQuestion {
   question: string;
@@ -69,14 +71,19 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuth();
   if (authError) return authError;
 
-  const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     topic: string;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
+    sourceMaterial?: SourceMaterial;
   };
 
+  // Ground questions in the lesson's source material when one is attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  const skipCache = !!sourceMaterial;
+
   try {
-    const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, undefined, SCHEMA_VERSION);
+    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, undefined, SCHEMA_VERSION);
     if (cached) {
       return NextResponse.json({
         ...(cached.content_json as ZoneBoardQuestion),
@@ -86,7 +93,7 @@ export async function POST(request: NextRequest) {
 
     const prompt = `Generate a multiple-choice language question for an English class activity.
 Topic: ${topic}. ${difficultyDescriptions[difficulty]}.
-
+${sourceContext}${sourceContext ? 'The question MUST be answerable from the source material above and test understanding of what it actually says.\n' : ''}
 Provide exactly one question with exactly 4 answer options (index 0–3), one clearly correct answer, and a brief one-sentence explanation of why it's correct.
 
 Mix question types across requests: vocabulary meaning, grammar correction, sentence completion, contextual usage, or word choice.
@@ -95,7 +102,7 @@ Keep the question concise (one sentence). Make it directly related to the topic.
 
     const data = await generateJSON<ZoneBoardQuestion>(prompt, schema, { taskClass: 'content-generation' });
 
-    const cacheId = await storeCachedContent(GAME_KEY, topic, difficulty, data, SCHEMA_VERSION);
+    const cacheId = skipCache ? null : await storeCachedContent(GAME_KEY, topic, difficulty, data, SCHEMA_VERSION);
 
     return NextResponse.json({ ...data, cacheId });
   } catch {

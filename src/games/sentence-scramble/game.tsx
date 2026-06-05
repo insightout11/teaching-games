@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
-import { getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -48,6 +48,7 @@ interface RaceSolver {
 }
 
 export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, isMicroEvent }: GameProps) {
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [sentences, setSentences] = useState<string[]>(FALLBACK_SENTENCES);
   const [sentenceAlternatives, setSentenceAlternatives] = useState<Record<string, string[]>>({});
   const [loadingSentences, setLoadingSentences] = useState(true);
@@ -69,6 +70,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       body: JSON.stringify({
         topic: effectiveTopic,
         difficulty: sessionSettings.difficulty,
+        ...(sourceMaterial ? { sourceMaterial } : {}),
       }),
     })
       .then(res => res.json())
