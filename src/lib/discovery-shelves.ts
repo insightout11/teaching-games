@@ -260,7 +260,17 @@ const STARTER_FAVORITE_KEYS = new Set([
   'prediction-round',
 ]);
 
+// Order = "grab-and-go by urgency": the most time-pressured in-the-moment jobs lead.
+// End-with-a-game (often a "10 minutes left, give me something now" pull) sits above
+// pre-planned start-of-class moments. See docs/home-screen-redesign-audit-jun2026.md §4.
 export const SHELVES: ShelfDefinition[] = [
+  {
+    id: 'end-with-a-game',
+    label: 'End with a game',
+    description: 'Fast, competitive rounds to close class on a high.',
+    priority: ['flash-quiz', 'connections', 'grid-rush', 'sector-strike', 'word-chain', 'brain-teasers'],
+    predicate: (i) => i.type === 'game',
+  },
   {
     id: 'speaking',
     label: 'Get them speaking',
@@ -287,16 +297,9 @@ export const SHELVES: ShelfDefinition[] = [
     },
   },
   {
-    id: 'end-with-a-game',
-    label: 'End with a game',
-    description: 'Fast, competitive rounds to close class on a high.',
-    priority: ['flash-quiz', 'connections', 'grid-rush', 'sector-strike', 'word-chain', 'brain-teasers'],
-    predicate: (i) => i.type === 'game',
-  },
-  {
     id: 'quick',
-    label: 'Short class moments',
-    description: 'Quick activities for the gap at the start, middle, or end of class.',
+    label: 'Start of class',
+    description: 'Quick warm-ups and short activities to open class or fill a gap.',
     priority: ['quick-pulse', 'would-you-rather', 'prediction-round', 'flash-quiz'],
     predicate: (i) => i.estimatedMinutes <= 10,
   },

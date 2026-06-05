@@ -12,6 +12,8 @@ import { Compass, Library as LibraryIcon, Plane, ChevronRight } from 'lucide-rea
 import { SkyBackground } from '@/components/ui/sky-background';
 import { buildShelves, type DiscoveryItem } from '@/lib/discovery-shelves';
 import { FeaturedFlightHero } from './FeaturedFlightHero';
+import { FullFlightsLane } from './FullFlightsLane';
+import { SpecialFeaturesLane } from './SpecialFeaturesLane';
 import { DiscoveryShelf } from './DiscoveryShelf';
 import { DiscoveryDetailDrawer } from './DiscoveryDetailDrawer';
 
@@ -161,11 +163,11 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             )}
           </section>
 
-          {/* Previous flights — compact strip */}
+          {/* Jump back in — compact strip of recent flights */}
           {recentSessions.length > 0 && (
             <section aria-label="Recent lessons" className="mt-6">
               <h2 className="font-instrument mb-3 text-[11px] uppercase tracking-[0.2em] text-lc-text3">
-                Previous flights
+                Jump back in
               </h2>
               <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {recentSessions.map((s) => (
@@ -191,6 +193,16 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
               </div>
             </section>
           )}
+
+          {/* Full Flights — whole-lesson presets (the hero's siblings) */}
+          <div className="mt-14">
+            <FullFlightsLane />
+          </div>
+
+          {/* Special Features — one-tap, pre-themed experiences */}
+          <div className="mt-14">
+            <SpecialFeaturesLane />
+          </div>
 
           {/* Teacher-job shelves */}
           <div className="mt-14 space-y-12">
