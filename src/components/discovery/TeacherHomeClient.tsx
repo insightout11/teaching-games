@@ -219,9 +219,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             <FullFlightsLane />
             {renderShelf('end-with-a-game')}
             <ReadyToTeachLane />
-            {renderShelf('speaking')}
-            <SpecialFeaturesLane />
             {renderShelf('quick')}
+            <SpecialFeaturesLane />
+            {renderShelf('speaking')}
           </div>
 
           {/* Catalog + Library — two distinct destinations */}

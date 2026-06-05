@@ -223,3 +223,11 @@ Article/Topic source chips.
    block ("By skill" / "By situation") so situational presets don't get lost next to skill ones?
 3. **Onboarding timing** — mandatory at sign-up (best personalization, more friction) vs. a
    skippable / progressive prompt that personalizes as they go?
+
+## Future polish (logged, not now)
+
+- **Horizontal scrolling for high-count lanes.** `DiscoveryShelf` used to be a horizontal
+  scroll-snap rail (340px cards, partial peek, edge-fade masks, arrow paging); replaced by a
+  responsive grid capped at 4 + "View all" in commit `bbc1d3f` to avoid clipped cards / tiny
+  chevrons. Reconsider a horizontal rail for lanes that will hold many items (the real Full
+  Flights / Ready to Teach sets once they're 8–12 cards). Old code recoverable from `bbc1d3f^`.
