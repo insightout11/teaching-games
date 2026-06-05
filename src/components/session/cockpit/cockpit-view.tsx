@@ -6,6 +6,7 @@ import { isMockMode } from '@/lib/mock/auth';
 import { useSubmissionsFeed } from '@/hooks/use-submissions-feed';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import Link from 'next/link';
+import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-suggestions-panel';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -231,6 +232,10 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           </div>
         </div>
 
+        <CaptainSuggestionsPanel
+          sessionId={session.id}
+          onSpotlightSent={setLastSpotlightName}
+        />
         {/* Now */}
         <div className="order-1 bg-[#0d1f35] rounded-2xl border border-cyan-400/15 p-4 space-y-3 shadow-[0_0_26px_rgba(34,211,238,0.06)]">
           {currentInputSpec ? (
