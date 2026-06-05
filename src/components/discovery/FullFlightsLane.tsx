@@ -10,6 +10,7 @@
 // docs/home-screen-redesign-audit-jun2026.md §8). Replace with real presets later.
 
 import { PresetCard, type PresetCardData } from './PresetCard';
+import { CardRail } from './CardRail';
 
 // ── PROTOTYPE sample data ─────────────────────────────────────────────────────
 const ACCENTS = {
@@ -96,11 +97,11 @@ export function FullFlightsLane() {
         <p className="mt-1.5 text-sm text-lc-text3">Complete, ready-to-run lessons — pick a route and launch the whole class.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <CardRail itemWidthClass="w-[340px]">
         {SAMPLE_FULL_FLIGHTS.map((preset) => (
           <PresetCard key={preset.id} data={preset} />
         ))}
-      </div>
+      </CardRail>
     </section>
   );
 }

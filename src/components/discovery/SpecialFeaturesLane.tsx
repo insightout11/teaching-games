@@ -11,6 +11,7 @@
 import { Sparkles, Luggage, Lightbulb, Rocket } from 'lucide-react';
 import type { ComponentType } from 'react';
 import { cn } from '@/lib/utils';
+import { CardRail } from './CardRail';
 
 interface FeatureTicket {
   id: string;
@@ -58,7 +59,7 @@ export function SpecialFeaturesLane() {
         <p className="mt-1.5 text-sm text-lc-text3">Pre-themed, one-tap experiences — nothing to set up, just launch.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <CardRail itemWidthClass="w-[340px]">
         {SAMPLE_FEATURES.map(({ id, title, blurb, icon: Icon, gradient, ring, iconWrap, preview }) => (
           <article
             key={id}
@@ -95,7 +96,7 @@ export function SpecialFeaturesLane() {
             </div>
           </article>
         ))}
-      </div>
+      </CardRail>
     </section>
   );
 }

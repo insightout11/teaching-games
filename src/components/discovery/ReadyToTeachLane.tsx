@@ -15,6 +15,7 @@
 import { Video, FileText, Type, Clock, Zap } from 'lucide-react';
 import type { ComponentType } from 'react';
 import { cn } from '@/lib/utils';
+import { CardRail } from './CardRail';
 
 type SourceKind = 'video' | 'article' | 'topic';
 
@@ -81,7 +82,7 @@ export function ReadyToTeachLane() {
         <p className="mt-1.5 text-sm text-lc-text3">Complete lessons with the topic and material already chosen — zero prep, just launch.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <CardRail itemWidthClass="w-[340px]">
         {SAMPLE_READY_LESSONS.map((l) => {
           const SourceIcon = SOURCE_ICON[l.sourceKind];
           return (
@@ -129,7 +130,7 @@ export function ReadyToTeachLane() {
             </button>
           );
         })}
-      </div>
+      </CardRail>
     </section>
   );
 }
