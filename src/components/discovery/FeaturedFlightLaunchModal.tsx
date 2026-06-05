@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { Plane, Plus, Paperclip } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
@@ -157,36 +159,36 @@ export function FeaturedFlightLaunchModal({
           <div className="flex gap-3">
             <div className="flex-1">
               <label className="mb-1 block text-xs text-lc-text3">Topic</label>
-              <select
+              <Select
                 value={topic}
                 onChange={(e) => setTopic(e.target.value as Topic | '')}
-                className="w-full rounded-lg border border-lc-border bg-lc-surface px-3 py-2 text-sm text-lc-text"
+                inputSize="compact"
               >
                 <option value="">General</option>
                 {TOPICS.filter((t) => t !== 'General').map((t) => (
                   <option key={t} value={t}>{t}</option>
                 ))}
-              </select>
+              </Select>
             </div>
             <div className="flex-1">
               <label className="mb-1 block text-xs text-lc-text3">Difficulty</label>
-              <select
+              <Select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-                className="w-full rounded-lg border border-lc-border bg-lc-surface px-3 py-2 text-sm text-lc-text"
+                inputSize="compact"
               >
                 {DIFFICULTIES.map((d) => (
                   <option key={d} value={d}>{d}</option>
                 ))}
-              </select>
+              </Select>
             </div>
           </div>
-          <input
+          <Input
             type="text"
             value={customTopic}
             onChange={(e) => setCustomTopic(e.target.value)}
             placeholder={`Or type a custom topic${topic ? ` (overrides ${topic})` : ''}…`}
-            className="w-full rounded-lg border border-lc-border bg-lc-surface px-3 py-2 text-sm text-lc-text placeholder:text-lc-text3"
+            inputSize="compact"
           />
 
           {/* Optional source */}
@@ -225,13 +227,14 @@ export function FeaturedFlightLaunchModal({
           ) : classes.length === 0 ? (
             showCreateClass ? (
               <form onSubmit={handleCreateClass} className="flex gap-2">
-                <input
+                <Input
                   type="text"
                   value={newClassName}
                   onChange={(e) => setNewClassName(e.target.value)}
                   placeholder="Class name"
                   autoFocus
-                  className="flex-1 rounded-lg border border-lc-border bg-lc-surface px-3 py-2 text-sm text-lc-text placeholder:text-lc-text3"
+                  inputSize="compact"
+                  className="w-auto flex-1"
                 />
                 <button type="submit" disabled={creatingClass || !newClassName.trim()} className="rounded-lg bg-lc-blue px-3 py-2 text-sm font-medium text-white disabled:opacity-50">
                   {creatingClass ? '…' : 'Create & launch'}
@@ -245,15 +248,15 @@ export function FeaturedFlightLaunchModal({
           ) : (
             <div>
               <label className="mb-1 block text-xs text-lc-text3">Class</label>
-              <select
+              <Select
                 value={selectedClassId}
                 onChange={(e) => setSelClass(e.target.value)}
-                className="w-full rounded-lg border border-lc-border bg-lc-surface px-3 py-2 text-sm text-lc-text"
+                inputSize="compact"
               >
                 {classes.map((c) => (
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
-              </select>
+              </Select>
             </div>
           )}
 
