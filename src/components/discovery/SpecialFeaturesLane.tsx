@@ -59,7 +59,7 @@ export function SpecialFeaturesLane() {
         <p className="mt-1.5 text-sm text-lc-text3">Pre-themed, one-tap experiences — nothing to set up, just launch.</p>
       </div>
 
-      <CardRail itemWidthClass="w-[340px]">
+      <CardRail itemWidthClass="w-[340px] sm:w-[440px]">
         {SAMPLE_FEATURES.map(({ id, title, blurb, icon: Icon, gradient, ring, iconWrap, preview }) => (
           <article
             key={id}

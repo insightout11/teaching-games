@@ -97,7 +97,7 @@ export function FullFlightsLane() {
         <p className="mt-1.5 text-sm text-lc-text3">Complete, ready-to-run lessons — pick a route and launch the whole class.</p>
       </div>
 
-      <CardRail itemWidthClass="w-[340px]">
+      <CardRail itemWidthClass="w-[340px] sm:w-[440px]">
         {SAMPLE_FULL_FLIGHTS.map((preset) => (
           <PresetCard key={preset.id} data={preset} />
         ))}

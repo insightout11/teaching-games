@@ -82,7 +82,7 @@ export function ReadyToTeachLane() {
         <p className="mt-1.5 text-sm text-lc-text3">Complete lessons with the topic and material already chosen — zero prep, just launch.</p>
       </div>
 
-      <CardRail itemWidthClass="w-[340px]">
+      <CardRail itemWidthClass="w-[340px] sm:w-[440px]">
         {SAMPLE_READY_LESSONS.map((l) => {
           const SourceIcon = SOURCE_ICON[l.sourceKind];
           return (
