@@ -64,7 +64,7 @@ export function SpecialFeaturesLane() {
           <article
             key={id}
             className={cn(
-              'group relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-2xl border bg-gradient-to-br p-6 backdrop-blur-md transition-all hover:-translate-y-0.5',
+              'group relative flex h-full min-h-[300px] w-full flex-col overflow-hidden rounded-2xl border bg-gradient-to-br p-6 backdrop-blur-md transition-all hover:-translate-y-0.5',
               gradient,
               ring,
             )}

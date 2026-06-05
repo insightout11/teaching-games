@@ -40,7 +40,7 @@ export function PresetCard({ data }: { data: PresetCardData }) {
   return (
     <article
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-gradient-to-br from-[#0b1c38]/85 to-[#060f1f]/90 p-5 backdrop-blur-md transition-all',
+        'group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border bg-gradient-to-br from-[#0b1c38]/85 to-[#060f1f]/90 p-5 backdrop-blur-md transition-all',
         accent.border,
         'hover:-translate-y-0.5',
         accent.glow,
