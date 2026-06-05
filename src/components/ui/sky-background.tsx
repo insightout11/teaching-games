@@ -709,8 +709,11 @@ export function SkyBackground({
   // Ground elements animate (city lights, ocean drift) only during flight and when motion is allowed
   const animateGround = earthState === 'flight' && !prefersReducedMotion;
 
-  // Sun disk baked into horizon gradient — only for ground states (takeoff=left, landing=right)
-  const showSun   = earthState === 'takeoff' || earthState === 'landing';
+  // Sun disk baked into horizon gradient — only for ground states (takeoff=left, landing=right).
+  // When a destination skyline is shown it carries its own grounded rising sun, so suppress this
+  // separate horizon sun to avoid two conflicting light sources (a fixed corner orb + the skyline
+  // sun that fades in with the ground as you descend).
+  const showSun   = (earthState === 'takeoff' || earthState === 'landing') && !showSkyline;
   const sunX      = earthState === 'landing' ? '82%' : '18%';
   const sunCore   = earthState === 'landing' ? 'rgba(255,255,200,0.97)' : 'rgba(255,250,180,0.97)';
   const sunInner  = earthState === 'landing' ? 'rgba(255,190,50,0.88)'  : 'rgba(255,110,18,0.84)';
