@@ -78,31 +78,44 @@ export function FeaturedFlightHero() {
 
         {/* ── Main panel ───────────────────────────────────────────── */}
         <div className="relative flex-1 p-7 sm:p-9 lg:p-12">
-          <div className="flex items-center justify-between">
+          {/* Oversized faint plane — anchors the empty upper-right and reinforces the metaphor */}
+          <Plane
+            aria-hidden
+            className="pointer-events-none absolute right-4 top-10 hidden h-72 w-72 -rotate-[18deg] text-cyan-300/[0.05] lg:block"
+            strokeWidth={1}
+          />
+
+          <div className="relative z-10 flex items-center justify-between">
             <span className="font-instrument inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-cyan-300/90">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_8px_2px_rgba(34,211,238,0.8)]" />
-              Featured · Captain&apos;s Flight
+              Featured · All-Around Lesson
             </span>
             <span className="font-instrument text-[11px] uppercase tracking-[0.2em] text-lc-text3">
               LessonCaptain Airways
             </span>
           </div>
 
-          <h2 className="font-game mt-5 text-[2.4rem] leading-[0.95] text-lc-text sm:text-[3.4rem]">
-            A complete lesson,
-            <br className="hidden sm:block" /> start to finish
+          <h2 className="font-game relative z-10 mt-4 text-[3.4rem] leading-[0.88] text-lc-text sm:text-[5.25rem]">
+            Captain&apos;s Flight
           </h2>
-          <p className="mt-4 max-w-lg text-base text-lc-text2">
+          <p className="relative z-10 mt-3 text-xl font-semibold text-lc-text sm:text-[1.6rem]">
+            A complete lesson, start to finish.
+          </p>
+          <p className="relative z-10 mt-3.5 max-w-lg text-[15px] leading-relaxed text-lc-text2">
             Every stage from warm-up to wrap-up &mdash; speaking, vocabulary, and a closing
             game &mdash; sequenced for you. Built around any topic, video, or article, at the
             level you choose.
           </p>
 
           {/* Route — the centerpiece */}
-          {route.length > 0 && <RouteStrip route={route} reduce={!!reduce} />}
+          {route.length > 0 && (
+            <div className="relative z-10">
+              <RouteStrip route={route} reduce={!!reduce} />
+            </div>
+          )}
 
           {/* CTA + source controls */}
-          <div className="mt-10">
+          <div className="relative z-10 mt-10">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
               <button
                 type="button"
