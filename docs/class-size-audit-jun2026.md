@@ -15,7 +15,7 @@
 |---|:--:|:--:|:--:|:--:|:--:|---|
 | Vocab Sprint | ★ | ★ | ★ | 1 | est | Individual quiz; scales freely. |
 | Synonym Showdown | ★ | ★ | ★ | 1 | est | Individual quiz. |
-| Word Chain | ○ | ○ | ★ | 1 | code | ⚠ 2-student team mode leaves empty teams (BUG). 1 & 3+ work. |
+| Word Chain | ○ | ★ | ★ | 1 | code | 1 = turn-based; 2+ = teams (2-student empty-team bug fixed in 75df5af). |
 | Grid Rush | ★ | ★ | ★ | 1 | code | Individual 2-round game; not team/count-gated. (was min 2) |
 | Sentence Scramble | ★ | ★ | ★ | 1 | est | Individual reorder. |
 | Grammar Boss | ★ | ★ | ★ | 1 | est | Individual. |
@@ -28,7 +28,7 @@
 | Brain Teasers | ★ | ★ | ★ | 1 | est | Puzzles. |
 | Defend It | – | ★ | ★ | 2 | code | One student → opposing side empty. |
 | **Sector Strike** | – | ★ | ★ | 2 | code | *Was missing.* Hard minimum 2. |
-| **Zone Board** | ○ | ○ | ★ | 2 | code | *Was missing.* ⚠ default multi-team creates empty teams / stalls (BUG). |
+| **Zone Board** | – | ★ | ★ | 2 | code | *Was missing.* Now requires ≥2 & caps teams to students (fixed in 75df5af). |
 
 ## Activities
 
@@ -71,15 +71,13 @@
 | **Video Player** | ★ | ★ | ★ | 1 | code | *Was missing* (flight-plan-only). All sizes. |
 | **Cabin Mystery** | ○ | ★ | ★ | 1 | code | *Was missing* (in-dev). Best 4+; allows fewer w/ repeated roles. |
 
-## ⚠ Bugs surfaced by the review (not audit issues — implementation)
+## ✅ Bugs surfaced by the review — FIXED (commit 75df5af)
 
-1. **Word Chain** — 2 students activate team mode, but team assignment refuses below 3, so
-   both teams render empty. 1 works (turn-based), 2 broken, 3+ works. `src/games/word-chain/game.tsx:46,75,95`
-2. **Zone Board** — UI allows 1 student, but default multi-team play creates empty teams and
-   can stall turns. `src/games/zone-board/game.tsx:88-102,639-642,1021-1024`
-
-These are pre-existing and worth fixing regardless of the audit. (Decision: fix, or just set
-`minStudents` to match current behavior?)
+1. **Word Chain** — team-split bailed below 3 while team mode triggered at 2, leaving both
+   teams empty at exactly 2 students. Aligned the split with `isTeamMode` (1-v-1 at 2).
+2. **Zone Board** — round-robined students across a fixed ≥2 team count, creating empty teams
+   that stalled the turn order; Start was enabled at 1 student. Capped team count to student
+   count and gated Start to ≥2 students.
 
 ## Schema implications (from the review)
 
