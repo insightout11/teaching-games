@@ -652,7 +652,9 @@ export function ZoneBoardGame({
   // ─── Game lifecycle ─────────────────────────────────────────────────────────
 
   function startGame() {
-    const newTeams = splitIntoTeams(students, numberOfTeams);
+    // Never create more teams than students, or the empty team stalls the turn order.
+    const teamCount = Math.min(numberOfTeams, students.length);
+    const newTeams = splitIntoTeams(students, teamCount);
     teamsRef.current = newTeams;
     activeTeamIndexRef.current = 0;
     setTeams(newTeams);
@@ -1016,11 +1018,11 @@ export function ZoneBoardGame({
                 ))}
               </div>
               <span className="text-xs text-lc-text2 ml-auto">
-                {students.length === 0 ? 'Waiting for students…' : `${students.length} student${students.length !== 1 ? 's' : ''} ready`}
+                {students.length < 2 ? 'Waiting for at least 2 students…' : `${students.length} student${students.length !== 1 ? 's' : ''} ready`}
               </span>
               <button
                 onClick={startGame}
-                disabled={students.length === 0}
+                disabled={students.length < 2}
                 className="px-5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-white font-black text-sm disabled:opacity-40 transition-colors flex-shrink-0"
               >
                 Start Game

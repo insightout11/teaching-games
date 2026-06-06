@@ -70,9 +70,10 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
   const teamsRef = useRef(teams);
   teamsRef.current = teams;
 
-  // Split students into teams when entering team mode
+  // Split students into teams when entering team mode. Must match the isTeamMode
+  // threshold (>= 2) — a stricter guard here left 2-student teams empty.
   useEffect(() => {
-    if (!isTeamMode || students.length < 3) return;
+    if (!isTeamMode) return;
 
     // Shuffle and split
     const shuffled = [...students].sort(() => Math.random() - 0.5);
