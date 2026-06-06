@@ -1,17 +1,20 @@
 // Teacher Home discovery layer — derives "teacher-job" shelves and lesson-poster
-// card metadata from the EXISTING module registries + flight-plan-config. No new
-// per-plugin fields (V0): class-size and chips are derived heuristically here so
-// the homepage redesign never blocks on tagging ~30 modules.
+// card metadata from the existing module registries + flight-plan-config.
 //
-// Personalization slot: getClassSizeChip() takes an optional teacher profile so a
-// future onboarding step can flip generic chips to "Best for your setup" without a
-// component refactor.
+// Personalization slot: getClassSizeChip() takes an optional teacher profile and
+// exact student count so audited ideals and hard minimums can drive the verdict.
 
 import type { ComponentType } from 'react';
 import { Mic, PenLine, Gamepad2, Vote, Users, Scale } from 'lucide-react';
 import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
-import { FLIGHT_PLAN_ITEMS, type FlightPlanItem } from '@/lib/flight-plan-config';
+import {
+  FLIGHT_PLAN_ITEMS,
+  getClassSizeMetadata,
+  type AuditedClassSize,
+  type ClassSizeMetadata,
+  type FlightPlanItem,
+} from '@/lib/flight-plan-config';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
 
@@ -29,6 +32,7 @@ export interface DiscoveryItem {
   skills: string[];
   isPro: boolean;
   meta?: FlightPlanItem;
+  classSize: ClassSizeMetadata;
 }
 
 export interface GlyphChip {
@@ -54,6 +58,7 @@ export function getDiscoveryItems(): DiscoveryItem[] {
       skills: g.skills,
       isPro: PRO_GAME_KEYS.has(g.key),
       meta: META_BY_KEY.get(g.key),
+      classSize: requireClassSizeMetadata(g.key),
     }));
 
   const activities: DiscoveryItem[] = getAllActivities()
@@ -70,48 +75,80 @@ export function getDiscoveryItems(): DiscoveryItem[] {
       skills: a.skills as string[],
       isPro: PRO_ACTIVITY_KEYS.has(a.key),
       meta: META_BY_KEY.get(a.key),
+      classSize: requireClassSizeMetadata(a.key),
     }));
 
   return [...activities, ...games];
 }
 
+function requireClassSizeMetadata(key: string): ClassSizeMetadata {
+  const metadata = getClassSizeMetadata(key);
+  if (!metadata) throw new Error(`Missing class-size metadata for discovery module: ${key}`);
+  return metadata;
+}
+
 // ─── Card chip derivation ────────────────────────────────────────────────────
 
 /**
- * Ideal-class-size chip, derived from interaction model (V0 heuristic — no per-plugin
- * field yet). `profile` is the future personalization slot: when present we can return
- * a "Best for your setup" verdict instead of the generic label.
+ * Ideal-class-size chip from the code-grounded per-module audit. Exact minimum gating
+ * is applied when a student count is available. Bucket-only profiles stay conservative
+ * when the bucket could include a class below the module minimum.
  */
 export function getClassSizeChip(
   item: DiscoveryItem,
-  profile?: { setup?: 'one-on-one' | 'small-group' | 'classroom' | 'mixed' },
+  profile?: {
+    setup?: 'one-on-one' | 'small-group' | 'classroom' | 'mixed';
+    studentCount?: number;
+  },
 ): string {
-  const models = item.meta?.interactionModel ?? [];
-
-  // Ideal class size for this module (heuristic from interaction model).
-  const ideal: 'large' | 'whole' | 'small' | 'any' =
-    models.includes('team-based') || models.includes('role-based') ? 'large' :
-    models.includes('voting') || models.includes('simultaneous') ? 'whole' :
-    models.includes('discussion') || models.includes('performance') ? 'small' : 'any';
-
-  // Personalized verdict when we know the teacher's setup and the module suits it.
+  const { idealClassSizes, minStudents } = item.classSize;
   const setup = profile?.setup;
-  if (setup && setup !== 'mixed') {
-    const suits =
-      setup === 'one-on-one' ? ideal === 'small' || ideal === 'any' :
-      setup === 'small-group' ? ideal !== 'large' :
-      /* classroom */          ideal === 'whole' || ideal === 'large' || ideal === 'any';
-    if (suits) {
-      return setup === 'one-on-one' ? 'Great for 1-on-1'
-        : setup === 'small-group' ? 'Great for small groups'
-        : 'Great for your class';
-    }
+  const exactCount = profile?.studentCount;
+
+  if (exactCount != null && exactCount < minStudents) {
+    return `Needs ${minStudents}+ students`;
   }
 
-  if (ideal === 'large') return 'Best with 4+';
-  if (ideal === 'whole') return 'Whole class';
-  if (ideal === 'small') return 'Pairs & groups';
-  return 'Any class size';
+  if (
+    setup &&
+    setup !== 'mixed' &&
+    idealClassSizes.includes(setup) &&
+    setupDefinitelyMeetsMinimum(setup, minStudents, exactCount)
+  ) {
+    return setup === 'one-on-one' ? 'Great for 1-on-1'
+      : setup === 'small-group' ? 'Great for small groups'
+      : 'Great for your class';
+  }
+
+  if (minStudents > 1) return `Best with ${minStudents}+`;
+  return genericIdealClassSizeLabel(idealClassSizes);
+}
+
+function setupDefinitelyMeetsMinimum(
+  setup: AuditedClassSize,
+  minStudents: number,
+  exactCount?: number,
+): boolean {
+  if (exactCount != null) return exactCount >= minStudents;
+  if (setup === 'one-on-one') return minStudents <= 1;
+  if (setup === 'small-group') return minStudents <= 2;
+  return minStudents <= 7;
+}
+
+function genericIdealClassSizeLabel(idealClassSizes: readonly AuditedClassSize[]): string {
+  if (idealClassSizes.length === 3) return 'Any class size';
+  if (idealClassSizes.length === 1) {
+    if (idealClassSizes[0] === 'one-on-one') return 'Best for 1-on-1';
+    if (idealClassSizes[0] === 'small-group') return 'Best for small groups';
+    return 'Best for classrooms';
+  }
+  if (idealClassSizes.includes('one-on-one') && idealClassSizes.includes('small-group')) {
+    return 'Best for 1-on-1 & small groups';
+  }
+  if (idealClassSizes.includes('small-group') && idealClassSizes.includes('classroom')) {
+    return 'Best for groups & classes';
+  }
+  return 'Best for 1-on-1 & classrooms';
 }
 
 /** Source-requirement chip. Source-agnostic modules read "Use with any topic" (per brand). */

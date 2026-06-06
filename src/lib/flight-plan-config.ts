@@ -1,6 +1,8 @@
 // Flight Plan routing config — static metadata for generator slot-filling and sequencing.
 // No runtime imports. Generator imports this file to make slot and goal decisions.
 
+import type { ClassSize } from './teacher-profile';
+
 export type GoalTag =
   | 'speaking-fluency'
   | 'discussion-debate'
@@ -35,7 +37,16 @@ export type InteractionModel =
   | 'performance'
   | 'submission';
 
-export interface FlightPlanItem {
+export type AuditedClassSize = Exclude<ClassSize, 'mixed'>;
+
+export interface ClassSizeMetadata {
+  /** Class-size buckets where this module shines (the audit's star ratings). */
+  idealClassSizes: readonly AuditedClassSize[];
+  /** Minimum connected students needed for the module to function. */
+  minStudents: number;
+}
+
+export interface FlightPlanItem extends ClassSizeMetadata {
   key: string;
   slotFit: SlotType[];
   goalFit: GoalTag[];
@@ -57,7 +68,82 @@ export interface FlightPlanItem {
   requiresSource?: 'video' | 'text';
 }
 
-export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
+const ALL_CLASS_SIZES = ['one-on-one', 'small-group', 'classroom'] as const;
+const GROUP_OR_CLASS = ['small-group', 'classroom'] as const;
+const ONE_OR_SMALL = ['one-on-one', 'small-group'] as const;
+const SMALL_ONLY = ['small-group'] as const;
+const CLASS_ONLY = ['classroom'] as const;
+
+/**
+ * Code-grounded class-size audit for every registered game/activity.
+ * Registry-only modules live here too so discovery can use the same source of truth
+ * without adding them to the Flight Plan generator candidate pool.
+ */
+const CLASS_SIZE_METADATA: Record<string, ClassSizeMetadata> = {
+  // Games
+  'vocab-sprint': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'synonym-showdown': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'word-chain': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
+  'grid-rush': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'sentence-scramble': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'grammar-boss': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'error-hunter': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'story-sprint': { idealClassSizes: SMALL_ONLY, minStudents: 1 },
+  'dialogue-detective': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  connections: { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'twenty-questions': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+  'flash-quiz': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'brain-teasers': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'defend-it': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+  'sector-strike': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+  'zone-board': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+
+  // Activities
+  'quick-pulse': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'vocab-radar': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'prediction-round': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  imposter: { idealClassSizes: GROUP_OR_CLASS, minStudents: 3 },
+  'scene-igniter': { idealClassSizes: ONE_OR_SMALL, minStudents: 1 },
+  'would-you-rather': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'two-truths': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'two-truths-and-a-lie': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+  'rank-it': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'read-aloud': { idealClassSizes: ONE_OR_SMALL, minStudents: 1 },
+  'listening-gap-fill': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'fact-detective': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'expert-panel': { idealClassSizes: CLASS_ONLY, minStudents: 1 },
+  'scenario-simulator': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'problem-solvers': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
+  'hot-take-arena': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+  'decision-council': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
+  'final-answer': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'mic-drop': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'lightning-round': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'mission-selector': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'opinion-shift': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'conversation-rounds': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+  'character-cards': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'grammar-check-in': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'grammar-proof': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'final-word': { idealClassSizes: ONE_OR_SMALL, minStudents: 1 },
+  'contribution-break': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'language-toolkit': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'wonder-board': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  password: { idealClassSizes: GROUP_OR_CLASS, minStudents: 4 },
+  'in-your-words': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'bluff-definition': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+  'taboo-sprint': { idealClassSizes: GROUP_OR_CLASS, minStudents: 4 },
+  'video-player': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'cabin-mystery': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
+};
+
+export function getClassSizeMetadata(key: string): ClassSizeMetadata | undefined {
+  return CLASS_SIZE_METADATA[key];
+}
+
+type FlightPlanItemBase = Omit<FlightPlanItem, keyof ClassSizeMetadata>;
+
+const FLIGHT_PLAN_ITEM_BASE: FlightPlanItemBase[] = [
   // ─── GAMES ───────────────────────────────────────────────────────────────
 
   {
@@ -743,6 +829,14 @@ export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = [
     strongWith: ['vocab-sprint', 'vocab-radar', 'bluff-definition'],
   },
 ];
+
+export const FLIGHT_PLAN_ITEMS: FlightPlanItem[] = FLIGHT_PLAN_ITEM_BASE.map((item) => {
+  const classSizeMetadata = getClassSizeMetadata(item.key);
+  if (!classSizeMetadata) {
+    throw new Error(`Missing class-size metadata for Flight Plan item: ${item.key}`);
+  }
+  return { ...item, ...classSizeMetadata };
+});
 
 /** Lookup a single item's config by key. Returns undefined if not found. */
 export function getFlightPlanItem(key: string): FlightPlanItem | undefined {
