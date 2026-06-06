@@ -12,7 +12,7 @@ import { useReducedMotion } from 'framer-motion';
 import { Compass, Library as LibraryIcon, Plane, ChevronRight, Sparkles } from 'lucide-react';
 import { SkyBackground } from '@/components/ui/sky-background';
 import { buildShelves, type DiscoveryItem } from '@/lib/discovery-shelves';
-import type { TeacherProfile } from '@/lib/teacher-profile';
+import type { TeacherProfile, TeachingFocus } from '@/lib/teacher-profile';
 import { FeaturedFlightHero } from './FeaturedFlightHero';
 import { FullFlightsLane } from './FullFlightsLane';
 import { ReadyToTeachLane } from './ReadyToTeachLane';
@@ -24,9 +24,22 @@ import { DiscoveryDetailDrawer } from './DiscoveryDetailDrawer';
 
 const ONBOARDING_DISMISSED_KEY = 'lc-onboarding-dismissed';
 
-// Only the highest-urgency shelves live on the home; the rest stay in Browse so the
-// page reads as a home, not a catalog (docs/home-screen-redesign-audit-jun2026.md §3).
-const HOME_SHELF_IDS = ['end-with-a-game', 'speaking', 'quick'];
+// Only the highest-urgency shelves live on the home; the rest stay in Browse so the page
+// reads as a home, not a catalog (§3). The teacher's focus (from onboarding) leads the row.
+const BASE_HOME_SHELVES = ['end-with-a-game', 'speaking', 'quick'];
+const FOCUS_LEAD_SHELF: Record<TeachingFocus, string | null> = {
+  speaking: 'speaking',
+  vocabulary: 'vocabulary',
+  kids: 'end-with-a-game',
+  grammar: null, // no dedicated grammar shelf yet
+  exam: null,
+  business: null,
+};
+function homeShelfIdsFor(focus: TeachingFocus | null): string[] {
+  const lead = focus ? FOCUS_LEAD_SHELF[focus] : null;
+  if (!lead) return BASE_HOME_SHELVES;
+  return [lead, ...BASE_HOME_SHELVES.filter((id) => id !== lead).slice(0, 2)];
+}
 
 export interface RecentSession {
   id: string;
@@ -81,8 +94,9 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     router.refresh(); // re-fetch the profile so Recommended updates
   }
 
-  const shelves = buildShelves().filter((s) => HOME_SHELF_IDS.includes(s.id));
-  const shelfById = new Map(shelves.map((s) => [s.id, s] as const));
+  const shelfById = new Map(buildShelves().map((s) => [s.id, s] as const));
+  const homeShelves = homeShelfIdsFor(profile?.focus ?? null);
+  const shelfProfile = profile?.classSize ? { setup: profile.classSize } : undefined;
   const renderShelf = (id: string) => {
     const shelf = shelfById.get(id);
     if (!shelf) return null;
@@ -92,6 +106,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
         description={shelf.description}
         items={shelf.items}
         onSelect={handleSelect}
+        profile={shelfProfile}
       />
     );
   };
@@ -263,10 +278,10 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
           <div className="mt-14 space-y-14">
             <FullFlightsLane />
             <ReadyToTeachLane />
-            {renderShelf('end-with-a-game')}
+            {renderShelf(homeShelves[0])}
             <SpecialFeaturesLane />
-            {renderShelf('quick')}
-            {renderShelf('speaking')}
+            {renderShelf(homeShelves[1])}
+            {renderShelf(homeShelves[2])}
           </div>
 
           {/* Catalog + Library — two distinct destinations */}

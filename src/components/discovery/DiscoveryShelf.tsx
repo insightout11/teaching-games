@@ -15,6 +15,8 @@ interface DiscoveryShelfProps {
   items: DiscoveryItem[];
   onSelect: (item: DiscoveryItem) => void;
   viewAllHref?: string;
+  /** Teacher setup → personalizes the class-size chip ("Great for your class"). */
+  profile?: { setup?: 'one-on-one' | 'small-group' | 'classroom' | 'mixed' };
 }
 
 // Below this count a rail looks sparse — render a grid instead.
@@ -28,6 +30,7 @@ export function DiscoveryShelf({
   items,
   onSelect,
   viewAllHref = '/explore',
+  profile,
 }: DiscoveryShelfProps) {
   const isRail = items.length >= RAIL_MIN;
   const shown = isRail ? items.slice(0, RAIL_MAX) : items.slice(0, 4);
@@ -56,13 +59,13 @@ export function DiscoveryShelf({
       {isRail ? (
         <CardRail>
           {shown.map((item) => (
-            <DiscoveryCard key={item.key} item={item} onSelect={onSelect} />
+            <DiscoveryCard key={item.key} item={item} onSelect={onSelect} profile={profile} />
           ))}
         </CardRail>
       ) : (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {shown.map((item) => (
-            <DiscoveryCard key={item.key} item={item} onSelect={onSelect} />
+            <DiscoveryCard key={item.key} item={item} onSelect={onSelect} profile={profile} />
           ))}
         </div>
       )}

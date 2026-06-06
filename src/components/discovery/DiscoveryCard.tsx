@@ -102,7 +102,11 @@ export function DiscoveryCard({ item, onSelect, profile }: DiscoveryCardProps) {
         <div className="flex items-end justify-between gap-2">
           <div className="flex flex-wrap gap-1.5">
             <Chip>{item.estimatedMinutes} min</Chip>
-            <Chip>{classSize}</Chip>
+            <Chip
+              accentClass={classSize.startsWith('Great for') ? 'text-emerald-200 ring-1 ring-emerald-400/40' : undefined}
+            >
+              {classSize}
+            </Chip>
             <Chip accentClass={tone.iconText}>{mode}</Chip>
             <Chip>{source}</Chip>
           </div>

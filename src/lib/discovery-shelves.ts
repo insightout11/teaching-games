@@ -87,11 +87,30 @@ export function getClassSizeChip(
   profile?: { setup?: 'one-on-one' | 'small-group' | 'classroom' | 'mixed' },
 ): string {
   const models = item.meta?.interactionModel ?? [];
-  // profile hook reserved for a future "Best for your setup" verdict.
-  void profile;
-  if (models.includes('team-based') || models.includes('role-based')) return 'Best with 4+';
-  if (models.includes('voting') || models.includes('simultaneous')) return 'Whole class';
-  if (models.includes('discussion') || models.includes('performance')) return 'Pairs & groups';
+
+  // Ideal class size for this module (heuristic from interaction model).
+  const ideal: 'large' | 'whole' | 'small' | 'any' =
+    models.includes('team-based') || models.includes('role-based') ? 'large' :
+    models.includes('voting') || models.includes('simultaneous') ? 'whole' :
+    models.includes('discussion') || models.includes('performance') ? 'small' : 'any';
+
+  // Personalized verdict when we know the teacher's setup and the module suits it.
+  const setup = profile?.setup;
+  if (setup && setup !== 'mixed') {
+    const suits =
+      setup === 'one-on-one' ? ideal === 'small' || ideal === 'any' :
+      setup === 'small-group' ? ideal !== 'large' :
+      /* classroom */          ideal === 'whole' || ideal === 'large' || ideal === 'any';
+    if (suits) {
+      return setup === 'one-on-one' ? 'Great for 1-on-1'
+        : setup === 'small-group' ? 'Great for small groups'
+        : 'Great for your class';
+    }
+  }
+
+  if (ideal === 'large') return 'Best with 4+';
+  if (ideal === 'whole') return 'Whole class';
+  if (ideal === 'small') return 'Pairs & groups';
   return 'Any class size';
 }
 
