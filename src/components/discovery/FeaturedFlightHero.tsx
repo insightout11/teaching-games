@@ -127,7 +127,7 @@ export function FeaturedFlightHero() {
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </button>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2">
                 <span className="font-instrument mr-0.5 text-[10px] uppercase tracking-[0.18em] text-lc-text3">
                   or add
                 </span>
@@ -140,9 +140,9 @@ export function FeaturedFlightHero() {
                     key={label}
                     type="button"
                     onClick={() => openLaunch(label !== 'Topic')}
-                    className="inline-flex items-center gap-2 rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] px-4 py-3 text-sm font-medium text-lc-text2 transition-colors hover:border-cyan-300/55 hover:bg-cyan-300/12 hover:text-lc-text"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-300/15 bg-cyan-300/[0.04] px-2.5 py-1.5 text-[13px] font-medium text-lc-text3 transition-colors hover:border-cyan-300/45 hover:bg-cyan-300/10 hover:text-lc-text"
                   >
-                    <ChipIcon className="h-[18px] w-[18px]" aria-hidden />
+                    <ChipIcon className="h-4 w-4" aria-hidden />
                     {label}
                   </button>
                 ))}
@@ -155,7 +155,7 @@ export function FeaturedFlightHero() {
         </div>
 
         {/* ── Perforated stub ──────────────────────────────────────── */}
-        <div className="relative shrink-0 border-t-2 border-dashed border-cyan-300/35 bg-cyan-300/[0.05] p-7 lg:w-72 lg:border-l-2 lg:border-t-0 lg:shadow-[inset_12px_0_18px_-12px_rgba(0,0,0,0.6)]">
+        <div className="relative flex shrink-0 flex-col border-t-2 border-dashed border-cyan-300/35 bg-cyan-300/[0.05] p-7 lg:w-72 lg:border-l-2 lg:border-t-0 lg:shadow-[inset_12px_0_18px_-12px_rgba(0,0,0,0.6)]">
           {/* Hole-punch perforation along the seam (lg) */}
           <div aria-hidden className="absolute left-0 top-0 hidden h-full -translate-x-1/2 flex-col items-center justify-around py-3 lg:flex">
             {Array.from({ length: 13 }).map((_, i) => (
@@ -187,7 +187,7 @@ export function FeaturedFlightHero() {
             ))}
           </dl>
 
-          <div className="mt-6 flex items-center justify-between border-t border-cyan-300/15 pt-5">
+          <div className="mt-auto flex items-center justify-between border-t border-cyan-300/15 pt-5">
             <span className="font-instrument text-[9px] uppercase tracking-[0.16em] text-lc-text3">Gate&nbsp;A1</span>
             <span className="font-instrument inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-emerald-300/90">
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />

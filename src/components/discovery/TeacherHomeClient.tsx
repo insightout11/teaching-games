@@ -176,6 +176,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
         showEarth
         earthOpacity={earthOpacity}
         showMoon
+        moonPosition={{ top: '8%', right: '20%' }}
         showRunwayMarkings
         showSkyline
         intensity="subtle"

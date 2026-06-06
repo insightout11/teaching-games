@@ -17,6 +17,7 @@ interface SkyBackgroundProps {
   showEarth?: boolean;         // render the ground/runway EarthLayer at all (default true)
   earthOpacity?: number;       // 0–1 fade for the ground/runway/skyline layer (default 1) — lets the ground fade in/out smoothly instead of toggling
   showMoon?: boolean;          // force the moon visible regardless of weather (default false)
+  moonPosition?: { top?: string; right?: string }; // override moon placement (default { top: '4%', right: '14%' })
   showSkyline?: boolean;       // distant destination city skyline at the horizon (default false)
   intensity?: 'subtle' | 'moderate';
   parallaxScale?: number;    // multiplier on all layer shifts (default 1 — session behavior)
@@ -640,6 +641,7 @@ export function SkyBackground({
   showEarth = true,
   earthOpacity = 1,
   showMoon = false,
+  moonPosition = { top: '4%', right: '14%' },
   showSkyline = false,
   intensity = 'moderate',
   parallaxScale = 1,
@@ -760,7 +762,7 @@ export function SkyBackground({
       {/* Moon — cruising/midnight only */}
       <motion.div
         className="absolute"
-        style={{ top: '4%', right: '14%', zIndex: 2 }}
+        style={{ top: moonPosition.top ?? '4%', right: moonPosition.right ?? '14%', zIndex: 2 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: (weatherState === 'cruising' || showMoon) ? 1 : 0 }}
         transition={{ duration: 5, ease: 'easeInOut' }}
