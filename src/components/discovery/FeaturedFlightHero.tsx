@@ -17,8 +17,14 @@ import { FeaturedFlightLaunchModal } from './FeaturedFlightLaunchModal';
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-// Deterministic barcode bar widths.
-const BARCODE = [3, 1, 2, 1, 1, 3, 1, 2, 2, 1, 3, 1, 1, 2, 1, 3, 2, 1, 1, 2, 1, 3, 1, 2, 1, 1, 2, 3, 1, 2, 1, 1];
+// Deterministic Code-128-style barcode: alternating bar / space segment widths
+// (even index = dark bar, odd index = light gap). Rendered with flex-grow so the
+// strip fills the full width of the boarding-pass stub like a real printed label.
+const BARCODE = [
+  2, 1, 1, 2, 3, 1, 1, 1, 2, 1, 3, 2, 1, 1, 2, 1, 1, 3, 1, 2, 2, 1, 1, 2, 1, 3, 1, 1, 2, 1,
+  1, 2, 3, 1, 1, 2, 1, 1, 3, 2, 1, 1, 2, 1, 2, 1, 3, 1, 1, 2, 2, 1, 1, 3, 1, 1, 2, 1, 2, 1,
+  3, 1, 1, 2, 1, 2, 1, 1, 3, 2, 1, 1, 2, 1, 1, 3, 1, 2, 1, 1,
+];
 
 export function FeaturedFlightHero() {
   const reduce = useReducedMotion();
@@ -176,11 +182,20 @@ export function FeaturedFlightHero() {
             </span>
           </div>
 
-          {/* Barcode */}
-          <div aria-hidden className="mt-5 flex h-8 items-stretch gap-[2px] opacity-70">
-            {BARCODE.map((w, i) => (
-              <span key={i} className="bg-[#c7d2e6]" style={{ width: `${w}px` }} />
-            ))}
+          {/* Barcode — full-width printed label (dark bars on near-white) */}
+          <div aria-hidden className="mt-6 rounded-[3px] bg-[#eef2f8] px-2.5 pb-1.5 pt-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)]">
+            <div className="flex h-14 w-full items-stretch">
+              {BARCODE.map((w, i) => (
+                <span
+                  key={i}
+                  className={i % 2 === 0 ? 'bg-[#0b1320]' : 'bg-transparent'}
+                  style={{ flexGrow: w, flexBasis: 0 }}
+                />
+              ))}
+            </div>
+            <div className="font-instrument mt-1.5 text-center text-[10px] tracking-[0.32em] text-[#4a5670]">
+              LC 60 0042 8817
+            </div>
           </div>
         </div>
       </motion.article>
