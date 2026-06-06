@@ -1,85 +1,101 @@
-# Class-Size Audit — all modules (first pass for review)
+# Class-Size Audit — all modules (v2, reconciled with code review)
 
-> Status: **DRAFT for teacher review** (June 2026). Replaces the `interactionModel` heuristic
-> behind the home "Great for your class" chips with real per-module data.
+> Status: **Revised after a code-grounded review (Codex).** The v1 pass was inferred from
+> metadata and had real errors; this version takes the implementation as ground truth.
+> Still needs final teacher sign-off on the judgment rows.
 >
-> Today the class-size chip is *inferred* from `interactionModel` (how students interact),
-> which is a proxy, not an audit — and there are no min/max limits at all. This table is the
-> proposed real data. **Please correct any row**, then we encode it as `idealClassSizes` +
-> `minStudents` / `maxStudents` on `FlightPlanItem` and rewire `getClassSizeChip`.
->
-> Legend: ★ shines · ○ works · – poor/impossible. Min = students needed to function.
-> Max = soft ceiling where turn-taking drags (— = scales freely). Sizes: 1:1 · Small (2–6) · Class (7+).
+> Legend: ★ shines · ○ works · – poor/impossible. **Min** = students the code needs to run.
+> **Src**: `code` = verified in the implementation · `est` = teacher judgment (not code-enforced).
+> Sizes: 1:1 · Small (2–6) · Class (7+). **Max ceilings dropped** — no module enforces one;
+> "drags large" is noted instead.
 
-## Games (14)
+## Games
 
-| Module | 1:1 | Small | Class | Min | Max | Note |
+| Module | 1:1 | Small | Class | Min | Src | Note |
 |---|:--:|:--:|:--:|:--:|:--:|---|
-| Vocab Sprint | ★ | ★ | ★ | 1 | — | Individual phone quiz; scales freely. |
-| Synonym Showdown | ★ | ★ | ★ | 1 | — | Individual quiz. |
-| Word Chain | – | ★ | ★ | 3 | — | Relay chain; needs a group to pass around. |
-| Grid Rush | ○ | ★ | ★ | 2 | — | Team race; best with 2+ teams. |
-| Sentence Scramble | ★ | ★ | ★ | 1 | — | Individual reorder. |
-| Grammar Boss | ★ | ★ | ★ | 1 | — | Individual submission. |
-| Error Hunter | ★ | ★ | ★ | 1 | — | Individual spot-the-error. |
-| Story Sprint | ○ | ★ | ★ | 2 | ~20 | Round-robin story; drags very large. |
-| Dialogue Detective | ★ | ★ | ★ | 1 | — | Analyze a dialogue. |
-| Connections | ★ | ★ | ★ | 1 | — | Grouping puzzle; team mode best in groups. |
-| Twenty Questions | ★ | ★ | ★ | 2 | ~20 | One knows, others guess; 1:1 works w/ teacher. |
-| Flash Quiz | ★ | ★ | ★ | 1 | — | Buzzer quiz. |
-| Brain Teasers | ★ | ★ | ★ | 1 | — | Puzzles. |
-| Defend It | ○ | ★ | ★ | 2 | — | Take a side; needs opposing voices. |
+| Vocab Sprint | ★ | ★ | ★ | 1 | est | Individual quiz; scales freely. |
+| Synonym Showdown | ★ | ★ | ★ | 1 | est | Individual quiz. |
+| Word Chain | ○ | ○ | ★ | 1 | code | ⚠ 2-student team mode leaves empty teams (BUG). 1 & 3+ work. |
+| Grid Rush | ★ | ★ | ★ | 1 | code | Individual 2-round game; not team/count-gated. (was min 2) |
+| Sentence Scramble | ★ | ★ | ★ | 1 | est | Individual reorder. |
+| Grammar Boss | ★ | ★ | ★ | 1 | est | Individual. |
+| Error Hunter | ★ | ★ | ★ | 1 | est | Individual. |
+| Story Sprint | ○ | ★ | ○ | 1 | code | Only one student writes at a time; large classes wait. (was min 2, Class ★) |
+| Dialogue Detective | ★ | ★ | ★ | 1 | est | Analyze a dialogue. |
+| Connections | ★ | ★ | ★ | 1 | est | Grouping puzzle. |
+| Twenty Questions | – | ★ | ★ | 2 | code | Sole student becomes host but hosts can't ask/guess → 1:1 broken. |
+| Flash Quiz | ★ | ★ | ★ | 1 | est | Buzzer quiz. |
+| Brain Teasers | ★ | ★ | ★ | 1 | est | Puzzles. |
+| Defend It | – | ★ | ★ | 2 | code | One student → opposing side empty. |
+| **Sector Strike** | – | ★ | ★ | 2 | code | *Was missing.* Hard minimum 2. |
+| **Zone Board** | ○ | ○ | ★ | 2 | code | *Was missing.* ⚠ default multi-team creates empty teams / stalls (BUG). |
 
-## Activities (34)
+## Activities
 
-| Module | 1:1 | Small | Class | Min | Max | Note |
+| Module | 1:1 | Small | Class | Min | Src | Note |
 |---|:--:|:--:|:--:|:--:|:--:|---|
-| Quick Pulse | ★ | ★ | ★ | 1 | — | Opinion vote. |
-| Vocab Radar | ★ | ★ | ★ | 1 | — | Self-rate word knowledge. |
-| Prediction Round | ★ | ★ | ★ | 1 | — | Predict outcomes. |
-| Imposter | – | ★ | ★ | 4 | — | Social deduction; impossible 1:1, weak under 4. |
-| Scene Igniter | ★ | ★ | ○ | 1 | ~16 | Roleplay; rich 1:1/small, big class limits speaking. |
-| Would You Rather | ★ | ★ | ★ | 1 | — | Opinion + talk. |
-| Two Truths | ★ | ★ | ★ | 2 | — | One presents, others guess. |
-| Two Truths and a Lie | ○ | ★ | ★ | 2 | — | Needs others to guess each person. |
-| Rank It | ★ | ★ | ★ | 1 | — | Rank & discuss. |
-| Read Aloud | ★ | ★ | ○ | 1 | — | Round-robin reading drags in big classes. |
-| Listening Gap-Fill | ★ | ★ | ★ | 1 | — | Fill blanks from audio. |
-| Fact Detective | ★ | ★ | ★ | 1 | — | True/false reasoning. |
-| Expert Panel | – | ○ | ★ | 3 | — | Panel + audience; weak with few. |
-| Scenario Simulator | ★ | ★ | ★ | 1 | — | Branching decisions. |
-| Problem Solvers | ○ | ★ | ★ | 2 | — | Group problem-solving. |
-| Hot Take Arena | ○ | ★ | ★ | 2 | — | Thrives on multiple opinions. |
-| Decision Council | – | ★ | ★ | 3 | — | Council needs several voices. |
-| Final Answer | ★ | ★ | ★ | 1 | — | Closing recap. |
-| Mic Drop | ★ | ★ | ★ | 1 | — | Closing one-liner. |
-| Lightning Round | ★ | ★ | ★ | 1 | — | Rapid recap. |
-| Mission Selector | ★ | ★ | ★ | 1 | — | Setup / mission pick. |
-| Opinion Shift | ★ | ★ | ★ | 1 | — | Re-vote after the lesson. |
-| Conversation Rounds | ○ | ★ | ★ | 2 | — | Rotating conversations; 1:1 = single convo. |
-| Character Cards | ★ | ★ | ★ | 1 | — | Assume a persona. |
-| Grammar Check-In | ★ | ★ | ★ | 1 | — | Quick diagnostic. |
-| Grammar Proof | ★ | ★ | ★ | 1 | — | Proofread/fix. |
-| Final Word | ★ | ★ | ○ | 1 | ~16 | Each speaks; big class limits time. |
-| Contribution Break | ★ | ★ | ★ | 1 | — | Submit a contribution. |
-| Language Toolkit | ★ | ★ | ★ | 1 | — | Phrase-bank practice. |
-| Wonder Board | ★ | ★ | ★ | 1 | — | Post questions/wonderings. |
-| Password | ★ | ★ | ★ | 2 | — | Describe a word for a partner; 1:1 works. |
-| In Your Words | ★ | ★ | ★ | 1 | — | Paraphrase. |
-| Bluff Definition | ○ | ★ | ★ | 3 | — | Needs others to be fooled; weak in pairs. |
-| Taboo Sprint | ★ | ★ | ★ | 2 | — | Describe avoiding taboo words. |
+| Quick Pulse | ★ | ★ | ★ | 1 | est | Opinion vote. |
+| Vocab Radar | ★ | ★ | ★ | 1 | est | Self-rate words. |
+| Prediction Round | ★ | ★ | ★ | 1 | est | Predict outcomes. |
+| Imposter | – | ★ | ★ | 3 | code | Hard gate `students.length >= 3`. (was min 4) |
+| Scene Igniter | ★ | ★ | ○ | 1 | code | Splits after 4; no ceiling. Big class limits speaking. |
+| Would You Rather | ★ | ★ | ★ | 1 | est | Opinion + talk. |
+| Two Truths | ★ | ★ | ★ | 1 | code | One student can vote + unlock reveal. (was min 2) |
+| Two Truths and a Lie | – | ★ | ★ | 2 | code | Featured student can't vote on own → 0 voters at 1:1. |
+| Rank It | ★ | ★ | ★ | 1 | est | Rank & discuss. |
+| Read Aloud | ★ | ★ | ○ | 1 | est | Round-robin reading drags large. |
+| Listening Gap-Fill | ★ | ★ | ★ | 1 | est | Fill blanks from audio. |
+| Fact Detective | ★ | ★ | ★ | 1 | est | True/false reasoning. |
+| Expert Panel | ○ | ○ | ★ | 1 | code | One-student panel allowed (thin); audience voting optional. (was 1:1 –, min 3) |
+| Scenario Simulator | ★ | ★ | ★ | 1 | est | Branching decisions. |
+| Problem Solvers | ○ | ★ | ★ | 1 | code | One solution is enough to proceed. (was min 2) |
+| Hot Take Arena | – | ★ | ★ | 2 | code | Start disabled unless both sides non-empty. |
+| Decision Council | ○ | ★ | ★ | 1 | code | Explicit one-proposal flow exists. (was 1:1 –, min 3) |
+| Final Answer | ★ | ★ | ★ | 1 | est | Closing recap. |
+| Mic Drop | ★ | ★ | ★ | 1 | est | Closing one-liner. |
+| Lightning Round | ★ | ★ | ★ | 1 | est | Rapid recap. |
+| Mission Selector | ★ | ★ | ★ | 1 | est | Setup / mission pick. |
+| Opinion Shift | ★ | ★ | ★ | 1 | est | Re-vote after lesson. |
+| Conversation Rounds | – | ★ | ★ | 2 | code | Needs 2 distinct students; start disabled if same. |
+| Character Cards | ★ | ★ | ★ | 1 | est | Assume a persona. (Class ★/○ unverifiable from code) |
+| Grammar Check-In | ★ | ★ | ★ | 1 | est | Quick diagnostic. |
+| Grammar Proof | ★ | ★ | ★ | 1 | est | Proofread/fix. |
+| Final Word | ★ | ★ | ○ | 1 | code | Advances through every student sequentially; no ceiling. |
+| Contribution Break | ★ | ★ | ★ | 1 | est | Submit a contribution. |
+| Language Toolkit | ★ | ★ | ★ | 1 | est | Phrase-bank practice. |
+| Wonder Board | ★ | ★ | ★ | 1 | est | Post questions. |
+| Password | – | ★ | ★ | 4 | code | Hard gate: 4 students + 2 teams. (was 1:1 ★, min 2 — WRONG) |
+| In Your Words | ★ | ★ | ★ | 1 | est | Paraphrase. |
+| Bluff Definition | – | ★ | ★ | 2 | code | Voting needs ≥2 submissions. (was 1:1 ○, min 3) |
+| Taboo Sprint | – | ★ | ★ | 4 | code | Hard gate: 4 students + 2 teams. (was 1:1 ★, min 2 — WRONG) |
+| **Video Player** | ★ | ★ | ★ | 1 | code | *Was missing* (flight-plan-only). All sizes. |
+| **Cabin Mystery** | ○ | ★ | ★ | 1 | code | *Was missing* (in-dev). Best 4+; allows fewer w/ repeated roles. |
 
-## How this gets used once you approve
+## ⚠ Bugs surfaced by the review (not audit issues — implementation)
 
-- Encode on `FlightPlanItem` as `idealClassSizes: ClassSize[]` (the ★ columns) plus optional
-  `minStudents` / `maxStudents`.
-- `getClassSizeChip` reads the real field instead of inferring from `interactionModel`:
-  "Great for your class" only when the teacher's setup is a ★ for that module.
-- `minStudents` can later **gate recommendations** (e.g., never recommend Imposter to a 1:1
-  teacher) and warn when a launched session has too few/many students for the module.
+1. **Word Chain** — 2 students activate team mode, but team assignment refuses below 3, so
+   both teams render empty. 1 works (turn-based), 2 broken, 3+ works. `src/games/word-chain/game.tsx:46,75,95`
+2. **Zone Board** — UI allows 1 student, but default multi-team play creates empty teams and
+   can stall turns. `src/games/zone-board/game.tsx:88-102,639-642,1021-1024`
 
-## Open questions for you
+These are pre-existing and worth fixing regardless of the audit. (Decision: fix, or just set
+`minStudents` to match current behavior?)
 
-1. Are the **Min** floors right (esp. Imposter 4, Expert Panel / Decision Council / Bluff 3)?
-2. Do we want **soft Max** ceilings at all, or only hard minimums?
-3. Should `minStudents` *hide/dim* a module for a mismatched class, or just affect the chip?
+## Schema implications (from the review)
+
+- **Drop `maxStudents`** — no module enforces a ceiling. "Drags large" stays a Note only.
+- **`minStudents` is enough for the home chip + recommendation gating** (Password/Taboo 4,
+  Imposter 3, pair/debate games 2, everything else 1).
+- **But `minStudents` alone can't express composition rules** (both debate sides filled, N
+  teams, the broken 2-player Word Chain path). Those matter for *in-session* warnings, not the
+  home chip — so keep them out of the home schema; handle separately if/when we add live checks.
+- **"Small (2–6)" is too coarse** for the 3- and 4-floor modules — the `minStudents` gate
+  covers it (a 3-student class won't see Password as "Great"), so the bucket can stay.
+
+## Remaining judgment calls (need your eye — code can't decide)
+
+- ★ vs ○ at **Class size** for sequential speakers: Story Sprint, Read Aloud, Final Word,
+  Scene Igniter, Character Cards, Two Truths and a Lie, Conversation Rounds.
+- Whether **teacher-as-participant** should rescue a 1:1 rating for Twenty Questions / Defend
+  It / Hot Take / Conversation Rounds (code says the *student* alone can't; a teacher playing
+  the other role might). Currently marked – (in-app behavior).
