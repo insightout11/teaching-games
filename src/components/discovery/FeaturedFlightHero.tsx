@@ -89,11 +89,11 @@ export function FeaturedFlightHero() {
 
         {/* ── Main panel ───────────────────────────────────────────── */}
         <div className="relative flex-1 p-7 sm:p-9 lg:p-12">
-          {/* Faint LessonCaptain mark — boarding-pass branding watermark; kept inside the
-              main panel (off the perforation seam) so it doesn't muddy the torn-ticket edge */}
+          {/* Large faint LessonCaptain monogram — turns the open center-right of the pass
+              into intentional branded texture (kept off the perforation seam) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute right-12 top-9 hidden h-56 w-56 bg-contain bg-no-repeat opacity-[0.07] lg:block"
+            className="pointer-events-none absolute right-[7%] top-1/2 hidden h-72 w-72 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-[0.06] lg:block xl:h-[24rem] xl:w-[24rem]"
             style={{ backgroundImage: 'url(/lessoncaptain-mark-on-dark.svg)' }}
           />
 
