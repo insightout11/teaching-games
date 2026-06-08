@@ -424,8 +424,8 @@ export function WorldFlightPage() {
         </section>
 
         <aside className="pointer-events-auto ml-auto flex w-[440px] shrink-0 flex-col rounded-xl border border-white/12 bg-[#06101d]/92 shadow-2xl shadow-black/35 backdrop-blur-xl">
-          <ImagePanel image={selectedDestination.heroImage} className="h-36 rounded-t-xl" />
-          <div className="border-b border-white/10 px-5 py-4">
+          <ImagePanel image={selectedDestination.heroImage} className="h-28 rounded-t-xl" />
+          <div className="border-b border-white/10 px-5 py-3">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/75">
@@ -444,19 +444,12 @@ export function WorldFlightPage() {
                 {isReachable ? 'In range' : 'Override'}
               </span>
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-2">
-              <div className="rounded-lg border border-white/10 bg-white/[0.035] p-2">
-                <p className="text-[10px] uppercase tracking-widest text-lc-text3">Distance</p>
-                <p className="mt-1 text-sm font-semibold text-lc-text">{formatDistance(selectedDistanceKm)}</p>
-              </div>
-              <div className="rounded-lg border border-white/10 bg-white/[0.035] p-2">
-                <p className="text-[10px] uppercase tracking-widest text-lc-text3">Airports</p>
-                <p className="mt-1 truncate text-sm font-semibold text-lc-text">{selectedDestination.airports.join(', ')}</p>
-              </div>
-              <div className="rounded-lg border border-white/10 bg-white/[0.035] p-2">
-                <p className="text-[10px] uppercase tracking-widest text-lc-text3">Scene</p>
-                <p className="mt-1 truncate text-sm font-semibold capitalize text-lc-text">{selectedDestination.scene.terrain}</p>
-              </div>
+            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-lc-text3">
+              <span className="font-semibold text-lc-text">{formatDistance(selectedDistanceKm)}</span>
+              <span className="text-white/20">&middot;</span>
+              <span>{selectedDestination.airports.join(', ')}</span>
+              <span className="text-white/20">&middot;</span>
+              <span className="capitalize">{selectedDestination.scene.terrain}</span>
             </div>
           </div>
 
