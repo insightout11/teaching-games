@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from 'maplibre-gl';
-import { ArrowRight, BookOpen, Check, ExternalLink, Gauge, Globe2, MapPin, Plane, Play, Route } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ExternalLink, Gauge, Globe2, MapPin, PanelLeftClose, PanelLeftOpen, Plane, Play, Route } from 'lucide-react';
 import { WORLD_DESTINATIONS, WORLD_FLIGHT_ORIGIN_ID, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
 import { destinationCoord, distanceKm, formatDistance, greatCircleLine, rangePolygon, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
@@ -153,6 +153,8 @@ export function WorldFlightPage() {
   const [selectedDestinationId, setSelectedDestinationId] = useState('tokyo');
   const [selectedFocusId, setSelectedFocusId] = useState<string | null>(null);
   const [focusFilter, setFocusFilter] = useState<FocusFilter>('all');
+  const [listOpen, setListOpen] = useState(false);
+  const [isWide, setIsWide] = useState(false);
 
   const origin = useMemo(
     () => WORLD_DESTINATIONS.find((destination) => destination.id === WORLD_FLIGHT_ORIGIN_ID) ?? WORLD_DESTINATIONS[0],
@@ -174,6 +176,24 @@ export function WorldFlightPage() {
     setSelectedFocusId(null);
     setFocusFilter('all');
   }, [selectedDestinationId]);
+
+  // Destinations list: open by default on wide screens, collapsed (map-first) on narrow.
+  // Snaps to the appropriate default whenever the viewport crosses the breakpoint.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1536px)');
+    const apply = () => {
+      setIsWide(mq.matches);
+      setListOpen(mq.matches);
+    };
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
+  function selectDestination(id: string) {
+    setSelectedDestinationId(id);
+    if (!isWide) setListOpen(false);
+  }
 
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
@@ -310,9 +330,9 @@ export function WorldFlightPage() {
       center: destinationCoord(selectedDestination),
       zoom: selectedDestination.id === origin.id ? 3.2 : 3.05,
       duration: 650,
-      padding: { left: 80, right: 420, top: 80, bottom: 80 },
+      padding: { left: listOpen ? 380 : 96, right: 460, top: 80, bottom: 80 },
     });
-  }, [mapReady, origin, selectedDestination]);
+  }, [mapReady, origin, selectedDestination, listOpen]);
 
   function launchSelectedFocus() {
     const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'all-around-flight-60');
@@ -349,11 +369,33 @@ export function WorldFlightPage() {
       </div>
 
       <div className="pointer-events-none relative z-10 flex h-screen min-h-[760px] gap-5 p-6 lg:p-8">
+        {!listOpen && (
+          <button
+            type="button"
+            onClick={() => setListOpen(true)}
+            className="pointer-events-auto flex h-fit items-center gap-2 self-start rounded-xl border border-cyan-300/15 bg-[#06101d]/92 px-4 py-3 text-sm font-semibold text-lc-text shadow-2xl shadow-black/30 backdrop-blur-xl transition-colors hover:border-cyan-300/35 hover:bg-[#06101d]"
+          >
+            <PanelLeftOpen className="h-4 w-4 text-cyan-300/80" aria-hidden />
+            Destinations
+          </button>
+        )}
+        {listOpen && (
         <section className="pointer-events-auto flex w-[360px] shrink-0 flex-col rounded-xl border border-cyan-300/15 bg-[#06101d]/92 shadow-2xl shadow-black/30 backdrop-blur-xl">
           <div className="border-b border-white/10 px-5 py-4">
-            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-cyan-300/80">
-              <Globe2 className="h-4 w-4" aria-hidden />
-              World Flight
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-cyan-300/80">
+                <Globe2 className="h-4 w-4" aria-hidden />
+                World Flight
+              </div>
+              <button
+                type="button"
+                onClick={() => setListOpen(false)}
+                aria-label="Collapse destinations"
+                title="Collapse"
+                className="-mr-1 rounded-md p-1 text-lc-text3 transition-colors hover:bg-white/[0.06] hover:text-lc-text"
+              >
+                <PanelLeftClose className="h-4 w-4" aria-hidden />
+              </button>
             </div>
             <h1 className="mt-3 text-2xl font-bold leading-tight text-lc-text">
               Choose the next city lesson.
@@ -401,7 +443,7 @@ export function WorldFlightPage() {
                   <button
                     key={destination.id}
                     type="button"
-                    onClick={() => setSelectedDestinationId(destination.id)}
+                    onClick={() => selectDestination(destination.id)}
                     className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors ${
                       active
                         ? 'border-lc-blue bg-lc-blue/10'
@@ -422,6 +464,7 @@ export function WorldFlightPage() {
             </div>
           </div>
         </section>
+        )}
 
         <aside className="pointer-events-auto ml-auto flex w-[440px] shrink-0 flex-col rounded-xl border border-white/12 bg-[#06101d]/92 shadow-2xl shadow-black/35 backdrop-blur-xl">
           <ImagePanel image={selectedDestination.heroImage} className="h-28 rounded-t-xl" />
