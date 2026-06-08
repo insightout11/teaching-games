@@ -1,0 +1,486 @@
+'use client';
+
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from 'maplibre-gl';
+import { ArrowRight, Check, Compass, ExternalLink, Gauge, Globe2, MapPin, Plane, Route } from 'lucide-react';
+import { WORLD_DESTINATIONS, WORLD_FLIGHT_ORIGIN_ID, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
+import type { DestinationFocus, DestinationPack } from '@/lib/world-flight/types';
+import { destinationCoord, distanceKm, formatDistance, greatCircleLine, rangePolygon, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
+import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
+import { usePlannerStore } from '@/stores/planner-store';
+
+const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
+
+const EMPTY_FEATURE_COLLECTION: WorldFeatureCollection = {
+  type: 'FeatureCollection',
+  features: [],
+};
+
+function asFeatureCollection(features: WorldFeature[]): WorldFeatureCollection {
+  return { type: 'FeatureCollection', features };
+}
+
+function destinationFeatures(origin: DestinationPack) {
+  return asFeatureCollection(
+    WORLD_DESTINATIONS.map((destination) => {
+      const km = distanceKm(origin, destination);
+      return {
+        type: 'Feature',
+        properties: {
+          id: destination.id,
+          city: destination.city,
+          country: destination.country,
+          airport: destination.primaryAirport,
+          reachable: km <= STARTER_PLANE_RANGE_KM || destination.id === origin.id,
+          isOrigin: destination.id === origin.id,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: destinationCoord(destination),
+        },
+      } satisfies WorldFeature;
+    }),
+  );
+}
+
+function getSource(sourceId: string, map: MapLibreMap | null) {
+  return map?.getSource(sourceId) as GeoJSONSource | undefined;
+}
+
+function toMapData(data: WorldFeature | WorldFeatureCollection) {
+  return data as Parameters<GeoJSONSource['setData']>[0];
+}
+
+function ImagePanel({ image, className = '' }: { image: DestinationPack['heroImage']; className?: string }) {
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={image.url}
+        alt={image.alt}
+        className="h-full w-full object-cover"
+        style={{ objectPosition: image.focalPoint ? `${image.focalPoint.x}% ${image.focalPoint.y}%` : 'center' }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#030814]/95 via-[#030814]/30 to-transparent" />
+      <span className="absolute bottom-3 left-4 right-4 text-[10px] text-white/55">
+        {image.caption} Source: {image.sourceName}
+      </span>
+    </div>
+  );
+}
+
+function FocusButton({
+  focus,
+  selected,
+  onClick,
+}: {
+  focus: DestinationFocus;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`group w-full overflow-hidden rounded-lg border text-left transition-colors ${
+        selected
+          ? 'border-lc-blue bg-lc-blue/10 shadow-[inset_3px_0_0_rgba(77,163,255,0.95)]'
+          : 'border-white/10 bg-white/[0.04] hover:border-lc-blue/45 hover:bg-white/[0.07]'
+      }`}
+    >
+      <div className="flex min-h-[104px]">
+        <div className="relative w-28 shrink-0 overflow-hidden bg-lc-bg">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={focus.image.url} alt="" className="h-full w-full object-cover opacity-80 transition-transform group-hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#08111f]/45" />
+        </div>
+        <div className="min-w-0 flex-1 p-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-sm font-semibold leading-snug text-lc-text">{focus.title}</p>
+              <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-lc-text3">{focus.subtitle}</p>
+            </div>
+            {selected && (
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-lc-blue text-[#06101d]">
+                <Check className="h-3.5 w-3.5" aria-hidden />
+              </span>
+            )}
+          </div>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            <span className="rounded-full border border-lc-amber/25 bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold text-lc-amber">
+              {focus.difficulty}
+            </span>
+            {focus.skills.slice(0, 2).map((skill) => (
+              <span key={skill} className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10px] text-lc-text3">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+export function WorldFlightPage() {
+  const router = useRouter();
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<MapLibreMap | null>(null);
+  const [mapReady, setMapReady] = useState(false);
+  const [selectedDestinationId, setSelectedDestinationId] = useState('tokyo');
+  const [selectedFocusId, setSelectedFocusId] = useState<string | null>(null);
+
+  const origin = useMemo(
+    () => WORLD_DESTINATIONS.find((destination) => destination.id === WORLD_FLIGHT_ORIGIN_ID) ?? WORLD_DESTINATIONS[0],
+    [],
+  );
+  const selectedDestination = useMemo(
+    () => WORLD_DESTINATIONS.find((destination) => destination.id === selectedDestinationId) ?? WORLD_DESTINATIONS[0],
+    [selectedDestinationId],
+  );
+  const selectedDistanceKm = useMemo(() => distanceKm(origin, selectedDestination), [origin, selectedDestination]);
+  const selectedFocus = selectedDestination.focusOptions.find((focus) => focus.id === selectedFocusId) ?? selectedDestination.focusOptions[0];
+  const isReachable = selectedDistanceKm <= STARTER_PLANE_RANGE_KM || selectedDestination.id === origin.id;
+
+  useEffect(() => {
+    setSelectedFocusId(null);
+  }, [selectedDestinationId]);
+
+  useEffect(() => {
+    if (!mapContainerRef.current || mapRef.current) return;
+
+    const map = new maplibregl.Map({
+      container: mapContainerRef.current,
+      style: MAP_STYLE_URL,
+      center: [83, 24],
+      zoom: 2.1,
+      minZoom: 1.35,
+      maxZoom: 7,
+      attributionControl: false,
+    });
+    mapRef.current = map;
+
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
+
+    map.on('load', () => {
+      map.addSource('world-flight-range', {
+        type: 'geojson',
+        data: toMapData(rangePolygon(origin, STARTER_PLANE_RANGE_KM)),
+      });
+      map.addSource('world-flight-route', {
+        type: 'geojson',
+        data: toMapData(EMPTY_FEATURE_COLLECTION),
+      });
+      map.addSource('world-flight-cities', {
+        type: 'geojson',
+        data: toMapData(destinationFeatures(origin)),
+      });
+
+      map.addLayer({
+        id: 'world-flight-range-fill',
+        type: 'fill',
+        source: 'world-flight-range',
+        paint: {
+          'fill-color': '#4DA3FF',
+          'fill-opacity': 0.055,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-range-line',
+        type: 'line',
+        source: 'world-flight-range',
+        paint: {
+          'line-color': '#4DA3FF',
+          'line-width': 1.4,
+          'line-opacity': 0.55,
+          'line-dasharray': [2, 2],
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-route-glow',
+        type: 'line',
+        source: 'world-flight-route',
+        paint: {
+          'line-color': '#38D5FF',
+          'line-width': 7,
+          'line-opacity': 0.14,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-route-line',
+        type: 'line',
+        source: 'world-flight-route',
+        paint: {
+          'line-color': '#67E8F9',
+          'line-width': 2.5,
+          'line-opacity': 0.88,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-city-dots',
+        type: 'circle',
+        source: 'world-flight-cities',
+        paint: {
+          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'reachable'], 6, 4.5],
+          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'reachable'], '#2FE59B', '#6F7F9C'],
+          'circle-stroke-color': '#07111f',
+          'circle-stroke-width': 2,
+          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'reachable'], 0.95, 0.72],
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-city-labels',
+        type: 'symbol',
+        source: 'world-flight-cities',
+        layout: {
+          'text-field': ['get', 'city'],
+          'text-font': ['Noto Sans Regular'],
+          'text-size': 12,
+          'text-offset': [0, 1.2],
+          'text-anchor': 'top',
+          'text-allow-overlap': false,
+        },
+        paint: {
+          'text-color': '#EAF1FF',
+          'text-halo-color': '#07111f',
+          'text-halo-width': 1.5,
+        },
+      });
+
+      map.on('click', 'world-flight-city-dots', (event) => {
+        const id = event.features?.[0]?.properties?.id as string | undefined;
+        if (id) setSelectedDestinationId(id);
+      });
+      map.on('click', 'world-flight-city-labels', (event) => {
+        const id = event.features?.[0]?.properties?.id as string | undefined;
+        if (id) setSelectedDestinationId(id);
+      });
+      map.on('mouseenter', 'world-flight-city-dots', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'world-flight-city-dots', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      setMapReady(true);
+    });
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [origin]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    const map = mapRef.current;
+    const routeSource = getSource('world-flight-route', map);
+    routeSource?.setData(toMapData(greatCircleLine(origin, selectedDestination)));
+    map?.easeTo({
+      center: destinationCoord(selectedDestination),
+      zoom: selectedDestination.id === origin.id ? 3.2 : 3.05,
+      duration: 650,
+      padding: { left: 80, right: 420, top: 80, bottom: 80 },
+    });
+  }, [mapReady, origin, selectedDestination]);
+
+  function launchSelectedFocus() {
+    const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'all-around-flight-60');
+    const store = usePlannerStore.getState();
+    store.reset();
+    store.setTopic(selectedFocus.title);
+    store.setDifficulty(selectedFocus.difficulty);
+    store.setSourceMaterial(selectedFocus.sourceMaterial);
+    if (preset) store.loadPreset(preset);
+    store.setStep('flight-plan');
+    router.push('/lesson-planner');
+  }
+
+  return (
+    <div className="relative -m-6 min-h-[calc(100vh-0px)] overflow-hidden bg-[#050914] lg:-m-8">
+      <div className="absolute inset-0">
+        <div ref={mapContainerRef} className="h-full w-full" />
+        {!mapReady && (
+          <div className="absolute inset-0 flex items-center justify-center bg-[#050914]">
+            <div className="rounded-xl border border-cyan-300/15 bg-white/[0.04] px-4 py-3 text-sm text-lc-text2">
+              Loading world map...
+            </div>
+          </div>
+        )}
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(77,163,255,0.12),transparent_36%),linear-gradient(90deg,rgba(5,9,20,0.72)_0%,rgba(5,9,20,0.26)_48%,rgba(5,9,20,0.78)_100%)]" />
+      </div>
+
+      <div className="pointer-events-none relative z-10 flex h-screen min-h-[760px] gap-5 p-6 lg:p-8">
+        <section className="pointer-events-auto flex w-[360px] shrink-0 flex-col rounded-xl border border-cyan-300/15 bg-[#06101d]/88 shadow-2xl shadow-black/30 backdrop-blur-xl">
+          <div className="border-b border-white/10 px-5 py-4">
+            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-cyan-300/80">
+              <Globe2 className="h-4 w-4" aria-hidden />
+              World Flight
+            </div>
+            <h1 className="mt-3 text-2xl font-bold leading-tight text-lc-text">
+              Choose the next city lesson.
+            </h1>
+            <p className="mt-2 text-sm leading-relaxed text-lc-text3">
+              Prototype route map using real geography, curated city packs, and the existing Captain&apos;s Flight planner.
+            </p>
+          </div>
+
+          <div className="space-y-3 border-b border-white/10 px-5 py-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-lc-text3">
+                  <MapPin className="h-3.5 w-3.5" aria-hidden />
+                  Origin
+                </div>
+                <p className="mt-1 text-sm font-semibold text-lc-text">{origin.city}</p>
+                <p className="text-xs text-lc-text3">{origin.primaryAirport}</p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-lc-text3">
+                  <Gauge className="h-3.5 w-3.5" aria-hidden />
+                  Range
+                </div>
+                <p className="mt-1 text-sm font-semibold text-lc-text">{formatDistance(STARTER_PLANE_RANGE_KM)}</p>
+                <p className="text-xs text-lc-text3">Starter plane</p>
+              </div>
+            </div>
+            <div className="rounded-lg border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-2 text-xs leading-relaxed text-cyan-100/75">
+              Green cities are in range. Long-haul cities are selectable as teacher overrides for this prototype.
+            </div>
+          </div>
+
+          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Destinations</h2>
+              <span className="text-xs text-lc-text3">{WORLD_DESTINATIONS.length} cities</span>
+            </div>
+            <div className="space-y-2">
+              {WORLD_DESTINATIONS.map((destination) => {
+                const km = distanceKm(origin, destination);
+                const active = destination.id === selectedDestination.id;
+                const reachable = km <= STARTER_PLANE_RANGE_KM || destination.id === origin.id;
+                return (
+                  <button
+                    key={destination.id}
+                    type="button"
+                    onClick={() => setSelectedDestinationId(destination.id)}
+                    className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors ${
+                      active
+                        ? 'border-lc-blue bg-lc-blue/10'
+                        : 'border-white/10 bg-white/[0.03] hover:border-cyan-300/35 hover:bg-white/[0.06]'
+                    }`}
+                  >
+                    <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${destination.id === origin.id ? 'bg-lc-amber' : reachable ? 'bg-lc-success' : 'bg-lc-text3'}`} />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-semibold text-lc-text">{destination.city}</span>
+                      <span className="block truncate text-xs text-lc-text3">
+                        {destination.country} - {formatDistance(km)}
+                      </span>
+                    </span>
+                    <ArrowRight className={`h-4 w-4 shrink-0 text-cyan-300/60 transition-transform ${active ? 'translate-x-0.5' : ''}`} aria-hidden />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <aside className="pointer-events-auto ml-auto flex w-[440px] shrink-0 flex-col rounded-xl border border-white/12 bg-[#06101d]/90 shadow-2xl shadow-black/35 backdrop-blur-xl">
+          <ImagePanel image={selectedDestination.heroImage} className="h-52 rounded-t-xl" />
+          <div className="border-b border-white/10 px-5 py-4">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/75">
+                  Arriving in
+                </p>
+                <h2 className="mt-1 text-3xl font-bold leading-tight text-lc-text">{selectedDestination.city}</h2>
+                <p className="mt-1 text-sm text-lc-text3">
+                  {selectedDestination.country} - {selectedDestination.primaryAirport}
+                </p>
+              </div>
+              <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
+                isReachable
+                  ? 'border-lc-success/35 bg-lc-success/10 text-lc-success'
+                  : 'border-lc-amber/35 bg-lc-amber/10 text-lc-amber'
+              }`}>
+                {isReachable ? 'In range' : 'Override'}
+              </span>
+            </div>
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              <div className="rounded-lg border border-white/10 bg-white/[0.035] p-2">
+                <p className="text-[10px] uppercase tracking-widest text-lc-text3">Distance</p>
+                <p className="mt-1 text-sm font-semibold text-lc-text">{formatDistance(selectedDistanceKm)}</p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-white/[0.035] p-2">
+                <p className="text-[10px] uppercase tracking-widest text-lc-text3">Airports</p>
+                <p className="mt-1 truncate text-sm font-semibold text-lc-text">{selectedDestination.airports.join(', ')}</p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-white/[0.035] p-2">
+                <p className="text-[10px] uppercase tracking-widest text-lc-text3">Scene</p>
+                <p className="mt-1 truncate text-sm font-semibold capitalize text-lc-text">{selectedDestination.scene.terrain}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Choose today&apos;s focus</h3>
+              <span className="text-xs text-lc-text3">{selectedDestination.focusOptions.length} options</span>
+            </div>
+            <div className="space-y-3">
+              {selectedDestination.focusOptions.map((focusOption) => (
+                <FocusButton
+                  key={focusOption.id}
+                  focus={focusOption}
+                  selected={focusOption.id === selectedFocus.id}
+                  onClick={() => setSelectedFocusId(focusOption.id)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="border-t border-white/10 px-5 py-4">
+            <div className="mb-3 rounded-lg border border-white/10 bg-white/[0.035] p-3">
+              <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-lc-text3">
+                <Route className="h-3.5 w-3.5" aria-hidden />
+                Lesson handoff
+              </div>
+              <p className="mt-1 text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
+              <p className="mt-1 text-xs leading-relaxed text-lc-text3">{selectedFocus.lessonGoal}</p>
+            </div>
+            <button
+              type="button"
+              onClick={launchSelectedFocus}
+              className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[#06101d] transition-colors hover:bg-lc-blue-hover"
+            >
+              <Plane className="h-4 w-4 rotate-45" aria-hidden />
+              Build This Flight Plan
+            </button>
+            <a
+              href={selectedDestination.heroImage.sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-lc-text3 transition-colors hover:text-lc-text2"
+            >
+              Image source: {selectedDestination.heroImage.sourceName}
+              <ExternalLink className="h-3 w-3" aria-hidden />
+            </a>
+          </div>
+        </aside>
+
+        <div className="pointer-events-none absolute bottom-7 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/10 bg-[#06101d]/70 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-cyan-100/70 backdrop-blur-md">
+          MapLibre + OpenFreeMap prototype
+        </div>
+        <div className="pointer-events-auto absolute right-[474px] top-8 rounded-xl border border-cyan-300/15 bg-[#06101d]/72 px-4 py-3 backdrop-blur-md">
+          <div className="flex items-center gap-2">
+            <Compass className="h-4 w-4 text-cyan-300" aria-hidden />
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Range Ring</span>
+          </div>
+          <p className="mt-1 text-xs text-lc-text3">Approximate great-circle distance from {origin.city}.</p>
+        </div>
+      </div>
+    </div>
+  );
+}

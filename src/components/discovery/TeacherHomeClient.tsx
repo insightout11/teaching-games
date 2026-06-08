@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useReducedMotion } from 'framer-motion';
-import { Compass, Library as LibraryIcon, Plane, ChevronRight, Sparkles } from 'lucide-react';
+import { Compass, Globe2, Library as LibraryIcon, Plane, ChevronRight, Sparkles } from 'lucide-react';
 import { SkyBackground } from '@/components/ui/sky-background';
 import { buildShelves, type DiscoveryItem } from '@/lib/discovery-shelves';
 import type { TeacherProfile, TeachingFocus } from '@/lib/teacher-profile';
@@ -277,6 +277,29 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
               The two strongest "ready to run" options lead (Full Flights → Ready to Teach);
               End with a Game is a garnish shelf and sits below them. */}
           <div className="mt-14 space-y-14">
+            <section aria-label="World Flight" className="rounded-2xl border border-cyan-300/20 bg-[#04101f]/78 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm">
+              <div className="flex items-center gap-5">
+                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-cyan-300/25 bg-cyan-400/10">
+                  <Globe2 className="h-8 w-8 text-cyan-300" aria-hidden />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="font-instrument text-[10px] uppercase tracking-[0.24em] text-cyan-300/75">
+                    Prototype mode
+                  </p>
+                  <h2 className="mt-1 text-xl font-bold text-lc-text">World Flight</h2>
+                  <p className="mt-1 max-w-2xl text-sm leading-relaxed text-lc-text3">
+                    Fly to a real city, choose a classroom focus, then launch a normal Captain&apos;s Flight from that destination pack.
+                  </p>
+                </div>
+                <Link
+                  href="/world-flight"
+                  className="font-instrument inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg bg-lc-blue px-4 text-xs font-bold uppercase tracking-wider text-[#06101d] transition-colors hover:bg-lc-blue-hover"
+                >
+                  Open Map
+                  <ChevronRight className="h-4 w-4" aria-hidden />
+                </Link>
+              </div>
+            </section>
             <FullFlightsLane />
             <ReadyToTeachLane />
             {renderShelf(homeShelves[0])}
@@ -327,4 +350,3 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     </div>
   );
 }
-

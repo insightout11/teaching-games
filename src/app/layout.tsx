@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { DM_Serif_Display, Source_Serif_4, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from "next-themes";
+import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
 
 const geistSans = localFont({
