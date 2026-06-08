@@ -90,10 +90,11 @@ export function FeaturedFlightHero() {
         {/* ── Main panel ───────────────────────────────────────────── */}
         <div className="relative flex-1 p-7 sm:p-9 lg:p-12">
           {/* Large faint LessonCaptain monogram — turns the open center-right of the pass
-              into intentional branded texture (kept off the perforation seam) */}
+              into intentional branded texture. Sits low/left of the "AIRWAYS" header so it
+              doesn't collide with it, and only on wide screens where the void exists. */}
           <div
             aria-hidden
-            className="pointer-events-none absolute right-[7%] top-1/2 hidden h-72 w-72 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-[0.09] lg:block xl:h-[24rem] xl:w-[24rem]"
+            className="pointer-events-none absolute right-[13%] top-[60%] hidden h-72 w-72 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-[0.09] xl:block 2xl:h-80 2xl:w-80"
             style={{ backgroundImage: 'url(/lessoncaptain-mark-on-dark.svg)' }}
           />
 
