@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from 'maplibre-gl';
-import { ArrowRight, BookOpen, Check, Compass, ExternalLink, Gauge, Globe2, MapPin, Plane, Play, Route } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ExternalLink, Gauge, Globe2, MapPin, Plane, Play, Route } from 'lucide-react';
 import { WORLD_DESTINATIONS, WORLD_FLIGHT_ORIGIN_ID, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
 import { destinationCoord, distanceKm, formatDistance, greatCircleLine, rangePolygon, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
@@ -107,13 +107,13 @@ function FocusButton({
           : 'border-white/10 bg-white/[0.04] hover:border-lc-blue/45 hover:bg-white/[0.07]'
       }`}
     >
-      <div className="flex min-h-[104px]">
+      <div className="flex min-h-[92px]">
         <div className="relative w-28 shrink-0 overflow-hidden bg-lc-bg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={focus.image.url} alt="" className="h-full w-full object-cover opacity-80 transition-transform group-hover:scale-105" />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#08111f]/45" />
         </div>
-        <div className="min-w-0 flex-1 p-3">
+        <div className="min-w-0 flex-1 p-2.5">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="text-sm font-semibold leading-snug text-lc-text">{focus.title}</p>
@@ -349,7 +349,7 @@ export function WorldFlightPage() {
       </div>
 
       <div className="pointer-events-none relative z-10 flex h-screen min-h-[760px] gap-5 p-6 lg:p-8">
-        <section className="pointer-events-auto flex w-[360px] shrink-0 flex-col rounded-xl border border-cyan-300/15 bg-[#06101d]/88 shadow-2xl shadow-black/30 backdrop-blur-xl">
+        <section className="pointer-events-auto flex w-[360px] shrink-0 flex-col rounded-xl border border-cyan-300/15 bg-[#06101d]/92 shadow-2xl shadow-black/30 backdrop-blur-xl">
           <div className="border-b border-white/10 px-5 py-4">
             <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-cyan-300/80">
               <Globe2 className="h-4 w-4" aria-hidden />
@@ -359,7 +359,7 @@ export function WorldFlightPage() {
               Choose the next city lesson.
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-lc-text3">
-              Prototype route map using real geography, curated city packs, and the existing Captain&apos;s Flight planner.
+              Pick a city, choose a video or reading, and we&apos;ll build a full lesson around it.
             </p>
           </div>
 
@@ -383,7 +383,7 @@ export function WorldFlightPage() {
               </div>
             </div>
             <div className="rounded-lg border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-2 text-xs leading-relaxed text-cyan-100/75">
-              Green cities are in range. Long-haul cities are selectable as teacher overrides for this prototype.
+              Green cities are within your plane&apos;s range &mdash; the ring shows the approximate great-circle distance from {origin.city}. Tap any city to preview its lesson sources.
             </div>
           </div>
 
@@ -423,8 +423,8 @@ export function WorldFlightPage() {
           </div>
         </section>
 
-        <aside className="pointer-events-auto ml-auto flex w-[440px] shrink-0 flex-col rounded-xl border border-white/12 bg-[#06101d]/90 shadow-2xl shadow-black/35 backdrop-blur-xl">
-          <ImagePanel image={selectedDestination.heroImage} className="h-52 rounded-t-xl" />
+        <aside className="pointer-events-auto ml-auto flex w-[440px] shrink-0 flex-col rounded-xl border border-white/12 bg-[#06101d]/92 shadow-2xl shadow-black/35 backdrop-blur-xl">
+          <ImagePanel image={selectedDestination.heroImage} className="h-36 rounded-t-xl" />
           <div className="border-b border-white/10 px-5 py-4">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
@@ -433,7 +433,7 @@ export function WorldFlightPage() {
                 </p>
                 <h2 className="mt-1 text-3xl font-bold leading-tight text-lc-text">{selectedDestination.city}</h2>
                 <p className="mt-1 text-sm text-lc-text3">
-                  {selectedDestination.country} - {selectedDestination.primaryAirport}
+                  {selectedDestination.country} &middot; {selectedDestination.region}
                 </p>
               </div>
               <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
@@ -499,30 +499,12 @@ export function WorldFlightPage() {
           </div>
 
           <div className="border-t border-white/10 px-5 py-4">
-            <div className="mb-3 rounded-lg border border-white/10 bg-white/[0.035] p-3">
-              <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-lc-text3">
-                <Route className="h-3.5 w-3.5" aria-hidden />
-                Lesson handoff
+            <div className="mb-3 flex items-start gap-2.5 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
+              <Route className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-300/70" aria-hidden />
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
+                <p className="truncate text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
               </div>
-              <p className="mt-1 text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
-              <p className="mt-1 text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
-              <p className="mt-1 text-xs leading-relaxed text-lc-text3">{selectedFocus.lessonGoal}</p>
-              {selectedFocus.citations?.length ? (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {selectedFocus.citations.slice(0, 3).map((citation) => (
-                    <a
-                      key={citation.url}
-                      href={citation.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.035] px-2 py-1 text-[10px] text-lc-text3 transition-colors hover:text-lc-text2"
-                    >
-                      {citation.publisher}
-                      <ExternalLink className="h-3 w-3" aria-hidden />
-                    </a>
-                  ))}
-                </div>
-              ) : null}
             </div>
             <button
               type="button"
@@ -543,17 +525,6 @@ export function WorldFlightPage() {
             </a>
           </div>
         </aside>
-
-        <div className="pointer-events-none absolute bottom-7 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/10 bg-[#06101d]/70 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-cyan-100/70 backdrop-blur-md">
-          MapLibre + OpenFreeMap prototype
-        </div>
-        <div className="pointer-events-auto absolute right-[474px] top-8 rounded-xl border border-cyan-300/15 bg-[#06101d]/72 px-4 py-3 backdrop-blur-md">
-          <div className="flex items-center gap-2">
-            <Compass className="h-4 w-4 text-cyan-300" aria-hidden />
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Range Ring</span>
-          </div>
-          <p className="mt-1 text-xs text-lc-text3">Approximate great-circle distance from {origin.city}.</p>
-        </div>
       </div>
     </div>
   );
