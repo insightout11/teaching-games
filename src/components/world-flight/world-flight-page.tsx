@@ -231,8 +231,19 @@ export function WorldFlightPage() {
         type: 'fill',
         source: 'world-flight-range',
         paint: {
-          'fill-color': '#4DA3FF',
-          'fill-opacity': 0.055,
+          'fill-color': '#38BDF8',
+          'fill-opacity': 0.09,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-range-glow',
+        type: 'line',
+        source: 'world-flight-range',
+        paint: {
+          'line-color': '#7DD3FC',
+          'line-width': 8,
+          'line-opacity': 0.22,
+          'line-blur': 4,
         },
       });
       map.addLayer({
@@ -240,10 +251,10 @@ export function WorldFlightPage() {
         type: 'line',
         source: 'world-flight-range',
         paint: {
-          'line-color': '#4DA3FF',
-          'line-width': 1.4,
-          'line-opacity': 0.55,
-          'line-dasharray': [2, 2],
+          'line-color': '#BAE6FD',
+          'line-width': 2.4,
+          'line-opacity': 0.95,
+          'line-dasharray': [2.5, 2],
         },
       });
       map.addLayer({
