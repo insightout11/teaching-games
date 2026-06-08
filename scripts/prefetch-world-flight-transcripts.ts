@@ -10,7 +10,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { YoutubeTranscript } from 'youtube-transcript';
-import { WORLD_DESTINATIONS } from '../src/data/world-flight/destinations';
+import { WORLD_DESTINATIONS, WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS } from '../src/data/world-flight/destinations';
 import { createServiceClient } from '../src/lib/supabase/service';
 
 (function loadEnvLocal() {
@@ -90,6 +90,10 @@ function collectVideos(cityFilter?: string): WorldFlightVideo[] {
 }
 
 async function prefetchVideo(video: WorldFlightVideo, checkOnly: boolean) {
+  if (!video.duration || video.duration >= WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS) {
+    throw new Error(`INVALID_DURATION:${video.duration ?? 'missing'}s`);
+  }
+
   const segments = await YoutubeTranscript.fetchTranscript(video.sourceKey) as TranscriptResult[];
   const text = segments.map((segment) => segment.text).join(' ').trim();
   if (!text) throw new Error('EMPTY_TRANSCRIPT');

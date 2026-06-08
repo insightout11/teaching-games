@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
+import { WORLD_DESTINATIONS, WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS } from '@/data/world-flight/destinations';
 
 describe('world flight destination packs', () => {
   it('ships the Tokyo pilot with distinct video and reading sources', () => {
@@ -18,6 +18,7 @@ describe('world flight destination packs', () => {
     for (const video of videos) {
       expect(video.sourceMaterial.sourceType).toBe('youtube');
       expect(video.sourceMaterial.sourceKey).toMatch(/^[a-zA-Z0-9_-]{11}$/);
+      expect(video.sourceMaterial.duration).toBeLessThan(WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS);
       expect(video.review.status).toBe('transcript-verified');
       expect(video.review.transcriptLanguage).toBeTruthy();
     }
