@@ -58,6 +58,9 @@ function DepartureBoardPanel({
     return         { label: 'SCHED',     cls: 'text-amber-400/38', pulse: false };
   };
   const amber = { textShadow: '0 0 10px rgba(251,191,36,0.35)' };
+  // Single-activity sessions: pin the row to the top and enlarge it so it reads
+  // as the headline departure, rather than a tiny line floating mid-board.
+  const sparse = slots.length <= 2;
 
   return (
     <div
@@ -88,8 +91,9 @@ function DepartureBoardPanel({
         ))}
       </div>
 
-      {/* Rows — flex-1 on the wrapper + flex-1 on each row distributes height evenly */}
-      <div className="flex-1 flex flex-col overflow-y-auto min-h-0">
+      {/* Rows — for a full plan, flex-1 on each row distributes height evenly.
+          For a single/short session, pin to the top so the activity headlines. */}
+      <div className={`flex flex-col overflow-y-auto min-h-0 ${sparse ? 'flex-shrink-0' : 'flex-1'}`}>
         {slots.map((slot, i) => {
           const st = getStatus(i);
           const isNext = i === 0;
@@ -97,25 +101,28 @@ function DepartureBoardPanel({
           return (
             <div
               key={i}
-              className="grid px-4 items-center flex-1"
+              className={`grid px-4 items-center ${sparse ? 'flex-shrink-0' : 'flex-1'}`}
               style={{
-                gridTemplateColumns: '36px 1fr 86px',
+                gridTemplateColumns: sparse ? '44px 1fr 86px' : '36px 1fr 86px',
                 gap: '0 12px',
-                minHeight: '36px',
+                minHeight: sparse ? '64px' : '36px',
                 borderBottom: i < slots.length - 1 ? '1px solid rgba(251,191,36,0.05)' : 'none',
                 background: isNext ? 'rgba(251,191,36,0.03)' : 'transparent',
               }}
             >
-              <span className="text-[11px] font-mono font-bold text-amber-400/50" style={isNext ? amber : {}}>
+              <span
+                className={`font-mono font-bold text-amber-400/50 ${sparse ? 'text-[15px]' : 'text-[11px]'}`}
+                style={isNext ? amber : {}}
+              >
                 {String(i + 1).padStart(2, '0')}
               </span>
               {isUndetermined ? (
-                <span className="text-[11px] font-mono text-amber-400/35 italic tracking-wide">
+                <span className={`font-mono text-amber-400/35 italic tracking-wide ${sparse ? 'text-[15px]' : 'text-[11px]'}`}>
                   ✦ Waypoint
                 </span>
               ) : (
                 <span
-                  className="text-[12px] font-mono truncate"
+                  className={`font-mono truncate ${sparse ? 'text-[18px]' : 'text-[12px]'}`}
                   style={{
                     color: isNext ? 'rgba(251,191,36,0.95)' : 'rgba(251,191,36,0.55)',
                     textShadow: isNext ? amber.textShadow : 'none',
@@ -131,6 +138,8 @@ function DepartureBoardPanel({
           );
         })}
       </div>
+      {/* Spacer keeps the footer pinned to the bottom when rows are top-aligned */}
+      {sparse && <div className="flex-1 min-h-0" />}
       {/* Footer */}
       <div className="flex items-center gap-2 px-4 py-2 flex-shrink-0" style={{ borderTop: '1px solid rgba(251,191,36,0.07)' }}>
         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
