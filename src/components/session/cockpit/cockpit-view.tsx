@@ -6,6 +6,7 @@ import { isMockMode } from '@/lib/mock/auth';
 import { useSubmissionsFeed } from '@/hooks/use-submissions-feed';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import Link from 'next/link';
+import { ClassQuestionsContent } from '@/components/session/class-questions-widget';
 import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-suggestions-panel';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
@@ -150,6 +151,18 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
     }
   }, [session.id]);
 
+  const handleShowAnswer = useCallback(async (question: string, answer: string) => {
+    try {
+      await fetch('/api/session/screen-answer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: session.id, question, answer }),
+      });
+    } catch {
+      // Keep question moderation usable even if the display update fails.
+    }
+  }, [session.id]);
+
   const handleSendEvent = useCallback(async () => {
     if (!activeEvent || !eventPrompt.trim()) return;
     setIsSendingEvent(true);
@@ -202,6 +215,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const pendingCount = submissions.filter((sub) => sub.status === 'pending').length;
   const approvedCount = submissions.filter((sub) => sub.status === 'approved').length;
   const deviceState = currentInputSpec ? 'Collecting' : 'Standby';
+  const cockpitTopic = session.custom_topic || session.topic || 'General';
+  const cockpitDifficulty = session.difficulty || 'Intermediate';
 
   return (
     <div className="min-h-screen bg-[#07111f] text-white">
@@ -230,6 +245,20 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             )}
             </div>
           </div>
+        </div>
+
+        {/* Student Questions */}
+        <div className="bg-[#0d1f35] rounded-2xl border border-cyan-400/20 overflow-hidden shadow-[0_0_28px_rgba(34,211,238,0.08)]">
+          <div className="px-4 py-3 border-b border-white/8">
+            <p className="text-xs text-cyan-300/70 uppercase tracking-widest font-medium">Student Questions</p>
+            <p className="mt-1 text-xs text-white/35">Answer, share, or spotlight student questions.</p>
+          </div>
+          <ClassQuestionsContent
+            sessionId={session.id}
+            topic={cockpitTopic}
+            difficulty={cockpitDifficulty}
+            onShowAnswer={handleShowAnswer}
+          />
         </div>
 
         <CaptainSuggestionsPanel

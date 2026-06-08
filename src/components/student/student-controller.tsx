@@ -316,8 +316,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (data.topic) setSessionTopic(data.topic);
       if (data.difficulty) setSessionDifficulty(data.difficulty);
       setGrammarTarget(data.grammarTarget ?? null);
-      if (data.referenceVocab) setReferenceVocab(data.referenceVocab);
-      if (data.referenceExpressions) setReferenceExpressions(data.referenceExpressions);
+      setReferenceVocab(Array.isArray(data.referenceVocab) ? data.referenceVocab : null);
+      setReferenceExpressions(Array.isArray(data.referenceExpressions) ? data.referenceExpressions : null);
       if (data.latestFeedback) setLatestFeedback(data.latestFeedback);
       if (data.personalResults) setPersonalResults(data.personalResults);
       if (data.lastResult) setLastResult(data.lastResult);

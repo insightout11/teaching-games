@@ -6,6 +6,12 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import type { SourceVocabItem } from '@/activities/types';
+import {
+  normalizeReferenceExpressions,
+  normalizeReferenceVocab,
+  type ReferenceExpressionItem,
+  type ReferenceVocabItem,
+} from '@/lib/reference-materials';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,16 +20,6 @@ export const dynamic = 'force-dynamic';
 // student reference panel based on the session's topic + difficulty.
 // Called fire-and-forget after any session settings change.
 // Writes reference_vocab + reference_expressions to the sessions row.
-
-interface VocabItem {
-  word: string;
-  definition: string;
-}
-
-interface ExpressionItem {
-  phrase: string;
-  example: string;
-}
 
 const vocabSchema: AISchema = {
   type: 'array',
@@ -113,13 +109,16 @@ Return a JSON array of exactly 6 objects. Each object has:
 Focus on expressions that help students participate in discussion, give opinions, ask follow-up questions, or agree/disagree. Match the complexity to ${diffDesc} level.`;
 
     const [vocab, expressions] = await Promise.all([
-      generateJSON<VocabItem[]>(vocabPrompt, vocabSchema, { taskClass: 'content-generation' }),
-      generateJSON<ExpressionItem[]>(expressionsPrompt, expressionsSchema, { taskClass: 'content-generation' }),
+      generateJSON<unknown>(vocabPrompt, vocabSchema, { taskClass: 'content-generation' }),
+      generateJSON<unknown>(expressionsPrompt, expressionsSchema, { taskClass: 'content-generation' }),
     ]);
+
+    const normalizedVocab: ReferenceVocabItem[] = normalizeReferenceVocab(vocab);
+    const normalizedExpressions: ReferenceExpressionItem[] = normalizeReferenceExpressions(expressions);
 
     await supabase
       .from('sessions')
-      .update({ reference_vocab: vocab, reference_expressions: expressions })
+      .update({ reference_vocab: normalizedVocab, reference_expressions: normalizedExpressions })
       .eq('id', sessionId);
 
     return NextResponse.json({ ok: true });

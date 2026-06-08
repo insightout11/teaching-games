@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import type { StudentSubmission } from '@/lib/supabase/types';
@@ -36,7 +36,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
   const [answerOpen, setAnswerOpen] = useState<Record<string, boolean>>({});
   const [answerText, setAnswerText] = useState<Record<string, string>>({});
   const [draftLoading, setDraftLoading] = useState<Record<string, boolean>>({});
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   // Load initial data
   const loadQuestions = useCallback(async () => {
@@ -72,7 +72,12 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
   }, [sessionId, supabase]);
 
   useEffect(() => {
-    loadQuestions();
+    void loadQuestions();
+    const pollTimer = window.setInterval(() => {
+      void loadQuestions();
+    }, 5000);
+
+    return () => window.clearInterval(pollTimer);
   }, [loadQuestions]);
 
   // Auto-open pending section when questions arrive

@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { mockStore } from '@/lib/mock/data';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
+import {
+  normalizeReferenceExpressions,
+  normalizeReferenceVocab,
+  type ReferenceExpressionItem,
+  type ReferenceVocabItem,
+} from '@/lib/reference-materials';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,16 +30,6 @@ interface WonderQuestion {
   answeredAt: string | null;
   voteCount: number;
   parentId: string | null;
-}
-
-interface VocabItem {
-  word: string;
-  definition: string;
-}
-
-interface ExpressionItem {
-  phrase: string;
-  example: string;
 }
 
 interface PersonalResults {
@@ -75,8 +71,8 @@ interface SessionPayload {
   topic: string;
   difficulty: string;
   grammarTarget: string | null;
-  referenceVocab: VocabItem[] | null;
-  referenceExpressions: ExpressionItem[] | null;
+  referenceVocab: ReferenceVocabItem[] | null;
+  referenceExpressions: ReferenceExpressionItem[] | null;
   latestFeedback: { feedback: string; points: number; submissionId: string } | null;
   personalResults: PersonalResults | null;
   lastResult: LastResult | null;
@@ -438,6 +434,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    const normalizedReferenceVocab = normalizeReferenceVocab(session.reference_vocab);
+    const normalizedReferenceExpressions = normalizeReferenceExpressions(session.reference_expressions);
+
     const payload: SessionPayload = {
       isActive,
       activePoll,
@@ -449,8 +448,8 @@ export async function GET(request: NextRequest) {
       topic: (session.custom_topic as string | null) || (session.topic as string) || 'General',
       difficulty: (session.difficulty as string) || 'Intermediate',
       grammarTarget: (session.grammar_target as string | null) ?? null,
-      referenceVocab: (session.reference_vocab as VocabItem[] | null) ?? null,
-      referenceExpressions: (session.reference_expressions as ExpressionItem[] | null) ?? null,
+      referenceVocab: normalizedReferenceVocab.length > 0 ? normalizedReferenceVocab : null,
+      referenceExpressions: normalizedReferenceExpressions.length > 0 ? normalizedReferenceExpressions : null,
       latestFeedback,
       personalResults,
       lastResult,
