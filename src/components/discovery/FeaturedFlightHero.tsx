@@ -3,15 +3,26 @@
 // The Teacher Home hero: All-Around Flight as a real boarding-pass OBJECT.
 // Torn ticket = main panel + hole-punched stub, paper grain + glass sheen, corner
 // registration marks, a barcode, and the flight route as the dominant centerpiece
-// (line draws in, plane tracks across). One amber CTA + tactile source controls.
-// All motion transform/opacity only; disabled under prefers-reduced-motion.
+// (phase band over stage-job stops; line draws in, stops light in sequence).
+// One amber CTA + tactile source controls. All motion transform/opacity only;
+// disabled under prefers-reduced-motion.
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Plane, ArrowRight, Video, FileText, Type } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getFeaturedRoute } from '@/lib/discovery-shelves';
+import { getFeaturedRoute, type RouteWaypoint } from '@/lib/discovery-shelves';
+import type { FlightPhase } from '@/lib/flight-plan-presets';
 import { FeaturedFlightLaunchModal } from './FeaturedFlightLaunchModal';
+
+// Flight-phase display labels — the fixed structural layer above the stage jobs.
+const PHASE_LABEL: Record<FlightPhase, string> = {
+  takeoff: 'Takeoff',
+  climb: 'Climb',
+  cruise: 'Cruise',
+  descent: 'Descent',
+  landing: 'Landing',
+};
 
 // Subtle paper grain (tiled SVG noise).
 const GRAIN =
@@ -228,22 +239,27 @@ function CornerMarks() {
   );
 }
 
-// ── Route strip: drawn line + a signal that eases into each waypoint, dwells, and
-//    lights it up as it passes ──────────────────────────────────────────────────
+// ── Route strip: the three-layer journey — flight PHASE band (fixed structure) over
+//    phase-grouped STAGE-JOB stops. Line draws in; stops light in sequence. ─────────
 function RouteStrip({
   route,
   reduce,
 }: {
-  route: { label: string; kind: 'stage' | 'micro-event' | 'end-game' | 'landing' }[];
+  route: RouteWaypoint[];
   reduce: boolean;
 }) {
   const n = route.length;
-  // Index of the waypoint the signal has reached; dots with index ≤ activeIdx are lit.
+  // Index of the stop the signal has reached; stops with index ≤ activeIdx are lit.
   const [activeIdx, setActiveIdx] = useState(reduce ? n - 1 : -1);
-  // Measured dot centers (px, relative to the track) so the signal lands exactly on them.
-  const trackRef = useRef<HTMLDivElement>(null);
-  const dotRefs = useRef<Array<HTMLSpanElement | null>>([]);
-  const [dotXs, setDotXs] = useState<number[]>([]);
+
+  // Group consecutive stops by flight phase, keeping each stop's global index for lighting.
+  const groups: { phase: FlightPhase; items: { wp: RouteWaypoint; idx: number }[] }[] = [];
+  route.forEach((wp, idx) => {
+    const phase = wp.phase ?? 'cruise';
+    const last = groups[groups.length - 1];
+    if (last && last.phase === phase) last.items.push({ wp, idx });
+    else groups.push({ phase, items: [{ wp, idx }] });
+  });
 
   useEffect(() => {
     if (reduce) {
@@ -264,110 +280,81 @@ function RouteStrip({
         return;
       }
       setActiveIdx(idx);
-      timer = setTimeout(tick, 600); // dwell at each dot (≈ travel 0.45s + brief pause)
+      timer = setTimeout(tick, 600); // dwell at each stop
     };
     timer = setTimeout(tick, 900);
     return () => clearTimeout(timer);
   }, [reduce, n]);
 
-  // Measure dot centers once laid out (and on resize) so the signal aligns precisely.
-  useEffect(() => {
-    const measure = () => {
-      const track = trackRef.current;
-      if (!track) return;
-      const base = track.getBoundingClientRect().left;
-      setDotXs(
-        dotRefs.current.map((d) => {
-          if (!d) return 0;
-          const r = d.getBoundingClientRect();
-          return r.left - base + r.width / 2;
-        }),
-      );
-    };
-    measure();
-    const settle = setTimeout(measure, 350); // re-measure after fonts/labels settle
-    window.addEventListener('resize', measure);
-    return () => {
-      clearTimeout(settle);
-      window.removeEventListener('resize', measure);
-    };
-  }, [n]);
-
-  const cometReady = !reduce && activeIdx >= 0 && dotXs.length === n;
-
   return (
     <div className="mt-11">
-      <p className="font-instrument mb-1.5 text-[10px] uppercase tracking-[0.22em] text-cyan-300/80">
+      <p className="font-instrument mb-4 text-[10px] uppercase tracking-[0.22em] text-cyan-300/80">
         The lesson, stage by stage
       </p>
-      <div className="font-instrument mb-4 flex items-center justify-between text-[9px] uppercase tracking-[0.22em] text-lc-text3">
-        <span>Start · {route[0]?.label}</span>
-        <span>Finish · {route[n - 1]?.label}</span>
+
+      {/* Phase band — the fixed flight-structure layer, grouping the stops below */}
+      <div className="mb-2 hidden sm:flex">
+        {groups.map((g) => (
+          <div key={g.phase} className="px-1.5 text-center" style={{ flexGrow: g.items.length, flexBasis: 0 }}>
+            <span className="font-instrument text-[9px] uppercase tracking-[0.24em] text-lc-amber/75">
+              {PHASE_LABEL[g.phase]}
+            </span>
+            <span aria-hidden className="mt-1.5 block h-1.5 rounded-t-[3px] border-x border-t border-cyan-300/15" />
+          </div>
+        ))}
       </div>
-      <div ref={trackRef} className="relative pt-1.5">
-        {/* Base track */}
+
+      {/* Track — drawn line + phase-grouped stops, each lighting in sequence */}
+      <div className="relative pt-1.5">
         <div className="absolute left-0 right-0 top-[11px] h-px bg-cyan-300/15" />
-        {/* Drawn line */}
         <motion.div
           className="absolute left-0 right-0 top-[11px] h-[2px] origin-left rounded-full bg-gradient-to-r from-cyan-300 via-cyan-300/70 to-cyan-300/20 shadow-[0_0_10px_rgba(34,211,238,0.6)]"
           initial={{ scaleX: reduce ? 1 : 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: reduce ? 0 : 1.2, delay: 0.3, ease: [0.12, 0.8, 0.32, 1] }}
         />
-        {/* Signal — eases into each waypoint (easeInOut), dwells, and lands on the dot */}
-        {cometReady && (
-          <motion.div
-            aria-hidden
-            className="absolute top-[11px] -translate-x-1/2 -translate-y-1/2"
-            initial={false}
-            animate={{ left: dotXs[activeIdx] ?? 0 }}
-            transition={{ duration: 0.45, ease: 'easeInOut' }}
-          >
-            <div className="relative">
-              <div className="absolute right-1 top-1/2 h-[3px] w-16 -translate-y-1/2 rounded-full bg-gradient-to-l from-cyan-200 to-transparent" />
-              <div className="h-2.5 w-2.5 rounded-full bg-cyan-50 shadow-[0_0_14px_4px_rgba(34,211,238,0.95)]" />
-            </div>
-          </motion.div>
-        )}
 
-        <ol className="relative flex justify-between">
-          {route.map((wp, i) => {
-            const lit = i <= activeIdx;
-            const isLanding = wp.kind === 'landing';
-            return (
-              <motion.li
-                key={`${wp.label}-${i}`}
-                className="flex flex-col items-center gap-2.5"
-                initial={reduce ? false : { opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: reduce ? 0 : 0.35 + i * 0.07 }}
-              >
-                <span
-                  ref={(el) => {
-                    dotRefs.current[i] = el;
-                  }}
-                  className={cn(
-                    'h-4 w-4 rounded-full border-2 transition-all duration-300',
-                    lit
-                      ? isLanding
-                        ? 'border-lc-amber bg-lc-amber shadow-[0_0_14px_rgba(245,158,11,0.95)]'
-                        : 'border-cyan-100 bg-cyan-200 shadow-[0_0_14px_rgba(34,211,238,0.95)]'
-                      : isLanding
-                        ? 'border-lc-amber/45 bg-lc-amber/10'
-                        : 'border-cyan-300/45 bg-[#0a1a33]',
-                  )}
-                />
-                <span
-                  className={cn(
-                    'font-instrument hidden text-[10px] uppercase tracking-wider transition-colors duration-300 sm:block',
-                    lit ? 'text-cyan-100' : 'text-lc-text2',
-                  )}
-                >
-                  {wp.label}
-                </span>
-              </motion.li>
-            );
-          })}
+        <ol className="relative flex">
+          {groups.map((g) => (
+            <li key={g.phase} className="flex justify-around" style={{ flexGrow: g.items.length, flexBasis: 0 }}>
+              {g.items.map(({ wp, idx }) => {
+                const lit = idx <= activeIdx;
+                const isLanding = wp.kind === 'landing';
+                const isMicro = wp.kind === 'micro-event';
+                return (
+                  <motion.div
+                    key={`${wp.label}-${idx}`}
+                    className="flex flex-col items-center gap-2.5"
+                    initial={reduce ? false : { opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: reduce ? 0 : 0.35 + idx * 0.07 }}
+                  >
+                    <span
+                      className={cn(
+                        'rounded-full border-2 transition-all duration-300',
+                        isMicro ? 'h-3 w-3' : 'h-4 w-4',
+                        lit
+                          ? isLanding
+                            ? 'border-lc-amber bg-lc-amber shadow-[0_0_14px_rgba(245,158,11,0.95)]'
+                            : 'border-cyan-100 bg-cyan-200 shadow-[0_0_14px_rgba(34,211,238,0.95)]'
+                          : isLanding
+                            ? 'border-lc-amber/45 bg-lc-amber/10'
+                            : 'border-cyan-300/45 bg-[#0a1a33]',
+                      )}
+                    />
+                    <span
+                      className={cn(
+                        'font-instrument hidden max-w-[5.5rem] text-center text-[10px] uppercase leading-tight tracking-wide transition-colors duration-300 sm:block',
+                        lit ? 'text-cyan-100' : 'text-lc-text2',
+                      )}
+                    >
+                      {wp.label}
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </li>
+          ))}
         </ol>
       </div>
     </div>

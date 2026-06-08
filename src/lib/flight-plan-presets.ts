@@ -14,10 +14,18 @@ export interface PresetScenarios {
 
 export type FlightStageKind = 'stage' | 'micro-event' | 'end-game' | 'landing';
 
+// Three-layer route model:
+//  1. phase  — fixed universal lesson structure (Takeoff…Landing). Never swaps.
+//  2. label  — the stage JOB: the stable contract of the slot, true for every
+//              activity that can occupy it (e.g. "Explore", not "Wonder Board").
+//  3. activity (the chosen module name) lives on the slot, not here.
+export type FlightPhase = 'takeoff' | 'climb' | 'cruise' | 'descent' | 'landing';
+
 export interface FlightStageDefinition {
   stageId: string;
   label: string;
   kind: FlightStageKind;
+  phase: FlightPhase;
 }
 
 export interface FlightPresetConfig {
@@ -339,7 +347,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'all-around-flight-60',
     name: "Captain's Flight",
-    description: 'Flagship ESL journey: prediction, source briefing, language toolkit, quick pulse, mission prep, accuracy check, council, game, landing',
+    description: 'Flagship ESL journey: warm-up, briefing, language toolkit, opinion pulse, explore, accuracy check, main discussion, review game, wrap-up',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'skill-builder',
@@ -356,15 +364,15 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     ],
     flightConfig: {
       stages: [
-        { stageId: 'icebreaker', label: 'Icebreaker', kind: 'stage' },
-        { stageId: 'briefing', label: "Captain's Briefing", kind: 'stage' },
-        { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage' },
-        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event' },
-        { stageId: 'mission-board', label: 'Mission Board', kind: 'stage' },
-        { stageId: 'accuracy-check', label: 'Accuracy Check', kind: 'micro-event' },
-        { stageId: 'production', label: 'Decision Council', kind: 'stage' },
-        { stageId: 'end-game', label: 'End Game', kind: 'end-game' },
-        { stageId: 'landing', label: 'Landing', kind: 'landing' },
+        { stageId: 'icebreaker', label: 'Warm-up', kind: 'stage', phase: 'takeoff' },
+        { stageId: 'briefing', label: 'Briefing', kind: 'stage', phase: 'climb' },
+        { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage', phase: 'climb' },
+        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'cruise' },
+        { stageId: 'mission-board', label: 'Explore', kind: 'stage', phase: 'cruise' },
+        { stageId: 'accuracy-check', label: 'Accuracy Check', kind: 'micro-event', phase: 'cruise' },
+        { stageId: 'production', label: 'Main Discussion', kind: 'stage', phase: 'cruise' },
+        { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
+        { stageId: 'landing', label: 'Wrap-up', kind: 'landing', phase: 'landing' },
       ],
       stageByKey: {
         'prediction-round': 'icebreaker',

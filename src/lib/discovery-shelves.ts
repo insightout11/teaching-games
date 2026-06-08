@@ -15,7 +15,7 @@ import {
   type ClassSizeMetadata,
   type FlightPlanItem,
 } from '@/lib/flight-plan-config';
-import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
+import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset, type FlightPhase, type FlightStageKind } from '@/lib/flight-plan-presets';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
 
 export interface DiscoveryItem {
@@ -407,26 +407,17 @@ export function getFeaturedPreset(): FlightPlanPreset | undefined {
   return FLIGHT_PLAN_PRESETS.find((p) => p.id === 'all-around-flight-60');
 }
 
-/** Condensed route waypoints for the hero "boarding pass" timeline. */
+/** Route waypoints for the hero "boarding pass" timeline. Carries all three layers:
+ *  flight phase (structure) + stage-job label (slot contract). Use the full stage
+ *  label verbatim — abbreviating it is what made the route opaque. */
 export interface RouteWaypoint {
   label: string;
-  kind: 'stage' | 'micro-event' | 'end-game' | 'landing';
+  kind: FlightStageKind;
+  phase?: FlightPhase; // populated for the featured route; decorative preview routes omit it
 }
 
 export function getFeaturedRoute(): RouteWaypoint[] {
   const preset = getFeaturedPreset();
   const stages = preset?.flightConfig?.stages ?? [];
-  // Short, scannable labels for the poster timeline.
-  const SHORT: Record<string, string> = {
-    icebreaker: 'Icebreaker',
-    briefing: 'Briefing',
-    'language-toolkit': 'Toolkit',
-    'opinion-pulse': 'Pulse',
-    'mission-board': 'Mission',
-    'accuracy-check': 'Accuracy',
-    production: 'Council',
-    'end-game': 'Game',
-    landing: 'Landing',
-  };
-  return stages.map((s) => ({ label: SHORT[s.stageId] ?? s.label, kind: s.kind }));
+  return stages.map((s) => ({ label: s.label, kind: s.kind, phase: s.phase }));
 }
