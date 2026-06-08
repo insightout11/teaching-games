@@ -93,7 +93,7 @@ export function FeaturedFlightHero() {
               into intentional branded texture (kept off the perforation seam) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute right-[7%] top-1/2 hidden h-72 w-72 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-[0.06] lg:block xl:h-[24rem] xl:w-[24rem]"
+            className="pointer-events-none absolute right-[7%] top-1/2 hidden h-72 w-72 -translate-y-1/2 bg-contain bg-center bg-no-repeat opacity-[0.09] lg:block xl:h-[24rem] xl:w-[24rem]"
             style={{ backgroundImage: 'url(/lessoncaptain-mark-on-dark.svg)' }}
           />
 
