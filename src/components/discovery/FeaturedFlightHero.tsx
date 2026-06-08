@@ -89,11 +89,12 @@ export function FeaturedFlightHero() {
 
         {/* ── Main panel ───────────────────────────────────────────── */}
         <div className="relative flex-1 p-7 sm:p-9 lg:p-12">
-          {/* Oversized faint plane — anchors the empty upper-right and reinforces the metaphor */}
-          <Plane
+          {/* Faint LessonCaptain mark — boarding-pass branding watermark; kept inside the
+              main panel (off the perforation seam) so it doesn't muddy the torn-ticket edge */}
+          <div
             aria-hidden
-            className="pointer-events-none absolute right-4 top-10 hidden h-72 w-72 -rotate-[18deg] text-cyan-300/[0.05] lg:block"
-            strokeWidth={1}
+            className="pointer-events-none absolute right-12 top-9 hidden h-56 w-56 bg-contain bg-no-repeat opacity-[0.07] lg:block"
+            style={{ backgroundImage: 'url(/lessoncaptain-mark-on-dark.svg)' }}
           />
 
           <div className="relative z-10 flex items-center justify-between">
@@ -287,7 +288,7 @@ function RouteStrip({
   }, [reduce, n]);
 
   return (
-    <div className="mt-11">
+    <div className="mt-8">
       <p className="font-instrument mb-4 text-[10px] uppercase tracking-[0.22em] text-cyan-300/80">
         The lesson, stage by stage
       </p>
