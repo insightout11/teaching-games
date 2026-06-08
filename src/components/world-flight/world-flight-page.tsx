@@ -232,7 +232,7 @@ export function WorldFlightPage() {
         source: 'world-flight-range',
         paint: {
           'fill-color': '#38BDF8',
-          'fill-opacity': 0.09,
+          'fill-opacity': 0.12,
         },
       });
       map.addLayer({
@@ -240,10 +240,10 @@ export function WorldFlightPage() {
         type: 'line',
         source: 'world-flight-range',
         paint: {
-          'line-color': '#7DD3FC',
-          'line-width': 8,
-          'line-opacity': 0.22,
-          'line-blur': 4,
+          'line-color': '#38BDF8',
+          'line-width': 14,
+          'line-opacity': 0.32,
+          'line-blur': 6,
         },
       });
       map.addLayer({
@@ -251,10 +251,9 @@ export function WorldFlightPage() {
         type: 'line',
         source: 'world-flight-range',
         paint: {
-          'line-color': '#BAE6FD',
-          'line-width': 2.4,
-          'line-opacity': 0.95,
-          'line-dasharray': [2.5, 2],
+          'line-color': '#CFEFFF',
+          'line-width': 3.5,
+          'line-opacity': 1,
         },
       });
       map.addLayer({
