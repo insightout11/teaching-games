@@ -15,6 +15,7 @@
     "validate-content": "tsx src/scripts/validate-content.ts",
     "ingest-brain-teasers": "tsx src/scripts/ingest-brain-teasers.ts",
     "prefetch-transcripts": "tsx scripts/prefetch-library-transcripts.ts",
+    "prefetch-world-flight-transcripts": "tsx scripts/prefetch-world-flight-transcripts.ts",
     "check-transcripts": "tsx scripts/check-transcripts.ts"
   },
   "dependencies": {

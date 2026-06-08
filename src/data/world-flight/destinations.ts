@@ -19,7 +19,8 @@ function textSource(id: string, title: string, summary: string, rawText: string)
     summary,
     rawText,
     briefingText: rawText,
-    briefingMode: 'adapted',
+    originalText: rawText,
+    briefingMode: 'generated',
     wordCount: rawText.trim().split(/\s+/).length,
   };
 }
@@ -37,18 +38,85 @@ function focus(
 ): DestinationFocus {
   return {
     id,
+    kind: 'reading',
     title,
     subtitle,
     difficulty,
     lessonGoal,
     skills,
     image,
+    publisher: 'LessonCaptain',
+    review: { status: 'draft' },
     sourceMaterial: textSource(
       `${cityId}-${id}`,
       title,
       subtitle,
       reading,
     ),
+  };
+}
+
+function researchedReadingFocus(
+  cityId: string,
+  id: string,
+  title: string,
+  subtitle: string,
+  difficulty: DestinationFocus['difficulty'],
+  lessonGoal: string,
+  skills: string[],
+  image: DestinationImage,
+  reading: string,
+  citations: NonNullable<DestinationFocus['citations']>,
+): DestinationFocus {
+  return {
+    ...focus(cityId, id, title, subtitle, difficulty, lessonGoal, skills, image, reading),
+    citations,
+    review: { status: 'researched', reviewedAt: '2026-06-08' },
+  };
+}
+
+function videoFocus(
+  id: string,
+  title: string,
+  subtitle: string,
+  difficulty: DestinationFocus['difficulty'],
+  lessonGoal: string,
+  skills: string[],
+  youtubeId: string,
+  publisher: string,
+  duration: number,
+  summary: string,
+): DestinationFocus {
+  const sourceUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
+  return {
+    id,
+    kind: 'video',
+    title,
+    subtitle,
+    difficulty,
+    lessonGoal,
+    skills,
+    image: {
+      url: `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
+      alt: `${title} video thumbnail`,
+      caption: `${title} by ${publisher}.`,
+      sourceName: publisher,
+      sourceUrl,
+    },
+    publisher,
+    sourceUrl,
+    review: {
+      status: 'transcript-verified',
+      reviewedAt: '2026-06-08',
+      transcriptLanguage: 'en',
+    },
+    sourceMaterial: {
+      sourceType: 'youtube',
+      sourceKey: youtubeId,
+      title,
+      summary,
+      duration,
+    },
   };
 }
 
@@ -98,9 +166,110 @@ export const WORLD_DESTINATIONS: DestinationPack[] = [
     scene: { terrain: 'urban', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'fuji', palette: 'night' },
     heroImage: IMAGES.tokyo,
     focusOptions: [
-      focus('tokyo', 'convenience-stores', 'Tokyo - Convenience Stores and Daily Life', 'Explore how small stores support fast city routines.', 'Intermediate', 'Discuss habits, convenience, and service culture.', ['reading', 'discussion', 'vocabulary'], IMAGES.tokyo, `In Tokyo, convenience stores are more than places to buy snacks. Many people use them as small service centers during a busy day. Customers can buy meals, pay bills, collect parcels, print documents, and find basic supplies late at night. The stores are carefully organized so people can choose quickly and move on. For students, this topic opens a useful discussion about daily routines. What makes a service convenient? When does convenience save time, and when does it create waste? Students can compare convenience stores with shops in their own city and decide which services would be most useful for them.`),
-      focus('tokyo', 'trains', 'Tokyo - Reading a Train City', 'Use Tokyo trains to discuss systems, signs, and public behavior.', 'Intermediate', 'Explain how public transport changes city life.', ['reading', 'speaking', 'systems thinking'], IMAGES.tokyo, `Tokyo's train network is one of the most recognizable parts of the city. It connects neighborhoods, offices, shopping streets, universities, and airports. The system can look complex at first, but signs, colors, station numbers, and announcements help people find their way. Train travel also depends on shared behavior. People line up, move quickly, speak quietly, and try not to block doors. Students can discuss how a city teaches people to move together. They can also compare public transport rules in different places and decide which habits make travel smoother for everyone.`),
-      focus('tokyo', 'old-new', 'Tokyo - Old Streets and Future Cities', 'Compare temples, small lanes, towers, and technology.', 'Advanced', 'Build contrast language for culture and urban design.', ['comparison', 'discussion', 'critical thinking'], IMAGES.tokyo, `Tokyo often feels like several cities at once. A visitor can walk from a quiet temple area to a bright shopping street, then to a station full of screens and announcements. Some neighborhoods protect older buildings and small local businesses, while others keep changing with new towers, offices, and entertainment spaces. This creates a strong classroom question: how can a city modernize without losing its memory? Students can practice contrast language, describe atmosphere, and debate what parts of a city should be preserved, redesigned, or allowed to disappear.`),
+      videoFocus(
+        'train-system-video',
+        "Tokyo's Train System, Explained",
+        'Learn the colors, station numbers, operators, and habits that make a complex network usable.',
+        'Intermediate',
+        'Explain a complex transport system and give practical navigation advice.',
+        ['listening', 'systems thinking', 'travel English'],
+        '2Abrpfj3Aa4',
+        'Bright Trip',
+        994,
+        `Tokyo's rail map can look overwhelming, but this practical guide breaks it into understandable parts. It explains how lines use names, colors, letters, and numbered stations; how above-ground railways and subway operators connect; and how route-planning apps and transit cards help passengers move through the city. The video also introduces useful travel habits such as checking the train direction, recognizing express services, and navigating large interchange stations. Students can use the source to explain a system clearly, compare public transport in different cities, and create advice for a first-time visitor.`,
+      ),
+      videoFocus(
+        'convenience-store-video',
+        'Convenience Stores: Everyday Infrastructure',
+        'See how compact stores combine food, services, logistics, and changing technology.',
+        'Intermediate',
+        'Discuss how a familiar business can become part of a city’s infrastructure.',
+        ['listening', 'business', 'daily life'],
+        'mKg4aZvKVu0',
+        'NHK WORLD-JAPAN',
+        1686,
+        `This Japanology Plus episode examines how Japanese convenience stores evolved into compact service hubs. Alongside food and everyday products, stores may provide ATMs, parcel services, administrative terminals, and other functions that support daily life. The program looks at how chains organize many products in limited space, respond to changing customer needs, and experiment with new technology. Students can discuss what convenience means, why the model works in dense cities, and whether constant availability improves life or creates new costs.`,
+      ),
+      videoFocus(
+        'zoning-video',
+        'Why Tokyo Neighborhoods Mix Homes, Shops, and Work',
+        'Use Japanese zoning to understand why Tokyo streets feel different from many Western cities.',
+        'Advanced',
+        'Compare city-planning rules and evaluate mixed-use neighborhoods.',
+        ['listening', 'urban design', 'comparison'],
+        'wfm2xCKOCNk',
+        "Life Where I'm From",
+        875,
+        `This explainer uses Japanese zoning to show why homes, small shops, schools, clinics, offices, and light industry often appear close together. Instead of separating every activity into a single-use district, Japan's zoning system generally permits several less disruptive uses inside each zone. The video connects those rules to walkable streets, neighborhood businesses, varied building types, and rail-oriented city life. Students can compare planning systems, identify tradeoffs, and debate what should or should not be allowed near their homes.`,
+      ),
+      researchedReadingFocus(
+        'tokyo',
+        'earthquake-readiness',
+        'Tokyo - Preparing for the Next Major Earthquake',
+        'Explore how buildings, neighborhoods, and ordinary households prepare for disruption.',
+        'Intermediate',
+        'Evaluate how a city shares responsibility for disaster readiness.',
+        ['reading', 'problem solving', 'discussion'],
+        IMAGES.tokyo,
+        `For Tokyo, earthquake preparation is not a single emergency plan stored in an office. It is a continuing effort that connects building design, transport routes, utilities, neighborhood training, and household habits. The Tokyo Metropolitan Government says a magnitude-seven-class earthquake has a 70 percent probability of striking the southern Kanto area within the next 30 years. That risk shapes how the city prepares.
+
+At the city level, officials promote earthquake-resistant buildings and work to strengthen structures along emergency transport roads. Those roads must remain usable so firefighters, rescue teams, and relief supplies can move after a disaster. Tokyo also plans for problems that appear in a dense city: damaged lifelines, fires in areas with closely packed wooden houses, apartment residents who cannot easily leave, and large numbers of commuters stranded far from home.
+
+Preparation also happens in ordinary rooms. Residents are encouraged to secure furniture, store water and food, learn evacuation routes, and decide how family members will communicate if mobile networks are overloaded. Neighborhood drills turn written advice into practiced behavior.
+
+This creates an important question: who is responsible for resilience? Stronger buildings and public systems matter, but they cannot solve every problem immediately. Personal preparation helps, but not everyone has the same money, mobility, health, or access to information. A resilient city therefore needs both strong infrastructure and plans that include people with different needs.`,
+        [
+          { title: 'TOKYO Resilience Project', publisher: 'Tokyo Metropolitan Government', url: 'https://tokyo-resilience.metro.tokyo.lg.jp/en/' },
+          { title: 'Tokyo Metropolitan Government Disaster Prevention Guide Book', publisher: 'Tokyo Metropolitan Government', url: 'https://www.bousai.metro.tokyo.lg.jp/content/e_book_2025/2025-12_GDP_GuideBook_en/pageindices/index2.html' },
+          { title: 'Preparedness', publisher: 'TOKYO Resilience Project', url: 'https://tokyo-resilience.metro.tokyo.lg.jp/en/prevention/' },
+        ],
+      ),
+      researchedReadingFocus(
+        'tokyo',
+        'harajuku-fashion',
+        'Tokyo - Harajuku as an Open-Air Fashion Studio',
+        'Follow how young people turned a neighborhood into a global symbol of self-expression.',
+        'Intermediate',
+        'Discuss fashion as identity, creativity, and cultural influence.',
+        ['reading', 'culture', 'discussion'],
+        IMAGES.tokyo,
+        `Harajuku is often described as if it has one recognizable style. In reality, its importance came from allowing many styles to appear together. Young people used clothing to build complete visual identities, combining handmade pieces, secondhand finds, designer fashion, traditional Japanese items, bright accessories, and influences from music or fantasy. The street became a place where people could display an idea before it appeared in a major shop or magazine.
+
+Photographer Shoichi Aoki began documenting this energy in the 1990s and launched FRUiTS magazine in 1997. His portraits helped street fashion travel beyond Tokyo before social media made global sharing immediate. The photographs did more than show clothes. They recorded how individuals introduced themselves, named their favorite brands, and explained the logic behind surprising combinations.
+
+Harajuku has changed. Tourism, global brands, online communities, and fast fashion now influence the neighborhood. At the same time, people from outside Japan do not only observe Harajuku styles; some participate in them and carry them into new places. This makes Harajuku useful for discussing cultural exchange. When a local style becomes global, does it lose its meaning, gain new meaning, or both?
+
+The neighborhood's strongest lesson may be that fashion is a language. An outfit can communicate belonging, rebellion, humor, care, or imagination before the wearer says a word.`,
+        [
+          { title: 'Street Style in Tokyo: Harajuku Is Like a Fashion Gallery', publisher: 'Vogue', url: 'https://www.vogue.com/article/street-style-harajuku-tokyo' },
+          { title: 'About FRUiTS', publisher: 'Tokyo Fruits', url: 'https://tokyofruits.com/pages/about' },
+          { title: 'Fruits Tokyo Street Style', publisher: 'The Dowse Art Museum', url: 'https://dowse.org.nz/exhibitions-and-events/exhibitions/2004/fruits-tokyo-design' },
+        ],
+      ),
+      researchedReadingFocus(
+        'tokyo',
+        'sento-neighborhoods',
+        'Tokyo - The Neighborhood Life of Sento',
+        'Discover how public bathhouses changed from a necessity into a shared urban ritual.',
+        'Easy',
+        'Compare community spaces and explain unfamiliar social rules.',
+        ['reading', 'culture', 'comparison'],
+        IMAGES.tokyo,
+        `A sento is a neighborhood public bathhouse. For many Tokyo residents today, bathing usually happens at home. Earlier generations often depended on shared baths, and sento became part of everyday urban life.
+
+The history of public bathing in Japan reaches back centuries. Baths were connected with Buddhist temples before private businesses began operating them. During the Edo period, when Tokyo was still called Edo, private baths were restricted partly because of fire risk. Public bathhouses became common places where people could wash and meet neighbors. They remained important well into the twentieth century.
+
+As more homes gained private bathrooms after the 1960s, the number of sento declined. Their purpose also changed. A sento could no longer survive only by providing something unavailable at home. Many are now valued as inexpensive leisure spaces, pieces of neighborhood history, or places where generations can share the same routine.
+
+That routine has rules. Visitors remove their shoes and clothes, wash themselves before entering the shared bath, and keep towels out of the bathwater. These customs may feel unfamiliar, but they protect a shared space and help strangers use it comfortably.
+
+Sento raise a wider city question: what happens when a practical public service is no longer necessary but still has cultural and social value?`,
+        [
+          { title: 'Sento History', publisher: 'Tokyo Sento Association', url: 'https://www.1010.or.jp/english/sento-history/' },
+          { title: 'About Sento', publisher: 'Tokyo Sento Association', url: 'https://www.1010.or.jp/english/' },
+          { title: 'How to Enjoy Sento', publisher: 'Tokyo Sento Association', url: 'https://www.1010.or.jp/english/how-to-enjoy-sento/' },
+        ],
+      ),
     ],
   },
   {

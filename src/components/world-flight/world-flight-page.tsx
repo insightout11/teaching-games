@@ -3,14 +3,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from 'maplibre-gl';
-import { ArrowRight, Check, Compass, ExternalLink, Gauge, Globe2, MapPin, Plane, Route } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, Compass, ExternalLink, Gauge, Globe2, MapPin, Plane, Play, Route } from 'lucide-react';
 import { WORLD_DESTINATIONS, WORLD_FLIGHT_ORIGIN_ID, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
-import type { DestinationFocus, DestinationPack } from '@/lib/world-flight/types';
+import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
 import { destinationCoord, distanceKm, formatDistance, greatCircleLine, rangePolygon, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { usePlannerStore } from '@/stores/planner-store';
 
 const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
+type FocusFilter = 'all' | DestinationFocusKind;
 
 const EMPTY_FEATURE_COLLECTION: WorldFeatureCollection = {
   type: 'FeatureCollection',
@@ -52,6 +53,21 @@ function toMapData(data: WorldFeature | WorldFeatureCollection) {
   return data as Parameters<GeoJSONSource['setData']>[0];
 }
 
+function formatDuration(seconds?: number) {
+  if (!seconds) return null;
+  const minutes = Math.round(seconds / 60);
+  return `${minutes} min`;
+}
+
+function focusSourceLabel(focus: DestinationFocus) {
+  if (focus.kind === 'video') {
+    return ['Video', focus.publisher, formatDuration(focus.sourceMaterial.duration)].filter(Boolean).join(' - ');
+  }
+  return ['Reading', focus.sourceMaterial.wordCount ? `${focus.sourceMaterial.wordCount} words` : null, focus.citations?.length ? `${focus.citations.length} sources` : null]
+    .filter(Boolean)
+    .join(' - ');
+}
+
 function ImagePanel({ image, className = '' }: { image: DestinationPack['heroImage']; className?: string }) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -79,6 +95,8 @@ function FocusButton({
   selected: boolean;
   onClick: () => void;
 }) {
+  const icon = focus.kind === 'video' ? <Play className="h-3.5 w-3.5" aria-hidden /> : <BookOpen className="h-3.5 w-3.5" aria-hidden />;
+
   return (
     <button
       type="button"
@@ -100,6 +118,10 @@ function FocusButton({
             <div className="min-w-0">
               <p className="text-sm font-semibold leading-snug text-lc-text">{focus.title}</p>
               <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-lc-text3">{focus.subtitle}</p>
+              <p className="mt-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-cyan-200/70">
+                {icon}
+                {focusSourceLabel(focus)}
+              </p>
             </div>
             {selected && (
               <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-lc-blue text-[#06101d]">
@@ -130,6 +152,7 @@ export function WorldFlightPage() {
   const [mapReady, setMapReady] = useState(false);
   const [selectedDestinationId, setSelectedDestinationId] = useState('tokyo');
   const [selectedFocusId, setSelectedFocusId] = useState<string | null>(null);
+  const [focusFilter, setFocusFilter] = useState<FocusFilter>('all');
 
   const origin = useMemo(
     () => WORLD_DESTINATIONS.find((destination) => destination.id === WORLD_FLIGHT_ORIGIN_ID) ?? WORLD_DESTINATIONS[0],
@@ -139,12 +162,17 @@ export function WorldFlightPage() {
     () => WORLD_DESTINATIONS.find((destination) => destination.id === selectedDestinationId) ?? WORLD_DESTINATIONS[0],
     [selectedDestinationId],
   );
+  const visibleFocusOptions = useMemo(
+    () => selectedDestination.focusOptions.filter((focus) => focusFilter === 'all' || focus.kind === focusFilter),
+    [focusFilter, selectedDestination],
+  );
   const selectedDistanceKm = useMemo(() => distanceKm(origin, selectedDestination), [origin, selectedDestination]);
-  const selectedFocus = selectedDestination.focusOptions.find((focus) => focus.id === selectedFocusId) ?? selectedDestination.focusOptions[0];
+  const selectedFocus = visibleFocusOptions.find((focus) => focus.id === selectedFocusId) ?? visibleFocusOptions[0] ?? selectedDestination.focusOptions[0];
   const isReachable = selectedDistanceKm <= STARTER_PLANE_RANGE_KM || selectedDestination.id === origin.id;
 
   useEffect(() => {
     setSelectedFocusId(null);
+    setFocusFilter('all');
   }, [selectedDestinationId]);
 
   useEffect(() => {
@@ -298,6 +326,14 @@ export function WorldFlightPage() {
     router.push('/lesson-planner');
   }
 
+  function selectFocusFilter(nextFilter: FocusFilter) {
+    setFocusFilter(nextFilter);
+    const nextVisible = selectedDestination.focusOptions.filter((focus) => nextFilter === 'all' || focus.kind === nextFilter);
+    if (!nextVisible.some((focus) => focus.id === selectedFocus.id)) {
+      setSelectedFocusId(nextVisible[0]?.id ?? null);
+    }
+  }
+
   return (
     <div className="relative -m-6 min-h-[calc(100vh-0px)] overflow-hidden bg-[#050914] lg:-m-8">
       <div className="absolute inset-0">
@@ -426,11 +462,32 @@ export function WorldFlightPage() {
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
             <div className="mb-3 flex items-center justify-between gap-3">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Choose today&apos;s focus</h3>
-              <span className="text-xs text-lc-text3">{selectedDestination.focusOptions.length} options</span>
+              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Choose today&apos;s source</h3>
+              <span className="text-xs text-lc-text3">{visibleFocusOptions.length} options</span>
+            </div>
+            <div className="mb-4 grid grid-cols-3 gap-1 rounded-lg border border-white/10 bg-white/[0.035] p-1">
+              {[
+                ['all', 'All'],
+                ['video', 'Watch'],
+                ['reading', 'Read'],
+              ].map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={focusFilter === value}
+                  onClick={() => selectFocusFilter(value as FocusFilter)}
+                  className={`min-h-8 rounded-md px-2 text-xs font-semibold transition-colors ${
+                    focusFilter === value
+                      ? 'bg-lc-blue text-[#06101d]'
+                      : 'text-lc-text3 hover:bg-white/[0.06] hover:text-lc-text'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
             <div className="space-y-3">
-              {selectedDestination.focusOptions.map((focusOption) => (
+              {visibleFocusOptions.map((focusOption) => (
                 <FocusButton
                   key={focusOption.id}
                   focus={focusOption}
@@ -448,7 +505,24 @@ export function WorldFlightPage() {
                 Lesson handoff
               </div>
               <p className="mt-1 text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
+              <p className="mt-1 text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
               <p className="mt-1 text-xs leading-relaxed text-lc-text3">{selectedFocus.lessonGoal}</p>
+              {selectedFocus.citations?.length ? (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {selectedFocus.citations.slice(0, 3).map((citation) => (
+                    <a
+                      key={citation.url}
+                      href={citation.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.035] px-2 py-1 text-[10px] text-lc-text3 transition-colors hover:text-lc-text2"
+                    >
+                      {citation.publisher}
+                      <ExternalLink className="h-3 w-3" aria-hidden />
+                    </a>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <button
               type="button"
@@ -459,12 +533,12 @@ export function WorldFlightPage() {
               Build This Flight Plan
             </button>
             <a
-              href={selectedDestination.heroImage.sourceUrl}
+              href={selectedFocus.sourceUrl ?? selectedDestination.heroImage.sourceUrl}
               target="_blank"
               rel="noreferrer"
               className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-lc-text3 transition-colors hover:text-lc-text2"
             >
-              Image source: {selectedDestination.heroImage.sourceName}
+              Source: {selectedFocus.publisher}
               <ExternalLink className="h-3 w-3" aria-hidden />
             </a>
           </div>

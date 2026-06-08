@@ -24,14 +24,34 @@ export interface DestinationScene {
   palette: 'dawn' | 'night' | 'golden' | 'tropical' | 'winter';
 }
 
+export type DestinationFocusKind = 'video' | 'reading';
+export type DestinationFocusReviewStatus = 'draft' | 'researched' | 'transcript-verified';
+
+export interface DestinationCitation {
+  title: string;
+  publisher: string;
+  url: string;
+}
+
+export interface DestinationFocusReview {
+  status: DestinationFocusReviewStatus;
+  reviewedAt?: string;
+  transcriptLanguage?: string;
+}
+
 export interface DestinationFocus {
   id: string;
+  kind: DestinationFocusKind;
   title: string;
   subtitle: string;
   difficulty: Difficulty;
   lessonGoal: string;
   skills: string[];
   image: DestinationImage;
+  publisher: string;
+  sourceUrl?: string;
+  citations?: DestinationCitation[];
+  review: DestinationFocusReview;
   sourceMaterial: SourceMaterial;
 }
 
