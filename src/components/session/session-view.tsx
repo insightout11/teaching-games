@@ -38,8 +38,25 @@ import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
+import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
+import { getDestinationById } from '@/data/world-flight/destinations';
+import { distanceKm } from '@/lib/world-flight/geo';
+import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { avatarUrl } from '@/lib/avatar-options';
 import { ExternalLink, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone } from 'lucide-react';
+
+// Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
+// tuned so a sunset departure -> overnight -> sunrise arrival reproduces the
+// legacy climbing -> cruising -> golden -> landing arc exactly, while shorter
+// flights simply stop earlier (e.g. a short hop ends at night, not sunrise).
+function weatherForHour(hour: number): WeatherState {
+  const h = ((hour % 24) + 24) % 24;
+  if (h >= 7.5 && h < 17) return 'day';
+  if (h >= 17 && h < 20) return 'climbing'; // sunset / dusk (departure)
+  if (h >= 6 && h < 7.5) return 'landing';  // sunrise
+  if (h >= 4.5 && h < 6) return 'golden';   // pre-dawn
+  return 'cruising';                         // deep night (20:00–04:30)
+}
 
 // ─── Departure board ────────────────────────────────────────────────────────
 
@@ -484,25 +501,62 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length);
 
-  // ─── Sky weather state — position-based for linear narrative arc ──────
+  // ─── World Flight arrival context — the two cities this lesson flies between ──
+  const wfDestination = useMemo(
+    () => {
+      const id = lesson.lessonPlanContent?.destinationId;
+      return id ? getDestinationById(id) : undefined;
+    },
+    [lesson.lessonPlanContent?.destinationId],
+  );
+  // Arrival time-of-day from the continuous flight clock (distance-scaled). Long
+  // hauls land at sunrise; short hops stay in the same light they left in.
+  const wfArrivalTimeOfDay = useMemo(
+    () => {
+      if (!wfDestination) return undefined;
+      const origin = (lesson.lessonPlanContent?.originId ? getDestinationById(lesson.lessonPlanContent.originId) : undefined) ?? wfDestination;
+      return timeOfDay(arrivalHour(distanceKm(origin, wfDestination)));
+    },
+    [wfDestination, lesson.lessonPlanContent?.originId],
+  );
+  // Great-circle distance for the flight clock (null for non-World-Flight lessons).
+  const flightDistanceKm = useMemo(
+    () => {
+      if (!wfDestination) return null;
+      const origin = (lesson.lessonPlanContent?.originId ? getDestinationById(lesson.lessonPlanContent.originId) : undefined) ?? wfDestination;
+      return distanceKm(origin, wfDestination);
+    },
+    [wfDestination, lesson.lessonPlanContent?.originId],
+  );
+
+  // ─── Sky weather state ────────────────────────────────────────────────
   const weatherState = useMemo<WeatherState>(() => {
     if (!lesson.isLessonActive) return 'idle';
-    if (lesson.phase === 'lobby') return 'climbing';
-    if (lesson.phase === 'landing' || lesson.phase === 'ended') return 'landing';
     const totalSlots = lesson.lessonSlots.length;
     const idx = lesson.currentSlotIndex;
-    // Single-slot sessions (explore quick-play) cruise at altitude — no runway
+
+    // World Flight: drive the sky from the continuous, distance-scaled flight
+    // clock so the whole arc stays in order and short hops don't force a sunrise
+    // arrival. Position 0 = departure (sunset), 1 = touchdown.
+    if (flightDistanceKm != null && totalSlots > 1) {
+      const progress =
+        lesson.phase === 'lobby' ? 0
+        : (lesson.phase === 'landing' || lesson.phase === 'ended') ? 1
+        : idx / (totalSlots - 1);
+      return weatherForHour(clockHourAt(progress, flightDistanceKm));
+    }
+
+    // Legacy slot-based arc (non-World-Flight lessons).
+    if (lesson.phase === 'lobby') return 'climbing';
+    if (lesson.phase === 'landing' || lesson.phase === 'ended') return 'landing';
     if (totalSlots <= 1) return 'cruising';
     if (idx === 0) return 'climbing';
     if (idx >= totalSlots - 1) return 'landing';
     const progress = idx / (totalSlots - 1);
-    // Wide cruise window so you're "over the ocean" for most of the flight (the ocean
-    // only renders during cruising) — and the ocean drift stays continuous instead of
-    // appearing/vanishing in a narrow band.
     if (progress < 0.2) return 'climbing';
     if (progress < 0.8) return 'cruising';
     return 'golden';
-  }, [lesson.isLessonActive, lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length]);
+  }, [lesson.isLessonActive, lesson.phase, lesson.currentSlotIndex, lesson.lessonSlots.length, flightDistanceKm]);
 
   const altitude = useMemo(
     () => {
@@ -957,10 +1011,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       const isNextUndetermined = nextSlot?.key === 'mission-selector' || (nextSlot?.pool?.length ?? 0) > 0;
       const toName = isNextUndetermined ? 'Waypoint' : (found?.name ?? nextSlot?.name ?? null);
       const totalSlots = lesson.lessonSlots.length;
-      // Destination sky phase (same formula as weatherState memo)
+      // Destination sky phase (same logic as the weatherState memo)
       let toWeather: WeatherState = 'cruising';
-      if (nextIndex >= totalSlots - 1) toWeather = 'landing';
-      else if (totalSlots > 1) {
+      if (flightDistanceKm != null && totalSlots > 1) {
+        const progress = nextIndex >= totalSlots - 1 ? 1 : nextIndex / (totalSlots - 1);
+        toWeather = weatherForHour(clockHourAt(progress, flightDistanceKm));
+      } else if (nextIndex >= totalSlots - 1) {
+        toWeather = 'landing';
+      } else if (totalSlots > 1) {
         const progress = nextIndex / (totalSlots - 1);
         if (progress < 0.2) toWeather = 'climbing';
         else if (progress < 0.8) toWeather = 'cruising';
@@ -1080,14 +1138,32 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (ended) {
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
-        {/* Existing airport runway at sunrise + distant destination skyline — arrived */}
-        <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" showSkyline className={isFullScreen ? '' : '!left-64'} />
-        {/* Plane landed on the runway centerline — front-facing (pinned background) */}
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
+        {wfDestination ? (
+          /* World Flight: the destination's arrival scene (its own clock-driven
+             sky + city + landmark + landed plane) pinned as the backdrop. */
+          <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0, left: isFullScreen ? 0 : 256 }}>
+            <DestinationArrivalScene
+              destinationId={wfDestination.id}
+              scene={wfDestination.scene}
+              phase="landed"
+              progress={1}
+              timeOfDay={wfArrivalTimeOfDay}
+              planeKey={selectedPlaneKey}
+              className="absolute inset-0"
+            />
           </div>
-        </div>
+        ) : (
+          <>
+            {/* Generic airport runway at sunrise + distant skyline — arrived */}
+            <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" showSkyline className={isFullScreen ? '' : '!left-64'} />
+            {/* Plane landed on the runway centerline — front-facing (pinned background) */}
+            <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
+                <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
+              </div>
+            </div>
+          </>
+        )}
         {/* Only the results scroll — the airfield stays pinned behind */}
         <div className="relative z-10 h-full overflow-y-auto px-6 lg:px-8 py-6 pb-80">
           <EndSessionSummary

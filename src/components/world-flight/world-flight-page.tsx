@@ -404,6 +404,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     store.setTopic(selectedFocus.title);
     store.setDifficulty(selectedFocus.difficulty);
     store.setSourceMaterial(selectedFocus.sourceMaterial);
+    store.setWorldFlightRoute(origin?.id ?? null, selectedDestination.id);
     if (preset) store.loadPreset(preset);
     if (selectedClassId) store.setSelectedClassId(selectedClassId);
     store.setWorldFlightContext({

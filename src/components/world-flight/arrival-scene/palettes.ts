@@ -1,4 +1,4 @@
-import type { PaletteKey, ScenePalette } from './types';
+import type { PaletteKey, ScenePalette, TimeOfDay } from './types';
 
 // Five palettes keyed to DestinationScene.palette. Structure mirrors the WEATHER
 // object in sky-background.tsx (hardcoded hex/rgba — no Tailwind), tuned for a
@@ -104,4 +104,88 @@ export const PALETTES: Record<PaletteKey, ScenePalette> = {
 
 export function getPalette(key: PaletteKey): ScenePalette {
   return PALETTES[key] ?? PALETTES.dawn;
+}
+
+// ── Time-of-day × climate composition ────────────────────────────────────────
+// The baked PALETTES above conflate time-of-day with climate. For the live
+// flight we want the scene's TIME to come from the flight clock while the city
+// keeps its CLIMATE identity. So we compose a time-of-day BASE (sky/light/
+// windows/building/landmark) with a per-destination climate GROUND tint
+// (terrain/water/foliage). Landmark SHAPES + iconic accents already carry the
+// rest of each city's identity.
+
+export type ClimateKey = 'tropical' | 'arid' | 'temperate' | 'cold';
+
+type GroundFields = Pick<
+  ScenePalette,
+  'terrainTop' | 'terrainBottom' | 'waterTop' | 'waterBottom' | 'foliage' | 'trunk'
+>;
+
+// Full base palettes per time of day (ground fields are placeholders overwritten
+// by the climate tint). 'day' is the bright daytime look the baked set lacked.
+const TIME_BASE: Record<TimeOfDay, ScenePalette> = {
+  dawn: { ...PALETTES.dawn },
+  dusk: { ...PALETTES.golden },
+  night: { ...PALETTES.night },
+  day: {
+    skyTop: '#3f74b4',
+    skyMid: '#7fb2d8',
+    skyBottom: '#d6ebf4',
+    horizonGlow: 'rgba(255,255,240,0.45)',
+    light: 'sun',
+    lightColor: '#fff7da',
+    terrainTop: '#3a5a52',
+    terrainBottom: '#1d322f',
+    waterTop: '#7fb6d4',
+    waterBottom: '#3f7ea0',
+    buildingSilhouette: 'rgba(78,92,116,0.88)',
+    windowWarm: 'rgba(255,220,150,0.30)',
+    windowCool: 'rgba(200,225,245,0.30)',
+    foliage: '#2f5a3a',
+    trunk: '#3c2a1c',
+    landmarkFill: 'rgba(86,100,124,0.92)',
+    landmarkAccent: 'rgba(255,250,225,0.40)',
+  },
+};
+
+// Climate ground tints, with a brighter daytime set and a darker night set.
+const CLIMATE_GROUND: Record<ClimateKey, { day: GroundFields; night: GroundFields }> = {
+  temperate: {
+    day: { terrainTop: '#3f6a4a', terrainBottom: '#244031', waterTop: '#7fb0c8', waterBottom: '#3f7090', foliage: '#2f6a3e', trunk: '#3c2a1c' },
+    night: { terrainTop: '#16241b', terrainBottom: '#0c160f', waterTop: '#1c324a', waterBottom: '#0c1828', foliage: '#16352a', trunk: '#241a12' },
+  },
+  tropical: {
+    day: { terrainTop: '#2f8a4a', terrainBottom: '#176030', waterTop: '#39c0cc', waterBottom: '#1d8ea0', foliage: '#2c8a44', trunk: '#4a3320' },
+    night: { terrainTop: '#143a26', terrainBottom: '#0a2016', waterTop: '#16484e', waterBottom: '#0a2630', foliage: '#15402a', trunk: '#241a12' },
+  },
+  arid: {
+    day: { terrainTop: '#c9a86a', terrainBottom: '#8a6a3a', waterTop: '#9ab6a0', waterBottom: '#5c7a64', foliage: '#7a7a3a', trunk: '#5a4326' },
+    night: { terrainTop: '#3a2f1e', terrainBottom: '#221a10', waterTop: '#26323a', waterBottom: '#141c22', foliage: '#2a2a14', trunk: '#2a2012' },
+  },
+  cold: {
+    day: { terrainTop: '#c2cdd8', terrainBottom: '#8a98a8', waterTop: '#8ea6ba', waterBottom: '#5a7286', foliage: '#3f5a48', trunk: '#3a2c22' },
+    night: { terrainTop: '#2a323c', terrainBottom: '#161c24', waterTop: '#1e2c3a', waterBottom: '#101820', foliage: '#22342a', trunk: '#241a12' },
+  },
+};
+
+/** Map a destination's baked palette/terrain to a climate band. */
+export function climateForScene(scene: { palette: PaletteKey }): ClimateKey {
+  switch (scene.palette) {
+    case 'tropical':
+      return 'tropical';
+    case 'golden':
+      return 'arid';
+    case 'winter':
+      return 'cold';
+    default:
+      return 'temperate'; // dawn / night
+  }
+}
+
+/** Compose a palette from a flight-clock time of day + the destination's climate. */
+export function composeTimedPalette(timeOfDay: TimeOfDay, scene: { palette: PaletteKey }): ScenePalette {
+  const base = TIME_BASE[timeOfDay] ?? TIME_BASE.dusk;
+  const isDaylight = timeOfDay === 'day' || timeOfDay === 'dusk';
+  const ground = CLIMATE_GROUND[climateForScene(scene)][isDaylight ? 'day' : 'night'];
+  return { ...base, ...ground };
 }

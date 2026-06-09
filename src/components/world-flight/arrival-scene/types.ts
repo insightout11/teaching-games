@@ -16,6 +16,9 @@ export type ArrivalPhase = 'approach' | 'touchdown' | 'taxi' | 'landed';
 
 export type ArrivalMotion = 'animated' | 'static';
 
+/** Flight-clock time of day; overrides the destination's baked palette when set. */
+export type TimeOfDay = 'dawn' | 'day' | 'dusk' | 'night';
+
 export interface DestinationArrivalSceneProps {
   destinationId: string;
   scene: DestinationScene;
@@ -25,6 +28,12 @@ export interface DestinationArrivalSceneProps {
   planeKey?: string | null;
   /** 'animated' (default) enables ambient effects only; 'static' renders a still frame. */
   motion?: ArrivalMotion;
+  /**
+   * Flight-clock time of day. When provided, the scene composes a time-of-day
+   * palette + the destination's climate tint (used by the live flight). When
+   * omitted, the destination's baked `scene.palette` is used (gallery / default).
+   */
+  timeOfDay?: TimeOfDay;
   className?: string;
 }
 

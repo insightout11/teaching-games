@@ -192,6 +192,11 @@ interface PlannerState {
   callsign: string | null; // stable flight number for this plan (e.g. "LC-3544")
   worldFlightContext: WorldFlightLaunchContext | null;
 
+  // World Flight route (origin -> destination cities) carried into the session so
+  // the arrival scene + flight clock know which two cities the lesson flies between.
+  worldFlightOriginId: string | null;
+  worldFlightDestinationId: string | null;
+
   // Derived
   primaryGoal: GoalTag;
 
@@ -225,6 +230,7 @@ interface PlannerState {
   setGrammarTarget(t: GrammarTarget | null): void;
   setSourceMaterial(s: SourceMaterial | null): void;
   setWorldFlightContext(context: WorldFlightLaunchContext | null): void;
+  setWorldFlightRoute(originId: string | null, destinationId: string | null): void;
 
   // Generate the flight callsign once per plan (idempotent); returns it.
   ensureCallsign(): string;
@@ -260,6 +266,8 @@ export const usePlannerStore = create<PlannerState>()(
       sourceMaterial: null,
       callsign: null,
       worldFlightContext: null,
+      worldFlightOriginId: null,
+      worldFlightDestinationId: null,
 
       // Derived
       get primaryGoal() {
@@ -395,8 +403,11 @@ export const usePlannerStore = create<PlannerState>()(
         return code;
       },
 
+      setWorldFlightRoute: (originId, destinationId) =>
+        set({ worldFlightOriginId: originId, worldFlightDestinationId: destinationId }),
+
       launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId, worldFlightContext } = get();
+        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId, worldFlightContext, worldFlightOriginId, worldFlightDestinationId } = get();
         if (!selectedClassId) return;
         const callsign = get().ensureCallsign();
 
@@ -441,10 +452,15 @@ export const usePlannerStore = create<PlannerState>()(
           ...(grammarTarget ? { grammarTarget } : {}),
           ...(sourceMaterial ? { sourceMaterial } : {}),
           ...(flightConfig && loadedPreset ? { flightPresetId: loadedPreset.id, flightConfig } : {}),
+          ...(worldFlightDestinationId ? { originId: worldFlightOriginId, destinationId: worldFlightDestinationId } : {}),
           slots,
           generatedContent: {},
           generatedGameContent: {},
         };
+
+        // One-shot: consume the World Flight route so a later non-WF launch
+        // doesn't inherit a stale destination.
+        set({ worldFlightOriginId: null, worldFlightDestinationId: null });
 
         const res = await fetch('/api/session/create', {
           method: 'POST',
@@ -495,6 +511,8 @@ export const usePlannerStore = create<PlannerState>()(
           sourceMaterial: null,
           callsign: null,
           worldFlightContext: null,
+          worldFlightOriginId: null,
+          worldFlightDestinationId: null,
         }),
     }),
     {
