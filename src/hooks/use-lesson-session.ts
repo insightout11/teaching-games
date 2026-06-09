@@ -53,6 +53,9 @@ interface LessonPlanPayload {
   grammarTarget?: GrammarTarget | null;
   directLaunch?: boolean;
   sourceMaterial?: SourceMaterial;
+  /** World Flight route — the two cities this lesson flies between. */
+  originId?: string;
+  destinationId?: string;
 }
 
 function getLessonPlanContent(): LessonPlanPayload | null {

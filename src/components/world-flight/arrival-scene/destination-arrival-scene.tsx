@@ -3,7 +3,7 @@
 import { useId, useMemo } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { VIEWBOX, type DestinationArrivalSceneProps, type LandmarkDepth, type LandmarkLayerProps } from './types';
-import { getPalette } from './palettes';
+import { composeTimedPalette, getPalette } from './palettes';
 import { seededRand } from './seed';
 import { resolveLandmark } from './scene-registry';
 import { AtmosphereLayer } from './layers/atmosphere-layer';
@@ -28,6 +28,7 @@ export function DestinationArrivalScene({
   progress = 0,
   planeKey,
   motion = 'animated',
+  timeOfDay,
   className,
 }: DestinationArrivalSceneProps) {
   const reduced = useReducedMotion();
@@ -45,7 +46,9 @@ export function DestinationArrivalScene({
   // skyline/stars/vegetation would reshuffle when progress/phase change.)
   const rand = seededRand(destinationId);
 
-  const palette = getPalette(scene.palette);
+  // Time-of-day override (live flight clock) composes time + the city's climate;
+  // otherwise fall back to the destination's baked palette (gallery / default).
+  const palette = timeOfDay ? composeTimedPalette(timeOfDay, scene) : getPalette(scene.palette);
   const landmark = resolveLandmark(scene.landmarkSilhouette);
 
   const layerProps = { scene, palette, rand, idPrefix, phase, progress: p, ambient };

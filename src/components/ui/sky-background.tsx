@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { EarthState } from '@/lib/flight-plan-helpers';
 
-export type WeatherState = 'idle' | 'climbing' | 'cruising' | 'golden' | 'landing';
+export type WeatherState = 'idle' | 'climbing' | 'cruising' | 'golden' | 'landing' | 'day';
 
 interface SkyBackgroundProps {
   weatherState?: WeatherState;
@@ -91,6 +91,19 @@ const WEATHER: Record<WeatherState, {
     cloudFill: 'rgb(255,225,190)',
     opacityFar: 0.48,
     opacityMid: 0.65,
+    opacityNear: 0.82,
+  },
+  // Bright daytime sky — used when the flight clock lands in daylight hours
+  // (e.g. very long hauls, or future daytime departures).
+  day: {
+    skyTop:       '#1E5FA8',
+    skyMid:       '#4E92C8',
+    skyBottom:    '#AFD7EE',
+    horizonInner: 'rgba(255,255,235,0.32)',
+    horizonGlow:  'rgba(180,215,245,0.22)',
+    cloudFill: 'rgb(255,255,255)',
+    opacityFar: 0.50,
+    opacityMid: 0.66,
     opacityNear: 0.82,
   },
 };
@@ -681,7 +694,7 @@ export function SkyBackground({
   const opDur  = transitioning ? 1.2 : 3.0;
 
   // Stars: hidden during bright sunset/dawn, brightest at peak altitude
-  const isBrightSky = weatherState === 'climbing' || weatherState === 'landing';
+  const isBrightSky = weatherState === 'climbing' || weatherState === 'landing' || weatherState === 'day';
   const starOpacity = isBrightSky
     ? Math.max(0, (0.22 + Math.min(0.55, altitude * 0.80)) * mult - 0.55)
     : (0.22 + Math.min(0.55, altitude * 0.80)) * mult;

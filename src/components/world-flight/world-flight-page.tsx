@@ -321,6 +321,7 @@ export function WorldFlightPage() {
     store.setTopic(selectedFocus.title);
     store.setDifficulty(selectedFocus.difficulty);
     store.setSourceMaterial(selectedFocus.sourceMaterial);
+    store.setWorldFlightRoute(origin.id, selectedDestination.id);
     if (preset) store.loadPreset(preset);
     store.setStep('flight-plan');
     router.push('/lesson-planner');
