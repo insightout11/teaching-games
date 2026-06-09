@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { isMockMode } from '@/lib/mock/auth';
 
 const PRESETS = [
   { label: '1 min', seconds: 60 },
@@ -9,7 +11,26 @@ const PRESETS = [
   { label: '5 min', seconds: 300 },
 ];
 
-export function TimerContent() {
+interface TimerContentProps {
+  sessionId?: string;
+}
+
+interface SharedTimerPayload {
+  type?: 'timer';
+  totalSeconds?: number;
+  remainingSeconds?: number;
+  running?: boolean;
+  startedAt?: string | null;
+}
+
+function getSyncedRemaining(payload: SharedTimerPayload): number {
+  const remaining = Math.max(0, Math.floor(payload.remainingSeconds ?? 60));
+  if (!payload.running || !payload.startedAt) return remaining;
+  const elapsed = Math.floor((Date.now() - new Date(payload.startedAt).getTime()) / 1000);
+  return Math.max(0, remaining - Math.max(0, elapsed));
+}
+
+export function TimerContent({ sessionId }: TimerContentProps = {}) {
   const [totalSeconds, setTotalSeconds] = useState(60);
   const [remaining, setRemaining] = useState(60);
   const [running, setRunning] = useState(false);
@@ -17,6 +38,78 @@ export function TimerContent() {
   const [customMin, setCustomMin] = useState('');
   const [customSec, setCustomSec] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const syncTimer = useCallback((state: {
+    totalSeconds: number;
+    remainingSeconds: number;
+    running: boolean;
+    startedAt: string | null;
+  }) => {
+    if (!sessionId || isMockMode()) return;
+
+    void fetch('/api/session/timer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId, state }),
+    });
+  }, [sessionId]);
+
+  const applySharedTimer = useCallback((payload: SharedTimerPayload) => {
+    if (payload.type && payload.type !== 'timer') return;
+    const nextTotal = Math.max(1, Math.floor(payload.totalSeconds ?? 60));
+    const nextRemaining = getSyncedRemaining(payload);
+
+    setTotalSeconds(nextTotal);
+    setRemaining(nextRemaining);
+    setRunning(Boolean(payload.running && nextRemaining > 0));
+    setFinished(Boolean(payload.running && nextRemaining <= 0));
+  }, []);
+
+  useEffect(() => {
+    if (!sessionId || isMockMode()) return;
+
+    const supabase = createClient();
+    let cancelled = false;
+
+    async function loadTimer() {
+      const { data } = await supabase
+        .from('session_private_state')
+        .select('payload')
+        .eq('session_id', sessionId)
+        .eq('key', 'timer')
+        .maybeSingle();
+
+      if (!cancelled && data?.payload) {
+        applySharedTimer(data.payload as SharedTimerPayload);
+      }
+    }
+
+    void loadTimer();
+
+    const channel = supabase
+      .channel(`session-timer:${sessionId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'session_private_state',
+          filter: `session_id=eq.${sessionId}`,
+        },
+        (payload: { new: unknown }) => {
+          const row = payload.new as { key?: string; payload?: SharedTimerPayload } | null;
+          if (row?.key === 'timer' && row.payload) {
+            applySharedTimer(row.payload);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      cancelled = true;
+      supabase.removeChannel(channel);
+    };
+  }, [sessionId, applySharedTimer]);
 
   // Countdown logic
   useEffect(() => {
@@ -50,7 +143,13 @@ export function TimerContent() {
     setRemaining(seconds);
     setRunning(false);
     setFinished(false);
-  }, []);
+    syncTimer({
+      totalSeconds: seconds,
+      remainingSeconds: seconds,
+      running: false,
+      startedAt: null,
+    });
+  }, [syncTimer]);
 
   const handleCustomSet = useCallback(() => {
     const m = parseInt(customMin) || 0;
@@ -61,21 +160,46 @@ export function TimerContent() {
       setRemaining(total);
       setRunning(false);
       setFinished(false);
+      syncTimer({
+        totalSeconds: total,
+        remainingSeconds: total,
+        running: false,
+        startedAt: null,
+      });
     }
-  }, [customMin, customSec]);
+  }, [customMin, customSec, syncTimer]);
 
   const handleStart = () => {
-    if (remaining <= 0) {
-      setRemaining(totalSeconds);
-    }
+    const nextRemaining = remaining <= 0 ? totalSeconds : remaining;
+    if (remaining <= 0) setRemaining(totalSeconds);
     setFinished(false);
     setRunning(true);
+    syncTimer({
+      totalSeconds,
+      remainingSeconds: nextRemaining,
+      running: true,
+      startedAt: new Date().toISOString(),
+    });
   };
-  const handlePause = () => setRunning(false);
+  const handlePause = () => {
+    setRunning(false);
+    syncTimer({
+      totalSeconds,
+      remainingSeconds: remaining,
+      running: false,
+      startedAt: null,
+    });
+  };
   const handleReset = () => {
     setRunning(false);
     setRemaining(totalSeconds);
     setFinished(false);
+    syncTimer({
+      totalSeconds,
+      remainingSeconds: totalSeconds,
+      running: false,
+      startedAt: null,
+    });
   };
 
   const minutes = Math.floor(remaining / 60);

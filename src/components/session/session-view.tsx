@@ -740,14 +740,34 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     };
   }, [session.id]);
 
-  const handleEndSession = async () => {
+  const finishSession = async (completed: boolean) => {
     if (bonusVotePollId) {
       await supabase.from('polls').update({ is_active: false }).eq('id', bonusVotePollId);
     }
-    await supabase.from('sessions').update({ status: 'ended', ended_at: new Date().toISOString() }).eq('id', session.id);
+
+    const response = await fetch('/api/session/end', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: session.id, completed }),
+    });
+
+    if (!response.ok) {
+      const result = await response.json().catch(() => ({ error: 'Failed to end session' }));
+      console.error('Failed to end session:', result.error);
+      return;
+    }
+
     sessionStorage.removeItem('lessonPlanContent');
     localStorage.removeItem('lc-explore-session');
     setEnded(true);
+  };
+
+  const handleEndSession = () => {
+    void finishSession(false);
+  };
+
+  const handleCompleteSession = () => {
+    void finishSession(true);
   };
 
   const handleLaunchBonusVote = async () => {
@@ -967,7 +987,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     // Final module complete — fly straight to the "You've Landed" arrival
     // instead of dropping back on the selection grid.
     if (lesson.isLessonActive && !hasNextSlot) {
-      void handleEndSession();
+      handleCompleteSession();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson, selectedGame, selectedActivity]);

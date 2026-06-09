@@ -10,11 +10,12 @@ export default function QuestionsPopupPage() {
   const topic = searchParams.get('topic') ?? 'General';
   const difficulty = searchParams.get('difficulty') ?? 'Intermediate';
 
-  function handleShowAnswer(question: string, answer: string) {
-    // Send to the main session tab via BroadcastChannel so the overlay appears there
-    const ch = new BroadcastChannel(`lc-session-${sessionId}`);
-    ch.postMessage({ kind: 'show-answer', question, answer });
-    ch.close();
+  async function handleShowAnswer(question: string, answer: string) {
+    await fetch('/api/session/screen-answer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId, question, answer }),
+    });
   }
 
   return (

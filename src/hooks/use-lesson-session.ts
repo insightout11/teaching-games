@@ -9,6 +9,7 @@ import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent, SourceVocabItem, LessonPlanGenerateResponse } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import type { FlightPresetConfig } from '@/lib/flight-plan-presets';
+import type { WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { missionSelectorFallback } from '@/lib/fallback-content';
 import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
 
@@ -53,6 +54,7 @@ interface LessonPlanPayload {
   grammarTarget?: GrammarTarget | null;
   directLaunch?: boolean;
   sourceMaterial?: SourceMaterial;
+  worldFlightContext?: WorldFlightSessionContext;
 }
 
 function getLessonPlanContent(): LessonPlanPayload | null {
@@ -77,6 +79,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         grammarTarget: parsed.grammarTarget ?? null,
         directLaunch: parsed.directLaunch ?? false,
         sourceMaterial: parsed.sourceMaterial ?? undefined,
+        worldFlightContext: parsed.worldFlightContext ?? undefined,
       };
     }
   } catch (e) {

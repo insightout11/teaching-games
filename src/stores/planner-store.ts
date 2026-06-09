@@ -9,6 +9,7 @@ import type { ScoringMode } from '@/stores/session-store';
 import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
 import type { SourceMaterial, SourceType } from '@/types/source-material';
+import type { WorldFlightLaunchContext, WorldFlightSessionContext } from '@/lib/world-flight/journey';
 
 const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
@@ -189,6 +190,7 @@ interface PlannerState {
   grammarTarget: GrammarTarget | null;
   sourceMaterial: SourceMaterial | null;
   callsign: string | null; // stable flight number for this plan (e.g. "LC-3544")
+  worldFlightContext: WorldFlightLaunchContext | null;
 
   // Derived
   primaryGoal: GoalTag;
@@ -222,6 +224,7 @@ interface PlannerState {
   setSelectedClassId(id: string | null): void;
   setGrammarTarget(t: GrammarTarget | null): void;
   setSourceMaterial(s: SourceMaterial | null): void;
+  setWorldFlightContext(context: WorldFlightLaunchContext | null): void;
 
   // Generate the flight callsign once per plan (idempotent); returns it.
   ensureCallsign(): string;
@@ -256,6 +259,7 @@ export const usePlannerStore = create<PlannerState>()(
       grammarTarget: null,
       sourceMaterial: null,
       callsign: null,
+      worldFlightContext: null,
 
       // Derived
       get primaryGoal() {
@@ -327,6 +331,7 @@ export const usePlannerStore = create<PlannerState>()(
           loadedPresetId: preset.id,
           activeTab: 'presets',
           overrideScoringMode: preset.scoringMode ?? null,
+          worldFlightContext: null,
         });
       },
 
@@ -359,6 +364,7 @@ export const usePlannerStore = create<PlannerState>()(
           modules: [takeoff, middle, landing],
           loadedPresetId: null,
           overrideScoringMode: null,
+          worldFlightContext: null,
         });
       },
 
@@ -378,6 +384,7 @@ export const usePlannerStore = create<PlannerState>()(
 
         set({ sourceMaterial });
       },
+      setWorldFlightContext: (worldFlightContext) => set({ worldFlightContext }),
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
       ensureCallsign: () => {
@@ -389,7 +396,7 @@ export const usePlannerStore = create<PlannerState>()(
       },
 
       launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId } = get();
+        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId, worldFlightContext } = get();
         if (!selectedClassId) return;
         const callsign = get().ensureCallsign();
 
@@ -423,29 +430,29 @@ export const usePlannerStore = create<PlannerState>()(
         const hasMissionSelector = modules.some((m) => m.key === 'mission-selector');
         const flightConfig = buildFlightConfigForSlots(loadedPreset?.flightConfig, slots);
 
-        sessionStorage.setItem(
-          'lessonPlanContent',
-          JSON.stringify({
-            customTopic: topic,
-            callsign,
-            difficulty,
-            goal: primaryGoal,
-            lessonDurationMinutes,
-            ...(overrideScoringMode ? { scoringMode: overrideScoringMode } : {}),
-            ...(hasMissionSelector ? { isMissionBased: true } : {}),
-            ...(grammarTarget ? { grammarTarget } : {}),
-            ...(sourceMaterial ? { sourceMaterial } : {}),
-            ...(flightConfig && loadedPreset ? { flightPresetId: loadedPreset.id, flightConfig } : {}),
-            slots,
-            generatedContent: {},
-            generatedGameContent: {},
-          }),
-        );
+        const lessonPlanPayload = {
+          customTopic: topic,
+          callsign,
+          difficulty,
+          goal: primaryGoal,
+          lessonDurationMinutes,
+          ...(overrideScoringMode ? { scoringMode: overrideScoringMode } : {}),
+          ...(hasMissionSelector ? { isMissionBased: true } : {}),
+          ...(grammarTarget ? { grammarTarget } : {}),
+          ...(sourceMaterial ? { sourceMaterial } : {}),
+          ...(flightConfig && loadedPreset ? { flightPresetId: loadedPreset.id, flightConfig } : {}),
+          slots,
+          generatedContent: {},
+          generatedGameContent: {},
+        };
 
         const res = await fetch('/api/session/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ classId: selectedClassId }),
+          body: JSON.stringify({
+            classId: selectedClassId,
+            ...(worldFlightContext ? { worldFlightContext } : {}),
+          }),
         });
 
         if (!res.ok) {
@@ -453,7 +460,19 @@ export const usePlannerStore = create<PlannerState>()(
           throw new Error(err.error ?? 'Failed to create session');
         }
 
-        const { sessionId } = await res.json();
+        const result = await res.json() as {
+          sessionId: string;
+          worldFlightContext?: WorldFlightSessionContext;
+        };
+        sessionStorage.setItem(
+          'lessonPlanContent',
+          JSON.stringify({
+            ...lessonPlanPayload,
+            ...(result.worldFlightContext ? { worldFlightContext: result.worldFlightContext } : {}),
+          }),
+        );
+        set({ worldFlightContext: null });
+        const { sessionId } = result;
         window.location.href = `/sessions/${sessionId}`;
       },
 
@@ -475,6 +494,7 @@ export const usePlannerStore = create<PlannerState>()(
           grammarTarget: null,
           sourceMaterial: null,
           callsign: null,
+          worldFlightContext: null,
         }),
     }),
     {
@@ -496,6 +516,7 @@ export const usePlannerStore = create<PlannerState>()(
         loadedPresetId: state.loadedPresetId,
         selectedClassId: state.selectedClassId,
         grammarTarget: state.grammarTarget,
+        worldFlightContext: state.worldFlightContext,
       }),
     },
   ),

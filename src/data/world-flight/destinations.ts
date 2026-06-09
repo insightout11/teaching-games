@@ -169,7 +169,6 @@ const IMAGES = {
   amsterdam: wikimediaFile('Imagen_de_los_canales_conc%C3%A9ntricos_en_%C3%81msterdam.png', 'Amsterdam', 'Amsterdam canals and historic urban pattern.', 'https://en.wikipedia.org/wiki/Amsterdam'),
 };
 
-export const WORLD_FLIGHT_ORIGIN_ID = 'bangkok';
 export const STARTER_PLANE_RANGE_KM = 5200;
 export const WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS = 7 * 60;
 

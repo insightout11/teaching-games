@@ -263,6 +263,7 @@ export async function GET(request: NextRequest) {
         .eq('session_id', sessionId)
         .eq('client_id', clientId)
         .not('ai_feedback', 'is', null)
+        .order('answered_at', { ascending: false, nullsFirst: false })
         .order('created_at', { ascending: false })
         .limit(1)
         .maybeSingle();

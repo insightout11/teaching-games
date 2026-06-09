@@ -38,7 +38,7 @@ export const WIDGET_REGISTRY: WidgetDefinition[] = [
     label: 'Timer',
     iconPath: WIDGET_ICON_PATHS.timer,
     component: TimerContent,
-    getProps: () => ({}),
+    getProps: (ctx) => ({ sessionId: ctx.sessionId }),
   },
   {
     id: 'random-picker',

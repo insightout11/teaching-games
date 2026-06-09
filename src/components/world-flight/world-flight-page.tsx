@@ -4,11 +4,13 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from 'maplibre-gl';
 import { ArrowRight, BookOpen, Check, ExternalLink, Gauge, Globe2, MapPin, PanelLeftClose, PanelLeftOpen, Plane, Play, Route } from 'lucide-react';
-import { WORLD_DESTINATIONS, WORLD_FLIGHT_ORIGIN_ID, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
+import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
 import { destinationCoord, distanceKm, formatDistance, greatCircleLine, rangePolygon, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { usePlannerStore } from '@/stores/planner-store';
+import type { WorldFlightClassSummary } from '@/lib/world-flight/journey';
+import { getPlaneAsset } from '@/lib/plane-progression';
 
 const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 type FocusFilter = 'all' | DestinationFocusKind;
@@ -22,10 +24,10 @@ function asFeatureCollection(features: WorldFeature[]): WorldFeatureCollection {
   return { type: 'FeatureCollection', features };
 }
 
-function destinationFeatures(origin: DestinationPack) {
+function destinationFeatures(origin: DestinationPack | null, rangeKm: number) {
   return asFeatureCollection(
     WORLD_DESTINATIONS.map((destination) => {
-      const km = distanceKm(origin, destination);
+      const km = origin ? distanceKm(origin, destination) : 0;
       return {
         type: 'Feature',
         properties: {
@@ -33,8 +35,8 @@ function destinationFeatures(origin: DestinationPack) {
           city: destination.city,
           country: destination.country,
           airport: destination.primaryAirport,
-          reachable: km <= STARTER_PLANE_RANGE_KM || destination.id === origin.id,
-          isOrigin: destination.id === origin.id,
+          reachable: !origin || km <= rangeKm || destination.id === origin.id,
+          isOrigin: destination.id === origin?.id,
         },
         geometry: {
           type: 'Point',
@@ -145,7 +147,7 @@ function FocusButton({
   );
 }
 
-export function WorldFlightPage() {
+export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFlightClassSummary[] }) {
   const router = useRouter();
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -155,11 +157,15 @@ export function WorldFlightPage() {
   const [focusFilter, setFocusFilter] = useState<FocusFilter>('all');
   const [listOpen, setListOpen] = useState(false);
   const [isWide, setIsWide] = useState(false);
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(initialClasses[0]?.id ?? null);
 
+  const selectedClass = initialClasses.find((cls) => cls.id === selectedClassId) ?? null;
   const origin = useMemo(
-    () => WORLD_DESTINATIONS.find((destination) => destination.id === WORLD_FLIGHT_ORIGIN_ID) ?? WORLD_DESTINATIONS[0],
-    [],
+    () => WORLD_DESTINATIONS.find((destination) => destination.id === selectedClass?.currentDestinationId) ?? null,
+    [selectedClass?.currentDestinationId],
   );
+  const rangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
+  const planeName = getPlaneAsset(selectedClass?.planeKey).name;
   const selectedDestination = useMemo(
     () => WORLD_DESTINATIONS.find((destination) => destination.id === selectedDestinationId) ?? WORLD_DESTINATIONS[0],
     [selectedDestinationId],
@@ -168,9 +174,9 @@ export function WorldFlightPage() {
     () => selectedDestination.focusOptions.filter((focus) => focusFilter === 'all' || focus.kind === focusFilter),
     [focusFilter, selectedDestination],
   );
-  const selectedDistanceKm = useMemo(() => distanceKm(origin, selectedDestination), [origin, selectedDestination]);
+  const selectedDistanceKm = useMemo(() => origin ? distanceKm(origin, selectedDestination) : null, [origin, selectedDestination]);
   const selectedFocus = visibleFocusOptions.find((focus) => focus.id === selectedFocusId) ?? visibleFocusOptions[0] ?? selectedDestination.focusOptions[0];
-  const isReachable = selectedDistanceKm <= STARTER_PLANE_RANGE_KM || selectedDestination.id === origin.id;
+  const isReachable = !origin || (selectedDistanceKm ?? 0) <= rangeKm || selectedDestination.id === origin.id;
 
   useEffect(() => {
     setSelectedFocusId(null);
@@ -196,6 +202,44 @@ export function WorldFlightPage() {
   }
 
   useEffect(() => {
+    if (initialClasses.length === 0) return;
+
+    const plannerClassId = usePlannerStore.getState().selectedClassId;
+    let preferredClassId = plannerClassId && initialClasses.some((cls) => cls.id === plannerClassId)
+      ? plannerClassId
+      : null;
+
+    try {
+      const stored = localStorage.getItem('lc-last-class');
+      const lastClass = stored ? JSON.parse(stored) as { id?: string } : null;
+      if (lastClass?.id && initialClasses.some((cls) => cls.id === lastClass.id)) {
+        preferredClassId = lastClass.id;
+      }
+    } catch {
+      // Ignore malformed or unavailable local storage.
+    }
+
+    setSelectedClassId(preferredClassId ?? initialClasses[0].id);
+  }, [initialClasses]);
+
+  useEffect(() => {
+    if (origin) {
+      setSelectedDestinationId(origin.id);
+    }
+  }, [origin]);
+
+  function selectClass(id: string) {
+    const nextClass = initialClasses.find((cls) => cls.id === id);
+    setSelectedClassId(id);
+    usePlannerStore.getState().setSelectedClassId(id);
+    try {
+      localStorage.setItem('lc-last-class', JSON.stringify({ id, name: nextClass?.name ?? '' }));
+    } catch {
+      // Selection still works when local storage is unavailable.
+    }
+  }
+
+  useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
 
     const map = new maplibregl.Map({
@@ -215,7 +259,7 @@ export function WorldFlightPage() {
     map.on('load', () => {
       map.addSource('world-flight-range', {
         type: 'geojson',
-        data: toMapData(rangePolygon(origin, STARTER_PLANE_RANGE_KM)),
+        data: toMapData(EMPTY_FEATURE_COLLECTION),
       });
       map.addSource('world-flight-route', {
         type: 'geojson',
@@ -223,7 +267,7 @@ export function WorldFlightPage() {
       });
       map.addSource('world-flight-cities', {
         type: 'geojson',
-        data: toMapData(destinationFeatures(origin)),
+        data: toMapData(destinationFeatures(null, STARTER_PLANE_RANGE_KM)),
       });
 
       map.addLayer({
@@ -329,16 +373,25 @@ export function WorldFlightPage() {
       map.remove();
       mapRef.current = null;
     };
-  }, [origin]);
+  }, []);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    const map = mapRef.current;
+    getSource('world-flight-range', map)?.setData(toMapData(
+      origin ? rangePolygon(origin, rangeKm) : EMPTY_FEATURE_COLLECTION,
+    ));
+    getSource('world-flight-cities', map)?.setData(toMapData(destinationFeatures(origin, rangeKm)));
+  }, [mapReady, origin, rangeKm]);
 
   useEffect(() => {
     if (!mapReady) return;
     const map = mapRef.current;
     const routeSource = getSource('world-flight-route', map);
-    routeSource?.setData(toMapData(greatCircleLine(origin, selectedDestination)));
+    routeSource?.setData(toMapData(origin ? greatCircleLine(origin, selectedDestination) : EMPTY_FEATURE_COLLECTION));
     map?.easeTo({
       center: destinationCoord(selectedDestination),
-      zoom: selectedDestination.id === origin.id ? 3.2 : 3.05,
+      zoom: selectedDestination.id === origin?.id ? 3.2 : 3.05,
       duration: 650,
       padding: { left: listOpen ? 380 : 96, right: 460, top: 80, bottom: 80 },
     });
@@ -352,6 +405,12 @@ export function WorldFlightPage() {
     store.setDifficulty(selectedFocus.difficulty);
     store.setSourceMaterial(selectedFocus.sourceMaterial);
     if (preset) store.loadPreset(preset);
+    if (selectedClassId) store.setSelectedClassId(selectedClassId);
+    store.setWorldFlightContext({
+      destinationId: selectedDestination.id,
+      focusId: selectedFocus.id,
+      requestedMove: isReachable,
+    });
     store.setStep('flight-plan');
     router.push('/lesson-planner');
   }
@@ -416,26 +475,49 @@ export function WorldFlightPage() {
           </div>
 
           <div className="space-y-3 border-b border-white/10 px-5 py-4">
+            <div>
+              <label htmlFor="world-flight-class" className="mb-1.5 block text-[10px] font-semibold uppercase tracking-widest text-lc-text3">
+                Class journey
+              </label>
+              {initialClasses.length > 0 ? (
+                <select
+                  id="world-flight-class"
+                  value={selectedClassId ?? ''}
+                  onChange={(event) => selectClass(event.target.value)}
+                  className="min-h-9 w-full rounded-md border border-white/10 bg-[#0b1726] px-2.5 text-sm font-semibold text-lc-text outline-none transition-colors focus:border-cyan-300/45"
+                >
+                  {initialClasses.map((cls) => (
+                    <option key={cls.id} value={cls.id}>{cls.name}</option>
+                  ))}
+                </select>
+              ) : (
+                <p className="rounded-md border border-white/10 bg-white/[0.035] px-3 py-2 text-xs text-lc-text3">
+                  Create a class in the planner to begin its journey.
+                </p>
+              )}
+            </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
                 <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-lc-text3">
                   <MapPin className="h-3.5 w-3.5" aria-hidden />
                   Origin
                 </div>
-                <p className="mt-1 text-sm font-semibold text-lc-text">{origin.city}</p>
-                <p className="text-xs text-lc-text3">{origin.primaryAirport}</p>
+                <p className="mt-1 text-sm font-semibold text-lc-text">{origin?.city ?? 'Choose first city'}</p>
+                <p className="text-xs text-lc-text3">{origin?.primaryAirport ?? 'No location yet'}</p>
               </div>
               <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
                 <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-lc-text3">
                   <Gauge className="h-3.5 w-3.5" aria-hidden />
                   Range
                 </div>
-                <p className="mt-1 text-sm font-semibold text-lc-text">{formatDistance(STARTER_PLANE_RANGE_KM)}</p>
-                <p className="text-xs text-lc-text3">Starter plane</p>
+                <p className="mt-1 text-sm font-semibold text-lc-text">{origin ? formatDistance(rangeKm) : 'Open first flight'}</p>
+                <p className="text-xs text-lc-text3">{selectedClass ? planeName : 'Select a class later'}</p>
               </div>
             </div>
             <div className="rounded-lg border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-2 text-xs leading-relaxed text-cyan-100/75">
-              Green cities are within your plane&apos;s range &mdash; the ring shows the approximate great-circle distance from {origin.city}. Tap any city to preview its lesson sources.
+              {origin
+                ? <>Green cities are within your plane&apos;s range &mdash; the ring shows the approximate great-circle distance from {origin.city}. Tap any city to preview its lesson sources.</>
+                : <>The class&apos;s first completed city lesson establishes its location. Any city can be its starting point.</>}
             </div>
           </div>
 
@@ -446,9 +528,9 @@ export function WorldFlightPage() {
             </div>
             <div className="space-y-2">
               {WORLD_DESTINATIONS.map((destination) => {
-                const km = distanceKm(origin, destination);
+                const km = origin ? distanceKm(origin, destination) : 0;
                 const active = destination.id === selectedDestination.id;
-                const reachable = km <= STARTER_PLANE_RANGE_KM || destination.id === origin.id;
+                const reachable = !origin || km <= rangeKm || destination.id === origin.id;
                 return (
                   <button
                     key={destination.id}
@@ -460,11 +542,11 @@ export function WorldFlightPage() {
                         : 'border-white/10 bg-white/[0.03] hover:border-cyan-300/35 hover:bg-white/[0.06]'
                     }`}
                   >
-                    <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${destination.id === origin.id ? 'bg-lc-amber' : reachable ? 'bg-lc-success' : 'bg-lc-text3'}`} />
+                    <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${destination.id === origin?.id ? 'bg-lc-amber' : reachable ? 'bg-lc-success' : 'bg-lc-text3'}`} />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-semibold text-lc-text">{destination.city}</span>
                       <span className="block truncate text-xs text-lc-text3">
-                        {destination.country} - {formatDistance(km)}
+                        {destination.country} - {origin ? formatDistance(km) : 'Available first stop'}
                       </span>
                     </span>
                     <ArrowRight className={`h-4 w-4 shrink-0 text-cyan-300/60 transition-transform ${active ? 'translate-x-0.5' : ''}`} aria-hidden />
@@ -494,11 +576,11 @@ export function WorldFlightPage() {
                   ? 'border-lc-success/35 bg-lc-success/10 text-lc-success'
                   : 'border-lc-amber/35 bg-lc-amber/10 text-lc-amber'
               }`}>
-                {isReachable ? 'In range' : 'Override'}
+                {!origin ? 'First stop' : isReachable ? 'In range' : 'Lesson only'}
               </span>
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-lc-text3">
-              <span className="font-semibold text-lc-text">{formatDistance(selectedDistanceKm)}</span>
+              <span className="font-semibold text-lc-text">{selectedDistanceKm === null ? 'Establish first location' : formatDistance(selectedDistanceKm)}</span>
               <span className="text-white/20">&middot;</span>
               <span>{selectedDestination.airports.join(', ')}</span>
               <span className="text-white/20">&middot;</span>
@@ -558,7 +640,7 @@ export function WorldFlightPage() {
               className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[#06101d] transition-colors hover:bg-lc-blue-hover"
             >
               <Plane className="h-4 w-4 rotate-45" aria-hidden />
-              Build This Flight Plan
+              {!origin ? 'Build First Flight Plan' : isReachable ? 'Build This Flight Plan' : 'Build Lesson Without Moving'}
             </button>
             <a
               href={selectedFocus.sourceUrl ?? selectedDestination.heroImage.sourceUrl}

@@ -39,6 +39,13 @@ export interface DestinationFocusReview {
   transcriptLanguage?: string;
 }
 
+export interface DestinationEvidence {
+  investigationTags: string[];
+  keyIdea: string;
+  tradeoff: string;
+  designUse: string;
+}
+
 export interface DestinationFocus {
   id: string;
   kind: DestinationFocusKind;
@@ -52,6 +59,7 @@ export interface DestinationFocus {
   sourceUrl?: string;
   citations?: DestinationCitation[];
   review: DestinationFocusReview;
+  evidence?: DestinationEvidence;
   sourceMaterial: SourceMaterial;
 }
 

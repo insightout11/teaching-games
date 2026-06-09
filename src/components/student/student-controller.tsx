@@ -863,7 +863,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold text-cyan-300 uppercase tracking-widest">Flight Note</span>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-yellow-400">{latestFeedback.points} pts</span>
+              {latestFeedback.points > 0 && (
+                <span className="text-sm font-bold text-yellow-400">{latestFeedback.points} pts</span>
+              )}
               <button
                 onClick={() => setSeenFeedbackId(latestFeedback.submissionId)}
                 className="text-gray-500 hover:text-white text-lg leading-none"

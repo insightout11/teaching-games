@@ -36,6 +36,7 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
   const [answerOpen, setAnswerOpen] = useState<Record<string, boolean>>({});
   const [answerText, setAnswerText] = useState<Record<string, string>>({});
   const [draftLoading, setDraftLoading] = useState<Record<string, boolean>>({});
+  const [privateSending, setPrivateSending] = useState<Record<string, boolean>>({});
   const supabase = useMemo(() => createClient(), []);
 
   // Load initial data
@@ -179,6 +180,33 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
     setPublished((prev) => prev.filter((q) => q.id !== id));
   };
 
+  const handleSendPrivateAnswer = async (id: string) => {
+    const answer = answerText[id]?.trim();
+    if (!answer) return;
+
+    setPrivateSending((s) => ({ ...s, [id]: true }));
+    try {
+      const now = new Date().toISOString();
+      await supabase
+        .from('student_submissions')
+        .update({
+          ai_feedback: answer,
+          ai_score: null,
+          published_to_class: false,
+          answered_at: now,
+          status: 'answered',
+        })
+        .eq('id', id)
+        .eq('session_id', sessionId);
+
+      setAnswerOpen((o) => ({ ...o, [id]: false }));
+      setAnswerText((t) => ({ ...t, [id]: '' }));
+      loadQuestions();
+    } finally {
+      setPrivateSending((s) => ({ ...s, [id]: false }));
+    }
+  };
+
   const handleClearAll = async () => {
     if (published.length === 0) return;
     const now = new Date().toISOString();
@@ -243,32 +271,74 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
               pending.map((sub) => (
                 <div
                   key={sub.id}
-                  className="flex items-start gap-2 p-2 rounded-lg border bg-lc-surface border-lc-border"
+                  className="p-2 rounded-lg border bg-lc-surface border-lc-border space-y-2"
                 >
-                  <span className="flex-1 text-lc-text leading-snug break-words">{sub.content}</span>
-                  <div className="flex-shrink-0 flex gap-1">
-                    {/* Approve */}
-                    <button
-                      onClick={() => handlePublishOne(sub.id)}
-                      disabled={atLimit || publishingIds.has(sub.id)}
-                      title="Publish"
-                      className="w-7 h-7 flex items-center justify-center rounded-lg border text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/15 hover:border-emerald-400/50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </button>
-                    {/* Reject */}
-                    <button
-                      onClick={() => handleReject(sub.id)}
-                      title="Reject"
-                      className="w-7 h-7 flex items-center justify-center rounded-lg border text-red-400 border-red-500/30 hover:bg-red-500/15 hover:border-red-400/50 transition-colors"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
+                  <div className="flex items-start gap-2">
+                    <span className="flex-1 text-lc-text leading-snug break-words">{sub.content}</span>
+                    <div className="flex-shrink-0 flex gap-1">
+                      <button
+                        onClick={() => setAnswerOpen((o) => ({ ...o, [sub.id]: !o[sub.id] }))}
+                        title="Answer privately"
+                        className={`w-7 h-7 flex items-center justify-center rounded-lg border transition-colors ${
+                          answerOpen[sub.id]
+                            ? 'text-cyan-300 border-cyan-400/40 bg-cyan-500/15'
+                            : 'text-cyan-400 border-cyan-500/25 hover:bg-cyan-500/15 hover:border-cyan-400/50'
+                        }`}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 8h10M7 12h6m-6 8l4-4h6a4 4 0 004-4V8a4 4 0 00-4-4H7a4 4 0 00-4 4v4a4 4 0 004 4" />
+                        </svg>
+                      </button>
+                      {/* Approve */}
+                      <button
+                        onClick={() => handlePublishOne(sub.id)}
+                        disabled={atLimit || publishingIds.has(sub.id)}
+                        title="Share with class"
+                        className="w-7 h-7 flex items-center justify-center rounded-lg border text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/15 hover:border-emerald-400/50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </button>
+                      {/* Reject */}
+                      <button
+                        onClick={() => handleReject(sub.id)}
+                        title="Dismiss"
+                        className="w-7 h-7 flex items-center justify-center rounded-lg border text-red-400 border-red-500/30 hover:bg-red-500/15 hover:border-red-400/50 transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
+                  {answerOpen[sub.id] && (
+                    <div className="space-y-2">
+                      <textarea
+                        value={answerText[sub.id] ?? ''}
+                        onChange={(e) => setAnswerText((t) => ({ ...t, [sub.id]: e.target.value }))}
+                        placeholder="Answer privately to this student..."
+                        rows={3}
+                        className="w-full bg-lc-bg/70 border border-lc-border rounded-lg px-2 py-1.5 text-xs text-lc-text placeholder:text-lc-text3 resize-none focus:outline-none focus:border-cyan-400/50"
+                      />
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          onClick={() => getAIDraft(sub.id, sub.content)}
+                          disabled={draftLoading[sub.id]}
+                          className="text-xs px-2 py-1 rounded border text-purple-400 border-purple-500/20 hover:border-purple-400/40 hover:bg-purple-500/10 transition-colors disabled:opacity-50"
+                        >
+                          {draftLoading[sub.id] ? 'Drafting...' : 'Draft answer'}
+                        </button>
+                        <button
+                          onClick={() => handleSendPrivateAnswer(sub.id)}
+                          disabled={!answerText[sub.id]?.trim() || privateSending[sub.id]}
+                          className="text-xs px-2 py-1 rounded border text-cyan-300 border-cyan-500/25 hover:border-cyan-400/50 hover:bg-cyan-500/10 transition-colors disabled:opacity-50"
+                        >
+                          {privateSending[sub.id] ? 'Sending...' : 'Send privately'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))
             )}
@@ -356,6 +426,13 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
                         className="text-xs px-2 py-1 rounded border text-emerald-400 border-emerald-500/20 hover:border-emerald-400/40 hover:bg-emerald-500/10 transition-colors disabled:opacity-50"
                       >
                         Show on screen
+                      </button>
+                      <button
+                        onClick={() => handleSendPrivateAnswer(q.id)}
+                        disabled={!answerText[q.id]?.trim() || privateSending[q.id]}
+                        className="text-xs px-2 py-1 rounded border text-cyan-300 border-cyan-500/25 hover:border-cyan-400/50 hover:bg-cyan-500/10 transition-colors disabled:opacity-50"
+                      >
+                        {privateSending[q.id] ? 'Sending...' : 'Send privately'}
                       </button>
                     </div>
                   </div>

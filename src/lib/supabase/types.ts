@@ -1,3 +1,5 @@
+import type { WorldFlightEvidenceSnapshot, WorldFlightLegStatus, WorldFlightSessionContext } from '@/lib/world-flight/journey';
+
 export interface Teacher {
   id: string;
   email: string;
@@ -41,6 +43,31 @@ export interface Session {
   topic?: string;
   difficulty?: string;
   custom_topic?: string | null;
+  world_flight_context?: WorldFlightSessionContext | null;
+}
+
+export interface ClassWorldFlightState {
+  class_id: string;
+  current_destination_id: string | null;
+  plane_tier: number;
+  plane_key: string;
+  range_km: number;
+  updated_at: string;
+}
+
+export interface ClassWorldFlightLeg {
+  id: string;
+  class_id: string;
+  session_id: string;
+  origin_destination_id: string | null;
+  destination_id: string;
+  focus_id: string;
+  status: WorldFlightLegStatus;
+  distance_km: number;
+  evidence_snapshot: WorldFlightEvidenceSnapshot;
+  planned_at: string;
+  completed_at: string | null;
+  cancelled_at: string | null;
 }
 
 export interface Round {
@@ -243,6 +270,8 @@ export interface Database {
       question_votes: { Row: QuestionVote; Insert: Partial<QuestionVote> & Pick<QuestionVote, 'question_id' | 'session_id' | 'client_id'>; Update: Partial<QuestionVote> };
       session_notes: { Row: SessionNote; Insert: Partial<SessionNote> & Pick<SessionNote, 'session_id' | 'teacher_id'>; Update: Partial<SessionNote> };
       student_session_notes: { Row: StudentSessionNote; Insert: Partial<StudentSessionNote> & Pick<StudentSessionNote, 'session_id' | 'student_id' | 'class_id' | 'teacher_id'>; Update: Partial<StudentSessionNote> };
+      class_world_flight_state: { Row: ClassWorldFlightState; Insert: Partial<ClassWorldFlightState> & Pick<ClassWorldFlightState, 'class_id'>; Update: Partial<ClassWorldFlightState> };
+      class_world_flight_legs: { Row: ClassWorldFlightLeg; Insert: Partial<ClassWorldFlightLeg> & Pick<ClassWorldFlightLeg, 'class_id' | 'session_id' | 'destination_id' | 'focus_id'>; Update: Partial<ClassWorldFlightLeg> };
     };
     Views: {
       session_leaderboard: { Row: LeaderboardEntry };

@@ -1,12 +1,15 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import { useSubmissionsFeed } from '@/hooks/use-submissions-feed';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import Link from 'next/link';
 import { ClassQuestionsContent } from '@/components/session/class-questions-widget';
+import { PollContent } from '@/components/session/poll-manager';
+import { TimerContent } from '@/components/session/timer-tool';
+import { FreezeContent } from '@/components/session/freeze-widget';
 import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-suggestions-panel';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
@@ -20,7 +23,7 @@ interface CockpitViewProps {
   initialInputSpec: InputSpec | null;
 }
 
-type ActiveEvent = 'opinion' | 'contribution' | 'accuracy' | null;
+type CockpitTool = 'poll' | 'timer' | 'freeze';
 
 // Stage label lookup derived from the All-Around Flight preset
 const _aaConfig = FLIGHT_PLAN_PRESETS.find(p => p.id === 'all-around-flight-60')?.flightConfig;
@@ -57,12 +60,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const [lastSpotlightName, setLastSpotlightName] = useState<string | null>(null);
   const [clearingEvent, setClearingEvent] = useState(false);
   const [showAllSubmissions, setShowAllSubmissions] = useState(false);
-
-  const [activeEvent, setActiveEvent] = useState<ActiveEvent>(null);
-  const [eventPrompt, setEventPrompt] = useState('');
-  const [isSendingEvent, setIsSendingEvent] = useState(false);
-
-  const promptTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const [activeTool, setActiveTool] = useState<CockpitTool>('poll');
 
   // Derived filter: null = show all, string = filter by that gameKey
   const filterKey: string | null =
@@ -101,13 +99,6 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   useEffect(() => {
     setShowAllSubmissions(false);
   }, [currentInputSpec?.gameKey]);
-
-  // Auto-focus prompt textarea when event panel opens
-  useEffect(() => {
-    if (activeEvent && promptTextareaRef.current) {
-      promptTextareaRef.current.focus();
-    }
-  }, [activeEvent]);
 
   const handleSpotlight = useCallback(async (sub: StudentSubmission) => {
     setSpotlighting(sub.id);
@@ -159,57 +150,9 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
         body: JSON.stringify({ sessionId: session.id, question, answer }),
       });
     } catch {
-      // Keep question moderation usable even if the display update fails.
+      // The question widget does not expose error UI; keep the cockpit usable.
     }
   }, [session.id]);
-
-  const handleSendEvent = useCallback(async () => {
-    if (!activeEvent || !eventPrompt.trim()) return;
-    setIsSendingEvent(true);
-
-    const specMap: Record<string, InputSpec> = {
-      opinion: {
-        type: 'binary',
-        gameKey: 'cockpit-opinion-pulse',
-        prompt: eventPrompt.trim(),
-        optionLabels: ['Option A', 'Option B'],
-      },
-      contribution: {
-        type: 'textarea',
-        gameKey: 'cockpit-contribution',
-        prompt: eventPrompt.trim(),
-        maxLength: 200,
-        reviewMode: 'approval',
-      },
-      accuracy: {
-        type: 'text',
-        gameKey: 'cockpit-accuracy-challenge',
-        prompt: eventPrompt.trim(),
-        placeholder: 'Type your answer...',
-        reviewMode: 'approval',
-      },
-    };
-
-    const spec = specMap[activeEvent];
-
-    try {
-      await fetch('/api/session/input-spec', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: session.id, spec }),
-      });
-      setActiveEvent(null);
-      setEventPrompt('');
-    } finally {
-      setIsSendingEvent(false);
-    }
-  }, [activeEvent, eventPrompt, session.id]);
-
-  const EVENT_LABELS: Record<NonNullable<ActiveEvent>, { label: string; hint: string }> = {
-    opinion: { label: 'Opinion Pulse', hint: 'Students pick Option A or B' },
-    contribution: { label: 'Crew Prompt', hint: 'Students send a short written signal' },
-    accuracy: { label: 'Accuracy Check', hint: 'Students type an answer for review' },
-  };
 
   const stageLabel = getStageLabelForKey(currentInputSpec?.gameKey);
   const pendingCount = submissions.filter((sub) => sub.status === 'pending').length;
@@ -217,6 +160,11 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const deviceState = currentInputSpec ? 'Collecting' : 'Standby';
   const cockpitTopic = session.custom_topic || session.topic || 'General';
   const cockpitDifficulty = session.difficulty || 'Intermediate';
+  const toolTabs: Array<{ id: CockpitTool; label: string }> = [
+    { id: 'poll', label: 'Poll' },
+    { id: 'timer', label: 'Timer' },
+    { id: 'freeze', label: 'Freeze' },
+  ];
 
   return (
     <div className="min-h-screen bg-[#07111f] text-white">
@@ -248,10 +196,10 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
         </div>
 
         {/* Student Questions */}
-        <div className="bg-[#0d1f35] rounded-2xl border border-cyan-400/20 overflow-hidden shadow-[0_0_28px_rgba(34,211,238,0.08)]">
+        <div className="order-1 bg-[#0d1f35] rounded-2xl border border-cyan-400/20 overflow-hidden shadow-[0_0_28px_rgba(34,211,238,0.08)]">
           <div className="px-4 py-3 border-b border-white/8">
             <p className="text-xs text-cyan-300/70 uppercase tracking-widest font-medium">Student Questions</p>
-            <p className="mt-1 text-xs text-white/35">Answer, share, or spotlight student questions.</p>
+            <p className="mt-1 text-xs text-white/35">Answer privately, share with the class, or show an answer on the display.</p>
           </div>
           <ClassQuestionsContent
             sessionId={session.id}
@@ -265,8 +213,36 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           sessionId={session.id}
           onSpotlightSent={setLastSpotlightName}
         />
+
+        {/* Class Tools */}
+        <div className="order-2 bg-[#0d1f35] rounded-2xl border border-white/10 overflow-hidden">
+          <div className="px-4 py-3 border-b border-white/8">
+            <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Class Tools</p>
+            <p className="mt-1 text-xs text-white/30">Use the same live tools as the session screen.</p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 p-3 border-b border-white/8">
+            {toolTabs.map((tool) => (
+              <button
+                key={tool.id}
+                onClick={() => setActiveTool(tool.id)}
+                className={[
+                  'min-h-11 rounded-xl border px-2 text-xs font-semibold transition-colors',
+                  activeTool === tool.id
+                    ? 'border-cyan-400/50 bg-cyan-500/15 text-cyan-200'
+                    : 'border-white/10 bg-white/5 text-white/55 hover:bg-white/10 hover:text-white/80',
+                ].join(' ')}
+              >
+                {tool.label}
+              </button>
+            ))}
+          </div>
+          {activeTool === 'poll' && <PollContent sessionId={session.id} />}
+          {activeTool === 'timer' && <TimerContent sessionId={session.id} />}
+          {activeTool === 'freeze' && <FreezeContent sessionId={session.id} />}
+        </div>
+
         {/* Now */}
-        <div className="order-1 bg-[#0d1f35] rounded-2xl border border-cyan-400/15 p-4 space-y-3 shadow-[0_0_26px_rgba(34,211,238,0.06)]">
+        <div className="order-3 bg-[#0d1f35] rounded-2xl border border-cyan-400/15 p-4 space-y-3 shadow-[0_0_26px_rgba(34,211,238,0.06)]">
           {currentInputSpec ? (
             <>
               <div className="space-y-1 min-w-0">
@@ -308,7 +284,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
         </div>
 
         {/* Controls */}
-        <div className="order-4 bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
+        <div className="order-5 bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
           <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Controls</p>
           <div className="grid grid-cols-2 gap-2">
             <Link
@@ -327,67 +303,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           </div>
         </div>
 
-        {/* Signals */}
-        <div className="order-3 bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
-          <div>
-            <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Signals</p>
-            <p className="mt-1 text-xs text-white/35">Send a quick class prompt without changing the main screen.</p>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2">
-            {(['opinion', 'contribution', 'accuracy'] as const).map((ev) => (
-              <button
-                key={ev}
-                onClick={() => {
-                  setActiveEvent(activeEvent === ev ? null : ev);
-                  setEventPrompt('');
-                }}
-                className={[
-                  'min-h-12 rounded-xl border text-xs font-medium transition-all px-2 py-2.5 text-center leading-tight',
-                  activeEvent === ev
-                    ? 'border-violet-500/60 bg-violet-500/15 text-violet-300'
-                    : 'border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white',
-                ].join(' ')}
-              >
-                {ev === 'opinion' && 'Opinion\nPulse'}
-                {ev === 'contribution' && 'Crew\nPrompt'}
-                {ev === 'accuracy' && 'Accuracy\nCheck'}
-              </button>
-            ))}
-          </div>
-
-          {activeEvent && (
-            <div className="space-y-2 pt-1">
-              <p className="text-xs text-white/50">{EVENT_LABELS[activeEvent].hint}</p>
-              <textarea
-                ref={promptTextareaRef}
-                value={eventPrompt}
-                onChange={(e) => setEventPrompt(e.target.value)}
-                placeholder="Type prompt for students…"
-                rows={3}
-                className="w-full bg-white/5 border border-white/15 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/30 resize-none focus:outline-none focus:border-violet-500/50 focus:bg-white/8"
-              />
-              <div className="flex gap-2">
-                <button
-                  onClick={handleSendEvent}
-                  disabled={isSendingEvent || !eventPrompt.trim()}
-                  className="flex-1 min-h-12 bg-violet-600 hover:bg-violet-500 disabled:opacity-40 rounded-xl text-sm font-semibold transition-colors"
-                >
-                  {isSendingEvent ? 'Sending…' : `Send ${EVENT_LABELS[activeEvent].label}`}
-                </button>
-                <button
-                  onClick={() => { setActiveEvent(null); setEventPrompt(''); }}
-                  className="min-h-12 px-4 border border-white/15 hover:border-white/30 rounded-xl text-sm text-white/60 hover:text-white transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* Needs Review */}
-        <div className="order-2 bg-[#0d1f35] rounded-2xl border border-white/10 overflow-hidden">
+        <div className="order-4 bg-[#0d1f35] rounded-2xl border border-white/10 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/8 gap-3">
             <div className="min-w-0">
               <p className="text-xs text-white/40 uppercase tracking-widest font-medium shrink-0">Needs Review</p>
