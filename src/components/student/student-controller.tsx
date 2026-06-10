@@ -260,6 +260,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     rank: number | null;
     totalParticipants: number | null;
   } | null>(null);
+  const [debriefToken, setDebriefToken] = useState<string | null>(null);
 
   // "Get ready" transition when inputSpec first arrives
   const [transitionActivityName, setTransitionActivityName] = useState<string | null>(null);
@@ -320,6 +321,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setReferenceExpressions(Array.isArray(data.referenceExpressions) ? data.referenceExpressions : null);
       if (data.latestFeedback) setLatestFeedback(data.latestFeedback);
       if (data.personalResults) setPersonalResults(data.personalResults);
+      if (data.debriefToken) setDebriefToken(data.debriefToken);
       if (data.lastResult) setLastResult(data.lastResult);
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
       if (typeof data.responseCount === 'number') setResponseCount(data.responseCount);
@@ -745,6 +747,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 <p className="text-sm text-gray-300">
                   You ranked <span className="font-bold text-white">#{personalResults.rank}</span> of {personalResults.totalParticipants} students
                 </p>
+              )}
+              {debriefToken && (
+                <a
+                  href={`/debrief/${debriefToken}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-block rounded-full border border-cyan-400/40 bg-cyan-400/10 px-4 py-1.5 text-sm font-medium text-cyan-200 transition-colors hover:bg-cyan-400/20"
+                >
+                  Save my results
+                </a>
               )}
             </>
           ) : (

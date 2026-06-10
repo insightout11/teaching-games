@@ -81,6 +81,7 @@ interface SessionPayload {
   sessionAccuracy: number | null;
   heldCard: HeldCard | null;
   offeredCards: OfferedCards | null;
+  debriefToken: string | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -121,6 +122,7 @@ export async function GET(request: NextRequest) {
         sessionAccuracy: null,
         heldCard: null,
         offeredCards: null,
+        debriefToken: null,
       };
 
       return NextResponse.json(payload, {
@@ -380,6 +382,18 @@ export async function GET(request: NextRequest) {
       };
     }
 
+    // Take-home debrief token: only surfaced once the session has ended.
+    let debriefToken: string | null = null;
+    if (!isActive && clientId) {
+      const { data: participant } = await supabase
+        .from('session_participants')
+        .select('debrief_token')
+        .eq('session_id', sessionId)
+        .eq('client_id', clientId)
+        .maybeSingle();
+      debriefToken = (participant?.debrief_token as string | undefined) ?? null;
+    }
+
     // Get personal mission for this student if clientId provided
     let personalMission: string | null = null;
     if (isActive && clientId) {
@@ -459,6 +473,7 @@ export async function GET(request: NextRequest) {
       sessionAccuracy,
       heldCard,
       offeredCards,
+      debriefToken,
     };
 
     return NextResponse.json(payload, {
