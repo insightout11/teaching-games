@@ -77,14 +77,14 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
 
-  async function launchDemo() {
+  async function exploreSampleLesson() {
     if (demoLoading) return;
     setDemoLoading(true);
     try {
-      const res = await fetch('/api/session/demo', { method: 'POST' });
+      const res = await fetch('/api/session/sample', { method: 'POST' });
       const data = await res.json();
-      if (res.ok && data.sessionId) {
-        router.push(`/sessions/${data.sessionId}`);
+      if (res.ok && data.sessionId && data.classId) {
+        router.push(`/classes/${data.classId}/sessions/${data.sessionId}/control-room`);
         return;
       }
     } catch { /* fall through to reset */ }
@@ -251,15 +251,15 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             )}
             <div className="mt-5">
               <button
-                onClick={launchDemo}
+                onClick={exploreSampleLesson}
                 disabled={demoLoading}
                 className="font-instrument inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-amber-400/[0.08] px-4 py-2 text-[12px] uppercase tracking-wider text-amber-200 transition-colors hover:border-amber-300/70 hover:bg-amber-400/15 disabled:opacity-60"
               >
                 <Sparkles className="h-3.5 w-3.5" aria-hidden />
-                {demoLoading ? 'Starting demo…' : 'Try a demo lesson'}
+                {demoLoading ? 'Opening sample…' : 'Explore a sample lesson'}
               </button>
               <p className="mt-2 text-xs text-lc-text3">
-                See the live loop with 4 simulated students — no second device needed.
+                A finished 45-minute lesson with five students — leaderboard, answers, and full debrief.
               </p>
             </div>
           </section>
