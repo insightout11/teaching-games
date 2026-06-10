@@ -11,6 +11,7 @@ import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { usePlannerStore } from '@/stores/planner-store';
 import type { WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
+import { ShareJourneyButton } from './share-journey-button';
 
 const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 type FocusFilter = 'all' | DestinationFocusKind;
@@ -495,6 +496,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 <p className="rounded-md border border-white/10 bg-white/[0.035] px-3 py-2 text-xs text-lc-text3">
                   Create a class in the planner to begin its journey.
                 </p>
+              )}
+              {selectedClassId && (
+                <div className="mt-2">
+                  <ShareJourneyButton classId={selectedClassId} />
+                </div>
               )}
             </div>
             <div className="grid grid-cols-2 gap-3">
