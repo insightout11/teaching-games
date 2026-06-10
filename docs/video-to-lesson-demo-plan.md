@@ -15,23 +15,23 @@ classes.teacher_id`).
 
 ## Verified facts (do NOT re-litigate these; they were checked Jun 2026)
 
-1. **Transcript capability depends on an OWNER DECISION.** The code path for
-   on-the-fly YouTube transcripts exists (`src/app/api/source/extract/route.ts` via the
-   Supadata API), but **`SUPADATA_API_KEY` is deliberately dev-only — production has no
-   on-the-fly transcript capability today**. Prod relies on transcripts prefetched into
-   `source_extractions` by local scripts. Therefore the route MUST be built mode-aware:
-   - **Curated mode (key absent — current prod state):** "any URL" works only for
-     videos already cached in `source_extractions`; uncached videos get a title-based
-     preview at best (see oEmbed caveat below) plus "try one of these" curated chips.
-     The Phase 3 seed list is the backbone of the page in this mode.
-   - **Full mode (owner sets `SUPADATA_API_KEY` in prod):** any video works. The
-     plan's caps (≤150 uncached/day) bound Supadata cost to trivial amounts.
-   The implementing agent builds BOTH (it's one `if` — the extract route already
-   behaves this way); the owner flips the mode via the env var.
-   ⚠️ oEmbed caveat: `youtube.com/oembed` title lookups from Vercel IPs are UNVERIFIED
-   (the YouTube block may or may not cover it). The agent must handle oEmbed failure
-   gracefully: uncached video + no oEmbed → "we can't read this one yet — try one of
-   these" with the curated chips. Never a dead end, never a fake preview.
+1. **Any-video mode is the launch state — `SUPADATA_API_KEY` will be set in Vercel.**
+   The feature's entire point is "paste ANY YouTube video"; without it the page is just
+   the existing library (owner-confirmed: not worth building in that form). On-the-fly
+   transcripts go through the Supadata API path already present in
+   `src/app/api/source/extract/route.ts` — a third-party service, so the
+   "Vercel is blocked from YouTube" constraint does not apply to it. The plan's caps
+   (≤150 uncached previews/day global, 3/day per IP, cache-first) bound Supadata usage.
+   Setting the key in prod ALSO un-breaks the sold Pro feature "source-based lessons
+   from your own video" for paying teachers — same env var.
+   - The route must still degrade gracefully when Supadata fails or a video has no
+     captions: title-based preview via oEmbed if reachable, else "we can't read this
+     one — try one of these" with curated chips. Never a dead end, never a fake preview.
+   - ⚠️ oEmbed caveat: `youtube.com/oembed` from Vercel IPs is UNVERIFIED (the YouTube
+     block may cover it). Treat oEmbed as best-effort only.
+   - The owner must add `SUPADATA_API_KEY` to Vercel before launch; until then the page
+     behaves in degraded/curated form automatically (key check already exists in the
+     extract route — mirror it).
 2. **Extraction is already cached** in `source_extractions` keyed by
    `(source_type, source_key)` — repeat requests for the same video are free.
 3. **Do NOT call `/api/lesson-plan/generate` for anonymous visitors.** It fans out
@@ -121,10 +121,8 @@ supabase service).
 
 **New route group file: `src/app/(public)/video-lesson/page.tsx`** + client component.
 
-- Hero: copy must match the active mode — "Turn any YouTube video into a live English
-  lesson" only when full mode is on; in curated mode lead with "Turn a YouTube video
-  into a live English lesson" over the curated chips, with the URL input still present
-  (cached videos work; uncached fall back per Phase 1.6). URL input + Build button.
+- Hero: "Turn any YouTube video into a live English lesson" + URL input + Build
+  button, with the curated chips beneath as the instant-gratification path.
   Indexable (it should rank for "youtube video esl lesson plan" queries); add
   `metadata` + an `opengraph-image.tsx` (follow `src/app/(public)/journey/[shareToken]/opengraph-image.tsx`
   precedent — edge runtime).
@@ -183,9 +181,9 @@ for; test it end-to-end manually before calling it done.
 
 ## Env vars (add to `.env.local.example` + Vercel)
 
-- `SUPADATA_API_KEY` — currently dev-only BY OWNER CHOICE. Setting it in Vercel
-  switches the demo from curated mode to any-video mode (owner decision; the page
-  works either way). Do not set it yourself; do not block on it.
+- `SUPADATA_API_KEY` — must be added to Vercel by the owner for launch (any-video
+  mode is the point of the feature). Build everything without blocking on it; the
+  page self-degrades to curated form while the key is absent.
 - `PUBLIC_DEMO_IP_SALT` — any random string; hashing IPs rather than storing them.
 
 ## Explicitly out of scope (do not build)
