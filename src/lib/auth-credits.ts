@@ -115,8 +115,11 @@ export async function requireAuthWithCredits(options?: {
 
 /**
  * Auth check for generation routes.
- * Credits are NOT checked here — credits are consumed when a session is created.
- * If the request includes Pro modules, the teacher must be Pro or Developer.
+ * Credits are NOT consumed here — Test Flight credits are consumed when a
+ * session is created. If the request includes Pro modules, the teacher must be
+ * Pro, Developer, or hold remaining Test Flight credits: the launch gate in
+ * session-view.tsx lets credit-holders open Pro modules ("all games and
+ * activities during your Test Flights"), so the server must match it.
  * Standard module requests pass with auth only.
  */
 export async function requireAuthForGeneration(options?: {
@@ -158,7 +161,7 @@ export async function requireAuthForGeneration(options?: {
     isDeveloper: info.is_developer,
   };
 
-  if (info.is_developer || info.is_pro) {
+  if (info.is_developer || info.is_pro || info.credits > 0) {
     return { teacher: enriched, error: null };
   }
 
