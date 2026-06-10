@@ -15,13 +15,23 @@ classes.teacher_id`).
 
 ## Verified facts (do NOT re-litigate these; they were checked Jun 2026)
 
-1. **Arbitrary YouTube extraction WORKS in production.** `src/app/api/source/extract/route.ts`
-   fetches transcripts via the Supadata API (`api.supadata.ai`) — a third-party service,
-   so the "Vercel is blocked from YouTube" constraint does NOT apply to it. It is gated
-   by `SUPADATA_API_KEY`; when unset it returns `code: 'NOT_CONFIGURED'`. There is an
-   oEmbed fallback for video titles (`youtube.com/oembed` — also not blocked).
-   ⚠️ Older project memory saying "never fetch transcripts on-the-fly" predates Supadata
-   and applies only to direct YouTube scraping (the `youtube-transcript` npm package path).
+1. **Transcript capability depends on an OWNER DECISION.** The code path for
+   on-the-fly YouTube transcripts exists (`src/app/api/source/extract/route.ts` via the
+   Supadata API), but **`SUPADATA_API_KEY` is deliberately dev-only — production has no
+   on-the-fly transcript capability today**. Prod relies on transcripts prefetched into
+   `source_extractions` by local scripts. Therefore the route MUST be built mode-aware:
+   - **Curated mode (key absent — current prod state):** "any URL" works only for
+     videos already cached in `source_extractions`; uncached videos get a title-based
+     preview at best (see oEmbed caveat below) plus "try one of these" curated chips.
+     The Phase 3 seed list is the backbone of the page in this mode.
+   - **Full mode (owner sets `SUPADATA_API_KEY` in prod):** any video works. The
+     plan's caps (≤150 uncached/day) bound Supadata cost to trivial amounts.
+   The implementing agent builds BOTH (it's one `if` — the extract route already
+   behaves this way); the owner flips the mode via the env var.
+   ⚠️ oEmbed caveat: `youtube.com/oembed` title lookups from Vercel IPs are UNVERIFIED
+   (the YouTube block may or may not cover it). The agent must handle oEmbed failure
+   gracefully: uncached video + no oEmbed → "we can't read this one yet — try one of
+   these" with the curated chips. Never a dead end, never a fake preview.
 2. **Extraction is already cached** in `source_extractions` keyed by
    `(source_type, source_key)` — repeat requests for the same video are free.
 3. **Do NOT call `/api/lesson-plan/generate` for anonymous visitors.** It fans out
@@ -111,7 +121,10 @@ supabase service).
 
 **New route group file: `src/app/(public)/video-lesson/page.tsx`** + client component.
 
-- Hero: "Turn any YouTube video into a live English lesson" + URL input + Build button.
+- Hero: copy must match the active mode — "Turn any YouTube video into a live English
+  lesson" only when full mode is on; in curated mode lead with "Turn a YouTube video
+  into a live English lesson" over the curated chips, with the URL input still present
+  (cached videos work; uncached fall back per Phase 1.6). URL input + Build button.
   Indexable (it should rank for "youtube video esl lesson plan" queries); add
   `metadata` + an `opengraph-image.tsx` (follow `src/app/(public)/journey/[shareToken]/opengraph-image.tsx`
   precedent — edge runtime).
@@ -142,9 +155,10 @@ information-dense — don't bury the vocab/questions under decoration.
 
 - Local script `scripts/seed-video-previews.ts` (run manually, like
   `prefetch-library-transcripts.ts`): warms `source_extractions` + preview cache for
-  ~10 curated popular videos (pick from the existing video library data under
-  `src/data/`). These become the "at capacity" / "try one of these" examples and the
-  marketing screenshots.
+  **~30 curated popular videos** (start from the existing video library data under
+  `src/data/`; favor recognizable, high-search-volume videos). In curated mode (the
+  launch state) this seed list IS the demo — its quality and recognizability carry the
+  page, so choose videos a teacher would actually recognize and want.
 - The page shows 3 of these as one-click chips under the input ("or try one of
   these") — clicking one always hits cache, so the instant-gratification path costs
   nothing and never fails. THIS is what gets screen-recorded for ads.
@@ -169,8 +183,9 @@ for; test it end-to-end manually before calling it done.
 
 ## Env vars (add to `.env.local.example` + Vercel)
 
-- `SUPADATA_API_KEY` — already used by the app; CONFIRM it is set in Vercel prod
-  (if it isn't, the demo runs in title-only degraded mode — works, but weaker).
+- `SUPADATA_API_KEY` — currently dev-only BY OWNER CHOICE. Setting it in Vercel
+  switches the demo from curated mode to any-video mode (owner decision; the page
+  works either way). Do not set it yourself; do not block on it.
 - `PUBLIC_DEMO_IP_SALT` — any random string; hashing IPs rather than storing them.
 
 ## Explicitly out of scope (do not build)
