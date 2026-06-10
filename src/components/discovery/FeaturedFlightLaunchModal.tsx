@@ -57,6 +57,7 @@ export function FeaturedFlightLaunchModal({
   const [newClassName, setNewClassName] = useState('');
   const [creatingClass, setCreatingClass] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [testLaunching, setTestLaunching] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -126,6 +127,35 @@ export function FeaturedFlightLaunchModal({
       setLaunching(false);
     } catch {
       setLaunching(false);
+      setShowPaywall(true);
+    }
+  }
+
+  // Test Flight: launch the full preset into the hidden demo class — the demo
+  // crew (5 simulated students) answers every module, so the teacher can fly
+  // the whole lesson alone. Same launch path and credit rules as a real class.
+  async function doTestFlight() {
+    if (!preset || testLaunching || launching) return;
+    if (!tierLoading && !isPro && credits === 0) {
+      setShowPaywall(true);
+      return;
+    }
+    setTestLaunching(true);
+    try {
+      const res = await fetch('/api/demo/class', { method: 'POST' });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.classId) {
+        setTestLaunching(false);
+        return;
+      }
+      loadPreset(preset);
+      setTopicStore(customTopic.trim() || topic || 'General');
+      setDifficultyStore(difficulty);
+      setSelectedClassId(data.classId);
+      await launchLesson(); // navigates on success
+      setTestLaunching(false);
+    } catch {
+      setTestLaunching(false);
       setShowPaywall(true);
     }
   }
@@ -269,18 +299,29 @@ export function FeaturedFlightLaunchModal({
             </div>
           )}
 
-          {classes.length > 0 && (
-            <div className="sticky bottom-0 -mx-6 -mb-6 border-t border-lc-border bg-lc-card/95 px-6 py-4 backdrop-blur">
+          <div className="sticky bottom-0 -mx-6 -mb-6 space-y-2 border-t border-lc-border bg-lc-card/95 px-6 py-4 backdrop-blur">
+            {classes.length > 0 && (
               <button
                 onClick={() => doLaunch(selectedClassId)}
-                disabled={launching || !selectedClassId}
+                disabled={launching || testLaunching || !selectedClassId}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-lc-amber px-4 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90 disabled:opacity-50"
               >
                 <Plane className="h-4 w-4" aria-hidden />
                 {launching ? 'Building lesson…' : `Launch in ${selectedName}`}
               </button>
-            </div>
-          )}
+            )}
+            <button
+              onClick={doTestFlight}
+              disabled={launching || testLaunching}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-cyan-400/30 bg-cyan-400/[0.06] px-4 py-3 text-sm font-semibold text-cyan-200 transition-colors hover:border-cyan-400/60 hover:bg-cyan-400/10 disabled:opacity-50"
+            >
+              <Plane className="h-4 w-4" aria-hidden />
+              {testLaunching ? 'Boarding demo crew…' : 'Test flight with demo crew'}
+            </button>
+            <p className="text-center text-[11px] text-lc-text3">
+              Fly the whole lesson solo — five simulated students answer every module. No class needed.
+            </p>
+          </div>
         </div>
       </Modal>
 

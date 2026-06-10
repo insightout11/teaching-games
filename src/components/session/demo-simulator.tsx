@@ -3,11 +3,16 @@
 import { useEffect, useRef } from 'react';
 import type { InputSpec } from '@/lib/input-spec';
 
-// DemoSimulator drives a handful of fake students through the REAL student
-// endpoints (/api/student/join + /api/student/submit) so a teacher evaluating
-// alone experiences the authentic live loop — realtime feed, scoring,
-// leaderboard — with no second device. It deliberately does NOT use any
-// parallel fake-data path.
+// DemoSimulator drives five fake students through the REAL student endpoints
+// (/api/student/join + /api/student/submit) so a teacher testing alone
+// experiences the authentic live loop — realtime feed, scoring, leaderboard —
+// with no second device, for ANY module they launch.
+//
+// Choice-style inputs pick from the module's real options (always sensible).
+// Text inputs fetch in-character answers from /api/demo/student-answers so
+// content-driven activities (Decision Council proposals, Would You Rather
+// reasons…) read like a real class instead of canned filler; the local pools
+// below are only the offline fallback.
 
 interface FakeStudent {
   clientId: string; // stable UUID per fake student
@@ -17,14 +22,14 @@ interface FakeStudent {
 
 // Fixed UUIDs so re-joins from the same "device" dedupe in session_participants.
 const FAKE_STUDENTS: FakeStudent[] = [
-  { clientId: 'd3700001-0000-4000-8000-000000000001', name: 'Demo Mia', studentId: null },
-  { clientId: 'd3700002-0000-4000-8000-000000000002', name: 'Demo Leo', studentId: null },
-  { clientId: 'd3700003-0000-4000-8000-000000000003', name: 'Demo Ava', studentId: null },
-  { clientId: 'd3700004-0000-4000-8000-000000000004', name: 'Demo Kai', studentId: null },
+  { clientId: 'd3700001-0000-4000-8000-000000000001', name: 'Mia',  studentId: null },
+  { clientId: 'd3700002-0000-4000-8000-000000000002', name: 'Leo',  studentId: null },
+  { clientId: 'd3700003-0000-4000-8000-000000000003', name: 'Ava',  studentId: null },
+  { clientId: 'd3700004-0000-4000-8000-000000000004', name: 'Kai',  studentId: null },
+  { clientId: 'd3700005-0000-4000-8000-000000000005', name: 'Noor', studentId: null },
 ];
 
-// Generic text answers used when an input has no options (text/textarea). Kept
-// short and plausible; no AI calls. Vocab games get slightly richer words.
+// Offline fallback only — used when the answers endpoint fails.
 const TEXT_POOL: Record<string, string[]> = {
   'vocab-sprint': ['excellent', 'rapidly', 'enormous', 'consider', 'remarkable'],
   'synonym-showdown': ['huge', 'swift', 'bright', 'calm', 'eager'],
@@ -45,7 +50,11 @@ function pickBiased(options: string[]): string {
   return options[Math.floor(Math.random() * options.length)];
 }
 
-function plausibleContent(spec: InputSpec): string {
+function isTextSpec(spec: InputSpec): boolean {
+  return spec.type === 'text' || spec.type === 'textarea';
+}
+
+function plausibleChoiceContent(spec: InputSpec): string {
   switch (spec.type) {
     case 'binary': {
       const opts = spec.optionLabels?.length ? spec.optionLabels : spec.options ?? ['A', 'B'];
@@ -63,9 +72,6 @@ function plausibleContent(spec: InputSpec): string {
       return JSON.stringify(spec.options ?? []);
     case 'confirm':
       return spec.buttonLabel ?? 'Ready';
-    case 'text':
-    case 'textarea':
-      return pickText(spec.gameKey);
     default:
       // Unhandled exotic types — best-effort generic answer keeps the loop alive.
       return spec.options?.length ? pickBiased(spec.options) : pickText(spec.gameKey);
@@ -113,7 +119,36 @@ export function DemoSimulator({ sessionId }: { sessionId: string }) {
       joinedRef.current = true;
     }
 
-    function submitFor(student: FakeStudent, spec: InputSpec) {
+    // In-character answers for text prompts. One call per prompt; the route
+    // grounds answers in the session's real topic and difficulty.
+    async function fetchScriptedAnswers(spec: InputSpec): Promise<Map<string, string>> {
+      const byName = new Map<string, string>();
+      try {
+        const res = await fetch('/api/demo/student-answers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId,
+            prompt: spec.prompt ?? '',
+            gameKey: spec.gameKey ?? null,
+            inputType: spec.type,
+          }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          for (const a of data?.answers ?? []) {
+            if (typeof a?.name === 'string' && typeof a?.text === 'string') {
+              byName.set(a.name, a.text);
+            }
+          }
+        }
+      } catch {
+        /* fall through to local pools */
+      }
+      return byName;
+    }
+
+    function submitFor(student: FakeStudent, spec: InputSpec, content: string) {
       const delay = 2000 + Math.random() * 4000; // 2–6s per student
       const t = setTimeout(async () => {
         if (cancelled) return;
@@ -125,7 +160,7 @@ export function DemoSimulator({ sessionId }: { sessionId: string }) {
               sessionId,
               clientId: student.clientId,
               displayName: student.name,
-              content: plausibleContent(spec),
+              content,
               team: null,
               gameKey: spec.gameKey,
               inputType: spec.type,
@@ -141,6 +176,20 @@ export function DemoSimulator({ sessionId }: { sessionId: string }) {
       timeouts.push(t);
     }
 
+    async function answerPrompt(spec: InputSpec) {
+      if (isTextSpec(spec) && spec.prompt) {
+        const scripted = await fetchScriptedAnswers(spec);
+        if (cancelled) return;
+        for (const student of studentsRef.current) {
+          submitFor(student, spec, scripted.get(student.name) ?? pickText(spec.gameKey));
+        }
+        return;
+      }
+      for (const student of studentsRef.current) {
+        submitFor(student, spec, plausibleChoiceContent(spec));
+      }
+    }
+
     async function poll() {
       if (cancelled) return;
       try {
@@ -154,7 +203,7 @@ export function DemoSimulator({ sessionId }: { sessionId: string }) {
           // New, answerable prompt — schedule each student once.
           if (spec && sig && sig !== handledSigRef.current && spec.gameKey) {
             handledSigRef.current = sig;
-            for (const student of studentsRef.current) submitFor(student, spec);
+            void answerPrompt(spec);
           }
         }
       } catch {

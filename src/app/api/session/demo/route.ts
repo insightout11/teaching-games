@@ -1,55 +1,36 @@
 import { NextResponse } from 'next/server';
 import { createServerSupabase } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
+import { ensureDemoClass } from '@/lib/demo-class';
 
 export const dynamic = 'force-dynamic';
 
 // POST /api/session/demo
 //
-// Creates a real session against a hidden, per-teacher demo class so a teacher
-// evaluating alone can experience the live loop. Demo sessions are FREE — they
-// never consume a generation credit. Simulated students are driven entirely
-// client-side via the real /api/student/join + /api/student/submit endpoints.
+// Creates an open session against the teacher's hidden demo class so they can
+// test INDIVIDUAL modules: launch anything from the module browser and the
+// demo crew (5 simulated students driven through the real student endpoints)
+// answers it. Full-lesson testing goes through the Captain's Flight launcher
+// ("Test flight with demo crew"), which uses the normal preset launch path.
 //
-// The demo class is flagged is_demo so Control Room aggregates and class lists
-// can exclude it.
-
-const DEMO_CLASS_NAME = 'Demo Class';
+// Demo sessions are free — no generation happens until the teacher launches a
+// module, and those calls sit behind the per-teacher AI cap.
 
 export async function POST() {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const supabase = createServerSupabase();
+  const service = createServiceClient();
+  const { classId, error: classError } = await ensureDemoClass(service, teacher.id);
 
-  // Find-or-create the teacher's demo class (one per teacher).
-  const { data: existing } = await supabase
-    .from('classes')
-    .select('id')
-    .eq('teacher_id', teacher.id)
-    .eq('is_demo', true)
-    .limit(1)
-    .maybeSingle();
-
-  let classId = existing?.id;
-
-  if (!classId) {
-    const { data: created, error: createError } = await supabase
-      .from('classes')
-      .insert({ teacher_id: teacher.id, name: DEMO_CLASS_NAME, is_demo: true })
-      .select('id')
-      .single();
-
-    if (createError || !created) {
-      return NextResponse.json(
-        { error: createError?.message ?? 'Failed to create demo class' },
-        { status: 500 },
-      );
-    }
-    classId = created.id;
+  if (classError || !classId) {
+    return NextResponse.json({ error: classError ?? 'Failed to resolve demo class' }, { status: 500 });
   }
 
-  // Create the session (no credit consumed — demos are free).
+  // Create the session via the teacher's own client (RLS) — consistent with
+  // how real sessions are owned.
+  const supabase = createServerSupabase();
   const { data: session, error: sessionError } = await supabase
     .from('sessions')
     .insert({ class_id: classId })

@@ -77,14 +77,17 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
 
-  async function exploreSampleLesson() {
+  // À-la-carte testing: open session in the demo class — launch any single
+  // module and the demo crew answers it. Full-lesson testing lives in the
+  // Captain's Flight launcher ("Test flight with demo crew").
+  async function launchDemoSession() {
     if (demoLoading) return;
     setDemoLoading(true);
     try {
-      const res = await fetch('/api/session/sample', { method: 'POST' });
+      const res = await fetch('/api/session/demo', { method: 'POST' });
       const data = await res.json();
-      if (res.ok && data.sessionId && data.classId) {
-        router.push(`/classes/${data.classId}/sessions/${data.sessionId}/control-room`);
+      if (res.ok && data.sessionId) {
+        router.push(`/sessions/${data.sessionId}`);
         return;
       }
     } catch { /* fall through to reset */ }
@@ -251,15 +254,16 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             )}
             <div className="mt-5">
               <button
-                onClick={exploreSampleLesson}
+                onClick={launchDemoSession}
                 disabled={demoLoading}
                 className="font-instrument inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-amber-400/[0.08] px-4 py-2 text-[12px] uppercase tracking-wider text-amber-200 transition-colors hover:border-amber-300/70 hover:bg-amber-400/15 disabled:opacity-60"
               >
                 <Sparkles className="h-3.5 w-3.5" aria-hidden />
-                {demoLoading ? 'Opening sample…' : 'Explore a sample lesson'}
+                {demoLoading ? 'Boarding demo crew…' : 'Test modules with a demo crew'}
               </button>
               <p className="mt-2 text-xs text-lc-text3">
-                A finished 45-minute lesson with five students — leaderboard, answers, and full debrief.
+                Launch any game or activity solo — five simulated students answer it live.
+                For a full lesson, use Test Flight inside Captain&apos;s Flight above.
               </p>
             </div>
           </section>
