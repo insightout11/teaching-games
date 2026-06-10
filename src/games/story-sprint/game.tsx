@@ -52,6 +52,14 @@ export function StorySprintGame({ currentStudentId, students, onScore, onPickStu
         prompt,
         placeholder: 'Continue the story with one sentence...',
         maxLength: 300,
+        // Submissions must reach the registered submission handler via
+        // student_submissions. Without this, /api/student/submit routes
+        // textarea+gameKey down the direct remote-vote path, which this game
+        // never listens to — remote sentences were silently dropped.
+        reviewMode: 'approval',
+        // Distinct per turn: the prompt text repeats between turns, and
+        // downstream consumers (incl. the demo crew) dedupe on spec identity.
+        startedAt: Date.now(),
       });
     } else {
       onSetInputSpec?.(null);
