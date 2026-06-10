@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { mockStore } from '@/lib/mock/data';
+import { isSessionStale } from '@/lib/session-freshness';
 
 // POST /api/student/join
 //
@@ -101,7 +102,7 @@ export async function POST(request: NextRequest) {
     // Get session
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, class_id, status')
+      .select('id, class_id, status, started_at')
       .eq('id', sessionId)
       .single();
 
@@ -109,11 +110,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
-    if (session.status !== 'active') {
+    if (session.status !== 'active' || isSessionStale(session.started_at)) {
       return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
     }
 
     const seed = typeof avatarSeed === 'string' && avatarSeed.trim() ? avatarSeed.trim() : 'teal';
+    if (seed.length > 32) {
+      return NextResponse.json({ error: 'Invalid avatarSeed' }, { status: 400 });
+    }
 
     // ── Shape A: student selected from roster ─────────────────────────────
     if (studentId) {
@@ -121,21 +125,23 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Invalid studentId format' }, { status: 400 });
       }
 
-      // Update avatar if it changed
-      await supabase
-        .from('students')
-        .update({ avatar_seed: seed })
-        .eq('id', studentId);
-
+      // Verify the student belongs to this session's class BEFORE any write
       const { data: student } = await supabase
         .from('students')
         .select('id, name')
         .eq('id', studentId)
+        .eq('class_id', session.class_id)
         .single();
 
       if (!student) {
         return NextResponse.json({ error: 'Student not found' }, { status: 404 });
       }
+
+      // Update avatar if it changed
+      await supabase
+        .from('students')
+        .update({ avatar_seed: seed })
+        .eq('id', student.id);
 
       // Record participation (ignore if already joined this session from same device)
       if (clientId && uuidRegex.test(clientId)) {
@@ -182,6 +188,15 @@ export async function POST(request: NextRequest) {
         .update({ avatar_seed: seed })
         .eq('id', existingStudent.id);
     } else {
+      // Cap roster growth — anyone with a join link can otherwise flood it
+      const { count } = await supabase
+        .from('students')
+        .select('id', { count: 'exact', head: true })
+        .eq('class_id', session.class_id);
+      if ((count ?? 0) >= 100) {
+        return NextResponse.json({ error: 'Class roster is full' }, { status: 400 });
+      }
+
       const { data: newStudent, error: insertError } = await supabase
         .from('students')
         .insert({ class_id: session.class_id, name: trimmedName, avatar_seed: seed })

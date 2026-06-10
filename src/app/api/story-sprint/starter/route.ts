@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuthForGeneration } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { storySprintStarterFallback } from '@/lib/fallback-content';
@@ -26,7 +26,7 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
+  const { error: authError } = await requireAuthForGeneration({ requestHasProModules: true });
   if (authError) return authError;
 
   const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {

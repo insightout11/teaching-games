@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { RATE_LIMITS, VALIDATION } from '@/lib/config/rate-limits';
+import { isSessionStale } from '@/lib/session-freshness';
 
 interface VoteRequest {
   pollId: string;
@@ -71,6 +72,21 @@ export async function POST(request: NextRequest) {
 
     if (poll.session_id !== sessionId) {
       return NextResponse.json({ error: 'Poll does not belong to this session' }, { status: 400 });
+    }
+
+    // Verify session is active and not stale
+    const { data: session, error: sessionError } = await supabase
+      .from('sessions')
+      .select('status, started_at')
+      .eq('id', sessionId)
+      .single();
+
+    if (sessionError || !session) {
+      return NextResponse.json({ error: 'Session not found' }, { status: 404 });
+    }
+
+    if (session.status !== 'active' || isSessionStale(session.started_at)) {
+      return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
     }
 
     // Validate choice is one of the poll options

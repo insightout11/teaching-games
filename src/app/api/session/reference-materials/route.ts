@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
@@ -46,8 +46,8 @@ const expressionsSchema: AISchema = {
 };
 
 export async function POST(request: Request) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
 
   const body = await request.json().catch(() => null);
   const { sessionId, sourceVocab } = body ?? {} as { sessionId?: string; sourceVocab?: SourceVocabItem[] };
@@ -90,6 +90,10 @@ export async function POST(request: Request) {
   const topic = (session.custom_topic as string | null) || (session.topic as string) || 'General';
   const difficulty = (session.difficulty as string) || 'Intermediate';
   const diffDesc = difficultyDescriptions[difficulty as Difficulty] ?? difficultyDescriptions['Intermediate'];
+
+  // Past the non-AI early returns — this will hit the AI. Enforce the free-tier weekly cap.
+  const limited = await checkAndRecordAiUsage(teacher);
+  if (limited) return limited;
 
   try {
     const vocabPrompt = `Generate exactly 7 key vocabulary words for a ${difficulty} English language class studying the topic: "${topic}".

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
@@ -42,6 +42,9 @@ export async function POST(request: NextRequest) {
   if (!studentId || !classId) {
     return NextResponse.json({ error: 'Missing studentId or classId' }, { status: 400 });
   }
+
+  const limited = await checkAndRecordAiUsage(teacher);
+  if (limited) return limited;
 
   const supabase = createServerSupabase();
 

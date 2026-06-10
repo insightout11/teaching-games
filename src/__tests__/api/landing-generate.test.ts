@@ -11,6 +11,7 @@ vi.mock('@/lib/content-cache', () => ({
 
 vi.mock('@/lib/auth-credits', () => ({
   requireAuth: vi.fn().mockResolvedValue({ teacher: { id: 'test', email: 'test@test.com', credits: 5, isPro: false }, error: null }),
+  checkAndRecordAiUsage: vi.fn().mockResolvedValue(null),
 }));
 
 import { POST } from '@/app/api/landing/generate/route';

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 import type { SentenceEvaluationResult } from '@/games/grid-rush/types';
 
@@ -25,8 +25,8 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
 
   try {
     const { sentence, studentWords, topic, difficulty } = await request.json() as {
@@ -58,6 +58,10 @@ export async function POST(request: NextRequest) {
     // 2. Word count check — cap score at 2 if sentence is too short
     const wordCount = trimmed.split(/\s+/).filter(Boolean).length;
     const isTooShort = wordCount < WORD_COUNT_CAP_THRESHOLD;
+
+    // Past the cheap checks — this will hit the AI. Enforce the free-tier weekly cap.
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
 
     // 3. AI evaluation
     const prompt = `You are evaluating a sentence written by a ${difficultyLabels[difficulty]} level English learner.

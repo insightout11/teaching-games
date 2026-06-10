@@ -3,7 +3,7 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { connectionsFallback } from '@/lib/fallback-content';
 import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
@@ -74,8 +74,8 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
 
   const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     topic: Topic;
@@ -100,6 +100,10 @@ export async function POST(request: NextRequest) {
         { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
       );
     }
+
+    // Cache miss — this will hit the AI. Enforce the free-tier weekly cap.
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
 
     // 2. Cache miss — generate via AI
     const randomSeed = Math.random().toString(36).substring(7);

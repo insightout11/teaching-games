@@ -171,6 +171,56 @@ export async function requireAuthForGeneration(options?: {
   };
 }
 
+// Generous weekly cap on free-tier per-round AI calls. Per-round generations are
+// cheap; this stops scripted abuse, not real teachers. Pro/developer are exempt.
+const FREE_WEEKLY_AI_CALLS = 200;
+
+/**
+ * Rolling-window AI usage guard for per-round generate routes.
+ *
+ * `requireAuth()` never hits the DB and always reports `isPro: false`, so this
+ * looks up the teacher's real tier via `get_teacher_credits` and exempts
+ * Pro/developer accounts. Returns a 429 NextResponse when the free weekly cap
+ * is reached, otherwise records the call and returns null.
+ *
+ * Fails OPEN (returns null) on any DB error — never block a teacher mid-lesson.
+ */
+export async function checkAndRecordAiUsage(teacher: AuthedTeacher): Promise<NextResponse | null> {
+  const service = createServiceClient();
+
+  // Look up real tier — Pro/developer are exempt from the cap.
+  const { data: rows, error: rpcError } = await service.rpc('get_teacher_credits', {
+    teacher_id: teacher.id,
+  });
+  if (rpcError) {
+    console.error('checkAndRecordAiUsage tier lookup error:', rpcError);
+    return null; // fail open
+  }
+  const info = rows?.[0] as { is_pro?: boolean; is_developer?: boolean } | undefined;
+  if (info?.is_pro || info?.is_developer) return null;
+
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const { count, error } = await service
+    .from('ai_usage')
+    .select('id', { count: 'exact', head: true })
+    .eq('teacher_id', teacher.id)
+    .gte('created_at', weekAgo);
+  if (error) {
+    console.error('ai_usage count error:', error);
+    return null; // fail open, but logged
+  }
+
+  if ((count ?? 0) >= FREE_WEEKLY_AI_CALLS) {
+    return NextResponse.json(
+      { error: 'Weekly free AI limit reached. Upgrade to Pro for unlimited generation.', code: 'AI_LIMIT_REACHED' },
+      { status: 429 }
+    );
+  }
+
+  await service.from('ai_usage').insert({ teacher_id: teacher.id });
+  return null;
+}
+
 /**
  * Auth-only check (no credit requirement).
  * Use for routes that never consume credits (e.g. per-round game generation, submissions).

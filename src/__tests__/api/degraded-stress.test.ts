@@ -23,6 +23,11 @@ vi.mock('@/lib/auth-credits', () => ({
     teacher: { id: 'test', email: 'test@test.com', credits: 99, isPro: false },
     error: null,
   }),
+  requireAuthForGeneration: vi.fn().mockResolvedValue({
+    teacher: { id: 'test', email: 'test@test.com', credits: 99, isPro: true, isDeveloper: false },
+    error: null,
+  }),
+  checkAndRecordAiUsage: vi.fn().mockResolvedValue(null),
 }));
 
 import { generateJSON } from '@/lib/ai';

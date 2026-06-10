@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 
 interface AnswerRequest {
   secret: string;
@@ -44,8 +44,8 @@ const wAnswerSchema: AISchema = {
 const W_QUESTION = /^(who|what|where|when|why|how)\b/i;
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
 
   try {
     const { secret, question, tone, questionsHistory } =
@@ -57,6 +57,10 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
+
+    // This will hit the AI. Enforce the free-tier weekly cap.
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
 
     const isWQuestion = W_QUESTION.test(question.trim());
 

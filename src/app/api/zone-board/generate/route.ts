@@ -4,7 +4,7 @@ import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
@@ -68,8 +68,12 @@ const FALLBACK_QUESTIONS: ZoneBoardQuestion[] = [
 ];
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
+
+  // This will hit the AI. Enforce the free-tier weekly cap.
+  const limited = await checkAndRecordAiUsage(teacher);
+  if (limited) return limited;
 
   const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
     topic: string;

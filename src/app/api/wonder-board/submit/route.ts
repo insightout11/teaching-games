@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
+import { isSessionStale } from '@/lib/session-freshness';
 
 // POST /api/wonder-board/submit
 // Student question submission for Wonder Board.
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
     // Verify session is active
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, status')
+      .select('id, status, started_at')
       .eq('id', sessionId)
       .single();
 
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
-    if (session.status !== 'active') {
+    if (session.status !== 'active' || isSessionStale(session.started_at)) {
       return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
     }
 

@@ -3,7 +3,7 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic, Tone } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { vocabSprintFallback } from '@/lib/fallback-content';
 
 export interface GameSentence {
@@ -50,8 +50,8 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
 
   const { difficulty, topic, tone, seenItems = [], excludeCacheIds = [], keyVocabWords } = await request.json() as {
     difficulty: Difficulty;
@@ -73,6 +73,10 @@ export async function POST(request: NextRequest) {
         });
       }
     }
+
+    // Cache miss — this will hit the AI. Enforce the free-tier weekly cap.
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
 
     const exclusionNote = seenItems.length > 0
       ? `\nIMPORTANT: Do NOT use these weak words that were recently shown this session: ${seenItems.join(', ')}. Choose different words.\n`

@@ -5,6 +5,7 @@ import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { createServiceClient } from '@/lib/supabase/service';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
+import { isSessionStale } from '@/lib/session-freshness';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,11 +52,11 @@ export async function POST(request: Request) {
   // Look up topic and difficulty from the DB (not trusted from client)
   const { data: session, error: sessionError } = await supabase
     .from('sessions')
-    .select('topic, difficulty, custom_topic, status')
+    .select('topic, difficulty, custom_topic, status, started_at')
     .eq('id', sessionId)
     .single();
 
-  if (sessionError || !session || session.status !== 'active') {
+  if (sessionError || !session || session.status !== 'active' || isSessionStale(session.started_at)) {
     return NextResponse.json({ tips: [] });
   }
 

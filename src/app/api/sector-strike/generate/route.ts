@@ -3,7 +3,7 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/stores/session-store';
 import type { Topic } from '@/stores/session-store';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
@@ -89,8 +89,12 @@ correctIndex is the 0-based index of the correct option (0–3).`;
 }
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
+
+  // This will hit the AI. Enforce the free-tier weekly cap.
+  const limited = await checkAndRecordAiUsage(teacher);
+  if (limited) return limited;
 
   const { topic, difficulty, qType, sourceMaterial } = await request.json() as {
     topic: Topic;

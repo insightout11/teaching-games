@@ -4,7 +4,7 @@ import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { GrammarTarget } from '@/games/grammar-boss/types';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuthForGeneration } from '@/lib/auth-credits';
 import { grammarBossFallback } from '@/lib/fallback-content';
 import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
@@ -30,7 +30,7 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
+  const { error: authError } = await requireAuthForGeneration({ requestHasProModules: true });
   if (authError) return authError;
 
   const { grammarTarget, topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {

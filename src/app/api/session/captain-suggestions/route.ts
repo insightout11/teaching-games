@@ -8,7 +8,7 @@ import {
   type CaptainSuggestionSourceSubmission,
   type CaptainSuggestionsAIResponse,
 } from '@/lib/captain-suggestions';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 
@@ -52,6 +52,9 @@ export async function POST(request: NextRequest) {
 
     const ownership = await verifyTeacherOwnsSession(sessionId, teacher.id, { requireActive: true });
     if (ownership.error) return ownership.error;
+
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
 
     const supabase = createServiceClient();
     const { data: session, error: sessionError } = await supabase

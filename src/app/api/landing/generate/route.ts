@@ -5,7 +5,7 @@ import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import type { FinalAnswerContent, MicDropContent, LightningRoundContent, OpinionShiftContent } from '@/activities/types';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import {
   finalAnswerFallback,
   micDropFallback,
@@ -16,8 +16,8 @@ import {
 type LandingActivityKey = 'final-answer' | 'mic-drop' | 'lightning-round' | 'opinion-shift';
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
 
   const { activityKey, topic, difficulty } = await request.json() as {
     activityKey: LandingActivityKey;
@@ -31,6 +31,10 @@ export async function POST(request: NextRequest) {
     if (cached) {
       return NextResponse.json({ content: cached.content_json, cacheId: cached.id });
     }
+
+    // Cache miss — this will hit the AI. Enforce the free-tier weekly cap.
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
 
     // 2. Generate
     let content: FinalAnswerContent | MicDropContent | LightningRoundContent | OpinionShiftContent;

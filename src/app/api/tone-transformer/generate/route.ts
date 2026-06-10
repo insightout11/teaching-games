@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { TargetTone } from '@/games/tone-transformer/types';
 
@@ -42,8 +42,12 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuth();
-  if (authError) return authError;
+  const { teacher, error: authError } = await requireAuth();
+  if (authError || !teacher) return authError!;
+
+  // This will hit the AI. Enforce the free-tier weekly cap.
+  const limited = await checkAndRecordAiUsage(teacher);
+  if (limited) return limited;
 
   try {
     const { topic, difficulty } = await request.json() as {

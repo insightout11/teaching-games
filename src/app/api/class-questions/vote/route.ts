@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
+import { isSessionStale } from '@/lib/session-freshness';
 
 // POST /api/class-questions/vote
 // Student upvote on a published class question.
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
     // 4. Verify session is still active
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('status')
+      .select('status, started_at')
       .eq('id', sessionId)
       .single();
 
@@ -60,8 +61,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
-    if (session.status !== 'active') {
+    if (session.status !== 'active' || isSessionStale(session.started_at)) {
       return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
+    }
+
+    // 4b. Verify the voter actually joined this session (anti-inflation).
+    // Without this, anyone can vote repeatedly with fresh client-minted UUIDs.
+    const { data: participant } = await supabase
+      .from('session_participants')
+      .select('client_id')
+      .eq('session_id', sessionId)
+      .eq('client_id', clientId)
+      .maybeSingle();
+    if (!participant) {
+      return NextResponse.json({ error: 'Join the session first' }, { status: 403 });
     }
 
     // 5. Upsert vote — ignoreDuplicates makes conflicts a silent no-op

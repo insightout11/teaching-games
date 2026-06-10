@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 
 export const dynamic = 'force-dynamic';
@@ -115,6 +115,9 @@ export async function POST(request: NextRequest) {
   try {
     const { teacher, error: authError } = await requireAuth();
     if (authError || !teacher) return authError!;
+
+    const limited = await checkAndRecordAiUsage(teacher);
+    if (limited) return limited;
 
     const body = await request.json();
     const sessionId = cleanText(body?.sessionId, 80);

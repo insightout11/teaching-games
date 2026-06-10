@@ -34,3 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local dev logs / scratch
+*.err.log
+.dev-server*.log
+.world-flight*.log
+tmp/
+.playwright-cli/
+supabase/.temp/
+nul
