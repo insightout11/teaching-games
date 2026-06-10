@@ -9,6 +9,7 @@ import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
 import { ModuleErrorBoundary } from './module-error-boundary';
 import { PaywallModal } from '@/components/ui/paywall-modal';
+import { DemoSimulator } from './demo-simulator';
 import { EndSessionSummary } from './end-session-summary';
 import { SessionSettingsBar } from './session-settings-bar';
 import { WidgetShell } from './widget-shell';
@@ -2399,6 +2400,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
       {showRouteChoice && (
         <RouteChoicePanel sessionId={session.id} onRouteChosen={handleRouteChosen} />
+      )}
+
+      {/* Demo mode — simulated students drive the live loop via real endpoints */}
+      {cls.is_demo && <DemoSimulator sessionId={session.id} />}
+      {cls.is_demo && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-950/80 px-4 py-1.5 text-xs font-medium text-amber-200 shadow-lg backdrop-blur">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+          Demo mode — these students are simulated.
+        </div>
       )}
 
       {/* Paywall modal — shown when generation credits are exhausted or a Pro module is clicked */}

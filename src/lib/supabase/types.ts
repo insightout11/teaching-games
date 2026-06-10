@@ -21,6 +21,7 @@ export interface Class {
   default_difficulty: string | null;
   default_tone: string | null;
   default_scoring_mode: string | null;
+  is_demo: boolean;
   created_at: string;
   updated_at: string;
 }

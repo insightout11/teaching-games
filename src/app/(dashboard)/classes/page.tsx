@@ -8,6 +8,7 @@ export default async function ClassesPage() {
   const { data: classes } = await supabase
     .from('classes')
     .select('*')
+    .eq('is_demo', false) // hide the hidden demo class from the roster list
     .order('created_at', { ascending: false });
 
   return (
