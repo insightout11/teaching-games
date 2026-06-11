@@ -1,4 +1,6 @@
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
+import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
+import { deriveInvestigationTags } from '@/lib/world-flight/investigations';
 
 export type WorldFlightLegStatus = 'planned' | 'completed' | 'cancelled';
 
@@ -9,6 +11,7 @@ export interface WorldFlightClassSummary {
   planeTier: number;
   planeKey: string;
   rangeKm: number;
+  investigations: WorldFlightInvestigationProgress[];
 }
 
 export interface WorldFlightLaunchContext {
@@ -102,7 +105,7 @@ export function buildWorldFlightEvidenceSnapshot(
     publisher: focus.publisher,
     lessonGoal: focus.lessonGoal,
     skills: focus.skills,
-    investigationTags: focus.evidence?.investigationTags ?? [],
+    investigationTags: deriveInvestigationTags(focus.skills, focus.evidence?.investigationTags),
     keyIdea: focus.evidence?.keyIdea ?? null,
     tradeoff: focus.evidence?.tradeoff ?? null,
     designUse: focus.evidence?.designUse ?? null,

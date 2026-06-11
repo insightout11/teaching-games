@@ -12,6 +12,7 @@ import { usePlannerStore } from '@/stores/planner-store';
 import type { WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
 import { ShareJourneyButton } from './share-journey-button';
+import { InvestigationProgressPanel } from './investigation-progress-panel';
 
 const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 type FocusFilter = 'all' | DestinationFocusKind;
@@ -527,6 +528,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 : <>The class&apos;s first completed city lesson establishes its location. Any city can be its starting point.</>}
             </div>
           </div>
+
+          <InvestigationProgressPanel investigations={selectedClass?.investigations ?? []} />
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
             <div className="mb-3 flex items-center justify-between">

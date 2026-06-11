@@ -12,10 +12,21 @@ import type { GrammarTarget } from '@/lib/grammar';
 import { FlightPathSVG } from './flight-path-svg';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
-import { AlertTriangle, ArrowLeft, CheckCircle2, Loader2, Plus, Rocket, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CheckCircle2, Gauge, Loader2, MapPin, Plane, Plus, Rocket, Route, Users } from 'lucide-react';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
+import { getDestinationById, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
+import { distanceKm, formatDistance } from '@/lib/world-flight/geo';
+import { resolveWorldFlightMovement } from '@/lib/world-flight/journey';
+import { getPlaneAsset } from '@/lib/plane-progression';
 
-type TeacherClass = { id: string; name: string; studentCount: number };
+type TeacherClass = {
+  id: string;
+  name: string;
+  studentCount: number;
+  currentDestinationId?: string | null;
+  rangeKm?: number;
+  planeKey?: string;
+};
 
 export function ReviewLaunchScreen() {
   const {
@@ -39,6 +50,8 @@ export function ReviewLaunchScreen() {
     loadedPresetId,
     callsign: storedCallsign,
     ensureCallsign,
+    worldFlightContext,
+    worldFlightOriginId,
   } = usePlannerStore();
 
   const { loading: tierLoading, isPro, credits } = useTeacherTier();
@@ -69,11 +82,35 @@ export function ReviewLaunchScreen() {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mapped: TeacherClass[] = (data ?? []).map((c: any) => ({
+      let mapped: TeacherClass[] = (data ?? []).map((c: any) => ({
         id: c.id,
         name: c.name,
         studentCount: (c.students as unknown as { count: number }[])?.[0]?.count ?? 0,
       }));
+
+      if (process.env.NEXT_PUBLIC_MOCK_MODE !== 'true' && mapped.length > 0) {
+        const { data: states } = await supabase
+          .from('class_world_flight_state')
+          .select('class_id, current_destination_id, range_km, plane_key')
+          .in('class_id', mapped.map((cls) => cls.id)) as {
+            data: Array<{
+              class_id: string;
+              current_destination_id: string | null;
+              range_km: number;
+              plane_key: string;
+            }> | null;
+          };
+        const statesByClass = new Map((states ?? []).map((state) => [state.class_id, state]));
+        mapped = mapped.map((cls) => {
+          const state = statesByClass.get(cls.id);
+          return {
+            ...cls,
+            currentDestinationId: state?.current_destination_id ?? null,
+            rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
+            planeKey: state?.plane_key ?? 'starter-biplane',
+          };
+        });
+      }
 
       setClasses(mapped);
       setLoadingClasses(false);
@@ -101,6 +138,27 @@ export function ReviewLaunchScreen() {
   }, []);
 
   const selectedClass = classes.find((c) => c.id === selectedClassId);
+  const worldFlightDestination = worldFlightContext
+    ? getDestinationById(worldFlightContext.destinationId)
+    : null;
+  const resolvedOriginId = selectedClass?.currentDestinationId !== undefined
+    ? selectedClass.currentDestinationId
+    : worldFlightOriginId;
+  const worldFlightOrigin = resolvedOriginId ? getDestinationById(resolvedOriginId) : null;
+  const worldFlightRangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
+  const worldFlightDistanceKm = worldFlightDestination && worldFlightOrigin
+    ? distanceKm(worldFlightOrigin, worldFlightDestination)
+    : 0;
+  const worldFlightMovement = worldFlightContext && worldFlightDestination
+    ? resolveWorldFlightMovement({
+        originDestinationId: worldFlightOrigin?.id ?? null,
+        destinationId: worldFlightDestination.id,
+        distanceKm: worldFlightDistanceKm,
+        rangeKm: worldFlightRangeKm,
+        requestedMove: worldFlightContext.requestedMove,
+      })
+    : null;
+  const worldFlightPlaneName = getPlaneAsset(selectedClass?.planeKey).name;
 
   async function handleCreateClass() {
     const trimmed = newClassName.trim();
@@ -122,7 +180,14 @@ export function ReviewLaunchScreen() {
       return;
     }
 
-    const newClass: TeacherClass = { id: data.id, name: data.name, studentCount: 0 };
+    const newClass: TeacherClass = {
+      id: data.id,
+      name: data.name,
+      studentCount: 0,
+      currentDestinationId: null,
+      rangeKm: STARTER_PLANE_RANGE_KM,
+      planeKey: 'starter-biplane',
+    };
     setClasses((prev) => [...prev, newClass].sort((a, b) => a.name.localeCompare(b.name)));
     setSelectedClassId(data.id);
     setNewClassName('');
@@ -373,6 +438,63 @@ export function ReviewLaunchScreen() {
               </>
             )}
           </div>
+
+          {worldFlightContext && worldFlightDestination && (
+            <div className="overflow-hidden rounded-xl border border-cyan-300/25 bg-lc-card">
+              <div className="flex items-center justify-between gap-3 border-b border-lc-border px-5 py-3">
+                <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-lc-text2">
+                  <Route className="h-4 w-4 text-cyan-300" aria-hidden />
+                  World Flight Handoff
+                </h3>
+                <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                  worldFlightMovement?.movesClass
+                    ? 'border-lc-success/30 bg-lc-success/10 text-lc-success'
+                    : 'border-amber-400/30 bg-amber-400/10 text-amber-300'
+                }`}>
+                  {worldFlightMovement?.movesClass ? 'Moves class' : 'Lesson only'}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-3 divide-x divide-lc-border">
+                <div className="px-4 py-3">
+                  <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
+                    <MapPin className="h-3 w-3" aria-hidden />
+                    From
+                  </p>
+                  <p className="mt-1 truncate text-sm font-semibold text-lc-text">
+                    {worldFlightOrigin?.city ?? 'First location'}
+                  </p>
+                </div>
+                <div className="px-4 py-3">
+                  <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
+                    <Plane className="h-3 w-3 rotate-45" aria-hidden />
+                    To
+                  </p>
+                  <p className="mt-1 truncate text-sm font-semibold text-lc-text">{worldFlightDestination.city}</p>
+                </div>
+                <div className="px-4 py-3">
+                  <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
+                    <Gauge className="h-3 w-3" aria-hidden />
+                    Range
+                  </p>
+                  <p className="mt-1 truncate text-sm font-semibold text-lc-text">{formatDistance(worldFlightRangeKm)}</p>
+                </div>
+              </div>
+
+              <div className="border-t border-lc-border px-5 py-3">
+                <p className="text-xs leading-relaxed text-lc-text2">
+                  {!worldFlightOrigin
+                    ? `Completing the final module establishes ${worldFlightDestination.city} as ${selectedClass?.name ?? 'this class'}'s first location.`
+                    : worldFlightMovement?.movesClass
+                      ? `Completing the final module moves ${selectedClass?.name ?? 'this class'} ${formatDistance(worldFlightDistanceKm)} from ${worldFlightOrigin.city} to ${worldFlightDestination.city}.`
+                      : `${selectedClass?.name ?? 'This class'} can use this lesson, but completing it will not move the plane from ${worldFlightOrigin.city}.`}
+                </p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
+                  {worldFlightPlaneName} · Server confirms range again at launch
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Pre-flight checklist */}
           <div className="bg-lc-card rounded-xl border border-lc-border p-5">
