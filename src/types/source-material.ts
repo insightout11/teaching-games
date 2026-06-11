@@ -1,3 +1,5 @@
+import type { Difficulty } from '@/lib/difficulty';
+
 export type SourceType = 'youtube' | 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft' | 'pdf' | 'image' | 'lyrics' | 'text' | 'stories' | 'voa' | 'picture-books';
 
 export type SourceBriefingMode = 'exact' | 'excerpt' | 'adapted' | 'generated';
@@ -9,6 +11,8 @@ export interface SourceBriefingOption {
   text: string;
   mode: SourceBriefingMode;
   wordCount?: number;
+  /** Difficulty levels that should automatically use this student-facing version. */
+  difficultyLevels?: Difficulty[];
 }
 
 export interface SourceMaterial {

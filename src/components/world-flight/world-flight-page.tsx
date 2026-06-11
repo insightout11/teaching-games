@@ -72,6 +72,12 @@ function focusSourceLabel(focus: DestinationFocus) {
     .join(' - ');
 }
 
+function isPublishedFocus(focus: DestinationFocus) {
+  return focus.kind === 'video'
+    ? focus.review.status === 'transcript-verified'
+    : focus.review.status === 'researched';
+}
+
 function ImagePanel({ image, className = '' }: { image: DestinationPack['heroImage']; className?: string }) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -172,12 +178,16 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     () => WORLD_DESTINATIONS.find((destination) => destination.id === selectedDestinationId) ?? WORLD_DESTINATIONS[0],
     [selectedDestinationId],
   );
+  const publishedFocusOptions = useMemo(
+    () => selectedDestination.focusOptions.filter(isPublishedFocus),
+    [selectedDestination],
+  );
   const visibleFocusOptions = useMemo(
-    () => selectedDestination.focusOptions.filter((focus) => focusFilter === 'all' || focus.kind === focusFilter),
-    [focusFilter, selectedDestination],
+    () => publishedFocusOptions.filter((focus) => focusFilter === 'all' || focus.kind === focusFilter),
+    [focusFilter, publishedFocusOptions],
   );
   const selectedDistanceKm = useMemo(() => origin ? distanceKm(origin, selectedDestination) : null, [origin, selectedDestination]);
-  const selectedFocus = visibleFocusOptions.find((focus) => focus.id === selectedFocusId) ?? visibleFocusOptions[0] ?? selectedDestination.focusOptions[0];
+  const selectedFocus = visibleFocusOptions.find((focus) => focus.id === selectedFocusId) ?? visibleFocusOptions[0] ?? publishedFocusOptions[0];
   const isReachable = !origin || (selectedDistanceKm ?? 0) <= rangeKm || selectedDestination.id === origin.id;
 
   useEffect(() => {
@@ -419,8 +429,9 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   }
 
   function selectFocusFilter(nextFilter: FocusFilter) {
+    const nextVisible = publishedFocusOptions.filter((focus) => nextFilter === 'all' || focus.kind === nextFilter);
+    if (nextVisible.length === 0) return;
     setFocusFilter(nextFilter);
-    const nextVisible = selectedDestination.focusOptions.filter((focus) => nextFilter === 'all' || focus.kind === nextFilter);
     if (!nextVisible.some((focus) => focus.id === selectedFocus.id)) {
       setSelectedFocusId(nextVisible[0]?.id ?? null);
     }
@@ -614,10 +625,14 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   type="button"
                   aria-pressed={focusFilter === value}
                   onClick={() => selectFocusFilter(value as FocusFilter)}
+                  disabled={!publishedFocusOptions.some((focus) => value === 'all' || focus.kind === value)}
+                  title={value === 'reading' && !publishedFocusOptions.some((focus) => focus.kind === 'reading')
+                    ? 'Curated readings for this city are still in review'
+                    : undefined}
                   className={`min-h-8 rounded-md px-2 text-xs font-semibold transition-colors ${
                     focusFilter === value
                       ? 'bg-lc-blue text-[#06101d]'
-                      : 'text-lc-text3 hover:bg-white/[0.06] hover:text-lc-text'
+                      : 'text-lc-text3 hover:bg-white/[0.06] hover:text-lc-text disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent'
                   }`}
                 >
                   {label}

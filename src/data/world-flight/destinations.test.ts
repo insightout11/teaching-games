@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { WORLD_DESTINATIONS, WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS } from '@/data/world-flight/destinations';
+import { assessWorldFlightReadingQuality } from '@/lib/world-flight/readings';
 
 describe('world flight destination packs', () => {
   it('ships every destination with distinct video and reading sources', () => {
@@ -23,10 +24,25 @@ describe('world flight destination packs', () => {
 
       for (const reading of readings) {
         expect(reading.sourceMaterial.sourceType, `${destination.id}/${reading.id}`).toBe('text');
-        expect(reading.review.status, `${destination.id}/${reading.id}`).toBe('researched');
         expect(reading.citations?.length, `${destination.id}/${reading.id}`).toBeGreaterThanOrEqual(2);
-        expect(reading.sourceMaterial.briefingMode, `${destination.id}/${reading.id}`).toBe('generated');
+        const quality = assessWorldFlightReadingQuality(reading.sourceMaterial);
+        expect(reading.review.status, `${destination.id}/${reading.id}: ${quality.issues.join(', ')}`).toBe(
+          quality.publishable ? 'researched' : 'draft',
+        );
       }
+    }
+  });
+
+  it('publishes only substantial, leveled, instruction-free readings', () => {
+    const publishedReadings = WORLD_DESTINATIONS.flatMap((destination) =>
+      destination.focusOptions.filter((focus) => focus.kind === 'reading' && focus.review.status === 'researched'),
+    );
+
+    expect(publishedReadings.length).toBeGreaterThan(0);
+    for (const reading of publishedReadings) {
+      expect(assessWorldFlightReadingQuality(reading.sourceMaterial)).toEqual({ publishable: true, issues: [] });
+      expect(reading.sourceMaterial.sourceText).toBeTruthy();
+      expect(reading.sourceMaterial.briefingOptions).toHaveLength(3);
     }
   });
 });

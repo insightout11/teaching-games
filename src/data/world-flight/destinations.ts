@@ -1,5 +1,12 @@
 import type { SourceMaterial } from '@/types/source-material';
 import type { DestinationFocus, DestinationImage, DestinationPack } from '@/lib/world-flight/types';
+import {
+  assessWorldFlightReadingQuality,
+  buildWorldFlightBriefingOptions,
+  countWords,
+  type WorldFlightReadingLevels,
+} from '@/lib/world-flight/readings';
+import { VANCOUVER_READINGS } from './reading-content';
 
 function unsplashPhoto(photoId: string, city: string, caption: string): DestinationImage {
   return {
@@ -30,17 +37,24 @@ function wikimediaFile(fileName: string, city: string, caption: string, sourceUr
   );
 }
 
-function textSource(id: string, title: string, summary: string, rawText: string): SourceMaterial {
+type WorldFlightReadingContent = string | WorldFlightReadingLevels;
+
+function textSource(id: string, title: string, summary: string, content: WorldFlightReadingContent): SourceMaterial {
+  const isLeveled = typeof content !== 'string';
+  const canonicalText = isLeveled ? content.advanced : content;
+  const briefingText = isLeveled ? content.standard : content;
   return {
     sourceType: 'text',
     sourceKey: id,
     title,
     summary,
-    rawText,
-    briefingText: rawText,
-    originalText: rawText,
-    briefingMode: 'generated',
-    wordCount: rawText.trim().split(/\s+/).length,
+    rawText: canonicalText,
+    briefingText,
+    sourceText: canonicalText,
+    originalText: canonicalText,
+    briefingMode: isLeveled ? 'adapted' : 'generated',
+    ...(isLeveled ? { briefingOptions: buildWorldFlightBriefingOptions(content) } : {}),
+    wordCount: countWords(briefingText),
   };
 }
 
@@ -53,7 +67,7 @@ function focus(
   lessonGoal: string,
   skills: string[],
   image: DestinationImage,
-  reading: string,
+  reading: WorldFlightReadingContent,
 ): DestinationFocus {
   return {
     id,
@@ -84,13 +98,17 @@ function researchedReadingFocus(
   lessonGoal: string,
   skills: string[],
   image: DestinationImage,
-  reading: string,
+  reading: WorldFlightReadingContent,
   citations: NonNullable<DestinationFocus['citations']>,
 ): DestinationFocus {
+  const candidate = focus(cityId, id, title, subtitle, difficulty, lessonGoal, skills, image, reading);
+  const publishable = assessWorldFlightReadingQuality(candidate.sourceMaterial).publishable;
   return {
-    ...focus(cityId, id, title, subtitle, difficulty, lessonGoal, skills, image, reading),
+    ...candidate,
     citations,
-    review: { status: 'researched', reviewedAt: '2026-06-08' },
+    review: publishable
+      ? { status: 'researched', reviewedAt: '2026-06-11' }
+      : { status: 'draft' },
   };
 }
 
@@ -1385,15 +1403,15 @@ Students can compare transport modes by more than speed. A route can be practica
       videoFocus('original-cities-video', "Vancouver - The Original Three Cities", 'Use local history to discuss names, boundaries, and older places.', 'Intermediate', 'Explain how one modern city can contain several older settlement stories.', ['listening', 'history', 'identity'], 'ZeRPpyrvunE', 'Kumtuks Education', 57, `This short local-history clip introduces earlier city identities around Vancouver. Students can discuss how maps change and why older names and communities still matter inside a modern city.`),
       videoFocus('skytrain-video', 'Vancouver - Riding the SkyTrain', 'Learn how an elevated rail system connects airport, suburbs, and downtown.', 'Easy', 'Give clear instructions for using an urban rail system.', ['listening', 'transport', 'functional English'], 'R2GIDIkD-Zc', 'Alexander College', 316, `This practical SkyTrain guide helps students practice transport language: stations, cards, transfers, routes, and arrival. It also opens discussion about why airport links matter for a global city.`),
       videoFocus('city-in-nature-video', 'Vancouver - A City in Nature', 'Look at how parks, trees, mountains, and water shape a city identity.', 'Easy', 'Describe how natural features change how a city feels and functions.', ['listening', 'nature', 'description'], 'CllNhkQl4qY', 'Destination Vancouver', 104, `This Destination Vancouver short frames the city through nature. Students can compare Vancouver with cities where nature is distant, hidden, or built into everyday streets and views.`),
-      researchedReadingFocus('vancouver', 'host-nations', 'Vancouver - Learning Whose Land the City Is On', 'Discuss land acknowledgment, Indigenous nations, and respectful local history.', 'Advanced', 'Explain why place-based learning should include Indigenous knowledge and sovereignty.', ['reading', 'identity', 'ethics'], IMAGES.vancouver, `Vancouver is located on the traditional territories of the Musqueam, Squamish, and Tsleil-Waututh Nations. A land acknowledgment can be a starting point, but students should ask what it means beyond a formal sentence. Whose stories are taught? Who makes decisions about land? Which names appear on maps?\n\nStudents can compare a tourist map with an Indigenous place-based map or story. The task is to see that a city is not only modern roads and buildings. It also contains older relationships with land and water.`, [
+      researchedReadingFocus('vancouver', 'host-nations', 'Vancouver - Learning Whose Land the City Is On', 'Discuss land acknowledgment, Indigenous nations, and respectful local history.', 'Advanced', 'Explain why place-based learning should include Indigenous knowledge and sovereignty.', ['reading', 'identity', 'ethics'], IMAGES.vancouver, VANCOUVER_READINGS.hostNations, [
         { title: 'Our Story', publisher: 'Musqueam Indian Band', url: 'https://www.musqueam.bc.ca/our-story/' },
         { title: 'Reconciliation', publisher: 'City of Vancouver', url: 'https://vancouver.ca/people-programs/reconciliation.aspx' },
       ]),
-      researchedReadingFocus('vancouver', 'seawall-routine', 'Vancouver - The Seawall as a Daily Route', 'Use the seawall to discuss walking, cycling, views, and public access.', 'Easy', 'Describe a public route and explain why it matters to residents.', ['reading', 'public space', 'transport'], IMAGES.vancouver, `Vancouver's seawall is both a route and a public space. People use it to walk, cycle, exercise, commute, meet friends, and see the water. A good route like this changes city life because it makes movement pleasant instead of only necessary.\n\nStudents can design a waterfront path for another city. Who should use it? What signs are needed? How should walkers and cyclists share space? Vancouver shows that public access to water can become part of everyday identity.`, [
+      researchedReadingFocus('vancouver', 'seawall-routine', 'Vancouver - The Seawall as a Daily Route', 'Use the seawall to discuss walking, cycling, views, and public access.', 'Easy', 'Describe a public route and explain why it matters to residents.', ['reading', 'public space', 'transport'], IMAGES.vancouver, VANCOUVER_READINGS.seawall, [
         { title: 'Seawall', publisher: 'City of Vancouver', url: 'https://vancouver.ca/parks-recreation-culture/seawall.aspx' },
         { title: 'Stanley Park', publisher: 'City of Vancouver', url: 'https://vancouver.ca/parks-recreation-culture/stanley-park.aspx' },
       ]),
-      researchedReadingFocus('vancouver', 'housing-pressure', 'Vancouver - Beautiful Views and Hard Housing Questions', 'Discuss why attractive cities can become difficult places to afford.', 'Advanced', 'Explain housing affordability as a city tradeoff, not only a personal problem.', ['reading', 'economics', 'debate'], IMAGES.vancouver, `Vancouver's mountains, water, jobs, universities, and global image make it attractive. That attraction can also increase housing pressure. When many people want to live in the same limited area, prices rise, renters compete, and families make difficult choices.\n\nStudents can discuss what a city owes its residents. Should it protect views, build taller, add rental housing, limit speculation, or preserve neighborhood character? Vancouver turns beauty into a practical policy debate.`, [
+      researchedReadingFocus('vancouver', 'housing-pressure', 'Vancouver - Beautiful Views and Hard Housing Questions', 'Discuss why attractive cities can become difficult places to afford.', 'Advanced', 'Explain housing affordability as a city tradeoff, not only a personal problem.', ['reading', 'economics', 'debate'], IMAGES.vancouver, VANCOUVER_READINGS.housing, [
         { title: 'Housing Vancouver Strategy', publisher: 'City of Vancouver', url: 'https://vancouver.ca/people-programs/housing-vancouver-strategy.aspx' },
         { title: 'Housing Data', publisher: 'Canada Mortgage and Housing Corporation', url: 'https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/housing-data' },
       ]),

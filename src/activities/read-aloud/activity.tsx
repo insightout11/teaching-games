@@ -1,42 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { ActivityProps } from '../types';
 import type { ReadAloudContent } from '../types';
 import type { ReadAloudQueueEntry } from '@/lib/input-spec';
 import { ComprehensionQuiz } from '../shared/comprehension-quiz';
 import { BookOpen, ChevronRight, SkipForward, RotateCcw, ListChecks } from 'lucide-react';
+import { splitReadingTurns } from '@/lib/read-aloud';
 
 type Phase = 'idle' | 'reading' | 'complete' | 'quiz';
-
-function splitParagraphs(text: string): string[] {
-  const cleaned = text.replace(/\*([^*]+)\*/g, '$1');
-  const raw = cleaned.split(/\n\s*\n/).map((p) => p.replace(/\n/g, ' ').trim()).filter((p) => p.length > 30);
-  const result: string[] = [];
-  for (const para of raw) {
-    const words = para.split(/\s+/);
-    if (words.length <= 120) {
-      result.push(para);
-    } else {
-      const sentences = para.match(/[^.!?]+[.!?]+(?:\s|$)/g) ?? [para];
-      let chunk = '';
-      let count = 0;
-      for (const s of sentences) {
-        const sw = s.split(/\s+/).length;
-        if (count + sw > 100 && chunk) {
-          result.push(chunk.trim());
-          chunk = s;
-          count = sw;
-        } else {
-          chunk += ' ' + s;
-          count += sw;
-        }
-      }
-      if (chunk.trim()) result.push(chunk.trim());
-    }
-  }
-  return result;
-}
 
 function highlightVocab(text: string, vocabWords: string[]): React.ReactNode {
   if (!vocabWords.length) return text;
@@ -61,7 +33,7 @@ export function ReadAloudActivity({
   const { sourceText = '', sourceTitle = 'Text', slides, vocabWords = [], comprehensionQuestions = [], discussionPrompt } = content;
   const hasQuestions = comprehensionQuestions.length > 0;
 
-  const paragraphs = useRef(splitParagraphs(sourceText)).current;
+  const readingTurns = useMemo(() => splitReadingTurns(sourceText, students.length), [sourceText, students.length]);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -69,7 +41,7 @@ export function ReadAloudActivity({
 
   function getSlideUrl(index: number): string | undefined {
     if (!slides || slides.length === 0) return undefined;
-    const slideIndex = Math.min(Math.floor(index * slides.length / Math.max(paragraphs.length, 1)), slides.length - 1);
+    const slideIndex = Math.min(Math.floor(index * slides.length / Math.max(readingTurns.length, 1)), slides.length - 1);
     return slides[slideIndex];
   }
 
@@ -121,7 +93,7 @@ export function ReadAloudActivity({
 
       const nextIdx = idx + 1;
 
-      // If skipping, reassign upcoming paragraphs for this student to others
+      // If skipping, reassign upcoming passages for this student to others
       if (skipName && nextIdx < next.length) {
         const others = students.filter((s) => s.name !== skipName);
         if (others.length > 0) {
@@ -161,8 +133,8 @@ export function ReadAloudActivity({
   }, [students, onSetInputSpec, onScore]);
 
   function handleStart() {
-    if (students.length === 0 || paragraphs.length === 0) return;
-    const q: ReadAloudQueueEntry[] = paragraphs.map((text, i) => {
+    if (students.length === 0 || readingTurns.length === 0) return;
+    const q: ReadAloudQueueEntry[] = readingTurns.map((text, i) => {
       const s = students[i % students.length];
       return { index: i, text, clientId: s.name, studentName: s.name, status: i === 0 ? 'active' : 'upcoming' };
     });
@@ -191,11 +163,11 @@ export function ReadAloudActivity({
           <>
             <div className="text-sm text-lc-text3 space-y-1">
               <p>
-                {paragraphs.length} paragraph{paragraphs.length !== 1 ? 's' : ''}
+                {readingTurns.length} reading turn{readingTurns.length !== 1 ? 's' : ''}
                 {slides && slides.length > 0 ? ` · ${slides.length} slides` : ''}
                 {` · ${students.length} student${students.length !== 1 ? 's' : ''}`}
               </p>
-              <p className="opacity-60">Students take turns reading one paragraph each and tap &ldquo;Done&rdquo; when finished.</p>
+              <p className="opacity-60">Students take turns reading a short passage and tap &ldquo;Done&rdquo; when finished.</p>
             </div>
             <div className="bg-white/5 rounded-2xl p-4 max-h-40 overflow-y-auto">
               <p className="text-sm text-white/60 leading-relaxed">{sourceText.slice(0, 400)}{sourceText.length > 400 ? '…' : ''}</p>
@@ -227,7 +199,7 @@ export function ReadAloudActivity({
           students={students}
           gameKey="read-aloud"
           discussionPrompt={discussionPrompt}
-          promptIndexOffset={paragraphs.length}
+          promptIndexOffset={readingTurns.length}
           onSetInputSpec={onSetInputSpec}
           onRegisterRemoteVoteHandler={onRegisterRemoteVoteHandler}
           onScore={onScore}
@@ -243,7 +215,7 @@ export function ReadAloudActivity({
       <div className="glass rounded-3xl p-8 space-y-6 max-w-2xl mx-auto text-center">
         <BookOpen className="w-10 h-10 text-emerald-400 mx-auto" />
         <h2 className="text-2xl font-bold">Reading Complete!</h2>
-        <p className="text-lc-text3">{paragraphs.length} paragraph{paragraphs.length !== 1 ? 's' : ''} read by the class.</p>
+        <p className="text-lc-text3">{readingTurns.length} passage{readingTurns.length !== 1 ? 's' : ''} read by the class.</p>
         {hasQuestions && (
           <button
             onClick={() => setPhase('quiz')}
@@ -270,7 +242,7 @@ export function ReadAloudActivity({
           <BookOpen className="w-4 h-4" />
           <span>{sourceTitle}</span>
         </div>
-        <span className="text-sm text-lc-text3">{currentIndex + 1} / {paragraphs.length}</span>
+        <span className="text-sm text-lc-text3">{currentIndex + 1} / {readingTurns.length}</span>
       </div>
 
       {currentSlideUrl && (

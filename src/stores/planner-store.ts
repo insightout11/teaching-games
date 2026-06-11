@@ -10,6 +10,7 @@ import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
 import type { SourceMaterial, SourceType } from '@/types/source-material';
 import type { WorldFlightLaunchContext, WorldFlightSessionContext } from '@/lib/world-flight/journey';
+import { resolveSourceMaterialForDifficulty } from '@/lib/world-flight/readings';
 
 const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
@@ -279,7 +280,11 @@ export const usePlannerStore = create<PlannerState>()(
 
       // Step 1
       setTopic: (topic) => set({ topic }),
-      setDifficulty: (difficulty) => set({ difficulty }),
+      setDifficulty: (difficulty) =>
+        set((state) => ({
+          difficulty,
+          sourceMaterial: resolveSourceMaterialForDifficulty(state.sourceMaterial, difficulty),
+        })),
       setGoals: (goals) => set({ goals }),
       toggleGoal: (g) =>
         set((state) => {
@@ -379,18 +384,19 @@ export const usePlannerStore = create<PlannerState>()(
       setSelectedClassId: (id) => set({ selectedClassId: id }),
       setGrammarTarget: (grammarTarget) => set({ grammarTarget }),
       setSourceMaterial: (sourceMaterial) => {
-        const { loadedPresetId } = get();
+        const { difficulty, loadedPresetId } = get();
+        const resolvedSourceMaterial = resolveSourceMaterialForDifficulty(sourceMaterial, difficulty);
         const loadedPreset = loadedPresetId ? FLIGHT_PLAN_PRESETS.find((p) => p.id === loadedPresetId) : null;
 
         if (loadedPreset?.id === 'all-around-flight-60') {
           set({
-            sourceMaterial,
-            modules: buildModulesFromPreset(loadedPreset, getSourceKind(sourceMaterial)),
+            sourceMaterial: resolvedSourceMaterial,
+            modules: buildModulesFromPreset(loadedPreset, getSourceKind(resolvedSourceMaterial)),
           });
           return;
         }
 
-        set({ sourceMaterial });
+        set({ sourceMaterial: resolvedSourceMaterial });
       },
       setWorldFlightContext: (worldFlightContext) => set({ worldFlightContext }),
 
