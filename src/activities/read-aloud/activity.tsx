@@ -30,10 +30,22 @@ export function ReadAloudActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as ReadAloudContent;
-  const { sourceText = '', sourceTitle = 'Text', slides, vocabWords = [], comprehensionQuestions = [], discussionPrompt } = content;
+  const {
+    sourceText = '',
+    sourceTitle = 'Text',
+    readingTurnWords,
+    sourceCitations = [],
+    slides,
+    vocabWords = [],
+    comprehensionQuestions = [],
+    discussionPrompt,
+  } = content;
   const hasQuestions = comprehensionQuestions.length > 0;
 
-  const readingTurns = useMemo(() => splitReadingTurns(sourceText, students.length), [sourceText, students.length]);
+  const readingTurns = useMemo(
+    () => splitReadingTurns(sourceText, students.length, readingTurnWords),
+    [readingTurnWords, sourceText, students.length],
+  );
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -172,6 +184,26 @@ export function ReadAloudActivity({
             <div className="bg-white/5 rounded-2xl p-4 max-h-40 overflow-y-auto">
               <p className="text-sm text-white/60 leading-relaxed">{sourceText.slice(0, 400)}{sourceText.length > 400 ? '…' : ''}</p>
             </div>
+            {sourceCitations.length > 0 && (
+              <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-lc-text3">
+                  Grounded in {sourceCitations.length} sources
+                </p>
+                <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+                  {sourceCitations.map((citation) => (
+                    <a
+                      key={citation.url}
+                      href={citation.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs text-lc-blue hover:underline"
+                    >
+                      {citation.publisher}: {citation.title}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
             <button
               onClick={handleStart}
               disabled={students.length === 0}

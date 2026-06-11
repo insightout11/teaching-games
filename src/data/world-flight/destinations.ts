@@ -106,6 +106,10 @@ function researchedReadingFocus(
   return {
     ...candidate,
     citations,
+    sourceMaterial: {
+      ...candidate.sourceMaterial,
+      citations,
+    },
     review: publishable
       ? { status: 'researched', reviewedAt: '2026-06-11' }
       : { status: 'draft' },

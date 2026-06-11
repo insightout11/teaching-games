@@ -18,6 +18,8 @@ export interface WorldFlightLaunchContext {
   destinationId: string;
   focusId: string;
   requestedMove: boolean;
+  /** Teacher-selected starting city used only when the class has no persisted location yet. */
+  departureDestinationId?: string;
 }
 
 export interface WorldFlightEvidenceSnapshot {
@@ -65,6 +67,9 @@ export function parseWorldFlightLaunchContext(value: unknown): WorldFlightLaunch
     destinationId: candidate.destinationId,
     focusId: candidate.focusId,
     requestedMove: candidate.requestedMove,
+    ...(typeof candidate.departureDestinationId === 'string'
+      ? { departureDestinationId: candidate.departureDestinationId }
+      : {}),
   };
 }
 
@@ -87,7 +92,7 @@ export function resolveWorldFlightMovement({
   return {
     isFirstFlight,
     isWithinRange,
-    movesClass: requestedMove && isWithinRange,
+    movesClass: requestedMove && isWithinRange && originDestinationId !== destinationId,
   };
 }
 

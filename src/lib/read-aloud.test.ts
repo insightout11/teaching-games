@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { splitReadingTurns } from './read-aloud';
+import { getReadingTurnWordTarget, splitReadingTurns } from './read-aloud';
 
 const paragraph = Array.from(
   { length: 8 },
@@ -18,6 +18,20 @@ describe('splitReadingTurns', () => {
     const turns = splitReadingTurns('One short factual sentence about Vancouver.', 30);
 
     expect(turns).toHaveLength(1);
+  });
+
+  it('keeps turns short even when only one student is connected', () => {
+    const turns = splitReadingTurns(paragraph, 1, getReadingTurnWordTarget('Easy'));
+
+    expect(turns.length).toBeGreaterThanOrEqual(4);
+    expect(turns.every((turn) => turn.split(/\s+/).length <= 22)).toBe(true);
+  });
+
+  it('uses shorter turns for easy readers than advanced readers', () => {
+    const easyTurns = splitReadingTurns(paragraph, 1, getReadingTurnWordTarget('Easy'));
+    const advancedTurns = splitReadingTurns(paragraph, 1, getReadingTurnWordTarget('Advanced'));
+
+    expect(easyTurns.length).toBeGreaterThan(advancedTurns.length);
   });
 
   it('removes asterisk vocabulary markup', () => {

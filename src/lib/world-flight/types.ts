@@ -1,5 +1,5 @@
 import type { Difficulty } from '@/lib/difficulty';
-import type { SourceMaterial } from '@/types/source-material';
+import type { SourceCitation, SourceMaterial } from '@/types/source-material';
 
 export type DestinationSceneTerrain = 'coastal' | 'mountain' | 'flatland' | 'desert' | 'island' | 'urban';
 export type DestinationSceneVegetation = 'palms' | 'pines' | 'broadleaf' | 'none';
@@ -27,11 +27,7 @@ export interface DestinationScene {
 export type DestinationFocusKind = 'video' | 'reading';
 export type DestinationFocusReviewStatus = 'draft' | 'researched' | 'transcript-verified';
 
-export interface DestinationCitation {
-  title: string;
-  publisher: string;
-  url: string;
-}
+export type DestinationCitation = SourceCitation;
 
 export interface DestinationFocusReview {
   status: DestinationFocusReviewStatus;

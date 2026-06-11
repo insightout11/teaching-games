@@ -15,6 +15,12 @@ export interface SourceBriefingOption {
   difficultyLevels?: Difficulty[];
 }
 
+export interface SourceCitation {
+  title: string;
+  publisher: string;
+  url: string;
+}
+
 export interface SourceMaterial {
   sourceType: SourceType;
   sourceKey?: string; // YouTube video ID or TED talk ID
@@ -32,6 +38,7 @@ export interface SourceMaterial {
   originalText?: string;
   documentKind?: string;
   wordCount?: number;
+  citations?: SourceCitation[];
   slides?: string[];  // picture book slide image URLs, synced during read-aloud
 }
 

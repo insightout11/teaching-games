@@ -43,6 +43,7 @@ describe('world flight destination packs', () => {
       expect(assessWorldFlightReadingQuality(reading.sourceMaterial)).toEqual({ publishable: true, issues: [] });
       expect(reading.sourceMaterial.sourceText).toBeTruthy();
       expect(reading.sourceMaterial.briefingOptions).toHaveLength(3);
+      expect(reading.sourceMaterial.citations).toEqual(reading.citations);
     }
   });
 });

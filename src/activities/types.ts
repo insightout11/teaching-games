@@ -449,6 +449,9 @@ export interface ReadAloudContent extends ActivityGeneratedContent {
   activityKey: 'read-aloud';
   sourceText: string;
   sourceTitle: string;
+  /** Maximum passage size selected for the lesson difficulty. */
+  readingTurnWords?: number;
+  sourceCitations?: import('@/types/source-material').SourceCitation[];
   slides?: string[];
   vocabWords?: string[];
   /** Optional end-of-reading comprehension check. If absent, the reader skips the quiz. */

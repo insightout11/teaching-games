@@ -48,16 +48,32 @@ describe('World Flight journey movement', () => {
     }).movesClass).toBe(false);
   });
 
+  it('treats a lesson in the current city as local rather than a flight', () => {
+    expect(resolveWorldFlightMovement({
+      originDestinationId: 'vancouver',
+      destinationId: 'vancouver',
+      distanceKm: 0,
+      rangeKm: 5200,
+      requestedMove: true,
+    })).toMatchObject({
+      isFirstFlight: false,
+      isWithinRange: true,
+      movesClass: false,
+    });
+  });
+
   it('rejects malformed launch context', () => {
     expect(parseWorldFlightLaunchContext({ destinationId: 'tokyo' })).toBeNull();
     expect(parseWorldFlightLaunchContext({
       destinationId: 'tokyo',
       focusId: 'rail',
       requestedMove: true,
+      departureDestinationId: 'seoul',
     })).toEqual({
       destinationId: 'tokyo',
       focusId: 'rail',
       requestedMove: true,
+      departureDestinationId: 'seoul',
     });
   });
 });

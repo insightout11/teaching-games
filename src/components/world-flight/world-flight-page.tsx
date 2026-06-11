@@ -67,7 +67,11 @@ function focusSourceLabel(focus: DestinationFocus) {
   if (focus.kind === 'video') {
     return ['Video', focus.publisher, formatDuration(focus.sourceMaterial.duration)].filter(Boolean).join(' - ');
   }
-  return ['Reading', focus.sourceMaterial.wordCount ? `${focus.sourceMaterial.wordCount} words` : null, focus.citations?.length ? `${focus.citations.length} sources` : null]
+  return [
+    'Reading',
+    focus.sourceMaterial.briefingOptions?.length ? `${focus.sourceMaterial.briefingOptions.length} levels` : null,
+    focus.citations?.length ? `${focus.citations.length} sources` : null,
+  ]
     .filter(Boolean)
     .join(' - ');
 }
@@ -76,6 +80,12 @@ function isPublishedFocus(focus: DestinationFocus) {
   return focus.kind === 'video'
     ? focus.review.status === 'transcript-verified'
     : focus.review.status === 'researched';
+}
+
+function defaultNextDestination(origin: DestinationPack, rangeKm: number) {
+  return WORLD_DESTINATIONS
+    .filter((destination) => destination.id !== origin.id && distanceKm(origin, destination) <= rangeKm)
+    .sort((a, b) => distanceKm(origin, a) - distanceKm(origin, b))[0] ?? origin;
 }
 
 function ImagePanel({ image, className = '' }: { image: DestinationPack['heroImage']; className?: string }) {
@@ -141,8 +151,13 @@ function FocusButton({
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
             <span className="rounded-full border border-lc-amber/25 bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold text-lc-amber">
-              {focus.difficulty}
+              {focus.kind === 'reading' ? `Suggested: ${focus.difficulty}` : focus.difficulty}
             </span>
+            {focus.kind === 'reading' && (
+              <span className="rounded-full border border-cyan-300/20 bg-cyan-300/[0.06] px-2 py-0.5 text-[10px] font-semibold text-cyan-200/75">
+                Adapts to class level
+              </span>
+            )}
             {focus.skills.slice(0, 2).map((skill) => (
               <span key={skill} className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10px] text-lc-text3">
                 {skill}
@@ -166,12 +181,19 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [listOpen, setListOpen] = useState(false);
   const [isWide, setIsWide] = useState(false);
   const [selectedClassId, setSelectedClassId] = useState<string | null>(initialClasses[0]?.id ?? null);
+  const [firstDepartureId, setFirstDepartureId] = useState<string | null>(null);
 
   const selectedClass = initialClasses.find((cls) => cls.id === selectedClassId) ?? null;
   const origin = useMemo(
     () => WORLD_DESTINATIONS.find((destination) => destination.id === selectedClass?.currentDestinationId) ?? null,
     [selectedClass?.currentDestinationId],
   );
+  const firstDeparture = useMemo(
+    () => WORLD_DESTINATIONS.find((destination) => destination.id === firstDepartureId) ?? null,
+    [firstDepartureId],
+  );
+  const routeOrigin = origin ?? firstDeparture;
+  const isChoosingDeparture = !origin && !firstDeparture;
   const rangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
   const planeName = getPlaneAsset(selectedClass?.planeKey).name;
   const selectedDestination = useMemo(
@@ -186,9 +208,13 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     () => publishedFocusOptions.filter((focus) => focusFilter === 'all' || focus.kind === focusFilter),
     [focusFilter, publishedFocusOptions],
   );
-  const selectedDistanceKm = useMemo(() => origin ? distanceKm(origin, selectedDestination) : null, [origin, selectedDestination]);
+  const selectedDistanceKm = useMemo(
+    () => routeOrigin ? distanceKm(routeOrigin, selectedDestination) : null,
+    [routeOrigin, selectedDestination],
+  );
   const selectedFocus = visibleFocusOptions.find((focus) => focus.id === selectedFocusId) ?? visibleFocusOptions[0] ?? publishedFocusOptions[0];
-  const isReachable = !origin || (selectedDistanceKm ?? 0) <= rangeKm || selectedDestination.id === origin.id;
+  const isReachable = !!routeOrigin && ((selectedDistanceKm ?? 0) <= rangeKm || selectedDestination.id === routeOrigin.id);
+  const isLocalLesson = routeOrigin?.id === selectedDestination.id;
 
   useEffect(() => {
     setSelectedFocusId(null);
@@ -236,19 +262,25 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
 
   useEffect(() => {
     if (origin) {
-      setSelectedDestinationId(origin.id);
+      setSelectedDestinationId(defaultNextDestination(origin, rangeKm).id);
     }
-  }, [origin]);
+  }, [origin, rangeKm]);
 
   function selectClass(id: string) {
     const nextClass = initialClasses.find((cls) => cls.id === id);
     setSelectedClassId(id);
+    setFirstDepartureId(null);
     usePlannerStore.getState().setSelectedClassId(id);
     try {
       localStorage.setItem('lc-last-class', JSON.stringify({ id, name: nextClass?.name ?? '' }));
     } catch {
       // Selection still works when local storage is unavailable.
     }
+  }
+
+  function confirmFirstDeparture() {
+    setFirstDepartureId(selectedDestination.id);
+    setSelectedDestinationId(defaultNextDestination(selectedDestination, rangeKm).id);
   }
 
   useEffect(() => {
@@ -391,23 +423,23 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     if (!mapReady) return;
     const map = mapRef.current;
     getSource('world-flight-range', map)?.setData(toMapData(
-      origin ? rangePolygon(origin, rangeKm) : EMPTY_FEATURE_COLLECTION,
+      routeOrigin ? rangePolygon(routeOrigin, rangeKm) : EMPTY_FEATURE_COLLECTION,
     ));
-    getSource('world-flight-cities', map)?.setData(toMapData(destinationFeatures(origin, rangeKm)));
-  }, [mapReady, origin, rangeKm]);
+    getSource('world-flight-cities', map)?.setData(toMapData(destinationFeatures(routeOrigin, rangeKm)));
+  }, [mapReady, routeOrigin, rangeKm]);
 
   useEffect(() => {
     if (!mapReady) return;
     const map = mapRef.current;
     const routeSource = getSource('world-flight-route', map);
-    routeSource?.setData(toMapData(origin ? greatCircleLine(origin, selectedDestination) : EMPTY_FEATURE_COLLECTION));
+    routeSource?.setData(toMapData(routeOrigin ? greatCircleLine(routeOrigin, selectedDestination) : EMPTY_FEATURE_COLLECTION));
     map?.easeTo({
       center: destinationCoord(selectedDestination),
-      zoom: selectedDestination.id === origin?.id ? 3.2 : 3.05,
+      zoom: selectedDestination.id === routeOrigin?.id ? 3.2 : 3.05,
       duration: 650,
       padding: { left: listOpen ? 380 : 96, right: 460, top: 80, bottom: 80 },
     });
-  }, [mapReady, origin, selectedDestination, listOpen]);
+  }, [mapReady, routeOrigin, selectedDestination, listOpen]);
 
   function launchSelectedFocus() {
     const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'all-around-flight-60');
@@ -416,13 +448,14 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     store.setTopic(selectedFocus.title);
     store.setDifficulty(selectedFocus.difficulty);
     store.setSourceMaterial(selectedFocus.sourceMaterial);
-    store.setWorldFlightRoute(origin?.id ?? null, selectedDestination.id);
+    store.setWorldFlightRoute(routeOrigin?.id ?? null, selectedDestination.id);
     if (preset) store.loadPreset(preset);
     if (selectedClassId) store.setSelectedClassId(selectedClassId);
     store.setWorldFlightContext({
       destinationId: selectedDestination.id,
       focusId: selectedFocus.id,
-      requestedMove: isReachable,
+      requestedMove: isReachable && !isLocalLesson,
+      ...(!origin && firstDeparture ? { departureDestinationId: firstDeparture.id } : {}),
     });
     store.setStep('flight-plan');
     router.push('/lesson-planner');
@@ -519,24 +552,26 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
                 <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-lc-text3">
                   <MapPin className="h-3.5 w-3.5" aria-hidden />
-                  Origin
+                  {origin ? 'Origin' : 'Departure'}
                 </div>
-                <p className="mt-1 text-sm font-semibold text-lc-text">{origin?.city ?? 'Choose first city'}</p>
-                <p className="text-xs text-lc-text3">{origin?.primaryAirport ?? 'No location yet'}</p>
+                <p className="mt-1 text-sm font-semibold text-lc-text">{routeOrigin?.city ?? 'Choose a city'}</p>
+                <p className="text-xs text-lc-text3">{routeOrigin?.primaryAirport ?? 'Required before first flight'}</p>
               </div>
               <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
                 <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-lc-text3">
                   <Gauge className="h-3.5 w-3.5" aria-hidden />
                   Range
                 </div>
-                <p className="mt-1 text-sm font-semibold text-lc-text">{origin ? formatDistance(rangeKm) : 'Open first flight'}</p>
+                <p className="mt-1 text-sm font-semibold text-lc-text">{routeOrigin ? formatDistance(rangeKm) : 'Set after departure'}</p>
                 <p className="text-xs text-lc-text3">{selectedClass ? planeName : 'Select a class later'}</p>
               </div>
             </div>
             <div className="rounded-lg border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-2 text-xs leading-relaxed text-cyan-100/75">
               {origin
                 ? <>Green cities are within your plane&apos;s range &mdash; the ring shows the approximate great-circle distance from {origin.city}. Tap any city to preview its lesson sources.</>
-                : <>The class&apos;s first completed city lesson establishes its location. Any city can be its starting point.</>}
+                : firstDeparture
+                  ? <>The first flight will depart from {firstDeparture.city}. Choose a different green city to fly to.</>
+                  : <>Choose the city where this class begins. Then select a different in-range destination for its first lesson.</>}
             </div>
           </div>
 
@@ -549,9 +584,9 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             </div>
             <div className="space-y-2">
               {WORLD_DESTINATIONS.map((destination) => {
-                const km = origin ? distanceKm(origin, destination) : 0;
+                const km = routeOrigin ? distanceKm(routeOrigin, destination) : 0;
                 const active = destination.id === selectedDestination.id;
-                const reachable = !origin || km <= rangeKm || destination.id === origin.id;
+                const reachable = !routeOrigin || km <= rangeKm || destination.id === routeOrigin.id;
                 return (
                   <button
                     key={destination.id}
@@ -563,11 +598,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                         : 'border-white/10 bg-white/[0.03] hover:border-cyan-300/35 hover:bg-white/[0.06]'
                     }`}
                   >
-                    <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${destination.id === origin?.id ? 'bg-lc-amber' : reachable ? 'bg-lc-success' : 'bg-lc-text3'}`} />
+                    <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${destination.id === routeOrigin?.id ? 'bg-lc-amber' : reachable ? 'bg-lc-success' : 'bg-lc-text3'}`} />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-semibold text-lc-text">{destination.city}</span>
                       <span className="block truncate text-xs text-lc-text3">
-                        {destination.country} - {origin ? formatDistance(km) : 'Available first stop'}
+                        {destination.country} - {routeOrigin ? formatDistance(km) : 'Available departure'}
                       </span>
                     </span>
                     <ArrowRight className={`h-4 w-4 shrink-0 text-cyan-300/60 transition-transform ${active ? 'translate-x-0.5' : ''}`} aria-hidden />
@@ -585,7 +620,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/75">
-                  Arriving in
+                  {isChoosingDeparture ? 'Begin journey in' : isLocalLesson ? 'Exploring locally' : 'Arriving in'}
                 </p>
                 <h2 className="mt-1 text-3xl font-bold leading-tight text-lc-text">{selectedDestination.city}</h2>
                 <p className="mt-1 text-sm text-lc-text3">
@@ -593,15 +628,17 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 </p>
               </div>
               <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
-                isReachable
+                isChoosingDeparture || isReachable
                   ? 'border-lc-success/35 bg-lc-success/10 text-lc-success'
                   : 'border-lc-amber/35 bg-lc-amber/10 text-lc-amber'
               }`}>
-                {!origin ? 'First stop' : isReachable ? 'In range' : 'Lesson only'}
+                {isChoosingDeparture ? 'Starting city' : isLocalLesson ? 'Local lesson' : isReachable ? 'In range' : 'Lesson only'}
               </span>
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-lc-text3">
-              <span className="font-semibold text-lc-text">{selectedDistanceKm === null ? 'Establish first location' : formatDistance(selectedDistanceKm)}</span>
+              <span className="font-semibold text-lc-text">
+                {isChoosingDeparture ? 'Set before first flight' : selectedDistanceKm === null ? 'No route' : formatDistance(selectedDistanceKm)}
+              </span>
               <span className="text-white/20">&middot;</span>
               <span>{selectedDestination.airports.join(', ')}</span>
               <span className="text-white/20">&middot;</span>
@@ -610,72 +647,129 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Choose today&apos;s source</h3>
-              <span className="text-xs text-lc-text3">{visibleFocusOptions.length} options</span>
-            </div>
-            <div className="mb-4 grid grid-cols-3 gap-1 rounded-lg border border-white/10 bg-white/[0.035] p-1">
-              {[
-                ['all', 'All'],
-                ['video', 'Watch'],
-                ['reading', 'Read'],
-              ].map(([value, label]) => (
-                <button
-                  key={value}
-                  type="button"
-                  aria-pressed={focusFilter === value}
-                  onClick={() => selectFocusFilter(value as FocusFilter)}
-                  disabled={!publishedFocusOptions.some((focus) => value === 'all' || focus.kind === value)}
-                  title={value === 'reading' && !publishedFocusOptions.some((focus) => focus.kind === 'reading')
-                    ? 'Curated readings for this city are still in review'
-                    : undefined}
-                  className={`min-h-8 rounded-md px-2 text-xs font-semibold transition-colors ${
-                    focusFilter === value
-                      ? 'bg-lc-blue text-[#06101d]'
-                      : 'text-lc-text3 hover:bg-white/[0.06] hover:text-lc-text disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            <div className="space-y-3">
-              {visibleFocusOptions.map((focusOption) => (
-                <FocusButton
-                  key={focusOption.id}
-                  focus={focusOption}
-                  selected={focusOption.id === selectedFocus.id}
-                  onClick={() => setSelectedFocusId(focusOption.id)}
-                />
-              ))}
-            </div>
+            {isChoosingDeparture ? (
+              <div className="space-y-4">
+                <div className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.06] p-4">
+                  <h3 className="text-sm font-semibold text-lc-text">Set the class&apos;s departure city</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-lc-text3">
+                    This creates a real origin for the first route. No lesson is completed here; the first lesson flies from this city to the destination chosen next.
+                  </p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-white/[0.035] p-4 text-xs leading-relaxed text-lc-text3">
+                  Choose a city from the map or destination list, then confirm it below. Your starter plane&apos;s range will appear from that departure point.
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Choose today&apos;s source</h3>
+                  <span className="text-xs text-lc-text3">{visibleFocusOptions.length} options</span>
+                </div>
+                {publishedFocusOptions.some((focus) => focus.kind === 'reading') && (
+                  <div className="mb-3 rounded-lg border border-cyan-300/15 bg-cyan-300/[0.05] px-3 py-2 text-[11px] leading-relaxed text-cyan-100/70">
+                    Reading language adapts to the class level selected in the planner. Suggested level describes the complexity of the topic.
+                  </div>
+                )}
+                <div className="mb-4 grid grid-cols-3 gap-1 rounded-lg border border-white/10 bg-white/[0.035] p-1">
+                  {[
+                    ['all', 'All'],
+                    ['video', 'Watch'],
+                    ['reading', 'Read'],
+                  ].map(([value, label]) => (
+                    <button
+                      key={value}
+                      type="button"
+                      aria-pressed={focusFilter === value}
+                      onClick={() => selectFocusFilter(value as FocusFilter)}
+                      disabled={!publishedFocusOptions.some((focus) => value === 'all' || focus.kind === value)}
+                      title={value === 'reading' && !publishedFocusOptions.some((focus) => focus.kind === 'reading')
+                        ? 'Curated readings for this city are still in review'
+                        : undefined}
+                      className={`min-h-8 rounded-md px-2 text-xs font-semibold transition-colors ${
+                        focusFilter === value
+                          ? 'bg-lc-blue text-[#06101d]'
+                          : 'text-lc-text3 hover:bg-white/[0.06] hover:text-lc-text disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-3">
+                  {visibleFocusOptions.map((focusOption) => (
+                    <FocusButton
+                      key={focusOption.id}
+                      focus={focusOption}
+                      selected={focusOption.id === selectedFocus.id}
+                      onClick={() => setSelectedFocusId(focusOption.id)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
           <div className="border-t border-white/10 px-5 py-4">
-            <div className="mb-3 flex items-start gap-2.5 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
-              <Route className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-300/70" aria-hidden />
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
-                <p className="truncate text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={launchSelectedFocus}
-              className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[#06101d] transition-colors hover:bg-lc-blue-hover"
-            >
-              <Plane className="h-4 w-4 rotate-45" aria-hidden />
-              {!origin ? 'Build First Flight Plan' : isReachable ? 'Build This Flight Plan' : 'Build Lesson Without Moving'}
-            </button>
-            <a
-              href={selectedFocus.sourceUrl ?? selectedDestination.heroImage.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-lc-text3 transition-colors hover:text-lc-text2"
-            >
-              Source: {selectedFocus.publisher}
-              <ExternalLink className="h-3 w-3" aria-hidden />
-            </a>
+            {isChoosingDeparture ? (
+              <button
+                type="button"
+                onClick={confirmFirstDeparture}
+                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[#06101d] transition-colors hover:bg-lc-blue-hover"
+              >
+                <MapPin className="h-4 w-4" aria-hidden />
+                Set {selectedDestination.city} as Departure
+              </button>
+            ) : (
+              <>
+                <div className="mb-3 flex items-start gap-2.5 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
+                  <Route className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-300/70" aria-hidden />
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
+                    <p className="truncate text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
+                  </div>
+                </div>
+                {selectedFocus.kind === 'reading' && selectedFocus.citations?.length ? (
+                  <div className="mb-3 rounded-lg border border-white/10 bg-white/[0.025] px-3 py-2.5">
+                    <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
+                      Grounded in {selectedFocus.citations.length} sources
+                    </p>
+                    <div className="space-y-1">
+                      {selectedFocus.citations.map((citation) => (
+                        <a
+                          key={citation.url}
+                          href={citation.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-1.5 text-[11px] text-cyan-200/75 transition-colors hover:text-cyan-100"
+                        >
+                          <ExternalLink className="h-3 w-3 shrink-0" aria-hidden />
+                          <span className="truncate">{citation.publisher}: {citation.title}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={launchSelectedFocus}
+                  className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[#06101d] transition-colors hover:bg-lc-blue-hover"
+                >
+                  <Plane className="h-4 w-4 rotate-45" aria-hidden />
+                  {isLocalLesson ? 'Build Local City Lesson' : isReachable ? 'Build This Flight Plan' : 'Build Lesson Without Moving'}
+                </button>
+                {selectedFocus.kind === 'video' && (
+                  <a
+                    href={selectedFocus.sourceUrl ?? selectedDestination.heroImage.sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-lc-text3 transition-colors hover:text-lc-text2"
+                  >
+                    Source: {selectedFocus.publisher}
+                    <ExternalLink className="h-3 w-3" aria-hidden />
+                  </a>
+                )}
+              </>
+            )}
           </div>
         </aside>
       </div>

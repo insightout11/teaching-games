@@ -12,7 +12,7 @@ import type { GrammarTarget } from '@/lib/grammar';
 import { FlightPathSVG } from './flight-path-svg';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
-import { AlertTriangle, ArrowLeft, CheckCircle2, Gauge, Loader2, MapPin, Plane, Plus, Rocket, Route, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CheckCircle2, ExternalLink, Gauge, Loader2, MapPin, Plane, Plus, Rocket, Route, Users } from 'lucide-react';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { getDestinationById, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { distanceKm, formatDistance } from '@/lib/world-flight/geo';
@@ -141,9 +141,7 @@ export function ReviewLaunchScreen() {
   const worldFlightDestination = worldFlightContext
     ? getDestinationById(worldFlightContext.destinationId)
     : null;
-  const resolvedOriginId = selectedClass?.currentDestinationId !== undefined
-    ? selectedClass.currentDestinationId
-    : worldFlightOriginId;
+  const resolvedOriginId = selectedClass?.currentDestinationId ?? worldFlightOriginId;
   const worldFlightOrigin = resolvedOriginId ? getDestinationById(resolvedOriginId) : null;
   const worldFlightRangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
   const worldFlightDistanceKm = worldFlightDestination && worldFlightOrigin
@@ -158,6 +156,7 @@ export function ReviewLaunchScreen() {
         requestedMove: worldFlightContext.requestedMove,
       })
     : null;
+  const isLocalWorldFlightLesson = worldFlightOrigin?.id === worldFlightDestination?.id;
   const worldFlightPlaneName = getPlaneAsset(selectedClass?.planeKey).name;
 
   async function handleCreateClass() {
@@ -347,6 +346,11 @@ export function ReviewLaunchScreen() {
                 </button>
               </div>
               <p className="text-sm font-medium text-lc-text">{sourceMaterial.title}</p>
+              {sourceMaterial.briefingOptions?.length ? (
+                <p className="text-xs font-semibold text-cyan-300/75">
+                  Adapted for {difficulty} · {sourceMaterial.wordCount ?? 0} words
+                </p>
+              ) : null}
               {sourceMaterial.duration && (
                 <p className="text-xs text-lc-text3">
                   {Math.floor(sourceMaterial.duration / 60)}:{String(sourceMaterial.duration % 60).padStart(2, '0')} • {sourceMaterial.sourceType}
@@ -355,6 +359,27 @@ export function ReviewLaunchScreen() {
               <p className="text-xs text-lc-text3 leading-relaxed line-clamp-3">
                 {sourceMaterial.briefingText ?? sourceMaterial.rawText ?? sourceMaterial.summary}
               </p>
+              {sourceMaterial.citations?.length ? (
+                <div className="border-t border-lc-border pt-2">
+                  <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
+                    Grounded in {sourceMaterial.citations.length} sources
+                  </p>
+                  <div className="space-y-1">
+                    {sourceMaterial.citations.map((citation) => (
+                      <a
+                        key={citation.url}
+                        href={citation.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-lc-blue hover:underline"
+                      >
+                        <ExternalLink className="h-3 w-3 shrink-0" aria-hidden />
+                        {citation.publisher}: {citation.title}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
             </div>
           )}
         </div>
@@ -451,7 +476,7 @@ export function ReviewLaunchScreen() {
                     ? 'border-lc-success/30 bg-lc-success/10 text-lc-success'
                     : 'border-amber-400/30 bg-amber-400/10 text-amber-300'
                 }`}>
-                  {worldFlightMovement?.movesClass ? 'Moves class' : 'Lesson only'}
+                  {worldFlightMovement?.movesClass ? 'Moves class' : isLocalWorldFlightLesson ? 'Local lesson' : 'Lesson only'}
                 </span>
               </div>
 
@@ -485,7 +510,9 @@ export function ReviewLaunchScreen() {
                 <p className="text-xs leading-relaxed text-lc-text2">
                   {!worldFlightOrigin
                     ? `Completing the final module establishes ${worldFlightDestination.city} as ${selectedClass?.name ?? 'this class'}'s first location.`
-                    : worldFlightMovement?.movesClass
+                    : isLocalWorldFlightLesson
+                      ? `${selectedClass?.name ?? 'This class'} is already in ${worldFlightDestination.city}. This lesson adds evidence without moving the plane.`
+                      : worldFlightMovement?.movesClass
                       ? `Completing the final module moves ${selectedClass?.name ?? 'this class'} ${formatDistance(worldFlightDistanceKm)} from ${worldFlightOrigin.city} to ${worldFlightDestination.city}.`
                       : `${selectedClass?.name ?? 'This class'} can use this lesson, but completing it will not move the plane from ${worldFlightOrigin.city}.`}
                 </p>

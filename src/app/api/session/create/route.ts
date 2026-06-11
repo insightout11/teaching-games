@@ -59,9 +59,19 @@ export async function POST(request: Request) {
       .eq('class_id', classId)
       .maybeSingle();
 
-    const origin = state?.current_destination_id
+    const persistedOrigin = state?.current_destination_id
       ? getDestinationById(state.current_destination_id)
       : null;
+    const selectedDeparture = !persistedOrigin && launchContext.departureDestinationId
+      ? getDestinationById(launchContext.departureDestinationId)
+      : null;
+    const origin = persistedOrigin ?? selectedDeparture;
+    if (!persistedOrigin && launchContext.requestedMove && !selectedDeparture) {
+      return NextResponse.json({ error: 'Choose a departure city before the first World Flight lesson' }, { status: 400 });
+    }
+    if (selectedDeparture?.id === destination.id && launchContext.requestedMove) {
+      return NextResponse.json({ error: 'The first destination must be different from the departure city' }, { status: 400 });
+    }
     const rangeKm = state?.range_km ?? STARTER_PLANE_RANGE_KM;
     const resolvedDistanceKm = origin ? distanceKm(origin, destination) : 0;
     const movement = resolveWorldFlightMovement({

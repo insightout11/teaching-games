@@ -69,6 +69,7 @@ import { generateMissionSelectorContent } from '@/lib/generate-mission-selector'
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import type { SourceMaterial } from '@/types/source-material';
 import { buildSourceContext, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
+import { getReadingTurnWordTarget } from '@/lib/read-aloud';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
 import bbcLibrary from '@/data/bbc-library.json';
@@ -2623,6 +2624,8 @@ export async function POST(request: NextRequest) {
                       topicContext: customTopic,
                       sourceText: cleanText,
                       sourceTitle: readTitle,
+                      readingTurnWords: getReadingTurnWordTarget(diff),
+                      ...(sourceMaterial?.citations?.length ? { sourceCitations: sourceMaterial.citations } : {}),
                       ...(vocabWords.length > 0 ? { vocabWords } : {}),
                       ...(sourceMaterial?.slides ? { slides: sourceMaterial.slides } : {}),
                       ...(questions.length > 0 ? { comprehensionQuestions: questions } : {}),
@@ -2650,6 +2653,7 @@ export async function POST(request: NextRequest) {
                   topicContext: customTopic,
                   sourceText: brief.text,
                   sourceTitle: brief.title,
+                  readingTurnWords: getReadingTurnWordTarget(diff),
                   ...(briefVocab.length > 0 ? { vocabWords: briefVocab } : {}),
                   ...(questions.length > 0 ? { comprehensionQuestions: questions } : {}),
                   ...(discussionPrompt ? { discussionPrompt } : {}),
