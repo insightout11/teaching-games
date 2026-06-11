@@ -22,8 +22,10 @@ interface WorldFlightArrivalBackdropProps {
 // landing), and the "You've Landed" screen — so all of them, plus the between-
 // module transitions, read as the same place at the same scale.
 //
-// `fit` stays at the default 'meet' (whole scene visible, never zoomed); the
-// SkyBackground behind fills any extra width so wide viewports never letterbox.
+// `fit='slice'` fills the viewport edge-to-edge (runway + ground reach both
+// sides like the generic landing), bottom-anchored so the cropped overflow is
+// the upper sky — which the SkyBackground behind supplies (clouds + moon). On a
+// 16:9 screen this is a 1:1 fill; on wider windows the scene scales up to cover.
 export function WorldFlightArrivalBackdrop({
   destinationId,
   scene,
@@ -51,6 +53,7 @@ export function WorldFlightArrivalBackdrop({
           phase="landed"
           progress={1}
           transparentSky
+          fit="slice"
           timeOfDay={timeOfDay}
           planeKey={planeKey}
           className="absolute inset-0"
