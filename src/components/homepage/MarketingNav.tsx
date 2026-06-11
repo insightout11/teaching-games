@@ -38,7 +38,7 @@ export function MarketingNav() {
           <Link href="/#how-it-works" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
             How it works
           </Link>
-          <Link href="/explore" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+          <Link href="/showcase" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
             Explore
           </Link>
           <Link href="/pro" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">

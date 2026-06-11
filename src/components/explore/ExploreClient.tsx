@@ -60,13 +60,6 @@ function getCategoryAccent(cat: string): string {
   return CATEGORY_ACCENT[cat] ?? 'border-l-lc-border';
 }
 
-function getStageBadge(stage: string | undefined) {
-  if (stage === 'presentation') return { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' };
-  if (stage === 'practice') return { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' };
-  if (stage === 'production') return { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-600' };
-  return null;
-}
-
 export function ExploreClient() {
   const router = useRouter();
   const { seedWithModule } = usePlannerStore();
@@ -368,18 +361,16 @@ export function ExploreClient() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {catGames.map((game) => {
                   const GameIcon = game.icon;
-                  const stageBadge = getStageBadge(game.pppStage);
                   return (
                     <div key={game.key} className={cn('panel-card border-l-2 text-left transition-all overflow-hidden flex flex-col', getCategoryAccent(cat))}>
                       <button
                         onClick={() => handleLaunchItem({ name: game.name, key: game.key, type: 'game' })}
-                        aria-label={`${game.name} – ${stageBadge?.label ?? 'Game'}, ${game.estimatedMinutes} min`}
+                        aria-label={`${game.name} – Game, ${game.estimatedMinutes} min`}
                         className="flex-1 p-6 text-left w-full block"
                       >
                         <div className="flex items-center gap-2 mb-1" aria-hidden="true">
                           <GameIcon className={`w-5 h-5 ${info.color}`} />
                           <span className="font-semibold">{game.name}</span>
-                          {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
                         </div>
                         <p className="text-sm opacity-70 mt-1">{game.description}</p>
                         <div className="flex flex-wrap gap-1 mt-3">
@@ -430,18 +421,16 @@ export function ExploreClient() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {catActivities.map((activity) => {
                   const ActivityIcon = activity.icon;
-                  const stageBadge = getStageBadge(activity.pppStage);
                   return (
                     <div key={activity.key} className={cn('panel-card border-l-2 text-left transition-all overflow-hidden flex flex-col', getCategoryAccent(cat))}>
                       <button
                         onClick={() => handleLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
-                        aria-label={`${activity.name} – ${stageBadge?.label ?? 'Activity'}, ${activity.estimatedMinutes} min`}
+                        aria-label={`${activity.name} – Activity, ${activity.estimatedMinutes} min`}
                         className="flex-1 p-6 text-left w-full block"
                       >
                         <div className="flex items-center gap-2 mb-1" aria-hidden="true">
                           <ActivityIcon className={`w-5 h-5 ${info.color}`} />
                           <span className="font-semibold">{activity.name}</span>
-                          {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
                         </div>
                         <p className="text-sm opacity-70 mt-2">{activity.description}</p>
                         <div className="flex flex-wrap gap-1 mt-3">

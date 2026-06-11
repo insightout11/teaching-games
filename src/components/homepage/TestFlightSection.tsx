@@ -43,6 +43,16 @@ export function TestFlightSection() {
             }}
           />
 
+          {/* Warm runway glow from above — ties the card to the runway-lights strip */}
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-32"
+            aria-hidden="true"
+            style={{
+              background:
+                'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(245,158,11,0.12) 0%, transparent 70%)',
+            }}
+          />
+
           {/* Dot grid — fades toward edges */}
           <div
             className="pointer-events-none absolute inset-0"

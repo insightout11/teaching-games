@@ -77,9 +77,14 @@ export function VideoLessonClient() {
   // On mount: render a shared preview (?v=) if present, else pre-load a sample so visitors
   // see the destination before deciding to try. Both are cache hits — free, no rate cost.
   useEffect(() => {
-    const v = new URLSearchParams(window.location.search).get('v');
+    const params = new URLSearchParams(window.location.search);
+    const v = params.get('v');
+    const urlParam = params.get('url'); // hero paste hand-off for non-cached links
     if (v) {
       build(`https://www.youtube.com/watch?v=${v}`);
+    } else if (urlParam) {
+      setUrl(urlParam);
+      build(urlParam);
     } else if (SAMPLE_VIDEO) {
       build(SAMPLE_VIDEO.url, { sample: true });
     }

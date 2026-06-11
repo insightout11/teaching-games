@@ -110,6 +110,9 @@ export function PricingSection() {
           <Link href="/pro" className="text-sm text-lc-blue hover:text-lc-blue/80 transition-colors">
             See full pricing and FAQ →
           </Link>
+          <p className="mt-6 text-xs text-lc-text3">
+            Built by an online ESL teacher for online ESL teachers.
+          </p>
         </motion.div>
       </div>
     </section>

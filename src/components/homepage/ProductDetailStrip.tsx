@@ -13,11 +13,11 @@ const CATEGORIES = [
   },
   {
     name: 'Logic & puzzles',
-    examples: ['Connections', 'Brain Teasers', 'Twenty Questions', 'Dialogue Detective'],
+    examples: ['Connections', 'Brain Teasers', '20 Questions', 'Dialogue Detective'],
   },
   {
     name: 'Speed & competition',
-    examples: ['Flash Quiz', 'Grid Rush', 'Sector Strike', 'Zone Board'],
+    examples: ['Flash Quiz', 'GridRush', 'Sector Strike', 'Zone Board'],
   },
   {
     name: 'Icebreakers',
@@ -25,7 +25,7 @@ const CATEGORIES = [
   },
   {
     name: 'Speaking & debate',
-    examples: ['Hot Take Arena', 'Would You Rather', 'Rank It', 'Expert Panel', 'Defend It'],
+    examples: ['Hot Take Arena', 'Would You Rather', 'Rank It', 'Expert Panel', 'Defend the Indefensible'],
   },
   {
     name: 'Video & listening',
