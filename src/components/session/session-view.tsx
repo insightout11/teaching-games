@@ -39,7 +39,7 @@ import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
-import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
+import { WorldFlightArrivalBackdrop } from '@/components/session/world-flight-backdrop';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
@@ -591,6 +591,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       return computeEarthState(lesson.currentSlotIndex, lesson.lessonSlots.length);
     },
     [lesson.isLessonActive, lesson.currentSlotIndex, lesson.lessonSlots.length],
+  );
+
+  // In-session ground backdrop for World Flight: the origin city while taking
+  // off (first module), the destination city while landing (last module). Mid-
+  // flight modules ('flight') stay sky-only — you're in the air, not at a city.
+  const wfGroundCity = useMemo(
+    () => {
+      if (earthState === 'takeoff' && wfOrigin) return { dest: wfOrigin, tod: wfDepartureTimeOfDay };
+      if (earthState === 'landing' && wfDestination) return { dest: wfDestination, tod: wfArrivalTimeOfDay };
+      return null;
+    },
+    [earthState, wfOrigin, wfDestination, wfDepartureTimeOfDay, wfArrivalTimeOfDay],
   );
 
   // ─── Pacing state ──────────────────────────────────────────────────────
@@ -1154,19 +1166,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
         {wfDestination ? (
-          /* World Flight: the destination's arrival scene (its own clock-driven
-             sky + city + landmark + landed plane) pinned as the backdrop. */
-          <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0, left: isFullScreen ? 0 : 256 }}>
-            <DestinationArrivalScene
-              destinationId={wfDestination.id}
-              scene={wfDestination.scene}
-              phase="landed"
-              progress={1}
-              timeOfDay={wfArrivalTimeOfDay}
-              planeKey={selectedPlaneKey}
-              className="absolute inset-0"
-            />
-          </div>
+          /* World Flight: the destination's city composited over the shared sky —
+             same backdrop + scale as the descent transition and in-session ground. */
+          <WorldFlightArrivalBackdrop
+            destinationId={wfDestination.id}
+            scene={wfDestination.scene}
+            weatherState="landing"
+            altitude={0}
+            timeOfDay={wfArrivalTimeOfDay}
+            planeKey={selectedPlaneKey}
+            isFullScreen={isFullScreen}
+          />
         ) : (
           <>
             {/* Generic airport runway at sunrise + distant skyline — arrived */}
@@ -1420,21 +1430,37 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── MAIN SESSION VIEW ───────────────────────────────────────────────────
   return (
     <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-      <SkyBackground
-        weatherState={weatherState}
-        currentSlotIndex={lesson.currentSlotIndex}
-        altitude={altitude}
-        earthState={earthState}
-        intensity="moderate"
-        className={isFullScreen ? '' : '!left-64'}
-      />
-      {/* Plane on runway — left taxiway (takeoff) or right taxiway (landing) */}
-      {(earthState === 'takeoff' || earthState === 'landing') && (
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
-          <div className={`absolute bottom-0 ${earthState === 'takeoff' ? 'left-[38%]' : 'left-[62%]'} -translate-x-1/2`}>
-            <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
-          </div>
-        </div>
+      {wfGroundCity ? (
+        /* World Flight ground: the origin city (takeoff) / destination city
+           (landing), same composited backdrop + scale as the transitions. */
+        <WorldFlightArrivalBackdrop
+          destinationId={wfGroundCity.dest.id}
+          scene={wfGroundCity.dest.scene}
+          weatherState={weatherState}
+          altitude={altitude}
+          timeOfDay={wfGroundCity.tod}
+          planeKey={selectedPlaneKey}
+          isFullScreen={isFullScreen}
+        />
+      ) : (
+        <>
+          <SkyBackground
+            weatherState={weatherState}
+            currentSlotIndex={lesson.currentSlotIndex}
+            altitude={altitude}
+            earthState={earthState}
+            intensity="moderate"
+            className={isFullScreen ? '' : '!left-64'}
+          />
+          {/* Plane on runway — left taxiway (takeoff) or right taxiway (landing) */}
+          {(earthState === 'takeoff' || earthState === 'landing') && (
+            <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
+              <div className={`absolute bottom-0 ${earthState === 'takeoff' ? 'left-[38%]' : 'left-[62%]'} -translate-x-1/2`}>
+                <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
+              </div>
+            </div>
+          )}
+        </>
       )}
       <div className="relative z-10 space-y-4">
         {/* Session header */}

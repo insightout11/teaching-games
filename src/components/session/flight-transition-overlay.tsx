@@ -390,7 +390,6 @@ export function FlightTransitionOverlay({
               progress={af.progress}
               mode={cityLeg!.mode}
               transparentSky
-              fit="slice"
               timeOfDay={cityLeg!.scene.timeOfDay}
               planeKey={cityLeg!.scene.planeKey ?? planeKey}
               motion={prefersReducedMotion ? 'static' : 'animated'}
