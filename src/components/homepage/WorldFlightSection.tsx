@@ -20,18 +20,21 @@ interface Leg {
 // An example journey across real LessonCaptain destinations (coords from the
 // destination pack). The final leg is the one rendered as the arrival vignette.
 const JOURNEY: Leg[] = [
-  { city: 'Tokyo', country: 'Japan', lat: 35.6762, lng: 139.6503 },
-  { city: 'Singapore', country: 'Singapore', lat: 1.3521, lng: 103.8198 },
-  { city: 'Dubai', country: 'UAE', lat: 25.2048, lng: 55.2708 },
   { city: 'Paris', country: 'France', lat: 48.8566, lng: 2.3522 },
+  { city: 'Dubai', country: 'UAE', lat: 25.2048, lng: 55.2708 },
+  { city: 'Singapore', country: 'Singapore', lat: 1.3521, lng: 103.8198 },
+  { city: 'Tokyo', country: 'Japan', lat: 35.6762, lng: 139.6503 },
 ];
 
+// Tokyo's canonical arrival scene, copied verbatim from the destination pack
+// (src/data/world-flight/destinations.ts → id 'tokyo'). Night palette over a
+// highrise skyline with the Mt. Fuji silhouette behind it.
 const ARRIVAL_SCENE: DestinationScene = {
-  terrain: 'flatland',
+  terrain: 'urban',
   vegetation: 'broadleaf',
-  skyline: 'historic',
-  landmarkSilhouette: 'eiffel',
-  palette: 'golden',
+  skyline: 'highrise',
+  landmarkSilhouette: 'fuji',
+  palette: 'night',
 };
 
 function haversineKm(a: Leg, b: Leg): number {
@@ -93,18 +96,17 @@ export function WorldFlightSection() {
         >
           <div className="relative aspect-[16/7] w-full bg-[#0a1424]">
             <DestinationArrivalScene
-              destinationId="paris"
+              destinationId="tokyo"
               scene={ARRIVAL_SCENE}
               phase="taxi"
               progress={0.7}
               motion={reduce ? 'static' : 'animated'}
-              timeOfDay="dusk"
               className="absolute inset-0 h-full w-full"
             />
-            {/* Arrival label */}
-            <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 backdrop-blur-sm">
+            {/* Arrival label — bumped opacity/ring for legibility over the night palette */}
+            <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/20 bg-black/55 px-3 py-1.5 backdrop-blur-sm">
               <Plane className="h-3.5 w-3.5 text-lc-amber" aria-hidden />
-              <span className="text-xs font-semibold text-white">Now arriving · Paris</span>
+              <span className="text-xs font-semibold text-white">Now arriving · Tokyo</span>
             </div>
           </div>
 
@@ -163,6 +165,10 @@ export function WorldFlightSection() {
             </div>
           ))}
         </motion.div>
+
+        <p className="mt-4 text-center text-xs text-lc-text3">
+          Paris → Dubai → Singapore → Tokyo — an example class route.
+        </p>
       </div>
     </section>
   );

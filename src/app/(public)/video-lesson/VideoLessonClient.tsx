@@ -391,7 +391,7 @@ export function VideoLessonClient() {
             <div className="relative">
               <p className="flex items-center gap-2 text-sm font-semibold text-lc-amber">
                 <Lock className="h-4 w-4" aria-hidden />
-                + 4 more activities, live student devices, and scoring
+                Live student devices, real-time scoring, and a class leaderboard
               </p>
               <p className="mt-2 text-sm leading-relaxed text-lc-text2">
                 {isLoggedIn
