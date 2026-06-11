@@ -47,6 +47,18 @@ describe('World Flight readings', () => {
     expect(quality.issues).toContain('canonical article contains classroom instructions');
   });
 
+  it('rejects classroom narration even when it is phrased as a city insight', () => {
+    const badSource: SourceMaterial = {
+      ...source,
+      sourceText: `${article}\n\nAmsterdam helps students see water management as daily protection.`,
+      originalText: `${article}\n\nAmsterdam helps students see water management as daily protection.`,
+    };
+
+    expect(assessWorldFlightReadingQuality(badSource).issues).toContain(
+      'canonical article contains classroom instructions',
+    );
+  });
+
   it('accepts a substantial canonical article with all reading bands', () => {
     expect(assessWorldFlightReadingQuality(source)).toEqual({ publishable: true, issues: [] });
   });

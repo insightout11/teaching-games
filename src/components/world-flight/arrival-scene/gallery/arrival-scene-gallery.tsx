@@ -15,13 +15,8 @@ interface GalleryItem {
 }
 
 // Validation cities NOT in destinations.ts — gallery-local scene fixtures only
-// (we do not edit persistence). Exercise diamond-head / hallgrimskirkja /
-// kings-park-skyline + the 'none' vegetation path.
-const FIXTURES: GalleryItem[] = [
-  { id: 'honolulu', label: 'Honolulu (fixture)', fixture: true, scene: { terrain: 'island', vegetation: 'palms', skyline: 'low', landmarkSilhouette: 'diamond-head', palette: 'tropical' } },
-  { id: 'reykjavik', label: 'Reykjavik (fixture)', fixture: true, scene: { terrain: 'coastal', vegetation: 'none', skyline: 'low', landmarkSilhouette: 'hallgrimskirkja', palette: 'winter' } },
-  { id: 'perth', label: 'Perth (fixture)', fixture: true, scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'kings-park-skyline', palette: 'golden' } },
-];
+// Keep gallery-only fixtures here when validating scenes that are not yet real destinations.
+const FIXTURES: GalleryItem[] = [];
 
 const PHASES: ArrivalPhase[] = ['approach', 'touchdown', 'taxi', 'landed'];
 

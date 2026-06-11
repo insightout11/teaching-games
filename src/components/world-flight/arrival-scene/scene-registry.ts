@@ -116,7 +116,12 @@ export const GENERIC_LANDMARK_ENTRY: LandmarkRegistryEntry = {
  * If a new destination introduces a landmark we haven't drawn yet, add its key
  * here (intentional generic) or author a component.
  */
-export const INTENTIONALLY_GENERIC: ReadonlySet<string> = new Set<string>([]);
+export const INTENTIONALLY_GENERIC: ReadonlySet<string> = new Set<string>([
+  'art-deco',
+  'kicc',
+  'monserrate',
+  'plaza-mayor',
+]);
 
 /** Resolve the registry entry for a landmark key, falling back to the generic monument. */
 export function resolveLandmark(key: string | undefined): LandmarkRegistryEntry | null {

@@ -517,7 +517,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               Choose the next city lesson.
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-lc-text3">
-              Pick a city, choose a video or reading, and we&apos;ll build a full lesson around it.
+              Pick a city, choose a source, and we&apos;ll build a full lesson around it.
             </p>
           </div>
 

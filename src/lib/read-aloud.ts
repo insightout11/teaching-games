@@ -4,8 +4,8 @@ const MIN_TARGET_WORDS = 14;
 const DEFAULT_MAX_WORDS_PER_TURN = 38;
 
 const TURN_WORD_TARGETS: Record<Difficulty, number> = {
-  Beginner: 18,
-  Easy: 22,
+  Beginner: 14,
+  Easy: 14,
   Intermediate: 32,
   Advanced: 42,
   Expert: 48,

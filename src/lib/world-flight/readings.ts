@@ -38,7 +38,7 @@ export const WORLD_FLIGHT_READING_LEVELS: Array<{
 ];
 
 const INSTRUCTIONAL_COPY =
-  /\b(students?|class|teacher)\s+(can|could|should|will|must|need to|are asked to|is asked to)\b|\bdiscuss (with|in|as) (a|the|your) class\b|\bwrite a\b|\bdesign a\b|\brole-play\b/i;
+  /\bfor students?\b|\b(students?|the class|learners?|teachers?)\s+(can|could|should|will|must|need to|are asked to|is asked to|learn|practice|compare|design|write|map|debate|discuss|see)\b|\bhelps? (students?|the class|learners?)\b|\bdiscuss (with|in|as) (a|the|your) class\b|\bwrite a\b|\bdesign a\b|\brole-play\b/i;
 
 export function countWords(text: string): number {
   return text.trim() ? text.trim().split(/\s+/).length : 0;

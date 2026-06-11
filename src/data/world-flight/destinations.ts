@@ -6,6 +6,7 @@ import {
   countWords,
   type WorldFlightReadingLevels,
 } from '@/lib/world-flight/readings';
+import { buildDestinationReadingPack } from './reading-packs';
 import { VANCOUVER_READINGS } from './reading-content';
 
 function unsplashPhoto(photoId: string, city: string, caption: string): DestinationImage {
@@ -101,17 +102,33 @@ function researchedReadingFocus(
   reading: WorldFlightReadingContent,
   citations: NonNullable<DestinationFocus['citations']>,
 ): DestinationFocus {
-  const candidate = focus(cityId, id, title, subtitle, difficulty, lessonGoal, skills, image, reading);
+  const pack =
+    typeof reading === 'string'
+      ? buildDestinationReadingPack({
+          cityId,
+          focusId: id,
+          city: title.split(' - ')[0],
+          title,
+          skills,
+          sourceText: reading,
+          citations,
+        })
+      : {
+          levels: reading,
+          citations,
+          reviewedAt: '2026-06-11',
+        };
+  const candidate = focus(cityId, id, title, subtitle, difficulty, lessonGoal, skills, image, pack.levels);
   const publishable = assessWorldFlightReadingQuality(candidate.sourceMaterial).publishable;
   return {
     ...candidate,
-    citations,
+    citations: pack.citations,
     sourceMaterial: {
       ...candidate.sourceMaterial,
-      citations,
+      citations: pack.citations,
     },
     review: publishable
-      ? { status: 'researched', reviewedAt: '2026-06-11' }
+      ? { status: 'researched', reviewedAt: pack.reviewedAt }
       : { status: 'draft' },
   };
 }
@@ -189,6 +206,13 @@ const IMAGES = {
   lagos: wikimediaFile('Tafa_Balewa_Square_(Onikan)_in_Lagos._Nigeria.jpg', 'Lagos', 'Lagos public square and dense city movement.', 'https://en.wikipedia.org/wiki/Lagos'),
   hongKong: wikimediaFile('Hong_Kong_Skyline_viewed_from_Victoria_Peak.jpg', 'Hong Kong', 'Hong Kong skyline viewed from Victoria Peak.', 'https://en.wikipedia.org/wiki/Victoria_Harbour'),
   amsterdam: wikimediaFile('Imagen_de_los_canales_conc%C3%A9ntricos_en_%C3%81msterdam.png', 'Amsterdam', 'Amsterdam canals and historic urban pattern.', 'https://en.wikipedia.org/wiki/Amsterdam'),
+  honolulu: wikimediaFile('Aerial_view_of_Waikiki_Beach_and_Honolulu%2C_Hawaii%2C_Highsmith.jpg', 'Honolulu', 'Waikiki Beach and Honolulu between the Pacific and volcanic ridges.', 'https://commons.wikimedia.org/wiki/File:Aerial_view_of_Waikiki_Beach_and_Honolulu,_Hawaii,_Highsmith.jpg'),
+  miami: wikimediaFile('Miami%2C_Florida_skyline.jpg', 'Miami', 'Miami skyline and waterfront.', 'https://commons.wikimedia.org/wiki/File:Miami,_Florida_skyline.jpg'),
+  bogota: wikimediaFile('Bogota_city_skyline_at_night_seen_from_the_Monseratte_sanctuary.png', 'Bogota', 'Bogota skyline seen from the eastern mountains.', 'https://commons.wikimedia.org/wiki/File:Bogota_city_skyline_at_night_seen_from_the_Monseratte_sanctuary.png'),
+  reykjavik: wikimediaFile('HDR_Reykjavik_skyline_%2810139777493%29.jpg', 'Reykjavik', 'Reykjavik skyline beside the North Atlantic.', 'https://commons.wikimedia.org/wiki/File:HDR_Reykjavik_skyline_(10139777493).jpg'),
+  nairobi: wikimediaFile('Nairobi_Skyline_Savannah_Kenya_May19_R1600687.jpg', 'Nairobi', 'Nairobi skyline beyond the savannah.', 'https://commons.wikimedia.org/wiki/File:Nairobi_Skyline_Savannah_Kenya_May19_R1600687.jpg'),
+  lima: wikimediaFile('Lima%2C_Peru_Skyline_7269904486.jpg', 'Lima', "Lima skyline on Peru's Pacific coast.", 'https://commons.wikimedia.org/wiki/File:Lima,_Peru_Skyline_7269904486.jpg'),
+  perth: wikimediaFile('Skyline_of_Perth_seen_from_Kings_Park%2C_October_2023_01.jpg', 'Perth', 'Perth skyline seen from Kings Park.', 'https://commons.wikimedia.org/wiki/File:Skyline_of_Perth_seen_from_Kings_Park,_October_2023_01.jpg'),
 };
 
 export const STARTER_PLANE_RANGE_KM = 5200;
@@ -1766,6 +1790,272 @@ Students can compare transport modes by more than speed. A route can be practica
       researchedReadingFocus('amsterdam', 'museum-choices', 'Amsterdam - What Museums Choose to Show', 'Use museums to discuss art, empire, trade, and difficult context.', 'Advanced', 'Analyze how museums frame objects and national stories.', ['reading', 'museums', 'critical thinking'], IMAGES.amsterdam, `Amsterdam's museums are famous, but museum lessons should not only ask what is beautiful. They can also ask where objects came from, who paid for art, what trade made possible, and how stories are explained today.\n\nStudents can choose one museum object and write two labels: one simple label and one context label. Amsterdam helps students see museums as places where storytelling choices matter.`, [
         { title: 'Rijksmuseum', publisher: 'Rijksmuseum', url: 'https://www.rijksmuseum.nl/en' },
         { title: 'Amsterdam Museum', publisher: 'Amsterdam Museum', url: 'https://www.amsterdammuseum.nl/en' },
+      ]),
+    ],
+  },
+  {
+    id: 'honolulu',
+    city: 'Honolulu',
+    country: 'United States',
+    region: 'Pacific',
+    lat: 21.3069,
+    lng: -157.8583,
+    primaryAirport: 'HNL',
+    airports: ['HNL'],
+    scene: { terrain: 'island', vegetation: 'palms', skyline: 'low', landmarkSilhouette: 'diamond-head', palette: 'tropical' },
+    heroImage: IMAGES.honolulu,
+    focusOptions: [
+      researchedReadingFocus('honolulu', 'ahupuaa-land-and-water', 'Honolulu - Reading the Land Through Ahupuaa', 'Explore a Hawaiian system that connects mountain water, farms, settlements, and the sea.', 'Intermediate', 'Explain how land and water management can connect an entire watershed.', ['reading', 'indigenous knowledge', 'environment'], IMAGES.honolulu, `In traditional Hawaiian land management, an ahupuaa is a land division that often runs from the mountains toward the sea. Its shape connects forests, streams, farming areas, settlements, fishponds, reefs, and coastal waters. Water moving downhill links the health of each part. What happens in an upland forest can eventually affect a reef far below.
+
+Ahupuaa were not identical, and they should not be reduced to a simple diagram. They were lived places governed through relationships, responsibilities, local knowledge, and the careful use of resources. Communities understood that water, food, and healthy ecosystems could not be managed as separate subjects.
+
+Modern Honolulu is much larger and more urban, but the watershed connection remains. Roads, buildings, storm drains, streams, and coastal development still direct water from ridge to reef. The older framework offers a way to see the city as part of a connected island system rather than as land separated into unrelated properties.`, [
+        { title: 'History and Principles', publisher: 'Hawaii State Aha Moku', url: 'https://dlnr.hawaii.gov/ahamoku/history/' },
+        { title: 'Hawaiian Fishponds: Providing Physical and Cultural Sustenance', publisher: 'NOAA Fisheries', url: 'https://www.fisheries.noaa.gov/feature-story/hawaiian-fishponds-providing-physical-and-cultural-sustenance' },
+      ]),
+      researchedReadingFocus('honolulu', 'waikiki-changing-coast', 'Honolulu - Waikiki as a Changing Coast', 'Look beyond the postcard to examine water, tourism, sand, and coastal protection.', 'Intermediate', 'Explain how a famous beach depends on continual environmental and public decisions.', ['reading', 'tourism', 'environment'], IMAGES.honolulu, `Waikiki is often presented as a natural tropical beach, but its modern shoreline is also the result of major human changes. Wetlands and fishpond areas were altered, streams were redirected, hotels and roads were built, and sand has been added to sections of the beach. The coastline seen by visitors is both a natural place and maintained urban infrastructure.
+
+Tourism makes Waikiki economically important, while the beach itself remains vulnerable to erosion, storms, high waves, and rising sea levels. Protecting buildings can reduce space for sand to move naturally. Replacing sand can preserve recreation for a time, but it requires money, suitable material, and repeated work.
+
+The central challenge is that many groups depend on the same narrow coast. Residents, hotel workers, visitors, businesses, surfers, swimmers, wildlife, and cultural practitioners do not always need the same thing. Waikiki shows why a beautiful public image can depend on difficult choices that are less visible.`, [
+        { title: 'Waikiki Beach Improvement and Maintenance Program', publisher: 'Hawaii Department of Land and Natural Resources', url: 'https://dlnr.hawaii.gov/occl/waikiki/' },
+        { title: 'Waikiki Beach Maintenance Project Complete', publisher: 'Hawaii Department of Land and Natural Resources', url: 'https://dlnr.hawaii.gov/blog/2021/05/20/nr21-098/' },
+      ]),
+      researchedReadingFocus('honolulu', 'pearl-harbor-memory', 'Honolulu - Pearl Harbor as Place and Memory', 'Examine how one harbor can be a military base, memorial landscape, and historical classroom.', 'Advanced', 'Analyze how public sites explain conflict, loss, responsibility, and remembrance.', ['reading', 'history', 'memory'], IMAGES.honolulu, `Pearl Harbor is an active military harbor and a landscape of public memory. The attack on December 7, 1941, brought the United States directly into the Second World War. Today, memorial sites around the harbor preserve ships, documents, personal accounts, and places connected to those events.
+
+The USS Arizona Memorial marks the resting place of many sailors killed during the attack. Other sites interpret submarines, aircraft, the battleship Missouri, and the wider Pacific War. Together they show that a historical place can contain several stories at once: sudden attack, military service, civilian experience, technological power, loss, and the eventual end of the war.
+
+Memorials influence how visitors move and behave. Quiet spaces, names, preserved objects, and guided interpretation turn a working harbor into a place of reflection. The way those elements are arranged also shapes which parts of a complex conflict receive the most attention.`, [
+        { title: 'Pearl Harbor National Memorial', publisher: 'National Park Service', url: 'https://www.nps.gov/perl/index.htm' },
+        { title: 'About the Pearl Harbor National Memorial', publisher: 'National Park Service', url: 'https://www.nps.gov/valr/learn/about-the-park.htm' },
+      ]),
+    ],
+  },
+  {
+    id: 'miami',
+    city: 'Miami',
+    country: 'United States',
+    region: 'North America',
+    lat: 25.7617,
+    lng: -80.1918,
+    primaryAirport: 'MIA',
+    airports: ['MIA', 'FLL'],
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'art-deco', palette: 'tropical' },
+    heroImage: IMAGES.miami,
+    focusOptions: [
+      researchedReadingFocus('miami', 'art-deco-preservation', 'Miami - How Art Deco Became a Neighborhood Identity', 'Use Miami Beach architecture to examine preservation, tourism, color, and reinvention.', 'Intermediate', 'Explain how preservation can protect buildings while changing how a district is used.', ['reading', 'architecture', 'history'], IMAGES.miami, `Miami Beach's Art Deco district is known for low-rise hotels, geometric decoration, curved corners, bright signs, and pastel colors. Many of its buildings were constructed during the 1920s, 1930s, and 1940s, when new materials and machine-age ideas influenced architecture. Over time, neglect and redevelopment threatened parts of the district.
+
+Preservation advocates argued that the buildings formed a valuable collection rather than a group of outdated hotels. Protecting them helped create a recognizable neighborhood identity and supported tourism. Restoration also changed the area by attracting investment, visitors, restaurants, and nightlife.
+
+Preservation is therefore not the same as keeping a place untouched. Buildings may receive new systems, new uses, and new audiences while their facades and important features remain. Miami's Art Deco district shows how a city can turn architecture from an obstacle to redevelopment into a central part of its public image.`, [
+        { title: 'Color Palettes Saving Buildings from Demolition', publisher: 'National Park Service', url: 'https://www.nps.gov/articles/000/color-pallets-saving-buildings-from-demolition.htm' },
+        { title: 'Art Deco Historic District', publisher: 'Miami Design Preservation League', url: 'https://mdpl.org/about-us/art-deco-historic-district/' },
+      ]),
+      researchedReadingFocus('miami', 'rising-water', 'Miami - Living With Rising Water', 'Explore how porous rock, high tides, drainage, and sea-level rise affect a coastal city.', 'Advanced', 'Explain why flood protection in Miami requires more than a seawall.', ['reading', 'climate', 'environment'], IMAGES.miami, `Miami faces coastal flooding from several directions. High tides can push water into low streets, heavy rain can overwhelm drainage, storms can drive water inland, and sea-level rise increases the starting height of every flood. The region's porous limestone adds another difficulty because water can move through the ground instead of remaining only on the ocean side of a barrier.
+
+Responses include higher roads, pumps, improved drains, restored natural areas, stronger building rules, and plans for neighborhoods with repeated flooding. Each measure solves only part of the problem. Pumps need power and maintenance. Raised streets can redirect water. Protective structures can affect public access and coastal ecosystems.
+
+Flood risk is also a housing and fairness issue. Property owners, renters, workers, and neighborhoods do not have equal resources to prepare, repair, insure, or move. Miami's challenge is not only how to keep water out, but how to decide where protection is possible and who receives it.`, [
+        { title: 'Sea Level Rise Strategy', publisher: 'Miami-Dade County', url: 'https://www.miamidade.gov/global/environment/resilience/sea-level-rise-strategy.page' },
+        { title: 'Sea Level Rise and Flooding', publisher: 'Miami-Dade County', url: 'https://www.miamidade.gov/global/environment/resilience/sea-level-rise-flooding.page' },
+      ]),
+      researchedReadingFocus('miami', 'languages-of-arrival', 'Miami - Languages of Arrival', 'Examine how migration and bilingual life shape business, media, identity, and public services.', 'Intermediate', 'Describe how a multilingual city changes when new communities become established.', ['reading', 'language', 'identity'], IMAGES.miami, `Miami's identity has been shaped by migration from the Caribbean, Latin America, the United States, and many other regions. Spanish and English are both widely heard, while Haitian Creole and additional languages are important in particular communities. Language is visible in homes, businesses, radio, music, schools, government offices, and neighborhood signs.
+
+Bilingual life is not simply a matter of translating every sentence. Speakers may choose a language according to family, work, audience, subject, or emotion. Businesses benefit from communicating with different customers, and public agencies need to make services understandable. At the same time, language ability can affect access to jobs and institutions.
+
+Migration changes the city while communities also change after arrival. Food, music, political ideas, celebrations, and family networks develop new local forms. Miami demonstrates how a city can become strongly connected to several regions without having only one cultural center.`, [
+        { title: 'QuickFacts: Miami city, Florida', publisher: 'United States Census Bureau', url: 'https://www.census.gov/quickfacts/fact/table/miamicityflorida/PST045225' },
+        { title: 'History of Miami', publisher: 'HistoryMiami Museum', url: 'https://historymiami.org/' },
+      ]),
+    ],
+  },
+  {
+    id: 'bogota',
+    city: 'Bogota',
+    country: 'Colombia',
+    region: 'South America',
+    lat: 4.711,
+    lng: -74.0721,
+    primaryAirport: 'BOG',
+    airports: ['BOG'],
+    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', landmarkSilhouette: 'monserrate', palette: 'dawn' },
+    heroImage: IMAGES.bogota,
+    focusOptions: [
+      researchedReadingFocus('bogota', 'ciclovia-open-streets', 'Bogota - When Streets Become the Ciclovia', 'Explore how regular street closures create space for movement, health, and public life.', 'Easy', 'Explain how changing a street schedule can change who uses the city.', ['reading', 'public space', 'transport'], IMAGES.bogota, `On Sundays and holidays, Bogota's Ciclovia opens a large network of streets to people walking, cycling, skating, and exercising while most motor traffic is kept out. The program is not a one-time festival. Its regular schedule makes a different kind of street use part of ordinary city life.
+
+Removing cars changes sound, speed, safety, and the kinds of activity that can happen. Families can travel together, vendors can serve participants, and people from different neighborhoods can share long public routes. Organizing the event still requires road closures, signs, staff, medical support, and connections around streets that remain open to vehicles.
+
+The Ciclovia demonstrates that a street is not permanently defined by its busiest weekday use. With planning and public trust, the same paved space can support transport at one time and recreation, health, and social contact at another.`, [
+        { title: 'Ciclovia Bogota', publisher: 'Bogota District Institute of Recreation and Sport', url: 'https://www.idrd.gov.co/ciclovia' },
+        { title: 'Ciclovia de Bogota: 50 Years of Sustainable Mobility and Recreation', publisher: 'Bogota District Institute of Recreation and Sport', url: 'https://www.idrd.gov.co/ciclovia/historia' },
+      ]),
+      researchedReadingFocus('bogota', 'transmilenio-network', 'Bogota - Building Rapid Transit With Buses', 'Use TransMilenio to examine capacity, dedicated lanes, access, and pressure on a growing network.', 'Intermediate', 'Explain how a bus system can operate more like rapid transit.', ['reading', 'transport', 'urban planning'], IMAGES.bogota, `TransMilenio is Bogota's bus rapid transit system. Large buses travel on dedicated lanes and serve stations where passengers pay before boarding. These features allow buses to avoid some traffic delays and load many people more quickly than ordinary street stops.
+
+The system changed how bus rapid transit was discussed internationally because it showed that a city could create high-capacity corridors without building a subway first. Yet success brought pressure. Crowding, connections from outer neighborhoods, station access, reliability, and the quality of the full journey remain important concerns.
+
+A rapid corridor is only one part of a transport network. Passengers must still reach a station, transfer, understand routes, travel safely, and arrive near their final destination. TransMilenio shows both the potential of dedicated bus infrastructure and the difficulty of keeping a heavily used system comfortable and trusted as a city grows.`, [
+        { title: 'TransMilenio', publisher: 'TransMilenio', url: 'https://www.transmilenio.gov.co/' },
+        { title: 'History', publisher: 'TransMilenio', url: 'https://www.transmilenio.gov.co/publicaciones/146851/history' },
+      ]),
+      researchedReadingFocus('bogota', 'paramo-water', 'Bogota - The High-Altitude Ecosystems Behind the Tap', 'Connect paramo ecosystems above the city with water supply, conservation, and urban demand.', 'Advanced', 'Explain why protecting distant ecosystems can be essential city infrastructure.', ['reading', 'water', 'environment'], IMAGES.bogota, `Much of Bogota's water is connected to high-altitude Andean ecosystems called paramos. These cool, wet landscapes contain specialized plants and soils that capture, store, and gradually release water. Although they may appear distant from city streets, their condition affects the reliability and quality of water reaching millions of residents.
+
+Paramos are sensitive environments. Farming, roads, mining, fire, and climate change can alter vegetation and soil. Protection can support water security and biodiversity, but conservation rules also affect rural communities that live and work near these landscapes. Effective policy must consider both ecological limits and people's livelihoods.
+
+The water system makes a hidden relationship visible. Turning on a tap in Bogota depends on rainfall, mountain ecosystems, reservoirs, pipes, treatment, maintenance, and public decisions. Protecting a watershed can therefore be as important to a city as maintaining a road, station, or power line.`, [
+        { title: 'Chingaza National Natural Park', publisher: 'National Natural Parks of Colombia', url: 'https://old.parquesnacionales.gov.co/portal/wp-content/uploads/2015/06/Descripcion-PNN-Chingaza.pdf' },
+        { title: 'Colombia: Turning the Tide on Water Security', publisher: 'World Bank', url: 'https://documents1.worldbank.org/curated/en/893581625214879262/pdf/Colombia-Turning-the-Tide-Water-Security-for-Recovery-and-Sustainable-Growth-Policy-Brief.pdf' },
+      ]),
+    ],
+  },
+  {
+    id: 'reykjavik',
+    city: 'Reykjavik',
+    country: 'Iceland',
+    region: 'North Atlantic',
+    lat: 64.1466,
+    lng: -21.9426,
+    primaryAirport: 'KEF',
+    airports: ['KEF', 'RKV'],
+    scene: { terrain: 'coastal', vegetation: 'none', skyline: 'low', landmarkSilhouette: 'hallgrimskirkja', palette: 'winter' },
+    heroImage: IMAGES.reykjavik,
+    focusOptions: [
+      researchedReadingFocus('reykjavik', 'geothermal-city', 'Reykjavik - A City Heated From Below', 'Explore how geothermal heat connects geology, homes, pools, and public infrastructure.', 'Intermediate', 'Explain how local geology can shape an energy system and daily routines.', ['reading', 'energy', 'environment'], IMAGES.reykjavik, `Reykjavik uses geothermal energy for much of its space heating and hot water. Wells reach underground reservoirs where heat from Iceland's active geology warms water. That hot water can then travel through a district system to serve many buildings rather than requiring each building to create all of its own heat.
+
+The system affects daily life in visible and invisible ways. Homes can remain warm through long winters, hot water is widely available, and public swimming pools are important community spaces. Pipes, pumping stations, wells, monitoring, and maintenance support these familiar routines.
+
+Geothermal energy is renewable on a human timescale when reservoirs are managed carefully, but it is not impact-free. Drilling, land use, mineral deposits, gases, and the rate of extraction require attention. Reykjavik shows how an energy system can grow from local natural conditions while still depending on engineering and long-term management.`, [
+        { title: 'Geothermal', publisher: 'Government of Iceland', url: 'https://government.is/topics/business-and-industry/energy/geothermal/' },
+        { title: 'Energy', publisher: 'Government of Iceland', url: 'https://government.is/topics/business-and-industry/energy/' },
+      ]),
+      researchedReadingFocus('reykjavik', 'ocean-and-fishing', 'Reykjavik - An Ocean Economy at the Edge of the Atlantic', 'Connect fishing, science, ports, processing, and sustainable limits.', 'Intermediate', 'Explain why an ocean resource requires both economic use and careful measurement.', ['reading', 'economy', 'environment'], IMAGES.reykjavik, `The North Atlantic has shaped Reykjavik and Iceland through fishing, ports, trade, food, and scientific research. Fish caught at sea become part of a much larger system that includes vessels, crews, safety, processing, transport, technology, markets, and rules about how much can be taken.
+
+Fish populations change according to reproduction, ocean temperature, food webs, and fishing pressure. Scientists collect data and estimate the condition of stocks, while government decisions translate that evidence into quotas and management plans. Those choices affect both ecosystems and communities whose work depends on the sea.
+
+Modern fishing can use advanced navigation, sensors, processing, and information systems, but technology does not remove natural limits. Reykjavik's ocean economy demonstrates why using a renewable resource responsibly requires measurement, restraint, enforcement, and the ability to change plans when conditions change.`, [
+        { title: 'Marine and Freshwater Research Institute', publisher: 'Government of Iceland', url: 'https://www.hafogvatn.is/en' },
+        { title: 'Fisheries in Iceland', publisher: 'Government of Iceland', url: 'https://government.is/topics/business-and-industry/fisheries-in-iceland/' },
+      ]),
+      researchedReadingFocus('reykjavik', 'language-and-names', 'Reykjavik - Language, Names, and a Small Speech Community', 'Examine how Icelandic remains active while residents participate in a global media world.', 'Advanced', 'Analyze how institutions and daily choices support a language over time.', ['reading', 'language', 'identity'], IMAGES.reykjavik, `Icelandic is spoken by a relatively small population, yet it remains the main language of public life in Iceland. It is used in schools, government, publishing, broadcasting, literature, and daily conversation. This strength does not happen automatically. It is supported by institutions, education, cultural pride, and the continued creation of words for new ideas and technologies.
+
+Personal names also reflect distinctive language traditions. Many Icelanders use patronymic or matronymic forms connected to a parent's given name rather than a family surname shared across generations. Alphabetical systems and everyday forms must account for those patterns.
+
+Global media, tourism, migration, and digital tools increase contact with English and other languages. That contact can expand opportunity while also creating pressure on a small language community. Reykjavik shows that keeping a language active requires more than preserving old texts; it requires making the language useful for new work, relationships, and forms of expression.`, [
+        { title: 'Education and Culture', publisher: 'Government of Iceland', url: 'https://government.is/ministries/diplomatic-missions/washington-d-c-united-states-of-america/education-and-culture/' },
+        { title: 'Personal Names Act', publisher: 'Government of Iceland', url: 'https://government.is/publications/legislation/act/2018-01-08-Personal-Names-Act-No.-45-of-17th-May-1996' },
+      ]),
+    ],
+  },
+  {
+    id: 'nairobi',
+    city: 'Nairobi',
+    country: 'Kenya',
+    region: 'East Africa',
+    lat: -1.2921,
+    lng: 36.8219,
+    primaryAirport: 'NBO',
+    airports: ['NBO', 'WIL'],
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'kicc', palette: 'golden' },
+    heroImage: IMAGES.nairobi,
+    focusOptions: [
+      researchedReadingFocus('nairobi', 'national-park-edge', 'Nairobi - A National Park Beside a Capital City', 'Explore the difficult boundary between wildlife habitat and urban growth.', 'Intermediate', 'Explain how conservation changes when a protected area borders a growing city.', ['reading', 'nature', 'urban planning'], IMAGES.nairobi, `Nairobi National Park lies beside Kenya's capital. From parts of the park, wildlife can be seen with the city skyline in the distance. The protected area provides habitat for many species, but animals and ecological processes do not stop neatly at the park boundary.
+
+Urban growth, roads, fences, nearby land use, and changing migration routes can affect how wildlife moves and survives. At the same time, the park provides conservation value, education, tourism, open land, and a powerful part of Nairobi's identity. Decisions near its edge can therefore create benefits and costs for residents, landowners, wildlife, and the wider region.
+
+The park makes a common planning problem unusually visible. Cities need homes, transport, services, and economic opportunity, while ecosystems need connected space and long-term protection. Nairobi shows that conservation beside a metropolis depends on what happens both inside and outside the official boundary.`, [
+        { title: 'Nairobi National Park', publisher: 'Kenya Wildlife Service', url: 'https://kws.go.ke/park/nairobi-national-park/' },
+        { title: 'Cities Are at the Forefront of Climate Change Action', publisher: 'UN Environment Programme', url: 'https://www.unep.org/news-and-stories/opinion/cities-are-forefront-climate-change-action-world-must-follow' },
+      ]),
+      researchedReadingFocus('nairobi', 'matatu-visual-language', 'Nairobi - Matatus as Transport and Visual Culture', 'Look at how privately operated vehicles combine mobility, music, art, and competition.', 'Intermediate', 'Explain how a transport service can also become a cultural form.', ['reading', 'transport', 'culture'], IMAGES.nairobi, `Matatus are privately operated minibuses and buses that form an important part of transport in Nairobi and across Kenya. They connect routes and neighborhoods with a flexible service that many passengers depend on. Operators compete for customers, and vehicles can be recognized through names, painted graphics, music, lighting, and interior design.
+
+This visual and musical identity turns transport into a public cultural form. A vehicle can communicate style, humor, local references, or global influences while still performing the practical work of moving passengers. Competition can encourage creativity, but the system also raises concerns about safety, fares, working conditions, regulation, and predictable service.
+
+Matatus reveal the limits of describing transport only through maps and schedules. The passenger experience also includes trust, sound, identity, communication, and the relationship between formal rules and everyday practice.`, [
+        { title: 'Using Public Transport to Create Awareness', publisher: 'UN-Habitat', url: 'https://unhabitat.org/using-public-transport-to-create-awareness-on-covid-19-%E2%80%93-a-kenyan-invention' },
+        { title: 'Matatu Graffiti as an Avenue for Self-Expression', publisher: 'East African Journal of Arts and Social Sciences', url: 'https://journals.eanso.org/index.php/eajass/article/view/208' },
+      ]),
+      researchedReadingFocus('nairobi', 'silicon-savannah', 'Nairobi - Building the Silicon Savannah', 'Examine how mobile money, startups, infrastructure, and public needs shape innovation.', 'Advanced', 'Analyze why a technology hub depends on institutions and everyday problems, not only new apps.', ['reading', 'technology', 'economy'], IMAGES.nairobi, `Nairobi is often described as a center of East African technology and innovation. Mobile money, software companies, startup spaces, universities, investors, and international organizations have helped create the idea of a "Silicon Savannah." The label suggests global ambition, but many successful innovations are closely connected to local needs.
+
+Mobile services can help people transfer money, pay businesses, receive wages, access information, or manage services where older systems are inconvenient or unavailable. Turning an idea into a reliable product still requires electricity, connectivity, skilled workers, customer trust, regulation, investment, and organizations able to grow.
+
+Technology can widen access, but it can also create new gaps involving devices, data costs, digital skills, privacy, and market power. Nairobi's innovation economy is therefore not only a story of invention. It is a story about which problems receive attention, whose needs shape design, and who can benefit from the resulting systems.`, [
+        { title: 'Kenya Digital Economy Blueprint', publisher: 'Government of Kenya', url: 'https://ict.go.ke/node/433' },
+        { title: "What Kenya's Mobile Money Success Could Mean for the Arab World", publisher: 'World Bank', url: 'https://www.worldbank.org/en/news/feature/2018/10/03/what-kenya-s-mobile-money-success-could-mean-for-the-arab-world' },
+      ]),
+    ],
+  },
+  {
+    id: 'lima',
+    city: 'Lima',
+    country: 'Peru',
+    region: 'South America',
+    lat: -12.0464,
+    lng: -77.0428,
+    primaryAirport: 'LIM',
+    airports: ['LIM'],
+    scene: { terrain: 'coastal', vegetation: 'none', skyline: 'dense', landmarkSilhouette: 'plaza-mayor', palette: 'dawn' },
+    heroImage: IMAGES.lima,
+    focusOptions: [
+      researchedReadingFocus('lima', 'desert-water-and-fog', 'Lima - Water in a Coastal Desert', 'Explore how a huge city manages scarce rain, river water, groundwater, and seasonal fog.', 'Advanced', 'Explain why water security depends on geography far beyond the city center.', ['reading', 'water', 'environment'], IMAGES.lima, `Lima is a major coastal city located in a desert climate. Rainfall in the city is very limited, so water supply depends heavily on rivers flowing from the Andes, reservoirs, groundwater, treatment systems, and a large network of pipes. Population growth and unequal access place additional pressure on that system.
+
+Seasonal coastal fog, known as garua, brings moisture even when measurable rain remains scarce. On hills called lomas, fog can support distinctive plant life. Some projects have also used mesh fog collectors to capture droplets, though this method cannot replace the large water system needed by millions of residents.
+
+The contrast between visible fog and limited water supply shows why climate must be understood carefully. Water security involves where moisture falls, how it moves, how much can be stored, and who can reach reliable service. Lima depends on connections between coast, mountains, infrastructure, and public management.`, [
+        { title: 'Preparing for Future Droughts in Lima, Peru', publisher: 'World Bank', url: 'https://openknowledge.worldbank.org/entities/publication/397c92b5-8967-5ce5-9b5f-e717daa6f125' },
+        { title: 'The Importance of the Lomas of Lima', publisher: 'Municipality of Lima', url: 'https://smia.munlima.gob.pe/novedades/la-importancia-de-nuestras-lomas-de-lima' },
+      ]),
+      researchedReadingFocus('lima', 'historic-center-earthquakes', 'Lima - Preserving a Historic Center in Earthquake Country', 'Connect colonial architecture, public memory, building safety, and continual repair.', 'Intermediate', 'Explain why protecting historic buildings also requires adapting them to risk.', ['reading', 'heritage', 'earthquake'], IMAGES.lima, `The Historic Centre of Lima contains churches, convents, houses, balconies, streets, and public spaces connected to the city's colonial and republican history. Its architecture reflects political and religious power, local materials, craftsmanship, and the long development of a capital city.
+
+Lima is also exposed to major earthquakes. Historic buildings may be especially vulnerable because of age, materials, earlier damage, changes in use, or repairs that were not designed for future shaking. Preservation therefore involves more than protecting appearance. Engineers, craftspeople, owners, public agencies, and communities must consider safety, structure, use, and cultural value together.
+
+A historic center remains meaningful when it continues to function as part of city life rather than becoming only a display. Lima's challenge is to maintain that living role while reducing risk and deciding which places receive limited restoration resources first.`, [
+        { title: 'Historic Centre of Lima', publisher: 'UNESCO World Heritage Centre', url: 'https://whc.unesco.org/en/list/500' },
+        { title: 'Disaster Risk and the Historic City Centre', publisher: 'United Nations Office for Disaster Risk Reduction', url: 'https://www.undrr.org/media/76540/download' },
+      ]),
+      researchedReadingFocus('lima', 'food-and-migration', 'Lima - A Food Culture Made Through Migration', 'Examine how Indigenous, African, European, Chinese, and Japanese histories meet in everyday dishes.', 'Intermediate', 'Explain how food can preserve memory while creating new local traditions.', ['reading', 'food culture', 'identity'], IMAGES.lima, `Lima's food culture developed through the meeting of many environments and communities. Ingredients from the Pacific coast, Andes, and Amazon reach the city, while Indigenous traditions and the histories of Spanish colonization, African communities, Chinese migration, Japanese migration, and later movement within Peru have all influenced how food is prepared and understood.
+
+These influences are not simply separate layers placed beside one another. Cooks adapted techniques and ingredients to local markets, family needs, available equipment, and changing tastes. New dishes and styles became part of the city while still carrying evidence of the relationships that produced them.
+
+International attention has made Lima an important culinary destination, creating jobs and pride. It can also focus attention on famous restaurants while overlooking markets, home cooking, farming, fishing, and lower-paid labor. The city's food story is strongest when it includes the whole network behind the plate.`, [
+        { title: 'Background of Peruvian Gastronomy and Its Perspectives', publisher: 'Journal of Ethnic Foods', url: 'https://link.springer.com/article/10.1186/s42779-023-00212-4' },
+        { title: 'A Taste of Lima', publisher: 'Harvard ReVista', url: 'https://revista.drclas.harvard.edu/a-taste-of-lima-revista/' },
+      ]),
+    ],
+  },
+  {
+    id: 'perth',
+    city: 'Perth',
+    country: 'Australia',
+    region: 'Oceania',
+    lat: -31.9523,
+    lng: 115.8613,
+    primaryAirport: 'PER',
+    airports: ['PER'],
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'kings-park-skyline', palette: 'golden' },
+    heroImage: IMAGES.perth,
+    focusOptions: [
+      researchedReadingFocus('perth', 'boorloo-and-derbarl-yerrigan', 'Perth - Boorloo and the Derbarl Yerrigan', 'Read the city through Whadjuk Noongar names, continuing culture, and the river landscape.', 'Advanced', 'Explain how Indigenous names and knowledge change the way a city is understood.', ['reading', 'indigenous knowledge', 'history'], IMAGES.perth, `Perth stands on Whadjuk Noongar Country. Boorloo is a Noongar name for Perth, and Derbarl Yerrigan is a Noongar name connected to the Swan River. These names make visible a much older and continuing relationship with the land and water than the modern city's English map suggests.
+
+The river is not only a scenic line through the city. It carries ecological, cultural, historical, and social meaning. The Swan Canning Riverpark includes waterways, wetlands, public land, wildlife habitat, recreation areas, and sites of significance to Whadjuk people. Managing it requires attention to water quality, development, public access, and cultural responsibility.
+
+Using Indigenous names can be an act of recognition, but names alone are not a complete response. Meaningful recognition also involves listening to Traditional Custodians, respecting living culture, and considering authority in decisions about place. Boorloo and Derbarl Yerrigan reveal Perth as a city within an older cultural landscape.`, [
+        { title: 'Elders Advisory Group', publisher: 'City of Perth', url: 'https://perth.wa.gov.au/community/community-services-and-facilities/elders-advisory-group' },
+        { title: 'Swan Canning Riverpark', publisher: 'Western Australia Department of Biodiversity, Conservation and Attractions', url: 'https://www.dbca.wa.gov.au/management/swan-canning-riverpark' },
+      ]),
+      researchedReadingFocus('perth', 'climate-resilient-water', 'Perth - Building a Climate-Resilient Water Supply', 'Examine how declining rainfall led the city toward desalination, groundwater, and recycling.', 'Intermediate', 'Explain why a city may need several different sources of drinking water.', ['reading', 'water', 'environment'], IMAGES.perth, `Perth has had to change where its drinking water comes from. A drying climate has reduced the amount of rainfall flowing into traditional surface-water dams. The city now depends on a mix that includes groundwater, seawater desalination, groundwater replenishment, and the water that still reaches dams.
+
+Desalination plants remove salt from seawater and provide a supply that does not depend directly on rainfall. The process also requires large infrastructure, energy, careful treatment, and management of concentrated salty water. Groundwater and recycled water create different opportunities and limits.
+
+Using several sources can make a water system more resilient because one poor season or problem does not affect every supply in the same way. It also makes the system more complex. Perth's water choices show how climate change can turn an invisible utility into a major long-term planning question involving cost, energy, public trust, and environmental care.`, [
+        { title: "Perth's Water Supply", publisher: 'Water Corporation', url: 'https://www.watercorporation.com.au/our-water/perths-water-supply' },
+        { title: 'How Water Desalination Works', publisher: 'Water Corporation', url: 'https://www.watercorporation.com.au/our-water/desalination' },
+      ]),
+      researchedReadingFocus('perth', 'kings-park-biodiversity', 'Perth - Kings Park as Urban Bushland and Science', 'Explore how a large city park combines recreation, cultural heritage, native plants, and conservation research.', 'Intermediate', 'Explain why an urban park can protect biodiversity as well as provide public space.', ['reading', 'nature', 'public space'], IMAGES.perth, `Kings Park rises beside central Perth and overlooks the river and city. It includes gardens, paths, gathering places, cultural heritage, and a large area of urban bushland. The Western Australian Botanic Garden displays thousands of plant species from across the state, many adapted to conditions found nowhere else.
+
+The park is not only a collection of attractive plants. Scientists and horticulturists work on seed conservation, species recovery, restoration, and the management of urban bushland. Research conducted in the park can support conservation work in other landscapes.
+
+Public use and ecological protection must operate together. Paths, events, fire management, invasive species control, visitor behavior, and changing climate all affect the park. Kings Park shows how a city can keep a major natural and cultural landscape close to its center while using it for research, education, recreation, and long-term care.`, [
+        { title: 'Kings Park and Botanic Garden', publisher: 'Botanic Gardens and Parks Authority', url: 'https://www.bgpa.wa.gov.au/kings-park' },
+        { title: 'Kings Park Science', publisher: 'Botanic Gardens and Parks Authority', url: 'https://www.bgpa.wa.gov.au/kings-park-science' },
       ]),
     ],
   },
