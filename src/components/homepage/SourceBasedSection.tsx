@@ -33,6 +33,12 @@ export function SourceBasedSection() {
             <p className="text-xs text-lc-text3">
               Source-based lesson planning is available on Test Flight and Pro.
             </p>
+            <Link
+              href="/video-lesson"
+              className="text-sm font-semibold text-lc-blue transition-colors hover:text-lc-blue-hover"
+            >
+              Try it with your own video →
+            </Link>
           </div>
         </motion.div>
       </div>

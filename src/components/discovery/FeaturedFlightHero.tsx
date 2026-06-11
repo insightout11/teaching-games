@@ -13,7 +13,11 @@ import { Plane, ArrowRight, Video, FileText, Type } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getFeaturedRoute, type RouteWaypoint } from '@/lib/discovery-shelves';
 import type { FlightPhase } from '@/lib/flight-plan-presets';
+import { usePlannerStore } from '@/stores/planner-store';
 import { FeaturedFlightLaunchModal } from './FeaturedFlightLaunchModal';
+
+// Written by the public /video-lesson demo before sending a visitor to sign up.
+const PENDING_SOURCE_KEY = 'lc-pending-source';
 
 // Flight-phase display labels — the fixed structural layer above the stage jobs.
 const PHASE_LABEL: Record<FlightPhase, string> = {
@@ -42,15 +46,87 @@ export function FeaturedFlightHero() {
   const route = getFeaturedRoute();
   const [launchOpen, setLaunchOpen] = useState(false);
   const [expandSource, setExpandSource] = useState(false);
+  const [pendingNote, setPendingNote] = useState<string | null>(null);
+  const setSourceMaterial = usePlannerStore((s) => s.setSourceMaterial);
+  const setTopicStore = usePlannerStore((s) => s.setTopic);
 
   function openLaunch(withSource: boolean) {
+    setPendingNote(null); // manual opens never show the demo-handoff banner
     setExpandSource(withSource);
     setLaunchOpen(true);
   }
 
+  // Signup conversion handoff: if the teacher arrived from the public /video-lesson demo,
+  // attach the video they previewed and auto-open the launcher so their first flight is
+  // THAT lesson. Re-extract by ID (a cache hit → full summary) for proper grounding.
+  useEffect(() => {
+    let raw: string | null = null;
+    try {
+      raw = localStorage.getItem(PENDING_SOURCE_KEY);
+    } catch {
+      return;
+    }
+    if (!raw) return;
+    try {
+      localStorage.removeItem(PENDING_SOURCE_KEY);
+    } catch {
+      /* ignore */
+    }
+
+    let pending: { sourceType?: string; sourceKey?: string; title?: string; summary?: string } | null = null;
+    try {
+      pending = JSON.parse(raw);
+    } catch {
+      return;
+    }
+    if (!pending || pending.sourceType !== 'youtube' || !pending.sourceKey) return;
+
+    const videoId = pending.sourceKey;
+    const title = pending.title || 'Your video';
+
+    // Attach immediately from the stored data so the launcher isn't empty…
+    setSourceMaterial({ sourceType: 'youtube', sourceKey: videoId, title, summary: pending.summary || '' });
+    setTopicStore(title);
+
+    // …then re-extract by ID to replace the thin demo hook with the full summary.
+    void (async () => {
+      try {
+        const res = await fetch('/api/source/extract', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'youtube', payload: videoId }),
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data?.summary) {
+          setSourceMaterial({
+            sourceType: 'youtube',
+            sourceKey: data.sourceKey ?? videoId,
+            title: data.title ?? title,
+            summary: data.summary,
+            duration: data.duration,
+          });
+          setTopicStore(data.title ?? title);
+        }
+      } catch {
+        /* keep the optimistic attach */
+      }
+    })();
+
+    setPendingNote('Your video lesson is ready to build — we’ve attached the video.');
+    setExpandSource(true);
+    setLaunchOpen(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="relative">
-      <FeaturedFlightLaunchModal open={launchOpen} expandSource={expandSource} onClose={() => setLaunchOpen(false)} />
+      <FeaturedFlightLaunchModal
+        open={launchOpen}
+        expandSource={expandSource}
+        pendingNote={pendingNote}
+        onClose={() => setLaunchOpen(false)}
+      />
       {/* Outer glow halo */}
       <div
         aria-hidden

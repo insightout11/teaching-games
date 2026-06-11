@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // ── Static pages ──────────────────────────────────────────────
   entries.push({ url: `${SITE_URL}/`, lastModified: now, changeFrequency: 'monthly', priority: 1.0 });
+  entries.push({ url: `${SITE_URL}/video-lesson`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 });
 
   // ── Classroom Games ──────────────────────────────────────────
   if (!LANDING_NOINDEX) {

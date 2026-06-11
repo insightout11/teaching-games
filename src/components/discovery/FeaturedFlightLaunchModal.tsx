@@ -6,7 +6,7 @@
 // launchLesson() — everything ready to go.
 
 import { useEffect, useState } from 'react';
-import { Plane, Plus, Paperclip } from 'lucide-react';
+import { Plane, Plus, Paperclip, Sparkles } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Input } from '@/components/ui/input';
@@ -31,10 +31,13 @@ export function FeaturedFlightLaunchModal({
   open,
   onClose,
   expandSource = false,
+  pendingNote = null,
 }: {
   open: boolean;
   onClose: () => void;
   expandSource?: boolean;
+  /** One-line banner shown when the launcher was auto-opened from the /video-lesson demo handoff. */
+  pendingNote?: string | null;
 }) {
   const loadPreset = usePlannerStore((s) => s.loadPreset);
   const setTopicStore = usePlannerStore((s) => s.setTopic);
@@ -160,6 +163,12 @@ export function FeaturedFlightLaunchModal({
     <>
       <Modal open={open && !showPaywall} onClose={() => { setLaunching(false); onClose(); }} title="Start Captain's Flight">
         <div className="space-y-4">
+          {pendingNote && (
+            <div className="flex items-center gap-2 rounded-lg border border-cyan-400/30 bg-cyan-400/[0.08] px-3 py-2.5 text-sm font-medium text-cyan-200">
+              <Sparkles className="h-4 w-4 shrink-0" aria-hidden />
+              {pendingNote}
+            </div>
+          )}
           <p className="text-sm leading-relaxed text-lc-text2">
             A complete live lesson — warm-up, language, discussion, a game, and a landing — generated around
             your topic{sourceAttached ? ' and source' : ''}.
