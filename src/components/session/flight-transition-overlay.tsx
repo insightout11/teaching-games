@@ -1,12 +1,29 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
+import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
+import type { ArrivalPhase, TimeOfDay } from '@/components/world-flight/arrival-scene/types';
+import type { DestinationScene } from '@/lib/world-flight/types';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
+
+/**
+ * World Flight arrival — when the descent leg has a destination, the overlay
+ * flies the plane INTO the city's own arrival scene (the same scene the results
+ * screen settles on) instead of the generic runway. One continuous shot.
+ */
+export interface FlightArrivalScene {
+  destinationId: string;
+  scene: DestinationScene;
+  cityName: string;
+  /** Context-aware time-of-day from the continuous flight clock. */
+  timeOfDay?: TimeOfDay;
+  planeKey?: string | null;
+}
 
 interface FlightTransitionOverlayProps {
   from: string | null;
@@ -16,7 +33,19 @@ interface FlightTransitionOverlayProps {
   altitudeTo: number;
   leg: FlightTransitionLeg;
   planeKey?: string | null;
+  /** When set on a descent leg, the plane lands inside the destination's scene. */
+  arrivalScene?: FlightArrivalScene;
   onDismiss: () => void;
+}
+
+// Maps overlay-lifetime progress (0→1) onto the arrival scene's phase timeline:
+// approach (diagonal descent) → touchdown (settle) → taxi (roll) → landed (park).
+// Mirrors the descent plane keyframe timing so the city fly-in feels the same.
+function arrivalFrame(t: number): { phase: ArrivalPhase; progress: number } {
+  if (t < 0.55) return { phase: 'approach', progress: t / 0.55 };
+  if (t < 0.68) return { phase: 'touchdown', progress: (t - 0.55) / 0.13 };
+  if (t < 0.86) return { phase: 'taxi', progress: (t - 0.68) / 0.18 };
+  return { phase: 'landed', progress: 1 };
 }
 
 // y value that places the plane on the sideways runway tarmac.
@@ -286,11 +315,30 @@ export function FlightTransitionOverlay({
   altitudeTo,
   leg,
   planeKey,
+  arrivalScene,
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
-  const showRunway = leg === 'takeoff' || leg === 'descent';
+  // City arrival: on descent, fly the plane into the destination's own scene.
+  const isCityArrival = leg === 'descent' && !!arrivalScene;
+  const showRunway = (leg === 'takeoff' || leg === 'descent') && !isCityArrival;
   const planeAnim = buildPlaneAnim(leg);
+
+  // Drives the arrival scene's phase/progress across the overlay lifetime.
+  const [arrivalT, setArrivalT] = useState(prefersReducedMotion ? 1 : 0);
+  useEffect(() => {
+    if (!isCityArrival || prefersReducedMotion) return;
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / TRAVEL_DURATION);
+      setArrivalT(t);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [isCityArrival, prefersReducedMotion]);
+  const af = arrivalFrame(arrivalT);
 
   useEffect(() => {
     const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3500);
@@ -302,6 +350,24 @@ export function FlightTransitionOverlay({
       className="fixed inset-0 z-[60] cursor-pointer"
       onClick={onDismiss}
     >
+      {isCityArrival ? (
+        /* Destination arrival scene — the plane descends, touches down, taxis and
+           parks inside the real city (same scene + time-of-day the results screen
+           settles on), so there is no generic-runway → city teleport. */
+        <div className="absolute inset-0" style={{ zIndex: 5, background: '#050914' }}>
+          <DestinationArrivalScene
+            destinationId={arrivalScene!.destinationId}
+            scene={arrivalScene!.scene}
+            phase={af.phase}
+            progress={af.progress}
+            timeOfDay={arrivalScene!.timeOfDay}
+            planeKey={arrivalScene!.planeKey ?? planeKey}
+            motion={prefersReducedMotion ? 'static' : 'animated'}
+            className="absolute inset-0"
+          />
+        </div>
+      ) : (
+      <>
       {/* Sky — real earth/cloud layers animate from altitudeFrom → altitudeTo over the
           overlay lifetime. parallaxScale=4 makes the shift 4× larger so the ground
           visibly falls away (takeoff) or rises to meet you (descent). */}
@@ -381,6 +447,8 @@ export function FlightTransitionOverlay({
           </motion.div>
         </div>
       )}
+      </>
+      )}
 
       {/* Route card — arrives after the plane passes center (~1.2s) */}
       <div
@@ -402,38 +470,52 @@ export function FlightTransitionOverlay({
             : { delay: 1.4, duration: 0.45, ease: 'easeOut' }}
         >
           <div className="px-8 pt-7 pb-6 space-y-5">
-            {from && (
-              <div>
-                <p className="text-[9px] font-bold tracking-[0.24em] text-amber-400/65 uppercase mb-1.5">
-                  Now Departing
-                </p>
-                <p className="text-lg font-semibold text-white/85 leading-snug"
-                  style={{ textShadow: '0 1px 10px rgba(0,0,0,0.55)' }}>
-                  {from}
-                </p>
-              </div>
-            )}
-
-            {from && to && (
-              <div className="flex items-center gap-3" style={{ opacity: 0.28 }}>
-                <div className="flex-1 h-px bg-white" />
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-white flex-shrink-0">
-                  <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-                </svg>
-                <div className="flex-1 h-px bg-white" />
-              </div>
-            )}
-
-            {to && (
+            {isCityArrival ? (
               <div>
                 <p className="text-[9px] font-bold tracking-[0.24em] text-cyan-400/70 uppercase mb-1.5">
-                  Next Stop
+                  Now Arriving
                 </p>
                 <p className="text-2xl font-bold text-white md:text-3xl leading-snug"
                   style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6)' }}>
-                  {to}
+                  {arrivalScene!.cityName}
                 </p>
               </div>
+            ) : (
+              <>
+                {from && (
+                  <div>
+                    <p className="text-[9px] font-bold tracking-[0.24em] text-amber-400/65 uppercase mb-1.5">
+                      Now Departing
+                    </p>
+                    <p className="text-lg font-semibold text-white/85 leading-snug"
+                      style={{ textShadow: '0 1px 10px rgba(0,0,0,0.55)' }}>
+                      {from}
+                    </p>
+                  </div>
+                )}
+
+                {from && to && (
+                  <div className="flex items-center gap-3" style={{ opacity: 0.28 }}>
+                    <div className="flex-1 h-px bg-white" />
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-white flex-shrink-0">
+                      <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                    </svg>
+                    <div className="flex-1 h-px bg-white" />
+                  </div>
+                )}
+
+                {to && (
+                  <div>
+                    <p className="text-[9px] font-bold tracking-[0.24em] text-cyan-400/70 uppercase mb-1.5">
+                      Next Stop
+                    </p>
+                    <p className="text-2xl font-bold text-white md:text-3xl leading-snug"
+                      style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6)' }}>
+                      {to}
+                    </p>
+                  </div>
+                )}
+              </>
             )}
           </div>
 

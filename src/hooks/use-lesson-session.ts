@@ -83,6 +83,8 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         directLaunch: parsed.directLaunch ?? false,
         sourceMaterial: parsed.sourceMaterial ?? undefined,
         worldFlightContext: parsed.worldFlightContext ?? undefined,
+        originId: parsed.originId ?? undefined,
+        destinationId: parsed.destinationId ?? undefined,
       };
     }
   } catch (e) {

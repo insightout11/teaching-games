@@ -503,31 +503,35 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const lesson = useLessonSession(session.id, settings, students.length);
 
   // ─── World Flight arrival context — the two cities this lesson flies between ──
+  // Resolve the route ids from the top-level fields, falling back to the
+  // server-validated worldFlightContext (which is reliably persisted across
+  // reloads, unlike the top-level ids). Either path yields the same city.
+  const wfDestinationId =
+    lesson.lessonPlanContent?.destinationId ?? lesson.lessonPlanContent?.worldFlightContext?.destinationId;
+  const wfOriginId =
+    lesson.lessonPlanContent?.originId ?? lesson.lessonPlanContent?.worldFlightContext?.originDestinationId ?? null;
   const wfDestination = useMemo(
-    () => {
-      const id = lesson.lessonPlanContent?.destinationId;
-      return id ? getDestinationById(id) : undefined;
-    },
-    [lesson.lessonPlanContent?.destinationId],
+    () => (wfDestinationId ? getDestinationById(wfDestinationId) : undefined),
+    [wfDestinationId],
   );
   // Arrival time-of-day from the continuous flight clock (distance-scaled). Long
   // hauls land at sunrise; short hops stay in the same light they left in.
   const wfArrivalTimeOfDay = useMemo(
     () => {
       if (!wfDestination) return undefined;
-      const origin = (lesson.lessonPlanContent?.originId ? getDestinationById(lesson.lessonPlanContent.originId) : undefined) ?? wfDestination;
+      const origin = (wfOriginId ? getDestinationById(wfOriginId) : undefined) ?? wfDestination;
       return timeOfDay(arrivalHour(distanceKm(origin, wfDestination)));
     },
-    [wfDestination, lesson.lessonPlanContent?.originId],
+    [wfDestination, wfOriginId],
   );
   // Great-circle distance for the flight clock (null for non-World-Flight lessons).
   const flightDistanceKm = useMemo(
     () => {
       if (!wfDestination) return null;
-      const origin = (lesson.lessonPlanContent?.originId ? getDestinationById(lesson.lessonPlanContent.originId) : undefined) ?? wfDestination;
+      const origin = (wfOriginId ? getDestinationById(wfOriginId) : undefined) ?? wfDestination;
       return distanceKm(origin, wfDestination);
     },
-    [wfDestination, lesson.lessonPlanContent?.originId],
+    [wfDestination, wfOriginId],
   );
 
   // ─── Sky weather state ────────────────────────────────────────────────
@@ -2112,6 +2116,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           altitudeTo={moduleTransition.altitudeTo}
           leg={moduleTransition.leg}
           planeKey={selectedPlaneKey}
+          arrivalScene={wfDestination ? {
+            destinationId: wfDestination.id,
+            scene: wfDestination.scene,
+            cityName: wfDestination.city,
+            timeOfDay: wfArrivalTimeOfDay,
+            planeKey: selectedPlaneKey,
+          } : undefined}
           onDismiss={() => setModuleTransition(null)}
         />
       )}
