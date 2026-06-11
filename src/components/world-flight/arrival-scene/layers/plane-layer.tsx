@@ -7,6 +7,19 @@ const PH = 150;
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
+// Departure path (takeoff): the plane rolls right along the runway, rotates and
+// climbs out toward the upper-right. Single 0→1 progress; phase is ignored.
+function computeDepartureFrame(p: number): { cx: number; cyBase: number; rot: number; flying: boolean } {
+  const runway = LAYOUT.runwayY;
+  if (p < 0.45) {
+    // ground roll — accelerating down the runway
+    return { cx: lerp(300, 860, p / 0.45), cyBase: runway, rot: 0, flying: false };
+  }
+  // rotate + climb out
+  const t = (p - 0.45) / 0.55;
+  return { cx: lerp(860, 1520, t), cyBase: lerp(runway, 150, t), rot: lerp(0, -12, t), flying: true };
+}
+
 // Pure function: phase + progress → exact frame. Side-profile path — plane
 // descends diagonally from the upper-left, touches the horizontal runway, taxis
 // right, then parks. `cyBase` is the wheel/base line; the image is drawn above it.
@@ -33,10 +46,10 @@ function computeFrame(phase: ArrivalPhase, p: number): { cx: number; cyBase: num
   }
 }
 
-export function PlaneLayer({ planeKey, phase, progress, ambient }: SceneLayerProps & { planeKey?: string | null }) {
+export function PlaneLayer({ planeKey, phase, progress, ambient, mode }: SceneLayerProps & { planeKey?: string | null }) {
   const plane = getPlaneAsset(planeKey);
   const p = Math.min(1, Math.max(0, progress));
-  const { cx, cyBase, rot, flying } = computeFrame(phase, p);
+  const { cx, cyBase, rot, flying } = mode === 'departure' ? computeDepartureFrame(p) : computeFrame(phase, p);
 
   const meta = plane.displayMeta;
   const scale = flying ? meta.flyingScale : meta.parkedScale;

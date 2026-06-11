@@ -35,6 +35,8 @@ interface FlightTransitionOverlayProps {
   planeKey?: string | null;
   /** When set on a descent leg, the plane lands inside the destination's scene. */
   arrivalScene?: FlightArrivalScene;
+  /** When set on a takeoff leg, the plane departs from the origin city's scene. */
+  departureScene?: FlightArrivalScene;
   onDismiss: () => void;
 }
 
@@ -316,29 +318,41 @@ export function FlightTransitionOverlay({
   leg,
   planeKey,
   arrivalScene,
+  departureScene,
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
-  // City arrival: on descent, fly the plane into the destination's own scene.
-  const isCityArrival = leg === 'descent' && !!arrivalScene;
-  const showRunway = (leg === 'takeoff' || leg === 'descent') && !isCityArrival;
+  // City transition: fly the plane INTO the destination scene on descent, or OUT
+  // of the origin scene on takeoff. Both composite the shared SkyBackground (same
+  // animated clouds + altitude parallax as every other leg) behind the city.
+  const cityLeg =
+    leg === 'descent' && arrivalScene
+      ? { scene: arrivalScene, mode: 'arrival' as const, label: 'Now Arriving' }
+      : leg === 'takeoff' && departureScene
+        ? { scene: departureScene, mode: 'departure' as const, label: 'Now Departing' }
+        : null;
+  const isCityTransition = !!cityLeg;
+  const showRunway = (leg === 'takeoff' || leg === 'descent') && !isCityTransition;
   const planeAnim = buildPlaneAnim(leg);
 
-  // Drives the arrival scene's phase/progress across the overlay lifetime.
-  const [arrivalT, setArrivalT] = useState(prefersReducedMotion ? 1 : 0);
+  // Drives the city scene's phase/progress across the overlay lifetime.
+  const [transitionT, setTransitionT] = useState(prefersReducedMotion ? 1 : 0);
   useEffect(() => {
-    if (!isCityArrival || prefersReducedMotion) return;
+    if (!isCityTransition || prefersReducedMotion) return;
     let raf = 0;
     const start = performance.now();
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / TRAVEL_DURATION);
-      setArrivalT(t);
+      setTransitionT(t);
       if (t < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [isCityArrival, prefersReducedMotion]);
-  const af = arrivalFrame(arrivalT);
+  }, [isCityTransition, prefersReducedMotion]);
+  // Departure ignores phase (single climb-out path); arrival walks the landing phases.
+  const af = cityLeg?.mode === 'departure'
+    ? { phase: 'approach' as ArrivalPhase, progress: transitionT }
+    : arrivalFrame(transitionT);
 
   useEffect(() => {
     const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3500);
@@ -350,22 +364,40 @@ export function FlightTransitionOverlay({
       className="fixed inset-0 z-[60] cursor-pointer"
       onClick={onDismiss}
     >
-      {isCityArrival ? (
-        /* Destination arrival scene — the plane descends, touches down, taxis and
-           parks inside the real city (same scene + time-of-day the results screen
-           settles on), so there is no generic-runway → city teleport. */
-        <div className="absolute inset-0" style={{ zIndex: 5, background: '#050914' }}>
-          <DestinationArrivalScene
-            destinationId={arrivalScene!.destinationId}
-            scene={arrivalScene!.scene}
-            phase={af.phase}
-            progress={af.progress}
-            timeOfDay={arrivalScene!.timeOfDay}
-            planeKey={arrivalScene!.planeKey ?? planeKey}
-            motion={prefersReducedMotion ? 'static' : 'animated'}
-            className="absolute inset-0"
+      {isCityTransition ? (
+        /* City transition — the SAME full-bleed SkyBackground (animated clouds +
+           altitude parallax) every other leg uses, composited BEHIND the city's
+           own scene (its sky made transparent, filled to width). The plane lands
+           into / departs from the real city, sharing the results-screen frame, so
+           there is no generic-runway → city teleport and it matches the rest. */
+        <>
+          <SkyBackground
+            weatherState={weatherState}
+            altitude={altitudeTo}
+            altitudeInitial={prefersReducedMotion ? altitudeTo : altitudeFrom}
+            earthState="flight"
+            showEarth={false}
+            showMoon={cityLeg!.scene.timeOfDay === 'night'}
+            intensity="moderate"
+            parallaxScale={prefersReducedMotion ? 1 : 4}
+            parallaxDuration={TRAVEL_DURATION / 1000}
           />
-        </div>
+          <div className="absolute inset-0" style={{ zIndex: 6 }}>
+            <DestinationArrivalScene
+              destinationId={cityLeg!.scene.destinationId}
+              scene={cityLeg!.scene.scene}
+              phase={af.phase}
+              progress={af.progress}
+              mode={cityLeg!.mode}
+              transparentSky
+              fit="slice"
+              timeOfDay={cityLeg!.scene.timeOfDay}
+              planeKey={cityLeg!.scene.planeKey ?? planeKey}
+              motion={prefersReducedMotion ? 'static' : 'animated'}
+              className="absolute inset-0"
+            />
+          </div>
+        </>
       ) : (
       <>
       {/* Sky — real earth/cloud layers animate from altitudeFrom → altitudeTo over the
@@ -470,14 +502,14 @@ export function FlightTransitionOverlay({
             : { delay: 1.4, duration: 0.45, ease: 'easeOut' }}
         >
           <div className="px-8 pt-7 pb-6 space-y-5">
-            {isCityArrival ? (
+            {isCityTransition ? (
               <div>
                 <p className="text-[9px] font-bold tracking-[0.24em] text-cyan-400/70 uppercase mb-1.5">
-                  Now Arriving
+                  {cityLeg!.label}
                 </p>
                 <p className="text-2xl font-bold text-white md:text-3xl leading-snug"
                   style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6)' }}>
-                  {arrivalScene!.cityName}
+                  {cityLeg!.scene.cityName}
                 </p>
               </div>
             ) : (

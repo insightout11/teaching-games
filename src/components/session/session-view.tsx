@@ -533,6 +533,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     },
     [wfDestination, wfOriginId],
   );
+  // Origin city + its departure-time light, for the takeoff fly-out (departure
+  // sits at the start of the flight clock — sunset/dusk).
+  const wfOrigin = useMemo(
+    () => (wfOriginId ? getDestinationById(wfOriginId) : undefined),
+    [wfOriginId],
+  );
+  const wfDepartureTimeOfDay = useMemo(
+    () => (flightDistanceKm == null ? undefined : timeOfDay(clockHourAt(0, flightDistanceKm))),
+    [flightDistanceKm],
+  );
 
   // ─── Sky weather state ────────────────────────────────────────────────
   const weatherState = useMemo<WeatherState>(() => {
@@ -2121,6 +2131,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             scene: wfDestination.scene,
             cityName: wfDestination.city,
             timeOfDay: wfArrivalTimeOfDay,
+            planeKey: selectedPlaneKey,
+          } : undefined}
+          departureScene={wfOrigin ? {
+            destinationId: wfOrigin.id,
+            scene: wfOrigin.scene,
+            cityName: wfOrigin.city,
+            timeOfDay: wfDepartureTimeOfDay,
             planeKey: selectedPlaneKey,
           } : undefined}
           onDismiss={() => setModuleTransition(null)}

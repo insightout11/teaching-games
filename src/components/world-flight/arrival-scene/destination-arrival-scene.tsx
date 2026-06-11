@@ -28,6 +28,9 @@ export function DestinationArrivalScene({
   progress = 0,
   planeKey,
   motion = 'animated',
+  mode = 'arrival',
+  transparentSky = false,
+  fit = 'meet',
   timeOfDay,
   className,
 }: DestinationArrivalSceneProps) {
@@ -51,7 +54,7 @@ export function DestinationArrivalScene({
   const palette = timeOfDay ? composeTimedPalette(timeOfDay, scene) : getPalette(scene.palette);
   const landmark = resolveLandmark(scene.landmarkSilhouette);
 
-  const layerProps = { scene, palette, rand, idPrefix, phase, progress: p, ambient };
+  const layerProps = { scene, palette, rand, idPrefix, phase, progress: p, ambient, mode };
   const landmarkProps: LandmarkLayerProps = { palette, rand, idPrefix, ambient };
 
   const landmarkAt = (depth: LandmarkDepth) =>
@@ -62,13 +65,13 @@ export function DestinationArrivalScene({
       viewBox={`0 0 ${VIEWBOX.w} ${VIEWBOX.h}`}
       width="100%"
       height="100%"
-      preserveAspectRatio="xMidYMax meet"
+      preserveAspectRatio={`xMidYMax ${fit}`}
       className={`pointer-events-none select-none ${className ?? ''}`}
       style={{ display: 'block', overflow: 'hidden' }}
       role="img"
       aria-label={`Arrival scene for ${destinationId}`}
     >
-      <AtmosphereLayer {...layerProps} />
+      {!transparentSky && <AtmosphereLayer {...layerProps} />}
       {landmarkAt('background')}
       <TerrainLayer {...layerProps} />
       {landmarkAt('midground')}

@@ -16,6 +16,9 @@ export type ArrivalPhase = 'approach' | 'touchdown' | 'taxi' | 'landed';
 
 export type ArrivalMotion = 'animated' | 'static';
 
+/** Arrival (plane lands into the city) vs departure (plane takes off from it). */
+export type ArrivalMode = 'arrival' | 'departure';
+
 /** Flight-clock time of day; overrides the destination's baked palette when set. */
 export type TimeOfDay = 'dawn' | 'day' | 'dusk' | 'night';
 
@@ -28,6 +31,17 @@ export interface DestinationArrivalSceneProps {
   planeKey?: string | null;
   /** 'animated' (default) enables ambient effects only; 'static' renders a still frame. */
   motion?: ArrivalMotion;
+  /** Landing (default) or taking off — controls the plane's flight path. */
+  mode?: ArrivalMode;
+  /**
+   * Skip the built-in sky (gradient + sun/moon + stars + clouds) so a shared
+   * full-bleed sky (e.g. SkyBackground) can render behind it. The ground, city,
+   * landmark, runway and plane still draw. Used by the live flight transition so
+   * the city fly-in shares the same animated clouds/altitude as the other legs.
+   */
+  transparentSky?: boolean;
+  /** How the 16:9 scene fits its box: 'meet' (letterbox, default) or 'slice' (fill). */
+  fit?: 'meet' | 'slice';
   /**
    * Flight-clock time of day. When provided, the scene composes a time-of-day
    * palette + the destination's climate tint (used by the live flight). When
@@ -56,6 +70,8 @@ export interface SceneLayerProps {
   progress: number;
   /** False when motion === 'static' OR prefers-reduced-motion. */
   ambient: boolean;
+  /** Landing vs takeoff — only the plane layer reads this. */
+  mode: ArrivalMode;
 }
 
 /**
