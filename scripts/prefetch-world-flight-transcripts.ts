@@ -44,6 +44,7 @@ type WorldFlightVideo = {
   sourceUrl: string | undefined;
   sourceKey: string;
   duration: number | undefined;
+  reviewedAt: string | undefined;
 };
 
 async function dbGetRow(sourceType: string, sourceKey: string) {
@@ -85,6 +86,7 @@ function collectVideos(cityFilter?: string): WorldFlightVideo[] {
           sourceUrl: focus.sourceUrl,
           sourceKey: focus.sourceMaterial.sourceKey!,
           duration: focus.sourceMaterial.duration,
+          reviewedAt: focus.review.reviewedAt,
         })),
     );
 }
@@ -99,6 +101,7 @@ async function prefetchVideo(video: WorldFlightVideo, checkOnly: boolean) {
   if (!text) throw new Error('EMPTY_TRANSCRIPT');
 
   const lang = segments[0]?.lang ?? 'en';
+  const transcriptVerifiedAt = video.reviewedAt ?? new Date().toISOString().slice(0, 10);
   if (checkOnly) {
     console.log(`  OK     ${video.cityId}/${video.focusId} ${video.sourceKey} - ${segments.length} segments, lang:${lang}`);
     return;
@@ -122,7 +125,7 @@ async function prefetchVideo(video: WorldFlightVideo, checkOnly: boolean) {
       publisher: video.publisher,
       sourceUrl: video.sourceUrl,
       transcriptLanguage: lang,
-      transcriptVerifiedAt: '2026-06-08',
+      transcriptVerifiedAt,
     },
   };
 

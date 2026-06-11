@@ -15,8 +15,8 @@ describe('world flight destination packs', () => {
       const videos = focusOptions.filter((focus) => focus.kind === 'video');
       const readings = focusOptions.filter((focus) => focus.kind === 'reading');
 
-      expect([3, 6], destination.id).toContain(focusOptions.length);
-      expect([0, 3], destination.id).toContain(videos.length);
+      expect(focusOptions, destination.id).toHaveLength(6);
+      expect(videos, destination.id).toHaveLength(3);
       expect(readings, destination.id).toHaveLength(3);
       expect(new Set(focusOptions.map((focus) => focus.id)).size, destination.id).toBe(focusOptions.length);
 
