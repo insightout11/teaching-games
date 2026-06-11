@@ -44,7 +44,7 @@ export class GeminiProvider implements AIProvider {
 
   async generateJSON<T>(prompt: string, schema: AISchema, options?: GenerateJSONOptions): Promise<T> {
     const model = this.genAI.getGenerativeModel({
-      model: options?.model || 'gemini-2.5-flash',
+      model: options?.model || 'gemini-2.5-flash-lite',
       // Gemini 2.5 models enable "thinking" by default, which roughly 2-4x's latency on
       // these structured-output tasks for no quality gain (the prior default, 2.0-flash,
       // had no thinking). thinkingConfig is forwarded by the SDK but missing from its
