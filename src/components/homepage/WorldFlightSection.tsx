@@ -94,7 +94,9 @@ export function WorldFlightSection() {
           transition={{ duration: 0.6 }}
           className="overflow-hidden rounded-2xl border border-lc-amber/25 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9)]"
         >
-          <div className="relative aspect-[16/7] w-full bg-[#0a1424]">
+          {/* aspect-video (16:9) frames exactly the focal safe zone of the wide
+              arrival canvas; a wider ratio would reveal the side-bleed margins. */}
+          <div className="relative aspect-video w-full bg-[#0a1424]">
             <DestinationArrivalScene
               destinationId="tokyo"
               scene={ARRIVAL_SCENE}

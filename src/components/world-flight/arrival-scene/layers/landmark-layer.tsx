@@ -1,4 +1,4 @@
-import { VIEWBOX, type LandmarkLayerProps, type LandmarkRegistryEntry } from '../types';
+import { CONTENT_W, type LandmarkLayerProps, type LandmarkRegistryEntry } from '../types';
 
 // Renders one landmark registry entry, applying its placement (anchorX, baseY,
 // scale, opacity). The landmark component itself only draws around a base-center
@@ -14,7 +14,7 @@ export function LandmarkLayer({
 }: { entry: LandmarkRegistryEntry } & LandmarkLayerProps) {
   const Landmark = entry.component;
   const { palette, idPrefix } = props;
-  const x = entry.anchorX * VIEWBOX.w;
+  const x = entry.anchorX * CONTENT_W;
   const halo = entry.depth !== 'background';
   const haloId = `${idPrefix}-lmk-halo`;
   const haloColor = palette.light === 'moon' ? 'rgba(150,196,255,0.85)' : 'rgba(255,242,210,0.7)';

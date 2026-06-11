@@ -1,4 +1,4 @@
-import { LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
+import { CONTENT_W, LAYOUT, type SceneLayerProps } from '../types';
 import { normalizeSkyline } from '../scene-registry';
 import { randInt, randRange } from '../seed';
 
@@ -45,7 +45,7 @@ export function SkylineLayer({ scene, palette, rand, idPrefix }: SceneLayerProps
   const buildings: React.ReactNode[] = [];
   let x = -50;
   let key = 0;
-  while (x < VIEWBOX.w + 50) {
+  while (x < CONTENT_W + 50) {
     const w = randRange(rand, r.wMin, r.wMax);
     const h = randRange(rand, r.hMin, r.hMax);
     const top = base - h;

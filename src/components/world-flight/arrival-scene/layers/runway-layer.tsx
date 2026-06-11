@@ -13,12 +13,13 @@ export function RunwayLayer({ palette, idPrefix, ambient }: SceneLayerProps) {
   const runH = 92;
   const runBottom = runTop + runH;
 
-  // Centerline dashes run horizontally down the middle of the band.
+  // Centerline dashes + edge lights run full-canvas-width (uniform repeating
+  // pattern, so the phase is imperceptible — extends across the side bleed).
   const dashY = LAYOUT.runwayY + 6;
-  const dashes = Array.from({ length: 13 }, (_, i) => 60 + i * 120);
+  const dashes = Array.from({ length: Math.ceil((VIEWBOX.w + 100) / 120) }, (_, i) => 60 + i * 120);
   // Edge lights line the near edge of the runway band.
   const lightY = runBottom - 6;
-  const lights = Array.from({ length: 14 }, (_, i) => 70 + i * 110);
+  const lights = Array.from({ length: Math.ceil((VIEWBOX.w + 100) / 110) }, (_, i) => 70 + i * 110);
 
   return (
     <g aria-hidden>

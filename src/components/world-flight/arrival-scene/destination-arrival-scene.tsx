@@ -2,9 +2,9 @@
 
 import { useId, useMemo } from 'react';
 import { useReducedMotion } from 'framer-motion';
-import { VIEWBOX, type DestinationArrivalSceneProps, type LandmarkDepth, type LandmarkLayerProps } from './types';
+import { BLEED_X, CONTENT_W, LAYOUT, VIEWBOX, type DestinationArrivalSceneProps, type LandmarkDepth, type LandmarkLayerProps, type ScenePalette } from './types';
 import { composeTimedPalette, getPalette } from './palettes';
-import { seededRand } from './seed';
+import { randRange, seededRand } from './seed';
 import { resolveLandmark } from './scene-registry';
 import { AtmosphereLayer } from './layers/atmosphere-layer';
 import { TerrainLayer } from './layers/terrain-layer';
@@ -14,13 +14,43 @@ import { LandmarkLayer } from './layers/landmark-layer';
 import { RunwayLayer } from './layers/runway-layer';
 import { PlaneLayer } from './layers/plane-layer';
 
-// Composable arrival scene. Maps DestinationScene metadata onto reusable layers
-// in one `viewBox="0 0 1600 900"` coordinate system, side-profile camera.
+// Distant, low-contrast skyline painted into the side bleed margins so wide
+// windows don't show the focal city floating on bare shoulders. Uses its OWN
+// seeded RNG (NOT the shared scene rand) so it never perturbs the focal layers'
+// draw sequence — that keeps the 16:9 focal zone pixel-identical.
+function BleedSkyline({ palette, destinationId }: { palette: ScenePalette; destinationId: string }) {
+  const rand = seededRand(`${destinationId}:bleed`);
+  const base = LAYOUT.apronY + 12;
+  const cells: React.ReactNode[] = [];
+  const fillMargin = (x0: number, x1: number, keyBase: number) => {
+    let x = x0;
+    let k = keyBase;
+    while (x < x1) {
+      const w = randRange(rand, 40, 92);
+      const h = randRange(rand, 44, 150); // well below focal heights → reads as distance
+      cells.push(<rect key={k} x={x} y={base - h} width={w} height={h} fill={palette.buildingSilhouette} />);
+      x += w + randRange(rand, 6, 20);
+      k += 1;
+    }
+  };
+  fillMargin(0, BLEED_X, 0);
+  fillMargin(BLEED_X + CONTENT_W, VIEWBOX.w, 10000);
+  // Low opacity = atmospheric distance; sits behind the focal city / runway grass.
+  return <g aria-hidden opacity={0.4}>{cells}</g>;
+}
+
+// Composable arrival scene. Maps DestinationScene metadata onto reusable layers.
+// The CANVAS is a wide 32:9 viewBox; the authored focal city lives in the centered
+// CONTENT_W safe zone (offset by BLEED_X). Sky, terrain base bands and the runway
+// fill the full canvas; focal layers are wrapped in translate(BLEED_X); the bleed
+// margins carry a distant skyline. `slice` is height-anchored on wide windows
+// (no upscaling) and crops the bleed symmetrically at 16:9 (pixel-identical).
 //
 // Render order (back → front), with the landmark inserted into the depth slot
 // named by its registry entry:
-//   1 atmosphere · 2 background landmark · 3 terrain · 4 midground landmark
-//   5 skyline · 6 foreground landmark · 7 vegetation · 8 runway · 9 plane
+//   1 atmosphere · 2 background landmark · 3 terrain · 4 bleed skyline
+//   5 midground landmark · 6 skyline · 7 foreground landmark · 8 vegetation
+//   9 runway · 10 plane
 export function DestinationArrivalScene({
   destinationId,
   scene,
@@ -30,7 +60,10 @@ export function DestinationArrivalScene({
   motion = 'animated',
   mode = 'arrival',
   transparentSky = false,
-  fit = 'meet',
+  // 'slice' is the right default for the wide canvas: height-anchored on any
+  // window ≤ ~3.2:1 (focal at exact 16:9 size), filling a 16:9 box with the focal
+  // zone. 'meet' would letterbox the 32:9 canvas inside a 16:9 container.
+  fit = 'slice',
   timeOfDay,
   className,
 }: DestinationArrivalSceneProps) {
@@ -60,6 +93,9 @@ export function DestinationArrivalScene({
   const landmarkAt = (depth: LandmarkDepth) =>
     landmark && landmark.depth === depth ? <LandmarkLayer entry={landmark} {...landmarkProps} /> : null;
 
+  // Focal layers draw in 0..CONTENT_W and are shifted into the centered safe zone.
+  const focal = `translate(${BLEED_X},0)`;
+
   return (
     <svg
       viewBox={`0 0 ${VIEWBOX.w} ${VIEWBOX.h}`}
@@ -71,15 +107,23 @@ export function DestinationArrivalScene({
       role="img"
       aria-label={`Arrival scene for ${destinationId}`}
     >
+      {/* Full-canvas: sky (tier 1) */}
       {!transparentSky && <AtmosphereLayer {...layerProps} />}
-      {landmarkAt('background')}
+      {/* Focal background landmark */}
+      <g transform={focal}>{landmarkAt('background')}</g>
+      {/* Terrain self-splits: base bands full-canvas, silhouettes focal */}
       <TerrainLayer {...layerProps} />
-      {landmarkAt('midground')}
-      <SkylineLayer {...layerProps} />
-      {landmarkAt('foreground')}
-      <VegetationLayer {...layerProps} />
+      {/* Distant skyline in the side bleed (own RNG — does not perturb focal) */}
+      <BleedSkyline palette={palette} destinationId={destinationId} />
+      {/* Focal city + accents */}
+      <g transform={focal}>{landmarkAt('midground')}</g>
+      <g transform={focal}><SkylineLayer {...layerProps} /></g>
+      <g transform={focal}>{landmarkAt('foreground')}</g>
+      <g transform={focal}><VegetationLayer {...layerProps} /></g>
+      {/* Full-canvas: airfield ground + runway (tier 2) */}
       <RunwayLayer {...layerProps} />
-      <PlaneLayer {...layerProps} planeKey={planeKey} />
+      {/* Focal plane */}
+      <g transform={focal}><PlaneLayer {...layerProps} planeKey={planeKey} /></g>
     </svg>
   );
 }

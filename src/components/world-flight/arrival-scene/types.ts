@@ -40,7 +40,8 @@ export interface DestinationArrivalSceneProps {
    * the city fly-in shares the same animated clouds/altitude as the other legs.
    */
   transparentSky?: boolean;
-  /** How the 16:9 scene fits its box: 'meet' (letterbox, default) or 'slice' (fill). */
+  /** How the wide canvas fits its box: 'slice' (fill, height-anchored — default) or
+   *  'meet' (whole canvas, letterboxes a 32:9 canvas in a 16:9 box — rarely wanted). */
   fit?: 'meet' | 'slice';
   /**
    * Flight-clock time of day. When provided, the scene composes a time-of-day
@@ -128,9 +129,20 @@ export interface ScenePalette {
   landmarkAccent: string;
 }
 
-// ── Shared coordinate system (single viewBox 0 0 1600 900) ──────────────────
+// ── Shared coordinate system ────────────────────────────────────────────────
+// The CANVAS is a wide 32:9 viewBox; the FOCAL composition (the authored 16:9
+// city) lives in the centered safe zone CONTENT_W, offset by BLEED_X. On a
+// window wider than 16:9, `slice` becomes height-anchored (buildings render at
+// the exact 16:9 size — no upscaling); on a 16:9 window the side bleed crops away
+// symmetrically, leaving the focal zone pixel-identical. Sky + ground bands +
+// runway fill the full canvas; the bleed margins carry distant ground + skyline.
 
-export const VIEWBOX = { w: 1600, h: 900 } as const;
+/** Full wide canvas (32:9). */
+export const VIEWBOX = { w: 2880, h: 900 } as const;
+/** Authored focal width — the 16:9 safe zone. Focal layers draw in 0..CONTENT_W. */
+export const CONTENT_W = 1600;
+/** Horizontal offset of the focal zone inside the canvas: (2880 - 1600) / 2. */
+export const BLEED_X = (VIEWBOX.w - CONTENT_W) / 2;
 
 /**
  * Vertical anchors for the side-profile composition. Everything keys off these

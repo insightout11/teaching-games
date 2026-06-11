@@ -1,4 +1,4 @@
-import { LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
+import { CONTENT_W, LAYOUT, type SceneLayerProps } from '../types';
 import { normalizeVegetation } from '../scene-registry';
 import { randRange } from '../seed';
 
@@ -13,8 +13,8 @@ export function VegetationLayer({ scene, palette, rand }: SceneLayerProps) {
   // Scatter trees, avoiding the centre where the plane lands/taxis.
   const slots: number[] = [];
   for (let i = 0; i < 12; i += 1) {
-    const x = randRange(rand, 30, VIEWBOX.w - 30);
-    if (x > VIEWBOX.w * 0.34 && x < VIEWBOX.w * 0.74) continue; // keep runway centre clear
+    const x = randRange(rand, 30, CONTENT_W - 30);
+    if (x > CONTENT_W * 0.34 && x < CONTENT_W * 0.74) continue; // keep runway centre clear
     slots.push(x);
   }
 
