@@ -309,6 +309,12 @@ const NEAR_CLOUDS = [
     circles: [{ cx:120,cy:90,r:78 },{ cx:200,cy:70,r:88 },{ cx:282,cy:82,r:68 },{ cx:75,cy:102,r:60 }] },
 ];
 
+// Feathered top edge for the cloud field: the topmost clouds fade in under the clear
+// header/cruise sky instead of hard-cutting, so the descent reads as a smooth altitude
+// change rather than a sudden cloud band. Lower clouds (below ~20%) are unaffected.
+const CLOUD_TOP_FEATHER =
+  'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 9%, #000 22%, #000 100%)';
+
 // ─── Runway perspective geometry ─────────────────────────────────────────────
 
 const CENTERLINE_DASHES = [
@@ -799,7 +805,7 @@ export function SkyBackground({
       {/* Far layer */}
       <motion.div
         className="absolute inset-0"
-        style={{ zIndex: 4 }}
+        style={{ zIndex: 4, maskImage: CLOUD_TOP_FEATHER, WebkitMaskImage: CLOUD_TOP_FEATHER }}
         initial={{ y: farShiftInit }}
         animate={{ y: farShift }}
         transition={{ duration: parallaxDuration, ease: parallaxEase }}
@@ -822,7 +828,7 @@ export function SkyBackground({
       {/* Mid layer */}
       <motion.div
         className="absolute inset-0"
-        style={{ zIndex: 5 }}
+        style={{ zIndex: 5, maskImage: CLOUD_TOP_FEATHER, WebkitMaskImage: CLOUD_TOP_FEATHER }}
         initial={{ y: midShiftInit }}
         animate={{ y: midShift }}
         transition={{ duration: parallaxDuration, ease: parallaxEase }}
@@ -845,7 +851,7 @@ export function SkyBackground({
       {/* Near layer */}
       <motion.div
         className="absolute inset-0"
-        style={{ zIndex: 6 }}
+        style={{ zIndex: 6, maskImage: CLOUD_TOP_FEATHER, WebkitMaskImage: CLOUD_TOP_FEATHER }}
         initial={{ y: nearShiftInit }}
         animate={{ y: nearShift }}
         transition={{ duration: parallaxDuration, ease: parallaxEase }}

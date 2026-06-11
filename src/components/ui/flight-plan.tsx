@@ -31,6 +31,8 @@ interface LessonCaptainFlightPlanProps {
   onMoveModule?: (index: number, direction: 'left' | 'right') => void;
   slotBudgets?: number[];
   pacingIndex?: number;
+  /** Render in the bright "engaged" state permanently (no hover needed) — used on marketing. */
+  forceEmphasis?: boolean;
 }
 
 const DEFAULT_STEPS: FlightPlanStep[] = [
@@ -1036,6 +1038,7 @@ export function LessonCaptainFlightPlan({
   onMoveModule,
   slotBudgets,
   pacingIndex,
+  forceEmphasis = false,
 }: LessonCaptainFlightPlanProps) {
   const safeSteps = useMemo(() => {
     if (!Array.isArray(steps) || steps.length < 3) return DEFAULT_STEPS;
@@ -1077,7 +1080,7 @@ export function LessonCaptainFlightPlan({
   const [isHovered, setIsHovered] = useState(false);
   const [hasFocusWithin, setHasFocusWithin] = useState(false);
   useEffect(() => setMounted(true), []);
-  const isEngaged = isHovered || hasFocusWithin;
+  const isEngaged = forceEmphasis || isHovered || hasFocusWithin;
 
   return (
     <div className="overflow-x-auto">

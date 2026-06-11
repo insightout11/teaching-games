@@ -259,6 +259,7 @@ function FlightPlanPanel() {
         height={300}
         mode="runtime"
         activeIndex={activeIndex}
+        forceEmphasis
       />
     </div>
   );
