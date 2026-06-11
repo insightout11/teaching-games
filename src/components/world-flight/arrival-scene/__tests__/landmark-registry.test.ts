@@ -45,6 +45,6 @@ describe('landmark registry audit', () => {
     // Informational — guides the next authoring batch.
     // eslint-disable-next-line no-console
     console.log(`Generic-fallback cities (${generic.length}):\n  ${generic.join('\n  ')}`);
-    expect(generic.length).toBe(productionKeys.length - Object.keys(LANDMARK_REGISTRY).filter((k) => productionKeys.includes(k)).length);
+    expect(generic.length).toBe(productionKeys.filter((key) => INTENTIONALLY_GENERIC.has(key)).length);
   });
 });
