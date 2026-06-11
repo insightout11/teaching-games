@@ -11,8 +11,10 @@ import {
   HelpCircle,
   ArrowRight,
   Loader2,
+  Play,
 } from 'lucide-react';
-import { FEATURED_CHIPS } from '@/lib/video-lesson-demos';
+import { FEATURED_CHIPS, type DemoVideo } from '@/lib/video-lesson-demos';
+import { createClient } from '@/lib/supabase/client';
 
 interface PreviewVocab {
   word: string;
@@ -37,6 +39,7 @@ interface PreviewResponse {
 }
 
 const PENDING_SOURCE_KEY = 'lc-pending-source';
+const SAMPLE_VIDEO = FEATURED_CHIPS[0]; // pre-loaded so the payoff is visible above the fold
 
 // Aviation-voiced staged progress while the (uncached) request runs.
 const LOADING_STAGES = [
@@ -51,6 +54,8 @@ export function VideoLessonClient() {
   const [loading, setLoading] = useState(false);
   const [stage, setStage] = useState(0);
   const [preview, setPreview] = useState<PreviewResponse | null>(null);
+  const [isSample, setIsSample] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState<{ message: string; atCapacity: boolean } | null>(null);
   const stageTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -61,16 +66,39 @@ export function VideoLessonClient() {
     };
   }, []);
 
-  async function build(targetUrl: string) {
+  // Auth-aware: the page is in the (public) shell, so a signed-in teacher lands here too.
+  useEffect(() => {
+    createClient()
+      .auth.getUser()
+      .then(({ data }: { data: { user: { id: string } | null } }) => setIsLoggedIn(!!data.user))
+      .catch(() => {});
+  }, []);
+
+  // On mount: render a shared preview (?v=) if present, else pre-load a sample so visitors
+  // see the destination before deciding to try. Both are cache hits — free, no rate cost.
+  useEffect(() => {
+    const v = new URLSearchParams(window.location.search).get('v');
+    if (v) {
+      build(`https://www.youtube.com/watch?v=${v}`);
+    } else if (SAMPLE_VIDEO) {
+      build(SAMPLE_VIDEO.url, { sample: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function build(targetUrl: string, opts?: { sample?: boolean }) {
+    const sample = opts?.sample ?? false;
     const trimmed = targetUrl.trim();
     if (!trimmed || loading) return;
-    setLoading(true);
+    if (!sample) {
+      setLoading(true);
+      setPreview(null);
+      setStage(0);
+      stageTimer.current = setInterval(() => {
+        setStage((s) => Math.min(s + 1, LOADING_STAGES.length - 1));
+      }, 2600);
+    }
     setError(null);
-    setPreview(null);
-    setStage(0);
-    stageTimer.current = setInterval(() => {
-      setStage((s) => Math.min(s + 1, LOADING_STAGES.length - 1));
-    }, 2600);
 
     try {
       const res = await fetch('/api/public/video-lesson-preview', {
@@ -80,23 +108,33 @@ export function VideoLessonClient() {
       });
       const data = (await res.json()) as PreviewResponse;
       if (!res.ok) {
-        setError({
-          message: data.error ?? 'We couldn’t build a lesson from that link. Try another video.',
-          atCapacity: data.code === 'DEMO_BUSY',
-        });
+        // Sample/shared loads fail silently — never block the page on them.
+        if (!sample) {
+          setError({
+            message: data.error ?? 'We couldn’t build a lesson from that link. Try another video.',
+            atCapacity: data.code === 'DEMO_BUSY',
+          });
+        }
         return;
       }
       setPreview(data);
-      requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      setIsSample(sample);
+      if (!sample) {
+        // Make the result a shareable, refresh-proof URL (the preview is now cached → free).
+        window.history.replaceState(null, '', `/video-lesson?v=${data.videoId}`);
+        requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      }
     } catch {
-      setError({ message: 'Something went wrong. Please try again.', atCapacity: false });
+      if (!sample) setError({ message: 'Something went wrong. Please try again.', atCapacity: false });
     } finally {
-      if (stageTimer.current) clearInterval(stageTimer.current);
-      setLoading(false);
+      if (!sample) {
+        if (stageTimer.current) clearInterval(stageTimer.current);
+        setLoading(false);
+      }
     }
   }
 
-  function goSignup() {
+  function handleCta() {
     if (preview) {
       try {
         localStorage.setItem(
@@ -112,17 +150,26 @@ export function VideoLessonClient() {
         /* ignore */
       }
     }
-    router.push('/login?next=/home');
+    // Logged in → straight to the planner handoff on /home (video auto-attaches there).
+    // Logged out → sign up first, then the same handoff.
+    router.push(isLoggedIn ? '/home' : '/login?next=/home');
+  }
+
+  function pickChip(chip: DemoVideo) {
+    setUrl(chip.url);
+    build(chip.url);
   }
 
   return (
     <div className="mx-auto w-full max-w-3xl">
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="text-center">
-        <span className="font-instrument inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-400/[0.06] px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-cyan-200">
-          <Sparkles className="h-3 w-3" aria-hidden />
-          Free · No sign-up
-        </span>
+        {!isLoggedIn && (
+          <span className="font-instrument inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-400/[0.06] px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-cyan-200">
+            <Sparkles className="h-3 w-3" aria-hidden />
+            Free · No sign-up
+          </span>
+        )}
         <h1 className="mt-5 text-3xl font-bold leading-tight text-lc-text sm:text-[2.6rem]">
           Turn any YouTube video into a live English lesson
         </h1>
@@ -155,22 +202,38 @@ export function VideoLessonClient() {
           </button>
         </div>
 
-        {/* Instant-gratification chips */}
-        {!preview && !loading && (
-          <div className="mx-auto mt-5 flex max-w-xl flex-wrap items-center justify-center gap-2">
-            <span className="font-instrument text-[11px] uppercase tracking-wider text-lc-text3">or try one of these</span>
-            {FEATURED_CHIPS.map((chip) => (
-              <button
-                key={chip.videoId}
-                onClick={() => {
-                  setUrl(chip.url);
-                  build(chip.url);
-                }}
-                className="rounded-full border border-cyan-300/20 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-lc-text2 transition-colors hover:border-cyan-300/45 hover:text-lc-text"
-              >
-                {chip.title}
-              </button>
-            ))}
+        {/* Instant-gratification chips — recognizable thumbnails, always one cache-hit away */}
+        {!loading && (
+          <div className="mx-auto mt-6 max-w-xl">
+            <p className="font-instrument mb-2.5 text-[11px] uppercase tracking-wider text-lc-text3">
+              {preview && !isSample ? 'or try another' : 'or try one of these'}
+            </p>
+            <div className="grid grid-cols-3 gap-2.5">
+              {FEATURED_CHIPS.map((chip) => (
+                <button
+                  key={chip.videoId}
+                  onClick={() => pickChip(chip)}
+                  className="group relative overflow-hidden rounded-xl border border-cyan-300/15 bg-black/40 text-left transition-colors hover:border-cyan-300/45"
+                >
+                  <div className="relative aspect-video w-full">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`https://i.ytimg.com/vi/${chip.videoId}/mqdefault.jpg`}
+                      alt={chip.title}
+                      className="h-full w-full object-cover opacity-85 transition-opacity group-hover:opacity-100"
+                    />
+                    <span className="absolute inset-0 grid place-items-center">
+                      <span className="grid h-8 w-8 place-items-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-transform group-hover:scale-110">
+                        <Play className="h-4 w-4 translate-x-px" aria-hidden />
+                      </span>
+                    </span>
+                  </div>
+                  <p className="line-clamp-2 px-2 py-1.5 text-[11px] font-medium leading-tight text-lc-text2 group-hover:text-lc-text">
+                    {chip.title}
+                  </p>
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </section>
@@ -200,10 +263,7 @@ export function VideoLessonClient() {
               {FEATURED_CHIPS.map((chip) => (
                 <button
                   key={chip.videoId}
-                  onClick={() => {
-                    setUrl(chip.url);
-                    build(chip.url);
-                  }}
+                  onClick={() => pickChip(chip)}
                   className="rounded-full border border-cyan-300/20 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-lc-text2 transition-colors hover:border-cyan-300/45 hover:text-lc-text"
                 >
                   {chip.title}
@@ -217,6 +277,13 @@ export function VideoLessonClient() {
       {/* ── Result ───────────────────────────────────────────── */}
       {preview && !loading && (
         <div ref={resultRef} className="mt-10 space-y-6">
+          {isSample && (
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-cyan-300/15 bg-cyan-400/[0.05] px-3 py-2 text-center text-xs text-lc-text2">
+              <Sparkles className="h-3.5 w-3.5 text-cyan-300" aria-hidden />
+              Here’s an example — paste your own video above to make one from it.
+            </div>
+          )}
+
           {/* Header: thumbnail + title + level + hook */}
           <div className="overflow-hidden rounded-2xl border border-cyan-300/20 bg-[#04101f]/80">
             <div className="relative aspect-video w-full bg-black">
@@ -309,7 +376,7 @@ export function VideoLessonClient() {
             </div>
           )}
 
-          {/* Locked section + CTA */}
+          {/* Locked section + CTA (auth-aware) */}
           <div className="relative overflow-hidden rounded-2xl border border-lc-amber/30 bg-gradient-to-br from-lc-amber/[0.08] to-transparent p-6">
             <div aria-hidden className="pointer-events-none absolute inset-0 select-none space-y-2 p-6 opacity-30 blur-[3px]">
               <div className="h-4 w-1/2 rounded bg-white/20" />
@@ -322,14 +389,15 @@ export function VideoLessonClient() {
                 + 4 more activities, live student devices, and scoring
               </p>
               <p className="mt-2 text-sm leading-relaxed text-lc-text2">
-                Sign up free to run this as a full live lesson — students join from their phones, you
-                run the whole flight, and scores track in real time.
+                {isLoggedIn
+                  ? 'Open this in your planner to build the full lesson — every stage, student devices, and live scoring.'
+                  : 'Sign up free to run this as a full live lesson — students join from their phones, you run the whole flight, and scores track in real time.'}
               </p>
               <button
-                onClick={goSignup}
+                onClick={handleCta}
                 className="mt-4 inline-flex items-center gap-2 rounded-xl bg-lc-amber px-5 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90"
               >
-                Sign up free and fly this lesson
+                {isLoggedIn ? 'Open in your planner' : 'Sign up free and fly this lesson'}
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </button>
             </div>
