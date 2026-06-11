@@ -10,8 +10,12 @@
 //
 // Usage:
 //   npm run seed-video-previews            # warm every DEMO_VIDEO
+//   npm run seed-video-previews -- --chips  # warm only the 3 page chips (the usual run)
 //   npm run seed-video-previews -- --limit 10
 //   npm run seed-video-previews -- --force # regenerate previews even if cached
+//
+// The "any YouTube video" promise is served live by Supadata — this seed only makes the
+// page's example chips instant/free/guaranteed (and, with no flag, a capacity-fallback pool).
 //
 // NOTE: this script INLINES the Supadata fetch + summarise + preview prompt rather than
 // importing src/lib/youtube-extraction.ts / src/lib/video-preview.ts, because those start
@@ -24,7 +28,7 @@ import { createServiceClient } from '../src/lib/supabase/service';
 import { getCachedContent, storeCachedContent } from '../src/lib/content-cache';
 import { generateJSON } from '../src/lib/ai';
 import type { AISchema } from '../src/lib/ai';
-import { DEMO_VIDEOS } from '../src/lib/video-lesson-demos';
+import { DEMO_VIDEOS, FEATURED_CHIPS } from '../src/lib/video-lesson-demos';
 
 const PREVIEW_GAME_KEY = 'video-lesson-preview';
 const PREVIEW_DIFFICULTY = 'Intermediate';
@@ -295,10 +299,11 @@ async function seedOne(
 async function main() {
   const args = process.argv.slice(2);
   const force = args.includes('--force');
+  const chipsOnly = args.includes('--chips');
   const limitIdx = args.indexOf('--limit');
   const limit = limitIdx !== -1 ? parseInt(args[limitIdx + 1] ?? '', 10) : NaN;
 
-  let videos = DEMO_VIDEOS;
+  let videos = chipsOnly ? FEATURED_CHIPS : DEMO_VIDEOS;
   if (Number.isFinite(limit) && limit > 0) videos = videos.slice(0, limit);
 
   console.log(`\nSeeding ${videos.length} video previews${force ? ' (force)' : ''}…\n`);
