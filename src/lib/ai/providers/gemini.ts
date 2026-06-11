@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI, SchemaType as GeminiSchemaType } from '@google/generative-ai';
+import type { GenerationConfig } from '@google/generative-ai';
 import type { AIProvider, AISchema, AISchemaType, GenerateJSONOptions } from '../types';
 
 const schemaTypeMap: Record<AISchemaType, GeminiSchemaType> = {
@@ -44,11 +45,16 @@ export class GeminiProvider implements AIProvider {
   async generateJSON<T>(prompt: string, schema: AISchema, options?: GenerateJSONOptions): Promise<T> {
     const model = this.genAI.getGenerativeModel({
       model: options?.model || 'gemini-2.5-flash',
+      // Gemini 2.5 models enable "thinking" by default, which roughly 2-4x's latency on
+      // these structured-output tasks for no quality gain (the prior default, 2.0-flash,
+      // had no thinking). thinkingConfig is forwarded by the SDK but missing from its
+      // GenerationConfig type, hence the cast.
       generationConfig: {
         responseMimeType: 'application/json',
         responseSchema: convertSchema(schema),
+        thinkingConfig: { thinkingBudget: 0 },
         ...(options?.temperature !== undefined && { temperature: options.temperature }),
-      },
+      } as GenerationConfig,
     });
 
     const requestOptions = options?.signal ? { signal: options.signal } : undefined;
