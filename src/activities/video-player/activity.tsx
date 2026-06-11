@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import type { ActivityProps } from '../types';
 import type { VideoPlayerContent } from '../types';
 import { ComprehensionQuiz } from '../shared/comprehension-quiz';
-import { ListChecks, CheckCircle2 } from 'lucide-react';
+import { ListChecks, CheckCircle2, Maximize, Minimize } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -178,17 +178,10 @@ export function VideoPlayerActivity({
           <button
             onClick={toggleFullscreen}
             title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-            className="absolute bottom-4 right-4 z-10 p-2 rounded-lg bg-black/50 text-white/70 hover:bg-black/70 hover:text-white transition-all"
+            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            className="absolute bottom-3 right-3 z-10 grid h-9 w-9 place-items-center rounded-lg bg-black/55 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/75 hover:text-white"
           >
-            {isFullscreen ? (
-              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                <path d="M4 8a1 1 0 001-1V5.414l2.293 2.293a1 1 0 001.414-1.414L6.414 4H8a1 1 0 000-2H4a1 1 0 00-1 1v4a1 1 0 001 1zm12 4a1 1 0 00-1 1v1.586l-2.293-2.293a1 1 0 00-1.414 1.414L13.586 16H12a1 1 0 000 2h4a1 1 0 001-1v-4a1 1 0 00-1-1zM4 12a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 000-2H6.414l2.293-2.293a1 1 0 00-1.414-1.414L5 14.586V13a1 1 0 00-1-1zm12-8a1 1 0 001-1V3a1 1 0 00-1-1h-4a1 1 0 000 2h1.586l-2.293 2.293a1 1 0 001.414 1.414L15 4.414V6a1 1 0 001 1z"/>
-              </svg>
-            ) : (
-              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                <path d="M3 4a1 1 0 011-1h3a1 1 0 010 2H5.414l2.293 2.293a1 1 0 01-1.414 1.414L4 6.414V8a1 1 0 01-2 0V4zm14 0a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 01-1.414-1.414L14.586 5H13a1 1 0 010-2h4zm-14 12a1 1 0 001-1v-1.586l2.293 2.293a1 1 0 001.414-1.414L5.414 12H8a1 1 0 000-2H4a1 1 0 00-1 1v4a1 1 0 001 1zm14-1a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 12.586V11a1 1 0 012 0v4z"/>
-              </svg>
-            )}
+            {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
           </button>
         </div>
       ) : (
