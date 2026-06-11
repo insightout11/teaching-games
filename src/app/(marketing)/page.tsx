@@ -7,7 +7,6 @@ import { TwoScreensSection } from '@/components/homepage/TwoScreensSection';
 import { WorldFlightSection } from '@/components/homepage/WorldFlightSection';
 import { ProductDetailStrip } from '@/components/homepage/ProductDetailStrip';
 import { SourceBasedSection } from '@/components/homepage/SourceBasedSection';
-import { RunwayLightsStrip } from '@/components/homepage/RunwayLightsStrip';
 import { TestFlightSection } from '@/components/homepage/TestFlightSection';
 import { TrustSection } from '@/components/homepage/TrustSection';
 import { PricingSection } from '@/components/homepage/PricingSection';
@@ -38,7 +37,6 @@ export default async function HomePage() {
       <SourceBasedSection />
       <TrustSection />
       <PricingSection />
-      <RunwayLightsStrip />
       <TestFlightSection />
     </>
   );
