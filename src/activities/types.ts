@@ -3,6 +3,7 @@ import type { Student } from '@/lib/supabase/types';
 import type { SessionSettings } from '@/stores/session-store';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { ScoreOutcome, ScoringProfile } from '@/lib/score-engine';
+import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 
 // Activity categories
 export type ActivityCategory = 'icebreaker' | 'learning' | 'practice' | 'debate' | 'closing';
@@ -349,6 +350,7 @@ export interface DesignStudioContent extends ActivityGeneratedContent {
   openingPrompt: string;
   successCriteria: string[];
   maxDecisions: number;
+  worldFlightMission?: WorldFlightDesignMissionContext;
 }
 
 export interface DesignStudioOption {

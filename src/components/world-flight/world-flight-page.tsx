@@ -526,6 +526,22 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     router.push('/lesson-planner');
   }
 
+  function launchDesignMission(investigationId: string) {
+    if (!selectedClassId) return;
+    const investigation = selectedClass?.investigations.find((candidate) => candidate.id === investigationId);
+    const preset = FLIGHT_PLAN_PRESETS.find((candidate) => candidate.id === 'design-studio-60');
+    if (!investigation || investigation.designMissionStatus !== 'ready' || !preset) return;
+
+    const store = usePlannerStore.getState();
+    store.reset();
+    store.setTopic(investigation.designMissionTitle);
+    store.loadPreset(preset);
+    store.setSelectedClassId(selectedClassId);
+    store.setWorldFlightDesignMissionContext({ investigationId });
+    store.setStep('flight-plan');
+    router.push('/lesson-planner');
+  }
+
   function selectFocusFilter(nextFilter: FocusFilter) {
     const nextVisible = publishedFocusOptions.filter((focus) => nextFilter === 'all' || focus.kind === nextFilter);
     if (nextVisible.length === 0) return;
@@ -649,7 +665,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             recentLegs={selectedClass?.recentLegs ?? []}
           />
 
-          <InvestigationProgressPanel investigations={selectedClass?.investigations ?? []} />
+          <InvestigationProgressPanel
+            investigations={selectedClass?.investigations ?? []}
+            onLaunchDesignMission={launchDesignMission}
+          />
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
             <div className="mb-3 flex items-center justify-between">

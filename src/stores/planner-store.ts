@@ -11,6 +11,10 @@ import { getGame } from '@/games/registry';
 import type { SourceMaterial, SourceType } from '@/types/source-material';
 import type { WorldFlightLaunchContext, WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { resolveSourceMaterialForDifficulty } from '@/lib/world-flight/readings';
+import type {
+  WorldFlightDesignMissionContext,
+  WorldFlightDesignMissionLaunchContext,
+} from '@/lib/world-flight/investigations';
 
 const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
@@ -192,6 +196,7 @@ interface PlannerState {
   sourceMaterial: SourceMaterial | null;
   callsign: string | null; // stable flight number for this plan (e.g. "LC-3544")
   worldFlightContext: WorldFlightLaunchContext | null;
+  worldFlightDesignMissionContext: WorldFlightDesignMissionLaunchContext | null;
 
   // World Flight route (origin -> destination cities) carried into the session so
   // the arrival scene + flight clock know which two cities the lesson flies between.
@@ -231,6 +236,7 @@ interface PlannerState {
   setGrammarTarget(t: GrammarTarget | null): void;
   setSourceMaterial(s: SourceMaterial | null): void;
   setWorldFlightContext(context: WorldFlightLaunchContext | null): void;
+  setWorldFlightDesignMissionContext(context: WorldFlightDesignMissionLaunchContext | null): void;
   setWorldFlightRoute(originId: string | null, destinationId: string | null): void;
 
   // Generate the flight callsign once per plan (idempotent); returns it.
@@ -267,6 +273,7 @@ export const usePlannerStore = create<PlannerState>()(
       sourceMaterial: null,
       callsign: null,
       worldFlightContext: null,
+      worldFlightDesignMissionContext: null,
       worldFlightOriginId: null,
       worldFlightDestinationId: null,
 
@@ -345,6 +352,7 @@ export const usePlannerStore = create<PlannerState>()(
           activeTab: 'presets',
           overrideScoringMode: preset.scoringMode ?? null,
           worldFlightContext: null,
+          worldFlightDesignMissionContext: null,
         });
       },
 
@@ -378,6 +386,7 @@ export const usePlannerStore = create<PlannerState>()(
           loadedPresetId: null,
           overrideScoringMode: null,
           worldFlightContext: null,
+          worldFlightDesignMissionContext: null,
         });
       },
 
@@ -398,7 +407,14 @@ export const usePlannerStore = create<PlannerState>()(
 
         set({ sourceMaterial: resolvedSourceMaterial });
       },
-      setWorldFlightContext: (worldFlightContext) => set({ worldFlightContext }),
+      setWorldFlightContext: (worldFlightContext) => set({
+        worldFlightContext,
+        ...(worldFlightContext ? { worldFlightDesignMissionContext: null } : {}),
+      }),
+      setWorldFlightDesignMissionContext: (worldFlightDesignMissionContext) => set({
+        worldFlightDesignMissionContext,
+        ...(worldFlightDesignMissionContext ? { worldFlightContext: null } : {}),
+      }),
 
       // Handoff — structure-only payload. Content generated lazily at runtime.
       ensureCallsign: () => {
@@ -413,7 +429,7 @@ export const usePlannerStore = create<PlannerState>()(
         set({ worldFlightOriginId: originId, worldFlightDestinationId: destinationId }),
 
       launchLesson: async () => {
-        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId, worldFlightContext, worldFlightOriginId, worldFlightDestinationId } = get();
+        const { topic, difficulty, goals, modules, selectedClassId, overrideScoringMode, lessonDurationMinutes, grammarTarget, sourceMaterial, loadedPresetId, worldFlightContext, worldFlightDesignMissionContext, worldFlightOriginId, worldFlightDestinationId } = get();
         if (!selectedClassId) return;
         const callsign = get().ensureCallsign();
 
@@ -474,6 +490,7 @@ export const usePlannerStore = create<PlannerState>()(
           body: JSON.stringify({
             classId: selectedClassId,
             ...(worldFlightContext ? { worldFlightContext } : {}),
+            ...(worldFlightDesignMissionContext ? { worldFlightDesignMissionContext } : {}),
           }),
         });
 
@@ -485,15 +502,33 @@ export const usePlannerStore = create<PlannerState>()(
         const result = await res.json() as {
           sessionId: string;
           worldFlightContext?: WorldFlightSessionContext;
+          worldFlightDesignMissionContext?: WorldFlightDesignMissionContext;
         };
+        const generatedContent = result.worldFlightDesignMissionContext
+          ? {
+              'design-studio': {
+                activityKey: 'design-studio',
+                topicContext: result.worldFlightDesignMissionContext.designMissionTitle,
+                challenge: `${result.worldFlightDesignMissionContext.designMissionTitle}: ${result.worldFlightDesignMissionContext.question}`,
+                openingPrompt: 'What should the class design using what it learned across these cities?',
+                successCriteria: result.worldFlightDesignMissionContext.successCriteria,
+                maxDecisions: 6,
+                worldFlightMission: result.worldFlightDesignMissionContext,
+              },
+            }
+          : lessonPlanPayload.generatedContent;
         sessionStorage.setItem(
           'lessonPlanContent',
           JSON.stringify({
             ...lessonPlanPayload,
+            generatedContent,
             ...(result.worldFlightContext ? { worldFlightContext: result.worldFlightContext } : {}),
+            ...(result.worldFlightDesignMissionContext
+              ? { worldFlightDesignMissionContext: result.worldFlightDesignMissionContext }
+              : {}),
           }),
         );
-        set({ worldFlightContext: null });
+        set({ worldFlightContext: null, worldFlightDesignMissionContext: null });
         const { sessionId } = result;
         window.location.href = `/sessions/${sessionId}`;
       },
@@ -517,6 +552,7 @@ export const usePlannerStore = create<PlannerState>()(
           sourceMaterial: null,
           callsign: null,
           worldFlightContext: null,
+          worldFlightDesignMissionContext: null,
           worldFlightOriginId: null,
           worldFlightDestinationId: null,
         }),
@@ -541,6 +577,7 @@ export const usePlannerStore = create<PlannerState>()(
         selectedClassId: state.selectedClassId,
         grammarTarget: state.grammarTarget,
         worldFlightContext: state.worldFlightContext,
+        worldFlightDesignMissionContext: state.worldFlightDesignMissionContext,
       }),
     },
   ),

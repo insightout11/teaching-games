@@ -15,6 +15,7 @@ import type {
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { normalizeDesignStudioBrief, normalizeDesignStudioRound } from '@/lib/design-studio';
+import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 
 // Generic prompt for activities without specific handlers
 function genericActivityPrompt(req: ActivityContinueRequest): string {
@@ -246,6 +247,18 @@ function formatDesignDecisions(state: DesignStudioState): string {
   )).join('\n\n');
 }
 
+function formatWorldFlightMissionEvidence(mission?: WorldFlightDesignMissionContext): string {
+  if (!mission?.evidence?.length) return 'No World Flight evidence attached.';
+
+  return mission.evidence.slice(0, 3).map((evidence, index) => (
+    `${index + 1}. ${evidence.city} - ${evidence.requirementLabel}\n`
+    + `Lesson: ${evidence.focusTitle}\n`
+    + `Key idea: ${evidence.keyIdea || 'Not recorded'}\n`
+    + `Tradeoff: ${evidence.tradeoff || 'Not recorded'}\n`
+    + `Possible design use: ${evidence.designUse || 'Not recorded'}`
+  )).join('\n\n');
+}
+
 export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
@@ -264,11 +277,13 @@ export async function POST(request: NextRequest) {
         originalIdeas,
         difficulty,
         successCriteria,
+        worldFlightMission,
       } = JSON.parse(body.studentResponse ?? '{}') as {
         challenge: string;
         originalIdeas: string[];
         difficulty?: string;
         successCriteria?: string[];
+        worldFlightMission?: WorldFlightDesignMissionContext;
       };
       const languageRule = difficultyDescriptions[(difficulty as Difficulty) ?? 'Intermediate']
         ?? difficultyDescriptions.Intermediate;
@@ -286,6 +301,9 @@ ${ideas || challenge}
 SUCCESS CRITERIA:
 ${(successCriteria ?? []).map((criterion) => `- ${criterion}`).join('\n')}
 
+CROSS-CITY EVIDENCE:
+${formatWorldFlightMissionEvidence(worldFlightMission)}
+
 Synthesize the ideas into exactly three genuinely different starting design directions.
 This is a class vote, so none may be obviously correct.
 
@@ -297,7 +315,8 @@ Return one designStudioRound:
 - options: exactly three options with ids A, B, C
 - each option needs a short title, concrete description, real benefit, meaningful tradeoff, and designChange
 - designChange must be a complete 1-2 sentence summary of what the shared design becomes if selected
-- preserve the students' ideas; do not replace the subject with a different project`;
+- preserve the students' ideas; do not replace the subject with a different project
+- when cross-city evidence is attached, make the options respond to its real ideas without inventing facts about those cities`;
 
       const parsed = await generateJSON<{ designStudioRound: DesignStudioRound }>(
         prompt,
@@ -321,11 +340,13 @@ Return one designStudioRound:
         difficulty,
         successCriteria,
         maxDecisions,
+        worldFlightMission,
       } = JSON.parse(body.studentResponse ?? '{}') as {
         state: DesignStudioState;
         difficulty?: string;
         successCriteria?: string[];
         maxDecisions?: number;
+        worldFlightMission?: WorldFlightDesignMissionContext;
       };
       const languageRule = difficultyDescriptions[(difficulty as Difficulty) ?? 'Intermediate']
         ?? difficultyDescriptions.Intermediate;
@@ -349,6 +370,9 @@ ${formatDesignDecisions(state)}
 SUCCESS CRITERIA:
 ${(successCriteria ?? []).map((criterion) => `- ${criterion}`).join('\n')}
 
+CROSS-CITY EVIDENCE:
+${formatWorldFlightMissionEvidence(worldFlightMission)}
+
 Generate the next contextual design decision. There are ${remaining} decisions remaining.
 Suggested progress stage: ${suggestedStage}.
 
@@ -361,7 +385,8 @@ Rules:
 - No option may be obviously correct. Every option needs a real benefit and tradeoff.
 - designChange must be a complete updated 1-3 sentence design summary that preserves all earlier decisions and applies that option.
 - Keep choices concrete enough for students to debate aloud.
-- designSummary must accurately summarize the current design before this new vote.`;
+- designSummary must accurately summarize the current design before this new vote.
+- when cross-city evidence is attached, progressively connect it to the design; do not merely name cities or invent new city facts.`;
 
       const parsed = await generateJSON<{ designStudioRound: DesignStudioRound }>(
         prompt,
@@ -378,10 +403,12 @@ Rules:
         state,
         difficulty,
         successCriteria,
+        worldFlightMission,
       } = JSON.parse(body.studentResponse ?? '{}') as {
         state: DesignStudioState;
         difficulty?: string;
         successCriteria?: string[];
+        worldFlightMission?: WorldFlightDesignMissionContext;
       };
       const languageRule = difficultyDescriptions[(difficulty as Difficulty) ?? 'Intermediate']
         ?? difficultyDescriptions.Intermediate;
@@ -401,16 +428,20 @@ ${formatDesignDecisions(state)}
 SUCCESS CRITERIA:
 ${(successCriteria ?? []).map((criterion) => `- ${criterion}`).join('\n')}
 
+CROSS-CITY EVIDENCE:
+${formatWorldFlightMissionEvidence(worldFlightMission)}
+
 Return one designStudioBrief:
 - title: a memorable, specific design name
 - summary: 2-4 sentences accurately describing the final design
 - intendedUsers: 2-4 groups the design serves
 - coreFeatures: 4-7 concrete features created by the class decisions
-- evidenceAndReasoning: 3-6 concise reasons tied to benefits or accepted tradeoffs
+- evidenceAndReasoning: 3-6 concise reasons tied to benefits, accepted tradeoffs, and any attached cross-city evidence
 - remainingTradeoffs: 2-4 honest unresolved risks or compromises
 - pitch: a persuasive 2-3 sentence class presentation
 
-Do not invent decisions the class did not make.`;
+Do not invent decisions the class did not make.
+When cross-city evidence is attached, explicitly explain how the final design learned from each city without inventing facts.`;
 
       const parsed = await generateJSON<{ designStudioBrief: DesignStudioBrief }>(
         prompt,

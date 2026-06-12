@@ -1,4 +1,6 @@
 import type { WorldFlightEvidenceSnapshot, WorldFlightLegStatus, WorldFlightSessionContext } from '@/lib/world-flight/journey';
+import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
+import type { DesignStudioBrief, DesignStudioState } from '@/activities/types';
 
 export interface Teacher {
   id: string;
@@ -45,6 +47,7 @@ export interface Session {
   difficulty?: string;
   custom_topic?: string | null;
   world_flight_context?: WorldFlightSessionContext | null;
+  world_flight_design_mission_context?: WorldFlightDesignMissionContext | null;
 }
 
 export interface ClassWorldFlightState {
@@ -66,6 +69,20 @@ export interface ClassWorldFlightLeg {
   status: WorldFlightLegStatus;
   distance_km: number;
   evidence_snapshot: WorldFlightEvidenceSnapshot;
+  planned_at: string;
+  completed_at: string | null;
+  cancelled_at: string | null;
+}
+
+export interface ClassWorldFlightDesignMission {
+  id: string;
+  class_id: string;
+  session_id: string;
+  investigation_id: string;
+  status: 'planned' | 'completed' | 'cancelled';
+  mission_context: WorldFlightDesignMissionContext;
+  design_state_snapshot: DesignStudioState | Record<string, never>;
+  brief_snapshot: DesignStudioBrief | Record<string, never>;
   planned_at: string;
   completed_at: string | null;
   cancelled_at: string | null;
@@ -273,6 +290,7 @@ export interface Database {
       student_session_notes: { Row: StudentSessionNote; Insert: Partial<StudentSessionNote> & Pick<StudentSessionNote, 'session_id' | 'student_id' | 'class_id' | 'teacher_id'>; Update: Partial<StudentSessionNote> };
       class_world_flight_state: { Row: ClassWorldFlightState; Insert: Partial<ClassWorldFlightState> & Pick<ClassWorldFlightState, 'class_id'>; Update: Partial<ClassWorldFlightState> };
       class_world_flight_legs: { Row: ClassWorldFlightLeg; Insert: Partial<ClassWorldFlightLeg> & Pick<ClassWorldFlightLeg, 'class_id' | 'session_id' | 'destination_id' | 'focus_id'>; Update: Partial<ClassWorldFlightLeg> };
+      class_world_flight_design_missions: { Row: ClassWorldFlightDesignMission; Insert: Partial<ClassWorldFlightDesignMission> & Pick<ClassWorldFlightDesignMission, 'class_id' | 'session_id' | 'investigation_id'>; Update: Partial<ClassWorldFlightDesignMission> };
     };
     Views: {
       session_leaderboard: { Row: LeaderboardEntry };

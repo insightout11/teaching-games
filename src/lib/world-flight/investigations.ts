@@ -35,6 +35,9 @@ export interface WorldFlightInvestigationProgress {
   completedCount: number;
   totalCount: number;
   complete: boolean;
+  designMissionStatus: 'locked' | 'ready' | 'completed';
+  completedDesignTitle: string | null;
+  designMissionCompletedAt: string | null;
   requirements: WorldFlightInvestigationRequirementProgress[];
 }
 
@@ -42,6 +45,30 @@ export interface CompletedWorldFlightEvidence {
   destinationId: string;
   completedAt: string | null;
   evidenceSnapshot: WorldFlightEvidenceSnapshot;
+}
+
+export interface WorldFlightDesignMissionLaunchContext {
+  investigationId: string;
+}
+
+export interface WorldFlightDesignMissionEvidence {
+  requirementId: string;
+  requirementLabel: string;
+  requirementDescription: string;
+  destinationId: string;
+  city: string;
+  focusTitle: string;
+  keyIdea: string | null;
+  tradeoff: string | null;
+  designUse: string | null;
+}
+
+export interface WorldFlightDesignMissionContext extends WorldFlightDesignMissionLaunchContext {
+  investigationTitle: string;
+  question: string;
+  designMissionTitle: string;
+  successCriteria: string[];
+  evidence: WorldFlightDesignMissionEvidence[];
 }
 
 export const WORLD_FLIGHT_INVESTIGATIONS: WorldFlightInvestigation[] = [
@@ -201,10 +228,10 @@ export function deriveInvestigationTags(skills: string[], explicitTags: string[]
   return Array.from(tags);
 }
 
-export function deriveWorldFlightInvestigationProgress(
-  completedEvidence: CompletedWorldFlightEvidence[],
-): WorldFlightInvestigationProgress[] {
-  const evidence = [...completedEvidence]
+type TaggedEvidence = CompletedWorldFlightEvidence & { tags: Set<string> };
+
+function tagCompletedEvidence(completedEvidence: CompletedWorldFlightEvidence[]) {
+  return [...completedEvidence]
     .sort((a, b) => (a.completedAt ?? '').localeCompare(b.completedAt ?? ''))
     .map((entry) => ({
       ...entry,
@@ -215,44 +242,96 @@ export function deriveWorldFlightInvestigationProgress(
           : [],
       )),
     }));
+}
+
+function findBestInvestigationAssignment(
+  investigation: WorldFlightInvestigation,
+  evidence: TaggedEvidence[],
+  requirementIndex = 0,
+  usedCities = new Set<string>(),
+): Array<TaggedEvidence | null> {
+  if (requirementIndex >= investigation.requirements.length) return [];
+
+  const requirement = investigation.requirements[requirementIndex];
+  const candidatesByCity = new Map<string, TaggedEvidence>();
+  for (const entry of evidence) {
+    if (
+      !usedCities.has(entry.destinationId)
+      && !candidatesByCity.has(entry.destinationId)
+      && requirement.matchTags.some((tag) => entry.tags.has(normalizeTag(tag)))
+    ) {
+      candidatesByCity.set(entry.destinationId, entry);
+    }
+  }
+  const candidates = Array.from(candidatesByCity.values());
+  let best = [
+    null,
+    ...findBestInvestigationAssignment(investigation, evidence, requirementIndex + 1, usedCities),
+  ] as Array<TaggedEvidence | null>;
+
+  for (const candidate of candidates) {
+    const nextUsedCities = new Set(usedCities);
+    nextUsedCities.add(candidate.destinationId);
+    const assignment = [
+      candidate,
+      ...findBestInvestigationAssignment(investigation, evidence, requirementIndex + 1, nextUsedCities),
+    ] as Array<TaggedEvidence | null>;
+    if (assignment.filter(Boolean).length > best.filter(Boolean).length) best = assignment;
+  }
+
+  return best;
+}
+
+export function parseWorldFlightDesignMissionLaunchContext(value: unknown): WorldFlightDesignMissionLaunchContext | null {
+  if (!value || typeof value !== 'object') return null;
+  const candidate = value as Record<string, unknown>;
+  return typeof candidate.investigationId === 'string' && candidate.investigationId.trim()
+    ? { investigationId: candidate.investigationId }
+    : null;
+}
+
+export function buildWorldFlightDesignMissionContext(
+  investigationId: string,
+  completedEvidence: CompletedWorldFlightEvidence[],
+): WorldFlightDesignMissionContext | null {
+  const investigation = WORLD_FLIGHT_INVESTIGATIONS.find((candidate) => candidate.id === investigationId);
+  if (!investigation) return null;
+
+  const assignment = findBestInvestigationAssignment(investigation, tagCompletedEvidence(completedEvidence));
+  if (assignment.filter(Boolean).length !== investigation.requirements.length) return null;
+
+  const evidence = investigation.requirements.map((requirement, index) => {
+    const match = assignment[index]!;
+    return {
+      requirementId: requirement.id,
+      requirementLabel: requirement.label,
+      requirementDescription: requirement.description,
+      destinationId: match.destinationId,
+      city: match.evidenceSnapshot.city || match.destinationId,
+      focusTitle: match.evidenceSnapshot.focusTitle || 'Completed city lesson',
+      keyIdea: match.evidenceSnapshot.keyIdea ?? null,
+      tradeoff: match.evidenceSnapshot.tradeoff ?? null,
+      designUse: match.evidenceSnapshot.designUse ?? null,
+    };
+  });
+
+  return {
+    investigationId,
+    investigationTitle: investigation.title,
+    question: investigation.question,
+    designMissionTitle: investigation.designMissionTitle,
+    successCriteria: investigation.requirements.map((requirement) => requirement.label),
+    evidence,
+  };
+}
+
+export function deriveWorldFlightInvestigationProgress(
+  completedEvidence: CompletedWorldFlightEvidence[],
+): WorldFlightInvestigationProgress[] {
+  const evidence = tagCompletedEvidence(completedEvidence);
 
   return WORLD_FLIGHT_INVESTIGATIONS.map((investigation) => {
-    type TaggedEvidence = (typeof evidence)[number];
-    const findBestAssignment = (
-      requirementIndex: number,
-      usedCities: Set<string>,
-    ): Array<TaggedEvidence | null> => {
-      if (requirementIndex >= investigation.requirements.length) return [];
-
-      const requirement = investigation.requirements[requirementIndex];
-      const candidatesByCity = new Map<string, TaggedEvidence>();
-      for (const entry of evidence) {
-        if (
-          !usedCities.has(entry.destinationId)
-          && !candidatesByCity.has(entry.destinationId)
-          && requirement.matchTags.some((tag) => entry.tags.has(normalizeTag(tag)))
-        ) {
-          candidatesByCity.set(entry.destinationId, entry);
-        }
-      }
-      const candidates = Array.from(candidatesByCity.values());
-      let best = [null, ...findBestAssignment(requirementIndex + 1, usedCities)] as Array<TaggedEvidence | null>;
-
-      for (const candidate of candidates) {
-        const nextUsedCities = new Set(usedCities);
-        nextUsedCities.add(candidate.destinationId);
-        const assignment = [
-          candidate,
-          ...findBestAssignment(requirementIndex + 1, nextUsedCities),
-        ] as Array<TaggedEvidence | null>;
-        const assignmentScore = assignment.filter(Boolean).length;
-        const bestScore = best.filter(Boolean).length;
-        if (assignmentScore > bestScore) best = assignment;
-      }
-
-      return best;
-    };
-    const assignment = findBestAssignment(0, new Set());
+    const assignment = findBestInvestigationAssignment(investigation, evidence);
     const requirements = investigation.requirements.map((requirement, index) => {
       const match = assignment[index];
 
@@ -280,6 +359,9 @@ export function deriveWorldFlightInvestigationProgress(
       completedCount,
       totalCount: requirements.length,
       complete: completedCount === requirements.length,
+      designMissionStatus: completedCount === requirements.length ? 'ready' : 'locked',
+      completedDesignTitle: null,
+      designMissionCompletedAt: null,
       requirements,
     };
   });

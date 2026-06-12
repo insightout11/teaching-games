@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { Check, DraftingCompass, Lightbulb, Loader2, ThumbsUp, TriangleAlert } from 'lucide-react';
+import { Check, DraftingCompass, Lightbulb, Loader2, MapPin, Save, ThumbsUp, TriangleAlert } from 'lucide-react';
 import type { ActivityProps } from '../types';
+import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 import type {
   DesignStudioBrief,
   DesignStudioContent,
@@ -23,7 +24,27 @@ function initialState(challenge: string): DesignStudioState {
   return { challenge, originalIdeas: [], designSummary: '', decisions: [] };
 }
 
+function groundBriefInMissionEvidence(
+  brief: DesignStudioBrief,
+  mission: WorldFlightDesignMissionContext | undefined,
+): DesignStudioBrief {
+  if (!mission) return brief;
+
+  const groundedEvidence = mission.evidence.map((evidence) => (
+    `${evidence.city}: ${evidence.designUse || evidence.keyIdea || evidence.tradeoff || evidence.focusTitle}`
+  ));
+  const additionalReasoning = brief.evidenceAndReasoning.filter((reason) => (
+    !mission.evidence.some((evidence) => reason.toLowerCase().includes(evidence.city.toLowerCase()))
+  ));
+
+  return {
+    ...brief,
+    evidenceAndReasoning: [...groundedEvidence, ...additionalReasoning].slice(0, 6),
+  };
+}
+
 export function DesignStudioActivity({
+  sessionId,
   generatedContent,
   customTopic,
   sessionSettings,
@@ -36,6 +57,7 @@ export function DesignStudioActivity({
   const content = generatedContent as DesignStudioContent;
   const challenge = content.challenge || customTopic || 'Design something that improves everyday life.';
   const maxDecisions = content.maxDecisions || 6;
+  const worldFlightMission = content.worldFlightMission;
   const [phase, setPhase] = useState<DesignStudioPhase>('idle');
   const [ideas, setIdeas] = useState<Array<{ clientId: string; displayName: string; text: string }>>([]);
   const [state, setState] = useState<DesignStudioState>(() => initialState(challenge));
@@ -44,6 +66,7 @@ export function DesignStudioActivity({
   const [selectedOptionId, setSelectedOptionId] = useState<'A' | 'B' | 'C' | null>(null);
   const [brief, setBrief] = useState<DesignStudioBrief | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [missionSaveStatus, setMissionSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
 
   const phaseRef = useRef(phase);
   const stateRef = useRef(state);
@@ -51,6 +74,7 @@ export function DesignStudioActivity({
   const votesRef = useRef(votes);
   const ideasRef = useRef(ideas);
   const scoredParticipationRef = useRef(new Set<string>());
+  const completedMissionRef = useRef(false);
   phaseRef.current = phase;
   stateRef.current = state;
   roundRef.current = round;
@@ -155,8 +179,44 @@ export function DesignStudioActivity({
     scoredParticipationRef.current.clear();
     setState(initialState(challenge));
     setNotice(null);
+    setMissionSaveStatus('idle');
+    completedMissionRef.current = false;
     changePhase('idea-collect');
   }, [challenge, changePhase]);
+
+  const finishWithBrief = useCallback(async (nextBrief: DesignStudioBrief, currentState: DesignStudioState) => {
+    const groundedBrief = groundBriefInMissionEvidence(nextBrief, worldFlightMission);
+    setBrief(groundedBrief);
+
+    if (!worldFlightMission || !sessionId || completedMissionRef.current) {
+      changePhase('complete');
+      return;
+    }
+
+    setMissionSaveStatus('saving');
+    try {
+      const response = await fetch('/api/world-flight/design-mission/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          designState: currentState,
+          brief: groundedBrief,
+        }),
+      });
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null) as { error?: string } | null;
+        throw new Error(payload?.error || 'Could not save the completed design mission.');
+      }
+      completedMissionRef.current = true;
+      setMissionSaveStatus('saved');
+    } catch (error) {
+      console.error('[design-studio] mission completion save failed:', error);
+      setMissionSaveStatus('error');
+      setNotice('The design brief is complete, but its World Flight mission status could not be saved.');
+    }
+    changePhase('complete');
+  }, [changePhase, sessionId, worldFlightMission]);
 
   const generateStart = useCallback(async () => {
     changePhase('generating');
@@ -177,6 +237,7 @@ export function DesignStudioActivity({
           originalIdeas,
           difficulty: sessionSettings.difficulty,
           successCriteria: content.successCriteria,
+          worldFlightMission,
         }),
         previousExchanges: [],
       });
@@ -192,7 +253,7 @@ export function DesignStudioActivity({
     setVotes([]);
     setSelectedOptionId(null);
     changePhase('question');
-  }, [challenge, changePhase, content.successCriteria, customTopic, onContinue, sessionSettings.difficulty]);
+  }, [challenge, changePhase, content.successCriteria, customTopic, onContinue, sessionSettings.difficulty, worldFlightMission]);
 
   const closeVote = useCallback(() => {
     if (!roundRef.current) return;
@@ -217,15 +278,15 @@ export function DesignStudioActivity({
             state: currentState,
             difficulty: sessionSettings.difficulty,
             successCriteria: content.successCriteria,
+            worldFlightMission,
           }),
           previousExchanges: [],
         });
-        setBrief(response.designStudioBrief ?? buildFallbackDesignStudioBrief(currentState));
+        await finishWithBrief(response.designStudioBrief ?? buildFallbackDesignStudioBrief(currentState), currentState);
       } catch {
-        setBrief(buildFallbackDesignStudioBrief(currentState));
         setNotice('The final brief was assembled directly from the class decisions.');
+        await finishWithBrief(buildFallbackDesignStudioBrief(currentState), currentState);
       }
-      changePhase('complete');
       return;
     }
 
@@ -241,6 +302,7 @@ export function DesignStudioActivity({
           difficulty: sessionSettings.difficulty,
           successCriteria: content.successCriteria,
           maxDecisions,
+          worldFlightMission,
         }),
         previousExchanges: [],
       });
@@ -254,14 +316,16 @@ export function DesignStudioActivity({
     setVotes([]);
     setSelectedOptionId(null);
     changePhase('question');
-  }, [challenge, changePhase, content.successCriteria, maxDecisions, onContinue, sessionSettings.difficulty]);
+  }, [challenge, changePhase, content.successCriteria, finishWithBrief, maxDecisions, onContinue, sessionSettings.difficulty, worldFlightMission]);
 
   if (phase === 'idle') {
     return (
       <div className="mx-auto max-w-4xl space-y-6 py-8 text-center">
         <DraftingCompass className="mx-auto h-12 w-12 text-cyan-300" strokeWidth={1.5} />
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/70">Design Studio</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/70">
+            {worldFlightMission ? `${worldFlightMission.investigationTitle} mission` : 'Design Studio'}
+          </p>
           <h2 className="mt-2 text-3xl font-bold text-lc-text">{challenge}</h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-lc-text2">
             Start with one idea. Every class vote changes the shared design and shapes the next question.
@@ -275,6 +339,7 @@ export function DesignStudioActivity({
             </div>
           ))}
         </div>
+        {worldFlightMission && <MissionEvidence mission={worldFlightMission} />}
         <button onClick={start} className="mx-auto flex items-center gap-2 rounded-lg bg-cyan-400 px-6 py-3 font-semibold text-slate-950 hover:bg-cyan-300">
           <Lightbulb className="h-4 w-4" aria-hidden />
           Start With An Idea
@@ -321,7 +386,17 @@ export function DesignStudioActivity({
   }
 
   if (phase === 'complete' && brief) {
-    return <DesignBriefView brief={brief} decisions={state.decisions.length} notice={notice} />;
+    return (
+      <DesignBriefView
+        brief={brief}
+        decisions={state.decisions.length}
+        notice={notice}
+        missionSaveStatus={worldFlightMission ? missionSaveStatus : 'idle'}
+        onRetryMissionSave={worldFlightMission && missionSaveStatus === 'error'
+          ? () => void finishWithBrief(brief, stateRef.current)
+          : undefined}
+      />
+    );
   }
 
   const selectedOption = round?.options.find((option) => option.id === selectedOptionId) ?? null;
@@ -380,6 +455,32 @@ export function DesignStudioActivity({
   );
 }
 
+function MissionEvidence({ mission }: { mission: WorldFlightDesignMissionContext }) {
+  return (
+    <section className="space-y-3 text-left">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300/70">Evidence collected across the journey</p>
+        <p className="mt-1 text-sm text-lc-text3">The class design must connect ideas from these three completed city lessons.</p>
+      </div>
+      <div className="grid gap-3 md:grid-cols-3">
+        {mission.evidence.map((evidence) => (
+          <article key={evidence.requirementId} className="border-l-2 border-cyan-300/35 bg-white/[0.035] p-4">
+            <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-200/75">
+              <MapPin className="h-3.5 w-3.5" aria-hidden />
+              {evidence.city}
+            </p>
+            <h3 className="mt-2 text-sm font-semibold text-lc-text">{evidence.requirementLabel}</h3>
+            <p className="mt-1 text-xs leading-relaxed text-lc-text3">{evidence.focusTitle}</p>
+            {(evidence.designUse || evidence.keyIdea) && (
+              <p className="mt-3 text-sm leading-relaxed text-lc-text2">{evidence.designUse || evidence.keyIdea}</p>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function StudioHeader({ state, maxDecisions }: { state: DesignStudioState; maxDecisions: number }) {
   return (
     <div className="rounded-xl border border-cyan-300/15 bg-[#081522]/90 p-5">
@@ -418,10 +519,45 @@ function Notice({ message }: { message: string }) {
   return <div className="rounded-lg border border-amber-300/25 bg-amber-300/[0.06] px-4 py-3 text-sm text-amber-100/80">{message}</div>;
 }
 
-function DesignBriefView({ brief, decisions, notice }: { brief: DesignStudioBrief; decisions: number; notice: string | null }) {
+function DesignBriefView({
+  brief,
+  decisions,
+  notice,
+  missionSaveStatus,
+  onRetryMissionSave,
+}: {
+  brief: DesignStudioBrief;
+  decisions: number;
+  notice: string | null;
+  missionSaveStatus: 'idle' | 'saving' | 'saved' | 'error';
+  onRetryMissionSave?: () => void;
+}) {
   return (
     <div className="mx-auto max-w-5xl space-y-5">
       {notice && <Notice message={notice} />}
+      {missionSaveStatus !== 'idle' && (
+        <div className={`flex items-center gap-2 rounded-lg border px-4 py-3 text-sm ${
+          missionSaveStatus === 'saved'
+            ? 'border-emerald-300/25 bg-emerald-300/[0.06] text-emerald-100/80'
+            : missionSaveStatus === 'error'
+              ? 'border-amber-300/25 bg-amber-300/[0.06] text-amber-100/80'
+              : 'border-cyan-300/25 bg-cyan-300/[0.06] text-cyan-100/80'
+        }`}>
+          {missionSaveStatus === 'saving' ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Save className="h-4 w-4" aria-hidden />}
+          {missionSaveStatus === 'saved' && 'Design mission saved to the class journey.'}
+          {missionSaveStatus === 'saving' && 'Saving design mission to the class journey...'}
+          {missionSaveStatus === 'error' && 'Design mission status was not saved. The final brief remains available in this session.'}
+          {missionSaveStatus === 'error' && onRetryMissionSave && (
+            <button
+              type="button"
+              onClick={onRetryMissionSave}
+              className="ml-auto shrink-0 rounded-md border border-amber-200/25 px-3 py-1.5 text-xs font-semibold text-amber-100 transition-colors hover:bg-amber-200/10"
+            >
+              Retry Save
+            </button>
+          )}
+        </div>
+      )}
       <div className="rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] p-7">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/70">Final class design - {decisions} decisions</p>
         <h2 className="mt-2 text-4xl font-bold text-lc-text">{brief.title}</h2>

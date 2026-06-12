@@ -9,6 +9,12 @@ import {
   resolveWorldFlightMovement,
   type WorldFlightSessionContext,
 } from '@/lib/world-flight/journey';
+import {
+  buildWorldFlightDesignMissionContext,
+  parseWorldFlightDesignMissionLaunchContext,
+  type CompletedWorldFlightEvidence,
+  type WorldFlightDesignMissionContext,
+} from '@/lib/world-flight/investigations';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,12 +22,19 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const classId = body?.classId;
   const launchContext = parseWorldFlightLaunchContext(body?.worldFlightContext);
+  const designMissionLaunchContext = parseWorldFlightDesignMissionLaunchContext(body?.worldFlightDesignMissionContext);
 
   if (!classId || typeof classId !== 'string') {
     return NextResponse.json({ error: 'classId is required' }, { status: 400 });
   }
   if (body?.worldFlightContext != null && !launchContext) {
     return NextResponse.json({ error: 'Invalid World Flight context' }, { status: 400 });
+  }
+  if (body?.worldFlightDesignMissionContext != null && !designMissionLaunchContext) {
+    return NextResponse.json({ error: 'Invalid World Flight design mission context' }, { status: 400 });
+  }
+  if (launchContext && designMissionLaunchContext) {
+    return NextResponse.json({ error: 'A session cannot be both a flight and a design mission' }, { status: 400 });
   }
 
   // Credit gate: 1 credit = 1 session. Pro/developer users are unlimited.
@@ -44,6 +57,7 @@ export async function POST(request: Request) {
   let session: { id: string } | null = null;
   let sessionError: { message?: string } | null = null;
   let resolvedWorldFlightContext: WorldFlightSessionContext | null = null;
+  let resolvedWorldFlightDesignMissionContext: WorldFlightDesignMissionContext | null = null;
 
   if (launchContext) {
     const destination = getDestinationById(launchContext.destinationId);
@@ -114,6 +128,67 @@ export async function POST(request: Request) {
       session = result.data ? { id: result.data as string } : null;
       sessionError = result.error;
     }
+  } else if (designMissionLaunchContext) {
+    const { data: completedLegs, error: completedLegsError } = await supabase
+      .from('class_world_flight_legs')
+      .select('destination_id, completed_at, evidence_snapshot')
+      .eq('class_id', classId)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: true });
+
+    if (completedLegsError) {
+      return NextResponse.json({ error: completedLegsError.message }, { status: 500 });
+    }
+
+    const completedEvidence = (completedLegs ?? []).map((leg: {
+      destination_id: string;
+      completed_at: string | null;
+      evidence_snapshot: CompletedWorldFlightEvidence['evidenceSnapshot'];
+    }) => ({
+      destinationId: leg.destination_id,
+      completedAt: leg.completed_at,
+      evidenceSnapshot: leg.evidence_snapshot,
+    })) as CompletedWorldFlightEvidence[];
+    resolvedWorldFlightDesignMissionContext = buildWorldFlightDesignMissionContext(
+      designMissionLaunchContext.investigationId,
+      completedEvidence,
+    );
+
+    if (!resolvedWorldFlightDesignMissionContext) {
+      return NextResponse.json({ error: 'This investigation does not yet have enough completed evidence' }, { status: 400 });
+    }
+
+    const { data: completedMission } = await supabase
+      .from('class_world_flight_design_missions')
+      .select('id')
+      .eq('class_id', classId)
+      .eq('investigation_id', designMissionLaunchContext.investigationId)
+      .eq('status', 'completed')
+      .maybeSingle();
+
+    if (completedMission) {
+      return NextResponse.json({ error: 'This design mission has already been completed' }, { status: 409 });
+    }
+
+    if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+      const result = await supabase
+        .from('sessions')
+        .insert({
+          class_id: classId,
+          world_flight_design_mission_context: resolvedWorldFlightDesignMissionContext,
+        })
+        .select('id')
+        .single();
+      session = result.data;
+      sessionError = result.error;
+    } else {
+      const result = await supabase.rpc('create_world_flight_design_mission_session', {
+        p_class_id: classId,
+        p_mission_context: resolvedWorldFlightDesignMissionContext,
+      });
+      session = result.data ? { id: result.data as string } : null;
+      sessionError = result.error;
+    }
   } else {
     const result = await supabase
       .from('sessions')
@@ -139,5 +214,8 @@ export async function POST(request: Request) {
   return NextResponse.json({
     sessionId: session.id,
     ...(resolvedWorldFlightContext ? { worldFlightContext: resolvedWorldFlightContext } : {}),
+    ...(resolvedWorldFlightDesignMissionContext
+      ? { worldFlightDesignMissionContext: resolvedWorldFlightDesignMissionContext }
+      : {}),
   });
 }

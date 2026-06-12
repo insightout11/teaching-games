@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildWorldFlightDesignMissionContext,
   deriveInvestigationTags,
   deriveWorldFlightInvestigationProgress,
   type CompletedWorldFlightEvidence,
@@ -58,6 +59,25 @@ describe('World Flight investigations', () => {
     const movement = progress.find((item) => item.id === 'how-cities-move');
 
     expect(movement).toMatchObject({ completedCount: 1, complete: false });
+  });
+
+  it('builds a grounded design mission only after all evidence is complete', () => {
+    const completed = [
+      evidence('tokyo', 'Tokyo', ['transport'], '2026-01-01'),
+      evidence('seoul', 'Seoul', ['functional English'], '2026-01-02'),
+      evidence('los-angeles', 'Los Angeles', ['debate'], '2026-01-03'),
+    ];
+
+    expect(buildWorldFlightDesignMissionContext('how-cities-move', completed)).toMatchObject({
+      investigationId: 'how-cities-move',
+      designMissionTitle: 'Design a Better Journey',
+      evidence: [
+        { city: 'Tokyo', requirementId: 'network' },
+        { city: 'Seoul', requirementId: 'access' },
+        { city: 'Los Angeles', requirementId: 'tradeoff' },
+      ],
+    });
+    expect(buildWorldFlightDesignMissionContext('how-cities-move', completed.slice(0, 2))).toBeNull();
   });
 
   it('keeps every investigation achievable with the current destination catalog', () => {

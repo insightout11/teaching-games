@@ -1,16 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, ChevronDown, ChevronUp, FlaskConical, LockKeyhole, Sparkles } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp, DraftingCompass, FlaskConical, LockKeyhole, Sparkles } from 'lucide-react';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
 
 export function InvestigationProgressPanel({
   investigations,
+  onLaunchDesignMission,
 }: {
   investigations: WorldFlightInvestigationProgress[];
+  onLaunchDesignMission?: (investigationId: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const completed = investigations.filter((investigation) => investigation.complete).length;
+  const readyCount = investigations.filter((investigation) => investigation.designMissionStatus === 'ready').length;
+  const completedCount = investigations.filter((investigation) => investigation.designMissionStatus === 'completed').length;
   const closest = [...investigations].sort((a, b) => b.completedCount - a.completedCount)[0];
 
   return (
@@ -27,9 +30,9 @@ export function InvestigationProgressPanel({
         <span className="min-w-0 flex-1">
           <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-lc-text2">
             Investigations
-            {completed > 0 && (
+            {(readyCount > 0 || completedCount > 0) && (
               <span className="rounded-full border border-lc-success/25 bg-lc-success/10 px-1.5 py-0.5 text-[9px] tracking-normal text-lc-success">
-                {completed} ready
+                {readyCount > 0 ? `${readyCount} ready` : `${completedCount} completed`}
               </span>
             )}
           </span>
@@ -83,15 +86,31 @@ export function InvestigationProgressPanel({
               </div>
 
               <div className={`mt-2.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider ${
-                investigation.complete ? 'text-lc-amber' : 'text-lc-text3'
+                investigation.designMissionStatus === 'completed'
+                  ? 'text-lc-success'
+                  : investigation.complete ? 'text-lc-amber' : 'text-lc-text3'
               }`}>
-                {investigation.complete
+                {investigation.designMissionStatus === 'completed'
+                  ? <Check className="h-3 w-3" aria-hidden />
+                  : investigation.complete
                   ? <Sparkles className="h-3 w-3" aria-hidden />
                   : <LockKeyhole className="h-3 w-3" aria-hidden />}
-                {investigation.complete
+                {investigation.designMissionStatus === 'completed'
+                  ? `Completed: ${investigation.completedDesignTitle}`
+                  : investigation.complete
                   ? `Design mission ready: ${investigation.designMissionTitle}`
                   : 'Design mission locked'}
               </div>
+              {investigation.designMissionStatus === 'ready' && onLaunchDesignMission && (
+                <button
+                  type="button"
+                  onClick={() => onLaunchDesignMission(investigation.id)}
+                  className="mt-3 flex min-h-9 w-full items-center justify-center gap-2 rounded-md border border-lc-amber/30 bg-lc-amber/10 px-3 text-xs font-semibold text-lc-amber transition-colors hover:bg-lc-amber/15"
+                >
+                  <DraftingCompass className="h-3.5 w-3.5" aria-hidden />
+                  Launch {investigation.designMissionTitle}
+                </button>
+              )}
             </section>
           ))}
         </div>
