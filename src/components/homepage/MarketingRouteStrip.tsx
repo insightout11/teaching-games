@@ -23,14 +23,18 @@ const PHASE_LABEL: Record<FlightPhase, string> = {
 export function MarketingRouteStrip({
   route,
   className,
+  animate = true,
 }: {
   route: RouteWaypoint[];
   className?: string;
+  /** false renders fully-lit with no sweep (used for the calm pre-loaded sample). */
+  animate?: boolean;
 }) {
   const reduce = useReducedMotion();
+  const isStatic = reduce || !animate;
   const n = route.length;
   // Index of the stop the signal has reached; stops with index ≤ activeIdx are lit.
-  const [activeIdx, setActiveIdx] = useState(reduce ? n - 1 : -1);
+  const [activeIdx, setActiveIdx] = useState(isStatic ? n - 1 : -1);
 
   // Group consecutive stops by flight phase, keeping each stop's global index for lighting.
   const groups: { phase: FlightPhase; items: { wp: RouteWaypoint; idx: number }[] }[] = [];
@@ -43,7 +47,7 @@ export function MarketingRouteStrip({
 
   // Single forward sweep that lights stops in sequence, then holds fully lit.
   useEffect(() => {
-    if (reduce) {
+    if (isStatic) {
       setActiveIdx(n - 1);
       return;
     }
@@ -60,7 +64,7 @@ export function MarketingRouteStrip({
     };
     timer = setTimeout(tick, 900);
     return () => clearTimeout(timer);
-  }, [reduce, n]);
+  }, [isStatic, n]);
 
   if (n === 0) return null;
 
@@ -94,9 +98,9 @@ export function MarketingRouteStrip({
         <div className="absolute left-0 right-0 top-[11px] h-px bg-cyan-300/15" />
         <motion.div
           className="absolute left-0 right-0 top-[11px] h-[2px] origin-left rounded-full bg-gradient-to-r from-cyan-300 via-cyan-300/70 to-cyan-300/20 shadow-[0_0_10px_rgba(34,211,238,0.6)]"
-          initial={{ scaleX: reduce ? 1 : 0 }}
+          initial={{ scaleX: isStatic ? 1 : 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: reduce ? 0 : 1.2, delay: 0.3, ease: [0.12, 0.8, 0.32, 1] }}
+          transition={{ duration: isStatic ? 0 : 1.2, delay: 0.3, ease: [0.12, 0.8, 0.32, 1] }}
         />
 
         <ol className="relative flex">
@@ -114,9 +118,9 @@ export function MarketingRouteStrip({
                   <motion.div
                     key={`${wp.label}-${idx}`}
                     className="flex flex-col items-center gap-2.5"
-                    initial={reduce ? false : { opacity: 0, y: 5 }}
+                    initial={isStatic ? false : { opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: reduce ? 0 : 0.35 + idx * 0.07 }}
+                    transition={{ duration: 0.35, delay: isStatic ? 0 : 0.35 + idx * 0.07 }}
                   >
                     <span
                       className={cn(

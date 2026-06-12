@@ -1,20 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   PlaneTakeoff,
   Sparkles,
   Lock,
   BookOpen,
   MessageSquare,
-  HelpCircle,
   ArrowRight,
   Loader2,
   Play,
+  Link as LinkIcon,
+  Check,
+  FileText,
+  Trophy,
+  X,
 } from 'lucide-react';
 import { FEATURED_CHIPS, type DemoVideo } from '@/lib/video-lesson-demos';
 import { createClient } from '@/lib/supabase/client';
+import { getFeaturedRoute } from '@/lib/discovery-shelves';
+import { parseEmphasis } from '@/lib/emphasis';
+import { MarketingRouteStrip } from '@/components/homepage/MarketingRouteStrip';
 
 interface PreviewVocab {
   word: string;
@@ -40,6 +48,8 @@ interface PreviewResponse {
 
 const PENDING_SOURCE_KEY = 'lc-pending-source';
 const SAMPLE_VIDEO = FEATURED_CHIPS[0]; // pre-loaded so the payoff is visible above the fold
+// The real Captain's Flight route (9 stages, client-safe static data).
+const FEATURED_ROUTE = getFeaturedRoute();
 
 // Aviation-voiced staged progress while the (uncached) request runs.
 const LOADING_STAGES = [
@@ -47,6 +57,395 @@ const LOADING_STAGES = [
   'Reading the video…',
   'Planning the flight…',
 ];
+
+// Renders the AI's *word* emphasis markers as styled (non-italic) accents.
+function Emphasis({ text }: { text: string }) {
+  return (
+    <>
+      {parseEmphasis(text).map((seg, i) =>
+        seg.emphasis ? (
+          <em key={i} className="font-semibold not-italic text-cyan-200">
+            {seg.text}
+          </em>
+        ) : (
+          <span key={i}>{seg.text}</span>
+        ),
+      )}
+    </>
+  );
+}
+
+// One stage of the lesson: a numbered header + its content (or a locked chip).
+function StageSection({
+  order,
+  label,
+  animate,
+  locked = false,
+  children,
+}: {
+  order: number;
+  label: string;
+  animate: boolean;
+  locked?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <motion.div
+      initial={animate ? { opacity: 0, y: 12 } : false}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: animate ? 0.2 + order * 0.12 : 0 }}
+    >
+      <div className="mb-3 flex items-center gap-2">
+        <span
+          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold ${
+            locked
+              ? 'border-lc-border bg-white/[0.03] text-lc-text3'
+              : 'border-cyan-300/40 bg-cyan-400/10 text-cyan-200'
+          }`}
+        >
+          {order + 1}
+        </span>
+        <span className="font-instrument text-[11px] uppercase tracking-[0.16em] text-lc-text2">
+          {label}
+        </span>
+        {locked && <Lock className="h-3 w-3 text-lc-text3" aria-hidden />}
+      </div>
+      {children}
+    </motion.div>
+  );
+}
+
+// Honest "generated when you fly it" chip — sells the full product without faking content.
+function LockedChip({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex items-start gap-2.5 rounded-xl border border-dashed border-lc-border bg-white/[0.02] px-4 py-3">
+      <Lock className="mt-0.5 h-4 w-4 shrink-0 text-lc-text3" aria-hidden />
+      <p className="text-sm leading-relaxed text-lc-text3">{children}</p>
+    </div>
+  );
+}
+
+// Task 4 — the locked "live" panel: a frosted mini-leaderboard + student phone behind a
+// lock badge. All hardcoded (no session code), consistent with TwoScreensSection.
+const MOCK_LEADERBOARD = [
+  { rank: 1, name: 'Mei', score: 240 },
+  { rank: 2, name: 'Diego', score: 215 },
+  { rank: 3, name: 'Yuki', score: 190 },
+];
+
+function LockedLivePanel({ isLoggedIn, onCta }: { isLoggedIn: boolean; onCta: () => void }) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-lc-amber/30 bg-gradient-to-br from-lc-amber/[0.08] to-transparent p-6">
+      <div className="grid items-center gap-6 sm:grid-cols-[1fr_auto]">
+        <div className="relative z-10">
+          <p className="flex items-center gap-2 text-sm font-semibold text-lc-amber">
+            <Lock className="h-4 w-4" aria-hidden />
+            Live student devices, real-time scoring, and a class leaderboard
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-lc-text2">
+            {isLoggedIn
+              ? 'Open this in your planner to build the full lesson — every stage, student devices, and live scoring.'
+              : 'Sign up free to run this as a full live lesson — students join from their phones, you run the whole flight, and scores track in real time.'}
+          </p>
+          <button
+            onClick={onCta}
+            className="mt-4 inline-flex items-center gap-2 rounded-xl bg-lc-amber px-5 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90"
+          >
+            {isLoggedIn ? 'Open in your planner' : 'Sign up free and fly this lesson'}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </button>
+        </div>
+
+        {/* Frosted mock behind a lock badge */}
+        <div aria-hidden className="relative mx-auto hidden h-[150px] w-[230px] select-none sm:block">
+          <div className="absolute inset-0 opacity-70 blur-[1.5px]">
+            {/* Mini leaderboard */}
+            <div className="absolute right-0 top-0 w-40 rounded-xl border border-lc-border bg-[#0a1424]/90 p-3">
+              <p className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2">
+                <Trophy className="h-3 w-3 text-lc-amber" aria-hidden /> Leaderboard
+              </p>
+              <ul className="space-y-1.5">
+                {MOCK_LEADERBOARD.map((e) => (
+                  <li key={e.rank} className="flex items-center gap-2">
+                    <span
+                      className={`flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold ${
+                        e.rank === 1 ? 'bg-lc-amber text-[#1a0f00]' : 'bg-lc-surface text-lc-text2'
+                      }`}
+                    >
+                      {e.rank}
+                    </span>
+                    <span className="flex-1 truncate text-[11px] text-lc-text">{e.name}</span>
+                    <span className="text-[11px] font-semibold text-lc-text2">{e.score}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Student phone mid-answer */}
+            <div className="absolute bottom-0 left-0 w-28 rounded-[1rem] border-[5px] border-[#10192c] bg-[#0a1424]/95 p-2">
+              <p className="mb-1 text-center text-[8px] font-semibold text-lc-text">You · Mei</p>
+              <div className="space-y-1">
+                <div className="rounded bg-lc-blue px-1.5 py-1 text-[8px] font-semibold text-[#070B14]">It saves time</div>
+                <div className="rounded border border-lc-border bg-lc-card/70 px-1.5 py-1 text-[8px] text-lc-text3">It builds confidence</div>
+              </div>
+            </div>
+          </div>
+          {/* Lock badge */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <span className="grid h-10 w-10 place-items-center rounded-full border border-lc-amber/40 bg-[#0a1424]/90 shadow-lg">
+              <Lock className="h-4 w-4 text-lc-amber" aria-hidden />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// The built lesson, stage-mapped and animated. Remounted per build (via key) so the
+// reveal re-runs; the pre-loaded sample renders calm (animate=false).
+function LessonResult({
+  preview,
+  isSample,
+  isLoggedIn,
+  onCta,
+}: {
+  preview: PreviewResponse;
+  isSample: boolean;
+  isLoggedIn: boolean;
+  onCta: () => void;
+}) {
+  const reduce = useReducedMotion();
+  const animate = !isSample && !reduce;
+  const [copied, setCopied] = useState(false);
+  const [showScrollCta, setShowScrollCta] = useState(false);
+  const [ctaDismissed, setCtaDismissed] = useState(false);
+
+  const vocabSentinelRef = useRef<HTMLDivElement>(null);
+  const lockedRef = useRef<HTMLDivElement>(null);
+  const passedVocab = useRef(false);
+  const lockedVisible = useRef(false);
+
+  // Scroll CTA: appears once the visitor scrolls past the vocabulary, hides while the
+  // locked-section CTA is on screen (never two CTAs at once).
+  useEffect(() => {
+    const recompute = () => setShowScrollCta(passedVocab.current && !lockedVisible.current);
+    const sentinel = vocabSentinelRef.current;
+    const locked = lockedRef.current;
+    if (!sentinel || !locked) return;
+
+    const o1 = new IntersectionObserver(([e]) => {
+      passedVocab.current = !e.isIntersecting && e.boundingClientRect.top < 0;
+      recompute();
+    });
+    const o2 = new IntersectionObserver(([e]) => {
+      lockedVisible.current = e.isIntersecting;
+      recompute();
+    });
+    o1.observe(sentinel);
+    o2.observe(locked);
+    return () => {
+      o1.disconnect();
+      o2.disconnect();
+    };
+  }, []);
+
+  function copyLink() {
+    const link = `${window.location.origin}/video-lesson?v=${preview.videoId}`;
+    const done = () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    };
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(link).then(done).catch(done);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = link;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+      } catch {
+        /* ignore */
+      }
+      document.body.removeChild(ta);
+      done();
+    }
+  }
+
+  return (
+    <div className="mt-10 space-y-6">
+      {isSample && (
+        <div className="flex items-center justify-center gap-2 rounded-xl border border-cyan-300/15 bg-cyan-400/[0.05] px-3 py-2 text-center text-xs text-lc-text2">
+          <Sparkles className="h-3.5 w-3.5 text-cyan-300" aria-hidden />
+          Here’s an example — paste your own video above to make one from it.
+        </div>
+      )}
+
+      {/* Header: compact thumbnail beside title/level/hook + share */}
+      <div className="rounded-2xl border border-cyan-300/20 bg-[#04101f]/80 p-5">
+        <div className="flex flex-col gap-4 sm:flex-row">
+          <div className="relative mx-auto aspect-video w-full max-w-[260px] shrink-0 overflow-hidden rounded-xl bg-black sm:mx-0 sm:w-[200px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={preview.thumbnail} alt={preview.title} className="h-full w-full object-cover" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-cyan-400/15 px-2.5 py-0.5 text-xs font-semibold text-cyan-200">
+                {preview.suggestedLevel}
+              </span>
+              <button
+                onClick={copyLink}
+                className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-lc-border bg-white/[0.03] px-3 py-1 text-xs font-medium text-lc-text2 transition-colors hover:border-cyan-300/40 hover:text-lc-text"
+              >
+                {copied ? (
+                  <>
+                    <Check className="h-3.5 w-3.5 text-emerald-300" aria-hidden /> Copied
+                  </>
+                ) : (
+                  <>
+                    <LinkIcon className="h-3.5 w-3.5" aria-hidden /> Copy lesson link
+                  </>
+                )}
+              </button>
+            </div>
+            <h2 className="mt-2 text-lg font-bold leading-snug text-lc-text">{preview.title}</h2>
+            <p className="mt-1.5 text-sm leading-relaxed text-lc-text2">{preview.hook}</p>
+            <p className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-lc-text3">
+              <FileText className="h-3.5 w-3.5" aria-hidden />
+              {preview.transcriptUsed
+                ? "Built from this video's transcript."
+                : "Based on the video's topic."}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Route strip — the real 9-stage Captain's Flight */}
+      <div className="rounded-2xl border border-cyan-300/15 bg-[#04101f]/70 p-5">
+        <MarketingRouteStrip route={FEATURED_ROUTE} animate={animate} />
+      </div>
+
+      {/* Stage-mapped content, in lesson order */}
+      <div className="space-y-6">
+        <StageSection order={0} label="Warm-up" animate={animate} locked>
+          <LockedChip>3 prediction questions about this video — generated when you fly it.</LockedChip>
+        </StageSection>
+
+        <StageSection order={1} label="Briefing" animate={animate}>
+          <div className="rounded-xl border border-lc-border bg-lc-surface/50 p-4">
+            <div className="flex items-center gap-3">
+              <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-black">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={preview.thumbnail} alt="" className="h-full w-full object-cover" aria-hidden />
+                <span className="absolute inset-0 grid place-items-center">
+                  <Play className="h-4 w-4 text-white/90" aria-hidden />
+                </span>
+              </div>
+              <p className="text-sm text-lc-text2">Watch the video together, then check understanding:</p>
+            </div>
+            {preview.comprehensionQuestions.length > 0 && (
+              <ol className="mt-3 space-y-2">
+                {preview.comprehensionQuestions.map((q, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-3 rounded-lg border border-lc-border bg-lc-surface/60 p-3 text-sm text-lc-text2"
+                  >
+                    <span className="font-bold text-cyan-300">{i + 1}.</span>
+                    <span>
+                      <Emphasis text={q} />
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        </StageSection>
+
+        <StageSection order={2} label="Language Toolkit" animate={animate}>
+          <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-lc-text">
+            <BookOpen className="h-4 w-4 text-emerald-300" aria-hidden /> Key vocabulary
+            <span className="font-instrument text-[10px] font-normal uppercase tracking-wide text-lc-text3">
+              from this video
+            </span>
+          </h3>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {preview.keyVocab.map((v) => (
+              <div key={v.word} className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.04] p-4">
+                <p className="text-sm font-bold text-emerald-200">{v.word}</p>
+                <p className="mt-1 text-sm text-lc-text2">{v.definition}</p>
+                <p className="mt-1.5 text-xs italic text-lc-text3">
+                  “<Emphasis text={v.example} />”
+                </p>
+              </div>
+            ))}
+          </div>
+          <div ref={vocabSentinelRef} aria-hidden />
+        </StageSection>
+
+        <StageSection order={3} label="Opinion Pulse · Explore · Accuracy Check" animate={animate} locked>
+          <LockedChip>
+            Class vote · student questions · error-hunt round — each built from this video when you fly it.
+          </LockedChip>
+        </StageSection>
+
+        <StageSection order={4} label="Main Discussion" animate={animate}>
+          <div className="space-y-2">
+            {preview.discussionPrompts.map((p, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-2.5 rounded-xl border border-violet-400/20 bg-violet-400/[0.05] p-3 text-sm text-lc-text2"
+              >
+                <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-violet-300" aria-hidden />
+                <span>
+                  <Emphasis text={p} />
+                </span>
+              </div>
+            ))}
+          </div>
+        </StageSection>
+
+        <StageSection order={5} label="Review Game · Wrap-up" animate={animate} locked>
+          <LockedChip>A quiz built from today’s vocabulary, then a class wrap-up — generated when you fly it.</LockedChip>
+        </StageSection>
+      </div>
+
+      {/* Locked live panel + CTA */}
+      <div ref={lockedRef}>
+        <LockedLivePanel isLoggedIn={isLoggedIn} onCta={onCta} />
+      </div>
+
+      {/* Scroll CTA — slim sticky bar, dismissible, never overlapping the locked CTA */}
+      {showScrollCta && !ctaDismissed && (
+        <motion.div
+          initial={{ y: 60, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 60, opacity: 0 }}
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-lc-amber/20 bg-[#04101f]/95 px-4 py-3 backdrop-blur-md"
+        >
+          <div className="mx-auto flex max-w-3xl items-center gap-3">
+            <p className="hidden flex-1 text-sm text-lc-text2 sm:block">
+              Run this as a full live lesson with your class.
+            </p>
+            <button
+              onClick={onCta}
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-lc-amber px-4 py-2.5 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90 sm:flex-none"
+            >
+              {isLoggedIn ? 'Open in your planner' : 'Sign up free and fly this lesson'}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </button>
+            <button
+              onClick={() => setCtaDismissed(true)}
+              aria-label="Dismiss"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-lc-text3 transition-colors hover:bg-white/5 hover:text-lc-text"
+            >
+              <X className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+}
 
 export function VideoLessonClient() {
   const router = useRouter();
@@ -179,8 +578,8 @@ export function VideoLessonClient() {
           Turn any YouTube video into a live English lesson
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-lc-text2">
-          Paste a link and watch a lesson preview build itself — suggested level, key vocabulary,
-          comprehension questions, and discussion prompts.
+          Paste a link and watch a full 9-stage lesson build itself — vocabulary, comprehension,
+          discussion, and a live class flight you run together.
         </p>
 
         {/* Input */}
@@ -209,33 +608,27 @@ export function VideoLessonClient() {
 
         {/* Instant-gratification chips — recognizable thumbnails, always one cache-hit away */}
         {!loading && (
-          <div className="mx-auto mt-6 max-w-xl">
-            <p className="font-instrument mb-2.5 text-[11px] uppercase tracking-wider text-lc-text3">
+          <div className="mx-auto mt-6 max-w-md">
+            <p className="font-instrument mb-2 text-[11px] uppercase tracking-wider text-lc-text3">
               {preview && !isSample ? 'or try another' : 'or try one of these'}
             </p>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="flex flex-wrap items-center justify-center gap-2">
               {FEATURED_CHIPS.map((chip) => (
                 <button
                   key={chip.videoId}
                   onClick={() => pickChip(chip)}
-                  className="group relative overflow-hidden rounded-xl border border-cyan-300/15 bg-black/40 text-left transition-colors hover:border-cyan-300/45"
+                  className="inline-flex items-center gap-2 rounded-full border border-cyan-300/15 bg-white/[0.03] py-1 pl-1 pr-3 text-left transition-colors hover:border-cyan-300/45"
                 >
-                  <div className="relative aspect-video w-full">
+                  <span className="relative h-7 w-12 shrink-0 overflow-hidden rounded-full bg-black">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={`https://i.ytimg.com/vi/${chip.videoId}/mqdefault.jpg`}
-                      alt={chip.title}
-                      className="h-full w-full object-cover opacity-85 transition-opacity group-hover:opacity-100"
+                      alt=""
+                      aria-hidden
+                      className="h-full w-full object-cover opacity-85"
                     />
-                    <span className="absolute inset-0 grid place-items-center">
-                      <span className="grid h-8 w-8 place-items-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-transform group-hover:scale-110">
-                        <Play className="h-4 w-4 translate-x-px" aria-hidden />
-                      </span>
-                    </span>
-                  </div>
-                  <p className="line-clamp-2 px-2 py-1.5 text-[11px] font-medium leading-tight text-lc-text2 group-hover:text-lc-text">
-                    {chip.title}
-                  </p>
+                  </span>
+                  <span className="max-w-[9rem] truncate text-xs font-medium text-lc-text2">{chip.title}</span>
                 </button>
               ))}
             </div>
@@ -281,132 +674,14 @@ export function VideoLessonClient() {
 
       {/* ── Result ───────────────────────────────────────────── */}
       {preview && !loading && (
-        <div ref={resultRef} className="mt-10 space-y-6">
-          {isSample && (
-            <div className="flex items-center justify-center gap-2 rounded-xl border border-cyan-300/15 bg-cyan-400/[0.05] px-3 py-2 text-center text-xs text-lc-text2">
-              <Sparkles className="h-3.5 w-3.5 text-cyan-300" aria-hidden />
-              Here’s an example — paste your own video above to make one from it.
-            </div>
-          )}
-
-          {/* Header: thumbnail + title + level + hook */}
-          <div className="overflow-hidden rounded-2xl border border-cyan-300/20 bg-[#04101f]/80">
-            <div className="relative aspect-video w-full bg-black">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={preview.thumbnail} alt={preview.title} className="h-full w-full object-cover" />
-            </div>
-            <div className="p-5">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-cyan-400/15 px-2.5 py-0.5 text-xs font-semibold text-cyan-200">
-                  {preview.suggestedLevel}
-                </span>
-                {!preview.transcriptUsed && (
-                  <span className="rounded-full bg-white/5 px-2.5 py-0.5 text-[11px] text-lc-text3">
-                    Based on the video’s topic
-                  </span>
-                )}
-              </div>
-              <h2 className="mt-3 text-xl font-bold text-lc-text">{preview.title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-lc-text2">{preview.hook}</p>
-            </div>
-          </div>
-
-          {/* Route strip — the 9-stage Captain's Flight */}
-          {preview.stageLabels.length > 0 && (
-            <div className="rounded-2xl border border-cyan-300/15 bg-[#04101f]/70 p-5">
-              <p className="font-instrument mb-4 text-[11px] uppercase tracking-[0.18em] text-cyan-300/80">
-                The lesson, stage by stage
-              </p>
-              <div className="flex flex-wrap gap-x-2 gap-y-3">
-                {preview.stageLabels.map((label, i) => (
-                  <div key={label} className="flex items-center gap-2">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-400/10 text-[10px] font-bold text-cyan-200">
-                      {i + 1}
-                    </span>
-                    <span className="font-instrument text-[11px] uppercase tracking-wide text-lc-text2">{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Vocabulary */}
-          {preview.keyVocab.length > 0 && (
-            <div>
-              <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-lc-text">
-                <BookOpen className="h-4 w-4 text-emerald-300" aria-hidden /> Key vocabulary
-              </h3>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {preview.keyVocab.map((v) => (
-                  <div key={v.word} className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.04] p-4">
-                    <p className="text-sm font-bold text-emerald-200">{v.word}</p>
-                    <p className="mt-1 text-sm text-lc-text2">{v.definition}</p>
-                    <p className="mt-1.5 text-xs italic text-lc-text3">“{v.example}”</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Comprehension */}
-          {preview.comprehensionQuestions.length > 0 && (
-            <div>
-              <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-lc-text">
-                <HelpCircle className="h-4 w-4 text-cyan-300" aria-hidden /> Comprehension questions
-              </h3>
-              <ol className="space-y-2">
-                {preview.comprehensionQuestions.map((q, i) => (
-                  <li key={i} className="flex gap-3 rounded-xl border border-lc-border bg-lc-surface/60 p-3 text-sm text-lc-text2">
-                    <span className="font-bold text-cyan-300">{i + 1}.</span>
-                    {q}
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )}
-
-          {/* Discussion */}
-          {preview.discussionPrompts.length > 0 && (
-            <div>
-              <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-lc-text">
-                <MessageSquare className="h-4 w-4 text-violet-300" aria-hidden /> Discussion prompts
-              </h3>
-              <div className="space-y-2">
-                {preview.discussionPrompts.map((p, i) => (
-                  <div key={i} className="rounded-xl border border-violet-400/20 bg-violet-400/[0.05] p-3 text-sm text-lc-text2">
-                    {p}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Locked section + CTA (auth-aware) */}
-          <div className="relative overflow-hidden rounded-2xl border border-lc-amber/30 bg-gradient-to-br from-lc-amber/[0.08] to-transparent p-6">
-            <div aria-hidden className="pointer-events-none absolute inset-0 select-none space-y-2 p-6 opacity-30 blur-[3px]">
-              <div className="h-4 w-1/2 rounded bg-white/20" />
-              <div className="h-4 w-2/3 rounded bg-white/15" />
-              <div className="h-4 w-1/3 rounded bg-white/20" />
-            </div>
-            <div className="relative">
-              <p className="flex items-center gap-2 text-sm font-semibold text-lc-amber">
-                <Lock className="h-4 w-4" aria-hidden />
-                Live student devices, real-time scoring, and a class leaderboard
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-lc-text2">
-                {isLoggedIn
-                  ? 'Open this in your planner to build the full lesson — every stage, student devices, and live scoring.'
-                  : 'Sign up free to run this as a full live lesson — students join from their phones, you run the whole flight, and scores track in real time.'}
-              </p>
-              <button
-                onClick={handleCta}
-                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-lc-amber px-5 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90"
-              >
-                {isLoggedIn ? 'Open in your planner' : 'Sign up free and fly this lesson'}
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </button>
-            </div>
-          </div>
+        <div ref={resultRef}>
+          <LessonResult
+            key={preview.videoId + (isSample ? '-sample' : '-build')}
+            preview={preview}
+            isSample={isSample}
+            isLoggedIn={isLoggedIn}
+            onCta={handleCta}
+          />
         </div>
       )}
     </div>
