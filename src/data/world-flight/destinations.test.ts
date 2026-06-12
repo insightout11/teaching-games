@@ -72,6 +72,15 @@ describe('world flight destination packs', () => {
     }
   });
 
+  it('offers an approachable and challenging topic mix in every city', () => {
+    for (const destination of WORLD_DESTINATIONS) {
+      const easyTopics = destination.focusOptions.filter((focus) => focus.difficulty === 'Easy');
+      expect(easyTopics.length, destination.id).toBeGreaterThanOrEqual(2);
+      expect(destination.focusOptions.some((focus) => focus.difficulty === 'Intermediate'), destination.id).toBe(true);
+      expect(destination.focusOptions.some((focus) => focus.difficulty === 'Advanced'), destination.id).toBe(true);
+    }
+  });
+
   it('does not reuse long article paragraphs across different readings', () => {
     const paragraphOwners = new Map<string, Set<string>>();
 
