@@ -12,6 +12,7 @@ import * as path from 'path';
 import { YoutubeTranscript } from 'youtube-transcript';
 import { WORLD_DESTINATIONS, WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS } from '../src/data/world-flight/destinations';
 import { createServiceClient } from '../src/lib/supabase/service';
+import { assessWorldFlightTranscript } from '../src/lib/world-flight/transcripts';
 
 (function loadEnvLocal() {
   const envFile = path.join(path.resolve('.'), '.env.local');
@@ -101,9 +102,15 @@ async function prefetchVideo(video: WorldFlightVideo, checkOnly: boolean) {
   if (!text) throw new Error('EMPTY_TRANSCRIPT');
 
   const lang = segments[0]?.lang ?? 'en';
+  const quality = assessWorldFlightTranscript(segments, lang);
+  if (!quality.publishable) {
+    throw new Error(quality.issues.join(','));
+  }
   const transcriptVerifiedAt = video.reviewedAt ?? new Date().toISOString().slice(0, 10);
   if (checkOnly) {
-    console.log(`  OK     ${video.cityId}/${video.focusId} ${video.sourceKey} - ${segments.length} segments, lang:${lang}`);
+    console.log(
+      `  OK     ${video.cityId}/${video.focusId} ${video.sourceKey} - ${quality.meaningfulWordCount} meaningful words, lang:${lang}`,
+    );
     return;
   }
 
@@ -136,7 +143,9 @@ async function prefetchVideo(video: WorldFlightVideo, checkOnly: boolean) {
     await dbInsert(record);
   }
 
-  console.log(`  STORED ${video.cityId}/${video.focusId} ${video.sourceKey} - ${segments.length} segments, lang:${lang}`);
+  console.log(
+    `  STORED ${video.cityId}/${video.focusId} ${video.sourceKey} - ${quality.meaningfulWordCount} meaningful words, lang:${lang}`,
+  );
 }
 
 async function main() {
