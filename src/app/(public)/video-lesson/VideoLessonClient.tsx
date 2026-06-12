@@ -328,7 +328,10 @@ function LessonResult({
       {/* Stage-mapped content, in lesson order */}
       <div className="space-y-6">
         <StageSection order={0} label="Warm-up" animate={animate} locked>
-          <LockedChip>3 prediction questions about this video — generated when you fly it.</LockedChip>
+          <LockedChip>
+            3 quick warm-up questions that get students guessing about the video before they
+            watch — generated when you fly it.
+          </LockedChip>
         </StageSection>
 
         <StageSection order={1} label="Briefing" animate={animate}>
@@ -382,9 +385,11 @@ function LessonResult({
           <div ref={vocabSentinelRef} aria-hidden />
         </StageSection>
 
-        <StageSection order={3} label="Opinion Pulse · Explore · Accuracy Check" animate={animate} locked>
+        <StageSection order={3} label="Quick mid-lesson rounds" animate={animate} locked>
           <LockedChip>
-            Class vote · student questions · error-hunt round — each built from this video when you fly it.
+            A quick opinion prompt to get students talking, a board where they post their own
+            questions, and a fast find-the-mistake round — each built from this video when you
+            fly it.
           </LockedChip>
         </StageSection>
 
