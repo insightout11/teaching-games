@@ -342,6 +342,56 @@ export interface ProblemComplication {
   hints: string[];
 }
 
+// Design Studio content
+export interface DesignStudioContent extends ActivityGeneratedContent {
+  activityKey: 'design-studio';
+  challenge: string;
+  openingPrompt: string;
+  successCriteria: string[];
+  maxDecisions: number;
+}
+
+export interface DesignStudioOption {
+  id: 'A' | 'B' | 'C';
+  title: string;
+  description: string;
+  benefit: string;
+  tradeoff: string;
+  designChange: string;
+}
+
+export interface DesignStudioRound {
+  stage: string;
+  question: string;
+  whyItMatters: string;
+  designSummary: string;
+  options: DesignStudioOption[];
+}
+
+export interface DesignStudioDecision {
+  roundNumber: number;
+  stage: string;
+  question: string;
+  selectedOption: DesignStudioOption;
+}
+
+export interface DesignStudioState {
+  challenge: string;
+  originalIdeas: string[];
+  designSummary: string;
+  decisions: DesignStudioDecision[];
+}
+
+export interface DesignStudioBrief {
+  title: string;
+  summary: string;
+  intendedUsers: string[];
+  coreFeatures: string[];
+  evidenceAndReasoning: string[];
+  remainingTradeoffs: string[];
+  pitch: string;
+}
+
 // ============================================
 // Conversation Rounds Content Types
 // ============================================
@@ -372,7 +422,17 @@ export interface ActivityContinueRequest {
   topicContext: string;
   previousExchanges: ActivityExchange[];
   studentResponse: string;
-  requestType: 'follow-up' | 'challenge' | 'hint' | 'evaluate' | 'counter-argument' | 'pick-top3' | 'generate-round';
+  requestType:
+    | 'follow-up'
+    | 'challenge'
+    | 'hint'
+    | 'evaluate'
+    | 'counter-argument'
+    | 'pick-top3'
+    | 'generate-round'
+    | 'design-studio-start'
+    | 'design-studio-next'
+    | 'design-studio-finalize';
 }
 
 export interface ActivityExchange {
@@ -393,6 +453,8 @@ export interface ActivityContinueResponse {
   vocabularyHighlight?: string[];
   top3Picks?: FinaleOption[];
   generatedRound?: ScenarioRound;
+  designStudioRound?: DesignStudioRound;
+  designStudioBrief?: DesignStudioBrief;
   /** Full content replacement — used by Conversation Rounds scenario regeneration. */
   regeneratedContent?: ActivityGeneratedContent;
 }

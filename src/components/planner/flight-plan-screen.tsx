@@ -43,7 +43,7 @@ export function FlightPlanScreen() {
                 </>
               )}
               <span className="w-1 h-1 rounded-full bg-lc-border" />
-              <span>{modules.length} modules</span>
+              <span>{modules.length} {modules.length === 1 ? 'module' : 'modules'}</span>
             </div>
           </div>
         </div>

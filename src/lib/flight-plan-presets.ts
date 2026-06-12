@@ -340,10 +340,34 @@ export const ARCHIVED_PRESETS: FlightPlanPreset[] = [
 ];
 
 /**
- * Live presets shown to teachers. Captain's Flight is the only ready/real preset today;
- * the rest are in ARCHIVED_PRESETS pending a rebuild in the new style.
+ * Live presets shown to teachers.
  */
 export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
+  {
+    id: 'design-studio-60',
+    name: 'Design Studio',
+    description: 'Build one class-created design through contextual questions, debate, and progressive votes',
+    lessonDurationMinutes: 60,
+    goal: 'creativity',
+    lessonType: 'performance',
+    scoringMode: 'participation',
+    skipTakeoffLanding: true,
+    moduleSequence: [
+      { slotType: 'production', key: 'design-studio' },
+    ],
+    scenarios: {
+      label: 'Choose a design challenge',
+      placeholder: 'e.g. Design a floating neighborhood that can survive floods',
+      options: [
+        'Design a public space where different communities feel welcome',
+        'Design a neighborhood that can adapt to extreme weather',
+        'Design a fairer way for people to move through a busy city',
+        'Design a school that supports different ways of learning',
+        'Design a food system that wastes less and feeds more people',
+        'Design a safer, more useful public park',
+      ],
+    },
+  },
   {
     id: 'all-around-flight-60',
     name: "Captain's Flight",

@@ -9,6 +9,7 @@ import { expertPanelPlugin } from './expert-panel';
 import { scenarioSimulatorPlugin } from './scenario-simulator';
 // VAULTED: interviewLabPlugin (teacher transcription, AI latency, niche use case)
 import { problemSolversPlugin } from './problem-solvers';
+import { designStudioPlugin } from './design-studio';
 import { quickPulsePlugin } from './quick-pulse';
 import { wonderBoardPlugin } from './wonder-board';
 import { vocabRadarPlugin } from './vocab-radar';
@@ -69,6 +70,7 @@ const activities: ActivityPlugin[] = [
   scenarioSimulatorPlugin,
   // VAULTED: interviewLabPlugin
   problemSolversPlugin,
+  designStudioPlugin,
   conversationRoundsPlugin,
   // Debates
   hotTakeArenaPlugin,

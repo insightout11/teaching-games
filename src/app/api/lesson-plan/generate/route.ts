@@ -2556,6 +2556,20 @@ export async function POST(request: NextRequest) {
           case 'problem-solvers':
             generators.push(generateProblemSolvers(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
+          case 'design-studio':
+            content[activityKey] = {
+              activityKey: 'design-studio',
+              topicContext: customTopic,
+              challenge: customTopic,
+              openingPrompt: 'What should the class create to respond to this challenge?',
+              successCriteria: [
+                'Build directly from the starting idea',
+                'Make choices with real benefits and tradeoffs',
+                'Create a design the class can explain and defend',
+              ],
+              maxDecisions: 6,
+            };
+            break;
           case 'wonder-board':
             generators.push(generateWonderBoard(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;

@@ -2,9 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
-import type { ActivityContinueRequest, ActivityContinueResponse, ConversationRoundsContent, FinaleOption, ScenarioRound } from '@/activities/types';
+import type {
+  ActivityContinueRequest,
+  ActivityContinueResponse,
+  ConversationRoundsContent,
+  DesignStudioBrief,
+  DesignStudioRound,
+  DesignStudioState,
+  FinaleOption,
+  ScenarioRound,
+} from '@/activities/types';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
+import { normalizeDesignStudioBrief, normalizeDesignStudioRound } from '@/lib/design-studio';
 
 // Generic prompt for activities without specific handlers
 function genericActivityPrompt(req: ActivityContinueRequest): string {
@@ -172,6 +182,70 @@ const schema: AISchema = {
   },
 };
 
+const designStudioOptionSchema: AISchema = {
+  type: 'object',
+  properties: {
+    id: { type: 'string' },
+    title: { type: 'string' },
+    description: { type: 'string' },
+    benefit: { type: 'string' },
+    tradeoff: { type: 'string' },
+    designChange: { type: 'string' },
+  },
+  required: ['id', 'title', 'description', 'benefit', 'tradeoff', 'designChange'],
+};
+
+const designStudioRoundSchema: AISchema = {
+  type: 'object',
+  properties: {
+    designStudioRound: {
+      type: 'object',
+      properties: {
+        stage: { type: 'string' },
+        question: { type: 'string' },
+        whyItMatters: { type: 'string' },
+        designSummary: { type: 'string' },
+        options: {
+          type: 'array',
+          items: designStudioOptionSchema,
+        },
+      },
+      required: ['stage', 'question', 'whyItMatters', 'designSummary', 'options'],
+    },
+  },
+  required: ['designStudioRound'],
+};
+
+const designStudioBriefSchema: AISchema = {
+  type: 'object',
+  properties: {
+    designStudioBrief: {
+      type: 'object',
+      properties: {
+        title: { type: 'string' },
+        summary: { type: 'string' },
+        intendedUsers: { type: 'array', items: { type: 'string' } },
+        coreFeatures: { type: 'array', items: { type: 'string' } },
+        evidenceAndReasoning: { type: 'array', items: { type: 'string' } },
+        remainingTradeoffs: { type: 'array', items: { type: 'string' } },
+        pitch: { type: 'string' },
+      },
+      required: ['title', 'summary', 'intendedUsers', 'coreFeatures', 'evidenceAndReasoning', 'remainingTradeoffs', 'pitch'],
+    },
+  },
+  required: ['designStudioBrief'],
+};
+
+function formatDesignDecisions(state: DesignStudioState): string {
+  if (state.decisions.length === 0) return 'No decisions yet.';
+  return state.decisions.map((decision) => (
+    `${decision.roundNumber}. ${decision.question}\n`
+    + `Chosen: ${decision.selectedOption.title}\n`
+    + `Design change: ${decision.selectedOption.designChange}\n`
+    + `Accepted tradeoff: ${decision.selectedOption.tradeoff}`
+  )).join('\n\n');
+}
+
 export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
@@ -183,6 +257,170 @@ export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as ActivityContinueRequest;
     const { activityKey, requestType } = body;
+
+    if (activityKey === 'design-studio' && requestType === 'design-studio-start') {
+      const {
+        challenge,
+        originalIdeas,
+        difficulty,
+        successCriteria,
+      } = JSON.parse(body.studentResponse ?? '{}') as {
+        challenge: string;
+        originalIdeas: string[];
+        difficulty?: string;
+        successCriteria?: string[];
+      };
+      const languageRule = difficultyDescriptions[(difficulty as Difficulty) ?? 'Intermediate']
+        ?? difficultyDescriptions.Intermediate;
+      const ideas = (originalIdeas ?? []).slice(0, 20).map((idea, index) => `${index + 1}. ${idea}`).join('\n');
+      const prompt = `Facilitate the first decision in a progressive classroom Design Studio.
+
+${languageRule}
+
+DESIGN CHALLENGE:
+${challenge}
+
+STUDENT STARTING IDEAS:
+${ideas || challenge}
+
+SUCCESS CRITERIA:
+${(successCriteria ?? []).map((criterion) => `- ${criterion}`).join('\n')}
+
+Synthesize the ideas into exactly three genuinely different starting design directions.
+This is a class vote, so none may be obviously correct.
+
+Return one designStudioRound:
+- stage: "Starting Direction"
+- question: one direct question asking which direction should become the class design
+- whyItMatters: one short sentence
+- designSummary: one neutral sentence describing the challenge before a direction is selected
+- options: exactly three options with ids A, B, C
+- each option needs a short title, concrete description, real benefit, meaningful tradeoff, and designChange
+- designChange must be a complete 1-2 sentence summary of what the shared design becomes if selected
+- preserve the students' ideas; do not replace the subject with a different project`;
+
+      const parsed = await generateJSON<{ designStudioRound: DesignStudioRound }>(
+        prompt,
+        designStudioRoundSchema,
+        { taskClass: 'activity-facilitation' },
+      );
+      const state: DesignStudioState = {
+        challenge,
+        originalIdeas: originalIdeas ?? [],
+        designSummary: '',
+        decisions: [],
+      };
+      return NextResponse.json({
+        designStudioRound: normalizeDesignStudioRound(parsed.designStudioRound, state),
+      } satisfies ActivityContinueResponse);
+    }
+
+    if (activityKey === 'design-studio' && requestType === 'design-studio-next') {
+      const {
+        state,
+        difficulty,
+        successCriteria,
+        maxDecisions,
+      } = JSON.parse(body.studentResponse ?? '{}') as {
+        state: DesignStudioState;
+        difficulty?: string;
+        successCriteria?: string[];
+        maxDecisions?: number;
+      };
+      const languageRule = difficultyDescriptions[(difficulty as Difficulty) ?? 'Intermediate']
+        ?? difficultyDescriptions.Intermediate;
+      const nextNumber = state.decisions.length + 1;
+      const remaining = Math.max(1, (maxDecisions ?? 6) - state.decisions.length);
+      const stageGuide = ['Purpose', 'People', 'Core Features', 'Access and Fairness', 'Constraint and Adaptation', 'Final Refinement'];
+      const suggestedStage = stageGuide[Math.min(nextNumber - 1, stageGuide.length - 1)];
+      const prompt = `Continue a progressive classroom Design Studio.
+
+${languageRule}
+
+CHALLENGE:
+${state.challenge}
+
+CURRENT SHARED DESIGN:
+${state.designSummary}
+
+DECISIONS ALREADY LOCKED:
+${formatDesignDecisions(state)}
+
+SUCCESS CRITERIA:
+${(successCriteria ?? []).map((criterion) => `- ${criterion}`).join('\n')}
+
+Generate the next contextual design decision. There are ${remaining} decisions remaining.
+Suggested progress stage: ${suggestedStage}.
+
+Rules:
+- Build directly from the current design and locked decisions.
+- Never contradict, erase, or quietly replace an earlier class decision.
+- Do not repeat a question already answered.
+- Ask about the most important unresolved design issue.
+- Present exactly three meaningfully different choices with ids A, B, C.
+- No option may be obviously correct. Every option needs a real benefit and tradeoff.
+- designChange must be a complete updated 1-3 sentence design summary that preserves all earlier decisions and applies that option.
+- Keep choices concrete enough for students to debate aloud.
+- designSummary must accurately summarize the current design before this new vote.`;
+
+      const parsed = await generateJSON<{ designStudioRound: DesignStudioRound }>(
+        prompt,
+        designStudioRoundSchema,
+        { taskClass: 'activity-facilitation' },
+      );
+      return NextResponse.json({
+        designStudioRound: normalizeDesignStudioRound(parsed.designStudioRound, state),
+      } satisfies ActivityContinueResponse);
+    }
+
+    if (activityKey === 'design-studio' && requestType === 'design-studio-finalize') {
+      const {
+        state,
+        difficulty,
+        successCriteria,
+      } = JSON.parse(body.studentResponse ?? '{}') as {
+        state: DesignStudioState;
+        difficulty?: string;
+        successCriteria?: string[];
+      };
+      const languageRule = difficultyDescriptions[(difficulty as Difficulty) ?? 'Intermediate']
+        ?? difficultyDescriptions.Intermediate;
+      const prompt = `Create the final class design brief from a completed progressive Design Studio.
+
+${languageRule}
+
+CHALLENGE:
+${state.challenge}
+
+FINAL SHARED DESIGN:
+${state.designSummary}
+
+CLASS DECISION HISTORY:
+${formatDesignDecisions(state)}
+
+SUCCESS CRITERIA:
+${(successCriteria ?? []).map((criterion) => `- ${criterion}`).join('\n')}
+
+Return one designStudioBrief:
+- title: a memorable, specific design name
+- summary: 2-4 sentences accurately describing the final design
+- intendedUsers: 2-4 groups the design serves
+- coreFeatures: 4-7 concrete features created by the class decisions
+- evidenceAndReasoning: 3-6 concise reasons tied to benefits or accepted tradeoffs
+- remainingTradeoffs: 2-4 honest unresolved risks or compromises
+- pitch: a persuasive 2-3 sentence class presentation
+
+Do not invent decisions the class did not make.`;
+
+      const parsed = await generateJSON<{ designStudioBrief: DesignStudioBrief }>(
+        prompt,
+        designStudioBriefSchema,
+        { taskClass: 'activity-facilitation' },
+      );
+      return NextResponse.json({
+        designStudioBrief: normalizeDesignStudioBrief(parsed.designStudioBrief, state),
+      } satisfies ActivityContinueResponse);
+    }
 
     // generate-round: scenario-simulator — generate next round based on winning choice
     if (activityKey === 'scenario-simulator' && requestType === 'generate-round') {

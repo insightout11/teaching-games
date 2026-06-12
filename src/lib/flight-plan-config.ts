@@ -114,6 +114,7 @@ const CLASS_SIZE_METADATA: Record<string, ClassSizeMetadata> = {
   'expert-panel': { idealClassSizes: CLASS_ONLY, minStudents: 1 },
   'scenario-simulator': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'problem-solvers': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
+  'design-studio': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
   'hot-take-arena': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
   'decision-council': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
   'final-answer': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
@@ -556,6 +557,21 @@ const FLIGHT_PLAN_ITEM_BASE: FlightPlanItemBase[] = [
     teacherControlLoad: 'medium',
     avoidAfter: ['story-sprint'],
     strongWith: ['scenario-simulator', 'expert-panel', 'rank-it'],
+  },
+
+  {
+    key: 'design-studio',
+    slotFit: ['production'],
+    goalFit: ['critical-thinking', 'creativity', 'collaboration', 'discussion-debate'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['submission', 'voting', 'discussion'],
+    speakingLoad: 'high',
+    writingLoad: 'low',
+    teacherControlLoad: 'medium',
+    avoidAfter: ['scenario-simulator', 'problem-solvers'],
+    strongWith: ['wonder-board', 'decision-council', 'final-answer'],
+    missionAware: true,
   },
 
   {
