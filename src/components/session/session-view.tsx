@@ -822,6 +822,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [session.id]);
 
   const finishSession = async (completed: boolean) => {
+    // Flip to the "You've Landed" arrival immediately so "Complete Flight" lands
+    // instantly; the DB end + cleanup run in the background (best-effort).
+    sessionStorage.removeItem('lessonPlanContent');
+    localStorage.removeItem('lc-explore-session');
+    setEnded(true);
+
     if (bonusVotePollId) {
       await supabase.from('polls').update({ is_active: false }).eq('id', bonusVotePollId);
     }
@@ -835,12 +841,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (!response.ok) {
       const result = await response.json().catch(() => ({ error: 'Failed to end session' }));
       console.error('Failed to end session:', result.error);
-      return;
     }
-
-    sessionStorage.removeItem('lessonPlanContent');
-    localStorage.removeItem('lc-explore-session');
-    setEnded(true);
   };
 
   const handleEndSession = () => {
@@ -1068,12 +1069,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         leg,
       });
     }
-    lesson.advanceSlot();
-    // Final module complete — fly straight to the "You've Landed" arrival
-    // instead of dropping back on the selection grid.
+    // Final module complete — fly straight to the "You've Landed" arrival. Do NOT
+    // advanceSlot first: that lands on an empty slot and momentarily renders the
+    // selection/explore grid before `ended` flips to the landing screen.
     if (lesson.isLessonActive && !hasNextSlot) {
       handleCompleteSession();
+      return;
     }
+    lesson.advanceSlot();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson, selectedGame, selectedActivity]);
 
@@ -1189,6 +1192,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
           </>
         )}
+        {/* Legibility scrim — dims the lit skyline behind the centered results
+            column so the cards/labels read clearly, while the scene still shows
+            at the edges (landmarks, plane, runway). */}
+        <div
+          className="pointer-events-none fixed inset-0 z-[5]"
+          style={{
+            left: isFullScreen ? 0 : 256,
+            background:
+              'radial-gradient(ellipse 46% 80% at 50% 40%, rgba(3,7,16,0.80) 0%, rgba(3,7,16,0.46) 48%, transparent 74%)',
+          }}
+        />
         {/* Only the results scroll — the airfield stays pinned behind */}
         <div className="relative z-10 h-full overflow-y-auto px-6 lg:px-8 py-6 pb-80">
           <EndSessionSummary

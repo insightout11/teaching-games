@@ -142,7 +142,7 @@ export function EndSessionSummary({
               transition={{ delay: 0.18 + i * 0.08 }}
             >
               <p className={`text-3xl font-bold ${s.c}`}>{s.v}</p>
-              <p className="text-[11px] text-lc-text3 mt-0.5 uppercase tracking-wider">{s.l}</p>
+              <p className="text-[11px] text-lc-text2 mt-0.5 uppercase tracking-wider">{s.l}</p>
             </motion.div>
           ))}
         </div>
@@ -236,8 +236,8 @@ export function EndSessionSummary({
         </div>
 
         {teacherView && onLaunchBonusVote && (
-          <div className="mt-6 p-4 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/20 rounded-2xl text-center">
-            <p className="text-sm text-lc-text3 mb-3">Got time to spare? Let the class pick a bonus game.</p>
+          <div className="mt-6 p-4 bg-slate-950/55 backdrop-blur-md border border-cyan-400/30 rounded-2xl text-center">
+            <p className="text-sm text-white/80 mb-3">Got time to spare? Let the class pick a bonus game.</p>
             <button
               onClick={onLaunchBonusVote}
               className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold text-sm text-white shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
