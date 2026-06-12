@@ -3,16 +3,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from 'maplibre-gl';
-import { ArrowRight, BookOpen, Check, ExternalLink, Gauge, Globe2, MapPin, PanelLeftClose, PanelLeftOpen, Plane, Play, Route } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ExternalLink, Gauge, Globe2, MapPin, PanelLeftClose, PanelLeftOpen, Plane, Play, Route, ScanSearch, X } from 'lucide-react';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
-import { destinationCoord, distanceKm, formatDistance, greatCircleLine, rangePolygon, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
+import { destinationCoord, destinationsWithinRange, distanceKm, formatDistance, greatCircleLine, rangePolygon, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { usePlannerStore } from '@/stores/planner-store';
-import type { WorldFlightClassSummary } from '@/lib/world-flight/journey';
+import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
 import { ShareJourneyButton } from './share-journey-button';
 import { InvestigationProgressPanel } from './investigation-progress-panel';
+import { JourneyProgressPanel } from './journey-progress-panel';
 
 const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 type FocusFilter = 'all' | DestinationFocusKind;
@@ -21,15 +22,23 @@ const EMPTY_FEATURE_COLLECTION: WorldFeatureCollection = {
   type: 'FeatureCollection',
   features: [],
 };
+const EMPTY_DESTINATION_IDS: string[] = [];
 
 function asFeatureCollection(features: WorldFeature[]): WorldFeatureCollection {
   return { type: 'FeatureCollection', features };
 }
 
-function destinationFeatures(origin: DestinationPack | null, rangeKm: number) {
+function destinationFeatures(
+  origin: DestinationPack | null,
+  rangeKm: number,
+  visitedDestinationIds: Iterable<string> = [],
+  previewOrigin: DestinationPack | null = null,
+) {
+  const visited = new Set(visitedDestinationIds);
   return asFeatureCollection(
     WORLD_DESTINATIONS.map((destination) => {
       const km = origin ? distanceKm(origin, destination) : 0;
+      const previewKm = previewOrigin ? distanceKm(previewOrigin, destination) : 0;
       return {
         type: 'Feature',
         properties: {
@@ -39,6 +48,9 @@ function destinationFeatures(origin: DestinationPack | null, rangeKm: number) {
           airport: destination.primaryAirport,
           reachable: !origin || km <= rangeKm || destination.id === origin.id,
           isOrigin: destination.id === origin?.id,
+          visited: visited.has(destination.id),
+          onwardReachable: !!previewOrigin && previewKm <= rangeKm && destination.id !== previewOrigin.id,
+          isPreviewOrigin: destination.id === previewOrigin?.id,
         },
         geometry: {
           type: 'Point',
@@ -82,10 +94,12 @@ function isPublishedFocus(focus: DestinationFocus) {
     : focus.review.status === 'researched';
 }
 
-function defaultNextDestination(origin: DestinationPack, rangeKm: number) {
-  return WORLD_DESTINATIONS
+function defaultNextDestination(origin: DestinationPack, rangeKm: number, visitedDestinationIds: Iterable<string> = []) {
+  const candidates = WORLD_DESTINATIONS
     .filter((destination) => destination.id !== origin.id && distanceKm(origin, destination) <= rangeKm)
-    .sort((a, b) => distanceKm(origin, a) - distanceKm(origin, b))[0] ?? origin;
+    .map((destination) => ({ id: destination.id, distanceKm: distanceKm(origin, destination) }));
+  const destinationId = recommendNextDestinationId(candidates, visitedDestinationIds);
+  return WORLD_DESTINATIONS.find((destination) => destination.id === destinationId) ?? origin;
 }
 
 function ImagePanel({ image, className = '' }: { image: DestinationPack['heroImage']; className?: string }) {
@@ -191,8 +205,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [isWide, setIsWide] = useState(false);
   const [selectedClassId, setSelectedClassId] = useState<string | null>(initialClasses[0]?.id ?? null);
   const [firstDepartureId, setFirstDepartureId] = useState<string | null>(null);
+  const [previewNextHops, setPreviewNextHops] = useState(false);
 
   const selectedClass = initialClasses.find((cls) => cls.id === selectedClassId) ?? null;
+  const visitedDestinationIds = selectedClass?.visitedDestinationIds ?? EMPTY_DESTINATION_IDS;
+  const visitedDestinationSet = useMemo(() => new Set(visitedDestinationIds), [visitedDestinationIds]);
   const origin = useMemo(
     () => WORLD_DESTINATIONS.find((destination) => destination.id === selectedClass?.currentDestinationId) ?? null,
     [selectedClass?.currentDestinationId],
@@ -224,6 +241,15 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const selectedFocus = visibleFocusOptions.find((focus) => focus.id === selectedFocusId) ?? visibleFocusOptions[0] ?? publishedFocusOptions[0];
   const isReachable = !!routeOrigin && ((selectedDistanceKm ?? 0) <= rangeKm || selectedDestination.id === routeOrigin.id);
   const isLocalLesson = routeOrigin?.id === selectedDestination.id;
+  const nextHopCandidates = useMemo(
+    () => destinationsWithinRange(selectedDestination, WORLD_DESTINATIONS, rangeKm),
+    [rangeKm, selectedDestination],
+  );
+  const nextHopDestinationIds = useMemo(
+    () => new Set(nextHopCandidates.map((candidate) => candidate.destination.id)),
+    [nextHopCandidates],
+  );
+  const listDistanceOrigin = previewNextHops ? selectedDestination : routeOrigin;
 
   useEffect(() => {
     setSelectedFocusId(null);
@@ -271,14 +297,15 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
 
   useEffect(() => {
     if (origin) {
-      setSelectedDestinationId(defaultNextDestination(origin, rangeKm).id);
+      setSelectedDestinationId(defaultNextDestination(origin, rangeKm, visitedDestinationIds).id);
     }
-  }, [origin, rangeKm]);
+  }, [origin, rangeKm, visitedDestinationIds]);
 
   function selectClass(id: string) {
     const nextClass = initialClasses.find((cls) => cls.id === id);
     setSelectedClassId(id);
     setFirstDepartureId(null);
+    setPreviewNextHops(false);
     usePlannerStore.getState().setSelectedClassId(id);
     try {
       localStorage.setItem('lc-last-class', JSON.stringify({ id, name: nextClass?.name ?? '' }));
@@ -315,6 +342,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         data: toMapData(EMPTY_FEATURE_COLLECTION),
       });
       map.addSource('world-flight-route', {
+        type: 'geojson',
+        data: toMapData(EMPTY_FEATURE_COLLECTION),
+      });
+      map.addSource('world-flight-next-range', {
         type: 'geojson',
         data: toMapData(EMPTY_FEATURE_COLLECTION),
       });
@@ -374,15 +405,35 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         },
       });
       map.addLayer({
+        id: 'world-flight-next-range-fill',
+        type: 'fill',
+        source: 'world-flight-next-range',
+        paint: {
+          'fill-color': '#22D3EE',
+          'fill-opacity': 0.06,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-next-range-line',
+        type: 'line',
+        source: 'world-flight-next-range',
+        paint: {
+          'line-color': '#67E8F9',
+          'line-width': 2.5,
+          'line-opacity': 0.9,
+          'line-dasharray': [2, 2],
+        },
+      });
+      map.addLayer({
         id: 'world-flight-city-dots',
         type: 'circle',
         source: 'world-flight-cities',
         paint: {
-          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'reachable'], 6, 4.5],
-          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'reachable'], '#2FE59B', '#6F7F9C'],
-          'circle-stroke-color': '#07111f',
-          'circle-stroke-width': 2,
-          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'reachable'], 0.95, 0.72],
+          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'isPreviewOrigin'], 8, ['get', 'onwardReachable'], 6.5, ['get', 'visited'], 7, ['get', 'reachable'], 6, 4.5],
+          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'isPreviewOrigin'], '#22D3EE', ['get', 'onwardReachable'], '#67E8F9', ['get', 'visited'], '#4DA3FF', ['get', 'reachable'], '#2FE59B', '#6F7F9C'],
+          'circle-stroke-color': ['case', ['get', 'isPreviewOrigin'], '#ECFEFF', ['get', 'onwardReachable'], '#CFFAFE', ['get', 'visited'], '#BDE3FF', '#07111f'],
+          'circle-stroke-width': ['case', ['get', 'isPreviewOrigin'], 3, ['get', 'onwardReachable'], 2.5, ['get', 'visited'], 2.5, 2],
+          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'isPreviewOrigin'], 1, ['get', 'onwardReachable'], 1, ['get', 'visited'], 1, ['get', 'reachable'], 0.95, 0.72],
         },
       });
       map.addLayer({
@@ -434,8 +485,13 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     getSource('world-flight-range', map)?.setData(toMapData(
       routeOrigin ? rangePolygon(routeOrigin, rangeKm) : EMPTY_FEATURE_COLLECTION,
     ));
-    getSource('world-flight-cities', map)?.setData(toMapData(destinationFeatures(routeOrigin, rangeKm)));
-  }, [mapReady, routeOrigin, rangeKm]);
+    getSource('world-flight-next-range', map)?.setData(toMapData(
+      previewNextHops ? rangePolygon(selectedDestination, rangeKm) : EMPTY_FEATURE_COLLECTION,
+    ));
+    getSource('world-flight-cities', map)?.setData(toMapData(
+      destinationFeatures(routeOrigin, rangeKm, visitedDestinationIds, previewNextHops ? selectedDestination : null),
+    ));
+  }, [mapReady, routeOrigin, rangeKm, selectedDestination, previewNextHops, visitedDestinationIds]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -576,26 +632,42 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               </div>
             </div>
             <div className="rounded-lg border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-2 text-xs leading-relaxed text-cyan-100/75">
-              {origin
-                ? <>Green cities are within your plane&apos;s range &mdash; the ring shows the approximate great-circle distance from {origin.city}. Tap any city to preview its lesson sources.</>
+              {previewNextHops
+                ? <>Planning ahead from {selectedDestination.city}. The dashed cyan ring and cyan cities show the next flights this plane could make after arriving there.</>
+                : origin
+                ? <>Blue cities are in this class&apos;s passport. Green cities are new and within range. The class location saves after completing the final lesson module.</>
                 : firstDeparture
-                  ? <>The first flight will depart from {firstDeparture.city}. Choose a different green city to fly to.</>
-                  : <>Choose the city where this class begins. Then select a different in-range destination for its first lesson.</>}
+                  ? <>The first flight will depart from {firstDeparture.city}. Choose a different green city to fly to. The journey saves when the class lands.</>
+                  : <>Choose the city where this class begins. It will join the class passport after the first completed flight.</>}
             </div>
           </div>
+
+          <JourneyProgressPanel
+            currentDestinationId={selectedClass?.currentDestinationId ?? null}
+            visitedDestinationIds={visitedDestinationIds}
+            completedLegCount={selectedClass?.completedLegCount ?? 0}
+            recentLegs={selectedClass?.recentLegs ?? []}
+          />
 
           <InvestigationProgressPanel investigations={selectedClass?.investigations ?? []} />
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Destinations</h2>
-              <span className="text-xs text-lc-text3">{WORLD_DESTINATIONS.length} cities</span>
+              <h2 className="truncate text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">
+                {previewNextHops ? `Next hops from ${selectedDestination.city}` : 'Destinations'}
+              </h2>
+              <span className="shrink-0 text-xs text-lc-text3">
+                {previewNextHops ? `${nextHopCandidates.length} in range` : `${WORLD_DESTINATIONS.length} cities`}
+              </span>
             </div>
             <div className="space-y-2">
               {WORLD_DESTINATIONS.map((destination) => {
-                const km = routeOrigin ? distanceKm(routeOrigin, destination) : 0;
+                const km = listDistanceOrigin ? distanceKm(listDistanceOrigin, destination) : 0;
+                const currentKm = routeOrigin ? distanceKm(routeOrigin, destination) : 0;
                 const active = destination.id === selectedDestination.id;
-                const reachable = !routeOrigin || km <= rangeKm || destination.id === routeOrigin.id;
+                const reachable = !routeOrigin || currentKm <= rangeKm || destination.id === routeOrigin.id;
+                const visited = visitedDestinationSet.has(destination.id);
+                const onwardReachable = previewNextHops && nextHopDestinationIds.has(destination.id);
                 return (
                   <button
                     key={destination.id}
@@ -607,11 +679,33 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                         : 'border-white/10 bg-white/[0.03] hover:border-cyan-300/35 hover:bg-white/[0.06]'
                     }`}
                   >
-                    <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${destination.id === routeOrigin?.id ? 'bg-lc-amber' : reachable ? 'bg-lc-success' : 'bg-lc-text3'}`} />
+                    <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${
+                      previewNextHops && destination.id === selectedDestination.id
+                        ? 'bg-cyan-300 ring-2 ring-cyan-100/50'
+                        : onwardReachable
+                          ? 'bg-cyan-300'
+                          : destination.id === routeOrigin?.id
+                        ? 'bg-lc-amber'
+                        : visited
+                          ? 'bg-lc-blue ring-2 ring-cyan-100/35'
+                          : reachable
+                            ? 'bg-lc-success'
+                            : 'bg-lc-text3'
+                    }`} />
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-semibold text-lc-text">{destination.city}</span>
+                      <span className="flex items-center gap-1.5 truncate text-sm font-semibold text-lc-text">
+                        <span className="truncate">{destination.city}</span>
+                        {visited && destination.id !== routeOrigin?.id && <Check className="h-3 w-3 shrink-0 text-lc-blue" aria-label="Visited" />}
+                      </span>
                       <span className="block truncate text-xs text-lc-text3">
-                        {destination.country} - {routeOrigin ? formatDistance(km) : 'Available departure'}
+                        {destination.country} - {listDistanceOrigin ? formatDistance(km) : 'Available departure'}
+                        {previewNextHops
+                          ? destination.id === selectedDestination.id
+                            ? ' - Preview origin'
+                            : onwardReachable
+                              ? ' - Next hop'
+                              : ' - Beyond range'
+                          : visited ? ' - Visited' : ''}
                       </span>
                     </span>
                     <ArrowRight className={`h-4 w-4 shrink-0 text-cyan-300/60 transition-transform ${active ? 'translate-x-0.5' : ''}`} aria-hidden />
@@ -652,7 +746,47 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               <span>{selectedDestination.airports.join(', ')}</span>
               <span className="text-white/20">&middot;</span>
               <span className="capitalize">{selectedDestination.scene.terrain}</span>
+              {visitedDestinationSet.has(selectedDestination.id) && (
+                <>
+                  <span className="text-white/20">&middot;</span>
+                  <span className="flex items-center gap-1 font-semibold text-lc-blue">
+                    <Check className="h-3 w-3" aria-hidden />
+                    In class passport
+                  </span>
+                </>
+              )}
             </div>
+            <button
+              type="button"
+              aria-pressed={previewNextHops}
+              onClick={() => setPreviewNextHops((value) => !value)}
+              className={`mt-3 flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors ${
+                previewNextHops
+                  ? 'border-cyan-300/40 bg-cyan-300/[0.10] text-cyan-100'
+                  : 'border-white/10 bg-white/[0.035] text-lc-text2 hover:border-cyan-300/30 hover:bg-white/[0.06]'
+              }`}
+            >
+              <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md border ${
+                previewNextHops ? 'border-cyan-200/35 bg-cyan-200/10' : 'border-white/10 bg-white/[0.035]'
+              }`}>
+                {previewNextHops
+                  ? <X className="h-4 w-4" aria-hidden />
+                  : <ScanSearch className="h-4 w-4 text-cyan-200/75" aria-hidden />}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-xs font-semibold">
+                  {previewNextHops ? 'Close next-hop preview' : `Preview next hops from ${selectedDestination.city}`}
+                </span>
+                <span className="mt-0.5 block text-[10px] text-lc-text3">
+                  {nextHopCandidates.length} cities are within {formatDistance(rangeKm)} of {selectedDestination.city}
+                </span>
+              </span>
+            </button>
+            {previewNextHops && routeOrigin && (
+              <p className="mt-2 text-[10px] leading-relaxed text-cyan-100/60">
+                Planning preview only. Today&apos;s flight still departs from {routeOrigin.city}, and launch eligibility still uses that route.
+              </p>
+            )}
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">

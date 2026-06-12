@@ -363,6 +363,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [activityContent, setActivityContent] = useState<ActivityGeneratedContent | null>(null);
   const [activityContentFailed, setActivityContentFailed] = useState(false);
   const [gameContent, setGameContent] = useState<GameGeneratedContent | null>(null);
+  const [journeySaveStatus, setJourneySaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   // Content overrides from takeoff regeneration (mission/character context)
   const [contentOverrides, setContentOverrides] = useState<Record<string, ActivityGeneratedContent>>({});
   const contentOverridesRef = useRef(contentOverrides);
@@ -824,6 +825,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const finishSession = async (completed: boolean) => {
     // Flip to the "You've Landed" arrival immediately so "Complete Flight" lands
     // instantly; the DB end + cleanup run in the background (best-effort).
+    const expectsJourneyMove = completed && lesson.lessonPlanContent?.worldFlightContext?.movesClass === true;
+    if (expectsJourneyMove) setJourneySaveStatus('saving');
     sessionStorage.removeItem('lessonPlanContent');
     localStorage.removeItem('lc-explore-session');
     setEnded(true);
@@ -832,15 +835,27 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       await supabase.from('polls').update({ is_active: false }).eq('id', bonusVotePollId);
     }
 
-    const response = await fetch('/api/session/end', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: session.id, completed }),
-    });
+    try {
+      const response = await fetch('/api/session/end', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: session.id, completed }),
+      });
 
-    if (!response.ok) {
-      const result = await response.json().catch(() => ({ error: 'Failed to end session' }));
-      console.error('Failed to end session:', result.error);
+      const result = await response.json().catch(() => ({ error: 'Failed to end session' })) as {
+        error?: string;
+        legStatus?: string;
+      };
+      if (!response.ok) {
+        console.error('Failed to end session:', result.error);
+        if (expectsJourneyMove) setJourneySaveStatus('error');
+        return;
+      }
+
+      if (expectsJourneyMove) setJourneySaveStatus(result.legStatus === 'completed' ? 'saved' : 'error');
+    } catch (error) {
+      console.error('Failed to end session:', error);
+      if (expectsJourneyMove) setJourneySaveStatus('error');
     }
   };
 
@@ -1205,6 +1220,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         />
         {/* Only the results scroll — the airfield stays pinned behind */}
         <div className="relative z-10 h-full overflow-y-auto px-6 lg:px-8 py-6 pb-80">
+          {journeySaveStatus !== 'idle' && (
+            <div className={`mx-auto mb-2 max-w-2xl rounded-lg border px-4 py-2 text-center text-xs font-semibold backdrop-blur-md ${
+              journeySaveStatus === 'error'
+                ? 'border-red-300/30 bg-red-950/60 text-red-100'
+                : 'border-cyan-300/25 bg-slate-950/60 text-cyan-100'
+            }`}>
+              {journeySaveStatus === 'saving' && `Saving ${cls.name}'s arrival in ${wfDestination?.city ?? 'the destination'}...`}
+              {journeySaveStatus === 'saved' && `${cls.name}'s journey is saved. ${wfDestination?.city ?? 'This destination'} is now the class's current city.`}
+              {journeySaveStatus === 'error' && 'The lesson ended, but the class journey could not be saved. Reopen World Flight before planning the next route.'}
+            </div>
+          )}
           <EndSessionSummary
             classId={cls.id}
             className={cls.name}

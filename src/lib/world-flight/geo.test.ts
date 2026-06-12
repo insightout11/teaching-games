@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
-import { distanceKm, greatCircleLine, rangePolygon } from '@/lib/world-flight/geo';
+import { destinationsWithinRange, distanceKm, greatCircleLine, rangePolygon } from '@/lib/world-flight/geo';
 
 function destination(id: string) {
   const match = WORLD_DESTINATIONS.find((item) => item.id === id);
@@ -26,5 +26,12 @@ describe('world flight geography', () => {
   it('creates a closed range-ring polygon', () => {
     const coordinates = rangePolygon(destination('bangkok'), 5200).geometry.coordinates[0];
     expect(coordinates[0]).toEqual(coordinates.at(-1));
+  });
+
+  it('accurately identifies onward destinations from a candidate city', () => {
+    const nextHops = destinationsWithinRange(destination('honolulu'), WORLD_DESTINATIONS, 5200);
+
+    expect(distanceKm(destination('honolulu'), destination('tokyo'))).toBeCloseTo(6200, -2);
+    expect(nextHops.some((candidate) => candidate.destination.id === 'tokyo')).toBe(false);
   });
 });

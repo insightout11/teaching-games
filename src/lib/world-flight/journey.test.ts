@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { parseWorldFlightLaunchContext, resolveWorldFlightMovement } from '@/lib/world-flight/journey';
+import {
+  deriveVisitedDestinationIds,
+  parseWorldFlightLaunchContext,
+  recommendNextDestinationId,
+  resolveWorldFlightMovement,
+} from '@/lib/world-flight/journey';
 
 describe('World Flight journey movement', () => {
   it('allows any destination to establish a class first location', () => {
@@ -75,6 +80,30 @@ describe('World Flight journey movement', () => {
       requestedMove: true,
       departureDestinationId: 'seoul',
     });
+  });
+});
+
+describe('World Flight journey history', () => {
+  it('counts both sides of completed flights as visited cities', () => {
+    expect(deriveVisitedDestinationIds('seoul', [
+      { originDestinationId: 'vancouver', destinationId: 'tokyo' },
+      { originDestinationId: 'tokyo', destinationId: 'seoul' },
+    ])).toEqual(['vancouver', 'tokyo', 'seoul']);
+  });
+
+  it('includes the saved current city even before completed history is available', () => {
+    expect(deriveVisitedDestinationIds('vancouver', [])).toEqual(['vancouver']);
+  });
+
+  it('recommends the nearest unvisited reachable city before revisiting', () => {
+    const candidates = [
+      { id: 'seoul', distanceKm: 1100 },
+      { id: 'beijing', distanceKm: 2100 },
+      { id: 'bangkok', distanceKm: 4500 },
+    ];
+
+    expect(recommendNextDestinationId(candidates, ['seoul', 'beijing'])).toBe('bangkok');
+    expect(recommendNextDestinationId(candidates, candidates.map((candidate) => candidate.id))).toBe('seoul');
   });
 });
 

@@ -4,6 +4,13 @@ import { deriveInvestigationTags } from '@/lib/world-flight/investigations';
 
 export type WorldFlightLegStatus = 'planned' | 'completed' | 'cancelled';
 
+export interface WorldFlightCompletedLegSummary {
+  originDestinationId: string | null;
+  destinationId: string;
+  focusTitle: string | null;
+  completedAt: string | null;
+}
+
 export interface WorldFlightClassSummary {
   id: string;
   name: string;
@@ -11,6 +18,9 @@ export interface WorldFlightClassSummary {
   planeTier: number;
   planeKey: string;
   rangeKm: number;
+  visitedDestinationIds: string[];
+  completedLegCount: number;
+  recentLegs: WorldFlightCompletedLegSummary[];
   investigations: WorldFlightInvestigationProgress[];
 }
 
@@ -115,5 +125,29 @@ export function buildWorldFlightEvidenceSnapshot(
     tradeoff: focus.evidence?.tradeoff ?? null,
     designUse: focus.evidence?.designUse ?? null,
   };
+}
+
+export function deriveVisitedDestinationIds(
+  currentDestinationId: string | null,
+  completedLegs: Array<Pick<WorldFlightCompletedLegSummary, 'originDestinationId' | 'destinationId'>>,
+) {
+  const visited = new Set<string>();
+
+  for (const leg of completedLegs) {
+    if (leg.originDestinationId) visited.add(leg.originDestinationId);
+    visited.add(leg.destinationId);
+  }
+
+  if (currentDestinationId) visited.add(currentDestinationId);
+  return Array.from(visited);
+}
+
+export function recommendNextDestinationId(
+  candidates: Array<{ id: string; distanceKm: number }>,
+  visitedDestinationIds: Iterable<string>,
+) {
+  const visited = new Set(visitedDestinationIds);
+  const ordered = [...candidates].sort((a, b) => a.distanceKm - b.distanceKm);
+  return ordered.find((candidate) => !visited.has(candidate.id))?.id ?? ordered[0]?.id ?? null;
 }
 

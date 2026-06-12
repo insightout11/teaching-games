@@ -1,7 +1,11 @@
 import { WorldFlightPage } from '@/components/world-flight/world-flight-page';
 import { STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { createServerSupabase } from '@/lib/supabase/server';
-import type { WorldFlightClassSummary } from '@/lib/world-flight/journey';
+import {
+  deriveVisitedDestinationIds,
+  type WorldFlightClassSummary,
+  type WorldFlightCompletedLegSummary,
+} from '@/lib/world-flight/journey';
 import {
   deriveWorldFlightInvestigationProgress,
   type CompletedWorldFlightEvidence,
@@ -28,6 +32,7 @@ export default async function WorldFlightRoutePage() {
   }> = [];
   let completedLegRows: Array<{
     class_id: string;
+    origin_destination_id: string | null;
     destination_id: string;
     completed_at: string | null;
     evidence_snapshot: CompletedWorldFlightEvidence['evidenceSnapshot'];
@@ -42,7 +47,7 @@ export default async function WorldFlightRoutePage() {
         .in('class_id', classIds),
       supabase
         .from('class_world_flight_legs')
-        .select('class_id, destination_id, completed_at, evidence_snapshot')
+        .select('class_id, origin_destination_id, destination_id, completed_at, evidence_snapshot')
         .in('class_id', classIds)
         .eq('status', 'completed')
         .order('completed_at', { ascending: true }),
@@ -53,6 +58,7 @@ export default async function WorldFlightRoutePage() {
 
   const stateByClass = new Map(stateRows.map((state) => [state.class_id, state]));
   const completedEvidenceByClass = new Map<string, CompletedWorldFlightEvidence[]>();
+  const completedLegsByClass = new Map<string, WorldFlightCompletedLegSummary[]>();
   for (const leg of completedLegRows) {
     const entries = completedEvidenceByClass.get(leg.class_id) ?? [];
     entries.push({
@@ -61,16 +67,30 @@ export default async function WorldFlightRoutePage() {
       evidenceSnapshot: leg.evidence_snapshot,
     });
     completedEvidenceByClass.set(leg.class_id, entries);
+
+    const legs = completedLegsByClass.get(leg.class_id) ?? [];
+    legs.push({
+      originDestinationId: leg.origin_destination_id,
+      destinationId: leg.destination_id,
+      focusTitle: leg.evidence_snapshot?.focusTitle ?? null,
+      completedAt: leg.completed_at,
+    });
+    completedLegsByClass.set(leg.class_id, legs);
   }
   const initialClasses: WorldFlightClassSummary[] = classRows.map((cls) => {
     const state = stateByClass.get(cls.id);
+    const completedLegs = completedLegsByClass.get(cls.id) ?? [];
+    const currentDestinationId = state?.current_destination_id ?? null;
     return {
       id: cls.id,
       name: cls.name,
-      currentDestinationId: state?.current_destination_id ?? null,
+      currentDestinationId,
       planeTier: state?.plane_tier ?? 0,
       planeKey: state?.plane_key ?? 'starter-biplane',
       rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
+      visitedDestinationIds: deriveVisitedDestinationIds(currentDestinationId, completedLegs),
+      completedLegCount: completedLegs.length,
+      recentLegs: completedLegs.slice(-5).reverse(),
       investigations: deriveWorldFlightInvestigationProgress(completedEvidenceByClass.get(cls.id) ?? []),
     };
   });

@@ -64,6 +64,18 @@ export function formatDistance(km: number) {
   return `${Math.round(km).toLocaleString()} km`;
 }
 
+export function destinationsWithinRange<T extends DestinationPack>(
+  origin: DestinationPack,
+  destinations: T[],
+  radiusKm: number,
+) {
+  return destinations
+    .filter((destination) => destination.id !== origin.id)
+    .map((destination) => ({ destination, distanceKm: distanceKm(origin, destination) }))
+    .filter((candidate) => candidate.distanceKm <= radiusKm)
+    .sort((a, b) => a.distanceKm - b.distanceKm);
+}
+
 export function greatCircleLine(origin: DestinationPack, destination: DestinationPack, steps = 72): WorldLineFeature {
   const lat1 = toRad(origin.lat);
   const lon1 = toRad(origin.lng);
