@@ -34,6 +34,7 @@ export default async function WorldFlightRoutePage() {
     class_id: string;
     origin_destination_id: string | null;
     destination_id: string;
+    distance_km: number;
     completed_at: string | null;
     evidence_snapshot: CompletedWorldFlightEvidence['evidenceSnapshot'];
   }> = [];
@@ -53,7 +54,7 @@ export default async function WorldFlightRoutePage() {
         .in('class_id', classIds),
       supabase
         .from('class_world_flight_legs')
-        .select('class_id, origin_destination_id, destination_id, completed_at, evidence_snapshot')
+        .select('class_id, origin_destination_id, destination_id, distance_km, completed_at, evidence_snapshot')
         .in('class_id', classIds)
         .eq('status', 'completed')
         .order('completed_at', { ascending: true }),
@@ -92,6 +93,7 @@ export default async function WorldFlightRoutePage() {
       originDestinationId: leg.origin_destination_id,
       destinationId: leg.destination_id,
       focusTitle: leg.evidence_snapshot?.focusTitle ?? null,
+      distanceKm: leg.distance_km ?? 0,
       completedAt: leg.completed_at,
     });
     completedLegsByClass.set(leg.class_id, legs);
@@ -110,6 +112,7 @@ export default async function WorldFlightRoutePage() {
       rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
       visitedDestinationIds: deriveVisitedDestinationIds(currentDestinationId, completedLegs),
       completedLegCount: completedLegs.length,
+      completedLegs,
       recentLegs: completedLegs.slice(-5).reverse(),
       investigations: deriveWorldFlightInvestigationProgress(completedEvidenceByClass.get(cls.id) ?? [])
         .map((investigation) => {

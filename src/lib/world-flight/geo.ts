@@ -144,3 +144,39 @@ export function rangePolygon(origin: DestinationPack, radiusKm: number, steps = 
     geometry: { type: 'Polygon', coordinates: [coordinates] },
   };
 }
+
+export function rangeRing(origin: DestinationPack, radiusKm: number, steps = 128): WorldLineFeature {
+  const lat1 = toRad(origin.lat);
+  const lon1 = toRad(origin.lng);
+  const angularDistance = radiusKm / EARTH_RADIUS_KM;
+  const coordinates: LngLat[] = [];
+  let previousLng = origin.lng;
+
+  for (let i = 0; i <= steps; i += 1) {
+    const bearing = toRad((360 * i) / steps);
+    const lat2 = Math.asin(
+      Math.sin(lat1) * Math.cos(angularDistance) +
+      Math.cos(lat1) * Math.sin(angularDistance) * Math.cos(bearing),
+    );
+    const lon2 = lon1 + Math.atan2(
+      Math.sin(bearing) * Math.sin(angularDistance) * Math.cos(lat1),
+      Math.cos(angularDistance) - Math.sin(lat1) * Math.sin(lat2),
+    );
+    let lng = normalizeLng(toDeg(lon2));
+
+    // A date-line or polar range ring must stay continuous in the projected
+    // map. Unwrapped longitudes prevent MapLibre from drawing a chord across
+    // the world between independently normalized points.
+    while (lng - previousLng > 180) lng -= 360;
+    while (lng - previousLng < -180) lng += 360;
+
+    coordinates.push([lng, toDeg(lat2)]);
+    previousLng = lng;
+  }
+
+  return {
+    type: 'Feature',
+    properties: {},
+    geometry: { type: 'LineString', coordinates },
+  };
+}

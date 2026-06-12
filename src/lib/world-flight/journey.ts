@@ -8,6 +8,7 @@ export interface WorldFlightCompletedLegSummary {
   originDestinationId: string | null;
   destinationId: string;
   focusTitle: string | null;
+  distanceKm: number;
   completedAt: string | null;
 }
 
@@ -20,6 +21,7 @@ export interface WorldFlightClassSummary {
   rangeKm: number;
   visitedDestinationIds: string[];
   completedLegCount: number;
+  completedLegs: WorldFlightCompletedLegSummary[];
   recentLegs: WorldFlightCompletedLegSummary[];
   investigations: WorldFlightInvestigationProgress[];
 }

@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { Check, ChevronDown, ChevronUp, DraftingCompass, FlaskConical, LockKeyhole, Sparkles } from 'lucide-react';
+import { Check, DraftingCompass, FlaskConical, LockKeyhole, Sparkles } from 'lucide-react';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
 
 export function InvestigationProgressPanel({
@@ -11,110 +10,102 @@ export function InvestigationProgressPanel({
   investigations: WorldFlightInvestigationProgress[];
   onLaunchDesignMission?: (investigationId: string) => void;
 }) {
-  const [open, setOpen] = useState(false);
   const readyCount = investigations.filter((investigation) => investigation.designMissionStatus === 'ready').length;
   const completedCount = investigations.filter((investigation) => investigation.designMissionStatus === 'completed').length;
-  const closest = [...investigations].sort((a, b) => b.completedCount - a.completedCount)[0];
+  const evidenceCount = investigations.reduce((total, investigation) => total + investigation.completedCount, 0);
 
   return (
-    <div className="border-t border-white/10">
-      <button
-        type="button"
-        aria-expanded={open}
-        onClick={() => setOpen((value) => !value)}
-        className="flex w-full items-center gap-3 px-5 py-3 text-left transition-colors hover:bg-white/[0.035]"
-      >
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-cyan-300/20 bg-cyan-300/[0.07] text-cyan-200">
+    <div className="min-h-0 flex-1 overflow-y-auto">
+      <section className="border-b border-white/10 bg-cyan-300/[0.035] px-5 py-5">
+        <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-cyan-200/70">
           <FlaskConical className="h-4 w-4" aria-hidden />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-lc-text2">
-            Investigations
-            {(readyCount > 0 || completedCount > 0) && (
-              <span className="rounded-full border border-lc-success/25 bg-lc-success/10 px-1.5 py-0.5 text-[9px] tracking-normal text-lc-success">
-                {readyCount > 0 ? `${readyCount} ready` : `${completedCount} completed`}
-              </span>
-            )}
-          </span>
-          <span className="mt-0.5 block truncate text-xs text-lc-text3">
-            {closest?.completedCount
-              ? `${closest.title}: ${closest.completedCount}/${closest.totalCount} evidence found`
-              : 'Completed city lessons automatically collect evidence'}
-          </span>
-        </span>
-        {open
-          ? <ChevronUp className="h-4 w-4 shrink-0 text-lc-text3" aria-hidden />
-          : <ChevronDown className="h-4 w-4 shrink-0 text-lc-text3" aria-hidden />}
-      </button>
-
-      {open && (
-        <div className="max-h-[330px] space-y-3 overflow-y-auto border-t border-white/10 px-5 py-4">
-          {investigations.map((investigation) => (
-            <section key={investigation.id} className="border-b border-white/10 pb-3 last:border-0 last:pb-0">
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-lc-text">{investigation.title}</h3>
-                  <p className="mt-0.5 text-xs leading-relaxed text-lc-text3">{investigation.question}</p>
-                </div>
-                <span className={`shrink-0 text-xs font-semibold ${investigation.complete ? 'text-lc-success' : 'text-cyan-200/70'}`}>
-                  {investigation.completedCount}/{investigation.totalCount}
-                </span>
-              </div>
-
-              <div className="mt-2.5 space-y-1.5">
-                {investigation.requirements.map((requirement) => (
-                  <div key={requirement.id} className="flex items-start gap-2 text-xs">
-                    <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border ${
-                      requirement.complete
-                        ? 'border-lc-success/40 bg-lc-success/15 text-lc-success'
-                        : 'border-white/15 text-transparent'
-                    }`}>
-                      <Check className="h-3 w-3" aria-hidden />
-                    </span>
-                    <span className="min-w-0">
-                      <span className={requirement.complete ? 'text-lc-text2' : 'text-lc-text3'}>
-                        {requirement.label}
-                      </span>
-                      {requirement.evidence && (
-                        <span className="block truncate text-[10px] text-cyan-200/55">
-                          {requirement.evidence.city}: {requirement.evidence.focusTitle}
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <div className={`mt-2.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider ${
-                investigation.designMissionStatus === 'completed'
-                  ? 'text-lc-success'
-                  : investigation.complete ? 'text-lc-amber' : 'text-lc-text3'
-              }`}>
-                {investigation.designMissionStatus === 'completed'
-                  ? <Check className="h-3 w-3" aria-hidden />
-                  : investigation.complete
-                  ? <Sparkles className="h-3 w-3" aria-hidden />
-                  : <LockKeyhole className="h-3 w-3" aria-hidden />}
-                {investigation.designMissionStatus === 'completed'
-                  ? `Completed: ${investigation.completedDesignTitle}`
-                  : investigation.complete
-                  ? `Design mission ready: ${investigation.designMissionTitle}`
-                  : 'Design mission locked'}
-              </div>
-              {investigation.designMissionStatus === 'ready' && onLaunchDesignMission && (
-                <button
-                  type="button"
-                  onClick={() => onLaunchDesignMission(investigation.id)}
-                  className="mt-3 flex min-h-9 w-full items-center justify-center gap-2 rounded-md border border-lc-amber/30 bg-lc-amber/10 px-3 text-xs font-semibold text-lc-amber transition-colors hover:bg-lc-amber/15"
-                >
-                  <DraftingCompass className="h-3.5 w-3.5" aria-hidden />
-                  Launch {investigation.designMissionTitle}
-                </button>
-              )}
-            </section>
-          ))}
+          Cross-city investigations
+        </p>
+        <h2 className="mt-2 text-2xl font-bold text-lc-text">Connect what the class discovers.</h2>
+        <p className="mt-2 text-xs leading-relaxed text-lc-text3">
+          Completed city lessons automatically collect evidence. Three different cities unlock each Design Mission.
+        </p>
+        <div className="mt-4 grid grid-cols-3 gap-2 border-t border-white/10 pt-4">
+          <MissionStat label="Evidence" value={evidenceCount} />
+          <MissionStat label="Ready" value={readyCount} />
+          <MissionStat label="Completed" value={completedCount} />
         </div>
-      )}
+      </section>
+
+      <div className="space-y-0">
+        {investigations.map((investigation) => (
+          <section key={investigation.id} className="border-b border-white/10 px-5 py-5">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <h3 className="text-base font-semibold text-lc-text">{investigation.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-lc-text3">{investigation.question}</p>
+              </div>
+              <span className={`shrink-0 text-xs font-semibold ${investigation.complete ? 'text-lc-success' : 'text-cyan-200/70'}`}>
+                {investigation.completedCount}/{investigation.totalCount}
+              </span>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              {investigation.requirements.map((requirement) => (
+                <div key={requirement.id} className="flex items-start gap-2.5 text-xs">
+                  <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border ${
+                    requirement.complete
+                      ? 'border-lc-success/40 bg-lc-success/15 text-lc-success'
+                      : 'border-white/15 text-transparent'
+                  }`}>
+                    <Check className="h-3 w-3" aria-hidden />
+                  </span>
+                  <span className="min-w-0">
+                    <span className={requirement.complete ? 'text-lc-text2' : 'text-lc-text3'}>{requirement.label}</span>
+                    <span className="mt-0.5 block text-[10px] leading-relaxed text-lc-text3">{requirement.description}</span>
+                    {requirement.evidence && (
+                      <span className="mt-1 block text-[10px] font-semibold text-cyan-200/60">
+                        {requirement.evidence.city}: {requirement.evidence.focusTitle}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className={`mt-4 flex items-center gap-1.5 border-t border-white/10 pt-3 text-[10px] font-semibold uppercase tracking-wider ${
+              investigation.designMissionStatus === 'completed'
+                ? 'text-lc-success'
+                : investigation.complete ? 'text-lc-amber' : 'text-lc-text3'
+            }`}>
+              {investigation.designMissionStatus === 'completed'
+                ? <Check className="h-3 w-3" aria-hidden />
+                : investigation.complete
+                ? <Sparkles className="h-3 w-3" aria-hidden />
+                : <LockKeyhole className="h-3 w-3" aria-hidden />}
+              {investigation.designMissionStatus === 'completed'
+                ? `Completed: ${investigation.completedDesignTitle}`
+                : investigation.complete
+                ? `Design mission ready: ${investigation.designMissionTitle}`
+                : 'Design mission locked'}
+            </div>
+            {investigation.designMissionStatus === 'ready' && onLaunchDesignMission && (
+              <button
+                type="button"
+                onClick={() => onLaunchDesignMission(investigation.id)}
+                className="mt-3 flex min-h-9 w-full items-center justify-center gap-2 rounded-md border border-lc-amber/30 bg-lc-amber/10 px-3 text-xs font-semibold text-lc-amber transition-colors hover:bg-lc-amber/15"
+              >
+                <DraftingCompass className="h-3.5 w-3.5" aria-hidden />
+                Launch {investigation.designMissionTitle}
+              </button>
+            )}
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MissionStat({ label, value }: { label: string; value: number }) {
+  return (
+    <div>
+      <p className="text-[9px] font-semibold uppercase tracking-wider text-lc-text3">{label}</p>
+      <p className="mt-1 text-lg font-bold text-lc-text">{value}</p>
     </div>
   );
 }

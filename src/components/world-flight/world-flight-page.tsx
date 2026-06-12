@@ -1,22 +1,22 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from 'maplibre-gl';
-import { ArrowRight, BookOpen, Check, ExternalLink, Gauge, Globe2, MapPin, PanelLeftClose, PanelLeftOpen, Plane, Play, Route, ScanSearch, X } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ExternalLink, FlaskConical, Gauge, Globe2, Map as MapIcon, MapPin, PanelLeftClose, PanelLeftOpen, Plane, Play, Route, ScanSearch, Stamp, X } from 'lucide-react';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
-import { destinationCoord, destinationsWithinRange, distanceKm, formatDistance, greatCircleLine, rangePolygon, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
+import { destinationCoord, destinationsWithinRange, distanceKm, formatDistance, greatCircleLine, rangeRing, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
-import { ShareJourneyButton } from './share-journey-button';
 import { InvestigationProgressPanel } from './investigation-progress-panel';
 import { JourneyProgressPanel } from './journey-progress-panel';
 
 const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 type FocusFilter = 'all' | DestinationFocusKind;
+type SidebarMode = 'destinations' | 'passport' | 'missions';
 
 const EMPTY_FEATURE_COLLECTION: WorldFeatureCollection = {
   type: 'FeatureCollection',
@@ -33,8 +33,11 @@ function destinationFeatures(
   rangeKm: number,
   visitedDestinationIds: Iterable<string> = [],
   previewOrigin: DestinationPack | null = null,
+  showReachability = true,
+  missionEvidenceDestinationIds: Iterable<string> = [],
 ) {
   const visited = new Set(visitedDestinationIds);
+  const missionEvidence = new Set(missionEvidenceDestinationIds);
   return asFeatureCollection(
     WORLD_DESTINATIONS.map((destination) => {
       const km = origin ? distanceKm(origin, destination) : 0;
@@ -46,9 +49,10 @@ function destinationFeatures(
           city: destination.city,
           country: destination.country,
           airport: destination.primaryAirport,
-          reachable: !origin || km <= rangeKm || destination.id === origin.id,
+          reachable: showReachability && (!origin || km <= rangeKm || destination.id === origin.id),
           isOrigin: destination.id === origin?.id,
           visited: visited.has(destination.id),
+          missionEvidence: missionEvidence.has(destination.id),
           onwardReachable: !!previewOrigin && previewKm <= rangeKm && destination.id !== previewOrigin.id,
           isPreviewOrigin: destination.id === previewOrigin?.id,
         },
@@ -59,6 +63,15 @@ function destinationFeatures(
       } satisfies WorldFeature;
     }),
   );
+}
+
+function journeyRouteFeatures(completedLegs: WorldFlightClassSummary['completedLegs']) {
+  return asFeatureCollection(completedLegs.flatMap((leg) => {
+    const origin = WORLD_DESTINATIONS.find((destination) => destination.id === leg.originDestinationId);
+    const destination = WORLD_DESTINATIONS.find((candidate) => candidate.id === leg.destinationId);
+    if (!origin || !destination) return [];
+    return [{ ...greatCircleLine(origin, destination), properties: { completed: true } }];
+  }));
 }
 
 function getSource(sourceId: string, map: MapLibreMap | null) {
@@ -117,6 +130,33 @@ function ImagePanel({ image, className = '' }: { image: DestinationPack['heroIma
         {image.caption} Source: {image.sourceName}
       </span>
     </div>
+  );
+}
+
+function SidebarModeButton({
+  active,
+  icon,
+  label,
+  onClick,
+}: {
+  active: boolean;
+  icon: ReactNode;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex min-h-9 items-center justify-center gap-1.5 rounded-sm px-2 text-[10px] font-semibold uppercase tracking-wider transition-colors ${
+        active
+          ? 'bg-cyan-300/12 text-cyan-100 shadow-sm'
+          : 'text-lc-text3 hover:bg-white/[0.04] hover:text-lc-text2'
+      }`}
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
   );
 }
 
@@ -206,6 +246,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [selectedClassId, setSelectedClassId] = useState<string | null>(initialClasses[0]?.id ?? null);
   const [firstDepartureId, setFirstDepartureId] = useState<string | null>(null);
   const [previewNextHops, setPreviewNextHops] = useState(false);
+  const [sidebarMode, setSidebarMode] = useState<SidebarMode>('destinations');
 
   const selectedClass = initialClasses.find((cls) => cls.id === selectedClassId) ?? null;
   const visitedDestinationIds = selectedClass?.visitedDestinationIds ?? EMPTY_DESTINATION_IDS;
@@ -250,6 +291,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     [nextHopCandidates],
   );
   const listDistanceOrigin = previewNextHops ? selectedDestination : routeOrigin;
+  const missionEvidenceDestinationIds = useMemo(
+    () => selectedClass?.investigations.flatMap((investigation) => (
+      investigation.requirements.flatMap((requirement) => requirement.evidence?.destinationId ?? [])
+    )) ?? EMPTY_DESTINATION_IDS,
+    [selectedClass?.investigations],
+  );
 
   useEffect(() => {
     setSelectedFocusId(null);
@@ -271,6 +318,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
 
   function selectDestination(id: string) {
     setSelectedDestinationId(id);
+    setSidebarMode('destinations');
     if (!isWide) setListOpen(false);
   }
 
@@ -345,6 +393,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         type: 'geojson',
         data: toMapData(EMPTY_FEATURE_COLLECTION),
       });
+      map.addSource('world-flight-journey-routes', {
+        type: 'geojson',
+        data: toMapData(EMPTY_FEATURE_COLLECTION),
+      });
       map.addSource('world-flight-next-range', {
         type: 'geojson',
         data: toMapData(EMPTY_FEATURE_COLLECTION),
@@ -355,23 +407,14 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       });
 
       map.addLayer({
-        id: 'world-flight-range-fill',
-        type: 'fill',
-        source: 'world-flight-range',
-        paint: {
-          'fill-color': '#38BDF8',
-          'fill-opacity': 0.12,
-        },
-      });
-      map.addLayer({
         id: 'world-flight-range-glow',
         type: 'line',
         source: 'world-flight-range',
         paint: {
           'line-color': '#38BDF8',
-          'line-width': 14,
-          'line-opacity': 0.32,
-          'line-blur': 6,
+          'line-width': 7,
+          'line-opacity': 0.14,
+          'line-blur': 4,
         },
       });
       map.addLayer({
@@ -380,8 +423,29 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         source: 'world-flight-range',
         paint: {
           'line-color': '#CFEFFF',
-          'line-width': 3.5,
-          'line-opacity': 1,
+          'line-width': 2.25,
+          'line-opacity': 0.85,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-journey-routes-glow',
+        type: 'line',
+        source: 'world-flight-journey-routes',
+        paint: {
+          'line-color': '#38BDF8',
+          'line-width': 6,
+          'line-opacity': 0.1,
+          'line-blur': 4,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-journey-routes-line',
+        type: 'line',
+        source: 'world-flight-journey-routes',
+        paint: {
+          'line-color': '#7DD3FC',
+          'line-width': 2,
+          'line-opacity': 0.68,
         },
       });
       map.addLayer({
@@ -405,22 +469,13 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         },
       });
       map.addLayer({
-        id: 'world-flight-next-range-fill',
-        type: 'fill',
-        source: 'world-flight-next-range',
-        paint: {
-          'fill-color': '#22D3EE',
-          'fill-opacity': 0.06,
-        },
-      });
-      map.addLayer({
         id: 'world-flight-next-range-line',
         type: 'line',
         source: 'world-flight-next-range',
         paint: {
           'line-color': '#67E8F9',
-          'line-width': 2.5,
-          'line-opacity': 0.9,
+          'line-width': 1.75,
+          'line-opacity': 0.75,
           'line-dasharray': [2, 2],
         },
       });
@@ -429,11 +484,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         type: 'circle',
         source: 'world-flight-cities',
         paint: {
-          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'isPreviewOrigin'], 8, ['get', 'onwardReachable'], 6.5, ['get', 'visited'], 7, ['get', 'reachable'], 6, 4.5],
-          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'isPreviewOrigin'], '#22D3EE', ['get', 'onwardReachable'], '#67E8F9', ['get', 'visited'], '#4DA3FF', ['get', 'reachable'], '#2FE59B', '#6F7F9C'],
-          'circle-stroke-color': ['case', ['get', 'isPreviewOrigin'], '#ECFEFF', ['get', 'onwardReachable'], '#CFFAFE', ['get', 'visited'], '#BDE3FF', '#07111f'],
-          'circle-stroke-width': ['case', ['get', 'isPreviewOrigin'], 3, ['get', 'onwardReachable'], 2.5, ['get', 'visited'], 2.5, 2],
-          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'isPreviewOrigin'], 1, ['get', 'onwardReachable'], 1, ['get', 'visited'], 1, ['get', 'reachable'], 0.95, 0.72],
+          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'isPreviewOrigin'], 8, ['get', 'missionEvidence'], 7, ['get', 'onwardReachable'], 6.5, ['get', 'visited'], 7, ['get', 'reachable'], 6, 4.5],
+          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'isPreviewOrigin'], '#22D3EE', ['get', 'missionEvidence'], '#FBBF24', ['get', 'onwardReachable'], '#67E8F9', ['get', 'visited'], '#4DA3FF', ['get', 'reachable'], '#2FE59B', '#6F7F9C'],
+          'circle-stroke-color': ['case', ['get', 'isPreviewOrigin'], '#ECFEFF', ['get', 'missionEvidence'], '#FEF3C7', ['get', 'onwardReachable'], '#CFFAFE', ['get', 'visited'], '#BDE3FF', '#07111f'],
+          'circle-stroke-width': ['case', ['get', 'isPreviewOrigin'], 3, ['get', 'missionEvidence'], 3, ['get', 'onwardReachable'], 2.5, ['get', 'visited'], 2.5, 2],
+          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'isPreviewOrigin'], 1, ['get', 'missionEvidence'], 1, ['get', 'onwardReachable'], 1, ['get', 'visited'], 1, ['get', 'reachable'], 0.95, 0.55],
         },
       });
       map.addLayer({
@@ -457,11 +512,17 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
 
       map.on('click', 'world-flight-city-dots', (event) => {
         const id = event.features?.[0]?.properties?.id as string | undefined;
-        if (id) setSelectedDestinationId(id);
+        if (id) {
+          setSelectedDestinationId(id);
+          setSidebarMode('destinations');
+        }
       });
       map.on('click', 'world-flight-city-labels', (event) => {
         const id = event.features?.[0]?.properties?.id as string | undefined;
-        if (id) setSelectedDestinationId(id);
+        if (id) {
+          setSelectedDestinationId(id);
+          setSidebarMode('destinations');
+        }
       });
       map.on('mouseenter', 'world-flight-city-dots', () => {
         map.getCanvas().style.cursor = 'pointer';
@@ -483,28 +544,38 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     if (!mapReady) return;
     const map = mapRef.current;
     getSource('world-flight-range', map)?.setData(toMapData(
-      routeOrigin ? rangePolygon(routeOrigin, rangeKm) : EMPTY_FEATURE_COLLECTION,
+      sidebarMode === 'destinations' && routeOrigin ? rangeRing(routeOrigin, rangeKm) : EMPTY_FEATURE_COLLECTION,
     ));
     getSource('world-flight-next-range', map)?.setData(toMapData(
-      previewNextHops ? rangePolygon(selectedDestination, rangeKm) : EMPTY_FEATURE_COLLECTION,
+      sidebarMode === 'destinations' && previewNextHops ? rangeRing(selectedDestination, rangeKm) : EMPTY_FEATURE_COLLECTION,
+    ));
+    getSource('world-flight-journey-routes', map)?.setData(toMapData(
+      sidebarMode === 'passport' ? journeyRouteFeatures(selectedClass?.completedLegs ?? []) : EMPTY_FEATURE_COLLECTION,
     ));
     getSource('world-flight-cities', map)?.setData(toMapData(
-      destinationFeatures(routeOrigin, rangeKm, visitedDestinationIds, previewNextHops ? selectedDestination : null),
+      destinationFeatures(
+        routeOrigin,
+        rangeKm,
+        visitedDestinationIds,
+        sidebarMode === 'destinations' && previewNextHops ? selectedDestination : null,
+        sidebarMode === 'destinations',
+        sidebarMode === 'missions' ? missionEvidenceDestinationIds : EMPTY_DESTINATION_IDS,
+      ),
     ));
-  }, [mapReady, routeOrigin, rangeKm, selectedDestination, previewNextHops, visitedDestinationIds]);
+  }, [mapReady, routeOrigin, rangeKm, selectedDestination, previewNextHops, visitedDestinationIds, sidebarMode, selectedClass?.completedLegs, missionEvidenceDestinationIds]);
 
   useEffect(() => {
     if (!mapReady) return;
     const map = mapRef.current;
     const routeSource = getSource('world-flight-route', map);
-    routeSource?.setData(toMapData(routeOrigin ? greatCircleLine(routeOrigin, selectedDestination) : EMPTY_FEATURE_COLLECTION));
+    routeSource?.setData(toMapData(sidebarMode === 'destinations' && routeOrigin ? greatCircleLine(routeOrigin, selectedDestination) : EMPTY_FEATURE_COLLECTION));
     map?.easeTo({
       center: destinationCoord(selectedDestination),
       zoom: selectedDestination.id === routeOrigin?.id ? 3.2 : 3.05,
       duration: 650,
-      padding: { left: listOpen ? 380 : 96, right: 460, top: 80, bottom: 80 },
+      padding: { left: listOpen ? 380 : 96, right: sidebarMode === 'destinations' ? 460 : 96, top: 80, bottom: 80 },
     });
-  }, [mapReady, routeOrigin, selectedDestination, listOpen]);
+  }, [mapReady, routeOrigin, selectedDestination, listOpen, sidebarMode]);
 
   function launchSelectedFocus() {
     const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'all-around-flight-60');
@@ -551,6 +622,18 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     }
   }
 
+  const sidebarTitle = sidebarMode === 'destinations'
+    ? 'Choose the next city lesson.'
+    : sidebarMode === 'passport'
+      ? 'The class journey so far.'
+      : 'Connect learning across cities.';
+  const sidebarDescription = sidebarMode === 'destinations'
+    ? 'Pick a city, choose a source, and build a full lesson around it.'
+    : sidebarMode === 'passport'
+      ? 'Revisit flights, collect city stamps, and share what the class has accomplished.'
+      : 'Use evidence from completed lessons to unlock and complete Design Missions.';
+  const sidebarModeLabel = sidebarMode === 'destinations' ? 'Destinations' : sidebarMode === 'passport' ? 'Passport' : 'Missions';
+
   return (
     <div className="relative -m-6 min-h-[calc(100vh-0px)] overflow-hidden bg-[#050914] lg:-m-8">
       <div className="absolute inset-0">
@@ -562,7 +645,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             </div>
           </div>
         )}
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(77,163,255,0.12),transparent_36%),linear-gradient(90deg,rgba(5,9,20,0.72)_0%,rgba(5,9,20,0.26)_48%,rgba(5,9,20,0.78)_100%)]" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(77,163,255,0.07),transparent_36%),linear-gradient(90deg,rgba(5,9,20,0.62)_0%,rgba(5,9,20,0.12)_48%,rgba(5,9,20,0.68)_100%)]" />
       </div>
 
       <div className="pointer-events-none relative z-10 flex h-screen min-h-[760px] gap-5 p-6 lg:p-8">
@@ -573,11 +656,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             className="pointer-events-auto flex h-fit items-center gap-2 self-start rounded-xl border border-cyan-300/15 bg-[#06101d]/92 px-4 py-3 text-sm font-semibold text-lc-text shadow-2xl shadow-black/30 backdrop-blur-xl transition-colors hover:border-cyan-300/35 hover:bg-[#06101d]"
           >
             <PanelLeftOpen className="h-4 w-4 text-cyan-300/80" aria-hidden />
-            Destinations
+            {sidebarModeLabel}
           </button>
         )}
         {listOpen && (
-        <section className="pointer-events-auto flex w-[360px] shrink-0 flex-col rounded-xl border border-cyan-300/15 bg-[#06101d]/92 shadow-2xl shadow-black/30 backdrop-blur-xl">
+        <section className="pointer-events-auto flex w-[380px] shrink-0 flex-col rounded-xl border border-cyan-300/15 bg-[#06101d]/92 shadow-2xl shadow-black/30 backdrop-blur-xl">
           <div className="border-b border-white/10 px-5 py-4">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-cyan-300/80">
@@ -587,19 +670,15 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               <button
                 type="button"
                 onClick={() => setListOpen(false)}
-                aria-label="Collapse destinations"
+                aria-label={`Collapse ${sidebarModeLabel.toLowerCase()}`}
                 title="Collapse"
                 className="-mr-1 rounded-md p-1 text-lc-text3 transition-colors hover:bg-white/[0.06] hover:text-lc-text"
               >
                 <PanelLeftClose className="h-4 w-4" aria-hidden />
               </button>
             </div>
-            <h1 className="mt-3 text-2xl font-bold leading-tight text-lc-text">
-              Choose the next city lesson.
-            </h1>
-            <p className="mt-2 text-sm leading-relaxed text-lc-text3">
-              Pick a city, choose a source, and we&apos;ll build a full lesson around it.
-            </p>
+            <h1 className="mt-3 text-2xl font-bold leading-tight text-lc-text">{sidebarTitle}</h1>
+            <p className="mt-2 text-sm leading-relaxed text-lc-text3">{sidebarDescription}</p>
           </div>
 
           <div className="space-y-3 border-b border-white/10 px-5 py-4">
@@ -623,13 +702,15 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   Create a class in the planner to begin its journey.
                 </p>
               )}
-              {selectedClassId && (
-                <div className="mt-2">
-                  <ShareJourneyButton classId={selectedClassId} />
-                </div>
-              )}
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-1 rounded-md border border-white/10 bg-[#081522] p-1">
+              <SidebarModeButton active={sidebarMode === 'destinations'} icon={<MapIcon className="h-3.5 w-3.5" />} label="Destinations" onClick={() => setSidebarMode('destinations')} />
+              <SidebarModeButton active={sidebarMode === 'passport'} icon={<Stamp className="h-3.5 w-3.5" />} label="Passport" onClick={() => setSidebarMode('passport')} />
+              <SidebarModeButton active={sidebarMode === 'missions'} icon={<FlaskConical className="h-3.5 w-3.5" />} label="Missions" onClick={() => setSidebarMode('missions')} />
+            </div>
+            {sidebarMode === 'destinations' && (
+              <>
+              <div className="grid grid-cols-2 gap-3">
               <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
                 <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-lc-text3">
                   <MapPin className="h-3.5 w-3.5" aria-hidden />
@@ -656,21 +737,32 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   ? <>The first flight will depart from {firstDeparture.city}. Choose a different green city to fly to. The journey saves when the class lands.</>
                   : <>Choose the city where this class begins. It will join the class passport after the first completed flight.</>}
             </div>
+              </>
+            )}
           </div>
 
-          <JourneyProgressPanel
-            currentDestinationId={selectedClass?.currentDestinationId ?? null}
-            visitedDestinationIds={visitedDestinationIds}
-            completedLegCount={selectedClass?.completedLegCount ?? 0}
-            recentLegs={selectedClass?.recentLegs ?? []}
-          />
+          {sidebarMode === 'passport' && (
+            <JourneyProgressPanel
+              classId={selectedClassId}
+              className={selectedClass?.name ?? 'Class journey'}
+              currentDestinationId={selectedClass?.currentDestinationId ?? null}
+              visitedDestinationIds={visitedDestinationIds}
+              completedLegs={selectedClass?.completedLegs ?? []}
+              planeName={planeName}
+              rangeKm={rangeKm}
+              investigations={selectedClass?.investigations ?? []}
+              onSelectDestination={selectDestination}
+            />
+          )}
 
-          <InvestigationProgressPanel
-            investigations={selectedClass?.investigations ?? []}
-            onLaunchDesignMission={launchDesignMission}
-          />
+          {sidebarMode === 'missions' && (
+            <InvestigationProgressPanel
+              investigations={selectedClass?.investigations ?? []}
+              onLaunchDesignMission={launchDesignMission}
+            />
+          )}
 
-          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+          {sidebarMode === 'destinations' && <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
             <div className="mb-3 flex items-center justify-between">
               <h2 className="truncate text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">
                 {previewNextHops ? `Next hops from ${selectedDestination.city}` : 'Destinations'}
@@ -732,10 +824,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 );
               })}
             </div>
-          </div>
+          </div>}
         </section>
         )}
 
+        {sidebarMode === 'destinations' && (
         <aside className="pointer-events-auto ml-auto flex w-[440px] shrink-0 flex-col rounded-xl border border-white/12 bg-[#06101d]/92 shadow-2xl shadow-black/35 backdrop-blur-xl">
           <ImagePanel image={selectedDestination.heroImage} className="h-28 rounded-t-xl" />
           <div className="border-b border-white/10 px-5 py-3">
@@ -934,6 +1027,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             )}
           </div>
         </aside>
+        )}
       </div>
     </div>
   );
