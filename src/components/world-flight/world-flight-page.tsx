@@ -116,6 +116,10 @@ function FocusButton({
   onClick: () => void;
 }) {
   const icon = focus.kind === 'video' ? <Play className="h-3.5 w-3.5" aria-hidden /> : <BookOpen className="h-3.5 w-3.5" aria-hidden />;
+  const isYoungerLearnerFriendly = focus.skills.includes('younger learners');
+  const visibleSkills = focus.skills
+    .filter((skill) => skill !== 'younger learners')
+    .slice(0, isYoungerLearnerFriendly ? 1 : 2);
 
   return (
     <button
@@ -158,7 +162,12 @@ function FocusButton({
                 Adapts to class level
               </span>
             )}
-            {focus.skills.slice(0, 2).map((skill) => (
+            {isYoungerLearnerFriendly && (
+              <span className="rounded-full border border-emerald-300/25 bg-emerald-300/[0.08] px-2 py-0.5 text-[10px] font-semibold text-emerald-200">
+                Younger learners
+              </span>
+            )}
+            {visibleSkills.map((skill) => (
               <span key={skill} className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10px] text-lc-text3">
                 {skill}
               </span>
