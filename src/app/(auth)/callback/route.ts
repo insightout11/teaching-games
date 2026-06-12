@@ -1,5 +1,4 @@
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createServerSupabase } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
 const AUTH_NEXT_COOKIE = 'lc-auth-next';
@@ -9,41 +8,36 @@ function getSafeRedirectPath(value: string | null): string | null {
   return value;
 }
 
+function getCookieValue(cookieHeader: string | null, name: string): string | null {
+  if (!cookieHeader) return null;
+  const match = cookieHeader
+    .split(';')
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(`${name}=`));
+  if (!match) return null;
+
+  try {
+    return decodeURIComponent(match.slice(name.length + 1));
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
-  const cookieStore = cookies();
-
+  const nextPath = searchParams.get('next');
+  const cookieNextPath = getCookieValue(request.headers.get('cookie'), AUTH_NEXT_COOKIE);
   const safeNextPath =
-    getSafeRedirectPath(searchParams.get('next')) ??
-    getSafeRedirectPath(cookieStore.get(AUTH_NEXT_COOKIE)?.value ?? null) ??
+    getSafeRedirectPath(nextPath) ??
+    getSafeRedirectPath(cookieNextPath) ??
     '/home';
 
   if (code) {
-    // Build the redirect response FIRST and bind the session cookies to it directly.
-    // Returning a freshly-created NextResponse otherwise drops the Set-Cookie headers
-    // that exchangeCodeForSession writes — the browser never persists the session and
-    // bounces back to the logged-out homepage (the reported sign-in loop).
-    const response = NextResponse.redirect(`${origin}${safeNextPath}`);
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              response.cookies.set(name, value, options),
-            );
-          },
-        },
-      },
-    );
-
+    const supabase = createServerSupabase();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      const response = NextResponse.redirect(`${origin}${safeNextPath}`);
       response.cookies.set(AUTH_NEXT_COOKIE, '', { path: '/', maxAge: 0 });
       return response;
     }
