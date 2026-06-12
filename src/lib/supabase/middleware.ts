@@ -26,6 +26,17 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.next({ request });
   }
 
+  // OAuth safety-net: if a code lands anywhere other than /callback — e.g. Supabase
+  // redirected to the Site URL because the exact `redirectTo` wasn't in the allowed
+  // Redirect URLs — forward it to /callback (preserving query) so the session actually
+  // gets exchanged instead of looping back to the logged-out homepage.
+  const oauthCode = request.nextUrl.searchParams.get('code');
+  if (oauthCode && request.nextUrl.pathname !== '/callback') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/callback';
+    return NextResponse.redirect(url);
+  }
+
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
