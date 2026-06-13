@@ -1,10 +1,11 @@
 'use client';
 
 import type { CSSProperties, ReactNode } from 'react';
-import { Award, BookOpen, CalendarDays, Gauge, Lightbulb, MapPin, MapPinned, Plane, Play, Route } from 'lucide-react';
+import { Award, BookOpen, CalendarDays, Compass, Gauge, Lightbulb, MapPin, MapPinned, Plane, Play, Route, Trophy } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
 import type { WorldFlightCompletedLegSummary } from '@/lib/world-flight/journey';
+import { getWorldFlightExpedition, type WorldFlightExpeditionRunSummary } from '@/lib/world-flight/expeditions';
 import { formatDistance } from '@/lib/world-flight/geo';
 import { ShareJourneyButton } from './share-journey-button';
 
@@ -31,6 +32,7 @@ export function JourneyProgressPanel({
   planeName,
   rangeKm,
   investigations,
+  expeditionRuns,
   selectedLegId,
   selectedDestinationId,
   onSelectLeg,
@@ -46,6 +48,7 @@ export function JourneyProgressPanel({
   planeName: string;
   rangeKm: number;
   investigations: WorldFlightInvestigationProgress[];
+  expeditionRuns: WorldFlightExpeditionRunSummary[];
   selectedLegId: string | null;
   selectedDestinationId: string | null;
   onSelectLeg: (legId: string) => void;
@@ -62,6 +65,11 @@ export function JourneyProgressPanel({
   const countryCount = new Set(visitedDestinations.map((item) => item.country)).size;
   const regionCount = new Set(visitedDestinations.map((item) => item.region)).size;
   const completedMissions = investigations.filter((investigation) => investigation.designMissionStatus === 'completed');
+  const completedExpeditions = Array.from(new Set(
+    expeditionRuns.filter((run) => run.status === 'completed').map((run) => run.expeditionId),
+  ))
+    .map((expeditionId) => getWorldFlightExpedition(expeditionId))
+    .filter((expedition): expedition is NonNullable<typeof expedition> => Boolean(expedition));
   const selectedLeg = completedLegs.find((leg) => leg.id === selectedLegId) ?? null;
   const selectedLegNumber = selectedLeg ? completedLegs.findIndex((leg) => leg.id === selectedLeg.id) + 1 : null;
   const selectedCity = destination(selectedDestinationId);
@@ -267,6 +275,30 @@ export function JourneyProgressPanel({
                 <span className="min-w-0">
                   <span className="block text-xs font-semibold uppercase tracking-wider text-lc-success/80">{mission.title}</span>
                   <span className="mt-1 block text-sm font-semibold text-lc-text">{mission.completedDesignTitle}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {completedExpeditions.length > 0 && (
+        <section className="border-b border-white/10 px-5 py-5">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text2">Expedition badges</h3>
+              <p className="mt-1 text-xs text-lc-text3">Guided journeys completed by the class.</p>
+            </div>
+            <Trophy className="h-4 w-4 text-lc-amber" aria-hidden />
+          </div>
+          <div className="mt-3 space-y-2">
+            {completedExpeditions.map((expedition) => (
+              <div key={expedition.id} className="flex items-start gap-3 border-l-2 border-rose-300/45 bg-rose-300/[0.045] px-3 py-3">
+                <Compass className="mt-0.5 h-4 w-4 shrink-0 text-rose-200" aria-hidden />
+                <span className="min-w-0">
+                  <span className="block text-xs font-semibold uppercase tracking-wider text-rose-100/80">Completed expedition</span>
+                  <span className="mt-1 block text-sm font-semibold text-lc-text">{expedition.title}</span>
+                  <span className="mt-1 block text-xs leading-relaxed text-lc-text3">{expedition.centralQuestion}</span>
                 </span>
               </div>
             ))}

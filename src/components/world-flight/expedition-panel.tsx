@@ -1,0 +1,250 @@
+'use client';
+
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowRight, BookOpen, Check, Compass, Pause, Play, Route, Trophy, X } from 'lucide-react';
+import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
+import { distanceKm, formatDistance } from '@/lib/world-flight/geo';
+import {
+  deriveWorldFlightExpeditionProgress,
+  getWorldFlightExpedition,
+  WORLD_FLIGHT_EXPEDITIONS,
+  type WorldFlightExpeditionRunSummary,
+} from '@/lib/world-flight/expeditions';
+import type { DestinationPack } from '@/lib/world-flight/types';
+
+type ExpeditionAction = 'activate' | 'pause' | 'resume' | 'leave';
+
+function destination(destinationId: string) {
+  return WORLD_DESTINATIONS.find((candidate) => candidate.id === destinationId) ?? null;
+}
+
+export function ExpeditionPanel({
+  runs,
+  routeOrigin,
+  rangeKm,
+  actionStatus,
+  onAction,
+  onSelectDestination,
+}: {
+  runs: WorldFlightExpeditionRunSummary[];
+  routeOrigin: DestinationPack | null;
+  rangeKm: number;
+  actionStatus: 'idle' | 'working' | 'error';
+  onAction: (action: ExpeditionAction, expeditionId: string, runId?: string) => void;
+  onSelectDestination: (destinationId: string, focusId: string) => void;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const currentRun = runs.find((run) => run.status === 'active' || run.status === 'paused') ?? null;
+  const completedExpeditionIds = new Set(runs.filter((run) => run.status === 'completed').map((run) => run.expeditionId));
+  const [previewId, setPreviewId] = useState(currentRun?.expeditionId ?? WORLD_FLIGHT_EXPEDITIONS[0].id);
+  const preview = getWorldFlightExpedition(previewId) ?? WORLD_FLIGHT_EXPEDITIONS[0];
+  const previewRun = runs.find((run) => run.expeditionId === preview.id && (run.status === 'active' || run.status === 'paused' || run.status === 'completed')) ?? null;
+  const progress = deriveWorldFlightExpeditionProgress(preview, previewRun?.visitedDestinationIds ?? []);
+  const currentDefinition = currentRun ? getWorldFlightExpedition(currentRun.expeditionId) : null;
+  const currentProgress = currentDefinition
+    ? deriveWorldFlightExpeditionProgress(currentDefinition, currentRun?.visitedDestinationIds ?? [])
+    : null;
+  const suggestedNext = useMemo(() => {
+    if (!currentDefinition || !currentRun || currentRun.status !== 'active') return null;
+    const remaining = currentDefinition.stops.filter((stop) => !currentRun.visitedDestinationIds.includes(stop.destinationId));
+    if (!routeOrigin) return remaining[0] ?? null;
+    return [...remaining].sort((a, b) => {
+      const aDestination = destination(a.destinationId);
+      const bDestination = destination(b.destinationId);
+      return (aDestination ? distanceKm(routeOrigin, aDestination) : Infinity)
+        - (bDestination ? distanceKm(routeOrigin, bDestination) : Infinity);
+    })[0] ?? null;
+  }, [currentDefinition, currentRun, routeOrigin]);
+
+  useEffect(() => {
+    if (currentRun?.status === 'active') panelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentRun?.id, currentRun?.status]);
+
+  return (
+    <div ref={panelRef} className="min-h-0 flex-1 overflow-y-auto">
+      {currentRun && currentDefinition && currentProgress && (
+        <section className="border-b border-rose-300/20 bg-rose-300/[0.045] px-5 py-5">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="font-instrument flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-200/80">
+                <Compass className="h-4 w-4" aria-hidden />
+                {currentRun.status === 'paused' ? 'Paused expedition' : 'Active expedition'}
+              </p>
+              <h2 className="font-display mt-2 text-xl leading-tight text-lc-text">{currentDefinition.title}</h2>
+              <p className="mt-1 text-xs leading-relaxed text-lc-text2">{currentDefinition.centralQuestion}</p>
+            </div>
+            <span className="shrink-0 rounded-full border border-rose-200/25 bg-rose-300/[0.08] px-2 py-1 text-[11px] font-semibold text-rose-100">
+              {currentProgress.completedStopCount}/{currentProgress.requiredStopCount}
+            </span>
+          </div>
+          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-rose-300 transition-[width]"
+              style={{ width: `${Math.min(100, (currentProgress.completedStopCount / currentProgress.requiredStopCount) * 100)}%` }}
+            />
+          </div>
+          {suggestedNext && (
+            <button
+              type="button"
+              onClick={() => onSelectDestination(suggestedNext.destinationId, suggestedNext.recommendedFocusId)}
+              className="mt-4 flex w-full items-center justify-between gap-3 rounded-md border border-rose-200/20 bg-[var(--wf-inset)] px-3 py-3 text-left transition-colors hover:border-rose-200/45 hover:bg-[var(--wf-surface)]"
+            >
+              <span className="min-w-0">
+                <span className="block text-[11px] font-semibold uppercase tracking-wide text-rose-200/70">Suggested next stop</span>
+                <span className="mt-1 block truncate text-sm font-semibold text-lc-text">{destination(suggestedNext.destinationId)?.city}</span>
+              </span>
+              <ArrowRight className="h-4 w-4 shrink-0 text-rose-200/75" aria-hidden />
+            </button>
+          )}
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              disabled={actionStatus === 'working'}
+              onClick={() => onAction(currentRun.status === 'paused' ? 'resume' : 'pause', currentRun.expeditionId, currentRun.id)}
+              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.035] px-3 text-xs font-semibold text-lc-text transition-colors hover:border-cyan-200/30 hover:bg-white/[0.06] disabled:opacity-50"
+            >
+              {currentRun.status === 'paused' ? <Play className="h-3.5 w-3.5" aria-hidden /> : <Pause className="h-3.5 w-3.5" aria-hidden />}
+              {currentRun.status === 'paused' ? 'Resume' : 'Pause'}
+            </button>
+            <button
+              type="button"
+              disabled={actionStatus === 'working'}
+              onClick={() => onAction('leave', currentRun.expeditionId, currentRun.id)}
+              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.035] px-3 text-xs font-semibold text-lc-text2 transition-colors hover:border-rose-200/35 hover:bg-rose-300/[0.06] hover:text-rose-100 disabled:opacity-50"
+            >
+              <X className="h-3.5 w-3.5" aria-hidden />
+              Leave
+            </button>
+          </div>
+          {actionStatus === 'error' && <p className="mt-2 text-xs text-rose-200">The expedition could not be updated. Try again.</p>}
+        </section>
+      )}
+
+      <section className="border-b border-white/10 px-5 py-5">
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Expedition catalog</p>
+            <h2 className="font-display mt-1 text-xl text-lc-text">Choose a guided journey.</h2>
+          </div>
+          <span className="text-[11px] text-lc-text3">{WORLD_FLIGHT_EXPEDITIONS.length} pilots</span>
+        </div>
+        <p className="mt-2 text-xs leading-relaxed text-lc-text2">Expeditions recommend where to go. Flight Missions separately recognize what the class discovers.</p>
+        <div className="mt-4 space-y-2">
+          {WORLD_FLIGHT_EXPEDITIONS.map((expedition) => {
+            const selected = expedition.id === preview.id;
+            const completed = completedExpeditionIds.has(expedition.id);
+            const active = currentRun?.expeditionId === expedition.id;
+            return (
+              <button
+                key={expedition.id}
+                type="button"
+                onClick={() => setPreviewId(expedition.id)}
+                className={`w-full rounded-md border px-3 py-3 text-left transition-colors ${
+                  selected ? 'border-rose-200/45 bg-rose-300/[0.07]' : 'border-white/10 bg-white/[0.025] hover:border-cyan-200/25 hover:bg-white/[0.045]'
+                }`}
+              >
+                <span className="flex items-start justify-between gap-3">
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-lc-text">{expedition.title}</span>
+                    <span className="mt-1 block text-xs leading-relaxed text-lc-text3">{expedition.subtitle}</span>
+                  </span>
+                  {completed ? <Trophy className="h-4 w-4 shrink-0 text-lc-amber" aria-label="Completed" /> : active ? <Compass className="h-4 w-4 shrink-0 text-rose-200" aria-label="Current" /> : null}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="px-5 py-5">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-200/75">
+              {preview.suggestedOrder ? 'Suggested sequence - detours allowed' : 'Flexible order'}
+            </p>
+            <h2 className="font-display mt-1 text-2xl leading-tight text-lc-text">{preview.title}</h2>
+          </div>
+          {completedExpeditionIds.has(preview.id) && <Trophy className="h-6 w-6 shrink-0 text-lc-amber" aria-label="Completed expedition" />}
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-lc-text2">{preview.description}</p>
+        <div className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-md border border-white/10 bg-white/10">
+          <ExpeditionFact label="Complete" value={`${preview.requiredStopCount} of ${preview.stops.length}`} />
+          <ExpeditionFact label="Length" value={preview.estimatedLessons} />
+          <ExpeditionFact label="Level" value={preview.suggestedLevel} />
+        </div>
+
+        <div className="mt-5 space-y-2">
+          {preview.stops.map((stop, index) => {
+            const city = destination(stop.destinationId);
+            if (!city) return null;
+            const completed = progress.completedDestinationIds.includes(stop.destinationId);
+            const distance = routeOrigin ? distanceKm(routeOrigin, city) : null;
+            const inRange = distance == null || distance <= rangeKm || city.id === routeOrigin?.id;
+            const focus = city.focusOptions.find((candidate) => candidate.id === stop.recommendedFocusId);
+            return (
+              <button
+                key={stop.destinationId}
+                type="button"
+                onClick={() => onSelectDestination(stop.destinationId, stop.recommendedFocusId)}
+                className="group w-full rounded-md border border-white/10 bg-white/[0.025] px-3 py-3 text-left transition-colors hover:border-rose-200/35 hover:bg-rose-300/[0.04]"
+              >
+                <span className="flex items-start gap-3">
+                  <span className={`font-instrument flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[11px] font-bold ${
+                    completed ? 'border-lc-success/45 bg-lc-success/10 text-lc-success' : 'border-rose-200/30 bg-rose-300/[0.06] text-rose-100/80'
+                  }`}>
+                    {completed ? <Check className="h-3.5 w-3.5" aria-hidden /> : index + 1}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-semibold text-lc-text">{city.city}</span>
+                      {distance != null && (
+                        <span className={`shrink-0 text-[11px] font-semibold ${inRange ? 'text-lc-success/80' : 'text-lc-text3'}`}>{formatDistance(distance)}</span>
+                      )}
+                    </span>
+                    <span className="mt-1 flex items-center gap-1.5 text-[11px] font-semibold text-cyan-100/65">
+                      <BookOpen className="h-3 w-3 shrink-0" aria-hidden />
+                      <span className="truncate">{focus?.title ?? 'Recommended city lesson'}</span>
+                    </span>
+                    <span className="mt-1.5 block text-xs leading-relaxed text-lc-text3">{stop.reason}</span>
+                  </span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {!currentRun && !completedExpeditionIds.has(preview.id) && (
+          <button
+            type="button"
+            disabled={actionStatus === 'working'}
+            onClick={() => onAction('activate', preview.id)}
+            className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-rose-300 px-4 text-sm font-bold text-[var(--wf-bg)] transition-colors hover:bg-rose-200 disabled:opacity-50"
+          >
+            <Compass className="h-4 w-4" aria-hidden />
+            {actionStatus === 'working' ? 'Starting expedition...' : 'Start This Expedition'}
+          </button>
+        )}
+        {currentRun && currentRun.expeditionId !== preview.id && !completedExpeditionIds.has(preview.id) && (
+          <button
+            type="button"
+            disabled={actionStatus === 'working'}
+            onClick={() => onAction('activate', preview.id)}
+            className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-rose-200/35 bg-rose-300/[0.08] px-4 text-sm font-bold text-rose-100 transition-colors hover:bg-rose-300/[0.14] disabled:opacity-50"
+          >
+            <Route className="h-4 w-4" aria-hidden />
+            Replace Current Expedition
+          </button>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function ExpeditionFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="bg-[var(--wf-inset)] px-2.5 py-2.5">
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-lc-text3">{label}</p>
+      <p className="mt-1 text-xs font-semibold leading-snug text-lc-text">{value}</p>
+    </div>
+  );
+}

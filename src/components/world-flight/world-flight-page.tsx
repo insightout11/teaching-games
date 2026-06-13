@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker as MapLibreMarker, type Popup as MapLibrePopup } from 'maplibre-gl';
-import { ArrowRight, BookOpen, Check, ChevronDown, ExternalLink, Gauge, Globe2, Info, Map as MapIcon, MapPin, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, PlaneTakeoff, Play, Radar, Route, ScanSearch, Search, Stamp, X } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ChevronDown, Compass, ExternalLink, Gauge, Globe2, Info, Map as MapIcon, MapPin, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, PlaneTakeoff, Play, Radar, Route, ScanSearch, Search, Stamp, X } from 'lucide-react';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { WORLD_FLIGHT_MAP_STYLE } from '@/data/world-flight/map-style';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
@@ -12,6 +12,12 @@ import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
+import {
+  deriveWorldFlightExpeditionProgress,
+  getWorldFlightExpedition,
+  type WorldFlightExpeditionRunSummary,
+} from '@/lib/world-flight/expeditions';
+import { ExpeditionPanel } from './expedition-panel';
 import { InvestigationProgressPanel } from './investigation-progress-panel';
 import { JourneyProgressPanel } from './journey-progress-panel';
 import { PassportArrivalReplay } from './passport-arrival-replay';
@@ -39,9 +45,13 @@ function destinationFeatures(
   missionEvidenceDestinationIds: Iterable<string> = [],
   showVisited = true,
   passportHighlightDestinationId: string | null = null,
+  expeditionDestinationIds: Iterable<string> = [],
+  completedExpeditionDestinationIds: Iterable<string> = [],
 ) {
   const visited = new Set(visitedDestinationIds);
   const missionEvidence = new Set(missionEvidenceDestinationIds);
+  const expeditionDestinations = new Set(expeditionDestinationIds);
+  const completedExpeditionDestinations = new Set(completedExpeditionDestinationIds);
   return asFeatureCollection(
     WORLD_DESTINATIONS.map((destination) => {
       const km = origin ? distanceKm(origin, destination) : 0;
@@ -50,6 +60,7 @@ function destinationFeatures(
       const isOrigin = destination.id === origin?.id;
       const isVisited = showVisited && visited.has(destination.id);
       const isMissionEvidence = missionEvidence.has(destination.id);
+      const isExpeditionStop = expeditionDestinations.has(destination.id);
       const onwardReachable = !!previewOrigin && previewKm <= rangeKm && destination.id !== previewOrigin.id;
       return {
         type: 'Feature',
@@ -63,6 +74,8 @@ function destinationFeatures(
           isOrigin,
           visited: isVisited,
           missionEvidence: isMissionEvidence,
+          expeditionStop: isExpeditionStop,
+          expeditionComplete: completedExpeditionDestinations.has(destination.id),
           onwardReachable,
           isPreviewOrigin: destination.id === previewOrigin?.id,
           muted: !showReachability && !isVisited && !isMissionEvidence,
@@ -71,6 +84,8 @@ function destinationFeatures(
             ? 'Current location'
             : isMissionEvidence
               ? 'Mission field note'
+              : isExpeditionStop
+                ? 'Expedition stop'
               : onwardReachable
                 ? 'Possible next hop'
                 : isVisited
@@ -210,7 +225,15 @@ function ImagePanel({ image, className = '' }: { image: DestinationPack['heroIma
   );
 }
 
-function MapLegend({ mode, previewNextHops }: { mode: SidebarMode; previewNextHops: boolean }) {
+function MapLegend({
+  mode,
+  previewNextHops,
+  activeExpedition,
+}: {
+  mode: SidebarMode;
+  previewNextHops: boolean;
+  activeExpedition: boolean;
+}) {
   const items = mode === 'missions'
     ? [
       ['bg-violet-400 ring-2 ring-violet-100/60', 'Mission field note'],
@@ -227,6 +250,7 @@ function MapLegend({ mode, previewNextHops }: { mode: SidebarMode; previewNextHo
         ['bg-lc-blue ring-2 ring-cyan-100/50', 'Visited'],
         [previewNextHops ? 'bg-cyan-300' : 'bg-lc-success', previewNextHops ? 'Possible next hop' : 'In range'],
         ['bg-[#8395B1] ring-1 ring-[#B6C6DA]/70', 'Beyond range'],
+        ...(activeExpedition ? [['bg-transparent ring-2 ring-rose-300', 'Expedition stop']] : []),
       ];
 
   return (
@@ -372,6 +396,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const hoverPopupRef = useRef<MapLibrePopup | null>(null);
   const sidebarModeRef = useRef<SidebarMode>('destinations');
   const selectedClassRef = useRef<WorldFlightClassSummary | null>(null);
+  const pendingExpeditionFocusIdRef = useRef<string | null>(null);
   const routeAnimationRef = useRef<number | null>(null);
   const rangeAnimationRef = useRef<number | null>(null);
   const [mapReady, setMapReady] = useState(false);
@@ -391,8 +416,25 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [hoveredPassportLegId, setHoveredPassportLegId] = useState<string | null>(null);
   const [selectedPassportDestinationId, setSelectedPassportDestinationId] = useState<string | null>(null);
   const [replayDestinationId, setReplayDestinationId] = useState<string | null>(null);
+  const [expeditionsOpen, setExpeditionsOpen] = useState(false);
+  const [expeditionActionStatus, setExpeditionActionStatus] = useState<'idle' | 'working' | 'error'>('idle');
+  const [expeditionRunsByClass, setExpeditionRunsByClass] = useState<Record<string, WorldFlightExpeditionRunSummary[]>>(
+    () => Object.fromEntries(initialClasses.map((cls) => [cls.id, cls.expeditionRuns])),
+  );
 
   const selectedClass = initialClasses.find((cls) => cls.id === selectedClassId) ?? null;
+  const selectedExpeditionRuns = selectedClassId ? expeditionRunsByClass[selectedClassId] ?? [] : [];
+  const currentExpeditionRun = selectedExpeditionRuns.find((run) => run.status === 'active' || run.status === 'paused') ?? null;
+  const currentExpedition = currentExpeditionRun ? getWorldFlightExpedition(currentExpeditionRun.expeditionId) : null;
+  const currentExpeditionProgress = currentExpedition
+    ? deriveWorldFlightExpeditionProgress(currentExpedition, currentExpeditionRun?.visitedDestinationIds ?? [])
+    : null;
+  const activeExpeditionDestinationIds = currentExpeditionRun?.status === 'active'
+    ? currentExpedition?.stops.map((stop) => stop.destinationId) ?? EMPTY_DESTINATION_IDS
+    : EMPTY_DESTINATION_IDS;
+  const completedExpeditionDestinationIds = currentExpeditionRun?.status === 'active'
+    ? currentExpeditionRun.visitedDestinationIds
+    : EMPTY_DESTINATION_IDS;
   const activePassportLegId = hoveredPassportLegId ?? selectedPassportLegId;
   const activePassportLeg = selectedClass?.completedLegs.find((leg) => leg.id === activePassportLegId) ?? null;
   const passportHighlightDestinationId = hoveredPassportLegId
@@ -476,7 +518,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   }, [destinationQuery, listDistanceOrigin, previewNextHops, rangeKm, routeOrigin?.id, visitedDestinationSet]);
 
   useEffect(() => {
-    setSelectedFocusId(null);
+    setSelectedFocusId(pendingExpeditionFocusIdRef.current);
+    pendingExpeditionFocusIdRef.current = null;
     setFocusFilter('all');
   }, [selectedDestinationId]);
 
@@ -521,8 +564,60 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   function selectDestination(id: string) {
     setSelectedDestinationId(id);
     setSidebarMode('destinations');
+    setExpeditionsOpen(false);
     if (!isWide) setListOpen(false);
     setDetailsOpen(true);
+  }
+
+  function selectExpeditionDestination(destinationId: string, focusId: string) {
+    pendingExpeditionFocusIdRef.current = focusId;
+    setSelectedDestinationId(destinationId);
+    setFocusFilter('all');
+    setSidebarMode('destinations');
+    setExpeditionsOpen(false);
+    if (!isWide) setListOpen(false);
+    setDetailsOpen(true);
+  }
+
+  async function handleExpeditionAction(
+    action: 'activate' | 'pause' | 'resume' | 'leave',
+    expeditionId: string,
+    runId?: string,
+  ) {
+    if (!selectedClassId) {
+      setExpeditionActionStatus('error');
+      return;
+    }
+    setExpeditionActionStatus('working');
+    try {
+      const response = await fetch('/api/world-flight/expeditions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ classId: selectedClassId, action, expeditionId, runId }),
+      });
+      const result = await response.json() as { run?: WorldFlightExpeditionRunSummary; error?: string };
+      if (!response.ok || !result.run) throw new Error(result.error ?? 'Failed to update expedition');
+
+      setExpeditionRunsByClass((current) => {
+        const existing = current[selectedClassId] ?? [];
+        const returnedRun = result.run!;
+        const priorRun = existing.find((run) => run.id === returnedRun.id);
+        const nextRun = action === 'activate'
+          ? returnedRun
+          : { ...priorRun, ...returnedRun, visitedDestinationIds: priorRun?.visitedDestinationIds ?? returnedRun.visitedDestinationIds };
+        const nextRuns = existing
+          .map((run) => (
+            action === 'activate' && (run.status === 'active' || run.status === 'paused')
+              ? { ...run, status: 'left' as const, leftAt: returnedRun.activatedAt }
+              : run
+          ))
+          .filter((run) => run.id !== nextRun.id);
+        return { ...current, [selectedClassId]: [nextRun, ...nextRuns] };
+      });
+      setExpeditionActionStatus('idle');
+    } catch {
+      setExpeditionActionStatus('error');
+    }
   }
 
   function inspectPassportLeg(legId: string) {
@@ -577,6 +672,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     setSelectedPassportLegId(null);
     setHoveredPassportLegId(null);
     setSelectedPassportDestinationId(null);
+    setExpeditionsOpen(false);
+    setExpeditionActionStatus('idle');
     usePlannerStore.getState().setSelectedClassId(id);
     try {
       localStorage.setItem('lc-last-class', JSON.stringify({ id, name: nextClass?.name ?? '' }));
@@ -770,6 +867,19 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           'circle-color': '#F59E0B',
           'circle-opacity': 0.12,
           'circle-stroke-color': '#F8D28B',
+          'circle-stroke-width': 2.5,
+          'circle-stroke-opacity': 0.95,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-expedition-stops',
+        type: 'circle',
+        source: 'world-flight-cities',
+        filter: ['==', 'expeditionStop', true],
+        paint: {
+          'circle-radius': 12,
+          'circle-color': 'rgba(0,0,0,0)',
+          'circle-stroke-color': ['case', ['get', 'expeditionComplete'], '#86EFAC', '#FDA4AF'],
           'circle-stroke-width': 2.5,
           'circle-stroke-opacity': 0.95,
         },
@@ -983,6 +1093,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         sidebarMode === 'missions' ? missionEvidenceDestinationIds : EMPTY_DESTINATION_IDS,
         sidebarMode !== 'missions',
         sidebarMode === 'passport' ? passportHighlightDestinationId : null,
+        sidebarMode === 'destinations' ? activeExpeditionDestinationIds : EMPTY_DESTINATION_IDS,
+        sidebarMode === 'destinations' ? completedExpeditionDestinationIds : EMPTY_DESTINATION_IDS,
       ),
     ));
 
@@ -997,7 +1109,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       };
       rangeAnimationRef.current = requestAnimationFrame(animateRange);
     }
-  }, [activePassportLegId, mapReady, missionEvidenceDestinationIds, passportHighlightDestinationId, previewNextHops, rangeKm, routeOrigin, selectedClass?.completedLegs, selectedDestination, sidebarMode, visitedDestinationIds]);
+  }, [activeExpeditionDestinationIds, activePassportLegId, completedExpeditionDestinationIds, mapReady, missionEvidenceDestinationIds, passportHighlightDestinationId, previewNextHops, rangeKm, routeOrigin, selectedClass?.completedLegs, selectedDestination, sidebarMode, visitedDestinationIds]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1105,12 +1217,14 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   }
 
   const sidebarTitle = sidebarMode === 'destinations'
-    ? 'Choose the next city lesson.'
+    ? expeditionsOpen ? 'Choose an expedition.' : 'Choose the next city lesson.'
     : sidebarMode === 'passport'
       ? 'The class journey so far.'
       : 'Complete flight missions.';
   const sidebarDescription = sidebarMode === 'destinations'
-    ? 'Pick a city, choose a source, and build a full lesson around it.'
+    ? expeditionsOpen
+      ? 'Follow a shared question across several cities while keeping every route flexible.'
+      : 'Pick a city, choose a source, and build a full lesson around it.'
     : sidebarMode === 'passport'
       ? 'Revisit flights, collect city stamps, and share what the class has accomplished.'
       : 'Collect field notes from completed city lessons to unlock each mission.';
@@ -1196,30 +1310,56 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               )}
             </div>
             <div className="grid grid-cols-3 gap-1 rounded-md border border-white/15 bg-[var(--wf-surface)] p-1">
-              <SidebarModeButton active={sidebarMode === 'destinations'} icon={<MapIcon className="h-3.5 w-3.5" />} label="Destinations" onClick={() => setSidebarMode('destinations')} />
-              <SidebarModeButton active={sidebarMode === 'passport'} icon={<Stamp className="h-3.5 w-3.5" />} label="Passport" onClick={() => setSidebarMode('passport')} />
-              <SidebarModeButton active={sidebarMode === 'missions'} icon={<Radar className="h-3.5 w-3.5" />} label="Missions" onClick={() => setSidebarMode('missions')} />
+              <SidebarModeButton active={sidebarMode === 'destinations'} icon={<MapIcon className="h-3.5 w-3.5" />} label="Destinations" onClick={() => { setSidebarMode('destinations'); setExpeditionsOpen(false); }} />
+              <SidebarModeButton active={sidebarMode === 'passport'} icon={<Stamp className="h-3.5 w-3.5" />} label="Passport" onClick={() => { setSidebarMode('passport'); setExpeditionsOpen(false); }} />
+              <SidebarModeButton active={sidebarMode === 'missions'} icon={<Radar className="h-3.5 w-3.5" />} label="Missions" onClick={() => { setSidebarMode('missions'); setExpeditionsOpen(false); }} />
             </div>
             {sidebarMode === 'destinations' && (
               <>
-              <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
-                <div className="flex items-center gap-2 text-[11px] uppercase tracking-wide text-lc-text2">
-                  <MapPin className="h-3.5 w-3.5" aria-hidden />
-                  {origin ? 'Origin' : 'Departure'}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                    <div className="flex items-center gap-2 text-[11px] uppercase tracking-wide text-lc-text2">
+                      <MapPin className="h-3.5 w-3.5" aria-hidden />
+                      {origin ? 'Origin' : 'Departure'}
+                    </div>
+                    <p className="mt-1 text-sm font-semibold text-lc-text">{routeOrigin?.city ?? 'Choose a city'}</p>
+                    <p className="text-xs text-lc-text3">{routeOrigin?.primaryAirport ?? 'Required before first flight'}</p>
+                  </div>
+                  <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                    <div className="flex items-center gap-2 text-[11px] uppercase tracking-wide text-lc-text2">
+                      <Gauge className="h-3.5 w-3.5" aria-hidden />
+                      Range
+                    </div>
+                    <p className="mt-1 text-sm font-semibold text-lc-text">{routeOrigin ? formatDistance(rangeKm) : 'Set after departure'}</p>
+                    <p className="text-xs text-lc-text3">{selectedClass ? planeName : 'Select a class later'}</p>
+                  </div>
                 </div>
-                <p className="mt-1 text-sm font-semibold text-lc-text">{routeOrigin?.city ?? 'Choose a city'}</p>
-                <p className="text-xs text-lc-text3">{routeOrigin?.primaryAirport ?? 'Required before first flight'}</p>
-              </div>
-              <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
-                <div className="flex items-center gap-2 text-[11px] uppercase tracking-wide text-lc-text2">
-                  <Gauge className="h-3.5 w-3.5" aria-hidden />
-                  Range
-                </div>
-                <p className="mt-1 text-sm font-semibold text-lc-text">{routeOrigin ? formatDistance(rangeKm) : 'Set after departure'}</p>
-                <p className="text-xs text-lc-text3">{selectedClass ? planeName : 'Select a class later'}</p>
-              </div>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => setExpeditionsOpen((open) => !open)}
+                  className={`flex w-full items-center justify-between gap-3 rounded-md border px-3 py-3 text-left transition-colors ${
+                    expeditionsOpen
+                      ? 'border-rose-200/45 bg-rose-300/[0.08]'
+                      : 'border-rose-200/20 bg-rose-300/[0.035] hover:border-rose-200/40 hover:bg-rose-300/[0.065]'
+                  }`}
+                >
+                  <span className="flex min-w-0 items-center gap-2.5">
+                    <Compass className="h-4 w-4 shrink-0 text-rose-200/80" aria-hidden />
+                    <span className="min-w-0">
+                      <span className="block text-[11px] font-semibold uppercase tracking-wide text-rose-100/70">
+                        {currentExpeditionRun?.status === 'paused' ? 'Paused expedition' : currentExpeditionRun ? 'Active expedition' : 'Guided journeys'}
+                      </span>
+                      <span className="mt-0.5 block truncate text-xs font-semibold text-lc-text">
+                        {currentExpedition?.title ?? 'Explore Expeditions'}
+                      </span>
+                    </span>
+                  </span>
+                  <span className="shrink-0 text-[11px] font-semibold text-rose-100/75">
+                    {currentExpeditionProgress
+                      ? `${currentExpeditionProgress.completedStopCount}/${currentExpeditionProgress.requiredStopCount}`
+                      : expeditionsOpen ? 'Close' : 'Browse'}
+                  </span>
+                </button>
               </>
             )}
           </div>
@@ -1234,6 +1374,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               planeName={planeName}
               rangeKm={rangeKm}
               investigations={selectedClass?.investigations ?? []}
+              expeditionRuns={selectedExpeditionRuns}
               selectedLegId={selectedPassportLegId}
               selectedDestinationId={selectedPassportDestinationId}
               onSelectLeg={inspectPassportLeg}
@@ -1250,7 +1391,18 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             />
           )}
 
-          {sidebarMode === 'destinations' && <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+          {sidebarMode === 'destinations' && expeditionsOpen && (
+            <ExpeditionPanel
+              runs={selectedExpeditionRuns}
+              routeOrigin={routeOrigin}
+              rangeKm={rangeKm}
+              actionStatus={expeditionActionStatus}
+              onAction={handleExpeditionAction}
+              onSelectDestination={selectExpeditionDestination}
+            />
+          )}
+
+          {sidebarMode === 'destinations' && !expeditionsOpen && <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
             <div className="sticky top-0 z-10 -mx-1 mb-4 bg-[var(--wf-surface)] px-1 pb-2">
               <label htmlFor="world-flight-destination-search" className="sr-only">Search destinations</label>
               <div className="relative">
@@ -1280,6 +1432,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 const reachable = !routeOrigin || currentKm <= rangeKm || destination.id === routeOrigin.id;
                 const visited = visitedDestinationSet.has(destination.id);
                 const onwardReachable = previewNextHops && nextHopDestinationIds.has(destination.id);
+                const expeditionStop = activeExpeditionDestinationIds.includes(destination.id);
                 return (
                   <button
                     key={destination.id}
@@ -1308,6 +1461,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                       <span className="flex items-center gap-1.5 truncate text-sm font-semibold text-lc-text">
                         <span className="truncate">{destination.city}</span>
                         {visited && destination.id !== routeOrigin?.id && <Check className="h-3 w-3 shrink-0 text-lc-blue" aria-label="Visited" />}
+                        {expeditionStop && <Compass className="h-3 w-3 shrink-0 text-rose-200" aria-label="Active expedition stop" />}
                       </span>
                       <span className="block truncate text-xs text-lc-text3">
                         {destination.country} - {listDistanceOrigin ? formatDistance(km) : 'Available departure'}
@@ -1567,7 +1721,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           </div>
         </aside>
         )}
-        <MapLegend mode={sidebarMode} previewNextHops={previewNextHops} />
+        <MapLegend mode={sidebarMode} previewNextHops={previewNextHops} activeExpedition={activeExpeditionDestinationIds.length > 0} />
       </div>
       {replayDestinationId && (
         <PassportArrivalReplay

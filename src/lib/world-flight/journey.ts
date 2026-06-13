@@ -1,5 +1,6 @@
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
+import type { WorldFlightExpeditionRunSummary } from '@/lib/world-flight/expeditions';
 import { deriveInvestigationTags } from '@/lib/world-flight/investigations';
 
 export type WorldFlightLegStatus = 'planned' | 'completed' | 'cancelled';
@@ -31,6 +32,7 @@ export interface WorldFlightClassSummary {
   completedLegs: WorldFlightCompletedLegSummary[];
   recentLegs: WorldFlightCompletedLegSummary[];
   investigations: WorldFlightInvestigationProgress[];
+  expeditionRuns: WorldFlightExpeditionRunSummary[];
 }
 
 export interface WorldFlightLaunchContext {

@@ -11,6 +11,7 @@ import {
   deriveWorldFlightInvestigationProgress,
   type CompletedWorldFlightEvidence,
 } from '@/lib/world-flight/investigations';
+import type { WorldFlightExpeditionRunSummary, WorldFlightExpeditionStatus } from '@/lib/world-flight/expeditions';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,10 +48,21 @@ export default async function WorldFlightRoutePage() {
     completed_at: string | null;
     brief_snapshot: { title?: string };
   }> = [];
+  let expeditionRunRows: Array<{
+    id: string;
+    class_id: string;
+    expedition_id: string;
+    status: WorldFlightExpeditionStatus;
+    visited_destination_ids: string[];
+    activated_at: string;
+    paused_at: string | null;
+    completed_at: string | null;
+    left_at: string | null;
+  }> = [];
 
   if (process.env.NEXT_PUBLIC_MOCK_MODE !== 'true' && classRows.length > 0) {
     const classIds = classRows.map((cls) => cls.id);
-    const [stateResult, legsResult, missionsResult] = await Promise.all([
+    const [stateResult, legsResult, missionsResult, expeditionsResult] = await Promise.all([
       supabase
         .from('class_world_flight_state')
         .select('class_id, current_destination_id, plane_tier, plane_key, range_km')
@@ -67,16 +79,37 @@ export default async function WorldFlightRoutePage() {
         .in('class_id', classIds)
         .eq('status', 'completed')
         .order('completed_at', { ascending: true }),
+      supabase
+        .from('class_world_flight_expedition_runs')
+        .select('id, class_id, expedition_id, status, visited_destination_ids, activated_at, paused_at, completed_at, left_at')
+        .in('class_id', classIds)
+        .order('activated_at', { ascending: false }),
     ]);
     stateRows = (stateResult.data ?? []) as typeof stateRows;
     completedLegRows = (legsResult.data ?? []) as typeof completedLegRows;
     completedMissionRows = (missionsResult.data ?? []) as typeof completedMissionRows;
+    expeditionRunRows = (expeditionsResult.data ?? []) as typeof expeditionRunRows;
   }
 
   const stateByClass = new Map(stateRows.map((state) => [state.class_id, state]));
   const completedEvidenceByClass = new Map<string, CompletedWorldFlightEvidence[]>();
   const completedLegsByClass = new Map<string, WorldFlightCompletedLegSummary[]>();
   const completedMissionsByClass = new Map<string, Map<string, typeof completedMissionRows[number]>>();
+  const expeditionRunsByClass = new Map<string, WorldFlightExpeditionRunSummary[]>();
+  for (const run of expeditionRunRows) {
+    const runs = expeditionRunsByClass.get(run.class_id) ?? [];
+    runs.push({
+      id: run.id,
+      expeditionId: run.expedition_id,
+      status: run.status,
+      visitedDestinationIds: run.visited_destination_ids ?? [],
+      activatedAt: run.activated_at,
+      pausedAt: run.paused_at,
+      completedAt: run.completed_at,
+      leftAt: run.left_at,
+    });
+    expeditionRunsByClass.set(run.class_id, runs);
+  }
   for (const mission of completedMissionRows) {
     const missions = completedMissionsByClass.get(mission.class_id) ?? new Map();
     missions.set(mission.investigation_id, mission);
@@ -139,6 +172,7 @@ export default async function WorldFlightRoutePage() {
               }
             : investigation;
         }),
+      expeditionRuns: expeditionRunsByClass.get(cls.id) ?? [],
     };
   });
 

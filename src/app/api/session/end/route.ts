@@ -1,9 +1,50 @@
 import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-credits';
 import { createServerSupabase } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
+import { advanceWorldFlightExpedition, type WorldFlightExpeditionSnapshot } from '@/lib/world-flight/expeditions';
 
 export const dynamic = 'force-dynamic';
+
+async function advanceActiveExpedition(classId: string, sessionId: string) {
+  const service = createServiceClient();
+  const [{ data: leg }, { data: run }] = await Promise.all([
+    service
+      .from('class_world_flight_legs')
+      .select('destination_id')
+      .eq('session_id', sessionId)
+      .eq('status', 'completed')
+      .maybeSingle(),
+    service
+      .from('class_world_flight_expedition_runs')
+      .select('id, expedition_snapshot, visited_destination_ids')
+      .eq('class_id', classId)
+      .eq('status', 'active')
+      .maybeSingle(),
+  ]);
+
+  if (!leg || !run) return;
+  const progress = advanceWorldFlightExpedition(
+    run.expedition_snapshot as WorldFlightExpeditionSnapshot,
+    run.visited_destination_ids ?? [],
+    leg.destination_id,
+  );
+  if ((run.visited_destination_ids ?? []).length === progress.visitedDestinationIds.length) return;
+
+  const now = new Date().toISOString();
+  const { error } = await service
+    .from('class_world_flight_expedition_runs')
+    .update({
+      visited_destination_ids: progress.visitedDestinationIds,
+      status: progress.complete ? 'completed' : 'active',
+      completed_at: progress.complete ? now : null,
+      updated_at: now,
+    })
+    .eq('id', run.id)
+    .eq('status', 'active');
+  if (error) throw error;
+}
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -44,6 +85,14 @@ export async function POST(request: Request) {
   if (error) {
     console.error('[api/session/end] finish_world_flight_session error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  if ((data as { legStatus?: string } | null)?.legStatus === 'completed') {
+    try {
+      await advanceActiveExpedition(ownership.session.class_id, sessionId);
+    } catch (expeditionError) {
+      console.error('[api/session/end] expedition progress error:', expeditionError);
+    }
   }
 
   return NextResponse.json(data ?? { legStatus: 'none', currentDestinationId: null });
