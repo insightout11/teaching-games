@@ -22,6 +22,7 @@ import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration, computeAltitude, computeEarthState } from '@/lib/flight-plan-helpers';
 import type { EarthState } from '@/lib/flight-plan-helpers';
+import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
@@ -364,6 +365,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [activityContentFailed, setActivityContentFailed] = useState(false);
   const [gameContent, setGameContent] = useState<GameGeneratedContent | null>(null);
   const [journeySaveStatus, setJourneySaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [worldFlightReward, setWorldFlightReward] = useState<WorldFlightProgressionRewardResult | null>(null);
   // Content overrides from takeoff regeneration (mission/character context)
   const [contentOverrides, setContentOverrides] = useState<Record<string, ActivityGeneratedContent>>({});
   const contentOverridesRef = useRef(contentOverrides);
@@ -845,6 +847,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       const result = await response.json().catch(() => ({ error: 'Failed to end session' })) as {
         error?: string;
         legStatus?: string;
+        progressionReward?: WorldFlightProgressionRewardResult | null;
       };
       if (!response.ok) {
         console.error('Failed to end session:', result.error);
@@ -852,7 +855,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         return;
       }
 
-      if (expectsJourneyMove) setJourneySaveStatus(result.legStatus === 'completed' ? 'saved' : 'error');
+      if (expectsJourneyMove) {
+        setJourneySaveStatus(result.legStatus === 'completed' ? 'saved' : 'error');
+        setWorldFlightReward(result.progressionReward ?? null);
+      }
     } catch (error) {
       console.error('Failed to end session:', error);
       if (expectsJourneyMove) setJourneySaveStatus('error');
@@ -1236,6 +1242,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             className={cls.name}
             sessionId={session.id}
             flightCode={lesson.lessonPlanContent?.callsign ?? `LC-${session.id.slice(-4).toUpperCase()}`}
+            progressionReward={worldFlightReward}
             onLaunchBonusVote={handleBonusFromArrival}
           />
         </div>

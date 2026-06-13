@@ -1405,6 +1405,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               completedLegs={selectedClass?.completedLegs ?? []}
               planeName={planeName}
               rangeKm={rangeKm}
+              flightHours={selectedClass?.flightHours ?? 0}
+              crewStars={selectedClass?.crewStars ?? 0}
               investigations={selectedClass?.investigations ?? []}
               expeditionRuns={selectedExpeditionRuns}
               selectedLegId={selectedPassportLegId}

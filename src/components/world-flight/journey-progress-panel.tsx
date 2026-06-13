@@ -1,12 +1,13 @@
 'use client';
 
 import type { CSSProperties, ReactNode } from 'react';
-import { Award, BookOpen, CalendarDays, Compass, Gauge, Lightbulb, MapPin, MapPinned, Plane, Play, Route, Trophy } from 'lucide-react';
+import { Award, BookOpen, CalendarDays, Clock3, Compass, Gauge, Lightbulb, MapPin, MapPinned, Plane, Play, Route, Star, Trophy } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
 import type { WorldFlightCompletedLegSummary } from '@/lib/world-flight/journey';
 import { getWorldFlightExpedition, type WorldFlightExpeditionRunSummary } from '@/lib/world-flight/expeditions';
 import { formatDistance } from '@/lib/world-flight/geo';
+import { getWorldFlightProgression } from '@/lib/world-flight/progression';
 import { ShareJourneyButton } from './share-journey-button';
 
 function destination(destinationId: string | null) {
@@ -31,6 +32,8 @@ export function JourneyProgressPanel({
   completedLegs,
   planeName,
   rangeKm,
+  flightHours,
+  crewStars,
   investigations,
   expeditionRuns,
   selectedLegId,
@@ -47,6 +50,8 @@ export function JourneyProgressPanel({
   completedLegs: WorldFlightCompletedLegSummary[];
   planeName: string;
   rangeKm: number;
+  flightHours: number;
+  crewStars: number;
   investigations: WorldFlightInvestigationProgress[];
   expeditionRuns: WorldFlightExpeditionRunSummary[];
   selectedLegId: string | null;
@@ -65,6 +70,7 @@ export function JourneyProgressPanel({
   const countryCount = new Set(visitedDestinations.map((item) => item.country)).size;
   const regionCount = new Set(visitedDestinations.map((item) => item.region)).size;
   const completedMissions = investigations.filter((investigation) => investigation.designMissionStatus === 'completed');
+  const progression = getWorldFlightProgression(flightHours, crewStars);
   const completedExpeditions = Array.from(
     expeditionRuns
       .filter((run) => run.status === 'completed')
@@ -119,6 +125,36 @@ export function JourneyProgressPanel({
             <Gauge className="h-3.5 w-3.5" aria-hidden />
             {formatDistance(rangeKm)}
           </span>
+        </div>
+
+        <div className="mt-4 border-t border-white/10 pt-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Crew progression</p>
+              <p className="mt-1 text-sm font-semibold text-lc-text">
+                {progression.nextMilestone?.label ?? 'All upgrade milestones reached'}
+              </p>
+            </div>
+            {progression.latestUnlockedMilestone && (
+              <span className="shrink-0 rounded-full border border-lc-success/30 bg-lc-success/[0.08] px-2 py-1 text-[11px] font-semibold text-lc-success">
+                Tier {progression.unlockedTier} ready
+              </span>
+            )}
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <ProgressMetric
+              icon={<Clock3 className="h-3.5 w-3.5" aria-hidden />}
+              label="Flight Hours"
+              value={flightHours}
+              target={progression.nextMilestone?.requiredFlightHours ?? flightHours}
+            />
+            <ProgressMetric
+              icon={<Star className="h-3.5 w-3.5" aria-hidden />}
+              label="Crew Stars"
+              value={crewStars}
+              target={progression.nextMilestone?.requiredCrewStars ?? crewStars}
+            />
+          </div>
         </div>
 
         {classId && (
@@ -387,6 +423,31 @@ function PassportStat({ label, value }: { label: string; value: string | number 
     <div className="border-l border-white/10 pl-2 first:border-l-0 first:pl-0">
       <p className="text-[11px] font-semibold uppercase tracking-wide text-lc-text2">{label}</p>
       <p className="mt-1 text-sm font-bold text-lc-text">{value}</p>
+    </div>
+  );
+}
+
+function ProgressMetric({
+  icon,
+  label,
+  value,
+  target,
+}: {
+  icon: ReactNode;
+  label: string;
+  value: number;
+  target: number;
+}) {
+  const percent = target > 0 ? Math.min(100, (value / target) * 100) : 100;
+  return (
+    <div className="rounded-md border border-white/10 bg-white/[0.03] px-3 py-2.5">
+      <div className="flex items-center justify-between gap-2 text-[11px] font-semibold text-lc-text2">
+        <span className="flex items-center gap-1.5">{icon}{label}</span>
+        <span>{value}/{target}</span>
+      </div>
+      <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+        <div className="h-full rounded-full bg-cyan-300" style={{ width: `${percent}%` }} />
+      </div>
     </div>
   );
 }

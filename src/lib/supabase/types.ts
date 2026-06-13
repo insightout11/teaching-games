@@ -1,6 +1,7 @@
 import type { WorldFlightEvidenceSnapshot, WorldFlightLegStatus, WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 import type { WorldFlightExpeditionSnapshot, WorldFlightExpeditionStatus } from '@/lib/world-flight/expeditions';
+import type { WorldFlightRewardSnapshot } from '@/lib/world-flight/progression';
 import type { DesignStudioBrief, DesignStudioState } from '@/activities/types';
 
 export interface Teacher {
@@ -57,6 +58,8 @@ export interface ClassWorldFlightState {
   plane_tier: number;
   plane_key: string;
   range_km: number;
+  flight_hours: number;
+  crew_stars: number;
   updated_at: string;
 }
 
@@ -101,6 +104,20 @@ export interface ClassWorldFlightExpeditionRun {
   completed_at: string | null;
   left_at: string | null;
   updated_at: string;
+}
+
+export interface ClassWorldFlightReward {
+  id: string;
+  class_id: string;
+  session_id: string;
+  leg_id: string;
+  flight_hours_awarded: number;
+  crew_stars_awarded: number;
+  everyone_aboard: boolean;
+  strong_landing: boolean;
+  crew_commendation: boolean;
+  reward_snapshot: WorldFlightRewardSnapshot;
+  created_at: string;
 }
 
 export interface Round {
@@ -307,6 +324,7 @@ export interface Database {
       class_world_flight_legs: { Row: ClassWorldFlightLeg; Insert: Partial<ClassWorldFlightLeg> & Pick<ClassWorldFlightLeg, 'class_id' | 'session_id' | 'destination_id' | 'focus_id'>; Update: Partial<ClassWorldFlightLeg> };
       class_world_flight_design_missions: { Row: ClassWorldFlightDesignMission; Insert: Partial<ClassWorldFlightDesignMission> & Pick<ClassWorldFlightDesignMission, 'class_id' | 'session_id' | 'investigation_id'>; Update: Partial<ClassWorldFlightDesignMission> };
       class_world_flight_expedition_runs: { Row: ClassWorldFlightExpeditionRun; Insert: Partial<ClassWorldFlightExpeditionRun> & Pick<ClassWorldFlightExpeditionRun, 'class_id' | 'expedition_id'>; Update: Partial<ClassWorldFlightExpeditionRun> };
+      class_world_flight_rewards: { Row: ClassWorldFlightReward; Insert: Partial<ClassWorldFlightReward> & Pick<ClassWorldFlightReward, 'class_id' | 'session_id' | 'leg_id'>; Update: Partial<ClassWorldFlightReward> };
     };
     Views: {
       session_leaderboard: { Row: LeaderboardEntry };

@@ -4,6 +4,10 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { advanceWorldFlightExpedition, type WorldFlightExpeditionSnapshot } from '@/lib/world-flight/expeditions';
+import {
+  calculateWorldFlightReward,
+  type WorldFlightProgressionRewardResult,
+} from '@/lib/world-flight/progression';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,6 +48,66 @@ async function advanceActiveExpedition(classId: string, sessionId: string) {
     .eq('id', run.id)
     .eq('status', 'active');
   if (error) throw error;
+}
+
+async function awardWorldFlightProgression(
+  classId: string,
+  sessionId: string,
+): Promise<WorldFlightProgressionRewardResult | null> {
+  const service = createServiceClient();
+  const [{ data: leg }, { data: participants }, { data: scores }] = await Promise.all([
+    service
+      .from('class_world_flight_legs')
+      .select('id')
+      .eq('session_id', sessionId)
+      .eq('status', 'completed')
+      .maybeSingle(),
+    service
+      .from('session_participants')
+      .select('client_id, student_id')
+      .eq('session_id', sessionId),
+    service
+      .from('scores')
+      .select('client_id, student_id, outcome, accuracy_status, counts_for_accuracy, counts_for_leaderboard, response_data')
+      .eq('session_id', sessionId),
+  ]);
+  if (!leg) return null;
+
+  const reward = calculateWorldFlightReward(
+    (participants ?? []).map((participant) => ({
+      clientId: participant.client_id,
+      studentId: participant.student_id,
+    })),
+    (scores ?? []).map((score) => ({
+      clientId: score.client_id,
+      studentId: score.student_id,
+      outcome: score.outcome,
+      accuracyStatus: score.accuracy_status,
+      countsForAccuracy: score.counts_for_accuracy,
+      countsForLeaderboard: score.counts_for_leaderboard,
+      responseType: typeof score.response_data?.type === 'string' ? score.response_data.type : null,
+    })),
+  );
+
+  const { data, error } = await service.rpc('record_world_flight_reward', {
+    p_class_id: classId,
+    p_session_id: sessionId,
+    p_leg_id: leg.id,
+    p_flight_hours_awarded: reward.flightHoursAwarded,
+    p_crew_stars_awarded: reward.crewStarsAwarded,
+    p_everyone_aboard: reward.snapshot.everyoneAboardEarned,
+    p_strong_landing: reward.snapshot.strongLandingEarned,
+    p_reward_snapshot: reward.snapshot,
+  });
+  if (error) throw error;
+  const totals = data as { flightHours?: number; crewStars?: number; alreadyRecorded?: boolean } | null;
+
+  return {
+    ...reward,
+    flightHours: totals?.flightHours ?? 0,
+    crewStars: totals?.crewStars ?? 0,
+    alreadyRecorded: totals?.alreadyRecorded ?? false,
+  };
 }
 
 export async function POST(request: Request) {
@@ -87,7 +151,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  let progressionReward: WorldFlightProgressionRewardResult | null = null;
   if ((data as { legStatus?: string } | null)?.legStatus === 'completed') {
+    try {
+      progressionReward = await awardWorldFlightProgression(ownership.session.class_id, sessionId);
+    } catch (progressionError) {
+      console.error('[api/session/end] World Flight collaborative progression error:', progressionError);
+    }
     try {
       await advanceActiveExpedition(ownership.session.class_id, sessionId);
     } catch (expeditionError) {
@@ -95,5 +165,8 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json(data ?? { legStatus: 'none', currentDestinationId: null });
+  return NextResponse.json({
+    ...(data ?? { legStatus: 'none', currentDestinationId: null }),
+    progressionReward,
+  });
 }

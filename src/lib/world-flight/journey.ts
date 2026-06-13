@@ -27,6 +27,8 @@ export interface WorldFlightClassSummary {
   planeTier: number;
   planeKey: string;
   rangeKm: number;
+  flightHours: number;
+  crewStars: number;
   visitedDestinationIds: string[];
   completedLegCount: number;
   completedLegs: WorldFlightCompletedLegSummary[];

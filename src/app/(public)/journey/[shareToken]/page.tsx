@@ -36,6 +36,8 @@ interface JourneyData {
   fieldNoteCount: number;
   missionCompletedCount: number;
   missionReadyCount: number;
+  flightHours: number;
+  crewStars: number;
   completedExpeditions: Array<{
     id: string;
     title: string;
@@ -52,7 +54,7 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
 
   const { data: state } = await supabase
     .from('class_world_flight_state')
-    .select('class_id, plane_tier, plane_key, share_enabled')
+    .select('class_id, plane_tier, plane_key, flight_hours, crew_stars, share_enabled')
     .eq('share_token', shareToken)
     .maybeSingle();
 
@@ -153,6 +155,8 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
     fieldNoteCount: fieldNotes.size,
     missionCompletedCount: completedMissionIds.size,
     missionReadyCount: investigations.filter((investigation) => investigation.complete && !completedMissionIds.has(investigation.id)).length,
+    flightHours: state.flight_hours ?? 0,
+    crewStars: state.crew_stars ?? 0,
     completedExpeditions,
     hero: finalDestination ? {
       url: finalDestination.heroImage.url,
@@ -244,6 +248,7 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
           <JourneyStat icon={<NotebookTabs className="h-4 w-4" />} label="Field notes" value={data.fieldNoteCount.toString()} />
           <JourneyStat icon={<Trophy className="h-4 w-4" />} label="Flight missions" value={`${data.missionCompletedCount} completed - ${data.missionReadyCount} ready`} />
           <JourneyStat icon={<Compass className="h-4 w-4" />} label="Expeditions" value={`${data.completedExpeditions.length} completed`} />
+          <JourneyStat icon={<PlaneTakeoff className="h-4 w-4" />} label="Crew progression" value={`${data.flightHours} flight hours - ${data.crewStars} crew stars`} />
           <JourneyStat icon={<Gauge className="h-4 w-4" />} label="Aircraft" value={`${data.planeName} · ${data.tierLabel}`} />
         </section>
 

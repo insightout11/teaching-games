@@ -1,20 +1,22 @@
 'use client';
 
-import { useMemo, useEffect, useState } from 'react';
+import { useMemo, useEffect, useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { PlaneLanding, Crown } from 'lucide-react';
+import { PlaneLanding, Crown, Star, Users } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
+import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
 
 export function EndSessionSummary({
   classId,
   className,
   sessionId,
   flightCode,
+  progressionReward,
   teacherView = true,
   onLaunchBonusVote,
 }: {
@@ -22,6 +24,7 @@ export function EndSessionSummary({
   className: string;
   sessionId: string;
   flightCode?: string;
+  progressionReward?: WorldFlightProgressionRewardResult | null;
   teacherView?: boolean;
   onLaunchBonusVote?: () => void;
 }) {
@@ -147,6 +150,42 @@ export function EndSessionSummary({
           ))}
         </div>
 
+        {progressionReward && (
+          <motion.section
+            className="mb-8 overflow-hidden rounded-2xl border border-cyan-300/25 bg-slate-950/60 text-left backdrop-blur-md"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }}
+          >
+            <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200/75">Crew progression</p>
+                <p className="mt-1 text-lg font-bold text-lc-text">+1 Flight Hour · +{progressionReward.crewStarsAwarded} Crew Stars</p>
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="text-[11px] uppercase tracking-wide text-lc-text3">Journey total</p>
+                <p className="mt-1 text-sm font-semibold text-cyan-100">{progressionReward.flightHours} hours · {progressionReward.crewStars} stars</p>
+              </div>
+            </div>
+            <div className="grid gap-px bg-white/10 sm:grid-cols-2">
+              <ProgressionResult
+                earned={progressionReward.snapshot.everyoneAboardEarned}
+                icon={<Users className="h-4 w-4" aria-hidden />}
+                title="Everyone Aboard"
+                detail={`${progressionReward.snapshot.meaningfulParticipantCount}/${progressionReward.snapshot.participantCount} crew members contributed`}
+              />
+              <ProgressionResult
+                earned={progressionReward.snapshot.strongLandingEarned}
+                icon={<Star className="h-4 w-4" aria-hidden />}
+                title="Strong Landing"
+                detail={progressionReward.snapshot.accuracyRate !== null
+                  ? `${Math.round(progressionReward.snapshot.accuracyRate * 100)}% class accuracy`
+                  : `${Math.round(progressionReward.snapshot.onTaskParticipationRate * 100)}% made an on-task contribution`}
+              />
+            </div>
+          </motion.section>
+        )}
+
         {/* ── Student beat — Captain of the Day ── */}
         {captain && captain.total > 0 && (
           <motion.div
@@ -256,6 +295,29 @@ export function EndSessionSummary({
           </Link>
         </div>
       </motion.div>
+    </div>
+  );
+}
+
+function ProgressionResult({
+  earned,
+  icon,
+  title,
+  detail,
+}: {
+  earned: boolean;
+  icon: ReactNode;
+  title: string;
+  detail: string;
+}) {
+  return (
+    <div className="bg-slate-950/70 px-5 py-4">
+      <p className={`flex items-center gap-2 text-sm font-semibold ${earned ? 'text-emerald-200' : 'text-lc-text2'}`}>
+        {icon}
+        {title}
+        <span className="ml-auto text-[11px] font-semibold uppercase tracking-wide">{earned ? 'Earned' : 'Not yet'}</span>
+      </p>
+      <p className="mt-1.5 text-xs text-lc-text3">{detail}</p>
     </div>
   );
 }
