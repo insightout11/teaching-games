@@ -65,11 +65,17 @@ export function JourneyProgressPanel({
   const countryCount = new Set(visitedDestinations.map((item) => item.country)).size;
   const regionCount = new Set(visitedDestinations.map((item) => item.region)).size;
   const completedMissions = investigations.filter((investigation) => investigation.designMissionStatus === 'completed');
-  const completedExpeditions = Array.from(new Set(
-    expeditionRuns.filter((run) => run.status === 'completed').map((run) => run.expeditionId),
-  ))
-    .map((expeditionId) => getWorldFlightExpedition(expeditionId))
-    .filter((expedition): expedition is NonNullable<typeof expedition> => Boolean(expedition));
+  const completedExpeditions = Array.from(
+    expeditionRuns
+      .filter((run) => run.status === 'completed')
+      .reduce((runsByExpedition, run) => {
+        if (!runsByExpedition.has(run.expeditionId)) runsByExpedition.set(run.expeditionId, run);
+        return runsByExpedition;
+      }, new Map<string, WorldFlightExpeditionRunSummary>())
+      .values(),
+  )
+    .map((run) => ({ run, expedition: getWorldFlightExpedition(run.expeditionId) }))
+    .filter((item): item is { run: WorldFlightExpeditionRunSummary; expedition: NonNullable<ReturnType<typeof getWorldFlightExpedition>> } => Boolean(item.expedition));
   const selectedLeg = completedLegs.find((leg) => leg.id === selectedLegId) ?? null;
   const selectedLegNumber = selectedLeg ? completedLegs.findIndex((leg) => leg.id === selectedLeg.id) + 1 : null;
   const selectedCity = destination(selectedDestinationId);
@@ -292,16 +298,26 @@ export function JourneyProgressPanel({
             <Trophy className="h-4 w-4 text-lc-amber" aria-hidden />
           </div>
           <div className="mt-3 space-y-2">
-            {completedExpeditions.map((expedition) => (
-              <div key={expedition.id} className="flex items-start gap-3 border-l-2 border-rose-300/45 bg-rose-300/[0.045] px-3 py-3">
+            {completedExpeditions.map(({ expedition, run }) => {
+              const completedCities = run.visitedDestinationIds
+                .map((destinationId) => destination(destinationId)?.city)
+                .filter((city): city is string => Boolean(city));
+              return (
+              <div key={run.id} className="flex items-start gap-3 border-l-2 border-rose-300/45 bg-rose-300/[0.045] px-3 py-3">
                 <Compass className="mt-0.5 h-4 w-4 shrink-0 text-rose-200" aria-hidden />
                 <span className="min-w-0">
-                  <span className="block text-xs font-semibold uppercase tracking-wider text-rose-100/80">Completed expedition</span>
+                  <span className="block text-xs font-semibold uppercase tracking-wider text-rose-100/80">
+                    {run.completedAt ? `Completed ${formatDate(run.completedAt)}` : 'Completed expedition'}
+                  </span>
                   <span className="mt-1 block text-sm font-semibold text-lc-text">{expedition.title}</span>
-                  <span className="mt-1 block text-xs leading-relaxed text-lc-text3">{expedition.centralQuestion}</span>
+                  <span className="mt-1 block text-xs leading-relaxed text-lc-text3">
+                    {run.visitedDestinationIds.length} stops - {completedCities.join(', ')}
+                  </span>
+                  <span className="mt-1.5 block text-xs leading-relaxed text-rose-100/70">{expedition.centralQuestion}</span>
                 </span>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}

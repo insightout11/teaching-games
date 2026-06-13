@@ -1,4 +1,6 @@
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
+import { distanceKm } from '@/lib/world-flight/geo';
+import type { DestinationPack } from '@/lib/world-flight/types';
 
 export type WorldFlightExpeditionStatus = 'active' | 'paused' | 'completed' | 'left';
 
@@ -45,6 +47,13 @@ export interface WorldFlightExpeditionProgress {
   complete: boolean;
   completedDestinationIds: string[];
   remainingDestinationIds: string[];
+}
+
+export interface WorldFlightExpeditionRouteGuidance {
+  targetDestinationId: string;
+  nextDestinationId: string;
+  routeDestinationIds: string[];
+  direct: boolean;
 }
 
 export const WORLD_FLIGHT_EXPEDITIONS: WorldFlightExpeditionDefinition[] = [
@@ -156,11 +165,121 @@ export function advanceWorldFlightExpedition(
   };
 }
 
+export function recommendWorldFlightExpeditionRoute(
+  expedition: WorldFlightExpeditionDefinition,
+  completedStopIds: Iterable<string>,
+  originDestinationId: string | null,
+  rangeKm: number,
+  destinations: DestinationPack[] = WORLD_DESTINATIONS,
+): WorldFlightExpeditionRouteGuidance | null {
+  const completed = new Set(completedStopIds);
+  const remainingStops = expedition.stops.filter((stop) => !completed.has(stop.destinationId));
+  if (remainingStops.length === 0) return null;
+
+  const destinationById = new Map(destinations.map((destination) => [destination.id, destination]));
+  const validStops = remainingStops.filter((stop) => destinationById.has(stop.destinationId));
+  if (validStops.length === 0) return null;
+
+  const origin = originDestinationId ? destinationById.get(originDestinationId) ?? null : null;
+  if (!origin) {
+    const first = validStops[0];
+    return {
+      targetDestinationId: first.destinationId,
+      nextDestinationId: first.destinationId,
+      routeDestinationIds: [first.destinationId],
+      direct: true,
+    };
+  }
+
+  const stopOrder = new Map(validStops.map((stop, index) => [stop.destinationId, index]));
+  const directStops = validStops
+    .map((stop) => {
+      const candidate = destinationById.get(stop.destinationId)!;
+      return { stop, distanceKm: candidate.id === origin.id ? 0 : distanceKm(origin, candidate) };
+    })
+    .filter((candidate) => candidate.distanceKm <= rangeKm)
+    .sort((a, b) => a.distanceKm - b.distanceKm || (stopOrder.get(a.stop.destinationId)! - stopOrder.get(b.stop.destinationId)!));
+
+  if (directStops[0]) {
+    return {
+      targetDestinationId: directStops[0].stop.destinationId,
+      nextDestinationId: directStops[0].stop.destinationId,
+      routeDestinationIds: [directStops[0].stop.destinationId],
+      direct: true,
+    };
+  }
+
+  type RouteCandidate = { destinationId: string; routeDestinationIds: string[]; totalDistanceKm: number };
+  const queue: RouteCandidate[] = [{ destinationId: origin.id, routeDestinationIds: [], totalDistanceKm: 0 }];
+  const bestByDestination = new Map<string, { hops: number; totalDistanceKm: number }>([
+    [origin.id, { hops: 0, totalDistanceKm: 0 }],
+  ]);
+  const targetIds = new Set(validStops.map((stop) => stop.destinationId));
+  const targetRoutes: RouteCandidate[] = [];
+  let shortestTargetHops = Infinity;
+
+  while (queue.length > 0) {
+    queue.sort((a, b) => a.routeDestinationIds.length - b.routeDestinationIds.length || a.totalDistanceKm - b.totalDistanceKm);
+    const current = queue.shift()!;
+    const currentHops = current.routeDestinationIds.length;
+    if (currentHops > shortestTargetHops) break;
+
+    if (targetIds.has(current.destinationId)) {
+      shortestTargetHops = currentHops;
+      targetRoutes.push(current);
+      continue;
+    }
+
+    const currentDestination = destinationById.get(current.destinationId);
+    if (!currentDestination) continue;
+
+    for (const candidate of destinations) {
+      if (candidate.id === current.destinationId) continue;
+      const legDistanceKm = distanceKm(currentDestination, candidate);
+      if (legDistanceKm > rangeKm) continue;
+
+      const routeDestinationIds = [...current.routeDestinationIds, candidate.id];
+      const totalDistanceKm = current.totalDistanceKm + legDistanceKm;
+      const previousBest = bestByDestination.get(candidate.id);
+      if (
+        previousBest
+        && (
+          previousBest.hops < routeDestinationIds.length
+          || (previousBest.hops === routeDestinationIds.length && previousBest.totalDistanceKm <= totalDistanceKm)
+        )
+      ) {
+        continue;
+      }
+
+      bestByDestination.set(candidate.id, { hops: routeDestinationIds.length, totalDistanceKm });
+      queue.push({ destinationId: candidate.id, routeDestinationIds, totalDistanceKm });
+    }
+  }
+
+  const bestRoute = targetRoutes.sort((a, b) => (
+    a.routeDestinationIds.length - b.routeDestinationIds.length
+    || a.totalDistanceKm - b.totalDistanceKm
+    || (stopOrder.get(a.destinationId)! - stopOrder.get(b.destinationId)!)
+  ))[0];
+  if (!bestRoute || bestRoute.routeDestinationIds.length === 0) return null;
+
+  return {
+    targetDestinationId: bestRoute.destinationId,
+    nextDestinationId: bestRoute.routeDestinationIds[0],
+    routeDestinationIds: bestRoute.routeDestinationIds,
+    direct: false,
+  };
+}
+
 export function validateWorldFlightExpeditionCatalog() {
   return WORLD_FLIGHT_EXPEDITIONS.flatMap((expedition) => {
     const errors: string[] = [];
     if (expedition.requiredStopCount < 1 || expedition.requiredStopCount > expedition.stops.length) {
       errors.push(`${expedition.id}: invalid required stop count`);
+    }
+    const destinationIds = expedition.stops.map((stop) => stop.destinationId);
+    if (new Set(destinationIds).size !== destinationIds.length) {
+      errors.push(`${expedition.id}: duplicate destinations`);
     }
     for (const stop of expedition.stops) {
       const destination = WORLD_DESTINATIONS.find((candidate) => candidate.id === stop.destinationId);

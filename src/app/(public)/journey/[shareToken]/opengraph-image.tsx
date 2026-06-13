@@ -14,6 +14,7 @@ interface Summary {
   stops: Array<{ x: number; y: number }>;
   heroUrl: string | null;
   finalCity: string | null;
+  completedExpeditionCount: number;
 }
 
 function project(lat: number, lng: number) {
@@ -40,7 +41,7 @@ async function loadSummary(shareToken: string): Promise<Summary | null> {
     .maybeSingle();
   if (!state || !state.share_enabled) return null;
 
-  const [{ data: cls }, { data: legs }] = await Promise.all([
+  const [{ data: cls }, { data: legs }, { count: completedExpeditionCount }] = await Promise.all([
     supabase.from('classes').select('name').eq('id', state.class_id).maybeSingle(),
     supabase
       .from('class_world_flight_legs')
@@ -48,6 +49,11 @@ async function loadSummary(shareToken: string): Promise<Summary | null> {
       .eq('class_id', state.class_id)
       .eq('status', 'completed')
       .order('completed_at', { ascending: true }),
+    supabase
+      .from('class_world_flight_expedition_runs')
+      .select('id', { count: 'exact', head: true })
+      .eq('class_id', state.class_id)
+      .eq('status', 'completed'),
   ]);
 
   const rows = (legs ?? []) as Array<{ origin_destination_id: string | null; destination_id: string; distance_km: number }>;
@@ -64,6 +70,7 @@ async function loadSummary(shareToken: string): Promise<Summary | null> {
     stops: destinations.map((destination) => project(destination.lat, destination.lng)),
     heroUrl: finalDestination?.heroImage.url ?? null,
     finalCity: finalDestination?.city ?? null,
+    completedExpeditionCount: completedExpeditionCount ?? 0,
   };
 }
 
@@ -110,7 +117,9 @@ export default async function JourneyOgImage({ params }: { params: { shareToken:
             {headline}
           </div>
           <div style={{ color: '#b4c3d3', fontSize: 25, marginTop: 24, display: 'flex' }}>
-            {summary?.finalCity ? `Currently exploring ${summary.finalCity}` : 'A class journey powered by live lessons'}
+            {summary?.completedExpeditionCount
+              ? `${summary.completedExpeditionCount} completed expedition${summary.completedExpeditionCount === 1 ? '' : 's'} · currently exploring ${summary.finalCity ?? 'the world'}`
+              : summary?.finalCity ? `Currently exploring ${summary.finalCity}` : 'A class journey powered by live lessons'}
           </div>
           <div style={{ marginTop: 'auto', color: '#91a4b9', fontSize: 18, display: 'flex' }}>
             lessoncaptain.com

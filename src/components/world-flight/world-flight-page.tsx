@@ -15,6 +15,7 @@ import { getPlaneAsset } from '@/lib/plane-progression';
 import {
   deriveWorldFlightExpeditionProgress,
   getWorldFlightExpedition,
+  recommendWorldFlightExpeditionRoute,
   type WorldFlightExpeditionRunSummary,
 } from '@/lib/world-flight/expeditions';
 import { ExpeditionPanel } from './expedition-panel';
@@ -47,6 +48,7 @@ function destinationFeatures(
   passportHighlightDestinationId: string | null = null,
   expeditionDestinationIds: Iterable<string> = [],
   completedExpeditionDestinationIds: Iterable<string> = [],
+  expeditionRecommendedDestinationId: string | null = null,
 ) {
   const visited = new Set(visitedDestinationIds);
   const missionEvidence = new Set(missionEvidenceDestinationIds);
@@ -76,6 +78,7 @@ function destinationFeatures(
           missionEvidence: isMissionEvidence,
           expeditionStop: isExpeditionStop,
           expeditionComplete: completedExpeditionDestinations.has(destination.id),
+          expeditionRecommended: destination.id === expeditionRecommendedDestinationId,
           onwardReachable,
           isPreviewOrigin: destination.id === previewOrigin?.id,
           muted: !showReachability && !isVisited && !isMissionEvidence,
@@ -229,10 +232,12 @@ function MapLegend({
   mode,
   previewNextHops,
   activeExpedition,
+  expeditionRecommended,
 }: {
   mode: SidebarMode;
   previewNextHops: boolean;
   activeExpedition: boolean;
+  expeditionRecommended: boolean;
 }) {
   const items = mode === 'missions'
     ? [
@@ -251,6 +256,7 @@ function MapLegend({
         [previewNextHops ? 'bg-cyan-300' : 'bg-lc-success', previewNextHops ? 'Possible next hop' : 'In range'],
         ['bg-[#8395B1] ring-1 ring-[#B6C6DA]/70', 'Beyond range'],
         ...(activeExpedition ? [['bg-transparent ring-2 ring-rose-300', 'Expedition stop']] : []),
+        ...(expeditionRecommended ? [['bg-rose-200 ring-2 ring-rose-100/70', 'Expedition next hop']] : []),
       ];
 
   return (
@@ -453,6 +459,17 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const routeOrigin = origin ?? firstDeparture;
   const isChoosingDeparture = !origin && !firstDeparture;
   const rangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
+  const expeditionRouteGuidance = useMemo(
+    () => currentExpeditionRun?.status === 'active' && currentExpedition
+      ? recommendWorldFlightExpeditionRoute(
+        currentExpedition,
+        currentExpeditionRun.visitedDestinationIds,
+        routeOrigin?.id ?? null,
+        rangeKm,
+      )
+      : null,
+    [currentExpedition, currentExpeditionRun, rangeKm, routeOrigin?.id],
+  );
   const planeAsset = getPlaneAsset(selectedClass?.planeKey);
   const planeName = planeAsset.name;
   const selectedDestination = useMemo(
@@ -569,8 +586,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     setDetailsOpen(true);
   }
 
-  function selectExpeditionDestination(destinationId: string, focusId: string) {
-    pendingExpeditionFocusIdRef.current = focusId;
+  function selectExpeditionDestination(destinationId: string, focusId?: string) {
+    pendingExpeditionFocusIdRef.current = focusId ?? null;
     setSelectedDestinationId(destinationId);
     setFocusFilter('all');
     setSidebarMode('destinations');
@@ -872,6 +889,20 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         },
       });
       map.addLayer({
+        id: 'world-flight-expedition-recommended',
+        type: 'circle',
+        source: 'world-flight-cities',
+        filter: ['==', 'expeditionRecommended', true],
+        paint: {
+          'circle-radius': 16,
+          'circle-color': '#FDA4AF',
+          'circle-opacity': 0.12,
+          'circle-stroke-color': '#FFE4E6',
+          'circle-stroke-width': 2.5,
+          'circle-stroke-opacity': 0.95,
+        },
+      });
+      map.addLayer({
         id: 'world-flight-expedition-stops',
         type: 'circle',
         source: 'world-flight-cities',
@@ -1095,6 +1126,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         sidebarMode === 'passport' ? passportHighlightDestinationId : null,
         sidebarMode === 'destinations' ? activeExpeditionDestinationIds : EMPTY_DESTINATION_IDS,
         sidebarMode === 'destinations' ? completedExpeditionDestinationIds : EMPTY_DESTINATION_IDS,
+        sidebarMode === 'destinations' ? expeditionRouteGuidance?.nextDestinationId ?? null : null,
       ),
     ));
 
@@ -1109,7 +1141,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       };
       rangeAnimationRef.current = requestAnimationFrame(animateRange);
     }
-  }, [activeExpeditionDestinationIds, activePassportLegId, completedExpeditionDestinationIds, mapReady, missionEvidenceDestinationIds, passportHighlightDestinationId, previewNextHops, rangeKm, routeOrigin, selectedClass?.completedLegs, selectedDestination, sidebarMode, visitedDestinationIds]);
+  }, [activeExpeditionDestinationIds, activePassportLegId, completedExpeditionDestinationIds, expeditionRouteGuidance?.nextDestinationId, mapReady, missionEvidenceDestinationIds, passportHighlightDestinationId, previewNextHops, rangeKm, routeOrigin, selectedClass?.completedLegs, selectedDestination, sidebarMode, visitedDestinationIds]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1396,6 +1428,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               runs={selectedExpeditionRuns}
               routeOrigin={routeOrigin}
               rangeKm={rangeKm}
+              routeGuidance={expeditionRouteGuidance}
               actionStatus={expeditionActionStatus}
               onAction={handleExpeditionAction}
               onSelectDestination={selectExpeditionDestination}
@@ -1433,6 +1466,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 const visited = visitedDestinationSet.has(destination.id);
                 const onwardReachable = previewNextHops && nextHopDestinationIds.has(destination.id);
                 const expeditionStop = activeExpeditionDestinationIds.includes(destination.id);
+                const expeditionRecommended = expeditionRouteGuidance?.nextDestinationId === destination.id;
                 return (
                   <button
                     key={destination.id}
@@ -1441,6 +1475,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                     className={`flex w-full items-center gap-3 rounded-md border px-3 py-2.5 text-left transition-colors ${
                       active
                         ? 'border-lc-blue bg-lc-blue/10'
+                        : expeditionRecommended
+                          ? 'border-rose-200/45 bg-rose-300/[0.075]'
                         : 'border-white/10 bg-white/[0.025] hover:border-cyan-300/35 hover:bg-white/[0.055]'
                     }`}
                   >
@@ -1462,6 +1498,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                         <span className="truncate">{destination.city}</span>
                         {visited && destination.id !== routeOrigin?.id && <Check className="h-3 w-3 shrink-0 text-lc-blue" aria-label="Visited" />}
                         {expeditionStop && <Compass className="h-3 w-3 shrink-0 text-rose-200" aria-label="Active expedition stop" />}
+                        {expeditionRecommended && <Route className="h-3 w-3 shrink-0 text-rose-100" aria-label="Recommended expedition next hop" />}
                       </span>
                       <span className="block truncate text-xs text-lc-text3">
                         {destination.country} - {listDistanceOrigin ? formatDistance(km) : 'Available departure'}
@@ -1471,7 +1508,9 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                             : onwardReachable
                               ? ' - Next hop'
                               : ' - Beyond range'
-                          : visited ? ' - Visited' : ''}
+                          : expeditionRecommended
+                            ? expeditionRouteGuidance?.direct ? ' - Expedition stop in range' : ' - Expedition bridge city'
+                            : visited ? ' - Visited' : ''}
                       </span>
                     </span>
                     <ArrowRight className={`h-4 w-4 shrink-0 text-cyan-300/60 transition-transform ${active ? 'translate-x-0.5' : ''}`} aria-hidden />
@@ -1721,7 +1760,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           </div>
         </aside>
         )}
-        <MapLegend mode={sidebarMode} previewNextHops={previewNextHops} activeExpedition={activeExpeditionDestinationIds.length > 0} />
+        <MapLegend
+          mode={sidebarMode}
+          previewNextHops={previewNextHops}
+          activeExpedition={activeExpeditionDestinationIds.length > 0}
+          expeditionRecommended={Boolean(expeditionRouteGuidance)}
+        />
       </div>
       {replayDestinationId && (
         <PassportArrivalReplay

@@ -5,7 +5,8 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import { getPlaneAsset, PLANE_TIERS } from '@/lib/plane-progression';
 import { deriveInvestigationTags, deriveWorldFlightInvestigationProgress, type CompletedWorldFlightEvidence } from '@/lib/world-flight/investigations';
-import { BookOpen, Gauge, MapPin, NotebookTabs, PlaneTakeoff, Route, Stamp, Trophy } from 'lucide-react';
+import { getWorldFlightExpedition } from '@/lib/world-flight/expeditions';
+import { BookOpen, Compass, Gauge, MapPin, NotebookTabs, PlaneTakeoff, Route, Stamp, Trophy } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,6 +36,13 @@ interface JourneyData {
   fieldNoteCount: number;
   missionCompletedCount: number;
   missionReadyCount: number;
+  completedExpeditions: Array<{
+    id: string;
+    title: string;
+    centralQuestion: string;
+    completedAt: string | null;
+    cityNames: string[];
+  }>;
   hero: { url: string; alt: string; sourceName: string; sourceUrl: string } | null;
 }
 
@@ -50,7 +58,7 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
 
   if (!state || !state.share_enabled) return null;
 
-  const [{ data: cls }, { data: legs }, { data: completedMissions }] = await Promise.all([
+  const [{ data: cls }, { data: legs }, { data: completedMissions }, { data: completedExpeditionRuns }] = await Promise.all([
     supabase.from('classes').select('name').eq('id', state.class_id).maybeSingle(),
     supabase
       .from('class_world_flight_legs')
@@ -63,6 +71,12 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
       .select('investigation_id')
       .eq('class_id', state.class_id)
       .eq('status', 'completed'),
+    supabase
+      .from('class_world_flight_expedition_runs')
+      .select('id, expedition_id, visited_destination_ids, completed_at')
+      .eq('class_id', state.class_id)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: false }),
   ]);
 
   const legRows = (legs ?? []) as Array<{
@@ -112,6 +126,19 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
       Array.isArray(leg.evidence_snapshot?.investigationTags) ? leg.evidence_snapshot.investigationTags : [],
     )
   )));
+  const completedExpeditions = (completedExpeditionRuns ?? []).flatMap((run) => {
+    const expedition = getWorldFlightExpedition(run.expedition_id);
+    if (!expedition) return [];
+    return [{
+      id: run.id,
+      title: expedition.title,
+      centralQuestion: expedition.centralQuestion,
+      completedAt: run.completed_at,
+      cityNames: run.visited_destination_ids
+        .map((destinationId: string) => getDestinationById(destinationId)?.city)
+        .filter((city: string | undefined): city is string => Boolean(city)),
+    }];
+  });
 
   return {
     className: cls?.name ?? 'A class',
@@ -126,6 +153,7 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
     fieldNoteCount: fieldNotes.size,
     missionCompletedCount: completedMissionIds.size,
     missionReadyCount: investigations.filter((investigation) => investigation.complete && !completedMissionIds.has(investigation.id)).length,
+    completedExpeditions,
     hero: finalDestination ? {
       url: finalDestination.heroImage.url,
       alt: finalDestination.heroImage.alt,
@@ -215,6 +243,7 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
           <JourneyStat icon={<BookOpen className="h-4 w-4" />} label="Lessons completed" value={data.lessonCount.toString()} />
           <JourneyStat icon={<NotebookTabs className="h-4 w-4" />} label="Field notes" value={data.fieldNoteCount.toString()} />
           <JourneyStat icon={<Trophy className="h-4 w-4" />} label="Flight missions" value={`${data.missionCompletedCount} completed - ${data.missionReadyCount} ready`} />
+          <JourneyStat icon={<Compass className="h-4 w-4" />} label="Expeditions" value={`${data.completedExpeditions.length} completed`} />
           <JourneyStat icon={<Gauge className="h-4 w-4" />} label="Aircraft" value={`${data.planeName} · ${data.tierLabel}`} />
         </section>
 
@@ -257,6 +286,29 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
             ))}
           </ol>
         </section>
+
+        {data.completedExpeditions.length > 0 && (
+          <section className="mt-8">
+            <div className="flex items-center gap-2">
+              <Compass className="h-5 w-5 text-rose-200" aria-hidden />
+              <h2 className="font-display text-2xl text-lc-text">Completed expeditions</h2>
+            </div>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {data.completedExpeditions.map((expedition) => (
+                <article key={expedition.id} className="border-l-2 border-rose-300/50 bg-rose-300/[0.045] px-5 py-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-rose-100/75">
+                    {expedition.completedAt ? `Completed ${formatDate(expedition.completedAt)}` : 'Completed expedition'}
+                  </p>
+                  <h3 className="font-display mt-2 text-xl text-lc-text">{expedition.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-lc-text2">{expedition.centralQuestion}</p>
+                  <p className="mt-3 text-xs leading-relaxed text-lc-text3">
+                    {expedition.cityNames.length} stops - {expedition.cityNames.join(', ')}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         <footer className="mt-10 border-t border-white/10 py-7 text-center">
           <p className="text-sm text-lc-text2">Live lessons turned into a class journey around the world.</p>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, BookOpen, Check, Compass, Pause, Play, Route, Trophy, X } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { distanceKm, formatDistance } from '@/lib/world-flight/geo';
@@ -8,6 +8,7 @@ import {
   deriveWorldFlightExpeditionProgress,
   getWorldFlightExpedition,
   WORLD_FLIGHT_EXPEDITIONS,
+  type WorldFlightExpeditionRouteGuidance,
   type WorldFlightExpeditionRunSummary,
 } from '@/lib/world-flight/expeditions';
 import type { DestinationPack } from '@/lib/world-flight/types';
@@ -22,6 +23,7 @@ export function ExpeditionPanel({
   runs,
   routeOrigin,
   rangeKm,
+  routeGuidance,
   actionStatus,
   onAction,
   onSelectDestination,
@@ -29,9 +31,10 @@ export function ExpeditionPanel({
   runs: WorldFlightExpeditionRunSummary[];
   routeOrigin: DestinationPack | null;
   rangeKm: number;
+  routeGuidance: WorldFlightExpeditionRouteGuidance | null;
   actionStatus: 'idle' | 'working' | 'error';
   onAction: (action: ExpeditionAction, expeditionId: string, runId?: string) => void;
-  onSelectDestination: (destinationId: string, focusId: string) => void;
+  onSelectDestination: (destinationId: string, focusId?: string) => void;
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const currentRun = runs.find((run) => run.status === 'active' || run.status === 'paused') ?? null;
@@ -44,17 +47,9 @@ export function ExpeditionPanel({
   const currentProgress = currentDefinition
     ? deriveWorldFlightExpeditionProgress(currentDefinition, currentRun?.visitedDestinationIds ?? [])
     : null;
-  const suggestedNext = useMemo(() => {
-    if (!currentDefinition || !currentRun || currentRun.status !== 'active') return null;
-    const remaining = currentDefinition.stops.filter((stop) => !currentRun.visitedDestinationIds.includes(stop.destinationId));
-    if (!routeOrigin) return remaining[0] ?? null;
-    return [...remaining].sort((a, b) => {
-      const aDestination = destination(a.destinationId);
-      const bDestination = destination(b.destinationId);
-      return (aDestination ? distanceKm(routeOrigin, aDestination) : Infinity)
-        - (bDestination ? distanceKm(routeOrigin, bDestination) : Infinity);
-    })[0] ?? null;
-  }, [currentDefinition, currentRun, routeOrigin]);
+  const routeTarget = routeGuidance ? destination(routeGuidance.targetDestinationId) : null;
+  const routeNext = routeGuidance ? destination(routeGuidance.nextDestinationId) : null;
+  const routeFocusId = currentDefinition?.stops.find((stop) => stop.destinationId === routeGuidance?.targetDestinationId)?.recommendedFocusId;
 
   useEffect(() => {
     if (currentRun?.status === 'active') panelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -83,15 +78,22 @@ export function ExpeditionPanel({
               style={{ width: `${Math.min(100, (currentProgress.completedStopCount / currentProgress.requiredStopCount) * 100)}%` }}
             />
           </div>
-          {suggestedNext && (
+          {routeGuidance && routeNext && routeTarget && (
             <button
               type="button"
-              onClick={() => onSelectDestination(suggestedNext.destinationId, suggestedNext.recommendedFocusId)}
+              onClick={() => onSelectDestination(routeNext.id, routeGuidance.direct ? routeFocusId : undefined)}
               className="mt-4 flex w-full items-center justify-between gap-3 rounded-md border border-rose-200/20 bg-[var(--wf-inset)] px-3 py-3 text-left transition-colors hover:border-rose-200/45 hover:bg-[var(--wf-surface)]"
             >
               <span className="min-w-0">
-                <span className="block text-[11px] font-semibold uppercase tracking-wide text-rose-200/70">Suggested next stop</span>
-                <span className="mt-1 block truncate text-sm font-semibold text-lc-text">{destination(suggestedNext.destinationId)?.city}</span>
+                <span className="block text-[11px] font-semibold uppercase tracking-wide text-rose-200/70">
+                  {routeGuidance.direct ? 'Reachable expedition stop' : `Route toward ${routeTarget.city}`}
+                </span>
+                <span className="mt-1 block truncate text-sm font-semibold text-lc-text">{routeNext.city}</span>
+                {!routeGuidance.direct && (
+                  <span className="mt-1 block text-[11px] leading-relaxed text-lc-text3">
+                    Next bridge city - {routeGuidance.routeDestinationIds.length} flights to {routeTarget.city}
+                  </span>
+                )}
               </span>
               <ArrowRight className="h-4 w-4 shrink-0 text-rose-200/75" aria-hidden />
             </button>
