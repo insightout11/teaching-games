@@ -14,7 +14,7 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
     {
       id: 'background',
       type: 'background',
-      paint: { 'background-color': '#101c2b' },
+      paint: { 'background-color': '#17283a' },
     },
     {
       id: 'landcover-ice',
@@ -52,7 +52,30 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
       type: 'fill',
       source: 'openmaptiles',
       'source-layer': 'water',
-      paint: { 'fill-color': '#071522' },
+      paint: { 'fill-color': '#061522' },
+    },
+    {
+      id: 'coastline-glow',
+      type: 'line',
+      source: 'openmaptiles',
+      'source-layer': 'water',
+      paint: {
+        'line-color': '#4d7893',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 2, 2.25, 7, 4],
+        'line-opacity': 0.16,
+        'line-blur': 2.5,
+      },
+    },
+    {
+      id: 'coastlines',
+      type: 'line',
+      source: 'openmaptiles',
+      'source-layer': 'water',
+      paint: {
+        'line-color': '#34536b',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 2, 0.55, 7, 1.25],
+        'line-opacity': 0.78,
+      },
     },
     {
       id: 'waterways',
@@ -72,9 +95,9 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
       'source-layer': 'boundary',
       filter: ['==', 'admin_level', 2],
       paint: {
-        'line-color': '#50647a',
+        'line-color': '#50677e',
         'line-width': ['interpolate', ['linear'], ['zoom'], 2, 0.35, 7, 1.1],
-        'line-opacity': 0.58,
+        'line-opacity': 0.4,
       },
     },
     {
@@ -87,7 +110,7 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
       paint: {
         'line-color': '#405267',
         'line-width': 0.55,
-        'line-opacity': 0.42,
+        'line-opacity': 0.26,
       },
     },
     {
@@ -103,8 +126,8 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
         'text-letter-spacing': 0.08,
       },
       paint: {
-        'text-color': '#557c97',
-        'text-halo-color': '#071522',
+        'text-color': '#6089a5',
+        'text-halo-color': '#061522',
         'text-halo-width': 1,
       },
     },
@@ -124,8 +147,8 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
         'text-max-width': 8,
       },
       paint: {
-        'text-color': '#91a4b9',
-        'text-halo-color': '#101c2b',
+        'text-color': '#8195aa',
+        'text-halo-color': '#17283a',
         'text-halo-width': 1.5,
       },
     },
@@ -144,8 +167,8 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
         'text-anchor': 'top',
       },
       paint: {
-        'text-color': '#a8b7c8',
-        'text-halo-color': '#101c2b',
+        'text-color': '#99acbf',
+        'text-halo-color': '#17283a',
         'text-halo-width': 1.25,
       },
     },

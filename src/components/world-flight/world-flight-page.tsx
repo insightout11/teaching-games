@@ -63,6 +63,7 @@ function destinationFeatures(
           missionEvidence: isMissionEvidence,
           onwardReachable,
           isPreviewOrigin: destination.id === previewOrigin?.id,
+          muted: !showReachability && !isVisited && !isMissionEvidence,
           status: isOrigin
             ? 'Current location'
             : isMissionEvidence
@@ -183,7 +184,7 @@ function MapLegend({ mode, previewNextHops }: { mode: SidebarMode; previewNextHo
         ['bg-lc-amber', 'Current location'],
         ['bg-lc-blue ring-2 ring-cyan-100/50', 'Visited'],
         [previewNextHops ? 'bg-cyan-300' : 'bg-lc-success', previewNextHops ? 'Possible next hop' : 'In range'],
-        ['bg-lc-text3', 'Beyond range'],
+        ['bg-[#8395B1] ring-1 ring-[#B6C6DA]/70', 'Beyond range'],
       ];
 
   return (
@@ -593,11 +594,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         type: 'circle',
         source: 'world-flight-cities',
         paint: {
-          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'isPreviewOrigin'], 8, ['get', 'missionEvidence'], 7, ['get', 'onwardReachable'], 6.5, ['get', 'visited'], 7, ['get', 'reachable'], 6, 4.5],
-          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'isPreviewOrigin'], '#22D3EE', ['get', 'missionEvidence'], '#A78BFA', ['get', 'onwardReachable'], '#67E8F9', ['get', 'visited'], '#4DA3FF', ['get', 'reachable'], '#2FE59B', '#6F7F9C'],
-          'circle-stroke-color': ['case', ['get', 'isPreviewOrigin'], '#ECFEFF', ['get', 'missionEvidence'], '#EDE9FE', ['get', 'onwardReachable'], '#CFFAFE', ['get', 'visited'], '#BDE3FF', '#07111f'],
-          'circle-stroke-width': ['case', ['get', 'isPreviewOrigin'], 3, ['get', 'missionEvidence'], 3, ['get', 'onwardReachable'], 2.5, ['get', 'visited'], 2.5, 2],
-          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'isPreviewOrigin'], 1, ['get', 'missionEvidence'], 1, ['get', 'onwardReachable'], 1, ['get', 'visited'], 1, ['get', 'reachable'], 0.95, 0.55],
+          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'isPreviewOrigin'], 8, ['get', 'missionEvidence'], 7, ['get', 'onwardReachable'], 6.5, ['get', 'visited'], 7, ['get', 'reachable'], 6, ['get', 'muted'], 4.5, 5.25],
+          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'isPreviewOrigin'], '#22D3EE', ['get', 'missionEvidence'], '#A78BFA', ['get', 'onwardReachable'], '#67E8F9', ['get', 'visited'], '#4DA3FF', ['get', 'reachable'], '#2FE59B', ['get', 'muted'], '#6F7F9C', '#8395B1'],
+          'circle-stroke-color': ['case', ['get', 'isPreviewOrigin'], '#ECFEFF', ['get', 'missionEvidence'], '#EDE9FE', ['get', 'onwardReachable'], '#CFFAFE', ['get', 'visited'], '#BDE3FF', ['get', 'reachable'], '#07111f', ['get', 'muted'], '#07111f', '#B6C6DA'],
+          'circle-stroke-width': ['case', ['get', 'isPreviewOrigin'], 3, ['get', 'missionEvidence'], 3, ['get', 'onwardReachable'], 2.5, ['get', 'visited'], 2.5, ['get', 'reachable'], 2, ['get', 'muted'], 2, 1.25],
+          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'isPreviewOrigin'], 1, ['get', 'missionEvidence'], 1, ['get', 'onwardReachable'], 1, ['get', 'visited'], 1, ['get', 'reachable'], 0.95, ['get', 'muted'], 0.55, 0.82],
         },
       });
       map.addLayer({
