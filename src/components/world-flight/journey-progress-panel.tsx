@@ -1,5 +1,6 @@
 'use client';
 
+import type { CSSProperties } from 'react';
 import { Award, BookOpen, Check, Gauge, MapPin, MapPinned, Plane, Route } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
@@ -47,6 +48,7 @@ export function JourneyProgressPanel({
     .map((destinationId) => destination(destinationId))
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
   const totalDistanceKm = completedLegs.reduce((total, leg) => total + leg.distanceKm, 0);
+  const compactDistance = totalDistanceKm >= 1000 ? `${Math.round(totalDistanceKm / 1000)}k km` : `${Math.round(totalDistanceKm)} km`;
   const countryCount = new Set(visitedDestinations.map((item) => item.country)).size;
   const regionCount = new Set(visitedDestinations.map((item) => item.region)).size;
   const completedMissions = investigations.filter((investigation) => investigation.designMissionStatus === 'completed');
@@ -56,17 +58,17 @@ export function JourneyProgressPanel({
       <section className="border-b border-white/10 bg-[linear-gradient(145deg,rgba(14,116,144,0.16),rgba(245,158,11,0.07))] px-5 py-5">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-cyan-200/70">
+            <p className="font-instrument flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-200/80">
               <MapPinned className="h-4 w-4" aria-hidden />
               Class passport
             </p>
-            <h2 className="mt-2 truncate text-2xl font-bold text-lc-text">{className}</h2>
+            <h2 className="font-display mt-2 truncate text-2xl text-lc-text">{className}</h2>
             <p className="mt-1 text-xs text-lc-text3">
               {currentCity ? `Currently in ${currentCity.city}, ${currentCity.country}` : 'Choose a departure city to begin the journey'}
             </p>
           </div>
           <div className="shrink-0 border-l border-white/10 pl-4 text-right">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-lc-text3">Flights</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-lc-text2">Flights</p>
             <p className="mt-1 text-2xl font-bold text-cyan-100">{completedLegs.length}</p>
           </div>
         </div>
@@ -75,7 +77,7 @@ export function JourneyProgressPanel({
           <PassportStat label="Cities" value={visitedDestinations.length} />
           <PassportStat label="Countries" value={countryCount} />
           <PassportStat label="Regions" value={regionCount} />
-          <PassportStat label="Distance" value={totalDistanceKm > 999 ? `${Math.round(totalDistanceKm / 1000)}k` : Math.round(totalDistanceKm)} />
+          <PassportStat label="Distance" value={compactDistance} />
         </div>
 
         <div className="mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4 text-xs">
@@ -117,20 +119,20 @@ export function JourneyProgressPanel({
                   key={item.id}
                   type="button"
                   onClick={() => onSelectDestination(item.id)}
-                  className={`group min-h-[126px] border-2 border-dashed p-2 text-center transition-colors ${
+                  className={`group min-h-[126px] border-2 border-dashed p-2 text-center transition-colors ${isCurrent ? 'animate-passport-stamp ' : ''}${
                     isCurrent
                       ? 'border-lc-amber/60 bg-lc-amber/[0.08] text-lc-amber'
                       : 'border-cyan-200/30 bg-cyan-300/[0.035] text-cyan-100/80 hover:border-cyan-200/60 hover:bg-cyan-300/[0.07]'
                   }`}
-                  style={{ transform: `rotate(${stampRotation(item.id)})` }}
+                  style={{ '--stamp-rotation': stampRotation(item.id), transform: `rotate(${stampRotation(item.id)})` } as CSSProperties}
                 >
                   <span className="flex h-full min-h-[106px] flex-col items-center justify-center border border-current/25 px-2 py-3">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] opacity-70">{item.country}</span>
-                    <span className="mt-1 text-3xl font-black leading-none tracking-widest">{item.primaryAirport}</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-75">{item.country}</span>
+                    <span className="font-instrument mt-1 text-3xl font-black leading-none tracking-widest">{item.primaryAirport}</span>
                     <span className="mt-2 text-sm font-bold leading-tight">{item.city}</span>
-                    <span className="mt-1 text-[9px] font-semibold uppercase tracking-wider opacity-60">{formatDate(arrival?.completedAt ?? null)}</span>
+                    <span className="mt-1 text-[11px] font-semibold uppercase tracking-wide opacity-70">{formatDate(arrival?.completedAt ?? null)}</span>
                     {isCurrent && (
-                      <span className="mt-2 flex items-center gap-1 text-[9px] font-semibold uppercase tracking-wider">
+                      <span className="mt-2 flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide">
                         <MapPin className="h-3 w-3" aria-hidden />
                         Current stop
                       </span>
@@ -167,7 +169,7 @@ export function JourneyProgressPanel({
       <section className="px-5 py-5">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text2">Flight log</h3>
-          <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
+          <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-lc-text2">
             <Route className="h-3.5 w-3.5" aria-hidden />
             {formatDistance(totalDistanceKm)}
           </span>
@@ -179,7 +181,7 @@ export function JourneyProgressPanel({
               const arrival = destination(leg.destinationId);
               return (
                 <li key={`${leg.destinationId}-${leg.completedAt ?? index}`} className="relative pl-7">
-                  <span className="absolute left-1 top-1 flex h-4 w-4 items-center justify-center rounded-full border border-cyan-200/30 bg-[#081522] text-cyan-200">
+                  <span className="absolute left-1 top-1 flex h-4 w-4 items-center justify-center rounded-full border border-cyan-200/30 bg-[var(--wf-inset)] text-cyan-200">
                     <Check className="h-2.5 w-2.5" aria-hidden />
                   </span>
                   {index < completedLegs.length - 1 && <span className="absolute bottom-[-14px] left-[11px] top-5 w-px bg-cyan-200/15" />}
@@ -191,14 +193,14 @@ export function JourneyProgressPanel({
                     <span className="block text-sm font-semibold text-lc-text">
                       {origin?.city ?? 'First departure'} to {arrival?.city ?? leg.destinationId}
                     </span>
-                    <span className="mt-0.5 flex items-center justify-between gap-3 text-[10px] text-lc-text3">
+                    <span className="mt-0.5 flex items-center justify-between gap-3 text-[11px] text-lc-text2">
                       <span className="flex min-w-0 items-center gap-1">
                         <BookOpen className="h-3 w-3 shrink-0" aria-hidden />
                         <span className="truncate">{leg.focusTitle ?? 'Completed city lesson'}</span>
                       </span>
                       <span className="shrink-0">{formatDistance(leg.distanceKm)}</span>
                     </span>
-                    <span className="mt-1 block text-[9px] font-semibold uppercase tracking-wider text-cyan-200/45">
+                    <span className="mt-1 block text-[11px] font-semibold uppercase tracking-wide text-cyan-200/65">
                       {formatDate(leg.completedAt)}
                     </span>
                   </button>
@@ -217,7 +219,7 @@ export function JourneyProgressPanel({
 function PassportStat({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="border-l border-white/10 pl-2 first:border-l-0 first:pl-0">
-      <p className="text-[9px] font-semibold uppercase tracking-wider text-lc-text3">{label}</p>
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-lc-text2">{label}</p>
       <p className="mt-1 text-sm font-bold text-lc-text">{value}</p>
     </div>
   );

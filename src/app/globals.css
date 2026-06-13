@@ -33,6 +33,15 @@ html {
   --lc-amber: #F59E0B;
   --lc-amber-glow: rgba(245,158,11,0.15);
   --lc-amber-muted: rgba(245,158,11,0.08);
+
+  --wf-bg: #07111f;
+  --wf-surface: #081827;
+  --wf-surface-raised: #0c2032;
+  --wf-inset: #06131f;
+  --wf-border: rgba(148, 210, 235, 0.22);
+  --wf-border-strong: rgba(165, 227, 249, 0.38);
+  --wf-accent: #67E8F9;
+  --wf-evidence: #A78BFA;
 }
 
 html, body {
@@ -68,6 +77,11 @@ body {
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
 }
 
 /* Instrument / data readout font — IBM Plex Mono */
@@ -126,6 +140,77 @@ select option {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.wf-map-popup-shell .maplibregl-popup-content {
+  background: var(--wf-surface-raised);
+  border: 1px solid var(--wf-border-strong);
+  border-radius: 6px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  padding: 0;
+}
+
+.wf-map-popup-shell .maplibregl-popup-tip {
+  border-top-color: var(--wf-surface-raised);
+}
+
+.wf-map-popup {
+  display: flex;
+  min-width: 150px;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 11px;
+}
+
+.wf-map-popup strong {
+  color: var(--lc-text);
+  font-size: 12px;
+}
+
+.wf-map-popup span {
+  color: var(--lc-text2);
+  font-family: var(--font-instrument);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+
+.wf-plane-marker {
+  align-items: center;
+  background: rgba(7, 17, 31, 0.86);
+  border: 1px solid rgba(245, 158, 11, 0.75);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.14), 0 5px 16px rgba(0, 0, 0, 0.45);
+  display: flex;
+  height: 34px;
+  justify-content: center;
+  width: 34px;
+}
+
+.wf-plane-marker img {
+  height: 23px;
+  object-fit: contain;
+  transform: rotate(12deg);
+  width: 27px;
+}
+
+@keyframes wf-route-pulse {
+  0%, 100% { opacity: 0.35; transform: scaleX(0.82); }
+  50% { opacity: 0.95; transform: scaleX(1); }
+}
+
+.wf-loading-route {
+  animation: wf-route-pulse 1.35s ease-in-out infinite;
+  transform-origin: left center;
+}
+
+@keyframes passport-stamp-thunk {
+  0% { opacity: 0; transform: scale(1.22) rotate(calc(var(--stamp-rotation, 0deg) - 8deg)); }
+  62% { opacity: 1; transform: scale(0.95) rotate(calc(var(--stamp-rotation, 0deg) + 2deg)); }
+  100% { opacity: 1; transform: scale(1) rotate(var(--stamp-rotation, 0deg)); }
+}
+
+.animate-passport-stamp {
+  animation: passport-stamp-thunk 0.52s var(--ease-spring) both;
 }
 
 /* ─── HUD / Aviation Session Theme ────────────────────────────────────────
