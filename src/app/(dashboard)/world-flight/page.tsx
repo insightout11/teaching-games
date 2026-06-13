@@ -7,6 +7,7 @@ import {
   type WorldFlightCompletedLegSummary,
 } from '@/lib/world-flight/journey';
 import {
+  deriveInvestigationTags,
   deriveWorldFlightInvestigationProgress,
   type CompletedWorldFlightEvidence,
 } from '@/lib/world-flight/investigations';
@@ -31,9 +32,11 @@ export default async function WorldFlightRoutePage() {
     range_km: number;
   }> = [];
   let completedLegRows: Array<{
+    id: string;
     class_id: string;
     origin_destination_id: string | null;
     destination_id: string;
+    focus_id: string;
     distance_km: number;
     completed_at: string | null;
     evidence_snapshot: CompletedWorldFlightEvidence['evidenceSnapshot'];
@@ -54,7 +57,7 @@ export default async function WorldFlightRoutePage() {
         .in('class_id', classIds),
       supabase
         .from('class_world_flight_legs')
-        .select('class_id, origin_destination_id, destination_id, distance_km, completed_at, evidence_snapshot')
+        .select('id, class_id, origin_destination_id, destination_id, focus_id, distance_km, completed_at, evidence_snapshot')
         .in('class_id', classIds)
         .eq('status', 'completed')
         .order('completed_at', { ascending: true }),
@@ -90,9 +93,19 @@ export default async function WorldFlightRoutePage() {
 
     const legs = completedLegsByClass.get(leg.class_id) ?? [];
     legs.push({
+      id: leg.id,
       originDestinationId: leg.origin_destination_id,
       destinationId: leg.destination_id,
+      focusId: leg.focus_id,
       focusTitle: leg.evidence_snapshot?.focusTitle ?? null,
+      focusKind: leg.evidence_snapshot?.focusKind ?? null,
+      publisher: leg.evidence_snapshot?.publisher ?? null,
+      skills: Array.isArray(leg.evidence_snapshot?.skills) ? leg.evidence_snapshot.skills : [],
+      fieldNotes: deriveInvestigationTags(
+        Array.isArray(leg.evidence_snapshot?.skills) ? leg.evidence_snapshot.skills : [],
+        Array.isArray(leg.evidence_snapshot?.investigationTags) ? leg.evidence_snapshot.investigationTags : [],
+      ),
+      keyIdea: leg.evidence_snapshot?.keyIdea ?? null,
       distanceKm: leg.distance_km ?? 0,
       completedAt: leg.completed_at,
     });

@@ -14,6 +14,7 @@ import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/
 import { getPlaneAsset } from '@/lib/plane-progression';
 import { InvestigationProgressPanel } from './investigation-progress-panel';
 import { JourneyProgressPanel } from './journey-progress-panel';
+import { PassportArrivalReplay } from './passport-arrival-replay';
 
 type FocusFilter = 'all' | DestinationFocusKind;
 type SidebarMode = 'destinations' | 'passport' | 'missions';
@@ -37,6 +38,7 @@ function destinationFeatures(
   showReachability = true,
   missionEvidenceDestinationIds: Iterable<string> = [],
   showVisited = true,
+  passportHighlightDestinationId: string | null = null,
 ) {
   const visited = new Set(visitedDestinationIds);
   const missionEvidence = new Set(missionEvidenceDestinationIds);
@@ -64,6 +66,7 @@ function destinationFeatures(
           onwardReachable,
           isPreviewOrigin: destination.id === previewOrigin?.id,
           muted: !showReachability && !isVisited && !isMissionEvidence,
+          passportHighlight: destination.id === passportHighlightDestinationId,
           status: isOrigin
             ? 'Current location'
             : isMissionEvidence
@@ -85,12 +88,51 @@ function destinationFeatures(
   );
 }
 
-function journeyRouteFeatures(completedLegs: WorldFlightClassSummary['completedLegs']) {
-  return asFeatureCollection(completedLegs.flatMap((leg) => {
+function journeyRouteFeatures(completedLegs: WorldFlightClassSummary['completedLegs'], activeLegId: string | null) {
+  return asFeatureCollection(completedLegs.flatMap((leg, index) => {
     const origin = WORLD_DESTINATIONS.find((destination) => destination.id === leg.originDestinationId);
     const destination = WORLD_DESTINATIONS.find((candidate) => candidate.id === leg.destinationId);
     if (!origin || !destination) return [];
-    return [{ ...greatCircleLine(origin, destination), properties: { completed: true } }];
+    return [{
+      ...greatCircleLine(origin, destination),
+      properties: {
+        legId: leg.id,
+        routeNumber: index + 1,
+        originCity: origin.city,
+        destinationCity: destination.city,
+        focusTitle: leg.focusTitle ?? 'Completed city lesson',
+        distanceKm: Math.round(leg.distanceKm),
+        completedAt: leg.completedAt ?? '',
+        active: leg.id === activeLegId,
+      },
+    }];
+  }));
+}
+
+function journeyStepFeatures(completedLegs: WorldFlightClassSummary['completedLegs'], activeLegId: string | null) {
+  return asFeatureCollection(completedLegs.flatMap((leg, index) => {
+    const origin = WORLD_DESTINATIONS.find((candidate) => candidate.id === leg.originDestinationId);
+    const destination = WORLD_DESTINATIONS.find((candidate) => candidate.id === leg.destinationId);
+    if (!destination) return [];
+    const routeCoordinates = origin ? greatCircleLine(origin, destination).geometry.coordinates : [];
+    const markerCoordinates = routeCoordinates[Math.floor(routeCoordinates.length / 2)] ?? destinationCoord(destination);
+    return [{
+      type: 'Feature',
+      properties: {
+        legId: leg.id,
+        routeNumber: index + 1,
+        active: leg.id === activeLegId,
+        originCity: origin?.city ?? 'Journey origin',
+        destinationCity: destination.city,
+        focusTitle: leg.focusTitle ?? 'Completed city lesson',
+        distanceKm: Math.round(leg.distanceKm),
+        completedAt: leg.completedAt ?? '',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: markerCoordinates,
+      },
+    } satisfies WorldFeature];
   }));
 }
 
@@ -215,6 +257,28 @@ function createCityHoverContent(properties: Record<string, unknown>) {
   return container;
 }
 
+function createRouteHoverContent(properties: Record<string, unknown>) {
+  const container = document.createElement('div');
+  container.className = 'wf-map-popup';
+
+  const heading = document.createElement('strong');
+  heading.textContent = `Flight ${properties.routeNumber}: ${properties.originCity} to ${properties.destinationCity}`;
+  container.appendChild(heading);
+
+  const lesson = document.createElement('span');
+  lesson.textContent = String(properties.focusTitle ?? 'Completed city lesson');
+  container.appendChild(lesson);
+
+  const detail = document.createElement('span');
+  const completedAt = typeof properties.completedAt === 'string' && properties.completedAt
+    ? new Date(properties.completedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+    : 'Completed flight';
+  detail.textContent = `${formatDistance(Number(properties.distanceKm) || 0)} - ${completedAt}`;
+  container.appendChild(detail);
+
+  return container;
+}
+
 function SidebarModeButton({
   active,
   icon,
@@ -306,6 +370,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const mapRef = useRef<MapLibreMap | null>(null);
   const planeMarkerRef = useRef<MapLibreMarker | null>(null);
   const hoverPopupRef = useRef<MapLibrePopup | null>(null);
+  const sidebarModeRef = useRef<SidebarMode>('destinations');
+  const selectedClassRef = useRef<WorldFlightClassSummary | null>(null);
   const routeAnimationRef = useRef<number | null>(null);
   const rangeAnimationRef = useRef<number | null>(null);
   const [mapReady, setMapReady] = useState(false);
@@ -321,8 +387,17 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [firstDepartureId, setFirstDepartureId] = useState<string | null>(null);
   const [previewNextHops, setPreviewNextHops] = useState(false);
   const [sidebarMode, setSidebarMode] = useState<SidebarMode>('destinations');
+  const [selectedPassportLegId, setSelectedPassportLegId] = useState<string | null>(null);
+  const [hoveredPassportLegId, setHoveredPassportLegId] = useState<string | null>(null);
+  const [selectedPassportDestinationId, setSelectedPassportDestinationId] = useState<string | null>(null);
+  const [replayDestinationId, setReplayDestinationId] = useState<string | null>(null);
 
   const selectedClass = initialClasses.find((cls) => cls.id === selectedClassId) ?? null;
+  const activePassportLegId = hoveredPassportLegId ?? selectedPassportLegId;
+  const activePassportLeg = selectedClass?.completedLegs.find((leg) => leg.id === activePassportLegId) ?? null;
+  const passportHighlightDestinationId = hoveredPassportLegId
+    ? activePassportLeg?.destinationId ?? selectedPassportDestinationId
+    : selectedPassportDestinationId ?? activePassportLeg?.destinationId ?? null;
   const visitedDestinationIds = selectedClass?.visitedDestinationIds ?? EMPTY_DESTINATION_IDS;
   const visitedDestinationSet = useMemo(() => new Set(visitedDestinationIds), [visitedDestinationIds]);
   const origin = useMemo(
@@ -405,6 +480,25 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     setFocusFilter('all');
   }, [selectedDestinationId]);
 
+  useEffect(() => {
+    sidebarModeRef.current = sidebarMode;
+  }, [sidebarMode]);
+
+  useEffect(() => {
+    selectedClassRef.current = selectedClass;
+  }, [selectedClass]);
+
+  useEffect(() => {
+    if (sidebarMode !== 'passport') return;
+    const latestLeg = selectedClass?.completedLegs[selectedClass.completedLegs.length - 1] ?? null;
+    if (!selectedPassportLegId || !selectedClass?.completedLegs.some((leg) => leg.id === selectedPassportLegId)) {
+      const focusDestinationId = latestLeg?.destinationId ?? selectedClass?.currentDestinationId ?? null;
+      setSelectedPassportLegId(latestLeg?.id ?? null);
+      setSelectedPassportDestinationId(focusDestinationId);
+      if (focusDestinationId) setSelectedDestinationId(focusDestinationId);
+    }
+  }, [selectedClass, selectedPassportLegId, sidebarMode]);
+
   // Keep the map primary on projected/narrow windows while preserving fast panel access.
   useEffect(() => {
     const wideMq = window.matchMedia('(min-width: 1536px)');
@@ -429,6 +523,23 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     setSidebarMode('destinations');
     if (!isWide) setListOpen(false);
     setDetailsOpen(true);
+  }
+
+  function inspectPassportLeg(legId: string) {
+    const leg = selectedClass?.completedLegs.find((candidate) => candidate.id === legId);
+    if (!leg) return;
+    setSelectedPassportLegId(leg.id);
+    setSelectedPassportDestinationId(leg.destinationId);
+    setSelectedDestinationId(leg.destinationId);
+  }
+
+  function inspectPassportDestination(destinationId: string) {
+    const relatedLeg = [...(selectedClass?.completedLegs ?? [])]
+      .reverse()
+      .find((leg) => leg.destinationId === destinationId || leg.originDestinationId === destinationId);
+    setSelectedPassportDestinationId(destinationId);
+    setSelectedPassportLegId(relatedLeg?.id ?? null);
+    setSelectedDestinationId(destinationId);
   }
 
   useEffect(() => {
@@ -463,6 +574,9 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     setSelectedClassId(id);
     setFirstDepartureId(null);
     setPreviewNextHops(false);
+    setSelectedPassportLegId(null);
+    setHoveredPassportLegId(null);
+    setSelectedPassportDestinationId(null);
     usePlannerStore.getState().setSelectedClassId(id);
     try {
       localStorage.setItem('lc-last-class', JSON.stringify({ id, name: nextClass?.name ?? '' }));
@@ -507,6 +621,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         type: 'geojson',
         data: toMapData(EMPTY_FEATURE_COLLECTION),
       });
+      map.addSource('world-flight-journey-steps', {
+        type: 'geojson',
+        data: toMapData(EMPTY_FEATURE_COLLECTION),
+      });
       map.addSource('world-flight-next-range', {
         type: 'geojson',
         data: toMapData(EMPTY_FEATURE_COLLECTION),
@@ -544,7 +662,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         paint: {
           'line-color': '#38BDF8',
           'line-width': 6,
-          'line-opacity': 0.1,
+          'line-opacity': ['case', ['get', 'active'], 0.06, 0.1],
           'line-blur': 4,
         },
       });
@@ -555,7 +673,60 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         paint: {
           'line-color': '#7DD3FC',
           'line-width': 2,
-          'line-opacity': 0.68,
+          'line-opacity': ['case', ['get', 'active'], 0.2, 0.62],
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-journey-routes-selected-glow',
+        type: 'line',
+        source: 'world-flight-journey-routes',
+        filter: ['==', 'active', true],
+        paint: {
+          'line-color': '#F59E0B',
+          'line-width': 9,
+          'line-opacity': 0.2,
+          'line-blur': 5,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-journey-routes-selected',
+        type: 'line',
+        source: 'world-flight-journey-routes',
+        filter: ['==', 'active', true],
+        paint: {
+          'line-color': '#F8D28B',
+          'line-width': 3.25,
+          'line-opacity': 0.96,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-journey-route-arrows',
+        type: 'symbol',
+        source: 'world-flight-journey-routes',
+        layout: {
+          'symbol-placement': 'line-center',
+          'text-field': '>',
+          'text-font': ['Noto Sans Bold'],
+          'text-size': 18,
+          'text-rotate': 0,
+          'text-rotation-alignment': 'map',
+          'text-allow-overlap': true,
+        },
+        paint: {
+          'text-color': ['case', ['get', 'active'], '#F8D28B', '#BDEBFF'],
+          'text-halo-color': '#071522',
+          'text-halo-width': 1.5,
+          'text-opacity': ['case', ['get', 'active'], 1, 0.78],
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-journey-routes-hitbox',
+        type: 'line',
+        source: 'world-flight-journey-routes',
+        paint: {
+          'line-color': '#FFFFFF',
+          'line-width': 16,
+          'line-opacity': 0,
         },
       });
       map.addLayer({
@@ -587,6 +758,20 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           'line-width': 1.75,
           'line-opacity': 0.75,
           'line-dasharray': [2, 2],
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-passport-city-highlight',
+        type: 'circle',
+        source: 'world-flight-cities',
+        filter: ['==', 'passportHighlight', true],
+        paint: {
+          'circle-radius': 13,
+          'circle-color': '#F59E0B',
+          'circle-opacity': 0.12,
+          'circle-stroke-color': '#F8D28B',
+          'circle-stroke-width': 2.5,
+          'circle-stroke-opacity': 0.95,
         },
       });
       map.addLayer({
@@ -635,27 +820,74 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           'text-color': '#071522',
         },
       });
+      map.addLayer({
+        id: 'world-flight-journey-step-dots',
+        type: 'circle',
+        source: 'world-flight-journey-steps',
+        paint: {
+          'circle-radius': ['case', ['get', 'active'], 10, 8],
+          'circle-color': ['case', ['get', 'active'], '#F59E0B', '#12304A'],
+          'circle-stroke-color': ['case', ['get', 'active'], '#F8D28B', '#9EDFFF'],
+          'circle-stroke-width': ['case', ['get', 'active'], 2.5, 2],
+          'circle-opacity': 0.98,
+        },
+      });
+      map.addLayer({
+        id: 'world-flight-journey-step-labels',
+        type: 'symbol',
+        source: 'world-flight-journey-steps',
+        layout: {
+          'text-field': ['to-string', ['get', 'routeNumber']],
+          'text-font': ['Noto Sans Bold'],
+          'text-size': 10,
+          'text-allow-overlap': true,
+          'text-ignore-placement': true,
+        },
+        paint: {
+          'text-color': '#F7FBFF',
+        },
+      });
 
-      map.on('click', 'world-flight-city-dots', (event) => {
+      const handleCityMapClick = (event: maplibregl.MapLayerMouseEvent) => {
         const id = event.features?.[0]?.properties?.id as string | undefined;
-        if (id) {
-          setSelectedDestinationId(id);
+        if (!id) return;
+        setSelectedDestinationId(id);
+        if (sidebarModeRef.current === 'passport') {
+          const relatedLeg = [...(selectedClassRef.current?.completedLegs ?? [])]
+            .reverse()
+            .find((leg) => leg.destinationId === id || leg.originDestinationId === id);
+          setSelectedPassportDestinationId(id);
+          setSelectedPassportLegId(relatedLeg?.id ?? null);
+        } else {
           setSidebarMode('destinations');
         }
+      };
+      map.on('click', 'world-flight-city-dots', handleCityMapClick);
+      map.on('click', 'world-flight-city-labels', handleCityMapClick);
+      map.on('click', 'world-flight-visited-checks', handleCityMapClick);
+      map.on('click', 'world-flight-journey-step-dots', (event) => {
+        const legId = event.features?.[0]?.properties?.legId as string | undefined;
+        const leg = selectedClassRef.current?.completedLegs.find((candidate) => candidate.id === legId);
+        if (!leg) return;
+        setSelectedPassportLegId(leg.id);
+        setSelectedPassportDestinationId(leg.destinationId);
+        setSelectedDestinationId(leg.destinationId);
       });
-      map.on('click', 'world-flight-city-labels', (event) => {
-        const id = event.features?.[0]?.properties?.id as string | undefined;
-        if (id) {
-          setSelectedDestinationId(id);
-          setSidebarMode('destinations');
-        }
+      map.on('click', 'world-flight-journey-step-labels', (event) => {
+        const legId = event.features?.[0]?.properties?.legId as string | undefined;
+        const leg = selectedClassRef.current?.completedLegs.find((candidate) => candidate.id === legId);
+        if (!leg) return;
+        setSelectedPassportLegId(leg.id);
+        setSelectedPassportDestinationId(leg.destinationId);
+        setSelectedDestinationId(leg.destinationId);
       });
-      map.on('click', 'world-flight-visited-checks', (event) => {
-        const id = event.features?.[0]?.properties?.id as string | undefined;
-        if (id) {
-          setSelectedDestinationId(id);
-          setSidebarMode('destinations');
-        }
+      map.on('click', 'world-flight-journey-routes-hitbox', (event) => {
+        const legId = event.features?.[0]?.properties?.legId as string | undefined;
+        const leg = selectedClassRef.current?.completedLegs.find((candidate) => candidate.id === legId);
+        if (!leg) return;
+        setSelectedPassportLegId(leg.id);
+        setSelectedPassportDestinationId(leg.destinationId);
+        setSelectedDestinationId(leg.destinationId);
       });
       const showCityPopup = (event: maplibregl.MapLayerMouseEvent) => {
         map.getCanvas().style.cursor = 'pointer';
@@ -674,6 +906,26 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         map.getCanvas().style.cursor = '';
         hoverPopupRef.current?.remove();
       };
+      const showRoutePopup = (event: maplibregl.MapLayerMouseEvent) => {
+        map.getCanvas().style.cursor = 'pointer';
+        const properties = event.features?.[0]?.properties as Record<string, unknown> | undefined;
+        if (!properties) return;
+        const legId = properties.legId as string | undefined;
+        if (legId) setHoveredPassportLegId(legId);
+        const popup = hoverPopupRef.current ?? new maplibregl.Popup({
+          closeButton: false,
+          closeOnClick: false,
+          offset: 14,
+          className: 'wf-map-popup-shell',
+        });
+        hoverPopupRef.current = popup;
+        popup.setLngLat(event.lngLat).setDOMContent(createRouteHoverContent(properties)).addTo(map);
+      };
+      const hideRoutePopup = () => {
+        map.getCanvas().style.cursor = '';
+        setHoveredPassportLegId(null);
+        hoverPopupRef.current?.remove();
+      };
       map.on('mouseenter', 'world-flight-city-dots', showCityPopup);
       map.on('mousemove', 'world-flight-city-dots', showCityPopup);
       map.on('mouseleave', 'world-flight-city-dots', hideCityPopup);
@@ -683,6 +935,15 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       map.on('mouseenter', 'world-flight-visited-checks', showCityPopup);
       map.on('mousemove', 'world-flight-visited-checks', showCityPopup);
       map.on('mouseleave', 'world-flight-visited-checks', hideCityPopup);
+      map.on('mouseenter', 'world-flight-journey-routes-hitbox', showRoutePopup);
+      map.on('mousemove', 'world-flight-journey-routes-hitbox', showRoutePopup);
+      map.on('mouseleave', 'world-flight-journey-routes-hitbox', hideRoutePopup);
+      map.on('mouseenter', 'world-flight-journey-step-dots', showRoutePopup);
+      map.on('mousemove', 'world-flight-journey-step-dots', showRoutePopup);
+      map.on('mouseleave', 'world-flight-journey-step-dots', hideRoutePopup);
+      map.on('mouseenter', 'world-flight-journey-step-labels', showRoutePopup);
+      map.on('mousemove', 'world-flight-journey-step-labels', showRoutePopup);
+      map.on('mouseleave', 'world-flight-journey-step-labels', hideRoutePopup);
 
       setMapReady(true);
     });
@@ -707,7 +968,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       sidebarMode === 'destinations' && previewNextHops ? rangeRing(selectedDestination, rangeKm) : EMPTY_FEATURE_COLLECTION,
     ));
     getSource('world-flight-journey-routes', map)?.setData(toMapData(
-      sidebarMode === 'passport' ? journeyRouteFeatures(selectedClass?.completedLegs ?? []) : EMPTY_FEATURE_COLLECTION,
+      sidebarMode === 'passport' ? journeyRouteFeatures(selectedClass?.completedLegs ?? [], activePassportLegId) : EMPTY_FEATURE_COLLECTION,
+    ));
+    getSource('world-flight-journey-steps', map)?.setData(toMapData(
+      sidebarMode === 'passport' ? journeyStepFeatures(selectedClass?.completedLegs ?? [], activePassportLegId) : EMPTY_FEATURE_COLLECTION,
     ));
     getSource('world-flight-cities', map)?.setData(toMapData(
       destinationFeatures(
@@ -718,6 +982,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         sidebarMode === 'destinations',
         sidebarMode === 'missions' ? missionEvidenceDestinationIds : EMPTY_DESTINATION_IDS,
         sidebarMode !== 'missions',
+        sidebarMode === 'passport' ? passportHighlightDestinationId : null,
       ),
     ));
 
@@ -732,7 +997,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       };
       rangeAnimationRef.current = requestAnimationFrame(animateRange);
     }
-  }, [mapReady, routeOrigin, rangeKm, selectedDestination, previewNextHops, visitedDestinationIds, sidebarMode, selectedClass?.completedLegs, missionEvidenceDestinationIds]);
+  }, [activePassportLegId, mapReady, missionEvidenceDestinationIds, passportHighlightDestinationId, previewNextHops, rangeKm, routeOrigin, selectedClass?.completedLegs, selectedDestination, sidebarMode, visitedDestinationIds]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -969,7 +1234,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               planeName={planeName}
               rangeKm={rangeKm}
               investigations={selectedClass?.investigations ?? []}
-              onSelectDestination={selectDestination}
+              selectedLegId={selectedPassportLegId}
+              selectedDestinationId={selectedPassportDestinationId}
+              onSelectLeg={inspectPassportLeg}
+              onHoverLeg={setHoveredPassportLegId}
+              onSelectDestination={inspectPassportDestination}
+              onReplayArrival={setReplayDestinationId}
             />
           )}
 
@@ -1299,6 +1569,13 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         )}
         <MapLegend mode={sidebarMode} previewNextHops={previewNextHops} />
       </div>
+      {replayDestinationId && (
+        <PassportArrivalReplay
+          destinationId={replayDestinationId}
+          planeKey={selectedClass?.planeKey ?? 'starter-biplane'}
+          onClose={() => setReplayDestinationId(null)}
+        />
+      )}
     </div>
   );
 }

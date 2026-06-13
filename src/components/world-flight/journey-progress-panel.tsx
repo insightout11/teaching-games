@@ -1,7 +1,7 @@
 'use client';
 
-import type { CSSProperties } from 'react';
-import { Award, BookOpen, Check, Gauge, MapPin, MapPinned, Plane, Route } from 'lucide-react';
+import type { CSSProperties, ReactNode } from 'react';
+import { Award, BookOpen, CalendarDays, Gauge, Lightbulb, MapPin, MapPinned, Plane, Play, Route } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
 import type { WorldFlightCompletedLegSummary } from '@/lib/world-flight/journey';
@@ -31,7 +31,12 @@ export function JourneyProgressPanel({
   planeName,
   rangeKm,
   investigations,
+  selectedLegId,
+  selectedDestinationId,
+  onSelectLeg,
+  onHoverLeg,
   onSelectDestination,
+  onReplayArrival,
 }: {
   classId: string | null;
   className: string;
@@ -41,7 +46,12 @@ export function JourneyProgressPanel({
   planeName: string;
   rangeKm: number;
   investigations: WorldFlightInvestigationProgress[];
+  selectedLegId: string | null;
+  selectedDestinationId: string | null;
+  onSelectLeg: (legId: string) => void;
+  onHoverLeg: (legId: string | null) => void;
   onSelectDestination: (destinationId: string) => void;
+  onReplayArrival: (destinationId: string) => void;
 }) {
   const currentCity = destination(currentDestinationId);
   const visitedDestinations = visitedDestinationIds
@@ -52,6 +62,12 @@ export function JourneyProgressPanel({
   const countryCount = new Set(visitedDestinations.map((item) => item.country)).size;
   const regionCount = new Set(visitedDestinations.map((item) => item.region)).size;
   const completedMissions = investigations.filter((investigation) => investigation.designMissionStatus === 'completed');
+  const selectedLeg = completedLegs.find((leg) => leg.id === selectedLegId) ?? null;
+  const selectedLegNumber = selectedLeg ? completedLegs.findIndex((leg) => leg.id === selectedLeg.id) + 1 : null;
+  const selectedCity = destination(selectedDestinationId);
+  const selectedCityLessons = selectedDestinationId
+    ? completedLegs.filter((leg) => leg.destinationId === selectedDestinationId)
+    : [];
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto">
@@ -98,6 +114,93 @@ export function JourneyProgressPanel({
         )}
       </section>
 
+      {(selectedLeg || selectedCity) && (
+        <section className="border-b border-white/10 bg-cyan-300/[0.025] px-5 py-5">
+          {selectedLeg && (
+            <div>
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-lc-amber/80">
+                    Flight {selectedLegNumber}
+                  </p>
+                  <h3 className="font-display mt-1 text-xl leading-tight text-lc-text">
+                    {destination(selectedLeg.originDestinationId)?.city ?? 'Journey origin'} to {destination(selectedLeg.destinationId)?.city ?? selectedLeg.destinationId}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onReplayArrival(selectedLeg.destinationId)}
+                  className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md border border-cyan-200/25 bg-cyan-300/[0.07] px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-100 transition-colors hover:border-cyan-200/55 hover:bg-cyan-300/[0.12]"
+                >
+                  <Play className="h-3.5 w-3.5" aria-hidden />
+                  Replay
+                </button>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-white/10 bg-white/10 text-xs">
+                <FlightFact icon={<CalendarDays className="h-3.5 w-3.5" />} label="Completed" value={formatDate(selectedLeg.completedAt)} />
+                <FlightFact icon={<Route className="h-3.5 w-3.5" />} label="Distance" value={formatDistance(selectedLeg.distanceKm)} />
+                <FlightFact icon={<BookOpen className="h-3.5 w-3.5" />} label="Lesson" value={selectedLeg.focusTitle ?? 'Completed city lesson'} />
+                <FlightFact icon={<Plane className="h-3.5 w-3.5" />} label="Source" value={[selectedLeg.focusKind, selectedLeg.publisher].filter(Boolean).join(' - ') || 'Lesson source'} />
+              </div>
+
+              {selectedLeg.keyIdea && (
+                <div className="mt-3 flex items-start gap-2 rounded-md border border-lc-amber/15 bg-lc-amber/[0.05] px-3 py-2.5 text-xs leading-relaxed text-lc-text2">
+                  <Lightbulb className="mt-0.5 h-3.5 w-3.5 shrink-0 text-lc-amber" aria-hidden />
+                  <span>{selectedLeg.keyIdea}</span>
+                </div>
+              )}
+
+              {selectedLeg.fieldNotes.length > 0 && (
+                <div className="mt-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-lc-text2">Field notes earned</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {selectedLeg.fieldNotes.slice(0, 6).map((note) => (
+                      <span key={note} className="rounded-full border border-violet-300/20 bg-violet-300/[0.07] px-2 py-0.5 text-[11px] text-violet-100/80">
+                        {note}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {selectedCity && (
+            <div className={selectedLeg ? 'mt-5 border-t border-white/10 pt-4' : ''}>
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-lc-text2">{selectedCity.city} lesson history</h3>
+                <span className="text-[11px] text-cyan-100/65">{selectedCityLessons.length} completed</span>
+              </div>
+              {selectedCityLessons.length > 0 ? (
+                <ul className="mt-2 space-y-1.5">
+                  {selectedCityLessons.map((leg) => (
+                    <li key={leg.id}>
+                      <button
+                        type="button"
+                        onClick={() => onSelectLeg(leg.id)}
+                        onMouseEnter={() => onHoverLeg(leg.id)}
+                        onMouseLeave={() => onHoverLeg(null)}
+                        className={`w-full rounded-md border px-3 py-2 text-left transition-colors ${
+                          leg.id === selectedLegId
+                            ? 'border-lc-amber/35 bg-lc-amber/[0.06]'
+                            : 'border-white/10 bg-white/[0.025] hover:border-cyan-200/30 hover:bg-cyan-300/[0.04]'
+                        }`}
+                      >
+                        <span className="block text-xs font-semibold text-lc-text">{leg.focusTitle ?? 'Completed city lesson'}</span>
+                        <span className="mt-1 block text-[11px] text-lc-text3">{formatDate(leg.completedAt)}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-2 text-xs leading-relaxed text-lc-text3">The journey began here. Completed arrival lessons will appear in this city record.</p>
+              )}
+            </div>
+          )}
+        </section>
+      )}
+
       <section className="border-b border-white/10 px-5 py-5">
         <div className="flex items-end justify-between gap-3">
           <div>
@@ -110,18 +213,23 @@ export function JourneyProgressPanel({
         {visitedDestinations.length > 0 ? (
           <div className="mt-4 grid grid-cols-2 gap-3">
             {visitedDestinations.map((item) => {
-              const arrival = completedLegs.find((leg) => leg.destinationId === item.id)
+              const arrival = [...completedLegs].reverse().find((leg) => leg.destinationId === item.id)
                 ?? completedLegs.find((leg) => leg.originDestinationId === item.id)
                 ?? null;
               const isCurrent = item.id === currentDestinationId;
+              const isSelected = item.id === selectedDestinationId;
               return (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => onSelectDestination(item.id)}
+                  onMouseEnter={() => onHoverLeg(arrival?.id ?? null)}
+                  onMouseLeave={() => onHoverLeg(null)}
                   className={`group min-h-[126px] border-2 border-dashed p-2 text-center transition-colors ${isCurrent ? 'animate-passport-stamp ' : ''}${
                     isCurrent
                       ? 'border-lc-amber/60 bg-lc-amber/[0.08] text-lc-amber'
+                      : isSelected
+                        ? 'border-cyan-100/70 bg-cyan-300/[0.1] text-cyan-50'
                       : 'border-cyan-200/30 bg-cyan-300/[0.035] text-cyan-100/80 hover:border-cyan-200/60 hover:bg-cyan-300/[0.07]'
                   }`}
                   style={{ '--stamp-rotation': stampRotation(item.id), transform: `rotate(${stampRotation(item.id)})` } as CSSProperties}
@@ -176,19 +284,29 @@ export function JourneyProgressPanel({
         </div>
         {completedLegs.length > 0 ? (
           <ol className="mt-3 space-y-3">
-            {[...completedLegs].reverse().map((leg, index) => {
+            {completedLegs.map((leg, index) => {
               const origin = destination(leg.originDestinationId);
               const arrival = destination(leg.destinationId);
               return (
-                <li key={`${leg.destinationId}-${leg.completedAt ?? index}`} className="relative pl-7">
-                  <span className="absolute left-1 top-1 flex h-4 w-4 items-center justify-center rounded-full border border-cyan-200/30 bg-[var(--wf-inset)] text-cyan-200">
-                    <Check className="h-2.5 w-2.5" aria-hidden />
+                <li key={leg.id} className="relative pl-8">
+                  <span className={`absolute left-0 top-1 flex h-6 w-6 items-center justify-center rounded-full border font-instrument text-[11px] font-bold ${
+                    leg.id === selectedLegId
+                      ? 'border-lc-amber/70 bg-lc-amber/15 text-lc-amber'
+                      : 'border-cyan-200/30 bg-[var(--wf-inset)] text-cyan-200'
+                  }`}>
+                    {index + 1}
                   </span>
-                  {index < completedLegs.length - 1 && <span className="absolute bottom-[-14px] left-[11px] top-5 w-px bg-cyan-200/15" />}
+                  {index < completedLegs.length - 1 && <span className="absolute bottom-[-14px] left-[11px] top-7 w-px bg-cyan-200/15" />}
                   <button
                     type="button"
-                    onClick={() => onSelectDestination(leg.destinationId)}
-                    className="block w-full text-left"
+                    onClick={() => onSelectLeg(leg.id)}
+                    onMouseEnter={() => onHoverLeg(leg.id)}
+                    onMouseLeave={() => onHoverLeg(null)}
+                    className={`block w-full rounded-md border px-3 py-2 text-left transition-colors ${
+                      leg.id === selectedLegId
+                        ? 'border-lc-amber/30 bg-lc-amber/[0.055]'
+                        : 'border-transparent hover:border-cyan-200/20 hover:bg-cyan-300/[0.035]'
+                    }`}
                   >
                     <span className="block text-sm font-semibold text-lc-text">
                       {origin?.city ?? 'First departure'} to {arrival?.city ?? leg.destinationId}
@@ -221,6 +339,15 @@ function PassportStat({ label, value }: { label: string; value: string | number 
     <div className="border-l border-white/10 pl-2 first:border-l-0 first:pl-0">
       <p className="text-[11px] font-semibold uppercase tracking-wide text-lc-text2">{label}</p>
       <p className="mt-1 text-sm font-bold text-lc-text">{value}</p>
+    </div>
+  );
+}
+
+function FlightFact({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
+  return (
+    <div className="min-w-0 bg-[var(--wf-inset)] px-3 py-2.5">
+      <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-cyan-100/60">{icon}{label}</p>
+      <p className="mt-1 line-clamp-2 text-xs font-semibold leading-snug text-lc-text">{value}</p>
     </div>
   );
 }

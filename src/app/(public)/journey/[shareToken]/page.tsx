@@ -4,7 +4,8 @@ import type { ReactNode } from 'react';
 import { createServiceClient } from '@/lib/supabase/service';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import { getPlaneAsset, PLANE_TIERS } from '@/lib/plane-progression';
-import { Gauge, MapPin, PlaneTakeoff, Route, Stamp } from 'lucide-react';
+import { deriveInvestigationTags, deriveWorldFlightInvestigationProgress, type CompletedWorldFlightEvidence } from '@/lib/world-flight/investigations';
+import { BookOpen, Gauge, MapPin, NotebookTabs, PlaneTakeoff, Route, Stamp, Trophy } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +16,7 @@ interface JourneyStop {
   city: string;
   country: string;
   airport: string;
+  region: string;
   lat: number;
   lng: number;
   date: string | null;
@@ -26,6 +28,13 @@ interface JourneyData {
   planeName: string;
   tierLabel: string;
   stops: JourneyStop[];
+  cityCount: number;
+  countryCount: number;
+  regionCount: number;
+  lessonCount: number;
+  fieldNoteCount: number;
+  missionCompletedCount: number;
+  missionReadyCount: number;
   hero: { url: string; alt: string; sourceName: string; sourceUrl: string } | null;
 }
 
@@ -41,14 +50,19 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
 
   if (!state || !state.share_enabled) return null;
 
-  const [{ data: cls }, { data: legs }] = await Promise.all([
+  const [{ data: cls }, { data: legs }, { data: completedMissions }] = await Promise.all([
     supabase.from('classes').select('name').eq('id', state.class_id).maybeSingle(),
     supabase
       .from('class_world_flight_legs')
-      .select('origin_destination_id, destination_id, distance_km, completed_at')
+      .select('origin_destination_id, destination_id, distance_km, completed_at, evidence_snapshot')
       .eq('class_id', state.class_id)
       .eq('status', 'completed')
       .order('completed_at', { ascending: true }),
+    supabase
+      .from('class_world_flight_design_missions')
+      .select('investigation_id')
+      .eq('class_id', state.class_id)
+      .eq('status', 'completed'),
   ]);
 
   const legRows = (legs ?? []) as Array<{
@@ -56,6 +70,7 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
     destination_id: string;
     distance_km: number;
     completed_at: string | null;
+    evidence_snapshot: CompletedWorldFlightEvidence['evidenceSnapshot'];
   }>;
   const totalKm = Math.round(legRows.reduce((sum, leg) => sum + (leg.distance_km ?? 0), 0));
   const orderedDestinationIds = [
@@ -72,6 +87,7 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
         city: destination.city,
         country: destination.country,
         airport: destination.primaryAirport,
+        region: destination.region,
         lat: destination.lat,
         lng: destination.lng,
         date: index === 0 && legRows[0]?.origin_destination_id ? null : legRows[index - (legRows[0]?.origin_destination_id ? 1 : 0)]?.completed_at ?? null,
@@ -82,6 +98,20 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
   const finalDestination = stops.length ? getDestinationById(stops[stops.length - 1].id) : null;
   const plane = getPlaneAsset(state.plane_key);
   const tierLabel = PLANE_TIERS.find((tier) => tier.tier === state.plane_tier)?.label ?? 'Starter';
+  const uniqueStops = Array.from(new Map(stops.map((stop) => [stop.id, stop])).values());
+  const completedEvidence: CompletedWorldFlightEvidence[] = legRows.map((leg) => ({
+    destinationId: leg.destination_id,
+    completedAt: leg.completed_at,
+    evidenceSnapshot: leg.evidence_snapshot,
+  }));
+  const investigations = deriveWorldFlightInvestigationProgress(completedEvidence);
+  const completedMissionIds = new Set((completedMissions ?? []).map((mission) => mission.investigation_id));
+  const fieldNotes = new Set(legRows.flatMap((leg) => (
+    deriveInvestigationTags(
+      Array.isArray(leg.evidence_snapshot?.skills) ? leg.evidence_snapshot.skills : [],
+      Array.isArray(leg.evidence_snapshot?.investigationTags) ? leg.evidence_snapshot.investigationTags : [],
+    )
+  )));
 
   return {
     className: cls?.name ?? 'A class',
@@ -89,6 +119,13 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
     planeName: plane.name,
     tierLabel,
     stops,
+    cityCount: uniqueStops.length,
+    countryCount: new Set(uniqueStops.map((stop) => stop.country)).size,
+    regionCount: new Set(uniqueStops.map((stop) => stop.region)).size,
+    lessonCount: legRows.length,
+    fieldNoteCount: fieldNotes.size,
+    missionCompletedCount: completedMissionIds.size,
+    missionReadyCount: investigations.filter((investigation) => investigation.complete && !completedMissionIds.has(investigation.id)).length,
     hero: finalDestination ? {
       url: finalDestination.heroImage.url,
       alt: finalDestination.heroImage.alt,
@@ -104,7 +141,7 @@ export async function generateMetadata({ params }: { params: { shareToken: strin
   const title = `${data.className} has flown ${data.totalKm.toLocaleString()} km`;
   return {
     title: `${title} · LessonCaptain`,
-    description: `Follow ${data.className}'s World Flight journey across ${data.stops.length} cities, powered by live English lessons.`,
+    description: `Follow ${data.className}'s World Flight journey across ${data.cityCount} cities and ${data.lessonCount} completed lessons.`,
     robots: { index: true, follow: true },
   };
 }
@@ -160,7 +197,7 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
               {data.className} has flown {data.totalKm.toLocaleString()} km
             </h1>
             <p className="mt-3 text-base text-white/75">
-              {data.stops.length} {data.stops.length === 1 ? 'city' : 'cities'} visited
+              {data.cityCount} {data.cityCount === 1 ? 'city' : 'cities'} visited across {data.countryCount} {data.countryCount === 1 ? 'country' : 'countries'}
               {finalStop ? ` · currently in ${finalStop.city}, ${finalStop.country}` : ''}
             </p>
             <a href={data.hero.sourceUrl} target="_blank" rel="noreferrer" className="mt-3 w-fit text-[11px] text-white/55 hover:text-white/80">
@@ -171,9 +208,13 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
       )}
 
       <div className="mx-auto max-w-5xl px-5 py-8">
-        <section className="grid gap-px overflow-hidden rounded-lg border border-cyan-200/15 bg-cyan-200/15 sm:grid-cols-3">
+        <section className="grid gap-px overflow-hidden rounded-lg border border-cyan-200/15 bg-cyan-200/15 sm:grid-cols-2 lg:grid-cols-4">
           <JourneyStat icon={<Route className="h-4 w-4" />} label="Distance flown" value={`${data.totalKm.toLocaleString()} km`} />
-          <JourneyStat icon={<MapPin className="h-4 w-4" />} label="Cities visited" value={data.stops.length.toString()} />
+          <JourneyStat icon={<MapPin className="h-4 w-4" />} label="Cities visited" value={data.cityCount.toString()} />
+          <JourneyStat icon={<MapPin className="h-4 w-4" />} label="Countries and regions" value={`${data.countryCount} countries - ${data.regionCount} regions`} />
+          <JourneyStat icon={<BookOpen className="h-4 w-4" />} label="Lessons completed" value={data.lessonCount.toString()} />
+          <JourneyStat icon={<NotebookTabs className="h-4 w-4" />} label="Field notes" value={data.fieldNoteCount.toString()} />
+          <JourneyStat icon={<Trophy className="h-4 w-4" />} label="Flight missions" value={`${data.missionCompletedCount} completed - ${data.missionReadyCount} ready`} />
           <JourneyStat icon={<Gauge className="h-4 w-4" />} label="Aircraft" value={`${data.planeName} · ${data.tierLabel}`} />
         </section>
 

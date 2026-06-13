@@ -5,9 +5,16 @@ import { deriveInvestigationTags } from '@/lib/world-flight/investigations';
 export type WorldFlightLegStatus = 'planned' | 'completed' | 'cancelled';
 
 export interface WorldFlightCompletedLegSummary {
+  id: string;
   originDestinationId: string | null;
   destinationId: string;
+  focusId: string;
   focusTitle: string | null;
+  focusKind: DestinationFocusKind | null;
+  publisher: string | null;
+  skills: string[];
+  fieldNotes: string[];
+  keyIdea: string | null;
   distanceKm: number;
   completedAt: string | null;
 }
