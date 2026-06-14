@@ -95,9 +95,12 @@ body {
 .theme-Midnight { background-color: #0f172a; color: #f8fafc; }
 html[data-theme="light"] .theme-Midnight { color: var(--lc-text); }
 
-/* Glass effect for session overlays */
+/* Glass effect for session overlays. A DARK translucent tint (not a near-clear
+   white) so panel content keeps contrast over bright flight backdrops (snowy
+   cities, bright skies) as well as the dark page — white text was washing out
+   over the world-flight scene with the old rgba(255,255,255,0.05). */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(9, 16, 30, 0.58);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
