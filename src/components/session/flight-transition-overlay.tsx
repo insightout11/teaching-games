@@ -460,8 +460,10 @@ export function FlightTransitionOverlay({
             animate={planeAnim.animate as any}
             transition={planeAnim.transition}
           >
-            {/* Contrail — hidden during ground roll (takeoff first 28%, landing last 40%) */}
-            <div
+            {/* Contrail — actually gated to airborne flight now: on takeoff it stays
+                off through the ground roll and fades in after rotation; on descent it
+                fades out into the landing roll; on cruise it's steady. */}
+            <motion.div
               className="absolute top-1/2 right-full -translate-y-1/2 pointer-events-none"
               style={{
                 width: '200px',
@@ -470,6 +472,15 @@ export function FlightTransitionOverlay({
                 filter: 'blur(4px)',
                 borderRadius: '9999px',
               }}
+              initial={{ opacity: leg === 'takeoff' ? 0 : 1 }}
+              animate={leg === 'takeoff' ? { opacity: [0, 0, 1] } : leg === 'descent' ? { opacity: [1, 1, 0] } : { opacity: 1 }}
+              transition={
+                leg === 'takeoff'
+                  ? { duration: TRAVEL_DURATION / 1000, times: [0, 0.28, 0.44], ease: 'linear' }
+                  : leg === 'descent'
+                    ? { duration: TRAVEL_DURATION / 1000, times: [0, 0.5, 0.66], ease: 'linear' }
+                    : { duration: 0 }
+              }
             />
             <motion.div
               animate={leg === 'cruise' ? { y: [0, -4, 0, 4, 0] } : undefined}
@@ -483,81 +494,54 @@ export function FlightTransitionOverlay({
       </>
       )}
 
-      {/* Route card — arrives after the plane passes center (~1.2s) */}
-      <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[38%] pointer-events-none"
-        style={{ zIndex: 20, width: 'min(520px, 86vw)' }}
+      {/* Waypoint label — restrained top-left corner so the cinematic moment stays
+          visible (replaces the old centered card that covered the whole scene). */}
+      <motion.div
+        className="absolute top-6 left-6 pointer-events-none"
+        style={{ zIndex: 20, maxWidth: 'min(440px, 72vw)' }}
+        initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.35, duration: 0.5, ease: 'easeOut' }}
       >
-        <motion.div
-          className="rounded-2xl overflow-hidden"
+        <div
+          className="rounded-xl px-4 py-2.5"
           style={{
-            background: 'rgba(4, 12, 26, 0.70)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            background: 'rgba(4, 12, 26, 0.62)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             border: '1px solid rgba(255,255,255,0.11)',
           }}
-          initial={{ opacity: 0, scale: 0.93, y: 18 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={prefersReducedMotion
-            ? { duration: 0 }
-            : { delay: 1.4, duration: 0.45, ease: 'easeOut' }}
         >
-          <div className="px-8 pt-7 pb-6 space-y-5">
-            {isCityTransition ? (
-              <div>
-                <p className="text-[9px] font-bold tracking-[0.24em] text-cyan-400/70 uppercase mb-1.5">
-                  {cityLeg!.label}
-                </p>
-                <p className="text-2xl font-bold text-white md:text-3xl leading-snug"
-                  style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6)' }}>
-                  {cityLeg!.scene.cityName}
-                </p>
-              </div>
-            ) : (
-              <>
-                {from && (
-                  <div>
-                    <p className="text-[9px] font-bold tracking-[0.24em] text-amber-400/65 uppercase mb-1.5">
-                      Now Departing
-                    </p>
-                    <p className="text-lg font-semibold text-white/85 leading-snug"
-                      style={{ textShadow: '0 1px 10px rgba(0,0,0,0.55)' }}>
-                      {from}
-                    </p>
-                  </div>
-                )}
+          {isCityTransition ? (
+            <>
+              <p className="text-[9px] font-bold tracking-[0.24em] uppercase text-cyan-400/75 mb-0.5">
+                {cityLeg!.label}
+              </p>
+              <p className="text-lg font-bold text-white leading-tight" style={{ textShadow: '0 1px 10px rgba(0,0,0,0.6)' }}>
+                {cityLeg!.scene.cityName}
+              </p>
+            </>
+          ) : (
+            <div className="flex items-center gap-2.5">
+              {from && <span className="text-sm font-semibold text-white/70">{from}</span>}
+              {from && to && (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" className="text-white/45 flex-shrink-0 rotate-90">
+                  <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
+                </svg>
+              )}
+              {to && (
+                <span className="text-base font-bold text-white" style={{ textShadow: '0 1px 10px rgba(0,0,0,0.6)' }}>
+                  {to}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      </motion.div>
 
-                {from && to && (
-                  <div className="flex items-center gap-3" style={{ opacity: 0.28 }}>
-                    <div className="flex-1 h-px bg-white" />
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-white flex-shrink-0">
-                      <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-                    </svg>
-                    <div className="flex-1 h-px bg-white" />
-                  </div>
-                )}
-
-                {to && (
-                  <div>
-                    <p className="text-[9px] font-bold tracking-[0.24em] text-cyan-400/70 uppercase mb-1.5">
-                      Next Stop
-                    </p>
-                    <p className="text-2xl font-bold text-white md:text-3xl leading-snug"
-                      style={{ textShadow: '0 2px 16px rgba(0,0,0,0.6)' }}>
-                      {to}
-                    </p>
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-
-          <div className="px-8 pb-5">
-            <p className="text-[9px] tracking-widest text-white/22 text-center uppercase">
-              Tap to skip
-            </p>
-          </div>
-        </motion.div>
+      {/* Skip hint — unobtrusive bottom corner */}
+      <div className="absolute bottom-4 right-5 pointer-events-none" style={{ zIndex: 20 }}>
+        <p className="text-[9px] tracking-widest text-white/25 uppercase">Tap to skip</p>
       </div>
     </div>
   );
