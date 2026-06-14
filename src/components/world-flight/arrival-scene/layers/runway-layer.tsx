@@ -1,10 +1,23 @@
 import { motion } from 'framer-motion';
 import { normalizeTerrain } from '../scene-registry';
+import { DEP_CITY_LEAD, DEP_ROLL, departureCameraPan } from '../cinematic-motion';
 import { BLEED_X, LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
 
 // A close side-profile airport foreground: destination-specific surroundings
 // sit between the city and a deep runway surface that fills the lower frame.
-export function RunwayLayer({ scene, palette, idPrefix, ambient }: SceneLayerProps) {
+export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress }: SceneLayerProps) {
+  // Takeoff: the nearest layer (the runway surface paint) scrolls left at the
+  // full camera-pan rate, so the dashes/lights stream past = speed. The repeating
+  // rows tile seamlessly (modulo their pitch); the one-off threshold keys recede
+  // off the left edge. Zero on arrival/static → identical to before.
+  const rolling = mode === 'departure';
+  const pan = rolling ? departureCameraPan(Math.min(1, Math.max(0, progress))) : 0;
+  // Takeoff starts the world shifted right by DEP_CITY_LEAD (plane further back in
+  // the city); the threshold keys begin ahead of the plane and recede with the pan.
+  // Ground-roll speed ramps to a peak at rotation (DEP_ROLL) then fades — drives
+  // faint motion streaks on the tarmac during peak acceleration.
+  const prog = Math.min(1, Math.max(0, progress));
+  const rollSpeed = rolling ? (prog < DEP_ROLL ? prog / DEP_ROLL : Math.max(0, 1 - (prog - DEP_ROLL) / 0.18)) : 0;
   const terrain = normalizeTerrain(scene.terrain);
   const isDubaiBay = scene.skylineVariant === 'dubai';
   const isWaterfront = isDubaiBay || terrain === 'coastal' || terrain === 'island';
@@ -27,9 +40,15 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient }: SceneLayerPro
   const centerlineY = runTop + (VIEWBOX.h - runTop) / 2;
   const thresholdX = BLEED_X + 24;
   const thresholdEndX = thresholdX + 128;
-  const dashes = Array.from({ length: Math.ceil((VIEWBOX.w + 100) / 120) }, (_, i) => 60 + i * 120).filter(
-    (x) => x + 72 < thresholdX - 12 || x > thresholdEndX + 12,
-  );
+  // Centerline dashes. On the takeoff roll they become a continuous tiled row
+  // (the threshold gap recedes with the threshold itself) scrolled by pan % pitch.
+  const DASH_PITCH = 120;
+  const dashes = rolling
+    ? Array.from({ length: Math.ceil((VIEWBOX.w + 2 * DASH_PITCH) / DASH_PITCH) }, (_, i) => -DASH_PITCH + i * DASH_PITCH)
+    : Array.from({ length: Math.ceil((VIEWBOX.w + 100) / DASH_PITCH) }, (_, i) => 60 + i * DASH_PITCH).filter(
+        (x) => x + 72 < thresholdX - 12 || x > thresholdEndX + 12,
+      );
+  const dashScrollX = rolling ? -(pan % DASH_PITCH) : 0;
   const thresholdBars = [
     { y: runTop + 31, width: 78, height: 7 },
     { y: runTop + 52, width: 86, height: 8 },
@@ -39,7 +58,11 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient }: SceneLayerPro
     { y: centerlineY + 82, width: 126, height: 12 },
   ];
   const lightY = runTop + 11;
-  const lights = Array.from({ length: Math.ceil((VIEWBOX.w + 100) / 110) }, (_, i) => 70 + i * 110);
+  const LIGHT_PITCH = 110;
+  const lights = rolling
+    ? Array.from({ length: Math.ceil((VIEWBOX.w + 2 * LIGHT_PITCH) / LIGHT_PITCH) }, (_, i) => -LIGHT_PITCH + i * LIGHT_PITCH)
+    : Array.from({ length: Math.ceil((VIEWBOX.w + 100) / LIGHT_PITCH) }, (_, i) => 70 + i * LIGHT_PITCH);
+  const lightScrollX = rolling ? -(pan % LIGHT_PITCH) : 0;
 
   return (
     <g aria-hidden>
@@ -123,39 +146,56 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient }: SceneLayerPro
       <rect x="-200" y={runTop + 17} width={VIEWBOX.w + 400} height={1} fill="rgba(255,255,255,0.08)" />
 
       {/* Shallow trapezoids make the paint feel laid onto the runway surface. */}
-      {dashes.map((x) => (
-        <path
-          key={x}
-          d={`M${x + 4} ${centerlineY - 3} H${x + 62} L${x + 68} ${centerlineY + 4} H${x} Z`}
-          fill="rgba(255,255,255,0.62)"
-        />
-      ))}
+      <g transform={`translate(${dashScrollX},0)`}>
+        {dashes.map((x) => (
+          <path
+            key={x}
+            d={`M${x + 4} ${centerlineY - 3} H${x + 62} L${x + 68} ${centerlineY + 4} H${x} Z`}
+            fill="rgba(255,255,255,0.62)"
+          />
+        ))}
+      </g>
 
-      {/* Threshold keys grow toward the camera and leave the center axis clear. */}
-      {thresholdBars.map(({ y, width, height }) => (
-        <path
-          key={y}
-          d={`M${thresholdX + 3} ${y} H${thresholdX + width - 4} L${thresholdX + width} ${y + height} H${thresholdX} Z`}
-          fill="rgba(255,255,255,0.82)"
-        />
-      ))}
+      {/* Motion streaks during peak acceleration — faint speed blur on the tarmac. */}
+      {rollSpeed > 0.05 && (
+        <g opacity={rollSpeed * 0.5} aria-hidden>
+          {[0.16, 0.34, 0.52, 0.7, 0.86].map((fy, i) => (
+            <rect key={i} x="-200" y={runTop + 22 + (VIEWBOX.h + 40 - runTop) * fy} width={VIEWBOX.w + 400} height={1.4} fill="rgba(255,255,255,0.18)" />
+          ))}
+        </g>
+      )}
+
+      {/* Threshold keys grow toward the camera and leave the center axis clear.
+          On takeoff they START ahead of the plane (behind-the-crosswalk line-up)
+          and recede with the rest of the ground (off the left edge). */}
+      <g transform={rolling ? `translate(${DEP_CITY_LEAD - pan},0)` : undefined}>
+        {thresholdBars.map(({ y, width, height }) => (
+          <path
+            key={y}
+            d={`M${thresholdX + 3} ${y} H${thresholdX + width - 4} L${thresholdX + width} ${y + height} H${thresholdX} Z`}
+            fill="rgba(255,255,255,0.82)"
+          />
+        ))}
+      </g>
 
       {/* Far-edge runway lights. */}
-      {lights.map((x, i) =>
-        ambient ? (
-          <motion.circle
-            key={x}
-            cx={x}
-            cy={lightY}
-            r={3.4}
-            fill="#FFB347"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut', delay: (i % 5) * 0.18 }}
-          />
-        ) : (
-          <circle key={x} cx={x} cy={lightY} r={3.4} fill="#FFB347" opacity={0.8} />
-        ),
-      )}
+      <g transform={`translate(${lightScrollX},0)`}>
+        {lights.map((x, i) =>
+          ambient ? (
+            <motion.circle
+              key={x}
+              cx={x}
+              cy={lightY}
+              r={3.4}
+              fill="#FFB347"
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut', delay: (i % 5) * 0.18 }}
+            />
+          ) : (
+            <circle key={x} cx={x} cy={lightY} r={3.4} fill="#FFB347" opacity={0.8} />
+          ),
+        )}
+      </g>
     </g>
   );
 }

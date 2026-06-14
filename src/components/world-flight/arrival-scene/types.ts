@@ -71,7 +71,11 @@ export interface SceneLayerProps {
   progress: number;
   /** False when motion === 'static' OR prefers-reduced-motion. */
   ambient: boolean;
-  /** Landing vs takeoff — only the plane layer reads this. */
+  /**
+   * Landing vs takeoff. Read across the scene: the composer (camera transform +
+   * departure pan / parallax depth), the runway layer (scrolling markings) and
+   * the plane layer (flight path + calibration blend) all branch on it.
+   */
   mode: ArrivalMode;
 }
 

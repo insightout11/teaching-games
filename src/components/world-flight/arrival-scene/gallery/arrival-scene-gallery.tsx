@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { DestinationArrivalScene } from '../destination-arrival-scene';
 import { isAuthoredLandmark } from '../scene-registry';
 import type { ArrivalMode, ArrivalMotion, ArrivalPhase, TimeOfDay } from '../types';
+import { ARRIVAL_DURATION_MS, DEPARTURE_DURATION_MS, arrivalTimeline } from '../cinematic-motion';
 
 interface GalleryItem {
   id: string;
@@ -25,6 +26,8 @@ const ASPECTS: { label: string; value: string }[] = [
   { label: '32:9', value: '32 / 9' },
 ];
 const TIMES: (TimeOfDay | 'baked')[] = ['baked', 'dawn', 'day', 'dusk', 'night'];
+const StaticArrivalScene = memo(DestinationArrivalScene);
+StaticArrivalScene.displayName = 'StaticArrivalScene';
 
 export function ArrivalSceneGallery() {
   const items = useMemo<GalleryItem[]>(
@@ -38,6 +41,9 @@ export function ArrivalSceneGallery() {
   const [selectedId, setSelectedId] = useState(items[0].id);
   const [phase, setPhase] = useState<ArrivalPhase>('approach');
   const [progress, setProgress] = useState(0.6);
+  const [clientReady, setClientReady] = useState(false);
+  const [cinematicRun, setCinematicRun] = useState(0);
+  const [cinematicPlaying, setCinematicPlaying] = useState(false);
 
   // Click-to-enlarge lightbox + its review controls (aspect / time-of-day /
   // motion / arrival mode) so the whole verification matrix runs at large size.
@@ -61,16 +67,63 @@ export function ArrivalSceneGallery() {
   // screenshot can target any city/phase/progress. Done in an effect to avoid
   // a server/client hydration mismatch.
   useEffect(() => {
+    setClientReady(true);
+  }, []);
+
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const c = params.get('city');
     const ph = params.get('phase') as ArrivalPhase | null;
     const pr = params.get('progress');
+    const md = params.get('mode');
     if (c && items.some((i) => i.id === c)) setSelectedId(c);
     if (ph && PHASES.includes(ph)) setPhase(ph);
     if (pr != null && !Number.isNaN(Number(pr))) setProgress(Math.min(1, Math.max(0, Number(pr))));
+    if (md === 'arrival' || md === 'departure') setMode(md);
   }, [items]);
 
+  useEffect(() => {
+    if (!cinematicRun) return;
+    const startedAt = performance.now();
+    let frameId = 0;
+    setCinematicPlaying(true);
+    // Departure drives raw progress (the plane/camera read progress, not phase);
+    // arrival walks the shared phase timeline. Mode is captured at play start.
+    const isDeparture = mode === 'departure';
+    const duration = isDeparture ? DEPARTURE_DURATION_MS : ARRIVAL_DURATION_MS;
+
+    const animate = (now: number) => {
+      const timelineProgress = Math.min((now - startedAt) / duration, 1);
+      if (isDeparture) {
+        setProgress(timelineProgress);
+      } else {
+        const frame = arrivalTimeline(timelineProgress);
+        setPhase(frame.phase);
+        setProgress(frame.progress);
+      }
+      if (timelineProgress < 1) {
+        frameId = requestAnimationFrame(animate);
+      } else {
+        setCinematicPlaying(false);
+      }
+    };
+
+    frameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cinematicRun]);
+
   const selected = items.find((i) => i.id === selectedId) ?? items[0];
+
+  // This dev inspection tool renders 50+ complex SVG scenes. Client-mount it so
+  // early scenes cannot start ambient effects while the root is still hydrating.
+  if (!clientReady) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#0b1120', color: '#9fb0c7', padding: '24px 28px', fontFamily: 'ui-sans-serif, system-ui, sans-serif' }}>
+        Loading arrival scene gallery...
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#0b1120', color: '#e6edf6', padding: '24px 28px', fontFamily: 'ui-sans-serif, system-ui, sans-serif' }}>
@@ -107,9 +160,9 @@ export function ArrivalSceneGallery() {
               title="Click to enlarge"
               style={{ aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden', border: '1px solid #1f2c45', cursor: 'zoom-in' }}
             >
-              <DestinationArrivalScene destinationId={selected.id} scene={selected.scene} phase={phase} progress={progress} motion="animated" />
+              <DestinationArrivalScene destinationId={selected.id} scene={selected.scene} phase={phase} progress={progress} mode={mode} motion="animated" />
             </div>
-            <figcaption style={{ fontSize: 12, color: '#9fb0c7', marginTop: 6 }}>animated · {phase} · progress {progress.toFixed(2)} · click to enlarge</figcaption>
+            <figcaption style={{ fontSize: 12, color: '#9fb0c7', marginTop: 6 }}>animated · {mode} · {phase} · progress {progress.toFixed(2)} · click to enlarge</figcaption>
           </figure>
 
           {/* approach vs landed comparison */}
@@ -117,7 +170,7 @@ export function ArrivalSceneGallery() {
             {(['approach', 'landed'] as ArrivalPhase[]).map((ph) => (
               <figure key={ph} style={{ margin: 0, width: 270 }}>
                 <div style={{ aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden', border: '1px solid #1f2c45' }}>
-                  <DestinationArrivalScene destinationId={selected.id} scene={selected.scene} phase={ph} progress={ph === 'approach' ? 0.5 : 1} motion="static" />
+                  <StaticArrivalScene destinationId={selected.id} scene={selected.scene} phase={ph} progress={ph === 'approach' ? 0.5 : 1} motion="static" />
                 </div>
                 <figcaption style={{ fontSize: 12, color: '#9fb0c7', marginTop: 6 }}>{ph}</figcaption>
               </figure>
@@ -127,6 +180,30 @@ export function ArrivalSceneGallery() {
 
         {/* controls */}
         <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 14, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 6 }}>
+            {(['arrival', 'departure'] as ArrivalMode[]).map((m) => (
+              <button
+                key={m}
+                onClick={() => setMode(m)}
+                style={{
+                  fontSize: 12, padding: '5px 12px', borderRadius: 7, cursor: 'pointer',
+                  background: mode === m ? '#3b82f6' : '#1c2742', color: '#e6edf6',
+                  border: '1px solid #2a3a5c',
+                }}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setCinematicRun((value) => value + 1)}
+            style={{
+              fontSize: 12, padding: '5px 12px', borderRadius: 7, cursor: 'pointer',
+              background: '#0f766e', color: '#ecfeff', border: '1px solid #2dd4bf',
+            }}
+          >
+            {cinematicPlaying ? 'Restart' : mode === 'departure' ? 'Play departure' : 'Play cinematic'}
+          </button>
           <div style={{ display: 'flex', gap: 6 }}>
             {PHASES.map((ph) => (
               <button
@@ -163,7 +240,7 @@ export function ArrivalSceneGallery() {
               }}
             >
               <div style={{ aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden', border: '1px solid #1f2c45', background: '#000' }}>
-                <DestinationArrivalScene destinationId={item.id} scene={item.scene} phase="landed" progress={1} motion="static" />
+                <StaticArrivalScene destinationId={item.id} scene={item.scene} phase="landed" progress={1} motion="static" />
               </div>
               <div style={{ padding: '6px 4px 2px' }}>
                 <div style={{ fontSize: 13, fontWeight: 600, display: 'flex', gap: 6, alignItems: 'center' }}>

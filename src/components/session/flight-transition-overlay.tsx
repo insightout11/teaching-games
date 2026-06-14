@@ -7,6 +7,7 @@ import type { WeatherState } from '@/components/ui/sky-background';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { ArrivalPhase, TimeOfDay } from '@/components/world-flight/arrival-scene/types';
+import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import type { DestinationScene } from '@/lib/world-flight/types';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
@@ -38,16 +39,6 @@ interface FlightTransitionOverlayProps {
   /** When set on a takeoff leg, the plane departs from the origin city's scene. */
   departureScene?: FlightArrivalScene;
   onDismiss: () => void;
-}
-
-// Maps overlay-lifetime progress (0→1) onto the arrival scene's phase timeline:
-// approach (diagonal descent) → touchdown (settle) → taxi (roll) → landed (park).
-// Mirrors the descent plane keyframe timing so the city fly-in feels the same.
-function arrivalFrame(t: number): { phase: ArrivalPhase; progress: number } {
-  if (t < 0.55) return { phase: 'approach', progress: t / 0.55 };
-  if (t < 0.68) return { phase: 'touchdown', progress: (t - 0.55) / 0.13 };
-  if (t < 0.86) return { phase: 'taxi', progress: (t - 0.68) / 0.18 };
-  return { phase: 'landed', progress: 1 };
 }
 
 // y value that places the plane on the sideways runway tarmac.
@@ -335,6 +326,13 @@ export function FlightTransitionOverlay({
   const showRunway = (leg === 'takeoff' || leg === 'descent') && !isCityTransition;
   const planeAnim = buildPlaneAnim(leg);
 
+  // The tracking-camera takeoff (rolling down the real city's runway) wants a
+  // longer beat than the standard transition so the speed build is felt. The
+  // cinematic arrival also gets time for the touchdown impact and hero reveal.
+  const isTakeoffCity = cityLeg?.mode === 'departure';
+  const isArrivalCity = cityLeg?.mode === 'arrival';
+  const travelMs = isTakeoffCity ? DEPARTURE_DURATION_MS : isArrivalCity ? 5200 : TRAVEL_DURATION;
+
   // Drives the city scene's phase/progress across the overlay lifetime.
   const [transitionT, setTransitionT] = useState(prefersReducedMotion ? 1 : 0);
   useEffect(() => {
@@ -342,22 +340,22 @@ export function FlightTransitionOverlay({
     let raf = 0;
     const start = performance.now();
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / TRAVEL_DURATION);
+      const t = Math.min(1, (now - start) / travelMs);
       setTransitionT(t);
       if (t < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [isCityTransition, prefersReducedMotion]);
+  }, [isCityTransition, prefersReducedMotion, travelMs]);
   // Departure ignores phase (single climb-out path); arrival walks the landing phases.
   const af = cityLeg?.mode === 'departure'
     ? { phase: 'approach' as ArrivalPhase, progress: transitionT }
-    : arrivalFrame(transitionT);
+    : arrivalTimeline(transitionT);
 
   useEffect(() => {
-    const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : 3500);
+    const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : isTakeoffCity ? 5200 : isArrivalCity ? 5500 : 3500);
     return () => clearTimeout(id);
-  }, [onDismiss, prefersReducedMotion]);
+  }, [onDismiss, prefersReducedMotion, isTakeoffCity, isArrivalCity]);
 
   return (
     <div
@@ -380,7 +378,7 @@ export function FlightTransitionOverlay({
             showMoon={cityLeg!.scene.timeOfDay === 'night'}
             intensity="moderate"
             parallaxScale={prefersReducedMotion ? 1 : 4}
-            parallaxDuration={TRAVEL_DURATION / 1000}
+            parallaxDuration={travelMs / 1000}
           />
           <div className="absolute inset-0" style={{ zIndex: 6 }}>
             <DestinationArrivalScene

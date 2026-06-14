@@ -4,16 +4,7 @@ import { useEffect, useState } from 'react';
 import { RotateCcw, X } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { DestinationArrivalScene } from './arrival-scene/destination-arrival-scene';
-import type { ArrivalPhase } from './arrival-scene/types';
-
-const REPLAY_DURATION_MS = 7200;
-
-function arrivalFrame(progress: number): { phase: ArrivalPhase; progress: number } {
-  if (progress < 0.52) return { phase: 'approach', progress: progress / 0.52 };
-  if (progress < 0.66) return { phase: 'touchdown', progress: (progress - 0.52) / 0.14 };
-  if (progress < 0.88) return { phase: 'taxi', progress: (progress - 0.66) / 0.22 };
-  return { phase: 'landed', progress: 1 };
-}
+import { ARRIVAL_DURATION_MS, arrivalTimeline } from './arrival-scene/cinematic-motion';
 
 export function PassportArrivalReplay({
   destinationId,
@@ -32,7 +23,7 @@ export function PassportArrivalReplay({
     const startedAt = performance.now();
     let frameId = 0;
     const animate = (now: number) => {
-      const nextProgress = Math.min((now - startedAt) / REPLAY_DURATION_MS, 1);
+      const nextProgress = Math.min((now - startedAt) / ARRIVAL_DURATION_MS, 1);
       setTimelineProgress(nextProgress);
       if (nextProgress < 1) frameId = requestAnimationFrame(animate);
     };
@@ -49,7 +40,7 @@ export function PassportArrivalReplay({
   }, [onClose]);
 
   if (!destination) return null;
-  const frame = arrivalFrame(timelineProgress);
+  const frame = arrivalTimeline(timelineProgress);
 
   return (
     <div className="fixed inset-0 z-[80] bg-[#04101c]" role="dialog" aria-modal="true" aria-label={`Replay arrival in ${destination.city}`}>

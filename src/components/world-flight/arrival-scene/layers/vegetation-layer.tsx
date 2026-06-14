@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { CONTENT_W, LAYOUT, type SceneLayerProps } from '../types';
+import { BLEED_X, CONTENT_W, LAYOUT, type SceneLayerProps } from '../types';
 import { normalizeVegetation } from '../scene-registry';
 import { randRange } from '../seed';
 
@@ -11,12 +11,23 @@ export function VegetationLayer({ scene, palette, rand, ambient }: SceneLayerPro
 
   const baseY = LAYOUT.apronY + 64; // on the grass strip, in front of the city
 
-  // Scatter trees, avoiding the centre where the plane lands/taxis.
+  // Scatter across the FULL canvas (focal + side bleed) so the greenery fills the
+  // field on wide windows too, not just the 16:9 zone. Keep the runway centre clear.
+  const left = -BLEED_X + 24;
+  const right = CONTENT_W + BLEED_X - 24;
+  const inRunwayGap = (x: number) => x > CONTENT_W * 0.34 && x < CONTENT_W * 0.74;
   const slots: number[] = [];
-  for (let i = 0; i < 12; i += 1) {
-    const x = randRange(rand, 30, CONTENT_W - 30);
-    if (x > CONTENT_W * 0.34 && x < CONTENT_W * 0.74) continue; // keep runway centre clear
+  for (let i = 0; i < 28; i += 1) {
+    const x = randRange(rand, left, right);
+    if (inRunwayGap(x)) continue;
     slots.push(x);
+  }
+  // Low shrubs as ground cover scattered between the trees.
+  const bushSlots: number[] = [];
+  for (let i = 0; i < 14; i += 1) {
+    const x = randRange(rand, left, right);
+    if (inRunwayGap(x)) continue;
+    bushSlots.push(x);
   }
 
   // Coconut palm — a tapering, slightly bent trunk with segment rings + coconuts
@@ -201,11 +212,42 @@ export function VegetationLayer({ scene, palette, rand, ambient }: SceneLayerPro
     );
   };
 
+  // Low shrub — a clump of overlapping foliage with a shaded base. Gentle sway.
+  const bush = (k: number, x: number, s: number) => {
+    const leaf = palette.foliage;
+    const dark = 'rgba(0,0,0,0.18)';
+    const node = (
+      <g>
+        <ellipse cx={0} cy={-9} rx={22} ry={13} fill={leaf} />
+        <circle cx={-13} cy={-9} r={11} fill={leaf} />
+        <circle cx={13} cy={-10} r={12} fill={leaf} />
+        <circle cx={1} cy={-18} r={12} fill={leaf} />
+        <ellipse cx={8} cy={-5} rx={13} ry={7} fill={dark} />
+      </g>
+    );
+    return (
+      <g key={`bush${k}`} transform={`translate(${x} ${baseY}) scale(${s})`}>
+        {ambient ? (
+          <motion.g
+            style={{ transformBox: 'fill-box', transformOrigin: 'bottom center' }}
+            animate={{ rotate: [-1.4, 1.4, -1.4] }}
+            transition={{ duration: 5 + (k % 3) * 0.5, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            {node}
+          </motion.g>
+        ) : (
+          node
+        )}
+      </g>
+    );
+  };
+
   const draw =
     veg === 'palms' ? palm : veg === 'pines' ? pine : veg === 'sakura' ? sakura : broadleaf;
 
   return (
     <g aria-hidden>
+      {bushSlots.map((x, i) => bush(i, x, randRange(rand, 0.7, 1.1)))}
       {slots.map((x, i) => draw(i, x, randRange(rand, 0.7, 1.15)))}
     </g>
   );

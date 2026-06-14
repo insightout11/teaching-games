@@ -1226,12 +1226,18 @@ function RomeSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const base = LAYOUT.apronY + 12;
   const f = palette.buildingSilhouette;
   const isNight = palette.light === 'moon';
+  // St Peter's sits at dx; reserve a clear slot so no row building overlaps it.
+  const dx = CONTENT_W * 0.42;
   const items: React.ReactNode[] = [];
   let x = -40;
   let k = 0;
   while (x < CONTENT_W + 40) {
     const w = randRange(rand, 54, 110);
     const h = randRange(rand, 70, 140);
+    if (x + w > dx - 88 && x < dx + 88) {
+      x = dx + 88;
+      continue;
+    }
     const top = base - h;
     const parts: React.ReactNode[] = [<rect key="b" x={x} y={top} width={w} height={h} fill={f} />];
     const roll = rand();
@@ -1243,7 +1249,6 @@ function RomeSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     k += 1;
   }
   // St Peter's Basilica dome (pale travertine hero)
-  const dx = CONTENT_W * 0.42;
   const cream = 'rgb(216,208,188)';
   const creamShade = 'rgba(0,0,0,0.16)';
   const gold = 'rgba(216,184,96,0.92)';
