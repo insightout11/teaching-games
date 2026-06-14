@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useMemo, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import { BLEED_X, CONTENT_W, LAYOUT, VIEWBOX, type DestinationArrivalSceneProps, type LandmarkDepth, type LandmarkLayerProps, type ScenePalette } from './types';
 import { composeTimedPalette, getPalette } from './palettes';
 import { randRange, seededRand } from './seed';
@@ -15,25 +15,6 @@ import { RunwayLayer } from './layers/runway-layer';
 import { PlaneLayer } from './layers/plane-layer';
 import { AmbientLayer } from './layers/ambient-layer';
 import { Windsock } from './layers/windsock';
-
-// Ambient parallax: a slow shared horizontal sway where nearer focal layers
-// travel further than distant ones, so the depth stack pulls apart and back
-// like a gentle camera dolly — reads as real depth. All layers share the same
-// cycle/phase (so they move together, not independently). Off when !ambient, so
-// still frames and reduced-motion stay pixel-stable.
-const PARALLAX_CYCLE = 15; // seconds for a full sway out-and-back
-function Parallax({ amp, ambient, children }: { amp: number; ambient: boolean; children: React.ReactNode }) {
-  if (!ambient || amp === 0) return <>{children}</>;
-  return (
-    <motion.g
-      initial={{ x: -amp }}
-      animate={{ x: [-amp, amp, -amp] }}
-      transition={{ duration: PARALLAX_CYCLE, repeat: Infinity, ease: 'easeInOut' }}
-    >
-      {children}
-    </motion.g>
-  );
-}
 
 // Distant, low-contrast skyline painted into the side bleed margins so wide
 // windows don't show the focal city floating on bare shoulders. Uses its OWN
@@ -140,17 +121,17 @@ export function DestinationArrivalScene({
     >
       {/* Full-canvas: sky (tier 1) */}
       {!transparentSky && <AtmosphereLayer {...layerProps} />}
-      {/* Focal background landmark — parallax: farthest, sways least */}
-      <g transform={focal}><Parallax amp={5} ambient={ambient}>{landmarkAt('background')}</Parallax></g>
+      {/* Focal background landmark */}
+      <g transform={focal}>{landmarkAt('background')}</g>
       {/* Terrain self-splits: base bands full-canvas, silhouettes focal */}
       <TerrainLayer {...layerProps} />
       {/* Distant skyline in the side bleed (own RNG — does not perturb focal) */}
       <BleedSkyline palette={palette} destinationId={destinationId} />
-      {/* Focal city + accents — parallax amplitude grows toward the viewer */}
-      <g transform={focal}><Parallax amp={9} ambient={ambient}>{landmarkAt('midground')}</Parallax></g>
-      <g transform={focal}><Parallax amp={12} ambient={ambient}><SkylineLayer {...layerProps} /></Parallax></g>
-      <g transform={focal}><Parallax amp={18} ambient={ambient}>{landmarkAt('foreground')}</Parallax></g>
-      <g transform={focal}><Parallax amp={22} ambient={ambient}><VegetationLayer {...layerProps} /></Parallax></g>
+      {/* Focal city + accents */}
+      <g transform={focal}>{landmarkAt('midground')}</g>
+      <g transform={focal}><SkylineLayer {...layerProps} /></g>
+      <g transform={focal}>{landmarkAt('foreground')}</g>
+      <g transform={focal}><VegetationLayer {...layerProps} /></g>
       {/* Focal ambient life (birds / light flickers / beacon) — renders only when
           ambient (animated + not reduced-motion); still frames show nothing. */}
       <g transform={focal}><AmbientLayer {...layerProps} /></g>
