@@ -2,7 +2,7 @@ import type { Difficulty } from '@/lib/difficulty';
 import type { SourceCitation, SourceMaterial } from '@/types/source-material';
 
 export type DestinationSceneTerrain = 'coastal' | 'mountain' | 'flatland' | 'desert' | 'island' | 'urban';
-export type DestinationSceneVegetation = 'palms' | 'pines' | 'broadleaf' | 'none';
+export type DestinationSceneVegetation = 'palms' | 'pines' | 'broadleaf' | 'sakura' | 'none';
 export type DestinationSceneSkyline = 'low' | 'dense' | 'highrise' | 'historic';
 
 export interface DestinationImage {
@@ -20,6 +20,62 @@ export interface DestinationScene {
   terrain: DestinationSceneTerrain;
   vegetation?: DestinationSceneVegetation;
   skyline: DestinationSceneSkyline;
+  /**
+   * Optional bespoke city skyline. When set, the skyline layer renders a
+   * city-specific massing/rooflines/accents instead of the generic `skyline`
+   * family. Additive — omit it and the generic family is used unchanged.
+   */
+  skylineVariant?:
+    | 'tokyo'
+    | 'paris'
+    | 'rio'
+    | 'nyc'
+    | 'london'
+    | 'dubai'
+    | 'singapore'
+    | 'sydney'
+    | 'hongkong'
+    | 'moscow'
+    | 'istanbul'
+    | 'berlin'
+    | 'seoul'
+    | 'bangkok'
+    | 'beijing'
+    | 'rome'
+    | 'amsterdam'
+    | 'capetown'
+    | 'toronto'
+    | 'cairo'
+    | 'la'
+    | 'mumbai'
+    | 'madrid'
+    | 'mexicocity'
+    | 'buenosaires'
+    | 'vancouver'
+    | 'miami'
+    | 'honolulu'
+    | 'delhi'
+    | 'jakarta'
+    | 'lagos'
+    | 'lisbon'
+    | 'mecca'
+    | 'dublin'
+    | 'reykjavik'
+    | 'panamacity'
+    | 'hcmc'
+    | 'almaty'
+    | 'nairobi'
+    | 'lima'
+    | 'bogota'
+    | 'perth'
+    | 'auckland'
+    | 'suva'
+    | 'ulaanbaatar'
+    | 'dakar'
+    | 'manila'
+    | 'santiago'
+    | 'recife'
+    | 'addisababa';
   landmarkSilhouette?: string;
   palette: 'dawn' | 'night' | 'golden' | 'tropical' | 'winter';
 }

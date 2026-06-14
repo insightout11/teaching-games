@@ -2,27 +2,25 @@
 
 import { motion } from 'framer-motion';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
+import { getPlaneViewAsset } from '@/lib/plane-progression';
 
 interface RunwayPlaneSceneProps {
   planeKey?: string | null;
   planeSize?: 'sm' | 'md' | 'lg' | 'xl';
   showRunway?: boolean;
   // Front-facing view (faces the camera, for forward-facing runway scenes).
-  // Uses the starter biplane front art for now, regardless of planeKey.
   frontFacing?: boolean;
   frontVariant?: 'headon' | '3q';
   className?: string;
 }
 
-const FRONT_SRC: Record<NonNullable<RunwayPlaneSceneProps['frontVariant']>, string> = {
-  headon: '/assets/flight/planes/starter-biplane-front.webp',
-  '3q': '/assets/flight/planes/starter-biplane-front-3q.webp',
-};
 const FRONT_H: Record<NonNullable<RunwayPlaneSceneProps['planeSize']>, number> = {
   sm: 96, md: 140, lg: 180, xl: 232,
 };
 
 export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true, frontFacing = false, frontVariant = '3q', className }: RunwayPlaneSceneProps) {
+  const frontSrc = getPlaneViewAsset(planeKey, frontVariant === 'headon' ? 'front' : 'front-3q');
+
   return (
     <div className={`relative inline-flex flex-col items-center ${className ?? ''}`}>
       {showRunway && (
@@ -44,7 +42,7 @@ export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true
         {frontFacing ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={FRONT_SRC[frontVariant]}
+            src={frontSrc}
             alt=""
             draggable={false}
             style={{ height: FRONT_H[planeSize], width: 'auto' }}

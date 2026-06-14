@@ -51,33 +51,44 @@ export function TerrainLayer({ scene, palette, rand, idPrefix }: SceneLayerProps
   };
 
   if (terrain === 'coastal' || terrain === 'island') {
-    const shoreY = top + (terrain === 'island' ? 8 : 16);
+    // The sea is only a thin distant line at the very horizon; a land band fills
+    // the rest of the strip so the city stands on SHORE on solid ground, with the
+    // water reading as far behind it (not a band at the building bases). Both
+    // bands are full-canvas, so the bleed seam stays continuous on wide windows.
+    const waterBottomY = top + 12;
     return (
       <g aria-hidden>
         {Defs}
-        {/* sea — full canvas */}
-        {baseBand(`url(#${wId})`)}
+        {/* distant sea ribbon — full canvas */}
+        <rect x={-40} y={top} width={VIEWBOX.w + 80} height={waterBottomY - top} fill={`url(#${wId})`} />
+        {/* shore/land the city sits on — full canvas, in front of the sea */}
+        <rect x={-40} y={waterBottomY} width={VIEWBOX.w + 80} height={base - waterBottomY} fill={`url(#${gId})`} />
         <g transform={focal}>
-          {/* sun/sky glints on water (focal) */}
+          {/* sun/sky glints on the sea ribbon (focal) */}
           {Array.from({ length: 6 }).map((_, i) => (
             <rect
               key={i}
               x={randRange(rand, 60, CONTENT_W - 120)}
-              y={shoreY + randRange(rand, 6, 30)}
+              y={top + randRange(rand, 2, 9)}
               width={randRange(rand, 30, 90)}
               height={2}
               fill="rgba(255,255,255,0.25)"
             />
           ))}
           {terrain === 'island' ? (
-            // a low island mass to one side
+            // a low island headland rising from the sea ribbon to one side
             <path
-              d={`M ${CONTENT_W * 0.55} ${shoreY + 30} Q ${CONTENT_W * 0.78} ${shoreY - 40} ${CONTENT_W + 40} ${shoreY + 30} L ${CONTENT_W + 40} ${base} L ${CONTENT_W * 0.55} ${base} Z`}
+              d={`M ${CONTENT_W * 0.5} ${waterBottomY} Q ${CONTENT_W * 0.74} ${top - 22} ${CONTENT_W + 40} ${waterBottomY} Z`}
               fill={`url(#${gId})`}
+              opacity={0.95}
             />
           ) : (
-            // far headland strip
-            <path d={hills(36, 7)} fill={`url(#${gId})`} opacity={0.95} />
+            // a low far headland peeking above the waterline
+            <path
+              d={`M -40 ${waterBottomY} Q ${CONTENT_W * 0.3} ${top - 10} ${CONTENT_W * 0.62} ${waterBottomY} T ${CONTENT_W + 40} ${waterBottomY} Z`}
+              fill={`url(#${gId})`}
+              opacity={0.9}
+            />
           )}
         </g>
       </g>

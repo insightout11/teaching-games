@@ -11,6 +11,32 @@ const productionKeys = WORLD_DESTINATIONS
   .map((d) => d.scene.landmarkSilhouette)
   .filter((k): k is string => Boolean(k));
 
+// Cities that received bespoke city-specific landmarks in the Jun 2026 batch
+// (four former generic fallbacks + sixteen that had been reusing another city's
+// art). Each must resolve to its own authored landmark key.
+const CITY_SPECIFIC_LANDMARKS: Record<string, string> = {
+  Miami: 'art-deco',
+  Bogota: 'monserrate',
+  Nairobi: 'kicc',
+  Lima: 'plaza-mayor',
+  Auckland: 'sky-tower',
+  Suva: 'suva-clock-tower',
+  Ulaanbaatar: 'gandan-monastery',
+  Almaty: 'kok-tobe',
+  Madrid: 'puerta-alcala',
+  Lisbon: 'belem-tower',
+  Dublin: 'hapenny-bridge',
+  Mecca: 'kaaba',
+  Dakar: 'renaissance-monument',
+  Recife: 'recife-waterfront',
+  'Panama City': 'panama-canal',
+  Santiago: 'gran-torre',
+  'Addis Ababa': 'au-headquarters',
+  Delhi: 'india-gate',
+  Manila: 'rizal-monument',
+  'Ho Chi Minh City': 'bitexco-tower',
+};
+
 describe('landmark registry audit', () => {
   it('every production landmarkSilhouette is authored or intentionally generic', () => {
     // A typo in destinations.ts (e.g. opera-huose) would surface here.
@@ -46,5 +72,23 @@ describe('landmark registry audit', () => {
     // eslint-disable-next-line no-console
     console.log(`Generic-fallback cities (${generic.length}):\n  ${generic.join('\n  ')}`);
     expect(generic.length).toBe(productionKeys.filter((key) => INTENTIONALLY_GENERIC.has(key)).length);
+  });
+
+  it('has no unintended generic-fallback cities (allowlist is empty)', () => {
+    // Every production city is now authored; the typo-guard allowlist is empty.
+    expect(Array.from(INTENTIONALLY_GENERIC)).toEqual([]);
+    const generic = WORLD_DESTINATIONS.filter(
+      (d) => !isAuthoredLandmark(d.scene.landmarkSilhouette),
+    );
+    expect(generic).toEqual([]);
+  });
+
+  it('every city-specific batch destination uses its expected authored landmark', () => {
+    for (const [city, expectedKey] of Object.entries(CITY_SPECIFIC_LANDMARKS)) {
+      const dest = WORLD_DESTINATIONS.find((d) => d.city === city);
+      expect(dest, `destination missing: ${city}`).toBeDefined();
+      expect(dest?.scene.landmarkSilhouette, city).toBe(expectedKey);
+      expect(isAuthoredLandmark(expectedKey), `${expectedKey} not authored`).toBe(true);
+    }
   });
 });

@@ -35,6 +35,26 @@ import { HarbourLandmark } from './landmarks/harbour';
 import { TableMountainLandmark } from './landmarks/table-mountain';
 import { HollywoodSignLandmark } from './landmarks/hollywood-sign';
 import { ChristTheRedeemerLandmark } from './landmarks/christ-the-redeemer';
+import { ArtDecoLandmark } from './landmarks/art-deco';
+import { MonserrateLandmark } from './landmarks/monserrate';
+import { KiccLandmark } from './landmarks/kicc';
+import { PlazaMayorLandmark } from './landmarks/plaza-mayor';
+import { SkyTowerLandmark } from './landmarks/sky-tower';
+import { SuvaClockTowerLandmark } from './landmarks/suva-clock-tower';
+import { GandanMonasteryLandmark } from './landmarks/gandan-monastery';
+import { KokTobeLandmark } from './landmarks/kok-tobe';
+import { PuertaAlcalaLandmark } from './landmarks/puerta-alcala';
+import { BelemTowerLandmark } from './landmarks/belem-tower';
+import { HapennyBridgeLandmark } from './landmarks/hapenny-bridge';
+import { KaabaLandmark } from './landmarks/kaaba';
+import { RenaissanceMonumentLandmark } from './landmarks/renaissance-monument';
+import { RecifeWaterfrontLandmark } from './landmarks/recife-waterfront';
+import { PanamaCanalLandmark } from './landmarks/panama-canal';
+import { GranTorreLandmark } from './landmarks/gran-torre';
+import { AuHeadquartersLandmark } from './landmarks/au-headquarters';
+import { IndiaGateLandmark } from './landmarks/india-gate';
+import { RizalMonumentLandmark } from './landmarks/rizal-monument';
+import { BitexcoTowerLandmark } from './landmarks/bitexco-tower';
 
 // ── Landmark registry ────────────────────────────────────────────────────────
 // Placement (depth slot + anchor/baseY/scale/opacity) lives HERE, not inside the
@@ -52,7 +72,13 @@ export const LANDMARK_REGISTRY: Record<string, LandmarkRegistryEntry> = {
   mountains: { component: MountainsLandmark, depth: 'background', anchorX: 0.5, baseY: 588, scale: 1.05, opacity: 0.96 },
   'diamond-head': { component: DiamondHeadLandmark, depth: 'background', anchorX: 0.7, baseY: 594, scale: 0.92 },
   'table-mountain': { component: TableMountainLandmark, depth: 'background', anchorX: 0.5, baseY: 590, scale: 1.0, opacity: 0.96 },
-  'christ-the-redeemer': { component: ChristTheRedeemerLandmark, depth: 'background', anchorX: 0.66, baseY: 590, scale: 0.95 },
+  'christ-the-redeemer': { component: ChristTheRedeemerLandmark, depth: 'background', anchorX: 0.66, baseY: 590, scale: 1.05 },
+  // Cerro de Monserrate rises east of Bogotá: a large distant peak with the
+  // summit sanctuary, so it reads best in the background like the other peaks.
+  monserrate: { component: MonserrateLandmark, depth: 'background', anchorX: 0.66, baseY: 590, scale: 0.95 },
+  // The Andes form a broad range behind Santiago; the Gran Torre rises above the
+  // city skyline in front of the peaks (drawn within the same component).
+  'gran-torre': { component: GranTorreLandmark, depth: 'background', anchorX: 0.46, baseY: 590, scale: 0.82 },
 
   // Midground — on the land, behind the city skyline buildings.
   pyramids: { component: PyramidsLandmark, depth: 'midground', anchorX: 0.27, baseY: 600, scale: 0.9 },
@@ -64,36 +90,69 @@ export const LANDMARK_REGISTRY: Record<string, LandmarkRegistryEntry> = {
   'hollywood-sign': { component: HollywoodSignLandmark, depth: 'midground', anchorX: 0.34, baseY: 632, scale: 0.98 },
 
   // Foreground — closest cultural accent, in front of the skyline (left side).
-  'temple-roof': { component: TempleRoofLandmark, depth: 'foreground', anchorX: 0.32, baseY: 628, scale: 0.78 },
-  'opera-house': { component: OperaHouseLandmark, depth: 'foreground', anchorX: 0.34, baseY: 630, scale: 0.84 },
-  'canal-houses': { component: CanalHousesLandmark, depth: 'foreground', anchorX: 0.32, baseY: 632, scale: 0.74 },
-  hallgrimskirkja: { component: HallgrimskirkjaLandmark, depth: 'foreground', anchorX: 0.34, baseY: 628, scale: 0.76 },
+  'temple-roof': { component: TempleRoofLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.78 },
+  'opera-house': { component: OperaHouseLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.84 },
+  'canal-houses': { component: CanalHousesLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.74 },
+  hallgrimskirkja: { component: HallgrimskirkjaLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.76 },
 
   // towers & columns
-  eiffel: { component: EiffelLandmark, depth: 'foreground', anchorX: 0.3, baseY: 628, scale: 0.82 },
-  'big-ben': { component: BigBenLandmark, depth: 'foreground', anchorX: 0.32, baseY: 628, scale: 0.8 },
-  burj: { component: BurjLandmark, depth: 'foreground', anchorX: 0.3, baseY: 628, scale: 0.72 },
-  'cn-tower': { component: CnTowerLandmark, depth: 'foreground', anchorX: 0.34, baseY: 628, scale: 0.78 },
-  monas: { component: MonasLandmark, depth: 'foreground', anchorX: 0.32, baseY: 628, scale: 0.8 },
-  obelisk: { component: ObeliskLandmark, depth: 'foreground', anchorX: 0.3, baseY: 628, scale: 0.82 },
+  eiffel: { component: EiffelLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.9 },
+  'big-ben': { component: BigBenLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.8 },
+  burj: { component: BurjLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.72 },
+  'cn-tower': { component: CnTowerLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.78 },
+  monas: { component: MonasLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.8 },
+  obelisk: { component: ObeliskLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.82 },
 
   // domed / roofed structures
-  'saint-basils': { component: SaintBasilsLandmark, depth: 'foreground', anchorX: 0.34, baseY: 632, scale: 0.78 },
-  mosque: { component: MosqueLandmark, depth: 'foreground', anchorX: 0.32, baseY: 632, scale: 0.74 },
-  cathedral: { component: CathedralLandmark, depth: 'foreground', anchorX: 0.34, baseY: 632, scale: 0.74 },
-  'brandenburg-gate': { component: BrandenburgGateLandmark, depth: 'foreground', anchorX: 0.3, baseY: 634, scale: 0.72 },
-  'forbidden-city': { component: ForbiddenCityLandmark, depth: 'foreground', anchorX: 0.32, baseY: 634, scale: 0.72 },
-  'palace-gate': { component: PalaceGateLandmark, depth: 'foreground', anchorX: 0.34, baseY: 634, scale: 0.74 },
-  colosseum: { component: ColosseumLandmark, depth: 'foreground', anchorX: 0.3, baseY: 636, scale: 0.92 },
+  'saint-basils': { component: SaintBasilsLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.86 },
+  mosque: { component: MosqueLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.74 },
+  cathedral: { component: CathedralLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.74 },
+  'brandenburg-gate': { component: BrandenburgGateLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.72 },
+  'forbidden-city': { component: ForbiddenCityLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.72 },
+  'palace-gate': { component: PalaceGateLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.74 },
+  colosseum: { component: ColosseumLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.92 },
 
   // statues / structures
-  'statue-liberty': { component: StatueLibertyLandmark, depth: 'foreground', anchorX: 0.32, baseY: 628, scale: 0.82 },
-  supertree: { component: SupertreeLandmark, depth: 'foreground', anchorX: 0.34, baseY: 632, scale: 0.82 },
+  'statue-liberty': { component: StatueLibertyLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.82 },
+  supertree: { component: SupertreeLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.82 },
 
   // bridges / harbour over water
-  'sea-link': { component: SeaLinkLandmark, depth: 'foreground', anchorX: 0.34, baseY: 636, scale: 0.78 },
-  'lagoon-bridge': { component: LagoonBridgeLandmark, depth: 'foreground', anchorX: 0.34, baseY: 636, scale: 0.74 },
-  harbour: { component: HarbourLandmark, depth: 'foreground', anchorX: 0.34, baseY: 636, scale: 0.8 },
+  'sea-link': { component: SeaLinkLandmark, depth: 'foreground', anchorX: 0.34, baseY: 660, scale: 0.78 },
+  'lagoon-bridge': { component: LagoonBridgeLandmark, depth: 'foreground', anchorX: 0.34, baseY: 660, scale: 0.74 },
+  harbour: { component: HarbourLandmark, depth: 'foreground', anchorX: 0.34, baseY: 660, scale: 0.8 },
+
+  // ── City-specific batch (Jun 2026): replaces generic fallbacks + reused art ──
+  // observation / financial towers
+  'sky-tower': { component: SkyTowerLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.72 },
+  kicc: { component: KiccLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.8 },
+  'kok-tobe': { component: KokTobeLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.74 },
+  'au-headquarters': { component: AuHeadquartersLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.74 },
+  'bitexco-tower': { component: BitexcoTowerLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.72 },
+
+  // clock / colonial towers & cathedrals
+  'suva-clock-tower': { component: SuvaClockTowerLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.78 },
+  'plaza-mayor': { component: PlazaMayorLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.74 },
+
+  // gates / arches / facades
+  'puerta-alcala': { component: PuertaAlcalaLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.74 },
+  'india-gate': { component: IndiaGateLandmark, depth: 'foreground', anchorX: 0.32, baseY: 652, scale: 0.78 },
+  'art-deco': { component: ArtDecoLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.74 },
+
+  // temples / sacred structures
+  'gandan-monastery': { component: GandanMonasteryLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.78 },
+  kaaba: { component: KaabaLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.7 },
+
+  // statues / monuments
+  'renaissance-monument': { component: RenaissanceMonumentLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.74 },
+  'rizal-monument': { component: RizalMonumentLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.78 },
+
+  // bridges / waterfront / fortifications over water
+  'belem-tower': { component: BelemTowerLandmark, depth: 'foreground', anchorX: 0.33, baseY: 660, scale: 0.74 },
+  'hapenny-bridge': { component: HapennyBridgeLandmark, depth: 'foreground', anchorX: 0.34, baseY: 660, scale: 0.76 },
+  'recife-waterfront': { component: RecifeWaterfrontLandmark, depth: 'foreground', anchorX: 0.34, baseY: 660, scale: 0.76 },
+  // Full-width canal: anchorX 0.5 / scale 1 lets the water span the whole canvas
+  // (incl. side bleed); the lock + ship stay centred in the focal zone.
+  'panama-canal': { component: PanamaCanalLandmark, depth: 'foreground', anchorX: 0.5, baseY: 660, scale: 1.0 },
 };
 
 // Placement for the generic fallback (used when a landmarkSilhouette has no
@@ -112,16 +171,12 @@ export const GENERIC_LANDMARK_ENTRY: LandmarkRegistryEntry = {
  * — a new/typo'd value that is neither authored nor listed here fails the
  * registry audit test rather than silently rendering generic.
  *
- * As of batch 2 every current production landmark is authored, so this is empty.
- * If a new destination introduces a landmark we haven't drawn yet, add its key
- * here (intentional generic) or author a component.
+ * As of the Jun 2026 city-specific batch every current production landmark is
+ * authored, so this is empty. If a new destination introduces a landmark we
+ * haven't drawn yet, add its key here (intentional generic) or author a
+ * component.
  */
-export const INTENTIONALLY_GENERIC: ReadonlySet<string> = new Set<string>([
-  'art-deco',
-  'kicc',
-  'monserrate',
-  'plaza-mayor',
-]);
+export const INTENTIONALLY_GENERIC: ReadonlySet<string> = new Set<string>([]);
 
 /** Resolve the registry entry for a landmark key, falling back to the generic monument. */
 export function resolveLandmark(key: string | undefined): LandmarkRegistryEntry | null {
@@ -155,7 +210,7 @@ const SKYLINES = new Set<DestinationSceneSkyline>([
   'low', 'dense', 'highrise', 'historic',
 ]);
 const VEGETATIONS = new Set<DestinationSceneVegetation>([
-  'palms', 'pines', 'broadleaf', 'none',
+  'palms', 'pines', 'broadleaf', 'sakura', 'none',
 ]);
 
 export function normalizeTerrain(value: string | undefined): DestinationSceneTerrain {

@@ -6,9 +6,13 @@
       "choices": [
         {
           "key": "starter-biplane",
-          "name": "Starter Biplane",
-          "png": "/assets/flight/planes/starter-biplane.png",
-          "webp": "/assets/flight/planes/starter-biplane.webp"
+          "name": "LC Wayfarer",
+          "png": "/assets/flight/planes/lc-wayfarer.png",
+          "webp": "/assets/flight/planes/lc-wayfarer.webp",
+          "frontPng": "/assets/flight/planes/lc-wayfarer-front.png",
+          "frontWebp": "/assets/flight/planes/lc-wayfarer-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-wayfarer-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-wayfarer-front-3q.webp"
         }
       ]
     },

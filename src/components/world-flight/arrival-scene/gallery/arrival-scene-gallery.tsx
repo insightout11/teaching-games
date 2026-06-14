@@ -5,7 +5,7 @@ import type { DestinationScene } from '@/lib/world-flight/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { DestinationArrivalScene } from '../destination-arrival-scene';
 import { isAuthoredLandmark } from '../scene-registry';
-import type { ArrivalPhase } from '../types';
+import type { ArrivalMode, ArrivalMotion, ArrivalPhase, TimeOfDay } from '../types';
 
 interface GalleryItem {
   id: string;
@@ -19,6 +19,12 @@ interface GalleryItem {
 const FIXTURES: GalleryItem[] = [];
 
 const PHASES: ArrivalPhase[] = ['approach', 'touchdown', 'taxi', 'landed'];
+const ASPECTS: { label: string; value: string }[] = [
+  { label: '16:9', value: '16 / 9' },
+  { label: '21:9', value: '21 / 9' },
+  { label: '32:9', value: '32 / 9' },
+];
+const TIMES: (TimeOfDay | 'baked')[] = ['baked', 'dawn', 'day', 'dusk', 'night'];
 
 export function ArrivalSceneGallery() {
   const items = useMemo<GalleryItem[]>(
@@ -32,6 +38,24 @@ export function ArrivalSceneGallery() {
   const [selectedId, setSelectedId] = useState(items[0].id);
   const [phase, setPhase] = useState<ArrivalPhase>('approach');
   const [progress, setProgress] = useState(0.6);
+
+  // Click-to-enlarge lightbox + its review controls (aspect / time-of-day /
+  // motion / arrival mode) so the whole verification matrix runs at large size.
+  const [enlarged, setEnlarged] = useState(false);
+  const [aspect, setAspect] = useState(ASPECTS[0].value);
+  const [tod, setTod] = useState<TimeOfDay | 'baked'>('baked');
+  const [mode, setMode] = useState<ArrivalMode>('arrival');
+  const [lbMotion, setLbMotion] = useState<ArrivalMotion>('animated');
+
+  // Esc closes the lightbox.
+  useEffect(() => {
+    if (!enlarged) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setEnlarged(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [enlarged]);
 
   // Seed state from the URL (?city=&phase=&progress=) after mount so a headless
   // screenshot can target any city/phase/progress. Done in an effect to avoid
@@ -67,15 +91,25 @@ export function ArrivalSceneGallery() {
           {!isAuthoredLandmark(selected.scene.landmarkSilhouette) && (
             <span style={{ fontSize: 11, color: '#ffce7a', border: '1px solid #5a4a1f', borderRadius: 6, padding: '1px 6px' }}>generic landmark</span>
           )}
+          <button
+            onClick={() => setEnlarged(true)}
+            style={{ marginLeft: 'auto', fontSize: 12, padding: '5px 12px', borderRadius: 7, cursor: 'pointer', background: '#1c2742', color: '#e6edf6', border: '1px solid #2a3a5c' }}
+          >
+            ⤢ Enlarge
+          </button>
         </div>
 
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-          {/* live, phase-driven */}
+          {/* live, phase-driven — click to enlarge */}
           <figure style={{ margin: 0, width: 560, maxWidth: '100%' }}>
-            <div style={{ aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden', border: '1px solid #1f2c45' }}>
+            <div
+              onClick={() => setEnlarged(true)}
+              title="Click to enlarge"
+              style={{ aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden', border: '1px solid #1f2c45', cursor: 'zoom-in' }}
+            >
               <DestinationArrivalScene destinationId={selected.id} scene={selected.scene} phase={phase} progress={progress} motion="animated" />
             </div>
-            <figcaption style={{ fontSize: 12, color: '#9fb0c7', marginTop: 6 }}>animated · {phase} · progress {progress.toFixed(2)}</figcaption>
+            <figcaption style={{ fontSize: 12, color: '#9fb0c7', marginTop: 6 }}>animated · {phase} · progress {progress.toFixed(2)} · click to enlarge</figcaption>
           </figure>
 
           {/* approach vs landed comparison */}
@@ -146,6 +180,82 @@ export function ArrivalSceneGallery() {
           );
         })}
       </section>
+
+      {/* Click-to-enlarge lightbox */}
+      {enlarged && (
+        <div
+          onClick={() => setEnlarged(false)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 50, background: 'rgba(4,8,18,0.92)',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            padding: 24, gap: 14,
+          }}
+        >
+          {/* header */}
+          <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', gap: 12, alignItems: 'center', width: '95vw', maxWidth: 2400 }}>
+            <strong style={{ fontSize: 16 }}>{selected.label}</strong>
+            <span style={{ fontSize: 12, color: '#9fb0c7' }}>
+              {selected.scene.landmarkSilhouette ?? '—'} · {mode} · {tod === 'baked' ? `baked (${selected.scene.palette})` : tod} · {lbMotion}
+            </span>
+            <button
+              onClick={() => setEnlarged(false)}
+              style={{ marginLeft: 'auto', fontSize: 13, padding: '6px 14px', borderRadius: 7, cursor: 'pointer', background: '#1c2742', color: '#e6edf6', border: '1px solid #2a3a5c' }}
+            >
+              ✕ Close (Esc)
+            </button>
+          </div>
+
+          {/* large scene at the chosen aspect ratio */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{ width: '95vw', maxWidth: 2400, aspectRatio: aspect, borderRadius: 12, overflow: 'hidden', border: '1px solid #243352', background: '#000' }}
+          >
+            <DestinationArrivalScene
+              destinationId={selected.id}
+              scene={selected.scene}
+              phase={phase}
+              progress={progress}
+              motion={lbMotion}
+              mode={mode}
+              timeOfDay={tod === 'baked' ? undefined : tod}
+            />
+          </div>
+
+          {/* controls */}
+          <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', gap: 18, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', width: '95vw', maxWidth: 2400 }}>
+            <ButtonRow label="aspect" options={ASPECTS.map((a) => a.label)} value={ASPECTS.find((a) => a.value === aspect)!.label} onPick={(l) => setAspect(ASPECTS.find((a) => a.label === l)!.value)} />
+            <ButtonRow label="time" options={TIMES} value={tod} onPick={(t) => setTod(t as TimeOfDay | 'baked')} />
+            <ButtonRow label="mode" options={['arrival', 'departure']} value={mode} onPick={(m) => setMode(m as ArrivalMode)} />
+            <ButtonRow label="motion" options={['animated', 'static']} value={lbMotion} onPick={(m) => setLbMotion(m as ArrivalMotion)} />
+            <ButtonRow label="phase" options={PHASES} value={phase} onPick={(p) => setPhase(p as ArrivalPhase)} />
+            <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 12, color: '#9fb0c7' }}>
+              progress
+              <input type="range" min={0} max={1} step={0.01} value={progress} onChange={(e) => setProgress(Number(e.target.value))} />
+            </label>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Small labelled segmented control used in the lightbox.
+function ButtonRow({ label, options, value, onPick }: { label: string; options: readonly string[]; value: string; onPick: (v: string) => void }) {
+  return (
+    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+      <span style={{ fontSize: 11, color: '#7f8ea6' }}>{label}</span>
+      {options.map((o) => (
+        <button
+          key={o}
+          onClick={() => onPick(o)}
+          style={{
+            fontSize: 12, padding: '5px 11px', borderRadius: 7, cursor: 'pointer',
+            background: value === o ? '#3b82f6' : '#1c2742', color: '#e6edf6', border: '1px solid #2a3a5c',
+          }}
+        >
+          {o}
+        </button>
+      ))}
     </div>
   );
 }

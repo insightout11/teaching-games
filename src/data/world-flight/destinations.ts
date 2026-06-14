@@ -246,7 +246,7 @@ export const WORLD_DESTINATIONS: DestinationPack[] = [
     lng: 100.5018,
     primaryAirport: 'BKK',
     airports: ['BKK', 'DMK'],
-    scene: { terrain: 'flatland', vegetation: 'palms', skyline: 'dense', landmarkSilhouette: 'temple-roof', palette: 'tropical' },
+    scene: { terrain: 'flatland', vegetation: 'palms', skyline: 'dense', skylineVariant: 'bangkok', landmarkSilhouette: 'temple-roof', palette: 'tropical' },
     heroImage: IMAGES.bangkok,
     focusOptions: [
       videoFocus(
@@ -353,7 +353,7 @@ Students can use Bangkok to debate whether creativity should be treated as enter
     lng: 139.6503,
     primaryAirport: 'HND',
     airports: ['HND', 'NRT'],
-    scene: { terrain: 'urban', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'fuji', palette: 'night' },
+    scene: { terrain: 'urban', vegetation: 'sakura', skyline: 'highrise', skylineVariant: 'tokyo', landmarkSilhouette: 'fuji', palette: 'night' },
     heroImage: IMAGES.tokyo,
     focusOptions: [
       videoFocus(
@@ -471,7 +471,7 @@ Sento raise a wider city question: what happens when a practical public service 
     lng: 126.9780,
     primaryAirport: 'ICN',
     airports: ['ICN', 'GMP'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', landmarkSilhouette: 'palace-gate', palette: 'golden' },
+    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'seoul', landmarkSilhouette: 'palace-gate', palette: 'golden' },
     heroImage: IMAGES.seoul,
     focusOptions: [
       videoFocus(
@@ -578,7 +578,7 @@ This creates a practical discussion: how should a city protect heritage without 
     lng: 103.8198,
     primaryAirport: 'SIN',
     airports: ['SIN'],
-    scene: { terrain: 'island', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'supertree', palette: 'tropical' },
+    scene: { terrain: 'island', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'singapore', landmarkSilhouette: 'supertree', palette: 'tropical' },
     heroImage: IMAGES.singapore,
     focusOptions: [
       videoFocus(
@@ -685,7 +685,7 @@ For Singapore, the gardens also support a city brand. They show that a compact u
     lng: 2.3522,
     primaryAirport: 'CDG',
     airports: ['CDG', 'ORY'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'eiffel', palette: 'golden' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'paris', landmarkSilhouette: 'eiffel', palette: 'golden' },
     heroImage: IMAGES.paris,
     focusOptions: [
       videoFocus(
@@ -792,7 +792,7 @@ Students can discuss responsible tourism without blaming travelers. What should 
     lng: -0.1276,
     primaryAirport: 'LHR',
     airports: ['LHR', 'LGW', 'STN', 'LTN', 'LCY'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'big-ben', palette: 'winter' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'london', landmarkSilhouette: 'big-ben', palette: 'winter' },
     heroImage: IMAGES.london,
     focusOptions: [
       videoFocus(
@@ -899,7 +899,7 @@ Students can discuss what makes a market authentic. Is it the age of the place, 
     lng: -74.0060,
     primaryAirport: 'JFK',
     airports: ['JFK', 'LGA', 'EWR'],
-    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'statue-liberty', palette: 'night' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'nyc', landmarkSilhouette: 'statue-liberty', palette: 'night' },
     heroImage: IMAGES.newYork,
     focusOptions: [
       videoFocus(
@@ -1006,7 +1006,7 @@ Students can compare libraries with schools, cafes, coworking spaces, and the in
     lng: 31.2357,
     primaryAirport: 'CAI',
     airports: ['CAI'],
-    scene: { terrain: 'desert', vegetation: 'palms', skyline: 'low', landmarkSilhouette: 'pyramids', palette: 'golden' },
+    scene: { terrain: 'desert', vegetation: 'palms', skyline: 'low', skylineVariant: 'cairo', landmarkSilhouette: 'pyramids', palette: 'golden' },
     heroImage: IMAGES.cairo,
     focusOptions: [
       videoFocus(
@@ -1113,7 +1113,7 @@ Students can discuss when bargaining feels friendly and when it feels stressful.
     lng: 55.2708,
     primaryAirport: 'DXB',
     airports: ['DXB', 'DWC'],
-    scene: { terrain: 'desert', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'burj', palette: 'golden' },
+    scene: { terrain: 'desert', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'dubai', landmarkSilhouette: 'burj', palette: 'golden' },
     heroImage: IMAGES.dubai,
     focusOptions: [
       videoFocus(
@@ -1220,7 +1220,7 @@ Students can redesign a desert street. They should decide where people walk, whe
     lng: 151.2093,
     primaryAirport: 'SYD',
     airports: ['SYD'],
-    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'dense', landmarkSilhouette: 'opera-house', palette: 'dawn' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'sydney', landmarkSilhouette: 'opera-house', palette: 'dawn' },
     heroImage: IMAGES.sydney,
     focusOptions: [
       videoFocus(
@@ -1327,7 +1327,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 116.4074,
     primaryAirport: 'PEK',
     airports: ['PEK', 'PKX'],
-    scene: { terrain: 'urban', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'forbidden-city', palette: 'golden' },
+    scene: { terrain: 'urban', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'beijing', landmarkSilhouette: 'forbidden-city', palette: 'golden' },
     heroImage: IMAGES.beijing,
     focusOptions: [
       videoFocus('city-history-video', 'Beijing - A Capital in Two Minutes', 'Trace how Beijing grew into a political and cultural capital.', 'Intermediate', 'Summarize how a capital city can preserve older layers while changing quickly.', ['listening', 'history', 'summary'], 'LoEiMrKjels', 'The Millenium Studios', 99, `This short city history gives students a compact timeline for Beijing. They can identify dynasties, capital-city functions, and modern growth, then compare Beijing with other political capitals on the route.`),
@@ -1356,7 +1356,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 13.405,
     primaryAirport: 'BER',
     airports: ['BER'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'brandenburg-gate', palette: 'winter' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'berlin', landmarkSilhouette: 'brandenburg-gate', palette: 'winter' },
     heroImage: IMAGES.berlin,
     focusOptions: [
       videoFocus('berlin-wall-video', 'Berlin - The Wall Explained', 'Understand why a wall divided a city and why its fall still matters.', 'Intermediate', 'Explain the Berlin Wall using cause, effect, and human impact.', ['listening', 'history', 'cause and effect'], 'rMeAHKx2I58', 'explainitychannel', 241, `This explainer introduces the Berlin Wall as a political border inside everyday city life. Students can discuss division, movement, family separation, and why physical barriers can become powerful symbols.`),
@@ -1385,7 +1385,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 37.6173,
     primaryAirport: 'SVO',
     airports: ['SVO', 'DME', 'VKO'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'saint-basils', palette: 'winter' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'moscow', landmarkSilhouette: 'saint-basils', palette: 'winter' },
     heroImage: IMAGES.moscow,
     focusOptions: [
       videoFocus('city-history-video', 'Moscow - A Concise City History', 'Trace Moscow from settlement to capital and global city.', 'Intermediate', 'Summarize how geography, power, and rebuilding shaped Moscow.', ['listening', 'history', 'summary'], '4oidJmHsaws', 'k.c.', 206, `This concise history clip gives students a city-specific timeline for Moscow. They can identify growth, political power, and rebuilding, then compare Moscow with other capitals in Europe and Asia.`),
@@ -1414,7 +1414,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 28.9784,
     primaryAirport: 'IST',
     airports: ['IST', 'SAW'],
-    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'mosque', palette: 'golden' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'istanbul', landmarkSilhouette: 'mosque', palette: 'golden' },
     heroImage: IMAGES.istanbul,
     focusOptions: [
       videoFocus('constantinople-istanbul-video', 'Istanbul - When Constantinople Became Istanbul', 'Use a short history video to discuss names, empire, and memory.', 'Intermediate', 'Explain why city names can carry political and cultural history.', ['listening', 'history', 'identity'], 'Lq8o2QjnqwM', 'History Matters', 170, `This History Matters video explains the shift from Constantinople to Istanbul. Students can discuss how names carry memory, conquest, language, and identity, then compare cities with changed names in other countries.`),
@@ -1443,7 +1443,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: -123.1207,
     primaryAirport: 'YVR',
     airports: ['YVR'],
-    scene: { terrain: 'mountain', vegetation: 'pines', skyline: 'highrise', landmarkSilhouette: 'mountains', palette: 'dawn' },
+    scene: { terrain: 'coastal', vegetation: 'pines', skyline: 'highrise', skylineVariant: 'vancouver', landmarkSilhouette: 'mountains', palette: 'dawn' },
     heroImage: IMAGES.vancouver,
     focusOptions: [
       videoFocus('underground-streams-video', "Vancouver - The Streams Hidden Under the City", 'Investigate what happened to Vancouver streams as roads and neighborhoods developed.', 'Intermediate', 'Explain how urban development can hide natural systems and why a city might restore them.', ['listening', 'urban ecology', 'cause and effect'], 'q_dDXLQTUcU', 'CBC British Columbia', 380, `This CBC short film investigates the streams that once crossed Vancouver and asks what happened when many were buried beneath the growing city. Students can connect maps, urban development, salmon habitat, flooding, and restoration while evaluating whether hidden waterways should be brought back.`, '2026-06-12'),
@@ -1472,7 +1472,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: -79.3832,
     primaryAirport: 'YYZ',
     airports: ['YYZ', 'YTZ'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'cn-tower', palette: 'winter' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'toronto', landmarkSilhouette: 'cn-tower', palette: 'winter' },
     heroImage: IMAGES.toronto,
     focusOptions: [
       videoFocus('growth-video', "Toronto - Canada's Biggest City", 'Explain how Toronto became a major Canadian and global city.', 'Intermediate', 'Identify reasons a city grows into a national economic center.', ['listening', 'urban history', 'cause and effect'], 'eH-kzO09fnQ', 'Travis Ridgen 2.0', 397, `This explainer focuses on Toronto's growth into Canada's largest city. Students can identify immigration, finance, geography, and regional connections, then compare Toronto with other national hubs.`),
@@ -1501,7 +1501,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 72.8777,
     primaryAirport: 'BOM',
     airports: ['BOM'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'sea-link', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'mumbai', landmarkSilhouette: 'sea-link', palette: 'tropical' },
     heroImage: IMAGES.mumbai,
     focusOptions: [
       videoFocus('city-history-video', 'Mumbai - From Bombay to Mumbai', 'Use a Britannica short to trace islands, empire, trade, and renaming.', 'Intermediate', 'Summarize how Mumbai grew from coastal settlements into a megacity.', ['listening', 'history', 'summary'], 'gOmiMIM9BEk', 'Encyclopaedia Britannica', 287, `This Britannica spotlight gives students a concise history of Mumbai. They can identify port geography, colonial layers, commerce, and the significance of name changes.`),
@@ -1530,7 +1530,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 18.4241,
     primaryAirport: 'CPT',
     airports: ['CPT'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', landmarkSilhouette: 'table-mountain', palette: 'dawn' },
+    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'capetown', landmarkSilhouette: 'table-mountain', palette: 'dawn' },
     heroImage: IMAGES.capeTown,
     focusOptions: [
       videoFocus('founded-video', 'Cape Town - How the City Was Founded', 'Trace early colonial settlement and the city around Table Bay.', 'Intermediate', 'Explain how port geography and empire shaped Cape Town.', ['listening', 'history', 'geography'], '4wBhCKKZxYU', 'Bright Trip', 398, `This short history of Cape Town introduces settlement, maritime geography, and colonial growth. Students can discuss why ports attract trade, power, migration, and conflict.`),
@@ -1559,7 +1559,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 12.4964,
     primaryAirport: 'FCO',
     airports: ['FCO', 'CIA'],
-    scene: { terrain: 'urban', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'colosseum', palette: 'golden' },
+    scene: { terrain: 'urban', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'rome', landmarkSilhouette: 'colosseum', palette: 'golden' },
     heroImage: IMAGES.rome,
     focusOptions: [
       videoFocus('ancient-rome-video', 'Rome - Ancient Rome 101', 'Use a National Geographic overview to build a fast ancient-city timeline.', 'Intermediate', 'Summarize major Roman ideas, institutions, and built forms.', ['listening', 'history', 'summary'], 'GXoEpNjgKzg', 'National Geographic', 338, `This National Geographic overview introduces Ancient Rome in a compact format. Students can identify republic, empire, engineering, law, and public spectacle as pieces of one city story.`),
@@ -1588,7 +1588,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: -43.1729,
     primaryAirport: 'GIG',
     airports: ['GIG', 'SDU'],
-    scene: { terrain: 'mountain', vegetation: 'palms', skyline: 'dense', landmarkSilhouette: 'christ-the-redeemer', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'dense', skylineVariant: 'rio', landmarkSilhouette: 'christ-the-redeemer', palette: 'tropical' },
     heroImage: IMAGES.rio,
     focusOptions: [
       videoFocus('city-history-video', "Rio - The City's History", 'Trace colonial port, capital city, and global image in one short overview.', 'Intermediate', 'Summarize why Rio became culturally and politically important.', ['listening', 'history', 'summary'], 'I5TaVt5FZoQ', 'CitiesX', 240, `This CitiesX video introduces Rio's history. Students can discuss ports, capitals, slavery, empire, republic, tourism, and how one city can carry many national images.`),
@@ -1617,7 +1617,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: -99.1332,
     primaryAirport: 'MEX',
     airports: ['MEX', 'NLU'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'cathedral', palette: 'golden' },
+    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'mexicocity', landmarkSilhouette: 'cathedral', palette: 'golden' },
     heroImage: IMAGES.mexicoCity,
     focusOptions: [
       videoFocus('complex-history-video', 'Mexico City - A Complex History', 'Use a local guide episode to discuss older cities beneath the modern city.', 'Intermediate', 'Explain how Mexico City layers Indigenous, colonial, and modern history.', ['listening', 'history', 'identity'], 'tb_TKtH5k0U', 'Google Local Guides', 265, `This local guide episode introduces Mexico City's complex history. Students can discuss Tenochtitlan, colonial rebuilding, public squares, and why one place can hold many city stories at once.`),
@@ -1646,7 +1646,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: -58.3816,
     primaryAirport: 'EZE',
     airports: ['EZE', 'AEP'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'dense', landmarkSilhouette: 'obelisk', palette: 'golden' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'buenosaires', landmarkSilhouette: 'obelisk', palette: 'golden' },
     heroImage: IMAGES.buenosAires,
     focusOptions: [
       videoFocus('city-history-video', 'Buenos Aires - A Fascinating History', 'Trace port city growth, immigration, politics, and identity.', 'Intermediate', 'Summarize how Buenos Aires became Argentina’s dominant urban center.', ['listening', 'history', 'summary'], '24geEfuDkxA', 'Voyage Wisdom', 391, `This history overview helps students connect Buenos Aires with port geography, immigration, national politics, and cultural identity. It works well for timeline and cause-and-effect practice.`),
@@ -1675,7 +1675,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: -118.2437,
     primaryAirport: 'LAX',
     airports: ['LAX', 'BUR', 'LGB'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'hollywood-sign', palette: 'golden' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'la', landmarkSilhouette: 'hollywood-sign', palette: 'golden' },
     heroImage: IMAGES.losAngeles,
     focusOptions: [
       videoFocus('hollywood-history-video', 'Los Angeles - Why Hollywood Became Hollywood', 'Trace geography, weather, film studios, and global image.', 'Intermediate', 'Explain why one industry concentrated in Los Angeles.', ['listening', 'media', 'history'], 'gBe4HpNY_Z8', 'History on Maps', 323, `This video explains Hollywood's rise in Los Angeles. Students can discuss weather, land, business, technology, and how a place name becomes shorthand for an industry.`),
@@ -1704,7 +1704,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 106.8456,
     primaryAirport: 'CGK',
     airports: ['CGK', 'HLP'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'monas', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'jakarta', landmarkSilhouette: 'monas', palette: 'tropical' },
     heroImage: IMAGES.jakarta,
     focusOptions: [
       videoFocus('historical-places-video', 'Jakarta - Five Historical Places', 'Use landmarks to trace colonial, national, and everyday city memory.', 'Intermediate', 'Describe how historical sites tell different parts of Jakarta’s story.', ['listening', 'history', 'landmarks'], 'pBSJxJmGpE0', 'City Explorers', 337, `This Jakarta landmarks video gives students a route through historical places. They can connect sites with trade, colonial history, independence, and modern public memory.`),
@@ -1733,7 +1733,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 3.3792,
     primaryAirport: 'LOS',
     airports: ['LOS'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'lagoon-bridge', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'lagos', landmarkSilhouette: 'lagoon-bridge', palette: 'tropical' },
     heroImage: IMAGES.lagos,
     focusOptions: [
       videoFocus('local-city-video', 'Lagos - Discover the City With a Local', 'Use a local travel segment to discuss pace, creativity, and city identity.', 'Intermediate', 'Describe Lagos using specific details rather than one broad label.', ['listening', 'culture', 'description'], 'EHFEPnDtK4c', 'DW Travel', 342, `This DW Travel segment introduces Lagos through a local perspective. Students can notice markets, movement, creativity, and how a fast-growing city is described by residents.`),
@@ -1762,7 +1762,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 114.1694,
     primaryAirport: 'HKG',
     airports: ['HKG'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'harbour', palette: 'night' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'hongkong', landmarkSilhouette: 'harbour', palette: 'night' },
     heroImage: IMAGES.hongKong,
     focusOptions: [
       videoFocus('animated-history-video', 'Hong Kong - Animated History', 'Trace trading port, colony, handover, and global city identity.', 'Intermediate', 'Summarize Hong Kong history using timeline language.', ['listening', 'history', 'summary'], 'yoCsM3XBiFk', 'Suibhne', 346, `This animated history gives students a compact overview of Hong Kong. They can discuss trade, empire, migration, handover, and why city identity can be politically complex.`),
@@ -1791,7 +1791,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 4.9041,
     primaryAirport: 'AMS',
     airports: ['AMS'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'canal-houses', palette: 'golden' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'amsterdam', landmarkSilhouette: 'canal-houses', palette: 'golden' },
     heroImage: IMAGES.amsterdam,
     focusOptions: [
       videoFocus('city-history-video', 'Amsterdam - A Surprising History', 'Trace trade, canals, tolerance, and urban growth in a compact history.', 'Intermediate', 'Summarize how water, trade, and culture shaped Amsterdam.', ['listening', 'history', 'summary'], 'dJ4eNsaAxSQ', 'The Dutch History Channel', 189, `This history clip gives students a compact overview of Amsterdam. They can connect trade, canals, religious history, and city planning in one route discussion.`),
@@ -1820,7 +1820,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: -157.8583,
     primaryAirport: 'HNL',
     airports: ['HNL'],
-    scene: { terrain: 'island', vegetation: 'palms', skyline: 'low', landmarkSilhouette: 'diamond-head', palette: 'tropical' },
+    scene: { terrain: 'island', vegetation: 'palms', skyline: 'low', skylineVariant: 'honolulu', landmarkSilhouette: 'diamond-head', palette: 'tropical' },
     heroImage: IMAGES.honolulu,
     focusOptions: [
       videoFocus('hula-story-video', 'Honolulu - Hula as History and Responsibility', 'See how hula carries stories, language, and cultural responsibility.', 'Intermediate', 'Explain why a dance can preserve knowledge and identity.', ['listening', 'culture', 'storytelling'], 'BLjwluzYtM4', 'National Geographic', 207, `This National Geographic short presents hula as a way of carrying Hawaiian stories and responsibilities, not simply as entertainment. Students can listen for the relationship between movement, language, teaching, and cultural continuity.`, '2026-06-11'),
@@ -1861,7 +1861,7 @@ Memorials influence how visitors move and behave. Quiet spaces, names, preserved
     lng: -80.1918,
     primaryAirport: 'MIA',
     airports: ['MIA', 'FLL'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'art-deco', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'miami', landmarkSilhouette: 'art-deco', palette: 'tropical' },
     heroImage: IMAGES.miami,
     focusOptions: [
       videoFocus('little-havana-video', 'Miami - A Walk Through Little Havana', 'Explore Cuban culture through music, coffee, food, cigars, and neighborhood life.', 'Intermediate', 'Describe how migration can shape the public identity of a neighborhood.', ['listening', 'culture', 'identity'], 'Z0-UWNOiC0s', 'Voice of America', 181, `This Voice of America report introduces Little Havana through residents and everyday cultural details. Students can listen for how music, food, language, and businesses keep connections to Cuba while developing a distinct Miami identity.`, '2026-06-11'),
@@ -1902,7 +1902,7 @@ Migration changes the city while communities also change after arrival. Food, mu
     lng: -74.0721,
     primaryAirport: 'BOG',
     airports: ['BOG'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', landmarkSilhouette: 'monserrate', palette: 'dawn' },
+    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'bogota', landmarkSilhouette: 'monserrate', palette: 'dawn' },
     heroImage: IMAGES.bogota,
     focusOptions: [
       videoFocus('my-city-video', 'Bogota - Seeing the City With a Local', 'Follow a resident through weather, history, food, music, and changing public life.', 'Intermediate', 'Describe a city using specific local details instead of broad stereotypes.', ['listening', 'city identity', 'description'], 'Gm2LhZrd0yo', 'BBC News', 248, `This BBC My City segment presents Bogota through a resident's perspective. Students can notice how weather, history, neighborhoods, food, and music combine into a city identity that is more complex than one headline.`, '2026-06-11'),
@@ -1943,7 +1943,7 @@ The water system makes a hidden relationship visible. Turning on a tap in Bogota
     lng: -21.9426,
     primaryAirport: 'KEF',
     airports: ['KEF', 'RKV'],
-    scene: { terrain: 'coastal', vegetation: 'none', skyline: 'low', landmarkSilhouette: 'hallgrimskirkja', palette: 'winter' },
+    scene: { terrain: 'coastal', vegetation: 'none', skyline: 'low', skylineVariant: 'reykjavik', landmarkSilhouette: 'hallgrimskirkja', palette: 'winter' },
     heroImage: IMAGES.reykjavik,
     focusOptions: [
       videoFocus('city-landmarks-video', 'Reykjavik - Landmarks in a Small Capital', 'Explore architecture, public space, culture, and nature in a compact northern city.', 'Intermediate', 'Describe how landmarks and daily spaces express the identity of a city.', ['listening', 'architecture', 'city identity'], 'WgLwKPRG7gE', 'DW News', 309, `This DW city profile moves through Reykjavik's landmarks, arts, and public spaces. Students can listen for how a small capital presents itself through architecture while remaining closely connected to the surrounding landscape.`, '2026-06-11'),
@@ -1984,7 +1984,7 @@ Global media, tourism, migration, and digital tools increase contact with Englis
     lng: 36.8219,
     primaryAirport: 'NBO',
     airports: ['NBO', 'WIL'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'kicc', palette: 'golden' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'nairobi', landmarkSilhouette: 'kicc', palette: 'golden' },
     heroImage: IMAGES.nairobi,
     focusOptions: [
       videoFocus('capital-history-video', 'Nairobi - The Accidental Metropolis', 'Trace how a railway camp became Kenya’s capital and a major regional city.', 'Intermediate', 'Explain why infrastructure and political decisions can cause a city to grow.', ['listening', 'history', 'cause and effect'], 'tS0lbLKLUhc', 'Kenya Explained', 240, `This Kenya Explained video traces Nairobi from a railway camp to a large capital. Students can identify the roles of geography, colonial planning, administration, migration, and infrastructure in rapid urban growth.`, '2026-06-11'),
@@ -2025,7 +2025,7 @@ Technology can widen access, but it can also create new gaps involving devices, 
     lng: -77.0428,
     primaryAirport: 'LIM',
     airports: ['LIM'],
-    scene: { terrain: 'coastal', vegetation: 'none', skyline: 'dense', landmarkSilhouette: 'plaza-mayor', palette: 'dawn' },
+    scene: { terrain: 'coastal', vegetation: 'none', skyline: 'dense', skylineVariant: 'lima', landmarkSilhouette: 'plaza-mayor', palette: 'dawn' },
     heroImage: IMAGES.lima,
     focusOptions: [
       videoFocus('city-history-video', 'Lima - A Short History of the Capital', 'Build a timeline through Indigenous history, colonial rule, independence, and modern growth.', 'Intermediate', 'Summarize how several historical periods shaped modern Lima.', ['listening', 'history', 'summary'], 'yZnYY0OaBLM', 'How? Why? Top!', 279, `This compact history follows Lima through several major periods and landmarks. Students can practice timeline language while recognizing that the city's story began before its colonial founding and continued through independence and urban growth.`, '2026-06-11'),
@@ -2066,7 +2066,7 @@ International attention has made Lima an important culinary destination, creatin
     lng: 115.8613,
     primaryAirport: 'PER',
     airports: ['PER'],
-    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'kings-park-skyline', palette: 'golden' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'perth', landmarkSilhouette: 'kings-park-skyline', palette: 'golden' },
     heroImage: IMAGES.perth,
     focusOptions: [
       videoFocus('quokkas-video', 'Perth - Quokkas on Rottnest Island', 'Explore how an island habitat supports a famous animal near Perth.', 'Easy', 'Describe how habitat, predators, and human activity affect an animal population.', ['listening', 'wildlife', 'environment'], 'HHlKvVOjWwM', 'Australian Geographic', 168, `This Australian Geographic short introduces quokkas and the island habitat where they remain abundant. Students can describe animal adaptations while connecting habitat protection, introduced predators, tourism, and conservation.`, '2026-06-11'),
@@ -2107,7 +2107,7 @@ Public use and ecological protection must operate together. Paths, events, fire 
     lng: 174.7645,
     primaryAirport: 'AKL',
     airports: ['AKL'],
-    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'harbour', palette: 'dawn' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'auckland', landmarkSilhouette: 'sky-tower', palette: 'dawn' },
     heroImage: IMAGES.auckland,
     focusOptions: [
       videoFocus('volcanic-field-video', 'Auckland - A City Built Across a Volcanic Field', 'Use Auckland volcanoes to connect geology, landscape, and city growth.', 'Easy', 'Explain how volcanic landforms remain visible inside a modern city.', ['listening', 'geography', 'environment'], 'gFZuLUyEvts', 'Learnz Trips', 182, `This Learnz Trips short explains the Tamaki Makaurau Auckland volcanic field. It gives students a clear geological foundation for understanding why cones, craters, lava flows, and harbours shape the city's map and remain important places today.`, '2026-06-12'),
@@ -2154,7 +2154,7 @@ Every option creates consequences. Moving port operations could open central lan
     lng: 178.4419,
     primaryAirport: 'SUV',
     airports: ['SUV'],
-    scene: { terrain: 'island', vegetation: 'palms', skyline: 'low', landmarkSilhouette: 'lagoon-bridge', palette: 'tropical' },
+    scene: { terrain: 'island', vegetation: 'palms', skyline: 'low', skylineVariant: 'suva', landmarkSilhouette: 'suva-clock-tower', palette: 'tropical' },
     heroImage: IMAGES.suva,
     focusOptions: [
       videoFocus('city-geography-video', 'Suva - Reading a Pacific Capital', 'Use a guided city georamble to connect landscape, buildings, and public life.', 'Intermediate', 'Describe how geography and human activity shape Suva.', ['listening', 'geography', 'observation'], 'VJRPnH948Hw', 'Dr Warwick Murray', 338, `This city georamble moves through Suva while explaining what the landscape and streets reveal. It supports close observation of a Pacific capital instead of treating Fiji only as a beach destination.`, '2026-06-12'),
@@ -2201,7 +2201,7 @@ The Fiji Museum can therefore be understood as a place where the past is cared f
     lng: 106.9057,
     primaryAirport: 'UBN',
     airports: ['UBN'],
-    scene: { terrain: 'mountain', vegetation: 'none', skyline: 'dense', landmarkSilhouette: 'mountains', palette: 'winter' },
+    scene: { terrain: 'mountain', vegetation: 'none', skyline: 'dense', skylineVariant: 'ulaanbaatar', landmarkSilhouette: 'gandan-monastery', palette: 'winter' },
     heroImage: IMAGES.ulaanbaatar,
     focusOptions: [
       videoFocus('changing-capital-video', 'Ulaanbaatar - A Capital Transformed in 100 Years', 'Trace how a monastery center became a rapidly changing modern capital.', 'Easy', 'Summarize major changes in Ulaanbaatar across one century.', ['listening', 'history', 'urban change'], 'ZRJhrsiq8IY', 'BBC Travel Show', 232, `This BBC Travel Show short examines Ulaanbaatar's transformation over a century. It provides a visual timeline for discussing political change, migration, architecture, and the pressures of rapid urban growth.`, '2026-06-12'),
@@ -2248,7 +2248,7 @@ Ulaanbaatar is a key place where these writing systems meet in education, govern
     lng: 76.8512,
     primaryAirport: 'ALA',
     airports: ['ALA'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'mountains', palette: 'golden' },
+    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'almaty', landmarkSilhouette: 'kok-tobe', palette: 'golden' },
     heroImage: IMAGES.almaty,
     focusOptions: [
       videoFocus('garden-city-video', "Almaty - Kazakhstan's Garden City", 'Explore how trees, public spaces, culture, and mountain geography shape Almaty.', 'Easy', 'Describe the relationship between landscape and city identity.', ['listening', 'city identity', 'geography'], 'Rk-AvAekwq0', 'euronews', 294, `This euronews feature introduces Almaty as a green cultural center below the mountains. It offers a broad city portrait that supports observation of public space, landscape, food, and daily life.`, '2026-06-12'),
@@ -2295,7 +2295,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: -3.7038,
     primaryAirport: 'MAD',
     airports: ['MAD'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'palace-gate', palette: 'golden' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'madrid', landmarkSilhouette: 'puerta-alcala', palette: 'golden' },
     heroImage: IMAGES.madrid,
     focusOptions: [
       videoFocus('city-exploration-video', 'Madrid - Exploring the Capital', 'Visit major places through an upbeat introduction designed for younger viewers.', 'Easy', 'Describe Madrid using landmarks, food, and everyday observations.', ['listening', 'city introduction', 'younger learners'], 'ACfR0_VFhW0', "Clayton's Exploration Station", 252, `This lively introduction gives younger learners a welcoming first look at Madrid. It uses clear narration and concrete city details to build useful language for places, food, and cultural observation.`, '2026-06-12'),
@@ -2324,7 +2324,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: -9.1393,
     primaryAirport: 'LIS',
     airports: ['LIS'],
-    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'harbour', palette: 'dawn' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'lisbon', landmarkSilhouette: 'belem-tower', palette: 'dawn' },
     heroImage: IMAGES.lisbon,
     focusOptions: [
       videoFocus('city-guide-video', 'Lisbon - A Short City Welcome', 'See Lisbon through hills, viewpoints, streets, food, and the river.', 'Easy', 'Describe a city using clear visual and location language.', ['listening', 'city introduction', 'younger learners'], 'flOjX4jq68E', 'The Travel Vlogger', 148, `This compact city guide gives younger learners an accessible visual introduction to Lisbon. It provides concrete details about streets, hills, landmarks, food, and the waterfront without overwhelming them with a long itinerary.`, '2026-06-12'),
@@ -2353,7 +2353,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: -6.2603,
     primaryAirport: 'DUB',
     airports: ['DUB'],
-    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'historic', landmarkSilhouette: 'harbour', palette: 'golden' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'historic', skylineVariant: 'dublin', landmarkSilhouette: 'hapenny-bridge', palette: 'golden' },
     heroImage: IMAGES.dublin,
     focusOptions: [
       videoFocus('irish-dance-video', 'Dublin - Learning Irish Dance', 'Learn basic Irish dance movements through a child-friendly cultural lesson.', 'Easy', 'Describe rhythm and movement while recognizing the practice behind performance.', ['listening', 'dance', 'younger learners'], 'dJtV7mAazt0', "Children's Museum of Discovery", 278, `This child-friendly lesson introduces Irish dance through clear demonstrations and cultural context. It gives younger learners an active way to notice rhythm, posture, steps, and the concentration involved in performance.`, '2026-06-12'),
@@ -2382,7 +2382,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: 39.8579,
     primaryAirport: 'JED',
     airports: ['JED'],
-    scene: { terrain: 'mountain', vegetation: 'none', skyline: 'highrise', landmarkSilhouette: 'mosque', palette: 'night' },
+    scene: { terrain: 'mountain', vegetation: 'none', skyline: 'highrise', skylineVariant: 'mecca', landmarkSilhouette: 'kaaba', palette: 'night' },
     heroImage: IMAGES.mecca,
     focusOptions: [
       videoFocus('zamzam-story-video', 'Mecca - The Story of Zamzam', 'Hear a child-friendly telling of a story connected with sacred water in Mecca.', 'Easy', 'Retell a cultural story respectfully using sequence and place language.', ['listening', 'storytelling', 'younger learners'], 'MlqbMKZlM2U', 'One4kids', 380, `This animated story introduces younger learners to the religious meaning associated with Zamzam water. It supports respectful listening, story sequence, and recognition that water can carry spiritual as well as practical importance.`, '2026-06-12'),
@@ -2411,7 +2411,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: -17.4677,
     primaryAirport: 'DSS',
     airports: ['DSS'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'dense', landmarkSilhouette: 'harbour', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'dense', skylineVariant: 'dakar', landmarkSilhouette: 'renaissance-monument', palette: 'tropical' },
     heroImage: IMAGES.dakar,
     focusOptions: [
       videoFocus('ladoum-sheep-video', 'Dakar - Inside a Ladoum Sheep Championship', 'Meet a celebrated Senegalese sheep breed through care, competition, and community pride.', 'Easy', 'Describe animal care and explain why a breed can carry cultural value.', ['listening', 'animals', 'younger learners'], 'l6O4xNYwq9o', 'Farm With Fred', 371, `This engaging feature introduces Ladoum sheep and the people who raise them. It gives younger learners a concrete cultural topic through animals while opening discussion of care, competition, beauty standards, and value.`, '2026-06-12'),
@@ -2440,7 +2440,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: -34.877,
     primaryAirport: 'REC',
     airports: ['REC'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'lagoon-bridge', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'recife', landmarkSilhouette: 'recife-waterfront', palette: 'tropical' },
     heroImage: IMAGES.recife,
     focusOptions: [
       videoFocus('brazil-for-kids-video', 'Recife - Brazil in Under Five Minutes', 'Build a child-friendly foundation for Brazil before focusing on the northeast.', 'Easy', 'Identify major cultural and geographic features before locating Recife within them.', ['listening', 'country introduction', 'younger learners'], 'obzWW5JgFKg', 'Archie and Beans World Adventures', 287, `This concise child-friendly guide introduces Brazil's culture, wildlife, geography, and traditions. It gives younger learners useful national context before examining what makes Recife and Pernambuco distinctive.`, '2026-06-12'),
@@ -2469,7 +2469,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: -79.5199,
     primaryAirport: 'PTY',
     airports: ['PTY'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'harbour', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'none', skyline: 'highrise', skylineVariant: 'panamacity', landmarkSilhouette: 'panama-canal', palette: 'tropical' },
     heroImage: IMAGES.panamaCity,
     focusOptions: [
       videoFocus('mola-art-video', 'Panama City - Discovering Mola Art', 'Learn how Guna artists build colorful designs through layered fabric.', 'Easy', 'Describe patterns and explain how an art form carries cultural identity.', ['listening', 'art', 'younger learners'], '3q8xjGJJWOQ', "Children's Museum of Discovery", 229, `This child-friendly museum lesson introduces mola art through color, pattern, layers, and Guna culture. It gives younger learners a concrete creative entry point while emphasizing that the art belongs to a living community.`, '2026-06-12'),
@@ -2498,7 +2498,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: -70.6693,
     primaryAirport: 'SCL',
     airports: ['SCL'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'highrise', landmarkSilhouette: 'mountains', palette: 'winter' },
+    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'santiago', landmarkSilhouette: 'gran-torre', palette: 'winter' },
     heroImage: IMAGES.santiago,
     focusOptions: [
       videoFocus('chile-for-kids-video', 'Santiago - A Child-Friendly Introduction to Chile', 'Build context through Chilean landscapes, traditions, landmarks, and daily life.', 'Easy', 'Identify major features of Chile before locating Santiago within them.', ['listening', 'country introduction', 'younger learners'], 'qzfCOBLhHmI', 'Club Baby EDU', 287, `This child-friendly overview introduces Chile through clear narration and colorful examples. It gives younger learners useful cultural and geographic context for understanding Santiago as the capital of a long and varied country.`, '2026-06-12'),
@@ -2527,7 +2527,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: 38.7578,
     primaryAirport: 'ADD',
     airports: ['ADD'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', landmarkSilhouette: 'mountains', palette: 'dawn' },
+    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'addisababa', landmarkSilhouette: 'au-headquarters', palette: 'dawn' },
     heroImage: IMAGES.addisAbaba,
     focusOptions: [
       videoFocus('ethiopia-culture-video', 'Addis Ababa - Ethiopian History, Art, and Culture', 'Use a museum lesson to explore objects, stories, and traditions from Ethiopia.', 'Easy', 'Identify cultural details and explain what objects can communicate.', ['listening', 'culture', 'younger learners'], '4nOtT2cNVdw', "Children's Museum of Discovery", 378, `This child-friendly museum program introduces Ethiopian history, art, and culture through clear examples. It gives younger learners a respectful foundation for understanding Addis Ababa as a capital connected to many communities and traditions.`, '2026-06-12'),
@@ -2556,7 +2556,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: 77.209,
     primaryAirport: 'DEL',
     airports: ['DEL'],
-    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'dense', landmarkSilhouette: 'palace-gate', palette: 'golden' },
+    scene: { terrain: 'flatland', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'delhi', landmarkSilhouette: 'india-gate', palette: 'golden' },
     heroImage: IMAGES.delhi,
     focusOptions: [
       videoFocus('indian-food-video', 'Delhi - Discovering Indian Foods', 'Use a child-friendly food guide to build vocabulary and curiosity.', 'Easy', 'Describe foods respectfully using ingredients, appearance, and taste language.', ['listening', 'food culture', 'younger learners'], 'VwvHvyUN7OM', 'Rain n Shine Kids', 409, `This child-friendly guide introduces a range of Indian foods through clear names and visual examples. It gives younger learners an accessible entry point while creating opportunities to discuss regional variety rather than treating Indian food as one single cuisine.`, '2026-06-12'),
@@ -2585,7 +2585,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: 120.9842,
     primaryAirport: 'MNL',
     airports: ['MNL'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'harbour', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'manila', landmarkSilhouette: 'rizal-monument', palette: 'tropical' },
     heroImage: IMAGES.manila,
     focusOptions: [
       videoFocus('philippines-for-kids-video', 'Manila - The Philippines Explained for Kids', 'Build a child-friendly introduction through islands, wildlife, food, traditions, and Manila.', 'Easy', 'Identify major features of the Philippines before focusing on Manila.', ['listening', 'country introduction', 'younger learners'], 'PiZAhy1ocCQ', 'Education Unlocked Kids', 181, `This narrated child-friendly introduction presents the Philippines through clear geographic and cultural examples. It gives younger learners useful context for understanding Manila as the lively capital of a large and varied island country.`, '2026-06-12'),
@@ -2614,7 +2614,7 @@ Almaty shows the difference between political power and urban influence. A capit
     lng: 106.6297,
     primaryAirport: 'SGN',
     airports: ['SGN'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', landmarkSilhouette: 'harbour', palette: 'night' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'hcmc', landmarkSilhouette: 'bitexco-tower', palette: 'night' },
     heroImage: IMAGES.hoChiMinhCity,
     focusOptions: [
       videoFocus('tet-for-kids-video', 'Ho Chi Minh City - Learning About Tet', 'Use a child-friendly guide to explore Vietnamese New Year traditions.', 'Easy', 'Describe how a major festival uses food, family, symbols, and shared routines.', ['listening', 'festival', 'younger learners'], '8j-vnCCrhBM', 'Twinkl Teaching Resources', 212, `This child-friendly guide introduces Tet through clear examples of family traditions, food, symbols, and celebration. It gives younger learners a respectful and accessible cultural entry point.`, '2026-06-12'),

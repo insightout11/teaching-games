@@ -1,7 +1,7 @@
 'use client';
 
-import { useId, useMemo } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { useEffect, useId, useMemo, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { BLEED_X, CONTENT_W, LAYOUT, VIEWBOX, type DestinationArrivalSceneProps, type LandmarkDepth, type LandmarkLayerProps, type ScenePalette } from './types';
 import { composeTimedPalette, getPalette } from './palettes';
 import { randRange, seededRand } from './seed';
@@ -13,6 +13,27 @@ import { VegetationLayer } from './layers/vegetation-layer';
 import { LandmarkLayer } from './layers/landmark-layer';
 import { RunwayLayer } from './layers/runway-layer';
 import { PlaneLayer } from './layers/plane-layer';
+import { AmbientLayer } from './layers/ambient-layer';
+import { Windsock } from './layers/windsock';
+
+// Ambient parallax: a slow shared horizontal sway where nearer focal layers
+// travel further than distant ones, so the depth stack pulls apart and back
+// like a gentle camera dolly — reads as real depth. All layers share the same
+// cycle/phase (so they move together, not independently). Off when !ambient, so
+// still frames and reduced-motion stay pixel-stable.
+const PARALLAX_CYCLE = 15; // seconds for a full sway out-and-back
+function Parallax({ amp, ambient, children }: { amp: number; ambient: boolean; children: React.ReactNode }) {
+  if (!ambient || amp === 0) return <>{children}</>;
+  return (
+    <motion.g
+      initial={{ x: -amp }}
+      animate={{ x: [-amp, amp, -amp] }}
+      transition={{ duration: PARALLAX_CYCLE, repeat: Infinity, ease: 'easeInOut' }}
+    >
+      {children}
+    </motion.g>
+  );
+}
 
 // Distant, low-contrast skyline painted into the side bleed margins so wide
 // windows don't show the focal city floating on bare shoulders. Uses its OWN
@@ -27,7 +48,9 @@ function BleedSkyline({ palette, destinationId }: { palette: ScenePalette; desti
     let k = keyBase;
     while (x < x1) {
       const w = randRange(rand, 40, 92);
-      const h = randRange(rand, 44, 150); // well below focal heights → reads as distance
+      const h = randRange(rand, 40, 120); // well below focal heights → reads as distance
+      // Same opaque silhouette colour as the focal city (no transparency, so the
+      // sea/sky never show through the distant buildings on wide windows).
       cells.push(<rect key={k} x={x} y={base - h} width={w} height={h} fill={palette.buildingSilhouette} />);
       x += w + randRange(rand, 6, 20);
       k += 1;
@@ -35,8 +58,8 @@ function BleedSkyline({ palette, destinationId }: { palette: ScenePalette; desti
   };
   fillMargin(0, BLEED_X, 0);
   fillMargin(BLEED_X + CONTENT_W, VIEWBOX.w, 10000);
-  // Low opacity = atmospheric distance; sits behind the focal city / runway grass.
-  return <g aria-hidden opacity={0.4}>{cells}</g>;
+  // Sits behind the focal city / runway grass.
+  return <g aria-hidden>{cells}</g>;
 }
 
 // Composable arrival scene. Maps DestinationScene metadata onto reusable layers.
@@ -71,8 +94,16 @@ export function DestinationArrivalScene({
   const rawId = useId();
   const idPrefix = useMemo(() => `as-${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`, [rawId]);
 
-  // Ambient effects gated by both the explicit motion mode and OS preference.
-  const ambient = motion === 'animated' && !reduced;
+  // `useReducedMotion()` reads a media query that is unavailable on the server,
+  // so it can differ between the SSR render and the client's first render and
+  // flip `ambient` — which swaps animated vs. static elements and breaks
+  // hydration. Gate ambient behind a post-mount flag so the server and the first
+  // client render are identical (static); animations switch on after hydration.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  // Ambient effects gated by mount + the explicit motion mode + OS preference.
+  const ambient = mounted && motion === 'animated' && !reduced;
   // Controlled-frame contract: progress is clamped here; the scene owns no timeline.
   const p = Math.min(1, Math.max(0, progress));
 
@@ -109,19 +140,24 @@ export function DestinationArrivalScene({
     >
       {/* Full-canvas: sky (tier 1) */}
       {!transparentSky && <AtmosphereLayer {...layerProps} />}
-      {/* Focal background landmark */}
-      <g transform={focal}>{landmarkAt('background')}</g>
+      {/* Focal background landmark — parallax: farthest, sways least */}
+      <g transform={focal}><Parallax amp={5} ambient={ambient}>{landmarkAt('background')}</Parallax></g>
       {/* Terrain self-splits: base bands full-canvas, silhouettes focal */}
       <TerrainLayer {...layerProps} />
       {/* Distant skyline in the side bleed (own RNG — does not perturb focal) */}
       <BleedSkyline palette={palette} destinationId={destinationId} />
-      {/* Focal city + accents */}
-      <g transform={focal}>{landmarkAt('midground')}</g>
-      <g transform={focal}><SkylineLayer {...layerProps} /></g>
-      <g transform={focal}>{landmarkAt('foreground')}</g>
-      <g transform={focal}><VegetationLayer {...layerProps} /></g>
+      {/* Focal city + accents — parallax amplitude grows toward the viewer */}
+      <g transform={focal}><Parallax amp={9} ambient={ambient}>{landmarkAt('midground')}</Parallax></g>
+      <g transform={focal}><Parallax amp={12} ambient={ambient}><SkylineLayer {...layerProps} /></Parallax></g>
+      <g transform={focal}><Parallax amp={18} ambient={ambient}>{landmarkAt('foreground')}</Parallax></g>
+      <g transform={focal}><Parallax amp={22} ambient={ambient}><VegetationLayer {...layerProps} /></Parallax></g>
+      {/* Focal ambient life (birds / light flickers / beacon) — renders only when
+          ambient (animated + not reduced-motion); still frames show nothing. */}
+      <g transform={focal}><AmbientLayer {...layerProps} /></g>
       {/* Full-canvas: airfield ground + runway (tier 2) */}
       <RunwayLayer {...layerProps} />
+      {/* Airfield windsock (LessonCaptain mark) — left of the runway centre */}
+      <g transform={focal}><Windsock {...layerProps} /></g>
       {/* Focal plane */}
       <g transform={focal}><PlaneLayer {...layerProps} planeKey={planeKey} /></g>
     </svg>

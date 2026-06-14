@@ -26,6 +26,10 @@ export interface PlaneEntry {
   name: string;
   webp: string;
   png: string;
+  frontWebp?: string;
+  frontPng?: string;
+  front3qWebp?: string;
+  front3qPng?: string;
   displayMeta: PlaneDisplayMeta;
 }
 
@@ -44,18 +48,42 @@ function entry(
   key: string,
   name: string,
   meta: Partial<PlaneDisplayMeta> = {},
+  assets: {
+    side?: string;
+    front?: string;
+    front3q?: string;
+  } = {},
 ): PlaneEntry {
+  const side = assets.side ?? key;
   return {
     key,
     name,
-    webp: `/assets/flight/planes/${key}.webp`,
-    png:  `/assets/flight/planes/${key}.png`,
+    webp: `/assets/flight/planes/${side}.webp`,
+    png:  `/assets/flight/planes/${side}.png`,
+    ...(assets.front
+      ? {
+          frontWebp: `/assets/flight/planes/${assets.front}.webp`,
+          frontPng: `/assets/flight/planes/${assets.front}.png`,
+        }
+      : {}),
+    ...(assets.front3q
+      ? {
+          front3qWebp: `/assets/flight/planes/${assets.front3q}.webp`,
+          front3qPng: `/assets/flight/planes/${assets.front3q}.png`,
+        }
+      : {}),
     displayMeta: { ...DEFAULT_META, ...meta },
   };
 }
 
 const PLANE_ENTRIES: PlaneEntry[] = [
-  entry('starter-biplane',     'Starter Biplane'),
+  // Keep the persisted starter key stable while the starter aircraft becomes
+  // the LC Wayfarer across every view.
+  entry('starter-biplane', 'LC Wayfarer', {}, {
+    side: 'lc-wayfarer',
+    front: 'lc-wayfarer-front',
+    front3q: 'lc-wayfarer-front-3q',
+  }),
   entry('scout-monoplane',     'Scout Monoplane'),
   entry('cloud-hopper',        'Cloud Hopper'),
   entry('trailblazer-biplane', 'Trailblazer Biplane'),
@@ -78,6 +106,27 @@ const DEFAULT_PLANE = PLANE_MAP.get(DEFAULT_PLANE_KEY)!;
 export function getPlaneAsset(planeKey?: string | null): PlaneEntry {
   if (!planeKey) return DEFAULT_PLANE;
   return PLANE_MAP.get(planeKey) ?? DEFAULT_PLANE;
+}
+
+export type PlaneView = 'side' | 'front' | 'front-3q';
+
+export function getPlaneViewAsset(
+  planeKey: string | null | undefined,
+  view: PlaneView,
+  format: 'webp' | 'png' = 'webp',
+) {
+  const plane = getPlaneAsset(planeKey);
+  if (view === 'side') return format === 'webp' ? plane.webp : plane.png;
+
+  if (view === 'front') {
+    return format === 'webp'
+      ? plane.frontWebp ?? DEFAULT_PLANE.frontWebp ?? DEFAULT_PLANE.webp
+      : plane.frontPng ?? DEFAULT_PLANE.frontPng ?? DEFAULT_PLANE.png;
+  }
+
+  return format === 'webp'
+    ? plane.front3qWebp ?? DEFAULT_PLANE.front3qWebp ?? DEFAULT_PLANE.webp
+    : plane.front3qPng ?? DEFAULT_PLANE.front3qPng ?? DEFAULT_PLANE.png;
 }
 
 export interface PlaneTier {

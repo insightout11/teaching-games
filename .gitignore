@@ -39,7 +39,11 @@ next-env.d.ts
 *.err.log
 .dev-server*.log
 .world-flight*.log
+.codex-*.log
 tmp/
 .playwright-cli/
 supabase/.temp/
 nul
+
+# local Claude Code working dir (settings + agent worktrees)
+.claude/
