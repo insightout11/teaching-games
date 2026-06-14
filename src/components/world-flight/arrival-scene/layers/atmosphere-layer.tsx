@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
 import { randRange } from '../seed';
+import { WEATHER_PROFILE } from '../weather';
 
 // Soft puffy clouds — clusters of circles softened by a Gaussian blur, matching
 // the weather SkyBackground (components/ui/sky-background.tsx). Local coords.
@@ -12,11 +13,13 @@ const CLOUD_SHAPES: ReadonlyArray<ReadonlyArray<{ cx: number; cy: number; r: num
 
 // Sky gradient + sun/moon + stars (night) + a few drifting clouds. Drift /
 // twinkle are AMBIENT only (disabled when !ambient) and never affect the plane.
-export function AtmosphereLayer({ palette, rand, idPrefix, ambient }: SceneLayerProps) {
+export function AtmosphereLayer({ palette, rand, idPrefix, ambient, weather }: SceneLayerProps) {
   const skyId = `${idPrefix}-sky`;
   const glowId = `${idPrefix}-horizon`;
   const lightId = `${idPrefix}-light`;
+  const auroraId = `${idPrefix}-aurora`;
   const isMoon = palette.light === 'moon';
+  const wx = WEATHER_PROFILE[weather];
 
   // Deterministic stars (only meaningful on the night palette but cheap anyway).
   const stars = isMoon
@@ -38,6 +41,39 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient }: SceneLayer
     dur: 54 + i * 14,
     drift: (i % 2 === 0 ? 1 : -1) * randRange(rand, 120, 240),
   }));
+
+  // Overcast cloud deck — a low, dark layer that thickens with cloudCover and
+  // sits in front of the sun, so heavy skies actually read as heavy.
+  const deckFill = isMoon ? 'rgba(34,42,60,0.94)' : 'rgba(78,88,108,0.94)';
+  const deck =
+    wx.cloudCover > 0.4
+      ? Array.from({ length: 6 }, (_, i) => ({
+          x: -120 + i * (VIEWBOX.w / 5),
+          y: randRange(rand, 70, 250),
+          s: randRange(rand, 1.7, 2.7),
+          shape: CLOUD_SHAPES[i % CLOUD_SHAPES.length],
+          dur: 70 + i * 12,
+          drift: (i % 2 === 0 ? 1 : -1) * randRange(rand, 40, 90),
+        }))
+      : [];
+
+  // Aurora ribbons — wavy translucent bands high in the (night) sky.
+  const auroraBands = wx.aurora
+    ? Array.from({ length: 3 }, (_, i) => ({
+        y: 120 + i * 46,
+        amp: randRange(rand, 26, 46),
+        o: randRange(rand, 0.34, 0.6),
+        dur: 16 + i * 5,
+        drift: (i % 2 === 0 ? 1 : -1) * randRange(rand, 40, 80),
+      }))
+    : [];
+  const auroraBand = (y: number, amp: number, h = 64) => {
+    const w = VIEWBOX.w;
+    return (
+      `M -80 ${y} C ${w * 0.18} ${y - amp} ${w * 0.32} ${y + amp} ${w * 0.5} ${y} S ${w * 0.82} ${y - amp} ${w + 80} ${y}` +
+      ` L ${w + 80} ${y + h} C ${w * 0.82} ${y + h - amp} ${w * 0.5} ${y + h + amp} ${w * 0.5} ${y + h} S ${w * 0.18} ${y + h - amp} -80 ${y + h} Z`
+    );
+  };
 
   const lightX = randRange(rand, VIEWBOX.w * 0.3, VIEWBOX.w * 0.7);
   const lightY = randRange(rand, 120, 240);
@@ -62,6 +98,12 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient }: SceneLayer
         <filter id={cloudFilterId} x="-30%" y="-40%" width="160%" height="180%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
         </filter>
+        <linearGradient id={auroraId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="rgba(120,240,180,0)" />
+          <stop offset="0.32" stopColor="rgba(110,240,168,0.9)" />
+          <stop offset="0.7" stopColor="rgba(92,200,232,0.65)" />
+          <stop offset="1" stopColor="rgba(126,140,255,0)" />
+        </linearGradient>
       </defs>
 
       {/* sky */}
@@ -130,6 +172,41 @@ export function AtmosphereLayer({ palette, rand, idPrefix, ambient }: SceneLayer
           <g key={i} transform={`translate(${c.x} ${c.y}) scale(${c.s})`}>
             {cloud}
           </g>
+        );
+      })}
+
+      {/* Overcast deck — dark low clouds in front of the sun */}
+      {deck.map((c, i) => {
+        const node = (
+          <g filter={`url(#${cloudFilterId})`}>
+            {c.shape.map((cc, j) => (
+              <circle key={j} cx={cc.cx} cy={cc.cy} r={cc.r} fill={deckFill} />
+            ))}
+          </g>
+        );
+        return ambient ? (
+          <motion.g key={i} initial={{ x: c.x, y: c.y }} animate={{ x: [c.x, c.x + c.drift, c.x] }} transition={{ duration: c.dur, repeat: Infinity, ease: 'easeInOut' }} style={{ scale: c.s }}>
+            {node}
+          </motion.g>
+        ) : (
+          <g key={i} transform={`translate(${c.x} ${c.y}) scale(${c.s})`}>
+            {node}
+          </g>
+        );
+      })}
+
+      {/* Weather sky dim — darkens the sky (sun + clouds) for overcast/rain/storm */}
+      {wx.dim > 0 && <rect x="0" y="0" width={VIEWBOX.w} height={VIEWBOX.h} fill="rgb(20,28,46)" opacity={wx.dim} />}
+
+      {/* Aurora ribbons — glow on top of the dimmed night sky */}
+      {auroraBands.map((b, i) => {
+        const node = <path d={auroraBand(b.y, b.amp)} fill={`url(#${auroraId})`} opacity={b.o} filter={`url(#${cloudFilterId})`} />;
+        return ambient ? (
+          <motion.g key={i} animate={{ x: [0, b.drift, 0], opacity: [b.o * 0.7, b.o, b.o * 0.7] }} transition={{ duration: b.dur, repeat: Infinity, ease: 'easeInOut' }}>
+            {node}
+          </motion.g>
+        ) : (
+          <g key={i}>{node}</g>
         );
       })}
     </g>

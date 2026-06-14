@@ -17,6 +17,7 @@ import { RunwayLayer } from './layers/runway-layer';
 import { PlaneLayer } from './layers/plane-layer';
 import { AmbientLayer } from './layers/ambient-layer';
 import { CinematicOverlay } from './layers/cinematic-overlay';
+import { WeatherLayer } from './layers/weather-layer';
 import { Windsock } from './layers/windsock';
 
 // Distant, low-contrast skyline painted into the side bleed margins so wide
@@ -115,6 +116,7 @@ export function DestinationArrivalScene({
   // zone. 'meet' would letterbox the 32:9 canvas inside a 16:9 container.
   fit = 'slice',
   timeOfDay,
+  weather = 'clear',
   className,
 }: DestinationArrivalSceneProps) {
   const reduced = useReducedMotion();
@@ -139,7 +141,7 @@ export function DestinationArrivalScene({
   const palette = timeOfDay ? composeTimedPalette(timeOfDay, scene) : getPalette(scene.palette);
   const landmark = resolveLandmark(scene.landmarkSilhouette);
 
-  const baseLayerProps = { scene, palette, idPrefix, phase, progress: p, ambient, mode };
+  const baseLayerProps = { scene, palette, idPrefix, phase, progress: p, ambient, mode, weather };
   // Never share a mutable RNG across sibling layers. React may evaluate siblings
   // in a different order during SSR and hydration; isolated seeds keep every
   // layer byte-identical regardless of scheduling.
@@ -213,6 +215,8 @@ export function DestinationArrivalScene({
       <g transform={focalAt(0.9)}><Windsock {...propsFor('windsock')} /></g>
       {/* Focal plane — the tracking camera holds it near centre; not panned */}
       <g transform={focal}><PlaneLayer {...propsFor('plane')} planeKey={planeKey} /></g>
+      {/* Weather: precipitation + lightning, full-canvas, in front of the scene */}
+      <WeatherLayer {...propsFor('weather')} />
       </g>
       <CinematicOverlay {...propsFor('cinematic-overlay')} />
     </svg>

@@ -5,8 +5,9 @@ import type { DestinationScene } from '@/lib/world-flight/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { DestinationArrivalScene } from '../destination-arrival-scene';
 import { isAuthoredLandmark } from '../scene-registry';
-import type { ArrivalMode, ArrivalMotion, ArrivalPhase, TimeOfDay } from '../types';
+import type { ArrivalMode, ArrivalMotion, ArrivalPhase, TimeOfDay, WeatherCondition } from '../types';
 import { ARRIVAL_DURATION_MS, DEPARTURE_DURATION_MS, arrivalTimeline } from '../cinematic-motion';
+import { WEATHER_CONDITIONS, rollWeather } from '../weather';
 
 interface GalleryItem {
   id: string;
@@ -52,6 +53,7 @@ export function ArrivalSceneGallery() {
   const [tod, setTod] = useState<TimeOfDay | 'baked'>('baked');
   const [mode, setMode] = useState<ArrivalMode>('arrival');
   const [lbMotion, setLbMotion] = useState<ArrivalMotion>('animated');
+  const [weather, setWeather] = useState<WeatherCondition>('clear');
 
   // Esc closes the lightbox.
   useEffect(() => {
@@ -80,6 +82,8 @@ export function ArrivalSceneGallery() {
     if (ph && PHASES.includes(ph)) setPhase(ph);
     if (pr != null && !Number.isNaN(Number(pr))) setProgress(Math.min(1, Math.max(0, Number(pr))));
     if (md === 'arrival' || md === 'departure') setMode(md);
+    const wthr = params.get('weather') as WeatherCondition | null;
+    if (wthr && WEATHER_CONDITIONS.includes(wthr)) setWeather(wthr);
   }, [items]);
 
   useEffect(() => {
@@ -160,9 +164,9 @@ export function ArrivalSceneGallery() {
               title="Click to enlarge"
               style={{ aspectRatio: '16 / 9', borderRadius: 10, overflow: 'hidden', border: '1px solid #1f2c45', cursor: 'zoom-in' }}
             >
-              <DestinationArrivalScene destinationId={selected.id} scene={selected.scene} phase={phase} progress={progress} mode={mode} motion="animated" />
+              <DestinationArrivalScene destinationId={selected.id} scene={selected.scene} phase={phase} progress={progress} mode={mode} weather={weather} motion="animated" />
             </div>
-            <figcaption style={{ fontSize: 12, color: '#9fb0c7', marginTop: 6 }}>animated · {mode} · {phase} · progress {progress.toFixed(2)} · click to enlarge</figcaption>
+            <figcaption style={{ fontSize: 12, color: '#9fb0c7', marginTop: 6 }}>animated · {mode} · {weather} · {phase} · progress {progress.toFixed(2)} · click to enlarge</figcaption>
           </figure>
 
           {/* approach vs landed comparison */}
@@ -272,7 +276,7 @@ export function ArrivalSceneGallery() {
           <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', gap: 12, alignItems: 'center', width: '95vw', maxWidth: 2400 }}>
             <strong style={{ fontSize: 16 }}>{selected.label}</strong>
             <span style={{ fontSize: 12, color: '#9fb0c7' }}>
-              {selected.scene.landmarkSilhouette ?? '—'} · {mode} · {tod === 'baked' ? `baked (${selected.scene.palette})` : tod} · {lbMotion}
+              {selected.scene.landmarkSilhouette ?? '—'} · {mode} · {weather} · {tod === 'baked' ? `baked (${selected.scene.palette})` : tod} · {lbMotion}
             </span>
             <button
               onClick={() => setEnlarged(false)}
@@ -294,6 +298,7 @@ export function ArrivalSceneGallery() {
               progress={progress}
               motion={lbMotion}
               mode={mode}
+              weather={weather}
               timeOfDay={tod === 'baked' ? undefined : tod}
             />
           </div>
@@ -305,6 +310,13 @@ export function ArrivalSceneGallery() {
             <ButtonRow label="mode" options={['arrival', 'departure']} value={mode} onPick={(m) => setMode(m as ArrivalMode)} />
             <ButtonRow label="motion" options={['animated', 'static']} value={lbMotion} onPick={(m) => setLbMotion(m as ArrivalMotion)} />
             <ButtonRow label="phase" options={PHASES} value={phase} onPick={(p) => setPhase(p as ArrivalPhase)} />
+            <ButtonRow label="weather" options={WEATHER_CONDITIONS} value={weather} onPick={(w) => setWeather(w as WeatherCondition)} />
+            <button
+              onClick={() => setWeather(rollWeather(`${selected.id}:${Date.now()}`, selected.scene, tod === 'night' || (tod === 'baked' && selected.scene.palette === 'night')))}
+              style={{ fontSize: 12, padding: '5px 11px', borderRadius: 7, cursor: 'pointer', background: '#0f766e', color: '#ecfeff', border: '1px solid #2dd4bf' }}
+            >
+              🎲 random
+            </button>
             <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 12, color: '#9fb0c7' }}>
               progress
               <input type="range" min={0} max={1} step={0.01} value={progress} onChange={(e) => setProgress(Number(e.target.value))} />

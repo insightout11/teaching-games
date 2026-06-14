@@ -35,6 +35,7 @@ import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { AirfieldScene } from '@/components/ui/airfield-scene';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
+import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
@@ -2204,6 +2205,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             scene: wfDestination.scene,
             cityName: wfDestination.city,
             timeOfDay: wfArrivalTimeOfDay,
+            weather: rollWeather(`${session?.id ?? 'flight'}:${wfDestination.id}`, wfDestination.scene, wfArrivalTimeOfDay === 'night'),
             planeKey: selectedPlaneKey,
           } : undefined}
           departureScene={wfOrigin ? {
@@ -2211,6 +2213,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             scene: wfOrigin.scene,
             cityName: wfOrigin.city,
             timeOfDay: wfDepartureTimeOfDay,
+            weather: rollWeather(`${session?.id ?? 'flight'}:${wfOrigin.id}`, wfOrigin.scene, wfDepartureTimeOfDay === 'night'),
             planeKey: selectedPlaneKey,
           } : undefined}
           onDismiss={() => setModuleTransition(null)}

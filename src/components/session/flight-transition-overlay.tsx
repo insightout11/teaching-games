@@ -6,7 +6,7 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
-import type { ArrivalPhase, TimeOfDay } from '@/components/world-flight/arrival-scene/types';
+import type { ArrivalPhase, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import type { DestinationScene } from '@/lib/world-flight/types';
 
@@ -23,6 +23,8 @@ export interface FlightArrivalScene {
   cityName: string;
   /** Context-aware time-of-day from the continuous flight clock. */
   timeOfDay?: TimeOfDay;
+  /** Live weather for this leg (climate-weighted roll); defaults to clear. */
+  weather?: WeatherCondition;
   planeKey?: string | null;
 }
 
@@ -390,6 +392,7 @@ export function FlightTransitionOverlay({
               transparentSky
               fit="slice"
               timeOfDay={cityLeg!.scene.timeOfDay}
+              weather={cityLeg!.scene.weather}
               planeKey={cityLeg!.scene.planeKey ?? planeKey}
               motion={prefersReducedMotion ? 'static' : 'animated'}
               className="absolute inset-0"

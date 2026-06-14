@@ -22,6 +22,10 @@ export type ArrivalMode = 'arrival' | 'departure';
 /** Flight-clock time of day; overrides the destination's baked palette when set. */
 export type TimeOfDay = 'dawn' | 'day' | 'dusk' | 'night';
 
+/** Live weather condition for a flight leg. 'clear' = the fair-weather default
+ *  (renders exactly as before). See arrival-scene/weather.ts for the generator. */
+export type WeatherCondition = 'clear' | 'overcast' | 'rain' | 'storm' | 'snow' | 'aurora';
+
 export interface DestinationArrivalSceneProps {
   destinationId: string;
   scene: DestinationScene;
@@ -49,6 +53,8 @@ export interface DestinationArrivalSceneProps {
    * omitted, the destination's baked `scene.palette` is used (gallery / default).
    */
   timeOfDay?: TimeOfDay;
+  /** Live weather condition. Defaults to 'clear' (unchanged fair-weather scene). */
+  weather?: WeatherCondition;
   className?: string;
 }
 
@@ -77,6 +83,8 @@ export interface SceneLayerProps {
    * the plane layer (flight path + calibration blend) all branch on it.
    */
   mode: ArrivalMode;
+  /** Live weather condition (default 'clear'). Read by the atmosphere + weather layers. */
+  weather: WeatherCondition;
 }
 
 /**
