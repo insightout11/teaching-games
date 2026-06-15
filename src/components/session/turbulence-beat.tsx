@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, useAnimationFrame, useMotionValue } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { motion, useMotionValue } from 'framer-motion';
 import { getPlaneViewAsset } from '@/lib/plane-progression';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -14,21 +15,35 @@ export function useTurbulence(intensity: number) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotate = useMotionValue(0);
-  useAnimationFrame((t) => {
-    if (intensity <= 0) {
-      x.set(0);
-      y.set(0);
-      rotate.set(0);
-      return;
-    }
-    const s = t / 1000;
-    const jx = Math.sin(s * 13.1) + 0.6 * Math.sin(s * 27.7) + 0.4 * Math.sin(s * 41.3 + 1.1);
-    const jy = Math.sin(s * 11.7 + 1.3) + 0.6 * Math.sin(s * 23.9 + 0.7) + 0.4 * Math.sin(s * 37.1);
-    const jr = Math.sin(s * 9.3 + 2.1) + 0.5 * Math.sin(s * 19.7 + 0.4);
-    x.set(jx * 6 * intensity);
-    y.set(jy * 5 * intensity);
-    rotate.set(jr * 1.8 * intensity);
-  });
+  // Read the live intensity from a ref each frame so changing it (a slider) takes
+  // effect immediately, with no stale closure and no re-subscribing the loop.
+  const intensityRef = useRef(intensity);
+  intensityRef.current = intensity;
+
+  useEffect(() => {
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const k = intensityRef.current;
+      if (k <= 0) {
+        x.set(0);
+        y.set(0);
+        rotate.set(0);
+      } else {
+        const s = (now - start) / 1000;
+        const jx = Math.sin(s * 13.1) + 0.6 * Math.sin(s * 27.7) + 0.4 * Math.sin(s * 41.3 + 1.1);
+        const jy = Math.sin(s * 11.7 + 1.3) + 0.6 * Math.sin(s * 23.9 + 0.7) + 0.4 * Math.sin(s * 37.1);
+        const jr = Math.sin(s * 9.3 + 2.1) + 0.5 * Math.sin(s * 19.7 + 0.4);
+        x.set(jx * 6 * k);
+        y.set(jy * 5 * k);
+        rotate.set(jr * 1.8 * k);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [x, y, rotate]);
+
   return { x, y, rotate };
 }
 
