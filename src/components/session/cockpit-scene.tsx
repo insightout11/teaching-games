@@ -2,23 +2,30 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import type { WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 
 // Stylized cockpit HUD for the accuracy-check beats — "Top Gun HUD + sci-fi dash
-// + SVG simplicity." NOT realistic cockpit art. One big glowing hero (PFD for
-// Instrument Check, radar scope for Radar), a soft dark cockpit silhouette +
-// vignette, sparse HUD tapes, slow cloud drift, scan/glow. Drawn in a 1120×640
-// viewBox; composites over whatever sky is behind (transparent windscreen).
-//
-// Animations use native SVG <animate>/<animateTransform> (around explicit
-// centres) so nothing drifts off-pivot the way CSS/framer rotation does.
+// + SVG simplicity." One big glowing hero (PFD for Instrument Check, radar scope
+// for Radar), a soft dark cockpit silhouette + vignette, sparse HUD tapes, the
+// forward cloud rush as the view, scan/glow. Drawn in a 1120×640 viewBox over a
+// transparent windscreen so it composites onto the live sky/weather.
 
 const CYAN = 'rgb(120,224,236)';
 const GREEN = 'rgb(120,240,170)';
 
+// Cloud-rush tint per weather — grey/dark for worse skies, bright for snow.
+const RUSH_TINT: Record<WeatherCondition, string> = {
+  clear: '236,244,255',
+  overcast: '150,160,178',
+  rain: '128,140,162',
+  storm: '92,102,122',
+  snow: '228,238,250',
+  aurora: '178,222,210',
+};
+
 // Forward cloud rush: clouds emanate from the vanishing point (centre) and
-// accelerate outward past the camera — flying STRAIGHT INTO the cloud field. The
-// view out the windscreen.
-export function ForwardCloudRush() {
+// accelerate outward past the camera — flying STRAIGHT INTO the cloud field.
+export function ForwardCloudRush({ tint = RUSH_TINT.clear }: { tint?: string } = {}) {
   const clouds = useMemo(
     () =>
       Array.from({ length: 16 }, (_, i) => {
@@ -45,7 +52,7 @@ export function ForwardCloudRush() {
             marginLeft: `${-c.w / 2}vw`,
             marginTop: `${-c.w * 0.3}vw`,
             borderRadius: '50%',
-            background: 'radial-gradient(ellipse at center, rgba(236,244,255,0.85) 0%, rgba(236,244,255,0.4) 45%, transparent 72%)',
+            background: `radial-gradient(ellipse at center, rgba(${tint},0.85) 0%, rgba(${tint},0.4) 45%, transparent 72%)`,
             filter: 'blur(8px)',
           }}
           initial={{ x: '0vw', y: '0vh', scale: 0.12, opacity: 0 }}
@@ -84,7 +91,7 @@ function Defs() {
         </feComponentTransfer>
       </filter>
       <clipPath id="hud-window">
-        <rect x="0" y="0" width="1120" height="470" />
+        <rect x="0" y="0" width="1120" height="520" />
       </clipPath>
     </defs>
   );
@@ -94,12 +101,12 @@ function CockpitFrame() {
   return (
     <>
       {/* faint horizon/terrain silhouette behind the dash */}
-      <path d="M0 372 C200 350 320 392 520 372 C720 352 880 396 1120 366 L1120 470 L0 470 Z" fill="rgba(6,12,24,0.5)" clipPath="url(#hud-window)" />
+      <path d="M0 470 C200 448 320 490 520 470 C720 450 880 494 1120 464 L1120 520 L0 520 Z" fill="rgba(6,12,24,0.5)" clipPath="url(#hud-window)" />
       {/* window vignette */}
       <rect x="0" y="0" width="1120" height="640" fill="url(#hud-vignette)" />
-      {/* dashboard / glareshield */}
-      <path d="M0 430 C300 472 820 472 1120 430 L1120 640 L0 640 Z" fill="url(#hud-dash)" />
-      <path d="M0 430 C300 472 820 472 1120 430" stroke="rgba(150,185,215,0.18)" strokeWidth="1.4" fill="none" />
+      {/* dashboard / glareshield — thin band so the windscreen dominates */}
+      <path d="M0 516 C300 552 820 552 1120 516 L1120 640 L0 640 Z" fill="url(#hud-dash)" />
+      <path d="M0 516 C300 552 820 552 1120 516" stroke="rgba(150,185,215,0.18)" strokeWidth="1.4" fill="none" />
     </>
   );
 }
@@ -107,7 +114,7 @@ function CockpitFrame() {
 function HudLabel({ x, y, label, value, anchor = 'start', color = CYAN }: { x: number; y: number; label: string; value: string; anchor?: 'start' | 'middle' | 'end'; color?: string }) {
   return (
     <g fontFamily="ui-monospace, monospace" filter="url(#hud-glow)">
-      <text x={x} y={y} fontSize="13" letterSpacing="2" fill={`${color.replace('rgb', 'rgba').replace(')', ',0.7)')}`} textAnchor={anchor}>
+      <text x={x} y={y} fontSize="13" letterSpacing="2" fill={color.replace('rgb', 'rgba').replace(')', ',0.7)')} textAnchor={anchor}>
         {label}
       </text>
       <text x={x} y={y + 22} fontSize="22" fontWeight="700" fill={color} textAnchor={anchor}>
@@ -120,26 +127,24 @@ function HudLabel({ x, y, label, value, anchor = 'start', color = CYAN }: { x: n
 // ── Instrument Check: PFD HUD hero ───────────────────────────────────────────
 function PfdHud() {
   const cx = 560;
-  const cy = 270;
-  const ladder = [-60, -40, 40, 60];
+  const cy = 300;
+  const ladder = [-86, -56, 56, 86];
   return (
     <g>
-      {/* glowing artificial horizon + pitch ladder (rolls then levels) */}
-      <g filter="url(#hud-glow)" stroke={CYAN} strokeWidth="2.4" fill="none">
+      <g filter="url(#hud-glow)" stroke={CYAN} strokeWidth="2.6" fill="none">
         <g>
-          <line x1={cx - 210} y1={cy} x2={cx - 70} y2={cy} />
-          <line x1={cx + 70} y1={cy} x2={cx + 210} y2={cy} />
+          <line x1={cx - 250} y1={cy} x2={cx - 80} y2={cy} />
+          <line x1={cx + 80} y1={cy} x2={cx + 250} y2={cy} />
           {ladder.map((p) => (
-            <line key={p} x1={cx - 46} y1={cy + p} x2={cx + 46} y2={cy + p} strokeWidth="1.6" opacity="0.7" />
+            <line key={p} x1={cx - 58} y1={cy + p} x2={cx + 58} y2={cy + p} strokeWidth="1.8" opacity="0.7" />
           ))}
           <animateTransform attributeName="transform" type="rotate" values={`-20 ${cx} ${cy};13 ${cx} ${cy};-5 ${cx} ${cy};0 ${cx} ${cy}`} keyTimes="0;0.4;0.72;1" dur="1.7s" fill="freeze" />
         </g>
       </g>
-      {/* fixed boresight reticle */}
-      <g stroke={CYAN} strokeWidth="3" fill="none" filter="url(#hud-glow)" strokeLinecap="round">
-        <path d={`M${cx - 64} ${cy} h26 l8 12`} />
-        <path d={`M${cx + 64} ${cy} h-26 l-8 12`} />
-        <circle cx={cx} cy={cy} r="3" fill={CYAN} stroke="none" />
+      <g stroke={CYAN} strokeWidth="3.4" fill="none" filter="url(#hud-glow)" strokeLinecap="round">
+        <path d={`M${cx - 76} ${cy} h32 l10 14`} />
+        <path d={`M${cx + 76} ${cy} h-32 l-10 14`} />
+        <circle cx={cx} cy={cy} r="3.4" fill={CYAN} stroke="none" />
       </g>
     </g>
   );
@@ -148,11 +153,11 @@ function PfdHud() {
 // ── Radar: scope HUD hero ────────────────────────────────────────────────────
 function RadarHud() {
   const cx = 560;
-  const cy = 275;
-  const R = 170;
+  const cy = 308;
+  const R = 192;
   return (
     <g transform={`translate(${cx} ${cy})`}>
-      <circle r={R} fill="rgba(10,30,20,0.45)" stroke="rgba(110,235,160,0.55)" strokeWidth="1.6" filter="url(#hud-glow)" />
+      <circle r={R} fill="rgba(10,30,20,0.42)" stroke="rgba(110,235,160,0.55)" strokeWidth="1.8" filter="url(#hud-glow)" />
       {[R * 0.34, R * 0.67].map((r) => (
         <circle key={r} r={r} fill="none" stroke="rgba(110,235,160,0.22)" strokeWidth="1" />
       ))}
@@ -160,58 +165,52 @@ function RadarHud() {
       <line x1="0" y1={-R} x2="0" y2={R} stroke="rgba(110,235,160,0.22)" strokeWidth="1" />
       {Array.from({ length: 12 }).map((_, i) => {
         const a = (i * 30 * Math.PI) / 180;
-        return <line key={i} x1={Math.sin(a) * (R - 8)} y1={-Math.cos(a) * (R - 8)} x2={Math.sin(a) * R} y2={-Math.cos(a) * R} stroke="rgba(110,235,160,0.5)" strokeWidth="1.4" />;
+        return <line key={i} x1={Math.sin(a) * (R - 9)} y1={-Math.cos(a) * (R - 9)} x2={Math.sin(a) * R} y2={-Math.cos(a) * R} stroke="rgba(110,235,160,0.5)" strokeWidth="1.4" />;
       })}
-      {/* sweep */}
       <g filter="url(#hud-glow)">
         <path d={`M0 0 L0 ${-R} A ${R} ${R} 0 0 1 ${R * 0.62} ${-R * 0.78} Z`} fill="rgba(120,255,170,0.18)" />
-        <line x1="0" y1="0" x2="0" y2={-R} stroke="rgba(140,255,185,0.9)" strokeWidth="2" />
+        <line x1="0" y1="0" x2="0" y2={-R} stroke="rgba(140,255,185,0.9)" strokeWidth="2.2" />
         <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="2.4s" repeatCount="indefinite" />
       </g>
-      {/* contact blip */}
-      <circle cx="28" cy="-40" r="5" fill={GREEN} filter="url(#hud-glow)">
+      <circle cx="32" cy="-46" r="5.5" fill={GREEN} filter="url(#hud-glow)">
         <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite" />
-        <animate attributeName="r" values="5;8;5" dur="2.4s" repeatCount="indefinite" />
+        <animate attributeName="r" values="5.5;9;5.5" dur="2.4s" repeatCount="indefinite" />
       </circle>
-      <line x1="34" y1="-40" x2="64" y2="-64" stroke="rgba(150,255,190,0.6)" strokeWidth="1" />
-      <text x="68" y="-60" fontSize="12" fill={GREEN} fontFamily="ui-monospace, monospace">LCN-0420</text>
+      <line x1="38" y1="-46" x2="72" y2="-72" stroke="rgba(150,255,190,0.6)" strokeWidth="1" />
+      <text x="76" y="-68" fontSize="13" fill={GREEN} fontFamily="ui-monospace, monospace">LCN-0420</text>
     </g>
   );
 }
 
-export function FlightCheckScene({ variant }: { variant: 'instrument' | 'radar' }) {
+export function FlightCheckScene({ variant, weather = 'clear' }: { variant: 'instrument' | 'radar'; weather?: WeatherCondition }) {
   const isRadar = variant === 'radar';
   const hero = isRadar ? GREEN : CYAN;
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <ForwardCloudRush />
+      <ForwardCloudRush tint={RUSH_TINT[weather]} />
       <svg viewBox="0 0 1120 640" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
         <Defs />
         <CockpitFrame />
 
-        {/* HUD hero */}
         {isRadar ? <RadarHud /> : <PfdHud />}
 
-        {/* sparse HUD tapes */}
         <HudLabel x={70} y={150} label="SPD" value="420" />
-        <HudLabel x={1050} y={150} label="ALT" value="3200" anchor="end" />
-        <HudLabel x={560} y={92} label="HDG" value="087" anchor="middle" />
+        <HudLabel x={1050} y={150} label="ALT" value="34000" anchor="end" />
+        <HudLabel x={560} y={86} label="HDG" value="087" anchor="middle" />
 
-        {/* title */}
-        <text x="560" y="56" textAnchor="middle" fontSize="20" fontWeight="700" letterSpacing="7" fill={hero} fontFamily="ui-sans-serif, system-ui" filter="url(#hud-glow)">
+        <text x="560" y="48" textAnchor="middle" fontSize="20" fontWeight="700" letterSpacing="7" fill={hero} fontFamily="ui-sans-serif, system-ui" filter="url(#hud-glow)">
           {isRadar ? 'RADAR' : 'INSTRUMENT CHECK'}
         </text>
 
-        {/* status chrome on the glareshield */}
         {isRadar ? (
-          <text x="560" y="500" textAnchor="middle" fontSize="15" fontWeight="700" letterSpacing="2" fill={GREEN} fontFamily="ui-monospace, monospace" opacity="0">
+          <text x="560" y="588" textAnchor="middle" fontSize="16" fontWeight="700" letterSpacing="2" fill={GREEN} fontFamily="ui-monospace, monospace" opacity="0">
             RADAR CONTACT — IDENT
             <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.55;0.7" dur="2.4s" fill="freeze" />
           </text>
         ) : (
-          <g fontFamily="ui-monospace, monospace" fontSize="15" fontWeight="700" fill={GREEN}>
+          <g fontFamily="ui-monospace, monospace" fontSize="16" fontWeight="700" fill={GREEN}>
             {['ALTITUDE', 'HEADING', 'SYSTEMS'].map((it, i) => (
-              <text key={it} x={420 + i * 150} y="500" textAnchor="middle" opacity="0">
+              <text key={it} x={420 + i * 150} y="588" textAnchor="middle" opacity="0">
                 ✓ {it}
                 <animate attributeName="opacity" values="0;1" dur="0.3s" begin={`${0.7 + i * 0.35}s`} fill="freeze" />
               </text>
@@ -220,9 +219,9 @@ export function FlightCheckScene({ variant }: { variant: 'instrument' | 'radar' 
         )}
 
         {/* scan line + glass noise */}
-        <line x1="0" x2="1120" y1="0" y2="0" stroke={`${hero.replace('rgb', 'rgba').replace(')', ',0.10)')}`} strokeWidth="2">
-          <animate attributeName="y1" values="60;430" dur="2.6s" repeatCount="indefinite" />
-          <animate attributeName="y2" values="60;430" dur="2.6s" repeatCount="indefinite" />
+        <line x1="0" x2="1120" y1="0" y2="0" stroke={hero.replace('rgb', 'rgba').replace(')', ',0.10)')} strokeWidth="2">
+          <animate attributeName="y1" values="60;470" dur="2.6s" repeatCount="indefinite" />
+          <animate attributeName="y2" values="60;470" dur="2.6s" repeatCount="indefinite" />
         </line>
         <rect x="0" y="0" width="1120" height="640" filter="url(#hud-noise)" opacity="0.5" />
       </svg>

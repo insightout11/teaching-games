@@ -4,6 +4,8 @@ import { useState, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { TurbulenceBeat, useTurbulence } from '@/components/session/turbulence-beat';
 import { FlightCheckScene } from '@/components/session/cockpit-scene';
+import { WEATHER_CONDITIONS } from '@/components/world-flight/arrival-scene/weather';
+import type { WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { PLANE_TIERS } from '@/lib/plane-progression';
 
 const ALL_PLANES = PLANE_TIERS.flatMap((t) => t.choices.map((c) => ({ key: c.key, name: c.name })));
@@ -23,6 +25,7 @@ export function TurbulenceDevClient() {
   const [seatbelt, setSeatbelt] = useState(true);
   const [reduce, setReduce] = useState(false);
   const [planeKey, setPlaneKey] = useState(ALL_PLANES[0].key);
+  const [weather, setWeather] = useState<WeatherCondition>('clear');
 
   // Frame trembles only on the turbulence beat; the accuracy beats are steady.
   const frame = useTurbulence(beat === 'turbulence' && !reduce ? intensity * frameShake : 0);
@@ -40,8 +43,8 @@ export function TurbulenceDevClient() {
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #050a18 0%, #0a1830 55%, #122244 100%)' }} />
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 82%, rgba(80,120,200,0.14), transparent 70%)' }} />
           {beat === 'turbulence' && <TurbulenceBeat key={runKey} planeKey={planeKey} intensity={intensity} showSeatbelt={seatbelt} reduce={reduce} />}
-          {beat === 'instrument' && <FlightCheckScene key={runKey} variant="instrument" />}
-          {beat === 'radar' && <FlightCheckScene key={runKey} variant="radar" />}
+          {beat === 'instrument' && <FlightCheckScene key={runKey} variant="instrument" weather={weather} />}
+          {beat === 'radar' && <FlightCheckScene key={runKey} variant="radar" weather={weather} />}
         </motion.div>
       </div>
 
@@ -88,6 +91,19 @@ export function TurbulenceDevClient() {
           </label>
           <label style={{ ...ctrl, flexDirection: 'row', gap: 8, alignItems: 'center' }}>
             <input type="checkbox" checked={seatbelt} onChange={(e) => setSeatbelt(e.target.checked)} /> seatbelt sign
+          </label>
+        </div>
+      )}
+
+      {(beat === 'instrument' || beat === 'radar') && (
+        <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', alignItems: 'center', marginTop: 12 }}>
+          <label style={ctrl}>
+            weather (tints the cloud rush)
+            <select value={weather} onChange={(e) => setWeather(e.target.value as WeatherCondition)} style={{ background: '#1c2742', color: '#e6edf6', border: '1px solid #2a3a5c', borderRadius: 6, padding: '4px 8px' }}>
+              {WEATHER_CONDITIONS.map((w) => (
+                <option key={w} value={w}>{w}</option>
+              ))}
+            </select>
           </label>
         </div>
       )}

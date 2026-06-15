@@ -573,7 +573,7 @@ export function FlightTransitionOverlay({
             intensity="moderate"
             parallaxScale={1}
           />
-          <FlightCheckScene variant={checkVariant} />
+          <FlightCheckScene variant={checkVariant} weather={weather} />
         </div>
       ) : (
       <>
