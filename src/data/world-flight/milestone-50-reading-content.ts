@@ -68,29 +68,6 @@ Today, Georgian buildings may serve as homes, offices, institutions, or cultural
 
 Dublin's Georgian streets show that preservation is not simply keeping buildings unchanged. It involves deciding which features carry public value, how older structures can continue to function, and how architectural beauty can be interpreted alongside the unequal history that produced it.`,
   },
-  mecca: {
-    sacredGeography: `Mecca is Islam's holiest city and the direction toward which Muslims around the world pray. At the center of the Grand Mosque stands the Kaaba, a cube-shaped structure that gives worshippers a shared geographic focus. Its importance comes from religious meaning and practice rather than from its size alone.
-
-The Hajj pilgrimage connects several sacred locations in and around Mecca. Pilgrims follow a sequence of rites associated with the Prophet Ibrahim, Hajar, and the Prophet Muhammad. Movement between the Grand Mosque, Mina, Arafat, and Muzdalifah turns a large urban and desert landscape into a connected religious journey.
-
-Sacred geography changes how space is understood. A route is not simply the fastest way between two points, and a gathering place is not only measured by capacity. Time, intention, memory, prayer, equality, and shared ritual shape the meaning of each location.
-
-Mecca's geography is both deeply rooted and continually managed. Roads, walkways, signs, services, and buildings support movement, but the purpose of the journey remains spiritual. The city shows how physical space can organize a global community around shared beliefs and practices.`,
-    pilgrimageCity: `During Hajj, Mecca and nearby sacred sites receive an enormous temporary population. Pilgrims arrive from many countries, speak many languages, and have different ages, health needs, and travel experience. Supporting this gathering requires years of planning and coordination across transportation, health care, safety, food, water, sanitation, communication, and accommodation.
-
-Crowd management is especially important because large numbers of people complete the same rites within limited periods. Routes, schedules, signs, barriers, trained staff, monitoring systems, and public information help reduce risk. Plans must also account for heat, fatigue, medical emergencies, lost family members, and unexpected changes.
-
-The work involves far more than visible construction. Health teams prepare clinics and prevention campaigns. Food suppliers and sanitation workers manage huge daily needs. Translators, guides, security staff, drivers, technicians, and volunteers help people understand where to go and what support is available.
-
-Mecca demonstrates the complexity of a city built around hospitality and religious responsibility. Successful organization is measured not only by moving large numbers efficiently, but by protecting dignity and allowing pilgrims to focus on the purpose of their journey.`,
-    lunarCalendar: `Hajj takes place during Dhu al-Hijjah, the final month of the Islamic lunar calendar. A lunar year follows cycles of the moon and is shorter than the solar year used in many civil calendars. As a result, the dates of Hajj move earlier through the seasons over time.
-
-This movement has practical effects for Mecca and for pilgrims around the world. Some years bring especially intense heat, while other years place the pilgrimage in cooler conditions. Travel schedules, school and work leave, health planning, clothing, water needs, and public communication all respond to the changing seasonal context.
-
-The calendar also connects observation, religious authority, and global coordination. Communities need reliable ways to determine dates and communicate them across different countries. Modern calculation and technology can support planning, while the calendar remains tied to religious tradition and the visible cycle of the moon.
-
-Mecca reveals how a calendar can shape an entire city. Time is not only a number printed on a schedule; it organizes movement, preparation, worship, and shared attention across a worldwide community.`,
-  },
   dakar: {
     fishingCity: `Dakar occupies the Cap-Vert peninsula on Senegal's Atlantic coast. Fishing communities, markets, processing work, ports, and household meals connect the city closely with the ocean. Colorful pirogues return with catches that move through a network of workers before reaching tables in Dakar and beyond.
 

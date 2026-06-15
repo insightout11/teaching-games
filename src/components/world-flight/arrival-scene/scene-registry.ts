@@ -46,7 +46,6 @@ import { KokTobeLandmark } from './landmarks/kok-tobe';
 import { PuertaAlcalaLandmark } from './landmarks/puerta-alcala';
 import { BelemTowerLandmark } from './landmarks/belem-tower';
 import { HapennyBridgeLandmark } from './landmarks/hapenny-bridge';
-import { KaabaLandmark } from './landmarks/kaaba';
 import { RenaissanceMonumentLandmark } from './landmarks/renaissance-monument';
 import { RecifeWaterfrontLandmark } from './landmarks/recife-waterfront';
 import { PanamaCanalLandmark } from './landmarks/panama-canal';
@@ -140,7 +139,6 @@ export const LANDMARK_REGISTRY: Record<string, LandmarkRegistryEntry> = {
 
   // temples / sacred structures
   'gandan-monastery': { component: GandanMonasteryLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.78 },
-  kaaba: { component: KaabaLandmark, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.7 },
 
   // statues / monuments
   'renaissance-monument': { component: RenaissanceMonumentLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.74 },

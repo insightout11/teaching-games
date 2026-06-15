@@ -26,7 +26,6 @@ const CITY_SPECIFIC_LANDMARKS: Record<string, string> = {
   Madrid: 'puerta-alcala',
   Lisbon: 'belem-tower',
   Dublin: 'hapenny-bridge',
-  Mecca: 'kaaba',
   Dakar: 'renaissance-monument',
   Recife: 'recife-waterfront',
   'Panama City': 'panama-canal',

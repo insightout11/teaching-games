@@ -58,7 +58,6 @@ export interface DestinationScene {
     | 'jakarta'
     | 'lagos'
     | 'lisbon'
-    | 'mecca'
     | 'dublin'
     | 'reykjavik'
     | 'panamacity'

@@ -39,7 +39,6 @@ export function SkylineLayer(props: SceneLayerProps) {
   if (props.scene.skylineVariant === 'jakarta') return <JakartaSkyline {...props} />;
   if (props.scene.skylineVariant === 'lagos') return <LagosSkyline {...props} />;
   if (props.scene.skylineVariant === 'lisbon') return <LisbonSkyline {...props} />;
-  if (props.scene.skylineVariant === 'mecca') return <MeccaSkyline {...props} />;
   if (props.scene.skylineVariant === 'dublin') return <DublinSkyline {...props} />;
   if (props.scene.skylineVariant === 'reykjavik') return <ReykjavikSkyline {...props} />;
   if (props.scene.skylineVariant === 'panamacity') return <PanamaCitySkyline {...props} />;
@@ -1993,53 +1992,6 @@ function LisbonSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
       {items}
       {bridge}
       {cristoRei}
-    </g>
-  );
-}
-
-// ── Mecca — Abraj Al Bait clock tower over the Haram ─────────────────────────
-function MeccaSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
-  const base = LAYOUT.apronY + 12;
-  const f = palette.buildingSilhouette;
-  const isNight = palette.light === 'moon';
-  const items: React.ReactNode[] = [];
-  let x = -40;
-  let k = 0;
-  while (x < CONTENT_W + 40) {
-    const w = randRange(rand, 50, 100);
-    const h = randRange(rand, 60, 110);
-    const top = base - h;
-    const parts: React.ReactNode[] = [<rect key="b" x={x} y={top} width={w} height={h} fill={f} />];
-    if (rand() > 0.66) {
-      const mxx = x + w / 2;
-      parts.push(<rect key="min" x={mxx - 3} y={top - 92} width={6} height={92} fill={f} />);
-      parts.push(<polygon key="mint" points={`${mxx - 5} ${top - 92}, ${mxx} ${top - 114}, ${mxx + 5} ${top - 92}`} fill={f} />);
-      parts.push(<circle key="minc" cx={mxx} cy={top - 116} r={2.5} fill="rgba(216,184,96,0.9)" />);
-    }
-    parts.push(...litWindows(x, w, h, top, palette, rand, isNight));
-    items.push(<g key={k}>{parts}</g>);
-    x += w + randRange(rand, 4, 8);
-    k += 1;
-  }
-  const tx = CONTENT_W * 0.5;
-  const stone = 'rgb(150,148,140)';
-  const gold = 'rgb(228,184,72)';
-  const clock = (
-    <g>
-      <rect x={tx - 44} y={base - 440} width={88} height={440} fill={stone} />
-      {litWindows(tx - 44, 88, 440, base - 440, palette, rand, isNight)}
-      <circle cx={tx} cy={base - 390} r={30} fill="rgba(40,80,60,0.92)" />
-      <circle cx={tx} cy={base - 390} r={30} fill="none" stroke={gold} strokeWidth={3} />
-      <path d={`M ${tx} ${base - 390} L ${tx} ${base - 414} M ${tx} ${base - 390} L ${tx + 16} ${base - 382}`} stroke="rgba(255,255,255,0.9)" strokeWidth={2.5} />
-      <polygon points={`${tx - 20} ${base - 440}, ${tx} ${base - 490}, ${tx + 20} ${base - 440}`} fill={stone} />
-      <rect x={tx - 2} y={base - 520} width={4} height={30} fill={gold} />
-      <path d={`M ${tx - 11} ${base - 524} A 10 10 0 1 0 ${tx - 2} ${base - 516}`} fill="none" stroke={gold} strokeWidth={3} />
-    </g>
-  );
-  return (
-    <g aria-hidden data-skyline="mecca" data-id={idPrefix}>
-      {items}
-      {clock}
     </g>
   );
 }

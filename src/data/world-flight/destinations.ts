@@ -222,7 +222,6 @@ const IMAGES = {
   madrid: wikimediaFile('Madrid_-_Madrid_skyline_-_140314_195825.jpg', 'Madrid', 'Madrid skyline and historic center.', 'https://commons.wikimedia.org/wiki/File:Madrid_-_Madrid_skyline_-_140314_195825.jpg'),
   lisbon: wikimediaFile('Lisbon_BW_2018-10-03_10-09-02.jpg', 'Lisbon', 'Lisbon streets above the Tagus.', 'https://commons.wikimedia.org/wiki/File:Lisbon_BW_2018-10-03_10-09-02.jpg'),
   dublin: wikimediaFile('Dublin_Stephen%27s_Green-44_edit.jpg', 'Dublin', 'Dublin city and public green space.', 'https://commons.wikimedia.org/wiki/File:Dublin_Stephen%27s_Green-44_edit.jpg'),
-  mecca: wikimediaFile('Mecca_at_night.jpg', 'Mecca', 'Mecca and the Grand Mosque district at night.', 'https://commons.wikimedia.org/wiki/File:Mecca_at_night.jpg'),
   dakar: wikimediaFile('Gor%C3%A9e_2024_-_coucher_de_soleil_sur_Dakar_-_25.jpg', 'Dakar', 'Dakar seen across the Atlantic coast.', 'https://commons.wikimedia.org/wiki/File:Gor%C3%A9e_2024_-_coucher_de_soleil_sur_Dakar_-_25.jpg'),
   recife: wikimediaFile('Recife_-_Vista_a%C3%A9rea_a_partir_do_bairro_do_Recife.jpg', 'Recife', 'Recife waterfront, historic center, and modern skyline.', 'https://commons.wikimedia.org/wiki/File:Recife_-_Vista_a%C3%A9rea_a_partir_do_bairro_do_Recife.jpg'),
   panamaCity: wikimediaFile('Panama_City_Skyline_2015.jpg', 'Panama City', 'Panama City skyline beside the Pacific.', 'https://commons.wikimedia.org/wiki/File:Panama_City_Skyline_2015.jpg'),
@@ -2370,35 +2369,6 @@ Almaty shows the difference between political power and urban influence. A capit
       researchedReadingFocus('dublin', 'georgian-city', 'Dublin - Reading the Georgian City', 'Look behind orderly facades to examine power, labor, adaptation, and preservation.', 'Advanced', 'Explain why architectural beauty does not tell a complete social history.', ['reading', 'architecture', 'history'], IMAGES.dublin, MILESTONE_50_READINGS.dublin.georgianCity, [
         { title: 'Dublin City Heritage', publisher: 'Dublin City Council', url: 'https://www.dublincity.ie/residential/planning/heritage-and-conservation' },
         { title: 'Dublin', publisher: 'Buildings of Ireland', url: 'https://www.buildingsofireland.ie/' },
-      ]),
-    ],
-  },
-  {
-    id: 'mecca',
-    city: 'Mecca',
-    country: 'Saudi Arabia',
-    region: 'Middle East',
-    lat: 21.3891,
-    lng: 39.8579,
-    primaryAirport: 'JED',
-    airports: ['JED'],
-    scene: { terrain: 'mountain', vegetation: 'none', skyline: 'highrise', skylineVariant: 'mecca', landmarkSilhouette: 'kaaba', palette: 'night' },
-    heroImage: IMAGES.mecca,
-    focusOptions: [
-      videoFocus('zamzam-story-video', 'Mecca - The Story of Zamzam', 'Hear a child-friendly telling of a story connected with sacred water in Mecca.', 'Easy', 'Retell a cultural story respectfully using sequence and place language.', ['listening', 'storytelling', 'younger learners'], 'MlqbMKZlM2U', 'One4kids', 380, `This animated story introduces younger learners to the religious meaning associated with Zamzam water. It supports respectful listening, story sequence, and recognition that water can carry spiritual as well as practical importance.`, '2026-06-12'),
-      videoFocus('hajj-for-kids-video', 'Mecca - What Is Hajj?', 'Use a clear child-friendly explanation to follow the purpose and major stages of Hajj.', 'Intermediate', 'Summarize the purpose and sequence of a major religious pilgrimage.', ['listening', 'religion', 'cultural understanding'], '6qCjyTEcWfA', 'Twinkl Educational Publishing', 242, `This clear explanation presents Hajj for younger audiences while retaining important vocabulary and sequence. It supports respectful cultural understanding and discussion of why millions of people make the journey to Mecca.`, '2026-06-12'),
-      videoFocus('historical-hajj-video', 'Mecca - Reading Archival Hajj Footage', 'Examine early film of pilgrimage and ask what visual evidence can and cannot show.', 'Advanced', 'Analyze archival footage as evidence of continuity and change.', ['listening', 'history', 'media literacy'], 'vPHW1yKiwhY', 'Recollections of the Past', 168, `This archival footage provides a rare visual record of Hajj in 1928. It supports careful comparison of clothing, movement, buildings, technology, and crowd scale while recognizing the limits of a short historical film.`, '2026-06-12'),
-      researchedReadingFocus('mecca', 'sacred-geography', 'Mecca - How Sacred Geography Organizes a Journey', 'Connect the Kaaba and surrounding sites through meaning, movement, and memory.', 'Advanced', 'Explain how religious meaning changes the way physical space is understood.', ['reading', 'religion', 'geography'], IMAGES.mecca, MILESTONE_50_READINGS.mecca.sacredGeography, [
-        { title: 'Mecca', publisher: 'Britannica', url: 'https://www.britannica.com/place/Mecca' },
-        { title: 'Hajj', publisher: 'Ministry of Hajj and Umrah', url: 'https://haj.gov.sa/' },
-      ]),
-      researchedReadingFocus('mecca', 'pilgrimage-city-systems', 'Mecca - Building a City for Pilgrimage', 'Examine the systems and workers supporting a huge temporary population.', 'Advanced', 'Explain why hospitality at very large scale requires coordinated city systems.', ['reading', 'infrastructure', 'public health'], IMAGES.mecca, MILESTONE_50_READINGS.mecca.pilgrimageCity, [
-        { title: 'Pilgrim Experience Program', publisher: 'Saudi Vision 2030', url: 'https://www.vision2030.gov.sa/en/explore/programs/pilgrim-experience-program' },
-        { title: 'Hajj', publisher: 'World Health Organization', url: 'https://www.who.int/health-topics/hajj' },
-      ]),
-      researchedReadingFocus('mecca', 'lunar-calendar', 'Mecca - A Pilgrimage That Moves Through the Seasons', 'Use the lunar calendar to connect time, climate, planning, and worship.', 'Easy', 'Explain how a calendar system changes practical city planning.', ['reading', 'time', 'climate'], IMAGES.mecca, MILESTONE_50_READINGS.mecca.lunarCalendar, [
-        { title: 'Islamic Calendar', publisher: 'Britannica', url: 'https://www.britannica.com/topic/Islamic-calendar' },
-        { title: 'Hajj', publisher: 'Ministry of Hajj and Umrah', url: 'https://haj.gov.sa/' },
       ]),
     ],
   },
