@@ -398,6 +398,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     altitudeFrom: number;
     altitudeTo: number;
     leg: FlightTransitionLeg;
+    isMicroEvent: boolean;
   } | null>(null);
   const [poolSpinning, setPoolSpinning] = useState<{ pool: string[]; stageLabel?: string } | null>(null);
 
@@ -1096,6 +1097,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         altitudeFrom: altFrom,
         altitudeTo: altTo,
         leg,
+        isMicroEvent: !!nextSlot?.isMicroEvent,
       });
     }
     // Final module complete — fly straight to the "You've Landed" arrival. Do NOT
@@ -2214,6 +2216,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           leg={moduleTransition.leg}
           planeKey={selectedPlaneKey}
           weather={flightWeather}
+          isMicroEvent={moduleTransition.isMicroEvent}
           arrivalScene={wfDestination ? {
             destinationId: wfDestination.id,
             scene: wfDestination.scene,

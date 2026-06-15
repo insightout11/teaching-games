@@ -9,6 +9,7 @@ import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene
 import type { ArrivalPhase, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import { WEATHER_PROFILE } from '@/components/world-flight/arrival-scene/weather';
+import { TurbulenceBeat, useTurbulence } from '@/components/session/turbulence-beat';
 import type { DestinationScene } from '@/lib/world-flight/types';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
@@ -43,6 +44,9 @@ interface FlightTransitionOverlayProps {
   departureScene?: FlightArrivalScene;
   /** Flight weather for this leg — drives the cloud pass + cruise precipitation. */
   weather?: WeatherCondition;
+  /** The destination slot is a micro-event (opinion pulse / accuracy check) — play
+   *  the turbulence beat instead of the side fly-by. */
+  isMicroEvent?: boolean;
   onDismiss: () => void;
 }
 
@@ -437,6 +441,7 @@ export function FlightTransitionOverlay({
   arrivalScene,
   departureScene,
   weather = 'clear',
+  isMicroEvent = false,
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -452,6 +457,12 @@ export function FlightTransitionOverlay({
   const isCityTransition = !!cityLeg;
   const showRunway = (leg === 'takeoff' || leg === 'descent') && !isCityTransition;
   const planeAnim = buildPlaneAnim(leg, altitudeTo - altitudeFrom);
+
+  // Micro-event slots (opinion pulse / accuracy check) arrive on a turbulence beat:
+  // the front-facing plane buffets while the whole frame trembles, instead of the
+  // side fly-by. Approved feel: intensity 1 / frameShake 0.35.
+  const turbulence = !!isMicroEvent && leg === 'cruise' && !isCityTransition;
+  const frameJitter = useTurbulence(turbulence && !prefersReducedMotion ? 0.35 : 0);
 
   // The tracking-camera takeoff (rolling down the real city's runway) wants a
   // longer beat than the standard transition so the speed build is felt. The
@@ -524,6 +535,21 @@ export function FlightTransitionOverlay({
             />
           </div>
         </>
+      ) : turbulence ? (
+        /* Micro-event turbulence beat — the whole frame trembles while the front
+           plane buffets; the cloud pass + precipitation still play on top. */
+        <motion.div className="absolute inset-0" style={{ x: frameJitter.x, y: frameJitter.y }}>
+          <SkyBackground
+            weatherState={weatherState}
+            altitude={altitudeTo}
+            altitudeInitial={prefersReducedMotion ? altitudeTo : altitudeFrom}
+            earthState="flight"
+            showEarth={false}
+            intensity="moderate"
+            parallaxScale={1}
+          />
+          <TurbulenceBeat planeKey={planeKey} intensity={1} reduce={!!prefersReducedMotion} />
+        </motion.div>
       ) : (
       <>
       {/* Sky — real earth/cloud layers animate from altitudeFrom → altitudeTo over the
