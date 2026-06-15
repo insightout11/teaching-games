@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { WeatherCondition } from '@/components/world-flight/arrival-scene/types';
+import { WEATHER_PROFILE } from '@/components/world-flight/arrival-scene/weather';
 
 // Stylized cockpit HUD for the accuracy-check beats — "Top Gun HUD + sci-fi dash
 // + SVG simplicity." One big glowing hero (PFD for Instrument Check, radar scope
@@ -60,6 +61,70 @@ export function ForwardCloudRush({ tint = RUSH_TINT.clear }: { tint?: string } =
           transition={{ duration: c.dur, delay: c.delay, repeat: Infinity, ease: 'easeIn' }}
         />
       ))}
+    </div>
+  );
+}
+
+// Weather on the windscreen — a real dim + falling rain/snow + beads of water on
+// the glass with a few running streaks, and lightning for storms. Sits behind the
+// HUD so the instruments stay readable. CSS sheets (.lc-rain/snow/lightning) live
+// in globals.css.
+function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
+  const p = WEATHER_PROFILE[weather];
+  const drops = useMemo(
+    () =>
+      p.rain === 0
+        ? []
+        : Array.from({ length: Math.round(46 * p.rain) }, (_, i) => ({
+            x: (i * 53 + 7) % 100,
+            y: (i * 37 + 3) % 88,
+            r: 2 + (i % 4),
+            o: 0.22 + (i % 3) * 0.1,
+          })),
+    [p.rain],
+  );
+  const streaks = useMemo(
+    () =>
+      p.rain === 0
+        ? []
+        : Array.from({ length: Math.round(9 * p.rain) }, (_, i) => ({
+            x: (i * 61 + 5) % 100,
+            delay: (i % 5) * 0.5,
+            dur: 0.8 + (i % 3) * 0.45,
+            len: 34 + (i % 4) * 22,
+          })),
+    [p.rain],
+  );
+  if (p.rain === 0 && p.snow === 0 && !p.lightning && p.dim === 0) return null;
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {p.dim > 0 && <div className="absolute inset-0" style={{ background: 'rgb(9,15,28)', opacity: p.dim * 0.72 }} />}
+      {p.rain > 0 && <div className="lc-rain-sheet absolute inset-0" style={{ opacity: 0.45 + p.rain * 0.35 }} />}
+      {p.snow > 0 && <div className="lc-snow-sheet absolute inset-0" style={{ opacity: 0.55 + p.snow * 0.4 }} />}
+      {drops.map((d, i) => (
+        <div
+          key={`d${i}`}
+          className="absolute rounded-full"
+          style={{
+            left: `${d.x}%`,
+            top: `${d.y}%`,
+            width: d.r * 2,
+            height: d.r * 2,
+            background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,${d.o + 0.25}), rgba(176,198,224,${d.o}) 58%, transparent 76%)`,
+            filter: 'blur(0.6px)',
+          }}
+        />
+      ))}
+      {streaks.map((s, i) => (
+        <motion.div
+          key={`s${i}`}
+          className="absolute"
+          style={{ left: `${s.x}%`, top: '-12%', width: 2, height: s.len, borderRadius: 2, background: 'linear-gradient(to bottom, transparent, rgba(205,222,245,0.55))', filter: 'blur(0.8px)' }}
+          animate={{ y: ['0vh', '112vh'] }}
+          transition={{ duration: s.dur, delay: s.delay, repeat: Infinity, ease: 'easeIn' }}
+        />
+      ))}
+      {p.lightning && <div className="lc-lightning-flash absolute inset-0" />}
     </div>
   );
 }
@@ -188,6 +253,7 @@ export function FlightCheckScene({ variant, weather = 'clear' }: { variant: 'ins
   return (
     <div className="absolute inset-0 overflow-hidden">
       <ForwardCloudRush tint={RUSH_TINT[weather]} />
+      <WindscreenWeather weather={weather} />
       <svg viewBox="0 0 1120 640" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
         <Defs />
         <CockpitFrame />
@@ -218,11 +284,7 @@ export function FlightCheckScene({ variant, weather = 'clear' }: { variant: 'ins
           </g>
         )}
 
-        {/* scan line + glass noise */}
-        <line x1="0" x2="1120" y1="0" y2="0" stroke={hero.replace('rgb', 'rgba').replace(')', ',0.10)')} strokeWidth="2">
-          <animate attributeName="y1" values="60;470" dur="2.6s" repeatCount="indefinite" />
-          <animate attributeName="y2" values="60;470" dur="2.6s" repeatCount="indefinite" />
-        </line>
+        {/* glass noise */}
         <rect x="0" y="0" width="1120" height="640" filter="url(#hud-noise)" opacity="0.5" />
       </svg>
     </div>
