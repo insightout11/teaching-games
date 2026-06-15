@@ -11,7 +11,9 @@ export interface RadarGuess {
   lat: number;
   lng: number;
   distanceKm: number;
-  radarPoints: number;
+  basePoints: number;
+  closestBonus: number;
+  lessonPoints: number;
 }
 interface RadarMapProps {
   answer: DestinationPack;

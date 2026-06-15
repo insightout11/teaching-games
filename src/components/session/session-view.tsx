@@ -399,6 +399,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     altitudeTo: number;
     leg: FlightTransitionLeg;
     isMicroEvent: boolean;
+    stageId?: string;
   } | null>(null);
   const [poolSpinning, setPoolSpinning] = useState<{ pool: string[]; stageLabel?: string } | null>(null);
 
@@ -1098,6 +1099,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         altitudeTo: altTo,
         leg,
         isMicroEvent: !!nextSlot?.isMicroEvent,
+        stageId: nextSlot?.stageId,
       });
     }
     // Final module complete — fly straight to the "You've Landed" arrival. Do NOT
@@ -1974,7 +1976,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onGoToSlot={lesson.goToSlot}
             >
               <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
-                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} />
+                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
               </ModuleErrorBoundary>
             </FlightSessionView>
           ) : (
@@ -2044,7 +2046,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
             <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
-              <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} />
+              <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
             </ModuleErrorBoundary>
           </div>
           )
@@ -2217,6 +2219,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           planeKey={selectedPlaneKey}
           weather={flightWeather}
           isMicroEvent={moduleTransition.isMicroEvent}
+          stageId={moduleTransition.stageId}
           arrivalScene={wfDestination ? {
             destinationId: wfDestination.id,
             scene: wfDestination.scene,

@@ -95,3 +95,10 @@ export function outcomeToPoints(outcome: ScoreOutcome): 0 | 1 | 3 | 5 {
     case 'invalid':  return 0
   }
 }
+
+export function addScoreBonus(basePoints: number, requestedBonus?: number) {
+  const bonusPoints = Number.isFinite(requestedBonus)
+    ? Math.max(0, Math.min(10, Math.round(requestedBonus ?? 0)))
+    : 0;
+  return { bonusPoints, totalPoints: basePoints + bonusPoints };
+}

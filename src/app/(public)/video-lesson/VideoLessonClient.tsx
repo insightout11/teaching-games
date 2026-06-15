@@ -48,7 +48,7 @@ interface PreviewResponse {
 
 const PENDING_SOURCE_KEY = 'lc-pending-source';
 const SAMPLE_VIDEO = FEATURED_CHIPS[0]; // pre-loaded so the payoff is visible above the fold
-// The real Captain's Flight route (9 stages, client-safe static data).
+// The real Captain's Flight route (10 stages, client-safe static data).
 const FEATURED_ROUTE = getFeaturedRoute();
 
 // Aviation-voiced staged progress while the (uncached) request runs.
@@ -320,7 +320,7 @@ function LessonResult({
         </div>
       </div>
 
-      {/* Route strip — the real 9-stage Captain's Flight */}
+      {/* Route strip — the real 10-stage Captain's Flight */}
       <div className="rounded-2xl border border-cyan-300/15 bg-[#04101f]/70 p-5">
         <MarketingRouteStrip route={FEATURED_ROUTE} animate={animate} />
       </div>
@@ -583,7 +583,7 @@ export function VideoLessonClient() {
           Turn any YouTube video into a live English lesson
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-lc-text2">
-          Paste a link and watch a full 9-stage lesson build itself — vocabulary, comprehension,
+          Paste a link and watch a full 10-stage lesson build itself — vocabulary, comprehension,
           discussion, and a live class flight you run together.
         </p>
 

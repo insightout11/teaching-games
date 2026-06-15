@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { runScoreEngine, type ScoringProfile } from './score-engine';
+import { addScoreBonus, runScoreEngine, type ScoringProfile } from './score-engine';
 
 const accuracyProfile: ScoringProfile = {
   displayMode: 'competitive',
@@ -75,5 +75,10 @@ describe('runScoreEngine', () => {
     expect(result.outcome).toBe('invalid');
     expect(result.points).toBe(0);
     expect(result.countsForAccuracy).toBe(false);
+  });
+
+  it('adds a bounded competitive bonus after outcome scoring', () => {
+    expect(addScoreBonus(5, 2)).toEqual({ bonusPoints: 2, totalPoints: 7 });
+    expect(addScoreBonus(3, -4)).toEqual({ bonusPoints: 0, totalPoints: 3 });
   });
 });

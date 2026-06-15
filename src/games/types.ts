@@ -10,6 +10,8 @@ export type GameCategory = 'vocabulary' | 'grammar-writing' | 'logic-puzzles' | 
 export interface ScoreResult {
   isCorrect: boolean | null;
   points: number;
+  /** Extra competitive points added after the shared 0/1/3/5 outcome score. */
+  bonusPoints?: number;
   outcome?: ScoreOutcome;
   isEmpty?: boolean;
   responseData?: Record<string, unknown>;
@@ -46,6 +48,8 @@ export interface GameProps {
   onRevealTopSubmissions?: (submissions: TopSubmission[]) => void;
   // When true, the game is a flight-plan micro-event and must stop after exactly one round
   isMicroEvent?: boolean;
+  // Active World Flight destination, when the lesson was launched from World Flight.
+  destinationId?: string;
 }
 
 export interface GameConfigField {

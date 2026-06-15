@@ -27,13 +27,21 @@ export function parseGeoGuess(value: string): GeoGuessPayload | null {
   }
 }
 
-export function radarPointsForDistance(distanceKm: number) {
-  if (!Number.isFinite(distanceKm) || distanceKm < 0) return 0;
-  return Math.max(0, Math.min(5000, Math.round(5000 * Math.exp(-distanceKm / 3000))));
+export function radarLessonPointsForDistance(distanceKm: number) {
+  const outcome = radarOutcomeForDistance(distanceKm);
+  if (outcome === 'standout') return 5;
+  if (outcome === 'on-task') return 3;
+  if (outcome === 'genuine') return 1;
+  return 0;
 }
 
 export function radarOutcomeForDistance(distanceKm: number): ScoreOutcome {
+  if (!Number.isFinite(distanceKm) || distanceKm < 0) return 'invalid';
   if (distanceKm <= 250) return 'standout';
   if (distanceKm <= 1500) return 'on-task';
   return 'genuine';
+}
+
+export function radarClosestBonus(distanceKm: number, closestDistanceKm: number | null) {
+  return closestDistanceKm != null && distanceKm === closestDistanceKm ? 2 : 0;
 }

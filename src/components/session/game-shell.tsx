@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useMemo, useState } from 'react';
 import { useSessionStore } from '@/stores/session-store';
-import { runScoreEngine } from '@/lib/score-engine';
+import { addScoreBonus, runScoreEngine } from '@/lib/score-engine';
 import { createClient } from '@/lib/supabase/client';
 import type { GamePlugin, ScoreResult, GameRemoteVote, TopSubmission } from '@/games/types';
 import type { GameGeneratedContent } from '@/activities/types';
@@ -20,9 +20,10 @@ interface GameShellProps {
   timerSeconds: number;
   onRevealTopSubmissions?: (submissions: TopSubmission[]) => void;
   isMicroEvent?: boolean;
+  destinationId?: string;
 }
 
-export function GameShell({ game, config, preGeneratedContent, timerSeconds, onRevealTopSubmissions, isMicroEvent }: GameShellProps) {
+export function GameShell({ game, config, preGeneratedContent, timerSeconds, onRevealTopSubmissions, isMicroEvent, destinationId }: GameShellProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const sessionId = useSessionStore((s) => s.sessionId);
   const students = useSessionStore((s) => s.students);
@@ -212,6 +213,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       isEmpty: result.isEmpty,
       profile: game.scoringProfile,
     });
+    const scoreWithBonus = addScoreBonus(engineResult.points, result.bonusPoints);
 
     // Streak: advance on correct (accuracy games), hold on participation (accuracy=not_applicable)
     const streakLookupKey = studentIdField ?? clientIdField ?? studentId;
@@ -228,7 +230,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       student_id: studentIdField,
       client_id: clientIdField,
       display_name: displayNameField,
-      points: engineResult.points,
+      points: scoreWithBonus.totalPoints,
       streak_count: currentStreak,
       streak_bonus: 0,
       is_correct: engineResult.isCorrect,
@@ -238,7 +240,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
       counts_for_leaderboard: true,
       scoring_version: engineResult.scoringVersion,
       prompt_index: promptIndexRef.current,
-      response_data: { ...(result.responseData ?? {}), gameKey: game.key },
+      response_data: { ...(result.responseData ?? {}), bonusPoints: scoreWithBonus.bonusPoints, gameKey: game.key },
       team: teamFromResult,
     };
 
@@ -403,6 +405,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
                 prefsMap={prefsMap}
                 onRevealTopSubmissions={onRevealTopSubmissionsRef.current}
                 isMicroEvent={isMicroEvent}
+                destinationId={destinationId}
               />
             </div>
           </div>

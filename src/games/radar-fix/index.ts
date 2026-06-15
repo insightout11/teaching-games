@@ -5,7 +5,7 @@ import { RadarFixGame } from './game';
 export const radarFixPlugin: GamePlugin = {
   key: 'radar-fix',
   name: 'Radar Fix',
-  description: 'Plot cities on a world radar map, then reveal the closest positions.',
+  description: 'Plot cities, airports, and destination clues on a world radar map.',
   category: 'quiz',
   pppStage: 'practice',
   icon: Radar,
@@ -24,7 +24,7 @@ export const radarFixPlugin: GamePlugin = {
       default: '5',
     },
   ],
-  maxPointsPerTurn: 5000,
+  maxPointsPerTurn: 7,
   defaultTimerSeconds: 0,
   estimatedMinutes: 12,
   scoringProfile: {

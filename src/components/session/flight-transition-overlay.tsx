@@ -10,6 +10,7 @@ import type { ArrivalPhase, TimeOfDay, WeatherCondition } from '@/components/wor
 import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import { WEATHER_PROFILE } from '@/components/world-flight/arrival-scene/weather';
 import { TurbulenceBeat, useTurbulence } from '@/components/session/turbulence-beat';
+import { FlightCheckScene } from '@/components/session/cockpit-scene';
 import type { DestinationScene } from '@/lib/world-flight/types';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
@@ -44,9 +45,10 @@ interface FlightTransitionOverlayProps {
   departureScene?: FlightArrivalScene;
   /** Flight weather for this leg — drives the cloud pass + cruise precipitation. */
   weather?: WeatherCondition;
-  /** The destination slot is a micro-event (opinion pulse / accuracy check) — play
-   *  the turbulence beat instead of the side fly-by. */
+  /** The destination slot is a micro-event with its own transition beat. */
   isMicroEvent?: boolean;
+  /** Stage identity selects turbulence, instrument, or radar treatment. */
+  stageId?: string;
   onDismiss: () => void;
 }
 
@@ -446,6 +448,7 @@ export function FlightTransitionOverlay({
   departureScene,
   weather = 'clear',
   isMicroEvent = false,
+  stageId,
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -462,10 +465,15 @@ export function FlightTransitionOverlay({
   const showRunway = (leg === 'takeoff' || leg === 'descent') && !isCityTransition;
   const planeAnim = buildPlaneAnim(leg, altitudeTo - altitudeFrom);
 
-  // Micro-event slots (opinion pulse / accuracy check) arrive on a turbulence beat:
-  // the front-facing plane buffets while the whole frame trembles, instead of the
-  // side fly-by. Approved feel: intensity 1 / frameShake 0.35.
-  const turbulence = !!isMicroEvent && leg === 'cruise' && !isCityTransition;
+  // Cruise micro-events each get a transition matching their classroom purpose.
+  const isCruiseMicroEvent = !!isMicroEvent && leg === 'cruise' && !isCityTransition;
+  const turbulence = isCruiseMicroEvent && stageId === 'opinion-pulse';
+  const checkVariant =
+    isCruiseMicroEvent && stageId === 'accuracy-check'
+      ? 'instrument'
+      : isCruiseMicroEvent && stageId === 'navigation-check'
+        ? 'radar'
+        : null;
   const frameJitter = useTurbulence(turbulence && !prefersReducedMotion ? 0.35 : 0);
 
   // The tracking-camera takeoff (rolling down the real city's runway) wants a
@@ -554,6 +562,19 @@ export function FlightTransitionOverlay({
           />
           <TurbulenceBeat planeKey={planeKey} intensity={1} reduce={!!prefersReducedMotion} />
         </motion.div>
+      ) : checkVariant ? (
+        <div className="absolute inset-0 bg-slate-950">
+          <SkyBackground
+            weatherState={weatherState}
+            altitude={altitudeTo}
+            altitudeInitial={prefersReducedMotion ? altitudeTo : altitudeFrom}
+            earthState="flight"
+            showEarth={false}
+            intensity="moderate"
+            parallaxScale={1}
+          />
+          <FlightCheckScene variant={checkVariant} />
+        </div>
       ) : (
       <>
       {/* Sky — real earth/cloud layers animate from altitudeFrom → altitudeTo over the
