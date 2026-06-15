@@ -16,6 +16,22 @@ describe('World Flight expeditions', () => {
     expect(validateWorldFlightExpeditionCatalog()).toEqual([]);
   });
 
+  it('offers a substantial catalog with varied route lengths', () => {
+    expect(WORLD_FLIGHT_EXPEDITIONS).toHaveLength(10);
+    expect(WORLD_FLIGHT_EXPEDITIONS.some((expedition) => expedition.length === 'short')).toBe(true);
+    expect(WORLD_FLIGHT_EXPEDITIONS.some((expedition) => expedition.length === 'standard')).toBe(true);
+    expect(WORLD_FLIGHT_EXPEDITIONS.some((expedition) => expedition.length === 'long')).toBe(true);
+  });
+
+  it('includes Mega-Cities as a flexible long expedition', () => {
+    const megaCities = WORLD_FLIGHT_EXPEDITIONS.find((expedition) => expedition.id === 'mega-cities');
+
+    expect(megaCities?.length).toBe('long');
+    expect(megaCities?.suggestedOrder).toBe(false);
+    expect(megaCities?.stops.length).toBeGreaterThanOrEqual(8);
+    expect(megaCities?.requiredStopCount).toBeLessThan(megaCities?.stops.length ?? 0);
+  });
+
   it('does not duplicate an automatic Flight Mission', () => {
     const missionIds = new Set(WORLD_FLIGHT_INVESTIGATIONS.map((mission) => mission.id));
     const missionTitles = new Set(WORLD_FLIGHT_INVESTIGATIONS.map((mission) => mission.title.toLowerCase()));

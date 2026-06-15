@@ -510,6 +510,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const selectedExpeditionRuns = selectedClassId ? expeditionRunsByClass[selectedClassId] ?? [] : [];
   const currentExpeditionRun = selectedExpeditionRuns.find((run) => run.status === 'active' || run.status === 'paused') ?? null;
   const currentExpedition = currentExpeditionRun ? getWorldFlightExpedition(currentExpeditionRun.expeditionId) : null;
+  const currentExpeditionProgress = useMemo(
+    () => currentExpedition
+      ? deriveWorldFlightExpeditionProgress(currentExpedition, currentExpeditionRun?.visitedDestinationIds ?? [])
+      : null,
+    [currentExpedition, currentExpeditionRun?.visitedDestinationIds],
+  );
   const previewExpedition = getWorldFlightExpedition(previewExpeditionId) ?? WORLD_FLIGHT_EXPEDITIONS[0];
   const previewExpeditionRun = selectedExpeditionRuns.find((run) => run.expeditionId === previewExpedition.id && run.status !== 'left') ?? null;
   const previewExpeditionProgress = useMemo(
@@ -551,6 +557,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       : null,
     [currentExpedition, currentExpeditionRun, rangeKm, routeOrigin?.id],
   );
+  const currentExpeditionNextDestination = expeditionRouteGuidance
+    ? WORLD_DESTINATIONS.find((destination) => destination.id === expeditionRouteGuidance.nextDestinationId) ?? null
+    : null;
+  const currentExpeditionTargetDestination = expeditionRouteGuidance
+    ? WORLD_DESTINATIONS.find((destination) => destination.id === expeditionRouteGuidance.targetDestinationId) ?? null
+    : null;
   const planeAsset = getPlaneAsset(selectedClass?.planeKey);
   const planeName = planeAsset.name;
   const selectedDestination = useMemo(
@@ -1519,6 +1531,35 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               <SidebarModeButton active={sidebarMode === 'passport'} icon={<Stamp className="h-3.5 w-3.5" />} label="Passport" onClick={() => setSidebarMode('passport')} />
               <SidebarModeButton active={sidebarMode === 'missions'} icon={<Radar className="h-3.5 w-3.5" />} label="Missions" onClick={() => setSidebarMode('missions')} />
             </div>
+            {sidebarMode !== 'expeditions' && currentExpeditionRun && currentExpedition && currentExpeditionProgress && (
+              <button
+                type="button"
+                onClick={() => previewExpeditionRoute(currentExpedition.id)}
+                className="flex w-full items-center justify-between gap-3 rounded-md border border-rose-200/25 bg-rose-300/[0.055] px-3 py-2.5 text-left transition-colors hover:border-rose-200/45 hover:bg-rose-300/[0.09]"
+              >
+                <span className="flex min-w-0 items-center gap-2.5">
+                  <Compass className="h-4 w-4 shrink-0 text-rose-200/85" aria-hidden />
+                  <span className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-wide text-rose-100/70">
+                      {currentExpeditionRun.status === 'paused' ? 'Paused expedition' : 'Current expedition'}
+                    </span>
+                    <span className="mt-0.5 block truncate text-xs font-semibold text-lc-text">{currentExpedition.title}</span>
+                    <span className="mt-0.5 block truncate text-[10px] text-lc-text3">
+                      {currentExpeditionRun.status === 'paused'
+                        ? 'Open to resume or review the route'
+                        : currentExpeditionNextDestination
+                          ? expeditionRouteGuidance?.direct
+                            ? `Next stop: ${currentExpeditionNextDestination.city}`
+                            : `Next flight: ${currentExpeditionNextDestination.city} toward ${currentExpeditionTargetDestination?.city ?? 'an Expedition stop'}`
+                          : 'Open route guidance'}
+                    </span>
+                  </span>
+                </span>
+                <span className="shrink-0 text-[11px] font-semibold text-rose-100/75">
+                  {currentExpeditionProgress.completedStopCount}/{currentExpeditionProgress.requiredStopCount}
+                </span>
+              </button>
+            )}
             {sidebarMode === 'destinations' && (
               <>
                 <div className="grid grid-cols-2 gap-3">

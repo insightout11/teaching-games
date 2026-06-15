@@ -1,15 +1,17 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { ArrowRight, BookOpen, Check, Compass, Map, Pause, Play, Route, Trophy, X } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { ArrowLeft, ArrowRight, BookOpen, Check, Compass, Map, Pause, Play, RotateCcw, Route, Trophy, X } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { distanceKm, formatDistance } from '@/lib/world-flight/geo';
 import {
   deriveWorldFlightExpeditionProgress,
   getWorldFlightExpedition,
   WORLD_FLIGHT_EXPEDITIONS,
+  type WorldFlightExpeditionLength,
   type WorldFlightExpeditionRouteGuidance,
   type WorldFlightExpeditionRunSummary,
+  type WorldFlightExpeditionTheme,
 } from '@/lib/world-flight/expeditions';
 import type { DestinationPack } from '@/lib/world-flight/types';
 
@@ -53,6 +55,33 @@ export function ExpeditionPanel({
   const routeTarget = routeGuidance ? destination(routeGuidance.targetDestinationId) : null;
   const routeNext = routeGuidance ? destination(routeGuidance.nextDestinationId) : null;
   const routeFocusId = currentDefinition?.stops.find((stop) => stop.destinationId === routeGuidance?.targetDestinationId)?.recommendedFocusId;
+  const routePath = routeGuidance?.routeDestinationIds
+    .map((destinationId) => destination(destinationId))
+    .filter((city): city is DestinationPack => Boolean(city)) ?? [];
+  const [themeFilter, setThemeFilter] = useState<'all' | WorldFlightExpeditionTheme>('all');
+  const [lengthFilter, setLengthFilter] = useState<'all' | WorldFlightExpeditionLength>('all');
+  const [regionFilter, setRegionFilter] = useState('all');
+  const [levelFilter, setLevelFilter] = useState('all');
+  const [panelView, setPanelView] = useState<'catalog' | 'detail'>('catalog');
+  const themeOptions = useMemo(
+    () => Array.from(new Set(WORLD_FLIGHT_EXPEDITIONS.flatMap((expedition) => expedition.themes))).sort(),
+    [],
+  );
+  const regionOptions = useMemo(
+    () => Array.from(new Set(WORLD_FLIGHT_EXPEDITIONS.flatMap((expedition) => expedition.regions))).sort(),
+    [],
+  );
+  const levelOptions = useMemo(
+    () => Array.from(new Set(WORLD_FLIGHT_EXPEDITIONS.map((expedition) => expedition.suggestedLevel))).sort(),
+    [],
+  );
+  const filteredExpeditions = WORLD_FLIGHT_EXPEDITIONS.filter((expedition) => (
+    (themeFilter === 'all' || expedition.themes.includes(themeFilter))
+    && (lengthFilter === 'all' || expedition.length === lengthFilter)
+    && (regionFilter === 'all' || expedition.regions.includes(regionFilter))
+    && (levelFilter === 'all' || expedition.suggestedLevel === levelFilter)
+  ));
+  const filtersActive = themeFilter !== 'all' || lengthFilter !== 'all' || regionFilter !== 'all' || levelFilter !== 'all';
 
   useEffect(() => {
     if (currentRun?.status === 'active') panelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -82,24 +111,43 @@ export function ExpeditionPanel({
             />
           </div>
           {routeGuidance && routeNext && routeTarget && (
-            <button
-              type="button"
-              onClick={() => onSelectDestination(routeNext.id, routeGuidance.direct ? routeFocusId : undefined)}
-              className="mt-4 flex w-full items-center justify-between gap-3 rounded-md border border-rose-200/20 bg-[var(--wf-inset)] px-3 py-3 text-left transition-colors hover:border-rose-200/45 hover:bg-[var(--wf-surface)]"
-            >
-              <span className="min-w-0">
-                <span className="block text-[11px] font-semibold uppercase tracking-wide text-rose-200/70">
-                  {routeGuidance.direct ? 'Reachable expedition stop' : `Route toward ${routeTarget.city}`}
-                </span>
-                <span className="mt-1 block truncate text-sm font-semibold text-lc-text">{routeNext.city}</span>
-                {!routeGuidance.direct && (
-                  <span className="mt-1 block text-[11px] leading-relaxed text-lc-text3">
-                    Next bridge city - {routeGuidance.routeDestinationIds.length} flights to {routeTarget.city}
+            <div className="mt-4 rounded-md border border-rose-200/20 bg-[var(--wf-inset)] p-3">
+              <div className="flex items-start justify-between gap-3">
+                <span className="min-w-0">
+                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-rose-200/70">
+                    Recommended next flight
                   </span>
-                )}
-              </span>
-              <ArrowRight className="h-4 w-4 shrink-0 text-rose-200/75" aria-hidden />
-            </button>
+                  <span className="mt-1 block text-sm font-semibold text-lc-text">{routeNext.city}</span>
+                  <span className="mt-1 block text-[11px] leading-relaxed text-lc-text3">
+                    {routeGuidance.direct
+                      ? `${routeNext.city} is an Expedition stop within range.`
+                      : `${routeNext.city} is the next bridge city on the way to ${routeTarget.city}.`}
+                  </span>
+                </span>
+                <span className="shrink-0 rounded-sm border border-rose-200/25 bg-rose-300/[0.07] px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-rose-100/80">
+                  {routeGuidance.direct ? 'Stop' : `${routePath.length} flights`}
+                </span>
+              </div>
+              {routePath.length > 1 && (
+                <div className="mt-3 flex flex-wrap items-center gap-1.5" aria-label={`Route to ${routeTarget.city}`}>
+                  {routePath.map((city, index) => (
+                    <span key={city.id} className="flex items-center gap-1.5 text-[10px] font-semibold text-lc-text2">
+                      {index > 0 && <ArrowRight className="h-2.5 w-2.5 text-rose-200/55" aria-hidden />}
+                      <span className={city.id === routeTarget.id ? 'text-rose-100' : ''}>{city.city}</span>
+                    </span>
+                  ))}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => onSelectDestination(routeNext.id, routeGuidance.direct ? routeFocusId : undefined)}
+                className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-md bg-rose-300 px-3 text-xs font-bold text-[var(--wf-bg)] transition-colors hover:bg-rose-200"
+              >
+                <BookOpen className="h-3.5 w-3.5" aria-hidden />
+                {routeGuidance.direct ? `Open Recommended ${routeNext.city} Lesson` : `Open ${routeNext.city} as Next Flight`}
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+              </button>
+            </div>
           )}
           <div className="mt-3 grid grid-cols-2 gap-2">
             <button
@@ -125,17 +173,51 @@ export function ExpeditionPanel({
         </section>
       )}
 
-      <section className="border-b border-white/10 px-5 py-5">
+      {panelView === 'catalog' && <section className="border-b border-white/10 px-5 py-5">
         <div className="flex items-end justify-between gap-3">
           <div>
             <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Route library</p>
             <h2 className="font-display mt-1 text-xl text-lc-text">Preview a class expedition.</h2>
           </div>
-          <span className="text-[11px] text-lc-text3">{WORLD_FLIGHT_EXPEDITIONS.length} routes</span>
+          <span className="text-[11px] text-lc-text3">{filteredExpeditions.length} of {WORLD_FLIGHT_EXPEDITIONS.length}</span>
         </div>
         <p className="mt-2 text-xs leading-relaxed text-lc-text2">Select a route to see every stop on the map. Detours remain available, and Flight Missions stay separate.</p>
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <ExpeditionFilter label="Theme" value={themeFilter} onChange={(value) => setThemeFilter(value as 'all' | WorldFlightExpeditionTheme)}>
+            <option value="all">All themes</option>
+            {themeOptions.map((theme) => <option key={theme} value={theme}>{theme}</option>)}
+          </ExpeditionFilter>
+          <ExpeditionFilter label="Length" value={lengthFilter} onChange={(value) => setLengthFilter(value as 'all' | WorldFlightExpeditionLength)}>
+            <option value="all">Any length</option>
+            <option value="short">Short</option>
+            <option value="standard">Standard</option>
+            <option value="long">Long</option>
+          </ExpeditionFilter>
+          <ExpeditionFilter label="Region" value={regionFilter} onChange={setRegionFilter}>
+            <option value="all">All regions</option>
+            {regionOptions.map((region) => <option key={region} value={region}>{region}</option>)}
+          </ExpeditionFilter>
+          <ExpeditionFilter label="Suggested level" value={levelFilter} onChange={setLevelFilter}>
+            <option value="all">Any level</option>
+            {levelOptions.map((level) => <option key={level} value={level}>{level}</option>)}
+          </ExpeditionFilter>
+          <button
+            type="button"
+            disabled={!filtersActive}
+            onClick={() => {
+              setThemeFilter('all');
+              setLengthFilter('all');
+              setRegionFilter('all');
+              setLevelFilter('all');
+            }}
+            className="col-span-2 inline-flex min-h-9 items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.025] px-2 text-[11px] font-semibold text-lc-text2 transition-colors hover:border-cyan-200/25 hover:text-lc-text disabled:cursor-not-allowed disabled:opacity-35"
+          >
+            <RotateCcw className="h-3 w-3" aria-hidden />
+            Reset
+          </button>
+        </div>
         <div className="mt-4 space-y-2">
-          {WORLD_FLIGHT_EXPEDITIONS.map((expedition) => {
+          {filteredExpeditions.map((expedition) => {
             const selected = expedition.id === preview.id;
             const completed = completedExpeditionIds.has(expedition.id);
             const active = currentRun?.expeditionId === expedition.id;
@@ -143,7 +225,10 @@ export function ExpeditionPanel({
               <button
                 key={expedition.id}
                 type="button"
-                onClick={() => onPreviewExpedition(expedition.id)}
+                onClick={() => {
+                  onPreviewExpedition(expedition.id);
+                  setPanelView('detail');
+                }}
                 className={`w-full rounded-md border px-3 py-3 text-left transition-colors ${
                   selected ? 'border-rose-200/45 bg-rose-300/[0.07]' : 'border-white/10 bg-white/[0.025] hover:border-cyan-200/25 hover:bg-white/[0.045]'
                 }`}
@@ -159,6 +244,9 @@ export function ExpeditionPanel({
                       <span className="rounded-sm border border-white/10 bg-white/[0.035] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2">
                         {expedition.estimatedLessons}
                       </span>
+                      <span className="rounded-sm border border-white/10 bg-white/[0.035] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2">
+                        {expedition.length}
+                      </span>
                       {selected && (
                         <span className="inline-flex items-center gap-1 rounded-sm border border-rose-200/25 bg-rose-300/[0.06] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-rose-100/80">
                           <Map className="h-2.5 w-2.5" aria-hidden />
@@ -172,21 +260,38 @@ export function ExpeditionPanel({
               </button>
             );
           })}
+          {filteredExpeditions.length === 0 && (
+            <p className="rounded-md border border-white/10 bg-white/[0.025] px-3 py-4 text-center text-xs leading-relaxed text-lc-text3">
+              No routes match these filters.
+            </p>
+          )}
         </div>
-      </section>
+      </section>}
 
-      <section className="px-5 py-5">
+      {panelView === 'detail' && <section className="px-5 py-5">
+        <button
+          type="button"
+          onClick={() => setPanelView('catalog')}
+          className="mb-4 inline-flex min-h-9 items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.025] px-2.5 text-[11px] font-semibold text-lc-text2 transition-colors hover:border-cyan-200/25 hover:text-lc-text"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
+          All Expeditions
+        </button>
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="font-instrument flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-200/75">
               <Map className="h-3.5 w-3.5" aria-hidden />
-              Map preview · {preview.suggestedOrder ? 'Suggested sequence' : 'Flexible order'}
+              Map preview - {preview.suggestedOrder ? 'Suggested sequence' : 'Flexible order'}
             </p>
             <h2 className="font-display mt-1 text-2xl leading-tight text-lc-text">{preview.title}</h2>
           </div>
           {completedExpeditionIds.has(preview.id) && <Trophy className="h-6 w-6 shrink-0 text-lc-amber" aria-label="Completed expedition" />}
         </div>
         <p className="mt-2 text-sm leading-relaxed text-lc-text2">{preview.description}</p>
+        <div className="mt-4 border-l-2 border-rose-200/45 pl-3">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-rose-100/65">Guiding question</p>
+          <p className="mt-1 text-sm font-semibold leading-relaxed text-lc-text">{preview.centralQuestion}</p>
+        </div>
         <p className="mt-2 flex items-start gap-1.5 text-[11px] leading-relaxed text-rose-100/70">
           <Route className="mt-0.5 h-3 w-3 shrink-0" aria-hidden />
           {preview.suggestedOrder
@@ -261,8 +366,33 @@ export function ExpeditionPanel({
             Replace Current Expedition
           </button>
         )}
-      </section>
+      </section>}
     </div>
+  );
+}
+
+function ExpeditionFilter({
+  label,
+  value,
+  onChange,
+  children,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  children: ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-lc-text3">{label}</span>
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="min-h-9 w-full rounded-md border border-white/10 bg-[var(--wf-inset)] px-2 text-[11px] font-semibold text-lc-text outline-none transition-colors hover:border-cyan-200/25 focus:border-cyan-300/45"
+      >
+        {children}
+      </select>
+    </label>
   );
 }
 
