@@ -106,36 +106,61 @@ function AuroraRibbons() {
   );
 }
 
+// Rain coming head-on: at high forward speed the drops streak toward you from the
+// vanishing point (like driving into rain). Thin bright streaks radiate from the
+// centre, growing as they rush past. SVG so the radial geometry is exact.
+function RainAhead({ intensity }: { intensity: number }) {
+  const streaks = useMemo(
+    () =>
+      Array.from({ length: Math.round(46 * intensity) }, (_, i) => {
+        const rad = (((i * 137.5) % 360) * Math.PI) / 180;
+        return { rad, len: 70 + (i % 5) * 50, dur: 0.5 + (i % 4) * 0.18, begin: (i % 13) * 0.09 };
+      }),
+    [intensity],
+  );
+  return (
+    <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1120 640" preserveAspectRatio="xMidYMid slice" aria-hidden>
+      <g transform="translate(560 300)">
+        {streaks.map((s, i) => (
+          <line
+            key={i}
+            x1={Math.cos(s.rad) * 8}
+            y1={Math.sin(s.rad) * 8}
+            x2={Math.cos(s.rad) * s.len}
+            y2={Math.sin(s.rad) * s.len}
+            stroke="rgba(228,240,255,0.85)"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+          >
+            <animateTransform attributeName="transform" type="scale" values="0.25;1.7" dur={`${s.dur}s`} begin={`${s.begin}s`} repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.9;0" dur={`${s.dur}s`} begin={`${s.begin}s`} repeatCount="indefinite" />
+          </line>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
 // Weather on the windscreen. On a forward-flying aircraft, rain HITS the glass and
 // the slipstream pushes it up + outward (it doesn't fall) — so drops impact then
 // slowly streak across. Snow drifts past but some flakes stick to the glass.
 // Behind the HUD so the instruments stay clear.
 function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
   const p = WEATHER_PROFILE[weather];
-  // drops hit, then streak UP the glass in one consistent direction (the
-  // slipstream blows the water up + slightly back — not falling, not diverging)
-  const rainDrops = useMemo(
+  // a soaked windscreen: a dense field of static water beads (no tails)
+  const wetDrops = useMemo(
     () =>
       p.rain === 0
         ? []
-        : Array.from({ length: Math.round(34 * p.rain) }, (_, i) => ({
-            x: ((i * 37 + 5) % 92) + 4,
-            y: ((i * 53 + 14) % 62) + 18,
-            lean: 2 + (i % 3) * 0.8,
-            rise: 14 + (i % 4) * 8,
-            trail: 28 + (i % 4) * 18,
-            dur: 1.4 + (i % 4) * 0.5,
-            delay: (i % 9) * 0.32,
-            gap: 0.25 + (i % 3) * 0.45,
-          })),
+        : Array.from({ length: Math.round(64 * p.rain) }, (_, i) => ({ x: ((i * 53 + 7) % 96) + 2, y: ((i * 37 + 3) % 92) + 2, r: 1.1 + (i % 5) * 0.9, o: 0.16 + (i % 4) * 0.07 })),
     [p.rain],
   );
-  // a few resting beads on the glass
-  const restBeads = useMemo(
+  // drops popping on impact
+  const hits = useMemo(
     () =>
       p.rain === 0
         ? []
-        : Array.from({ length: Math.round(15 * p.rain) }, (_, i) => ({ x: ((i * 67 + 11) % 90) + 4, y: ((i * 43 + 5) % 74) + 5, r: 1.5 + (i % 3), o: 0.22 + (i % 3) * 0.08 })),
+        : Array.from({ length: Math.round(16 * p.rain) }, (_, i) => ({ x: ((i * 61 + 5) % 92) + 4, y: ((i * 43 + 9) % 80) + 6, r: 3 + (i % 3) * 2, delay: (i % 6) * 0.45, dur: 1.3 + (i % 3) * 0.5, gap: 0.8 + (i % 3) })),
     [p.rain],
   );
   const driftFlakes = useMemo(
@@ -159,28 +184,30 @@ function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
       {p.dim > 0 && <div className="absolute inset-0" style={{ background: 'rgb(9,15,28)', opacity: p.dim * 0.72 }} />}
       {p.aurora && <AuroraRibbons />}
 
-      {restBeads.map((d, i) => (
+      {/* heavy grey murk — flying through thick cloud */}
+      {p.cloudCover > 0.45 && (
+        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse 100% 92% at 50% 42%, rgba(122,132,152,${0.3 * p.cloudCover}), rgba(82,92,112,${0.5 * p.cloudCover}) 100%)` }} />
+      )}
+      {/* rain coming head-on */}
+      {p.rain > 0 && <RainAhead intensity={p.rain} />}
+      {/* water beads on the glass */}
+      {wetDrops.map((d, i) => (
         <div
-          key={`rb${i}`}
+          key={`wd${i}`}
           className="absolute rounded-full"
-          style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.r * 2, height: d.r * 2, background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,${d.o + 0.3}), rgba(176,198,224,${d.o}) 58%, transparent 78%)`, filter: 'blur(0.5px)' }}
+          style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.r * 2, height: d.r * 2, background: `radial-gradient(circle at 36% 30%, rgba(255,255,255,${d.o + 0.28}), rgba(178,200,226,${d.o}) 56%, transparent 78%)`, filter: 'blur(0.5px)' }}
         />
       ))}
-      {/* hit + streak up the glass */}
-      {rainDrops.map((d, i) => (
+      {/* drops popping on impact */}
+      {hits.map((h, i) => (
         <motion.div
-          key={`rd${i}`}
-          className="absolute"
-          style={{ left: `${d.x}%`, top: `${d.y}%` }}
-          initial={{ opacity: 0, x: 0, y: 0 }}
-          animate={{ opacity: [0, 1, 0.85, 0], x: [0, `${d.lean}vw`], y: [0, `-${d.rise}vh`] }}
-          transition={{ duration: d.dur, delay: d.delay, repeat: Infinity, repeatDelay: d.gap, ease: 'easeOut' }}
-        >
-          {/* trail behind the head (drop streaks up, trail below) */}
-          <div style={{ position: 'absolute', left: -1.25, top: 0, width: 2.5, height: d.trail, borderRadius: 2, background: 'linear-gradient(to bottom, rgba(225,238,255,0.55), transparent)', filter: 'blur(0.5px)' }} />
-          {/* bright drop head — the impact you see */}
-          <div style={{ position: 'absolute', left: -3.5, top: -3.5, width: 7, height: 7, borderRadius: '50%', background: 'radial-gradient(circle at 35% 30%, #ffffff, rgba(200,220,245,0.8) 55%, transparent)', boxShadow: '0 0 5px rgba(220,235,255,0.6)' }} />
-        </motion.div>
+          key={`h${i}`}
+          className="absolute rounded-full"
+          style={{ left: `${h.x}%`, top: `${h.y}%`, width: h.r * 2, height: h.r * 2, background: 'radial-gradient(circle, rgba(255,255,255,0.9), rgba(200,220,245,0.4) 55%, transparent)' }}
+          initial={{ opacity: 0, scale: 0.3 }}
+          animate={{ opacity: [0, 0.95, 0.5, 0], scale: [0.3, 1.3, 1, 1.1] }}
+          transition={{ duration: h.dur, delay: h.delay, repeat: Infinity, repeatDelay: h.gap, ease: 'easeOut' }}
+        />
       ))}
 
       {driftFlakes.map((f, i) => (
