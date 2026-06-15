@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, BookOpen, Check, Compass, Pause, Play, Route, Trophy, X } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { ArrowRight, BookOpen, Check, Compass, Map, Pause, Play, Route, Trophy, X } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { distanceKm, formatDistance } from '@/lib/world-flight/geo';
 import {
@@ -27,6 +27,8 @@ export function ExpeditionPanel({
   actionStatus,
   onAction,
   onSelectDestination,
+  previewExpeditionId,
+  onPreviewExpedition,
 }: {
   runs: WorldFlightExpeditionRunSummary[];
   routeOrigin: DestinationPack | null;
@@ -35,12 +37,13 @@ export function ExpeditionPanel({
   actionStatus: 'idle' | 'working' | 'error';
   onAction: (action: ExpeditionAction, expeditionId: string, runId?: string) => void;
   onSelectDestination: (destinationId: string, focusId?: string) => void;
+  previewExpeditionId: string;
+  onPreviewExpedition: (expeditionId: string) => void;
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const currentRun = runs.find((run) => run.status === 'active' || run.status === 'paused') ?? null;
   const completedExpeditionIds = new Set(runs.filter((run) => run.status === 'completed').map((run) => run.expeditionId));
-  const [previewId, setPreviewId] = useState(currentRun?.expeditionId ?? WORLD_FLIGHT_EXPEDITIONS[0].id);
-  const preview = getWorldFlightExpedition(previewId) ?? WORLD_FLIGHT_EXPEDITIONS[0];
+  const preview = getWorldFlightExpedition(previewExpeditionId) ?? WORLD_FLIGHT_EXPEDITIONS[0];
   const previewRun = runs.find((run) => run.expeditionId === preview.id && (run.status === 'active' || run.status === 'paused' || run.status === 'completed')) ?? null;
   const progress = deriveWorldFlightExpeditionProgress(preview, previewRun?.visitedDestinationIds ?? []);
   const currentDefinition = currentRun ? getWorldFlightExpedition(currentRun.expeditionId) : null;
@@ -125,12 +128,12 @@ export function ExpeditionPanel({
       <section className="border-b border-white/10 px-5 py-5">
         <div className="flex items-end justify-between gap-3">
           <div>
-            <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Expedition catalog</p>
-            <h2 className="font-display mt-1 text-xl text-lc-text">Choose a guided journey.</h2>
+            <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Route library</p>
+            <h2 className="font-display mt-1 text-xl text-lc-text">Preview a class expedition.</h2>
           </div>
-          <span className="text-[11px] text-lc-text3">{WORLD_FLIGHT_EXPEDITIONS.length} pilots</span>
+          <span className="text-[11px] text-lc-text3">{WORLD_FLIGHT_EXPEDITIONS.length} routes</span>
         </div>
-        <p className="mt-2 text-xs leading-relaxed text-lc-text2">Expeditions recommend where to go. Flight Missions separately recognize what the class discovers.</p>
+        <p className="mt-2 text-xs leading-relaxed text-lc-text2">Select a route to see every stop on the map. Detours remain available, and Flight Missions stay separate.</p>
         <div className="mt-4 space-y-2">
           {WORLD_FLIGHT_EXPEDITIONS.map((expedition) => {
             const selected = expedition.id === preview.id;
@@ -140,7 +143,7 @@ export function ExpeditionPanel({
               <button
                 key={expedition.id}
                 type="button"
-                onClick={() => setPreviewId(expedition.id)}
+                onClick={() => onPreviewExpedition(expedition.id)}
                 className={`w-full rounded-md border px-3 py-3 text-left transition-colors ${
                   selected ? 'border-rose-200/45 bg-rose-300/[0.07]' : 'border-white/10 bg-white/[0.025] hover:border-cyan-200/25 hover:bg-white/[0.045]'
                 }`}
@@ -149,6 +152,20 @@ export function ExpeditionPanel({
                   <span className="min-w-0">
                     <span className="block text-sm font-semibold text-lc-text">{expedition.title}</span>
                     <span className="mt-1 block text-xs leading-relaxed text-lc-text3">{expedition.subtitle}</span>
+                    <span className="mt-2 flex flex-wrap gap-1.5">
+                      <span className="rounded-sm border border-white/10 bg-white/[0.035] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2">
+                        {expedition.stops.length} cities
+                      </span>
+                      <span className="rounded-sm border border-white/10 bg-white/[0.035] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2">
+                        {expedition.estimatedLessons}
+                      </span>
+                      {selected && (
+                        <span className="inline-flex items-center gap-1 rounded-sm border border-rose-200/25 bg-rose-300/[0.06] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-rose-100/80">
+                          <Map className="h-2.5 w-2.5" aria-hidden />
+                          On map
+                        </span>
+                      )}
+                    </span>
                   </span>
                   {completed ? <Trophy className="h-4 w-4 shrink-0 text-lc-amber" aria-label="Completed" /> : active ? <Compass className="h-4 w-4 shrink-0 text-rose-200" aria-label="Current" /> : null}
                 </span>
@@ -161,14 +178,21 @@ export function ExpeditionPanel({
       <section className="px-5 py-5">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-200/75">
-              {preview.suggestedOrder ? 'Suggested sequence - detours allowed' : 'Flexible order'}
+            <p className="font-instrument flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-200/75">
+              <Map className="h-3.5 w-3.5" aria-hidden />
+              Map preview · {preview.suggestedOrder ? 'Suggested sequence' : 'Flexible order'}
             </p>
             <h2 className="font-display mt-1 text-2xl leading-tight text-lc-text">{preview.title}</h2>
           </div>
           {completedExpeditionIds.has(preview.id) && <Trophy className="h-6 w-6 shrink-0 text-lc-amber" aria-label="Completed expedition" />}
         </div>
         <p className="mt-2 text-sm leading-relaxed text-lc-text2">{preview.description}</p>
+        <p className="mt-2 flex items-start gap-1.5 text-[11px] leading-relaxed text-rose-100/70">
+          <Route className="mt-0.5 h-3 w-3 shrink-0" aria-hidden />
+          {preview.suggestedOrder
+            ? 'Map arrows show the suggested sequence. The class can still take detours.'
+            : 'Map lines connect the route stops for an overview. The class can visit them in any order.'}
+        </p>
         <div className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-md border border-white/10 bg-white/10">
           <ExpeditionFact label="Complete" value={`${preview.requiredStopCount} of ${preview.stops.length}`} />
           <ExpeditionFact label="Length" value={preview.estimatedLessons} />
