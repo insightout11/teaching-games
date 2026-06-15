@@ -109,6 +109,32 @@ html[data-theme="light"] .glass {
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+/* ── Flight-transition weather sheets (full-screen, behind the cloud pass) ─── */
+@keyframes lc-rain { from { background-position: 0 0; } to { background-position: -120px 800px; } }
+@keyframes lc-snow { from { background-position: 0 0, 0 0; } to { background-position: 40px 640px, -30px 760px; } }
+@keyframes lc-lightning {
+  0%, 74%, 100% { opacity: 0; }
+  76% { opacity: 0.85; }
+  79% { opacity: 0.12; }
+  83% { opacity: 0.6; }
+  87% { opacity: 0; }
+}
+.lc-rain-sheet {
+  background-image: repeating-linear-gradient(100deg, transparent 0 7px, rgba(200,214,235,0.40) 7px 8px);
+  animation: lc-rain 0.5s linear infinite;
+}
+.lc-snow-sheet {
+  background-image:
+    radial-gradient(rgba(255,255,255,0.95) 1.6px, transparent 2.4px),
+    radial-gradient(rgba(255,255,255,0.7) 1.2px, transparent 2px);
+  background-size: 28px 28px, 44px 44px;
+  animation: lc-snow 7s linear infinite;
+}
+.lc-lightning-flash {
+  background: rgba(214, 226, 255, 0.9);
+  animation: lc-lightning 6.5s linear infinite;
+}
+
 /* Waiting screen tip fade-in */
 @keyframes lc-fade-in {
   from { opacity: 0; transform: translateY(4px); }

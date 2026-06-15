@@ -8,6 +8,7 @@ import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { ArrivalPhase, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
+import { WEATHER_PROFILE } from '@/components/world-flight/arrival-scene/weather';
 import type { DestinationScene } from '@/lib/world-flight/types';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
@@ -40,7 +41,69 @@ interface FlightTransitionOverlayProps {
   arrivalScene?: FlightArrivalScene;
   /** When set on a takeoff leg, the plane departs from the origin city's scene. */
   departureScene?: FlightArrivalScene;
+  /** Flight weather for this leg — drives the cloud pass + cruise precipitation. */
+  weather?: WeatherCondition;
   onDismiss: () => void;
+}
+
+// Weather-tinted foreground cloud pass: soft banks sweep across the transition,
+// one of them IN FRONT of the plane, so it visibly flies through cloud. The tint
+// darkens with worse weather. (Caller gates this on reduced-motion.)
+const CLOUD_TINT: Record<WeatherCondition, string> = {
+  clear: 'rgba(236,244,255,0.85)',
+  overcast: 'rgba(120,132,156,0.92)',
+  rain: 'rgba(104,116,140,0.93)',
+  storm: 'rgba(74,84,106,0.95)',
+  snow: 'rgba(228,238,250,0.95)',
+  aurora: 'rgba(150,210,200,0.55)',
+};
+
+function TransitionClouds({ weather }: { weather: WeatherCondition }) {
+  const tint = CLOUD_TINT[weather];
+  const banks = [
+    { top: '4%', w: 72, h: 30, dur: 4.2, delay: 0.25, z: 9, op: 0.42 },
+    { top: '30%', w: 104, h: 46, dur: 3.3, delay: 0, z: 13, op: 0.72 }, // foreground, over the plane (z10)
+    { top: '56%', w: 84, h: 36, dur: 3.9, delay: 0.55, z: 9, op: 0.4 },
+  ];
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {banks.map((b, i) => (
+        <motion.div
+          key={i}
+          className="absolute"
+          style={{
+            top: b.top,
+            left: 0,
+            width: `${b.w}vw`,
+            height: `${b.h}vh`,
+            borderRadius: '50%',
+            background: `radial-gradient(ellipse at center, ${tint} 0%, ${tint} 44%, transparent 72%)`,
+            filter: 'blur(28px)',
+            opacity: b.op,
+            zIndex: b.z,
+          }}
+          initial={{ x: '122vw' }}
+          animate={{ x: '-95vw' }}
+          transition={{ duration: b.dur, delay: b.delay, ease: 'easeInOut' }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// Full-screen precipitation + lightning for the sky-only cruise legs (city legs
+// render weather inside their own scene). CSS sheets defined in globals.css.
+function TransitionPrecip({ weather }: { weather: WeatherCondition }) {
+  const p = WEATHER_PROFILE[weather];
+  if (p.rain === 0 && p.snow === 0 && !p.lightning && p.dim === 0) return null;
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 14 }}>
+      {p.dim > 0 && <div className="absolute inset-0" style={{ background: 'rgb(16,24,42)', opacity: p.dim * 0.5 }} />}
+      {p.rain > 0 && <div className="lc-rain-sheet absolute inset-0" style={{ opacity: 0.4 + p.rain * 0.4 }} />}
+      {p.snow > 0 && <div className="lc-snow-sheet absolute inset-0" style={{ opacity: 0.5 + p.snow * 0.4 }} />}
+      {p.lightning && <div className="lc-lightning-flash absolute inset-0" />}
+    </div>
+  );
 }
 
 // y value that places the plane on the sideways runway tarmac.
@@ -332,6 +395,7 @@ export function FlightTransitionOverlay({
   planeKey,
   arrivalScene,
   departureScene,
+  weather = 'clear',
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -513,6 +577,12 @@ export function FlightTransitionOverlay({
       )}
       </>
       )}
+
+      {/* Weather-aware atmosphere: a foreground cloud pass on every leg (the plane
+          flies through it) + full-screen precipitation/lightning on the sky-only
+          cruise legs (city legs carry weather inside their own scene). */}
+      {!prefersReducedMotion && <TransitionClouds weather={weather} />}
+      {!isCityTransition && !prefersReducedMotion && <TransitionPrecip weather={weather} />}
 
       {/* Waypoint label — restrained top-left corner so the cinematic moment stays
           visible (replaces the old centered card that covered the whole scene). */}

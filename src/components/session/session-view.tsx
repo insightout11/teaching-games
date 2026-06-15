@@ -547,6 +547,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     () => (flightDistanceKm == null ? undefined : timeOfDay(clockHourAt(0, flightDistanceKm))),
     [flightDistanceKm],
   );
+  // One climate-weighted weather per flight (stable per session + destination),
+  // shared by the transition cloud pass / cruise precipitation and the city scenes.
+  const flightWeather = useMemo(() => {
+    const d = wfDestination ?? wfOrigin;
+    if (!d) return 'clear' as const;
+    return rollWeather(`${session?.id ?? 'flight'}:${d.id}`, d.scene, wfArrivalTimeOfDay === 'night');
+  }, [wfDestination, wfOrigin, session?.id, wfArrivalTimeOfDay]);
 
   // ─── Sky weather state ────────────────────────────────────────────────
   const weatherState = useMemo<WeatherState>(() => {
@@ -2206,6 +2213,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           altitudeTo={moduleTransition.altitudeTo}
           leg={moduleTransition.leg}
           planeKey={selectedPlaneKey}
+          weather={flightWeather}
           arrivalScene={wfDestination ? {
             destinationId: wfDestination.id,
             scene: wfDestination.scene,
