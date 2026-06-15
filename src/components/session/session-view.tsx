@@ -1575,17 +1575,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
               </div>
             )}
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={() => setShowQrModal(true)}
-              className="flex min-h-9 items-center gap-2 rounded-xl border border-cyan-400/20 bg-cyan-400/10 px-2.5 text-sm font-semibold text-cyan-200 transition-colors hover:bg-cyan-400/15"
+              className="gap-2"
               title="Show student join QR"
             >
               <span className="rounded bg-white p-0.5">
                 <QRCodeSVG value={joinUrl} size={24} bgColor="#ffffff" fgColor="#0f172a" includeMargin={false} />
               </span>
               <span className="hidden lg:inline">Join QR</span>
-            </button>
+            </Button>
             <Button
               variant="ghost"
               size="sm"
@@ -1595,7 +1596,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             >
               {isFullScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
             </Button>
-            <Button variant="danger" size="sm" onClick={handleEndSession}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleEndSession}
+              className="border border-red-400/30 text-red-300 hover:bg-red-500/10 hover:text-red-200"
+            >
               End Session
             </Button>
           </div>

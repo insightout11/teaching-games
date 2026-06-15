@@ -132,7 +132,7 @@ export function FlightSessionView({
             <button
               type="button"
               onClick={onSwap}
-              className="min-h-10 rounded-lg border border-amber-400/20 px-3 text-sm text-amber-200 transition-colors hover:bg-amber-400/10"
+              className="min-h-10 rounded-lg border border-white/10 px-3 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white"
             >
               Swap
             </button>
@@ -140,10 +140,14 @@ export function FlightSessionView({
               type="button"
               onClick={onNext}
               className={[
-                'min-h-10 rounded-lg bg-cyan-500 px-4 text-sm font-semibold text-slate-950 transition-shadow hover:bg-cyan-400',
+                'min-h-10 rounded-lg px-4 text-sm font-semibold transition-all',
                 isModuleFinished
-                  ? 'ring-2 ring-cyan-200 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_rgba(34,211,238,0.45)]'
-                  : '',
+                  // Activity is done → the flight's forward action is now THE next
+                  // step, so it goes loud.
+                  ? 'bg-cyan-500 text-slate-950 hover:bg-cyan-400 ring-2 ring-cyan-200 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_rgba(34,211,238,0.45)]'
+                  // During the activity, the activity's own CTA is primary — keep this
+                  // quiet (forward-hint outline) so it doesn't compete.
+                  : 'border border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10',
               ].join(' ')}
             >
               {actionLabel}
