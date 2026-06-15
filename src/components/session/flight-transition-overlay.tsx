@@ -65,9 +65,9 @@ const CLOUD_TINT: Record<WeatherCondition, string> = {
 function TransitionClouds({ weather }: { weather: WeatherCondition }) {
   const tint = CLOUD_TINT[weather];
   const banks = [
-    { top: '4%', w: 72, h: 30, dur: 4.2, delay: 0.25, z: 9, op: 0.42 },
-    { top: '30%', w: 104, h: 46, dur: 3.3, delay: 0, z: 13, op: 0.72 }, // foreground, over the plane (z10)
-    { top: '56%', w: 84, h: 36, dur: 3.9, delay: 0.55, z: 9, op: 0.4 },
+    { top: '6%', w: 68, h: 26, dur: 4.2, delay: 0.3, z: 9, op: 0.28 },
+    { top: '32%', w: 96, h: 40, dur: 3.3, delay: 0, z: 13, op: 0.5 }, // foreground, over the plane (z10)
+    { top: '58%', w: 78, h: 32, dur: 3.9, delay: 0.6, z: 9, op: 0.26 },
   ];
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -117,18 +117,22 @@ function TransitionPrecip({ weather }: { weather: WeatherCondition }) {
 function CruiseDeck({ altFrom, altTo, weather, reduce }: { altFrom: number; altTo: number; weather: WeatherCondition; reduce: boolean }) {
   const tint = CLOUD_TINT[weather];
   const yFor = (a: number) => `${a * 30}vh`; // higher altitude → deck pushed further down
-  const billows = [8, 24, 40, 56, 72, 88];
+  // Opacity scales with altitude: a real deck only near peak cruise (above the
+  // weather); it fades out at low altitude so the EARTH shows below on climb /
+  // descent legs instead of being blocked.
+  const oFor = (a: number) => Math.min(0.8, Math.max(0, (a - 0.3) * 1.4));
+  const billows = [14, 38, 62, 86];
   return (
     <motion.div
       className="absolute inset-x-0 bottom-0 overflow-hidden pointer-events-none"
-      style={{ height: '72vh', zIndex: 5 }}
-      initial={{ y: yFor(reduce ? altTo : altFrom) }}
-      animate={{ y: yFor(altTo) }}
+      style={{ height: '56vh', zIndex: 5 }}
+      initial={{ y: yFor(reduce ? altTo : altFrom), opacity: oFor(reduce ? altTo : altFrom) }}
+      animate={{ y: yFor(altTo), opacity: oFor(altTo) }}
       transition={{ duration: TRAVEL_DURATION / 1000, ease: 'easeInOut' }}
     >
       <div
         className="absolute inset-x-0 bottom-0"
-        style={{ height: '52vh', background: `linear-gradient(to top, ${tint} 0%, ${tint} 52%, transparent 100%)`, filter: 'blur(10px)' }}
+        style={{ height: '28vh', background: `linear-gradient(to top, ${tint} 0%, ${tint} 38%, transparent 100%)`, filter: 'blur(12px)', opacity: 0.66 }}
       />
       {billows.map((lx, i) => (
         <div
@@ -136,14 +140,14 @@ function CruiseDeck({ altFrom, altTo, weather, reduce }: { altFrom: number; altT
           className="absolute"
           style={{
             left: `${lx}%`,
-            bottom: '40vh',
-            width: '28vw',
-            height: '22vh',
+            bottom: '24vh',
+            width: '30vw',
+            height: '17vh',
             transform: 'translateX(-50%)',
             borderRadius: '50%',
-            background: `radial-gradient(ellipse at center, ${tint} 0%, ${tint} 50%, transparent 72%)`,
-            filter: 'blur(20px)',
-            opacity: 0.92,
+            background: `radial-gradient(ellipse at center, ${tint} 0%, ${tint} 48%, transparent 74%)`,
+            filter: 'blur(22px)',
+            opacity: 0.74,
           }}
         />
       ))}
