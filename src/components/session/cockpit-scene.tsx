@@ -70,42 +70,52 @@ export function ForwardCloudRush({ weather = 'clear' }: { weather?: WeatherCondi
   );
 }
 
-// Aurora — wispy vertical curtains, not solid bands. Thin green→teal drapes along
-// a wavy baseline, each shimmering (opacity + height ripple) at its own pace, the
-// whole field drifting slowly. Soft + screen-blended so it glows. Gaps between
-// drapes keep it airy rather than a solid sheet.
+// Aurora — vertical magnetic-field curtains that WAVE like fabric, with brightness
+// rippling along them. Colour is altitude-structured: faint violet/red top, green
+// body, pink/magenta lower fringe (fringes flare on the bright pulses). Each strip
+// is phase-offset (negative begin) so the wave + shimmer travel along the curtain;
+// soft + screen-blended so it glows.
 function AuroraRibbons() {
+  const N = 56;
   const strips = useMemo(
     () =>
-      Array.from({ length: 44 }, (_, i) => ({
-        x: (i / 44) * 1180 - 30,
-        top: 60 + Math.sin(i * 0.55) * 46 + (i % 3) * 12,
-        h: 150 + (i % 5) * 70,
-        o: 0.1 + (i % 5) * 0.05,
-        dur: 2.4 + (i % 6) * 0.7,
-        delay: (i % 9) * 0.3,
-      })),
+      Array.from({ length: N }, (_, i) => {
+        const x = (i / N) * 1200 - 40;
+        const baseTop = 66 + Math.sin(i * 0.42) * 26;
+        return {
+          x,
+          baseTop,
+          amp: 18 + (i % 4) * 7,
+          h: 168 + (i % 5) * 64,
+          o: 0.1 + (i % 5) * 0.045,
+          wDur: 4 + (i % 3) * 1.3,
+          oDur: 2.6 + (i % 4) * 0.7,
+          begin: -(i * 0.14),
+        };
+      }),
     [],
   );
   return (
     <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1120 640" preserveAspectRatio="none" style={{ mixBlendMode: 'screen' }} aria-hidden>
       <defs>
         <linearGradient id="aurora-curtain" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="rgba(120,255,180,0)" />
-          <stop offset="0.45" stopColor="rgba(120,255,166,0.7)" />
-          <stop offset="0.8" stopColor="rgba(96,205,255,0.42)" />
-          <stop offset="1" stopColor="rgba(150,160,255,0)" />
+          <stop offset="0" stopColor="rgba(150,90,255,0)" />
+          <stop offset="0.16" stopColor="rgba(150,86,232,0.3)" />
+          <stop offset="0.46" stopColor="rgba(108,255,150,0.8)" />
+          <stop offset="0.82" stopColor="rgba(255,116,196,0.5)" />
+          <stop offset="1" stopColor="rgba(255,96,150,0)" />
         </linearGradient>
         <filter id="aurora-soft" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="9" />
+          <feGaussianBlur stdDeviation="8" />
         </filter>
       </defs>
       <g filter="url(#aurora-soft)">
-        <animateTransform attributeName="transform" type="translate" values="-24 0;24 0;-24 0" dur="26s" repeatCount="indefinite" />
+        <animateTransform attributeName="transform" type="translate" values="-20 0;20 0;-20 0" dur="30s" repeatCount="indefinite" />
         {strips.map((s, i) => (
-          <rect key={i} x={s.x} y={s.top} width={11} height={s.h} rx="5" fill="url(#aurora-curtain)" opacity={s.o}>
-            <animate attributeName="opacity" values={`${s.o};${s.o * 2.2};${s.o * 0.4};${s.o}`} dur={`${s.dur}s`} begin={`${s.delay}s`} repeatCount="indefinite" />
-            <animate attributeName="height" values={`${s.h};${s.h * 1.2};${s.h}`} dur={`${s.dur * 1.3}s`} begin={`${s.delay}s`} repeatCount="indefinite" />
+          <rect key={i} x={s.x} y={s.baseTop} width={12} height={s.h} rx="6" fill="url(#aurora-curtain)" opacity={s.o}>
+            <animate attributeName="y" values={`${s.baseTop - s.amp};${s.baseTop + s.amp};${s.baseTop - s.amp}`} dur={`${s.wDur}s`} begin={`${s.begin}s`} repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+            <animate attributeName="opacity" values={`${s.o * 0.45};${s.o * 2.4};${s.o * 0.45}`} dur={`${s.oDur}s`} begin={`${s.begin}s`} repeatCount="indefinite" />
+            <animate attributeName="height" values={`${s.h};${s.h * 1.22};${s.h}`} dur={`${s.wDur * 1.1}s`} begin={`${s.begin}s`} repeatCount="indefinite" />
           </rect>
         ))}
       </g>
@@ -249,8 +259,23 @@ function CockpitFrame() {
       {/* window vignette */}
       <rect x="0" y="0" width="1120" height="640" fill="url(#hud-vignette)" />
       {/* dashboard / glareshield — thin band so the windscreen dominates */}
-      <path d="M0 516 C300 552 820 552 1120 516 L1120 640 L0 640 Z" fill="url(#hud-dash)" />
-      <path d="M0 516 C300 552 820 552 1120 516" stroke="rgba(150,185,215,0.18)" strokeWidth="1.4" fill="none" />
+      <path d="M0 514 C300 552 820 552 1120 514 L1120 640 L0 640 Z" fill="url(#hud-dash)" />
+      {/* soft panel backlight glowing up off the glareshield */}
+      <path d="M0 520 C300 558 820 558 1120 520" stroke="rgba(86,150,205,0.16)" strokeWidth="14" fill="none" filter="url(#hud-glow)" />
+      {/* glareshield lip highlight */}
+      <path d="M0 514 C300 552 820 552 1120 514" stroke="rgba(165,198,228,0.32)" strokeWidth="2" fill="none" />
+      {/* centre console seam */}
+      <line x1="560" y1="544" x2="560" y2="640" stroke="rgba(0,0,0,0.32)" strokeWidth="2.5" />
+      <line x1="562" y1="544" x2="562" y2="640" stroke="rgba(150,180,210,0.07)" strokeWidth="1" />
+      {/* faint instrument indicator lights set into the dash */}
+      {[150, 250, 350, 770, 870, 970].map((x, i) => (
+        <circle key={x} cx={x} cy={588 + (i % 2) * 13} r="3" fill={i === 2 || i === 3 ? 'rgba(255,178,90,0.7)' : 'rgba(120,222,236,0.65)'} filter="url(#hud-glow)">
+          <animate attributeName="opacity" values="0.35;0.85;0.35" dur={`${2 + i * 0.4}s`} repeatCount="indefinite" />
+        </circle>
+      ))}
+      {/* subtle panel segment lines */}
+      <path d="M120 602 h190" stroke="rgba(150,180,210,0.08)" strokeWidth="1.5" fill="none" />
+      <path d="M810 602 h190" stroke="rgba(150,180,210,0.08)" strokeWidth="1.5" fill="none" />
     </>
   );
 }
