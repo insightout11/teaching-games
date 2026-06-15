@@ -65,21 +65,56 @@ export function ForwardCloudRush({ tint = RUSH_TINT.clear }: { tint?: string } =
   );
 }
 
-// Weather on the windscreen — a real dim + falling rain/snow + beads of water on
-// the glass with a few running streaks, and lightning for storms. Sits behind the
-// HUD so the instruments stay readable. CSS sheets (.lc-rain/snow/lightning) live
-// in globals.css.
+// Bright aurora ribbons (night skies) — glowing green→teal bands drifting across
+// the windscreen, screen-blended so they add light.
+function AuroraRibbons() {
+  const w = 1120;
+  const band = (y: number, amp: number, h = 80) =>
+    `M -60 ${y} C ${w * 0.2} ${y - amp} ${w * 0.32} ${y + amp} ${w * 0.5} ${y} S ${w * 0.82} ${y - amp} ${w + 60} ${y}` +
+    ` L ${w + 60} ${y + h} C ${w * 0.82} ${y + h - amp} ${w * 0.5} ${y + h + amp} ${w * 0.5} ${y + h} S ${w * 0.2} ${y + h - amp} -60 ${y + h} Z`;
+  const bands = [
+    { y: 120, amp: 44, o: 0.85, dur: 14, dx: 50 },
+    { y: 180, amp: 36, o: 0.7, dur: 18, dx: -40 },
+    { y: 250, amp: 30, o: 0.55, dur: 22, dx: 36 },
+  ];
+  return (
+    <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1120 640" preserveAspectRatio="none" style={{ mixBlendMode: 'screen' }} aria-hidden>
+      <defs>
+        <linearGradient id="aurora-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="rgba(120,255,180,0)" />
+          <stop offset="0.4" stopColor="rgba(115,255,172,0.9)" />
+          <stop offset="0.75" stopColor="rgba(90,214,255,0.65)" />
+          <stop offset="1" stopColor="rgba(150,160,255,0)" />
+        </linearGradient>
+        <filter id="aurora-blur" x="-20%" y="-50%" width="140%" height="200%">
+          <feGaussianBlur stdDeviation="16" />
+        </filter>
+      </defs>
+      <g filter="url(#aurora-blur)">
+        {bands.map((b, i) => (
+          <path key={i} d={band(b.y, b.amp)} fill="url(#aurora-grad)" opacity={b.o}>
+            <animateTransform attributeName="transform" type="translate" values={`${-b.dx} 0;${b.dx} 0;${-b.dx} 0`} dur={`${b.dur}s`} repeatCount="indefinite" />
+          </path>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+// Weather on the windscreen — real dim + beads of rain on the glass with a few
+// running streaks (no harsh falling-line sheet), sparse soft snow, bright aurora,
+// and a lightning flash for storms. Behind the HUD so the instruments stay clear.
 function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
   const p = WEATHER_PROFILE[weather];
   const drops = useMemo(
     () =>
       p.rain === 0
         ? []
-        : Array.from({ length: Math.round(46 * p.rain) }, (_, i) => ({
+        : Array.from({ length: Math.round(54 * p.rain) }, (_, i) => ({
             x: (i * 53 + 7) % 100,
-            y: (i * 37 + 3) % 88,
-            r: 2 + (i % 4),
-            o: 0.22 + (i % 3) * 0.1,
+            y: (i * 37 + 3) % 86,
+            r: 1.6 + (i % 4) * 1.1,
+            o: 0.2 + (i % 3) * 0.1,
           })),
     [p.rain],
   );
@@ -87,20 +122,33 @@ function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
     () =>
       p.rain === 0
         ? []
-        : Array.from({ length: Math.round(9 * p.rain) }, (_, i) => ({
+        : Array.from({ length: Math.round(7 * p.rain) }, (_, i) => ({
             x: (i * 61 + 5) % 100,
-            delay: (i % 5) * 0.5,
-            dur: 0.8 + (i % 3) * 0.45,
-            len: 34 + (i % 4) * 22,
+            delay: (i % 5) * 0.7,
+            dur: 1 + (i % 3) * 0.5,
+            len: 30 + (i % 4) * 18,
           })),
     [p.rain],
   );
-  if (p.rain === 0 && p.snow === 0 && !p.lightning && p.dim === 0) return null;
+  const flakes = useMemo(
+    () =>
+      p.snow === 0
+        ? []
+        : Array.from({ length: Math.round(30 * p.snow) }, (_, i) => ({
+            x: (i * 47 + 5) % 100,
+            delay: (i % 6) * 0.7,
+            dur: 5 + (i % 5),
+            size: 3 + (i % 4) * 2,
+            sway: (i % 2 ? 1 : -1) * (12 + (i % 3) * 8),
+          })),
+    [p.snow],
+  );
+  if (p.rain === 0 && p.snow === 0 && !p.lightning && !p.aurora && p.dim === 0) return null;
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {p.dim > 0 && <div className="absolute inset-0" style={{ background: 'rgb(9,15,28)', opacity: p.dim * 0.72 }} />}
-      {p.rain > 0 && <div className="lc-rain-sheet absolute inset-0" style={{ opacity: 0.45 + p.rain * 0.35 }} />}
-      {p.snow > 0 && <div className="lc-snow-sheet absolute inset-0" style={{ opacity: 0.55 + p.snow * 0.4 }} />}
+      {p.aurora && <AuroraRibbons />}
+      {/* rain beads on the glass */}
       {drops.map((d, i) => (
         <div
           key={`d${i}`}
@@ -110,18 +158,29 @@ function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
             top: `${d.y}%`,
             width: d.r * 2,
             height: d.r * 2,
-            background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,${d.o + 0.25}), rgba(176,198,224,${d.o}) 58%, transparent 76%)`,
-            filter: 'blur(0.6px)',
+            background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,${d.o + 0.3}), rgba(176,198,224,${d.o}) 58%, transparent 78%)`,
+            filter: 'blur(0.5px)',
           }}
         />
       ))}
+      {/* a few drops running down */}
       {streaks.map((s, i) => (
         <motion.div
           key={`s${i}`}
           className="absolute"
-          style={{ left: `${s.x}%`, top: '-12%', width: 2, height: s.len, borderRadius: 2, background: 'linear-gradient(to bottom, transparent, rgba(205,222,245,0.55))', filter: 'blur(0.8px)' }}
+          style={{ left: `${s.x}%`, top: '-12%', width: 2, height: s.len, borderRadius: 2, background: 'linear-gradient(to bottom, transparent, rgba(205,222,245,0.5))', filter: 'blur(0.8px)' }}
           animate={{ y: ['0vh', '112vh'] }}
           transition={{ duration: s.dur, delay: s.delay, repeat: Infinity, ease: 'easeIn' }}
+        />
+      ))}
+      {/* sparse soft snow */}
+      {flakes.map((f, i) => (
+        <motion.div
+          key={`f${i}`}
+          className="absolute rounded-full"
+          style={{ left: `${f.x}%`, top: '-5%', width: f.size, height: f.size, background: 'radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,255,255,0.3) 60%, transparent)', filter: 'blur(0.5px)' }}
+          animate={{ y: ['0vh', '110vh'], x: [0, f.sway, 0] }}
+          transition={{ duration: f.dur, delay: f.delay, repeat: Infinity, ease: 'linear' }}
         />
       ))}
       {p.lightning && <div className="lc-lightning-flash absolute inset-0" />}
