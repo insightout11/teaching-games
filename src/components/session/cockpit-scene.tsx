@@ -26,20 +26,25 @@ const RUSH_TINT: Record<WeatherCondition, string> = {
 
 // Forward cloud rush: clouds emanate from the vanishing point (centre) and
 // accelerate outward past the camera — flying STRAIGHT INTO the cloud field.
-export function ForwardCloudRush({ tint = RUSH_TINT.clear }: { tint?: string } = {}) {
+// Denser + more opaque (and grey) in rainy/overcast weather.
+export function ForwardCloudRush({ weather = 'clear' }: { weather?: WeatherCondition } = {}) {
+  const p = WEATHER_PROFILE[weather];
+  const tint = RUSH_TINT[weather];
+  const count = 16 + Math.round(p.cloudCover * 18);
+  const maxOp = 0.45 + p.cloudCover * 0.42;
   const clouds = useMemo(
     () =>
-      Array.from({ length: 16 }, (_, i) => {
-        const ang = (i / 16) * Math.PI * 2 + (i % 3) * 0.4;
+      Array.from({ length: count }, (_, i) => {
+        const ang = (i / count) * Math.PI * 2 + (i % 3) * 0.4;
         return {
-          dx: Math.cos(ang) * (60 + (i % 4) * 12),
-          dy: Math.sin(ang) * (46 + (i % 3) * 10),
+          dx: Math.cos(ang) * (58 + (i % 4) * 12),
+          dy: Math.sin(ang) * (44 + (i % 3) * 10),
           dur: 1.5 + (i % 5) * 0.32,
-          delay: (i / 16) * 2.4,
+          delay: (i / count) * 2.4,
           w: 14 + (i % 4) * 5,
         };
       }),
-    [],
+    [count],
   );
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -53,11 +58,11 @@ export function ForwardCloudRush({ tint = RUSH_TINT.clear }: { tint?: string } =
             marginLeft: `${-c.w / 2}vw`,
             marginTop: `${-c.w * 0.3}vw`,
             borderRadius: '50%',
-            background: `radial-gradient(ellipse at center, rgba(${tint},0.85) 0%, rgba(${tint},0.4) 45%, transparent 72%)`,
+            background: `radial-gradient(ellipse at center, rgba(${tint},0.85) 0%, rgba(${tint},0.42) 45%, transparent 72%)`,
             filter: 'blur(8px)',
           }}
           initial={{ x: '0vw', y: '0vh', scale: 0.12, opacity: 0 }}
-          animate={{ x: `${c.dx}vw`, y: `${c.dy}vh`, scale: 3, opacity: [0, 0.5, 0] }}
+          animate={{ x: `${c.dx}vw`, y: `${c.dy}vh`, scale: 3, opacity: [0, maxOp, 0] }}
           transition={{ duration: c.dur, delay: c.delay, repeat: Infinity, ease: 'easeIn' }}
         />
       ))}
@@ -107,28 +112,22 @@ function AuroraRibbons() {
 // Behind the HUD so the instruments stay clear.
 function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
   const p = WEATHER_PROFILE[weather];
-  // drops that impact then streak up + outward across the glass
+  // drops hit, then streak UP the glass in one consistent direction (the
+  // slipstream blows the water up + slightly back — not falling, not diverging)
   const rainDrops = useMemo(
     () =>
       p.rain === 0
         ? []
-        : Array.from({ length: Math.round(24 * p.rain) }, (_, i) => {
-            const x = ((i * 53 + 9) % 88) + 6;
-            const y = ((i * 31 + 8) % 66) + 8;
-            const dx = (x < 50 ? -1 : 1) * (6 + (i % 4) * 4);
-            const dy = -(4 + (i % 3) * 4);
-            return {
-              x,
-              y,
-              dx,
-              dy,
-              len: 14 + (i % 4) * 12,
-              ang: (Math.atan2(dy, dx) * 180) / Math.PI + 180,
-              dur: 2.8 + (i % 4) * 1,
-              delay: (i % 7) * 0.6,
-              gap: 0.5 + (i % 3) * 0.7,
-            };
-          }),
+        : Array.from({ length: Math.round(34 * p.rain) }, (_, i) => ({
+            x: ((i * 37 + 5) % 92) + 4,
+            y: ((i * 53 + 14) % 62) + 18,
+            lean: 2 + (i % 3) * 0.8,
+            rise: 14 + (i % 4) * 8,
+            trail: 28 + (i % 4) * 18,
+            dur: 1.4 + (i % 4) * 0.5,
+            delay: (i % 9) * 0.32,
+            gap: 0.25 + (i % 3) * 0.45,
+          })),
     [p.rain],
   );
   // a few resting beads on the glass
@@ -167,18 +166,20 @@ function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
           style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.r * 2, height: d.r * 2, background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,${d.o + 0.3}), rgba(176,198,224,${d.o}) 58%, transparent 78%)`, filter: 'blur(0.5px)' }}
         />
       ))}
-      {/* impact + streak across */}
+      {/* hit + streak up the glass */}
       {rainDrops.map((d, i) => (
         <motion.div
           key={`rd${i}`}
           className="absolute"
           style={{ left: `${d.x}%`, top: `${d.y}%` }}
           initial={{ opacity: 0, x: 0, y: 0 }}
-          animate={{ opacity: [0, 0.9, 0.9, 0], x: [0, `${d.dx}vw`], y: [0, `${d.dy}vh`] }}
+          animate={{ opacity: [0, 1, 0.85, 0], x: [0, `${d.lean}vw`], y: [0, `-${d.rise}vh`] }}
           transition={{ duration: d.dur, delay: d.delay, repeat: Infinity, repeatDelay: d.gap, ease: 'easeOut' }}
         >
-          <div style={{ width: d.len, height: 3, borderRadius: 3, transform: `rotate(${d.ang}deg)`, transformOrigin: 'left center', background: 'linear-gradient(to right, rgba(225,238,255,0.7), transparent)', filter: 'blur(0.5px)' }} />
-          <div style={{ position: 'absolute', left: -2.5, top: -2.5, width: 6, height: 6, borderRadius: '50%', background: 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(190,210,235,0.6) 60%, transparent)' }} />
+          {/* trail behind the head (drop streaks up, trail below) */}
+          <div style={{ position: 'absolute', left: -1.25, top: 0, width: 2.5, height: d.trail, borderRadius: 2, background: 'linear-gradient(to bottom, rgba(225,238,255,0.55), transparent)', filter: 'blur(0.5px)' }} />
+          {/* bright drop head — the impact you see */}
+          <div style={{ position: 'absolute', left: -3.5, top: -3.5, width: 7, height: 7, borderRadius: '50%', background: 'radial-gradient(circle at 35% 30%, #ffffff, rgba(200,220,245,0.8) 55%, transparent)', boxShadow: '0 0 5px rgba(220,235,255,0.6)' }} />
         </motion.div>
       ))}
 
@@ -330,7 +331,7 @@ export function FlightCheckScene({ variant, weather = 'clear' }: { variant: 'ins
   const hero = isRadar ? GREEN : CYAN;
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <ForwardCloudRush tint={RUSH_TINT[weather]} />
+      <ForwardCloudRush weather={weather} />
       <WindscreenWeather weather={weather} />
       <svg viewBox="0 0 1120 640" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
         <Defs />
