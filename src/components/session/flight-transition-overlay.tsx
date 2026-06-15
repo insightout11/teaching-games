@@ -106,6 +106,47 @@ function TransitionPrecip({ weather }: { weather: WeatherCondition }) {
   );
 }
 
+// Altitude-driven cloud deck for cruise legs: a soft "sea of clouds" below the
+// plane that sits low at high altitude (you're well above the weather) and rises
+// toward the camera as you descend — so peak cruise reads as "above the clouds"
+// and a descent leg reads as sinking into them. Tinted by the flight weather.
+function CruiseDeck({ altFrom, altTo, weather, reduce }: { altFrom: number; altTo: number; weather: WeatherCondition; reduce: boolean }) {
+  const tint = CLOUD_TINT[weather];
+  const yFor = (a: number) => `${a * 30}vh`; // higher altitude → deck pushed further down
+  const billows = [8, 24, 40, 56, 72, 88];
+  return (
+    <motion.div
+      className="absolute inset-x-0 bottom-0 overflow-hidden pointer-events-none"
+      style={{ height: '72vh', zIndex: 5 }}
+      initial={{ y: yFor(reduce ? altTo : altFrom) }}
+      animate={{ y: yFor(altTo) }}
+      transition={{ duration: TRAVEL_DURATION / 1000, ease: 'easeInOut' }}
+    >
+      <div
+        className="absolute inset-x-0 bottom-0"
+        style={{ height: '52vh', background: `linear-gradient(to top, ${tint} 0%, ${tint} 52%, transparent 100%)`, filter: 'blur(10px)' }}
+      />
+      {billows.map((lx, i) => (
+        <div
+          key={i}
+          className="absolute"
+          style={{
+            left: `${lx}%`,
+            bottom: '40vh',
+            width: '28vw',
+            height: '22vh',
+            transform: 'translateX(-50%)',
+            borderRadius: '50%',
+            background: `radial-gradient(ellipse at center, ${tint} 0%, ${tint} 50%, transparent 72%)`,
+            filter: 'blur(20px)',
+            opacity: 0.92,
+          }}
+        />
+      ))}
+    </motion.div>
+  );
+}
+
 // y value that places the plane on the sideways runway tarmac.
 // Tarmac centre ≈ 70px from screen bottom (140px runway, tarmac y=24–116).
 // Plane anchor: top=32%, marginTop=-4rem. Formula: y = 0.68H - 62 → 60–62vh across 768–1080px.
@@ -510,6 +551,13 @@ export function FlightTransitionOverlay({
           animate={{ x: ['-6%', '6%'] }}
           transition={{ duration: 3.5, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }}
         />
+      )}
+
+      {/* Cruise cloud deck — a sea of clouds below the plane, rising/falling with
+          altitude so high cruise reads as "above the weather" and descent as
+          sinking into it. */}
+      {leg === 'cruise' && (
+        <CruiseDeck altFrom={altitudeFrom} altTo={altitudeTo} weather={weather} reduce={!!prefersReducedMotion} />
       )}
 
       {/* Sideways runway strip — only for takeoff and descent legs */}
