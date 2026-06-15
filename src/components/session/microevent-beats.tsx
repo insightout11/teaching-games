@@ -4,13 +4,18 @@ import { motion } from 'framer-motion';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Accuracy-check micro-event beats (realistic aviation, no magic): a cockpit
-// INSTRUMENT CHECK and an ATC RADAR scope. Both are calm/precise — the deliberate
+// INSTRUMENT CHECK and an ATC RADAR scope. Both calm/precise — the deliberate
 // contrast to the chaotic turbulence beat (opinion pulse). Composite over a sky.
+//
+// All gauge needles / the radar sweep rotate via native SVG <animateTransform>
+// with an explicit centre `… 0 0`, so they pivot exactly on the gauge centre
+// instead of drifting around their bounding box (which CSS/framer rotation does).
 // ─────────────────────────────────────────────────────────────────────────────
 
 const CYAN = 'rgb(120,220,235)';
 const RIM = 'rgba(150,180,210,0.5)';
 const FACE = 'rgb(14,22,34)';
+const SWEEP_KEYTIMES = '0;0.4;0.72;1';
 
 // ── Instrument Check ─────────────────────────────────────────────────────────
 function GaugeBezel({ children }: { children: React.ReactNode }) {
@@ -38,15 +43,18 @@ function GaugeBezel({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Rotate around the gauge/scope centre (viewBox 0,0), not the element bbox.
-const SPIN_ORIGIN = { transformBox: 'view-box' as const, transformOrigin: 'center' };
-
-const sweep = (keys: number[]) => ({
-  initial: { rotate: keys[0] },
-  animate: { rotate: keys },
-  transition: { duration: 1.6, ease: 'easeOut' as const, times: [0, 0.4, 0.72, 1] },
-  style: SPIN_ORIGIN,
-});
+function NeedleSweep({ values, dur = 1.6 }: { values: string; dur?: number }) {
+  return (
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      values={values}
+      keyTimes={SWEEP_KEYTIMES}
+      dur={`${dur}s`}
+      fill="freeze"
+    />
+  );
+}
 
 function AttitudeGauge() {
   return (
@@ -57,16 +65,12 @@ function AttitudeGauge() {
         </clipPath>
       </defs>
       <g clipPath="url(#att-clip)">
-        <motion.g
-          initial={{ rotate: -24, y: 9 }}
-          animate={{ rotate: [-24, 17, -6, 0], y: [9, -7, 3, 0] }}
-          transition={{ duration: 1.6, ease: 'easeOut', times: [0, 0.4, 0.72, 1] }}
-          style={SPIN_ORIGIN}
-        >
+        <g>
           <rect x="-70" y="-70" width="140" height="70" fill="rgb(42,92,150)" />
           <rect x="-70" y="0" width="140" height="70" fill="rgb(110,80,50)" />
           <line x1="-70" y1="0" x2="70" y2="0" stroke="rgba(255,255,255,0.85)" strokeWidth="1.4" />
-        </motion.g>
+          <NeedleSweep values="-24 0 0;17 0 0;-6 0 0;0 0 0" />
+        </g>
       </g>
       <path d="M -18 0 L -6 0 M 6 0 L 18 0" stroke={CYAN} strokeWidth="2.6" fill="none" strokeLinecap="round" />
       <circle r="2" fill={CYAN} />
@@ -77,18 +81,19 @@ function AttitudeGauge() {
 function HeadingGauge() {
   return (
     <GaugeBezel>
-      {[['N', 0], ['E', 90], ['S', 180], ['W', 270]].map(([t, deg]) => {
-        const a = (Number(deg) * Math.PI) / 180;
+      {([['N', 0], ['E', 90], ['S', 180], ['W', 270]] as const).map(([t, deg]) => {
+        const a = (deg * Math.PI) / 180;
         return (
           <text key={t} x={Math.sin(a) * 31} y={-Math.cos(a) * 31 + 3} textAnchor="middle" fontSize="8" fill="rgba(200,220,235,0.75)">
             {t}
           </text>
         );
       })}
-      <motion.g {...sweep([0, 540, 300, 348])}>
+      <g>
         <polygon points="0,-34 4,2 0,9 -4,2" fill={CYAN} />
         <polygon points="0,30 4,2 -4,2" fill="rgba(210,90,90,0.85)" />
-      </motion.g>
+        <NeedleSweep values="0 0 0;540 0 0;300 0 0;348 0 0" />
+      </g>
       <circle r="3" fill="rgb(40,60,80)" stroke={RIM} strokeWidth="1" />
     </GaugeBezel>
   );
@@ -97,9 +102,10 @@ function HeadingGauge() {
 function VerticalGauge() {
   return (
     <GaugeBezel>
-      <motion.g {...sweep([-120, 150, 24, 70])}>
+      <g>
         <polygon points="0,-36 3,2 -3,2" fill={CYAN} />
-      </motion.g>
+        <NeedleSweep values="-120 0 0;150 0 0;24 0 0;70 0 0" dur={1.5} />
+      </g>
       <circle r="3" fill="rgb(40,60,80)" stroke={RIM} strokeWidth="1" />
     </GaugeBezel>
   );
@@ -179,11 +185,15 @@ export function RadarScope() {
             <line key={i} x1={Math.sin(a) * 93} y1={-Math.cos(a) * 93} x2={Math.sin(a) * 100} y2={-Math.cos(a) * 100} stroke="rgba(90,220,140,0.45)" strokeWidth="1.2" />
           );
         })}
-        <motion.g animate={{ rotate: 360 }} transition={{ duration: 2.2, ease: 'linear', repeat: Infinity }} style={SPIN_ORIGIN}>
+        <g>
           <path d="M 0 0 L 0 -100 A 100 100 0 0 1 64 -77 Z" fill="url(#radar-sweep)" />
           <line x1="0" y1="0" x2="0" y2="-100" stroke="rgba(130,255,180,0.9)" strokeWidth="1.6" />
-        </motion.g>
-        <motion.circle cx="16" cy="-24" r="3.5" fill="rgb(160,255,190)" animate={{ opacity: [1, 0.35, 1], r: [3.5, 5.5, 3.5] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }} />
+          <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="2.2s" repeatCount="indefinite" />
+        </g>
+        <circle cx="16" cy="-24" r="3.5" fill="rgb(160,255,190)">
+          <animate attributeName="opacity" values="1;0.35;1" dur="2.2s" repeatCount="indefinite" />
+          <animate attributeName="r" values="3.5;5.5;3.5" dur="2.2s" repeatCount="indefinite" />
+        </circle>
         <line x1="20" y1="-24" x2="38" y2="-38" stroke="rgba(160,255,190,0.6)" strokeWidth="0.8" />
         <text x="40" y="-36" fontSize="7" fill="rgb(160,255,190)" fontFamily="ui-monospace, monospace">LCN-0420</text>
         <text x="40" y="-28" fontSize="6" fill="rgba(160,255,190,0.7)" fontFamily="ui-monospace, monospace">FL340</text>
