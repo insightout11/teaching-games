@@ -1,6 +1,7 @@
 import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { SessionView } from '@/components/session/session-view';
+import { BrandStingGate } from '@/components/ui/brand-sting-gate';
 import { mockStore } from '@/lib/mock/data';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
 
@@ -61,12 +62,15 @@ export default async function SessionPage({ params }: { params: { sessionId: str
     const existingScores = mockStore.getScores(session.id);
 
     return (
-      <SessionView
-        session={session}
-        cls={cls}
-        students={students}
-        existingScores={existingScores}
-      />
+      <>
+        <BrandStingGate variant="short" storageKey={`lc-sting-session-${session.id}`} showWordmark={false} holdMs={320} />
+        <SessionView
+          session={session}
+          cls={cls}
+          students={students}
+          existingScores={existingScores}
+        />
+      </>
     );
   }
 
@@ -102,11 +106,14 @@ export default async function SessionPage({ params }: { params: { sessionId: str
     .order('created_at') as { data: Score[] | null };
 
   return (
-    <SessionView
-      session={session}
-      cls={cls}
-      students={students ?? []}
-      existingScores={existingScores ?? []}
-    />
+    <>
+      <BrandStingGate variant="short" storageKey={`lc-sting-session-${session.id}`} showWordmark={false} holdMs={320} />
+      <SessionView
+        session={session}
+        cls={cls}
+        students={students ?? []}
+        existingScores={existingScores ?? []}
+      />
+    </>
   );
 }

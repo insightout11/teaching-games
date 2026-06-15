@@ -4,6 +4,7 @@ import { Sidebar } from '@/components/ui/sidebar';
 import { MOCK_USER } from '@/lib/mock/data';
 import type { User } from '@supabase/supabase-js';
 import { SkyBackground } from '@/components/ui/sky-background';
+import { BrandStingGate } from '@/components/ui/brand-sting-gate';
 
 function isMockModeServer(): boolean {
   return process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
@@ -25,6 +26,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="relative min-h-screen flex text-lc-text">
+      {/* Signature reveal — plays once per browser session on first app load. */}
+      <BrandStingGate variant="full" storageKey="lc-sting-splash" holdMs={320} />
+
       <SkyBackground weatherState="golden" altitude={0.75} intensity="subtle" showCityLights={false} className="!left-64" />
       <a
         href="#main-content"
