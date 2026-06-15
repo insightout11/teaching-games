@@ -101,46 +101,57 @@ function AuroraRibbons() {
   );
 }
 
-// Weather on the windscreen — real dim + beads of rain on the glass with a few
-// running streaks (no harsh falling-line sheet), sparse soft snow, bright aurora,
-// and a lightning flash for storms. Behind the HUD so the instruments stay clear.
+// Weather on the windscreen. On a forward-flying aircraft, rain HITS the glass and
+// the slipstream pushes it up + outward (it doesn't fall) — so drops impact then
+// slowly streak across. Snow drifts past but some flakes stick to the glass.
+// Behind the HUD so the instruments stay clear.
 function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
   const p = WEATHER_PROFILE[weather];
-  const drops = useMemo(
+  // drops that impact then streak up + outward across the glass
+  const rainDrops = useMemo(
     () =>
       p.rain === 0
         ? []
-        : Array.from({ length: Math.round(54 * p.rain) }, (_, i) => ({
-            x: (i * 53 + 7) % 100,
-            y: (i * 37 + 3) % 86,
-            r: 1.6 + (i % 4) * 1.1,
-            o: 0.2 + (i % 3) * 0.1,
-          })),
+        : Array.from({ length: Math.round(24 * p.rain) }, (_, i) => {
+            const x = ((i * 53 + 9) % 88) + 6;
+            const y = ((i * 31 + 8) % 66) + 8;
+            const dx = (x < 50 ? -1 : 1) * (6 + (i % 4) * 4);
+            const dy = -(4 + (i % 3) * 4);
+            return {
+              x,
+              y,
+              dx,
+              dy,
+              len: 14 + (i % 4) * 12,
+              ang: (Math.atan2(dy, dx) * 180) / Math.PI + 180,
+              dur: 2.8 + (i % 4) * 1,
+              delay: (i % 7) * 0.6,
+              gap: 0.5 + (i % 3) * 0.7,
+            };
+          }),
     [p.rain],
   );
-  const streaks = useMemo(
+  // a few resting beads on the glass
+  const restBeads = useMemo(
     () =>
       p.rain === 0
         ? []
-        : Array.from({ length: Math.round(7 * p.rain) }, (_, i) => ({
-            x: (i * 61 + 5) % 100,
-            delay: (i % 5) * 0.7,
-            dur: 1 + (i % 3) * 0.5,
-            len: 30 + (i % 4) * 18,
-          })),
+        : Array.from({ length: Math.round(15 * p.rain) }, (_, i) => ({ x: ((i * 67 + 11) % 90) + 4, y: ((i * 43 + 5) % 74) + 5, r: 1.5 + (i % 3), o: 0.22 + (i % 3) * 0.08 })),
     [p.rain],
   );
-  const flakes = useMemo(
+  const driftFlakes = useMemo(
     () =>
       p.snow === 0
         ? []
-        : Array.from({ length: Math.round(30 * p.snow) }, (_, i) => ({
-            x: (i * 47 + 5) % 100,
-            delay: (i % 6) * 0.7,
-            dur: 5 + (i % 5),
-            size: 3 + (i % 4) * 2,
-            sway: (i % 2 ? 1 : -1) * (12 + (i % 3) * 8),
-          })),
+        : Array.from({ length: Math.round(18 * p.snow) }, (_, i) => ({ x: (i * 47 + 5) % 100, delay: (i % 6) * 0.7, dur: 5 + (i % 5), size: 3 + (i % 4) * 2, sway: (i % 2 ? 1 : -1) * (12 + (i % 3) * 8) })),
+    [p.snow],
+  );
+  // flakes that stick to the glass and fade
+  const stuckFlakes = useMemo(
+    () =>
+      p.snow === 0
+        ? []
+        : Array.from({ length: Math.round(8 * p.snow) }, (_, i) => ({ x: ((i * 59 + 13) % 88) + 6, y: ((i * 37 + 7) % 66) + 8, size: 4 + (i % 3) * 2, delay: (i % 5) * 0.8, dur: 2 + (i % 3) })),
     [p.snow],
   );
   if (p.rain === 0 && p.snow === 0 && !p.lightning && !p.aurora && p.dim === 0) return null;
@@ -148,39 +159,47 @@ function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {p.dim > 0 && <div className="absolute inset-0" style={{ background: 'rgb(9,15,28)', opacity: p.dim * 0.72 }} />}
       {p.aurora && <AuroraRibbons />}
-      {/* rain beads on the glass */}
-      {drops.map((d, i) => (
+
+      {restBeads.map((d, i) => (
         <div
-          key={`d${i}`}
+          key={`rb${i}`}
           className="absolute rounded-full"
-          style={{
-            left: `${d.x}%`,
-            top: `${d.y}%`,
-            width: d.r * 2,
-            height: d.r * 2,
-            background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,${d.o + 0.3}), rgba(176,198,224,${d.o}) 58%, transparent 78%)`,
-            filter: 'blur(0.5px)',
-          }}
+          style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.r * 2, height: d.r * 2, background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,${d.o + 0.3}), rgba(176,198,224,${d.o}) 58%, transparent 78%)`, filter: 'blur(0.5px)' }}
         />
       ))}
-      {/* a few drops running down */}
-      {streaks.map((s, i) => (
+      {/* impact + streak across */}
+      {rainDrops.map((d, i) => (
         <motion.div
-          key={`s${i}`}
+          key={`rd${i}`}
           className="absolute"
-          style={{ left: `${s.x}%`, top: '-12%', width: 2, height: s.len, borderRadius: 2, background: 'linear-gradient(to bottom, transparent, rgba(205,222,245,0.5))', filter: 'blur(0.8px)' }}
-          animate={{ y: ['0vh', '112vh'] }}
-          transition={{ duration: s.dur, delay: s.delay, repeat: Infinity, ease: 'easeIn' }}
-        />
+          style={{ left: `${d.x}%`, top: `${d.y}%` }}
+          initial={{ opacity: 0, x: 0, y: 0 }}
+          animate={{ opacity: [0, 0.9, 0.9, 0], x: [0, `${d.dx}vw`], y: [0, `${d.dy}vh`] }}
+          transition={{ duration: d.dur, delay: d.delay, repeat: Infinity, repeatDelay: d.gap, ease: 'easeOut' }}
+        >
+          <div style={{ width: d.len, height: 3, borderRadius: 3, transform: `rotate(${d.ang}deg)`, transformOrigin: 'left center', background: 'linear-gradient(to right, rgba(225,238,255,0.7), transparent)', filter: 'blur(0.5px)' }} />
+          <div style={{ position: 'absolute', left: -2.5, top: -2.5, width: 6, height: 6, borderRadius: '50%', background: 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(190,210,235,0.6) 60%, transparent)' }} />
+        </motion.div>
       ))}
-      {/* sparse soft snow */}
-      {flakes.map((f, i) => (
+
+      {driftFlakes.map((f, i) => (
         <motion.div
-          key={`f${i}`}
+          key={`df${i}`}
           className="absolute rounded-full"
           style={{ left: `${f.x}%`, top: '-5%', width: f.size, height: f.size, background: 'radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,255,255,0.3) 60%, transparent)', filter: 'blur(0.5px)' }}
           animate={{ y: ['0vh', '110vh'], x: [0, f.sway, 0] }}
           transition={{ duration: f.dur, delay: f.delay, repeat: Infinity, ease: 'linear' }}
+        />
+      ))}
+      {/* flakes that stick to the glass */}
+      {stuckFlakes.map((f, i) => (
+        <motion.div
+          key={`sf${i}`}
+          className="absolute rounded-full"
+          style={{ left: `${f.x}%`, top: `${f.y}%`, width: f.size, height: f.size, background: 'radial-gradient(circle, rgba(255,255,255,0.95), rgba(235,242,255,0.4) 60%, transparent)', filter: 'blur(0.4px)' }}
+          initial={{ opacity: 0, scale: 0.4 }}
+          animate={{ opacity: [0, 0.95, 0.95, 0], scale: [0.4, 1, 1, 1] }}
+          transition={{ duration: f.dur, delay: f.delay, repeat: Infinity, repeatDelay: 1.6, ease: 'easeOut' }}
         />
       ))}
       {p.lightning && <div className="lc-lightning-flash absolute inset-0" />}
