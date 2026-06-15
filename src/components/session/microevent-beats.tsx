@@ -111,8 +111,41 @@ function VerticalGauge() {
   );
 }
 
-export function InstrumentCheck() {
+// The 3-gauge row (no header / chrome) — reused by the plain beat and the cockpit.
+export function GaugeCluster() {
+  return (
+    <motion.div className="flex items-center gap-6" initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.45, ease: 'easeOut' }}>
+      <AttitudeGauge />
+      <HeadingGauge />
+      <VerticalGauge />
+    </motion.div>
+  );
+}
+
+// Green checklist that ticks ALTITUDE · HEADING · SYSTEMS one by one.
+export function SystemsChecklist() {
   const items = ['ALTITUDE', 'HEADING', 'SYSTEMS'];
+  return (
+    <div className="flex gap-5">
+      {items.map((it, i) => (
+        <motion.div
+          key={it}
+          className="flex items-center gap-1.5 text-xs font-semibold"
+          initial={{ color: 'rgba(150,170,190,0.55)' }}
+          animate={{ color: 'rgba(110,230,150,1)' }}
+          transition={{ delay: 0.7 + i * 0.35, duration: 0.3 }}
+        >
+          <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7 + i * 0.35, type: 'spring', stiffness: 420, damping: 14 }}>
+            ✓
+          </motion.span>
+          {it}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+export function InstrumentCheck() {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
       <motion.div
@@ -124,45 +157,18 @@ export function InstrumentCheck() {
       >
         INSTRUMENT CHECK
       </motion.div>
-      <motion.div className="flex items-center gap-6" initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.45, ease: 'easeOut' }}>
-        <AttitudeGauge />
-        <HeadingGauge />
-        <VerticalGauge />
-      </motion.div>
-      <div className="mt-5 flex gap-5">
-        {items.map((it, i) => (
-          <motion.div
-            key={it}
-            className="flex items-center gap-1.5 text-xs font-semibold"
-            initial={{ color: 'rgba(150,170,190,0.55)' }}
-            animate={{ color: 'rgba(110,230,150,1)' }}
-            transition={{ delay: 0.7 + i * 0.35, duration: 0.3 }}
-          >
-            <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7 + i * 0.35, type: 'spring', stiffness: 420, damping: 14 }}>
-              ✓
-            </motion.span>
-            {it}
-          </motion.div>
-        ))}
+      <GaugeCluster />
+      <div className="mt-5">
+        <SystemsChecklist />
       </div>
     </div>
   );
 }
 
 // ── Radar Scope ──────────────────────────────────────────────────────────────
-export function RadarScope() {
+export function RadarScreen({ size = 300 }: { size?: number }) {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-      <motion.div
-        className="mb-3 text-sm font-bold tracking-[0.3em] text-emerald-300"
-        style={{ textShadow: '0 1px 12px rgba(0,0,0,0.6)' }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-      >
-        RADAR
-      </motion.div>
-      <svg viewBox="-110 -110 220 220" width="300" height="300" aria-hidden>
+    <svg viewBox="-110 -110 220 220" width={size} height={size} aria-hidden>
         <defs>
           <radialGradient id="radar-face" cx="0.5" cy="0.5" r="0.5">
             <stop offset="0" stopColor="rgba(24,64,42,0.92)" />
@@ -197,15 +203,40 @@ export function RadarScope() {
         <line x1="20" y1="-24" x2="38" y2="-38" stroke="rgba(160,255,190,0.6)" strokeWidth="0.8" />
         <text x="40" y="-36" fontSize="7" fill="rgb(160,255,190)" fontFamily="ui-monospace, monospace">LCN-0420</text>
         <text x="40" y="-28" fontSize="6" fill="rgba(160,255,190,0.7)" fontFamily="ui-monospace, monospace">FL340</text>
-      </svg>
+    </svg>
+  );
+}
+
+// "RADAR CONTACT — IDENT" confirmation strip.
+export function RadarContact() {
+  return (
+    <motion.div
+      className="text-xs font-semibold tracking-wider text-emerald-300"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0, 0, 1] }}
+      transition={{ duration: 2.4, times: [0, 0.5, 0.62] }}
+    >
+      RADAR CONTACT — IDENT
+    </motion.div>
+  );
+}
+
+export function RadarScope() {
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
       <motion.div
-        className="mt-3 text-xs font-semibold tracking-wider text-emerald-300"
+        className="mb-3 text-sm font-bold tracking-[0.3em] text-emerald-300"
+        style={{ textShadow: '0 1px 12px rgba(0,0,0,0.6)' }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 0, 1] }}
-        transition={{ duration: 2.4, times: [0, 0.5, 0.62] }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
       >
-        RADAR CONTACT — IDENT
+        RADAR
       </motion.div>
+      <RadarScreen />
+      <div className="mt-3">
+        <RadarContact />
+      </div>
     </div>
   );
 }

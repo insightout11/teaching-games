@@ -4,15 +4,18 @@ import { useState, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { TurbulenceBeat, useTurbulence } from '@/components/session/turbulence-beat';
 import { InstrumentCheck, RadarScope } from '@/components/session/microevent-beats';
+import { CockpitScene } from '@/components/session/cockpit-scene';
 import { PLANE_TIERS } from '@/lib/plane-progression';
 
 const ALL_PLANES = PLANE_TIERS.flatMap((t) => t.choices.map((c) => ({ key: c.key, name: c.name })));
 const ctrl: CSSProperties = { display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12, color: '#9fb0c7' };
-type Beat = 'turbulence' | 'instrument' | 'radar';
+type Beat = 'turbulence' | 'instrument' | 'radar' | 'instrument-cockpit' | 'radar-cockpit';
 const BEATS: { key: Beat; label: string }[] = [
   { key: 'turbulence', label: 'Turbulence (opinion)' },
-  { key: 'instrument', label: 'Instrument Check (accuracy)' },
-  { key: 'radar', label: 'Radar Scope (accuracy)' },
+  { key: 'instrument-cockpit', label: 'Instrument · cockpit' },
+  { key: 'radar-cockpit', label: 'Radar · cockpit' },
+  { key: 'instrument', label: 'Instrument · plain' },
+  { key: 'radar', label: 'Radar · plain' },
 ];
 
 export function TurbulenceDevClient() {
@@ -42,6 +45,8 @@ export function TurbulenceDevClient() {
           {beat === 'turbulence' && <TurbulenceBeat key={runKey} planeKey={planeKey} intensity={intensity} showSeatbelt={seatbelt} reduce={reduce} />}
           {beat === 'instrument' && <InstrumentCheck key={runKey} />}
           {beat === 'radar' && <RadarScope key={runKey} />}
+          {beat === 'instrument-cockpit' && <CockpitScene key={runKey} variant="instrument" />}
+          {beat === 'radar-cockpit' && <CockpitScene key={runKey} variant="radar" />}
         </motion.div>
       </div>
 
