@@ -54,8 +54,9 @@ const TRAVEL_DURATION = 3200; // ms — longer to accommodate roll and decelerat
 // Per-leg keyframe animation configs.
 // takeoff: stationary roll → rotate nose-up → climb
 // descent: glide approach → touchdown bounce → decelerate to stop on runway
-// cruise:  level flight across screen
-function buildPlaneAnim(leg: FlightTransitionLeg) {
+// cruise:  motion follows the altitude delta — climb (rising), level (peak), or
+//          early-descent (falling) — so middle transitions aren't all identical.
+function buildPlaneAnim(leg: FlightTransitionLeg, altDelta = 0) {
   if (leg === 'takeoff') {
     return {
       initial: { x: '-22vw', y: RUNWAY_Y, rotate: 0 },
@@ -78,7 +79,26 @@ function buildPlaneAnim(leg: FlightTransitionLeg) {
       transition: { duration: TRAVEL_DURATION / 1000, times: [0, 0.52, 0.60, 1.0], ease: 'linear' as const },
     };
   }
-  // cruise — unchanged level flight
+  // cruise — pick climb / level / early-descent from the altitude change so the
+  // plane visibly gains or loses height (the sky's altitude parallax matches).
+  const LEVEL_EPS = 0.05;
+  if (altDelta > LEVEL_EPS) {
+    // Climbing: drift up across the frame, nose slightly up.
+    return {
+      initial: { x: '-22vw', y: '13vh', rotate: -3 },
+      animate: { x: '110vw', y: '-11vh', rotate: -7 },
+      transition: { duration: TRAVEL_DURATION / 1000, ease: 'easeOut' as const },
+    };
+  }
+  if (altDelta < -LEVEL_EPS) {
+    // Early descent: drift down across the frame, nose slightly down.
+    return {
+      initial: { x: '-22vw', y: '-11vh', rotate: 3 },
+      animate: { x: '110vw', y: '13vh', rotate: 6 },
+      transition: { duration: TRAVEL_DURATION / 1000, ease: 'easeIn' as const },
+    };
+  }
+  // Level cruise (near the peak): flat crossing.
   return {
     initial: { x: '-22vw', y: '0vh', rotate: 0 },
     animate: { x: '110vw', y: '0vh', rotate: 0 },
@@ -326,7 +346,7 @@ export function FlightTransitionOverlay({
         : null;
   const isCityTransition = !!cityLeg;
   const showRunway = (leg === 'takeoff' || leg === 'descent') && !isCityTransition;
-  const planeAnim = buildPlaneAnim(leg);
+  const planeAnim = buildPlaneAnim(leg, altitudeTo - altitudeFrom);
 
   // The tracking-camera takeoff (rolling down the real city's runway) wants a
   // longer beat than the standard transition so the speed build is felt. The
