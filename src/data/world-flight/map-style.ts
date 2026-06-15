@@ -174,3 +174,12 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
     },
   ],
 };
+
+export function createWorldFlightGuessMapStyle(showLabels = false): StyleSpecification {
+  return {
+    ...WORLD_FLIGHT_MAP_STYLE,
+    layers: WORLD_FLIGHT_MAP_STYLE.layers
+      .filter((layer) => showLabels || layer.type !== 'symbol')
+      .map((layer) => ({ ...layer })),
+  };
+}

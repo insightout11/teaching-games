@@ -97,6 +97,7 @@ const CLASS_SIZE_METADATA: Record<string, ClassSizeMetadata> = {
   'defend-it': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
   'sector-strike': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
   'zone-board': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
+  'radar-fix': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
 
   // Activities
   'quick-pulse': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
@@ -313,6 +314,20 @@ const FLIGHT_PLAN_ITEM_BASE: FlightPlanItemBase[] = [
     teacherControlLoad: 'low',
     avoidAfter: ['vocab-sprint', 'connections'],
     strongWith: ['vocab-radar', 'grammar-boss', 'sentence-scramble'],
+  },
+
+  {
+    key: 'radar-fix',
+    slotFit: ['practice'],
+    goalFit: ['critical-thinking', 'confidence-building', 'functional-english'],
+    levelFit: ['beginner', 'intermediate', 'advanced'],
+    energy: 'medium',
+    interactionModel: ['simultaneous'],
+    speakingLoad: 'low',
+    writingLoad: 'low',
+    teacherControlLoad: 'low',
+    avoidAfter: ['flash-quiz'],
+    strongWith: ['prediction-round', 'wonder-board', 'fact-detective'],
   },
 
   {

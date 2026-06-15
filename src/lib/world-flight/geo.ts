@@ -47,7 +47,7 @@ export function destinationCoord(destination: DestinationPack): LngLat {
   return [destination.lng, destination.lat];
 }
 
-export function distanceKm(a: DestinationPack, b: DestinationPack) {
+export function distanceBetweenCoordsKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
   const lat1 = toRad(a.lat);
   const lat2 = toRad(b.lat);
   const dLat = toRad(b.lat - a.lat);
@@ -58,6 +58,10 @@ export function distanceKm(a: DestinationPack, b: DestinationPack) {
     sinLat * sinLat +
     Math.cos(lat1) * Math.cos(lat2) * sinLng * sinLng;
   return 2 * EARTH_RADIUS_KM * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+
+export function distanceKm(a: DestinationPack, b: DestinationPack) {
+  return distanceBetweenCoordsKm(a, b);
 }
 
 export function formatDistance(km: number) {

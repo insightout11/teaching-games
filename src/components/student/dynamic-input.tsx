@@ -4,6 +4,7 @@ import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button';
 import type { InputSpec } from '@/lib/input-spec';
 import { ShuffleboardInput } from './shuffleboard-input';
+import { GeoPointInput } from './geo-point-input';
 
 interface DynamicInputProps {
   spec: InputSpec;
@@ -44,6 +45,8 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       return <ReadAloudInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
     case 'shuffleboard':
       return <ShuffleboardInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
+    case 'geo-point':
+      return <GeoPointInput key={spec.roundId ?? spec.prompt} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} clientId={clientId} />;
     case 'cabin-question':
       return <CabinQuestionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
     case 'cabin-vote':

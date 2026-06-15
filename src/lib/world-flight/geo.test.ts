@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
-import { destinationsWithinRange, distanceKm, greatCircleLine, rangePolygon, rangeRing } from '@/lib/world-flight/geo';
+import { destinationsWithinRange, distanceBetweenCoordsKm, distanceKm, greatCircleLine, rangePolygon, rangeRing } from '@/lib/world-flight/geo';
 
 function destination(id: string) {
   const match = WORLD_DESTINATIONS.find((item) => item.id === id);
@@ -11,6 +11,13 @@ function destination(id: string) {
 describe('world flight geography', () => {
   it('calculates a realistic Bangkok to Tokyo great-circle distance', () => {
     expect(distanceKm(destination('bangkok'), destination('tokyo'))).toBeCloseTo(4599, -1);
+  });
+
+  it('calculates distance between arbitrary map coordinates', () => {
+    expect(distanceBetweenCoordsKm(
+      { lat: destination('bangkok').lat, lng: destination('bangkok').lng },
+      { lat: destination('tokyo').lat, lng: destination('tokyo').lng },
+    )).toBeCloseTo(4599, -1);
   });
 
   it('keeps date-line routes visually continuous', () => {

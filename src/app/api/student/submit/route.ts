@@ -94,6 +94,7 @@ export async function POST(request: NextRequest) {
       inputType === 'sequence' ||
       inputType === 'confirm' ||
       inputType === 'shuffleboard' ||
+      inputType === 'geo-point' ||
       inputType === 'cabin-question' ||
       inputType === 'cabin-vote' ||
       (!shouldReviewText && inputType === 'text' && !!gameKey) ||

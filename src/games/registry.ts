@@ -18,6 +18,7 @@ import { brainTeasersPlugin } from './brain-teasers';
 import { defendItPlugin } from './defend-it';
 import { sectorStrikePlugin } from './sector-strike';
 import { zoneBoardPlugin } from './zone-board';
+import { radarFixPlugin } from './radar-fix';
 
 const games: GamePlugin[] = [
   flashQuizPlugin,
@@ -37,6 +38,7 @@ const games: GamePlugin[] = [
   defendItPlugin,
   sectorStrikePlugin,
   zoneBoardPlugin,
+  radarFixPlugin,
 ];
 
 export function getGame(key: string): GamePlugin | undefined {

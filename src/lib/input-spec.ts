@@ -12,6 +12,7 @@ export type InputType =
   | 'confirm'        // Single confirm button
   | 'read-aloud'     // Queue display + done button for current reader
   | 'shuffleboard'   // Drag-and-release physics shot (Zone Board)
+  | 'geo-point'      // Place and confirm a pin on an interactive map
   | 'cabin-question' // Cabin Mystery two-step question picker (target → question)
   | 'cabin-vote'     // Cabin Mystery final theory form (suspect + motive)
   | 'cabin-culprit'; // Cabin Mystery culprit-side — prompt for culprit, listening state for others
@@ -58,6 +59,16 @@ export interface InputSpec {
   startedAt?: number;
   /** Supabase broadcast channel session ID — used by Zone Board to stream aim data */
   sessionId?: string;
+  /** Stable round identifier for structured multi-round inputs such as geo-point. */
+  roundId?: string;
+  /** Initial map center as [longitude, latitude]. */
+  mapCenter?: [number, number];
+  /** Initial map zoom level. */
+  mapZoom?: number;
+  /** Optional map bounds as [west, south, east, north]. */
+  mapBounds?: [number, number, number, number];
+  /** Whether geographic labels should be visible on map inputs. Defaults to false. */
+  mapLabels?: boolean;
   /** For wonder-board follow-ups: the parent question ID this reply belongs to */
   wonderParentId?: string;
   /** When true, student picks which answered question to follow up on (no locked parentId) */

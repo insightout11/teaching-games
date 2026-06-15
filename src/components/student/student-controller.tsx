@@ -181,6 +181,7 @@ function getInputActionLabel(spec: InputSpec): string {
   if (spec.type === 'error-correction') return 'Fix Signal';
   if (spec.type === 'confirm') return 'Confirm';
   if (spec.type === 'read-aloud') return 'Reading Queue';
+  if (spec.type === 'geo-point') return 'Plot Position';
   if (spec.type === 'text' || spec.type === 'textarea') return 'Send Signal';
   return 'Respond';
 }

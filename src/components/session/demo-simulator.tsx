@@ -56,6 +56,12 @@ function isTextSpec(spec: InputSpec): boolean {
 
 function plausibleChoiceContent(spec: InputSpec): string {
   switch (spec.type) {
+    case 'geo-point':
+      return JSON.stringify({
+        roundId: spec.roundId,
+        lat: -55 + Math.random() * 125,
+        lng: -170 + Math.random() * 340,
+      });
     case 'binary': {
       const opts = spec.optionLabels?.length ? spec.optionLabels : spec.options ?? ['A', 'B'];
       return pickBiased(opts);
@@ -81,7 +87,7 @@ function plausibleChoiceContent(spec: InputSpec): string {
 // Signature identifying a distinct prompt so each is answered exactly once.
 function specSignature(spec: InputSpec | null): string | null {
   if (!spec) return null;
-  return `${spec.gameKey}::${spec.type}::${spec.prompt ?? ''}::${spec.startedAt ?? ''}`;
+  return `${spec.gameKey}::${spec.type}::${spec.roundId ?? ''}::${spec.prompt ?? ''}::${spec.startedAt ?? ''}`;
 }
 
 export function DemoSimulator({ sessionId }: { sessionId: string }) {
