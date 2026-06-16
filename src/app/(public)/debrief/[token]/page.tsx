@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { createServiceClient } from '@/lib/supabase/service';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import { PlaneLanding, Trophy, Target, Flame, Medal } from 'lucide-react';
@@ -10,6 +11,24 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 interface VocabItem {
   word: string;
   definition: string;
+}
+
+// Title/description for chat unfurls; Next.js auto-wires og:image from
+// opengraph-image.tsx in this folder (the boarding-pass share card).
+export async function generateMetadata({ params }: { params: { token: string } }): Promise<Metadata> {
+  if (!UUID_RE.test(params.token)) return { title: 'Results · LessonCaptain' };
+  const supabase = createServiceClient();
+  const { data: participant } = await supabase
+    .from('session_participants')
+    .select('display_name')
+    .eq('debrief_token', params.token)
+    .maybeSingle();
+  const firstName = (participant?.display_name || 'Pilot').trim().split(/\s+/)[0];
+  return {
+    title: `${firstName}'s flight results · LessonCaptain`,
+    description: 'A live lesson, landed. Points, accuracy and streak from class.',
+    robots: { index: false, follow: false },
+  };
 }
 
 function Shell({ children }: { children: React.ReactNode }) {

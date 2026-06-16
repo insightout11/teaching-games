@@ -11,7 +11,8 @@ import { VALIDATION } from '@/lib/config/rate-limits';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { grammarReference } from '@/lib/grammar';
-import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, Send, Zap, Award, Wind, Radio, ClipboardCheck } from 'lucide-react';
+import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, Send, Zap, Award, Wind, Radio, ClipboardCheck, Share2, Check } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
 
@@ -262,6 +263,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     totalParticipants: number | null;
   } | null>(null);
   const [debriefToken, setDebriefToken] = useState<string | null>(null);
+  const [shareCopied, setShareCopied] = useState(false);
 
   // "Get ready" transition when inputSpec first arrives
   const [transitionActivityName, setTransitionActivityName] = useState<string | null>(null);
@@ -701,6 +703,27 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     'bg-red-400 shadow-red-400/40';
   const lastResultLabel = lastResult ? (OUTCOME_LABELS[lastResult.outcome] ?? lastResult.outcome) : null;
 
+  // Capture & share: the debrief link is the durable artifact. Pasting it unfurls
+  // into the boarding-pass card (opengraph-image). Native share sheet first, copy
+  // as fallback — never a public-social funnel.
+  const debriefUrl = debriefToken && typeof window !== 'undefined'
+    ? `${window.location.origin}/debrief/${debriefToken}`
+    : null;
+  const handleShare = async () => {
+    if (!debriefUrl) return;
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({ title: 'My lesson results', text: 'I just landed a live lesson ✈️', url: debriefUrl });
+        return;
+      } catch { /* cancelled or unsupported — fall through to copy */ }
+    }
+    try {
+      await navigator.clipboard.writeText(debriefUrl);
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2000);
+    } catch { /* ignore */ }
+  };
+
   if (!sessionActive) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -743,21 +766,47 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 )}
               </div>
 
-              {/* Rank */}
-              {personalResults.rank !== null && personalResults.totalParticipants !== null && (
+              {/* Rank — suppressed when the student is the only participant ("#1 of 1" is hollow) */}
+              {personalResults.rank !== null &&
+                personalResults.totalParticipants !== null &&
+                personalResults.totalParticipants > 1 && (
                 <p className="text-sm text-gray-300">
                   You ranked <span className="font-bold text-white">#{personalResults.rank}</span> of {personalResults.totalParticipants} students
                 </p>
               )}
-              {debriefToken && (
-                <a
-                  href={`/debrief/${debriefToken}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 inline-block rounded-full border border-cyan-400/40 bg-cyan-400/10 px-4 py-1.5 text-sm font-medium text-cyan-200 transition-colors hover:bg-cyan-400/20"
-                >
-                  Save my results
-                </a>
+
+              {/* Words from this lesson — review on the device, not just the take-home page */}
+              {referenceVocab && referenceVocab.length > 0 && (
+                <div className="text-left">
+                  <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-2">Words from this lesson</p>
+                  <div className="space-y-1.5">
+                    {referenceVocab.map((item) => (
+                      <div key={item.word} className="rounded-lg bg-white/5 px-3 py-2">
+                        <span className="text-sm font-semibold text-cyan-400">{item.word}</span>
+                        <span className="text-gray-400 text-xs"> — {item.definition}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Capture & share — the link is the durable save; QR makes it portable */}
+              {debriefUrl && (
+                <div className="space-y-3 pt-1">
+                  <button
+                    onClick={handleShare}
+                    className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-2 text-sm font-medium text-cyan-200 transition-colors hover:bg-cyan-400/20"
+                  >
+                    {shareCopied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
+                    {shareCopied ? 'Link copied' : 'Share my results'}
+                  </button>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="rounded-xl bg-white p-2.5">
+                      <QRCodeSVG value={debriefUrl} size={108} bgColor="#ffffff" fgColor="#0a1f3a" />
+                    </div>
+                    <p className="text-[11px] text-gray-500">Scan or bookmark to reopen later</p>
+                  </div>
+                </div>
               )}
             </>
           ) : (
