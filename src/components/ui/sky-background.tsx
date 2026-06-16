@@ -191,26 +191,57 @@ function MoonLayer() {
     <svg viewBox="0 0 240 240" width="240" height="240" aria-hidden style={{ display: 'block', overflow: 'visible' }}>
       <defs>
         <radialGradient id="moon-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%"   stopColor="rgba(180,210,255,0.20)" />
-          <stop offset="40%"  stopColor="rgba(130,170,255,0.07)" />
+          <stop offset="0%"   stopColor="rgba(180,210,255,0.22)" />
+          <stop offset="45%"  stopColor="rgba(130,170,255,0.07)" />
           <stop offset="100%" stopColor="rgba(80,130,255,0)" />
         </radialGradient>
-        <radialGradient id="moon-disk" cx="38%" cy="32%" r="65%">
-          <stop offset="0%"   stopColor="#F2F6FF" />
-          <stop offset="55%"  stopColor="#D4E2FF" />
-          <stop offset="100%" stopColor="#B0C4EE" />
+        {/* Lit face — cool moonlight, brighter toward the upper-left light source */}
+        <radialGradient id="moon-lit" cx="36%" cy="32%" r="72%">
+          <stop offset="0%"   stopColor="#F8FBFF" />
+          <stop offset="55%"  stopColor="#DCE8FF" />
+          <stop offset="100%" stopColor="#AEC2EC" />
         </radialGradient>
+        {/* Dark side — faint earthshine so it isn't a flat black bite */}
+        <radialGradient id="moon-dark" cx="58%" cy="46%" r="70%">
+          <stop offset="0%"   stopColor="#3a4a72" />
+          <stop offset="60%"  stopColor="#222f50" />
+          <stop offset="100%" stopColor="#151e39" />
+        </radialGradient>
+        {/* Soft terminator: blur the shadow edge so the day/night line is gradual */}
+        <filter id="moon-term" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="2.1" />
+        </filter>
+        <clipPath id="moon-clip">
+          <circle cx="120" cy="120" r="30" />
+        </clipPath>
+        {/* Crescent = full disk minus a soft-edged, offset shadow circle */}
+        <mask id="moon-crescent">
+          <circle cx="120" cy="120" r="30" fill="#fff" />
+          <circle cx="134" cy="115" r="27.5" fill="#000" filter="url(#moon-term)" />
+        </mask>
       </defs>
+
       {/* Soft halo */}
       <circle cx="120" cy="120" r="110" fill="url(#moon-glow)" />
-      {/* Moon disk */}
-      <circle cx="120" cy="120" r="30" fill="url(#moon-disk)" opacity="0.94" />
-      {/* Crescent shadow — matches cruising sky */}
-      <circle cx="130" cy="116" r="25" fill="#010610" opacity="0.90" />
-      {/* Crater marks on lit face */}
-      <circle cx="106" cy="114" r="3.8" fill="#A8BCDE" opacity="0.22" />
-      <circle cx="112" cy="127" r="2.4" fill="#A8BCDE" opacity="0.18" />
-      <circle cx="98"  cy="124" r="1.8" fill="#A8BCDE" opacity="0.16" />
+
+      <g clipPath="url(#moon-clip)">
+        {/* Faint earthshine across the whole disk (the dark side) */}
+        <circle cx="120" cy="120" r="30" fill="url(#moon-dark)" opacity="0.55" />
+        {/* Lit crescent */}
+        <g mask="url(#moon-crescent)">
+          <circle cx="120" cy="120" r="30" fill="url(#moon-lit)" />
+          {/* Craters on the lit face — a darker pock with a tiny rim highlight */}
+          <g>
+            <circle cx="101"   cy="111"   r="4.2" fill="#9DB2D8" opacity="0.42" />
+            <circle cx="101.8" cy="110.1" r="4.2" fill="#FBFDFF" opacity="0.16" />
+            <circle cx="96"    cy="124"   r="2.6" fill="#9DB2D8" opacity="0.38" />
+            <circle cx="104"   cy="120"   r="1.9" fill="#9DB2D8" opacity="0.34" />
+            <circle cx="98"    cy="104"   r="1.7" fill="#9DB2D8" opacity="0.32" />
+          </g>
+        </g>
+        {/* Crisp highlight along the lit limb (masked to the crescent) */}
+        <circle cx="120" cy="120" r="29.4" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1.2" mask="url(#moon-crescent)" />
+      </g>
     </svg>
   );
 }
