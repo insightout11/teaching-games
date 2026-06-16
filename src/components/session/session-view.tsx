@@ -33,6 +33,7 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { AirfieldScene } from '@/components/ui/airfield-scene';
+import { LobbyAirfieldScene } from '@/components/ui/lobby-airfield-scene';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
@@ -1282,12 +1283,25 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         {/* Sky only — the airfield scene owns the ground (z-base) */}
         <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showEarth={false} showMoon className={isFullScreen ? '' : '!left-64'} />
         {/* Consolidated airfield: ground + hangar + plane + tower + windsock + distant
-            planes in one scaling SVG, so they stay locked together at any screen size (z-1) */}
+            planes in one scaling SVG, so they stay locked together at any screen size (z-1).
+            When an origin city exists (World Flight, prior leg), theme the horizon to the
+            city we're departing FROM; otherwise fall back to the generic home airfield. */}
         <div
           className="fixed inset-0 overflow-hidden pointer-events-none"
           style={{ zIndex: 1, left: isFullScreen ? 0 : 256 }}
         >
-          <AirfieldScene planeKey={selectedPlaneKey} className="absolute inset-0" />
+          {wfOrigin ? (
+            <LobbyAirfieldScene
+              originId={wfOrigin.id}
+              scene={wfOrigin.scene}
+              timeOfDay={wfDepartureTimeOfDay}
+              weather={flightWeather}
+              planeKey={selectedPlaneKey}
+              className="absolute inset-0"
+            />
+          ) : (
+            <AirfieldScene planeKey={selectedPlaneKey} className="absolute inset-0" />
+          )}
         </div>
         <div className="relative z-10 flex flex-col h-[78vh] px-6 lg:px-8 pt-4 pb-3">
 

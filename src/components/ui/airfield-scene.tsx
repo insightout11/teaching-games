@@ -162,7 +162,12 @@ function Windsock() {
   );
 }
 
-export function AirfieldScene({ planeKey, className }: { planeKey?: string | null; className?: string }) {
+// The airfield contents (defs + stars + ground + tower + windsock + hangar +
+// parked plane), as raw SVG children in the 0 0 1600 900 coordinate system —
+// WITHOUT the <svg> wrapper. Extracted so the themed lobby scene can draw a
+// destination city band BEHIND this same foreground inside one shared SVG, while
+// the generic AirfieldScene wrapper below stays visually byte-identical.
+export function AirfieldForeground({ planeKey }: { planeKey?: string | null }) {
   // Front-facing plane parked nose-out in the hangar mouth (faces the open door).
   const planeWebp = getPlaneViewAsset(planeKey, 'front-3q');
   // mouth centre ≈ 30 + 645*0.44 = 313.8, floor = FORE_Y — sized to sit inside
@@ -172,15 +177,7 @@ export function AirfieldScene({ planeKey, className }: { planeKey?: string | nul
   const PY = FORE_Y - PH;
 
   return (
-    <svg
-      viewBox="0 0 1600 900"
-      width="100%"
-      height="100%"
-      preserveAspectRatio="xMidYMax meet"
-      className={`pointer-events-none select-none ${className ?? ''}`}
-      style={{ display: 'block', overflow: 'visible' }}
-      aria-hidden
-    >
+    <>
       <defs>
         <linearGradient id="af-metal" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#3a4655" />
@@ -244,6 +241,22 @@ export function AirfieldScene({ planeKey, className }: { planeKey?: string | nul
       >
         <image href={planeWebp} x={PX} y={PY} width={PW} height={PH} preserveAspectRatio="xMidYMax meet" />
       </motion.g>
+    </>
+  );
+}
+
+export function AirfieldScene({ planeKey, className }: { planeKey?: string | null; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 1600 900"
+      width="100%"
+      height="100%"
+      preserveAspectRatio="xMidYMax meet"
+      className={`pointer-events-none select-none ${className ?? ''}`}
+      style={{ display: 'block', overflow: 'visible' }}
+      aria-hidden
+    >
+      <AirfieldForeground planeKey={planeKey} />
     </svg>
   );
 }
