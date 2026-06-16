@@ -635,15 +635,19 @@ html[data-theme="light"] :focus-visible {
 }
 
 /* Ground drift: city lights and ocean scroll at ground-level parallax speeds.
-   Applied to SVG <g> elements inside EarthLayer; -100vw = one 1440-unit tile
-   at any viewport width because the SVG scales via preserveAspectRatio. */
+   Applied to SVG <g> elements inside EarthLayer (viewBox 0 0 1440 220), whose
+   tiles repeat every 1440 user units. The shift MUST be 1440 user units (one
+   tile) for a seamless loop — NOT a viewport unit. Inside the SVG's local space
+   1px = 1 user unit, so -1440px shifts exactly one tile at any viewport width.
+   (vw would resolve to screen px and be misread as user units, overshooting the
+   tile and leaving the ocean/ground cut off mid-screen.) */
 @keyframes city-drift {
   from { transform: translateX(0); }
-  to   { transform: translateX(-100vw); }
+  to   { transform: translateX(-1440px); }
 }
 @keyframes ocean-drift {
   from { transform: translateX(0); }
-  to   { transform: translateX(-100vw); }
+  to   { transform: translateX(-1440px); }
 }
 .city-drift  { animation: city-drift  200s linear infinite; }
 .ocean-drift { animation: ocean-drift 300s linear infinite; }
