@@ -151,6 +151,28 @@ export async function GET(request: NextRequest) {
 
     const isActive = session.status === 'active';
 
+    // Resolve this student's roster student_id once (if they joined). game-shell
+    // attributes a device's answers to a matched roster student by writing
+    // student_id with a null client_id, so personal-stat queries must match BOTH
+    // keys — mirroring the session_leaderboard view's COALESCE(student_id, client_id).
+    // A client_id-only query under-counts points/accuracy and ranks the student
+    // ahead of their own leaderboard row.
+    let studentId: string | null = null;
+    let debriefToken: string | null = null;
+    if (clientId) {
+      const { data: participant } = await supabase
+        .from('session_participants')
+        .select('student_id, debrief_token')
+        .eq('session_id', sessionId)
+        .eq('client_id', clientId)
+        .maybeSingle();
+      studentId = (participant?.student_id as string | undefined) ?? null;
+      debriefToken = (participant?.debrief_token as string | undefined) ?? null;
+    }
+    const personalScoreFilter = studentId
+      ? `client_id.eq.${clientId},student_id.eq.${studentId}`
+      : `client_id.eq.${clientId}`;
+
     // Get active poll if any
     let activePoll: SessionPayload['activePoll'] = null;
     if (isActive) {
@@ -304,7 +326,7 @@ export async function GET(request: NextRequest) {
         .from('scores')
         .select('id, outcome, points, accuracy_status, counts_for_accuracy')
         .eq('session_id', sessionId)
-        .eq('client_id', clientId)
+        .or(personalScoreFilter)
         .eq('scoring_version', 2)
         .eq('counts_for_leaderboard', true)
         .order('created_at', { ascending: false });
@@ -329,15 +351,16 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Get personal results when session has ended
+    // Get personal results when session has ended. debriefToken (resolved above)
+    // is only surfaced once the session has ended.
     let personalResults: PersonalResults | null = null;
     if (!isActive && clientId) {
       const [{ data: myScores }, { data: lb }, { data: pref }] = await Promise.all([
         supabase
           .from('scores')
-          .select('points, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, streak_count')
+          .select('points, streak_bonus, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, streak_count')
           .eq('session_id', sessionId)
-          .eq('client_id', clientId),
+          .or(personalScoreFilter),
         supabase
           .from('session_leaderboard')
           .select('total_points')
@@ -352,13 +375,16 @@ export async function GET(request: NextRequest) {
       ]);
 
       const rows = (myScores ?? []) as Array<{
-        points: number; is_correct: boolean; accuracy_status?: string | null;
+        points: number; streak_bonus?: number | null; is_correct: boolean; accuracy_status?: string | null;
         counts_for_accuracy?: boolean | null; counts_for_leaderboard?: boolean | null;
         scoring_version?: number | null; streak_count: number;
       }>;
       // Only count leaderboard rows for points (exclude proxy remote_vote rows)
       const leaderboardRows = rows.filter(countsForLeaderboard);
       const totalPoints = leaderboardRows.reduce((s, r) => s + (r.points ?? 0), 0);
+      // session_leaderboard.total_points = SUM(points + streak_bonus). Rank against
+      // the same metric so the student is never counted ahead of their own row.
+      const leaderboardTotal = leaderboardRows.reduce((s, r) => s + (r.points ?? 0) + (r.streak_bonus ?? 0), 0);
       const scorable = leaderboardRows.filter(countsForAccuracy);
       const accuracy = scorable.length > 0
         ? Math.round(
@@ -370,7 +396,7 @@ export async function GET(request: NextRequest) {
       const scoreVisible = pref?.score_visible !== false;
       const lbRows = lb ?? [];
       const rank = scoreVisible && lbRows.length > 0
-        ? lbRows.filter((e) => e.total_points > totalPoints).length + 1
+        ? lbRows.filter((e) => e.total_points > leaderboardTotal).length + 1
         : null;
 
       personalResults = {
@@ -380,18 +406,6 @@ export async function GET(request: NextRequest) {
         rank,
         totalParticipants: scoreVisible ? lbRows.length : null,
       };
-    }
-
-    // Take-home debrief token: only surfaced once the session has ended.
-    let debriefToken: string | null = null;
-    if (!isActive && clientId) {
-      const { data: participant } = await supabase
-        .from('session_participants')
-        .select('debrief_token')
-        .eq('session_id', sessionId)
-        .eq('client_id', clientId)
-        .maybeSingle();
-      debriefToken = (participant?.debrief_token as string | undefined) ?? null;
     }
 
     // Get personal mission for this student if clientId provided

@@ -38,7 +38,7 @@ export default async function DebriefPage({ params }: { params: { token: string 
 
   const { data: participant } = await supabase
     .from('session_participants')
-    .select('session_id, client_id, display_name')
+    .select('session_id, client_id, student_id, display_name')
     .eq('debrief_token', token)
     .maybeSingle();
 
@@ -73,12 +73,18 @@ export default async function DebriefPage({ params }: { params: { token: string 
   }
 
   // Compute the same personal results the student saw at session end.
+  // Match the session_leaderboard view's COALESCE(student_id, client_id) key set:
+  // some of a student's scores are stored under student_id with a null client_id,
+  // so a client_id-only query under-counts and ranks them ahead of themselves.
+  const scoreFilter = participant.student_id
+    ? `client_id.eq.${participant.client_id},student_id.eq.${participant.student_id}`
+    : `client_id.eq.${participant.client_id}`;
   const [{ data: myScores }, { data: lb }] = await Promise.all([
     supabase
       .from('scores')
-      .select('points, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, streak_count')
+      .select('points, streak_bonus, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, streak_count')
       .eq('session_id', participant.session_id)
-      .eq('client_id', participant.client_id),
+      .or(scoreFilter),
     supabase
       .from('session_leaderboard')
       .select('total_points')
@@ -87,12 +93,15 @@ export default async function DebriefPage({ params }: { params: { token: string 
   ]);
 
   const rows = (myScores ?? []) as Array<{
-    points: number; is_correct: boolean; accuracy_status?: string | null;
+    points: number; streak_bonus?: number | null; is_correct: boolean; accuracy_status?: string | null;
     counts_for_accuracy?: boolean | null; counts_for_leaderboard?: boolean | null;
     scoring_version?: number | null; streak_count: number;
   }>;
   const leaderboardRows = rows.filter(countsForLeaderboard);
   const totalPoints = leaderboardRows.reduce((s, r) => s + (r.points ?? 0), 0);
+  // session_leaderboard.total_points = SUM(points + streak_bonus); rank against
+  // the same metric so the student is never counted ahead of their own row.
+  const leaderboardTotal = leaderboardRows.reduce((s, r) => s + (r.points ?? 0) + (r.streak_bonus ?? 0), 0);
   const scorable = leaderboardRows.filter(countsForAccuracy);
   const accuracy = scorable.length > 0
     ? Math.round((scorable.filter(isCorrectScore).length / scorable.length) * 100)
@@ -100,7 +109,7 @@ export default async function DebriefPage({ params }: { params: { token: string 
   const bestStreak = rows.length > 0 ? Math.max(...rows.map((r) => r.streak_count ?? 0)) : 0;
 
   const lbRows = lb ?? [];
-  const rank = lbRows.length > 0 ? lbRows.filter((e) => e.total_points > totalPoints).length + 1 : null;
+  const rank = lbRows.length > 0 ? lbRows.filter((e) => e.total_points > leaderboardTotal).length + 1 : null;
 
   const vocab = ((session?.reference_vocab as VocabItem[] | null) ?? []).slice(0, 10);
   const topic = session?.custom_topic || session?.topic || 'your lesson';
