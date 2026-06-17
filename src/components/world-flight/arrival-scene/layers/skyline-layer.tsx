@@ -502,10 +502,14 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
   const rim = 'rgba(120,200,255,0.85)';   // LC-blue leading-edge light
   const lit = isNight ? 'rgba(150,220,255,0.92)' : 'rgba(150,220,255,0.5)'; // window/glass glow
   const warm = palette.windowWarm;
-  const rock = isNight ? 'rgb(34,48,74)' : 'rgb(76,98,130)';
-  const rockShade = 'rgba(0,0,0,0.2)';
+  // Mountain depth tiers (aerial perspective): near peaks are darkest + most
+  // saturated; each range back gets lighter + hazier toward the sky.
+  const rock = isNight ? 'rgb(20,30,52)' : 'rgb(66,86,116)';       // near (darkest)
+  const rockMid = isNight ? 'rgb(28,40,64)' : 'rgb(98,120,150)';   // mid distance
+  const rockFar = isNight ? 'rgb(36,50,78)' : 'rgb(130,152,182)';  // far
+  const rockShade = 'rgba(0,0,0,0.24)';
   const snow = isNight ? 'rgba(198,218,244,0.86)' : 'rgba(246,251,255,0.96)';
-  const haze = isNight ? 'rgba(40,58,92,0.5)' : 'rgba(150,176,208,0.5)';
+  const haze = isNight ? 'rgba(52,70,104,0.6)' : 'rgba(170,192,218,0.62)'; // farthest (lightest)
 
   const wfId = `${idPrefix}-hb-wf`;
   const mistId = `${idPrefix}-hb-mist`;
@@ -545,9 +549,14 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
     </defs>
   );
 
+  // ── Full-canvas span — the home base fills its own widescreen overflow, so the
+  //    mountains + city run edge-to-edge instead of relying on the generic bleed. ──
+  const spanL = -BLEED_X - 80;
+  const spanR = CONTENT_W + BLEED_X + 80;
+
   // ── Sky glow + breathing aurora ribbon behind the massif ──
-  const skyGlow = <ellipse cx={CONTENT_W * 0.6} cy={base - 300} rx={440} ry={300} fill={`url(#${glowId})`} />;
-  const auroraD = `M -40 ${base - 300} Q ${CONTENT_W * 0.28} ${base - 452} ${CONTENT_W * 0.58} ${base - 340} T ${CONTENT_W + 40} ${base - 372}`;
+  const skyGlow = <ellipse cx={CONTENT_W * 0.6} cy={base - 300} rx={720} ry={320} fill={`url(#${glowId})`} />;
+  const auroraD = `M ${spanL} ${base - 300} Q ${CONTENT_W * 0.28} ${base - 452} ${CONTENT_W * 0.58} ${base - 340} T ${spanR} ${base - 372}`;
   const aurora = ambient ? (
     <motion.path
       d={auroraD} fill="none" stroke="rgba(120,200,255,0.6)" strokeWidth={54} strokeLinecap="round"
@@ -559,12 +568,24 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
     <path d={auroraD} fill="none" stroke="rgba(120,200,255,0.6)" strokeWidth={54} strokeLinecap="round" filter={`url(#${blurId})`} opacity={isNight ? 0.22 : 0.12} />
   );
 
-  // ── Distant haze ridgeline (far, behind the peaks) ──
+  // ── Layered distant mountain ranges (far → near), spanning the whole canvas ──
+  const ridge = (amp: number, yTop: number, phase: number, fill: string, key: string) => {
+    const pts: string[] = [`${spanL} ${base}`];
+    for (let x = spanL; x <= spanR; x += 150) {
+      const h = amp * (0.4 + 0.6 * Math.abs(Math.sin(x * 0.011 + phase)));
+      pts.push(`${x} ${yTop - h}`);
+    }
+    pts.push(`${spanR} ${base}`);
+    return <path key={key} d={`M ${pts.join(' L ')} Z`} fill={fill} />;
+  };
+  // Three layered ranges, each nearer one darker + taller than the last, so the
+  // near snow-capped peaks (drawn after, in `rock`) read clearly in front.
   const backHaze = (
-    <path
-      d={`M -40 ${base} L -40 ${base - 150} Q ${CONTENT_W * 0.22} ${base - 232} ${CONTENT_W * 0.42} ${base - 168} Q ${CONTENT_W * 0.66} ${base - 250} ${CONTENT_W * 0.84} ${base - 176} Q ${CONTENT_W} ${base - 150} ${CONTENT_W + 40} ${base - 170} L ${CONTENT_W + 40} ${base} Z`}
-      fill={haze}
-    />
+    <g>
+      {ridge(56, base - 104, 0.6, haze, 'r-farthest')}
+      {ridge(92, base - 134, 2.1, rockFar, 'r-far')}
+      {ridge(132, base - 162, 3.4, rockMid, 'r-mid')}
+    </g>
   );
 
   // ── Snow-capped side peaks ──
@@ -578,6 +599,12 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
       </g>
     );
   };
+  // Snow-capped peaks across the whole canvas (incl. the widescreen overflow).
+  const midPeaks: [number, number, number][] = [
+    [-520, 290, 280], [-180, 252, 220], [180, 300, 250],
+    [620, 262, 220], [1280, 300, 250], [1640, 282, 240],
+    [2000, 300, 250], [2300, 252, 220],
+  ];
 
   // ── Hero massif (tallest, central-right) + glowing waterfall + mist ──
   const hmX = CONTENT_W * 0.6;
@@ -663,9 +690,9 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
   //    corridor under the falls stays low so the waterfall still reads. ──
   const wfL = wfX - 46, wfR = wfX + 46;
   const cityFill: React.ReactNode[] = [];
-  let lx = -44;
+  let lx = spanL;
   let lk = 0;
-  while (lx < CONTENT_W + 44) {
+  while (lx < spanR) {
     const inFalls = lx > wfL && lx < wfR;
     const w = randRange(rand, 26, 66);
     const h = inFalls ? randRange(rand, 40, 74) : randRange(rand, 86, 214);
@@ -969,6 +996,9 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
     { x: CONTENT_W * 0.32, y: base - 356, d: 5.4 },
     { x: CONTENT_W * 0.74, y: base - 392, d: 6.6 },
     { x: CONTENT_W * 0.47, y: base - 432, d: 6.0 },
+    { x: CONTENT_W * 0.12, y: base - 372, d: 5.8 },
+    { x: CONTENT_W * 0.9, y: base - 350, d: 6.3 },
+    { x: CONTENT_W * 0.6, y: base - 410, d: 5.6 },
   ];
   const orbs = orbDefs.map((o, i) =>
     ambient ? (
@@ -1039,14 +1069,67 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
     <circle cx={apexX} cy={hmTy - 4} r={4} fill="rgba(255,255,255,0.9)" />
   );
 
+  // ── Gliding bird flock (flaps + drifts) ──
+  const birds = ambient ? (
+    <motion.g
+      initial={{ x: -30 }}
+      animate={{ x: 130 }}
+      transition={{ duration: 22, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
+    >
+      {[[0, 0], [16, 7], [32, 2], [-16, 7], [-32, 2]].map(([bx, by], i) => {
+        const px = CONTENT_W * 0.36 + bx;
+        const py = base - 372 + by;
+        return (
+          <motion.path
+            key={i}
+            d={`M ${px} ${py} q 6 -5 12 0 q 6 -5 12 0`}
+            fill="none" stroke="rgba(36,48,72,0.7)" strokeWidth={1.8} strokeLinecap="round"
+            animate={{ d: [`M ${px} ${py} q 6 -5 12 0 q 6 -5 12 0`, `M ${px} ${py} q 6 -1 12 0 q 6 -1 12 0`] }}
+            transition={{ duration: 0.55, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut', delay: (i % 2) * 0.12 }}
+          />
+        );
+      })}
+    </motion.g>
+  ) : null;
+
+  // ── Twinkling city window lights ──
+  const twinklePos: [number, number][] = [
+    [240, base - 150], [470, base - 120], [610, base - 96], [690, base - 170],
+    [880, base - 130], [1130, base - 160], [1300, base - 110], [1460, base - 150],
+    [70, base - 110], [1560, base - 100],
+  ];
+  const twinkles = ambient
+    ? twinklePos.map(([tx, ty], i) => (
+        <motion.rect
+          key={i} x={tx} y={ty} width={3.2} height={3.2} fill={i % 3 === 0 ? warm : lit}
+          animate={{ opacity: [0.15, 0.95, 0.15] }}
+          transition={{ duration: 2.2 + (i % 4) * 0.5, repeat: Infinity, ease: 'easeInOut', delay: (i % 5) * 0.4 }}
+        />
+      ))
+    : null;
+
+  // ── High-altitude jet with a contrail + blinking nav light (faster, higher) ──
+  const jet = ambient ? (
+    <motion.g
+      initial={{ x: spanL }}
+      animate={{ x: spanR }}
+      transition={{ duration: 26, repeat: Infinity, ease: 'linear', delay: 5 }}
+    >
+      <g transform={`translate(0 ${base - 472})`}>
+        <rect x={-30} y={-0.6} width={30} height={1.4} rx={0.7} fill="rgba(220,235,255,0.45)" />
+        <polygon points="0 0, -8 -2.4, -8 2.4" fill={fHi} />
+        <motion.circle cx={1} cy={0} r={1.6} fill={warm} animate={{ opacity: [1, 0.2, 1] }} transition={{ duration: 1, repeat: Infinity }} />
+      </g>
+    </motion.g>
+  ) : null;
+
   return (
     <g aria-hidden data-skyline="homebase" data-id={idPrefix}>
       {defs}
       {skyGlow}
       {aurora}
       {backHaze}
-      {peak(CONTENT_W * 0.2, 300, 240, 'mtn-left')}
-      {peak(CONTENT_W * 0.88, 268, 220, 'mtn-right')}
+      {midPeaks.map(([cx, h, w], i) => peak(cx, h, w, `mtn-${i}`))}
       {heroMassif}
       {summitBeacon}
       {waterfall}
@@ -1061,7 +1144,10 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
       {arch}
       {stadium}
       {skyTram}
+      {twinkles}
       {orbs}
+      {birds}
+      {jet}
       {airship}
     </g>
   );

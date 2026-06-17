@@ -198,8 +198,12 @@ export function DestinationArrivalScene({
       {/* Terrain silhouettes (hills/dunes/island/headland) — far depth, so they
           pan WITH the world on takeoff and pick up arrival parallax. */}
       <g transform={focalAt(0.22)}><TerrainSilhouetteLayer {...propsFor('terrain')} /></g>
-      {/* Distant skyline in the side bleed (own RNG — does not perturb focal) */}
-      <g transform={canvasAt(0.3)}><BleedSkyline palette={palette} destinationId={destinationId} skyline={scene.skyline} /></g>
+      {/* Distant skyline in the side bleed (own RNG — does not perturb focal).
+          The home base fills its own overflow (mountains + city span the full
+          canvas in the skyline layer), so it skips the generic bleed. */}
+      {scene.skylineVariant !== 'homebase' && (
+        <g transform={canvasAt(0.3)}><BleedSkyline palette={palette} destinationId={destinationId} skyline={scene.skyline} /></g>
+      )}
       {/* Focal city + accents — pan amplitude grows toward the viewer */}
       <g transform={focalAt(0.4)}>{landmarkAt('midground')}</g>
       <g transform={focalAt(0.5)}><SkylineLayer {...propsFor('skyline')} /></g>
