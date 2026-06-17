@@ -67,16 +67,14 @@ function BleedSkyline({ palette, destinationId, skyline }: { palette: ScenePalet
         const ah = randRange(rand, 16, 34);
         parts.push(<rect key="a" x={x + w / 2 - 1} y={top - ah} width={2} height={ah} fill={f} />);
       }
-      // Sparse distant window lights at night (kept faint → still reads far away).
-      if (isNight) {
-        for (let wy = top + 9; wy < base - 6; wy += 13) {
-          for (let wx = x + 5; wx < x + w - 4; wx += 11) {
-            if (rand() > 0.6) {
-              parts.push(
-                <rect key={`w${wx}-${wy}`} x={wx} y={wy} width={2.4} height={3} fill={rand() > 0.82 ? palette.windowCool : palette.windowWarm} opacity={0.8} />,
-              );
-            }
-          }
+      // Distant window lights — bright/dense at night, faint/sparse by day, so the
+      // overflow buildings read lit like the focal city (not dark silhouettes).
+      for (let wy = top + 9; wy < base - 6; wy += 13) {
+        for (let wx = x + 5; wx < x + w - 4; wx += 11) {
+          if (rand() > (isNight ? 0.6 : 0.78)) continue;
+          parts.push(
+            <rect key={`w${wx}-${wy}`} x={wx} y={wy} width={2.4} height={3} fill={rand() > 0.82 ? palette.windowCool : palette.windowWarm} opacity={isNight ? 0.8 : 0.42} />,
+          );
         }
       }
       cells.push(<g key={k}>{parts}</g>);
