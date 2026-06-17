@@ -434,4 +434,56 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       ],
     },
   },
+  {
+    id: 'speak-60',
+    name: 'Speak',
+    description: 'Maximum talk time — warm-up, a scaffolded scene, an opinion pulse, open conversation, a review game, and a final word. Fluency over accuracy.',
+    lessonDurationMinutes: 60,
+    goal: 'speaking-fluency',
+    lessonType: 'performance',
+    takeoff: 'character-cards',
+    landing: 'final-word',
+    // No new components — reuses the existing speaking engine (scene-igniter → conversation-rounds).
+    // Micro defaults (Vocab) await the Vocab micro + toggle system; Opinion Pulse baked in for now.
+    moduleSequence: [
+      { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
+      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it', 'two-truths'] },
+      { slotType: 'production', key: 'conversation-rounds', stageId: 'conversation' },
+      { slotType: 'practice', key: 'imposter', stageId: 'end-game' },
+    ],
+    flightConfig: {
+      stages: [
+        { stageId: 'icebreaker', label: 'Warm-up', kind: 'stage', phase: 'takeoff' },
+        { stageId: 'scene', label: 'Scene', kind: 'stage', phase: 'climb' },
+        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'cruise' },
+        { stageId: 'conversation', label: 'Conversation', kind: 'stage', phase: 'cruise' },
+        { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
+        { stageId: 'landing', label: 'Wrap-up', kind: 'landing', phase: 'landing' },
+      ],
+      stageByKey: {
+        'character-cards': 'icebreaker',
+        'scene-igniter': 'scene',
+        'would-you-rather': 'opinion-pulse',
+        'rank-it': 'opinion-pulse',
+        'two-truths': 'opinion-pulse',
+        'conversation-rounds': 'conversation',
+        'imposter': 'end-game',
+        'taboo-sprint': 'end-game',
+        'word-chain': 'end-game',
+        'final-word': 'landing',
+      },
+    },
+    scenarios: {
+      label: 'Choose a speaking situation',
+      placeholder: 'e.g. Catching up with an old friend',
+      options: [
+        'Daily life — routines, home, neighbourhood',
+        'Social — meeting people, making plans, small talk',
+        'Opinions — sharing views on familiar topics',
+        'Storytelling — sharing experiences and reactions',
+        'Problem-solving — navigating everyday issues together',
+        'Workplace — simple professional interactions',
+      ],
+    },
+  },
 ];
