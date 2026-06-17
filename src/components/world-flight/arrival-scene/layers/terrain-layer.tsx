@@ -1,4 +1,4 @@
-import { CONTENT_W, LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
+import { BLEED_X, CONTENT_W, LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
 import { normalizeTerrain } from '../scene-registry';
 import { randRange } from '../seed';
 
@@ -82,31 +82,38 @@ export function TerrainBaseLayer({ scene, palette, idPrefix }: SceneLayerProps) 
 }
 
 // ── Silhouettes: focal space, pannable (composer wraps in focalAt(depth)) ────
+// Drawn across the FULL canvas (focal + both bleed margins) so the scene's own
+// landforms — hills, mountains, coastline, dunes — continue into the widescreen
+// overflow instead of leaving the side margins flat behind the distant city.
+const SIL_L = -BLEED_X - 40;
+const SIL_R = CONTENT_W + BLEED_X + 40;
+const SIL_MID = (SIL_L + SIL_R) / 2;
+
 export function TerrainSilhouetteLayer({ scene, rand, idPrefix }: SceneLayerProps) {
   const terrain = normalizeTerrain(scene.terrain);
   const gId = `${idPrefix}-terrain`;
 
-  // helper: a row of distant hills as a single path, in FOCAL (CONTENT_W) space.
+  // A row of distant hills as a single path across the whole canvas.
   const hills = (amp: number, n: number) => {
-    let d = `M -40 ${BASE} L -40 ${TOP + 10}`;
-    const span = (CONTENT_W + 80) / n;
+    let d = `M ${SIL_L} ${BASE} L ${SIL_L} ${TOP + 10}`;
+    const span = (SIL_R - SIL_L) / n;
     for (let i = 0; i <= n; i += 1) {
-      const x = -40 + i * span;
+      const x = SIL_L + i * span;
       const peak = TOP + 10 - randRange(rand, amp * 0.3, amp);
       d += ` Q ${x - span / 2} ${peak} ${x} ${TOP + 10}`;
     }
-    d += ` L ${CONTENT_W + 40} ${BASE} Z`;
+    d += ` L ${SIL_R} ${BASE} Z`;
     return d;
   };
 
   if (terrain === 'coastal' || terrain === 'island') {
     return (
       <g aria-hidden>
-        {/* sun/sky glints on the sea ribbon */}
-        {Array.from({ length: 6 }).map((_, i) => (
+        {/* sun/sky glints on the sea ribbon (across the full bay) */}
+        {Array.from({ length: 10 }).map((_, i) => (
           <rect
             key={i}
-            x={randRange(rand, 60, CONTENT_W - 120)}
+            x={randRange(rand, SIL_L + 80, SIL_R - 160)}
             y={TOP + randRange(rand, 2, 9)}
             width={randRange(rand, 30, 90)}
             height={2}
@@ -115,13 +122,13 @@ export function TerrainSilhouetteLayer({ scene, rand, idPrefix }: SceneLayerProp
         ))}
         {terrain === 'island' ? (
           <path
-            d={`M ${CONTENT_W * 0.5} ${WATER_BOTTOM} Q ${CONTENT_W * 0.74} ${TOP - 22} ${CONTENT_W + 40} ${WATER_BOTTOM} Z`}
+            d={`M ${CONTENT_W * 0.5} ${WATER_BOTTOM} Q ${CONTENT_W * 0.74} ${TOP - 22} ${SIL_R} ${WATER_BOTTOM} Z`}
             fill={`url(#${gId})`}
             opacity={0.95}
           />
         ) : (
           <path
-            d={`M -40 ${WATER_BOTTOM} Q ${CONTENT_W * 0.3} ${TOP - 10} ${CONTENT_W * 0.62} ${WATER_BOTTOM} T ${CONTENT_W + 40} ${WATER_BOTTOM} Z`}
+            d={`M ${SIL_L} ${WATER_BOTTOM} Q ${CONTENT_W * 0.3} ${TOP - 10} ${CONTENT_W * 0.62} ${WATER_BOTTOM} T ${SIL_R} ${WATER_BOTTOM} Z`}
             fill={`url(#${gId})`}
             opacity={0.9}
           />
@@ -131,10 +138,11 @@ export function TerrainSilhouetteLayer({ scene, rand, idPrefix }: SceneLayerProp
   }
 
   if (terrain === 'mountain') {
+    // Higher hill counts keep the ridge size consistent across the wider span.
     return (
       <g aria-hidden>
-        <path d={hills(120, 6)} fill={`url(#${gId})`} opacity={0.85} />
-        <path d={hills(78, 9)} fill={`url(#${gId})`} />
+        <path d={hills(120, 11)} fill={`url(#${gId})`} opacity={0.85} />
+        <path d={hills(78, 16)} fill={`url(#${gId})`} />
       </g>
     );
   }
@@ -145,7 +153,7 @@ export function TerrainSilhouetteLayer({ scene, rand, idPrefix }: SceneLayerProp
         {Array.from({ length: 3 }).map((_, i) => (
           <path
             key={i}
-            d={`M -40 ${TOP + 16 + i * 12} Q ${randRange(rand, 300, 700)} ${TOP + 2 + i * 12} ${CONTENT_W / 2} ${TOP + 14 + i * 12} T ${CONTENT_W + 40} ${TOP + 16 + i * 12}`}
+            d={`M ${SIL_L} ${TOP + 16 + i * 12} Q ${randRange(rand, SIL_L + 240, SIL_MID)} ${TOP + 2 + i * 12} ${SIL_MID} ${TOP + 14 + i * 12} T ${SIL_R} ${TOP + 16 + i * 12}`}
             fill="none"
             stroke="rgba(0,0,0,0.10)"
             strokeWidth={3}
@@ -159,7 +167,7 @@ export function TerrainSilhouetteLayer({ scene, rand, idPrefix }: SceneLayerProp
   return (
     <g aria-hidden>
       <path
-        d={`M -40 ${TOP + 20} Q ${CONTENT_W / 2} ${TOP + (terrain === 'urban' ? 4 : 12)} ${CONTENT_W + 40} ${TOP + 20}`}
+        d={`M ${SIL_L} ${TOP + 20} Q ${SIL_MID} ${TOP + (terrain === 'urban' ? 4 : 12)} ${SIL_R} ${TOP + 20}`}
         fill="none"
         stroke="rgba(0,0,0,0.12)"
         strokeWidth={3}
