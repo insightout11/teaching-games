@@ -2128,12 +2128,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-24">
-                  <p className="text-2xl font-game text-lc-blue">
-                    Preparing {lesson.generatingModuleName || selectedActivity.name}
-                  </p>
-                  <p className="text-sm text-lc-text3 mt-3 opacity-60">
-                    Generating content for your lesson...
-                  </p>
+                  <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/75 px-10 py-8 shadow-2xl backdrop-blur-md">
+                    <div className="h-7 w-7 animate-spin rounded-full border-2 border-cyan-400/30 border-t-cyan-400" />
+                    <p className="text-2xl font-game text-white text-center" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.55)' }}>
+                      Preparing {lesson.generatingModuleName || selectedActivity.name}
+                    </p>
+                    <p className="text-sm text-cyan-200/80">Generating content for your lesson…</p>
+                  </div>
                 </div>
               )}
             </FlightSessionView>
@@ -2229,12 +2230,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-24">
-                <p className="text-2xl font-game text-lc-blue">
-                  Preparing {lesson.generatingModuleName || selectedActivity.name}
-                </p>
-                <p className="text-sm text-lc-text3 mt-3 opacity-60">
-                  Generating content for your lesson...
-                </p>
+                <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/75 px-10 py-8 shadow-2xl backdrop-blur-md">
+                  <div className="h-7 w-7 animate-spin rounded-full border-2 border-cyan-400/30 border-t-cyan-400" />
+                  <p className="text-2xl font-game text-white text-center" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.55)' }}>
+                    Preparing {lesson.generatingModuleName || selectedActivity.name}
+                  </p>
+                  <p className="text-sm text-cyan-200/80">Generating content for your lesson…</p>
+                </div>
               </div>
             )}
           </div>
