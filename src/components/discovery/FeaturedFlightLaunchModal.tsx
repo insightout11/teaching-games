@@ -20,6 +20,7 @@ import type { Topic, Difficulty } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
 import { SourceInputPanel } from '@/components/planner/source-input-panel';
 import { getFeaturedPreset } from '@/lib/discovery-shelves';
+import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
 
 interface ClassRow {
   id: string;
@@ -32,12 +33,15 @@ export function FeaturedFlightLaunchModal({
   onClose,
   expandSource = false,
   pendingNote = null,
+  preset: presetProp = null,
 }: {
   open: boolean;
   onClose: () => void;
   expandSource?: boolean;
   /** One-line banner shown when the launcher was auto-opened from the /video-lesson demo handoff. */
   pendingNote?: string | null;
+  /** Preset to launch. Defaults to the featured Captain's Flight when omitted. */
+  preset?: FlightPlanPreset | null;
 }) {
   const loadPreset = usePlannerStore((s) => s.loadPreset);
   const setTopicStore = usePlannerStore((s) => s.setTopic);
@@ -102,7 +106,7 @@ export function FeaturedFlightLaunchModal({
     });
   }, [classes]);
 
-  const preset = getFeaturedPreset();
+  const preset = presetProp ?? getFeaturedPreset();
   const selectedName = classes.find((c) => c.id === selectedClassId)?.name ?? '';
 
   async function doLaunch(classId: string) {
@@ -161,7 +165,7 @@ export function FeaturedFlightLaunchModal({
 
   return (
     <>
-      <Modal open={open && !showPaywall} onClose={() => { setLaunching(false); onClose(); }} title="Start Captain's Flight">
+      <Modal open={open && !showPaywall} onClose={() => { setLaunching(false); onClose(); }} title={`Start ${preset?.name ?? "Captain's Flight"}`}>
         <div className="space-y-4">
           {pendingNote && (
             <div className="flex items-center gap-2 rounded-lg border border-cyan-400/30 bg-cyan-400/[0.08] px-3 py-2.5 text-sm font-medium text-cyan-200">
