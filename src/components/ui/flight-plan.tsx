@@ -46,8 +46,10 @@ function getNodeSpacing(width: number, count: number, isRuntime: boolean) {
 function getLabelMode(width: number, count: number, isRuntime: boolean): LabelMode {
   if (count <= 1) return 'full';
   const spacing = getNodeSpacing(width, count, isRuntime);
-  if (spacing >= 150) return 'full';
-  if (spacing >= 96) return 'compact';
+  // full + compact both label every stage; they differ only in card density. Only the
+  // genuinely tight `minimal` regime drops to current-stage-only + tappable dots.
+  if (spacing >= 116) return 'full';
+  if (spacing >= 64) return 'compact';
   return 'minimal';
 }
 
@@ -146,10 +148,10 @@ function computeNodeLayout(
   const spacing = getNodeSpacing(width, count, isRuntime);
   const cardWidth =
     labelMode === 'full'
-      ? baseCardWidth
+      ? clamp(spacing + 8, 104, baseCardWidth)
       : labelMode === 'compact'
-        ? clamp(spacing - 12, 76, baseCardWidth)
-        : clamp(width * 0.45, 120, isRuntime ? 200 : baseCardWidth);
+        ? clamp(spacing - 4, 56, baseCardWidth)
+        : clamp(width * 0.45, 120, isRuntime ? 220 : baseCardWidth);
 
   return steps.map((step, index) => {
     const t = count === 1 ? 0 : index / (count - 1);
@@ -718,9 +720,11 @@ function NodeCard({
         <div className="absolute -inset-px rounded-2xl opacity-40 pointer-events-none bg-[radial-gradient(circle_at_top,rgba(111,225,255,0.18),transparent_45%)]" />
 
         <div className="relative flex items-start gap-2">
-          <div className={`mt-0.5 rounded-full border border-white/10 bg-white/[0.08] ${iconWrapSize}`}>
-            {getStepIcon(point.type, `${iconSize} text-cyan-200/90`)}
-          </div>
+          {!compact && (
+            <div className={`mt-0.5 rounded-full border border-white/10 bg-white/[0.08] ${iconWrapSize}`}>
+              {getStepIcon(point.type, `${iconSize} text-cyan-200/90`)}
+            </div>
+          )}
           <div className="min-w-0 flex-1 overflow-hidden">
             {!compact && (
               <div className={`uppercase tracking-[0.06em] font-semibold truncate ${
@@ -912,11 +916,8 @@ function NodeLayer({
   // Narrow screens collapse most stage cards to dots; tapping reveals a node's label.
   const [revealedId, setRevealedId] = useState<string | null>(null);
   const currentIndex = Math.round(activeIndex);
-  const isLabeledStage = (i: number) => {
-    if (labelMode === 'full') return true;
-    if (labelMode === 'compact') return Math.abs(i - currentIndex) <= 1;
-    return i === currentIndex; // minimal
-  };
+  // full + compact label every stage; minimal labels only the current one (others tap).
+  const isLabeledStage = (i: number) => labelMode !== 'minimal' || i === currentIndex;
 
   return (
     <>
