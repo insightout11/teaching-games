@@ -54,6 +54,7 @@ import { AuHeadquartersLandmark } from './landmarks/au-headquarters';
 import { IndiaGateLandmark } from './landmarks/india-gate';
 import { RizalMonumentLandmark } from './landmarks/rizal-monument';
 import { BitexcoTowerLandmark } from './landmarks/bitexco-tower';
+import { LcControlTower } from './landmarks/lc-control-tower';
 
 // ── Landmark registry ────────────────────────────────────────────────────────
 // Placement (depth slot + anchor/baseY/scale/opacity) lives HERE, not inside the
@@ -151,6 +152,12 @@ export const LANDMARK_REGISTRY: Record<string, LandmarkRegistryEntry> = {
   // Full-width canal: anchorX 0.5 / scale 1 lets the water span the whole canvas
   // (incl. side bleed); the lock + ship stay centred in the focal zone.
   'panama-canal': { component: PanamaCanalLandmark, depth: 'foreground', anchorX: 0.5, baseY: 660, scale: 1.0 },
+
+  // ── LC home base ──
+  // The LessonCaptain control tower hero for "LC International" (home base).
+  // Anchored left so the plane (which lands/parks on the right) never occludes
+  // the tower or its hangar; the windsock sits further left still.
+  'lc-control-tower': { component: LcControlTower, depth: 'foreground', anchorX: 0.34, baseY: 648, scale: 0.82 },
 };
 
 // Placement for the generic fallback (used when a landmarkSilhouette has no

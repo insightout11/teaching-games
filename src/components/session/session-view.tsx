@@ -32,7 +32,6 @@ import type { TopSubmission } from '@/games/types';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
-import { AirfieldScene } from '@/components/ui/airfield-scene';
 import { LobbyAirfieldScene } from '@/components/ui/lobby-airfield-scene';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
@@ -43,6 +42,9 @@ import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
 import { WorldFlightArrivalBackdrop } from '@/components/session/world-flight-backdrop';
+import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
+import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
+import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
@@ -550,6 +552,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     () => (flightDistanceKm == null ? undefined : timeOfDay(clockHourAt(0, flightDistanceKm))),
     [flightDistanceKm],
   );
+  // Home base (LC International) time of day — non-World-Flight flights take off
+  // from + land at home, so its scene should feel alive across the day. Derive it
+  // from the real local hour, but mount-gated (SSR-safe default 'dusk') so the
+  // server and first client render agree and the palette never flips mid-hydrate.
+  const [homeBaseTod, setHomeBaseTod] = useState<TimeOfDay>('dusk');
+  useEffect(() => setHomeBaseTod(timeOfDay(new Date().getHours())), []);
   // One climate-weighted weather per flight (stable per session + destination),
   // shared by the transition cloud pass / cruise precipitation and the city scenes.
   const flightWeather = useMemo(() => {
@@ -607,16 +615,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     [lesson.isLessonActive, lesson.currentSlotIndex, lesson.lessonSlots.length],
   );
 
-  // In-session ground backdrop for World Flight: the origin city while taking
-  // off (first module), the destination city while landing (last module). Mid-
-  // flight modules ('flight') stay sky-only — you're in the air, not at a city.
-  const wfGroundCity = useMemo(
+  // In-session ground backdrop: the city we're parked at while taking off (first
+  // module) or landing (last module). World Flight uses the origin/destination
+  // city; every other flight uses LC International (home base). Mid-flight modules
+  // ('flight') stay sky-only — you're in the air, not at a city.
+  const groundCity = useMemo(
     () => {
-      if (earthState === 'takeoff' && wfOrigin) return { dest: wfOrigin, tod: wfDepartureTimeOfDay };
-      if (earthState === 'landing' && wfDestination) return { dest: wfDestination, tod: wfArrivalTimeOfDay };
+      if (earthState === 'takeoff' && wfOrigin) return { id: wfOrigin.id, scene: wfOrigin.scene, tod: wfDepartureTimeOfDay };
+      if (earthState === 'landing' && wfDestination) return { id: wfDestination.id, scene: wfDestination.scene, tod: wfArrivalTimeOfDay };
+      if (earthState === 'takeoff' || earthState === 'landing') return { id: HOME_BASE_ID, scene: HOME_BASE_SCENE, tod: homeBaseTod };
       return null;
     },
-    [earthState, wfOrigin, wfDestination, wfDepartureTimeOfDay, wfArrivalTimeOfDay],
+    [earthState, wfOrigin, wfDestination, wfDepartureTimeOfDay, wfArrivalTimeOfDay, homeBaseTod],
   );
 
   // ─── Pacing state ──────────────────────────────────────────────────────
@@ -1300,7 +1310,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               className="absolute inset-0"
             />
           ) : (
-            <AirfieldScene planeKey={selectedPlaneKey} className="absolute inset-0" />
+            /* Home base (LC International) — the SAME engine scene the plane rolls
+               down on takeoff, parked + landed here in the lobby for continuity.
+               transparentSky lets the lobby's SkyBackground show through. */
+            <DestinationArrivalScene
+              destinationId={HOME_BASE_ID}
+              scene={HOME_BASE_SCENE}
+              phase="landed"
+              progress={1}
+              transparentSky
+              fit="slice"
+              timeOfDay={homeBaseTod}
+              planeKey={selectedPlaneKey}
+              className="absolute inset-0"
+            />
           )}
         </div>
         <div className="relative z-10 flex flex-col h-[78vh] px-6 lg:px-8 pt-4 pb-3">
@@ -1503,15 +1526,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── MAIN SESSION VIEW ───────────────────────────────────────────────────
   return (
     <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-      {wfGroundCity ? (
-        /* World Flight ground: the origin city (takeoff) / destination city
-           (landing), same composited backdrop + scale as the transitions. */
+      {groundCity ? (
+        /* Ground: the origin/destination city (World Flight) or LC International
+           (home base), same composited backdrop + scale as the transitions. */
         <WorldFlightArrivalBackdrop
-          destinationId={wfGroundCity.dest.id}
-          scene={wfGroundCity.dest.scene}
+          destinationId={groundCity.id}
+          scene={groundCity.scene}
           weatherState={weatherState}
           altitude={altitude}
-          timeOfDay={wfGroundCity.tod}
+          timeOfDay={groundCity.tod}
           planeKey={selectedPlaneKey}
           isFullScreen={isFullScreen}
         />
@@ -2241,7 +2264,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             timeOfDay: wfArrivalTimeOfDay,
             weather: rollWeather(`${session?.id ?? 'flight'}:${wfDestination.id}`, wfDestination.scene, wfArrivalTimeOfDay === 'night'),
             planeKey: selectedPlaneKey,
-          } : undefined}
+          } : {
+            /* Non-World-Flight: land back at LC International (home base) — the
+               same engine scene as the lobby, replacing the old generic runway. */
+            destinationId: HOME_BASE_ID,
+            scene: HOME_BASE_SCENE,
+            cityName: HOME_BASE_NAME,
+            timeOfDay: homeBaseTod,
+            weather: flightWeather,
+            planeKey: selectedPlaneKey,
+          }}
           departureScene={wfOrigin ? {
             destinationId: wfOrigin.id,
             scene: wfOrigin.scene,
@@ -2249,7 +2281,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             timeOfDay: wfDepartureTimeOfDay,
             weather: rollWeather(`${session?.id ?? 'flight'}:${wfOrigin.id}`, wfOrigin.scene, wfDepartureTimeOfDay === 'night'),
             planeKey: selectedPlaneKey,
-          } : undefined}
+          } : {
+            /* Non-World-Flight: take off from LC International (home base). */
+            destinationId: HOME_BASE_ID,
+            scene: HOME_BASE_SCENE,
+            cityName: HOME_BASE_NAME,
+            timeOfDay: homeBaseTod,
+            weather: flightWeather,
+            planeKey: selectedPlaneKey,
+          }}
           onDismiss={() => setModuleTransition(null)}
         />
       )}

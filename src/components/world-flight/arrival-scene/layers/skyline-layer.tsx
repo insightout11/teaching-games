@@ -1,6 +1,8 @@
-import { CONTENT_W, LAYOUT, type SceneLayerProps } from '../types';
+import { motion } from 'framer-motion';
+import { BLEED_X, CONTENT_W, LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
 import { normalizeSkyline } from '../scene-registry';
 import { randInt, randRange } from '../seed';
+import { LC_L_MARK } from '../lc-brand';
 
 // City skyline behind the airfield. Four families (low / dense / highrise /
 // historic). Buildings stand on a baseline just below the field top, so the
@@ -56,6 +58,7 @@ export function SkylineLayer(props: SceneLayerProps) {
   if (props.scene.skylineVariant === 'santiago') return <SantiagoSkyline {...props} />;
   if (props.scene.skylineVariant === 'recife') return <RecifeSkyline {...props} />;
   if (props.scene.skylineVariant === 'addisababa') return <AddisAbabaSkyline {...props} />;
+  if (props.scene.skylineVariant === 'homebase') return <HomeBaseSkyline {...props} />;
   const { scene, palette, rand, idPrefix } = props;
   const family = normalizeSkyline(scene.skyline);
   const base = LAYOUT.apronY + 12;
@@ -476,6 +479,592 @@ function litWindows(
     }
   }
   return cells;
+}
+
+// ── LC International — bespoke home-base skyline ─────────────────────────────
+// The flagship LessonCaptain home base across the bay: a dramatic snow-capped
+// massif with a GLOWING WATERFALL cascading into the bay, fronted by a curated
+// skyline of distinctive futuristic LC architecture — a twisting helix tower,
+// skybridge twins with a sky-garden, a rounded "canister" stack, a diagrid hero
+// spire, an observation-ring tower, a geodesic biosphere dome, a curved sail
+// tower, and an arched gateway tower. Alive with a sky-tram pod riding a cable to
+// the peak, drifting light drones, an airship, and a breathing aurora. LC-blue
+// silhouettes + cyan/white light keep the brand identity at every time of day,
+// while the sky/sun/moon follow the flight clock. Animated magic is gated on
+// `ambient` (still frames render rich static fallbacks). Pairs with the LC
+// control tower (foreground hero).
+function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) {
+  const base = LAYOUT.apronY + 12;
+  const isNight = palette.light === 'moon';
+  // LC navy massing — two tones for day/night so it darkens at night yet stays blue.
+  const f = isNight ? 'rgb(12,22,46)' : 'rgb(22,38,72)';
+  const fHi = isNight ? 'rgb(20,34,66)' : 'rgb(34,52,92)';   // lit face / accent mass
+  const rim = 'rgba(120,200,255,0.85)';   // LC-blue leading-edge light
+  const lit = isNight ? 'rgba(150,220,255,0.92)' : 'rgba(150,220,255,0.5)'; // window/glass glow
+  const warm = palette.windowWarm;
+  const rock = isNight ? 'rgb(34,48,74)' : 'rgb(76,98,130)';
+  const rockShade = 'rgba(0,0,0,0.2)';
+  const snow = isNight ? 'rgba(198,218,244,0.86)' : 'rgba(246,251,255,0.96)';
+  const haze = isNight ? 'rgba(40,58,92,0.5)' : 'rgba(150,176,208,0.5)';
+
+  const wfId = `${idPrefix}-hb-wf`;
+  const mistId = `${idPrefix}-hb-mist`;
+  const glowId = `${idPrefix}-hb-glow`;
+  const blurId = `${idPrefix}-hb-blur`;
+  const bodyId = `${idPrefix}-hb-body`;
+  const glassId = `${idPrefix}-hb-glass`;
+
+  const defs = (
+    <defs>
+      {/* dimensional navy body sheen (lighter top → darker base) */}
+      <linearGradient id={bodyId} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor={fHi} />
+        <stop offset="1" stopColor={f} />
+      </linearGradient>
+      {/* lit glass — for the glowing observation cabs/crowns */}
+      <linearGradient id={glassId} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor={isNight ? 'rgba(160,228,255,0.9)' : 'rgba(150,222,255,0.62)'} />
+        <stop offset="1" stopColor={isNight ? 'rgba(64,124,194,0.6)' : 'rgba(92,152,210,0.42)'} />
+      </linearGradient>
+      <linearGradient id={wfId} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="rgba(255,255,255,0.95)" />
+        <stop offset="0.5" stopColor="rgba(196,238,255,0.82)" />
+        <stop offset="1" stopColor="rgba(150,220,255,0.5)" />
+      </linearGradient>
+      <radialGradient id={mistId} cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stopColor="rgba(224,246,255,0.6)" />
+        <stop offset="1" stopColor="rgba(224,246,255,0)" />
+      </radialGradient>
+      <radialGradient id={glowId} cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stopColor={isNight ? 'rgba(90,170,255,0.34)' : 'rgba(120,190,255,0.22)'} />
+        <stop offset="1" stopColor="rgba(90,170,255,0)" />
+      </radialGradient>
+      <filter id={blurId} x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="16" />
+      </filter>
+    </defs>
+  );
+
+  // ── Sky glow + breathing aurora ribbon behind the massif ──
+  const skyGlow = <ellipse cx={CONTENT_W * 0.6} cy={base - 300} rx={440} ry={300} fill={`url(#${glowId})`} />;
+  const auroraD = `M -40 ${base - 300} Q ${CONTENT_W * 0.28} ${base - 452} ${CONTENT_W * 0.58} ${base - 340} T ${CONTENT_W + 40} ${base - 372}`;
+  const aurora = ambient ? (
+    <motion.path
+      d={auroraD} fill="none" stroke="rgba(120,200,255,0.6)" strokeWidth={54} strokeLinecap="round"
+      filter={`url(#${blurId})`}
+      animate={{ opacity: isNight ? [0.18, 0.4, 0.18] : [0.1, 0.22, 0.1] }}
+      transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+    />
+  ) : (
+    <path d={auroraD} fill="none" stroke="rgba(120,200,255,0.6)" strokeWidth={54} strokeLinecap="round" filter={`url(#${blurId})`} opacity={isNight ? 0.22 : 0.12} />
+  );
+
+  // ── Distant haze ridgeline (far, behind the peaks) ──
+  const backHaze = (
+    <path
+      d={`M -40 ${base} L -40 ${base - 150} Q ${CONTENT_W * 0.22} ${base - 232} ${CONTENT_W * 0.42} ${base - 168} Q ${CONTENT_W * 0.66} ${base - 250} ${CONTENT_W * 0.84} ${base - 176} Q ${CONTENT_W} ${base - 150} ${CONTENT_W + 40} ${base - 170} L ${CONTENT_W + 40} ${base} Z`}
+      fill={haze}
+    />
+  );
+
+  // ── Snow-capped side peaks ──
+  const peak = (cx: number, h: number, w: number, key: string) => {
+    const ty = base - h;
+    return (
+      <g key={key}>
+        <polygon points={`${cx - w} ${base}, ${cx - w * 0.28} ${ty + h * 0.22}, ${cx} ${ty}, ${cx + w * 0.36} ${ty + h * 0.28}, ${cx + w} ${base}`} fill={rock} />
+        <polygon points={`${cx} ${ty}, ${cx + w * 0.36} ${ty + h * 0.28}, ${cx + w} ${base}, ${cx + w * 0.4} ${base} Z`} fill={rockShade} />
+        <polygon points={`${cx - w * 0.2} ${ty + h * 0.2}, ${cx} ${ty}, ${cx + w * 0.26} ${ty + h * 0.24}, ${cx + w * 0.16} ${ty + h * 0.32}, ${cx + w * 0.05} ${ty + h * 0.2}, ${cx - w * 0.06} ${ty + h * 0.34}, ${cx - w * 0.14} ${ty + h * 0.26}`} fill={snow} />
+      </g>
+    );
+  };
+
+  // ── Hero massif (tallest, central-right) + glowing waterfall + mist ──
+  const hmX = CONTENT_W * 0.6;
+  const hmH = 386;
+  const hmW = 360;
+  const hmTy = base - hmH;
+  const apexX = hmX - hmW * 0.08;
+  const heroMassif = (
+    <g>
+      <polygon points={`${hmX - hmW} ${base}, ${hmX - hmW * 0.34} ${hmTy + hmH * 0.26}, ${apexX} ${hmTy}, ${hmX + hmW * 0.2} ${hmTy + hmH * 0.14}, ${hmX + hmW * 0.5} ${hmTy + hmH * 0.4}, ${hmX + hmW} ${base}`} fill={rock} />
+      <polygon points={`${apexX} ${hmTy}, ${hmX + hmW * 0.2} ${hmTy + hmH * 0.14}, ${hmX + hmW * 0.5} ${hmTy + hmH * 0.4}, ${hmX + hmW} ${base}, ${hmX + hmW * 0.3} ${base}, ${apexX} ${hmTy}`} fill={rockShade} />
+      <polygon points={`${apexX - hmW * 0.18} ${hmTy + hmH * 0.22}, ${apexX} ${hmTy}, ${apexX + hmW * 0.16} ${hmTy + hmH * 0.1}, ${apexX + hmW * 0.06} ${hmTy + hmH * 0.2}, ${apexX - hmW * 0.04} ${hmTy + hmH * 0.13}, ${apexX - hmW * 0.12} ${hmTy + hmH * 0.24}`} fill={snow} />
+    </g>
+  );
+
+  const wfX = apexX + 6;
+  const wfTop = base - 302;
+  const wfBot = base - 94;
+  const wfMid = (wfTop + wfBot) / 2;
+  const waterfall = (
+    <g>
+      {/* soft glow behind the cascade */}
+      <rect x={wfX - 22} y={wfTop} width={44} height={wfBot - wfTop + 30} fill={`url(#${mistId})`} />
+      {/* source notch at the snowline */}
+      <ellipse cx={wfX} cy={wfTop} rx={13} ry={5} fill={`url(#${wfId})`} />
+      {/* framing rocks each side of the chute */}
+      <polygon points={`${wfX - 15} ${wfTop + 6}, ${wfX - 9} ${wfMid}, ${wfX - 14} ${wfBot}`} fill={rockShade} />
+      <polygon points={`${wfX + 15} ${wfTop + 6}, ${wfX + 9} ${wfMid}, ${wfX + 14} ${wfBot}`} fill={rockShade} />
+      {/* two-tier cascade */}
+      <path d={`M ${wfX - 6} ${wfTop} L ${wfX + 6} ${wfTop} L ${wfX + 8} ${wfMid - 6} L ${wfX - 8} ${wfMid - 6} Z`} fill={`url(#${wfId})`} />
+      <path d={`M ${wfX - 9} ${wfMid + 2} L ${wfX + 9} ${wfMid + 2} L ${wfX + 13} ${wfBot} L ${wfX - 13} ${wfBot} Z`} fill={`url(#${wfId})`} />
+      {/* mid-ledge spray */}
+      <ellipse cx={wfX} cy={wfMid} rx={18} ry={7} fill={`url(#${mistId})`} />
+      {/* falling shimmer streaks (ambient) */}
+      {ambient && [0, 1, 2, 3, 4, 5].map((i) => {
+        const span = wfBot - wfTop;
+        return (
+          <motion.rect
+            key={i} x={wfX - 8 + (i % 3) * 6} width={1.8} height={24} rx={1} fill="rgba(255,255,255,0.85)"
+            initial={{ y: wfTop + ((i * 34) % span) }}
+            animate={{ y: [wfTop + ((i * 34) % span), wfBot - 12] }}
+            transition={{ duration: 0.9 + (i % 3) * 0.18, repeat: Infinity, ease: 'linear', delay: i * 0.18 }}
+          />
+        );
+      })}
+      {/* faint mist rainbow (ambient, magical) */}
+      {ambient && (
+        <g opacity={0.32}>
+          {['rgba(255,150,150,0.5)', 'rgba(255,228,150,0.5)', 'rgba(150,230,180,0.5)', 'rgba(150,200,255,0.5)'].map((c, i) => (
+            <path key={i} d={`M ${wfX - 30} ${wfBot - 2 - i * 3} A 30 30 0 0 1 ${wfX + 30} ${wfBot - 2 - i * 3}`} fill="none" stroke={c} strokeWidth={2} />
+          ))}
+        </g>
+      )}
+      {/* base mist pool + rising mist clouds */}
+      <ellipse cx={wfX} cy={wfBot + 3} rx={34} ry={12} fill={`url(#${mistId})`} />
+      {ambient ? (
+        [0, 1, 2].map((i) => (
+          <motion.ellipse
+            key={i} cx={wfX - 18 + i * 18} cy={wfBot} rx={14} ry={7} fill={`url(#${mistId})`}
+            animate={{ cy: [wfBot, wfBot - 24], opacity: [0.5, 0] }}
+            transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeOut', delay: i * 0.9 }}
+          />
+        ))
+      ) : (
+        <>
+          <ellipse cx={wfX - 16} cy={wfBot - 2} rx={15} ry={7} fill={`url(#${mistId})`} />
+          <ellipse cx={wfX + 16} cy={wfBot} rx={13} ry={6} fill={`url(#${mistId})`} />
+        </>
+      )}
+      {/* pool ripple rings (ambient) */}
+      {ambient && [0, 1].map((i) => (
+        <motion.ellipse
+          key={`r${i}`} cx={wfX} cy={wfBot + 4} rx={8} ry={3} fill="none" stroke="rgba(190,235,255,0.5)" strokeWidth={1}
+          animate={{ rx: [6, 30], ry: [2, 9], opacity: [0.6, 0] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: i * 1.2 }}
+        />
+      ))}
+    </g>
+  );
+
+  // ── Dense city fill — a full skyline of varied futuristic mid-rises behind the
+  //    hero towers, so LC International reads as a real metropolis. A short
+  //    corridor under the falls stays low so the waterfall still reads. ──
+  const wfL = wfX - 46, wfR = wfX + 46;
+  const cityFill: React.ReactNode[] = [];
+  let lx = -44;
+  let lk = 0;
+  while (lx < CONTENT_W + 44) {
+    const inFalls = lx > wfL && lx < wfR;
+    const w = randRange(rand, 26, 66);
+    const h = inFalls ? randRange(rand, 40, 74) : randRange(rand, 86, 214);
+    const top = base - h;
+    const parts: React.ReactNode[] = [<rect key="b" x={lx} y={top} width={w} height={h} fill={`url(#${bodyId})`} />];
+    // varied futuristic crowns
+    const roll = rand();
+    if (roll > 0.74) {
+      const sw = w * 0.58;
+      parts.push(<rect key="s" x={lx + (w - sw) / 2} y={top - 16} width={sw} height={16} fill={`url(#${bodyId})`} />);
+      if (rand() > 0.5) parts.push(<rect key="sm" x={lx + w / 2 - 1} y={top - 38} width={2} height={22} fill={f} />);
+    } else if (roll > 0.52) {
+      parts.push(<polygon key="r" points={`${lx} ${top}, ${lx + w} ${top - randRange(rand, 12, 28)}, ${lx + w} ${top}`} fill={f} />);
+    } else if (roll > 0.36) {
+      parts.push(<rect key="m" x={lx + w / 2 - 1} y={top - 24} width={2} height={24} fill={f} />);
+      parts.push(<circle key="bc" cx={lx + w / 2} cy={top - 25} r={2} fill={warm} />);
+    } else if (roll > 0.24) {
+      parts.push(<path key="d" d={`M ${lx + w * 0.2} ${top} Q ${lx + w / 2} ${top - w * 0.32} ${lx + w * 0.8} ${top} Z`} fill={`url(#${bodyId})`} />);
+    }
+    // occasional LC-blue lit leading edge
+    if (rand() > 0.6) parts.push(<rect key="e" x={lx} y={top} width={2} height={h} fill={rim} opacity={0.5} />);
+    parts.push(...litWindows(lx, w, h, top, palette, rand, isNight));
+    cityFill.push(<g key={lk}>{parts}</g>);
+    lx += w + randRange(rand, 5, 15);
+    lk += 1;
+  }
+
+  // Lit glass observation crown — the polished "control-tower cab" look, shared
+  // by several towers so the city reads crafted, not flat.
+  const glassCab = (cx: number, topY: number, w: number, k?: string) => {
+    const hw = w / 2;
+    const pts = `${cx - hw} ${topY + 12}, ${cx + hw} ${topY + 12}, ${cx + hw - 4} ${topY - 4}, ${cx} ${topY - 17}, ${cx - hw + 4} ${topY - 4}`;
+    return (
+      <g key={k}>
+        <ellipse cx={cx} cy={topY + 2} rx={hw + 9} ry={13} fill={`url(#${glowId})`} />
+        <polygon points={pts} fill={`url(#${glassId})`} />
+        <polygon points={pts} fill="none" stroke={rim} strokeWidth={1.4} strokeLinejoin="round" />
+        <line x1={cx - hw * 0.4} y1={topY - 10} x2={cx - hw * 0.4} y2={topY + 12} stroke="rgba(16,32,56,0.5)" strokeWidth={1} />
+        <line x1={cx + hw * 0.4} y1={topY - 10} x2={cx + hw * 0.4} y2={topY + 12} stroke="rgba(16,32,56,0.5)" strokeWidth={1} />
+        <circle cx={cx} cy={topY - 23} r={3} fill={warm} />
+      </g>
+    );
+  };
+
+  // ── 1. Helix tower — twisting stack of rotated segments ──
+  const hxX = CONTENT_W * 0.095;
+  const helix = (() => {
+    const segN = 9, segH = 24, w = 30;
+    const parts: React.ReactNode[] = [];
+    for (let i = 0; i < segN; i += 1) {
+      const y = base - i * segH;
+      const top = y - segH;
+      const dxB = Math.sin(i * 0.82) * 9;
+      const dxT = Math.sin((i + 1) * 0.82) * 9;
+      parts.push(<polygon key={i} points={`${hxX - w / 2 + dxB} ${y}, ${hxX - w / 2 + dxT} ${top}, ${hxX + w / 2 + dxT} ${top}, ${hxX + w / 2 + dxB} ${y}`} fill={i % 2 ? f : fHi} />);
+      parts.push(<line key={`e${i}`} x1={hxX - w / 2 + dxB} y1={y} x2={hxX - w / 2 + dxT} y2={top} stroke={rim} strokeWidth={1.4} opacity={0.6} />);
+    }
+    const topY = base - segN * segH;
+    return (
+      <g>
+        {parts}
+        <rect x={hxX - 1.5} y={topY - 30} width={3} height={30} fill={f} />
+        <circle cx={hxX} cy={topY - 32} r={3.5} fill={warm} />
+      </g>
+    );
+  })();
+
+  // ── 2. Skybridge twins — two towers + a lit bridge + sky-garden ──
+  const sbX = CONTENT_W * 0.2;
+  const sbH1 = 256, sbH2 = 212, tw = 32;
+  const skybridge = (
+    <g>
+      <rect x={sbX - 46} y={base - sbH1} width={tw} height={sbH1} fill={`url(#${bodyId})`} />
+      <rect x={sbX + 12} y={base - sbH2} width={tw} height={sbH2} fill={`url(#${bodyId})`} />
+      <rect x={sbX - 46} y={base - sbH1} width={2.5} height={sbH1} fill={rim} opacity={0.6} />
+      <rect x={sbX + 12} y={base - sbH2} width={2.5} height={sbH2} fill={rim} opacity={0.6} />
+      {/* glazed skybridge linking the towers */}
+      <rect x={sbX - 14} y={base - sbH2 + 22} width={26} height={12} fill={fHi} />
+      <rect x={sbX - 14} y={base - sbH2 + 25} width={26} height={3} fill={lit} />
+      {litWindows(sbX - 46, tw, sbH1, base - sbH1, palette, rand, isNight)}
+      {litWindows(sbX + 12, tw, sbH2, base - sbH2, palette, rand, isNight)}
+      {/* sky-garden crown on the tall tower + a glass cab on the shorter one */}
+      <ellipse cx={sbX - 30} cy={base - sbH1} rx={20} ry={8} fill={palette.foliage} opacity={0.9} />
+      <circle cx={sbX - 30} cy={base - sbH1 - 6} r={3} fill={warm} />
+      {glassCab(sbX + 28, base - sbH2, 30)}
+    </g>
+  );
+
+  // ── 3. Canister tower — rounded-top stack with lit "tile" bands ──
+  const c1 = CONTENT_W * 0.295;
+  const cH = 232;
+  const cTop = base - cH;
+  const canister = (
+    <g>
+      <path d={`M ${c1 - 40} ${base} L ${c1 - 40} ${cTop + 40} A 40 40 0 0 1 ${c1 + 40} ${cTop + 40} L ${c1 + 40} ${base} Z`} fill={`url(#${bodyId})`} />
+      <path d={`M ${c1 - 40} ${base} L ${c1 - 40} ${cTop + 40} A 40 40 0 0 1 ${c1} ${cTop}`} fill="none" stroke={rim} strokeWidth={2.5} />
+      {Array.from({ length: 9 }, (_, i) => (
+        <rect key={i} x={c1 - 34} y={cTop + 28 + i * 22} width={68} height={5} fill={lit} opacity={isNight ? 0.7 : 0.45} />
+      ))}
+      {glassCab(c1, cTop, 50)}
+    </g>
+  );
+
+  // ── 4. Diagrid hero spire — tallest, tapered, X-braced ──
+  const dsX = CONTENT_W * 0.4;
+  const dsH = 322;
+  const dsTop = base - dsH;
+  const halfB = 26, halfT = 9;
+  const hwAt = (t: number) => halfB + (halfT - halfB) * t;
+  const dsPts = `${dsX - halfB} ${base}, ${dsX - halfT} ${dsTop}, ${dsX + halfT} ${dsTop}, ${dsX + halfB} ${base}`;
+  const diagrid = (
+    <g>
+      <polygon points={dsPts} fill={`url(#${bodyId})`} />
+      {Array.from({ length: 9 }, (_, i) => {
+        const t0 = i / 9, t1 = (i + 1) / 9;
+        const y0 = base - dsH * t0, y1 = base - dsH * t1;
+        const hw0 = hwAt(t0), hw1 = hwAt(t1);
+        return (
+          <g key={i}>
+            <line x1={dsX - hw0} y1={y0} x2={dsX + hw1} y2={y1} stroke={lit} strokeWidth={1.4} opacity={isNight ? 0.65 : 0.38} />
+            <line x1={dsX + hw0} y1={y0} x2={dsX - hw1} y2={y1} stroke={lit} strokeWidth={1.4} opacity={isNight ? 0.65 : 0.38} />
+          </g>
+        );
+      })}
+      <polyline points={dsPts} fill="none" stroke={rim} strokeWidth={2} strokeLinejoin="round" />
+      {glassCab(dsX, dsTop + 10, 30)}
+      <rect x={dsX - 1.5} y={dsTop - 50} width={3} height={50} fill={f} />
+      <circle cx={dsX} cy={dsTop - 52} r={3.5} fill={warm} />
+    </g>
+  );
+
+  // ── 5. Observation-ring tower — twin legs + a glowing ring + spire ──
+  const c2 = CONTENT_W * 0.5;
+  const ringY = base - 250;
+  const ring = (
+    <g>
+      <rect x={c2 - 16} y={ringY} width={9} height={base - ringY} fill={f} />
+      <rect x={c2 + 7} y={ringY} width={9} height={base - ringY} fill={f} />
+      <rect x={c2 - 16} y={base - 120} width={32} height={7} fill={f} />
+      <circle cx={c2} cy={ringY - 6} r={46} fill="none" stroke={f} strokeWidth={16} />
+      <circle cx={c2} cy={ringY - 6} r={46} fill="none" stroke={rim} strokeWidth={3} />
+      <circle cx={c2} cy={ringY - 6} r={36} fill="none" stroke={lit} strokeWidth={2} opacity={isNight ? 0.8 : 0.4} />
+      <rect x={c2 - 1.5} y={ringY - 92} width={3} height={40} fill={f} />
+      <circle cx={c2} cy={ringY - 94} r={3.5} fill={warm} />
+    </g>
+  );
+
+  // ── 6. Geodesic biosphere dome (waterfront) ──
+  const gdX = CONTENT_W * 0.68;
+  const gdR = 78;
+  const merN = 8;
+  const nodeUV: [number, number][] = [[-0.5, 0.4], [-0.2, 0.66], [0.16, 0.5], [0.42, 0.34], [-0.04, 0.85]];
+  const geo = (
+    <g>
+      {/* outer glow */}
+      <ellipse cx={gdX} cy={base - gdR * 0.5} rx={gdR + 16} ry={gdR * 0.72} fill={`url(#${glowId})`} />
+      {/* podium it sits on */}
+      <rect x={gdX - gdR - 8} y={base - 14} width={(gdR + 8) * 2} height={16} fill={f} />
+      <rect x={gdX - gdR - 8} y={base - 14} width={(gdR + 8) * 2} height={3} fill={rim} opacity={0.5} />
+      {/* glass dome body (gradient) + lit interior */}
+      <path d={`M ${gdX - gdR} ${base} A ${gdR} ${gdR} 0 0 1 ${gdX + gdR} ${base} Z`} fill={`url(#${bodyId})`} />
+      <ellipse cx={gdX} cy={base} rx={gdR * 0.74} ry={gdR * 0.5} fill={`url(#${glassId})`} opacity={isNight ? 0.55 : 0.4} />
+      {/* meridians */}
+      {Array.from({ length: merN + 1 }, (_, i) => {
+        const bx = gdX - gdR + (2 * gdR) * (i / merN);
+        return <line key={`m${i}`} x1={bx} y1={base} x2={gdX} y2={base - gdR} stroke={lit} strokeWidth={0.9} opacity={isNight ? 0.45 : 0.28} />;
+      })}
+      {/* parallels */}
+      {[0.22, 0.44, 0.66, 0.85].map((v, i) => {
+        const ry = gdR * v;
+        const dx = Math.sqrt(Math.max(0, gdR * gdR - ry * ry));
+        return <path key={`p${i}`} d={`M ${gdX - dx} ${base - ry} A ${gdR} ${gdR} 0 0 1 ${gdX + dx} ${base - ry}`} fill="none" stroke={lit} strokeWidth={0.9} opacity={isNight ? 0.45 : 0.28} />;
+      })}
+      {/* glowing geodesic nodes */}
+      {nodeUV.map(([u, v], i) => {
+        const ry = gdR * v;
+        const dx = Math.sqrt(Math.max(0, gdR * gdR - ry * ry));
+        return <circle key={`n${i}`} cx={gdX + dx * u} cy={base - ry} r={3.4} fill={`url(#${glassId})`} opacity={0.85} />;
+      })}
+      {/* rim highlight + apex finial */}
+      <path d={`M ${gdX - gdR} ${base} A ${gdR} ${gdR} 0 0 1 ${gdX + gdR} ${base}`} fill="none" stroke={rim} strokeWidth={2} />
+      <rect x={gdX - 1.5} y={base - gdR - 12} width={3} height={12} fill={f} />
+      <circle cx={gdX} cy={base - gdR - 14} r={3} fill={warm} />
+    </g>
+  );
+
+  // ── 7. Sail tower — curved LC sail with a lit leading edge ──
+  const c3 = CONTENT_W * 0.775;
+  const sH = 258;
+  const sail = (
+    <g>
+      <path d={`M ${c3 + 26} ${base - sH - 4} C ${c3 - 34} ${base - sH + 60} ${c3 - 52} ${base - 92} ${c3 - 44} ${base} L ${c3 + 24} ${base} Z`} fill={rim} opacity={0.1} />
+      <path d={`M ${c3 + 22} ${base} L ${c3 + 28} ${base} L ${c3 + 30} ${base - sH} L ${c3 + 24} ${base - sH} Z`} fill={f} />
+      <path d={`M ${c3 + 28} ${base - sH + 4} C ${c3 - 28} ${base - sH + 64} ${c3 - 46} ${base - 92} ${c3 - 38} ${base} L ${c3 + 24} ${base} Z`} fill={`url(#${bodyId})`} />
+      <path d={`M ${c3 + 28} ${base - sH + 4} C ${c3 - 28} ${base - sH + 64} ${c3 - 46} ${base - 92} ${c3 - 38} ${base}`} fill="none" stroke={rim} strokeWidth={2.4} />
+      {[0.3, 0.5, 0.7, 0.86].map((t, i) => (
+        <rect key={i} x={c3 - 34 + i * 15} y={base - sH * t} width={2.5} height={sH * 0.14} fill={lit} opacity={0.5} />
+      ))}
+      <circle cx={c3 + 27} cy={base - sH + 4} r={4} fill={rim} />
+    </g>
+  );
+
+  // ── 8. Arched gateway tower — a tall lit portal through the base ──
+  const agX = CONTENT_W * 0.9;
+  const agW = 92, agH = 234, legW = 26, lintelH = 74;
+  const lintelBot = base - agH + lintelH;
+  const inL = agX - agW / 2 + legW, inR = agX + agW / 2 - legW;
+  const arch = (
+    <g>
+      {/* lintel block */}
+      <rect x={agX - agW / 2} y={base - agH} width={agW} height={lintelH} fill={`url(#${bodyId})`} />
+      {/* legs */}
+      <rect x={agX - agW / 2} y={lintelBot} width={legW} height={agH - lintelH} fill={`url(#${bodyId})`} />
+      <rect x={agX + agW / 2 - legW} y={lintelBot} width={legW} height={agH - lintelH} fill={`url(#${bodyId})`} />
+      {glassCab(agX, base - agH, 34)}
+      {/* arched portal underside hanging from the lintel */}
+      <path d={`M ${inL} ${lintelBot} Q ${agX} ${lintelBot + 46} ${inR} ${lintelBot} Z`} fill={f} />
+      <path d={`M ${inL} ${lintelBot} Q ${agX} ${lintelBot + 46} ${inR} ${lintelBot}`} fill="none" stroke={rim} strokeWidth={2} opacity={0.8} />
+      <rect x={agX - agW / 2} y={base - agH} width={2.5} height={agH} fill={rim} opacity={0.6} />
+      {litWindows(agX - agW / 2, agW, lintelH, base - agH, palette, rand, isNight)}
+      <circle cx={agX} cy={base - agH - 6} r={3.5} fill={warm} />
+    </g>
+  );
+
+  // ── LessonCaptain Stadium — a civic arena with the LC logo on its scoreboard ──
+  const stadX = CONTENT_W * 0.46;
+  const stW = 84;
+  const stH = 56;
+  const scrW = 36, scrH = 48;
+  const scrCy = base - stH - 30 - 36;
+  const scrTop = scrCy - scrH / 2;
+  const stadium = (
+    <g>
+      <ellipse cx={stadX} cy={base - stH} rx={stW + 16} ry={22} fill={`url(#${glowId})`} />
+      {/* bowl facade */}
+      <path d={`M ${stadX - stW} ${base} L ${stadX - stW} ${base - stH} Q ${stadX} ${base - stH - 32} ${stadX + stW} ${base - stH} L ${stadX + stW} ${base} Z`} fill={`url(#${bodyId})`} />
+      {/* open roof oval (lit pitch within) */}
+      <ellipse cx={stadX} cy={base - stH} rx={stW * 0.82} ry={15} fill={`url(#${glassId})`} />
+      {/* facade lit ribs */}
+      {Array.from({ length: 11 }, (_, i) => {
+        const fx = stadX - stW + 10 + i * ((stW * 2 - 20) / 10);
+        return <rect key={i} x={fx} y={base - stH + 6} width={2} height={stH - 10} fill={lit} opacity={isNight ? 0.5 : 0.3} />;
+      })}
+      {/* cantilever roof rim */}
+      <path d={`M ${stadX - stW} ${base - stH} Q ${stadX} ${base - stH - 32} ${stadX + stW} ${base - stH}`} fill="none" stroke={rim} strokeWidth={2} />
+      <path d={`M ${stadX - stW} ${base - stH} Q ${stadX} ${base - stH - 32} ${stadX + stW} ${base - stH}`} fill="none" stroke={lit} strokeWidth={5} opacity={0.25} />
+      {/* scoreboard supports + glowing screen + LC logo */}
+      <rect x={stadX - 22} y={scrCy} width={3} height={40} fill={f} />
+      <rect x={stadX + 19} y={scrCy} width={3} height={40} fill={f} />
+      <rect x={stadX - scrW / 2 - 5} y={scrTop - 5} width={scrW + 10} height={scrH + 10} rx={7} fill={`url(#${glowId})`} />
+      <rect x={stadX - scrW / 2} y={scrTop} width={scrW} height={scrH} rx={5} fill="#0b1830" />
+      <rect x={stadX - scrW / 2} y={scrTop} width={scrW} height={scrH} rx={5} fill="none" stroke={rim} strokeWidth={1.5} />
+      <g transform={`translate(${stadX} ${scrCy}) scale(0.075) translate(-259,-259)`}>
+        <path d={LC_L_MARK} fill="#aee0ff" />
+      </g>
+    </g>
+  );
+
+  // ── Sky-tram — a cable between the observation-ring tower and a mountainside
+  //    station, with a pod riding it (so it goes somewhere at both ends). ──
+  const trA = { x: c2, y: ringY - 6 };          // docks at the observation ring
+  const trB = { x: apexX + 84, y: base - 252 }; // mountainside station
+  const pod = (
+    <g transform={`translate(${trA.x} ${trA.y})`}>
+      <line x1={0} y1={-9} x2={0} y2={-3} stroke="rgba(150,200,255,0.6)" strokeWidth={1.2} />
+      <rect x={-7} y={-3} width={14} height={9} rx={2} fill={fHi} />
+      <rect x={-7} y={-3} width={14} height={2.5} fill={lit} />
+    </g>
+  );
+  const peakStation = (
+    <g>
+      {/* platform planted on the mountainside */}
+      <rect x={trB.x - 14} y={trB.y - 6} width={28} height={18} fill={fHi} />
+      <rect x={trB.x - 14} y={trB.y - 6} width={28} height={3} fill={rim} />
+      <rect x={trB.x - 11} y={trB.y} width={22} height={10} fill={lit} opacity={0.55} />
+      {/* angled struts anchoring it into the slope */}
+      <line x1={trB.x - 10} y1={trB.y + 12} x2={trB.x - 17} y2={trB.y + 44} stroke={f} strokeWidth={3} />
+      <line x1={trB.x + 10} y1={trB.y + 12} x2={trB.x + 17} y2={trB.y + 44} stroke={f} strokeWidth={3} />
+      <circle cx={trB.x} cy={trB.y - 9} r={2.5} fill={warm} />
+    </g>
+  );
+  const skyTram = (
+    <g>
+      {peakStation}
+      <line x1={trA.x} y1={trA.y} x2={trB.x} y2={trB.y} stroke="rgba(150,200,255,0.45)" strokeWidth={1.2} />
+      {ambient ? (
+        <motion.g
+          animate={{ x: [0, trB.x - trA.x, 0], y: [0, trB.y - trA.y, 0] }}
+          transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          {pod}
+        </motion.g>
+      ) : (
+        <g transform={`translate(${(trB.x - trA.x) * 0.5} ${(trB.y - trA.y) * 0.5})`}>{pod}</g>
+      )}
+    </g>
+  );
+
+  // ── Drifting light drones + a slow airship + a pulsing summit beacon ──
+  const orbDefs = [
+    { x: CONTENT_W * 0.32, y: base - 356, d: 5.4 },
+    { x: CONTENT_W * 0.74, y: base - 392, d: 6.6 },
+    { x: CONTENT_W * 0.47, y: base - 432, d: 6.0 },
+  ];
+  const orbs = orbDefs.map((o, i) =>
+    ambient ? (
+      <motion.circle
+        key={i} cx={o.x} cy={o.y} r={3} fill={rim}
+        animate={{ cy: [o.y, o.y - 16, o.y], opacity: [0.4, 0.95, 0.4] }}
+        transition={{ duration: o.d, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}
+      />
+    ) : (
+      <circle key={i} cx={o.x} cy={o.y} r={2.5} fill={rim} opacity={0.6} />
+    ),
+  );
+
+  // Nose leads to the RIGHT (matches the left→right drift); tail fin trails left.
+  const airshipBody = (
+    <g>
+      <ellipse cx={0} cy={0} rx={34} ry={12} fill={f} />
+      <ellipse cx={0} cy={0} rx={34} ry={12} fill="none" stroke={rim} strokeWidth={1} opacity={0.5} />
+      {/* tail fins on the left (trailing edge) */}
+      <polygon points="-28 -4, -44 -10, -44 2, -30 6" fill={f} />
+      <polygon points="-30 -2, -42 -2, -42 2, -30 4" fill={fHi} />
+      {/* gondola + nav light */}
+      <rect x={-7} y={10} width={14} height={5} rx={2} fill={fHi} />
+      <circle cx={0} cy={16} r={2} fill={warm} />
+      {/* nose accent on the right (leading edge) */}
+      <circle cx={30} cy={0} r={2.5} fill={rim} opacity={0.7} />
+      {/* trailing "LESSON CAPTAIN" banner (flutters gently) */}
+      <line x1={-44} y1={1} x2={-58} y2={4} stroke="rgba(255,255,255,0.4)" strokeWidth={1} />
+      <motion.g
+        style={{ transformBox: 'fill-box', transformOrigin: 'right center' }}
+        animate={{ rotate: [-1.5, 1.5, -1.5], skewX: [0, -4, 0] }}
+        transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <path d="M -58 -7 L -188 -7 L -177 4 L -188 14 L -58 14 Z" fill="rgba(43,118,194,0.86)" />
+        <path d="M -58 -7 L -188 -7 L -177 4 L -188 14 L -58 14 Z" fill="none" stroke="rgba(234,244,255,0.35)" strokeWidth={1} />
+        <text
+          x={-121} y={7} textAnchor="middle" fontSize={11} fontWeight={700}
+          letterSpacing={1.6} fill="#eaf4ff"
+          fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif"
+        >
+          LESSON CAPTAIN
+        </text>
+      </motion.g>
+    </g>
+  );
+  // Start/end fully off the true CANVAS edges (skyline is offset by BLEED_X), with
+  // extra lead for the trailing banner, so it always enters from the screen edge —
+  // never popping in mid-air — at any viewport width up to 32:9.
+  const shipStart = -BLEED_X - 220;
+  const shipEnd = VIEWBOX.w - BLEED_X + 300;
+  const airship = ambient ? (
+    <motion.g
+      initial={{ x: shipStart }}
+      animate={{ x: shipEnd }}
+      transition={{ duration: 56, repeat: Infinity, ease: 'linear' }}
+    >
+      <g transform={`translate(0 ${base - 366})`}>{airshipBody}</g>
+    </motion.g>
+  ) : null;
+
+  const summitBeacon = ambient ? (
+    <motion.circle
+      cx={apexX} cy={hmTy - 4} r={4.5} fill="rgba(255,255,255,0.95)"
+      animate={{ opacity: [0.4, 1, 0.4] }}
+      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+    />
+  ) : (
+    <circle cx={apexX} cy={hmTy - 4} r={4} fill="rgba(255,255,255,0.9)" />
+  );
+
+  return (
+    <g aria-hidden data-skyline="homebase" data-id={idPrefix}>
+      {defs}
+      {skyGlow}
+      {aurora}
+      {backHaze}
+      {peak(CONTENT_W * 0.2, 300, 240, 'mtn-left')}
+      {peak(CONTENT_W * 0.88, 268, 220, 'mtn-right')}
+      {heroMassif}
+      {summitBeacon}
+      {waterfall}
+      {cityFill}
+      {helix}
+      {skybridge}
+      {canister}
+      {diagrid}
+      {ring}
+      {geo}
+      {sail}
+      {arch}
+      {stadium}
+      {skyTram}
+      {orbs}
+      {airship}
+    </g>
+  );
 }
 
 // ── New York — Art-Deco supertall skyline ────────────────────────────────────

@@ -74,7 +74,8 @@ export interface DestinationScene {
     | 'manila'
     | 'santiago'
     | 'recife'
-    | 'addisababa';
+    | 'addisababa'
+    | 'homebase';
   landmarkSilhouette?: string;
   palette: 'dawn' | 'night' | 'golden' | 'tropical' | 'winter';
 }

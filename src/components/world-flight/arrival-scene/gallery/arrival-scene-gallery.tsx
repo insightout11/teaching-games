@@ -3,6 +3,7 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
+import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
 import { DestinationArrivalScene } from '../destination-arrival-scene';
 import { isAuthoredLandmark } from '../scene-registry';
 import type { ArrivalMode, ArrivalMotion, ArrivalPhase, TimeOfDay, WeatherCondition } from '../types';
@@ -18,7 +19,11 @@ interface GalleryItem {
 
 // Validation cities NOT in destinations.ts — gallery-local scene fixtures only
 // Keep gallery-only fixtures here when validating scenes that are not yet real destinations.
-const FIXTURES: GalleryItem[] = [];
+const FIXTURES: GalleryItem[] = [
+  // LC International — the home base. Not a real destination (no readings/coords),
+  // so it lives here as a fixture for review of the lobby/transition/ground scene.
+  { id: HOME_BASE_ID, label: HOME_BASE_NAME, scene: HOME_BASE_SCENE, fixture: true },
+];
 
 const PHASES: ArrivalPhase[] = ['approach', 'touchdown', 'taxi', 'landed'];
 const ASPECTS: { label: string; value: string }[] = [
@@ -33,8 +38,8 @@ StaticArrivalScene.displayName = 'StaticArrivalScene';
 export function ArrivalSceneGallery() {
   const items = useMemo<GalleryItem[]>(
     () => [
-      ...WORLD_DESTINATIONS.map((d) => ({ id: d.id, label: d.city, scene: d.scene })),
       ...FIXTURES,
+      ...WORLD_DESTINATIONS.map((d) => ({ id: d.id, label: d.city, scene: d.scene })),
     ],
     [],
   );

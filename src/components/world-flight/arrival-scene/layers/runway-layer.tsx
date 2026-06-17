@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { normalizeTerrain } from '../scene-registry';
 import { DEP_CITY_LEAD, DEP_ROLL, departureCameraPan } from '../cinematic-motion';
-import { BLEED_X, LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
+import { BLEED_X, CONTENT_W, LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
+import { LcYacht } from './lc-yacht';
 
 // A close side-profile airport foreground: destination-specific surroundings
 // sit between the city and a deep runway surface that fills the lower frame.
@@ -20,6 +21,7 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
   const rollSpeed = rolling ? (prog < DEP_ROLL ? prog / DEP_ROLL : Math.max(0, 1 - (prog - DEP_ROLL) / 0.18)) : 0;
   const terrain = normalizeTerrain(scene.terrain);
   const isDubaiBay = scene.skylineVariant === 'dubai';
+  const isHomeBase = scene.skylineVariant === 'homebase';
   const isWaterfront = isDubaiBay || terrain === 'coastal' || terrain === 'island';
   const isDesert = terrain === 'desert';
   const isSnow = !isWaterfront && !isDesert && scene.palette === 'winter';
@@ -105,6 +107,18 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
             fill={`url(#${sandId})`}
             opacity={isDubaiBay ? 0.76 : 0.72}
           />
+          {/* LessonCaptain yacht moored in the home-base bay, set back toward the
+              city shore (near the top of the water band). */}
+          {isHomeBase && (
+            <LcYacht
+              cx={BLEED_X + CONTENT_W * 0.6}
+              waterY={surroundingsTop + (runTop - surroundingsTop) * 0.3}
+              scale={1.05}
+              ambient={ambient}
+              warm={palette.windowWarm}
+              isNight={palette.light === 'moon'}
+            />
+          )}
         </>
       ) : (
         <rect x="-200" y={surroundingsTop} width={VIEWBOX.w + 400} height={runTop - surroundingsTop} fill={isDesert ? `url(#${sandId})` : isSnow ? `url(#${snowId})` : `url(#${groundId})`} />
