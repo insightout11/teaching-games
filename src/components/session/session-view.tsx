@@ -1225,16 +1225,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             isFullScreen={isFullScreen}
           />
         ) : (
-          <>
-            {/* Generic airport runway at sunrise + distant skyline — arrived */}
-            <SkyBackground weatherState="landing" earthState="landing" altitude={0} intensity="moderate" showSkyline className={isFullScreen ? '' : '!left-64'} />
-            {/* Plane landed on the runway centerline — front-facing (pinned background) */}
-            <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 7, left: isFullScreen ? 0 : '256px' }}>
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-                <RunwayPlaneScene planeKey={selectedPlaneKey} planeSize="xl" showRunway={false} frontFacing frontVariant="3q" />
-              </div>
-            </div>
-          </>
+          /* Non-World-Flight: land back at LC International (home base) — same
+             engine backdrop as the lobby/transitions, closing the round trip. */
+          <WorldFlightArrivalBackdrop
+            destinationId={HOME_BASE_ID}
+            scene={HOME_BASE_SCENE}
+            weatherState="landing"
+            altitude={0}
+            timeOfDay={homeBaseTod}
+            planeKey={selectedPlaneKey}
+            isFullScreen={isFullScreen}
+          />
         )}
         {/* Legibility scrim — dims the lit skyline behind the centered results
             column so the cards/labels read clearly, while the scene still shows
