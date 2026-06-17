@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useId, useMemo, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plane, CircleDot, ChevronLeft, ChevronRight, Cog, Mic, CheckCircle2 } from 'lucide-react';
 
@@ -19,6 +19,37 @@ export type FlightPlanStep = {
 };
 
 type FlightPlanMode = 'planner' | 'runtime';
+
+/**
+ * How densely the route's stage labels render, derived from how much horizontal
+ * room each node gets (see {@link getLabelMode}):
+ *  - `full`    — every stage card labeled (wide / projector)
+ *  - `compact` — only current + immediate neighbors labeled, smaller cards
+ *  - `minimal` — only the current stage labeled; everything else is a bare dot
+ * Micro-event pips are always unlabeled regardless of mode.
+ */
+type LabelMode = 'full' | 'compact' | 'minimal';
+
+/** Horizontal inset (px, in viewBox units) reserved at each end of the route. */
+function getRouteInset(width: number, isRuntime: boolean) {
+  return clamp(width * 0.1, 32, isRuntime ? 140 : 200);
+}
+
+/** Even spacing (px) between adjacent nodes for the given viewBox width + count. */
+function getNodeSpacing(width: number, count: number, isRuntime: boolean) {
+  if (count <= 1) return width;
+  const inset = getRouteInset(width, isRuntime);
+  return Math.max(0, width - inset * 2) / (count - 1);
+}
+
+/** Pick the label density from the room each node actually gets. */
+function getLabelMode(width: number, count: number, isRuntime: boolean): LabelMode {
+  if (count <= 1) return 'full';
+  const spacing = getNodeSpacing(width, count, isRuntime);
+  if (spacing >= 150) return 'full';
+  if (spacing >= 96) return 'compact';
+  return 'minimal';
+}
 
 interface LessonCaptainFlightPlanProps {
   steps?: FlightPlanStep[];
@@ -91,17 +122,34 @@ function isCheckpoint(point: FlightPlanStep) {
   return point.kind === 'checkpoint';
 }
 
-function computeNodeLayout(steps: FlightPlanStep[], width: number, height: number, mode: FlightPlanMode = 'planner'): NodePoint[] {
+function computeNodeLayout(
+  steps: FlightPlanStep[],
+  width: number,
+  height: number,
+  mode: FlightPlanMode = 'planner',
+  labelMode: LabelMode = 'full',
+): NodePoint[] {
   const isRuntime = mode === 'runtime';
-  const left = isRuntime ? 140 : 200;
-  const right = width - (isRuntime ? 140 : 200);
+  const inset = getRouteInset(width, isRuntime);
+  const left = inset;
+  const right = width - inset;
   const span = right - left;
   const count = steps.length;
 
   const baseY = height * (isRuntime ? 0.72 : 0.66);
   const arcLift = isRuntime ? clamp(28 + count * 3, 36, 56) : clamp(42 + count * 4, 54, 82);
   const cardRowY = isRuntime ? clamp(height * 0.12, 14, 40) : clamp(height * 0.18, 80, 100);
-  const cardWidth = isRuntime ? 136 : 188;
+
+  // Cards are sized in viewBox px (which equal CSS px once measured), so they stay
+  // a comfortable physical size on every screen; only the horizontal spread changes.
+  const baseCardWidth = isRuntime ? 136 : 188;
+  const spacing = getNodeSpacing(width, count, isRuntime);
+  const cardWidth =
+    labelMode === 'full'
+      ? baseCardWidth
+      : labelMode === 'compact'
+        ? clamp(spacing - 12, 76, baseCardWidth)
+        : clamp(width * 0.45, 120, isRuntime ? 200 : baseCardWidth);
 
   return steps.map((step, index) => {
     const t = count === 1 ? 0 : index / (count - 1);
@@ -622,6 +670,7 @@ function NodeCard({
   delay = 0,
   isRuntime = false,
   nodeState = 'future',
+  compact = false,
   onClick,
   onMoveLeft,
   onMoveRight,
@@ -631,6 +680,8 @@ function NodeCard({
   delay?: number;
   isRuntime?: boolean;
   nodeState?: 'completed' | 'current' | 'future';
+  /** Drop the type eyebrow + tighten padding when space is constrained. */
+  compact?: boolean;
   onClick?: () => void;
   onMoveLeft?: () => void;
   onMoveRight?: () => void;
@@ -657,7 +708,7 @@ function NodeCard({
     >
       <div
         className={`relative w-full rounded-2xl border border-white/[0.14] bg-[#0a1a2e]/85 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.45)] ${cardOpacity} ${
-          isRuntime ? 'px-3 py-2' : 'px-4 py-3'
+          compact ? 'px-2.5 py-1.5' : isRuntime ? 'px-3 py-2' : 'px-4 py-3'
         } ${
           isClickable ? 'cursor-pointer hover:border-cyan-300/30 hover:bg-[#0d2040]/90 transition-colors' : ''
         }`}
@@ -671,15 +722,17 @@ function NodeCard({
             {getStepIcon(point.type, `${iconSize} text-cyan-200/90`)}
           </div>
           <div className="min-w-0 flex-1 overflow-hidden">
-            <div className={`uppercase tracking-[0.06em] font-semibold truncate ${
-              isRuntime
-                ? 'text-[10px] text-cyan-200/70'
-                : 'text-[11px] text-cyan-200/65'
-            }`}>
-              {point.type}
-            </div>
+            {!compact && (
+              <div className={`uppercase tracking-[0.06em] font-semibold truncate ${
+                isRuntime
+                  ? 'text-[10px] text-cyan-200/70'
+                  : 'text-[11px] text-cyan-200/65'
+              }`}>
+                {point.type}
+              </div>
+            )}
             <div className={`leading-tight text-white/[0.92] break-words ${
-              isRuntime ? 'mt-0.5 text-xs font-medium' : 'mt-1 text-sm font-medium'
+              compact ? 'text-xs font-medium' : isRuntime ? 'mt-0.5 text-xs font-medium' : 'mt-1 text-sm font-medium'
             }`}>{point.name}</div>
             {estimatedMinutes !== undefined && (
               <div className="mt-1 text-[9px] text-white/40 font-normal tracking-wide">
@@ -722,15 +775,19 @@ function CheckpointMarker({
   point,
   delay = 0,
   nodeState = 'future',
+  revealed = false,
   onClick,
 }: {
   point: NodePoint;
   delay?: number;
   nodeState?: 'completed' | 'current' | 'future';
+  /** Force the label tooltip open (e.g. tapped on a narrow screen). */
+  revealed?: boolean;
   onClick?: () => void;
 }) {
   const isClickable = !!onClick;
   const isCurrent = nodeState === 'current';
+  const showLabel = isCurrent || revealed;
 
   return (
     <motion.div
@@ -761,7 +818,7 @@ function CheckpointMarker({
         <CircleDot className="h-3.5 w-3.5 text-cyan-100/85" strokeWidth={2.2} />
       </button>
 
-      {isCurrent && (
+      {showLabel && (
         <motion.div
           className="pointer-events-none absolute left-1/2 top-9 w-max max-w-[180px] -translate-x-1/2 rounded-full border border-cyan-200/20 bg-[#07111f]/90 px-3 py-1.5 text-center shadow-[0_12px_28px_rgba(0,0,0,0.38)] backdrop-blur-md"
           initial={{ opacity: 0, y: -4 }}
@@ -778,6 +835,52 @@ function CheckpointMarker({
   );
 }
 
+/**
+ * Transparent hit-area over a collapsed stage node (no card shown). Tapping reveals
+ * the node's label as a floating pill (and navigates where wired). Used when the route
+ * is too tight to show every stage card.
+ */
+function CollapsedNodeTarget({
+  point,
+  revealed = false,
+  onClick,
+}: {
+  point: NodePoint;
+  revealed?: boolean;
+  onClick?: () => void;
+}) {
+  return (
+    <div
+      className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
+      style={{ left: `${point.xPercent}%`, top: `${point.yPercent}%` }}
+    >
+      <button
+        type="button"
+        aria-label={`${point.type}: ${point.name}`}
+        title={`${point.type}: ${point.name}`}
+        onClick={onClick}
+        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full"
+      >
+        <span className="sr-only">{point.name}</span>
+      </button>
+
+      {revealed && (
+        <motion.div
+          className="pointer-events-none absolute left-1/2 top-9 w-max max-w-[180px] -translate-x-1/2 rounded-full border border-cyan-200/20 bg-[#07111f]/90 px-3 py-1.5 text-center shadow-[0_12px_28px_rgba(0,0,0,0.38)] backdrop-blur-md"
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <span className="mr-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-cyan-200/70">
+            {point.type}
+          </span>
+          <span className="text-[11px] font-semibold text-white/90">{point.name}</span>
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
 function NodeLayer({
   width,
   height,
@@ -788,6 +891,7 @@ function NodeLayer({
   onNodeClick,
   onMoveModule,
   slotBudgets,
+  labelMode = 'full',
 }: {
   width: number;
   height: number;
@@ -798,11 +902,21 @@ function NodeLayer({
   onNodeClick?: (stepId: string) => void;
   onMoveModule?: (index: number, direction: 'left' | 'right') => void;
   slotBudgets?: number[];
+  labelMode?: LabelMode;
 }) {
   // Module points only (excluding terminals) for move-button boundary logic
   const modulePoints = points.filter((p) => p.kind === 'module');
   const firstModuleId = modulePoints[0]?.id;
   const lastModuleId = modulePoints[modulePoints.length - 1]?.id;
+
+  // Narrow screens collapse most stage cards to dots; tapping reveals a node's label.
+  const [revealedId, setRevealedId] = useState<string | null>(null);
+  const currentIndex = Math.round(activeIndex);
+  const isLabeledStage = (i: number) => {
+    if (labelMode === 'full') return true;
+    if (labelMode === 'compact') return Math.abs(i - currentIndex) <= 1;
+    return i === currentIndex; // minimal
+  };
 
   return (
     <>
@@ -823,7 +937,7 @@ function NodeLayer({
           const checkpoint = isCheckpoint(point);
           return (
             <g key={point.id}>
-              {!checkpoint && (
+              {!checkpoint && isLabeledStage(i) && (
                 <motion.line
                   x1={point.x}
                   y1={point.y - 12}
@@ -895,6 +1009,15 @@ function NodeLayer({
           isRuntime && activeIndex > i ? 'completed' :
           isRuntime && activeIndex >= i && activeIndex < i + 1 ? 'current' : 'future';
 
+        // Tapping a node reveals its label; where navigation is wired it also jumps there.
+        const handleTap =
+          canClick || labelMode !== 'full'
+            ? () => {
+                setRevealedId((prev) => (prev === point.id ? null : point.id));
+                if (canClick) onNodeClick!(point.id);
+              }
+            : undefined;
+
         if (checkpoint) {
           return (
             <CheckpointMarker
@@ -902,7 +1025,20 @@ function NodeLayer({
               point={point}
               delay={0.5 + i * 0.12}
               nodeState={isRuntime ? nodeState : 'future'}
-              onClick={canClick ? () => onNodeClick!(point.id) : undefined}
+              revealed={revealedId === point.id}
+              onClick={handleTap}
+            />
+          );
+        }
+
+        // Stage node with no room for its card → bare dot + tap-to-reveal.
+        if (!isLabeledStage(i)) {
+          return (
+            <CollapsedNodeTarget
+              key={point.id}
+              point={point}
+              revealed={revealedId === point.id}
+              onClick={handleTap}
             />
           );
         }
@@ -914,6 +1050,7 @@ function NodeLayer({
             delay={0.54 + i * 0.12}
             isRuntime={isRuntime}
             nodeState={isRuntime ? nodeState : 'future'}
+            compact={labelMode !== 'full'}
             onClick={canClick ? () => onNodeClick!(point.id) : undefined}
             onMoveLeft={canMove && point.id !== firstModuleId ? () => onMoveModule!(i, 'left') : undefined}
             onMoveRight={canMove && point.id !== lastModuleId ? () => onMoveModule!(i, 'right') : undefined}
@@ -1045,7 +1182,29 @@ export function LessonCaptainFlightPlan({
     return steps;
   }, [steps]);
 
-  const points = useMemo(() => computeNodeLayout(safeSteps, width, height, mode), [safeSteps, width, height, mode]);
+  // The route fills its container: the viewBox width is the *measured* pixel width,
+  // so viewBox units == CSS px (the plane, nodes and cards stay a consistent physical
+  // size on every screen; only the horizontal spread adapts). `width` is just the
+  // pre-measurement / SSR fallback. Height is fixed by the caller.
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [measuredWidth, setMeasuredWidth] = useState<number | null>(null);
+  const vbW = measuredWidth ?? width;
+  // Height tracks width (more square on narrow, a thin strip when wide) and is capped at
+  // the caller's `height` so the route never gets absurdly tall on a large screen. The
+  // viewBox always matches the rendered box aspect, so the HTML overlay stays aligned.
+  const targetAspect = mode === 'runtime' ? 9 : 4.8;
+  const minHeight = mode === 'runtime' ? 88 : 150;
+  const vbH = clamp(vbW / targetAspect, Math.min(minHeight, height), height);
+
+  const labelMode = useMemo(
+    () => getLabelMode(vbW, safeSteps.length, mode === 'runtime'),
+    [vbW, safeSteps.length, mode],
+  );
+
+  const points = useMemo(
+    () => computeNodeLayout(safeSteps, vbW, vbH, mode, labelMode),
+    [safeSteps, vbW, vbH, mode, labelMode],
+  );
   const takeoffPoint = points[0];
 
   const baseId = useId();
@@ -1082,11 +1241,26 @@ export function LessonCaptainFlightPlan({
   useEffect(() => setMounted(true), []);
   const isEngaged = forceEmphasis || isHovered || hasFocusWithin;
 
+  // Track the rendered width so the route fits any container without horizontal scroll.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = (w: number) => {
+      if (w > 0) setMeasuredWidth((prev) => (prev !== null && Math.abs(prev - w) < 1 ? prev : w));
+    };
+    update(el.getBoundingClientRect().width);
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) update(entry.contentRect.width);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [mounted]);
+
   return (
-    <div className="overflow-x-auto">
     <div
+      ref={containerRef}
       className={`group/flightplan relative w-full overflow-hidden ${mode === 'runtime' ? 'rounded-2xl' : 'rounded-[28px]'} border border-white/[0.07] bg-[#07111f]/20 shadow-[0_18px_70px_rgba(0,0,0,0.24)] backdrop-blur-[1px] transition-all duration-500 hover:border-emerald-200/25 hover:shadow-[0_20px_95px_rgba(52,235,170,0.14),0_0_55px_rgba(34,211,238,0.10)] focus-within:border-emerald-200/25 focus-within:shadow-[0_20px_95px_rgba(52,235,170,0.14),0_0_55px_rgba(34,211,238,0.10)] ${className}`}
-      style={{ aspectRatio: `${width} / ${height}`, minWidth: mode === 'runtime' ? '480px' : '560px' }}
+      style={{ aspectRatio: `${vbW} / ${vbH}` }}
       onPointerEnter={() => setIsHovered(true)}
       onPointerLeave={() => setIsHovered(false)}
       onFocusCapture={() => setHasFocusWithin(true)}
@@ -1098,7 +1272,7 @@ export function LessonCaptainFlightPlan({
     >
       {!mounted ? null : (
         <>
-          <BackgroundLayer width={width} height={height} bgIds={bgIds} emphasized={isEngaged} />
+          <BackgroundLayer width={vbW} height={vbH} bgIds={bgIds} emphasized={isEngaged} />
 
           {mode !== 'runtime' && (
             <motion.div
@@ -1117,14 +1291,13 @@ export function LessonCaptainFlightPlan({
           <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/[0.04] transition-colors duration-500 group-hover/flightplan:ring-emerald-200/[0.16] group-focus-within/flightplan:ring-emerald-200/[0.16]" />
           <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.006)_18%,transparent_34%)] opacity-45 transition-opacity duration-500 group-hover/flightplan:opacity-100 group-focus-within/flightplan:opacity-100" />
 
-          <PathLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} emphasized={isEngaged} />
-          <NodeLayer width={width} height={height} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} slotBudgets={slotBudgets} />
-          <PlaneLayer width={width} height={height} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} pacingIndex={pacingIndex} />
+          <PathLayer width={vbW} height={vbH} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} emphasized={isEngaged} />
+          <NodeLayer width={vbW} height={vbH} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} slotBudgets={slotBudgets} labelMode={labelMode} />
+          <PlaneLayer width={vbW} height={vbH} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} pacingIndex={pacingIndex} />
 
           <div className={`pointer-events-none absolute inset-x-0 bottom-0 ${mode === 'runtime' ? 'h-8' : 'h-28'} bg-gradient-to-t from-[#050b15] to-transparent`} />
         </>
       )}
-    </div>
     </div>
   );
 }

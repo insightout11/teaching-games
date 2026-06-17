@@ -255,7 +255,6 @@ function FlightPlanPanel() {
       </p>
       <LessonCaptainFlightPlan
         steps={CAPTAINS_FLIGHT_STEPS}
-        width={1422}
         height={300}
         mode="runtime"
         activeIndex={activeIndex}

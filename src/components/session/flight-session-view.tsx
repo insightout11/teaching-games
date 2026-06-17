@@ -75,11 +75,6 @@ export function FlightSessionView({
   );
   const activeIndex = currentStageIndex >= 0 ? currentStageIndex : 0;
 
-  // Main stages get full cards; micro-events are compact route markers.
-  const mainStageCount = flightConfig.stages.filter((stage) => stage.kind !== 'micro-event').length;
-  const microEventCount = flightConfig.stages.length - mainStageCount;
-  const planWidth = Math.max(1120, 260 + mainStageCount * 150 + microEventCount * 56);
-
   const currentStage =
     flightConfig.stages.find((stage) => stage.stageId === currentSlot?.stageId) ?? null;
   const currentStageLabel = currentSlot?.stageLabel ?? currentStage?.label;
@@ -94,7 +89,6 @@ export function FlightSessionView({
         steps={steps}
         mode="runtime"
         activeIndex={activeIndex}
-        width={planWidth}
         height={140}
         onNodeClick={
           onGoToSlot
