@@ -5,8 +5,9 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 // Captain's Flight stage count (the all-around-flight-60 preset). Static so the OG
-// renders fast on edge with no data dependency.
-const STOPS = 10;
+// renders fast on edge with no data dependency — keep in sync with the preset's
+// flightConfig.stages length in flight-plan-presets.ts (currently 9).
+const STOPS = 9;
 
 export default function HomeOgImage() {
   return new ImageResponse(
