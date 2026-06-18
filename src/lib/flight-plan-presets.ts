@@ -371,7 +371,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'all-around-flight-60',
     name: "Captain's Flight",
-    description: 'Flagship ESL journey: warm-up, briefing, language toolkit, opinion pulse, navigation check, accuracy check, main discussion, review game, wrap-up',
+    description: 'Flagship ESL journey: warm-up, briefing, opinion pulse, language toolkit, accuracy check, main discussion, review game, wrap-up',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'skill-builder',
@@ -379,9 +379,8 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     landing: 'final-word',
     moduleSequence: [
       { slotType: 'presentation', key: 'read-aloud', stageId: 'briefing' },
-      { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it', 'defend-it', 'two-truths'] },
-      { slotType: 'practice', key: 'radar-fix', stageId: 'navigation-check', isMicroEvent: true },
+      { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint'] },
       { slotType: 'production', key: 'decision-council', stageId: 'production' },
       { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['imposter', 'flash-quiz', 'connections'] },
@@ -390,9 +389,8 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       stages: [
         { stageId: 'icebreaker', label: 'Warm-up', kind: 'stage', phase: 'takeoff' },
         { stageId: 'briefing', label: 'Briefing', kind: 'stage', phase: 'climb' },
+        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'climb' },
         { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage', phase: 'climb' },
-        { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'cruise' },
-        { stageId: 'navigation-check', label: 'Navigation Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'accuracy-check', label: 'Accuracy Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'production', label: 'Main Discussion', kind: 'stage', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
@@ -410,7 +408,6 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'sentence-scramble': 'accuracy-check',
         'synonym-showdown': 'accuracy-check',
         'vocab-sprint': 'accuracy-check',
-        'radar-fix': 'navigation-check',
         'fact-detective': 'accuracy-check',
         'defend-it': 'opinion-pulse',
         'decision-council': 'production',

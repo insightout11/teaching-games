@@ -655,8 +655,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     lastAutoStartedSlotRef.current = lesson.currentSlotIndex;
     const slot = lesson.currentSlot;
 
-    // Pool slot — wait for the flight animation to finish before showing the spinner
-    if (slot.pool && slot.pool.length > 1) {
+    // Pool slot — wait for the flight animation to finish before showing the spinner.
+    // End-game pools are resolved by the class vote (RouteChoicePanel), not the spinner.
+    if (slot.pool && slot.pool.length > 1 && slot.stageId !== 'end-game') {
       if (moduleTransition) {
         // Flight animation still playing — defer until onDismiss
         pendingPoolSlotRef.current = { pool: slot.pool, stageLabel: slot.stageLabel };
