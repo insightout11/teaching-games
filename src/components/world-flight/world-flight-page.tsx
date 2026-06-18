@@ -485,9 +485,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [selectedFocusId, setSelectedFocusId] = useState<string | null>(null);
   // World-Flight-eligible flight plans (grows as Debate/Travel are authored).
   const [selectedPresetId, setSelectedPresetId] = useState<string>('all-around-flight-60');
+  const [launchStep, setLaunchStep] = useState<'source' | 'flight-plan'>('source');
   const worldFlightPresets = ['all-around-flight-60', 'speak-60']
     .map((id) => FLIGHT_PLAN_PRESETS.find((p) => p.id === id))
     .filter((p): p is FlightPlanPreset => Boolean(p));
+  const selectedPreset = worldFlightPresets.find((p) => p.id === selectedPresetId) ?? worldFlightPresets[0];
   const [focusFilter, setFocusFilter] = useState<FocusFilter>('all');
   const [listOpen, setListOpen] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(true);
@@ -587,6 +589,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     [routeOrigin, selectedDestination],
   );
   const selectedFocus = visibleFocusOptions.find((focus) => focus.id === selectedFocusId) ?? visibleFocusOptions[0] ?? publishedFocusOptions[0];
+  // Reset to the source step whenever the city changes.
+  useEffect(() => { setLaunchStep('source'); }, [selectedDestination?.id]);
   const isReachable = !!routeOrigin && ((selectedDistanceKm ?? 0) <= rangeKm || selectedDestination.id === routeOrigin.id);
   const isLocalLesson = routeOrigin?.id === selectedDestination.id;
   const nextHopCandidates = useMemo(
@@ -1831,10 +1835,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   Choose a city from the map or destination list, then confirm it below. Your starter plane&apos;s range will appear from that departure point.
                 </div>
               </div>
-            ) : (
+            ) : launchStep === 'source' ? (
               <>
                 <div className="mb-3 flex items-center justify-between gap-3">
-                  <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Choose today&apos;s source</h3>
+                  <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">1 · Choose today&apos;s source</h3>
                   <span className="text-xs text-lc-text3">{visibleFocusOptions.length} options</span>
                 </div>
                 {publishedFocusOptions.some((focus) => focus.kind === 'reading') && (
@@ -1878,6 +1882,43 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   ))}
                 </div>
               </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setLaunchStep('source')}
+                  className="mb-4 flex w-full items-start justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5 text-left transition-colors hover:border-white/20"
+                >
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm font-semibold text-lc-text">{selectedFocus.title}</span>
+                    <span className="block truncate text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</span>
+                  </span>
+                  <span className="shrink-0 text-[11px] font-semibold text-cyan-200/80">Change</span>
+                </button>
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">2 · Choose your flight plan</h3>
+                  <span className="text-xs text-lc-text3">{worldFlightPresets.length} options</span>
+                </div>
+                <div className="space-y-1.5">
+                  {worldFlightPresets.map((preset) => {
+                    const selected = preset.id === selectedPresetId;
+                    return (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => setSelectedPresetId(preset.id)}
+                        className={`flex w-full items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left transition-colors ${selected ? 'border-cyan-300/60 bg-cyan-300/[0.08]' : 'border-white/10 bg-white/[0.025] hover:border-white/20'}`}
+                      >
+                        <PlaneTakeoff className={`h-4 w-4 shrink-0 ${selected ? 'text-cyan-300' : 'text-lc-text3'}`} aria-hidden />
+                        <span className="min-w-0">
+                          <span className={`block truncate text-sm font-semibold ${selected ? 'text-cyan-100' : 'text-lc-text'}`}>{preset.name}</span>
+                          {preset.tagline && <span className="block truncate text-[11px] text-lc-text3">{preset.tagline}</span>}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
             )}
           </div>
 
@@ -1891,79 +1932,24 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 <MapPin className="h-4 w-4" aria-hidden />
                 Set {selectedDestination.city} as Departure
               </button>
+            ) : launchStep === 'source' ? (
+              <button
+                type="button"
+                onClick={() => setLaunchStep('flight-plan')}
+                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[var(--wf-bg)] transition-colors hover:bg-lc-blue-hover"
+              >
+                Choose flight plan
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </button>
             ) : (
               <>
-                <div className="mb-3 flex items-start gap-2.5 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
-                  <Route className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-300/70" aria-hidden />
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
-                    <p className="truncate text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
-                  </div>
-                </div>
-                <div className="mb-3 flex flex-wrap gap-1.5">
-                  {selectedFocus.kind === 'reading' && (
-                    <span className="rounded-full border border-cyan-300/25 bg-cyan-300/[0.07] px-2 py-1 text-[11px] font-semibold text-cyan-100/80">
-                      Adapts to class level
-                    </span>
-                  )}
-                  {selectedFocus.skills.map((skill) => (
-                    <span key={skill} className="rounded-full border border-white/15 bg-white/[0.04] px-2 py-1 text-[11px] text-lc-text2">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-                {selectedFocus.kind === 'reading' && selectedFocus.citations?.length ? (
-                  <div className="mb-3 rounded-lg border border-white/10 bg-white/[0.025] px-3 py-2.5">
-                    <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-lc-text2">
-                      Grounded in {selectedFocus.citations.length} sources
-                    </p>
-                    <div className="space-y-1">
-                      {selectedFocus.citations.map((citation) => (
-                        <a
-                          key={citation.url}
-                          href={citation.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="flex items-center gap-1.5 text-[11px] text-cyan-200/75 transition-colors hover:text-cyan-100"
-                        >
-                          <ExternalLink className="h-3 w-3 shrink-0" aria-hidden />
-                          <span className="truncate">{citation.publisher}: {citation.title}</span>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-                {worldFlightPresets.length > 1 && (
-                  <div className="mb-3">
-                    <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-lc-text2">Flight plan</p>
-                    <div className="space-y-1.5">
-                      {worldFlightPresets.map((preset) => {
-                        const selected = preset.id === selectedPresetId;
-                        return (
-                          <button
-                            key={preset.id}
-                            type="button"
-                            onClick={() => setSelectedPresetId(preset.id)}
-                            className={`flex w-full items-center gap-2.5 rounded-lg border px-3 py-2 text-left transition-colors ${selected ? 'border-cyan-300/60 bg-cyan-300/[0.08]' : 'border-white/10 bg-white/[0.025] hover:border-white/20'}`}
-                          >
-                            <PlaneTakeoff className={`h-3.5 w-3.5 shrink-0 ${selected ? 'text-cyan-300' : 'text-lc-text3'}`} aria-hidden />
-                            <span className="min-w-0">
-                              <span className={`block truncate text-sm font-semibold ${selected ? 'text-cyan-100' : 'text-lc-text'}`}>{preset.name}</span>
-                              {preset.tagline && <span className="block truncate text-[11px] text-lc-text3">{preset.tagline}</span>}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
                 <button
                   type="button"
                   onClick={launchSelectedFocus}
                   className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[var(--wf-bg)] transition-colors hover:bg-lc-blue-hover"
                 >
                   <PlaneTakeoff className="h-4 w-4" aria-hidden />
-                  {isLocalLesson ? 'Build Local City Lesson' : isReachable ? 'Build This Flight Plan' : 'Build Lesson Without Moving'}
+                  {!isReachable && !isLocalLesson ? 'Build Lesson Without Moving' : `Build ${selectedPreset?.name ?? 'Flight Plan'}`}
                 </button>
                 {selectedFocus.kind === 'video' && (
                   <a
