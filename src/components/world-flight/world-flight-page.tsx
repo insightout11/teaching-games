@@ -9,6 +9,7 @@ import { WORLD_FLIGHT_MAP_STYLE } from '@/data/world-flight/map-style';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
 import { destinationCoord, destinationsWithinRange, distanceKm, formatDistance, greatCircleLine, rangeRing, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
+import { buildTravelContext } from '@/lib/world-flight/travel-context';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
@@ -486,9 +487,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   // World-Flight-eligible flight plans (grows as Debate/Travel are authored).
   const [selectedPresetId, setSelectedPresetId] = useState<string>('all-around-flight-60');
   const [launchStep, setLaunchStep] = useState<'source' | 'flight-plan'>('source');
-  const worldFlightPresets = ['all-around-flight-60', 'speak-60']
+  const [selectedSituation, setSelectedSituation] = useState<string>('');
+  const worldFlightPresets = ['all-around-flight-60', 'speak-60', 'travel-60']
     .map((id) => FLIGHT_PLAN_PRESETS.find((p) => p.id === id))
     .filter((p): p is FlightPlanPreset => Boolean(p));
+  const travelSituations = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'travel-60')?.scenarios?.options ?? [];
   const selectedPreset = worldFlightPresets.find((p) => p.id === selectedPresetId) ?? worldFlightPresets[0];
   const [focusFilter, setFocusFilter] = useState<FocusFilter>('all');
   const [listOpen, setListOpen] = useState(false);
@@ -1394,9 +1397,17 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === selectedPresetId);
     const store = usePlannerStore.getState();
     store.reset();
-    store.setTopic(selectedFocus.title);
+    // Travel generates its own functional scenario from the city + situation (ignores the focus);
+    // every other preset runs on the chosen focus/source.
+    if (selectedPresetId === 'travel-60') {
+      const situation = selectedSituation || travelSituations[0] || 'A travel situation';
+      store.setTopic(situation);
+      store.setSourceMaterial(buildTravelContext(selectedDestination, situation));
+    } else {
+      store.setTopic(selectedFocus.title);
+      store.setSourceMaterial(selectedFocus.sourceMaterial);
+    }
     store.setDifficulty(selectedFocus.difficulty);
-    store.setSourceMaterial(selectedFocus.sourceMaterial);
     store.setWorldFlightRoute(routeOrigin?.id ?? null, selectedDestination.id);
     if (preset) store.loadPreset(preset);
     if (selectedClassId) store.setSelectedClassId(selectedClassId);
@@ -1922,6 +1933,27 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                     );
                   })}
                 </div>
+                {selectedPresetId === 'travel-60' && travelSituations.length > 0 && (
+                  <div className="mt-4">
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Travel situation</p>
+                    <p className="mb-2 text-[11px] text-lc-text3">Travel writes its own scenario from {selectedDestination.city} — pick a situation.</p>
+                    <div className="flex flex-col gap-1.5">
+                      {travelSituations.map((s) => {
+                        const active = s === (selectedSituation || travelSituations[0]);
+                        return (
+                          <button
+                            key={s}
+                            type="button"
+                            onClick={() => setSelectedSituation(s)}
+                            className={`rounded-lg border px-3 py-2 text-left text-xs transition-colors ${active ? 'border-rose-300/60 bg-rose-300/[0.10] text-rose-100' : 'border-white/10 bg-white/[0.025] text-lc-text2 hover:border-white/20'}`}
+                          >
+                            {s}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>
