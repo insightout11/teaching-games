@@ -1,30 +1,41 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Zap, Link2, Link, Search, Ban, KeyRound, Gamepad2 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
+import { getAllGames } from '@/games/registry';
+import { getAllActivities } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
 import type { Score } from '@/lib/supabase/types';
 
 interface RouteChoicePanelProps {
   sessionId: string;
+  /** The end-game slot's pool (the per-preset trio). Falls back to a default trio. */
+  pool?: string[];
   onRouteChosen: (key: string, type: 'game' | 'activity', name: string) => void;
 }
 
-type EndGameOption = {
-  key: string;
-  type: 'game' | 'activity';
-  name: string;
-  description: string;
-  emoji: string;
+type EndGameOption = { key: string; type: 'game' | 'activity'; name: string; Icon: LucideIcon };
+
+const ICON_BY_KEY: Record<string, LucideIcon> = {
+  'flash-quiz': Zap,
+  connections: Link2,
+  'word-chain': Link,
+  imposter: Search,
+  'taboo-sprint': Ban,
+  password: KeyRound,
 };
 
-const END_GAME_OPTIONS: EndGameOption[] = [
-  { key: 'flash-quiz', type: 'game', name: 'Flash Quiz', description: 'Race to answer — speed and accuracy win', emoji: '⚡' },
-  { key: 'connections', type: 'game', name: 'Connections', description: 'Find the hidden links between words', emoji: '🔗' },
-  { key: 'password', type: 'activity', name: 'Password', description: 'Give clues to get your team to say the word', emoji: '🔑' },
-];
+const DEFAULT_POOL = ['flash-quiz', 'connections', 'password'];
 
-const OPTION_KEYS = END_GAME_OPTIONS.map((o) => o.key);
+function resolveOption(key: string): EndGameOption {
+  const a = getAllActivities().find((act) => act.key === key);
+  if (a) return { key, type: 'activity', name: a.name, Icon: ICON_BY_KEY[key] ?? Gamepad2 };
+  const g = getAllGames().find((gm) => gm.key === key);
+  return { key, type: 'game', name: g?.name ?? key, Icon: ICON_BY_KEY[key] ?? Gamepad2 };
+}
+
 const COUNTDOWN_SECONDS = 20;
 const REVEAL_MS = 2000;
 
@@ -32,12 +43,16 @@ const REVEAL_MS = 2000;
 const RING_R = 20;
 const RING_CIRC = 2 * Math.PI * RING_R;
 
-export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelProps) {
-  const [tallies, setTallies] = useState<Record<string, number>>({
-    'flash-quiz': 0,
-    'connections': 0,
-    'password': 0,
-  });
+export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoicePanelProps) {
+  const options = useMemo<EndGameOption[]>(
+    () => (pool && pool.length > 0 ? pool : DEFAULT_POOL).map(resolveOption),
+    [pool],
+  );
+  const optionKeys = useMemo(() => options.map((o) => o.key), [options]);
+
+  const [tallies, setTallies] = useState<Record<string, number>>(() =>
+    Object.fromEntries(options.map((o) => [o.key, 0])),
+  );
   const [secondsLeft, setSecondsLeft] = useState(COUNTDOWN_SECONDS);
   const [phase, setPhase] = useState<'voting' | 'revealing'>('voting');
   const [revealKey, setRevealKey] = useState<string | null>(null);
@@ -45,20 +60,23 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
   const votedClientsRef = useRef<Set<string>>(new Set());
   const hasClosedRef = useRef(false);
   const talliesRef = useRef(tallies);
+  const optionsRef = useRef(options);
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
 
-  // Keep talliesRef current so countdown can read latest votes without deps
+  // Keep refs current so the countdown can read latest votes/options without deps
   useEffect(() => { talliesRef.current = tallies; }, [tallies]);
+  useEffect(() => { optionsRef.current = options; }, [options]);
 
-  // Defined inline so it always closes over latest state via talliesRef
+  // Defined inline so it always closes over latest state via refs
   function closeVote() {
     if (hasClosedRef.current) return;
     hasClosedRef.current = true;
 
     const snapshot = talliesRef.current;
-    let winKey = 'flash-quiz';
+    const opts = optionsRef.current;
+    let winKey = opts[0]?.key ?? 'flash-quiz';
     let winVotes = -1;
-    for (const opt of END_GAME_OPTIONS) {
+    for (const opt of opts) {
       const count = snapshot[opt.key] ?? 0;
       if (count > winVotes) {
         winVotes = count;
@@ -71,8 +89,8 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
     setInputSpec(null);
 
     setTimeout(() => {
-      const winner = END_GAME_OPTIONS.find((o) => o.key === winKey)!;
-      onRouteChosen(winner.key, winner.type, winner.name);
+      const winner = opts.find((o) => o.key === winKey) ?? opts[0];
+      if (winner) onRouteChosen(winner.key, winner.type, winner.name);
     }, REVEAL_MS);
   }
 
@@ -86,11 +104,11 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
       type: 'choice',
       gameKey: 'route-choice',
       prompt: 'Vote for your end game!',
-      options: OPTION_KEYS,
-      optionLabels: END_GAME_OPTIONS.map((o) => o.name),
+      options: optionKeys,
+      optionLabels: options.map((o) => o.name),
     });
     return () => { setInputSpec(null); };
-  }, [setInputSpec]);
+  }, [setInputSpec, optionKeys, options]);
 
   // 20-second countdown — fires closeVote when it reaches 0
   useEffect(() => {
@@ -131,7 +149,7 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
           votedClientsRef.current.add(clientId);
 
           const choice = rd.choice as string;
-          if (OPTION_KEYS.includes(choice)) {
+          if (optionsRef.current.some((o) => o.key === choice)) {
             setTallies((prev) => ({ ...prev, [choice]: (prev[choice] ?? 0) + 1 }));
           }
         },
@@ -142,22 +160,23 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
   }, [sessionId]);
 
   const totalVotes = Object.values(tallies).reduce((a, b) => a + b, 0);
-  const maxVotes = Math.max(...Object.values(tallies));
+  const maxVotes = options.length ? Math.max(...options.map((o) => tallies[o.key] ?? 0)) : 0;
   const ringOffset = RING_CIRC * (secondsLeft / COUNTDOWN_SECONDS);
   const isUrgent = secondsLeft <= 5;
 
   // ── Winner reveal ──
   if (phase === 'revealing') {
-    const winner = revealKey ? END_GAME_OPTIONS.find((o) => o.key === revealKey) : null;
+    const winner = revealKey ? options.find((o) => o.key === revealKey) : null;
+    const WinIcon = winner?.Icon ?? Gamepad2;
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
         <div className="text-center space-y-5">
-          <p className="text-6xl">{winner?.emoji ?? '⚡'}</p>
+          <WinIcon className="mx-auto h-14 w-14 text-cyan-300" aria-hidden />
           <p className="text-[13px] font-semibold uppercase tracking-widest text-cyan-300/60">
             Class Chose
           </p>
           <h2 className="text-5xl font-extrabold text-white tracking-tight">
-            {winner?.name ?? 'Flash Quiz'}
+            {winner?.name ?? 'End Game'}
           </h2>
           <p className="text-sm text-white/40">Loading…</p>
         </div>
@@ -208,10 +227,11 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
 
         {/* Option cards — 3-column grid for projection */}
         <div className="grid grid-cols-3 gap-3">
-          {END_GAME_OPTIONS.map((opt) => {
+          {options.map((opt) => {
             const count = tallies[opt.key] ?? 0;
             const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
             const isLeading = count > 0 && count === maxVotes;
+            const Icon = opt.Icon;
 
             return (
               <div
@@ -222,7 +242,7 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
                     : 'border-white/10 bg-white/5'
                 }`}
               >
-                <span className="text-3xl leading-none">{opt.emoji}</span>
+                <Icon className={`h-7 w-7 ${isLeading ? 'text-cyan-300' : 'text-white/70'}`} aria-hidden />
                 <span className={`text-sm font-bold leading-snug ${isLeading ? 'text-cyan-300' : 'text-white/80'}`}>
                   {opt.name}
                 </span>
@@ -241,13 +261,6 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
           })}
         </div>
 
-        {/* Leading option description */}
-        <p className="text-xs text-white/35 text-center min-h-[1rem]">
-          {maxVotes > 0
-            ? END_GAME_OPTIONS.find((o) => (tallies[o.key] ?? 0) === maxVotes)?.description
-            : 'Students tap their choice on their device'}
-        </p>
-
         <button
           type="button"
           onClick={() => closeVoteRef.current()}
@@ -257,7 +270,7 @@ export function RouteChoicePanel({ sessionId, onRouteChosen }: RouteChoicePanelP
         </button>
 
         <p className="text-center text-xs text-white/30">
-          Ties and zero votes default to Flash Quiz
+          Ties and zero votes default to the first option
         </p>
       </div>
     </div>

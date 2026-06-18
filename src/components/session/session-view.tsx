@@ -500,6 +500,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // this fires when a Standard user clicks a Pro game that doesn't go through generate.
   const [showProGate, setShowProGate] = useState(false);
   const [showRouteChoice, setShowRouteChoice] = useState(false);
+  const [routeChoicePool, setRouteChoicePool] = useState<string[] | null>(null);
   const supabase = createClient();
   const games = getAllGames().filter((g) => !g.flightPlanOnly);
   const activities = getAllActivities().filter((a) => !a.flightPlanOnly);
@@ -1140,6 +1141,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   const handleNextWithRouteChoice = useCallback(() => {
     if (isAllAroundFlight && lesson.currentSlot?.key === 'decision-council') {
+      const endGameSlot = lesson.lessonSlots[lesson.currentSlotIndex + 1];
+      setRouteChoicePool(endGameSlot?.pool ?? null);
       setShowRouteChoice(true);
     } else {
       handleNextSlotWithTransition();
@@ -2580,7 +2583,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       )}
 
       {showRouteChoice && (
-        <RouteChoicePanel sessionId={session.id} onRouteChosen={handleRouteChosen} />
+        <RouteChoicePanel sessionId={session.id} pool={routeChoicePool ?? undefined} onRouteChosen={handleRouteChosen} />
       )}
 
       {/* Demo mode — simulated students drive the live loop via real endpoints */}
