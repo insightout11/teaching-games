@@ -8,17 +8,19 @@ describe("Captain's Flight micro-events", () => {
     expect(preset).toBeDefined();
   });
 
-  it('never schedules two micro-event checks back-to-back', () => {
-    const seq = preset!.moduleSequence;
-    for (let i = 1; i < seq.length; i++) {
-      expect(Boolean(seq[i].isMicroEvent && seq[i - 1].isMicroEvent)).toBe(false);
-    }
+  it('flags Navigation Check as World-Flight-only', () => {
+    // radar-fix (geography) only belongs in World Flight; the launch filter drops it at home.
+    const nav = preset!.moduleSequence.find((slot) => slot.stageId === 'navigation-check');
+    expect(nav).toMatchObject({ key: 'radar-fix', isMicroEvent: true, worldFlightOnly: true });
   });
 
-  it('keeps geography (radar-fix) out of the standalone preset', () => {
-    // Navigation Check is World-Flight-only; it returns via the micro-event context system,
-    // not baked into the home/standalone Captain's Flight.
-    expect(preset!.moduleSequence.some((slot) => slot.key === 'radar-fix')).toBe(false);
-    expect(preset!.flightConfig?.stageByKey['radar-fix']).toBeUndefined();
+  it('never schedules two micro-event checks back-to-back (full route or home-filtered)', () => {
+    const noBackToBack = (slots: { isMicroEvent?: boolean; worldFlightOnly?: boolean }[]) => {
+      for (let i = 1; i < slots.length; i++) {
+        expect(Boolean(slots[i].isMicroEvent && slots[i - 1].isMicroEvent)).toBe(false);
+      }
+    };
+    noBackToBack(preset!.moduleSequence);
+    noBackToBack(preset!.moduleSequence.filter((slot) => !slot.worldFlightOnly));
   });
 });

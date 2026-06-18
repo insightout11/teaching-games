@@ -52,7 +52,7 @@ function makePresetModule(
   preset: FlightPlanPreset,
   slotType: SlotType,
   key: string,
-  overrides?: { stageId?: string; stageLabel?: string; isMicroEvent?: boolean; pool?: string[] },
+  overrides?: { stageId?: string; stageLabel?: string; isMicroEvent?: boolean; pool?: string[]; worldFlightOnly?: boolean },
 ): PlanModule {
   return {
     id: crypto.randomUUID(),
@@ -61,6 +61,7 @@ function makePresetModule(
     isLocked: false,
     ...withFlightMeta(preset, key, overrides),
     ...(overrides?.pool ? { pool: overrides.pool } : {}),
+    ...(overrides?.worldFlightOnly ? { worldFlightOnly: true } : {}),
   };
 }
 
@@ -116,8 +117,8 @@ function buildModulesFromPreset(
 
   const middle: PlanModule[] = preset.moduleSequence
     .filter(({ key }) => key !== takeoffKey)
-    .map(({ slotType, key, stageId, stageLabel, isMicroEvent, pool }) =>
-      makePresetModule(preset, slotType, key, { stageId, stageLabel, isMicroEvent, pool }),
+    .map(({ slotType, key, stageId, stageLabel, isMicroEvent, pool, worldFlightOnly }) =>
+      makePresetModule(preset, slotType, key, { stageId, stageLabel, isMicroEvent, pool, worldFlightOnly }),
     );
 
   let modules: PlanModule[];
@@ -442,7 +443,12 @@ export const usePlannerStore = create<PlannerState>()(
           ? buildModulesFromPreset(loadedPreset, getSourceKind(sourceMaterial))
           : modules;
 
-        const slots: LessonSlot[] = freshModules.map((m) => {
+        // World-Flight-only micro-events (e.g. Navigation Check) are dropped when this
+        // isn't a World Flight launch. buildFlightConfigForSlots reconciles the route.
+        const isWorldFlight = !!worldFlightDestinationId;
+        const visibleModules = freshModules.filter((m) => isWorldFlight || !m.worldFlightOnly);
+
+        const slots: LessonSlot[] = visibleModules.map((m) => {
           const meta = {
             ...(m.stageId ? { stageId: m.stageId } : {}),
             ...(m.stageLabel ? { stageLabel: m.stageLabel } : {}),

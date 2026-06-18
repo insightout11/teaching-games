@@ -49,7 +49,7 @@ export interface FlightPlanPreset {
   /** Explicit landing activity key — overrides auto-assignment when set. */
   landing?: string;
   /** Middle slots only — takeoff/landing are always auto-assigned. */
-  moduleSequence: Array<{ slotType: SlotType; key: string; stageId?: string; stageLabel?: string; isMicroEvent?: boolean; pool?: string[] }>;
+  moduleSequence: Array<{ slotType: SlotType; key: string; stageId?: string; stageLabel?: string; isMicroEvent?: boolean; pool?: string[]; worldFlightOnly?: boolean }>;
   /** Dedicated journey metadata for curated flight modes. */
   flightConfig?: FlightPresetConfig;
   /**
@@ -383,6 +383,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint'] },
       { slotType: 'production', key: 'decision-council', stageId: 'production' },
+      { slotType: 'practice', key: 'radar-fix', stageId: 'navigation-check', isMicroEvent: true, worldFlightOnly: true },
       { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['imposter', 'flash-quiz', 'connections'] },
     ],
     flightConfig: {
@@ -393,6 +394,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'language-toolkit', label: 'Language Toolkit', kind: 'stage', phase: 'climb' },
         { stageId: 'accuracy-check', label: 'Accuracy Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'production', label: 'Main Discussion', kind: 'stage', phase: 'cruise' },
+        { stageId: 'navigation-check', label: 'Navigation Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
         { stageId: 'landing', label: 'Wrap-up', kind: 'landing', phase: 'landing' },
       ],
@@ -408,6 +410,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'sentence-scramble': 'accuracy-check',
         'synonym-showdown': 'accuracy-check',
         'vocab-sprint': 'accuracy-check',
+        'radar-fix': 'navigation-check',
         'fact-detective': 'accuracy-check',
         'defend-it': 'opinion-pulse',
         'decision-council': 'production',

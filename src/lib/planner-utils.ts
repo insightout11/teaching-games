@@ -15,6 +15,8 @@ export interface PlanModule {
   stageLabel?: string;
   isMicroEvent?: boolean;
   pool?: string[];
+  /** Micro-event that only appears in World Flight; filtered out at launch otherwise. */
+  worldFlightOnly?: boolean;
 }
 
 /**
