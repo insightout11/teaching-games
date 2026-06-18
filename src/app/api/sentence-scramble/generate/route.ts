@@ -36,16 +36,18 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const { topic, difficulty, excludeCacheIds = [], sourceMaterial } = await request.json() as {
+  const { topic, difficulty, excludeCacheIds = [], grammarTarget, sourceMaterial } = await request.json() as {
     topic: Topic;
     difficulty: Difficulty;
     excludeCacheIds?: string[];
+    grammarTarget?: string;
     sourceMaterial?: SourceMaterial;
   };
 
   // Ground the sentences in the lesson's source material when one is attached.
   const sourceContext = await resolveSourceContext(sourceMaterial);
-  const skipCache = !!sourceMaterial;
+  // Skip cache when targeting a specific grammar feature — live, focused content needed.
+  const skipCache = !!sourceMaterial || !!grammarTarget;
 
   try {
     // 1. Check cache first (skipped when grounding in source material)
@@ -69,11 +71,11 @@ export async function POST(request: NextRequest) {
 Difficulty: ${difficultyPrompts[difficulty]}
 Topic: ${topic}
 Random seed: ${randomSeed}
-${sourceContext}${sourceContext ? 'Base the sentences on facts, ideas, and vocabulary from the source material above so they reinforce the lesson content.\n' : ''}
+${sourceContext}${sourceContext ? 'Base the sentences on facts, ideas, and vocabulary from the source material above so they reinforce the lesson content.\n' : ''}${grammarTarget ? `GRAMMAR FOCUS: Every sentence MUST clearly use the target grammar — ${grammarTarget}. Vary the vocabulary and content, but keep ${grammarTarget} as the structure across all 10 sentences so reordering them drills that feature.\n` : ''}
 Requirements:
 - Each sentence MUST relate to the topic "${topic}"
 - Each sentence must be grammatically complete and properly punctuated
-- Vary sentence structures (declarative, questions, conditionals, etc.)
+- ${grammarTarget ? `Build every sentence around the target grammar (${grammarTarget})` : 'Vary sentence structures (declarative, questions, conditionals, etc.)'}
 - Do NOT repeat sentence patterns or openings
 - Each sentence should be self-contained and make sense on its own
 - Use natural, authentic language — not textbook-stilted

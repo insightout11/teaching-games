@@ -15,6 +15,7 @@ import type {
   LessonPlanGenerateResponse,
   ActivityGeneratedContent,
   WonderBoardContent,
+  GrammarClarifyContent,
   WouldYouRatherContent,
   HotTakeArenaContent,
   TwoTruthsContent,
@@ -2236,6 +2237,59 @@ Return JSON with:
   }
 }
 
+async function generateGrammarClarify(topic: string, difficulty: Difficulty, grammarTarget: string, sourceContext = '', skipCache = false): Promise<GrammarClarifyContent> {
+  // Depth scales with the source: a grammar source already taught it, so keep it a concise anchor;
+  // without one, Clarify carries the teaching, so make it richer (more examples + fuller use).
+  const rich = !sourceContext;
+  const cached = skipCache ? null : await getCachedContent('grammar-clarify', topic, difficulty, [], grammarTarget, 1);
+  if (cached) {
+    const c = cached.content_json as { form?: string; examples?: string[]; whenToUse?: string; pitfall?: string };
+    return { activityKey: 'grammar-clarify', topicContext: topic, grammarTarget, form: c.form ?? '', examples: c.examples ?? [], whenToUse: c.whenToUse ?? '', pitfall: c.pitfall ?? '' };
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      form: { type: 'string' },
+      examples: { type: 'array', items: { type: 'string' } },
+      whenToUse: { type: 'string' },
+      pitfall: { type: 'string' },
+    },
+    required: ['form', 'examples', 'whenToUse', 'pitfall'],
+  };
+
+  const prompt = `Explain the grammar structure "${grammarTarget}" for an English class at ${difficultyDescriptions[difficulty]}.
+Topic: ${topic}. Every example sentence MUST be about this topic.
+${sourceContext}${sourceContext ? 'A source already taught this structure — keep the explanation concise (a quick anchor/recap).\n' : ''}
+Provide:
+- form: ${rich ? 'a clear 1–2 sentence explanation of how the structure is built' : 'one concise sentence on how the structure is built'}
+- examples: ${rich ? '3' : '2'} short model sentence(s) using ${grammarTarget}, all about ${topic}
+- whenToUse: one sentence on when/why to use ${grammarTarget}
+- pitfall: one common mistake learners make with ${grammarTarget}`;
+
+  try {
+    const data = await generateJSON<{ form: string; examples: string[]; whenToUse: string; pitfall: string }>(prompt, schema);
+    const result = {
+      form: data.form ?? '',
+      examples: Array.isArray(data.examples) ? data.examples.slice(0, 3) : [],
+      whenToUse: data.whenToUse ?? '',
+      pitfall: data.pitfall ?? '',
+    };
+    if (!skipCache) void storeCachedContent('grammar-clarify', topic, difficulty, result, 1, grammarTarget);
+    return { activityKey: 'grammar-clarify', topicContext: topic, grammarTarget, ...result };
+  } catch {
+    return {
+      activityKey: 'grammar-clarify',
+      topicContext: topic,
+      grammarTarget,
+      form: `Review how ${grammarTarget} is formed before practising it.`,
+      examples: [`A sentence about ${topic} using ${grammarTarget}.`],
+      whenToUse: `Use ${grammarTarget} when it fits the meaning you want to express.`,
+      pitfall: `Watch the form carefully when using ${grammarTarget}.`,
+    };
+  }
+}
+
 async function generateFinalWord(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<FinalWordContent> {
   const cached = skipCache ? null : await getCachedContent('final-word', topic, difficulty, [], undefined, 1);
   if (cached) {
@@ -2761,6 +2815,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'grammar-proof':
             generators.push(generateGrammarProof(customTopic, diff, grammarTarget ?? 'grammar', skipCache).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'grammar-clarify':
+            generators.push(generateGrammarClarify(customTopic, diff, grammarTarget ?? 'grammar', sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
             break;
           case 'final-word':
             generators.push(generateFinalWord(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));

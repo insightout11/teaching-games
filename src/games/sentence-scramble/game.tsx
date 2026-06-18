@@ -57,7 +57,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   // Fetch AI-generated sentences on mount / when topic or difficulty changes
   useEffect(() => {
     const effectiveTopic = getEffectiveTopic(sessionSettings);
-    const key = `${effectiveTopic}-${sessionSettings.difficulty}`;
+    const key = `${effectiveTopic}-${sessionSettings.difficulty}-${sessionSettings.grammarTarget ?? ''}`;
     if (fetchedRef.current === key) return;
     fetchedRef.current = key;
 
@@ -70,6 +70,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
       body: JSON.stringify({
         topic: effectiveTopic,
         difficulty: sessionSettings.difficulty,
+        ...(sessionSettings.grammarTarget ? { grammarTarget: sessionSettings.grammarTarget } : {}),
         ...(sourceMaterial ? { sourceMaterial } : {}),
       }),
     })
@@ -89,7 +90,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
     return () => { cancelled = true; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionSettings.topic, sessionSettings.customTopic, sessionSettings.difficulty]);
+  }, [sessionSettings.topic, sessionSettings.customTopic, sessionSettings.difficulty, sessionSettings.grammarTarget]);
 
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);

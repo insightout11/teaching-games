@@ -790,6 +790,16 @@ export interface GrammarProofContent extends ActivityGeneratedContent {
   exampleSentences: string[];
 }
 
+// Grammar Clarify content — the "teach the rule" step before the drills.
+export interface GrammarClarifyContent extends ActivityGeneratedContent {
+  activityKey: 'grammar-clarify';
+  grammarTarget: string;
+  form: string;          // how the structure is built
+  examples: string[];    // 2–3 model sentences, on the lesson topic
+  whenToUse: string;     // meaning / use
+  pitfall: string;       // a common mistake to avoid
+}
+
 // Contribution Break content
 export interface ContributionBreakContent extends ActivityGeneratedContent {
   activityKey: 'contribution-break';

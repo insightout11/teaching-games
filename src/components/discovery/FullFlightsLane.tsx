@@ -49,6 +49,18 @@ const SPEAK_CARD: PresetCardData = {
   route: (SPEAK_PRESET?.flightConfig?.stages ?? []).map((s) => ({ label: s.label, kind: s.kind })),
 };
 
+const GRAMMAR_PRESET = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'grammar-60');
+const GRAMMAR_CARD: PresetCardData = {
+  id: 'grammar-60',
+  name: GRAMMAR_PRESET?.name ?? 'Grammar',
+  focus: 'Grammar',
+  durationMinutes: GRAMMAR_PRESET?.lessonDurationMinutes ?? 60,
+  classFit: 'Any size',
+  flightNumber: 'LC-G1',
+  accent: ACCENTS.emerald,
+  route: (GRAMMAR_PRESET?.flightConfig?.stages ?? []).map((s) => ({ label: s.label, kind: s.kind })),
+};
+
 // ── PROTOTYPE preview cards (not yet authored as real presets) ─────────────────
 const PREVIEW_FLIGHTS: PresetCardData[] = [
   {
@@ -59,16 +71,6 @@ const PREVIEW_FLIGHTS: PresetCardData[] = [
       { label: 'Take', kind: 'micro-event' }, { label: 'Evidence', kind: 'stage' },
       { label: 'Rebuttal', kind: 'stage' }, { label: 'Defend', kind: 'micro-event' },
       { label: 'Vote', kind: 'stage' }, { label: 'Shift', kind: 'landing' },
-    ],
-  },
-  {
-    id: 'sample-grammar-clinic', name: 'Grammar Clinic', focus: 'Grammar', durationMinutes: 45,
-    classFit: 'Any size', flightNumber: 'LC-G1', preview: true, accent: ACCENTS.emerald,
-    route: [
-      { label: 'Check-in', kind: 'stage' }, { label: 'Briefing', kind: 'stage' },
-      { label: 'Hunt', kind: 'micro-event' }, { label: 'Build', kind: 'stage' },
-      { label: 'Drill', kind: 'micro-event' }, { label: 'Apply', kind: 'stage' },
-      { label: 'Proof', kind: 'stage' }, { label: 'Final Word', kind: 'landing' },
     ],
   },
   {
@@ -102,7 +104,11 @@ export function FullFlightsLane() {
     if (preset) setLaunchPreset(preset);
   }
 
-  const cards: PresetCardData[] = [{ ...SPEAK_CARD, onSelect: handleSelect }, ...PREVIEW_FLIGHTS];
+  const cards: PresetCardData[] = [
+    { ...SPEAK_CARD, onSelect: handleSelect },
+    { ...GRAMMAR_CARD, onSelect: handleSelect },
+    ...PREVIEW_FLIGHTS,
+  ];
 
   return (
     <section aria-label="Full Lessons">

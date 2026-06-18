@@ -27,6 +27,7 @@ import { passwordPlugin } from './password';
 import { bluffDefinitionPlugin } from './bluff-definition';
 import { tabooSprintPlugin } from './taboo-sprint';
 import { grammarCheckInPlugin } from './grammar-check-in';
+import { grammarClarifyPlugin } from './grammar-clarify';
 import { grammarProofPlugin } from './grammar-proof';
 import { finalWordPlugin } from './final-word';
 import { inYourWordsPlugin } from './in-your-words';
@@ -51,6 +52,7 @@ const activities: ActivityPlugin[] = [
   bluffDefinitionPlugin,
   tabooSprintPlugin,
   grammarCheckInPlugin,
+  grammarClarifyPlugin,
   quickPulsePlugin,
   wonderBoardPlugin,
   vocabRadarPlugin,
