@@ -384,7 +384,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'radar-fix', stageId: 'navigation-check', isMicroEvent: true },
       { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint'] },
       { slotType: 'production', key: 'decision-council', stageId: 'production' },
-      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game' },
+      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['imposter', 'flash-quiz', 'connections'] },
     ],
     flightConfig: {
       stages: [
@@ -449,7 +449,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it', 'two-truths'] },
       { slotType: 'production', key: 'conversation-rounds', stageId: 'conversation' },
-      { slotType: 'practice', key: 'imposter', stageId: 'end-game' },
+      { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['imposter', 'taboo-sprint', 'word-chain'] },
     ],
     flightConfig: {
       stages: [
