@@ -451,6 +451,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
       { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'production', key: 'conversation-rounds', stageId: 'conversation' },
+      { slotType: 'practice', key: 'vocab-micro', stageId: 'vocab-check', isMicroEvent: true },
       { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['imposter', 'taboo-sprint', 'word-chain'] },
     ],
     flightConfig: {
@@ -459,6 +460,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'scene', label: 'Scene', kind: 'stage', phase: 'climb' },
         { stageId: 'opinion-pulse', label: 'Opinion Pulse', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'conversation', label: 'Conversation', kind: 'stage', phase: 'cruise' },
+        { stageId: 'vocab-check', label: 'Comms Check', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
         { stageId: 'landing', label: 'Wrap-up', kind: 'landing', phase: 'landing' },
       ],
@@ -469,6 +471,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'rank-it': 'opinion-pulse',
         'two-truths': 'opinion-pulse',
         'conversation-rounds': 'conversation',
+        'vocab-micro': 'vocab-check',
         'imposter': 'end-game',
         'taboo-sprint': 'end-game',
         'word-chain': 'end-game',

@@ -654,6 +654,17 @@ export interface AccuracyMicroContent extends ActivityGeneratedContent {
   explanation: string;       // why the correction is right
 }
 
+// Vocab Micro content ("Comms Check" — single "which word fits?" gap)
+export interface VocabMicroContent extends ActivityGeneratedContent {
+  activityKey: 'vocab-micro';
+  sentence: string;     // one sentence with a single gap shown as "___"
+  options: string[];    // 3–4 single-word choices
+  correctIndex: number; // index of the best word in options
+  word: string;         // the correct word (= options[correctIndex])
+  explanation: string;  // meaning + why it fits
+  example?: string;     // a second example sentence
+}
+
 // Prediction Round content
 export interface PredictionRoundQuestion {
   text: string;        // The prediction statement / question

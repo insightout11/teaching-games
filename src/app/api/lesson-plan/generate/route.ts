@@ -16,6 +16,7 @@ import type {
   ActivityGeneratedContent,
   WonderBoardContent,
   GrammarClarifyContent,
+  VocabMicroContent,
   WouldYouRatherContent,
   HotTakeArenaContent,
   TwoTruthsContent,
@@ -2290,6 +2291,59 @@ Provide:
   }
 }
 
+async function generateVocabMicro(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<VocabMicroContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      sentence: { type: 'string' },
+      options: { type: 'array', items: { type: 'string' } },
+      correctIndex: { type: 'number' },
+      word: { type: 'string' },
+      explanation: { type: 'string' },
+      example: { type: 'string' },
+    },
+    required: ['sentence', 'options', 'correctIndex', 'word', 'explanation'],
+  };
+
+  const prompt = `Create one quick "which word fits?" vocabulary check for an English class at ${difficultyDescriptions[difficulty]}.
+Topic: ${topic}.
+${sourceContext}${sourceContext ? 'Draw the target word and sentence from the source material above.\n' : ''}
+Provide:
+- sentence: one natural sentence about ${topic} with a single gap shown as "___"
+- options: exactly 4 single-word choices that could grammatically fill the gap, with ONE clearly best for the meaning
+- correctIndex: 0-based index of the best word in options
+- word: the correct word (equal to options[correctIndex])
+- explanation: one sentence on the word's meaning and why it fits
+- example: one more short example sentence using the word`;
+
+  try {
+    const data = await generateJSON<{ sentence: string; options: string[]; correctIndex: number; word: string; explanation: string; example?: string }>(prompt, schema);
+    const options = Array.isArray(data.options) && data.options.length >= 2 ? data.options.slice(0, 4) : ['interesting', 'table', 'quickly', 'blue'];
+    const correctIndex = Math.min(Math.max(data.correctIndex ?? 0, 0), options.length - 1);
+    return {
+      activityKey: 'vocab-micro',
+      topicContext: topic,
+      sentence: data.sentence ?? `The topic of ${topic} is very ___.`,
+      options,
+      correctIndex,
+      word: data.word ?? options[correctIndex],
+      explanation: data.explanation ?? '',
+      example: data.example,
+    };
+  } catch {
+    return {
+      activityKey: 'vocab-micro',
+      topicContext: topic,
+      sentence: `The topic of ${topic} is very ___.`,
+      options: ['interesting', 'table', 'quickly', 'blue'],
+      correctIndex: 0,
+      word: 'interesting',
+      explanation: '"Interesting" describes something that holds your attention.',
+      example: `I find ${topic} interesting.`,
+    };
+  }
+}
+
 async function generateFinalWord(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<FinalWordContent> {
   const cached = skipCache ? null : await getCachedContent('final-word', topic, difficulty, [], undefined, 1);
   if (cached) {
@@ -2818,6 +2872,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'grammar-clarify':
             generators.push(generateGrammarClarify(customTopic, diff, grammarTarget ?? 'grammar', sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'vocab-micro':
+            generators.push(generateVocabMicro(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'final-word':
             generators.push(generateFinalWord(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
