@@ -404,6 +404,40 @@ a piece on earthquake resilience doesn't teach hotel check-in); hand-authoring t
 content for 54 cities doesn't scale; pure ungrounded generation loses the real-place
 magic. The adapter gets real anchors + scale + the existing routes.
 
+## Travel — build plan (phased)
+
+Travel = functional/transactional roleplay on the Speak engine + a **task checklist**; in World
+Flight it's grounded in the real city. Built in two phases.
+
+**Phase 1 — Travel at home:**
+- Preset `travel-60`: `vocab-radar` → briefing (`read-aloud`/`video-player`) → `dialogue-detective`
+  → `conversation-rounds` **+ task checklist** → end-game vote (`vocab-sprint`/`connections`/
+  `word-chain`) → `in-your-words`. Micros: Vocab (Comms Check) at home; Navigation joins in World
+  Flight (it's `worldFlightOnly`).
+- **Task checklist (`scenarioGoal`)** — the differentiator: `conversation-rounds` content gains a
+  ~3-item goal checklist; the activity displays it and the teacher ticks off what was hit
+  (human-adjudicated, no speech capture). Gated by a task flag so **Speak stays goal-free**.
+- **Scoring:** set `scoringMode: 'participation'` explicitly (goal `functional-english`
+  mis-derives to competitive).
+- **Home card** replaces the "Travel English" placeholder.
+
+**Phase 2 — Travel in World Flight:**
+- **Travel-context adapter** (city + situation → grounded `SourceMaterial` → existing
+  `dialogue-detective`/`conversation-rounds`/`vocab-radar` routes).
+- **Situation picker** in the WF two-step panel (Travel reshapes the content step into
+  situations); add `travel-60` to the WF picker allowlist.
+
+**Replayability (core requirement):**
+- **Situation is the variety engine** — airport/hotel/restaurant/directions/getting-around/
+  problem are distinct lessons. Rotate it; mark "already done" situations so the teacher picks fresh.
+- **World Flight: the city changes every flight** → real place names/landmarks → situation × 54
+  cities of variety.
+- **De-dup generated content** (seenItems / cache-exclude) so repeats within a situation stay fresh.
+- Later: **format variety** on the roleplay slot (`conversation-rounds`/`interview-lab`/
+  `scenario-simulator`) once the checklist extends to those formats.
+
+**Situations:** airport · hotel · restaurant · directions · getting-around · problem/help.
+
 ## Build-readiness findings (scoring · picker · end-game vote)
 
 Verified against the code (June 2026):
