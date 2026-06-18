@@ -2379,7 +2379,7 @@ Return JSON with a single "prompt" string.`;
   }
 }
 
-async function generateConversationRounds(topic: string, difficulty: Difficulty, sceneContext?: { title: string; context: string }, sourceContext = ''): Promise<ConversationRoundsContent> {
+async function generateConversationRounds(topic: string, difficulty: Difficulty, sceneContext?: { title: string; context: string }, sourceContext = '', taskRoleplay = false): Promise<ConversationRoundsContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -2400,6 +2400,7 @@ async function generateConversationRounds(topic: string, difficulty: Difficulty,
         },
       },
       complications: { type: 'array', items: { type: 'string' } },
+      taskChecklist: { type: 'array', items: { type: 'string' } },
     },
     required: ['scenario', 'context', 'roles', 'complications'],
   };
@@ -2424,8 +2425,8 @@ Rules:
   - phrases: 4-5 sentence starters useful for this role (max 8 words each, authentic spoken English)
   - lifelines: 2-3 COMPLETE sentences they can say verbatim if stuck — full natural utterances (${difficultyDescriptions[difficulty]})
 - complications: exactly 4 short twist sentences the teacher reads aloud mid-conversation to raise the stakes (max 15 words each)
-
-Return JSON with scenario, context, roles (array of exactly 2), complications (array of exactly 4).`;
+${taskRoleplay ? '- taskChecklist: exactly 3 concrete things the customer/traveler role must accomplish in the conversation (max 8 words each, e.g. "Ask the price", "Request a non-smoking room", "Confirm the dates")\n' : ''}
+Return JSON with scenario, context, roles (array of exactly 2), complications (array of exactly 4)${taskRoleplay ? ', and taskChecklist (array of exactly 3)' : ''}.`;
 
   try {
     const data = await generateJSON<{
@@ -2433,10 +2434,12 @@ Return JSON with scenario, context, roles (array of exactly 2), complications (a
       context: string;
       roles: ConversationRoundsContent['roles'];
       complications: string[];
+      taskChecklist?: string[];
     }>(prompt, schema);
     return {
       activityKey: 'conversation-rounds',
       topicContext: topic,
+      ...(taskRoleplay ? { taskChecklist: (data.taskChecklist ?? []).slice(0, 3) } : {}),
       scenario: data.scenario ?? topic,
       context: data.context ?? `Two students will role-play a situation related to ${topic}.`,
       roles: data.roles ?? [
@@ -2456,6 +2459,7 @@ Return JSON with scenario, context, roles (array of exactly 2), complications (a
         { title: 'Role B', goal: 'Assist while managing constraints', situation: 'You want to help but have limits.', phrases: ["I understand...", 'What I can do is...'], lifelines: ['I completely understand. Let me see what I can do for you.'] },
       ],
       complications: [],
+      ...(taskRoleplay ? { taskChecklist: ['Greet and explain what you need', 'Ask a key question', 'Confirm the details'] } : {}),
     };
   }
 }
@@ -2520,6 +2524,7 @@ export async function POST(request: NextRequest) {
       grammarTarget?: string;
       standardTopicId?: string;
       sessionId?: string;
+      taskRoleplay?: boolean;
     };
 
     const {
@@ -2532,6 +2537,7 @@ export async function POST(request: NextRequest) {
       goal,
       missionContext,
       grammarTarget,
+      taskRoleplay,
       sourceMaterial,
       needsSourceVocab,
       sourceVocab: sourceVocabFromRequest,
@@ -2618,7 +2624,7 @@ export async function POST(request: NextRequest) {
         content['scene-igniter'] = sceneResult;
         const primaryScene = sceneResult.scenes[0];
         const sceneCtx = { title: primaryScene.title, context: primaryScene.context };
-        if (hasConvRounds) content['conversation-rounds'] = await generateConversationRounds(customTopic, diff, sceneCtx, sourceCtx);
+        if (hasConvRounds) content['conversation-rounds'] = await generateConversationRounds(customTopic, diff, sceneCtx, sourceCtx, taskRoleplay);
         if (hasStorySprint) gameContent['story-sprint'] = await generateStorySprint(customTopic, diff, sceneCtx, sourceCtx);
       } catch (err) {
         console.warn('Scene chain sequential generation failed, continuing:', err instanceof Error ? err.message.slice(0, 100) : err);
@@ -2885,7 +2891,7 @@ export async function POST(request: NextRequest) {
             break;
           case 'conversation-rounds':
             if (sceneChainMode) break; // already generated sequentially above
-            generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx, taskRoleplay).then((r) => { content[activityKey] = r; }));
             break;
           case 'cabin-mystery':
             // V1 is a static hand-authored case. No AI generation required.

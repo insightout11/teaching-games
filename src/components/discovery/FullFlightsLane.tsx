@@ -61,6 +61,18 @@ const GRAMMAR_CARD: PresetCardData = {
   route: (GRAMMAR_PRESET?.flightConfig?.stages ?? []).map((s) => ({ label: s.label, kind: s.kind })),
 };
 
+const TRAVEL_PRESET = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'travel-60');
+const TRAVEL_CARD: PresetCardData = {
+  id: 'travel-60',
+  name: TRAVEL_PRESET?.name ?? 'Travel',
+  focus: 'Travel',
+  durationMinutes: TRAVEL_PRESET?.lessonDurationMinutes ?? 60,
+  classFit: 'Whole class',
+  flightNumber: 'LC-T1',
+  accent: ACCENTS.rose,
+  route: (TRAVEL_PRESET?.flightConfig?.stages ?? []).map((s) => ({ label: s.label, kind: s.kind })),
+};
+
 // ── PROTOTYPE preview cards (not yet authored as real presets) ─────────────────
 const PREVIEW_FLIGHTS: PresetCardData[] = [
   {
@@ -83,16 +95,6 @@ const PREVIEW_FLIGHTS: PresetCardData[] = [
       { label: 'Scores', kind: 'stage' }, { label: 'Landing', kind: 'landing' },
     ],
   },
-  {
-    id: 'sample-travel-english', name: 'Travel English', focus: 'Functional', durationMinutes: 60,
-    classFit: '1–on–1 · small', flightNumber: 'LC-T1', preview: true, accent: ACCENTS.rose,
-    route: [
-      { label: 'Vocab', kind: 'stage' }, { label: 'Briefing', kind: 'stage' },
-      { label: 'Dialogue', kind: 'stage' }, { label: 'Scene', kind: 'micro-event' },
-      { label: 'Roleplay', kind: 'stage' }, { label: 'Rounds', kind: 'stage' },
-      { label: 'Recap', kind: 'stage' }, { label: 'Final Word', kind: 'landing' },
-    ],
-  },
 ];
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -107,6 +109,7 @@ export function FullFlightsLane() {
   const cards: PresetCardData[] = [
     { ...SPEAK_CARD, onSelect: handleSelect },
     { ...GRAMMAR_CARD, onSelect: handleSelect },
+    { ...TRAVEL_CARD, onSelect: handleSelect },
     ...PREVIEW_FLIGHTS,
   ];
 

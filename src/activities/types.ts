@@ -412,6 +412,8 @@ export interface ConversationRoundsContent extends ActivityGeneratedContent {
   context: string;
   roles: [ConversationRoundsRole, ConversationRoundsRole];
   complications: string[];
+  // Task-roleplay only (Travel): ~3 things the traveler must accomplish; teacher ticks them off.
+  taskChecklist?: string[];
 }
 
 // ============================================

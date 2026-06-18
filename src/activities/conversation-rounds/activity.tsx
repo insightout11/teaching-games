@@ -28,6 +28,7 @@ export function ConversationRoundsActivity({
   const [shownLifelinesA, setShownLifelinesA] = useState(0);
   const [shownLifelinesB, setShownLifelinesB] = useState(0);
   const [regenerating, setRegenerating] = useState(false);
+  const [checkedTasks, setCheckedTasks] = useState<Set<number>>(new Set());
   const promptIndexRef = useRef(1);
 
   const roleA = content.roles?.[0];
@@ -36,6 +37,7 @@ export function ConversationRoundsActivity({
   const studentB = students[roleBIdx];
   const remaining = students.filter(s => !completedIds.includes(s.id));
   const complicationsLeft = (content.complications?.length ?? 0) - complicationIdx;
+  const taskChecklist = content.taskChecklist ?? [];
 
   // Student device — show scenario context + phrase chips during active phases
   useEffect(() => {
@@ -161,6 +163,33 @@ export function ConversationRoundsActivity({
           </button>
         )}
       </div>
+
+      {/* Task checklist (Travel) — teacher ticks off what the pair accomplished */}
+      {taskChecklist.length > 0 && phase !== 'idle' && phase !== 'complete' && (
+        <div className="glass space-y-2 rounded-2xl border border-cyan-400/30 p-4">
+          <p className="text-xs uppercase tracking-widest text-cyan-300/80">Task — accomplish these</p>
+          <div className="space-y-1.5">
+            {taskChecklist.map((task, i) => {
+              const done = checkedTasks.has(i);
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setCheckedTasks((prev) => {
+                    const next = new Set(prev);
+                    if (next.has(i)) next.delete(i); else next.add(i);
+                    return next;
+                  })}
+                  className={`flex w-full items-center gap-2.5 rounded-lg border px-3 py-2 text-left text-sm transition-colors ${done ? 'border-emerald-400/50 bg-emerald-400/10 text-emerald-200' : 'border-white/10 bg-white/[0.03] text-lc-text2 hover:border-white/20'}`}
+                >
+                  <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] ${done ? 'border-emerald-400 bg-emerald-400/30 text-emerald-200' : 'border-white/30'}`}>{done ? '✓' : ''}</span>
+                  <span className={done ? 'line-through opacity-80' : ''}>{task}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ─── IDLE ─── */}
       {phase === 'idle' && (
