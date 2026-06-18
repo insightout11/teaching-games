@@ -227,6 +227,37 @@ Near-clone of `accuracy-micro`: single round, `flightPlanOnly: true`, `isMicroEv
   = near-synonyms with collocation/register distinctions, abstract context.
 - **Build cost:** low — `accuracy-micro` plumbing + vocab content + the Comms Check beat.
 
+## World Flight preset picker (UX direction)
+
+The preset choice in World Flight is **structural, not cosmetic** — the flight plan decides
+what "content" even means: Captain's/Speak/Debate consume a **focus** (a city reading/video);
+**Travel** ignores focuses and generates a scenario from a **situation** + the city; **Design**
+is a capstone drawing on prior lessons. And teachers enter from two directions: **topic-first**
+("I like this content — how do I teach it?") vs **goal-first** ("I'm doing speaking — what
+content fits?"). So the picker must be **bidirectional**, with a **topic-first emphasis** (the
+map is a browse surface).
+
+**Design — the city sidebar becomes a two-part builder, cross-linked by the fit rating:**
+- **① What to teach (content)** — on top / default (topic-first). The city's 6 focuses, each
+  with a "Best as: …" fit badge.
+- **② Flight plan (how to run it)** — the WF-eligible presets; the best fit for the selected
+  focus is marked "recommended."
+- **Cross-link:** selecting a focus re-ranks ② (recommends a preset); selecting a preset
+  re-sorts ① by fit. Either entry point works.
+- **Travel reshapes ①:** picking Travel in ② swaps ① from the focus list to a **situation
+  picker** (airport/hotel/restaurant/directions) with a note that Travel writes its own scenario
+  from the city. Switch back → focuses return. So Travel is first-class *inside* the picker, not
+  exiled — ① is context-sensitive to ②.
+- **Design** stays its own capstone "mission" entry (needs prior lessons), not in this picker.
+
+**Fit rating** drives the badges/recommendations and must be **bidirectional** (focus → best
+presets; preset/goal → best focuses). Feasible because WF content is a **finite curated set** —
+pre-tag each focus once (editorial or AI-at-ingest).
+
+**Build phasing:** build the two-part builder now with **Captain's as the default** and no
+badges; the fit-tagging lights up the recommendations later (graceful degradation). Common case
+stays one decision + launch (pick content → accept recommendation → go).
+
 ## World Flight menu ≠ home menu
 
 Offer each preset where its source needs are actually met.
