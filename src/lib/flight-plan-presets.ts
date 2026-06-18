@@ -379,7 +379,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     landing: 'final-word',
     moduleSequence: [
       { slotType: 'presentation', key: 'read-aloud', stageId: 'briefing' },
-      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it', 'defend-it', 'two-truths'] },
+      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'practice', key: 'language-toolkit', stageId: 'language-toolkit' },
       { slotType: 'practice', key: 'error-hunter', stageId: 'accuracy-check', isMicroEvent: true, pool: ['error-hunter', 'sentence-scramble', 'synonym-showdown', 'vocab-sprint'] },
       { slotType: 'production', key: 'decision-council', stageId: 'production' },
@@ -405,14 +405,12 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'language-toolkit': 'language-toolkit',
         'would-you-rather': 'opinion-pulse',
         'rank-it': 'opinion-pulse',
-        'two-truths': 'opinion-pulse',
         'error-hunter': 'accuracy-check',
         'sentence-scramble': 'accuracy-check',
         'synonym-showdown': 'accuracy-check',
         'vocab-sprint': 'accuracy-check',
         'radar-fix': 'navigation-check',
         'fact-detective': 'accuracy-check',
-        'defend-it': 'opinion-pulse',
         'decision-council': 'production',
         'flash-quiz': 'end-game',
         'imposter': 'end-game',
@@ -447,7 +445,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // Micro defaults (Vocab) await the Vocab micro + toggle system; Opinion Pulse baked in for now.
     moduleSequence: [
       { slotType: 'presentation', key: 'scene-igniter', stageId: 'scene' },
-      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it', 'two-truths'] },
+      { slotType: 'practice', key: 'would-you-rather', stageId: 'opinion-pulse', isMicroEvent: true, pool: ['would-you-rather', 'rank-it'] },
       { slotType: 'production', key: 'conversation-rounds', stageId: 'conversation' },
       { slotType: 'practice', key: 'imposter', stageId: 'end-game', pool: ['imposter', 'taboo-sprint', 'word-chain'] },
     ],
