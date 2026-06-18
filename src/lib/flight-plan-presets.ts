@@ -40,6 +40,8 @@ export interface FlightPlanPreset {
   lessonDurationMinutes: 30 | 45 | 60 | 90;
   goal: GoalTag;
   lessonType: LessonType;
+  /** Short one-line subtitle shown on preset pickers/cards. */
+  tagline?: string;
   /** Explicit scoring mode override — skips goal-derived default when set. */
   scoringMode?: ScoringMode;
   /** When true, loadPreset skips mission-selector takeoff and landing — pure game sequence. */
@@ -372,6 +374,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     id: 'all-around-flight-60',
     name: "Captain's Flight",
     description: 'Flagship ESL journey: warm-up, briefing, opinion pulse, language toolkit, accuracy check, main discussion, review game, wrap-up',
+    tagline: 'The all-rounder — comprehend a source, then discuss',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'skill-builder',
@@ -436,6 +439,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     id: 'speak-60',
     name: 'Speak',
     description: 'Maximum talk time — warm-up, a scaffolded scene, an opinion pulse, open conversation, a review game, and a final word. Fluency over accuracy.',
+    tagline: 'Maximum talk time — fluency over accuracy',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
     lessonType: 'performance',

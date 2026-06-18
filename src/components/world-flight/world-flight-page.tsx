@@ -8,7 +8,7 @@ import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/
 import { WORLD_FLIGHT_MAP_STYLE } from '@/data/world-flight/map-style';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
 import { destinationCoord, destinationsWithinRange, distanceKm, formatDistance, greatCircleLine, rangeRing, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
-import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
+import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
@@ -483,6 +483,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [mapReady, setMapReady] = useState(false);
   const [selectedDestinationId, setSelectedDestinationId] = useState(() => initialDestinationId(initialClasses));
   const [selectedFocusId, setSelectedFocusId] = useState<string | null>(null);
+  // World-Flight-eligible flight plans (grows as Debate/Travel are authored).
+  const [selectedPresetId, setSelectedPresetId] = useState<string>('all-around-flight-60');
+  const worldFlightPresets = ['all-around-flight-60', 'speak-60']
+    .map((id) => FLIGHT_PLAN_PRESETS.find((p) => p.id === id))
+    .filter((p): p is FlightPlanPreset => Boolean(p));
   const [focusFilter, setFocusFilter] = useState<FocusFilter>('all');
   const [listOpen, setListOpen] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(true);
@@ -1382,7 +1387,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   }, [mapReady, planeAsset.name, planeAsset.webp, routeOrigin]);
 
   function launchSelectedFocus() {
-    const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'all-around-flight-60');
+    const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === selectedPresetId);
     const store = usePlannerStore.getState();
     store.reset();
     store.setTopic(selectedFocus.title);
@@ -1928,6 +1933,30 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                     </div>
                   </div>
                 ) : null}
+                {worldFlightPresets.length > 1 && (
+                  <div className="mb-3">
+                    <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-lc-text2">Flight plan</p>
+                    <div className="space-y-1.5">
+                      {worldFlightPresets.map((preset) => {
+                        const selected = preset.id === selectedPresetId;
+                        return (
+                          <button
+                            key={preset.id}
+                            type="button"
+                            onClick={() => setSelectedPresetId(preset.id)}
+                            className={`flex w-full items-center gap-2.5 rounded-lg border px-3 py-2 text-left transition-colors ${selected ? 'border-cyan-300/60 bg-cyan-300/[0.08]' : 'border-white/10 bg-white/[0.025] hover:border-white/20'}`}
+                          >
+                            <PlaneTakeoff className={`h-3.5 w-3.5 shrink-0 ${selected ? 'text-cyan-300' : 'text-lc-text3'}`} aria-hidden />
+                            <span className="min-w-0">
+                              <span className={`block truncate text-sm font-semibold ${selected ? 'text-cyan-100' : 'text-lc-text'}`}>{preset.name}</span>
+                              {preset.tagline && <span className="block truncate text-[11px] text-lc-text3">{preset.tagline}</span>}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
                 <button
                   type="button"
                   onClick={launchSelectedFocus}
