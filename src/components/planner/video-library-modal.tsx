@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import { X, Clock, Search, Play, LayoutGrid, List, SlidersHorizontal, Info, ChevronRight, Star } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
+import { recommendedPresetForSource, type SourceGenre } from '@/lib/preset-fit';
 import {
   useDrawerA11y, usePersistedState, useFavorites, useRecentlyUsed, useIncremental,
   SortSelect, ActiveFilterChips, FavoriteStar, ClampText,
@@ -76,7 +77,20 @@ type LibraryEntry = {
   youtubeId?: string | null;
   audience?: 'kids';
   sourceType: LibrarySourceKey;
+  /** LLM-classified genre (populated by scripts/classify-library-genres.ts); drives the "Best for" badge. */
+  genre?: SourceGenre;
 };
+
+/** Best-fit preset label for a library entry (stored genre, heuristic fallback). */
+function fitLabelFor(entry: LibraryEntry): string | null {
+  return recommendedPresetForSource({
+    genre: entry.genre,
+    title: entry.title,
+    lessonGoal: entry.description,
+    subtitle: entry.summary,
+    skills: entry.topicTags,
+  })?.label ?? null;
+}
 
 type ViewMode = 'grid' | 'list';
 
@@ -554,6 +568,9 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                       {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                     </span>
                     <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
+                    {fitLabelFor(entry) && (
+                      <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabelFor(entry)}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -585,6 +602,9 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                       {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                     </span>
                     <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
+                    {fitLabelFor(entry) && (
+                      <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabelFor(entry)}</span>
+                    )}
                     {entry.topicTags.slice(0, 2).map((t) => (
                       <span key={t} className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">{t}</span>
                     ))}

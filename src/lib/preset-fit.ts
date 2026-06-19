@@ -40,6 +40,19 @@ const GENRE_FIT: Record<SourceGenre, Record<string, number>> = {
   dialogue:   { 'all-around-flight-60': 2, 'debate-60': 1, 'speak-60': 3, 'travel-60': 2, 'grammar-60': 2 },
 };
 
+// Short, display-ready preset names for "Best for: …" badges (avoids importing the
+// full preset list into every surface).
+export const PRESET_FIT_LABELS: Record<string, string> = {
+  'all-around-flight-60': "Captain's Flight",
+  'debate-60': 'Debate',
+  'speak-60': 'Speak',
+  'travel-60': 'Travel',
+  'grammar-60': 'Grammar',
+};
+
+// All five presets — the eligible set for non-World-Flight surfaces (library, paste).
+export const ALL_FIT_PRESET_IDS = ['all-around-flight-60', 'debate-60', 'speak-60', 'travel-60', 'grammar-60'];
+
 // Tie-break priority when two presets score equally. Captain's only wins ties among
 // the generalist genres; for clearly-typed sources the specialist plan should lead, so
 // keep Captain's mid-list (it already has a high baseline that wins on score where it
@@ -126,4 +139,28 @@ export function inferSourceGenre(signal: GenreSignal): SourceGenre {
     return 'narrative';
   }
   return 'expository';
+}
+
+/**
+ * Resolve a source's genre, preferring an explicit (LLM-classified, stored) genre and
+ * falling back to the heuristic. Consumers always call this — so once a `genre` is
+ * populated at ingest, the heuristic is bypassed with no other change.
+ */
+export function resolveSourceGenre(signal: GenreSignal & { genre?: SourceGenre | null }): SourceGenre {
+  if (signal.genre && signal.genre in GENRE_FIT) return signal.genre;
+  return inferSourceGenre(signal);
+}
+
+/**
+ * Convenience for "Best for: <preset>" badges: returns the best-fit preset's id +
+ * display label for a source, among an eligible set (defaults to all five presets).
+ */
+export function recommendedPresetForSource(
+  signal: GenreSignal & { genre?: SourceGenre | null },
+  eligiblePresetIds: string[] = ALL_FIT_PRESET_IDS,
+): { presetId: string; label: string } | null {
+  const genre = resolveSourceGenre(signal);
+  const presetId = bestPresetForGenre(genre, eligiblePresetIds);
+  if (!presetId) return null;
+  return { presetId, label: PRESET_FIT_LABELS[presetId] ?? presetId };
 }
