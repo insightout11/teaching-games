@@ -1138,17 +1138,21 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
   const flightConfig = lesson.lessonPlanContent?.flightConfig;
-  const isAllAroundFlight = lesson.lessonPlanContent?.flightPresetId === 'all-around-flight-60' && Boolean(flightConfig);
+  // Any preset with a curated flightConfig gets the full flight treatment (journey
+  // view + end-game class vote), not just the All-Around flight.
+  const isCuratedFlight = Boolean(flightConfig);
 
   const handleNextWithRouteChoice = useCallback(() => {
-    if (isAllAroundFlight && lesson.currentSlot?.key === 'decision-council') {
-      const endGameSlot = lesson.lessonSlots[lesson.currentSlotIndex + 1];
-      setRouteChoicePool(endGameSlot?.pool ?? null);
+    // Fire the class vote when the NEXT slot is an end-game pool (any preset),
+    // instead of advancing straight into the slot's hardcoded default game.
+    const nextSlot = lesson.lessonSlots[lesson.currentSlotIndex + 1];
+    if (nextSlot?.stageId === 'end-game' && (nextSlot.pool?.length ?? 0) > 1) {
+      setRouteChoicePool(nextSlot.pool ?? null);
       setShowRouteChoice(true);
     } else {
       handleNextSlotWithTransition();
     }
-  }, [isAllAroundFlight, lesson, handleNextSlotWithTransition]);
+  }, [lesson, handleNextSlotWithTransition]);
 
   const { replaceNextSlot } = lesson;
   const handleRouteChosen = useCallback((key: string, type: 'game' | 'activity', name: string) => {
@@ -2004,7 +2008,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onResolved={handlePoolResolved}
           />
         ) : viewMode === 'game' && selectedGame ? (
-          isAllAroundFlight && flightConfig ? (
+          isCuratedFlight && flightConfig ? (
             <FlightSessionView
               slots={lesson.lessonSlots}
               currentSlotIndex={lesson.currentSlotIndex}
@@ -2014,7 +2018,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               isModuleFinished={isModuleFinished}
               onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
               onSwap={() => setShowPivotDrawer(true)}
-              onNext={handleNextSlotWithTransition}
+              onNext={handleNextWithRouteChoice}
               onGoToSlot={lesson.goToSlot}
             >
               <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
@@ -2093,7 +2097,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
           )
         ) : viewMode === 'activity' && selectedActivity ? (
-          isAllAroundFlight && flightConfig ? (
+          isCuratedFlight && flightConfig ? (
             <FlightSessionView
               slots={lesson.lessonSlots}
               currentSlotIndex={lesson.currentSlotIndex}
