@@ -11,6 +11,7 @@
 
 export type SourceGenre =
   | 'opinion'      // argumentative / persuasive — two credible sides
+  | 'discussion'   // share-your-view, cultural / experiential — suits open speaking
   | 'expository'   // informational / explainer — the all-round default
   | 'narrative'    // story / personal account / experience
   | 'travelogue'   // place, travel, getting-around, functional real-world
@@ -19,6 +20,7 @@ export type SourceGenre =
 
 export const GENRE_LABELS: Record<SourceGenre, string> = {
   opinion: 'Opinion piece',
+  discussion: 'Discussion / culture',
   expository: 'Explainer',
   narrative: 'Story',
   travelogue: 'Travel / place',
@@ -30,6 +32,7 @@ export const GENRE_LABELS: Record<SourceGenre, string> = {
 // baseline everywhere — it's the safe generalist and the graceful default.
 const GENRE_FIT: Record<SourceGenre, Record<string, number>> = {
   opinion:    { 'all-around-flight-60': 2, 'debate-60': 3, 'speak-60': 2, 'travel-60': 0, 'grammar-60': 1 },
+  discussion: { 'all-around-flight-60': 2, 'debate-60': 2, 'speak-60': 3, 'travel-60': 1, 'grammar-60': 1 },
   expository: { 'all-around-flight-60': 3, 'debate-60': 1, 'speak-60': 2, 'travel-60': 1, 'grammar-60': 1 },
   narrative:  { 'all-around-flight-60': 2, 'debate-60': 1, 'speak-60': 3, 'travel-60': 1, 'grammar-60': 1 },
   travelogue: { 'all-around-flight-60': 2, 'debate-60': 1, 'speak-60': 2, 'travel-60': 3, 'grammar-60': 1 },
@@ -37,9 +40,11 @@ const GENRE_FIT: Record<SourceGenre, Record<string, number>> = {
   dialogue:   { 'all-around-flight-60': 2, 'debate-60': 1, 'speak-60': 3, 'travel-60': 2, 'grammar-60': 2 },
 };
 
-// Tie-break priority when two presets score equally — Captain's wins as the safe
-// generalist, then the more specialised plans.
-const PRESET_PRIORITY = ['all-around-flight-60', 'debate-60', 'speak-60', 'travel-60', 'grammar-60'];
+// Tie-break priority when two presets score equally. Captain's only wins ties among
+// the generalist genres; for clearly-typed sources the specialist plan should lead, so
+// keep Captain's mid-list (it already has a high baseline that wins on score where it
+// genuinely fits).
+const PRESET_PRIORITY = ['debate-60', 'travel-60', 'speak-60', 'all-around-flight-60', 'grammar-60'];
 
 /** Fit score (0–3) of a preset for a genre. Unknown preset → 0. */
 export function fitScore(genre: SourceGenre, presetId: string): number {
@@ -88,26 +93,36 @@ export function inferSourceGenre(signal: GenreSignal): SourceGenre {
     .join(' ')
     .toLowerCase();
   const has = (re: RegExp) => re.test(text);
-  const hasSkill = (...names: string[]) => names.some((n) => skills.includes(n));
+  // Substring match so e.g. the 'travel English' skill matches 'travel'.
+  const skill = (...names: string[]) => names.some((n) => skills.some((s) => s.includes(n)));
 
-  // Opinion / debate — strongest, most specific signal.
-  if (hasSkill('debate', 'persuasion') || has(/\b(debate|argue|argument|opinion|controvers|persuad|pros and cons|for and against|should we|take a side)\b/)) {
+  // Order matters — most specific / most differentiating first.
+
+  // 1. Opinion / debate — genuinely two-sided.
+  if (skill('opinion', 'debate', 'persuasion', 'argument') ||
+      has(/\b(debate|argue|evaluate whether|for and against|pros and cons|take a side|controvers|persuad|should we)\b/)) {
     return 'opinion';
   }
-  // How-to / language form.
-  if (has(/\b(how to|how-to|step[- ]by[- ]step|tutorial|guide to|instructions|recipe|grammar|tense|conditional|sentence structure)\b/)) {
-    return 'how-to';
-  }
-  // Functional travel / place navigation.
-  if (has(/\b(getting around|directions|itinerary|check[- ]in|book a|order(ing)? food|public transport|travel tips|at the airport|at the hotel)\b/)) {
+  // 2. Functional travel / directions.
+  if (skill('travel', 'directions', 'navigation') ||
+      has(/\b(directions|the route|getting around|how to get|public transport|transport hub|the metro|the subway|commut|travel tips|at the airport|at the hotel|check[- ]in)\b/)) {
     return 'travelogue';
   }
-  // Interview / conversation.
-  if (hasSkill('role-play') || has(/\b(interview|conversation|dialogue|talk show|q&a|in conversation with)\b/)) {
+  // 3. How-to / language form.
+  if (has(/\b(how to|how-to|step[- ]by[- ]step|tutorial|guide to|grammar|tense|conditional|sentence structure)\b/)) {
+    return 'how-to';
+  }
+  // 4. Interview / conversation.
+  if (skill('role-play', 'interview') || has(/\b(interview|conversation|dialogue|talk show|q&a|in conversation with)\b/)) {
     return 'dialogue';
   }
-  // Story / personal account.
-  if (hasSkill('creativity') || has(/\b(story|narrative|personal account|memoir|the experience of|a day in the life)\b/)) {
+  // 5. Discussion / share-your-view — talk-oriented (cultural, experiential).
+  if (skill('discussion', 'opinion-sharing') ||
+      has(/\b(discuss|share your|what do you think|what makes|your experience|tell us about)\b/)) {
+    return 'discussion';
+  }
+  // 6. Story / personal account.
+  if (skill('storytelling', 'creativity') || has(/\b(a story|personal account|memoir|a day in the life)\b/)) {
     return 'narrative';
   }
   return 'expository';
