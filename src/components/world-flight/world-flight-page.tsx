@@ -9,6 +9,7 @@ import { WORLD_FLIGHT_MAP_STYLE } from '@/data/world-flight/map-style';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
 import { destinationCoord, destinationsWithinRange, distanceKm, formatDistance, greatCircleLine, rangeRing, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
+import { inferSourceGenre, bestPresetForGenre } from '@/lib/preset-fit';
 import { buildTravelContext } from '@/lib/world-flight/travel-context';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
@@ -488,7 +489,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [selectedPresetId, setSelectedPresetId] = useState<string>('all-around-flight-60');
   const [launchStep, setLaunchStep] = useState<'source' | 'flight-plan'>('source');
   const [selectedSituation, setSelectedSituation] = useState<string>('');
-  const worldFlightPresets = ['all-around-flight-60', 'speak-60', 'travel-60']
+  const worldFlightPresets = ['all-around-flight-60', 'speak-60', 'travel-60', 'debate-60']
     .map((id) => FLIGHT_PLAN_PRESETS.find((p) => p.id === id))
     .filter((p): p is FlightPlanPreset => Boolean(p));
   const travelSituations = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'travel-60')?.scenarios?.options ?? [];
@@ -592,8 +593,22 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     [routeOrigin, selectedDestination],
   );
   const selectedFocus = visibleFocusOptions.find((focus) => focus.id === selectedFocusId) ?? visibleFocusOptions[0] ?? publishedFocusOptions[0];
+  // Best-fit flight plan for the chosen focus, derived from its inferred genre.
+  // Drives the "Recommended" marker; degrades gracefully (Captain's) for plain sources.
+  const recommendedPresetId = selectedFocus
+    ? bestPresetForGenre(
+        inferSourceGenre({ skills: selectedFocus.skills, lessonGoal: selectedFocus.lessonGoal, title: selectedFocus.title, subtitle: selectedFocus.subtitle }),
+        worldFlightPresets.map((p) => p.id),
+      )
+    : null;
+  const recommendedPreset = worldFlightPresets.find((p) => p.id === recommendedPresetId) ?? null;
   // Reset to the source step whenever the city changes.
   useEffect(() => { setLaunchStep('source'); }, [selectedDestination?.id]);
+  // Pick content → pre-select the recommended flight plan (teacher can override in step 2).
+  useEffect(() => {
+    if (recommendedPresetId) setSelectedPresetId(recommendedPresetId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFocusId]);
   const isReachable = !!routeOrigin && ((selectedDistanceKm ?? 0) <= rangeKm || selectedDestination.id === routeOrigin.id);
   const isLocalLesson = routeOrigin?.id === selectedDestination.id;
   const nextHopCandidates = useMemo(
@@ -1915,6 +1930,9 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                       <>
                         <p className="truncate text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
                         <p className="truncate text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
+                        {recommendedPreset && (
+                          <p className="mt-0.5 truncate text-[11px] text-lc-text3">Best as a <span className="font-semibold text-cyan-200/80">{recommendedPreset.name}</span> lesson</p>
+                        )}
                       </>
                     )}
                   </div>
@@ -1924,8 +1942,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   <span className="text-xs text-lc-text3">{worldFlightPresets.length} options</span>
                 </div>
                 <div className="space-y-1.5">
-                  {worldFlightPresets.map((preset) => {
+                  {[...worldFlightPresets]
+                    .sort((a, b) => (a.id === recommendedPresetId ? -1 : 0) - (b.id === recommendedPresetId ? -1 : 0))
+                    .map((preset) => {
                     const selected = preset.id === selectedPresetId;
+                    const recommended = preset.id === recommendedPresetId;
                     return (
                       <button
                         key={preset.id}
@@ -1934,8 +1955,13 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                         className={`flex w-full items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left transition-colors ${selected ? 'border-cyan-300/60 bg-cyan-300/[0.08]' : 'border-white/10 bg-white/[0.025] hover:border-white/20'}`}
                       >
                         <PlaneTakeoff className={`h-4 w-4 shrink-0 ${selected ? 'text-cyan-300' : 'text-lc-text3'}`} aria-hidden />
-                        <span className="min-w-0">
-                          <span className={`block truncate text-sm font-semibold ${selected ? 'text-cyan-100' : 'text-lc-text'}`}>{preset.name}</span>
+                        <span className="min-w-0 flex-1">
+                          <span className="flex items-center gap-2">
+                            <span className={`truncate text-sm font-semibold ${selected ? 'text-cyan-100' : 'text-lc-text'}`}>{preset.name}</span>
+                            {recommended && (
+                              <span className="shrink-0 rounded-full bg-cyan-300/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-cyan-200">Recommended</span>
+                            )}
+                          </span>
                           {preset.tagline && <span className="block truncate text-[11px] text-lc-text3">{preset.tagline}</span>}
                         </span>
                       </button>
