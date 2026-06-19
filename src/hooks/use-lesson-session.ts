@@ -257,13 +257,14 @@ export function useLessonSession(
     if (prefetched) return prefetched;
 
     // Pre-generated content from lesson planner
-    // Exception: grammar-check-in content must match the current grammarTarget.
-    // If the teacher changed the target in the lobby, skip stale pre-generated content
-    // so it regenerates with the correct sentences.
+    // Exception: grammar target-dependent activities (check-in, clarify, proof) are
+    // pre-generated before the teacher picks the target in the check-in, so if the
+    // confirmed target differs, skip the stale pre-gen and regenerate with the real target.
     if (lessonPlanContent?.generatedContent[activity.key]) {
       const pregen = lessonPlanContent.generatedContent[activity.key] as ActivityGeneratedContent & { grammarTarget?: string };
       const currentTarget = settings.grammarTarget;
-      if (activity.key !== 'grammar-check-in' || !currentTarget || pregen.grammarTarget === currentTarget) {
+      const targetDependent = activity.key === 'grammar-check-in' || activity.key === 'grammar-clarify' || activity.key === 'grammar-proof';
+      if (!targetDependent || !currentTarget || pregen.grammarTarget === currentTarget) {
         return pregen;
       }
     }

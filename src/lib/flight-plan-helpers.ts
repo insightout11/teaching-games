@@ -17,7 +17,8 @@ function capitalize(s: string): string {
 export function buildPlannerFlightPlanSteps(modules: PlanModule[]): FlightPlanStep[] {
   return modules.map((mod) => ({
     id: mod.id,
-    type: capitalize(mod.slotType),
+    // Flight-consistent labels (no PPP jargon): Takeoff / Stage / Check / Landing.
+    type: mod.slotType === 'takeoff' ? 'Takeoff' : mod.slotType === 'landing' ? 'Landing' : mod.isMicroEvent ? 'Check' : 'Stage',
     // Undetermined slots are masked as "Waypoint" (matches the lobby/session view)
     name: isUndeterminedModule(mod)
       ? 'Waypoint'
@@ -27,7 +28,8 @@ export function buildPlannerFlightPlanSteps(modules: PlanModule[]): FlightPlanSt
 }
 
 /**
- * Look up pppStage from game or activity registry by key.
+ * Look up pppStage from game or activity registry by key (used for slot time-budget weights,
+ * NOT for display — route labels use the flight-consistent Takeoff/Stage/Check/Landing).
  */
 function getPppStage(key: string): string | null {
   const game = getGame(key);
@@ -49,7 +51,9 @@ export function buildRuntimeFlightPlanSteps(slots: LessonSlot[]): FlightPlanStep
         ? 'Takeoff'
         : i === slots.length - 1
           ? 'Landing'
-          : capitalize(getPppStage(slot.key) ?? 'Module'),
+          : slot.isMicroEvent
+            ? 'Check'
+            : 'Stage',
     name: slot.name,
     kind: (i === 0 || i === slots.length - 1) ? 'terminal' : 'module',
   }));
