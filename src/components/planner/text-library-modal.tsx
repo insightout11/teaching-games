@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import {
   X, BookOpen, Search, ChevronRight, LayoutGrid, List, SlidersHorizontal, Images, Info, Clock, Star,
   HeartPulse, Cpu, Leaf, Palette, GraduationCap, Brain, Briefcase, Newspaper, Users,
@@ -344,6 +344,23 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
   const filterSig = `${query}|${activeSource}|${activeTag}|${activeDifficulty}|${favsOnly}|${sortKey}`;
   const { count, more } = useIncremental(filterSig, 24);
   const visible = sorted.slice(0, count);
+  const hasMore = visible.length < sorted.length;
+
+  // Auto-load the next page as the sentinel nears the bottom of the scroll area.
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!hasMore) return;
+    const sentinel = sentinelRef.current;
+    const root = scrollRef.current;
+    if (!sentinel || !root) return;
+    const io = new IntersectionObserver(
+      (entries) => { if (entries[0]?.isIntersecting) more(); },
+      { root, rootMargin: '400px' },
+    );
+    io.observe(sentinel);
+    return () => io.disconnect();
+  }, [hasMore, more, count]);
 
   const chips: { key: string; label: string; onRemove: () => void }[] = [];
   if (activeSource) chips.push({ key: 'source', label: SOURCE_CONFIG.find((s) => s.key === activeSource)?.label ?? activeSource, onRemove: () => setActiveSource(null) });
@@ -512,8 +529,14 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
       )}
 
       {/* ── Content ── */}
-      <div className="flex-1 overflow-y-auto px-6 py-5">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-5">
         <ActiveFilterChips chips={chips} onClearAll={clearFilters} />
+
+        {sorted.length > 0 && (
+          <p className="mb-3 text-xs text-lc-text3">
+            Showing {visible.length} of {sorted.length} reading{sorted.length !== 1 ? 's' : ''}
+          </p>
+        )}
 
         {filtered.length === 0 && (
           <p className="text-sm text-lc-text3 text-center py-20">
@@ -610,13 +633,13 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
           </div>
         )}
 
-        {visible.length < sorted.length && (
-          <div className="flex justify-center pt-6">
+        {hasMore && (
+          <div ref={sentinelRef} className="flex justify-center pt-6">
             <button
               onClick={more}
               className="px-5 py-2 rounded-lg border border-lc-border text-sm font-semibold text-lc-text3 hover:text-lc-text hover:border-lc-text3 transition-colors"
             >
-              Show more ({sorted.length - visible.length} left)
+              Load more ({sorted.length - visible.length} more)
             </button>
           </div>
         )}
