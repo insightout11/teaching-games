@@ -7,6 +7,7 @@ import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import type { Team } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import { DynamicInput } from './dynamic-input';
+import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
@@ -1055,6 +1056,18 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   </div>
                 </div>
               )}
+            </>
+          ) : inputSpec.type === 'debate-prep' ? (
+            /* Team Debate — students add points to their own team's board */
+            <>
+              <h2 className="font-bold text-white mb-3">Team Debate — Prep</h2>
+              <DebatePrepPanel
+                sessionId={sessionId}
+                spec={inputSpec}
+                clientId={studentSession.clientId}
+                studentId={studentSession.studentId}
+                displayName={studentSession.displayName}
+              />
             </>
           ) : (
             <>

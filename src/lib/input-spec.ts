@@ -15,7 +15,8 @@ export type InputType =
   | 'geo-point'      // Place and confirm a pin on an interactive map
   | 'cabin-question' // Cabin Mystery two-step question picker (target → question)
   | 'cabin-vote'     // Cabin Mystery final theory form (suspect + motive)
-  | 'cabin-culprit'; // Cabin Mystery culprit-side — prompt for culprit, listening state for others
+  | 'cabin-culprit'  // Cabin Mystery culprit-side — prompt for culprit, listening state for others
+  | 'debate-prep';   // Team Debate prep board — add points to your team's live list
 
 export interface InputSpec {
   type: InputType;
@@ -79,6 +80,16 @@ export interface InputSpec {
   currentSlideUrl?: string;
   /** Vocab words to highlight inline in the read-aloud passage */
   readAloudVocabWords?: string[];
+  /** Team Debate prep: which side each student is on, keyed by roster studentId. */
+  debateSideByStudentId?: Record<string, 'for' | 'against'>;
+  /** Team Debate prep: stance label for the For side. */
+  debateForLabel?: string;
+  /** Team Debate prep: stance label for the Against side. */
+  debateAgainstLabel?: string;
+  /** Team Debate prep: argument angles shown to the For side. */
+  debateForPrompts?: string[];
+  /** Team Debate prep: argument angles shown to the Against side. */
+  debateAgainstPrompts?: string[];
 }
 
 export interface ReadAloudQueueEntry {
