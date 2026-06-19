@@ -830,6 +830,20 @@ export interface DecisionCouncilContent extends ActivityGeneratedContent {
   challengeStarters?: string[]; // Challenge language starters (4–5)
 }
 
+// Team Debate content — structured two-team debate (motion + per-side prep angles).
+// The debate STRUCTURE (Opening → Rebuttal → Closing) is fixed in the component;
+// only the motion/context/prep material is generated.
+export interface TeamDebateContent extends ActivityGeneratedContent {
+  activityKey: 'team-debate';
+  motion: string;            // Debatable statement, e.g. "This house believes that ..."
+  context: string;           // 2–3 sentence framing students can read in ~30s
+  forLabel: string;          // Stance label for the For team (e.g. "For" or a position)
+  againstLabel: string;      // Stance label for the Against team
+  forPrompts: string[];      // 3–4 prep angles / arguments for the For side
+  againstPrompts: string[];  // 3–4 prep angles / arguments for the Against side
+  usefulPhrases: string[];   // 5–6 debate language starters (both sides)
+}
+
 // Final Word content
 export interface FinalWordContent extends ActivityGeneratedContent {
   activityKey: 'final-word';

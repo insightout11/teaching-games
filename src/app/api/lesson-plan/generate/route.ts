@@ -64,6 +64,7 @@ import type {
   ConnectionsGeneratedContent,
   VideoPlayerContent,
   DecisionCouncilContent,
+  TeamDebateContent,
   SourceVocabItem,
 } from '@/activities/types';
 import type { ComprehensionQuestion } from '@/types/source-material';
@@ -246,6 +247,58 @@ Return JSON only.`;
   }>(prompt, schema);
 
   return { activityKey: 'decision-council', topicContext: topic, ...parsed };
+}
+
+async function generateTeamDebate(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<TeamDebateContent> {
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      motion: { type: 'string' },
+      context: { type: 'string' },
+      forLabel: { type: 'string' },
+      againstLabel: { type: 'string' },
+      forPrompts: { type: 'array', items: { type: 'string' } },
+      againstPrompts: { type: 'array', items: { type: 'string' } },
+      usefulPhrases: { type: 'array', items: { type: 'string' } },
+    },
+    required: ['motion', 'context', 'forLabel', 'againstLabel', 'forPrompts', 'againstPrompts', 'usefulPhrases'],
+  };
+
+  const prompt = `Generate content for an ESL "Team Debate": two teams argue a motion (Opening → Rebuttal → Closing).
+Topic: "${topic}"
+Difficulty: ${difficultyDescriptions[difficulty]}
+${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
+Rules:
+- motion: One clear, genuinely two-sided debate motion. Phrase as a statement, ideally starting "This house believes that...". Must have credible arguments on BOTH sides. ≤20 words.
+- context: 2–3 sentences of neutral background students can read in ~30 seconds. Do NOT take a side. Match the difficulty level.
+- forLabel / againstLabel: Short stance labels (≤5 words each) for the two sides — e.g. "For" / "Against", or position-specific like "Ban it" / "Allow it".
+- forPrompts: 3–4 concrete argument angles supporting the motion (short phrases the For team can build on).
+- againstPrompts: 3–4 concrete argument angles opposing the motion (for the Against team).
+- usefulPhrases: 5–6 debate language starters usable by either side. E.g. "We strongly believe that...", "The evidence shows...", "Our opponents claim... however...", "In conclusion...".
+${sourceContext ? '- Ground the motion, context, and argument angles in the source material above.' : ''}
+Return JSON only.`;
+
+  const parsed = await generateJSON<{
+    motion: string;
+    context: string;
+    forLabel: string;
+    againstLabel: string;
+    forPrompts?: string[];
+    againstPrompts?: string[];
+    usefulPhrases?: string[];
+  }>(prompt, schema);
+
+  return {
+    activityKey: 'team-debate',
+    topicContext: topic,
+    motion: parsed.motion,
+    context: parsed.context,
+    forLabel: parsed.forLabel,
+    againstLabel: parsed.againstLabel,
+    forPrompts: parsed.forPrompts ?? [],
+    againstPrompts: parsed.againstPrompts ?? [],
+    usefulPhrases: parsed.usefulPhrases ?? [],
+  };
 }
 
 async function generateTwoTruths(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<TwoTruthsContent> {
@@ -2644,6 +2697,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'decision-council':
             generators.push(generateDecisionCouncil(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'team-debate':
+            generators.push(generateTeamDebate(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'two-truths':
             generators.push(generateTwoTruths(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));

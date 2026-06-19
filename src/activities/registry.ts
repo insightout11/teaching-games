@@ -41,6 +41,7 @@ import { cabinMysteryPlugin } from './cabin-mystery';
 import { contributionBreakPlugin } from './contribution-break';
 import { languageToolkitPlugin } from './language-toolkit';
 import { decisionCouncilPlugin } from './decision-council';
+import { teamDebatePlugin } from './team-debate';
 import { Sparkles, BookOpen, Users, Scale, Flag } from 'lucide-react';
 
 // All registered activities
@@ -79,6 +80,7 @@ const activities: ActivityPlugin[] = [
   // Debates
   hotTakeArenaPlugin,
   decisionCouncilPlugin,
+  teamDebatePlugin,
   // In development (flightPlanOnly: true — hidden from browse, accessible via flight plan):
   cabinMysteryPlugin,
   contributionBreakPlugin,

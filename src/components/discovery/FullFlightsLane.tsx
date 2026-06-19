@@ -2,8 +2,9 @@
 
 // "Full Flights" lane — the whole-lesson presets section (the hero's siblings).
 // Captain's Flight stays the hero ABOVE this lane; this is where the rest of the
-// preset set lives. Speak (speak-60) is a REAL, launchable preset; the remaining
-// cards are still PROTOTYPE preview visuals until those presets are authored
+// preset set lives. Speak, Grammar, Travel, and Debate are REAL, launchable presets
+// (cards derived from the live preset so they never drift); any remaining cards are
+// PROTOTYPE preview visuals until those presets are authored
 // (see docs/world-flight-presets-direction.md).
 
 import { useState } from 'react';
@@ -73,18 +74,20 @@ const TRAVEL_CARD: PresetCardData = {
   route: (TRAVEL_PRESET?.flightConfig?.stages ?? []).map((s) => ({ label: s.label, kind: s.kind })),
 };
 
+const DEBATE_PRESET = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'debate-60');
+const DEBATE_CARD: PresetCardData = {
+  id: 'debate-60',
+  name: DEBATE_PRESET?.name ?? 'Debate',
+  focus: 'Discussion',
+  durationMinutes: DEBATE_PRESET?.lessonDurationMinutes ?? 60,
+  classFit: 'Whole class',
+  flightNumber: 'LC-D1',
+  accent: ACCENTS.violet,
+  route: (DEBATE_PRESET?.flightConfig?.stages ?? []).map((s) => ({ label: s.label, kind: s.kind })),
+};
+
 // ── PROTOTYPE preview cards (not yet authored as real presets) ─────────────────
 const PREVIEW_FLIGHTS: PresetCardData[] = [
-  {
-    id: 'sample-debate-ready', name: 'Debate Ready', focus: 'Discussion', durationMinutes: 60,
-    classFit: 'Whole class', flightNumber: 'LC-D1', preview: true, accent: ACCENTS.violet,
-    route: [
-      { label: 'Hook', kind: 'stage' }, { label: 'Briefing', kind: 'stage' },
-      { label: 'Take', kind: 'micro-event' }, { label: 'Evidence', kind: 'stage' },
-      { label: 'Rebuttal', kind: 'stage' }, { label: 'Defend', kind: 'micro-event' },
-      { label: 'Vote', kind: 'stage' }, { label: 'Shift', kind: 'landing' },
-    ],
-  },
   {
     id: 'sample-game-day', name: 'Game Day', focus: 'Games', durationMinutes: 45,
     classFit: 'Whole class', flightNumber: 'LC-X1', preview: true, accent: ACCENTS.amber,
@@ -110,6 +113,7 @@ export function FullFlightsLane() {
     { ...SPEAK_CARD, onSelect: handleSelect },
     { ...GRAMMAR_CARD, onSelect: handleSelect },
     { ...TRAVEL_CARD, onSelect: handleSelect },
+    { ...DEBATE_CARD, onSelect: handleSelect },
     ...PREVIEW_FLIGHTS,
   ];
 
