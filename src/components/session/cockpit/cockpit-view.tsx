@@ -11,6 +11,7 @@ import { PollContent } from '@/components/session/poll-manager';
 import { TimerContent } from '@/components/session/timer-tool';
 import { FreezeContent } from '@/components/session/freeze-widget';
 import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-suggestions-panel';
+import { DebateBoardPanel } from '@/components/session/cockpit/debate-board-panel';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -169,6 +170,15 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   return (
     <div className="min-h-screen bg-[#07111f] text-white">
       <div className="max-w-lg mx-auto p-4 flex flex-col gap-4 pb-12">
+
+        {/* Debate prep boards — both teams, live, private to the teacher */}
+        {currentInputSpec?.type === 'debate-prep' && (
+          <DebateBoardPanel
+            sessionId={session.id}
+            forLabel={currentInputSpec.debateForLabel}
+            againstLabel={currentInputSpec.debateAgainstLabel}
+          />
+        )}
 
         {/* Header */}
         <div className="flex items-center justify-between py-2">

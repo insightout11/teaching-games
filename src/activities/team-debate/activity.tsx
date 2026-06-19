@@ -4,8 +4,6 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Scale, Clock, Users, Megaphone, RotateCcw, Shuffle, ChevronRight, Quote } from 'lucide-react';
 import type { ActivityProps, TeamDebateContent } from '../types';
 import type { Student } from '@/lib/supabase/types';
-import type { SupabaseClient } from '@supabase/supabase-js';
-import { isMockMode } from '@/lib/mock/auth';
 
 type Side = 'for' | 'against';
 type Phase = 'idle' | 'prep' | 'debate' | 'done';
@@ -15,15 +13,6 @@ interface Turn {
   stageLabel: string;
   side: Side;
   speaker: Student | null;
-}
-
-interface DebatePoint {
-  id: string;
-  client_id: string;
-  display_name: string;
-  side: string;
-  content: string;
-  created_at: string;
 }
 
 const PREP_SECONDS = 5 * 60;   // team prep time (teacher can start early)
@@ -80,7 +69,6 @@ const SIDE_STYLE: Record<Side, { text: string; bg: string; ring: string; dot: st
 };
 
 export function TeamDebateActivity({
-  sessionId,
   students,
   generatedContent,
   onPhaseChange,
@@ -96,8 +84,6 @@ export function TeamDebateActivity({
   const [currentTurn, setCurrentTurn] = useState(0);
   const [prepLeft, setPrepLeft] = useState(PREP_SECONDS);
   const [turnLeft, setTurnLeft] = useState(TURN_SECONDS);
-  const [boardPoints, setBoardPoints] = useState<DebatePoint[]>([]);
-  const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const deadlineRef = useRef<number>(0);
@@ -115,11 +101,6 @@ export function TeamDebateActivity({
 
   // Clear any leftover student input spec on mount.
   useEffect(() => { onSetInputSpec?.(null); }, [onSetInputSpec]);
-
-  // Lazy-load the browser Supabase client for the live teacher board.
-  useEffect(() => {
-    import('@/lib/supabase/client').then(({ createClient }) => setSupabase(createClient()));
-  }, []);
 
   // ── Broadcast the prep board to student devices ───────────────────────────
   // Each student looks up their own roster studentId to learn their side.
@@ -139,28 +120,6 @@ export function TeamDebateActivity({
       keywords: content.usefulPhrases,
     });
   }, [onSetInputSpec, content.motion, content.forPrompts, content.againstPrompts, content.usefulPhrases, forLabel, againstLabel]);
-
-  // ── Live teacher board — both sides, realtime ─────────────────────────────
-  useEffect(() => {
-    if (phase !== 'prep' || isMockMode() || !sessionId || !supabase) return;
-    const sid = sessionId;
-    const load = async () => {
-      const { data } = await supabase
-        .from('debate_points')
-        .select('*')
-        .eq('session_id', sid)
-        .order('created_at', { ascending: true });
-      if (data) setBoardPoints(data as DebatePoint[]);
-    };
-    load();
-    const channel = supabase
-      .channel(`debate-points-${sid}`)
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'debate_points', filter: `session_id=eq.${sid}` },
-        (payload: { new: DebatePoint }) => setBoardPoints((prev) => [...prev, payload.new]))
-      .subscribe();
-    const poll = setInterval(load, 4000);
-    return () => { supabase.removeChannel(channel); clearInterval(poll); };
-  }, [phase, sessionId, supabase]);
 
   // ── Team assignment ───────────────────────────────────────────────────────
   const splitTeams = useCallback(() => {
@@ -314,7 +273,6 @@ export function TeamDebateActivity({
           {(['for', 'against'] as Side[]).map((side) => {
             const team = side === 'for' ? forTeam : againstTeam;
             const label = side === 'for' ? forLabel : againstLabel;
-            const prompts = side === 'for' ? content.forPrompts : content.againstPrompts;
             const st = SIDE_STYLE[side];
             return (
               <div key={side} className={`rounded-xl border p-3 space-y-2.5 ${st.bg}`}>
@@ -329,38 +287,6 @@ export function TeamDebateActivity({
                     <span key={s.id} className="px-2 py-0.5 rounded-md bg-white/5 text-xs text-lc-text2">{s.name}</span>
                   ))}
                 </div>
-                {/* Prep angles */}
-                {prompts && prompts.length > 0 && (
-                  <ul className="space-y-1 pt-1">
-                    {prompts.map((p, i) => (
-                      <li key={i} className="text-xs text-lc-text2 flex gap-1.5">
-                        <span className={`mt-1 w-1 h-1 rounded-full flex-shrink-0 ${st.dot}`} />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {/* Live board — points students added on their devices */}
-                {(() => {
-                  const sidePoints = boardPoints.filter((p) => p.side === side);
-                  return (
-                    <div className="pt-1 border-t border-white/10 space-y-1">
-                      <p className="text-[10px] uppercase tracking-widest text-lc-text3">
-                        Board · {sidePoints.length} point{sidePoints.length !== 1 ? 's' : ''}
-                      </p>
-                      {sidePoints.length === 0 ? (
-                        <p className="text-[11px] italic text-lc-text3">Students&rsquo; points appear here as they type.</p>
-                      ) : (
-                        sidePoints.map((p) => (
-                          <div key={p.id} className="rounded-md bg-white/5 px-2 py-1">
-                            <p className="text-xs text-lc-text leading-snug">{p.content}</p>
-                            <p className="text-[10px] text-lc-text3">{p.display_name}</p>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  );
-                })()}
                 {/* Speaking order for this side */}
                 <div className="pt-1 border-t border-white/10 space-y-0.5">
                   {teamPlan[side].map((t, i) => (
@@ -386,6 +312,10 @@ export function TeamDebateActivity({
             </div>
           </div>
         )}
+
+        <p className="text-[11px] text-lc-text3 text-center">
+          Teams build their arguments on their own devices. Monitor both boards privately on your Captain Console.
+        </p>
 
         <div className="flex items-center justify-between gap-2">
           <button
