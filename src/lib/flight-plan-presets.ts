@@ -46,6 +46,13 @@ export interface FlightPlanPreset {
   scoringMode?: ScoringMode;
   /** When true, loadPreset skips mission-selector takeoff and landing — pure game sequence. */
   skipTakeoffLanding?: boolean;
+  /**
+   * When true, do NOT auto-inject a source briefing (video-player / read-aloud) from the
+   * attached source. For presets that supply their own grounding via a synthetic source
+   * (e.g. Travel's buildTravelContext) where the "source" has no playable video or
+   * student-facing reading — only generation context.
+   */
+  skipSourceBriefing?: boolean;
   /** Explicit takeoff activity key — overrides auto-assignment when set. */
   takeoff?: string;
   /** Explicit landing activity key — overrides auto-assignment when set. */
@@ -554,6 +561,9 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // functional-english is not in goalToScoringMode (would fall through to competitive),
     // so set participation explicitly — Travel is task-completion, not a winner.
     scoringMode: 'participation',
+    // Travel grounds on a synthetic SourceMaterial (buildTravelContext) with no playable
+    // video / readable passage — don't auto-inject a source briefing.
+    skipSourceBriefing: true,
     takeoff: 'vocab-radar',
     landing: 'in-your-words',
     moduleSequence: [

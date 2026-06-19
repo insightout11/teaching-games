@@ -143,12 +143,13 @@ function buildModulesFromPreset(
 
   modules = applyAllAroundSourceRouting(modules, preset, sourceKind);
 
-  if (preset.id !== 'all-around-flight-60' && sourceKind === 'video' && !modules.some((m) => m.key === 'video-player')) {
+  const allowSourceBriefing = preset.id !== 'all-around-flight-60' && !preset.skipSourceBriefing;
+  if (allowSourceBriefing && sourceKind === 'video' && !modules.some((m) => m.key === 'video-player')) {
     const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
     const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
     modules.splice(insertAt, 0, makePresetModule(preset, 'presentation', 'video-player'));
   }
-  if (preset.id !== 'all-around-flight-60' && sourceKind === 'text' && !modules.some((m) => m.key === 'read-aloud')) {
+  if (allowSourceBriefing && sourceKind === 'text' && !modules.some((m) => m.key === 'read-aloud')) {
     const takeoffIdx = modules.findIndex((m) => m.slotType === 'takeoff');
     const insertAt = takeoffIdx >= 0 ? takeoffIdx + 1 : 0;
     modules.splice(insertAt, 0, makePresetModule(preset, 'presentation', 'read-aloud'));
