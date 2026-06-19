@@ -469,7 +469,6 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'scene-igniter': 'scene',
         'would-you-rather': 'opinion-pulse',
         'rank-it': 'opinion-pulse',
-        'two-truths': 'opinion-pulse',
         'conversation-rounds': 'conversation',
         'vocab-micro': 'vocab-check',
         'imposter': 'end-game',

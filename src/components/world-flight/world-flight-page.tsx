@@ -1906,8 +1906,17 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 <div className="mb-4 flex items-start gap-2.5 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5">
                   <Route className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-300/70" aria-hidden />
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
-                    <p className="truncate text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
+                    {selectedPresetId === 'travel-60' ? (
+                      <>
+                        <p className="truncate text-sm font-semibold text-lc-text">Travel — {selectedDestination.city}</p>
+                        <p className="truncate text-xs font-semibold text-cyan-200/75">Generated from the city — pick a situation below</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="truncate text-sm font-semibold text-lc-text">{selectedFocus.title}</p>
+                        <p className="truncate text-xs font-semibold text-cyan-200/75">{focusSourceLabel(selectedFocus)}</p>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="mb-2 flex items-center justify-between gap-3">
@@ -1985,7 +1994,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[var(--wf-bg)] transition-colors hover:bg-lc-blue-hover"
                 >
                   <PlaneTakeoff className="h-4 w-4" aria-hidden />
-                  {!isReachable && !isLocalLesson ? 'Build Lesson Without Moving' : `Build ${selectedPreset?.name ?? 'Flight Plan'}`}
+                  {!isReachable && !isLocalLesson
+                    ? 'Build Lesson Without Moving'
+                    : selectedPresetId === 'travel-60'
+                      ? `Build Travel — ${(selectedSituation || travelSituations[0] || 'Travel').split(' — ')[0]}`
+                      : `Build ${selectedPreset?.name ?? 'Flight Plan'}`}
                 </button>
                 {selectedFocus.kind === 'video' && (
                   <a
