@@ -35,6 +35,7 @@ import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { LobbyAirfieldScene } from '@/components/ui/lobby-airfield-scene';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
+import { BrandSting } from '@/components/ui/brand-sting';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
@@ -638,6 +639,19 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [showPacingNudge, setShowPacingNudge] = useState(false);
   const nudgeDismissedForSlotRef = useRef<number>(-1);
   const [modulePhase, setModulePhase] = useState<string>('idle');
+
+  // Launch sting — the full LessonCaptain signature reveal plays ONCE as the class
+  // leaves the launch lobby (Begin Lesson), not on session entry. It's the long
+  // brand moment that bridges the lobby into the first module.
+  const [showLaunchSting, setShowLaunchSting] = useState(false);
+  const prevPhaseRef = useRef(lesson.phase);
+  useEffect(() => {
+    const prev = prevPhaseRef.current;
+    prevPhaseRef.current = lesson.phase;
+    if (prev === 'lobby' && lesson.phase !== 'lobby' && lesson.phase !== 'idle' && lesson.phase !== 'ended') {
+      setShowLaunchSting(true);
+    }
+  }, [lesson.phase]);
 
   const plannerDuration = usePlannerStore((s) => s.lessonDurationMinutes);
 
@@ -2341,6 +2355,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           }}
           onDismiss={() => setModuleTransition(null)}
         />
+      )}
+
+      {/* Launch sting — full signature reveal as the class leaves the lobby. Click
+          to skip; clears itself on completion. */}
+      {showLaunchSting && (
+        <div
+          className="fixed inset-0 z-[120] cursor-pointer"
+          onClick={() => setShowLaunchSting(false)}
+          aria-hidden
+        >
+          <BrandSting variant="full" onComplete={() => setShowLaunchSting(false)} />
+        </div>
       )}
 
       {/* Floating widget system */}
