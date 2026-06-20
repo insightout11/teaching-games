@@ -36,6 +36,7 @@ describe('DestinationBriefing', () => {
     expect(html).toContain('6.77M');
     expect(html).toContain('Food + Culture');
     expect(html).toContain('City setting');
+    expect(html).toContain('object-contain');
     expect(html).toContain('Class Question');
     expect(html).not.toContain('Arrival profile');
     expect(html).not.toContain('Lesson Lens');

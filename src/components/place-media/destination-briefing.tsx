@@ -203,38 +203,37 @@ export function DestinationBriefing({
 
       <div className="grid gap-4 p-4 xl:grid-cols-[minmax(420px,0.95fr)_minmax(560px,1.05fr)]">
         <div className="min-w-0 space-y-3">
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl">
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-2xl">
             <div className="relative h-[clamp(260px,34vh,420px)]">
               {activeImageUrl ? (
                 <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={activeImageUrl}
-                      alt={activeMedia.alt}
-                      className="h-full w-full object-cover"
-                      style={{ objectPosition: activeMedia.focalPoint ? `${activeMedia.focalPoint.x}% ${activeMedia.focalPoint.y}%` : 'center' }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/82 via-slate-950/10 to-transparent" />
-                    <div className="absolute bottom-3 left-3 right-3 rounded-xl border border-white/10 bg-slate-950/90 p-3 shadow-xl">
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-200/75">
-                            {toTitle(activeMedia.kind)} {media.length > 0 ? `- ${Math.min(activeIndex, media.length - 1) + 1} of ${media.length}` : ''}
-                          </p>
-                          <h4 className="mt-1 truncate text-base font-semibold text-white">{activeMedia.title}</h4>
-                          <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-white/70">{activeMedia.caption}</p>
-                        </div>
-                        <a
-                          href={activeMedia.sourceUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex shrink-0 items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-[11px] text-white/65 transition-colors hover:border-cyan-300/35 hover:text-cyan-100"
-                        >
-                          <Info className="h-3 w-3" aria-hidden />
-                          {activeMedia.sourceName}{activeMedia.license ? ` - ${activeMedia.license}` : ''}
-                        </a>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={activeImageUrl}
+                    alt={activeMedia.alt}
+                    className="h-full w-full object-contain"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/82 via-slate-950/10 to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3 rounded-xl border border-white/10 bg-slate-950/90 p-3 shadow-xl">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-200/75">
+                          {toTitle(activeMedia.kind)} {media.length > 0 ? `- ${Math.min(activeIndex, media.length - 1) + 1} of ${media.length}` : ''}
+                        </p>
+                        <h4 className="mt-1 truncate text-base font-semibold text-white">{activeMedia.title}</h4>
+                        <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-white/70">{activeMedia.caption}</p>
                       </div>
+                      <a
+                        href={activeMedia.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex shrink-0 items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-[11px] text-white/65 transition-colors hover:border-cyan-300/35 hover:text-cyan-100"
+                      >
+                        <Info className="h-3 w-3" aria-hidden />
+                        {activeMedia.sourceName}{activeMedia.license ? ` - ${activeMedia.license}` : ''}
+                      </a>
                     </div>
+                  </div>
                   </>
                 ) : (
                   <div className="flex h-full items-center justify-center text-sm text-slate-400">
