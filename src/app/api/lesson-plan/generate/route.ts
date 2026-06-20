@@ -1131,6 +1131,23 @@ export interface ComprehensionSet {
  * on-demand rewatch). A closing open-ended discussion prompt is included.
  * Used by both the video player and the reader.
  */
+/**
+ * Fisher–Yates shuffle of multiple-choice options that keeps correctIndex
+ * pointing at the right answer. Counters the LLM's tendency to put the correct
+ * answer in the first slot.
+ */
+function shuffleOptions(options: string[], correctIndex: number): { options: string[]; correctIndex: number } {
+  const indexed = options.map((opt, i) => ({ opt, isCorrect: i === correctIndex }));
+  for (let i = indexed.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indexed[i], indexed[j]] = [indexed[j], indexed[i]];
+  }
+  return {
+    options: indexed.map((x) => x.opt),
+    correctIndex: Math.max(0, indexed.findIndex((x) => x.isCorrect)),
+  };
+}
+
 async function generateComprehensionQuestions(
   title: string,
   contentBlock: string,
@@ -1196,10 +1213,15 @@ correctIndex is 0-based (0=A, 1=B, 2=C, 3=D). Return JSON with a "questions" arr
   }>(prompt, schema);
 
   const questions: ComprehensionQuestion[] = (parsed.questions ?? []).slice(0, count).map((q, i) => {
+    const rawOptions = q.options?.slice(0, 4) ?? ['Option A', 'Option B', 'Option C', 'Option D'];
+    const rawCorrect = typeof q.correctIndex === 'number' ? Math.max(0, Math.min(q.correctIndex, rawOptions.length - 1)) : 0;
+    // LLMs bias the correct answer toward option A. Shuffle so the answer
+    // position is uniformly random regardless of where the model placed it.
+    const { options, correctIndex } = shuffleOptions(rawOptions, rawCorrect);
     const base: ComprehensionQuestion = {
       question: q.question ?? (i === 0 ? 'What is the main idea?' : 'What is one detail mentioned?'),
-      options: q.options?.slice(0, 4) ?? ['Option A', 'Option B', 'Option C', 'Option D'],
-      correctIndex: typeof q.correctIndex === 'number' ? Math.max(0, Math.min(q.correctIndex, 3)) : 0,
+      options,
+      correctIndex,
       ...(q.explanation ? { explanation: q.explanation } : {}),
       ...(q.evidence ? { evidence: q.evidence } : {}),
     };

@@ -15,17 +15,6 @@ function wordCount(text: string) {
   return text.trim() ? text.trim().split(/\s+/).length : 0;
 }
 
-function splitLongSentence(sentence: string, maxWordsPerTurn: number): string[] {
-  const words = sentence.trim().split(/\s+/);
-  if (words.length <= maxWordsPerTurn) return [sentence.trim()];
-
-  const chunks: string[] = [];
-  for (let index = 0; index < words.length; index += maxWordsPerTurn) {
-    chunks.push(words.slice(index, index + maxWordsPerTurn).join(' '));
-  }
-  return chunks;
-}
-
 export function getReadingTurnWordTarget(difficulty: Difficulty): number {
   return TURN_WORD_TARGETS[difficulty];
 }
@@ -45,12 +34,14 @@ export function splitReadingTurns(
   if (!cleaned) return [];
   const wordCap = Math.max(MIN_TARGET_WORDS, maxWordsPerTurn);
 
+  // Sentences are always kept intact — a reading turn is one or more whole
+  // sentences, never a fragment. The word cap only controls how many sentences
+  // we group together, so a single long sentence simply becomes its own turn.
   const sentences = cleaned
     .split(/\n\s*\n/)
     .flatMap((paragraph) => paragraph.replace(/\n/g, ' ').trim().match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g) ?? [])
     .map((sentence) => sentence.trim())
-    .filter(Boolean)
-    .flatMap((sentence) => splitLongSentence(sentence, wordCap));
+    .filter(Boolean);
 
   if (sentences.length === 0) return [];
 
