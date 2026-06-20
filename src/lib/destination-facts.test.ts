@@ -1,46 +1,19 @@
 import { describe, expect, it } from 'vitest';
+import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import {
   DESTINATION_FACTS,
   getDestinationFacts,
   getLanguageHintForCountry,
 } from './destination-facts';
 
-const PRIORITY_POPULATION_FACTS = [
-  'rio-de-janeiro',
-  'panama-city',
-  'bangkok',
-  'tokyo',
-  'london',
-  'paris',
-  'new-york',
-  'cairo',
-  'singapore',
-  'delhi',
-  'amsterdam',
-  'nairobi',
-  'dakar',
-  'addis-ababa',
-  'miami',
-  'istanbul',
-  'ulaanbaatar',
-  'sydney',
-  'cape-town',
-  'rome',
-  'mexico-city',
-  'dubai',
-  'seoul',
-  'hong-kong',
-  'madrid',
-  'lisbon',
-  'vancouver',
-];
+const WORLD_FLIGHT_DESTINATION_IDS = WORLD_DESTINATIONS.map((destination) => destination.id);
 
 describe('destination facts', () => {
   it('keeps priority destination population facts source-linked', () => {
-    for (const destinationId of PRIORITY_POPULATION_FACTS) {
+    for (const destinationId of WORLD_FLIGHT_DESTINATION_IDS) {
       const factSheet = getDestinationFacts(destinationId);
 
-      expect(factSheet?.population?.value).toMatch(/M$/);
+      expect(factSheet?.population?.value).toMatch(/^\d+(?:\.\d+)?[MK]$/);
       expect(factSheet?.population?.year).toMatch(/\d{4}|June 2025/);
       expect(factSheet?.population?.name).toBeTruthy();
       expect(factSheet?.population?.url).toMatch(/^https?:\/\//);
@@ -48,7 +21,7 @@ describe('destination facts', () => {
   });
 
   it('keeps priority destination briefing facts complete', () => {
-    for (const destinationId of PRIORITY_POPULATION_FACTS) {
+    for (const destinationId of WORLD_FLIGHT_DESTINATION_IDS) {
       const factSheet = getDestinationFacts(destinationId);
 
       expect(factSheet?.population).toBeTruthy();

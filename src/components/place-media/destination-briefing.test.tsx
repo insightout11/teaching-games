@@ -1,38 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { getDestinationById } from '@/data/world-flight/destinations';
+import { getDestinationById, WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { DestinationBriefing, getBriefingMedia } from './destination-briefing';
 
-const PRIORITY_BRIEFING_DESTINATIONS = [
-  'rio-de-janeiro',
-  'panama-city',
-  'bangkok',
-  'tokyo',
-  'london',
-  'paris',
-  'new-york',
-  'cairo',
-  'singapore',
-  'delhi',
-  'amsterdam',
-  'nairobi',
-  'dakar',
-  'addis-ababa',
-  'miami',
-  'istanbul',
-  'ulaanbaatar',
-  'sydney',
-  'cape-town',
-  'rome',
-  'mexico-city',
-  'dubai',
-  'seoul',
-  'hong-kong',
-  'madrid',
-  'lisbon',
-  'vancouver',
-];
+const WORLD_FLIGHT_DESTINATION_IDS = WORLD_DESTINATIONS.map((destination) => destination.id);
 
 describe('DestinationBriefing', () => {
   it('does not use video thumbnails in the place image carousel', () => {
@@ -56,7 +28,7 @@ describe('DestinationBriefing', () => {
   });
 
   it('gives priority destination briefings a multi-image gallery', () => {
-    for (const destinationId of PRIORITY_BRIEFING_DESTINATIONS) {
+    for (const destinationId of WORLD_FLIGHT_DESTINATION_IDS) {
       const destination = getDestinationById(destinationId);
       expect(destination).toBeTruthy();
 
