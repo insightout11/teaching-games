@@ -103,12 +103,14 @@ export function departurePlaneFrame(t: number): PlaneFrame {
     return { cx: DEP_PLANE_CENTER, cyBase: runway, rot: 0, flying: false, depthScale: 1 };
   }
   const u = (p - DEP_ROLL) / (1 - DEP_ROLL);
+  // Climb out and OFF the screen (don't stop mid-sky): cx clears the right edge
+  // well before u=1, leaving a beat of empty sky as the plane departs.
   return {
-    cx: lerp(DEP_PLANE_CENTER, 1400, u),
-    cyBase: lerp(runway, 150, u),
-    rot: lerp(0, -13, u),
+    cx: lerp(DEP_PLANE_CENTER, 2300, u),
+    cyBase: lerp(runway, 20, u),
+    rot: lerp(0, -15, u),
     flying: true,
-    depthScale: lerp(1, 0.74, u),
+    depthScale: lerp(1, 0.5, u),
   };
 }
 

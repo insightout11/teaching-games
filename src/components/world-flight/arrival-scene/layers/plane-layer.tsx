@@ -7,6 +7,19 @@ const PW = 480;
 const PH = 240;
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+// Quadratic ease-out (brisk start, settling to zero velocity at the end). Used to
+// take the abrupt edges off the landing: a descent flare into touchdown and a
+// braking ground roll that eases to a smooth stop instead of halting hard.
+const easeOut = (p: number) => 1 - (1 - p) * (1 - p);
+
+// Touchdown and taxi are ONE continuous ground roll; this is touchdown's share of
+// it, from the arrivalTimeline phase widths (touchdown 0.52–0.72 = 0.20, taxi
+// 0.72–0.94 = 0.22, total 0.42). Mapping both phases onto a single eased-out cx
+// over 660→1130 makes the plane brake to a smooth stop with no velocity jump at
+// the touchdown→taxi or taxi→landed seams.
+const ROLL_TOUCHDOWN_SHARE = 0.2 / 0.42;
+const ROLL_FROM = 660;
+const ROLL_TO = 1130;
 
 // Pure function: phase + progress -> exact side-profile frame. `cyBase` is the
 // wheel line; the image is drawn above it. Approach scaling creates a subtle
@@ -16,26 +29,31 @@ function computeFrame(phase: ArrivalPhase, p: number): PlaneFrame {
   switch (phase) {
     case 'approach':
       return {
-        cx: lerp(-120, 660, p),
-        cyBase: lerp(470, runway, p),
-        rot: lerp(-4, -1, p),
+        cx: lerp(-120, ROLL_FROM, p),
+        // Flare: descent rate and pitch ease off as the wheels near the runway, so
+        // there's no vertical-velocity kink at the moment of touchdown.
+        cyBase: lerp(470, runway, easeOut(p)),
+        rot: lerp(-4, -1, easeOut(p)),
         flying: true,
         depthScale: lerp(0.76, 1, p),
       };
     case 'touchdown': {
+      const g = p * ROLL_TOUCHDOWN_SHARE;
       return {
-        cx: lerp(660, 800, p),
+        cx: lerp(ROLL_FROM, ROLL_TO, easeOut(g)),
         cyBase: runway,
-        rot: lerp(-1, 0, p),
+        rot: lerp(-1, 0, easeOut(p)),
         flying: false,
         depthScale: 1,
       };
     }
-    case 'taxi':
-      return { cx: lerp(800, 1130, p), cyBase: runway, rot: 0, flying: false, depthScale: 1 };
+    case 'taxi': {
+      const g = ROLL_TOUCHDOWN_SHARE + p * (1 - ROLL_TOUCHDOWN_SHARE);
+      return { cx: lerp(ROLL_FROM, ROLL_TO, easeOut(g)), cyBase: runway, rot: 0, flying: false, depthScale: 1 };
+    }
     case 'landed':
     default:
-      return { cx: 1130, cyBase: runway, rot: 0, flying: false, depthScale: 1 };
+      return { cx: ROLL_TO, cyBase: runway, rot: 0, flying: false, depthScale: 1 };
   }
 }
 

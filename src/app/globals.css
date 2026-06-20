@@ -110,7 +110,11 @@ html[data-theme="light"] .glass {
 }
 
 /* ── Flight-transition weather sheets (full-screen, behind the cloud pass) ─── */
-@keyframes lc-rain { from { background-position: 0 0; } to { background-position: -120px 800px; } }
+/* Rain is built from tiled radial streaks (NOT a repeating-linear-gradient — that
+   draws continuous full-height diagonal lines that read as turbulence/scratches).
+   Two depth layers of short, tapered drops fall at slightly different speeds; each
+   layer translates by exactly one tile height so the loop is seamless. */
+@keyframes lc-rain { from { background-position: 0 0, 0 0; } to { background-position: 0 108px, 0 84px; } }
 @keyframes lc-snow { from { background-position: 0 0, 0 0; } to { background-position: 40px 640px, -30px 760px; } }
 @keyframes lc-lightning {
   0%, 74%, 100% { opacity: 0; }
@@ -120,8 +124,12 @@ html[data-theme="light"] .glass {
   87% { opacity: 0; }
 }
 .lc-rain-sheet {
-  background-image: repeating-linear-gradient(100deg, transparent 0 7px, rgba(200,214,235,0.40) 7px 8px);
-  animation: lc-rain 0.5s linear infinite;
+  background-image:
+    radial-gradient(ellipse 0.7px 9px at 50% 40%, rgba(212,225,246,0.62), rgba(212,225,246,0) 72%),
+    radial-gradient(ellipse 0.6px 6px at 50% 40%, rgba(190,206,232,0.42), rgba(190,206,232,0) 74%);
+  background-size: 23px 108px, 38px 84px;
+  transform: skewX(-7deg) scale(1.15);
+  animation: lc-rain 0.55s linear infinite;
 }
 .lc-snow-sheet {
   background-image:
