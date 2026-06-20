@@ -12,6 +12,7 @@ describe('DestinationBriefing', () => {
     const media = getBriefingMedia(rio!);
 
     expect(media.length).toBeGreaterThanOrEqual(4);
+    expect(media[0]?.title).toBe('Rio de Janeiro arrival view');
     expect(media.map((asset) => asset.title)).toEqual(
       expect.arrayContaining([
         'Christ the Redeemer',
@@ -37,6 +38,7 @@ describe('DestinationBriefing', () => {
     expect(html).toContain('Food + Culture');
     expect(html).toContain('City setting');
     expect(html).toContain('object-contain');
+    expect(html).not.toContain('absolute bottom-3');
     expect(html).toContain('Class Question');
     expect(html).not.toContain('Arrival profile');
     expect(html).not.toContain('Lesson Lens');

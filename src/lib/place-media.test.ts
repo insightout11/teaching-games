@@ -37,4 +37,13 @@ describe('place media library', () => {
     expect(media?.usage).toContain('lesson-intro');
     expect(media?.usage).toContain('geo-clue');
   });
+
+  it('uses classroom-friendly landscape media for Rio landmark slides', () => {
+    const rio = getPlaceMediaRecordByDestination('rio-de-janeiro');
+    const christ = rio?.media.find((media) => media.id === 'rio-de-janeiro-christ-redeemer');
+
+    expect(christ?.url).toContain('Rio%20by%20night-Christ');
+    expect(christ?.sourceUrl).toContain('Rio_by_night-Christ');
+    expect(christ?.url).not.toContain('Christ%20the%20Redeemer%20-%20Cristo%20Redentor');
+  });
 });
