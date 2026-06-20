@@ -14,6 +14,14 @@ const PRIORITY_BRIEFING_DESTINATIONS = [
   'new-york',
   'cairo',
   'singapore',
+  'delhi',
+  'amsterdam',
+  'nairobi',
+  'dakar',
+  'addis-ababa',
+  'miami',
+  'istanbul',
+  'ulaanbaatar',
 ];
 
 describe('DestinationBriefing', () => {

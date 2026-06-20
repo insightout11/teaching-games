@@ -156,6 +156,13 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     prompt: 'How does Paris use food, design, and public space to shape its identity?',
   },
   delhi: {
+    population: {
+      label: 'City population',
+      value: '23.39M',
+      year: '2026 estimate',
+      name: 'World Population Review',
+      url: 'https://worldpopulationreview.com/cities/india/delhi',
+    },
     language: 'Hindi, English, and many regional languages',
     currency: 'Indian rupee (INR)',
     timeZone: 'India Standard Time (UTC+5:30)',
@@ -209,6 +216,13 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     prompt: 'How can a small city-state feel connected to many cultures at once?',
   },
   amsterdam: {
+    population: {
+      label: 'Metro population',
+      value: '1.20M',
+      year: '2026 estimate',
+      name: 'Macrotrends',
+      url: 'https://www.macrotrends.net/global-metrics/cities/21930/amsterdam/population',
+    },
     language: 'Dutch',
     currency: 'Euro (EUR)',
     timeZone: 'Central European Time / Summer Time',
@@ -217,6 +231,13 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     prompt: 'When is water beautiful, and when is it infrastructure?',
   },
   nairobi: {
+    population: {
+      label: 'Metro population',
+      value: '6.00M',
+      year: '2026 estimate',
+      name: 'Macrotrends',
+      url: 'https://www.macrotrends.net/global-metrics/cities/21711/nairobi/population',
+    },
     language: 'Swahili and English',
     currency: 'Kenyan shilling (KES)',
     timeZone: 'East Africa Time (UTC+3)',
@@ -225,6 +246,13 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     prompt: 'How can transport become part of a city culture?',
   },
   dakar: {
+    population: {
+      label: 'Metro population',
+      value: '3.78M',
+      year: '2026 estimate',
+      name: 'Macrotrends',
+      url: 'https://www.macrotrends.net/global-metrics/cities/22439/dakar/population',
+    },
     language: 'French, Wolof, and other languages',
     currency: 'West African CFA franc (XOF)',
     timeZone: 'Greenwich Mean Time (UTC+0)',
@@ -233,6 +261,13 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     prompt: 'How does multilingual life shape what people hear and see in a city?',
   },
   'addis-ababa': {
+    population: {
+      label: 'City population',
+      value: '4.23M',
+      year: '2026 estimate',
+      name: 'World Population Review',
+      url: 'https://worldpopulationreview.com/cities/ethiopia/addis-ababa',
+    },
     language: 'Amharic, Oromo, Tigrinya, English, and other languages',
     currency: 'Ethiopian birr (ETB)',
     timeZone: 'East Africa Time (UTC+3)',
@@ -241,6 +276,13 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     prompt: 'How can one capital represent many languages and identities?',
   },
   miami: {
+    population: {
+      label: 'Metro population',
+      value: '6.43M',
+      year: '2026 estimate',
+      name: 'Macrotrends',
+      url: 'https://www.macrotrends.net/global-metrics/cities/23064/miami/population',
+    },
     language: 'English, Spanish, Haitian Creole, and many community languages',
     currency: 'U.S. dollar (USD)',
     timeZone: 'Eastern Time',
@@ -249,6 +291,13 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     prompt: 'How does migration change the sound and feel of a city?',
   },
   istanbul: {
+    population: {
+      label: 'City population',
+      value: '15.79M',
+      year: '2026 estimate',
+      name: 'World Population Review',
+      url: 'https://worldpopulationreview.com/cities/turkey/istanbul',
+    },
     language: 'Turkish',
     currency: 'Turkish lira (TRY)',
     timeZone: 'Turkey Time (UTC+3)',
@@ -257,6 +306,13 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     prompt: 'What changes when a city is both a bridge and a risk zone?',
   },
   ulaanbaatar: {
+    population: {
+      label: 'Metro population',
+      value: '1.68M',
+      year: '2026 estimate',
+      name: 'World Population Review',
+      url: 'https://worldpopulationreview.com/countries/mongolia',
+    },
     language: 'Mongolian',
     currency: 'Mongolian togrog (MNT)',
     timeZone: 'Ulaanbaatar Time (UTC+8)',

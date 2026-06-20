@@ -15,6 +15,14 @@ const PRIORITY_POPULATION_FACTS = [
   'new-york',
   'cairo',
   'singapore',
+  'delhi',
+  'amsterdam',
+  'nairobi',
+  'dakar',
+  'addis-ababa',
+  'miami',
+  'istanbul',
+  'ulaanbaatar',
 ];
 
 describe('destination facts', () => {
