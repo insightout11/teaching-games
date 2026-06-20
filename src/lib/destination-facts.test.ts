@@ -29,6 +29,20 @@ describe('destination facts', () => {
     }
   });
 
+  it('keeps priority destination briefing facts complete', () => {
+    for (const destinationId of PRIORITY_POPULATION_FACTS) {
+      const factSheet = getDestinationFacts(destinationId);
+
+      expect(factSheet?.population).toBeTruthy();
+      expect(factSheet?.language).toBeTruthy();
+      expect(factSheet?.currency).toBeTruthy();
+      expect(factSheet?.timeZone).toBeTruthy();
+      expect(factSheet?.foodCulture?.length).toBeGreaterThanOrEqual(3);
+      expect(factSheet?.knownFor?.length).toBeGreaterThanOrEqual(3);
+      expect(factSheet?.prompt).toBeTruthy();
+    }
+  });
+
   it('keeps every source URL web-addressable', () => {
     for (const factSheet of Object.values(DESTINATION_FACTS)) {
       const sources = [

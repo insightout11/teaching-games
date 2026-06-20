@@ -4,6 +4,18 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import { DestinationBriefing, getBriefingMedia } from './destination-briefing';
 
+const PRIORITY_BRIEFING_DESTINATIONS = [
+  'rio-de-janeiro',
+  'panama-city',
+  'bangkok',
+  'tokyo',
+  'london',
+  'paris',
+  'new-york',
+  'cairo',
+  'singapore',
+];
+
 describe('DestinationBriefing', () => {
   it('does not use video thumbnails in the place image carousel', () => {
     const rio = getDestinationById('rio-de-janeiro');
@@ -23,6 +35,20 @@ describe('DestinationBriefing', () => {
     expect(media.some((asset) => asset.url?.includes('i.ytimg.com'))).toBe(false);
     expect(media.some((asset) => asset.sourceUrl.includes('youtube.com'))).toBe(false);
     expect(media.some((asset) => asset.title.includes('Carnival Explained'))).toBe(false);
+  });
+
+  it('gives priority destination briefings a multi-image gallery', () => {
+    for (const destinationId of PRIORITY_BRIEFING_DESTINATIONS) {
+      const destination = getDestinationById(destinationId);
+      expect(destination).toBeTruthy();
+
+      const media = getBriefingMedia(destination!);
+
+      expect(media.length, destinationId).toBeGreaterThanOrEqual(4);
+      expect(media[0]?.title, destinationId).toContain('arrival view');
+      expect(media.some((asset) => asset.url?.includes('i.ytimg.com')), destinationId).toBe(false);
+      expect(media.some((asset) => asset.sourceUrl.includes('youtube.com')), destinationId).toBe(false);
+    }
   });
 
   it('renders the compact fact briefing without the redundant lesson lens block', () => {

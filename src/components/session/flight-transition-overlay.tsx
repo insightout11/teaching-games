@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
@@ -64,7 +64,7 @@ const CLOUD_TINT: Record<WeatherCondition, string> = {
   aurora: 'rgba(150,210,200,0.55)',
 };
 
-function TransitionClouds({ weather }: { weather: WeatherCondition }) {
+function TransitionClouds({ weather, loop = false }: { weather: WeatherCondition; loop?: boolean }) {
   const tint = CLOUD_TINT[weather];
   const banks = [
     { top: '6%', w: 68, h: 26, dur: 4.2, delay: 0.3, z: 9, op: 0.28 },
@@ -90,22 +90,78 @@ function TransitionClouds({ weather }: { weather: WeatherCondition }) {
           }}
           initial={{ x: '122vw' }}
           animate={{ x: '-95vw' }}
-          transition={{ duration: b.dur, delay: b.delay, ease: 'easeInOut' }}
+          // A single sweep for short legs; held beats (turbulence) loop so clouds
+          // keep streaming past instead of clearing to an empty sky. Linear when
+          // looping so the offscreen jump back isn't a visible ease/snap.
+          transition={loop
+            ? { duration: b.dur * 1.6, delay: b.delay, ease: 'linear', repeat: Infinity, repeatType: 'loop' }
+            : { duration: b.dur, delay: b.delay, ease: 'easeInOut' }}
         />
       ))}
     </div>
   );
 }
 
+// Randomized SVG rain — drops are scattered (a memoized random field, NOT a tiled
+// CSS gradient, which lines them up in a visible grid). The field is one vertical
+// TILE of streaks repeated and translated by exactly one TILE, so it falls in a
+// seamless loop. preserveAspectRatio "slice" covers any aspect without distorting
+// the near-vertical streaks.
+const RAIN_VBW = 1600;
+const RAIN_VBH = 900;
+const RAIN_TILE = 360;
+const RAIN_TILES = [-1, 0, 1, 2, 3];
+
+function TransitionRain({ intensity }: { intensity: number }) {
+  const drops = useMemo(() => {
+    const k = Math.min(1.3, Math.max(0.4, intensity));
+    const count = Math.round(150 * k);
+    return Array.from({ length: count }, () => {
+      const len = 14 + Math.random() * 24;
+      return {
+        x: Math.random() * RAIN_VBW,
+        y: Math.random() * RAIN_TILE,
+        len,
+        o: 0.1 + Math.random() * 0.32,
+        sw: 0.8 + Math.random() * 0.8,
+      };
+    });
+  }, [intensity]);
+  const fall = 0.85 / Math.max(0.5, intensity);
+  return (
+    <svg viewBox={`0 0 ${RAIN_VBW} ${RAIN_VBH}`} preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
+      <motion.g animate={{ y: [0, RAIN_TILE] }} transition={{ duration: fall, repeat: Infinity, ease: 'linear' }}>
+        {RAIN_TILES.map((t) => (
+          <g key={t} transform={`translate(0 ${t * RAIN_TILE})`}>
+            {drops.map((d, i) => (
+              <line
+                key={i}
+                x1={d.x}
+                y1={d.y}
+                x2={d.x - d.len * 0.16}
+                y2={d.y + d.len}
+                stroke={`rgba(205,219,242,${d.o})`}
+                strokeWidth={d.sw}
+                strokeLinecap="round"
+              />
+            ))}
+          </g>
+        ))}
+      </motion.g>
+    </svg>
+  );
+}
+
 // Full-screen precipitation + lightning for the sky-only cruise legs (city legs
-// render weather inside their own scene). CSS sheets defined in globals.css.
+// render weather inside their own scene). Snow/lightning use CSS sheets defined
+// in globals.css; rain is the randomized SVG field above.
 function TransitionPrecip({ weather }: { weather: WeatherCondition }) {
   const p = WEATHER_PROFILE[weather];
   if (p.rain === 0 && p.snow === 0 && !p.lightning && p.dim === 0) return null;
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 14 }}>
       {p.dim > 0 && <div className="absolute inset-0" style={{ background: 'rgb(16,24,42)', opacity: p.dim * 0.5 }} />}
-      {p.rain > 0 && <div className="lc-rain-sheet absolute inset-0" style={{ opacity: 0.4 + p.rain * 0.4 }} />}
+      {p.rain > 0 && <TransitionRain intensity={p.rain} />}
       {p.snow > 0 && <div className="lc-snow-sheet absolute inset-0" style={{ opacity: 0.5 + p.snow * 0.4 }} />}
       {p.lightning && <div className="lc-lightning-flash absolute inset-0" />}
     </div>
@@ -680,7 +736,7 @@ export function FlightTransitionOverlay({
       {/* Weather-aware atmosphere: a foreground cloud pass on every leg (the plane
           flies through it) + full-screen precipitation/lightning on the sky-only
           cruise legs (city legs carry weather inside their own scene). */}
-      {!prefersReducedMotion && <TransitionClouds weather={weather} />}
+      {!prefersReducedMotion && <TransitionClouds weather={weather} loop={turbulence} />}
       {!isCityTransition && !prefersReducedMotion && <TransitionPrecip weather={weather} />}
 
       {/* Waypoint label — restrained top-left corner so the cinematic moment stays
