@@ -25,6 +25,16 @@ const PRIORITY_BRIEFING_DESTINATIONS = [
   'miami',
   'istanbul',
   'ulaanbaatar',
+  'sydney',
+  'cape-town',
+  'rome',
+  'mexico-city',
+  'dubai',
+  'seoul',
+  'hong-kong',
+  'madrid',
+  'lisbon',
+  'vancouver',
 ];
 
 describe('place media library', () => {
