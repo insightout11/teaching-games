@@ -333,9 +333,6 @@ export function RadarFixGame({
                 : 'No flight destination is attached, so this check uses the standalone place rotation.'
               : 'Standalone rounds avoid the 12 most recently played places before repeating them.'}
           </p>
-          <p className="mx-auto mt-3 max-w-lg text-xs leading-relaxed text-cyan-200/80">
-            Lesson points: within 250 km = 5 · within 1,500 km = 3 · any valid fix = 1 · closest fix bonus = +{CLOSEST_BONUS}.
-          </p>
         </div>
         <button
           onClick={startGame}

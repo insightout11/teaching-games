@@ -22,6 +22,38 @@ function getPositionPoints(position: number): number {
   return 3;
 }
 
+const normalizeWord = (w: string) => w.replace(/[.,!?;:'"()]/g, '').toLowerCase();
+
+// Rebuild the original paragraph with each error word struck through and its
+// correction shown inline, so the teacher can read the fixes in context.
+function renderCorrectedParagraph(paragraph: string, solutions: ErrorLocation[]) {
+  const remaining = solutions.map(s => ({ ...s, used: false }));
+  const tokens = paragraph.split(/(\s+)/); // keep whitespace tokens to preserve spacing
+
+  return tokens.map((token, i) => {
+    if (/^\s+$/.test(token) || token === '') {
+      return <span key={i}>{token}</span>;
+    }
+    const norm = normalizeWord(token);
+    const sol = remaining.find(s => !s.used && normalizeWord(s.word) === norm);
+    if (!sol) {
+      return <span key={i}>{token}</span>;
+    }
+    sol.used = true;
+    // Carry over any leading/trailing punctuation from the original token.
+    const lead = token.match(/^[.,!?;:'"()]*/)?.[0] ?? '';
+    const trail = token.match(/[.,!?;:'"()]*$/)?.[0] ?? '';
+    return (
+      <span key={i} className="whitespace-nowrap">
+        {lead}
+        <span className="text-red-400 line-through">{sol.word}</span>
+        <span className="text-emerald-400 font-semibold">{' '}{sol.correction}</span>
+        {trail}
+      </span>
+    );
+  });
+}
+
 interface RaceSolver {
   studentId: string;
   displayName: string;
@@ -836,6 +868,16 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Corrected paragraph in context */}
+            {challenge && evaluation.solutions && evaluation.solutions.length > 0 && (
+              <div className="mt-6 pt-6 border-t border-white/10">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">In Context</p>
+                <p className="text-slate-300 leading-relaxed">
+                  {renderCorrectedParagraph(challenge.paragraph, evaluation.solutions)}
+                </p>
               </div>
             )}
           </div>

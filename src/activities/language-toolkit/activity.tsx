@@ -66,16 +66,26 @@ export function LanguageToolkitActivity({
   }
 
   if (phase === 'presenting' && currentItem) {
+    const isLastItem = currentIndex === items.length - 1;
     return (
       <div className="space-y-5">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-sky-400">Language Toolkit</h3>
-          <button
-            onClick={handleDone}
-            className="px-8 py-3 bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
-          >
-            DONE
-          </button>
+          {isLastItem ? (
+            <button
+              onClick={handleDone}
+              className="px-8 py-3 bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+            >
+              DONE
+            </button>
+          ) : (
+            <button
+              onClick={handleNext}
+              className="flex items-center gap-1.5 px-8 py-3 bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+            >
+              NEXT <ChevronRight className="w-4 h-4" />
+            </button>
+          )}
         </div>
 
         <FocusedCard item={currentItem} />
