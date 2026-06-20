@@ -370,8 +370,9 @@ async function generateRankIt(topic: string, difficulty: Difficulty, missionCont
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 ${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
-Each challenge: a ranking prompt, 4-5 items with hidden facts that might change minds.
-Example: "Rank these animals by survival ability" with surprising facts about each.`;
+CRITICAL: Every challenge, every item being ranked, and every hidden fact MUST be specifically about "${topic}". Do not drift to any other place, person, or subject. If a source is provided above, draw the items and facts from it.
+Each challenge: a ranking prompt about "${topic}", with 4-5 items (all about "${topic}") and a hidden fact per item that might change minds.
+Example shape (do NOT copy the subject — use "${topic}" instead): "Rank these X by Y" where X and Y come from "${topic}".`;
 
   const parsed = await generateJSON<{ challenges: RankItContent['challenges'] }>(prompt, schema);
   return { activityKey: 'rank-it', topicContext: topic, challenges: parsed.challenges };
