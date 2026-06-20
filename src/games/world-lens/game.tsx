@@ -298,13 +298,7 @@ export function WorldLensGame({
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Global Geo Challenge</p>
           <h3 className="mt-2 text-4xl font-game text-white">World Lens</h3>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-300">
-            Students study a real place image, place a pin on a label-free world map, then reveal the true location and class pins.
-          </p>
-          <p className="mx-auto mt-2 max-w-xl text-xs leading-relaxed text-slate-400">
-            The standalone pool uses the shared Place Media Library, avoids recently played places, and gets harder as class difficulty rises.
-          </p>
-          <p className="mx-auto mt-3 max-w-xl text-xs leading-relaxed text-cyan-200/80">
-            Points stay bounded: 5 / 3 / 1 by distance, plus +{CLOSEST_BONUS} for the closest valid guess.
+            Students study a real place image, place a pin on a label-free world map, then reveal the true location and class guesses.
           </p>
         </div>
         <button
