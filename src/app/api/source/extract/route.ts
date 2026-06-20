@@ -236,8 +236,8 @@ export async function POST(request: NextRequest) {
           'crash-course': crashCourseLibrary as TedTalk[],
           'travel-english': travelEnglishLibrary as TedTalk[],
           'business-english': businessEnglishLibrary as TedTalk[],
-          'internet-memes': internetMemesLibrary as TedTalk[],
-          minecraft: minecraftLibrary as TedTalk[],
+          'internet-memes': internetMemesLibrary as unknown as TedTalk[],
+          minecraft: minecraftLibrary as unknown as TedTalk[],
         };
         const entryId = payload.trim();
         const library = libraryMap[type];

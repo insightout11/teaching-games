@@ -61,10 +61,10 @@ ${entry.topicTags?.length ? `Topic tags: ${entry.topicTags.join(', ')}` : ''}
 Genres:
 - opinion: argues a position / persuades / has two credible sides (suits a debate lesson)
 - discussion: cultural or experiential; invites sharing views and reactions, not strongly one-sided (suits open speaking)
-- expository: neutrally explains or informs how something works (the all-round default)
+- expository: neutrally explains, informs, or teaches about a topic — INCLUDING general tutorials and "how things work" explainers (the all-round default; most educational content)
 - narrative: tells a story or a personal account
-- travelogue: about a place, travel, getting around, or a functional real-world situation
-- how-to: procedural / instructional, or focused on a language form (grammar)
+- travelogue: a place or travel, OR a functional real-world situation a traveller/customer handles — directions, getting around, ordering, booking, checking in, asking for help
+- how-to: specifically about an ENGLISH LANGUAGE form or rule — grammar, tenses, sentence structure, pronunciation. NOT general "how to do X" content (that is expository)
 - dialogue: an interview or conversation between people
 
 Return JSON: { "genre": "<one of the genres>" }`;

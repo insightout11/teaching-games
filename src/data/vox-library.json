@@ -6,9 +6,15 @@
     "url": "https://www.youtube.com/watch?v=kIID5FDi2JQ",
     "youtubeId": "kIID5FDi2JQ",
     "durationSecs": 336,
-    "topicTags": ["geography", "science", "maps", "history"],
+    "topicTags": [
+      "geography",
+      "science",
+      "maps",
+      "history"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Every world map you've seen is wrong — but in different ways. Vox explains why it's mathematically impossible to flatten a sphere without distortion, and how different map projections warp size, shape, and distance."
+    "description": "Every world map you've seen is wrong — but in different ways. Vox explains why it's mathematically impossible to flatten a sphere without distortion, and how different map projections warp size, shape, and distance.",
+    "genre": "expository"
   },
   {
     "id": "vox_gerrymandering_overview",
@@ -17,9 +23,15 @@
     "url": "https://www.youtube.com/watch?v=QZZwoObFMhU",
     "youtubeId": "QZZwoObFMhU",
     "durationSecs": 180,
-    "topicTags": ["politics", "democracy", "elections", "USA"],
+    "topicTags": [
+      "politics",
+      "democracy",
+      "elections",
+      "USA"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Politicians can legally choose their own voters — and it's called gerrymandering. Vox explains how district lines are drawn to favor one party, why it's so hard to stop, and what a fair map would actually look like."
+    "description": "Politicians can legally choose their own voters — and it's called gerrymandering. Vox explains how district lines are drawn to favor one party, why it's so hard to stop, and what a fair map would actually look like.",
+    "genre": "expository"
   },
   {
     "id": "vox_hostile_architecture",
@@ -28,9 +40,15 @@
     "url": "https://www.youtube.com/watch?v=WeyLEe1T0yo",
     "youtubeId": "WeyLEe1T0yo",
     "durationSecs": 270,
-    "topicTags": ["cities", "design", "society", "inequality"],
+    "topicTags": [
+      "cities",
+      "design",
+      "society",
+      "inequality"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Why do park benches have armrests in the middle? Why are doorways spiked? Vox explores 'hostile architecture' — the intentional design of public spaces to exclude homeless people — and what it says about who cities are built for."
+    "description": "Why do park benches have armrests in the middle? Why are doorways spiked? Vox explores 'hostile architecture' — the intentional design of public spaces to exclude homeless people — and what it says about who cities are built for.",
+    "genre": "expository"
   },
   {
     "id": "vox_gerrymandering_thomas",
@@ -39,9 +57,15 @@
     "url": "https://www.youtube.com/watch?v=KpamjJtXqFI",
     "youtubeId": "KpamjJtXqFI",
     "durationSecs": 456,
-    "topicTags": ["politics", "democracy", "elections", "history"],
+    "topicTags": [
+      "politics",
+      "democracy",
+      "elections",
+      "history"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "How did one political operative redraw the maps of an entire country to lock in partisan power for a decade? Vox investigates the story of Thomas Hofeller — the architect of modern gerrymandering — and the documents he left behind."
+    "description": "How did one political operative redraw the maps of an entire country to lock in partisan power for a decade? Vox investigates the story of Thomas Hofeller — the architect of modern gerrymandering — and the documents he left behind.",
+    "genre": "narrative"
   },
   {
     "id": "vox_affordable_housing",
@@ -50,9 +74,15 @@
     "url": "https://www.youtube.com/watch?v=0Flsg_mzG-M",
     "youtubeId": "0Flsg_mzG-M",
     "durationSecs": 570,
-    "topicTags": ["cities", "housing", "economics", "policy"],
+    "topicTags": [
+      "cities",
+      "housing",
+      "economics",
+      "policy"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "America has a housing shortage — and zoning laws are a big reason why. Vox explains how local rules made affordable, dense housing illegal in most neighborhoods, and why this drives up costs and inequality."
+    "description": "America has a housing shortage — and zoning laws are a big reason why. Vox explains how local rules made affordable, dense housing illegal in most neighborhoods, and why this drives up costs and inequality.",
+    "genre": "expository"
   },
   {
     "id": "vox_healthcare_cost",
@@ -61,9 +91,15 @@
     "url": "https://www.youtube.com/watch?v=tNla9nyRMmQ",
     "youtubeId": "tNla9nyRMmQ",
     "durationSecs": 570,
-    "topicTags": ["healthcare", "economics", "policy", "USA"],
+    "topicTags": [
+      "healthcare",
+      "economics",
+      "policy",
+      "USA"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "The US spends more on healthcare than any country on Earth — but why? Vox breaks down the structural reasons behind America's uniquely expensive medical system, and why simply switching to single-payer wouldn't fix it."
+    "description": "The US spends more on healthcare than any country on Earth — but why? Vox breaks down the structural reasons behind America's uniquely expensive medical system, and why simply switching to single-payer wouldn't fix it.",
+    "genre": "expository"
   },
   {
     "id": "vox_future_of_work",
@@ -72,9 +108,15 @@
     "url": "https://www.youtube.com/watch?v=TUmyygCMMGA",
     "youtubeId": "TUmyygCMMGA",
     "durationSecs": 540,
-    "topicTags": ["economics", "technology", "automation", "work"],
+    "topicTags": [
+      "economics",
+      "technology",
+      "automation",
+      "work"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Will robots take our jobs? Economists and futurists disagree sharply about how automation will reshape work — with some predicting mass unemployment and others expecting adaptation. Vox maps out both sides of the debate."
+    "description": "Will robots take our jobs? Economists and futurists disagree sharply about how automation will reshape work — with some predicting mass unemployment and others expecting adaptation. Vox maps out both sides of the debate.",
+    "genre": "opinion"
   },
   {
     "id": "vox_america_superpower",
@@ -83,9 +125,15 @@
     "url": "https://www.youtube.com/watch?v=BShvYeyMm_Y",
     "youtubeId": "BShvYeyMm_Y",
     "durationSecs": 534,
-    "topicTags": ["history", "geopolitics", "USA", "war"],
+    "topicTags": [
+      "history",
+      "geopolitics",
+      "USA",
+      "war"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "In just 200 years, the US went from a small coastal republic to the world's dominant superpower. Vox traces the history of American expansion — from westward conquest to world wars — and asks what it means to be a superpower today."
+    "description": "In just 200 years, the US went from a small coastal republic to the world's dominant superpower. Vox traces the history of American expansion — from westward conquest to world wars — and asks what it means to be a superpower today.",
+    "genre": "expository"
   },
   {
     "id": "vox_democracy_problem",
@@ -94,8 +142,14 @@
     "url": "https://www.youtube.com/watch?v=0ySL82WbcvU",
     "youtubeId": "0ySL82WbcvU",
     "durationSecs": 510,
-    "topicTags": ["politics", "democracy", "USA", "elections"],
+    "topicTags": [
+      "politics",
+      "democracy",
+      "USA",
+      "elections"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "America's political system is increasingly giving minority-rule outcomes — where the party with fewer votes wins power. Vox explains the structural features of US democracy that make this possible, and what reformers want to change."
+    "description": "America's political system is increasingly giving minority-rule outcomes — where the party with fewer votes wins power. Vox explains the structural features of US democracy that make this possible, and what reformers want to change.",
+    "genre": "expository"
   }
 ]

@@ -6,9 +6,15 @@
     "url": "https://www.youtube.com/watch?v=UBKrTh1Jb98",
     "youtubeId": "UBKrTh1Jb98",
     "durationSecs": 150,
-    "topicTags": ["philosophy", "ethics", "happiness", "pleasure"],
+    "topicTags": [
+      "philosophy",
+      "ethics",
+      "happiness",
+      "pleasure"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Is the pursuit of pleasure the key to a good life? This animated short explores hedonism — the philosophical idea that pleasure is the highest good — and asks whether it can really guide how we live."
+    "description": "Is the pursuit of pleasure the key to a good life? This animated short explores hedonism — the philosophical idea that pleasure is the highest good — and asks whether it can really guide how we live.",
+    "genre": "expository"
   },
   {
     "id": "bbcideas_philosophy_absurdism",
@@ -17,9 +23,15 @@
     "url": "https://www.youtube.com/watch?v=QoePDl14Eyc",
     "youtubeId": "QoePDl14Eyc",
     "durationSecs": 300,
-    "topicTags": ["philosophy", "meaning", "existentialism", "Camus"],
+    "topicTags": [
+      "philosophy",
+      "meaning",
+      "existentialism",
+      "Camus"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "What do you do when life feels meaningless? This video explores absurdism — the philosophy of Albert Camus — and his argument that we must imagine Sisyphus happy, embracing life despite its lack of meaning."
+    "description": "What do you do when life feels meaningless? This video explores absurdism — the philosophy of Albert Camus — and his argument that we must imagine Sisyphus happy, embracing life despite its lack of meaning.",
+    "genre": "expository"
   },
   {
     "id": "bbcideas_sports_psychology",
@@ -28,9 +40,15 @@
     "url": "https://www.youtube.com/watch?v=7edjsqDdXzE",
     "youtubeId": "7edjsqDdXzE",
     "durationSecs": 330,
-    "topicTags": ["psychology", "sport", "self-improvement", "motivation"],
+    "topicTags": [
+      "psychology",
+      "sport",
+      "self-improvement",
+      "motivation"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Elite athletes use specific psychological techniques to perform under pressure — and researchers say they work for everyone. This video reveals four evidence-based strategies for focus, confidence, and resilience."
+    "description": "Elite athletes use specific psychological techniques to perform under pressure — and researchers say they work for everyone. This video reveals four evidence-based strategies for focus, confidence, and resilience.",
+    "genre": "expository"
   },
   {
     "id": "bbcideas_critical_thinking",
@@ -39,9 +57,15 @@
     "url": "https://www.youtube.com/watch?v=NHjgKe7JMNE",
     "youtubeId": "NHjgKe7JMNE",
     "durationSecs": 330,
-    "topicTags": ["critical thinking", "logic", "reasoning", "self-improvement"],
+    "topicTags": [
+      "critical thinking",
+      "logic",
+      "reasoning",
+      "self-improvement"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Why do smart people believe nonsense? This animated explainer breaks down five practical tools for thinking more clearly — from spotting logical fallacies to questioning your own assumptions."
+    "description": "Why do smart people believe nonsense? This animated explainer breaks down five practical tools for thinking more clearly — from spotting logical fallacies to questioning your own assumptions.",
+    "genre": "expository"
   },
   {
     "id": "bbcideas_social_media_emotions",
@@ -50,9 +74,15 @@
     "url": "https://www.youtube.com/watch?v=VGLwgtIuvwk",
     "youtubeId": "VGLwgtIuvwk",
     "durationSecs": 300,
-    "topicTags": ["psychology", "social media", "technology", "emotions"],
+    "topicTags": [
+      "psychology",
+      "social media",
+      "technology",
+      "emotions"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Social media was supposed to connect us — but is it changing how we feel and express emotion? This video examines how platforms like Twitter and Instagram reshape our emotional lives in ways we barely notice."
+    "description": "Social media was supposed to connect us — but is it changing how we feel and express emotion? This video examines how platforms like Twitter and Instagram reshape our emotional lives in ways we barely notice.",
+    "genre": "discussion"
   },
   {
     "id": "bbcideas_science_of_storytelling",
@@ -61,9 +91,15 @@
     "url": "https://www.youtube.com/watch?v=vyZMSZG2Dmk",
     "youtubeId": "vyZMSZG2Dmk",
     "durationSecs": 360,
-    "topicTags": ["psychology", "storytelling", "neuroscience", "language"],
+    "topicTags": [
+      "psychology",
+      "storytelling",
+      "neuroscience",
+      "language"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Stories do more than entertain — they physically change our brains. This animated short explores the neuroscience of storytelling: why narrative is how humans make sense of the world, build empathy, and form identity."
+    "description": "Stories do more than entertain — they physically change our brains. This animated short explores the neuroscience of storytelling: why narrative is how humans make sense of the world, build empathy, and form identity.",
+    "genre": "expository"
   },
   {
     "id": "bbcideas_power_of_kindness",
@@ -72,9 +108,15 @@
     "url": "https://www.youtube.com/watch?v=6L5SpMFtwuU",
     "youtubeId": "6L5SpMFtwuU",
     "durationSecs": 390,
-    "topicTags": ["psychology", "kindness", "neuroscience", "wellbeing"],
+    "topicTags": [
+      "psychology",
+      "kindness",
+      "neuroscience",
+      "wellbeing"
+    ],
     "difficultyLevel": "Easy",
-    "description": "Being kind doesn't just feel good — it rewires your brain. This video unpacks what neuroscience has discovered about acts of kindness: how they boost health, reduce stress, and create ripple effects through communities."
+    "description": "Being kind doesn't just feel good — it rewires your brain. This video unpacks what neuroscience has discovered about acts of kindness: how they boost health, reduce stress, and create ripple effects through communities.",
+    "genre": "expository"
   },
   {
     "id": "bbcideas_experience_world_differently",
@@ -83,9 +125,15 @@
     "url": "https://www.youtube.com/watch?v=B3z82UzoSjg",
     "youtubeId": "B3z82UzoSjg",
     "durationSecs": 390,
-    "topicTags": ["psychology", "perception", "neuroscience", "philosophy"],
+    "topicTags": [
+      "psychology",
+      "perception",
+      "neuroscience",
+      "philosophy"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Two people can stand in the same room and have completely different experiences. This video explores how the brain constructs reality — and why our perception of the world is always a personal, filtered version of what's really there."
+    "description": "Two people can stand in the same room and have completely different experiences. This video explores how the brain constructs reality — and why our perception of the world is always a personal, filtered version of what's really there.",
+    "genre": "expository"
   },
   {
     "id": "bbcideas_hidden_clues_personality",
@@ -94,9 +142,15 @@
     "url": "https://www.youtube.com/watch?v=zSc8SkszGwU",
     "youtubeId": "zSc8SkszGwU",
     "durationSecs": 480,
-    "topicTags": ["psychology", "personality", "identity", "science"],
+    "topicTags": [
+      "psychology",
+      "personality",
+      "identity",
+      "science"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Your music taste, bedroom tidiness, and even how you walk reveal more about your personality than you might think. This video digs into the psychology of personality cues — the unconscious signals we broadcast about who we are."
+    "description": "Your music taste, bedroom tidiness, and even how you walk reveal more about your personality than you might think. This video digs into the psychology of personality cues — the unconscious signals we broadcast about who we are.",
+    "genre": "expository"
   },
   {
     "id": "bbcideas_psychology_seduction",
@@ -105,8 +159,14 @@
     "url": "https://www.youtube.com/watch?v=Hw5CPtEyedU",
     "youtubeId": "Hw5CPtEyedU",
     "durationSecs": 450,
-    "topicTags": ["psychology", "relationships", "social influence", "persuasion"],
+    "topicTags": [
+      "psychology",
+      "relationships",
+      "social influence",
+      "persuasion"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "Seduction isn't just about romance — it's a form of social influence with deep psychological roots. This video examines what drives our desire to persuade and attract, and the cognitive mechanisms behind why it works."
+    "description": "Seduction isn't just about romance — it's a form of social influence with deep psychological roots. This video examines what drives our desire to persuade and attract, and the cognitive mechanisms behind why it works.",
+    "genre": "expository"
   }
 ]

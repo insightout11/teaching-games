@@ -6,9 +6,15 @@
     "url": "https://www.youtube.com/watch?v=Jint5kjoy6I",
     "youtubeId": "Jint5kjoy6I",
     "durationSecs": 180,
-    "topicTags": ["philosophy", "physics", "free will", "science"],
+    "topicTags": [
+      "philosophy",
+      "physics",
+      "free will",
+      "science"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "Michio Kaku argues that quantum mechanics undermines the concept of free will — and what that means for how we think about consciousness, choice, and human identity."
+    "description": "Michio Kaku argues that quantum mechanics undermines the concept of free will — and what that means for how we think about consciousness, choice, and human identity.",
+    "genre": "opinion"
   },
   {
     "id": "bigthink_fermi_paradox",
@@ -17,9 +23,15 @@
     "url": "https://www.youtube.com/watch?v=C2HJEMmQyIo",
     "youtubeId": "C2HJEMmQyIo",
     "durationSecs": 240,
-    "topicTags": ["science", "space", "philosophy", "technology"],
+    "topicTags": [
+      "science",
+      "space",
+      "philosophy",
+      "technology"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Kaku explains the Fermi Paradox — if aliens exist, why haven't we heard from them? — and why broadcasting our location into space might be a dangerous idea."
+    "description": "Kaku explains the Fermi Paradox — if aliens exist, why haven't we heard from them? — and why broadcasting our location into space might be a dangerous idea.",
+    "genre": "expository"
   },
   {
     "id": "bigthink_unconscious_decisions",
@@ -28,9 +40,15 @@
     "url": "https://www.youtube.com/watch?v=ph7LcupAENw",
     "youtubeId": "ph7LcupAENw",
     "durationSecs": 210,
-    "topicTags": ["psychology", "neuroscience", "decision making", "science"],
+    "topicTags": [
+      "psychology",
+      "neuroscience",
+      "decision making",
+      "science"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "Nobel laureate Eric Kandel explains how the unconscious brain processes information and makes decisions before our conscious mind is even aware — with surprising implications for creativity."
+    "description": "Nobel laureate Eric Kandel explains how the unconscious brain processes information and makes decisions before our conscious mind is even aware — with surprising implications for creativity.",
+    "genre": "expository"
   },
   {
     "id": "bigthink_free_will_pinker",
@@ -39,9 +57,15 @@
     "url": "https://www.youtube.com/watch?v=VQxJi0COTBo",
     "youtubeId": "VQxJi0COTBo",
     "durationSecs": 270,
-    "topicTags": ["philosophy", "psychology", "science", "free will"],
+    "topicTags": [
+      "philosophy",
+      "psychology",
+      "science",
+      "free will"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "Cognitive scientist Steven Pinker tackles the age-old question of free will — exploring what neuroscience says about conscious choice and why the debate matters for morality and law."
+    "description": "Cognitive scientist Steven Pinker tackles the age-old question of free will — exploring what neuroscience says about conscious choice and why the debate matters for morality and law.",
+    "genre": "discussion"
   },
   {
     "id": "bigthink_psychology_happiness",
@@ -50,9 +74,15 @@
     "url": "https://www.youtube.com/watch?v=BoLVO-OdfC8",
     "youtubeId": "BoLVO-OdfC8",
     "durationSecs": 330,
-    "topicTags": ["psychology", "happiness", "wellbeing", "self-improvement"],
+    "topicTags": [
+      "psychology",
+      "happiness",
+      "wellbeing",
+      "self-improvement"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Harvard negotiation expert Sheila Heen explores what psychological research reveals about happiness — why we're bad at predicting what will make us happy, and what actually does."
+    "description": "Harvard negotiation expert Sheila Heen explores what psychological research reveals about happiness — why we're bad at predicting what will make us happy, and what actually does.",
+    "genre": "expository"
   },
   {
     "id": "bigthink_evolution_intelligence",
@@ -61,9 +91,15 @@
     "url": "https://www.youtube.com/watch?v=bu7VulZUUdE",
     "youtubeId": "bu7VulZUUdE",
     "durationSecs": 390,
-    "topicTags": ["science", "evolution", "neuroscience", "technology"],
+    "topicTags": [
+      "science",
+      "evolution",
+      "neuroscience",
+      "technology"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Michio Kaku traces the evolution of the human brain — from primates to modern Homo sapiens — and asks whether artificial intelligence could surpass us on the same evolutionary scale."
+    "description": "Michio Kaku traces the evolution of the human brain — from primates to modern Homo sapiens — and asks whether artificial intelligence could surpass us on the same evolutionary scale.",
+    "genre": "expository"
   },
   {
     "id": "bigthink_reverse_unhappiness",
@@ -72,9 +108,15 @@
     "url": "https://www.youtube.com/watch?v=mOn5317w8AM",
     "youtubeId": "mOn5317w8AM",
     "durationSecs": 360,
-    "topicTags": ["psychology", "happiness", "self-improvement", "wellbeing"],
+    "topicTags": [
+      "psychology",
+      "happiness",
+      "self-improvement",
+      "wellbeing"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Positive psychology pioneer Tal Ben-Shahar shares the personal crisis that led him to study happiness — and the counterintuitive lessons about meaning, acceptance, and what makes life worthwhile."
+    "description": "Positive psychology pioneer Tal Ben-Shahar shares the personal crisis that led him to study happiness — and the counterintuitive lessons about meaning, acceptance, and what makes life worthwhile.",
+    "genre": "narrative"
   },
   {
     "id": "bigthink_teenage_brain",
@@ -83,9 +125,15 @@
     "url": "https://www.youtube.com/watch?v=rZDmmaElY2Y",
     "youtubeId": "rZDmmaElY2Y",
     "durationSecs": 480,
-    "topicTags": ["neuroscience", "psychology", "adolescence", "science"],
+    "topicTags": [
+      "neuroscience",
+      "psychology",
+      "adolescence",
+      "science"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "Robert Sapolsky explains the neuroscience behind teenage risk-taking — why adolescent brains are wired differently, how the prefrontal cortex develops, and what this means for how we treat young people."
+    "description": "Robert Sapolsky explains the neuroscience behind teenage risk-taking — why adolescent brains are wired differently, how the prefrontal cortex develops, and what this means for how we treat young people.",
+    "genre": "expository"
   },
   {
     "id": "bigthink_neuroscience_creativity",
@@ -94,9 +142,15 @@
     "url": "https://www.youtube.com/watch?v=vR2P5vW-nVc",
     "youtubeId": "vR2P5vW-nVc",
     "durationSecs": 510,
-    "topicTags": ["neuroscience", "creativity", "psychology", "science"],
+    "topicTags": [
+      "neuroscience",
+      "creativity",
+      "psychology",
+      "science"
+    ],
     "difficultyLevel": "Advanced",
-    "description": "Neuroscientist Beau Lotto reveals how the brain generates creative ideas — why uncertainty is essential for innovation, and how changing your perceptions can unlock new ways of thinking."
+    "description": "Neuroscientist Beau Lotto reveals how the brain generates creative ideas — why uncertainty is essential for innovation, and how changing your perceptions can unlock new ways of thinking.",
+    "genre": "expository"
   },
   {
     "id": "bigthink_growth_mindset",
@@ -105,8 +159,14 @@
     "url": "https://www.youtube.com/watch?v=hiiEeMN7vbQ",
     "youtubeId": "hiiEeMN7vbQ",
     "durationSecs": 510,
-    "topicTags": ["psychology", "education", "self-improvement", "mindset"],
+    "topicTags": [
+      "psychology",
+      "education",
+      "self-improvement",
+      "mindset"
+    ],
     "difficultyLevel": "Intermediate",
-    "description": "Stanford psychologist Carol Dweck explains the difference between a fixed mindset and a growth mindset — and how believing your abilities can develop changes what you achieve."
+    "description": "Stanford psychologist Carol Dweck explains the difference between a fixed mindset and a growth mindset — and how believing your abilities can develop changes what you achieve.",
+    "genre": "expository"
   }
 ]

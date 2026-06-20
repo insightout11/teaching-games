@@ -4,239 +4,359 @@
     "title": "The Tortoise and the Hare",
     "author": "Aesop",
     "wordCount": 271,
-    "topicTags": ["animals", "perseverance", "pride"],
+    "topicTags": [
+      "animals",
+      "perseverance",
+      "pride"
+    ],
     "difficultyLevel": "Beginner",
     "description": "A slow tortoise races a fast hare — and wins.",
-    "summary": "One day, a hare was making fun of a tortoise for being so slow. \"Do you ever get anywhere?\" he asked, laughing.\n\n\"Yes,\" replied the tortoise quietly, \"and I get there sooner than you think. I will run you a race and prove it.\"\n\nThe hare thought this was very funny. A race with a tortoise! He agreed immediately, and a course was set.\n\nThe hare darted almost out of sight at once. He ran for a while and then, seeing that the tortoise was far behind, he decided to stop and rest under a shady tree. \"I have plenty of time,\" he thought. \"I will take a little nap.\"\n\nThe tortoise, meanwhile, plodded on steadily, one slow step after another. He did not stop. He did not rest. He just kept walking.\n\nThe hare slept longer than he expected. When he finally woke up and raced to the finish line, he was shocked to find the tortoise already there, resting comfortably.\n\n\"How did you get here before me?\" cried the hare.\n\n\"I kept going,\" said the tortoise simply.\n\nAll the animals who had gathered to watch cheered for the tortoise. The hare had nothing to say.\n\nMoral: Slow and steady wins the race. Talent and speed mean nothing if you waste them."
+    "summary": "One day, a hare was making fun of a tortoise for being so slow. \"Do you ever get anywhere?\" he asked, laughing.\n\n\"Yes,\" replied the tortoise quietly, \"and I get there sooner than you think. I will run you a race and prove it.\"\n\nThe hare thought this was very funny. A race with a tortoise! He agreed immediately, and a course was set.\n\nThe hare darted almost out of sight at once. He ran for a while and then, seeing that the tortoise was far behind, he decided to stop and rest under a shady tree. \"I have plenty of time,\" he thought. \"I will take a little nap.\"\n\nThe tortoise, meanwhile, plodded on steadily, one slow step after another. He did not stop. He did not rest. He just kept walking.\n\nThe hare slept longer than he expected. When he finally woke up and raced to the finish line, he was shocked to find the tortoise already there, resting comfortably.\n\n\"How did you get here before me?\" cried the hare.\n\n\"I kept going,\" said the tortoise simply.\n\nAll the animals who had gathered to watch cheered for the tortoise. The hare had nothing to say.\n\nMoral: Slow and steady wins the race. Talent and speed mean nothing if you waste them.",
+    "genre": "narrative"
   },
   {
     "id": "stories-fox-grapes",
     "title": "The Fox and the Grapes",
     "author": "Aesop",
     "wordCount": 148,
-    "topicTags": ["animals", "pride", "self-deception"],
+    "topicTags": [
+      "animals",
+      "pride",
+      "self-deception"
+    ],
     "difficultyLevel": "Beginner",
     "description": "A hungry fox cannot reach a bunch of grapes and pretends he didn't want them.",
-    "summary": "One hot afternoon, a fox was walking through an orchard when he noticed a beautiful bunch of ripe grapes hanging from a vine. They were purple and plump, glistening in the sunlight.\n\n\"Just the thing to quench my thirst,\" said the fox.\n\nHe stepped back, took a running jump, and snapped at the grapes — but missed. He tried again and again, jumping higher each time, but the grapes were just out of reach.\n\nAt last, tired and frustrated, he gave up and walked away with his nose in the air.\n\n\"Those grapes are probably sour anyway,\" he said to himself. \"I wouldn't want them even if I could reach them.\"\n\nMoral: It is easy to pretend you don't want something you cannot have."
+    "summary": "One hot afternoon, a fox was walking through an orchard when he noticed a beautiful bunch of ripe grapes hanging from a vine. They were purple and plump, glistening in the sunlight.\n\n\"Just the thing to quench my thirst,\" said the fox.\n\nHe stepped back, took a running jump, and snapped at the grapes — but missed. He tried again and again, jumping higher each time, but the grapes were just out of reach.\n\nAt last, tired and frustrated, he gave up and walked away with his nose in the air.\n\n\"Those grapes are probably sour anyway,\" he said to himself. \"I wouldn't want them even if I could reach them.\"\n\nMoral: It is easy to pretend you don't want something you cannot have.",
+    "genre": "narrative"
   },
   {
     "id": "stories-boy-cried-wolf",
     "title": "The Boy Who Cried Wolf",
     "author": "Aesop",
     "wordCount": 251,
-    "topicTags": ["honesty", "trust", "consequences"],
+    "topicTags": [
+      "honesty",
+      "trust",
+      "consequences"
+    ],
     "difficultyLevel": "Beginner",
     "description": "A shepherd boy cries wolf as a joke — until a real wolf arrives.",
-    "summary": "There was once a young shepherd boy who looked after a flock of sheep on a hillside near his village. His job was to watch the sheep and call for help if a wolf appeared.\n\nOne day, bored and wanting some excitement, he ran down the hill shouting, \"Wolf! Wolf! A wolf is attacking the sheep!\"\n\nThe villagers dropped what they were doing and ran up the hill to help. But when they arrived, they found no wolf — only the boy laughing at them.\n\n\"There is no wolf!\" he said, grinning. \"I was just joking.\"\n\nThe villagers were angry but went home.\n\nA few days later, the boy did the same thing. Again the villagers came running. Again they found no wolf, only a laughing boy. This time they were very angry.\n\nThen one evening, a real wolf crept out of the forest and began attacking the sheep. Terrified, the boy screamed as loud as he could, \"Wolf! Wolf! Please help me! There really is a wolf!\"\n\nBut the villagers heard him and said, \"He is just trying to trick us again.\" Nobody came.\n\nThe wolf scattered the flock and disappeared into the forest.\n\nMoral: Nobody believes a liar, even when he is telling the truth."
+    "summary": "There was once a young shepherd boy who looked after a flock of sheep on a hillside near his village. His job was to watch the sheep and call for help if a wolf appeared.\n\nOne day, bored and wanting some excitement, he ran down the hill shouting, \"Wolf! Wolf! A wolf is attacking the sheep!\"\n\nThe villagers dropped what they were doing and ran up the hill to help. But when they arrived, they found no wolf — only the boy laughing at them.\n\n\"There is no wolf!\" he said, grinning. \"I was just joking.\"\n\nThe villagers were angry but went home.\n\nA few days later, the boy did the same thing. Again the villagers came running. Again they found no wolf, only a laughing boy. This time they were very angry.\n\nThen one evening, a real wolf crept out of the forest and began attacking the sheep. Terrified, the boy screamed as loud as he could, \"Wolf! Wolf! Please help me! There really is a wolf!\"\n\nBut the villagers heard him and said, \"He is just trying to trick us again.\" Nobody came.\n\nThe wolf scattered the flock and disappeared into the forest.\n\nMoral: Nobody believes a liar, even when he is telling the truth.",
+    "genre": "narrative"
   },
   {
     "id": "stories-lion-mouse",
     "title": "The Lion and the Mouse",
     "author": "Aesop",
     "wordCount": 234,
-    "topicTags": ["animals", "kindness", "friendship"],
+    "topicTags": [
+      "animals",
+      "kindness",
+      "friendship"
+    ],
     "difficultyLevel": "Beginner",
     "description": "A tiny mouse saves a mighty lion who once showed him mercy.",
-    "summary": "One afternoon, a great lion was sleeping in the forest. A little mouse, not looking where he was going, ran across the lion's nose and woke him up.\n\nThe lion roared and grabbed the mouse with his enormous paw.\n\n\"How dare you wake me!\" he growled. \"I am going to eat you.\"\n\n\"Please,\" begged the little mouse, trembling, \"let me go. I am too small to make a meal for a great lion like you. But spare me now and someday I may be able to help you.\"\n\nThe lion laughed. How could a tiny mouse ever help the king of beasts? But he was in a good mood, so he opened his paw and let the mouse go.\n\nSome time later, the lion was walking through the forest when he became tangled in a hunter's net. He struggled and roared but could not get free.\n\nThe little mouse heard his roaring and came running. Without saying a word, he began gnawing through the ropes with his sharp teeth. In a short time, the lion was free.\n\n\"You laughed when I said I would help you,\" said the mouse. \"But little friends can prove great friends.\"\n\nMoral: No act of kindness, however small, is ever wasted."
+    "summary": "One afternoon, a great lion was sleeping in the forest. A little mouse, not looking where he was going, ran across the lion's nose and woke him up.\n\nThe lion roared and grabbed the mouse with his enormous paw.\n\n\"How dare you wake me!\" he growled. \"I am going to eat you.\"\n\n\"Please,\" begged the little mouse, trembling, \"let me go. I am too small to make a meal for a great lion like you. But spare me now and someday I may be able to help you.\"\n\nThe lion laughed. How could a tiny mouse ever help the king of beasts? But he was in a good mood, so he opened his paw and let the mouse go.\n\nSome time later, the lion was walking through the forest when he became tangled in a hunter's net. He struggled and roared but could not get free.\n\nThe little mouse heard his roaring and came running. Without saying a word, he began gnawing through the ropes with his sharp teeth. In a short time, the lion was free.\n\n\"You laughed when I said I would help you,\" said the mouse. \"But little friends can prove great friends.\"\n\nMoral: No act of kindness, however small, is ever wasted.",
+    "genre": "narrative"
   },
   {
     "id": "stories-ant-grasshopper",
     "title": "The Ant and the Grasshopper",
     "author": "Aesop",
     "wordCount": 243,
-    "topicTags": ["animals", "hard work", "planning"],
+    "topicTags": [
+      "animals",
+      "hard work",
+      "planning"
+    ],
     "difficultyLevel": "Easy",
     "description": "An ant works all summer while a grasshopper plays — then winter arrives.",
-    "summary": "All through the warm summer months, a colony of ants worked without stopping. Every day they carried grains of corn and seeds back to their underground store, preparing for the cold winter ahead.\n\nNearby, a grasshopper spent his days singing and dancing in the sunshine. He had plenty to eat and saw no reason to work.\n\n\"Why do you work so hard?\" the grasshopper called to the ants. \"Come and sing with me! Summer is the time for fun.\"\n\n\"We are storing food for winter,\" replied one of the ants. \"You should do the same.\"\n\n\"Winter is far away,\" said the grasshopper with a wave of his leg. \"There is plenty of time for that later.\"\n\nBut summer does not last forever. When the cold winds came and the ground froze, the grasshopper had nothing to eat. He was shivering and hungry.\n\nAt last he went to the ants' home and knocked on their door.\n\n\"Please,\" he said, \"I am starving. Can you spare some food?\"\n\nThe ants looked at him. \"What were you doing all summer?\" they asked.\n\n\"I was singing and enjoying life,\" said the grasshopper.\n\n\"Well,\" said the ants, closing their door, \"since you sang all summer, you can dance all winter.\"\n\nMoral: Prepare today for the needs of tomorrow."
+    "summary": "All through the warm summer months, a colony of ants worked without stopping. Every day they carried grains of corn and seeds back to their underground store, preparing for the cold winter ahead.\n\nNearby, a grasshopper spent his days singing and dancing in the sunshine. He had plenty to eat and saw no reason to work.\n\n\"Why do you work so hard?\" the grasshopper called to the ants. \"Come and sing with me! Summer is the time for fun.\"\n\n\"We are storing food for winter,\" replied one of the ants. \"You should do the same.\"\n\n\"Winter is far away,\" said the grasshopper with a wave of his leg. \"There is plenty of time for that later.\"\n\nBut summer does not last forever. When the cold winds came and the ground froze, the grasshopper had nothing to eat. He was shivering and hungry.\n\nAt last he went to the ants' home and knocked on their door.\n\n\"Please,\" he said, \"I am starving. Can you spare some food?\"\n\nThe ants looked at him. \"What were you doing all summer?\" they asked.\n\n\"I was singing and enjoying life,\" said the grasshopper.\n\n\"Well,\" said the ants, closing their door, \"since you sang all summer, you can dance all winter.\"\n\nMoral: Prepare today for the needs of tomorrow.",
+    "genre": "narrative"
   },
   {
     "id": "stories-crow-pitcher",
     "title": "The Crow and the Pitcher",
     "author": "Aesop",
     "wordCount": 191,
-    "topicTags": ["animals", "problem solving", "cleverness"],
+    "topicTags": [
+      "animals",
+      "problem solving",
+      "cleverness"
+    ],
     "difficultyLevel": "Easy",
     "description": "A thirsty crow uses clever thinking to drink water from a nearly empty pitcher.",
-    "summary": "On a very hot day, a thirsty crow was flying over a dry landscape, searching desperately for water.\n\nAt last he spotted a pitcher sitting outside a farmhouse. He flew down and looked inside. There was water! But the pitcher was tall and the water level was low — far too low for the crow to reach with his beak.\n\nHe tried tilting the pitcher but it was too heavy. He tried reaching in but his beak was too short. He was about to give up and fly away when he noticed a pile of small stones on the ground.\n\nAn idea came to him.\n\nOne by one, the crow picked up a stone and dropped it into the pitcher. Then another, and another. Slowly, the water level began to rise as the stones took up space at the bottom.\n\nThe crow kept dropping stones, patiently and steadily, until at last the water rose high enough for him to reach it with his beak.\n\nHe drank deeply and flew away refreshed.\n\nMoral: Little by little does the trick. When force fails, use your mind."
+    "summary": "On a very hot day, a thirsty crow was flying over a dry landscape, searching desperately for water.\n\nAt last he spotted a pitcher sitting outside a farmhouse. He flew down and looked inside. There was water! But the pitcher was tall and the water level was low — far too low for the crow to reach with his beak.\n\nHe tried tilting the pitcher but it was too heavy. He tried reaching in but his beak was too short. He was about to give up and fly away when he noticed a pile of small stones on the ground.\n\nAn idea came to him.\n\nOne by one, the crow picked up a stone and dropped it into the pitcher. Then another, and another. Slowly, the water level began to rise as the stones took up space at the bottom.\n\nThe crow kept dropping stones, patiently and steadily, until at last the water rose high enough for him to reach it with his beak.\n\nHe drank deeply and flew away refreshed.\n\nMoral: Little by little does the trick. When force fails, use your mind.",
+    "genre": "narrative"
   },
   {
     "id": "stories-golden-goose",
     "title": "The Goose That Laid the Golden Eggs",
     "author": "Aesop",
     "wordCount": 196,
-    "topicTags": ["greed", "patience", "consequences"],
+    "topicTags": [
+      "greed",
+      "patience",
+      "consequences"
+    ],
     "difficultyLevel": "Easy",
     "description": "A farmer's goose lays one golden egg a day — until greed destroys everything.",
-    "summary": "Once there was a farmer who owned a very ordinary-looking goose. One morning, he went to collect the egg from her nest and found, to his amazement, that she had laid an egg of solid gold.\n\nHe could hardly believe it. He rushed inside to show his wife, who was just as astonished.\n\nThe next morning, the same thing happened. And the morning after that. Every single day, the goose laid one perfect golden egg.\n\nThe farmer and his wife sold the eggs and became wealthy. But as time went on, they grew impatient.\n\n\"Why should we wait for one egg a day?\" said the farmer. \"The goose must be full of gold inside. If we cut her open, we can have all the gold at once.\"\n\nHis wife agreed. Without waiting another moment, the farmer took his knife and killed the goose.\n\nBut when he looked inside, he found nothing. She was just an ordinary goose.\n\nNow there were no more golden eggs — not one a day, not any at all.\n\nMoral: Greed often destroys the very thing it tries to gain."
+    "summary": "Once there was a farmer who owned a very ordinary-looking goose. One morning, he went to collect the egg from her nest and found, to his amazement, that she had laid an egg of solid gold.\n\nHe could hardly believe it. He rushed inside to show his wife, who was just as astonished.\n\nThe next morning, the same thing happened. And the morning after that. Every single day, the goose laid one perfect golden egg.\n\nThe farmer and his wife sold the eggs and became wealthy. But as time went on, they grew impatient.\n\n\"Why should we wait for one egg a day?\" said the farmer. \"The goose must be full of gold inside. If we cut her open, we can have all the gold at once.\"\n\nHis wife agreed. Without waiting another moment, the farmer took his knife and killed the goose.\n\nBut when he looked inside, he found nothing. She was just an ordinary goose.\n\nNow there were no more golden eggs — not one a day, not any at all.\n\nMoral: Greed often destroys the very thing it tries to gain.",
+    "genre": "narrative"
   },
   {
     "id": "stories-north-wind-sun",
     "title": "The North Wind and the Sun",
     "author": "Aesop",
     "wordCount": 213,
-    "topicTags": ["nature", "persuasion", "gentleness"],
+    "topicTags": [
+      "nature",
+      "persuasion",
+      "gentleness"
+    ],
     "difficultyLevel": "Easy",
     "description": "The Wind and the Sun compete to remove a traveller's coat — only one succeeds.",
-    "summary": "One day, the North Wind and the Sun were having an argument about which of them was stronger.\n\n\"I am obviously more powerful,\" boasted the North Wind. \"I can flatten forests and freeze rivers.\"\n\n\"Strength is not everything,\" replied the Sun calmly.\n\nJust then, they spotted a traveller walking along the road below, wrapped in a warm winter coat.\n\n\"Let us settle this now,\" said the Sun. \"Whichever of us can get that traveller to remove his coat is the stronger.\"\n\n\"Easy,\" said the North Wind.\n\nHe gathered himself and blew the most powerful blast he could manage. The wind howled and the trees bent. But the traveller only pulled his coat tighter around himself and leaned into the wind, holding his collar closed.\n\nThe harder the North Wind blew, the more tightly the traveller gripped his coat. Finally, exhausted, the North Wind gave up.\n\nNow it was the Sun's turn. He simply began to shine — gently at first, then warmer and warmer.\n\nThe traveller relaxed. He loosened his collar. After a little while, he smiled, took off his coat, and draped it over his arm.\n\nMoral: Gentleness and persuasion achieve what force cannot."
+    "summary": "One day, the North Wind and the Sun were having an argument about which of them was stronger.\n\n\"I am obviously more powerful,\" boasted the North Wind. \"I can flatten forests and freeze rivers.\"\n\n\"Strength is not everything,\" replied the Sun calmly.\n\nJust then, they spotted a traveller walking along the road below, wrapped in a warm winter coat.\n\n\"Let us settle this now,\" said the Sun. \"Whichever of us can get that traveller to remove his coat is the stronger.\"\n\n\"Easy,\" said the North Wind.\n\nHe gathered himself and blew the most powerful blast he could manage. The wind howled and the trees bent. But the traveller only pulled his coat tighter around himself and leaned into the wind, holding his collar closed.\n\nThe harder the North Wind blew, the more tightly the traveller gripped his coat. Finally, exhausted, the North Wind gave up.\n\nNow it was the Sun's turn. He simply began to shine — gently at first, then warmer and warmer.\n\nThe traveller relaxed. He loosened his collar. After a little while, he smiled, took off his coat, and draped it over his arm.\n\nMoral: Gentleness and persuasion achieve what force cannot.",
+    "genre": "narrative"
   },
   {
     "id": "stories-three-little-pigs",
     "title": "The Three Little Pigs",
     "author": "Traditional",
     "wordCount": 398,
-    "topicTags": ["animals", "hard work", "planning"],
+    "topicTags": [
+      "animals",
+      "hard work",
+      "planning"
+    ],
     "difficultyLevel": "Easy",
     "description": "Three pigs build houses of straw, sticks, and bricks — then a wolf comes knocking.",
-    "summary": "Once upon a time, three little pigs left home to build their own houses and make their own way in the world.\n\nThe first little pig was lazy. He built his house out of straw because it was quick and easy. \"There,\" he said, and went off to play.\n\nThe second little pig worked a little harder. He built his house out of sticks. It took longer, but when it was done, he too went off to play.\n\nThe third little pig was the most serious of the three. He took his time and built his house out of bricks. His brothers laughed at him as he worked in the hot sun. \"You are wasting your day!\" they called. But the third pig kept on laying bricks until his house was solid and strong.\n\nThen one day, a big bad wolf came prowling through the neighbourhood. He was hungry and looking for pigs.\n\nHe came to the house of straw and knocked on the door. \"Little pig, little pig, let me come in!\"\n\n\"Not by the hair on my chinny chin chin!\" called the first pig.\n\n\"Then I'll huff and I'll puff and I'll blow your house in!\" And he did. The straw house collapsed immediately, and the first pig ran to his brother's house of sticks.\n\nThe wolf followed. He huffed and puffed and blew the stick house down too. Both pigs ran as fast as they could to the third pig's brick house.\n\nThe wolf arrived and huffed and puffed with all his might. He blew until he had no breath left. But the brick house did not move.\n\nFurious, the wolf climbed up to the roof and began to slide down the chimney. But the three pigs had lit a fire in the fireplace. The wolf dropped straight into the hot pot, yelped, and shot back up the chimney. He ran away and never came back.\n\nThe three pigs lived safely in the brick house. From that day on, the first two pigs were no longer lazy.\n\nMoral: Hard work and preparation pay off when trouble comes."
+    "summary": "Once upon a time, three little pigs left home to build their own houses and make their own way in the world.\n\nThe first little pig was lazy. He built his house out of straw because it was quick and easy. \"There,\" he said, and went off to play.\n\nThe second little pig worked a little harder. He built his house out of sticks. It took longer, but when it was done, he too went off to play.\n\nThe third little pig was the most serious of the three. He took his time and built his house out of bricks. His brothers laughed at him as he worked in the hot sun. \"You are wasting your day!\" they called. But the third pig kept on laying bricks until his house was solid and strong.\n\nThen one day, a big bad wolf came prowling through the neighbourhood. He was hungry and looking for pigs.\n\nHe came to the house of straw and knocked on the door. \"Little pig, little pig, let me come in!\"\n\n\"Not by the hair on my chinny chin chin!\" called the first pig.\n\n\"Then I'll huff and I'll puff and I'll blow your house in!\" And he did. The straw house collapsed immediately, and the first pig ran to his brother's house of sticks.\n\nThe wolf followed. He huffed and puffed and blew the stick house down too. Both pigs ran as fast as they could to the third pig's brick house.\n\nThe wolf arrived and huffed and puffed with all his might. He blew until he had no breath left. But the brick house did not move.\n\nFurious, the wolf climbed up to the roof and began to slide down the chimney. But the three pigs had lit a fire in the fireplace. The wolf dropped straight into the hot pot, yelped, and shot back up the chimney. He ran away and never came back.\n\nThe three pigs lived safely in the brick house. From that day on, the first two pigs were no longer lazy.\n\nMoral: Hard work and preparation pay off when trouble comes.",
+    "genre": "narrative"
   },
   {
     "id": "stories-red-riding-hood",
     "title": "Little Red Riding Hood",
     "author": "Brothers Grimm",
     "wordCount": 452,
-    "topicTags": ["fairy tale", "danger", "trust"],
+    "topicTags": [
+      "fairy tale",
+      "danger",
+      "trust"
+    ],
     "difficultyLevel": "Intermediate",
     "description": "A girl in a red cloak visits her grandmother — but a wolf gets there first.",
-    "summary": "Once upon a time, there was a sweet little girl who was loved by everyone who knew her. Her grandmother had given her a red velvet cloak, which she wore so often that everyone called her Little Red Riding Hood.\n\nOne day her mother said, \"Your grandmother is not feeling well. Take her this basket of food — bread, cake, and a bottle of wine. But stay on the path and do not talk to strangers.\"\n\nLittle Red Riding Hood set off into the forest. Before long, she met a wolf. The wolf was hungry but dared not attack her in the open forest, as woodcutters were working nearby. So instead he spoke to her pleasantly.\n\n\"Where are you going, little girl?\" he asked.\n\n\"To my grandmother's house,\" she replied, and told him the way without thinking.\n\nThe wolf ran ahead by a different route. He arrived at grandmother's house, knocked, and when the old woman opened the door, he swallowed her up in one gulp. Then he put on her nightgown and cap, climbed into her bed, and pulled the covers up to his chin.\n\nWhen Little Red Riding Hood arrived, she walked inside and went to the bedroom. Something seemed strange about her grandmother.\n\n\"Grandmother, what big ears you have!\"\n\"All the better to hear you with, my dear.\"\n\"Grandmother, what big eyes you have!\"\n\"All the better to see you with, my dear.\"\n\"Grandmother, what big teeth you have!\"\n\"All the better to eat you with!\" cried the wolf, and leapt out of the bed.\n\nLittle Red Riding Hood screamed. A hunter passing by heard her cry and burst through the door. He saw the wolf at once, raised his axe, and the wolf was gone. The hunter cut him open and out stepped grandmother, safe and unharmed.\n\nLittle Red Riding Hood was very shaken. She promised herself she would never leave the path or speak to strangers again.\n\nMoral: Listen to wise advice and stay alert to danger — things are not always as they appear."
+    "summary": "Once upon a time, there was a sweet little girl who was loved by everyone who knew her. Her grandmother had given her a red velvet cloak, which she wore so often that everyone called her Little Red Riding Hood.\n\nOne day her mother said, \"Your grandmother is not feeling well. Take her this basket of food — bread, cake, and a bottle of wine. But stay on the path and do not talk to strangers.\"\n\nLittle Red Riding Hood set off into the forest. Before long, she met a wolf. The wolf was hungry but dared not attack her in the open forest, as woodcutters were working nearby. So instead he spoke to her pleasantly.\n\n\"Where are you going, little girl?\" he asked.\n\n\"To my grandmother's house,\" she replied, and told him the way without thinking.\n\nThe wolf ran ahead by a different route. He arrived at grandmother's house, knocked, and when the old woman opened the door, he swallowed her up in one gulp. Then he put on her nightgown and cap, climbed into her bed, and pulled the covers up to his chin.\n\nWhen Little Red Riding Hood arrived, she walked inside and went to the bedroom. Something seemed strange about her grandmother.\n\n\"Grandmother, what big ears you have!\"\n\"All the better to hear you with, my dear.\"\n\"Grandmother, what big eyes you have!\"\n\"All the better to see you with, my dear.\"\n\"Grandmother, what big teeth you have!\"\n\"All the better to eat you with!\" cried the wolf, and leapt out of the bed.\n\nLittle Red Riding Hood screamed. A hunter passing by heard her cry and burst through the door. He saw the wolf at once, raised his axe, and the wolf was gone. The hunter cut him open and out stepped grandmother, safe and unharmed.\n\nLittle Red Riding Hood was very shaken. She promised herself she would never leave the path or speak to strangers again.\n\nMoral: Listen to wise advice and stay alert to danger — things are not always as they appear.",
+    "genre": "narrative"
   },
   {
     "id": "stories-ugly-duckling",
     "title": "The Ugly Duckling",
     "author": "H.C. Andersen",
     "wordCount": 487,
-    "topicTags": ["identity", "belonging", "transformation"],
+    "topicTags": [
+      "identity",
+      "belonging",
+      "transformation"
+    ],
     "difficultyLevel": "Intermediate",
     "description": "A duckling rejected by everyone for looking different discovers who he truly is.",
-    "summary": "One summer, a mother duck sat on her nest waiting for her eggs to hatch. One by one the shells cracked open and bright yellow ducklings tumbled out, peeping and splashing.\n\nBut one egg was larger than the rest, and it hatched last. The creature that came out was big, grey, and awkward — nothing like his brothers and sisters.\n\n\"That is a very strange duckling,\" said the other ducks, and they pecked and teased him from the very first day.\n\nThe poor creature did not understand why everyone was so unkind. Even his own family grew impatient with him. Finally, ashamed and miserable, he ran away from the farmyard.\n\nHe wandered through the autumn, alone and cold. He found shelter in a marsh, where an old woman took him in, but her cat and hen bullied him too. He left and spent the terrible winter hiding in the reeds, nearly freezing in the ice.\n\nAll through those long months, he survived on his own, sad and lonely, wondering what was wrong with him.\n\nThen spring came. The ice melted and the world turned green again. The ugly duckling stretched his wings — and found they were large and powerful. He flew through the warm air and landed on a still lake.\n\nThere in the water he saw his reflection for the first time in months. Looking back at him was not an ugly grey duckling, but a magnificent white swan.\n\nA group of swans swimming nearby came towards him. He bowed his head, expecting to be chased away as always. But instead they welcomed him joyfully, swimming around him and calling out.\n\nChildren on the bank pointed and cried, \"Look! A new swan — and he is the most beautiful of all!\"\n\nThe swan who had once been an ugly duckling felt happiness filling his heart. He ruffled his great white wings and thought: he had never imagined, in all those dark months, that so much beauty was waiting for him.\n\nMoral: Those who are different are not lesser — sometimes they are simply becoming something the world has not yet seen."
+    "summary": "One summer, a mother duck sat on her nest waiting for her eggs to hatch. One by one the shells cracked open and bright yellow ducklings tumbled out, peeping and splashing.\n\nBut one egg was larger than the rest, and it hatched last. The creature that came out was big, grey, and awkward — nothing like his brothers and sisters.\n\n\"That is a very strange duckling,\" said the other ducks, and they pecked and teased him from the very first day.\n\nThe poor creature did not understand why everyone was so unkind. Even his own family grew impatient with him. Finally, ashamed and miserable, he ran away from the farmyard.\n\nHe wandered through the autumn, alone and cold. He found shelter in a marsh, where an old woman took him in, but her cat and hen bullied him too. He left and spent the terrible winter hiding in the reeds, nearly freezing in the ice.\n\nAll through those long months, he survived on his own, sad and lonely, wondering what was wrong with him.\n\nThen spring came. The ice melted and the world turned green again. The ugly duckling stretched his wings — and found they were large and powerful. He flew through the warm air and landed on a still lake.\n\nThere in the water he saw his reflection for the first time in months. Looking back at him was not an ugly grey duckling, but a magnificent white swan.\n\nA group of swans swimming nearby came towards him. He bowed his head, expecting to be chased away as always. But instead they welcomed him joyfully, swimming around him and calling out.\n\nChildren on the bank pointed and cried, \"Look! A new swan — and he is the most beautiful of all!\"\n\nThe swan who had once been an ugly duckling felt happiness filling his heart. He ruffled his great white wings and thought: he had never imagined, in all those dark months, that so much beauty was waiting for him.\n\nMoral: Those who are different are not lesser — sometimes they are simply becoming something the world has not yet seen.",
+    "genre": "narrative"
   },
   {
     "id": "stories-cinderella",
     "title": "Cinderella",
     "author": "Charles Perrault",
     "wordCount": 478,
-    "topicTags": ["fairy tale", "kindness", "justice"],
+    "topicTags": [
+      "fairy tale",
+      "kindness",
+      "justice"
+    ],
     "difficultyLevel": "Intermediate",
     "description": "A kind girl treated as a servant by her stepfamily finds her life transformed.",
-    "summary": "Once there was a gentleman who had a daughter with a gentle and kind heart. After his wife died, he married again — a proud and cold woman who had two daughters of her own. From the moment they moved in, the stepmother made the gentleman's daughter do all the hardest work in the house. The girl slept near the fireplace and was always covered in ash and cinders, so the stepsisters called her Cinderella.\n\nOne day, an invitation arrived from the royal palace. The Prince was holding a grand ball, and all the young women of the kingdom were invited. The stepsisters rushed to prepare their finest gowns. Cinderella helped them dress, brushed their hair, and said nothing about her own wish to go.\n\nWhen they had left, Cinderella sat alone by the fire and wept.\n\nSuddenly, a woman appeared before her — her fairy godmother. \"Do you wish to go to the ball?\" she asked.\n\n\"More than anything,\" said Cinderella.\n\nThe fairy godmother transformed a pumpkin into a golden carriage, mice into horses, and Cinderella's rags into a beautiful gown with glass slippers. \"But,\" she warned, \"you must leave before midnight. At the last stroke of twelve, everything will return to what it was.\"\n\nAt the ball, no one recognised Cinderella. The Prince danced with her all evening and could not take his eyes off her. But as the clock began to strike midnight, she remembered and fled, losing one glass slipper on the palace steps.\n\nThe Prince searched the whole kingdom with the slipper. Every young woman tried it on, but it fitted only Cinderella. The stepsisters stared in disbelief.\n\nThe Prince asked Cinderella to marry him. She said yes. And because her heart was as kind as ever, she forgave her stepsisters and found them good husbands too.\n\nMoral: Kindness and grace are more powerful than cruelty — goodness is always seen, even when hidden."
+    "summary": "Once there was a gentleman who had a daughter with a gentle and kind heart. After his wife died, he married again — a proud and cold woman who had two daughters of her own. From the moment they moved in, the stepmother made the gentleman's daughter do all the hardest work in the house. The girl slept near the fireplace and was always covered in ash and cinders, so the stepsisters called her Cinderella.\n\nOne day, an invitation arrived from the royal palace. The Prince was holding a grand ball, and all the young women of the kingdom were invited. The stepsisters rushed to prepare their finest gowns. Cinderella helped them dress, brushed their hair, and said nothing about her own wish to go.\n\nWhen they had left, Cinderella sat alone by the fire and wept.\n\nSuddenly, a woman appeared before her — her fairy godmother. \"Do you wish to go to the ball?\" she asked.\n\n\"More than anything,\" said Cinderella.\n\nThe fairy godmother transformed a pumpkin into a golden carriage, mice into horses, and Cinderella's rags into a beautiful gown with glass slippers. \"But,\" she warned, \"you must leave before midnight. At the last stroke of twelve, everything will return to what it was.\"\n\nAt the ball, no one recognised Cinderella. The Prince danced with her all evening and could not take his eyes off her. But as the clock began to strike midnight, she remembered and fled, losing one glass slipper on the palace steps.\n\nThe Prince searched the whole kingdom with the slipper. Every young woman tried it on, but it fitted only Cinderella. The stepsisters stared in disbelief.\n\nThe Prince asked Cinderella to marry him. She said yes. And because her heart was as kind as ever, she forgave her stepsisters and found them good husbands too.\n\nMoral: Kindness and grace are more powerful than cruelty — goodness is always seen, even when hidden.",
+    "genre": "narrative"
   },
   {
     "id": "stories-fox-stork",
     "title": "The Fox and the Stork",
     "author": "Aesop",
     "wordCount": 198,
-    "topicTags": ["animals", "kindness", "fairness"],
+    "topicTags": [
+      "animals",
+      "kindness",
+      "fairness"
+    ],
     "difficultyLevel": "Beginner",
     "description": "A fox plays a mean trick on a stork — and soon gets a taste of his own medicine.",
-    "summary": "One day, a fox invited a stork to dinner. The stork arrived at the fox's home, hungry and looking forward to a good meal.\n\nBut the fox was a trickster. He served the soup in a wide, flat dish. He lapped it up easily with his tongue. But the stork had a long, narrow beak and could not drink from the flat dish at all. She went home hungry.\n\n\"I am so sorry the soup was not to your taste,\" said the fox, trying not to laugh.\n\nThe stork said nothing. But a few days later, she invited the fox to her home for dinner.\n\nThe stork served a delicious meal — but in a tall, narrow jar with a long neck. She reached her beak in easily and ate every bite. The fox could only push his nose against the jar and smell the food. He got nothing.\n\n\"I am so sorry the meal was not to your taste,\" said the stork politely.\n\nThe fox walked home with an empty stomach and a red face.\n\nMoral: Do not treat others in a way you would not like to be treated yourself."
+    "summary": "One day, a fox invited a stork to dinner. The stork arrived at the fox's home, hungry and looking forward to a good meal.\n\nBut the fox was a trickster. He served the soup in a wide, flat dish. He lapped it up easily with his tongue. But the stork had a long, narrow beak and could not drink from the flat dish at all. She went home hungry.\n\n\"I am so sorry the soup was not to your taste,\" said the fox, trying not to laugh.\n\nThe stork said nothing. But a few days later, she invited the fox to her home for dinner.\n\nThe stork served a delicious meal — but in a tall, narrow jar with a long neck. She reached her beak in easily and ate every bite. The fox could only push his nose against the jar and smell the food. He got nothing.\n\n\"I am so sorry the meal was not to your taste,\" said the stork politely.\n\nThe fox walked home with an empty stomach and a red face.\n\nMoral: Do not treat others in a way you would not like to be treated yourself.",
+    "genre": "narrative"
   },
   {
     "id": "stories-dog-bone",
     "title": "The Dog and His Reflection",
     "author": "Aesop",
     "wordCount": 163,
-    "topicTags": ["animals", "greed", "self-deception"],
+    "topicTags": [
+      "animals",
+      "greed",
+      "self-deception"
+    ],
     "difficultyLevel": "Beginner",
     "description": "A greedy dog loses everything when he tries to take more than he has.",
-    "summary": "A dog found a large bone and was very pleased with himself. He picked it up in his mouth and trotted happily toward home.\n\nTo get there, he had to cross a narrow bridge over a stream. As he crossed, he looked down into the clear water.\n\nThere in the water he saw another dog — holding a bone that looked even bigger than his own.\n\n\"I want that bone too!\" he thought greedily.\n\nHe snapped at the dog in the water. But the moment he opened his mouth, his own bone fell out and splashed into the stream. It sank to the bottom and was gone.\n\nThe dog stared down at the water. The other dog was gone too. There was nothing left — no bone in the water, no bone in his mouth.\n\nHe had lost everything by wanting more than he had.\n\nMoral: Greed often leads to losing what you already have."
+    "summary": "A dog found a large bone and was very pleased with himself. He picked it up in his mouth and trotted happily toward home.\n\nTo get there, he had to cross a narrow bridge over a stream. As he crossed, he looked down into the clear water.\n\nThere in the water he saw another dog — holding a bone that looked even bigger than his own.\n\n\"I want that bone too!\" he thought greedily.\n\nHe snapped at the dog in the water. But the moment he opened his mouth, his own bone fell out and splashed into the stream. It sank to the bottom and was gone.\n\nThe dog stared down at the water. The other dog was gone too. There was nothing left — no bone in the water, no bone in his mouth.\n\nHe had lost everything by wanting more than he had.\n\nMoral: Greed often leads to losing what you already have.",
+    "genre": "narrative"
   },
   {
     "id": "stories-wolf-sheep",
     "title": "The Wolf in Sheep's Clothing",
     "author": "Aesop",
     "wordCount": 204,
-    "topicTags": ["animals", "danger", "trust"],
+    "topicTags": [
+      "animals",
+      "danger",
+      "trust"
+    ],
     "difficultyLevel": "Easy",
     "description": "A wolf disguises himself as a sheep to sneak into the flock — with unexpected results.",
-    "summary": "A wolf had been watching a flock of sheep for days, but he could never get close. The shepherd was always nearby and the dogs were always alert.\n\nThen the wolf had an idea. He found the skin of a sheep that had died and put it over himself. Covered from head to tail, he looked just like one of the flock.\n\nThat evening, he walked calmly into the field and stood among the sheep. The dogs did not bark. The shepherd did not look up. The wolf grinned to himself — his plan had worked perfectly.\n\nHe waited patiently for the right moment.\n\nBut that evening, the shepherd wanted lamb for his supper. He walked into the field in the dark and reached for the nearest animal — which happened to be the wolf in disguise.\n\nThe shepherd brought it home and discovered the truth.\n\n\"So you thought you could fool everyone,\" he said.\n\nThe wolf had planned to catch the sheep, but his own trick had caught him instead.\n\nMoral: Appearances can be deceiving — and deceivers often trap themselves."
+    "summary": "A wolf had been watching a flock of sheep for days, but he could never get close. The shepherd was always nearby and the dogs were always alert.\n\nThen the wolf had an idea. He found the skin of a sheep that had died and put it over himself. Covered from head to tail, he looked just like one of the flock.\n\nThat evening, he walked calmly into the field and stood among the sheep. The dogs did not bark. The shepherd did not look up. The wolf grinned to himself — his plan had worked perfectly.\n\nHe waited patiently for the right moment.\n\nBut that evening, the shepherd wanted lamb for his supper. He walked into the field in the dark and reached for the nearest animal — which happened to be the wolf in disguise.\n\nThe shepherd brought it home and discovered the truth.\n\n\"So you thought you could fool everyone,\" he said.\n\nThe wolf had planned to catch the sheep, but his own trick had caught him instead.\n\nMoral: Appearances can be deceiving — and deceivers often trap themselves.",
+    "genre": "narrative"
   },
   {
     "id": "stories-fox-crow",
     "title": "The Fox and the Crow",
     "author": "Aesop",
     "wordCount": 187,
-    "topicTags": ["animals", "pride", "honesty"],
+    "topicTags": [
+      "animals",
+      "pride",
+      "honesty"
+    ],
     "difficultyLevel": "Easy",
     "description": "A clever fox flatters a vain crow — and wins her cheese.",
-    "summary": "A crow sat in a tall tree, holding a large piece of cheese in her beak. A fox passed by and looked up. His mouth watered.\n\n\"Good morning, beautiful bird,\" said the fox. \"What shining black feathers you have! What bright eyes! Truly, you are the most handsome bird I have ever seen.\"\n\nThe crow lifted her head proudly.\n\n\"I have often heard,\" continued the fox, \"that your voice is as lovely as your appearance. If you would sing just one song, I am certain you would be named Queen of the Birds.\"\n\nThe crow was so pleased by these words that she opened her beak wide to sing her finest song.\n\nDown fell the cheese.\n\nThe fox snatched it up at once.\n\n\"Thank you,\" he said, chewing happily. \"That is all I wanted. You have a voice, yes — but you are missing something more important.\"\n\nThe crow watched the fox walk away and said nothing. She had no words left.\n\nMoral: Beware of those who flatter you — they may want something in return."
+    "summary": "A crow sat in a tall tree, holding a large piece of cheese in her beak. A fox passed by and looked up. His mouth watered.\n\n\"Good morning, beautiful bird,\" said the fox. \"What shining black feathers you have! What bright eyes! Truly, you are the most handsome bird I have ever seen.\"\n\nThe crow lifted her head proudly.\n\n\"I have often heard,\" continued the fox, \"that your voice is as lovely as your appearance. If you would sing just one song, I am certain you would be named Queen of the Birds.\"\n\nThe crow was so pleased by these words that she opened her beak wide to sing her finest song.\n\nDown fell the cheese.\n\nThe fox snatched it up at once.\n\n\"Thank you,\" he said, chewing happily. \"That is all I wanted. You have a voice, yes — but you are missing something more important.\"\n\nThe crow watched the fox walk away and said nothing. She had no words left.\n\nMoral: Beware of those who flatter you — they may want something in return.",
+    "genre": "narrative"
   },
   {
     "id": "stories-city-country-mouse",
     "title": "The City Mouse and the Country Mouse",
     "author": "Aesop",
     "wordCount": 267,
-    "topicTags": ["animals", "nature", "identity"],
+    "topicTags": [
+      "animals",
+      "nature",
+      "identity"
+    ],
     "difficultyLevel": "Easy",
     "description": "A country mouse visits the city and discovers that a grand life is not always a better one.",
-    "summary": "A country mouse lived simply in a little hole in a field. He had barley, corn, and dried beans — not much, but enough. One day, his old friend the city mouse came to visit.\n\nThe country mouse was happy to share his food, but the city mouse turned up his nose.\n\n\"Is this really how you live?\" he said. \"Come with me to the city. I eat like a king every night.\"\n\nThe country mouse agreed, and the two set off together.\n\nThat night, the city mouse led his friend into a grand dining room. On the table were the leftovers from a great feast — bread, cheese, fruit, cake, and meat.\n\n\"You see?\" said the city mouse proudly. \"This is the life.\"\n\nThe country mouse could hardly believe his eyes. He had never seen so much food.\n\nBut just as they began to eat, there was a loud noise. The door burst open, and two enormous cats ran into the room. The mice dived under a cupboard and held their breath, shaking with fear.\n\nWhen the cats finally left, the country mouse crept out.\n\n\"Thank you for dinner,\" he said quietly, \"but I am going home.\"\n\n\"But the food here is so much better!\" cried the city mouse.\n\n\"Perhaps,\" said the country mouse. \"But I would rather have plain food in peace than a feast in fear.\"\n\nMoral: A simple life in safety is worth more than a rich life full of danger."
+    "summary": "A country mouse lived simply in a little hole in a field. He had barley, corn, and dried beans — not much, but enough. One day, his old friend the city mouse came to visit.\n\nThe country mouse was happy to share his food, but the city mouse turned up his nose.\n\n\"Is this really how you live?\" he said. \"Come with me to the city. I eat like a king every night.\"\n\nThe country mouse agreed, and the two set off together.\n\nThat night, the city mouse led his friend into a grand dining room. On the table were the leftovers from a great feast — bread, cheese, fruit, cake, and meat.\n\n\"You see?\" said the city mouse proudly. \"This is the life.\"\n\nThe country mouse could hardly believe his eyes. He had never seen so much food.\n\nBut just as they began to eat, there was a loud noise. The door burst open, and two enormous cats ran into the room. The mice dived under a cupboard and held their breath, shaking with fear.\n\nWhen the cats finally left, the country mouse crept out.\n\n\"Thank you for dinner,\" he said quietly, \"but I am going home.\"\n\n\"But the food here is so much better!\" cried the city mouse.\n\n\"Perhaps,\" said the country mouse. \"But I would rather have plain food in peace than a feast in fear.\"\n\nMoral: A simple life in safety is worth more than a rich life full of danger.",
+    "genre": "narrative"
   },
   {
     "id": "stories-oak-reed",
     "title": "The Oak and the Reed",
     "author": "Aesop",
     "wordCount": 212,
-    "topicTags": ["nature", "perseverance", "problem solving"],
+    "topicTags": [
+      "nature",
+      "perseverance",
+      "problem solving"
+    ],
     "difficultyLevel": "Easy",
     "description": "A mighty oak laughs at a bending reed — until the storm comes.",
-    "summary": "A great oak tree stood tall on the bank of a river, proud of its strength and size. Nearby, a slender reed grew at the water's edge, bending and swaying with every breeze.\n\n\"You are so weak,\" said the oak. \"Look at you — you bend at the smallest wind. I stand firm in any storm. I have never moved an inch.\"\n\nThe reed said nothing and swayed gently in the breeze.\n\nThen one night, a great storm swept across the land. Thunder crashed. Lightning split the sky. The wind howled with tremendous force.\n\nThe reed bent low, almost touching the ground. It bent and bent with the wind until the storm passed.\n\nIn the morning, the sun came out. The river was calm. The reed stood up straight once more.\n\nBut the mighty oak had been torn from the ground, roots and all. It lay on its side across the riverbank, broken and still.\n\n\"How did you survive?\" the oak managed to whisper.\n\n\"Because I bent,\" said the reed. \"You were too proud to give way, so the wind broke you. I let the storm pass over me.\"\n\nMoral: Those who are flexible and humble can survive what the proud and rigid cannot."
+    "summary": "A great oak tree stood tall on the bank of a river, proud of its strength and size. Nearby, a slender reed grew at the water's edge, bending and swaying with every breeze.\n\n\"You are so weak,\" said the oak. \"Look at you — you bend at the smallest wind. I stand firm in any storm. I have never moved an inch.\"\n\nThe reed said nothing and swayed gently in the breeze.\n\nThen one night, a great storm swept across the land. Thunder crashed. Lightning split the sky. The wind howled with tremendous force.\n\nThe reed bent low, almost touching the ground. It bent and bent with the wind until the storm passed.\n\nIn the morning, the sun came out. The river was calm. The reed stood up straight once more.\n\nBut the mighty oak had been torn from the ground, roots and all. It lay on its side across the riverbank, broken and still.\n\n\"How did you survive?\" the oak managed to whisper.\n\n\"Because I bent,\" said the reed. \"You were too proud to give way, so the wind broke you. I let the storm pass over me.\"\n\nMoral: Those who are flexible and humble can survive what the proud and rigid cannot.",
+    "genre": "narrative"
   },
   {
     "id": "stories-milkmaid",
     "title": "The Milkmaid and Her Pail",
     "author": "Aesop",
     "wordCount": 221,
-    "topicTags": ["hard work", "greed", "problem solving"],
+    "topicTags": [
+      "hard work",
+      "greed",
+      "problem solving"
+    ],
     "difficultyLevel": "Easy",
     "description": "A milkmaid daydreams about her future riches — and loses everything with one careless toss of her head.",
-    "summary": "Molly the milkmaid had just finished milking the cow. She balanced a pail of fresh milk on top of her head and began walking to the market.\n\nAs she walked, she began to dream.\n\n\"When I sell this milk, I will have enough money to buy a hundred eggs. The eggs will hatch into chickens. I will sell the chickens and buy a fine new dress — blue, I think, with ribbons.\"\n\nShe smiled and kept walking.\n\n\"In my beautiful blue dress, all the young men at the fair will notice me. But I shall not pay them any attention. I will toss my head like this —\"\n\nAnd she tossed her head proudly.\n\nThe pail flew off, crashed to the ground, and the milk spread across the road in a wide white puddle.\n\nMolly stared at it.\n\nThe eggs were gone. The chickens were gone. The blue dress was gone. The young men who had admired her in her imagination — gone.\n\nShe picked up the empty pail and walked slowly home to tell her mother what had happened.\n\n\"Ah, Molly,\" said her mother gently. \"Do not count your chickens before they are hatched.\"\n\nMoral: Do not make plans based on things you do not yet have."
+    "summary": "Molly the milkmaid had just finished milking the cow. She balanced a pail of fresh milk on top of her head and began walking to the market.\n\nAs she walked, she began to dream.\n\n\"When I sell this milk, I will have enough money to buy a hundred eggs. The eggs will hatch into chickens. I will sell the chickens and buy a fine new dress — blue, I think, with ribbons.\"\n\nShe smiled and kept walking.\n\n\"In my beautiful blue dress, all the young men at the fair will notice me. But I shall not pay them any attention. I will toss my head like this —\"\n\nAnd she tossed her head proudly.\n\nThe pail flew off, crashed to the ground, and the milk spread across the road in a wide white puddle.\n\nMolly stared at it.\n\nThe eggs were gone. The chickens were gone. The blue dress was gone. The young men who had admired her in her imagination — gone.\n\nShe picked up the empty pail and walked slowly home to tell her mother what had happened.\n\n\"Ah, Molly,\" said her mother gently. \"Do not count your chickens before they are hatched.\"\n\nMoral: Do not make plans based on things you do not yet have.",
+    "genre": "narrative"
   },
   {
     "id": "stories-emperor-new-clothes",
     "title": "The Emperor's New Clothes",
     "author": "Hans Christian Andersen",
     "wordCount": 348,
-    "topicTags": ["identity", "honesty", "fairy tale"],
+    "topicTags": [
+      "identity",
+      "honesty",
+      "fairy tale"
+    ],
     "difficultyLevel": "Easy",
     "description": "Two swindlers convince an emperor he is wearing magical clothes — until a small child speaks the truth.",
-    "summary": "There was once an emperor who loved fine clothes more than anything. He spent all his money on new outfits and changed them many times a day.\n\nOne day, two strangers arrived in the city. They said they were weavers who could make the most magnificent cloth in the world. \"The clothes we make,\" they said, \"are invisible to anyone who is stupid or unfit for their job.\"\n\nThe emperor was delighted. He paid them a large sum of money and told them to begin at once.\n\nThe two men set up their looms and pretended to work. But they wove nothing at all. Still, they called for silk and golden thread, which they hid in their bags.\n\nThe emperor sent his wisest minister to see how the cloth was coming along. The minister looked at the empty looms and saw nothing. But he was afraid to say so. \"I must be stupid,\" he thought. So he went back to the emperor and said, \"The cloth is beautiful — quite extraordinary.\"\n\nAt last, the swindlers announced the clothes were finished. They pretended to dress the emperor, smoothing the invisible fabric with great care.\n\n\"How magnificent you look!\" said all his advisors, each afraid to admit they saw nothing.\n\nThe emperor walked through the streets in a great procession. All the people watching said, \"What wonderful clothes! How beautifully they fit!\"\n\nThen a small child standing in the crowd pointed and called out, \"But he has nothing on!\"\n\nThe people whispered to each other. Then someone else said it. Then everyone said it: \"He has nothing on!\"\n\nThe emperor heard them and knew it was true. But he held his head high and kept walking to the end of the procession.\n\nMoral: The truth is often spoken first by those who are not afraid to look foolish."
+    "summary": "There was once an emperor who loved fine clothes more than anything. He spent all his money on new outfits and changed them many times a day.\n\nOne day, two strangers arrived in the city. They said they were weavers who could make the most magnificent cloth in the world. \"The clothes we make,\" they said, \"are invisible to anyone who is stupid or unfit for their job.\"\n\nThe emperor was delighted. He paid them a large sum of money and told them to begin at once.\n\nThe two men set up their looms and pretended to work. But they wove nothing at all. Still, they called for silk and golden thread, which they hid in their bags.\n\nThe emperor sent his wisest minister to see how the cloth was coming along. The minister looked at the empty looms and saw nothing. But he was afraid to say so. \"I must be stupid,\" he thought. So he went back to the emperor and said, \"The cloth is beautiful — quite extraordinary.\"\n\nAt last, the swindlers announced the clothes were finished. They pretended to dress the emperor, smoothing the invisible fabric with great care.\n\n\"How magnificent you look!\" said all his advisors, each afraid to admit they saw nothing.\n\nThe emperor walked through the streets in a great procession. All the people watching said, \"What wonderful clothes! How beautifully they fit!\"\n\nThen a small child standing in the crowd pointed and called out, \"But he has nothing on!\"\n\nThe people whispered to each other. Then someone else said it. Then everyone said it: \"He has nothing on!\"\n\nThe emperor heard them and knew it was true. But he held his head high and kept walking to the end of the procession.\n\nMoral: The truth is often spoken first by those who are not afraid to look foolish.",
+    "genre": "narrative"
   },
   {
     "id": "stories-elves-shoemaker",
     "title": "The Elves and the Shoemaker",
     "author": "Brothers Grimm",
     "wordCount": 278,
-    "topicTags": ["kindness", "fairy tale", "hard work"],
+    "topicTags": [
+      "kindness",
+      "fairy tale",
+      "hard work"
+    ],
     "difficultyLevel": "Easy",
     "description": "A poor shoemaker receives mysterious help at night — and finds a way to say thank you.",
-    "summary": "There was once a shoemaker who, though honest and hardworking, had fallen on very hard times. One evening, he had only enough leather left for one pair of shoes. He cut the leather carefully, laid it out on his workbench, and went to bed, planning to sew the shoes in the morning.\n\nWhen he came downstairs at dawn, he found a perfect pair of shoes already finished on his bench. The stitching was so fine and the work so excellent that he could not believe his eyes.\n\nA customer came that day, admired the shoes, and paid a high price for them. With the money, the shoemaker bought enough leather for two pairs.\n\nAgain that evening he cut the leather and went to bed. Again, in the morning, two perfect pairs of shoes were finished on the bench — far better than anything he could have made himself.\n\nThis continued for many nights. The shoemaker and his wife grew curious. One night, they hid behind a curtain and watched.\n\nAt midnight, two tiny elves came in, sat at the bench, and began to sew with quick, nimble fingers. They worked until every shoe was finished, then disappeared before dawn.\n\nThe shoemaker's wife said, \"Those kind little creatures have helped us so much. Let us make them something in return.\"\n\nShe sewed two tiny sets of clothing — little coats, hats, and boots. They left them on the workbench that night.\n\nWhen the elves found the gifts, they danced with delight, put on the clothes, and skipped away. They never came back — but by then, the shoemaker's business was thriving.\n\nMoral: Kindness given freely is often returned in unexpected ways."
+    "summary": "There was once a shoemaker who, though honest and hardworking, had fallen on very hard times. One evening, he had only enough leather left for one pair of shoes. He cut the leather carefully, laid it out on his workbench, and went to bed, planning to sew the shoes in the morning.\n\nWhen he came downstairs at dawn, he found a perfect pair of shoes already finished on his bench. The stitching was so fine and the work so excellent that he could not believe his eyes.\n\nA customer came that day, admired the shoes, and paid a high price for them. With the money, the shoemaker bought enough leather for two pairs.\n\nAgain that evening he cut the leather and went to bed. Again, in the morning, two perfect pairs of shoes were finished on the bench — far better than anything he could have made himself.\n\nThis continued for many nights. The shoemaker and his wife grew curious. One night, they hid behind a curtain and watched.\n\nAt midnight, two tiny elves came in, sat at the bench, and began to sew with quick, nimble fingers. They worked until every shoe was finished, then disappeared before dawn.\n\nThe shoemaker's wife said, \"Those kind little creatures have helped us so much. Let us make them something in return.\"\n\nShe sewed two tiny sets of clothing — little coats, hats, and boots. They left them on the workbench that night.\n\nWhen the elves found the gifts, they danced with delight, put on the clothes, and skipped away. They never came back — but by then, the shoemaker's business was thriving.\n\nMoral: Kindness given freely is often returned in unexpected ways.",
+    "genre": "narrative"
   },
   {
     "id": "stories-puss-in-boots",
     "title": "Puss in Boots",
     "author": "Charles Perrault",
     "wordCount": 362,
-    "topicTags": ["fairy tale", "animals", "problem solving"],
+    "topicTags": [
+      "fairy tale",
+      "animals",
+      "problem solving"
+    ],
     "difficultyLevel": "Intermediate",
     "description": "A clever cat helps his poor young master win a fortune and a princess through wit and daring.",
-    "summary": "A miller died and left his three sons everything he owned. The oldest son got the mill, the second got the donkey, and the youngest got only the cat.\n\n\"What will I do with a cat?\" the young man said sadly.\n\nBut the cat looked up at him and said, \"Give me a pair of boots and a bag, and I will make your fortune.\"\n\nThe young man was astonished — a talking cat! He did as the cat asked.\n\nPuss put on the boots, took the bag, and went to the royal palace. He caught a fine rabbit and presented it to the king. \"A gift from my master, the Marquis of Carabas,\" he said proudly. He did the same thing the next day, and the day after that.\n\nOne morning, Puss told his master to swim in the river. As the king's carriage passed, Puss cried out that his master was drowning and his clothes had been stolen. The king stopped, gave the young man fine clothes, and invited him into the carriage. In the fine clothes, the young man looked like a nobleman.\n\nPuss ran ahead. He told the farmers working in the fields: \"Tell the king these lands belong to the Marquis of Carabas, or you will be in trouble.\" The farmers did as he said.\n\nPuss then went to a great castle owned by a fearsome giant. \"I have heard,\" said Puss boldly, \"that you can transform yourself into any animal.\"\n\nThe giant roared and became a lion. Puss pretended to be frightened.\n\n\"But can you really become something small — like a mouse?\" Puss asked.\n\nThe giant, wanting to show off, turned himself into a tiny mouse. Puss leapt on it at once.\n\nWhen the king arrived at the castle, Puss welcomed him grandly. The king was so impressed that he offered his daughter in marriage to the Marquis. The young man accepted.\n\nMoral: Cleverness and boldness can achieve what wealth and power cannot."
+    "summary": "A miller died and left his three sons everything he owned. The oldest son got the mill, the second got the donkey, and the youngest got only the cat.\n\n\"What will I do with a cat?\" the young man said sadly.\n\nBut the cat looked up at him and said, \"Give me a pair of boots and a bag, and I will make your fortune.\"\n\nThe young man was astonished — a talking cat! He did as the cat asked.\n\nPuss put on the boots, took the bag, and went to the royal palace. He caught a fine rabbit and presented it to the king. \"A gift from my master, the Marquis of Carabas,\" he said proudly. He did the same thing the next day, and the day after that.\n\nOne morning, Puss told his master to swim in the river. As the king's carriage passed, Puss cried out that his master was drowning and his clothes had been stolen. The king stopped, gave the young man fine clothes, and invited him into the carriage. In the fine clothes, the young man looked like a nobleman.\n\nPuss ran ahead. He told the farmers working in the fields: \"Tell the king these lands belong to the Marquis of Carabas, or you will be in trouble.\" The farmers did as he said.\n\nPuss then went to a great castle owned by a fearsome giant. \"I have heard,\" said Puss boldly, \"that you can transform yourself into any animal.\"\n\nThe giant roared and became a lion. Puss pretended to be frightened.\n\n\"But can you really become something small — like a mouse?\" Puss asked.\n\nThe giant, wanting to show off, turned himself into a tiny mouse. Puss leapt on it at once.\n\nWhen the king arrived at the castle, Puss welcomed him grandly. The king was so impressed that he offered his daughter in marriage to the Marquis. The young man accepted.\n\nMoral: Cleverness and boldness can achieve what wealth and power cannot.",
+    "genre": "narrative"
   },
   {
     "id": "stories-snow-white",
     "title": "Snow White",
     "author": "Brothers Grimm",
     "wordCount": 432,
-    "topicTags": ["fairy tale", "kindness", "greed"],
+    "topicTags": [
+      "fairy tale",
+      "kindness",
+      "greed"
+    ],
     "difficultyLevel": "Intermediate",
     "description": "A princess driven out by a jealous queen finds safety with seven dwarfs — but danger follows her.",
-    "summary": "A queen sat sewing by an open window when she pricked her finger and three drops of blood fell onto the snow. \"How I wish for a daughter with skin as white as snow, lips as red as blood, and hair as black as the window frame,\" she said. Her wish came true, and the child was named Snow White. But the queen died soon after.\n\nThe king married again. His new queen was beautiful but cold and vain. Every day she asked her magic mirror: \"Who is the fairest in the land?\" And every day the mirror answered, \"You, my queen.\"\n\nBut one day, the mirror said: \"Snow White is the fairest of all.\"\n\nThe queen was furious. She ordered a huntsman to take Snow White into the forest and kill her. But the huntsman could not do it. He told Snow White to run away and never return.\n\nSnow White ran deep into the forest until she found a little cottage. Inside were seven small beds, seven small chairs, and a little table set for seven. She was so tired she fell asleep on one of the beds.\n\nWhen the seven dwarfs came home that evening, they found her and let her stay, in return for keeping their cottage clean.\n\nBut the queen's mirror told her Snow White was alive. Disguised as an old woman, the queen visited the cottage three times, each time trying to harm Snow White. On the third visit, she offered her a poisoned apple. Snow White took one bite and fell down as if dead.\n\nThe dwarfs placed her in a glass coffin in the forest. A prince passing through saw her and fell in love. He asked the dwarfs to let him take the coffin. As his servants carried it, they stumbled, and the piece of poisoned apple fell from Snow White's lips. She opened her eyes.\n\nThe prince and Snow White were married. As for the wicked queen, the mirror's answer changed forever.\n\nMoral: Vanity and jealousy bring their own punishment; kindness and goodness are always rewarded."
+    "summary": "A queen sat sewing by an open window when she pricked her finger and three drops of blood fell onto the snow. \"How I wish for a daughter with skin as white as snow, lips as red as blood, and hair as black as the window frame,\" she said. Her wish came true, and the child was named Snow White. But the queen died soon after.\n\nThe king married again. His new queen was beautiful but cold and vain. Every day she asked her magic mirror: \"Who is the fairest in the land?\" And every day the mirror answered, \"You, my queen.\"\n\nBut one day, the mirror said: \"Snow White is the fairest of all.\"\n\nThe queen was furious. She ordered a huntsman to take Snow White into the forest and kill her. But the huntsman could not do it. He told Snow White to run away and never return.\n\nSnow White ran deep into the forest until she found a little cottage. Inside were seven small beds, seven small chairs, and a little table set for seven. She was so tired she fell asleep on one of the beds.\n\nWhen the seven dwarfs came home that evening, they found her and let her stay, in return for keeping their cottage clean.\n\nBut the queen's mirror told her Snow White was alive. Disguised as an old woman, the queen visited the cottage three times, each time trying to harm Snow White. On the third visit, she offered her a poisoned apple. Snow White took one bite and fell down as if dead.\n\nThe dwarfs placed her in a glass coffin in the forest. A prince passing through saw her and fell in love. He asked the dwarfs to let him take the coffin. As his servants carried it, they stumbled, and the piece of poisoned apple fell from Snow White's lips. She opened her eyes.\n\nThe prince and Snow White were married. As for the wicked queen, the mirror's answer changed forever.\n\nMoral: Vanity and jealousy bring their own punishment; kindness and goodness are always rewarded.",
+    "genre": "narrative"
   },
   {
     "id": "stories-beauty-beast",
     "title": "Beauty and the Beast",
     "author": "Traditional",
     "wordCount": 418,
-    "topicTags": ["fairy tale", "kindness", "identity"],
+    "topicTags": [
+      "fairy tale",
+      "kindness",
+      "identity"
+    ],
     "difficultyLevel": "Intermediate",
     "description": "A brave girl goes to live with a terrifying beast — and discovers that appearances can be deceiving.",
-    "summary": "A merchant had three daughters. The youngest, called Beauty, was gentle and hardworking. One night, the merchant got lost in a dark forest and took shelter in a strange palace. In the morning, he picked a rose from the garden for Beauty — and a terrible Beast appeared.\n\n\"You took my rose,\" said the Beast. \"For that, you must send one of your daughters to live with me, or I will take your life.\"\n\nBeauty insisted on going herself. She arrived at the palace and found it beautiful inside — filled with books, music, and every comfort. The Beast was kind to her, though ugly and frightening to look at.\n\nEvery evening they dined together and talked for hours. Every night, the Beast asked her the same question: \"Beauty, will you marry me?\"\n\nEvery night she answered gently, \"No, Beast. But I am your friend.\"\n\nAfter months, Beauty begged the Beast to let her visit her family, who missed her. He agreed, but warned: \"If you do not return in one week, I will die of sadness.\"\n\nBeauty returned home. Her sisters, jealous of her fine life, convinced her to stay longer. A week passed, then another. Then Beauty dreamed that the Beast was lying in the garden, dying.\n\nShe rushed back to the palace. She found the Beast in the garden, motionless. She knelt beside him and took his paw.\n\n\"Please don't die,\" she said, weeping. \"I did not know how much I loved you until now. Please — I will marry you.\"\n\nAt these words, there was a flash of light. The Beast was gone. In his place stood a handsome prince.\n\n\"A witch cursed me long ago,\" he said. \"Only when someone truly loved me, despite my appearance, could the curse be broken. You saw my heart, not my face.\"\n\nBeauty and the prince were married.\n\nMoral: True beauty is found in kindness and character, not in appearance."
+    "summary": "A merchant had three daughters. The youngest, called Beauty, was gentle and hardworking. One night, the merchant got lost in a dark forest and took shelter in a strange palace. In the morning, he picked a rose from the garden for Beauty — and a terrible Beast appeared.\n\n\"You took my rose,\" said the Beast. \"For that, you must send one of your daughters to live with me, or I will take your life.\"\n\nBeauty insisted on going herself. She arrived at the palace and found it beautiful inside — filled with books, music, and every comfort. The Beast was kind to her, though ugly and frightening to look at.\n\nEvery evening they dined together and talked for hours. Every night, the Beast asked her the same question: \"Beauty, will you marry me?\"\n\nEvery night she answered gently, \"No, Beast. But I am your friend.\"\n\nAfter months, Beauty begged the Beast to let her visit her family, who missed her. He agreed, but warned: \"If you do not return in one week, I will die of sadness.\"\n\nBeauty returned home. Her sisters, jealous of her fine life, convinced her to stay longer. A week passed, then another. Then Beauty dreamed that the Beast was lying in the garden, dying.\n\nShe rushed back to the palace. She found the Beast in the garden, motionless. She knelt beside him and took his paw.\n\n\"Please don't die,\" she said, weeping. \"I did not know how much I loved you until now. Please — I will marry you.\"\n\nAt these words, there was a flash of light. The Beast was gone. In his place stood a handsome prince.\n\n\"A witch cursed me long ago,\" he said. \"Only when someone truly loved me, despite my appearance, could the curse be broken. You saw my heart, not my face.\"\n\nBeauty and the prince were married.\n\nMoral: True beauty is found in kindness and character, not in appearance.",
+    "genre": "narrative"
   }
 ]
