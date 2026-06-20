@@ -1,110 +1,32 @@
 import React, { useMemo, useState } from 'react';
-import { BookOpen, ChevronLeft, ChevronRight, Compass, Globe2, Info, Languages, MapPin, Sparkles, X } from 'lucide-react';
+import {
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+  Clock3,
+  Coins,
+  Compass,
+  Globe2,
+  Info,
+  Languages,
+  MapPin,
+  Sparkles,
+  Utensils,
+  Users,
+  X,
+  type LucideIcon,
+} from 'lucide-react';
+import {
+  getDestinationFacts,
+  getLanguageHintForCountry,
+  type DestinationFactSource,
+} from '@/lib/destination-facts';
 import type { DestinationPack } from '@/lib/world-flight/types';
 import {
   getMediaForUsage,
   getPlaceMediaRecordByDestination,
   type PlaceMediaAsset,
 } from '@/lib/place-media';
-
-const COUNTRY_LANGUAGE_HINTS: Record<string, string> = {
-  Argentina: 'Spanish',
-  Australia: 'English',
-  Brazil: 'Portuguese',
-  Canada: 'English and French',
-  Chile: 'Spanish',
-  China: 'Mandarin Chinese, Cantonese, and regional languages',
-  Colombia: 'Spanish',
-  Egypt: 'Arabic',
-  Ethiopia: 'Amharic, Oromo, Tigrinya, English, and other languages',
-  Fiji: 'English, Fijian, and Fiji Hindi',
-  France: 'French',
-  Germany: 'German',
-  Iceland: 'Icelandic',
-  India: 'Hindi, English, and many regional languages',
-  Indonesia: 'Indonesian',
-  Ireland: 'English and Irish',
-  Italy: 'Italian',
-  Japan: 'Japanese',
-  Kazakhstan: 'Kazakh and Russian',
-  Kenya: 'Swahili and English',
-  Mexico: 'Spanish',
-  Mongolia: 'Mongolian',
-  Netherlands: 'Dutch',
-  'New Zealand': 'English and Maori',
-  Nigeria: 'English, Yoruba, Igbo, Hausa, and other languages',
-  Panama: 'Spanish',
-  Peru: 'Spanish, Quechua, Aymara, and other languages',
-  Philippines: 'Filipino, English, and regional languages',
-  Portugal: 'Portuguese',
-  Russia: 'Russian',
-  Senegal: 'French, Wolof, and other languages',
-  Singapore: 'English, Malay, Mandarin, and Tamil',
-  'South Africa': 'English, Afrikaans, Zulu, Xhosa, and other languages',
-  'South Korea': 'Korean',
-  Spain: 'Spanish',
-  Thailand: 'Thai',
-  Turkey: 'Turkish',
-  'United Arab Emirates': 'Arabic, English, and many community languages',
-  'United Kingdom': 'English',
-  'United States': 'English, Spanish, and many community languages',
-  Vietnam: 'Vietnamese',
-};
-
-const CURATED_DESTINATION_NOTES: Record<string, { knownFor: string[]; prompt: string }> = {
-  'rio-de-janeiro': {
-    knownFor: ['Mountains meeting the ocean', 'Samba and Carnival', 'Tijuca Forest', 'Beach public life'],
-    prompt: 'What parts of Rio feel natural, and what parts feel built by people?',
-  },
-  'panama-city': {
-    knownFor: ['Panama Canal', 'Casco Viejo', 'Trade routes', 'Afro-Panamanian culture'],
-    prompt: 'How can one city connect local neighborhoods with global movement?',
-  },
-  delhi: {
-    knownFor: ['Markets', 'Food variety', 'Multilingual public life', 'Historic layers'],
-    prompt: 'What clues show that Delhi is shaped by many regions and languages?',
-  },
-  singapore: {
-    knownFor: ['Hawker food', 'Multilingual classrooms', 'Port trade', 'Garden city design'],
-    prompt: 'How can a small city-state feel connected to many cultures at once?',
-  },
-  tokyo: {
-    knownFor: ['Dense transit', 'Neighborhood routines', 'Public baths', 'Old and new streets'],
-    prompt: 'What daily systems help a very large city feel organized?',
-  },
-  cairo: {
-    knownFor: ['Nile River', 'Ancient monuments', 'Desert edge', 'Historic capital life'],
-    prompt: 'How does the past stay visible inside a modern city?',
-  },
-  amsterdam: {
-    knownFor: ['Canals', 'Water management', 'Cycling culture', 'Historic streets'],
-    prompt: 'When is water beautiful, and when is it infrastructure?',
-  },
-  nairobi: {
-    knownFor: ['Matatu culture', 'Urban wildlife edge', 'Regional business', 'Visual transport language'],
-    prompt: 'How can transport become part of a city culture?',
-  },
-  dakar: {
-    knownFor: ['Wolof language', 'Coastal location', 'Music and media', 'West African crossroads'],
-    prompt: 'How does multilingual life shape what people hear and see in a city?',
-  },
-  'addis-ababa': {
-    knownFor: ['African Union diplomacy', 'Scripts and languages', 'Highland capital', 'Coffee culture'],
-    prompt: 'How can one capital represent many languages and identities?',
-  },
-  miami: {
-    knownFor: ['Caribbean and Latin American migration', 'Bilingual life', 'Coastal risk', 'Music and media'],
-    prompt: 'How does migration change the sound and feel of a city?',
-  },
-  istanbul: {
-    knownFor: ['Europe-Asia crossing', 'Historic peninsula', 'Earthquake readiness', 'Layered architecture'],
-    prompt: 'What changes when a city is both a bridge and a risk zone?',
-  },
-  ulaanbaatar: {
-    knownFor: ['Extreme winter systems', 'Ger districts', 'Mountain valley setting', 'Mongolian capital life'],
-    prompt: 'What does a city need to keep working through a very cold winter?',
-  },
-};
 
 function toTitle(value: string) {
   return value
@@ -200,9 +122,6 @@ function getLessonLens(destination: DestinationPack) {
 }
 
 function getKnownFor(destination: DestinationPack) {
-  const curated = CURATED_DESTINATION_NOTES[destination.id]?.knownFor;
-  if (curated?.length) return curated;
-
   return [
     readableLandmark(destination.scene.landmarkSilhouette),
     `${toTitle(destination.scene.terrain)} setting`,
@@ -224,21 +143,37 @@ export function DestinationBriefing({
 }) {
   const media = useMemo(() => getBriefingMedia(destination), [destination]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const languageHint = COUNTRY_LANGUAGE_HINTS[destination.country] ?? 'Local and regional languages vary by community';
+  const factSheet = getDestinationFacts(destination.id);
+  const languageHint = factSheet?.language ?? getLanguageHintForCountry(destination.country);
   const lessonLens = getLessonLens(destination);
-  const knownFor = getKnownFor(destination);
-  const prompt = CURATED_DESTINATION_NOTES[destination.id]?.prompt
-    ?? `What do the images suggest about daily life in ${destination.city}?`;
+  const knownFor = factSheet?.knownFor?.length ? factSheet.knownFor : getKnownFor(destination);
+  const foodCulture = factSheet?.foodCulture ?? [];
+  const prompt = factSheet?.prompt ?? `What do the images suggest about daily life in ${destination.city}?`;
   const profile = [
     `${toTitle(destination.scene.terrain)} setting`,
     `${toTitle(destination.scene.skyline)} skyline`,
     readableLandmark(destination.scene.landmarkSilhouette),
   ].filter(Boolean).join(' - ');
 
-  const facts = [
+  const facts: Array<{
+    label: string;
+    value: string;
+    icon: LucideIcon;
+    detail?: string;
+    source?: DestinationFactSource;
+  }> = [
     { label: 'Country', value: destination.country, icon: Globe2 },
     { label: 'Region', value: destination.region, icon: Compass },
+    ...(factSheet?.population ? [{
+      label: 'Population',
+      value: factSheet.population.value,
+      icon: Users,
+      detail: `${factSheet.population.label} - ${factSheet.population.year}`,
+      source: factSheet.population,
+    }] : []),
     { label: 'Language', value: languageHint, icon: Languages },
+    ...(factSheet?.currency ? [{ label: 'Currency', value: factSheet.currency, icon: Coins }] : []),
+    ...(factSheet?.timeZone ? [{ label: 'Time zone', value: factSheet.timeZone, icon: Clock3 }] : []),
     { label: 'Arrival profile', value: profile, icon: MapPin },
   ];
   const activeMedia = media[Math.min(activeIndex, Math.max(media.length - 1, 0))];
@@ -369,13 +304,24 @@ export function DestinationBriefing({
 
         <div className="min-w-0 space-y-3">
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-            {facts.map(({ label, value, icon: Icon }) => (
+            {facts.map(({ label, value, icon: Icon, detail, source }) => (
               <div key={label} className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
                 <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
                   <Icon className="h-3.5 w-3.5 text-cyan-200/80" aria-hidden />
                   {label}
                 </div>
                 <p className="mt-1 text-sm font-semibold leading-snug text-slate-100">{value}</p>
+                {detail ? <p className="mt-1 text-[11px] leading-relaxed text-slate-400">{detail}</p> : null}
+                {source ? (
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-1 inline-flex text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-200/70 transition-colors hover:text-cyan-100"
+                  >
+                    Source: {source.name}
+                  </a>
+                ) : null}
               </div>
             ))}
           </div>
@@ -393,6 +339,22 @@ export function DestinationBriefing({
               ))}
             </div>
           </div>
+
+          {foodCulture.length > 0 ? (
+            <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
+              <div className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                <Utensils className="h-3.5 w-3.5 text-amber-200/80" aria-hidden />
+                Food + Culture
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {foodCulture.map((item) => (
+                  <span key={item} className="rounded-full border border-amber-300/15 bg-amber-300/[0.08] px-2.5 py-1 text-[11px] font-medium text-amber-50/90">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
             <div className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
