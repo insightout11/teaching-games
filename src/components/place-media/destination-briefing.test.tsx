@@ -11,7 +11,14 @@ describe('DestinationBriefing', () => {
 
     const media = getBriefingMedia(rio!);
 
-    expect(media.length).toBeGreaterThan(0);
+    expect(media.length).toBeGreaterThanOrEqual(4);
+    expect(media.map((asset) => asset.title)).toEqual(
+      expect.arrayContaining([
+        'Christ the Redeemer',
+        'Copacabana Beach',
+        'Tijuca Forest Waterfall',
+      ])
+    );
     expect(media.some((asset) => asset.url?.includes('i.ytimg.com'))).toBe(false);
     expect(media.some((asset) => asset.sourceUrl.includes('youtube.com'))).toBe(false);
     expect(media.some((asset) => asset.title.includes('Carnival Explained'))).toBe(false);
@@ -28,7 +35,9 @@ describe('DestinationBriefing', () => {
     expect(html).toContain('Destination Briefing');
     expect(html).toContain('6.77M');
     expect(html).toContain('Food + Culture');
+    expect(html).toContain('City setting');
     expect(html).toContain('Class Question');
+    expect(html).not.toContain('Arrival profile');
     expect(html).not.toContain('Lesson Lens');
   });
 });

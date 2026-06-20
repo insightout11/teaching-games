@@ -162,7 +162,7 @@ export function DestinationBriefing({
     { label: 'Language', value: languageHint, icon: Languages },
     ...(factSheet?.currency ? [{ label: 'Currency', value: factSheet.currency, icon: Coins }] : []),
     ...(factSheet?.timeZone ? [{ label: 'Time zone', value: factSheet.timeZone, icon: Clock3 }] : []),
-    { label: 'Arrival profile', value: profile, icon: MapPin },
+    { label: 'City setting', value: profile, icon: MapPin },
   ];
   const activeMedia = media[Math.min(activeIndex, Math.max(media.length - 1, 0))];
   const activeImageUrl = activeMedia?.url ?? activeMedia?.thumbnailUrl;
