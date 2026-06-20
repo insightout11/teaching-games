@@ -3,7 +3,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { X, Clock, Search, Play, LayoutGrid, List, SlidersHorizontal, Info, ChevronRight, Star } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
-import { recommendedPresetForSource, type SourceGenre } from '@/lib/preset-fit';
+import { recommendedPresetForSource, PRESET_FIT_LABELS, ALL_FIT_PRESET_IDS, type SourceGenre } from '@/lib/preset-fit';
 import {
   useDrawerA11y, usePersistedState, useFavorites, useRecentlyUsed, useIncremental,
   SortSelect, ActiveFilterChips, FavoriteStar, ClampText,
@@ -80,17 +80,6 @@ type LibraryEntry = {
   /** LLM-classified genre (populated by scripts/classify-library-genres.ts); drives the "Best for" badge. */
   genre?: SourceGenre;
 };
-
-/** Best-fit preset label for a library entry (stored genre, heuristic fallback). */
-function fitLabelFor(entry: LibraryEntry): string | null {
-  return recommendedPresetForSource({
-    genre: entry.genre,
-    title: entry.title,
-    lessonGoal: entry.description,
-    subtitle: entry.summary,
-    skills: entry.topicTags,
-  })?.label ?? null;
-}
 
 type ViewMode = 'grid' | 'list';
 
@@ -273,6 +262,8 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
   const [activeTag, setActiveTag] = usePersistedState<string | null>('lc-lib-video-tag', null);
   const [activeDifficulty, setActiveDifficulty] = usePersistedState<string | null>('lc-lib-video-level', null);
   const [activeDuration, setActiveDuration] = usePersistedState<DurationBand | null>('lc-lib-video-duration', null);
+  const [activeFit, setActiveFit] = usePersistedState<string | null>('lc-lib-video-fit', null);
+  const [tagQuery, setTagQuery] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = usePersistedState<ViewMode>('lc-lib-video-view', 'grid');
   const [sortKey, setSortKey] = usePersistedState<string>('lc-lib-video-sort', 'relevance');
@@ -289,6 +280,18 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
     [baseEntries],
   );
 
+  // Best-fit preset per entry (stored genre → heuristic). Computed once; drives both
+  // the "Best for" badge and the fit filter.
+  const fitByKey = useMemo(() => {
+    const m = new Map<string, { presetId: string; label: string }>();
+    for (const e of baseEntries) {
+      const r = recommendedPresetForSource({ genre: e.genre, title: e.title, lessonGoal: e.description, subtitle: e.summary, skills: e.topicTags });
+      if (r) m.set(entryKey(e), r);
+    }
+    return m;
+  }, [baseEntries]);
+  const fitLabel = (e: LibraryEntry) => fitByKey.get(entryKey(e))?.label ?? null;
+
   const filtered = useMemo(() => {
     return baseEntries.filter((e) => {
       if (favsOnly && !favs.has(entryKey(e))) return false;
@@ -296,18 +299,20 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
       if (activeTag && !e.topicTags.includes(activeTag)) return false;
       if (activeDifficulty && e.difficultyLevel !== activeDifficulty) return false;
       if (activeDuration && getDurationBand(e.durationSecs) !== activeDuration) return false;
+      if (activeFit && fitByKey.get(entryKey(e))?.presetId !== activeFit) return false;
       if (query) {
         const q = query.toLowerCase();
         return (
           e.title.toLowerCase().includes(q) ||
           e.speaker.toLowerCase().includes(q) ||
           e.description.toLowerCase().includes(q) ||
+          (e.summary?.toLowerCase().includes(q) ?? false) ||
           e.topicTags.some((t) => t.includes(q))
         );
       }
       return true;
     });
-  }, [query, activeChannel, activeTag, activeDifficulty, activeDuration, favsOnly, favs, baseEntries]);
+  }, [query, activeChannel, activeTag, activeDifficulty, activeDuration, activeFit, fitByKey, favsOnly, favs, baseEntries]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -322,9 +327,9 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
     return arr;
   }, [filtered, sortKey, recent]);
 
-  const activeFilterCount = [activeChannel, activeTag, activeDifficulty, activeDuration, favsOnly].filter(Boolean).length;
+  const activeFilterCount = [activeChannel, activeTag, activeDifficulty, activeDuration, activeFit, favsOnly].filter(Boolean).length;
 
-  const filterSig = `${query}|${activeChannel}|${activeTag}|${activeDifficulty}|${activeDuration}|${favsOnly}|${sortKey}`;
+  const filterSig = `${query}|${activeChannel}|${activeTag}|${activeDifficulty}|${activeDuration}|${activeFit}|${favsOnly}|${sortKey}`;
   const { count, more } = useIncremental(filterSig, 24);
   const visible = sorted.slice(0, count);
   const hasMore = visible.length < sorted.length;
@@ -351,6 +356,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
   if (activeDuration) chips.push({ key: 'duration', label: DURATION_BANDS.find((d) => d.key === activeDuration)?.label ?? activeDuration, onRemove: () => setActiveDuration(null) });
   if (activeDifficulty) chips.push({ key: 'level', label: activeDifficulty, onRemove: () => setActiveDifficulty(null) });
   if (activeTag) chips.push({ key: 'tag', label: activeTag, onRemove: () => setActiveTag(null) });
+  if (activeFit) chips.push({ key: 'fit', label: `Best for ${PRESET_FIT_LABELS[activeFit] ?? activeFit}`, onRemove: () => setActiveFit(null) });
   if (favsOnly) chips.push({ key: 'saved', label: 'Saved', onRemove: () => setFavsOnly(false) });
 
   function clearFilters() {
@@ -358,6 +364,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
     setActiveTag(null);
     setActiveDifficulty(null);
     setActiveDuration(null);
+    setActiveFit(null);
     setFavsOnly(false);
     setQuery('');
   }
@@ -373,7 +380,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
       <div className="flex items-center gap-3 px-6 py-4 border-b border-lc-border shrink-0 bg-lc-card">
         <div className="shrink-0">
           <h2 className="font-bold text-lc-text text-xl tracking-tight">Video Library</h2>
-          <p className="text-xs text-lc-text3 mt-0.5">{ALL_ENTRIES.length} videos · {filtered.length} shown</p>
+          <p className="text-xs text-lc-text3 mt-0.5">{ALL_ENTRIES.length} videos</p>
         </div>
 
         {/* Search */}
@@ -452,6 +459,26 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
       {filtersOpen && (
         <div className="px-6 py-4 border-b border-lc-border bg-lc-card shrink-0 space-y-4">
 
+          {/* Best for (flight plan) */}
+          <div>
+            <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Best for</p>
+            <div className="flex flex-wrap gap-1.5">
+              {ALL_FIT_PRESET_IDS.map((pid) => (
+                <button
+                  key={pid}
+                  onClick={() => setActiveFit(activeFit === pid ? null : pid)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${
+                    activeFit === pid
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40'
+                      : 'bg-lc-bg border border-lc-border text-lc-text3 hover:text-lc-text'
+                  }`}
+                >
+                  {PRESET_FIT_LABELS[pid] ?? pid}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Channel */}
           <div>
             <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Channel</p>
@@ -513,8 +540,15 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
           {/* Topic */}
           <div>
             <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Topic</p>
+            <input
+              type="text"
+              value={tagQuery}
+              onChange={(e) => setTagQuery(e.target.value)}
+              placeholder="Filter topics…"
+              className="w-full mb-2 px-2.5 py-1 bg-lc-bg border border-lc-border rounded-lg text-xs text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow"
+            />
             <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
-              {allTags.map((t) => (
+              {allTags.filter((t) => !tagQuery || t.includes(tagQuery.toLowerCase())).map((t) => (
                 <button
                   key={t}
                   onClick={() => setActiveTag(activeTag === t ? null : t)}
@@ -592,8 +626,8 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                       {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                     </span>
                     <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
-                    {fitLabelFor(entry) && (
-                      <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabelFor(entry)}</span>
+                    {fitLabel(entry) && (
+                      <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabel(entry)}</span>
                     )}
                   </div>
                 </div>
@@ -626,8 +660,8 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                       {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                     </span>
                     <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
-                    {fitLabelFor(entry) && (
-                      <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabelFor(entry)}</span>
+                    {fitLabel(entry) && (
+                      <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabel(entry)}</span>
                     )}
                     {entry.topicTags.slice(0, 2).map((t) => (
                       <span key={t} className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">{t}</span>

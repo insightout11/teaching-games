@@ -8,6 +8,7 @@ import {
   UserRound, Scale, Coins, Pickaxe, Heart, Compass, Sparkles, type LucideIcon,
 } from 'lucide-react';
 import { DIFFICULTIES } from '@/lib/difficulty';
+import { recommendedPresetForSource, PRESET_FIT_LABELS, ALL_FIT_PRESET_IDS, type SourceGenre } from '@/lib/preset-fit';
 import {
   useDrawerA11y, usePersistedState, useFavorites, useRecentlyUsed, useIncremental,
   SortSelect, ActiveFilterChips, FavoriteStar, ClampText, SlideLightbox,
@@ -88,6 +89,8 @@ type TextEntry = {
   summary?: string;
   slides?: string[];
   sourceType: TextSourceKey;
+  /** LLM-classified genre (populated by scripts/classify-library-genres.ts); drives the "Best for" badge. */
+  genre?: SourceGenre;
 };
 
 type ViewMode = 'grid' | 'list';
@@ -293,6 +296,8 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
   const [activeSource, setActiveSource] = usePersistedState<TextSourceKey | null>('lc-lib-text-source', null);
   const [activeTag, setActiveTag] = usePersistedState<string | null>('lc-lib-text-tag', null);
   const [activeDifficulty, setActiveDifficulty] = usePersistedState<string | null>('lc-lib-text-level', null);
+  const [activeFit, setActiveFit] = usePersistedState<string | null>('lc-lib-text-fit', null);
+  const [tagQuery, setTagQuery] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = usePersistedState<ViewMode>('lc-lib-text-view', 'grid');
   const [sortKey, setSortKey] = usePersistedState<string>('lc-lib-text-sort', 'relevance');
@@ -307,24 +312,37 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
     [],
   );
 
+  // Best-fit preset per entry (stored genre → heuristic). Drives the badge + fit filter.
+  const fitByKey = useMemo(() => {
+    const m = new Map<string, { presetId: string; label: string }>();
+    for (const e of ALL_ENTRIES) {
+      const r = recommendedPresetForSource({ genre: e.genre, title: e.title, lessonGoal: e.description, subtitle: e.summary, skills: e.topicTags });
+      if (r) m.set(entryKey(e), r);
+    }
+    return m;
+  }, []);
+  const fitLabel = (e: TextEntry) => fitByKey.get(entryKey(e))?.label ?? null;
+
   const filtered = useMemo(() => {
     return ALL_ENTRIES.filter((e) => {
       if (favsOnly && !favs.has(entryKey(e))) return false;
       if (activeSource && e.sourceType !== activeSource) return false;
       if (activeTag && !e.topicTags.includes(activeTag)) return false;
       if (activeDifficulty && e.difficultyLevel !== activeDifficulty) return false;
+      if (activeFit && fitByKey.get(entryKey(e))?.presetId !== activeFit) return false;
       if (query) {
         const q = query.toLowerCase();
         return (
           e.title.toLowerCase().includes(q) ||
           e.author.toLowerCase().includes(q) ||
           e.description.toLowerCase().includes(q) ||
+          (e.summary?.toLowerCase().includes(q) ?? false) ||
           e.topicTags.some((t) => t.includes(q))
         );
       }
       return true;
     });
-  }, [query, activeSource, activeTag, activeDifficulty, favsOnly, favs]);
+  }, [query, activeSource, activeTag, activeDifficulty, activeFit, fitByKey, favsOnly, favs]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -339,9 +357,9 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
     return arr;
   }, [filtered, sortKey, recent]);
 
-  const activeFilterCount = [activeSource, activeTag, activeDifficulty, favsOnly].filter(Boolean).length;
+  const activeFilterCount = [activeSource, activeTag, activeDifficulty, activeFit, favsOnly].filter(Boolean).length;
 
-  const filterSig = `${query}|${activeSource}|${activeTag}|${activeDifficulty}|${favsOnly}|${sortKey}`;
+  const filterSig = `${query}|${activeSource}|${activeTag}|${activeDifficulty}|${activeFit}|${favsOnly}|${sortKey}`;
   const { count, more } = useIncremental(filterSig, 24);
   const visible = sorted.slice(0, count);
   const hasMore = visible.length < sorted.length;
@@ -366,12 +384,14 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
   if (activeSource) chips.push({ key: 'source', label: SOURCE_CONFIG.find((s) => s.key === activeSource)?.label ?? activeSource, onRemove: () => setActiveSource(null) });
   if (activeDifficulty) chips.push({ key: 'level', label: activeDifficulty, onRemove: () => setActiveDifficulty(null) });
   if (activeTag) chips.push({ key: 'tag', label: activeTag, onRemove: () => setActiveTag(null) });
+  if (activeFit) chips.push({ key: 'fit', label: `Best for ${PRESET_FIT_LABELS[activeFit] ?? activeFit}`, onRemove: () => setActiveFit(null) });
   if (favsOnly) chips.push({ key: 'saved', label: 'Saved', onRemove: () => setFavsOnly(false) });
 
   function clearFilters() {
     setActiveSource(null);
     setActiveTag(null);
     setActiveDifficulty(null);
+    setActiveFit(null);
     setFavsOnly(false);
     setQuery('');
   }
@@ -383,7 +403,7 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
       <div className="flex items-center gap-3 px-6 py-4 border-b border-lc-border shrink-0 bg-lc-card">
         <div className="shrink-0">
           <h2 className="font-bold text-lc-text text-xl tracking-tight">Text Library</h2>
-          <p className="text-xs text-lc-text3 mt-0.5">{ALL_ENTRIES.length} texts · {filtered.length} shown</p>
+          <p className="text-xs text-lc-text3 mt-0.5">{ALL_ENTRIES.length} texts</p>
         </div>
 
         {/* Search */}
@@ -462,6 +482,26 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
       {filtersOpen && (
         <div className="px-6 py-4 border-b border-lc-border bg-lc-card shrink-0 space-y-4">
 
+          {/* Best for (flight plan) */}
+          <div>
+            <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Best for</p>
+            <div className="flex flex-wrap gap-1.5">
+              {ALL_FIT_PRESET_IDS.map((pid) => (
+                <button
+                  key={pid}
+                  onClick={() => setActiveFit(activeFit === pid ? null : pid)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${
+                    activeFit === pid
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40'
+                      : 'bg-lc-bg border border-lc-border text-lc-text3 hover:text-lc-text'
+                  }`}
+                >
+                  {PRESET_FIT_LABELS[pid] ?? pid}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Source */}
           <div>
             <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Collection</p>
@@ -503,8 +543,15 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
           {/* Topic */}
           <div>
             <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Topic</p>
+            <input
+              type="text"
+              value={tagQuery}
+              onChange={(e) => setTagQuery(e.target.value)}
+              placeholder="Filter topics…"
+              className="w-full mb-2 px-2.5 py-1 bg-lc-bg border border-lc-border rounded-lg text-xs text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow"
+            />
             <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
-              {allTags.map((t) => (
+              {allTags.filter((t) => !tagQuery || t.includes(tagQuery.toLowerCase())).map((t) => (
                 <button
                   key={t}
                   onClick={() => setActiveTag(activeTag === t ? null : t)}
@@ -581,6 +628,9 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                     </span>
                     <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
                     <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.wordCount}w</span>
+                    {fitLabel(entry) && (
+                      <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabel(entry)}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -616,6 +666,9 @@ export function TextLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) {
                         {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                       </span>
                       <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
+                      {fitLabel(entry) && (
+                        <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabel(entry)}</span>
+                      )}
                       {entry.topicTags.slice(0, 2).map((t) => (
                         <span key={t} className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3 capitalize">{t}</span>
                       ))}
