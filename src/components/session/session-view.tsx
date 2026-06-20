@@ -641,17 +641,19 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [modulePhase, setModulePhase] = useState<string>('idle');
 
   // Launch sting — the full LessonCaptain signature reveal plays ONCE as the class
-  // leaves the launch lobby (Begin Lesson), not on session entry. It's the long
-  // brand moment that bridges the lobby into the first module.
+  // leaves the launch lobby (Begin Lesson), not on session entry. The trigger is
+  // derived DURING render (not in an effect): an effect runs after the first paint,
+  // so the lesson view would flash for a frame before the sting mounted on top.
+  // Setting state during render makes React re-render before committing, so the
+  // overlay is present on the very first painted frame of the lesson view.
   const [showLaunchSting, setShowLaunchSting] = useState(false);
-  const prevPhaseRef = useRef(lesson.phase);
-  useEffect(() => {
-    const prev = prevPhaseRef.current;
-    prevPhaseRef.current = lesson.phase;
-    if (prev === 'lobby' && lesson.phase !== 'lobby' && lesson.phase !== 'idle' && lesson.phase !== 'ended') {
+  const [prevPhase, setPrevPhase] = useState(lesson.phase);
+  if (lesson.phase !== prevPhase) {
+    setPrevPhase(lesson.phase);
+    if (prevPhase === 'lobby' && lesson.phase !== 'idle' && lesson.phase !== 'ended') {
       setShowLaunchSting(true);
     }
-  }, [lesson.phase]);
+  }
 
   const plannerDuration = usePlannerStore((s) => s.lessonDurationMinutes);
 
