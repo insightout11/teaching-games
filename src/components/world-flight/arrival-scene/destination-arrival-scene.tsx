@@ -10,7 +10,7 @@ import { randRange, seededRand } from './seed';
 import { resolveLandmark } from './scene-registry';
 import { AtmosphereLayer } from './layers/atmosphere-layer';
 import { TerrainBaseLayer, TerrainSilhouetteLayer } from './layers/terrain-layer';
-import { SkylineLayer } from './layers/skyline-layer';
+import { SkylineLayer, HomeBaseBackdrop } from './layers/skyline-layer';
 import { VegetationLayer } from './layers/vegetation-layer';
 import { LandmarkLayer } from './layers/landmark-layer';
 import { RunwayLayer } from './layers/runway-layer';
@@ -201,6 +201,13 @@ export function DestinationArrivalScene({
           canvas in the skyline layer), so it skips the generic bleed. */}
       {scene.skylineVariant !== 'homebase' && (
         <g transform={canvasAt(0.3)}><BleedSkyline palette={palette} destinationId={destinationId} skyline={scene.skyline} /></g>
+      )}
+      {/* LC home base: the distant snow-capped ranges + aurora as a dedicated FAR
+          parallax layer. Real cities get this depth from their background landmark;
+          home base has none, so its ranges supply it — drawn behind the city, at a
+          shallower depth so they drift slowly past the towers on takeoff/landing. */}
+      {scene.skylineVariant === 'homebase' && (
+        <g transform={focalAt(0.2)}><HomeBaseBackdrop {...propsFor('homebase-backdrop')} /></g>
       )}
       {/* Focal city + accents — pan amplitude grows toward the viewer */}
       <g transform={focalAt(0.4)}>{landmarkAt('midground')}</g>

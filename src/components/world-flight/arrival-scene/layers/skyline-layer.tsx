@@ -481,27 +481,19 @@ function litWindows(
   return cells;
 }
 
-// ── LC International — bespoke home-base skyline ─────────────────────────────
-// The flagship LessonCaptain home base across the bay: a dramatic snow-capped
-// massif with a GLOWING WATERFALL cascading into the bay, fronted by a curated
-// skyline of distinctive futuristic LC architecture — a twisting helix tower,
-// skybridge twins with a sky-garden, a rounded "canister" stack, a diagrid hero
-// spire, an observation-ring tower, a geodesic biosphere dome, a curved sail
-// tower, and an arched gateway tower. Alive with a sky-tram pod riding a cable to
-// the peak, drifting light drones, an airship, and a breathing aurora. LC-blue
-// silhouettes + cyan/white light keep the brand identity at every time of day,
-// while the sky/sun/moon follow the flight clock. Animated magic is gated on
-// `ambient` (still frames render rich static fallbacks). Pairs with the LC
-// control tower (foreground hero).
-function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) {
+// ── LC International — distant mountain BACKDROP (far parallax layer) ─────────
+// The snow-capped ranges + breathing aurora + sky glow that sit FAR behind the
+// home-base city. Split out of HomeBaseSkyline into its own layer so the composer
+// can render it at a DEEPER parallax depth than the city/towers — that depth gap
+// is what gives LC International the background-layer parallax on takeoff/landing
+// that the real cities get from their distant background landmark (home base has
+// none). The hero massif + glowing waterfall stay in HomeBaseSkyline because the
+// sky-tram anchors to them — exactly as Rio keeps its morros at skyline depth and
+// only Christ the Redeemer sits in the far background. Its <defs> ids use a
+// distinct `-hbbg-` prefix so they never collide with the city layer's defs.
+export function HomeBaseBackdrop({ palette, idPrefix, ambient }: SceneLayerProps) {
   const base = LAYOUT.apronY + 12;
   const isNight = palette.light === 'moon';
-  // LC navy massing — two tones for day/night so it darkens at night yet stays blue.
-  const f = isNight ? 'rgb(12,22,46)' : 'rgb(22,38,72)';
-  const fHi = isNight ? 'rgb(20,34,66)' : 'rgb(34,52,92)';   // lit face / accent mass
-  const rim = 'rgba(120,200,255,0.85)';   // LC-blue leading-edge light
-  const lit = isNight ? 'rgba(150,220,255,0.92)' : 'rgba(150,220,255,0.5)'; // window/glass glow
-  const warm = palette.windowWarm;
   // Mountain depth tiers (aerial perspective): near peaks are darkest + most
   // saturated; each range back gets lighter + hazier toward the sky.
   const rock = isNight ? 'rgb(20,30,52)' : 'rgb(66,86,116)';       // near (darkest)
@@ -511,34 +503,15 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
   const snow = isNight ? 'rgba(198,218,244,0.86)' : 'rgba(246,251,255,0.96)';
   const haze = isNight ? 'rgba(52,70,104,0.6)' : 'rgba(170,192,218,0.62)'; // farthest (lightest)
 
-  const wfId = `${idPrefix}-hb-wf`;
-  const mistId = `${idPrefix}-hb-mist`;
-  const glowId = `${idPrefix}-hb-glow`;
-  const blurId = `${idPrefix}-hb-blur`;
-  const bodyId = `${idPrefix}-hb-body`;
-  const glassId = `${idPrefix}-hb-glass`;
+  const glowId = `${idPrefix}-hbbg-glow`;
+  const blurId = `${idPrefix}-hbbg-blur`;
+
+  // The backdrop fills the full widescreen overflow so the ranges run edge-to-edge.
+  const spanL = -BLEED_X - 80;
+  const spanR = CONTENT_W + BLEED_X + 80;
 
   const defs = (
     <defs>
-      {/* dimensional navy body sheen (lighter top → darker base) */}
-      <linearGradient id={bodyId} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor={fHi} />
-        <stop offset="1" stopColor={f} />
-      </linearGradient>
-      {/* lit glass — for the glowing observation cabs/crowns */}
-      <linearGradient id={glassId} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor={isNight ? 'rgba(160,228,255,0.9)' : 'rgba(150,222,255,0.62)'} />
-        <stop offset="1" stopColor={isNight ? 'rgba(64,124,194,0.6)' : 'rgba(92,152,210,0.42)'} />
-      </linearGradient>
-      <linearGradient id={wfId} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="rgba(255,255,255,0.95)" />
-        <stop offset="0.5" stopColor="rgba(196,238,255,0.82)" />
-        <stop offset="1" stopColor="rgba(150,220,255,0.5)" />
-      </linearGradient>
-      <radialGradient id={mistId} cx="0.5" cy="0.5" r="0.5">
-        <stop offset="0" stopColor="rgba(224,246,255,0.6)" />
-        <stop offset="1" stopColor="rgba(224,246,255,0)" />
-      </radialGradient>
       <radialGradient id={glowId} cx="0.5" cy="0.5" r="0.5">
         <stop offset="0" stopColor={isNight ? 'rgba(90,170,255,0.34)' : 'rgba(120,190,255,0.22)'} />
         <stop offset="1" stopColor="rgba(90,170,255,0)" />
@@ -548,11 +521,6 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
       </filter>
     </defs>
   );
-
-  // ── Full-canvas span — the home base fills its own widescreen overflow, so the
-  //    mountains + city run edge-to-edge instead of relying on the generic bleed. ──
-  const spanL = -BLEED_X - 80;
-  const spanR = CONTENT_W + BLEED_X + 80;
 
   // ── Sky glow + breathing aurora ribbon behind the massif ──
   const skyGlow = <ellipse cx={CONTENT_W * 0.6} cy={base - 300} rx={720} ry={320} fill={`url(#${glowId})`} />;
@@ -605,6 +573,84 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
     [620, 262, 220], [1280, 300, 250], [1640, 282, 240],
     [2000, 300, 250], [2300, 252, 220],
   ];
+
+  return (
+    <g aria-hidden data-skyline="homebase-backdrop" data-id={idPrefix}>
+      {defs}
+      {skyGlow}
+      {aurora}
+      {backHaze}
+      {midPeaks.map(([cx, h, w], i) => peak(cx, h, w, `mtn-${i}`))}
+    </g>
+  );
+}
+
+// ── LC International — bespoke home-base skyline ─────────────────────────────
+// The flagship LessonCaptain home base across the bay: a dramatic snow-capped
+// massif with a GLOWING WATERFALL cascading into the bay, fronted by a curated
+// skyline of distinctive futuristic LC architecture — a twisting helix tower,
+// skybridge twins with a sky-garden, a rounded "canister" stack, a diagrid hero
+// spire, an observation-ring tower, a geodesic biosphere dome, a curved sail
+// tower, and an arched gateway tower. Alive with a sky-tram pod riding a cable to
+// the peak, drifting light drones, an airship, and a breathing aurora. LC-blue
+// silhouettes + cyan/white light keep the brand identity at every time of day,
+// while the sky/sun/moon follow the flight clock. Animated magic is gated on
+// `ambient` (still frames render rich static fallbacks). Pairs with the LC
+// control tower (foreground hero).
+function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) {
+  const base = LAYOUT.apronY + 12;
+  const isNight = palette.light === 'moon';
+  // LC navy massing — two tones for day/night so it darkens at night yet stays blue.
+  const f = isNight ? 'rgb(12,22,46)' : 'rgb(22,38,72)';
+  const fHi = isNight ? 'rgb(20,34,66)' : 'rgb(34,52,92)';   // lit face / accent mass
+  const rim = 'rgba(120,200,255,0.85)';   // LC-blue leading-edge light
+  const lit = isNight ? 'rgba(150,220,255,0.92)' : 'rgba(150,220,255,0.5)'; // window/glass glow
+  const warm = palette.windowWarm;
+  // Hero-massif rock tones (the distant range tiers now live in HomeBaseBackdrop).
+  const rock = isNight ? 'rgb(20,30,52)' : 'rgb(66,86,116)';       // near (darkest)
+  const rockShade = 'rgba(0,0,0,0.24)';
+  const snow = isNight ? 'rgba(198,218,244,0.86)' : 'rgba(246,251,255,0.96)';
+
+  const wfId = `${idPrefix}-hb-wf`;
+  const mistId = `${idPrefix}-hb-mist`;
+  const glowId = `${idPrefix}-hb-glow`;
+  const bodyId = `${idPrefix}-hb-body`;
+  const glassId = `${idPrefix}-hb-glass`;
+
+  const defs = (
+    <defs>
+      {/* dimensional navy body sheen (lighter top → darker base) */}
+      <linearGradient id={bodyId} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor={fHi} />
+        <stop offset="1" stopColor={f} />
+      </linearGradient>
+      {/* lit glass — for the glowing observation cabs/crowns */}
+      <linearGradient id={glassId} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor={isNight ? 'rgba(160,228,255,0.9)' : 'rgba(150,222,255,0.62)'} />
+        <stop offset="1" stopColor={isNight ? 'rgba(64,124,194,0.6)' : 'rgba(92,152,210,0.42)'} />
+      </linearGradient>
+      <linearGradient id={wfId} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="rgba(255,255,255,0.95)" />
+        <stop offset="0.5" stopColor="rgba(196,238,255,0.82)" />
+        <stop offset="1" stopColor="rgba(150,220,255,0.5)" />
+      </linearGradient>
+      <radialGradient id={mistId} cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stopColor="rgba(224,246,255,0.6)" />
+        <stop offset="1" stopColor="rgba(224,246,255,0)" />
+      </radialGradient>
+      <radialGradient id={glowId} cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stopColor={isNight ? 'rgba(90,170,255,0.34)' : 'rgba(120,190,255,0.22)'} />
+        <stop offset="1" stopColor="rgba(90,170,255,0)" />
+      </radialGradient>
+    </defs>
+  );
+
+  // ── Full-canvas span — the home base fills its own widescreen overflow, so the
+  //    city runs edge-to-edge instead of relying on the generic bleed. The distant
+  //    mountain ranges + aurora now live in HomeBaseBackdrop (a deeper parallax
+  //    layer); only the hero massif + waterfall + city remain here. ──
+  const spanL = -BLEED_X - 80;
+  const spanR = CONTENT_W + BLEED_X + 80;
 
   // ── Hero massif (tallest, central-right) + glowing waterfall + mist ──
   const hmX = CONTENT_W * 0.6;
@@ -1126,10 +1172,6 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
   return (
     <g aria-hidden data-skyline="homebase" data-id={idPrefix}>
       {defs}
-      {skyGlow}
-      {aurora}
-      {backHaze}
-      {midPeaks.map(([cx, h, w], i) => peak(cx, h, w, `mtn-${i}`))}
       {heroMassif}
       {summitBeacon}
       {waterfall}
