@@ -258,6 +258,13 @@ function TextDetailDrawer({
               <span key={t} className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[11px] text-lc-text3 capitalize">{t}</span>
             ))}
           </div>
+
+          {(() => {
+            const fit = recommendedPresetForSource({ genre: entry.genre, title: entry.title, lessonGoal: entry.description, subtitle: entry.summary, skills: entry.topicTags });
+            return fit ? (
+              <p className="text-xs text-lc-text3">Best as a <span className="font-semibold text-cyan-300">{fit.label}</span> lesson</p>
+            ) : null;
+          })()}
         </div>
 
         <div className="px-5 py-4 border-t border-lc-border shrink-0 flex items-center gap-2">
