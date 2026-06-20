@@ -46,6 +46,8 @@ import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
 import { getDestinationById } from '@/data/world-flight/destinations';
+import { DestinationMediaCard } from '@/components/place-media/destination-media-card';
+import { getLessonIntroMediaForDestination } from '@/lib/place-media';
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { avatarUrl } from '@/lib/avatar-options';
@@ -523,6 +525,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const wfDestination = useMemo(
     () => (wfDestinationId ? getDestinationById(wfDestinationId) : undefined),
     [wfDestinationId],
+  );
+  const wfLessonMedia = useMemo(
+    () => (wfDestination ? getLessonIntroMediaForDestination(wfDestination.id) : null),
+    [wfDestination],
   );
   // Arrival time-of-day from the continuous flight clock (distance-scaled). Long
   // hauls land at sunrise; short hops stay in the same light they left in.
@@ -1137,6 +1143,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [lesson.handlePhaseChange]);
 
   const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
+  const destinationMediaPanel = wfDestination && wfLessonMedia && lesson.isLessonActive && !lesson.currentSlot?.isMicroEvent ? (
+    <DestinationMediaCard
+      media={wfLessonMedia}
+      placeName={`${wfDestination.city}, ${wfDestination.country}`}
+      label="Destination context"
+      compact
+      className="mb-4"
+    />
+  ) : null;
   const flightConfig = lesson.lessonPlanContent?.flightConfig;
   // Any preset with a curated flightConfig gets the full flight treatment (journey
   // view + end-game class vote), not just the All-Around flight.
@@ -2022,6 +2037,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onGoToSlot={lesson.goToSlot}
             >
               <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
+                {destinationMediaPanel}
                 <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
               </ModuleErrorBoundary>
             </FlightSessionView>
@@ -2092,6 +2108,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
             <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
+              {destinationMediaPanel}
               <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
             </ModuleErrorBoundary>
           </div>
@@ -2112,6 +2129,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             >
               {activityContent ? (
                 <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
+                  {destinationMediaPanel}
                   <ActivityShell
                     activity={selectedActivity}
                     generatedContent={activityContent}
@@ -2214,6 +2232,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
             {activityContent ? (
               <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
+                {destinationMediaPanel}
                 <ActivityShell
                   activity={selectedActivity}
                   generatedContent={activityContent}

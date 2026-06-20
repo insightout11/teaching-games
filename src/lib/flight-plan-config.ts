@@ -98,6 +98,7 @@ const CLASS_SIZE_METADATA: Record<string, ClassSizeMetadata> = {
   'sector-strike': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
   'zone-board': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
   'radar-fix': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'world-lens': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
 
   // Activities
   'quick-pulse': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
@@ -126,10 +127,12 @@ const CLASS_SIZE_METADATA: Record<string, ClassSizeMetadata> = {
   'conversation-rounds': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
   'character-cards': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'grammar-check-in': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'grammar-clarify': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'grammar-proof': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'final-word': { idealClassSizes: ONE_OR_SMALL, minStudents: 1 },
   'contribution-break': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'language-toolkit': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+  'vocab-micro': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'wonder-board': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   password: { idealClassSizes: GROUP_OR_CLASS, minStudents: 4 },
   'in-your-words': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
@@ -137,6 +140,7 @@ const CLASS_SIZE_METADATA: Record<string, ClassSizeMetadata> = {
   'taboo-sprint': { idealClassSizes: GROUP_OR_CLASS, minStudents: 4 },
   'video-player': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'cabin-mystery': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
+  'team-debate': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
 };
 
 export function getClassSizeMetadata(key: string): ClassSizeMetadata | undefined {

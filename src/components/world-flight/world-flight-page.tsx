@@ -26,6 +26,8 @@ import { ExpeditionPanel } from './expedition-panel';
 import { InvestigationProgressPanel } from './investigation-progress-panel';
 import { JourneyProgressPanel } from './journey-progress-panel';
 import { PassportArrivalReplay } from './passport-arrival-replay';
+import { DestinationMediaCard } from '@/components/place-media/destination-media-card';
+import { getLessonIntroMediaForDestination } from '@/lib/place-media';
 
 type FocusFilter = 'all' | DestinationFocusKind;
 type SidebarMode = 'destinations' | 'expeditions' | 'passport' | 'missions';
@@ -579,6 +581,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const selectedDestination = useMemo(
     () => WORLD_DESTINATIONS.find((destination) => destination.id === selectedDestinationId) ?? WORLD_DESTINATIONS[0],
     [selectedDestinationId],
+  );
+  const selectedDestinationMedia = useMemo(
+    () => getLessonIntroMediaForDestination(selectedDestination.id),
+    [selectedDestination.id],
   );
   const publishedFocusOptions = useMemo(
     () => selectedDestination.focusOptions.filter(isPublishedFocus),
@@ -1845,6 +1851,15 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               <p className="mt-2 text-[11px] leading-relaxed text-cyan-100/70">
                 Planning preview only. Today&apos;s flight still departs from {routeOrigin.city}, and launch eligibility still uses that route.
               </p>
+            )}
+            {selectedDestinationMedia && (
+              <DestinationMediaCard
+                media={selectedDestinationMedia}
+                placeName={`${selectedDestination.city}, ${selectedDestination.country}`}
+                label="Lesson image"
+                compact
+                className="mt-3"
+              />
             )}
           </div>
 

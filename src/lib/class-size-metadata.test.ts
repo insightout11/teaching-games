@@ -14,7 +14,7 @@ describe('class-size metadata', () => {
       ...getAllActivities().map((activity) => activity.key),
     ];
 
-    expect(registryKeys).toHaveLength(54);
+    expect(registryKeys).toHaveLength(58);
     expect(registryKeys.filter((key) => !getClassSizeMetadata(key))).toEqual([]);
     expect(FLIGHT_PLAN_ITEMS).toHaveLength(50);
     expect(FLIGHT_PLAN_ITEMS.filter((item) => !item.idealClassSizes || !item.minStudents)).toEqual([]);
