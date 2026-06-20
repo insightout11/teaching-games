@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { BookOpen, ChevronLeft, ChevronRight, Compass, Globe2, Image as ImageIcon, Info, Languages, MapPin, Sparkles, X } from 'lucide-react';
+import { BookOpen, ChevronLeft, ChevronRight, Compass, Globe2, Info, Languages, MapPin, Sparkles, X } from 'lucide-react';
 import type { DestinationPack } from '@/lib/world-flight/types';
 import {
   getMediaForUsage,

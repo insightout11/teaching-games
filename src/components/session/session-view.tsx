@@ -1136,7 +1136,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const handleActivityPhaseChange = useCallback((phase: string) => {
     setModulePhase(phase);
     lesson.handlePhaseChange(phase);
-  }, [lesson.handlePhaseChange]);
+  }, [lesson]);
 
   const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
   const firstBriefingSlotIndex = lesson.lessonSlots.findIndex((slot) => !slot.isMicroEvent);
