@@ -103,6 +103,9 @@ const SLOT_TYPE_WEIGHTS: Record<string, number> = {
   practice: 1.0,
   production: 1.4,
 };
+// Micro-events are quick beats (a single round), not full stages — budget them short
+// regardless of their underlying PPP stage so they don't read as ~13-min modules.
+const MICRO_EVENT_WEIGHT = 0.4;
 const TAKEOFF_MIN = 3;
 const LANDING_MIN = 4;
 
@@ -122,7 +125,9 @@ export function calculateSlotBudgets(lessonDurationMinutes: number, slots: Lesso
 
   const middleSlots = slots.slice(1, -1);
   const remaining = Math.max(0, lessonDurationMinutes - TAKEOFF_MIN - LANDING_MIN);
-  const weights = middleSlots.map((s) => SLOT_TYPE_WEIGHTS[getPppStage(s.key) ?? 'practice'] ?? 1.0);
+  const weights = middleSlots.map((s) =>
+    s.isMicroEvent ? MICRO_EVENT_WEIGHT : (SLOT_TYPE_WEIGHTS[getPppStage(s.key) ?? 'practice'] ?? 1.0),
+  );
   const totalWeight = weights.reduce((a, b) => a + b, 0);
   const middleBudgets = weights.map((w) => Math.max(1, Math.round((w / totalWeight) * remaining)));
   return [TAKEOFF_MIN, ...middleBudgets, LANDING_MIN];
