@@ -226,16 +226,16 @@ export async function POST(request: NextRequest) {
       case 'internet-memes':
       case 'minecraft': {
         const libraryMap: Record<string, TedTalk[]> = {
-          bbc: bbcLibrary as TedTalk[],
-          kurzgesagt: kurzgesagtLibrary as TedTalk[],
-          'bbc-ideas': bbcIdeasLibrary as TedTalk[],
-          bigthink: bigthinkLibrary as TedTalk[],
-          vox: voxLibrary as TedTalk[],
+          bbc: bbcLibrary as unknown as TedTalk[],
+          kurzgesagt: kurzgesagtLibrary as unknown as TedTalk[],
+          'bbc-ideas': bbcIdeasLibrary as unknown as TedTalk[],
+          bigthink: bigthinkLibrary as unknown as TedTalk[],
+          vox: voxLibrary as unknown as TedTalk[],
           kids: kidsLibrary as unknown as TedTalk[],
-          natgeo: natgeoLibrary as TedTalk[],
-          'crash-course': crashCourseLibrary as TedTalk[],
-          'travel-english': travelEnglishLibrary as TedTalk[],
-          'business-english': businessEnglishLibrary as TedTalk[],
+          natgeo: natgeoLibrary as unknown as TedTalk[],
+          'crash-course': crashCourseLibrary as unknown as TedTalk[],
+          'travel-english': travelEnglishLibrary as unknown as TedTalk[],
+          'business-english': businessEnglishLibrary as unknown as TedTalk[],
           'internet-memes': internetMemesLibrary as unknown as TedTalk[],
           minecraft: minecraftLibrary as unknown as TedTalk[],
         };
