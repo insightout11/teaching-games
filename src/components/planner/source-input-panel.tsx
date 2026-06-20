@@ -176,15 +176,22 @@ export function SourceInputPanel() {
   function startBriefingReview(material: SourceMaterial) {
     const briefingOptions = withGeneratedOption(material);
     const firstOption = briefingOptions[0];
-    setPendingSource({
+    const reviewMaterial: SourceMaterial = {
       ...material,
       briefingOptions,
       briefingText: firstOption.text,
       rawText: firstOption.text,
       briefingMode: firstOption.mode,
-    });
+      wordCount: countWords(firstOption.text),
+    };
+    setPendingSource(reviewMaterial);
     setSelectedBriefingOptionId(firstOption.id);
     setBriefingDraft(firstOption.text);
+    // Commit the recommended reading immediately so the upload is a live source
+    // (consistent with the video/text tabs). The review panel stays open to
+    // refine the reading; "Use this briefing" / "Back to upload" update or clear it.
+    setSourceMaterial(reviewMaterial);
+    setTopic(reviewMaterial.title);
   }
 
   function applyBriefingOption(option: SourceBriefingOption) {
@@ -221,6 +228,9 @@ export function SourceInputPanel() {
     setSelectedBriefingOptionId(null);
     setBriefingDraft('');
     setError(null);
+    // The source was auto-committed when review opened; "Back to upload" discards it.
+    setSourceMaterial(null);
+    setTopic('');
   }
 
   async function process(type: string, value: string) {
