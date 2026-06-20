@@ -152,17 +152,17 @@ export function ComprehensionQuiz({
   if (phase === 'discussion' && discussionPrompt) {
     return (
       <div className="space-y-4 max-w-2xl mx-auto">
-        <div className="flex items-center gap-2 text-sm text-lc-text2">
+        <div className="flex items-center gap-2 text-sm">
           <MessageCircle className="w-4 h-4 text-amber-400" />
-          <span className="font-semibold">Talk About It</span>
+          <span className="font-semibold text-amber-400">Talk About It</span>
         </div>
-        <div className="rounded-xl border border-amber-500/40 bg-amber-500/5 p-6">
-          <p className="text-lg font-medium text-lc-text leading-snug">{discussionPrompt}</p>
-          <p className="text-xs text-lc-text3 mt-3">Discuss as a class or in pairs — no single right answer.</p>
+        <div className="glass rounded-2xl border-2 border-amber-500/30 p-6">
+          <p className="text-lg font-medium leading-snug">{discussionPrompt}</p>
+          <p className="text-xs opacity-50 mt-3">Discuss as a class or in pairs — no single right answer.</p>
         </div>
         <button
           onClick={handleFinish}
-          className="w-full py-3 rounded-xl bg-lc-blue text-white font-bold text-sm hover:bg-lc-blue/80 transition-colors flex items-center justify-center gap-1.5"
+          className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-game text-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-1.5"
         >
           Finish Briefing
           <ChevronRight className="w-4 h-4" />
@@ -182,19 +182,19 @@ export function ComprehensionQuiz({
   return (
     <div className="space-y-4 max-w-2xl mx-auto">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm text-lc-text2">
-          <ListChecks className="w-4 h-4 text-lc-blue" />
-          <span className="font-semibold">Comprehension Check</span>
+        <div className="flex items-center gap-2 text-sm">
+          <ListChecks className="w-4 h-4 text-sky-400" />
+          <span className="font-semibold text-sky-400">Comprehension Check</span>
         </div>
-        <span className="text-xs text-lc-text3">
+        <span className="text-xs opacity-50">
           Question {index + 1} / {questions.length}
         </span>
       </div>
 
-      <div className="rounded-xl border border-lc-border bg-lc-surface p-5 space-y-4">
+      <div className="glass rounded-2xl p-5 space-y-4">
         <div className="flex items-start justify-between gap-3">
-          <p className="text-base font-semibold text-lc-text leading-snug">{question.question}</p>
-          <span className="text-xs text-lc-text3 shrink-0 mt-1">
+          <p className="text-lg font-semibold leading-snug">{question.question}</p>
+          <span className="text-xs opacity-50 shrink-0 mt-1.5">
             {voteCount}/{students.length} answered
           </span>
         </div>
@@ -207,20 +207,20 @@ export function ComprehensionQuiz({
             const showCorrect = revealed && isCorrect;
             return (
               <div key={oi} className="flex items-center gap-3">
-                <span className={`text-xs font-bold w-5 shrink-0 ${showCorrect ? 'text-lc-success' : 'text-lc-text3'}`}>
+                <span className={`text-xs font-bold w-5 shrink-0 ${showCorrect ? 'text-emerald-400' : 'opacity-40'}`}>
                   {String.fromCharCode(65 + oi)}
                 </span>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between text-sm mb-0.5">
-                    <span className={`flex items-center gap-1.5 ${showCorrect ? 'text-lc-success font-semibold' : 'text-lc-text2'}`}>
+                  <div className="flex items-center justify-between text-sm mb-1">
+                    <span className={`flex items-center gap-1.5 ${showCorrect ? 'text-emerald-400 font-bold' : 'opacity-80'}`}>
                       {opt}
                       {showCorrect && <CheckCircle2 className="w-4 h-4" />}
                     </span>
-                    <span className="text-lc-text3 shrink-0 ml-2">{count} ({pct}%)</span>
+                    <span className="opacity-50 shrink-0 ml-2">{count} ({pct}%)</span>
                   </div>
-                  <div className="h-2 rounded-full bg-lc-bg overflow-hidden">
+                  <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all duration-500 ${showCorrect ? 'bg-lc-success' : 'bg-lc-blue/60'}`}
+                      className={`h-full rounded-full transition-all duration-500 ${showCorrect ? 'bg-emerald-400' : 'bg-sky-400'}`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>
@@ -232,19 +232,19 @@ export function ComprehensionQuiz({
 
         {/* Pending students (while voting, small class nudge) */}
         {!revealed && pending.length > 0 && pending.length <= 8 && (
-          <p className="text-xs text-lc-text3">
-            Waiting on: <span className="text-lc-text2">{pending.map((s) => s.name).join(', ')}</span>
+          <p className="text-xs opacity-50">
+            Waiting on: <span className="opacity-90">{pending.map((s) => s.name).join(', ')}</span>
           </p>
         )}
 
         {/* Reveal extras: rationale + evidence */}
         {revealed && (question.explanation || question.evidence) && (
-          <div className="space-y-2 pt-1 border-t border-lc-border">
+          <div className="space-y-2 pt-1 border-t border-white/10">
             {question.explanation && (
-              <p className="text-sm text-lc-text2 pt-2">{question.explanation}</p>
+              <p className="text-sm opacity-80 pt-2">{question.explanation}</p>
             )}
             {question.evidence && (
-              <p className="flex items-start gap-2 text-xs text-lc-text3 italic">
+              <p className="flex items-start gap-2 text-xs opacity-60 italic">
                 <Quote className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                 <span>&ldquo;{question.evidence}&rdquo;</span>
               </p>
@@ -259,7 +259,7 @@ export function ComprehensionQuiz({
             scoreCurrentQuestion();
             setPhase('revealed');
           }}
-          className="w-full py-3 rounded-xl bg-lc-success/20 text-lc-success font-bold text-sm hover:bg-lc-success/30 transition-colors"
+          className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white font-game text-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all"
         >
           Reveal Answer
         </button>
@@ -268,7 +268,7 @@ export function ComprehensionQuiz({
           {onRewatch && typeof question.timestamp === 'number' && question.timestamp > 0 && (
             <button
               onClick={() => onRewatch(question.timestamp!)}
-              className="w-full py-2.5 rounded-xl border border-lc-border bg-lc-surface text-sm font-semibold text-lc-text2 hover:text-lc-text transition-colors flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 rounded-xl border border-white/15 bg-white/5 text-sm font-semibold opacity-80 hover:opacity-100 hover:bg-white/10 transition-all flex items-center justify-center gap-1.5"
             >
               <RotateCcw className="w-4 h-4" />
               Rewatch from {question.timestampLabel}
@@ -276,7 +276,7 @@ export function ComprehensionQuiz({
           )}
           <button
             onClick={handleNext}
-            className="w-full py-3 rounded-xl bg-lc-blue text-white font-bold text-sm hover:bg-lc-blue/80 transition-colors flex items-center justify-center gap-1.5"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-game text-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-1.5"
           >
             {isLast ? (discussionPrompt ? 'Next: Discussion' : 'Finish Briefing') : 'Next Question'}
             <ChevronRight className="w-4 h-4" />

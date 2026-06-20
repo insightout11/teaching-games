@@ -73,6 +73,8 @@ export function VideoPlayerActivity({
   const [phase, setPhase] = useState<Phase>('watching');
   const [videoEnded, setVideoEnded] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  // While the quiz is on screen, "Rewatch" temporarily brings the video back.
+  const [rewatching, setRewatching] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -130,6 +132,7 @@ export function VideoPlayerActivity({
   }, [isYouTube, youtubeId]);
 
   function handleRewatch(seconds: number) {
+    setRewatching(true);
     playerRef.current?.seekTo(Math.max(0, seconds - 2), true);
     playerRef.current?.playVideo();
   }
@@ -145,7 +148,12 @@ export function VideoPlayerActivity({
     );
   }
 
-  // ── WATCHING + QUIZ (video stays mounted so Rewatch can seek) ──────────────
+  // ── WATCHING + QUIZ ────────────────────────────────────────────────────────
+  // The quiz takes the video's place on screen once the video is done. The video
+  // stays mounted (just hidden) so the YouTube player ref survives and "Rewatch"
+  // can seek it — rewatching brings the video back into view temporarily.
+  const showVideo = phase === 'watching' || rewatching;
+
   return (
     <div className="space-y-4">
       {/* Title bar — hidden in fullscreen */}
@@ -159,47 +167,55 @@ export function VideoPlayerActivity({
         )}
       </div>
 
-      {/* ── Video container — this div is what goes fullscreen ── */}
-      {embedUrl ? (
-        <div
-          ref={containerRef}
-          className="relative w-full bg-black"
-          style={isFullscreen ? { height: '100%' } : { paddingBottom: '56.25%' }}
-        >
-          <iframe
-            ref={iframeRef}
-            src={embedUrl}
-            className="absolute inset-0 w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            title={videoTitle}
-          />
-
-          {/* ── Fullscreen toggle button (bottom-right) ── */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-            className="absolute bottom-3 right-3 z-10 grid h-9 w-9 place-items-center rounded-lg bg-black/55 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/75 hover:text-white"
+      {/* ── Video stage — kept mounted, hidden while the quiz is on screen ── */}
+      <div className={showVideo ? 'space-y-4' : 'hidden'}>
+        {embedUrl ? (
+          <div
+            ref={containerRef}
+            className="relative w-full bg-black"
+            style={isFullscreen ? { height: '100%' } : { paddingBottom: '56.25%' }}
           >
-            {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
-          </button>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center h-48 rounded-xl border border-lc-border bg-lc-surface text-lc-text3 text-sm">
-          Video unavailable
-        </div>
-      )}
+            <iframe
+              ref={iframeRef}
+              src={embedUrl}
+              className="absolute inset-0 w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              title={videoTitle}
+            />
 
-      {/* ── Below the video: start button (watching) or the quiz ── */}
-      {phase === 'watching' ? (
-        hasQuestions ? (
+            {/* ── Fullscreen toggle button (bottom-right) ── */}
+            <button
+              onClick={toggleFullscreen}
+              title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+              aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+              className="absolute bottom-3 right-3 z-10 grid h-9 w-9 place-items-center rounded-lg bg-black/55 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/75 hover:text-white"
+            >
+              {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-48 rounded-2xl glass text-lc-text3 text-sm">
+            Video unavailable
+          </div>
+        )}
+
+        {/* Watching: start the questions. Rewatching: return to them. */}
+        {rewatching ? (
+          <button
+            onClick={() => setRewatching(false)}
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-game text-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2"
+          >
+            <ListChecks className="w-4 h-4" />
+            Back to Questions
+          </button>
+        ) : hasQuestions ? (
           <>
             <button
               onClick={() => setPhase('quiz')}
-              className={`w-full py-3 rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2 ${
+              className={`w-full py-3 rounded-xl font-game text-sm transition-all flex items-center justify-center gap-2 ${
                 videoEnded
-                  ? 'bg-lc-blue text-white hover:bg-lc-blue/80'
-                  : 'border-2 border-lc-blue bg-lc-blue/10 text-lc-blue hover:bg-lc-blue/20'
+                  ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg hover:scale-[1.01] active:scale-95'
+                  : 'border-2 border-sky-400/60 bg-sky-400/10 text-sky-300 hover:bg-sky-400/20'
               }`}
             >
               <ListChecks className="w-4 h-4" />
@@ -216,8 +232,11 @@ export function VideoPlayerActivity({
           <p className="text-xs text-center text-lc-text3 italic">
             No comprehension questions for this video.
           </p>
-        )
-      ) : (
+        )}
+      </div>
+
+      {/* ── Quiz — takes the video's place once it's done ── */}
+      {phase === 'quiz' && !rewatching && (
         <ComprehensionQuiz
           questions={comprehensionQuestions}
           students={students}
