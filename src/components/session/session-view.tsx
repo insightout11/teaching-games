@@ -406,6 +406,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     stageId?: string;
   } | null>(null);
   const [poolSpinning, setPoolSpinning] = useState<{ pool: string[]; stageLabel?: string } | null>(null);
+  const [dismissedDestinationBriefingKey, setDismissedDestinationBriefingKey] = useState<string | null>(null);
 
   // Bonus vote state
   const [bonusVotePollId, setBonusVotePollId] = useState<string | null>(null);
@@ -1139,14 +1140,28 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
   const firstBriefingSlotIndex = lesson.lessonSlots.findIndex((slot) => !slot.isMicroEvent);
+  const destinationBriefingKey = wfDestination && firstBriefingSlotIndex >= 0
+    ? `${session.id}:${wfDestination.id}:${firstBriefingSlotIndex}`
+    : null;
   const shouldShowDestinationBriefing =
     Boolean(wfDestination)
     && lesson.isLessonActive
     && firstBriefingSlotIndex >= 0
     && lesson.currentSlotIndex === firstBriefingSlotIndex
-    && !lesson.currentSlot?.isMicroEvent;
+    && !lesson.currentSlot?.isMicroEvent
+    && destinationBriefingKey !== dismissedDestinationBriefingKey;
+  const handleCloseDestinationBriefing = useCallback(() => {
+    if (destinationBriefingKey) setDismissedDestinationBriefingKey(destinationBriefingKey);
+  }, [destinationBriefingKey]);
+  const destinationBriefingContinueLabel = `Continue to ${
+    selectedGame?.name ?? selectedActivity?.name ?? lesson.currentSlot?.name ?? 'lesson activity'
+  }`;
   const destinationBriefingPanel = wfDestination && shouldShowDestinationBriefing ? (
-    <DestinationBriefing destination={wfDestination} />
+    <DestinationBriefing
+      destination={wfDestination}
+      onClose={handleCloseDestinationBriefing}
+      continueLabel={destinationBriefingContinueLabel}
+    />
   ) : null;
   const flightConfig = lesson.lessonPlanContent?.flightConfig;
   // Any preset with a curated flightConfig gets the full flight treatment (journey
@@ -2033,8 +2048,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onGoToSlot={lesson.goToSlot}
             >
               <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
-                {destinationBriefingPanel}
-                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
+                {destinationBriefingPanel ?? (
+                  <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
+                )}
               </ModuleErrorBoundary>
             </FlightSessionView>
           ) : (
@@ -2104,8 +2120,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               </div>
             </div>
             <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
-              {destinationBriefingPanel}
-              <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
+              {destinationBriefingPanel ?? (
+                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
+              )}
             </ModuleErrorBoundary>
           </div>
           )
@@ -2123,9 +2140,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onNext={handleNextWithRouteChoice}
               onGoToSlot={lesson.goToSlot}
             >
-              {activityContent ? (
-                <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
+              {destinationBriefingPanel ? (
+                <ModuleErrorBoundary moduleName="Destination Briefing" onReset={handleBackToSelection}>
                   {destinationBriefingPanel}
+                </ModuleErrorBoundary>
+              ) : activityContent ? (
+                <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
                   <ActivityShell
                     activity={selectedActivity}
                     generatedContent={activityContent}
@@ -2226,9 +2246,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
               </div>
             </div>
-            {activityContent ? (
-              <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
+            {destinationBriefingPanel ? (
+              <ModuleErrorBoundary moduleName="Destination Briefing" onReset={handleBackToSelection}>
                 {destinationBriefingPanel}
+              </ModuleErrorBoundary>
+            ) : activityContent ? (
+              <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
                 <ActivityShell
                   activity={selectedActivity}
                   generatedContent={activityContent}
