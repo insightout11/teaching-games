@@ -1,3 +1,5 @@
+import { getWorldFlightRangeForTier } from '@/lib/world-flight/progression';
+
 export interface PlaneDisplayMeta {
   /** CSS scale applied when parked on runway (transform-origin: center bottom). Default 1.0. */
   parkedScale: number;
@@ -132,6 +134,7 @@ export function getPlaneViewAsset(
 export interface PlaneTier {
   tier: number;
   label: string;
+  rangeKm: number;
   choices: PlaneEntry[];
 }
 
@@ -146,5 +149,25 @@ export const PLANE_TIERS: PlaneTier[] = (
 ).map(({ tier, label, keys }) => ({
   tier,
   label,
+  rangeKm: getWorldFlightRangeForTier(tier).rangeKm,
   choices: keys.map((k) => PLANE_MAP.get(k)!),
 }));
+
+export function getPlaneTier(tier: number) {
+  const clampedTier = Math.max(0, Math.floor(tier));
+  return PLANE_TIERS.find((candidate) => candidate.tier === clampedTier) ?? PLANE_TIERS[0];
+}
+
+export function getPlaneTierForKey(planeKey?: string | null) {
+  const resolvedKey = getPlaneAsset(planeKey).key;
+  return PLANE_TIERS.find((tier) => tier.choices.some((plane) => plane.key === resolvedKey)) ?? PLANE_TIERS[0];
+}
+
+export function getPlaneRangeKm(planeKey?: string | null) {
+  return getPlaneTierForKey(planeKey).rangeKm;
+}
+
+export function isPlaneKeyInTier(planeKey: string | null | undefined, tier: number) {
+  const plane = getPlaneAsset(planeKey);
+  return getPlaneTier(tier).choices.some((choice) => choice.key === plane.key);
+}

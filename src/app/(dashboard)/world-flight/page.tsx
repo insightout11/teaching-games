@@ -30,6 +30,7 @@ export default async function WorldFlightRoutePage() {
     current_destination_id: string | null;
     plane_tier: number;
     plane_key: string;
+    plane_selection_required: boolean;
     range_km: number;
     flight_hours: number;
     crew_stars: number;
@@ -67,7 +68,7 @@ export default async function WorldFlightRoutePage() {
     const [stateResult, legsResult, missionsResult, expeditionsResult] = await Promise.all([
       supabase
         .from('class_world_flight_state')
-        .select('class_id, current_destination_id, plane_tier, plane_key, range_km, flight_hours, crew_stars')
+        .select('class_id, current_destination_id, plane_tier, plane_key, plane_selection_required, range_km, flight_hours, crew_stars')
         .in('class_id', classIds),
       supabase
         .from('class_world_flight_legs')
@@ -157,6 +158,7 @@ export default async function WorldFlightRoutePage() {
       currentDestinationId,
       planeTier: state?.plane_tier ?? 0,
       planeKey: state?.plane_key ?? 'starter-biplane',
+      planeSelectionRequired: state?.plane_selection_required ?? false,
       rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
       flightHours: state?.flight_hours ?? 0,
       crewStars: state?.crew_stars ?? 0,

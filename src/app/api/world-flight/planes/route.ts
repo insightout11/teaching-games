@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
-import {
-  getWorldFlightUpgradeState,
-  type WorldFlightUpgradeState,
-} from '@/lib/world-flight/progression';
+import { getPlaneAsset, getPlaneRangeKm, isPlaneKeyInTier } from '@/lib/plane-progression';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,18 +16,7 @@ interface WorldFlightStateRow {
   crew_stars: number;
 }
 
-interface WorldFlightUpgradeClassState {
-  classId: string;
-  currentDestinationId: string | null;
-  planeTier: number;
-  planeKey: string;
-  planeSelectionRequired: boolean;
-  rangeKm: number;
-  flightHours: number;
-  crewStars: number;
-}
-
-function toClassState(row: WorldFlightStateRow): WorldFlightUpgradeClassState {
+function toClassState(row: WorldFlightStateRow) {
   return {
     classId: row.class_id,
     currentDestinationId: row.current_destination_id,
@@ -43,43 +29,31 @@ function toClassState(row: WorldFlightStateRow): WorldFlightUpgradeClassState {
   };
 }
 
-function upgradeStateFor(row: WorldFlightStateRow): WorldFlightUpgradeState {
-  return getWorldFlightUpgradeState({
-    planeTier: row.plane_tier,
-    rangeKm: row.range_km,
-    flightHours: row.flight_hours,
-    crewStars: row.crew_stars,
-  });
-}
-
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as { classId?: unknown } | null;
+  const body = await request.json().catch(() => null) as { classId?: unknown; planeKey?: unknown } | null;
   const classId = typeof body?.classId === 'string' ? body.classId : '';
+  const planeKey = typeof body?.planeKey === 'string' ? body.planeKey : '';
   if (!classId) return NextResponse.json({ error: 'classId is required' }, { status: 400 });
+  if (!planeKey) return NextResponse.json({ error: 'planeKey is required' }, { status: 400 });
 
   const { teacher, error: authError } = await requireAuth();
   if (authError) return authError;
   if (!teacher) return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
 
   if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
-    const state: WorldFlightUpgradeClassState = {
-      classId,
-      currentDestinationId: null,
-      planeTier: 1,
-      planeKey: 'starter-biplane',
-      planeSelectionRequired: true,
-      rangeKm: 5200,
-      flightHours: 3,
-      crewStars: 3,
-    };
+    const plane = getPlaneAsset(planeKey);
+    const rangeKm = getPlaneRangeKm(plane.key);
     return NextResponse.json({
-      state,
-      upgradeState: getWorldFlightUpgradeState({
-        planeTier: state.planeTier,
-        rangeKm: state.rangeKm,
-        flightHours: state.flightHours,
-        crewStars: state.crewStars,
-      }),
+      state: {
+        classId,
+        currentDestinationId: null,
+        planeTier: 1,
+        planeKey: plane.key,
+        planeSelectionRequired: false,
+        rangeKm,
+        flightHours: 3,
+        crewStars: 3,
+      },
     });
   }
 
@@ -98,39 +72,27 @@ export async function POST(request: Request) {
     .eq('class_id', classId)
     .maybeSingle();
   if (stateError) return NextResponse.json({ error: stateError.message }, { status: 500 });
-  if (!currentRow) {
-    return NextResponse.json({ error: 'Complete a World Flight lesson before claiming upgrades' }, { status: 409 });
-  }
+  if (!currentRow) return NextResponse.json({ error: 'World Flight state not found' }, { status: 404 });
 
   const currentState = currentRow as WorldFlightStateRow;
-  const currentUpgradeState = upgradeStateFor(currentState);
-  if (currentUpgradeState.claimableTier === null) {
-    return NextResponse.json({
-      error: 'No range upgrade is ready yet',
-      state: toClassState(currentState),
-      upgradeState: currentUpgradeState,
-    }, { status: 409 });
+  const plane = getPlaneAsset(planeKey);
+  if (!isPlaneKeyInTier(plane.key, currentState.plane_tier)) {
+    return NextResponse.json({ error: 'Choose an aircraft from the current unlocked tier' }, { status: 400 });
   }
 
   const { data: updatedRow, error: updateError } = await service
     .from('class_world_flight_state')
     .update({
-      plane_tier: currentUpgradeState.claimableTier,
-      plane_selection_required: true,
+      plane_key: plane.key,
+      range_km: getPlaneRangeKm(plane.key),
+      plane_selection_required: false,
       updated_at: new Date().toISOString(),
     })
     .eq('class_id', classId)
-    .eq('plane_tier', currentState.plane_tier)
     .select('class_id, current_destination_id, plane_tier, plane_key, plane_selection_required, range_km, flight_hours, crew_stars')
     .maybeSingle();
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
-  if (!updatedRow) {
-    return NextResponse.json({ error: 'Upgrade state changed. Refresh and try again.' }, { status: 409 });
-  }
+  if (!updatedRow) return NextResponse.json({ error: 'Failed to equip aircraft' }, { status: 500 });
 
-  const updatedState = updatedRow as WorldFlightStateRow;
-  return NextResponse.json({
-    state: toClassState(updatedState),
-    upgradeState: upgradeStateFor(updatedState),
-  });
+  return NextResponse.json({ state: toClassState(updatedRow as WorldFlightStateRow) });
 }

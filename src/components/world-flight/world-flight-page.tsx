@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker as MapLibreMarker, type Popup as MapLibrePopup } from 'maplibre-gl';
-import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, Clock3, Compass, ExternalLink, Gauge, Globe2, Info, Loader2, Map as MapIcon, MapPin, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Plane, PlaneTakeoff, Play, Radar, Route, ScanSearch, Search, Stamp, Star, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, Clock3, Compass, ExternalLink, Gauge, Globe2, Info, Loader2, Lock, Map as MapIcon, MapPin, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Plane, PlaneTakeoff, Play, Radar, Route, ScanSearch, Search, Stamp, Star, X } from 'lucide-react';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { WORLD_FLIGHT_MAP_STYLE } from '@/data/world-flight/map-style';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
@@ -13,7 +13,7 @@ import { inferSourceGenre, bestPresetForGenre } from '@/lib/preset-fit';
 import { buildTravelContext } from '@/lib/world-flight/travel-context';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
-import { getPlaneAsset } from '@/lib/plane-progression';
+import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, PLANE_TIERS, type PlaneEntry } from '@/lib/plane-progression';
 import { getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
 import {
   deriveWorldFlightExpeditionProgress,
@@ -29,11 +29,11 @@ import { JourneyProgressPanel } from './journey-progress-panel';
 import { PassportArrivalReplay } from './passport-arrival-replay';
 
 type FocusFilter = 'all' | DestinationFocusKind;
-type SidebarMode = 'destinations' | 'expeditions' | 'passport' | 'missions';
+type SidebarMode = 'destinations' | 'expeditions' | 'passport' | 'missions' | 'hangar';
 type DestinationGroup = { id: string; label: string; destinations: DestinationPack[] };
 type WorldFlightClassStatePatch = Partial<Pick<
   WorldFlightClassSummary,
-  'currentDestinationId' | 'planeTier' | 'planeKey' | 'rangeKm' | 'flightHours' | 'crewStars'
+  'currentDestinationId' | 'planeTier' | 'planeKey' | 'planeSelectionRequired' | 'rangeKm' | 'flightHours' | 'crewStars'
 >>;
 type WorldFlightUpgradeResponse = {
   state?: {
@@ -41,12 +41,14 @@ type WorldFlightUpgradeResponse = {
     currentDestinationId: string | null;
     planeTier: number;
     planeKey: string;
+    planeSelectionRequired: boolean;
     rangeKm: number;
     flightHours: number;
     crewStars: number;
   };
   error?: string;
 };
+type WorldFlightPlaneResponse = WorldFlightUpgradeResponse;
 type RangeUpgradeNotice = {
   tier: number;
   fromRangeKm: number;
@@ -491,21 +493,26 @@ function CrewProgressSummaryCard({
   rangeKm,
   flightHours,
   crewStars,
+  selectionRequired,
   actionStatus,
   onClaimUpgrade,
   onOpenPassport,
+  onOpenHangar,
 }: {
   planeTier: number;
   planeName: string;
   rangeKm: number;
   flightHours: number;
   crewStars: number;
+  selectionRequired: boolean;
   actionStatus: 'idle' | 'working' | 'error';
   onClaimUpgrade: () => void;
   onOpenPassport: () => void;
+  onOpenHangar: () => void;
 }) {
   const upgradeState = getWorldFlightUpgradeState({ planeTier, rangeKm, flightHours, crewStars });
-  const claimable = upgradeState.claimableTier !== null;
+  const claimable = upgradeState.claimableTier !== null && !selectionRequired;
+  const pendingTier = getPlaneTier(planeTier);
   const targetRangeKm = upgradeState.claimableRangeKm ?? upgradeState.nextRangeTier?.rangeKm ?? upgradeState.currentRangeKm;
   const nextMilestone = upgradeState.nextMilestone;
   const hourTarget = nextMilestone?.requiredFlightHours ?? Math.max(flightHours, 1);
@@ -515,7 +522,7 @@ function CrewProgressSummaryCard({
 
   return (
     <div className={`rounded-lg border p-3 ${
-      claimable
+      claimable || selectionRequired
         ? 'border-lc-amber/35 bg-lc-amber/[0.075]'
         : 'border-cyan-200/18 bg-cyan-300/[0.055]'
     }`}>
@@ -526,7 +533,9 @@ function CrewProgressSummaryCard({
             Crew progress
           </p>
           <p className="mt-1 truncate text-sm font-semibold text-lc-text">
-            {claimable
+            {selectionRequired
+              ? `Tier ${planeTier} aircraft ready`
+              : claimable
               ? `Tier ${upgradeState.claimableTier} range ready`
               : upgradeState.fullyUpgraded
                 ? 'Maximum range active'
@@ -552,11 +561,21 @@ function CrewProgressSummaryCard({
         <div className="min-w-0">
           <p className="text-[10px] font-semibold uppercase tracking-wide text-lc-text3">Range</p>
           <p className="mt-0.5 truncate text-xs font-semibold text-lc-text">
-            {formatDistance(upgradeState.currentRangeKm)}
-            {targetRangeKm > upgradeState.currentRangeKm ? ` -> ${formatDistance(targetRangeKm)}` : ''}
+            {selectionRequired
+              ? `Choose for ${formatDistance(pendingTier.rangeKm)}`
+              : `${formatDistance(upgradeState.currentRangeKm)}${targetRangeKm > upgradeState.currentRangeKm ? ` -> ${formatDistance(targetRangeKm)}` : ''}`}
           </p>
         </div>
-        {claimable ? (
+        {selectionRequired ? (
+          <button
+            type="button"
+            onClick={onOpenHangar}
+            className="inline-flex min-h-8 shrink-0 items-center justify-center gap-1.5 rounded-md border border-lc-amber/35 bg-lc-amber/15 px-2.5 text-[10px] font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/22"
+          >
+            <Plane className="h-3.5 w-3.5" aria-hidden />
+            Choose
+          </button>
+        ) : claimable ? (
           <button
             type="button"
             onClick={onClaimUpgrade}
@@ -607,6 +626,161 @@ function CrewProgressMeter({
       </div>
       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
         <div className="h-full rounded-full bg-cyan-300" style={{ width: `${percent}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function HangarPanel({
+  currentPlaneKey,
+  unlockedTier,
+  selectionRequired,
+  actionStatus,
+  onEquipPlane,
+}: {
+  currentPlaneKey: string;
+  unlockedTier: number;
+  selectionRequired: boolean;
+  actionStatus: 'idle' | 'working' | 'error';
+  onEquipPlane: (planeKey: string) => void;
+}) {
+  const currentPlane = getPlaneAsset(currentPlaneKey);
+  const currentTier = getPlaneTier(unlockedTier);
+  const currentPlaneInTier = currentTier.choices.some((plane) => plane.key === currentPlane.key);
+  const lockedTiers = PLANE_TIERS.filter((tier) => tier.tier > currentTier.tier);
+
+  return (
+    <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+      <div className={`rounded-lg border p-4 ${
+        selectionRequired
+          ? 'border-lc-amber/35 bg-lc-amber/[0.08]'
+          : 'border-cyan-300/20 bg-cyan-300/[0.055]'
+      }`}>
+        <div className="flex items-start gap-4">
+          <div className="flex h-20 w-28 shrink-0 items-center justify-center rounded-md border border-white/10 bg-[var(--wf-inset)] p-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={currentPlane.webp} alt="" className="max-h-full max-w-full object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.35)]" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">
+              Class aircraft
+            </p>
+            <h2 className="font-display mt-1 text-2xl leading-tight text-lc-text">{currentPlane.name}</h2>
+            <p className="mt-1 text-xs text-lc-text3">
+              {currentPlaneInTier ? currentTier.label : 'Previous aircraft'} · {formatDistance(getPlaneRangeKm(currentPlane.key))}
+            </p>
+          </div>
+        </div>
+        <p className="mt-3 text-xs leading-relaxed text-lc-text2">
+          {selectionRequired
+            ? `Tier ${currentTier.tier} is unlocked. The class must choose one aircraft below before the next moving flight.`
+            : `Tier ${currentTier.tier} aircraft are available. Switching changes the class plane but keeps the same range tier.`}
+        </p>
+      </div>
+
+      <div className="mt-5">
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <h3 className="font-instrument text-[11px] font-semibold uppercase tracking-[0.14em] text-lc-text2">
+            {currentTier.label}
+          </h3>
+          <span className="text-[11px] font-semibold text-cyan-100/70">{formatDistance(currentTier.rangeKm)}</span>
+        </div>
+        <div className="space-y-2">
+          {currentTier.choices.map((plane) => (
+            <PlaneChoiceCard
+              key={plane.key}
+              plane={plane}
+              rangeKm={currentTier.rangeKm}
+              equipped={plane.key === currentPlane.key && !selectionRequired}
+              pending={plane.key === currentPlane.key && selectionRequired}
+              disabled={actionStatus === 'working' || (plane.key === currentPlane.key && !selectionRequired)}
+              actionStatus={actionStatus}
+              onChoose={() => onEquipPlane(plane.key)}
+            />
+          ))}
+        </div>
+        {actionStatus === 'error' && (
+          <p className="mt-3 rounded-md border border-red-400/25 bg-red-400/10 px-3 py-2 text-xs font-medium text-red-200">
+            Could not equip that aircraft. Refresh and try again.
+          </p>
+        )}
+      </div>
+
+      {lockedTiers.length > 0 && (
+        <div className="mt-6 space-y-2">
+          <h3 className="font-instrument text-[11px] font-semibold uppercase tracking-[0.14em] text-lc-text2">Future aircraft</h3>
+          {lockedTiers.map((tier) => (
+            <div key={tier.tier} className="flex items-center justify-between gap-3 rounded-md border border-white/10 bg-white/[0.025] px-3 py-2.5">
+              <span className="flex min-w-0 items-center gap-2">
+                <Lock className="h-3.5 w-3.5 shrink-0 text-lc-text3" aria-hidden />
+                <span className="min-w-0">
+                  <span className="block truncate text-xs font-semibold text-lc-text2">{tier.label}</span>
+                  <span className="block truncate text-[11px] text-lc-text3">
+                    {tier.choices.map((plane) => plane.name).join(', ')}
+                  </span>
+                </span>
+              </span>
+              <span className="shrink-0 text-[11px] font-semibold text-lc-text3">{formatDistance(tier.rangeKm)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PlaneChoiceCard({
+  plane,
+  rangeKm,
+  equipped,
+  pending,
+  disabled,
+  actionStatus,
+  onChoose,
+}: {
+  plane: PlaneEntry;
+  rangeKm: number;
+  equipped: boolean;
+  pending: boolean;
+  disabled: boolean;
+  actionStatus: 'idle' | 'working' | 'error';
+  onChoose: () => void;
+}) {
+  return (
+    <div className={`rounded-lg border p-3 ${
+      equipped
+        ? 'border-lc-success/35 bg-lc-success/[0.08]'
+        : pending
+          ? 'border-lc-amber/35 bg-lc-amber/[0.08]'
+          : 'border-white/10 bg-white/[0.035]'
+    }`}>
+      <div className="flex items-center gap-3">
+        <div className="flex h-16 w-24 shrink-0 items-center justify-center rounded-md border border-white/10 bg-[var(--wf-inset)] p-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={plane.webp} alt="" className="max-h-full max-w-full object-contain" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-semibold text-lc-text">{plane.name}</p>
+          <p className="mt-0.5 text-xs text-lc-text3">{formatDistance(rangeKm)} range</p>
+          {pending && <p className="mt-0.5 text-[11px] font-medium text-lc-amber">Current plane until the class chooses.</p>}
+        </div>
+        <button
+          type="button"
+          onClick={onChoose}
+          disabled={disabled}
+          className={`inline-flex min-h-9 shrink-0 items-center justify-center gap-1.5 rounded-md border px-3 text-[11px] font-semibold uppercase tracking-wide transition-colors disabled:cursor-not-allowed ${
+            equipped
+              ? 'border-lc-success/30 bg-lc-success/10 text-lc-success disabled:opacity-85'
+              : 'border-cyan-300/35 bg-cyan-300/12 text-cyan-100 hover:bg-cyan-300/18 disabled:opacity-60'
+          }`}
+        >
+          {actionStatus === 'working'
+            ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+            : equipped
+              ? <Check className="h-3.5 w-3.5" aria-hidden />
+              : <Plane className="h-3.5 w-3.5" aria-hidden />}
+          {equipped ? 'Equipped' : actionStatus === 'working' ? 'Equipping' : 'Choose'}
+        </button>
       </div>
     </div>
   );
@@ -713,6 +887,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   );
   const [expeditionActionStatus, setExpeditionActionStatus] = useState<'idle' | 'working' | 'error'>('idle');
   const [upgradeActionStatus, setUpgradeActionStatus] = useState<'idle' | 'working' | 'error'>('idle');
+  const [planeActionStatus, setPlaneActionStatus] = useState<'idle' | 'working' | 'error'>('idle');
   const [classStatePatches, setClassStatePatches] = useState<Record<string, WorldFlightClassStatePatch>>({});
   const [rangeUpgradeNotice, setRangeUpgradeNotice] = useState<RangeUpgradeNotice | null>(null);
   const [expeditionRunsByClass, setExpeditionRunsByClass] = useState<Record<string, WorldFlightExpeditionRunSummary[]>>(
@@ -765,6 +940,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const routeOrigin = origin ?? firstDeparture;
   const isChoosingDeparture = !origin && !firstDeparture;
   const rangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
+  const planeSelectionRequired = selectedClass?.planeSelectionRequired ?? false;
   const newlyReachableDestinationIds = rangeUpgradeNotice?.newlyReachableDestinationIds ?? EMPTY_DESTINATION_IDS;
   const expeditionRouteGuidance = useMemo(
     () => currentExpeditionRun?.status === 'active' && currentExpedition
@@ -820,6 +996,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   }, [selectedFocusId]);
   const isReachable = !!routeOrigin && ((selectedDistanceKm ?? 0) <= rangeKm || selectedDestination.id === routeOrigin.id);
   const isLocalLesson = routeOrigin?.id === selectedDestination.id;
+  const movingFlightBlockedByPlaneChoice = planeSelectionRequired && isReachable && !isLocalLesson;
   const nextHopCandidates = useMemo(
     () => destinationsWithinRange(selectedDestination, WORLD_DESTINATIONS, rangeKm),
     [rangeKm, selectedDestination],
@@ -978,9 +1155,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     }
 
     const classId = selectedClassId;
-    const priorOrigin = origin;
-    const fromRangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
     setUpgradeActionStatus('working');
+    setRangeUpgradeNotice(null);
     try {
       const response = await fetch('/api/world-flight/upgrades', {
         method: 'POST',
@@ -989,6 +1165,48 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       });
       const result = await response.json() as WorldFlightUpgradeResponse;
       if (!response.ok || !result.state) throw new Error(result.error ?? 'Failed to claim upgrade');
+
+      setClassStatePatches((current) => ({
+        ...current,
+        [classId]: {
+          ...(current[classId] ?? {}),
+          currentDestinationId: result.state!.currentDestinationId,
+          planeTier: result.state!.planeTier,
+          planeKey: result.state!.planeKey,
+          planeSelectionRequired: result.state!.planeSelectionRequired,
+          rangeKm: result.state!.rangeKm,
+          flightHours: result.state!.flightHours,
+          crewStars: result.state!.crewStars,
+        },
+      }));
+      setSidebarMode('hangar');
+      setPreviewNextHops(false);
+      setDetailsOpen(false);
+      setListOpen(true);
+      setUpgradeActionStatus('idle');
+    } catch {
+      setUpgradeActionStatus('error');
+    }
+  }
+
+  async function equipPlane(planeKey: string) {
+    if (!selectedClassId) {
+      setPlaneActionStatus('error');
+      return;
+    }
+
+    const classId = selectedClassId;
+    const priorOrigin = origin;
+    const fromRangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
+    setPlaneActionStatus('working');
+    try {
+      const response = await fetch('/api/world-flight/planes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ classId, planeKey }),
+      });
+      const result = await response.json() as WorldFlightPlaneResponse;
+      if (!response.ok || !result.state) throw new Error(result.error ?? 'Failed to equip aircraft');
       const newlyReachable = priorOrigin
         ? WORLD_DESTINATIONS
             .filter((destination) => (
@@ -1007,26 +1225,31 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           currentDestinationId: result.state!.currentDestinationId,
           planeTier: result.state!.planeTier,
           planeKey: result.state!.planeKey,
+          planeSelectionRequired: result.state!.planeSelectionRequired,
           rangeKm: result.state!.rangeKm,
           flightHours: result.state!.flightHours,
           crewStars: result.state!.crewStars,
         },
       }));
-      setRangeUpgradeNotice({
-        tier: result.state.planeTier,
-        fromRangeKm,
-        toRangeKm: result.state.rangeKm,
-        newlyReachableDestinationIds: newlyReachable.map((destination) => destination.id),
-        newlyReachableCityNames: newlyReachable.slice(0, 5).map((destination) => destination.city),
-      });
+      if (result.state.rangeKm > fromRangeKm) {
+        setRangeUpgradeNotice({
+          tier: result.state.planeTier,
+          fromRangeKm,
+          toRangeKm: result.state.rangeKm,
+          newlyReachableDestinationIds: newlyReachable.map((destination) => destination.id),
+          newlyReachableCityNames: newlyReachable.slice(0, 5).map((destination) => destination.city),
+        });
+      } else {
+        setRangeUpgradeNotice(null);
+      }
       setSidebarMode('destinations');
       setPreviewNextHops(false);
       setDetailsOpen(false);
       setListOpen(true);
       if (newlyReachable[0]) setSelectedDestinationId(newlyReachable[0].id);
-      setUpgradeActionStatus('idle');
+      setPlaneActionStatus('idle');
     } catch {
-      setUpgradeActionStatus('error');
+      setPlaneActionStatus('error');
     }
   }
 
@@ -1088,6 +1311,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     );
     setExpeditionActionStatus('idle');
     setUpgradeActionStatus('idle');
+    setPlaneActionStatus('idle');
     setRangeUpgradeNotice(null);
     usePlannerStore.getState().setSelectedClassId(id);
     try {
@@ -1680,6 +1904,13 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   }, [mapReady, planeAsset.name, planeAsset.webp, routeOrigin]);
 
   function launchSelectedFocus() {
+    if (movingFlightBlockedByPlaneChoice) {
+      setSidebarMode('hangar');
+      setDetailsOpen(false);
+      setListOpen(true);
+      return;
+    }
+
     const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === selectedPresetId);
     const store = usePlannerStore.getState();
     store.reset();
@@ -1736,6 +1967,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     ? 'Choose the next city lesson.'
     : sidebarMode === 'expeditions'
       ? 'Choose a class expedition.'
+    : sidebarMode === 'hangar'
+      ? 'Choose the class aircraft.'
     : sidebarMode === 'passport'
       ? 'The class journey so far.'
       : 'Complete flight missions.';
@@ -1743,6 +1976,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     ? 'Pick a city, choose a source, and build a full lesson around it.'
     : sidebarMode === 'expeditions'
       ? 'Preview ready-made routes on the map, then guide the class through a shared question.'
+    : sidebarMode === 'hangar'
+      ? 'Pick from the unlocked aircraft tier before the class flies again.'
     : sidebarMode === 'passport'
       ? 'Revisit flights, collect city stamps, and share what the class has accomplished.'
       : 'Collect field notes from completed city lessons to unlock each mission.';
@@ -1750,6 +1985,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     ? 'Destinations'
     : sidebarMode === 'expeditions'
       ? 'Expeditions'
+    : sidebarMode === 'hangar'
+      ? 'Hangar'
       : sidebarMode === 'passport' ? 'Passport' : 'Missions';
 
   return (
@@ -1838,14 +2075,17 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 rangeKm={rangeKm}
                 flightHours={selectedClass.flightHours ?? 0}
                 crewStars={selectedClass.crewStars ?? 0}
+                selectionRequired={planeSelectionRequired}
                 actionStatus={upgradeActionStatus}
                 onClaimUpgrade={claimRangeUpgrade}
                 onOpenPassport={() => setSidebarMode('passport')}
+                onOpenHangar={() => setSidebarMode('hangar')}
               />
             )}
-            <div className="grid grid-cols-4 gap-1 rounded-md border border-white/15 bg-[var(--wf-surface)] p-1">
+            <div className="grid grid-cols-5 gap-1 rounded-md border border-white/15 bg-[var(--wf-surface)] p-1">
               <SidebarModeButton active={sidebarMode === 'destinations'} icon={<MapIcon className="h-3.5 w-3.5" />} label="Cities" onClick={() => setSidebarMode('destinations')} />
-              <SidebarModeButton active={sidebarMode === 'expeditions'} icon={<Compass className="h-3.5 w-3.5" />} label="Expeditions" onClick={() => setSidebarMode('expeditions')} />
+              <SidebarModeButton active={sidebarMode === 'expeditions'} icon={<Compass className="h-3.5 w-3.5" />} label="Routes" onClick={() => setSidebarMode('expeditions')} />
+              <SidebarModeButton active={sidebarMode === 'hangar'} icon={<Plane className="h-3.5 w-3.5" />} label="Hangar" onClick={() => setSidebarMode('hangar')} />
               <SidebarModeButton active={sidebarMode === 'passport'} icon={<Stamp className="h-3.5 w-3.5" />} label="Passport" onClick={() => setSidebarMode('passport')} />
               <SidebarModeButton active={sidebarMode === 'missions'} icon={<Radar className="h-3.5 w-3.5" />} label="Missions" onClick={() => setSidebarMode('missions')} />
             </div>
@@ -1898,6 +2138,19 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                     <p className="text-xs text-lc-text3">{selectedClass ? planeName : 'Select a class later'}</p>
                   </div>
                 </div>
+                {planeSelectionRequired && (
+                  <button
+                    type="button"
+                    onClick={() => setSidebarMode('hangar')}
+                    className="flex w-full items-center justify-between gap-3 rounded-lg border border-lc-amber/30 bg-lc-amber/[0.08] px-3 py-2.5 text-left transition-colors hover:bg-lc-amber/[0.12]"
+                  >
+                    <span className="min-w-0">
+                      <span className="block text-xs font-semibold text-lc-amber">Aircraft choice required</span>
+                      <span className="mt-0.5 block truncate text-[11px] text-lc-text3">Choose the class plane before the next moving flight.</span>
+                    </span>
+                    <Plane className="h-4 w-4 shrink-0 text-lc-amber" aria-hidden />
+                  </button>
+                )}
               </>
             )}
           </div>
@@ -1914,6 +2167,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               rangeKm={rangeKm}
               flightHours={selectedClass?.flightHours ?? 0}
               crewStars={selectedClass?.crewStars ?? 0}
+              planeSelectionRequired={planeSelectionRequired}
               upgradeActionStatus={upgradeActionStatus}
               investigations={selectedClass?.investigations ?? []}
               expeditionRuns={selectedExpeditionRuns}
@@ -1924,6 +2178,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               onSelectDestination={inspectPassportDestination}
               onReplayArrival={setReplayDestinationId}
               onClaimUpgrade={claimRangeUpgrade}
+              onOpenHangar={() => setSidebarMode('hangar')}
             />
           )}
 
@@ -1931,6 +2186,16 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             <InvestigationProgressPanel
               investigations={selectedClass?.investigations ?? []}
               onLaunchDesignMission={launchDesignMission}
+            />
+          )}
+
+          {sidebarMode === 'hangar' && (
+            <HangarPanel
+              currentPlaneKey={selectedClass?.planeKey ?? 'starter-biplane'}
+              unlockedTier={selectedClass?.planeTier ?? 0}
+              selectionRequired={planeSelectionRequired}
+              actionStatus={planeActionStatus}
+              onEquipPlane={equipPlane}
             />
           )}
 
@@ -2080,11 +2345,13 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 </p>
               </div>
               <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${
-                isChoosingDeparture || isReachable
+                movingFlightBlockedByPlaneChoice
+                  ? 'border-lc-amber/35 bg-lc-amber/10 text-lc-amber'
+                  : isChoosingDeparture || isReachable
                   ? 'border-lc-success/35 bg-lc-success/10 text-lc-success'
                   : 'border-white/20 bg-white/[0.04] text-lc-text2'
               }`}>
-                {isChoosingDeparture ? 'Starting city' : isLocalLesson ? 'Local lesson' : isReachable ? 'In range' : 'Beyond range'}
+                {movingFlightBlockedByPlaneChoice ? 'Choose plane' : isChoosingDeparture ? 'Starting city' : isLocalLesson ? 'Local lesson' : isReachable ? 'In range' : 'Beyond range'}
               </span>
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-lc-text3">
@@ -2307,10 +2574,18 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 <button
                   type="button"
                   onClick={launchSelectedFocus}
-                  className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[var(--wf-bg)] transition-colors hover:bg-lc-blue-hover"
+                  className={`flex min-h-12 w-full items-center justify-center gap-2 rounded-lg px-4 text-sm font-bold transition-colors ${
+                    movingFlightBlockedByPlaneChoice
+                      ? 'border border-lc-amber/35 bg-lc-amber/15 text-lc-amber hover:bg-lc-amber/22'
+                      : 'bg-lc-blue text-[var(--wf-bg)] hover:bg-lc-blue-hover'
+                  }`}
                 >
-                  <PlaneTakeoff className="h-4 w-4" aria-hidden />
-                  {!isReachable && !isLocalLesson
+                  {movingFlightBlockedByPlaneChoice
+                    ? <Plane className="h-4 w-4" aria-hidden />
+                    : <PlaneTakeoff className="h-4 w-4" aria-hidden />}
+                  {movingFlightBlockedByPlaneChoice
+                    ? 'Choose Aircraft in Hangar'
+                    : !isReachable && !isLocalLesson
                     ? 'Build Lesson Without Moving'
                     : selectedPresetId === 'travel-60'
                       ? `Build Travel — ${(selectedSituation || travelSituations[0] || 'Travel').split(' — ')[0]}`

@@ -26,6 +26,7 @@ export interface WorldFlightClassSummary {
   currentDestinationId: string | null;
   planeTier: number;
   planeKey: string;
+  planeSelectionRequired: boolean;
   rangeKm: number;
   flightHours: number;
   crewStars: number;

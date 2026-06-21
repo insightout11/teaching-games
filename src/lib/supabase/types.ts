@@ -57,6 +57,7 @@ export interface ClassWorldFlightState {
   current_destination_id: string | null;
   plane_tier: number;
   plane_key: string;
+  plane_selection_required: boolean;
   range_km: number;
   flight_hours: number;
   crew_stars: number;

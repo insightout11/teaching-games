@@ -7,7 +7,7 @@ import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/invest
 import type { WorldFlightCompletedLegSummary } from '@/lib/world-flight/journey';
 import { getWorldFlightExpedition, type WorldFlightExpeditionRunSummary } from '@/lib/world-flight/expeditions';
 import { formatDistance } from '@/lib/world-flight/geo';
-import { getWorldFlightProgression, getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
+import { getWorldFlightProgression, getWorldFlightRangeForTier, getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
 import { ShareJourneyButton } from './share-journey-button';
 
 function destination(destinationId: string | null) {
@@ -35,6 +35,7 @@ export function JourneyProgressPanel({
   rangeKm,
   flightHours,
   crewStars,
+  planeSelectionRequired,
   upgradeActionStatus,
   investigations,
   expeditionRuns,
@@ -45,6 +46,7 @@ export function JourneyProgressPanel({
   onSelectDestination,
   onReplayArrival,
   onClaimUpgrade,
+  onOpenHangar,
 }: {
   classId: string | null;
   className: string;
@@ -56,6 +58,7 @@ export function JourneyProgressPanel({
   rangeKm: number;
   flightHours: number;
   crewStars: number;
+  planeSelectionRequired: boolean;
   upgradeActionStatus: 'idle' | 'working' | 'error';
   investigations: WorldFlightInvestigationProgress[];
   expeditionRuns: WorldFlightExpeditionRunSummary[];
@@ -66,6 +69,7 @@ export function JourneyProgressPanel({
   onSelectDestination: (destinationId: string) => void;
   onReplayArrival: (destinationId: string) => void;
   onClaimUpgrade: () => void;
+  onOpenHangar: () => void;
 }) {
   const currentCity = destination(currentDestinationId);
   const visitedDestinations = visitedDestinationIds
@@ -78,7 +82,9 @@ export function JourneyProgressPanel({
   const completedMissions = investigations.filter((investigation) => investigation.designMissionStatus === 'completed');
   const progression = getWorldFlightProgression(flightHours, crewStars);
   const upgradeState = getWorldFlightUpgradeState({ planeTier, rangeKm, flightHours, crewStars });
-  const progressTargetMilestone = upgradeState.claimableTier ? progression.latestUnlockedMilestone : progression.nextMilestone;
+  const claimableTier = planeSelectionRequired ? null : upgradeState.claimableTier;
+  const pendingRangeKm = getWorldFlightRangeForTier(planeTier).rangeKm;
+  const progressTargetMilestone = claimableTier || planeSelectionRequired ? progression.latestUnlockedMilestone : progression.nextMilestone;
   const completedExpeditions = Array.from(
     expeditionRuns
       .filter((run) => run.status === 'completed')
@@ -140,12 +146,18 @@ export function JourneyProgressPanel({
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Crew progression</p>
               <p className="mt-1 text-sm font-semibold text-lc-text">
-                {upgradeState.claimableTier
-                  ? `Tier ${upgradeState.claimableTier} range upgrade ready`
+                {planeSelectionRequired
+                  ? `Tier ${planeTier} aircraft choice ready`
+                  : claimableTier
+                  ? `Tier ${claimableTier} range upgrade ready`
                   : progression.nextMilestone?.label ?? 'All upgrade milestones reached'}
               </p>
             </div>
-            {upgradeState.claimableTier ? (
+            {planeSelectionRequired ? (
+              <span className="shrink-0 rounded-full border border-lc-amber/35 bg-lc-amber/[0.1] px-2 py-1 text-[11px] font-semibold text-lc-amber">
+                Choose
+              </span>
+            ) : claimableTier ? (
               <span className="shrink-0 rounded-full border border-lc-amber/35 bg-lc-amber/[0.1] px-2 py-1 text-[11px] font-semibold text-lc-amber">
                 Claim
               </span>
@@ -170,32 +182,45 @@ export function JourneyProgressPanel({
             />
           </div>
           <div className={`mt-3 rounded-md border px-3 py-3 ${
-            upgradeState.claimableTier
+            claimableTier || planeSelectionRequired
               ? 'border-lc-amber/30 bg-lc-amber/[0.07]'
               : 'border-white/10 bg-white/[0.025]'
           }`}>
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[11px] font-semibold uppercase tracking-wide text-lc-text2">
-                  {upgradeState.claimableTier ? 'Range upgrade available' : upgradeState.fullyUpgraded ? 'Maximum range' : 'Next range upgrade'}
+                  {planeSelectionRequired ? 'Aircraft choice required' : claimableTier ? 'Range upgrade available' : upgradeState.fullyUpgraded ? 'Maximum range' : 'Next range upgrade'}
                 </p>
                 <p className="mt-1 text-sm font-semibold text-lc-text">
                   {formatDistance(upgradeState.currentRangeKm)}
-                  {upgradeState.claimableRangeKm
+                  {planeSelectionRequired
+                    ? ` -> ${formatDistance(pendingRangeKm)}`
+                    : upgradeState.claimableRangeKm
                     ? ` -> ${formatDistance(upgradeState.claimableRangeKm)}`
                     : upgradeState.nextRangeTier && !upgradeState.fullyUpgraded
                       ? ` -> ${formatDistance(upgradeState.nextRangeTier.rangeKm)}`
                       : ''}
                 </p>
                 <p className="mt-1 text-xs leading-relaxed text-lc-text3">
-                  {upgradeState.claimableTier
-                    ? 'Claiming extends the class range immediately. Plane choice stays unchanged for now.'
+                  {planeSelectionRequired
+                    ? `Choose a Tier ${planeTier} aircraft in Hangar to activate the new range.`
+                    : claimableTier
+                    ? 'Claim this upgrade, then the class chooses one aircraft from the unlocked tier.'
                     : upgradeState.fullyUpgraded
                       ? 'The class has reached the current top range tier.'
                       : `Need ${upgradeState.needsFlightHours} more flight hour${upgradeState.needsFlightHours === 1 ? '' : 's'} and ${upgradeState.needsCrewStars} more crew star${upgradeState.needsCrewStars === 1 ? '' : 's'}.`}
                 </p>
               </div>
-              {upgradeState.claimableTier && (
+              {planeSelectionRequired ? (
+                <button
+                  type="button"
+                  onClick={onOpenHangar}
+                  className="inline-flex min-h-9 shrink-0 items-center justify-center gap-1.5 rounded-md border border-lc-amber/35 bg-lc-amber/15 px-3 text-[11px] font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/20"
+                >
+                  <Plane className="h-3.5 w-3.5" aria-hidden />
+                  Hangar
+                </button>
+              ) : claimableTier && (
                 <button
                   type="button"
                   onClick={onClaimUpgrade}

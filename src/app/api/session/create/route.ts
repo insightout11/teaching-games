@@ -69,7 +69,7 @@ export async function POST(request: Request) {
 
     const { data: state } = await supabase
       .from('class_world_flight_state')
-      .select('current_destination_id, range_km')
+      .select('current_destination_id, range_km, plane_selection_required')
       .eq('class_id', classId)
       .maybeSingle();
 
@@ -85,6 +85,9 @@ export async function POST(request: Request) {
     }
     if (selectedDeparture?.id === destination.id && launchContext.requestedMove) {
       return NextResponse.json({ error: 'The first destination must be different from the departure city' }, { status: 400 });
+    }
+    if (state?.plane_selection_required && launchContext.requestedMove) {
+      return NextResponse.json({ error: 'Choose the class aircraft in World Flight before moving to another city' }, { status: 409 });
     }
     const rangeKm = state?.range_km ?? STARTER_PLANE_RANGE_KM;
     const resolvedDistanceKm = origin ? distanceKm(origin, destination) : 0;

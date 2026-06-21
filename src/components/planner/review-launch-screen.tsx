@@ -26,6 +26,7 @@ type TeacherClass = {
   currentDestinationId?: string | null;
   rangeKm?: number;
   planeKey?: string;
+  planeSelectionRequired?: boolean;
 };
 
 export function ReviewLaunchScreen() {
@@ -91,13 +92,14 @@ export function ReviewLaunchScreen() {
       if (process.env.NEXT_PUBLIC_MOCK_MODE !== 'true' && mapped.length > 0) {
         const { data: states } = await supabase
           .from('class_world_flight_state')
-          .select('class_id, current_destination_id, range_km, plane_key')
+          .select('class_id, current_destination_id, range_km, plane_key, plane_selection_required')
           .in('class_id', mapped.map((cls) => cls.id)) as {
             data: Array<{
               class_id: string;
               current_destination_id: string | null;
               range_km: number;
               plane_key: string;
+              plane_selection_required: boolean;
             }> | null;
           };
         const statesByClass = new Map((states ?? []).map((state) => [state.class_id, state]));
@@ -108,6 +110,7 @@ export function ReviewLaunchScreen() {
             currentDestinationId: state?.current_destination_id ?? null,
             rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
             planeKey: state?.plane_key ?? 'starter-biplane',
+            planeSelectionRequired: state?.plane_selection_required ?? false,
           };
         });
       }
@@ -158,6 +161,7 @@ export function ReviewLaunchScreen() {
     : null;
   const isLocalWorldFlightLesson = worldFlightOrigin?.id === worldFlightDestination?.id;
   const worldFlightPlaneName = getPlaneAsset(selectedClass?.planeKey).name;
+  const worldFlightPlaneChoiceRequired = Boolean(worldFlightContext?.requestedMove && selectedClass?.planeSelectionRequired);
 
   async function handleCreateClass() {
     const trimmed = newClassName.trim();
@@ -186,6 +190,7 @@ export function ReviewLaunchScreen() {
       currentDestinationId: null,
       rangeKm: STARTER_PLANE_RANGE_KM,
       planeKey: 'starter-biplane',
+      planeSelectionRequired: false,
     };
     setClasses((prev) => [...prev, newClass].sort((a, b) => a.name.localeCompare(b.name)));
     setSelectedClassId(data.id);
@@ -206,6 +211,8 @@ export function ReviewLaunchScreen() {
   }
 
   const canLaunch = modules.length > 0 && !!selectedClassId && !isLaunching;
+  const launchBlockedByPlaneChoice = worldFlightPlaneChoiceRequired;
+  const canLaunchFinal = canLaunch && !launchBlockedByPlaneChoice;
 
   const isAllAroundFlight = loadedPresetId === 'all-around-flight-60';
   const needsSourceWarning = isAllAroundFlight && !sourceMaterial;
@@ -217,6 +224,9 @@ export function ReviewLaunchScreen() {
     { label: 'Content generates at runtime', done: true },
     ...(isAllAroundFlight
       ? [{ label: "Captain's Briefing source", done: !!sourceMaterial, warn: !sourceMaterial }]
+      : []),
+    ...(launchBlockedByPlaneChoice
+      ? [{ label: 'Aircraft chosen in Hangar', done: false, warn: true }]
       : []),
   ];
 
@@ -472,11 +482,15 @@ export function ReviewLaunchScreen() {
                   World Flight Handoff
                 </h3>
                 <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
-                  worldFlightMovement?.movesClass
+                  worldFlightPlaneChoiceRequired
+                    ? 'border-amber-400/30 bg-amber-400/10 text-amber-300'
+                    : worldFlightMovement?.movesClass
                     ? 'border-lc-success/30 bg-lc-success/10 text-lc-success'
                     : 'border-amber-400/30 bg-amber-400/10 text-amber-300'
                 }`}>
-                  {worldFlightMovement?.movesClass ? 'Moves class' : isLocalWorldFlightLesson ? 'Local lesson' : 'Lesson only'}
+                  {worldFlightPlaneChoiceRequired
+                    ? 'Choose plane'
+                    : worldFlightMovement?.movesClass ? 'Moves class' : isLocalWorldFlightLesson ? 'Local lesson' : 'Lesson only'}
                 </span>
               </div>
 
@@ -508,7 +522,9 @@ export function ReviewLaunchScreen() {
 
               <div className="border-t border-lc-border px-5 py-3">
                 <p className="text-xs leading-relaxed text-lc-text2">
-                  {!worldFlightOrigin
+                  {worldFlightPlaneChoiceRequired
+                    ? `Choose an aircraft in World Flight before ${selectedClass?.name ?? 'this class'} can move to ${worldFlightDestination.city}.`
+                    : !worldFlightOrigin
                     ? `Completing the final module establishes ${worldFlightDestination.city} as ${selectedClass?.name ?? 'this class'}'s first location.`
                     : isLocalWorldFlightLesson
                       ? `${selectedClass?.name ?? 'This class'} is already in ${worldFlightDestination.city}. This lesson adds evidence without moving the plane.`
@@ -517,7 +533,9 @@ export function ReviewLaunchScreen() {
                       : `${selectedClass?.name ?? 'This class'} can use this lesson, but completing it will not move the plane from ${worldFlightOrigin.city}.`}
                 </p>
                 <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
-                  {worldFlightPlaneName} · Server confirms range again at launch
+                  {worldFlightPlaneChoiceRequired
+                    ? `${worldFlightPlaneName} · aircraft choice required before moving`
+                    : `${worldFlightPlaneName} · Server confirms range again at launch`}
                 </p>
               </div>
             </div>
@@ -590,7 +608,7 @@ export function ReviewLaunchScreen() {
           ) : (
             <button
               onClick={handleLaunch}
-              disabled={!canLaunch}
+              disabled={!canLaunchFinal}
               className="w-full flex items-center justify-center gap-2 py-4 bg-lc-success text-lc-bg rounded-xl font-bold text-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLaunching ? (
@@ -598,7 +616,7 @@ export function ReviewLaunchScreen() {
               ) : (
                 <Rocket className="w-5 h-5" />
               )}
-              {isLaunching ? 'Launching your live lesson...' : 'Launch Mission'}
+              {launchBlockedByPlaneChoice ? 'Choose Aircraft in World Flight First' : isLaunching ? 'Launching your live lesson...' : 'Launch Mission'}
             </button>
           )}
         </div>
