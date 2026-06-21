@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { Maximize2, Minimize2 } from 'lucide-react';
 import { useWidgetStore } from '@/stores/widget-store';
 
 interface WidgetShellProps {
@@ -62,6 +63,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
 
   const [mounted, setMounted] = useState(false);
   const [minimized, setMinimized] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const shellRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -78,6 +80,7 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
   const zIndex = widget.zIndex;
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (expanded) return; // no dragging while maximized
     e.currentTarget.setPointerCapture(e.pointerId);
     bringToFront(id);
     isDragging.current = true;
@@ -111,11 +114,12 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
       ref={shellRef}
       style={{
         position: 'fixed',
-        left: widget.position.x,
-        top: widget.position.y,
-        zIndex,
-        width: 'clamp(320px, 28vw, 420px)',
-        maxWidth: '92vw',
+        left: expanded ? '2vw' : widget.position.x,
+        top: expanded ? '2vh' : widget.position.y,
+        zIndex: expanded ? zIndex + 1000 : zIndex,
+        width: expanded ? '96vw' : 'clamp(320px, 28vw, 420px)',
+        maxWidth: expanded ? '96vw' : '92vw',
+        height: expanded ? '96vh' : undefined,
         userSelect: isDragging.current ? 'none' : undefined,
       }}
       className="glass rounded-xl shadow-xl border border-lc-border overflow-hidden"
@@ -123,7 +127,9 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
     >
       {/* Title bar — drag handle */}
       <div
-        className="p-3 border-b border-lc-border flex items-center justify-between cursor-grab active:cursor-grabbing select-none"
+        className={`p-3 border-b border-lc-border flex items-center justify-between select-none ${
+          expanded ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'
+        }`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -133,6 +139,17 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
           <span className="font-semibold text-sm">{label}</span>
         </div>
         <div className="flex items-center gap-1" onPointerDown={(e) => e.stopPropagation()}>
+          {/* Maximize / restore to full size */}
+          <button
+            onClick={() => {
+              setExpanded((v) => !v);
+              setMinimized(false);
+            }}
+            className="p-1 text-lc-text2 hover:text-lc-text transition-colors"
+            title={expanded ? 'Restore size' : 'Full size'}
+          >
+            {expanded ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+          </button>
           {/* Minimize / restore */}
           <button
             onClick={() => setMinimized((m) => !m)}
@@ -162,7 +179,10 @@ export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = tr
 
       {/* Content area */}
       {!minimized && (
-        <div className="max-h-[60vh] overflow-y-auto overflow-x-hidden">
+        <div
+          className={expanded ? 'overflow-y-auto overflow-x-hidden' : 'max-h-[60vh] overflow-y-auto overflow-x-hidden'}
+          style={expanded ? { height: 'calc(96vh - 52px)' } : undefined}
+        >
           {children}
         </div>
       )}

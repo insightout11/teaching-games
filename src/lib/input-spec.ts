@@ -74,7 +74,7 @@ export interface InputSpec {
   /** Class Board: selectable board zones/columns. */
   boardZones?: Array<{ key: string; label: string; description?: string }>;
   /** Class Board: visual layout used to draw the board scaffold. */
-  boardLayout?: 'list' | 't-chart' | 'venn' | 'quadrants' | 'ranked' | 'image-evidence';
+  boardLayout?: 'list' | 't-chart' | 'venn' | 'quadrants' | 'ranked' | 'image-evidence' | 'columns';
   /** Class Board: initial selected category key. */
   boardDefaultCategory?: string;
   /** Class Board: initial selected zone key. */

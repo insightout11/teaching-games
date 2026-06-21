@@ -41,16 +41,21 @@ interface BoardItem {
   voteCount: number;
 }
 
-/** Tailwind grid columns for each board layout. */
-function columnsClass(layout: ClassBoardLayout): string {
+/** Tailwind grid columns for each board layout. Literal classes so Tailwind keeps them. */
+function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
   switch (layout) {
     case 't-chart':
+    case 'quadrants':
       return 'sm:grid-cols-2';
     case 'venn':
     case 'image-evidence':
       return 'lg:grid-cols-3';
-    case 'quadrants':
-      return 'sm:grid-cols-2';
+    case 'columns':
+      if (zoneCount <= 1) return 'grid-cols-1';
+      if (zoneCount === 2) return 'sm:grid-cols-2';
+      if (zoneCount === 3) return 'sm:grid-cols-2 lg:grid-cols-3';
+      if (zoneCount === 4) return 'sm:grid-cols-2 lg:grid-cols-4';
+      return 'sm:grid-cols-2 lg:grid-cols-3'; // 5+ wraps onto multiple rows
     default:
       return 'grid-cols-1';
   }
@@ -398,7 +403,7 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey }: ClassBoardC
         </div>
       )}
 
-      <div className={`grid grid-cols-1 gap-3 ${columnsClass(preset.layout)}`}>
+      <div className={`grid grid-cols-1 gap-3 ${columnsClass(preset.layout, zones.length)}`}>
         {zones.map(renderZone)}
       </div>
     </div>
