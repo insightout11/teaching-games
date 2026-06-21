@@ -185,6 +185,32 @@ export interface QuestionVote {
   created_at: string;
 }
 
+export interface ClassBoardItem {
+  id: string;
+  session_id: string;
+  board_key: string;
+  author_type: 'teacher' | 'student';
+  client_id: string | null;
+  display_name: string;
+  category: string;
+  zone_key: string;
+  content: string;
+  visibility: 'pending' | 'visible' | 'hidden';
+  pinned: boolean;
+  position: number;
+  metadata: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ClassBoardVote {
+  id: string;
+  item_id: string;
+  session_id: string;
+  client_id: string;
+  created_at: string;
+}
+
 export interface Poll {
   id: string;
   session_id: string;
@@ -318,6 +344,8 @@ export interface Database {
       poll_votes: { Row: PollVote; Insert: Partial<PollVote> & Pick<PollVote, 'poll_id' | 'session_id' | 'client_id' | 'display_name' | 'choice'>; Update: Partial<PollVote> };
       submission_rate_limits: { Row: SubmissionRateLimit; Insert: Partial<SubmissionRateLimit> & Pick<SubmissionRateLimit, 'session_id' | 'client_id'>; Update: Partial<SubmissionRateLimit> };
       question_votes: { Row: QuestionVote; Insert: Partial<QuestionVote> & Pick<QuestionVote, 'question_id' | 'session_id' | 'client_id'>; Update: Partial<QuestionVote> };
+      class_board_items: { Row: ClassBoardItem; Insert: Partial<ClassBoardItem> & Pick<ClassBoardItem, 'session_id' | 'board_key' | 'author_type' | 'display_name' | 'category' | 'zone_key' | 'content'>; Update: Partial<ClassBoardItem> };
+      class_board_votes: { Row: ClassBoardVote; Insert: Partial<ClassBoardVote> & Pick<ClassBoardVote, 'item_id' | 'session_id' | 'client_id'>; Update: Partial<ClassBoardVote> };
       session_notes: { Row: SessionNote; Insert: Partial<SessionNote> & Pick<SessionNote, 'session_id' | 'teacher_id'>; Update: Partial<SessionNote> };
       student_session_notes: { Row: StudentSessionNote; Insert: Partial<StudentSessionNote> & Pick<StudentSessionNote, 'session_id' | 'student_id' | 'class_id' | 'teacher_id'>; Update: Partial<StudentSessionNote> };
       class_world_flight_state: { Row: ClassWorldFlightState; Insert: Partial<ClassWorldFlightState> & Pick<ClassWorldFlightState, 'class_id'>; Update: Partial<ClassWorldFlightState> };

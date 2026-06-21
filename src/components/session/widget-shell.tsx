@@ -9,6 +9,7 @@ interface WidgetShellProps {
   label: string;
   icon: ReactNode;
   defaultPosition?: { x: number; y: number };
+  defaultOpen?: boolean;
   children: ReactNode;
 }
 
@@ -34,6 +35,7 @@ export function computeDefaultPositions(
     poll:              { x: right, y: H - 150 },
     freeze:            { x: right, y: H - 400 },
     'class-questions': { x: right, y: H - 560 },
+    'class-board':     { x: right, y: H - 360 },
   };
   return Object.fromEntries(
     ids.map((id) => [id, defaults[id] ?? { x: right, y: H - 300 }])
@@ -44,7 +46,7 @@ function getDefaultPosition(id: string): { x: number; y: number } {
   return computeDefaultPositions([id])[id] ?? { x: 0, y: 0 };
 }
 
-export function WidgetShell({ id, label, icon, defaultPosition, children }: WidgetShellProps) {
+export function WidgetShell({ id, label, icon, defaultPosition, defaultOpen = true, children }: WidgetShellProps) {
   // Individual selectors — avoid re-rendering on other widgets' changes
   const widgetEntry = useWidgetStore((s) => s.widgets[id]);
   const bringToFront = useWidgetStore((s) => s.bringToFront);
@@ -54,9 +56,9 @@ export function WidgetShell({ id, label, icon, defaultPosition, children }: Widg
 
   const widget = useMemo(() => ({
     position: widgetEntry?.position ?? { x: 0, y: 0 },
-    isOpen: widgetEntry?.isOpen ?? true,
+    isOpen: widgetEntry?.isOpen ?? defaultOpen,
     zIndex: widgetEntry?.zIndex ?? 100,
-  }), [widgetEntry]);
+  }), [defaultOpen, widgetEntry]);
 
   const [mounted, setMounted] = useState(false);
   const [minimized, setMinimized] = useState(false);
@@ -69,9 +71,9 @@ export function WidgetShell({ id, label, icon, defaultPosition, children }: Widg
     setMounted(true);
     // Set default position on first mount if no persisted position exists
     const computed = defaultPosition ?? getDefaultPosition(id);
-    setDefaultPosition(id, computed);
+    setDefaultPosition(id, computed, defaultOpen);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, defaultOpen]);
 
   const zIndex = widget.zIndex;
 

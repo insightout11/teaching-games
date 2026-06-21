@@ -13,6 +13,7 @@ export type InputType =
   | 'read-aloud'     // Queue display + done button for current reader
   | 'shuffleboard'   // Drag-and-release physics shot (Zone Board)
   | 'geo-point'      // Place and confirm a pin on an interactive map
+  | 'board'          // Add a text item to a shared class board
   | 'cabin-question' // Cabin Mystery two-step question picker (target → question)
   | 'cabin-vote'     // Cabin Mystery final theory form (suspect + motive)
   | 'cabin-culprit'  // Cabin Mystery culprit-side — prompt for culprit, listening state for others
@@ -62,6 +63,22 @@ export interface InputSpec {
   sessionId?: string;
   /** Stable round identifier for structured multi-round inputs such as geo-point. */
   roundId?: string;
+  /** Class Board: stable board namespace for the current activity/session. */
+  boardKey?: string;
+  /** Class Board: title shown on student and teacher board surfaces. */
+  boardTitle?: string;
+  /** Class Board: board-specific prompt. */
+  boardPrompt?: string;
+  /** Class Board: selectable contribution categories. */
+  boardCategories?: Array<{ key: string; label: string }>;
+  /** Class Board: selectable board zones/columns. */
+  boardZones?: Array<{ key: string; label: string; description?: string }>;
+  /** Class Board: initial selected category key. */
+  boardDefaultCategory?: string;
+  /** Class Board: initial selected zone key. */
+  boardDefaultZone?: string;
+  /** Class Board: whether visible board items can be upvoted. */
+  boardAllowVotes?: boolean;
   /** Initial map center as [longitude, latitude]. */
   mapCenter?: [number, number];
   /** Initial map zoom level. */

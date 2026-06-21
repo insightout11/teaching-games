@@ -1,8 +1,11 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Camera, Globe2, MapPin, RotateCcw, Trophy } from 'lucide-react';
+import { Camera, Globe2, MapPin, Maximize2, RotateCcw, Trophy } from 'lucide-react';
+import { ClassBoardContent } from '@/components/session/class-board-widget';
 import { DestinationMediaCard } from '@/components/place-media/destination-media-card';
+import { ImageFocusModal } from '@/components/place-media/image-focus-modal';
+import { getClassBoardPreset } from '@/lib/class-board';
 import { getWorldLensPlacePool } from '@/lib/place-media';
 import { distanceBetweenCoordsKm, formatDistance } from '@/lib/world-flight/geo';
 import type { InputSpec } from '@/lib/input-spec';
@@ -17,7 +20,8 @@ import {
   worldLensPointsForDistance,
 } from './scoring';
 
-type Phase = 'idle' | 'guessing' | 'reveal' | 'finished';
+type Phase = 'idle' | 'detective' | 'guessing' | 'reveal' | 'finished';
+type WorldLensMode = 'classic' | 'geo-detective';
 
 const CLOSEST_BONUS = 2;
 const RECENT_PLACE_LIMIT = 20;
@@ -61,6 +65,10 @@ function roundIdFor(index: number, round: WorldLensRound) {
   return `world-lens-${index}-${round.place.id}`;
 }
 
+function detectiveBoardKeyFor(index: number, round: WorldLensRound) {
+  return `world-lens-detective-${index}-${round.place.id}`;
+}
+
 function promptForRound(round: WorldLensRound) {
   if (round.clueMode === 'easy') {
     return {
@@ -87,6 +95,7 @@ function promptForRound(round: WorldLensRound) {
 }
 
 export function WorldLensGame({
+  sessionId,
   students,
   onScore,
   config,
@@ -99,6 +108,8 @@ export function WorldLensGame({
   const [roundIndex, setRoundIndex] = useState(0);
   const [roundAnswers, setRoundAnswers] = useState<RoundResult[]>([]);
   const [totals, setTotals] = useState<Map<string, TotalEntry>>(() => new Map());
+  const [isMysteryImageFocusOpen, setIsMysteryImageFocusOpen] = useState(false);
+  const [mode, setMode] = useState<WorldLensMode>('classic');
 
   const phaseRef = useRef<Phase>('idle');
   const roundsRef = useRef<WorldLensRound[]>([]);
@@ -115,6 +126,7 @@ export function WorldLensGame({
   const clueMode = worldLensClueModeForDifficulty(sessionSettings.difficulty);
   const currentRound = rounds[roundIndex] ?? null;
   const roundPrompt = currentRound ? promptForRound(currentRound) : null;
+  const detectivePreset = getClassBoardPreset('geo-detective');
 
   const broadcastRound = useCallback((round: WorldLensRound, index: number, answers: RoundResult[]) => {
     const locked: Record<string, unknown> = {};
@@ -134,6 +146,25 @@ export function WorldLensGame({
       perStudentData: locked,
     } as InputSpec);
   }, [onSetInputSpec]);
+
+  const broadcastDetectiveRound = useCallback((round: WorldLensRound, index: number) => {
+    onSetInputSpec?.({
+      type: 'board',
+      gameKey: 'world-lens',
+      prompt: detectivePreset.prompt,
+      instruction: 'Add visual evidence before the map guess',
+      boardKey: detectiveBoardKeyFor(index, round),
+      boardTitle: detectivePreset.title,
+      boardPrompt: detectivePreset.prompt,
+      boardCategories: detectivePreset.categories.map(({ key, label }) => ({ key, label })),
+      boardZones: detectivePreset.zones,
+      boardDefaultCategory: detectivePreset.defaultCategory,
+      boardDefaultZone: detectivePreset.defaultZone,
+      boardAllowVotes: detectivePreset.allowVotes,
+      maxLength: 240,
+      allowMultiple: true,
+    } as InputSpec);
+  }, [detectivePreset, onSetInputSpec]);
 
   const handleVote = useCallback((vote: GameRemoteVote) => {
     if (phaseRef.current !== 'guessing') return;
@@ -172,7 +203,11 @@ export function WorldLensGame({
 
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
-  const startGame = useCallback(() => {
+  useEffect(() => {
+    setIsMysteryImageFocusOpen(false);
+  }, [phase, roundIndex]);
+
+  const startGame = useCallback((nextMode: WorldLensMode = 'classic') => {
     const recentPlaceIds = readRecentPlaceIds();
     const selected = selectWorldLensRounds(getWorldLensPlacePool(), {
       count: requestedRoundCount,
@@ -188,10 +223,29 @@ export function WorldLensGame({
     setRoundIndex(0);
     setRoundAnswers([]);
     setTotals(new Map());
+    setMode(nextMode);
+    const startingPhase: Phase = nextMode === 'geo-detective' ? 'detective' : 'guessing';
+    setPhase(startingPhase);
+    phaseRef.current = startingPhase;
+    if (selected[0]) {
+      if (nextMode === 'geo-detective') {
+        broadcastDetectiveRound(selected[0], 0);
+      } else {
+        broadcastRound(selected[0], 0, []);
+      }
+    }
+  }, [broadcastDetectiveRound, broadcastRound, clueMode, requestedRoundCount]);
+
+  const openMapGuessing = useCallback(() => {
+    if (phaseRef.current !== 'detective') return;
+    const round = roundsRef.current[roundIndexRef.current];
+    if (!round) return;
+    roundAnswersRef.current = [];
+    setRoundAnswers([]);
     setPhase('guessing');
     phaseRef.current = 'guessing';
-    if (selected[0]) broadcastRound(selected[0], 0, []);
-  }, [broadcastRound, clueMode, requestedRoundCount]);
+    broadcastRound(round, roundIndexRef.current, []);
+  }, [broadcastRound]);
 
   const reveal = useCallback(() => {
     if (phaseRef.current !== 'guessing') return;
@@ -266,10 +320,15 @@ export function WorldLensGame({
     roundAnswersRef.current = [];
     setRoundIndex(nextIndex);
     setRoundAnswers([]);
-    setPhase('guessing');
-    phaseRef.current = 'guessing';
-    broadcastRound(round, nextIndex, []);
-  }, [broadcastRound, onSetInputSpec]);
+    const nextPhase: Phase = mode === 'geo-detective' ? 'detective' : 'guessing';
+    setPhase(nextPhase);
+    phaseRef.current = nextPhase;
+    if (nextPhase === 'detective') {
+      broadcastDetectiveRound(round, nextIndex);
+    } else {
+      broadcastRound(round, nextIndex, []);
+    }
+  }, [broadcastDetectiveRound, broadcastRound, mode, onSetInputSpec]);
 
   const rankedRound = useMemo(
     () => [...roundAnswers].sort((a, b) => a.distanceKm - b.distanceKm),
@@ -301,12 +360,23 @@ export function WorldLensGame({
             Students study a real place image, place a pin on a label-free world map, then reveal the true location and class guesses.
           </p>
         </div>
-        <button
-          onClick={startGame}
-          className="rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 font-game text-lg text-white shadow-xl transition hover:scale-[1.03] active:scale-95"
-        >
-          START {requestedRoundCount}-ROUND WORLD LENS
-        </button>
+        <div className="grid w-full max-w-2xl gap-3 sm:grid-cols-2">
+          <button
+            onClick={() => startGame('classic')}
+            className="rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-4 font-game text-base text-white shadow-xl transition hover:scale-[1.03] active:scale-95"
+          >
+            START CLASSIC
+          </button>
+          <button
+            onClick={() => startGame('geo-detective')}
+            className="rounded-2xl border border-emerald-300/25 bg-emerald-400/12 px-6 py-4 font-game text-base text-emerald-100 shadow-xl transition hover:scale-[1.03] hover:bg-emerald-400/18 active:scale-95"
+          >
+            START GEO DETECTIVE
+          </button>
+        </div>
+        <p className="text-xs text-slate-500">
+          Classic: students place pins right away. Geo Detective: collect observations first, then open map guessing.
+        </p>
       </div>
     );
   }
@@ -332,7 +402,7 @@ export function WorldLensGame({
           {leaderboard.length === 0 && <p className="py-8 text-center text-sm text-slate-400">No guesses were submitted.</p>}
         </div>
         <div className="text-center">
-          <button onClick={startGame} className="inline-flex items-center gap-2 rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-5 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-300/15">
+          <button onClick={() => startGame(mode)} className="inline-flex items-center gap-2 rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-5 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-300/15">
             <RotateCcw className="h-4 w-4" />
             Play Again
           </button>
@@ -358,12 +428,22 @@ export function WorldLensGame({
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">
             {roundPrompt.label} - Round {roundIndex + 1} of {rounds.length}
           </p>
-          <h3 className="mt-1 text-2xl font-game text-white">{roundPrompt.prompt}</h3>
-          <p className="mt-1 text-xs text-slate-400">{roundPrompt.detail}</p>
+          <h3 className="mt-1 text-2xl font-game text-white">
+            {phase === 'detective' ? 'Geo Detective: collect visual evidence' : roundPrompt.prompt}
+          </h3>
+          <p className="mt-1 text-xs text-slate-400">
+            {phase === 'detective'
+              ? 'Students add observations, evidence, guesses, and questions before the map opens.'
+              : roundPrompt.detail}
+          </p>
         </div>
         <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-right">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-cyan-200/70">Pins locked</p>
-          <p className="font-game text-2xl text-cyan-200">{roundAnswers.length} / {students.length || '?'}</p>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-cyan-200/70">
+            {phase === 'detective' ? 'Evidence phase' : 'Pins locked'}
+          </p>
+          <p className="font-game text-2xl text-cyan-200">
+            {phase === 'detective' ? 'Board' : `${roundAnswers.length} / ${students.length || '?'}`}
+          </p>
         </div>
       </div>
 
@@ -383,6 +463,15 @@ export function WorldLensGame({
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={imageUrl} alt="Mystery place clue" className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <button
+                    type="button"
+                    onClick={() => setIsMysteryImageFocusOpen(true)}
+                    className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-slate-950/85 px-3 py-2 text-xs font-semibold text-white shadow-xl transition hover:border-cyan-300/35 hover:bg-cyan-400/20"
+                    aria-label="Enlarge mystery image"
+                  >
+                    <Maximize2 className="h-4 w-4" aria-hidden />
+                    Enlarge
+                  </button>
                   <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/10 bg-slate-950/78 p-3 backdrop-blur">
                     <div className="flex items-center gap-2">
                       <Camera className="h-4 w-4 text-cyan-200" />
@@ -394,20 +483,54 @@ export function WorldLensGame({
               </div>
             )
           ) : null}
+          {imageUrl && phase !== 'reveal' ? (
+            <ImageFocusModal
+              media={currentRound.media}
+              isOpen={isMysteryImageFocusOpen}
+              onClose={() => setIsMysteryImageFocusOpen(false)}
+              label="Mystery image"
+              titleOverride="Mystery image"
+              captionOverride="Source and exact caption unlock after reveal."
+              showSource={false}
+            />
+          ) : null}
         </div>
-        <WorldLensMap
-          answer={{
-            name: currentRound.place.city ?? currentRound.place.name,
-            country: currentRound.place.country,
-            lat: currentRound.place.lat,
-            lng: currentRound.place.lng,
-          }}
-          guesses={roundAnswers}
-          revealed={phase === 'reveal'}
-        />
+        {phase === 'detective' && mode === 'geo-detective' && sessionId ? (
+          <div className="max-h-[520px] overflow-y-auto rounded-xl border border-emerald-300/18 bg-slate-950/45">
+            <ClassBoardContent
+              sessionId={sessionId}
+              boardKey={detectiveBoardKeyFor(roundIndex, currentRound)}
+              presetKey="geo-detective"
+            />
+          </div>
+        ) : (
+          <WorldLensMap
+            answer={{
+              name: currentRound.place.city ?? currentRound.place.name,
+              country: currentRound.place.country,
+              lat: currentRound.place.lat,
+              lng: currentRound.place.lng,
+            }}
+            guesses={roundAnswers}
+            revealed={phase === 'reveal'}
+          />
+        )}
       </div>
 
-      {phase === 'guessing' ? (
+      {phase === 'detective' ? (
+        <div className="flex items-center justify-between gap-3 rounded-xl border border-emerald-300/15 bg-emerald-400/[0.06] px-4 py-3">
+          <div className="flex items-center gap-3 text-sm text-slate-300">
+            <Camera className="h-5 w-5 text-emerald-300" />
+            Use the board for spoken answers, teacher notes, and student evidence. Open the map when the class has enough clues.
+          </div>
+          <button
+            onClick={openMapGuessing}
+            className="rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-5 py-3 font-game text-sm text-slate-950 transition hover:scale-[1.02]"
+          >
+            OPEN MAP GUESSING
+          </button>
+        </div>
+      ) : phase === 'guessing' ? (
         <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">
           <div className="flex items-center gap-3 text-sm text-slate-300">
             <MapPin className="h-5 w-5 text-cyan-300" />

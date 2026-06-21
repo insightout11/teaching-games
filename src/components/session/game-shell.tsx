@@ -392,6 +392,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
             </div>
             <div className="flex-1 overflow-y-auto p-6">
               <GameComponent
+                sessionId={sessionId ?? undefined}
                 students={students}
                 currentStudentId={currentStudentId}
                 onScore={handleScore}

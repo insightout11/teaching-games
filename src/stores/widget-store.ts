@@ -15,7 +15,7 @@ interface WidgetStoreState {
   setPosition: (id: string, pos: { x: number; y: number }) => void;
   openWidget: (id: string) => void;
   closeWidget: (id: string) => void;
-  setDefaultPosition: (id: string, pos: { x: number; y: number }) => void;
+  setDefaultPosition: (id: string, pos: { x: number; y: number }, defaultOpen?: boolean) => void;
   resetLayout: (positions: Record<string, { x: number; y: number }>) => void;
 }
 
@@ -98,7 +98,7 @@ export const useWidgetStore = create<WidgetStoreState>()(
         }));
       },
 
-      setDefaultPosition: (id, pos) => {
+      setDefaultPosition: (id, pos, defaultOpen = true) => {
         set((state) => {
           // Only set if no persisted position exists
           if (state.widgets[id]?.position) return state;
@@ -107,7 +107,7 @@ export const useWidgetStore = create<WidgetStoreState>()(
               ...state.widgets,
               [id]: {
                 position: pos,
-                isOpen: state.widgets[id]?.isOpen ?? true,
+                isOpen: state.widgets[id]?.isOpen ?? defaultOpen,
               },
             },
           };

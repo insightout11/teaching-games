@@ -54,6 +54,7 @@ describe('DestinationBriefing', () => {
     expect(html).toContain('Food + Culture');
     expect(html).toContain('City setting');
     expect(html).toContain('object-contain');
+    expect(html).toContain('Enlarge destination image');
     expect(html).not.toContain('absolute bottom-3');
     expect(html).toContain('Class Question');
     expect(html).not.toContain('Arrival profile');

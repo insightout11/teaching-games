@@ -29,6 +29,7 @@ export interface GameRemoteVote {
 }
 
 export interface GameProps {
+  sessionId?: string;
   students: Student[];
   currentStudentId: string | null;
   onScore: (studentId: string, result: ScoreResult) => void;

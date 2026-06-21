@@ -47,6 +47,8 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       return <ShuffleboardInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
     case 'geo-point':
       return <GeoPointInput key={spec.roundId ?? spec.prompt} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} clientId={clientId} />;
+    case 'board':
+      return <BoardInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'cabin-question':
       return <CabinQuestionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
     case 'cabin-vote':
@@ -56,6 +58,104 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     default:
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
   }
+}
+
+function BoardInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+  const categories = spec.boardCategories?.length
+    ? spec.boardCategories
+    : [{ key: 'idea', label: 'Idea' }];
+  const zones = spec.boardZones?.length
+    ? spec.boardZones
+    : [{ key: 'main', label: 'Board' }];
+  const [category, setCategory] = useState(spec.boardDefaultCategory ?? categories[0].key);
+  const [zoneKey, setZoneKey] = useState(spec.boardDefaultZone ?? zones[0].key);
+  const [value, setValue] = useState('');
+  const maxLength = spec.maxLength ?? 280;
+
+  const handleSubmit = useCallback(async () => {
+    const content = value.trim();
+    if (!content || isSubmitting || submitStatus === 'rate_limited') return;
+    await onSubmit(JSON.stringify({ content, category, zoneKey }));
+    setValue('');
+  }, [category, isSubmitting, onSubmit, submitStatus, value, zoneKey]);
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-lc-text3">{spec.boardTitle ?? 'Class Board'}</p>
+        {(spec.boardPrompt || spec.prompt) && (
+          <p className="mt-1 text-base font-medium leading-snug text-cyan-300">{spec.boardPrompt ?? spec.prompt}</p>
+        )}
+      </div>
+
+      {categories.length > 1 && (
+        <div>
+          <p className="mb-2 text-xs uppercase tracking-wider text-lc-text2">Type</p>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                onClick={() => setCategory(option.key)}
+                className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                  category === option.key
+                    ? 'border-cyan-400/60 bg-cyan-400/18 text-cyan-100'
+                    : 'border-lc-border bg-lc-surface text-lc-text2 hover:text-lc-text'
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {zones.length > 1 && (
+        <div>
+          <p className="mb-2 text-xs uppercase tracking-wider text-lc-text2">Board section</p>
+          <div className="grid gap-2">
+            {zones.map((zone) => (
+              <button
+                key={zone.key}
+                type="button"
+                onClick={() => setZoneKey(zone.key)}
+                className={`rounded-xl border px-3 py-2 text-left transition ${
+                  zoneKey === zone.key
+                    ? 'border-emerald-400/55 bg-emerald-400/14 text-emerald-100'
+                    : 'border-lc-border bg-lc-surface text-lc-text2 hover:text-lc-text'
+                }`}
+              >
+                <span className="block text-sm font-semibold">{zone.label}</span>
+                {zone.description ? <span className="mt-0.5 block text-xs opacity-70">{zone.description}</span> : null}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <textarea
+        value={value}
+        onChange={(event) => setValue(event.target.value.slice(0, maxLength))}
+        placeholder={spec.placeholder ?? 'Add your idea for the board...'}
+        maxLength={maxLength}
+        rows={4}
+        className="w-full resize-none rounded-xl border border-lc-border bg-lc-surface px-4 py-3 text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+      />
+      <div className="flex items-center justify-between">
+        <div>
+          <SubmitStatus status={submitStatus} waitSeconds={waitSeconds} />
+          <span className="ml-2 text-sm text-lc-text3">{value.length}/{maxLength}</span>
+        </div>
+        <Button
+          onClick={handleSubmit}
+          disabled={!value.trim() || isSubmitting || submitStatus === 'rate_limited'}
+          className="bg-gradient-to-r from-cyan-500 to-blue-600"
+        >
+          {isSubmitting ? 'Sending...' : 'Add to Board'}
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 // Common status display component

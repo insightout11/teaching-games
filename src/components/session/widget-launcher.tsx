@@ -71,7 +71,7 @@ export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
 
   const closedWidgets = WIDGET_REGISTRY.filter((w) => {
     const entry = widgets[w.id];
-    return entry ? !entry.isOpen : false;
+    return entry ? !entry.isOpen : w.defaultOpen === false;
   });
 
   // If all widgets are open, show a minimal icon only
