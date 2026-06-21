@@ -12,6 +12,7 @@ import { TimerContent } from '@/components/session/timer-tool';
 import { FreezeContent } from '@/components/session/freeze-widget';
 import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-suggestions-panel';
 import { DebateBoardPanel } from '@/components/session/cockpit/debate-board-panel';
+import { ClassBoardControl } from '@/components/session/class-board-control';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -218,6 +219,19 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             onShowAnswer={handleShowAnswer}
           />
         </div>
+
+        {/* Class Board — moderation lives here; the shared screen only shows approved items */}
+        {currentInputSpec?.type === 'board' && (
+          <div className="order-1 bg-[#0d1f35] rounded-2xl border border-cyan-400/20 overflow-hidden shadow-[0_0_28px_rgba(34,211,238,0.08)]">
+            <div className="px-4 py-3 border-b border-white/8">
+              <p className="text-xs text-cyan-300/70 uppercase tracking-widest font-medium">
+                {currentInputSpec.boardTitle ?? 'Class Board'}
+              </p>
+              <p className="mt-1 text-xs text-white/35">Approve student submissions to add them to the shared board.</p>
+            </div>
+            <ClassBoardControl sessionId={session.id} spec={currentInputSpec} />
+          </div>
+        )}
 
         <CaptainSuggestionsPanel
           sessionId={session.id}

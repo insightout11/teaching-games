@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Camera, Globe2, MapPin, Maximize2, RotateCcw, Trophy } from 'lucide-react';
-import { ClassBoardContent } from '@/components/session/class-board-widget';
+import { ClassBoardCanvas } from '@/components/session/class-board-canvas';
 import { DestinationMediaCard } from '@/components/place-media/destination-media-card';
 import { ImageFocusModal } from '@/components/place-media/image-focus-modal';
 import { getClassBoardPreset } from '@/lib/class-board';
@@ -156,6 +156,7 @@ export function WorldLensGame({
       boardKey: detectiveBoardKeyFor(index, round),
       boardTitle: detectivePreset.title,
       boardPrompt: detectivePreset.prompt,
+      boardLayout: detectivePreset.layout,
       boardCategories: detectivePreset.categories.map(({ key, label }) => ({ key, label })),
       boardZones: detectivePreset.zones,
       boardDefaultCategory: detectivePreset.defaultCategory,
@@ -497,7 +498,7 @@ export function WorldLensGame({
         </div>
         {phase === 'detective' && mode === 'geo-detective' && sessionId ? (
           <div className="max-h-[520px] overflow-y-auto rounded-xl border border-emerald-300/18 bg-slate-950/45">
-            <ClassBoardContent
+            <ClassBoardCanvas
               sessionId={sessionId}
               boardKey={detectiveBoardKeyFor(roundIndex, currentRound)}
               presetKey="geo-detective"

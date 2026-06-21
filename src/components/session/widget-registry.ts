@@ -5,7 +5,7 @@ import { RandomPickerContent } from './random-picker-tool';
 import { PollContent } from './poll-manager';
 import { FreezeContent } from './freeze-widget';
 import { ClassQuestionsContent } from './class-questions-widget';
-import { ClassBoardContent } from './class-board-widget';
+import { ClassBoardCanvas } from './class-board-canvas';
 
 export interface WidgetContext {
   sessionId: string;
@@ -68,7 +68,7 @@ export const WIDGET_REGISTRY: WidgetDefinition[] = [
     id: 'class-board',
     label: 'Class Board',
     iconPath: WIDGET_ICON_PATHS['class-board'],
-    component: ClassBoardContent,
+    component: ClassBoardCanvas,
     defaultOpen: false,
     getProps: (ctx) => ({ sessionId: ctx.sessionId }),
   },

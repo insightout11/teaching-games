@@ -32,18 +32,6 @@ interface WonderQuestion {
   parentId: string | null;
 }
 
-interface ClassBoardStudentItem {
-  id: string;
-  content: string;
-  displayName: string;
-  category: string;
-  zoneKey: string;
-  pinned: boolean;
-  position: number;
-  createdAt: string;
-  voteCount: number;
-}
-
 interface PersonalResults {
   totalPoints: number;
   accuracy: number | null;
@@ -79,7 +67,6 @@ interface SessionPayload {
   frozen: boolean;
   publishedQuestions: PublishedQuestion[] | null;
   wonderQuestions: WonderQuestion[] | null;
-  classBoardItems: ClassBoardStudentItem[] | null;
   personalMission: string | null;
   topic: string;
   difficulty: string;
@@ -121,7 +108,6 @@ export async function GET(request: NextRequest) {
         frozen: session.frozen ?? false,
         publishedQuestions: null,
         wonderQuestions: null,
-        classBoardItems: null,
         personalMission: null,
         topic: session.custom_topic || session.topic || 'General',
         difficulty: session.difficulty || 'Intermediate',
@@ -284,63 +270,6 @@ export async function GET(request: NextRequest) {
         }
       } catch {
         // Table not yet migrated — return null silently
-      }
-    }
-
-    // Get visible class board items when a board input is active.
-    // Wrapped in try/catch so older databases degrade while migrations roll out.
-    let classBoardItems: ClassBoardStudentItem[] | null = null;
-    const activeInputSpec = session.input_spec as { type?: string; boardKey?: string } | null;
-    if (isActive && activeInputSpec?.type === 'board') {
-      try {
-        const boardKey = typeof activeInputSpec.boardKey === 'string' && activeInputSpec.boardKey.trim()
-          ? activeInputSpec.boardKey.trim().slice(0, 80)
-          : 'class-board';
-        const { data: boardRows } = await supabase
-          .from('class_board_items')
-          .select(`
-            id,
-            content,
-            display_name,
-            category,
-            zone_key,
-            pinned,
-            position,
-            created_at,
-            class_board_votes(count)
-          `)
-          .eq('session_id', sessionId)
-          .eq('board_key', boardKey)
-          .eq('visibility', 'visible')
-          .order('pinned', { ascending: false })
-          .order('position', { ascending: true })
-          .order('created_at', { ascending: true });
-
-        if (boardRows && boardRows.length > 0) {
-          classBoardItems = (boardRows as Array<{
-            id: string;
-            content: string;
-            display_name: string;
-            category: string;
-            zone_key: string;
-            pinned: boolean;
-            position: number;
-            created_at: string;
-            class_board_votes: { count: number }[];
-          }>).map((item) => ({
-            id: item.id,
-            content: item.content,
-            displayName: item.display_name,
-            category: item.category,
-            zoneKey: item.zone_key,
-            pinned: item.pinned,
-            position: item.position,
-            createdAt: item.created_at,
-            voteCount: item.class_board_votes?.[0]?.count ?? 0,
-          }));
-        }
-      } catch {
-        // class_board tables not yet migrated - return null silently
       }
     }
 
@@ -544,7 +473,6 @@ export async function GET(request: NextRequest) {
       frozen: session.frozen ?? false,
       publishedQuestions,
       wonderQuestions,
-      classBoardItems,
       personalMission,
       topic: (session.custom_topic as string | null) || (session.topic as string) || 'General',
       difficulty: (session.difficulty as string) || 'Intermediate',

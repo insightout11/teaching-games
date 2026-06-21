@@ -157,6 +157,35 @@ export function getClassBoardPreset(key?: string | null): ClassBoardPreset {
   return CLASS_BOARD_PRESETS[key ?? DEFAULT_CLASS_BOARD_PRESET_KEY] ?? CLASS_BOARD_PRESETS[DEFAULT_CLASS_BOARD_PRESET_KEY];
 }
 
+/**
+ * Build the board-specific fields of an InputSpec from a preset. Callers spread the
+ * result into `setInputSpec({ type: 'board', ... })`. `zonesOverride` lets the teacher
+ * rename zone titles on the board and have those labels propagate to every surface.
+ */
+export function boardSpecFields(
+  preset: ClassBoardPreset,
+  boardKey: string,
+  zonesOverride?: ClassBoardZone[],
+) {
+  const zones = zonesOverride ?? preset.zones;
+  return {
+    boardKey,
+    boardTitle: preset.title,
+    boardPrompt: preset.prompt,
+    boardLayout: preset.layout,
+    boardCategories: preset.categories.map(({ key, label }) => ({ key, label })),
+    boardZones: zones.map(({ key, label, description }) => ({ key, label, description })),
+    boardDefaultCategory: preset.defaultCategory,
+    boardDefaultZone: preset.defaultZone,
+    boardAllowVotes: preset.allowVotes,
+  };
+}
+
+/** Whether a layout supports teacher-driven ranking of items within a zone. */
+export function isRankableLayout(layout?: ClassBoardLayout | null) {
+  return layout === 'ranked' || layout === 'image-evidence';
+}
+
 export function normalizeClassBoardKey(value?: string | null) {
   const trimmed = value?.trim();
   if (!trimmed) return DEFAULT_CLASS_BOARD_KEY;
