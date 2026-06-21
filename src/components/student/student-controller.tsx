@@ -49,6 +49,18 @@ interface WonderQuestion {
   voteCount: number;
 }
 
+interface ClassBoardItem {
+  id: string;
+  content: string;
+  displayName: string;
+  category: string;
+  zoneKey: string;
+  pinned: boolean;
+  position: number;
+  createdAt: string;
+  voteCount: number;
+}
+
 interface VocabItem {
   word: string;
   definition: string;
@@ -209,6 +221,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
   const [wonderVotedIds, setWonderVotedIds] = useState<Set<string>>(new Set());
   const [wonderLocalCounts, setWonderLocalCounts] = useState<Record<string, number>>({});
+  const [classBoardItems, setClassBoardItems] = useState<ClassBoardItem[]>([]);
+  const [classBoardVotedIds, setClassBoardVotedIds] = useState<Set<string>>(new Set());
+  const [classBoardLocalCounts, setClassBoardLocalCounts] = useState<Record<string, number>>({});
   const [personalMission, setPersonalMission] = useState<string | null>(null);
   const [tipIndex, setTipIndex] = useState(() => Math.floor(Math.random() * WAITING_TIPS.length));
   const [sessionTopic, setSessionTopic] = useState<string | null>(null);
@@ -318,6 +333,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setFrozen(data.frozen ?? false);
       setPublishedQuestions(data.publishedQuestions ?? []);
       setWonderQuestions(data.wonderQuestions ?? []);
+      setClassBoardItems(data.classBoardItems ?? []);
       if (data.personalMission) setPersonalMission(data.personalMission);
       if (data.topic) setSessionTopic(data.topic);
       if (data.difficulty) setSessionDifficulty(data.difficulty);
@@ -714,6 +730,29 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         body: JSON.stringify({
           sessionId,
           questionId: question.id,
+          clientId: studentSession.clientId,
+        }),
+      });
+    } catch { /* optimistic update stays */ }
+  };
+
+  const handleClassBoardVote = async (item: ClassBoardItem) => {
+    if (classBoardVotedIds.has(item.id)) return;
+
+    const newVotedIds = new Set(classBoardVotedIds).add(item.id);
+    setClassBoardVotedIds(newVotedIds);
+    setClassBoardLocalCounts((prev) => ({
+      ...prev,
+      [item.id]: Math.max(prev[item.id] ?? 0, item.voteCount) + 1,
+    }));
+
+    try {
+      await fetch('/api/class-board/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          itemId: item.id,
           clientId: studentSession.clientId,
         }),
       });
@@ -1312,6 +1351,51 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   </div>
                 );
               })}
+          </div>
+        </div>
+      )}
+
+      {/* Class Board — approved items shown while a board prompt is active, with upvoting */}
+      {inputSpec?.type === 'board' && classBoardItems.length > 0 && (
+        <div className="glass rounded-2xl p-6 mb-4">
+          <h2 className="font-bold text-white mb-1">{inputSpec.boardTitle ?? 'Class Board'}</h2>
+          <p className="text-xs text-gray-400 mb-3">
+            {inputSpec.boardAllowVotes === false ? 'Ideas shared by your class.' : 'Upvote the ideas you think are best.'}
+          </p>
+          <div className="space-y-2">
+            {classBoardItems.map((item) => {
+              const displayCount = Math.max(classBoardLocalCounts[item.id] ?? 0, item.voteCount);
+              const hasVoted = classBoardVotedIds.has(item.id);
+              const categoryLabel = inputSpec.boardCategories?.find((category) => category.key === item.category)?.label ?? item.category;
+              const zoneLabel = inputSpec.boardZones?.find((zone) => zone.key === item.zoneKey)?.label;
+              return (
+                <div key={item.id} className="flex items-start gap-3 rounded-xl bg-white/5 p-3">
+                  {inputSpec.boardAllowVotes !== false && (
+                    <button
+                      onClick={() => handleClassBoardVote(item)}
+                      disabled={hasVoted}
+                      className={`flex-shrink-0 flex flex-col items-center gap-0.5 transition-colors ${
+                        hasVoted ? 'text-emerald-400' : 'text-gray-500 hover:text-emerald-400'
+                      } disabled:cursor-default`}
+                    >
+                      <svg className="w-4 h-4" fill={hasVoted ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                      </svg>
+                      <span className="text-xs font-bold">{displayCount}</span>
+                    </button>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-1 flex flex-wrap items-center gap-1.5">
+                      <span className="rounded-full bg-cyan-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-cyan-300">{categoryLabel}</span>
+                      {zoneLabel ? <span className="text-[10px] text-gray-500">{zoneLabel}</span> : null}
+                      {item.pinned ? <span className="text-[10px] text-amber-300">Pinned</span> : null}
+                    </div>
+                    <p className="text-sm leading-relaxed text-gray-200">{item.content}</p>
+                    <p className="mt-1 text-[10px] text-gray-500">{item.displayName}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
