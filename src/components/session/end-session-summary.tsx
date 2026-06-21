@@ -6,7 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowUpRight, Gauge, PlaneLanding, Crown, Star, Users } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Clock3, Gauge, PlaneLanding, Crown, Star, Users } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
@@ -158,9 +158,12 @@ export function EndSessionSummary({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45 }}
           >
-            <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4">
+            <div className="flex flex-col gap-4 border-b border-white/10 px-5 py-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200/75">Crew progression</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200/75">World Flight rewards</p>
+                <p className="mt-1 text-xs leading-relaxed text-lc-text3">
+                  Game points decide today&apos;s standings. World Flight upgrades use class totals: flight hours plus crew stars.
+                </p>
                 <p className="mt-1 text-lg font-bold text-lc-text">+1 Flight Hour · +{progressionReward.crewStarsAwarded} Crew Stars</p>
               </div>
               <div className="shrink-0 text-right">
@@ -170,45 +173,33 @@ export function EndSessionSummary({
             </div>
             <div className="grid gap-px bg-white/10 sm:grid-cols-2">
               <ProgressionResult
+                earned
+                icon={<Clock3 className="h-4 w-4" aria-hidden />}
+                title="Flight Hour"
+                detail="Every completed World Flight lesson adds one class flight hour."
+              />
+              <ProgressionResult
+                earned={progressionReward.crewStarsAwarded > 0}
+                icon={<Star className="h-4 w-4" aria-hidden />}
+                title="Crew Stars"
+                detail={`This lesson earned ${progressionReward.crewStarsAwarded}/2 possible crew stars.`}
+              />
+              <ProgressionResult
                 earned={progressionReward.snapshot.everyoneAboardEarned}
                 icon={<Users className="h-4 w-4" aria-hidden />}
                 title="Everyone Aboard"
-                detail={`${progressionReward.snapshot.meaningfulParticipantCount}/${progressionReward.snapshot.participantCount} crew members contributed`}
+                detail={`${progressionReward.snapshot.meaningfulParticipantCount}/${progressionReward.snapshot.participantCount} crew members contributed. Earns 1 crew star.`}
               />
               <ProgressionResult
                 earned={progressionReward.snapshot.strongLandingEarned}
-                icon={<Star className="h-4 w-4" aria-hidden />}
+                icon={<CheckCircle2 className="h-4 w-4" aria-hidden />}
                 title="Strong Landing"
                 detail={progressionReward.snapshot.accuracyRate !== null
-                  ? `${Math.round(progressionReward.snapshot.accuracyRate * 100)}% class accuracy`
-                  : `${Math.round(progressionReward.snapshot.onTaskParticipationRate * 100)}% made an on-task contribution`}
+                  ? `${Math.round(progressionReward.snapshot.accuracyRate * 100)}% class accuracy. Earns 1 crew star.`
+                  : `${Math.round(progressionReward.snapshot.onTaskParticipationRate * 100)}% made an on-task contribution. Earns 1 crew star.`}
               />
             </div>
-            {progressionReward.upgradeState?.claimableTier && progressionReward.upgradeState.claimableRangeKm && (
-              <div className="border-t border-lc-amber/20 bg-lc-amber/[0.055] px-5 py-4">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex min-w-0 items-start gap-3">
-                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-lc-amber/30 bg-lc-amber/15 text-lc-amber">
-                      <Gauge className="h-4 w-4" aria-hidden />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-lc-amber/80">Range upgrade ready</p>
-                      <p className="mt-1 text-sm font-semibold text-lc-text">
-                        Tier {progressionReward.upgradeState.claimableTier}: {formatDistance(progressionReward.upgradeState.currentRangeKm)} to {formatDistance(progressionReward.upgradeState.claimableRangeKm)}
-                      </p>
-                      <p className="mt-1 text-xs leading-relaxed text-lc-text3">Claim it in the class passport to open more possible destinations.</p>
-                    </div>
-                  </div>
-                  <Link
-                    href="/world-flight"
-                    className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-lc-amber/35 bg-lc-amber/15 px-4 text-xs font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/20"
-                  >
-                    Open Passport
-                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
-                  </Link>
-                </div>
-              </div>
-            )}
+            <WorldFlightUpgradeProgress reward={progressionReward} />
           </motion.section>
         )}
 
@@ -323,6 +314,141 @@ export function EndSessionSummary({
       </motion.div>
     </div>
   );
+}
+
+function WorldFlightUpgradeProgress({ reward }: { reward: WorldFlightProgressionRewardResult }) {
+  const upgradeState = reward.upgradeState;
+  if (!upgradeState) {
+    return (
+      <div className="border-t border-white/10 px-5 py-4">
+        <div className="rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3 text-sm text-lc-text2">
+          World Flight progress is saved after the class completes a city lesson.
+        </div>
+      </div>
+    );
+  }
+
+  const targetMilestone = upgradeState.claimableTier
+    ? upgradeState.latestUnlockedMilestone
+    : upgradeState.nextMilestone;
+  const hourTarget = targetMilestone?.requiredFlightHours ?? Math.max(reward.flightHours, 1);
+  const starTarget = targetMilestone?.requiredCrewStars ?? Math.max(reward.crewStars, 1);
+  const targetRangeKm = upgradeState.claimableRangeKm ?? upgradeState.nextRangeTier?.rangeKm ?? upgradeState.currentRangeKm;
+  const upgradeReady = upgradeState.claimableTier !== null && upgradeState.claimableRangeKm !== null;
+
+  return (
+    <div className="border-t border-white/10 px-5 py-5">
+      <div className={`rounded-2xl border p-4 ${
+        upgradeReady
+          ? 'border-lc-amber/35 bg-lc-amber/[0.07]'
+          : 'border-cyan-200/18 bg-cyan-300/[0.045]'
+      }`}>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100/75">
+              <Gauge className="h-4 w-4" aria-hidden />
+              Range upgrade progress
+            </p>
+            <h3 className="mt-1 text-lg font-bold text-lc-text">
+              {upgradeReady
+                ? `Tier ${upgradeState.claimableTier} upgrade ready`
+                : upgradeState.fullyUpgraded
+                  ? 'Maximum range active'
+                  : `Next range: ${formatDistance(targetRangeKm)}`}
+            </h3>
+            <p className="mt-1 text-xs leading-relaxed text-lc-text3">
+              {upgradeReady
+                ? 'Claim this in World Flight to expand the class flight range immediately.'
+                : upgradeState.fullyUpgraded
+                  ? 'The class has reached the current top range tier.'
+                  : 'Range upgrades unlock when both progress bars reach the next tier.'}
+            </p>
+          </div>
+          <div className="shrink-0 rounded-xl border border-white/10 bg-slate-950/55 px-3 py-2 text-right">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-lc-text3">Current range</p>
+            <p className="mt-0.5 text-sm font-bold text-cyan-100">
+              {formatDistance(upgradeState.currentRangeKm)}
+              {targetRangeKm > upgradeState.currentRangeKm && (
+                <span className="text-lc-amber"> to {formatDistance(targetRangeKm)}</span>
+              )}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <UpgradeMeter
+            icon={<Clock3 className="h-4 w-4" aria-hidden />}
+            label="Flight Hours"
+            value={reward.flightHours}
+            target={hourTarget}
+          />
+          <UpgradeMeter
+            icon={<Star className="h-4 w-4" aria-hidden />}
+            label="Crew Stars"
+            value={reward.crewStars}
+            target={starTarget}
+          />
+        </div>
+
+        <div className="mt-4 rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-lc-text2">How upgrades work</p>
+          <ul className="mt-2 space-y-1.5 text-xs leading-relaxed text-lc-text3">
+            <li>Complete a World Flight lesson: +1 flight hour.</li>
+            <li>Earn crew stars as a class: +1 for Everyone Aboard, +1 for Strong Landing.</li>
+            <li>When both totals reach the next tier, claim the range upgrade in World Flight.</li>
+          </ul>
+        </div>
+
+        {upgradeReady && (
+          <div className="mt-4 flex flex-col gap-3 rounded-xl border border-lc-amber/25 bg-lc-amber/[0.08] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-semibold text-lc-text">
+              Ready to expand from {formatDistance(upgradeState.currentRangeKm)} to {formatDistance(upgradeState.claimableRangeKm!)}.
+            </p>
+            <Link
+              href="/world-flight"
+              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-lc-amber/35 bg-lc-amber/15 px-4 text-xs font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/20"
+            >
+              Claim Upgrade
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function UpgradeMeter({
+  icon,
+  label,
+  value,
+  target,
+}: {
+  icon: ReactNode;
+  label: string;
+  value: number;
+  target: number;
+}) {
+  const progress = percent(value, target);
+  return (
+    <div className="rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3">
+      <div className="flex items-center justify-between gap-3">
+        <p className="flex items-center gap-2 text-sm font-semibold text-lc-text">
+          {icon}
+          {label}
+        </p>
+        <p className="text-sm font-bold text-cyan-100">{value}/{target}</p>
+      </div>
+      <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-white/10">
+        <div className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-lc-amber" style={{ width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function percent(value: number, target: number) {
+  if (target <= 0) return 100;
+  return Math.max(0, Math.min(100, Math.round((value / target) * 100)));
 }
 
 function ProgressionResult({
