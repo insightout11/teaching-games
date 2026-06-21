@@ -73,7 +73,7 @@ export function ImageFocusModal({
       onClick={onClose}
     >
       <div
-        className="relative flex h-full max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-cyan-300/20 bg-[#071426] shadow-[0_0_50px_rgba(34,211,238,0.18)]"
+        className="relative flex h-[94vh] w-full max-w-7xl flex-col overflow-hidden rounded-2xl border border-cyan-300/20 bg-[#071426] shadow-[0_0_50px_rgba(34,211,238,0.18)]"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3">
