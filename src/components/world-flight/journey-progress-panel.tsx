@@ -181,6 +181,7 @@ export function JourneyProgressPanel({
               target={progressTargetMilestone?.requiredCrewStars ?? crewStars}
             />
           </div>
+          <UpgradeMechanicSummary planeSelectionRequired={planeSelectionRequired} />
           <div className={`mt-3 rounded-md border px-3 py-3 ${
             claimableTier || planeSelectionRequired
               ? 'border-lc-amber/30 bg-lc-amber/[0.07]'
@@ -530,6 +531,62 @@ function ProgressMetric({
       </div>
       <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
         <div className="h-full rounded-full bg-cyan-300" style={{ width: `${percent}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function UpgradeMechanicSummary({
+  planeSelectionRequired,
+}: {
+  planeSelectionRequired: boolean;
+}) {
+  const rows: Array<{ icon: ReactNode; label: string; detail: string; active?: boolean }> = [
+    {
+      icon: <Clock3 className="h-3.5 w-3.5" aria-hidden />,
+      label: 'Hours',
+      detail: 'Completed city lessons move the upgrade track.',
+    },
+    {
+      icon: <Star className="h-3.5 w-3.5" aria-hidden />,
+      label: 'Stars',
+      detail: 'Class participation and strong landings add stars.',
+    },
+    {
+      icon: <Plane className="h-3.5 w-3.5" aria-hidden />,
+      label: 'Aircraft',
+      detail: 'A claimed tier unlocks same-range plane choices.',
+      active: planeSelectionRequired,
+    },
+    {
+      icon: <Gauge className="h-3.5 w-3.5" aria-hidden />,
+      label: 'Range',
+      detail: 'The chosen aircraft activates the new range.',
+      active: planeSelectionRequired,
+    },
+  ];
+
+  return (
+    <div className="mt-3 rounded-md border border-white/10 bg-white/[0.025] px-3 py-3">
+      <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100/70">
+        Upgrade loop
+      </p>
+      <div className="mt-2 grid gap-2">
+        {rows.map((row) => (
+          <div key={row.label} className="flex gap-2 text-xs leading-snug">
+            <span className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border ${
+              row.active
+                ? 'border-lc-amber/35 bg-lc-amber/12 text-lc-amber'
+                : 'border-white/10 bg-white/[0.035] text-cyan-100/70'
+            }`}>
+              {row.icon}
+            </span>
+            <span className="min-w-0">
+              <span className="block font-semibold text-lc-text2">{row.label}</span>
+              <span className="block text-lc-text3">{row.detail}</span>
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
