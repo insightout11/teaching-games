@@ -81,6 +81,8 @@ export interface InputSpec {
   boardDefaultZone?: string;
   /** Class Board: whether visible board items can be upvoted. */
   boardAllowVotes?: boolean;
+  /** Class Board: question-wall mode (Wonder Board) — enables answers + follow-up replies on items. */
+  boardQuestionWall?: boolean;
   /** Initial map center as [longitude, latitude]. */
   mapCenter?: [number, number];
   /** Initial map zoom level. */

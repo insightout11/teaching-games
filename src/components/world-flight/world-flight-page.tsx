@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker as MapLibreMarker, type Popup as MapLibrePopup } from 'maplibre-gl';
-import { ArrowRight, BookOpen, Check, ChevronDown, ChevronLeft, Compass, ExternalLink, Gauge, Globe2, Info, Map as MapIcon, MapPin, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, PlaneTakeoff, Play, Radar, Route, ScanSearch, Search, Stamp, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, Clock3, Compass, ExternalLink, Gauge, Globe2, Info, Loader2, Map as MapIcon, MapPin, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Plane, PlaneTakeoff, Play, Radar, Route, ScanSearch, Search, Stamp, Star, X } from 'lucide-react';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { WORLD_FLIGHT_MAP_STYLE } from '@/data/world-flight/map-style';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
@@ -14,6 +14,7 @@ import { buildTravelContext } from '@/lib/world-flight/travel-context';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
+import { getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
 import {
   deriveWorldFlightExpeditionProgress,
   getWorldFlightExpedition,
@@ -481,6 +482,133 @@ function SidebarModeButton({
       {icon}
       <span className="truncate">{label}</span>
     </button>
+  );
+}
+
+function CrewProgressSummaryCard({
+  planeTier,
+  planeName,
+  rangeKm,
+  flightHours,
+  crewStars,
+  actionStatus,
+  onClaimUpgrade,
+  onOpenPassport,
+}: {
+  planeTier: number;
+  planeName: string;
+  rangeKm: number;
+  flightHours: number;
+  crewStars: number;
+  actionStatus: 'idle' | 'working' | 'error';
+  onClaimUpgrade: () => void;
+  onOpenPassport: () => void;
+}) {
+  const upgradeState = getWorldFlightUpgradeState({ planeTier, rangeKm, flightHours, crewStars });
+  const claimable = upgradeState.claimableTier !== null;
+  const targetRangeKm = upgradeState.claimableRangeKm ?? upgradeState.nextRangeTier?.rangeKm ?? upgradeState.currentRangeKm;
+  const nextMilestone = upgradeState.nextMilestone;
+  const hourTarget = nextMilestone?.requiredFlightHours ?? Math.max(flightHours, 1);
+  const starTarget = nextMilestone?.requiredCrewStars ?? Math.max(crewStars, 1);
+  const hourProgress = Math.min(100, Math.round((flightHours / Math.max(hourTarget, 1)) * 100));
+  const starProgress = Math.min(100, Math.round((crewStars / Math.max(starTarget, 1)) * 100));
+
+  return (
+    <div className={`rounded-lg border p-3 ${
+      claimable
+        ? 'border-lc-amber/35 bg-lc-amber/[0.075]'
+        : 'border-cyan-200/18 bg-cyan-300/[0.055]'
+    }`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100/75">
+            <Plane className="h-3.5 w-3.5" aria-hidden />
+            Crew progress
+          </p>
+          <p className="mt-1 truncate text-sm font-semibold text-lc-text">
+            {claimable
+              ? `Tier ${upgradeState.claimableTier} range ready`
+              : upgradeState.fullyUpgraded
+                ? 'Maximum range active'
+                : `${formatDistance(upgradeState.currentRangeKm)} range`}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={onOpenPassport}
+          className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border border-white/12 bg-white/[0.04] px-2.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2 transition-colors hover:border-cyan-200/35 hover:text-lc-text"
+        >
+          <Stamp className="h-3.5 w-3.5" aria-hidden />
+          Passport
+        </button>
+      </div>
+
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        <CrewProgressMeter icon={<Clock3 className="h-3.5 w-3.5" />} label="Flight Hours" value={flightHours} target={hourTarget} percent={hourProgress} />
+        <CrewProgressMeter icon={<Star className="h-3.5 w-3.5" />} label="Crew Stars" value={crewStars} target={starTarget} percent={starProgress} />
+      </div>
+
+      <div className="mt-3 flex items-center justify-between gap-3 rounded-md border border-white/10 bg-[var(--wf-surface)] px-3 py-2">
+        <div className="min-w-0">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-lc-text3">Range</p>
+          <p className="mt-0.5 truncate text-xs font-semibold text-lc-text">
+            {formatDistance(upgradeState.currentRangeKm)}
+            {targetRangeKm > upgradeState.currentRangeKm ? ` -> ${formatDistance(targetRangeKm)}` : ''}
+          </p>
+        </div>
+        {claimable ? (
+          <button
+            type="button"
+            onClick={onClaimUpgrade}
+            disabled={actionStatus === 'working'}
+            className="inline-flex min-h-8 shrink-0 items-center justify-center gap-1.5 rounded-md border border-lc-amber/35 bg-lc-amber/15 px-2.5 text-[10px] font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/22 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {actionStatus === 'working'
+              ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+              : <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />}
+            Claim
+          </button>
+        ) : (
+          <span className="shrink-0 text-right text-[10px] font-medium leading-snug text-lc-text3">
+            {upgradeState.fullyUpgraded
+              ? planeName
+              : `${upgradeState.needsFlightHours}h + ${upgradeState.needsCrewStars} stars needed`}
+          </span>
+        )}
+      </div>
+      {actionStatus === 'error' && (
+        <p className="mt-2 text-xs font-medium text-red-300">Could not claim the upgrade. Refresh and try again.</p>
+      )}
+    </div>
+  );
+}
+
+function CrewProgressMeter({
+  icon,
+  label,
+  value,
+  target,
+  percent,
+}: {
+  icon: ReactNode;
+  label: string;
+  value: number;
+  target: number;
+  percent: number;
+}) {
+  return (
+    <div className="rounded-md border border-white/10 bg-white/[0.035] px-2.5 py-2">
+      <div className="flex items-center justify-between gap-2">
+        <span className="flex min-w-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
+          {icon}
+          <span className="truncate">{label}</span>
+        </span>
+        <span className="shrink-0 text-xs font-semibold text-lc-text">{value}/{target}</span>
+      </div>
+      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+        <div className="h-full rounded-full bg-cyan-300" style={{ width: `${percent}%` }} />
+      </div>
+    </div>
   );
 }
 
@@ -1703,6 +1831,18 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 </p>
               )}
             </div>
+            {selectedClass && sidebarMode !== 'passport' && (
+              <CrewProgressSummaryCard
+                planeTier={selectedClass.planeTier ?? 0}
+                planeName={planeName}
+                rangeKm={rangeKm}
+                flightHours={selectedClass.flightHours ?? 0}
+                crewStars={selectedClass.crewStars ?? 0}
+                actionStatus={upgradeActionStatus}
+                onClaimUpgrade={claimRangeUpgrade}
+                onOpenPassport={() => setSidebarMode('passport')}
+              />
+            )}
             <div className="grid grid-cols-4 gap-1 rounded-md border border-white/15 bg-[var(--wf-surface)] p-1">
               <SidebarModeButton active={sidebarMode === 'destinations'} icon={<MapIcon className="h-3.5 w-3.5" />} label="Cities" onClick={() => setSidebarMode('destinations')} />
               <SidebarModeButton active={sidebarMode === 'expeditions'} icon={<Compass className="h-3.5 w-3.5" />} label="Expeditions" onClick={() => setSidebarMode('expeditions')} />

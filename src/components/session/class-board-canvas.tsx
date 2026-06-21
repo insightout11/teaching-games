@@ -23,8 +23,10 @@ interface ClassBoardCanvasProps {
   sessionId: string;
   /** Base board namespace. World Lens passes a per-round key; the widget defaults to `class-board`. */
   boardKey?: string;
-  /** When set, the template is locked to this preset (World Lens) — no switcher, liveness managed externally. */
+  /** When set, the template is locked to this preset (World Lens, Wonder Board) — no switcher, liveness managed externally. */
   presetKey?: string;
+  /** Question-wall mode (Wonder Board): each item is a question that can be answered + replied to. */
+  questionWall?: boolean;
 }
 
 interface BoardItem {
@@ -39,6 +41,10 @@ interface BoardItem {
   position: number;
   createdAt: string;
   voteCount: number;
+  answer: string | null;
+  answerType: string | null;
+  answeredAt: string | null;
+  parentId: string | null;
 }
 
 /** Tailwind grid columns for each board layout. Literal classes so Tailwind keeps them. */
@@ -61,7 +67,7 @@ function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
   }
 }
 
-export function ClassBoardCanvas({ sessionId, boardKey, presetKey }: ClassBoardCanvasProps) {
+export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false }: ClassBoardCanvasProps) {
   const templateLocked = Boolean(presetKey);
   const [selectedPresetKey, setSelectedPresetKey] = useState(presetKey ?? DEFAULT_CLASS_BOARD_PRESET_KEY);
   const preset = useMemo(() => getClassBoardPreset(selectedPresetKey), [selectedPresetKey]);
@@ -76,6 +82,9 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey }: ClassBoardC
   const [editingZoneKey, setEditingZoneKey] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
   const [savingZone, setSavingZone] = useState<string | null>(null);
+  const [answeringId, setAnsweringId] = useState<string | null>(null);
+  const [answerText, setAnswerText] = useState('');
+  const [busyAnswerId, setBusyAnswerId] = useState<string | null>(null);
 
   const base = boardKey ?? DEFAULT_CLASS_BOARD_KEY;
   const activeBoardKey = normalizeClassBoardKey(templateLocked ? base : `${base}-${selectedPresetKey}`);
@@ -89,10 +98,12 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey }: ClassBoardC
   const isLive = inputSpec?.type === 'board' && inputSpec.boardKey === activeBoardKey;
   const rankable = isRankableLayout(preset.layout);
 
+  // In question-wall mode, follow-up replies (parentId set) thread under their parent
+  // rather than appearing as their own cards in a zone.
   const visibleItems = useMemo(
     () =>
       items
-        .filter((item) => item.visibility === 'visible')
+        .filter((item) => item.visibility === 'visible' && !(questionWall && item.parentId))
         .sort(
           (a, b) =>
             Number(b.pinned) - Number(a.pinned) ||
@@ -100,7 +111,15 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey }: ClassBoardC
               ? a.position - b.position || a.createdAt.localeCompare(b.createdAt)
               : b.voteCount - a.voteCount || a.createdAt.localeCompare(b.createdAt)),
         ),
-    [items, rankable],
+    [items, rankable, questionWall],
+  );
+
+  const repliesFor = useCallback(
+    (parentId: string) =>
+      items
+        .filter((item) => item.visibility === 'visible' && item.parentId === parentId)
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
+    [items],
   );
 
   // Reset renamed titles when the template changes.
@@ -241,10 +260,108 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey }: ClassBoardC
     [buildSpec, editText, isLive, preset, setInputSpec, zoneLabels],
   );
 
+  const answerQuestion = useCallback(
+    async (itemId: string, type: 'ai' | 'teacher') => {
+      if (busyAnswerId) return;
+      if (type === 'teacher' && !answerText.trim()) return;
+      setBusyAnswerId(itemId);
+      try {
+        const res = await fetch('/api/class-board/answer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId,
+            itemId,
+            answerType: type,
+            answerText: type === 'teacher' ? answerText.trim() : undefined,
+          }),
+        });
+        if (res.ok) {
+          setAnsweringId(null);
+          setAnswerText('');
+          void loadItems();
+        }
+      } finally {
+        setBusyAnswerId(null);
+      }
+    },
+    [answerText, busyAnswerId, loadItems, sessionId],
+  );
+
   const itemsForZone = useCallback(
     (zoneKey: string) => visibleItems.filter((item) => item.zoneKey === zoneKey),
     [visibleItems],
   );
+
+  const renderQuestionExtras = (item: BoardItem) => {
+    const replies = repliesFor(item.id);
+    const isAnswering = answeringId === item.id;
+    return (
+      <div className="mt-2 space-y-2">
+        {item.answer ? (
+          <div className="rounded-md border border-emerald-400/25 bg-emerald-400/[0.07] px-2.5 py-2">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-300/80">
+              {item.answerType === 'ai' ? 'AI answer' : 'Answer'}
+            </p>
+            <p className="mt-0.5 text-xs leading-snug text-emerald-50">{item.answer}</p>
+          </div>
+        ) : isAnswering ? (
+          <div className="rounded-md border border-cyan-400/30 bg-slate-900/70 p-2">
+            <textarea
+              autoFocus
+              value={answerText}
+              onChange={(event) => setAnswerText(event.target.value.slice(0, 300))}
+              rows={2}
+              placeholder="Type an answer…"
+              className="w-full resize-none rounded-md border border-white/10 bg-slate-950 px-2 py-1.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+            />
+            <div className="mt-1.5 flex items-center justify-end gap-1.5">
+              <button
+                onClick={() => { setAnsweringId(null); setAnswerText(''); }}
+                className="rounded-md px-2 py-1 text-[11px] text-slate-400 hover:text-slate-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => void answerQuestion(item.id, 'teacher')}
+                disabled={!answerText.trim() || busyAnswerId === item.id}
+                className="rounded-md bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 text-[11px] font-semibold text-white disabled:opacity-40"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-1.5">
+            <button
+              onClick={() => setAnsweringId(item.id)}
+              className="rounded-md bg-white/8 px-2.5 py-1 text-[11px] font-semibold text-lc-text3 hover:bg-white/12"
+            >
+              Answer
+            </button>
+            <button
+              onClick={() => void answerQuestion(item.id, 'ai')}
+              disabled={busyAnswerId === item.id}
+              className="rounded-md bg-violet-500/15 px-2.5 py-1 text-[11px] font-semibold text-violet-200 hover:bg-violet-500/25 disabled:opacity-40"
+            >
+              {busyAnswerId === item.id ? 'Thinking…' : 'Quick Answer'}
+            </button>
+          </div>
+        )}
+
+        {replies.length > 0 && (
+          <div className="space-y-1 border-l border-white/10 pl-2">
+            {replies.map((reply) => (
+              <p key={reply.id} className="text-[11px] leading-snug text-slate-300">
+                <span className="text-slate-500">{reply.displayName}: </span>
+                {reply.content}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const renderZone = (zone: ClassBoardZone, index: number) => {
     const zoneItems = itemsForZone(zone.key);
@@ -295,11 +412,19 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey }: ClassBoardC
                   : 'border-white/10 bg-white/[0.04] text-slate-100'
               }`}
             >
-              {rankable && <span className="mr-2 font-game text-cyan-300">{itemIndex + 1}.</span>}
-              <span>{item.content}</span>
-              {item.authorType === 'student' && (
-                <span className="mt-1 block text-[10px] uppercase tracking-wider text-slate-400">{item.displayName}</span>
-              )}
+              <div className="flex items-start justify-between gap-2">
+                <p>
+                  {rankable && <span className="mr-2 font-game text-cyan-300">{itemIndex + 1}.</span>}
+                  <span>{item.content}</span>
+                  {item.authorType === 'student' && (
+                    <span className="mt-1 block text-[10px] uppercase tracking-wider text-slate-400">{item.displayName}</span>
+                  )}
+                </p>
+                {questionWall && item.voteCount > 0 && (
+                  <span className="shrink-0 rounded-full bg-amber-400/15 px-2 py-0.5 text-[10px] font-bold text-amber-300">↑ {item.voteCount}</span>
+                )}
+              </div>
+              {questionWall && renderQuestionExtras(item)}
             </div>
           ))}
 

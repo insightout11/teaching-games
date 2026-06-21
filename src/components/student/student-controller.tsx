@@ -59,6 +59,9 @@ interface ClassBoardItem {
   position: number;
   createdAt: string;
   voteCount: number;
+  answer: string | null;
+  answeredAt: string | null;
+  parentId: string | null;
 }
 
 interface VocabItem {
@@ -224,6 +227,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [classBoardItems, setClassBoardItems] = useState<ClassBoardItem[]>([]);
   const [classBoardVotedIds, setClassBoardVotedIds] = useState<Set<string>>(new Set());
   const [classBoardLocalCounts, setClassBoardLocalCounts] = useState<Record<string, number>>({});
+  const [classBoardReplyTo, setClassBoardReplyTo] = useState<string | null>(null);
+  const [classBoardReplyText, setClassBoardReplyText] = useState('');
+  const [classBoardReplyBusy, setClassBoardReplyBusy] = useState(false);
   const [personalMission, setPersonalMission] = useState<string | null>(null);
   const [tipIndex, setTipIndex] = useState(() => Math.floor(Math.random() * WAITING_TIPS.length));
   const [sessionTopic, setSessionTopic] = useState<string | null>(null);
@@ -757,6 +763,35 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         }),
       });
     } catch { /* optimistic update stays */ }
+  };
+
+  const handleClassBoardReply = async (parent: ClassBoardItem) => {
+    const content = classBoardReplyText.trim();
+    if (!content || classBoardReplyBusy) return;
+    setClassBoardReplyBusy(true);
+    try {
+      const res = await fetch('/api/class-board/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          boardKey: inputSpec?.boardKey,
+          authorType: 'student',
+          clientId: studentSession.clientId,
+          displayName: studentSession.displayName,
+          content,
+          category: parent.category,
+          zoneKey: parent.zoneKey,
+          parentId: parent.id,
+        }),
+      });
+      if (res.ok) {
+        setClassBoardReplyTo(null);
+        setClassBoardReplyText('');
+      }
+    } finally {
+      setClassBoardReplyBusy(false);
+    }
   };
 
   const currentSignalName = inputSpec ? getSignalName(inputSpec.gameKey) : null;
@@ -1356,18 +1391,19 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       )}
 
       {/* Class Board — approved items shown while a board prompt is active, with upvoting */}
-      {inputSpec?.type === 'board' && classBoardItems.length > 0 && (
+      {inputSpec?.type === 'board' && classBoardItems.some((item) => !item.parentId) && (
         <div className="glass rounded-2xl p-6 mb-4">
           <h2 className="font-bold text-white mb-1">{inputSpec.boardTitle ?? 'Class Board'}</h2>
           <p className="text-xs text-gray-400 mb-3">
             {inputSpec.boardAllowVotes === false ? 'Ideas shared by your class.' : 'Upvote the ideas you think are best.'}
           </p>
           <div className="space-y-2">
-            {classBoardItems.map((item) => {
+            {classBoardItems.filter((item) => !item.parentId).map((item) => {
               const displayCount = Math.max(classBoardLocalCounts[item.id] ?? 0, item.voteCount);
               const hasVoted = classBoardVotedIds.has(item.id);
               const categoryLabel = inputSpec.boardCategories?.find((category) => category.key === item.category)?.label ?? item.category;
               const zoneLabel = inputSpec.boardZones?.find((zone) => zone.key === item.zoneKey)?.label;
+              const isReplying = classBoardReplyTo === item.id;
               return (
                 <div key={item.id} className="flex items-start gap-3 rounded-xl bg-white/5 p-3">
                   {inputSpec.boardAllowVotes !== false && (
@@ -1392,6 +1428,48 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                     </div>
                     <p className="text-sm leading-relaxed text-gray-200">{item.content}</p>
                     <p className="mt-1 text-[10px] text-gray-500">{item.displayName}</p>
+                    {item.answer && (
+                      <div className="mt-2 rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-2">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-300/80">Answer</p>
+                        <p className="mt-0.5 text-xs leading-snug text-emerald-50">{item.answer}</p>
+                      </div>
+                    )}
+                    {inputSpec.boardQuestionWall && item.answer && (
+                      isReplying ? (
+                        <div className="mt-2">
+                          <textarea
+                            value={classBoardReplyText}
+                            onChange={(e) => setClassBoardReplyText(e.target.value.slice(0, 200))}
+                            rows={2}
+                            autoFocus
+                            placeholder="Your follow-up..."
+                            className="w-full resize-none rounded-lg border border-white/15 bg-lc-surface px-3 py-2 text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+                          />
+                          <div className="mt-1.5 flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => { setClassBoardReplyTo(null); setClassBoardReplyText(''); }}
+                              className="text-xs text-gray-400 hover:text-gray-200"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={() => handleClassBoardReply(item)}
+                              disabled={!classBoardReplyText.trim() || classBoardReplyBusy}
+                              className="rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-40"
+                            >
+                              {classBoardReplyBusy ? 'Sending...' : 'Send'}
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => { setClassBoardReplyTo(item.id); setClassBoardReplyText(''); }}
+                          className="mt-2 text-[11px] font-semibold text-cyan-300 hover:text-cyan-200"
+                        >
+                          Follow up
+                        </button>
+                      )
+                    )}
                   </div>
                 </div>
               );

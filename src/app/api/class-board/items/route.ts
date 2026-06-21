@@ -21,6 +21,7 @@ type ClassBoardItemRow = {
   pinned: boolean;
   position: number;
   created_at: string;
+  metadata?: { answer?: string; answerType?: string; answeredAt?: string; parentId?: string } | null;
   class_board_votes?: { count: number }[];
 };
 
@@ -40,6 +41,10 @@ function mapItem(row: ClassBoardItemRow) {
     position: row.position,
     createdAt: row.created_at,
     voteCount: row.class_board_votes?.[0]?.count ?? 0,
+    answer: row.metadata?.answer ?? null,
+    answerType: row.metadata?.answerType ?? null,
+    answeredAt: row.metadata?.answeredAt ?? null,
+    parentId: row.metadata?.parentId ?? null,
   };
 }
 
@@ -92,7 +97,7 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await auth.supabase
       .from('class_board_items')
-      .select('id, session_id, board_key, author_type, client_id, display_name, category, zone_key, content, visibility, pinned, position, created_at, class_board_votes(count)')
+      .select('id, session_id, board_key, author_type, client_id, display_name, category, zone_key, content, visibility, pinned, position, created_at, metadata, class_board_votes(count)')
       .eq('session_id', sessionId)
       .eq('board_key', boardKey)
       .neq('visibility', 'hidden')

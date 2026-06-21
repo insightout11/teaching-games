@@ -17,6 +17,7 @@ interface SubmitRequest {
   zoneKey?: string;
   visibility?: ClassBoardVisibility;
   position?: number;
+  parentId?: string;
 }
 
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -139,6 +140,8 @@ export async function POST(request: NextRequest) {
       ? body.visibility === 'pending' ? 'pending' : 'visible'
       : 'pending';
     const position = Number.isFinite(body.position) ? Math.max(0, Math.trunc(body.position!)) : 0;
+    const parentId = body.parentId && uuidRegex.test(body.parentId) ? body.parentId : undefined;
+    const metadata = parentId ? { parentId } : {};
 
     const { data: item, error: insertError } = await auth.supabase
       .from('class_board_items')
@@ -153,6 +156,7 @@ export async function POST(request: NextRequest) {
         content,
         visibility,
         position,
+        metadata,
       })
       .select()
       .single();

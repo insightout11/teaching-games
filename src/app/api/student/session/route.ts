@@ -42,6 +42,9 @@ interface ClassBoardStudentItem {
   position: number;
   createdAt: string;
   voteCount: number;
+  answer: string | null;
+  answeredAt: string | null;
+  parentId: string | null;
 }
 
 interface PersonalResults {
@@ -307,6 +310,7 @@ export async function GET(request: NextRequest) {
             pinned,
             position,
             created_at,
+            metadata,
             class_board_votes(count)
           `)
           .eq('session_id', sessionId)
@@ -326,6 +330,7 @@ export async function GET(request: NextRequest) {
             pinned: boolean;
             position: number;
             created_at: string;
+            metadata: { answer?: string; answeredAt?: string; parentId?: string } | null;
             class_board_votes: { count: number }[];
           }>).map((item) => ({
             id: item.id,
@@ -337,6 +342,9 @@ export async function GET(request: NextRequest) {
             position: item.position,
             createdAt: item.created_at,
             voteCount: item.class_board_votes?.[0]?.count ?? 0,
+            answer: item.metadata?.answer ?? null,
+            answeredAt: item.metadata?.answeredAt ?? null,
+            parentId: item.metadata?.parentId ?? null,
           }));
         }
       } catch {
