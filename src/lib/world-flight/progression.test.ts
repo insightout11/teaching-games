@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { calculateWorldFlightReward, getWorldFlightProgression } from '@/lib/world-flight/progression';
+import {
+  calculateWorldFlightReward,
+  getWorldFlightProgression,
+  getWorldFlightRangeForTier,
+  getWorldFlightUpgradeState,
+} from '@/lib/world-flight/progression';
 
 const participants = ['a', 'b', 'c', 'd'].map((clientId) => ({ clientId }));
 
@@ -54,5 +59,44 @@ describe('World Flight collaborative progression', () => {
       unlockedTier: 2,
       nextMilestone: { tier: 3 },
     });
+  });
+
+  it('identifies an earned range upgrade that has not been claimed', () => {
+    expect(getWorldFlightUpgradeState({
+      planeTier: 0,
+      rangeKm: 5200,
+      flightHours: 8,
+      crewStars: 9,
+    })).toMatchObject({
+      currentTier: 0,
+      currentRangeKm: 5200,
+      unlockedTier: 2,
+      claimableTier: 2,
+      claimableRangeKm: 8500,
+      nextRangeTier: { tier: 2, rangeKm: 8500 },
+      fullyUpgraded: false,
+    });
+  });
+
+  it('shows what is still needed when the next upgrade is not ready', () => {
+    expect(getWorldFlightUpgradeState({
+      planeTier: 1,
+      rangeKm: 6800,
+      flightHours: 5,
+      crewStars: 6,
+    })).toMatchObject({
+      currentTier: 1,
+      unlockedTier: 1,
+      claimableTier: null,
+      nextMilestone: { tier: 2 },
+      nextRangeTier: { tier: 2, rangeKm: 8500 },
+      needsFlightHours: 2,
+      needsCrewStars: 2,
+    });
+  });
+
+  it('clamps range tiers to the published range catalog', () => {
+    expect(getWorldFlightRangeForTier(-3)).toMatchObject({ tier: 0, rangeKm: 5200 });
+    expect(getWorldFlightRangeForTier(99)).toMatchObject({ tier: 4, rangeKm: 13000 });
   });
 });

@@ -6,10 +6,11 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { PlaneLanding, Crown, Star, Users } from 'lucide-react';
+import { ArrowUpRight, Gauge, PlaneLanding, Crown, Star, Users } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
+import { formatDistance } from '@/lib/world-flight/geo';
 
 export function EndSessionSummary({
   classId,
@@ -183,6 +184,31 @@ export function EndSessionSummary({
                   : `${Math.round(progressionReward.snapshot.onTaskParticipationRate * 100)}% made an on-task contribution`}
               />
             </div>
+            {progressionReward.upgradeState?.claimableTier && progressionReward.upgradeState.claimableRangeKm && (
+              <div className="border-t border-lc-amber/20 bg-lc-amber/[0.055] px-5 py-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-lc-amber/30 bg-lc-amber/15 text-lc-amber">
+                      <Gauge className="h-4 w-4" aria-hidden />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-lc-amber/80">Range upgrade ready</p>
+                      <p className="mt-1 text-sm font-semibold text-lc-text">
+                        Tier {progressionReward.upgradeState.claimableTier}: {formatDistance(progressionReward.upgradeState.currentRangeKm)} to {formatDistance(progressionReward.upgradeState.claimableRangeKm)}
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed text-lc-text3">Claim it in the class passport to open more possible destinations.</p>
+                    </div>
+                  </div>
+                  <Link
+                    href="/world-flight"
+                    className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-lc-amber/35 bg-lc-amber/15 px-4 text-xs font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/20"
+                  >
+                    Open Passport
+                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+                  </Link>
+                </div>
+              </div>
+            )}
           </motion.section>
         )}
 

@@ -1,13 +1,13 @@
 'use client';
 
 import type { CSSProperties, ReactNode } from 'react';
-import { Award, BookOpen, CalendarDays, Clock3, Compass, Gauge, Lightbulb, MapPin, MapPinned, Plane, Play, Route, Star, Trophy } from 'lucide-react';
+import { ArrowUpRight, Award, BookOpen, CalendarDays, Clock3, Compass, Gauge, Lightbulb, Loader2, MapPin, MapPinned, Plane, Play, Route, Star, Trophy } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/investigations';
 import type { WorldFlightCompletedLegSummary } from '@/lib/world-flight/journey';
 import { getWorldFlightExpedition, type WorldFlightExpeditionRunSummary } from '@/lib/world-flight/expeditions';
 import { formatDistance } from '@/lib/world-flight/geo';
-import { getWorldFlightProgression } from '@/lib/world-flight/progression';
+import { getWorldFlightProgression, getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
 import { ShareJourneyButton } from './share-journey-button';
 
 function destination(destinationId: string | null) {
@@ -30,10 +30,12 @@ export function JourneyProgressPanel({
   currentDestinationId,
   visitedDestinationIds,
   completedLegs,
+  planeTier,
   planeName,
   rangeKm,
   flightHours,
   crewStars,
+  upgradeActionStatus,
   investigations,
   expeditionRuns,
   selectedLegId,
@@ -42,16 +44,19 @@ export function JourneyProgressPanel({
   onHoverLeg,
   onSelectDestination,
   onReplayArrival,
+  onClaimUpgrade,
 }: {
   classId: string | null;
   className: string;
   currentDestinationId: string | null;
   visitedDestinationIds: string[];
   completedLegs: WorldFlightCompletedLegSummary[];
+  planeTier: number;
   planeName: string;
   rangeKm: number;
   flightHours: number;
   crewStars: number;
+  upgradeActionStatus: 'idle' | 'working' | 'error';
   investigations: WorldFlightInvestigationProgress[];
   expeditionRuns: WorldFlightExpeditionRunSummary[];
   selectedLegId: string | null;
@@ -60,6 +65,7 @@ export function JourneyProgressPanel({
   onHoverLeg: (legId: string | null) => void;
   onSelectDestination: (destinationId: string) => void;
   onReplayArrival: (destinationId: string) => void;
+  onClaimUpgrade: () => void;
 }) {
   const currentCity = destination(currentDestinationId);
   const visitedDestinations = visitedDestinationIds
@@ -71,6 +77,8 @@ export function JourneyProgressPanel({
   const regionCount = new Set(visitedDestinations.map((item) => item.region)).size;
   const completedMissions = investigations.filter((investigation) => investigation.designMissionStatus === 'completed');
   const progression = getWorldFlightProgression(flightHours, crewStars);
+  const upgradeState = getWorldFlightUpgradeState({ planeTier, rangeKm, flightHours, crewStars });
+  const progressTargetMilestone = upgradeState.claimableTier ? progression.latestUnlockedMilestone : progression.nextMilestone;
   const completedExpeditions = Array.from(
     expeditionRuns
       .filter((run) => run.status === 'completed')
@@ -132,12 +140,18 @@ export function JourneyProgressPanel({
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Crew progression</p>
               <p className="mt-1 text-sm font-semibold text-lc-text">
-                {progression.nextMilestone?.label ?? 'All upgrade milestones reached'}
+                {upgradeState.claimableTier
+                  ? `Tier ${upgradeState.claimableTier} range upgrade ready`
+                  : progression.nextMilestone?.label ?? 'All upgrade milestones reached'}
               </p>
             </div>
-            {progression.latestUnlockedMilestone && (
+            {upgradeState.claimableTier ? (
+              <span className="shrink-0 rounded-full border border-lc-amber/35 bg-lc-amber/[0.1] px-2 py-1 text-[11px] font-semibold text-lc-amber">
+                Claim
+              </span>
+            ) : progression.latestUnlockedMilestone && (
               <span className="shrink-0 rounded-full border border-lc-success/30 bg-lc-success/[0.08] px-2 py-1 text-[11px] font-semibold text-lc-success">
-                Tier {progression.unlockedTier} ready
+                Tier {upgradeState.currentTier} active
               </span>
             )}
           </div>
@@ -146,14 +160,58 @@ export function JourneyProgressPanel({
               icon={<Clock3 className="h-3.5 w-3.5" aria-hidden />}
               label="Flight Hours"
               value={flightHours}
-              target={progression.nextMilestone?.requiredFlightHours ?? flightHours}
+              target={progressTargetMilestone?.requiredFlightHours ?? flightHours}
             />
             <ProgressMetric
               icon={<Star className="h-3.5 w-3.5" aria-hidden />}
               label="Crew Stars"
               value={crewStars}
-              target={progression.nextMilestone?.requiredCrewStars ?? crewStars}
+              target={progressTargetMilestone?.requiredCrewStars ?? crewStars}
             />
+          </div>
+          <div className={`mt-3 rounded-md border px-3 py-3 ${
+            upgradeState.claimableTier
+              ? 'border-lc-amber/30 bg-lc-amber/[0.07]'
+              : 'border-white/10 bg-white/[0.025]'
+          }`}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-lc-text2">
+                  {upgradeState.claimableTier ? 'Range upgrade available' : upgradeState.fullyUpgraded ? 'Maximum range' : 'Next range upgrade'}
+                </p>
+                <p className="mt-1 text-sm font-semibold text-lc-text">
+                  {formatDistance(upgradeState.currentRangeKm)}
+                  {upgradeState.claimableRangeKm
+                    ? ` -> ${formatDistance(upgradeState.claimableRangeKm)}`
+                    : upgradeState.nextRangeTier && !upgradeState.fullyUpgraded
+                      ? ` -> ${formatDistance(upgradeState.nextRangeTier.rangeKm)}`
+                      : ''}
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-lc-text3">
+                  {upgradeState.claimableTier
+                    ? 'Claiming extends the class range immediately. Plane choice stays unchanged for now.'
+                    : upgradeState.fullyUpgraded
+                      ? 'The class has reached the current top range tier.'
+                      : `Need ${upgradeState.needsFlightHours} more flight hour${upgradeState.needsFlightHours === 1 ? '' : 's'} and ${upgradeState.needsCrewStars} more crew star${upgradeState.needsCrewStars === 1 ? '' : 's'}.`}
+                </p>
+              </div>
+              {upgradeState.claimableTier && (
+                <button
+                  type="button"
+                  onClick={onClaimUpgrade}
+                  disabled={upgradeActionStatus === 'working'}
+                  className="inline-flex min-h-9 shrink-0 items-center justify-center gap-1.5 rounded-md border border-lc-amber/35 bg-lc-amber/15 px-3 text-[11px] font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/20 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {upgradeActionStatus === 'working'
+                    ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+                    : <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />}
+                  Upgrade
+                </button>
+              )}
+            </div>
+            {upgradeActionStatus === 'error' && (
+              <p className="mt-2 text-xs font-medium text-red-300">Could not claim the upgrade. Refresh and try again.</p>
+            )}
           </div>
         </div>
 

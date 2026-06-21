@@ -35,6 +35,7 @@ export interface WorldFlightProgressionRewardResult extends WorldFlightFlightRew
   flightHours: number;
   crewStars: number;
   alreadyRecorded: boolean;
+  upgradeState?: WorldFlightUpgradeState | null;
 }
 
 export interface WorldFlightProgressionMilestone {
@@ -44,12 +45,41 @@ export interface WorldFlightProgressionMilestone {
   requiredCrewStars: number;
 }
 
+export interface WorldFlightRangeTier {
+  tier: number;
+  label: string;
+  rangeKm: number;
+}
+
 export const WORLD_FLIGHT_PROGRESSION_MILESTONES: WorldFlightProgressionMilestone[] = [
   { tier: 1, label: 'First upgrade', requiredFlightHours: 3, requiredCrewStars: 3 },
   { tier: 2, label: 'Specialist upgrade', requiredFlightHours: 7, requiredCrewStars: 8 },
   { tier: 3, label: 'Advanced upgrade', requiredFlightHours: 12, requiredCrewStars: 15 },
   { tier: 4, label: 'Prestige upgrade', requiredFlightHours: 18, requiredCrewStars: 24 },
 ];
+
+export const WORLD_FLIGHT_RANGE_TIERS: WorldFlightRangeTier[] = [
+  { tier: 0, label: 'Starter range', rangeKm: 5200 },
+  { tier: 1, label: 'Regional reach', rangeKm: 6800 },
+  { tier: 2, label: 'Ocean reach', rangeKm: 8500 },
+  { tier: 3, label: 'Intercontinental reach', rangeKm: 10500 },
+  { tier: 4, label: 'Global reach', rangeKm: 13000 },
+];
+
+export interface WorldFlightUpgradeState {
+  currentTier: number;
+  currentRangeKm: number;
+  unlockedTier: number;
+  claimableTier: number | null;
+  claimableRangeKm: number | null;
+  nextMilestone: WorldFlightProgressionMilestone | null;
+  latestUnlockedMilestone: WorldFlightProgressionMilestone | null;
+  nextRangeTier: WorldFlightRangeTier | null;
+  needsFlightHours: number;
+  needsCrewStars: number;
+  maxTier: number;
+  fullyUpgraded: boolean;
+}
 
 function percentage(part: number, total: number) {
   return total > 0 ? part / total : 0;
@@ -143,5 +173,49 @@ export function getWorldFlightProgression(
     unlockedTier: unlockedMilestones.at(-1)?.tier ?? 0,
     latestUnlockedMilestone: unlockedMilestones.at(-1) ?? null,
     nextMilestone,
+  };
+}
+
+export function getWorldFlightRangeForTier(tier: number) {
+  const maxTier = WORLD_FLIGHT_RANGE_TIERS.at(-1)?.tier ?? 0;
+  const clampedTier = Math.max(0, Math.min(Math.floor(tier), maxTier));
+  return WORLD_FLIGHT_RANGE_TIERS.find((rangeTier) => rangeTier.tier === clampedTier) ?? WORLD_FLIGHT_RANGE_TIERS[0];
+}
+
+export function getWorldFlightUpgradeState({
+  planeTier,
+  rangeKm,
+  flightHours,
+  crewStars,
+}: {
+  planeTier: number;
+  rangeKm?: number | null;
+  flightHours: number;
+  crewStars: number;
+}): WorldFlightUpgradeState {
+  const progression = getWorldFlightProgression(flightHours, crewStars);
+  const maxTier = WORLD_FLIGHT_RANGE_TIERS.at(-1)?.tier ?? 0;
+  const currentTier = Math.max(0, Math.min(Math.floor(planeTier), maxTier));
+  const currentRange = rangeKm && rangeKm > 0 ? rangeKm : getWorldFlightRangeForTier(currentTier).rangeKm;
+  const claimableTier = progression.unlockedTier > currentTier
+    ? Math.min(progression.unlockedTier, maxTier)
+    : null;
+  const nextMilestone = progression.nextMilestone;
+  const nextTier = claimableTier ?? nextMilestone?.tier ?? (currentTier < maxTier ? currentTier + 1 : null);
+  const nextRangeTier = nextTier === null ? null : getWorldFlightRangeForTier(nextTier);
+
+  return {
+    currentTier,
+    currentRangeKm: currentRange,
+    unlockedTier: progression.unlockedTier,
+    claimableTier,
+    claimableRangeKm: claimableTier === null ? null : getWorldFlightRangeForTier(claimableTier).rangeKm,
+    nextMilestone,
+    latestUnlockedMilestone: progression.latestUnlockedMilestone,
+    nextRangeTier,
+    needsFlightHours: nextMilestone ? Math.max(0, nextMilestone.requiredFlightHours - flightHours) : 0,
+    needsCrewStars: nextMilestone ? Math.max(0, nextMilestone.requiredCrewStars - crewStars) : 0,
+    maxTier,
+    fullyUpgraded: currentTier >= maxTier,
   };
 }

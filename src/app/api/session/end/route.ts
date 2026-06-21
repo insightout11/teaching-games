@@ -6,6 +6,7 @@ import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { advanceWorldFlightExpedition, type WorldFlightExpeditionSnapshot } from '@/lib/world-flight/expeditions';
 import {
   calculateWorldFlightReward,
+  getWorldFlightUpgradeState,
   type WorldFlightProgressionRewardResult,
 } from '@/lib/world-flight/progression';
 
@@ -101,12 +102,27 @@ async function awardWorldFlightProgression(
   });
   if (error) throw error;
   const totals = data as { flightHours?: number; crewStars?: number; alreadyRecorded?: boolean } | null;
+  const { data: state } = await service
+    .from('class_world_flight_state')
+    .select('plane_tier, range_km, flight_hours, crew_stars')
+    .eq('class_id', classId)
+    .maybeSingle();
+  const flightHours = state?.flight_hours ?? totals?.flightHours ?? 0;
+  const crewStars = state?.crew_stars ?? totals?.crewStars ?? 0;
 
   return {
     ...reward,
-    flightHours: totals?.flightHours ?? 0,
-    crewStars: totals?.crewStars ?? 0,
+    flightHours,
+    crewStars,
     alreadyRecorded: totals?.alreadyRecorded ?? false,
+    upgradeState: state
+      ? getWorldFlightUpgradeState({
+          planeTier: state.plane_tier,
+          rangeKm: state.range_km,
+          flightHours,
+          crewStars,
+        })
+      : null,
   };
 }
 

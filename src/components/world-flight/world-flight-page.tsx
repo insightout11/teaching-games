@@ -30,6 +30,29 @@ import { PassportArrivalReplay } from './passport-arrival-replay';
 type FocusFilter = 'all' | DestinationFocusKind;
 type SidebarMode = 'destinations' | 'expeditions' | 'passport' | 'missions';
 type DestinationGroup = { id: string; label: string; destinations: DestinationPack[] };
+type WorldFlightClassStatePatch = Partial<Pick<
+  WorldFlightClassSummary,
+  'currentDestinationId' | 'planeTier' | 'planeKey' | 'rangeKm' | 'flightHours' | 'crewStars'
+>>;
+type WorldFlightUpgradeResponse = {
+  state?: {
+    classId: string;
+    currentDestinationId: string | null;
+    planeTier: number;
+    planeKey: string;
+    rangeKm: number;
+    flightHours: number;
+    crewStars: number;
+  };
+  error?: string;
+};
+type RangeUpgradeNotice = {
+  tier: number;
+  fromRangeKm: number;
+  toRangeKm: number;
+  newlyReachableDestinationIds: string[];
+  newlyReachableCityNames: string[];
+};
 
 const EMPTY_FEATURE_COLLECTION: WorldFeatureCollection = {
   type: 'FeatureCollection',
@@ -53,6 +76,7 @@ function destinationFeatures(
   expeditionDestinationIds: Iterable<string> = [],
   completedExpeditionDestinationIds: Iterable<string> = [],
   expeditionRecommendedDestinationId: string | null = null,
+  newlyReachableDestinationIds: Iterable<string> = [],
 ) {
   const visited = new Set(visitedDestinationIds);
   const missionEvidence = new Set(missionEvidenceDestinationIds);
@@ -60,6 +84,7 @@ function destinationFeatures(
   const expeditionDestinations = new Set(orderedExpeditionDestinations);
   const expeditionOrder = new Map(orderedExpeditionDestinations.map((destinationId, index) => [destinationId, index + 1]));
   const completedExpeditionDestinations = new Set(completedExpeditionDestinationIds);
+  const newlyReachableDestinations = new Set(newlyReachableDestinationIds);
   return asFeatureCollection(
     WORLD_DESTINATIONS.map((destination) => {
       const km = origin ? distanceKm(origin, destination) : 0;
@@ -69,6 +94,7 @@ function destinationFeatures(
       const isVisited = showVisited && visited.has(destination.id);
       const isMissionEvidence = missionEvidence.has(destination.id);
       const isExpeditionStop = expeditionDestinations.has(destination.id);
+      const isNewlyReachable = newlyReachableDestinations.has(destination.id);
       const onwardReachable = !!previewOrigin && previewKm <= rangeKm && destination.id !== previewOrigin.id;
       return {
         type: 'Feature',
@@ -86,6 +112,7 @@ function destinationFeatures(
           expeditionComplete: completedExpeditionDestinations.has(destination.id),
           expeditionRecommended: destination.id === expeditionRecommendedDestinationId,
           expeditionOrder: expeditionOrder.get(destination.id) ?? 0,
+          newlyReachable: isNewlyReachable,
           onwardReachable,
           isPreviewOrigin: destination.id === previewOrigin?.id,
           muted: !showReachability && !isVisited && !isMissionEvidence,
@@ -96,6 +123,8 @@ function destinationFeatures(
               ? 'Mission field note'
               : isExpeditionStop
                 ? 'Expedition stop'
+              : isNewlyReachable
+                ? 'Newly reachable'
               : onwardReachable
                 ? 'Possible next hop'
                 : isVisited
@@ -304,11 +333,13 @@ function MapLegend({
   previewNextHops,
   activeExpedition,
   expeditionRecommended,
+  rangeUpgradeActive,
 }: {
   mode: SidebarMode;
   previewNextHops: boolean;
   activeExpedition: boolean;
   expeditionRecommended: boolean;
+  rangeUpgradeActive: boolean;
 }) {
   const items = mode === 'missions'
     ? [
@@ -331,6 +362,7 @@ function MapLegend({
         ['bg-lc-amber', 'Current location'],
         ['bg-lc-blue ring-2 ring-cyan-100/50', 'Visited'],
         [previewNextHops ? 'bg-cyan-300' : 'bg-lc-success', previewNextHops ? 'Possible next hop' : 'In range'],
+        ...(rangeUpgradeActive ? [['bg-lc-amber ring-2 ring-lc-amber/50', 'Newly reachable']] : []),
         ['bg-[#8395B1] ring-1 ring-[#B6C6DA]/70', 'Beyond range'],
         ...(activeExpedition ? [['bg-transparent ring-2 ring-rose-300', 'Expedition stop']] : []),
         ...(expeditionRecommended ? [['bg-rose-200 ring-2 ring-rose-100/70', 'Expedition next hop']] : []),
@@ -344,6 +376,45 @@ function MapLegend({
           {label}
         </span>
       ))}
+    </div>
+  );
+}
+
+function RangeUpgradeNoticeCard({
+  notice,
+  onClose,
+}: {
+  notice: RangeUpgradeNotice;
+  onClose: () => void;
+}) {
+  return (
+    <div className="pointer-events-auto absolute bottom-20 left-4 right-4 rounded-lg border border-lc-amber/35 bg-[var(--wf-surface)] p-4 shadow-2xl shadow-black/45 md:bottom-16 md:left-1/2 md:right-auto md:w-[min(520px,calc(100vw-3rem))] md:-translate-x-1/2">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex min-w-0 items-start gap-3">
+          <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-lc-amber/35 bg-lc-amber/15 text-lc-amber">
+            <Gauge className="h-5 w-5" aria-hidden />
+          </span>
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-lc-amber/80">Range expanded</p>
+            <h2 className="font-display mt-1 text-xl leading-tight text-lc-text">
+              Tier {notice.tier}: {formatDistance(notice.fromRangeKm)} to {formatDistance(notice.toRangeKm)}
+            </h2>
+            <p className="mt-1 text-xs leading-relaxed text-lc-text2">
+              {notice.newlyReachableCityNames.length > 0
+                ? `Newly reachable: ${notice.newlyReachableCityNames.join(', ')}${notice.newlyReachableDestinationIds.length > notice.newlyReachableCityNames.length ? ', and more' : ''}.`
+                : 'The class has more routing flexibility from its current city.'}
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Dismiss range upgrade notice"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-white/15 bg-white/[0.04] text-lc-text2 transition-colors hover:border-white/30 hover:text-lc-text"
+        >
+          <X className="h-4 w-4" aria-hidden />
+        </button>
+      </div>
     </div>
   );
 }
@@ -513,11 +584,20 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       ?? WORLD_FLIGHT_EXPEDITIONS[0].id,
   );
   const [expeditionActionStatus, setExpeditionActionStatus] = useState<'idle' | 'working' | 'error'>('idle');
+  const [upgradeActionStatus, setUpgradeActionStatus] = useState<'idle' | 'working' | 'error'>('idle');
+  const [classStatePatches, setClassStatePatches] = useState<Record<string, WorldFlightClassStatePatch>>({});
+  const [rangeUpgradeNotice, setRangeUpgradeNotice] = useState<RangeUpgradeNotice | null>(null);
   const [expeditionRunsByClass, setExpeditionRunsByClass] = useState<Record<string, WorldFlightExpeditionRunSummary[]>>(
     () => Object.fromEntries(initialClasses.map((cls) => [cls.id, cls.expeditionRuns])),
   );
 
-  const selectedClass = initialClasses.find((cls) => cls.id === selectedClassId) ?? null;
+  const baseSelectedClass = initialClasses.find((cls) => cls.id === selectedClassId) ?? null;
+  const selectedClass = useMemo(
+    () => baseSelectedClass
+      ? { ...baseSelectedClass, ...(classStatePatches[baseSelectedClass.id] ?? {}) }
+      : null,
+    [baseSelectedClass, classStatePatches],
+  );
   const selectedExpeditionRuns = selectedClassId ? expeditionRunsByClass[selectedClassId] ?? [] : [];
   const currentExpeditionRun = selectedExpeditionRuns.find((run) => run.status === 'active' || run.status === 'paused') ?? null;
   const currentExpedition = currentExpeditionRun ? getWorldFlightExpedition(currentExpeditionRun.expeditionId) : null;
@@ -557,6 +637,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const routeOrigin = origin ?? firstDeparture;
   const isChoosingDeparture = !origin && !firstDeparture;
   const rangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
+  const newlyReachableDestinationIds = rangeUpgradeNotice?.newlyReachableDestinationIds ?? EMPTY_DESTINATION_IDS;
   const expeditionRouteGuidance = useMemo(
     () => currentExpeditionRun?.status === 'active' && currentExpedition
       ? recommendWorldFlightExpeditionRoute(
@@ -762,6 +843,65 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     }
   }
 
+  async function claimRangeUpgrade() {
+    if (!selectedClassId) {
+      setUpgradeActionStatus('error');
+      return;
+    }
+
+    const classId = selectedClassId;
+    const priorOrigin = origin;
+    const fromRangeKm = selectedClass?.rangeKm ?? STARTER_PLANE_RANGE_KM;
+    setUpgradeActionStatus('working');
+    try {
+      const response = await fetch('/api/world-flight/upgrades', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ classId }),
+      });
+      const result = await response.json() as WorldFlightUpgradeResponse;
+      if (!response.ok || !result.state) throw new Error(result.error ?? 'Failed to claim upgrade');
+      const newlyReachable = priorOrigin
+        ? WORLD_DESTINATIONS
+            .filter((destination) => (
+              destination.id !== priorOrigin.id
+              && distanceKm(priorOrigin, destination) > fromRangeKm
+              && distanceKm(priorOrigin, destination) <= result.state!.rangeKm
+              && !visitedDestinationSet.has(destination.id)
+            ))
+            .sort((a, b) => distanceKm(priorOrigin, a) - distanceKm(priorOrigin, b))
+        : [];
+
+      setClassStatePatches((current) => ({
+        ...current,
+        [classId]: {
+          ...(current[classId] ?? {}),
+          currentDestinationId: result.state!.currentDestinationId,
+          planeTier: result.state!.planeTier,
+          planeKey: result.state!.planeKey,
+          rangeKm: result.state!.rangeKm,
+          flightHours: result.state!.flightHours,
+          crewStars: result.state!.crewStars,
+        },
+      }));
+      setRangeUpgradeNotice({
+        tier: result.state.planeTier,
+        fromRangeKm,
+        toRangeKm: result.state.rangeKm,
+        newlyReachableDestinationIds: newlyReachable.map((destination) => destination.id),
+        newlyReachableCityNames: newlyReachable.slice(0, 5).map((destination) => destination.city),
+      });
+      setSidebarMode('destinations');
+      setPreviewNextHops(false);
+      setDetailsOpen(false);
+      setListOpen(true);
+      if (newlyReachable[0]) setSelectedDestinationId(newlyReachable[0].id);
+      setUpgradeActionStatus('idle');
+    } catch {
+      setUpgradeActionStatus('error');
+    }
+  }
+
   function inspectPassportLeg(legId: string) {
     const leg = selectedClass?.completedLegs.find((candidate) => candidate.id === legId);
     if (!leg) return;
@@ -819,6 +959,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         ?? WORLD_FLIGHT_EXPEDITIONS[0].id,
     );
     setExpeditionActionStatus('idle');
+    setUpgradeActionStatus('idle');
+    setRangeUpgradeNotice(null);
     usePlannerStore.getState().setSelectedClassId(id);
     try {
       localStorage.setItem('lc-last-class', JSON.stringify({ id, name: nextClass?.name ?? '' }));
@@ -1093,11 +1235,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         type: 'circle',
         source: 'world-flight-cities',
         paint: {
-          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'isPreviewOrigin'], 8, ['get', 'missionEvidence'], 7, ['get', 'onwardReachable'], 6.5, ['get', 'visited'], 7, ['get', 'reachable'], 6, ['get', 'muted'], 4.5, 5.25],
-          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'isPreviewOrigin'], '#22D3EE', ['get', 'missionEvidence'], '#A78BFA', ['get', 'onwardReachable'], '#67E8F9', ['get', 'visited'], '#4DA3FF', ['get', 'reachable'], '#2FE59B', ['get', 'muted'], '#6F7F9C', '#8395B1'],
-          'circle-stroke-color': ['case', ['get', 'isPreviewOrigin'], '#ECFEFF', ['get', 'missionEvidence'], '#EDE9FE', ['get', 'onwardReachable'], '#CFFAFE', ['get', 'visited'], '#BDE3FF', ['get', 'reachable'], '#07111f', ['get', 'muted'], '#07111f', '#B6C6DA'],
-          'circle-stroke-width': ['case', ['get', 'isPreviewOrigin'], 3, ['get', 'missionEvidence'], 3, ['get', 'onwardReachable'], 2.5, ['get', 'visited'], 2.5, ['get', 'reachable'], 2, ['get', 'muted'], 2, 1.25],
-          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'isPreviewOrigin'], 1, ['get', 'missionEvidence'], 1, ['get', 'onwardReachable'], 1, ['get', 'visited'], 1, ['get', 'reachable'], 0.95, ['get', 'muted'], 0.55, 0.82],
+          'circle-radius': ['case', ['get', 'isOrigin'], 8, ['get', 'isPreviewOrigin'], 8, ['get', 'newlyReachable'], 8, ['get', 'missionEvidence'], 7, ['get', 'onwardReachable'], 6.5, ['get', 'visited'], 7, ['get', 'reachable'], 6, ['get', 'muted'], 4.5, 5.25],
+          'circle-color': ['case', ['get', 'isOrigin'], '#F59E0B', ['get', 'isPreviewOrigin'], '#22D3EE', ['get', 'newlyReachable'], '#F8D28B', ['get', 'missionEvidence'], '#A78BFA', ['get', 'onwardReachable'], '#67E8F9', ['get', 'visited'], '#4DA3FF', ['get', 'reachable'], '#2FE59B', ['get', 'muted'], '#6F7F9C', '#8395B1'],
+          'circle-stroke-color': ['case', ['get', 'isPreviewOrigin'], '#ECFEFF', ['get', 'newlyReachable'], '#FFF7D6', ['get', 'missionEvidence'], '#EDE9FE', ['get', 'onwardReachable'], '#CFFAFE', ['get', 'visited'], '#BDE3FF', ['get', 'reachable'], '#07111f', ['get', 'muted'], '#07111f', '#B6C6DA'],
+          'circle-stroke-width': ['case', ['get', 'isPreviewOrigin'], 3, ['get', 'newlyReachable'], 3, ['get', 'missionEvidence'], 3, ['get', 'onwardReachable'], 2.5, ['get', 'visited'], 2.5, ['get', 'reachable'], 2, ['get', 'muted'], 2, 1.25],
+          'circle-opacity': ['case', ['get', 'isOrigin'], 1, ['get', 'isPreviewOrigin'], 1, ['get', 'newlyReachable'], 1, ['get', 'missionEvidence'], 1, ['get', 'onwardReachable'], 1, ['get', 'visited'], 1, ['get', 'reachable'], 0.95, ['get', 'muted'], 0.55, 0.82],
         },
       });
       map.addLayer({
@@ -1325,6 +1467,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           ? previewExpeditionProgress.completedDestinationIds
           : sidebarMode === 'destinations' ? completedExpeditionDestinationIds : EMPTY_DESTINATION_IDS,
         sidebarMode === 'destinations' ? expeditionRouteGuidance?.nextDestinationId ?? null : null,
+        sidebarMode === 'destinations' ? newlyReachableDestinationIds : EMPTY_DESTINATION_IDS,
       ),
     ));
 
@@ -1339,7 +1482,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       };
       rangeAnimationRef.current = requestAnimationFrame(animateRange);
     }
-  }, [activeExpeditionDestinationIds, activePassportLegId, completedExpeditionDestinationIds, expeditionRouteGuidance?.nextDestinationId, mapReady, missionEvidenceDestinationIds, passportHighlightDestinationId, previewExpedition, previewExpeditionProgress.completedDestinationIds, previewNextHops, rangeKm, routeOrigin, selectedClass?.completedLegs, selectedDestination, sidebarMode, visitedDestinationIds]);
+  }, [activeExpeditionDestinationIds, activePassportLegId, completedExpeditionDestinationIds, expeditionRouteGuidance?.nextDestinationId, mapReady, missionEvidenceDestinationIds, newlyReachableDestinationIds, passportHighlightDestinationId, previewExpedition, previewExpeditionProgress.completedDestinationIds, previewNextHops, rangeKm, routeOrigin, selectedClass?.completedLegs, selectedDestination, sidebarMode, visitedDestinationIds]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1626,10 +1769,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               currentDestinationId={selectedClass?.currentDestinationId ?? null}
               visitedDestinationIds={visitedDestinationIds}
               completedLegs={selectedClass?.completedLegs ?? []}
+              planeTier={selectedClass?.planeTier ?? 0}
               planeName={planeName}
               rangeKm={rangeKm}
               flightHours={selectedClass?.flightHours ?? 0}
               crewStars={selectedClass?.crewStars ?? 0}
+              upgradeActionStatus={upgradeActionStatus}
               investigations={selectedClass?.investigations ?? []}
               expeditionRuns={selectedExpeditionRuns}
               selectedLegId={selectedPassportLegId}
@@ -1638,6 +1783,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
               onHoverLeg={setHoveredPassportLegId}
               onSelectDestination={inspectPassportDestination}
               onReplayArrival={setReplayDestinationId}
+              onClaimUpgrade={claimRangeUpgrade}
             />
           )}
 
@@ -1691,6 +1837,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 const active = destination.id === selectedDestination.id;
                 const reachable = !routeOrigin || currentKm <= rangeKm || destination.id === routeOrigin.id;
                 const visited = visitedDestinationSet.has(destination.id);
+                const newlyReachable = newlyReachableDestinationIds.includes(destination.id);
                 const onwardReachable = previewNextHops && nextHopDestinationIds.has(destination.id);
                 const expeditionStop = activeExpeditionDestinationIds.includes(destination.id);
                 const expeditionRecommended = expeditionRouteGuidance?.nextDestinationId === destination.id;
@@ -1714,6 +1861,8 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                           ? 'bg-cyan-300'
                           : destination.id === routeOrigin?.id
                         ? 'bg-lc-amber'
+                        : newlyReachable
+                          ? 'bg-lc-amber ring-2 ring-lc-amber/50'
                         : visited
                           ? 'bg-lc-blue ring-2 ring-cyan-100/35'
                           : reachable
@@ -1737,6 +1886,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                               : ' - Beyond range'
                           : expeditionRecommended
                             ? expeditionRouteGuidance?.direct ? ' - Expedition stop in range' : ' - Expedition bridge city'
+                            : newlyReachable ? ' - Newly reachable'
                             : visited ? ' - Visited' : ''}
                       </span>
                     </span>
@@ -2047,7 +2197,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           previewNextHops={previewNextHops}
           activeExpedition={sidebarMode === 'expeditions' || activeExpeditionDestinationIds.length > 0}
           expeditionRecommended={Boolean(expeditionRouteGuidance)}
+          rangeUpgradeActive={Boolean(rangeUpgradeNotice?.newlyReachableDestinationIds.length)}
         />
+        {rangeUpgradeNotice && (
+          <RangeUpgradeNoticeCard notice={rangeUpgradeNotice} onClose={() => setRangeUpgradeNotice(null)} />
+        )}
       </div>
       {replayDestinationId && (
         <PassportArrivalReplay

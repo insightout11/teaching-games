@@ -27,6 +27,15 @@ describe('splitReadingTurns', () => {
     expect(turns.every((turn) => turn.split(/\s+/).length <= 22)).toBe(true);
   });
 
+  it('splits oversized easy-reader sentences into shorter turns', () => {
+    const longSentence = 'Vancouver has mountains, ocean views, parks, jobs, universities, busy roads, public trains, cycling paths, small apartments, expensive homes, and many different neighborhoods.';
+    const turns = splitReadingTurns(longSentence, 1, getReadingTurnWordTarget('Easy'));
+
+    expect(turns.length).toBeGreaterThan(1);
+    expect(turns.every((turn) => turn.split(/\s+/).length <= getReadingTurnWordTarget('Easy'))).toBe(true);
+    expect(turns.join(' ')).toBe(longSentence);
+  });
+
   it('uses shorter turns for easy readers than advanced readers', () => {
     const easyTurns = splitReadingTurns(paragraph, 1, getReadingTurnWordTarget('Easy'));
     const advancedTurns = splitReadingTurns(paragraph, 1, getReadingTurnWordTarget('Advanced'));
