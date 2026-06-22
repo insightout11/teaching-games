@@ -17,12 +17,23 @@ const QUICK_PRESETS = [
   { label: 'Agree/Disagree', options: ['Strongly Agree', 'Agree', 'Neutral', 'Disagree', 'Strongly Disagree'] },
 ];
 
+// One color per option index so bars are distinguishable on the projected screen.
+const OPTION_COLORS = [
+  { bar: 'bg-cyan-500/30', text: 'text-cyan-300' },
+  { bar: 'bg-violet-500/30', text: 'text-violet-300' },
+  { bar: 'bg-emerald-500/30', text: 'text-emerald-300' },
+  { bar: 'bg-amber-500/30', text: 'text-amber-300' },
+  { bar: 'bg-rose-500/30', text: 'text-rose-300' },
+  { bar: 'bg-blue-500/30', text: 'text-blue-300' },
+];
+
 export function PollContent({ sessionId }: PollContentProps) {
   const [activePoll, setActivePoll] = useState<Poll | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState<string[]>(['', '']);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [revealed, setRevealed] = useState(true);
   const supabase = createClient();
 
   const { tallies, votes } = usePollVotes(activePoll?.id || null);
@@ -113,6 +124,8 @@ export function PollContent({ sessionId }: PollContentProps) {
   };
 
   const totalVotes = votes.length;
+  const optionCounts = activePoll ? (activePoll.options as string[]).map((o) => tallies[o] || 0) : [];
+  const maxCount = optionCounts.length ? Math.max(...optionCounts) : 0;
 
   return (
     <div className="p-4 overflow-x-hidden">
@@ -127,23 +140,47 @@ export function PollContent({ sessionId }: PollContentProps) {
       {activePoll && !isCreating && (
         <div className="space-y-4">
           <div>
-            <p className="font-medium text-cyan-400 mb-2">{activePoll.question}</p>
-            <p className="text-xs text-gray-500 mb-3">{totalVotes} votes</p>
+            <p className="mb-2 text-base font-semibold leading-snug text-white">{activePoll.question}</p>
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-xs text-gray-400">{totalVotes} vote{totalVotes === 1 ? '' : 's'}</p>
+              <button
+                onClick={() => setRevealed((r) => !r)}
+                className="text-xs font-medium text-cyan-400 hover:text-cyan-300"
+              >
+                {revealed ? 'Hide results' : 'Reveal results'}
+              </button>
+            </div>
 
             <div className="space-y-2">
-              {(activePoll.options as string[]).map((option) => {
+              {(activePoll.options as string[]).map((option, index) => {
                 const count = tallies[option] || 0;
                 const percentage = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+                const color = OPTION_COLORS[index % OPTION_COLORS.length];
+                const isLeading = revealed && totalVotes > 0 && count === maxCount;
 
                 return (
-                  <div key={option} className="relative">
+                  <div
+                    key={option}
+                    className={`relative overflow-hidden rounded-lg border bg-white/[0.03] ${
+                      isLeading ? 'border-white/25' : 'border-white/10'
+                    }`}
+                  >
                     <div
-                      className="absolute inset-0 bg-cyan-500/20 rounded"
-                      style={{ width: `${percentage}%` }}
+                      className={`absolute inset-y-0 left-0 ${color.bar} transition-all duration-500 ease-out`}
+                      style={{ width: revealed ? `${percentage}%` : '0%' }}
                     />
-                    <div className="relative flex items-center justify-between p-2 text-sm">
-                      <span>{option}</span>
-                      <span className="text-cyan-400">{count} ({percentage}%)</span>
+                    <div className="relative flex items-center justify-between px-3 py-2.5 text-sm">
+                      <span className="flex items-center gap-1.5 font-medium text-white">
+                        {option}
+                        {isLeading && <span className={`text-xs ${color.text}`}>▲</span>}
+                      </span>
+                      {revealed ? (
+                        <span className={`font-bold ${color.text}`}>
+                          {percentage}% <span className="text-xs font-normal text-white/40">({count})</span>
+                        </span>
+                      ) : (
+                        <span className="text-xs text-white/30">hidden</span>
+                      )}
                     </div>
                   </div>
                 );
