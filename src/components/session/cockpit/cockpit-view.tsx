@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { ClassQuestionsContent } from '@/components/session/class-questions-widget';
 import { PollContent } from '@/components/session/poll-manager';
 import { TimerContent } from '@/components/session/timer-tool';
-import { FreezeContent } from '@/components/session/freeze-widget';
 import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-suggestions-panel';
 import { DebateBoardPanel } from '@/components/session/cockpit/debate-board-panel';
 import { ClassBoardControl } from '@/components/session/class-board-control';
@@ -25,7 +24,7 @@ interface CockpitViewProps {
   initialInputSpec: InputSpec | null;
 }
 
-type CockpitTool = 'poll' | 'timer' | 'freeze';
+type CockpitTool = 'poll' | 'timer';
 
 // Stage label lookup derived from the All-Around Flight preset
 const _aaConfig = FLIGHT_PLAN_PRESETS.find(p => p.id === 'all-around-flight-60')?.flightConfig;
@@ -165,7 +164,6 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const toolTabs: Array<{ id: CockpitTool; label: string }> = [
     { id: 'poll', label: 'Poll' },
     { id: 'timer', label: 'Timer' },
-    { id: 'freeze', label: 'Freeze' },
   ];
 
   return (
@@ -262,7 +260,6 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           </div>
           {activeTool === 'poll' && <PollContent sessionId={session.id} />}
           {activeTool === 'timer' && <TimerContent sessionId={session.id} />}
-          {activeTool === 'freeze' && <FreezeContent sessionId={session.id} />}
         </div>
 
         {/* Now */}
