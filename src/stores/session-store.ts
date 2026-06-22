@@ -151,13 +151,27 @@ const DEFAULT_SETTINGS: SessionSettings = {
 };
 
 const SETTINGS_STORAGE_KEY = 'lc-session-settings';
-type PersistedSettings = Pick<SessionSettings, 'difficulty' | 'topic' | 'customTopic' | 'tone' | 'scoringMode'>;
+// NOTE: topic/customTopic are deliberately NOT persisted. They are per-lesson
+// values set authoritatively by the loaded lesson plan. Persisting them caused
+// the previous lesson's topic to be the active value during the window before a
+// new session's plan loaded — so live content generation (e.g. Rank It) could
+// fire grounded on the prior lesson's subject while the UI label showed the new
+// one. Only durable class-level defaults belong here.
+type PersistedSettings = Pick<SessionSettings, 'difficulty' | 'tone' | 'scoringMode'>;
 
 function loadPersistedSettings(): Partial<PersistedSettings> {
   if (typeof window === 'undefined') return {};
   try {
     const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as Partial<PersistedSettings>) : {};
+    if (!raw) return {};
+    // Explicitly pick allowed keys so any legacy persisted topic/customTopic
+    // (written before this field set was narrowed) can never leak back in.
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    const next: Partial<PersistedSettings> = {};
+    if (typeof parsed.difficulty === 'string') next.difficulty = parsed.difficulty as Difficulty;
+    if (typeof parsed.tone === 'string') next.tone = parsed.tone as SessionSettings['tone'];
+    if (typeof parsed.scoringMode === 'string') next.scoringMode = parsed.scoringMode as SessionSettings['scoringMode'];
+    return next;
   } catch {
     return {};
   }
@@ -165,8 +179,8 @@ function loadPersistedSettings(): Partial<PersistedSettings> {
 
 function savePersistedSettings(settings: SessionSettings): void {
   if (typeof window === 'undefined') return;
-  const { difficulty, topic, customTopic, tone, scoringMode } = settings;
-  localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({ difficulty, topic, customTopic, tone, scoringMode }));
+  const { difficulty, tone, scoringMode } = settings;
+  localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({ difficulty, tone, scoringMode }));
 }
 
 function getInitialSettings(): SessionSettings {
