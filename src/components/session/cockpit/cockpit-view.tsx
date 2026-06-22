@@ -218,8 +218,9 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           />
         </div>
 
-        {/* Class Board — moderation lives here; the shared screen only shows approved items */}
-        {currentInputSpec?.type === 'board' && (
+        {/* Class Board — moderation lives here; the shared screen only shows approved items.
+            Word-cloud boards have no moderation, so the panel is hidden for them. */}
+        {currentInputSpec?.type === 'board' && !currentInputSpec.boardWordCloud && (
           <div className="order-1 bg-[#0d1f35] rounded-2xl border border-cyan-400/20 overflow-hidden shadow-[0_0_28px_rgba(34,211,238,0.08)]">
             <div className="px-4 py-3 border-b border-white/8">
               <p className="text-xs text-cyan-300/70 uppercase tracking-widest font-medium">

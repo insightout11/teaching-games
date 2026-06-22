@@ -37,6 +37,7 @@ export function computeDefaultPositions(
     freeze:            { x: right, y: H - 400 },
     'class-questions': { x: right, y: H - 560 },
     'class-board':     { x: right, y: H - 360 },
+    'word-cloud':      { x: right, y: H - 420 },
   };
   return Object.fromEntries(
     ids.map((id) => [id, defaults[id] ?? { x: right, y: H - 300 }])

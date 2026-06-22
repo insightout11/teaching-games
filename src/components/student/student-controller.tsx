@@ -1390,8 +1390,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         </div>
       )}
 
-      {/* Class Board — approved items shown while a board prompt is active, with upvoting */}
-      {inputSpec?.type === 'board' && classBoardItems.some((item) => !item.parentId) && (
+      {/* Class Board — approved items shown while a board prompt is active, with upvoting.
+          Word-cloud boards skip this list (students just submit; the cloud is on the screen). */}
+      {inputSpec?.type === 'board' && !inputSpec.boardWordCloud && classBoardItems.some((item) => !item.parentId) && (
         <div className="glass rounded-2xl p-6 mb-4">
           <h2 className="font-bold text-white mb-1">{inputSpec.boardTitle ?? 'Class Board'}</h2>
           <p className="text-xs text-gray-400 mb-3">

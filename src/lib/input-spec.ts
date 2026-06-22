@@ -83,6 +83,8 @@ export interface InputSpec {
   boardAllowVotes?: boolean;
   /** Class Board: question-wall mode (Wonder Board) — enables answers + follow-up replies on items. */
   boardQuestionWall?: boolean;
+  /** Class Board: word-cloud mode — single-word submissions rendered as a frequency cloud, no moderation/list. */
+  boardWordCloud?: boolean;
   /** Initial map center as [longitude, latitude]. */
   mapCenter?: [number, number];
   /** Initial map zoom level. */
