@@ -493,6 +493,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             content: boardContent,
             category: boardCategory,
             zoneKey: boardZoneKey,
+            wordCloud: inputSpec?.boardWordCloud,
           }
         : isWonderBoard
         ? {

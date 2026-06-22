@@ -3,6 +3,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { isSessionStale } from '@/lib/session-freshness';
 import { normalizeClassBoardKey, type ClassBoardVisibility } from '@/lib/class-board';
+import { isProfane } from '@/lib/profanity';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,7 @@ interface SubmitRequest {
   visibility?: ClassBoardVisibility;
   position?: number;
   parentId?: string;
+  wordCloud?: boolean;
 }
 
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -116,6 +118,11 @@ export async function POST(request: NextRequest) {
     }
     if (content.length > MAX_CONTENT_LENGTH) {
       return NextResponse.json({ error: `Content must be ${MAX_CONTENT_LENGTH} characters or fewer` }, { status: 400 });
+    }
+    // Word Cloud: silently drop obvious profanity so it never reaches the screen.
+    // Reported as success so the student isn't tipped off; the word simply never appears.
+    if (body.wordCloud && isProfane(content)) {
+      return NextResponse.json({ success: true, filtered: true });
     }
 
     const auth = authorType === 'teacher'

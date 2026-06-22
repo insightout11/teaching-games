@@ -121,6 +121,26 @@ export function WordCloudContent({ sessionId }: WordCloudContentProps) {
     }
   }, [items, clearing, loadItems, sessionId]);
 
+  const removeWord = useCallback(
+    async (normalized: string) => {
+      const matching = items.filter(
+        (item) => item.visibility !== 'hidden' && item.content.trim().toLowerCase() === normalized,
+      );
+      if (matching.length === 0) return;
+      await Promise.all(
+        matching.map((item) =>
+          fetch('/api/class-board/item', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, itemId: item.id, visibility: 'hidden' }),
+          }),
+        ),
+      );
+      void loadItems();
+    },
+    [items, loadItems, sessionId],
+  );
+
   // Group by normalized word; size each by frequency relative to the most common.
   const cloud = useMemo(() => {
     const counts = new Map<string, { label: string; count: number }>();
@@ -132,7 +152,9 @@ export function WordCloudContent({ sessionId }: WordCloudContentProps) {
       if (existing) existing.count += 1;
       else counts.set(normalized, { label: item.content.trim(), count: 1 });
     }
-    const arr = Array.from(counts.values()).sort((a, b) => b.count - a.count);
+    const arr = Array.from(counts.entries())
+      .map(([key, value]) => ({ key, ...value }))
+      .sort((a, b) => b.count - a.count);
     const max = arr.length ? arr[0].count : 1;
     const min = arr.length ? arr[arr.length - 1].count : 1;
     return arr.map((word) => {
@@ -197,13 +219,22 @@ export function WordCloudContent({ sessionId }: WordCloudContentProps) {
           <p className="text-xs text-lc-text3">No words yet.</p>
         ) : (
           cloud.map((word) => (
-            <span
-              key={word.label}
-              title={`${word.count}`}
-              style={{ fontSize: `${word.size}px`, color: colorFor(word.label), lineHeight: 1.1 }}
-              className="font-bold transition-all duration-300"
-            >
-              {word.label}
+            <span key={word.key} className="group relative inline-flex items-baseline">
+              <span
+                title={`${word.count}`}
+                style={{ fontSize: `${word.size}px`, color: colorFor(word.key), lineHeight: 1.1 }}
+                className="font-bold transition-all duration-300"
+              >
+                {word.label}
+              </span>
+              <button
+                type="button"
+                onClick={() => removeWord(word.key)}
+                title="Remove this word"
+                className="absolute -right-2 -top-1 hidden h-4 w-4 items-center justify-center rounded-full bg-rose-500/85 text-[10px] font-bold leading-none text-white shadow group-hover:flex"
+              >
+                ×
+              </button>
             </span>
           ))
         )}
