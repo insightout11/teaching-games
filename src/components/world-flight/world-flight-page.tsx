@@ -543,14 +543,24 @@ function CrewProgressSummaryCard({
                 : `${formatDistance(upgradeState.currentRangeKm)} range`}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={onOpenPassport}
-          className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border border-white/12 bg-white/[0.04] px-2.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2 transition-colors hover:border-cyan-200/35 hover:text-lc-text"
-        >
-          <Stamp className="h-3.5 w-3.5" aria-hidden />
-          Passport
-        </button>
+        <div className="flex shrink-0 items-center gap-1.5">
+          <button
+            type="button"
+            onClick={onOpenHangar}
+            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border border-white/12 bg-white/[0.04] px-2.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2 transition-colors hover:border-cyan-200/35 hover:text-lc-text"
+          >
+            <Plane className="h-3.5 w-3.5" aria-hidden />
+            Hangar
+          </button>
+          <button
+            type="button"
+            onClick={onOpenPassport}
+            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border border-white/12 bg-white/[0.04] px-2.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2 transition-colors hover:border-cyan-200/35 hover:text-lc-text"
+          >
+            <Stamp className="h-3.5 w-3.5" aria-hidden />
+            Passport
+          </button>
+        </div>
       </div>
 
       <div className="mt-3 grid grid-cols-2 gap-2">
@@ -2375,11 +2385,9 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                 onOpenHangar={() => setSidebarMode('hangar')}
               />
             )}
-            <div className="grid grid-cols-5 gap-1 rounded-md border border-white/15 bg-[var(--wf-surface)] p-1">
+            <div className="grid grid-cols-3 gap-1 rounded-md border border-white/15 bg-[var(--wf-surface)] p-1">
               <SidebarModeButton active={sidebarMode === 'destinations'} icon={<MapIcon className="h-3.5 w-3.5" />} label="Cities" onClick={() => setSidebarMode('destinations')} />
               <SidebarModeButton active={sidebarMode === 'expeditions'} icon={<Compass className="h-3.5 w-3.5" />} label="Routes" onClick={() => setSidebarMode('expeditions')} />
-              <SidebarModeButton active={sidebarMode === 'hangar'} icon={<Plane className="h-3.5 w-3.5" />} label="Hangar" onClick={() => setSidebarMode('hangar')} />
-              <SidebarModeButton active={sidebarMode === 'passport'} icon={<Stamp className="h-3.5 w-3.5" />} label="Passport" onClick={() => setSidebarMode('passport')} />
               <SidebarModeButton active={sidebarMode === 'missions'} icon={<Radar className="h-3.5 w-3.5" />} label="Missions" onClick={() => setSidebarMode('missions')} />
             </div>
             {sidebarMode !== 'expeditions' && currentExpeditionRun && currentExpedition && currentExpeditionProgress && (
