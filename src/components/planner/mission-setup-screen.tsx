@@ -8,6 +8,7 @@ import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-pr
 import { PresetCard } from './preset-card';
 import { ScenarioPickerModal } from './scenario-picker-modal';
 import { SourceInputPanel } from './source-input-panel';
+import { DescribePanel } from './describe-panel';
 
 const DURATIONS = [30, 45, 60, 90] as const;
 
@@ -53,39 +54,40 @@ export function MissionSetupScreen() {
     <div className={`${activeTab === 'presets' ? 'max-w-5xl' : 'max-w-3xl'} mx-auto space-y-6`}>
       {/* Tabs */}
       <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-xl p-1">
-        <button
-          onClick={() => setActiveTab('presets')}
-          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
-            activeTab === 'presets'
-              ? 'bg-lc-blue text-white shadow-sm'
-              : 'text-lc-text2 hover:text-lc-text hover:bg-lc-card'
-          }`}
-        >
-          Presets
-        </button>
-        <button
-          onClick={() => setActiveTab('build')}
-          className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
-            activeTab === 'build'
-              ? 'bg-lc-blue text-white shadow-sm'
-              : 'text-lc-text2 hover:text-lc-text hover:bg-lc-card'
-          }`}
-        >
-          Build
-        </button>
+        {([
+          { key: 'describe', label: 'Describe' },
+          { key: 'presets', label: 'Presets' },
+          { key: 'build', label: 'Build' },
+        ] as const).map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
+              activeTab === tab.key
+                ? 'bg-lc-blue text-white shadow-sm'
+                : 'text-lc-text2 hover:text-lc-text hover:bg-lc-card'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       {/* Tab hint */}
       <p className="text-xs text-lc-text3 -mt-2">
-        {activeTab === 'presets'
-          ? 'Start from a ready-made template — fastest way to get going.'
-          : 'Set every detail yourself — topic, goals, difficulty, and source material.'}
+        {activeTab === 'describe'
+          ? 'Describe your lesson in plain words — we build the plan for you to review and tweak.'
+          : activeTab === 'presets'
+            ? 'Start from a ready-made template — fastest way to get going.'
+            : 'Set every detail yourself — topic, goals, difficulty, and source material.'}
       </p>
 
       {/* Source material — available in both tabs */}
       <SourceInputPanel />
 
-      {activeTab === 'presets' ? (
+      {activeTab === 'describe' ? (
+        <DescribePanel />
+      ) : activeTab === 'presets' ? (
         <div className="space-y-6">
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {visiblePresets.map((preset) => (

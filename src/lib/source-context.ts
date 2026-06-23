@@ -22,17 +22,37 @@ export function extractPlainText(rawTranscript: string): string {
  */
 export function buildSourceContext(source?: SourceMaterial, rawTranscript?: string): string {
   if (!source) return '';
+
+  let primary = '';
   if (rawTranscript) {
     const text = extractPlainText(rawTranscript).slice(0, 10000);
-    return `\nSource material — ground ALL content ONLY in this transcript. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nTranscript:\n${text}\n`;
+    primary = `\nSource material — ground ALL content ONLY in this transcript. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nTranscript:\n${text}\n`;
+  } else {
+    const body = source.briefingText ?? source.rawText ?? source.summary ?? '';
+    if (body) {
+      const text = body.slice(0, 10000);
+      primary = (source.briefingText || source.rawText)
+        ? `\nSource material — ground ALL content ONLY in this source text. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nText:\n${text}\n`
+        : `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${body}\n`;
+    }
   }
-  const body = source.briefingText ?? source.rawText ?? source.summary ?? '';
-  if (!body) return '';
-  const text = body.slice(0, 10000);
-  if (source.briefingText || source.rawText) {
-    return `\nSource material — ground ALL content ONLY in this source text. Every vocabulary word, fact, question, and example must come directly from this text. Do not use general knowledge.\nTitle: "${source.title}"\n\nText:\n${text}\n`;
-  }
-  return `\nSource material — ground ALL content in this specific source, not general knowledge:\nTitle: "${source.title}"\n${body}\n`;
+
+  const supporting = buildSupportingContext(source.supportingSources);
+  if (!primary && !supporting) return '';
+  return primary + supporting;
+}
+
+/**
+ * Supporting-source block (primary + supporting policy). The primary source above
+ * leads; these add extra context. Each is bounded so several sources stay within budget.
+ */
+function buildSupportingContext(supporting?: SourceMaterial['supportingSources']): string {
+  if (!supporting || supporting.length === 0) return '';
+  const blocks = supporting
+    .filter((s) => s.text?.trim())
+    .map((s, i) => `Supporting source ${i + 1} — "${s.title}":\n${s.text.slice(0, 4000)}`);
+  if (blocks.length === 0) return '';
+  return `\nAdditional supporting material — extra context only; the main source above leads. Use it to enrich, not override.\n\n${blocks.join('\n\n')}\n`;
 }
 
 export const VIDEO_SOURCE_TYPES = new Set<SourceMaterial['sourceType']>([

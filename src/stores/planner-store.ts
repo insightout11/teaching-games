@@ -8,7 +8,7 @@ import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset, type FlightPresetConfig } f
 import type { ScoringMode } from '@/stores/session-store';
 import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
-import type { SourceMaterial, SourceType } from '@/types/source-material';
+import type { SourceMaterial, SourceType, SupportingSource } from '@/types/source-material';
 import type { WorldFlightLaunchContext, WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { resolveSourceMaterialForDifficulty } from '@/lib/world-flight/readings';
 import type {
@@ -186,7 +186,7 @@ interface PlannerState {
 
   // Step 2 — Flight Plan
   modules: PlanModule[];
-  activeTab: 'build' | 'presets';
+  activeTab: 'describe' | 'build' | 'presets';
   loadedPresetId: string | null;
   replaceDrawerModuleId: string | null;
   insertAfterIndex: number | null;
@@ -222,7 +222,7 @@ interface PlannerState {
   initModules(): void;
   moveModule(fromIndex: number, toIndex: number): void;
   replaceModule(id: string, newKey: string, newSlotType: SlotType): void;
-  setActiveTab(tab: 'build' | 'presets'): void;
+  setActiveTab(tab: 'describe' | 'build' | 'presets'): void;
   loadPreset(preset: FlightPlanPreset): void;
   setReplaceDrawerModuleId(id: string | null): void;
   setInsertAfterIndex(index: number | null): void;
@@ -237,6 +237,9 @@ interface PlannerState {
   setSelectedClassId(id: string | null): void;
   setGrammarTarget(t: GrammarTarget | null): void;
   setSourceMaterial(s: SourceMaterial | null): void;
+  /** Attach a secondary source merged into grounding (primary + supporting). No-op without a primary. */
+  addSupportingSource(material: SourceMaterial): void;
+  removeSupportingSource(index: number): void;
   setWorldFlightContext(context: WorldFlightLaunchContext | null): void;
   setWorldFlightDesignMissionContext(context: WorldFlightDesignMissionLaunchContext | null): void;
   setWorldFlightRoute(originId: string | null, destinationId: string | null): void;
@@ -265,7 +268,7 @@ export const usePlannerStore = create<PlannerState>()(
       goals: [],
       lessonDurationMinutes: 30,
       modules: [],
-      activeTab: 'presets',
+      activeTab: 'describe',
       loadedPresetId: null,
       replaceDrawerModuleId: null,
       insertAfterIndex: null,
@@ -409,6 +412,35 @@ export const usePlannerStore = create<PlannerState>()(
 
         set({ sourceMaterial: resolvedSourceMaterial });
       },
+      addSupportingSource: (material) =>
+        set((state) => {
+          if (!state.sourceMaterial) return state; // a primary must exist first
+          const text = material.briefingText ?? material.rawText ?? material.summary ?? '';
+          if (!text.trim()) return state;
+          const supporting: SupportingSource = {
+            sourceType: material.sourceType,
+            title: material.title,
+            text,
+          };
+          return {
+            sourceMaterial: {
+              ...state.sourceMaterial,
+              supportingSources: [...(state.sourceMaterial.supportingSources ?? []), supporting],
+            },
+          };
+        }),
+      removeSupportingSource: (index) =>
+        set((state) => {
+          const current = state.sourceMaterial?.supportingSources;
+          if (!current) return state;
+          const next = current.filter((_, i) => i !== index);
+          return {
+            sourceMaterial: {
+              ...state.sourceMaterial!,
+              supportingSources: next.length ? next : undefined,
+            },
+          };
+        }),
       setWorldFlightContext: (worldFlightContext) => set({
         worldFlightContext,
         ...(worldFlightContext ? { worldFlightDesignMissionContext: null } : {}),
@@ -549,7 +581,7 @@ export const usePlannerStore = create<PlannerState>()(
           goals: [],
           lessonDurationMinutes: 30,
           modules: [],
-          activeTab: 'build',
+          activeTab: 'describe',
           loadedPresetId: null,
           replaceDrawerModuleId: null,
           insertAfterIndex: null,

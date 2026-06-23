@@ -21,11 +21,24 @@ export interface SourceCitation {
   url: string;
 }
 
+/**
+ * A secondary source attached alongside the primary one. It enriches generation
+ * grounding only — it is NOT shown to students as the briefing (the primary
+ * SourceMaterial remains the lesson spine). See "primary + supporting" policy.
+ */
+export interface SupportingSource {
+  sourceType: SourceType;
+  title: string;
+  text: string; // grounding text (briefing/raw/summary of that source)
+}
+
 export interface SourceMaterial {
   sourceType: SourceType;
   sourceKey?: string; // YouTube video ID or TED talk ID
   title: string;
   summary: string; // ~500 words, used in AI prompts
+  /** Secondary sources merged into generation grounding (primary + supporting). */
+  supportingSources?: SupportingSource[];
   duration?: number;  // seconds — video sources
   rawText?: string;   // original unprocessed text (text/paste sources only)
   /** Student-facing text used for Captain's Briefing and downstream source-grounded generation. */

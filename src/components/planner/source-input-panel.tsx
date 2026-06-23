@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { VideoLibraryModal } from './video-library-modal';
 import { TextLibraryModal } from './text-library-modal';
-import { CheckCircle2, FileText, Film, Library, Link2, UploadCloud } from 'lucide-react';
+import { CheckCircle2, Compass, FileText, Film, Library, Link2, Sparkles, UploadCloud, X } from 'lucide-react';
 import type { SourceBriefingMode, SourceBriefingOption, SourceMaterial } from '@/types/source-material';
+import { recommendSources, type LibraryRecommendation } from '@/lib/source-library';
 
 type Tab = 'video' | 'text' | 'upload';
 type SourceExtractResponse = SourceMaterial & {
@@ -153,10 +154,51 @@ function buildSourceMaterial(data: SourceExtractResponse): SourceMaterial {
   };
 }
 
+function LibrarySuggestions({
+  topic,
+  disabled,
+  onUse,
+}: {
+  topic: string;
+  disabled: boolean;
+  onUse: (item: LibraryRecommendation) => void;
+}) {
+  const suggestions = useMemo(() => recommendSources(topic, { limit: 4 }), [topic]);
+  if (suggestions.length === 0) return null;
+  return (
+    <div className="rounded-lg border border-lc-blue/25 bg-lc-blue/5 p-3 space-y-2">
+      <p className="flex items-center gap-1.5 text-xs font-semibold text-lc-text2">
+        <Compass className="h-3.5 w-3.5 text-lc-blue" />
+        Suggested for &ldquo;{topic}&rdquo;
+      </p>
+      <div className="space-y-1.5">
+        {suggestions.map((s) => (
+          <div key={`${s.sourceType}-${s.id}`} className="flex items-center gap-2 rounded-md bg-lc-bg/70 px-2.5 py-2">
+            <span className="shrink-0 rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
+              {s.kind}
+            </span>
+            <span className="min-w-0 flex-1 truncate text-sm text-lc-text">{s.title}</span>
+            <button
+              onClick={() => onUse(s)}
+              disabled={disabled}
+              className="shrink-0 rounded-md border border-lc-blue/40 bg-lc-blue/10 px-2.5 py-1 text-xs font-semibold text-lc-blue hover:bg-lc-blue/15 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Use
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function SourceInputPanel() {
-  const { sourceMaterial, setSourceMaterial, setTopic } = usePlannerStore();
+  const { sourceMaterial, setSourceMaterial, setTopic, topic, difficulty, addSupportingSource, removeSupportingSource } = usePlannerStore();
   const { isPro, loading: tierLoading } = useTeacherTier();
 
+  // When true, the next committed source is attached as a SUPPORTING source on top
+  // of the existing primary, instead of replacing it.
+  const [addMode, setAddMode] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>('video');
   const [videoPayload, setVideoPayload] = useState('');
   const [textPayload, setTextPayload] = useState('');
@@ -165,6 +207,7 @@ export function SourceInputPanel() {
   const [showTedModal, setShowTedModal] = useState(false);
   const [showTextModal, setShowTextModal] = useState(false);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [genTopic, setGenTopic] = useState('');
   const [pendingSource, setPendingSource] = useState<SourceMaterial | null>(null);
   const [selectedBriefingOptionId, setSelectedBriefingOptionId] = useState<string | null>(null);
   const [briefingDraft, setBriefingDraft] = useState('');
@@ -172,6 +215,18 @@ export function SourceInputPanel() {
   const activeSourcePreview = sourceMaterial ? getSourcePreview(sourceMaterial) : '';
   const activeSourceWordCount = countWords(activeSourcePreview);
   const briefingDraftWordCount = countWords(briefingDraft);
+
+  // Route a freshly extracted source: in addMode it becomes a supporting source
+  // on top of the existing primary; otherwise it replaces the primary.
+  function commitMaterial(material: SourceMaterial) {
+    if (addMode && sourceMaterial) {
+      addSupportingSource(material);
+      setAddMode(false);
+    } else {
+      setSourceMaterial(material);
+      setTopic(material.title);
+    }
+  }
 
   function startBriefingReview(material: SourceMaterial) {
     const briefingOptions = withGeneratedOption(material);
@@ -251,9 +306,7 @@ export function SourceInputPanel() {
         }
         return;
       }
-      const material = buildSourceMaterial(data);
-      setSourceMaterial(material);
-      setTopic(data.title);
+      commitMaterial(buildSourceMaterial(data));
       setVideoPayload('');
       setTextPayload('');
     } catch {
@@ -289,7 +342,48 @@ export function SourceInputPanel() {
         setError(data.error ?? 'Failed to process file');
         return;
       }
-      startBriefingReview(buildSourceMaterial(data));
+      const m = buildSourceMaterial(data);
+      if (addMode && sourceMaterial) {
+        addSupportingSource(m);
+        setAddMode(false);
+        setUploadFile(null);
+      } else {
+        startBriefingReview(m);
+      }
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setProcessing(false);
+    }
+  }
+
+  async function processGenerateReading() {
+    const t = (genTopic.trim() || topic.trim());
+    if (t.length < 3) {
+      setError('Enter a topic to generate a reading.');
+      return;
+    }
+    setProcessing(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/source/generate-reading', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: t, difficulty }),
+      });
+      const data = await res.json() as SourceExtractResponse;
+      if (!res.ok) {
+        setError(data.error ?? 'Failed to generate a reading');
+        return;
+      }
+      setGenTopic('');
+      const m = buildSourceMaterial(data);
+      if (addMode && sourceMaterial) {
+        addSupportingSource(m);
+        setAddMode(false);
+      } else {
+        startBriefingReview(m);
+      }
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -303,6 +397,7 @@ export function SourceInputPanel() {
     setVideoPayload('');
     setTextPayload('');
     setUploadFile(null);
+    setAddMode(false);
     cancelPendingSource();
   }
 
@@ -441,7 +536,7 @@ export function SourceInputPanel() {
                 </button>
               </div>
             </div>
-          ) : sourceMaterial ? (
+          ) : (sourceMaterial && !addMode) ? (
             /* Active source summary */
             <div className="space-y-2">
               <div className="rounded-lg border border-emerald-400/25 bg-emerald-400/5 p-3 space-y-2">
@@ -467,13 +562,67 @@ export function SourceInputPanel() {
                   This source will feed the briefing, vocabulary, checks, and discussion prompts.
                 </p>
               </div>
-              <button onClick={handleRemove} className="text-xs font-semibold text-lc-text3 hover:text-lc-blue transition-colors">
-                Change source
-              </button>
+
+              {/* Supporting sources (primary + supporting) */}
+              {(sourceMaterial.supportingSources?.length ?? 0) > 0 && (
+                <div className="space-y-1.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
+                    Supporting sources — extra context, not the student briefing
+                  </p>
+                  {sourceMaterial.supportingSources!.map((s, i) => (
+                    <div key={`${s.sourceType}-${i}`} className="flex items-center gap-2 rounded-md border border-lc-border bg-lc-bg/70 px-2.5 py-1.5">
+                      <span className="shrink-0 rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">{s.sourceType}</span>
+                      <span className="min-w-0 flex-1 truncate text-xs text-lc-text2">{s.title}</span>
+                      <button
+                        onClick={() => removeSupportingSource(i)}
+                        aria-label="Remove supporting source"
+                        className="shrink-0 text-lc-text3 hover:text-red-400 transition-colors"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => { setAddMode(true); setError(null); }}
+                  className="text-xs font-semibold text-lc-blue hover:text-lc-blue-hover transition-colors"
+                >
+                  + Add another source
+                </button>
+                <button onClick={handleRemove} className="text-xs font-semibold text-lc-text3 hover:text-lc-blue transition-colors">
+                  Change source
+                </button>
+              </div>
             </div>
           ) : (
             /* Input form */
             <div className="space-y-3">
+              {addMode && (
+                <div className="flex items-center justify-between gap-2 rounded-lg border border-lc-blue/25 bg-lc-blue/5 px-3 py-2">
+                  <p className="text-xs font-semibold text-lc-text2">
+                    Add a supporting source — your main source stays the lesson spine.
+                  </p>
+                  <button
+                    onClick={() => { setAddMode(false); setError(null); }}
+                    className="shrink-0 text-xs font-semibold text-lc-text3 hover:text-lc-text transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+
+              {/* Topic-matched library suggestions (Find) */}
+              {topic.trim().length >= 3 && (
+                <LibrarySuggestions
+                  topic={topic.trim()}
+                  disabled={processing}
+                  onUse={(item) => process(item.sourceType, item.id)}
+                />
+              )}
+
               {/* 3-tab switcher */}
               <div className="space-y-2">
                 <p className="text-[10px] font-semibold uppercase tracking-wide text-lc-text3">Choose source type</p>
@@ -593,6 +742,31 @@ export function SourceInputPanel() {
                     className="w-full rounded-lg bg-lc-blue py-2 text-sm font-semibold text-white hover:bg-lc-blue-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {processing ? 'Processing…' : 'Process Text'}
+                  </button>
+
+                  {/* Generate a reading from a topic (no source needed) */}
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-px bg-lc-border" />
+                    <span className="text-xs text-lc-text3">or generate a reading</span>
+                    <div className="flex-1 h-px bg-lc-border" />
+                  </div>
+                  <label className="flex items-center gap-2 rounded-lg border border-lc-border bg-lc-bg px-3 py-2 focus-within:border-lc-blue focus-within:ring-1 focus-within:ring-lc-blue-glow">
+                    <Sparkles className="h-4 w-4 shrink-0 text-lc-text3" />
+                    <input
+                      type="text"
+                      value={genTopic}
+                      onChange={(e) => { setGenTopic(e.target.value); setError(null); }}
+                      disabled={processing}
+                      placeholder={topic.trim() ? `Topic: ${topic.trim()}` : 'Topic for a new reading, e.g. space travel'}
+                      className="min-w-0 flex-1 bg-transparent text-sm text-lc-text placeholder-lc-text3 outline-none disabled:cursor-not-allowed"
+                    />
+                  </label>
+                  <button
+                    onClick={processGenerateReading}
+                    disabled={processing || (genTopic.trim().length < 3 && topic.trim().length < 3)}
+                    className="w-full rounded-lg border border-lc-blue/40 bg-lc-blue/10 py-2 text-sm font-semibold text-lc-blue hover:bg-lc-blue/15 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {processing ? 'Generating…' : `Generate a ${difficulty} reading`}
                   </button>
                 </div>
               )}
