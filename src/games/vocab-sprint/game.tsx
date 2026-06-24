@@ -22,6 +22,7 @@ interface RaceSolver {
 }
 
 export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, onRevealTopSubmissions, config, isMicroEvent }: GameProps) {
+  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -300,6 +301,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           tone: sessionSettings.tone,
           seenItems: seenItemsRef.current,
           excludeCacheIds: seenCacheIdsRef.current,
+          ...(sourceMaterial ? { sourceMaterial } : {}),
         })
       });
 
@@ -322,7 +324,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
       setIsFetchingBatch(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic, sessionSettings.tone, isFetchingBatch, addSeenItems, addSeenCacheId]);
+  }, [sessionSettings.difficulty, sessionSettings.topic, sessionSettings.customTopic, sessionSettings.tone, isFetchingBatch, addSeenItems, addSeenCacheId, sourceMaterial]);
 
   // Start a sprint round
   const startSprint = async () => {
@@ -364,6 +366,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             tone: sessionSettings.tone,
             seenItems: seenItemsRef.current,
             excludeCacheIds: seenCacheIdsRef.current,
+            ...(sourceMaterial ? { sourceMaterial } : {}),
           })
         });
 

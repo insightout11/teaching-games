@@ -9,7 +9,7 @@ import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 const GAME_KEY = 'dialogue-detective';
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very simple, short dialogue.',
@@ -60,27 +60,29 @@ export async function POST(request: NextRequest) {
     const prompt = `Generate a dialogue puzzle for ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
 ${sourceContext}${sourceContext ? 'Set the conversation in a context drawn from the source material above, using its situations and vocabulary.\n' : ''}
-Create a 3-line conversation where:
-- Speaker A says something (line 1)
-- Speaker B responds (line 2) - THIS IS THE BLANK the student fills in
-- Speaker A replies to B's response (line 3)
+Two speakers, A and B, have FIXED, DISTINCT roles (e.g. A = customer / B = agent, A = student / B = teacher). Each speaker only ever says things that THEIR role would say.
 
-The student must figure out what B said that would:
-1. Make sense as a response to line 1
-2. Naturally lead to line 3
+Create a 3-line conversation:
+- Line 1 — Speaker A says something (in A's role).
+- Line 2 — Speaker B responds (in B's role). THIS LINE IS BLANK; the student fills it in.
+- Line 3 — Speaker A replies to B (still in A's role).
+
+CRITICAL ROLE-CONSISTENCY RULES:
+- Both of A's lines must be spoken by the SAME person in the SAME role. Line 3 must be a natural REACTION by A to what B said — never an action or line that belongs to B's role.
+- Example of the trap to AVOID: if A is a customer checking in and B is the check-in agent, then "Here is your boarding pass, your gate is 7" is the AGENT's line and must NOT be put in A's mouth. A's line 3 would instead be something like "Great, thank you!"
+- The blank (B's line) must be clearly inferable: it must make sense as a reply to line 1 AND set up line 3.
 
 Provide:
-- speakerA_before: What A says first
-- speakerA_after: What A says after B's response
-- context: Brief setting (e.g., "At a restaurant", "Job interview")
-- goal: What B needs to accomplish (e.g., "Ask for directions", "Decline politely")
+- speakerA_before: A's first line.
+- speakerA_after: A's reaction to B — consistent with A's role, and a natural response to the missing B line.
+- context: Brief setting that names both roles (e.g., "Customer and agent at an airport check-in counter").
+- goal: What B (the blank speaker) is trying to accomplish in their line, phrased from B's side (e.g., "Confirm the booking and hand over the boarding pass", "Politely decline the request").
 
 Requirements:
-- The conversation should be natural and realistic
-- B's response should be inferable from context
-- There should be multiple valid ways to fill the blank
-- The dialogue should relate to ${topic}
-- Appropriate complexity for ${difficulty} level`;
+- The conversation must be natural, realistic, and logically coherent end-to-end.
+- There should be multiple valid ways to fill the blank.
+- The dialogue should relate to ${topic}.
+- Appropriate complexity for ${difficulty} level.`;
 
     const data = await generateJSON<{ speakerA_before: string; speakerA_after: string; context: string; goal: string }>(prompt, schema, { taskClass: 'content-generation' });
 

@@ -5,6 +5,8 @@ import type { Difficulty, Topic, Tone } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { vocabSprintFallback } from '@/lib/fallback-content';
+import { resolveSourceContext } from '@/lib/source-context';
+import type { SourceMaterial } from '@/types/source-material';
 
 export interface GameSentence {
   sentence: string;
@@ -53,18 +55,24 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const { difficulty, topic, tone, seenItems = [], excludeCacheIds = [], keyVocabWords } = await request.json() as {
+  const { difficulty, topic, tone, seenItems = [], excludeCacheIds = [], keyVocabWords, sourceMaterial } = await request.json() as {
     difficulty: Difficulty;
     topic: Topic;
     tone: Tone;
     seenItems?: string[];
     excludeCacheIds?: string[];
     keyVocabWords?: string[]; // Vocab Radar output — feeds hard round targets
+    sourceMaterial?: SourceMaterial;
   };
+
+  // Ground the sentences in the lesson's source material when attached.
+  const sourceContext = await resolveSourceContext(sourceMaterial);
+  // Source-grounded content is lesson-specific — never serve or store it from the shared cache.
+  const skipCache = !!sourceMaterial;
 
   try {
     // When vocab words are provided the hard rounds are session-specific — skip cache
-    if (!keyVocabWords?.length) {
+    if (!keyVocabWords?.length && !skipCache) {
       const cached = await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, undefined, SCHEMA_VERSION);
       if (cached) {
         return NextResponse.json({
@@ -89,7 +97,7 @@ export async function POST(request: NextRequest) {
     const prompt = `Generate exactly 6 English sentences for vocabulary practice at ${difficultyPrompts[difficulty]}
 Topic: ${topic}.
 Tone: ${toneInstructions[tone]}
-${exclusionNote}
+${sourceContext}${sourceContext ? 'Every sentence must be set in the situations, scenarios, and vocabulary of the source material above — not generic unrelated content.\n' : ''}${exclusionNote}
 DISTRIBUTE EXACTLY: 2 easy + 2 medium + 2 hard sentences (level field must be "easy", "medium", or "hard").
 
 --- EASY (2 sentences) ---
@@ -121,8 +129,8 @@ Return exactly 6 objects as a JSON array ordered: 2 easy, 2 medium, 2 hard.`;
       targetWord: s.targetWord || undefined,
     }));
 
-    // Only cache when no vocab words were used (those results are session-specific)
-    const cacheId = keyVocabWords?.length
+    // Only cache when no vocab words were used and not source-grounded (those results are session-specific)
+    const cacheId = (keyVocabWords?.length || skipCache)
       ? null
       : await storeCachedContent(GAME_KEY, topic, difficulty, normalised, SCHEMA_VERSION);
 

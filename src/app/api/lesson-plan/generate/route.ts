@@ -2384,9 +2384,11 @@ async function generateVocabMicro(topic: string, difficulty: Difficulty, sourceC
   const prompt = `Create one quick "which word fits?" vocabulary check for an English class at ${difficultyDescriptions[difficulty]}.
 Topic: ${topic}.
 ${sourceContext}${sourceContext ? 'Draw the target word and sentence from the source material above.\n' : ''}
+The sentence must be a REAL, natural sentence that a person would actually say or write within the world of "${topic}" — like a line of real travel/everyday English. It must NOT be a sentence that talks ABOUT the lesson, the topic, or "English" itself. Do NOT include the words "topic", "lesson", "English", or the literal phrase "${topic}" in the sentence. (Bad: "The travel English is for a situation at the ___." Good, for travel: "Excuse me, where can I check in for my ___ to São Paulo?")
+
 Provide:
-- sentence: one natural sentence about ${topic} with a single gap shown as "___"
-- options: exactly 4 single-word choices that could grammatically fill the gap, with ONE clearly best for the meaning
+- sentence: one natural, in-context sentence with a single gap shown as "___"
+- options: exactly 4 single-word choices that all fit the gap grammatically, with ONE clearly best by MEANING. The three distractors should be plausible in the same context (same part of speech, same general domain) — never random unrelated nouns.
 - correctIndex: 0-based index of the best word in options
 - word: the correct word (equal to options[correctIndex])
 - explanation: one sentence on the word's meaning and why it fits
@@ -2399,7 +2401,7 @@ Provide:
     return {
       activityKey: 'vocab-micro',
       topicContext: topic,
-      sentence: data.sentence ?? `The topic of ${topic} is very ___.`,
+      sentence: data.sentence ?? `The word that fits best here is "___".`,
       options,
       correctIndex,
       word: data.word ?? options[correctIndex],
@@ -2410,12 +2412,12 @@ Provide:
     return {
       activityKey: 'vocab-micro',
       topicContext: topic,
-      sentence: `The topic of ${topic} is very ___.`,
-      options: ['interesting', 'table', 'quickly', 'blue'],
+      sentence: `That sounds really ___ — tell me more!`,
+      options: ['interesting', 'boring', 'confusing', 'ordinary'],
       correctIndex: 0,
       word: 'interesting',
-      explanation: '"Interesting" describes something that holds your attention.',
-      example: `I find ${topic} interesting.`,
+      explanation: '"Interesting" describes something that holds your attention and makes you want to know more.',
+      example: `I find ${topic} really interesting.`,
     };
   }
 }
