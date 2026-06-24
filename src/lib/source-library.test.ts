@@ -29,6 +29,20 @@ describe('recommendSources', () => {
     expect(recommendSources('minecraft', { kind: 'reading' }).every((r) => r.kind === 'reading')).toBe(true);
   });
 
+  it('excludes young-learner (kids) content unless allowed', () => {
+    // The kids library has cave content, so it's a real test of the audience filter.
+    const withoutKids = recommendSources('caves', { allowKids: false });
+    const withKids = recommendSources('caves', { allowKids: true });
+    expect(withoutKids.every((r) => r.sourceType !== 'kids')).toBe(true);
+    expect(withKids.some((r) => r.sourceType === 'kids')).toBe(true);
+  });
+
+  it('applying a level filters but never adds results', () => {
+    const all = recommendSources('caves', { allowKids: true });
+    const leveled = recommendSources('caves', { level: 'Beginner', allowKids: true });
+    expect(leveled.length).toBeLessThanOrEqual(all.length);
+  });
+
   it('every recommendation carries the fields the extract flow needs', () => {
     const [first] = recommendSources('minecraft');
     expect(first).toBeDefined();

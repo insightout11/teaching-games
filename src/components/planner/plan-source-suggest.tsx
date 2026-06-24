@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
+import { useTeacherProfile } from '@/hooks/use-teacher-profile';
 import { recommendSources, type LibraryRecommendation } from '@/lib/source-library';
 import type { SourceMaterial } from '@/types/source-material';
 import { CheckCircle2, FileText, Film, Sparkles } from 'lucide-react';
@@ -31,13 +32,15 @@ function toMaterial(data: ExtractResponse): SourceMaterial {
 export function PlanSourceSuggest() {
   const { topic, difficulty, sourceMaterial, applySourceBriefing } = usePlannerStore();
   const { isPro, loading: tierLoading } = useTeacherTier();
+  const { profile } = useTeacherProfile();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const trimmedTopic = topic.trim();
+  const allowKids = profile.age === 'kids';
   const suggestions = useMemo(
-    () => (trimmedTopic.length >= 3 ? recommendSources(trimmedTopic, { limit: 2 }) : []),
-    [trimmedTopic],
+    () => (trimmedTopic.length >= 3 ? recommendSources(trimmedTopic, { limit: 2, level: difficulty, allowKids }) : []),
+    [trimmedTopic, difficulty, allowKids],
   );
 
   if (tierLoading || trimmedTopic.length < 3) return null;
@@ -122,11 +125,10 @@ export function PlanSourceSuggest() {
 
       {suggestions.map((s) => (
         <div key={`${s.sourceType}-${s.id}`} className="flex items-center gap-2 rounded-md bg-lc-bg/70 px-2.5 py-2">
-          {s.kind === 'video' ? (
-            <Film className="h-3.5 w-3.5 shrink-0 text-lc-text3" />
-          ) : (
-            <FileText className="h-3.5 w-3.5 shrink-0 text-lc-text3" />
-          )}
+          <span className="flex shrink-0 items-center gap-1 rounded bg-lc-text3/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
+            {s.kind === 'video' ? <Film className="h-3 w-3" /> : <FileText className="h-3 w-3" />}
+            {s.kind === 'video' ? 'Video' : 'Reading'}
+          </span>
           <span className="min-w-0 flex-1 truncate text-sm text-lc-text">{s.title}</span>
           <button
             onClick={() => attachLibrary(s)}

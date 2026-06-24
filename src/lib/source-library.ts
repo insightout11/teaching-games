@@ -96,24 +96,46 @@ export interface RecommendOptions {
   kind?: LibraryItemKind;
   /** Max results (default 6). */
   limit?: number;
+  /** Lesson level — down-ranks far-off difficulty, hard-excludes extreme mismatches. */
+  level?: string;
+  /** Allow young-learner ('kids') content. Default false. */
+  allowKids?: boolean;
 }
 
 export interface LibraryRecommendation extends LibraryItem {
   score: number;
 }
 
+/** Map any level label (lesson Difficulty or library difficultyLevel) to a 1–5 band. */
+function levelRank(label: string): number {
+  const l = label.toLowerCase();
+  if (l.includes('beginner')) return 1;
+  if (l.includes('pre-intermediate')) return 2;
+  if (l.includes('upper-intermediate')) return 4;
+  if (l.includes('intermediate')) return 3;
+  if (l.includes('easy')) return 2;
+  if (l.includes('advanced')) return 5;
+  if (l.includes('expert')) return 5;
+  return 3;
+}
+
 /**
  * Rank library items by topic relevance. Tag hits weigh most, then title, then
- * description/summary. Returns only positive-scoring matches, highest first.
+ * description/summary. Returns only genuinely on-topic matches (tag/title hit),
+ * filtered by audience (kids) and level, highest first.
  */
 export function recommendSources(topic: string, options: RecommendOptions = {}): LibraryRecommendation[] {
   const queryTokens = tokenize(topic);
   if (queryTokens.length === 0) return [];
 
+  const lessonRank = options.level ? levelRank(options.level) : null;
   const pool = options.kind ? ALL_ITEMS.filter((i) => i.kind === options.kind) : ALL_ITEMS;
   const scored: LibraryRecommendation[] = [];
 
   for (const item of pool) {
+    // Audience: young-learner content only when the teacher teaches kids.
+    if (!options.allowKids && item.sourceType === 'kids') continue;
+
     const tags = item.topicTags.map((t) => t.toLowerCase());
     const title = item.title.toLowerCase();
     const body = `${item.description} ${item.summary ?? ''}`.toLowerCase();
@@ -132,7 +154,16 @@ export function recommendSources(topic: string, options: RecommendOptions = {}):
       }
     }
     // Require a real topical match (tag/title); body-only matches are noise.
-    if (strong) scored.push({ ...item, score });
+    if (!strong) continue;
+
+    // Level fit: hard-exclude extreme mismatches, softly down-rank near misses.
+    if (lessonRank !== null && item.difficultyLevel) {
+      const dist = Math.abs(lessonRank - levelRank(item.difficultyLevel));
+      if (dist >= 3) continue;
+      score -= dist;
+    }
+
+    scored.push({ ...item, score });
   }
 
   scored.sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));

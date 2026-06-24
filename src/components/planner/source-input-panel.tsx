@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
+import { useTeacherProfile } from '@/hooks/use-teacher-profile';
 import { VideoLibraryModal } from './video-library-modal';
 import { TextLibraryModal } from './text-library-modal';
 import { CheckCircle2, Compass, FileText, Film, Library, Link2, Sparkles, UploadCloud, X } from 'lucide-react';
@@ -156,14 +157,21 @@ function buildSourceMaterial(data: SourceExtractResponse): SourceMaterial {
 
 function LibrarySuggestions({
   topic,
+  level,
   disabled,
   onUse,
 }: {
   topic: string;
+  level: string;
   disabled: boolean;
   onUse: (item: LibraryRecommendation) => void;
 }) {
-  const suggestions = useMemo(() => recommendSources(topic, { limit: 3 }), [topic]);
+  const { profile } = useTeacherProfile();
+  const allowKids = profile.age === 'kids';
+  const suggestions = useMemo(
+    () => recommendSources(topic, { limit: 3, level, allowKids }),
+    [topic, level, allowKids],
+  );
   if (suggestions.length === 0) return null;
   return (
     <div className="rounded-lg border border-lc-blue/25 bg-lc-blue/5 p-3 space-y-2">
@@ -175,7 +183,7 @@ function LibrarySuggestions({
         {suggestions.map((s) => (
           <div key={`${s.sourceType}-${s.id}`} className="flex items-center gap-2 rounded-md bg-lc-bg/70 px-2.5 py-2">
             <span className="shrink-0 rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
-              {s.kind}
+              {s.kind === 'video' ? 'Video' : 'Reading'}
             </span>
             <span className="min-w-0 flex-1 truncate text-sm text-lc-text">{s.title}</span>
             <button
@@ -618,6 +626,7 @@ export function SourceInputPanel() {
               {topic.trim().length >= 3 && (
                 <LibrarySuggestions
                   topic={topic.trim()}
+                  level={difficulty}
                   disabled={processing}
                   onUse={(item) => process(item.sourceType, item.id)}
                 />
