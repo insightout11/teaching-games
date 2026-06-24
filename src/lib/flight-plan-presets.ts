@@ -353,31 +353,6 @@ export const ARCHIVED_PRESETS: FlightPlanPreset[] = [
  */
 export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
-    id: 'design-studio-60',
-    name: 'Design Studio',
-    description: 'Build one class-created design through contextual questions, debate, and progressive votes',
-    lessonDurationMinutes: 60,
-    goal: 'creativity',
-    lessonType: 'performance',
-    scoringMode: 'participation',
-    skipTakeoffLanding: true,
-    moduleSequence: [
-      { slotType: 'production', key: 'design-studio' },
-    ],
-    scenarios: {
-      label: 'Choose a design challenge',
-      placeholder: 'e.g. Design a floating neighborhood that can survive floods',
-      options: [
-        'Design a public space where different communities feel welcome',
-        'Design a neighborhood that can adapt to extreme weather',
-        'Design a fairer way for people to move through a busy city',
-        'Design a school that supports different ways of learning',
-        'Design a food system that wastes less and feeds more people',
-        'Design a safer, more useful public park',
-      ],
-    },
-  },
-  {
     id: 'all-around-flight-60',
     name: "Captain's Flight",
     description: 'Flagship ESL journey: warm-up, briefing, opinion pulse, language toolkit, accuracy check, main discussion, review game, wrap-up',
@@ -659,6 +634,31 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'Work and the future of jobs',
         'Health, food, and lifestyle',
         'City life vs. country life',
+      ],
+    },
+  },
+  {
+    id: 'design-studio-60',
+    name: 'Design Studio',
+    description: 'Build one class-created design through contextual questions, debate, and progressive votes',
+    lessonDurationMinutes: 60,
+    goal: 'creativity',
+    lessonType: 'performance',
+    scoringMode: 'participation',
+    skipTakeoffLanding: true,
+    moduleSequence: [
+      { slotType: 'production', key: 'design-studio' },
+    ],
+    scenarios: {
+      label: 'Choose a design challenge',
+      placeholder: 'e.g. Design a floating neighborhood that can survive floods',
+      options: [
+        'Design a public space where different communities feel welcome',
+        'Design a neighborhood that can adapt to extreme weather',
+        'Design a fairer way for people to move through a busy city',
+        'Design a school that supports different ways of learning',
+        'Design a food system that wastes less and feeds more people',
+        'Design a safer, more useful public park',
       ],
     },
   },

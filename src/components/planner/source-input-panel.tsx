@@ -163,7 +163,7 @@ function LibrarySuggestions({
   disabled: boolean;
   onUse: (item: LibraryRecommendation) => void;
 }) {
-  const suggestions = useMemo(() => recommendSources(topic, { limit: 4 }), [topic]);
+  const suggestions = useMemo(() => recommendSources(topic, { limit: 3 }), [topic]);
   if (suggestions.length === 0) return null;
   return (
     <div className="rounded-lg border border-lc-blue/25 bg-lc-blue/5 p-3 space-y-2">

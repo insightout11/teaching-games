@@ -9,10 +9,10 @@ import type { LessonIntent } from '@/app/api/lesson-plan/intent/route';
 const DURATIONS = [30, 45, 60, 90] as const;
 
 const EXAMPLES = [
-  'A fun 30-min speaking warm-up about travel for teens',
-  'Grammar lesson on the past simple, end with a debate',
-  'Vocabulary builder on climate change',
-  'Functional English for ordering food at a restaurant',
+  'A speaking lesson about social media for B2 adults',
+  'Past simple grammar practice with a review game',
+  'Vocabulary and discussion about food and cooking',
+  'Business English for a job interview, advanced',
 ];
 
 function chipClass(active: boolean): string {
@@ -97,7 +97,7 @@ export function DescribePanel() {
           }}
           disabled={loading}
           rows={3}
-          placeholder="e.g. A B1 lesson about sea turtles, lots of speaking, ending with a debate."
+          placeholder="e.g. A 45-min speaking lesson about social media for teens"
           className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-base leading-relaxed focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue resize-y disabled:opacity-60"
         />
         <p className="text-xs text-lc-text3 mt-1">

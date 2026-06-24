@@ -38,10 +38,11 @@ export function MissionSetupScreen() {
         ) : (
           <button
             onClick={() => setShowSource(true)}
-            className="flex items-center gap-2 text-sm font-medium text-lc-text2 hover:text-lc-text transition-colors"
+            className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-dashed border-lc-border bg-lc-surface/60 px-4 py-3.5 text-sm font-semibold text-lc-text2 hover:border-lc-blue/50 hover:bg-lc-blue/5 hover:text-lc-text transition-all"
           >
-            <Paperclip className="h-4 w-4" />
-            Add source material <span className="text-lc-text3">(optional)</span>
+            <Paperclip className="h-4 w-4 text-lc-blue" />
+            Add a video, reading, or document
+            <span className="font-normal text-lc-text3">— optional</span>
           </button>
         )}
       </div>

@@ -119,12 +119,20 @@ export function recommendSources(topic: string, options: RecommendOptions = {}):
     const body = `${item.description} ${item.summary ?? ''}`.toLowerCase();
 
     let score = 0;
+    let strong = false; // a tag or title hit — not just a stray word in the description
     for (const q of queryTokens) {
-      if (tags.some((t) => t.includes(q) || q.includes(t))) score += 3;
-      else if (title.includes(q)) score += 2;
-      else if (body.includes(q)) score += 1;
+      if (tags.some((t) => t.includes(q) || q.includes(t))) {
+        score += 3;
+        strong = true;
+      } else if (title.includes(q)) {
+        score += 2;
+        strong = true;
+      } else if (body.includes(q)) {
+        score += 1;
+      }
     }
-    if (score > 0) scored.push({ ...item, score });
+    // Require a real topical match (tag/title); body-only matches are noise.
+    if (strong) scored.push({ ...item, score });
   }
 
   scored.sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
