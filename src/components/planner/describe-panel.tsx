@@ -51,7 +51,9 @@ export function DescribePanel() {
       setGoals([data.goal, ...data.secondaryGoals]);
       setDifficulty(data.difficulty);
       setDuration(data.durationMinutes);
-      if (!sourceMaterial) setTopic(data.topic); // keep source-derived topic when a source is attached
+      // Keep the source-derived topic when a source is attached; otherwise use the
+      // extracted topic, falling back to the teacher's own words so it's never empty.
+      if (!sourceMaterial) setTopic(data.topic?.trim() || trimmed);
       initModules();
       setStep('flight-plan');
     } catch {

@@ -77,6 +77,27 @@ describe('POST /api/lesson-plan/intent', () => {
     expect(new Set(data.secondaryGoals).size).toBe(data.secondaryGoals.length); // deduped
   });
 
+  it('falls back to the teacher text when the model returns an empty topic', async () => {
+    mockGenerateJSON.mockResolvedValue({
+      goal: 'speaking-fluency',
+      difficulty: 'Intermediate',
+      durationMinutes: 60,
+      topic: '',
+    });
+    const data = await (await call({ text: 'a fun lesson about turtles' })).json();
+    expect(data.topic).toBe('a fun lesson about turtles');
+  });
+
+  it('falls back to the teacher text when the model omits the topic field', async () => {
+    mockGenerateJSON.mockResolvedValue({
+      goal: 'vocabulary-building',
+      difficulty: 'Beginner',
+      durationMinutes: 45,
+    });
+    const data = await (await call({ text: 'turtles and their habitats' })).json();
+    expect(data.topic).toBe('turtles and their habitats');
+  });
+
   it('rejects empty input without calling the model', async () => {
     const res = await call({ text: '  ' });
     expect(res.status).toBe(400);

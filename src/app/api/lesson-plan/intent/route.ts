@@ -107,12 +107,16 @@ export async function POST(request: NextRequest) {
       new Set((raw.secondaryGoals ?? []).map(clampGoal).filter((g) => g !== goal)),
     ).slice(0, 2);
 
+    const extractedTopic = (raw.topic ?? '').trim().slice(0, 200);
     const intent: LessonIntent = {
       goal,
       secondaryGoals,
       difficulty: clampDifficulty(raw.difficulty),
       durationMinutes: snapDuration(raw.durationMinutes),
-      topic: (raw.topic ?? '').trim().slice(0, 200),
+      // Never return an empty topic — fall back to the teacher's own words so the
+      // lesson always grounds in what they asked for. An empty topic silently
+      // degrades to the 'General' default → generic, off-topic content.
+      topic: extractedTopic || text.slice(0, 200),
     };
 
     return NextResponse.json(intent);
