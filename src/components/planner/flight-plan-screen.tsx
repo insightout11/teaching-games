@@ -5,6 +5,7 @@ import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import { ReplaceDrawer } from './replace-drawer';
 import { ArrowLeft, RefreshCw, ArrowRight, Plus, X, Sparkles } from 'lucide-react';
 import { getModuleDisplayInfo, isUndeterminedModule } from '@/lib/planner-utils';
+import { PlanSourceSuggest } from './plan-source-suggest';
 
 const SLOT_COLORS: Record<string, string> = {
   takeoff:      'text-amber-400 bg-amber-500/10 border-amber-500/30',
@@ -48,6 +49,9 @@ export function FlightPlanScreen() {
           </div>
         </div>
       </div>
+
+      {/* Ground the lesson — surfaced here because the topic is now known */}
+      <PlanSourceSuggest />
 
       {/* Module list editor — vertical, scales to any module count */}
       <div className="space-y-1">

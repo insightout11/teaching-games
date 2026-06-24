@@ -240,6 +240,8 @@ interface PlannerState {
   /** Attach a secondary source merged into grounding (primary + supporting). No-op without a primary. */
   addSupportingSource(material: SourceMaterial): void;
   removeSupportingSource(index: number): void;
+  /** Step 2: attach/remove a source on the already-built plan and re-route the briefing slot. */
+  applySourceBriefing(material: SourceMaterial | null): void;
   setWorldFlightContext(context: WorldFlightLaunchContext | null): void;
   setWorldFlightDesignMissionContext(context: WorldFlightDesignMissionLaunchContext | null): void;
   setWorldFlightRoute(originId: string | null, destinationId: string | null): void;
@@ -440,6 +442,31 @@ export const usePlannerStore = create<PlannerState>()(
               supportingSources: next.length ? next : undefined,
             },
           };
+        }),
+      applySourceBriefing: (material) =>
+        set((state) => {
+          const resolved = material ? resolveSourceMaterialForDifficulty(material, state.difficulty) : null;
+          const kind = getSourceKind(resolved);
+          let modules = state.modules;
+
+          const injectAfterTakeoff = (key: string) => {
+            const i = modules.findIndex((m) => m.slotType === 'takeoff');
+            modules = [...modules];
+            modules.splice(i >= 0 ? i + 1 : 0, 0, { id: crypto.randomUUID(), slotType: 'presentation', key, isLocked: false });
+          };
+
+          if (kind === 'video') {
+            modules = modules.map((m) => (m.key === 'read-aloud' ? { ...m, key: 'video-player', slotType: 'presentation' as const } : m));
+            if (!modules.some((m) => m.key === 'video-player')) injectAfterTakeoff('video-player');
+          } else if (kind === 'text') {
+            modules = modules.map((m) => (m.key === 'video-player' ? { ...m, key: 'read-aloud', slotType: 'presentation' as const } : m));
+            if (!modules.some((m) => m.key === 'read-aloud')) injectAfterTakeoff('read-aloud');
+          } else {
+            // Removing the source: revert any video briefing back to a topic-based reading.
+            modules = modules.map((m) => (m.key === 'video-player' ? { ...m, key: 'read-aloud', slotType: 'presentation' as const } : m));
+          }
+
+          return { sourceMaterial: resolved, modules };
         }),
       setWorldFlightContext: (worldFlightContext) => set({
         worldFlightContext,
