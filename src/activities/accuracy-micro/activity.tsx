@@ -61,8 +61,6 @@ export function AccuracyMicroActivity({
       bCount: bVotes.length,
       aPercent: total > 0 ? Math.round((aVotes.length / total) * 100) : 50,
       bPercent: total > 0 ? Math.round((bVotes.length / total) * 100) : 50,
-      correctVoters: bVotes,
-      incorrectVoters: aVotes,
     };
   }, [votes]);
 
@@ -171,18 +169,21 @@ export function AccuracyMicroActivity({
           animate={{ opacity: 1 }}
           className="space-y-6"
         >
+          {/* Projected screen: keep A/B neutral while voting — no per-option counts,
+              no voter names, no red/green tell (B is always the correct sentence). */}
           <div className="space-y-3">
-            <div className="glass p-5 rounded-2xl border-2 border-red-400/20">
-              <p className="text-red-400 text-sm font-bold mb-1">A — {stats.aCount} votes</p>
-              <p className="text-sm font-semibold mb-2">{content.sentence}</p>
-              <p className="text-xs opacity-50">{stats.incorrectVoters.map((v) => v.displayName).join(', ') || 'None yet'}</p>
+            <div className="glass p-5 rounded-2xl border-2 border-white/10">
+              <p className="text-slate-300 text-sm font-bold mb-1">A</p>
+              <p className="text-sm font-semibold">{content.sentence}</p>
             </div>
-            <div className="glass p-5 rounded-2xl border-2 border-emerald-400/20">
-              <p className="text-emerald-400 text-sm font-bold mb-1">B — {stats.bCount} votes</p>
-              <p className="text-sm font-semibold mb-2">{content.correctedSentence}</p>
-              <p className="text-xs opacity-50">{stats.correctVoters.map((v) => v.displayName).join(', ') || 'None yet'}</p>
+            <div className="glass p-5 rounded-2xl border-2 border-white/10">
+              <p className="text-slate-300 text-sm font-bold mb-1">B</p>
+              <p className="text-sm font-semibold">{content.correctedSentence}</p>
             </div>
           </div>
+          <p className="text-center text-sm opacity-60">
+            {votes.length} {votes.length === 1 ? 'student has' : 'students have'} voted
+          </p>
           <div className="flex justify-center">
             <button
               onClick={endVoting}

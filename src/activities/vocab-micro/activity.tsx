@@ -105,6 +105,13 @@ export function VocabMicroActivity({
 
       {(phase === 'voting' || phase === 'reveal') && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
+          {phase === 'voting' && (
+            // Projected screen: show only how many have voted, never the per-option
+            // breakdown — otherwise students copy whichever option is leading.
+            <p className="text-center text-sm opacity-60">
+              {votes.length} {votes.length === 1 ? 'student has' : 'students have'} voted
+            </p>
+          )}
           {options.map((opt) => {
             const isCorrect = opt === correct;
             const revealed = phase === 'reveal';
@@ -117,7 +124,9 @@ export function VocabMicroActivity({
                   {revealed && isCorrect && <CheckCircle className="h-5 w-5 text-emerald-400" aria-hidden />}
                   {opt}
                 </span>
-                <span className="text-xs opacity-50">{countFor(opt)} {countFor(opt) === 1 ? 'vote' : 'votes'}</span>
+                {revealed && (
+                  <span className="text-xs opacity-50">{countFor(opt)} {countFor(opt) === 1 ? 'vote' : 'votes'}</span>
+                )}
               </div>
             );
           })}
