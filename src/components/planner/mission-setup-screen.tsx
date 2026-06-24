@@ -2,46 +2,20 @@
 
 import { useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
-import { DIFFICULTIES } from '@/lib/difficulty';
-import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { PresetCard } from './preset-card';
 import { ScenarioPickerModal } from './scenario-picker-modal';
 import { SourceInputPanel } from './source-input-panel';
 import { DescribePanel } from './describe-panel';
-
-const DURATIONS = [30, 45, 60, 90] as const;
+import { Paperclip } from 'lucide-react';
 
 export function MissionSetupScreen() {
-  const {
-    topic,
-    difficulty,
-    goals,
-    lessonDurationMinutes,
-    activeTab,
-    setTopic,
-    setDifficulty,
-    toggleGoal,
-    setDuration,
-    setActiveTab,
-    initModules,
-    setStep,
-    loadPreset,
-  } = usePlannerStore();
-
-  const { sourceMaterial } = usePlannerStore();
+  const { sourceMaterial, setTopic, setStep, loadPreset } = usePlannerStore();
   const [pendingPreset, setPendingPreset] = useState<FlightPlanPreset | null>(null);
-  const visiblePresets = FLIGHT_PLAN_PRESETS;
-
-  const canGenerate = topic.trim().length > 0 || !!sourceMaterial;
-
-  const handleGenerate = () => {
-    initModules();
-    setStep('flight-plan');
-  };
+  const [showSource, setShowSource] = useState(false);
 
   function handlePresetClick(preset: FlightPlanPreset) {
-    // Source-backed lessons and presets without scenarios can load directly.
+    // Source-backed lessons and presets without scenarios load directly.
     if (sourceMaterial || !preset.scenarios) {
       loadPreset(preset);
       setStep('flight-plan');
@@ -50,167 +24,53 @@ export function MissionSetupScreen() {
     setPendingPreset(preset);
   }
 
+  const sourceOpen = showSource || !!sourceMaterial;
+
   return (
-    <div className={`${activeTab === 'presets' ? 'max-w-5xl' : 'max-w-3xl'} mx-auto space-y-6`}>
-      {/* Tabs */}
-      <div className="flex gap-1 bg-lc-bg border border-lc-border rounded-xl p-1">
-        {([
-          { key: 'describe', label: 'Describe' },
-          { key: 'presets', label: 'Presets' },
-          { key: 'build', label: 'Build' },
-        ] as const).map((tab) => (
+    <div className="max-w-3xl mx-auto space-y-8">
+      {/* Create — one flow: describe + level/time chips (merges old Describe + Build) */}
+      <DescribePanel />
+
+      {/* Optional source material — collapsed so it never buries the main input */}
+      <div>
+        {sourceOpen ? (
+          <SourceInputPanel />
+        ) : (
           <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
-              activeTab === tab.key
-                ? 'bg-lc-blue text-white shadow-sm'
-                : 'text-lc-text2 hover:text-lc-text hover:bg-lc-card'
-            }`}
+            onClick={() => setShowSource(true)}
+            className="flex items-center gap-2 text-sm font-medium text-lc-text2 hover:text-lc-text transition-colors"
           >
-            {tab.label}
+            <Paperclip className="h-4 w-4" />
+            Add source material <span className="text-lc-text3">(optional)</span>
           </button>
-        ))}
+        )}
       </div>
 
-      {/* Tab hint */}
-      <p className="text-xs text-lc-text3 -mt-2">
-        {activeTab === 'describe'
-          ? 'Describe your lesson in plain words — we build the plan for you to review and tweak.'
-          : activeTab === 'presets'
-            ? 'Start from a ready-made template — fastest way to get going.'
-            : 'Set every detail yourself — topic, goals, difficulty, and source material.'}
-      </p>
-
-      {/* Source material — available in both tabs */}
-      <SourceInputPanel />
-
-      {activeTab === 'describe' ? (
-        <DescribePanel />
-      ) : activeTab === 'presets' ? (
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-            {visiblePresets.map((preset) => (
-              <PresetCard
-                key={preset.id}
-                preset={preset}
-                onClick={() => handlePresetClick(preset)}
-              />
-            ))}
-          </div>
-          {pendingPreset?.scenarios && (
-            <ScenarioPickerModal
-              preset={pendingPreset}
-              onConfirm={(scenario) => {
-                setTopic(scenario);
-                loadPreset(pendingPreset);
-                setStep('flight-plan');
-                setPendingPreset(null);
-              }}
-              onCancel={() => setPendingPreset(null)}
-            />
-          )}
+      {/* Templates — quick-start from a ready-made lesson */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-lc-border" />
+          <span className="text-xs font-semibold uppercase tracking-wide text-lc-text3">or start from a template</span>
+          <div className="flex-1 h-px bg-lc-border" />
         </div>
-      ) : (
-        <>
-          {/* Topic */}
-          <div>
-            <label className="block text-sm font-medium text-lc-text2 mb-2">
-              What&apos;s today&apos;s topic?
-            </label>
-            <input
-              type="text"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              placeholder={sourceMaterial ? sourceMaterial.title : "e.g., What will the world be like in 50 years?"}
-              className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-lg focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
-            />
-            <p className="text-xs text-lc-text3 mt-1">
-              {sourceMaterial ? 'Topic auto-filled from source — edit if needed.' : 'Be specific! Good topics lead to better AI-generated content.'}
-            </p>
-          </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {FLIGHT_PLAN_PRESETS.map((preset) => (
+            <PresetCard key={preset.id} preset={preset} onClick={() => handlePresetClick(preset)} />
+          ))}
+        </div>
+      </div>
 
-          {/* Duration */}
-          <div>
-            <label className="block text-sm font-medium text-lc-text2 mb-2">
-              Duration
-            </label>
-            <div className="flex gap-2">
-              {DURATIONS.map((d) => (
-                <button
-                  key={d}
-                  onClick={() => setDuration(d)}
-                  className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                    lessonDurationMinutes === d
-                      ? 'bg-lc-blue text-white'
-                      : 'bg-lc-surface border border-lc-border text-lc-text2 hover:border-lc-blue/50'
-                  }`}
-                >
-                  {d} min
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Goals — multi-select */}
-          <div>
-            <label className="block text-sm font-medium text-lc-text2 mb-2">
-              Lesson Goals
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              {(Object.entries(GOAL_LABELS) as [GoalTag, string][]).map(([key, label]) => {
-                const isActive = goals.includes(key);
-                return (
-                  <button
-                    key={key}
-                    onClick={() => toggleGoal(key)}
-                    className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-left ${
-                      isActive
-                        ? 'bg-lc-blue/15 text-lc-blue border border-lc-blue/40'
-                        : 'bg-lc-surface border border-lc-border text-lc-text2 hover:border-lc-blue/30'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
-            </div>
-            <p className="text-xs text-lc-text3 mt-1">
-              Select one or more. The first selected goal drives module suggestions.
-            </p>
-          </div>
-
-          {/* Level */}
-          <div>
-            <label className="block text-sm font-medium text-lc-text2 mb-2">
-              Level
-            </label>
-            <div className="flex gap-2">
-              {DIFFICULTIES.map((d) => (
-                <button
-                  key={d}
-                  onClick={() => setDifficulty(d)}
-                  className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                    difficulty === d
-                      ? 'bg-lc-blue text-white'
-                      : 'bg-lc-surface border border-lc-border text-lc-text2 hover:border-lc-blue/50'
-                  }`}
-                >
-                  {d}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA */}
-          <button
-            onClick={handleGenerate}
-            disabled={!canGenerate}
-            className="w-full py-3.5 bg-lc-blue text-white rounded-xl font-semibold text-lg hover:bg-lc-blue-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            Generate Flight Plan
-          </button>
-        </>
+      {pendingPreset?.scenarios && (
+        <ScenarioPickerModal
+          preset={pendingPreset}
+          onConfirm={(scenario) => {
+            setTopic(scenario);
+            loadPreset(pendingPreset);
+            setStep('flight-plan');
+            setPendingPreset(null);
+          }}
+          onCancel={() => setPendingPreset(null)}
+        />
       )}
     </div>
   );

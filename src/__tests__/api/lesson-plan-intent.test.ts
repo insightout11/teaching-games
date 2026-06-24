@@ -98,6 +98,28 @@ describe('POST /api/lesson-plan/intent', () => {
     expect(data.topic).toBe('turtles and their habitats');
   });
 
+  it('keeps the provided level/length when the model omits them (chips win)', async () => {
+    mockGenerateJSON.mockResolvedValue({ goal: 'speaking-fluency', topic: 'turtles' }); // no difficulty/duration
+    const data = await (await call({
+      text: 'turtles',
+      currentDifficulty: 'Advanced',
+      currentDurationMinutes: 45,
+    })).json();
+    expect(data.difficulty).toBe('Advanced');
+    expect(data.durationMinutes).toBe(45);
+  });
+
+  it('lets an explicitly described level/length override the chips', async () => {
+    mockGenerateJSON.mockResolvedValue({ goal: 'grammar-reinforcement', difficulty: 'Beginner', durationMinutes: 30, topic: 'x' });
+    const data = await (await call({
+      text: 'a short beginner grammar lesson',
+      currentDifficulty: 'Advanced',
+      currentDurationMinutes: 90,
+    })).json();
+    expect(data.difficulty).toBe('Beginner');
+    expect(data.durationMinutes).toBe(30);
+  });
+
   it('rejects empty input without calling the model', async () => {
     const res = await call({ text: '  ' });
     expect(res.status).toBe(400);

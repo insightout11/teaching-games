@@ -2,19 +2,32 @@
 
 import { useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
-import { Sparkles, Wand2 } from 'lucide-react';
+import { DIFFICULTIES } from '@/lib/difficulty';
+import { Sparkles } from 'lucide-react';
 import type { LessonIntent } from '@/app/api/lesson-plan/intent/route';
 
+const DURATIONS = [30, 45, 60, 90] as const;
+
 const EXAMPLES = [
-  'A fun 30-min speaking warm-up about travel for B1 teens',
-  'Grammar lesson on the past simple, intermediate, end with a debate',
-  'Vocabulary builder on climate change for advanced adults',
-  '45-min functional English for ordering food at a restaurant, beginners',
+  'A fun 30-min speaking warm-up about travel for teens',
+  'Grammar lesson on the past simple, end with a debate',
+  'Vocabulary builder on climate change',
+  'Functional English for ordering food at a restaurant',
 ];
+
+function chipClass(active: boolean): string {
+  return `px-2.5 py-1 rounded-md text-xs font-medium border transition-all ${
+    active
+      ? 'bg-lc-blue text-white border-lc-blue'
+      : 'bg-lc-surface border-lc-border text-lc-text2 hover:border-lc-blue/50'
+  }`;
+}
 
 export function DescribePanel() {
   const {
     sourceMaterial,
+    difficulty,
+    lessonDurationMinutes,
     setTopic,
     setGoals,
     setDifficulty,
@@ -29,7 +42,7 @@ export function DescribePanel() {
 
   async function build() {
     const trimmed = text.trim();
-    if (trimmed.length < 3) {
+    if (trimmed.length < 3 && !sourceMaterial) {
       setError('Describe your lesson in a few words first.');
       return;
     }
@@ -39,7 +52,14 @@ export function DescribePanel() {
       const res = await fetch('/api/lesson-plan/intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: trimmed, hasSource: !!sourceMaterial }),
+        body: JSON.stringify({
+          text: trimmed || (sourceMaterial?.title ?? ''),
+          hasSource: !!sourceMaterial,
+          // Pass the chip selections so the model only overrides them when the
+          // description explicitly states a different level/length.
+          currentDifficulty: difficulty,
+          currentDurationMinutes: lessonDurationMinutes,
+        }),
       });
       const data = (await res.json()) as LessonIntent & { error?: string };
       if (!res.ok) {
@@ -47,7 +67,6 @@ export function DescribePanel() {
         return;
       }
 
-      // Populate the same store fields the Build tab uses, then compose + advance.
       setGoals([data.goal, ...data.secondaryGoals]);
       setDifficulty(data.difficulty);
       setDuration(data.durationMinutes);
@@ -66,9 +85,8 @@ export function DescribePanel() {
   return (
     <div className="space-y-4">
       <div>
-        <label htmlFor="describe-input" className="flex items-center gap-2 text-sm font-medium text-lc-text2 mb-2">
-          <Wand2 className="h-4 w-4 text-lc-blue" />
-          Describe your lesson
+        <label htmlFor="describe-input" className="block text-lg font-semibold text-lc-text mb-2">
+          What do you want to teach?
         </label>
         <textarea
           id="describe-input"
@@ -78,14 +96,38 @@ export function DescribePanel() {
             setError(null);
           }}
           disabled={loading}
-          rows={4}
-          placeholder="e.g. A 45-minute B1 lesson about social media, lots of speaking, ending with a debate."
+          rows={3}
+          placeholder="e.g. A B1 lesson about sea turtles, lots of speaking, ending with a debate."
           className="w-full px-4 py-3 bg-lc-surface border border-lc-border rounded-xl text-lc-text text-base leading-relaxed focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue resize-y disabled:opacity-60"
         />
         <p className="text-xs text-lc-text3 mt-1">
-          Say as much or as little as you like — level, length, goals, and topic are all optional.
-          {sourceMaterial && ' Your attached source will ground the lesson.'}
+          Just a topic is enough — say more if you want.
+          {sourceMaterial && ' Your attached source will ground it.'}
         </p>
+      </div>
+
+      {/* Level + time chips — optional, pre-filled, adjustable here or on the plan */}
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium text-lc-text3 w-9">Level</span>
+          <div className="flex flex-wrap gap-1.5">
+            {DIFFICULTIES.map((d) => (
+              <button key={d} onClick={() => setDifficulty(d)} disabled={loading} className={chipClass(difficulty === d)}>
+                {d}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium text-lc-text3 w-9">Time</span>
+          <div className="flex gap-1.5">
+            {DURATIONS.map((t) => (
+              <button key={t} onClick={() => setDuration(t)} disabled={loading} className={chipClass(lessonDurationMinutes === t)}>
+                {t}m
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Example starters */}
@@ -109,7 +151,7 @@ export function DescribePanel() {
 
       <button
         onClick={build}
-        disabled={loading || text.trim().length < 3}
+        disabled={loading || (text.trim().length < 3 && !sourceMaterial)}
         className="w-full flex items-center justify-center gap-2 py-3.5 bg-lc-blue text-white rounded-xl font-semibold text-lg hover:bg-lc-blue-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
       >
         {loading ? (

@@ -31,13 +31,13 @@ function clampGoal(value: string | undefined): GoalTag {
   return GOAL_TAGS.includes(value as GoalTag) ? (value as GoalTag) : 'discussion-debate';
 }
 
-function clampDifficulty(value: string | undefined): Difficulty {
-  return DIFFICULTIES.includes(value as Difficulty) ? (value as Difficulty) : 'Intermediate';
+function clampDifficulty(value: string | undefined, fallback: Difficulty): Difficulty {
+  return DIFFICULTIES.includes(value as Difficulty) ? (value as Difficulty) : fallback;
 }
 
-function snapDuration(n: number | undefined): Duration {
-  if (typeof n !== 'number' || Number.isNaN(n)) return 60;
-  return DURATIONS.reduce<Duration>((best, d) => (Math.abs(d - n) < Math.abs(best - n) ? d : best), 60);
+function snapDuration(n: number | undefined, fallback: Duration): Duration {
+  if (typeof n !== 'number' || Number.isNaN(n)) return fallback;
+  return DURATIONS.reduce<Duration>((best, d) => (Math.abs(d - n) < Math.abs(best - n) ? d : best), DURATIONS[0]);
 }
 
 const SCHEMA = {
@@ -49,7 +49,7 @@ const SCHEMA = {
     durationMinutes: { type: 'number' as const },
     topic: { type: 'string' as const },
   },
-  required: ['goal', 'difficulty', 'durationMinutes', 'topic'],
+  required: ['goal'],
 };
 
 function buildPrompt(text: string, hasSource: boolean): string {
@@ -69,9 +69,9 @@ ${GOAL_TAGS.map((g) => `- ${g} (${GOAL_LABELS[g]})`).join('\n')}
 
 secondaryGoals — 0 to 2 ADDITIONAL goals from the same list, only if clearly implied. Omit otherwise.
 
-difficulty — student level (CEFR). Exactly one of: Beginner (A1), Easy (A2), Intermediate (B1/B2), Advanced (C1), Expert (C2). Map any level or CEFR mention accordingly. Use Intermediate if unstated.
+difficulty — student level (CEFR), ONLY if the teacher states a level or CEFR (Beginner=A1, Easy=A2, Intermediate=B1/B2, Advanced=C1, Expert=C2). If no level is stated, OMIT this field entirely — do not guess.
 
-durationMinutes — lesson length, exactly one of: 30, 45, 60, 90. Use 60 if unstated.
+durationMinutes — lesson length (30, 45, 60, or 90), ONLY if the teacher states a length. If no length is stated, OMIT this field entirely — do not guess.
 
 topic — a short, specific topic phrase taken from the request (e.g. "plastic pollution in oceans", "ordering food at a restaurant"). If no topic is named, give a concise, neutral one.
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuthForGeneration();
   if (authError) return authError;
 
-  let body: { text?: string; hasSource?: boolean };
+  let body: { text?: string; hasSource?: boolean; currentDifficulty?: string; currentDurationMinutes?: number };
   try {
     body = await request.json();
   } catch {
@@ -107,12 +107,17 @@ export async function POST(request: NextRequest) {
       new Set((raw.secondaryGoals ?? []).map(clampGoal).filter((g) => g !== goal)),
     ).slice(0, 2);
 
+    // Respect the teacher's current chip selections: only override level/length when
+    // the description explicitly states them (the model omits the field otherwise).
+    const fallbackDifficulty = clampDifficulty(body.currentDifficulty, 'Intermediate');
+    const fallbackDuration = snapDuration(body.currentDurationMinutes, 60);
+
     const extractedTopic = (raw.topic ?? '').trim().slice(0, 200);
     const intent: LessonIntent = {
       goal,
       secondaryGoals,
-      difficulty: clampDifficulty(raw.difficulty),
-      durationMinutes: snapDuration(raw.durationMinutes),
+      difficulty: clampDifficulty(raw.difficulty, fallbackDifficulty),
+      durationMinutes: snapDuration(raw.durationMinutes, fallbackDuration),
       // Never return an empty topic — fall back to the teacher's own words so the
       // lesson always grounds in what they asked for. An empty topic silently
       // degrades to the 'General' default → generic, off-topic content.
