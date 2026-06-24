@@ -2055,7 +2055,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               slots={lesson.lessonSlots}
               currentSlotIndex={lesson.currentSlotIndex}
               phase={lesson.phase}
-              flightConfig={flightConfig}
               currentModuleName={selectedGame.name}
               isModuleFinished={isModuleFinished}
               onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}
@@ -2148,7 +2147,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               slots={lesson.lessonSlots}
               currentSlotIndex={lesson.currentSlotIndex}
               phase={lesson.phase}
-              flightConfig={flightConfig}
               currentModuleName={lesson.generatingModuleName || selectedActivity.name}
               isModuleFinished={isModuleFinished}
               onExit={lesson.isLessonActive ? handleExitLessonMode : handleBackToSelection}

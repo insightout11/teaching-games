@@ -43,16 +43,20 @@ function getPppStage(key: string): string | null {
  * Transform runtime LessonSlot[] into FlightPlanStep[].
  * lessonSlots already includes takeoff (slot 0) and landing (last slot).
  */
+/**
+ * THE single builder for the runtime flight path — used by both curated presets
+ * (FlightSessionView) and composed lessons. Curated slots carry a `stageLabel`
+ * (the journey job, e.g. "Briefing"); composed slots fall back to the module name.
+ * Defining type/kind here once means the two flight paths can never drift apart.
+ */
 export function buildRuntimeFlightPlanSteps(slots: LessonSlot[]): FlightPlanStep[] {
   return slots.map((slot, i) => {
     const isTerminal = i === 0 || i === slots.length - 1;
     return {
       id: `slot-${i}`,
       type: i === 0 ? 'Takeoff' : i === slots.length - 1 ? 'Landing' : slot.isMicroEvent ? 'Check' : 'Stage',
-      name: slot.name,
-      // Micro-events render as small checkpoint dots, matching the curated-preset
-      // flight path (FlightSessionView). Keeping them as 'module' made composed
-      // lessons show micro-events as full-size nodes — inconsistent styling.
+      name: slot.stageLabel ?? slot.name,
+      // Micro-events render as small checkpoint dots; main stages as full nodes.
       kind: isTerminal ? 'terminal' : slot.isMicroEvent ? 'checkpoint' : 'module',
     };
   });

@@ -1,16 +1,14 @@
 'use client';
 
-import { useMemo } from 'react';
 import type { ReactNode } from 'react';
-import type { FlightPresetConfig } from '@/lib/flight-plan-presets';
 import type { LessonPhase, LessonSlot } from '@/hooks/use-lesson-session';
-import { LessonCaptainFlightPlan, type FlightPlanStep } from '@/components/ui/flight-plan';
+import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
+import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex } from '@/lib/flight-plan-helpers';
 
 interface FlightSessionViewProps {
   slots: LessonSlot[];
   currentSlotIndex: number;
   phase: LessonPhase;
-  flightConfig: FlightPresetConfig;
   currentModuleName: string;
   isModuleFinished: boolean;
   onExit: () => void;
@@ -23,7 +21,7 @@ interface FlightSessionViewProps {
 export function FlightSessionView({
   slots,
   currentSlotIndex,
-  flightConfig,
+  phase,
   currentModuleName,
   isModuleFinished,
   onExit,
@@ -35,49 +33,11 @@ export function FlightSessionView({
   const currentSlot = slots[currentSlotIndex] ?? null;
   const nextSlot = slots[currentSlotIndex + 1] ?? null;
 
-  // stageId → first matching slot index (for click navigation)
-  const stageIdToSlotIndex = useMemo(() => {
-    const map = new Map<string, number>();
-    slots.forEach((slot, i) => {
-      if (slot.stageId && !map.has(slot.stageId)) {
-        map.set(slot.stageId, i);
-      }
-    });
-    return map;
-  }, [slots]);
+  // Single shared builder + active-index helper — same path styling as everywhere.
+  const steps = buildRuntimeFlightPlanSteps(slots);
+  const activeIndex = getFlightPlanActiveIndex(phase, currentSlotIndex, slots.length);
 
-  // Convert flight stage definitions to FlightPlanStep[]
-  const steps = useMemo<FlightPlanStep[]>(
-    () =>
-      flightConfig.stages.map((stage, i) => ({
-        id: stage.stageId,
-        type:
-          i === 0
-            ? 'Takeoff'
-            : stage.kind === 'landing'
-              ? 'Landing'
-              : stage.kind === 'micro-event'
-                ? 'Check'
-                : 'Stage',
-        name: stage.label,
-        kind:
-          i === 0 || stage.kind === 'landing'
-            ? 'terminal'
-            : stage.kind === 'micro-event'
-              ? 'checkpoint'
-              : 'module',
-      })),
-    [flightConfig.stages],
-  );
-
-  const currentStageIndex = flightConfig.stages.findIndex(
-    (s) => s.stageId === currentSlot?.stageId,
-  );
-  const activeIndex = currentStageIndex >= 0 ? currentStageIndex : 0;
-
-  const currentStage =
-    flightConfig.stages.find((stage) => stage.stageId === currentSlot?.stageId) ?? null;
-  const currentStageLabel = currentSlot?.stageLabel ?? currentStage?.label;
+  const currentStageLabel = currentSlot?.stageLabel ?? currentSlot?.name;
   const nextLabel = nextSlot?.stageLabel ?? nextSlot?.name;
   const isFinalSlot = currentSlotIndex + 1 >= slots.length;
   const actionLabel = isFinalSlot ? 'Complete Flight' : `Continue to ${nextLabel}`;
@@ -92,10 +52,9 @@ export function FlightSessionView({
         height={140}
         onNodeClick={
           onGoToSlot
-            ? (stageId) => {
-                if (stageId === currentSlot?.stageId) return;
-                const slotIdx = stageIdToSlotIndex.get(stageId) ?? -1;
-                if (slotIdx >= 0) onGoToSlot(slotIdx);
+            ? (id) => {
+                const idx = Number(id.replace('slot-', ''));
+                if (!Number.isNaN(idx) && idx !== currentSlotIndex) onGoToSlot(idx);
               }
             : undefined
         }
