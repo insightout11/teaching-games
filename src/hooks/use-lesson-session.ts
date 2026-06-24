@@ -207,7 +207,10 @@ export function useLessonSession(
 
     prefetchingKeysRef.current.add(key);
 
-    const effectiveTopic = getEffectiveTopic(settings);
+    // Prefer the launch-time topic (source of truth from the lesson plan) over
+    // settings.customTopic, which is populated asynchronously and can still be empty
+    // when generation fires — that silently falls back to 'General' → off-topic content.
+    const effectiveTopic = lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings);
     const missionContext = getMissionContext();
     const isLanding = LANDING_ACTIVITY_KEYS.has(key);
     const isGame = slot.type === 'game';
@@ -249,7 +252,7 @@ export function useLessonSession(
   // ─── Content resolution: activity ──────────────────────────────────────
   const selectActivity = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
     if (activity.key === 'cabin-mystery') {
-      return { ...switchedSuitcase, topicContext: getEffectiveTopic(settings) };
+      return { ...switchedSuitcase, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
     }
 
     // Prefetched content
@@ -279,7 +282,10 @@ export function useLessonSession(
     setIsGeneratingContent(true);
 
     try {
-      const effectiveTopic = getEffectiveTopic(settings);
+      // Prefer the launch-time topic (source of truth from the lesson plan) over
+    // settings.customTopic, which is populated asynchronously and can still be empty
+    // when generation fires — that silently falls back to 'General' → off-topic content.
+    const effectiveTopic = lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings);
       const missionContext = getMissionContext();
       const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
       const sourceMaterial = lessonPlanContent?.sourceMaterial;
@@ -309,7 +315,7 @@ export function useLessonSession(
       if (response.status === 402) {
         setCreditsExhausted(true);
         // Return minimal fallback — don't block the session
-        return { activityKey: activity.key, topicContext: getEffectiveTopic(settings) };
+        return { activityKey: activity.key, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
       }
 
       const data: LessonPlanGenerateResponse = await response.json();
