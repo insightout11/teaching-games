@@ -121,7 +121,12 @@ function bestLandingKey(goal: GoalTag): string {
 
 /** A pinned module is never trimmed, reordered, or swapped by adaptation. */
 function isPinned(m: PlanModule): boolean {
-  return m.slotType === 'takeoff' || m.slotType === 'landing' || SOURCE_BRIEFING_KEYS.has(m.key);
+  return (
+    m.slotType === 'takeoff' ||
+    m.slotType === 'landing' ||
+    SOURCE_BRIEFING_KEYS.has(m.key) ||
+    !!m.isMicroEvent
+  );
 }
 
 /**
@@ -132,10 +137,19 @@ function skeletonFromPreset(preset: FlightPlanPreset, sourceKind?: 'video' | 'te
   const takeoffKey = preset.skipTakeoffLanding ? null : (preset.takeoff ?? 'mission-selector');
   const landingKey = preset.skipTakeoffLanding ? null : (preset.landing ?? bestLandingKey(preset.goal));
 
-  const middle = preset.moduleSequence
+  const middle: PlanModule[] = preset.moduleSequence
     .filter((s) => !s.worldFlightOnly) // World-Flight-only checks don't belong in a home build
     .filter((s) => s.key !== takeoffKey)
-    .map((s) => mod(s.slotType, s.key));
+    .map((s) => ({
+      id: makeId(),
+      slotType: s.slotType,
+      key: s.key,
+      isLocked: false,
+      // Preserve the preset's micro-event beats (Opinion Pulse, Accuracy Check, …)
+      // and their pools so a composed lesson keeps the preset's full rhythm.
+      ...(s.isMicroEvent ? { isMicroEvent: true } : {}),
+      ...(s.pool ? { pool: s.pool } : {}),
+    }));
 
   const modules: PlanModule[] = [
     ...(takeoffKey ? [mod('takeoff', takeoffKey)] : []),
@@ -239,13 +253,17 @@ function usedKeysOf(modules: PlanModule[]): Set<string> {
   return new Set(modules.map((m) => m.key));
 }
 
-/** Resize the adaptable (non-pinned) middle to hit the duration's target module count. */
-function resizeToTarget(modules: PlanModule[], intent: ComposeIntent): PlanModule[] {
-  const target = moduleCountForDuration(intent.durationMinutes);
-  const mods = [...modules];
+// Trim/extend the adaptable MAIN modules relative to the preset's native 60-min
+// structure, so a composed lesson stays as rich as the preset it's anchored to.
+// Pinned slots (takeoff, landing, source briefing, micro-events) are always kept.
+const DURATION_MAIN_DELTA: Record<30 | 45 | 60 | 90, number> = { 30: -2, 45: -1, 60: 0, 90: 1 };
 
-  // Trim: drop the lowest-fit non-pinned middle modules first.
-  while (mods.length > target) {
+function resizeForDuration(modules: PlanModule[], intent: ComposeIntent): PlanModule[] {
+  const mods = [...modules];
+  let delta = DURATION_MAIN_DELTA[intent.durationMinutes] ?? 0;
+
+  // Shorter lessons: drop the lowest-fit main (non-pinned) modules.
+  while (delta < 0) {
     let worstIdx = -1;
     let worstScore = Infinity;
     for (let i = 0; i < mods.length; i++) {
@@ -257,15 +275,15 @@ function resizeToTarget(modules: PlanModule[], intent: ComposeIntent): PlanModul
         worstIdx = i;
       }
     }
-    if (worstIdx === -1) break; // nothing left to trim
+    if (worstIdx === -1) break; // no main modules left to trim
     mods.splice(worstIdx, 1);
+    delta++;
   }
 
-  // Extend: add best-fit modules before the landing. Prefer a production slot if
-  // none exists yet, otherwise practice.
-  while (mods.length < target) {
+  // Longer lessons: add a best-fit main module before the landing.
+  while (delta > 0) {
     const used = usedKeysOf(mods);
-    const hasProduction = mods.some((m) => m.slotType === 'production');
+    const hasProduction = mods.some((m) => m.slotType === 'production' && !m.isMicroEvent);
     const slotType: SlotType = hasProduction ? 'practice' : 'production';
     const landingIdx = mods.findIndex((m) => m.slotType === 'landing');
     const insertAt = landingIdx >= 0 ? landingIdx : mods.length;
@@ -273,6 +291,7 @@ function resizeToTarget(modules: PlanModule[], intent: ComposeIntent): PlanModul
     const pick = pickBestCandidate(slotType, intent, used, prevKey);
     if (!pick) break;
     mods.splice(insertAt, 0, mod(slotType, pick.key));
+    delta--;
   }
 
   return mods;
@@ -335,10 +354,28 @@ function fixAdjacency(modules: PlanModule[], intent: ComposeIntent): PlanModule[
  * nearest hand-tuned preset skeleton, then adapts it (duration, level, goal fit,
  * source, pacing, class size) so the result inherits verified pedagogy.
  */
+/**
+ * For each pooled micro-event, make the VISIBLE default key fit the level (the full
+ * pool still travels for launch-time selection). Keeps the preset's preferred default
+ * when it already fits, else the first pool member that does.
+ */
+function resolveMicroDefaults(modules: PlanModule[], intent: ComposeIntent): PlanModule[] {
+  return modules.map((m) => {
+    if (!m.isMicroEvent || !m.pool || m.pool.length === 0) return m;
+    const current = getFlightPlanItem(m.key);
+    if (current && current.levelFit.includes(intent.level)) return m;
+    const fallback = m.pool
+      .map((key) => getFlightPlanItem(key))
+      .find((it): it is FlightPlanItem => !!it && it.levelFit.includes(intent.level));
+    return fallback ? { ...m, key: fallback.key } : m;
+  });
+}
+
 export function composeLesson(intent: ComposeIntent): PlanModule[] {
   const preset = pickNearestPreset(intent.goal, intent.sourceKind);
   const skeleton = skeletonFromPreset(preset, intent.sourceKind);
-  let mods = resizeToTarget(skeleton, intent);
+  let mods = resolveMicroDefaults(skeleton, intent);
+  mods = resizeForDuration(mods, intent);
   mods = swapForFit(mods, intent);
   mods = fixAdjacency(mods, intent);
   return mods;

@@ -3,7 +3,6 @@ import {
   composeLesson,
   pickNearestPreset,
   suggestModules,
-  moduleCountForDuration,
   difficultyToComposerLevel,
   type ComposeIntent,
 } from './planner-compose';
@@ -49,13 +48,23 @@ describe('pickNearestPreset', () => {
 });
 
 describe('composeLesson — structural invariants', () => {
-  it('hits the duration target module count for every goal/duration', () => {
+  it('grows the module count with duration (richer = longer), always a real lesson', () => {
     for (const goal of GOALS) {
-      for (const durationMinutes of DURATIONS) {
-        const mods = composeLesson(base({ goal, durationMinutes }));
-        expect(mods.length).toBe(moduleCountForDuration(durationMinutes));
-      }
+      const d30 = composeLesson(base({ goal, durationMinutes: 30 })).length;
+      const d45 = composeLesson(base({ goal, durationMinutes: 45 })).length;
+      const d60 = composeLesson(base({ goal, durationMinutes: 60 })).length;
+      const d90 = composeLesson(base({ goal, durationMinutes: 90 })).length;
+      expect(d30).toBeLessThanOrEqual(d45);
+      expect(d45).toBeLessThanOrEqual(d60);
+      expect(d60).toBeLessThanOrEqual(d90);
+      expect(d30).toBeGreaterThanOrEqual(3);
     }
+  });
+
+  it('keeps the anchored preset micro-events for a micro-event goal', () => {
+    // Speaking-fluency anchors to a preset whose rhythm includes micro-event beats.
+    const mods = composeLesson(base({ goal: 'speaking-fluency' }));
+    expect(mods.some((m) => m.isMicroEvent)).toBe(true);
   });
 
   it('always opens with a takeoff and closes with a landing', () => {
@@ -175,7 +184,7 @@ describe('difficultyToComposerLevel', () => {
   it('produces a valid full-size plan for every Difficulty (incl. Easy/Expert)', () => {
     for (const difficulty of DIFFICULTIES) {
       const mods = suggestModules('speaking-fluency', difficulty, 60);
-      expect(mods.length).toBe(moduleCountForDuration(60));
+      expect(mods.length).toBeGreaterThan(3);
       const level = difficultyToComposerLevel(difficulty);
       for (const m of mods) {
         const item = getFlightPlanItem(m.key);
@@ -188,7 +197,7 @@ describe('difficultyToComposerLevel', () => {
 describe('suggestModules — back-compat wrapper', () => {
   it('maps a capitalized Difficulty to the composer and returns a valid plan', () => {
     const mods = suggestModules('vocabulary-building', 'Beginner', 45);
-    expect(mods.length).toBe(moduleCountForDuration(45));
+    expect(mods.length).toBeGreaterThan(2);
     expect(mods[0].slotType).toBe('takeoff');
     for (const m of mods) {
       const item = getFlightPlanItem(m.key);
