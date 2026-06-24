@@ -44,19 +44,18 @@ function getPppStage(key: string): string | null {
  * lessonSlots already includes takeoff (slot 0) and landing (last slot).
  */
 export function buildRuntimeFlightPlanSteps(slots: LessonSlot[]): FlightPlanStep[] {
-  return slots.map((slot, i) => ({
-    id: `slot-${i}`,
-    type:
-      i === 0
-        ? 'Takeoff'
-        : i === slots.length - 1
-          ? 'Landing'
-          : slot.isMicroEvent
-            ? 'Check'
-            : 'Stage',
-    name: slot.name,
-    kind: (i === 0 || i === slots.length - 1) ? 'terminal' : 'module',
-  }));
+  return slots.map((slot, i) => {
+    const isTerminal = i === 0 || i === slots.length - 1;
+    return {
+      id: `slot-${i}`,
+      type: i === 0 ? 'Takeoff' : i === slots.length - 1 ? 'Landing' : slot.isMicroEvent ? 'Check' : 'Stage',
+      name: slot.name,
+      // Micro-events render as small checkpoint dots, matching the curated-preset
+      // flight path (FlightSessionView). Keeping them as 'module' made composed
+      // lessons show micro-events as full-size nodes — inconsistent styling.
+      kind: isTerminal ? 'terminal' : slot.isMicroEvent ? 'checkpoint' : 'module',
+    };
+  });
 }
 
 /**
