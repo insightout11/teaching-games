@@ -1076,11 +1076,14 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setPoolSpinning(null);
     const activity = getAllActivities().find((a) => a.key === key);
     if (activity) {
+      // Update the slot so the flight path reflects the resolved module, not the pool default.
+      lesson.resolveCurrentSlot(key, 'activity', activity.name);
       handleSelectActivity(activity);
       return;
     }
     const game = getAllGames().find((g) => g.key === key);
     if (game) {
+      lesson.resolveCurrentSlot(key, 'game', game.name);
       handleSelectGame(game);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

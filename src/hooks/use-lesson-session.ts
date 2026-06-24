@@ -124,6 +124,8 @@ export interface LessonSession {
   insertAndPivotSlot: (key: string, type: 'game' | 'activity', name: string) => void;
   /** Replace the next slot in place, preserving stageId/stageLabel/isMicroEvent. */
   replaceNextSlot: (key: string, type: 'game' | 'activity', name: string) => void;
+  /** Resolve the CURRENT slot to a concrete module after a pool spin (clears the pool). */
+  resolveCurrentSlot: (key: string, type: 'game' | 'activity', name: string) => void;
   /** Jump directly to any slot index (skip ahead or go back). */
   goToSlot: (index: number) => void;
   handlePhaseChange: (phase: string) => void;
@@ -542,6 +544,21 @@ export function useLessonSession(
     });
   }, [currentSlotIndex]);
 
+  // Ref so resolveCurrentSlot (stable identity) always targets the live slot, even
+  // when called from a callback captured on an earlier render (handlePoolResolved).
+  const currentSlotIndexRef = useRef(currentSlotIndex);
+  currentSlotIndexRef.current = currentSlotIndex;
+
+  const resolveCurrentSlot = useCallback((key: string, type: 'game' | 'activity', name: string) => {
+    setLessonSlots((prev) => {
+      const idx = currentSlotIndexRef.current;
+      if (idx < 0 || idx >= prev.length) return prev;
+      const next = [...prev];
+      next[idx] = { ...next[idx], key, type, name, pool: undefined };
+      return next;
+    });
+  }, []);
+
   // Stable ref-based callback to avoid identity changes propagating through ActivityShell → activity
   const handlePhaseChangeRef = useRef<(activityPhase: string) => void>(() => {});
   handlePhaseChangeRef.current = (activityPhase: string) => {
@@ -590,6 +607,7 @@ export function useLessonSession(
     advanceSlot,
     insertAndPivotSlot,
     replaceNextSlot,
+    resolveCurrentSlot,
     goToSlot,
     handlePhaseChange,
     exitLesson,
