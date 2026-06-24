@@ -17,7 +17,7 @@ export interface GameSentence {
 }
 
 const GAME_KEY = 'vocab-sprint';
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very short, extremely simple sentences (4-6 words). Focus on basic everyday objects and actions.',
@@ -94,10 +94,20 @@ export async function POST(request: NextRequest) {
       ? `Use EXACTLY these vocabulary words as the targetWord for your 2 hard sentences (one word per sentence): ${keyVocabWords.slice(0, 2).join(', ')}.`
       : 'Choose 2 challenging topic-specific vocabulary terms appropriate for this difficulty level.';
 
+    // "General" is the default Topic enum meaning "no specific subject" — never inject it
+    // literally as a subject (that produces meta junk like "Learning about General...").
+    const isGenericTopic = !topic || topic.trim().toLowerCase() === 'general';
+    const topicLine = sourceContext
+      ? '' // the source material below defines the setting
+      : isGenericTopic
+        ? 'Use a VARIED MIX of natural everyday situations (daily life, work, school, travel, food, shopping, hobbies). Do not center the sentences on any single named subject.'
+        : `Set every sentence in the real-world context of ${topic} — the situations and vocabulary a person actually encounters there. Do NOT write sentences that are ABOUT the subject of ${topic}.`;
+    const antiMeta = 'Every sentence must be a real, natural sentence a person would actually say or write. NEVER write meta sentences about a topic, lesson, or learning itself (e.g. avoid "Learning about General can be very good for students" or "The topic of X is interesting"). Do not use the words "topic", "lesson", or the topic name itself as the grammatical subject of a sentence.';
+
     const prompt = `Generate exactly 6 English sentences for vocabulary practice at ${difficultyPrompts[difficulty]}
-Topic: ${topic}.
-Tone: ${toneInstructions[tone]}
-${sourceContext}${sourceContext ? 'Every sentence must be set in the situations, scenarios, and vocabulary of the source material above — not generic unrelated content.\n' : ''}${exclusionNote}
+${topicLine ? topicLine + '\n' : ''}Tone: ${toneInstructions[tone]}
+${sourceContext}${sourceContext ? 'Every sentence must be set in the situations, scenarios, and vocabulary of the source material above — not generic unrelated content.\n' : ''}${antiMeta}
+${exclusionNote}
 DISTRIBUTE EXACTLY: 2 easy + 2 medium + 2 hard sentences (level field must be "easy", "medium", or "hard").
 
 --- EASY (2 sentences) ---
