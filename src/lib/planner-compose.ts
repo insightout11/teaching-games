@@ -125,7 +125,10 @@ function isPinned(m: PlanModule): boolean {
     m.slotType === 'takeoff' ||
     m.slotType === 'landing' ||
     SOURCE_BRIEFING_KEYS.has(m.key) ||
-    !!m.isMicroEvent
+    !!m.isMicroEvent ||
+    // Pooled slots (micro-events, end-game) are curated/undetermined — the composer
+    // must not swap their key out from under the pool (would leave key ∉ pool).
+    (m.pool?.length ?? 0) > 0
   );
 }
 

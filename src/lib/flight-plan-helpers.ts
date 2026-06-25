@@ -1,31 +1,8 @@
 import type { FlightPlanStep } from '@/components/ui/flight-plan';
-import type { PlanModule } from '@/lib/planner-utils';
-import { getModuleDisplayInfo, isUndeterminedModule } from '@/lib/planner-utils';
 import type { LessonSlot } from '@/hooks/use-lesson-session';
 import type { LessonPhase } from '@/hooks/use-lesson-session';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
-
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-/**
- * Transform planner PlanModule[] into FlightPlanStep[].
- * PlanModule[] already includes takeoff/landing entries, so we map directly.
- */
-export function buildPlannerFlightPlanSteps(modules: PlanModule[]): FlightPlanStep[] {
-  return modules.map((mod) => ({
-    id: mod.id,
-    // Flight-consistent labels (no PPP jargon): Takeoff / Stage / Check / Landing.
-    type: mod.slotType === 'takeoff' ? 'Takeoff' : mod.slotType === 'landing' ? 'Landing' : mod.isMicroEvent ? 'Check' : 'Stage',
-    // Undetermined slots are masked as "Waypoint" (matches the lobby/session view)
-    name: isUndeterminedModule(mod)
-      ? 'Waypoint'
-      : (getModuleDisplayInfo(mod.key)?.name ?? capitalize(mod.slotType)),
-    kind: (mod.slotType === 'takeoff' || mod.slotType === 'landing') ? 'terminal' : 'module',
-  }));
-}
 
 /**
  * Look up pppStage from game or activity registry by key (used for slot time-budget weights,

@@ -488,7 +488,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'practice', key: 'error-hunter', stageId: 'notice' },
       { slotType: 'practice', key: 'sentence-scramble', stageId: 'build' },
       { slotType: 'practice', key: 'grammar-boss', stageId: 'produce' },
-      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['tone-transformer', 'grid-rush', 'flash-quiz'] },
+      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game', pool: ['grid-rush', 'flash-quiz'] },
     ],
     flightConfig: {
       stages: [
@@ -506,7 +506,6 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'error-hunter': 'notice',
         'sentence-scramble': 'build',
         'grammar-boss': 'produce',
-        'tone-transformer': 'end-game',
         'grid-rush': 'end-game',
         'flash-quiz': 'end-game',
         'grammar-proof': 'landing',

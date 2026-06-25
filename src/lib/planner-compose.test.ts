@@ -67,6 +67,19 @@ describe('composeLesson — structural invariants', () => {
     expect(mods.some((m) => m.isMicroEvent)).toBe(true);
   });
 
+  it('never leaves a pooled slot whose key is not in its own pool', () => {
+    for (const goal of GOALS) {
+      for (const durationMinutes of DURATIONS) {
+        const mods = composeLesson(base({ goal, durationMinutes }));
+        for (const m of mods) {
+          if (m.pool && m.pool.length > 0) {
+            expect(m.pool).toContain(m.key);
+          }
+        }
+      }
+    }
+  });
+
   it('always opens with a takeoff and closes with a landing', () => {
     for (const goal of GOALS) {
       const mods = composeLesson(base({ goal }));
