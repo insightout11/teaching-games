@@ -12,7 +12,12 @@ describe('plane progression assets', () => {
     });
   });
 
-  it('falls back to Wayfarer front views until another plane has authored views', () => {
+  it('keeps upgrade keys while using branded Wayfarer fallback art until authored views exist', () => {
+    expect(getPlaneAsset('scout-monoplane')).toMatchObject({
+      key: 'scout-monoplane',
+      name: 'Scout Monoplane',
+      webp: '/assets/flight/planes/lc-wayfarer.webp',
+    });
     expect(getPlaneViewAsset('scout-monoplane', 'front')).toBe(
       '/assets/flight/planes/lc-wayfarer-front.webp',
     );

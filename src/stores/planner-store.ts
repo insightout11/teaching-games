@@ -3,11 +3,9 @@ import { persist } from 'zustand/middleware';
 import type { Difficulty } from '@/lib/difficulty';
 import { FLIGHT_PLAN_ITEMS, type GoalTag, type SlotType } from '@/lib/flight-plan-config';
 import type { GrammarTarget } from '@/lib/grammar';
-import { suggestModules, type PlanModule } from '@/lib/planner-utils';
+import { suggestModules, buildLessonSlots, type PlanModule } from '@/lib/planner-utils';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset, type FlightPresetConfig } from '@/lib/flight-plan-presets';
 import type { ScoringMode } from '@/stores/session-store';
-import { getActivity } from '@/activities/registry';
-import { getGame } from '@/games/registry';
 import type { SourceMaterial, SourceType, SupportingSource } from '@/types/source-material';
 import type { WorldFlightLaunchContext, WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { resolveSourceMaterialForDifficulty } from '@/lib/world-flight/readings';
@@ -508,23 +506,7 @@ export const usePlannerStore = create<PlannerState>()(
         const isWorldFlight = !!worldFlightDestinationId;
         const visibleModules = freshModules.filter((m) => isWorldFlight || !m.worldFlightOnly);
 
-        const slots: LessonSlot[] = visibleModules.map((m) => {
-          const meta = {
-            ...(m.stageId ? { stageId: m.stageId } : {}),
-            ...(m.stageLabel ? { stageLabel: m.stageLabel } : {}),
-            ...(m.isMicroEvent ? { isMicroEvent: true } : {}),
-            ...(m.pool ? { pool: m.pool } : {}),
-          };
-          const activity = getActivity(m.key);
-          if (activity) {
-            return { type: 'activity' as const, key: m.key, name: activity.name, category: activity.category, ...meta };
-          }
-          const game = getGame(m.key);
-          if (game) {
-            return { type: 'game' as const, key: m.key, name: game.name, category: game.category, ...meta };
-          }
-          return { type: 'activity' as const, key: m.key, name: m.key, ...meta };
-        });
+        const slots: LessonSlot[] = buildLessonSlots(visibleModules);
 
         const hasMissionSelector = modules.some((m) => m.key === 'mission-selector');
         const flightConfig = buildFlightConfigForSlots(loadedPreset?.flightConfig, slots);

@@ -37,14 +37,16 @@ export interface PlaneEntry {
 
 export const DEFAULT_PLANE_KEY = 'starter-biplane';
 
-// Aspect ratios (w/h from actual assets):
-//   starter-biplane 1.96 · scout-monoplane 1.82 · cloud-hopper 1.79 · trailblazer-biplane 1.78
-//   sky-racer 2.09 · cargo-cruiser 1.88 · twin-prop-scout 1.95
-//   solar-flyer 2.00 · aurora-glider 2.20 · storm-runner 2.07
-//   future-flyer 2.01 · starliner-mini 2.00 · comet-jet 2.04
-//
-// aurora-glider is the clear outlier at 2.20 — mostly wing, tiny fuselage.
-// All others are within ±15% of each other and render acceptably at default size.
+const LC_WAYFARER_ASSETS = {
+  side: 'lc-wayfarer',
+  front: 'lc-wayfarer-front',
+  front3q: 'lc-wayfarer-front-3q',
+};
+
+// Temporary branded fallback: keep progression keys/ranges stable while new
+// LessonCaptain-style upgrade aircraft are authored.
+const PENDING_BRANDED_UPGRADE_ASSETS = LC_WAYFARER_ASSETS;
+
 
 function entry(
   key: string,
@@ -81,25 +83,19 @@ function entry(
 const PLANE_ENTRIES: PlaneEntry[] = [
   // Keep the persisted starter key stable while the starter aircraft becomes
   // the LC Wayfarer across every view.
-  entry('starter-biplane', 'LC Wayfarer', {}, {
-    side: 'lc-wayfarer',
-    front: 'lc-wayfarer-front',
-    front3q: 'lc-wayfarer-front-3q',
-  }),
-  entry('scout-monoplane',     'Scout Monoplane'),
-  entry('cloud-hopper',        'Cloud Hopper'),
-  entry('trailblazer-biplane', 'Trailblazer Biplane'),
-  entry('sky-racer',           'Sky Racer'),
-  entry('cargo-cruiser',       'Cargo Cruiser'),
-  entry('twin-prop-scout',     'Twin-Prop Scout'),
-  entry('solar-flyer',         'Solar Flyer'),
-  // Aurora Glider is 2.20 aspect ratio — mostly wingspan, tiny fuselage.
-  // Scale it down so it doesn't visually dwarf every other plane on the runway.
-  entry('aurora-glider',       'Aurora Glider',       { parkedScale: 0.85, flyingScale: 0.9 }),
-  entry('storm-runner',        'Storm Runner'),
-  entry('future-flyer',        'Future Flyer'),
-  entry('starliner-mini',      'Starliner Mini'),
-  entry('comet-jet',           'Comet Jet'),
+  entry('starter-biplane', 'LC Wayfarer', {}, LC_WAYFARER_ASSETS),
+  entry('scout-monoplane',     'Scout Monoplane',     {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('cloud-hopper',        'Cloud Hopper',        {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('trailblazer-biplane', 'Trailblazer Biplane', {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('sky-racer',           'Sky Racer',           {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('cargo-cruiser',       'Cargo Cruiser',       {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('twin-prop-scout',     'Twin-Prop Scout',     {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('solar-flyer',         'Solar Flyer',         {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('aurora-glider',       'Aurora Glider',       {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('storm-runner',        'Storm Runner',        {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('future-flyer',        'Future Flyer',        {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('starliner-mini',      'Starliner Mini',      {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('comet-jet',           'Comet Jet',           {}, PENDING_BRANDED_UPGRADE_ASSETS),
 ];
 
 const PLANE_MAP = new Map(PLANE_ENTRIES.map((p) => [p.key, p]));

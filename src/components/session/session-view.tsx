@@ -395,7 +395,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     plugin: ActivityPlugin | GamePlugin;
   } | null>(null);
   const [showPivotDrawer, setShowPivotDrawer] = useState(false);
-  const [selectedPlaneKey] = useState(DEFAULT_PLANE_KEY);
   const [moduleTransition, setModuleTransition] = useState<{
     from: string | null;
     to: string | null;
@@ -514,6 +513,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length);
+  const selectedPlaneKey = lesson.lessonPlanContent?.worldFlightContext?.planeKey ?? DEFAULT_PLANE_KEY;
 
   // ─── World Flight arrival context — the two cities this lesson flies between ──
   // Resolve the route ids from the top-level fields, falling back to the

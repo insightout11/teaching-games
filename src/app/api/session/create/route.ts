@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { requireAuthWithCredits, consumeCredit } from '@/lib/auth-credits';
 import { getDestinationById, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
+import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
 import { distanceKm } from '@/lib/world-flight/geo';
 import {
   buildWorldFlightEvidenceSnapshot,
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
 
     const { data: state } = await supabase
       .from('class_world_flight_state')
-      .select('current_destination_id, range_km, plane_selection_required')
+      .select('current_destination_id, range_km, plane_key, plane_selection_required')
       .eq('class_id', classId)
       .maybeSingle();
 
@@ -90,6 +91,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Choose the class aircraft in World Flight before moving to another city' }, { status: 409 });
     }
     const rangeKm = state?.range_km ?? STARTER_PLANE_RANGE_KM;
+    const planeKey = state?.plane_key ?? DEFAULT_PLANE_KEY;
     const resolvedDistanceKm = origin ? distanceKm(origin, destination) : 0;
     const movement = resolveWorldFlightMovement({
       originDestinationId: origin?.id ?? null,
@@ -105,6 +107,7 @@ export async function POST(request: Request) {
       originDestinationId: origin?.id ?? null,
       distanceKm: resolvedDistanceKm,
       rangeKm,
+      planeKey,
       movesClass: movement.movesClass,
       evidenceSnapshot,
     };

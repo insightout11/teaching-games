@@ -66,6 +66,7 @@ export interface WorldFlightSessionContext extends WorldFlightLaunchContext {
   originDestinationId: string | null;
   distanceKm: number;
   rangeKm: number;
+  planeKey: string;
   movesClass: boolean;
   evidenceSnapshot: WorldFlightEvidenceSnapshot;
 }
