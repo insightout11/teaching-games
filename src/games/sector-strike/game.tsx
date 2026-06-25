@@ -424,7 +424,14 @@ export function SectorStrikeGame({
     const team = currentTeamRef.current;
     if (cellIdx === null) return;
     const cell = cellsRef.current[cellIdx];
-    if (!cell || cell.qType !== 'written' || cell.correctIndex == null) return;
+    if (!cell || cell.qType !== 'written') return;
+    // Defensive: a written cell with no correct answer can't be scored — pass the turn rather than hang.
+    if (cell.correctIndex == null) {
+      setLastResult('wrong');
+      setPhase('applying');
+      applyingTimerRef.current = setTimeout(() => advanceTurn(cellsRef.current, team, false), 1200);
+      return;
+    }
 
     const votes = roundVotesRef.current;
     const activeSize = (team === 'x' ? xTeamRef.current : oTeamRef.current).length;
@@ -1037,14 +1044,9 @@ export function SectorStrikeGame({
                   </div>
                   <button
                     onClick={evaluateWritten}
-                    disabled={reportedCount === 0}
-                    className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 ${
-                      reportedCount === 0
-                        ? 'bg-lc-surface border border-lc-border text-lc-text3 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/20 hover:scale-[1.02]'
-                    }`}
+                    className="w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/20 hover:scale-[1.02]"
                   >
-                    Reveal result
+                    {reportedCount === 0 ? 'Reveal answer & continue' : 'Reveal result'}
                   </button>
                 </div>
               )}
