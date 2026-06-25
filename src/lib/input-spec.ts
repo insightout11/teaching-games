@@ -113,6 +113,10 @@ export interface InputSpec {
   debateForPrompts?: string[];
   /** Team Debate prep: argument angles shown to the Against side. */
   debateAgainstPrompts?: string[];
+  /** Sector Strike: which team each student is on, keyed by roster studentId. */
+  sectorTeamByStudentId?: Record<string, 'x' | 'o'>;
+  /** Sector Strike: which team is currently answering this sector. Defending team's device shows a holding screen. */
+  sectorActiveTeam?: 'x' | 'o';
 }
 
 export interface ReadAloudQueueEntry {

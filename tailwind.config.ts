@@ -27,11 +27,22 @@ const config: Config = {
           '0%, 100%': { opacity: '1',   transform: 'scale(1.08)' },
           '50%':      { opacity: '0.4', transform: 'scale(1)' },
         },
+        'radar-sweep': {
+          from: { transform: 'rotate(0deg)' },
+          to:   { transform: 'rotate(360deg)' },
+        },
+        'target-lock': {
+          '0%':   { transform: 'scale(1.6)', opacity: '0' },
+          '60%':  { transform: 'scale(0.92)', opacity: '1' },
+          '100%': { transform: 'scale(1)',   opacity: '1' },
+        },
       },
       animation: {
         'cell-claim': 'cell-claim 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
         'cell-shake': 'cell-shake 0.55s ease-in-out forwards',
         'cell-flash': 'cell-flash 0.5s ease-in-out infinite',
+        'radar-sweep': 'radar-sweep 4s linear infinite',
+        'target-lock': 'target-lock 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
       },
       colors: {
         background: "var(--background)",

@@ -1216,6 +1216,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 waitSeconds={waitSeconds}
                 clientId={studentSession.clientId}
                 displayName={studentSession.displayName}
+                studentId={studentSession.studentId}
               />
             </>
           )

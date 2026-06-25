@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { ShieldHalf } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { InputSpec } from '@/lib/input-spec';
 import { ShuffleboardInput } from './shuffleboard-input';
@@ -14,9 +15,10 @@ interface DynamicInputProps {
   waitSeconds: number;
   clientId?: string;
   displayName?: string;
+  studentId?: string | null;
 }
 
-export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName }: DynamicInputProps) {
+export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId }: DynamicInputProps) {
   switch (spec.type) {
     case 'text':
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
@@ -26,7 +28,7 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       if (spec.timerSeconds) {
         return <QuizChoiceInput
           key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`}
-          spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
+          spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} studentId={studentId} />;
       }
       return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} displayName={displayName} />;
     case 'binary':
@@ -482,9 +484,14 @@ const QUIZ_COLORS = [
 ];
 const QUIZ_LABELS = ['A', 'B', 'C', 'D'];
 
-function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInputProps) {
+function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId }: DynamicInputProps) {
   const [submitted, setSubmitted] = useState(false);
   const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec, submitted);
+
+  // Sector Strike team gating: only the active team answers; the defending team watches the board.
+  const myTeam = studentId ? spec.sectorTeamByStudentId?.[studentId] : undefined;
+  const isDefending =
+    spec.sectorActiveTeam != null && myTeam != null && myTeam !== spec.sectorActiveTeam;
 
   // Per-student data from game
   const myData = (clientId ? spec.perStudentData?.[clientId] : undefined) as
@@ -498,6 +505,19 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId }: DynamicInpu
     setSubmitted(true);
     await onSubmit(String(index));
   }, [isSubmitting, isLocked, isExpired, onSubmit]);
+
+  // Defending team — no input, just a holding screen.
+  if (isDefending) {
+    return (
+      <div className="flex flex-col items-center gap-3 py-8 text-center">
+        <ShieldHalf className="w-12 h-12 text-sky-300" strokeWidth={1.5} />
+        <p className="text-xl font-black text-sky-300">Defending</p>
+        <p className="text-sm text-lc-text2 max-w-[16rem]">
+          The other squadron is striking a sector. Watch the board — your turn is next.
+        </p>
+      </div>
+    );
+  }
 
   // Locked + result state
   if (isLocked && result) {

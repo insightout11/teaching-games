@@ -2,8 +2,12 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import confetti from 'canvas-confetti';
-import { LayoutGrid, Check, X as XIcon, Clock, Trophy, Star, Repeat, Zap, Bomb } from 'lucide-react';
+import {
+  Radar, Check, X as XIcon, Clock, Trophy, Star, Repeat, Zap, Bomb,
+  Navigation, Crosshair, AlertTriangle, Users,
+} from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
+import type { InputSpec } from '@/lib/input-spec';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 
@@ -34,9 +38,39 @@ interface Cell {
   correctIndex: number | null;
 }
 
+interface RoundVote {
+  clientId: string;
+  choiceIndex: number;
+}
+
 const GAME_DURATION = 20 * 60;
 const CLAIM_POINTS = 10;
 const FREE_SQUARE_POINTS = 5;
+
+// ─── Squadron identities ───────────────────────────────────────────────────────
+
+const TEAM = {
+  x: {
+    name: 'Azure Squadron',
+    text: 'text-sky-300',
+    cellBg: 'bg-gradient-to-br from-sky-400 to-blue-600',
+    cellGlow: 'shadow-[0_0_10px_rgba(56,189,248,0.55)]',
+    chip: 'bg-sky-500/15 border-sky-400/40 text-sky-300',
+    dot: 'bg-sky-400',
+    ring: 'ring-sky-400',
+    confetti: ['#38bdf8', '#0ea5e9', '#ffffff'],
+  },
+  o: {
+    name: 'Ember Squadron',
+    text: 'text-amber-300',
+    cellBg: 'bg-gradient-to-br from-amber-400 to-orange-600',
+    cellGlow: 'shadow-[0_0_10px_rgba(251,191,36,0.55)]',
+    chip: 'bg-amber-500/15 border-amber-400/40 text-amber-300',
+    dot: 'bg-amber-400',
+    ring: 'ring-amber-400',
+    confetti: ['#fbbf24', '#f97316', '#ffffff'],
+  },
+} as const;
 
 const BONUS_NAMES: Record<BonusType, string> = {
   'double-down': 'Double Down',
@@ -79,28 +113,33 @@ function getAdjacent(index: number): number[] {
   return adj;
 }
 
+// All 4-in-a-row lines on the 8×8 grid (rows, columns, both diagonals).
+function allLines(): number[][] {
+  const lines: number[][] = [];
+  for (let r = 0; r < 8; r++) for (let c = 0; c <= 4; c++) lines.push([0, 1, 2, 3].map((d) => r * 8 + c + d));
+  for (let c = 0; c < 8; c++) for (let r = 0; r <= 4; r++) lines.push([0, 1, 2, 3].map((d) => (r + d) * 8 + c));
+  for (let r = 0; r <= 4; r++) for (let c = 0; c <= 4; c++) lines.push([0, 1, 2, 3].map((d) => (r + d) * 8 + c + d));
+  for (let r = 3; r < 8; r++) for (let c = 0; c <= 4; c++) lines.push([0, 1, 2, 3].map((d) => (r - d) * 8 + c + d));
+  return lines;
+}
+
 function checkWin(cells: Cell[], team: Team): number[] | null {
-  const owns = (i: number) => cells[i]?.team === team;
-  for (let r = 0; r < 8; r++)
-    for (let c = 0; c <= 4; c++) {
-      const idx = [0,1,2,3].map(d => r*8+c+d);
-      if (idx.every(owns)) return idx;
+  for (const line of allLines()) {
+    if (line.every((i) => cells[i]?.team === team)) return line;
+  }
+  return null;
+}
+
+// A team is "threatening" when some line holds 3 of its sectors plus 1 open sector.
+function threatTeam(cells: Cell[]): Team | null {
+  for (const line of allLines()) {
+    const teams = line.map((i) => cells[i]?.team);
+    for (const t of ['x', 'o'] as Team[]) {
+      if (teams.filter((v) => v === t).length === 3 && teams.filter((v) => v === null).length === 1) {
+        return t;
+      }
     }
-  for (let c = 0; c < 8; c++)
-    for (let r = 0; r <= 4; r++) {
-      const idx = [0,1,2,3].map(d => (r+d)*8+c);
-      if (idx.every(owns)) return idx;
-    }
-  for (let r = 0; r <= 4; r++)
-    for (let c = 0; c <= 4; c++) {
-      const idx = [0,1,2,3].map(d => (r+d)*8+c+d);
-      if (idx.every(owns)) return idx;
-    }
-  for (let r = 3; r < 8; r++)
-    for (let c = 0; c <= 4; c++) {
-      const idx = [0,1,2,3].map(d => (r-d)*8+c+d);
-      if (idx.every(owns)) return idx;
-    }
+  }
   return null;
 }
 
@@ -160,17 +199,20 @@ export function SectorStrikeGame({
   const [cells, setCells] = useState<Cell[]>([]);
   const [xTeam, setXTeam] = useState<Student[]>([]);
   const [oTeam, setOTeam] = useState<Student[]>([]);
+  const [teamMap, setTeamMap] = useState<Record<string, Team>>({});
   const [currentTeam, setCurrentTeam] = useState<Team>('x');
   const [currentPicker, setCurrentPicker] = useState<Student | null>(null);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [winner, setWinner] = useState<Team | null>(null);
   const [bonusPickTargets, setBonusPickTargets] = useState<number[]>([]);
   const [lastResult, setLastResult] = useState<'correct' | 'wrong' | null>(null);
   const [lastBombedCell, setLastBombedCell] = useState<number | null>(null);
   const [animatingCells, setAnimatingCells] = useState<number[]>([]);
-  const [winningCells,   setWinningCells]   = useState<number[]>([]);
+  const [winningCells, setWinningCells] = useState<number[]>([]);
+  const [roundVotes, setRoundVotes] = useState<Record<string, RoundVote>>({});
+  const [revealCorrectIndex, setRevealCorrectIndex] = useState<number | null>(null);
+  const [lastTally, setLastTally] = useState<{ correct: number; total: number } | null>(null);
 
   // ── Refs (avoids stale closures in callbacks) ─────────────────────────────
   const phaseRef = useRef<Phase>('idle');
@@ -187,16 +229,22 @@ export function SectorStrikeGame({
   xTeamRef.current = xTeam;
   const oTeamRef = useRef<Student[]>([]);
   oTeamRef.current = oTeam;
+  const teamMapRef = useRef<Record<string, Team>>({});
+  teamMapRef.current = teamMap;
+  const roundVotesRef = useRef<Record<string, RoundVote>>({});
+  roundVotesRef.current = roundVotes;
   const gameStartTimeRef = useRef<number | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const applyingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fetchControllerRef = useRef<AbortController | null>(null);
-  const selectedOptionIndexRef = useRef<number | null>(null);
 
   // ── Derived ───────────────────────────────────────────────────────────────
   const xCount = cells.filter((c) => c.team === 'x').length;
   const oCount = cells.filter((c) => c.team === 'o').length;
   const currentCell = selectedCell !== null ? cells[selectedCell] : null;
+  const activeTeamSize = (currentTeam === 'x' ? xTeam : oTeam).length;
+  const reportedCount = Object.keys(roundVotes).length;
+  const threat = (phase === 'picking' || phase === 'answering') ? threatTeam(cells) : null;
 
   // ── Cleanup on unmount ────────────────────────────────────────────────────
   useEffect(() => {
@@ -221,6 +269,24 @@ export function SectorStrikeGame({
       setTimeLeft(remaining);
     }, 500);
   }, [stopTimer]);
+
+  // ── Build the written-question input spec broadcast to all devices ────────
+  // Carries the team map + active team so the defending squadron's phones show
+  // a holding screen instead of a tappable question.
+  const buildQuestionSpec = useCallback(
+    (cell: Cell, perStudentData?: Record<string, unknown>): InputSpec => ({
+      type: 'choice',
+      gameKey: 'sector-strike',
+      prompt: cell.question ?? '',
+      options: cell.options ?? [],
+      timerSeconds: 60,
+      startedAt: Date.now(),
+      sectorTeamByStudentId: teamMapRef.current,
+      sectorActiveTeam: currentTeamRef.current,
+      ...(perStudentData ? { perStudentData } : {}),
+    }),
+    [],
+  );
 
   // ── Fetch one question (used during pre-generation) ──────────────────────
   const fetchOneQuestion = useCallback(async (qType: QType): Promise<{ question: string; options?: string[]; correctIndex?: number } | null> => {
@@ -271,29 +337,53 @@ export function SectorStrikeGame({
       setPhase('won');
       onSetInputSpec?.(null);
       confetti({
-        particleCount: 140,
-        spread: 80,
+        particleCount: 160,
+        spread: 85,
         origin: { y: 0.55 },
-        colors: scoringTeam === 'x'
-          ? ['#3b82f6', '#93c5fd', '#ffffff']
-          : ['#f97316', '#fdba74', '#ffffff'],
+        colors: [...TEAM[scoringTeam].confetti],
       });
       return;
     }
     const nextTeam = opposite(scoringTeam);
     const nextTeamStudents = nextTeam === 'x' ? xTeamRef.current : oTeamRef.current;
     if (nextTeamStudents.length === 0) return;
+    roundVotesRef.current = {};
+    setRoundVotes({});
+    setRevealCorrectIndex(null);
+    setLastTally(null);
     setCurrentTeam(nextTeam);
     setCurrentPicker(pickRandom(nextTeamStudents));
     setSelectedCell(null);
-    setSelectedOptionIndex(null);
-    selectedOptionIndexRef.current = null;
     setLastResult(null);
     onSetInputSpec?.(null);
     setPhase('picking');
   }, [stopTimer, onSetInputSpec]);
 
-  // ── Handle ✓ correct answer ───────────────────────────────────────────────
+  // ── Claim a sector for a team, then resolve any pick-based bonus ──────────
+  const claimSector = useCallback((cellIdx: number, team: Team) => {
+    const updated = cellsRef.current.map((c) =>
+      c.index === cellIdx ? { ...c, team, bonusRevealed: true } : c
+    );
+    setCells(updated);
+    animateClaim([cellIdx]);
+    setLastResult('correct');
+    setPhase('applying');
+
+    const bonus = cellsRef.current[cellIdx]?.bonus ?? null;
+    applyingTimerRef.current = setTimeout(() => {
+      if (bonus === 'double-down') {
+        const adj = getAdjacent(cellIdx).filter((i) => updated[i]?.team === null);
+        if (adj.length > 0) { setBonusPickTargets(adj); setPhase('bonus-pick'); return; }
+      }
+      if (bonus === 'steal') {
+        const targets = updated.filter((c) => c.team === opposite(team)).map((c) => c.index);
+        if (targets.length > 0) { setBonusPickTargets(targets); setPhase('bonus-pick'); return; }
+      }
+      advanceTurn(updated, team);
+    }, 1600);
+  }, [advanceTurn, animateClaim]);
+
+  // ── Speaking: teacher taps ✓ ──────────────────────────────────────────────
   const handleCorrect = useCallback(() => {
     if (phaseRef.current !== 'answering') return;
     const cellIdx = selectedCellRef.current;
@@ -306,31 +396,10 @@ export function SectorStrikeGame({
       points: CLAIM_POINTS,
       responseData: { cell: cellIdx, team, bonus: cellsRef.current[cellIdx]?.bonus },
     });
+    claimSector(cellIdx, team);
+  }, [onScore, claimSector]);
 
-    const updated = cellsRef.current.map((c) =>
-      c.index === cellIdx ? { ...c, team, bonusRevealed: true } : c
-    );
-    setCells(updated);
-    animateClaim([cellIdx]);
-    setLastResult('correct');
-    setPhase('applying');
-
-    const bonus = cellsRef.current[cellIdx]?.bonus ?? null;
-
-    applyingTimerRef.current = setTimeout(() => {
-      if (bonus === 'double-down') {
-        const adj = getAdjacent(cellIdx).filter((i) => updated[i]?.team === null);
-        if (adj.length > 0) { setBonusPickTargets(adj); setPhase('bonus-pick'); return; }
-      }
-      if (bonus === 'steal') {
-        const targets = updated.filter((c) => c.team === opposite(team)).map((c) => c.index);
-        if (targets.length > 0) { setBonusPickTargets(targets); setPhase('bonus-pick'); return; }
-      }
-      advanceTurn(updated, team);
-    }, 1400);
-  }, [onScore, advanceTurn, animateClaim]);
-
-  // ── Handle ✗ wrong answer ─────────────────────────────────────────────────
+  // ── Speaking: teacher taps ✗ ──────────────────────────────────────────────
   const handleWrong = useCallback(() => {
     if (phaseRef.current !== 'answering') return;
     const team = currentTeamRef.current;
@@ -343,11 +412,56 @@ export function SectorStrikeGame({
     });
     setLastResult('wrong');
     setPhase('applying');
-
     applyingTimerRef.current = setTimeout(() => {
       advanceTurn(cellsRef.current, team, false);
-    }, 1400);
+    }, 1600);
   }, [onScore, advanceTurn]);
+
+  // ── Written: tally the active team and claim if the majority is correct ───
+  const evaluateWritten = useCallback(() => {
+    if (phaseRef.current !== 'answering') return;
+    const cellIdx = selectedCellRef.current;
+    const team = currentTeamRef.current;
+    if (cellIdx === null) return;
+    const cell = cellsRef.current[cellIdx];
+    if (!cell || cell.qType !== 'written' || cell.correctIndex == null) return;
+
+    const votes = roundVotesRef.current;
+    const activeSize = (team === 'x' ? xTeamRef.current : oTeamRef.current).length;
+
+    let correct = 0;
+    const perStudentData: Record<string, unknown> = {};
+    Object.entries(votes).forEach(([studentId, v]) => {
+      const isC = v.choiceIndex === cell.correctIndex;
+      if (isC) correct++;
+      onScore(studentId, {
+        isCorrect: isC,
+        points: isC ? CLAIM_POINTS : 0,
+        responseData: { cell: cellIdx, team, choice: v.choiceIndex },
+      });
+      perStudentData[v.clientId] = {
+        locked: true,
+        result: isC ? 'correct' : 'incorrect',
+        pointsEarned: isC ? CLAIM_POINTS : 0,
+      };
+    });
+
+    // Majority of the active squadron must answer correctly to take the sector.
+    const claimed = activeSize > 0 && correct * 2 > activeSize;
+    setLastTally({ correct, total: activeSize });
+    setRevealCorrectIndex(cell.correctIndex);
+    onSetInputSpec?.(buildQuestionSpec(cell, perStudentData));
+
+    if (claimed) {
+      claimSector(cellIdx, team);
+    } else {
+      setLastResult('wrong');
+      setPhase('applying');
+      applyingTimerRef.current = setTimeout(() => {
+        advanceTurn(cellsRef.current, team, false);
+      }, 2000);
+    }
+  }, [onScore, onSetInputSpec, buildQuestionSpec, claimSector, advanceTurn]);
 
   // ── Handle bonus-pick tap ─────────────────────────────────────────────────
   const handleBonusPick = useCallback((targetIdx: number) => {
@@ -425,6 +539,10 @@ export function SectorStrikeGame({
     if (!cell || cell.team !== null) return;
 
     setSelectedCell(cellIdx);
+    roundVotesRef.current = {};
+    setRoundVotes({});
+    setRevealCorrectIndex(null);
+    setLastTally(null);
     const revealedCells = cellsRef.current.map((c) =>
       c.index === cellIdx ? { ...c, bonusRevealed: true } : c
     );
@@ -438,13 +556,7 @@ export function SectorStrikeGame({
     // Question pre-generated at game start — instant reveal
     if (cell.question) {
       if (cell.qType === 'written' && cell.options) {
-        onSetInputSpec?.({
-          type: 'choice',
-          gameKey: 'sector-strike',
-          prompt: cell.question,
-          options: cell.options,
-          timerSeconds: 60,
-        });
+        onSetInputSpec?.(buildQuestionSpec({ ...cell, bonusRevealed: true }));
       }
       setPhase('answering');
       return;
@@ -465,21 +577,10 @@ export function SectorStrikeGame({
       if (livePhase() !== 'loading') return;
 
       const data = await res.json() as { question: string; options?: string[]; correctIndex?: number };
-      setCells((prev) =>
-        prev.map((c) =>
-          c.index === cellIdx
-            ? { ...c, question: data.question, options: data.options ?? null, correctIndex: data.correctIndex ?? null }
-            : c
-        )
-      );
+      const filledCell: Cell = { ...cell, bonusRevealed: true, question: data.question, options: data.options ?? null, correctIndex: data.correctIndex ?? null };
+      setCells((prev) => prev.map((c) => (c.index === cellIdx ? filledCell : c)));
       if (cell.qType === 'written' && data.options) {
-        onSetInputSpec?.({
-          type: 'choice',
-          gameKey: 'sector-strike',
-          prompt: data.question,
-          options: data.options,
-          timerSeconds: 60,
-        });
+        onSetInputSpec?.(buildQuestionSpec(filledCell));
       }
       setPhase('answering');
     } catch (err: unknown) {
@@ -494,39 +595,46 @@ export function SectorStrikeGame({
         'It was invented last year',
         'It only exists in one country',
       ];
-      setCells((prev) =>
-        prev.map((c) =>
-          c.index === cellIdx
-            ? { ...c, question: fallback, options: cell.qType === 'written' ? fallbackOptions : null, correctIndex: cell.qType === 'written' ? 0 : null }
-            : c
-        )
-      );
+      const filledCell: Cell = {
+        ...cell,
+        bonusRevealed: true,
+        question: fallback,
+        options: cell.qType === 'written' ? fallbackOptions : null,
+        correctIndex: cell.qType === 'written' ? 0 : null,
+      };
+      setCells((prev) => prev.map((c) => (c.index === cellIdx ? filledCell : c)));
       if (cell.qType === 'written') {
-        onSetInputSpec?.({ type: 'choice', gameKey: 'sector-strike', prompt: fallback, options: fallbackOptions, timerSeconds: 60 });
+        onSetInputSpec?.(buildQuestionSpec(filledCell));
       }
       setPhase('answering');
     }
-  }, [topic, difficulty, sourceMaterial, applyAutoBonus, onSetInputSpec]);
+  }, [topic, difficulty, sourceMaterial, applyAutoBonus, onSetInputSpec, buildQuestionSpec]);
 
-  // ── Written answer vote handler ───────────────────────────────────────────
+  // ── Written answer vote handler — collect votes from the active team ──────
   const handleVote = useCallback((vote: GameRemoteVote) => {
     if (phaseRef.current !== 'answering') return;
-    const pickerId = currentPickerRef.current?.id;
-    if (!pickerId || vote.studentId !== pickerId) return;
+    const studentId = vote.studentId;
+    if (!studentId) return;
+    const team = currentTeamRef.current;
+    if (teamMapRef.current[studentId] !== team) return; // only the active squadron answers
     const cell = cellsRef.current[selectedCellRef.current!];
     if (!cell || cell.qType !== 'written') return;
-    if (selectedOptionIndexRef.current !== null) return;
+    if (roundVotesRef.current[studentId]) return; // one vote per student per sector
+
     // ChoiceInput submits option text; QuizChoiceInput submits index string — handle both
     let choiceIndex = parseInt(vote.choice, 10);
     if (isNaN(choiceIndex)) choiceIndex = cell.options?.indexOf(vote.choice) ?? -1;
     if (choiceIndex < 0 || choiceIndex > 3) return;
-    selectedOptionIndexRef.current = choiceIndex;
-    setSelectedOptionIndex(choiceIndex);
-    setTimeout(() => {
-      if (choiceIndex === cell.correctIndex) handleCorrect();
-      else handleWrong();
-    }, 800);
-  }, [handleCorrect, handleWrong]);
+
+    const next = { ...roundVotesRef.current, [studentId]: { clientId: vote.clientId, choiceIndex } };
+    roundVotesRef.current = next;
+    setRoundVotes(next);
+
+    const activeSize = (team === 'x' ? xTeamRef.current : oTeamRef.current).length;
+    if (Object.keys(next).length >= activeSize) {
+      setTimeout(() => evaluateWritten(), 700);
+    }
+  }, [evaluateWritten]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.(handleVote);
@@ -544,14 +652,21 @@ export function SectorStrikeGame({
     const o = shuffled.slice(mid);
     setXTeam(x);
     setOTeam(o);
+    const map: Record<string, Team> = {};
+    x.forEach((s) => { map[s.id] = 'x'; });
+    o.forEach((s) => { map[s.id] = 'o'; });
+    setTeamMap(map);
+    teamMapRef.current = map;
 
     const initialCells = buildCells(questionMode);
     setCells(initialCells);
     setCurrentTeam('x');
     setCurrentPicker(pickRandom(x));
     setSelectedCell(null);
-    setSelectedOptionIndex(null);
-    selectedOptionIndexRef.current = null;
+    roundVotesRef.current = {};
+    setRoundVotes({});
+    setRevealCorrectIndex(null);
+    setLastTally(null);
     setLastResult(null);
     setBonusPickTargets([]);
     setWinner(null);
@@ -593,23 +708,30 @@ export function SectorStrikeGame({
     if (students.length < 2) {
       return (
         <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-          <LayoutGrid className="w-10 h-10 text-lc-text3" />
+          <Radar className="w-10 h-10 text-lc-text3" />
           <p className="text-lc-text2 text-sm">At least 2 students must be connected to play Sector Strike.</p>
         </div>
       );
     }
     return (
       <div className="flex flex-col items-center justify-center gap-6 py-12">
-        <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20">
-          <LayoutGrid className="w-10 h-10 text-blue-400" />
+        <div className="relative p-5 rounded-2xl bg-sky-500/10 border border-sky-500/20 overflow-hidden">
+          <div className="pointer-events-none absolute inset-0 opacity-40">
+            <div
+              className="absolute left-1/2 top-1/2 h-[180%] w-[180%] -translate-x-1/2 -translate-y-1/2 animate-radar-sweep"
+              style={{ background: 'conic-gradient(from 0deg, transparent 300deg, rgba(56,189,248,0.5) 360deg)' }}
+            />
+          </div>
+          <Radar className="relative w-10 h-10 text-sky-400" />
         </div>
         <div className="text-center space-y-2">
           <h2 className="text-2xl font-game text-lc-text">Sector Strike</h2>
           <p className="text-lc-text2 text-sm max-w-xs">
-            Two teams battle for control of the grid. Get 4 sectors in a row to win.
+            Two squadrons fight for control of the airspace. Your whole team answers each
+            sector — claim it when the majority is correct. Lock 4 sectors in a row to win.
           </p>
           <p className="text-xs text-lc-text3">
-            {students.length} students · {
+            {students.length} pilots · {
               questionMode === 'both' ? 'Speaking & Written' :
               questionMode === 'speaking' ? 'Speaking' : 'Written'
             } · 20 minutes
@@ -617,9 +739,9 @@ export function SectorStrikeGame({
         </div>
         <button
           onClick={startGame}
-          className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-bold shadow-lg hover:scale-105 active:scale-95 transition-all"
+          className="px-8 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-xl font-bold shadow-lg shadow-sky-500/20 hover:scale-105 active:scale-95 transition-all"
         >
-          Start Game
+          Scramble Squadrons
         </button>
       </div>
     );
@@ -629,9 +751,16 @@ export function SectorStrikeGame({
   if (phase === 'preparing') {
     return (
       <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-lc-text2 text-sm">Preparing board…</p>
-        <p className="text-xs text-lc-text3">Generating questions for all 64 sectors</p>
+        <div className="relative w-12 h-12">
+          <div className="absolute inset-0 rounded-full border-2 border-sky-500/20" />
+          <div
+            className="absolute inset-0 rounded-full animate-radar-sweep"
+            style={{ background: 'conic-gradient(from 0deg, transparent 300deg, rgba(56,189,248,0.6) 360deg)' }}
+          />
+          <Radar className="absolute inset-0 m-auto w-5 h-5 text-sky-400" />
+        </div>
+        <p className="text-lc-text2 text-sm">Scanning airspace…</p>
+        <p className="text-xs text-lc-text3">Briefing all 64 sectors</p>
       </div>
     );
   }
@@ -641,83 +770,103 @@ export function SectorStrikeGame({
     const xFinal = cells.filter((c) => c.team === 'x').length;
     const oFinal = cells.filter((c) => c.team === 'o').length;
     const tied = xFinal === oFinal;
+    const wt = winner ? TEAM[winner] : null;
     return (
       <div className="space-y-4">
         <div className="text-center space-y-2 py-3">
-          <div className="text-4xl">{tied ? '🤝' : winner === 'x' ? '🔵' : '🟠'}</div>
+          <div className="flex justify-center">
+            {tied ? (
+              <Users className="w-12 h-12 text-lc-text3" />
+            ) : (
+              <Trophy className={`w-12 h-12 ${wt?.text ?? ''}`} />
+            )}
+          </div>
           <h2 className="text-2xl font-game text-lc-text">
-            {phase === 'won'
-              ? `Team ${winner === 'x' ? 'X' : 'O'} wins!`
-              : tied ? "It's a tie!" : `Team ${winner === 'x' ? 'X' : 'O'} wins!`}
+            {tied ? "Stalemate over the airspace" : `${wt?.name} takes the skies!`}
           </h2>
           <p className="text-lc-text2 text-sm">
-            {phase === 'timeout' ? "Time's up — most sectors wins" : '4 in a row!'}
+            {phase === 'timeout' ? "Fuel's out — most sectors held wins" : '4 sectors locked in a row!'}
           </p>
-          <div className="flex items-center justify-center gap-8 text-sm font-bold mt-1">
-            <span className="text-blue-400">X: {xFinal}</span>
-            <span className="text-lc-text3">sectors</span>
-            <span className="text-orange-400">O: {oFinal}</span>
+          <div className="flex items-center justify-center gap-6 text-sm font-bold mt-1">
+            <span className={TEAM.x.text}>{TEAM.x.name}: {xFinal}</span>
+            <span className="text-lc-text3">vs</span>
+            <span className={TEAM.o.text}>{TEAM.o.name}: {oFinal}</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-8 grid-rows-8 gap-0.5 w-full max-w-sm mx-auto aspect-square">
-          {cells.map((cell) => (
-            <div
-              key={cell.index}
-              className={[
-                'rounded flex items-center justify-center text-xs font-black',
-                cell.team === 'x' ? 'bg-blue-500 text-white' :
-                cell.team === 'o' ? 'bg-orange-500 text-white' :
-                'bg-lc-surface',
-                winningCells.includes(cell.index) ? 'animate-cell-flash ring-2 ring-white' : '',
-              ].filter(Boolean).join(' ')}
-            >
-              {cell.team === 'x' ? 'X' : cell.team === 'o' ? 'O' : ''}
-            </div>
-          ))}
+        <div className="rounded-2xl border border-sky-500/20 bg-gradient-to-b from-slate-900 to-slate-950 p-2">
+          <div className="grid grid-cols-8 grid-rows-8 gap-1 w-full max-w-md mx-auto aspect-square">
+            {cells.map((cell) => (
+              <div
+                key={cell.index}
+                className={[
+                  'rounded-[3px] flex items-center justify-center',
+                  cell.team === 'x' ? `${TEAM.x.cellBg}` :
+                  cell.team === 'o' ? `${TEAM.o.cellBg}` :
+                  'bg-slate-800/40',
+                  winningCells.includes(cell.index) ? 'animate-cell-flash ring-2 ring-white' : '',
+                ].filter(Boolean).join(' ')}
+              >
+                {cell.team && <Navigation className="w-2.5 h-2.5 text-white/90 fill-white/30" />}
+              </div>
+            ))}
+          </div>
         </div>
 
         <button
           onClick={() => { stopTimer(); setPhase('idle'); onSetInputSpec?.(null); }}
           className="w-full py-3 bg-lc-surface border border-lc-border text-lc-text rounded-xl font-bold hover:bg-lc-card transition-all"
         >
-          Play Again
+          New Sortie
         </button>
       </div>
     );
   }
 
   // ── Render: Playing phases ────────────────────────────────────────────────
-  const teamBannerColor = currentTeam === 'x'
-    ? 'bg-blue-500/15 text-blue-300 border-blue-500/25'
-    : 'bg-orange-500/15 text-orange-300 border-orange-500/25';
+  const ct = TEAM[currentTeam];
+  const showResultReveal = phase === 'applying' || (phase === 'bonus-pick');
 
   return (
     <div className="space-y-3">
-      {/* Score bar */}
+      {/* Squadron HUD */}
       <div className="flex items-center justify-between text-sm font-bold">
-        <div className="flex items-center gap-1.5">
-          <span className="w-5 h-5 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-black">X</span>
-          <span className="text-blue-400">{xCount}</span>
+        <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border ${currentTeam === 'x' ? TEAM.x.chip : 'border-transparent'}`}>
+          <Navigation className={`w-4 h-4 ${TEAM.x.text} fill-current`} />
+          <span className={TEAM.x.text}>{xCount}</span>
         </div>
-        <div className={`flex items-center gap-1 font-mono text-xs ${timeLeft <= 60 ? 'text-red-400 font-bold' : 'text-lc-text2'}`}>
+        <div className={`flex items-center gap-1 font-mono text-xs ${timeLeft <= 60 ? 'text-red-400 font-bold animate-pulse' : 'text-lc-text2'}`}>
           <Clock className="w-3 h-3" />
           {formatTime(timeLeft)}
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="text-orange-400">{oCount}</span>
-          <span className="w-5 h-5 bg-orange-500 rounded text-white text-xs flex items-center justify-center font-black">O</span>
+        <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border ${currentTeam === 'o' ? TEAM.o.chip : 'border-transparent'}`}>
+          <span className={TEAM.o.text}>{oCount}</span>
+          <Navigation className={`w-4 h-4 ${TEAM.o.text} fill-current rotate-180`} />
         </div>
       </div>
 
+      {/* Threat warning — one sector from victory */}
+      {threat && (
+        <div className="rounded-lg px-3 py-1.5 text-xs font-bold text-center bg-red-500/15 text-red-300 border border-red-500/30 flex items-center justify-center gap-1.5 animate-pulse">
+          <AlertTriangle className="w-3.5 h-3.5" />
+          {TEAM[threat].name} is one sector from victory — defend the line!
+        </div>
+      )}
+
       {/* Team / picker banner */}
       {phase !== 'bonus-pick' && (
-        <div className={`rounded-xl px-3 py-2 text-xs font-semibold flex items-center justify-between border ${teamBannerColor}`}>
-          <span>Team {currentTeam === 'x' ? 'X' : 'O'}</span>
+        <div className={`rounded-xl px-3 py-2 text-xs font-semibold flex items-center justify-between border ${ct.chip}`}>
+          <span className="flex items-center gap-1.5">
+            <span className={`w-2 h-2 rounded-full ${ct.dot}`} />
+            {ct.name}
+          </span>
           {currentPicker && (
             <span className="text-white/80 font-normal">
-              {currentPicker.name}
-              {phase === 'picking' ? ' — choose a sector' : ' — answering'}
+              {phase === 'picking'
+                ? `${currentPicker.name} — choose a sector`
+                : currentCell?.qType === 'written'
+                  ? 'Squadron, answer on your devices'
+                  : `${currentPicker.name} — answer aloud`}
             </span>
           )}
           {currentCell?.qType && (phase === 'answering' || phase === 'loading' || phase === 'applying') && (
@@ -732,7 +881,7 @@ export function SectorStrikeGame({
         currentCell.bonus === 'bomb' ? (
           <div className="rounded-xl px-3 py-2.5 text-sm font-bold text-center bg-red-500/15 text-red-300 border border-red-500/30 flex items-center justify-center gap-2">
             <Bomb className="w-4 h-4" />
-            Bomb! {currentPicker?.name} — choose an opponent sector to destroy
+            Bomb! {currentPicker?.name} — choose an enemy sector to destroy
           </div>
         ) : (
           <div className="rounded-xl px-3 py-2 text-xs font-semibold text-center bg-yellow-500/15 text-yellow-300 border border-yellow-500/25 flex items-center justify-center gap-1.5">
@@ -742,52 +891,68 @@ export function SectorStrikeGame({
         )
       )}
 
-      {/* 8×8 Grid */}
-      <div className="grid grid-cols-8 grid-rows-8 gap-0.5 w-full max-w-sm mx-auto aspect-square">
-        {cells.map((cell) => {
-          const isSelected = cell.index === selectedCell;
-          const isTarget = bonusPickTargets.includes(cell.index);
-          const wasBombed = cell.index === lastBombedCell;
-          const isClaiming = animatingCells.includes(cell.index);
-          const isWinning = winningCells.includes(cell.index);
-          const canPick = phase === 'picking' && cell.team === null;
-          const canBonus = phase === 'bonus-pick' && isTarget;
-          const showResult = phase === 'applying' && isSelected;
+      {/* Tactical board */}
+      <div className="relative rounded-2xl border border-sky-500/20 bg-gradient-to-b from-slate-900 to-slate-950 p-2 shadow-[inset_0_0_40px_rgba(56,189,248,0.07)]">
+        {/* Radar sweep — only while a pilot is choosing */}
+        {phase === 'picking' && (
+          <div className="pointer-events-none absolute inset-0 rounded-2xl overflow-hidden opacity-25">
+            <div
+              className="absolute left-1/2 top-1/2 h-[160%] w-[160%] -translate-x-1/2 -translate-y-1/2 animate-radar-sweep"
+              style={{ background: `conic-gradient(from 0deg, transparent 300deg, ${currentTeam === 'x' ? 'rgba(56,189,248,0.5)' : 'rgba(251,191,36,0.5)'} 360deg)` }}
+            />
+          </div>
+        )}
 
-          return (
-            <button
-              key={cell.index}
-              onClick={() => {
-                if (canBonus) handleBonusPick(cell.index);
-                else if (canPick) handleCellClick(cell.index);
-              }}
-              disabled={!canPick && !canBonus}
-              className={[
-                'w-full h-full rounded flex items-center justify-center text-xs font-black transition-colors select-none',
-                cell.team === 'x' ? 'bg-blue-500 text-white' :
-                cell.team === 'o' ? 'bg-orange-500 text-white' :
-                'bg-lc-surface text-lc-text3',
-                isClaiming                                         ? 'animate-cell-claim' : '',
-                wasBombed                                          ? 'animate-cell-shake ring-2 ring-red-500' : '',
-                isWinning                                          ? 'animate-cell-flash ring-2 ring-white' : '',
-                isSelected && !showResult && !isClaiming           ? 'ring-2 ring-white/60 scale-105' : '',
-                showResult && lastResult === 'correct' && !isClaiming ? 'ring-2 ring-green-400' : '',
-                showResult && lastResult === 'wrong'               ? 'ring-2 ring-red-400' : '',
-                isTarget                                           ? 'ring-2 ring-yellow-400 animate-pulse cursor-pointer' : '',
-                canPick ? 'hover:bg-lc-card hover:scale-105 cursor-pointer' : 'cursor-default',
-              ].filter(Boolean).join(' ')}
-            >
-              {cell.team === 'x' && 'X'}
-              {cell.team === 'o' && 'O'}
-              {!cell.team && cell.bonusRevealed && cell.bonus && (
-                <BonusIcon bonus={cell.bonus} className="w-3 h-3 text-yellow-400" />
-              )}
-              {!cell.team && !cell.bonusRevealed && phase === 'picking' && (
-                <span className="opacity-40 text-[10px]">{cell.index + 1}</span>
-              )}
-            </button>
-          );
-        })}
+        <div className="relative grid grid-cols-8 grid-rows-8 gap-1 w-full max-w-md mx-auto aspect-square">
+          {cells.map((cell) => {
+            const isSelected = cell.index === selectedCell;
+            const isTarget = bonusPickTargets.includes(cell.index);
+            const wasBombed = cell.index === lastBombedCell;
+            const isClaiming = animatingCells.includes(cell.index);
+            const isWinning = winningCells.includes(cell.index);
+            const canPick = phase === 'picking' && cell.team === null;
+            const canBonus = phase === 'bonus-pick' && isTarget;
+            const showLock = isSelected && (phase === 'answering' || phase === 'loading');
+
+            return (
+              <button
+                key={cell.index}
+                onClick={() => {
+                  if (canBonus) handleBonusPick(cell.index);
+                  else if (canPick) handleCellClick(cell.index);
+                }}
+                disabled={!canPick && !canBonus}
+                className={[
+                  'relative w-full h-full rounded-[4px] flex items-center justify-center transition-all select-none border',
+                  cell.team === 'x' ? `${TEAM.x.cellBg} ${TEAM.x.cellGlow} border-sky-300/30` :
+                  cell.team === 'o' ? `${TEAM.o.cellBg} ${TEAM.o.cellGlow} border-amber-300/30` :
+                  'bg-slate-800/40 border-white/5',
+                  isClaiming ? 'animate-cell-claim' : '',
+                  wasBombed ? 'animate-cell-shake ring-2 ring-red-500' : '',
+                  isWinning ? 'animate-cell-flash ring-2 ring-white' : '',
+                  showResultReveal && isSelected && lastResult === 'correct' ? 'ring-2 ring-green-400' : '',
+                  showResultReveal && isSelected && lastResult === 'wrong' ? 'ring-2 ring-red-400' : '',
+                  isTarget ? 'ring-2 ring-yellow-400 animate-pulse cursor-pointer' : '',
+                  canPick ? 'hover:bg-slate-700/60 hover:border-sky-400/40 hover:scale-105 cursor-pointer' : 'cursor-default',
+                ].filter(Boolean).join(' ')}
+              >
+                {cell.team && <Navigation className={`w-3 h-3 text-white/95 fill-white/30 ${cell.team === 'o' ? 'rotate-180' : ''}`} />}
+                {!cell.team && cell.bonusRevealed && cell.bonus && (
+                  <BonusIcon bonus={cell.bonus} className="w-3.5 h-3.5 text-yellow-400" />
+                )}
+                {!cell.team && !cell.bonusRevealed && phase === 'picking' && (
+                  <span className="opacity-25 text-[9px] font-mono text-sky-200">{cell.index + 1}</span>
+                )}
+                {/* Target-lock reticle on the chosen sector */}
+                {showLock && (
+                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center animate-target-lock">
+                    <Crosshair className="w-full h-full text-white/80" strokeWidth={1.25} />
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Question / answer panel */}
@@ -795,14 +960,14 @@ export function SectorStrikeGame({
         <div className="rounded-xl border border-lc-border bg-lc-surface p-3 space-y-3">
           {phase === 'loading' && (
             <div className="flex items-center gap-2 text-lc-text2 py-1">
-              <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+              <div className="w-4 h-4 border-2 border-sky-500 border-t-transparent rounded-full animate-spin flex-shrink-0" />
               <span className="text-sm">Loading question…</span>
             </div>
           )}
 
           {(phase === 'answering' || phase === 'applying') && (
             <>
-              {/* Bonus banner — shown for all bonus cells, prominent */}
+              {/* Bonus banner */}
               {currentCell?.bonus && currentCell.bonusRevealed && (
                 <div className={`rounded-lg border px-3 py-2.5 flex items-center gap-3 ${
                   currentCell.bonus === 'bomb'
@@ -819,12 +984,6 @@ export function SectorStrikeGame({
                     {currentCell.bonus === 'free-square' && (
                       <p className="text-xs text-yellow-400/70">Sector auto-claimed</p>
                     )}
-                    {currentCell.bonus === 'bomb' && lastBombedCell !== null && (
-                      <p className="text-xs text-red-400/70">Sector {lastBombedCell + 1} destroyed!</p>
-                    )}
-                    {currentCell.bonus === 'bomb' && lastBombedCell === null && phase === 'applying' && (
-                      <p className="text-xs text-red-400/70">No opponent sectors to target</p>
-                    )}
                   </div>
                 </div>
               )}
@@ -836,21 +995,20 @@ export function SectorStrikeGame({
                 </p>
               )}
 
-              {/* Written: MC option grid */}
+              {/* Written: MC option grid (correct answer hidden until reveal) */}
               {currentCell?.qType === 'written' && currentCell.options && (
                 <div className="grid grid-cols-2 gap-1.5">
                   {currentCell.options.map((opt, i) => {
                     const LABELS = ['A', 'B', 'C', 'D'];
                     const COLORS = ['bg-red-600', 'bg-blue-600', 'bg-amber-500', 'bg-green-600'];
-                    const isPicked = selectedOptionIndex === i;
-                    const isCorrect = i === currentCell.correctIndex;
+                    const revealed = revealCorrectIndex !== null;
+                    const isCorrect = i === revealCorrectIndex;
                     return (
                       <div
                         key={i}
                         className={`rounded-lg px-2 py-1.5 transition-all ${COLORS[i]} ${
-                          selectedOptionIndex !== null && (isPicked || isCorrect) ? 'opacity-100' :
-                          selectedOptionIndex !== null ? 'opacity-40' : 'opacity-80'
-                        }${isPicked ? ' ring-2 ring-white' : ''}`}
+                          revealed ? (isCorrect ? 'opacity-100 ring-2 ring-white' : 'opacity-35') : 'opacity-85'
+                        }`}
                       >
                         <span className="text-[10px] font-black text-white/70 uppercase">{LABELS[i]}</span>
                         <p className="text-xs font-semibold text-white leading-snug">{opt}</p>
@@ -859,10 +1017,36 @@ export function SectorStrikeGame({
                   })}
                 </div>
               )}
-              {currentCell?.qType === 'written' && phase === 'answering' && selectedOptionIndex === null && (
-                <p className="text-xs text-lc-text3 italic">
-                  Waiting for {currentPicker?.name} to pick an answer…
-                </p>
+
+              {/* Written: live reporting + reveal control */}
+              {currentCell?.qType === 'written' && phase === 'answering' && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="flex items-center gap-1.5 text-lc-text2">
+                      <Users className="w-3.5 h-3.5" />
+                      {reportedCount} of {activeTeamSize} reporting
+                    </span>
+                    <div className="flex gap-1">
+                      {Array.from({ length: activeTeamSize }).map((_, i) => (
+                        <span
+                          key={i}
+                          className={`w-2 h-2 rounded-full ${i < reportedCount ? ct.dot : 'bg-lc-border'}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <button
+                    onClick={evaluateWritten}
+                    disabled={reportedCount === 0}
+                    className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 ${
+                      reportedCount === 0
+                        ? 'bg-lc-surface border border-lc-border text-lc-text3 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/20 hover:scale-[1.02]'
+                    }`}
+                  >
+                    Reveal result
+                  </button>
+                </div>
               )}
 
               {/* Speaking: approve/reject buttons */}
@@ -885,14 +1069,18 @@ export function SectorStrikeGame({
                 </div>
               )}
 
-              {/* Applying result — only for answered questions */}
+              {/* Applying result */}
               {phase === 'applying' && lastResult !== null && (
                 <div className={`text-center font-bold text-sm py-1.5 rounded-lg ${
                   lastResult === 'correct'
                     ? 'text-green-400 bg-green-500/10'
                     : 'text-red-400 bg-red-500/10'
                 }`}>
-                  {lastResult === 'correct' ? '✓ Sector claimed!' : '✗ Missed — next team'}
+                  {currentCell?.qType === 'written' && lastTally
+                    ? lastResult === 'correct'
+                      ? `✓ ${lastTally.correct}/${lastTally.total} correct — sector claimed!`
+                      : `✗ ${lastTally.correct}/${lastTally.total} correct — sector held`
+                    : lastResult === 'correct' ? '✓ Sector claimed!' : '✗ Missed — next squadron'}
                 </div>
               )}
             </>
@@ -908,7 +1096,7 @@ export function SectorStrikeGame({
       )}
       {phase === 'bonus-pick' && currentCell?.bonus === 'steal' && (
         <p className="text-xs text-lc-text3 text-center">
-          Tap any opponent sector to take it
+          Tap any enemy sector to capture it
         </p>
       )}
 
@@ -919,14 +1107,6 @@ export function SectorStrikeGame({
           <span className="flex items-center gap-1"><Repeat className="w-3 h-3 text-yellow-400" /> Steal</span>
           <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-yellow-400" /> Free</span>
           <span className="flex items-center gap-1"><Bomb className="w-3 h-3 text-yellow-400" /> Bomb</span>
-        </div>
-      )}
-
-      {/* Win notice during applying (if about to win) */}
-      {phase === 'applying' && lastResult === 'correct' && (
-        <div className="flex items-center justify-center gap-1.5 text-xs text-lc-text3">
-          <Trophy className="w-3 h-3" />
-          <span>4 in a row wins the game</span>
         </div>
       )}
     </div>
