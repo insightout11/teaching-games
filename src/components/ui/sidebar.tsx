@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { isMockMode } from '@/lib/mock/auth';
 import type { User } from '@supabase/supabase-js';
 import { CreditBadge } from './credit-badge';
-import { Home, Compass, GraduationCap, Plane, Library, Globe2 } from 'lucide-react';
+import { Home, Compass, GraduationCap, Plane, Library, Globe2, Layers } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import type { ComponentType } from 'react';
 
@@ -27,6 +27,7 @@ const navItems: NavItem[] = [
   { href: '/explore',        label: 'Browse',         icon: Compass,       subtitle: null,               exact: false },
   { href: '/classes',        label: 'Classes',        icon: GraduationCap, subtitle: null,               exact: false },
   { href: '/lesson-planner', label: 'Lesson Planner', icon: Plane,         subtitle: null,               exact: false },
+  { href: '/courses',        label: 'Courses',        icon: Layers,        subtitle: null,               exact: false },
   { href: '/library',        label: 'Library',        icon: Library,       subtitle: null,               exact: false },
 ];
 
