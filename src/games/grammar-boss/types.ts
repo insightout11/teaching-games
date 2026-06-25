@@ -5,6 +5,8 @@ export interface Challenge {
   target: GrammarTarget;
   task: string;
   exampleSentence: string;
+  /** Opening words for the student to complete — scaffolds active production. Optional (older content omits it). */
+  sentenceStarter?: string;
 }
 
 export interface EvaluationResult {

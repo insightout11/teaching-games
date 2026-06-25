@@ -10,7 +10,7 @@ import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 const GAME_KEY = 'grammar-boss';
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2; // v2 adds sentenceStarter — only serve cache entries that include it
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very simple sentence structures.',
@@ -24,9 +24,10 @@ const schema: AISchema = {
   type: 'object',
   properties: {
     task: { type: 'string' },
-    exampleSentence: { type: 'string' }
+    exampleSentence: { type: 'string' },
+    sentenceStarter: { type: 'string' }
   },
-  required: ['task', 'exampleSentence']
+  required: ['task', 'exampleSentence', 'sentenceStarter']
 };
 
 export async function POST(request: NextRequest) {
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // 1. Check cache first — variant = grammarTarget to scope cache per grammar structure
-    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, grammarTarget);
+    const cached = skipCache ? null : await getCachedContent(GAME_KEY, topic, difficulty, excludeCacheIds, grammarTarget, SCHEMA_VERSION);
     if (cached) {
       return NextResponse.json({ ...cached.content_json, cacheId: cached.id });
     }
@@ -61,14 +62,16 @@ ${sourceContext}${sourceContext ? 'Base the speaking task and example sentence o
 Provide:
 1. A concise, engaging speaking task (1-2 sentences) appropriate for a ${difficulty} level student that naturally requires the target grammar (${grammarTarget}).
 2. A perfect example sentence using the target grammar correctly, tailored to the ${difficulty} level complexity.
+3. A sentence STARTER: just the opening few words of a sentence about the topic that uses the target grammar, for the student to COMPLETE themselves (do NOT finish it). E.g. "Since I started ...", "I have never ...". Keep it short and open-ended.
 
 The task should prompt the student to speak about the given topic while using the specified grammar structure.`;
 
-    const data = await generateJSON<{ task: string; exampleSentence: string }>(prompt, schema, { taskClass: 'content-generation' });
+    const data = await generateJSON<{ task: string; exampleSentence: string; sentenceStarter: string }>(prompt, schema, { taskClass: 'content-generation' });
 
     const result = {
       task: data.task || 'Speak about your recent experiences.',
-      exampleSentence: data.exampleSentence || 'I have been working on this project for three months.'
+      exampleSentence: data.exampleSentence || 'I have been working on this project for three months.',
+      sentenceStarter: data.sentenceStarter || `When it comes to ${topic}, I have ...`
     };
 
     // 3. Store in cache — variant = grammarTarget (never cache source-grounded content)

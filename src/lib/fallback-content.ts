@@ -49,6 +49,7 @@ export function grammarBossFallback(topic: string) {
   return {
     task: `Describe your experience with ${topic} using the correct grammar structure.`,
     exampleSentence: `I have been studying ${topic} for several weeks now.`,
+    sentenceStarter: `When it comes to ${topic}, I have ...`,
   };
 }
 

@@ -536,6 +536,7 @@ export interface GrammarBossGeneratedContent {
   gameKey: 'grammar-boss';
   task: string;
   exampleSentence: string;
+  sentenceStarter?: string;
 }
 
 export interface WordChainGeneratedContent {
