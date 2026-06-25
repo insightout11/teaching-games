@@ -1,52 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
-import type { Course, CourseLesson, CourseLessonPayload, CourseSourceRef } from '@/lib/course';
+import { toCourse, type DbCourse, type DbLesson } from '@/lib/course-serialize';
+import type { CourseLessonPayload, CourseSourceRef } from '@/lib/course';
 
 export const dynamic = 'force-dynamic';
-
-interface DbCourse {
-  id: string;
-  teacher_id: string | null;
-  title: string;
-  theme: string;
-  description: string | null;
-  is_template: boolean;
-}
-interface DbLesson {
-  id: string;
-  course_id: string;
-  order_index: number;
-  title: string;
-  source_ref: CourseSourceRef;
-  lesson_payload: CourseLessonPayload;
-  status: 'planned' | 'launched' | 'completed';
-  session_id: string | null;
-}
-
-export function toLesson(l: DbLesson): CourseLesson {
-  return {
-    id: l.id,
-    courseId: l.course_id,
-    orderIndex: l.order_index,
-    title: l.title,
-    sourceRef: l.source_ref ?? null,
-    lessonPayload: l.lesson_payload,
-    status: l.status,
-    sessionId: l.session_id,
-  };
-}
-export function toCourse(c: DbCourse, lessons: DbLesson[] = []): Course {
-  return {
-    id: c.id,
-    teacherId: c.teacher_id,
-    title: c.title,
-    theme: c.theme,
-    description: c.description,
-    isTemplate: c.is_template,
-    lessons: lessons.map(toLesson),
-  };
-}
 
 // GET — the teacher's own courses + global templates (summary; no lessons inlined).
 export async function GET() {

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
-import { toCourse } from '../route';
+import { toCourse } from '@/lib/course-serialize';
 
 export const dynamic = 'force-dynamic';
 
