@@ -181,6 +181,17 @@ export async function POST(request: Request) {
     }
   }
 
+  // Course Builder: if this session was launched from a course lesson, mark that lesson
+  // completed so the course's "Next up" advances. (v2: write end-of-session lesson_memory
+  // here — vocab covered, struggles — to carry forward into the next lesson.)
+  if (completed) {
+    try {
+      await supabase.from('course_lessons').update({ status: 'completed' }).eq('session_id', sessionId);
+    } catch (courseError) {
+      console.error('[api/session/end] course lesson completion error:', courseError);
+    }
+  }
+
   return NextResponse.json({
     ...(data ?? { legStatus: 'none', currentDestinationId: null }),
     progressionReward,
