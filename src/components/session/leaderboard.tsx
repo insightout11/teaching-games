@@ -15,6 +15,20 @@ interface LeaderboardEntry {
   avatarSeed?: string;
 }
 
+// Friendly label + palette per team key, so the team scoreboard reads clearly
+// and stays color-consistent with each game's board (not assigned by list order).
+const TEAM_META: Record<string, { label: string; bg: string; border: string; text: string }> = {
+  x:    { label: 'Azure Squadron', bg: 'bg-sky-500/10',    border: 'border-sky-500/30',    text: 'text-sky-300' },
+  o:    { label: 'Ember Squadron', bg: 'bg-orange-500/10', border: 'border-orange-500/30', text: 'text-orange-300' },
+  blue: { label: 'Blue Team',      bg: 'bg-blue-500/10',   border: 'border-blue-500/30',   text: 'text-blue-400' },
+  red:  { label: 'Red Team',       bg: 'bg-red-500/10',    border: 'border-red-500/30',    text: 'text-red-400' },
+};
+
+const FALLBACK_TEAM_PALETTE = [
+  { bg: 'bg-blue-500/10',   border: 'border-blue-500/30',   text: 'text-blue-400' },
+  { bg: 'bg-orange-500/10', border: 'border-orange-500/30', text: 'text-orange-400' },
+];
+
 export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'class' | 'team' | 'competitive' }) {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
@@ -216,14 +230,14 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
       {displayMode === 'team' && teamTotals && (
         <div className="grid grid-cols-2 gap-2">
           {teamTotals.slice(0, 2).map(([key, pts], idx) => {
-            const label = key.charAt(0).toUpperCase() + key.slice(1);
-            const palette = idx === 0
-              ? { bg: 'bg-blue-500/10', border: 'border-blue-500/30', text: 'text-blue-400' }
-              : { bg: 'bg-orange-500/10', border: 'border-orange-500/30', text: 'text-orange-400' };
+            const meta = TEAM_META[key] ?? {
+              label: key.charAt(0).toUpperCase() + key.slice(1),
+              ...FALLBACK_TEAM_PALETTE[idx % 2],
+            };
             return (
-              <div key={key} className={`${palette.bg} border ${palette.border} rounded-xl p-3 text-center`}>
-                <p className={`text-xs ${palette.text} font-semibold uppercase tracking-wider mb-1`}>{label}</p>
-                <p className={`text-2xl font-game ${palette.text}`}>{pts}</p>
+              <div key={key} className={`${meta.bg} border ${meta.border} rounded-xl p-3 text-center`}>
+                <p className={`text-xs ${meta.text} font-semibold uppercase tracking-wider mb-1`}>{meta.label}</p>
+                <p className={`text-2xl font-game ${meta.text}`}>{pts}</p>
               </div>
             );
           })}
