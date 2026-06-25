@@ -96,7 +96,6 @@ const CLASS_SIZE_METADATA: Record<string, ClassSizeMetadata> = {
   'brain-teasers': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'defend-it': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
   'sector-strike': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-  'zone-board': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
   'radar-fix': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
   'world-lens': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
 

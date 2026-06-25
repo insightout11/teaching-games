@@ -14,7 +14,7 @@ describe('class-size metadata', () => {
       ...getAllActivities().map((activity) => activity.key),
     ];
 
-    expect(registryKeys).toHaveLength(58);
+    expect(registryKeys).toHaveLength(57);
     expect(registryKeys.filter((key) => !getClassSizeMetadata(key))).toEqual([]);
     expect(FLIGHT_PLAN_ITEMS).toHaveLength(50);
     expect(FLIGHT_PLAN_ITEMS.filter((item) => !item.idealClassSizes || !item.minStudents)).toEqual([]);
@@ -24,13 +24,13 @@ describe('class-size metadata', () => {
     const items = getDiscoveryItems();
     const password = items.find((item) => item.key === 'password')!;
     const storySprint = items.find((item) => item.key === 'story-sprint')!;
-    const zoneBoard = items.find((item) => item.key === 'zone-board')!;
+    const twentyQuestions = items.find((item) => item.key === 'twenty-questions')!;
 
     expect(getClassSizeChip(password)).toBe('Best with 4+');
     expect(getClassSizeChip(password, { setup: 'small-group' })).toBe('Best with 4+');
     expect(getClassSizeChip(password, { setup: 'small-group', studentCount: 3 })).toBe('Needs 4+ students');
     expect(getClassSizeChip(password, { setup: 'small-group', studentCount: 4 })).toBe('Great for small groups');
     expect(getClassSizeChip(storySprint, { setup: 'classroom' })).toBe('Best for small groups');
-    expect(getClassSizeChip(zoneBoard, { setup: 'one-on-one' })).toBe('Best with 2+');
+    expect(getClassSizeChip(twentyQuestions, { setup: 'one-on-one' })).toBe('Best with 2+');
   });
 });

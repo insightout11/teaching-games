@@ -17,7 +17,6 @@ import { flashQuizPlugin } from './flash-quiz';
 import { brainTeasersPlugin } from './brain-teasers';
 import { defendItPlugin } from './defend-it';
 import { sectorStrikePlugin } from './sector-strike';
-import { zoneBoardPlugin } from './zone-board';
 import { radarFixPlugin } from './radar-fix';
 import { worldLensPlugin } from './world-lens';
 
@@ -38,7 +37,6 @@ const games: GamePlugin[] = [
   twentyQuestionsPlugin,
   defendItPlugin,
   sectorStrikePlugin,
-  zoneBoardPlugin,
   radarFixPlugin,
   worldLensPlugin,
 ];
