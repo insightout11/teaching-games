@@ -168,7 +168,7 @@ export interface WouldYouRatherDilemma {
   discussionPrompt: string;
 }
 
-// Two Truths & A Fabrication content
+// Spot the Fib content (key: two-truths) — AI topic statements, one is false
 export interface TwoTruthsContent extends ActivityGeneratedContent {
   activityKey: 'two-truths';
   rounds: TwoTruthsRound[];

@@ -156,7 +156,7 @@ export function TwoTruthsActivity({
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-lg font-semibold text-emerald-400">Two Truths & A Fabrication</h3>
+          <h3 className="text-lg font-semibold text-emerald-400">Spot the Fib</h3>
           {customTopic && (
             <p className="text-xs opacity-60">Topic: {customTopic}</p>
           )}

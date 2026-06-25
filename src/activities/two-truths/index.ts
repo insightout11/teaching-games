@@ -4,8 +4,8 @@ import { Sparkles } from 'lucide-react';
 
 export const twoTruthsPlugin: ActivityPlugin = {
   key: 'two-truths',
-  name: 'Two Truths & A Fabrication',
-  description: 'topic-generated statements about the topic (2 true, 1 false). Students debate which is the fabrication before the reveal.',
+  name: 'Spot the Fib',
+  description: 'Three AI statements about the topic — two true, one false. Students debate and vote on the fib before the reveal.',
   category: 'icebreaker',
   pppStage: 'practice',
   skills: ['Speaking', 'Critical Thinking', 'Listening'],
