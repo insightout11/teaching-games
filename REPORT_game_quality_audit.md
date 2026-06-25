@@ -8,6 +8,14 @@ metadata** (skills, energy, teacher-control load, overlap).
 *feel* — fun, timing, difficulty calibration, real model-output quality, classroom dynamics, or UI
 polish. Use the tiers to **prioritise play-testing**, not as a final verdict.
 
+> **CORRECTION (2026-06-25, after reading the evaluator routes):** Several games that first looked
+> "thin" generate only a *seed*; their real quality lives in a separate **AI evaluator** route. After
+> reading those, **word-chain, grammar-boss, story-sprint, and synonym-showdown are all solid** — their
+> evaluators are strong (word-chain's is rigorous, grammar-boss scores grammar+fluency+correction,
+> story-sprint analyses per-sentence and per-story). The earlier "Fix" verdicts on these were based on
+> incomplete reading and are **withdrawn**. The only correct cut was **zone-board** (done). Tiers below
+> updated. Net: no further code changes were warranted — making the proposed "fixes" would be churn.
+
 ---
 
 ## Tier summary
@@ -24,11 +32,11 @@ polish. Use the tiers to **prioritise play-testing**, not as a final verdict.
 | defend-it | quiz | **Keep (distinctive)** | "Defend the Indefensible" — absurd statements to argue; fun, but teacher judges |
 | sector-strike | quiz | **Keep (distinctive)** | Team territory game wrapped around a generated question |
 | twenty-questions | logic | **Keep (high burden)** | Deduction via yes/no questions; strong skill, heavy teacher mediation |
-| story-sprint | grammar | **Keep (verify)** | Collaborative storytelling; thin starter but quality lives in the /evaluate route (unverified) |
-| grammar-boss | grammar | **Fix** | Speaking task + 1 example — generation is thin; teacher judges spoken output |
-| synonym-showdown | vocab | **Fix / overlap** | Single-word synonym swap — overlaps vocab-sprint's easy tier |
-| word-chain | vocab | **Fix / weakest** | Free word association; thin generation, low pedagogical density, hard to score |
-| zone-board | quiz | **Overlap** | Generates one MCQ (≈ flash-quiz) in a team-board wrapper |
+| story-sprint | grammar | **Keep** | Collaborative storytelling; strong per-sentence + per-story evaluators (verified) |
+| grammar-boss | grammar | **Keep** | Speaking task; strong evaluator (grammar+fluency+correction). Optional: scaffold the generation |
+| synonym-showdown | vocab | **Keep** | Works via a quality-tiered evaluator. Conceptual overlap w/ vocab-sprint, but mechanically distinct (rapid breadth vs sentence precision) — only cut if testing confirms redundancy |
+| word-chain | vocab | **Keep** | Chain association with a *rigorous* evaluator (accept/reject rules, strength tiers). Thin starter is fine |
+| zone-board | quiz | **CUT (done)** | Single MCQ ≈ flash-quiz in a team-board wrapper — removed |
 | brain-teasers | logic | **Unverified** | Logic puzzles via /next; prompt not in the standard shape — needs a look |
 | radar-fix | quiz | **Niche (WF only)** | World-Flight geography check; not a general ESL game |
 | world-lens | quiz | **Niche (WF only)** | World-Flight geography game; not a general ESL game |
@@ -107,37 +115,32 @@ content, so judge them as part of World Flight, not the core game set.
 
 ---
 
-## ★ Areas for improvement — high-leverage, low-effort fixes
+## ★ Areas for improvement — what actually survives verification
 
-Ranked by leverage ÷ effort. Each is a small prompt/code change with outsized quality return.
+Most of the originally-proposed "fixes" were **withdrawn** after reading the evaluators (see Correction
+above) — the games are already good. What remains genuinely worth doing, ranked:
 
-1. **One shared MCQ generator for flash-quiz / zone-board / sector-strike.** Point all three at
-   flash-quiz's prompt (the strongest). zone-board especially jumps in quality for ~zero effort, and
-   future prompt improvements help three games at once. *(Code: extract one generator; ~1 file.)*
+1. **Batch the single-item generators** *(efficiency, not quality)*. synonym-showdown (1 word),
+   grammar-boss (1 task), sector-strike (1 question) generate one item per call → more latency/cost and
+   less variety. Generating a batch of ~5 and serving from it would be cheaper, faster, and more varied.
+   The strong games (vocab-sprint 6, sentence-scramble 10, flash-quiz N) already do this — copy the
+   pattern. **Touches the content schema + the game's runtime fetch + caching, so it needs a play-test
+   pass** — *not* a pure prompt edit.
 
-2. **grammar-boss: add scaffolding to the generation.** Generate (a) 2–3 graded example sentences,
-   (b) a "common mistake to avoid," and (c) 2 sentence starters. Gives students support and the
-   teacher a model answer to judge against — turns a thin prompt into a strong speaking task.
-   *(Prompt-only change.)*
+2. **grammar-boss: optional scaffolding** *(polish, not a fix)*. Adding 2–3 graded examples + a "common
+   mistake" + sentence starters to the generation would help students produce better output. Needs a
+   schema + display change, so it's a testing-pass item, not no-test.
 
-3. **word-chain: add a scoreable constraint per round.** Give each round a category/theme ("ocean
-   things", "words that follow 'fire'") so associations become checkable instead of free-for-all.
-   Converts the weakest game into a scoreable category game. *(Prompt + light validation.)*
+3. **synonym-showdown vs vocab-sprint: decide after testing.** Mechanically distinct (rapid breadth vs
+   sentence precision) but conceptually overlapping. Only cut/retarget if play-testing confirms it feels
+   redundant. No code change until then.
 
-4. **Batch the single-item generators.** synonym-showdown (1 word), grammar-boss (1 task),
-   sector-strike/zone-board (1 question) generate one item per call → more latency/cost and less
-   variety. Generate a batch of 5 and serve from it. Cheaper, faster, more varied. *(Small change per
-   route; the strong games already do this — copy the pattern.)*
+4. **Verify brain-teasers' /next prompt.** The one quality-critical prompt still unread (different route
+   shape). Quick to check; would settle its tier.
 
-5. **synonym-showdown: differentiate or cut.** If keeping, retarget it to **register/nuance** (formal
-   vs casual, connotation) — a gap vocab-sprint doesn't fill. Otherwise cut and reclaim the slot.
-
-6. **Verify + standardise source-grounding strength.** Every prompt injects `sourceContext`, but the
-   grounding instruction varies in force ("base on" vs "MUST be set in"). Standardise on the strongest
-   wording so source-based lessons are uniformly well-grounded. *(Mechanical prompt edit across routes.)*
-
-7. **Verify story-sprint's /evaluate and brain-teasers' /next prompts.** Two unread quality-critical
-   prompts. Quick to check; could move story-sprint up and clarify brain-teasers' tier.
+**Bottom line:** the static audit's real, confident output was **one cut (zone-board, done)**. The rest
+are either already-good (no change) or schema/UI changes that belong in a play-test session — not
+no-test prompt tweaks. Resisting unnecessary churn here *is* the right call.
 
 ---
 
