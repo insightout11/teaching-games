@@ -43,10 +43,27 @@ const LC_WAYFARER_ASSETS = {
   front3q: 'lc-wayfarer-front-3q',
 };
 
+const LC_SCOUT_ASSETS = {
+  side: 'lc-scout-monoplane',
+  front: 'lc-scout-monoplane-front',
+  front3q: 'lc-scout-monoplane-front-3q',
+};
+
+const LC_CLOUD_HOPPER_ASSETS = {
+  side: 'lc-cloud-hopper',
+  front: 'lc-cloud-hopper-front',
+  front3q: 'lc-cloud-hopper-front-3q',
+};
+
+const LC_TRAILBLAZER_ASSETS = {
+  side: 'lc-trailblazer',
+  front: 'lc-trailblazer-front',
+  front3q: 'lc-trailblazer-front-3q',
+};
+
 // Temporary branded fallback: keep progression keys/ranges stable while new
 // LessonCaptain-style upgrade aircraft are authored.
 const PENDING_BRANDED_UPGRADE_ASSETS = LC_WAYFARER_ASSETS;
-
 
 function entry(
   key: string,
@@ -82,11 +99,11 @@ function entry(
 
 const PLANE_ENTRIES: PlaneEntry[] = [
   // Keep the persisted starter key stable while the starter aircraft becomes
-  // the LC Wayfarer across every view.
-  entry('starter-biplane', 'LC Wayfarer', {}, LC_WAYFARER_ASSETS),
-  entry('scout-monoplane',     'Scout Monoplane',     {}, PENDING_BRANDED_UPGRADE_ASSETS),
-  entry('cloud-hopper',        'Cloud Hopper',        {}, PENDING_BRANDED_UPGRADE_ASSETS),
-  entry('trailblazer-biplane', 'Trailblazer Biplane', {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  // the smaller LC Scout across every view.
+  entry('starter-biplane', 'LC Scout', {}, LC_SCOUT_ASSETS),
+  entry('scout-monoplane',     'LC Wayfarer',         {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('cloud-hopper',        'Cloud Hopper',        {}, LC_CLOUD_HOPPER_ASSETS),
+  entry('trailblazer-biplane', 'Trailblazer',         {}, LC_TRAILBLAZER_ASSETS),
   entry('sky-racer',           'Sky Racer',           {}, PENDING_BRANDED_UPGRADE_ASSETS),
   entry('cargo-cruiser',       'Cargo Cruiser',       {}, PENDING_BRANDED_UPGRADE_ASSETS),
   entry('twin-prop-scout',     'Twin-Prop Scout',     {}, PENDING_BRANDED_UPGRADE_ASSETS),

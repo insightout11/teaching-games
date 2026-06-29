@@ -2,27 +2,41 @@ import { describe, expect, it } from 'vitest';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, getPlaneTierForKey, getPlaneViewAsset, isPlaneKeyInTier } from '@/lib/plane-progression';
 
 describe('plane progression assets', () => {
-  it('resolves the persisted starter key to the LC Wayfarer production views', () => {
+  it('resolves the persisted starter key to the LC Scout production views', () => {
     expect(getPlaneAsset('starter-biplane')).toMatchObject({
       key: 'starter-biplane',
-      name: 'LC Wayfarer',
-      webp: '/assets/flight/planes/lc-wayfarer.webp',
-      frontWebp: '/assets/flight/planes/lc-wayfarer-front.webp',
-      front3qWebp: '/assets/flight/planes/lc-wayfarer-front-3q.webp',
+      name: 'LC Scout',
+      webp: '/assets/flight/planes/lc-scout-monoplane.webp',
+      frontWebp: '/assets/flight/planes/lc-scout-monoplane-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-scout-monoplane-front-3q.webp',
     });
   });
 
-  it('keeps upgrade keys while using branded Wayfarer fallback art until authored views exist', () => {
+  it('resolves the first range-upgrade tier to three authored branded aircraft', () => {
     expect(getPlaneAsset('scout-monoplane')).toMatchObject({
       key: 'scout-monoplane',
-      name: 'Scout Monoplane',
+      name: 'LC Wayfarer',
       webp: '/assets/flight/planes/lc-wayfarer.webp',
+    });
+    expect(getPlaneAsset('cloud-hopper')).toMatchObject({
+      key: 'cloud-hopper',
+      name: 'Cloud Hopper',
+      webp: '/assets/flight/planes/lc-cloud-hopper.webp',
+      frontWebp: '/assets/flight/planes/lc-cloud-hopper-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-cloud-hopper-front-3q.webp',
+    });
+    expect(getPlaneAsset('trailblazer-biplane')).toMatchObject({
+      key: 'trailblazer-biplane',
+      name: 'Trailblazer',
+      webp: '/assets/flight/planes/lc-trailblazer.webp',
+      frontWebp: '/assets/flight/planes/lc-trailblazer-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-trailblazer-front-3q.webp',
     });
     expect(getPlaneViewAsset('scout-monoplane', 'front')).toBe(
       '/assets/flight/planes/lc-wayfarer-front.webp',
     );
-    expect(getPlaneViewAsset('scout-monoplane', 'front-3q', 'png')).toBe(
-      '/assets/flight/planes/lc-wayfarer-front-3q.png',
+    expect(getPlaneViewAsset('cloud-hopper', 'front-3q', 'png')).toBe(
+      '/assets/flight/planes/lc-cloud-hopper-front-3q.png',
     );
   });
 
