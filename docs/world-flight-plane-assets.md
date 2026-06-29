@@ -42,6 +42,36 @@ Option 3, Trailblazer:
 - `public/assets/flight/planes/lc-trailblazer-front-3q.png`
 - `public/assets/flight/planes/lc-trailblazer-front-3q.webp`
 
+Tier 2 is the Specialist range upgrade. It keeps the same classroom choice
+model as Tier 1, but the silhouettes should feel more capable and specialized.
+
+Option 1, Sky Racer:
+
+- `public/assets/flight/planes/lc-sky-racer.png`
+- `public/assets/flight/planes/lc-sky-racer.webp`
+- `public/assets/flight/planes/lc-sky-racer-front.png`
+- `public/assets/flight/planes/lc-sky-racer-front.webp`
+- `public/assets/flight/planes/lc-sky-racer-front-3q.png`
+- `public/assets/flight/planes/lc-sky-racer-front-3q.webp`
+
+Option 2, Cargo Cruiser:
+
+- `public/assets/flight/planes/lc-cargo-cruiser.png`
+- `public/assets/flight/planes/lc-cargo-cruiser.webp`
+- `public/assets/flight/planes/lc-cargo-cruiser-front.png`
+- `public/assets/flight/planes/lc-cargo-cruiser-front.webp`
+- `public/assets/flight/planes/lc-cargo-cruiser-front-3q.png`
+- `public/assets/flight/planes/lc-cargo-cruiser-front-3q.webp`
+
+Option 3, Twin-Prop Scout:
+
+- `public/assets/flight/planes/lc-twin-prop-scout.png`
+- `public/assets/flight/planes/lc-twin-prop-scout.webp`
+- `public/assets/flight/planes/lc-twin-prop-scout-front.png`
+- `public/assets/flight/planes/lc-twin-prop-scout-front.webp`
+- `public/assets/flight/planes/lc-twin-prop-scout-front-3q.png`
+- `public/assets/flight/planes/lc-twin-prop-scout-front-3q.webp`
+
 PNG and WebP variants are both generated. `src/lib/plane-progression.ts` uses
 WebP first and keeps PNG as fallback.
 

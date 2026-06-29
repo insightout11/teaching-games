@@ -55,4 +55,40 @@ describe('plane progression assets', () => {
     expect(isPlaneKeyInTier('sky-racer', 2)).toBe(true);
     expect(isPlaneKeyInTier('sky-racer', 1)).toBe(false);
   });
+
+  it('resolves the specialist tier to three authored branded aircraft', () => {
+    expect(getPlaneTier(2)).toMatchObject({
+      label: 'Specialist',
+      rangeKm: 8500,
+    });
+    expect(getPlaneTier(2).choices.map((plane) => plane.key)).toEqual([
+      'sky-racer',
+      'cargo-cruiser',
+      'twin-prop-scout',
+    ]);
+    expect(getPlaneAsset('sky-racer')).toMatchObject({
+      key: 'sky-racer',
+      name: 'Sky Racer',
+      webp: '/assets/flight/planes/lc-sky-racer.webp',
+      frontWebp: '/assets/flight/planes/lc-sky-racer-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-sky-racer-front-3q.webp',
+    });
+    expect(getPlaneAsset('cargo-cruiser')).toMatchObject({
+      key: 'cargo-cruiser',
+      name: 'Cargo Cruiser',
+      webp: '/assets/flight/planes/lc-cargo-cruiser.webp',
+      frontWebp: '/assets/flight/planes/lc-cargo-cruiser-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-cargo-cruiser-front-3q.webp',
+    });
+    expect(getPlaneAsset('twin-prop-scout')).toMatchObject({
+      key: 'twin-prop-scout',
+      name: 'Twin-Prop Scout',
+      webp: '/assets/flight/planes/lc-twin-prop-scout.webp',
+      frontWebp: '/assets/flight/planes/lc-twin-prop-scout-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-twin-prop-scout-front-3q.webp',
+    });
+    expect(getPlaneViewAsset('twin-prop-scout', 'front-3q', 'png')).toBe(
+      '/assets/flight/planes/lc-twin-prop-scout-front-3q.png',
+    );
+  });
 });
