@@ -13,6 +13,7 @@ import { SkylineLayer } from '@/components/world-flight/arrival-scene/layers/sky
 import { LandmarkLayer } from '@/components/world-flight/arrival-scene/layers/landmark-layer';
 import { AmbientLayer } from '@/components/world-flight/arrival-scene/layers/ambient-layer';
 import { WeatherLayer } from '@/components/world-flight/arrival-scene/layers/weather-layer';
+import { BleedSkyline } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import { AirfieldForeground } from './airfield-scene';
 
 // The lobby is the DEPARTURE point: the class is parked at the airfield of the
@@ -105,23 +106,31 @@ export function LobbyAirfieldScene({
       role="img"
       aria-label={`Departure airfield at ${originId}`}
     >
-      {/* Full-canvas horizon band. The arrival layers are authored in the wide
-          2880-unit canvas: focal layers draw in the centred 0..CONTENT_W zone
-          (= this SVG's 1600 viewBox), but TerrainBaseLayer fills the whole 2880
-          width. Recentre it by -BLEED_X so the flat horizon band bleeds past BOTH
-          edges of the 16:9 viewBox instead of starting at the focal-zone's left
-          edge — otherwise on widescreens it cuts off on the left. */}
+      {/* The arrival layers are authored in the wide 2880-unit canvas. Focal layers
+          draw in the centred 0..CONTENT_W zone (= this SVG's 1600 viewBox); the
+          full-canvas layers (TerrainBaseLayer, BleedSkyline) fill the whole 2880
+          width, so they're recentred by -BLEED_X to bleed past BOTH edges of the
+          16:9 viewBox — otherwise on widescreens they cut off on the left while
+          overflowing the right. Groups alternate transforms to preserve the
+          DestinationArrivalScene paint order (back → front; minus sky, vegetation,
+          runway, plane):
+            background landmark · terrain base · terrain silhouette · bleed skyline
+            · midground landmark · focal skyline · foreground landmark · ambient. */}
+      <g transform={`translate(0,${SKYLINE_DY})`}>{landmarkAt('background')}</g>
       <g transform={`translate(${-BLEED_X},${SKYLINE_DY})`}>
         <TerrainBaseLayer {...propsFor('terrain')} />
       </g>
-
-      {/* Origin-city focal band (CONTENT_W space = this viewBox), shifted down so
-          its base meets the airfield grass line; drawn BEHIND the airfield
-          foreground. Layer order matches DestinationArrivalScene (minus sky,
-          bleed, vegetation, runway, plane). */}
       <g transform={`translate(0,${SKYLINE_DY})`}>
-        {landmarkAt('background')}
         <TerrainSilhouetteLayer {...propsFor('terrain')} />
+      </g>
+      {/* Distant city silhouette flanking the focal origin city in the side bleed
+          (homebase fills its own overflow via the skyline layer, so it opts out). */}
+      {scene.skylineVariant !== 'homebase' && (
+        <g transform={`translate(${-BLEED_X},${SKYLINE_DY})`}>
+          <BleedSkyline palette={palette} destinationId={originId} skyline={scene.skyline} />
+        </g>
+      )}
+      <g transform={`translate(0,${SKYLINE_DY})`}>
         {landmarkAt('midground')}
         <SkylineLayer {...propsFor('skyline')} />
         {landmarkAt('foreground')}

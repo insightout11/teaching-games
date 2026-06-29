@@ -38,7 +38,10 @@ const BLEED_PROFILE: Record<BleedSkylineKind, {
   highrise: { hMin: 76, hMax: 230, wMin: 30, wMax: 72, pitched: 0.03, setback: 0.34, mast: 0.3 },
 };
 
-function BleedSkyline({ palette, destinationId, skyline }: { palette: ScenePalette; destinationId: string; skyline: BleedSkylineKind }) {
+// Distant city silhouette for the side bleed margins (canvas space 0..BLEED_X and
+// BLEED_X+CONTENT_W..VIEWBOX.w). Exported so the Launch Lobby can flank its focal
+// origin city with the same distant massing on widescreens.
+export function BleedSkyline({ palette, destinationId, skyline }: { palette: ScenePalette; destinationId: string; skyline: BleedSkylineKind }) {
   const rand = seededRand(`${destinationId}:bleed`);
   const base = LAYOUT.apronY + 12;
   const isNight = palette.light === 'moon';
