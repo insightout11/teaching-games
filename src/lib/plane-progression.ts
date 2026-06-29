@@ -97,9 +97,23 @@ const LC_STORM_RUNNER_ASSETS = {
   front3q: 'lc-storm-runner-front-3q',
 };
 
-// Temporary branded fallback: keep progression keys/ranges stable while new
-// LessonCaptain-style upgrade aircraft are authored.
-const PENDING_BRANDED_UPGRADE_ASSETS = LC_WAYFARER_ASSETS;
+const LC_FUTURE_FLYER_ASSETS = {
+  side: 'lc-future-flyer',
+  front: 'lc-future-flyer-front',
+  front3q: 'lc-future-flyer-front-3q',
+};
+
+const LC_STARLINER_MINI_ASSETS = {
+  side: 'lc-starliner-mini',
+  front: 'lc-starliner-mini-front',
+  front3q: 'lc-starliner-mini-front-3q',
+};
+
+const LC_COMET_JET_ASSETS = {
+  side: 'lc-comet-jet',
+  front: 'lc-comet-jet-front',
+  front3q: 'lc-comet-jet-front-3q',
+};
 
 function entry(
   key: string,
@@ -137,7 +151,7 @@ const PLANE_ENTRIES: PlaneEntry[] = [
   // Keep the persisted starter key stable while the starter aircraft becomes
   // the smaller LC Scout across every view.
   entry('starter-biplane', 'LC Scout', {}, LC_SCOUT_ASSETS),
-  entry('scout-monoplane',     'LC Wayfarer',         {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('scout-monoplane',     'LC Wayfarer',         {}, LC_WAYFARER_ASSETS),
   entry('cloud-hopper',        'Cloud Hopper',        {}, LC_CLOUD_HOPPER_ASSETS),
   entry('trailblazer-biplane', 'Trailblazer',         {}, LC_TRAILBLAZER_ASSETS),
   entry('sky-racer',           'Sky Racer',           {}, LC_SKY_RACER_ASSETS),
@@ -146,9 +160,9 @@ const PLANE_ENTRIES: PlaneEntry[] = [
   entry('solar-flyer',         'Solar Flyer',         {}, LC_SOLAR_FLYER_ASSETS),
   entry('aurora-glider',       'Aurora Glider',       {}, LC_AURORA_GLIDER_ASSETS),
   entry('storm-runner',        'Storm Runner',        {}, LC_STORM_RUNNER_ASSETS),
-  entry('future-flyer',        'Future Flyer',        {}, PENDING_BRANDED_UPGRADE_ASSETS),
-  entry('starliner-mini',      'Starliner Mini',      {}, PENDING_BRANDED_UPGRADE_ASSETS),
-  entry('comet-jet',           'Comet Jet',           {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('future-flyer',        'Future Flyer',        {}, LC_FUTURE_FLYER_ASSETS),
+  entry('starliner-mini',      'Starliner Mini',      {}, LC_STARLINER_MINI_ASSETS),
+  entry('comet-jet',           'Comet Jet',           {}, LC_COMET_JET_ASSETS),
 ];
 
 const PLANE_MAP = new Map(PLANE_ENTRIES.map((p) => [p.key, p]));

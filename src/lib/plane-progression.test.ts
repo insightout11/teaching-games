@@ -127,4 +127,40 @@ describe('plane progression assets', () => {
       '/assets/flight/planes/lc-storm-runner-front.png',
     );
   });
+
+  it('resolves the prestige tier to three authored branded aircraft', () => {
+    expect(getPlaneTier(4)).toMatchObject({
+      label: 'Prestige',
+      rangeKm: 13000,
+    });
+    expect(getPlaneTier(4).choices.map((plane) => plane.key)).toEqual([
+      'future-flyer',
+      'starliner-mini',
+      'comet-jet',
+    ]);
+    expect(getPlaneAsset('future-flyer')).toMatchObject({
+      key: 'future-flyer',
+      name: 'Future Flyer',
+      webp: '/assets/flight/planes/lc-future-flyer.webp',
+      frontWebp: '/assets/flight/planes/lc-future-flyer-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-future-flyer-front-3q.webp',
+    });
+    expect(getPlaneAsset('starliner-mini')).toMatchObject({
+      key: 'starliner-mini',
+      name: 'Starliner Mini',
+      webp: '/assets/flight/planes/lc-starliner-mini.webp',
+      frontWebp: '/assets/flight/planes/lc-starliner-mini-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-starliner-mini-front-3q.webp',
+    });
+    expect(getPlaneAsset('comet-jet')).toMatchObject({
+      key: 'comet-jet',
+      name: 'Comet Jet',
+      webp: '/assets/flight/planes/lc-comet-jet.webp',
+      frontWebp: '/assets/flight/planes/lc-comet-jet-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-comet-jet-front-3q.webp',
+    });
+    expect(getPlaneViewAsset('future-flyer', 'front-3q', 'png')).toBe(
+      '/assets/flight/planes/lc-future-flyer-front-3q.png',
+    );
+  });
 });

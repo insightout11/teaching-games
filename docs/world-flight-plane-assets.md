@@ -103,6 +103,37 @@ Option 3, Storm Runner:
 - `public/assets/flight/planes/lc-storm-runner-front-3q.png`
 - `public/assets/flight/planes/lc-storm-runner-front-3q.webp`
 
+Tier 4 is the Prestige range upgrade and the current final coded tier. It
+represents global reach: bigger passenger aircraft, fast swept-wing jets, and a
+more mature finish while staying grounded in believable civilian aviation.
+
+Option 1, Future Flyer:
+
+- `public/assets/flight/planes/lc-future-flyer.png`
+- `public/assets/flight/planes/lc-future-flyer.webp`
+- `public/assets/flight/planes/lc-future-flyer-front.png`
+- `public/assets/flight/planes/lc-future-flyer-front.webp`
+- `public/assets/flight/planes/lc-future-flyer-front-3q.png`
+- `public/assets/flight/planes/lc-future-flyer-front-3q.webp`
+
+Option 2, Starliner Mini:
+
+- `public/assets/flight/planes/lc-starliner-mini.png`
+- `public/assets/flight/planes/lc-starliner-mini.webp`
+- `public/assets/flight/planes/lc-starliner-mini-front.png`
+- `public/assets/flight/planes/lc-starliner-mini-front.webp`
+- `public/assets/flight/planes/lc-starliner-mini-front-3q.png`
+- `public/assets/flight/planes/lc-starliner-mini-front-3q.webp`
+
+Option 3, Comet Jet:
+
+- `public/assets/flight/planes/lc-comet-jet.png`
+- `public/assets/flight/planes/lc-comet-jet.webp`
+- `public/assets/flight/planes/lc-comet-jet-front.png`
+- `public/assets/flight/planes/lc-comet-jet-front.webp`
+- `public/assets/flight/planes/lc-comet-jet-front-3q.png`
+- `public/assets/flight/planes/lc-comet-jet-front-3q.webp`
+
 PNG and WebP variants are both generated. `src/lib/plane-progression.ts` uses
 WebP first and keeps PNG as fallback.
 
