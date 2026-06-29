@@ -3,6 +3,7 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import type { DestinationScene } from '@/lib/world-flight/types';
+import { BLEED_X } from '@/components/world-flight/arrival-scene/types';
 import type { TimeOfDay, WeatherCondition, LandmarkDepth } from '@/components/world-flight/arrival-scene/types';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import { seededRand } from '@/components/world-flight/arrival-scene/seed';
@@ -104,12 +105,22 @@ export function LobbyAirfieldScene({
       role="img"
       aria-label={`Departure airfield at ${originId}`}
     >
-      {/* Origin-city horizon band, shifted down so its base meets the airfield
-          grass line; drawn BEHIND the airfield foreground. Layer order matches
-          DestinationArrivalScene (minus sky, bleed, vegetation, runway, plane). */}
+      {/* Full-canvas horizon band. The arrival layers are authored in the wide
+          2880-unit canvas: focal layers draw in the centred 0..CONTENT_W zone
+          (= this SVG's 1600 viewBox), but TerrainBaseLayer fills the whole 2880
+          width. Recentre it by -BLEED_X so the flat horizon band bleeds past BOTH
+          edges of the 16:9 viewBox instead of starting at the focal-zone's left
+          edge — otherwise on widescreens it cuts off on the left. */}
+      <g transform={`translate(${-BLEED_X},${SKYLINE_DY})`}>
+        <TerrainBaseLayer {...propsFor('terrain')} />
+      </g>
+
+      {/* Origin-city focal band (CONTENT_W space = this viewBox), shifted down so
+          its base meets the airfield grass line; drawn BEHIND the airfield
+          foreground. Layer order matches DestinationArrivalScene (minus sky,
+          bleed, vegetation, runway, plane). */}
       <g transform={`translate(0,${SKYLINE_DY})`}>
         {landmarkAt('background')}
-        <TerrainBaseLayer {...propsFor('terrain')} />
         <TerrainSilhouetteLayer {...propsFor('terrain')} />
         {landmarkAt('midground')}
         <SkylineLayer {...propsFor('skyline')} />
@@ -121,8 +132,12 @@ export function LobbyAirfieldScene({
           and the opaque grass/tarmac that occludes the city's feet. */}
       <AirfieldForeground planeKey={planeKey} />
 
-      {/* Precipitation / lightning, in front of everything (full canvas). */}
-      <WeatherLayer {...propsFor('weather')} />
+      {/* Precipitation / lightning — also authored full-canvas (2880), so recentre
+          by -BLEED_X to cover the full width of any aspect, matching the ground
+          bleed (not just the focal zone). */}
+      <g transform={`translate(${-BLEED_X},0)`}>
+        <WeatherLayer {...propsFor('weather')} />
+      </g>
     </svg>
   );
 }
