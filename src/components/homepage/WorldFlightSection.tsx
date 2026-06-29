@@ -27,12 +27,13 @@ const JOURNEY: Leg[] = [
 ];
 
 // Tokyo's canonical arrival scene, copied verbatim from the destination pack
-// (src/data/world-flight/destinations.ts → id 'tokyo'). Night palette over a
-// highrise skyline with the Mt. Fuji silhouette behind it.
+// (src/data/world-flight/destinations.ts → id 'tokyo'). Night palette over the
+// bespoke Tokyo skyline variant with the Mt. Fuji silhouette behind it and sakura.
 const ARRIVAL_SCENE: DestinationScene = {
   terrain: 'urban',
-  vegetation: 'broadleaf',
+  vegetation: 'sakura',
   skyline: 'highrise',
+  skylineVariant: 'tokyo',
   landmarkSilhouette: 'fuji',
   palette: 'night',
 };

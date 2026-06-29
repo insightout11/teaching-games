@@ -259,6 +259,7 @@ function FlightPlanPanel() {
         mode="runtime"
         activeIndex={activeIndex}
         forceEmphasis
+        growOnNarrow
       />
     </div>
   );

@@ -63,6 +63,7 @@ export function MarketingSkyDescent() {
         earthOpacity={earthOpacity}
         showMoon
         moonPosition={{ top: '7%', right: '16%' }}
+        hideMoonOnMobile
         showRunwayMarkings
         showSkyline
         intensity="moderate"

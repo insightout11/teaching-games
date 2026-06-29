@@ -66,6 +66,13 @@ interface LessonCaptainFlightPlanProps {
   pacingIndex?: number;
   /** Render in the bright "engaged" state permanently (no hover needed) — used on marketing. */
   forceEmphasis?: boolean;
+  /**
+   * On narrow (phone) screens, trade the wide thin-strip aspect for a taller, squarer
+   * panel so the route, active card and plane don't collapse into an unreadable sliver.
+   * Opt-in (default false) so the in-session strip stays compact. Uses the caller's
+   * `height` as the cap, so it only grows tall where a generous height was provided.
+   */
+  growOnNarrow?: boolean;
 }
 
 const DEFAULT_STEPS: FlightPlanStep[] = [
@@ -1177,6 +1184,7 @@ export function LessonCaptainFlightPlan({
   slotBudgets,
   pacingIndex,
   forceEmphasis = false,
+  growOnNarrow = false,
 }: LessonCaptainFlightPlanProps) {
   const safeSteps = useMemo(() => {
     if (!Array.isArray(steps) || steps.length < 3) return DEFAULT_STEPS;
@@ -1193,8 +1201,12 @@ export function LessonCaptainFlightPlan({
   // Height tracks width (more square on narrow, a thin strip when wide) and is capped at
   // the caller's `height` so the route never gets absurdly tall on a large screen. The
   // viewBox always matches the rendered box aspect, so the HTML overlay stays aligned.
-  const targetAspect = mode === 'runtime' ? 9 : 4.8;
-  const minHeight = mode === 'runtime' ? 88 : 150;
+  // On phones the runtime strip collapses to an unreadable sliver; opt-in `growOnNarrow`
+  // swaps to a squarer aspect so the active card + plane have room (capped by `height`).
+  const isNarrow = vbW > 0 && vbW < 600;
+  const grow = growOnNarrow && isNarrow;
+  const targetAspect = mode === 'runtime' ? (grow ? 1.5 : 9) : 4.8;
+  const minHeight = mode === 'runtime' ? (grow ? 220 : 88) : 150;
   const vbH = clamp(vbW / targetAspect, Math.min(minHeight, height), height);
 
   const labelMode = useMemo(
