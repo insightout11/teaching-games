@@ -34,7 +34,6 @@ export function computeDefaultPositions(
     timer:             { x: right, y: H - 290 },
     'random-picker':   { x: right, y: H - 510 },
     poll:              { x: right, y: H - 150 },
-    freeze:            { x: right, y: H - 400 },
     'class-questions': { x: right, y: H - 560 },
     'class-board':     { x: right, y: H - 360 },
     'word-cloud':      { x: right, y: H - 420 },

@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 
 // GET /api/student/session?sessionId=xxx
 // Public read-only endpoint for student controller
-// Returns session status, active poll, input spec, frozen flag, and published questions
+// Returns session status, active poll, input spec, and published questions
 
 interface PublishedQuestion {
   id: string;
@@ -79,7 +79,6 @@ interface SessionPayload {
   isActive: boolean;
   activePoll: { pollId: string; question: string; options: string[]; metadata?: Record<string, unknown> | null } | null;
   inputSpec: unknown;
-  frozen: boolean;
   publishedQuestions: PublishedQuestion[] | null;
   wonderQuestions: WonderQuestion[] | null;
   classBoardItems: ClassBoardStudentItem[] | null;
@@ -121,7 +120,6 @@ export async function GET(request: NextRequest) {
         isActive: session.status === 'active',
         activePoll: null,
         inputSpec: mockInputSpec,
-        frozen: session.frozen ?? false,
         publishedQuestions: null,
         wonderQuestions: null,
         classBoardItems: null,
@@ -155,10 +153,10 @@ export async function GET(request: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // Check if session exists and is active, including input_spec and frozen flag
+    // Check if session exists and is active, including input_spec
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, status, input_spec, frozen, topic, difficulty, custom_topic, grammar_target, reference_vocab, reference_expressions')
+      .select('id, status, input_spec, topic, difficulty, custom_topic, grammar_target, reference_vocab, reference_expressions')
       .eq('id', sessionId)
       .single();
 
@@ -549,7 +547,6 @@ export async function GET(request: NextRequest) {
       isActive,
       activePoll,
       inputSpec: session.input_spec || null,
-      frozen: session.frozen ?? false,
       publishedQuestions,
       wonderQuestions,
       classBoardItems,

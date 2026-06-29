@@ -44,7 +44,6 @@ export interface Session {
   status: 'active' | 'paused' | 'ended';
   started_at: string;
   ended_at: string | null;
-  frozen: boolean;
   topic?: string;
   difficulty?: string;
   custom_topic?: string | null;

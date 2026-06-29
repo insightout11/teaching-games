@@ -219,7 +219,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [sessionActive, setSessionActive] = useState(true);
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
-  const [frozen, setFrozen] = useState(false);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
   const [wonderVotedIds, setWonderVotedIds] = useState<Set<string>>(new Set());
@@ -336,7 +335,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setSelectedFollowUpId(null);
         setFollowUpText('');
       }
-      setFrozen(data.frozen ?? false);
       setPublishedQuestions(data.publishedQuestions ?? []);
       setWonderQuestions(data.wonderQuestions ?? []);
       setClassBoardItems(data.classBoardItems ?? []);
@@ -1092,14 +1090,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               <p className="text-[10px] uppercase tracking-widest text-cyan-300/60">Signal incoming</p>
               <p className="text-xl font-bold text-white">{transitionActivityName}</p>
               <p className="text-xs text-gray-400">Stand by...</p>
-            </div>
-          ) : frozen ? (
-            <div className="text-center py-8">
-              <div className="text-4xl mb-4">🔒</div>
-              <h2 className="font-bold text-white mb-2">Signal Paused</h2>
-              <p className="text-gray-400 text-sm">
-                Your teacher has temporarily paused student responses.
-              </p>
             </div>
           ) : inputSpec.wonderFollowUpMode ? (
             /* Wonder Board — student picks which answered question to follow up on */

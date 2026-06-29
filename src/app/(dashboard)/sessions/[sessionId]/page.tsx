@@ -38,7 +38,6 @@ export default async function SessionPage({ params }: { params: { sessionId: str
         status: 'active',
         started_at: new Date().toISOString(),
         ended_at: null,
-        frozen: false,
       };
       // Add to store so it persists for this server instance
       mockStore.sessions.push(session);

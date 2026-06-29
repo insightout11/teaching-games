@@ -176,7 +176,6 @@ class MockDataStore {
       status: 'active',
       started_at: new Date().toISOString(),
       ended_at: null,
-      frozen: false,
     };
     this.sessions.push(session);
     return session;
@@ -188,7 +187,6 @@ class MockDataStore {
       status: 'active',
       started_at: new Date().toISOString(),
       ended_at: null,
-      frozen: false,
       ...data,
     };
     this.sessions.push(newSession);
