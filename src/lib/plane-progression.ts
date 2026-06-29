@@ -79,6 +79,24 @@ const LC_TWIN_PROP_SCOUT_ASSETS = {
   front3q: 'lc-twin-prop-scout-front-3q',
 };
 
+const LC_SOLAR_FLYER_ASSETS = {
+  side: 'lc-solar-flyer',
+  front: 'lc-solar-flyer-front',
+  front3q: 'lc-solar-flyer-front-3q',
+};
+
+const LC_AURORA_GLIDER_ASSETS = {
+  side: 'lc-aurora-glider',
+  front: 'lc-aurora-glider-front',
+  front3q: 'lc-aurora-glider-front-3q',
+};
+
+const LC_STORM_RUNNER_ASSETS = {
+  side: 'lc-storm-runner',
+  front: 'lc-storm-runner-front',
+  front3q: 'lc-storm-runner-front-3q',
+};
+
 // Temporary branded fallback: keep progression keys/ranges stable while new
 // LessonCaptain-style upgrade aircraft are authored.
 const PENDING_BRANDED_UPGRADE_ASSETS = LC_WAYFARER_ASSETS;
@@ -125,9 +143,9 @@ const PLANE_ENTRIES: PlaneEntry[] = [
   entry('sky-racer',           'Sky Racer',           {}, LC_SKY_RACER_ASSETS),
   entry('cargo-cruiser',       'Cargo Cruiser',       {}, LC_CARGO_CRUISER_ASSETS),
   entry('twin-prop-scout',     'Twin-Prop Scout',     {}, LC_TWIN_PROP_SCOUT_ASSETS),
-  entry('solar-flyer',         'Solar Flyer',         {}, PENDING_BRANDED_UPGRADE_ASSETS),
-  entry('aurora-glider',       'Aurora Glider',       {}, PENDING_BRANDED_UPGRADE_ASSETS),
-  entry('storm-runner',        'Storm Runner',        {}, PENDING_BRANDED_UPGRADE_ASSETS),
+  entry('solar-flyer',         'Solar Flyer',         {}, LC_SOLAR_FLYER_ASSETS),
+  entry('aurora-glider',       'Aurora Glider',       {}, LC_AURORA_GLIDER_ASSETS),
+  entry('storm-runner',        'Storm Runner',        {}, LC_STORM_RUNNER_ASSETS),
   entry('future-flyer',        'Future Flyer',        {}, PENDING_BRANDED_UPGRADE_ASSETS),
   entry('starliner-mini',      'Starliner Mini',      {}, PENDING_BRANDED_UPGRADE_ASSETS),
   entry('comet-jet',           'Comet Jet',           {}, PENDING_BRANDED_UPGRADE_ASSETS),

@@ -72,6 +72,37 @@ Option 3, Twin-Prop Scout:
 - `public/assets/flight/planes/lc-twin-prop-scout-front-3q.png`
 - `public/assets/flight/planes/lc-twin-prop-scout-front-3q.webp`
 
+Tier 3 is the Advanced range upgrade. It should feel intercontinental without
+jumping into fantasy aircraft: longer wings, higher efficiency, stronger
+weather capability, and more mature silhouettes.
+
+Option 1, Solar Flyer:
+
+- `public/assets/flight/planes/lc-solar-flyer.png`
+- `public/assets/flight/planes/lc-solar-flyer.webp`
+- `public/assets/flight/planes/lc-solar-flyer-front.png`
+- `public/assets/flight/planes/lc-solar-flyer-front.webp`
+- `public/assets/flight/planes/lc-solar-flyer-front-3q.png`
+- `public/assets/flight/planes/lc-solar-flyer-front-3q.webp`
+
+Option 2, Aurora Glider:
+
+- `public/assets/flight/planes/lc-aurora-glider.png`
+- `public/assets/flight/planes/lc-aurora-glider.webp`
+- `public/assets/flight/planes/lc-aurora-glider-front.png`
+- `public/assets/flight/planes/lc-aurora-glider-front.webp`
+- `public/assets/flight/planes/lc-aurora-glider-front-3q.png`
+- `public/assets/flight/planes/lc-aurora-glider-front-3q.webp`
+
+Option 3, Storm Runner:
+
+- `public/assets/flight/planes/lc-storm-runner.png`
+- `public/assets/flight/planes/lc-storm-runner.webp`
+- `public/assets/flight/planes/lc-storm-runner-front.png`
+- `public/assets/flight/planes/lc-storm-runner-front.webp`
+- `public/assets/flight/planes/lc-storm-runner-front-3q.png`
+- `public/assets/flight/planes/lc-storm-runner-front-3q.webp`
+
 PNG and WebP variants are both generated. `src/lib/plane-progression.ts` uses
 WebP first and keeps PNG as fallback.
 

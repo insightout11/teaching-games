@@ -91,4 +91,40 @@ describe('plane progression assets', () => {
       '/assets/flight/planes/lc-twin-prop-scout-front-3q.png',
     );
   });
+
+  it('resolves the advanced tier to three authored branded aircraft', () => {
+    expect(getPlaneTier(3)).toMatchObject({
+      label: 'Advanced',
+      rangeKm: 10500,
+    });
+    expect(getPlaneTier(3).choices.map((plane) => plane.key)).toEqual([
+      'solar-flyer',
+      'aurora-glider',
+      'storm-runner',
+    ]);
+    expect(getPlaneAsset('solar-flyer')).toMatchObject({
+      key: 'solar-flyer',
+      name: 'Solar Flyer',
+      webp: '/assets/flight/planes/lc-solar-flyer.webp',
+      frontWebp: '/assets/flight/planes/lc-solar-flyer-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-solar-flyer-front-3q.webp',
+    });
+    expect(getPlaneAsset('aurora-glider')).toMatchObject({
+      key: 'aurora-glider',
+      name: 'Aurora Glider',
+      webp: '/assets/flight/planes/lc-aurora-glider.webp',
+      frontWebp: '/assets/flight/planes/lc-aurora-glider-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-aurora-glider-front-3q.webp',
+    });
+    expect(getPlaneAsset('storm-runner')).toMatchObject({
+      key: 'storm-runner',
+      name: 'Storm Runner',
+      webp: '/assets/flight/planes/lc-storm-runner.webp',
+      frontWebp: '/assets/flight/planes/lc-storm-runner-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-storm-runner-front-3q.webp',
+    });
+    expect(getPlaneViewAsset('storm-runner', 'front', 'png')).toBe(
+      '/assets/flight/planes/lc-storm-runner-front.png',
+    );
+  });
 });
