@@ -193,6 +193,19 @@ function LobbyPlaneChooser({
 }) {
   const canCycle = choices.length > 1 && status !== 'saving';
   const currentIndex = Math.max(0, choices.findIndex((choice) => choice.key === plane.key));
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    for (const choice of choices) {
+      const srcs = Array.from(new Set([choice.front3qWebp ?? choice.webp, choice.webp]));
+      for (const src of srcs) {
+        const img = new window.Image();
+        img.decoding = 'async';
+        img.src = src;
+      }
+    }
+  }, [choices]);
+
   return (
     <div className="glass rounded-2xl p-3 flex-shrink-0">
       <div className="flex items-center justify-between gap-3">
@@ -592,7 +605,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const handleLobbyPlaneSelect = useCallback(async (nextPlaneKey: string) => {
     const nextPlane = getPlaneAsset(nextPlaneKey);
     if (nextPlane.key === selectedPlane.key || !lesson.lessonPlanContent?.worldFlightContext) return;
+    const previousPlane = selectedPlane;
+    const previousRangeKm = selectedPlaneTier.rangeKm;
+    const nextRangeKm = getPlaneTierForKey(nextPlane.key).rangeKm;
+
     setLobbyPlaneSaveStatus('saving');
+    lesson.setWorldFlightPlaneKey(nextPlane.key, nextRangeKm);
+
     try {
       const response = await fetch('/api/world-flight/planes', {
         method: 'POST',
@@ -605,14 +624,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       });
       const data = await response.json().catch(() => null) as { state?: { rangeKm?: number }; error?: string } | null;
       if (!response.ok) throw new Error(data?.error ?? 'Failed to save aircraft');
-      lesson.setWorldFlightPlaneKey(nextPlane.key, data?.state?.rangeKm);
+      lesson.setWorldFlightPlaneKey(nextPlane.key, data?.state?.rangeKm ?? nextRangeKm);
       setLobbyPlaneSaveStatus('saved');
       window.setTimeout(() => setLobbyPlaneSaveStatus('idle'), 1500);
     } catch (error) {
       console.error('Failed to change World Flight aircraft:', error);
+      lesson.setWorldFlightPlaneKey(previousPlane.key, previousRangeKm);
       setLobbyPlaneSaveStatus('error');
     }
-  }, [cls.id, lesson, selectedPlane.key, session.id]);
+  }, [cls.id, lesson, selectedPlane, selectedPlaneTier.rangeKm, session.id]);
 
   const cycleLobbyPlane = useCallback((direction: -1 | 1) => {
     if (selectedPlaneChoices.length <= 1) return;

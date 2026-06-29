@@ -159,7 +159,7 @@ const PLANE_ENTRIES: PlaneEntry[] = [
   entry('starter-biplane', 'LC Cadet', { runwayYOffset: -48, hangarYOffset: 34 }, LC_CADET_ASSETS),
   entry('scout-monoplane',     'LC Wayfarer',         {}, LC_WAYFARER_ASSETS),
   entry('cloud-hopper',        'Cloud Hopper',        {}, LC_CLOUD_HOPPER_ASSETS),
-  entry('trailblazer-biplane', 'Trailblazer',         {}, LC_TRAILBLAZER_ASSETS),
+  entry('trailblazer-biplane', 'Trailblazer',         { runwayYOffset: -34, hangarYOffset: 34 }, LC_TRAILBLAZER_ASSETS),
   entry('sky-racer',           'Sky Racer',           {}, LC_SKY_RACER_ASSETS),
   entry('cargo-cruiser',       'Cargo Cruiser',       {}, LC_CARGO_CRUISER_ASSETS),
   entry('twin-prop-scout',     'Twin-Prop Scout',     {}, LC_TWIN_PROP_SCOUT_ASSETS),
@@ -173,10 +173,16 @@ const PLANE_ENTRIES: PlaneEntry[] = [
 
 const PLANE_MAP = new Map(PLANE_ENTRIES.map((p) => [p.key, p]));
 const DEFAULT_PLANE = PLANE_MAP.get(DEFAULT_PLANE_KEY)!;
+const PLANE_KEY_ALIASES = new Map<string, string>([
+  // Cloud Hopper is a floatplane. Keep old persisted class/session records
+  // working, but resolve them to a runway-safe tier-1 aircraft.
+  ['cloud-hopper', 'scout-monoplane'],
+]);
 
 export function getPlaneAsset(planeKey?: string | null): PlaneEntry {
   if (!planeKey) return DEFAULT_PLANE;
-  return PLANE_MAP.get(planeKey) ?? DEFAULT_PLANE;
+  const resolvedKey = PLANE_KEY_ALIASES.get(planeKey) ?? planeKey;
+  return PLANE_MAP.get(resolvedKey) ?? DEFAULT_PLANE;
 }
 
 export type PlaneView = 'side' | 'front' | 'front-3q';
@@ -210,7 +216,7 @@ export interface PlaneTier {
 export const PLANE_TIERS: PlaneTier[] = (
   [
     { tier: 0, label: 'Starter',       keys: ['starter-biplane'] },
-    { tier: 1, label: 'First Upgrade', keys: ['scout-monoplane', 'cloud-hopper', 'trailblazer-biplane'] },
+    { tier: 1, label: 'First Upgrade', keys: ['scout-monoplane', 'trailblazer-biplane'] },
     { tier: 2, label: 'Specialist',    keys: ['sky-racer', 'cargo-cruiser', 'twin-prop-scout'] },
     { tier: 3, label: 'Advanced',      keys: ['solar-flyer', 'aurora-glider', 'storm-runner'] },
     { tier: 4, label: 'Prestige',      keys: ['future-flyer', 'starliner-mini', 'comet-jet'] },

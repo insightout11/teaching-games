@@ -11,13 +11,13 @@ The starter plane uses the LessonCaptain Cadet, a runway-compatible trainer:
 - `public/assets/flight/planes/lc-cadet-front-3q.png`
 - `public/assets/flight/planes/lc-cadet-front-3q.webp`
 
-The retired `lc-scout-monoplane` floatplane assets may be reused later only if
-World Flight gets water takeoff, landing, and dock scenes. Do not map the default
-starter key back to a floatplane while launch scenes are runway-based.
+The retired Cloud Hopper floatplane assets may be reused later only if World
+Flight gets water takeoff, landing, and dock scenes. Do not map any selectable
+production plane to a floatplane while launch scenes are runway-based.
 
-Tier 1 is the first range upgrade: three aircraft with the same range but
-different classroom-facing identities. The class chooses the one they want to
-represent them.
+Tier 1 is the first range upgrade. It currently exposes only runway-safe
+aircraft; `cloud-hopper` is kept as a deprecated compatibility key and resolves
+to LC Wayfarer when old class/session records reference it.
 
 Option 1, LC Wayfarer:
 
@@ -28,16 +28,7 @@ Option 1, LC Wayfarer:
 - `public/assets/flight/planes/lc-wayfarer-front-3q.png`
 - `public/assets/flight/planes/lc-wayfarer-front-3q.webp`
 
-Option 2, Cloud Hopper:
-
-- `public/assets/flight/planes/lc-cloud-hopper.png`
-- `public/assets/flight/planes/lc-cloud-hopper.webp`
-- `public/assets/flight/planes/lc-cloud-hopper-front.png`
-- `public/assets/flight/planes/lc-cloud-hopper-front.webp`
-- `public/assets/flight/planes/lc-cloud-hopper-front-3q.png`
-- `public/assets/flight/planes/lc-cloud-hopper-front-3q.webp`
-
-Option 3, Trailblazer:
+Option 2, Trailblazer:
 
 - `public/assets/flight/planes/lc-trailblazer.png`
 - `public/assets/flight/planes/lc-trailblazer.webp`

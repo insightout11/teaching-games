@@ -22,21 +22,23 @@
       "choices": [
         {
           "key": "scout-monoplane",
-          "name": "Scout Monoplane",
-          "png": "/assets/flight/planes/scout-monoplane.png",
-          "webp": "/assets/flight/planes/scout-monoplane.webp"
-        },
-        {
-          "key": "cloud-hopper",
-          "name": "Cloud Hopper",
-          "png": "/assets/flight/planes/cloud-hopper.png",
-          "webp": "/assets/flight/planes/cloud-hopper.webp"
+          "name": "LC Wayfarer",
+          "png": "/assets/flight/planes/lc-wayfarer.png",
+          "webp": "/assets/flight/planes/lc-wayfarer.webp",
+          "frontPng": "/assets/flight/planes/lc-wayfarer-front.png",
+          "frontWebp": "/assets/flight/planes/lc-wayfarer-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-wayfarer-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-wayfarer-front-3q.webp"
         },
         {
           "key": "trailblazer-biplane",
-          "name": "Trailblazer Biplane",
-          "png": "/assets/flight/planes/trailblazer-biplane.png",
-          "webp": "/assets/flight/planes/trailblazer-biplane.webp"
+          "name": "Trailblazer",
+          "png": "/assets/flight/planes/lc-trailblazer.png",
+          "webp": "/assets/flight/planes/lc-trailblazer.webp",
+          "frontPng": "/assets/flight/planes/lc-trailblazer-front.png",
+          "frontWebp": "/assets/flight/planes/lc-trailblazer-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-trailblazer-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-trailblazer-front-3q.webp"
         }
       ]
     },

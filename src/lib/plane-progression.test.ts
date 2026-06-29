@@ -13,18 +13,16 @@ describe('plane progression assets', () => {
     });
   });
 
-  it('resolves the first range-upgrade tier to three authored branded aircraft', () => {
+  it('resolves the first range-upgrade tier to runway-safe branded aircraft', () => {
     expect(getPlaneAsset('scout-monoplane')).toMatchObject({
       key: 'scout-monoplane',
       name: 'LC Wayfarer',
       webp: '/assets/flight/planes/lc-wayfarer.webp',
     });
     expect(getPlaneAsset('cloud-hopper')).toMatchObject({
-      key: 'cloud-hopper',
-      name: 'Cloud Hopper',
-      webp: '/assets/flight/planes/lc-cloud-hopper.webp',
-      frontWebp: '/assets/flight/planes/lc-cloud-hopper-front.webp',
-      front3qWebp: '/assets/flight/planes/lc-cloud-hopper-front-3q.webp',
+      key: 'scout-monoplane',
+      name: 'LC Wayfarer',
+      webp: '/assets/flight/planes/lc-wayfarer.webp',
     });
     expect(getPlaneAsset('trailblazer-biplane')).toMatchObject({
       key: 'trailblazer-biplane',
@@ -32,12 +30,13 @@ describe('plane progression assets', () => {
       webp: '/assets/flight/planes/lc-trailblazer.webp',
       frontWebp: '/assets/flight/planes/lc-trailblazer-front.webp',
       front3qWebp: '/assets/flight/planes/lc-trailblazer-front-3q.webp',
+      displayMeta: expect.objectContaining({ runwayYOffset: -34, hangarYOffset: 34 }),
     });
     expect(getPlaneViewAsset('scout-monoplane', 'front')).toBe(
       '/assets/flight/planes/lc-wayfarer-front.webp',
     );
     expect(getPlaneViewAsset('cloud-hopper', 'front-3q', 'png')).toBe(
-      '/assets/flight/planes/lc-cloud-hopper-front-3q.png',
+      '/assets/flight/planes/lc-wayfarer-front-3q.png',
     );
   });
 
@@ -48,9 +47,10 @@ describe('plane progression assets', () => {
     });
     expect(getPlaneTier(1).choices.map((plane) => plane.key)).toEqual([
       'scout-monoplane',
-      'cloud-hopper',
       'trailblazer-biplane',
     ]);
+    expect(getPlaneTierForKey('cloud-hopper').tier).toBe(1);
+    expect(isPlaneKeyInTier('cloud-hopper', 1)).toBe(true);
     expect(getPlaneTierForKey('sky-racer').tier).toBe(2);
     expect(getPlaneRangeKm('sky-racer')).toBe(8500);
     expect(isPlaneKeyInTier('sky-racer', 2)).toBe(true);
