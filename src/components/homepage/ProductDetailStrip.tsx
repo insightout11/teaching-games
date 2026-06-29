@@ -11,6 +11,7 @@ import {
   Headphones,
   Feather,
   Activity,
+  Globe2,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -41,7 +42,13 @@ const CATEGORIES: { name: string; icon: LucideIcon; tone: Tone; examples: string
     name: 'Speed & competition',
     icon: Zap,
     tone: { border: 'border-amber-400/25', tile: 'border-amber-300/30 bg-amber-400/10', icon: 'text-amber-200' },
-    examples: ['Flash Quiz', 'GridRush', 'Sector Strike', 'Zone Board'],
+    examples: ['Flash Quiz', 'GridRush', 'Sector Strike'],
+  },
+  {
+    name: 'Geography & places',
+    icon: Globe2,
+    tone: { border: 'border-indigo-400/25', tile: 'border-indigo-300/30 bg-indigo-400/10', icon: 'text-indigo-200' },
+    examples: ['World Lens', 'Radar Fix'],
   },
   {
     name: 'Icebreakers',

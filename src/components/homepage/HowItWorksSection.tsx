@@ -7,7 +7,8 @@ const CONTROL_CHIPS = [
   'Live leaderboard',
   'Timer',
   'Student picker',
-  'Freeze input',
+  'Poll',
+  'Class Board',
   'Activity swap',
 ];
 
