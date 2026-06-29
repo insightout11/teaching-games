@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
+import { getPlaneAsset, PLANE_TIERS } from '@/lib/plane-progression';
 import { DestinationArrivalScene } from '../destination-arrival-scene';
 import type { ArrivalMotion, ArrivalPhase, TimeOfDay } from '../types';
 
 // Single full-frame scene for high-res inspection / screenshots. All state comes
-// from the URL: ?city=&phase=&progress=&motion=&tod=. Gallery-local fixtures for
+// from the URL: ?city=&phase=&progress=&motion=&tod=&plane=. Gallery-local fixtures for
 // the three validation cities not in destinations.ts are included here too.
 const FIXTURES: Record<string, DestinationScene> = {
   honolulu: { terrain: 'island', vegetation: 'palms', skyline: 'low', landmarkSilhouette: 'diamond-head', palette: 'tropical' },
@@ -31,6 +32,7 @@ export function SoloArrivalScene() {
   const [progress, setProgress] = useState(0.5);
   const [motion, setMotion] = useState<ArrivalMotion>('animated');
   const [tod, setTod] = useState<TimeOfDay | undefined>(undefined);
+  const [planeKey, setPlaneKey] = useState('starter-biplane');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -39,18 +41,26 @@ export function SoloArrivalScene() {
     const pr = params.get('progress');
     const mo = params.get('motion');
     const td = params.get('tod') as TimeOfDay | null;
+    const p = params.get('plane');
     if (c && byId.has(c)) setCity(c);
     if (ph && PHASES.includes(ph)) setPhase(ph);
     if (pr != null && !Number.isNaN(Number(pr))) setProgress(Math.min(1, Math.max(0, Number(pr))));
     if (mo === 'static' || mo === 'animated') setMotion(mo);
     if (td && TIMES.includes(td)) setTod(td);
+    if (p) setPlaneKey(getPlaneAsset(p).key);
   }, [byId]);
 
   const scene = byId.get(city) ?? byId.get('tokyo')!;
+  const planeChoices = PLANE_TIERS.flatMap((tier) => tier.choices);
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#000', overflow: 'hidden' }}>
-      <DestinationArrivalScene destinationId={city} scene={scene} phase={phase} progress={progress} motion={motion} timeOfDay={tod} />
+      <DestinationArrivalScene destinationId={city} scene={scene} phase={phase} progress={progress} motion={motion} timeOfDay={tod} planeKey={planeKey} />
+      <div style={{ position: 'fixed', top: 12, left: 12, zIndex: 20, display: 'flex', gap: 8, flexWrap: 'wrap', fontFamily: 'monospace', fontSize: 12 }}>
+        <select value={planeKey} onChange={(e) => setPlaneKey(e.target.value)}>
+          {planeChoices.map((plane) => <option key={plane.key} value={plane.key}>{plane.name}</option>)}
+        </select>
+      </div>
     </div>
   );
 }

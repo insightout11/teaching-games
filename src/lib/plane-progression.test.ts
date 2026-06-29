@@ -2,13 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, getPlaneTierForKey, getPlaneViewAsset, isPlaneKeyInTier } from '@/lib/plane-progression';
 
 describe('plane progression assets', () => {
-  it('resolves the persisted starter key to the LC Scout production views', () => {
+  it('resolves the persisted starter key to the LC Cadet runway trainer views', () => {
     expect(getPlaneAsset('starter-biplane')).toMatchObject({
       key: 'starter-biplane',
-      name: 'LC Scout',
-      webp: '/assets/flight/planes/lc-scout-monoplane.webp',
-      frontWebp: '/assets/flight/planes/lc-scout-monoplane-front.webp',
-      front3qWebp: '/assets/flight/planes/lc-scout-monoplane-front-3q.webp',
+      name: 'LC Cadet',
+      webp: '/assets/flight/planes/lc-cadet.webp',
+      frontWebp: '/assets/flight/planes/lc-cadet-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-cadet-front-3q.webp',
+      displayMeta: expect.objectContaining({ runwayYOffset: -48, hangarYOffset: 34 }),
     });
   });
 

@@ -2,14 +2,18 @@
 
 ## Current Production Set
 
-The starter plane uses the LessonCaptain Scout:
+The starter plane uses the LessonCaptain Cadet, a runway-compatible trainer:
 
-- `public/assets/flight/planes/lc-scout-monoplane.png`
-- `public/assets/flight/planes/lc-scout-monoplane.webp`
-- `public/assets/flight/planes/lc-scout-monoplane-front.png`
-- `public/assets/flight/planes/lc-scout-monoplane-front.webp`
-- `public/assets/flight/planes/lc-scout-monoplane-front-3q.png`
-- `public/assets/flight/planes/lc-scout-monoplane-front-3q.webp`
+- `public/assets/flight/planes/lc-cadet.png`
+- `public/assets/flight/planes/lc-cadet.webp`
+- `public/assets/flight/planes/lc-cadet-front.png`
+- `public/assets/flight/planes/lc-cadet-front.webp`
+- `public/assets/flight/planes/lc-cadet-front-3q.png`
+- `public/assets/flight/planes/lc-cadet-front-3q.webp`
+
+The retired `lc-scout-monoplane` floatplane assets may be reused later only if
+World Flight gets water takeoff, landing, and dock scenes. Do not map the default
+starter key back to a floatplane while launch scenes are runway-based.
 
 Tier 1 is the first range upgrade: three aircraft with the same range but
 different classroom-facing identities. The class chooses the one they want to

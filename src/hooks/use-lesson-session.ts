@@ -129,6 +129,7 @@ export interface LessonSession {
   /** Jump directly to any slot index (skip ahead or go back). */
   goToSlot: (index: number) => void;
   handlePhaseChange: (phase: string) => void;
+  setWorldFlightPlaneKey: (planeKey: string, rangeKm?: number) => void;
   exitLesson: () => void;
 }
 
@@ -576,6 +577,41 @@ export function useLessonSession(
     handlePhaseChangeRef.current(activityPhase);
   }, []);
 
+  const setWorldFlightPlaneKey = useCallback((planeKey: string, rangeKm?: number) => {
+    setLessonPlanContent((prev) => {
+      if (!prev?.worldFlightContext) return prev;
+      const nextWorldFlightContext = {
+        ...prev.worldFlightContext,
+        planeKey,
+        ...(typeof rangeKm === 'number' ? { rangeKm } : {}),
+      };
+      const next = {
+        ...prev,
+        worldFlightContext: nextWorldFlightContext,
+      };
+
+      try {
+        const stored = sessionStorage.getItem('lessonPlanContent');
+        const parsed = stored ? JSON.parse(stored) : {};
+        sessionStorage.setItem(
+          'lessonPlanContent',
+          JSON.stringify({
+            ...parsed,
+            worldFlightContext: {
+              ...(parsed.worldFlightContext ?? {}),
+              planeKey,
+              ...(typeof rangeKm === 'number' ? { rangeKm } : {}),
+            },
+          }),
+        );
+      } catch (error) {
+        console.warn('Failed to persist World Flight plane choice locally:', error);
+      }
+
+      return next;
+    });
+  }, []);
+
   const exitLesson = useCallback(() => {
     setPhase('idle');
   }, []);
@@ -610,6 +646,7 @@ export function useLessonSession(
     resolveCurrentSlot,
     goToSlot,
     handlePhaseChange,
+    setWorldFlightPlaneKey,
     exitLesson,
   };
 }

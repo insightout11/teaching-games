@@ -30,9 +30,10 @@ function toClassState(row: WorldFlightStateRow) {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as { classId?: unknown; planeKey?: unknown } | null;
+  const body = await request.json().catch(() => null) as { classId?: unknown; planeKey?: unknown; sessionId?: unknown } | null;
   const classId = typeof body?.classId === 'string' ? body.classId : '';
   const planeKey = typeof body?.planeKey === 'string' ? body.planeKey : '';
+  const sessionId = typeof body?.sessionId === 'string' ? body.sessionId : '';
   if (!classId) return NextResponse.json({ error: 'classId is required' }, { status: 400 });
   if (!planeKey) return NextResponse.json({ error: 'planeKey is required' }, { status: 400 });
 
@@ -54,6 +55,7 @@ export async function POST(request: Request) {
         flightHours: 3,
         crewStars: 3,
       },
+      sessionWorldFlightContext: sessionId ? { planeKey: plane.key, rangeKm } : null,
     });
   }
 
@@ -94,5 +96,34 @@ export async function POST(request: Request) {
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
   if (!updatedRow) return NextResponse.json({ error: 'Failed to equip aircraft' }, { status: 500 });
 
-  return NextResponse.json({ state: toClassState(updatedRow as WorldFlightStateRow) });
+  let sessionWorldFlightContext: Record<string, unknown> | null = null;
+  if (sessionId) {
+    const { data: sessionRow, error: sessionError } = await service
+      .from('sessions')
+      .select('id, class_id, world_flight_context')
+      .eq('id', sessionId)
+      .eq('class_id', classId)
+      .maybeSingle();
+    if (sessionError) return NextResponse.json({ error: sessionError.message }, { status: 500 });
+    if (!sessionRow) return NextResponse.json({ error: 'Session not found for this class' }, { status: 404 });
+
+    const currentContext =
+      sessionRow.world_flight_context && typeof sessionRow.world_flight_context === 'object'
+        ? sessionRow.world_flight_context as Record<string, unknown>
+        : {};
+    sessionWorldFlightContext = {
+      ...currentContext,
+      planeKey: plane.key,
+      rangeKm: getPlaneRangeKm(plane.key),
+    };
+
+    const { error: sessionUpdateError } = await service
+      .from('sessions')
+      .update({ world_flight_context: sessionWorldFlightContext })
+      .eq('id', sessionId)
+      .eq('class_id', classId);
+    if (sessionUpdateError) return NextResponse.json({ error: sessionUpdateError.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ state: toClassState(updatedRow as WorldFlightStateRow), sessionWorldFlightContext });
 }

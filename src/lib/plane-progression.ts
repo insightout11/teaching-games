@@ -14,6 +14,11 @@ export interface PlaneDisplayMeta {
    * Vertical offset in px for flying state. Positive = shift up, negative = shift down. Default 0.
    */
   transitionYOffset: number;
+  /**
+   * SVG y offset for the lobby hangar image. Positive = lower toward the floor.
+   * Used to compensate for transparent padding in generated front-three-quarter assets.
+   */
+  hangarYOffset: number;
 }
 
 const DEFAULT_META: PlaneDisplayMeta = {
@@ -21,6 +26,7 @@ const DEFAULT_META: PlaneDisplayMeta = {
   flyingScale: 1,
   runwayYOffset: 0,
   transitionYOffset: 0,
+  hangarYOffset: 0,
 };
 
 export interface PlaneEntry {
@@ -43,10 +49,10 @@ const LC_WAYFARER_ASSETS = {
   front3q: 'lc-wayfarer-front-3q',
 };
 
-const LC_SCOUT_ASSETS = {
-  side: 'lc-scout-monoplane',
-  front: 'lc-scout-monoplane-front',
-  front3q: 'lc-scout-monoplane-front-3q',
+const LC_CADET_ASSETS = {
+  side: 'lc-cadet',
+  front: 'lc-cadet-front',
+  front3q: 'lc-cadet-front-3q',
 };
 
 const LC_CLOUD_HOPPER_ASSETS = {
@@ -148,9 +154,9 @@ function entry(
 }
 
 const PLANE_ENTRIES: PlaneEntry[] = [
-  // Keep the persisted starter key stable while the starter aircraft becomes
-  // the smaller LC Scout across every view.
-  entry('starter-biplane', 'LC Scout', {}, LC_SCOUT_ASSETS),
+  // Keep the persisted starter key stable while resolving it to a runway-ready
+  // trainer that works in every launch, runway, and arrival scene.
+  entry('starter-biplane', 'LC Cadet', { runwayYOffset: -48, hangarYOffset: 34 }, LC_CADET_ASSETS),
   entry('scout-monoplane',     'LC Wayfarer',         {}, LC_WAYFARER_ASSETS),
   entry('cloud-hopper',        'Cloud Hopper',        {}, LC_CLOUD_HOPPER_ASSETS),
   entry('trailblazer-biplane', 'Trailblazer',         {}, LC_TRAILBLAZER_ASSETS),

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
-import { getPlaneViewAsset } from '@/lib/plane-progression';
+import { getPlaneAsset, getPlaneViewAsset } from '@/lib/plane-progression';
 
 interface RunwayPlaneSceneProps {
   planeKey?: string | null;
@@ -19,7 +19,11 @@ const FRONT_H: Record<NonNullable<RunwayPlaneSceneProps['planeSize']>, number> =
 };
 
 export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true, frontFacing = false, frontVariant = '3q', className }: RunwayPlaneSceneProps) {
+  const plane = getPlaneAsset(planeKey);
   const frontSrc = getPlaneViewAsset(planeKey, frontVariant === 'headon' ? 'front' : 'front-3q');
+  const frontTransform = frontFacing && plane.displayMeta.runwayYOffset !== 0
+    ? { transform: `translateY(${-plane.displayMeta.runwayYOffset}px)` }
+    : undefined;
 
   return (
     <div className={`relative inline-flex flex-col items-center ${className ?? ''}`}>
@@ -45,7 +49,7 @@ export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true
             src={frontSrc}
             alt=""
             draggable={false}
-            style={{ height: FRONT_H[planeSize], width: 'auto' }}
+            style={{ height: FRONT_H[planeSize], width: 'auto', ...frontTransform }}
             className="select-none w-auto"
           />
         ) : (

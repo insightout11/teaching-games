@@ -7,9 +7,10 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import { LobbyAirfieldScene } from '@/components/ui/lobby-airfield-scene';
 import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { WEATHER_CONDITIONS } from '@/components/world-flight/arrival-scene/weather';
+import { getPlaneAsset, PLANE_TIERS } from '@/lib/plane-progression';
 
 // Full-frame lobby scene for high-res inspection / screenshots. State from the
-// URL: ?city=&tod=&weather=. Renders the origin-themed LobbyAirfieldScene over
+// URL: ?city=&tod=&weather=&plane=. Renders the origin-themed LobbyAirfieldScene over
 // the same SkyBackground the live Launch Lobby uses, so reviewers can sweep every
 // city's horizon alignment and weather/time without launching a session.
 const TIMES: TimeOfDay[] = ['dawn', 'day', 'dusk', 'night'];
@@ -24,24 +25,28 @@ export function SoloLobbyScene() {
   const [city, setCity] = useState('tokyo');
   const [tod, setTod] = useState<TimeOfDay>('dusk');
   const [weather, setWeather] = useState<WeatherCondition>('clear');
+  const [planeKey, setPlaneKey] = useState('starter-biplane');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const c = params.get('city');
     const td = params.get('tod') as TimeOfDay | null;
     const w = params.get('weather') as WeatherCondition | null;
+    const p = params.get('plane');
     if (c && byId.has(c)) setCity(c);
     if (td && TIMES.includes(td)) setTod(td);
     if (w && (WEATHER_CONDITIONS as readonly string[]).includes(w)) setWeather(w);
+    if (p) setPlaneKey(getPlaneAsset(p).key);
   }, [byId]);
 
   const scene = byId.get(city) ?? byId.get('tokyo')!;
+  const planeChoices = PLANE_TIERS.flatMap((tier) => tier.choices);
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', background: '#0a0e16', overflow: 'hidden' }}>
       <SkyBackground weatherState="climbing" earthState="takeoff" intensity="subtle" showEarth={false} showMoon />
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 1 }}>
-        <LobbyAirfieldScene originId={city} scene={scene} timeOfDay={tod} weather={weather} className="absolute inset-0" />
+        <LobbyAirfieldScene originId={city} scene={scene} timeOfDay={tod} weather={weather} planeKey={planeKey} className="absolute inset-0" />
       </div>
 
       {/* Minimal controls */}
@@ -56,6 +61,9 @@ export function SoloLobbyScene() {
         </select>
         <select value={weather} onChange={(e) => setWeather(e.target.value as WeatherCondition)}>
           {WEATHER_CONDITIONS.map((w) => <option key={w} value={w}>{w}</option>)}
+        </select>
+        <select value={planeKey} onChange={(e) => setPlaneKey(e.target.value)}>
+          {planeChoices.map((plane) => <option key={plane.key} value={plane.key}>{plane.name}</option>)}
         </select>
       </div>
     </div>

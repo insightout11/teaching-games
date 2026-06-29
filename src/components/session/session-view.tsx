@@ -41,7 +41,7 @@ import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
-import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
+import { DEFAULT_PLANE_KEY, getPlaneAsset, getPlaneTierForKey, type PlaneEntry } from '@/lib/plane-progression';
 import { WorldFlightArrivalBackdrop } from '@/components/session/world-flight-backdrop';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
@@ -51,7 +51,7 @@ import { DestinationBriefing } from '@/components/place-media/destination-briefi
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { avatarUrl } from '@/lib/avatar-options';
-import { ExternalLink, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone } from 'lucide-react';
 
 // Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
 // tuned so a sunset departure -> overnight -> sunrise arrival reproduces the
@@ -170,6 +170,76 @@ function DepartureBoardPanel({
         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
         <span className="text-[8px] font-mono text-amber-400/32 tracking-[0.15em] uppercase">
           Gate open · All passengers board
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function LobbyPlaneChooser({
+  plane,
+  choices,
+  rangeKm,
+  status,
+  onPrevious,
+  onNext,
+}: {
+  plane: PlaneEntry;
+  choices: PlaneEntry[];
+  rangeKm: number | null;
+  status: 'idle' | 'saving' | 'saved' | 'error';
+  onPrevious: () => void;
+  onNext: () => void;
+}) {
+  const canCycle = choices.length > 1 && status !== 'saving';
+  const currentIndex = Math.max(0, choices.findIndex((choice) => choice.key === plane.key));
+  return (
+    <div className="glass rounded-2xl p-3 flex-shrink-0">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[10px] opacity-50 uppercase tracking-wider font-semibold">Class Aircraft</p>
+          <p className="mt-0.5 truncate text-sm font-bold text-lc-text">{plane.name}</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-200/55">
+            {rangeKm ? `${rangeKm.toLocaleString()} km range` : 'World Flight'}
+          </p>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={onPrevious}
+            disabled={!canCycle}
+            aria-label="Previous aircraft"
+            className="grid h-8 w-8 place-items-center rounded-lg border border-cyan-300/20 bg-cyan-300/10 text-cyan-100 transition-colors hover:bg-cyan-300/20 disabled:cursor-not-allowed disabled:opacity-35"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={onNext}
+            disabled={!canCycle}
+            aria-label="Next aircraft"
+            className="grid h-8 w-8 place-items-center rounded-lg border border-cyan-300/20 bg-cyan-300/10 text-cyan-100 transition-colors hover:bg-cyan-300/20 disabled:cursor-not-allowed disabled:opacity-35"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+      <div className="mt-2 flex items-center justify-between gap-2">
+        <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-lc-text3">
+          {choices.length > 1 ? `${currentIndex + 1}/${choices.length} unlocked` : 'Starter aircraft'}
+        </span>
+        <span
+          className={`text-[10px] font-bold uppercase tracking-[0.12em] ${
+            status === 'error'
+              ? 'text-red-300'
+              : status === 'saved'
+                ? 'text-emerald-300'
+                : status === 'saving'
+                  ? 'text-cyan-200'
+                  : 'text-lc-text3'
+          }`}
+        >
+          {status === 'saving' ? 'Saving' : status === 'saved' ? 'Saved' : status === 'error' ? 'Save failed' : 'Ready'}
         </span>
       </div>
     </div>
@@ -514,6 +584,42 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length);
   const selectedPlaneKey = lesson.lessonPlanContent?.worldFlightContext?.planeKey ?? DEFAULT_PLANE_KEY;
+  const selectedPlane = getPlaneAsset(selectedPlaneKey);
+  const selectedPlaneTier = getPlaneTierForKey(selectedPlaneKey);
+  const selectedPlaneChoices = selectedPlaneTier.choices;
+  const [lobbyPlaneSaveStatus, setLobbyPlaneSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
+  const handleLobbyPlaneSelect = useCallback(async (nextPlaneKey: string) => {
+    const nextPlane = getPlaneAsset(nextPlaneKey);
+    if (nextPlane.key === selectedPlane.key || !lesson.lessonPlanContent?.worldFlightContext) return;
+    setLobbyPlaneSaveStatus('saving');
+    try {
+      const response = await fetch('/api/world-flight/planes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          classId: cls.id,
+          sessionId: session.id,
+          planeKey: nextPlane.key,
+        }),
+      });
+      const data = await response.json().catch(() => null) as { state?: { rangeKm?: number }; error?: string } | null;
+      if (!response.ok) throw new Error(data?.error ?? 'Failed to save aircraft');
+      lesson.setWorldFlightPlaneKey(nextPlane.key, data?.state?.rangeKm);
+      setLobbyPlaneSaveStatus('saved');
+      window.setTimeout(() => setLobbyPlaneSaveStatus('idle'), 1500);
+    } catch (error) {
+      console.error('Failed to change World Flight aircraft:', error);
+      setLobbyPlaneSaveStatus('error');
+    }
+  }, [cls.id, lesson, selectedPlane.key, session.id]);
+
+  const cycleLobbyPlane = useCallback((direction: -1 | 1) => {
+    if (selectedPlaneChoices.length <= 1) return;
+    const currentIndex = Math.max(0, selectedPlaneChoices.findIndex((plane) => plane.key === selectedPlane.key));
+    const nextIndex = (currentIndex + direction + selectedPlaneChoices.length) % selectedPlaneChoices.length;
+    void handleLobbyPlaneSelect(selectedPlaneChoices[nextIndex].key);
+  }, [handleLobbyPlaneSelect, selectedPlane.key, selectedPlaneChoices]);
 
   // ─── World Flight arrival context — the two cities this lesson flies between ──
   // Resolve the route ids from the top-level fields, falling back to the
@@ -1445,6 +1551,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     </div>
                   </div>
                 </div>
+
+                {lesson.lessonPlanContent?.worldFlightContext && (
+                  <LobbyPlaneChooser
+                    plane={selectedPlane}
+                    choices={selectedPlaneChoices}
+                    rangeKm={lesson.lessonPlanContent.worldFlightContext.rangeKm ?? selectedPlaneTier.rangeKm}
+                    status={lobbyPlaneSaveStatus}
+                    onPrevious={() => cycleLobbyPlane(-1)}
+                    onNext={() => cycleLobbyPlane(1)}
+                  />
+                )}
               </div>
 
               {/* Center: Departure board — fills full height */}
