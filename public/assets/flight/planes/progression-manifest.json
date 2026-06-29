@@ -31,6 +31,16 @@
           "front3qWebp": "/assets/flight/planes/lc-wayfarer-front-3q.webp"
         },
         {
+          "key": "lc-scout",
+          "name": "LC Scout",
+          "png": "/assets/flight/planes/lc-scout-monoplane.png",
+          "webp": "/assets/flight/planes/lc-scout-monoplane.webp",
+          "frontPng": "/assets/flight/planes/lc-scout-monoplane-front.png",
+          "frontWebp": "/assets/flight/planes/lc-scout-monoplane-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-scout-monoplane-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-scout-monoplane-front-3q.webp"
+        },
+        {
           "key": "trailblazer-biplane",
           "name": "Trailblazer",
           "png": "/assets/flight/planes/lc-trailblazer.png",
@@ -44,73 +54,109 @@
     },
     {
       "tier": 2,
-      "label": "Specialist Plane",
+      "label": "Specialist",
       "choices": [
         {
           "key": "sky-racer",
           "name": "Sky Racer",
-          "png": "/assets/flight/planes/sky-racer.png",
-          "webp": "/assets/flight/planes/sky-racer.webp"
+          "png": "/assets/flight/planes/lc-sky-racer.png",
+          "webp": "/assets/flight/planes/lc-sky-racer.webp",
+          "frontPng": "/assets/flight/planes/lc-sky-racer-front.png",
+          "frontWebp": "/assets/flight/planes/lc-sky-racer-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-sky-racer-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-sky-racer-front-3q.webp"
         },
         {
           "key": "cargo-cruiser",
           "name": "Cargo Cruiser",
-          "png": "/assets/flight/planes/cargo-cruiser.png",
-          "webp": "/assets/flight/planes/cargo-cruiser.webp"
+          "png": "/assets/flight/planes/lc-cargo-cruiser.png",
+          "webp": "/assets/flight/planes/lc-cargo-cruiser.webp",
+          "frontPng": "/assets/flight/planes/lc-cargo-cruiser-front.png",
+          "frontWebp": "/assets/flight/planes/lc-cargo-cruiser-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-cargo-cruiser-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-cargo-cruiser-front-3q.webp"
         },
         {
           "key": "twin-prop-scout",
           "name": "Twin-Prop Scout",
-          "png": "/assets/flight/planes/twin-prop-scout.png",
-          "webp": "/assets/flight/planes/twin-prop-scout.webp"
+          "png": "/assets/flight/planes/lc-twin-prop-scout.png",
+          "webp": "/assets/flight/planes/lc-twin-prop-scout.webp",
+          "frontPng": "/assets/flight/planes/lc-twin-prop-scout-front.png",
+          "frontWebp": "/assets/flight/planes/lc-twin-prop-scout-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-twin-prop-scout-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-twin-prop-scout-front-3q.webp"
         }
       ]
     },
     {
       "tier": 3,
-      "label": "Advanced Plane",
+      "label": "Advanced",
       "choices": [
         {
           "key": "solar-flyer",
           "name": "Solar Flyer",
-          "png": "/assets/flight/planes/solar-flyer.png",
-          "webp": "/assets/flight/planes/solar-flyer.webp"
+          "png": "/assets/flight/planes/lc-solar-flyer.png",
+          "webp": "/assets/flight/planes/lc-solar-flyer.webp",
+          "frontPng": "/assets/flight/planes/lc-solar-flyer-front.png",
+          "frontWebp": "/assets/flight/planes/lc-solar-flyer-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-solar-flyer-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-solar-flyer-front-3q.webp"
         },
         {
           "key": "aurora-glider",
           "name": "Aurora Glider",
-          "png": "/assets/flight/planes/aurora-glider.png",
-          "webp": "/assets/flight/planes/aurora-glider.webp"
+          "png": "/assets/flight/planes/lc-aurora-glider.png",
+          "webp": "/assets/flight/planes/lc-aurora-glider.webp",
+          "frontPng": "/assets/flight/planes/lc-aurora-glider-front.png",
+          "frontWebp": "/assets/flight/planes/lc-aurora-glider-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-aurora-glider-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-aurora-glider-front-3q.webp"
         },
         {
           "key": "storm-runner",
           "name": "Storm Runner",
-          "png": "/assets/flight/planes/storm-runner.png",
-          "webp": "/assets/flight/planes/storm-runner.webp"
+          "png": "/assets/flight/planes/lc-storm-runner.png",
+          "webp": "/assets/flight/planes/lc-storm-runner.webp",
+          "frontPng": "/assets/flight/planes/lc-storm-runner-front.png",
+          "frontWebp": "/assets/flight/planes/lc-storm-runner-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-storm-runner-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-storm-runner-front-3q.webp"
         }
       ]
     },
     {
       "tier": 4,
-      "label": "Prestige Plane",
+      "label": "Prestige",
       "choices": [
         {
           "key": "future-flyer",
           "name": "Future Flyer",
-          "png": "/assets/flight/planes/future-flyer.png",
-          "webp": "/assets/flight/planes/future-flyer.webp"
+          "png": "/assets/flight/planes/lc-future-flyer.png",
+          "webp": "/assets/flight/planes/lc-future-flyer.webp",
+          "frontPng": "/assets/flight/planes/lc-future-flyer-front.png",
+          "frontWebp": "/assets/flight/planes/lc-future-flyer-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-future-flyer-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-future-flyer-front-3q.webp"
         },
         {
           "key": "starliner-mini",
           "name": "Starliner Mini",
-          "png": "/assets/flight/planes/starliner-mini.png",
-          "webp": "/assets/flight/planes/starliner-mini.webp"
+          "png": "/assets/flight/planes/lc-starliner-mini.png",
+          "webp": "/assets/flight/planes/lc-starliner-mini.webp",
+          "frontPng": "/assets/flight/planes/lc-starliner-mini-front.png",
+          "frontWebp": "/assets/flight/planes/lc-starliner-mini-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-starliner-mini-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-starliner-mini-front-3q.webp"
         },
         {
           "key": "comet-jet",
           "name": "Comet Jet",
-          "png": "/assets/flight/planes/comet-jet.png",
-          "webp": "/assets/flight/planes/comet-jet.webp"
+          "png": "/assets/flight/planes/lc-comet-jet.png",
+          "webp": "/assets/flight/planes/lc-comet-jet.webp",
+          "frontPng": "/assets/flight/planes/lc-comet-jet-front.png",
+          "frontWebp": "/assets/flight/planes/lc-comet-jet-front.webp",
+          "front3qPng": "/assets/flight/planes/lc-comet-jet-front-3q.png",
+          "front3qWebp": "/assets/flight/planes/lc-comet-jet-front-3q.webp"
         }
       ]
     }

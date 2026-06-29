@@ -6,11 +6,12 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowUpRight, CheckCircle2, Clock3, Gauge, PlaneLanding, Crown, Star, Users } from 'lucide-react';
+import { ArrowUpRight, Check, CheckCircle2, Clock3, Gauge, Loader2, Plane, PlaneLanding, Crown, Sparkles, Star, Users } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
 import { formatDistance } from '@/lib/world-flight/geo';
+import { getPlaneAsset, getPlaneTier, type PlaneEntry } from '@/lib/plane-progression';
 
 export function EndSessionSummary({
   classId,
@@ -199,7 +200,7 @@ export function EndSessionSummary({
                   : `${Math.round(progressionReward.snapshot.onTaskParticipationRate * 100)}% made an on-task contribution. Earns 1 crew star.`}
               />
             </div>
-            <WorldFlightUpgradeProgress reward={progressionReward} />
+            <WorldFlightUpgradeProgress reward={progressionReward} classId={classId} teacherView={teacherView} />
           </motion.section>
         )}
 
@@ -316,8 +317,51 @@ export function EndSessionSummary({
   );
 }
 
-function WorldFlightUpgradeProgress({ reward }: { reward: WorldFlightProgressionRewardResult }) {
+type UpgradeActionStatus = 'idle' | 'claiming' | 'ready' | 'equipping' | 'equipped' | 'error';
+
+interface UpgradeClaimResponse {
+  error?: string;
+  state?: {
+    planeTier: number;
+    planeKey: string;
+    planeSelectionRequired: boolean;
+    rangeKm: number;
+    flightHours: number;
+    crewStars: number;
+  };
+}
+
+interface PlaneEquipResponse {
+  error?: string;
+  state?: {
+    planeTier: number;
+    planeKey: string;
+    rangeKm: number;
+  };
+}
+
+function WorldFlightUpgradeProgress({
+  reward,
+  classId,
+  teacherView,
+}: {
+  reward: WorldFlightProgressionRewardResult;
+  classId: string;
+  teacherView: boolean;
+}) {
+  const [choiceTier, setChoiceTier] = useState<number | null>(null);
+  const [equippedPlane, setEquippedPlane] = useState<PlaneEntry | null>(null);
+  const [equippedRangeKm, setEquippedRangeKm] = useState<number | null>(null);
+  const [actionStatus, setActionStatus] = useState<UpgradeActionStatus>('idle');
   const upgradeState = reward.upgradeState;
+
+  useEffect(() => {
+    setChoiceTier(null);
+    setEquippedPlane(null);
+    setEquippedRangeKm(null);
+    setActionStatus('idle');
+  }, [reward.flightHours, reward.crewStars, upgradeState?.claimableTier]);
+
   if (!upgradeState) {
     return (
       <div className="border-t border-white/10 px-5 py-4">
@@ -328,13 +372,70 @@ function WorldFlightUpgradeProgress({ reward }: { reward: WorldFlightProgression
     );
   }
 
-  const targetMilestone = upgradeState.claimableTier
+  const claimableTier = upgradeState.claimableTier;
+  const targetMilestone = claimableTier
     ? upgradeState.latestUnlockedMilestone
     : upgradeState.nextMilestone;
   const hourTarget = targetMilestone?.requiredFlightHours ?? Math.max(reward.flightHours, 1);
   const starTarget = targetMilestone?.requiredCrewStars ?? Math.max(reward.crewStars, 1);
   const targetRangeKm = upgradeState.claimableRangeKm ?? upgradeState.nextRangeTier?.rangeKm ?? upgradeState.currentRangeKm;
-  const upgradeReady = upgradeState.claimableTier !== null && upgradeState.claimableRangeKm !== null;
+  const upgradeReady = claimableTier !== null && upgradeState.claimableRangeKm !== null;
+  const previousFlightHours = Math.max(0, reward.flightHours - reward.flightHoursAwarded);
+  const previousCrewStars = Math.max(0, reward.crewStars - reward.crewStarsAwarded);
+  const activeChoiceTier = choiceTier;
+  const choicePlaneTier = activeChoiceTier === null ? null : getPlaneTier(activeChoiceTier);
+  const planeChoices = choicePlaneTier?.choices ?? [];
+  const shownRangeKm = equippedRangeKm ?? upgradeState.claimableRangeKm ?? targetRangeKm;
+
+  async function claimUpgradeForChoice() {
+    if (!upgradeReady || !teacherView) return;
+
+    setActionStatus('claiming');
+    try {
+      const response = await fetch('/api/world-flight/upgrades', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ classId }),
+      });
+      const result = await response.json().catch(() => null) as UpgradeClaimResponse | null;
+      const state = result?.state;
+      if (!response.ok && !state?.planeSelectionRequired) {
+        throw new Error(result?.error ?? 'Failed to claim upgrade');
+      }
+      const tier = state?.planeTier ?? claimableTier;
+      if (!tier) throw new Error('No aircraft tier returned');
+      setChoiceTier(tier);
+      setActionStatus('ready');
+    } catch (error) {
+      console.error('Failed to claim World Flight upgrade:', error);
+      setActionStatus('error');
+    }
+  }
+
+  async function equipPlane(planeKey: string) {
+    if (!choiceTier || !teacherView) return;
+
+    const plane = getPlaneAsset(planeKey);
+    setActionStatus('equipping');
+    try {
+      const response = await fetch('/api/world-flight/planes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ classId, planeKey: plane.key }),
+      });
+      const result = await response.json().catch(() => null) as PlaneEquipResponse | null;
+      if (!response.ok || !result?.state) {
+        throw new Error(result?.error ?? 'Failed to equip aircraft');
+      }
+      const selected = getPlaneAsset(result.state.planeKey);
+      setEquippedPlane(selected);
+      setEquippedRangeKm(result.state.rangeKm);
+      setActionStatus('equipped');
+    } catch (error) {
+      console.error('Failed to equip World Flight aircraft:', error);
+      setActionStatus('error');
+    }
+  }
 
   return (
     <div className="border-t border-white/10 px-5 py-5">
@@ -351,17 +452,17 @@ function WorldFlightUpgradeProgress({ reward }: { reward: WorldFlightProgression
             </p>
             <h3 className="mt-1 text-lg font-bold text-lc-text">
               {upgradeReady
-                ? `Tier ${upgradeState.claimableTier} upgrade ready`
+                ? `Tier ${upgradeState.claimableTier} upgrade unlocked`
                 : upgradeState.fullyUpgraded
                   ? 'Maximum range active'
                   : `Next range: ${formatDistance(targetRangeKm)}`}
             </h3>
             <p className="mt-1 text-xs leading-relaxed text-lc-text3">
               {upgradeReady
-                ? 'Claim this in World Flight to expand the class flight range immediately.'
+                ? 'The class reached both requirements. Choose a new aircraft to activate the expanded range.'
                 : upgradeState.fullyUpgraded
                   ? 'The class has reached the current top range tier.'
-                  : 'Range upgrades unlock when both progress bars reach the next tier.'}
+                  : 'These bars fill after each completed World Flight lesson.'}
             </p>
           </div>
           <div className="shrink-0 rounded-xl border border-white/10 bg-slate-950/55 px-3 py-2 text-right">
@@ -379,12 +480,14 @@ function WorldFlightUpgradeProgress({ reward }: { reward: WorldFlightProgression
           <UpgradeMeter
             icon={<Clock3 className="h-4 w-4" aria-hidden />}
             label="Flight Hours"
+            previousValue={previousFlightHours}
             value={reward.flightHours}
             target={hourTarget}
           />
           <UpgradeMeter
             icon={<Star className="h-4 w-4" aria-hidden />}
             label="Crew Stars"
+            previousValue={previousCrewStars}
             value={reward.crewStars}
             target={starTarget}
           />
@@ -395,23 +498,85 @@ function WorldFlightUpgradeProgress({ reward }: { reward: WorldFlightProgression
           <ul className="mt-2 space-y-1.5 text-xs leading-relaxed text-lc-text3">
             <li>Complete a World Flight lesson: +1 flight hour.</li>
             <li>Earn crew stars as a class: +1 for Everyone Aboard, +1 for Strong Landing.</li>
-            <li>When both totals reach the next tier, claim the range upgrade in World Flight.</li>
+            <li>When both totals reach the next tier, the class chooses a new aircraft.</li>
           </ul>
         </div>
 
         {upgradeReady && (
-          <div className="mt-4 flex flex-col gap-3 rounded-xl border border-lc-amber/25 bg-lc-amber/[0.08] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm font-semibold text-lc-text">
-              Ready to expand from {formatDistance(upgradeState.currentRangeKm)} to {formatDistance(upgradeState.claimableRangeKm!)}.
-            </p>
-            <Link
-              href="/world-flight"
-              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-lc-amber/35 bg-lc-amber/15 px-4 text-xs font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/20"
-            >
-              Claim Upgrade
-              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
-            </Link>
-          </div>
+          <motion.div
+            className="mt-4 overflow-hidden rounded-2xl border border-lc-amber/30 bg-[radial-gradient(circle_at_20%_0%,rgba(245,158,11,0.22),transparent_38%),linear-gradient(145deg,rgba(14,116,144,0.18),rgba(245,158,11,0.10))] px-4 py-4"
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 1.05, type: 'spring', stiffness: 190, damping: 18 }}
+          >
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-lc-amber">
+                  <Sparkles className="h-4 w-4" aria-hidden />
+                  Range Upgrade Unlocked
+                </p>
+                <h4 className="mt-1 text-xl font-bold text-lc-text">
+                  {formatDistance(upgradeState.currentRangeKm)} to {formatDistance(shownRangeKm)}
+                </h4>
+                <p className="mt-1 max-w-xl text-xs leading-relaxed text-lc-text3">
+                  The class earned enough flight hours and crew stars. Pick the aircraft that represents this new range tier.
+                </p>
+              </div>
+              {equippedPlane && (
+                <div className="rounded-xl border border-emerald-300/25 bg-emerald-300/[0.08] px-3 py-2 text-right">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-emerald-200">Equipped</p>
+                  <p className="mt-0.5 text-sm font-bold text-lc-text">{equippedPlane.name}</p>
+                </div>
+              )}
+            </div>
+
+            {!teacherView ? (
+              <Link
+                href="/world-flight"
+                className="mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-lc-amber/35 bg-lc-amber/15 px-4 text-xs font-semibold uppercase tracking-wide text-lc-amber transition-colors hover:bg-lc-amber/20"
+              >
+                Open World Flight
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+              </Link>
+            ) : choicePlaneTier ? (
+              <div className="mt-4">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {planeChoices.map((plane) => (
+                    <UpgradePlaneCard
+                      key={plane.key}
+                      plane={plane}
+                      tier={choicePlaneTier.tier}
+                      selected={equippedPlane?.key === plane.key}
+                      disabled={actionStatus === 'equipping' || actionStatus === 'equipped'}
+                      onSelect={() => void equipPlane(plane.key)}
+                    />
+                  ))}
+                </div>
+                {actionStatus === 'equipping' && (
+                  <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-cyan-100">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+                    Equipping aircraft...
+                  </p>
+                )}
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => void claimUpgradeForChoice()}
+                disabled={actionStatus === 'claiming'}
+                className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-lc-amber/35 bg-lc-amber/15 px-5 text-xs font-bold uppercase tracking-[0.14em] text-lc-amber transition-colors hover:bg-lc-amber/20 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {actionStatus === 'claiming'
+                  ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                  : <Plane className="h-4 w-4" aria-hidden />}
+                Choose New Aircraft
+              </button>
+            )}
+
+            {actionStatus === 'error' && (
+              <p className="mt-3 text-xs font-semibold text-red-300">Could not update the aircraft choice. Refresh and try again.</p>
+            )}
+          </motion.div>
         )}
       </div>
     </div>
@@ -421,15 +586,19 @@ function WorldFlightUpgradeProgress({ reward }: { reward: WorldFlightProgression
 function UpgradeMeter({
   icon,
   label,
+  previousValue,
   value,
   target,
 }: {
   icon: ReactNode;
   label: string;
+  previousValue?: number;
   value: number;
   target: number;
 }) {
+  const previousProgress = percent(previousValue ?? value, target);
   const progress = percent(value, target);
+  const changed = previousValue !== undefined && previousValue !== value;
   return (
     <div className="rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3">
       <div className="flex items-center justify-between gap-3">
@@ -437,12 +606,76 @@ function UpgradeMeter({
           {icon}
           {label}
         </p>
-        <p className="text-sm font-bold text-cyan-100">{value}/{target}</p>
+        <p className="text-sm font-bold text-cyan-100">
+          {changed ? `${previousValue}/${target} -> ` : ''}
+          {value}/{target}
+        </p>
       </div>
       <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-white/10">
-        <div className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-lc-amber" style={{ width: `${progress}%` }} />
+        <motion.div
+          className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-lc-amber"
+          initial={{ width: `${previousProgress}%` }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 1.1, delay: 0.62, ease: 'easeOut' }}
+        />
       </div>
+      {changed && (
+        <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-lc-amber">
+          +{value - (previousValue ?? value)} this lesson
+        </p>
+      )}
     </div>
+  );
+}
+
+function UpgradePlaneCard({
+  plane,
+  tier,
+  selected,
+  disabled,
+  onSelect,
+}: {
+  plane: PlaneEntry;
+  tier: number;
+  selected: boolean;
+  disabled: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      disabled={disabled}
+      className={`group flex min-h-[172px] flex-col rounded-xl border bg-slate-950/55 p-3 text-left transition ${
+        selected
+          ? 'border-emerald-300/60 shadow-[0_0_0_1px_rgba(110,231,183,0.25)]'
+          : 'border-white/10 hover:border-cyan-200/45 hover:bg-cyan-300/[0.06]'
+      } disabled:cursor-default`}
+    >
+      <div className="flex h-20 items-center justify-center overflow-hidden rounded-lg bg-black/20">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={plane.front3qWebp ?? plane.webp}
+          alt=""
+          draggable={false}
+          className="h-16 w-auto object-contain transition-transform group-hover:scale-105"
+        />
+      </div>
+      <div className="mt-3 flex flex-1 flex-col">
+        <p className="text-sm font-bold text-lc-text">{plane.name}</p>
+        <p className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-cyan-100/60">
+          Tier {tier} aircraft
+        </p>
+        <span className={`mt-auto inline-flex h-8 items-center justify-center gap-1.5 rounded-lg border px-3 text-[11px] font-bold uppercase tracking-wide ${
+          selected
+            ? 'border-emerald-300/35 bg-emerald-300/[0.10] text-emerald-200'
+            : 'border-cyan-200/20 bg-cyan-300/[0.06] text-cyan-100'
+        }`}>
+          {selected ? <Check className="h-3.5 w-3.5" aria-hidden /> : <Plane className="h-3.5 w-3.5" aria-hidden />}
+          {selected ? 'Selected' : 'Choose'}
+        </span>
+      </div>
+    </button>
   );
 }
 

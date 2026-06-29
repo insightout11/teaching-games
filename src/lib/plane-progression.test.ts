@@ -24,6 +24,14 @@ describe('plane progression assets', () => {
       name: 'LC Wayfarer',
       webp: '/assets/flight/planes/lc-wayfarer.webp',
     });
+    expect(getPlaneAsset('lc-scout')).toMatchObject({
+      key: 'lc-scout',
+      name: 'LC Scout',
+      webp: '/assets/flight/planes/lc-scout-monoplane.webp',
+      frontWebp: '/assets/flight/planes/lc-scout-monoplane-front.webp',
+      front3qWebp: '/assets/flight/planes/lc-scout-monoplane-front-3q.webp',
+      displayMeta: expect.objectContaining({ runwayYOffset: -30, hangarYOffset: 28 }),
+    });
     expect(getPlaneAsset('trailblazer-biplane')).toMatchObject({
       key: 'trailblazer-biplane',
       name: 'Trailblazer',
@@ -38,6 +46,9 @@ describe('plane progression assets', () => {
     expect(getPlaneViewAsset('cloud-hopper', 'front-3q', 'png')).toBe(
       '/assets/flight/planes/lc-wayfarer-front-3q.png',
     );
+    expect(getPlaneViewAsset('lc-scout', 'front')).toBe(
+      '/assets/flight/planes/lc-scout-monoplane-front.webp',
+    );
   });
 
   it('groups plane choices by tier range', () => {
@@ -47,6 +58,7 @@ describe('plane progression assets', () => {
     });
     expect(getPlaneTier(1).choices.map((plane) => plane.key)).toEqual([
       'scout-monoplane',
+      'lc-scout',
       'trailblazer-biplane',
     ]);
     expect(getPlaneTierForKey('cloud-hopper').tier).toBe(1);

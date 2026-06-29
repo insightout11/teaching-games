@@ -15,9 +15,10 @@ The retired Cloud Hopper floatplane assets may be reused later only if World
 Flight gets water takeoff, landing, and dock scenes. Do not map any selectable
 production plane to a floatplane while launch scenes are runway-based.
 
-Tier 1 is the first range upgrade. It currently exposes only runway-safe
-aircraft; `cloud-hopper` is kept as a deprecated compatibility key and resolves
-to LC Wayfarer when old class/session records reference it.
+Tier 1 is the first range upgrade: three runway-safe aircraft with the same
+range but different classroom-facing identities. `cloud-hopper` is kept as a
+deprecated compatibility key and resolves to LC Wayfarer when old class/session
+records reference it.
 
 Option 1, LC Wayfarer:
 
@@ -28,7 +29,16 @@ Option 1, LC Wayfarer:
 - `public/assets/flight/planes/lc-wayfarer-front-3q.png`
 - `public/assets/flight/planes/lc-wayfarer-front-3q.webp`
 
-Option 2, Trailblazer:
+Option 2, LC Scout:
+
+- `public/assets/flight/planes/lc-scout-monoplane.png`
+- `public/assets/flight/planes/lc-scout-monoplane.webp`
+- `public/assets/flight/planes/lc-scout-monoplane-front.png`
+- `public/assets/flight/planes/lc-scout-monoplane-front.webp`
+- `public/assets/flight/planes/lc-scout-monoplane-front-3q.png`
+- `public/assets/flight/planes/lc-scout-monoplane-front-3q.webp`
+
+Option 3, Trailblazer:
 
 - `public/assets/flight/planes/lc-trailblazer.png`
 - `public/assets/flight/planes/lc-trailblazer.webp`

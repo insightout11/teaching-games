@@ -55,6 +55,12 @@ const LC_CADET_ASSETS = {
   front3q: 'lc-cadet-front-3q',
 };
 
+const LC_SCOUT_ASSETS = {
+  side: 'lc-scout-monoplane',
+  front: 'lc-scout-monoplane-front',
+  front3q: 'lc-scout-monoplane-front-3q',
+};
+
 const LC_CLOUD_HOPPER_ASSETS = {
   side: 'lc-cloud-hopper',
   front: 'lc-cloud-hopper-front',
@@ -158,6 +164,7 @@ const PLANE_ENTRIES: PlaneEntry[] = [
   // trainer that works in every launch, runway, and arrival scene.
   entry('starter-biplane', 'LC Cadet', { runwayYOffset: -48, hangarYOffset: 34 }, LC_CADET_ASSETS),
   entry('scout-monoplane',     'LC Wayfarer',         {}, LC_WAYFARER_ASSETS),
+  entry('lc-scout',            'LC Scout',            { runwayYOffset: -30, hangarYOffset: 28 }, LC_SCOUT_ASSETS),
   entry('cloud-hopper',        'Cloud Hopper',        {}, LC_CLOUD_HOPPER_ASSETS),
   entry('trailblazer-biplane', 'Trailblazer',         { runwayYOffset: -34, hangarYOffset: 34 }, LC_TRAILBLAZER_ASSETS),
   entry('sky-racer',           'Sky Racer',           {}, LC_SKY_RACER_ASSETS),
@@ -216,7 +223,7 @@ export interface PlaneTier {
 export const PLANE_TIERS: PlaneTier[] = (
   [
     { tier: 0, label: 'Starter',       keys: ['starter-biplane'] },
-    { tier: 1, label: 'First Upgrade', keys: ['scout-monoplane', 'trailblazer-biplane'] },
+    { tier: 1, label: 'First Upgrade', keys: ['scout-monoplane', 'lc-scout', 'trailblazer-biplane'] },
     { tier: 2, label: 'Specialist',    keys: ['sky-racer', 'cargo-cruiser', 'twin-prop-scout'] },
     { tier: 3, label: 'Advanced',      keys: ['solar-flyer', 'aurora-glider', 'storm-runner'] },
     { tier: 4, label: 'Prestige',      keys: ['future-flyer', 'starliner-mini', 'comet-jet'] },
