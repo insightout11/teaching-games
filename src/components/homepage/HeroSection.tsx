@@ -1,7 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -14,7 +14,8 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import { FEATURED_CHIPS } from '@/lib/video-lesson-demos';
-import { MarketingFlightArc } from '@/components/homepage/MarketingFlightArc';
+import { CAPTAINS_FLIGHT_STEPS } from '@/lib/marketing/captains-flight-steps';
+import { MarketingFlightPlan } from '@/components/homepage/marketing-flight-plan';
 
 // Client-safe YouTube ID parser (the lib helper is server-only). Falls back to a
 // ?url= hand-off when a pasted link isn't a recognizable YouTube URL.
@@ -222,6 +223,21 @@ function StartWidget() {
 
 // ── The product: a live Captain's Flight, plotted from the real preset ───────
 function FlightPlanPanel() {
+  const reduce = useReducedMotion();
+  // Settle the plane early in the cruise so it reads as a lesson underway.
+  const [activeIndex, setActiveIndex] = useState(reduce ? 2.4 : 0);
+
+  useEffect(() => {
+    if (reduce) return;
+    const steps: [number, number][] = [
+      [700, 1.1],
+      [1600, 1.9],
+      [2500, 2.4],
+    ];
+    const timers = steps.map(([ms, idx]) => setTimeout(() => setActiveIndex(idx), ms));
+    return () => timers.forEach(clearTimeout);
+  }, [reduce]);
+
   return (
     <div className="overflow-hidden rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-[#0b1c38]/80 to-[#060f1f]/85 px-4 py-5 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9)] sm:px-7 sm:py-6">
       <div className="mb-1 flex items-center justify-between">
@@ -236,7 +252,14 @@ function FlightPlanPanel() {
       <p className="mb-4 text-sm text-lc-text2">
         A complete lesson, start to finish — warm-up to wrap-up, sequenced for you and run live.
       </p>
-      <MarketingFlightArc />
+      <MarketingFlightPlan
+        steps={CAPTAINS_FLIGHT_STEPS}
+        height={300}
+        mode="runtime"
+        activeIndex={activeIndex}
+        forceEmphasis
+        growOnNarrow
+      />
     </div>
   );
 }

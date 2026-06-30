@@ -53,7 +53,7 @@ function getLabelMode(width: number, count: number, isRuntime: boolean): LabelMo
   return 'minimal';
 }
 
-interface LessonCaptainFlightPlanProps {
+interface MarketingFlightPlanProps {
   steps?: FlightPlanStep[];
   width?: number;
   height?: number;
@@ -1172,7 +1172,7 @@ function PlaneLayer({
 
 // ─── Main component ──────────────────────────────────────────────────────────
 
-export function LessonCaptainFlightPlan({
+export function MarketingFlightPlan({
   steps = DEFAULT_STEPS,
   width = 1280,
   height = 520,
@@ -1185,7 +1185,7 @@ export function LessonCaptainFlightPlan({
   pacingIndex,
   forceEmphasis = false,
   growOnNarrow = false,
-}: LessonCaptainFlightPlanProps) {
+}: MarketingFlightPlanProps) {
   const safeSteps = useMemo(() => {
     if (!Array.isArray(steps) || steps.length < 3) return DEFAULT_STEPS;
     return steps;
