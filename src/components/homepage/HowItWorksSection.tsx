@@ -131,28 +131,20 @@ export function HowItWorksSection() {
                 transition={{ duration: 0.5, delay: lightDelay }}
                 className="flex flex-col items-center gap-4 text-center"
               >
-                {/* Icon tile + ghost number */}
-                <div className="relative">
-                  <span
-                    aria-hidden
-                    className={`font-game pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 select-none text-[5.5rem] leading-none ${step.accent.num}`}
-                  >
-                    {step.number}
-                  </span>
-                  <motion.div
-                    initial={{ scale: reduce ? 1 : 0.85 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: lightDelay, ease: [0.22, 1, 0.36, 1] }}
-                    className={`relative z-10 flex h-20 w-20 items-center justify-center rounded-2xl border bg-gradient-to-br to-transparent backdrop-blur-sm ${step.accent.border} ${step.accent.bg} ${step.accent.glow}`}
-                  >
-                    <Icon className={`h-8 w-8 ${step.accent.text}`} />
-                  </motion.div>
-                </div>
+                {/* Icon tile */}
+                <motion.div
+                  initial={{ scale: reduce ? 1 : 0.85 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: lightDelay, ease: [0.22, 1, 0.36, 1] }}
+                  className={`relative z-10 flex h-20 w-20 items-center justify-center rounded-2xl border bg-gradient-to-br to-transparent backdrop-blur-sm ${step.accent.border} ${step.accent.bg} ${step.accent.glow}`}
+                >
+                  <Icon className={`h-8 w-8 ${step.accent.text}`} />
+                </motion.div>
 
                 <div className="flex flex-col items-center gap-1.5">
                   <p className={`font-instrument text-[10px] font-semibold uppercase tracking-[0.22em] ${step.accent.text}`}>
-                    {step.phase}
+                    <span className="opacity-60">{step.number}</span> · {step.phase}
                   </p>
                   <h3 className="text-lg font-bold text-lc-text">{step.title}</h3>
                   <p className="max-w-xs text-sm leading-relaxed text-lc-text2">{step.description}</p>

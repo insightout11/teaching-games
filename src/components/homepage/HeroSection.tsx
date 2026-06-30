@@ -255,12 +255,11 @@ function FlightPlanPanel() {
       </p>
       <LessonCaptainFlightPlan
         steps={CAPTAINS_FLIGHT_STEPS}
-        height={440}
+        height={300}
         mode="runtime"
         activeIndex={activeIndex}
         forceEmphasis
         growOnNarrow
-        showcase
       />
     </div>
   );
