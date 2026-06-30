@@ -1500,7 +1500,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 72.8777,
     primaryAirport: 'BOM',
     airports: ['BOM'],
-    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'mumbai', landmarkSilhouette: 'sea-link', palette: 'tropical' },
+    scene: { terrain: 'coastal', vegetation: 'palms', skyline: 'highrise', skylineVariant: 'mumbai', landmarkSilhouette: 'gateway-of-india', palette: 'tropical' },
     heroImage: IMAGES.mumbai,
     focusOptions: [
       videoFocus('city-history-video', 'Mumbai - From Bombay to Mumbai', 'Use a Britannica short to trace islands, empire, trade, and renaming.', 'Intermediate', 'Summarize how Mumbai grew from coastal settlements into a megacity.', ['listening', 'history', 'summary'], 'gOmiMIM9BEk', 'Encyclopaedia Britannica', 287, `This Britannica spotlight gives students a concise history of Mumbai. They can identify port geography, colonial layers, commerce, and the significance of name changes.`),
@@ -1529,7 +1529,7 @@ Students can compare transport modes by more than speed. A route can be practica
     lng: 18.4241,
     primaryAirport: 'CPT',
     airports: ['CPT'],
-    scene: { terrain: 'mountain', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'capetown', landmarkSilhouette: 'table-mountain', palette: 'dawn' },
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'dense', skylineVariant: 'capetown', landmarkSilhouette: 'table-mountain', palette: 'dawn' },
     heroImage: IMAGES.capeTown,
     focusOptions: [
       videoFocus('founded-video', 'Cape Town - How the City Was Founded', 'Trace early colonial settlement and the city around Table Bay.', 'Intermediate', 'Explain how port geography and empire shaped Cape Town.', ['listening', 'history', 'geography'], '4wBhCKKZxYU', 'Bright Trip', 398, `This short history of Cape Town introduces settlement, maritime geography, and colonial growth. Students can discuss why ports attract trade, power, migration, and conflict.`),

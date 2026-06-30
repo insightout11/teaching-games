@@ -22,6 +22,8 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
   const terrain = normalizeTerrain(scene.terrain);
   const isDubaiBay = scene.skylineVariant === 'dubai';
   const isHomeBase = scene.skylineVariant === 'homebase';
+  const isAmsterdam = scene.skylineVariant === 'amsterdam';
+  const isSingapore = scene.skylineVariant === 'singapore';
   const isWaterfront = isDubaiBay || terrain === 'coastal' || terrain === 'island';
   const isDesert = terrain === 'desert';
   const isSnow = !isWaterfront && !isDesert && scene.palette === 'winter';
@@ -30,6 +32,7 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
   const waterId = `${idPrefix}-airport-water`;
   const sandId = `${idPrefix}-airport-sand`;
   const snowId = `${idPrefix}-airport-snow`;
+  const canalId = `${idPrefix}-canal`;
   const tarId = `${idPrefix}-tarmac`;
 
   const surroundingsTop = LAYOUT.apronY;
@@ -66,6 +69,143 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
     : Array.from({ length: Math.ceil((VIEWBOX.w + 100) / LIGHT_PITCH) }, (_, i) => 70 + i * LIGHT_PITCH);
   const lightScrollX = rolling ? -(pan % LIGHT_PITCH) : 0;
 
+  // Amsterdam: a canal + quayside road with animated cyclists, filling the
+  // approach band in front of the canal houses (replaces the plain grass apron).
+  const canalTop = surroundingsTop;
+  const canalBot = surroundingsTop + 36;
+  const isNightAms = palette.light === 'moon';
+  const cyc = 'rgba(26,28,38,0.92)';
+  const warm = 'rgba(255,206,120,0.92)';
+  const Cyclist = ({ y, dir }: { y: number; dir: number }) => (
+    <g transform={dir < 0 ? 'scale(-1,1)' : undefined}>
+      <circle cx={-7} cy={y} r={4.6} fill="none" stroke={cyc} strokeWidth={1.6} />
+      <circle cx={7} cy={y} r={4.6} fill="none" stroke={cyc} strokeWidth={1.6} />
+      <path d={`M -7 ${y} L -1 ${y - 9} L 7 ${y} M -1 ${y - 9} L 3 ${y}`} stroke={cyc} strokeWidth={1.5} fill="none" />
+      <line x1={-1} y1={y - 9} x2={-2} y2={y - 18} stroke={cyc} strokeWidth={2.4} />
+      <circle cx={-2} cy={y - 21} r={2.9} fill={cyc} />
+      <path d={`M -2 ${y - 16} L -6 ${y - 10}`} stroke={cyc} strokeWidth={1.5} fill="none" />
+    </g>
+  );
+  const ry = runTop - 7;
+  const riders = [
+    { from: -140, to: VIEWBOX.w + 140, dur: 17, delay: 0, dir: 1, y: ry },
+    { from: -140, to: VIEWBOX.w + 140, dur: 13, delay: 5.5, dir: 1, y: ry + 3 },
+    { from: VIEWBOX.w + 140, to: -140, dur: 19, delay: 2.5, dir: -1, y: ry - 2 },
+    { from: VIEWBOX.w + 140, to: -140, dur: 15, delay: 9, dir: -1, y: ry + 1 },
+  ];
+  const bx = BLEED_X + CONTENT_W * 0.72;
+  const boatX = BLEED_X + CONTENT_W * 0.38;
+  const by = canalTop + 20;
+  const amsterdamGround = (
+    <g>
+      {/* canal water + ripple + reflected light streaks */}
+      <rect x="-200" y={canalTop} width={VIEWBOX.w + 400} height={canalBot - canalTop} fill={`url(#${canalId})`} />
+      <path d={`M-200 ${canalTop + 10} Q 400 ${canalTop + 6} 900 ${canalTop + 11} T 2000 ${canalTop + 9} T 3080 ${canalTop + 10}`} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth={1.5} />
+      {[0.16, 0.3, 0.52, 0.66, 0.86].map((fx, i) => (
+        <rect key={i} x={BLEED_X + CONTENT_W * fx} y={canalTop + 6} width={2} height={canalBot - canalTop - 8} fill={warm} opacity={isNightAms ? 0.5 : 0.22} />
+      ))}
+      {/* canal boat */}
+      <path d={`M ${boatX - 28} ${by} q 5 9 16 9 h 24 q 11 0 16 -9 Z`} fill="rgb(54,50,46)" />
+      <rect x={boatX - 8} y={by - 9} width={26} height={9} rx={2} fill="rgb(78,70,62)" />
+      <rect x={boatX - 4} y={by - 7} width={6} height={5} fill={warm} opacity={isNightAms ? 0.9 : 0.4} />
+      {/* quayside road */}
+      <rect x="-200" y={canalBot} width={VIEWBOX.w + 400} height={runTop - canalBot} fill="rgb(92,88,94)" />
+      <rect x="-200" y={canalBot} width={VIEWBOX.w + 400} height={3} fill="rgb(150,144,150)" />
+      <rect x="-200" y={canalBot + 3} width={VIEWBOX.w + 400} height={2} fill="rgba(0,0,0,0.2)" />
+      {/* humpback bridge over the canal */}
+      <path d={`M ${bx - 58} ${canalBot} Q ${bx} ${canalTop - 14} ${bx + 58} ${canalBot}`} fill="none" stroke="rgb(150,128,104)" strokeWidth={7} strokeLinecap="round" />
+      <path d={`M ${bx - 58} ${canalBot} Q ${bx} ${canalTop - 6} ${bx + 58} ${canalBot}`} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth={1.4} />
+      {/* canalside lamps */}
+      {[BLEED_X + CONTENT_W * 0.26, BLEED_X + CONTENT_W * 0.84].map((lx, i) => (
+        <g key={i}>
+          <rect x={lx - 1} y={canalBot - 24} width={2} height={24} fill="rgb(40,42,50)" />
+          <circle cx={lx} cy={canalBot - 26} r={3} fill={warm} opacity={isNightAms ? 0.95 : 0.5} />
+        </g>
+      ))}
+      {/* animated cyclists on the road */}
+      {riders.map((c, i) =>
+        ambient ? (
+          <motion.g key={i} initial={{ x: c.from }} animate={{ x: [c.from, c.to] }} transition={{ duration: c.dur, delay: c.delay, repeat: Infinity, ease: 'linear' }}>
+            <Cyclist y={c.y} dir={c.dir} />
+          </motion.g>
+        ) : (
+          <g key={i} transform={`translate(${(c.from + c.to) / 2},0)`}>
+            <Cyclist y={c.y} dir={c.dir} />
+          </g>
+        ),
+      )}
+    </g>
+  );
+
+  // Merlion (Singapore) — the lion-headed fish statue spouting water into the
+  // bay, on the far promenade so its jet arcs toward the viewer. Animated when
+  // ambient (droplets travel the arc + ripple rings at the splash).
+  const mlx = BLEED_X + CONTENT_W * 0.5;
+  const gY = surroundingsTop + 26;
+  const mStone = 'rgb(236,238,236)';
+  const mShade = 'rgba(0,0,0,0.16)';
+  const water = 'rgba(210,238,255,0.9)';
+  const mouthX = mlx - 19;
+  const mouthY = gY - 48;
+  const ctrlX = mlx - 44;
+  const ctrlY = gY - 62;
+  const landX = mlx - 66;
+  const landY = runTop - 12;
+  const spoutPt = (t: number) => {
+    const u = 1 - t;
+    return {
+      x: u * u * mouthX + 2 * u * t * ctrlX + t * t * landX,
+      y: u * u * mouthY + 2 * u * t * ctrlY + t * t * landY,
+    };
+  };
+  const spoutT = [0, 0.25, 0.5, 0.75, 1];
+  const spoutXs = spoutT.map((t) => spoutPt(t).x);
+  const spoutYs = spoutT.map((t) => spoutPt(t).y);
+  const spoutPath = `M ${mouthX} ${mouthY} Q ${ctrlX} ${ctrlY} ${landX} ${landY}`;
+  const merlion = isSingapore ? (
+    <g>
+      {/* pedestal */}
+      <rect x={mlx - 18} y={gY - 7} width={36} height={7} fill="rgba(0,0,0,0.2)" />
+      <rect x={mlx - 18} y={gY - 10} width={36} height={3} fill={mStone} />
+      {/* body (two-tone) */}
+      <path d={`M ${mlx - 14} ${gY - 7} C ${mlx - 18} ${gY - 30} ${mlx - 12} ${gY - 42} ${mlx - 2} ${gY - 44} C ${mlx + 12} ${gY - 46} ${mlx + 20} ${gY - 30} ${mlx + 16} ${gY - 12} C ${mlx + 14} ${gY - 7} ${mlx + 10} ${gY - 7} ${mlx + 8} ${gY - 7} Z`} fill={mStone} />
+      <path d={`M ${mlx} ${gY - 45} C ${mlx + 12} ${gY - 46} ${mlx + 20} ${gY - 30} ${mlx + 16} ${gY - 12} C ${mlx + 14} ${gY - 7} ${mlx + 10} ${gY - 7} ${mlx + 8} ${gY - 7} L ${mlx} ${gY - 7} Z`} fill={mShade} />
+      {/* fish scales */}
+      {[-18, -26, -34].map((dy, i) => (
+        <path key={i} d={`M ${mlx - 10} ${gY + dy} q 6 4 12 0 q 6 4 12 0`} fill="none" stroke={mShade} strokeWidth={1} />
+      ))}
+      {/* curled tail (lower right) */}
+      <path d={`M ${mlx + 14} ${gY - 14} q 14 -2 16 -16 q -2 10 -10 12 q 6 2 10 -2`} fill={mStone} />
+      {/* head + mane + snout */}
+      <circle cx={mlx - 6} cy={gY - 50} r={9} fill={mStone} />
+      <path d={`M ${mlx - 6} ${gY - 59} A 9 9 0 0 1 ${mlx - 6} ${gY - 41} Z`} fill={mShade} opacity={0.5} />
+      {[-14, -6, 2].map((dx, i) => (
+        <circle key={`m${i}`} cx={mlx + dx} cy={gY - 44} r={3.4} fill={mStone} />
+      ))}
+      {[-12, -2].map((dx, i) => (
+        <circle key={`u${i}`} cx={mlx + dx} cy={gY - 58} r={3.2} fill={mStone} />
+      ))}
+      <path d={`M ${mlx - 15} ${gY - 50} l -6 -1 l 1 5 Z`} fill={mStone} />
+      <circle cx={mlx - 16} cy={gY - 49} r={1.5} fill="rgba(0,0,0,0.4)" />
+      {/* continuous water stream */}
+      <path d={spoutPath} fill="none" stroke="rgba(200,232,255,0.45)" strokeWidth={4} strokeLinecap="round" />
+      <path d={spoutPath} fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth={1.4} />
+      {/* animated droplets + splash ripples (static fallback otherwise) */}
+      {ambient ? (
+        <>
+          {[0, 1, 2, 3].map((d) => (
+            <motion.circle key={`d${d}`} r={2.2} fill={water} initial={{ opacity: 0 }} animate={{ cx: spoutXs, cy: spoutYs, opacity: [0, 1, 1, 0.8, 0] }} transition={{ duration: 1.1, repeat: Infinity, ease: 'easeIn', delay: d * 0.27 }} />
+          ))}
+          {[0, 1].map((r) => (
+            <motion.ellipse key={`r${r}`} cx={landX} cy={landY} fill="none" stroke={water} strokeWidth={1} initial={{ rx: 2, ry: 1, opacity: 0.8 }} animate={{ rx: [2, 16], ry: [1, 5], opacity: [0.8, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeOut', delay: r * 0.7 }} />
+          ))}
+        </>
+      ) : (
+        <ellipse cx={landX} cy={landY} rx={8} ry={2.6} fill="none" stroke={water} strokeWidth={1} opacity={0.6} />
+      )}
+    </g>
+  ) : null;
+
   return (
     <g aria-hidden>
       <defs>
@@ -84,6 +224,10 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
         <linearGradient id={snowId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#e9eff5" />
           <stop offset="1" stopColor="#b6c3d2" />
+        </linearGradient>
+        <linearGradient id={canalId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={palette.waterTop} />
+          <stop offset="1" stopColor={palette.waterBottom} />
         </linearGradient>
         <linearGradient id={tarId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#333d49" />
@@ -119,7 +263,10 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
               isNight={palette.light === 'moon'}
             />
           )}
+          {merlion}
         </>
+      ) : isAmsterdam ? (
+        amsterdamGround
       ) : (
         <rect x="-200" y={surroundingsTop} width={VIEWBOX.w + 400} height={runTop - surroundingsTop} fill={isDesert ? `url(#${sandId})` : isSnow ? `url(#${snowId})` : `url(#${groundId})`} />
       )}

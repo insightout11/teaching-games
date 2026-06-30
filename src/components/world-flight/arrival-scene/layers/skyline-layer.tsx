@@ -255,6 +255,15 @@ function ParisSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const zinc = 'rgba(86,90,104,0.96)'; // grey zinc mansard, a touch lighter than facade
   const iron = 'rgba(0,0,0,0.28)'; // wrought-iron balcony rail
   const winOpacity = isNight ? 0.85 : 0.5;
+  const limestone = 'rgba(214,204,184,0.98)'; // pale Louvre stone
+  const limestoneShade = 'rgba(0,0,0,0.16)';
+  const slate = 'rgba(72,76,90,0.97)'; // steep mansard slate
+
+  // The Louvre sits centre, between the Eiffel (foreground, left) and Montmartre
+  // (right). Reserve a clear slot so no Haussmann block overlaps the palace.
+  const lx = CONTENT_W * 0.44;
+  const louvreL = lx - 104;
+  const louvreR = lx + 104;
 
   const items: React.ReactNode[] = [];
   let x = -40;
@@ -262,6 +271,10 @@ function ParisSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   while (x < CONTENT_W + 40) {
     const w = randRange(rand, 98, 152); // wide Haussmann blocks
     const h = randRange(rand, 120, 178); // uniform-ish, low (no highrise)
+    if (x + w > louvreL && x < louvreR) {
+      x = louvreR + 4;
+      continue;
+    }
     const top = base - h; // eaves line
     const roofH = randRange(rand, 26, 38);
     const roofTop = top - roofH;
@@ -325,12 +338,34 @@ function ParisSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const white = 'rgba(244,240,230,0.98)';
   const shade = 'rgba(196,190,176,0.92)';
   const arch = isNight ? 'rgba(255,212,144,0.4)' : 'rgba(52,46,38,0.4)';
+  // Montmartre village houses climbing the slopes below the basilica.
+  const houseWall = 'rgba(212,204,188,0.97)';
+  const houseRoof = 'rgba(78,80,92,0.96)';
+  const hillHouse = (cx: number, gy: number, w: number, h: number, key: string) => (
+    <g key={key}>
+      <rect x={cx - w / 2} y={gy - h} width={w} height={h} fill={houseWall} />
+      <rect x={cx} y={gy - h} width={w / 2} height={h} fill="rgba(0,0,0,0.16)" />
+      <polygon points={`${cx - w / 2 - 2} ${gy - h}, ${cx} ${gy - h - 11}, ${cx + w / 2 + 2} ${gy - h}`} fill={houseRoof} />
+      <rect x={cx - 3} y={gy - h + 7} width={6} height={8} fill={palette.windowWarm} opacity={winOpacity} />
+    </g>
+  );
+  const houses = [
+    hillHouse(hx - 210, base - 52, 30, 28, 'mh1'),
+    hillHouse(hx - 178, base - 86, 34, 34, 'mh2'),
+    hillHouse(hx - 132, base - 128, 28, 30, 'mh3'),
+    hillHouse(hx - 96, base - 172, 24, 26, 'mh4'),
+    hillHouse(hx + 116, base - 108, 28, 30, 'mh5'),
+    hillHouse(hx + 170, base - 64, 32, 30, 'mh6'),
+    hillHouse(hx + 226, base - 30, 26, 24, 'mh7'),
+  ];
   const montmartre = (
     <g key="montmartre">
       {/* hill — bigger, with a broad crest so the basilica's whole base sits on it */}
       <path d={`M ${hx - 312} ${base} Q ${hx - 196} ${hilltop + 14} ${hx - 80} ${hilltop + 2} Q ${hx} ${hilltop - 6} ${hx + 80} ${hilltop + 2} Q ${hx + 196} ${hilltop + 14} ${hx + 312} ${base} Z`} fill={palette.foliage} />
       {/* shaded right slope */}
       <path d={`M ${hx} ${hilltop - 6} Q ${hx + 80} ${hilltop + 2} ${hx + 196} ${hilltop + 14} Q ${hx + 260} ${hilltop + 60} ${hx + 312} ${base} L ${hx + 150} ${base} Q ${hx + 70} ${hilltop + 18} ${hx} ${hilltop - 6} Z`} fill="rgba(0,0,0,0.14)" />
+      {/* village houses on the slopes (drawn before the basilica so it crowns them) */}
+      {houses}
       {/* basilica base + arched portico */}
       <rect x={hx - 47} y={hilltop - 24} width={94} height={28} fill={white} />
       {[-30, -10, 10, 30].map((dx, i) => (
@@ -358,10 +393,75 @@ function ParisSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     </g>
   );
 
+  // ── The Louvre — classical limestone palace + the glass Pyramid ──
+  const louvreEave = base - 116;
+  const archWin = (wy: number, h: number, n: number, key: string) => {
+    const x0 = lx - 86;
+    const span = 172;
+    return Array.from({ length: n }, (_, i) => {
+      const wxx = x0 + ((i + 0.5) * span) / n - 4;
+      return (
+        <g key={`${key}-${i}`}>
+          <rect x={wxx} y={wy} width={8} height={h} fill={palette.windowWarm} opacity={winOpacity} />
+          <path d={`M ${wxx} ${wy} Q ${wxx + 4} ${wy - 6} ${wxx + 8} ${wy} Z`} fill={palette.windowWarm} opacity={winOpacity} />
+        </g>
+      );
+    });
+  };
+  const pavilion = (px: number, pw: number, roofTopY: number, key: string) => {
+    const eve = louvreEave - 18;
+    return (
+      <g key={key}>
+        <rect x={px - pw / 2} y={eve} width={pw} height={18} fill={limestone} />
+        <rect x={px} y={eve} width={pw / 2} height={18} fill={limestoneShade} />
+        <path d={`M ${px - pw / 2 - 3} ${eve} L ${px - pw * 0.3} ${roofTopY} Q ${px} ${roofTopY - 12} ${px + pw * 0.3} ${roofTopY} L ${px + pw / 2 + 3} ${eve} Z`} fill={slate} />
+        <path d={`M ${px} ${roofTopY - 12} Q ${px} ${roofTopY - 12} ${px + pw * 0.3} ${roofTopY} L ${px + pw / 2 + 3} ${eve} L ${px} ${eve} Z`} fill="rgba(0,0,0,0.2)" />
+        <rect x={px - 1.5} y={roofTopY - 22} width={3} height={14} fill={limestone} />
+      </g>
+    );
+  };
+  const louvre = (
+    <g key="louvre">
+      {/* facade + ground arcade + cornice */}
+      <rect x={lx - 94} y={louvreEave} width={188} height={116} fill={limestone} />
+      <rect x={lx} y={louvreEave} width={94} height={116} fill={limestoneShade} />
+      <rect x={lx - 94} y={base - 22} width={188} height={22} fill="rgba(0,0,0,0.12)" />
+      <rect x={lx - 100} y={louvreEave - 7} width={200} height={8} fill={limestone} />
+      <rect x={lx} y={louvreEave - 7} width={100} height={8} fill={limestoneShade} />
+      {/* arched window rows */}
+      {archWin(louvreEave + 22, 30, 9, 'wr1')}
+      {archWin(louvreEave + 70, 26, 9, 'wr2')}
+      {/* pavilions with steep slate mansard roofs */}
+      {pavilion(lx - 74, 40, base - 150, 'pL')}
+      {pavilion(lx + 74, 40, base - 150, 'pR')}
+      {pavilion(lx, 58, base - 172, 'pC')}
+      {/* glass Pyramid in the courtyard (lit faces + lattice + outline) */}
+      {isNight && <polygon points={`${lx} ${base - 84}, ${lx - 62} ${base}, ${lx + 62} ${base}`} fill="rgba(255,214,140,0.18)" />}
+      <polygon points={`${lx} ${base - 82}, ${lx - 60} ${base}, ${lx} ${base}`} fill="rgba(198,224,244,0.42)" />
+      <polygon points={`${lx} ${base - 82}, ${lx + 60} ${base}, ${lx} ${base}`} fill="rgba(120,150,182,0.36)" />
+      {[-40, -20, 0, 20, 40].map((bx, i) => (
+        <line key={`m${i}`} x1={lx + bx} y1={base} x2={lx} y2={base - 82} stroke="rgba(212,234,252,0.34)" strokeWidth={1} />
+      ))}
+      {[16, 36, 56].map((yy, i) => {
+        const half = 60 * (1 - yy / 82);
+        return <line key={`c${i}`} x1={lx - half} y1={base - yy} x2={lx + half} y2={base - yy} stroke="rgba(212,234,252,0.3)" strokeWidth={1} />;
+      })}
+      <polyline points={`${lx - 60} ${base}, ${lx} ${base - 82}, ${lx + 60} ${base}`} fill="none" stroke="rgba(224,240,255,0.72)" strokeWidth={1.5} strokeLinejoin="round" />
+      {/* small flanking pyramids */}
+      {[-82, 84].map((dx, i) => (
+        <g key={`sp${i}`}>
+          <polygon points={`${lx + dx} ${base - 24}, ${lx + dx - 15} ${base}, ${lx + dx + 15} ${base}`} fill="rgba(176,206,232,0.34)" />
+          <polyline points={`${lx + dx - 15} ${base}, ${lx + dx} ${base - 24}, ${lx + dx + 15} ${base}`} fill="none" stroke="rgba(224,240,255,0.6)" strokeWidth={1} />
+        </g>
+      ))}
+    </g>
+  );
+
   return (
     <g aria-hidden data-skyline="paris" data-id={idPrefix}>
       {montmartre}
       {items}
+      {louvre}
     </g>
   );
 }
@@ -1387,29 +1487,38 @@ function SingaporeSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     x += w + randRange(rand, 5, 11);
     k += 1;
   }
-  // Marina Bay Sands — three tapering towers + the boat SkyPark
+  // Marina Bay Sands — three tapering towers + the boat SkyPark. A distinct
+  // light steel tone (not the dark building silhouette) so it stands out.
   const mx = CONTENT_W * 0.56;
   const mH = 208;
   const warm = palette.windowWarm;
+  const mbsFill = isNight ? 'rgb(120,140,170)' : 'rgb(168,186,210)';
   const mbs = (
     <g>
       {/* soft glow so it stands out */}
-      <ellipse cx={mx + 6} cy={base - mH + 12} rx={122} ry={72} fill={warm} opacity={0.1} />
-      {[mx - 58, mx, mx + 58].map((tx, i) => (
-        <g key={i}>
-          <polygon points={`${tx - 17} ${base}, ${tx - 9} ${base - mH}, ${tx + 9} ${base - mH}, ${tx + 17} ${base}`} fill={f} />
-          {/* lit floor bands */}
-          {Array.from({ length: 9 }, (_, r) => (
-            <rect key={r} x={tx - 9} y={base - 26 - r * 20} width={18} height={3} fill={warm} opacity={0.6} />
-          ))}
-        </g>
-      ))}
+      <ellipse cx={mx + 6} cy={base - mH + 12} rx={130} ry={76} fill={warm} opacity={0.1} />
+      {[mx - 60, mx, mx + 60].map((tx, i) => {
+        // the three towers lean inward toward the centre tower
+        const topX = tx + (mx - tx) * 0.07;
+        return (
+          <g key={i}>
+            <polygon points={`${tx - 18} ${base}, ${topX - 9} ${base - mH}, ${topX + 9} ${base - mH}, ${tx + 18} ${base}`} fill={mbsFill} />
+            <polygon points={`${tx} ${base}, ${topX} ${base - mH}, ${topX + 9} ${base - mH}, ${tx + 18} ${base}`} fill="rgba(0,0,0,0.2)" />
+            {/* lit floor bands */}
+            {Array.from({ length: 10 }, (_, r) => (
+              <rect key={r} x={topX - 8} y={base - 24 - r * 18} width={16} height={2.5} fill={warm} opacity={0.55} />
+            ))}
+          </g>
+        );
+      })}
       {/* boat-shaped SkyPark (right cantilever) with a lit edge */}
-      <path d={`M ${mx - 80} ${base - mH - 4} L ${mx + 80} ${base - mH - 4} Q ${mx + 104} ${base - mH - 7} ${mx + 98} ${base - mH - 17} L ${mx - 80} ${base - mH - 17} Z`} fill={f} />
-      <rect x={mx - 80} y={base - mH - 7} width={184} height={2.5} fill="rgb(255,224,150)" opacity={0.85} />
-      {/* rooftop garden */}
-      <circle cx={mx + 80} cy={base - mH - 22} r={3} fill={palette.foliage} />
-      <circle cx={mx + 88} cy={base - mH - 21} r={2.5} fill={palette.foliage} />
+      <path d={`M ${mx - 80} ${base - mH - 6} L ${mx + 86} ${base - mH - 6} Q ${mx + 116} ${base - mH - 10} ${mx + 110} ${base - mH - 22} L ${mx - 80} ${base - mH - 22} Z`} fill={mbsFill} />
+      <rect x={mx - 80} y={base - mH - 10} width={196} height={2.5} fill="rgb(255,224,150)" opacity={0.85} />
+      {/* infinity-pool edge + rooftop garden trees */}
+      <rect x={mx - 70} y={base - mH - 21} width={118} height={2} fill="rgba(150,210,235,0.7)" />
+      {[-58, -42, 58, 72, 88].map((o, i) => (
+        <circle key={i} cx={mx + o} cy={base - mH - 24} r={3} fill={palette.foliage} />
+      ))}
     </g>
   );
   return (
@@ -1693,19 +1802,40 @@ function BerlinSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
       <circle cx={cx2} cy={base - 182} r={3} fill="rgba(216,182,92,0.95)" />
     </g>
   );
-  // Fernsehturm (TV Tower) — concrete spike + silver sphere + antenna
+  // Fernsehturm (TV Tower) — tapering concrete shaft + steel observation sphere
+  // (deck band + facets + the famous pink "cross of light") + antenna beacons.
   const tx = CONTENT_W * 0.4;
-  const shaftTop = base - 300;
+  const shaftTop = base - 296;
   const sphereY = base - 322;
+  const sphereR = 28;
+  const steel = 'rgb(150,164,182)';
+  const sphereHi = 'rgba(228,240,252,0.9)';
+  const deckWarm = isNight ? 'rgba(255,214,150,0.92)' : 'rgba(255,226,172,0.55)';
+  const crossLit = isNight ? 'rgba(255,182,222,0.92)' : 'rgba(255,255,255,0.8)';
   const fernseh = (
     <g>
-      <polygon points={`${tx - 9} ${base}, ${tx - 4} ${shaftTop}, ${tx + 4} ${shaftTop}, ${tx + 9} ${base}`} fill={f} />
-      <circle cx={tx} cy={sphereY} r={26} fill="rgb(150,164,182)" />
-      <circle cx={tx} cy={sphereY} r={26} fill="none" stroke="rgba(220,236,252,0.85)" strokeWidth={2} />
-      <path d={`M ${tx - 18} ${sphereY} L ${tx + 18} ${sphereY} M ${tx} ${sphereY - 18} L ${tx} ${sphereY + 18}`} stroke="rgba(255,255,255,0.85)" strokeWidth={1.8} />
-      <polygon points={`${tx - 3} ${sphereY - 24}, ${tx - 1.5} ${base - 430}, ${tx + 1.5} ${base - 430}, ${tx + 3} ${sphereY - 24}`} fill={f} />
-      <rect x={tx - 1.5} y={base - 470} width={3} height={40} fill={f} />
-      <circle cx={tx} cy={base - 472} r={3.5} fill="rgba(255,90,90,0.95)" />
+      {/* tapering concrete shaft (two-tone) */}
+      <polygon points={`${tx - 11} ${base}, ${tx - 4} ${shaftTop}, ${tx + 4} ${shaftTop}, ${tx + 11} ${base}`} fill={f} />
+      <polygon points={`${tx} ${base}, ${tx} ${shaftTop}, ${tx + 4} ${shaftTop}, ${tx + 11} ${base}`} fill="rgba(0,0,0,0.2)" />
+      {/* sphere + shaded crescent + steel rim */}
+      <circle cx={tx} cy={sphereY} r={sphereR} fill={steel} />
+      <path d={`M ${tx} ${sphereY - sphereR} A ${sphereR} ${sphereR} 0 0 1 ${tx} ${sphereY + sphereR} Z`} fill="rgba(0,0,0,0.18)" />
+      <circle cx={tx} cy={sphereY} r={sphereR} fill="none" stroke={sphereHi} strokeWidth={2} />
+      {/* meridian facets */}
+      {[-0.6, -0.3, 0, 0.3, 0.6].map((m, i) => {
+        const ext = Math.sqrt(1 - m * m) * sphereR;
+        return <path key={i} d={`M ${tx + m * sphereR} ${sphereY - ext} A ${sphereR * 0.55} ${sphereR} 0 0 1 ${tx + m * sphereR} ${sphereY + ext}`} fill="none" stroke="rgba(255,255,255,0.22)" strokeWidth={0.8} />;
+      })}
+      {/* observation-deck lit window band */}
+      <path d={`M ${tx - sphereR} ${sphereY - 2} A ${sphereR} ${sphereR} 0 0 0 ${tx + sphereR} ${sphereY - 2}`} fill="none" stroke={deckWarm} strokeWidth={4} />
+      {/* the pink cross of light */}
+      <path d={`M ${tx - 16} ${sphereY} L ${tx + 16} ${sphereY} M ${tx} ${sphereY - 16} L ${tx} ${sphereY + 16}`} stroke={crossLit} strokeWidth={2} />
+      {/* upper lantern ring + antenna + red beacons */}
+      <rect x={tx - 6} y={sphereY - sphereR - 10} width={12} height={10} fill={steel} />
+      <polygon points={`${tx - 3} ${sphereY - sphereR - 10}, ${tx - 1.5} ${base - 446}, ${tx + 1.5} ${base - 446}, ${tx + 3} ${sphereY - sphereR - 10}`} fill={f} />
+      <rect x={tx - 1.5} y={base - 486} width={3} height={40} fill={f} />
+      <circle cx={tx} cy={base - 486} r={3.5} fill="rgba(255,90,90,0.95)" />
+      <circle cx={tx} cy={base - 430} r={2.6} fill="rgba(255,90,90,0.8)" />
     </g>
   );
   return (
@@ -2374,29 +2504,11 @@ function MumbaiSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     x += w + randRange(rand, 4, 9);
     k += 1;
   }
-  const gx = CONTENT_W * 0.5;
-  const honey = 'rgb(206,176,116)';
-  const honeyShade = 'rgba(0,0,0,0.16)';
-  const open = isNight ? 'rgba(255,210,140,0.3)' : 'rgba(0,0,0,0.34)';
-  const gateway = (
-    <g>
-      <rect x={gx - 70} y={base - 130} width={140} height={130} fill={honey} />
-      <path d={`M ${gx - 30} ${base} L ${gx - 30} ${base - 80} Q ${gx} ${base - 120} ${gx + 30} ${base - 80} L ${gx + 30} ${base} Z`} fill={open} />
-      <rect x={gx - 28} y={base - 160} width={56} height={30} fill={honey} />
-      <path d={`M ${gx - 28} ${base - 160} A 28 24 0 0 1 ${gx + 28} ${base - 160} Z`} fill={honey} />
-      <path d={`M ${gx} ${base - 184} A 28 24 0 0 1 ${gx + 28} ${base - 160} L ${gx} ${base - 160} Z`} fill={honeyShade} />
-      {[-60, 60].map((o, i) => (
-        <g key={i}>
-          <rect x={gx + o - 8} y={base - 150} width={16} height={20} fill={honey} />
-          <path d={`M ${gx + o - 8} ${base - 150} A 8 10 0 0 1 ${gx + o + 8} ${base - 150} Z`} fill={honey} />
-        </g>
-      ))}
-    </g>
-  );
+  // The Gateway of India is now a dedicated foreground landmark, so the skyline
+  // is just the dense Mumbai high-rise wall (the old in-skyline gateway is gone).
   return (
     <g aria-hidden data-skyline="mumbai" data-id={idPrefix}>
       {items}
-      {gateway}
     </g>
   );
 }
@@ -2571,15 +2683,23 @@ function VancouverSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const items = towerRun(base, f, palette, rand, isNight, 30, 58, 120, 260);
   const cx = CONTENT_W * 0.4;
   const white = 'rgb(238,240,244)';
+  // Canada Place — the Teflon fabric "sails" on the cruise-ship pier.
   const sails = (
     <g>
-      <rect x={cx - 94} y={base - 30} width={188} height={30} fill={white} />
-      {[-72, -36, 0, 36, 72].map((o, i) => (
-        <g key={i}>
-          <path d={`M ${cx + o - 22} ${base - 30} Q ${cx + o} ${base - 92} ${cx + o + 22} ${base - 30} Z`} fill={white} />
-          <path d={`M ${cx + o} ${base - 92} L ${cx + o + 22} ${base - 30} L ${cx + o} ${base - 30} Z`} fill="rgba(0,0,0,0.1)" />
-        </g>
-      ))}
+      <rect x={cx - 100} y={base - 34} width={200} height={34} fill={white} />
+      <rect x={cx - 100} y={base - 10} width={200} height={4} fill="rgba(0,0,0,0.12)" />
+      {[{ o: -78, h: 70 }, { o: -40, h: 104 }, { o: 0, h: 128 }, { o: 40, h: 104 }, { o: 78, h: 70 }].map((s, i) => {
+        const apexX = cx + s.o + 10; // sails lean right
+        const apexY = base - 34 - s.h;
+        const spine = `M ${cx + s.o - 26} ${base - 34} C ${cx + s.o - 22} ${base - 34 - s.h * 0.5} ${apexX - 10} ${base - 34 - s.h * 0.9} ${apexX} ${apexY}`;
+        return (
+          <g key={i}>
+            <path d={`${spine} C ${apexX + 14} ${base - 34 - s.h * 0.5} ${cx + s.o + 26} ${base - 46} ${cx + s.o + 26} ${base - 34} Z`} fill={white} />
+            <path d={`M ${apexX} ${apexY} C ${apexX + 14} ${base - 34 - s.h * 0.5} ${cx + s.o + 26} ${base - 46} ${cx + s.o + 26} ${base - 34} L ${apexX} ${base - 34} Z`} fill="rgba(0,0,0,0.1)" />
+            <path d={spine} fill="none" stroke="rgb(255,255,255)" strokeWidth={1.6} strokeLinecap="round" />
+          </g>
+        );
+      })}
     </g>
   );
   // Harbour Centre (Vancouver Lookout) — saucer observation deck on a slim shaft.
@@ -2598,19 +2718,35 @@ function VancouverSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
       <circle cx={hcx} cy={base - 276} r={3} fill="rgba(255,90,90,0.9)" />
     </g>
   );
-  // Science World — the geodesic dome on False Creek.
+  // Science World — the geodesic dome on False Creek (triangulated + lit nodes).
   const swx = CONTENT_W * 0.66;
-  const swR = 36;
-  const swCy = base - swR * 0.62;
+  const swR = 38;
+  const swCy = base - swR * 0.64;
+  const swNode = isNight ? 'rgba(255,224,150,0.95)' : 'rgba(255,255,255,0.7)';
   const scienceWorld = (
     <g>
-      <circle cx={swx} cy={swCy} r={swR} fill="rgb(184,194,204)" />
-      <path d={`M ${swx - swR} ${swCy} A ${swR} ${swR} 0 0 1 ${swx + swR} ${swCy}`} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth={1} />
-      <path d={`M ${swx - swR} ${swCy} L ${swx} ${swCy - swR} L ${swx + swR} ${swCy}`} fill="none" stroke="rgba(0,0,0,0.12)" strokeWidth={1} />
-      {[-0.55, -0.18, 0.18, 0.55].map((t, i) => (
-        <line key={i} x1={swx + t * swR} y1={swCy - swR * 0.72} x2={swx + t * swR * 1.5} y2={swCy} stroke="rgba(0,0,0,0.14)" strokeWidth={1} />
-      ))}
+      {/* base structure */}
+      <rect x={swx - 28} y={base - 16} width={56} height={16} fill={f} />
+      {/* dome + shaded right + waterline */}
+      <circle cx={swx} cy={swCy} r={swR} fill="rgb(192,202,212)" />
+      <path d={`M ${swx} ${swCy - swR} A ${swR} ${swR} 0 0 1 ${swx} ${swCy + swR} Z`} fill="rgba(0,0,0,0.1)" />
       <line x1={swx - swR} y1={swCy} x2={swx + swR} y2={swCy} stroke="rgba(0,0,0,0.12)" strokeWidth={1} />
+      {/* latitude rings */}
+      {[0.74, 0.46, 0.18].map((ly, i) => {
+        const yy = swCy - swR * ly;
+        const hw = Math.sqrt(Math.max(0, 1 - ly * ly)) * swR;
+        return <path key={`lat${i}`} d={`M ${swx - hw} ${yy} A ${hw} ${hw * 0.42} 0 0 0 ${swx + hw} ${yy}`} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth={0.8} />;
+      })}
+      {/* radial struts */}
+      {[-0.8, -0.5, -0.2, 0.2, 0.5, 0.8].map((m, i) => (
+        <line key={`r${i}`} x1={swx} y1={swCy - swR * 0.97} x2={swx + m * swR} y2={swCy} stroke="rgba(0,0,0,0.13)" strokeWidth={0.7} />
+      ))}
+      {/* lit nodes dotting the frame */}
+      {[[-0.5, 0.74], [0.5, 0.74], [-0.25, 0.46], [0.25, 0.46], [0, 0.18], [-0.72, 0.28], [0.72, 0.28]].map(([m, ly], i) => {
+        const yy = swCy - swR * ly;
+        const hw = Math.sqrt(Math.max(0, 1 - ly * ly)) * swR;
+        return <circle key={`n${i}`} cx={swx + m * hw} cy={yy} r={1.3} fill={swNode} />;
+      })}
     </g>
   );
   return (
