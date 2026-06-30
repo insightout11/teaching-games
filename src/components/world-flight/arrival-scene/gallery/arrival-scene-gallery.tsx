@@ -31,7 +31,9 @@ const FIXTURES: GalleryItem[] = [
     label: 'Shanghai',
     fixture: true,
     scene: {
-      terrain: 'urban',
+      // coastal → the band in front of the city renders as the Huangpu River
+      // (water + shimmer + shoreline) instead of the grass apron.
+      terrain: 'coastal',
       vegetation: 'broadleaf',
       skyline: 'highrise',
       skylineVariant: 'shanghai',
