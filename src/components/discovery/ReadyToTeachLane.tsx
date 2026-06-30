@@ -1,74 +1,83 @@
 'use client';
 
-// "Ready to Teach" lane — fully pre-built, ZERO-prep lessons. The lesson preset AND a
-// specific topic + source are already chosen and loaded. The teacher picks nothing and
-// attaches nothing — one tap and they're teaching. Often timely (a holiday, a trending
-// story), so each card carries an occasion tag and names the exact source inside.
+// "Ready to Teach" lane — fully pre-built, ZERO-prep lessons. Each card pairs a REAL
+// library source (video or article) with a real preset and a pre-chosen topic. The
+// teacher picks nothing: "Launch — no prep" attaches the source, loads the preset, and
+// opens the launcher straight at the class picker. Often timely (the World Cup card),
+// so each card carries an occasion tag and names the exact source inside.
 //
 // Distinct from Full Flights (you pick the topic) and from the normal "attach your own
-// source" capability (that exists on every lesson). The value here is "we already chose
-// everything — just launch."
-//
-// PROTOTYPE: SAMPLE_READY_LESSONS are placeholder visuals while the real curated set is
-// built. See docs/home-screen-redesign-audit-jun2026.md.
+// source" capability. The value here is "we already chose everything — just launch."
 
-import { Video, FileText, Type, Clock, Zap } from 'lucide-react';
+import { useState } from 'react';
+import { Video, FileText, Clock, Zap } from 'lucide-react';
 import type { ComponentType } from 'react';
 import { cn } from '@/lib/utils';
 import { CardRail } from './CardRail';
+import { FeaturedFlightLaunchModal } from './FeaturedFlightLaunchModal';
+import { READY_LESSONS, type ReadyLesson, type ReadySourceKind } from './ready-lessons';
+import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
+import { usePlannerStore } from '@/stores/planner-store';
 
-type SourceKind = 'video' | 'article' | 'topic';
-
-interface ReadyLesson {
-  id: string;
-  occasion: string;
-  title: string;
-  /** The exact pre-chosen source, named so it's clearly "already done". */
-  sourceKind: SourceKind;
-  sourceTitle: string;
-  lessonType: string;
-  durationMinutes: number;
-  gradient: string;
-  ring: string;
-  tagColor: string;
-  preview?: boolean;
-}
-
-const SOURCE_ICON: Record<SourceKind, ComponentType<{ className?: string }>> = {
+const SOURCE_ICON: Record<ReadySourceKind, ComponentType<{ className?: string }>> = {
   video: Video,
   article: FileText,
-  topic: Type,
 };
-const SOURCE_LABEL: Record<SourceKind, string> = {
+const SOURCE_LABEL: Record<ReadySourceKind, string> = {
   video: 'Video',
   article: 'Article',
-  topic: 'Topic',
 };
 
-// ── PROTOTYPE sample data ─────────────────────────────────────────────────────
-const SAMPLE_READY_LESSONS: ReadyLesson[] = [
-  {
-    id: 'ready-thanksgiving', occasion: 'Seasonal', title: 'Gratitude & Traditions',
-    sourceKind: 'article', sourceTitle: '“A Short History of Thanksgiving”', lessonType: 'Speaking Circle', durationMinutes: 60,
-    gradient: 'from-amber-500/25 via-orange-500/10 to-transparent', ring: 'border-amber-300/35 hover:border-amber-300/70',
-    tagColor: 'text-amber-200 border-amber-300/30 bg-amber-400/10',
-  },
-  {
-    id: 'ready-consumerism', occasion: 'Trending', title: 'Why We Buy Things We Don’t Need',
-    sourceKind: 'video', sourceTitle: 'TED — The psychology of impulse buying', lessonType: 'Debate Ready', durationMinutes: 60,
-    gradient: 'from-violet-500/25 via-fuchsia-500/10 to-transparent', ring: 'border-violet-300/35 hover:border-violet-300/70',
-    tagColor: 'text-violet-200 border-violet-300/30 bg-violet-400/10',
-  },
-  {
-    id: 'ready-new-year', occasion: 'Seasonal', title: 'New Year, New Goals',
-    sourceKind: 'topic', sourceTitle: 'Resolutions & habits', lessonType: 'Conversation Rounds', durationMinutes: 45,
-    gradient: 'from-cyan-500/25 via-sky-500/10 to-transparent', ring: 'border-cyan-300/35 hover:border-cyan-300/70',
-    tagColor: 'text-cyan-200 border-cyan-300/30 bg-cyan-400/10',
-  },
-];
-// ──────────────────────────────────────────────────────────────────────────────
-
 export function ReadyToTeachLane() {
+  const setSourceMaterial = usePlannerStore((s) => s.setSourceMaterial);
+  const setDifficulty = usePlannerStore((s) => s.setDifficulty);
+  const [active, setActive] = useState<ReadyLesson | null>(null);
+
+  const activePreset = active ? FLIGHT_PLAN_PRESETS.find((p) => p.id === active.presetId) ?? null : null;
+
+  function launch(lesson: ReadyLesson) {
+    // Pre-load everything so the teacher only confirms the class:
+    // difficulty + an optimistic source (so the launcher shows it attached), then
+    // re-extract by id to enrich the grounding (same pattern as the hero handoff).
+    setDifficulty(lesson.difficulty);
+    setSourceMaterial({
+      sourceType: lesson.sourceType,
+      sourceKey: lesson.sourceId,
+      title: lesson.sourceTitle,
+      summary: '',
+    });
+    setActive(lesson);
+
+    void (async () => {
+      try {
+        const res = await fetch('/api/source/extract', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: lesson.sourceType, payload: lesson.sourceId }),
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data?.summary) return;
+        setSourceMaterial({
+          sourceType: lesson.sourceType,
+          sourceKey: data.sourceKey ?? lesson.sourceId,
+          title: data.title ?? lesson.sourceTitle,
+          summary: data.summary,
+          duration: data.duration,
+          rawText: data.rawText,
+          wordCount: data.wordCount,
+        });
+      } catch {
+        /* keep the optimistic attach */
+      }
+    })();
+  }
+
+  function closeLauncher() {
+    setActive(null);
+    setSourceMaterial(null); // don't leave a pre-attached source behind on cancel
+  }
+
   return (
     <section aria-label="Ready to Teach">
       <div className="mb-5">
@@ -83,12 +92,13 @@ export function ReadyToTeachLane() {
       </div>
 
       <CardRail itemWidthClass="w-[340px] sm:w-[440px]">
-        {SAMPLE_READY_LESSONS.map((l) => {
+        {READY_LESSONS.map((l) => {
           const SourceIcon = SOURCE_ICON[l.sourceKind];
           return (
             <button
               key={l.id}
               type="button"
+              onClick={() => launch(l)}
               className={cn(
                 'group relative flex h-full min-h-[300px] w-full flex-col items-start overflow-hidden rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition-all hover:-translate-y-0.5',
                 l.gradient,
@@ -111,9 +121,9 @@ export function ReadyToTeachLane() {
                 <span className="min-w-0 truncate">{l.sourceTitle}</span>
               </div>
               <div className="mt-1.5 flex items-center gap-3 text-[12px] text-lc-text2">
-                <span className="font-instrument text-[10px] uppercase tracking-wider text-lc-text3">Lesson</span>
-                <span>{l.lessonType}</span>
-                <span className="inline-flex items-center gap-1 text-lc-text3"><Clock className="h-3.5 w-3.5" aria-hidden />≈ {l.durationMinutes} min</span>
+                <span className="font-instrument text-[10px] uppercase tracking-wider text-lc-text3">Topic</span>
+                <span className="min-w-0 truncate">{l.topic}</span>
+                <span className="inline-flex shrink-0 items-center gap-1 text-lc-text3"><Clock className="h-3.5 w-3.5" aria-hidden />≈ {l.durationMinutes} min</span>
               </div>
 
               {/* CTA — emphasizes zero prep */}
@@ -121,16 +131,18 @@ export function ReadyToTeachLane() {
                 <Zap className="h-4 w-4" aria-hidden />
                 Launch — no prep
               </span>
-
-              {l.preview && (
-                <span className="font-instrument absolute right-4 top-5 rounded-full border border-white/10 px-2 py-0.5 text-[9px] uppercase tracking-wider text-lc-text3">
-                  Preview
-                </span>
-              )}
             </button>
           );
         })}
       </CardRail>
+
+      <FeaturedFlightLaunchModal
+        open={!!active && !!activePreset}
+        preset={activePreset}
+        expandSource
+        initialTopic={active?.topic}
+        onClose={closeLauncher}
+      />
     </section>
   );
 }

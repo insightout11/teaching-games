@@ -34,6 +34,7 @@ export function FeaturedFlightLaunchModal({
   expandSource = false,
   pendingNote = null,
   preset: presetProp = null,
+  initialTopic,
 }: {
   open: boolean;
   onClose: () => void;
@@ -42,6 +43,8 @@ export function FeaturedFlightLaunchModal({
   pendingNote?: string | null;
   /** Preset to launch. Defaults to the featured Captain's Flight when omitted. */
   preset?: FlightPlanPreset | null;
+  /** Pre-fills the custom-topic field (Ready to Teach launches a pre-chosen topic). */
+  initialTopic?: string;
 }) {
   const loadPreset = usePlannerStore((s) => s.loadPreset);
   const setTopicStore = usePlannerStore((s) => s.setTopic);
@@ -69,6 +72,7 @@ export function FeaturedFlightLaunchModal({
     if (!open) return;
     setLaunching(false);
     setShowCreateClass(false);
+    if (initialTopic) setCustomTopic(initialTopic);
     setShowSource(expandSource || !!usePlannerStore.getState().sourceMaterial);
     setClassesLoading(true);
     const supabase = createClient();
@@ -80,7 +84,7 @@ export function FeaturedFlightLaunchModal({
         setClasses(data ?? []);
         setClassesLoading(false);
       });
-  }, [open, expandSource]);
+  }, [open, expandSource, initialTopic]);
 
   // Pre-fill difficulty from the teacher's onboarding level when the launcher opens.
   useEffect(() => {

@@ -1,20 +1,22 @@
 'use client';
 
-// "Special Features" lane — the "make it easy / surprise me" intent. One-tap, zero-setup,
-// pre-themed experiences (Cabin Mystery is the model). Deliberately a DIFFERENT card shape
-// from the Full Flights boarding pass: vivid illustrated "feature tickets" that read as
-// "just launch," not "plan a lesson."
+// "Special Features" lane — the "make it easy / surprise me" intent. Pre-themed,
+// zero-setup experiences that launch through the standard detail drawer (same launch
+// path as every other home module). Deliberately a DIFFERENT card shape from the Full
+// Flights boarding pass: vivid illustrated "feature tickets" that read as "just launch."
 //
-// PROTOTYPE: sample content below — Cabin Mystery is a real (in-dev) module; the rest are
-// placeholder concepts so the lane's look is visible. Wiring + real catalog comes later.
+// REAL only: Cabin Mystery (a self-contained whodunnit activity, flight-plan-only in
+// browse but featured here) and World Lens (the geography game). Both resolve to live
+// DiscoveryItems, so the card metadata can never drift from the module.
 
-import { Sparkles, Luggage, Lightbulb, Rocket } from 'lucide-react';
+import { Sparkles, Luggage, Globe2 } from 'lucide-react';
 import type { ComponentType } from 'react';
 import { cn } from '@/lib/utils';
 import { CardRail } from './CardRail';
+import { getDiscoveryItemByKey, type DiscoveryItem } from '@/lib/discovery-shelves';
 
-interface FeatureTicket {
-  id: string;
+interface FeaturePresentation {
+  key: string;
   title: string;
   blurb: string;
   icon: ComponentType<{ className?: string }>;
@@ -22,30 +24,38 @@ interface FeatureTicket {
   gradient: string;
   ring: string;
   iconWrap: string;
-  preview?: boolean;
 }
 
-// ── PROTOTYPE sample data ─────────────────────────────────────────────────────
-const SAMPLE_FEATURES: FeatureTicket[] = [
+const PRESENTATIONS: FeaturePresentation[] = [
   {
-    id: 'cabin-mystery', title: 'Cabin Mystery', blurb: 'A self-contained whodunnit — deduction, clues, and a reveal. No prep.',
-    icon: Luggage, gradient: 'from-violet-500/25 via-fuchsia-500/10 to-transparent',
-    ring: 'border-violet-300/35 hover:border-violet-300/70', iconWrap: 'border-violet-300/30 bg-violet-400/15 text-violet-200',
+    key: 'cabin-mystery',
+    title: 'Cabin Mystery',
+    blurb: 'A self-contained whodunnit — deduction, clues, and a reveal. No prep.',
+    icon: Luggage,
+    gradient: 'from-violet-500/25 via-fuchsia-500/10 to-transparent',
+    ring: 'border-violet-300/35 hover:border-violet-300/70',
+    iconWrap: 'border-violet-300/30 bg-violet-400/15 text-violet-200',
   },
   {
-    id: 'sample-think-fast', title: 'Think Fast', blurb: 'Rapid-fire challenge rounds on a surprise theme. Pure energy, zero setup.',
-    icon: Lightbulb, gradient: 'from-amber-500/25 via-orange-500/10 to-transparent',
-    ring: 'border-amber-300/35 hover:border-amber-300/70', iconWrap: 'border-amber-300/30 bg-amber-400/15 text-amber-200', preview: true,
-  },
-  {
-    id: 'sample-launch-day', title: 'Launch Day', blurb: 'A pre-themed mission your class plays through — one tap and you’re flying.',
-    icon: Rocket, gradient: 'from-cyan-500/25 via-sky-500/10 to-transparent',
-    ring: 'border-cyan-300/35 hover:border-cyan-300/70', iconWrap: 'border-cyan-300/30 bg-cyan-400/15 text-cyan-200', preview: true,
+    key: 'world-lens',
+    title: 'World Lens',
+    blurb: 'Guess real places from photo clues, then reveal them on a world map.',
+    icon: Globe2,
+    gradient: 'from-cyan-500/25 via-sky-500/10 to-transparent',
+    ring: 'border-cyan-300/35 hover:border-cyan-300/70',
+    iconWrap: 'border-cyan-300/30 bg-cyan-400/15 text-cyan-200',
   },
 ];
-// ──────────────────────────────────────────────────────────────────────────────
 
-export function SpecialFeaturesLane() {
+// Resolve each presentation to a live module; drop any that no longer exists.
+const FEATURES = PRESENTATIONS.flatMap((p) => {
+  const item = getDiscoveryItemByKey(p.key);
+  return item ? [{ ...p, item }] : [];
+});
+
+export function SpecialFeaturesLane({ onSelect }: { onSelect: (item: DiscoveryItem) => void }) {
+  if (FEATURES.length === 0) return null;
+
   return (
     <section aria-label="Special Features">
       <div className="mb-5">
@@ -60,11 +70,13 @@ export function SpecialFeaturesLane() {
       </div>
 
       <CardRail itemWidthClass="w-[340px] sm:w-[440px]">
-        {SAMPLE_FEATURES.map(({ id, title, blurb, icon: Icon, gradient, ring, iconWrap, preview }) => (
-          <article
-            key={id}
+        {FEATURES.map(({ key, title, blurb, icon: Icon, gradient, ring, iconWrap, item }) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => onSelect(item)}
             className={cn(
-              'group relative flex h-full min-h-[300px] w-full flex-col overflow-hidden rounded-2xl border bg-gradient-to-br p-6 backdrop-blur-md transition-all hover:-translate-y-0.5',
+              'group relative flex h-full min-h-[300px] w-full flex-col overflow-hidden rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition-all hover:-translate-y-0.5',
               gradient,
               ring,
             )}
@@ -88,13 +100,11 @@ export function SpecialFeaturesLane() {
               <span className="font-instrument text-[11px] uppercase tracking-[0.18em] text-lc-text2 transition-colors group-hover:text-lc-text">
                 Launch →
               </span>
-              {preview && (
-                <span className="font-instrument rounded-full border border-white/10 px-2 py-0.5 text-[9px] uppercase tracking-wider text-lc-text3">
-                  Preview
-                </span>
-              )}
+              <span className="font-instrument text-[10px] uppercase tracking-wider text-lc-text3">
+                ≈ {item.estimatedMinutes} min
+              </span>
             </div>
-          </article>
+          </button>
         ))}
       </CardRail>
     </section>

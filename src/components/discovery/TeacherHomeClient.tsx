@@ -17,7 +17,6 @@ import { FeaturedFlightHero } from './FeaturedFlightHero';
 import { FullFlightsLane } from './FullFlightsLane';
 import { ReadyToTeachLane } from './ReadyToTeachLane';
 import { SpecialFeaturesLane } from './SpecialFeaturesLane';
-import { RecommendedLane } from './RecommendedLane';
 import { WorldFlightHero } from './world-flight-hero/world-flight-hero';
 import { OnboardingFlow } from './OnboardingFlow';
 import { DiscoveryShelf } from './DiscoveryShelf';
@@ -241,10 +240,10 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             )}
           </section>
 
-          {/* Recommended for you — driven by the onboarding profile (cold-start = starting points) */}
-          <section className="mt-4">
-            <RecommendedLane profile={profile} />
-          </section>
+          {/* Recommended for you — PULLED for beta until there's real multi-teacher usage
+              to rank against (showing fabricated picks on the flagship screen was the wrong
+              trade for early access). Component + onboarding wiring preserved in
+              RecommendedLane.tsx; re-mount here once it's usage-driven and earned. */}
 
           {/* Jump back in — compact strip of recent flights */}
           {recentSessions.length > 0 && (
@@ -286,7 +285,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             <FullFlightsLane />
             <ReadyToTeachLane />
             {renderShelf(homeShelves[0])}
-            <SpecialFeaturesLane />
+            <SpecialFeaturesLane onSelect={handleSelect} />
             {renderShelf(homeShelves[1])}
             {renderShelf(homeShelves[2])}
           </div>

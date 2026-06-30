@@ -6,8 +6,8 @@
 
 import type { ComponentType } from 'react';
 import { Mic, PenLine, Gamepad2, Vote, Users, Scale } from 'lucide-react';
-import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
-import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
+import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
+import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import {
   FLIGHT_PLAN_ITEMS,
   getClassSizeMetadata,
@@ -42,43 +42,57 @@ export interface GlyphChip {
 
 const META_BY_KEY = new Map(FLIGHT_PLAN_ITEMS.map((i) => [i.key, i]));
 
+function gameToDiscoveryItem(g: ReturnType<typeof getAllGames>[number]): DiscoveryItem {
+  return {
+    key: g.key,
+    name: g.name,
+    description: g.description,
+    type: 'game' as const,
+    useCase: GAME_CATEGORY_INFO[g.category].name,
+    icon: g.icon,
+    accent: GAME_CATEGORY_INFO[g.category].color,
+    estimatedMinutes: g.estimatedMinutes,
+    skills: g.skills,
+    isPro: PRO_GAME_KEYS.has(g.key),
+    meta: META_BY_KEY.get(g.key),
+    classSize: requireClassSizeMetadata(g.key),
+  };
+}
+
+function activityToDiscoveryItem(a: ReturnType<typeof getAllActivities>[number]): DiscoveryItem {
+  return {
+    key: a.key,
+    name: a.name,
+    description: a.description,
+    type: 'activity' as const,
+    useCase: CATEGORY_INFO[a.category].name,
+    icon: a.icon,
+    accent: CATEGORY_INFO[a.category].color,
+    estimatedMinutes: a.estimatedMinutes,
+    skills: a.skills as string[],
+    isPro: PRO_ACTIVITY_KEYS.has(a.key),
+    meta: META_BY_KEY.get(a.key),
+    classSize: requireClassSizeMetadata(a.key),
+  };
+}
+
 /** All launchable games + activities (excludes flight-plan-only modules), normalized for cards. */
 export function getDiscoveryItems(): DiscoveryItem[] {
-  const games: DiscoveryItem[] = getAllGames()
-    .filter((g) => !g.flightPlanOnly)
-    .map((g) => ({
-      key: g.key,
-      name: g.name,
-      description: g.description,
-      type: 'game' as const,
-      useCase: GAME_CATEGORY_INFO[g.category].name,
-      icon: g.icon,
-      accent: GAME_CATEGORY_INFO[g.category].color,
-      estimatedMinutes: g.estimatedMinutes,
-      skills: g.skills,
-      isPro: PRO_GAME_KEYS.has(g.key),
-      meta: META_BY_KEY.get(g.key),
-      classSize: requireClassSizeMetadata(g.key),
-    }));
-
-  const activities: DiscoveryItem[] = getAllActivities()
-    .filter((a) => !a.flightPlanOnly)
-    .map((a) => ({
-      key: a.key,
-      name: a.name,
-      description: a.description,
-      type: 'activity' as const,
-      useCase: CATEGORY_INFO[a.category].name,
-      icon: a.icon,
-      accent: CATEGORY_INFO[a.category].color,
-      estimatedMinutes: a.estimatedMinutes,
-      skills: a.skills as string[],
-      isPro: PRO_ACTIVITY_KEYS.has(a.key),
-      meta: META_BY_KEY.get(a.key),
-      classSize: requireClassSizeMetadata(a.key),
-    }));
-
+  const games = getAllGames().filter((g) => !g.flightPlanOnly).map(gameToDiscoveryItem);
+  const activities = getAllActivities().filter((a) => !a.flightPlanOnly).map(activityToDiscoveryItem);
   return [...activities, ...games];
+}
+
+/**
+ * Build a DiscoveryItem for a single key, INCLUDING flight-plan-only modules — used by
+ * Special Features to feature otherwise-in-flight-only experiences (e.g. Cabin Mystery).
+ */
+export function getDiscoveryItemByKey(key: string): DiscoveryItem | undefined {
+  const game = getGame(key);
+  if (game) return gameToDiscoveryItem(game);
+  const activity = getActivity(key);
+  if (activity) return activityToDiscoveryItem(activity);
+  return undefined;
 }
 
 function requireClassSizeMetadata(key: string): ClassSizeMetadata {

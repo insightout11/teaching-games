@@ -86,21 +86,6 @@ const DEBATE_CARD: PresetCardData = {
   route: (DEBATE_PRESET?.flightConfig?.stages ?? []).map((s) => ({ label: s.label, kind: s.kind })),
 };
 
-// ── PROTOTYPE preview cards (not yet authored as real presets) ─────────────────
-const PREVIEW_FLIGHTS: PresetCardData[] = [
-  {
-    id: 'sample-game-day', name: 'Game Day', focus: 'Games', durationMinutes: 45,
-    classFit: 'Whole class', flightNumber: 'LC-X1', preview: true, accent: ACCENTS.amber,
-    route: [
-      { label: 'Warm-up', kind: 'stage' }, { label: 'Connect', kind: 'stage' },
-      { label: 'Rush', kind: 'end-game' }, { label: 'Imposter', kind: 'end-game' },
-      { label: 'Password', kind: 'end-game' }, { label: 'Quiz', kind: 'end-game' },
-      { label: 'Scores', kind: 'stage' }, { label: 'Landing', kind: 'landing' },
-    ],
-  },
-];
-// ──────────────────────────────────────────────────────────────────────────────
-
 export function FullFlightsLane() {
   const [launchPreset, setLaunchPreset] = useState<FlightPlanPreset | null>(null);
 
@@ -114,7 +99,6 @@ export function FullFlightsLane() {
     { ...GRAMMAR_CARD, onSelect: handleSelect },
     { ...TRAVEL_CARD, onSelect: handleSelect },
     { ...DEBATE_CARD, onSelect: handleSelect },
-    ...PREVIEW_FLIGHTS,
   ];
 
   return (
