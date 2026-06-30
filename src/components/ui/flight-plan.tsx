@@ -151,13 +151,16 @@ function computeNodeLayout(
 
   // Cards are sized in viewBox px (which equal CSS px once measured), so they stay
   // a comfortable physical size on every screen; only the horizontal spread changes.
-  const baseCardWidth = isRuntime ? 136 : 188;
+  // CRITICAL: keep cardWidth strictly NARROWER than node spacing so neighbouring cards
+  // never collide — the previous `spacing + 8` made every card wider than its slot, so
+  // adjacent stage cards always overlapped (~16px). A negative margin leaves a clean gap.
+  const baseCardWidth = isRuntime ? 124 : 180;
   const spacing = getNodeSpacing(width, count, isRuntime);
   const cardWidth =
     labelMode === 'full'
-      ? clamp(spacing + 8, 104, baseCardWidth)
+      ? clamp(spacing - 20, 92, baseCardWidth)
       : labelMode === 'compact'
-        ? clamp(spacing - 4, 56, baseCardWidth)
+        ? clamp(spacing - 14, 56, baseCardWidth)
         : clamp(width * 0.45, 120, isRuntime ? 220 : baseCardWidth);
 
   return steps.map((step, index) => {
@@ -165,7 +168,7 @@ function computeNodeLayout(
     const x = left + span * t;
     const liftFactor = 4 * t * (1 - t);
     const y = baseY - arcLift * liftFactor;
-    const cardHeight = isRuntime ? 48 : 62;
+    const cardHeight = isRuntime ? 44 : 62;
 
     return {
       ...step,
