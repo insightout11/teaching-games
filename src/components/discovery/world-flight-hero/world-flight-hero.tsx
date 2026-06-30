@@ -17,6 +17,11 @@ import { NavGlobe } from './globe';
 
 const ADVANCE_MS = 5400;
 
+// Rounded size of the destination catalog shown in the hero. Kept a step ahead of the
+// live count on purpose (Shanghai is being added to make it exactly 50); the rotation
+// only showcases a handful, so this tells teachers the full set is much larger.
+const DESTINATION_COUNT = 50;
+
 export function WorldFlightHero({
   ctaHref = '/world-flight',
 }: {
@@ -64,9 +69,9 @@ export function WorldFlightHero({
             Fly your class around the world
           </h2>
           <p className="mt-4 max-w-md text-[15px] leading-relaxed text-lc-text2">
-            Pick a real destination and run a full live lesson grounded in that city: its
-            streets, its stories, its language. Earn range, upgrade your plane, and chart a
-            course across the map together.
+            Pick from {DESTINATION_COUNT} real destinations and run a full live lesson grounded in
+            that city: its streets, its stories, its language. Earn range, upgrade your plane, and
+            chart a course across the map together.
           </p>
 
           {/* Now arriving */}
@@ -106,21 +111,26 @@ export function WorldFlightHero({
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </Link>
 
-            {/* City dots */}
-            <div className="flex items-center gap-2" role="tablist" aria-label="Destinations">
-              {cities.map((c, i) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === active}
-                  aria-label={c.city}
-                  onClick={() => setActive(i)}
-                  className={`h-2 rounded-full transition-all ${
-                    i === active ? 'w-6 bg-lc-amber' : 'w-2 bg-cyan-300/30 hover:bg-cyan-300/60'
-                  }`}
-                />
-              ))}
+            {/* City dots + a hint that the rotation is only a sample of the full catalog */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2" role="tablist" aria-label="Destinations">
+                {cities.map((c, i) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === active}
+                    aria-label={c.city}
+                    onClick={() => setActive(i)}
+                    className={`h-2 rounded-full transition-all ${
+                      i === active ? 'w-6 bg-lc-amber' : 'w-2 bg-cyan-300/30 hover:bg-cyan-300/60'
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="font-instrument text-[11px] uppercase tracking-[0.16em] text-lc-text3">
+                +{DESTINATION_COUNT - cities.length} more
+              </span>
             </div>
           </div>
         </div>

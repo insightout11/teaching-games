@@ -896,6 +896,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       // Write effective settings to DB so students can see topic/difficulty on the waiting screen.
       // Read from getState() to capture any patches applied above.
       const s = useSessionStore.getState().settings;
+      // The launch-time topic is the source of truth, but settings.customTopic is populated
+      // by a separate effect that can run AFTER this one — reading it here would persist the
+      // default 'General' to the session row (→ "Jump back in" shows General for every
+      // lesson). Read the topic straight from the launch payload to avoid that race.
+      const launchCustomTopic = (() => {
+        try {
+          const raw = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
+          const t = raw ? (JSON.parse(raw).customTopic as unknown) : null;
+          return typeof t === 'string' ? t.trim() : '';
+        } catch { return ''; }
+      })();
       void fetch('/api/session/settings', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -903,7 +914,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           sessionId: session.id,
           topic: s.topic,
           difficulty: s.difficulty,
-          customTopic: s.customTopic || null,
+          customTopic: launchCustomTopic || s.customTopic || null,
         }),
       });
       initDone.current = true;

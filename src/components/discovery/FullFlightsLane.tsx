@@ -37,6 +37,21 @@ const ACCENTS = {
 } as const;
 
 // ── Real, launchable presets ──────────────────────────────────────────────────
+// Captain's Flight — the flagship all-rounder. It headlines the page as the hero, but
+// is also listed here (lead card, amber/flagship accent) so the Full Lessons lane is the
+// complete set for anyone scanning mid-page. Card derived from the live preset.
+const CAPTAIN_PRESET = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'all-around-flight-60');
+const CAPTAIN_CARD: PresetCardData = {
+  id: 'all-around-flight-60',
+  name: CAPTAIN_PRESET?.name ?? "Captain's Flight",
+  focus: 'All skills',
+  durationMinutes: CAPTAIN_PRESET?.lessonDurationMinutes ?? 60,
+  classFit: 'Whole class',
+  flightNumber: 'LC-60',
+  accent: ACCENTS.amber,
+  route: (CAPTAIN_PRESET?.flightConfig?.stages ?? []).map((s) => ({ label: s.label, kind: s.kind })),
+};
+
 // Speak — route + duration derived from the live speak-60 preset so the card never drifts.
 const SPEAK_PRESET = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'speak-60');
 const SPEAK_CARD: PresetCardData = {
@@ -95,6 +110,7 @@ export function FullFlightsLane() {
   }
 
   const cards: PresetCardData[] = [
+    { ...CAPTAIN_CARD, onSelect: handleSelect },
     { ...SPEAK_CARD, onSelect: handleSelect },
     { ...GRAMMAR_CARD, onSelect: handleSelect },
     { ...TRAVEL_CARD, onSelect: handleSelect },
