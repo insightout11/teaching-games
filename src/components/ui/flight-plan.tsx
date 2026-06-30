@@ -73,6 +73,12 @@ interface LessonCaptainFlightPlanProps {
    * `height` as the cap, so it only grows tall where a generous height was provided.
    */
   growOnNarrow?: boolean;
+  /**
+   * Tall "showcase" layout for marketing surfaces: ~2× the height, and stage cards
+   * zig-zag above/below the route so they never collide. Opt-in (default false) so the
+   * compact in-session strip is unaffected. Disabled automatically on narrow screens.
+   */
+  showcase?: boolean;
 }
 
 const DEFAULT_STEPS: FlightPlanStep[] = [
@@ -125,6 +131,8 @@ type NodePoint = FlightPlanStep & {
   cardXPercent: number;
   cardYPercent: number;
   cardWidthPercent: number;
+  /** Zig-zag: whether this node's card sits above (true) or below (false) the route. */
+  cardAbove: boolean;
 };
 
 function isCheckpoint(point: FlightPlanStep) {
@@ -137,6 +145,7 @@ function computeNodeLayout(
   height: number,
   mode: FlightPlanMode = 'planner',
   labelMode: LabelMode = 'full',
+  zigzag = false,
 ): NodePoint[] {
   const isRuntime = mode === 'runtime';
   const inset = getRouteInset(width, isRuntime);
@@ -145,9 +154,19 @@ function computeNodeLayout(
   const span = right - left;
   const count = steps.length;
 
-  const baseY = height * (isRuntime ? 0.72 : 0.66);
-  const arcLift = isRuntime ? clamp(28 + count * 3, 36, 56) : clamp(42 + count * 4, 54, 82);
+  // Zig-zag centres the route so cards have room both above and below it.
+  const baseY = zigzag ? height * 0.52 : height * (isRuntime ? 0.72 : 0.66);
+  const arcLift = zigzag
+    ? clamp(16 + count * 1.5, 18, 38)
+    : isRuntime ? clamp(28 + count * 3, 36, 56) : clamp(42 + count * 4, 54, 82);
   const cardRowY = isRuntime ? clamp(height * 0.12, 14, 40) : clamp(height * 0.18, 80, 100);
+  // Zig-zag: cards alternate above/below the route, so neighbours sit a full 2× spacing
+  // apart and never collide. cardSlot counts only card-bearing (non-checkpoint) nodes so
+  // the alternation stays even regardless of where micro-event pips fall.
+  const zCardHeight = zigzag ? 56 : isRuntime ? 44 : 62;
+  const aboveCardTop = zigzag ? clamp(height * 0.05, 8, 44) : cardRowY;
+  const belowCardTop = clamp(height * 0.6, height * 0.5, height - zCardHeight - 8);
+  let cardSlot = 0;
 
   // Cards are sized in viewBox px (which equal CSS px once measured), so they stay
   // a comfortable physical size on every screen; only the horizontal spread changes.
@@ -168,7 +187,18 @@ function computeNodeLayout(
     const x = left + span * t;
     const liftFactor = 4 * t * (1 - t);
     const y = baseY - arcLift * liftFactor;
-    const cardHeight = isRuntime ? 44 : 62;
+    const cardHeight = zCardHeight;
+
+    const isCp = step.kind === 'checkpoint';
+    let cardAbove = true;
+    let cardY = cardRowY;
+    if (zigzag && !isCp) {
+      cardAbove = cardSlot % 2 === 0;
+      cardY = cardAbove ? aboveCardTop : belowCardTop;
+      cardSlot += 1;
+    } else if (zigzag) {
+      cardY = aboveCardTop;
+    }
 
     return {
       ...step,
@@ -179,11 +209,12 @@ function computeNodeLayout(
       xPercent: (x / width) * 100,
       yPercent: (y / height) * 100,
       cardX: x,
-      cardY: cardRowY,
+      cardY,
       cardWidth,
       cardHeight,
+      cardAbove,
       cardXPercent: (x / width) * 100,
-      cardYPercent: (cardRowY / height) * 100,
+      cardYPercent: (cardY / height) * 100,
       cardWidthPercent: (cardWidth / width) * 100,
     };
   });
@@ -951,9 +982,9 @@ function NodeLayer({
               {!checkpoint && isLabeledStage(i) && (
                 <motion.line
                   x1={point.x}
-                  y1={point.y - 12}
+                  y1={point.cardAbove ? point.y - 12 : point.y + 12}
                   x2={point.x}
-                  y2={point.cardY + point.cardHeight}
+                  y2={point.cardAbove ? point.cardY + point.cardHeight : point.cardY}
                   stroke={isActive ? 'rgba(192, 240, 255, 0.50)' : isCompleted ? 'rgba(192, 240, 255, 0.30)' : 'rgba(170, 225, 255, 0.18)'}
                   strokeWidth={isActive ? '1.5' : '1.2'}
                   initial={{ opacity: 0 }}
@@ -1188,6 +1219,7 @@ export function LessonCaptainFlightPlan({
   pacingIndex,
   forceEmphasis = false,
   growOnNarrow = false,
+  showcase = false,
 }: LessonCaptainFlightPlanProps) {
   const safeSteps = useMemo(() => {
     if (!Array.isArray(steps) || steps.length < 3) return DEFAULT_STEPS;
@@ -1208,18 +1240,21 @@ export function LessonCaptainFlightPlan({
   // swaps to a squarer aspect so the active card + plane have room (capped by `height`).
   const isNarrow = vbW > 0 && vbW < 600;
   const grow = growOnNarrow && isNarrow;
-  const targetAspect = mode === 'runtime' ? (grow ? 1.5 : 9) : 4.8;
-  const minHeight = mode === 'runtime' ? (grow ? 220 : 88) : 150;
+  // Showcase: a tall, roomy marketing panel with zig-zag cards. Falls back to the normal
+  // layout on narrow screens (no room for above+below cards on a phone).
+  const useZigzag = showcase && !isNarrow;
+  const targetAspect = useZigzag ? 2.9 : mode === 'runtime' ? (grow ? 1.5 : 9) : 4.8;
+  const minHeight = useZigzag ? 300 : mode === 'runtime' ? (grow ? 220 : 88) : 150;
   const vbH = clamp(vbW / targetAspect, Math.min(minHeight, height), height);
 
   const labelMode = useMemo(
-    () => getLabelMode(vbW, safeSteps.length, mode === 'runtime'),
-    [vbW, safeSteps.length, mode],
+    () => (useZigzag ? 'full' : getLabelMode(vbW, safeSteps.length, mode === 'runtime')),
+    [useZigzag, vbW, safeSteps.length, mode],
   );
 
   const points = useMemo(
-    () => computeNodeLayout(safeSteps, vbW, vbH, mode, labelMode),
-    [safeSteps, vbW, vbH, mode, labelMode],
+    () => computeNodeLayout(safeSteps, vbW, vbH, mode, labelMode, useZigzag),
+    [safeSteps, vbW, vbH, mode, labelMode, useZigzag],
   );
   const takeoffPoint = points[0];
 
