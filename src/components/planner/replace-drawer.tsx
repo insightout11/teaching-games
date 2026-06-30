@@ -22,7 +22,7 @@ export function ReplaceDrawer() {
 
   const sourceKind: 'video' | 'text' | null = useMemo(() => {
     if (!sourceMaterial) return null;
-    const videoTypes = new Set(['youtube', 'ted', 'teded', 'bbc', 'kurzgesagt', 'bbc-ideas', 'bigthink', 'vox', 'kids', 'natgeo', 'crash-course', 'travel-english', 'business-english', 'internet-memes', 'minecraft']);
+    const videoTypes = new Set(['youtube', 'ted', 'teded', 'bbc', 'kurzgesagt', 'bbc-ideas', 'bigthink', 'vox', 'kids', 'natgeo', 'crash-course', 'travel-english', 'business-english', 'internet-memes', 'minecraft', 'sports']);
     const textTypes = new Set(['stories', 'voa', 'picture-books']);
     if (videoTypes.has(sourceMaterial.sourceType)) return 'video';
     if (textTypes.has(sourceMaterial.sourceType)) return 'text';

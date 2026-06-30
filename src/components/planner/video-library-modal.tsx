@@ -12,7 +12,7 @@ import {
 
 // ── Library source config ─────────────────────────────────────────────────────
 
-type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft';
+type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft' | 'sports';
 
 const SOURCE_CONFIG: { key: LibrarySourceKey; label: string; activeClass: string; inactiveClass: string }[] = [
   { key: 'teded',            label: 'TED-Ed',        activeClass: 'bg-red-600 text-white',          inactiveClass: 'bg-red-900/20 text-red-400 border border-red-800/40'          },
@@ -29,6 +29,7 @@ const SOURCE_CONFIG: { key: LibrarySourceKey; label: string; activeClass: string
   { key: 'business-english', label: 'Business',      activeClass: 'bg-blue-600 text-white',         inactiveClass: 'bg-blue-900/20 text-blue-400 border border-blue-800/40'       },
   { key: 'internet-memes',   label: 'Memes',         activeClass: 'bg-pink-600 text-white',         inactiveClass: 'bg-pink-900/20 text-pink-400 border border-pink-800/40'       },
   { key: 'minecraft',        label: 'Minecraft',     activeClass: 'bg-green-600 text-white',        inactiveClass: 'bg-green-900/20 text-green-400 border border-green-800/40'   },
+  { key: 'sports',           label: 'Sports',        activeClass: 'bg-emerald-600 text-white',      inactiveClass: 'bg-emerald-900/20 text-emerald-400 border border-emerald-800/40' },
 ];
 
 const SOURCE_BADGE: Record<LibrarySourceKey, string> = {
@@ -46,6 +47,7 @@ const SOURCE_BADGE: Record<LibrarySourceKey, string> = {
   'business-english':'bg-blue-900/40 text-blue-400',
   'internet-memes':  'bg-pink-900/40 text-pink-400',
   minecraft:         'bg-green-900/40 text-green-400',
+  sports:            'bg-emerald-900/40 text-emerald-400',
 };
 
 // ── Duration bands ────────────────────────────────────────────────────────────
@@ -99,6 +101,7 @@ import travelEnglishRaw from '@/data/travel-english-library.json';
 import businessEnglishRaw from '@/data/business-english-library.json';
 import internetMemesRaw from '@/data/internet-memes-library.json';
 import minecraftRaw from '@/data/minecraft-library.json';
+import sportsRaw from '@/data/sports-library.json';
 
 function tag<K extends LibrarySourceKey>(raw: unknown[], key: K): LibraryEntry[] {
   return (raw as LibraryEntry[]).map((e) => ({ ...e, sourceType: key }));
@@ -119,6 +122,7 @@ const ALL_ENTRIES: LibraryEntry[] = [
   ...tag(businessEnglishRaw, 'business-english'),
   ...tag(internetMemesRaw, 'internet-memes'),
   ...tag(minecraftRaw, 'minecraft'),
+  ...tag(sportsRaw, 'sports'),
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

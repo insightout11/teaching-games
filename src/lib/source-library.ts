@@ -19,6 +19,7 @@ import minecraftRaw from '@/data/minecraft-library.json';
 import storiesRaw from '@/data/stories-library.json';
 import voaRaw from '@/data/voa-library.json';
 import pictureBookRaw from '@/data/picture-books-library.json';
+import sportsRaw from '@/data/sports-library.json';
 
 export type LibraryItemKind = 'video' | 'reading';
 
@@ -73,6 +74,7 @@ const ALL_ITEMS: LibraryItem[] = [
   take(businessEnglishRaw, 'business-english', 'video'),
   take(internetMemesRaw, 'internet-memes', 'video'),
   take(minecraftRaw, 'minecraft', 'video'),
+  take(sportsRaw, 'sports', 'video'),
   take(storiesRaw, 'stories', 'reading'),
   take(voaRaw, 'voa', 'reading'),
   take(pictureBookRaw, 'picture-books', 'reading'),

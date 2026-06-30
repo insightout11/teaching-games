@@ -87,6 +87,7 @@ import travelEnglishLibrary from '@/data/travel-english-library.json';
 import businessEnglishLibrary from '@/data/business-english-library.json';
 import internetMemesLibrary from '@/data/internet-memes-library.json';
 import minecraftLibrary from '@/data/minecraft-library.json';
+import sportsLibrary from '@/data/sports-library.json';
 import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
 
 
@@ -2885,6 +2886,7 @@ export async function POST(request: NextRequest) {
               'business-english': businessEnglishLibrary as Array<{ id: string; youtubeId: string }>,
               'internet-memes': internetMemesLibrary as Array<{ id: string; youtubeId: string }>,
               minecraft: minecraftLibrary as Array<{ id: string; youtubeId: string }>,
+              sports: sportsLibrary as Array<{ id: string; youtubeId: string }>,
             };
             const isYouTubeLibrary = sourceMaterial?.sourceType != null && sourceMaterial.sourceType in youtubeLibraries;
             if (sourceMaterial && (sourceMaterial.sourceType === 'youtube' || sourceMaterial.sourceType === 'ted' || sourceMaterial.sourceType === 'teded' || isYouTubeLibrary) && sourceMaterial.sourceKey) {

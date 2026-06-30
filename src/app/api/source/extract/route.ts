@@ -22,6 +22,7 @@ import travelEnglishLibrary from '@/data/travel-english-library.json';
 import businessEnglishLibrary from '@/data/business-english-library.json';
 import internetMemesLibrary from '@/data/internet-memes-library.json';
 import minecraftLibrary from '@/data/minecraft-library.json';
+import sportsLibrary from '@/data/sports-library.json';
 import kurzgesagtLibrary from '@/data/kurzgesagt-library.json';
 import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
 import bigthinkLibrary from '@/data/bigthink-library.json';
@@ -224,7 +225,8 @@ export async function POST(request: NextRequest) {
       case 'travel-english':
       case 'business-english':
       case 'internet-memes':
-      case 'minecraft': {
+      case 'minecraft':
+      case 'sports': {
         const libraryMap: Record<string, TedTalk[]> = {
           bbc: bbcLibrary as unknown as TedTalk[],
           kurzgesagt: kurzgesagtLibrary as unknown as TedTalk[],
@@ -238,6 +240,7 @@ export async function POST(request: NextRequest) {
           'business-english': businessEnglishLibrary as unknown as TedTalk[],
           'internet-memes': internetMemesLibrary as unknown as TedTalk[],
           minecraft: minecraftLibrary as unknown as TedTalk[],
+          sports: sportsLibrary as unknown as TedTalk[],
         };
         const entryId = payload.trim();
         const library = libraryMap[type];

@@ -416,6 +416,7 @@ async function main() {
     ...loadLibrary('business-english-library.json').map((e) => ({ ...e, sourceType: 'business-english' as const })),
     ...loadLibrary('internet-memes-library.json').map((e) => ({ ...e, sourceType: 'internet-memes' as const })),
     ...loadLibrary('minecraft-library.json').map((e) => ({ ...e, sourceType: 'minecraft' as const })),
+    ...loadLibrary('sports-library.json').map((e) => ({ ...e, sourceType: 'sports' as const })),
   ];
 
   console.log(`\n${'─'.repeat(50)}`);

@@ -18,7 +18,7 @@ const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
   'bbc-ideas', 'bigthink', 'vox', 'kids',
   'natgeo', 'crash-course',
-  'travel-english', 'business-english', 'internet-memes', 'minecraft',
+  'travel-english', 'business-english', 'internet-memes', 'minecraft', 'sports',
 ]);
 
 const TEXT_SOURCE_TYPES = new Set<SourceType>(['text', 'pdf', 'image', 'lyrics', 'stories', 'voa', 'picture-books']);
