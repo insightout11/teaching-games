@@ -54,6 +54,7 @@ import { AuHeadquartersLandmark } from './landmarks/au-headquarters';
 import { IndiaGateLandmark } from './landmarks/india-gate';
 import { RizalMonumentLandmark } from './landmarks/rizal-monument';
 import { BitexcoTowerLandmark } from './landmarks/bitexco-tower';
+import { OrientalPearlLandmark } from './landmarks/oriental-pearl';
 import { LcControlTower } from './landmarks/lc-control-tower';
 
 // ── Landmark registry ────────────────────────────────────────────────────────
@@ -128,6 +129,9 @@ export const LANDMARK_REGISTRY: Record<string, LandmarkRegistryEntry> = {
   'kok-tobe': { component: KokTobeLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.74 },
   'au-headquarters': { component: AuHeadquartersLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.74 },
   'bitexco-tower': { component: BitexcoTowerLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.72 },
+  // Oriental Pearl Tower — slender tripod tower; sits left (in front of the
+  // Lujiazui trio in the skyline) so the plane never occludes it.
+  'oriental-pearl': { component: OrientalPearlLandmark, depth: 'foreground', anchorX: 0.3, baseY: 648, scale: 0.74 },
 
   // clock / colonial towers & cathedrals
   'suva-clock-tower': { component: SuvaClockTowerLandmark, depth: 'foreground', anchorX: 0.32, baseY: 648, scale: 0.78 },

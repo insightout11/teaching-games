@@ -41,6 +41,7 @@ export interface DestinationScene {
     | 'seoul'
     | 'bangkok'
     | 'beijing'
+    | 'shanghai'
     | 'rome'
     | 'amsterdam'
     | 'capetown'

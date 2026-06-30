@@ -24,6 +24,7 @@ export function SkylineLayer(props: SceneLayerProps) {
   if (props.scene.skylineVariant === 'seoul') return <SeoulSkyline {...props} />;
   if (props.scene.skylineVariant === 'bangkok') return <BangkokSkyline {...props} />;
   if (props.scene.skylineVariant === 'beijing') return <BeijingSkyline {...props} />;
+  if (props.scene.skylineVariant === 'shanghai') return <ShanghaiSkyline {...props} />;
   if (props.scene.skylineVariant === 'rome') return <RomeSkyline {...props} />;
   if (props.scene.skylineVariant === 'amsterdam') return <AmsterdamSkyline {...props} />;
   if (props.scene.skylineVariant === 'capetown') return <CapeTownSkyline {...props} />;
@@ -1932,6 +1933,141 @@ function BeijingSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     <g aria-hidden data-skyline="beijing" data-id={idPrefix}>
       {items}
       {temple}
+    </g>
+  );
+}
+
+// ── Shanghai — the Lujiazui supertall trio over the Pudong waterfront ─────────
+// Pairs with the Oriental Pearl Tower (foreground, left). The three heroes sit
+// centre/right so the Pearl reads in front of them: Shanghai Tower (twisting,
+// tallest), Jin Mao Tower (tiered pagoda setbacks), and the SWFC "bottle
+// opener" (tapering slab with a trapezoidal aperture). A reserved band keeps
+// the generic dense filler from overlapping the trio.
+function ShanghaiSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
+  const base = LAYOUT.apronY + 12;
+  const f = palette.buildingSilhouette;
+  const isNight = palette.light === 'moon';
+  const litEdge = 'rgba(180,232,255,0.85)'; // cool lit glass edge for the heroes
+
+  // Hero anchors + a reserved clear band so no row building overlaps them.
+  const jinMaoX = CONTENT_W * 0.44;
+  const towerX = CONTENT_W * 0.54;
+  const swfcX = CONTENT_W * 0.64;
+  const bandL = jinMaoX - 56;
+  const bandR = swfcX + 52;
+
+  const items: React.ReactNode[] = [];
+  let x = -40;
+  let k = 0;
+  while (x < CONTENT_W + 40) {
+    const w = randRange(rand, 26, 56);
+    const h = randRange(rand, 120, 300);
+    if (x + w > bandL && x < bandR) {
+      x = bandR;
+      continue;
+    }
+    const top = base - h;
+    const parts: React.ReactNode[] = [<rect key="b" x={x} y={top} width={w} height={h} fill={f} />];
+    if (rand() > 0.62) parts.push(<rect key="m" x={x + w / 2 - 1} y={top - randRange(rand, 14, 38)} width={2} height={38} fill={f} />);
+    parts.push(...litWindows(x, w, h, top, palette, rand, isNight));
+    items.push(<g key={k}>{parts}</g>);
+    x += w + randRange(rand, 3, 7);
+    k += 1;
+  }
+
+  // Jin Mao Tower — tiered pagoda setbacks narrowing upward to a thin spire.
+  const jinMao = (() => {
+    const tiers = 8;
+    const baseW = 70;
+    const topW = 26;
+    const H = 300;
+    const tierH = H / tiers;
+    const parts: React.ReactNode[] = [];
+    for (let i = 0; i < tiers; i += 1) {
+      const wTop = baseW - (baseW - topW) * ((i + 1) / tiers);
+      const wBot = baseW - (baseW - topW) * (i / tiers);
+      const y0 = base - i * tierH;
+      const y1 = base - (i + 1) * tierH;
+      parts.push(
+        <polygon
+          key={`t${i}`}
+          points={`${jinMaoX - wBot / 2} ${y0}, ${jinMaoX + wBot / 2} ${y0}, ${jinMaoX + wTop / 2} ${y1}, ${jinMaoX - wTop / 2} ${y1}`}
+          fill={f}
+        />,
+      );
+      // thin setback ledge line (lit)
+      parts.push(<rect key={`l${i}`} x={jinMaoX - wTop / 2} y={y1 - 1} width={wTop} height={1.6} fill={litEdge} opacity={0.5} />);
+    }
+    // spire
+    parts.push(<rect key="sp" x={jinMaoX - 1.5} y={base - H - 36} width={3} height={36} fill={f} />);
+    parts.push(<circle key="bc" cx={jinMaoX} cy={base - H - 38} r={3} fill={litEdge} />);
+    parts.push(...litWindows(jinMaoX - baseW / 2, baseW, H * 0.5, base - H * 0.5, palette, rand, isNight));
+    return <g>{parts}</g>;
+  })();
+
+  // SWFC — the "bottle opener": tapering slab, trapezoidal aperture at the top
+  // formed as genuine negative space in a single outline.
+  const swfc = (() => {
+    const H = 330;
+    const baseHalf = 38;
+    const topHalf = 20;
+    const yTop = base - H;
+    const yShoulder = base - H + 34; // aperture begins above the shoulder
+    const yGapBot = base - H + 40;
+    const outline =
+      `${swfcX - baseHalf} ${base}, ` +
+      `${swfcX - topHalf} ${yShoulder}, ` +
+      `${swfcX - topHalf} ${yTop}, ` +
+      `${swfcX - 10} ${yTop}, ` +
+      `${swfcX - 4} ${yGapBot}, ` +
+      `${swfcX + 4} ${yGapBot}, ` +
+      `${swfcX + 10} ${yTop}, ` +
+      `${swfcX + topHalf} ${yTop}, ` +
+      `${swfcX + topHalf} ${yShoulder}, ` +
+      `${swfcX + baseHalf} ${base}`;
+    return (
+      <g>
+        <polygon points={outline} fill={f} />
+        {/* lit outline along the prongs + aperture */}
+        <polyline points={outline} fill="none" stroke={litEdge} strokeWidth={1.4} strokeLinejoin="round" opacity={0.7} />
+        {litWindows(swfcX - baseHalf, baseHalf * 2, H * 0.6, base - H * 0.6, palette, rand, isNight)}
+      </g>
+    );
+  })();
+
+  // Shanghai Tower — soft twisting taper with a rounded asymmetric crown.
+  const tower = (() => {
+    const H = 372;
+    const path =
+      `M ${towerX - 32} ${base} ` +
+      `C ${towerX - 38} ${base - 150} ${towerX - 10} ${base - 220} ${towerX - 16} ${base - 330} ` +
+      `C ${towerX - 18} ${base - 356} ${towerX - 2} ${base - H} ${towerX + 12} ${base - H + 8} ` +
+      `C ${towerX + 24} ${base - H + 18} ${towerX + 20} ${base - 230} ${towerX + 28} ${base - 150} ` +
+      `C ${towerX + 31} ${base - 90} ${towerX + 32} ${base - 40} ${towerX + 32} ${base} Z`;
+    return (
+      <g>
+        <path d={path} fill={f} />
+        {/* lit glass seam tracing the twisting left edge */}
+        <path
+          d={`M ${towerX - 30} ${base - 30} C ${towerX - 36} ${base - 150} ${towerX - 10} ${base - 220} ${towerX - 15} ${base - 330}`}
+          fill="none"
+          stroke={litEdge}
+          strokeWidth={2}
+          strokeLinecap="round"
+          opacity={0.7}
+        />
+        <circle cx={towerX + 2} cy={base - H + 4} r={3} fill={litEdge} />
+        {litWindows(towerX - 28, 56, H * 0.62, base - H * 0.62, palette, rand, isNight)}
+      </g>
+    );
+  })();
+
+  return (
+    <g aria-hidden data-skyline="shanghai" data-id={idPrefix}>
+      {items}
+      {jinMao}
+      {swfc}
+      {tower}
     </g>
   );
 }

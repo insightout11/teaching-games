@@ -23,6 +23,22 @@ const FIXTURES: GalleryItem[] = [
   // LC International — the home base. Not a real destination (no readings/coords),
   // so it lives here as a fixture for review of the lobby/transition/ground scene.
   { id: HOME_BASE_ID, label: HOME_BASE_NAME, scene: HOME_BASE_SCENE, fixture: true },
+  // Shanghai — 50th city. Fixture for art review until the real destination
+  // entry (videos/readings) is wired in destinations.ts, at which point this
+  // line can be removed. Oriental Pearl (foreground) + Lujiazui trio skyline.
+  {
+    id: 'shanghai',
+    label: 'Shanghai',
+    fixture: true,
+    scene: {
+      terrain: 'urban',
+      vegetation: 'broadleaf',
+      skyline: 'highrise',
+      skylineVariant: 'shanghai',
+      landmarkSilhouette: 'oriental-pearl',
+      palette: 'night',
+    },
+  },
 ];
 
 const PHASES: ArrivalPhase[] = ['approach', 'touchdown', 'taxi', 'landed'];
