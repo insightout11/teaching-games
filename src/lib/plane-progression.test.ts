@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import { existsSync } from 'fs';
+import { join } from 'path';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, getPlaneTierForKey, getPlaneViewAsset, isPlaneKeyInTier } from '@/lib/plane-progression';
+
+function publicAssetExists(assetPath: string) {
+  return existsSync(join(process.cwd(), 'public', assetPath.replace(/^\//, '')));
+}
 
 describe('plane progression assets', () => {
   it('resolves the persisted starter key to the LC Cadet runway trainer views', () => {
@@ -7,8 +13,10 @@ describe('plane progression assets', () => {
       key: 'starter-biplane',
       name: 'LC Cadet',
       webp: '/assets/flight/planes/lc-cadet.webp',
+      groundWebp: '/assets/flight/planes/lc-cadet-ground.webp',
       frontWebp: '/assets/flight/planes/lc-cadet-front.webp',
       front3qWebp: '/assets/flight/planes/lc-cadet-front-3q.webp',
+      front3qGroundWebp: '/assets/flight/planes/lc-cadet-front-3q-ground.webp',
       displayMeta: expect.objectContaining({ runwayYOffset: -48, hangarYOffset: 34 }),
     });
   });
@@ -46,8 +54,14 @@ describe('plane progression assets', () => {
     expect(getPlaneViewAsset('cloud-hopper', 'front-3q', 'png')).toBe(
       '/assets/flight/planes/lc-wayfarer-front-3q.png',
     );
+    expect(getPlaneViewAsset('cloud-hopper', 'ground')).toBe(
+      '/assets/flight/planes/lc-wayfarer-ground.webp',
+    );
     expect(getPlaneViewAsset('lc-scout', 'front')).toBe(
       '/assets/flight/planes/lc-scout-monoplane-front.webp',
+    );
+    expect(getPlaneViewAsset('lc-scout', 'front-3q-ground', 'png')).toBe(
+      '/assets/flight/planes/lc-scout-monoplane-front-3q-ground.png',
     );
   });
 
@@ -174,6 +188,28 @@ describe('plane progression assets', () => {
     });
     expect(getPlaneViewAsset('future-flyer', 'front-3q', 'png')).toBe(
       '/assets/flight/planes/lc-future-flyer-front-3q.png',
+    );
+  });
+
+  it('provides runway ground views for every aircraft choice', () => {
+    for (const tier of [0, 1, 2, 3, 4]) {
+      for (const plane of getPlaneTier(tier).choices) {
+        expect(plane.groundWebp, plane.key).toMatch(/-ground\.webp$/);
+        expect(plane.groundPng, plane.key).toMatch(/-ground\.png$/);
+        expect(plane.front3qGroundWebp, plane.key).toMatch(/-front-3q-ground\.webp$/);
+        expect(plane.front3qGroundPng, plane.key).toMatch(/-front-3q-ground\.png$/);
+        expect(publicAssetExists(plane.groundWebp!), plane.groundWebp).toBe(true);
+        expect(publicAssetExists(plane.groundPng!), plane.groundPng).toBe(true);
+        expect(publicAssetExists(plane.front3qGroundWebp!), plane.front3qGroundWebp).toBe(true);
+        expect(publicAssetExists(plane.front3qGroundPng!), plane.front3qGroundPng).toBe(true);
+      }
+    }
+
+    expect(getPlaneViewAsset('comet-jet', 'ground')).toBe(
+      '/assets/flight/planes/lc-comet-jet-ground.webp',
+    );
+    expect(getPlaneViewAsset('starliner-mini', 'front-3q-ground')).toBe(
+      '/assets/flight/planes/lc-starliner-mini-front-3q-ground.webp',
     );
   });
 });

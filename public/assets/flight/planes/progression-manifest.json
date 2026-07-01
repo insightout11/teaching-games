@@ -12,7 +12,11 @@
           "frontPng": "/assets/flight/planes/lc-cadet-front.png",
           "frontWebp": "/assets/flight/planes/lc-cadet-front.webp",
           "front3qPng": "/assets/flight/planes/lc-cadet-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-cadet-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-cadet-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-cadet-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-cadet-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-cadet-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-cadet-front-3q-ground.webp"
         }
       ]
     },
@@ -28,7 +32,11 @@
           "frontPng": "/assets/flight/planes/lc-wayfarer-front.png",
           "frontWebp": "/assets/flight/planes/lc-wayfarer-front.webp",
           "front3qPng": "/assets/flight/planes/lc-wayfarer-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-wayfarer-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-wayfarer-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-wayfarer-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-wayfarer-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-wayfarer-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-wayfarer-front-3q-ground.webp"
         },
         {
           "key": "lc-scout",
@@ -38,7 +46,11 @@
           "frontPng": "/assets/flight/planes/lc-scout-monoplane-front.png",
           "frontWebp": "/assets/flight/planes/lc-scout-monoplane-front.webp",
           "front3qPng": "/assets/flight/planes/lc-scout-monoplane-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-scout-monoplane-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-scout-monoplane-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-scout-monoplane-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-scout-monoplane-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-scout-monoplane-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-scout-monoplane-front-3q-ground.webp"
         },
         {
           "key": "trailblazer-biplane",
@@ -48,7 +60,11 @@
           "frontPng": "/assets/flight/planes/lc-trailblazer-front.png",
           "frontWebp": "/assets/flight/planes/lc-trailblazer-front.webp",
           "front3qPng": "/assets/flight/planes/lc-trailblazer-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-trailblazer-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-trailblazer-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-trailblazer-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-trailblazer-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-trailblazer-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-trailblazer-front-3q-ground.webp"
         }
       ]
     },
@@ -64,7 +80,11 @@
           "frontPng": "/assets/flight/planes/lc-sky-racer-front.png",
           "frontWebp": "/assets/flight/planes/lc-sky-racer-front.webp",
           "front3qPng": "/assets/flight/planes/lc-sky-racer-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-sky-racer-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-sky-racer-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-sky-racer-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-sky-racer-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-sky-racer-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-sky-racer-front-3q-ground.webp"
         },
         {
           "key": "cargo-cruiser",
@@ -74,7 +94,11 @@
           "frontPng": "/assets/flight/planes/lc-cargo-cruiser-front.png",
           "frontWebp": "/assets/flight/planes/lc-cargo-cruiser-front.webp",
           "front3qPng": "/assets/flight/planes/lc-cargo-cruiser-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-cargo-cruiser-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-cargo-cruiser-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-cargo-cruiser-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-cargo-cruiser-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-cargo-cruiser-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-cargo-cruiser-front-3q-ground.webp"
         },
         {
           "key": "twin-prop-scout",
@@ -84,7 +108,11 @@
           "frontPng": "/assets/flight/planes/lc-twin-prop-scout-front.png",
           "frontWebp": "/assets/flight/planes/lc-twin-prop-scout-front.webp",
           "front3qPng": "/assets/flight/planes/lc-twin-prop-scout-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-twin-prop-scout-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-twin-prop-scout-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-twin-prop-scout-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-twin-prop-scout-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-twin-prop-scout-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-twin-prop-scout-front-3q-ground.webp"
         }
       ]
     },
@@ -100,7 +128,11 @@
           "frontPng": "/assets/flight/planes/lc-solar-flyer-front.png",
           "frontWebp": "/assets/flight/planes/lc-solar-flyer-front.webp",
           "front3qPng": "/assets/flight/planes/lc-solar-flyer-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-solar-flyer-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-solar-flyer-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-solar-flyer-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-solar-flyer-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-solar-flyer-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-solar-flyer-front-3q-ground.webp"
         },
         {
           "key": "aurora-glider",
@@ -110,7 +142,11 @@
           "frontPng": "/assets/flight/planes/lc-aurora-glider-front.png",
           "frontWebp": "/assets/flight/planes/lc-aurora-glider-front.webp",
           "front3qPng": "/assets/flight/planes/lc-aurora-glider-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-aurora-glider-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-aurora-glider-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-aurora-glider-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-aurora-glider-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-aurora-glider-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-aurora-glider-front-3q-ground.webp"
         },
         {
           "key": "storm-runner",
@@ -120,7 +156,11 @@
           "frontPng": "/assets/flight/planes/lc-storm-runner-front.png",
           "frontWebp": "/assets/flight/planes/lc-storm-runner-front.webp",
           "front3qPng": "/assets/flight/planes/lc-storm-runner-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-storm-runner-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-storm-runner-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-storm-runner-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-storm-runner-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-storm-runner-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-storm-runner-front-3q-ground.webp"
         }
       ]
     },
@@ -136,7 +176,11 @@
           "frontPng": "/assets/flight/planes/lc-future-flyer-front.png",
           "frontWebp": "/assets/flight/planes/lc-future-flyer-front.webp",
           "front3qPng": "/assets/flight/planes/lc-future-flyer-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-future-flyer-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-future-flyer-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-future-flyer-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-future-flyer-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-future-flyer-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-future-flyer-front-3q-ground.webp"
         },
         {
           "key": "starliner-mini",
@@ -146,7 +190,11 @@
           "frontPng": "/assets/flight/planes/lc-starliner-mini-front.png",
           "frontWebp": "/assets/flight/planes/lc-starliner-mini-front.webp",
           "front3qPng": "/assets/flight/planes/lc-starliner-mini-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-starliner-mini-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-starliner-mini-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-starliner-mini-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-starliner-mini-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-starliner-mini-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-starliner-mini-front-3q-ground.webp"
         },
         {
           "key": "comet-jet",
@@ -156,7 +204,11 @@
           "frontPng": "/assets/flight/planes/lc-comet-jet-front.png",
           "frontWebp": "/assets/flight/planes/lc-comet-jet-front.webp",
           "front3qPng": "/assets/flight/planes/lc-comet-jet-front-3q.png",
-          "front3qWebp": "/assets/flight/planes/lc-comet-jet-front-3q.webp"
+          "front3qWebp": "/assets/flight/planes/lc-comet-jet-front-3q.webp",
+          "groundPng": "/assets/flight/planes/lc-comet-jet-ground.png",
+          "groundWebp": "/assets/flight/planes/lc-comet-jet-ground.webp",
+          "front3qGroundPng": "/assets/flight/planes/lc-comet-jet-front-3q-ground.png",
+          "front3qGroundWebp": "/assets/flight/planes/lc-comet-jet-front-3q-ground.webp"
         }
       ]
     }

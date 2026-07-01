@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { getPlaneAsset } from '@/lib/plane-progression';
+import { getPlaneAsset, getPlaneViewAsset } from '@/lib/plane-progression';
 import { LAYOUT, type ArrivalPhase, type SceneLayerProps } from '../types';
 import { departureCalibrationBlend, departurePlaneFrame, type PlaneFrame } from '../cinematic-motion';
 
@@ -59,6 +59,7 @@ function computeFrame(phase: ArrivalPhase, p: number): PlaneFrame {
 
 export function PlaneLayer({ planeKey, phase, progress, ambient, mode, idPrefix }: SceneLayerProps & { planeKey?: string | null }) {
   const plane = getPlaneAsset(planeKey);
+  const runwayPlaneSrc = getPlaneViewAsset(planeKey, 'ground');
   const p = Math.min(1, Math.max(0, progress));
   const { cx, cyBase, rot, flying, depthScale } = mode === 'departure' ? departurePlaneFrame(p) : computeFrame(phase, p);
 
@@ -103,7 +104,7 @@ export function PlaneLayer({ planeKey, phase, progress, ambient, mode, idPrefix 
         />
       )}
       <image
-        href={plane.webp}
+        href={runwayPlaneSrc}
         x={x}
         y={y}
         width={PW}

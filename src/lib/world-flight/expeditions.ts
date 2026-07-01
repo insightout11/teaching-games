@@ -150,6 +150,7 @@ export const WORLD_FLIGHT_EXPEDITIONS: WorldFlightExpeditionDefinition[] = [
     suggestedOrder: false,
     stops: [
       { destinationId: 'tokyo', recommendedFocusId: 'metro-economics-video', reason: 'Study a transport network built for extraordinary daily demand.' },
+      { destinationId: 'shanghai', recommendedFocusId: 'bund-and-pudong', reason: 'Read a global skyline as a story of trade, memory, and rapid change.' },
       { destinationId: 'delhi', recommendedFocusId: 'market-languages', reason: 'See how language keeps complex everyday exchange moving.' },
       { destinationId: 'mumbai', recommendedFocusId: 'dharavi-enterprise', reason: 'Challenge simple stories about density, work, and urban enterprise.' },
       { destinationId: 'lagos', recommendedFocusId: 'mass-transit-video', reason: 'Examine the challenge of moving a rapidly growing population.' },

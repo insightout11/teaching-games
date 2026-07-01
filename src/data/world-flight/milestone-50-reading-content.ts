@@ -252,4 +252,27 @@ Growth creates strong pressure to replace older buildings. New construction can 
 
 Ho Chi Minh City demonstrates that architecture is more than a collection of landmarks. Ordinary buildings reveal how people adapt, work, and live. The city's future depends on deciding which lessons from those structures should remain active during modernization.`,
   },
+  shanghai: {
+    bundAndPudong: `The Huangpu River helps make Shanghai's history visible. On one side, the Bund shows buildings connected with banks, trading houses, hotels, clubs, and foreign concessions from the nineteenth and early twentieth centuries. On the other side, Pudong's towers show the city's rapid transformation into a major financial and commercial center. The view is famous because it places different periods of urban power almost face to face.
+
+The contrast can look simple: old buildings on one bank, new skyscrapers on the other. A closer reading is more complicated. The Bund's architecture came from trade, colonial privilege, unequal treaties, and the growth of international business in China. Pudong's skyline came from later policy choices, infrastructure investment, planning, finance, and the desire to show Shanghai as a global city. Both sides are connected to ambition, money, movement, and changing relationships with the wider world.
+
+A skyline is never only decoration. Tall buildings require transport, electricity, water, engineering, safety systems, workers, maintenance, rules, and people willing to occupy expensive space. Historic buildings also require decisions: what to preserve, how to reuse them, and how to explain the unequal history that helped produce them. The riverfront therefore becomes a classroom for asking how cities remember and advertise themselves at the same time.
+
+Shanghai's waterfront shows that a city can use architecture to tell a story about change. The question is not only which side looks more impressive. It is what each side reveals about power, opportunity, identity, and the costs of becoming a global city.`,
+    lilongAndShikumen: `Shanghai's lilong neighborhoods and shikumen houses show a different side of the city from the famous skyline. Shikumen homes combine elements of Chinese courtyard living with features influenced by Western row houses. Narrow lanes, shared gates, small businesses, household routines, and neighbor relationships made these areas dense but socially active parts of urban life.
+
+The form developed in a city shaped by migration, trade, conflict, and rapid growth. Families and newcomers needed places to live close to work, markets, schools, and transport. A lane neighborhood could support privacy inside homes while also creating shared outdoor space. Children, vendors, residents, repairs, deliveries, and conversations all used the same tight routes. This kind of neighborhood was not only architecture; it was a system of daily relationships.
+
+Redevelopment has made the future of many lane neighborhoods uncertain. Some buildings have been restored as cultural districts, shops, museums, or tourist areas. Others have been demolished or heavily altered to make room for newer housing, roads, offices, or commercial projects. Preservation can protect appearance and memory, but it can also raise prices and change who can remain. Demolition can improve safety or services, but it may erase local knowledge and long-standing community life.
+
+Lilong and shikumen neighborhoods help students ask what counts as heritage. A city does not preserve only palaces, towers, and famous monuments. Ordinary homes and lanes can also carry memory, design intelligence, and evidence of how people built belonging in a crowded city.`,
+    xiaolongbao: `Xiaolongbao are small steamed soup dumplings strongly associated with Shanghai and the Jiangnan region. A thin wrapper holds seasoned filling and hot broth, so eating one requires care. Diners may lift a dumpling with chopsticks, rest it on a spoon, open a small hole, taste the soup, and then eat the rest. The food creates a small routine of attention.
+
+The dumpling is simple to describe but difficult to make well. Dough thickness, folding, filling, gelatin-rich stock, steaming time, basket temperature, and service speed all matter. If the wrapper is too weak, the soup leaks. If it is too thick, the texture changes. Behind one bite are cooks, suppliers, training, restaurant systems, and customers who know what they expect.
+
+Food like xiaolongbao carries city identity because it is both everyday and special. People may eat it at old shops, modern restaurants, neighborhood places, food streets, or family gatherings. Visitors often treat it as a must-try food, while residents may connect it with habit, memory, price, convenience, or arguments about which place does it best. A famous dish is therefore not frozen in one perfect version; it keeps changing as people cook, sell, compare, and share it.
+
+Shanghai's soup dumplings show how food can teach more than ingredients. They reveal craft, timing, local pride, migration, business, and the way a city becomes recognizable through ordinary pleasures. A small basket of dumplings can open a larger discussion about how taste becomes part of belonging.`,
+  },
 } as const;

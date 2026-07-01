@@ -34,10 +34,14 @@ export interface PlaneEntry {
   name: string;
   webp: string;
   png: string;
+  groundWebp?: string;
+  groundPng?: string;
   frontWebp?: string;
   frontPng?: string;
   front3qWebp?: string;
   front3qPng?: string;
+  front3qGroundWebp?: string;
+  front3qGroundPng?: string;
   displayMeta: PlaneDisplayMeta;
 }
 
@@ -138,21 +142,26 @@ function entry(
   } = {},
 ): PlaneEntry {
   const side = assets.side ?? key;
+  const front3q = assets.front3q;
   return {
     key,
     name,
     webp: `/assets/flight/planes/${side}.webp`,
     png:  `/assets/flight/planes/${side}.png`,
+    groundWebp: `/assets/flight/planes/${side}-ground.webp`,
+    groundPng: `/assets/flight/planes/${side}-ground.png`,
     ...(assets.front
       ? {
           frontWebp: `/assets/flight/planes/${assets.front}.webp`,
           frontPng: `/assets/flight/planes/${assets.front}.png`,
         }
       : {}),
-    ...(assets.front3q
+    ...(front3q
       ? {
-          front3qWebp: `/assets/flight/planes/${assets.front3q}.webp`,
-          front3qPng: `/assets/flight/planes/${assets.front3q}.png`,
+          front3qWebp: `/assets/flight/planes/${front3q}.webp`,
+          front3qPng: `/assets/flight/planes/${front3q}.png`,
+          front3qGroundWebp: `/assets/flight/planes/${front3q}-ground.webp`,
+          front3qGroundPng: `/assets/flight/planes/${front3q}-ground.png`,
         }
       : {}),
     displayMeta: { ...DEFAULT_META, ...meta },
@@ -192,7 +201,7 @@ export function getPlaneAsset(planeKey?: string | null): PlaneEntry {
   return PLANE_MAP.get(resolvedKey) ?? DEFAULT_PLANE;
 }
 
-export type PlaneView = 'side' | 'front' | 'front-3q';
+export type PlaneView = 'side' | 'ground' | 'front' | 'front-3q' | 'front-3q-ground';
 
 export function getPlaneViewAsset(
   planeKey: string | null | undefined,
@@ -201,11 +210,22 @@ export function getPlaneViewAsset(
 ) {
   const plane = getPlaneAsset(planeKey);
   if (view === 'side') return format === 'webp' ? plane.webp : plane.png;
+  if (view === 'ground') {
+    return format === 'webp'
+      ? plane.groundWebp ?? plane.webp
+      : plane.groundPng ?? plane.png;
+  }
 
   if (view === 'front') {
     return format === 'webp'
       ? plane.frontWebp ?? DEFAULT_PLANE.frontWebp ?? DEFAULT_PLANE.webp
       : plane.frontPng ?? DEFAULT_PLANE.frontPng ?? DEFAULT_PLANE.png;
+  }
+
+  if (view === 'front-3q-ground') {
+    return format === 'webp'
+      ? plane.front3qGroundWebp ?? plane.front3qWebp ?? DEFAULT_PLANE.front3qGroundWebp ?? DEFAULT_PLANE.front3qWebp ?? DEFAULT_PLANE.webp
+      : plane.front3qGroundPng ?? plane.front3qPng ?? DEFAULT_PLANE.front3qGroundPng ?? DEFAULT_PLANE.front3qPng ?? DEFAULT_PLANE.png;
   }
 
   return format === 'webp'

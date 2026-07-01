@@ -192,6 +192,7 @@ const IMAGES = {
   dubai: unsplashPhoto('photo-1512453979798-5ea266f8880c', 'Dubai', 'Dubai towers and desert city design.'),
   sydney: unsplashPhoto('photo-1506973035872-a4ec16b8e8d9', 'Sydney', 'Sydney harbour and coastal city life.'),
   beijing: wikimediaFile('Skyline_of_Beijing_CBD_with_B-5906_approaching_(20211016171955)_(1).jpg', 'Beijing', 'Beijing skyline and layered capital city life.', 'https://en.wikipedia.org/wiki/Beijing'),
+  shanghai: wikimediaFile('Pudong_Shanghai_November_2017_panorama.jpg', 'Shanghai', 'Shanghai skyline across the Huangpu River.', 'https://commons.wikimedia.org/wiki/File:Pudong_Shanghai_November_2017_panorama.jpg'),
   berlin: wikimediaFile('Museumsinsel_Berlin_Juli_2021_1_(cropped)_b.jpg', 'Berlin', 'Berlin museum island, river, and historic city fabric.', 'https://en.wikipedia.org/wiki/Berlin'),
   moscow: wikimediaFile('Saint_Basil%27s_Cathedral_and_the_Red_Square.jpg', 'Moscow', 'Moscow landmarks around Red Square.', 'https://en.wikipedia.org/wiki/Moscow'),
   istanbul: wikimediaFile('Historical_peninsula_and_modern_skyline_of_Istanbul.jpg', 'Istanbul', 'Istanbul historic peninsula and modern skyline.', 'https://en.wikipedia.org/wiki/Istanbul'),
@@ -1343,6 +1344,35 @@ Students can compare transport modes by more than speed. A route can be practica
       researchedReadingFocus('beijing', 'olympic-legacy', 'Beijing - What an Olympic City Keeps After the Games', 'Use the 2008 Olympics to discuss image, infrastructure, pride, and cost.', 'Advanced', 'Evaluate what a city gains and risks when hosting a global event.', ['reading', 'sports', 'urban planning'], IMAGES.beijing, `When Beijing hosted the 2008 Summer Olympics, the city presented itself to a global audience. Stadiums, ceremonies, transport upgrades, and media attention helped shape how outsiders saw China. But Olympic legacy is not only the opening ceremony. It includes what happens to venues, neighborhoods, public spending, and city identity after visitors leave.\n\nStudents can design a legacy checklist for any host city. Which changes should still help residents ten years later? Which changes are mostly for television? This turns a sports event into a city-planning question.`, [
         { title: 'Beijing 2008', publisher: 'International Olympic Committee', url: 'https://olympics.com/en/olympic-games/beijing-2008' },
           { title: 'Beijing National Stadium', publisher: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Beijing_National_Stadium' },
+      ]),
+    ],
+  },
+  {
+    id: 'shanghai',
+    city: 'Shanghai',
+    country: 'China',
+    region: 'East Asia',
+    lat: 31.2304,
+    lng: 121.4737,
+    primaryAirport: 'PVG',
+    airports: ['PVG', 'SHA'],
+    scene: { terrain: 'coastal', vegetation: 'broadleaf', skyline: 'highrise', skylineVariant: 'shanghai', landmarkSilhouette: 'oriental-pearl', palette: 'night' },
+    heroImage: IMAGES.shanghai,
+    focusOptions: [
+      videoFocus('towers-temples-food-video', 'Shanghai - Towers, Temples, and Food', 'Use a short city visit to notice skyline, old streets, temple space, and local eating.', 'Easy', 'Describe Shanghai using concrete details from places, food, and city views.', ['listening', 'city introduction', 'food culture', 'younger learners'], 'O9vaiiv9dFU', 'John & Sammy Iredale', 275, `This compact visit moves through Shanghai skyline views, temple streets, and food experiences. It gives younger learners a concrete first look at the city without adding another transport lesson.`, '2026-07-01'),
+      videoFocus('food-culture-shock-video', 'Shanghai - Food, Love, and Culture Shock', 'Hear a youth perspective on food, belonging, and cultural adjustment in Shanghai.', 'Intermediate', 'Explain how food can help people understand another culture and their own identity.', ['listening', 'food culture', 'identity', 'discussion'], 'e0fuRHUv0K4', 'TEDx Talks', 348, `This TEDx youth talk uses food and personal experience to discuss cultural adjustment. It supports class discussion about belonging, assumptions, and how ordinary meals can carry meaning.`, '2026-07-01'),
+      videoFocus('journey-to-the-west-video', 'Shanghai - Journey to the West in Five Minutes', 'Use a classic Chinese story to explore literature, characters, and cultural memory.', 'Advanced', 'Summarize a cultural story and explain why older literature remains active today.', ['listening', 'literature', 'culture', 'summary'], '9Zd8TFixpl0', 'RAS Shanghai', 284, `This short talk introduces Journey to the West through a Shanghai cultural institution. It gives advanced learners a culture-focused option about story, character, translation, and shared memory.`, '2026-07-01'),
+      researchedReadingFocus('shanghai', 'bund-and-pudong', 'Shanghai - The Bund and Pudong Face Each Other', 'Read the Huangpu River skyline as a story of trade, memory, growth, and global ambition.', 'Intermediate', 'Explain how architecture can show different periods of city power and identity.', ['reading', 'history', 'urban change', 'architecture'], IMAGES.shanghai, MILESTONE_50_READINGS.shanghai.bundAndPudong, [
+        { title: 'Shanghai', publisher: 'Britannica', url: 'https://www.britannica.com/place/Shanghai' },
+        { title: 'Pudong Shanghai November 2017 panorama', publisher: 'Wikimedia Commons', url: 'https://commons.wikimedia.org/wiki/File:Pudong_Shanghai_November_2017_panorama.jpg' },
+      ]),
+      researchedReadingFocus('shanghai', 'lilong-shikumen', 'Shanghai - Lilong Lanes and Shikumen Homes', 'Look beyond the skyline to examine neighborhood life, preservation, and redevelopment.', 'Advanced', 'Analyze why ordinary homes and lanes can be important urban heritage.', ['reading', 'neighborhoods', 'heritage', 'urban change', 'architecture'], IMAGES.shanghai, MILESTONE_50_READINGS.shanghai.lilongAndShikumen, [
+        { title: 'Shanghai', publisher: 'Britannica', url: 'https://www.britannica.com/place/Shanghai' },
+        { title: 'Shanghai Shikumen Museum', publisher: 'Wikimedia Commons', url: 'https://commons.wikimedia.org/wiki/File:20090518_Shanghai_Shikumen_Museum_6860.jpg' },
+      ]),
+      researchedReadingFocus('shanghai', 'xiaolongbao-food-culture', 'Shanghai - Xiaolongbao and the Craft of a Small Meal', 'Follow soup dumplings through skill, timing, local pride, and everyday identity.', 'Easy', 'Explain how a familiar food can carry craft, routine, and city identity.', ['reading', 'food culture', 'daily life', 'identity', 'younger learners'], IMAGES.shanghai, MILESTONE_50_READINGS.shanghai.xiaolongbao, [
+        { title: 'Xiaolongbao Shanghai', publisher: 'Wikimedia Commons', url: 'https://commons.wikimedia.org/wiki/File:Xiaolongbao_Shanghai.jpg' },
+        { title: 'Shanghai', publisher: 'Britannica', url: 'https://www.britannica.com/place/Shanghai' },
       ]),
     ],
   },

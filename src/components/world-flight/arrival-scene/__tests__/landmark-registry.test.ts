@@ -34,6 +34,7 @@ const CITY_SPECIFIC_LANDMARKS: Record<string, string> = {
   Delhi: 'india-gate',
   Manila: 'rizal-monument',
   'Ho Chi Minh City': 'bitexco-tower',
+  Shanghai: 'oriental-pearl',
 };
 
 describe('landmark registry audit', () => {

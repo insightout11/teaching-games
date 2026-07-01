@@ -20,7 +20,7 @@ const FRONT_H: Record<NonNullable<RunwayPlaneSceneProps['planeSize']>, number> =
 
 export function RunwayPlaneScene({ planeKey, planeSize = 'md', showRunway = true, frontFacing = false, frontVariant = '3q', className }: RunwayPlaneSceneProps) {
   const plane = getPlaneAsset(planeKey);
-  const frontSrc = getPlaneViewAsset(planeKey, frontVariant === 'headon' ? 'front' : 'front-3q');
+  const frontSrc = getPlaneViewAsset(planeKey, frontVariant === 'headon' ? 'front' : 'front-3q-ground');
   const frontTransform = frontFacing && plane.displayMeta.runwayYOffset !== 0
     ? { transform: `translateY(${-plane.displayMeta.runwayYOffset}px)` }
     : undefined;

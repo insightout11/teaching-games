@@ -485,6 +485,21 @@ export const DESTINATION_FACTS: Record<string, DestinationFactSheet> = {
     knownFor: ['Forbidden City', 'Temple of Heaven', 'Hutong neighborhoods', 'Capital city power'],
     prompt: 'How does Beijing show older imperial space inside a fast modern capital?',
   },
+  shanghai: {
+    population: {
+      label: 'City population',
+      value: '29.87M',
+      year: '2026 estimate',
+      name: 'World Population Review',
+      url: 'https://worldpopulationreview.com/cities/china/shanghai',
+    },
+    language: 'Mandarin Chinese, Shanghainese, and many community languages',
+    currency: 'Chinese yuan (CNY)',
+    timeZone: 'China Standard Time (UTC+8)',
+    foodCulture: ['Xiaolongbao', 'Shengjian mantou', 'Hairy crab', 'Jiangnan cooking', 'Tea houses'],
+    knownFor: ['The Bund', 'Pudong skyline', 'Lilong lanes', 'Huangpu River waterfront'],
+    prompt: 'How does Shanghai balance famous skyline change with neighborhood memory and daily culture?',
+  },
   berlin: {
     population: {
       label: 'City population',

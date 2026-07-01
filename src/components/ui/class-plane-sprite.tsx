@@ -1,6 +1,6 @@
 'use client';
 
-import { getPlaneAsset } from '@/lib/plane-progression';
+import { getPlaneAsset, getPlaneViewAsset } from '@/lib/plane-progression';
 
 interface ClassPlaneSpriteProps {
   planeKey?: string | null;
@@ -22,6 +22,7 @@ const SIZE_PX: Record<NonNullable<ClassPlaneSpriteProps['size']>, number> = {
 
 export function ClassPlaneSprite({ planeKey, size = 'md', variant, className }: ClassPlaneSpriteProps) {
   const plane = getPlaneAsset(planeKey);
+  const src = variant === 'parked' ? getPlaneViewAsset(planeKey, 'ground') : plane.webp;
   const meta = plane.displayMeta;
   const scale = variant === 'parked' ? meta.parkedScale : variant === 'flying' ? meta.flyingScale : 1;
   const yOffset = variant === 'parked' ? meta.runwayYOffset : variant === 'flying' ? meta.transitionYOffset : 0;
@@ -33,7 +34,7 @@ export function ClassPlaneSprite({ planeKey, size = 'md', variant, className }: 
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={plane.webp}
+      src={src}
       alt=""
       width={heightPx * 2}
       height={heightPx}
