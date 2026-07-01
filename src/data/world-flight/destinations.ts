@@ -1,5 +1,12 @@
 import type { SourceMaterial } from '@/types/source-material';
-import type { DestinationFocus, DestinationImage, DestinationPack } from '@/lib/world-flight/types';
+import type {
+  DestinationFocus,
+  DestinationImage,
+  DestinationPack,
+  TravelAnchors,
+  TravelAttraction,
+  TravelDish,
+} from '@/lib/world-flight/types';
 import {
   assessWorldFlightReadingQuality,
   buildWorldFlightBriefingOptions,
@@ -236,7 +243,657 @@ const IMAGES = {
 export const STARTER_PLANE_RANGE_KM = 5200;
 export const WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS = 7 * 60;
 
-export const WORLD_DESTINATIONS: DestinationPack[] = [
+const TRAVEL_ANCHOR_REVIEWED_AT = '2026-07-01';
+
+function verifiedTravelDish(
+  id: string,
+  name: string,
+  whatItIs: string,
+  sourceUrl: string,
+  note?: string,
+): TravelDish {
+  return {
+    id,
+    name,
+    whatItIs,
+    ...(note ? { note } : {}),
+    sourceUrl,
+    review: { status: 'verified', reviewedAt: TRAVEL_ANCHOR_REVIEWED_AT },
+  };
+}
+
+function verifiedTravelAttraction(
+  id: string,
+  name: string,
+  whatItIs: string,
+  sourceUrl: string,
+  whyVisit?: string,
+): TravelAttraction {
+  return {
+    id,
+    name,
+    whatItIs,
+    ...(whyVisit ? { whyVisit } : {}),
+    sourceUrl,
+    review: { status: 'verified', reviewedAt: TRAVEL_ANCHOR_REVIEWED_AT },
+  };
+}
+
+const TRAVEL_ANCHORS_BY_DESTINATION: Partial<Record<string, TravelAnchors>> = {
+  bangkok: {
+    dishes: [
+      verifiedTravelDish('pad-thai', 'Pad Thai', 'Stir-fried rice noodles with egg, tamarind, tofu, and peanuts.', 'https://en.wikipedia.org/wiki/Pad_thai'),
+      verifiedTravelDish('tom-yum', 'Tom Yum', 'Hot and sour soup scented with lemongrass, lime, and chili.', 'https://en.wikipedia.org/wiki/Tom_yum'),
+      verifiedTravelDish('boat-noodles', 'Boat Noodles', 'Small bowls of rich noodle soup with meat and herbs.', 'https://en.wikipedia.org/wiki/Boat_noodles', 'Often served in quick rounds at canal-side shops.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('grand-palace', 'Grand Palace', 'A royal palace complex with temples, courtyards, and ceremonial halls.', 'https://en.wikipedia.org/wiki/Grand_Palace', 'The city landmark most students will recognize from travel photos.'),
+      verifiedTravelAttraction('wat-arun', 'Wat Arun', 'A riverside temple known for its tall decorated central spire.', 'https://en.wikipedia.org/wiki/Wat_Arun', 'Best for river-crossing directions and sunset views.'),
+      verifiedTravelAttraction('chatuchak-market', 'Chatuchak Weekend Market', 'A huge weekend market with food, clothes, plants, and souvenirs.', 'https://en.wikipedia.org/wiki/Chatuchak_Weekend_Market', 'Good for bargaining, meeting points, and shopping roleplay.'),
+    ],
+  },
+  tokyo: {
+    dishes: [
+      verifiedTravelDish('edomae-sushi', 'Edomae Sushi', 'Fresh seafood served on small pillows of vinegared rice.', 'https://en.wikipedia.org/wiki/Sushi#Edomae-style', 'Eat in one bite when possible; dip the fish side.'),
+      verifiedTravelDish('monjayaki', 'Monjayaki', 'A runny savory pancake cooked and scraped from a hot griddle.', 'https://en.wikipedia.org/wiki/Monjayaki', 'A Tokyo specialty strongly linked with Tsukishima.'),
+      verifiedTravelDish('ramen', 'Ramen', 'Wheat noodles in hot broth, often topped with pork and egg.', 'https://en.wikipedia.org/wiki/Ramen', 'Slurping noodles is normal in many ramen shops.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('senso-ji', 'Senso-ji Temple', 'The oldest temple in Tokyo, reached through a busy market street.', 'https://en.wikipedia.org/wiki/Senso-ji', 'Old Tokyo atmosphere and street snacks in Asakusa.'),
+      verifiedTravelAttraction('meiji-jingu', 'Meiji Shrine', 'A calm Shinto shrine set inside a forested city park.', 'https://en.wikipedia.org/wiki/Meiji_Shrine', 'A quiet contrast to nearby Harajuku.'),
+      verifiedTravelAttraction('shibuya-crossing', 'Shibuya Crossing', 'A famous scramble crossing surrounded by screens, shops, and crowds.', 'https://en.wikipedia.org/wiki/Shibuya_Crossing', 'Useful for iconic city movement and meeting-point language.'),
+    ],
+  },
+  seoul: {
+    dishes: [
+      verifiedTravelDish('seolleongtang', 'Seolleongtang', 'A mild ox-bone soup served with rice and green onion.', 'https://en.wikipedia.org/wiki/Seolleongtang'),
+      verifiedTravelDish('tteokbokki', 'Tteokbokki', 'Chewy rice cakes cooked in a spicy red sauce.', 'https://en.wikipedia.org/wiki/Tteokbokki', 'A common street snack in busy Seoul markets.'),
+      verifiedTravelDish('bindaetteok', 'Bindaetteok', 'Crisp mung bean pancakes often eaten with soy dipping sauce.', 'https://en.wikipedia.org/wiki/Bindae-tteok', 'Gwangjang Market is famous for this snack.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('gyeongbokgung', 'Gyeongbokgung Palace', 'A restored royal palace from the Joseon dynasty.', 'https://en.wikipedia.org/wiki/Gyeongbokgung', 'Good for hanbok photos and changing-of-the-guard language.'),
+      verifiedTravelAttraction('n-seoul-tower', 'N Seoul Tower', 'A hilltop observation tower looking across the city.', 'https://en.wikipedia.org/wiki/N_Seoul_Tower', 'A clear landmark for skyline and directions work.'),
+      verifiedTravelAttraction('bukchon-hanok-village', 'Bukchon Hanok Village', 'A hillside neighborhood of traditional Korean houses.', 'https://en.wikipedia.org/wiki/Bukchon_Hanok_Village', 'A real walking area where quiet etiquette matters.'),
+    ],
+  },
+  singapore: {
+    dishes: [
+      verifiedTravelDish('hainanese-chicken-rice', 'Hainanese Chicken Rice', 'Poached chicken with fragrant rice, chili sauce, and broth.', 'https://en.wikipedia.org/wiki/Hainanese_chicken_rice'),
+      verifiedTravelDish('laksa', 'Laksa', 'Spicy coconut noodle soup with seafood, herbs, and chili.', 'https://en.wikipedia.org/wiki/Laksa'),
+      verifiedTravelDish('chili-crab', 'Chili Crab', 'Crab cooked in a thick sweet, spicy tomato-chili sauce.', 'https://en.wikipedia.org/wiki/Chilli_crab', 'Often eaten with fried buns for dipping.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('gardens-by-the-bay', 'Gardens by the Bay', 'A waterfront garden complex with Supertrees and glass conservatories.', 'https://en.wikipedia.org/wiki/Gardens_by_the_Bay', 'Strong visual anchor for nature inside a dense city.'),
+      verifiedTravelAttraction('marina-bay-sands', 'Marina Bay Sands', 'A landmark hotel and observation deck facing Marina Bay.', 'https://en.wikipedia.org/wiki/Marina_Bay_Sands', 'Useful for skyline, ticket, and viewpoint roleplay.'),
+      verifiedTravelAttraction('singapore-botanic-gardens', 'Singapore Botanic Gardens', 'A large tropical garden and UNESCO World Heritage Site.', 'https://en.wikipedia.org/wiki/Singapore_Botanic_Gardens', 'A calm, visitable contrast to the business district.'),
+    ],
+  },
+  paris: {
+    dishes: [
+      verifiedTravelDish('croissant', 'Croissant', 'A flaky crescent-shaped pastry made with layered butter dough.', 'https://en.wikipedia.org/wiki/Croissant'),
+      verifiedTravelDish('croque-monsieur', 'Croque Monsieur', 'A toasted ham and cheese sandwich often topped with bechamel.', 'https://en.wikipedia.org/wiki/Croque_monsieur'),
+      verifiedTravelDish('french-onion-soup', 'Soupe a l oignon', 'Onion soup baked with bread and melted cheese on top.', 'https://en.wikipedia.org/wiki/French_onion_soup'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('eiffel-tower', 'Eiffel Tower', 'A tall iron tower and the best-known Paris landmark.', 'https://en.wikipedia.org/wiki/Eiffel_Tower', 'Clear anchor for tickets, lifts, views, and crowds.'),
+      verifiedTravelAttraction('louvre', 'Louvre Museum', 'A huge art museum in a former royal palace.', 'https://en.wikipedia.org/wiki/Louvre', 'A natural place for maps, galleries, and meeting points.'),
+      verifiedTravelAttraction('montmartre', 'Montmartre', 'A hilltop neighborhood known for artists and Sacre-Coeur views.', 'https://en.wikipedia.org/wiki/Montmartre', 'Useful for walking uphill and neighborhood atmosphere.'),
+    ],
+  },
+  london: {
+    dishes: [
+      verifiedTravelDish('fish-and-chips', 'Fish and Chips', 'Battered fried fish served with thick chips.', 'https://en.wikipedia.org/wiki/Fish_and_chips'),
+      verifiedTravelDish('pie-and-mash', 'Pie and Mash', 'A meat pie served with mashed potatoes and parsley liquor.', 'https://en.wikipedia.org/wiki/Pie_and_mash', 'A traditional East London meal.'),
+      verifiedTravelDish('jellied-eels', 'Jellied Eels', 'Pieces of eel set in savory jelly.', 'https://en.wikipedia.org/wiki/Jellied_eels', 'A historic London dish students may find surprising.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('tower-of-london', 'Tower of London', 'A historic fortress beside the Thames with the Crown Jewels.', 'https://en.wikipedia.org/wiki/Tower_of_London', 'Good for queue, ticket, and history vocabulary.'),
+      verifiedTravelAttraction('british-museum', 'British Museum', 'A major museum with artifacts from many world cultures.', 'https://en.wikipedia.org/wiki/British_Museum', 'Useful for gallery directions and respectful debate.'),
+      verifiedTravelAttraction('buckingham-palace', 'Buckingham Palace', 'The official London residence of the British monarch.', 'https://en.wikipedia.org/wiki/Buckingham_Palace', 'A familiar stop for ceremonies and photo plans.'),
+    ],
+  },
+  'new-york': {
+    dishes: [
+      verifiedTravelDish('new-york-pizza', 'New York-Style Pizza', 'Large thin slices of pizza often folded by hand.', 'https://en.wikipedia.org/wiki/New_York-style_pizza'),
+      verifiedTravelDish('bagel', 'Bagel', 'A chewy ring-shaped bread often served with cream cheese.', 'https://en.wikipedia.org/wiki/Bagel', 'New York bagel shops are a classic breakfast stop.'),
+      verifiedTravelDish('new-york-cheesecake', 'New York-Style Cheesecake', 'A dense cream-cheese cake with a rich, smooth filling.', 'https://en.wikipedia.org/wiki/Cheesecake'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('statue-of-liberty', 'Statue of Liberty', 'A harbor monument reached by ferry from Lower Manhattan.', 'https://en.wikipedia.org/wiki/Statue_of_Liberty', 'Good for ferry times, security lines, and skyline views.'),
+      verifiedTravelAttraction('central-park', 'Central Park', 'A large public park in the middle of Manhattan.', 'https://en.wikipedia.org/wiki/Central_Park', 'Clear place for walking routes and picnic plans.'),
+      verifiedTravelAttraction('times-square', 'Times Square', 'A bright theater district plaza filled with screens and crowds.', 'https://en.wikipedia.org/wiki/Times_Square', 'Useful for crowds, photos, and meeting-point dialogue.'),
+    ],
+  },
+  cairo: {
+    dishes: [
+      verifiedTravelDish('koshary', 'Koshary', 'Rice, lentils, pasta, chickpeas, tomato sauce, and fried onions.', 'https://en.wikipedia.org/wiki/Koshary', 'A filling Egyptian street-food staple.'),
+      verifiedTravelDish('ful-medames', 'Ful Medames', 'Slow-cooked fava beans served with oil, lemon, and bread.', 'https://en.wikipedia.org/wiki/Ful_medames'),
+      verifiedTravelDish('taameya', 'Taameya', 'Egyptian-style falafel usually made with fava beans.', 'https://en.wikipedia.org/wiki/Falafel', 'Often eaten for breakfast or as a quick sandwich.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('pyramids-of-giza', 'Pyramids of Giza', 'Ancient pyramids on the desert edge of greater Cairo.', 'https://en.wikipedia.org/wiki/Giza_pyramid_complex', 'The strongest visual anchor for Egypt travel.'),
+      verifiedTravelAttraction('egyptian-museum', 'Egyptian Museum', 'A central museum with major ancient Egyptian collections.', 'https://en.wikipedia.org/wiki/Egyptian_Museum', 'Good for tickets, galleries, and artifact vocabulary.'),
+      verifiedTravelAttraction('khan-el-khalili', 'Khan el-Khalili', 'A historic market area with shops, cafes, and narrow lanes.', 'https://en.wikipedia.org/wiki/Khan_el-Khalili', 'Useful for bargaining and navigation roleplay.'),
+    ],
+  },
+  dubai: {
+    dishes: [
+      verifiedTravelDish('machboos', 'Machboos', 'Spiced rice with meat or fish, often flavored with dried lime.', 'https://en.wikipedia.org/wiki/Kabsa', 'A Gulf rice dish family also eaten in the Emirates.'),
+      verifiedTravelDish('harees', 'Harees', 'Wheat and meat cooked slowly into a smooth savory porridge.', 'https://en.wikipedia.org/wiki/Harees'),
+      verifiedTravelDish('luqaimat', 'Luqaimat', 'Small fried dough balls usually drizzled with date syrup.', 'https://en.wikipedia.org/wiki/Luqaimat', 'A common Emirati sweet during Ramadan.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('burj-khalifa', 'Burj Khalifa', 'The tallest building in the world with observation decks.', 'https://en.wikipedia.org/wiki/Burj_Khalifa', 'Excellent for height, ticket time, and skyline language.'),
+      verifiedTravelAttraction('dubai-creek', 'Dubai Creek', 'A saltwater creek lined with souks, abras, and older trading areas.', 'https://en.wikipedia.org/wiki/Dubai_Creek', 'Grounds the city before the skyscraper era.'),
+      verifiedTravelAttraction('al-fahidi', 'Al Fahidi Historical Neighbourhood', 'A restored heritage district of lanes, courtyards, and wind towers.', 'https://en.wikipedia.org/wiki/Al_Bastakiya', 'Good for slower walking and old-city contrast.'),
+    ],
+  },
+  sydney: {
+    dishes: [
+      verifiedTravelDish('meat-pie', 'Australian Meat Pie', 'A small savory pie filled with minced meat and gravy.', 'https://en.wikipedia.org/wiki/Australian_meat_pie'),
+      verifiedTravelDish('lamington', 'Lamington', 'Sponge cake squares coated in chocolate sauce and coconut.', 'https://en.wikipedia.org/wiki/Lamington'),
+      verifiedTravelDish('sydney-rock-oyster', 'Sydney Rock Oyster', 'A local oyster often served fresh from the shell.', 'https://en.wikipedia.org/wiki/Sydney_rock_oyster', 'A classic harbor seafood order.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('sydney-opera-house', 'Sydney Opera House', 'A harbor performing arts center with famous shell-shaped roofs.', 'https://en.wikipedia.org/wiki/Sydney_Opera_House', 'The key skyline image for Sydney.'),
+      verifiedTravelAttraction('harbour-bridge', 'Sydney Harbour Bridge', 'A large steel arch bridge crossing Sydney Harbour.', 'https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge', 'Useful for walking routes and viewpoint choices.'),
+      verifiedTravelAttraction('bondi-beach', 'Bondi Beach', 'A famous surf beach with a coastal walk nearby.', 'https://en.wikipedia.org/wiki/Bondi_Beach', 'Good for weather, safety, and beach-plan dialogue.'),
+    ],
+  },
+  beijing: {
+    dishes: [
+      verifiedTravelDish('peking-duck', 'Peking Duck', 'Roast duck with crisp skin served with pancakes and sauce.', 'https://en.wikipedia.org/wiki/Peking_duck'),
+      verifiedTravelDish('jianbing', 'Jianbing', 'A thin breakfast crepe folded with egg, sauce, and crisp cracker.', 'https://en.wikipedia.org/wiki/Jianbing'),
+      verifiedTravelDish('zhajiangmian', 'Zhajiangmian', 'Wheat noodles topped with a salty fermented soybean meat sauce.', 'https://en.wikipedia.org/wiki/Zhajiangmian'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('forbidden-city', 'Forbidden City', 'A vast former imperial palace complex in central Beijing.', 'https://en.wikipedia.org/wiki/Forbidden_City', 'Strong for gates, courtyards, tickets, and history.'),
+      verifiedTravelAttraction('temple-of-heaven', 'Temple of Heaven', 'An imperial ritual complex set inside a large public park.', 'https://en.wikipedia.org/wiki/Temple_of_Heaven', 'Good for morning park life and landmark shapes.'),
+      verifiedTravelAttraction('summer-palace', 'Summer Palace', 'A lakeside imperial garden with pavilions, bridges, and hill views.', 'https://en.wikipedia.org/wiki/Summer_Palace', 'A clear place for boat, walk, and map language.'),
+    ],
+  },
+  shanghai: {
+    dishes: [
+      verifiedTravelDish('xiaolongbao', 'Xiaolongbao', 'Small steamed soup dumplings filled with pork and hot broth.', 'https://en.wikipedia.org/wiki/Xiaolongbao'),
+      verifiedTravelDish('shengjian-mantou', 'Shengjian Mantou', 'Pan-fried buns with juicy pork filling and a crisp bottom.', 'https://en.wikipedia.org/wiki/Shengjian_mantou'),
+      verifiedTravelDish('hairy-crab', 'Hairy Crab', 'Seasonal river crab prized for rich orange roe.', 'https://en.wikipedia.org/wiki/Chinese_mitten_crab', 'Especially associated with autumn eating around Shanghai.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('the-bund', 'The Bund', 'A famous waterfront promenade facing the Pudong skyline.', 'https://en.wikipedia.org/wiki/The_Bund', 'Best for old-and-new city contrast.'),
+      verifiedTravelAttraction('yu-garden', 'Yu Garden', 'A classical Chinese garden with rocks, ponds, and pavilions.', 'https://en.wikipedia.org/wiki/Yu_Garden', 'Good for slow observation and photo directions.'),
+      verifiedTravelAttraction('shanghai-tower', 'Shanghai Tower', 'A twisting supertall tower with high observation areas.', 'https://en.wikipedia.org/wiki/Shanghai_Tower', 'Useful for elevator, height, and skyline talk.'),
+    ],
+  },
+  berlin: {
+    dishes: [
+      verifiedTravelDish('currywurst', 'Currywurst', 'Sliced sausage topped with curry ketchup and often served with fries.', 'https://en.wikipedia.org/wiki/Currywurst'),
+      verifiedTravelDish('doner-kebab', 'Doner Kebab', 'Meat shaved from a vertical rotisserie and served in bread.', 'https://en.wikipedia.org/wiki/Doner_kebab', 'Berlin is strongly linked with the modern sandwich version.'),
+      verifiedTravelDish('berliner-pfannkuchen', 'Berliner Pfannkuchen', 'A round jam-filled doughnut dusted with sugar.', 'https://en.wikipedia.org/wiki/Berliner_(doughnut)'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('brandenburg-gate', 'Brandenburg Gate', 'A neoclassical gate and major symbol of Berlin.', 'https://en.wikipedia.org/wiki/Brandenburg_Gate', 'Clear landmark for history and meeting-point language.'),
+      verifiedTravelAttraction('east-side-gallery', 'East Side Gallery', 'A long painted section of the former Berlin Wall.', 'https://en.wikipedia.org/wiki/East_Side_Gallery', 'Good for public art and memory discussion.'),
+      verifiedTravelAttraction('museum-island', 'Museum Island', 'A river island with several major museums.', 'https://en.wikipedia.org/wiki/Museum_Island', 'Useful for choosing galleries and giving directions.'),
+    ],
+  },
+  moscow: {
+    dishes: [
+      verifiedTravelDish('borscht', 'Borscht', 'A beet soup often served hot with sour cream.', 'https://en.wikipedia.org/wiki/Borscht'),
+      verifiedTravelDish('blini', 'Blini', 'Thin pancakes served with sweet or savory toppings.', 'https://en.wikipedia.org/wiki/Blini'),
+      verifiedTravelDish('pelmeni', 'Pelmeni', 'Small dumplings filled with meat and served with sour cream.', 'https://en.wikipedia.org/wiki/Pelmeni'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('red-square', 'Red Square', 'A central public square beside the Kremlin walls.', 'https://en.wikipedia.org/wiki/Red_Square', 'A compact place for landmark orientation.'),
+      verifiedTravelAttraction('moscow-kremlin', 'Moscow Kremlin', 'A fortified complex with palaces, cathedrals, and government buildings.', 'https://en.wikipedia.org/wiki/Moscow_Kremlin', 'Good for security, gates, and historical power language.'),
+      verifiedTravelAttraction('saint-basils-cathedral', 'Saint Basil Cathedral', 'A colorful cathedral with onion domes on Red Square.', 'https://en.wikipedia.org/wiki/Saint_Basil%27s_Cathedral', 'A highly recognizable visual landmark.'),
+    ],
+  },
+  istanbul: {
+    dishes: [
+      verifiedTravelDish('simit', 'Simit', 'A sesame-crusted bread ring sold from street carts.', 'https://en.wikipedia.org/wiki/Simit'),
+      verifiedTravelDish('doner-kebab', 'Doner Kebab', 'Seasoned meat cooked on a vertical rotisserie and sliced thin.', 'https://en.wikipedia.org/wiki/Doner_kebab'),
+      verifiedTravelDish('balik-ekmek', 'Balik Ekmek', 'A grilled fish sandwich commonly eaten near the waterfront.', 'https://en.wikipedia.org/wiki/Bal%C4%B1k_ekmek', 'Often associated with ferries and the Galata Bridge area.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('hagia-sophia', 'Hagia Sophia', 'A monumental former church and mosque in Sultanahmet.', 'https://en.wikipedia.org/wiki/Hagia_Sophia', 'Useful for layered history and respectful visiting rules.'),
+      verifiedTravelAttraction('topkapi-palace', 'Topkapi Palace', 'A former Ottoman palace complex with courtyards and treasury rooms.', 'https://en.wikipedia.org/wiki/Topkap%C4%B1_Palace', 'Good for map language across large grounds.'),
+      verifiedTravelAttraction('grand-bazaar', 'Grand Bazaar', 'A huge covered market with lanes, shops, and gates.', 'https://en.wikipedia.org/wiki/Grand_Bazaar,_Istanbul', 'Natural for bargaining and getting-lost dialogue.'),
+    ],
+  },
+  vancouver: {
+    dishes: [
+      verifiedTravelDish('japadog', 'Japadog', 'A Japanese-style hot dog from a Vancouver street-food brand.', 'https://en.wikipedia.org/wiki/Japadog'),
+      verifiedTravelDish('nanaimo-bar', 'Nanaimo Bar', 'A layered dessert bar with crumb base, custard, and chocolate.', 'https://en.wikipedia.org/wiki/Nanaimo_bar', 'A British Columbia sweet found around Vancouver.'),
+      verifiedTravelDish('pacific-smoked-salmon', 'Pacific Smoked Salmon', 'Salmon cured and smoked, often served in thin slices.', 'https://en.wikipedia.org/wiki/Smoked_salmon', 'Connects the city to Pacific seafood.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('stanley-park', 'Stanley Park', 'A large waterfront park with forest, seawall, and beaches.', 'https://en.wikipedia.org/wiki/Stanley_Park', 'Good for bikes, walking times, and scenic stops.'),
+      verifiedTravelAttraction('granville-island', 'Granville Island', 'A market and arts district under a downtown bridge.', 'https://en.wikipedia.org/wiki/Granville_Island', 'Useful for food stalls and ferry directions.'),
+      verifiedTravelAttraction('capilano-suspension-bridge', 'Capilano Suspension Bridge', 'A long footbridge crossing a forested canyon.', 'https://en.wikipedia.org/wiki/Capilano_Suspension_Bridge', 'A memorable place for height and nature language.'),
+    ],
+  },
+  toronto: {
+    dishes: [
+      verifiedTravelDish('peameal-bacon-sandwich', 'Peameal Bacon Sandwich', 'Cured pork loin served hot on a soft roll.', 'https://en.wikipedia.org/wiki/Peameal_bacon', 'Strongly linked with Toronto market eating.'),
+      verifiedTravelDish('butter-tart', 'Butter Tart', 'A small pastry shell filled with sweet buttery syrup.', 'https://en.wikipedia.org/wiki/Butter_tart'),
+      verifiedTravelDish('jamaican-patty', 'Jamaican Patty', 'A flaky yellow pastry filled with spiced meat or vegetables.', 'https://en.wikipedia.org/wiki/Jamaican_patty', 'Common in Toronto because of Caribbean communities.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('cn-tower', 'CN Tower', 'A tall communications tower with observation decks above downtown.', 'https://en.wikipedia.org/wiki/CN_Tower', 'A simple skyline anchor for first-time visitors.'),
+      verifiedTravelAttraction('royal-ontario-museum', 'Royal Ontario Museum', 'A major museum of culture, nature, and world history.', 'https://en.wikipedia.org/wiki/Royal_Ontario_Museum', 'Good for exhibits, tickets, and rainy-day plans.'),
+      verifiedTravelAttraction('st-lawrence-market', 'St. Lawrence Market', 'A historic food market with vendors and prepared meals.', 'https://en.wikipedia.org/wiki/St._Lawrence_Market', 'Connects directly to ordering and local food.'),
+    ],
+  },
+  mumbai: {
+    dishes: [
+      verifiedTravelDish('vada-pav', 'Vada Pav', 'A spiced potato fritter served inside a soft bread roll.', 'https://en.wikipedia.org/wiki/Vada_pav', 'A classic Mumbai street snack.'),
+      verifiedTravelDish('pav-bhaji', 'Pav Bhaji', 'Mashed spiced vegetables served with buttered bread rolls.', 'https://en.wikipedia.org/wiki/Pav_bhaji', 'Widely associated with Mumbai street food.'),
+      verifiedTravelDish('bhelpuri', 'Bhelpuri', 'Puffed rice mixed with chutneys, onions, sev, and crunchy snacks.', 'https://en.wikipedia.org/wiki/Bhelpuri'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('gateway-of-india', 'Gateway of India', 'A waterfront arch monument facing Mumbai Harbour.', 'https://en.wikipedia.org/wiki/Gateway_of_India', 'Good for ferry, photo, and meeting-point language.'),
+      verifiedTravelAttraction('cst', 'Chhatrapati Shivaji Terminus', 'A historic railway station with Gothic Revival architecture.', 'https://en.wikipedia.org/wiki/Chhatrapati_Shivaji_Terminus', 'A real transport landmark as well as a monument.'),
+      verifiedTravelAttraction('marine-drive', 'Marine Drive', 'A sweeping seaside boulevard along Back Bay.', 'https://en.wikipedia.org/wiki/Marine_Drive,_Mumbai', 'Useful for evening walks and waterfront directions.'),
+    ],
+  },
+  'cape-town': {
+    dishes: [
+      verifiedTravelDish('gatsby', 'Gatsby', 'A large sandwich filled with chips, sauce, and meat or fish.', 'https://en.wikipedia.org/wiki/Gatsby_(sandwich)', 'A Cape Town takeaway specialty meant for sharing.'),
+      verifiedTravelDish('bobotie', 'Bobotie', 'Spiced minced meat baked under a savory egg custard.', 'https://en.wikipedia.org/wiki/Bobotie'),
+      verifiedTravelDish('koeksister', 'Koeksister', 'A braided fried pastry soaked in sweet syrup.', 'https://en.wikipedia.org/wiki/Koeksister'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('table-mountain', 'Table Mountain', 'A flat-topped mountain rising directly above the city.', 'https://en.wikipedia.org/wiki/Table_Mountain', 'The essential viewpoint and weather-check stop.'),
+      verifiedTravelAttraction('robben-island', 'Robben Island', 'A historic island prison reached by ferry from the waterfront.', 'https://en.wikipedia.org/wiki/Robben_Island', 'Important for memory, tours, and ferry timing.'),
+      verifiedTravelAttraction('va-waterfront', 'V&A Waterfront', 'A harbor district with shops, restaurants, museums, and ferries.', 'https://en.wikipedia.org/wiki/Victoria_%26_Alfred_Waterfront', 'A practical base for food and excursion plans.'),
+    ],
+  },
+  rome: {
+    dishes: [
+      verifiedTravelDish('carbonara', 'Carbonara', 'Pasta with eggs, hard cheese, guanciale, and black pepper.', 'https://en.wikipedia.org/wiki/Carbonara'),
+      verifiedTravelDish('cacio-e-pepe', 'Cacio e Pepe', 'Pasta dressed simply with pecorino cheese and black pepper.', 'https://en.wikipedia.org/wiki/Cacio_e_pepe'),
+      verifiedTravelDish('suppli', 'Suppli', 'Fried rice balls filled with tomato sauce and mozzarella.', 'https://en.wikipedia.org/wiki/Suppl%C3%AC', 'A Roman snack often eaten by hand.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('colosseum', 'Colosseum', 'A large ancient amphitheater in the center of Rome.', 'https://en.wikipedia.org/wiki/Colosseum', 'Clear anchor for tickets, queues, and ancient history.'),
+      verifiedTravelAttraction('trevi-fountain', 'Trevi Fountain', 'A monumental Baroque fountain in a busy square.', 'https://en.wikipedia.org/wiki/Trevi_Fountain', 'Good for crowds, coins, and photo etiquette.'),
+      verifiedTravelAttraction('pantheon', 'Pantheon', 'An ancient temple with a huge dome and open oculus.', 'https://en.wikipedia.org/wiki/Pantheon,_Rome', 'Simple to describe visually and spatially.'),
+    ],
+  },
+  'rio-de-janeiro': {
+    dishes: [
+      verifiedTravelDish('feijoada', 'Feijoada', 'Black bean stew with pork, served with rice and sides.', 'https://en.wikipedia.org/wiki/Feijoada'),
+      verifiedTravelDish('biscoito-globo', 'Biscoito Globo', 'A light ring-shaped manioc starch snack sold on Rio beaches.', 'https://en.wikipedia.org/wiki/Avoador'),
+      verifiedTravelDish('bolinho-de-bacalhau', 'Bolinho de Bacalhau', 'Small fried cod fritters eaten as a salty snack.', 'https://en.wikipedia.org/wiki/Bacalhau'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('christ-the-redeemer', 'Christ the Redeemer', 'A giant mountaintop statue overlooking the city.', 'https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)', 'The most recognizable Rio viewpoint.'),
+      verifiedTravelAttraction('sugarloaf-mountain', 'Sugarloaf Mountain', 'A granite peak reached by cable car above the bay.', 'https://en.wikipedia.org/wiki/Sugarloaf_Mountain', 'Good for cable-car dialogue and panoramic directions.'),
+      verifiedTravelAttraction('copacabana-beach', 'Copacabana Beach', 'A famous city beach with a curved promenade.', 'https://en.wikipedia.org/wiki/Copacabana,_Rio_de_Janeiro', 'Useful for beach plans, safety, and meeting points.'),
+    ],
+  },
+  'mexico-city': {
+    dishes: [
+      verifiedTravelDish('tacos-al-pastor', 'Tacos al Pastor', 'Corn tortillas filled with spit-roasted marinated pork and pineapple.', 'https://en.wikipedia.org/wiki/Al_pastor', 'A Mexico City taqueria classic.'),
+      verifiedTravelDish('tlacoyo', 'Tlacoyo', 'A thick oval masa cake filled with beans or cheese.', 'https://en.wikipedia.org/wiki/Tlacoyo'),
+      verifiedTravelDish('tamal', 'Tamal', 'Steamed masa dough wrapped in leaves with savory or sweet filling.', 'https://en.wikipedia.org/wiki/Tamale'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('zocalo', 'Zocalo', 'The main city square surrounded by major civic buildings.', 'https://en.wikipedia.org/wiki/Z%C3%B3calo', 'A central anchor for maps and public events.'),
+      verifiedTravelAttraction('anthropology-museum', 'National Museum of Anthropology', 'A major museum focused on Mexico Indigenous cultures and archaeology.', 'https://en.wikipedia.org/wiki/National_Museum_of_Anthropology_(Mexico)', 'Strong for exhibits, artifacts, and respectful questions.'),
+      verifiedTravelAttraction('chapultepec-castle', 'Chapultepec Castle', 'A hilltop castle inside Chapultepec Park.', 'https://en.wikipedia.org/wiki/Chapultepec_Castle', 'Good for park routes and city views.'),
+    ],
+  },
+  'buenos-aires': {
+    dishes: [
+      verifiedTravelDish('asado', 'Asado', 'Grilled meats cooked slowly over fire or hot coals.', 'https://en.wikipedia.org/wiki/Asado'),
+      verifiedTravelDish('empanada', 'Empanada', 'A baked or fried pastry filled with meat, cheese, or vegetables.', 'https://en.wikipedia.org/wiki/Empanada'),
+      verifiedTravelDish('choripan', 'Choripan', 'Grilled sausage served in bread, often with chimichurri.', 'https://en.wikipedia.org/wiki/Chorip%C3%A1n'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('teatro-colon', 'Teatro Colon', 'A grand opera house known for architecture and acoustics.', 'https://en.wikipedia.org/wiki/Teatro_Col%C3%B3n', 'Useful for show tickets and formal venue language.'),
+      verifiedTravelAttraction('caminito', 'Caminito', 'A colorful pedestrian street museum in La Boca.', 'https://en.wikipedia.org/wiki/Caminito', 'Good for street art, photos, and tourist crowds.'),
+      verifiedTravelAttraction('recoleta-cemetery', 'Recoleta Cemetery', 'A historic cemetery filled with ornate mausoleums.', 'https://en.wikipedia.org/wiki/La_Recoleta_Cemetery', 'A visitable place with strong atmosphere and history.'),
+    ],
+  },
+  'los-angeles': {
+    dishes: [
+      verifiedTravelDish('french-dip', 'French Dip Sandwich', 'Roast beef sandwich served with hot meat juices for dipping.', 'https://en.wikipedia.org/wiki/French_dip'),
+      verifiedTravelDish('korean-taco', 'Korean Taco', 'A taco filled with Korean-style meats and toppings.', 'https://en.wikipedia.org/wiki/Korean_taco', 'A Los Angeles food-truck fusion icon.'),
+      verifiedTravelDish('cobb-salad', 'Cobb Salad', 'A composed salad with chicken, bacon, egg, avocado, and blue cheese.', 'https://en.wikipedia.org/wiki/Cobb_salad', 'Created at a Hollywood restaurant.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('griffith-observatory', 'Griffith Observatory', 'A hilltop observatory with city views and space exhibits.', 'https://en.wikipedia.org/wiki/Griffith_Observatory', 'Good for sunset plans and skyline orientation.'),
+      verifiedTravelAttraction('getty-center', 'Getty Center', 'A hilltop art museum campus with gardens and architecture.', 'https://en.wikipedia.org/wiki/Getty_Center', 'Useful for tram, galleries, and free-entry dialogue.'),
+      verifiedTravelAttraction('santa-monica-pier', 'Santa Monica Pier', 'A beach pier with rides, food, and ocean views.', 'https://en.wikipedia.org/wiki/Santa_Monica_Pier', 'Clear anchor for beach and transit planning.'),
+    ],
+  },
+  jakarta: {
+    dishes: [
+      verifiedTravelDish('nasi-goreng', 'Nasi Goreng', 'Fried rice cooked with sweet soy sauce and toppings.', 'https://en.wikipedia.org/wiki/Nasi_goreng'),
+      verifiedTravelDish('soto-betawi', 'Soto Betawi', 'A Jakarta beef soup made with milk or coconut milk.', 'https://en.wikipedia.org/wiki/Soto_Betawi'),
+      verifiedTravelDish('kerak-telor', 'Kerak Telor', 'A crisp omelet with sticky rice and spiced coconut.', 'https://en.wikipedia.org/wiki/Kerak_telor', 'A Betawi specialty often sold at fairs.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('national-monument', 'National Monument', 'A tall independence monument in Merdeka Square.', 'https://en.wikipedia.org/wiki/National_Monument_(Indonesia)', 'Useful for city-center orientation.'),
+      verifiedTravelAttraction('kota-tua', 'Kota Tua Jakarta', 'The old town area with colonial-era buildings and squares.', 'https://en.wikipedia.org/wiki/Kota_Tua_Jakarta', 'Good for walking, museums, and old-city contrast.'),
+      verifiedTravelAttraction('istiqlal-mosque', 'Istiqlal Mosque', 'A large national mosque near central Jakarta.', 'https://en.wikipedia.org/wiki/Istiqlal_Mosque,_Jakarta', 'Important for respectful visit language.'),
+    ],
+  },
+  lagos: {
+    dishes: [
+      verifiedTravelDish('jollof-rice', 'Jollof Rice', 'Rice cooked in a seasoned tomato and pepper sauce.', 'https://en.wikipedia.org/wiki/Jollof_rice'),
+      verifiedTravelDish('suya', 'Suya', 'Spicy grilled meat skewers coated with peanut-based seasoning.', 'https://en.wikipedia.org/wiki/Suya'),
+      verifiedTravelDish('efo-riro', 'Efo Riro', 'A Yoruba leafy vegetable stew cooked with peppers and oil.', 'https://en.wikipedia.org/wiki/Efo_riro'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('nike-art-gallery', 'Nike Art Gallery', 'A large private gallery showing Nigerian art and textiles.', 'https://en.wikipedia.org/wiki/Nike_Art_Gallery', 'Good for art, buying, and cultural description.'),
+      verifiedTravelAttraction('lekki-conservation-centre', 'Lekki Conservation Centre', 'A nature reserve known for its long canopy walkway.', 'https://en.wikipedia.org/wiki/Lekki_Conservation_Centre', 'A clear city-nature contrast.'),
+      verifiedTravelAttraction('national-museum-lagos', 'National Museum Lagos', 'A museum with Nigerian art, history, and cultural objects.', 'https://en.wikipedia.org/wiki/Nigerian_National_Museum', 'Useful for artifact and heritage vocabulary.'),
+    ],
+  },
+  'hong-kong': {
+    dishes: [
+      verifiedTravelDish('dim-sum', 'Dim Sum', 'Small Cantonese dishes served from menus or carts.', 'https://en.wikipedia.org/wiki/Dim_sum'),
+      verifiedTravelDish('wonton-noodles', 'Wonton Noodles', 'Egg noodles served with shrimp or pork dumplings in broth.', 'https://en.wikipedia.org/wiki/Wonton_noodles'),
+      verifiedTravelDish('egg-tart', 'Egg Tart', 'A small pastry shell filled with smooth egg custard.', 'https://en.wikipedia.org/wiki/Egg_tart'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('victoria-peak', 'Victoria Peak', 'A hilltop viewpoint above the harbor and skyline.', 'https://en.wikipedia.org/wiki/Victoria_Peak', 'The easiest visual anchor for Hong Kong geography.'),
+      verifiedTravelAttraction('star-ferry', 'Star Ferry', 'A passenger ferry crossing Victoria Harbour.', 'https://en.wikipedia.org/wiki/Star_Ferry', 'Useful for tickets, piers, and short crossings.'),
+      verifiedTravelAttraction('tian-tan-buddha', 'Tian Tan Buddha', 'A large outdoor bronze Buddha on Lantau Island.', 'https://en.wikipedia.org/wiki/Tian_Tan_Buddha', 'Good for cable-car and day-trip planning.'),
+    ],
+  },
+  amsterdam: {
+    dishes: [
+      verifiedTravelDish('bitterballen', 'Bitterballen', 'Crisp fried balls filled with thick savory meat ragout.', 'https://en.wikipedia.org/wiki/Bitterballen'),
+      verifiedTravelDish('stroopwafel', 'Stroopwafel', 'Two thin waffles joined by a caramel syrup filling.', 'https://en.wikipedia.org/wiki/Stroopwafel'),
+      verifiedTravelDish('haring', 'Haring', 'Lightly cured raw herring often eaten with onions.', 'https://en.wikipedia.org/wiki/Soused_herring', 'Visitors often try it from street stands.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('rijksmuseum', 'Rijksmuseum', 'A national museum known for Dutch art and history.', 'https://en.wikipedia.org/wiki/Rijksmuseum', 'Good for gallery maps and famous paintings.'),
+      verifiedTravelAttraction('anne-frank-house', 'Anne Frank House', 'A museum in the building where Anne Frank hid.', 'https://en.wikipedia.org/wiki/Anne_Frank_House', 'Requires careful, respectful visit language.'),
+      verifiedTravelAttraction('canal-ring', 'Amsterdam Canal Ring', 'A historic network of canals around the old city.', 'https://en.wikipedia.org/wiki/Canals_of_Amsterdam', 'Useful for bridge, boat, and walking directions.'),
+    ],
+  },
+  honolulu: {
+    dishes: [
+      verifiedTravelDish('poke', 'Poke', 'Cubed raw fish seasoned with soy sauce and other toppings.', 'https://en.wikipedia.org/wiki/Poke_(Hawaiian_dish)'),
+      verifiedTravelDish('loco-moco', 'Loco Moco', 'Rice topped with hamburger, fried egg, and brown gravy.', 'https://en.wikipedia.org/wiki/Loco_moco'),
+      verifiedTravelDish('spam-musubi', 'Spam Musubi', 'Grilled Spam and rice wrapped together with nori.', 'https://en.wikipedia.org/wiki/Spam_musubi'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('waikiki-beach', 'Waikiki Beach', 'A famous Honolulu beach lined with hotels and surf schools.', 'https://en.wikipedia.org/wiki/Waikiki', 'Clear for beach safety and lesson-friendly travel plans.'),
+      verifiedTravelAttraction('pearl-harbor', 'Pearl Harbor National Memorial', 'A memorial site for the 1941 attack on Pearl Harbor.', 'https://en.wikipedia.org/wiki/Pearl_Harbor_National_Memorial', 'Good for solemn-site etiquette and tickets.'),
+      verifiedTravelAttraction('iolani-palace', 'Iolani Palace', 'A former royal palace in downtown Honolulu.', 'https://en.wikipedia.org/wiki/Iolani_Palace', 'Connects Hawaii travel with monarchy and local history.'),
+    ],
+  },
+  miami: {
+    dishes: [
+      verifiedTravelDish('cuban-sandwich', 'Cuban Sandwich', 'Pressed bread filled with roast pork, ham, cheese, and pickles.', 'https://en.wikipedia.org/wiki/Cuban_sandwich'),
+      verifiedTravelDish('stone-crab', 'Florida Stone Crab', 'Sweet crab claws usually served chilled with mustard sauce.', 'https://en.wikipedia.org/wiki/Florida_stone_crab', 'A seasonal South Florida seafood specialty.'),
+      verifiedTravelDish('key-lime-pie', 'Key Lime Pie', 'A tart lime custard pie with a crumb crust.', 'https://en.wikipedia.org/wiki/Key_lime_pie'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('south-beach', 'South Beach', 'A beach district known for sand, nightlife, and Art Deco buildings.', 'https://en.wikipedia.org/wiki/South_Beach', 'Good for beach plans and neighborhood descriptions.'),
+      verifiedTravelAttraction('vizcaya', 'Vizcaya Museum and Gardens', 'A historic villa museum with formal gardens on Biscayne Bay.', 'https://en.wikipedia.org/wiki/Vizcaya_Museum_and_Gardens', 'Useful for tickets, gardens, and quiet indoor rules.'),
+      verifiedTravelAttraction('wynwood-walls', 'Wynwood Walls', 'An outdoor street-art museum in the Wynwood district.', 'https://thewynwoodwalls.com/', 'A strong visual anchor for murals and photos.'),
+    ],
+  },
+  bogota: {
+    dishes: [
+      verifiedTravelDish('ajiaco', 'Ajiaco', 'Chicken and potato soup served with corn, herbs, and capers.', 'https://en.wikipedia.org/wiki/Ajiaco', 'A classic Bogota comfort dish.'),
+      verifiedTravelDish('changua', 'Changua', 'Milk and egg soup often eaten for breakfast.', 'https://en.wikipedia.org/wiki/Changua', 'Strongly associated with the Andean highlands around Bogota.'),
+      verifiedTravelDish('tamal-santafereno', 'Tamal Santafereno', 'A leaf-wrapped corn dough meal with meat and vegetables.', 'https://en.wikipedia.org/wiki/Tamale', 'A Bogota-style tamal is a filling breakfast order.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('gold-museum', 'Gold Museum', 'A museum with a major collection of pre-Hispanic gold objects.', 'https://en.wikipedia.org/wiki/Gold_Museum,_Bogot%C3%A1', 'Good for artifacts, galleries, and careful description.'),
+      verifiedTravelAttraction('monserrate', 'Monserrate', 'A mountain sanctuary and viewpoint above central Bogota.', 'https://en.wikipedia.org/wiki/Monserrate', 'Useful for cable-car, altitude, and view language.'),
+      verifiedTravelAttraction('plaza-bolivar', 'Plaza Bolivar', 'The main historic square in central Bogota.', 'https://en.wikipedia.org/wiki/Bol%C3%ADvar_Square', 'A simple anchor for civic buildings and maps.'),
+    ],
+  },
+  reykjavik: {
+    dishes: [
+      verifiedTravelDish('skyr', 'Skyr', 'A thick cultured dairy food eaten like yogurt.', 'https://en.wikipedia.org/wiki/Skyr'),
+      verifiedTravelDish('rugbraud', 'Rugbraud', 'Dense dark rye bread, sometimes baked using geothermal heat.', 'https://en.wikipedia.org/wiki/R%C3%BAgbrau%C3%B0'),
+      verifiedTravelDish('pylsur', 'Pylsur', 'Icelandic hot dogs topped with onions, sauces, and mustard.', 'https://en.wikipedia.org/wiki/Hot_dog_variations#Iceland', 'A famous quick stop in Reykjavik.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('hallgrimskirkja', 'Hallgrimskirkja', 'A tall concrete church with a tower above Reykjavik.', 'https://en.wikipedia.org/wiki/Hallgr%C3%ADmskirkja', 'Good for skyline, elevators, and meeting points.'),
+      verifiedTravelAttraction('harpa', 'Harpa Concert Hall', 'A waterfront concert hall with a glass geometric facade.', 'https://en.wikipedia.org/wiki/Harpa_(concert_hall)', 'A strong modern landmark near the harbor.'),
+      verifiedTravelAttraction('perlan', 'Perlan', 'A domed museum and viewpoint built over hot-water tanks.', 'https://en.wikipedia.org/wiki/Perlan', 'Useful for weather, exhibits, and city views.'),
+    ],
+  },
+  nairobi: {
+    dishes: [
+      verifiedTravelDish('nyama-choma', 'Nyama Choma', 'Roasted meat served in pieces, often with salt and sides.', 'https://en.wikipedia.org/wiki/Nyama_choma'),
+      verifiedTravelDish('ugali', 'Ugali', 'A firm maize porridge eaten with stews or vegetables.', 'https://en.wikipedia.org/wiki/Ugali'),
+      verifiedTravelDish('sukuma-wiki', 'Sukuma Wiki', 'Collard greens cooked with onions and tomatoes.', 'https://en.wikipedia.org/wiki/Sukuma_wiki'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('nairobi-national-park', 'Nairobi National Park', 'A wildlife park just outside the city center.', 'https://en.wikipedia.org/wiki/Nairobi_National_Park', 'A rare city safari anchor.'),
+      verifiedTravelAttraction('sheldrick-wildlife-trust', 'Sheldrick Wildlife Trust', 'A wildlife conservation site known for elephant orphan care.', 'https://en.wikipedia.org/wiki/Sheldrick_Wildlife_Trust', 'Good for animal-care tours and timed visits.'),
+      verifiedTravelAttraction('karen-blixen-museum', 'Karen Blixen Museum', 'A museum in the former home of writer Karen Blixen.', 'https://en.wikipedia.org/wiki/Karen_Blixen_Museum_(Kenya)', 'Useful for house-museum and garden directions.'),
+    ],
+  },
+  lima: {
+    dishes: [
+      verifiedTravelDish('ceviche', 'Ceviche', 'Raw fish cured with citrus juice, onion, chili, and herbs.', 'https://en.wikipedia.org/wiki/Ceviche', 'A flagship dish on the Peruvian coast.'),
+      verifiedTravelDish('lomo-saltado', 'Lomo Saltado', 'Stir-fried beef with onions, tomatoes, fries, and rice.', 'https://en.wikipedia.org/wiki/Lomo_saltado'),
+      verifiedTravelDish('causa-limena', 'Causa Limena', 'Layered mashed potato dish filled with chicken, tuna, or avocado.', 'https://en.wikipedia.org/wiki/Causa_(food)', 'The name directly points to Lima.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('plaza-mayor', 'Plaza Mayor of Lima', 'The historic main square of central Lima.', 'https://en.wikipedia.org/wiki/Plaza_Mayor,_Lima', 'Good for civic buildings and walking routes.'),
+      verifiedTravelAttraction('larco-museum', 'Larco Museum', 'A museum of pre-Columbian art in an 18th-century mansion.', 'https://en.wikipedia.org/wiki/Larco_Museum', 'Strong for artifacts and garden-cafe plans.'),
+      verifiedTravelAttraction('huaca-pucllana', 'Huaca Pucllana', 'An ancient adobe pyramid in the Miraflores district.', 'https://en.wikipedia.org/wiki/Huaca_Pucllana', 'A memorable archaeological site inside the city.'),
+    ],
+  },
+  perth: {
+    dishes: [
+      verifiedTravelDish('western-rock-lobster', 'Western Rock Lobster', 'Sweet local lobster often served grilled or chilled.', 'https://en.wikipedia.org/wiki/Panulirus_cygnus', 'A major Western Australian seafood.'),
+      verifiedTravelDish('marron', 'Marron', 'Freshwater crayfish often grilled or served with simple sauces.', 'https://en.wikipedia.org/wiki/Marron_(crayfish)', 'A Western Australian specialty.'),
+      verifiedTravelDish('chilli-mussels', 'Chilli Mussels', 'Mussels cooked in spicy tomato sauce and served with bread.', 'https://en.wikipedia.org/wiki/Mussel_as_food', 'A common Perth seafood-restaurant order.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('kings-park', 'Kings Park', 'A large park and botanic garden overlooking central Perth.', 'https://en.wikipedia.org/wiki/Kings_Park,_Western_Australia', 'Excellent for views, picnics, and walking plans.'),
+      verifiedTravelAttraction('fremantle-prison', 'Fremantle Prison', 'A former prison and UNESCO World Heritage Site.', 'https://en.wikipedia.org/wiki/Fremantle_Prison', 'Good for tours, tickets, and historic-site language.'),
+      verifiedTravelAttraction('cottesloe-beach', 'Cottesloe Beach', 'A popular beach known for swimming and sunset views.', 'https://en.wikipedia.org/wiki/Cottesloe_Beach', 'Clear beach safety and weather roleplay.'),
+    ],
+  },
+  auckland: {
+    dishes: [
+      verifiedTravelDish('hangi', 'Hangi', 'Food cooked slowly in an earth oven with hot stones.', 'https://en.wikipedia.org/wiki/H%C4%81ng%C4%AB'),
+      verifiedTravelDish('pavlova', 'Pavlova', 'A crisp meringue dessert topped with cream and fruit.', 'https://en.wikipedia.org/wiki/Pavlova_(dessert)'),
+      verifiedTravelDish('green-lipped-mussels', 'Green-Lipped Mussels', 'Large New Zealand mussels often steamed or baked.', 'https://en.wikipedia.org/wiki/Perna_canaliculus'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('sky-tower', 'Sky Tower', 'A tall observation and telecommunications tower downtown.', 'https://en.wikipedia.org/wiki/Sky_Tower_(Auckland)', 'Simple anchor for city views and tickets.'),
+      verifiedTravelAttraction('auckland-museum', 'Auckland War Memorial Museum', 'A museum focused on New Zealand history, nature, and cultures.', 'https://en.wikipedia.org/wiki/Auckland_War_Memorial_Museum', 'Good for exhibits and respectful cultural language.'),
+      verifiedTravelAttraction('mount-eden', 'Mount Eden', 'A volcanic cone with a grass crater and city views.', 'https://en.wikipedia.org/wiki/Maungawhau_/_Mount_Eden', 'Useful for walking uphill and landscape description.'),
+    ],
+  },
+  suva: {
+    dishes: [
+      verifiedTravelDish('kokoda', 'Kokoda', 'Raw fish cured in citrus and mixed with coconut cream.', 'https://en.wikipedia.org/wiki/Kokoda_(food)'),
+      verifiedTravelDish('lovo', 'Lovo', 'Meat, fish, and root crops cooked in an earth oven.', 'https://en.wikipedia.org/wiki/Lovo'),
+      verifiedTravelDish('palusami', 'Palusami', 'Taro leaves baked with coconut cream and fillings.', 'https://en.wikipedia.org/wiki/Palusami'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('fiji-museum', 'Fiji Museum', 'A museum in Suva showing Fijian history and cultural objects.', 'https://en.wikipedia.org/wiki/Fiji_Museum', 'Good for artifacts and national-history context.'),
+      verifiedTravelAttraction('suva-municipal-market', 'Suva Municipal Market', 'A busy produce market with fruit, vegetables, and local foods.', 'https://discoverfiji.com/suva-municipal-market/', 'Useful for market dialogue and food vocabulary.'),
+      verifiedTravelAttraction('colo-i-suva', 'Colo-i-Suva Forest Park', 'A rainforest park with trails and swimming holes near Suva.', 'https://en.wikipedia.org/wiki/Colo-i-Suva_Forest_Reserve', 'A clear nature escape from the city.'),
+    ],
+  },
+  ulaanbaatar: {
+    dishes: [
+      verifiedTravelDish('buuz', 'Buuz', 'Steamed dumplings filled with minced meat and onion.', 'https://en.wikipedia.org/wiki/Buuz'),
+      verifiedTravelDish('khuushuur', 'Khuushuur', 'Fried meat pastry eaten hot by hand.', 'https://en.wikipedia.org/wiki/Khuushuur'),
+      verifiedTravelDish('tsuivan', 'Tsuivan', 'Stir-fried noodles with meat and vegetables.', 'https://en.wikipedia.org/wiki/Tsuivan'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('gandan-monastery', 'Gandantegchinlen Monastery', 'An active Buddhist monastery with a large standing Buddha statue.', 'https://en.wikipedia.org/wiki/Gandantegchinlen_Monastery', 'Important for respectful visit language.'),
+      verifiedTravelAttraction('sukhbaatar-square', 'Sukhbaatar Square', 'The main public square in central Ulaanbaatar.', 'https://en.wikipedia.org/wiki/S%C3%BCkhbaatar_Square', 'A clear meeting point and civic landmark.'),
+      verifiedTravelAttraction('zaisan-memorial', 'Zaisan Memorial', 'A hilltop memorial with broad views over the city.', 'https://en.wikipedia.org/wiki/Zaisan_Memorial', 'Good for stairs, views, and orientation.'),
+    ],
+  },
+  almaty: {
+    dishes: [
+      verifiedTravelDish('beshbarmak', 'Beshbarmak', 'Boiled meat served over flat noodles with onion broth.', 'https://en.wikipedia.org/wiki/Beshbarmak'),
+      verifiedTravelDish('lagman', 'Lagman', 'Hand-pulled noodles served with meat and vegetables.', 'https://en.wikipedia.org/wiki/Laghman'),
+      verifiedTravelDish('baursak', 'Baursak', 'Small fried pieces of dough served with tea or meals.', 'https://en.wikipedia.org/wiki/Baursak'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('kok-tobe', 'Kok Tobe', 'A mountain viewpoint reached from the city by road or cable car.', 'https://en.wikipedia.org/wiki/K%C3%B6k_T%C3%B6be', 'Useful for views and cable-car directions.'),
+      verifiedTravelAttraction('ascension-cathedral', 'Ascension Cathedral', 'A colorful wooden Orthodox cathedral in Panfilov Park.', 'https://en.wikipedia.org/wiki/Ascension_Cathedral,_Almaty', 'A strong city-center landmark.'),
+      verifiedTravelAttraction('medeu', 'Medeu', 'A high-altitude outdoor skating rink in the mountains.', 'https://en.wikipedia.org/wiki/Medeu', 'Good for seasonal plans and mountain transport.'),
+    ],
+  },
+  madrid: {
+    dishes: [
+      verifiedTravelDish('bocadillo-de-calamares', 'Bocadillo de Calamares', 'A crusty roll filled with fried squid rings.', 'https://en.wikipedia.org/wiki/Bocadillo_de_calamares', 'A classic snack around Plaza Mayor.'),
+      verifiedTravelDish('cocido-madrileno', 'Cocido Madrileno', 'A hearty chickpea, meat, and vegetable stew served in courses.', 'https://en.wikipedia.org/wiki/Cocido_madrile%C3%B1o'),
+      verifiedTravelDish('churros-con-chocolate', 'Churros con Chocolate', 'Fried dough sticks dipped in thick hot chocolate.', 'https://en.wikipedia.org/wiki/Churro'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('prado-museum', 'Prado Museum', 'A major art museum with Spanish and European masterpieces.', 'https://en.wikipedia.org/wiki/Museo_del_Prado', 'Good for gallery plans and timed tickets.'),
+      verifiedTravelAttraction('royal-palace', 'Royal Palace of Madrid', 'A large royal palace with formal rooms and courtyards.', 'https://en.wikipedia.org/wiki/Royal_Palace_of_Madrid', 'Useful for tour routes and ceremonial language.'),
+      verifiedTravelAttraction('plaza-mayor', 'Plaza Mayor', 'A historic rectangular square in central Madrid.', 'https://en.wikipedia.org/wiki/Plaza_Mayor,_Madrid', 'Natural for meeting points and cafe orders.'),
+    ],
+  },
+  lisbon: {
+    dishes: [
+      verifiedTravelDish('pastel-de-nata', 'Pastel de Nata', 'A small custard tart with a crisp pastry shell.', 'https://en.wikipedia.org/wiki/Pastel_de_nata'),
+      verifiedTravelDish('bacalhau-a-bras', 'Bacalhau a Bras', 'Salt cod mixed with potatoes, onions, eggs, and olives.', 'https://en.wikipedia.org/wiki/Bacalhau_%C3%A0_Br%C3%A1s'),
+      verifiedTravelDish('bifana', 'Bifana', 'A pork sandwich seasoned with garlic and spices.', 'https://en.wikipedia.org/wiki/Bifana'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('belem-tower', 'Belem Tower', 'A fortified tower beside the Tagus River.', 'https://en.wikipedia.org/wiki/Bel%C3%A9m_Tower', 'Good for river views and monument tickets.'),
+      verifiedTravelAttraction('jeronimos-monastery', 'Jeronimos Monastery', 'A large monastery famous for Manueline stonework.', 'https://en.wikipedia.org/wiki/Jer%C3%B3nimos_Monastery', 'Strong for architecture and queue language.'),
+      verifiedTravelAttraction('sao-jorge-castle', 'Sao Jorge Castle', 'A hilltop castle with walls and city views.', 'https://en.wikipedia.org/wiki/S%C3%A3o_Jorge_Castle', 'Useful for steep streets and viewpoints.'),
+    ],
+  },
+  dublin: {
+    dishes: [
+      verifiedTravelDish('irish-stew', 'Irish Stew', 'A simple stew of lamb or mutton, potatoes, and vegetables.', 'https://en.wikipedia.org/wiki/Irish_stew'),
+      verifiedTravelDish('coddle', 'Coddle', 'A Dublin stew of sausages, bacon, potatoes, and onions.', 'https://en.wikipedia.org/wiki/Coddle'),
+      verifiedTravelDish('boxty', 'Boxty', 'A potato pancake made with grated and mashed potato.', 'https://en.wikipedia.org/wiki/Boxty'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('trinity-college-library', 'Trinity College Library', 'A historic library known for the Book of Kells.', 'https://en.wikipedia.org/wiki/Library_of_Trinity_College_Dublin', 'Good for timed entry and quiet indoor behavior.'),
+      verifiedTravelAttraction('dublin-castle', 'Dublin Castle', 'A historic castle complex in the city center.', 'https://en.wikipedia.org/wiki/Dublin_Castle', 'Useful for courtyard, tour, and government-history language.'),
+      verifiedTravelAttraction('guinness-storehouse', 'Guinness Storehouse', 'A visitor attraction about Guinness brewing history.', 'https://en.wikipedia.org/wiki/Guinness_Storehouse', 'A very common adult tourist stop in Dublin.'),
+    ],
+  },
+  dakar: {
+    dishes: [
+      verifiedTravelDish('thieboudienne', 'Thieboudienne', 'Fish and rice cooked with tomato sauce and vegetables.', 'https://en.wikipedia.org/wiki/Thieboudienne', 'Often treated as Senegal national food.'),
+      verifiedTravelDish('yassa', 'Yassa', 'Chicken or fish marinated with onions, lemon, and mustard.', 'https://en.wikipedia.org/wiki/Yassa_(food)'),
+      verifiedTravelDish('maafe', 'Maafe', 'A peanut stew served with meat, vegetables, and rice.', 'https://en.wikipedia.org/wiki/Maafe'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('goree-island', 'Goree Island', 'A historic island reached by ferry from Dakar.', 'https://en.wikipedia.org/wiki/Gor%C3%A9e', 'Requires respectful language about the slave trade.'),
+      verifiedTravelAttraction('african-renaissance-monument', 'African Renaissance Monument', 'A very tall bronze monument on a hill above Dakar.', 'https://en.wikipedia.org/wiki/African_Renaissance_Monument', 'A clear landmark for height and viewpoint language.'),
+      verifiedTravelAttraction('ifan-museum', 'IFAN Museum of African Arts', 'A museum of West African art and cultural objects.', 'https://en.wikipedia.org/wiki/IFAN_Museum_of_African_Arts', 'Good for exhibit and heritage vocabulary.'),
+    ],
+  },
+  recife: {
+    dishes: [
+      verifiedTravelDish('bolo-de-rolo', 'Bolo de Rolo', 'Thin cake layers rolled with guava paste.', 'https://en.wikipedia.org/wiki/Bolo_de_rolo', 'A protected Pernambuco specialty.'),
+      verifiedTravelDish('tapioca', 'Tapioca', 'A chewy cassava starch crepe with sweet or savory fillings.', 'https://en.wikipedia.org/wiki/Tapioca', 'Common at markets and beach kiosks.'),
+      verifiedTravelDish('carne-de-sol', 'Carne de Sol', 'Salted sun-cured beef usually served with regional sides.', 'https://en.wikipedia.org/wiki/Carne-de-sol'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('recife-antigo', 'Recife Antigo', 'The historic old port district of Recife.', 'https://en.wikipedia.org/wiki/Recife_Antigo', 'Good for walking streets and waterfront plans.'),
+      verifiedTravelAttraction('ricardo-brennand', 'Instituto Ricardo Brennand', 'A museum complex with art, armor, gardens, and castle-like buildings.', 'https://en.wikipedia.org/wiki/Instituto_Ricardo_Brennand', 'A distinctive cultural stop beyond the beach.'),
+      verifiedTravelAttraction('boa-viagem', 'Boa Viagem Beach', 'A long urban beach lined with hotels and restaurants.', 'https://en.wikipedia.org/wiki/Boa_Viagem,_Recife', 'Useful for beach safety and hotel directions.'),
+    ],
+  },
+  'panama-city': {
+    dishes: [
+      verifiedTravelDish('sancocho', 'Sancocho', 'A chicken soup with herbs, vegetables, and starchy roots.', 'https://en.wikipedia.org/wiki/Sancocho'),
+      verifiedTravelDish('ceviche', 'Ceviche', 'Seafood cured in citrus juice and mixed with onion.', 'https://en.wikipedia.org/wiki/Ceviche'),
+      verifiedTravelDish('carimanola', 'Carimanola', 'A fried cassava roll filled with seasoned meat or cheese.', 'https://en.wikipedia.org/wiki/Carima%C3%B1ola'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('panama-canal', 'Panama Canal', 'A major ship canal linking the Atlantic and Pacific oceans.', 'https://en.wikipedia.org/wiki/Panama_Canal', 'Best for watching locks and ship movement.'),
+      verifiedTravelAttraction('casco-viejo', 'Casco Viejo', 'The historic old quarter with plazas, churches, and balconies.', 'https://en.wikipedia.org/wiki/Casco_Viejo,_Panama', 'Good for walking routes and old-city atmosphere.'),
+      verifiedTravelAttraction('biomuseo', 'Biomuseo', 'A colorful museum about Panama biodiversity and geology.', 'https://en.wikipedia.org/wiki/Biomuseo', 'Useful for exhibits and family-friendly plans.'),
+    ],
+  },
+  santiago: {
+    dishes: [
+      verifiedTravelDish('completo', 'Completo', 'A Chilean hot dog topped with avocado, tomato, and mayonnaise.', 'https://en.wikipedia.org/wiki/Completo'),
+      verifiedTravelDish('pastel-de-choclo', 'Pastel de Choclo', 'A baked corn pie with meat, onions, egg, and olives.', 'https://en.wikipedia.org/wiki/Pastel_de_choclo'),
+      verifiedTravelDish('empanada-de-pino', 'Empanada de Pino', 'A pastry filled with beef, onion, egg, olives, and raisins.', 'https://en.wikipedia.org/wiki/Empanada'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('cerro-san-cristobal', 'Cerro San Cristobal', 'A hill park with viewpoints above Santiago.', 'https://en.wikipedia.org/wiki/San_Crist%C3%B3bal_Hill', 'Good for funicular, cable car, and city views.'),
+      verifiedTravelAttraction('plaza-de-armas', 'Plaza de Armas', 'The historic main square in central Santiago.', 'https://en.wikipedia.org/wiki/Plaza_de_Armas,_Santiago', 'A simple anchor for civic buildings and walking routes.'),
+      verifiedTravelAttraction('la-moneda', 'La Moneda Palace', 'The presidential palace in central Santiago.', 'https://en.wikipedia.org/wiki/Palacio_de_La_Moneda', 'Useful for government, guards, and civic history.'),
+    ],
+  },
+  'addis-ababa': {
+    dishes: [
+      verifiedTravelDish('injera', 'Injera', 'A soft sour flatbread used as both plate and utensil.', 'https://en.wikipedia.org/wiki/Injera'),
+      verifiedTravelDish('doro-wat', 'Doro Wat', 'A spicy chicken stew often served with boiled eggs.', 'https://en.wikipedia.org/wiki/Wat_(food)#Doro_wat'),
+      verifiedTravelDish('kitfo', 'Kitfo', 'Minced beef seasoned with spiced butter and chili.', 'https://en.wikipedia.org/wiki/Kitfo'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('national-museum', 'National Museum of Ethiopia', 'A museum known for fossils, art, and Ethiopian history.', 'https://en.wikipedia.org/wiki/National_Museum_of_Ethiopia', 'Important for the Lucy fossil and human-origins context.'),
+      verifiedTravelAttraction('holy-trinity-cathedral', 'Holy Trinity Cathedral', 'A major Ethiopian Orthodox cathedral in Addis Ababa.', 'https://en.wikipedia.org/wiki/Holy_Trinity_Cathedral_(Addis_Ababa)', 'Good for respectful visit and architecture language.'),
+      verifiedTravelAttraction('entoto', 'Entoto', 'A highland area above the city with historic churches and views.', 'https://en.wikipedia.org/wiki/Entoto_Mountains', 'Useful for altitude, viewpoint, and day-trip dialogue.'),
+    ],
+  },
+  delhi: {
+    dishes: [
+      verifiedTravelDish('butter-chicken', 'Butter Chicken', 'Chicken cooked in a creamy tomato and butter sauce.', 'https://en.wikipedia.org/wiki/Butter_chicken', 'Created in Delhi restaurant culture.'),
+      verifiedTravelDish('chole-bhature', 'Chole Bhature', 'Spiced chickpeas served with large fried bread.', 'https://en.wikipedia.org/wiki/Chole_bhature'),
+      verifiedTravelDish('paratha', 'Paratha', 'Layered flatbread often stuffed and cooked on a griddle.', 'https://en.wikipedia.org/wiki/Paratha', 'Old Delhi lanes are famous for stuffed parathas.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('red-fort', 'Red Fort', 'A large Mughal fort complex in Old Delhi.', 'https://en.wikipedia.org/wiki/Red_Fort', 'Strong anchor for gates, walls, and national history.'),
+      verifiedTravelAttraction('qutub-minar', 'Qutub Minar', 'A tall medieval minaret in a historic complex.', 'https://en.wikipedia.org/wiki/Qutb_Minar', 'Good for height, ruins, and construction history.'),
+      verifiedTravelAttraction('india-gate', 'India Gate', 'A war memorial arch on a broad ceremonial avenue.', 'https://en.wikipedia.org/wiki/India_Gate', 'Useful for civic landmarks and evening walks.'),
+    ],
+  },
+  manila: {
+    dishes: [
+      verifiedTravelDish('adobo', 'Adobo', 'Meat braised in vinegar, soy sauce, garlic, and bay leaves.', 'https://en.wikipedia.org/wiki/Philippine_adobo'),
+      verifiedTravelDish('halo-halo', 'Halo-Halo', 'Shaved ice dessert mixed with milk, fruit, beans, and toppings.', 'https://en.wikipedia.org/wiki/Halo-halo'),
+      verifiedTravelDish('pancit', 'Pancit', 'Noodles stir-fried or served with vegetables, meat, and seafood.', 'https://en.wikipedia.org/wiki/Pancit'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('intramuros', 'Intramuros', 'The historic walled district of Manila.', 'https://en.wikipedia.org/wiki/Intramuros', 'Good for gates, churches, and reconstructed history.'),
+      verifiedTravelAttraction('rizal-park', 'Rizal Park', 'A large historic park honoring Jose Rizal.', 'https://en.wikipedia.org/wiki/Rizal_Park', 'Useful for memorials and public-space plans.'),
+      verifiedTravelAttraction('san-agustin-church', 'San Agustin Church', 'A historic stone church and UNESCO-listed site in Intramuros.', 'https://en.wikipedia.org/wiki/San_Agustin_Church_(Manila)', 'Good for respectful indoor visit language.'),
+    ],
+  },
+  'ho-chi-minh-city': {
+    dishes: [
+      verifiedTravelDish('banh-mi', 'Banh Mi', 'A crisp baguette sandwich filled with meats, herbs, and pickles.', 'https://en.wikipedia.org/wiki/B%C3%A1nh_m%C3%AC'),
+      verifiedTravelDish('com-tam', 'Com Tam', 'Broken rice served with grilled pork, egg, and pickled vegetables.', 'https://en.wikipedia.org/wiki/Broken_rice'),
+      verifiedTravelDish('hu-tieu', 'Hu Tieu', 'A noodle soup with pork, seafood, herbs, and clear broth.', 'https://en.wikipedia.org/wiki/H%E1%BB%A7_ti%E1%BA%BFu', 'Hu tieu Nam Vang is especially common in the south.'),
+    ],
+    attractions: [
+      verifiedTravelAttraction('war-remnants-museum', 'War Remnants Museum', 'A museum presenting Vietnam War history and photographs.', 'https://en.wikipedia.org/wiki/War_Remnants_Museum', 'Requires careful, respectful discussion.'),
+      verifiedTravelAttraction('ben-thanh-market', 'Ben Thanh Market', 'A central market for food, clothing, souvenirs, and snacks.', 'https://en.wikipedia.org/wiki/B%E1%BA%BFn_Th%C3%A0nh_Market', 'Good for bargaining and food-stall roleplay.'),
+      verifiedTravelAttraction('independence-palace', 'Independence Palace', 'A preserved government palace tied to modern Vietnamese history.', 'https://en.wikipedia.org/wiki/Independence_Palace', 'Useful for rooms, tours, and historical sequence language.'),
+    ],
+  },
+} satisfies Partial<Record<string, TravelAnchors>>;
+
+function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
+  return destinations.map((destination) => {
+    const travelAnchors = TRAVEL_ANCHORS_BY_DESTINATION[destination.id];
+    if (!travelAnchors) {
+      return destination;
+    }
+
+    return { ...destination, travelAnchors };
+  });
+}
+
+export const WORLD_DESTINATIONS: DestinationPack[] = withTravelAnchors([
   {
     id: 'bangkok',
     city: 'Bangkok',
@@ -2634,7 +3291,7 @@ Almaty shows the difference between political power and urban influence. A capit
       ]),
     ],
   },
-];
+]);
 
 export function getDestinationById(id: string) {
   return WORLD_DESTINATIONS.find((destination) => destination.id === id);

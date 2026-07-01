@@ -8,7 +8,83 @@ import { getReadingTurnWordTarget, splitReadingTurns } from '@/lib/read-aloud';
 import { distanceKm } from '@/lib/world-flight/geo';
 import { assessWorldFlightReadingQuality, countWords } from '@/lib/world-flight/readings';
 
+type TravelAnchorCatalogItem = {
+  id: string;
+  whatItIs: string;
+  sourceUrl?: string;
+  review: {
+    status: string;
+  };
+};
+
+function validateWorldFlightTravelAnchorsCatalog(destinations = WORLD_DESTINATIONS) {
+  const issues: string[] = [];
+  const kebabCase = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+  function validateItems(destinationId: string, listName: string, items: TravelAnchorCatalogItem[]) {
+    const seenIds = new Set<string>();
+
+    for (const item of items) {
+      const label = `${destinationId}/${listName}/${item.id || '(missing-id)'}`;
+      if (!item.id) {
+        issues.push(`${label}: missing id`);
+      } else if (!kebabCase.test(item.id)) {
+        issues.push(`${label}: id must be kebab-case`);
+      }
+
+      if (seenIds.has(item.id)) {
+        issues.push(`${label}: duplicate id`);
+      }
+      seenIds.add(item.id);
+
+      if (!item.whatItIs.trim()) {
+        issues.push(`${label}: missing whatItIs`);
+      }
+
+      if (item.review.status === 'verified' && !item.sourceUrl) {
+        issues.push(`${label}: verified item must include sourceUrl`);
+      }
+
+      const sourceUrl = item.sourceUrl;
+      if (sourceUrl) {
+        expect(() => new URL(sourceUrl), `${label}: ${sourceUrl}`).not.toThrow();
+      }
+    }
+  }
+
+  for (const destination of destinations) {
+    const anchors = destination.travelAnchors;
+    if (!anchors) {
+      issues.push(`${destination.id}: missing travelAnchors`);
+      continue;
+    }
+
+    if (anchors.dishes.length < 3 || anchors.dishes.length > 5) {
+      issues.push(`${destination.id}: dishes must include 3 to 5 items`);
+    }
+    if (anchors.attractions.length < 3) {
+      issues.push(`${destination.id}: attractions must include at least 3 items`);
+    }
+
+    validateItems(destination.id, 'dishes', anchors.dishes);
+    validateItems(destination.id, 'attractions', anchors.attractions);
+
+    const validAirports = new Set([destination.primaryAirport, ...destination.airports]);
+    for (const transport of anchors.transport ?? []) {
+      if (!validAirports.has(transport.fromAirport)) {
+        issues.push(`${destination.id}/transport/${transport.mode}: fromAirport must match a city airport`);
+      }
+    }
+  }
+
+  return issues;
+}
+
 describe('world flight destination packs', () => {
+  it('ships verified travel anchors for every destination', () => {
+    expect(validateWorldFlightTravelAnchorsCatalog()).toEqual([]);
+  });
+
   it('ships every destination with three readings and only verified video sets', () => {
     for (const destination of WORLD_DESTINATIONS) {
       const focusOptions = destination.focusOptions;

@@ -116,6 +116,56 @@ export interface DestinationFocus {
   sourceMaterial: SourceMaterial;
 }
 
+export type TravelAnchorReviewStatus = 'draft' | 'researched' | 'verified';
+
+export interface TravelAnchorReview {
+  status: TravelAnchorReviewStatus;
+  reviewedAt?: string;
+}
+
+/** A real signature dish of the city. Feeds the Local Table menu board + ordering roleplay. */
+export interface TravelDish {
+  id: string;
+  name: string;
+  whatItIs: string;
+  note?: string;
+  sourceUrl?: string;
+  review: TravelAnchorReview;
+}
+
+/** A real, visitable place. Feeds the Attraction Class Board. */
+export interface TravelAttraction {
+  id: string;
+  name: string;
+  whatItIs: string;
+  whyVisit?: string;
+  sourceUrl?: string;
+  review: TravelAnchorReview;
+}
+
+/** How to get from the real airport into the city. Grounds the getting-there roleplay. */
+export interface TravelTransportOption {
+  mode: string;
+  fromAirport: string;
+  approxTimeMin?: number;
+  approxCost?: string;
+  note?: string;
+}
+
+/** An authentic traveler-should-know note. Feeds the weighted travel moment deck. */
+export interface TravelLocalColorNote {
+  id: string;
+  text: string;
+  category?: 'custom' | 'etiquette' | 'money' | 'safety' | 'seasonal' | 'transport';
+}
+
+export interface TravelAnchors {
+  dishes: TravelDish[];
+  attractions: TravelAttraction[];
+  transport?: TravelTransportOption[];
+  localColor?: TravelLocalColorNote[];
+}
+
 export interface DestinationPack {
   id: string;
   city: string;
@@ -128,4 +178,5 @@ export interface DestinationPack {
   scene: DestinationScene;
   heroImage: DestinationImage;
   focusOptions: DestinationFocus[];
+  travelAnchors?: TravelAnchors;
 }
