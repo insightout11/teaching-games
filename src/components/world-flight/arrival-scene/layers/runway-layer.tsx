@@ -140,8 +140,8 @@ export function RunwayLayer({ scene, palette, idPrefix, ambient, mode, progress 
   // Merlion (Singapore) — the lion-headed fish statue spouting water into the
   // bay, on the far promenade so its jet arcs toward the viewer. Animated when
   // ambient (droplets travel the arc + ripple rings at the splash).
-  const mlx = BLEED_X + CONTENT_W * 0.5;
-  const gY = surroundingsTop + 26;
+  const mlx = BLEED_X + CONTENT_W * 0.68;
+  const gY = surroundingsTop + 8;
   const mStone = 'rgb(236,238,236)';
   const mShade = 'rgba(0,0,0,0.16)';
   const water = 'rgba(210,238,255,0.9)';

@@ -1549,20 +1549,33 @@ function SydneySkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     x += w + randRange(rand, 5, 11);
     k += 1;
   }
-  // Sydney Tower (golden turret)
+  // Sydney Tower — distinctive golden turret on a slim shaft (stands out).
   const stx = CONTENT_W * 0.62;
+  const gold = 'rgb(228,182,86)';
+  const goldLit = 'rgb(248,208,122)';
+  const goldShade = 'rgba(150,110,40,0.5)';
   const sydneyTower = (
     <g>
-      <rect x={stx - 4} y={base - 286} width={8} height={286} fill={f} />
-      <path d={`M ${stx - 20} ${base - 300} L ${stx + 20} ${base - 300} L ${stx + 13} ${base - 270} L ${stx - 13} ${base - 270} Z`} fill={f} />
-      <rect x={stx - 20} y={base - 304} width={40} height={5} fill="rgb(255,206,84)" opacity={0.7} />
-      <rect x={stx - 1.5} y={base - 344} width={3} height={44} fill={f} />
-      <circle cx={stx} cy={base - 346} r={3} fill="rgb(255,206,84)" />
+      {/* shaft */}
+      <rect x={stx - 4} y={base - 288} width={8} height={288} fill={f} />
+      <rect x={stx - 4} y={base - 288} width={2.4} height={288} fill="rgba(255,255,255,0.12)" />
+      {/* golden turret (the bucket) + soft glow */}
+      <ellipse cx={stx} cy={base - 288} rx={30} ry={20} fill={gold} opacity={0.16} />
+      <path d={`M ${stx - 22} ${base - 304} L ${stx + 22} ${base - 304} L ${stx + 14} ${base - 268} L ${stx - 14} ${base - 268} Z`} fill={gold} />
+      <path d={`M ${stx} ${base - 304} L ${stx + 22} ${base - 304} L ${stx + 14} ${base - 268} L ${stx} ${base - 268} Z`} fill={goldShade} />
+      {/* lit observation decks */}
+      <rect x={stx - 21} y={base - 300} width={42} height={3} fill={goldLit} />
+      <rect x={stx - 18} y={base - 292} width={36} height={3} fill={palette.windowWarm} opacity={0.85} />
+      <rect x={stx - 16} y={base - 284} width={32} height={3} fill={goldLit} opacity={0.7} />
+      {/* mast + beacon */}
+      <rect x={stx - 1.5} y={base - 348} width={3} height={44} fill={gold} />
+      <circle cx={stx} cy={base - 350} r={3.5} fill={goldLit} />
     </g>
   );
-  // Harbour Bridge
-  const bx = CONTENT_W * 0.26;
-  const bw = 186;
+  // Harbour Bridge — placed right of the Sydney Tower, in open sky (at the old
+  // left position it sat behind the Opera House foreground landmark and was hidden).
+  const bx = CONTENT_W * 0.8;
+  const bw = 158;
   const deckY = base - 28;
   const rise = 122;
   const archAt = (hx: number) => deckY - rise * (1 - ((hx - bx) / bw) ** 2);
@@ -1597,10 +1610,20 @@ function HongKongSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const base = LAYOUT.apronY + 12;
   const f = palette.buildingSilhouette;
   const isNight = palette.light === 'moon';
+  // Mountain backdrop behind the harbour city — a hazy far range spanning the
+  // width, with Victoria Peak rising tallest on the right.
+  const mtnFar = 'rgba(56,74,66,0.9)';
+  const mtnNear = 'rgba(40,52,46,0.96)';
   const peak = (
     <g>
-      <path d={`M ${CONTENT_W * 0.48} ${base} Q ${CONTENT_W * 0.72} ${base - 290} ${CONTENT_W * 0.9} ${base - 150} Q ${CONTENT_W} ${base - 110} ${CONTENT_W + 40} ${base} Z`} fill="rgba(40,52,46,0.95)" />
-      <path d={`M ${CONTENT_W * 0.72} ${base - 290} Q ${CONTENT_W * 0.82} ${base - 200} ${CONTENT_W * 0.9} ${base - 150} L ${CONTENT_W * 0.78} ${base - 150} Z`} fill="rgba(0,0,0,0.16)" />
+      {/* far ridge across the whole width (buildings overlap its base) */}
+      <path
+        d={`M -40 ${base} Q ${CONTENT_W * 0.14} ${base - 156} ${CONTENT_W * 0.3} ${base - 96} Q ${CONTENT_W * 0.46} ${base - 176} ${CONTENT_W * 0.6} ${base - 110} Q ${CONTENT_W * 0.78} ${base - 200} ${CONTENT_W + 40} ${base - 120} L ${CONTENT_W + 40} ${base} Z`}
+        fill={mtnFar}
+      />
+      {/* Victoria Peak (tallest, right) + shaded flank */}
+      <path d={`M ${CONTENT_W * 0.48} ${base} Q ${CONTENT_W * 0.72} ${base - 292} ${CONTENT_W * 0.9} ${base - 150} Q ${CONTENT_W} ${base - 110} ${CONTENT_W + 40} ${base} Z`} fill={mtnNear} />
+      <path d={`M ${CONTENT_W * 0.72} ${base - 292} Q ${CONTENT_W * 0.82} ${base - 200} ${CONTENT_W * 0.9} ${base - 150} L ${CONTENT_W * 0.78} ${base - 150} Z`} fill="rgba(0,0,0,0.16)" />
     </g>
   );
   const items: React.ReactNode[] = [];
@@ -1862,13 +1885,21 @@ function SeoulSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     </g>
   );
   const tB = base - nH;
+  const towerSteel = 'rgb(150,160,174)';
+  const litTeal = 'rgba(110,214,204,0.9)'; // N Seoul Tower's coloured lighting
   const seoulTower = (
     <g>
-      <polygon points={`${nx - 8} ${tB}, ${nx - 4} ${tB - 120}, ${nx + 4} ${tB - 120}, ${nx + 8} ${tB}`} fill="rgb(150,160,174)" />
-      <path d={`M ${nx - 20} ${tB - 120} L ${nx + 20} ${tB - 120} L ${nx + 14} ${tB - 146} L ${nx - 14} ${tB - 146} Z`} fill="rgb(160,170,184)" />
-      <rect x={nx - 18} y={tB - 136} width={36} height={4} fill={palette.windowWarm} opacity={0.75} />
-      <rect x={nx - 1.5} y={tB - 204} width={3} height={58} fill="rgb(150,160,174)" />
-      <circle cx={nx} cy={tB - 206} r={3.5} fill="rgba(255,90,90,0.95)" />
+      {/* lattice shaft with a lit colour seam */}
+      <polygon points={`${nx - 8} ${tB}, ${nx - 4} ${tB - 120}, ${nx + 4} ${tB - 120}, ${nx + 8} ${tB}`} fill={towerSteel} />
+      <rect x={nx - 1.6} y={tB - 118} width={3.2} height={118} fill={litTeal} opacity={0.7} />
+      {/* glow ring + lit observation deck */}
+      <ellipse cx={nx} cy={tB - 134} rx={30} ry={20} fill={litTeal} opacity={0.18} />
+      <path d={`M ${nx - 20} ${tB - 120} L ${nx + 20} ${tB - 120} L ${nx + 14} ${tB - 148} L ${nx - 14} ${tB - 148} Z`} fill="rgb(168,178,192)" />
+      <rect x={nx - 19} y={tB - 142} width={38} height={4} fill={palette.windowWarm} opacity={0.85} />
+      <rect x={nx - 17} y={tB - 134} width={34} height={3} fill={litTeal} />
+      {/* mast + coloured beacon */}
+      <rect x={nx - 1.5} y={tB - 206} width={3} height={58} fill={towerSteel} />
+      <circle cx={nx} cy={tB - 208} r={3.5} fill="rgba(255,120,160,0.95)" />
     </g>
   );
   const items: React.ReactNode[] = [];
@@ -2406,26 +2437,44 @@ function CairoSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     x += w + randRange(rand, 3, 7);
     k += 1;
   }
+  // Mosque of Muhammad Ali (the Citadel) — big central dome + semi-domes on a
+  // lit drum, flanked by two slender Ottoman "pencil" minarets.
   const mx = CONTENT_W * 0.64;
-  const stone = 'rgb(208,200,182)';
-  const stoneShade = 'rgba(0,0,0,0.16)';
-  const gold = 'rgba(216,184,96,0.9)';
+  const stone = 'rgb(210,202,184)';
+  const stoneLit = 'rgb(228,220,202)';
+  const stoneShade = 'rgba(0,0,0,0.18)';
+  const gold = 'rgba(220,188,100,0.95)';
   const mosque = (
     <g>
-      <rect x={mx - 66} y={base - 76} width={132} height={76} fill={stone} />
-      <path d={`M ${mx - 56} ${base - 76} A 30 30 0 0 1 ${mx + 4} ${base - 76} Z`} fill={stone} />
-      <path d={`M ${mx - 4} ${base - 76} A 30 30 0 0 1 ${mx + 56} ${base - 76} Z`} fill={stone} />
-      <rect x={mx - 30} y={base - 120} width={60} height={44} fill={stone} />
-      <path d={`M ${mx - 32} ${base - 120} A 32 32 0 0 1 ${mx + 32} ${base - 120} Z`} fill={stone} />
-      <path d={`M ${mx} ${base - 152} A 32 32 0 0 1 ${mx + 32} ${base - 120} L ${mx} ${base - 120} Z`} fill={stoneShade} />
-      <rect x={mx - 1.5} y={base - 168} width={3} height={16} fill={gold} />
-      <circle cx={mx} cy={base - 170} r={3} fill={gold} />
-      {[-72, 72].map((mxx, i) => (
+      {/* prayer-hall block (two-tone) */}
+      <rect x={mx - 72} y={base - 86} width={144} height={86} fill={stone} />
+      <rect x={mx} y={base - 86} width={72} height={86} fill={stoneShade} />
+      {/* flanking semi-domes */}
+      {[-52, 52].map((o, i) => (
+        <path key={i} d={`M ${mx + o - 24} ${base - 86} A 24 24 0 0 1 ${mx + o + 24} ${base - 86} Z`} fill={stone} />
+      ))}
+      {/* drum with lit windows */}
+      <rect x={mx - 36} y={base - 132} width={72} height={46} fill={stone} />
+      <rect x={mx} y={base - 132} width={36} height={46} fill={stoneShade} />
+      {[-26, -9, 9, 26].map((o, i) => (
+        <rect key={i} x={mx + o - 2} y={base - 126} width={4} height={16} fill={gold} opacity={0.7} />
+      ))}
+      {/* big central dome (two-tone) */}
+      <path d={`M ${mx - 38} ${base - 132} C ${mx - 44} ${base - 204} ${mx + 44} ${base - 204} ${mx + 38} ${base - 132} Z`} fill={stone} />
+      <path d={`M ${mx} ${base - 202} C ${mx + 36} ${base - 200} ${mx + 44} ${base - 166} ${mx + 38} ${base - 132} L ${mx} ${base - 132} Z`} fill={stoneShade} />
+      <path d={`M ${mx - 30} ${base - 150} C ${mx - 30} ${base - 194} ${mx + 30} ${base - 194} ${mx + 30} ${base - 150}`} fill="none" stroke={stoneLit} strokeWidth={2} opacity={0.5} />
+      {/* crescent finial */}
+      <rect x={mx - 1.6} y={base - 222} width={3.2} height={22} fill={gold} />
+      <circle cx={mx} cy={base - 224} r={4} fill={gold} />
+      {/* two slender Ottoman minarets */}
+      {[-84, 84].map((o, i) => (
         <g key={i}>
-          <rect x={mx + mxx - 4} y={base - 212} width={8} height={212} fill={stone} />
-          <rect x={mx + mxx - 6} y={base - 170} width={12} height={4} fill={gold} opacity={0.6} />
-          <polygon points={`${mx + mxx - 6} ${base - 212}, ${mx + mxx} ${base - 250}, ${mx + mxx + 6} ${base - 212}`} fill={stone} />
-          <circle cx={mx + mxx} cy={base - 252} r={2.5} fill={gold} />
+          <rect x={mx + o - 4} y={base - 246} width={8} height={246} fill={stone} />
+          <rect x={mx + o} y={base - 246} width={4} height={246} fill={stoneShade} />
+          <rect x={mx + o - 6} y={base - 184} width={12} height={4} fill={gold} opacity={0.7} />
+          <rect x={mx + o - 5} y={base - 150} width={10} height={3} fill={gold} opacity={0.5} />
+          <polygon points={`${mx + o - 6} ${base - 246}, ${mx + o} ${base - 288}, ${mx + o + 6} ${base - 246}`} fill={stone} />
+          <circle cx={mx + o} cy={base - 290} r={2.6} fill={gold} />
         </g>
       ))}
     </g>
