@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo, type ReactNode } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
@@ -22,7 +22,7 @@ import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration, computeAltitude, computeEarthState } from '@/lib/flight-plan-helpers';
 import type { EarthState } from '@/lib/flight-plan-helpers';
-import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
+import { getWorldFlightUpgradeState, type WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
 import { usePlannerStore } from '@/stores/planner-store';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
@@ -46,12 +46,13 @@ import { WorldFlightArrivalBackdrop } from '@/components/session/world-flight-ba
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
+import type { WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import { DestinationBriefing } from '@/components/place-media/destination-briefing';
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { avatarUrl } from '@/lib/avatar-options';
-import { ChevronLeft, ChevronRight, ExternalLink, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone } from 'lucide-react';
+import { CheckCircle2, ChevronLeft, ChevronRight, Clock3, ExternalLink, Lock, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone, Star } from 'lucide-react';
 
 // Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
 // tuned so a sunset departure -> overnight -> sunrise arrival reproduces the
@@ -257,6 +258,143 @@ function LobbyPlaneChooser({
       </div>
     </div>
   );
+}
+
+function LobbyUpgradeTarget({ context }: { context: WorldFlightSessionContext }) {
+  const planeTier = context.planeTier ?? getPlaneTierForKey(context.planeKey).tier;
+  const flightHours = context.flightHours ?? 0;
+  const crewStars = context.crewStars ?? 0;
+  const upgradeState = getWorldFlightUpgradeState({
+    planeTier,
+    rangeKm: context.rangeKm,
+    flightHours,
+    crewStars,
+  });
+  const selectionRequired = Boolean(context.planeSelectionRequired);
+  const targetMilestone = selectionRequired || upgradeState.claimableTier
+    ? upgradeState.latestUnlockedMilestone
+    : upgradeState.nextMilestone;
+  const targetRangeKm = context.nextUpgradeRangeKm
+    ?? upgradeState.claimableRangeKm
+    ?? upgradeState.nextRangeTier?.rangeKm
+    ?? upgradeState.currentRangeKm;
+  const hourTarget = targetMilestone?.requiredFlightHours ?? Math.max(flightHours, 1);
+  const starTarget = targetMilestone?.requiredCrewStars ?? Math.max(crewStars, 1);
+  const hasUpgradeReady = selectionRequired || upgradeState.claimableTier !== null;
+  const fullyUpgraded = context.fullyUpgraded ?? upgradeState.fullyUpgraded;
+  const needsFlightHours = context.needsFlightHours ?? upgradeState.needsFlightHours;
+  const needsCrewStars = context.needsCrewStars ?? upgradeState.needsCrewStars;
+
+  return (
+    <div className={`glass rounded-2xl border p-3 flex-shrink-0 ${
+      hasUpgradeReady
+        ? 'border-amber-300/30 bg-amber-300/[0.06]'
+        : 'border-cyan-300/15 bg-slate-950/40'
+    }`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-200/65">Upgrade Target</p>
+          <h2 className="mt-1 text-sm font-bold text-lc-text">
+            {hasUpgradeReady
+              ? 'Aircraft choice ready'
+              : fullyUpgraded
+                ? 'Maximum range active'
+                : `${targetRangeKm.toLocaleString()} km aircraft`}
+          </h2>
+          <p className="mt-1 text-[11px] leading-relaxed text-lc-text3">
+            {hasUpgradeReady
+              ? 'This class has earned the next range. Choose the aircraft after landing.'
+              : fullyUpgraded
+                ? 'The class has reached the top range tier.'
+                : formatLobbyUpgradeNeeds(needsFlightHours, needsCrewStars)}
+          </p>
+        </div>
+        <div className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl border ${
+          hasUpgradeReady
+            ? 'border-amber-300/35 bg-amber-300/10 text-amber-200'
+            : 'border-cyan-300/20 bg-cyan-300/10 text-cyan-100'
+        }`}>
+          {hasUpgradeReady ? <CheckCircle2 className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+        </div>
+      </div>
+
+      {!fullyUpgraded && (
+        <div className="mt-3 grid gap-2">
+          <LobbyUpgradeMeter
+            icon={<Clock3 className="h-3.5 w-3.5" />}
+            label="Flight Hours"
+            value={flightHours}
+            target={hourTarget}
+            complete={needsFlightHours === 0}
+          />
+          <LobbyUpgradeMeter
+            icon={<Star className="h-3.5 w-3.5" />}
+            label="Crew Stars"
+            value={crewStars}
+            target={starTarget}
+            complete={needsCrewStars === 0}
+          />
+        </div>
+      )}
+
+      {!hasUpgradeReady && !fullyUpgraded && (
+        <div className="mt-3 rounded-xl border border-white/10 bg-slate-950/45 px-3 py-2">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-lc-text2">Earn today</p>
+          <div className="mt-1 grid gap-1 text-[11px] leading-relaxed text-lc-text3">
+            <p>+1 flight hour for completing the World Flight lesson.</p>
+            <p>+1 star if most students contribute. +1 star for a strong landing.</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function LobbyUpgradeMeter({
+  icon,
+  label,
+  value,
+  target,
+  complete,
+}: {
+  icon: ReactNode;
+  label: string;
+  value: number;
+  target: number;
+  complete: boolean;
+}) {
+  return (
+    <div className="rounded-lg border border-white/10 bg-slate-950/45 px-3 py-2">
+      <div className="flex items-center justify-between gap-3">
+        <p className={`flex items-center gap-1.5 text-[11px] font-semibold ${complete ? 'text-emerald-200' : 'text-lc-text2'}`}>
+          {icon}
+          {label}
+        </p>
+        <p className={`text-[11px] font-bold ${complete ? 'text-emerald-200' : 'text-cyan-100'}`}>
+          {value}/{target}
+        </p>
+      </div>
+      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+        <div
+          className={`h-full rounded-full ${complete ? 'bg-emerald-300' : 'bg-gradient-to-r from-cyan-300 to-amber-300'}`}
+          style={{ width: `${sessionPercent(value, target)}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function sessionPercent(value: number, target: number) {
+  if (target <= 0) return 100;
+  return Math.max(0, Math.min(100, Math.round((value / target) * 100)));
+}
+
+function formatLobbyUpgradeNeeds(flightHours: number, crewStars: number) {
+  const needs: string[] = [];
+  if (flightHours > 0) needs.push(`${flightHours} more hour${flightHours === 1 ? '' : 's'}`);
+  if (crewStars > 0) needs.push(`${crewStars} more star${crewStars === 1 ? '' : 's'}`);
+  if (needs.length === 0) return 'Both requirements are met. The next aircraft choice is ready.';
+  return `Needs ${needs.join(' and ')}.`;
 }
 
 type SessionTypeFilter = 'all' | 'games' | 'activities';
@@ -1534,7 +1672,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             <div className="grid gap-4 flex-1 min-h-0 w-full mx-auto" style={{ gridTemplateColumns: '240px minmax(300px, 560px) 260px', maxWidth: '1100px' }}>
 
               {/* Left: Join QR + Teacher Device */}
-              <div className="flex flex-col gap-3 min-h-0">
+              <div className="flex flex-col gap-3 min-h-0 overflow-y-auto pr-1">
                 <div className="glass rounded-2xl p-4 flex-shrink-0">
                   <p className="text-[10px] opacity-50 uppercase tracking-wider font-semibold text-center mb-2.5">Join Link</p>
                   <div className="flex justify-center mb-2.5">
@@ -1584,14 +1722,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 </div>
 
                 {lesson.lessonPlanContent?.worldFlightContext && (
-                  <LobbyPlaneChooser
-                    plane={selectedPlane}
-                    choices={selectedPlaneChoices}
-                    rangeKm={lesson.lessonPlanContent.worldFlightContext.rangeKm ?? selectedPlaneTier.rangeKm}
-                    status={lobbyPlaneSaveStatus}
-                    onPrevious={() => cycleLobbyPlane(-1)}
-                    onNext={() => cycleLobbyPlane(1)}
-                  />
+                  <>
+                    <LobbyPlaneChooser
+                      plane={selectedPlane}
+                      choices={selectedPlaneChoices}
+                      rangeKm={lesson.lessonPlanContent.worldFlightContext.rangeKm ?? selectedPlaneTier.rangeKm}
+                      status={lobbyPlaneSaveStatus}
+                      onPrevious={() => cycleLobbyPlane(-1)}
+                      onNext={() => cycleLobbyPlane(1)}
+                    />
+                    <LobbyUpgradeTarget context={lesson.lessonPlanContent.worldFlightContext} />
+                  </>
                 )}
               </div>
 

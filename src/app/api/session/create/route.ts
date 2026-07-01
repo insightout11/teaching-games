@@ -3,6 +3,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { requireAuthWithCredits, consumeCredit } from '@/lib/auth-credits';
 import { getDestinationById, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
+import { getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
 import { distanceKm } from '@/lib/world-flight/geo';
 import {
   buildWorldFlightEvidenceSnapshot,
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
 
     const { data: state } = await supabase
       .from('class_world_flight_state')
-      .select('current_destination_id, range_km, plane_key, plane_selection_required')
+      .select('current_destination_id, range_km, plane_tier, plane_key, plane_selection_required, flight_hours, crew_stars')
       .eq('class_id', classId)
       .maybeSingle();
 
@@ -92,6 +93,15 @@ export async function POST(request: Request) {
     }
     const rangeKm = state?.range_km ?? STARTER_PLANE_RANGE_KM;
     const planeKey = state?.plane_key ?? DEFAULT_PLANE_KEY;
+    const planeTier = state?.plane_tier ?? 0;
+    const flightHours = state?.flight_hours ?? 0;
+    const crewStars = state?.crew_stars ?? 0;
+    const upgradeState = getWorldFlightUpgradeState({
+      planeTier,
+      rangeKm,
+      flightHours,
+      crewStars,
+    });
     const resolvedDistanceKm = origin ? distanceKm(origin, destination) : 0;
     const movement = resolveWorldFlightMovement({
       originDestinationId: origin?.id ?? null,
@@ -108,6 +118,14 @@ export async function POST(request: Request) {
       distanceKm: resolvedDistanceKm,
       rangeKm,
       planeKey,
+      planeTier,
+      planeSelectionRequired: state?.plane_selection_required ?? false,
+      flightHours,
+      crewStars,
+      nextUpgradeRangeKm: upgradeState.claimableRangeKm ?? upgradeState.nextRangeTier?.rangeKm ?? rangeKm,
+      needsFlightHours: upgradeState.needsFlightHours,
+      needsCrewStars: upgradeState.needsCrewStars,
+      fullyUpgraded: upgradeState.fullyUpgraded,
       movesClass: movement.movesClass,
       evidenceSnapshot,
     };

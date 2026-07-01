@@ -6,7 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowUpRight, Check, CheckCircle2, Clock3, Gauge, Loader2, Plane, PlaneLanding, Crown, Sparkles, Star, Users } from 'lucide-react';
+import { ArrowUpRight, Check, CheckCircle2, Clock3, Gauge, Loader2, Lock, Plane, PlaneLanding, Crown, Sparkles, Star, Users } from 'lucide-react';
 import type { StudentSessionPref } from '@/lib/supabase/types';
 import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
@@ -530,6 +530,46 @@ function WorldFlightUpgradeProgress({
           </ul>
         </div>
 
+        {!aircraftChoiceReady && !upgradeState.fullyUpgraded && (
+          <motion.div
+            className="mt-4 rounded-2xl border border-white/15 bg-slate-950/60 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.95, duration: 0.38, ease: 'easeOut' }}
+          >
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div className="flex gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-lc-amber/25 bg-lc-amber/[0.08] text-lc-amber">
+                  <Lock className="h-5 w-5" aria-hidden />
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-lc-amber">Aircraft Upgrade Locked</p>
+                  <h4 className="mt-1 text-base font-bold text-lc-text">
+                    Choose a {formatDistance(targetRangeKm)} aircraft here
+                  </h4>
+                  <p className="mt-1 max-w-xl text-xs leading-relaxed text-lc-text3">
+                    {formatUpgradeNeeds(upgradeState.needsFlightHours, upgradeState.needsCrewStars)} When both bars are full, this slot becomes the aircraft reveal and chooser.
+                  </p>
+                </div>
+              </div>
+              <div className="grid min-w-[180px] gap-2 text-xs">
+                <RequirementPill
+                  label="Flight Hours"
+                  value={reward.flightHours}
+                  target={hourTarget}
+                  complete={upgradeState.needsFlightHours === 0}
+                />
+                <RequirementPill
+                  label="Crew Stars"
+                  value={reward.crewStars}
+                  target={starTarget}
+                  complete={upgradeState.needsCrewStars === 0}
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {aircraftChoiceReady && (
           <motion.div
             className="relative mt-4 overflow-hidden rounded-2xl border border-lc-amber/30 bg-[radial-gradient(circle_at_20%_0%,rgba(245,158,11,0.22),transparent_38%),linear-gradient(145deg,rgba(14,116,144,0.18),rgba(245,158,11,0.10))] px-4 py-4"
@@ -560,6 +600,12 @@ function WorldFlightUpgradeProgress({
                 </div>
               )}
             </div>
+
+            <UpgradeRangeCeremony
+              currentRangeKm={upgradeState.currentRangeKm}
+              targetRangeKm={shownRangeKm}
+              active={aircraftChoiceReady}
+            />
 
             {!teacherView ? (
               <Link
@@ -656,6 +702,100 @@ function UpgradeMeter({
           {requirementAlreadyMet ? 'Requirement already met' : `+${value - (previousValue ?? value)} this lesson`}
         </p>
       )}
+    </div>
+  );
+}
+
+function UpgradeRangeCeremony({
+  currentRangeKm,
+  targetRangeKm,
+  active,
+}: {
+  currentRangeKm: number;
+  targetRangeKm: number;
+  active: boolean;
+}) {
+  return (
+    <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/10 bg-slate-950/55 px-4 py-4">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(103,232,249,0.18),transparent_32%),radial-gradient(circle_at_82%_26%,rgba(245,158,11,0.20),transparent_34%)]" />
+      <div className="relative flex items-center justify-between gap-3">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-100/60">Current Range</p>
+          <p className="mt-0.5 text-lg font-bold text-cyan-100">{formatDistance(currentRangeKm)}</p>
+        </div>
+        <motion.div
+          className="hidden h-px flex-1 bg-gradient-to-r from-cyan-300/30 via-white/45 to-lc-amber/60 sm:block"
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: active ? 1 : 0, opacity: active ? 1 : 0 }}
+          transition={{ duration: 1.15, delay: 1.18, ease: 'easeOut' }}
+          style={{ transformOrigin: 'left center' }}
+        />
+        <div className="text-right">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-lc-amber/80">New Reach</p>
+          <motion.p
+            className="mt-0.5 text-lg font-bold text-lc-amber"
+            initial={{ scale: 0.88, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 1.34, type: 'spring', stiffness: 260, damping: 14 }}
+          >
+            {formatDistance(targetRangeKm)}
+          </motion.p>
+        </div>
+      </div>
+
+      <div className="relative mt-4 h-12">
+        <div className="absolute left-2 right-2 top-1/2 h-2 -translate-y-1/2 rounded-full bg-white/10" />
+        <motion.div
+          className="absolute left-2 top-1/2 h-2 -translate-y-1/2 rounded-full bg-gradient-to-r from-cyan-300 via-sky-200 to-lc-amber"
+          initial={{ width: '18%' }}
+          animate={{ width: 'calc(100% - 1rem)' }}
+          transition={{ duration: 1.25, delay: 1.28, ease: 'easeOut' }}
+        />
+        <motion.div
+          className="absolute top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-lc-amber/40 bg-slate-950/85 text-lc-amber shadow-[0_0_24px_rgba(245,158,11,0.35)]"
+          initial={{ left: '8%', scale: 0.85, rotate: -8 }}
+          animate={{ left: 'calc(100% - 3rem)', scale: 1, rotate: 0 }}
+          transition={{ duration: 1.25, delay: 1.28, ease: 'easeInOut' }}
+        >
+          <Plane className="h-5 w-5 rotate-45" aria-hidden />
+        </motion.div>
+        {[0, 1, 2].map((index) => (
+          <motion.span
+            key={index}
+            className="absolute top-1/2 h-1.5 w-1.5 rounded-full bg-lc-amber"
+            style={{ left: `${34 + index * 18}%` }}
+            initial={{ opacity: 0, scale: 0.4, y: -4 }}
+            animate={{ opacity: [0, 1, 0.35], scale: [0.4, 1.4, 1], y: [-4, -18, -10] }}
+            transition={{ duration: 1.2, delay: 1.55 + index * 0.12, ease: 'easeOut' }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RequirementPill({
+  label,
+  value,
+  target,
+  complete,
+}: {
+  label: string;
+  value: number;
+  target: number;
+  complete: boolean;
+}) {
+  return (
+    <div className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-2 ${
+      complete
+        ? 'border-emerald-300/25 bg-emerald-300/[0.08] text-emerald-100'
+        : 'border-lc-amber/25 bg-lc-amber/[0.08] text-lc-amber'
+    }`}>
+      <span className="flex items-center gap-2 font-semibold">
+        {complete ? <CheckCircle2 className="h-3.5 w-3.5" aria-hidden /> : <Lock className="h-3.5 w-3.5" aria-hidden />}
+        {label}
+      </span>
+      <span className="font-bold">{value}/{target}</span>
     </div>
   );
 }

@@ -67,6 +67,14 @@ export interface WorldFlightSessionContext extends WorldFlightLaunchContext {
   distanceKm: number;
   rangeKm: number;
   planeKey: string;
+  planeTier?: number;
+  planeSelectionRequired?: boolean;
+  flightHours?: number;
+  crewStars?: number;
+  nextUpgradeRangeKm?: number;
+  needsFlightHours?: number;
+  needsCrewStars?: number;
+  fullyUpgraded?: boolean;
   movesClass: boolean;
   evidenceSnapshot: WorldFlightEvidenceSnapshot;
 }
