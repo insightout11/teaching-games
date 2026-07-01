@@ -151,13 +151,15 @@ function computeNodeLayout(
 
   // Cards are sized in viewBox px (which equal CSS px once measured), so they stay
   // a comfortable physical size on every screen; only the horizontal spread changes.
-  const baseCardWidth = isRuntime ? 136 : 188;
+  // Keep cards strictly NARROWER than the node spacing so neighbours never collide
+  // (the original `spacing + 8` made each card wider than its slot → overlap).
+  const baseCardWidth = isRuntime ? 122 : 178;
   const spacing = getNodeSpacing(width, count, isRuntime);
   const cardWidth =
     labelMode === 'full'
-      ? clamp(spacing + 8, 104, baseCardWidth)
+      ? clamp(spacing - 20, 92, baseCardWidth)
       : labelMode === 'compact'
-        ? clamp(spacing - 4, 56, baseCardWidth)
+        ? clamp(spacing - 14, 56, baseCardWidth)
         : clamp(width * 0.45, 120, isRuntime ? 220 : baseCardWidth);
 
   return steps.map((step, index) => {
@@ -903,6 +905,7 @@ function NodeLayer({
   onMoveModule,
   slotBudgets,
   labelMode = 'full',
+  cardsHidden = false,
 }: {
   width: number;
   height: number;
@@ -914,6 +917,9 @@ function NodeLayer({
   onMoveModule?: (index: number, direction: 'left' | 'right') => void;
   slotBudgets?: number[];
   labelMode?: LabelMode;
+  /** Legend layout (narrow): draw only the bare dots on the arc; labels live in a
+   *  legend below the route, so no cards/connector lines render at all. */
+  cardsHidden?: boolean;
 }) {
   // Module points only (excluding terminals) for move-button boundary logic
   const modulePoints = points.filter((p) => p.kind === 'module');
@@ -924,7 +930,8 @@ function NodeLayer({
   const [revealedId, setRevealedId] = useState<string | null>(null);
   const currentIndex = Math.round(activeIndex);
   // full + compact label every stage; minimal labels only the current one (others tap).
-  const isLabeledStage = (i: number) => labelMode !== 'minimal' || i === currentIndex;
+  // cardsHidden (legend layout) suppresses ALL cards — only the bare arc dots remain.
+  const isLabeledStage = (i: number) => !cardsHidden && (labelMode !== 'minimal' || i === currentIndex);
 
   return (
     <>
@@ -1205,8 +1212,11 @@ export function MarketingFlightPlan({
   // swaps to a squarer aspect so the active card + plane have room (capped by `height`).
   const isNarrow = vbW > 0 && vbW < 600;
   const grow = growOnNarrow && isNarrow;
-  const targetAspect = mode === 'runtime' ? (grow ? 1.5 : 9) : 4.8;
-  const minHeight = mode === 'runtime' ? (grow ? 220 : 88) : 150;
+  // Legend layout: below ~780px a row of cards can't fit, so render just the arc + bare
+  // dots and move the stage names into a legend beneath the route (option A).
+  const legendMode = mode === 'runtime' && vbW > 0 && vbW < 780;
+  const targetAspect = legendMode ? 3.4 : mode === 'runtime' ? (grow ? 1.5 : 9) : 4.8;
+  const minHeight = legendMode ? 130 : mode === 'runtime' ? (grow ? 220 : 88) : 150;
   const vbH = clamp(vbW / targetAspect, Math.min(minHeight, height), height);
 
   const labelMode = useMemo(
@@ -1270,6 +1280,7 @@ export function MarketingFlightPlan({
   }, [mounted]);
 
   return (
+    <div className="w-full">
     <div
       ref={containerRef}
       className={`group/flightplan relative w-full overflow-hidden ${mode === 'runtime' ? 'rounded-2xl' : 'rounded-[28px]'} border border-white/[0.07] bg-[#07111f]/20 shadow-[0_18px_70px_rgba(0,0,0,0.24)] backdrop-blur-[1px] transition-all duration-500 hover:border-emerald-200/25 hover:shadow-[0_20px_95px_rgba(52,235,170,0.14),0_0_55px_rgba(34,211,238,0.10)] focus-within:border-emerald-200/25 focus-within:shadow-[0_20px_95px_rgba(52,235,170,0.14),0_0_55px_rgba(34,211,238,0.10)] ${className}`}
@@ -1305,11 +1316,29 @@ export function MarketingFlightPlan({
           <div className="pointer-events-none absolute inset-[1px] rounded-[27px] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.006)_18%,transparent_34%)] opacity-45 transition-opacity duration-500 group-hover/flightplan:opacity-100 group-focus-within/flightplan:opacity-100" />
 
           <PathLayer width={vbW} height={vbH} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} emphasized={isEngaged} />
-          <NodeLayer width={vbW} height={vbH} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} slotBudgets={slotBudgets} labelMode={labelMode} />
+          <NodeLayer width={vbW} height={vbH} points={points} mode={mode} activeIndex={derivedActiveIndex} ids={ids} onNodeClick={onNodeClick} onMoveModule={onMoveModule} slotBudgets={slotBudgets} labelMode={labelMode} cardsHidden={legendMode} />
           <PlaneLayer width={vbW} height={vbH} points={points} takeoffPoint={takeoffPoint} mode={mode} activeIndex={derivedActiveIndex} ids={ids} pacingIndex={pacingIndex} />
 
           <div className={`pointer-events-none absolute inset-x-0 bottom-0 ${mode === 'runtime' ? 'h-8' : 'h-28'} bg-gradient-to-t from-[#050b15] to-transparent`} />
         </>
+      )}
+    </div>
+
+      {/* Legend (narrow): stage names move below the arc since cards can't fit a row. */}
+      {mounted && legendMode && (
+        <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-2 pt-3">
+          {safeSteps
+            .filter((s) => s.kind !== 'checkpoint')
+            .map((s) => (
+              <li key={s.id} className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/90" />
+                <span className="text-[11px] font-medium leading-tight text-white/90">
+                  <span className="font-instrument mr-1 text-[8.5px] uppercase tracking-wider text-cyan-200/55">{s.type}</span>
+                  {s.name}
+                </span>
+              </li>
+            ))}
+        </ul>
       )}
     </div>
   );
