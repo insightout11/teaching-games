@@ -7,6 +7,7 @@ import { suggestModules, buildLessonSlots, type PlanModule } from '@/lib/planner
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset, type FlightPresetConfig } from '@/lib/flight-plan-presets';
 import type { ScoringMode } from '@/stores/session-store';
 import type { SourceMaterial, SourceType, SupportingSource } from '@/types/source-material';
+import type { ActivityGeneratedContent } from '@/activities/types';
 import type { WorldFlightLaunchContext, WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { resolveSourceMaterialForDifficulty } from '@/lib/world-flight/readings';
 import type {
@@ -170,6 +171,16 @@ type LessonSlot = {
   pool?: string[];
 };
 
+/**
+ * Pre-built content for a curated arc (currently the Travel trip). `stageSources` grounds
+ * each module on its own per-stage SourceMaterial (keyed by activity key); `preGenerated`
+ * seeds content that isn't AI-generated (e.g. the Attraction board's real attractions).
+ */
+export interface TripLaunchPack {
+  stageSources: Record<string, SourceMaterial>;
+  preGenerated: Record<string, ActivityGeneratedContent>;
+}
+
 export type PlannerStep = 'mission-setup' | 'flight-plan' | 'launch';
 
 interface PlannerState {
@@ -203,6 +214,9 @@ interface PlannerState {
   worldFlightOriginId: string | null;
   worldFlightDestinationId: string | null;
 
+  // Pre-built content for a curated arc (Travel trip). One-shot: consumed at launch.
+  tripPack: TripLaunchPack | null;
+
   // Derived
   primaryGoal: GoalTag;
 
@@ -235,6 +249,7 @@ interface PlannerState {
   setSelectedClassId(id: string | null): void;
   setGrammarTarget(t: GrammarTarget | null): void;
   setSourceMaterial(s: SourceMaterial | null): void;
+  setTripPack(pack: TripLaunchPack | null): void;
   /** Attach a secondary source merged into grounding (primary + supporting). No-op without a primary. */
   addSupportingSource(material: SourceMaterial): void;
   removeSupportingSource(index: number): void;
@@ -281,6 +296,7 @@ export const usePlannerStore = create<PlannerState>()(
       worldFlightDesignMissionContext: null,
       worldFlightOriginId: null,
       worldFlightDestinationId: null,
+      tripPack: null,
 
       // Derived
       get primaryGoal() {
@@ -397,6 +413,7 @@ export const usePlannerStore = create<PlannerState>()(
 
       setSelectedClassId: (id) => set({ selectedClassId: id }),
       setGrammarTarget: (grammarTarget) => set({ grammarTarget }),
+      setTripPack: (tripPack) => set({ tripPack }),
       setSourceMaterial: (sourceMaterial) => {
         const { difficulty, loadedPresetId } = get();
         const resolvedSourceMaterial = resolveSourceMaterialForDifficulty(sourceMaterial, difficulty);
@@ -510,6 +527,7 @@ export const usePlannerStore = create<PlannerState>()(
 
         const hasMissionSelector = modules.some((m) => m.key === 'mission-selector');
         const flightConfig = buildFlightConfigForSlots(loadedPreset?.flightConfig, slots);
+        const tripPack = get().tripPack;
 
         const lessonPlanPayload = {
           customTopic: topic,
@@ -523,14 +541,15 @@ export const usePlannerStore = create<PlannerState>()(
           ...(sourceMaterial ? { sourceMaterial } : {}),
           ...(flightConfig && loadedPreset ? { flightPresetId: loadedPreset.id, flightConfig } : {}),
           ...(worldFlightDestinationId ? { originId: worldFlightOriginId, destinationId: worldFlightDestinationId } : {}),
+          ...(tripPack?.stageSources ? { stageSources: tripPack.stageSources } : {}),
           slots,
-          generatedContent: {},
+          generatedContent: { ...(tripPack?.preGenerated ?? {}) },
           generatedGameContent: {},
         };
 
         // One-shot: consume the World Flight route so a later non-WF launch
         // doesn't inherit a stale destination.
-        set({ worldFlightOriginId: null, worldFlightDestinationId: null });
+        set({ worldFlightOriginId: null, worldFlightDestinationId: null, tripPack: null });
 
         const res = await fetch('/api/session/create', {
           method: 'POST',
@@ -603,6 +622,7 @@ export const usePlannerStore = create<PlannerState>()(
           worldFlightDesignMissionContext: null,
           worldFlightOriginId: null,
           worldFlightDestinationId: null,
+          tripPack: null,
         }),
     }),
     {

@@ -11,7 +11,8 @@ import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/
 import { destinationCoord, destinationsWithinRange, distanceKm, formatDistance, greatCircleLine, rangeRing, type WorldFeature, type WorldFeatureCollection } from '@/lib/world-flight/geo';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { inferSourceGenre, bestPresetForGenre } from '@/lib/preset-fit';
-import { buildTravelContext } from '@/lib/world-flight/travel-context';
+import { buildTripItinerary } from '@/lib/world-flight/travel-context';
+import { buildTripAttractionsContent } from '@/activities/trip-attractions';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, PLANE_TIERS, type PlaneEntry } from '@/lib/plane-progression';
@@ -1376,11 +1377,9 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   // World-Flight-eligible flight plans (grows as Debate/Travel are authored).
   const [selectedPresetId, setSelectedPresetId] = useState<string>('all-around-flight-60');
   const [launchStep, setLaunchStep] = useState<'source' | 'flight-plan'>('source');
-  const [selectedSituation, setSelectedSituation] = useState<string>('');
   const worldFlightPresets = ['all-around-flight-60', 'speak-60', 'travel-60', 'debate-60']
     .map((id) => FLIGHT_PLAN_PRESETS.find((p) => p.id === id))
     .filter((p): p is FlightPlanPreset => Boolean(p));
-  const travelSituations = FLIGHT_PLAN_PRESETS.find((p) => p.id === 'travel-60')?.scenarios?.options ?? [];
   const selectedPreset = worldFlightPresets.find((p) => p.id === selectedPresetId) ?? worldFlightPresets[0];
   const [focusFilter, setFocusFilter] = useState<FocusFilter>('all');
   const [listOpen, setListOpen] = useState(false);
@@ -2432,9 +2431,24 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     // Travel generates its own functional scenario from the city + situation (ignores the focus);
     // every other preset runs on the chosen focus/source.
     if (selectedPresetId === 'travel-60') {
-      const situation = selectedSituation || travelSituations[0] || 'A travel situation';
-      store.setTopic(situation);
-      store.setSourceMaterial(buildTravelContext(selectedDestination, situation));
+      // Whole-trip arc: each stage grounds on its own per-stage source, and the Attraction
+      // board is seeded from the city's real attractions — both carried via the trip pack.
+      const itinerary = buildTripItinerary(selectedDestination);
+      store.setTopic(`Trip to ${selectedDestination.city}`);
+      store.setSourceMaterial(itinerary.arrival);
+      store.setTripPack({
+        stageSources: {
+          'character-cards': itinerary.departures,
+          'scene-igniter': itinerary.arrival,
+          'trip-getting-there': itinerary['getting-there'],
+          'trip-hotel': itinerary.hotel,
+          'trip-meal': itinerary['local-table'],
+          'in-your-words': itinerary.landing,
+        },
+        preGenerated: {
+          'trip-attractions': buildTripAttractionsContent(selectedDestination),
+        },
+      });
     } else {
       store.setTopic(selectedFocus.title);
       store.setSourceMaterial(selectedFocus.sourceMaterial);
@@ -2997,7 +3011,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                     {selectedPresetId === 'travel-60' ? (
                       <>
                         <p className="truncate text-sm font-semibold text-lc-text">Travel — {selectedDestination.city}</p>
-                        <p className="truncate text-xs font-semibold text-cyan-200/75">Generated from the city — pick a situation below</p>
+                        <p className="truncate text-xs font-semibold text-cyan-200/75">The whole trip through {selectedDestination.city} — airport to a local meal</p>
                       </>
                     ) : (
                       <>
@@ -3041,27 +3055,6 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                     );
                   })}
                 </div>
-                {selectedPresetId === 'travel-60' && travelSituations.length > 0 && (
-                  <div className="mt-4">
-                    <p className="mb-1 text-xs font-semibold uppercase tracking-[0.2em] text-lc-text3">Travel situation</p>
-                    <p className="mb-2 text-[11px] text-lc-text3">Travel writes its own scenario from {selectedDestination.city} — pick a situation.</p>
-                    <div className="flex flex-col gap-1.5">
-                      {travelSituations.map((s) => {
-                        const active = s === (selectedSituation || travelSituations[0]);
-                        return (
-                          <button
-                            key={s}
-                            type="button"
-                            onClick={() => setSelectedSituation(s)}
-                            className={`rounded-lg border px-3 py-2 text-left text-xs transition-colors ${active ? 'border-rose-300/60 bg-rose-300/[0.10] text-rose-100' : 'border-white/10 bg-white/[0.025] text-lc-text2 hover:border-white/20'}`}
-                          >
-                            {s}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
               </>
             )}
           </div>
@@ -3104,7 +3097,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                     : !isReachable && !isLocalLesson
                     ? 'Build Lesson Without Moving'
                     : selectedPresetId === 'travel-60'
-                      ? `Build Travel — ${(selectedSituation || travelSituations[0] || 'Travel').split(' — ')[0]}`
+                      ? `Build Travel — ${selectedDestination.city}`
                       : `Build ${selectedPreset?.name ?? 'Flight Plan'}`}
                 </button>
                 {selectedFocus.kind === 'video' && (

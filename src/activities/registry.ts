@@ -33,6 +33,8 @@ import { grammarProofPlugin } from './grammar-proof';
 import { finalWordPlugin } from './final-word';
 import { inYourWordsPlugin } from './in-your-words';
 import { conversationRoundsPlugin } from './conversation-rounds';
+import { tripAttractionsPlugin } from './trip-attractions';
+import { tripGettingTherePlugin, tripHotelPlugin, tripMealPlugin } from './trip-stages';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
 import { listeningGapFillPlugin } from './listening-gap-fill';
@@ -58,6 +60,10 @@ const activities: ActivityPlugin[] = [
   vocabMicroPlugin,
   quickPulsePlugin,
   wonderBoardPlugin,
+  tripAttractionsPlugin,
+  tripGettingTherePlugin,
+  tripHotelPlugin,
+  tripMealPlugin,
   vocabRadarPlugin,
   predictionRoundPlugin,
   twoTruthsAndALiePlugin,

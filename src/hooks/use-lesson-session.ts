@@ -54,6 +54,8 @@ interface LessonPlanPayload {
   grammarTarget?: GrammarTarget | null;
   directLaunch?: boolean;
   sourceMaterial?: SourceMaterial;
+  /** Per-stage sources for curated arcs (Travel trip), keyed by activity key. */
+  stageSources?: Record<string, SourceMaterial>;
   worldFlightContext?: WorldFlightSessionContext;
   /** World Flight route — the two cities this lesson flies between. */
   originId?: string;
@@ -82,6 +84,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         grammarTarget: parsed.grammarTarget ?? null,
         directLaunch: parsed.directLaunch ?? false,
         sourceMaterial: parsed.sourceMaterial ?? undefined,
+        stageSources: parsed.stageSources ?? undefined,
         worldFlightContext: parsed.worldFlightContext ?? undefined,
         originId: parsed.originId ?? undefined,
         destinationId: parsed.destinationId ?? undefined,
@@ -219,7 +222,7 @@ export function useLessonSession(
     const isGame = slot.type === 'game';
 
     const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
-    const sourceMaterial = lessonPlanContent?.sourceMaterial;
+    const sourceMaterial = lessonPlanContent?.stageSources?.[key] ?? lessonPlanContent?.sourceMaterial;
     const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
     const body = isLanding
       ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty }
@@ -291,7 +294,7 @@ export function useLessonSession(
     const effectiveTopic = lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings);
       const missionContext = getMissionContext();
       const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
-      const sourceMaterial = lessonPlanContent?.sourceMaterial;
+      const sourceMaterial = lessonPlanContent?.stageSources?.[activity.key] ?? lessonPlanContent?.sourceMaterial;
       const needsSourceVocab = lessonSlots.some((s) => s.key === 'language-toolkit');
       const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
       const body = isLanding

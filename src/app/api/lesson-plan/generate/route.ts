@@ -2976,6 +2976,13 @@ export async function POST(request: NextRequest) {
             if (sceneChainMode) break; // already generated sequentially above
             generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx, taskRoleplay).then((r) => { content[activityKey] = r; }));
             break;
+          case 'trip-getting-there':
+          case 'trip-hotel':
+          case 'trip-meal':
+            // Travel-arc roleplay stages: same engine, always task-roleplay, each grounded on
+            // its own per-stage source (sourceCtx) so roles/tasks/complications differ per stage.
+            generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx, true).then((r) => { content[activityKey] = r; }));
+            break;
           case 'cabin-mystery':
             // V1 is a static hand-authored case. No AI generation required.
             generators.push(Promise.resolve().then(() => {

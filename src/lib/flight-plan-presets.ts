@@ -527,62 +527,49 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'travel-60',
     name: 'Travel',
-    description: 'Functional travel English: travel words, a real dialogue, a quick word check, a task role-play, and a vocab close — accomplish a real-world task.',
-    tagline: 'Real-world English — accomplish the task',
+    description: 'A whole trip in one city — airport, getting there, hotel, a real attraction, and a local meal. Functional speaking at every stop.',
+    tagline: 'One city, the whole journey — speak at every stop',
     lessonDurationMinutes: 60,
     goal: 'functional-english',
     lessonType: 'performance',
     // functional-english is not in goalToScoringMode (would fall through to competitive),
     // so set participation explicitly — Travel is task-completion, not a winner.
     scoringMode: 'participation',
-    // Travel grounds on a synthetic SourceMaterial (buildTravelContext) with no playable
-    // video / readable passage — don't auto-inject a source briefing.
+    // Each stage grounds on its own per-stage SourceMaterial (buildTripItinerary), injected at
+    // launch via the trip pack — there's no single playable video / readable passage.
     skipSourceBriefing: true,
-    takeoff: 'vocab-radar',
+    takeoff: 'character-cards',
     landing: 'in-your-words',
+    // The fixed trip spine. trip-getting-there / trip-hotel / trip-meal reuse the
+    // ConversationRounds engine but are distinct keys, each grounded on its own stage source
+    // so the roleplays play differently. trip-attractions is seeded from the city's real
+    // attractions (no AI). See docs/travel-trip-anchors-codex-brief.md.
     moduleSequence: [
-      { slotType: 'practice', key: 'dialogue-detective', stageId: 'analyse' },
-      { slotType: 'practice', key: 'vocab-micro', stageId: 'vocab-check', isMicroEvent: true },
-      { slotType: 'production', key: 'conversation-rounds', stageId: 'roleplay' },
-      { slotType: 'practice', key: 'radar-fix', stageId: 'navigation-check', isMicroEvent: true, worldFlightOnly: true },
-      { slotType: 'practice', key: 'vocab-sprint', stageId: 'end-game', pool: ['vocab-sprint', 'connections', 'word-chain'] },
+      { slotType: 'presentation', key: 'scene-igniter', stageId: 'arrival' },
+      { slotType: 'production', key: 'trip-getting-there', stageId: 'getting-there' },
+      { slotType: 'production', key: 'trip-hotel', stageId: 'hotel' },
+      { slotType: 'production', key: 'trip-attractions', stageId: 'attraction' },
+      { slotType: 'production', key: 'trip-meal', stageId: 'local-table' },
     ],
     flightConfig: {
       stages: [
-        { stageId: 'icebreaker', label: 'Travel Words', kind: 'stage', phase: 'takeoff' },
-        { stageId: 'briefing', label: 'Briefing', kind: 'stage', phase: 'climb' },
-        { stageId: 'analyse', label: 'Dialogue', kind: 'stage', phase: 'climb' },
-        { stageId: 'vocab-check', label: 'Comms Check', kind: 'micro-event', phase: 'climb' },
-        { stageId: 'roleplay', label: 'Roleplay', kind: 'stage', phase: 'cruise' },
-        { stageId: 'navigation-check', label: 'Navigation Check', kind: 'micro-event', phase: 'cruise' },
-        { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
-        { stageId: 'landing', label: 'Wrap-up', kind: 'landing', phase: 'landing' },
+        { stageId: 'departures', label: 'Departures', kind: 'stage', phase: 'takeoff' },
+        { stageId: 'arrival', label: 'Arrival', kind: 'stage', phase: 'climb' },
+        { stageId: 'getting-there', label: 'Getting There', kind: 'stage', phase: 'climb' },
+        { stageId: 'hotel', label: 'Hotel', kind: 'stage', phase: 'cruise' },
+        { stageId: 'attraction', label: 'Out & About', kind: 'stage', phase: 'cruise' },
+        { stageId: 'local-table', label: 'Local Table', kind: 'stage', phase: 'descent' },
+        { stageId: 'landing', label: 'Trip Recap', kind: 'landing', phase: 'landing' },
       ],
       stageByKey: {
-        'vocab-radar': 'icebreaker',
-        'read-aloud': 'briefing',
-        'video-player': 'briefing',
-        'dialogue-detective': 'analyse',
-        'vocab-micro': 'vocab-check',
-        'conversation-rounds': 'roleplay',
-        'radar-fix': 'navigation-check',
-        'vocab-sprint': 'end-game',
-        'connections': 'end-game',
-        'word-chain': 'end-game',
+        'character-cards': 'departures',
+        'scene-igniter': 'arrival',
+        'trip-getting-there': 'getting-there',
+        'trip-hotel': 'hotel',
+        'trip-attractions': 'attraction',
+        'trip-meal': 'local-table',
         'in-your-words': 'landing',
       },
-    },
-    scenarios: {
-      label: 'Choose a travel situation',
-      placeholder: 'e.g. Checking in at a budget hostel',
-      options: [
-        'Airport — check-in and boarding',
-        'Hotel — checking in and accommodation',
-        'Restaurant — ordering and dealing with issues',
-        'Shopping — markets, shops, and returns',
-        'Getting around — directions and public transport',
-        'Emergencies — problems, help, and medical situations',
-      ],
     },
   },
   {

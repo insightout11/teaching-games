@@ -154,6 +154,22 @@ export interface WonderBoardContent extends ActivityGeneratedContent {
   framingPrompt: string; // One sentence the teacher uses to introduce the board
 }
 
+// Trip Attractions content (Travel arc — attraction board stage).
+// Seeded from a destination's real travelAnchors.attractions — no AI.
+export interface TripAttractionOption {
+  id: string;
+  name: string;
+  whatItIs: string;   // one-line info so students know what the place is
+  whyVisit?: string;  // optional traveller hook
+}
+
+export interface TripAttractionsContent extends ActivityGeneratedContent {
+  activityKey: 'trip-attractions';
+  city: string;
+  framingPrompt: string;
+  attractions: TripAttractionOption[];
+}
+
 // Would You Rather content
 export interface WouldYouRatherContent extends ActivityGeneratedContent {
   activityKey: 'would-you-rather';
