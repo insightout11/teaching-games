@@ -54,22 +54,30 @@ export default function MarketingFlightPlanGalleryPage() {
       <div>
         <h1 className="text-lg font-bold text-lc-text">Marketing flight plan — review gallery</h1>
         <p className="mt-1 text-sm text-lc-text3">
-          Cards now sized narrower than each slot (no overlap). Compare the plane positions below.
+          Stage cards now spread EVENLY across the width (pips between them) so each has room —
+          no truncation / mid-word breaks. Below ~1000px it switches to the arc + legend.
         </p>
       </div>
 
-      <div className="mx-auto max-w-[1100px] space-y-10">
-        <Panel label="Plane landed at the end (complete lesson)" activeIndex={LAST} width="w-full" />
-        <Panel label="Plane parked at takeoff (ready to fly)" activeIndex={0} width="w-full" />
-        <Panel label="Plane mid-cruise (what the hero currently animates to)" activeIndex={2.4} width="w-full" />
+      <div className="space-y-10">
+        <p className="font-instrument text-[11px] uppercase tracking-[0.22em] text-emerald-300/70">
+          Wide → cards (evenly spread)
+        </p>
+        <div className="mx-auto max-w-[1400px]">
+          <Panel label="Full screen · ~1400px" activeIndex={LAST} width="w-full" />
+        </div>
+        <div className="mx-auto max-w-[1120px] space-y-10">
+          <Panel label="Laptop · ~1120px · landed" activeIndex={LAST} width="w-full" />
+          <Panel label="Laptop · ~1120px · parked at takeoff" activeIndex={0} width="w-full" />
+        </div>
       </div>
 
       <div className="space-y-8">
         <p className="font-instrument text-[11px] uppercase tracking-[0.22em] text-amber-300/70">
-          Narrow → legend layout (arc + stage names below)
+          Narrow → legend (arc + stage names below)
         </p>
-        <div className="mx-auto max-w-[720px]">
-          <Panel label="Tablet · ~720px" activeIndex={LAST} width="w-full" />
+        <div className="mx-auto max-w-[900px]">
+          <Panel label="Small laptop / tablet · ~900px" activeIndex={LAST} width="w-full" />
         </div>
         <div className="mx-auto max-w-[380px]">
           <Panel label="Mobile · ~380px" activeIndex={LAST} width="w-full" />

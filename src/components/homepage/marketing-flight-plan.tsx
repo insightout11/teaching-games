@@ -149,21 +149,50 @@ function computeNodeLayout(
   const arcLift = isRuntime ? clamp(28 + count * 3, 36, 56) : clamp(42 + count * 4, 54, 82);
   const cardRowY = isRuntime ? clamp(height * 0.12, 14, 40) : clamp(height * 0.18, 80, 100);
 
-  // Cards are sized in viewBox px (which equal CSS px once measured), so they stay
-  // a comfortable physical size on every screen; only the horizontal spread changes.
-  // Keep cards strictly NARROWER than the node spacing so neighbours never collide
-  // (the original `spacing + 8` made each card wider than its slot → overlap).
-  const baseCardWidth = isRuntime ? 122 : 178;
-  const spacing = getNodeSpacing(width, count, isRuntime);
+  // Position the STAGE cards EVENLY across the width; checkpoint pips sit between them on
+  // the arc. Even NODE spacing crowded adjacent stage cards (1 gap apart) while leaving
+  // big gaps elsewhere (2 gaps apart), so a uniform card width had to shrink to the
+  // smallest gap → truncated / mid-word-broken labels. Even STAGE spacing gives every
+  // card the same, generous room.
+  const isCp = steps.map((s) => s.kind === 'checkpoint');
+  const stageCount = isCp.filter((c) => !c).length;
+  const stageSpacing = stageCount <= 1 ? span : span / (stageCount - 1);
+  const tByIndex = new Array<number>(count).fill(-1);
+  {
+    let si = 0;
+    for (let i = 0; i < count; i++) {
+      if (!isCp[i]) {
+        tByIndex[i] = stageCount <= 1 ? 0 : si / (stageCount - 1);
+        si += 1;
+      }
+    }
+    // Spread each run of checkpoint pips evenly between the surrounding stage positions.
+    let i = 0;
+    while (i < count) {
+      if (tByIndex[i] !== -1) {
+        i += 1;
+        continue;
+      }
+      let j = i;
+      while (j < count && tByIndex[j] === -1) j += 1;
+      const tp = i - 1 >= 0 ? tByIndex[i - 1] : 0;
+      const tn = j < count ? tByIndex[j] : 1;
+      const k = j - i;
+      for (let m = 0; m < k; m++) tByIndex[i + m] = tp + (tn - tp) * ((m + 1) / (k + 1));
+      i = j;
+    }
+  }
+
+  const baseCardWidth = 200;
   const cardWidth =
     labelMode === 'full'
-      ? clamp(spacing - 20, 92, baseCardWidth)
+      ? clamp(stageSpacing - 30, 120, baseCardWidth)
       : labelMode === 'compact'
-        ? clamp(spacing - 14, 56, baseCardWidth)
+        ? clamp(stageSpacing - 26, 92, baseCardWidth)
         : clamp(width * 0.45, 120, isRuntime ? 220 : baseCardWidth);
 
   return steps.map((step, index) => {
-    const t = count === 1 ? 0 : index / (count - 1);
+    const t = tByIndex[index];
     const x = left + span * t;
     const liftFactor = 4 * t * (1 - t);
     const y = baseY - arcLift * liftFactor;
@@ -734,9 +763,9 @@ function NodeCard({
               {getStepIcon(point.type, `${iconSize} text-cyan-200/90`)}
             </div>
           )}
-          <div className="min-w-0 flex-1 overflow-hidden">
+          <div className="min-w-0 flex-1">
             {!compact && (
-              <div className={`uppercase tracking-[0.06em] font-semibold truncate ${
+              <div className={`whitespace-nowrap uppercase tracking-[0.06em] font-semibold ${
                 isRuntime
                   ? 'text-[10px] text-cyan-200/70'
                   : 'text-[11px] text-cyan-200/65'
@@ -744,7 +773,7 @@ function NodeCard({
                 {point.type}
               </div>
             )}
-            <div className={`leading-tight text-white/[0.92] break-words ${
+            <div className={`leading-tight text-white/[0.92] break-normal ${
               compact ? 'text-xs font-medium' : isRuntime ? 'mt-0.5 text-xs font-medium' : 'mt-1 text-sm font-medium'
             }`}>{point.name}</div>
             {estimatedMinutes !== undefined && (
@@ -1214,7 +1243,7 @@ export function MarketingFlightPlan({
   const grow = growOnNarrow && isNarrow;
   // Legend layout: below ~780px a row of cards can't fit, so render just the arc + bare
   // dots and move the stage names into a legend beneath the route (option A).
-  const legendMode = mode === 'runtime' && vbW > 0 && vbW < 780;
+  const legendMode = mode === 'runtime' && vbW > 0 && vbW < 1000;
   const targetAspect = legendMode ? 3.4 : mode === 'runtime' ? (grow ? 1.5 : 9) : 4.8;
   const minHeight = legendMode ? 130 : mode === 'runtime' ? (grow ? 220 : 88) : 150;
   const vbH = clamp(vbW / targetAspect, Math.min(minHeight, height), height);
