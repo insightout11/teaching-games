@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker as MapLibreMarker, type Popup as MapLibrePopup } from 'maplibre-gl';
 import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, Clock3, Compass, ExternalLink, Gauge, Globe2, Info, Loader2, Lock, Map as MapIcon, MapPin, Minus, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Plane, PlaneTakeoff, Play, Plus, Radar, RotateCcw, Route, ScanSearch, Search, Stamp, Star, Trophy, X } from 'lucide-react';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
@@ -392,12 +393,23 @@ function RangeUpgradeNoticeCard({
   onClose: () => void;
 }) {
   return (
-    <div className="pointer-events-auto absolute bottom-20 left-4 right-4 rounded-lg border border-lc-amber/35 bg-[var(--wf-surface)] p-4 shadow-2xl shadow-black/45 md:bottom-16 md:left-1/2 md:right-auto md:w-[min(520px,calc(100vw-3rem))] md:-translate-x-1/2">
-      <div className="flex items-start justify-between gap-4">
+    <motion.div
+      className="pointer-events-auto absolute bottom-20 left-4 right-4 overflow-hidden rounded-xl border border-lc-amber/45 bg-[radial-gradient(circle_at_20%_0%,rgba(245,158,11,0.18),transparent_34%),var(--wf-surface)] p-4 shadow-2xl shadow-black/45 md:bottom-16 md:left-1/2 md:right-auto md:w-[min(560px,calc(100vw-3rem))] md:-translate-x-1/2"
+      initial={{ opacity: 0, y: 26, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ type: 'spring', stiffness: 210, damping: 20 }}
+    >
+      <CloudRevealLayer />
+      <div className="relative flex items-start justify-between gap-4">
         <div className="flex min-w-0 items-start gap-3">
-          <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-lc-amber/35 bg-lc-amber/15 text-lc-amber">
+          <motion.span
+            className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-lc-amber/45 bg-lc-amber/15 text-lc-amber shadow-[0_0_30px_rgba(245,158,11,0.18)]"
+            initial={{ rotate: -12, scale: 0.7 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ delay: 0.18, type: 'spring', stiffness: 260, damping: 15 }}
+          >
             <Gauge className="h-5 w-5" aria-hidden />
-          </span>
+          </motion.span>
           <div className="min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-lc-amber/80">Range expanded</p>
             <h2 className="font-display mt-1 text-xl leading-tight text-lc-text">
@@ -408,6 +420,15 @@ function RangeUpgradeNoticeCard({
                 ? `Newly reachable: ${notice.newlyReachableCityNames.join(', ')}${notice.newlyReachableDestinationIds.length > notice.newlyReachableCityNames.length ? ', and more' : ''}.`
                 : 'The class has more routing flexibility from its current city.'}
             </p>
+            {notice.newlyReachableCityNames.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {notice.newlyReachableCityNames.slice(0, 4).map((city) => (
+                  <span key={city} className="rounded-full border border-cyan-200/25 bg-cyan-300/[0.08] px-2 py-0.5 text-[11px] font-semibold text-cyan-100">
+                    {city}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <button
@@ -419,6 +440,36 @@ function RangeUpgradeNoticeCard({
           <X className="h-4 w-4" aria-hidden />
         </button>
       </div>
+    </motion.div>
+  );
+}
+
+function CloudRevealLayer({ className = '' }: { className?: string }) {
+  const clouds: Array<{ top: string; left?: string; right?: string; width: number; delay: number; x: number }> = [
+    { top: '10%', left: '-12%', width: 180, delay: 0.05, x: -46 },
+    { top: '34%', left: '-8%', width: 130, delay: 0.18, x: -34 },
+    { top: '14%', right: '-14%', width: 190, delay: 0.1, x: 48 },
+    { top: '48%', right: '-10%', width: 150, delay: 0.24, x: 38 },
+  ];
+
+  return (
+    <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`} aria-hidden>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.16),transparent_34%)]" />
+      {clouds.map((cloud, index) => (
+        <motion.span
+          key={`${cloud.top}-${index}`}
+          className="absolute h-12 rounded-full bg-white/18 blur-xl"
+          style={{
+            top: cloud.top,
+            left: cloud.left,
+            right: cloud.right,
+            width: cloud.width,
+          }}
+          initial={{ opacity: 0.65, x: 0, scale: 1 }}
+          animate={{ opacity: 0.12, x: cloud.x, scale: 1.18 }}
+          transition={{ duration: 1.25, delay: cloud.delay, ease: 'easeOut' }}
+        />
+      ))}
     </div>
   );
 }
@@ -516,8 +567,9 @@ function CrewProgressSummaryCard({
   const pendingTier = getPlaneTier(planeTier);
   const targetRangeKm = upgradeState.claimableRangeKm ?? upgradeState.nextRangeTier?.rangeKm ?? upgradeState.currentRangeKm;
   const nextMilestone = upgradeState.nextMilestone;
-  const hourTarget = nextMilestone?.requiredFlightHours ?? Math.max(flightHours, 1);
-  const starTarget = nextMilestone?.requiredCrewStars ?? Math.max(crewStars, 1);
+  const targetMilestone = selectionRequired ? upgradeState.latestUnlockedMilestone : nextMilestone;
+  const hourTarget = targetMilestone?.requiredFlightHours ?? Math.max(flightHours, 1);
+  const starTarget = targetMilestone?.requiredCrewStars ?? Math.max(crewStars, 1);
   const hourProgress = Math.min(100, Math.round((flightHours / Math.max(hourTarget, 1)) * 100));
   const starProgress = Math.min(100, Math.round((crewStars / Math.max(starTarget, 1)) * 100));
 
@@ -533,7 +585,7 @@ function CrewProgressSummaryCard({
             <Plane className="h-3.5 w-3.5" aria-hidden />
             Crew progress
           </p>
-          <p className="mt-1 truncate text-sm font-semibold text-lc-text">
+          <p className="mt-1 text-sm font-semibold leading-snug text-lc-text">
             {selectionRequired
               ? `Tier ${planeTier} aircraft ready`
               : claimable
@@ -639,7 +691,41 @@ function CrewProgressMeter({
         <span className="shrink-0 text-xs font-semibold text-lc-text">{value}/{target}</span>
       </div>
       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
-        <div className="h-full rounded-full bg-cyan-300" style={{ width: `${percent}%` }} />
+        <motion.div
+          className="h-full rounded-full bg-cyan-300"
+          initial={{ width: 0 }}
+          animate={{ width: `${percent}%` }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function HangarProgressMeter({
+  label,
+  value,
+  target,
+  percent,
+}: {
+  label: string;
+  value: number;
+  target: number;
+  percent: number;
+}) {
+  return (
+    <div className="rounded-md border border-white/10 bg-black/15 px-2.5 py-2">
+      <div className="flex items-center justify-between gap-2">
+        <span className="truncate text-[10px] font-semibold uppercase tracking-wide text-lc-text3">{label}</span>
+        <span className="shrink-0 text-xs font-bold text-cyan-100">{value}/{target}</span>
+      </div>
+      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+        <motion.div
+          className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-lc-amber"
+          initial={{ width: 0 }}
+          animate={{ width: `${percent}%` }}
+          transition={{ duration: 0.9, ease: 'easeOut' }}
+        />
       </div>
     </div>
   );
@@ -783,6 +869,16 @@ function AircraftVoteCeremony({
             ))}
           </div>
 
+          <AnimatePresence>
+            {revealed && (
+              <AircraftVoteRevealPanel
+                winner={winner}
+                topPlanes={topPlanes}
+                rangeKm={rangeKm}
+              />
+            )}
+          </AnimatePresence>
+
           <div className="mt-3 flex flex-wrap gap-2">
             {voteOpen ? (
               <>
@@ -849,6 +945,54 @@ function AircraftVoteCeremony({
   );
 }
 
+function AircraftVoteRevealPanel({
+  winner,
+  topPlanes,
+  rangeKm,
+}: {
+  winner: PlaneEntry | null;
+  topPlanes: PlaneEntry[];
+  rangeKm: number;
+}) {
+  const title = winner ? `${winner.name} wins` : 'Runoff needed';
+  const detail = winner
+    ? `${formatDistance(rangeKm)} range is ready for the class.`
+    : `Top aircraft: ${topPlanes.map((plane) => plane.name).join(', ')}`;
+  const displayPlane = winner ?? topPlanes[0] ?? null;
+
+  return (
+    <motion.div
+      className="relative mt-3 overflow-hidden rounded-lg border border-lc-amber/35 bg-[radial-gradient(circle_at_20%_0%,rgba(245,158,11,0.20),transparent_38%),rgba(245,158,11,0.075)] p-3"
+      initial={{ opacity: 0, y: 12, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 8, scale: 0.98 }}
+      transition={{ type: 'spring', stiffness: 230, damping: 19 }}
+    >
+      <CloudRevealLayer />
+      <div className="relative flex items-center gap-3">
+        <div className="flex h-16 w-24 shrink-0 items-center justify-center rounded-md border border-white/12 bg-[var(--wf-inset)] p-2">
+          {displayPlane && (
+            <motion.img
+              src={displayPlane.webp}
+              alt=""
+              draggable={false}
+              className="max-h-full max-w-full object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.35)]"
+              initial={{ x: -24, opacity: 0, scale: 0.88 }}
+              animate={{ x: 0, opacity: 1, scale: 1 }}
+              transition={{ delay: 0.18, type: 'spring', stiffness: 220, damping: 17 }}
+            />
+          )}
+        </div>
+        <div className="min-w-0">
+          <p className="font-instrument text-[10px] font-semibold uppercase tracking-[0.16em] text-lc-amber">Class choice revealed</p>
+          <h4 className="mt-1 truncate text-sm font-bold text-lc-text">{title}</h4>
+          <p className="mt-0.5 text-xs leading-relaxed text-lc-text2">{detail}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function AircraftVoteOptionCard({
   plane,
   rangeKm,
@@ -890,7 +1034,12 @@ function AircraftVoteOptionCard({
           </div>
           <p className="mt-0.5 text-[11px] text-lc-text3">{formatDistance(rangeKm)} range</p>
           <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full rounded-full bg-lc-amber" style={{ width: `${percent}%` }} />
+            <motion.div
+              className="h-full rounded-full bg-lc-amber"
+              initial={{ width: 0 }}
+              animate={{ width: `${percent}%` }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+            />
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
@@ -922,12 +1071,18 @@ function AircraftVoteOptionCard({
 function HangarPanel({
   currentPlaneKey,
   unlockedTier,
+  rangeKm,
+  flightHours,
+  crewStars,
   selectionRequired,
   actionStatus,
   onEquipPlane,
 }: {
   currentPlaneKey: string;
   unlockedTier: number;
+  rangeKm: number;
+  flightHours: number;
+  crewStars: number;
   selectionRequired: boolean;
   actionStatus: 'idle' | 'working' | 'error';
   onEquipPlane: (planeKey: string) => void;
@@ -936,18 +1091,41 @@ function HangarPanel({
   const currentTier = getPlaneTier(unlockedTier);
   const currentPlaneInTier = currentTier.choices.some((plane) => plane.key === currentPlane.key);
   const lockedTiers = PLANE_TIERS.filter((tier) => tier.tier > currentTier.tier);
+  const upgradeState = getWorldFlightUpgradeState({ planeTier: unlockedTier, rangeKm, flightHours, crewStars });
+  const targetMilestone = selectionRequired
+    ? upgradeState.latestUnlockedMilestone
+    : upgradeState.nextMilestone;
+  const hourTarget = targetMilestone?.requiredFlightHours ?? Math.max(flightHours, 1);
+  const starTarget = targetMilestone?.requiredCrewStars ?? Math.max(crewStars, 1);
+  const hourProgress = Math.min(100, Math.round((flightHours / Math.max(hourTarget, 1)) * 100));
+  const starProgress = Math.min(100, Math.round((crewStars / Math.max(starTarget, 1)) * 100));
+  const rangeTargetKm = selectionRequired
+    ? currentTier.rangeKm
+    : upgradeState.nextRangeTier?.rangeKm ?? upgradeState.currentRangeKm;
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
-      <div className={`rounded-lg border p-4 ${
+      <motion.div
+        className={`relative overflow-hidden rounded-xl border p-4 ${
         selectionRequired
-          ? 'border-lc-amber/35 bg-lc-amber/[0.08]'
-          : 'border-cyan-300/20 bg-cyan-300/[0.055]'
-      }`}>
-        <div className="flex items-start gap-4">
-          <div className="flex h-20 w-28 shrink-0 items-center justify-center rounded-md border border-white/10 bg-[var(--wf-inset)] p-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={currentPlane.webp} alt="" className="max-h-full max-w-full object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.35)]" />
+          ? 'border-lc-amber/40 bg-[radial-gradient(circle_at_18%_0%,rgba(245,158,11,0.18),transparent_34%),rgba(245,158,11,0.075)]'
+          : 'border-cyan-300/22 bg-[radial-gradient(circle_at_18%_0%,rgba(103,232,249,0.13),transparent_35%),rgba(103,232,249,0.045)]'
+      }`}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+      >
+        {selectionRequired && <CloudRevealLayer />}
+        <div className="relative flex items-start gap-4">
+          <div className="flex h-24 w-32 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[var(--wf-inset)] p-2 shadow-inner shadow-black/25">
+            <motion.img
+              src={currentPlane.front3qWebp ?? currentPlane.webp}
+              alt=""
+              draggable={false}
+              className="max-h-full max-w-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.38)]"
+              animate={selectionRequired ? { y: [0, -3, 0] } : { y: 0 }}
+              transition={selectionRequired ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut' } : undefined}
+            />
           </div>
           <div className="min-w-0 flex-1">
             <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">
@@ -957,14 +1135,41 @@ function HangarPanel({
             <p className="mt-1 text-xs text-lc-text3">
               {currentPlaneInTier ? currentTier.label : 'Previous aircraft'} · {formatDistance(getPlaneRangeKm(currentPlane.key))}
             </p>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <HangarProgressMeter label="Flight hours" value={flightHours} target={hourTarget} percent={hourProgress} />
+              <HangarProgressMeter label="Crew stars" value={crewStars} target={starTarget} percent={starProgress} />
+            </div>
           </div>
         </div>
-        <p className="mt-3 text-xs leading-relaxed text-lc-text2">
-          {selectionRequired
-            ? `Tier ${currentTier.tier} is unlocked. The class must choose one aircraft below before the next moving flight.`
-            : `Tier ${currentTier.tier} aircraft are available. Switching changes the class plane but keeps the same range tier.`}
-        </p>
-      </div>
+        <div className="relative mt-4 rounded-lg border border-white/10 bg-[var(--wf-surface)]/75 px-3 py-2.5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-lc-text3">Range status</p>
+              <p className="mt-0.5 text-sm font-semibold text-lc-text">
+                {selectionRequired
+                  ? `${formatDistance(rangeKm)} to ${formatDistance(currentTier.rangeKm)} after aircraft choice`
+                  : upgradeState.fullyUpgraded
+                    ? `${formatDistance(rangeKm)} - top range`
+                    : `${formatDistance(rangeKm)} now - ${formatDistance(rangeTargetKm)} next`}
+              </p>
+            </div>
+            <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${
+              selectionRequired
+                ? 'border-lc-amber/35 bg-lc-amber/15 text-lc-amber'
+                : 'border-cyan-200/25 bg-cyan-300/10 text-cyan-100'
+            }`}>
+              {selectionRequired ? 'Choose plane' : `Tier ${currentTier.tier}`}
+            </span>
+          </div>
+          <p className="mt-2 text-xs leading-relaxed text-lc-text2">
+            {selectionRequired
+              ? `Tier ${currentTier.tier} is unlocked. The class must choose one aircraft below before the next moving flight.`
+              : upgradeState.fullyUpgraded
+                ? 'The class has reached the current top range tier.'
+                : `Next upgrade needs ${upgradeState.needsFlightHours} more flight hour${upgradeState.needsFlightHours === 1 ? '' : 's'} and ${upgradeState.needsCrewStars} more crew star${upgradeState.needsCrewStars === 1 ? '' : 's'}.`}
+          </p>
+        </div>
+      </motion.div>
 
       <div className="mt-4 space-y-3">
         <AircraftVoteCeremony
@@ -1059,8 +1264,15 @@ function PlaneChoiceCard({
     }`}>
       <div className="flex items-center gap-3">
         <div className="flex h-16 w-24 shrink-0 items-center justify-center rounded-md border border-white/10 bg-[var(--wf-inset)] p-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={plane.webp} alt="" className="max-h-full max-w-full object-contain" />
+          <motion.img
+            src={plane.webp}
+            alt=""
+            draggable={false}
+            className="max-h-full max-w-full object-contain"
+            initial={equipped || pending ? { x: -12, opacity: 0.75 } : false}
+            animate={equipped || pending ? { x: 0, opacity: 1, scale: 1.04 } : { x: 0, opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+          />
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-lc-text">{plane.name}</p>
@@ -2494,6 +2706,9 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
             <HangarPanel
               currentPlaneKey={selectedClass?.planeKey ?? 'starter-biplane'}
               unlockedTier={selectedClass?.planeTier ?? 0}
+              rangeKm={rangeKm}
+              flightHours={selectedClass?.flightHours ?? 0}
+              crewStars={selectedClass?.crewStars ?? 0}
               selectionRequired={planeSelectionRequired}
               actionStatus={planeActionStatus}
               onEquipPlane={equipPlane}

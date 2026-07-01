@@ -504,12 +504,13 @@ function WorldFlightUpgradeProgress({
 
         {upgradeReady && (
           <motion.div
-            className="mt-4 overflow-hidden rounded-2xl border border-lc-amber/30 bg-[radial-gradient(circle_at_20%_0%,rgba(245,158,11,0.22),transparent_38%),linear-gradient(145deg,rgba(14,116,144,0.18),rgba(245,158,11,0.10))] px-4 py-4"
+            className="relative mt-4 overflow-hidden rounded-2xl border border-lc-amber/30 bg-[radial-gradient(circle_at_20%_0%,rgba(245,158,11,0.22),transparent_38%),linear-gradient(145deg,rgba(14,116,144,0.18),rgba(245,158,11,0.10))] px-4 py-4"
             initial={{ opacity: 0, y: 16, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: 1.05, type: 'spring', stiffness: 190, damping: 18 }}
           >
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <UpgradeCloudReveal />
+            <div className="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-lc-amber">
                   <Sparkles className="h-4 w-4" aria-hidden />
@@ -539,7 +540,7 @@ function WorldFlightUpgradeProgress({
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
             ) : choicePlaneTier ? (
-              <div className="mt-4">
+              <div className="relative mt-4">
                 <div className="grid gap-3 sm:grid-cols-3">
                   {planeChoices.map((plane) => (
                     <UpgradePlaneCard
@@ -628,6 +629,36 @@ function UpgradeMeter({
   );
 }
 
+function UpgradeCloudReveal() {
+  const clouds: Array<{ top: string; left?: string; right?: string; width: number; x: number; delay: number }> = [
+    { top: '8%', left: '-16%', width: 210, x: -48, delay: 0.08 },
+    { top: '42%', left: '-10%', width: 150, x: -36, delay: 0.18 },
+    { top: '12%', right: '-18%', width: 230, x: 54, delay: 0.12 },
+    { top: '48%', right: '-12%', width: 165, x: 40, delay: 0.25 },
+  ];
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_16%,rgba(255,255,255,0.15),transparent_34%)]" />
+      {clouds.map((cloud, index) => (
+        <motion.span
+          key={`${cloud.top}-${index}`}
+          className="absolute h-14 rounded-full bg-white/18 blur-xl"
+          style={{
+            top: cloud.top,
+            left: cloud.left,
+            right: cloud.right,
+            width: cloud.width,
+          }}
+          initial={{ opacity: 0.66, x: 0, scale: 1 }}
+          animate={{ opacity: 0.12, x: cloud.x, scale: 1.16 }}
+          transition={{ duration: 1.35, delay: cloud.delay, ease: 'easeOut' }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function UpgradePlaneCard({
   plane,
   tier,
@@ -646,19 +677,21 @@ function UpgradePlaneCard({
       type="button"
       onClick={onSelect}
       disabled={disabled}
-      className={`group flex min-h-[172px] flex-col rounded-xl border bg-slate-950/55 p-3 text-left transition ${
+      className={`group relative flex min-h-[172px] flex-col overflow-hidden rounded-xl border bg-slate-950/55 p-3 text-left transition ${
         selected
           ? 'border-emerald-300/60 shadow-[0_0_0_1px_rgba(110,231,183,0.25)]'
           : 'border-white/10 hover:border-cyan-200/45 hover:bg-cyan-300/[0.06]'
       } disabled:cursor-default`}
     >
       <div className="flex h-20 items-center justify-center overflow-hidden rounded-lg bg-black/20">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <motion.img
           src={plane.front3qWebp ?? plane.webp}
           alt=""
           draggable={false}
           className="h-16 w-auto object-contain transition-transform group-hover:scale-105"
+          initial={selected ? { x: -18, opacity: 0.75, scale: 0.94 } : false}
+          animate={selected ? { x: 0, opacity: 1, scale: 1.08 } : { x: 0, opacity: 1, scale: 1 }}
+          transition={{ type: 'spring', stiffness: 230, damping: 17 }}
         />
       </div>
       <div className="mt-3 flex flex-1 flex-col">
