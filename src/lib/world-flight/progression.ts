@@ -35,6 +35,10 @@ export interface WorldFlightProgressionRewardResult extends WorldFlightFlightRew
   flightHours: number;
   crewStars: number;
   alreadyRecorded: boolean;
+  planeTier?: number | null;
+  planeKey?: string | null;
+  planeSelectionRequired?: boolean;
+  rangeKm?: number | null;
   upgradeState?: WorldFlightUpgradeState | null;
 }
 

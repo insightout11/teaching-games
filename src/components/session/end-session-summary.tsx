@@ -21,6 +21,7 @@ export function EndSessionSummary({
   progressionReward,
   teacherView = true,
   onLaunchBonusVote,
+  previewMode = false,
 }: {
   classId: string;
   className: string;
@@ -29,6 +30,7 @@ export function EndSessionSummary({
   progressionReward?: WorldFlightProgressionRewardResult | null;
   teacherView?: boolean;
   onLaunchBonusVote?: () => void;
+  previewMode?: boolean;
 }) {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
@@ -38,6 +40,7 @@ export function EndSessionSummary({
   const [showAllNames, setShowAllNames] = useState(false);
 
   useEffect(() => {
+    if (previewMode) return;
     const supabase = createClient();
     supabase
       .from('student_session_prefs')
@@ -47,7 +50,7 @@ export function EndSessionSummary({
         if (!data) return;
         setPrefsMap(new Map(data.map((p) => [p.client_id, p.score_visible])));
       });
-  }, [sessionId]);
+  }, [sessionId, previewMode]);
 
   // Map student_id → client_id from scores (for roster student lookups)
   const studentIdToClientId = useMemo(() => {
@@ -200,7 +203,7 @@ export function EndSessionSummary({
                   : `${Math.round(progressionReward.snapshot.onTaskParticipationRate * 100)}% made an on-task contribution. Earns 1 crew star.`}
               />
             </div>
-            <WorldFlightUpgradeProgress reward={progressionReward} classId={classId} teacherView={teacherView} />
+            <WorldFlightUpgradeProgress reward={progressionReward} classId={classId} sessionId={sessionId} teacherView={teacherView} previewMode={previewMode} />
           </motion.section>
         )}
 
@@ -343,11 +346,15 @@ interface PlaneEquipResponse {
 function WorldFlightUpgradeProgress({
   reward,
   classId,
+  sessionId,
   teacherView,
+  previewMode,
 }: {
   reward: WorldFlightProgressionRewardResult;
   classId: string;
+  sessionId: string;
   teacherView: boolean;
+  previewMode: boolean;
 }) {
   const [choiceTier, setChoiceTier] = useState<number | null>(null);
   const [equippedPlane, setEquippedPlane] = useState<PlaneEntry | null>(null);
@@ -360,7 +367,7 @@ function WorldFlightUpgradeProgress({
     setEquippedPlane(null);
     setEquippedRangeKm(null);
     setActionStatus('idle');
-  }, [reward.flightHours, reward.crewStars, upgradeState?.claimableTier]);
+  }, [reward.flightHours, reward.crewStars, upgradeState?.claimableTier, reward.planeSelectionRequired, reward.planeTier]);
 
   if (!upgradeState) {
     return (
@@ -373,22 +380,34 @@ function WorldFlightUpgradeProgress({
   }
 
   const claimableTier = upgradeState.claimableTier;
-  const targetMilestone = claimableTier
+  const pendingChoiceTier = reward.planeSelectionRequired && typeof reward.planeTier === 'number'
+    ? reward.planeTier
+    : null;
+  const hasPendingPlaneChoice = pendingChoiceTier !== null;
+  const targetMilestone = claimableTier || hasPendingPlaneChoice
     ? upgradeState.latestUnlockedMilestone
     : upgradeState.nextMilestone;
   const hourTarget = targetMilestone?.requiredFlightHours ?? Math.max(reward.flightHours, 1);
   const starTarget = targetMilestone?.requiredCrewStars ?? Math.max(reward.crewStars, 1);
-  const targetRangeKm = upgradeState.claimableRangeKm ?? upgradeState.nextRangeTier?.rangeKm ?? upgradeState.currentRangeKm;
   const upgradeReady = claimableTier !== null && upgradeState.claimableRangeKm !== null;
+  const aircraftChoiceReady = upgradeReady || hasPendingPlaneChoice;
+  const pendingRangeKm = pendingChoiceTier === null ? null : getPlaneTier(pendingChoiceTier).rangeKm;
+  const targetRangeKm = upgradeState.claimableRangeKm ?? pendingRangeKm ?? upgradeState.nextRangeTier?.rangeKm ?? upgradeState.currentRangeKm;
   const previousFlightHours = Math.max(0, reward.flightHours - reward.flightHoursAwarded);
   const previousCrewStars = Math.max(0, reward.crewStars - reward.crewStarsAwarded);
-  const activeChoiceTier = choiceTier;
+  const activeChoiceTier = choiceTier ?? pendingChoiceTier;
   const choicePlaneTier = activeChoiceTier === null ? null : getPlaneTier(activeChoiceTier);
   const planeChoices = choicePlaneTier?.choices ?? [];
   const shownRangeKm = equippedRangeKm ?? upgradeState.claimableRangeKm ?? targetRangeKm;
 
   async function claimUpgradeForChoice() {
     if (!upgradeReady || !teacherView) return;
+
+    if (previewMode) {
+      setChoiceTier(claimableTier);
+      setActionStatus('ready');
+      return;
+    }
 
     setActionStatus('claiming');
     try {
@@ -413,15 +432,22 @@ function WorldFlightUpgradeProgress({
   }
 
   async function equipPlane(planeKey: string) {
-    if (!choiceTier || !teacherView) return;
+    if (!activeChoiceTier || !teacherView) return;
 
     const plane = getPlaneAsset(planeKey);
+    if (previewMode) {
+      setEquippedPlane(plane);
+      setEquippedRangeKm(getPlaneTier(activeChoiceTier).rangeKm);
+      setActionStatus('equipped');
+      return;
+    }
+
     setActionStatus('equipping');
     try {
       const response = await fetch('/api/world-flight/planes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ classId, planeKey: plane.key }),
+        body: JSON.stringify({ classId, sessionId, planeKey: plane.key }),
       });
       const result = await response.json().catch(() => null) as PlaneEquipResponse | null;
       if (!response.ok || !result?.state) {
@@ -440,7 +466,7 @@ function WorldFlightUpgradeProgress({
   return (
     <div className="border-t border-white/10 px-5 py-5">
       <div className={`rounded-2xl border p-4 ${
-        upgradeReady
+        aircraftChoiceReady
           ? 'border-lc-amber/35 bg-lc-amber/[0.07]'
           : 'border-cyan-200/18 bg-cyan-300/[0.045]'
       }`}>
@@ -451,18 +477,20 @@ function WorldFlightUpgradeProgress({
               Range upgrade progress
             </p>
             <h3 className="mt-1 text-lg font-bold text-lc-text">
-              {upgradeReady
-                ? `Tier ${upgradeState.claimableTier} upgrade unlocked`
+              {aircraftChoiceReady
+                ? `Tier ${activeChoiceTier ?? upgradeState.claimableTier} upgrade unlocked`
                 : upgradeState.fullyUpgraded
                   ? 'Maximum range active'
                   : `Next range: ${formatDistance(targetRangeKm)}`}
             </h3>
             <p className="mt-1 text-xs leading-relaxed text-lc-text3">
-              {upgradeReady
-                ? 'The class reached both requirements. Choose a new aircraft to activate the expanded range.'
+              {hasPendingPlaneChoice
+                ? 'The class already unlocked this tier. Choose a new aircraft now to activate the expanded range.'
+                : upgradeReady
+                  ? 'The class reached both requirements. Choose a new aircraft to activate the expanded range.'
                 : upgradeState.fullyUpgraded
                   ? 'The class has reached the current top range tier.'
-                  : 'These bars fill after each completed World Flight lesson.'}
+                  : `These bars fill after each completed World Flight lesson. ${formatUpgradeNeeds(upgradeState.needsFlightHours, upgradeState.needsCrewStars)}`}
             </p>
           </div>
           <div className="shrink-0 rounded-xl border border-white/10 bg-slate-950/55 px-3 py-2 text-right">
@@ -502,7 +530,7 @@ function WorldFlightUpgradeProgress({
           </ul>
         </div>
 
-        {upgradeReady && (
+        {aircraftChoiceReady && (
           <motion.div
             className="relative mt-4 overflow-hidden rounded-2xl border border-lc-amber/30 bg-[radial-gradient(circle_at_20%_0%,rgba(245,158,11,0.22),transparent_38%),linear-gradient(145deg,rgba(14,116,144,0.18),rgba(245,158,11,0.10))] px-4 py-4"
             initial={{ opacity: 0, y: 16, scale: 0.98 }}
@@ -514,13 +542,15 @@ function WorldFlightUpgradeProgress({
               <div>
                 <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-lc-amber">
                   <Sparkles className="h-4 w-4" aria-hidden />
-                  Range Upgrade Unlocked
+                  {hasPendingPlaneChoice ? 'Aircraft Choice Ready' : 'Range Upgrade Unlocked'}
                 </p>
                 <h4 className="mt-1 text-xl font-bold text-lc-text">
                   {formatDistance(upgradeState.currentRangeKm)} to {formatDistance(shownRangeKm)}
                 </h4>
                 <p className="mt-1 max-w-xl text-xs leading-relaxed text-lc-text3">
-                  The class earned enough flight hours and crew stars. Pick the aircraft that represents this new range tier.
+                  {hasPendingPlaneChoice
+                    ? 'The upgrade is waiting for the class choice. Pick the aircraft that should represent this new range tier.'
+                    : 'The class earned enough flight hours and crew stars. Pick the aircraft that represents this new range tier.'}
                 </p>
               </div>
               {equippedPlane && (
@@ -600,6 +630,7 @@ function UpgradeMeter({
   const previousProgress = percent(previousValue ?? value, target);
   const progress = percent(value, target);
   const changed = previousValue !== undefined && previousValue !== value;
+  const requirementAlreadyMet = previousValue !== undefined && previousValue >= target && value >= target;
   return (
     <div className="rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3">
       <div className="flex items-center justify-between gap-3">
@@ -608,7 +639,7 @@ function UpgradeMeter({
           {label}
         </p>
         <p className="text-sm font-bold text-cyan-100">
-          {changed ? `${previousValue}/${target} -> ` : ''}
+          {changed && !requirementAlreadyMet ? `${previousValue}/${target} -> ` : ''}
           {value}/{target}
         </p>
       </div>
@@ -622,7 +653,7 @@ function UpgradeMeter({
       </div>
       {changed && (
         <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-lc-amber">
-          +{value - (previousValue ?? value)} this lesson
+          {requirementAlreadyMet ? 'Requirement already met' : `+${value - (previousValue ?? value)} this lesson`}
         </p>
       )}
     </div>
@@ -715,6 +746,20 @@ function UpgradePlaneCard({
 function percent(value: number, target: number) {
   if (target <= 0) return 100;
   return Math.max(0, Math.min(100, Math.round((value / target) * 100)));
+}
+
+function formatUpgradeNeeds(flightHours: number, crewStars: number) {
+  const needs: string[] = [];
+  if (flightHours > 0) {
+    needs.push(`${flightHours} more flight hour${flightHours === 1 ? '' : 's'}`);
+  }
+  if (crewStars > 0) {
+    needs.push(`${crewStars} more crew star${crewStars === 1 ? '' : 's'}`);
+  }
+  if (needs.length === 0) {
+    return 'The class has met the requirements; choose an aircraft to activate the range.';
+  }
+  return `Need ${needs.join(' and ')} to unlock the next aircraft choice.`;
 }
 
 function ProgressionResult({

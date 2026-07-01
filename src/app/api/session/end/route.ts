@@ -104,7 +104,7 @@ async function awardWorldFlightProgression(
   const totals = data as { flightHours?: number; crewStars?: number; alreadyRecorded?: boolean } | null;
   const { data: state } = await service
     .from('class_world_flight_state')
-    .select('plane_tier, range_km, flight_hours, crew_stars')
+    .select('plane_tier, plane_key, plane_selection_required, range_km, flight_hours, crew_stars')
     .eq('class_id', classId)
     .maybeSingle();
   const flightHours = state?.flight_hours ?? totals?.flightHours ?? 0;
@@ -115,6 +115,10 @@ async function awardWorldFlightProgression(
     flightHours,
     crewStars,
     alreadyRecorded: totals?.alreadyRecorded ?? false,
+    planeTier: state?.plane_tier ?? null,
+    planeKey: state?.plane_key ?? null,
+    planeSelectionRequired: state?.plane_selection_required ?? false,
+    rangeKm: state?.range_km ?? null,
     upgradeState: state
       ? getWorldFlightUpgradeState({
           planeTier: state.plane_tier,
