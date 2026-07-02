@@ -1729,8 +1729,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </div>
                 </div>
 
-                <ClassLogbookMiniCard summary={classLogbook} currentTopic={lesson.customTopic} />
-
                 {lesson.lessonPlanContent?.worldFlightContext && (
                   <>
                     <LobbyPlaneChooser
@@ -1806,6 +1804,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     </div>
                   </div>
                 )}
+
+                <ClassLogbookMiniCard summary={classLogbook} currentTopic={lesson.customTopic} />
               </div>
             </div>
 
