@@ -2,7 +2,15 @@ import type { Session } from '@/lib/supabase/types';
 import { Card } from '@/components/ui/card';
 import { BookOpen } from 'lucide-react';
 
-export function RecentSessions({ sessions, classId }: { sessions: Session[]; classId: string }) {
+export function RecentSessions({
+  sessions,
+  classId,
+  moduleCountBySession,
+}: {
+  sessions: Session[];
+  classId: string;
+  moduleCountBySession?: Map<string, number>;
+}) {
   return (
     <Card className="flex flex-col min-h-0">
       <div className="flex items-center gap-2 mb-4">
@@ -25,6 +33,8 @@ export function RecentSessions({ sessions, classId }: { sessions: Session[]; cla
             const dateStr = date.toLocaleDateString([], { month: 'short', day: 'numeric' });
             const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const isActive = s.status === 'active';
+            const topic = s.custom_topic || s.topic || null;
+            const moduleCount = moduleCountBySession?.get(s.id) ?? 0;
             return (
               <div
                 key={s.id}
@@ -36,8 +46,14 @@ export function RecentSessions({ sessions, classId }: { sessions: Session[]; cla
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <span className={`shrink-0 w-1.5 h-1.5 rounded-full ${isActive ? 'bg-lc-success' : 'bg-lc-border'}`} />
-                  <span className="text-sm text-lc-text tabular-nums">{dateStr}</span>
-                  <span className="text-xs text-lc-text3 tabular-nums">{timeStr}</span>
+                  <span className="text-sm text-lc-text tabular-nums shrink-0">{dateStr}</span>
+                  <span className="text-xs text-lc-text3 tabular-nums shrink-0">{timeStr}</span>
+                  {topic && (
+                    <span className="text-xs text-lc-text2 truncate" title={topic}>· {topic}</span>
+                  )}
+                  {moduleCount > 0 && (
+                    <span className="text-xs text-lc-text3 tabular-nums shrink-0">· {moduleCount} module{moduleCount === 1 ? '' : 's'}</span>
+                  )}
                 </div>
                 {isActive ? (
                   <a href={`/sessions/${s.id}`} className="text-xs font-semibold text-lc-success hover:text-lc-success/80 shrink-0 ml-2 uppercase tracking-wide">
