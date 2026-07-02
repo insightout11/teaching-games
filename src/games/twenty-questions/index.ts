@@ -16,4 +16,7 @@ export const twentyQuestionsPlugin: GamePlugin = {
   defaultTimerSeconds: 30,
   estimatedMinutes: 15,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  minStudents: 2,
+  idealStudents: { min: 4, max: null },
+  deviceFree: false,
 };

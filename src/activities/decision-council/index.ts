@@ -21,6 +21,9 @@ export const decisionCouncilPlugin: ActivityPlugin = {
     tracksAccuracy: false,
     defaultOutcome: 'genuine',
   },
+  minStudents: 1,
+  idealStudents: { min: 2, max: null },
+  deviceFree: false,
 };
 
 export { DecisionCouncilActivity };

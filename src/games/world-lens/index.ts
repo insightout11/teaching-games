@@ -34,4 +34,7 @@ export const worldLensPlugin: GamePlugin = {
     tracksAccuracy: false,
     defaultOutcome: 'genuine',
   },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };

@@ -28,4 +28,7 @@ export const sectorStrikePlugin: GamePlugin = {
   defaultTimerSeconds: 1200,
   estimatedMinutes: 20,
   scoringProfile: { displayMode: 'team', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 2,
+  idealStudents: { min: 4, max: null },
+  deviceFree: false,
 };

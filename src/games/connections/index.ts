@@ -16,4 +16,7 @@ export const connectionsPlugin: GamePlugin = {
   defaultTimerSeconds: 120,
   estimatedMinutes: 15,
   scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 2, max: null },
+  deviceFree: true,
 };

@@ -16,6 +16,9 @@ export const readAloudPlugin: ActivityPlugin = {
   icon: BookOpen,
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true, defaultOutcome: 'on-task' },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };
 
 export { ReadAloudActivity };

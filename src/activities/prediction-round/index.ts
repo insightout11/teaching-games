@@ -15,6 +15,9 @@ export const predictionRoundPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: Lightbulb,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };
 
 export { PredictionRoundActivity };

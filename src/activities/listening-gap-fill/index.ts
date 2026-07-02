@@ -15,4 +15,7 @@ export const listeningGapFillPlugin: ActivityPlugin = {
   defaultTimerSeconds: 30,
   icon: Headphones,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };

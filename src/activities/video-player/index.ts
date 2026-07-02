@@ -16,6 +16,9 @@ export const videoPlayerPlugin: ActivityPlugin = {
   icon: Play,
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };
 
 export { VideoPlayerActivity };

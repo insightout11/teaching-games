@@ -16,6 +16,9 @@ export const vocabMicroPlugin: ActivityPlugin = {
   icon: Radio,
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };
 
 export { VocabMicroActivity };

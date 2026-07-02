@@ -55,6 +55,8 @@ export function BluffDefinitionActivity({
 
   const currentRound = content.rounds?.[roundIdx] ?? content.rounds?.[0];
   const hasNextRound = roundIdx + 1 < (content.rounds?.length ?? 0);
+  // Voting needs at least 2 fake definitions plus the real one to be a real "spot it" choice.
+  const enoughStudents = students.length >= 2;
 
   // ─── Input spec ──────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -225,10 +227,16 @@ export function BluffDefinitionActivity({
           </div>
         )}
 
+        {!enoughStudents && (
+          <div className="glass p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 text-sm text-amber-300 text-center">
+            Need at least 2 students to play. ({students.length} joined)
+          </div>
+        )}
+
         <div className="flex justify-center pt-2">
           <button
             onClick={handleStartRound}
-            disabled={!currentRound}
+            disabled={!currentRound || !enoughStudents}
             className="px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             REVEAL WORD ✨

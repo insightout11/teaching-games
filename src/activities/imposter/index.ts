@@ -16,6 +16,9 @@ export const imposterPlugin: ActivityPlugin = {
   icon: UserX,
   flightPlanOnly: false,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  minStudents: 3,
+  idealStudents: { min: 5, max: null },
+  deviceFree: false,
 };
 
 export { ImposterActivity };

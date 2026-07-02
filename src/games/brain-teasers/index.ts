@@ -16,4 +16,7 @@ export const brainTeasersPlugin: GamePlugin = {
   defaultTimerSeconds: 0,
   estimatedMinutes: 10,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: true,
 };

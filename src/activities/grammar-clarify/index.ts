@@ -16,6 +16,9 @@ export const grammarClarifyPlugin: ActivityPlugin = {
   icon: BookOpen,
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: true,
 };
 
 export { GrammarClarifyActivity };

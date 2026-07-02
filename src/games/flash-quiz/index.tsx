@@ -27,4 +27,7 @@ export const flashQuizPlugin: GamePlugin = {
   defaultTimerSeconds: 30,
   estimatedMinutes: 12,
   scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };

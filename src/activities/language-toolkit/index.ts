@@ -22,4 +22,7 @@ export const languageToolkitPlugin: ActivityPlugin = {
     tracksAccuracy: false,
     defaultOutcome: 'on-task',
   },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: true,
 };

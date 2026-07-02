@@ -13,8 +13,8 @@ import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
-import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
-import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
+import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
+import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import type { GameCategory } from '@/games/types';
 import type { ActivityCategory } from '@/activities/types';
 import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
@@ -40,6 +40,12 @@ const SKILL_FILTERS: { key: SkillFilter; label: string; skills: string[] }[] = [
 interface Class {
   id: string;
   name: string;
+}
+
+function minStudentsFor(item: { key: string; type: 'game' | 'activity' } | null): number {
+  if (!item) return 1;
+  const plugin = item.type === 'game' ? getGame(item.key) : getActivity(item.key);
+  return plugin?.minStudents ?? 1;
 }
 
 interface ActiveSession {
@@ -227,6 +233,7 @@ export function ExploreClient() {
   const [launchItem, setLaunchItem] = useState<{ name: string; key: string; type: 'game' | 'activity' } | null>(null);
   const [classes, setClasses] = useState<Class[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
+  const [classStudentCounts, setClassStudentCounts] = useState<Record<string, number>>({});
   const [launching, setLaunching] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<Topic | ''>('');
   const [customTopic, setCustomTopic] = useState('');
@@ -273,9 +280,22 @@ export function ExploreClient() {
       .from('classes')
       .select('id, name')
       .order('created_at', { ascending: false })
-      .then(({ data }: { data: Class[] | null }) => {
-        setClasses(data ?? []);
+      .then(async ({ data }: { data: Class[] | null }) => {
+        const classList = data ?? [];
+        setClasses(classList);
         setClassesLoading(false);
+        // Roster size per class — used to gate modules that need more students than a class has.
+        if (classList.length > 0) {
+          const { data: studentRows } = await supabase
+            .from('students')
+            .select('class_id')
+            .in('class_id', classList.map((c) => c.id));
+          const counts: Record<string, number> = {};
+          for (const row of (studentRows ?? []) as { class_id: string }[]) {
+            counts[row.class_id] = (counts[row.class_id] ?? 0) + 1;
+          }
+          setClassStudentCounts(counts);
+        }
       });
   }, [launchItem, isAuthenticated]);
 
@@ -625,16 +645,25 @@ export function ExploreClient() {
           </div>
         ) : (
           <div className="space-y-2">
-            {classes.map((cls) => (
-              <button
-                key={cls.id}
-                onClick={() => handleSelectClass(cls.id, cls.name)}
-                disabled={launching}
-                className="w-full text-left px-4 py-3 rounded-lg border border-lc-border bg-lc-surface text-lc-text text-sm font-medium hover:border-lc-blue/50 hover:bg-lc-blue/5 transition-colors disabled:opacity-50"
-              >
-                {cls.name}
-              </button>
-            ))}
+            {classes.map((cls) => {
+              const minStudents = minStudentsFor(launchItem);
+              const count = classStudentCounts[cls.id];
+              const tooFew = minStudents > 1 && count !== undefined && count < minStudents;
+              return (
+                <button
+                  key={cls.id}
+                  onClick={() => !tooFew && handleSelectClass(cls.id, cls.name)}
+                  disabled={launching || tooFew}
+                  title={tooFew ? `Needs ${minStudents}+ students — ${cls.name} has ${count}` : undefined}
+                  className="w-full text-left px-4 py-3 rounded-lg border border-lc-border bg-lc-surface text-lc-text text-sm font-medium hover:border-lc-blue/50 hover:bg-lc-blue/5 transition-colors disabled:opacity-50 disabled:hover:border-lc-border disabled:hover:bg-lc-surface"
+                >
+                  {cls.name}
+                  {tooFew && (
+                    <span className="block text-xs text-lc-text3 mt-0.5">Needs {minStudents}+ students ({count} in this class)</span>
+                  )}
+                </button>
+              );
+            })}
             <div className="pt-2 border-t border-lc-border mt-2">
               {showCreateClass ? (
                 <form onSubmit={handleCreateClass} className="flex gap-2">

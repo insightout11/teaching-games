@@ -98,6 +98,12 @@ export interface ActivityPlugin {
   flightPlanOnly?: boolean;
   /** Scoring V2: how this activity classifies outcomes and what the leaderboard shows. */
   scoringProfile?: ScoringProfile;
+  /** Minimum roster size for the activity to function correctly (not just "doesn't crash" — the core mechanic needs this many roles/participants). 1 = fully solo-capable. */
+  minStudents: number;
+  /** Roster size range where the activity's design intent is best realized. Not a hard limit — used for honest fit labels, not gating. `max: null` means no practical ceiling. */
+  idealStudents: { min: number; max: number | null };
+  /** True only if the whole activity can be run with everyone on one projected screen and verbal answers — the teacher operates every input from the shared display, no student device required. Judge conservatively from the activity's actual input mechanics. */
+  deviceFree: boolean;
 }
 
 // Configuration field for activity-specific settings

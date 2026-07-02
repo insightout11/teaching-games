@@ -38,6 +38,10 @@ interface ClassRow {
   name: string;
 }
 
+function minStudentsFor(item: DiscoveryItem | null): number {
+  return item?.classSize.minStudents ?? 1;
+}
+
 const LAST_CLASS_KEY = 'lc-last-class';
 
 function readLastClass(): ClassRow | null {
@@ -61,6 +65,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
   const [view, setView] = useState<'overview' | 'setup'>('overview');
   const [classes, setClasses] = useState<ClassRow[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
+  const [classStudentCounts, setClassStudentCounts] = useState<Record<string, number>>({});
   const [selectedClassId, setSelectedClassId] = useState('');
   const [topic, setTopic] = useState<Topic | ''>('');
   const [difficulty, setDifficulty] = useState<Difficulty>('Intermediate');
@@ -85,9 +90,22 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
       .from('classes')
       .select('id, name')
       .order('created_at', { ascending: false })
-      .then(({ data }: { data: ClassRow[] | null }) => {
-        setClasses(data ?? []);
+      .then(async ({ data }: { data: ClassRow[] | null }) => {
+        const classList = data ?? [];
+        setClasses(classList);
         setClassesLoading(false);
+        // Roster size per class — used to gate modules that need more students than a class has.
+        if (classList.length > 0) {
+          const { data: studentRows } = await supabase
+            .from('students')
+            .select('class_id')
+            .in('class_id', classList.map((c) => c.id));
+          const counts: Record<string, number> = {};
+          for (const row of (studentRows ?? []) as { class_id: string }[]) {
+            counts[row.class_id] = (counts[row.class_id] ?? 0) + 1;
+          }
+          setClassStudentCounts(counts);
+        }
       });
   }, [item]);
 
@@ -385,9 +403,16 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                       onChange={(e) => setSelectedClassId(e.target.value)}
                       inputSize="compact"
                     >
-                      {classes.map((c) => (
-                        <option key={c.id} value={c.id}>{c.name}</option>
-                      ))}
+                      {classes.map((c) => {
+                        const count = classStudentCounts[c.id];
+                        const min = minStudentsFor(item);
+                        const tooFew = min > 1 && count !== undefined && count < min;
+                        return (
+                          <option key={c.id} value={c.id}>
+                            {c.name}{tooFew ? ` (${count} student${count === 1 ? '' : 's'} — needs ${min}+)` : ''}
+                          </option>
+                        );
+                      })}
                     </Select>
                     <button
                       onClick={() => setShowCreateClass(true)}
@@ -413,20 +438,34 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                     )}
 
                     {/* Sticky one-tap launch for the selected (defaults to last-used) class */}
-                    <div className="sticky bottom-0 -mx-6 -mb-6 mt-5 border-t border-lc-border bg-lc-card/95 px-6 py-4 backdrop-blur">
-                      <button
-                        onClick={() => runWithClass(selectedClassId)}
-                        disabled={launching || !selectedClassId || (!!requiresSource && !sourceAttached)}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-lc-amber px-4 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90 disabled:opacity-50"
-                      >
-                        <Plane className="h-4 w-4" aria-hidden />
-                        {launching
-                          ? 'Starting…'
-                          : !!requiresSource && !sourceAttached
-                            ? `Add a ${requiresSource === 'video' ? 'video' : 'reading'} to run`
-                            : `Run in ${selectedName}`}
-                      </button>
-                    </div>
+                    {(() => {
+                      const selectedCount = classStudentCounts[selectedClassId];
+                      const min = minStudentsFor(item);
+                      const tooFewSelected = min > 1 && selectedCount !== undefined && selectedCount < min;
+                      return (
+                        <div className="sticky bottom-0 -mx-6 -mb-6 mt-5 border-t border-lc-border bg-lc-card/95 px-6 py-4 backdrop-blur">
+                          {tooFewSelected && (
+                            <p className="mb-2 text-xs text-lc-amber">
+                              {item?.name} needs {min}+ students — {selectedName} has {selectedCount}.
+                            </p>
+                          )}
+                          <button
+                            onClick={() => runWithClass(selectedClassId)}
+                            disabled={launching || !selectedClassId || (!!requiresSource && !sourceAttached) || tooFewSelected}
+                            className="flex w-full items-center justify-center gap-2 rounded-xl bg-lc-amber px-4 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90 disabled:opacity-50"
+                          >
+                            <Plane className="h-4 w-4" aria-hidden />
+                            {launching
+                              ? 'Starting…'
+                              : !!requiresSource && !sourceAttached
+                                ? `Add a ${requiresSource === 'video' ? 'video' : 'reading'} to run`
+                                : tooFewSelected
+                                  ? `Needs ${min}+ students`
+                                  : `Run in ${selectedName}`}
+                          </button>
+                        </div>
+                      );
+                    })()}
                   </div>
                 )}
               </>

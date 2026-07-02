@@ -16,6 +16,9 @@ export const passwordPlugin: ActivityPlugin = {
   icon: KeyRound,
   flightPlanOnly: false,
   scoringProfile: { displayMode: 'team', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
+  minStudents: 4,
+  idealStudents: { min: 6, max: null },
+  deviceFree: false,
 };
 
 export { PasswordActivity };

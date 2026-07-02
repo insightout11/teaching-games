@@ -21,4 +21,7 @@ export const accuracyMicroPlugin: ActivityPlugin = {
     supportsStandout: false,
     tracksAccuracy: true,
   },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };

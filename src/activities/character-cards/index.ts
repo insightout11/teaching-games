@@ -16,6 +16,9 @@ export const characterCardsPlugin: ActivityPlugin = {
   icon: Theater,
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  minStudents: 1,
+  idealStudents: { min: 3, max: null },
+  deviceFree: false,
 };
 
 export { CharacterCardsActivity };

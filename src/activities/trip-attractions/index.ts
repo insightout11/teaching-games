@@ -17,6 +17,9 @@ export const tripAttractionsPlugin: ActivityPlugin = {
   // Only meaningful inside the Travel arc (needs a destination's real attractions).
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };
 
 export { TripAttractionsActivity };

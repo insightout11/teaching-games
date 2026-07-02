@@ -15,6 +15,9 @@ export const sceneIgniterPlugin: ActivityPlugin = {
   defaultTimerSeconds: 0,
   icon: Theater,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
+  minStudents: 1,
+  idealStudents: { min: 2, max: 8 },
+  deviceFree: true,
 };
 
 export { SceneIgniterActivity };

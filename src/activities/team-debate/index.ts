@@ -16,6 +16,9 @@ export const teamDebatePlugin: ActivityPlugin = {
   icon: Scale,
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  minStudents: 2,
+  idealStudents: { min: 4, max: null },
+  deviceFree: false,
 };
 
 export { TeamDebateActivity };

@@ -15,4 +15,7 @@ export const toneTransformerPlugin: GamePlugin = {
   maxPointsPerTurn: 10,
   defaultTimerSeconds: 30,
   estimatedMinutes: 8,
+  minStudents: 1,
+  idealStudents: { min: 2, max: null },
+  deviceFree: true,
 };

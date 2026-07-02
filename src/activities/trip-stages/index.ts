@@ -18,6 +18,11 @@ const base: Omit<ActivityPlugin, 'key' | 'name' | 'description' | 'icon'> = {
   // Only meaningful inside the Travel arc (needs a per-stage travel source).
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
+  // Reuses ConversationRounds' two-role engine — both roles collapse onto the same
+  // student when solo, so this needs a real second student to be meaningful.
+  minStudents: 2,
+  idealStudents: { min: 2, max: null },
+  deviceFree: false,
 };
 
 export const tripGettingTherePlugin: ActivityPlugin = {

@@ -4,8 +4,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Zap, Link2, Link, Search, Ban, KeyRound, Gamepad2 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
-import { getAllGames } from '@/games/registry';
-import { getAllActivities } from '@/activities/registry';
+import { getAllGames, getGame } from '@/games/registry';
+import { getAllActivities, getActivity } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
 import type { Score } from '@/lib/supabase/types';
 
@@ -36,6 +36,10 @@ function resolveOption(key: string): EndGameOption {
   return { key, type: 'game', name: g?.name ?? key, Icon: ICON_BY_KEY[key] ?? Gamepad2 };
 }
 
+function minStudentsForKey(key: string): number {
+  return (getGame(key)?.minStudents ?? getActivity(key)?.minStudents) ?? 1;
+}
+
 const COUNTDOWN_SECONDS = 20;
 const REVEAL_MS = 2000;
 
@@ -44,10 +48,14 @@ const RING_R = 20;
 const RING_CIRC = 2 * Math.PI * RING_R;
 
 export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoicePanelProps) {
-  const options = useMemo<EndGameOption[]>(
-    () => (pool && pool.length > 0 ? pool : DEFAULT_POOL).map(resolveOption),
-    [pool],
-  );
+  const rosterSize = useSessionStore((s) => s.students.length);
+  const options = useMemo<EndGameOption[]>(() => {
+    const keys = pool && pool.length > 0 ? pool : DEFAULT_POOL;
+    // Drop options the current roster can't actually play (e.g. Imposter needs 3+
+    // students) rather than offering a vote that dead-ends when it wins.
+    const fitting = keys.filter((key) => minStudentsForKey(key) <= rosterSize);
+    return (fitting.length > 0 ? fitting : keys).map(resolveOption);
+  }, [pool, rosterSize]);
   const optionKeys = useMemo(() => options.map((o) => o.key), [options]);
 
   const [tallies, setTallies] = useState<Record<string, number>>(() =>

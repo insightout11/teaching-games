@@ -28,4 +28,7 @@ export const sentenceScramblePlugin: GamePlugin = {
   defaultTimerSeconds: 30,
   estimatedMinutes: 8,
   scoringProfile: { displayMode: 'competitive', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 2, max: null },
+  deviceFree: true,
 };

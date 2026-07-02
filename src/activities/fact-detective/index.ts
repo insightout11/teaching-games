@@ -15,6 +15,9 @@ export const factDetectivePlugin: ActivityPlugin = {
   defaultTimerSeconds: 45,
   icon: BookOpen,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };
 
 export { FactDetectiveActivity };

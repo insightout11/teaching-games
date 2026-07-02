@@ -32,6 +32,15 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   const streaks = useSessionStore((s) => s.streaks);
   const pickStudent = useSessionStore((s) => s.pickStudent);
   const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
+  // Solo roster: skip the "PICK STUDENT" step entirely — there's only one valid
+  // choice, so picking it for the teacher removes a pointless click for 1:1 tutors.
+  // Re-evaluated on every roster change, so it never locks in a stale assumption —
+  // if a 2nd student joins, this simply stops firing and normal picking resumes.
+  useEffect(() => {
+    if (students.length === 1 && !currentStudentId) {
+      setCurrentStudent(students[0].id);
+    }
+  }, [students, currentStudentId, setCurrentStudent]);
   const recordScore = useSessionStore((s) => s.recordScore);
   const setActiveGame = useSessionStore((s) => s.setActiveGame);
   const setInputSpec = useSessionStore((s) => s.setInputSpec);

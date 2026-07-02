@@ -15,6 +15,9 @@ export const hotTakeArenaPlugin: ActivityPlugin = {
   defaultTimerSeconds: 90,
   icon: Scale,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  minStudents: 1,
+  idealStudents: { min: 2, max: null },
+  deviceFree: false,
 };
 
 export { HotTakeArenaActivity };

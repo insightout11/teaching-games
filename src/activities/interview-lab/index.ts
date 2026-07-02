@@ -14,6 +14,9 @@ export const interviewLabPlugin: ActivityPlugin = {
   estimatedMinutes: 15,
   defaultTimerSeconds: 90,
   icon: Users,
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: true,
 };
 
 export { InterviewLabActivity };

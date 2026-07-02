@@ -23,6 +23,9 @@ export const cabinMysteryPlugin: ActivityPlugin = {
     tracksAccuracy: false,
     defaultOutcome: 'on-task',
   },
+  minStudents: 4,
+  idealStudents: { min: 4, max: null },
+  deviceFree: false,
 };
 
 export { CabinMysteryActivity };

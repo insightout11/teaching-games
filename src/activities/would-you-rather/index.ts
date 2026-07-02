@@ -15,6 +15,9 @@ export const wouldYouRatherPlugin: ActivityPlugin = {
   defaultTimerSeconds: 60,
   icon: Sparkles,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
+  minStudents: 1,
+  idealStudents: { min: 1, max: null },
+  deviceFree: false,
 };
 
 export { WouldYouRatherActivity };

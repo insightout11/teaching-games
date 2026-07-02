@@ -15,6 +15,9 @@ export const expertPanelPlugin: ActivityPlugin = {
   defaultTimerSeconds: 0,
   icon: Users,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
+  minStudents: 1,
+  idealStudents: { min: 3, max: null },
+  deviceFree: false,
 };
 
 export { ExpertPanelActivity };

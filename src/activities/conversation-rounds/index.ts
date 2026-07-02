@@ -16,4 +16,9 @@ export const conversationRoundsPlugin: ActivityPlugin = {
   icon: MessageSquare,
   flightPlanOnly: false,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
+  // Two-role paired dialogue — with one student, both roles resolve to the same
+  // person, so this genuinely needs a second student.
+  minStudents: 2,
+  idealStudents: { min: 2, max: null },
+  deviceFree: false,
 };
