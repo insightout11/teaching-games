@@ -188,14 +188,18 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
   if (!data) notFound();
 
   const finalStop = data.stops[data.stops.length - 1] ?? null;
+  const shareTitle = `${data.className} World Flight journey`;
+  const shareText = `${data.className} has flown ${data.totalKm.toLocaleString()} km across ${data.cityCount} ${data.cityCount === 1 ? 'city' : 'cities'} with LessonCaptain.`;
 
   return (
-    <main className="-m-6 min-h-screen bg-[#07111f] text-lc-text lg:-m-8">
+    <main className="min-h-screen bg-[#07111f] text-lc-text">
       <PublicShareHeader
         activeTab="journey"
         journeyHref={`/journey/${params.shareToken}`}
         logbookHref={data.logbookShareToken ? `/logbook/${data.logbookShareToken}` : null}
         label="Public class journey"
+        shareTitle={shareTitle}
+        shareText={shareText}
       />
 
       <section className="relative overflow-hidden border-b border-cyan-200/15 bg-[#081625]">
@@ -206,13 +210,13 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(77,163,255,0.18),transparent_34%),linear-gradient(90deg,rgba(7,17,31,0.98)_0%,rgba(7,17,31,0.86)_48%,rgba(7,17,31,0.58)_100%)]" />
           </>
         )}
-        <div className="relative mx-auto grid max-w-7xl gap-8 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end lg:px-10 lg:py-16">
+        <div className="relative mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end lg:px-10 lg:py-16">
           <div>
             <div className="flex items-center gap-2 text-cyan-100">
               <PlaneTakeoff className="h-5 w-5" aria-hidden />
               <span className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em]">World Flight journey</span>
             </div>
-            <h1 className="font-display mt-3 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">
+            <h1 className="font-display mt-3 max-w-3xl text-3xl leading-tight text-white sm:text-5xl">
               {data.className} has flown {data.totalKm.toLocaleString()} km
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/74">
@@ -244,8 +248,8 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
         <PublicJourneyMap stops={data.stops} totalKm={data.totalKm} className={data.className} />
       )}
 
-      <div className="mx-auto max-w-7xl px-5 py-8 lg:px-10">
-        <section className="grid gap-px overflow-hidden rounded-lg border border-cyan-200/15 bg-cyan-200/15 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-9">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-5 lg:px-10">
+        <section className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:gap-px sm:overflow-hidden sm:rounded-lg sm:border sm:border-cyan-200/15 sm:bg-cyan-200/15 sm:px-0 sm:pb-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-9">
           <JourneyStat icon={<Route className="h-4 w-4" />} label="Distance flown" value={`${data.totalKm.toLocaleString()} km`} />
           <JourneyStat icon={<MapPin className="h-4 w-4" />} label="Cities visited" value={data.cityCount.toString()} />
           <JourneyStat icon={<MapPin className="h-4 w-4" />} label="Countries and regions" value={`${data.countryCount} countries - ${data.regionCount} regions`} />
@@ -265,9 +269,9 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
             </div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-lc-text3">{data.stops.length} collected</p>
           </div>
-          <ol className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <ol className="-mx-4 mt-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {data.stops.map((stop, index) => (
-              <li key={`${stop.id}-${index}`} className="border-2 border-dashed border-cyan-200/30 bg-cyan-300/[0.035] p-2 text-center text-cyan-100/85">
+              <li key={`${stop.id}-${index}`} className="min-w-[245px] snap-start border-2 border-dashed border-cyan-200/30 bg-cyan-300/[0.035] p-2 text-center text-cyan-100/85 sm:min-w-0">
                 <div className="flex min-h-36 flex-col items-center justify-center border border-current/20 px-3 py-4">
                   <span className="text-[11px] font-semibold uppercase tracking-[0.14em] opacity-75">{stop.country}</span>
                   <span className="font-instrument mt-1 text-3xl font-black tracking-widest">{stop.airport}</span>
@@ -315,7 +319,7 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
 
 function JourneyStat({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div className="bg-[#0b1b2d] px-5 py-4">
+    <div className="min-w-[210px] rounded-lg border border-cyan-200/15 bg-[#0b1b2d] px-5 py-4 sm:min-w-0 sm:rounded-none sm:border-0">
       <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-cyan-100/70">{icon}{label}</p>
       <p className="mt-2 text-lg font-semibold text-lc-text">{value}</p>
     </div>

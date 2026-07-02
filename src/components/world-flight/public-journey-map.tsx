@@ -374,17 +374,17 @@ export function PublicJourneyMap({ stops, totalKm, className }: PublicJourneyMap
   }, [ready, routes, stopPoints]);
 
   return (
-    <section className="relative min-h-[560px] overflow-hidden border-y border-cyan-200/15 bg-[#06111f] lg:min-h-[660px]">
+    <section className="relative min-h-[520px] overflow-hidden border-y border-cyan-200/15 bg-[#06111f] sm:min-h-[560px] lg:min-h-[660px]">
       <div ref={containerRef} className="absolute inset-0" aria-label={`${className} World Flight route map`} />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(103,232,249,0.16),transparent_32%),linear-gradient(90deg,rgba(5,12,22,0.92)_0%,rgba(5,12,22,0.54)_34%,rgba(5,12,22,0.08)_66%,rgba(5,12,22,0.72)_100%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#07111f] to-transparent" />
 
-      <div className="pointer-events-none relative z-10 flex min-h-[560px] flex-col justify-between px-5 py-6 lg:min-h-[660px] lg:px-10 lg:py-9">
+      <div className="pointer-events-none relative z-10 flex min-h-[520px] flex-col justify-between px-4 py-5 sm:min-h-[560px] sm:px-5 sm:py-6 lg:min-h-[660px] lg:px-10 lg:py-9">
         <div className="max-w-xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-cyan-200/25 bg-slate-950/70 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-cyan-100 shadow-2xl shadow-black/30 backdrop-blur">
             Live World Flight map
           </div>
-          <h2 className="font-display mt-4 max-w-lg text-4xl leading-tight text-white sm:text-5xl">
+          <h2 className="font-display mt-4 max-w-lg text-3xl leading-tight text-white sm:text-5xl">
             The route so far
           </h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-cyan-50/72">
@@ -395,7 +395,7 @@ export function PublicJourneyMap({ stops, totalKm, className }: PublicJourneyMap
         <div className="grid max-w-4xl gap-2 sm:grid-cols-3">
           <MapBadge label="Distance flown" value={`${totalKm.toLocaleString()} km`} />
           <MapBadge label="Current city" value={finalStop ? `${finalStop.city}, ${finalStop.country}` : 'Not started'} />
-          <MapBadge label="Map controls" value="Drag, zoom, hover" />
+          <MapBadge label="Map controls" value="Drag, pinch, hover" />
         </div>
       </div>
     </section>

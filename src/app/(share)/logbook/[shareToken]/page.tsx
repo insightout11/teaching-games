@@ -147,14 +147,18 @@ export async function generateMetadata({ params }: { params: { shareToken: strin
 export default async function PublicClassLogbookPage({ params }: { params: { shareToken: string } }) {
   const data = await loadPublicLogbook(params.shareToken);
   if (!data) notFound();
+  const shareTitle = `${data.className} class logbook`;
+  const shareText = `${data.className} has completed ${data.summary.completedFlights.toLocaleString()} learning flights with LessonCaptain.`;
 
   return (
-    <main className="-m-6 min-h-screen bg-[#07111f] text-white lg:-m-8">
+    <main className="min-h-screen bg-[#07111f] text-white">
       <PublicShareHeader
         activeTab="logbook"
         journeyHref={data.worldFlightShareToken ? `/journey/${data.worldFlightShareToken}` : null}
         logbookHref={`/logbook/${params.shareToken}`}
         label="Public class logbook"
+        shareTitle={shareTitle}
+        shareText={shareText}
       />
 
       <section className="relative overflow-hidden border-b border-cyan-200/15 bg-[#081625]">
@@ -168,13 +172,13 @@ export default async function PublicClassLogbookPage({ params }: { params: { sha
         {!data.journeyHero && (
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(77,163,255,0.18),transparent_32%),radial-gradient(circle_at_18%_82%,rgba(103,232,249,0.12),transparent_34%)]" />
         )}
-        <div className="relative mx-auto grid max-w-7xl gap-8 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end lg:px-10 lg:py-16">
+        <div className="relative mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-12 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end lg:px-10 lg:py-16">
           <div>
             <div className="flex items-center gap-2 text-cyan-100">
               <BookOpen className="h-5 w-5" aria-hidden />
               <span className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em]">Class Logbook</span>
             </div>
-            <h1 className="font-display mt-3 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">
+            <h1 className="font-display mt-3 max-w-3xl text-3xl leading-tight text-white sm:text-5xl">
               {data.className} has completed {data.summary.completedFlights.toLocaleString()} learning flights
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/72">
@@ -204,8 +208,8 @@ export default async function PublicClassLogbookPage({ params }: { params: { sha
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-5 py-8 lg:px-10">
-        <section className="grid gap-px overflow-hidden rounded-lg border border-cyan-200/15 bg-cyan-200/15 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-5 lg:px-10">
+        <section className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:gap-px sm:overflow-hidden sm:rounded-lg sm:border sm:border-cyan-200/15 sm:bg-cyan-200/15 sm:px-0 sm:pb-0 sm:grid-cols-2 lg:grid-cols-4">
           <LogbookStat icon={<PlaneTakeoff className="h-4 w-4" />} label="Learning flights" value={data.summary.completedFlights.toLocaleString()} />
           <LogbookStat icon={<MessageSquareText className="h-4 w-4" />} label="Class responses" value={data.summary.totalResponses.toLocaleString()} />
           <LogbookStat icon={<Target className="h-4 w-4" />} label="Average accuracy" value={data.summary.averageAccuracy === null ? '-' : `${data.summary.averageAccuracy}%`} />
@@ -278,7 +282,7 @@ export default async function PublicClassLogbookPage({ params }: { params: { sha
 
 function LogbookStat({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div className="bg-[#0e1d31] px-5 py-4">
+    <div className="min-w-[210px] rounded-lg border border-cyan-200/15 bg-[#0e1d31] px-5 py-4 sm:min-w-0 sm:rounded-none sm:border-0">
       <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-cyan-100/70">{icon}{label}</p>
       <p className="mt-2 text-lg font-semibold text-white">{value}</p>
     </div>
