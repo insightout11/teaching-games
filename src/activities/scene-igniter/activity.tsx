@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { Theater } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import type { SceneIgniterContent, SceneIgniterLine, SceneIgniterScene } from '../types';
 import type { Student } from '@/lib/supabase/types';
@@ -8,13 +9,14 @@ import type { Student } from '@/lib/supabase/types';
 type Phase = 'idle' | 'running' | 'group_done' | 'improv-running' | 'summary';
 
 function assignRoles(lines: SceneIgniterLine[], students: Student[]): Map<string, Student> {
+  const result = new Map<string, Student>();
+  if (students.length === 0) return result;
   const charLineCounts = new Map<string, number>();
   for (const line of lines) {
     charLineCounts.set(line.character, (charLineCounts.get(line.character) ?? 0) + 1);
   }
   const sorted = Array.from(charLineCounts.entries()).sort((a, b) => b[1] - a[1]);
   const studentLineCounts = new Map(students.map((s) => [s.id, 0]));
-  const result = new Map<string, Student>();
   for (const [char] of sorted) {
     const candidate = students.reduce((a, b) =>
       (studentLineCounts.get(a.id) ?? 0) <= (studentLineCounts.get(b.id) ?? 0) ? a : b
@@ -90,7 +92,7 @@ export function SceneIgniterActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIdx, setCurrentIdx] = useState(0);
   const [charToStudent, setCharToStudent] = useState<Map<string, Student>>(
-    () => assignRoles(scenes[0].lines, groupStudents[0])
+    () => assignRoles(scenes[0]?.lines ?? [], groupStudents[0])
   );
 
   // Improv: student order for round-robin; can be reshuffled independently
@@ -268,6 +270,22 @@ export function SceneIgniterActivity({
   const totalLines = (hasGroup2 ? scenes[0].lines.length + scenes[1].lines.length : scenes[0].lines.length);
 
   const chars = Array.from(new Set(currentScene.lines.map((l) => l.character))).sort();
+
+  // ─── NO STUDENTS ───────────────────────────────────────────────────────────
+  // Role-play needs at least one student to cast. Show a waiting state instead
+  // of crashing on an empty role assignment.
+  if (students.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center text-center min-h-[320px] space-y-3">
+        <Theater className="w-12 h-12 text-emerald-400/70" />
+        <p className="text-xl font-bold opacity-90">Waiting for students to join</p>
+        <p className="text-sm opacity-50 max-w-sm">
+          Scene Igniter casts students into the roles. Once at least one student joins,
+          the scene and its role assignments will appear here.
+        </p>
+      </div>
+    );
+  }
 
   // ─── IDLE ─────────────────────────────────────────────────────────────────
   if (phase === 'idle') {
