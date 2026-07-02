@@ -6,119 +6,118 @@ import type { Class } from '@/lib/supabase/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Modal } from '@/components/ui/modal';
-import { Select } from '@/components/ui/select';
 import Link from 'next/link';
-import { Plane } from 'lucide-react';
-import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
-import { TONES, type Tone } from '@/stores/session-store';
+import { Globe2, Plane, Users } from 'lucide-react';
+import { getDestinationById } from '@/data/world-flight/destinations';
+import { getPlaneTier } from '@/lib/plane-progression';
+import { SessionStarter } from '@/components/class/session-starter';
 
-function ClassCard({ cls }: { cls: Class }) {
-  const [difficulty, setDifficulty] = useState<string>(cls.default_difficulty ?? '');
-  const [tone, setTone] = useState<string>(cls.default_tone ?? '');
-  const supabase = createClient();
+export interface ClassCardSummary {
+  id: string;
+  crewCount: number;
+  flightCount: number;
+  lastFlightAt: string | null;
+  currentDestinationId: string | null;
+  planeTier: number;
+  stampCount: number;
+}
 
-  const updatePreset = async (patch: {
-    default_difficulty?: string | null;
-    default_tone?: string | null;
-  }) => {
-    await supabase.from('classes').update(patch).eq('id', cls.id);
-  };
+function formatLastFlight(iso: string | null) {
+  if (!iso) return 'no flights yet';
+  return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
 
-  const handleDifficultyChange = (value: string) => {
-    const newVal = value || null;
-    setDifficulty(value);
-    updatePreset({ default_difficulty: newVal });
-  };
-
-  const handleToneChange = (value: string) => {
-    const newVal = value || null;
-    setTone(value);
-    updatePreset({ default_tone: newVal });
-  };
+function ClassCard({ cls, summary }: { cls: Class; summary: ClassCardSummary }) {
+  const destination = summary.currentDestinationId ? getDestinationById(summary.currentDestinationId) : null;
+  const planeTierLabel = getPlaneTier(summary.planeTier).label;
 
   return (
-    <div className="relative">
-      <Link href={`/classes/${cls.id}`} className="block">
-        <div className="panel-card p-6 cursor-pointer group overflow-hidden">
-          {/* Flight arc background */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.07]"
-            preserveAspectRatio="none"
-            viewBox="0 0 300 140"
-            aria-hidden="true"
-          >
-            <path
-              className="flight-arc-path"
-              d="M 20,120 Q 140,50 280,18"
-              fill="none"
-              stroke="#4DA3FF"
-              strokeWidth="1.5"
-              strokeDasharray="5,7"
-              pathLength="1"
-            />
-            <circle cx="20" cy="120" r="3" fill="#4DA3FF"/>
-            <circle cx="280" cy="18" r="3" fill="#4DA3FF"/>
-          </svg>
-          {/* Plane icon — upper right */}
-          <div className="absolute top-4 right-5 opacity-10 group-hover:opacity-20 transition-opacity">
-            <Plane className="w-12 h-12 text-lc-blue -rotate-12" />
-          </div>
-          <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
-              {cls.name}
-            </h3>
-          </div>
-          <p className="text-sm text-lc-text3 mt-2">
-            Created {new Date(cls.created_at).toLocaleDateString()}
-          </p>
-          <div className="mt-4 h-16" />
-        </div>
-      </Link>
+    <div className="panel-card p-6 group overflow-hidden relative flex flex-col">
+      <Link href={`/classes/${cls.id}`} className="block absolute inset-0" aria-label={cls.name} />
 
-      {/* Preset dropdowns — outside Link so they don't trigger navigation */}
-      <div className="absolute bottom-14 left-4 flex gap-2 z-10">
-        <Select
-          value={difficulty}
-          onChange={(e) => handleDifficultyChange(e.target.value)}
-          inputSize="compact"
-          className="w-auto px-2 py-1 text-xs outline-none focus:ring-1 focus:ring-lc-blue/40"
-          title="Default difficulty"
-        >
-          <option value="">Level</option>
-          {DIFFICULTIES.map((d: Difficulty) => (
-            <option key={d} value={d}>{d}</option>
-          ))}
-        </Select>
-        <Select
-          value={tone}
-          onChange={(e) => handleToneChange(e.target.value)}
-          inputSize="compact"
-          className="w-auto px-2 py-1 text-xs outline-none focus:ring-1 focus:ring-lc-blue/40"
-          title="Default tone"
-        >
-          <option value="">Tone</option>
-          {TONES.map((t: Tone) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
-        </Select>
+      {/* Flight arc background */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.07]"
+        preserveAspectRatio="none"
+        viewBox="0 0 300 140"
+        aria-hidden="true"
+      >
+        <path
+          className="flight-arc-path"
+          d="M 20,120 Q 140,50 280,18"
+          fill="none"
+          stroke="#4DA3FF"
+          strokeWidth="1.5"
+          strokeDasharray="5,7"
+          pathLength="1"
+        />
+        <circle cx="20" cy="120" r="3" fill="#4DA3FF"/>
+        <circle cx="280" cy="18" r="3" fill="#4DA3FF"/>
+      </svg>
+      <div className="absolute top-4 right-5 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+        <Plane className="w-12 h-12 text-lc-blue -rotate-12" />
       </div>
 
-      <Link
-        href={`/classes/${cls.id}/control-room`}
-        className="absolute bottom-4 right-4 text-xs font-semibold text-lc-blue hover:text-lc-blue-hover px-3 py-1.5 rounded-lg border border-lc-blue/30 hover:border-lc-blue/60 bg-lc-surface transition-colors z-10"
-      >
-        Control Room →
-      </Link>
+      <div className="relative pointer-events-none">
+        <h3 className="font-semibold text-lc-text group-hover:text-lc-blue transition-colors">
+          {cls.name}
+        </h3>
+        <p className="text-sm text-lc-text3 mt-2 flex items-center gap-1.5 font-instrument">
+          <Users className="w-3.5 h-3.5" />
+          {summary.crewCount} crew · {summary.flightCount} flights · last: {formatLastFlight(summary.lastFlightAt)}
+        </p>
+
+        {destination && (
+          <div className="mt-3 pt-3 border-t border-lc-border/60">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-lc-text3 mb-1">
+              World Flight
+            </p>
+            <p className="text-sm text-lc-text2 flex items-center gap-1.5 font-instrument">
+              <Globe2 className="w-3.5 h-3.5 text-lc-blue" />
+              {destination.city} · {planeTierLabel} · {summary.stampCount} stamp{summary.stampCount === 1 ? '' : 's'}
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className="relative mt-5 flex items-center justify-between pointer-events-none">
+        <span className="pointer-events-auto">
+          <SessionStarter classId={cls.id} studentCount={summary.crewCount} size="compact" />
+        </span>
+        <Link
+          href={`/classes/${cls.id}/control-room`}
+          className="pointer-events-auto text-xs font-semibold text-lc-blue hover:text-lc-blue-hover px-3 py-1.5 rounded-lg border border-lc-blue/30 hover:border-lc-blue/60 bg-lc-surface transition-colors"
+        >
+          Control Room →
+        </Link>
+      </div>
     </div>
   );
 }
 
-export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
+export function ClassList({
+  initialClasses,
+  summaries,
+}: {
+  initialClasses: Class[];
+  summaries: ClassCardSummary[];
+}) {
   const [classes, setClasses] = useState(initialClasses);
   const [showCreate, setShowCreate] = useState(false);
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
+
+  const summaryByClass = new Map(summaries.map((s) => [s.id, s]));
+  const emptySummary = (id: string): ClassCardSummary => ({
+    id,
+    crewCount: 0,
+    flightCount: 0,
+    lastFlightAt: null,
+    currentDestinationId: null,
+    planeTier: 0,
+    stampCount: 0,
+  });
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,13 +149,18 @@ export function ClassList({ initialClasses }: { initialClasses: Class[] }) {
 
       {classes.length === 0 ? (
         <div className="text-center py-16 text-lc-text3">
+          <Plane className="w-10 h-10 mx-auto mb-3 text-lc-text3/50 -rotate-12" />
           <p className="text-lg">Your hangar is empty.</p>
           <p className="text-sm mt-1">Create your first class to get started.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {classes.map((cls) => (
-            <ClassCard key={cls.id} cls={cls} />
+            <ClassCard
+              key={cls.id}
+              cls={cls}
+              summary={summaryByClass.get(cls.id) ?? emptySummary(cls.id)}
+            />
           ))}
         </div>
       )}

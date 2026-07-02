@@ -5,13 +5,22 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function SessionStarter({ classId, studentCount }: { classId: string; studentCount: number }) {
+export function SessionStarter({
+  classId,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  studentCount,
+  size = 'lg',
+}: {
+  classId: string;
+  studentCount: number;
+  size?: 'sm' | 'md' | 'lg' | 'compact' | 'icon';
+}) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
-  const startSession = async () => {
+  const startSession = async (e: React.MouseEvent) => {
+    e.preventDefault();
     setLoading(true);
     const { data } = await supabase
       .from('sessions')
@@ -26,7 +35,7 @@ export function SessionStarter({ classId, studentCount }: { classId: string; stu
   };
 
   return (
-    <Button onClick={startSession} disabled={loading} size="lg">
+    <Button onClick={startSession} disabled={loading} size={size}>
       {loading ? 'Starting...' : 'Start Session'}
     </Button>
   );
