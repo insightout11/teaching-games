@@ -216,6 +216,7 @@ export function ExploreClient() {
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
   const [showCreateClass, setShowCreateClass] = useState(false);
+  const [showTopicDifficulty, setShowTopicDifficulty] = useState(false);
   const [newClassName, setNewClassName] = useState('');
   const [creatingClass, setCreatingClass] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -535,47 +536,9 @@ export function ExploreClient() {
       {/* Launch modal */}
       <Modal
         open={!!launchItem}
-        onClose={() => { setLaunchItem(null); setShowCreateClass(false); setNewClassName(''); }}
+        onClose={() => { setLaunchItem(null); setShowCreateClass(false); setNewClassName(''); setShowTopicDifficulty(false); }}
         title={launchItem ? `Launch ${launchItem.name}` : ''}
       >
-        {/* Topic + Difficulty */}
-        <div className="flex gap-3 mb-3">
-          <div className="flex-1">
-            <label className="block text-xs text-lc-text3 mb-1">Topic</label>
-            <Select
-              value={selectedTopic}
-              onChange={(e) => setSelectedTopic(e.target.value as Topic | '')}
-              inputSize="compact"
-            >
-              <option value="">General</option>
-              {TOPICS.filter((t) => t !== 'General').map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </Select>
-          </div>
-          <div className="flex-1">
-            <label className="block text-xs text-lc-text3 mb-1">Difficulty</label>
-            <Select
-              value={selectedDifficulty}
-              onChange={(e) => setSelectedDifficulty(e.target.value as Difficulty)}
-              inputSize="compact"
-            >
-              {DIFFICULTIES.map((d) => (
-                <option key={d} value={d}>{d}</option>
-              ))}
-            </Select>
-          </div>
-        </div>
-        <div className="mb-5">
-          <Input
-            type="text"
-            value={customTopic}
-            onChange={(e) => setCustomTopic(e.target.value)}
-            placeholder={`Or type a custom topic${selectedTopic ? ` (overrides ${selectedTopic})` : ''}…`}
-            inputSize="compact"
-          />
-        </div>
-
         {/* Low-credit warning */}
         {!tierLoading && !isPro && credits === 2 && (
           <div className="mb-4 px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
@@ -588,7 +551,7 @@ export function ExploreClient() {
           </div>
         )}
 
-        {/* Active session shortcut */}
+        {/* Active session shortcut — pinned top, it's the fastest path */}
         {activeSession && (
           <div className="mb-4">
             <p className="text-xs text-lc-text3 mb-2">Active session:</p>
@@ -602,7 +565,7 @@ export function ExploreClient() {
           </div>
         )}
 
-        {/* Class list */}
+        {/* Class list — the primary decision */}
         <p className="text-sm text-lc-text3 mb-3">
           {activeSession ? 'Or start a new session:' : 'Select a class to launch this with:'}
         </p>
@@ -689,6 +652,63 @@ export function ExploreClient() {
             </div>
           </div>
         )}
+
+        {/* Topic & difficulty — collapsed by default; most launches use defaults */}
+        <div className="mt-5 pt-4 border-t border-lc-border">
+          <button
+            type="button"
+            onClick={() => setShowTopicDifficulty((v) => !v)}
+            aria-expanded={showTopicDifficulty}
+            className="w-full flex items-center justify-between text-sm text-lc-text2 hover:text-lc-text transition-colors"
+          >
+            <span>
+              Topic &amp; difficulty:{' '}
+              <span className="font-medium text-lc-text">
+                {customTopic.trim() || selectedTopic || 'General'} · {selectedDifficulty}
+              </span>
+            </span>
+            <ChevronDown className={cn('w-4 h-4 shrink-0 transition-transform', showTopicDifficulty && 'rotate-180')} aria-hidden />
+          </button>
+
+          {showTopicDifficulty && (
+            <div className="mt-3">
+              <div className="flex gap-3 mb-3">
+                <div className="flex-1">
+                  <label className="block text-xs text-lc-text3 mb-1">Topic</label>
+                  <Select
+                    value={selectedTopic}
+                    onChange={(e) => setSelectedTopic(e.target.value as Topic | '')}
+                    inputSize="compact"
+                  >
+                    <option value="">General</option>
+                    {TOPICS.filter((t) => t !== 'General').map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </Select>
+                </div>
+                <div className="flex-1">
+                  <label className="block text-xs text-lc-text3 mb-1">Difficulty</label>
+                  <Select
+                    value={selectedDifficulty}
+                    onChange={(e) => setSelectedDifficulty(e.target.value as Difficulty)}
+                    inputSize="compact"
+                  >
+                    {DIFFICULTIES.map((d) => (
+                      <option key={d} value={d}>{d}</option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+              <Input
+                type="text"
+                value={customTopic}
+                onChange={(e) => setCustomTopic(e.target.value)}
+                placeholder={`Or type a custom topic${selectedTopic ? ` (overrides ${selectedTopic})` : ''}…`}
+                inputSize="compact"
+              />
+            </div>
+          )}
+        </div>
       </Modal>
 
       <PaywallModal open={showPaywall} onClose={() => setShowPaywall(false)} />
