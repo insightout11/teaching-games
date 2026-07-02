@@ -1,34 +1,24 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { createServiceClient } from '@/lib/supabase/service';
-import { getDestinationById } from '@/data/world-flight/destinations';
-import { getPlaneAsset, PLANE_TIERS } from '@/lib/plane-progression';
-import { deriveInvestigationTags, deriveWorldFlightInvestigationProgress, type CompletedWorldFlightEvidence } from '@/lib/world-flight/investigations';
-import { getWorldFlightExpedition } from '@/lib/world-flight/expeditions';
 import { BookOpen, Compass, Gauge, MapPin, NotebookTabs, PlaneTakeoff, Route, Stamp, Trophy } from 'lucide-react';
+import { getDestinationById } from '@/data/world-flight/destinations';
+import { PublicJourneyMap, type PublicJourneyMapStop } from '@/components/world-flight/public-journey-map';
+import { getPlaneAsset, PLANE_TIERS } from '@/lib/plane-progression';
+import { createServiceClient } from '@/lib/supabase/service';
+import { getWorldFlightExpedition } from '@/lib/world-flight/expeditions';
+import { deriveInvestigationTags, deriveWorldFlightInvestigationProgress, type CompletedWorldFlightEvidence } from '@/lib/world-flight/investigations';
 
 export const dynamic = 'force-dynamic';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-interface JourneyStop {
-  id: string;
-  city: string;
-  country: string;
-  airport: string;
-  region: string;
-  lat: number;
-  lng: number;
-  date: string | null;
-}
 
 interface JourneyData {
   className: string;
   totalKm: number;
   planeName: string;
   tierLabel: string;
-  stops: JourneyStop[];
+  stops: PublicJourneyMapStop[];
   cityCount: number;
   countryCount: number;
   regionCount: number;
@@ -106,10 +96,12 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
         region: destination.region,
         lat: destination.lat,
         lng: destination.lng,
-        date: index === 0 && legRows[0]?.origin_destination_id ? null : legRows[index - (legRows[0]?.origin_destination_id ? 1 : 0)]?.completed_at ?? null,
+        date: index === 0 && legRows[0]?.origin_destination_id
+          ? null
+          : legRows[index - (legRows[0]?.origin_destination_id ? 1 : 0)]?.completed_at ?? null,
       };
     })
-    .filter((stop): stop is JourneyStop => stop !== null);
+    .filter((stop): stop is PublicJourneyMapStop => stop !== null);
 
   const finalDestination = stops.length ? getDestinationById(stops[stops.length - 1].id) : null;
   const plane = getPlaneAsset(state.plane_key);
@@ -128,7 +120,12 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
       Array.isArray(leg.evidence_snapshot?.investigationTags) ? leg.evidence_snapshot.investigationTags : [],
     )
   )));
-  const completedExpeditions = (completedExpeditionRuns ?? []).flatMap((run) => {
+  const completedExpeditions = ((completedExpeditionRuns ?? []) as Array<{
+    id: string;
+    expedition_id: string;
+    visited_destination_ids: string[] | null;
+    completed_at: string | null;
+  }>).flatMap((run) => {
     const expedition = getWorldFlightExpedition(run.expedition_id);
     if (!expedition) return [];
     return [{
@@ -136,9 +133,9 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
       title: expedition.title,
       centralQuestion: expedition.centralQuestion,
       completedAt: run.completed_at,
-      cityNames: run.visited_destination_ids
-        .map((destinationId: string) => getDestinationById(destinationId)?.city)
-        .filter((city: string | undefined): city is string => Boolean(city)),
+      cityNames: (run.visited_destination_ids ?? [])
+        .map((destinationId) => getDestinationById(destinationId)?.city)
+        .filter((city): city is string => Boolean(city)),
     }];
   });
 
@@ -169,27 +166,13 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
 
 export async function generateMetadata({ params }: { params: { shareToken: string } }): Promise<Metadata> {
   const data = await loadJourney(params.shareToken);
-  if (!data) return { title: 'Journey not found · LessonCaptain' };
+  if (!data) return { title: 'Journey not found - LessonCaptain' };
   const title = `${data.className} has flown ${data.totalKm.toLocaleString()} km`;
   return {
-    title: `${title} · LessonCaptain`,
+    title: `${title} - LessonCaptain`,
     description: `Follow ${data.className}'s World Flight journey across ${data.cityCount} cities and ${data.lessonCount} completed lessons.`,
     robots: { index: true, follow: true },
   };
-}
-
-function project(lat: number, lng: number): { x: number; y: number } {
-  return { x: ((lng + 180) / 360) * 720, y: ((90 - lat) / 180) * 360 };
-}
-
-function curvedRoutePath(points: Array<{ x: number; y: number }>) {
-  return points.reduce((path, point, index) => {
-    if (index === 0) return `M ${point.x.toFixed(1)} ${point.y.toFixed(1)}`;
-    const previous = points[index - 1];
-    const midpointX = (previous.x + point.x) / 2;
-    const midpointY = (previous.y + point.y) / 2 - Math.min(38, Math.abs(point.x - previous.x) * 0.12 + 12);
-    return `${path} Q ${midpointX.toFixed(1)} ${midpointY.toFixed(1)} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`;
-  }, '');
 }
 
 function formatDate(iso: string | null): string {
@@ -201,26 +184,28 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
   const data = await loadJourney(params.shareToken);
   if (!data) notFound();
 
-  const points = data.stops.map((stop) => project(stop.lat, stop.lng));
-  const pathD = curvedRoutePath(points);
   const finalStop = data.stops[data.stops.length - 1] ?? null;
 
   return (
-    <main className="min-h-screen bg-[var(--wf-bg)]">
-      <header className="border-b border-cyan-200/15 bg-[var(--wf-inset)] px-5 py-4">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
+    <main className="-m-6 min-h-screen bg-[#07111f] text-lc-text lg:-m-8">
+      <header className="border-b border-cyan-200/15 bg-[#081625]/95 px-5 py-4 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/lessoncaptain-logo-on-dark.svg" alt="LessonCaptain" className="h-7 w-auto" />
           <span className="font-instrument text-[11px] uppercase tracking-[0.16em] text-cyan-100/75">Public class journey</span>
         </div>
       </header>
 
-      {data.hero && (
-        <section className="relative h-[340px] overflow-hidden border-b border-cyan-200/15">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={data.hero.url} alt={data.hero.alt} className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--wf-bg)] via-[rgba(7,17,31,0.58)] to-[rgba(7,17,31,0.2)]" />
-          <div className="relative mx-auto flex h-full max-w-5xl flex-col justify-end px-5 pb-8">
+      <section className="relative overflow-hidden border-b border-cyan-200/15 bg-[#081625]">
+        {data.hero && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={data.hero.url} alt={data.hero.alt} className="absolute inset-0 h-full w-full object-cover opacity-40" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(77,163,255,0.18),transparent_34%),linear-gradient(90deg,rgba(7,17,31,0.98)_0%,rgba(7,17,31,0.86)_48%,rgba(7,17,31,0.58)_100%)]" />
+          </>
+        )}
+        <div className="relative mx-auto grid max-w-7xl gap-8 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end lg:px-10 lg:py-16">
+          <div>
             <div className="flex items-center gap-2 text-cyan-100">
               <PlaneTakeoff className="h-5 w-5" aria-hidden />
               <span className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em]">World Flight journey</span>
@@ -228,19 +213,37 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
             <h1 className="font-display mt-3 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">
               {data.className} has flown {data.totalKm.toLocaleString()} km
             </h1>
-            <p className="mt-3 text-base text-white/75">
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/74">
               {data.cityCount} {data.cityCount === 1 ? 'city' : 'cities'} visited across {data.countryCount} {data.countryCount === 1 ? 'country' : 'countries'}
-              {finalStop ? ` · currently in ${finalStop.city}, ${finalStop.country}` : ''}
+              {finalStop ? ` - currently in ${finalStop.city}, ${finalStop.country}` : ''}
             </p>
-            <a href={data.hero.sourceUrl} target="_blank" rel="noreferrer" className="mt-3 w-fit text-[11px] text-white/55 hover:text-white/80">
-              Photo: {data.hero.sourceName}
-            </a>
           </div>
-        </section>
+
+          <div className="rounded-lg border border-cyan-200/15 bg-slate-950/68 p-4 shadow-2xl shadow-black/30 backdrop-blur">
+            <p className="font-instrument text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-100/60">Now exploring</p>
+            <p className="font-display mt-2 text-3xl text-white">{finalStop ? finalStop.city : 'World Flight'}</p>
+            <p className="mt-1 text-sm text-lc-text2">{finalStop ? `${finalStop.country} - ${finalStop.airport}` : 'The class journey is ready to begin.'}</p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <HeroMetric label="Aircraft" value={data.planeName} />
+              <HeroMetric label="Tier" value={data.tierLabel} />
+              <HeroMetric label="Hours" value={data.flightHours.toLocaleString()} />
+              <HeroMetric label="Stars" value={data.crewStars.toLocaleString()} />
+            </div>
+            {data.hero && (
+              <a href={data.hero.sourceUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-[11px] text-white/45 transition-colors hover:text-white/75">
+                Photo: {data.hero.sourceName}
+              </a>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {data.stops.length > 0 && (
+        <PublicJourneyMap stops={data.stops} totalKm={data.totalKm} className={data.className} />
       )}
 
-      <div className="mx-auto max-w-5xl px-5 py-8">
-        <section className="grid gap-px overflow-hidden rounded-lg border border-cyan-200/15 bg-cyan-200/15 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-5 py-8 lg:px-10">
+        <section className="grid gap-px overflow-hidden rounded-lg border border-cyan-200/15 bg-cyan-200/15 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-9">
           <JourneyStat icon={<Route className="h-4 w-4" />} label="Distance flown" value={`${data.totalKm.toLocaleString()} km`} />
           <JourneyStat icon={<MapPin className="h-4 w-4" />} label="Cities visited" value={data.cityCount.toString()} />
           <JourneyStat icon={<MapPin className="h-4 w-4" />} label="Countries and regions" value={`${data.countryCount} countries - ${data.regionCount} regions`} />
@@ -249,36 +252,18 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
           <JourneyStat icon={<Trophy className="h-4 w-4" />} label="Flight missions" value={`${data.missionCompletedCount} completed - ${data.missionReadyCount} ready`} />
           <JourneyStat icon={<Compass className="h-4 w-4" />} label="Expeditions" value={`${data.completedExpeditions.length} completed`} />
           <JourneyStat icon={<PlaneTakeoff className="h-4 w-4" />} label="Crew progression" value={`${data.flightHours} flight hours - ${data.crewStars} crew stars`} />
-          <JourneyStat icon={<Gauge className="h-4 w-4" />} label="Aircraft" value={`${data.planeName} · ${data.tierLabel}`} />
+          <JourneyStat icon={<Gauge className="h-4 w-4" />} label="Aircraft" value={`${data.planeName} - ${data.tierLabel}`} />
         </section>
 
-        {points.length > 0 && (
-          <section className="mt-8 overflow-hidden rounded-lg border border-cyan-200/15 bg-[var(--wf-surface)]">
-            <div className="border-b border-white/10 px-5 py-4">
-              <h2 className="font-display text-2xl text-lc-text">The route so far</h2>
-            </div>
-            <div className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/world-map-outline.svg" alt="" className="pointer-events-none absolute inset-0 h-full w-full object-contain opacity-25" />
-              <svg viewBox="0 0 720 360" className="relative h-auto w-full" role="img" aria-label="Route flown">
-                {pathD && <path d={pathD} fill="none" stroke="#67E8F9" strokeWidth={2.4} strokeLinecap="round" opacity={0.8} />}
-                {points.map((point, index) => (
-                  <g key={`${point.x}-${point.y}`}>
-                    <circle cx={point.x} cy={point.y} r={index === points.length - 1 ? 7 : 5} fill={index === points.length - 1 ? '#F59E0B' : '#4DA3FF'} opacity={0.24} />
-                    <circle cx={point.x} cy={point.y} r={index === points.length - 1 ? 4 : 2.8} fill={index === points.length - 1 ? '#F59E0B' : '#67E8F9'} />
-                  </g>
-                ))}
-              </svg>
-            </div>
-          </section>
-        )}
-
         <section className="mt-8">
-          <div className="flex items-center gap-2">
-            <Stamp className="h-5 w-5 text-cyan-200" aria-hidden />
-            <h2 className="font-display text-2xl text-lc-text">Passport stamps</h2>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex items-center gap-2">
+              <Stamp className="h-5 w-5 text-cyan-200" aria-hidden />
+              <h2 className="font-display text-2xl text-lc-text">Passport stamps</h2>
+            </div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-lc-text3">{data.stops.length} collected</p>
           </div>
-          <ol className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ol className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {data.stops.map((stop, index) => (
               <li key={`${stop.id}-${index}`} className="border-2 border-dashed border-cyan-200/30 bg-cyan-300/[0.035] p-2 text-center text-cyan-100/85">
                 <div className="flex min-h-36 flex-col items-center justify-center border border-current/20 px-3 py-4">
@@ -317,7 +302,7 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
 
         <footer className="mt-10 border-t border-white/10 py-7 text-center">
           <p className="text-sm text-lc-text2">Live lessons turned into a class journey around the world.</p>
-          <a href="/" className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-lc-blue px-5 text-sm font-bold text-[var(--wf-bg)] transition-colors hover:bg-lc-blue-hover">
+          <a href="/" className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-lc-blue px-5 text-sm font-bold text-[#07111f] transition-colors hover:bg-lc-blue-hover">
             Start your class&apos;s journey
           </a>
         </footer>
@@ -328,9 +313,18 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
 
 function JourneyStat({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div className="bg-[var(--wf-surface)] px-5 py-4">
+    <div className="bg-[#0b1b2d] px-5 py-4">
       <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-cyan-100/70">{icon}{label}</p>
       <p className="mt-2 text-lg font-semibold text-lc-text">{value}</p>
+    </div>
+  );
+}
+
+function HeroMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-md border border-white/10 bg-white/[0.045] px-3 py-2">
+      <p className="font-instrument text-[9px] font-bold uppercase tracking-[0.14em] text-cyan-100/50">{label}</p>
+      <p className="mt-1 truncate text-sm font-bold text-cyan-50">{value}</p>
     </div>
   );
 }
