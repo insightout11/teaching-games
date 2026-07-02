@@ -17,6 +17,8 @@ export const storySprintPlugin: GamePlugin = {
   estimatedMinutes: 18,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
   minStudents: 1,
-  idealStudents: { min: 1, max: null },
+  // Small-group sweet spot only — solo loses the collaborative "add a sentence" turn-taking,
+  // and a full classroom means most students wait a long time between turns.
+  idealStudents: { min: 2, max: 6 },
   deviceFree: true,
 };

@@ -17,7 +17,9 @@ export const finalWordPlugin: ActivityPlugin = {
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
   minStudents: 1,
-  idealStudents: { min: 1, max: null },
+  // Every student speaks once — in a large classroom that turn-taking runs long enough
+  // to lose the closing-moment energy this is built for.
+  idealStudents: { min: 1, max: 6 },
   deviceFree: false,
 };
 

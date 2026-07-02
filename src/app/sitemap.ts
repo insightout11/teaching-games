@@ -27,6 +27,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     });
 
+    entries.push({
+      url: `${SITE_URL}/classroom-games/no-devices`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    });
+
     // Game category pages
     for (const slug of Array.from(GAME_CATEGORY_DISPLAY_SLUGS)) {
       entries.push({

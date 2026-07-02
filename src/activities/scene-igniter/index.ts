@@ -16,7 +16,9 @@ export const sceneIgniterPlugin: ActivityPlugin = {
   icon: Theater,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
   minStudents: 1,
-  idealStudents: { min: 2, max: 8 },
+  // One-on-one (student reads all parts) through small-group (roles split across students)
+  // — a full classroom leaves most students without a speaking role in the scene.
+  idealStudents: { min: 1, max: 6 },
   deviceFree: true,
 };
 

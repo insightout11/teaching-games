@@ -1,7 +1,9 @@
 // Flight Plan routing config — static metadata for generator slot-filling and sequencing.
-// No runtime imports. Generator imports this file to make slot and goal decisions.
+// Generator imports this file to make slot and goal decisions.
 
 import type { ClassSize } from './teacher-profile';
+import { getGame } from '@/games/registry';
+import { getActivity } from '@/activities/registry';
 
 export type GoalTag =
   | 'speaking-fluency'
@@ -68,82 +70,48 @@ export interface FlightPlanItem extends ClassSizeMetadata {
   requiresSource?: 'video' | 'text';
 }
 
-const ALL_CLASS_SIZES = ['one-on-one', 'small-group', 'classroom'] as const;
-const GROUP_OR_CLASS = ['small-group', 'classroom'] as const;
-const ONE_OR_SMALL = ['one-on-one', 'small-group'] as const;
-const SMALL_ONLY = ['small-group'] as const;
-const CLASS_ONLY = ['classroom'] as const;
+// Numeric ranges behind the audited "class size" buckets shown in the class-size picker.
+const ONE_ON_ONE_RANGE = { min: 1, max: 1 };
+const SMALL_GROUP_RANGE = { min: 2, max: 6 };
+const CLASSROOM_RANGE = { min: 7, max: null as number | null };
+
+function rangesOverlap(
+  a: { min: number; max: number | null },
+  b: { min: number; max: number | null },
+): boolean {
+  const aMax = a.max ?? Infinity;
+  const bMax = b.max ?? Infinity;
+  return a.min <= bMax && b.min <= aMax;
+}
 
 /**
- * Code-grounded class-size audit for every registered game/activity.
- * Registry-only modules live here too so discovery can use the same source of truth
- * without adding them to the Flight Plan generator candidate pool.
+ * Derives the audited class-size buckets straight from a module's `idealStudents` range
+ * — the single, compiler-enforced source of truth on `GamePlugin`/`ActivityPlugin`
+ * (src/games/types.ts, src/activities/types.ts). No separate table to fall out of sync.
  */
-const CLASS_SIZE_METADATA: Record<string, ClassSizeMetadata> = {
-  // Games
-  'vocab-sprint': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'synonym-showdown': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'word-chain': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
-  'grid-rush': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'sentence-scramble': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'grammar-boss': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'error-hunter': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'story-sprint': { idealClassSizes: SMALL_ONLY, minStudents: 1 },
-  'dialogue-detective': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  connections: { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'twenty-questions': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-  'flash-quiz': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'brain-teasers': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'defend-it': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-  'sector-strike': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-  'radar-fix': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'world-lens': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
+function deriveIdealClassSizes(idealStudents: { min: number; max: number | null }): readonly AuditedClassSize[] {
+  const sizes: AuditedClassSize[] = [];
+  if (rangesOverlap(idealStudents, ONE_ON_ONE_RANGE)) sizes.push('one-on-one');
+  if (rangesOverlap(idealStudents, SMALL_GROUP_RANGE)) sizes.push('small-group');
+  if (rangesOverlap(idealStudents, CLASSROOM_RANGE)) sizes.push('classroom');
+  return sizes;
+}
 
-  // Activities
-  'quick-pulse': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'vocab-radar': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'prediction-round': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  imposter: { idealClassSizes: GROUP_OR_CLASS, minStudents: 3 },
-  'scene-igniter': { idealClassSizes: ONE_OR_SMALL, minStudents: 1 },
-  'would-you-rather': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'two-truths': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'two-truths-and-a-lie': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-  'rank-it': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'read-aloud': { idealClassSizes: ONE_OR_SMALL, minStudents: 1 },
-  'listening-gap-fill': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'fact-detective': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'expert-panel': { idealClassSizes: CLASS_ONLY, minStudents: 1 },
-  'scenario-simulator': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'problem-solvers': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
-  'design-studio': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
-  'hot-take-arena': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-  'decision-council': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
-  'final-answer': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'mic-drop': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'lightning-round': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'mission-selector': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'opinion-shift': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'conversation-rounds': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-  'character-cards': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'grammar-check-in': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'grammar-clarify': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'grammar-proof': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'final-word': { idealClassSizes: ONE_OR_SMALL, minStudents: 1 },
-  'contribution-break': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'language-toolkit': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'vocab-micro': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'wonder-board': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  password: { idealClassSizes: GROUP_OR_CLASS, minStudents: 4 },
-  'in-your-words': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'bluff-definition': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-  'taboo-sprint': { idealClassSizes: GROUP_OR_CLASS, minStudents: 4 },
-  'video-player': { idealClassSizes: ALL_CLASS_SIZES, minStudents: 1 },
-  'cabin-mystery': { idealClassSizes: GROUP_OR_CLASS, minStudents: 1 },
-  'team-debate': { idealClassSizes: GROUP_OR_CLASS, minStudents: 2 },
-};
-
+/**
+ * Class-size metadata for any registered game or activity, derived from the plugin's
+ * own `minStudents`/`idealStudents` fields. Flight-plan-only modules (e.g. read-aloud,
+ * final-word) resolve here too — `getGame`/`getActivity` search the full registry
+ * regardless of `flightPlanOnly`, so discovery can use the same source of truth without
+ * a parallel table. Vaulted/unregistered plugins (never pushed into the registry arrays)
+ * are not resolvable here, matching their prior absence from the old hardcoded table.
+ */
 export function getClassSizeMetadata(key: string): ClassSizeMetadata | undefined {
-  return CLASS_SIZE_METADATA[key];
+  const plugin = getGame(key) ?? getActivity(key);
+  if (!plugin) return undefined;
+  return {
+    minStudents: plugin.minStudents,
+    idealClassSizes: deriveIdealClassSizes(plugin.idealStudents),
+  };
 }
 
 type FlightPlanItemBase = Omit<FlightPlanItem, keyof ClassSizeMetadata>;

@@ -17,7 +17,9 @@ export const readAloudPlugin: ActivityPlugin = {
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: true, defaultOutcome: 'on-task' },
   minStudents: 1,
-  idealStudents: { min: 1, max: null },
+  // Round-robin reading turns don't scale to a full classroom — each student would only
+  // get a tiny sliver of the passage.
+  idealStudents: { min: 1, max: 6 },
   deviceFree: false,
 };
 

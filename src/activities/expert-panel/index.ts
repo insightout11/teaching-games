@@ -16,7 +16,9 @@ export const expertPanelPlugin: ActivityPlugin = {
   icon: Users,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
   minStudents: 1,
-  idealStudents: { min: 3, max: null },
+  // Needs a real audience beyond the 3 panelists for the vote to mean anything —
+  // shines in a full classroom, not a small group.
+  idealStudents: { min: 7, max: null },
   deviceFree: false,
 };
 
