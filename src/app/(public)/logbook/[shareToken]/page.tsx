@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { BookOpen, CalendarDays, CheckCircle2, Flame, Globe2, MessageSquareText, PlaneTakeoff, Target } from 'lucide-react';
+import { BookOpen, CalendarDays, CheckCircle2, Flame, MessageSquareText, PlaneTakeoff, Sparkles, Target } from 'lucide-react';
+import { getDestinationById } from '@/data/world-flight/destinations';
+import { PublicShareHeader } from '@/components/public/public-share-header';
 import { createServiceClient } from '@/lib/supabase/service';
 import {
   buildClassLogbookSummary,
@@ -29,6 +31,7 @@ interface PublicLogbookData {
   summary: ClassLogbookSummary;
   entries: LogbookEntry[];
   worldFlightShareToken: string | null;
+  journeyHero: { url: string; alt: string; sourceName: string; sourceUrl: string } | null;
 }
 
 function topicFor(session: ClassLogbookSessionRow) {
@@ -91,12 +94,13 @@ async function loadPublicLogbook(shareToken: string): Promise<PublicLogbookData 
       .limit(80),
     supabase
       .from('class_world_flight_state')
-      .select('share_enabled, share_token')
+      .select('share_enabled, share_token, current_destination_id')
       .eq('class_id', cls.id)
       .maybeSingle(),
   ]);
   const sessions = (sessionsResult.data ?? []) as ClassLogbookSessionRow[];
-  const worldFlightState = worldFlightStateResult.data as { share_enabled: boolean; share_token: string | null } | null;
+  const worldFlightState = worldFlightStateResult.data as { share_enabled: boolean; share_token: string | null; current_destination_id: string | null } | null;
+  const currentDestination = worldFlightState?.current_destination_id ? getDestinationById(worldFlightState.current_destination_id) : null;
 
   const sessionIds = sessions.map((session) => session.id);
   let scores: ClassLogbookScoreRow[] = [];
@@ -120,6 +124,12 @@ async function loadPublicLogbook(shareToken: string): Promise<PublicLogbookData 
     summary,
     entries: buildEntries(sessions, scores),
     worldFlightShareToken: worldFlightState?.share_enabled ? worldFlightState.share_token : null,
+    journeyHero: currentDestination ? {
+      url: currentDestination.heroImage.url,
+      alt: currentDestination.heroImage.alt,
+      sourceName: currentDestination.heroImage.sourceName,
+      sourceUrl: currentDestination.heroImage.sourceUrl,
+    } : null,
   };
 }
 
@@ -139,40 +149,62 @@ export default async function PublicClassLogbookPage({ params }: { params: { sha
   if (!data) notFound();
 
   return (
-    <main className="min-h-screen bg-[#07111f] text-white">
-      <header className="border-b border-cyan-200/15 bg-[#0b1728] px-5 py-4">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/lessoncaptain-logo-on-dark.svg" alt="LessonCaptain" className="h-7 w-auto" />
-          <span className="font-instrument text-[11px] uppercase tracking-[0.16em] text-cyan-100/75">Public class logbook</span>
-        </div>
-      </header>
+    <main className="-m-6 min-h-screen bg-[#07111f] text-white lg:-m-8">
+      <PublicShareHeader
+        activeTab="logbook"
+        journeyHref={data.worldFlightShareToken ? `/journey/${data.worldFlightShareToken}` : null}
+        logbookHref={`/logbook/${params.shareToken}`}
+        label="Public class logbook"
+      />
 
-      <section className="border-b border-cyan-200/15 bg-[#0b1728] px-5 py-10">
-        <div className="mx-auto max-w-5xl">
-          <div className="flex items-center gap-2 text-cyan-100">
-            <BookOpen className="h-5 w-5" aria-hidden />
-            <span className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em]">Class Logbook</span>
+      <section className="relative overflow-hidden border-b border-cyan-200/15 bg-[#081625]">
+        {data.journeyHero && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={data.journeyHero.url} alt={data.journeyHero.alt} className="absolute inset-0 h-full w-full object-cover opacity-36" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_24%,rgba(77,163,255,0.2),transparent_34%),linear-gradient(90deg,rgba(7,17,31,0.98)_0%,rgba(7,17,31,0.9)_52%,rgba(7,17,31,0.62)_100%)]" />
+          </>
+        )}
+        {!data.journeyHero && (
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(77,163,255,0.18),transparent_32%),radial-gradient(circle_at_18%_82%,rgba(103,232,249,0.12),transparent_34%)]" />
+        )}
+        <div className="relative mx-auto grid max-w-7xl gap-8 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end lg:px-10 lg:py-16">
+          <div>
+            <div className="flex items-center gap-2 text-cyan-100">
+              <BookOpen className="h-5 w-5" aria-hidden />
+              <span className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em]">Class Logbook</span>
+            </div>
+            <h1 className="font-display mt-3 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">
+              {data.className} has completed {data.summary.completedFlights.toLocaleString()} learning flights
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/72">
+              A shared, privacy-safe record of lessons, participation, topics, and class momentum.
+            </p>
+            {data.journeyHero && (
+              <a href={data.journeyHero.sourceUrl} target="_blank" rel="noreferrer" className="mt-4 inline-block text-[11px] text-white/45 transition-colors hover:text-white/75">
+                Photo: {data.journeyHero.sourceName}
+              </a>
+            )}
           </div>
-          <h1 className="font-display mt-3 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">
-            {data.className} has completed {data.summary.completedFlights.toLocaleString()} learning flights
-          </h1>
-          <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/70">
-            A shared, privacy-safe record of class lessons, participation, and recent topics.
-          </p>
-          {data.worldFlightShareToken && (
-            <a
-              href={`/journey/${data.worldFlightShareToken}`}
-              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md border border-cyan-200/25 bg-cyan-300/[0.08] px-4 text-sm font-bold text-cyan-100 transition-colors hover:bg-cyan-300/[0.14]"
-            >
-              <Globe2 className="h-4 w-4" aria-hidden />
-              View World Flight map
-            </a>
-          )}
+
+          <div className="rounded-lg border border-cyan-200/15 bg-slate-950/68 p-4 shadow-2xl shadow-black/30 backdrop-blur">
+            <p className="font-instrument text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-100/60">Shared class record</p>
+            <p className="font-display mt-2 text-3xl text-white">{data.summary.completedFlights.toLocaleString()} flights</p>
+            <p className="mt-1 text-sm text-lc-text2">
+              {data.summary.totalResponses.toLocaleString()} class responses
+              {data.summary.lastTopic ? ` - latest: ${data.summary.lastTopic}` : ''}
+            </p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <HeroMetric label="Accuracy" value={data.summary.averageAccuracy === null ? '-' : `${data.summary.averageAccuracy}%`} />
+              <HeroMetric label="Best streak" value={data.summary.bestStreak.toLocaleString()} />
+              <HeroMetric label="Topics" value={data.summary.recentTopics.length.toLocaleString()} />
+              <HeroMetric label="Status" value="Live" />
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-5xl px-5 py-8">
+      <div className="mx-auto max-w-7xl px-5 py-8 lg:px-10">
         <section className="grid gap-px overflow-hidden rounded-lg border border-cyan-200/15 bg-cyan-200/15 sm:grid-cols-2 lg:grid-cols-4">
           <LogbookStat icon={<PlaneTakeoff className="h-4 w-4" />} label="Learning flights" value={data.summary.completedFlights.toLocaleString()} />
           <LogbookStat icon={<MessageSquareText className="h-4 w-4" />} label="Class responses" value={data.summary.totalResponses.toLocaleString()} />
@@ -181,8 +213,11 @@ export default async function PublicClassLogbookPage({ params }: { params: { sha
         </section>
 
         {data.summary.recentTopics.length > 0 && (
-          <section className="mt-8 rounded-lg border border-cyan-200/15 bg-[#0e1d31] px-5 py-5">
-            <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Recent topics</p>
+          <section className="mt-8 rounded-lg border border-cyan-200/15 bg-[#0e1d31] px-5 py-5 shadow-xl shadow-black/15">
+            <p className="flex items-center gap-2 font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">
+              <Sparkles className="h-4 w-4" aria-hidden />
+              Recent topics
+            </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {data.summary.recentTopics.map((topic) => (
                 <span key={topic} className="rounded-full border border-white/10 bg-white/[0.045] px-3 py-1 text-sm font-semibold text-cyan-50/85">
@@ -194,23 +229,26 @@ export default async function PublicClassLogbookPage({ params }: { params: { sha
         )}
 
         <section className="mt-8">
-          <div className="flex items-center gap-2">
-            <CalendarDays className="h-5 w-5 text-cyan-200" aria-hidden />
-            <h2 className="font-display text-2xl text-white">Recent flights</h2>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="h-5 w-5 text-cyan-200" aria-hidden />
+              <h2 className="font-display text-2xl text-white">Recent flights</h2>
+            </div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-lc-text3">{data.entries.length} shown</p>
           </div>
 
           {data.entries.length > 0 ? (
-            <ol className="mt-4 space-y-3">
+            <ol className="mt-4 grid gap-3 lg:grid-cols-2">
               {data.entries.map((entry, index) => (
-                <li key={entry.id} className="rounded-lg border border-cyan-200/15 bg-[#0e1d31] px-5 py-4">
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <li key={entry.id} className="rounded-lg border border-cyan-200/15 bg-[#0e1d31] px-5 py-4 shadow-xl shadow-black/12">
+                  <div className="flex flex-col gap-4">
                     <div className="min-w-0">
                       <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100/60">
                         Flight {data.summary.completedFlights - index} - {formatDate(entry.completedAt)}
                       </p>
-                      <h3 className="mt-1 truncate text-lg font-bold text-white">{entry.topic}</h3>
+                      <h3 className="mt-1 text-lg font-bold text-white">{entry.topic}</h3>
                     </div>
-                    <div className="grid grid-cols-3 gap-2 text-center sm:min-w-[270px]">
+                    <div className="grid grid-cols-3 gap-2 text-center">
                       <EntryStat label="responses" value={entry.responses.toLocaleString()} />
                       <EntryStat label="accuracy" value={entry.accuracy === null ? '-' : `${entry.accuracy}%`} />
                       <EntryStat label="streak" value={entry.bestStreak.toLocaleString()} />
@@ -252,6 +290,15 @@ function EntryStat({ label, value }: { label: string; value: string }) {
     <div className="rounded-md border border-white/10 bg-white/[0.035] px-2 py-2">
       <p className="text-sm font-bold text-cyan-100">{value}</p>
       <p className="mt-0.5 text-[10px] uppercase tracking-wide text-white/40">{label}</p>
+    </div>
+  );
+}
+
+function HeroMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-md border border-white/10 bg-white/[0.045] px-3 py-2">
+      <p className="font-instrument text-[9px] font-bold uppercase tracking-[0.14em] text-cyan-100/50">{label}</p>
+      <p className="mt-1 truncate text-sm font-bold text-cyan-50">{value}</p>
     </div>
   );
 }

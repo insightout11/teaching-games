@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { BookOpen, Compass, Gauge, MapPin, NotebookTabs, PlaneTakeoff, Route, Stamp, Trophy } from 'lucide-react';
 import { getDestinationById } from '@/data/world-flight/destinations';
+import { PublicShareHeader } from '@/components/public/public-share-header';
 import { PublicJourneyMap, type PublicJourneyMapStop } from '@/components/world-flight/public-journey-map';
 import { getPlaneAsset, PLANE_TIERS } from '@/lib/plane-progression';
 import { createServiceClient } from '@/lib/supabase/service';
@@ -15,6 +16,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 interface JourneyData {
   className: string;
+  logbookShareToken: string | null;
   totalKm: number;
   planeName: string;
   tierLabel: string;
@@ -51,7 +53,7 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
   if (!state || !state.share_enabled) return null;
 
   const [{ data: cls }, { data: legs }, { data: completedMissions }, { data: completedExpeditionRuns }] = await Promise.all([
-    supabase.from('classes').select('name').eq('id', state.class_id).maybeSingle(),
+    supabase.from('classes').select('name, logbook_share_enabled, logbook_share_token').eq('id', state.class_id).maybeSingle(),
     supabase
       .from('class_world_flight_legs')
       .select('origin_destination_id, destination_id, distance_km, completed_at, evidence_snapshot')
@@ -141,6 +143,7 @@ async function loadJourney(shareToken: string): Promise<JourneyData | null> {
 
   return {
     className: cls?.name ?? 'A class',
+    logbookShareToken: cls?.logbook_share_enabled ? cls.logbook_share_token : null,
     totalKm,
     planeName: plane.name,
     tierLabel,
@@ -188,13 +191,12 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
 
   return (
     <main className="-m-6 min-h-screen bg-[#07111f] text-lc-text lg:-m-8">
-      <header className="border-b border-cyan-200/15 bg-[#081625]/95 px-5 py-4 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/lessoncaptain-logo-on-dark.svg" alt="LessonCaptain" className="h-7 w-auto" />
-          <span className="font-instrument text-[11px] uppercase tracking-[0.16em] text-cyan-100/75">Public class journey</span>
-        </div>
-      </header>
+      <PublicShareHeader
+        activeTab="journey"
+        journeyHref={`/journey/${params.shareToken}`}
+        logbookHref={data.logbookShareToken ? `/logbook/${data.logbookShareToken}` : null}
+        label="Public class journey"
+      />
 
       <section className="relative overflow-hidden border-b border-cyan-200/15 bg-[#081625]">
         {data.hero && (
