@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker as MapLibreMarker, type Popup as MapLibrePopup } from 'maplibre-gl';
-import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, Clock3, Compass, ExternalLink, Gauge, Globe2, Info, Loader2, Lock, Map as MapIcon, MapPin, Minus, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Plane, PlaneTakeoff, Play, Plus, Radar, RotateCcw, Route, ScanSearch, Search, Stamp, Star, Trophy, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, Clock3, Compass, ExternalLink, Gauge, Globe2, Info, Loader2, Lock, Map as MapIcon, MapPin, Minus, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Plane, PlaneTakeoff, Play, Plus, Radar, RotateCcw, Route, ScanSearch, Search, Shuffle, Sparkles, Stamp, Star, Trophy, X } from 'lucide-react';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { WORLD_FLIGHT_MAP_STYLE } from '@/data/world-flight/map-style';
 import type { DestinationFocus, DestinationFocusKind, DestinationPack } from '@/lib/world-flight/types';
@@ -1389,6 +1389,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [destinationQuery, setDestinationQuery] = useState('');
   const [selectedClassId, setSelectedClassId] = useState<string | null>(initialClasses[0]?.id ?? null);
   const [firstDepartureId, setFirstDepartureId] = useState<string | null>(null);
+  const [surpriseDepartureId, setSurpriseDepartureId] = useState<string | null>(null);
   const [previewNextHops, setPreviewNextHops] = useState(false);
   const [sidebarMode, setSidebarMode] = useState<SidebarMode>('destinations');
   const [selectedPassportLegId, setSelectedPassportLegId] = useState<string | null>(null);
@@ -1450,6 +1451,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const firstDeparture = useMemo(
     () => WORLD_DESTINATIONS.find((destination) => destination.id === firstDepartureId) ?? null,
     [firstDepartureId],
+  );
+  const surpriseDeparture = useMemo(
+    () => WORLD_DESTINATIONS.find((destination) => destination.id === surpriseDepartureId) ?? null,
+    [surpriseDepartureId],
   );
   const routeOrigin = origin ?? firstDeparture;
   const isChoosingDeparture = !origin && !firstDeparture;
@@ -1815,6 +1820,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
     const nextClass = initialClasses.find((cls) => cls.id === id);
     setSelectedClassId(id);
     setFirstDepartureId(null);
+    setSurpriseDepartureId(null);
     setPreviewNextHops(false);
     setSelectedPassportLegId(null);
     setHoveredPassportLegId(null);
@@ -1836,8 +1842,23 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   }
 
   function confirmFirstDeparture() {
+    setSurpriseDepartureId(null);
     setFirstDepartureId(selectedDestination.id);
     setSelectedDestinationId(defaultNextDestination(selectedDestination, rangeKm).id);
+  }
+
+  function chooseSurpriseDeparture() {
+    const candidates = WORLD_DESTINATIONS.filter((destination) => destination.id !== firstDepartureId);
+    const pool = candidates.length > 0 ? candidates : WORLD_DESTINATIONS;
+    const departure = pool[Math.floor(Math.random() * pool.length)] ?? WORLD_DESTINATIONS[0];
+    setFirstDepartureId(departure.id);
+    setSurpriseDepartureId(departure.id);
+    setSelectedDestinationId(defaultNextDestination(departure, rangeKm).id);
+    setDestinationQuery('');
+    setPreviewNextHops(false);
+    setSidebarMode('destinations');
+    setDetailsOpen(true);
+    setListOpen(true);
   }
 
   useEffect(() => {
@@ -2936,6 +2957,51 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+            {!origin && firstDeparture && surpriseDeparture?.id === firstDeparture.id && (
+              <motion.div
+                className="mb-4 overflow-hidden rounded-lg border border-lc-amber/35 bg-[radial-gradient(circle_at_18%_0%,rgba(245,158,11,0.18),transparent_34%),rgba(245,158,11,0.075)] p-4"
+                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: 'spring', stiffness: 210, damping: 18 }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-lc-amber/35 bg-lc-amber/12 text-lc-amber">
+                    <Sparkles className="h-5 w-5" aria-hidden />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-lc-amber">Surprise Starting City</p>
+                    <h3 className="mt-1 truncate text-lg font-bold text-lc-text">
+                      The class starts in {firstDeparture.city}
+                    </h3>
+                    <p className="mt-1 text-xs leading-relaxed text-lc-text3">
+                      Today&apos;s first route will depart from {firstDeparture.city}. Next, choose the lesson city and source.
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={chooseSurpriseDeparture}
+                        className="inline-flex min-h-8 items-center gap-1.5 rounded-md border border-lc-amber/35 bg-lc-amber/12 px-3 text-[11px] font-semibold text-lc-amber transition-colors hover:bg-lc-amber/18"
+                      >
+                        <Shuffle className="h-3.5 w-3.5" aria-hidden />
+                        Try another
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFirstDepartureId(null);
+                          setSurpriseDepartureId(null);
+                          setSelectedDestinationId(firstDeparture.id);
+                        }}
+                        className="inline-flex min-h-8 items-center gap-1.5 rounded-md border border-cyan-200/25 bg-cyan-300/[0.06] px-3 text-[11px] font-semibold text-cyan-100 transition-colors hover:bg-cyan-300/[0.10]"
+                      >
+                        <MapPin className="h-3.5 w-3.5" aria-hidden />
+                        Choose manually
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
             {isChoosingDeparture ? (
               <div className="space-y-4">
                 <div className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.06] p-4">
@@ -2945,7 +3011,17 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   </p>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-white/[0.035] p-4 text-xs leading-relaxed text-lc-text3">
-                  Choose a city from the map or destination list, then confirm it below. Your starter plane&apos;s range will appear from that departure point.
+                  <p>
+                    Choose a city from the map or destination list, then confirm it below. Your starter plane&apos;s range will appear from that departure point.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={chooseSurpriseDeparture}
+                    className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-md border border-lc-amber/35 bg-lc-amber/10 px-3 text-xs font-bold text-lc-amber transition-colors hover:bg-lc-amber/16"
+                  >
+                    <Shuffle className="h-4 w-4" aria-hidden />
+                    Surprise Me
+                  </button>
                 </div>
               </div>
             ) : launchStep === 'source' ? (
