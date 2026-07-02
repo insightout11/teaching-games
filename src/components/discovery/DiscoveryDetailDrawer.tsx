@@ -22,6 +22,7 @@ import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
 import type { Topic, Difficulty } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
 import { SourceInputPanel } from '@/components/planner/source-input-panel';
+import { trackEvent } from '@/lib/analytics/posthog';
 import {
   type DiscoveryItem,
   getTypeLabel,
@@ -131,6 +132,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
       }
       if (!res.ok) throw new Error('Failed to create session');
       const { sessionId } = await res.json();
+      trackEvent('session_started', { source: 'home', itemType: item?.type, itemKey: item?.key });
       // Remember last-used class for one-tap launching next time.
       try {
         const name = classes.find((c) => c.id === classId)?.name ?? '';

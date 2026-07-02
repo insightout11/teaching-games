@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { DM_Serif_Display, Source_Serif_4, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from "next-themes";
+import { PostHogProvider } from "@/components/analytics/PostHogProvider";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
 
@@ -88,6 +89,7 @@ export default function RootLayout({
         className={`${dmSerifDisplay.variable} ${sourceSerif.variable} ${ibmPlexMono.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false} storageKey="lc-theme" disableTransitionOnChange={true}>
+          <PostHogProvider />
           {children}
         </ThemeProvider>
       </body>

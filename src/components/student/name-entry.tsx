@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl } from '@/lib/avatar-options';
 import type { Team } from '@/lib/supabase/types';
+import { trackEvent } from '@/lib/analytics/posthog';
 
 interface RosterStudent {
   id: string;
@@ -140,6 +141,9 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
     } catch (e) {
       console.error('Failed to save session data:', e);
     }
+
+    // Anonymous only — never identify() students or send their name/email.
+    trackEvent('student_joined_session', { sessionId });
 
     onJoin(sessionData);
   };

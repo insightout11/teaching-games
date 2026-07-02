@@ -14,6 +14,7 @@ import { formatDistance } from '@/lib/world-flight/geo';
 import { getPlaneAsset, getPlaneTier, type PlaneEntry } from '@/lib/plane-progression';
 import { ClassLogbookDepositCard } from '@/components/class/class-logbook-card';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
+import { trackEvent } from '@/lib/analytics/posthog';
 
 export function EndSessionSummary({
   classId,
@@ -27,6 +28,8 @@ export function EndSessionSummary({
   teacherView = true,
   onLaunchBonusVote,
   previewMode = false,
+  moduleCount,
+  sessionStartedAt,
 }: {
   classId: string;
   className: string;
@@ -39,10 +42,24 @@ export function EndSessionSummary({
   teacherView?: boolean;
   onLaunchBonusVote?: () => void;
   previewMode?: boolean;
+  moduleCount?: number;
+  sessionStartedAt?: string | null;
 }) {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
   const reset = useSessionStore((s) => s.reset);
+
+  useEffect(() => {
+    if (previewMode) return;
+    trackEvent('session_completed', {
+      sessionId,
+      moduleCount: moduleCount ?? null,
+      durationSeconds: sessionStartedAt
+        ? Math.round((Date.now() - new Date(sessionStartedAt).getTime()) / 1000)
+        : null,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionId]);
 
   const [prefsMap, setPrefsMap] = useState<Map<string, boolean>>(new Map()); // client_id → score_visible
   const [showAllNames, setShowAllNames] = useState(false);

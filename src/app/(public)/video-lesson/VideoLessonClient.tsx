@@ -23,6 +23,8 @@ import { createClient } from '@/lib/supabase/client';
 import { getFeaturedRoute } from '@/lib/discovery-shelves';
 import { parseEmphasis } from '@/lib/emphasis';
 import { MarketingRouteStrip } from '@/components/homepage/MarketingRouteStrip';
+import { trackEvent } from '@/lib/analytics/posthog';
+import { EmailCaptureCard } from '@/components/marketing/EmailCaptureCard';
 
 interface PreviewVocab {
   word: string;
@@ -495,7 +497,7 @@ export function VideoLessonClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function build(targetUrl: string, opts?: { sample?: boolean }) {
+  async function build(targetUrl: string, opts?: { sample?: boolean; source?: 'chip' | 'pasted' }) {
     const sample = opts?.sample ?? false;
     const trimmed = targetUrl.trim();
     if (!trimmed || loading) return;
@@ -506,6 +508,7 @@ export function VideoLessonClient() {
       stageTimer.current = setInterval(() => {
         setStage((s) => Math.min(s + 1, LOADING_STAGES.length - 1));
       }, 2600);
+      trackEvent('video_lesson_built', { source: opts?.source ?? 'pasted' });
     }
     setError(null);
 
@@ -566,7 +569,7 @@ export function VideoLessonClient() {
 
   function pickChip(chip: DemoVideo) {
     setUrl(chip.url);
-    build(chip.url);
+    build(chip.url, { source: 'chip' });
   }
 
   return (
@@ -687,6 +690,11 @@ export function VideoLessonClient() {
             isLoggedIn={isLoggedIn}
             onCta={handleCta}
           />
+          {!isSample && (
+            <div className="mt-8">
+              <EmailCaptureCard source="video-lesson" />
+            </div>
+          )}
         </div>
       )}
     </div>

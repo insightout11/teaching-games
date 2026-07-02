@@ -1602,6 +1602,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             currentTopic={lesson.customTopic}
             currentSessionAlreadyRecorded={session.status === 'ended'}
             onLaunchBonusVote={handleBonusFromArrival}
+            moduleCount={lesson.lessonSlots.length}
+            sessionStartedAt={session.started_at}
           />
         </div>
       </div>

@@ -22,6 +22,7 @@ import type { Topic, Difficulty } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
 import type { SlotType } from '@/lib/flight-plan-config';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
+import { trackEvent } from '@/lib/analytics/posthog';
 
 type FilterTab = 'all' | 'games' | 'activities';
 type SkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -312,6 +313,7 @@ export function ExploreClient() {
       }
       if (!res.ok) throw new Error('Failed to create session');
       const { sessionId } = await res.json();
+      trackEvent('test_flight_started', { itemType: launchItem.type, itemKey: launchItem.key });
       localStorage.setItem('lc-explore-session', JSON.stringify({ sessionId, className }));
       writeAndNavigate(sessionId, false);
     } catch {

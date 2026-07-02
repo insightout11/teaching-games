@@ -7,4 +7,7 @@ export const VALIDATION = {
   DISPLAY_NAME_MAX: 40,
   CONTENT_MAX: 1000,
   QUESTION_MAX: 200,
+  EMAIL_MAX: 254,
 };
+
+export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

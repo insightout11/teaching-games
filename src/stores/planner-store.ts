@@ -10,6 +10,7 @@ import type { SourceMaterial, SourceType, SupportingSource } from '@/types/sourc
 import type { ActivityGeneratedContent } from '@/activities/types';
 import type { WorldFlightLaunchContext, WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { resolveSourceMaterialForDifficulty } from '@/lib/world-flight/readings';
+import { trackEvent } from '@/lib/analytics/posthog';
 import type {
   WorldFlightDesignMissionContext,
   WorldFlightDesignMissionLaunchContext,
@@ -571,6 +572,7 @@ export const usePlannerStore = create<PlannerState>()(
           worldFlightContext?: WorldFlightSessionContext;
           worldFlightDesignMissionContext?: WorldFlightDesignMissionContext;
         };
+        trackEvent('session_started', { source: 'lesson-planner', moduleCount: slots.length });
         const generatedContent = result.worldFlightDesignMissionContext
           ? {
               'design-studio': {
