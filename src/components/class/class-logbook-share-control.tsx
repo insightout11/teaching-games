@@ -67,6 +67,7 @@ export function ClassLogbookShareControl({
         type="button"
         onClick={() => toggle(true)}
         disabled={status === 'working'}
+        title="This page is public and searchable — your class name is shown"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-lc-blue transition-colors hover:text-lc-blue-hover disabled:opacity-60"
       >
         <Share2 className="h-3.5 w-3.5" aria-hidden />
@@ -76,27 +77,30 @@ export function ClassLogbookShareControl({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2.5">
-      <span className="inline-flex items-center gap-1.5 text-xs text-lc-success">
-        <span className="h-1.5 w-1.5 rounded-full bg-lc-success" />
-        Link live
-      </span>
-      <button
-        type="button"
-        onClick={copyLink}
-        className="inline-flex items-center gap-1 text-xs font-semibold text-lc-blue transition-colors hover:text-lc-blue-hover"
-      >
-        {status === 'copied' ? <><Check className="h-3.5 w-3.5" aria-hidden /> Copied</> : 'Copy link'}
-      </button>
-      <button
-        type="button"
-        onClick={() => toggle(false)}
-        disabled={status === 'working'}
-        title="Turn off sharing"
-        className="text-lc-text3 transition-colors hover:text-lc-danger disabled:opacity-60"
-      >
-        <Link2Off className="h-3.5 w-3.5" aria-hidden />
-      </button>
+    <div className="flex flex-col items-end gap-1">
+      <div className="flex flex-wrap items-center gap-2.5">
+        <span className="inline-flex items-center gap-1.5 text-xs text-lc-success">
+          <span className="h-1.5 w-1.5 rounded-full bg-lc-success" />
+          Link live
+        </span>
+        <button
+          type="button"
+          onClick={copyLink}
+          className="inline-flex items-center gap-1 text-xs font-semibold text-lc-blue transition-colors hover:text-lc-blue-hover"
+        >
+          {status === 'copied' ? <><Check className="h-3.5 w-3.5" aria-hidden /> Copied</> : 'Copy link'}
+        </button>
+        <button
+          type="button"
+          onClick={() => toggle(false)}
+          disabled={status === 'working'}
+          title="Turn off sharing"
+          className="text-lc-text3 transition-colors hover:text-lc-danger disabled:opacity-60"
+        >
+          <Link2Off className="h-3.5 w-3.5" aria-hidden />
+        </button>
+      </div>
+      <p className="text-[10px] text-lc-text3">Public and searchable — your class name is shown.</p>
     </div>
   );
 }
