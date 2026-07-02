@@ -9,7 +9,7 @@ import { ClassDefaultsCard } from '@/components/class/class-defaults-card';
 import { ClassLogbookHubCard } from '@/components/class/class-logbook-hub-card';
 import type { Class, Student, Session } from '@/lib/supabase/types';
 import { countsForAccuracy, isCorrectScore } from '@/lib/scoring-reporting';
-import { buildClassLogbookSummary, type ClassLogbookScoreRow } from '@/lib/class-logbook';
+import { buildClassLogbookSummary, type ClassLogbookScoreRow, type ClassLogbookSessionRow } from '@/lib/class-logbook';
 
 export default async function ClassDetailPage({ params }: { params: { classId: string } }) {
   const supabase = createServerSupabase();
@@ -38,30 +38,24 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
   const allSessions = sessions ?? [];
   const sessionIds = allSessions.map((s) => s.id);
 
+  const { data: logbookSessions } = await supabase
+    .from('sessions')
+    .select('id, status, started_at, ended_at, topic, custom_topic')
+    .eq('class_id', cls.id)
+    .order('started_at', { ascending: false })
+    .limit(200) as { data: ClassLogbookSessionRow[] | null };
+
+  const logbookSessionRows = logbookSessions ?? [];
+  const logbookSessionIds = logbookSessionRows.map((s) => s.id);
+
   let moduleCountBySession = new Map<string, number>();
   let accuracy: number | null = null;
   let topStreak = 0;
   let classScores: ClassLogbookScoreRow[] = [];
 
   if (sessionIds.length > 0) {
-    const [roundsResult, scoresResult] = await Promise.all([
+    const [roundsResult] = await Promise.all([
       supabase.from('rounds').select('session_id, round_number').in('session_id', sessionIds),
-      supabase
-        .from('scores')
-        .select('session_id, points, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, response_data')
-        .in('session_id', sessionIds) as Promise<{
-          data: Array<{
-            session_id: string;
-            points: number;
-            streak_count: number;
-            is_correct: boolean;
-            accuracy_status: string | null;
-            counts_for_accuracy: boolean | null;
-            counts_for_leaderboard: boolean | null;
-            scoring_version: number | null;
-            response_data: Record<string, unknown>;
-          }> | null;
-        }>,
     ]);
 
     const maxRoundBySession = new Map<string, number>();
@@ -69,8 +63,15 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
       maxRoundBySession.set(r.session_id, Math.max(maxRoundBySession.get(r.session_id) ?? 0, r.round_number));
     }
     moduleCountBySession = maxRoundBySession;
+  }
 
-    const scores = scoresResult.data ?? [];
+  if (logbookSessionIds.length > 0) {
+    const { data } = await supabase
+      .from('scores')
+      .select('session_id, points, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, response_data')
+      .in('session_id', logbookSessionIds) as { data: ClassLogbookScoreRow[] | null };
+
+    const scores = data ?? [];
     classScores = scores;
     const scorable = scores.filter(countsForAccuracy);
     accuracy = scorable.length > 0
@@ -96,7 +97,7 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
   const classLogbook = buildClassLogbookSummary({
     classId: cls.id,
     className: cls.name,
-    sessions: allSessions,
+    sessions: logbookSessionRows,
     scores: classScores,
   });
 
@@ -121,7 +122,7 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
         <ClassAnalyticsCard
           classId={cls.id}
           accuracy={accuracy}
-          flightCount={allSessions.length}
+          flightCount={classLogbook.completedFlights}
           topStreak={topStreak}
         />
         <ClassDefaultsCard

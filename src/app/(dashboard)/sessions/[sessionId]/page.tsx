@@ -121,15 +121,13 @@ export default async function SessionPage({ params }: { params: { sessionId: str
     .order('started_at', { ascending: false })
     .limit(40) as { data: ClassLogbookSessionRow[] | null };
 
-  const completedSessionIds = (classSessions ?? [])
-    .filter((classSession) => classSession.status === 'ended' || classSession.ended_at)
-    .map((classSession) => classSession.id);
+  const classSessionIds = (classSessions ?? []).map((classSession) => classSession.id);
   let classScores: ClassLogbookScoreRow[] = [];
-  if (completedSessionIds.length > 0) {
+  if (classSessionIds.length > 0) {
     const { data } = await supabase
       .from('scores')
       .select('session_id, points, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, response_data')
-      .in('session_id', completedSessionIds) as { data: ClassLogbookScoreRow[] | null };
+      .in('session_id', classSessionIds) as { data: ClassLogbookScoreRow[] | null };
     classScores = data ?? [];
   }
 

@@ -13,7 +13,7 @@ import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/s
 
 export const dynamic = 'force-dynamic';
 
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 interface LogbookEntry {
   id: string;
@@ -47,9 +47,10 @@ function buildEntries(sessions: ClassLogbookSessionRow[], scores: ClassLogbookSc
     rows.push(score);
     scoresBySession.set(score.session_id, rows);
   }
+  const scoredSessionIds = new Set(scores.map((score) => score.session_id));
 
   return sessions
-    .filter((session) => session.status === 'ended' || session.ended_at)
+    .filter((session) => session.status === 'ended' || session.ended_at || scoredSessionIds.has(session.id))
     .slice(0, 12)
     .map((session) => {
       const rows = scoresBySession.get(session.id) ?? [];
@@ -97,15 +98,13 @@ async function loadPublicLogbook(shareToken: string): Promise<PublicLogbookData 
   const sessions = (sessionsResult.data ?? []) as ClassLogbookSessionRow[];
   const worldFlightState = worldFlightStateResult.data as { share_enabled: boolean; share_token: string | null } | null;
 
-  const completedSessionIds = sessions
-    .filter((session) => session.status === 'ended' || session.ended_at)
-    .map((session) => session.id);
+  const sessionIds = sessions.map((session) => session.id);
   let scores: ClassLogbookScoreRow[] = [];
-  if (completedSessionIds.length > 0) {
+  if (sessionIds.length > 0) {
     const { data } = await supabase
       .from('scores')
       .select('session_id, points, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, response_data')
-      .in('session_id', completedSessionIds) as { data: ClassLogbookScoreRow[] | null };
+      .in('session_id', sessionIds) as { data: ClassLogbookScoreRow[] | null };
     scores = data ?? [];
   }
 

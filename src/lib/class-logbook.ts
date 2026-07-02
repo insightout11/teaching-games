@@ -54,8 +54,9 @@ export function buildClassLogbookSummary({
   sessions: ClassLogbookSessionRow[];
   scores: ClassLogbookScoreRow[];
 }): ClassLogbookSummary {
+  const scoredSessionIds = new Set(scores.map((score) => score.session_id));
   const completedSessions = sessions
-    .filter(isCompletedSession)
+    .filter((session) => isCompletedSession(session) || scoredSessionIds.has(session.id))
     .sort((a, b) => sessionTime(b) - sessionTime(a));
   const completedSessionIds = new Set(completedSessions.map((session) => session.id));
   const countedScores = scores.filter((score) => completedSessionIds.has(score.session_id) && countsForLeaderboard(score));
