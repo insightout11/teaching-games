@@ -2,6 +2,11 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { SessionView } from '@/components/session/session-view';
 import { mockStore } from '@/lib/mock/data';
+import {
+  buildClassLogbookSummary,
+  type ClassLogbookScoreRow,
+  type ClassLogbookSessionRow,
+} from '@/lib/class-logbook';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
 
 function isMockModeServer(): boolean {
@@ -58,6 +63,14 @@ export default async function SessionPage({ params }: { params: { sessionId: str
 
     const students = mockStore.getStudents(cls.id);
     const existingScores = mockStore.getScores(session.id);
+    const classSessions = mockStore.getSessions(cls.id);
+    const classScores = classSessions.flatMap((classSession) => mockStore.getScores(classSession.id));
+    const classLogbook = buildClassLogbookSummary({
+      classId: cls.id,
+      className: cls.name,
+      sessions: classSessions,
+      scores: classScores,
+    });
 
     return (
       <SessionView
@@ -65,6 +78,7 @@ export default async function SessionPage({ params }: { params: { sessionId: str
         cls={cls}
         students={students}
         existingScores={existingScores}
+        classLogbook={classLogbook}
       />
     );
   }
@@ -100,12 +114,39 @@ export default async function SessionPage({ params }: { params: { sessionId: str
     .eq('session_id', session.id)
     .order('created_at') as { data: Score[] | null };
 
+  const { data: classSessions } = await supabase
+    .from('sessions')
+    .select('id, status, started_at, ended_at, topic, custom_topic')
+    .eq('class_id', cls.id)
+    .order('started_at', { ascending: false })
+    .limit(40) as { data: ClassLogbookSessionRow[] | null };
+
+  const completedSessionIds = (classSessions ?? [])
+    .filter((classSession) => classSession.status === 'ended' || classSession.ended_at)
+    .map((classSession) => classSession.id);
+  let classScores: ClassLogbookScoreRow[] = [];
+  if (completedSessionIds.length > 0) {
+    const { data } = await supabase
+      .from('scores')
+      .select('session_id, points, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, response_data')
+      .in('session_id', completedSessionIds) as { data: ClassLogbookScoreRow[] | null };
+    classScores = data ?? [];
+  }
+
+  const classLogbook = buildClassLogbookSummary({
+    classId: cls.id,
+    className: cls.name,
+    sessions: classSessions ?? [],
+    scores: classScores,
+  });
+
   return (
     <SessionView
       session={session}
       cls={cls}
       students={students ?? []}
       existingScores={existingScores ?? []}
+      classLogbook={classLogbook}
     />
   );
 }

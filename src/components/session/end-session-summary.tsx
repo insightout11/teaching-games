@@ -12,6 +12,8 @@ import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/s
 import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
 import { formatDistance } from '@/lib/world-flight/geo';
 import { getPlaneAsset, getPlaneTier, type PlaneEntry } from '@/lib/plane-progression';
+import { ClassLogbookDepositCard } from '@/components/class/class-logbook-card';
+import type { ClassLogbookSummary } from '@/lib/class-logbook';
 
 export function EndSessionSummary({
   classId,
@@ -19,6 +21,9 @@ export function EndSessionSummary({
   sessionId,
   flightCode,
   progressionReward,
+  classLogbook,
+  currentTopic,
+  currentSessionAlreadyRecorded = false,
   teacherView = true,
   onLaunchBonusVote,
   previewMode = false,
@@ -28,6 +33,9 @@ export function EndSessionSummary({
   sessionId: string;
   flightCode?: string;
   progressionReward?: WorldFlightProgressionRewardResult | null;
+  classLogbook?: ClassLogbookSummary | null;
+  currentTopic?: string | null;
+  currentSessionAlreadyRecorded?: boolean;
   teacherView?: boolean;
   onLaunchBonusVote?: () => void;
   previewMode?: boolean;
@@ -154,6 +162,17 @@ export function EndSessionSummary({
             </motion.div>
           ))}
         </div>
+
+        {classLogbook && (
+          <ClassLogbookDepositCard
+            summary={classLogbook}
+            sessionResponses={totalResponses}
+            sessionAccuracy={overallAccuracy}
+            sessionBestStreak={bestStreak}
+            currentTopic={currentTopic}
+            alreadyRecorded={currentSessionAlreadyRecorded}
+          />
+        )}
 
         {progressionReward && (
           <motion.section

@@ -40,7 +40,9 @@ import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
+import { ClassLogbookMiniCard } from '@/components/class/class-logbook-card';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
+import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { DEFAULT_PLANE_KEY, getPlaneAsset, getPlaneTierForKey, type PlaneEntry } from '@/lib/plane-progression';
 import { WorldFlightArrivalBackdrop } from '@/components/session/world-flight-backdrop';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
@@ -449,6 +451,7 @@ interface SessionViewProps {
   cls: Class;
   students: Student[];
   existingScores: Score[];
+  classLogbook: ClassLogbookSummary;
 }
 
 const EMPTY_CONFIG: Record<string, unknown> = {};
@@ -579,7 +582,7 @@ function PoolSpinner({
   );
 }
 
-export function SessionView({ session, cls, students: serverStudents, existingScores }: SessionViewProps) {
+export function SessionView({ session, cls, students: serverStudents, existingScores, classLogbook }: SessionViewProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes where possible.
   const initSession = useSessionStore((s) => s.initSession);
   const settings = useSessionStore((s) => s.settings);
@@ -1595,6 +1598,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             sessionId={session.id}
             flightCode={lesson.lessonPlanContent?.callsign ?? `LC-${session.id.slice(-4).toUpperCase()}`}
             progressionReward={worldFlightReward}
+            classLogbook={classLogbook}
+            currentTopic={lesson.customTopic}
+            currentSessionAlreadyRecorded={session.status === 'ended'}
             onLaunchBonusVote={handleBonusFromArrival}
           />
         </div>
@@ -1720,6 +1726,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     </div>
                   </div>
                 </div>
+
+                <ClassLogbookMiniCard summary={classLogbook} currentTopic={lesson.customTopic} />
 
                 {lesson.lessonPlanContent?.worldFlightContext && (
                   <>
