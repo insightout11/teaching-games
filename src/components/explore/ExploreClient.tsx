@@ -21,6 +21,7 @@ import { TOPICS, DIFFICULTIES } from '@/stores/session-store';
 import type { Topic, Difficulty } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
 import type { SlotType } from '@/lib/flight-plan-config';
+import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 
 type FilterTab = 'all' | 'games' | 'activities';
 type SkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -61,6 +62,17 @@ function tintFor(color: string): string {
   return CATEGORY_TINT[color] ?? 'bg-lc-surface';
 }
 
+// First preset that features each module key — a quiet discovery cross-link,
+// not a full listing of every preset that uses it.
+const PRESET_NAME_BY_MODULE_KEY: Record<string, string> = {};
+for (const preset of FLIGHT_PLAN_PRESETS) {
+  for (const seqModule of preset.moduleSequence) {
+    if (!(seqModule.key in PRESET_NAME_BY_MODULE_KEY)) {
+      PRESET_NAME_BY_MODULE_KEY[seqModule.key] = preset.name;
+    }
+  }
+}
+
 function ModuleCard({
   icon: Icon,
   name,
@@ -69,6 +81,7 @@ function ModuleCard({
   estimatedMinutes,
   typeLabel,
   color,
+  presetFootnote,
   onLaunch,
   onAddToPlan,
 }: {
@@ -79,6 +92,7 @@ function ModuleCard({
   estimatedMinutes: number;
   typeLabel: 'Game' | 'Activity';
   color: string;
+  presetFootnote?: string;
   onLaunch: () => void;
   onAddToPlan: () => void;
 }) {
@@ -110,6 +124,9 @@ function ModuleCard({
                 <span className="text-[10px] text-lc-text3">+{extraCount}</span>
               )}
             </div>
+          )}
+          {presetFootnote && (
+            <p className="text-[10px] text-lc-text3 mt-1.5">In {presetFootnote}</p>
           )}
         </div>
       </button>
@@ -488,6 +505,7 @@ export function ExploreClient() {
                     estimatedMinutes={game.estimatedMinutes}
                     typeLabel="Game"
                     color={info.color}
+                    presetFootnote={PRESET_NAME_BY_MODULE_KEY[game.key]}
                     onLaunch={() => handleLaunchItem({ name: game.name, key: game.key, type: 'game' })}
                     onAddToPlan={() => handleAddToPlan(game.key, game.pppStage)}
                   />
@@ -523,6 +541,7 @@ export function ExploreClient() {
                     estimatedMinutes={activity.estimatedMinutes}
                     typeLabel="Activity"
                     color={info.color}
+                    presetFootnote={PRESET_NAME_BY_MODULE_KEY[activity.key]}
                     onLaunch={() => handleLaunchItem({ name: activity.name, key: activity.key, type: 'activity' })}
                     onAddToPlan={() => handleAddToPlan(activity.key, activity.pppStage)}
                   />
