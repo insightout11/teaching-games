@@ -54,7 +54,7 @@ import { DestinationBriefing } from '@/components/place-media/destination-briefi
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { avatarUrl } from '@/lib/avatar-options';
-import { CheckCircle2, ChevronLeft, ChevronRight, Clock3, ExternalLink, Lock, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone, Star } from 'lucide-react';
+import { CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone, Star } from 'lucide-react';
 
 // Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
 // tuned so a sunset departure -> overnight -> sunrise arrival reproduces the
@@ -1679,56 +1679,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             {/* 3-column grid: QR | Departure board | Passengers — capped width so board stays compact */}
             <div className="grid gap-4 flex-1 min-h-0 w-full mx-auto" style={{ gridTemplateColumns: '240px minmax(300px, 560px) 260px', maxWidth: '1100px' }}>
 
-              {/* Left: Join QR + Teacher Device */}
+              {/* Left: Class info — Logbook, Aircraft, Upgrade Target */}
               <div className="flex flex-col gap-3 min-h-0 overflow-y-auto pr-1">
-                <div className="glass rounded-2xl p-4 flex-shrink-0">
-                  <p className="text-[10px] opacity-50 uppercase tracking-wider font-semibold text-center mb-2.5">Join Link</p>
-                  <div className="flex justify-center mb-2.5">
-                    <div className="p-2 bg-white rounded-xl">
-                      <QRCodeSVG value={joinUrl} size={148} level="H" includeMargin={false} />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <code className="text-cyan-400 text-[10px] bg-lc-surface border border-lc-border px-2 py-1 rounded-lg font-mono truncate flex-1 min-w-0">
-                      {joinUrl}
-                    </code>
-                    <button
-                      onClick={handleCopyJoinLink}
-                      className="flex-shrink-0 px-2.5 py-1 rounded-lg glass border border-lc-border text-xs hover:bg-lc-card transition-colors"
-                    >
-                      {joinLinkCopied ? '✓' : 'Copy'}
-                    </button>
-                  </div>
-                </div>
+                <ClassLogbookMiniCard summary={classLogbook} currentTopic={lesson.customTopic} />
 
-                <div className="glass rounded-2xl p-3 flex-shrink-0">
-                  <p className="text-[10px] opacity-50 uppercase tracking-wider font-semibold mb-2">Teacher Device</p>
-                  <div className="flex items-center gap-2.5">
-                    <div className="shrink-0 rounded-lg bg-white p-1.5">
-                      <QRCodeSVG value={cockpitUrl} size={56} level="H" includeMargin={false} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs font-semibold text-lc-text mb-1.5 leading-tight">Open cockpit before launch</p>
-                      <div className="flex gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')}
-                          className="min-h-8 rounded-lg border border-violet-400/25 bg-violet-400/10 px-2.5 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
-                        >
-                          <span className="inline-flex items-center gap-1"><ExternalLink className="h-3 w-3" />Open</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setShowCockpitQr(true)}
-                          className="min-h-8 rounded-lg border border-violet-400/25 bg-violet-400/10 px-2.5 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/15"
-                        >
-                          <span className="inline-flex items-center gap-1"><QrCode className="h-3 w-3" />QR</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
+                {lesson.lessonPlanContent?.worldFlightContext && (
+                  <>
+                    <LobbyPlaneChooser
+                      plane={selectedPlane}
+                      choices={selectedPlaneChoices}
+                      rangeKm={lesson.lessonPlanContent.worldFlightContext.rangeKm ?? selectedPlaneTier.rangeKm}
+                      status={lobbyPlaneSaveStatus}
+                      onPrevious={() => cycleLobbyPlane(-1)}
+                      onNext={() => cycleLobbyPlane(1)}
+                    />
+                    <LobbyUpgradeTarget context={lesson.lessonPlanContent.worldFlightContext} />
+                  </>
+                )}
               </div>
 
               {/* Center: Departure board — fills full height */}
@@ -1738,7 +1705,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 className="h-full"
               />
 
-              {/* Right: Passengers */}
+              {/* Right: Passengers + student Join QR */}
               <div className="flex flex-col gap-3 min-h-0">
                 <div className="glass rounded-2xl p-4 flex-1 min-h-0 flex flex-col">
                   <div className="flex items-center justify-between mb-3 flex-shrink-0">
@@ -1792,21 +1759,25 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </div>
                 )}
 
-                <ClassLogbookMiniCard summary={classLogbook} currentTopic={lesson.customTopic} />
-
-                {lesson.lessonPlanContent?.worldFlightContext && (
-                  <>
-                    <LobbyPlaneChooser
-                      plane={selectedPlane}
-                      choices={selectedPlaneChoices}
-                      rangeKm={lesson.lessonPlanContent.worldFlightContext.rangeKm ?? selectedPlaneTier.rangeKm}
-                      status={lobbyPlaneSaveStatus}
-                      onPrevious={() => cycleLobbyPlane(-1)}
-                      onNext={() => cycleLobbyPlane(1)}
-                    />
-                    <LobbyUpgradeTarget context={lesson.lessonPlanContent.worldFlightContext} />
-                  </>
-                )}
+                <div className="glass rounded-2xl p-3 flex-shrink-0">
+                  <p className="text-[10px] opacity-50 uppercase tracking-wider font-semibold text-center mb-2">Join Link</p>
+                  <div className="flex justify-center mb-2">
+                    <div className="p-1.5 bg-white rounded-xl">
+                      <QRCodeSVG value={joinUrl} size={104} level="H" includeMargin={false} />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <code className="text-cyan-400 text-[10px] bg-lc-surface border border-lc-border px-2 py-1 rounded-lg font-mono truncate flex-1 min-w-0">
+                      {joinUrl}
+                    </code>
+                    <button
+                      onClick={handleCopyJoinLink}
+                      className="flex-shrink-0 px-2.5 py-1 rounded-lg glass border border-lc-border text-xs hover:bg-lc-card transition-colors"
+                    >
+                      {joinLinkCopied ? '✓' : 'Copy'}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1825,6 +1796,26 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   <div className="text-center">
                     <button onClick={handleEndSession} className="text-xs text-red-400/60 hover:text-red-400 transition-colors">
                       End Session
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 pt-1 text-xs text-lc-text3">
+                    <Smartphone className="h-3 w-3 opacity-60" aria-hidden />
+                    <span className="opacity-70">Teacher device:</span>
+                    <button
+                      type="button"
+                      onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')}
+                      className="font-semibold text-violet-300 hover:text-violet-200 transition-colors"
+                    >
+                      Open cockpit
+                    </button>
+                    <span className="opacity-30">·</span>
+                    <button
+                      type="button"
+                      onClick={() => setShowCockpitQr(true)}
+                      className="inline-flex items-center gap-1 font-semibold text-violet-300 hover:text-violet-200 transition-colors"
+                    >
+                      <QrCode className="h-3 w-3" />
+                      QR
                     </button>
                   </div>
                 </div>
