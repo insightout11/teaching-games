@@ -13,6 +13,9 @@ export function initPostHog() {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com',
     capture_pageview: true,
     person_profiles: 'identified_only',
+    // Never record screens: the teacher view is shared/projected and students join
+    // anonymously — neither flow has consent handling for session recording.
+    disable_session_recording: true,
   });
   initialized = true;
 }
