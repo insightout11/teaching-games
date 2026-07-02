@@ -6,8 +6,10 @@ import { RecentSessions } from '@/components/class/recent-sessions';
 import { ClassJourneyCard } from '@/components/class/class-journey-card';
 import { ClassAnalyticsCard } from '@/components/class/class-analytics-card';
 import { ClassDefaultsCard } from '@/components/class/class-defaults-card';
+import { ClassLogbookHubCard } from '@/components/class/class-logbook-hub-card';
 import type { Class, Student, Session } from '@/lib/supabase/types';
 import { countsForAccuracy, isCorrectScore } from '@/lib/scoring-reporting';
+import { buildClassLogbookSummary, type ClassLogbookScoreRow } from '@/lib/class-logbook';
 
 export default async function ClassDetailPage({ params }: { params: { classId: string } }) {
   const supabase = createServerSupabase();
@@ -39,22 +41,25 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
   let moduleCountBySession = new Map<string, number>();
   let accuracy: number | null = null;
   let topStreak = 0;
+  let classScores: ClassLogbookScoreRow[] = [];
 
   if (sessionIds.length > 0) {
     const [roundsResult, scoresResult] = await Promise.all([
       supabase.from('rounds').select('session_id, round_number').in('session_id', sessionIds),
       supabase
         .from('scores')
-        .select('session_id, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version')
+        .select('session_id, points, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, response_data')
         .in('session_id', sessionIds) as Promise<{
           data: Array<{
             session_id: string;
+            points: number;
             streak_count: number;
             is_correct: boolean;
             accuracy_status: string | null;
             counts_for_accuracy: boolean | null;
             counts_for_leaderboard: boolean | null;
             scoring_version: number | null;
+            response_data: Record<string, unknown>;
           }> | null;
         }>,
     ]);
@@ -66,6 +71,7 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
     moduleCountBySession = maxRoundBySession;
 
     const scores = scoresResult.data ?? [];
+    classScores = scores;
     const scorable = scores.filter(countsForAccuracy);
     accuracy = scorable.length > 0
       ? Math.round((scorable.filter(isCorrectScore).length / scorable.length) * 100)
@@ -87,12 +93,23 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
       .eq('class_id', cls.id)
       .eq('status', 'completed'),
   ]);
+  const classLogbook = buildClassLogbookSummary({
+    classId: cls.id,
+    className: cls.name,
+    sessions: allSessions,
+    scores: classScores,
+  });
 
   return (
     <div className="max-w-6xl">
       <ClassHeader cls={cls} studentCount={students?.length ?? 0} />
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <ClassLogbookHubCard
+          summary={classLogbook}
+          shareEnabled={cls.logbook_share_enabled}
+          shareToken={cls.logbook_share_token}
+        />
         <ClassJourneyCard
           classId={cls.id}
           currentDestinationId={wfState?.current_destination_id ?? null}
