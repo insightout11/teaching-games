@@ -1757,31 +1757,46 @@ function IstanbulSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const stone = 'rgb(150,146,132)'; // pale Ottoman stone — stands out vs the dark city
   const stoneShade = 'rgba(0,0,0,0.16)';
   const gold = 'rgba(255,210,120,0.95)';
+  const warm = palette.windowWarm;
   const mosque = (cx: number, sc: number, key: string) => {
     const bH = 60 * sc;
     const dR = 36 * sc;
     const drumTop = base - bH - dR * 0.7;
     return (
       <g key={key}>
+        {/* hall block (two-tone) */}
         <rect x={cx - 50 * sc} y={base - bH} width={100 * sc} height={bH} fill={stone} />
-        {/* semi-domes + central dome (shaded right) */}
+        <rect x={cx} y={base - bH} width={50 * sc} height={bH} fill={stoneShade} />
+        {/* cascading semi-domes */}
         <path d={`M ${cx - dR * 1.5} ${base - bH} A ${dR * 0.7} ${dR * 0.7} 0 0 1 ${cx - dR * 0.1} ${base - bH} Z`} fill={stone} />
         <path d={`M ${cx + dR * 0.1} ${base - bH} A ${dR * 0.7} ${dR * 0.7} 0 0 1 ${cx + dR * 1.5} ${base - bH} Z`} fill={stone} />
+        {/* windowed drum */}
         <rect x={cx - dR} y={drumTop} width={dR * 2} height={dR * 0.7} fill={stone} />
+        {[-0.62, -0.2, 0.2, 0.62].map((t, i) => (
+          <rect key={i} x={cx + t * dR - 1.4 * sc} y={drumTop + dR * 0.16} width={2.8 * sc} height={dR * 0.42} fill={warm} opacity={0.6} />
+        ))}
+        {/* central dome (two-tone) */}
         <path d={`M ${cx - dR} ${drumTop} A ${dR} ${dR} 0 0 1 ${cx + dR} ${drumTop} Z`} fill={stone} />
         <path d={`M ${cx} ${drumTop - dR} A ${dR} ${dR} 0 0 1 ${cx + dR} ${drumTop} L ${cx} ${drumTop} Z`} fill={stoneShade} />
         {/* gold finial */}
         <rect x={cx - 1.5} y={drumTop - dR - 16} width={3} height={16} fill={gold} />
         <circle cx={cx} cy={drumTop - dR - 18} r={3.2} fill={gold} />
-        {/* flanking minarets (stone, gold tips) */}
-        {[-58 * sc, 58 * sc].map((mxx, i) => (
-          <g key={i}>
-            <rect x={cx + mxx - 3 * sc} y={base - bH - 120 * sc} width={6 * sc} height={120 * sc} fill={stone} />
-            <rect x={cx + mxx - 5 * sc} y={base - bH - 134 * sc} width={10 * sc} height={6 * sc} fill={stone} />
-            <polygon points={`${cx + mxx - 5 * sc} ${base - bH - 134 * sc}, ${cx + mxx} ${base - bH - 160 * sc}, ${cx + mxx + 5 * sc} ${base - bH - 134 * sc}`} fill={stone} />
-            <circle cx={cx + mxx} cy={base - bH - 162 * sc} r={2.2 * sc} fill={gold} />
-          </g>
-        ))}
+        {/* flanking minarets (two-tone, balconies, gold tips) */}
+        {[-58 * sc, 58 * sc].map((mxx, i) => {
+          const mh = 120 * sc;
+          const mtop = base - bH - mh;
+          return (
+            <g key={i}>
+              <rect x={cx + mxx - 3 * sc} y={mtop} width={6 * sc} height={mh} fill={stone} />
+              <rect x={cx + mxx} y={mtop} width={3 * sc} height={mh} fill={stoneShade} />
+              <rect x={cx + mxx - 5 * sc} y={mtop + mh * 0.42} width={10 * sc} height={2.5 * sc} fill={gold} opacity={0.7} />
+              <rect x={cx + mxx - 5 * sc} y={mtop + mh * 0.66} width={10 * sc} height={2.5 * sc} fill={gold} opacity={0.55} />
+              <rect x={cx + mxx - 5 * sc} y={mtop - 14 * sc} width={10 * sc} height={6 * sc} fill={stone} />
+              <polygon points={`${cx + mxx - 5 * sc} ${mtop - 14 * sc}, ${cx + mxx} ${mtop - 40 * sc}, ${cx + mxx + 5 * sc} ${mtop - 14 * sc}`} fill={stone} />
+              <circle cx={cx + mxx} cy={mtop - 42 * sc} r={2.2 * sc} fill={gold} />
+            </g>
+          );
+        })}
       </g>
     );
   };
@@ -2240,7 +2255,9 @@ function RomeSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const f = palette.buildingSilhouette;
   const isNight = palette.light === 'moon';
   // St Peter's sits at dx; reserve a clear slot so no row building overlaps it.
-  const dx = CONTENT_W * 0.42;
+  // Kept right of the (left-anchored) Colosseum foreground so the cream dome
+  // doesn't blend into the cream travertine amphitheatre.
+  const dx = CONTENT_W * 0.6;
   const items: React.ReactNode[] = [];
   let x = -40;
   let k = 0;
@@ -2489,10 +2506,11 @@ function CairoSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
 
 // ── Los Angeles — downtown cluster (US Bank + Wilshire Grand) ─────────────────
 // Pairs with the Hollywood sign (midground landmark).
-function LaSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
+function LaSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) {
   const base = LAYOUT.apronY + 12;
   const f = palette.buildingSilhouette;
   const isNight = palette.light === 'moon';
+  const beamId = `${idPrefix}-labeam`;
   const items: React.ReactNode[] = [];
   let x = -40;
   let k = 0;
@@ -2506,6 +2524,16 @@ function LaSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     x += w + randRange(rand, 5, 11);
     k += 1;
   }
+  // Hollywood searchlights sweeping the sky (behind the buildings).
+  const searchlights = ambient ? (
+    <g>
+      {[{ sx: CONTENT_W * 0.22, d: 0 }, { sx: CONTENT_W * 0.74, d: 2.6 }].map(({ sx, d }, i) => (
+        <motion.g key={i} style={{ transformOrigin: `${sx}px ${base}px` }} animate={{ rotate: [-15, 15, -15] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: d }}>
+          <polygon points={`${sx} ${base}, ${sx - 15} ${base - 380}, ${sx + 15} ${base - 380}`} fill={`url(#${beamId})`} />
+        </motion.g>
+      ))}
+    </g>
+  ) : null;
   const ux = CONTENT_W * 0.4;
   const usbank = (
     <g>
@@ -2519,14 +2547,23 @@ function LaSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const wilshire = (
     <g>
       <polygon points={`${wx - 22} ${base}, ${wx - 14} ${base - 330}, ${wx + 14} ${base - 330}, ${wx + 22} ${base}`} fill={f} />
-      <polygon points={`${wx - 14} ${base - 330}, ${wx} ${base - 392}, ${wx + 14} ${base - 330}`} fill="rgba(150,200,255,0.5)" />
-      <rect x={wx - 1.5} y={base - 420} width={3} height={28} fill={f} />
-      <circle cx={wx} cy={base - 422} r={3.5} fill="rgba(255,236,180,0.95)" />
+      {/* glowing lit crown (the Wilshire Grand's sail + spire) */}
+      <ellipse cx={wx} cy={base - 384} rx={30} ry={42} fill="rgba(150,200,255,0.16)" />
+      <polygon points={`${wx - 14} ${base - 330}, ${wx} ${base - 392}, ${wx + 14} ${base - 330}`} fill="rgba(174,216,255,0.75)" />
+      <rect x={wx - 1.5} y={base - 424} width={3} height={32} fill="rgba(200,226,255,0.9)" />
+      <circle cx={wx} cy={base - 426} r={4} fill="rgba(255,244,214,0.98)" />
       {litWindows(wx - 18, 36, 330, base - 330, palette, rand, isNight)}
     </g>
   );
   return (
     <g aria-hidden data-skyline="la" data-id={idPrefix}>
+      <defs>
+        <linearGradient id={beamId} x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stopColor="rgba(255,244,214,0.3)" />
+          <stop offset="1" stopColor="rgba(255,244,214,0)" />
+        </linearGradient>
+      </defs>
+      {searchlights}
       {items}
       {usbank}
       {wilshire}
@@ -2758,11 +2795,15 @@ function VancouverSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
       {/* rectangular building podium the tower rises from */}
       <rect x={hcx - 46} y={base - 100} width={92} height={100} fill={f} />
       {litWindows(hcx - 46, 92, 100, base - 100, palette, rand, isNight)}
-      {/* tower shaft + saucer observation deck (a little shorter) */}
+      {/* tower shaft + lit seam */}
       <rect x={hcx - 8} y={base - 232} width={16} height={136} fill={f} />
+      <rect x={hcx - 1.4} y={base - 230} width={2.8} height={134} fill="rgba(255,224,150,0.4)" />
+      {/* saucer observation deck — glow + lit rim so it stands out */}
+      <ellipse cx={hcx} cy={base - 236} rx={42} ry={19} fill="rgba(255,224,170,0.2)" />
       <ellipse cx={hcx} cy={base - 232} rx={28} ry={9} fill={f} />
       <ellipse cx={hcx} cy={base - 244} rx={20} ry={7} fill={f} />
-      <rect x={hcx - 20} y={base - 236} width={40} height={4} fill={palette.windowWarm} opacity={0.6} />
+      <rect x={hcx - 25} y={base - 235} width={50} height={4} fill="rgba(255,226,152,0.92)" />
+      <rect x={hcx - 18} y={base - 229} width={36} height={3} fill={palette.windowWarm} opacity={0.75} />
       <rect x={hcx - 1.5} y={base - 274} width={3} height={30} fill={f} />
       <circle cx={hcx} cy={base - 276} r={3} fill="rgba(255,90,90,0.9)" />
     </g>
@@ -3098,6 +3139,25 @@ function ReykjavikSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     x += w + randRange(rand, 3, 6);
     k += 1;
   }
+  // Snow-covered hills across the bay (Mount Esja) — the whole range is blanketed
+  // in snow; shaded lee slopes + ridgelines give it form, far ridge hazier.
+  const snow = 'rgb(238,244,250)'; // sunlit snow
+  const snowShade = 'rgb(198,212,228)'; // shaded (lee) snow flank
+  const snowFar = 'rgb(214,225,238)'; // hazy far snow
+  const hills = (
+    <g>
+      {/* far hazy snow ridge */}
+      <path d={`M -40 ${base} L ${CONTENT_W * 0.14} ${base - 106} L ${CONTENT_W * 0.32} ${base - 62} L ${CONTENT_W * 0.52} ${base - 118} L ${CONTENT_W * 0.72} ${base - 70} L ${CONTENT_W * 0.9} ${base - 116} L ${CONTENT_W + 40} ${base - 78} L ${CONTENT_W + 40} ${base} Z`} fill={snowFar} />
+      {/* near range — fully snow-covered */}
+      <path d={`M -40 ${base} L ${CONTENT_W * 0.1} ${base - 150} L ${CONTENT_W * 0.24} ${base - 94} L ${CONTENT_W * 0.4} ${base - 176} L ${CONTENT_W * 0.58} ${base - 102} L ${CONTENT_W * 0.78} ${base - 166} L ${CONTENT_W * 0.94} ${base - 108} L ${CONTENT_W + 40} ${base - 148} L ${CONTENT_W + 40} ${base} Z`} fill={snow} />
+      {/* shaded lee (right) slopes of each summit */}
+      <path d={`M ${CONTENT_W * 0.1} ${base - 150} L ${CONTENT_W * 0.24} ${base - 94} L ${CONTENT_W * 0.24} ${base} L ${CONTENT_W * 0.1} ${base} Z`} fill={snowShade} opacity={0.55} />
+      <path d={`M ${CONTENT_W * 0.4} ${base - 176} L ${CONTENT_W * 0.58} ${base - 102} L ${CONTENT_W * 0.58} ${base} L ${CONTENT_W * 0.4} ${base} Z`} fill={snowShade} opacity={0.55} />
+      <path d={`M ${CONTENT_W * 0.78} ${base - 166} L ${CONTENT_W * 0.94} ${base - 108} L ${CONTENT_W * 0.94} ${base} L ${CONTENT_W * 0.78} ${base} Z`} fill={snowShade} opacity={0.55} />
+      {/* ridgeline shadows for texture */}
+      <path d={`M ${CONTENT_W * 0.1} ${base - 150} L ${CONTENT_W * 0.24} ${base - 94} M ${CONTENT_W * 0.4} ${base - 176} L ${CONTENT_W * 0.58} ${base - 102} M ${CONTENT_W * 0.78} ${base - 166} L ${CONTENT_W * 0.94} ${base - 108}`} fill="none" stroke="rgba(120,134,154,0.4)" strokeWidth={1.5} />
+    </g>
+  );
   const hx = CONTENT_W * 0.6;
   const harpa = (
     <g>
@@ -3111,6 +3171,7 @@ function ReykjavikSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   );
   return (
     <g aria-hidden data-skyline="reykjavik" data-id={idPrefix}>
+      {hills}
       {items}
       {harpa}
     </g>
@@ -3350,7 +3411,9 @@ function AucklandSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const f = palette.buildingSilhouette;
   const isNight = palette.light === 'moon';
   const items = towerRun(base, f, palette, rand, isNight, 30, 58, 110, 240);
-  const steel = 'rgb(96,104,116)';
+  const steel = 'rgb(122,134,150)';
+  const steelLit = 'rgba(212,226,242,0.85)';
+  const warm = palette.windowWarm;
   const bx = CONTENT_W * 0.66;
   const bw = 150;
   const deckY = base - 60;
@@ -3358,12 +3421,19 @@ function AucklandSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     <g>
       <rect x={bx - bw - 8} y={base - 90} width={16} height={90} fill={steel} />
       <rect x={bx + bw - 8} y={base - 90} width={16} height={90} fill={steel} />
-      <path d={`M ${bx - bw} ${deckY} Q ${bx} ${deckY - 96} ${bx + bw} ${deckY}`} fill="none" stroke={steel} strokeWidth={9} />
-      <rect x={bx - bw - 12} y={deckY} width={2 * bw + 24} height={7} fill={steel} />
       {Array.from({ length: 11 }, (_, i) => {
         const hx = bx - bw + (i + 0.5) * ((2 * bw) / 11);
         const ay = deckY - 96 * (1 - ((hx - bx) / bw) ** 2);
         return <line key={i} x1={hx} y1={deckY} x2={hx} y2={ay} stroke={steel} strokeWidth={1.4} opacity={0.7} />;
+      })}
+      <path d={`M ${bx - bw} ${deckY} Q ${bx} ${deckY - 96} ${bx + bw} ${deckY}`} fill="none" stroke={steel} strokeWidth={9} />
+      {/* lit top edge on the arch so it pops */}
+      <path d={`M ${bx - bw} ${deckY - 4} Q ${bx} ${deckY - 100} ${bx + bw} ${deckY - 4}`} fill="none" stroke={steelLit} strokeWidth={2.5} />
+      <rect x={bx - bw - 12} y={deckY} width={2 * bw + 24} height={7} fill={steel} />
+      {/* warm deck lights */}
+      {Array.from({ length: 14 }, (_, i) => {
+        const dx = bx - bw + (i + 0.5) * ((2 * bw) / 14);
+        return <circle key={`l${i}`} cx={dx} cy={deckY + 3.5} r={1.4} fill={warm} opacity={0.85} />;
       })}
     </g>
   );
