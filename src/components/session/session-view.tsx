@@ -1729,19 +1729,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </div>
                 </div>
 
-                {lesson.lessonPlanContent?.worldFlightContext && (
-                  <>
-                    <LobbyPlaneChooser
-                      plane={selectedPlane}
-                      choices={selectedPlaneChoices}
-                      rangeKm={lesson.lessonPlanContent.worldFlightContext.rangeKm ?? selectedPlaneTier.rangeKm}
-                      status={lobbyPlaneSaveStatus}
-                      onPrevious={() => cycleLobbyPlane(-1)}
-                      onNext={() => cycleLobbyPlane(1)}
-                    />
-                    <LobbyUpgradeTarget context={lesson.lessonPlanContent.worldFlightContext} />
-                  </>
-                )}
               </div>
 
               {/* Center: Departure board — fills full height */}
@@ -1806,6 +1793,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
 
                 <ClassLogbookMiniCard summary={classLogbook} currentTopic={lesson.customTopic} />
+
+                {lesson.lessonPlanContent?.worldFlightContext && (
+                  <>
+                    <LobbyPlaneChooser
+                      plane={selectedPlane}
+                      choices={selectedPlaneChoices}
+                      rangeKm={lesson.lessonPlanContent.worldFlightContext.rangeKm ?? selectedPlaneTier.rangeKm}
+                      status={lobbyPlaneSaveStatus}
+                      onPrevious={() => cycleLobbyPlane(-1)}
+                      onNext={() => cycleLobbyPlane(1)}
+                    />
+                    <LobbyUpgradeTarget context={lesson.lessonPlanContent.worldFlightContext} />
+                  </>
+                )}
               </div>
             </div>
 
