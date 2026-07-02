@@ -2,6 +2,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { ClassList } from '@/components/class/class-list';
 import type { ClassCardSummary } from '@/components/class/class-list';
 import type { Class } from '@/lib/supabase/types';
+import { Plane } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -87,7 +88,11 @@ export default async function ClassesPage() {
 
   return (
     <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6">
+        <div className="flex items-center gap-2 mb-0.5">
+          <Plane className="w-4 h-4 text-lc-blue shrink-0" />
+          <span className="text-xs font-semibold uppercase tracking-widest text-lc-blue">Hangar</span>
+        </div>
         <h1 className="text-2xl font-bold text-lc-text">Your Classes</h1>
       </div>
       <ClassList initialClasses={classRows} summaries={summaries} />
