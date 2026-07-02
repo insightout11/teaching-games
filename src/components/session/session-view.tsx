@@ -40,7 +40,6 @@ import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
-import { ClassLogbookMiniCard } from '@/components/class/class-logbook-card';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { DEFAULT_PLANE_KEY, getPlaneAsset, getPlaneTierForKey, type PlaneEntry } from '@/lib/plane-progression';
@@ -1679,10 +1678,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             {/* 3-column grid: QR | Departure board | Passengers — capped width so board stays compact */}
             <div className="grid gap-4 flex-1 min-h-0 w-full mx-auto" style={{ gridTemplateColumns: '240px minmax(300px, 560px) 260px', maxWidth: '1100px' }}>
 
-              {/* Left: Class info — Logbook, Aircraft, Upgrade Target */}
+              {/* Left: Class Aircraft + Upgrade Target (World Flight sessions only) */}
               <div className="flex flex-col gap-3 min-h-0 overflow-y-auto pr-1">
-                <ClassLogbookMiniCard summary={classLogbook} currentTopic={lesson.customTopic} />
-
                 {lesson.lessonPlanContent?.worldFlightContext && (
                   <>
                     <LobbyPlaneChooser
@@ -1798,25 +1795,27 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       End Session
                     </button>
                   </div>
-                  <div className="flex items-center justify-center gap-2 pt-1 text-xs text-lc-text3">
-                    <Smartphone className="h-3 w-3 opacity-60" aria-hidden />
-                    <span className="opacity-70">Teacher device:</span>
-                    <button
-                      type="button"
-                      onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')}
-                      className="font-semibold text-violet-300 hover:text-violet-200 transition-colors"
-                    >
-                      Open cockpit
-                    </button>
-                    <span className="opacity-30">·</span>
-                    <button
-                      type="button"
-                      onClick={() => setShowCockpitQr(true)}
-                      className="inline-flex items-center gap-1 font-semibold text-violet-300 hover:text-violet-200 transition-colors"
-                    >
-                      <QrCode className="h-3 w-3" />
-                      QR
-                    </button>
+                  <div className="flex items-center justify-center gap-2 pt-1">
+                    <div className="glass rounded-full border border-lc-border px-3 py-1.5 flex items-center gap-2 text-xs">
+                      <Smartphone className="h-3 w-3 text-lc-text2" aria-hidden />
+                      <span className="text-lc-text2">Teacher device:</span>
+                      <button
+                        type="button"
+                        onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')}
+                        className="font-semibold text-violet-200 hover:text-violet-100 transition-colors"
+                      >
+                        Open cockpit
+                      </button>
+                      <span className="text-lc-text3">·</span>
+                      <button
+                        type="button"
+                        onClick={() => setShowCockpitQr(true)}
+                        className="inline-flex items-center gap-1 font-semibold text-violet-200 hover:text-violet-100 transition-colors"
+                      >
+                        <QrCode className="h-3 w-3" />
+                        QR
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div />
