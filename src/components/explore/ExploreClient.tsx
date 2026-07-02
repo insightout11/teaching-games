@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Clock, Search, X } from 'lucide-react';
+import { ChevronDown, Clock, Search, X } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Input } from '@/components/ui/input';
@@ -58,6 +58,73 @@ const CATEGORY_ACCENT: Record<string, string> = {
 
 function getCategoryAccent(cat: string): string {
   return CATEGORY_ACCENT[cat] ?? 'border-l-lc-border';
+}
+
+function SkillPopover({ value, onChange }: { value: SkillFilter; onChange: (v: SkillFilter) => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const activeLabel = value === 'all' ? 'Skill' : SKILL_FILTERS.find((f) => f.key === value)?.label ?? 'Skill';
+
+  useEffect(() => {
+    if (!open) return;
+    function onOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', onOutside);
+    return () => document.removeEventListener('mousedown', onOutside);
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative shrink-0">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-label="Filter by skill"
+        className={cn(
+          'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-instrument tracking-wide uppercase border transition-colors',
+          value !== 'all'
+            ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+            : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
+        )}
+      >
+        {activeLabel}
+        <ChevronDown className="w-3 h-3" aria-hidden />
+      </button>
+      {open && (
+        <div
+          role="listbox"
+          aria-label="Skill category"
+          className="absolute left-0 top-full mt-1.5 w-48 rounded-xl border border-lc-border bg-lc-card shadow-lg z-30 py-1"
+        >
+          <button
+            role="option"
+            onClick={() => { onChange('all'); setOpen(false); }}
+            aria-selected={value === 'all'}
+            className={cn(
+              'w-full text-left px-3 py-2 text-sm transition-colors',
+              value === 'all' ? 'text-lc-blue' : 'text-lc-text2 hover:bg-lc-surface'
+            )}
+          >
+            All skills
+          </button>
+          {SKILL_FILTERS.map(({ key, label }) => (
+            <button
+              key={key}
+              role="option"
+              onClick={() => { onChange(key); setOpen(false); }}
+              aria-selected={value === key}
+              className={cn(
+                'w-full text-left px-3 py-2 text-sm transition-colors',
+                value === key ? 'text-lc-blue' : 'text-lc-text2 hover:bg-lc-surface'
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function ExploreClient() {
@@ -257,80 +324,65 @@ export function ExploreClient() {
         <p className="text-lc-text2 mt-1">✈ Run a game or activity with your class</p>
       </div>
 
-      {/* Search */}
-      <div className="relative mb-4 max-w-md">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-lc-text3" aria-hidden />
-        <Input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search games and activities…"
-          aria-label="Search games and activities"
-          inputSize="compact"
-          variant="search"
-        />
-        {search && (
-          <button
-            onClick={() => setSearch('')}
-            aria-label="Clear search"
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-lc-text3 transition-colors hover:text-lc-text"
-          >
-            <X className="h-4 w-4" aria-hidden />
-          </button>
-        )}
-      </div>
-
-      {/* Type filter tabs */}
-      <div role="group" aria-label="Content type" className="flex gap-2 mb-4">
-        {(['all', 'games', 'activities'] as FilterTab[]).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setFilter(tab)}
-            aria-pressed={filter === tab}
-            aria-label={tab === 'all' ? 'All types' : undefined}
-            className={cn(
-              'px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors',
-              filter === tab
-                ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
-                : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
+      {/* Toolbar: search + type segmented control + skill popover */}
+      <div className="sticky top-0 z-20 -mx-6 px-6 lg:-mx-8 lg:px-8 py-3 mb-6 bg-lc-bg/95 backdrop-blur border-b border-lc-border-subtle">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative flex-1 min-w-[200px] max-w-md">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-lc-text3" aria-hidden />
+            <Input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search games and activities…"
+              aria-label="Search games and activities"
+              inputSize="compact"
+              variant="search"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                aria-label="Clear search"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-lc-text3 transition-colors hover:text-lc-text"
+              >
+                <X className="h-4 w-4" aria-hidden />
+              </button>
             )}
-          >
-            {filter === tab && <span className="mr-1 opacity-70">◆</span>}
-            {tab === 'all' ? 'All' : tab === 'games' ? 'Games' : 'Activities'}
-          </button>
-        ))}
-      </div>
+          </div>
 
-      {/* Skill filter */}
-      <div role="group" aria-label="Skill category" className="flex flex-wrap gap-2 mb-8">
-        <button
-          onClick={() => setSkillFilter('all')}
-          aria-pressed={skillFilter === 'all'}
-          aria-label="All skills"
-          className={cn(
-            'px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors',
-            skillFilter === 'all'
-              ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
-              : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
+          <div role="group" aria-label="Content type" className="flex rounded-lg border border-lc-border overflow-hidden shrink-0">
+            {(['all', 'games', 'activities'] as FilterTab[]).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setFilter(tab)}
+                aria-pressed={filter === tab}
+                aria-label={tab === 'all' ? 'All types' : undefined}
+                className={cn(
+                  'px-3 py-1.5 text-xs font-instrument tracking-wide uppercase transition-colors',
+                  filter === tab
+                    ? 'bg-lc-blue/10 text-lc-blue'
+                    : 'bg-transparent text-lc-text2 hover:text-lc-text hover:bg-lc-surface'
+                )}
+              >
+                {tab === 'all' ? 'All' : tab === 'games' ? 'Games' : 'Activities'}
+              </button>
+            ))}
+          </div>
+
+          <SkillPopover value={skillFilter} onChange={setSkillFilter} />
+
+          {(search || skillFilter !== 'all' || filter !== 'all') && (
+            <button
+              onClick={() => { setSearch(''); setSkillFilter('all'); setFilter('all'); }}
+              className="text-xs text-lc-text3 hover:text-lc-text transition-colors shrink-0"
+            >
+              Clear filters
+            </button>
           )}
-        >
-          {skillFilter === 'all' && <span className="mr-1 opacity-70">◆</span>}All
-        </button>
-        {SKILL_FILTERS.map(({ key, label }) => (
-          <button
-            key={key}
-            onClick={() => setSkillFilter(key)}
-            aria-pressed={skillFilter === key}
-            className={cn(
-              'px-3 py-1 rounded text-xs font-instrument tracking-wide uppercase border transition-colors',
-              skillFilter === key
-                ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
-                : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
-            )}
-          >
-            {skillFilter === key && <span className="mr-1 opacity-70">◆</span>}{label}
-          </button>
-        ))}
+
+          <span className="ml-auto text-xs text-lc-text3 shrink-0">
+            {resultCount} result{resultCount === 1 ? '' : 's'}
+          </span>
+        </div>
       </div>
 
       <div className="space-y-6">
