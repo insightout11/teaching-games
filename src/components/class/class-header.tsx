@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
-import { MoreVertical, Plane, Trash2 } from 'lucide-react';
+import { Gauge, MoreVertical, Plane, Trash2 } from 'lucide-react';
 import type { Class } from '@/lib/supabase/types';
 import { SessionStarter } from '@/components/class/session-starter';
 
@@ -92,6 +93,13 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
         </div>
       </div>
       <div className="shrink-0 flex items-center gap-2">
+        <Link
+          href={`/classes/${cls.id}/control-room`}
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-lc-blue hover:text-lc-blue-hover px-3 py-2 rounded-lg border border-lc-blue/30 hover:border-lc-blue/60 bg-lc-surface transition-colors"
+        >
+          <Gauge className="w-3.5 h-3.5" />
+          Control Room
+        </Link>
         <SessionStarter classId={cls.id} studentCount={studentCount} />
         <ClassMenu onDelete={handleDelete} />
       </div>

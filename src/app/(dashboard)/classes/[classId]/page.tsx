@@ -101,10 +101,10 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
   });
 
   return (
-    <div className="max-w-6xl">
+    <div className="max-w-7xl mx-auto">
       <ClassHeader cls={cls} studentCount={students?.length ?? 0} />
 
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
         <ClassLogbookHubCard
           summary={classLogbook}
           shareEnabled={cls.logbook_share_enabled}
