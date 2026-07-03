@@ -107,18 +107,9 @@ export function calculateWorldFlightReward(
     score.responseType === 'remote_vote'
     || (score.countsForLeaderboard !== false && score.outcome !== 'invalid')
   ));
-  const participantIds = new Set(
+  const connectedParticipantIds = new Set(
     participants.map((participant) => `client:${participant.clientId}`),
   );
-
-  // Teacher-led lessons may score roster students without requiring controllers.
-  // In that case, use the students who actually contributed as the onboard crew.
-  if (participantIds.size === 0) {
-    for (const score of meaningfulScores) {
-      const identity = scoreIdentity(score);
-      if (identity) participantIds.add(identity);
-    }
-  }
 
   const meaningfulParticipantIds = new Set(
     meaningfulScores.map(scoreIdentity).filter((identity): identity is string => Boolean(identity)),
@@ -132,17 +123,24 @@ export function calculateWorldFlightReward(
   const accuracyScores = scores.filter((score) => score.countsForAccuracy === true);
   const correctScores = accuracyScores.filter((score) => score.accuracyStatus === 'correct');
 
-  const participantCount = participantIds.size;
-  const meaningfulParticipantCount = Array.from(meaningfulParticipantIds).filter((identity) => participantIds.has(identity)).length;
-  const onTaskParticipantCount = Array.from(onTaskParticipantIds).filter((identity) => participantIds.has(identity)).length;
+  const participantCount = connectedParticipantIds.size;
+  const meaningfulParticipantCount = Array.from(meaningfulParticipantIds).filter((identity) => connectedParticipantIds.has(identity)).length;
+
+  // Everyone Aboard is a connected-device participation star. Strong Landing can
+  // still use teacher-scored roster work when a class runs without controllers.
+  const performanceParticipantIds = participantCount > 0
+    ? connectedParticipantIds
+    : meaningfulParticipantIds;
+  const performanceParticipantCount = performanceParticipantIds.size;
+  const onTaskParticipantCount = Array.from(onTaskParticipantIds).filter((identity) => performanceParticipantIds.has(identity)).length;
   const meaningfulParticipationRate = percentage(meaningfulParticipantCount, participantCount);
-  const onTaskParticipationRate = percentage(onTaskParticipantCount, participantCount);
+  const onTaskParticipationRate = percentage(onTaskParticipantCount, performanceParticipantCount);
   const accuracyRate = accuracyScores.length > 0 ? correctScores.length / accuracyScores.length : null;
   const everyoneAboardEarned = participantCount > 0 && meaningfulParticipationRate >= 0.7;
-  const strongLandingEarned = everyoneAboardEarned && (
+  const strongLandingEarned = (
     accuracyRate !== null
       ? accuracyRate >= 0.65
-      : onTaskParticipationRate >= 0.6
+      : performanceParticipantCount > 0 && onTaskParticipationRate >= 0.6
   );
 
   return {

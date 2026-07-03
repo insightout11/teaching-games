@@ -44,14 +44,17 @@ describe('World Flight collaborative progression', () => {
     expect(reward.snapshot.strongLandingEarned).toBe(false);
   });
 
-  it('supports teacher-led lessons without joined student controllers', () => {
+  it('lets teacher-led lessons earn Strong Landing without Everyone Aboard', () => {
     const reward = calculateWorldFlightReward([], [
       { studentId: 'one', outcome: 'on-task', countsForLeaderboard: true },
       { studentId: 'two', outcome: 'on-task', countsForLeaderboard: true },
     ]);
 
-    expect(reward.snapshot.participantCount).toBe(2);
-    expect(reward.crewStarsAwarded).toBe(2);
+    expect(reward.snapshot.participantCount).toBe(0);
+    expect(reward.snapshot.meaningfulParticipantCount).toBe(0);
+    expect(reward.snapshot.everyoneAboardEarned).toBe(false);
+    expect(reward.snapshot.strongLandingEarned).toBe(true);
+    expect(reward.crewStarsAwarded).toBe(1);
   });
 
   it('derives unlocked and next milestones without changing aircraft state', () => {

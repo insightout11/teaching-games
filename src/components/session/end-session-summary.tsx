@@ -141,6 +141,25 @@ export function EndSessionSummary({
   // Student beat — "Captain of the Day" (top scorer; only when there's a real winner)
   const captain = summary[0];
   const captainTies = captain ? summary.filter((s) => s.total === captain.total).length : 0;
+  const rewardSnapshot = progressionReward?.snapshot ?? null;
+  const everyoneAboardDetail = rewardSnapshot
+    ? rewardSnapshot.participantCount === 0
+      ? 'Connect student devices to earn this star. Teacher-scored work can still earn Strong Landing.'
+      : rewardSnapshot.everyoneAboardEarned
+        ? `${rewardSnapshot.meaningfulParticipantCount}/${rewardSnapshot.participantCount} connected crew members contributed. Earns 1 crew star.`
+        : `${rewardSnapshot.meaningfulParticipantCount}/${rewardSnapshot.participantCount} connected crew members contributed. Needs 70% to earn this star.`
+    : '';
+  const strongLandingDetail = rewardSnapshot
+    ? rewardSnapshot.accuracyRate !== null
+      ? rewardSnapshot.strongLandingEarned
+        ? `${Math.round(rewardSnapshot.accuracyRate * 100)}% class accuracy. Earns 1 crew star.`
+        : `${Math.round(rewardSnapshot.accuracyRate * 100)}% class accuracy. Needs 65% to earn this star.`
+      : rewardSnapshot.strongLandingEarned
+        ? `${Math.round(rewardSnapshot.onTaskParticipationRate * 100)}% made an on-task contribution. Earns 1 crew star.`
+        : rewardSnapshot.onTaskParticipantCount > 0
+          ? `${Math.round(rewardSnapshot.onTaskParticipationRate * 100)}% made an on-task contribution. Needs 60% to earn this star.`
+          : 'Score on-task work or class accuracy to earn this star.'
+    : '';
 
   return (
     <div className="max-w-2xl mx-auto py-8">
@@ -228,15 +247,13 @@ export function EndSessionSummary({
                 earned={progressionReward.snapshot.everyoneAboardEarned}
                 icon={<Users className="h-4 w-4" aria-hidden />}
                 title="Everyone Aboard"
-                detail={`${progressionReward.snapshot.meaningfulParticipantCount}/${progressionReward.snapshot.participantCount} crew members contributed. Earns 1 crew star.`}
+                detail={everyoneAboardDetail}
               />
               <ProgressionResult
                 earned={progressionReward.snapshot.strongLandingEarned}
                 icon={<CheckCircle2 className="h-4 w-4" aria-hidden />}
                 title="Strong Landing"
-                detail={progressionReward.snapshot.accuracyRate !== null
-                  ? `${Math.round(progressionReward.snapshot.accuracyRate * 100)}% class accuracy. Earns 1 crew star.`
-                  : `${Math.round(progressionReward.snapshot.onTaskParticipationRate * 100)}% made an on-task contribution. Earns 1 crew star.`}
+                detail={strongLandingDetail}
               />
             </div>
             <WorldFlightUpgradeProgress reward={progressionReward} classId={classId} sessionId={sessionId} teacherView={teacherView} previewMode={previewMode} />
