@@ -22,7 +22,7 @@ export default function WorksheetsLayout({
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/lessoncaptain-logo-on-dark.svg"
+              src="/lessoncaptain-logo-on-dark-v2.svg"
               alt="LessonCaptain"
               width={150}
               height={24}
