@@ -46,6 +46,31 @@ function getOrCreateClientId(sessionId: string): string {
   return generateUUID();
 }
 
+// The join API upserts on (session_id, client_id) with ignoreDuplicates, and for
+// new names it re-matches by name within the class — so replaying the same
+// payload is always safe, even if an earlier attempt actually landed.
+function scheduleJoinRetry(payload: Record<string, unknown>) {
+  const delays = [2000, 5000, 15000];
+  let attempt = 0;
+  const tryOnce = () => {
+    setTimeout(() => {
+      fetch('/api/student/join', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error('join retry failed');
+        })
+        .catch(() => {
+          attempt += 1;
+          if (attempt < delays.length) tryOnce();
+        });
+    }, delays[attempt]);
+  };
+  tryOnce();
+}
+
 export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
   const [roster, setRoster] = useState<RosterStudent[]>([]);
   const [rosterLoaded, setRosterLoaded] = useState(false);
@@ -89,35 +114,41 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
 
     let studentId: string | null = null;
     let displayName = '';
+    let joinPayload: Record<string, unknown> | null = null;
+    let joinSucceeded = false;
 
     try {
       if (freeTextMode || !selected) {
         // Shape B: new name
         const name = freeName.trim();
         if (!name) { setIsJoining(false); return; }
+        joinPayload = { sessionId, newName: name, avatarSeed, clientId };
         const res = await fetch('/api/student/join', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId, newName: name, avatarSeed, clientId }),
+          body: JSON.stringify(joinPayload),
         });
         if (res.ok) {
           const data = await res.json();
           studentId = data.studentId;
           displayName = data.name ?? name;
+          joinSucceeded = true;
         } else {
           displayName = name;
         }
       } else {
         // Shape A: roster pick
+        joinPayload = { sessionId, studentId: selected.id, avatarSeed, clientId };
         const res = await fetch('/api/student/join', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId, studentId: selected.id, avatarSeed, clientId }),
+          body: JSON.stringify(joinPayload),
         });
         if (res.ok) {
           const data = await res.json();
           studentId = data.studentId ?? selected.id;
           displayName = data.name ?? selected.name;
+          joinSucceeded = true;
         } else {
           studentId = selected.id;
           displayName = selected.name;
@@ -146,6 +177,12 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
     trackEvent('student_joined_session', { sessionId });
 
     onJoin(sessionData);
+
+    // Never block the student on this — retry participant registration
+    // silently in the background so scoring/participation aren't lost.
+    if (!joinSucceeded && joinPayload) {
+      scheduleJoinRetry(joinPayload);
+    }
   };
 
   const filteredRoster = search.trim()

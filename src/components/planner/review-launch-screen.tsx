@@ -63,6 +63,7 @@ export function ReviewLaunchScreen() {
   const [newClassName, setNewClassName] = useState('');
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [createClassError, setCreateClassError] = useState<string | null>(null);
 
   // Stable flight number for this plan — shared with the lobby & arrival boards
   useEffect(() => { ensureCallsign(); }, [ensureCallsign]);
@@ -168,9 +169,14 @@ export function ReviewLaunchScreen() {
     if (!trimmed) return;
 
     setCreating(true);
+    setCreateClassError(null);
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setCreating(false); return; }
+    if (!user) {
+      setCreating(false);
+      setCreateClassError("Couldn't create the class — check your connection and try again.");
+      return;
+    }
 
     const { data, error: insertError } = await supabase
       .from('classes')
@@ -180,6 +186,7 @@ export function ReviewLaunchScreen() {
 
     if (insertError || !data) {
       setCreating(false);
+      setCreateClassError("Couldn't create the class — check your connection and try again.");
       return;
     }
 
@@ -197,6 +204,7 @@ export function ReviewLaunchScreen() {
     setNewClassName('');
     setShowCreateForm(false);
     setCreating(false);
+    setCreateClassError(null);
   }
 
   async function handleLaunch() {
@@ -442,31 +450,36 @@ export function ReviewLaunchScreen() {
 
                 {/* Inline create form */}
                 {showCreateForm && (
-                  <div className="flex items-center gap-2 mt-3">
-                    <input
-                      type="text"
-                      value={newClassName}
-                      onChange={(e) => setNewClassName(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleCreateClass()}
-                      placeholder="Name your class"
-                      className="flex-1 px-3 py-1.5 rounded-lg bg-lc-surface border border-lc-border text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue"
-                      autoFocus
-                    />
-                    <button
-                      onClick={handleCreateClass}
-                      disabled={!newClassName.trim() || creating}
-                      className="px-3 py-1.5 rounded-lg bg-lc-blue text-white text-sm font-medium disabled:opacity-50 flex items-center gap-1"
-                    >
-                      {creating && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                      Create
-                    </button>
-                    {classes.length > 0 && (
+                  <div className="mt-3">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={newClassName}
+                        onChange={(e) => { setNewClassName(e.target.value); setCreateClassError(null); }}
+                        onKeyDown={(e) => e.key === 'Enter' && handleCreateClass()}
+                        placeholder="Name your class"
+                        className="flex-1 px-3 py-1.5 rounded-lg bg-lc-surface border border-lc-border text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue"
+                        autoFocus
+                      />
                       <button
-                        onClick={() => { setShowCreateForm(false); setNewClassName(''); }}
-                        className="text-xs text-lc-text3 hover:text-lc-text"
+                        onClick={handleCreateClass}
+                        disabled={!newClassName.trim() || creating}
+                        className="px-3 py-1.5 rounded-lg bg-lc-blue text-white text-sm font-medium disabled:opacity-50 flex items-center gap-1"
                       >
-                        Cancel
+                        {creating && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                        Create
                       </button>
+                      {classes.length > 0 && (
+                        <button
+                          onClick={() => { setShowCreateForm(false); setNewClassName(''); setCreateClassError(null); }}
+                          className="text-xs text-lc-text3 hover:text-lc-text"
+                        >
+                          Cancel
+                        </button>
+                      )}
+                    </div>
+                    {createClassError && (
+                      <p className="mt-2 text-xs text-red-400">{createClassError}</p>
                     )}
                   </div>
                 )}
