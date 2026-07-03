@@ -25,6 +25,9 @@ export interface Class {
   default_difficulty: string | null;
   default_tone: string | null;
   default_scoring_mode: string | null;
+  /** 'devices' (default) = students answer on their own device; 'shared-screen' = the
+   *  teacher runs the whole class from one shared screen and enters answers for students. */
+  student_device_mode: 'devices' | 'shared-screen';
   logbook_share_token: string;
   logbook_share_enabled: boolean;
   is_demo: boolean;

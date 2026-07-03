@@ -12,16 +12,19 @@ export function ClassDefaultsCard({
   classId,
   initialDifficulty,
   initialTone,
+  initialStudentDeviceMode,
 }: {
   classId: string;
   initialDifficulty: string | null;
   initialTone: string | null;
+  initialStudentDeviceMode?: 'devices' | 'shared-screen';
 }) {
   const [difficulty, setDifficulty] = useState(initialDifficulty ?? '');
   const [tone, setTone] = useState(initialTone ?? '');
+  const [studentDeviceMode, setStudentDeviceMode] = useState(initialStudentDeviceMode ?? 'devices');
   const supabase = createClient();
 
-  const updatePreset = async (patch: { default_difficulty?: string | null; default_tone?: string | null }) => {
+  const updatePreset = async (patch: { default_difficulty?: string | null; default_tone?: string | null; student_device_mode?: string }) => {
     await supabase.from('classes').update(patch).eq('id', classId);
   };
 
@@ -65,6 +68,27 @@ export function ClassDefaultsCard({
             <option key={t} value={t}>{t}</option>
           ))}
         </Select>
+        <div>
+          <Select
+            value={studentDeviceMode}
+            onChange={(e) => {
+              const value = e.target.value as 'devices' | 'shared-screen';
+              setStudentDeviceMode(value);
+              updatePreset({ student_device_mode: value });
+            }}
+            inputSize="compact"
+            className="w-full"
+            title="How students answer"
+          >
+            <option value="devices">Students answer on their own devices</option>
+            <option value="shared-screen">One shared screen — students answer out loud</option>
+          </Select>
+          <p className="mt-1 text-[11px] text-lc-text3">
+            {studentDeviceMode === 'shared-screen'
+              ? "We'll flag games that need student devices when you launch with this class."
+              : 'Used to warn you before launching a game that needs student devices.'}
+          </p>
+        </div>
       </div>
     </Card>
   );

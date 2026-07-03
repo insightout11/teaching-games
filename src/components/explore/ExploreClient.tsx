@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { ChevronDown, Plus, Search, X } from 'lucide-react';
+import { ChevronDown, Plus, Search, X, UserRound, MonitorOff } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Input } from '@/components/ui/input';
@@ -11,6 +11,7 @@ import { Select } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
+import { useTeacherProfile } from '@/hooks/use-teacher-profile';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
@@ -40,12 +41,19 @@ const SKILL_FILTERS: { key: SkillFilter; label: string; skills: string[] }[] = [
 interface Class {
   id: string;
   name: string;
+  student_device_mode?: 'devices' | 'shared-screen';
 }
 
 function minStudentsFor(item: { key: string; type: 'game' | 'activity' } | null): number {
   if (!item) return 1;
   const plugin = item.type === 'game' ? getGame(item.key) : getActivity(item.key);
   return plugin?.minStudents ?? 1;
+}
+
+function deviceFreeFor(item: { key: string; type: 'game' | 'activity' } | null): boolean {
+  if (!item) return false;
+  const plugin = item.type === 'game' ? getGame(item.key) : getActivity(item.key);
+  return plugin?.deviceFree ?? false;
 }
 
 interface ActiveSession {
@@ -225,10 +233,13 @@ export function ExploreClient() {
   const router = useRouter();
   const { seedWithModule } = usePlannerStore();
   const { loading: tierLoading, isPro, credits } = useTeacherTier();
+  const { loading: profileLoading, profile } = useTeacherProfile();
   const games: GamePlugin[] = getAllGames().filter((g) => !g.flightPlanOnly);
   const activities: ActivityPlugin[] = getAllActivities().filter((a) => !a.flightPlanOnly);
   const [filter, setFilter] = useState<FilterTab>('all');
   const [skillFilter, setSkillFilter] = useState<SkillFilter>('all');
+  const [oneOnOneOnly, setOneOnOneOnly] = useState(false);
+  const [deviceFreeOnly, setDeviceFreeOnly] = useState(false);
   const [search, setSearch] = useState('');
   const [launchItem, setLaunchItem] = useState<{ name: string; key: string; type: 'game' | 'activity' } | null>(null);
   const [classes, setClasses] = useState<Class[]>([]);
@@ -245,6 +256,16 @@ export function ExploreClient() {
   const [newClassName, setNewClassName] = useState('');
   const [creatingClass, setCreatingClass] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Pre-enable "Works 1-on-1" for teachers whose profile says they teach 1-on-1 — a
+  // default, not a lock. Applied once when the profile finishes loading; the user can
+  // clear it same as any other filter afterward.
+  const appliedProfileDefaultRef = useRef(false);
+  useEffect(() => {
+    if (profileLoading || appliedProfileDefaultRef.current) return;
+    appliedProfileDefaultRef.current = true;
+    if (profile.classSize === 'one-on-one') setOneOnOneOnly(true);
+  }, [profileLoading, profile.classSize]);
 
   // Read persisted settings + active session from localStorage on mount
   useEffect(() => {
@@ -278,7 +299,7 @@ export function ExploreClient() {
     const supabase = createClient();
     supabase
       .from('classes')
-      .select('id, name')
+      .select('id, name, student_device_mode')
       .order('created_at', { ascending: false })
       .then(async ({ data }: { data: Class[] | null }) => {
         const classList = data ?? [];
@@ -377,6 +398,12 @@ export function ExploreClient() {
     return skills.some((s) => filterSkills.includes(s));
   }
 
+  function matchesToggles(plugin: { minStudents: number; deviceFree: boolean }): boolean {
+    if (oneOnOneOnly && plugin.minStudents !== 1) return false;
+    if (deviceFreeOnly && !plugin.deviceFree) return false;
+    return true;
+  }
+
   const query = search.trim().toLowerCase();
   function matchesSearch(name: string, description: string, skills: string[]): boolean {
     if (!query) return true;
@@ -388,8 +415,8 @@ export function ExploreClient() {
   }
 
   const resultCount =
-    (showGames ? games.filter((g) => matchesSkillFilter(g.skills) && matchesSearch(g.name, g.description, g.skills)).length : 0) +
-    (showActivities ? activities.filter((a) => matchesSkillFilter(a.skills) && matchesSearch(a.name, a.description, a.skills)).length : 0);
+    (showGames ? games.filter((g) => matchesSkillFilter(g.skills) && matchesSearch(g.name, g.description, g.skills) && matchesToggles(g)).length : 0) +
+    (showActivities ? activities.filter((a) => matchesSkillFilter(a.skills) && matchesSearch(a.name, a.description, a.skills) && matchesToggles(a)).length : 0);
 
   // Group games by category
   const gamesByCategory = games.reduce<Record<string, GamePlugin[]>>((acc, game) => {
@@ -480,9 +507,37 @@ export function ExploreClient() {
 
           <SkillPopover value={skillFilter} onChange={setSkillFilter} />
 
-          {(search || skillFilter !== 'all' || filter !== 'all') && (
+          <button
+            onClick={() => setOneOnOneOnly((v) => !v)}
+            aria-pressed={oneOnOneOnly}
+            className={cn(
+              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-instrument tracking-wide uppercase border transition-colors shrink-0',
+              oneOnOneOnly
+                ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+                : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
+            )}
+          >
+            <UserRound className="w-3.5 h-3.5" aria-hidden />
+            Works 1-on-1
+          </button>
+
+          <button
+            onClick={() => setDeviceFreeOnly((v) => !v)}
+            aria-pressed={deviceFreeOnly}
+            className={cn(
+              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-instrument tracking-wide uppercase border transition-colors shrink-0',
+              deviceFreeOnly
+                ? 'bg-lc-blue/10 text-lc-blue border-lc-blue/30'
+                : 'bg-transparent text-lc-text2 border-lc-border hover:border-lc-text3'
+            )}
+          >
+            <MonitorOff className="w-3.5 h-3.5" aria-hidden />
+            No student devices
+          </button>
+
+          {(search || skillFilter !== 'all' || filter !== 'all' || oneOnOneOnly || deviceFreeOnly) && (
             <button
-              onClick={() => { setSearch(''); setSkillFilter('all'); setFilter('all'); }}
+              onClick={() => { setSearch(''); setSkillFilter('all'); setFilter('all'); setOneOnOneOnly(false); setDeviceFreeOnly(false); }}
               className="text-xs text-lc-text3 hover:text-lc-text transition-colors shrink-0"
             >
               Clear filters
@@ -505,7 +560,7 @@ export function ExploreClient() {
         {showGames && gameCategoryOrder.map((cat) => {
           const allCatGames = gamesByCategory[cat];
           if (!allCatGames?.length) return null;
-          const catGames = allCatGames.filter((g) => matchesSkillFilter(g.skills) && matchesSearch(g.name, g.description, g.skills));
+          const catGames = allCatGames.filter((g) => matchesSkillFilter(g.skills) && matchesSearch(g.name, g.description, g.skills) && matchesToggles(g));
           if (!catGames.length) return null;
           const info = GAME_CATEGORY_INFO[cat];
           const CatIcon = info.icon;
@@ -541,7 +596,7 @@ export function ExploreClient() {
         {showActivities && activityCategoryOrder.map((cat) => {
           const allCatActivities = activitiesByCategory[cat];
           if (!allCatActivities?.length) return null;
-          const catActivities = allCatActivities.filter((a) => matchesSkillFilter(a.skills) && matchesSearch(a.name, a.description, a.skills));
+          const catActivities = allCatActivities.filter((a) => matchesSkillFilter(a.skills) && matchesSearch(a.name, a.description, a.skills) && matchesToggles(a));
           if (!catActivities.length) return null;
           const info = CATEGORY_INFO[cat];
           const CatIcon = info.icon;
@@ -649,17 +704,31 @@ export function ExploreClient() {
               const minStudents = minStudentsFor(launchItem);
               const count = classStudentCounts[cls.id];
               const tooFew = minStudents > 1 && count !== undefined && count < minStudents;
+              const isSharedScreen = cls.student_device_mode === 'shared-screen';
+              const isDeviceFree = deviceFreeFor(launchItem);
+              const needsDevicesClass = isSharedScreen && !isDeviceFree;
+              const disabled = tooFew || needsDevicesClass;
               return (
                 <button
                   key={cls.id}
-                  onClick={() => !tooFew && handleSelectClass(cls.id, cls.name)}
-                  disabled={launching || tooFew}
-                  title={tooFew ? `Needs ${minStudents}+ students — ${cls.name} has ${count}` : undefined}
+                  onClick={() => !disabled && handleSelectClass(cls.id, cls.name)}
+                  disabled={launching || disabled}
+                  title={
+                    tooFew ? `Needs ${minStudents}+ students — ${cls.name} has ${count}`
+                    : needsDevicesClass ? `${cls.name} is set to shared-screen — this game needs student devices`
+                    : undefined
+                  }
                   className="w-full text-left px-4 py-3 rounded-lg border border-lc-border bg-lc-surface text-lc-text text-sm font-medium hover:border-lc-blue/50 hover:bg-lc-blue/5 transition-colors disabled:opacity-50 disabled:hover:border-lc-border disabled:hover:bg-lc-surface"
                 >
                   {cls.name}
                   {tooFew && (
                     <span className="block text-xs text-lc-text3 mt-0.5">Needs {minStudents}+ students ({count} in this class)</span>
+                  )}
+                  {!tooFew && needsDevicesClass && (
+                    <span className="block text-xs text-lc-text3 mt-0.5">Needs student devices — {cls.name} is set to shared-screen</span>
+                  )}
+                  {!tooFew && !needsDevicesClass && isSharedScreen && isDeviceFree && (
+                    <span className="block text-xs text-lc-text3 mt-0.5">Students answer by voice — you&apos;ll enter answers on your screen</span>
                   )}
                 </button>
               );

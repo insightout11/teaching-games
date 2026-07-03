@@ -36,6 +36,7 @@ import {
 interface ClassRow {
   id: string;
   name: string;
+  student_device_mode?: 'devices' | 'shared-screen';
 }
 
 function minStudentsFor(item: DiscoveryItem | null): number {
@@ -88,7 +89,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
     const supabase = createClient();
     supabase
       .from('classes')
-      .select('id, name')
+      .select('id, name, student_device_mode')
       .order('created_at', { ascending: false })
       .then(async ({ data }: { data: ClassRow[] | null }) => {
         const classList = data ?? [];
@@ -407,9 +408,15 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                         const count = classStudentCounts[c.id];
                         const min = minStudentsFor(item);
                         const tooFew = min > 1 && count !== undefined && count < min;
+                        const needsDevicesClass = c.student_device_mode === 'shared-screen' && !item?.deviceFree;
+                        const suffix = tooFew
+                          ? ` (${count} student${count === 1 ? '' : 's'} — needs ${min}+)`
+                          : needsDevicesClass
+                            ? ' (needs student devices)'
+                            : '';
                         return (
                           <option key={c.id} value={c.id}>
-                            {c.name}{tooFew ? ` (${count} student${count === 1 ? '' : 's'} — needs ${min}+)` : ''}
+                            {c.name}{suffix}
                           </option>
                         );
                       })}
@@ -439,9 +446,13 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
 
                     {/* Sticky one-tap launch for the selected (defaults to last-used) class */}
                     {(() => {
+                      const selectedClass = classes.find((c) => c.id === selectedClassId);
                       const selectedCount = classStudentCounts[selectedClassId];
                       const min = minStudentsFor(item);
                       const tooFewSelected = min > 1 && selectedCount !== undefined && selectedCount < min;
+                      const isSharedScreen = selectedClass?.student_device_mode === 'shared-screen';
+                      const needsDevicesSelected = isSharedScreen && !item?.deviceFree;
+                      const disabled = launching || !selectedClassId || (!!requiresSource && !sourceAttached) || tooFewSelected || needsDevicesSelected;
                       return (
                         <div className="sticky bottom-0 -mx-6 -mb-6 mt-5 border-t border-lc-border bg-lc-card/95 px-6 py-4 backdrop-blur">
                           {tooFewSelected && (
@@ -449,9 +460,19 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                               {item?.name} needs {min}+ students — {selectedName} has {selectedCount}.
                             </p>
                           )}
+                          {!tooFewSelected && needsDevicesSelected && (
+                            <p className="mb-2 text-xs text-lc-amber">
+                              {selectedName} is set to shared-screen, but {item?.name} needs student devices.
+                            </p>
+                          )}
+                          {!tooFewSelected && !needsDevicesSelected && isSharedScreen && item?.deviceFree && (
+                            <p className="mb-2 text-xs text-lc-text3">
+                              Students answer by voice — you&apos;ll enter answers on your screen.
+                            </p>
+                          )}
                           <button
                             onClick={() => runWithClass(selectedClassId)}
-                            disabled={launching || !selectedClassId || (!!requiresSource && !sourceAttached) || tooFewSelected}
+                            disabled={disabled}
                             className="flex w-full items-center justify-center gap-2 rounded-xl bg-lc-amber px-4 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90 disabled:opacity-50"
                           >
                             <Plane className="h-4 w-4" aria-hidden />
@@ -461,7 +482,9 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                                 ? `Add a ${requiresSource === 'video' ? 'video' : 'reading'} to run`
                                 : tooFewSelected
                                   ? `Needs ${min}+ students`
-                                  : `Run in ${selectedName}`}
+                                  : needsDevicesSelected
+                                    ? 'Needs student devices'
+                                    : `Run in ${selectedName}`}
                           </button>
                         </div>
                       );

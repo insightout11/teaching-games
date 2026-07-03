@@ -98,9 +98,14 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     router.refresh(); // re-fetch the profile so Recommended updates
   }
 
-  const shelfById = new Map(buildShelves().map((s) => [s.id, s] as const));
+  const shelfById = new Map(
+    buildShelves(3, { mode: profile?.mode, classSize: profile?.classSize }).map((s) => [s.id, s] as const)
+  );
   const homeShelves = homeShelfIdsFor(profile?.focus ?? null);
   const shelfProfile = profile?.classSize ? { setup: profile.classSize } : undefined;
+  // In-person teachers get a dedicated "no devices needed" shelf right after their
+  // lead shelf — additive only; nothing else on the page changes for online teachers.
+  const showNoDevicesShelf = profile?.mode === 'in-person' && shelfById.has('no-devices');
   const renderShelf = (id: string) => {
     const shelf = shelfById.get(id);
     if (!shelf) return null;
@@ -285,6 +290,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
             <FullFlightsLane />
             <ReadyToTeachLane />
             {renderShelf(homeShelves[0])}
+            {showNoDevicesShelf && renderShelf('no-devices')}
             <SpecialFeaturesLane onSelect={handleSelect} />
             {renderShelf(homeShelves[1])}
             {renderShelf(homeShelves[2])}

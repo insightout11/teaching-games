@@ -6,6 +6,7 @@
 
 import type { ComponentType } from 'react';
 import { Mic, PenLine, Gamepad2, Vote, Users, Scale } from 'lucide-react';
+import type { ClassSize, TeachingMode } from '@/lib/teacher-profile';
 import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import {
@@ -33,6 +34,8 @@ export interface DiscoveryItem {
   isPro: boolean;
   meta?: FlightPlanItem;
   classSize: ClassSizeMetadata;
+  /** True only if the module runs projector-only with verbal answers — no student device required. */
+  deviceFree: boolean;
 }
 
 export interface GlyphChip {
@@ -56,6 +59,7 @@ function gameToDiscoveryItem(g: ReturnType<typeof getAllGames>[number]): Discove
     isPro: PRO_GAME_KEYS.has(g.key),
     meta: META_BY_KEY.get(g.key),
     classSize: requireClassSizeMetadata(g.key),
+    deviceFree: g.deviceFree,
   };
 }
 
@@ -73,6 +77,7 @@ function activityToDiscoveryItem(a: ReturnType<typeof getAllActivities>[number])
     isPro: PRO_ACTIVITY_KEYS.has(a.key),
     meta: META_BY_KEY.get(a.key),
     classSize: requireClassSizeMetadata(a.key),
+    deviceFree: a.deviceFree,
   };
 }
 
@@ -396,23 +401,56 @@ export const SHELVES: ShelfDefinition[] = [
     description: 'Reliable, low-prep wins to try first.',
     predicate: (i) => STARTER_FAVORITE_KEYS.has(i.key),
   },
+  {
+    id: 'no-devices',
+    label: 'No student devices needed',
+    description: 'Runs entirely from your projector or shared screen — students answer out loud.',
+    priority: [
+      'vocab-sprint', 'synonym-showdown', 'word-chain', 'sentence-scramble',
+      'grammar-boss', 'error-hunter', 'story-sprint', 'dialogue-detective',
+      'connections', 'brain-teasers',
+    ],
+    predicate: (i) => i.deviceFree,
+  },
 ];
 
-/** Build the ordered shelves, front-loading priority keys and dropping thin shelves. */
-export function buildShelves(minItems = 3): Array<ShelfDefinition & { items: DiscoveryItem[] }> {
+/**
+ * Build the ordered shelves, front-loading priority keys and dropping thin shelves.
+ * `personalization` is optional and additive-only:
+ *  - `mode: 'in-person'` includes the "No student devices needed" shelf (otherwise it's
+ *    dropped, same as any other shelf that doesn't clear `minItems`).
+ *  - `classSize: 'one-on-one'` de-ranks (never hides) modules that need more than one
+ *    student within each shelf, so a 1-on-1 tutor sees solo-friendly picks first.
+ */
+export function buildShelves(
+  minItems = 3,
+  personalization?: { mode?: TeachingMode | null; classSize?: ClassSize | null },
+): Array<ShelfDefinition & { items: DiscoveryItem[] }> {
   const all = getDiscoveryItems();
-  return SHELVES.map((shelf) => {
-    let items = all.filter(shelf.predicate);
-    if (shelf.priority) {
-      const order = shelf.priority;
-      const rank = (k: string) => {
-        const idx = order.indexOf(k);
-        return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
-      };
-      items = [...items].sort((a, b) => rank(a.key) - rank(b.key));
-    }
-    return { ...shelf, items };
-  }).filter((shelf) => shelf.items.length >= minItems);
+  const deprioritizeGroupOnly = personalization?.classSize === 'one-on-one';
+
+  return SHELVES
+    .filter((shelf) => shelf.id !== 'no-devices' || personalization?.mode === 'in-person')
+    .map((shelf) => {
+      let items = all.filter(shelf.predicate);
+      if (shelf.priority) {
+        const order = shelf.priority;
+        const rank = (k: string) => {
+          const idx = order.indexOf(k);
+          return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
+        };
+        items = [...items].sort((a, b) => rank(a.key) - rank(b.key));
+      }
+      if (deprioritizeGroupOnly) {
+        // Stable sort: modules needing 2+ students sink below solo-friendly ones,
+        // but relative order within each group (already priority-sorted) is kept.
+        items = [...items].sort((a, b) =>
+          (a.classSize.minStudents > 1 ? 1 : 0) - (b.classSize.minStudents > 1 ? 1 : 0)
+        );
+      }
+      return { ...shelf, items };
+    })
+    .filter((shelf) => shelf.items.length >= minItems);
 }
 
 // ─── Featured flight (All-Around Flight) ──────────────────────────────────────
