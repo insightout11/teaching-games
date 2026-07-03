@@ -14,6 +14,12 @@ export interface DemoVideo {
   videoId: string;
   title: string;
   url: string;
+  speaker?: string;
+  durationSecs?: number;
+  topicTags?: string[];
+  difficultyLevel?: string;
+  description?: string;
+  genre?: string;
 }
 
 interface LibEntry {
@@ -21,6 +27,11 @@ interface LibEntry {
   title: string;
   speaker?: string;
   youtubeId?: string | null;
+  durationSecs?: number;
+  topicTags?: string[];
+  difficultyLevel?: string;
+  description?: string;
+  genre?: string;
 }
 
 function fromLibrary(lib: unknown): DemoVideo[] {
@@ -30,6 +41,12 @@ function fromLibrary(lib: unknown): DemoVideo[] {
       videoId: e.youtubeId,
       title: e.title,
       url: `https://www.youtube.com/watch?v=${e.youtubeId}`,
+      speaker: e.speaker,
+      durationSecs: e.durationSecs,
+      topicTags: e.topicTags,
+      difficultyLevel: e.difficultyLevel,
+      description: e.description,
+      genre: e.genre,
     }));
 }
 
