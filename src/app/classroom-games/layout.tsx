@@ -1,47 +1,66 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+const FOOTER_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'Showcase', href: '/showcase' },
+  { label: 'Video to Lesson', href: '/video-lesson' },
+  { label: 'Classroom Games', href: '/classroom-games' },
+  { label: 'No-Device Games', href: '/classroom-games/no-devices' },
+  { label: 'Classroom Activities', href: '/classroom-activities' },
+  { label: 'Pro', href: '/pro' },
+];
+
 export default function ClassroomGamesLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <Link href="/classroom-games">
-            <Image src="/lessoncaptain-logo-on-light.svg" alt="LessonCaptain" width={150} height={24} className="h-auto" unoptimized />
+    <div className="flex min-h-screen flex-col bg-lc-bg text-lc-text">
+      <header className="sticky top-0 z-50 border-b border-lc-border bg-lc-bg/80 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/lessoncaptain-logo-on-dark.svg"
+              alt="LessonCaptain"
+              width={150}
+              height={24}
+              unoptimized
+              priority
+              className="h-7 w-auto sm:h-8"
+            />
           </Link>
-          <nav className="hidden gap-6 text-sm text-gray-600 sm:flex">
-            <Link href="/classroom-games" className="hover:text-blue-600">
+          <nav className="hidden items-center gap-8 md:flex">
+            <Link href="/classroom-games" className="text-sm font-medium text-lc-text2 transition-colors hover:text-lc-blue">
               Games
             </Link>
-            <Link href="/classroom-activities" className="hover:text-blue-600">
+            <Link href="/classroom-activities" className="text-sm font-medium text-lc-text3 transition-colors hover:text-lc-blue">
               Activities
             </Link>
-            <Link href="/worksheets" className="hover:text-blue-600">
-              Worksheets
+            <Link href="/video-lesson" className="text-sm font-medium text-lc-text3 transition-colors hover:text-lc-blue">
+              Video to Lesson
+            </Link>
+            <Link href="/showcase" className="text-sm font-medium text-lc-text3 transition-colors hover:text-lc-blue">
+              Showcase
             </Link>
           </nav>
           <Link
             href="/login"
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition"
+            className="whitespace-nowrap rounded-lg bg-lc-blue px-4 py-2 text-sm font-semibold text-[#070B14] transition-colors hover:bg-lc-blue-hover"
           >
             Try free
           </Link>
         </div>
       </header>
-      <main>{children}</main>
-      <footer className="border-t border-gray-200 bg-gray-50 py-8 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} LessonCaptain &middot;{' '}
-        <Link href="/classroom-games" className="hover:underline">
-          Games
-        </Link>{' '}
-        &middot;{' '}
-        <Link href="/classroom-activities" className="hover:underline">
-          Activities
-        </Link>{' '}
-        &middot;{' '}
-        <Link href="/worksheets" className="hover:underline">
-          Worksheets
-        </Link>
+      <main className="flex-1">{children}</main>
+      <footer className="border-t border-lc-border px-6 py-8">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
+          <p className="text-xs text-lc-text3">&copy; {new Date().getFullYear()} LessonCaptain</p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            {FOOTER_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className="text-xs text-lc-text3 transition-colors hover:text-lc-text">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </footer>
     </div>
   );

@@ -184,6 +184,10 @@ export function CategoryPage({
   const hubLabel = type === 'game' ? 'Classroom Games' : 'Classroom Activities';
   const intro = CATEGORY_INTROS[categoryKey] ?? '';
   const faqs = CATEGORY_FAQS[categoryKey] ?? [];
+  const accent =
+    type === 'game'
+      ? { text: 'text-cyan-300', border: 'hover:border-cyan-400/50' }
+      : { text: 'text-emerald-300', border: 'hover:border-emerald-400/50' };
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -205,23 +209,23 @@ export function CategoryPage({
       />
 
       {/* Hero */}
-      <section className="py-12 bg-white">
+      <section className="py-12">
         <div className="mx-auto max-w-5xl px-6">
-          <nav className="mb-4 text-sm text-gray-500">
+          <nav className="mb-4 text-sm text-lc-text3">
             <Link href={basePath} className="hover:underline">
               {hubLabel}
             </Link>{' '}
-            / <span className="text-gray-900">{categoryName}</span>
+            / <span className="text-lc-text">{categoryName}</span>
           </nav>
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+          <h1 className="text-3xl font-bold text-lc-text sm:text-4xl">
             {categoryName} for ESL Classes
           </h1>
-          <p className="mt-4 text-lg text-gray-600 max-w-3xl">{intro}</p>
+          <p className="mt-4 max-w-3xl text-lg text-lc-text2">{intro}</p>
         </div>
       </section>
 
       {/* Card grid */}
-      <section className="py-10 bg-gray-50">
+      <section className="bg-lc-surface py-10">
         <div className="mx-auto max-w-5xl px-6">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {plugins.map((plugin) => {
@@ -230,30 +234,30 @@ export function CategoryPage({
                 <Link
                   key={plugin.key}
                   href={`${basePath}/${plugin.key}`}
-                  className="rounded-xl border border-gray-200 bg-white p-6 transition hover:border-blue-400 hover:shadow"
+                  className={`rounded-xl border border-lc-border bg-lc-card p-6 transition-colors ${accent.border}`}
                 >
-                  <h2 className="font-semibold text-gray-900">{plugin.name}</h2>
-                  <p className="mt-2 text-sm text-gray-600">{plugin.description}</p>
+                  <h2 className="font-semibold text-lc-text">{plugin.name}</h2>
+                  <p className="mt-2 text-sm text-lc-text3">{plugin.description}</p>
                   <div className="mt-3 flex flex-wrap gap-1">
                     {plugin.skills.slice(0, 3).map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600"
+                        className="rounded-full border border-lc-border bg-lc-surface px-2 py-0.5 text-xs text-lc-text3"
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
                   {'estimatedMinutes' in plugin && (
-                    <p className="mt-3 text-xs text-gray-400">
-                      ⏱ ~{plugin.estimatedMinutes} min
+                    <p className="mt-3 text-xs text-lc-text3">
+                      ~{plugin.estimatedMinutes} min
                     </p>
                   )}
                   {content?.estimatedTime && !('estimatedMinutes' in plugin) && (
-                    <p className="mt-3 text-xs text-gray-400">⏱ {content.estimatedTime}</p>
+                    <p className="mt-3 text-xs text-lc-text3">{content.estimatedTime}</p>
                   )}
-                  <span className="mt-4 inline-block text-sm font-medium text-blue-600">
-                    Learn more →
+                  <span className={`mt-4 inline-block text-sm font-medium ${accent.text}`}>
+                    Learn more &rarr;
                   </span>
                 </Link>
               );
@@ -266,12 +270,12 @@ export function CategoryPage({
       {faqs.length > 0 && (
         <section className="py-10">
           <div className="mx-auto max-w-5xl px-6">
-            <h2 className="text-2xl font-bold text-gray-900">Common questions</h2>
-            <dl className="mt-6 space-y-6 divide-y divide-gray-100">
+            <h2 className="text-2xl font-bold text-lc-text">Common questions</h2>
+            <dl className="mt-6 divide-y divide-lc-border rounded-2xl border border-lc-border bg-lc-card px-6">
               {faqs.map((item, i) => (
-                <div key={i} className="pt-6 first:pt-0">
-                  <dt className="font-semibold text-gray-900">{item.q}</dt>
-                  <dd className="mt-2 text-gray-600">{item.a}</dd>
+                <div key={i} className="py-6">
+                  <dt className="font-semibold text-lc-text">{item.q}</dt>
+                  <dd className="mt-2 text-sm leading-relaxed text-lc-text2">{item.a}</dd>
                 </div>
               ))}
             </dl>
@@ -280,9 +284,9 @@ export function CategoryPage({
       )}
 
       {/* Cross-link */}
-      <section className="py-8 border-t border-gray-100">
+      <section className="border-t border-lc-border py-8">
         <div className="mx-auto max-w-5xl px-6 text-center">
-          <Link href={crossLinkHref} className="text-blue-600 hover:underline">
+          <Link href={crossLinkHref} className={`${accent.text} hover:underline`}>
             {crossLinkLabel}
           </Link>
         </div>

@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   entries.push({ url: `${SITE_URL}/`, lastModified: now, changeFrequency: 'monthly', priority: 1.0 });
   entries.push({ url: `${SITE_URL}/video-lesson`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 });
   entries.push({ url: `${SITE_URL}/showcase`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 });
+  entries.push({ url: `${SITE_URL}/pro`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 });
 
   // ── Classroom Games ──────────────────────────────────────────
   if (!LANDING_NOINDEX) {

@@ -1,6 +1,9 @@
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
+import { ProductVisualHero } from './ProductVisualHero';
+import { EmailCaptureCard } from '@/components/marketing/EmailCaptureCard';
 
 interface GameHubPageProps {
   type: 'game';
@@ -21,6 +24,9 @@ type HubPageProps = GameHubPageProps | ActivityHubPageProps;
 export function HubPage({ type, categories, crossLinkHref, crossLinkLabel }: HubPageProps) {
   const basePath = type === 'game' ? '/classroom-games' : '/classroom-activities';
   const isGame = type === 'game';
+  const accent = isGame
+    ? { text: 'text-cyan-300', border: 'hover:border-cyan-400/50', cta: 'bg-lc-blue text-[#070B14] hover:bg-lc-blue-hover' }
+    : { text: 'text-emerald-300', border: 'hover:border-emerald-400/50', cta: 'bg-emerald-500 text-[#03150f] hover:bg-emerald-400' };
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -46,14 +52,14 @@ export function HubPage({ type, categories, crossLinkHref, crossLinkLabel }: Hub
       />
 
       {/* Hero */}
-      <section className="py-14 bg-white">
+      <section className="py-14">
         <div className="mx-auto max-w-5xl px-6">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl font-bold text-lc-text">
             {isGame
               ? 'Classroom Games for ESL Teachers'
               : 'Classroom Activities for ESL Teachers'}
           </h1>
-          <p className="mt-4 text-xl text-gray-600 max-w-3xl">
+          <p className="mt-4 max-w-3xl text-xl text-lc-text2">
             {isGame
               ? 'AI-powered games that generate fresh content every session. No preparation. No repeat content. Just engaged students practising real English skills.'
               : 'Discussion and speaking activities that get every student talking. AI generates on-topic content so any lesson topic becomes an instant activity.'}
@@ -61,30 +67,33 @@ export function HubPage({ type, categories, crossLinkHref, crossLinkLabel }: Hub
           <div className="mt-8">
             <Link
               href="/login"
-              className={`inline-block rounded-lg px-6 py-3 font-semibold text-white transition ${
-                isGame ? 'bg-blue-600 hover:bg-blue-700' : 'bg-emerald-600 hover:bg-emerald-700'
-              }`}
+              className={`inline-flex items-center gap-2 rounded-lg px-6 py-3 font-semibold transition-colors ${accent.cta}`}
             >
-              Try free with Google →
+              Try free with Google
+              <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
+          </div>
+
+          <div className="mt-12">
+            <ProductVisualHero />
           </div>
         </div>
       </section>
 
       {/* Category sections */}
-      {categories.map((cat) => (
-        <section key={cat.slug} className="py-10 odd:bg-white even:bg-gray-50">
+      {categories.map((cat, ci) => (
+        <section key={cat.slug} className={ci % 2 === 1 ? 'bg-lc-surface py-12' : 'py-12'}>
           <div className="mx-auto max-w-5xl px-6">
             <div className="flex items-baseline justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">{cat.name}</h2>
-                <p className="mt-1 text-gray-600">{cat.description}</p>
+                <h2 className="text-2xl font-bold text-lc-text">{cat.name}</h2>
+                <p className="mt-1 text-lc-text2">{cat.description}</p>
               </div>
               <Link
                 href={`${basePath}/${cat.slug}`}
-                className="shrink-0 text-sm text-blue-600 hover:underline"
+                className={`shrink-0 text-sm font-medium ${accent.text} hover:underline`}
               >
-                View all →
+                View all &rarr;
               </Link>
             </div>
 
@@ -93,15 +102,15 @@ export function HubPage({ type, categories, crossLinkHref, crossLinkLabel }: Hub
                 <Link
                   key={plugin.key}
                   href={`${basePath}/${plugin.key}`}
-                  className="rounded-xl border border-gray-200 bg-white p-5 transition hover:border-blue-400 hover:shadow"
+                  className={`rounded-xl border border-lc-border bg-lc-card p-5 transition-colors ${accent.border}`}
                 >
-                  <h3 className="font-semibold text-gray-900">{plugin.name}</h3>
-                  <p className="mt-1 text-sm text-gray-600 line-clamp-2">{plugin.description}</p>
+                  <h3 className="font-semibold text-lc-text">{plugin.name}</h3>
+                  <p className="mt-1 line-clamp-2 text-sm text-lc-text3">{plugin.description}</p>
                   <div className="mt-3 flex flex-wrap gap-1">
                     {plugin.skills.slice(0, 3).map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500"
+                        className="rounded-full border border-lc-border bg-lc-surface px-2 py-0.5 text-xs text-lc-text3"
                       >
                         {skill}
                       </span>
@@ -114,11 +123,18 @@ export function HubPage({ type, categories, crossLinkHref, crossLinkLabel }: Hub
         </section>
       ))}
 
+      {/* Email capture */}
+      <section className="py-12">
+        <div className="mx-auto max-w-2xl px-6">
+          <EmailCaptureCard source={isGame ? 'seo-games' : 'seo-activities'} />
+        </div>
+      </section>
+
       {/* Cross-link */}
-      <section className="py-10 border-t border-gray-100">
+      <section className="border-t border-lc-border py-10">
         <div className="mx-auto max-w-5xl px-6 text-center">
-          <p className="text-gray-600">
-            <Link href={crossLinkHref} className="text-blue-600 hover:underline">
+          <p className="text-lc-text2">
+            <Link href={crossLinkHref} className={`${accent.text} hover:underline`}>
               {crossLinkLabel}
             </Link>
           </p>

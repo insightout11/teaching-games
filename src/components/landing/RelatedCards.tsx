@@ -12,12 +12,13 @@ interface RelatedCardsProps {
 
 export function RelatedCards({ slugs, type, contentMap, pluginMap }: RelatedCardsProps) {
   const basePath = type === 'game' ? '/classroom-games' : '/classroom-activities';
+  const hoverBorder = type === 'game' ? 'hover:border-cyan-400/50' : 'hover:border-emerald-400/50';
   const displayed = slugs.slice(0, 4);
 
   return (
-    <section className="py-10 bg-gray-50">
+    <section className="py-12">
       <div className="mx-auto max-w-5xl px-6">
-        <h2 className="text-2xl font-bold text-gray-900">You might also like</h2>
+        <h2 className="text-2xl font-bold text-lc-text">You might also like</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {displayed.map((slug) => {
             const content = contentMap[slug];
@@ -27,10 +28,10 @@ export function RelatedCards({ slugs, type, contentMap, pluginMap }: RelatedCard
               <Link
                 key={slug}
                 href={`${basePath}/${slug}`}
-                className="rounded-lg border border-gray-200 bg-white p-5 transition hover:border-blue-400 hover:shadow"
+                className={`rounded-xl border border-lc-border bg-lc-card p-5 transition-colors ${hoverBorder}`}
               >
-                <h3 className="font-semibold text-gray-900">{plugin.name}</h3>
-                <p className="mt-1 text-sm text-gray-600 line-clamp-2">{plugin.description}</p>
+                <h3 className="font-semibold text-lc-text">{plugin.name}</h3>
+                <p className="mt-1 line-clamp-2 text-sm text-lc-text3">{plugin.description}</p>
               </Link>
             );
           })}

@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { MonitorPlay, Users, Wifi, Smartphone } from 'lucide-react';
+import { MonitorPlay, Users, Wifi, Smartphone, ArrowRight } from 'lucide-react';
 import { getGame } from '@/games/registry';
 import { getGameContent } from '@/lib/content-landing';
 import { HowItWorks } from '@/components/landing/HowItWorks';
 import { FAQSection } from '@/components/landing/FAQSection';
+import { ProductVisualHero } from '@/components/landing/ProductVisualHero';
+import { EmailCaptureCard } from '@/components/marketing/EmailCaptureCard';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 const PAGE_PATH = '/classroom-games/no-devices';
@@ -121,25 +123,25 @@ export default function NoDevicesClassroomGamesPage() {
       />
 
       {/* Hero */}
-      <section className="py-14 bg-white">
+      <section className="py-14">
         <div className="mx-auto max-w-5xl px-6">
-          <nav className="mb-4 text-sm text-gray-500">
+          <nav className="mb-4 text-sm text-lc-text3">
             <Link href="/classroom-games" className="hover:underline">
               Classroom Games
             </Link>{' '}
-            / <span className="text-gray-900">No Devices Needed</span>
+            / <span className="text-lc-text">No Devices Needed</span>
           </nav>
 
-          <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
+          <h1 className="text-4xl font-bold text-lc-text sm:text-5xl">
             Classroom games for the projector — no student devices needed
           </h1>
-          <p className="mt-4 text-xl text-gray-600 max-w-3xl">
+          <p className="mt-4 max-w-3xl text-xl text-lc-text2">
             One shared screen. Students answer out loud, you type or click their answers in
             yourself, and an AI scores it live. No phones, no tablets, no BYOD policy, no
             student accounts — just a projector or smart TV and a class that talks.
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-4 text-sm text-gray-500">
+          <div className="mt-6 flex flex-wrap gap-4 text-sm text-lc-text3">
             <span className="inline-flex items-center gap-1.5">
               <MonitorPlay className="h-4 w-4" aria-hidden /> Runs on one shared screen
             </span>
@@ -157,10 +159,15 @@ export default function NoDevicesClassroomGamesPage() {
           <div className="mt-8">
             <Link
               href="/login"
-              className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 transition"
+              className="inline-flex items-center gap-2 rounded-lg bg-lc-blue px-6 py-3 font-semibold text-[#070B14] transition-colors hover:bg-lc-blue-hover"
             >
-              Try free with Google →
+              Try free with Google
+              <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
+          </div>
+
+          <div className="mt-12">
+            <ProductVisualHero />
           </div>
         </div>
       </section>
@@ -169,10 +176,10 @@ export default function NoDevicesClassroomGamesPage() {
       <HowItWorks steps={HOW_IT_WORKS_STEPS} />
 
       {/* Featured games grid */}
-      <section className="py-10 bg-gray-50">
+      <section className="bg-lc-surface py-10">
         <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-2xl font-bold text-gray-900">10 games built to run projector-only</h2>
-          <p className="mt-1 text-gray-600">
+          <h2 className="text-2xl font-bold text-lc-text">10 games built to run projector-only</h2>
+          <p className="mt-1 text-lc-text2">
             Every game below is confirmed device-free in the registry — no student device is ever
             required to play it.
           </p>
@@ -182,11 +189,11 @@ export default function NoDevicesClassroomGamesPage() {
               <Link
                 key={g.key}
                 href={`/classroom-games/${g.key}`}
-                className="rounded-xl border border-gray-200 bg-white p-5 transition hover:border-blue-400 hover:shadow"
+                className="rounded-xl border border-lc-border bg-lc-card p-5 transition-colors hover:border-cyan-400/50"
               >
-                <h3 className="font-semibold text-gray-900">{g.plugin.name}</h3>
-                <p className="mt-1 text-xs uppercase tracking-wide text-blue-600">{g.content.headline}</p>
-                <p className="mt-2 text-sm text-gray-600">{VERBAL_MECHANIC[g.key]}</p>
+                <h3 className="font-semibold text-lc-text">{g.plugin.name}</h3>
+                <p className="mt-1 text-xs uppercase tracking-wide text-cyan-300">{g.content.headline}</p>
+                <p className="mt-2 text-sm text-lc-text3">{VERBAL_MECHANIC[g.key]}</p>
               </Link>
             ))}
           </div>
@@ -196,8 +203,8 @@ export default function NoDevicesClassroomGamesPage() {
       {/* 1-on-1 tutors section */}
       <section className="py-12">
         <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-2xl font-bold text-gray-900">Teaching 1-on-1? These are built for you too</h2>
-          <p className="mt-3 text-gray-600 max-w-3xl">
+          <h2 className="text-2xl font-bold text-lc-text">Teaching 1-on-1? These are built for you too</h2>
+          <p className="mt-3 max-w-3xl text-lc-text2">
             A device-free game doesn&apos;t need a crowd — it needs one screen and one student
             willing to talk. Every game above works turn-by-turn with exactly one student on a
             video call: you share your screen, they answer out loud, and you type their answer
@@ -207,21 +214,21 @@ export default function NoDevicesClassroomGamesPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/classroom-games"
-              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-400 hover:text-blue-600 transition"
+              className="rounded-lg border border-lc-border px-4 py-2 text-sm font-medium text-lc-text2 transition-colors hover:border-cyan-400/50 hover:text-cyan-300"
             >
-              Browse all classroom games →
+              Browse all classroom games
             </Link>
             <Link
               href="/video-lesson"
-              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-400 hover:text-blue-600 transition"
+              className="rounded-lg border border-lc-border px-4 py-2 text-sm font-medium text-lc-text2 transition-colors hover:border-cyan-400/50 hover:text-cyan-300"
             >
-              Build a lesson from a video →
+              Build a lesson from a video
             </Link>
             <Link
               href="/pro"
-              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-400 hover:text-blue-600 transition"
+              className="rounded-lg border border-lc-border px-4 py-2 text-sm font-medium text-lc-text2 transition-colors hover:border-cyan-400/50 hover:text-cyan-300"
             >
-              See LessonCaptain Pro →
+              See LessonCaptain Pro
             </Link>
           </div>
         </div>
@@ -230,28 +237,35 @@ export default function NoDevicesClassroomGamesPage() {
       {/* FAQ */}
       <FAQSection items={FAQ_ITEMS} />
 
+      {/* Email capture */}
+      <section className="py-12">
+        <div className="mx-auto max-w-2xl px-6">
+          <EmailCaptureCard source="seo-games" />
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="bg-blue-600 py-12 text-center text-white">
+      <section className="bg-gradient-to-br from-[#0b1c38] to-[#060f1f] py-12 text-center">
         <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-2xl font-bold">Ready to run a device-free lesson?</h2>
-          <p className="mt-2 text-blue-100">
+          <h2 className="text-2xl font-bold text-lc-text">Ready to run a device-free lesson?</h2>
+          <p className="mt-2 text-lc-text2">
             Free teacher account — sign in with Google. No student accounts or setup required.
           </p>
           <Link
             href="/login"
-            className="mt-6 inline-block rounded-lg bg-white px-6 py-3 font-semibold text-blue-600 hover:bg-blue-50 transition"
+            className="mt-6 inline-block rounded-lg bg-lc-blue px-6 py-3 font-semibold text-[#070B14] transition-colors hover:bg-lc-blue-hover"
           >
-            Get started free →
+            Get started free
           </Link>
         </div>
       </section>
 
       {/* Cross-link */}
-      <section className="py-10 border-t border-gray-100">
+      <section className="border-t border-lc-border py-10">
         <div className="mx-auto max-w-5xl px-6 text-center">
-          <p className="text-gray-600">
-            <Link href="/classroom-activities" className="text-blue-600 hover:underline">
-              Looking for discussion activities instead? Browse classroom activities →
+          <p className="text-lc-text2">
+            <Link href="/classroom-activities" className="text-cyan-300 hover:underline">
+              Looking for discussion activities instead? Browse classroom activities
             </Link>
           </p>
         </div>

@@ -45,6 +45,10 @@
     {
       "q": "Is Two Truths and a Fabrication free?",
       "a": "Yes, Two Truths and a Fabrication is free. Students join via a shared browser link — no account setup or app download required."
+    },
+    {
+      "q": "What is this activity called inside LessonCaptain?",
+      "a": "Inside LessonCaptain, this Two Truths and a Lie format is called Spot the Fib — same mechanic, so you'll recognize it right away once you sign in."
     }
   ],
   "related": ["would-you-rather", "fact-detective"],

@@ -6,7 +6,11 @@ import { trackEvent } from '@/lib/analytics/posthog';
 
 type Status = 'idle' | 'submitting' | 'done' | 'error';
 
-export function EmailCaptureCard({ source }: { source: 'homepage' | 'video-lesson' }) {
+export function EmailCaptureCard({
+  source,
+}: {
+  source: 'homepage' | 'video-lesson' | 'seo-games' | 'seo-activities';
+}) {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<Status>('idle');
 

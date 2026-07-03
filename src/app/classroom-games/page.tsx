@@ -47,14 +47,14 @@ export default function ClassroomGamesHub() {
       />
 
       {/* No-devices promo — projector-only games for classrooms without student devices */}
-      <section className="border-t border-gray-100 bg-gray-50 py-10">
+      <section className="border-t border-lc-border bg-lc-surface py-10">
         <div className="mx-auto max-w-5xl px-6">
-          <div className="flex flex-col items-start gap-4 rounded-2xl border border-blue-100 bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col items-start gap-4 rounded-2xl border border-cyan-300/25 bg-lc-card p-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-3">
-              <MonitorPlay className="mt-0.5 h-6 w-6 shrink-0 text-blue-600" aria-hidden />
+              <MonitorPlay className="mt-0.5 h-6 w-6 shrink-0 text-cyan-300" aria-hidden />
               <div>
-                <h2 className="font-semibold text-gray-900">No student devices in your classroom?</h2>
-                <p className="mt-1 text-sm text-gray-600">
+                <h2 className="font-semibold text-lc-text">No student devices in your classroom?</h2>
+                <p className="mt-1 text-sm text-lc-text2">
                   10 of these games run entirely from a projector or smart TV — students answer
                   out loud, you run the shared screen.
                 </p>
@@ -62,9 +62,9 @@ export default function ClassroomGamesHub() {
             </div>
             <Link
               href="/classroom-games/no-devices"
-              className="shrink-0 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition"
+              className="shrink-0 rounded-lg bg-lc-blue px-4 py-2 text-sm font-semibold text-[#070B14] transition-colors hover:bg-lc-blue-hover"
             >
-              See device-free games →
+              See device-free games
             </Link>
           </div>
         </div>
