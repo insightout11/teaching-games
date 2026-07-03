@@ -7,6 +7,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 const THEME_COLORS: Record<string, { bg: string; text: string; accent: string }> = {
+  quiz:       { bg: '#4c1d95', text: '#ffffff', accent: '#c4b5fd' },
   vocabulary: { bg: '#0e7490', text: '#ffffff', accent: '#67e8f9' },
   grammar:    { bg: '#065f46', text: '#ffffff', accent: '#6ee7b7' },
   logic:      { bg: '#92400e', text: '#ffffff', accent: '#fcd34d' },

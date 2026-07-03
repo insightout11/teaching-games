@@ -1,0 +1,48 @@
+{
+  "slug": "decision-council",
+  "schemaVersion": 1,
+  "headline": "Decision Council Activity - Source-Based ESL Debate and Voting",
+  "outcomes": [
+    "Students propose solutions, defend them, challenge classmates, and vote on the strongest decision",
+    "The activity develops persuasion language, evidence use, and respectful disagreement",
+    "Source material becomes active because students must use it to justify their recommendation",
+    "Teachers get a structured debate that ends with a clear class decision instead of drifting discussion"
+  ],
+  "howItWorks": [
+    "LessonCaptain frames a decision problem connected to the topic or source material",
+    "Students propose possible solutions or positions from their own devices",
+    "The class challenges, compares, and improves the strongest proposals",
+    "Students vote on the final decision and explain which evidence or argument changed their mind"
+  ],
+  "teacherUseCases": [
+    "After a reading or video, ask students to decide what should happen next and defend the choice",
+    "Business English lessons where students practise recommendations, trade-offs, and stakeholder language",
+    "Critical-thinking lessons where evidence matters more than quick opinions"
+  ],
+  "estimatedTime": "12-20 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What makes Decision Council different from a debate?",
+      "a": "A debate often rewards winning a side. Decision Council pushes students toward a final class recommendation, so they must weigh trade-offs, respond to evidence, and sometimes change position."
+    },
+    {
+      "q": "Can one student use Decision Council?",
+      "a": "Yes. With one student, the teacher can play the challenger role and ask the student to defend or revise a recommendation. Groups add more competing proposals."
+    },
+    {
+      "q": "Does it require source material?",
+      "a": "It works best with a source, case, video, or article because students can use evidence. It can also run from a topic if the teacher wants a lighter discussion."
+    },
+    {
+      "q": "How does the vote help language learning?",
+      "a": "The vote creates a reason to listen. Students need to understand arguments before choosing, then explain why one proposal was stronger than another."
+    },
+    {
+      "q": "How do students submit proposals and votes?",
+      "a": "No. Students join through a browser link and submit ideas or votes without creating accounts."
+    }
+  ],
+  "related": ["hot-take-arena", "problem-solvers", "expert-panel"],
+  "ogImageTheme": "debate"
+}

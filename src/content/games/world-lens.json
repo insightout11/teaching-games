@@ -1,0 +1,48 @@
+{
+  "slug": "world-lens",
+  "schemaVersion": 1,
+  "headline": "World Lens Game - Real-Place Image Clues for ESL Speaking",
+  "outcomes": [
+    "Students practise observation language by describing real visual evidence before they guess",
+    "Culture, geography, and travel vocabulary become meaningful because students use them to solve a mystery",
+    "The reveal creates a natural speaking moment: students compare clues, explain guesses, and notice what they missed",
+    "Teachers get a highly visual game that works for online lessons, travel units, and World Flight sessions"
+  ],
+  "howItWorks": [
+    "Students see image clues from a real place and inspect details such as signs, buildings, weather, landscape, and street life",
+    "They make a location guess or discuss likely regions using evidence from the image",
+    "LessonCaptain reveals the answer with a pin on the map and a short explanation of the strongest clues",
+    "The class scores the round and moves to the next place, building a quick world-tour speaking activity"
+  ],
+  "teacherUseCases": [
+    "Travel-English warm-up where students practise describing places and giving reasons",
+    "A visual speaking game for teens or adults who need more than another grammar prompt",
+    "World Flight culture stop: use World Lens before or after arriving in a destination city"
+  ],
+  "estimatedTime": "10-18 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What language do students practise in World Lens?",
+      "a": "They practise describing visual evidence, hedging guesses, comparing possibilities, and explaining reasons. Useful phrases include 'It might be...', 'I can see...', 'This suggests...', and 'I changed my mind because...'."
+    },
+    {
+      "q": "Is World Lens suitable for online lessons?",
+      "a": "Yes. The teacher screen shows the image and reveal while students respond from their own devices or discuss out loud on Zoom, Meet, or Teams."
+    },
+    {
+      "q": "Can one student play World Lens?",
+      "a": "Yes. One-on-one students can describe what they notice, make a guess, and explain their reasoning. Groups add competition, but the observation task works with a single learner."
+    },
+    {
+      "q": "Does the teacher need to prepare images?",
+      "a": "No. World Lens is designed around built-in real-place clues. The teacher chooses the lesson context and runs the rounds live."
+    },
+    {
+      "q": "How is World Lens different from a geography quiz?",
+      "a": "The point is not memorizing capitals. Students solve from evidence, then talk through why the evidence did or did not support their guess. That makes it a speaking and reasoning activity, not just trivia."
+    }
+  ],
+  "related": ["radar-fix", "twenty-questions", "brain-teasers"],
+  "ogImageTheme": "quiz"
+}

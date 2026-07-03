@@ -1,0 +1,48 @@
+{
+  "slug": "cabin-mystery",
+  "schemaVersion": 1,
+  "headline": "Cabin Mystery Activity - Collaborative Whodunit for ESL Speaking",
+  "outcomes": [
+    "Students practise question formation, listening, deduction, and role-play inside one memorable mystery",
+    "Private role cards create real information gaps, so students need to ask each other for details",
+    "The long-form case gives advanced classes a reason to sustain English conversation for most of a lesson",
+    "Teachers get an event-style speaking lesson that feels different from a standard discussion prompt"
+  ],
+  "howItWorks": [
+    "Students receive character roles and case information connected to a mystery on a flight",
+    "The class interviews suspects, compares statements, and tracks evidence on the teacher screen",
+    "Students decide which clues matter and which stories do not add up",
+    "The class submits a final accusation and explains the reasoning before the reveal"
+  ],
+  "teacherUseCases": [
+    "A special speaking lesson for groups that need sustained conversation and teamwork",
+    "Question-formation practice where students must ask follow-up questions for a real purpose",
+    "A review or reward lesson that still produces serious language output"
+  ],
+  "estimatedTime": "40-55 min",
+  "groupSize": "4+",
+  "faq": [
+    {
+      "q": "How many students do I need for Cabin Mystery?",
+      "a": "Cabin Mystery is designed for at least four students because the activity depends on multiple roles, interviews, and competing pieces of information."
+    },
+    {
+      "q": "Is Cabin Mystery generated for any topic?",
+      "a": "The current version uses a reviewed static case rather than an open generator. That keeps the mystery coherent and classroom-ready while the format is still being refined."
+    },
+    {
+      "q": "What level is best?",
+      "a": "It works best from B1 upward. Students need enough language to ask follow-up questions, compare details, and explain a theory."
+    },
+    {
+      "q": "Does the teacher have to manage all the clues manually?",
+      "a": "No. LessonCaptain provides the roles and shared case flow. The teacher facilitates discussion, keeps time, and pushes students to justify claims with evidence."
+    },
+    {
+      "q": "How do students receive their mystery roles?",
+      "a": "No. Students join through the live browser link and receive their role information without creating an account."
+    }
+  ],
+  "related": ["scenario-simulator", "conversation-rounds", "fact-detective"],
+  "ogImageTheme": "practice"
+}

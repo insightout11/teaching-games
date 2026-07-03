@@ -26,6 +26,8 @@ interface ActivityCategoryPageProps {
 type CategoryPageProps = GameCategoryPageProps | ActivityCategoryPageProps;
 
 const CATEGORY_INTROS: Record<string, string> = {
+  quiz:
+    'These quiz games turn topic review into a live class check-in. Students answer on their own devices, the teacher sees the room instantly, and the leaderboard keeps energy high without extra prep.',
   vocabulary:
     'These vocabulary games give students immediate feedback on word choice, synonym recall, and vocabulary depth — the kind of active practice that actually builds fluency.',
   grammar:
@@ -40,9 +42,29 @@ const CATEGORY_INTROS: Record<string, string> = {
     'These practice activities develop speaking fluency through roleplay, simulation, and collaborative problem-solving. Every session adapts to your class topic.',
   debate:
     "These debate and argumentation activities build persuasion language and critical thinking. AI plays devil's advocate so students face real intellectual challenge.",
+  closing:
+    'These closing activities give every student a final voice before the lesson ends. They consolidate vocabulary, opinions, and takeaways so the class lands with evidence of what students can actually say.',
 };
 
 const CATEGORY_FAQS: Record<string, { q: string; a: string }[]> = {
+  quiz: [
+    {
+      q: 'Do quiz games need student devices?',
+      a: 'Most quiz games are built for students to answer from their own phone, tablet, or laptop through a browser link. No download or student account is required.',
+    },
+    {
+      q: 'Can I use quiz games with one student?',
+      a: 'Yes. Several quiz games work well 1-on-1 because the live prompt, response, and reveal loop still creates useful retrieval practice without needing a crowd.',
+    },
+    {
+      q: 'Are the questions generated for my topic?',
+      a: 'Yes. You set the lesson topic and level, then LessonCaptain generates questions, clues, or map prompts that fit the session.',
+    },
+    {
+      q: 'How long should a quiz round take?',
+      a: 'Most quiz games fit into a 10 to 20 minute block. Shorter rounds work as warm-ups or checks; longer rounds work as review games near the end of class.',
+    },
+  ],
   vocabulary: [
     {
       q: 'How much preparation time do vocabulary games need?',
@@ -167,6 +189,24 @@ const CATEGORY_FAQS: Record<string, { q: string; a: string }[]> = {
     {
       q: 'What level is best for debate activities?',
       a: 'Debate activities work best from B1 upward. Lower levels need more scaffolding — sentence starters and vocabulary support from the teacher.',
+    },
+  ],
+  closing: [
+    {
+      q: 'Why use a closing activity instead of just ending class?',
+      a: 'A closing activity gives students one last chance to retrieve, explain, or apply the language from the lesson. It also gives the teacher a fast read on what landed.',
+    },
+    {
+      q: 'Do closing activities have to be scored?',
+      a: 'No. Some are scored, but many are reflection or final-response activities. The goal is a strong landing, not just another competition.',
+    },
+    {
+      q: 'Can closing activities work in a short lesson?',
+      a: 'Yes. Several closing activities are designed for the final 3 to 8 minutes, so teachers can compress the ending when class runs long.',
+    },
+    {
+      q: 'Do students need accounts?',
+      a: 'No. Students join through the same browser link used during the live lesson. They do not need to create accounts or install an app.',
     },
   ],
 };

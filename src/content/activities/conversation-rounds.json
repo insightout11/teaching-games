@@ -1,0 +1,48 @@
+{
+  "slug": "conversation-rounds",
+  "schemaVersion": 1,
+  "headline": "Conversation Rounds Activity - Rotating ESL Role-Play Practice",
+  "outcomes": [
+    "Students practise spontaneous speaking in short, focused rounds instead of one long unfocused chat",
+    "Every student gets a turn because the activity rotates roles and keeps the class moving",
+    "Listening remains active while classmates perform, because observers can notice useful phrases or strong choices",
+    "Teachers can turn almost any topic into repeated role-play practice without writing scenarios manually"
+  ],
+  "howItWorks": [
+    "LessonCaptain generates a role-play situation connected to the lesson topic",
+    "Two students take the active roles while the rest of the class observes with a clear listening focus",
+    "After a short round, the teacher rotates roles or changes the scenario constraint",
+    "The class reflects on useful language, then runs another round with stronger phrasing"
+  ],
+  "teacherUseCases": [
+    "Business English practice such as client calls, job interviews, complaints, or negotiations",
+    "Conversation classes where students need structure but not a full scripted dialogue",
+    "Small-group speaking lessons where everyone needs repeated chances to perform"
+  ],
+  "estimatedTime": "15-25 min",
+  "groupSize": "2+",
+  "faq": [
+    {
+      "q": "How is Conversation Rounds different from Scenario Simulator?",
+      "a": "Conversation Rounds is lighter and more repeatable. It focuses on short role-play turns and rotation, while Scenario Simulator builds a longer branching situation with roles and consequences."
+    },
+    {
+      "q": "Can I use this with one student?",
+      "a": "It is designed for at least two students so learners can perform with each other. In a one-on-one lesson, the teacher can take the second role, but the group rotation is lost."
+    },
+    {
+      "q": "Do observers have anything to do?",
+      "a": "Yes. The teacher can give observers a listening focus such as useful phrases, politeness, problem-solving moves, or one improvement for the next round."
+    },
+    {
+      "q": "Which lesson topics fit Conversation Rounds?",
+      "a": "Any topic with a social or practical situation works: travel problems, workplace decisions, school issues, customer service, interviews, planning, or disagreements."
+    },
+    {
+      "q": "How do students join a Conversation Rounds lesson?",
+      "a": "No. Students join through the lesson link and participate from any browser without student accounts."
+    }
+  ],
+  "related": ["scenario-simulator", "scene-igniter", "problem-solvers"],
+  "ogImageTheme": "learning"
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "imposter",
+  "schemaVersion": 1,
+  "headline": "Imposter Activity - Secret Word Speaking Game for ESL Classes",
+  "outcomes": [
+    "Students practise careful description because most of the class knows the secret word but one student does not",
+    "Listening matters: students must notice vague answers, suspicious details, and overconfident guesses",
+    "The format creates repeated speaking turns without feeling like a formal presentation",
+    "Teachers get a high-energy icebreaker that works especially well for small groups and teen or adult classes"
+  ],
+  "howItWorks": [
+    "LessonCaptain gives most students the same secret word while one student receives an unknown role",
+    "Students take turns giving clues or answering questions without saying the secret word directly",
+    "The class listens for who sounds least informed and votes on the likely imposter",
+    "The reveal opens a short discussion about which clues were useful and which answers gave the game away"
+  ],
+  "teacherUseCases": [
+    "Vocabulary review where students describe a word indirectly instead of translating it",
+    "Small-group speaking practice for teens or adults who enjoy deduction games",
+    "A topic warm-up before a discussion lesson where students need to activate descriptive language"
+  ],
+  "estimatedTime": "8-12 min",
+  "groupSize": "Best with 3+",
+  "faq": [
+    {
+      "q": "How many students do I need for Imposter?",
+      "a": "Imposter needs at least three students because one student must be the hidden outsider while others know the word. It is strongest with five or more."
+    },
+    {
+      "q": "Can students say the secret word?",
+      "a": "No. The point is to describe around the word, give clues, and sound convincing. That makes it useful for circumlocution and descriptive vocabulary."
+    },
+    {
+      "q": "Is Imposter good for beginner students?",
+      "a": "It can work with simple topics and clear vocabulary, but it is usually best from A2 upward because students need enough language to describe without naming the word."
+    },
+    {
+      "q": "Does the teacher need to prepare word cards?",
+      "a": "No. LessonCaptain handles the secret word and role assignment through the live student devices."
+    },
+    {
+      "q": "How are secret roles delivered to students?",
+      "a": "No. Students join from any browser with the class link. No app or student account is required."
+    }
+  ],
+  "related": ["two-truths", "bluff-definition", "password"],
+  "ogImageTheme": "icebreakers"
+}

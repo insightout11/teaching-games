@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getActivitiesGrouped, CATEGORY_INFO } from '@/activities/registry';
 import { HubPage } from '@/components/landing/HubPage';
-import { ACTIVITY_CATEGORY_SLUGS } from '@/lib/content-landing';
+import { ACTIVITY_CATEGORY_SLUGS, getActivityContent } from '@/lib/content-landing';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 
@@ -31,7 +31,9 @@ export default function ClassroomActivitiesHub() {
       slug: displaySlug,
       name: info.name,
       description: info.description,
-      plugins: grouped[registryKey as keyof typeof grouped] ?? [],
+      plugins: (grouped[registryKey as keyof typeof grouped] ?? []).filter((plugin) =>
+        getActivityContent(plugin.key)
+      ),
     };
   });
 

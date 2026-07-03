@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { MonitorPlay } from 'lucide-react';
 import { getGamesGrouped, GAME_CATEGORY_INFO } from '@/games/registry';
 import { HubPage } from '@/components/landing/HubPage';
-import { GAME_CATEGORY_SLUGS } from '@/lib/content-landing';
+import { GAME_CATEGORY_SLUGS, getGameContent } from '@/lib/content-landing';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 
@@ -33,7 +33,9 @@ export default function ClassroomGamesHub() {
       slug: displaySlug,
       name: info.name,
       description: info.description,
-      plugins: grouped[registryKey as keyof typeof grouped] ?? [],
+      plugins: (grouped[registryKey as keyof typeof grouped] ?? []).filter((plugin) =>
+        getGameContent(plugin.key)
+      ),
     };
   });
 

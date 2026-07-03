@@ -1,0 +1,48 @@
+{
+  "slug": "quick-pulse",
+  "schemaVersion": 1,
+  "headline": "Quick Pulse Activity - 3-Minute ESL Warm-Up Poll",
+  "outcomes": [
+    "Students answer fast, low-pressure prompts so the whole class speaks from the first minutes of the lesson",
+    "The teacher sees an instant distribution of opinions, confidence, or prior knowledge before choosing the next move",
+    "Short prompts lower anxiety for quiet students because everyone responds at the same time",
+    "The result screen gives the class a natural reason to compare answers and explain choices"
+  ],
+  "howItWorks": [
+    "LessonCaptain generates three mini-prompts connected to your topic or lesson goal",
+    "Students answer from their phones or laptops while the teacher screen tracks responses live",
+    "The class sees the response distribution after each prompt, not a long report after the activity",
+    "The teacher uses the strongest split or surprise result as the first discussion question"
+  ],
+  "teacherUseCases": [
+    "Opening a lesson with a quick opinion check before a reading, video, or debate",
+    "Checking background knowledge before teaching a new topic",
+    "Restarting energy after a break with a fast whole-class participation moment"
+  ],
+  "estimatedTime": "3-5 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What kind of prompts does Quick Pulse generate?",
+      "a": "Prompts are short and easy to answer quickly: agreement checks, preference choices, confidence ratings, or prediction questions. They are designed to start conversation, not test students formally."
+    },
+    {
+      "q": "Can Quick Pulse work with one student?",
+      "a": "Yes. With one student it becomes a fast diagnostic or conversation starter. In groups, the distribution reveal adds extra energy because students can compare how the room answered."
+    },
+    {
+      "q": "Is Quick Pulse scored?",
+      "a": "No. Quick Pulse is a warm-up and check-in activity. The value comes from participation and discussion, not points."
+    },
+    {
+      "q": "How do students answer the pulse prompts?",
+      "a": "No. Students join through a browser link on any device. They do not need to install an app or create a student account."
+    },
+    {
+      "q": "When should I use Quick Pulse?",
+      "a": "Use it when you need the class talking quickly: the first minutes of class, before a source-based lesson, before a debate, or after a long teacher explanation."
+    }
+  ],
+  "related": ["would-you-rather", "wonder-board", "rank-it"],
+  "ogImageTheme": "icebreakers"
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "listening-gap-fill",
+  "schemaVersion": 1,
+  "headline": "Listening Gap Fill Activity - Live Missing-Word Practice",
+  "outcomes": [
+    "Students practise listening for exact words, not only general meaning",
+    "The live accuracy breakdown shows which words the class heard clearly and which need another pass",
+    "Vocabulary and listening practice connect because the missing words come from the lesson topic",
+    "Teachers get a fast, focused listening check without preparing a worksheet"
+  ],
+  "howItWorks": [
+    "LessonCaptain generates five or six sentences with a missing target word in each one",
+    "Students listen, read the sentence context, and type the missing word from their own device",
+    "The teacher reveals answers one by one with a live class accuracy breakdown",
+    "The class reviews tricky words, spelling, pronunciation, and meaning before moving into speaking practice"
+  ],
+  "teacherUseCases": [
+    "After a video or listening text, check whether students caught the key vocabulary",
+    "Before a speaking task, reinforce pronunciation and spelling of target words",
+    "Use as a short accuracy break in a longer conversation lesson"
+  ],
+  "estimatedTime": "6-10 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "Does Listening Gap Fill require an audio file?",
+      "a": "It can work as a teacher-led listening check using generated sentences, and it fits naturally after source-based lessons where students have just heard or read target language."
+    },
+    {
+      "q": "Is this just a worksheet on screen?",
+      "a": "No. Students answer live, the teacher sees class accuracy instantly, and the reveal becomes a focused review moment rather than a static fill-in-the-blank page."
+    },
+    {
+      "q": "Can beginners use it?",
+      "a": "Yes. Beginner rounds use short sentences and familiar words. Higher levels can handle more natural phrasing, distractors, and words that are harder to hear."
+    },
+    {
+      "q": "What does the teacher do with wrong answers?",
+      "a": "Use them diagnostically. If many students miss the same word, replay or reread the sentence, isolate the sound, then ask students to use the word in a new sentence."
+    },
+    {
+      "q": "How do students type their missing-word answers?",
+      "a": "No. Students type answers through the live browser link without creating accounts or installing anything."
+    }
+  ],
+  "related": ["vocab-radar", "in-your-words", "fact-detective"],
+  "ogImageTheme": "learning"
+}

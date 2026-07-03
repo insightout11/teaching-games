@@ -1,0 +1,48 @@
+{
+  "slug": "radar-fix",
+  "schemaVersion": 1,
+  "headline": "Radar Fix Game - World Map Clue Challenge for ESL Lessons",
+  "outcomes": [
+    "Students practise geography, place vocabulary, and clue interpretation through a live map challenge",
+    "Observation and reasoning become speaking prompts as students explain why a location fits the clues",
+    "The world-map format gives travel, culture, and current-events lessons a visual anchor",
+    "Teachers get a memorable review game that feels different from another multiple-choice quiz"
+  ],
+  "howItWorks": [
+    "LessonCaptain presents destination clues connected to cities, airports, landmarks, or world regions",
+    "Students use their devices to make a location guess or discuss the most likely answer",
+    "The teacher reveals the correct radar fix on the shared world map",
+    "The class compares guesses, explains clues, and collects points for close or accurate reasoning"
+  ],
+  "teacherUseCases": [
+    "Travel English lessons where students need to describe places, routes, and cultural clues",
+    "World Flight sessions where a map-based game reinforces the journey theme",
+    "Current-events or geography lessons where students practise making evidence-based guesses"
+  ],
+  "estimatedTime": "8-15 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "Is Radar Fix only for geography classes?",
+      "a": "No. Geography is the frame, but the language work is broader: students describe evidence, compare possibilities, use place vocabulary, and explain their reasoning in English."
+    },
+    {
+      "q": "Can beginners use Radar Fix?",
+      "a": "Yes, if the teacher keeps the clues simple. Beginners can work with country names, directions, weather, and landmark vocabulary, while stronger students can handle cultural and historical clues."
+    },
+    {
+      "q": "Does every student answer at the same time?",
+      "a": "The game is built for live participation. Depending on the class, students can submit individual guesses or discuss a team answer before the teacher reveals the map position."
+    },
+    {
+      "q": "How does Radar Fix connect to World Flight?",
+      "a": "It fits naturally into a flight-themed lesson because the class is already thinking about destinations. Use it before arrival, after a city briefing, or as a quick culture review."
+    },
+    {
+      "q": "How do students submit guesses in Radar Fix?",
+      "a": "No. Students join through a shared browser link and participate from any device without creating an account."
+    }
+  ],
+  "related": ["world-lens", "brain-teasers", "twenty-questions"],
+  "ogImageTheme": "quiz"
+}

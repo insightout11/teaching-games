@@ -74,7 +74,7 @@ export default function ClassroomActivitySlugPage({ params }: { params: { slug: 
     const info = CATEGORY_INFO[registryKey as keyof typeof CATEGORY_INFO];
     const plugins = getActivitiesByCategory(
       registryKey as Parameters<typeof getActivitiesByCategory>[0]
-    );
+    ).filter((plugin) => getActivityContent(plugin.key));
     const contentMap: Record<string, LandingContent> = {};
     for (const p of plugins) {
       const c = getActivityContent(p.key);

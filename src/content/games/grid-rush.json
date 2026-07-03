@@ -1,0 +1,48 @@
+{
+  "slug": "grid-rush",
+  "schemaVersion": 1,
+  "headline": "GridRush Game - Letter Grid Vocabulary Race for ESL Classes",
+  "outcomes": [
+    "Students build vocabulary fluency by finding as many valid words as possible from a shared letter grid",
+    "Spelling and word formation become active practice instead of a worksheet or isolated word list",
+    "The sentence round pushes students to use their strongest word in context, not just collect points",
+    "Teachers get a fast read on vocabulary range, spelling accuracy, and who can turn words into usable English"
+  ],
+  "howItWorks": [
+    "LessonCaptain generates a shared letter grid and opens a timed word-building round for the whole class",
+    "Students submit words from their own devices while the teacher screen tracks the rush live",
+    "The game awards points for valid words, stronger vocabulary, and topic-relevant choices",
+    "Students then write one best sentence using a selected word so the round ends with real language production"
+  ],
+  "teacherUseCases": [
+    "Vocabulary review after a reading or video lesson where students need to recall and reuse topic words",
+    "A fast spelling and word-family warm-up for classes that need energy before a speaking task",
+    "A low-prep writing bridge: students move from isolated words into sentence-level accuracy in the same activity"
+  ],
+  "estimatedTime": "12-18 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What makes GridRush different from a word search?",
+      "a": "GridRush is live and productive. Students race to build words from the grid, but the final sentence round makes them use vocabulary in context. The teacher sees both speed and language quality instead of only whether students found hidden words."
+    },
+    {
+      "q": "Can beginners play GridRush?",
+      "a": "Yes. Beginner classes can focus on short everyday words and simple sentences, while stronger classes can be pushed toward topic vocabulary, longer words, and more accurate sentence use."
+    },
+    {
+      "q": "Does GridRush work for one-on-one lessons?",
+      "a": "Yes. A single student can still race the clock, collect words, and write a sentence. In a group class the leaderboard adds competition, but the core vocabulary practice works with exactly one learner."
+    },
+    {
+      "q": "What do students need to join a GridRush round?",
+      "a": "No. Students join from a browser link on any phone, tablet, or laptop. They do not need to download an app or create a student account."
+    },
+    {
+      "q": "Can the words match my lesson topic?",
+      "a": "Yes. Set the lesson topic before launch and use the sentence round to reward words that connect to that topic. It works especially well after source-based lessons where students have just met new vocabulary."
+    }
+  ],
+  "related": ["vocab-sprint", "word-chain", "synonym-showdown"],
+  "ogImageTheme": "vocabulary"
+}

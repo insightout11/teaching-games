@@ -1,0 +1,48 @@
+{
+  "slug": "sector-strike",
+  "schemaVersion": 1,
+  "headline": "Sector Strike Game - Team Quiz Battle for ESL Classrooms",
+  "outcomes": [
+    "Students practise recall and explanation under pressure while working toward a visible team goal",
+    "Team strategy keeps stronger students engaged without leaving quieter students as passengers",
+    "Questions become meaningful because each answer claims territory on the board, not just points on a scoreboard",
+    "Teachers can turn review content into a 20-minute class event with almost no preparation"
+  ],
+  "howItWorks": [
+    "The class splits into teams and sees an 8 by 8 sector grid on the teacher screen",
+    "Teams answer speaking or written questions generated for the lesson topic and level",
+    "Correct answers let a team claim a sector, building toward four connected sectors in a row",
+    "The board state changes after every answer, so students have to balance language accuracy with team strategy"
+  ],
+  "teacherUseCases": [
+    "End-of-unit review where teams need repeated retrieval across vocabulary, grammar, and comprehension",
+    "A Friday game format that still forces students to explain, justify, and recall lesson language",
+    "A group-class speaking task where teammates coach each other before committing an answer"
+  ],
+  "estimatedTime": "18-25 min",
+  "groupSize": "Best with teams",
+  "faq": [
+    {
+      "q": "How many students do I need for Sector Strike?",
+      "a": "Sector Strike is designed for teams, so it works best with at least four students. Smaller classes can still play with two students, but the strategic team energy is strongest in groups."
+    },
+    {
+      "q": "Can I choose speaking or written questions?",
+      "a": "Yes. The game supports speaking-only, written-only, or mixed question modes. That lets you use it for conversation review, grammar checks, or a balanced end-of-lesson game."
+    },
+    {
+      "q": "Is it just a quiz with a board?",
+      "a": "No. The board changes the conversation. Students have to decide which sector to attack, whether to block another team, and how to use strong answers at the right moment."
+    },
+    {
+      "q": "Do students need their own devices?",
+      "a": "Yes. Students submit or prepare answers through the live classroom flow. They join by browser link, with no app download and no student accounts."
+    },
+    {
+      "q": "What level is Sector Strike best for?",
+      "a": "It works from A2 upward. Lower-level classes do best with short recall prompts, while B1 and above can handle explanation, persuasion, and team discussion before answering."
+    }
+  ],
+  "related": ["flash-quiz", "brain-teasers", "connections"],
+  "ogImageTheme": "quiz"
+}

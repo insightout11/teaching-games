@@ -11,6 +11,7 @@ const THEME_COLORS: Record<string, { bg: string; text: string; accent: string }>
   learning:    { bg: '#065f46', text: '#ffffff', accent: '#6ee7b7' },
   practice:    { bg: '#1e40af', text: '#ffffff', accent: '#93c5fd' },
   debate:      { bg: '#9f1239', text: '#ffffff', accent: '#fca5a5' },
+  closing:     { bg: '#0f766e', text: '#ffffff', accent: '#5eead4' },
 };
 
 export default function ActivityOgImage({ params }: { params: { slug: string } }) {

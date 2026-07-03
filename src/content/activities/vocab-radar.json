@@ -1,0 +1,48 @@
+{
+  "slug": "vocab-radar",
+  "schemaVersion": 1,
+  "headline": "Vocab Radar Activity - Instant Vocabulary Confidence Map",
+  "outcomes": [
+    "Students rate how well they know key words before the lesson moves into practice",
+    "Teachers see which vocabulary needs support and which words the class can already use",
+    "The activity makes vocabulary knowledge visible without embarrassing individual students",
+    "Students become more aware of their own word confidence before reading, listening, or discussion"
+  ],
+  "howItWorks": [
+    "LessonCaptain selects five or six key words connected to the class topic",
+    "Students rate each word from unfamiliar to confident on their own device",
+    "The teacher screen shows a live vocabulary map of class confidence",
+    "The teacher chooses which words to teach, skip, or recycle later in the lesson"
+  ],
+  "teacherUseCases": [
+    "Pre-teaching vocabulary before a video, article, or listening task",
+    "Checking which words are worth spending class time on instead of guessing",
+    "Starting a topic lesson with student self-assessment rather than a teacher lecture"
+  ],
+  "estimatedTime": "4-6 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "Is Vocab Radar a quiz?",
+      "a": "No. It is a confidence check. Students are not marked right or wrong; they report how familiar each word feels so the teacher can make better decisions."
+    },
+    {
+      "q": "Can I choose the vocabulary?",
+      "a": "Vocab Radar can generate words from your topic, and it works especially well inside a full lesson where the source or topic already defines the language focus."
+    },
+    {
+      "q": "Why ask students to rate words before teaching?",
+      "a": "It prevents wasted time. If the class already knows several words, you can move faster. If a key word is unfamiliar to most students, you can pause before the main task breaks down."
+    },
+    {
+      "q": "Does Vocab Radar work online?",
+      "a": "Yes. The teacher screen can be shared on Zoom, Meet, or Teams while students rate words from any browser."
+    },
+    {
+      "q": "How do students rate each vocabulary item?",
+      "a": "No. Students join through the live lesson link and respond without signing in."
+    }
+  ],
+  "related": ["vocab-sprint", "word-chain", "wonder-board"],
+  "ogImageTheme": "icebreakers"
+}

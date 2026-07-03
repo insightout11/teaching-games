@@ -73,7 +73,9 @@ export default function ClassroomGameSlugPage({ params }: { params: { slug: stri
   if (GAME_CATEGORY_DISPLAY_SLUGS.has(slug)) {
     const registryKey = GAME_CATEGORY_SLUG_TO_KEY[slug];
     const info = GAME_CATEGORY_INFO[registryKey as keyof typeof GAME_CATEGORY_INFO];
-    const plugins = getGamesByCategory(registryKey as Parameters<typeof getGamesByCategory>[0]);
+    const plugins = getGamesByCategory(
+      registryKey as Parameters<typeof getGamesByCategory>[0]
+    ).filter((plugin) => getGameContent(plugin.key));
     const contentMap: Record<string, LandingContent> = {};
     for (const p of plugins) {
       const c = getGameContent(p.key);

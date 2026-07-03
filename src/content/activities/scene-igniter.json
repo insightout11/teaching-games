@@ -1,0 +1,48 @@
+{
+  "slug": "scene-igniter",
+  "schemaVersion": 1,
+  "headline": "Scene Igniter Activity - Short Role-Play Scenes for ESL Speaking",
+  "outcomes": [
+    "Students get an immediate speaking scene with roles, context, and a reason to talk",
+    "Role-play feels structured but not scripted, so students can improvise at their level",
+    "Equal speaking turns help the teacher avoid one confident student taking over the scene",
+    "The activity turns a topic into a memorable moment rather than another abstract discussion question"
+  ],
+  "howItWorks": [
+    "LessonCaptain generates a short scene connected to your topic, with roles and a simple conflict or task",
+    "Students receive or see their assigned roles and prepare a first line or response",
+    "The class performs the scene live while the teacher guides timing and turn-taking",
+    "The teacher can replay the scene with new language goals, stronger emotion, or a different outcome"
+  ],
+  "teacherUseCases": [
+    "Warm up a speaking lesson with a quick, low-stakes role-play",
+    "Practise functional English such as requests, apologies, complaints, advice, or negotiation",
+    "Give one-on-one students a structured conversation without inventing a scenario from scratch"
+  ],
+  "estimatedTime": "5-10 min",
+  "groupSize": "1-6",
+  "faq": [
+    {
+      "q": "Is Scene Igniter scripted?",
+      "a": "It gives students the setup and roles, but the language is not fully scripted. Students still produce their own lines, which keeps the activity communicative."
+    },
+    {
+      "q": "Can Scene Igniter work one-on-one?",
+      "a": "Yes. In a one-on-one lesson, the teacher can take one role and the student takes the other, or the student can practise multiple responses in the same scene."
+    },
+    {
+      "q": "Which situations make strong Scene Igniter prompts?",
+      "a": "Everyday conflict, travel, customer service, work situations, school life, and social decisions all work well because students immediately understand what the characters want."
+    },
+    {
+      "q": "Does it need student devices?",
+      "a": "It can run from the shared teacher screen, and students can also use devices for role assignment in a live LessonCaptain session."
+    },
+    {
+      "q": "How do I make the language more challenging?",
+      "a": "Raise the difficulty, add a function such as persuasion or compromise, or rerun the scene with a new constraint like 'be more polite' or 'use three target phrases'."
+    }
+  ],
+  "related": ["scenario-simulator", "conversation-rounds", "would-you-rather"],
+  "ogImageTheme": "icebreakers"
+}

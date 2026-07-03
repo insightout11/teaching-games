@@ -6,6 +6,8 @@
 
 import fs from 'fs';
 import path from 'path';
+import { getAllGames } from '../games/registry';
+import { getAllActivities } from '../activities/registry';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -51,18 +53,21 @@ const VALID_GAME_SLUG_LIST = [
   'grammar-boss', 'error-hunter', 'story-sprint', 'dialogue-detective',
   'connections', 'twenty-questions',
   'flash-quiz', 'brain-teasers', 'defend-it',
+  'grid-rush', 'sector-strike', 'radar-fix', 'world-lens',
 ];
 
 const VALID_ACTIVITY_SLUG_LIST = [
   'would-you-rather', 'two-truths', 'rank-it', 'fact-detective',
   'expert-panel', 'scenario-simulator', 'problem-solvers', 'hot-take-arena',
   'bluff-definition', 'taboo-sprint', 'wonder-board', 'password', 'in-your-words',
+  'quick-pulse', 'vocab-radar', 'prediction-round', 'imposter', 'scene-igniter',
+  'listening-gap-fill', 'conversation-rounds', 'decision-council', 'cabin-mystery',
 ];
 
 const VALID_SLUGS = new Set([...VALID_GAME_SLUG_LIST, ...VALID_ACTIVITY_SLUG_LIST]);
 
 const RESERVED_CATEGORY_SLUGS = new Set([
-  'vocabulary', 'grammar', 'logic', 'icebreakers', 'learning', 'practice', 'debate',
+  'quiz', 'vocabulary', 'grammar', 'logic', 'icebreakers', 'learning', 'practice', 'debate', 'closing',
 ]);
 
 const VALID_OG_THEMES = RESERVED_CATEGORY_SLUGS;
@@ -261,6 +266,35 @@ function crossFileChecks(
   }
 }
 
+function registryCoverageChecks(
+  gameFiles: { file: string; content: LandingContent }[],
+  activityFiles: { file: string; content: LandingContent }[]
+): void {
+  const gameSlugs = new Set(gameFiles.map(({ content }) => content.slug));
+  const activitySlugs = new Set(activityFiles.map(({ content }) => content.slug));
+
+  const missingGames = getAllGames().filter((plugin) => !gameSlugs.has(plugin.key));
+  const missingPublicActivities = getAllActivities().filter(
+    (plugin) => !plugin.flightPlanOnly && !activitySlugs.has(plugin.key)
+  );
+
+  if (missingGames.length > 0) {
+    warn(
+      `Registered games without SEO content: ${missingGames
+        .map((plugin) => plugin.key)
+        .join(', ')}`
+    );
+  }
+
+  if (missingPublicActivities.length > 0) {
+    warn(
+      `Public activities without SEO content: ${missingPublicActivities
+        .map((plugin) => plugin.key)
+        .join(', ')}`
+    );
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Run
 // ---------------------------------------------------------------------------
@@ -279,6 +313,7 @@ for (const { file, content } of activityFiles) {
 
 console.log('\n=== Cross-file checks ===');
 crossFileChecks([...gameFiles, ...activityFiles]);
+registryCoverageChecks(gameFiles, activityFiles);
 
 // Summary
 console.log('\n─────────────────────────────────');

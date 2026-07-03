@@ -16,6 +16,10 @@ import twentyQuestionsJson from '@/content/games/twenty-questions.json';
 import flashQuizJson from '@/content/games/flash-quiz.json';
 import brainTeasersJson from '@/content/games/brain-teasers.json';
 import defendItJson from '@/content/games/defend-it.json';
+import gridRushJson from '@/content/games/grid-rush.json';
+import sectorStrikeJson from '@/content/games/sector-strike.json';
+import radarFixJson from '@/content/games/radar-fix.json';
+import worldLensJson from '@/content/games/world-lens.json';
 
 import wouldYouRatherJson from '@/content/activities/would-you-rather.json';
 import twoTruthsJson from '@/content/activities/two-truths.json';
@@ -30,6 +34,15 @@ import tabooSprintJson from '@/content/activities/taboo-sprint.json';
 import wonderBoardJson from '@/content/activities/wonder-board.json';
 import passwordJson from '@/content/activities/password.json';
 import inYourWordsJson from '@/content/activities/in-your-words.json';
+import quickPulseJson from '@/content/activities/quick-pulse.json';
+import vocabRadarJson from '@/content/activities/vocab-radar.json';
+import predictionRoundJson from '@/content/activities/prediction-round.json';
+import imposterJson from '@/content/activities/imposter.json';
+import sceneIgniterJson from '@/content/activities/scene-igniter.json';
+import listeningGapFillJson from '@/content/activities/listening-gap-fill.json';
+import conversationRoundsJson from '@/content/activities/conversation-rounds.json';
+import decisionCouncilJson from '@/content/activities/decision-council.json';
+import cabinMysteryJson from '@/content/activities/cabin-mystery.json';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -63,6 +76,7 @@ export interface LandingContent {
 // ---------------------------------------------------------------------------
 
 export const GAME_CATEGORY_SLUGS: Record<string, string> = {
+  quiz: 'quiz',
   vocabulary: 'vocabulary',
   'grammar-writing': 'grammar',
   'logic-puzzles': 'logic',
@@ -73,6 +87,7 @@ export const ACTIVITY_CATEGORY_SLUGS: Record<string, string> = {
   learning: 'learning',
   practice: 'practice',
   debate: 'debate',
+  closing: 'closing',
 };
 
 // Reverse maps: display slug → registry key
@@ -106,6 +121,10 @@ const GAME_CONTENT: Record<string, LandingContent> = {
   'flash-quiz': flashQuizJson as LandingContent,
   'brain-teasers': brainTeasersJson as LandingContent,
   'defend-it': defendItJson as LandingContent,
+  'grid-rush': gridRushJson as LandingContent,
+  'sector-strike': sectorStrikeJson as LandingContent,
+  'radar-fix': radarFixJson as LandingContent,
+  'world-lens': worldLensJson as LandingContent,
 };
 
 const ACTIVITY_CONTENT: Record<string, LandingContent> = {
@@ -122,6 +141,15 @@ const ACTIVITY_CONTENT: Record<string, LandingContent> = {
   'wonder-board': wonderBoardJson as LandingContent,
   'password': passwordJson as LandingContent,
   'in-your-words': inYourWordsJson as LandingContent,
+  'quick-pulse': quickPulseJson as LandingContent,
+  'vocab-radar': vocabRadarJson as LandingContent,
+  'prediction-round': predictionRoundJson as LandingContent,
+  'imposter': imposterJson as LandingContent,
+  'scene-igniter': sceneIgniterJson as LandingContent,
+  'listening-gap-fill': listeningGapFillJson as LandingContent,
+  'conversation-rounds': conversationRoundsJson as LandingContent,
+  'decision-council': decisionCouncilJson as LandingContent,
+  'cabin-mystery': cabinMysteryJson as LandingContent,
 };
 
 export function getGameContent(slug: string): LandingContent | undefined {

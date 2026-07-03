@@ -1,0 +1,48 @@
+{
+  "slug": "prediction-round",
+  "schemaVersion": 1,
+  "headline": "Prediction Round Activity - Curiosity Builder for ESL Lessons",
+  "outcomes": [
+    "Students commit to predictions before seeing the answer, which makes the reveal more memorable",
+    "The activity builds useful language for guessing, probability, evidence, and changing your mind",
+    "Teachers create a purpose for reading, listening, or watching because students want to check their predictions",
+    "The class starts with curiosity instead of passive input"
+  ],
+  "howItWorks": [
+    "LessonCaptain generates three prediction prompts related to the lesson topic or source",
+    "Students choose or write predictions from their own device before the reveal",
+    "The teacher shows the class distribution and invites students to explain their reasoning",
+    "After the source, reading, or discussion, the class returns to the predictions and checks what changed"
+  ],
+  "teacherUseCases": [
+    "Before a YouTube or listening lesson, ask students to predict what will happen or what the speaker will say",
+    "Before a reading, build interest around the main claim, conflict, or outcome",
+    "Before a culture or travel lesson, surface assumptions the class can test during the lesson"
+  ],
+  "estimatedTime": "4-8 min",
+  "groupSize": "Any",
+  "faq": [
+    {
+      "q": "What language does Prediction Round practise?",
+      "a": "Students practise prediction phrases, probability language, giving reasons, and revising an opinion after new information. It is useful before almost any source-based lesson."
+    },
+    {
+      "q": "Does the prediction have to be correct?",
+      "a": "No. The value is in committing to a guess and explaining the reasoning. Wrong predictions often create better discussion because students can explain what evidence changed their mind."
+    },
+    {
+      "q": "Can I use this with a video lesson?",
+      "a": "Yes. Prediction Round is a natural opener before a video because students watch with a purpose: to confirm, reject, or adjust their own prediction."
+    },
+    {
+      "q": "Does it work with beginner students?",
+      "a": "Yes. Beginners can choose from short options, while stronger students can write their own predictions and justify them with more complex language."
+    },
+    {
+      "q": "How do students lock in their predictions?",
+      "a": "No. Students answer from a browser link and do not need to install anything or sign in."
+    }
+  ],
+  "related": ["wonder-board", "fact-detective", "would-you-rather"],
+  "ogImageTheme": "icebreakers"
+}
