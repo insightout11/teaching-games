@@ -1371,6 +1371,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const pendingExpeditionFocusIdRef = useRef<string | null>(null);
   const routeAnimationRef = useRef<number | null>(null);
   const rangeAnimationRef = useRef<number | null>(null);
+  const skipNextDestinationResetRef = useRef(false);
   const [mapReady, setMapReady] = useState(false);
   const [selectedDestinationId, setSelectedDestinationId] = useState(() => initialDestinationId(initialClasses));
   const [selectedFocusId, setSelectedFocusId] = useState<string | null>(null);
@@ -1765,7 +1766,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       setPreviewNextHops(false);
       setDetailsOpen(false);
       setListOpen(true);
-      if (newlyReachable[0]) setSelectedDestinationId(newlyReachable[0].id);
+      if (newlyReachable[0]) {
+        skipNextDestinationResetRef.current = true;
+        setSelectedDestinationId(newlyReachable[0].id);
+      }
       setPlaneActionStatus('idle');
     } catch {
       setPlaneActionStatus('error');
@@ -1811,9 +1815,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   }, [initialClasses]);
 
   useEffect(() => {
-    if (origin) {
-      setSelectedDestinationId(defaultNextDestination(origin, rangeKm, visitedDestinationIds).id);
+    if (!origin) return;
+    if (skipNextDestinationResetRef.current) {
+      skipNextDestinationResetRef.current = false;
+      return;
     }
+    setSelectedDestinationId(defaultNextDestination(origin, rangeKm, visitedDestinationIds).id);
   }, [origin, rangeKm, visitedDestinationIds]);
 
   function selectClass(id: string) {
@@ -2613,9 +2620,19 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                   <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-cyan-100/75" aria-hidden />
                 </div>
               ) : (
-                <p className="rounded-md border border-white/10 bg-white/[0.035] px-3 py-2 text-xs text-lc-text3">
-                  Create a class in the planner to begin its journey.
-                </p>
+                <div className="rounded-md border border-cyan-200/20 bg-cyan-300/[0.06] px-3 py-3">
+                  <p className="text-xs leading-relaxed text-lc-text2">
+                    Create a class to begin its World Flight journey.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => router.push('/classes')}
+                    className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-md bg-lc-blue px-3 text-xs font-bold text-[#07111f] transition-colors hover:bg-lc-blue-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80"
+                  >
+                    <Plus className="h-3.5 w-3.5" aria-hidden />
+                    Open Classes
+                  </button>
+                </div>
               )}
             </div>
             {selectedClass && sidebarMode !== 'passport' && (
