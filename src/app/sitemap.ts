@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { getAllGameSlugs, getAllActivitySlugs, GAME_CATEGORY_DISPLAY_SLUGS, ACTIVITY_CATEGORY_DISPLAY_SLUGS } from '@/lib/content-landing';
 import { getRegistry } from '@/lib/worksheets';
+import { COMPARISON_PAGES } from '@/lib/marketing/comparison-pages';
+import { BLOG_POSTS } from '@/lib/marketing/blog-posts';
+import { DEMO_VIDEOS } from '@/lib/video-lesson-demos';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 const SITE_NOINDEX = process.env.SITE_NOINDEX === '1';
@@ -18,6 +21,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
   entries.push({ url: `${SITE_URL}/video-lesson`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 });
   entries.push({ url: `${SITE_URL}/showcase`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 });
   entries.push({ url: `${SITE_URL}/pro`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 });
+  entries.push({ url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 });
+
+  for (const page of COMPARISON_PAGES) {
+    entries.push({
+      url: `${SITE_URL}/${page.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    });
+  }
+
+  for (const post of BLOG_POSTS) {
+    entries.push({
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.65,
+    });
+  }
+
+  for (const video of DEMO_VIDEOS) {
+    entries.push({
+      url: `${SITE_URL}/video-lesson/${video.videoId}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.55,
+    });
+  }
 
   // ── Classroom Games ──────────────────────────────────────────
   if (!LANDING_NOINDEX) {

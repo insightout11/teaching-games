@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import type { LandingContent, FAQItem } from '@/lib/content-landing';
 import type { ActivityPlugin } from '@/activities/types';
+import type { GamePlugin } from '@/games/types';
 import { OutcomeStrip } from './OutcomeStrip';
 import { HowItWorks } from './HowItWorks';
 import { FAQSection } from './FAQSection';
@@ -14,6 +15,8 @@ interface ActivityDetailLayoutProps {
   plugin: ActivityPlugin;
   relatedContent: Record<string, LandingContent>;
   relatedPlugins: Record<string, ActivityPlugin>;
+  crossTypeRelatedContent?: Record<string, LandingContent>;
+  crossTypeRelatedPlugins?: Record<string, GamePlugin>;
 }
 
 export function ActivityDetailLayout({
@@ -21,6 +24,8 @@ export function ActivityDetailLayout({
   plugin,
   relatedContent,
   relatedPlugins,
+  crossTypeRelatedContent,
+  crossTypeRelatedPlugins,
 }: ActivityDetailLayoutProps) {
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -51,11 +56,15 @@ export function ActivityDetailLayout({
       ? 'Learning'
       : plugin.category === 'practice'
       ? 'Practice'
-      : 'Debate';
+      : plugin.category === 'debate'
+      ? 'Debate'
+      : 'Closing';
 
   const categorySlug =
     plugin.category === 'icebreaker'
       ? 'icebreakers'
+      : plugin.category === 'closing'
+      ? 'closing'
       : plugin.category;
 
   return (
@@ -157,6 +166,8 @@ export function ActivityDetailLayout({
           type="activity"
           contentMap={relatedContent}
           pluginMap={relatedPlugins}
+          crossTypeContentMap={crossTypeRelatedContent}
+          crossTypePluginMap={crossTypeRelatedPlugins}
         />
       )}
 

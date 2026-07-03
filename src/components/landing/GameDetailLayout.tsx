@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import type { LandingContent, FAQItem } from '@/lib/content-landing';
 import type { GamePlugin } from '@/games/types';
+import type { ActivityPlugin } from '@/activities/types';
 import { OutcomeStrip } from './OutcomeStrip';
 import { HowItWorks } from './HowItWorks';
 import { FAQSection } from './FAQSection';
@@ -14,6 +15,8 @@ interface GameDetailLayoutProps {
   plugin: GamePlugin;
   relatedContent: Record<string, LandingContent>;
   relatedPlugins: Record<string, GamePlugin>;
+  crossTypeRelatedContent?: Record<string, LandingContent>;
+  crossTypeRelatedPlugins?: Record<string, ActivityPlugin>;
 }
 
 export function GameDetailLayout({
@@ -21,6 +24,8 @@ export function GameDetailLayout({
   plugin,
   relatedContent,
   relatedPlugins,
+  crossTypeRelatedContent,
+  crossTypeRelatedPlugins,
 }: GameDetailLayoutProps) {
   // JSON-LD for SoftwareApplication + FAQPage
   const jsonLd = {
@@ -46,14 +51,18 @@ export function GameDetailLayout({
   };
 
   const categoryLabel =
-    plugin.category === 'vocabulary'
+    plugin.category === 'quiz'
+      ? 'Quiz'
+      : plugin.category === 'vocabulary'
       ? 'Vocabulary'
       : plugin.category === 'grammar-writing'
       ? 'Grammar & Writing'
       : 'Logic & Puzzles';
 
   const categorySlug =
-    plugin.category === 'vocabulary'
+    plugin.category === 'quiz'
+      ? 'quiz'
+      : plugin.category === 'vocabulary'
       ? 'vocabulary'
       : plugin.category === 'grammar-writing'
       ? 'grammar'
@@ -158,6 +167,8 @@ export function GameDetailLayout({
           type="game"
           contentMap={relatedContent}
           pluginMap={relatedPlugins}
+          crossTypeContentMap={crossTypeRelatedContent}
+          crossTypePluginMap={crossTypeRelatedPlugins}
         />
       )}
 

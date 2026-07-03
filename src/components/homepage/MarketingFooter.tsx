@@ -5,6 +5,8 @@ const LINKS = [
   { label: 'Classroom Games', href: '/classroom-games' },
   { label: 'Classroom Activities', href: '/classroom-activities' },
   { label: 'Video to Lesson', href: '/video-lesson' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'AI Lesson Generator', href: '/ai-esl-lesson-plan-generator' },
   { label: 'Pricing', href: '/pro' },
   { label: 'Login', href: '/login' },
 ];

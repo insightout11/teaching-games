@@ -71,6 +71,7 @@ const RESERVED_CATEGORY_SLUGS = new Set([
 ]);
 
 const VALID_OG_THEMES = RESERVED_CATEGORY_SLUGS;
+const CANONICAL_ACTIVITY_ALIASES = new Set(['two-truths-and-a-lie']);
 
 // ---------------------------------------------------------------------------
 // Utilities
@@ -275,7 +276,10 @@ function registryCoverageChecks(
 
   const missingGames = getAllGames().filter((plugin) => !gameSlugs.has(plugin.key));
   const missingPublicActivities = getAllActivities().filter(
-    (plugin) => !plugin.flightPlanOnly && !activitySlugs.has(plugin.key)
+    (plugin) =>
+      !plugin.flightPlanOnly &&
+      !CANONICAL_ACTIVITY_ALIASES.has(plugin.key) &&
+      !activitySlugs.has(plugin.key)
   );
 
   if (missingGames.length > 0) {

@@ -3,14 +3,17 @@ import { notFound } from 'next/navigation';
 import {
   getAllActivitySlugs,
   getActivityContent,
+  getGameContent,
   ACTIVITY_CATEGORY_DISPLAY_SLUGS,
   ACTIVITY_CATEGORY_SLUG_TO_KEY,
 } from '@/lib/content-landing';
 import { getActivity, getActivitiesByCategory, CATEGORY_INFO } from '@/activities/registry';
+import { getGame } from '@/games/registry';
 import { ActivityDetailLayout } from '@/components/landing/ActivityDetailLayout';
 import { CategoryPage } from '@/components/landing/CategoryPage';
 import type { LandingContent } from '@/lib/content-landing';
 import type { ActivityPlugin } from '@/activities/types';
+import type { GamePlugin } from '@/games/types';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 
@@ -102,11 +105,17 @@ export default function ClassroomActivitySlugPage({ params }: { params: { slug: 
   // Build related content/plugin maps
   const relatedContent: Record<string, LandingContent> = {};
   const relatedPlugins: Record<string, ActivityPlugin> = {};
+  const crossTypeRelatedContent: Record<string, LandingContent> = {};
+  const crossTypeRelatedPlugins: Record<string, GamePlugin> = {};
   for (const relSlug of content.related) {
     const rc = getActivityContent(relSlug);
     const rp = getActivity(relSlug);
+    const gc = getGameContent(relSlug);
+    const gp = getGame(relSlug);
     if (rc) relatedContent[relSlug] = rc;
     if (rp) relatedPlugins[relSlug] = rp;
+    if (gc) crossTypeRelatedContent[relSlug] = gc;
+    if (gp) crossTypeRelatedPlugins[relSlug] = gp;
   }
 
   return (
@@ -115,6 +124,8 @@ export default function ClassroomActivitySlugPage({ params }: { params: { slug: 
       plugin={plugin}
       relatedContent={relatedContent}
       relatedPlugins={relatedPlugins}
+      crossTypeRelatedContent={crossTypeRelatedContent}
+      crossTypeRelatedPlugins={crossTypeRelatedPlugins}
     />
   );
 }
