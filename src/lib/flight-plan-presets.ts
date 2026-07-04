@@ -547,6 +547,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     moduleSequence: [
       { slotType: 'production', key: 'trip-arrival', stageId: 'arrival' },
       { slotType: 'production', key: 'trip-getting-there', stageId: 'getting-there' },
+      { slotType: 'practice', key: 'trip-directions', stageId: 'find-your-way' },
       { slotType: 'production', key: 'trip-hotel', stageId: 'hotel' },
       { slotType: 'production', key: 'trip-attractions', stageId: 'attraction' },
       { slotType: 'production', key: 'trip-meal', stageId: 'local-table' },
@@ -556,6 +557,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'departures', label: 'Departures', kind: 'stage', phase: 'takeoff' },
         { stageId: 'arrival', label: 'Arrival', kind: 'stage', phase: 'climb' },
         { stageId: 'getting-there', label: 'Getting There', kind: 'stage', phase: 'climb' },
+        { stageId: 'find-your-way', label: 'Find Your Way', kind: 'stage', phase: 'cruise' },
         { stageId: 'hotel', label: 'Hotel', kind: 'stage', phase: 'cruise' },
         { stageId: 'attraction', label: 'Out & About', kind: 'stage', phase: 'cruise' },
         { stageId: 'local-table', label: 'Local Table', kind: 'stage', phase: 'descent' },
@@ -565,6 +567,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'character-cards': 'departures',
         'trip-arrival': 'arrival',
         'trip-getting-there': 'getting-there',
+        'trip-directions': 'find-your-way',
         'trip-hotel': 'hotel',
         'trip-attractions': 'attraction',
         'trip-meal': 'local-table',

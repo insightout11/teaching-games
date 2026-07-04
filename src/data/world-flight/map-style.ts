@@ -183,3 +183,77 @@ export function createWorldFlightGuessMapStyle(showLabels = false): StyleSpecifi
       .map((layer) => ({ ...layer })),
   };
 }
+
+/**
+ * Street-level city map for the Find Your Way directions game. Same OpenMapTiles planet
+ * source as the world map, but adds roads + buildings so a city reads as real streets when
+ * zoomed in (~zoom 12-15). Street name labels optional (off by default — students follow the
+ * shape of the streets, not the names).
+ */
+export function createCityStreetMapStyle(showLabels = false): StyleSpecification {
+  const roadLayers = [
+    {
+      id: 'city-buildings',
+      type: 'fill',
+      source: 'openmaptiles',
+      'source-layer': 'building',
+      minzoom: 13,
+      paint: { 'fill-color': '#1b2c3e', 'fill-opacity': 0.55 },
+    },
+    {
+      id: 'city-roads-minor',
+      type: 'line',
+      source: 'openmaptiles',
+      'source-layer': 'transportation',
+      filter: ['in', 'class', 'minor', 'service'],
+      minzoom: 12,
+      paint: { 'line-color': '#2c4257', 'line-width': ['interpolate', ['linear'], ['zoom'], 12, 0.4, 16, 2.2] },
+    },
+    {
+      id: 'city-roads-secondary',
+      type: 'line',
+      source: 'openmaptiles',
+      'source-layer': 'transportation',
+      filter: ['in', 'class', 'secondary', 'tertiary'],
+      minzoom: 10,
+      paint: { 'line-color': '#3a5670', 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 16, 3.4] },
+    },
+    {
+      id: 'city-roads-major',
+      type: 'line',
+      source: 'openmaptiles',
+      'source-layer': 'transportation',
+      filter: ['in', 'class', 'motorway', 'trunk', 'primary'],
+      minzoom: 8,
+      paint: { 'line-color': '#4d7089', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.8, 16, 5.5] },
+    },
+  ] as StyleSpecification['layers'];
+
+  const labelLayers = (showLabels
+    ? [
+        {
+          id: 'city-road-labels',
+          type: 'symbol',
+          source: 'openmaptiles',
+          'source-layer': 'transportation_name',
+          minzoom: 13,
+          layout: {
+            'text-field': ['coalesce', ['get', 'name:en'], ['get', 'name']],
+            'text-font': ['Noto Sans Regular'],
+            'text-size': 11,
+            'symbol-placement': 'line',
+          },
+          paint: { 'text-color': '#7f9bb0', 'text-halo-color': '#0d1b28', 'text-halo-width': 1.2 },
+        },
+      ]
+    : []) as StyleSpecification['layers'];
+
+  return {
+    ...WORLD_FLIGHT_MAP_STYLE,
+    layers: [
+      ...WORLD_FLIGHT_MAP_STYLE.layers.filter((layer) => layer.type !== 'symbol'),
+      ...roadLayers,
+      ...labelLayers,
+    ],
+  };
+}

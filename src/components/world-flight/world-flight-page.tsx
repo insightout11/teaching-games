@@ -15,6 +15,7 @@ import { buildTripItinerary } from '@/lib/world-flight/travel-context';
 import { buildTripAttractionsContent } from '@/activities/trip-attractions';
 import { buildTripMealContent } from '@/activities/trip-meal';
 import { buildTripGettingThereContent } from '@/activities/trip-getting-there';
+import { buildTripDirectionsContent } from '@/activities/trip-directions';
 import { buildTripArrivalContent } from '@/activities/trip-arrival';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
@@ -2476,6 +2477,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
         preGenerated: {
           'trip-arrival': buildTripArrivalContent(selectedDestination),
           'trip-getting-there': buildTripGettingThereContent(selectedDestination),
+          'trip-directions': buildTripDirectionsContent(selectedDestination),
           'trip-attractions': buildTripAttractionsContent(selectedDestination),
           'trip-meal': buildTripMealContent(selectedDestination),
         },

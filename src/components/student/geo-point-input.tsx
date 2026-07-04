@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import maplibregl, { type Map as MapLibreMap, type Marker as MapLibreMarker } from 'maplibre-gl';
 import { MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { createWorldFlightGuessMapStyle } from '@/data/world-flight/map-style';
+import { createWorldFlightGuessMapStyle, createCityStreetMapStyle } from '@/data/world-flight/map-style';
 import type { InputSpec } from '@/lib/input-spec';
 
 interface GeoPointInputProps {
@@ -33,11 +33,13 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
 
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: createWorldFlightGuessMapStyle(spec.mapLabels ?? false),
+      style: spec.mapStyle === 'city-streets'
+        ? createCityStreetMapStyle(spec.mapLabels ?? false)
+        : createWorldFlightGuessMapStyle(spec.mapLabels ?? false),
       center: spec.mapCenter ?? [10, 18],
       zoom: spec.mapZoom ?? 0.8,
       minZoom: 0.5,
-      maxZoom: 7,
+      maxZoom: spec.mapMaxZoom ?? 7,
       maxBounds: spec.mapBounds
         ? [[spec.mapBounds[0], spec.mapBounds[1]], [spec.mapBounds[2], spec.mapBounds[3]]]
         : undefined,
@@ -89,7 +91,7 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
         <div ref={containerRef} className="h-[360px] w-full" />
         {!position && !locked && (
           <div className="pointer-events-none absolute inset-x-4 top-4 rounded-xl border border-white/10 bg-slate-950/80 px-3 py-2 text-center text-xs text-slate-200 backdrop-blur">
-            Tap the map to place your radar contact.
+            {spec.mapStyle === 'city-streets' ? 'Tap the map where the directions lead.' : 'Tap the map to place your radar contact.'}
           </div>
         )}
         {locked && (

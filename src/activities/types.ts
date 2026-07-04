@@ -221,6 +221,23 @@ export interface TripTransportContent extends ActivityGeneratedContent {
   options: TripTransportOption[];
 }
 
+// Trip Directions content (Travel arc — Find Your Way stage). Real intra-city landmark
+// coordinates for the map directions game (from city-landmarks / attraction coords).
+export interface TripDirectionsLandmark {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+}
+
+export interface TripDirectionsContent extends ActivityGeneratedContent {
+  activityKey: 'trip-directions';
+  city: string;
+  center: { lat: number; lng: number };
+  start: TripDirectionsLandmark;
+  landmarks: TripDirectionsLandmark[];
+}
+
 // Would You Rather content
 export interface WouldYouRatherContent extends ActivityGeneratedContent {
   activityKey: 'would-you-rather';
