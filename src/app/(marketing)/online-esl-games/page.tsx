@@ -76,12 +76,16 @@ const relatedGuides = [
     href: '/blog/zoom-esl-games-students-join-from-phones',
   },
   {
-    label: 'Kahoot alternative for ESL',
-    href: '/kahoot-alternative-for-esl',
+    label: 'No-prep ESL games',
+    href: '/blog/no-prep-esl-games-for-online-teachers',
   },
   {
-    label: 'Wordwall alternative for ESL',
-    href: '/wordwall-alternative-for-esl',
+    label: 'ESL games for adults',
+    href: '/blog/esl-games-for-adults-online',
+  },
+  {
+    label: 'Kahoot alternative for ESL',
+    href: '/kahoot-alternative-for-esl',
   },
 ];
 

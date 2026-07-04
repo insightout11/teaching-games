@@ -67,10 +67,10 @@ const teachingPatterns = [
 ];
 
 const relatedGuides = [
+  { label: 'Vocabulary review activities', href: '/blog/esl-vocabulary-review-activities' },
   { label: 'Online ESL games', href: '/online-esl-games' },
   { label: 'ESL speaking activities', href: '/esl-speaking-activities' },
   { label: 'Classroom games', href: '/classroom-games' },
-  { label: 'Zoom ESL games guide', href: '/blog/zoom-esl-games-students-join-from-phones' },
 ];
 
 const faqs = [

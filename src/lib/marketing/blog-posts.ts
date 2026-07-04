@@ -158,6 +158,153 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: 'Decision Council', href: '/classroom-activities/decision-council' },
     ],
   },
+  {
+    slug: 'no-prep-esl-games-for-online-teachers',
+    title: 'No-Prep ESL Games for Online Teachers',
+    description:
+      'Practical no-prep ESL game formats for online teachers who need a useful activity quickly without building slides or worksheets.',
+    date: '2026-07-04',
+    audience: 'busy online ESL teachers',
+    sections: [
+      {
+        heading: 'No-prep does not mean no structure',
+        body: [
+          'A no-prep ESL game should still have a language target, a simple rule, and a clear finish. The problem with many last-minute activities is not that they are simple; it is that they do not lead anywhere after the first answer.',
+          'For online classes, the best no-prep games use material already in front of you: the lesson topic, a short text, a student mistake, a video title, a picture, or vocabulary from last class. The teacher should be able to start quickly, but students should still produce useful English.',
+          'A good rule of thumb: if setup takes longer than the first round, choose a simpler format. If the activity ends without a sentence, add a speaking landing.',
+        ],
+      },
+      {
+        heading: 'Fast formats that work with almost any topic',
+        body: [
+          'Use Quick Pulse when you need the room to respond immediately. Ask a simple choice question, collect answers, then ask two students to explain why they chose differently.',
+          'Use GridRush or Vocab Sprint when the class needs energy and retrieval. Give a topic, run a short timed round, then pause for pronunciation, examples, and one useful sentence from each student.',
+          'Use Would You Rather, Rank It, or Decision Council when the lesson needs opinions. These formats do not need much content because the task creates the language: reasons, comparisons, agreement, disagreement, and revision.',
+          'Use Video to Lesson when you have a YouTube link but no plan. A short clip can become prediction, vocabulary, comprehension, and discussion without needing a separate slide deck.',
+        ],
+      },
+      {
+        heading: 'A 30-minute no-prep online lesson',
+        body: [
+          'Start with a two-minute Quick Pulse question connected to the topic. Do not over-explain; use the first answers to find what students already know.',
+          'Run a ten-minute vocabulary or quiz game. Keep the first round easy, then make students explain, correct, or personalize selected answers.',
+          'Move into a twelve-minute speaking task. A ranking, decision, or role-play gives students a reason to use the words from the first half of the lesson.',
+          'Finish with a final answer. Ask students to write one sentence they can say confidently, one word they want to remember, or one opinion that changed.',
+        ],
+      },
+      {
+        heading: 'Common mistakes with no-prep games',
+        body: [
+          'The first mistake is choosing a game because it is fun before choosing the language. Pick the language target first, then the game.',
+          'The second mistake is running too many rounds. One strong round with feedback and speaking is usually better than five rounds that never slow down.',
+          'The third mistake is ending at the scoreboard. Scores create attention, but the teacher still needs a language landing: a corrected sentence, a spoken example, a summary, or a reflection.',
+        ],
+      },
+    ],
+    links: [
+      { label: 'Online ESL games', href: '/online-esl-games' },
+      { label: 'Quick Pulse', href: '/classroom-activities/quick-pulse' },
+      { label: 'Video to lesson', href: '/video-lesson' },
+    ],
+  },
+  {
+    slug: 'esl-games-for-adults-online',
+    title: 'ESL Games for Adults in Online Lessons',
+    description:
+      'ESL games for adult learners that feel purposeful: vocabulary, discussion, role-play, problem solving, and professional English practice.',
+    date: '2026-07-04',
+    audience: 'adult ESL and business English teachers',
+    sections: [
+      {
+        heading: 'Adult ESL games need a reason',
+        body: [
+          'Adult learners usually respond better when a game feels connected to real communication. The activity can still be playful, but it should not feel childish or detached from the lesson goal.',
+          'The best games for adults involve decisions, evidence, practical language, or useful repetition. Students should be able to see why the activity helps: it prepares them for a meeting, interview, travel problem, presentation, conversation, or exam task.',
+          'This does not mean every adult ESL game must be serious. It means the teacher should frame the game around a useful outcome: clearer vocabulary, faster recall, better reasons, more natural questions, or more confident speaking.',
+        ],
+      },
+      {
+        heading: 'Game types that adults usually accept',
+        body: [
+          'Vocabulary games work well when the words come from real topics. Use GridRush, Vocab Sprint, Connections, or Synonym Showdown to practise business terms, travel language, academic vocabulary, or phrases from a video.',
+          'Decision games work especially well with adults. Decision Council, Problem Solvers, and Rank It give learners a reason to compare options, explain trade-offs, and use polite disagreement.',
+          'Role-play works when the scenario is specific. Scenario Simulator and Conversation Rounds can practise client calls, job interviews, complaints, negotiation, medical appointments, housing issues, or travel problems.',
+          'Debate works best when the format protects the conversation. Hot Take Arena or a structured ranking task gives students a clear role so disagreement feels like the activity, not a personal conflict.',
+        ],
+      },
+      {
+        heading: 'A sample adult ESL game sequence',
+        body: [
+          'Begin with a short poll: "Which problem is most common in your work?" or "Which option would you choose?" This gives the teacher a map of the room.',
+          'Run a vocabulary game using words from the topic. Do not stop at definitions. Ask students to use the words in professional or personal sentences.',
+          'Move into a decision or role-play. Students should solve a problem, negotiate an outcome, or recommend a course of action.',
+          'End by asking students to repeat the most useful phrase from the lesson and say where they could use it outside class.',
+        ],
+      },
+      {
+        heading: 'How to keep adult games professional',
+        body: [
+          'Use realistic prompts. Adults are more willing to play when the situation resembles something they might actually say or hear.',
+          'Avoid over-celebrating winners. Use scores for energy, then shift attention to strong language, useful phrases, and improved answers.',
+          'Let students opt into difficulty. A beginner can give a simple reason. A stronger student can add a counterargument, condition, or example.',
+        ],
+      },
+    ],
+    links: [
+      { label: 'ESL speaking activities', href: '/esl-speaking-activities' },
+      { label: 'Decision Council', href: '/classroom-activities/decision-council' },
+      { label: 'Scenario Simulator', href: '/classroom-activities/scenario-simulator' },
+    ],
+  },
+  {
+    slug: 'esl-vocabulary-review-activities',
+    title: 'ESL Vocabulary Review Activities That Lead to Speaking',
+    description:
+      'Vocabulary review activities for ESL classes that go beyond matching and memorizing, with retrieval, word connections, and speaking output.',
+    date: '2026-07-04',
+    audience: 'vocabulary and review lesson teachers',
+    sections: [
+      {
+        heading: 'Vocabulary review needs retrieval and reuse',
+        body: [
+          'Many vocabulary review activities only check recognition. Students match a word, choose a definition, or repeat a sentence. That can be useful, but it does not prove they can use the word when speaking.',
+          'A stronger review sequence has three moves: retrieve the word, clarify the meaning, then reuse it in a new sentence or task. The game creates speed and attention; the follow-up creates learning evidence.',
+          'This is especially important online because students can look passive even when they understand. A live vocabulary game gives every student a response moment, then the teacher can choose answers for correction and speaking.',
+        ],
+      },
+      {
+        heading: 'Review formats by vocabulary skill',
+        body: [
+          'For fast recall, use GridRush or Vocab Sprint. Give students a topic or category, run a short timed round, then ask them to explain two answers.',
+          'For word relationships, use Word Chain, Connections, or Synonym Showdown. These help students see collocations, near-synonyms, categories, and meaning boundaries.',
+          'For source-based vocabulary, use Video to Lesson, Vocab Radar, or Listening Gap Fill. Students meet words in context before they have to use them in discussion.',
+          'For speaking transfer, finish with In Your Words, Decision Council, or a short role-play where the reviewed words become tools for communication.',
+        ],
+      },
+      {
+        heading: 'A practical review lesson flow',
+        body: [
+          'Start with a quick recall round. Keep it short enough that students want another turn, not so long that the class becomes a word list.',
+          'Choose five useful answers and clarify them. Ask for pronunciation, part of speech, one example, and one common mistake or contrast.',
+          'Run a second round with a constraint. Students must use phrases, not single words; synonyms, not repeated answers; or examples from a specific context.',
+          'End with speaking. Ask students to summarize a video, defend a decision, tell a short story, or answer a personal question using three target words.',
+        ],
+      },
+      {
+        heading: 'How to measure whether review worked',
+        body: [
+          'Do not only count correct answers. Track whether students can use the word after the game, pronounce it clearly, choose it in the right context, and explain the difference from a similar word.',
+          'Ask for a second attempt after feedback. If the second sentence is stronger than the first, the review activity did more than entertain.',
+          'Bring the words back later in the lesson. Vocabulary is more likely to stick when it returns in discussion, role-play, or a final reflection.',
+        ],
+      },
+    ],
+    links: [
+      { label: 'ESL vocabulary games', href: '/esl-vocabulary-games' },
+      { label: 'Vocab Sprint', href: '/classroom-games/vocab-sprint' },
+      { label: 'Vocab Radar', href: '/classroom-activities/vocab-radar' },
+    ],
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

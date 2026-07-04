@@ -72,6 +72,10 @@ const relatedGuides = [
     href: '/blog/conversation-class-activities-for-online-esl',
   },
   {
+    label: 'ESL games for adults',
+    href: '/blog/esl-games-for-adults-online',
+  },
+  {
     label: 'Online ESL games',
     href: '/online-esl-games',
   },

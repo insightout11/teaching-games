@@ -2,13 +2,29 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import type { ComparisonPageData } from '@/lib/marketing/comparison-pages';
 import { ProductVisualHero } from '@/components/landing/ProductVisualHero';
+import { SeoFaqSection } from '@/components/marketing/SeoFaqSection';
 
 export function ComparisonPage({ page }: { page: ComparisonPageData }) {
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: page.h1,
-    description: page.description,
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: page.h1,
+        description: page.description,
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: page.faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.q,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.a,
+          },
+        })),
+      },
+    ],
   };
 
   return (
@@ -108,6 +124,68 @@ export function ComparisonPage({ page }: { page: ComparisonPageData }) {
           </div>
         </div>
       </section>
+
+      <section className="border-y border-lc-border bg-lc-surface/70 px-6 py-12">
+        <div className="mx-auto max-w-6xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cyan-300">
+            ESL use cases
+          </p>
+          <h2 className="mt-3 text-3xl font-bold text-lc-text">
+            Where LessonCaptain fits in an English lesson
+          </h2>
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {page.useCases.map((useCase) => (
+              <div key={useCase.title} className="rounded-xl border border-lc-border bg-lc-card p-6">
+                <h3 className="text-xl font-bold text-lc-text">{useCase.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-lc-text3">{useCase.copy}</p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {useCase.links.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-lc-border px-3 py-1.5 text-sm text-lc-text2 transition-colors hover:border-cyan-300/50 hover:text-cyan-300"
+                    >
+                      {link.label}
+                      <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-12">
+        <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-2">
+          <div className="rounded-xl border border-cyan-300/20 bg-lc-card p-6">
+            <h2 className="text-2xl font-bold text-lc-text">Choose LessonCaptain when...</h2>
+            <ul className="mt-5 space-y-3">
+              {page.decisionGuide.chooseLessonCaptain.map((item) => (
+                <li key={item} className="flex gap-3 text-lc-text2">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-lc-blue" aria-hidden />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-xl border border-lc-border bg-lc-card p-6">
+            <h2 className="text-2xl font-bold text-lc-text">
+              {`Choose ${page.competitor} when...`}
+            </h2>
+            <ul className="mt-5 space-y-3">
+              {page.decisionGuide.chooseAlternative.map((item) => (
+                <li key={item} className="flex gap-3 text-lc-text2">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-lc-text3" aria-hidden />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <SeoFaqSection faqs={page.faqs} />
     </>
   );
 }
