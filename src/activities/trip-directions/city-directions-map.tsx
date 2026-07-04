@@ -22,10 +22,19 @@ interface CityDirectionsMapProps {
   revealed: boolean;
 }
 
+function escapeHtml(value: string) {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function labelledMarker(map: MapLibreMap, lat: number, lng: number, color: string, label?: string) {
   const marker = new maplibregl.Marker({ color }).setLngLat([lng, lat]).addTo(map);
   if (label) {
-    marker.setPopup(new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 18 }).setText(label));
+    // wf-map-popup-shell = the app's dark popup style — the default popup is a white box
+    // that swallows the app's light text.
+    marker.setPopup(
+      new maplibregl.Popup({ className: 'wf-map-popup-shell', closeButton: false, closeOnClick: false, offset: 18 })
+        .setHTML(`<div class="wf-map-popup"><span style="font-weight:600">${escapeHtml(label)}</span></div>`),
+    );
     marker.togglePopup();
   }
   return marker;

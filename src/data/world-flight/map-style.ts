@@ -236,14 +236,15 @@ export function createCityStreetMapStyle(showLabels = false): StyleSpecification
           type: 'symbol',
           source: 'openmaptiles',
           'source-layer': 'transportation_name',
-          minzoom: 13,
+          minzoom: 12,
           layout: {
             'text-field': ['coalesce', ['get', 'name:en'], ['get', 'name']],
             'text-font': ['Noto Sans Regular'],
-            'text-size': 11,
+            'text-size': ['interpolate', ['linear'], ['zoom'], 12, 11, 16, 14],
             'symbol-placement': 'line',
           },
-          paint: { 'text-color': '#7f9bb0', 'text-halo-color': '#0d1b28', 'text-halo-width': 1.2 },
+          // Bright enough to actually read street names while following directions.
+          paint: { 'text-color': '#b8cbdc', 'text-halo-color': '#0d1b28', 'text-halo-width': 1.6 },
         },
       ]
     : []) as StyleSpecification['layers'];

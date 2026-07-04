@@ -257,7 +257,7 @@ export const CLASS_BOARD_PRESETS: Record<string, ClassBoardPreset> = {
   'trip-attractions': {
     key: 'trip-attractions',
     title: 'Where to?',
-    prompt: 'Add reasons, concerns, or questions under each place — then upvote the best ones.',
+    prompt: 'Add reasons, concerns, or questions under each place.',
     layout: 'columns',
     categories: [
       { key: 'reason', label: 'Reason', tone: 'emerald' },
@@ -268,7 +268,8 @@ export const CLASS_BOARD_PRESETS: Record<string, ClassBoardPreset> = {
     zones: [{ key: 'main', label: 'Places' }],
     defaultCategory: 'reason',
     defaultZone: 'main',
-    allowVotes: true,
+    // Students vote for the DESTINATION (a separate vote beat) — not for each other's notes.
+    allowVotes: false,
     rankable: false,
     studentVisibility: 'visible',
   },

@@ -23,10 +23,17 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
 
   const studentState = clientId
-    ? spec.perStudentData?.[clientId] as { locked?: boolean } | undefined
+    ? spec.perStudentData?.[clientId] as {
+        locked?: boolean;
+        /** Directions info-gap: this device is the guide — they see the target and give
+         * directions instead of dropping a pin. */
+        guide?: boolean;
+        target?: { lat: number; lng: number; label?: string };
+      } | undefined
     : undefined;
+  const isGuide = studentState?.guide === true;
   const locked = submitStatus === 'success' || studentState?.locked === true;
-  lockedRef.current = locked;
+  lockedRef.current = locked || isGuide;
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -52,18 +59,26 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
     map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
 
     // Fixed reference markers (e.g. the START point in the directions game) with a small
-    // always-visible label so students know where the route begins.
-    for (const ref of spec.mapMarkers ?? []) {
-      const marker = new maplibregl.Marker({ color: ref.color ?? '#34d399' })
-        .setLngLat([ref.lng, ref.lat])
-        .addTo(map);
-      if (ref.label) {
+    // always-visible label so students know where the route begins. `wf-map-popup-shell`
+    // is the app's dark popup — the default popup is white and unreadable on this theme.
+    const escapeHtml = (value: string) =>
+      value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const addLabelledMarker = (lat: number, lng: number, color: string, label?: string) => {
+      const marker = new maplibregl.Marker({ color }).setLngLat([lng, lat]).addTo(map);
+      if (label) {
         marker.setPopup(
-          new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 18 })
-            .setText(ref.label),
+          new maplibregl.Popup({ className: 'wf-map-popup-shell', closeButton: false, closeOnClick: false, offset: 18 })
+            .setHTML(`<div class="wf-map-popup"><span style="font-weight:600">${escapeHtml(label)}</span></div>`),
         );
         marker.togglePopup();
       }
+    };
+    for (const ref of spec.mapMarkers ?? []) {
+      addLabelledMarker(ref.lat, ref.lng, ref.color ?? '#34d399', ref.label);
+    }
+    // The guide's secret: only this device sees the destination.
+    if (isGuide && studentState?.target) {
+      addLabelledMarker(studentState.target.lat, studentState.target.lng, '#fbbf24', studentState.target.label ?? 'Destination');
     }
 
     map.on('click', (event) => {
@@ -104,12 +119,17 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
       {spec.prompt && <p className="text-center text-sm font-semibold text-cyan-300">{spec.prompt}</p>}
       <div className="relative overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950">
         <div ref={containerRef} className="h-[360px] w-full" />
-        {!position && !locked && (
+        {isGuide && (
+          <div className="pointer-events-none absolute inset-x-4 top-4 rounded-xl border border-amber-300/40 bg-slate-950/90 px-3 py-2 text-center text-xs text-amber-100 backdrop-blur">
+            You&apos;re the guide! The gold pin is the destination — describe the route from START out loud. Don&apos;t show your screen!
+          </div>
+        )}
+        {!position && !locked && !isGuide && (
           <div className="pointer-events-none absolute inset-x-4 top-4 rounded-xl border border-white/10 bg-slate-950/80 px-3 py-2 text-center text-xs text-slate-200 backdrop-blur">
             {spec.mapStyle === 'city-streets' ? 'Tap the map where the directions lead.' : 'Tap the map to place your radar contact.'}
           </div>
         )}
-        {locked && (
+        {locked && !isGuide && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-slate-950/45">
             <div className="rounded-2xl border border-cyan-300/30 bg-slate-950/90 px-5 py-4 text-center shadow-xl">
               <MapPin className="mx-auto mb-2 h-7 w-7 text-cyan-300" />
@@ -119,18 +139,24 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
           </div>
         )}
       </div>
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-xs text-slate-400">
-          {position ? `${Math.abs(position.lat).toFixed(1)} deg ${position.lat >= 0 ? 'N' : 'S'}, ${Math.abs(position.lng).toFixed(1)} deg ${position.lng >= 0 ? 'E' : 'W'}` : 'No position selected'}
+      {isGuide ? (
+        <p className="text-center text-xs text-amber-200/80">
+          Guide the class with words only — left, right, past, across from. No pin for you this round.
         </p>
-        <Button
-          onClick={handleSubmit}
-          disabled={!position || isSubmitting || locked}
-          className="bg-gradient-to-r from-cyan-500 to-blue-600"
-        >
-          {isSubmitting ? 'Locking...' : locked ? 'Locked' : 'Lock Position'}
-        </Button>
-      </div>
+      ) : (
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs text-slate-400">
+            {position ? `${Math.abs(position.lat).toFixed(1)} deg ${position.lat >= 0 ? 'N' : 'S'}, ${Math.abs(position.lng).toFixed(1)} deg ${position.lng >= 0 ? 'E' : 'W'}` : 'No position selected'}
+          </p>
+          <Button
+            onClick={handleSubmit}
+            disabled={!position || isSubmitting || locked}
+            className="bg-gradient-to-r from-cyan-500 to-blue-600"
+          >
+            {isSubmitting ? 'Locking...' : locked ? 'Locked' : 'Lock Position'}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

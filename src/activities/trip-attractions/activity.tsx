@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MapPin, Sparkles } from 'lucide-react';
 import { ClassBoardCanvas } from '@/components/session/class-board-canvas';
 import { boardSpecFields, getClassBoardPreset, type ClassBoardZone } from '@/lib/class-board';
@@ -19,13 +19,15 @@ import type { ActivityProps, TripAttractionsContent } from '../types';
 const BOARD_KEY = 'trip-attractions';
 const PRESET_KEY = 'trip-attractions';
 
-type Phase = 'idle' | 'discuss' | 'moment' | 'done';
+type Phase = 'idle' | 'discuss' | 'vote' | 'moment' | 'done';
 
 export function TripAttractionsActivity({
   sessionId,
   generatedContent,
   onPhaseChange,
   onSetInputSpec,
+  onRegisterRemoteVoteHandler,
+  onScore,
 }: ActivityProps) {
   const content = generatedContent as TripAttractionsContent;
   const attractions = useMemo(() => content.attractions ?? [], [content.attractions]);
@@ -33,6 +35,8 @@ export function TripAttractionsActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [winnerId, setWinnerId] = useState<string | null>(null);
   const [moment, setMoment] = useState<TravelMoment | null>(null);
+  const [votes, setVotes] = useState<Record<string, string>>({}); // clientId -> attraction name
+  const scoredRef = useRef<Set<string>>(new Set());
   const addTripLogEntry = useSessionStore((s) => s.addTripLogEntry);
 
   // One board zone per attraction — notes attach to the place they're about.
@@ -41,7 +45,7 @@ export function TripAttractionsActivity({
     [attractions],
   );
 
-  const buildSpec = useCallback((): InputSpec => {
+  const buildBoardSpec = useCallback((): InputSpec => {
     const preset = getClassBoardPreset(PRESET_KEY);
     return {
       type: 'board',
@@ -54,19 +58,59 @@ export function TripAttractionsActivity({
     };
   }, [content.framingPrompt, attractionZones]);
 
+  const buildVoteSpec = useCallback((): InputSpec => ({
+    type: 'choice',
+    gameKey: BOARD_KEY,
+    prompt: `Vote: where should the class go in ${content.city}?`,
+    options: attractions.map((a) => a.name),
+  }), [content.city, attractions]);
+
   useEffect(() => {
     if (phase === 'discuss') {
-      onSetInputSpec?.(buildSpec());
-    } else {
-      onSetInputSpec?.(null);
+      onSetInputSpec?.(buildBoardSpec());
+      onRegisterRemoteVoteHandler?.(null);
+      return undefined;
     }
-  }, [phase, buildSpec, onSetInputSpec]);
+    if (phase === 'vote') {
+      // Students vote for the DESTINATION itself — not for each other's notes.
+      onSetInputSpec?.(buildVoteSpec());
+      onRegisterRemoteVoteHandler?.((vote) => {
+        setVotes((prev) => ({ ...prev, [vote.clientId]: vote.choice }));
+        if (!scoredRef.current.has(vote.clientId)) {
+          scoredRef.current.add(vote.clientId);
+          void onScore?.({
+            studentId: vote.studentId ?? null,
+            clientId: vote.clientId,
+            displayName: vote.displayName,
+            promptIndex: 1,
+            points: 1,
+            isCorrect: null,
+          });
+        }
+      });
+      return () => { onRegisterRemoteVoteHandler?.(null); };
+    }
+    onSetInputSpec?.(null);
+    onRegisterRemoteVoteHandler?.(null);
+    return undefined;
+  }, [phase, buildBoardSpec, buildVoteSpec, onSetInputSpec, onRegisterRemoteVoteHandler, onScore]);
 
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
-  const winner = attractions.find((a) => a.id === winnerId) ?? null;
+  const countFor = useCallback(
+    (name: string) => Object.values(votes).filter((v) => v === name).length,
+    [votes],
+  );
+  // Winner = most-voted destination; the teacher can tap a chip to override.
+  const topVoted = useMemo(() => {
+    if (attractions.length === 0) return null;
+    const ranked = [...attractions].sort((a, b) => countFor(b.name) - countFor(a.name));
+    return countFor(ranked[0].name) > 0 ? ranked[0] : null;
+  }, [attractions, countFor]);
+  const winner = attractions.find((a) => a.id === winnerId) ?? topVoted ?? null;
 
   const start = () => { setPhase('discuss'); onPhaseChange?.('discuss'); };
+  const toVote = () => { setPhase('vote'); onPhaseChange?.('vote'); };
   const reveal = () => {
     const chosen = winner ?? attractions[0] ?? null;
     if (!chosen) return;
@@ -91,7 +135,7 @@ export function TripAttractionsActivity({
           <h3 className="mt-2 text-4xl font-game text-white">Where to in {content.city}?</h3>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-300">{content.framingPrompt}</p>
           <p className="mx-auto mt-2 max-w-lg text-xs text-slate-400">
-            Each place gets its own column. Students add reasons and concerns from their devices and upvote — you can add notes too while the class talks.
+            Each place gets its own column — students add reasons and concerns from their devices while the class talks. Then everyone votes for the destination, and something happens there.
           </p>
         </div>
         <ul className="w-full max-w-lg space-y-2 text-left">
@@ -146,6 +190,57 @@ export function TripAttractionsActivity({
     );
   }
 
+  // phase === 'vote' — students vote for the destination on their devices
+  if (phase === 'vote') {
+    return (
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Out &amp; About · The vote</p>
+            <h3 className="mt-1 text-2xl font-game text-white">Where should the class go?</h3>
+          </div>
+          <button
+            onClick={reveal}
+            disabled={!winner}
+            className="rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 px-5 py-2.5 font-game text-sm text-white shadow-lg transition hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+          >
+            WHAT HAPPENS?
+          </button>
+        </div>
+        <p className="text-sm text-slate-400">
+          Students vote for the destination on their device. The top pick wins — tap a place to override if the class decides otherwise out loud.
+        </p>
+        <ul className="space-y-2">
+          {attractions.map((a) => {
+            const selected = a.id === (winner?.id ?? null);
+            const tally = countFor(a.name);
+            return (
+              <li key={a.id}>
+                <button
+                  onClick={() => setWinnerId(a.id)}
+                  className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition ${
+                    selected
+                      ? 'border-cyan-300/60 bg-cyan-500/[0.12]'
+                      : 'border-white/10 bg-slate-950/40 hover:bg-white/[0.06]'
+                  }`}
+                >
+                  <span className="min-w-0">
+                    <span className="flex items-center gap-2">
+                      <span className="truncate font-game text-base text-cyan-100">{a.name}</span>
+                      {selected && <span className="shrink-0 text-cyan-300">✓</span>}
+                    </span>
+                    <span className="mt-0.5 block text-sm text-slate-300">{a.whatItIs}</span>
+                  </span>
+                  <span className="shrink-0 rounded-full bg-cyan-400/15 px-3 py-1.5 font-game text-lg text-cyan-200">{tally}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+
   // phase === 'discuss' — the live board
   return (
     <div className="space-y-4">
@@ -155,38 +250,16 @@ export function TripAttractionsActivity({
           <h3 className="mt-1 text-2xl font-game text-white">Where should the class go?</h3>
         </div>
         <button
-          onClick={reveal}
+          onClick={toVote}
           disabled={attractions.length === 0}
-          className="rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 px-5 py-2.5 font-game text-sm text-white shadow-lg transition hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+          className="rounded-xl bg-gradient-to-br from-cyan-500 to-sky-600 px-5 py-2.5 font-game text-sm text-white shadow-lg transition hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
         >
-          WHAT HAPPENS?
+          CALL THE VOTE
         </button>
       </div>
-
-      <div className="rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-          The class picked — tap the winning place, then hit “What happens?”
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {attractions.map((a) => {
-            const selected = a.id === winnerId;
-            return (
-              <button
-                key={a.id}
-                onClick={() => setWinnerId(a.id)}
-                title={a.whatItIs}
-                className={`rounded-xl border px-4 py-2 text-sm font-semibold transition ${
-                  selected
-                    ? 'border-cyan-300/60 bg-cyan-500/20 text-cyan-100'
-                    : 'border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
-                }`}
-              >
-                {selected ? '✓ ' : ''}{a.name}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <p className="text-sm text-slate-400">
+        Discuss each place out loud — students add reasons and concerns under it from their devices, and you can add notes too. When the talking&apos;s done, call the vote.
+      </p>
 
       {sessionId ? (
         <div className="rounded-2xl border border-cyan-300/15 bg-slate-950/45">
@@ -195,7 +268,6 @@ export function TripAttractionsActivity({
             boardKey={BOARD_KEY}
             presetKey={PRESET_KEY}
             zonesOverride={attractionZones}
-            sortByVotes
           />
         </div>
       ) : (

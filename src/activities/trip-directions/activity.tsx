@@ -41,36 +41,53 @@ export function TripDirectionsActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [roundIndex, setRoundIndex] = useState(0);
   const [guesses, setGuesses] = useState<Guess[]>([]);
+  // The guide is a DEVICE (clientId) — the destination is marked on their map only, so they
+  // genuinely know where to direct people. Round 1 the teacher guides (models the language);
+  // afterwards the role rotates through devices that have dropped a pin.
+  const [guideDevice, setGuideDevice] = useState<{ clientId: string; name: string } | null>(null);
 
   const phaseRef = useRef<Phase>('idle');
   const roundIndexRef = useRef(0);
   const guessesRef = useRef<Guess[]>([]);
   const scoredRef = useRef<Set<string>>(new Set());
+  const guideRef = useRef<{ clientId: string; name: string } | null>(null);
+  const participantsRef = useRef<Map<string, string>>(new Map()); // clientId -> displayName
   phaseRef.current = phase;
   roundIndexRef.current = roundIndex;
   guessesRef.current = guesses;
+  guideRef.current = guideDevice;
 
   const target = landmarks.length > 0 ? landmarks[roundIndex % landmarks.length] : null;
-  const guide = students.length > 0 ? students[roundIndex % students.length] : null;
   const roundIdFor = (index: number) => {
     const t = landmarks.length > 0 ? landmarks[index % landmarks.length] : null;
     return t ? `trip-directions-${index}-${t.id}` : 'trip-directions-none';
   };
 
-  const broadcast = useCallback((index: number) => {
+  const broadcast = useCallback((index: number, guide: { clientId: string; name: string } | null) => {
+    const t = landmarks.length > 0 ? landmarks[index % landmarks.length] : null;
     onSetInputSpec?.({
       type: 'geo-point',
       gameKey: 'trip-directions',
-      prompt: `Start at ${content.start.name} (green pin). Follow the directions, then drop your pin where they lead.`,
-      roundId: landmarks.length > 0 ? `trip-directions-${index}-${landmarks[index % landmarks.length].id}` : 'trip-directions-none',
+      prompt: guide
+        ? `Listen to ${guide.name}'s directions from ${content.start.name} (green pin), then drop your pin where they lead.`
+        : `Listen to the directions from ${content.start.name} (green pin), then drop your pin where they lead.`,
+      roundId: roundIdFor(index),
       mapStyle: 'city-streets',
-      // Centre on the START so students begin oriented, zoomed to street level.
+      // Centre on the START so students begin oriented, zoomed to street level, WITH street
+      // names — you can't follow "turn left at Dame Street" on an unlabelled map.
       mapCenter: [content.start.lng, content.start.lat],
       mapZoom: 14,
       mapMaxZoom: 17,
-      mapMarkers: [{ lat: content.start.lat, lng: content.start.lng, label: 'START', color: '#34d399' }],
+      mapLabels: true,
+      mapMarkers: [{ lat: content.start.lat, lng: content.start.lng, label: `START · ${content.start.name}`, color: '#34d399' }],
+      // The guide's device — and only theirs — shows the destination.
+      ...(guide && t
+        ? { perStudentData: { [guide.clientId]: { guide: true, target: { lat: t.lat, lng: t.lng, label: t.name } } } }
+        : {}),
       allowMultiple: true,
     } as InputSpec);
+    // roundIdFor is derived from landmarks, already a dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSetInputSpec, content.start, landmarks]);
 
   const handleVote = useCallback((vote: RemoteVote) => {
@@ -79,6 +96,9 @@ export function TripDirectionsActivity({
     const t = landmarks[idx % landmarks.length];
     const guess = parseGeoGuess(vote.choice);
     if (!guess || guess.roundId !== `trip-directions-${idx}-${t.id}`) return;
+    // The guide knows the answer — their pins don't count.
+    if (guideRef.current && vote.clientId === guideRef.current.clientId) return;
+    participantsRef.current.set(vote.clientId, vote.displayName);
     const studentKey = vote.studentId || vote.clientId;
     if (!studentKey || guessesRef.current.some((g) => g.studentKey === studentKey)) return;
     const distanceKm = distanceBetweenCoordsKm(guess, t);
@@ -102,7 +122,8 @@ export function TripDirectionsActivity({
     setPhase('guiding');
     phaseRef.current = 'guiding';
     onPhaseChange?.('guiding');
-    broadcast(roundIndexRef.current);
+    // Round 1: the teacher guides (models the direction language for the class).
+    broadcast(roundIndexRef.current, guideRef.current);
   }, [broadcast, onPhaseChange]);
 
   const reveal = useCallback(() => {
@@ -134,10 +155,19 @@ export function TripDirectionsActivity({
     setRoundIndex(ni);
     guessesRef.current = [];
     setGuesses([]);
+    // Rotate the guide through the devices that have played (deterministic order).
+    const participantIds = Array.from(participantsRef.current.keys()).sort();
+    let nextGuide: { clientId: string; name: string } | null = null;
+    if (participantIds.length > 0) {
+      const pick = participantIds[(ni - 1) % participantIds.length];
+      nextGuide = { clientId: pick, name: participantsRef.current.get(pick) ?? 'a student' };
+    }
+    guideRef.current = nextGuide;
+    setGuideDevice(nextGuide);
     setPhase('guiding');
     phaseRef.current = 'guiding';
     onPhaseChange?.('guiding');
-    broadcast(ni);
+    broadcast(ni, nextGuide);
   }, [broadcast, landmarks.length, onSetInputSpec, onPhaseChange]);
 
   const ranked = useMemo(() => [...guesses].sort((a, b) => a.distanceKm - b.distanceKm), [guesses]);
@@ -164,9 +194,14 @@ export function TripDirectionsActivity({
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Find Your Way</p>
           <h3 className="mt-2 text-4xl font-game text-white">Directions in {content.city}</h3>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-300">
-            One student is the guide. Quietly tell them the destination, and they give directions from {content.start.name}. Everyone else follows on their device and drops a pin.
+            The guide sees the destination on their map — nobody else does. They describe the route from {content.start.name}; everyone else follows the streets on their device and drops a pin where the directions lead.
           </p>
         </div>
+        <ol className="mx-auto w-full max-w-md space-y-1.5 text-left text-sm text-slate-300">
+          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">1.</span> Round 1: <span className="font-semibold text-white">you</span> are the guide — read the destination off this screen and describe the route. That shows the class how.</li>
+          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">2.</span> Students trace your directions on their street map and drop a pin.</li>
+          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">3.</span> Reveal — closest pins score. From round 2, a student becomes the guide and the destination appears secretly on <span className="font-semibold text-white">their</span> device.</li>
+        </ol>
         <button onClick={startRound} className="rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 px-12 py-5 font-game text-xl text-white shadow-xl transition hover:scale-105 active:scale-95">START ROUND 1</button>
       </div>
     );
@@ -189,18 +224,24 @@ export function TripDirectionsActivity({
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Find Your Way · Round {roundIndex + 1} of {landmarks.length}</p>
           <h3 className="mt-1 text-2xl font-game text-white">From {content.start.name}…</h3>
-          <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-300"><Users className="h-4 w-4 text-cyan-300" />Guide: <span className="font-semibold text-white">{guide ? guide.name : 'the teacher'}</span></p>
+          <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-300"><Users className="h-4 w-4 text-cyan-300" />Guide: <span className="font-semibold text-white">{guideDevice ? guideDevice.name : 'the teacher (you)'}</span></p>
         </div>
         <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-right">
           <p className="text-[10px] font-bold uppercase tracking-wider text-cyan-200/70">Pins dropped</p>
-          <p className="font-game text-2xl text-cyan-200">{guesses.length} / {students.length || '?'}</p>
+          <p className="font-game text-2xl text-cyan-200">{guesses.length} / {Math.max(students.length - (guideDevice ? 1 : 0), 0) || '?'}</p>
         </div>
       </div>
 
       {!revealed && (
-        <div className="rounded-xl border border-amber-300/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-          Quietly tell <span className="font-semibold">{guide ? guide.name : 'the guide'}</span> the destination: <span className="font-game text-amber-200">{target?.name}</span>. They describe the route from <span className="font-semibold">{content.start.name}</span> (the green START pin) — everyone else follows on their device and drops a pin.
-        </div>
+        guideDevice ? (
+          <div className="rounded-xl border border-amber-300/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+            <span className="font-semibold">{guideDevice.name}</span> is the guide — the destination is marked on <span className="font-semibold">their device only</span>. They describe the route from <span className="font-semibold">{content.start.name}</span> (the green START pin); everyone else follows and drops a pin.
+          </div>
+        ) : (
+          <div className="rounded-xl border border-amber-300/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+            <span className="font-semibold">You&apos;re the guide this round.</span> Destination: <span className="font-game text-amber-200">{target?.name}</span>. Describe the route from <span className="font-semibold">{content.start.name}</span> (the green START pin) out loud — students follow on their devices. Knowing the name doesn&apos;t help them; only your directions do.
+          </div>
+        )
       )}
 
       <CityDirectionsMap
