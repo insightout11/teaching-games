@@ -5,12 +5,14 @@ import {
   WORLD_FLIGHT_MAX_VIDEO_DURATION_SECS,
 } from '@/data/world-flight/destinations';
 import { getReadingTurnWordTarget, splitReadingTurns } from '@/lib/read-aloud';
-import { distanceKm } from '@/lib/world-flight/geo';
+import { distanceBetweenCoordsKm, distanceKm } from '@/lib/world-flight/geo';
 import { assessWorldFlightReadingQuality, countWords } from '@/lib/world-flight/readings';
 
 type TravelAnchorCatalogItem = {
   id: string;
   whatItIs: string;
+  lat?: number;
+  lng?: number;
   sourceUrl?: string;
   image?: {
     url: string;
@@ -29,6 +31,7 @@ type TravelAnchorCatalogItem = {
 function validateWorldFlightTravelAnchorsCatalog(destinations = WORLD_DESTINATIONS) {
   const issues: string[] = [];
   const kebabCase = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  const maxAttractionDistanceKm = 40;
 
   function validateItems(destinationId: string, listName: string, items: TravelAnchorCatalogItem[]) {
     const seenIds = new Set<string>();
@@ -94,6 +97,50 @@ function validateWorldFlightTravelAnchorsCatalog(destinations = WORLD_DESTINATIO
     }
   }
 
+  function validateAttractionCoordinates(
+    destination: { id: string; lat: number; lng: number },
+    attractions: TravelAnchorCatalogItem[],
+  ) {
+    const attractionsWithValidCoords: Array<TravelAnchorCatalogItem & { lat: number; lng: number }> = [];
+
+    for (const attraction of attractions) {
+      const label = `${destination.id}/attractions/${attraction.id || '(missing-id)'}`;
+      const { lat, lng } = attraction;
+      const hasValidLat = typeof lat === 'number' && Number.isFinite(lat) && lat >= -90 && lat <= 90;
+      const hasValidLng = typeof lng === 'number' && Number.isFinite(lng) && lng >= -180 && lng <= 180;
+
+      if (!hasValidLat) {
+        issues.push(`${label}: missing finite lat in [-90, 90]`);
+      }
+      if (!hasValidLng) {
+        issues.push(`${label}: missing finite lng in [-180, 180]`);
+      }
+      if (!hasValidLat || !hasValidLng) {
+        continue;
+      }
+
+      const attractionWithCoords = { ...attraction, lat, lng };
+      attractionsWithValidCoords.push(attractionWithCoords);
+
+      const distanceFromCityKm = distanceBetweenCoordsKm(destination, attractionWithCoords);
+      if (distanceFromCityKm > maxAttractionDistanceKm) {
+        issues.push(`${label}: ${Math.round(distanceFromCityKm)} km from city center`);
+      }
+    }
+
+    for (let index = 0; index < attractionsWithValidCoords.length; index += 1) {
+      for (let nextIndex = index + 1; nextIndex < attractionsWithValidCoords.length; nextIndex += 1) {
+        const attraction = attractionsWithValidCoords[index];
+        const nextAttraction = attractionsWithValidCoords[nextIndex];
+        const label = `${destination.id}/attractions/${attraction.id}-${nextAttraction.id}`;
+        const distanceBetweenAttractionsKm = distanceBetweenCoordsKm(attraction, nextAttraction);
+        if (distanceBetweenAttractionsKm > maxAttractionDistanceKm) {
+          issues.push(`${label}: ${Math.round(distanceBetweenAttractionsKm)} km apart`);
+        }
+      }
+    }
+  }
+
   for (const destination of destinations) {
     const anchors = destination.travelAnchors;
     if (!anchors) {
@@ -110,6 +157,7 @@ function validateWorldFlightTravelAnchorsCatalog(destinations = WORLD_DESTINATIO
 
     validateItems(destination.id, 'dishes', anchors.dishes);
     validateItems(destination.id, 'attractions', anchors.attractions);
+    validateAttractionCoordinates(destination, anchors.attractions);
 
     const validAirports = new Set([destination.primaryAirport, ...destination.airports]);
     if (!anchors.transport || anchors.transport.length < 2 || anchors.transport.length > 3) {

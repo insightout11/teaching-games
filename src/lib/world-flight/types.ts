@@ -140,6 +140,8 @@ export interface TravelAttraction {
   name: string;
   whatItIs: string;
   whyVisit?: string;
+  lat?: number;
+  lng?: number;
   sourceUrl?: string;
   image?: DestinationImage;
   review: TravelAnchorReview;
