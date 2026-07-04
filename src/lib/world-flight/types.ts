@@ -130,6 +130,7 @@ export interface TravelDish {
   whatItIs: string;
   note?: string;
   sourceUrl?: string;
+  image?: DestinationImage;
   review: TravelAnchorReview;
 }
 
@@ -140,6 +141,7 @@ export interface TravelAttraction {
   whatItIs: string;
   whyVisit?: string;
   sourceUrl?: string;
+  image?: DestinationImage;
   review: TravelAnchorReview;
 }
 

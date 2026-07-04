@@ -12,6 +12,15 @@ type TravelAnchorCatalogItem = {
   id: string;
   whatItIs: string;
   sourceUrl?: string;
+  image?: {
+    url: string;
+    alt: string;
+    caption: string;
+    sourceName: string;
+    sourceUrl: string;
+    creator?: string;
+    license?: string;
+  };
   review: {
     status: string;
   };
@@ -48,6 +57,39 @@ function validateWorldFlightTravelAnchorsCatalog(destinations = WORLD_DESTINATIO
       const sourceUrl = item.sourceUrl;
       if (sourceUrl) {
         expect(() => new URL(sourceUrl), `${label}: ${sourceUrl}`).not.toThrow();
+      }
+
+      if (!item.image) {
+        issues.push(`${label}: missing image`);
+      }
+
+      const image = item.image;
+      if (image) {
+        if (!image.url.trim()) {
+          issues.push(`${label}: image missing url`);
+        } else {
+          expect(() => new URL(image.url), `${label}: ${image.url}`).not.toThrow();
+        }
+        if (!image.alt.trim()) {
+          issues.push(`${label}: image missing alt`);
+        }
+        if (!image.caption.trim()) {
+          issues.push(`${label}: image missing caption`);
+        }
+        if (!image.sourceName.trim()) {
+          issues.push(`${label}: image missing sourceName`);
+        }
+        if (!image.sourceUrl.trim()) {
+          issues.push(`${label}: image missing sourceUrl`);
+        } else {
+          expect(() => new URL(image.sourceUrl), `${label}: ${image.sourceUrl}`).not.toThrow();
+        }
+        if (!image.creator?.trim()) {
+          issues.push(`${label}: image missing creator`);
+        }
+        if (!image.license?.trim()) {
+          issues.push(`${label}: image missing license`);
+        }
       }
     }
   }
