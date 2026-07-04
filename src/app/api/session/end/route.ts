@@ -134,6 +134,9 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const sessionId = body?.sessionId;
   const completed = body?.completed;
+  const tripSummary = typeof body?.tripSummary === 'string' && body.tripSummary.trim()
+    ? body.tripSummary.trim().slice(0, 600)
+    : null;
 
   if (!sessionId || typeof sessionId !== 'string' || typeof completed !== 'boolean') {
     return NextResponse.json({ error: 'sessionId and completed are required' }, { status: 400 });
@@ -173,6 +176,27 @@ export async function POST(request: Request) {
 
   let progressionReward: WorldFlightProgressionRewardResult | null = null;
   if ((data as { legStatus?: string } | null)?.legStatus === 'completed') {
+    // Travel arc: fold the trip log into the completed leg's evidence snapshot so the
+    // journey (stamps, share page, design missions) remembers what the class actually did.
+    if (tripSummary) {
+      try {
+        const service = createServiceClient();
+        const { data: leg } = await service
+          .from('class_world_flight_legs')
+          .select('id, evidence_snapshot')
+          .eq('session_id', sessionId)
+          .eq('status', 'completed')
+          .maybeSingle();
+        if (leg) {
+          await service
+            .from('class_world_flight_legs')
+            .update({ evidence_snapshot: { ...(leg.evidence_snapshot ?? {}), tripSummary } })
+            .eq('id', leg.id);
+        }
+      } catch (tripError) {
+        console.error('[api/session/end] trip summary merge error:', tripError);
+      }
+    }
     try {
       progressionReward = await awardWorldFlightProgression(ownership.session.class_id, sessionId);
     } catch (progressionError) {

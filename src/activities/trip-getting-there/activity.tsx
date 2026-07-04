@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TramFront, Clock, Wallet, UserRound } from 'lucide-react';
+import { useSessionStore } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripTransportContent, TripTransportOption } from '../types';
-import { PerformedExchange, type ExchangeLine } from '../shared/performed-exchange';
+import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
 
 // Getting There stage of the Travel arc. Two halves:
 //  1. CHOOSE — the city's REAL ways in from the airport (mode + time + cost); students weigh
@@ -33,6 +34,7 @@ type Phase = 'idle' | 'choose' | 'roleplay' | 'done';
 export function TripGettingThereActivity({
   students,
   generatedContent,
+  sessionSettings,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
   onScore,
@@ -40,6 +42,8 @@ export function TripGettingThereActivity({
 }: ActivityProps) {
   const content = generatedContent as TripTransportContent;
   const options = useMemo(() => content.options ?? [], [content.options]);
+  const addTripLogEntry = useSessionStore((s) => s.addTripLogEntry);
+  const tier = scriptTierFor(sessionSettings.difficulty);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [picks, setPicks] = useState<Record<string, string>>({}); // displayName -> mode
@@ -99,7 +103,17 @@ export function TripGettingThereActivity({
     const mode = option?.mode ?? '___';
     const cost = option?.approxCost ?? '___';
     const time = option?.approxTimeMin != null ? String(option.approxTimeMin) : '___';
-    return [
+    if (tier === 'basic') {
+      return [
+        { speaker: 'service', text: 'Hello! Where are you going?' },
+        { speaker: 'traveller', text: `To the city, please. The ${mode}, please.` },
+        { speaker: 'service', text: `That's ${cost}.` },
+        { speaker: 'traveller', text: 'Here you are. Thank you!' },
+        { speaker: 'service', text: 'The next one leaves soon — right over there!' },
+        { speaker: 'traveller', text: 'Thanks!' },
+      ];
+    }
+    const standard: ExchangeLine[] = [
       { speaker: 'service', text: 'Hi there — where are you heading?' },
       { speaker: 'traveller', text: `Into ${content.city}, please. I'd like to take the ${mode}.` },
       { speaker: 'service', text: 'No problem. Single or return?' },
@@ -107,14 +121,32 @@ export function TripGettingThereActivity({
       { speaker: 'service', text: `That's ${cost}.` },
       { speaker: 'traveller', text: 'And how long does it take?' },
       { speaker: 'service', text: `About ${time} minutes.` },
+    ];
+    const closing: ExchangeLine[] = [
       { speaker: 'traveller', text: 'Great. Where do I go?' },
       { speaker: 'service', text: 'Right over there — follow the signs.', hint: 'point them the way' },
       { speaker: 'traveller', text: 'Thanks a lot!' },
     ];
-  }, [optionFor, content.city]);
+    if (tier === 'standard') return [...standard, ...closing];
+    // advanced — a small complication to negotiate before the closing.
+    return [
+      ...standard,
+      { speaker: 'service', text: 'One thing — there are delays today, so it might take a bit longer.' },
+      { speaker: 'traveller', text: 'Oh no. Is there a faster way to get to ___?', hint: 'say where you\'re headed — your hotel, the centre…' },
+      { speaker: 'service', text: 'You could take a taxi, but it costs quite a bit more.' },
+      { speaker: 'traveller', text: '___', hint: 'decide — stick with your choice or switch, and say why' },
+      ...closing,
+    ];
+  }, [optionFor, content.city, tier]);
 
   const start = () => { setPhase('choose'); onPhaseChange?.('choose'); };
-  const toRoleplay = () => { setPhase('roleplay'); onPhaseChange?.('roleplay'); };
+  const toRoleplay = () => {
+    if (classPick) {
+      addTripLogEntry({ stageId: 'getting-there', text: `Took the ${classPick.mode} into ${content.city}` });
+    }
+    setPhase('roleplay');
+    onPhaseChange?.('roleplay');
+  };
   const finish = useCallback(() => { setPhase('done'); onPhaseChange?.('finished'); }, [onPhaseChange]);
 
   const OptionList = ({ showCounts }: { showCounts?: boolean }) => (

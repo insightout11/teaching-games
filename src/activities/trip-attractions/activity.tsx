@@ -5,6 +5,7 @@ import { MapPin, Sparkles } from 'lucide-react';
 import { ClassBoardCanvas } from '@/components/session/class-board-canvas';
 import { boardSpecFields, getClassBoardPreset, type ClassBoardZone } from '@/lib/class-board';
 import { drawTravelMoment, type TravelMoment } from '@/lib/world-flight/travel-moments';
+import { useSessionStore } from '@/stores/session-store';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripAttractionsContent } from '../types';
 
@@ -32,6 +33,7 @@ export function TripAttractionsActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [winnerId, setWinnerId] = useState<string | null>(null);
   const [moment, setMoment] = useState<TravelMoment | null>(null);
+  const addTripLogEntry = useSessionStore((s) => s.addTripLogEntry);
 
   // One board zone per attraction — notes attach to the place they're about.
   const attractionZones = useMemo<ClassBoardZone[]>(
@@ -69,7 +71,9 @@ export function TripAttractionsActivity({
     const chosen = winner ?? attractions[0] ?? null;
     if (!chosen) return;
     if (!winnerId) setWinnerId(chosen.id);
-    setMoment(drawTravelMoment({ place: chosen.name, localColor: content.localColor }));
+    const drawn = drawTravelMoment({ place: chosen.name, localColor: content.localColor });
+    setMoment(drawn);
+    addTripLogEntry({ stageId: 'attraction', text: `Visited ${chosen.name} — ${drawn.situation}` });
     setPhase('moment');
     onPhaseChange?.('moment');
   };
@@ -92,10 +96,16 @@ export function TripAttractionsActivity({
         </div>
         <ul className="w-full max-w-lg space-y-2 text-left">
           {attractions.map((a) => (
-            <li key={a.id} className="rounded-xl border border-cyan-300/15 bg-slate-950/40 px-4 py-3">
-              <p className="font-game text-base text-cyan-100">{a.name}</p>
-              <p className="mt-0.5 text-sm text-slate-300">{a.whatItIs}</p>
-              {a.whyVisit && <p className="mt-1 text-xs text-slate-400">{a.whyVisit}</p>}
+            <li key={a.id} className="flex items-start gap-3 rounded-xl border border-cyan-300/15 bg-slate-950/40 px-4 py-3">
+              {a.imageUrl && (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src={a.imageUrl} alt={a.name} className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="font-game text-base text-cyan-100">{a.name}</p>
+                <p className="mt-0.5 text-sm text-slate-300">{a.whatItIs}</p>
+                {a.whyVisit && <p className="mt-1 text-xs text-slate-400">{a.whyVisit}</p>}
+              </div>
             </li>
           ))}
         </ul>

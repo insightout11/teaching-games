@@ -1156,10 +1156,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     }
 
     try {
+      // Travel arc: pass the trip log so a completed leg's evidence remembers the trip.
+      const tripLog = useSessionStore.getState().tripLog;
+      const tripSummary = tripLog.length > 0
+        ? tripLog.map((entry) => entry.text).join(' · ').slice(0, 600)
+        : undefined;
       const response = await fetch('/api/session/end', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: session.id, completed }),
+        body: JSON.stringify({ sessionId: session.id, completed, ...(tripSummary ? { tripSummary } : {}) }),
       });
 
       const result = await response.json().catch(() => ({ error: 'Failed to end session' })) as {

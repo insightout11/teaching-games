@@ -63,6 +63,12 @@ export const WHEEL_SEGMENTS: Array<{ modifier: TurnModifier; weight: number }> =
   { modifier: { multiplier: 1, bonus: 0, shield: true, label: 'Shield' }, weight: 15 },
 ];
 
+// One line of the Travel arc's trip log — what the class did at a stop.
+export interface TripLogEntry {
+  stageId: string;
+  text: string;
+}
+
 interface SessionState {
   sessionId: string | null;
   classId: string | null;
@@ -106,6 +112,10 @@ interface SessionState {
   openingStances: Record<string, string>;       // clientId → opening stance text
   characterAssignments: Record<string, CharacterCard>; // clientId → assigned character
 
+  // Trip log (Travel arc) — what the class actually did at each stop, so the landing recap
+  // and the World Flight leg evidence can retell the trip.
+  tripLog: TripLogEntry[];
+
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
   setPickerMode: (mode: PickerMode) => void;
@@ -131,6 +141,7 @@ interface SessionState {
   setClassMission: (question: string) => void;
   addOpeningStance: (clientId: string, stance: string) => void;
   addCharacterAssignment: (clientId: string, character: CharacterCard) => void;
+  addTripLogEntry: (entry: TripLogEntry) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
 }
@@ -227,6 +238,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   classMission: null,
   openingStances: {},
   characterAssignments: {},
+  tripLog: [],
 
   initSession: (sessionId, classId, students) => {
     lastWrittenInputSpec = undefined; // Reset per-session tracking
@@ -258,7 +270,14 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       classMission: null,
       openingStances: {},
       characterAssignments: {},
+      tripLog: [],
     });
+  },
+
+  addTripLogEntry: (entry) => {
+    const { tripLog } = get();
+    // One entry per stage — a re-run of a stop replaces its line instead of duplicating it.
+    set({ tripLog: [...tripLog.filter((e) => e.stageId !== entry.stageId), entry] });
   },
 
   setPickerMode: (mode) => set({ pickerMode: mode }),
@@ -472,6 +491,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       classMission: null,
       openingStances: {},
       characterAssignments: {},
+      tripLog: [],
     });
   },
 }));

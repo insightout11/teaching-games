@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { UtensilsCrossed, ConciergeBell } from 'lucide-react';
+import { useSessionStore } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripMealContent, TripDishOption } from '../types';
-import { PerformedExchange, type ExchangeLine } from '../shared/performed-exchange';
+import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
 
 // Local Table stage of the Travel arc. Two halves:
 //  1. MENU — the city's REAL dishes with what each one is; students pick the dish that
@@ -33,6 +34,7 @@ type Phase = 'idle' | 'menu' | 'order' | 'done';
 export function TripMealActivity({
   students,
   generatedContent,
+  sessionSettings,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
   onScore,
@@ -40,6 +42,8 @@ export function TripMealActivity({
 }: ActivityProps) {
   const content = generatedContent as TripMealContent;
   const dishes = useMemo(() => content.dishes ?? [], [content.dishes]);
+  const addTripLogEntry = useSessionStore((s) => s.addTripLogEntry);
+  const tier = scriptTierFor(sessionSettings.difficulty);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [picks, setPicks] = useState<Record<string, string>>({}); // displayName -> dish name
@@ -92,27 +96,60 @@ export function TripMealActivity({
   const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
     const dish = dishFor(traveller);
     const dishName = dish?.name ?? '___';
-    return [
+    if (tier === 'basic') {
+      return [
+        { speaker: 'service', text: 'Hello! What would you like?' },
+        { speaker: 'traveller', text: `The ${dishName}, please.` },
+        { speaker: 'service', text: 'Anything to drink?' },
+        { speaker: 'traveller', text: '___, please.', hint: 'water, juice, a coffee…' },
+        { speaker: 'service', text: 'Coming right up!' },
+        { speaker: 'traveller', text: 'Thank you!' },
+      ];
+    }
+    const standard: ExchangeLine[] = [
       { speaker: 'service', text: 'Welcome! Are you ready to order?' },
       { speaker: 'traveller', text: `Yes — I'd like the ${dishName}, please.` },
       { speaker: 'service', text: 'Good choice. Anything to drink?' },
       { speaker: 'traveller', text: '___, please.', hint: 'e.g. water, a lemonade, a coffee' },
       { speaker: 'traveller', text: `Actually — what's in the ${dishName}?` },
       { speaker: 'service', text: "It's ___ — one of our favourites.", hint: dish ? `Real answer: ${dish.whatItIs}` : 'describe the dish' },
+    ];
+    const closing: ExchangeLine[] = [
       { speaker: 'traveller', text: 'Sounds great. Thank you!' },
       { speaker: 'service', text: "I'll bring that right over." },
     ];
-  }, [dishFor]);
+    if (tier === 'standard') return [...standard, ...closing];
+    // advanced — dietary check and sorting the bill before the closing.
+    return [
+      ...standard,
+      { speaker: 'traveller', text: 'Is it very ___?', hint: 'spicy, salty, heavy…' },
+      { speaker: 'service', text: 'A little! Most people love it — I can ask the kitchen to go easy if you like.' },
+      { speaker: 'traveller', text: '___, please. And could we have the bill afterwards?', hint: 'accept or adjust — "That would be great" / "No, keep it as it is"' },
+      { speaker: 'service', text: 'Of course.' },
+      ...closing,
+    ];
+  }, [dishFor, tier]);
 
   const start = () => { setPhase('menu'); onPhaseChange?.('menu'); };
-  const toOrder = () => { setPhase('order'); onPhaseChange?.('order'); };
+  const toOrder = () => {
+    const ordered = Array.from(new Set(Object.values(picks)));
+    if (ordered.length > 0) {
+      addTripLogEntry({ stageId: 'local-table', text: `Ate ${ordered.join(', ')} in ${content.city}` });
+    }
+    setPhase('order');
+    onPhaseChange?.('order');
+  };
   const finish = useCallback(() => { setPhase('done'); onPhaseChange?.('finished'); }, [onPhaseChange]);
 
   const DishList = ({ showCounts }: { showCounts?: boolean }) => (
     <ul className="space-y-2">
       {dishes.map((dish) => (
         <li key={dish.id} className="flex items-start justify-between gap-3 rounded-xl border border-amber-300/15 bg-slate-950/40 px-4 py-3">
-          <div className="min-w-0">
+          {dish.imageUrl && (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img src={dish.imageUrl} alt={dish.name} className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+          )}
+          <div className="min-w-0 flex-1">
             <p className="font-game text-base text-amber-100">{dish.name}</p>
             <p className="mt-0.5 text-sm text-slate-300">{dish.whatItIs}</p>
             {dish.note && <p className="mt-1 text-xs text-slate-400">{dish.note}</p>}

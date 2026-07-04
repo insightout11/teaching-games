@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ComponentType } from 'react';
 import { ChevronRight, Users } from 'lucide-react';
+import type { Difficulty } from '@/lib/difficulty';
 import type { Student } from '@/lib/supabase/types';
 import type { ActivityProps } from '../types';
 import { useTravelRoles, TravelRoleBanner, SwapRoleButton } from './travel-roles';
@@ -21,6 +22,19 @@ export interface ExchangeLine {
   speaker: 'service' | 'traveller';
   text: string;
   hint?: string;
+}
+
+/**
+ * Script tier derived from the session's CEFR difficulty — every stop's script adapts:
+ * basic = shorter lines, fewer blanks, concrete hints; standard = the full exchange;
+ * advanced = extra follow-up turns and more open blanks.
+ */
+export type ScriptTier = 'basic' | 'standard' | 'advanced';
+
+export function scriptTierFor(difficulty: Difficulty): ScriptTier {
+  if (difficulty === 'Beginner' || difficulty === 'Easy') return 'basic';
+  if (difficulty === 'Intermediate') return 'standard';
+  return 'advanced';
 }
 
 interface PerformedExchangeProps {

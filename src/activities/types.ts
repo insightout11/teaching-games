@@ -167,6 +167,7 @@ export interface TripAttractionOption {
   name: string;
   whatItIs: string;   // one-line info so students know what the place is
   whyVisit?: string;  // optional traveller hook
+  imageUrl?: string;  // real photo of the place (travelAnchors, when curated)
 }
 
 export interface TripAttractionsContent extends ActivityGeneratedContent {
@@ -185,6 +186,7 @@ export interface TripDishOption {
   name: string;
   whatItIs: string;  // one-line info so students learn what the dish is
   note?: string;     // how it's eaten / a cultural note
+  imageUrl?: string; // real photo of the dish (travelAnchors, when curated)
 }
 
 export interface TripMealContent extends ActivityGeneratedContent {
@@ -201,6 +203,9 @@ export interface TripArrivalContent extends ActivityGeneratedContent {
   city: string;
   airport: string;
   framingPrompt: string;
+  /** Real per-city "things you should know" (travelAnchors.localColor) — shown as a
+   * guaranteed traveller briefing before the immigration scene. */
+  localColor?: string[];
 }
 
 // Trip Getting-There content (Travel arc — airport → city stage).

@@ -60,6 +60,9 @@ export interface WorldFlightEvidenceSnapshot {
   keyIdea: string | null;
   tradeoff: string | null;
   designUse: string | null;
+  /** Travel arc: what the class actually did on the trip (transport, attraction, moment,
+   * dishes) — merged in at session end so the journey remembers the trip itself. */
+  tripSummary?: string | null;
 }
 
 export interface WorldFlightSessionContext extends WorldFlightLaunchContext {
