@@ -31,6 +31,12 @@ interface ClassBoardCanvasProps {
   sortByVotes?: boolean;
   /** Replace the preset's zones (e.g. Out & About uses one zone per real attraction). */
   zonesOverride?: ClassBoardZone[];
+  /**
+   * Show student items immediately, without cockpit approval. The submit API stores every
+   * student item as 'pending' — for live-discussion boards (Out & About) that queue would
+   * swallow the notes, so the canvas renders pending items as normal cards.
+   */
+  includePending?: boolean;
 }
 
 interface BoardItem {
@@ -71,7 +77,7 @@ function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
   }
 }
 
-export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false, zonesOverride }: ClassBoardCanvasProps) {
+export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false, zonesOverride, includePending = false }: ClassBoardCanvasProps) {
   const templateLocked = Boolean(presetKey);
   const [selectedPresetKey, setSelectedPresetKey] = useState(presetKey ?? DEFAULT_CLASS_BOARD_PRESET_KEY);
   const preset = useMemo(() => getClassBoardPreset(selectedPresetKey), [selectedPresetKey]);
@@ -109,7 +115,9 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const visibleItems = useMemo(
     () =>
       items
-        .filter((item) => item.visibility === 'visible' && !(questionWall && item.parentId))
+        .filter((item) =>
+          (item.visibility === 'visible' || (includePending && item.visibility === 'pending')) &&
+          !(questionWall && item.parentId))
         .sort(
           (a, b) =>
             Number(b.pinned) - Number(a.pinned) ||
@@ -117,7 +125,7 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
               ? a.position - b.position || a.createdAt.localeCompare(b.createdAt)
               : b.voteCount - a.voteCount || a.createdAt.localeCompare(b.createdAt)),
         ),
-    [items, rankable, questionWall, sortByVotes],
+    [items, rankable, questionWall, sortByVotes, includePending],
   );
 
   const repliesFor = useCallback(

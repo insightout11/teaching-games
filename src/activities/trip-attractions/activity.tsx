@@ -268,6 +268,7 @@ export function TripAttractionsActivity({
             boardKey={BOARD_KEY}
             presetKey={PRESET_KEY}
             zonesOverride={attractionZones}
+            includePending
           />
         </div>
       ) : (
