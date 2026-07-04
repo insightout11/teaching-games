@@ -194,6 +194,15 @@ export interface TripMealContent extends ActivityGeneratedContent {
   dishes: TripDishOption[];
 }
 
+// Trip Arrival content (Travel arc — immigration stage). Reliable, no AI: the scripted
+// exchange lives in the component; roles are assigned to real students at runtime.
+export interface TripArrivalContent extends ActivityGeneratedContent {
+  activityKey: 'trip-arrival';
+  city: string;
+  airport: string;
+  framingPrompt: string;
+}
+
 // Trip Getting-There content (Travel arc — airport → city stage).
 // Seeded from a destination's real travelAnchors.transport — no AI.
 export interface TripTransportOption {

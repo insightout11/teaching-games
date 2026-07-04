@@ -36,6 +36,7 @@ import { conversationRoundsPlugin } from './conversation-rounds';
 import { tripAttractionsPlugin } from './trip-attractions';
 import { tripMealPlugin } from './trip-meal';
 import { tripGettingTherePlugin } from './trip-getting-there';
+import { tripArrivalPlugin } from './trip-arrival';
 import { tripHotelPlugin } from './trip-stages';
 import { videoPlayerPlugin } from './video-player';
 import { readAloudPlugin } from './read-aloud';
@@ -63,6 +64,7 @@ const activities: ActivityPlugin[] = [
   quickPulsePlugin,
   wonderBoardPlugin,
   tripAttractionsPlugin,
+  tripArrivalPlugin,
   tripGettingTherePlugin,
   tripHotelPlugin,
   tripMealPlugin,

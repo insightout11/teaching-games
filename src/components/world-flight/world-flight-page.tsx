@@ -15,6 +15,7 @@ import { buildTripItinerary } from '@/lib/world-flight/travel-context';
 import { buildTripAttractionsContent } from '@/activities/trip-attractions';
 import { buildTripMealContent } from '@/activities/trip-meal';
 import { buildTripGettingThereContent } from '@/activities/trip-getting-there';
+import { buildTripArrivalContent } from '@/activities/trip-arrival';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, PLANE_TIERS, type PlaneEntry } from '@/lib/plane-progression';
@@ -2469,11 +2470,11 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       store.setTripPack({
         stageSources: {
           'character-cards': itinerary.departures,
-          'scene-igniter': itinerary.arrival,
           'trip-hotel': itinerary.hotel,
           'in-your-words': itinerary.landing,
         },
         preGenerated: {
+          'trip-arrival': buildTripArrivalContent(selectedDestination),
           'trip-getting-there': buildTripGettingThereContent(selectedDestination),
           'trip-attractions': buildTripAttractionsContent(selectedDestination),
           'trip-meal': buildTripMealContent(selectedDestination),

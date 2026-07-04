@@ -545,7 +545,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // so the roleplays play differently. trip-attractions is seeded from the city's real
     // attractions (no AI). See docs/travel-trip-anchors-codex-brief.md.
     moduleSequence: [
-      { slotType: 'presentation', key: 'scene-igniter', stageId: 'arrival' },
+      { slotType: 'production', key: 'trip-arrival', stageId: 'arrival' },
       { slotType: 'production', key: 'trip-getting-there', stageId: 'getting-there' },
       { slotType: 'production', key: 'trip-hotel', stageId: 'hotel' },
       { slotType: 'production', key: 'trip-attractions', stageId: 'attraction' },
@@ -563,7 +563,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       ],
       stageByKey: {
         'character-cards': 'departures',
-        'scene-igniter': 'arrival',
+        'trip-arrival': 'arrival',
         'trip-getting-there': 'getting-there',
         'trip-hotel': 'hotel',
         'trip-attractions': 'attraction',
