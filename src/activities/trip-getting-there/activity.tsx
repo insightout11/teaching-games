@@ -1,9 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { TramFront, Clock, Wallet } from 'lucide-react';
+import { TramFront, Clock, Wallet, UserRound, Users } from 'lucide-react';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripTransportContent } from '../types';
+import { useTravelRoles, TravelRoleBanner, SwapRoleButton } from '../shared/travel-roles';
 
 // Getting There stage of the Travel arc. Shows the city's REAL ways in from the airport
 // (with time + cost), students weigh them and pick one on their device, then the class does a
@@ -40,6 +41,7 @@ function PhraseCard({ title, phrases }: { title: string; phrases: string[] }) {
 }
 
 export function TripGettingThereActivity({
+  students,
   generatedContent,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
@@ -48,6 +50,7 @@ export function TripGettingThereActivity({
 }: ActivityProps) {
   const content = generatedContent as TripTransportContent;
   const options = useMemo(() => content.options ?? [], [content.options]);
+  const { service: staff, others: travellers, swap, canSwap } = useTravelRoles(students);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [picks, setPicks] = useState<Record<string, string>>({}); // clientId -> mode
@@ -138,10 +141,24 @@ export function TripGettingThereActivity({
   if (phase === 'roleplay') {
     return (
       <div className="space-y-5 py-2">
-        <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Buy your way in</p>
-          <h3 className="mt-1 text-2xl font-game text-white">Traveller &amp; staff / driver</h3>
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Buy your way in</p>
+            <h3 className="mt-1 text-2xl font-game text-white">Travellers &amp; staff / driver</h3>
+          </div>
+          {canSwap && <SwapRoleButton onClick={swap} />}
         </div>
+        <TravelRoleBanner
+          service={staff}
+          others={travellers}
+          serviceRole="Staff / Driver"
+          otherRole="Travellers"
+          serviceHint="Sells the ticket / drives."
+          otherHint="Buy your ticket or give your destination."
+          ServiceIcon={UserRound}
+          OtherIcon={Users}
+          accent="cyan"
+        />
         {chosen.length > 0 && (
           <div className="rounded-2xl border border-cyan-300/15 bg-slate-950/40 p-4">
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">The class is taking</p>

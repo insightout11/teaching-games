@@ -1,9 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { UtensilsCrossed } from 'lucide-react';
+import { UtensilsCrossed, ConciergeBell, Users } from 'lucide-react';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripMealContent } from '../types';
+import { useTravelRoles, TravelRoleBanner, SwapRoleButton } from '../shared/travel-roles';
 
 // Local Table stage of the Travel arc. Shows the city's REAL dishes as a menu (so students
 // learn what the food is), students pick the dish that interests them on their device, then
@@ -40,6 +41,7 @@ function PhraseCard({ title, phrases }: { title: string; phrases: string[] }) {
 }
 
 export function TripMealActivity({
+  students,
   generatedContent,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
@@ -48,6 +50,7 @@ export function TripMealActivity({
 }: ActivityProps) {
   const content = generatedContent as TripMealContent;
   const dishes = useMemo(() => content.dishes ?? [], [content.dishes]);
+  const { service: waiter, others: customers, swap, canSwap } = useTravelRoles(students);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [picks, setPicks] = useState<Record<string, string>>({}); // clientId -> dish name
@@ -131,10 +134,24 @@ export function TripMealActivity({
   if (phase === 'order') {
     return (
       <div className="space-y-5 py-2">
-        <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300/70">Order your dish</p>
-          <h3 className="mt-1 text-2xl font-game text-white">Waiter &amp; customer</h3>
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300/70">Order your dish</p>
+            <h3 className="mt-1 text-2xl font-game text-white">Waiter &amp; customers</h3>
+          </div>
+          {canSwap && <SwapRoleButton onClick={swap} />}
         </div>
+        <TravelRoleBanner
+          service={waiter}
+          others={customers}
+          serviceRole="Waiter"
+          otherRole="Customers"
+          serviceHint="Takes the orders and brings the bill."
+          otherHint="Order the dish you picked."
+          ServiceIcon={ConciergeBell}
+          OtherIcon={Users}
+          accent="amber"
+        />
         {pickedDishes.length > 0 && (
           <div className="rounded-2xl border border-amber-300/15 bg-slate-950/40 p-4">
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">On the table tonight</p>
