@@ -14,7 +14,8 @@ describe('class-size metadata', () => {
       ...getAllActivities().map((activity) => activity.key),
     ];
 
-    expect(registryKeys).toHaveLength(61);
+    // Bump when registering a new module (Travel arc added trip-arrival + trip-directions).
+    expect(registryKeys).toHaveLength(63);
     expect(registryKeys.filter((key) => !getClassSizeMetadata(key))).toEqual([]);
     expect(FLIGHT_PLAN_ITEMS).toHaveLength(50);
     expect(FLIGHT_PLAN_ITEMS.filter((item) => !item.idealClassSizes || !item.minStudents)).toEqual([]);

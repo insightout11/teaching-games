@@ -13,7 +13,7 @@ import { CityDirectionsMap, type DirectionsGuessPin } from './city-directions-ma
 // gives directions from the Start; everyone else follows on their device's real street map and
 // drops a pin. Reveal shows the destination + all pins, scored by real distance.
 
-type Phase = 'idle' | 'guiding' | 'reveal' | 'done';
+type Phase = 'idle' | 'check-in' | 'guiding' | 'reveal' | 'done';
 
 interface Guess extends DirectionsGuessPin {
   distanceKm: number;
@@ -41,10 +41,12 @@ export function TripDirectionsActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [roundIndex, setRoundIndex] = useState(0);
   const [guesses, setGuesses] = useState<Guess[]>([]);
-  // The guide is a DEVICE (clientId) — the destination is marked on their map only, so they
-  // genuinely know where to direct people. Round 1 the teacher guides (models the language);
-  // afterwards the role rotates through devices that have dropped a pin.
+  // The guide is always a STUDENT DEVICE (clientId) — the destination is marked on their map
+  // only, so they genuinely know where to direct people. (Never the teacher: the teacher's
+  // screen is projected, so they can't be shown the destination either.) Devices are learned
+  // via the check-in beat before round 1; the role rotates each round.
   const [guideDevice, setGuideDevice] = useState<{ clientId: string; name: string } | null>(null);
+  const [readyNames, setReadyNames] = useState<string[]>([]);
 
   const phaseRef = useRef<Phase>('idle');
   const roundIndexRef = useRef(0);
@@ -91,6 +93,12 @@ export function TripDirectionsActivity({
   }, [onSetInputSpec, content.start, landmarks]);
 
   const handleVote = useCallback((vote: RemoteVote) => {
+    // Check-in beat: any tap tells us this device is connected (clientId + name).
+    if (phaseRef.current === 'check-in') {
+      participantsRef.current.set(vote.clientId, vote.displayName);
+      setReadyNames(Array.from(participantsRef.current.values()));
+      return;
+    }
     if (phaseRef.current !== 'guiding' || landmarks.length === 0) return;
     const idx = roundIndexRef.current;
     const t = landmarks[idx % landmarks.length];
@@ -116,15 +124,43 @@ export function TripDirectionsActivity({
   }, [handleVote, onRegisterRemoteVoteHandler]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
-  const startRound = useCallback(() => {
+  const beginCheckIn = useCallback(() => {
+    setPhase('check-in');
+    phaseRef.current = 'check-in';
+    onPhaseChange?.('check-in');
+    onSetInputSpec?.({
+      type: 'confirm',
+      gameKey: 'trip-directions',
+      prompt: `Ready to navigate ${content.city}? One of you will be the guide.`,
+      buttonLabel: "I'm ready",
+    } as InputSpec);
+  }, [onPhaseChange, onSetInputSpec, content.city]);
+
+  const startRounds = useCallback(() => {
+    const ids = Array.from(participantsRef.current.keys()).sort();
+    if (ids.length < 2) return; // one guides, at least one navigates
+    const guide = { clientId: ids[0], name: participantsRef.current.get(ids[0]) ?? 'a student' };
+    guideRef.current = guide;
+    setGuideDevice(guide);
     guessesRef.current = [];
     setGuesses([]);
     setPhase('guiding');
     phaseRef.current = 'guiding';
     onPhaseChange?.('guiding');
-    // Round 1: the teacher guides (models the direction language for the class).
-    broadcast(roundIndexRef.current, guideRef.current);
+    broadcast(roundIndexRef.current, guide);
   }, [broadcast, onPhaseChange]);
+
+  // If the guide's device drops (or the teacher wants a different guide), hand the role on.
+  const swapGuide = useCallback(() => {
+    const ids = Array.from(participantsRef.current.keys()).sort();
+    if (ids.length < 2 || !guideRef.current) return;
+    const idx = ids.indexOf(guideRef.current.clientId);
+    const pick = ids[(idx + 1) % ids.length];
+    const guide = { clientId: pick, name: participantsRef.current.get(pick) ?? 'a student' };
+    guideRef.current = guide;
+    setGuideDevice(guide);
+    broadcast(roundIndexRef.current, guide);
+  }, [broadcast]);
 
   const reveal = useCallback(() => {
     if (phaseRef.current !== 'guiding') return;
@@ -155,11 +191,11 @@ export function TripDirectionsActivity({
     setRoundIndex(ni);
     guessesRef.current = [];
     setGuesses([]);
-    // Rotate the guide through the devices that have played (deterministic order).
+    // Rotate the guide through the checked-in devices (deterministic order).
     const participantIds = Array.from(participantsRef.current.keys()).sort();
-    let nextGuide: { clientId: string; name: string } | null = null;
+    let nextGuide: { clientId: string; name: string } | null = guideRef.current;
     if (participantIds.length > 0) {
-      const pick = participantIds[(ni - 1) % participantIds.length];
+      const pick = participantIds[ni % participantIds.length];
       nextGuide = { clientId: pick, name: participantsRef.current.get(pick) ?? 'a student' };
     }
     guideRef.current = nextGuide;
@@ -198,11 +234,48 @@ export function TripDirectionsActivity({
           </p>
         </div>
         <ol className="mx-auto w-full max-w-md space-y-1.5 text-left text-sm text-slate-300">
-          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">1.</span> Round 1: <span className="font-semibold text-white">you</span> are the guide — read the destination off this screen and describe the route. That shows the class how.</li>
-          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">2.</span> Students trace your directions on their street map and drop a pin.</li>
-          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">3.</span> Reveal — closest pins score. From round 2, a student becomes the guide and the destination appears secretly on <span className="font-semibold text-white">their</span> device.</li>
+          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">1.</span> Students check in on their devices — one becomes the <span className="font-semibold text-white">guide</span>.</li>
+          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">2.</span> The destination appears secretly on the guide&apos;s map. They describe the route from {content.start.name} out loud.</li>
+          <li className="rounded-lg bg-white/[0.04] px-3 py-2"><span className="font-semibold text-cyan-200">3.</span> Everyone else traces the route on their street map and drops a pin — closest pins score, then a new guide takes over.</li>
         </ol>
-        <button onClick={startRound} className="rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 px-12 py-5 font-game text-xl text-white shadow-xl transition hover:scale-105 active:scale-95">START ROUND 1</button>
+        <button onClick={beginCheckIn} className="rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 px-12 py-5 font-game text-xl text-white shadow-xl transition hover:scale-105 active:scale-95">CREW CHECK-IN</button>
+      </div>
+    );
+  }
+
+  if (phase === 'check-in') {
+    return (
+      <div className="flex min-h-[420px] flex-col items-center justify-center gap-6 py-6 text-center">
+        <div className="relative">
+          <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-2xl" />
+          <Users className="relative h-16 w-16 text-cyan-300" />
+        </div>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Crew check-in</p>
+          <h3 className="mt-2 text-3xl font-game text-white">Who&apos;s navigating?</h3>
+          <p className="mx-auto mt-3 max-w-md text-sm text-slate-300">
+            Students tap <span className="font-semibold text-white">&ldquo;I&apos;m ready&rdquo;</span> on their device. The first to check in guides round 1.
+          </p>
+        </div>
+        <div className="flex min-h-[44px] flex-wrap items-center justify-center gap-2">
+          {readyNames.length === 0 ? (
+            <span className="text-sm text-slate-500">Waiting for the crew…</span>
+          ) : (
+            readyNames.map((name) => (
+              <span key={name} className="rounded-xl border border-cyan-300/30 bg-cyan-500/10 px-3 py-1.5 text-sm font-semibold text-cyan-100">{name}</span>
+            ))
+          )}
+        </div>
+        <button
+          onClick={startRounds}
+          disabled={readyNames.length < 2}
+          className="rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 px-12 py-5 font-game text-xl text-white shadow-xl transition hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+        >
+          START ROUND 1
+        </button>
+        {readyNames.length < 2 && (
+          <p className="text-xs text-slate-500">Needs at least 2 connected students — one guides, the rest navigate.</p>
+        )}
       </div>
     );
   }
@@ -224,24 +297,25 @@ export function TripDirectionsActivity({
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Find Your Way · Round {roundIndex + 1} of {landmarks.length}</p>
           <h3 className="mt-1 text-2xl font-game text-white">From {content.start.name}…</h3>
-          <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-300"><Users className="h-4 w-4 text-cyan-300" />Guide: <span className="font-semibold text-white">{guideDevice ? guideDevice.name : 'the teacher (you)'}</span></p>
+          <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-300"><Users className="h-4 w-4 text-cyan-300" />Guide: <span className="font-semibold text-white">{guideDevice?.name ?? '—'}</span></p>
         </div>
-        <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-right">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-cyan-200/70">Pins dropped</p>
-          <p className="font-game text-2xl text-cyan-200">{guesses.length} / {Math.max(students.length - (guideDevice ? 1 : 0), 0) || '?'}</p>
+        <div className="flex items-center gap-2">
+          {!revealed && (
+            <button onClick={swapGuide} className="rounded-xl bg-white/10 px-4 py-2 font-game text-xs text-white transition hover:bg-white/20">
+              Swap guide
+            </button>
+          )}
+          <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-right">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-cyan-200/70">Pins dropped</p>
+            <p className="font-game text-2xl text-cyan-200">{guesses.length} / {Math.max(students.length - 1, 0) || '?'}</p>
+          </div>
         </div>
       </div>
 
       {!revealed && (
-        guideDevice ? (
-          <div className="rounded-xl border border-amber-300/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-            <span className="font-semibold">{guideDevice.name}</span> is the guide — the destination is marked on <span className="font-semibold">their device only</span>. They describe the route from <span className="font-semibold">{content.start.name}</span> (the green START pin); everyone else follows and drops a pin.
-          </div>
-        ) : (
-          <div className="rounded-xl border border-amber-300/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-            <span className="font-semibold">You&apos;re the guide this round.</span> Destination: <span className="font-game text-amber-200">{target?.name}</span>. Describe the route from <span className="font-semibold">{content.start.name}</span> (the green START pin) out loud — students follow on their devices. Knowing the name doesn&apos;t help them; only your directions do.
-          </div>
-        )
+        <div className="rounded-xl border border-amber-300/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+          <span className="font-semibold">{guideDevice?.name ?? 'The guide'}</span> is the guide — the destination is marked on <span className="font-semibold">their device only</span>. They describe the route from <span className="font-semibold">{content.start.name}</span> (the green START pin); everyone else follows and drops a pin.
+        </div>
       )}
 
       <CityDirectionsMap

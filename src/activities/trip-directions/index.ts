@@ -17,8 +17,9 @@ export const tripDirectionsPlugin: ActivityPlugin = {
   // Only meaningful inside the Travel arc (needs the city's real landmark coordinates).
   flightPlanOnly: true,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: true, tracksAccuracy: false, defaultOutcome: 'genuine' },
-  // Guide + navigators on devices; best with a couple of students, works solo (teacher guides).
-  minStudents: 1,
+  // Guide + navigators, all on devices — the guide is always a student (their device shows
+  // the destination secretly), so this genuinely needs 2+ connected students.
+  minStudents: 2,
   idealStudents: { min: 2, max: null },
   deviceFree: false,
 };
