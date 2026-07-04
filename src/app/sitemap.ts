@@ -22,6 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   entries.push({ url: `${SITE_URL}/showcase`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 });
   entries.push({ url: `${SITE_URL}/pro`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 });
   entries.push({ url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 });
+  entries.push({ url: `${SITE_URL}/online-esl-games`, lastModified: now, changeFrequency: 'monthly', priority: 0.85 });
+  entries.push({ url: `${SITE_URL}/esl-speaking-activities`, lastModified: now, changeFrequency: 'monthly', priority: 0.85 });
+  entries.push({ url: `${SITE_URL}/esl-vocabulary-games`, lastModified: now, changeFrequency: 'monthly', priority: 0.85 });
 
   for (const page of COMPARISON_PAGES) {
     entries.push({

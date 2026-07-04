@@ -40,7 +40,10 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: 'swap',
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lessoncaptain.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "LessonCaptain — Interactive Classroom Games",
   description: "Run interactive classroom activities with live leaderboards and AI-generated content",
   icons: {
@@ -54,8 +57,6 @@ export const metadata: Metadata = {
     ? { robots: { index: false, follow: false, nocache: true } }
     : {}),
 };
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lessoncaptain.com";
 
 const websiteJsonLd = {
   "@context": "https://schema.org",

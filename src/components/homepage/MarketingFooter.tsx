@@ -2,6 +2,9 @@ import Link from 'next/link';
 
 const LINKS = [
   { label: 'Showcase', href: '/showcase' },
+  { label: 'Online ESL Games', href: '/online-esl-games' },
+  { label: 'ESL Speaking Activities', href: '/esl-speaking-activities' },
+  { label: 'ESL Vocabulary Games', href: '/esl-vocabulary-games' },
   { label: 'Classroom Games', href: '/classroom-games' },
   { label: 'Classroom Activities', href: '/classroom-activities' },
   { label: 'Video to Lesson', href: '/video-lesson' },
