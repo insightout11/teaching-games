@@ -333,18 +333,21 @@ export function TripDirectionsActivity({
           <div className="flex flex-wrap gap-2">
             {[
               'Start at the green pin.',
-              'Go straight ahead.',
-              'Turn left / right at ___.',
+              'Head north / south / east / west.',
+              'Go along the river / the main road.',
               'Cross the river / the bridge.',
               'Go past ___.',
-              "It's on your left / right.",
-              "It's across from ___.",
+              'Turn towards ___ at the corner.',
+              "It's next to / across from ___.",
               "It's about ___ minutes' walk.",
               'You are there!',
             ].map((phrase) => (
               <span key={phrase} className="rounded-lg bg-white/[0.05] px-3 py-1.5 text-sm text-slate-200">{phrase}</span>
             ))}
           </div>
+          <p className="mt-2 text-xs text-slate-500">
+            The maps never rotate — north is always up, and everyone has the same compass. Compass words and landmarks beat left/right here.
+          </p>
         </div>
       )}
 

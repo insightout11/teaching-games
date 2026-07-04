@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import maplibregl, { type Map as MapLibreMap, type Marker as MapLibreMarker, LngLatBounds } from 'maplibre-gl';
 import { createCityStreetMapStyle } from '@/data/world-flight/map-style';
+import { CompassRose } from '@/components/ui/compass-rose';
 
 export interface DirectionsGuessPin {
   studentKey: string;
@@ -101,7 +102,10 @@ export function CityDirectionsMap({ center, start, landmarks, target, guesses, r
 
   return (
     <div className="space-y-2">
-      <div ref={containerRef} className="h-[420px] w-full overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950" />
+      <div className="relative">
+        <div ref={containerRef} className="h-[420px] w-full overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950" />
+        <CompassRose className="absolute bottom-3 left-3" />
+      </div>
       <div className="flex flex-wrap gap-4 text-xs text-slate-400">
         <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />Start</span>
         <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-amber-400" />Destination (revealed at the end)</span>

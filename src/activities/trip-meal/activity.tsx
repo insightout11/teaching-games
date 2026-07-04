@@ -7,6 +7,7 @@ import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripMealContent, TripDishOption } from '../types';
 import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
+import { ExpandableImage } from '../shared/expandable-image';
 
 // Local Table stage of the Travel arc. Two halves:
 //  1. MENU — the city's REAL dishes with what each one is; students pick the dish that
@@ -146,8 +147,13 @@ export function TripMealActivity({
       {dishes.map((dish) => (
         <li key={dish.id} className="flex items-start justify-between gap-3 rounded-xl border border-amber-300/15 bg-slate-950/40 px-4 py-3">
           {dish.imageUrl && (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img src={dish.imageUrl} alt={dish.name} className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+            <ExpandableImage
+              src={dish.imageUrl}
+              alt={dish.name}
+              caption={dish.imageCaption ?? dish.whatItIs}
+              credit={dish.imageCredit}
+              thumbClassName="h-16 w-16 rounded-lg object-cover"
+            />
           )}
           <div className="min-w-0 flex-1">
             <p className="font-game text-base text-amber-100">{dish.name}</p>

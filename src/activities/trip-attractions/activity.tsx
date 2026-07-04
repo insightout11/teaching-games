@@ -8,6 +8,7 @@ import { drawTravelMoment, type TravelMoment } from '@/lib/world-flight/travel-m
 import { useSessionStore } from '@/stores/session-store';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripAttractionsContent } from '../types';
+import { ExpandableImage } from '../shared/expandable-image';
 
 // Out & About stage of the Travel arc, built on the CLASS BOARD as designed:
 //  - one board column per REAL attraction (name + what it is as the column header)
@@ -142,8 +143,13 @@ export function TripAttractionsActivity({
           {attractions.map((a) => (
             <li key={a.id} className="flex items-start gap-3 rounded-xl border border-cyan-300/15 bg-slate-950/40 px-4 py-3">
               {a.imageUrl && (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img src={a.imageUrl} alt={a.name} className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+                <ExpandableImage
+                  src={a.imageUrl}
+                  alt={a.name}
+                  caption={a.imageCaption ?? a.whatItIs}
+                  credit={a.imageCredit}
+                  thumbClassName="h-16 w-16 rounded-lg object-cover"
+                />
               )}
               <div className="min-w-0 flex-1">
                 <p className="font-game text-base text-cyan-100">{a.name}</p>

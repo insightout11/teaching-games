@@ -167,7 +167,9 @@ export interface TripAttractionOption {
   name: string;
   whatItIs: string;   // one-line info so students know what the place is
   whyVisit?: string;  // optional traveller hook
-  imageUrl?: string;  // real photo of the place (travelAnchors, when curated)
+  imageUrl?: string;  // real photo of the place (travelAnchors)
+  imageCaption?: string;
+  imageCredit?: string; // creator · license (shown on the expanded view)
 }
 
 export interface TripAttractionsContent extends ActivityGeneratedContent {
@@ -186,7 +188,9 @@ export interface TripDishOption {
   name: string;
   whatItIs: string;  // one-line info so students learn what the dish is
   note?: string;     // how it's eaten / a cultural note
-  imageUrl?: string; // real photo of the dish (travelAnchors, when curated)
+  imageUrl?: string; // real photo of the dish (travelAnchors)
+  imageCaption?: string;
+  imageCredit?: string; // creator · license (shown on the expanded view)
 }
 
 export interface TripMealContent extends ActivityGeneratedContent {

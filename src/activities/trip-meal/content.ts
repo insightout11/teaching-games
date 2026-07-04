@@ -8,13 +8,18 @@ import type { TripMealContent } from '../types';
  * an empty list if a city has no travelAnchors yet.
  */
 export function buildTripMealContent(destination: DestinationPack): TripMealContent {
-  const dishes = (destination.travelAnchors?.dishes ?? []).map((dish) => ({
-    id: dish.id,
-    name: dish.name,
-    whatItIs: dish.whatItIs,
-    ...(dish.note ? { note: dish.note } : {}),
-    ...(dish.image?.url ? { imageUrl: dish.image.url } : {}),
-  }));
+  const dishes = (destination.travelAnchors?.dishes ?? []).map((dish) => {
+    const credit = [dish.image?.creator, dish.image?.license, dish.image?.sourceName].filter(Boolean).join(' · ');
+    return {
+      id: dish.id,
+      name: dish.name,
+      whatItIs: dish.whatItIs,
+      ...(dish.note ? { note: dish.note } : {}),
+      ...(dish.image?.url ? { imageUrl: dish.image.url } : {}),
+      ...(dish.image?.caption ? { imageCaption: dish.image.caption } : {}),
+      ...(credit ? { imageCredit: credit } : {}),
+    };
+  });
 
   return {
     activityKey: 'trip-meal',

@@ -5,6 +5,7 @@ import maplibregl, { type Map as MapLibreMap, type Marker as MapLibreMarker } fr
 import { MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { createWorldFlightGuessMapStyle, createCityStreetMapStyle } from '@/data/world-flight/map-style';
+import { CompassRose } from '@/components/ui/compass-rose';
 import type { InputSpec } from '@/lib/input-spec';
 
 interface GeoPointInputProps {
@@ -129,6 +130,7 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
             {spec.mapStyle === 'city-streets' ? 'Tap the map where the directions lead.' : 'Tap the map to place your radar contact.'}
           </div>
         )}
+        {spec.mapStyle === 'city-streets' && <CompassRose className="absolute bottom-3 left-3" />}
         {locked && !isGuide && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-slate-950/45">
             <div className="rounded-2xl border border-cyan-300/30 bg-slate-950/90 px-5 py-4 text-center shadow-xl">
