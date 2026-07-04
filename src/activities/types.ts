@@ -174,6 +174,8 @@ export interface TripAttractionsContent extends ActivityGeneratedContent {
   city: string;
   framingPrompt: string;
   attractions: TripAttractionOption[];
+  /** Real per-city customs (travelAnchors.localColor), used to flavour the travel moment. */
+  localColor?: string[];
 }
 
 // Trip Meal content (Travel arc — Local Table stage).

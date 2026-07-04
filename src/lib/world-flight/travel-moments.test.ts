@@ -52,6 +52,36 @@ describe('drawTravelMoment', () => {
     expect(moment.id).toBe(TRAVEL_MOMENTS[0].id);
   });
 
+  it('uses a real city custom when a local-colour moment is drawn with localColor', () => {
+    // rng=0 selects the first card, which is an opportunity — so find an rng that lands on
+    // a local-colour card, then confirm the real note is substituted in.
+    const note = 'Tipping is not expected here.';
+    let found = false;
+    for (let i = 0; i < 1000 && !found; i++) {
+      const r = i / 1000;
+      const moment = drawTravelMoment({ place: 'Senso-ji', rng: () => r, localColor: [note] });
+      if (moment.type === 'local-color') {
+        found = true;
+        expect(moment.situation).toContain(note);
+        expect(moment.situation).toContain('Senso-ji');
+        expect(moment.situation).not.toContain('{place}');
+      }
+    }
+    expect(found).toBe(true);
+  });
+
+  it('falls back to the generic template when no localColor is provided', () => {
+    let checked = false;
+    for (let i = 0; i < 1000 && !checked; i++) {
+      const moment = drawTravelMoment({ place: 'X', rng: () => i / 1000 });
+      if (moment.type === 'local-color') {
+        checked = true;
+        expect(moment.situation).not.toContain('mentions something you should know');
+      }
+    }
+    expect(checked).toBe(true);
+  });
+
   it('weights the draw so opportunities dominate and obstacles are rare', () => {
     const counts: Record<TravelMomentType, number> = {
       opportunity: 0,

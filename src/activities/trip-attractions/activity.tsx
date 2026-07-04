@@ -92,10 +92,10 @@ export function TripAttractionsActivity({
   const revealMoment = useCallback(() => {
     const winner = attractions.find((a) => a.id === winnerId) ?? attractions[0];
     if (!winner) return;
-    setMoment(drawTravelMoment({ place: winner.name }));
+    setMoment(drawTravelMoment({ place: winner.name, localColor: content.localColor }));
     setPhase('moment');
     onPhaseChange?.('moment');
-  }, [attractions, winnerId, onPhaseChange]);
+  }, [attractions, winnerId, content.localColor, onPhaseChange]);
 
   const finish = useCallback(() => {
     setPhase('done');

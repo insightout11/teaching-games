@@ -130,13 +130,19 @@ export interface DrawTravelMomentOptions {
   rng?: () => number;
   /** Moment ids to skip (e.g. already seen this session). */
   exclude?: string[];
+  /**
+   * Real per-city "things you should know" notes (from travelAnchors.localColor). When the
+   * draw lands on a local-colour moment and these are provided, one real custom is used
+   * instead of the generic template — so the moment teaches something true about the city.
+   */
+  localColor?: string[];
 }
 
 /**
  * Draw one travel moment, weighted by type, with `{place}` resolved to the chosen attraction.
  * Falls back to the full deck if `exclude` would empty the pool.
  */
-export function drawTravelMoment({ place, rng = Math.random, exclude = [] }: DrawTravelMomentOptions): TravelMoment {
+export function drawTravelMoment({ place, rng = Math.random, exclude = [], localColor = [] }: DrawTravelMomentOptions): TravelMoment {
   const excluded = new Set(exclude);
   const filtered = TRAVEL_MOMENTS.filter((moment) => !excluded.has(moment.id));
   const candidates = filtered.length > 0 ? filtered : TRAVEL_MOMENTS;
@@ -152,6 +158,16 @@ export function drawTravelMoment({ place, rng = Math.random, exclude = [] }: Dra
       chosen = candidates[i];
       break;
     }
+  }
+
+  // Local-colour moments use a REAL city custom when one is available.
+  if (chosen.type === 'local-color' && localColor.length > 0) {
+    const note = localColor[Math.floor(rng() * localColor.length) % localColor.length];
+    return {
+      ...chosen,
+      situation: fillPlace(`On your way to {place}, a local mentions something you should know: "${note}"`, place),
+      speakingTask: fillPlace("Ask one question about it, and say how you'll handle it at {place}.", place),
+    };
   }
 
   return {

@@ -15,11 +15,14 @@ export function buildTripAttractionsContent(destination: DestinationPack): TripA
     ...(attraction.whyVisit ? { whyVisit: attraction.whyVisit } : {}),
   }));
 
+  const localColor = (destination.travelAnchors?.localColor ?? []).map((note) => note.text);
+
   return {
     activityKey: 'trip-attractions',
     topicContext: destination.city,
     city: destination.city,
     framingPrompt: `You've arrived in ${destination.city}. Which of these real places should you visit — and why?`,
     attractions,
+    localColor,
   };
 }
