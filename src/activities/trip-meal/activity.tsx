@@ -1,44 +1,34 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { UtensilsCrossed, ConciergeBell, Users } from 'lucide-react';
+import { UtensilsCrossed, ConciergeBell } from 'lucide-react';
+import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
-import type { ActivityProps, TripMealContent } from '../types';
-import { useTravelRoles, TravelRoleBanner, SwapRoleButton } from '../shared/travel-roles';
+import type { ActivityProps, TripMealContent, TripDishOption } from '../types';
+import { PerformedExchange, type ExchangeLine } from '../shared/performed-exchange';
 
-// Local Table stage of the Travel arc. Shows the city's REAL dishes as a menu (so students
-// learn what the food is), students pick the dish that interests them on their device, then
-// the class does a waiter/customer ordering roleplay for the dishes they chose.
+// Local Table stage of the Travel arc. Two halves:
+//  1. MENU — the city's REAL dishes with what each one is; students pick the dish that
+//     interests them on their device (that's the learning + the agency).
+//  2. ORDER — a line-by-line performed exchange with a waiter. Each customer takes a turn
+//     ordering THEIR chosen dish; the dish's real description feeds the waiter's answer.
 
-const CUSTOMER_PHRASES = [
-  'Could I see the menu, please?',
-  "I'd like the ___, please.",
-  "What's in the ___?",
-  'Is it spicy / vegetarian?',
-  'Could we have the bill, please?',
-];
 const WAITER_PHRASES = [
   'Are you ready to order?',
-  'Anything to drink?',
-  "I'd recommend the ___.",
+  'Good choice. Anything to drink?',
+  "It's ___ — one of our favourites.",
   "I'll bring that right over.",
   "Here's your bill.",
 ];
+const CUSTOMER_PHRASES = [
+  "I'd like the ___, please.",
+  "What's in the ___?",
+  'Is it spicy / vegetarian?',
+  'Just water, please.',
+  'Could we have the bill, please?',
+];
 
 type Phase = 'idle' | 'menu' | 'order' | 'done';
-
-function PhraseCard({ title, phrases }: { title: string; phrases: string[] }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
-      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">{title}</p>
-      <ul className="space-y-1.5">
-        {phrases.map((phrase) => (
-          <li key={phrase} className="rounded-lg bg-white/[0.04] px-3 py-1.5 text-sm text-slate-200">{phrase}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 export function TripMealActivity({
   students,
@@ -50,10 +40,9 @@ export function TripMealActivity({
 }: ActivityProps) {
   const content = generatedContent as TripMealContent;
   const dishes = useMemo(() => content.dishes ?? [], [content.dishes]);
-  const { service: waiter, others: customers, swap, canSwap } = useTravelRoles(students);
 
   const [phase, setPhase] = useState<Phase>('idle');
-  const [picks, setPicks] = useState<Record<string, string>>({}); // clientId -> dish name
+  const [picks, setPicks] = useState<Record<string, string>>({}); // displayName -> dish name
   const scoredRef = useRef<Set<string>>(new Set());
 
   const buildSpec = useCallback((): InputSpec => ({
@@ -67,7 +56,7 @@ export function TripMealActivity({
     if (phase === 'menu') {
       onSetInputSpec?.(buildSpec());
       onRegisterRemoteVoteHandler?.((vote) => {
-        setPicks((prev) => ({ ...prev, [vote.clientId]: vote.choice }));
+        setPicks((prev) => ({ ...prev, [vote.displayName]: vote.choice }));
         if (!scoredRef.current.has(vote.clientId)) {
           scoredRef.current.add(vote.clientId);
           void onScore?.({
@@ -80,21 +69,44 @@ export function TripMealActivity({
           });
         }
       });
-    } else {
-      onSetInputSpec?.(null);
-      onRegisterRemoteVoteHandler?.(null);
+      return () => { onRegisterRemoteVoteHandler?.(null); };
     }
-    return () => { onRegisterRemoteVoteHandler?.(null); };
+    if (phase !== 'order') onSetInputSpec?.(null);
+    onRegisterRemoteVoteHandler?.(null);
+    return undefined;
   }, [phase, buildSpec, onSetInputSpec, onRegisterRemoteVoteHandler, onScore]);
 
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   const countFor = useCallback((name: string) => Object.values(picks).filter((p) => p === name).length, [picks]);
-  const pickedDishes = useMemo(() => Array.from(new Set(Object.values(picks))), [picks]);
+
+  const dishFor = useCallback((traveller: Student | null): TripDishOption | null => {
+    if (traveller) {
+      const picked = picks[traveller.name];
+      const match = dishes.find((d) => d.name === picked);
+      if (match) return match;
+    }
+    return dishes[0] ?? null;
+  }, [picks, dishes]);
+
+  const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
+    const dish = dishFor(traveller);
+    const dishName = dish?.name ?? '___';
+    return [
+      { speaker: 'service', text: 'Welcome! Are you ready to order?' },
+      { speaker: 'traveller', text: `Yes — I'd like the ${dishName}, please.` },
+      { speaker: 'service', text: 'Good choice. Anything to drink?' },
+      { speaker: 'traveller', text: '___, please.', hint: 'e.g. water, a lemonade, a coffee' },
+      { speaker: 'traveller', text: `Actually — what's in the ${dishName}?` },
+      { speaker: 'service', text: "It's ___ — one of our favourites.", hint: dish ? `Real answer: ${dish.whatItIs}` : 'describe the dish' },
+      { speaker: 'traveller', text: 'Sounds great. Thank you!' },
+      { speaker: 'service', text: "I'll bring that right over." },
+    ];
+  }, [dishFor]);
 
   const start = () => { setPhase('menu'); onPhaseChange?.('menu'); };
   const toOrder = () => { setPhase('order'); onPhaseChange?.('order'); };
-  const finish = () => { setPhase('done'); onPhaseChange?.('finished'); };
+  const finish = useCallback(() => { setPhase('done'); onPhaseChange?.('finished'); }, [onPhaseChange]);
 
   const DishList = ({ showCounts }: { showCounts?: boolean }) => (
     <ul className="space-y-2">
@@ -133,42 +145,28 @@ export function TripMealActivity({
 
   if (phase === 'order') {
     return (
-      <div className="space-y-5 py-2">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300/70">Order your dish</p>
-            <h3 className="mt-1 text-2xl font-game text-white">Waiter &amp; customers</h3>
-          </div>
-          {canSwap && <SwapRoleButton onClick={swap} />}
+      <div className="space-y-4">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-300/70">Local Table · Ordering</p>
+          <h3 className="mt-1 text-2xl font-game text-white">Order your dish</h3>
         </div>
-        <TravelRoleBanner
-          service={waiter}
-          others={customers}
+        <PerformedExchange
+          students={students}
+          gameKey="trip-meal"
+          context={`A local restaurant in ${content.city} — order the dish you picked from the menu.`}
           serviceRole="Waiter"
-          otherRole="Customers"
-          serviceHint="Takes the orders and brings the bill."
-          otherHint="Order the dish you picked."
+          travellerRole="Customer"
+          serviceHint="Takes the orders and answers questions."
+          travellerHint="Orders their chosen dish, line by line."
           ServiceIcon={ConciergeBell}
-          OtherIcon={Users}
           accent="amber"
+          scriptFor={scriptFor}
+          servicePhrases={WAITER_PHRASES}
+          travellerPhrases={CUSTOMER_PHRASES}
+          onSetInputSpec={onSetInputSpec}
+          onScore={onScore}
+          onFinished={finish}
         />
-        {pickedDishes.length > 0 && (
-          <div className="rounded-2xl border border-amber-300/15 bg-slate-950/40 p-4">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">On the table tonight</p>
-            <div className="flex flex-wrap gap-2">
-              {pickedDishes.map((name) => (
-                <span key={name} className="rounded-xl border border-amber-300/30 bg-amber-500/10 px-3 py-1.5 text-sm font-semibold text-amber-100">{name}</span>
-              ))}
-            </div>
-          </div>
-        )}
-        <div className="grid gap-3 sm:grid-cols-2">
-          <PhraseCard title="Customer" phrases={CUSTOMER_PHRASES} />
-          <PhraseCard title="Waiter" phrases={WAITER_PHRASES} />
-        </div>
-        <div className="text-center">
-          <button onClick={finish} className="rounded-2xl bg-white/10 px-10 py-4 font-game text-lg text-white transition hover:bg-white/20">FINISH</button>
-        </div>
       </div>
     );
   }
@@ -193,7 +191,7 @@ export function TripMealActivity({
         </div>
         <button onClick={toOrder} className="rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 px-5 py-2.5 font-game text-sm text-white shadow-lg transition hover:scale-105 active:scale-95">START ORDERING</button>
       </div>
-      <p className="text-sm text-slate-400">Students pick their dish on their device. Each one is real {content.city} food — read what it is.</p>
+      <p className="text-sm text-slate-400">Students pick their dish on their device. Each one is real {content.city} food — read what it is. Then everyone orders theirs, line by line.</p>
       <DishList showCounts />
     </div>
   );

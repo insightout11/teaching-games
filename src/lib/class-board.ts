@@ -254,6 +254,24 @@ export const CLASS_BOARD_PRESETS: Record<string, ClassBoardPreset> = {
     rankable: false,
     studentVisibility: 'pending',
   },
+  'trip-attractions': {
+    key: 'trip-attractions',
+    title: 'Where to?',
+    prompt: 'Add reasons, concerns, or questions under each place — then upvote the best ones.',
+    layout: 'columns',
+    categories: [
+      { key: 'reason', label: 'Reason', tone: 'emerald' },
+      { key: 'concern', label: 'Concern', tone: 'rose' },
+      { key: 'question', label: 'Question', tone: 'amber' },
+    ],
+    // Zones are overridden at runtime with the city's real attractions.
+    zones: [{ key: 'main', label: 'Places' }],
+    defaultCategory: 'reason',
+    defaultZone: 'main',
+    allowVotes: true,
+    rankable: false,
+    studentVisibility: 'visible',
+  },
   'five-ws': {
     key: 'five-ws',
     title: '5 Ws',

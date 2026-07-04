@@ -543,9 +543,6 @@ export const usePlannerStore = create<PlannerState>()(
           ...(flightConfig && loadedPreset ? { flightPresetId: loadedPreset.id, flightConfig } : {}),
           ...(worldFlightDestinationId ? { originId: worldFlightOriginId, destinationId: worldFlightDestinationId } : {}),
           ...(tripPack?.stageSources ? { stageSources: tripPack.stageSources } : {}),
-          // The trip pack pre-seeds stage content, which would otherwise trip the "skip lobby"
-          // path — but this is a live planner launch, so students still need the join lobby.
-          ...(tripPack ? { forceLobby: true } : {}),
           slots,
           generatedContent: { ...(tripPack?.preGenerated ?? {}) },
           generatedGameContent: {},

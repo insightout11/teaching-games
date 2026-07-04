@@ -1,44 +1,34 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { TramFront, Clock, Wallet, UserRound, Users } from 'lucide-react';
+import { TramFront, Clock, Wallet, UserRound } from 'lucide-react';
+import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
-import type { ActivityProps, TripTransportContent } from '../types';
-import { useTravelRoles, TravelRoleBanner, SwapRoleButton } from '../shared/travel-roles';
+import type { ActivityProps, TripTransportContent, TripTransportOption } from '../types';
+import { PerformedExchange, type ExchangeLine } from '../shared/performed-exchange';
 
-// Getting There stage of the Travel arc. Shows the city's REAL ways in from the airport
-// (with time + cost), students weigh them and pick one on their device, then the class does a
-// buy-a-ticket / direct-the-driver roleplay.
+// Getting There stage of the Travel arc. Two halves:
+//  1. CHOOSE — the city's REAL ways in from the airport (mode + time + cost); students weigh
+//     them and pick on their device.
+//  2. RIDE — a line-by-line performed exchange at the ticket desk / taxi rank. Each traveller
+//     takes a turn buying their way in, with THEIR chosen option woven into the script.
 
-const TRAVELLER_PHRASES = [
-  'A ticket to the city centre, please.',
-  'How much is it?',
-  'Which platform / stop is it?',
-  'Does this go to ___?',
-  'Can you take me to ___, please?',
-];
 const STAFF_PHRASES = [
+  'Where are you heading?',
   'Single or return?',
   "That's ___, please.",
-  "It's over there, platform 2.",
-  'Hop in — where to?',
-  'That will be about ___ minutes.',
+  'About ___ minutes.',
+  'Right over there — follow the signs.',
+];
+const TRAVELLER_PHRASES = [
+  "I'd like to take the ___, please.",
+  'How much is it?',
+  'How long does it take?',
+  'Where do I go?',
+  'Thanks a lot!',
 ];
 
 type Phase = 'idle' | 'choose' | 'roleplay' | 'done';
-
-function PhraseCard({ title, phrases }: { title: string; phrases: string[] }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
-      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">{title}</p>
-      <ul className="space-y-1.5">
-        {phrases.map((phrase) => (
-          <li key={phrase} className="rounded-lg bg-white/[0.04] px-3 py-1.5 text-sm text-slate-200">{phrase}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 export function TripGettingThereActivity({
   students,
@@ -50,10 +40,9 @@ export function TripGettingThereActivity({
 }: ActivityProps) {
   const content = generatedContent as TripTransportContent;
   const options = useMemo(() => content.options ?? [], [content.options]);
-  const { service: staff, others: travellers, swap, canSwap } = useTravelRoles(students);
 
   const [phase, setPhase] = useState<Phase>('idle');
-  const [picks, setPicks] = useState<Record<string, string>>({}); // clientId -> mode
+  const [picks, setPicks] = useState<Record<string, string>>({}); // displayName -> mode
   const scoredRef = useRef<Set<string>>(new Set());
 
   const buildSpec = useCallback((): InputSpec => ({
@@ -67,7 +56,7 @@ export function TripGettingThereActivity({
     if (phase === 'choose') {
       onSetInputSpec?.(buildSpec());
       onRegisterRemoteVoteHandler?.((vote) => {
-        setPicks((prev) => ({ ...prev, [vote.clientId]: vote.choice }));
+        setPicks((prev) => ({ ...prev, [vote.displayName]: vote.choice }));
         if (!scoredRef.current.has(vote.clientId)) {
           scoredRef.current.add(vote.clientId);
           void onScore?.({
@@ -80,21 +69,53 @@ export function TripGettingThereActivity({
           });
         }
       });
-    } else {
-      onSetInputSpec?.(null);
-      onRegisterRemoteVoteHandler?.(null);
+      return () => { onRegisterRemoteVoteHandler?.(null); };
     }
-    return () => { onRegisterRemoteVoteHandler?.(null); };
+    if (phase !== 'roleplay') onSetInputSpec?.(null);
+    onRegisterRemoteVoteHandler?.(null);
+    return undefined;
   }, [phase, buildSpec, onSetInputSpec, onRegisterRemoteVoteHandler, onScore]);
 
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   const countFor = useCallback((mode: string) => Object.values(picks).filter((p) => p === mode).length, [picks]);
-  const chosen = useMemo(() => Array.from(new Set(Object.values(picks))), [picks]);
+  const classPick = useMemo<TripTransportOption | null>(() => {
+    if (options.length === 0) return null;
+    const ranked = [...options].sort((a, b) => countFor(b.mode) - countFor(a.mode));
+    return ranked[0] ?? null;
+  }, [options, countFor]);
+
+  const optionFor = useCallback((traveller: Student | null): TripTransportOption | null => {
+    if (traveller) {
+      const picked = picks[traveller.name];
+      const match = options.find((o) => o.mode === picked);
+      if (match) return match;
+    }
+    return classPick;
+  }, [picks, options, classPick]);
+
+  const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
+    const option = optionFor(traveller);
+    const mode = option?.mode ?? '___';
+    const cost = option?.approxCost ?? '___';
+    const time = option?.approxTimeMin != null ? String(option.approxTimeMin) : '___';
+    return [
+      { speaker: 'service', text: 'Hi there — where are you heading?' },
+      { speaker: 'traveller', text: `Into ${content.city}, please. I'd like to take the ${mode}.` },
+      { speaker: 'service', text: 'No problem. Single or return?' },
+      { speaker: 'traveller', text: '___, please. How much is it?', hint: 'single or return?' },
+      { speaker: 'service', text: `That's ${cost}.` },
+      { speaker: 'traveller', text: 'And how long does it take?' },
+      { speaker: 'service', text: `About ${time} minutes.` },
+      { speaker: 'traveller', text: 'Great. Where do I go?' },
+      { speaker: 'service', text: 'Right over there — follow the signs.', hint: 'point them the way' },
+      { speaker: 'traveller', text: 'Thanks a lot!' },
+    ];
+  }, [optionFor, content.city]);
 
   const start = () => { setPhase('choose'); onPhaseChange?.('choose'); };
   const toRoleplay = () => { setPhase('roleplay'); onPhaseChange?.('roleplay'); };
-  const finish = () => { setPhase('done'); onPhaseChange?.('finished'); };
+  const finish = useCallback(() => { setPhase('done'); onPhaseChange?.('finished'); }, [onPhaseChange]);
 
   const OptionList = ({ showCounts }: { showCounts?: boolean }) => (
     <ul className="space-y-2">
@@ -140,42 +161,28 @@ export function TripGettingThereActivity({
 
   if (phase === 'roleplay') {
     return (
-      <div className="space-y-5 py-2">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Buy your way in</p>
-            <h3 className="mt-1 text-2xl font-game text-white">Travellers &amp; staff / driver</h3>
-          </div>
-          {canSwap && <SwapRoleButton onClick={swap} />}
+      <div className="space-y-4">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Getting There · Ticket desk</p>
+          <h3 className="mt-1 text-2xl font-game text-white">Buy your way into {content.city}</h3>
         </div>
-        <TravelRoleBanner
-          service={staff}
-          others={travellers}
+        <PerformedExchange
+          students={students}
+          gameKey="trip-getting-there"
+          context={`At ${content.airport} — buy a ticket (or grab a taxi) for the way you chose into ${content.city}.`}
           serviceRole="Staff / Driver"
-          otherRole="Travellers"
+          travellerRole="Traveller"
           serviceHint="Sells the ticket / drives."
-          otherHint="Buy your ticket or give your destination."
+          travellerHint="Buys their chosen way in."
           ServiceIcon={UserRound}
-          OtherIcon={Users}
           accent="cyan"
+          scriptFor={scriptFor}
+          servicePhrases={STAFF_PHRASES}
+          travellerPhrases={TRAVELLER_PHRASES}
+          onSetInputSpec={onSetInputSpec}
+          onScore={onScore}
+          onFinished={finish}
         />
-        {chosen.length > 0 && (
-          <div className="rounded-2xl border border-cyan-300/15 bg-slate-950/40 p-4">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">The class is taking</p>
-            <div className="flex flex-wrap gap-2">
-              {chosen.map((mode) => (
-                <span key={mode} className="rounded-xl border border-cyan-300/30 bg-cyan-500/10 px-3 py-1.5 text-sm font-semibold text-cyan-100">{mode}</span>
-              ))}
-            </div>
-          </div>
-        )}
-        <div className="grid gap-3 sm:grid-cols-2">
-          <PhraseCard title="Traveller" phrases={TRAVELLER_PHRASES} />
-          <PhraseCard title="Staff / Driver" phrases={STAFF_PHRASES} />
-        </div>
-        <div className="text-center">
-          <button onClick={finish} className="rounded-2xl bg-white/10 px-10 py-4 font-game text-lg text-white transition hover:bg-white/20">FINISH</button>
-        </div>
       </div>
     );
   }
@@ -185,7 +192,7 @@ export function TripGettingThereActivity({
       <div className="flex min-h-[320px] flex-col items-center justify-center gap-4 py-6 text-center">
         <TramFront className="h-14 w-14 text-cyan-300" />
         <h3 className="text-3xl font-game text-white">On your way</h3>
-        <p className="max-w-md text-sm text-slate-300">The class is heading into {content.city}. Next stop: the hotel.</p>
+        <p className="max-w-md text-sm text-slate-300">The class is heading into {content.city}. Next stop: the city itself.</p>
       </div>
     );
   }
@@ -200,7 +207,7 @@ export function TripGettingThereActivity({
         </div>
         <button onClick={toRoleplay} className="rounded-xl bg-gradient-to-br from-cyan-500 to-sky-600 px-5 py-2.5 font-game text-sm text-white shadow-lg transition hover:scale-105 active:scale-95">BUY TICKETS</button>
       </div>
-      <p className="text-sm text-slate-400">Students weigh time vs cost and pick on their device — these are the real ways in from {content.airport}.</p>
+      <p className="text-sm text-slate-400">Students weigh time vs cost and pick on their device — these are the real ways in from {content.airport}. Then each traveller buys their ticket, line by line.</p>
       <OptionList showCounts />
     </div>
   );

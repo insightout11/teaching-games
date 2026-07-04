@@ -61,15 +61,17 @@ export function TripDirectionsActivity({
     onSetInputSpec?.({
       type: 'geo-point',
       gameKey: 'trip-directions',
-      prompt: 'Follow the directions and drop a pin where you end up.',
+      prompt: `Start at ${content.start.name} (green pin). Follow the directions, then drop your pin where they lead.`,
       roundId: landmarks.length > 0 ? `trip-directions-${index}-${landmarks[index % landmarks.length].id}` : 'trip-directions-none',
       mapStyle: 'city-streets',
-      mapCenter: [content.center.lng, content.center.lat],
-      mapZoom: 13,
-      mapMaxZoom: 16,
+      // Centre on the START so students begin oriented, zoomed to street level.
+      mapCenter: [content.start.lng, content.start.lat],
+      mapZoom: 14,
+      mapMaxZoom: 17,
+      mapMarkers: [{ lat: content.start.lat, lng: content.start.lng, label: 'START', color: '#34d399' }],
       allowMultiple: true,
     } as InputSpec);
-  }, [onSetInputSpec, content.center, landmarks]);
+  }, [onSetInputSpec, content.start, landmarks]);
 
   const handleVote = useCallback((vote: RemoteVote) => {
     if (phaseRef.current !== 'guiding' || landmarks.length === 0) return;
@@ -197,17 +199,39 @@ export function TripDirectionsActivity({
 
       {!revealed && (
         <div className="rounded-xl border border-amber-300/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-          Quietly tell <span className="font-semibold">{guide ? guide.name : 'the guide'}</span> the destination: <span className="font-game text-amber-200">{target?.name}</span>. They describe the route — everyone else uses their device.
+          Quietly tell <span className="font-semibold">{guide ? guide.name : 'the guide'}</span> the destination: <span className="font-game text-amber-200">{target?.name}</span>. They describe the route from <span className="font-semibold">{content.start.name}</span> (the green START pin) — everyone else follows on their device and drops a pin.
         </div>
       )}
 
       <CityDirectionsMap
         center={content.center}
         start={content.start}
+        landmarks={landmarks}
         target={revealed ? target : null}
         guesses={ranked}
         revealed={revealed}
       />
+
+      {!revealed && (
+        <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Direction language for the guide</p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              'Start at the green pin.',
+              'Go straight ahead.',
+              'Turn left / right at ___.',
+              'Cross the river / the bridge.',
+              'Go past ___.',
+              "It's on your left / right.",
+              "It's across from ___.",
+              "It's about ___ minutes' walk.",
+              'You are there!',
+            ].map((phrase) => (
+              <span key={phrase} className="rounded-lg bg-white/[0.05] px-3 py-1.5 text-sm text-slate-200">{phrase}</span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {!revealed ? (
         <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">

@@ -53,8 +53,6 @@ interface LessonPlanPayload {
   difficulty?: Difficulty;
   grammarTarget?: GrammarTarget | null;
   directLaunch?: boolean;
-  /** Force the join lobby even when content is pre-seeded (planner launches like Travel). */
-  forceLobby?: boolean;
   sourceMaterial?: SourceMaterial;
   /** Per-stage sources for curated arcs (Travel trip), keyed by activity key. */
   stageSources?: Record<string, SourceMaterial>;
@@ -85,7 +83,6 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         difficulty: parsed.difficulty,
         grammarTarget: parsed.grammarTarget ?? null,
         directLaunch: parsed.directLaunch ?? false,
-        forceLobby: parsed.forceLobby ?? false,
         sourceMaterial: parsed.sourceMaterial ?? undefined,
         stageSources: parsed.stageSources ?? undefined,
         worldFlightContext: parsed.worldFlightContext ?? undefined,
@@ -374,16 +371,13 @@ export function useLessonSession(
       if (content.slots && content.slots.length > 0) {
         setLessonSlots(content.slots);
 
-        const hasPreGenerated = Object.keys(content.generatedContent).length > 0 ||
-          Object.keys(content.generatedGameContent).length > 0;
-
-        if ((hasPreGenerated || content.directLaunch) && !content.forceLobby) {
-          // Pre-generated content or direct Explore launch: skip lobby, go live immediately
+        if (content.directLaunch) {
+          // Explicit direct launch (Explore "run it now"): skip lobby, go live immediately.
           setPhase('live');
           pendingAutoStartRef.current = 0;
         } else {
-          // Structure-only from planner, or a planner launch that pre-seeds content but still
-          // needs students to join (Travel trip pack): show the lobby.
+          // Every real lesson launch shows the join lobby — students always join first,
+          // regardless of whether content was pre-generated (planner, courses, Travel).
           setPhase('lobby');
         }
       }

@@ -51,6 +51,21 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
 
+    // Fixed reference markers (e.g. the START point in the directions game) with a small
+    // always-visible label so students know where the route begins.
+    for (const ref of spec.mapMarkers ?? []) {
+      const marker = new maplibregl.Marker({ color: ref.color ?? '#34d399' })
+        .setLngLat([ref.lng, ref.lat])
+        .addTo(map);
+      if (ref.label) {
+        marker.setPopup(
+          new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 18 })
+            .setText(ref.label),
+        );
+        marker.togglePopup();
+      }
+    }
+
     map.on('click', (event) => {
       if (lockedRef.current) return;
       const next = { lat: event.lngLat.lat, lng: event.lngLat.lng };

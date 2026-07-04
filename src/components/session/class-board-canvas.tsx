@@ -29,6 +29,8 @@ interface ClassBoardCanvasProps {
   questionWall?: boolean;
   /** Force live vote-ranking: items auto-sort by upvotes even on a rankable layout (Out & About). */
   sortByVotes?: boolean;
+  /** Replace the preset's zones (e.g. Out & About uses one zone per real attraction). */
+  zonesOverride?: ClassBoardZone[];
 }
 
 interface BoardItem {
@@ -69,7 +71,7 @@ function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
   }
 }
 
-export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false }: ClassBoardCanvasProps) {
+export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false, zonesOverride }: ClassBoardCanvasProps) {
   const templateLocked = Boolean(presetKey);
   const [selectedPresetKey, setSelectedPresetKey] = useState(presetKey ?? DEFAULT_CLASS_BOARD_PRESET_KEY);
   const preset = useMemo(() => getClassBoardPreset(selectedPresetKey), [selectedPresetKey]);
@@ -91,10 +93,12 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const base = boardKey ?? DEFAULT_CLASS_BOARD_KEY;
   const activeBoardKey = normalizeClassBoardKey(templateLocked ? base : `${base}-${selectedPresetKey}`);
 
-  // Zones with any teacher-renamed titles applied.
+  // Zones with any teacher-renamed titles applied. `zonesOverride` (e.g. one zone per real
+  // attraction in Out & About) replaces the preset's default zones as the base.
+  const baseZones = zonesOverride ?? preset.zones;
   const zones: ClassBoardZone[] = useMemo(
-    () => preset.zones.map((zone) => ({ ...zone, label: zoneLabels[zone.key] ?? zone.label })),
-    [preset.zones, zoneLabels],
+    () => baseZones.map((zone) => ({ ...zone, label: zoneLabels[zone.key] ?? zone.label })),
+    [baseZones, zoneLabels],
   );
 
   const isLive = inputSpec?.type === 'board' && inputSpec.boardKey === activeBoardKey;
@@ -255,11 +259,11 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
       const nextLabels = { ...zoneLabels, [zoneKey]: label };
       setZoneLabels(nextLabels);
       if (isLive) {
-        const nextZones = preset.zones.map((zone) => ({ ...zone, label: nextLabels[zone.key] ?? zone.label }));
+        const nextZones = baseZones.map((zone) => ({ ...zone, label: nextLabels[zone.key] ?? zone.label }));
         await setInputSpec(buildSpec(preset, nextZones));
       }
     },
-    [buildSpec, editText, isLive, preset, setInputSpec, zoneLabels],
+    [buildSpec, baseZones, editText, isLive, preset, setInputSpec, zoneLabels],
   );
 
   const answerQuestion = useCallback(

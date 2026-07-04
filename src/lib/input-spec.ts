@@ -97,6 +97,8 @@ export interface InputSpec {
   mapStyle?: 'world' | 'city-streets';
   /** Max zoom for map inputs (city street maps need ~16, world guessing caps lower). */
   mapMaxZoom?: number;
+  /** Fixed reference markers shown on map inputs (e.g. the START point for directions). */
+  mapMarkers?: Array<{ lat: number; lng: number; label?: string; color?: string }>;
   /** For wonder-board follow-ups: the parent question ID this reply belongs to */
   wonderParentId?: string;
   /** When true, student picks which answered question to follow up on (no locked parentId) */
