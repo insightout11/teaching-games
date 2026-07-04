@@ -46,6 +46,23 @@ export default function ClassroomGamesHub() {
         categories={categories}
         crossLinkHref="/classroom-activities"
         crossLinkLabel="Looking for discussion activities? Browse classroom activities →"
+        guideLinks={[
+          {
+            label: 'Online ESL games',
+            href: '/online-esl-games',
+            description: 'A teacher-focused guide to live games for Zoom, Meet, tutoring, and group classes.',
+          },
+          {
+            label: 'ESL vocabulary games',
+            href: '/esl-vocabulary-games',
+            description: 'Choose games for retrieval, word connections, source vocabulary, and review.',
+          },
+          {
+            label: 'ESL speaking activities',
+            href: '/esl-speaking-activities',
+            description: 'Use games as a bridge into role-play, debate, decisions, and reflection.',
+          },
+        ]}
       />
 
       {/* No-devices promo — projector-only games for classrooms without student devices */}

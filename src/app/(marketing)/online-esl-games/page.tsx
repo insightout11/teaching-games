@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, MonitorSmartphone, Timer, UsersRound } from 'lucide-react';
 import { ProductVisualHero } from '@/components/landing/ProductVisualHero';
+import { SeoFaqSection, buildSeoHubJsonLd } from '@/components/marketing/SeoFaqSection';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 
@@ -84,14 +85,32 @@ const relatedGuides = [
   },
 ];
 
+const faqs = [
+  {
+    q: 'What makes a good online ESL game?',
+    a: 'A good online ESL game has a clear language target, fast setup, visible teacher control, and a reason for students to speak after they answer. The game should create English output, not only screen taps.',
+  },
+  {
+    q: 'Can students join these ESL games from phones?',
+    a: 'Yes. LessonCaptain activities are designed for screen-share teaching where students answer from any browser on a phone, tablet, or laptop without student accounts.',
+  },
+  {
+    q: 'Do online ESL games work for one-on-one lessons?',
+    a: 'Yes. One-on-one lessons work best with timed challenges, deduction games, teacher-versus-student rhythms, and follow-up questions that turn each answer into a sentence.',
+  },
+  {
+    q: 'How do I stop an ESL game from becoming filler?',
+    a: 'Choose the target language first, run a short round, then require output: explain the answer, use the word in context, defend a choice, or reflect on what changed.',
+  },
+];
+
 export default function OnlineEslGamesPage() {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
+  const jsonLd = buildSeoHubJsonLd({
     name: 'Online ESL games',
     description: metadata.description,
     url: `${SITE_URL}/online-esl-games`,
-  };
+    faqs,
+  });
 
   return (
     <>
@@ -261,6 +280,8 @@ export default function OnlineEslGamesPage() {
           </div>
         </div>
       </section>
+
+      <SeoFaqSection faqs={faqs} />
     </>
   );
 }

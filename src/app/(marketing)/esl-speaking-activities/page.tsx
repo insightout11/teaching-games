@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, MessagesSquare, Repeat2, Vote } from 'lucide-react';
 import { ProductVisualHero } from '@/components/landing/ProductVisualHero';
+import { SeoFaqSection, buildSeoHubJsonLd } from '@/components/marketing/SeoFaqSection';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 
@@ -84,14 +85,32 @@ const relatedGuides = [
   },
 ];
 
+const faqs = [
+  {
+    q: 'What are the best ESL speaking activities for online classes?',
+    a: 'The best online speaking activities give students a concrete task: decide, rank, role-play, defend, predict, or reflect. That structure creates more useful language than a loose list of questions.',
+  },
+  {
+    q: 'How do I get quiet students to speak online?',
+    a: 'Collect short written answers first, then invite students to explain what they already submitted. This gives hesitant speakers a sentence to start from and lets the teacher choose useful answers.',
+  },
+  {
+    q: 'Can speaking activities work in one-on-one ESL tutoring?',
+    a: 'Yes. In one-on-one lessons, the teacher can take the second role, challenge an answer, or ask the student to revise a response after feedback.',
+  },
+  {
+    q: 'How should an ESL speaking activity end?',
+    a: 'End with a visible landing: a final answer, vote, ranking, opinion shift, corrected sentence, or reflection. Students remember the last clear thing they said.',
+  },
+];
+
 export default function EslSpeakingActivitiesPage() {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
+  const jsonLd = buildSeoHubJsonLd({
     name: 'ESL speaking activities',
     description: metadata.description,
     url: `${SITE_URL}/esl-speaking-activities`,
-  };
+    faqs,
+  });
 
   return (
     <>
@@ -258,6 +277,8 @@ export default function EslSpeakingActivitiesPage() {
           </div>
         </div>
       </section>
+
+      <SeoFaqSection faqs={faqs} />
     </>
   );
 }

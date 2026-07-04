@@ -10,6 +10,7 @@ interface GameHubPageProps {
   categories: { slug: string; name: string; description: string; plugins: GamePlugin[] }[];
   crossLinkHref: string;
   crossLinkLabel: string;
+  guideLinks?: { label: string; href: string; description: string }[];
 }
 
 interface ActivityHubPageProps {
@@ -17,11 +18,12 @@ interface ActivityHubPageProps {
   categories: { slug: string; name: string; description: string; plugins: ActivityPlugin[] }[];
   crossLinkHref: string;
   crossLinkLabel: string;
+  guideLinks?: { label: string; href: string; description: string }[];
 }
 
 type HubPageProps = GameHubPageProps | ActivityHubPageProps;
 
-export function HubPage({ type, categories, crossLinkHref, crossLinkLabel }: HubPageProps) {
+export function HubPage({ type, categories, crossLinkHref, crossLinkLabel, guideLinks = [] }: HubPageProps) {
   const basePath = type === 'game' ? '/classroom-games' : '/classroom-activities';
   const isGame = type === 'game';
   const accent = isGame
@@ -129,6 +131,35 @@ export function HubPage({ type, categories, crossLinkHref, crossLinkLabel }: Hub
           <EmailCaptureCard source={isGame ? 'seo-games' : 'seo-activities'} />
         </div>
       </section>
+
+      {guideLinks.length > 0 ? (
+        <section className="border-t border-lc-border bg-lc-surface/70 py-12">
+          <div className="mx-auto max-w-5xl px-6">
+            <p className={`text-xs font-semibold uppercase tracking-widest ${accent.text}`}>
+              Popular ESL guides
+            </p>
+            <h2 className="mt-3 text-2xl font-bold text-lc-text">
+              Find the right activity faster
+            </h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {guideLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`rounded-xl border border-lc-border bg-lc-card p-5 transition-colors ${accent.border}`}
+                >
+                  <h3 className="font-semibold text-lc-text">{link.label}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-lc-text3">{link.description}</p>
+                  <span className={`mt-4 inline-flex items-center gap-1.5 text-sm font-semibold ${accent.text}`}>
+                    Open guide
+                    <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* Cross-link */}
       <section className="border-t border-lc-border py-10">

@@ -5,6 +5,24 @@ import { BLOG_POSTS } from '@/lib/marketing/blog-posts';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 
+const SEO_HUBS = [
+  {
+    label: 'Online ESL games',
+    href: '/online-esl-games',
+    description: 'Live games for Zoom, Meet, tutoring, and group classes.',
+  },
+  {
+    label: 'ESL speaking activities',
+    href: '/esl-speaking-activities',
+    description: 'Role-play, debate, decision, and reflection activities.',
+  },
+  {
+    label: 'ESL vocabulary games',
+    href: '/esl-vocabulary-games',
+    description: 'Vocabulary retrieval, word connections, and source-based review.',
+  },
+];
+
 export const metadata: Metadata = {
   title: 'ESL Teaching Ideas | LessonCaptain Blog',
   description:
@@ -45,6 +63,26 @@ export default function BlogIndexPage() {
             </Link>
           ))}
         </div>
+
+        <section className="mt-12 border-t border-lc-border pt-10">
+          <h2 className="text-2xl font-bold text-lc-text">Browse by teaching goal</h2>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {SEO_HUBS.map((hub) => (
+              <Link
+                key={hub.href}
+                href={hub.href}
+                className="rounded-xl border border-lc-border bg-lc-surface/60 p-5 transition-colors hover:border-cyan-300/50"
+              >
+                <h3 className="font-semibold text-lc-text">{hub.label}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-lc-text3">{hub.description}</p>
+                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-lc-blue">
+                  Open hub
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
       </div>
     </section>
   );

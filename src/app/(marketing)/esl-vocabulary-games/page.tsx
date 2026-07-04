@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Brain, CheckCircle2, Gauge, RefreshCw } from 'lucide-react';
 import { ProductVisualHero } from '@/components/landing/ProductVisualHero';
+import { SeoFaqSection, buildSeoHubJsonLd } from '@/components/marketing/SeoFaqSection';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lessoncaptain.com';
 
@@ -72,14 +73,32 @@ const relatedGuides = [
   { label: 'Zoom ESL games guide', href: '/blog/zoom-esl-games-students-join-from-phones' },
 ];
 
+const faqs = [
+  {
+    q: 'What are good ESL vocabulary games for online classes?',
+    a: 'Good online vocabulary games include timed recall, word chains, synonym practice, category sorting, source-based vocabulary, and follow-up speaking tasks that make students reuse the words.',
+  },
+  {
+    q: 'How do vocabulary games help ESL students remember words?',
+    a: 'Vocabulary games help when they combine retrieval, meaning, and reuse. Students should recall the word, explain or compare it, then use it again in a sentence or speaking task.',
+  },
+  {
+    q: 'Can I make vocabulary games from a YouTube video?',
+    a: 'Yes. Use a video as source material, pull useful words from the topic, check comprehension, then recycle the vocabulary in discussion, prediction, or role-play.',
+  },
+  {
+    q: 'Should vocabulary games use scores or speaking?',
+    a: 'Use scores for momentum and retrieval, then switch to speaking for evidence of learning. The best lesson uses both: quick recall first, meaningful output second.',
+  },
+];
+
 export default function EslVocabularyGamesPage() {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
+  const jsonLd = buildSeoHubJsonLd({
     name: 'ESL vocabulary games',
     description: metadata.description,
     url: `${SITE_URL}/esl-vocabulary-games`,
-  };
+    faqs,
+  });
 
   return (
     <>
@@ -247,6 +266,8 @@ export default function EslVocabularyGamesPage() {
           </div>
         </div>
       </section>
+
+      <SeoFaqSection faqs={faqs} />
     </>
   );
 }

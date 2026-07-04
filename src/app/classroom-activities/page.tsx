@@ -43,6 +43,23 @@ export default function ClassroomActivitiesHub() {
       categories={categories}
       crossLinkHref="/classroom-games"
       crossLinkLabel="Looking for scored games? Browse classroom games →"
+      guideLinks={[
+        {
+          label: 'ESL speaking activities',
+          href: '/esl-speaking-activities',
+          description: 'Structured role-play, debate, decision, and reflection formats for online English classes.',
+        },
+        {
+          label: 'Online ESL games',
+          href: '/online-esl-games',
+          description: 'A broader guide to live ESL games students can join from any browser.',
+        },
+        {
+          label: 'ESL vocabulary games',
+          href: '/esl-vocabulary-games',
+          description: 'Vocabulary activities for recall, word connections, video lessons, and speaking reuse.',
+        },
+      ]}
     />
   );
 }
