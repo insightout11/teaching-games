@@ -92,7 +92,7 @@ export function buildTripItinerary(destination: DestinationPack): Record<TripSta
 
   return {
     departures: stage('Departures', `At ${airport} before the flight — checking in, boarding, and small talk at the gate.`),
-    arrival: stage('Arrival', `Arriving in the city — immigration questions ("purpose of your visit?") and finding your way out of ${airport}.`),
+    arrival: stage('Arrival', `Arriving through immigration at ${airport}. Cast the scene with ONE immigration officer who asks the questions (purpose of visit, length of stay, where you are staying) and the arriving traveller(s) who answer — a realistic, friendly border-control exchange, not a group of tourists chatting.`),
     'getting-there': stage('Getting There', transportFocus),
     hotel: stage('Hotel Check-In', `At the hotel front desk — checking in, asking about the room and amenities, and reporting a problem.`),
     attraction: stage('Attractions', attractionFocus),

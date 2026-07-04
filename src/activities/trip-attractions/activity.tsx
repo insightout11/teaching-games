@@ -199,7 +199,7 @@ export function TripAttractionsActivity({
 
       {sessionId ? (
         <div className="rounded-2xl border border-cyan-300/15 bg-slate-950/45">
-          <ClassBoardCanvas sessionId={sessionId} boardKey={BOARD_KEY} presetKey={PRESET_KEY} />
+          <ClassBoardCanvas sessionId={sessionId} boardKey={BOARD_KEY} presetKey={PRESET_KEY} sortByVotes />
         </div>
       ) : (
         <p className="py-8 text-center text-sm text-slate-400">Start a live session to open the board.</p>

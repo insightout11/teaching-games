@@ -1264,7 +1264,7 @@ async function generateVideoComprehensionQuestions(source: SourceMaterial, diffi
 async function generateSingleScene(
   topic: string,
   difficulty: Difficulty,
-  charCount: 4 | 3,
+  charCount: 2 | 3 | 4,
   sourceContext = '',
 ): Promise<SceneIgniterScene> {
   const schema: AISchema = {
@@ -1302,9 +1302,9 @@ async function generateSingleScene(
     required: ['title', 'context', 'improvPrompt', 'improvScript', 'lines'],
   };
 
-  const charList = charCount === 4 ? 'A, B, C, D' : 'A, B, C';
-  const lineCount = charCount === 4 ? 12 : 9;
-  const linesEach = 3;
+  const charList = charCount === 4 ? 'A, B, C, D' : charCount === 3 ? 'A, B, C' : 'A, B';
+  const lineCount = charCount === 4 ? 12 : charCount === 3 ? 9 : 8;
+  const linesEach = charCount === 2 ? 4 : 3;
 
   const prompt = `Generate a short dialogue scene with ${charCount} characters (${charList}) for an ESL classroom.
 
@@ -1340,7 +1340,7 @@ Return JSON: { title: string, context: string, improvPrompt: string, improvScrip
     lines: Array<{ lineIndex: number; character: string; text: string; direction?: string }>;
   }>(prompt, schema);
 
-  const expectedChars = charCount === 4 ? ['A', 'B', 'C', 'D'] : ['A', 'B', 'C'];
+  const expectedChars = charCount === 4 ? ['A', 'B', 'C', 'D'] : charCount === 3 ? ['A', 'B', 'C'] : ['A', 'B'];
   const fallbackLines = expectedChars.flatMap((char, ci) =>
     Array.from({ length: linesEach }, (_, li) => ({
       lineIndex: ci * linesEach + li + 1,
@@ -1553,12 +1553,17 @@ Return JSON.`;
   };
 }
 
-async function generateSceneIgniter(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<SceneIgniterContent> {
+async function generateSceneIgniter(topic: string, difficulty: Difficulty, sourceContext = '', studentCount?: number): Promise<SceneIgniterContent> {
+  // Size each group's cast to the actual class. The activity splits students into group 1
+  // (up to 4) and group 2 (the rest); mirror that so 2 students get a 2-character scene, not 4.
+  const clampCast = (n: number): 2 | 3 | 4 => (n <= 2 ? 2 : n === 3 ? 3 : 4);
+  const g1Cast = clampCast(studentCount ? Math.min(studentCount, 4) : 4);
+  const g2Cast = studentCount && studentCount > 4 ? clampCast(studentCount - 4) : 3;
   const [scene1, scene2, scene1alt, scene2alt] = await Promise.all([
-    generateSingleScene(topic, difficulty, 4, sourceContext),
-    generateSingleScene(topic, difficulty, 3, sourceContext),
-    generateSingleScene(topic, difficulty, 4, sourceContext),
-    generateSingleScene(topic, difficulty, 3, sourceContext),
+    generateSingleScene(topic, difficulty, g1Cast, sourceContext),
+    generateSingleScene(topic, difficulty, g2Cast, sourceContext),
+    generateSingleScene(topic, difficulty, g1Cast, sourceContext),
+    generateSingleScene(topic, difficulty, g2Cast, sourceContext),
   ]);
   return {
     activityKey: 'scene-igniter',
@@ -2699,7 +2704,7 @@ export async function POST(request: NextRequest) {
     const sceneChainMode = hasSceneIgniter && (hasConvRounds || hasStorySprint);
     if (sceneChainMode) {
       try {
-        const sceneResult = await generateSceneIgniter(customTopic, diff, sourceCtx);
+        const sceneResult = await generateSceneIgniter(customTopic, diff, sourceCtx, studentCount);
         content['scene-igniter'] = sceneResult;
         const primaryScene = sceneResult.scenes[0];
         const sceneCtx = { title: primaryScene.title, context: primaryScene.context };
@@ -2921,7 +2926,7 @@ export async function POST(request: NextRequest) {
           }
           case 'scene-igniter':
             if (sceneChainMode) break; // already generated sequentially above
-            generators.push(generateSceneIgniter(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateSceneIgniter(customTopic, diff, sourceCtx, studentCount).then((r) => { content[activityKey] = r; }));
             break;
           case 'final-answer':
             generators.push(generateFinalAnswer(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
@@ -2976,11 +2981,10 @@ export async function POST(request: NextRequest) {
             if (sceneChainMode) break; // already generated sequentially above
             generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx, taskRoleplay).then((r) => { content[activityKey] = r; }));
             break;
-          case 'trip-getting-there':
           case 'trip-hotel':
-          case 'trip-meal':
-            // Travel-arc roleplay stages: same engine, always task-roleplay, each grounded on
-            // its own per-stage source (sourceCtx) so roles/tasks/complications differ per stage.
+            // Travel-arc roleplay stage: ConversationRounds task-roleplay grounded on its own
+            // per-stage source. (Getting There, Attractions, and the Meal are data-seeded from
+            // real anchors and injected at launch — not generated here.)
             generators.push(generateConversationRounds(customTopic, diff, undefined, sourceCtx, true).then((r) => { content[activityKey] = r; }));
             break;
           case 'cabin-mystery':

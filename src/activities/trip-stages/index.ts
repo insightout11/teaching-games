@@ -1,11 +1,11 @@
-import { ConciergeBell, UtensilsCrossed, TramFront } from 'lucide-react';
+import { ConciergeBell } from 'lucide-react';
 import { ConversationRoundsActivity } from '../conversation-rounds/activity';
 import type { ActivityPlugin } from '../types';
 
-// Travel-arc roleplay stages. All three reuse the ConversationRounds engine but are
-// SEPARATE activity keys, so each gets its own content slot and its own source grounding
-// (from buildTripItinerary) — different roles, tasks, and complications per stage, so they
-// don't feel like the same activity three times. See travel-trip-anchors-codex-brief.md.
+// Travel-arc roleplay stage(s) that reuse the ConversationRounds engine but are SEPARATE
+// activity keys, so each gets its own content slot + source grounding (from buildTripItinerary).
+// (Arrival is an adaptive Scene Igniter; Getting There, Attractions, and the Meal are
+// purpose-built — see ../trip-getting-there, ../trip-attractions, ../trip-meal.)
 
 const base: Omit<ActivityPlugin, 'key' | 'name' | 'description' | 'icon'> = {
   category: 'learning',
@@ -25,26 +25,10 @@ const base: Omit<ActivityPlugin, 'key' | 'name' | 'description' | 'icon'> = {
   deviceFree: false,
 };
 
-export const tripGettingTherePlugin: ActivityPlugin = {
-  ...base,
-  key: 'trip-getting-there',
-  name: 'Getting There',
-  description: 'Roleplay getting from the airport into the city — buy a ticket or direct the driver.',
-  icon: TramFront,
-};
-
 export const tripHotelPlugin: ActivityPlugin = {
   ...base,
   key: 'trip-hotel',
   name: 'Hotel Check-In',
   description: 'Roleplay the hotel front desk — check in, ask about the room, report a problem.',
   icon: ConciergeBell,
-};
-
-export const tripMealPlugin: ActivityPlugin = {
-  ...base,
-  key: 'trip-meal',
-  name: 'Local Table',
-  description: "Roleplay ordering a real local dish — ask what's in it and handle the bill.",
-  icon: UtensilsCrossed,
 };

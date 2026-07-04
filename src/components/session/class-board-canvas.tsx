@@ -27,6 +27,8 @@ interface ClassBoardCanvasProps {
   presetKey?: string;
   /** Question-wall mode (Wonder Board): each item is a question that can be answered + replied to. */
   questionWall?: boolean;
+  /** Force live vote-ranking: items auto-sort by upvotes even on a rankable layout (Out & About). */
+  sortByVotes?: boolean;
 }
 
 interface BoardItem {
@@ -67,7 +69,7 @@ function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
   }
 }
 
-export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false }: ClassBoardCanvasProps) {
+export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false }: ClassBoardCanvasProps) {
   const templateLocked = Boolean(presetKey);
   const [selectedPresetKey, setSelectedPresetKey] = useState(presetKey ?? DEFAULT_CLASS_BOARD_PRESET_KEY);
   const preset = useMemo(() => getClassBoardPreset(selectedPresetKey), [selectedPresetKey]);
@@ -107,11 +109,11 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
         .sort(
           (a, b) =>
             Number(b.pinned) - Number(a.pinned) ||
-            (rankable
+            (rankable && !sortByVotes
               ? a.position - b.position || a.createdAt.localeCompare(b.createdAt)
               : b.voteCount - a.voteCount || a.createdAt.localeCompare(b.createdAt)),
         ),
-    [items, rankable, questionWall],
+    [items, rankable, questionWall, sortByVotes],
   );
 
   const repliesFor = useCallback(

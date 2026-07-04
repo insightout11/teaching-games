@@ -176,6 +176,40 @@ export interface TripAttractionsContent extends ActivityGeneratedContent {
   attractions: TripAttractionOption[];
 }
 
+// Trip Meal content (Travel arc — Local Table stage).
+// Seeded from a destination's real travelAnchors.dishes — no AI.
+export interface TripDishOption {
+  id: string;
+  name: string;
+  whatItIs: string;  // one-line info so students learn what the dish is
+  note?: string;     // how it's eaten / a cultural note
+}
+
+export interface TripMealContent extends ActivityGeneratedContent {
+  activityKey: 'trip-meal';
+  city: string;
+  framingPrompt: string;
+  dishes: TripDishOption[];
+}
+
+// Trip Getting-There content (Travel arc — airport → city stage).
+// Seeded from a destination's real travelAnchors.transport — no AI.
+export interface TripTransportOption {
+  id: string;
+  mode: string;          // real service, e.g. 'Airlink Express 747 bus'
+  approxTimeMin?: number;
+  approxCost?: string;
+  note?: string;
+}
+
+export interface TripTransportContent extends ActivityGeneratedContent {
+  activityKey: 'trip-getting-there';
+  city: string;
+  airport: string;
+  framingPrompt: string;
+  options: TripTransportOption[];
+}
+
 // Would You Rather content
 export interface WouldYouRatherContent extends ActivityGeneratedContent {
   activityKey: 'would-you-rather';
