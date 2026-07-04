@@ -1,7 +1,7 @@
-// Real intra-city landmark coordinates for the Find Your Way directions game. Interim data
-// while Codex adds lat/lng onto travelAnchors.attractions for all 50 cities (see
-// docs/travel-landmark-coords-codex-brief.md). The game prefers attraction coords when present
-// and falls back to this table. Coordinates are the real places (Wikipedia-accurate).
+// Curated Find Your Way starting points for hero cities: a NAMED, recognisable start
+// (O'Connell Bridge, Tokyo Station…) plus a hand-picked map centre. Round landmarks now come
+// from travelAnchors.attractions' real coordinates (all 50 cities); the landmark lists below
+// remain only as a fallback for malformed anchor data. Coordinates are the real places.
 
 export interface CityLandmark {
   id: string;

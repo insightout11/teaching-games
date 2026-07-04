@@ -3,16 +3,16 @@ import type { TripDirectionsContent, TripDirectionsLandmark } from '../types';
 import { getCityLandmarks } from '@/data/world-flight/city-landmarks';
 
 /**
- * Build the Find Your Way content for a destination. Prefers real attraction coordinates once
- * Codex adds them (docs/travel-landmark-coords-codex-brief.md); until then uses the interim
- * hero-city landmark table. Returns an empty landmark list for cities without coords yet —
- * the activity then shows a "not available for this city" state rather than a broken map.
+ * Build the Find Your Way content for a destination. Landmarks come from the attraction
+ * anchors' real coordinates (all 50 cities, validated ≤~40 km sanity). The hero-city table
+ * still supplies a NAMED start point (O'Connell Bridge…) where curated; other cities start
+ * from the city centre. An empty landmark list (malformed data / stripped anchors) shows a
+ * graceful "not available" state rather than a broken map.
  */
 export function buildTripDirectionsContent(destination: DestinationPack): TripDirectionsContent {
   const set = getCityLandmarks(destination.id);
 
   const attractionLandmarks: TripDirectionsLandmark[] = (destination.travelAnchors?.attractions ?? [])
-    .map((attraction) => attraction as { id: string; name: string; lat?: number; lng?: number })
     .filter((a) => typeof a.lat === 'number' && typeof a.lng === 'number')
     .map((a) => ({ id: a.id, name: a.name, lat: a.lat as number, lng: a.lng as number }));
 
