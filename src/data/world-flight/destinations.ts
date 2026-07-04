@@ -6,6 +6,8 @@ import type {
   TravelAnchors,
   TravelAttraction,
   TravelDish,
+  TravelLocalColorNote,
+  TravelTransportOption,
 } from '@/lib/world-flight/types';
 import {
   assessWorldFlightReadingQuality,
@@ -277,6 +279,30 @@ function verifiedTravelAttraction(
     sourceUrl,
     review: { status: 'verified', reviewedAt: TRAVEL_ANCHOR_REVIEWED_AT },
   };
+}
+
+function airportTransport(
+  mode: string,
+  fromAirport: string,
+  approxTimeMin: number,
+  approxCost: string,
+  note: string,
+): TravelTransportOption {
+  return {
+    mode,
+    fromAirport,
+    approxTimeMin,
+    approxCost,
+    note,
+  };
+}
+
+function localColorNote(
+  id: string,
+  text: string,
+  category: NonNullable<TravelLocalColorNote['category']>,
+): TravelLocalColorNote {
+  return { id, text, category };
 }
 
 const TRAVEL_ANCHORS_BY_DESTINATION: Partial<Record<string, TravelAnchors>> = {
@@ -882,14 +908,529 @@ const TRAVEL_ANCHORS_BY_DESTINATION: Partial<Record<string, TravelAnchors>> = {
   },
 } satisfies Partial<Record<string, TravelAnchors>>;
 
+const TRAVEL_TRANSPORT_BY_DESTINATION: Partial<Record<string, TravelTransportOption[]>> = {
+  bangkok: [
+    airportTransport('Airport Rail Link City Line', 'BKK', 30, 'THB 45 (~$1)', 'Train to Makkasan and Phaya Thai for MRT or BTS connections.'),
+    airportTransport('Airport taxi', 'BKK', 45, 'THB 400-600 (~$11-17)', 'Metered taxi from the official rank; tolls are extra.'),
+    airportTransport('A1 airport bus', 'DMK', 45, 'THB 30 (~$1)', 'Budget bus from Don Mueang to Mo Chit BTS and bus terminal.'),
+  ],
+  tokyo: [
+    airportTransport('Tokyo Monorail', 'HND', 20, 'JPY 520 (~$3)', 'Fast train from Haneda to Hamamatsucho for JR connections.'),
+    airportTransport('Airport taxi', 'HND', 35, 'JPY 7,000-10,000 (~$45-65)', 'Door-to-door ride from Haneda; late-night fares cost more.'),
+    airportTransport('Narita Express', 'NRT', 60, 'JPY 3,070 (~$20)', 'Direct train from Narita to Tokyo, Shibuya, and Shinjuku.'),
+  ],
+  seoul: [
+    airportTransport('AREX Express Train', 'ICN', 43, 'KRW 11,000 (~$8)', 'Nonstop train from Incheon Airport to Seoul Station.'),
+    airportTransport('Airport Limousine Bus', 'ICN', 75, 'KRW 17,000 (~$12)', 'Coach routes stop at major hotels and districts.'),
+    airportTransport('Airport taxi', 'ICN', 60, 'KRW 70,000-100,000 (~$50-72)', 'Door-to-door option; traffic can change the time a lot.'),
+  ],
+  singapore: [
+    airportTransport('MRT East West Line', 'SIN', 40, 'SGD 2-3 (~$2)', 'Train from Changi Airport with a transfer at Tanah Merah.'),
+    airportTransport('Changi City Shuttle', 'SIN', 30, 'SGD 10 (~$8)', 'Shared shuttle to many central hotels.'),
+    airportTransport('Airport taxi or private hire', 'SIN', 25, 'SGD 25-40 (~$19-30)', 'Fast door-to-door ride; airport and peak surcharges may apply.'),
+  ],
+  paris: [
+    airportTransport('RER B train', 'CDG', 35, 'EUR 11.80 (~$13)', 'Train from Charles de Gaulle to Gare du Nord and central Paris.'),
+    airportTransport('RoissyBus', 'CDG', 60, 'EUR 16.60 (~$18)', 'Direct bus from the airport to Opera.'),
+    airportTransport('Official airport taxi', 'CDG', 45, 'EUR 56-65 (~$61-71)', 'Fixed fare to central Paris, depending on river side.'),
+  ],
+  london: [
+    airportTransport('Elizabeth line', 'LHR', 35, 'GBP 13.30 (~$17)', 'Rail service from Heathrow across central London.'),
+    airportTransport('Heathrow Express', 'LHR', 15, 'GBP 25 (~$32)', 'Fast nonstop train to Paddington.'),
+    airportTransport('Black cab or minicab', 'LHR', 50, 'GBP 60-100 (~$76-127)', 'Door-to-door ride; traffic and destination matter.'),
+  ],
+  'new-york': [
+    airportTransport('AirTrain JFK plus subway', 'JFK', 60, 'USD 11.40', 'Cheapest route via Jamaica or Howard Beach and the subway.'),
+    airportTransport('AirTrain JFK plus LIRR', 'JFK', 35, 'USD 15-20', 'Faster public route via Jamaica to Penn Station or Grand Central.'),
+    airportTransport('Yellow taxi flat fare', 'JFK', 60, 'USD 70-90', 'Flat fare to Manhattan before tip and some surcharges.'),
+  ],
+  cairo: [
+    airportTransport('Cairo Airport Shuttle Bus', 'CAI', 60, 'EGP 100-150 (~$2-3)', 'Shared shuttle to central hotels; book at airport counters.'),
+    airportTransport('Airport taxi', 'CAI', 45, 'EGP 500-700 (~$10-14)', 'Use the official taxi area and agree on the fare first.'),
+    airportTransport('Uber or Careem', 'CAI', 45, 'EGP 350-600 (~$7-12)', 'App ride to downtown or Giza; pickup points can vary.'),
+  ],
+  dubai: [
+    airportTransport('Dubai Metro Red Line', 'DXB', 25, 'AED 8-10 (~$2-3)', 'Metro from airport terminals toward Burj Khalifa and Dubai Marina.'),
+    airportTransport('RTA Airport Taxi', 'DXB', 20, 'AED 55-80 (~$15-22)', 'Official taxi with an airport starting fare.'),
+    airportTransport('RTA bus F55', 'DWC', 45, 'AED 7.50 (~$2)', 'Public bus from Al Maktoum Airport to Ibn Battuta Metro.'),
+  ],
+  sydney: [
+    airportTransport('Airport Link train', 'SYD', 13, 'AUD 20-22 (~$13-15)', 'Fast train from the airport to Central Station.'),
+    airportTransport('Route 420 bus plus train', 'SYD', 35, 'AUD 5-6 (~$3-4)', 'Cheaper public route via Mascot or nearby rail connections.'),
+    airportTransport('Taxi or rideshare', 'SYD', 25, 'AUD 45-65 (~$30-43)', 'Door-to-door ride to the CBD; airport fees may apply.'),
+  ],
+  beijing: [
+    airportTransport('Capital Airport Express', 'PEK', 30, 'CNY 25 (~$4)', 'Airport rail to Dongzhimen and Sanyuanqiao.'),
+    airportTransport('Airport shuttle bus', 'PEK', 60, 'CNY 30 (~$4)', 'Bus routes connect the airport with major city stops.'),
+    airportTransport('Airport taxi', 'PEK', 45, 'CNY 120-180 (~$17-25)', 'Use the official taxi queue; tolls may be added.'),
+  ],
+  shanghai: [
+    airportTransport('Shanghai Maglev plus Metro', 'PVG', 35, 'CNY 50-60 (~$7-8)', 'Maglev to Longyang Road, then metro toward the center.'),
+    airportTransport('Metro Line 2', 'PVG', 65, 'CNY 7-10 (~$1-2)', 'Direct budget metro route from Pudong Airport.'),
+    airportTransport('Airport taxi', 'PVG', 50, 'CNY 180-250 (~$25-35)', 'Door-to-door ride to central Shanghai.'),
+  ],
+  berlin: [
+    airportTransport('Airport Express FEX', 'BER', 30, 'EUR 4.40 (~$5)', 'Regional train from BER to Hauptbahnhof and central stations.'),
+    airportTransport('S-Bahn S9 or S45', 'BER', 40, 'EUR 4.40 (~$5)', 'Frequent rail option using a Berlin ABC ticket.'),
+    airportTransport('Taxi or rideshare', 'BER', 45, 'EUR 55-70 (~$60-76)', 'Door-to-door ride into central Berlin.'),
+  ],
+  moscow: [
+    airportTransport('Aeroexpress train', 'SVO', 50, 'RUB 650 (~$7)', 'Rail link from Sheremetyevo to Belorussky Station.'),
+    airportTransport('Bus 851 plus metro', 'SVO', 60, 'RUB 100-150 (~$1-2)', 'Budget route to Rechnoy Vokzal metro, then into the city.'),
+    airportTransport('Yandex Go or airport taxi', 'SVO', 45, 'RUB 1,500-2,500 (~$16-27)', 'Door-to-door ride; airport traffic can be heavy.'),
+  ],
+  istanbul: [
+    airportTransport('M11 metro', 'IST', 35, 'TRY 30-40 (~$1)', 'Metro from Istanbul Airport toward Gayrettepe connections.'),
+    airportTransport('Havaist airport bus', 'IST', 60, 'TRY 200-300 (~$6-9)', 'Coach routes serve Taksim, Sultanahmet connections, and other districts.'),
+    airportTransport('Airport taxi', 'IST', 45, 'TRY 900-1,300 (~$28-40)', 'Door-to-door ride; use official taxis and expect traffic.'),
+  ],
+  vancouver: [
+    airportTransport('Canada Line', 'YVR', 25, 'CAD 9-10 (~$7)', 'SkyTrain from YVR to downtown Vancouver.'),
+    airportTransport('Airport taxi zone fare', 'YVR', 30, 'CAD 35-45 (~$26-33)', 'Taxi zones set the approximate fare to many central areas.'),
+    airportTransport('Rideshare pickup', 'YVR', 30, 'CAD 35-55 (~$26-40)', 'App ride from marked airport pickup areas.'),
+  ],
+  toronto: [
+    airportTransport('UP Express', 'YYZ', 25, 'CAD 12.35 (~$9)', 'Train from Pearson Airport to Union Station.'),
+    airportTransport('TTC 900 Airport Express', 'YYZ', 60, 'CAD 3.35 (~$2.50)', 'Budget bus to Kipling Station, then subway.'),
+    airportTransport('Airport taxi or limo', 'YYZ', 35, 'CAD 60-75 (~$44-55)', 'Flat-rate style ride to many central addresses.'),
+  ],
+  mumbai: [
+    airportTransport('Suburban train via Andheri', 'BOM', 60, 'INR 20-100 (~$1)', 'Take an auto or taxi to Andheri, then use the local train.'),
+    airportTransport('Prepaid airport taxi', 'BOM', 45, 'INR 700-1,200 (~$8-14)', 'Book at the prepaid counter for a fixed fare.'),
+    airportTransport('Uber or Ola', 'BOM', 45, 'INR 600-1,000 (~$7-12)', 'App ride from marked pickup zones.'),
+  ],
+  'cape-town': [
+    airportTransport('MyCiTi A01 Airport service', 'CPT', 30, 'ZAR 80-100 (~$4-5)', 'Bus from the airport to Civic Centre and city connections.'),
+    airportTransport('Uber or Bolt', 'CPT', 25, 'ZAR 250-400 (~$14-22)', 'Common door-to-door option from the airport pickup area.'),
+    airportTransport('Airport taxi or hotel shuttle', 'CPT', 25, 'ZAR 300-500 (~$17-28)', 'Useful for groups, late arrivals, or heavy luggage.'),
+  ],
+  rome: [
+    airportTransport('Leonardo Express', 'FCO', 32, 'EUR 14 (~$15)', 'Nonstop train from Fiumicino to Roma Termini.'),
+    airportTransport('Airport coach bus', 'FCO', 50, 'EUR 7-8 (~$8-9)', 'Terravision, SIT, and similar coaches run to Termini.'),
+    airportTransport('Fixed-fare taxi', 'FCO', 40, 'EUR 55 (~$60)', 'Official fixed fare inside the Aurelian Walls.'),
+  ],
+  'rio-de-janeiro': [
+    airportTransport('BRT TransCarioca plus metro', 'GIG', 60, 'BRL 8-15 (~$2-3)', 'Budget route from Galeao using BRT and metro connections.'),
+    airportTransport('Airport taxi', 'GIG', 40, 'BRL 120-180 (~$23-35)', 'Use official taxi counters for fixed or metered rides.'),
+    airportTransport('Uber or 99', 'GIG', 40, 'BRL 70-130 (~$14-25)', 'App ride to Zona Sul or the center; pickup zones are marked.'),
+  ],
+  'mexico-city': [
+    airportTransport('Metrobus Line 4', 'MEX', 45, 'MXN 30 (~$2)', 'Bus from airport terminals toward the historic center.'),
+    airportTransport('Metro Line 5', 'MEX', 35, 'MXN 5 (~$0.30)', 'Budget metro from Terminal Aerea near Terminal 1.'),
+    airportTransport('Authorized airport taxi', 'MEX', 30, 'MXN 250-350 (~$14-20)', 'Buy a ticket from an official taxi counter.'),
+  ],
+  'buenos-aires': [
+    airportTransport('Tienda Leon bus', 'EZE', 60, 'ARS 20,000-30,000 (~$15-25)', 'Coach from Ezeiza to the city terminal and central stops.'),
+    airportTransport('Official Ezeiza taxi', 'EZE', 45, 'ARS 45,000-70,000 (~$35-55)', 'Book at an official airport counter.'),
+    airportTransport('Cabify or Uber', 'EZE', 45, 'ARS 35,000-60,000 (~$28-48)', 'App ride; pickup rules can vary by terminal.'),
+  ],
+  'los-angeles': [
+    airportTransport('FlyAway Bus to Union Station', 'LAX', 35, 'USD 9.75', 'Direct coach from LAX to Union Station.'),
+    airportTransport('Metro K/C Line via LAX shuttle', 'LAX', 60, 'USD 1.75', 'Budget rail route using the free airport shuttle connection.'),
+    airportTransport('Taxi or rideshare via LAX-it', 'LAX', 35, 'USD 45-70', 'Door-to-door ride from the airport pickup lot.'),
+  ],
+  jakarta: [
+    airportTransport('Soekarno-Hatta Airport Rail Link', 'CGK', 45, 'IDR 70,000 (~$4)', 'Train from the airport toward BNI City and Manggarai.'),
+    airportTransport('DAMRI airport bus', 'CGK', 60, 'IDR 80,000 (~$5)', 'Coach routes connect the airport with major Jakarta stops.'),
+    airportTransport('Blue Bird taxi or Grab', 'CGK', 45, 'IDR 200,000-350,000 (~$12-22)', 'Door-to-door ride; tolls may be added.'),
+  ],
+  lagos: [
+    airportTransport('Yellow minibus via Airport/Ikeja stop', 'LOS', 75, 'NGN 1,000-2,000 (~$1-2)', 'Budget route from the main road near the domestic terminals.'),
+    airportTransport('Uber or Bolt', 'LOS', 45, 'NGN 12,000-25,000 (~$8-17)', 'App ride from the airport area to Victoria Island or Ikoyi.'),
+    airportTransport('Airport taxi or hotel transfer', 'LOS', 45, 'NGN 15,000-35,000 (~$10-24)', 'More practical with luggage or late arrivals.'),
+  ],
+  'hong-kong': [
+    airportTransport('Airport Express', 'HKG', 24, 'HKD 120-130 (~$15-17)', 'Fast train from the airport to Kowloon and Hong Kong Station.'),
+    airportTransport('Cityflyer A11 or A21 bus', 'HKG', 60, 'HKD 41-45 (~$5-6)', 'Double-decker bus routes to Hong Kong Island or Kowloon.'),
+    airportTransport('Airport taxi', 'HKG', 35, 'HKD 300-400 (~$38-51)', 'Use the correct taxi color for your destination area.'),
+  ],
+  amsterdam: [
+    airportTransport('NS train to Amsterdam Centraal', 'AMS', 15, 'EUR 5 (~$5)', 'Frequent train directly from Schiphol to the central station.'),
+    airportTransport('Amsterdam Airport Express 397', 'AMS', 30, 'EUR 6.50 (~$7)', 'Bus to Museumplein, Leidseplein, and nearby hotel areas.'),
+    airportTransport('Taxi or rideshare', 'AMS', 25, 'EUR 45-65 (~$49-71)', 'Door-to-door ride from the official rank or app pickup.'),
+  ],
+  honolulu: [
+    airportTransport('TheBus Route 20', 'HNL', 60, 'USD 3', 'Public bus from the airport toward downtown and Waikiki.'),
+    airportTransport('SpeediShuttle', 'HNL', 30, 'USD 18-25', 'Shared shuttle to Waikiki hotels.'),
+    airportTransport('Taxi or rideshare', 'HNL', 20, 'USD 35-50', 'Door-to-door ride to Waikiki or downtown Honolulu.'),
+  ],
+  miami: [
+    airportTransport('Metrorail Orange Line', 'MIA', 20, 'USD 2.25', 'Train from Miami Airport Station to downtown and Brickell.'),
+    airportTransport('Miami Beach Airport Express 150', 'MIA', 35, 'USD 2.25', 'Bus from the airport to Miami Beach.'),
+    airportTransport('Taxi or rideshare', 'MIA', 20, 'USD 30-45', 'Door-to-door ride to downtown or Miami Beach.'),
+  ],
+  bogota: [
+    airportTransport('TransMilenio K86 or M86', 'BOG', 45, 'COP 3,000-4,000 (~$1)', 'Bus connection from El Dorado toward central transfer points.'),
+    airportTransport('Airport taxi', 'BOG', 35, 'COP 35,000-60,000 (~$9-15)', 'Use the official taxi system at the terminal.'),
+    airportTransport('Uber or Cabify', 'BOG', 35, 'COP 35,000-70,000 (~$9-18)', 'App ride to La Candelaria, Chapinero, or hotel areas.'),
+  ],
+  reykjavik: [
+    airportTransport('Flybus', 'KEF', 45, 'ISK 5,000 (~$36)', 'Coach from Keflavik Airport to the Reykjavik bus terminal.'),
+    airportTransport('Airport Direct', 'KEF', 45, 'ISK 5,000 (~$36)', 'Shared coach with hotel-area drop-off options.'),
+    airportTransport('Airport taxi', 'KEF', 45, 'ISK 20,000-25,000 (~$145-180)', 'Very expensive door-to-door ride to Reykjavik.'),
+  ],
+  nairobi: [
+    airportTransport('KBS bus 34', 'NBO', 60, 'KES 100-200 (~$1-2)', 'Budget bus route from the airport area toward the city.'),
+    airportTransport('Uber or Bolt', 'NBO', 30, 'KES 1,800-3,500 (~$14-27)', 'App ride to central Nairobi or Westlands.'),
+    airportTransport('Airport taxi', 'NBO', 30, 'KES 2,500-4,000 (~$19-31)', 'Official taxis wait outside arrivals.'),
+  ],
+  lima: [
+    airportTransport('Airport Express Lima', 'LIM', 60, 'PEN 20-25 (~$5-7)', 'Coach route from the airport to Miraflores stops.'),
+    airportTransport('Taxi Directo or Taxi Green', 'LIM', 45, 'PEN 60-90 (~$16-24)', 'Official airport taxi counters inside arrivals.'),
+    airportTransport('Uber or Cabify', 'LIM', 45, 'PEN 45-80 (~$12-21)', 'App ride; confirm the pickup point before leaving the terminal.'),
+  ],
+  perth: [
+    airportTransport('Transperth Airport Line train', 'PER', 18, 'AUD 5-6 (~$3-4)', 'Train from Airport Central to Perth Station.'),
+    airportTransport('Transperth bus 380', 'PER', 45, 'AUD 5-6 (~$3-4)', 'Bus from airport terminals toward Elizabeth Quay.'),
+    airportTransport('Taxi or rideshare', 'PER', 25, 'AUD 45-65 (~$30-43)', 'Door-to-door ride to central Perth.'),
+  ],
+  auckland: [
+    airportTransport('SkyDrive Airport Express', 'AKL', 40, 'NZD 20 (~$12)', 'Coach from the airport to central Auckland.'),
+    airportTransport('AirportLink bus plus train', 'AKL', 60, 'NZD 6-8 (~$4-5)', 'Budget route via Puhinui Station and the rail network.'),
+    airportTransport('Taxi or rideshare', 'AKL', 30, 'NZD 75-95 (~$45-57)', 'Door-to-door ride into the city.'),
+  ],
+  suva: [
+    airportTransport('Nausori-Suva local bus', 'SUV', 60, 'FJD 2-5 (~$1-2)', 'Budget bus from the airport road toward Suva.'),
+    airportTransport('Airport taxi', 'SUV', 35, 'FJD 35-50 (~$16-23)', 'Taxi from Nausori Airport to central Suva.'),
+    airportTransport('Hotel or private transfer', 'SUV', 35, 'FJD 50-80 (~$23-36)', 'Best for late arrivals or groups with luggage.'),
+  ],
+  ulaanbaatar: [
+    airportTransport('X19 airport bus', 'UBN', 80, 'MNT 15,000 (~$4)', 'Public bus from Chinggis Khaan Airport to Sukhbaatar Square.'),
+    airportTransport('Airport taxi', 'UBN', 60, 'MNT 100,000-150,000 (~$27-40)', 'Official taxi from the airport to central Ulaanbaatar.'),
+    airportTransport('Private transfer', 'UBN', 60, 'MNT 120,000-180,000 (~$32-48)', 'Most predictable option in winter or late at night.'),
+  ],
+  almaty: [
+    airportTransport('Bus 92', 'ALA', 45, 'KZT 120-200 (~$1)', 'Public bus from the airport toward central Almaty.'),
+    airportTransport('Yandex Go', 'ALA', 30, 'KZT 3,000-5,000 (~$6-10)', 'Common app ride to central hotels.'),
+    airportTransport('Airport taxi', 'ALA', 30, 'KZT 5,000-8,000 (~$10-16)', 'Use official taxis or agree on the price first.'),
+  ],
+  madrid: [
+    airportTransport('Metro Line 8', 'MAD', 25, 'EUR 5 (~$5)', 'Metro from the airport to Nuevos Ministerios.'),
+    airportTransport('Cercanias C1 or C10 train', 'MAD', 30, 'EUR 2.60-3 (~$3)', 'Suburban rail from Terminal 4 to central stations.'),
+    airportTransport('Fixed-fare taxi', 'MAD', 30, 'EUR 33 (~$36)', 'Official flat fare from the airport to central Madrid.'),
+  ],
+  lisbon: [
+    airportTransport('Metro Red Line', 'LIS', 25, 'EUR 1.80-2.30 (~$2-3)', 'Metro from the airport to Saldanha and city connections.'),
+    airportTransport('Carris bus 744 or 783', 'LIS', 35, 'EUR 2.10 (~$2)', 'Public bus option if luggage is light.'),
+    airportTransport('Taxi or rideshare', 'LIS', 20, 'EUR 15-25 (~$16-27)', 'Short door-to-door ride into central Lisbon.'),
+  ],
+  dublin: [
+    airportTransport('Dublin Express', 'DUB', 30, 'EUR 8-10 (~$9-11)', 'Coach from the airport to central Dublin stops.'),
+    airportTransport('Aircoach 700', 'DUB', 40, 'EUR 9-12 (~$10-13)', 'Coach route serving the city and southside stops.'),
+    airportTransport('Airport taxi', 'DUB', 30, 'EUR 30-45 (~$33-49)', 'Metered taxi from the official rank.'),
+  ],
+  dakar: [
+    airportTransport('AIBD Dem Dikk express bus', 'DSS', 75, 'XOF 6,000 (~$10)', 'Bus from Blaise Diagne Airport to Grand Yoff.'),
+    airportTransport('Airport taxi', 'DSS', 60, 'XOF 20,000-30,000 (~$33-50)', 'Taxi to Dakar-Plateau or hotel areas.'),
+    airportTransport('Hotel or private transfer', 'DSS', 60, 'XOF 25,000-40,000 (~$41-66)', 'Best for late arrivals because the airport is far from Dakar.'),
+  ],
+  recife: [
+    airportTransport('Metrorec subway', 'REC', 15, 'BRL 4-5 (~$1)', 'Airport Station connects the airport with central Recife.'),
+    airportTransport('Airport taxi', 'REC', 20, 'BRL 50-80 (~$10-16)', 'Taxi from the official rank to Boa Viagem or Recife Antigo.'),
+    airportTransport('Uber or 99', 'REC', 20, 'BRL 35-70 (~$7-14)', 'App ride from the marked pickup area.'),
+  ],
+  'panama-city': [
+    airportTransport('Panama Metro Line 2 airport branch', 'PTY', 35, 'USD 0.50-1', 'Metro from Tocumen Airport toward San Miguelito connections.'),
+    airportTransport('MiBus airport route', 'PTY', 60, 'USD 0.25-1', 'Budget bus option using the city transit card.'),
+    airportTransport('Taxi or rideshare', 'PTY', 25, 'USD 25-35', 'Door-to-door ride to Casco Viejo or the hotel district.'),
+  ],
+  santiago: [
+    airportTransport('Centropuerto bus', 'SCL', 45, 'CLP 2,200-2,500 (~$2-3)', 'Airport bus to Los Heroes and metro connections.'),
+    airportTransport('TurBus Aeropuerto', 'SCL', 45, 'CLP 2,200-2,500 (~$2-3)', 'Coach from the airport to central bus and metro stops.'),
+    airportTransport('Official taxi or Transvip', 'SCL', 30, 'CLP 20,000-30,000 (~$22-33)', 'Door-to-door option from the official counters.'),
+  ],
+  'addis-ababa': [
+    airportTransport('RIDE or Feres app ride', 'ADD', 20, 'ETB 350-700 (~$3-6)', 'Local app ride from Bole Airport to central areas.'),
+    airportTransport('Airport taxi', 'ADD', 20, 'ETB 500-900 (~$4-8)', 'Official taxi option from the arrivals area.'),
+    airportTransport('Hotel shuttle', 'ADD', 20, 'Varies, often free', 'Many central hotels arrange pickup from Bole Airport.'),
+  ],
+  delhi: [
+    airportTransport('Delhi Airport Metro Express', 'DEL', 20, 'INR 60 (~$1)', 'Fast metro from the airport to New Delhi Station.'),
+    airportTransport('DTC airport bus', 'DEL', 60, 'INR 75-100 (~$1)', 'Budget public bus option into the city.'),
+    airportTransport('Prepaid taxi, Uber, or Ola', 'DEL', 35, 'INR 600-1,000 (~$7-12)', 'Door-to-door ride from the terminal pickup areas.'),
+  ],
+  manila: [
+    airportTransport('UBE Express', 'MNL', 45, 'PHP 150-200 (~$3-4)', 'Airport coach serving Manila hotel and mall areas.'),
+    airportTransport('Coupon airport taxi', 'MNL', 30, 'PHP 500-800 (~$9-14)', 'Fixed-fare taxi option from airport counters.'),
+    airportTransport('Grab', 'MNL', 30, 'PHP 400-700 (~$7-12)', 'App ride from terminal pickup bays.'),
+  ],
+  'ho-chi-minh-city': [
+    airportTransport('Bus 109', 'SGN', 45, 'VND 15,000 (~$1)', 'Airport bus to District 1 and central stops.'),
+    airportTransport('Bus 152', 'SGN', 45, 'VND 5,000-6,000 (~$0.25)', 'Cheapest public bus if luggage is small.'),
+    airportTransport('Mai Linh, Vinasun, or Grab', 'SGN', 25, 'VND 150,000-250,000 (~$6-10)', 'Taxi or app ride to District 1.'),
+  ],
+};
+
+const TRAVEL_LOCAL_COLOR_BY_DESTINATION: Partial<Record<string, TravelLocalColorNote[]>> = {
+  bangkok: [
+    localColorNote('temple-dress', 'Cover shoulders and knees when visiting major temples.', 'etiquette'),
+    localColorNote('small-cash', 'Carry small bills for markets, street food, and short rides.', 'money'),
+    localColorNote('wai-greeting', 'A small wai greeting is polite, but visitors do not need to overdo it.', 'custom'),
+  ],
+  tokyo: [
+    localColorNote('no-tipping', 'Tipping is not expected and can cause confusion.', 'money'),
+    localColorNote('quiet-trains', 'Keep phone calls off trains and speak softly on public transport.', 'etiquette'),
+    localColorNote('ic-card', 'Use a Suica or Pasmo-style IC card for most trains, buses, and small purchases.', 'transport'),
+  ],
+  seoul: [
+    localColorNote('t-money', 'A T-money card makes subway, bus, and convenience-store payments easier.', 'transport'),
+    localColorNote('two-hands', 'Give and receive important items with two hands when being polite.', 'etiquette'),
+    localColorNote('priority-seats', 'Leave subway priority seats open for older, pregnant, or disabled passengers.', 'etiquette'),
+  ],
+  singapore: [
+    localColorNote('mrt-rules', 'Do not eat or drink on the MRT.', 'transport'),
+    localColorNote('return-tray', 'Return trays at hawker centres after eating.', 'etiquette'),
+    localColorNote('card-payments', 'Contactless cards are widely accepted, but hawker stalls may still prefer local e-payments or cash.', 'money'),
+  ],
+  paris: [
+    localColorNote('bonjour-first', 'Say bonjour before asking for help in shops, cafes, or ticket offices.', 'etiquette'),
+    localColorNote('service-included', 'Restaurant service is included, so extra tipping is small and optional.', 'money'),
+    localColorNote('pickpocket-awareness', 'Keep bags closed near crowded stations, bridges, and major sights.', 'safety'),
+  ],
+  london: [
+    localColorNote('stand-right', 'On Tube escalators, stand on the right and pass on the left.', 'transport'),
+    localColorNote('tap-in-out', 'Tap the same card or phone in and out on most rail journeys.', 'transport'),
+    localColorNote('service-charge', 'Many restaurants add a service charge; check the bill before tipping.', 'money'),
+  ],
+  'new-york': [
+    localColorNote('tip-standard', 'Restaurant and taxi tips are usually expected, often around 18 to 20 percent.', 'money'),
+    localColorNote('omny-tap', 'Tap a contactless card or phone for subway and bus rides.', 'transport'),
+    localColorNote('sidewalk-flow', 'Step aside before stopping on a busy sidewalk.', 'etiquette'),
+  ],
+  cairo: [
+    localColorNote('small-bills', 'Carry small Egyptian pound notes for tips, toilets, and small purchases.', 'money'),
+    localColorNote('mosque-dress', 'Dress modestly and remove shoes when entering mosques.', 'etiquette'),
+    localColorNote('taxi-fare', 'Use an app ride or agree on a taxi fare before leaving.', 'transport'),
+  ],
+  dubai: [
+    localColorNote('modest-public-dress', 'Dress modestly in malls, government buildings, and religious places.', 'etiquette'),
+    localColorNote('metro-cabins', 'Dubai Metro has women-and-children cabins with clear signs.', 'transport'),
+    localColorNote('heat-planning', 'Plan outdoor walks for early morning or evening in hot months.', 'seasonal'),
+  ],
+  sydney: [
+    localColorNote('opal-contactless', 'Tap on and off with Opal or a contactless card for public transport.', 'transport'),
+    localColorNote('swim-between-flags', 'At beaches, swim between the red and yellow flags.', 'safety'),
+    localColorNote('tipping-optional', 'Tipping is appreciated but not required like in the United States.', 'money'),
+  ],
+  beijing: [
+    localColorNote('security-checks', 'Subway stations and major sights often have bag security checks.', 'safety'),
+    localColorNote('passport-sights', 'Carry your passport for some ticketed attractions and hotel checks.', 'custom'),
+    localColorNote('mobile-payments', 'Mobile payments are common, but visitors should keep a backup card or cash.', 'money'),
+  ],
+  shanghai: [
+    localColorNote('metro-security', 'Expect bag checks before entering the metro.', 'transport'),
+    localColorNote('mobile-pay', 'Many small payments use phone apps, so keep cash or card as a backup.', 'money'),
+    localColorNote('queue-markings', 'Follow platform queue markings before boarding metro trains.', 'etiquette'),
+  ],
+  berlin: [
+    localColorNote('validate-ticket', 'Validate paper transit tickets before riding, or risk a fine.', 'transport'),
+    localColorNote('cash-use', 'Some small bars, bakeries, and kiosks may still prefer cash.', 'money'),
+    localColorNote('sunday-closures', 'Many shops close on Sundays, so plan errands earlier.', 'seasonal'),
+  ],
+  moscow: [
+    localColorNote('troika-card', 'Use a Troika card for metro, buses, and trams.', 'transport'),
+    localColorNote('stand-right', 'On long metro escalators, stand on the right and pass on the left.', 'etiquette'),
+    localColorNote('winter-layers', 'In winter, dress for deep cold and icy sidewalks.', 'seasonal'),
+  ],
+  istanbul: [
+    localColorNote('istanbulkart', 'An Istanbulkart works on metro, tram, ferries, and many buses.', 'transport'),
+    localColorNote('mosque-etiquette', 'Remove shoes and dress modestly when entering mosques.', 'etiquette'),
+    localColorNote('bazaar-bargaining', 'Friendly bargaining is normal in bazaars, but not in fixed-price shops.', 'money'),
+  ],
+  vancouver: [
+    localColorNote('compass-card', 'Tap a Compass Card or contactless payment on transit.', 'transport'),
+    localColorNote('tip-service', 'Tips around 15 to 20 percent are common in sit-down restaurants.', 'money'),
+    localColorNote('rain-layer', 'Carry a light rain layer, especially outside summer.', 'seasonal'),
+  ],
+  toronto: [
+    localColorNote('presto-card', 'Use PRESTO or contactless payment for TTC, UP Express, and regional transit.', 'transport'),
+    localColorNote('winter-wind', 'Winter wind can be sharp, especially near Lake Ontario.', 'seasonal'),
+    localColorNote('tip-service', 'Restaurant tips around 15 to 20 percent are common.', 'money'),
+  ],
+  mumbai: [
+    localColorNote('monsoon-delays', 'Monsoon rains can slow roads and trains from June to September.', 'seasonal'),
+    localColorNote('religious-sites', 'Dress modestly and remove shoes at many temples and mosques.', 'etiquette'),
+    localColorNote('train-crowds', 'Local trains are useful but very crowded at peak times.', 'transport'),
+  ],
+  'cape-town': [
+    localColorNote('table-mountain-weather', 'Check Table Mountain weather before going up; wind can close the cableway.', 'seasonal'),
+    localColorNote('use-rideshare-night', 'Use trusted taxis or rideshare at night in unfamiliar areas.', 'safety'),
+    localColorNote('tip-service', 'Restaurant tips around 10 percent are common for good service.', 'money'),
+  ],
+  rome: [
+    localColorNote('church-dress', 'Cover shoulders and knees in major churches and Vatican sites.', 'etiquette'),
+    localColorNote('validate-ticket', 'Validate bus and tram tickets before or when boarding.', 'transport'),
+    localColorNote('coperto-check', 'Check the menu or bill for cover charges and service details.', 'money'),
+  ],
+  'rio-de-janeiro': [
+    localColorNote('beach-valuables', 'Take only what you need to the beach and keep phones discreet.', 'safety'),
+    localColorNote('app-rides-night', 'Use app rides or official taxis at night or after long beach days.', 'transport'),
+    localColorNote('beach-cash', 'Small cash is useful for beach chairs, snacks, and kiosks.', 'money'),
+  ],
+  'mexico-city': [
+    localColorNote('altitude', 'The city is high above sea level, so take it easy on the first day.', 'safety'),
+    localColorNote('metrobus-card', 'Use a Metro or Metrobús card for trains and bus rapid transit.', 'transport'),
+    localColorNote('tip-service', 'Tips around 10 to 15 percent are common in restaurants.', 'money'),
+  ],
+  'buenos-aires': [
+    localColorNote('sube-card', 'A SUBE card is needed for most buses, subway, and trains.', 'transport'),
+    localColorNote('late-dinner', 'Dinner often starts later than in many countries.', 'custom'),
+    localColorNote('tip-service', 'A small restaurant tip, often around 10 percent, is common.', 'money'),
+  ],
+  'los-angeles': [
+    localColorNote('traffic-time', 'Distances are long, so leave extra time for traffic.', 'transport'),
+    localColorNote('tip-service', 'Restaurant, taxi, and rideshare tips are expected.', 'money'),
+    localColorNote('sun-protection', 'Use sunscreen and water for beach, canyon, and outdoor days.', 'safety'),
+  ],
+  jakarta: [
+    localColorNote('e-money-card', 'Use an e-money card for TransJakarta, MRT, commuter rail, and toll roads.', 'transport'),
+    localColorNote('traffic-buffer', 'Traffic can be severe, so build extra time into plans.', 'transport'),
+    localColorNote('mosque-modesty', 'Dress modestly when visiting mosques or religious areas.', 'etiquette'),
+  ],
+  lagos: [
+    localColorNote('trusted-rides', 'Use trusted drivers, hotel transfers, or app rides for unfamiliar routes.', 'safety'),
+    localColorNote('traffic-buffer', 'Traffic can change plans quickly, so leave early for appointments.', 'transport'),
+    localColorNote('small-cash', 'Carry small naira notes for markets, tips, and informal transport.', 'money'),
+  ],
+  'hong-kong': [
+    localColorNote('octopus-card', 'An Octopus card works for transit, ferries, convenience stores, and many snacks.', 'transport'),
+    localColorNote('queue-culture', 'Queue neatly for buses, trains, lifts, and popular food shops.', 'etiquette'),
+    localColorNote('typhoon-signals', 'Watch typhoon and rainstorm signals during storm season.', 'seasonal'),
+  ],
+  amsterdam: [
+    localColorNote('bike-lanes', 'Stay out of bike lanes unless you are cycling.', 'safety'),
+    localColorNote('tap-in-out', 'Tap in and out on public transport with the same card or ticket.', 'transport'),
+    localColorNote('coffeeshop-word', 'A coffeeshop is not the same thing as a regular cafe.', 'custom'),
+  ],
+  honolulu: [
+    localColorNote('reef-respect', 'Do not touch coral or take rocks, sand, or shells from protected places.', 'etiquette'),
+    localColorNote('ocean-safety', 'Check surf and warning signs before swimming.', 'safety'),
+    localColorNote('tip-service', 'Restaurant and taxi tips follow common United States expectations.', 'money'),
+  ],
+  miami: [
+    localColorNote('afternoon-storms', 'Summer afternoons can bring fast heavy rain and lightning.', 'seasonal'),
+    localColorNote('tip-service', 'Check bills for automatic gratuity before adding a tip.', 'money'),
+    localColorNote('sun-heat', 'Carry water and sun protection for beach and outdoor days.', 'safety'),
+  ],
+  bogota: [
+    localColorNote('altitude', 'Bogota sits high in the Andes, so walk slowly on the first day.', 'safety'),
+    localColorNote('tullave-card', 'Use a TuLlave card for TransMilenio and SITP buses.', 'transport'),
+    localColorNote('app-rides-night', 'Use official taxis or app rides at night.', 'safety'),
+  ],
+  reykjavik: [
+    localColorNote('card-payments', 'Cards are accepted almost everywhere, even for small purchases.', 'money'),
+    localColorNote('no-tipping', 'Tipping is not expected, though rounding up is appreciated.', 'money'),
+    localColorNote('weather-shifts', 'Weather can change quickly, so bring layers even on short walks.', 'seasonal'),
+  ],
+  nairobi: [
+    localColorNote('app-rides', 'Use trusted taxis, hotel drivers, or app rides after dark.', 'safety'),
+    localColorNote('ask-photos', 'Ask before photographing people, markets, or security areas.', 'etiquette'),
+    localColorNote('mobile-money', 'Mobile money is common, but visitors should keep some Kenyan shillings.', 'money'),
+  ],
+  lima: [
+    localColorNote('official-taxis', 'Use official airport taxis or app rides instead of unmarked offers.', 'safety'),
+    localColorNote('garua-season', 'Coastal mist can make Lima cool and gray even without rain.', 'seasonal'),
+    localColorNote('tip-service', 'Restaurant tips around 10 percent are common when service is not included.', 'money'),
+  ],
+  perth: [
+    localColorNote('sun-protection', 'Use sunscreen, water, and a hat; the sun can be strong.', 'safety'),
+    localColorNote('smart-rider', 'A SmartRider card makes Transperth trips easier.', 'transport'),
+    localColorNote('beach-conditions', 'Check beach signs and swim between flags where lifeguards are present.', 'safety'),
+  ],
+  auckland: [
+    localColorNote('at-hop', 'An AT HOP card is useful for buses, trains, and ferries.', 'transport'),
+    localColorNote('weather-layers', 'Weather can shift quickly, so carry a light layer or rain jacket.', 'seasonal'),
+    localColorNote('tipping-optional', 'Tipping is appreciated for great service but not required.', 'money'),
+  ],
+  suva: [
+    localColorNote('village-modesty', 'Dress modestly when visiting villages or traditional spaces.', 'etiquette'),
+    localColorNote('remove-shoes', 'Remove shoes before entering many homes.', 'custom'),
+    localColorNote('kava-respect', 'Kava ceremonies move slowly; follow the host and wait your turn.', 'custom'),
+  ],
+  ulaanbaatar: [
+    localColorNote('winter-extreme', 'Winter cold is severe, so cover skin and plan short outdoor walks.', 'seasonal'),
+    localColorNote('right-hand', 'Offer or receive important items with the right hand or both hands.', 'etiquette'),
+    localColorNote('app-taxis', 'Use arranged taxis or ride apps rather than random street offers.', 'transport'),
+  ],
+  almaty: [
+    localColorNote('mountain-weather', 'Mountain weather changes quickly, so bring layers for Medeu or Kok Tobe.', 'seasonal'),
+    localColorNote('app-rides', 'Yandex Go is a common way to book city rides.', 'transport'),
+    localColorNote('cash-backup', 'Cards are common, but small cash helps at markets and kiosks.', 'money'),
+  ],
+  madrid: [
+    localColorNote('late-meals', 'Lunch and dinner often happen later than many visitors expect.', 'custom'),
+    localColorNote('transit-card', 'Use a Multi card or tourist travel pass for metro and buses.', 'transport'),
+    localColorNote('small-tip', 'Tipping is modest and optional; rounding up is usually enough.', 'money'),
+  ],
+  lisbon: [
+    localColorNote('hills-shoes', 'Wear comfortable shoes for steep hills and slippery cobblestones.', 'safety'),
+    localColorNote('navegante-card', 'Use a Navegante card or contactless options for metro, trams, and buses.', 'transport'),
+    localColorNote('small-tip', 'Tipping is modest; rounding up or leaving a little extra is normal.', 'money'),
+  ],
+  dublin: [
+    localColorNote('leap-card', 'A Leap Card makes buses, Luas, and DART trips cheaper and easier.', 'transport'),
+    localColorNote('weather-layer', 'Carry a rain layer because showers can arrive quickly.', 'seasonal'),
+    localColorNote('pub-rounds', 'In pubs, friends often buy drinks in rounds.', 'custom'),
+  ],
+  dakar: [
+    localColorNote('greet-first', 'Greet people before asking prices, directions, or questions.', 'etiquette'),
+    localColorNote('market-bargaining', 'Bargaining is expected in many markets, but keep it friendly.', 'money'),
+    localColorNote('cash-small', 'Small CFA franc notes are useful for taxis, snacks, and markets.', 'money'),
+  ],
+  recife: [
+    localColorNote('beach-warnings', 'At Boa Viagem, follow shark and swimming warning signs carefully.', 'safety'),
+    localColorNote('app-rides-night', 'Use app rides or trusted taxis at night.', 'safety'),
+    localColorNote('service-ten-percent', 'Restaurants often add or expect about 10 percent service.', 'money'),
+  ],
+  'panama-city': [
+    localColorNote('metro-card', 'Use a Metro card for trains, Metrobus, and many city routes.', 'transport'),
+    localColorNote('rainy-season', 'Rainy season can bring sudden heavy afternoon showers.', 'seasonal'),
+    localColorNote('tip-service', 'Restaurant tips around 10 percent are common when service is not included.', 'money'),
+  ],
+  santiago: [
+    localColorNote('bip-card', 'A Bip! card is used for metro and many city buses.', 'transport'),
+    localColorNote('metro-bags', 'Keep bags close on crowded metro trains and downtown streets.', 'safety'),
+    localColorNote('earthquake-aware', 'Earthquakes are possible; follow local instructions if shaking starts.', 'safety'),
+  ],
+  'addis-ababa': [
+    localColorNote('coffee-time', 'A coffee ceremony is social and unhurried, not a quick drink.', 'custom'),
+    localColorNote('shared-injera', 'Eat shared injera with the right hand unless given utensils.', 'etiquette'),
+    localColorNote('church-modesty', 'Dress modestly and be quiet around churches and religious ceremonies.', 'etiquette'),
+  ],
+  delhi: [
+    localColorNote('metro-security', 'Delhi Metro has security checks before station entry.', 'transport'),
+    localColorNote('religious-sites', 'Remove shoes and dress modestly at many religious sites.', 'etiquette'),
+    localColorNote('air-quality', 'Air quality can be poor, especially in winter; check forecasts.', 'seasonal'),
+  ],
+  manila: [
+    localColorNote('traffic-buffer', 'Traffic can be slow, so leave early for airport and cross-city trips.', 'transport'),
+    localColorNote('small-cash', 'Small pesos help with jeepneys, markets, and short rides.', 'money'),
+    localColorNote('typhoon-season', 'Heavy rain and typhoons can disrupt plans during storm season.', 'seasonal'),
+  ],
+  'ho-chi-minh-city': [
+    localColorNote('crossing-streets', 'Cross streets slowly and predictably so motorbikes can flow around you.', 'safety'),
+    localColorNote('small-cash', 'Small dong notes are useful for street food, markets, and short rides.', 'money'),
+    localColorNote('shoes-off', 'Remove shoes when entering many homes and some small temples.', 'etiquette'),
+  ],
+};
+
 function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
   return destinations.map((destination) => {
     const travelAnchors = TRAVEL_ANCHORS_BY_DESTINATION[destination.id];
+    const transport = TRAVEL_TRANSPORT_BY_DESTINATION[destination.id];
+    const localColor = TRAVEL_LOCAL_COLOR_BY_DESTINATION[destination.id];
     if (!travelAnchors) {
       return destination;
     }
 
-    return { ...destination, travelAnchors };
+    return {
+      ...destination,
+      travelAnchors: {
+        ...travelAnchors,
+        ...(transport ? { transport } : {}),
+        ...(localColor ? { localColor } : {}),
+      },
+    };
   });
 }
 

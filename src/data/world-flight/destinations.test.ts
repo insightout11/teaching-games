@@ -70,9 +70,51 @@ function validateWorldFlightTravelAnchorsCatalog(destinations = WORLD_DESTINATIO
     validateItems(destination.id, 'attractions', anchors.attractions);
 
     const validAirports = new Set([destination.primaryAirport, ...destination.airports]);
-    for (const transport of anchors.transport ?? []) {
+    if (!anchors.transport || anchors.transport.length < 2 || anchors.transport.length > 3) {
+      issues.push(`${destination.id}: transport must include 2 to 3 items`);
+    }
+
+    (anchors.transport ?? []).forEach((transport, index) => {
+      const label = `${destination.id}/transport/${transport.mode || index}`;
+      if (!transport.mode.trim()) {
+        issues.push(`${label}: missing mode`);
+      }
       if (!validAirports.has(transport.fromAirport)) {
-        issues.push(`${destination.id}/transport/${transport.mode}: fromAirport must match a city airport`);
+        issues.push(`${label}: fromAirport must match a city airport`);
+      }
+      if (!transport.approxTimeMin || transport.approxTimeMin <= 0) {
+        issues.push(`${label}: missing positive approxTimeMin`);
+      }
+      if (!transport.approxCost?.trim()) {
+        issues.push(`${label}: missing approxCost`);
+      }
+      if (!transport.note?.trim()) {
+        issues.push(`${label}: missing note`);
+      }
+    });
+
+    if (!anchors.localColor || anchors.localColor.length < 2 || anchors.localColor.length > 3) {
+      issues.push(`${destination.id}: localColor must include 2 to 3 items`);
+    }
+
+    const localColorIds = new Set<string>();
+    const localColorCategories = new Set(['custom', 'etiquette', 'money', 'safety', 'seasonal', 'transport']);
+    for (const note of anchors.localColor ?? []) {
+      const label = `${destination.id}/localColor/${note.id || '(missing-id)'}`;
+      if (!note.id) {
+        issues.push(`${label}: missing id`);
+      } else if (!kebabCase.test(note.id)) {
+        issues.push(`${label}: id must be kebab-case`);
+      }
+      if (localColorIds.has(note.id)) {
+        issues.push(`${label}: duplicate id`);
+      }
+      localColorIds.add(note.id);
+      if (!note.text.trim()) {
+        issues.push(`${label}: missing text`);
+      }
+      if (!note.category || !localColorCategories.has(note.category)) {
+        issues.push(`${label}: missing or invalid category`);
       }
     }
   }
