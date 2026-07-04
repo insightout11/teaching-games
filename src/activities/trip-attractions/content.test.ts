@@ -18,6 +18,7 @@ describe('buildTripAttractionsContent', () => {
     for (const attraction of content.attractions) {
       expect(attraction.name.length).toBeGreaterThan(0);
       expect(attraction.whatItIs.length).toBeGreaterThan(0); // students get info
+      expect(attraction.imageUrl).toMatch(/^https?:\/\//); // real photo on the card
     }
     expect(content.framingPrompt).toContain('Tokyo');
   });

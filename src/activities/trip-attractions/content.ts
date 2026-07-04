@@ -8,17 +8,13 @@ import type { TripAttractionsContent } from '../types';
  * empty list if a city has no travelAnchors yet.
  */
 export function buildTripAttractionsContent(destination: DestinationPack): TripAttractionsContent {
-  const attractions = (destination.travelAnchors?.attractions ?? []).map((attraction) => {
-    // Real place photos land via travelAnchors curation (Codex) — read defensively until then.
-    const image = (attraction as { image?: { url?: string } }).image;
-    return {
-      id: attraction.id,
-      name: attraction.name,
-      whatItIs: attraction.whatItIs,
-      ...(attraction.whyVisit ? { whyVisit: attraction.whyVisit } : {}),
-      ...(image?.url ? { imageUrl: image.url } : {}),
-    };
-  });
+  const attractions = (destination.travelAnchors?.attractions ?? []).map((attraction) => ({
+    id: attraction.id,
+    name: attraction.name,
+    whatItIs: attraction.whatItIs,
+    ...(attraction.whyVisit ? { whyVisit: attraction.whyVisit } : {}),
+    ...(attraction.image?.url ? { imageUrl: attraction.image.url } : {}),
+  }));
 
   const localColor = (destination.travelAnchors?.localColor ?? []).map((note) => note.text);
 

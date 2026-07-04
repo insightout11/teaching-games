@@ -18,6 +18,7 @@ describe('buildTripMealContent', () => {
     for (const dish of content.dishes) {
       expect(dish.name.length).toBeGreaterThan(0);
       expect(dish.whatItIs.length).toBeGreaterThan(0); // students learn what it is
+      expect(dish.imageUrl).toMatch(/^https?:\/\//); // real photo on the menu
     }
     expect(content.framingPrompt).toContain('Dublin');
   });
