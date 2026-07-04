@@ -11,6 +11,7 @@ import { PollContent } from '@/components/session/poll-manager';
 import { TimerContent } from '@/components/session/timer-tool';
 import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-suggestions-panel';
 import { DebateBoardPanel } from '@/components/session/cockpit/debate-board-panel';
+import { FindYourWayAid } from '@/components/session/cockpit/find-your-way-aid';
 import { ClassBoardControl } from '@/components/session/class-board-control';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
@@ -177,6 +178,11 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             forLabel={currentInputSpec.debateForLabel}
             againstLabel={currentInputSpec.debateAgainstLabel}
           />
+        )}
+
+        {/* Find Your Way — the guide's secret destination, private to the teacher */}
+        {currentInputSpec?.gameKey === 'trip-directions' && currentInputSpec.type === 'geo-point' && (
+          <FindYourWayAid spec={currentInputSpec} />
         )}
 
         {/* Header */}

@@ -136,10 +136,19 @@ export function TripDirectionsActivity({
     } as InputSpec);
   }, [onPhaseChange, onSetInputSpec, content.city]);
 
+  // Random guide each round (like Imposter) — never "first to check in wins".
+  const pickRandomGuide = useCallback((excludeClientId?: string | null) => {
+    const ids = Array.from(participantsRef.current.keys());
+    const pool = ids.length > 1 && excludeClientId ? ids.filter((id) => id !== excludeClientId) : ids;
+    if (pool.length === 0) return null;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    return { clientId: pick, name: participantsRef.current.get(pick) ?? 'a student' };
+  }, []);
+
   const startRounds = useCallback(() => {
-    const ids = Array.from(participantsRef.current.keys()).sort();
-    if (ids.length < 2) return; // one guides, at least one navigates
-    const guide = { clientId: ids[0], name: participantsRef.current.get(ids[0]) ?? 'a student' };
+    if (participantsRef.current.size < 2) return; // one guides, at least one navigates
+    const guide = pickRandomGuide();
+    if (!guide) return;
     guideRef.current = guide;
     setGuideDevice(guide);
     guessesRef.current = [];
@@ -148,19 +157,17 @@ export function TripDirectionsActivity({
     phaseRef.current = 'guiding';
     onPhaseChange?.('guiding');
     broadcast(roundIndexRef.current, guide);
-  }, [broadcast, onPhaseChange]);
+  }, [broadcast, onPhaseChange, pickRandomGuide]);
 
   // If the guide's device drops (or the teacher wants a different guide), hand the role on.
   const swapGuide = useCallback(() => {
-    const ids = Array.from(participantsRef.current.keys()).sort();
-    if (ids.length < 2 || !guideRef.current) return;
-    const idx = ids.indexOf(guideRef.current.clientId);
-    const pick = ids[(idx + 1) % ids.length];
-    const guide = { clientId: pick, name: participantsRef.current.get(pick) ?? 'a student' };
+    if (participantsRef.current.size < 2 || !guideRef.current) return;
+    const guide = pickRandomGuide(guideRef.current.clientId);
+    if (!guide) return;
     guideRef.current = guide;
     setGuideDevice(guide);
     broadcast(roundIndexRef.current, guide);
-  }, [broadcast]);
+  }, [broadcast, pickRandomGuide]);
 
   const reveal = useCallback(() => {
     if (phaseRef.current !== 'guiding') return;
@@ -191,20 +198,15 @@ export function TripDirectionsActivity({
     setRoundIndex(ni);
     guessesRef.current = [];
     setGuesses([]);
-    // Rotate the guide through the checked-in devices (deterministic order).
-    const participantIds = Array.from(participantsRef.current.keys()).sort();
-    let nextGuide: { clientId: string; name: string } | null = guideRef.current;
-    if (participantIds.length > 0) {
-      const pick = participantIds[ni % participantIds.length];
-      nextGuide = { clientId: pick, name: participantsRef.current.get(pick) ?? 'a student' };
-    }
+    // New random guide each round (excluding whoever just guided).
+    const nextGuide = pickRandomGuide(guideRef.current?.clientId) ?? guideRef.current;
     guideRef.current = nextGuide;
     setGuideDevice(nextGuide);
     setPhase('guiding');
     phaseRef.current = 'guiding';
     onPhaseChange?.('guiding');
     broadcast(ni, nextGuide);
-  }, [broadcast, landmarks.length, onSetInputSpec, onPhaseChange]);
+  }, [broadcast, landmarks.length, onSetInputSpec, onPhaseChange, pickRandomGuide]);
 
   const ranked = useMemo(() => [...guesses].sort((a, b) => a.distanceKm - b.distanceKm), [guesses]);
 
@@ -254,7 +256,7 @@ export function TripDirectionsActivity({
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Crew check-in</p>
           <h3 className="mt-2 text-3xl font-game text-white">Who&apos;s navigating?</h3>
           <p className="mx-auto mt-3 max-w-md text-sm text-slate-300">
-            Students tap <span className="font-semibold text-white">&ldquo;I&apos;m ready&rdquo;</span> on their device. The first to check in guides round 1.
+            Students tap <span className="font-semibold text-white">&ldquo;I&apos;m ready&rdquo;</span> on their device. A guide is chosen at random each round.
           </p>
         </div>
         <div className="flex min-h-[44px] flex-wrap items-center justify-center gap-2">
