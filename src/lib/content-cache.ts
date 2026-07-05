@@ -1,5 +1,25 @@
 import { createServiceClient } from './supabase/service';
 
+/**
+ * Stable short hash of a lesson's grounding signals (source text/id, mission context),
+ * used as the cache `variant` so grounded content never collides with ungrounded — or
+ * cross-lesson — content of the same (gameKey, topic, difficulty). Two lessons with the
+ * same grounding share a cache entry (reuse); different grounding gets its own namespace.
+ * Returns undefined when there is no grounding, so ungrounded lessons keep sharing the
+ * broad topic+difficulty cache (variant IS NULL).
+ */
+export function groundingVariant(...signals: Array<string | null | undefined>): string | undefined {
+  const joined = signals.map((s) => (s ?? '').trim()).filter(Boolean).join('');
+  if (!joined) return undefined;
+  // FNV-1a 32-bit → base36: short, deterministic, and stable across processes.
+  let h = 0x811c9dc5;
+  for (let i = 0; i < joined.length; i++) {
+    h ^= joined.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return 'g' + (h >>> 0).toString(36);
+}
+
 export interface CachedContent {
   id: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

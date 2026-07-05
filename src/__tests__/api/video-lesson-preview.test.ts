@@ -6,6 +6,7 @@ vi.mock('server-only', () => ({}));
 vi.mock('@/lib/content-cache', () => ({
   getCachedContent: vi.fn(),
   storeCachedContent: vi.fn(),
+  groundingVariant: vi.fn(() => undefined),
 }));
 
 vi.mock('@/lib/youtube-extraction', () => ({

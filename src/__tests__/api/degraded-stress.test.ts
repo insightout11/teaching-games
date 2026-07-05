@@ -16,6 +16,7 @@ vi.mock('@/lib/ai', () => ({
 vi.mock('@/lib/content-cache', () => ({
   getCachedContent: vi.fn().mockResolvedValue(null),
   storeCachedContent: vi.fn().mockResolvedValue(null),
+  groundingVariant: vi.fn(() => undefined),
 }));
 
 vi.mock('@/lib/auth-credits', () => ({

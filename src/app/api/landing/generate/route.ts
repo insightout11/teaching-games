@@ -3,7 +3,7 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions } from '@/lib/difficulty';
-import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/content-cache';
 import type { FinalAnswerContent, MicDropContent, LightningRoundContent, OpinionShiftContent } from '@/activities/types';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import {
@@ -19,15 +19,21 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const { activityKey, topic, difficulty } = await request.json() as {
+  const { activityKey, topic, difficulty, sourceKey, missionContext } = await request.json() as {
     activityKey: LandingActivityKey;
     topic: string;
     difficulty: Difficulty;
+    // Grounding identity — keeps a grounded lesson's landing from serving (or being served)
+    // an unrelated lesson's cached content of the same topic/difficulty.
+    sourceKey?: string;
+    missionContext?: string[];
   };
+
+  const variant = groundingVariant(sourceKey, missionContext?.join(''));
 
   try {
     // 1. Cache check
-    const cached = await getCachedContent(activityKey, topic, difficulty);
+    const cached = await getCachedContent(activityKey, topic, difficulty, [], variant);
     if (cached) {
       return NextResponse.json({ content: cached.content_json, cacheId: cached.id });
     }
@@ -49,13 +55,13 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. Store (fire-and-forget)
-    const cacheId = await storeCachedContent(activityKey, topic, difficulty, content, 1);
+    const cacheId = await storeCachedContent(activityKey, topic, difficulty, content, 1, variant);
 
     return NextResponse.json({ content, cacheId });
   } catch (error) {
     console.error('Landing generate error:', error);
     try {
-      const emergency = await getCachedContent(activityKey, topic, difficulty);
+      const emergency = await getCachedContent(activityKey, topic, difficulty, [], variant);
       if (emergency) {
         return NextResponse.json({ content: emergency.content_json, cacheId: emergency.id, degraded: true });
       }

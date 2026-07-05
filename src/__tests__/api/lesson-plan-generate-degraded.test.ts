@@ -13,6 +13,7 @@ vi.mock('@/lib/ai/concurrency', () => ({
 vi.mock('@/lib/content-cache', () => ({
   getCachedContent: vi.fn().mockResolvedValue(null),
   storeCachedContent: vi.fn().mockResolvedValue('cache-id'),
+  groundingVariant: vi.fn(() => undefined),
 }));
 
 // The route gates on requireAuthForGeneration. Credits are consumed at session

@@ -225,7 +225,7 @@ export function useLessonSession(
     const sourceMaterial = lessonPlanContent?.stageSources?.[key] ?? lessonPlanContent?.sourceMaterial;
     const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
     const body = isLanding
-      ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty }
+      ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty, ...(sourceMaterial ? { sourceKey: sourceMaterial.sourceKey ?? sourceMaterial.title } : {}), ...(missionContext.length > 0 ? { missionContext } : {}) }
       : isGame
         ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) }
         : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) };
@@ -298,7 +298,7 @@ export function useLessonSession(
       const needsSourceVocab = lessonSlots.some((s) => s.key === 'language-toolkit');
       const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
       const body = isLanding
-        ? JSON.stringify({ activityKey: activity.key, topic: effectiveTopic, difficulty: settings.difficulty })
+        ? JSON.stringify({ activityKey: activity.key, topic: effectiveTopic, difficulty: settings.difficulty, ...(sourceMaterial ? { sourceKey: sourceMaterial.sourceKey ?? sourceMaterial.title } : {}), ...(missionContext.length > 0 ? { missionContext } : {}) })
         : JSON.stringify({
             customTopic: effectiveTopic,
             difficulty: settings.difficulty,

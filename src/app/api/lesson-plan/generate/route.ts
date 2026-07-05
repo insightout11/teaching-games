@@ -69,7 +69,7 @@ import type {
 } from '@/activities/types';
 import type { ComprehensionQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
-import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/content-cache';
 import type { SourceMaterial } from '@/types/source-material';
 import { buildSourceContext, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
 import { getReadingTurnWordTarget } from '@/lib/read-aloud';
@@ -1925,8 +1925,8 @@ Return JSON with groups array. Words should be UPPERCASE.`;
 // New Lesson Type Generators
 // ============================================
 
-async function generateCharacterCards(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = '', skipCache = false): Promise<CharacterCardsContent> {
-  const cached = skipCache ? null : await getCachedContent('character-cards', topic, difficulty, [], undefined, 1);
+async function generateCharacterCards(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = '', variant?: string): Promise<CharacterCardsContent> {
+  const cached = await getCachedContent('character-cards', topic, difficulty, [], variant, 1);
   if (cached) {
     const c = cached.content_json as { characters: CharacterCard[] };
     return { activityKey: 'character-cards', topicContext: topic, characters: c.characters ?? [], topic };
@@ -1969,7 +1969,7 @@ Return JSON with a "characters" array of exactly 9 objects.`;
   try {
     const data = await generateJSON<{ characters: CharacterCard[] }>(prompt, schema);
     const characters = Array.isArray(data.characters) ? data.characters.slice(0, 9) : [];
-    if (!skipCache) void storeCachedContent('character-cards', topic, difficulty, { characters }, 1);
+    void storeCachedContent('character-cards', topic, difficulty, { characters }, 1, variant);
     return { activityKey: 'character-cards', topicContext: topic, characters, topic };
   } catch {
     // Fallback: generic characters
@@ -1988,8 +1988,8 @@ Return JSON with a "characters" array of exactly 9 objects.`;
   }
 }
 
-async function generateImposter(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<ImposterContent> {
-  const cached = skipCache ? null : await getCachedContent('imposter', topic, difficulty, [], undefined, 1);
+async function generateImposter(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<ImposterContent> {
+  const cached = await getCachedContent('imposter', topic, difficulty, [], variant, 1);
   if (cached) {
     const c = cached.content_json as { rounds: ImposterRound[] };
     return { activityKey: 'imposter', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -2029,7 +2029,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "de
   try {
     const data = await generateJSON<{ rounds: ImposterRound[] }>(prompt, schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
-    if (!skipCache) void storeCachedContent('imposter', topic, difficulty, { rounds }, 1);
+    void storeCachedContent('imposter', topic, difficulty, { rounds }, 1, variant);
     return { activityKey: 'imposter', topicContext: topic, rounds, topic };
   } catch {
     const fallback: ImposterRound[] = [
@@ -2041,8 +2041,8 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "de
   }
 }
 
-async function generatePassword(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<PasswordContent> {
-  const cached = skipCache ? null : await getCachedContent('password', topic, difficulty, [], undefined, 1);
+async function generatePassword(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<PasswordContent> {
+  const cached = await getCachedContent('password', topic, difficulty, [], variant, 1);
   if (cached) {
     const c = cached.content_json as { rounds: PasswordRound[] };
     return { activityKey: 'password', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -2082,7 +2082,7 @@ Return JSON: { "rounds": [{ "word": string, "description": string }] } — exact
   try {
     const data = await generateJSON<{ rounds: PasswordRound[] }>(prompt, schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
-    if (!skipCache) void storeCachedContent('password', topic, difficulty, { rounds }, 1);
+    void storeCachedContent('password', topic, difficulty, { rounds }, 1, variant);
     return { activityKey: 'password', topicContext: topic, rounds, topic };
   } catch {
     const fallback: PasswordRound[] = [
@@ -2094,8 +2094,8 @@ Return JSON: { "rounds": [{ "word": string, "description": string }] } — exact
   }
 }
 
-async function generateBluffDefinition(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<BluffDefinitionContent> {
-  const cached = skipCache ? null : await getCachedContent('bluff-definition', topic, difficulty, [], undefined, 1);
+async function generateBluffDefinition(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<BluffDefinitionContent> {
+  const cached = await getCachedContent('bluff-definition', topic, difficulty, [], variant, 1);
   if (cached) {
     const c = cached.content_json as { rounds: BluffDefinitionRound[] };
     return { activityKey: 'bluff-definition', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -2135,7 +2135,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "co
   try {
     const data = await generateJSON<{ rounds: BluffDefinitionRound[] }>(prompt, schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3) : [];
-    if (!skipCache) void storeCachedContent('bluff-definition', topic, difficulty, { rounds }, 1);
+    void storeCachedContent('bluff-definition', topic, difficulty, { rounds }, 1, variant);
     return { activityKey: 'bluff-definition', topicContext: topic, rounds, topic };
   } catch {
     const fallback: BluffDefinitionRound[] = [
@@ -2147,8 +2147,8 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "co
   }
 }
 
-async function generateTabooSprint(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<TabooSprintContent> {
-  const cached = skipCache ? null : await getCachedContent('taboo-sprint', topic, difficulty, [], undefined, 1);
+async function generateTabooSprint(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<TabooSprintContent> {
+  const cached = await getCachedContent('taboo-sprint', topic, difficulty, [], variant, 1);
   if (cached) {
     const c = cached.content_json as { rounds: TabooRound[] };
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -2196,7 +2196,7 @@ Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWor
       ...r,
       forbiddenWords: Array.isArray(r.forbiddenWords) ? r.forbiddenWords.slice(0, 4) : [],
     })) : [];
-    if (!skipCache) void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 1);
+    void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 1, variant);
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds, topic };
   } catch {
     const fallback: TabooRound[] = [
@@ -2428,8 +2428,8 @@ Provide:
   }
 }
 
-async function generateFinalWord(topic: string, difficulty: Difficulty, sourceContext = '', skipCache = false): Promise<FinalWordContent> {
-  const cached = skipCache ? null : await getCachedContent('final-word', topic, difficulty, [], undefined, 1);
+async function generateFinalWord(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<FinalWordContent> {
+  const cached = await getCachedContent('final-word', topic, difficulty, [], variant, 1);
   if (cached) {
     const c = cached.content_json as { prompt: string };
     return { activityKey: 'final-word', topicContext: topic, prompt: c.prompt ?? '' };
@@ -2456,7 +2456,7 @@ Return JSON with a single "prompt" string.`;
 
   try {
     const data = await generateJSON<{ prompt: string }>(aiPrompt, schema);
-    if (!skipCache) void storeCachedContent('final-word', topic, difficulty, { prompt: data.prompt }, 1);
+    void storeCachedContent('final-word', topic, difficulty, { prompt: data.prompt }, 1, variant);
     return { activityKey: 'final-word', topicContext: topic, prompt: data.prompt ?? `In one sentence, what do you think is the most important thing about ${topic}?` };
   } catch {
     return { activityKey: 'final-word', topicContext: topic, prompt: `In one sentence, what do you think is the most important thing about ${topic}?` };
@@ -2631,7 +2631,12 @@ export async function POST(request: NextRequest) {
     const sourceRawTranscript = await fetchSourceTranscript(sourceMaterial);
 
     const sourceCtx = buildSourceContext(sourceMaterial, sourceRawTranscript);
+    // Grammar drills key their cache on grammarTarget and skip the cache when a source is
+    // attached (they don't reuse across sources). Everything else variant-keys on the actual
+    // grounding (source text + mission), so grounded lessons get their own cache namespace
+    // yet still reuse across identical grounding — instead of skipping the cache entirely.
     const skipCache = !!sourceMaterial;
+    const grounding = groundingVariant(sourceCtx, missionContext && missionContext.length > 0 ? missionContext.join('') : undefined);
 
     // Resolve effective topic: Pro users send customTopic, Standard users send standardTopicId
     const customTopic: string =
@@ -2944,19 +2949,19 @@ export async function POST(request: NextRequest) {
             generators.push(generateMissionSelectorContent(customTopic, diff, goal).then((r) => { content[activityKey] = r; }));
             break;
           case 'character-cards':
-            generators.push(generateCharacterCards(customTopic, diff, missionContext, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            generators.push(generateCharacterCards(customTopic, diff, missionContext, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'imposter':
-            generators.push(generateImposter(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            generators.push(generateImposter(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'password':
-            generators.push(generatePassword(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            generators.push(generatePassword(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'bluff-definition':
-            generators.push(generateBluffDefinition(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            generators.push(generateBluffDefinition(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'taboo-sprint':
-            generators.push(generateTabooSprint(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            generators.push(generateTabooSprint(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-check-in':
             generators.push(generateGrammarCheckIn(customTopic, diff, grammarTarget, skipCache).then((r) => { content[activityKey] = r; }));
@@ -2971,7 +2976,7 @@ export async function POST(request: NextRequest) {
             generators.push(generateVocabMicro(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'final-word':
-            generators.push(generateFinalWord(customTopic, diff, sourceCtx, skipCache).then((r) => { content[activityKey] = r; }));
+            generators.push(generateFinalWord(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'in-your-words':
             if (vocabBlitzMode) break; // already built from Vocab Radar words above

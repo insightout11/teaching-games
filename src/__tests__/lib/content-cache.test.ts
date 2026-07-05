@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
+import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/content-cache';
 
 // Mock the Supabase service client
 const mockRpc = vi.fn().mockResolvedValue({ error: null });
@@ -33,6 +33,28 @@ vi.mock('@/lib/supabase/service', () => ({
 describe('content-cache', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  describe('groundingVariant', () => {
+    it('returns undefined when there are no grounding signals', () => {
+      expect(groundingVariant()).toBeUndefined();
+      expect(groundingVariant('', '   ', undefined, null)).toBeUndefined();
+    });
+
+    it('is stable for identical grounding', () => {
+      expect(groundingVariant('source A', 'mission X')).toBe(groundingVariant('source A', 'mission X'));
+    });
+
+    it('differs for different grounding', () => {
+      expect(groundingVariant('source A')).not.toBe(groundingVariant('source B'));
+      expect(groundingVariant('source A', 'mission X')).not.toBe(groundingVariant('source A', 'mission Y'));
+    });
+
+    it('produces a short token', () => {
+      const v = groundingVariant('a very long source context '.repeat(500));
+      expect(v).toMatch(/^g[0-9a-z]+$/);
+      expect(v!.length).toBeLessThanOrEqual(8);
+    });
   });
 
   describe('getCachedContent', () => {
