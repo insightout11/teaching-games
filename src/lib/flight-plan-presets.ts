@@ -355,7 +355,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'all-around-flight-60',
     name: "Captain's Flight",
-    description: 'Flagship ESL journey: warm-up, briefing, opinion pulse, language toolkit, accuracy check, main discussion, review game, wrap-up',
+    description: 'Warm up, unpack a source, then move through an opinion pulse and language work into a full discussion, a review game, and a final word.',
     tagline: 'The all-rounder — comprehend a source, then discuss',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
@@ -418,7 +418,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'speak-60',
     name: 'Speak',
-    description: 'Maximum talk time — warm-up, a scaffolded scene, an opinion pulse, open conversation, a review game, and a final word. Fluency over accuracy.',
+    description: 'Warm up, play out a scaffolded scene, then keep talking — an opinion pulse, open conversation, a comms check, a review game, and a final word.',
     tagline: 'Maximum talk time — fluency over accuracy',
     lessonDurationMinutes: 60,
     goal: 'speaking-fluency',
@@ -473,7 +473,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'grammar-60',
     name: 'Grammar',
-    description: 'Grammar clinic: check-in, spot errors, rebuild sentences, produce under pressure, review game, grammar proof.',
+    description: 'Check in on a target structure, learn the rule, spot errors, rebuild sentences, produce under pressure, then review and prove it.',
     tagline: 'Form & accuracy — notice, fix, produce',
     lessonDurationMinutes: 60,
     goal: 'grammar-reinforcement',
@@ -525,7 +525,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'travel-60',
     name: 'Travel',
-    description: 'A whole trip in one city — airport, getting there, hotel, a real attraction, and a local meal. Functional speaking at every stop.',
+    description: 'Fly a whole trip through one city — arrival, getting there, finding your way, the hotel, a real sight, and a local meal — speaking at every stop.',
     tagline: 'One city, the whole journey — speak at every stop',
     lessonDurationMinutes: 60,
     goal: 'functional-english',
@@ -576,7 +576,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
   {
     id: 'debate-60',
     name: 'Debate',
-    description: 'Structured team debate: warm up opinions, build an evidence base, pick a side, then argue a motion through Opening, Rebuttal, and Closing — closing with an honest reflection on who changed their mind.',
+    description: 'Warm up opinions, build an evidence base, pick a side, argue the motion through opening, rebuttal, and closing, then reflect on who changed their mind.',
     tagline: 'Two teams, one motion — make your case',
     lessonDurationMinutes: 60,
     goal: 'discussion-debate',
@@ -594,7 +594,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       stages: [
         { stageId: 'icebreaker', label: 'Warm-up', kind: 'stage', phase: 'takeoff' },
         { stageId: 'evidence', label: 'Evidence', kind: 'stage', phase: 'climb' },
-        { stageId: 'take-side', label: 'Take a Side', kind: 'micro-event', phase: 'climb' },
+        { stageId: 'take-side', label: 'Stance Check', kind: 'micro-event', phase: 'climb' },
         { stageId: 'debate', label: 'Debate', kind: 'stage', phase: 'cruise' },
         { stageId: 'end-game', label: 'Review Game', kind: 'end-game', phase: 'descent' },
         { stageId: 'landing', label: 'Reflection', kind: 'landing', phase: 'landing' },
