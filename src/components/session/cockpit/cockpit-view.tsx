@@ -27,17 +27,33 @@ interface CockpitViewProps {
 
 type CockpitTool = 'poll' | 'timer';
 
-// Stage label lookup derived from the All-Around Flight preset
-const _aaConfig = FLIGHT_PLAN_PRESETS.find(p => p.id === 'all-around-flight-60')?.flightConfig;
-const STAGE_BY_GAMEKEY: Record<string, string> = _aaConfig?.stageByKey ?? {};
-const STAGE_LABEL: Record<string, string> = Object.fromEntries(
-  (_aaConfig?.stages ?? []).map(s => [s.stageId, s.label])
-);
+// Stage-label lookup merged from every preset's flightConfig, so the cockpit can label
+// modules from any active preset (Travel's trip-meal, Debate's team-debate, Grammar drills…),
+// not just All-Around Flight. The session doesn't persist which preset is running, so we
+// resolve gameKey → label across all of them. All-Around is merged first so its labels win
+// on keys shared between presets; the raw gameKey is the final fallback.
+const GAMEKEY_TO_STAGE_LABEL: Record<string, string> = (() => {
+  const map: Record<string, string> = {};
+  const orderedPresets = [
+    ...FLIGHT_PLAN_PRESETS.filter(p => p.id === 'all-around-flight-60'),
+    ...FLIGHT_PLAN_PRESETS.filter(p => p.id !== 'all-around-flight-60'),
+  ];
+  for (const preset of orderedPresets) {
+    const cfg = preset.flightConfig;
+    if (!cfg) continue;
+    const labelByStage = Object.fromEntries(cfg.stages.map(s => [s.stageId, s.label]));
+    for (const [gameKey, stageId] of Object.entries(cfg.stageByKey)) {
+      if (map[gameKey]) continue; // first preset to define the key wins
+      const label = labelByStage[stageId];
+      if (label) map[gameKey] = label;
+    }
+  }
+  return map;
+})();
 
 function getStageLabelForKey(gameKey: string | undefined | null): string | null {
   if (!gameKey) return null;
-  const stageId = STAGE_BY_GAMEKEY[gameKey];
-  return STAGE_LABEL[stageId] ?? gameKey;
+  return GAMEKEY_TO_STAGE_LABEL[gameKey] ?? gameKey;
 }
 
 function formatRelativeTime(isoString: string): string {

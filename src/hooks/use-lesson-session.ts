@@ -228,7 +228,7 @@ export function useLessonSession(
       ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty }
       : isGame
         ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) }
-        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}), ...(lessonPlanContent?.flightPresetId === 'travel-60' ? { taskRoleplay: true } : {}) };
+        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) };
 
     fetch(endpoint, {
       method: 'POST',
@@ -305,7 +305,6 @@ export function useLessonSession(
             activities: [activity.key],
             studentCount,
             sessionId,
-            ...(lessonPlanContent?.flightPresetId === 'travel-60' ? { taskRoleplay: true } : {}),
             ...(missionContext.length > 0 ? { missionContext } : {}),
             ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
             ...(sourceMaterial ? { sourceMaterial } : {}),

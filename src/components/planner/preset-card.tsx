@@ -1,10 +1,22 @@
 'use client';
 
-import { GOAL_LABELS } from '@/lib/flight-plan-config';
+import { Users } from 'lucide-react';
+import { GOAL_LABELS, getClassSizeMetadata } from '@/lib/flight-plan-config';
 import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { goalToScoringMode } from '@/stores/session-store';
 import type { ScoringMode } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
+
+/**
+ * Highest `minStudents` across the preset's modules (takeoff, middle sequence, landing).
+ * When ≥ 2, the preset contains a stage that needs a partner — warn solo classes up front.
+ * Derived from plugin metadata via getClassSizeMetadata (single source of truth).
+ */
+function presetMinStudents(preset: FlightPlanPreset): number {
+  const keys = [preset.takeoff, preset.landing, ...preset.moduleSequence.map((m) => m.key)]
+    .filter((k): k is string => Boolean(k));
+  return keys.reduce((max, key) => Math.max(max, getClassSizeMetadata(key)?.minStudents ?? 1), 1);
+}
 
 const SCORING_MODE_LABELS: Record<ScoringMode, string> = {
   competitive: 'Competitive',
@@ -38,6 +50,7 @@ export function PresetCard({
 
   const scoringMode = preset.scoringMode ?? goalToScoringMode(preset.goal);
   const moduleCount = preset.moduleSequence.length + (preset.skipTakeoffLanding ? 0 : 2);
+  const minStudents = presetMinStudents(preset);
 
   return (
     <button
@@ -60,10 +73,16 @@ export function PresetCard({
         <span className="w-1 h-1 rounded-full bg-lc-border" />
         <span>{moduleCount} {moduleCount === 1 ? 'module' : 'modules'}</span>
       </div>
-      <div className="mt-3">
+      <div className="mt-3 flex flex-wrap items-center gap-2">
         <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full ${SCORING_MODE_CLASSES[scoringMode]}`}>
           {SCORING_MODE_LABELS[scoringMode]}
         </span>
+        {minStudents >= 2 && (
+          <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full text-lc-text2 bg-lc-border/40">
+            <Users className="h-3 w-3" />
+            Best with {minStudents}+
+          </span>
+        )}
       </div>
     </button>
   );
