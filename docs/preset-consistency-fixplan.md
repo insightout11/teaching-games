@@ -27,7 +27,7 @@
 - **Grounding whenever possible** — cache/source correctness fixes approved (Stage B).
 - **Naming convention = Option B**: themed stage names per preset, consistent style (1–2 words, Title Case, themed bookends allowed) (Stage C).
 - **Travel gets a "Boarding Call" takeoff** replacing character-cards (Speak keeps character-cards). Prompts must be about the DESTINATION ahead — the whole class flies together from the same origin in World Flight (Stage H).
-- **Pacing**: FYW becomes a one-round micro-event; roleplay stops cap traveller turns with fair rotation across stops (Stage D).
+- **Pacing = DEFAULTS, NOT LIMITS (hard rule)**: every class is different — pacing changes may only shape the default path. The teacher must ALWAYS be able to run more rounds / more traveller turns. Never hard-cap. (Stage D)
 - Cleanups + stability items pre-approved (Stage A).
 
 ---
@@ -52,11 +52,12 @@ One style rule across all live presets:
 - Card copy: `tagline` = "X — Y" pattern; `description` = one sentence walking the journey. Normalize the five live presets' descriptions to the same voice.
 **ASK FIRST:** show the owner the full before/after label + copy table for approval before editing.
 
-### Stage D — Travel pacing: FYW micro-event + turn caps
-1. **Find Your Way → micro-event**: mark the slot `isMicroEvent: true`, stage kind `micro-event` (label stays "Find Your Way" or "Navigation Check" — ASK). Activity honors `isMicroEvent` → exactly ONE round (one guide, one destination; same pattern as radar-fix `requestedRoundCount = isMicroEvent ? 1 : …`). Keep check-in.
-2. **Turn caps in `PerformedExchange`**: cap traveller turns per stop (default ~3) and pick travellers by fair rotation ACROSS stops (session-store fair-picker `callCounts` pattern) so everyone speaks 1–2× across the trip and no stop drags. All students keep device scaffolding + can speak chorally; the cap is on featured turns.
-   Budget target: takeoff 6 + arrival 8 + getting-there 8 + FYW 5 + hotel 10 + attraction 10 + meal 8 + review 5 + recap 5 ≈ 65 min.
-**ASK FIRST:** exact cap (3?), whether cap scales with class size, FYW micro label.
+### Stage D — Travel pacing: soft defaults (NO hard caps)
+Owner's rule: **defaults, not limits.** Every class is different; the teacher must always be able to keep going.
+1. **Find Your Way → micro-event with a soft default of ONE round**: mark the slot `isMicroEvent: true`, stage kind `micro-event` (label "Find Your Way" or "Navigation Check" — ASK). After round 1 the primary button is FINISH but **"ANOTHER ROUND" stays available** — do NOT copy radar-fix's hard `isMicroEvent → exactly 1 round` behavior. The owner expects this to be a popular activity that teachers extend. Keep check-in; keep guide rotation on extra rounds.
+2. **Soft turn suggestion in `PerformedExchange`**: after ~3 featured traveller turns the primary action becomes "WRAP UP" — but **"NEXT TRAVELLER" remains available until every traveller has gone** (and the teacher may keep rotating beyond that if they wish). Traveller pick order = fair rotation ACROSS stops (session-store fair-picker `callCounts` pattern) so featured turns spread across the trip. All students keep device scaffolding regardless.
+   Default-path budget: takeoff 6 + arrival 8 + getting-there 8 + FYW 5 + hotel 10 + attraction 10 + meal 8 + review 5 + recap 5 ≈ 65 min — a teacher extending any beat is a feature, not a bug.
+**ASK FIRST:** the suggested-wrap number (3?), whether the suggestion scales with class size, FYW micro label, button wording.
 
 ### Stage E — Trip Recap (purpose-built landing)
 New `trip-recap` activity replacing `in-your-words` as Travel's landing (which currently generates `words: []` — a hollow screen, confirmed bug):
