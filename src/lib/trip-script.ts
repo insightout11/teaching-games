@@ -11,6 +11,22 @@ import { difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
 
 export type TripStopKey = 'arrival' | 'getting-there' | 'meal';
 
+/**
+ * Getting There splits into two scene families that need genuinely different language:
+ *   • ticketed — train / metro / express / bus: you buy a TICKET, single or return.
+ *   • hailed    — taxi / cab / rideshare / private car: you tell the DRIVER where to go and
+ *                 agree the fare; there is no ticket and no "single or return".
+ * The chosen mode is more than a noun swap, so the skeleton must branch on kind.
+ */
+export type TransportKind = 'ticketed' | 'hailed';
+
+const HAILED_MODE = /\b(taxi|cab|minicab|uber|lyft|grab|bolt|ola|didi|rideshare|ride[- ]?hail|private car|car service|chauffeur|limo|limousine)\b/i;
+
+/** Classify a transport mode. Defaults to `ticketed` — most airport-to-city options are. */
+export function transportKind(mode: string | null | undefined): TransportKind {
+  return mode && HAILED_MODE.test(mode) ? 'hailed' : 'ticketed';
+}
+
 export interface TripExchangeLine {
   speaker: 'service' | 'traveller';
   text: string;
@@ -111,11 +127,13 @@ const STOP_BRIEF: Record<TripStopKey, { role: string; scene: string; tokenRules:
     tokenRules: 'Use {city} for the city and {airport} for the airport — never write their names directly.',
     blankRule: 'Leave 1–2 `___` blanks for the traveller to fill personally (length of stay, where they are staying), each with a short hint.',
   },
+  // Getting There is overridden per TransportKind in buildTripScriptPrompt (GETTING_THERE_BRIEF).
+  // This entry is the ticketed default and the shape the type wants.
   'getting-there': {
-    role: 'transport staff or a driver (service) and a traveller getting into the city',
-    scene: 'a ticket desk / taxi rank — the traveller buys their way into the city',
+    role: 'transport staff at a ticket desk (service) and a traveller getting into the city',
+    scene: 'a ticket desk — the traveller buys a ticket for their chosen way into the city',
     tokenRules: 'You MUST use {mode} wherever the transport goes, {cost} for the price, and {time} for the minutes — never invent a specific mode, price, or time. Use {city} for the city.',
-    blankRule: 'Leave at least one `___` blank for a traveller decision (single or return, or whether to switch), with a hint.',
+    blankRule: 'Leave at least one `___` blank for a traveller decision (single or return), with a hint.',
   },
   meal: {
     role: 'a waiter (service) and a traveller ordering a meal',
@@ -125,9 +143,27 @@ const STOP_BRIEF: Record<TripStopKey, { role: string; scene: string; tokenRules:
   },
 };
 
+/** The two kind-specific Getting There briefs — a ticket desk vs a taxi rank speak differently. */
+const GETTING_THERE_BRIEF: Record<TransportKind, { role: string; scene: string; tokenRules: string; blankRule: string }> = {
+  ticketed: STOP_BRIEF['getting-there'],
+  hailed: {
+    role: 'a taxi driver (service) and a traveller getting into the city',
+    scene: 'a taxi rank — the traveller tells the driver where to go and agrees the fare; there is NO ticket and NO "single or return"',
+    tokenRules: 'You MUST use {mode} for the ride (the taxi/cab), {cost} for the fare, and {time} for the minutes — never invent a specific mode, price, or time. Use {city} for the city. Do NOT mention buying a ticket, tickets, or "single or return".',
+    blankRule: 'Leave at least one `___` blank for the traveller to say their destination (a hotel, an address, the centre…), with a hint.',
+  },
+};
+
 /** Build the generation prompt for one stop + tier, grounded on the destination's anchors. */
-export function buildTripScriptPrompt(stop: TripStopKey, city: string, tier: TripScriptTier, anchors: TripScriptAnchors, difficulty: Difficulty): string {
-  const brief = STOP_BRIEF[stop];
+export function buildTripScriptPrompt(
+  stop: TripStopKey,
+  city: string,
+  tier: TripScriptTier,
+  anchors: TripScriptAnchors,
+  difficulty: Difficulty,
+  kind: TransportKind = 'ticketed',
+): string {
+  const brief = stop === 'getting-there' ? GETTING_THERE_BRIEF[kind] : STOP_BRIEF[stop];
   const localColor = anchors.localColor && anchors.localColor.length > 0
     ? `\nLocal colour to weave in naturally where it fits: ${anchors.localColor.join('; ')}.`
     : '';

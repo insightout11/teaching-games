@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSessionStore } from '@/stores/session-store';
 import type { Difficulty } from '@/lib/difficulty';
-import { validateTripScript, type TripStopKey, type TripScriptAnchors } from '@/lib/trip-script';
+import { validateTripScript, type TripStopKey, type TripScriptAnchors, type TransportKind } from '@/lib/trip-script';
 import type { ExchangeLine } from './performed-exchange';
 
 interface TripScriptParams {
@@ -12,6 +12,8 @@ interface TripScriptParams {
   difficulty: Difficulty;
   tier: string;
   anchors?: TripScriptAnchors;
+  /** Getting There only: ticketed (ticket desk) vs hailed (taxi rank) — picks a different scene. */
+  kind?: TransportKind;
 }
 
 /**
@@ -23,7 +25,7 @@ export function useTripScript(params: TripScriptParams | null): ExchangeLine[] |
   const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
   const [lines, setLines] = useState<ExchangeLine[] | null>(null);
 
-  const key = params ? `${params.stop}|${params.city}|${params.tier}` : '';
+  const key = params ? `${params.stop}|${params.city}|${params.tier}|${params.kind ?? ''}` : '';
 
   useEffect(() => {
     if (!params || !params.city) return;
@@ -39,6 +41,7 @@ export function useTripScript(params: TripScriptParams | null): ExchangeLine[] |
             tier: params.tier,
             difficulty: params.difficulty,
             anchors: params.anchors,
+            kind: params.kind,
             excludeCacheIds: useSessionStore.getState().seenCacheIds,
           }),
         });

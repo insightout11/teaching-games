@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateTripScript, applyTripTokens, type TripExchangeLine } from './trip-script';
+import { validateTripScript, applyTripTokens, transportKind, buildTripScriptPrompt, type TripExchangeLine } from './trip-script';
 
 const good: TripExchangeLine[] = [
   { speaker: 'service', text: 'Welcome to {city}. Are you ready to order?' },
@@ -66,6 +66,37 @@ describe('validateTripScript', () => {
       { speaker: 'traveller', text: 'For ___ days.', hint: 'a number' },
     ];
     expect(validateTripScript(arrival, 'arrival')).not.toBeNull();
+  });
+});
+
+describe('transportKind', () => {
+  it('classifies taxis and rideshares as hailed', () => {
+    for (const mode of ['Black cab', 'Taxi', 'Uber', 'Minicab', 'Private car service', 'Grab ride']) {
+      expect(transportKind(mode)).toBe('hailed');
+    }
+  });
+
+  it('classifies rail/bus/metro as ticketed and defaults to ticketed', () => {
+    for (const mode of ['Heathrow Express', 'The Tube', 'Airport bus', 'Regional train', 'Tram']) {
+      expect(transportKind(mode)).toBe('ticketed');
+    }
+    expect(transportKind(undefined)).toBe('ticketed');
+    expect(transportKind('')).toBe('ticketed');
+  });
+});
+
+describe('buildTripScriptPrompt (getting-there)', () => {
+  it('tells a hailed scene NOT to sell tickets or offer single/return', () => {
+    const prompt = buildTripScriptPrompt('getting-there', 'London', 'standard', {}, 'Intermediate', 'hailed');
+    expect(prompt).toMatch(/taxi rank/);
+    expect(prompt).toMatch(/do NOT mention buying a ticket/i);
+    expect(prompt).not.toMatch(/ticket desk/);
+  });
+
+  it('keeps the ticket desk framing for a ticketed scene', () => {
+    const prompt = buildTripScriptPrompt('getting-there', 'London', 'standard', {}, 'Intermediate', 'ticketed');
+    expect(prompt).toMatch(/ticket desk/);
+    expect(prompt).toMatch(/single or return/i);
   });
 });
 

@@ -8,7 +8,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripTransportContent, TripTransportOption } from '../types';
 import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
 import { useTripScript } from '../shared/use-trip-script';
-import { applyTripTokens } from '@/lib/trip-script';
+import { applyTripTokens, transportKind } from '@/lib/trip-script';
 
 // Getting There stage of the Travel arc. Two halves:
 //  1. CHOOSE — the city's REAL ways in from the airport (mode + time + cost); students weigh
@@ -16,20 +16,38 @@ import { applyTripTokens } from '@/lib/trip-script';
 //  2. RIDE — a line-by-line performed exchange at the ticket desk / taxi rank. Each traveller
 //     takes a turn buying their way in, with THEIR chosen option woven into the script.
 
-const STAFF_PHRASES = [
-  'Where are you heading?',
-  'Single or return?',
-  "That's ___, please.",
-  'About ___ minutes.',
-  'Right over there — follow the signs.',
-];
-const TRAVELLER_PHRASES = [
-  "I'd like to take the ___, please.",
-  'How much is it?',
-  'How long does it take?',
-  'Where do I go?',
-  'Thanks a lot!',
-];
+const STAFF_PHRASES: Record<'ticketed' | 'hailed', string[]> = {
+  ticketed: [
+    'Where are you heading?',
+    'Single or return?',
+    "That's ___, please.",
+    'About ___ minutes.',
+    'Right over there — follow the signs.',
+  ],
+  hailed: [
+    'Where to?',
+    'Whereabouts are you headed?',
+    "It's about ___.",
+    'About ___ minutes.',
+    "Hop in — I'll take you there.",
+  ],
+};
+const TRAVELLER_PHRASES: Record<'ticketed' | 'hailed', string[]> = {
+  ticketed: [
+    "I'd like to take the ___, please.",
+    'How much is it?',
+    'How long does it take?',
+    'Where do I go?',
+    'Thanks a lot!',
+  ],
+  hailed: [
+    "I'll take the ___, please.",
+    'To ___, please.',
+    'How much will it be?',
+    'How long does it take?',
+    'Thanks a lot!',
+  ],
+};
 
 type Phase = 'idle' | 'choose' | 'roleplay' | 'done';
 
@@ -51,11 +69,21 @@ export function TripGettingThereActivity({
   const [picks, setPicks] = useState<Record<string, string>>({}); // displayName -> mode
   const scoredRef = useRef<Set<string>>(new Set());
 
-  // AI-varied lines (grounded on the city); locked when the roleplay begins so it can't swap
-  // mid-scene. Per-traveller {mode}/{cost}/{time} are substituted at scriptFor time.
+  const countFor = useCallback((mode: string) => Object.values(picks).filter((p) => p === mode).length, [picks]);
+  const classPick = useMemo<TripTransportOption | null>(() => {
+    if (options.length === 0) return null;
+    const ranked = [...options].sort((a, b) => countFor(b.mode) - countFor(a.mode));
+    return ranked[0] ?? null;
+  }, [options, countFor]);
+  // The shared scene family follows the class's majority choice: a ticket desk (ticketed) reads
+  // nothing like a taxi rank (hailed), so we pick the skeleton — not just the {mode} noun — by kind.
+  const pickKind = useMemo(() => transportKind(classPick?.mode), [classPick]);
+
+  // AI-varied lines (grounded on the city + transport kind); locked when the roleplay begins so it
+  // can't swap mid-scene. Per-traveller {mode}/{cost}/{time} are substituted at scriptFor time.
   const aiLines = useTripScript(useMemo(
-    () => ({ stop: 'getting-there' as const, city: content.city, difficulty: sessionSettings.difficulty, tier, anchors: { airport: content.airport } }),
-    [content.city, content.airport, sessionSettings.difficulty, tier],
+    () => ({ stop: 'getting-there' as const, city: content.city, difficulty: sessionSettings.difficulty, tier, anchors: { airport: content.airport }, kind: pickKind }),
+    [content.city, content.airport, sessionSettings.difficulty, tier, pickKind],
   ));
   const [lockedLines, setLockedLines] = useState<ExchangeLine[] | null>(null);
 
@@ -92,13 +120,6 @@ export function TripGettingThereActivity({
 
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
-  const countFor = useCallback((mode: string) => Object.values(picks).filter((p) => p === mode).length, [picks]);
-  const classPick = useMemo<TripTransportOption | null>(() => {
-    if (options.length === 0) return null;
-    const ranked = [...options].sort((a, b) => countFor(b.mode) - countFor(a.mode));
-    return ranked[0] ?? null;
-  }, [options, countFor]);
-
   const optionFor = useCallback((traveller: Student | null): TripTransportOption | null => {
     if (traveller) {
       const picked = picks[traveller.name];
@@ -114,40 +135,80 @@ export function TripGettingThereActivity({
     const cost = option?.approxCost ?? '___';
     const time = option?.approxTimeMin != null ? String(option.approxTimeMin) : '___';
     if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, mode, cost, time, traveller: traveller?.name ?? 'the traveller' });
+
+    // A taxi rank speaks nothing like a ticket desk — no ticket, no "single or return". Branch the
+    // deterministic fallback on THIS traveller's own choice so a mixed class still reads right.
+    const hailed = transportKind(option?.mode) === 'hailed';
+
     if (tier === 'basic') {
-      return [
-        { speaker: 'service', text: 'Hello! Where are you going?' },
-        { speaker: 'traveller', text: `To the city, please. The ${mode}, please.` },
-        { speaker: 'service', text: `That's ${cost}.` },
-        { speaker: 'traveller', text: 'Here you are. Thank you!' },
-        { speaker: 'service', text: 'The next one leaves soon — right over there!' },
-        { speaker: 'traveller', text: 'Thanks!' },
-      ];
+      return hailed
+        ? [
+            { speaker: 'service', text: 'Hello! Where are you going?' },
+            { speaker: 'traveller', text: `Into the city, please — by ${mode}.` },
+            { speaker: 'service', text: `Sure, hop in. It's about ${cost}.` },
+            { speaker: 'traveller', text: 'Okay. Thank you!' },
+            { speaker: 'service', text: `We'll be there in about ${time} minutes.` },
+            { speaker: 'traveller', text: 'Thanks!' },
+          ]
+        : [
+            { speaker: 'service', text: 'Hello! Where are you going?' },
+            { speaker: 'traveller', text: `To the city, please. The ${mode}, please.` },
+            { speaker: 'service', text: `That's ${cost}.` },
+            { speaker: 'traveller', text: 'Here you are. Thank you!' },
+            { speaker: 'service', text: 'The next one leaves soon — right over there!' },
+            { speaker: 'traveller', text: 'Thanks!' },
+          ];
     }
-    const standard: ExchangeLine[] = [
-      { speaker: 'service', text: 'Hi there — where are you heading?' },
-      { speaker: 'traveller', text: `Into ${content.city}, please. I'd like to take the ${mode}.` },
-      { speaker: 'service', text: 'No problem. Single or return?' },
-      { speaker: 'traveller', text: '___, please. How much is it?', hint: 'single or return?' },
-      { speaker: 'service', text: `That's ${cost}.` },
-      { speaker: 'traveller', text: 'And how long does it take?' },
-      { speaker: 'service', text: `About ${time} minutes.` },
-    ];
-    const closing: ExchangeLine[] = [
-      { speaker: 'traveller', text: 'Great. Where do I go?' },
-      { speaker: 'service', text: 'Right over there — follow the signs.', hint: 'point them the way' },
-      { speaker: 'traveller', text: 'Thanks a lot!' },
-    ];
+
+    const standard: ExchangeLine[] = hailed
+      ? [
+          { speaker: 'service', text: 'Hi there — where to?' },
+          { speaker: 'traveller', text: `Into ${content.city}, please. I'll take the ${mode}.` },
+          { speaker: 'service', text: 'Sure. Whereabouts are you headed?' },
+          { speaker: 'traveller', text: '___, please. How much will it be?', hint: 'your hotel, an address, the centre…' },
+          { speaker: 'service', text: `It's about ${cost}.` },
+          { speaker: 'traveller', text: 'And how long does it take?' },
+          { speaker: 'service', text: `About ${time} minutes.` },
+        ]
+      : [
+          { speaker: 'service', text: 'Hi there — where are you heading?' },
+          { speaker: 'traveller', text: `Into ${content.city}, please. I'd like to take the ${mode}.` },
+          { speaker: 'service', text: 'No problem. Single or return?' },
+          { speaker: 'traveller', text: '___, please. How much is it?', hint: 'single or return?' },
+          { speaker: 'service', text: `That's ${cost}.` },
+          { speaker: 'traveller', text: 'And how long does it take?' },
+          { speaker: 'service', text: `About ${time} minutes.` },
+        ];
+
+    const closing: ExchangeLine[] = hailed
+      ? [
+          { speaker: 'traveller', text: 'Great. Shall we go?' },
+          { speaker: 'service', text: 'Hop in — I\'ll take you there.', hint: 'wave them in' },
+          { speaker: 'traveller', text: 'Thanks a lot!' },
+        ]
+      : [
+          { speaker: 'traveller', text: 'Great. Where do I go?' },
+          { speaker: 'service', text: 'Right over there — follow the signs.', hint: 'point them the way' },
+          { speaker: 'traveller', text: 'Thanks a lot!' },
+        ];
+
     if (tier === 'standard') return [...standard, ...closing];
+
     // advanced — a small complication to negotiate before the closing.
-    return [
-      ...standard,
-      { speaker: 'service', text: 'One thing — there are delays today, so it might take a bit longer.' },
-      { speaker: 'traveller', text: 'Oh no. Is there a faster way to get to ___?', hint: 'say where you\'re headed — your hotel, the centre…' },
-      { speaker: 'service', text: 'You could take a taxi, but it costs quite a bit more.' },
-      { speaker: 'traveller', text: '___', hint: 'decide — stick with your choice or switch, and say why' },
-      ...closing,
-    ];
+    const complication: ExchangeLine[] = hailed
+      ? [
+          { speaker: 'service', text: 'One thing — the traffic is heavy right now, so it may take a bit longer.' },
+          { speaker: 'traveller', text: 'Oh no. Is there a quicker route to ___?', hint: 'say where you\'re headed — your hotel, the centre…' },
+          { speaker: 'service', text: 'I can try the back roads, but the fare might be a little higher.' },
+          { speaker: 'traveller', text: '___', hint: 'decide — take it or not, and say why' },
+        ]
+      : [
+          { speaker: 'service', text: 'One thing — there are delays today, so it might take a bit longer.' },
+          { speaker: 'traveller', text: 'Oh no. Is there a faster way to get to ___?', hint: 'say where you\'re headed — your hotel, the centre…' },
+          { speaker: 'service', text: 'You could take a taxi, but it costs quite a bit more.' },
+          { speaker: 'traveller', text: '___', hint: 'decide — stick with your choice or switch, and say why' },
+        ];
+    return [...standard, ...complication, ...closing];
   }, [optionFor, content.city, tier, lockedLines]);
 
   const start = () => { setPhase('choose'); onPhaseChange?.('choose'); };
@@ -221,8 +282,8 @@ export function TripGettingThereActivity({
           ServiceIcon={UserRound}
           accent="cyan"
           scriptFor={scriptFor}
-          servicePhrases={STAFF_PHRASES}
-          travellerPhrases={TRAVELLER_PHRASES}
+          servicePhrases={STAFF_PHRASES[pickKind]}
+          travellerPhrases={TRAVELLER_PHRASES[pickKind]}
           onSetInputSpec={onSetInputSpec}
           onScore={onScore}
           onFinished={finish}

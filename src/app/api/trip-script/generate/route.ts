@@ -11,6 +11,7 @@ import {
   type TripStopKey,
   type TripExchangeLine,
   type TripScriptAnchors,
+  type TransportKind,
 } from '@/lib/trip-script';
 
 export const dynamic = 'force-dynamic';
@@ -47,12 +48,13 @@ export async function POST(request: NextRequest) {
   const { teacher, error: authError } = await requireAuth();
   if (authError || !teacher) return authError!;
 
-  const { stop, city, tier: rawTier, difficulty, anchors, excludeCacheIds = [] } = await request.json() as {
+  const { stop, city, tier: rawTier, difficulty, anchors, kind: rawKind, excludeCacheIds = [] } = await request.json() as {
     stop: TripStopKey;
     city: string;
     tier?: string;
     difficulty?: Difficulty;
     anchors?: TripScriptAnchors;
+    kind?: string;
     excludeCacheIds?: string[];
   };
 
@@ -62,10 +64,14 @@ export async function POST(request: NextRequest) {
 
   const diff: Difficulty = difficulty ?? 'Intermediate';
   const tier = (rawTier === 'basic' || rawTier === 'standard' || rawTier === 'advanced') ? rawTier : tripTierFor(diff);
+  // Getting There branches into ticketed (ticket desk) vs hailed (taxi rank) scenes — they read
+  // and cache separately so a cab class never inherits a "single or return" script and vice versa.
+  const kind: TransportKind = rawKind === 'hailed' ? 'hailed' : 'ticketed';
+  const variant = stop === 'getting-there' ? `${stop}:${kind}` : stop;
 
   try {
     // 1. Serve a random unseen variant from the pool if one exists.
-    const cached = await getCachedContent(GAME_KEY, city, tier, excludeCacheIds, stop, SCHEMA_VERSION);
+    const cached = await getCachedContent(GAME_KEY, city, tier, excludeCacheIds, variant, SCHEMA_VERSION);
     if (cached) {
       const data = cached.content_json as { lines: TripExchangeLine[] };
       const valid = validateTripScript(data.lines, stop);
@@ -81,7 +87,7 @@ export async function POST(request: NextRequest) {
     const limited = await checkAndRecordAiUsage(teacher);
     if (limited) return limited;
 
-    const prompt = buildTripScriptPrompt(stop, city.trim(), tier, anchors ?? {}, diff);
+    const prompt = buildTripScriptPrompt(stop, city.trim(), tier, anchors ?? {}, diff, kind);
     const data = await generateJSON<{ lines: TripExchangeLine[] }>(prompt, schema, {
       temperature: 1.0,
       taskClass: 'content-generation',
@@ -94,7 +100,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. Store as a new pool variant.
-    const cacheId = await storeCachedContent(GAME_KEY, city, tier, { lines: valid }, SCHEMA_VERSION, stop);
+    const cacheId = await storeCachedContent(GAME_KEY, city, tier, { lines: valid }, SCHEMA_VERSION, variant);
 
     return NextResponse.json({ lines: valid, cacheId }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
