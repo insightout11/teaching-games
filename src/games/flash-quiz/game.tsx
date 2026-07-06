@@ -114,6 +114,11 @@ export function FlashQuizGame({
   const seenCacheIds = useSessionStore((s) => s.seenCacheIds);
   const addSeenCacheId = useSessionStore((s) => s.addSeenCacheId);
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  // Travel review game: when the class has a trip log (Travel arc only writes one), this quiz
+  // becomes a fixed 5-question review grounded on the trip the class actually took.
+  const tripLog = useSessionStore((s) => s.tripLog);
+  const isTrip = tripLog.length > 0;
+  const effectiveCount = isTrip ? 5 : questionCount;
 
   // ── Build in-game leaderboard from internalScores ─────────────────────────
   const leaderboardEntries: LeaderEntry[] = (() => {
@@ -258,10 +263,12 @@ export function FlashQuizGame({
         body: JSON.stringify({
           topic,
           difficulty,
-          count: questionCount,
+          count: effectiveCount,
           excludeCacheIds: seenCacheIds,
           // Ground the quiz in the lesson's article/video when one is attached.
           ...(sourceMaterial ? { sourceMaterial } : {}),
+          // Travel review: ground the quiz in the trip the class actually took.
+          ...(isTrip ? { trip: { stops: tripLog } } : {}),
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -274,7 +281,7 @@ export function FlashQuizGame({
       console.error('[FlashQuiz] generation failed:', err);
       setPhase('idle');
     }
-  }, [topic, difficulty, questionCount, seenCacheIds, addSeenCacheId, sourceMaterial]);
+  }, [topic, difficulty, effectiveCount, isTrip, tripLog, seenCacheIds, addSeenCacheId, sourceMaterial]);
 
   // ── Start a question round ────────────────────────────────────────────────
   const startQuestion = useCallback((index: number) => {
@@ -392,33 +399,36 @@ export function FlashQuizGame({
           <Zap className="w-10 h-10 text-violet-400" />
         </div>
         <div className="text-center space-y-2">
-          <h2 className="text-2xl font-game text-lc-text">Flash Quiz</h2>
+          <h2 className="text-2xl font-game text-lc-text">{isTrip ? 'Trip Quiz' : 'Flash Quiz'}</h2>
           <p className="text-lc-text2 text-sm max-w-xs">
-            topic-generated quiz — {timerSeconds} seconds per question.
-            All students answer simultaneously.
+            {isTrip
+              ? `5 questions about your trip — ${timerSeconds} seconds each. All students answer together.`
+              : `topic-generated quiz — ${timerSeconds} seconds per question. All students answer simultaneously.`}
           </p>
         </div>
-        {/* Question count toggle */}
-        <div className="flex items-center gap-1 p-1 bg-lc-surface rounded-xl border border-lc-border">
-          {([10, 20] as const).map((n) => (
-            <button
-              key={n}
-              onClick={() => setQuestionCount(n)}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
-                questionCount === n
-                  ? 'bg-violet-500 text-white shadow'
-                  : 'text-lc-text2 hover:text-lc-text'
-              }`}
-            >
-              {n} questions
-            </button>
-          ))}
-        </div>
+        {/* Question count toggle — fixed at 5 for the trip review */}
+        {!isTrip && (
+          <div className="flex items-center gap-1 p-1 bg-lc-surface rounded-xl border border-lc-border">
+            {([10, 20] as const).map((n) => (
+              <button
+                key={n}
+                onClick={() => setQuestionCount(n)}
+                className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+                  questionCount === n
+                    ? 'bg-violet-500 text-white shadow'
+                    : 'text-lc-text2 hover:text-lc-text'
+                }`}
+              >
+                {n} questions
+              </button>
+            ))}
+          </div>
+        )}
         <button
           onClick={fetchQuestions}
           className="px-8 py-3 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-xl font-bold shadow-lg hover:scale-105 active:scale-95 transition-all"
         >
-          Generate Questions
+          {isTrip ? 'Start Trip Quiz' : 'Generate Questions'}
         </button>
       </div>
     );

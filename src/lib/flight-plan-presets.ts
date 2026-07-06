@@ -549,6 +549,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       { slotType: 'production', key: 'trip-hotel', stageId: 'hotel' },
       { slotType: 'production', key: 'trip-attractions', stageId: 'attraction' },
       { slotType: 'production', key: 'trip-meal', stageId: 'local-table' },
+      { slotType: 'practice', key: 'flash-quiz', stageId: 'end-game' },
     ],
     flightConfig: {
       stages: [
@@ -559,6 +560,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'hotel', label: 'Hotel', kind: 'stage', phase: 'cruise' },
         { stageId: 'attraction', label: 'Out & About', kind: 'stage', phase: 'cruise' },
         { stageId: 'local-table', label: 'Local Table', kind: 'stage', phase: 'descent' },
+        { stageId: 'end-game', label: 'Trip Quiz', kind: 'end-game', phase: 'descent' },
         { stageId: 'landing', label: 'Trip Recap', kind: 'landing', phase: 'landing' },
       ],
       stageByKey: {
@@ -569,6 +571,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'trip-hotel': 'hotel',
         'trip-attractions': 'attraction',
         'trip-meal': 'local-table',
+        'flash-quiz': 'end-game',
         'trip-recap': 'landing',
       },
     },

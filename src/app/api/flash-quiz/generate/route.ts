@@ -21,6 +21,82 @@ interface QuizQuestion {
   explanation: string;
 }
 
+// ─── Travel review mode ────────────────────────────────────────────────────
+interface TripStop {
+  stageId: string;
+  text: string;
+  vocab?: string[];
+}
+
+const TRIP_STOP_LABEL: Record<string, string> = {
+  arrival: 'Arrival',
+  'getting-there': 'Getting There',
+  attraction: 'Out & About',
+  'local-table': 'Local Table',
+};
+
+// Category-matched distractor pools for the deterministic recall fallback (never blank).
+const TRANSPORT_POOL = ['the bus', 'a taxi', 'the train', 'the metro', 'the tram'];
+const DISH_POOL = ['a local soup', 'grilled fish', 'a rice dish', 'a noodle dish', 'a pastry'];
+const ATTRACTION_POOL = ['the city museum', 'the old cathedral', 'the market square', 'the riverside park', 'the castle'];
+const CITY_POOL = ['Paris', 'Tokyo', 'Rome', 'Madrid', 'Berlin', 'Lisbon', 'Dublin'];
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function mcq(question: string, correct: string, pool: string[], explanation: string): QuizQuestion | null {
+  const c = correct.trim();
+  if (!c) return null;
+  const distractors = pool.filter((d) => d.toLowerCase() !== c.toLowerCase()).slice(0, 3);
+  if (distractors.length < 3) return null;
+  const options = shuffle([c, ...distractors]);
+  return { question, options, correctIndex: options.indexOf(c), explanation };
+}
+
+/** Parse the city out of a "…into {City}" / "…in {City}" trip-log line. */
+function cityFromStops(stops: TripStop[]): string | null {
+  for (const s of stops) {
+    const m = s.text.match(/\b in(?:to)? ([A-Z][\w' -]+?)\s*$/);
+    if (m) return m[1].trim();
+  }
+  return null;
+}
+
+// Deterministic recall quiz from the trip log — topic-aware fallback when AI generation fails.
+function buildTripFallback(stops: TripStop[]): QuizQuestion[] {
+  const questions: QuizQuestion[] = [];
+  const byStage = (id: string) => stops.find((s) => s.stageId === id);
+  const anchor = (id: string) => byStage(id)?.vocab?.[0]?.trim();
+
+  const city = cityFromStops(stops);
+  if (city) {
+    const q = mcq('Which city did we explore on this trip?', city, [city, ...CITY_POOL], 'That’s the city the whole trip took place in.');
+    if (q) questions.push(q);
+  }
+  const transport = anchor('getting-there');
+  if (transport) {
+    const q = mcq('How did we get into the city?', transport, [transport, ...TRANSPORT_POOL], `We took ${transport} into the city.`);
+    if (q) questions.push(q);
+  }
+  const dish = anchor('local-table');
+  if (dish) {
+    const q = mcq('What did we eat at the local table?', dish, [dish, ...DISH_POOL], `We ordered ${dish}.`);
+    if (q) questions.push(q);
+  }
+  const attraction = anchor('attraction');
+  if (attraction) {
+    const q = mcq('Which place did we visit while out and about?', attraction, [attraction, ...ATTRACTION_POOL], `We visited ${attraction}.`);
+    if (q) questions.push(q);
+  }
+  return questions;
+}
+
 const schema: AISchema = {
   type: 'object',
   properties: {
@@ -92,22 +168,27 @@ export async function POST(request: NextRequest) {
   const limited = await checkAndRecordAiUsage(teacher);
   if (limited) return limited;
 
-  const { topic, difficulty, count = 10, excludeCacheIds = [], sourceMaterial } = await request.json() as {
+  const { topic, difficulty, count = 10, excludeCacheIds = [], sourceMaterial, trip } = await request.json() as {
     topic: string;
     difficulty: Difficulty;
     count?: number;
     excludeCacheIds?: string[];
     sourceMaterial?: SourceMaterial;
+    trip?: { stops: TripStop[] };
   };
 
-  const questionCount = count === 20 ? 20 : 10;
+  // Travel review mode: a fixed 5-question quiz grounded on the trip the class actually took.
+  const tripStops = (trip?.stops ?? []).filter((s) => s?.text?.trim());
+  const isTrip = tripStops.length > 0;
+
+  const questionCount = isTrip ? 5 : count === 20 ? 20 : 10;
   const variant = String(questionCount);
 
-  // When a lesson has source material (an article/video), ground the quiz in it.
-  // Generic topic-only content is never served for a source-grounded lesson — so
-  // skip the shared topic cache for both reads and writes (mirrors lesson-plan/generate).
+  // When a lesson has source material (an article/video) OR is a trip review, ground the quiz
+  // in it. Generic topic-only content is never served for grounded lessons — so skip the shared
+  // topic cache for both reads and writes (mirrors lesson-plan/generate).
   const sourceContext = await resolveSourceContext(sourceMaterial);
-  const skipCache = !!sourceMaterial;
+  const skipCache = !!sourceMaterial || isTrip;
 
   try {
     // 1. Check cache first (skipped when grounding in source material)
@@ -125,7 +206,31 @@ export async function POST(request: NextRequest) {
     // 2. Cache miss — generate via AI
     const randomSeed = Math.random().toString(36).substring(7);
 
-    const prompt = `Generate ${questionCount} multiple-choice quiz questions for English language learners.
+    const tripContext = tripStops
+      .map((s) => `- ${TRIP_STOP_LABEL[s.stageId] ?? s.stageId}: ${s.text}`)
+      .join('\n');
+
+    const prompt = isTrip
+      ? `Write ${questionCount} multiple-choice review questions about a language class's trip.
+
+The class just completed this trip together. Their trip log:
+${tripContext}
+
+Difficulty: ${difficultyDescriptions[difficulty]}
+Timer per question: ${TIMER_SECONDS} seconds
+Random seed (for variety): ${randomSeed}
+
+Make MOSTLY recall questions about what THIS class did (which city, how they got into the city, what they saw, what they ate), plus 1–2 light vocabulary questions about the trip's key words (e.g. "What is {a dish}?", "What is {a transport word}?"). Every question must be about — or answerable from — this specific trip.
+
+REQUIREMENTS:
+- Exactly 4 answer options per question (labelled in your mind as 0, 1, 2, 3)
+- Exactly 1 correct answer — set correctIndex to that option's number (0–3)
+- Distractors must be PLAUSIBLE (other real cities/dishes/transport/places), never obvious fillers
+- 1-sentence explanation of WHY the correct answer is right (shown after reveal)
+- All ${questionCount} questions must be DIFFERENT — no duplicates
+
+Return JSON with a "questions" array in the shape { question, options[4], correctIndex, explanation }.`
+      : `Generate ${questionCount} multiple-choice quiz questions for English language learners.
 
 Topic: "${topic}"
 Difficulty: ${difficultyDescriptions[difficulty]}
@@ -194,6 +299,16 @@ Return JSON:
     );
   } catch (error) {
     console.error('[flash-quiz/generate] error:', error);
+
+    // Trip review: never serve the ungrounded topic cache — build a deterministic recall quiz
+    // from the trip log instead (topic-aware fallback, never blank).
+    if (isTrip) {
+      const tripFallback = buildTripFallback(tripStops);
+      return NextResponse.json(
+        { questions: tripFallback.length > 0 ? tripFallback : fallbackQuestions.slice(0, questionCount), cacheId: null, degraded: true },
+        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+      );
+    }
 
     // Try emergency cache (ignore excludeIds)
     try {
