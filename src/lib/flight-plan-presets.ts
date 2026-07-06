@@ -536,7 +536,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // Each stage grounds on its own per-stage SourceMaterial (buildTripItinerary), injected at
     // launch via the trip pack — there's no single playable video / readable passage.
     skipSourceBriefing: true,
-    takeoff: 'character-cards',
+    takeoff: 'boarding-call',
     landing: 'trip-recap',
     // The fixed trip spine. trip-getting-there / trip-hotel / trip-meal reuse the
     // ConversationRounds engine but are distinct keys, each grounded on its own stage source
@@ -564,7 +564,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'landing', label: 'Trip Recap', kind: 'landing', phase: 'landing' },
       ],
       stageByKey: {
-        'character-cards': 'departures',
+        'boarding-call': 'departures',
         'trip-arrival': 'arrival',
         'trip-getting-there': 'getting-there',
         'trip-directions': 'find-your-way',

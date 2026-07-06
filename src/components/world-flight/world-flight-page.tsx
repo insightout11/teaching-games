@@ -17,6 +17,7 @@ import { buildTripMealContent } from '@/activities/trip-meal';
 import { buildTripGettingThereContent } from '@/activities/trip-getting-there';
 import { buildTripDirectionsContent } from '@/activities/trip-directions';
 import { buildTripArrivalContent } from '@/activities/trip-arrival';
+import { buildBoardingCallContent } from '@/activities/boarding-call';
 import { usePlannerStore } from '@/stores/planner-store';
 import { recommendNextDestinationId, type WorldFlightClassSummary } from '@/lib/world-flight/journey';
 import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, PLANE_TIERS, type PlaneEntry } from '@/lib/plane-progression';
@@ -2469,12 +2470,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
       store.setTopic(`Trip to ${selectedDestination.city}`);
       store.setSourceMaterial(itinerary.arrival);
       store.setTripPack({
+        // Boarding Call (takeoff) and Trip Recap (landing) are data-seeded and need no source.
         stageSources: {
-          'character-cards': itinerary.departures,
           'trip-hotel': itinerary.hotel,
-          'in-your-words': itinerary.landing,
         },
         preGenerated: {
+          'boarding-call': buildBoardingCallContent(selectedDestination),
           'trip-arrival': buildTripArrivalContent(selectedDestination),
           'trip-getting-there': buildTripGettingThereContent(selectedDestination),
           'trip-directions': buildTripDirectionsContent(selectedDestination),

@@ -200,6 +200,15 @@ export interface TripMealContent extends ActivityGeneratedContent {
   dishes: TripDishOption[];
 }
 
+// Boarding Call content (Travel arc — takeoff). Data-seeded from the destination: three
+// spoken-first prompts about the trip ahead, plus a climate-aware packing hint.
+export interface BoardingCallContent extends ActivityGeneratedContent {
+  activityKey: 'boarding-call';
+  city: string;
+  prompts: string[];
+  packingHint: string;
+}
+
 // Trip Arrival content (Travel arc — immigration stage). Reliable, no AI: the scripted
 // exchange lives in the component; roles are assigned to real students at runtime.
 export interface TripArrivalContent extends ActivityGeneratedContent {

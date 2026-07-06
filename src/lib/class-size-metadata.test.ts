@@ -15,8 +15,8 @@ describe('class-size metadata', () => {
     ];
 
     // Bump when registering a new module (Travel arc added trip-arrival + trip-directions;
-    // trip-recap landing added in the preset-consistency pass).
-    expect(registryKeys).toHaveLength(64);
+    // trip-recap landing + boarding-call takeoff added in the preset-consistency pass).
+    expect(registryKeys).toHaveLength(65);
     expect(registryKeys.filter((key) => !getClassSizeMetadata(key))).toEqual([]);
     expect(FLIGHT_PLAN_ITEMS).toHaveLength(50);
     expect(FLIGHT_PLAN_ITEMS.filter((item) => !item.idealClassSizes || !item.minStudents)).toEqual([]);

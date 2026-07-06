@@ -33,6 +33,7 @@ import { grammarProofPlugin } from './grammar-proof';
 import { finalWordPlugin } from './final-word';
 import { inYourWordsPlugin } from './in-your-words';
 import { tripRecapPlugin } from './trip-recap';
+import { boardingCallPlugin } from './boarding-call';
 import { conversationRoundsPlugin } from './conversation-rounds';
 import { tripAttractionsPlugin } from './trip-attractions';
 import { tripMealPlugin } from './trip-meal';
@@ -107,6 +108,7 @@ const activities: ActivityPlugin[] = [
   finalWordPlugin,
   inYourWordsPlugin,
   tripRecapPlugin,
+  boardingCallPlugin,
 ];
 
 /**
