@@ -87,9 +87,26 @@ Replaces character-cards as Travel's takeoff (Speak keeps character-cards — du
 - Presentation stage, participation scoring, data-seeded + optionally AI-flavoured with fallback.
 **ASK FIRST:** the exact 3 prompts + whether answers should feed the Trip Recap ("you said you were worried about ___ — how did it go?" would be a lovely callback).
 
-### Stage I (optional) — Grammar preset micro-event
+### Stage I (optional) — Grammar preset micro-event — SKIPPED
 Owner said "all presets get micro-events"; Grammar currently has zero. It's a deliberately tight clinic, so this may be fine as-is.
 **ASK FIRST:** does Grammar get one (e.g. vocab-micro "Comms Check" after Rebuild), or is it exempt?
+**Resolved (Jul 2026): EXEMPT.** Owner chose to leave Grammar as-is — no micro-event.
+
+---
+
+## Status — all stages resolved (Jul 2026)
+
+- **A** Cleanups & stability — shipped (`34ae84f7`)
+- **B** Grounding & cache correctness — shipped (`2f3c366c`)
+- **C** Naming & card-style pass — shipped (`07f79d4c`)
+- **D** Travel pacing (soft defaults) — shipped (`edbd51c2`)
+- **E** Trip Recap landing — shipped
+- **F** Travel review game (Trip Quiz) — shipped (`75e9d6b2`)
+- **G** AI-varied lines for scripted stops — shipped (`b275356e`)
+- **H** Boarding Call takeoff — shipped (`f8db9749`)
+- **I** Grammar micro-event — SKIPPED (owner: Grammar stays a tight clinic)
+
+Known unrelated issue surfaced during the work: `planner-compose.test.ts` "goal targeting" is **flaky** (unseeded random composition) — passes/fails per run, independent of these changes. Worth seeding the RNG; out of scope for this plan.
 
 ---
 
