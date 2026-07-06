@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ActivityProps } from '../types';
 import type { PredictionRoundContent, PredictionRoundQuestion } from '../types';
+import { useSessionStore, type PredictionResult } from '@/stores/session-store';
 
-type Phase = 'idle' | 'prompting' | 'revealing' | 'summary';
+type Phase = 'idle' | 'prompting' | 'revealing' | 'summary' | 'locked';
 
 interface PredictionVote {
   studentId: string | null;
@@ -101,6 +102,10 @@ export function PredictionRoundActivity({
   const content = generatedContent as PredictionRoundContent;
   const questions = content.questions;
   const questionCount = questions.length; // always 3
+  // "Listen for it" mode (Captain's Flight, source lessons): collect predictions at takeoff but hold
+  // the answers back until AFTER the briefing, where the reveal panel pays them off.
+  const deferReveal = content.deferReveal ?? false;
+  const setPredictionResults = useSessionStore((s) => s.setPredictionResults);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -206,11 +211,45 @@ export function PredictionRoundActivity({
     });
   }, [onScore, questions]);
 
+  // Deferred mode: predictions locked. Stash the class's split + held-back answers for the briefing
+  // reveal, then land on the "locked" screen (no answers shown here — that's the point).
+  const finishDeferred = useCallback(() => {
+    const results: PredictionResult[] = questions.map((q, i) => {
+      const qv = Object.values(votesRef.current[i] ?? {});
+      return {
+        text: q.text,
+        optionA: q.optionA,
+        optionB: q.optionB,
+        correctAnswer: q.correctAnswer,
+        revealFact: q.revealFact,
+        countA: qv.filter((v) => v.choice === q.optionA).length,
+        countB: qv.filter((v) => v.choice === q.optionB).length,
+      };
+    });
+    setPredictionResults(results);
+    setPhase('locked');
+    onPhaseChange?.('locked');
+    onSetInputSpec?.(null);
+  }, [questions, setPredictionResults, onPhaseChange, onSetInputSpec]);
+
   const handleReveal = useCallback(() => {
     scoreCurrentVotes();
+    if (deferReveal) {
+      // Score, then move straight to the next prediction (or lock) — the answer stays hidden.
+      const nextIndex = currentIndexRef.current + 1;
+      if (nextIndex >= questionCount) {
+        finishDeferred();
+      } else {
+        setCurrentIndex(nextIndex);
+        setTimeLeft(timerSeconds);
+        setPhase('prompting');
+        onPhaseChange?.('prompting');
+      }
+      return;
+    }
     setPhase('revealing');
     onPhaseChange?.('revealing');
-  }, [scoreCurrentVotes, onPhaseChange]);
+  }, [scoreCurrentVotes, deferReveal, questionCount, timerSeconds, finishDeferred, onPhaseChange]);
 
   const handleNext = useCallback(() => {
     const nextIndex = currentIndex + 1;
@@ -240,7 +279,7 @@ export function PredictionRoundActivity({
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-amber-400">Prediction Round</h3>
-        {phase !== 'idle' && phase !== 'summary' && (
+        {phase !== 'idle' && phase !== 'summary' && phase !== 'locked' && (
           <span className="text-sm opacity-60">
             Question {currentIndex + 1} of {questionCount}
           </span>
@@ -252,7 +291,9 @@ export function PredictionRoundActivity({
         <div className="text-center py-12 space-y-4">
           <p className="text-xl opacity-90">3 predictions — vote before you know the answer.</p>
           <p className="text-sm opacity-50">
-            Students commit to a prediction, then you reveal the truth.
+            {deferReveal
+              ? 'Students commit to a prediction — the answers are in the briefing ahead. Reveal them after the reading.'
+              : 'Students commit to a prediction, then you reveal the truth.'}
           </p>
           <button
             onClick={handleStart}
@@ -291,7 +332,9 @@ export function PredictionRoundActivity({
               onClick={handleReveal}
               className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
-              REVEAL ANSWER
+              {deferReveal
+                ? (currentIndex < questionCount - 1 ? 'LOCK & NEXT' : 'LOCK PREDICTIONS')
+                : 'REVEAL ANSWER'}
             </button>
           </div>
         </div>
@@ -336,6 +379,25 @@ export function PredictionRoundActivity({
               className="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
               END MODULE
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* LOCKED — deferred "Listen for it" mode: predictions are in, answers held for the briefing */}
+      {phase === 'locked' && (
+        <div className="text-center py-12 space-y-4">
+          <p className="text-2xl font-semibold">Predictions locked ✈️</p>
+          <p className="text-base opacity-80 max-w-md mx-auto">
+            The answers are in what you&apos;re about to read. Listen for them — we&apos;ll reveal how the
+            class did after the briefing.
+          </p>
+          <div className="flex justify-center pt-4">
+            <button
+              onClick={handleEnd}
+              className="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
+            >
+              START BRIEFING
             </button>
           </div>
         </div>

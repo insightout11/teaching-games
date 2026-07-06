@@ -5,8 +5,10 @@ import type { ActivityProps } from '../types';
 import type { ReadAloudContent } from '../types';
 import type { ReadAloudQueueEntry } from '@/lib/input-spec';
 import { ComprehensionQuiz } from '../shared/comprehension-quiz';
+import { PredictionReveal } from '../shared/prediction-reveal';
 import { BookOpen, ChevronRight, SkipForward, RotateCcw, ListChecks } from 'lucide-react';
 import { splitReadingTurns } from '@/lib/read-aloud';
+import { useSessionStore } from '@/stores/session-store';
 
 type Phase = 'idle' | 'reading' | 'complete' | 'quiz';
 
@@ -50,6 +52,8 @@ export function ReadAloudActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [queue, setQueue] = useState<ReadAloudQueueEntry[]>([]);
+  // "Listen for it" payoff: takeoff predictions held back until after the briefing (Captain's Flight).
+  const predictionResults = useSessionStore((s) => s.predictionResults);
 
   function getSlideUrl(index: number): string | undefined {
     if (!slides || slides.length === 0) return undefined;
@@ -257,6 +261,7 @@ export function ReadAloudActivity({
             <span className="text-xs font-normal opacity-80">({comprehensionQuestions.length})</span>
           </button>
         )}
+        <PredictionReveal results={predictionResults} />
         <button onClick={handleRestart} className="flex items-center gap-2 mx-auto text-sm text-lc-text3 hover:text-white transition-colors">
           <RotateCcw className="w-4 h-4" /> Read again
         </button>

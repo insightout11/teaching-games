@@ -963,11 +963,22 @@ async function generatePredictionRound(topic: string, difficulty: Difficulty, so
     required: ['questions'],
   };
 
+  // "Listen for it" mode: when the lesson has a source, the predictions become questions the class
+  // can only settle by reading/watching the briefing next — the answer must live IN that source, and
+  // revealFact points back to it. The activity holds the reveal until after the briefing.
+  const deferReveal = sourceContext.trim().length > 0;
+  const sourceInstruction = deferReveal
+    ? `\nIMPORTANT — these predictions are asked BEFORE the class reads/watches the source, and the answers will be revealed AFTER. So:
+- Every claim MUST be answerable directly from the source material above — do not ask anything the source doesn't settle.
+- Pick facts a student would notice while reading/watching, so the reveal pays off their attention ("the answer was in what you just read").
+- Each revealFact must state the answer as it appears in the source (quote or closely paraphrase the relevant detail).\n`
+    : '';
+
   const prompt = `Generate 3 prediction questions for an ESL classroom lesson about the topic below.
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
 ${sourceContext}
-
+${sourceInstruction}
 Each question should:
 - Present a surprising or debatable claim about the topic that students can predict on before being taught
 - Use True/False format (optionA: "True", optionB: "False") or a binary either/or (e.g. "More" vs "Less")
@@ -985,6 +996,7 @@ Return JSON with a "questions" array of exactly 3 objects with: text, optionA, o
   return {
     activityKey: 'prediction-round',
     topicContext: topic,
+    deferReveal,
     questions: [
       { text: parsed.questions[0]?.text ?? fallback.text, optionA: parsed.questions[0]?.optionA ?? 'True', optionB: parsed.questions[0]?.optionB ?? 'False', correctAnswer: (parsed.questions[0]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[0]?.revealFact ?? fallback.revealFact },
       { text: parsed.questions[1]?.text ?? fallback.text, optionA: parsed.questions[1]?.optionA ?? 'True', optionB: parsed.questions[1]?.optionB ?? 'False', correctAnswer: (parsed.questions[1]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[1]?.revealFact ?? fallback.revealFact },

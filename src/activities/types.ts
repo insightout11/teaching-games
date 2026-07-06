@@ -782,6 +782,10 @@ export interface PredictionRoundQuestion {
 export interface PredictionRoundContent extends ActivityGeneratedContent {
   activityKey: 'prediction-round';
   questions: [PredictionRoundQuestion, PredictionRoundQuestion, PredictionRoundQuestion];
+  /** "Listen for it" mode (Captain's Flight, source lessons): predictions are collected at
+   *  takeoff but the answers are held back until AFTER the briefing. Set when the lesson has a
+   *  source to ground the claims in. When false/absent, answers reveal per-question as before. */
+  deferReveal?: boolean;
 }
 
 // Mission Selector content

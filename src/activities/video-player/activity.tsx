@@ -4,7 +4,9 @@ import { useState, useRef, useEffect } from 'react';
 import type { ActivityProps } from '../types';
 import type { VideoPlayerContent } from '../types';
 import { ComprehensionQuiz } from '../shared/comprehension-quiz';
+import { PredictionReveal } from '../shared/prediction-reveal';
 import { ListChecks, CheckCircle2, Maximize, Minimize } from 'lucide-react';
+import { useSessionStore } from '@/stores/session-store';
 
 declare global {
   interface Window {
@@ -81,6 +83,8 @@ export function VideoPlayerActivity({
   const playerRef = useRef<InstanceType<Window['YT']['Player']> | null>(null);
 
   const hasQuestions = comprehensionQuestions.length > 0;
+  // "Listen for it" payoff: takeoff predictions held back until after the briefing (Captain's Flight).
+  const predictionResults = useSessionStore((s) => s.predictionResults);
 
   // Track fullscreen state
   useEffect(() => {
@@ -144,6 +148,7 @@ export function VideoPlayerActivity({
         <CheckCircle2 className="w-10 h-10 text-lc-success mx-auto" />
         <h2 className="text-2xl font-bold text-lc-text">Briefing Complete!</h2>
         <p className="text-lc-text3">The class watched the video and finished the comprehension check.</p>
+        <PredictionReveal results={predictionResults} />
       </div>
     );
   }

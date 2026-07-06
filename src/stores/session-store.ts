@@ -63,6 +63,18 @@ export const WHEEL_SEGMENTS: Array<{ modifier: TurnModifier; weight: number }> =
   { modifier: { multiplier: 1, bonus: 0, shield: true, label: 'Shield' }, weight: 15 },
 ];
 
+// One prediction the class committed to at takeoff, with the class's vote split and the held-back
+// answer — surfaced after the briefing by the "Listen for it" reveal (Captain's Flight, Stage 1).
+export interface PredictionResult {
+  text: string;
+  optionA: string;
+  optionB: string;
+  correctAnswer: 'A' | 'B';
+  revealFact: string;
+  countA: number;
+  countB: number;
+}
+
 // One line of the Travel arc's trip log — what the class did at a stop.
 export interface TripLogEntry {
   stageId: string;
@@ -119,6 +131,11 @@ interface SessionState {
   // and the World Flight leg evidence can retell the trip.
   tripLog: TripLogEntry[];
 
+  // "Listen for it" predictions (Captain's Flight, Stage 1) — the takeoff predictions the class
+  // committed to, held back until the briefing's reveal panel. Separate from tripLog so it never
+  // trips the flash-quiz trip-mode gate. Written by prediction-round in deferReveal mode.
+  predictionResults: PredictionResult[];
+
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
   setPickerMode: (mode: PickerMode) => void;
@@ -148,6 +165,7 @@ interface SessionState {
   addOpeningStance: (clientId: string, stance: string) => void;
   addCharacterAssignment: (clientId: string, character: CharacterCard) => void;
   addTripLogEntry: (entry: TripLogEntry) => void;
+  setPredictionResults: (results: PredictionResult[]) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
 }
@@ -245,6 +263,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   openingStances: {},
   characterAssignments: {},
   tripLog: [],
+  predictionResults: [],
 
   initSession: (sessionId, classId, students) => {
     lastWrittenInputSpec = undefined; // Reset per-session tracking
@@ -277,6 +296,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       openingStances: {},
       characterAssignments: {},
       tripLog: [],
+      predictionResults: [],
     });
   },
 
@@ -285,6 +305,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     // One entry per stage — a re-run of a stop replaces its line instead of duplicating it.
     set({ tripLog: [...tripLog.filter((e) => e.stageId !== entry.stageId), entry] });
   },
+
+  setPredictionResults: (results) => set({ predictionResults: results }),
 
   setPickerMode: (mode) => set({ pickerMode: mode }),
 
@@ -503,6 +525,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       openingStances: {},
       characterAssignments: {},
       tripLog: [],
+      predictionResults: [],
     });
   },
 }));
