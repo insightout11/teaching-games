@@ -131,3 +131,23 @@ Known unrelated issue surfaced during the work: `planner-compose.test.ts` "goal 
 
 ### Verified clean (don't re-audit)
 - All preset module keys resolve to registered plugins + generation paths; pools map to stageByKey; `worldFlightOnly` filtering works; Speak's scene→conversation chaining grounds correctly; adaptive scene casts receive roster `studentCount` via prefetch; end-game vote resolves pool keys across both registries.
+
+---
+
+## Stage J — Post-review fixes (added after the implementation review, Jul 2026)
+
+The A–H implementation passed review (0 tsc errors, lint clean, 358/358 tests, all hard rules honored). These are the findings from that review. Same ground rules apply — **ask first**, then fix in this order.
+
+### J1 — Travel launched outside World Flight is broken (the real one)
+The home page's Travel card (`src/components/discovery/FullFlightsLane.tsx` → `FeaturedFlightLaunchModal.tsx`) calls `loadPreset(travel-60)` + `launchLesson()` directly — **no destination, no trip pack**. Every trip stop (`trip-arrival`, `trip-getting-there`, `trip-directions`, `trip-attractions`, `trip-meal`) plus `boarding-call` arrives content-less and city-less; the generate route just warns "Unknown activity". Same exposure applies to ANY non-World-Flight launch surface for `travel-60` (check the planner presets tab and Explore/Discovery paths too).
+**Owner-recommended fix:** route the Travel card into the World Flight two-step picker (destination first, `world-flight-page.tsx` builds the trip pack) instead of direct-launching.
+**ASK FIRST:** confirm (a) redirect-to-World-Flight vs (b) adding a destination picker to the launch modal vs (c) hiding Travel from non-WF surfaces; and enumerate which surfaces can currently launch travel-60 so none are missed.
+
+### J2 — Stale comment in the travel preset (cosmetic)
+`flight-plan-presets.ts` (travel-60 block, ~line 541) still says "trip-getting-there / trip-hotel / trip-meal reuse the ConversationRounds engine" — only `trip-hotel` does now; getting-there and meal are purpose-built on `PerformedExchange`. Fix the comment.
+
+### J3 — Arrival AI scripts lose the per-traveller name hint (cosmetic)
+The deterministic arrival script personalises a hint ("How long is {name}'s trip?"); AI-generated lines can't (tokens are applied once per scene, not per traveller, for arrival). Optional: support a `{traveller}` token in `applyTripTokens` calls where the consumer re-applies per traveller (getting-there/meal already re-apply per traveller — arrival applies once). Low value; skip if fiddly.
+
+### J4 — Design observation, NO CHANGE unless owner asks
+`recordFeature` couples Travel featured turns into the global fair-picker `callCounts` — students who performed at travel stops are deprioritised by the general "Up next" picker. Intended and defensible; documented here so it's a decision, not an accident.
