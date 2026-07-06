@@ -139,6 +139,7 @@ RULES:
 - Each line is one natural spoken sentence (max ~18 words).
 - ${brief.tokenRules}
 - ${brief.blankRule} A "___" blank is for the STUDENT to say their own words — do NOT fill it in.
+- You may use {traveller} inside a hint to refer to the current traveller by name (e.g. "How long is {traveller}'s trip?").
 - Do not use any other curly-brace tokens than the ones named above.
 
 Return JSON: { "lines": [ { "speaker": "service" | "traveller", "text": "...", "hint": "optional short hint for a blank" } ] }.`;

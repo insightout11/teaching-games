@@ -53,7 +53,7 @@ export function TripArrivalActivity({
   const [lockedLines, setLockedLines] = useState<ExchangeLine[] | null>(null);
 
   const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
-    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, airport: content.airport });
+    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, airport: content.airport, traveller: traveller?.name ?? 'the traveller' });
     const name = traveller ? traveller.name : 'traveller';
     if (tier === 'basic') {
       return [

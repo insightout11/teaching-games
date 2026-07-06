@@ -8,6 +8,7 @@
 // (see docs/world-flight-presets-direction.md).
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { PresetCard, type PresetCardData } from './PresetCard';
 import { CardRail } from './CardRail';
 import { FeaturedFlightLaunchModal } from './FeaturedFlightLaunchModal';
@@ -102,9 +103,16 @@ const DEBATE_CARD: PresetCardData = {
 };
 
 export function FullFlightsLane() {
+  const router = useRouter();
   const [launchPreset, setLaunchPreset] = useState<FlightPlanPreset | null>(null);
 
   function handleSelect(id: string) {
+    // Travel needs a destination + trip pack, which only the World Flight picker builds — route
+    // it there (with the preset preselected) instead of the direct-launch modal.
+    if (id === 'travel-60') {
+      router.push('/world-flight?preset=travel-60');
+      return;
+    }
     const preset = FLIGHT_PLAN_PRESETS.find((p) => p.id === id);
     if (preset) setLaunchPreset(preset);
   }

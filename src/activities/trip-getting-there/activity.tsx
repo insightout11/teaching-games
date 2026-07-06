@@ -113,7 +113,7 @@ export function TripGettingThereActivity({
     const mode = option?.mode ?? '___';
     const cost = option?.approxCost ?? '___';
     const time = option?.approxTimeMin != null ? String(option.approxTimeMin) : '___';
-    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, mode, cost, time });
+    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, mode, cost, time, traveller: traveller?.name ?? 'the traveller' });
     if (tier === 'basic') {
       return [
         { speaker: 'service', text: 'Hello! Where are you going?' },

@@ -61,4 +61,12 @@ describe('applyTripTokens', () => {
     );
     expect(out[0].text).toBe('The coddle in Dublin, and a ___.');
   });
+
+  it('substitutes the {traveller} token in hints', () => {
+    const out = applyTripTokens(
+      [{ speaker: 'traveller', text: 'For ___ days.', hint: 'How long is {traveller}’s trip?' }],
+      { traveller: 'Ana' },
+    );
+    expect(out[0].hint).toBe('How long is Ana’s trip?');
+  });
 });

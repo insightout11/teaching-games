@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { usePlannerStore } from '@/stores/planner-store';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset } from '@/lib/flight-plan-presets';
 import { PresetCard } from './preset-card';
@@ -10,11 +11,18 @@ import { DescribePanel } from './describe-panel';
 import { Paperclip } from 'lucide-react';
 
 export function MissionSetupScreen() {
+  const router = useRouter();
   const { sourceMaterial, setTopic, setStep, loadPreset } = usePlannerStore();
   const [pendingPreset, setPendingPreset] = useState<FlightPlanPreset | null>(null);
   const [showSource, setShowSource] = useState(false);
 
   function handlePresetClick(preset: FlightPlanPreset) {
+    // Travel needs a destination + trip pack, which only the World Flight picker builds — route
+    // it there (with the preset preselected) instead of the planner's direct flow.
+    if (preset.id === 'travel-60') {
+      router.push('/world-flight?preset=travel-60');
+      return;
+    }
     // Source-backed lessons and presets without scenarios load directly.
     if (sourceMaterial || !preset.scenarios) {
       loadPreset(preset);

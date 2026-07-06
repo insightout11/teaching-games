@@ -107,7 +107,7 @@ export function TripMealActivity({
   const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
     const dish = dishFor(traveller);
     const dishName = dish?.name ?? '___';
-    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, dish: dishName, whatItIs: dish?.whatItIs ?? '' });
+    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, dish: dishName, whatItIs: dish?.whatItIs ?? '', traveller: traveller?.name ?? 'the traveller' });
     if (tier === 'basic') {
       return [
         { speaker: 'service', text: 'Hello! What would you like?' },

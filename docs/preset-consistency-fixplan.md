@@ -151,3 +151,11 @@ The deterministic arrival script personalises a hint ("How long is {name}'s trip
 
 ### J4 — Design observation, NO CHANGE unless owner asks
 `recordFeature` couples Travel featured turns into the global fair-picker `callCounts` — students who performed at travel stops are deprioritised by the general "Up next" picker. Intended and defensible; documented here so it's a decision, not an accident.
+
+---
+
+### Stage J — resolution (Jul 2026)
+- **J1** FIXED (redirect approach): the two broken surfaces — home "Full Lessons" Travel card (`FullFlightsLane`) and the planner preset grid (`mission-setup-screen`) — now route to `/world-flight?preset=travel-60`, where the two-step picker builds the trip pack. `world-flight-page` reads the `?preset=` param, preselects that plan, and pins it against the genre auto-recommendation until the teacher manually picks another. Enumerated safe surfaces (unchanged): World Flight picker (correct), FeaturedFlightHero (defaults to Captain's), ReadyToTeachLane (no travel-60 ready lesson), RecommendedLane (prototype, no launch), Explore (launches modules, not presets).
+- **J2** FIXED: stale ConversationRounds comment in the travel-60 block corrected (only trip-hotel uses it now).
+- **J3** DONE: `{traveller}` token added to `applyTripTokens` (all three scripted stops) + permitted in the trip-script prompt, so AI arrival lines can personalise a name hint like the deterministic script.
+- **J4** NO CHANGE (documented decision, as instructed).

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker as MapLibreMarker, type Popup as MapLibrePopup } from 'maplibre-gl';
 import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, Clock3, Compass, ExternalLink, Gauge, Globe2, Info, Loader2, Lock, Map as MapIcon, MapPin, Minus, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Plane, PlaneTakeoff, Play, Plus, Radar, RotateCcw, Route, ScanSearch, Search, Shuffle, Sparkles, Stamp, Star, Trophy, X } from 'lucide-react';
@@ -1381,7 +1381,13 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [selectedDestinationId, setSelectedDestinationId] = useState(() => initialDestinationId(initialClasses));
   const [selectedFocusId, setSelectedFocusId] = useState<string | null>(null);
   // World-Flight-eligible flight plans (grows as Debate/Travel are authored).
-  const [selectedPresetId, setSelectedPresetId] = useState<string>('all-around-flight-60');
+  // A ?preset= param (e.g. from the Travel card, which must launch through here to get a trip
+  // pack) preselects that plan and pins it so the genre auto-recommendation won't override it.
+  const WF_PRESET_IDS = ['all-around-flight-60', 'speak-60', 'travel-60', 'debate-60'];
+  const presetParam = useSearchParams().get('preset');
+  const pinnedPresetId = presetParam && WF_PRESET_IDS.includes(presetParam) ? presetParam : null;
+  const [selectedPresetId, setSelectedPresetId] = useState<string>(pinnedPresetId ?? 'all-around-flight-60');
+  const presetPinnedRef = useRef<boolean>(Boolean(pinnedPresetId));
   const [launchStep, setLaunchStep] = useState<'source' | 'flight-plan'>('source');
   const worldFlightPresets = ['all-around-flight-60', 'speak-60', 'travel-60', 'debate-60']
     .map((id) => FLIGHT_PLAN_PRESETS.find((p) => p.id === id))
@@ -1515,7 +1521,10 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   // Reset to the source step whenever the city changes.
   useEffect(() => { setLaunchStep('source'); }, [selectedDestination?.id]);
   // Pick content → pre-select the recommended flight plan (teacher can override in step 2).
+  // A URL-pinned preset (e.g. Travel from the home card) is honoured until the teacher manually
+  // picks a different plan in step 2.
   useEffect(() => {
+    if (presetPinnedRef.current) return;
     if (recommendedPresetId) setSelectedPresetId(recommendedPresetId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFocusId]);
@@ -3137,7 +3146,7 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
                       <button
                         key={preset.id}
                         type="button"
-                        onClick={() => setSelectedPresetId(preset.id)}
+                        onClick={() => { presetPinnedRef.current = false; setSelectedPresetId(preset.id); }}
                         className={`flex w-full items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left transition-colors ${selected ? 'border-cyan-300/60 bg-cyan-300/[0.08]' : 'border-white/10 bg-white/[0.025] hover:border-white/20'}`}
                       >
                         <PlaneTakeoff className={`h-4 w-4 shrink-0 ${selected ? 'text-cyan-300' : 'text-lc-text3'}`} aria-hidden />
