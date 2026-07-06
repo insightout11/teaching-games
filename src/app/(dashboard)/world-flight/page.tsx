@@ -15,7 +15,11 @@ import type { WorldFlightExpeditionRunSummary, WorldFlightExpeditionStatus } fro
 
 export const dynamic = 'force-dynamic';
 
-export default async function WorldFlightRoutePage() {
+export default async function WorldFlightRoutePage({
+  searchParams,
+}: {
+  searchParams: { preset?: string };
+}) {
   const supabase = createServerSupabase();
   const { data: classes } = await supabase
     .from('classes')
@@ -182,5 +186,5 @@ export default async function WorldFlightRoutePage() {
     };
   });
 
-  return <WorldFlightPage initialClasses={initialClasses} />;
+  return <WorldFlightPage initialClasses={initialClasses} initialPresetId={searchParams.preset} />;
 }

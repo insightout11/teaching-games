@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker as MapLibreMarker, type Popup as MapLibrePopup } from 'maplibre-gl';
 import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, Clock3, Compass, ExternalLink, Gauge, Globe2, Info, Loader2, Lock, Map as MapIcon, MapPin, Minus, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Plane, PlaneTakeoff, Play, Plus, Radar, RotateCcw, Route, ScanSearch, Search, Shuffle, Sparkles, Stamp, Star, Trophy, X } from 'lucide-react';
@@ -1365,7 +1365,7 @@ function FocusButton({
   );
 }
 
-export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFlightClassSummary[] }) {
+export function WorldFlightPage({ initialClasses, initialPresetId }: { initialClasses: WorldFlightClassSummary[]; initialPresetId?: string }) {
   const router = useRouter();
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -1381,11 +1381,12 @@ export function WorldFlightPage({ initialClasses }: { initialClasses: WorldFligh
   const [selectedDestinationId, setSelectedDestinationId] = useState(() => initialDestinationId(initialClasses));
   const [selectedFocusId, setSelectedFocusId] = useState<string | null>(null);
   // World-Flight-eligible flight plans (grows as Debate/Travel are authored).
-  // A ?preset= param (e.g. from the Travel card, which must launch through here to get a trip
-  // pack) preselects that plan and pins it so the genre auto-recommendation won't override it.
+  // An initial preset (from the route's ?preset= param — e.g. the Travel card, which must launch
+  // through here to get a trip pack) preselects that plan and pins it so the genre
+  // auto-recommendation won't override it. Read at the (dynamic) route page and passed as a prop,
+  // NOT via useSearchParams — this component is also embedded in statically-prerendered dev pages.
   const WF_PRESET_IDS = ['all-around-flight-60', 'speak-60', 'travel-60', 'debate-60'];
-  const presetParam = useSearchParams().get('preset');
-  const pinnedPresetId = presetParam && WF_PRESET_IDS.includes(presetParam) ? presetParam : null;
+  const pinnedPresetId = initialPresetId && WF_PRESET_IDS.includes(initialPresetId) ? initialPresetId : null;
   const [selectedPresetId, setSelectedPresetId] = useState<string>(pinnedPresetId ?? 'all-around-flight-60');
   const presetPinnedRef = useRef<boolean>(Boolean(pinnedPresetId));
   const [launchStep, setLaunchStep] = useState<'source' | 'flight-plan'>('source');
