@@ -142,7 +142,7 @@ export function TripGettingThereActivity({
   const start = () => { setPhase('choose'); onPhaseChange?.('choose'); };
   const toRoleplay = () => {
     if (classPick) {
-      addTripLogEntry({ stageId: 'getting-there', text: `Took the ${classPick.mode} into ${content.city}` });
+      addTripLogEntry({ stageId: 'getting-there', text: `Took the ${classPick.mode} into ${content.city}`, vocab: [classPick.mode] });
     }
     setPhase('roleplay');
     onPhaseChange?.('roleplay');

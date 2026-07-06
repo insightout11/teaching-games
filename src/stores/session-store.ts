@@ -67,6 +67,9 @@ export const WHEEL_SEGMENTS: Array<{ modifier: TurnModifier; weight: number }> =
 export interface TripLogEntry {
   stageId: string;
   text: string;
+  /** The stop's real anchor words (the dish ordered, transport taken, attraction visited) —
+   *  surfaced as vocab chips in the Trip Recap landing. */
+  vocab?: string[];
 }
 
 interface SessionState {

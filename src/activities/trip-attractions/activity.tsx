@@ -118,7 +118,7 @@ export function TripAttractionsActivity({
     if (!winnerId) setWinnerId(chosen.id);
     const drawn = drawTravelMoment({ place: chosen.name, localColor: content.localColor });
     setMoment(drawn);
-    addTripLogEntry({ stageId: 'attraction', text: `Visited ${chosen.name} — ${drawn.situation}` });
+    addTripLogEntry({ stageId: 'attraction', text: `Visited ${chosen.name} — ${drawn.situation}`, vocab: [chosen.name] });
     setPhase('moment');
     onPhaseChange?.('moment');
   };

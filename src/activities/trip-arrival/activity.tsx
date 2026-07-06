@@ -87,7 +87,7 @@ export function TripArrivalActivity({
 
   const start = () => { setPhase('running'); onPhaseChange?.('running'); };
   const finish = useCallback(() => {
-    addTripLogEntry({ stageId: 'arrival', text: `Cleared immigration at ${content.airport}` });
+    addTripLogEntry({ stageId: 'arrival', text: `Cleared immigration at ${content.airport}`, vocab: [content.airport] });
     setPhase('done');
     onPhaseChange?.('finished');
   }, [addTripLogEntry, content.airport, onPhaseChange]);

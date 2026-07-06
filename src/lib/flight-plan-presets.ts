@@ -537,7 +537,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     // launch via the trip pack — there's no single playable video / readable passage.
     skipSourceBriefing: true,
     takeoff: 'character-cards',
-    landing: 'in-your-words',
+    landing: 'trip-recap',
     // The fixed trip spine. trip-getting-there / trip-hotel / trip-meal reuse the
     // ConversationRounds engine but are distinct keys, each grounded on its own stage source
     // so the roleplays play differently. trip-attractions is seeded from the city's real
@@ -569,7 +569,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         'trip-hotel': 'hotel',
         'trip-attractions': 'attraction',
         'trip-meal': 'local-table',
-        'in-your-words': 'landing',
+        'trip-recap': 'landing',
       },
     },
   },

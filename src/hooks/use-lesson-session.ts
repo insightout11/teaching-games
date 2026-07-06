@@ -35,6 +35,8 @@ const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-ro
 // the dispatcher's copy — so prefetching it is a wasted AI generation. Keep this
 // in sync with games that read preGeneratedContent in their component.
 const GAMES_WITH_PREFETCHED_CONTENT = new Set(['vocab-sprint', 'story-sprint']);
+// Activities that seed their own content from the session store (no AI generation / prefetch).
+const SELF_SEEDED_ACTIVITIES = new Set(['trip-recap']);
 
 // ─── sessionStorage reader ─────────────────────────────────────────────────
 
@@ -206,6 +208,9 @@ export function useLessonSession(
     // Self-generating games ignore preGeneratedContent — skip the wasted prefetch.
     if (slot.type === 'game' && !GAMES_WITH_PREFETCHED_CONTENT.has(key)) return;
 
+    // Self-seeded activities (content comes from the session store, not AI) — skip prefetch.
+    if (SELF_SEEDED_ACTIVITIES.has(key)) return;
+
     const needsSourceVocab = lessonSlots.some((s) => s.key === 'language-toolkit');
 
     // Don't prefetch language-toolkit until canonical vocab is ready — it would generate a second list
@@ -259,6 +264,10 @@ export function useLessonSession(
   const selectActivity = useCallback(async (activity: ActivityPlugin): Promise<ActivityGeneratedContent | null> => {
     if (activity.key === 'cabin-mystery') {
       return { ...switchedSuitcase, topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
+    }
+    // Trip Recap seeds itself from the session trip log — no AI generation.
+    if (activity.key === 'trip-recap') {
+      return { activityKey: 'trip-recap', topicContext: lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings) };
     }
 
     // Prefetched content

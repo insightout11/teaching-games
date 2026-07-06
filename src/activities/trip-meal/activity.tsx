@@ -135,7 +135,7 @@ export function TripMealActivity({
   const toOrder = () => {
     const ordered = Array.from(new Set(Object.values(picks)));
     if (ordered.length > 0) {
-      addTripLogEntry({ stageId: 'local-table', text: `Ate ${ordered.join(', ')} in ${content.city}` });
+      addTripLogEntry({ stageId: 'local-table', text: `Ate ${ordered.join(', ')} in ${content.city}`, vocab: ordered });
     }
     setPhase('order');
     onPhaseChange?.('order');
