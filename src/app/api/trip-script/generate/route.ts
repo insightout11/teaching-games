@@ -16,7 +16,8 @@ import {
 export const dynamic = 'force-dynamic';
 
 const GAME_KEY = 'trip-script';
-const SCHEMA_VERSION = 1;
+// v2: meal scripts now require the {whatItIs} grounding token (waiter no longer invents ingredients).
+const SCHEMA_VERSION = 2;
 const VALID_STOPS: TripStopKey[] = ['arrival', 'getting-there', 'meal'];
 
 const schema: AISchema = {

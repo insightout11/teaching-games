@@ -6,6 +6,8 @@ const good: TripExchangeLine[] = [
   { speaker: 'traveller', text: "Yes — I'd like the {dish}, please." },
   { speaker: 'service', text: 'Good choice. Anything to drink?' },
   { speaker: 'traveller', text: '___, please.', hint: 'water, juice…' },
+  { speaker: 'traveller', text: "What's in the {dish}?" },
+  { speaker: 'service', text: "It's {whatItIs} — one of our favourites." },
 ];
 
 describe('validateTripScript', () => {
@@ -18,13 +20,27 @@ describe('validateTripScript', () => {
     expect(validateTripScript(noDish, 'meal')).toBeNull();
   });
 
+  it('rejects a meal script that does not ground the dish description with {whatItIs}', () => {
+    const ungrounded = good.map((l) => ({
+      ...l,
+      text: l.text.replace('{whatItIs}', 'a hearty stew with slow-cooked lamb'),
+    }));
+    expect(validateTripScript(ungrounded, 'meal')).toBeNull();
+  });
+
   it('rejects a script with no student blank', () => {
     const noBlank = good.map((l) => ({ ...l, text: l.text.replace('___', 'water') }));
     expect(validateTripScript(noBlank, 'meal')).toBeNull();
   });
 
   it('rejects a script that does not start with the service speaker', () => {
-    expect(validateTripScript([...good].reverse(), 'meal')).toBeNull();
+    const travellerFirst: TripExchangeLine[] = [
+      { speaker: 'traveller', text: "I'd like the {dish}, please." },
+      { speaker: 'service', text: "It's {whatItIs}. Anything to drink?" },
+      { speaker: 'traveller', text: '___, please.', hint: 'water, juice…' },
+      { speaker: 'service', text: 'Coming right up!' },
+    ];
+    expect(validateTripScript(travellerFirst, 'meal')).toBeNull();
   });
 
   it('rejects more than two consecutive lines from the same speaker', () => {

@@ -23,7 +23,9 @@ export type TripScriptTier = 'basic' | 'standard' | 'advanced';
 export const REQUIRED_TOKENS: Record<TripStopKey, string[]> = {
   arrival: [],
   'getting-there': ['{mode}'],
-  meal: ['{dish}'],
+  // {whatItIs} grounds the waiter's "what's in it" answer on the real dish description — without it
+  // the AI invents ingredients that mismatch the traveller's chosen dish (e.g. lamb stew for fish & chips).
+  meal: ['{dish}', '{whatItIs}'],
 };
 
 const MAX_LINE_LEN = 120;
@@ -118,7 +120,7 @@ const STOP_BRIEF: Record<TripStopKey, { role: string; scene: string; tokenRules:
   meal: {
     role: 'a waiter (service) and a traveller ordering a meal',
     scene: 'a local restaurant — the traveller orders, asks what is in the dish, and wraps up',
-    tokenRules: 'You MUST use {dish} wherever the ordered dish goes — never invent a dish name. You may use {city} for the city.',
+    tokenRules: 'You MUST use {dish} wherever the ordered dish goes — never invent a dish name. When the waiter says what is in the dish, you MUST phrase it around the {whatItIs} token (e.g. "It\'s {whatItIs} — one of our favourites.") and NEVER invent ingredients, because the real dish varies per traveller. You may use {city} for the city.',
     blankRule: 'Leave at least one `___` blank for a traveller choice (a drink, or how they like it), with a hint.',
   },
 };
