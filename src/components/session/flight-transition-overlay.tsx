@@ -152,9 +152,44 @@ function TransitionRain({ intensity }: { intensity: number }) {
   );
 }
 
+// Randomized SVG snow — flakes are scattered (a memoized random field, NOT a tiled
+// CSS gradient, which lines them up in a visible grid that streams as dotted
+// columns). One vertical TILE of flakes is repeated and translated by exactly one
+// TILE for a seamless fall; a slow horizontal sway on the whole field, plus small
+// per-flake radius/opacity variation, breaks up any residual banding so it reads
+// as drifting snow rather than lines.
+function TransitionSnow({ intensity }: { intensity: number }) {
+  const flakes = useMemo(() => {
+    const k = Math.min(1.3, Math.max(0.4, intensity));
+    const count = Math.round(90 * k);
+    return Array.from({ length: count }, () => ({
+      x: Math.random() * RAIN_VBW,
+      y: Math.random() * RAIN_TILE,
+      r: 1.4 + Math.random() * 2.6,
+      o: 0.45 + Math.random() * 0.5,
+    }));
+  }, [intensity]);
+  const fall = 7.5 / Math.max(0.5, intensity);
+  return (
+    <svg viewBox={`0 0 ${RAIN_VBW} ${RAIN_VBH}`} preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
+      <motion.g animate={{ x: [0, 26, 0] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}>
+        <motion.g animate={{ y: [0, RAIN_TILE] }} transition={{ duration: fall, repeat: Infinity, ease: 'linear' }}>
+          {RAIN_TILES.map((t) => (
+            <g key={t} transform={`translate(0 ${t * RAIN_TILE})`}>
+              {flakes.map((d, i) => (
+                <circle key={i} cx={d.x} cy={d.y} r={d.r} fill={`rgba(255,255,255,${d.o})`} />
+              ))}
+            </g>
+          ))}
+        </motion.g>
+      </motion.g>
+    </svg>
+  );
+}
+
 // Full-screen precipitation + lightning for the sky-only cruise legs (city legs
-// render weather inside their own scene). Snow/lightning use CSS sheets defined
-// in globals.css; rain is the randomized SVG field above.
+// render weather inside their own scene). Rain and snow are randomized SVG fields
+// above; lightning uses the CSS flash sheet defined in globals.css.
 function TransitionPrecip({ weather }: { weather: WeatherCondition }) {
   const p = WEATHER_PROFILE[weather];
   if (p.rain === 0 && p.snow === 0 && !p.lightning && p.dim === 0) return null;
@@ -162,7 +197,7 @@ function TransitionPrecip({ weather }: { weather: WeatherCondition }) {
     <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 14 }}>
       {p.dim > 0 && <div className="absolute inset-0" style={{ background: 'rgb(16,24,42)', opacity: p.dim * 0.5 }} />}
       {p.rain > 0 && <TransitionRain intensity={p.rain} />}
-      {p.snow > 0 && <div className="lc-snow-sheet absolute inset-0" style={{ opacity: 0.5 + p.snow * 0.4 }} />}
+      {p.snow > 0 && <TransitionSnow intensity={p.snow} />}
       {p.lightning && <div className="lc-lightning-flash absolute inset-0" />}
     </div>
   );

@@ -110,23 +110,15 @@ html[data-theme="light"] .glass {
 }
 
 /* ── Flight-transition weather sheets (full-screen, behind the cloud pass) ─── */
-/* Rain is rendered as a randomized SVG field in flight-transition-overlay.tsx
-   (a CSS gradient can only tile drops onto a visible grid). Snow + lightning
-   stay here. */
-@keyframes lc-snow { from { background-position: 0 0, 0 0; } to { background-position: 40px 640px, -30px 760px; } }
+/* Rain and snow are rendered as randomized SVG fields in
+   flight-transition-overlay.tsx (a CSS gradient can only tile drops onto a
+   visible grid, which streams as dotted lines). Lightning stays here. */
 @keyframes lc-lightning {
   0%, 74%, 100% { opacity: 0; }
   76% { opacity: 0.85; }
   79% { opacity: 0.12; }
   83% { opacity: 0.6; }
   87% { opacity: 0; }
-}
-.lc-snow-sheet {
-  background-image:
-    radial-gradient(rgba(255,255,255,0.95) 1.6px, transparent 2.4px),
-    radial-gradient(rgba(255,255,255,0.7) 1.2px, transparent 2px);
-  background-size: 28px 28px, 44px 44px;
-  animation: lc-snow 7s linear infinite;
 }
 .lc-lightning-flash {
   background: rgba(214, 226, 255, 0.9);
