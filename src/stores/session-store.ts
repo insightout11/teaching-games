@@ -121,6 +121,9 @@ interface SessionState {
   setPickerMode: (mode: PickerMode) => void;
   setGameMode: (mode: GameMode) => void;
   setCurrentStudent: (studentId: string) => void;
+  /** Bump a student's call count without changing the current student — used by the Travel
+   *  arc to spread featured traveller turns fairly ACROSS stops (least-featured go first). */
+  recordFeature: (studentId: string) => void;
   pickStudent: () => string | null;
   spinWheel: () => TurnModifier;
   clearModifier: () => void;
@@ -292,6 +295,11 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       needsSpin: false,
       turnModifier: null,
     });
+  },
+
+  recordFeature: (studentId) => {
+    const { callCounts } = get();
+    set({ callCounts: { ...callCounts, [studentId]: (callCounts[studentId] ?? 0) + 1 } });
   },
 
   pickStudent: () => {

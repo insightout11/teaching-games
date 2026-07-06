@@ -5,8 +5,14 @@ import type { ComponentType } from 'react';
 import { ChevronRight, Users } from 'lucide-react';
 import type { Difficulty } from '@/lib/difficulty';
 import type { Student } from '@/lib/supabase/types';
+import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
 import { useTravelRoles, TravelRoleBanner, SwapRoleButton } from './travel-roles';
+
+// Soft default: feature about this many travellers per stop before the primary button suggests
+// wrapping up. Never a hard cap — "NEXT TRAVELLER" stays available until everyone has gone, and
+// the teacher can keep rotating past that. Scaled to class size so tiny classes finish everyone.
+const WRAP_SUGGESTION = 3;
 
 // Line-by-line performed dialogue engine for the Travel arc's functional stops (Arrival,
 // Getting There ticket desk, Local Table ordering). This is the scaffolded structure the
@@ -88,12 +94,19 @@ export function PerformedExchange({
   onFinished,
 }: PerformedExchangeProps) {
   const { service, others, swap, canSwap } = useTravelRoles(students);
-  // Travellers queue: every non-service student takes a full turn. With no roster, one
-  // unnamed "class" turn so the scene still runs.
-  const travellers = useMemo<Array<Student | null>>(
-    () => (others.length > 0 ? others : [null]),
-    [others],
-  );
+  const recordFeature = useSessionStore((s) => s.recordFeature);
+  // Travellers queue, ordered by fair rotation ACROSS stops: least-featured students (lowest
+  // session callCounts) go first, so featured turns spread over the whole trip instead of always
+  // starting with the top of the roster. Snapshotted once at mount so the order doesn't reshuffle
+  // mid-stop as we record features. With no roster, one unnamed "class" turn so the scene still runs.
+  const travellers = useMemo<Array<Student | null>>(() => {
+    if (others.length === 0) return [null];
+    const counts = useSessionStore.getState().callCounts;
+    return [...others].sort((a, b) => (counts[a.id] ?? 0) - (counts[b.id] ?? 0));
+  }, [others]);
+
+  // Soft wrap suggestion, scaled down for small classes so everyone goes before "WRAP UP" appears.
+  const wrapThreshold = Math.min(travellers.length, WRAP_SUGGESTION);
 
   const [turnIndex, setTurnIndex] = useState(0);
   const [lineIndex, setLineIndex] = useState(0);
@@ -105,6 +118,9 @@ export function PerformedExchange({
   const script = useMemo(() => scriptFor(traveller), [scriptFor, traveller]);
   const turnDone = lineIndex >= script.length;
   const isLastTurn = turnIndex >= travellers.length - 1;
+  // Once the current turn completes we'll have featured turnIndex + 1 travellers; at/past the
+  // soft threshold the primary action becomes "WRAP UP" (but NEXT TRAVELLER stays available).
+  const reachedWrap = turnIndex + 1 >= wrapThreshold;
 
   // Scaffolding on student devices: both roles' key phrases, spoken-first (confirm only).
   useEffect(() => {
@@ -130,10 +146,12 @@ export function PerformedExchange({
     setLineIndex((i) => Math.min(i + 1, script.length));
   }, [script.length]);
 
-  const completeTurn = useCallback(async () => {
-    // Score the traveller who just performed (once per turn).
+  // Score + record the traveller who just performed (once per turn). Recording bumps their
+  // session callCount so they're deprioritised as a featured traveller at the next stop.
+  const scoreCurrentTraveller = useCallback(async () => {
     if (traveller && !scoredTurnsRef.current.has(turnIndex)) {
       scoredTurnsRef.current.add(turnIndex);
+      recordFeature(traveller.id);
       await onScore?.({
         studentId: traveller.id,
         clientId: null,
@@ -143,25 +161,32 @@ export function PerformedExchange({
         isCorrect: null,
       });
     }
-    if (isLastTurn) {
-      // The service student held the scene the whole time — score them once.
-      if (service && !serviceScoredRef.current) {
-        serviceScoredRef.current = true;
-        await onScore?.({
-          studentId: service.id,
-          clientId: null,
-          displayName: service.name,
-          promptIndex: travellers.length + 1,
-          points: 3,
-          isCorrect: null,
-        });
-      }
-      onFinished();
-      return;
-    }
+  }, [traveller, turnIndex, onScore, recordFeature]);
+
+  // Feature the next traveller (soft default — always available until everyone has gone).
+  const nextTraveller = useCallback(async () => {
+    await scoreCurrentTraveller();
     setTurnIndex((i) => i + 1);
     setLineIndex(0);
-  }, [traveller, turnIndex, isLastTurn, service, travellers.length, onScore, onFinished]);
+  }, [scoreCurrentTraveller]);
+
+  // End the stop. The current traveller performed, so score them; the service student held the
+  // scene the whole time — score them once too.
+  const finish = useCallback(async () => {
+    await scoreCurrentTraveller();
+    if (service && !serviceScoredRef.current) {
+      serviceScoredRef.current = true;
+      await onScore?.({
+        studentId: service.id,
+        clientId: null,
+        displayName: service.name,
+        promptIndex: travellers.length + 1,
+        points: 3,
+        isCorrect: null,
+      });
+    }
+    onFinished();
+  }, [scoreCurrentTraveller, service, travellers.length, onScore, onFinished]);
 
   const speakerName = (line: ExchangeLine) =>
     line.speaker === 'service'
@@ -230,12 +255,38 @@ export function PerformedExchange({
             : 'Students speak the highlighted line, then advance.'}
         </p>
         {turnDone ? (
-          <button
-            onClick={() => void completeTurn()}
-            className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]"
-          >
-            {isLastTurn ? 'FINISH' : `NEXT ${travellerRole.toUpperCase()} · +3`}
-          </button>
+          isLastTurn ? (
+            <button
+              onClick={() => void finish()}
+              className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]"
+            >
+              FINISH
+            </button>
+          ) : reachedWrap ? (
+            // Soft default reached: WRAP UP is the primary action, but featuring another
+            // traveller stays available (no hard cap).
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => void nextTraveller()}
+                className="rounded-xl border border-white/15 bg-white/5 px-5 py-3 font-game text-sm text-slate-200 transition hover:bg-white/10"
+              >
+                NEXT {travellerRole.toUpperCase()} · +3
+              </button>
+              <button
+                onClick={() => void finish()}
+                className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]"
+              >
+                WRAP UP
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => void nextTraveller()}
+              className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]"
+            >
+              NEXT {travellerRole.toUpperCase()} · +3
+            </button>
+          )
         ) : (
           <button
             onClick={advanceLine}

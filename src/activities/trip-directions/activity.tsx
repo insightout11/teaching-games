@@ -185,15 +185,18 @@ export function TripDirectionsActivity({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSetInputSpec, onPhaseChange, onScore, landmarks]);
 
-  const next = useCallback(() => {
+  // Soft default is ONE round: after the first reveal the primary action is FINISH. "Another
+  // round" stays available with no hard cap — the guide rotates and the destination cycles
+  // through the city's landmarks (wrapping), so a teacher can keep going as long as they like.
+  const finish = useCallback(() => {
+    onSetInputSpec?.(null);
+    setPhase('done');
+    phaseRef.current = 'done';
+    onPhaseChange?.('finished');
+  }, [onSetInputSpec, onPhaseChange]);
+
+  const anotherRound = useCallback(() => {
     const ni = roundIndexRef.current + 1;
-    if (ni >= landmarks.length) {
-      onSetInputSpec?.(null);
-      setPhase('done');
-      phaseRef.current = 'done';
-      onPhaseChange?.('finished');
-      return;
-    }
     roundIndexRef.current = ni;
     setRoundIndex(ni);
     guessesRef.current = [];
@@ -206,7 +209,7 @@ export function TripDirectionsActivity({
     phaseRef.current = 'guiding';
     onPhaseChange?.('guiding');
     broadcast(ni, nextGuide);
-  }, [broadcast, landmarks.length, onSetInputSpec, onPhaseChange, pickRandomGuide]);
+  }, [broadcast, onPhaseChange, pickRandomGuide]);
 
   const ranked = useMemo(() => [...guesses].sort((a, b) => a.distanceKm - b.distanceKm), [guesses]);
 
@@ -297,7 +300,7 @@ export function TripDirectionsActivity({
     <div className="space-y-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Find Your Way · Round {roundIndex + 1} of {landmarks.length}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Find Your Way · Round {roundIndex + 1}</p>
           <h3 className="mt-1 text-2xl font-game text-white">From {content.start.name}…</h3>
           <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-300"><Users className="h-4 w-4 text-cyan-300" />Guide: <span className="font-semibold text-white">{guideDevice?.name ?? '—'}</span></p>
         </div>
@@ -369,7 +372,10 @@ export function TripDirectionsActivity({
               {ranked.length === 0 && <span className="text-xs text-slate-400">No pins dropped.</span>}
             </div>
           </div>
-          <button onClick={next} className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">{roundIndex + 1 >= landmarks.length ? 'FINISH' : 'NEXT ROUND'}</button>
+          <div className="flex items-center gap-2">
+            <button onClick={anotherRound} className="rounded-xl border border-white/15 bg-white/5 px-5 py-3 font-game text-sm text-slate-200 transition hover:bg-white/10">ANOTHER ROUND</button>
+            <button onClick={finish} className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">FINISH</button>
+          </div>
         </div>
       )}
     </div>

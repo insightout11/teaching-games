@@ -545,7 +545,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
     moduleSequence: [
       { slotType: 'production', key: 'trip-arrival', stageId: 'arrival' },
       { slotType: 'production', key: 'trip-getting-there', stageId: 'getting-there' },
-      { slotType: 'practice', key: 'trip-directions', stageId: 'find-your-way' },
+      { slotType: 'practice', key: 'trip-directions', stageId: 'find-your-way', isMicroEvent: true },
       { slotType: 'production', key: 'trip-hotel', stageId: 'hotel' },
       { slotType: 'production', key: 'trip-attractions', stageId: 'attraction' },
       { slotType: 'production', key: 'trip-meal', stageId: 'local-table' },
@@ -555,7 +555,7 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
         { stageId: 'departures', label: 'Departures', kind: 'stage', phase: 'takeoff' },
         { stageId: 'arrival', label: 'Arrival', kind: 'stage', phase: 'climb' },
         { stageId: 'getting-there', label: 'Getting There', kind: 'stage', phase: 'climb' },
-        { stageId: 'find-your-way', label: 'Find Your Way', kind: 'stage', phase: 'cruise' },
+        { stageId: 'find-your-way', label: 'Find Your Way', kind: 'micro-event', phase: 'cruise' },
         { stageId: 'hotel', label: 'Hotel', kind: 'stage', phase: 'cruise' },
         { stageId: 'attraction', label: 'Out & About', kind: 'stage', phase: 'cruise' },
         { stageId: 'local-table', label: 'Local Table', kind: 'stage', phase: 'descent' },
