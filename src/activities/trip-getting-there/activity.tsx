@@ -7,6 +7,8 @@ import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripTransportContent, TripTransportOption } from '../types';
 import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
+import { useTripScript } from '../shared/use-trip-script';
+import { applyTripTokens } from '@/lib/trip-script';
 
 // Getting There stage of the Travel arc. Two halves:
 //  1. CHOOSE — the city's REAL ways in from the airport (mode + time + cost); students weigh
@@ -48,6 +50,14 @@ export function TripGettingThereActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [picks, setPicks] = useState<Record<string, string>>({}); // displayName -> mode
   const scoredRef = useRef<Set<string>>(new Set());
+
+  // AI-varied lines (grounded on the city); locked when the roleplay begins so it can't swap
+  // mid-scene. Per-traveller {mode}/{cost}/{time} are substituted at scriptFor time.
+  const aiLines = useTripScript(useMemo(
+    () => ({ stop: 'getting-there' as const, city: content.city, difficulty: sessionSettings.difficulty, tier, anchors: { airport: content.airport } }),
+    [content.city, content.airport, sessionSettings.difficulty, tier],
+  ));
+  const [lockedLines, setLockedLines] = useState<ExchangeLine[] | null>(null);
 
   const buildSpec = useCallback((): InputSpec => ({
     type: 'choice',
@@ -103,6 +113,7 @@ export function TripGettingThereActivity({
     const mode = option?.mode ?? '___';
     const cost = option?.approxCost ?? '___';
     const time = option?.approxTimeMin != null ? String(option.approxTimeMin) : '___';
+    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, mode, cost, time });
     if (tier === 'basic') {
       return [
         { speaker: 'service', text: 'Hello! Where are you going?' },
@@ -137,13 +148,14 @@ export function TripGettingThereActivity({
       { speaker: 'traveller', text: '___', hint: 'decide — stick with your choice or switch, and say why' },
       ...closing,
     ];
-  }, [optionFor, content.city, tier]);
+  }, [optionFor, content.city, tier, lockedLines]);
 
   const start = () => { setPhase('choose'); onPhaseChange?.('choose'); };
   const toRoleplay = () => {
     if (classPick) {
       addTripLogEntry({ stageId: 'getting-there', text: `Took the ${classPick.mode} into ${content.city}`, vocab: [classPick.mode] });
     }
+    setLockedLines(aiLines);
     setPhase('roleplay');
     onPhaseChange?.('roleplay');
   };

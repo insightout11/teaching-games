@@ -7,6 +7,8 @@ import type { Student } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 import type { ActivityProps, TripMealContent, TripDishOption } from '../types';
 import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
+import { useTripScript } from '../shared/use-trip-script';
+import { applyTripTokens } from '@/lib/trip-script';
 import { ExpandableImage } from '../shared/expandable-image';
 
 // Local Table stage of the Travel arc. Two halves:
@@ -49,6 +51,14 @@ export function TripMealActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [picks, setPicks] = useState<Record<string, string>>({}); // displayName -> dish name
   const scoredRef = useRef<Set<string>>(new Set());
+
+  // AI-varied lines (grounded on the city); locked when ordering begins so it can't swap
+  // mid-scene. The traveller's chosen {dish} (and its {whatItIs}) are substituted per traveller.
+  const aiLines = useTripScript(useMemo(
+    () => ({ stop: 'meal' as const, city: content.city, difficulty: sessionSettings.difficulty, tier }),
+    [content.city, sessionSettings.difficulty, tier],
+  ));
+  const [lockedLines, setLockedLines] = useState<ExchangeLine[] | null>(null);
 
   const buildSpec = useCallback((): InputSpec => ({
     type: 'choice',
@@ -97,6 +107,7 @@ export function TripMealActivity({
   const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
     const dish = dishFor(traveller);
     const dishName = dish?.name ?? '___';
+    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, dish: dishName, whatItIs: dish?.whatItIs ?? '' });
     if (tier === 'basic') {
       return [
         { speaker: 'service', text: 'Hello! What would you like?' },
@@ -129,7 +140,7 @@ export function TripMealActivity({
       { speaker: 'service', text: 'Of course.' },
       ...closing,
     ];
-  }, [dishFor, tier]);
+  }, [dishFor, tier, lockedLines, content.city]);
 
   const start = () => { setPhase('menu'); onPhaseChange?.('menu'); };
   const toOrder = () => {
@@ -137,6 +148,7 @@ export function TripMealActivity({
     if (ordered.length > 0) {
       addTripLogEntry({ stageId: 'local-table', text: `Ate ${ordered.join(', ')} in ${content.city}`, vocab: ordered });
     }
+    setLockedLines(aiLines);
     setPhase('order');
     onPhaseChange?.('order');
   };

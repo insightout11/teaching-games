@@ -6,6 +6,8 @@ import { useSessionStore } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 import type { ActivityProps, TripArrivalContent } from '../types';
 import { PerformedExchange, scriptTierFor, type ExchangeLine } from '../shared/performed-exchange';
+import { useTripScript } from '../shared/use-trip-script';
+import { applyTripTokens } from '@/lib/trip-script';
 
 // Arrival stage of the Travel arc. A deterministic immigration scene performed LINE BY LINE:
 // one immigration officer + the travellers present (real students), each traveller takes a
@@ -42,7 +44,16 @@ export function TripArrivalActivity({
   const addTripLogEntry = useSessionStore((s) => s.addTripLogEntry);
   const tier = scriptTierFor(sessionSettings.difficulty);
 
+  // AI-varied lines (grounded on the city + local colour); locked at scene start so it can't
+  // swap mid-scene. Falls back to the deterministic script below when absent/invalid.
+  const aiLines = useTripScript(useMemo(
+    () => ({ stop: 'arrival' as const, city: content.city, difficulty: sessionSettings.difficulty, tier, anchors: { airport: content.airport, localColor: content.localColor } }),
+    [content.city, content.airport, content.localColor, sessionSettings.difficulty, tier],
+  ));
+  const [lockedLines, setLockedLines] = useState<ExchangeLine[] | null>(null);
+
   const scriptFor = useCallback((traveller: Student | null): ExchangeLine[] => {
+    if (lockedLines) return applyTripTokens(lockedLines, { city: content.city, airport: content.airport });
     const name = traveller ? traveller.name : 'traveller';
     if (tier === 'basic') {
       return [
@@ -78,14 +89,14 @@ export function TripArrivalActivity({
       { speaker: 'traveller', text: "I'm hoping to ___.", hint: 'name a place or an activity' },
       ...closing,
     ];
-  }, [content.city, tier]);
+  }, [content.city, content.airport, tier, lockedLines]);
 
   const context = useMemo(
     () => `Passport control at ${content.airport} — answer the officer's questions to enter ${content.city}.`,
     [content.airport, content.city],
   );
 
-  const start = () => { setPhase('running'); onPhaseChange?.('running'); };
+  const start = () => { setLockedLines(aiLines); setPhase('running'); onPhaseChange?.('running'); };
   const finish = useCallback(() => {
     addTripLogEntry({ stageId: 'arrival', text: `Cleared immigration at ${content.airport}`, vocab: [content.airport] });
     setPhase('done');
