@@ -53,7 +53,7 @@ import { DestinationBriefing } from '@/components/place-media/destination-briefi
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { avatarUrl } from '@/lib/avatar-options';
-import { CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, QrCode, Settings, Smartphone, Star } from 'lucide-react';
+import { CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star } from 'lucide-react';
 
 // Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
 // tuned so a sunset departure -> overnight -> sunrise arrival reproduces the
@@ -607,6 +607,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [cockpitLinkCopied, setCockpitLinkCopied] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
   const [showCockpitQr, setShowCockpitQr] = useState(false);
+  const [showJoinQr, setShowJoinQr] = useState(false);
   const [browserOrigin, setBrowserOrigin] = useState('');
   const [showSettingsPopover, setShowSettingsPopover] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -1764,9 +1765,18 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 <div className="glass rounded-2xl p-3 flex-shrink-0">
                   <p className="text-[10px] opacity-50 uppercase tracking-wider font-semibold text-center mb-2">Join Link</p>
                   <div className="flex justify-center mb-2">
-                    <div className="p-1.5 bg-white rounded-xl">
+                    <button
+                      type="button"
+                      onClick={() => setShowJoinQr(true)}
+                      title="Enlarge for scanning"
+                      className="group relative rounded-xl bg-white p-1.5 transition-transform hover:scale-[1.03] focus-visible:scale-[1.03]"
+                    >
                       <QRCodeSVG value={joinUrl} size={104} level="H" includeMargin={false} />
-                    </div>
+                      <span className="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border border-cyan-300/40 bg-[#0a1424] text-cyan-300 shadow-lg transition-colors group-hover:bg-[#0d1c34]">
+                        <Maximize2 className="h-3 w-3" aria-hidden />
+                      </span>
+                      <span className="sr-only">Enlarge join QR for scanning</span>
+                    </button>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <code className="text-cyan-400 text-[10px] bg-lc-surface border border-lc-border px-2 py-1 rounded-lg font-mono truncate flex-1 min-w-0">
@@ -1791,9 +1801,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   <button
                     onClick={lesson.beginLesson}
                     disabled={!lesson.missionSelectorReady}
-                    className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-lg text-white transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="w-full rounded-xl bg-gradient-to-b from-lc-amber to-[#e08600] py-2.5 text-[#1a0f00] shadow-[0_8px_24px_-6px_rgba(245,158,11,0.6)] transition-all hover:shadow-[0_10px_30px_-6px_rgba(245,158,11,0.85)] hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
                   >
-                    {lesson.lessonSlots.length === 1 ? `Start ${lesson.lessonSlots[0].name}` : 'Begin Lesson'}
+                    <span className="font-instrument block text-[9px] font-semibold uppercase tracking-[0.3em] text-[#1a0f00]/70">
+                      {lesson.missionSelectorReady ? 'Cleared for takeoff' : 'Awaiting clearance'}
+                    </span>
+                    <span className="flex items-center justify-center gap-2 text-lg font-bold">
+                      <PlaneTakeoff className="h-5 w-5" aria-hidden />
+                      {lesson.lessonSlots.length === 1 ? `Start ${lesson.lessonSlots[0].name}` : 'Begin Lesson'}
+                    </span>
                   </button>
                   <div className="text-center">
                     <button onClick={handleEndSession} className="text-xs text-red-400/60 hover:text-red-400 transition-colors">
@@ -1865,6 +1881,34 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 <Button variant="ghost" size="sm" onClick={() => window.open(cockpitUrl, '_blank', 'noopener,noreferrer')} className="text-cyan-400 hover:text-cyan-300">Open Cockpit</Button>
                 <Button variant="ghost" size="sm" onClick={() => setShowCockpitQr(false)}>Close</Button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Join QR boarding call — projected full-screen so students can scan over
+            Zoom/Meet compression (the 104px lobby QR is marginal on a shared screen). */}
+        {showJoinQr && (
+          <div
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-[#040a14]/95 px-6 backdrop-blur-sm"
+            onClick={() => setShowJoinQr(false)}
+          >
+            <div className="flex items-center gap-3">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.9)] motion-safe:animate-pulse" aria-hidden />
+              <p className="font-instrument text-lg uppercase tracking-[0.3em] text-emerald-300">Now boarding</p>
+              <span className="h-5 w-px bg-cyan-300/25" aria-hidden />
+              <p className="font-instrument text-lg uppercase tracking-[0.2em] text-lc-amber">
+                {lesson.lessonPlanContent?.callsign ?? `LC-${session.id.slice(-4).toUpperCase()}`}
+              </p>
+            </div>
+            <div className="rounded-3xl bg-white p-6 shadow-[0_0_80px_-10px_rgba(77,163,255,0.45)]" onClick={(e) => e.stopPropagation()}>
+              <QRCodeSVG value={joinUrl} size={Math.min(420, typeof window !== 'undefined' ? Math.floor(window.innerHeight * 0.5) : 420)} level="H" includeMargin={false} />
+            </div>
+            <p className="font-instrument max-w-full break-all text-center text-2xl tracking-wide text-cyan-200">
+              {joinUrl.replace(/^https?:\/\//, '')}
+            </p>
+            <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+              <Button variant="ghost" size="sm" onClick={handleCopyJoinLink}>{joinLinkCopied ? 'Copied!' : 'Copy Link'}</Button>
+              <Button variant="ghost" size="sm" onClick={() => setShowJoinQr(false)}>Close</Button>
             </div>
           </div>
         )}
