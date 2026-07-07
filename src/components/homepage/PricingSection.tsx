@@ -84,12 +84,7 @@ export function PricingSection() {
             <div className="flex flex-col">
               <div className="border-b border-lc-border bg-gradient-to-r from-[#0b1c38]/60 to-transparent px-7 py-5">
                 <div className="flex items-baseline justify-between gap-3">
-                  <div>
-                    <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.24em] text-lc-text3">
-                      Fare class
-                    </p>
-                    <p className="text-3xl font-bold text-lc-text">Free</p>
-                  </div>
+                  <p className="text-3xl font-bold text-lc-text">Free</p>
                   <p className="text-4xl font-bold text-lc-text">$0</p>
                 </div>
               </div>
@@ -126,16 +121,11 @@ export function PricingSection() {
             <div className="flex flex-col">
               <div className="border-b border-lc-amber/25 bg-gradient-to-r from-lc-amber/[0.14] to-transparent px-7 py-5">
                 <div className="flex items-baseline justify-between gap-3">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.24em] text-lc-amber">
-                        Fare class
-                      </p>
-                      <span className="rounded-full bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-amber">
-                        Founding offer
-                      </span>
-                    </div>
+                  <div className="flex items-center gap-2.5">
                     <p className="text-3xl font-bold text-lc-text">Pro</p>
+                    <span className="rounded-full bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-amber">
+                      Founding offer
+                    </span>
                   </div>
                   <div className="text-right">
                     <p className="text-4xl font-bold text-lc-text">

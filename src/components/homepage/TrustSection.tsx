@@ -40,8 +40,12 @@ const CREW: { name: string; rounds: boolean[] }[] = [
 ];
 
 const ACCURACY = 0.82; // illustrative
-// Semicircle sweep: 0% points the needle left (-90°), 100% points right (+90°).
-const NEEDLE_DEG = -90 + ACCURACY * 180;
+// Needle drawn as plain line geometry — no CSS/SVG transforms (two attempts at
+// transform-origin rotation rendered detached from the hub). Semicircle: 0% =
+// pointing left, 100% = pointing right; hub at (110,112).
+const PHI = (180 - ACCURACY * 180) * (Math.PI / 180);
+const NEEDLE_TIP = { x: 110 + 62 * Math.cos(PHI), y: 112 - 62 * Math.sin(PHI) };
+const NEEDLE_TAIL = { x: 110 - 12 * Math.cos(PHI), y: 112 + 12 * Math.sin(PHI) };
 
 function AccuracyGauge({ reduce }: { reduce: boolean }) {
   return (
@@ -71,21 +75,26 @@ function AccuracyGauge({ reduce }: { reduce: boolean }) {
         const y2 = 112 + Math.sin(a) * 62;
         return <line key={t} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />;
       })}
-      {/* Needle — springs past the mark and settles, like the in-app gauge.
-          transformBox 'view-box' makes the px origin resolve in viewBox units;
-          without it the rotation origin lands off the hub and the needle detaches. */}
+      {/* Needle — static geometry pointing at the reading; the arc draw carries
+          the animation. Fades in as the arc reaches it. */}
       <motion.g
-        style={{ transformOrigin: '110px 112px', transformBox: 'view-box' }}
-        initial={{ rotate: reduce ? NEEDLE_DEG : -90 }}
-        whileInView={{ rotate: NEEDLE_DEG }}
+        initial={{ opacity: reduce ? 1 : 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={reduce ? { duration: 0 } : { type: 'spring', stiffness: 55, damping: 9, delay: 0.35 }}
+        transition={{ duration: 0.5, delay: reduce ? 0 : 0.9 }}
       >
-        {/* Counterweight tail + blade, one piece through the hub */}
-        <line x1="110" y1="124" x2="110" y2="50" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" />
+        <line
+          x1={NEEDLE_TAIL.x}
+          y1={NEEDLE_TAIL.y}
+          x2={NEEDLE_TIP.x}
+          y2={NEEDLE_TIP.y}
+          stroke="#F59E0B"
+          strokeWidth="3.5"
+          strokeLinecap="round"
+        />
         <circle cx="110" cy="112" r="7" fill="#F59E0B" />
+        <circle cx="110" cy="112" r="3" fill="#0a1424" />
       </motion.g>
-      <circle cx="110" cy="112" r="3" fill="#0a1424" />
       <defs>
         <linearGradient id="trust-gauge-grad" x1="26" y1="112" x2="194" y2="112" gradientUnits="userSpaceOnUse">
           <stop stopColor="#4DA3FF" />
