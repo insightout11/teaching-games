@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import { CloudOff } from 'lucide-react';
 import { NameEntry } from '@/components/student/name-entry';
 import { StudentController } from '@/components/student/student-controller';
+import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import type { Team } from '@/lib/supabase/types';
 
@@ -73,22 +75,24 @@ export default function JoinSessionPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <TakeoffSpark size={48} loading />
-        <p className="text-xs text-gray-500 uppercase tracking-widest">Joining the session...</p>
-      </div>
+      <StudentSkyShell weather="idle" center>
+        <div className="flex flex-col items-center gap-3">
+          <TakeoffSpark size={48} loading />
+          <p className="font-instrument text-xs uppercase tracking-widest text-lc-text3">Checking your gate…</p>
+        </div>
+      </StudentSkyShell>
     );
   }
 
   if (!sessionExists) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="glass rounded-3xl p-8 w-full max-w-md text-center">
-          <div className="text-6xl mb-4">?</div>
-          <h1 className="text-xl font-bold text-white mb-2">Session Not Found</h1>
-          <p className="text-gray-400">This session doesn&apos;t exist or has ended.</p>
+      <StudentSkyShell weather="idle" center>
+        <div className="glass w-full max-w-md rounded-2xl p-8 text-center">
+          <CloudOff className="mx-auto mb-4 h-12 w-12 text-cyan-300/70" strokeWidth={1.5} aria-hidden />
+          <h1 className="mb-2 text-xl font-bold text-white">Flight not found</h1>
+          <p className="text-lc-text2">This session doesn&apos;t exist or has ended. Check the join link with your teacher.</p>
         </div>
-      </div>
+      </StudentSkyShell>
     );
   }
 

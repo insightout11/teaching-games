@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Plane, PlaneTakeoff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
+import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl } from '@/lib/avatar-options';
 import type { Team } from '@/lib/supabase/types';
 import { trackEvent } from '@/lib/analytics/posthog';
@@ -191,173 +193,226 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
 
   const canJoin = freeTextMode ? freeName.trim().length > 0 : selected !== null;
 
+  // Same fallback callsign the teacher's departure board shows (LC-XXXX), so the
+  // student's pass visibly matches the projected screen.
+  const flightCode = `LC-${sessionId.slice(-4).toUpperCase()}`;
+
   // Loading state
   if (!rosterLoaded) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-3 p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <TakeoffSpark size={48} loading />
-        <p className="text-xs text-gray-500 uppercase tracking-widest">Loading...</p>
-      </div>
+      <StudentSkyShell weather="idle" center>
+        <div className="flex flex-col items-center gap-3">
+          <TakeoffSpark size={48} loading />
+          <p className="font-instrument text-xs uppercase tracking-widest text-lc-text3">Preparing boarding…</p>
+        </div>
+      </StudentSkyShell>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="glass rounded-3xl p-5 sm:p-8 w-full max-w-md space-y-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-2">Join Session</h1>
-          <p className="text-gray-400 text-sm">
-            {freeTextMode ? 'Enter your name to participate' : 'Find your name to join'}
-          </p>
+    <StudentSkyShell weather="idle" center>
+      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-cyan-300/25 bg-[#0a1424]/90 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-md">
+        {/* Ticket header */}
+        <div className="flex items-center justify-between border-b border-cyan-300/15 bg-gradient-to-r from-[#0b1c38]/90 to-[#060f1f]/90 px-5 py-3">
+          <span className="flex items-center gap-2">
+            <Plane className="h-4 w-4 rotate-45 text-cyan-300" aria-hidden />
+            <span className="font-instrument text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200">
+              Boarding pass
+            </span>
+          </span>
+          <span className="font-instrument text-[11px] uppercase tracking-[0.18em] text-lc-amber">
+            {flightCode}
+          </span>
         </div>
 
-        {/* ── Roster picker mode ──────────────────────────────────── */}
-        {!freeTextMode && (
-          <div className="space-y-4">
-            {/* Search */}
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search your name..."
-              autoFocus
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
-            />
+        {/* Now-boarding strip — mirrors the teacher lobby's gate-board chip */}
+        <div className="flex items-center gap-2 border-b border-cyan-300/10 px-5 py-2">
+          <span
+            className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.85)] motion-safe:animate-pulse"
+            aria-hidden
+          />
+          <span className="font-instrument text-[10px] uppercase tracking-[0.24em] text-emerald-300/90">
+            Now boarding
+          </span>
+          <span className="ml-auto truncate text-xs text-lc-text3">
+            {freeTextMode ? 'Enter your name to board' : 'Find your name to board'}
+          </span>
+        </div>
 
-            {/* Name list */}
-            <div className="max-h-56 overflow-y-auto space-y-1 pr-1">
-              {filteredRoster.length === 0 ? (
-                <p className="text-center text-gray-500 text-sm py-4">No match — try scrolling or use &quot;not on the list&quot; below</p>
-              ) : (
-                filteredRoster.map((student) => (
-                  <button
-                    key={student.id}
-                    type="button"
-                    onClick={() => handleSelectStudent(student)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left ${
-                      selected?.id === student.id
-                        ? 'bg-cyan-500/20 ring-2 ring-cyan-400'
-                        : 'bg-white/5 hover:bg-white/10'
-                    }`}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={avatarUrl(selected?.id === student.id ? avatarSeed : student.avatar_seed)}
-                      alt=""
-                      width={40}
-                      height={40}
-                      className="w-10 h-10 rounded-lg flex-shrink-0"
-                    />
-                    <span className="font-semibold text-white">{student.name}</span>
-                    {selected?.id === student.id && (
-                      <span className="ml-auto text-cyan-400 text-sm font-medium">Selected</span>
-                    )}
-                  </button>
-                ))
-              )}
-            </div>
-
-            {/* Avatar picker — shown only after selecting a name */}
-            {selected && (
+        <div className="space-y-4 p-5">
+          {/* ── Roster picker mode ──────────────────────────────────── */}
+          {!freeTextMode && (
+            <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Choose Your Avatar
+                <label htmlFor="passenger-search" className="font-instrument mb-2 block text-[10px] uppercase tracking-[0.22em] text-lc-text3">
+                  Passenger
                 </label>
-                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                <input
+                  id="passenger-search"
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search your name..."
+                  autoFocus
+                  className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-white placeholder:text-lc-text3 transition-all focus:border-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+                />
+              </div>
+
+              {/* Name list */}
+              <div className="max-h-56 space-y-1 overflow-y-auto pr-1">
+                {filteredRoster.length === 0 ? (
+                  <p className="py-4 text-center text-sm text-lc-text3">No match — try scrolling or use &quot;not on the list&quot; below</p>
+                ) : (
+                  filteredRoster.map((student) => (
+                    <button
+                      key={student.id}
+                      type="button"
+                      onClick={() => handleSelectStudent(student)}
+                      className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-all ${
+                        selected?.id === student.id
+                          ? 'bg-cyan-500/20 ring-2 ring-cyan-400'
+                          : 'bg-white/5 hover:bg-white/10'
+                      }`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={avatarUrl(selected?.id === student.id ? avatarSeed : student.avatar_seed)}
+                        alt=""
+                        width={40}
+                        height={40}
+                        className="h-10 w-10 flex-shrink-0 rounded-lg"
+                      />
+                      <span className="font-semibold text-white">{student.name}</span>
+                      {selected?.id === student.id && (
+                        <span className="font-instrument ml-auto text-[10px] uppercase tracking-wider text-cyan-400">Seated</span>
+                      )}
+                    </button>
+                  ))
+                )}
+              </div>
+
+              {/* Avatar picker — shown only after selecting a name */}
+              {selected && (
+                <div>
+                  <label className="font-instrument mb-2 block text-[10px] uppercase tracking-[0.22em] text-lc-text3">
+                    Passport photo
+                  </label>
+                  <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+                    {AVATAR_SEEDS.map((seed) => (
+                      <button
+                        key={seed}
+                        type="button"
+                        onClick={() => setAvatarSeed(seed)}
+                        className={`relative rounded-xl p-1.5 transition-all ${
+                          avatarSeed === seed
+                            ? 'scale-105 bg-white/10 ring-2 ring-cyan-400'
+                            : 'opacity-50 hover:bg-white/5 hover:opacity-80'
+                        }`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={avatarUrl(seed)} alt={seed} width={64} height={64} className="h-auto w-full rounded-lg" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Not on the list */}
+              <button
+                type="button"
+                onClick={() => { setFreeTextMode(true); setSelected(null); }}
+                className="w-full rounded-xl border border-white/15 py-3 text-sm font-medium text-lc-text2 transition-all hover:border-white/40 hover:bg-white/10 hover:text-white"
+              >
+                My name isn&apos;t here
+              </button>
+            </div>
+          )}
+
+          {/* ── Free-text mode ──────────────────────────────────────── */}
+          {freeTextMode && (
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="name" className="font-instrument mb-2 block text-[10px] uppercase tracking-[0.22em] text-lc-text3">
+                  Passenger
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  value={freeName}
+                  onChange={(e) => setFreeName(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' && freeName.trim()) handleJoin(); }}
+                  placeholder="Enter your name..."
+                  maxLength={40}
+                  autoFocus
+                  className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-white placeholder:text-lc-text3 transition-all focus:border-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+                />
+              </div>
+
+              <div>
+                <label className="font-instrument mb-2 block text-[10px] uppercase tracking-[0.22em] text-lc-text3">
+                  Passport photo
+                </label>
+                <div className="grid grid-cols-6 gap-2">
                   {AVATAR_SEEDS.map((seed) => (
                     <button
                       key={seed}
                       type="button"
                       onClick={() => setAvatarSeed(seed)}
-                      className={`relative p-1.5 rounded-xl transition-all ${
+                      className={`relative rounded-xl p-1.5 transition-all ${
                         avatarSeed === seed
-                          ? 'ring-2 ring-cyan-400 scale-105 bg-white/10'
-                          : 'opacity-50 hover:opacity-80 hover:bg-white/5'
+                          ? 'scale-105 bg-white/10 ring-2 ring-cyan-400'
+                          : 'opacity-50 hover:bg-white/5 hover:opacity-80'
                       }`}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={avatarUrl(seed)} alt={seed} width={64} height={64} className="w-full h-auto rounded-lg" />
+                      <img src={avatarUrl(seed)} alt={seed} width={64} height={64} className="h-auto w-full rounded-lg" />
                     </button>
                   ))}
                 </div>
               </div>
-            )}
 
-            {/* Not on the list */}
-            <button
-              type="button"
-              onClick={() => { setFreeTextMode(true); setSelected(null); }}
-              className="w-full py-3 text-sm font-medium text-gray-300 border border-white/20 rounded-xl hover:bg-white/10 hover:border-white/40 hover:text-white transition-all"
-            >
-              My name isn&apos;t here
-            </button>
-          </div>
-        )}
-
-        {/* ── Free-text mode ──────────────────────────────────────── */}
-        {freeTextMode && (
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
-                Your Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={freeName}
-                onChange={(e) => setFreeName(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter' && freeName.trim()) handleJoin(); }}
-                placeholder="Enter your name..."
-                maxLength={40}
-                autoFocus
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
-              />
+              {/* Back to roster if roster was available */}
+              {roster.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => { setFreeTextMode(false); setFreeName(''); }}
+                  className="w-full py-1 text-sm text-lc-text3 transition-colors hover:text-lc-text2"
+                >
+                  ← Back to class list
+                </button>
+              )}
             </div>
+          )}
+        </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Choose Your Avatar
-              </label>
-              <div className="grid grid-cols-6 gap-2">
-                {AVATAR_SEEDS.map((seed) => (
-                  <button
-                    key={seed}
-                    type="button"
-                    onClick={() => setAvatarSeed(seed)}
-                    className={`relative p-1.5 rounded-xl transition-all ${
-                      avatarSeed === seed
-                        ? 'ring-2 ring-cyan-400 scale-105 bg-white/10'
-                        : 'opacity-50 hover:opacity-80 hover:bg-white/5'
-                    }`}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={avatarUrl(seed)} alt={seed} width={64} height={64} className="w-full h-auto rounded-lg" />
-                  </button>
-                ))}
-              </div>
-            </div>
+        {/* Perforated ticket divider */}
+        <div className="relative px-5" aria-hidden>
+          <span className="absolute -left-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-[#070B14]" />
+          <span className="absolute -right-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-[#070B14]" />
+          <div className="border-t border-dashed border-cyan-300/25" />
+        </div>
 
-            {/* Back to roster if roster was available */}
-            {roster.length > 0 && (
-              <button
-                type="button"
-                onClick={() => { setFreeTextMode(false); setFreeName(''); }}
-                className="w-full text-sm text-gray-500 hover:text-gray-300 transition-colors py-1"
-              >
-                ← Back to class list
-              </button>
-            )}
-          </div>
-        )}
-
-        <Button
-          onClick={handleJoin}
-          disabled={!canJoin || isJoining}
-          className="w-full py-4 text-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isJoining ? 'Joining...' : 'Join Session'}
-        </Button>
+        <div className="space-y-3 p-5">
+          <Button
+            onClick={handleJoin}
+            disabled={!canJoin || isJoining}
+            variant="hero"
+            className="w-full gap-2 py-4 text-lg font-bold"
+          >
+            <PlaneTakeoff className="h-5 w-5" aria-hidden />
+            {isJoining ? 'Boarding…' : 'Board Flight'}
+          </Button>
+          {/* Ticket barcode */}
+          <div
+            aria-hidden
+            className="mx-auto h-7 w-44 opacity-40"
+            style={{
+              background:
+                'repeating-linear-gradient(90deg, #EAF1FF 0 2px, transparent 2px 5px, #EAF1FF 5px 6px, transparent 6px 10px, #EAF1FF 10px 13px, transparent 13px 16px)',
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </StudentSkyShell>
   );
 }

@@ -12,7 +12,8 @@ import { VALIDATION } from '@/lib/config/rate-limits';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { grammarReference } from '@/lib/grammar';
-import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, Send, Zap, Award, Wind, Radio, ClipboardCheck, Share2, Check } from 'lucide-react';
+import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, ClipboardCheck, Share2, Check } from 'lucide-react';
+import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
@@ -827,12 +828,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   if (!sessionActive) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <StudentSkyShell weather="landing" center>
         <div className="glass rounded-3xl p-8 w-full max-w-md text-center space-y-6">
           <div>
-            <div className="text-4xl mb-3">✈</div>
-            <h1 className="text-2xl font-bold text-white">Session Complete</h1>
-            <p className="text-gray-400 text-sm mt-1">Great work today!</p>
+            <PlaneLanding className="mx-auto mb-3 h-10 w-10 text-cyan-300" strokeWidth={1.5} aria-hidden />
+            <h1 className="text-2xl font-bold text-white">You&apos;ve landed!</h1>
+            <p className="font-instrument mt-1 text-[11px] uppercase tracking-[0.2em] text-amber-300/70">Flight complete · great work today</p>
           </div>
 
           {personalResults ? (
@@ -861,7 +862,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 )}
                 {personalResults.bestStreak >= 2 && (
                   <div className="bg-white/5 rounded-2xl p-4">
-                    <p className="text-2xl font-bold text-orange-400">🔥{personalResults.bestStreak}</p>
+                    <p className="flex items-center justify-center gap-1 text-2xl font-bold text-orange-400">
+                      <Flame className="h-5 w-5" aria-hidden />
+                      {personalResults.bestStreak}
+                    </p>
                     <p className="text-xs text-gray-400 mt-0.5">Best Streak</p>
                   </div>
                 )}
@@ -918,12 +922,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             Back
           </Button>
         </div>
-      </div>
+      </StudentSkyShell>
     );
   }
 
   return (
-    <div className="min-h-screen p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <StudentSkyShell weather="cruising">
       {/* Header */}
       <div className="relative overflow-hidden rounded-2xl border border-cyan-400/15 bg-slate-950/65 p-4 mb-4 shadow-[0_0_28px_rgba(34,211,238,0.08)]">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/50 to-transparent" />
@@ -1731,6 +1735,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       <div className="mt-4 text-center text-gray-500 text-sm">
         <p>Your signals are private unless your teacher spotlights them.</p>
       </div>
-    </div>
+    </StudentSkyShell>
   );
 }
