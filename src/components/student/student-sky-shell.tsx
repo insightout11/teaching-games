@@ -19,7 +19,9 @@ export function StudentSkyShell({
 }) {
   return (
     <div className="relative min-h-screen bg-lc-bg">
-      <SkyBackground weatherState={weather} altitude={0.8} intensity="subtle" showEarth={false} />
+      {/* hideMoon: on a small phone screen the moon reads as a UI element and distracts
+          from the controls — students get clouds and stars only. */}
+      <SkyBackground weatherState={weather} altitude={0.8} intensity="subtle" showEarth={false} hideMoon />
       {/* Legibility veil — keeps cards readable over the horizon glow */}
       <div
         aria-hidden

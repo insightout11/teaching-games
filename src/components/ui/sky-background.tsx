@@ -17,6 +17,7 @@ interface SkyBackgroundProps {
   showEarth?: boolean;         // render the ground/runway EarthLayer at all (default true)
   earthOpacity?: number;       // 0–1 fade for the ground/runway/skyline layer (default 1) — lets the ground fade in/out smoothly instead of toggling
   showMoon?: boolean;          // force the moon visible regardless of weather (default false)
+  hideMoon?: boolean;          // never render the moon, even in cruising weather (default false)
   moonPosition?: { top?: string; right?: string }; // override moon placement (default { top: '4%', right: '14%' })
   hideMoonOnMobile?: boolean;  // suppress the moon on narrow screens where it crowds the layout (default false)
   showSkyline?: boolean;       // distant destination city skyline at the horizon (default false)
@@ -692,6 +693,7 @@ export function SkyBackground({
   showEarth = true,
   earthOpacity = 1,
   showMoon = false,
+  hideMoon = false,
   moonPosition = { top: '4%', right: '14%' },
   hideMoonOnMobile = false,
   showSkyline = false,
@@ -812,15 +814,17 @@ export function SkyBackground({
       </motion.div>
 
       {/* Moon — cruising/midnight only */}
-      <motion.div
-        className={`absolute ${hideMoonOnMobile ? 'hidden sm:block' : ''}`}
-        style={{ top: moonPosition.top ?? '4%', right: moonPosition.right ?? '14%', zIndex: 2 }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: (weatherState === 'cruising' || showMoon) ? 1 : 0 }}
-        transition={{ duration: 5, ease: 'easeInOut' }}
-      >
-        <MoonLayer />
-      </motion.div>
+      {!hideMoon && (
+        <motion.div
+          className={`absolute ${hideMoonOnMobile ? 'hidden sm:block' : ''}`}
+          style={{ top: moonPosition.top ?? '4%', right: moonPosition.right ?? '14%', zIndex: 2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: (weatherState === 'cruising' || showMoon) ? 1 : 0 }}
+          transition={{ duration: 5, ease: 'easeInOut' }}
+        >
+          <MoonLayer />
+        </motion.div>
+      )}
 
       {/* Earth layer */}
       {showEarth && (
