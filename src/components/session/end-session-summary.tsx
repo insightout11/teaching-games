@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useEffect, useState, type ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -63,6 +63,9 @@ export function EndSessionSummary({
 
   const [prefsMap, setPrefsMap] = useState<Map<string, boolean>>(new Map()); // client_id → score_visible
   const [showAllNames, setShowAllNames] = useState(false);
+  // Arrival ceremony beat (teacher-advanced, skippable — locked design). 0-based
+  // index into the adaptive beat list built below.
+  const [beatIndex, setBeatIndex] = useState(0);
 
   useEffect(() => {
     if (previewMode) return;
@@ -166,10 +169,26 @@ export function EndSessionSummary({
           : 'Score on-task work or class accuracy to earn this star.'
     : '';
 
+  // Adaptive beat list: Captain beat only exists when there's a real winner.
+  const hasCaptainBeat = !!(captain && captain.total > 0);
+  const beats: readonly ('arrival' | 'captain' | 'debrief')[] = hasCaptainBeat
+    ? ['arrival', 'captain', 'debrief']
+    : ['arrival', 'debrief'];
+  const currentBeat = beats[Math.min(beatIndex, beats.length - 1)];
+  const isLastBeat = beatIndex >= beats.length - 1;
+
   return (
     <div className="max-w-2xl mx-auto py-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        {/* ── Class arrival beat — the whole class has landed ── */}
+      <AnimatePresence mode="wait">
+        {/* ── Beat 1: Arrival — the whole class has landed ── */}
+        {currentBeat === 'arrival' && (
+          <motion.div
+            key="arrival"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.4 }}
+          >
         <motion.div
           className="text-center"
           initial={{ scale: 0.9, opacity: 0 }}
@@ -245,6 +264,78 @@ export function EndSessionSummary({
               <p className="text-[11px] text-lc-text2 mt-0.5 uppercase tracking-wider">{s.l}</p>
             </div>
           ))}
+        </div>
+          </motion.div>
+        )}
+
+        {/* ── Beat 2: Captain of the Day — full-stage reveal ── */}
+        {currentBeat === 'captain' && captain && (
+          <motion.div
+            key="captain"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.35 }}
+            className="relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-3xl text-center"
+          >
+            {/* Stage glow */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(ellipse 70% 55% at 50% 45%, rgba(245,158,11,0.14) 0%, transparent 70%)',
+              }}
+            />
+            <motion.p
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="font-instrument relative text-sm font-semibold uppercase tracking-[0.32em] text-amber-300/90"
+            >
+              Captain of the Day
+            </motion.p>
+            <motion.div
+              initial={{ scale: 0, rotate: -25, y: -30 }}
+              animate={{ scale: 1, rotate: 0, y: 0 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 13, delay: 0.85 }}
+              className="relative mt-7 flex h-24 w-24 items-center justify-center rounded-3xl border border-amber-400/35 bg-amber-400/15 shadow-[0_0_60px_-10px_rgba(245,158,11,0.55)]"
+            >
+              <Crown className="h-12 w-12 text-amber-300" strokeWidth={1.5} />
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.92, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 16, delay: 1.05 }}
+              className="relative mt-6 max-w-full truncate px-4 text-5xl font-extrabold tracking-tight text-lc-text"
+            >
+              {isHidden(captain.key) ? 'Anonymous Captain' : captain.name}
+              {captainTies > 1 && <span className="text-2xl font-medium text-lc-text3"> +{captainTies - 1}</span>}
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.35 }}
+              className="relative mt-3 text-base text-lc-text2"
+            >
+              {captain.total} pts
+              {captain.accuracyAttempts > 0 && <> · {captain.correct}/{captain.accuracyAttempts} correct</>}
+              {captain.bestStreak >= 2 && <> · {captain.bestStreak} streak</>}
+            </motion.p>
+          </motion.div>
+        )}
+
+        {/* ── Beat 3: Debrief — the working summary ── */}
+        {currentBeat === 'debrief' && (
+          <motion.div
+            key="debrief"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+        <div className="mb-8 text-center">
+          <p className="font-instrument text-[11px] uppercase tracking-[0.26em] text-cyan-300/80">Flight debrief</p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-lc-text">{className} · flight complete</h1>
         </div>
 
         {classLogbook && (
@@ -416,7 +507,41 @@ export function EndSessionSummary({
             <Button variant="secondary">View Control Room</Button>
           </Link>
         </div>
-      </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Beat controls — teacher-advanced ceremony, skippable */}
+      {!isLastBeat && (
+        <div className="mt-10 flex flex-col items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setBeatIndex((b) => b + 1)}
+            className="rounded-lg bg-cyan-500 px-7 py-2.5 text-sm font-semibold text-slate-950 ring-2 ring-cyan-200 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_rgba(34,211,238,0.45)] transition-all hover:bg-cyan-400"
+          >
+            {beats[beatIndex + 1] === 'captain' ? 'Reveal Captain of the Day' : 'Continue to debrief'}
+          </button>
+          <button
+            type="button"
+            onClick={() => setBeatIndex(beats.length - 1)}
+            className="text-xs text-lc-text3 transition-colors hover:text-lc-text2"
+          >
+            Skip ceremony
+          </button>
+        </div>
+      )}
+
+      {/* Beat progress dots */}
+      <div className="mt-6 flex justify-center gap-2" aria-hidden>
+        {beats.map((b, i) => (
+          <span
+            key={b}
+            className={`h-1.5 rounded-full transition-all ${
+              i === beatIndex ? 'w-5 bg-cyan-300' : 'w-1.5 bg-white/20'
+            }`}
+          />
+        ))}
+      </div>
     </div>
   );
 }
