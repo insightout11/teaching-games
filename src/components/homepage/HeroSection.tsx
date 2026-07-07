@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -251,6 +251,7 @@ function FlightPlanPanel() {
 }
 
 export function HeroSection() {
+  const reduce = useReducedMotion();
   return (
     <section className="relative overflow-hidden px-6 pb-16 pt-8">
       {/* Hero-local horizon glow — anchors the product panel without restyling the global sky */}
@@ -266,7 +267,7 @@ export function HeroSection() {
         {/* Top: asymmetric two-column — copy leads, the start-widget sits beside it */}
         <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_minmax(0,460px)]">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="flex flex-col gap-5 text-center lg:text-left"
@@ -276,9 +277,10 @@ export function HeroSection() {
               Live Lesson Layer for Online ESL
             </span>
             <h1
-              className="text-shadow-hero text-4xl font-bold leading-tight text-lc-text sm:text-5xl"
+              className="text-shadow-hero font-display text-[2.7rem] leading-[1.04] text-lc-text sm:text-[3.4rem]"
             >
-              Run interactive ESL lessons while you screen share.
+              Run interactive ESL lessons{' '}
+              <span className="font-game">while you screen share.</span>
             </h1>
             <p className="max-w-xl self-center text-lg leading-relaxed text-lc-text2 lg:self-start">
               Screen-share the teacher view on Zoom, Meet, or Teams — students join from any
@@ -306,7 +308,7 @@ export function HeroSection() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.12 }}
           >
@@ -316,7 +318,7 @@ export function HeroSection() {
 
         {/* Below the fold of the copy, but still above the page fold: the real product */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-12"
