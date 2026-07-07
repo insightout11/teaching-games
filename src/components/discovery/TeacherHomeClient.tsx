@@ -43,6 +43,7 @@ function homeShelfIdsFor(focus: TeachingFocus | null): string[] {
 
 export interface RecentSession {
   id: string;
+  class_id: string;
   topic: string;
   custom_topic: string | null;
   started_at: string;
@@ -257,26 +258,31 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
                 Jump back in
               </h2>
               <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {recentSessions.map((s) => (
-                  <Link
-                    key={s.id}
-                    href="/lesson-planner"
-                    className="group flex w-56 shrink-0 items-center gap-3 rounded-xl border border-cyan-300/15 bg-white/[0.03] px-4 py-3 backdrop-blur-sm transition-colors hover:border-cyan-300/40 hover:bg-white/[0.06]"
-                  >
-                    <Plane className="h-4 w-4 shrink-0 rotate-45 text-cyan-300/70" aria-hidden />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[13px] font-medium text-lc-text">
-                        {s.custom_topic || s.topic}
+                {recentSessions.map((s) => {
+                  // Active flights resume in the live session; finished ones open
+                  // the class (history, replan) instead of a blank planner.
+                  const isLive = s.status === 'active';
+                  return (
+                    <Link
+                      key={s.id}
+                      href={isLive ? `/sessions/${s.id}` : `/classes/${s.class_id}`}
+                      className="group flex w-56 shrink-0 items-center gap-3 rounded-xl border border-cyan-300/15 bg-white/[0.03] px-4 py-3 backdrop-blur-sm transition-colors hover:border-cyan-300/40 hover:bg-white/[0.06]"
+                    >
+                      <Plane className="h-4 w-4 shrink-0 rotate-45 text-cyan-300/70" aria-hidden />
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-[13px] font-medium text-lc-text">
+                          {s.custom_topic || s.topic}
+                        </span>
+                        <span className="font-instrument block truncate text-[10px] uppercase tracking-wider text-lc-text3">
+                          {s.class_name} · {formatDate(s.started_at)}
+                        </span>
                       </span>
-                      <span className="font-instrument block truncate text-[10px] uppercase tracking-wider text-lc-text3">
-                        {s.class_name} · {formatDate(s.started_at)}
+                      <span className="font-instrument text-[9px] uppercase tracking-wider text-lc-amber opacity-0 transition-opacity group-hover:opacity-100">
+                        {isLive ? 'Resume' : 'Open'}
                       </span>
-                    </span>
-                    <span className="font-instrument text-[9px] uppercase tracking-wider text-lc-amber opacity-0 transition-opacity group-hover:opacity-100">
-                      Run
-                    </span>
-                  </Link>
-                ))}
+                    </Link>
+                  );
+                })}
               </div>
             </section>
           )}

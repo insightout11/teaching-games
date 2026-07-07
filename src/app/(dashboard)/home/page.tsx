@@ -39,7 +39,7 @@ async function getRecentSessions(userId: string): Promise<RecentSession[]> {
   const supabase = createServerSupabase();
   const { data } = await supabase
     .from('sessions')
-    .select('id, topic, custom_topic, started_at, status, classes!inner(name, teacher_id, is_demo)')
+    .select('id, class_id, topic, custom_topic, started_at, status, classes!inner(name, teacher_id, is_demo)')
     .eq('classes.teacher_id', userId)
     .eq('classes.is_demo', false)
     .order('started_at', { ascending: false })
@@ -49,6 +49,7 @@ async function getRecentSessions(userId: string): Promise<RecentSession[]> {
 
   return data.map((s: Record<string, unknown>) => ({
     id: s.id as string,
+    class_id: s.class_id as string,
     topic: s.topic as string,
     custom_topic: s.custom_topic as string | null,
     started_at: s.started_at as string,
