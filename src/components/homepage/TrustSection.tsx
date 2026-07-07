@@ -30,20 +30,13 @@ const DATA_POINTS = [
   },
 ];
 
-// Illustrative roster — 10 of 12 answered
-const CREW = [
-  { initial: 'M', answered: true },
-  { initial: 'D', answered: true },
-  { initial: 'Y', answered: true },
-  { initial: 'S', answered: true },
-  { initial: 'A', answered: true },
-  { initial: 'L', answered: false },
-  { initial: 'K', answered: true },
-  { initial: 'J', answered: true },
-  { initial: 'P', answered: true },
-  { initial: 'N', answered: false },
-  { initial: 'R', answered: true },
-  { initial: 'T', answered: true },
+// Illustrative participation rows — same students as the TwoScreens mock,
+// one dot per round (filled = answered).
+const CREW: { name: string; rounds: boolean[] }[] = [
+  { name: 'Mei', rounds: [true, true, true, true, true] },
+  { name: 'Diego', rounds: [true, true, false, true, true] },
+  { name: 'Yuki', rounds: [true, true, true, true, false] },
+  { name: 'Sana', rounds: [false, true, true, true, true] },
 ];
 
 const ACCURACY = 0.82; // illustrative
@@ -52,7 +45,7 @@ const NEEDLE_DEG = -90 + ACCURACY * 180;
 
 function AccuracyGauge({ reduce }: { reduce: boolean }) {
   return (
-    <svg viewBox="0 0 220 132" className="w-full" role="img" aria-label={`Accuracy gauge at ${Math.round(ACCURACY * 100)} percent`}>
+    <svg viewBox="0 0 220 122" className="w-full" role="img" aria-label={`Accuracy gauge at ${Math.round(ACCURACY * 100)} percent`}>
       {/* Track */}
       <path d="M 26 112 A 84 84 0 0 1 194 112" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="10" strokeLinecap="round" />
       {/* Value arc — draws to the accuracy reading */}
@@ -171,47 +164,52 @@ export function TrustSection() {
               </p>
             </div>
 
-            {/* Accuracy gauge */}
-            <div className="relative">
-              <AccuracyGauge reduce={reduce} />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 text-center">
-                <p className="font-instrument text-2xl font-semibold text-lc-text">
-                  {Math.round(ACCURACY * 100)}%
-                </p>
-                <p className="font-instrument text-[9px] uppercase tracking-[0.2em] text-lc-text3">
-                  Class accuracy
-                </p>
-              </div>
+            {/* Accuracy gauge — readout sits below the dial, never over it */}
+            <AccuracyGauge reduce={reduce} />
+            <div className="mt-2 text-center">
+              <p className="font-instrument text-3xl font-semibold text-lc-text">
+                {Math.round(ACCURACY * 100)}%
+              </p>
+              <p className="font-instrument text-[10px] uppercase tracking-[0.2em] text-lc-text3">
+                Class accuracy
+              </p>
             </div>
 
-            {/* Participation grid */}
-            <div className="mt-6">
-              <div className="mb-2 flex items-baseline justify-between">
-                <p className="font-instrument text-[9px] uppercase tracking-[0.2em] text-lc-text3">
+            {/* Participation — who answered, round by round */}
+            <div className="mt-6 border-t border-white/10 pt-4">
+              <div className="mb-3 flex items-baseline justify-between">
+                <p className="font-instrument text-[10px] uppercase tracking-[0.2em] text-lc-text3">
                   Participation
                 </p>
-                <p className="font-instrument text-[10px] text-emerald-300">
-                  {CREW.filter((c) => c.answered).length} / {CREW.length} answered
+                <p className="font-instrument text-[10px] uppercase tracking-[0.12em] text-lc-text3">
+                  Rounds 1–5
                 </p>
               </div>
-              <div className="grid grid-cols-6 gap-1.5">
+              <ul className="space-y-2.5">
                 {CREW.map((s, i) => (
-                  <motion.span
-                    key={i}
-                    initial={reduce ? false : { opacity: 0, scale: 0.6 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                  <motion.li
+                    key={s.name}
+                    initial={reduce ? false : { opacity: 0, x: 8 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.25, delay: reduce ? 0 : 0.5 + i * 0.05 }}
-                    className={`grid h-9 place-items-center rounded-md border text-xs font-semibold ${
-                      s.answered
-                        ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200'
-                        : 'border-white/10 bg-white/[0.03] text-lc-text3'
-                    }`}
+                    transition={{ duration: 0.3, delay: reduce ? 0 : 0.45 + i * 0.1 }}
+                    className="flex items-center justify-between gap-3"
                   >
-                    {s.initial}
-                  </motion.span>
+                    <span className="text-sm font-medium text-lc-text">{s.name}</span>
+                    <span className="flex items-center gap-1.5">
+                      {s.rounds.map((answered, r) => (
+                        <span
+                          key={r}
+                          className={`h-2.5 w-2.5 rounded-full ${
+                            answered ? 'bg-emerald-400/90' : 'border border-white/20 bg-transparent'
+                          }`}
+                        />
+                      ))}
+                    </span>
+                  </motion.li>
                 ))}
-              </div>
+              </ul>
+              <p className="mt-3 text-xs text-lc-text3">+ 8 more students</p>
             </div>
           </motion.div>
         </div>

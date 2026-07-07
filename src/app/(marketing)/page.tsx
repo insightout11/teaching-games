@@ -10,7 +10,6 @@ import { SourceBasedSection } from '@/components/homepage/SourceBasedSection';
 import { TestFlightSection } from '@/components/homepage/TestFlightSection';
 import { TrustSection } from '@/components/homepage/TrustSection';
 import { PricingSection } from '@/components/homepage/PricingSection';
-import { EmailCaptureCard } from '@/components/marketing/EmailCaptureCard';
 
 export const metadata: Metadata = {
   title: 'LessonCaptain — Live ESL Lessons While You Screen Share',
@@ -39,11 +38,6 @@ export default async function HomePage() {
       <TrustSection />
       <PricingSection />
       <TestFlightSection />
-      <section className="px-6 pb-20">
-        <div className="mx-auto max-w-xl">
-          <EmailCaptureCard source="homepage" />
-        </div>
-      </section>
     </>
   );
 }
