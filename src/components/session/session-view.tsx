@@ -1058,6 +1058,35 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           customTopic: launchCustomTopic || s.customTopic || null,
         }),
       });
+      // Persist a compact lesson brief server-side so separate-device features
+      // (cockpit captain suggestions) know the plan, goal, and source — the
+      // sessions row only carries topic/difficulty/vocab.
+      try {
+        const raw = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
+        const plan = raw ? JSON.parse(raw) as {
+          goal?: string;
+          slots?: Array<{ key?: string; name?: string; stageLabel?: string }>;
+          sourceMaterial?: { title?: string; summary?: string; briefingText?: string; rawText?: string };
+        } : null;
+        if (plan) {
+          const source = plan.sourceMaterial;
+          const brief = {
+            goal: plan.goal,
+            stages: (plan.slots ?? [])
+              .map((slot) => ({ key: slot.key ?? '', label: slot.stageLabel ?? slot.name ?? '' }))
+              .filter((stage) => stage.key || stage.label),
+            sourceTitle: source?.title,
+            sourceSummary: source?.summary || source?.briefingText?.slice(0, 900) || source?.rawText?.slice(0, 900),
+          };
+          if (brief.goal || brief.stages.length > 0 || brief.sourceTitle) {
+            void fetch('/api/session/lesson-brief', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ sessionId: session.id, brief }),
+            });
+          }
+        }
+      } catch { /* brief is best-effort — never block launch */ }
       initDone.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

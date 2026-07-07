@@ -8,6 +8,7 @@ import {
   type ReferenceExpressionItem,
   type ReferenceVocabItem,
 } from '@/lib/reference-materials';
+import { SIDE_CHANNEL_KEY, type SideChannelItem } from '@/lib/side-channel';
 
 export const dynamic = 'force-dynamic';
 
@@ -79,6 +80,7 @@ interface SessionPayload {
   isActive: boolean;
   activePoll: { pollId: string; question: string; options: string[]; metadata?: Record<string, unknown> | null } | null;
   inputSpec: unknown;
+  sideChannel: SideChannelItem | null;
   publishedQuestions: PublishedQuestion[] | null;
   wonderQuestions: WonderQuestion[] | null;
   classBoardItems: ClassBoardStudentItem[] | null;
@@ -120,6 +122,7 @@ export async function GET(request: NextRequest) {
         isActive: session.status === 'active',
         activePoll: null,
         inputSpec: mockInputSpec,
+        sideChannel: null,
         publishedQuestions: null,
         wonderQuestions: null,
         classBoardItems: null,
@@ -207,6 +210,25 @@ export async function GET(request: NextRequest) {
           options: poll.options as string[],
           metadata: poll.metadata as Record<string, unknown> | null,
         };
+      }
+    }
+
+    // Get the Crew Radio side-channel item (non-interrupting prompt lane)
+    let sideChannel: SideChannelItem | null = null;
+    if (isActive) {
+      try {
+        const { data: sideRow } = await supabase
+          .from('session_private_state')
+          .select('payload')
+          .eq('session_id', sessionId)
+          .eq('key', SIDE_CHANNEL_KEY)
+          .maybeSingle();
+        const item = (sideRow?.payload as { item?: SideChannelItem | null } | null)?.item;
+        if (item && typeof item === 'object' && item.id && item.prompt) {
+          sideChannel = item;
+        }
+      } catch {
+        // session_private_state unavailable — degrade silently
       }
     }
 
@@ -547,6 +569,7 @@ export async function GET(request: NextRequest) {
       isActive,
       activePoll,
       inputSpec: session.input_spec || null,
+      sideChannel,
       publishedQuestions,
       wonderQuestions,
       classBoardItems,

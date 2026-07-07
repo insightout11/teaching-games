@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   AlertCircle,
   BarChart3,
@@ -13,11 +13,13 @@ import {
   Star,
 } from 'lucide-react';
 import type { CaptainSuggestion, CaptainSuggestionKind } from '@/lib/captain-suggestions';
-import type { InputSpec } from '@/lib/input-spec';
+import { SPOTLIGHT_TAG_META } from '@/lib/spotlight';
 
 interface CaptainSuggestionsPanelProps {
   sessionId: string;
-  onSpotlightSent?: (studentName: string) => void;
+  /** True when nothing is on student devices — downtime. Pro accounts auto-load a pack. */
+  standby?: boolean;
+  onSpotlightSent?: (studentName: string, text: string) => void;
 }
 
 interface SuggestionsResponse {
@@ -25,6 +27,7 @@ interface SuggestionsResponse {
   source?: 'ai' | 'fallback';
   warning?: string;
   error?: string;
+  code?: string;
 }
 
 type ActionState = 'sending' | 'sent';
@@ -43,13 +46,13 @@ const KIND_META: Record<CaptainSuggestionKind, {
   },
   question: {
     label: 'Question',
-    action: 'Ask',
+    action: 'Send',
     icon: MessageSquare,
     accent: 'text-cyan-300 border-cyan-400/25 bg-cyan-500/10',
   },
   poll: {
     label: 'Poll',
-    action: 'Poll',
+    action: 'Send',
     icon: BarChart3,
     accent: 'text-emerald-300 border-emerald-400/25 bg-emerald-500/10',
   },
@@ -70,34 +73,54 @@ async function postJSON<T>(url: string, body: unknown): Promise<T> {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     const message = typeof data?.error === 'string' ? data.error : 'Request failed';
-    throw new Error(message);
+    const error = new Error(message) as Error & { code?: string };
+    error.code = typeof data?.code === 'string' ? data.code : undefined;
+    throw error;
   }
 
   return data as T;
 }
 
-export function CaptainSuggestionsPanel({ sessionId, onSpotlightSent }: CaptainSuggestionsPanelProps) {
+export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotlightSent }: CaptainSuggestionsPanelProps) {
   const [suggestions, setSuggestions] = useState<CaptainSuggestion[]>([]);
   const [source, setSource] = useState<'ai' | 'fallback' | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [actionState, setActionState] = useState<Record<string, ActionState | undefined>>({});
+  const wasStandbyRef = useRef(false);
 
-  const loadSuggestions = useCallback(async () => {
+  const loadSuggestions = useCallback(async (auto = false) => {
     setIsLoading(true);
-    setError(null);
+    if (!auto) setError(null);
 
     try {
-      const data = await postJSON<SuggestionsResponse>('/api/session/captain-suggestions', { sessionId });
+      const data = await postJSON<SuggestionsResponse>('/api/session/captain-suggestions', { sessionId, auto });
       setSuggestions(Array.isArray(data.suggestions) ? data.suggestions : []);
       setSource(data.source ?? null);
+      setActionState({});
       if (data.warning) setError(data.warning);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load suggestions');
+      // Auto packs are Pro-only; free accounts just keep the manual button.
+      const code = (err as Error & { code?: string }).code;
+      if (!(auto && code === 'PRO_REQUIRED')) {
+        setError(err instanceof Error ? err.message : 'Could not load suggestions');
+      }
     } finally {
       setIsLoading(false);
     }
   }, [sessionId]);
+
+  // Standby pack: when student devices go quiet, pre-generate one suggestion set
+  // so the cards are already warm when the teacher looks. Once per standby entry.
+  useEffect(() => {
+    if (standby && !wasStandbyRef.current) {
+      wasStandbyRef.current = true;
+      void loadSuggestions(true);
+    }
+    if (!standby) {
+      wasStandbyRef.current = false;
+    }
+  }, [standby, loadSuggestions]);
 
   const launchSuggestion = useCallback(async (suggestion: CaptainSuggestion) => {
     setError(null);
@@ -109,39 +132,40 @@ export function CaptainSuggestionsPanel({ sessionId, onSpotlightSent }: CaptainS
           throw new Error('This spotlight no longer has a source submission');
         }
 
-        await postJSON('/api/session/spotlight', {
+        const result = await postJSON<{ shownName?: string; text?: string }>('/api/session/spotlight', {
           sessionId,
           submissionId: suggestion.sourceSubmissionId,
           studentName: suggestion.sourceStudentName ?? 'Student',
           text: suggestion.sourceText,
           label: 'Captain\'s Pick',
+          tag: suggestion.tag,
+          highlight: suggestion.highlight,
         });
-        onSpotlightSent?.(suggestion.sourceStudentName ?? 'Student');
+        onSpotlightSent?.(result.shownName ?? suggestion.sourceStudentName ?? 'Student', result.text ?? suggestion.sourceText);
       }
 
+      // Questions and polls go to Crew Radio — the side panel on student
+      // devices — so they never interrupt the main task.
       if (suggestion.kind === 'question') {
-        const spec: InputSpec = {
-          type: 'textarea',
-          gameKey: 'captain-suggestion-question',
-          instruction: 'Quick write',
-          prompt: suggestion.prompt,
-          placeholder: 'Write one or two sentences...',
-          maxLength: 280,
-          allowMultiple: true,
-          reviewMode: 'approval',
-        };
-
-        await postJSON('/api/session/input-spec', { sessionId, spec });
+        await postJSON('/api/session/side-channel', {
+          sessionId,
+          item: {
+            kind: 'write',
+            title: suggestion.title || 'Quick write',
+            prompt: suggestion.prompt,
+            maxLength: 280,
+          },
+        });
       }
 
       if (suggestion.kind === 'poll') {
-        await postJSON('/api/session/poll', {
+        await postJSON('/api/session/side-channel', {
           sessionId,
-          question: suggestion.prompt,
-          options: suggestion.options ?? [],
-          metadata: {
-            source: 'captain-suggestion',
-            suggestionId: suggestion.id,
+          item: {
+            kind: 'choice',
+            title: suggestion.title || 'Crew poll',
+            prompt: suggestion.prompt,
+            options: suggestion.options ?? [],
           },
         });
       }
@@ -170,10 +194,10 @@ export function CaptainSuggestionsPanel({ sessionId, onSpotlightSent }: CaptainS
               </span>
             )}
           </div>
-          <p className="mt-1 text-xs text-white/35">Teacher-approved prompts from recent student writing.</p>
+          <p className="mt-1 text-xs text-white/35">Questions and polls land in Crew Radio on student devices — never over the main task.</p>
         </div>
         <button
-          onClick={loadSuggestions}
+          onClick={() => loadSuggestions()}
           disabled={isLoading}
           title="Get suggestions"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-400/25 bg-violet-500/10 text-violet-200 transition-colors hover:border-violet-300/45 hover:bg-violet-500/20 disabled:opacity-50"
@@ -197,7 +221,7 @@ export function CaptainSuggestionsPanel({ sessionId, onSpotlightSent }: CaptainS
       {suggestions.length === 0 ? (
         <div className="px-4 py-5 text-center">
           <button
-            onClick={loadSuggestions}
+            onClick={() => loadSuggestions()}
             disabled={isLoading}
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-violet-400/25 bg-violet-500/10 px-4 text-sm font-semibold text-violet-100 transition-colors hover:border-violet-300/45 hover:bg-violet-500/20 disabled:opacity-50"
           >
@@ -237,6 +261,9 @@ function SuggestionRow({ suggestion, actionState, onLaunch }: SuggestionRowProps
     isSent ||
     (suggestion.kind === 'poll' && (!suggestion.options || suggestion.options.length < 2)) ||
     (suggestion.kind === 'spotlight' && !suggestion.sourceSubmissionId);
+  const tagLabel = suggestion.kind === 'spotlight' && suggestion.tag
+    ? SPOTLIGHT_TAG_META[suggestion.tag]?.label
+    : null;
 
   return (
     <div className="px-4 py-3 space-y-2">
@@ -247,6 +274,11 @@ function SuggestionRow({ suggestion, actionState, onLaunch }: SuggestionRowProps
               <Icon className="h-3 w-3" aria-hidden="true" />
               {meta.label}
             </span>
+            {tagLabel && (
+              <span className="rounded-full border border-amber-400/25 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-200/80">
+                {tagLabel}
+              </span>
+            )}
             <span className="text-sm font-semibold text-white">{suggestion.title}</span>
           </div>
           <p className="text-xs text-white/38 leading-snug">{suggestion.rationale}</p>

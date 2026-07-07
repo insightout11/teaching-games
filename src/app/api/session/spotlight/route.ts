@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
+import {
+  ANONYMOUS_CREW_NAME,
+  isSpotlightTag,
+  spotlightPrefKey,
+  type SpotlightPayload,
+} from '@/lib/spotlight';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,14 +16,8 @@ export const dynamic = 'force-dynamic';
 // Flow: approve the submission → upsert spotlight payload into session_private_state.
 // The shared screen subscribes to realtime UPDATE on session_private_state and shows
 // the Captain's Pick card when a new spotlight arrives.
-
-interface SpotlightPayload {
-  type: 'spotlight';
-  label: string;
-  studentName: string;
-  text: string;
-  createdAt: string;
-}
+// The student's name preference (session_private_state key 'spotlight-pref:<clientId>')
+// decides whether the card shows their name or "A crew member".
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -32,6 +32,8 @@ export async function POST(request: NextRequest) {
       studentName: string;
       text: string;
       label?: string;
+      tag?: string;
+      highlight?: string;
     };
 
     const { sessionId, submissionId, studentName, text, label = 'Captain\'s Pick' } = body;
@@ -60,7 +62,7 @@ export async function POST(request: NextRequest) {
       .update({ status: 'approved' })
       .eq('id', submissionId)
       .eq('session_id', sessionId)
-      .select('id, display_name, content')
+      .select('id, display_name, content, client_id')
       .maybeSingle();
 
     if (approveError) {
@@ -71,12 +73,35 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Submission not found' }, { status: 404 });
     }
 
+    // Student name preference — named by default, anonymity is opt-in.
+    let anonymous = false;
+    if (submission.client_id) {
+      const { data: prefRow } = await supabase
+        .from('session_private_state')
+        .select('payload')
+        .eq('session_id', sessionId)
+        .eq('key', spotlightPrefKey(submission.client_id as string))
+        .maybeSingle();
+      anonymous = (prefRow?.payload as { named?: boolean } | null)?.named === false;
+    }
+
+    const finalText = submission.content || text;
+    const tag = isSpotlightTag(body.tag) ? body.tag : undefined;
+    // Highlight must be an exact phrase of the shown text, or it's dropped.
+    const rawHighlight = typeof body.highlight === 'string' ? body.highlight.trim().slice(0, 60) : '';
+    const highlight = rawHighlight && finalText.toLowerCase().includes(rawHighlight.toLowerCase())
+      ? rawHighlight
+      : null;
+
     // Upsert spotlight payload — UNIQUE on (session_id, key) so this replaces any prior spotlight
     const payload: SpotlightPayload = {
       type: 'spotlight',
       label,
-      studentName: submission.display_name || studentName,
-      text: submission.content || text,
+      studentName: anonymous ? ANONYMOUS_CREW_NAME : (submission.display_name || studentName),
+      text: finalText,
+      ...(tag ? { tag } : {}),
+      highlight,
+      anonymous,
       createdAt: new Date().toISOString(),
     };
 
@@ -92,7 +117,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to write spotlight' }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true });
+    // Return what was shown so the cockpit can offer follow-ups quoting it.
+    return NextResponse.json({ ok: true, shownName: payload.studentName, text: finalText });
   } catch (error) {
     console.error('[spotlight POST] error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import { useSubmissionsFeed } from '@/hooks/use-submissions-feed';
-import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
+import { getStageLabelForKey } from '@/lib/stage-labels';
 import Link from 'next/link';
 import { ClassQuestionsContent } from '@/components/session/class-questions-widget';
 import { PollContent } from '@/components/session/poll-manager';
@@ -27,35 +27,6 @@ interface CockpitViewProps {
 
 type CockpitTool = 'poll' | 'timer';
 
-// Stage-label lookup merged from every preset's flightConfig, so the cockpit can label
-// modules from any active preset (Travel's trip-meal, Debate's team-debate, Grammar drills…),
-// not just All-Around Flight. The session doesn't persist which preset is running, so we
-// resolve gameKey → label across all of them. All-Around is merged first so its labels win
-// on keys shared between presets; the raw gameKey is the final fallback.
-const GAMEKEY_TO_STAGE_LABEL: Record<string, string> = (() => {
-  const map: Record<string, string> = {};
-  const orderedPresets = [
-    ...FLIGHT_PLAN_PRESETS.filter(p => p.id === 'all-around-flight-60'),
-    ...FLIGHT_PLAN_PRESETS.filter(p => p.id !== 'all-around-flight-60'),
-  ];
-  for (const preset of orderedPresets) {
-    const cfg = preset.flightConfig;
-    if (!cfg) continue;
-    const labelByStage = Object.fromEntries(cfg.stages.map(s => [s.stageId, s.label]));
-    for (const [gameKey, stageId] of Object.entries(cfg.stageByKey)) {
-      if (map[gameKey]) continue; // first preset to define the key wins
-      const label = labelByStage[stageId];
-      if (label) map[gameKey] = label;
-    }
-  }
-  return map;
-})();
-
-function getStageLabelForKey(gameKey: string | undefined | null): string | null {
-  if (!gameKey) return null;
-  return GAMEKEY_TO_STAGE_LABEL[gameKey] ?? gameKey;
-}
-
 function formatRelativeTime(isoString: string): string {
   const diffMs = Date.now() - new Date(isoString).getTime();
   const diffSec = Math.floor(diffMs / 1000);
@@ -75,7 +46,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const [currentInputSpec, setCurrentInputSpec] = useState<InputSpec | null>(initialInputSpec);
   const [spotlighting, setSpotlighting] = useState<string | null>(null);
   const [spotlightedIds, setSpotlightedIds] = useState<Set<string>>(new Set());
-  const [lastSpotlightName, setLastSpotlightName] = useState<string | null>(null);
+  const [lastSpotlight, setLastSpotlight] = useState<{ name: string; text: string } | null>(null);
+  const [followUpState, setFollowUpState] = useState<'idle' | 'sending' | 'sent'>('idle');
   const [clearingEvent, setClearingEvent] = useState(false);
   const [showAllSubmissions, setShowAllSubmissions] = useState(false);
   const [activeTool, setActiveTool] = useState<CockpitTool>('poll');
@@ -129,10 +101,14 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           submissionId: sub.id,
           studentName: sub.display_name,
           text: sub.content,
+          // Manual picks: student questions tag as 'question', game answers as 'idea'
+          tag: sub.game_key ? 'idea' : 'question',
         }),
       });
       if (res.ok) {
-        setLastSpotlightName(sub.display_name);
+        const data = await res.json().catch(() => ({}));
+        setLastSpotlight({ name: data.shownName ?? sub.display_name, text: data.text ?? sub.content });
+        setFollowUpState('idle');
         setSpotlightedIds((prev) => new Set(prev).add(sub.id));
         setTimeout(() => {
           setSpotlightedIds((prev) => {
@@ -160,6 +136,39 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
     }
   }, [session.id]);
 
+  // Chain a Crew Radio follow-up about the last Captain's Pick — turns one
+  // spotlight into a short class arc without touching the main task.
+  const handleFollowUp = useCallback(async (mode: 'react' | 'upgrade') => {
+    if (!lastSpotlight) return;
+    setFollowUpState('sending');
+    try {
+      const quote = { text: lastSpotlight.text, name: lastSpotlight.name };
+      const item = mode === 'react'
+        ? {
+            kind: 'choice',
+            title: 'React to the Captain\'s Pick',
+            prompt: 'Do you agree with this idea?',
+            options: ['Agree', 'Disagree', 'Not sure'],
+            quote,
+          }
+        : {
+            kind: 'write',
+            title: 'Upgrade the Captain\'s Pick',
+            prompt: 'Rewrite this idea in your own words — can you make it even stronger?',
+            maxLength: 280,
+            quote,
+          };
+      const res = await fetch('/api/session/side-channel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: session.id, item }),
+      });
+      setFollowUpState(res.ok ? 'sent' : 'idle');
+    } catch {
+      setFollowUpState('idle');
+    }
+  }, [lastSpotlight, session.id]);
+
   const handleShowAnswer = useCallback(async (question: string, answer: string) => {
     try {
       await fetch('/api/session/screen-answer', {
@@ -176,7 +185,9 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const pendingCount = submissions.filter((sub) => sub.status === 'pending').length;
   const approvedCount = submissions.filter((sub) => sub.status === 'approved').length;
   const deviceState = currentInputSpec ? 'Collecting' : 'Standby';
-  const cockpitTopic = session.custom_topic || session.topic || 'General';
+  // No 'General' placeholder — fall back to the class name so downstream AI
+  // prompts never get told the topic is literally "General".
+  const cockpitTopic = session.custom_topic || session.topic || cls.name;
   const cockpitDifficulty = session.difficulty || 'Intermediate';
   const toolTabs: Array<{ id: CockpitTool; label: string }> = [
     { id: 'poll', label: 'Poll' },
@@ -256,8 +267,44 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
 
         <CaptainSuggestionsPanel
           sessionId={session.id}
-          onSpotlightSent={setLastSpotlightName}
+          standby={!currentInputSpec}
+          onSpotlightSent={(name, text) => {
+            setLastSpotlight({ name, text });
+            setFollowUpState('idle');
+          }}
         />
+
+        {/* Follow up on the last Captain's Pick via Crew Radio */}
+        {lastSpotlight && (
+          <div className="order-2 bg-[#0d1f35] rounded-2xl border border-amber-400/20 p-4 space-y-2">
+            <p className="text-xs text-amber-300/70 uppercase tracking-widest font-medium">
+              Follow up on {lastSpotlight.name}&apos;s pick
+            </p>
+            <p className="text-xs text-white/40 leading-snug">
+              &quot;{truncate(lastSpotlight.text, 90)}&quot;
+            </p>
+            {followUpState === 'sent' ? (
+              <p className="text-xs text-emerald-300">Sent to Crew Radio ✓</p>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => handleFollowUp('react')}
+                  disabled={followUpState === 'sending'}
+                  className="min-h-11 rounded-xl border border-emerald-400/25 bg-emerald-500/10 px-2 text-xs font-semibold text-emerald-200 transition-colors hover:bg-emerald-500/20 disabled:opacity-50"
+                >
+                  React poll
+                </button>
+                <button
+                  onClick={() => handleFollowUp('upgrade')}
+                  disabled={followUpState === 'sending'}
+                  className="min-h-11 rounded-xl border border-cyan-400/25 bg-cyan-500/10 px-2 text-xs font-semibold text-cyan-200 transition-colors hover:bg-cyan-500/20 disabled:opacity-50"
+                >
+                  Upgrade write
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Class Tools */}
         <div className="order-2 bg-[#0d1f35] rounded-2xl border border-white/10 overflow-hidden">
@@ -302,10 +349,10 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
                 <span>{deviceState} on student devices</span>
                 <span className="text-white/15">/</span>
                 <span>{students.length} student{students.length !== 1 ? 's' : ''}</span>
-                {lastSpotlightName && (
+                {lastSpotlight && (
                   <>
                     <span className="text-white/15">/</span>
-                    <span className="text-amber-300/80">Last pick: {lastSpotlightName}</span>
+                    <span className="text-amber-300/80">Last pick: {lastSpotlight.name}</span>
                   </>
                 )}
               </div>
@@ -316,10 +363,10 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
               <p className="text-sm text-white/40">Nothing on student devices</p>
               <div className="flex flex-wrap items-center gap-2 text-xs text-white/25 pt-1">
                 <span>{students.length} student{students.length !== 1 ? 's' : ''}</span>
-                {lastSpotlightName && (
+                {lastSpotlight && (
                   <>
                     <span className="text-white/15">/</span>
-                    <span className="text-amber-300/70">Last pick: {lastSpotlightName}</span>
+                    <span className="text-amber-300/70">Last pick: {lastSpotlight.name}</span>
                   </>
                 )}
               </div>

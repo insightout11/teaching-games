@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildCaptainSuggestionsPrompt,
   buildFallbackCaptainSuggestions,
   sanitizeCaptainSuggestions,
   type CaptainSuggestionSourceSubmission,
@@ -77,7 +78,84 @@ describe('captain suggestions', () => {
       kind: 'spotlight',
       sourceSubmissionId: submissions[0].id,
       sourceStudentName: 'Mina',
+      tag: 'idea', // default when the model omits it
     });
     expect(suggestions[1].options).toEqual(['Transport', 'Green space']);
+  });
+
+  it('keeps a spotlight highlight only when it is a real phrase from the submission', () => {
+    const fallback = buildFallbackCaptainSuggestions({
+      topic: 'future cities',
+      difficulty: 'Intermediate',
+      submissions,
+    });
+
+    const suggestions = sanitizeCaptainSuggestions(
+      [
+        {
+          kind: 'spotlight',
+          title: 'Spotlight Mina',
+          rationale: 'Strong phrase worth showing.',
+          prompt: 'Show this idea.',
+          sourceSubmissionId: submissions[0].id,
+          tag: 'wordcraft',
+          highlight: 'quiet public spaces',
+        },
+        {
+          kind: 'spotlight',
+          title: 'Spotlight Leo',
+          rationale: 'Highlight is invented, must be dropped.',
+          prompt: 'Show this idea.',
+          sourceSubmissionId: submissions[1].id,
+          tag: 'answer',
+          highlight: 'high-speed rail network',
+        },
+        {
+          kind: 'question',
+          title: 'Quick opinion',
+          rationale: 'Keeps the class thinking about Mina\'s idea.',
+          prompt: 'Would YOU use a quiet public space? Why or why not?',
+        },
+      ],
+      submissions,
+      fallback,
+    );
+
+    expect(suggestions[0]).toMatchObject({ tag: 'wordcraft', highlight: 'quiet public spaces' });
+    expect(suggestions[1].highlight).toBeUndefined();
+    expect(suggestions[1].tag).toBe('answer');
+  });
+
+  it('never tells the model the topic is General', () => {
+    const prompt = buildCaptainSuggestionsPrompt({
+      topic: 'General',
+      difficulty: 'Intermediate',
+      submissions,
+    });
+
+    expect(prompt).not.toContain('Lesson topic: General');
+    expect(prompt).toContain('infer it from the student writing');
+  });
+
+  it('includes live telemetry when provided', () => {
+    const prompt = buildCaptainSuggestionsPrompt({
+      topic: 'future cities',
+      difficulty: 'Intermediate',
+      submissions,
+      stageLabel: 'Explore',
+      nextStageLabel: 'Debate',
+      vocab: ['commute', 'infrastructure'],
+      quietStudents: ['Ana'],
+      recentScores: [{ studentName: 'Leo', accuracyStatus: 'incorrect' }],
+      lastPoll: { question: 'Best transport?', results: [{ option: 'Bikes', votes: 4 }, { option: 'Trains', votes: 2 }] },
+    });
+
+    expect(prompt).toContain('Lesson topic: future cities');
+    expect(prompt).toContain('Current stage: Explore');
+    expect(prompt).toContain('Next stage: Debate');
+    expect(prompt).toContain('commute, infrastructure');
+    expect(prompt).toContain('Quiet so far (no recent answers): Ana');
+    expect(prompt).toContain('Leo:incorrect');
+    expect(prompt).toContain('Bikes=4');
   });
 });

@@ -12,7 +12,8 @@ import { VALIDATION } from '@/lib/config/rate-limits';
 import { DIFFICULTIES } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { grammarReference } from '@/lib/grammar';
-import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, ClipboardCheck, Share2, Check } from 'lucide-react';
+import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check } from 'lucide-react';
+import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
@@ -100,6 +101,30 @@ interface StudentControllerProps {
 // localStorage helpers for persisting voted question IDs across page reloads
 // ---------------------------------------------------------------------------
 const VOTED_KEY = 'lc-voted-questions';
+
+// Crew Radio seen/answered tracking (per session) so the badge doesn't relight
+// on reload for an item the student already opened or answered.
+const CREW_RADIO_KEY = 'lc-crew-radio';
+
+function loadCrewRadioState(sessionId: string): { seen: string | null; done: string[] } {
+  try {
+    const raw = localStorage.getItem(CREW_RADIO_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    const entry = parsed[sessionId];
+    return { seen: entry?.seen ?? null, done: Array.isArray(entry?.done) ? entry.done : [] };
+  } catch {
+    return { seen: null, done: [] };
+  }
+}
+
+function persistCrewRadioState(sessionId: string, state: { seen: string | null; done: string[] }) {
+  try {
+    const raw = localStorage.getItem(CREW_RADIO_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    parsed[sessionId] = { seen: state.seen, done: state.done.slice(-20) };
+    localStorage.setItem(CREW_RADIO_KEY, JSON.stringify(parsed));
+  } catch { /* ignore */ }
+}
 
 // ---------------------------------------------------------------------------
 // English Spotlight tips — shown while waiting for an activity to start
@@ -260,9 +285,19 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [isPickingCard, setIsPickingCard] = useState(false);
   const [cardConflict, setCardConflict] = useState<{ pendingCardId: string; heldCard: { cardId: string; cardKey: string; moduleKey: string } } | null>(null);
 
+  // Crew Radio (side channel) state — optional prompts that never replace the main task
+  const [sideChannel, setSideChannel] = useState<SideChannelItem | null>(null);
+  const [radioOpen, setRadioOpen] = useState(false);
+  const [radioSeenId, setRadioSeenId] = useState<string | null>(null);
+  const [radioDoneIds, setRadioDoneIds] = useState<Set<string>>(new Set());
+  const [radioText, setRadioText] = useState('');
+  const [radioBusy, setRadioBusy] = useState(false);
+  const [radioStatus, setRadioStatus] = useState<'idle' | 'sent' | 'error'>('idle');
+
   // My Flight Deck state
   const [flightDeckOpen, setFlightDeckOpen] = useState(false);
   const [scoreVisible, setScoreVisible] = useState(true);
+  const [spotlightNamed, setSpotlightNamed] = useState(true);
   const [isSavingPrefs, setIsSavingPrefs] = useState(false);
   const [prefsSaved, setPrefsSaved] = useState(false);
 
@@ -302,6 +337,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // Load voted IDs from localStorage on mount
   useEffect(() => {
     setVotedIds(loadVotedIds(sessionId));
+    const radioState = loadCrewRadioState(sessionId);
+    setRadioSeenId(radioState.seen);
+    setRadioDoneIds(new Set(radioState.done));
   }, [sessionId]);
 
   // Fire "Get ready" splash when inputSpec transitions null → set
@@ -332,6 +370,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);
       setInputSpec(data.inputSpec);
+      setSideChannel(data.sideChannel ?? null);
       if (!data.inputSpec?.wonderFollowUpMode) {
         setSelectedFollowUpId(null);
         setFollowUpText('');
@@ -374,6 +413,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       .then((data) => {
         if (data) {
           setScoreVisible(data.score_visible ?? true);
+          setSpotlightNamed(data.spotlight_named ?? true);
         }
       })
       .catch(() => {});
@@ -628,11 +668,97 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   };
 
-  const savePrefs = async (overrides?: { score_visible?: boolean }) => {
+  const markRadioDone = (itemId: string) => {
+    setRadioDoneIds((prev) => {
+      const next = new Set(prev);
+      next.add(itemId);
+      persistCrewRadioState(sessionId, { seen: itemId, done: Array.from(next) });
+      return next;
+    });
+  };
+
+  const handleRadioToggle = () => {
+    setRadioOpen((open) => {
+      const next = !open;
+      if (next && sideChannel && sideChannel.id !== radioSeenId) {
+        setRadioSeenId(sideChannel.id);
+        persistCrewRadioState(sessionId, { seen: sideChannel.id, done: Array.from(radioDoneIds) });
+      }
+      return next;
+    });
+  };
+
+  const handleRadioWrite = async () => {
+    if (!sideChannel || !radioText.trim() || radioBusy) return;
+    setRadioBusy(true);
+    setRadioStatus('idle');
+    try {
+      const res = await fetch('/api/student/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          clientId: studentSession.clientId,
+          displayName: studentSession.displayName,
+          content: radioText.trim(),
+          team: studentSession.team,
+          gameKey: SIDE_CHANNEL_GAME_KEY,
+          inputType: 'textarea',
+          studentId: studentSession.studentId,
+          allowMultiple: true,
+          reviewMode: 'approval',
+        }),
+      });
+      if (res.ok) {
+        setRadioStatus('sent');
+        setRadioText('');
+        markRadioDone(sideChannel.id);
+      } else {
+        setRadioStatus('error');
+      }
+    } catch {
+      setRadioStatus('error');
+    } finally {
+      setRadioBusy(false);
+    }
+  };
+
+  const handleRadioVote = async (choice: string) => {
+    if (!sideChannel?.pollId || radioBusy) return;
+    setRadioBusy(true);
+    setRadioStatus('idle');
+    try {
+      const res = await fetch('/api/student/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pollId: sideChannel.pollId,
+          sessionId,
+          clientId: studentSession.clientId,
+          displayName: studentSession.displayName,
+          choice,
+          team: studentSession.team,
+        }),
+      });
+      if (res.ok || res.status === 429) {
+        setRadioStatus('sent');
+        markRadioDone(sideChannel.id);
+      } else {
+        setRadioStatus('error');
+      }
+    } catch {
+      setRadioStatus('error');
+    } finally {
+      setRadioBusy(false);
+    }
+  };
+
+  const savePrefs = async (overrides?: { score_visible?: boolean; spotlight_named?: boolean }) => {
     const payload = {
       sessionId,
       clientId: studentSession.clientId,
       score_visible: overrides?.score_visible ?? scoreVisible,
+      spotlight_named: overrides?.spotlight_named ?? spotlightNamed,
     };
     await fetch('/api/student/prefs', {
       method: 'PATCH',
@@ -981,8 +1107,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         </div>
       </div>
 
-      {/* Active Poll */}
-      {activePoll && !hiddenPollIds.has(activePoll.pollId) && (
+      {/* Active Poll — side-channel polls render inside Crew Radio instead */}
+      {activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && (
         <div className={`glass rounded-2xl p-6 mb-4 ${activePoll.metadata?.poll_type === 'bonus_vote' ? 'border border-cyan-500/30' : ''}`}>
           <div className="flex items-center justify-between mb-1">
             <h2 className="font-bold text-white">
@@ -1320,6 +1446,98 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           </div>
         )}
       </div>
+
+      {/* Crew Radio — optional side-channel prompt; never replaces the main task */}
+      {sideChannel && (() => {
+        const isDone = radioDoneIds.has(sideChannel.id);
+        const isNew = sideChannel.id !== radioSeenId && !isDone;
+        return (
+          <div className="mb-4">
+            <button
+              onClick={handleRadioToggle}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-left transition-all ${
+                radioOpen ? 'bg-white/15 border border-amber-400/25' : 'glass border border-transparent hover:border-white/10'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <span className="relative">
+                  <RadioTower className={`w-3.5 h-3.5 ${isNew ? 'text-amber-300' : 'text-gray-400'}`} />
+                  {isNew && (
+                    <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                  )}
+                </span>
+                <span className="text-xs font-semibold text-white">Crew Radio</span>
+                {isNew && (
+                  <span className="rounded-full bg-amber-500/15 border border-amber-400/25 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                    New
+                  </span>
+                )}
+                {isDone && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+              </div>
+              <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform ${radioOpen ? '' : '-rotate-90'}`}
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {radioOpen && (
+              <div className="glass rounded-2xl p-4 mt-2 space-y-3 border border-amber-400/15">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-amber-300/70">{sideChannel.title}</p>
+                  {sideChannel.quote && (
+                    <div className="mt-2 rounded-xl border border-amber-400/20 bg-amber-500/8 px-3 py-2">
+                      <p className="text-sm italic text-amber-100/90 leading-snug">&ldquo;{sideChannel.quote.text}&rdquo;</p>
+                      <p className="mt-1 text-[10px] text-amber-200/50">{sideChannel.quote.name}</p>
+                    </div>
+                  )}
+                  <p className="mt-2 text-sm text-white leading-snug">{sideChannel.prompt}</p>
+                  <p className="mt-1 text-[10px] text-gray-500">Answer when you have a spare moment — this is optional.</p>
+                </div>
+
+                {isDone ? (
+                  <p className="text-xs text-emerald-400 text-center py-1">Sent to the captain ✓</p>
+                ) : sideChannel.kind === 'choice' && sideChannel.options ? (
+                  <div className="space-y-2">
+                    {sideChannel.options.map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => handleRadioVote(option)}
+                        disabled={radioBusy}
+                        className="w-full p-3 rounded-xl text-left text-sm font-medium bg-white/10 text-gray-200 hover:bg-white/20 transition-all disabled:opacity-50"
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <textarea
+                      value={radioText}
+                      onChange={(e) => setRadioText(e.target.value.slice(0, sideChannel.maxLength ?? 280))}
+                      placeholder="Your answer — one or two sentences..."
+                      rows={2}
+                      className="w-full bg-white/10 text-white rounded-xl p-3 text-sm resize-none placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-400/50"
+                    />
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">{radioText.length}/{sideChannel.maxLength ?? 280}</span>
+                      <button
+                        onClick={handleRadioWrite}
+                        disabled={!radioText.trim() || radioBusy}
+                        className="px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:bg-amber-500/30 transition-all disabled:opacity-40"
+                      >
+                        {radioBusy ? 'Sending…' : 'Send'}
+                      </button>
+                    </div>
+                  </>
+                )}
+                {radioStatus === 'error' && (
+                  <p className="text-xs text-red-400">Something went wrong — try again.</p>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Held card chip */}
       {heldCard && (() => {
@@ -1728,6 +1946,24 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   <span className={`block w-3 h-3 rounded-full bg-white mt-0.5 transition-all ${!scoreVisible ? 'translate-x-4' : 'translate-x-0.5'}`} />
                 </span>
               </button>
+            </div>
+            <div>
+              <button
+                onClick={async () => {
+                  const next = !spotlightNamed;
+                  setSpotlightNamed(next);
+                  await savePrefs({ spotlight_named: next });
+                }}
+                className="w-full flex items-center justify-between py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
+              >
+                <span className="text-xs text-gray-300">Hide my name if I&apos;m spotlighted</span>
+                <span className={`w-8 h-4 rounded-full transition-all flex-shrink-0 ${!spotlightNamed ? 'bg-amber-500' : 'bg-white/20'}`}>
+                  <span className={`block w-3 h-3 rounded-full bg-white mt-0.5 transition-all ${!spotlightNamed ? 'translate-x-4' : 'translate-x-0.5'}`} />
+                </span>
+              </button>
+              <p className="mt-1 px-3 text-[10px] text-gray-500">
+                When the captain shares your answer on the big screen, it will say &ldquo;A crew member&rdquo; instead of your name.
+              </p>
             </div>
             <button
               onClick={handleSavePrefs}
