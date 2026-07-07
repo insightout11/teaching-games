@@ -135,6 +135,8 @@ export function EndSessionSummary({
 
   // Travel arc: what the class actually did on the trip — retold in the arrival beat.
   const tripLog = useSessionStore((s) => s.tripLog);
+  // Captain's Flight: lesson memory written by key beats — recapped here on landing.
+  const flightLog = useSessionStore((s) => s.flightLog);
 
   // Collective "class" stats for the arrival celebration
   const bestStreak = summary.length > 0 ? Math.max(...summary.map((s) => s.bestStreak)) : 0;
@@ -194,6 +196,26 @@ export function EndSessionSummary({
             <ul className="space-y-1.5">
               {tripLog.map((entry) => (
                 <li key={entry.stageId} className="flex items-start gap-2 text-sm text-lc-text">
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-300" aria-hidden />
+                  {entry.text}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+
+        {/* Captain's Flight — recap the lesson's key beats (kept out of Travel's trip block) */}
+        {flightLog.length > 0 && tripLog.length === 0 && (
+          <motion.div
+            className="glass rounded-2xl border border-lc-border p-4 mb-8"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.12 }}
+          >
+            <p className="text-[11px] uppercase tracking-wider text-lc-text2 mb-2">The flight log</p>
+            <ul className="space-y-1.5">
+              {flightLog.map((entry) => (
+                <li key={entry.beat} className="flex items-start gap-2 text-sm text-lc-text">
                   <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-300" aria-hidden />
                   {entry.text}
                 </li>

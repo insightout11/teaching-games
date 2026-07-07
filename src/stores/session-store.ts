@@ -11,6 +11,9 @@ import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 export type PickerMode = 'fair' | 'random';
 export type GameMode = 'normal' | 'spinner';
 
+// Captain's Flight preset id — the flight log (lesson memory) is scoped to this flagship preset.
+const CAPTAINS_FLIGHT_PRESET_ID = 'all-around-flight-60';
+
 // Session types
 export type { Difficulty } from '@/lib/difficulty';
 export { DIFFICULTIES } from '@/lib/difficulty';
@@ -75,6 +78,19 @@ export interface PredictionResult {
   countB: number;
 }
 
+// Captain's Flight lesson memory (Stage 2). Each key beat appends one line so the Final Word can
+// debrief the class on what actually happened. Deliberately SEPARATE from tripLog so it never trips
+// the flash-quiz trip-mode gate (which keys off tripLog, Travel-only).
+export interface FlightLogEntry {
+  beat: 'prediction' | 'opinion-pulse' | 'toolkit' | 'council';
+  /** One-line recap for the end-session flight log. */
+  text: string;
+  /** Toolkit words — rendered as chips in the Final Word debrief. */
+  vocab?: string[];
+  /** A projected-safe callback the Final Word can pose back to the class. */
+  callback?: string;
+}
+
 // One line of the Travel arc's trip log — what the class did at a stop.
 export interface TripLogEntry {
   stageId: string;
@@ -136,6 +152,12 @@ interface SessionState {
   // trips the flash-quiz trip-mode gate. Written by prediction-round in deferReveal mode.
   predictionResults: PredictionResult[];
 
+  // Flight log (Captain's Flight, Stage 2) — lesson memory written by key beats, read by the Final
+  // Word debrief and the end-session recap. Populated only when flightPresetId is Captain's Flight.
+  flightLog: FlightLogEntry[];
+  // Active flight preset id — set on lesson load; scopes the flight log to Captain's Flight.
+  flightPresetId: string | null;
+
   // Actions
   initSession: (sessionId: string, classId: string, students: Student[]) => void;
   setPickerMode: (mode: PickerMode) => void;
@@ -166,6 +188,8 @@ interface SessionState {
   addCharacterAssignment: (clientId: string, character: CharacterCard) => void;
   addTripLogEntry: (entry: TripLogEntry) => void;
   setPredictionResults: (results: PredictionResult[]) => void;
+  addFlightLogEntry: (entry: FlightLogEntry) => void;
+  setFlightPresetId: (id: string | null) => void;
   setGrammarTarget: (target: GrammarTarget | null) => void;
   reset: () => void;
 }
@@ -264,6 +288,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   characterAssignments: {},
   tripLog: [],
   predictionResults: [],
+  flightLog: [],
+  flightPresetId: null,
 
   initSession: (sessionId, classId, students) => {
     lastWrittenInputSpec = undefined; // Reset per-session tracking
@@ -297,6 +323,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       characterAssignments: {},
       tripLog: [],
       predictionResults: [],
+      // flightLog clears per session; flightPresetId is set separately on lesson load.
+      flightLog: [],
     });
   },
 
@@ -307,6 +335,17 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   },
 
   setPredictionResults: (results) => set({ predictionResults: results }),
+
+  addFlightLogEntry: (entry) => {
+    // Flight log is a Captain's Flight feature only — silently ignore elsewhere so shared beats
+    // (would-you-rather, rank-it, language-toolkit) don't populate it in other presets.
+    if (get().flightPresetId !== CAPTAINS_FLIGHT_PRESET_ID) return;
+    const { flightLog } = get();
+    // One entry per beat — a re-run replaces its line instead of duplicating it.
+    set({ flightLog: [...flightLog.filter((e) => e.beat !== entry.beat), entry] });
+  },
+
+  setFlightPresetId: (id) => set({ flightPresetId: id }),
 
   setPickerMode: (mode) => set({ pickerMode: mode }),
 
@@ -526,6 +565,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       characterAssignments: {},
       tripLog: [],
       predictionResults: [],
+      flightLog: [],
+      flightPresetId: null,
     });
   },
 }));

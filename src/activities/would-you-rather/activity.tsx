@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type WouldYouRatherContent, type WouldYouRatherDilemma } from './types';
+import { useSessionStore } from '@/stores/session-store';
 
 export function WouldYouRatherActivity({
   generatedContent,
@@ -21,6 +22,7 @@ export function WouldYouRatherActivity({
   const [votes, setVotes] = useState<Vote[]>([]);
   const [followUpQuestion, setFollowUpQuestion] = useState<string | null>(null);
   const [isLoadingFollowUp, setIsLoadingFollowUp] = useState(false);
+  const addFlightLogEntry = useSessionStore((s) => s.addFlightLogEntry);
 
   const currentDilemma: WouldYouRatherDilemma | undefined = content.dilemmas[currentDilemmaIndex];
 
@@ -88,9 +90,21 @@ export function WouldYouRatherActivity({
   }, [onPhaseChange]);
 
   const endVoting = useCallback(() => {
+    // Flight log (Captain's Flight): record the Opinion Pulse split for the Final Word debrief.
+    // addFlightLogEntry self-guards to Captain's, so this no-ops in other presets.
+    if (currentDilemma && votes.length > 0) {
+      const majorityLabel = voteStats.majority === 'A' ? currentDilemma.optionA : currentDilemma.optionB;
+      addFlightLogEntry({
+        beat: 'opinion-pulse',
+        text: `Opinion Pulse split ${voteStats.aPercent}/${voteStats.bPercent}: "${currentDilemma.optionA}" vs "${currentDilemma.optionB}".`,
+        callback: voteStats.majority === 'tie'
+          ? 'The class split evenly on the Opinion Pulse — where do you land now?'
+          : `Most of you chose "${majorityLabel}" — do you still think so?`,
+      });
+    }
     setStatus(ActivityStatus.DISCUSSING);
     onPhaseChange?.('discussing');
-  }, [onPhaseChange]);
+  }, [onPhaseChange, currentDilemma, votes.length, voteStats, addFlightLogEntry]);
 
   const requestFollowUp = useCallback(async () => {
     if (!currentDilemma) return;

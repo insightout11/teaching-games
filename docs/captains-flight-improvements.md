@@ -78,3 +78,16 @@ Pass the Opinion Pulse outcome (which option won, the split) into Decision Counc
 ## Suggested order
 
 1 → 2 → 3 (the core: connective tissue + vocab spine), then 4/5, then 6/7/8. Stage 2's flash-quiz gate hazard is the one place this plan can break another preset — treat it with Travel regression checks.
+
+---
+
+## Status (Jul 2026)
+
+- **1** "Listen for it" predictions — **SHIPPED** (`2f54ccec`). Source lessons: predictions collected at takeoff, answers deferred to a reveal panel on the read-aloud/video-player complete screen. Separate `predictionResults` store slice (not tripLog). Reveal location = button on briefing complete screen (owner picked A); non-source lessons keep instant per-question reveal.
+- **2** Flight Log + Final Word debrief — **SHIPPED** (batch). Parallel `flightLog` slice + `flightPresetId`, Captain's-scoped via a self-guarding `addFlightLogEntry` (one place). Writers: prediction / would-you-rather / rank-it / language-toolkit. Final Word renders callbacks + vocab chips; end-session shows "The flight log" (gated `flightLog>0 && tripLog===0`). **Flash-quiz gate hazard neutralized structurally** — tripLog untouched, so Travel review quiz stays 5-q trip mode.
+- **3** Vocab spine — **SHIPPED** (batch). `generateVocabSprint` fed the toolkit's `sourceVocab` terms as `keyVocabWords` (was `undefined`); `generateSynonymShowdown` biased to a taught word. Self-gates on `sourceVocab.length > 0`; not preset-gated. Neither generator is cached, so no poisoning. error-hunter/sentence-scramble left sentence-level; end-game biasing deferred (owner's call).
+- **4** Council Verdict — **SHIPPED** (batch), trimmed. Stamped "CARRIED" verdict + proposer credit + one-line "Not unanimous — N dissented" (no names). **Live minority report CUT** (owner: it's a wrap-up, not a re-debate — the challenge phase already carries dissent; reconsideration lands per-student at the Final Word via the flight-log callback). Writes a `'council'` flight-log entry.
+- **5** Takeoff variety — **DEFERRED** (owner). Lowest ROI; benefits only repeat classes; real new plumbing (launch-time per-class rotation) + wonder-board too slow / Word Cloud is a widget needing an activity wrapper. Word Cloud already exists as an ad-hoc cockpit warm-up — revisit variety only if repeat-class monotony surfaces; a discoverability nudge is the cheap first move.
+- **6** First-run stage coaching — not started.
+- **7** Mid-lesson beat parity outside World Flight — not started.
+- **8** Opinion Pulse steers the Council — **SHIPPED** (batch). Pure grounding, zero UI. The `councilQuestion` is baked pre-lesson (can't use the pulse); the live `supports` route is fed the Opinion Pulse split from the Stage 2 flight log (`classPulse`) so the discussion notes press on whether the class's leaning holds. Captain's-only (flightLog-scoped); graceful when absent.

@@ -149,6 +149,7 @@ export function useLessonSession(
   const setSettings = useSessionStore((s) => s.setSettings);
   const setGrammarTarget = useSessionStore((s) => s.setGrammarTarget);
   const setSourceMaterial = useSessionStore((s) => s.setSourceMaterial);
+  const setFlightPresetId = useSessionStore((s) => s.setFlightPresetId);
 
   // ─── Core state ────────────────────────────────────────────────────────
   const [phase, setPhase] = useState<LessonPhase>('idle');
@@ -368,6 +369,8 @@ export function useLessonSession(
       setLessonPlanContent(content);
       setCustomTopic(content.customTopic);
       setSourceMaterial(content.sourceMaterial ?? null);
+      // Scopes the flight log (lesson memory) to Captain's Flight.
+      setFlightPresetId(content.flightPresetId ?? null);
       setSettings({
         scoringMode: content.scoringMode ?? goalToScoringMode(content.goal),
         ...(content.difficulty ? { difficulty: content.difficulty } : {}),
@@ -390,7 +393,7 @@ export function useLessonSession(
         }
       }
     }
-  }, [setCustomTopic, setSettings, setSourceMaterial]);
+  }, [setCustomTopic, setSettings, setSourceMaterial, setFlightPresetId]);
 
   // Apply grammarTarget from lesson plan AFTER initSession has run (initSession resets settings).
   // This runs on the render where phase transitions to 'lobby', which is after the first effects flush.

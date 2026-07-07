@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Circle } from 'lucide-react';
+import { CheckCircle, Circle, Stamp } from 'lucide-react';
+import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
 import type { DecisionCouncilContent } from '../types';
 import type {
@@ -27,6 +28,7 @@ export function DecisionCouncilActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as DecisionCouncilContent;
+  const addFlightLogEntry = useSessionStore((s) => s.addFlightLogEntry);
 
   // Phase
   const [phase, setPhase] = useState<CouncilPhase>('idle');
@@ -206,6 +208,23 @@ export function DecisionCouncilActivity({
     if (voteStats.length === 0 || totalVotes === 0) return null;
     return voteStats.reduce((best, curr) => (curr.count > best.count ? curr : best));
   }, [voteStats, totalVotes]);
+
+  // Flight log (Captain's Flight): record the verdict so the Final Word can ask the class to stand
+  // by it. addFlightLogEntry self-guards to Captain's, so this no-ops in other presets (e.g. Debate).
+  const flightLogWrittenRef = useRef(false);
+  useEffect(() => {
+    if (phase !== 'results' || flightLogWrittenRef.current || !winner || totalVotes === 0) return;
+    flightLogWrittenRef.current = true;
+    const winnerPct = Math.round((winner.count / totalVotes) * 100);
+    const shortText = winner.proposal.text.length > 80
+      ? `${winner.proposal.text.slice(0, 77)}…`
+      : winner.proposal.text;
+    addFlightLogEntry({
+      beat: 'council',
+      text: `Council carried Proposal ${winner.label} (${winnerPct}%): "${shortText}".`,
+      callback: `The council voted ${winnerPct}% for "${shortText}" — do you stand by it?`,
+    });
+  }, [phase, winner, totalVotes, addFlightLogEntry]);
 
   // InputSpec — broadcasts to student devices based on phase
   useEffect(() => {
@@ -471,6 +490,11 @@ export function DecisionCouncilActivity({
       setSupportLoading(true);
       setSupportError(null);
 
+      // Opinion Pulse steer (Stage 8): the warm-up split, captured in the flight log by the earlier
+      // Opinion Pulse beat, so the council's discussion notes press on whether that leaning holds.
+      // Read non-reactively — it's already written by the time the council runs.
+      const classPulse = useSessionStore.getState().flightLog.find((e) => e.beat === 'opinion-pulse')?.text;
+
       try {
         const response = await fetch('/api/decision-council/supports', {
           method: 'POST',
@@ -482,6 +506,7 @@ export function DecisionCouncilActivity({
             contextBrief: content.contextBrief,
             sourceDetails: content.sourceDetails ?? [],
             usefulPhrases: content.usefulPhrases ?? [],
+            ...(classPulse ? { classPulse } : {}),
             proposals: selectedProposalCards.map(({ proposal, label }) => ({
               id: proposal.id,
               label,
@@ -1100,9 +1125,20 @@ export function DecisionCouncilActivity({
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass p-6 rounded-2xl border-2 border-indigo-400 text-center space-y-2"
+            className="relative overflow-hidden glass p-6 rounded-2xl border-2 border-indigo-400 text-center space-y-2"
           >
-            <p className="text-xs uppercase tracking-widest opacity-40">Winning Proposal</p>
+            {/* Verdict stamp — the ceremonial "carried" beat that closes the council */}
+            <motion.div
+              initial={{ opacity: 0, scale: 1.6, rotate: -20 }}
+              animate={{ opacity: 1, scale: 1, rotate: -14 }}
+              transition={{ delay: 0.35, type: 'spring', stiffness: 220, damping: 14 }}
+              className="pointer-events-none absolute top-4 right-3 flex items-center gap-1.5 rounded-lg border-2 border-emerald-400/70 px-3 py-1 text-emerald-300"
+            >
+              <Stamp className="h-4 w-4" />
+              <span className="font-game text-sm tracking-widest">CARRIED</span>
+            </motion.div>
+
+            <p className="text-xs uppercase tracking-widest opacity-40">The Verdict</p>
             <div className="flex items-center justify-center gap-3">
               <span className="w-10 h-10 rounded-full bg-indigo-500 text-white font-bold text-lg flex items-center justify-center">
                 {winner.label}
@@ -1110,9 +1146,15 @@ export function DecisionCouncilActivity({
               <p className="text-lg font-semibold text-indigo-300">Proposal {winner.label}</p>
             </div>
             <p className="text-xl font-bold leading-snug">{winner.proposal.text}</p>
+            <p className="text-xs opacity-60">Proposed by {winner.proposal.displayName}</p>
             <p className="text-sm opacity-50">
               {winner.count} of {totalVotes} votes · {winnerPct}%
             </p>
+            {totalVotes - winner.count > 0 && (
+              <p className="text-xs text-amber-300/70">
+                Not unanimous — {totalVotes - winner.count} dissented
+              </p>
+            )}
           </motion.div>
         ) : (
           <div className="glass p-6 rounded-2xl text-center opacity-60">

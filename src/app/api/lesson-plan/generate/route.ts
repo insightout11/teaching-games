@@ -1694,7 +1694,7 @@ Also provide a short hint about the type of associations expected (max 8 words).
   return { gameKey: 'word-chain', startingWord: data.startingWord, hint: data.hint };
 }
 
-async function generateSynonymShowdown(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<SynonymShowdownGeneratedContent> {
+async function generateSynonymShowdown(topic: string, difficulty: Difficulty, sourceContext = '', keyVocabWords?: string[]): Promise<SynonymShowdownGeneratedContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -1705,17 +1705,23 @@ async function generateSynonymShowdown(topic: string, difficulty: Difficulty, so
     required: ['targetWord', 'contextSentence', 'hint'],
   };
 
+  // Vocab spine (Stage 3): bias the challenge toward a word the Language Toolkit just taught, so the
+  // class produces synonyms for a word they own. Falls back to a free synonym-rich pick when absent.
+  const targetInstruction = keyVocabWords?.length
+    ? `1. Set targetWord to ONE of these words the class just learned (pick the one with the richest synonym options): ${keyVocabWords.join(', ')}`
+    : '1. A target word that has MANY possible synonyms (at least 5-10 valid alternatives)';
+
   const prompt = `Generate a synonym challenge for ${difficultyDescriptions[difficulty]}
 Topic: ${topic}.
 ${sourceContext}
 
 Create:
-1. A target word that has MANY possible synonyms (at least 5-10 valid alternatives)
+${targetInstruction}
 2. A context sentence using that word, showing its meaning clearly
 3. A short hint about the CONTEXT or FEELING, NOT listing synonyms (max 8 words)
 
 Requirements:
-- Choose a word with rich synonym options (adjectives and verbs work best)
+- ${keyVocabWords?.length ? 'The chosen word should still have several valid synonyms' : 'Choose a word with rich synonym options (adjectives and verbs work best)'}
 - The context should make the word's specific meaning clear
 - CRITICAL: The hint must NEVER include actual synonyms!`;
 
@@ -3022,7 +3028,9 @@ export async function POST(request: NextRequest) {
         switch (gameKey) {
           case 'vocab-sprint':
             if (vocabBlitzMode) break; // already generated sequentially above
-            generators.push(generateVocabSprint(customTopic, diff, undefined, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
+            // Vocab spine (Stage 3): drill the SAME words the Language Toolkit taught. The hard
+            // rounds use these as targetWords; falls back to topic-picked terms when no source vocab.
+            generators.push(generateVocabSprint(customTopic, diff, sourceVocab.length > 0 ? sourceVocab.map((v) => v.term) : undefined, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'grammar-boss':
             generators.push(generateGrammarBoss(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));
@@ -3031,7 +3039,8 @@ export async function POST(request: NextRequest) {
             generators.push(generateWordChain(customTopic, diff, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'synonym-showdown':
-            generators.push(generateSynonymShowdown(customTopic, diff, sourceCtx).then((r) => { gameContent[gameKey] = r; }));
+            // Vocab spine (Stage 3): bias the target word toward the taught vocab when present.
+            generators.push(generateSynonymShowdown(customTopic, diff, sourceCtx, sourceVocab.length > 0 ? sourceVocab.map((v) => v.term) : undefined).then((r) => { gameContent[gameKey] = r; }));
             break;
           case 'error-hunter':
             generators.push(generateErrorHunter(customTopic, diff).then((r) => { gameContent[gameKey] = r; }));

@@ -1,10 +1,74 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { Sparkles } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import type { FinalWordContent } from '../types';
+import { useSessionStore, type FlightLogEntry } from '@/stores/session-store';
 
 type Phase = 'idle' | 'speaking' | 'done';
+
+// Order the debrief callbacks so predictions land before the opinion split.
+const BEAT_ORDER: Record<FlightLogEntry['beat'], number> = { prediction: 0, 'opinion-pulse': 1, council: 2, toolkit: 3 };
+
+/**
+ * Flight Log debrief (Captain's Flight, Stage 2). When the flight log has entries, the Final Word
+ * stops being one bare prompt: it recalls the words the class learned (chips) and poses back what
+ * actually happened this lesson (callbacks). Projected-safe — everything here is class-level. Renders
+ * nothing when the log is empty, so it's inert for every non-Captain's preset that uses final-word.
+ */
+function FlightDebrief({ flightLog }: { flightLog: FlightLogEntry[] }) {
+  const vocab = useMemo(
+    () => Array.from(new Set(flightLog.flatMap((e) => e.vocab ?? []))),
+    [flightLog],
+  );
+  const callbacks = useMemo(
+    () =>
+      flightLog
+        .filter((e) => e.callback)
+        .sort((a, b) => BEAT_ORDER[a.beat] - BEAT_ORDER[b.beat])
+        .map((e) => e.callback as string),
+    [flightLog],
+  );
+
+  if (flightLog.length === 0) return null;
+
+  return (
+    <div className="glass p-5 rounded-2xl border border-teal-500/25 space-y-4 text-left">
+      <div className="flex items-center gap-2 text-teal-300">
+        <Sparkles className="w-4 h-4" />
+        <p className="text-xs uppercase tracking-widest opacity-80">Flight log — before you land</p>
+      </div>
+
+      {callbacks.length > 0 && (
+        <ul className="space-y-2">
+          {callbacks.map((c, i) => (
+            <li key={i} className="text-sm text-teal-100/90 flex gap-2">
+              <span className="text-teal-400">•</span>
+              <span>{c}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {vocab.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xs opacity-50">Use a word from today:</p>
+          <div className="flex flex-wrap gap-2">
+            {vocab.map((word) => (
+              <span
+                key={word}
+                className="px-3 py-1 rounded-full text-xs font-medium bg-sky-500/15 text-sky-200 border border-sky-500/30"
+              >
+                {word}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function FinalWordActivity({
   students,
@@ -15,6 +79,7 @@ export function FinalWordActivity({
   onScore,
 }: ActivityProps) {
   const content = generatedContent as FinalWordContent;
+  const flightLog = useSessionStore((s) => s.flightLog);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState(0);
@@ -127,6 +192,9 @@ export function FinalWordActivity({
           <div className="glass p-4 rounded-xl mx-auto max-w-sm">
             <p className="text-teal-300 italic">&ldquo;{content.prompt}&rdquo;</p>
           </div>
+          <div className="mx-auto max-w-md">
+            <FlightDebrief flightLog={flightLog} />
+          </div>
           <button
             onClick={handleStart}
             className="px-12 py-6 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-full font-game text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-white border-4 border-white/20"
@@ -144,6 +212,8 @@ export function FinalWordActivity({
             <p className="text-xs opacity-50 uppercase tracking-widest mb-2">The question</p>
             <p className="text-lg font-medium text-teal-200">{content.prompt}</p>
           </div>
+
+          <FlightDebrief flightLog={flightLog} />
 
           {/* Current speaker */}
           <div className="glass p-6 rounded-2xl border-2 border-teal-500/40 text-center space-y-2">

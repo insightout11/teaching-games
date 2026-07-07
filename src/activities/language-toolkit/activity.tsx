@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import type { LanguageToolkitContent, SourceVocabItem } from './types';
+import { useSessionStore } from '@/stores/session-store';
 
 type Phase = 'idle' | 'presenting' | 'done';
 
@@ -31,6 +32,7 @@ export function LanguageToolkitActivity({
   const items = useMemo(() => content.items ?? [], [content.items]);
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const addFlightLogEntry = useSessionStore((s) => s.addFlightLogEntry);
 
   const currentItem = items[currentIndex] ?? null;
 
@@ -48,10 +50,20 @@ export function LanguageToolkitActivity({
   }, [onPhaseChange]);
 
   const handleDone = useCallback(() => {
+    // Flight log (Captain's Flight): record the words taught so the Final Word can drill them again.
+    // addFlightLogEntry self-guards to Captain's, so this no-ops in other presets.
+    const terms = items.map((i) => i.term).filter(Boolean);
+    if (terms.length > 0) {
+      addFlightLogEntry({
+        beat: 'toolkit',
+        text: `Learned ${terms.length} word${terms.length !== 1 ? 's' : ''}: ${terms.join(', ')}.`,
+        vocab: terms,
+      });
+    }
     onSetInputSpec?.(null);
     setPhase('done');
     onPhaseChange?.('finished');
-  }, [onSetInputSpec, onPhaseChange]);
+  }, [items, addFlightLogEntry, onSetInputSpec, onPhaseChange]);
 
   const handlePrev = useCallback(() => setCurrentIndex((i) => Math.max(0, i - 1)), []);
   const handleNext = useCallback(() => setCurrentIndex((i) => Math.min(items.length - 1, i + 1)), [items.length]);

@@ -129,6 +129,9 @@ export async function POST(request: NextRequest) {
     const topic = cleanText(body?.topic, 160);
     const councilQuestion = cleanText(body?.councilQuestion, 220);
     const contextBrief = cleanText(body?.contextBrief, 700);
+    // Opinion Pulse steer (Captain's Flight): the warm-up split, so the council notes can press on
+    // whether the class's leaning holds. Absent for other presets — the prompt then omits it.
+    const classPulse = cleanText(body?.classPulse, 200);
     const sourceDetails = cleanStringArray(body?.sourceDetails, 5, 240);
     const usefulPhrases = cleanStringArray(body?.usefulPhrases, 6, 120);
     const proposals: ProposalInput[] = Array.isArray(body?.proposals)
@@ -184,7 +187,7 @@ export async function POST(request: NextRequest) {
 Topic: ${topic || 'the lesson topic'}
 Council question: ${councilQuestion}
 Context brief: ${contextBrief || 'No context brief was provided.'}
-
+${classPulse ? `\nEarlier warm-up (Opinion Pulse): ${classPulse}\nFrame at least one forPoints or againstPoints, and the speakerPrompt, to press on whether the class's warm-up leaning holds up against the source.\n` : ''}
 Source details:
 ${sourceDetails.length > 0 ? sourceDetails.map((detail) => `- ${detail}`).join('\n') : '- No source details were provided.'}
 

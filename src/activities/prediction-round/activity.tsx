@@ -106,6 +106,7 @@ export function PredictionRoundActivity({
   // the answers back until AFTER the briefing, where the reveal panel pays them off.
   const deferReveal = content.deferReveal ?? false;
   const setPredictionResults = useSessionStore((s) => s.setPredictionResults);
+  const addFlightLogEntry = useSessionStore((s) => s.addFlightLogEntry);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -227,10 +228,22 @@ export function PredictionRoundActivity({
       };
     });
     setPredictionResults(results);
+    // Flight log (Captain's Flight): record how the class did by majority, for the Final Word debrief.
+    // addFlightLogEntry self-guards to Captain's, so this no-ops in other presets.
+    const correctByMajority = results.filter((r) => {
+      if (r.countA === r.countB) return false;
+      const majority = r.countA > r.countB ? 'A' : 'B';
+      return majority === r.correctAnswer;
+    }).length;
+    addFlightLogEntry({
+      beat: 'prediction',
+      text: `Predicted ${correctByMajority}/${results.length} right at takeoff.`,
+      callback: `You predicted ${correctByMajority} of ${results.length} right at takeoff — what surprised you most?`,
+    });
     setPhase('locked');
     onPhaseChange?.('locked');
     onSetInputSpec?.(null);
-  }, [questions, setPredictionResults, onPhaseChange, onSetInputSpec]);
+  }, [questions, setPredictionResults, addFlightLogEntry, onPhaseChange, onSetInputSpec]);
 
   const handleReveal = useCallback(() => {
     scoreCurrentVotes();

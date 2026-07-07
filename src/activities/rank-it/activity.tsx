@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type RankItContent, type RankItChallenge } from './types';
+import { useSessionStore } from '@/stores/session-store';
 
 export function RankItActivity({
   generatedContent,
@@ -20,6 +21,7 @@ export function RankItActivity({
   const [classRanking, setClassRanking] = useState<string[]>([]);
   const [revealedFacts, setRevealedFacts] = useState<number[]>([]);
   const [hasReRanked, setHasReRanked] = useState(false);
+  const addFlightLogEntry = useSessionStore((s) => s.addFlightLogEntry);
 
   const currentChallenge: RankItChallenge | undefined = content.challenges?.[currentChallengeIndex];
 
@@ -121,10 +123,20 @@ export function RankItActivity({
       setStatus(ActivityStatus.RANKING);
       onPhaseChange?.('ranking');
     } else {
+      // Flight log (Captain's Flight): record the class's top pick for the Final Word debrief.
+      // addFlightLogEntry self-guards to Captain's, so this no-ops in other presets.
+      const topItem = currentChallenge?.items.find((item) => item.id === classRanking[0]);
+      if (topItem && currentChallenge) {
+        addFlightLogEntry({
+          beat: 'opinion-pulse',
+          text: `Ranked "${topItem.name}" #1 in "${currentChallenge.prompt}".`,
+          callback: `You ranked "${topItem.name}" first — would you still?`,
+        });
+      }
       setStatus(ActivityStatus.FINISHED);
       onPhaseChange?.('finished');
     }
-  }, [isMicroEvent, currentChallengeIndex, content.challenges, onPhaseChange]);
+  }, [isMicroEvent, currentChallengeIndex, content.challenges, onPhaseChange, currentChallenge, classRanking, addFlightLogEntry]);
 
   const restartActivity = useCallback(() => {
     setCurrentChallengeIndex(0);
