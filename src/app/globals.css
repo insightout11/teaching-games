@@ -654,5 +654,9 @@ html[data-theme="light"] :focus-visible {
   .ocean-drift {
     animation: none;
   }
+  .animate-passport-stamp {
+    animation: none;
+    transform: rotate(var(--stamp-rotation, 0deg));
+  }
 }
 

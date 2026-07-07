@@ -224,23 +224,26 @@ export function EndSessionSummary({
           </motion.div>
         )}
 
+        {/* Stat tiles land like passport stamps — staggered thunks, each settling
+            at its own slight angle (animate-passport-stamp / --stamp-rotation). */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
-            { v: `${responders}/${rosterTotal}`, l: 'Aboard', c: 'text-cyan-300' },
-            { v: totalResponses, l: 'Responses', c: 'text-sky-300' },
-            { v: overallAccuracy !== null ? `${overallAccuracy}%` : '—', l: 'Accuracy', c: 'text-emerald-300' },
-            { v: bestStreak, l: 'Best Streak', c: 'text-amber-300' },
+            { v: `${responders}/${rosterTotal}`, l: 'Aboard', c: 'text-cyan-300', r: '-1.6deg' },
+            { v: totalResponses, l: 'Responses', c: 'text-sky-300', r: '1.2deg' },
+            { v: overallAccuracy !== null ? `${overallAccuracy}%` : '—', l: 'Accuracy', c: 'text-emerald-300', r: '-1deg' },
+            { v: bestStreak, l: 'Best Streak', c: 'text-amber-300', r: '1.8deg' },
           ].map((s, i) => (
-            <motion.div
+            <div
               key={s.l}
-              className="glass rounded-2xl border border-lc-border p-4 text-center"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.18 + i * 0.08 }}
+              className="glass animate-passport-stamp rounded-2xl border border-lc-border p-4 text-center"
+              style={{
+                '--stamp-rotation': s.r,
+                animationDelay: `${0.25 + i * 0.16}s`,
+              } as React.CSSProperties}
             >
               <p className={`text-3xl font-bold ${s.c}`}>{s.v}</p>
               <p className="text-[11px] text-lc-text2 mt-0.5 uppercase tracking-wider">{s.l}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
 

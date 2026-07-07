@@ -846,12 +846,18 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   ? 'grid-cols-2'
                   : 'grid-cols-1'
               }`}>
-                <div className="bg-white/5 rounded-2xl p-4">
+                <div
+                  className="bg-white/5 rounded-2xl p-4 animate-passport-stamp"
+                  style={{ '--stamp-rotation': '-1.6deg', animationDelay: '0.25s' } as React.CSSProperties}
+                >
                   <p className="text-2xl font-bold text-cyan-400">{personalResults.totalPoints}</p>
                   <p className="text-xs text-gray-400 mt-0.5">Points</p>
                 </div>
                 {personalResults.accuracy !== null && (
-                  <div className="bg-white/5 rounded-2xl p-4">
+                  <div
+                    className="bg-white/5 rounded-2xl p-4 animate-passport-stamp"
+                    style={{ '--stamp-rotation': '1.4deg', animationDelay: '0.41s' } as React.CSSProperties}
+                  >
                     <p className={`text-2xl font-bold ${
                       personalResults.accuracy >= 80 ? 'text-emerald-400'
                       : personalResults.accuracy >= 50 ? 'text-amber-400'
@@ -861,7 +867,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   </div>
                 )}
                 {personalResults.bestStreak >= 2 && (
-                  <div className="bg-white/5 rounded-2xl p-4">
+                  <div
+                    className="bg-white/5 rounded-2xl p-4 animate-passport-stamp"
+                    style={{ '--stamp-rotation': '-1.2deg', animationDelay: '0.57s' } as React.CSSProperties}
+                  >
                     <p className="flex items-center justify-center gap-1 text-2xl font-bold text-orange-400">
                       <Flame className="h-5 w-5" aria-hidden />
                       {personalResults.bestStreak}
