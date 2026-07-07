@@ -45,7 +45,7 @@ const NEEDLE_DEG = -90 + ACCURACY * 180;
 
 function AccuracyGauge({ reduce }: { reduce: boolean }) {
   return (
-    <svg viewBox="0 0 220 122" className="w-full" role="img" aria-label={`Accuracy gauge at ${Math.round(ACCURACY * 100)} percent`}>
+    <svg viewBox="0 0 220 128" className="w-full" role="img" aria-label={`Accuracy gauge at ${Math.round(ACCURACY * 100)} percent`}>
       {/* Track */}
       <path d="M 26 112 A 84 84 0 0 1 194 112" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="10" strokeLinecap="round" />
       {/* Value arc — draws to the accuracy reading */}
@@ -71,17 +71,21 @@ function AccuracyGauge({ reduce }: { reduce: boolean }) {
         const y2 = 112 + Math.sin(a) * 62;
         return <line key={t} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />;
       })}
-      {/* Needle — springs past the mark and settles, like the in-app gauge */}
+      {/* Needle — springs past the mark and settles, like the in-app gauge.
+          transformBox 'view-box' makes the px origin resolve in viewBox units;
+          without it the rotation origin lands off the hub and the needle detaches. */}
       <motion.g
-        style={{ transformOrigin: '110px 112px' }}
+        style={{ transformOrigin: '110px 112px', transformBox: 'view-box' }}
         initial={{ rotate: reduce ? NEEDLE_DEG : -90 }}
         whileInView={{ rotate: NEEDLE_DEG }}
         viewport={{ once: true }}
         transition={reduce ? { duration: 0 } : { type: 'spring', stiffness: 55, damping: 9, delay: 0.35 }}
       >
-        <line x1="110" y1="112" x2="110" y2="46" stroke="#F59E0B" strokeWidth="3" strokeLinecap="round" />
+        {/* Counterweight tail + blade, one piece through the hub */}
+        <line x1="110" y1="124" x2="110" y2="50" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" />
+        <circle cx="110" cy="112" r="7" fill="#F59E0B" />
       </motion.g>
-      <circle cx="110" cy="112" r="6" fill="#0a1424" stroke="#F59E0B" strokeWidth="2.5" />
+      <circle cx="110" cy="112" r="3" fill="#0a1424" />
       <defs>
         <linearGradient id="trust-gauge-grad" x1="26" y1="112" x2="194" y2="112" gradientUnits="userSpaceOnUse">
           <stop stopColor="#4DA3FF" />
