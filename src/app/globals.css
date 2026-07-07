@@ -159,6 +159,10 @@ select option {
   .text-balance {
     text-wrap: balance;
   }
+  /* Marketing headings over the sky backdrop — one place for the halo shadow */
+  .text-shadow-hero {
+    text-shadow: 0 1px 24px rgba(0, 0, 0, 0.65);
+  }
 }
 
 .wf-map-popup-shell .maplibregl-popup-content {

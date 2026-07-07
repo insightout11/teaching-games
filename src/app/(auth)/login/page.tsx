@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { Gamepad2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { isMockMode } from '@/lib/mock/auth';
@@ -61,7 +62,7 @@ export default function LoginPage() {
             onClick={handleDemoLogin}
             className="w-full flex items-center justify-center gap-3 bg-lc-blue rounded-xl px-6 py-3 text-white font-medium hover:bg-lc-blue-hover transition-all"
           >
-            <span className="text-xl">🎮</span>
+            <Gamepad2 className="h-5 w-5" aria-hidden />
             Enter as Demo User
           </button>
         ) : (

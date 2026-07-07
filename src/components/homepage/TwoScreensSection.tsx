@@ -41,8 +41,7 @@ export function TwoScreensSection() {
             One room, two screens
           </p>
           <h2
-            className="text-3xl font-bold text-lc-text sm:text-4xl"
-            style={{ textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
+            className="text-shadow-hero text-3xl font-bold text-lc-text sm:text-4xl"
           >
             You run the lesson. They join from their phones.
           </h2>

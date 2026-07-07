@@ -90,8 +90,7 @@ export function HowItWorksSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.05 }}
-          className="mb-16 text-center text-3xl font-bold"
-          style={{ color: 'white', textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
+          className="text-shadow-hero mb-16 text-center text-3xl font-bold text-white"
         >
           Plan. Share. Teach.
         </motion.h2>

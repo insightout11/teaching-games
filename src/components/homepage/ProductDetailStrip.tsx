@@ -96,8 +96,7 @@ export function ProductDetailStrip() {
           className="mb-12 text-center"
         >
           <h2
-            className="text-2xl font-bold sm:text-3xl"
-            style={{ color: 'white', textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
+            className="text-shadow-hero text-2xl font-bold sm:text-3xl text-white"
           >
             What you can run live
           </h2>

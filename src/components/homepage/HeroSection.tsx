@@ -276,8 +276,7 @@ export function HeroSection() {
               Live Lesson Layer for Online ESL
             </span>
             <h1
-              className="text-4xl font-bold leading-tight text-lc-text sm:text-5xl"
-              style={{ textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
+              className="text-shadow-hero text-4xl font-bold leading-tight text-lc-text sm:text-5xl"
             >
               Run interactive ESL lessons while you screen share.
             </h1>

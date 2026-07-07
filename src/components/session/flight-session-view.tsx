@@ -60,7 +60,7 @@ export function FlightSessionView({
         }
       />
 
-      <div className="rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3">
+      <div className="panel-card px-4 py-3">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">

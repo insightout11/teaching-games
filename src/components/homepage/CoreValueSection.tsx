@@ -21,8 +21,7 @@ export function CoreValueSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-3xl sm:text-4xl font-bold text-center mb-14"
-          style={{ color: 'white', textShadow: '0 1px 24px rgba(0,0,0,0.65)' }}
+          className="text-shadow-hero text-3xl sm:text-4xl font-bold text-center mb-14 text-white"
         >
           Built for online ESL teachers
         </motion.h2>
