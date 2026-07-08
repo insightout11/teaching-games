@@ -79,6 +79,7 @@ export default async function SessionPage({ params }: { params: { sessionId: str
         students={students}
         existingScores={existingScores}
         classLogbook={classLogbook}
+        priorSessionCount={Math.max(0, classSessions.length - 1)}
       />
     );
   }
@@ -138,6 +139,26 @@ export default async function SessionPage({ params }: { params: { sessionId: str
     scores: classScores,
   });
 
+  // First-flight onboarding gate: how many sessions has this teacher run before
+  // this one? Ownership routes through class_id → classes.teacher_id (sessions has
+  // no teacher_id), so count sessions across all of the teacher's classes.
+  let priorSessionCount = 99;
+  {
+    const { data: teacherClasses } = await supabase
+      .from('classes')
+      .select('id')
+      .eq('teacher_id', cls.teacher_id) as { data: Array<{ id: string }> | null };
+    const teacherClassIds = (teacherClasses ?? []).map((c) => c.id);
+    if (teacherClassIds.length > 0) {
+      const { count } = await supabase
+        .from('sessions')
+        .select('id', { count: 'exact', head: true })
+        .in('class_id', teacherClassIds);
+      // Exclude the current session; clamp so a failed count doesn't trigger onboarding.
+      priorSessionCount = count == null ? 99 : Math.max(0, count - 1);
+    }
+  }
+
   return (
     <SessionView
       session={session}
@@ -145,6 +166,7 @@ export default async function SessionPage({ params }: { params: { sessionId: str
       students={students ?? []}
       existingScores={existingScores ?? []}
       classLogbook={classLogbook}
+      priorSessionCount={priorSessionCount}
     />
   );
 }

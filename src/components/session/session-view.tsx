@@ -37,6 +37,7 @@ import { BrandSting } from '@/components/ui/brand-sting';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
+import { LobbyFirstFlightCoach } from '@/components/session/lobby-first-flight-coach';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
@@ -449,6 +450,8 @@ interface SessionViewProps {
   students: Student[];
   existingScores: Score[];
   classLogbook: ClassLogbookSummary;
+  /** Sessions this teacher ran before this one — gates first-flight onboarding. */
+  priorSessionCount?: number;
 }
 
 const EMPTY_CONFIG: Record<string, unknown> = {};
@@ -579,7 +582,7 @@ function PoolSpinner({
   );
 }
 
-export function SessionView({ session, cls, students: serverStudents, existingScores, classLogbook }: SessionViewProps) {
+export function SessionView({ session, cls, students: serverStudents, existingScores, classLogbook, priorSessionCount }: SessionViewProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes where possible.
   const initSession = useSessionStore((s) => s.initSession);
   const settings = useSessionStore((s) => s.settings);
@@ -1698,6 +1701,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 {lesson.isMissionBased && <span className="ml-2 text-lc-warn font-medium">Mission</span>}
               </p>
             </div>
+
+            {/* First-flight onboarding: nudge a new teacher to scan the Join QR with
+                their own phone and ride along; celebrates when the first passenger boards. */}
+            <LobbyFirstFlightCoach
+              eligible={(priorSessionCount ?? 99) <= 2}
+              participantCount={sessionParticipants.length}
+            />
 
             {/* 3-column grid: QR | Departure board | Passengers — capped width so board stays compact */}
             <div className="grid gap-4 flex-1 min-h-0 w-full mx-auto" style={{ gridTemplateColumns: '240px minmax(300px, 560px) 260px', maxWidth: '1100px' }}>
