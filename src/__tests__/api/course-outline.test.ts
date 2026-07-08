@@ -81,4 +81,14 @@ describe('POST /api/course/outline', () => {
     const res = await call({ theme: 'something real' });
     expect(res.status).toBe(502);
   });
+
+  it('does not recommend from topic text when the model omits keywords', async () => {
+    mockGenerateJSON.mockResolvedValue({
+      courseTitle: 'No Keywords',
+      lessons: [{ title: 'L', topic: 'asking for and giving directions', goal: 'functional-english' }],
+    });
+    const data = await (await call({ theme: 'travel' })).json();
+    expect(data.lessons[0].keywords).toEqual([]);
+    expect(data.lessons[0].suggestedSource).toBeNull();
+  });
 });

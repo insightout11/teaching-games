@@ -65,4 +65,21 @@ describe('recommendSources', () => {
   it('returns null when no source clears the quality bar', () => {
     expect(recommendSource({ topic: 'ceramic payroll staplers', keywords: ['staplers', 'payroll'] })).toBeNull();
   });
+
+  it('does not fall back to phrase matching when outline keywords are missing', () => {
+    expect(recommendSource({ topic: 'asking for and giving directions', keywords: [] })).toBeNull();
+  });
+
+  it('ignores generic lesson keywords that caused story/adventure flukes', () => {
+    expect(recommendSource({ topic: 'creating animal stories', keywords: ['stories', 'adventures'] })).toBeNull();
+  });
+
+  it('keeps job-interview lessons on the interview source or null', () => {
+    expect(recommendSource({ topic: 'common job interview questions', keywords: ['job interviews', 'interview questions'] })?.id)
+      .toBe('business-interviews');
+    expect(recommendSource({ topic: 'structuring STAR answers', keywords: ['STAR method', 'interview answers'] })?.id)
+      .toBe('business-interviews');
+    expect(recommendSource({ topic: 'questions to ask the interviewer', keywords: ['interviewer questions'] })?.id)
+      .toBe('business-interviews');
+  });
 });

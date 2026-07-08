@@ -86,6 +86,12 @@ const STOPWORDS = new Set([
   'on', 'or', 'is', 'it', 'be', 'as', 'at', 'by', 'lesson', 'class', 'english', 'students',
   'relationship', 'relationships', 'world', 'around', 'sharing', 'effort', 'efforts',
   'thing', 'things', 'people', 'person', 'topic', 'topics',
+  'common', 'different', 'type', 'types', 'their', 'care', 'characteristic', 'characteristics',
+  'answer', 'answers', 'question', 'questions', 'ask', 'asking', 'purpose', 'structuring',
+  'structure', 'structures', 'effective', 'using', 'method', 'methods', 'smart', 'difficult',
+  'handling', 'preparing', 'practicing', 'understanding', 'creating', 'imagining',
+  'adventure', 'adventures', 'story', 'stories', 'threat', 'threats', 'protect', 'protecting',
+  'protection',
 ]);
 
 function tokenize(text: string): string[] {
@@ -134,7 +140,7 @@ function queryTokensFrom(input: RecommendInput): string[] {
     ? input
     : typeof input === 'string'
       ? [input]
-      : input.keywords && input.keywords.length > 0
+      : input.keywords !== undefined
         ? input.keywords
         : [input.topic];
   return Array.from(new Set(rawTokens.flatMap(tokenize).map(normalizeToken)));
