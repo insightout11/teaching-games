@@ -133,7 +133,7 @@ function tagMatches(query: string, tag: string): boolean {
 
 const MIN_RECOMMENDATION_SCORE = 4;
 
-export type RecommendInput = string | string[] | { topic: string; keywords?: string[] };
+export type RecommendInput = string | string[] | { topic: string; keywords?: string[]; context?: string };
 
 function queryTokensFrom(input: RecommendInput): string[] {
   const rawTokens = Array.isArray(input)
@@ -144,6 +144,11 @@ function queryTokensFrom(input: RecommendInput): string[] {
         ? input.keywords
         : [input.topic];
   return Array.from(new Set(rawTokens.flatMap(tokenize).map(normalizeToken)));
+}
+
+function contextTokensFrom(input: RecommendInput): string[] {
+  if (Array.isArray(input) || typeof input === 'string' || !input.context) return [];
+  return tokenize(input.context).map(normalizeToken);
 }
 
 export interface RecommendOptions {
@@ -182,6 +187,7 @@ function levelRank(label: string): number {
  */
 export function recommendSources(input: RecommendInput, options: RecommendOptions = {}): LibraryRecommendation[] {
   const queryTokens = queryTokensFrom(input);
+  const contextTokens = contextTokensFrom(input);
   if (queryTokens.length === 0) return [];
 
   const lessonRank = options.level ? levelRank(options.level) : null;
@@ -195,9 +201,15 @@ export function recommendSources(input: RecommendInput, options: RecommendOption
     const tags = item.topicTags.map((t) => t.toLowerCase());
     const titleTokens = tokenSet(item.title);
     const bodyTokens = tokenSet(`${item.description} ${item.summary ?? ''}`);
+    const contextScore = contextTokens.reduce((total, q) => {
+      if (tags.some((t) => tagMatches(q, t))) return total + 4;
+      if (hasTokenMatch(q, titleTokens)) return total + 3;
+      return total;
+    }, 0);
+    if (contextTokens.length > 0 && contextScore === 0) continue;
 
-    let score = 0;
-    let strong = false; // a tag or title hit — not just a stray word in the description
+    let score = contextScore;
+    let strong = contextScore > 0; // a tag or title hit, not just a stray word in the description
     for (const q of queryTokens) {
       if (tags.some((t) => tagMatches(q, t))) {
         score += 4;

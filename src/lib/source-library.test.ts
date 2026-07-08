@@ -82,4 +82,52 @@ describe('recommendSources', () => {
     expect(recommendSource({ topic: 'questions to ask the interviewer', keywords: ['interviewer questions'] })?.id)
       .toBe('business-interviews');
   });
+
+  it('uses course context to block cross-domain animal flukes', () => {
+    const communication = recommendSource({
+      topic: 'understanding animal sounds and body language',
+      keywords: ['animal sounds', 'body language'],
+      context: 'animals',
+    });
+    expect(communication?.title).not.toBe('Your Body Language May Shape Who You Are');
+    expect(communication?.topicTags).toContain('animals');
+
+    const story = recommendSource({
+      topic: 'writing a short story about an animal adventure',
+      keywords: ['stories', 'adventures'],
+      context: 'animals',
+    });
+    expect(story?.title).not.toBe('What makes a poem … a poem?');
+  });
+
+  it('uses course context to keep job interview lessons off generic mindset sources', () => {
+    expect(recommendSource({
+      topic: 'answering tell me about yourself in an interview',
+      keywords: ['growth mindset', 'interview answers'],
+      context: 'job interviews',
+    })?.id).toBe('business-interviews');
+  });
+
+  it('supports easy transportation outlines with transport-specific sources', () => {
+    expect(recommendSource({
+      topic: 'types of local transport',
+      keywords: ['local transport'],
+      context: 'transportation',
+    }, { level: 'Easy' })?.id).toBe('travel-transport');
+    expect(recommendSource({
+      topic: 'buying a bus ticket',
+      keywords: ['bus tickets'],
+      context: 'transportation',
+    }, { level: 'Easy' })?.id).toBe('travel-transport');
+    expect(recommendSource({
+      topic: 'simple direction phrases',
+      keywords: ['directions'],
+      context: 'transportation',
+    }, { level: 'Easy' })?.id).toBe('travel-directions');
+    expect(recommendSource({
+      topic: 'talking about personal transport',
+      keywords: ['personal transport'],
+      context: 'transportation',
+    }, { level: 'Easy' })?.id).toBe('travel-transport');
+  });
 });

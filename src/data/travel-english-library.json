@@ -57,9 +57,15 @@
     "durationSecs": 624,
     "topicTags": [
       "travel",
+      "transport-directions",
+      "directions",
+      "navigation",
+      "routes",
+      "maps",
+      "landmarks",
+      "bus-stops",
       "vocabulary",
-      "practical",
-      "navigation"
+      "practical"
     ],
     "difficultyLevel": "Easy",
     "description": "How to ask for directions politely and understand the instructions you receive when getting around in English.",
@@ -93,6 +99,18 @@
     "topicTags": [
       "travel",
       "transport",
+      "transportation",
+      "public-transport",
+      "local-transport",
+      "personal-transport",
+      "buses",
+      "bus-tickets",
+      "trains",
+      "train-stations",
+      "taxis",
+      "journeys",
+      "travel-planning",
+      "commuting",
       "vocabulary",
       "practical"
     ],

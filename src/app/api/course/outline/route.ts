@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
           .filter((k) => k.length > 0)
           .slice(0, 4);
         // Attach the best library source for this lesson's concrete keywords (Find).
-        const match = recommendSource({ topic, keywords }, { level: difficulty });
+        const match = recommendSource({ topic, keywords, context: theme }, { level: difficulty });
         return {
           title: (l.title ?? '').trim().slice(0, 80) || topic,
           topic,
