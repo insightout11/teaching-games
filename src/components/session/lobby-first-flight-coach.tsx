@@ -11,6 +11,9 @@ import { useEffect, useRef, useState } from 'react';
 import { QrCode, PartyPopper, X, CornerRightDown } from 'lucide-react';
 
 const COACH_DONE_KEY = 'lc-firstflight-coach-done';
+// Dev override: append ?coach=1 to the session URL (or set lc-firstflight-coach-force=1)
+// to force the strip regardless of session count / dismissal — for testing on deploy.
+const COACH_FORCE_KEY = 'lc-firstflight-coach-force';
 
 interface LobbyFirstFlightCoachProps {
   /** Teacher is early enough in their tenure to be shown the nudge. */
@@ -23,12 +26,20 @@ export function LobbyFirstFlightCoach({ eligible, participantCount }: LobbyFirst
   const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [boarded, setBoarded] = useState(false);
+  const [forced, setForced] = useState(false);
   const everBoardedRef = useRef(false);
 
-  // Read the "already done it" flag after mount to stay hydration-safe.
+  // Read the force override + "already done it" flag after mount (hydration-safe).
+  // When forced, ignore both the eligibility gate and the done flag so it always shows.
   useEffect(() => {
     try {
-      if (localStorage.getItem(COACH_DONE_KEY) === '1') setDismissed(true);
+      const params = new URLSearchParams(window.location.search);
+      const isForced = params.get('coach') === '1' || localStorage.getItem(COACH_FORCE_KEY) === '1';
+      if (isForced) {
+        setForced(true);
+      } else if (localStorage.getItem(COACH_DONE_KEY) === '1') {
+        setDismissed(true);
+      }
     } catch {
       /* ignore */
     }
@@ -57,7 +68,7 @@ export function LobbyFirstFlightCoach({ eligible, participantCount }: LobbyFirst
     setDismissed(true);
   };
 
-  if (!eligible || !ready || dismissed) return null;
+  if ((!eligible && !forced) || !ready || dismissed) return null;
 
   return (
     <div
