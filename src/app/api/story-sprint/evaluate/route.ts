@@ -58,7 +58,7 @@ const topicSchema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration({ requestHasProModules: true });
+  const { error: authError } = await requireAuthForGeneration();
   if (authError) return authError;
 
   try {

@@ -23,15 +23,13 @@ interface AuthResult {
  *   2. subscription_status = 'active'   → Pro
  *   3. promo_expires_at > NOW()          → Pro (marketing Test Flight)
  *   4. generation_credits > 0            → onboarding credit; will consume 1 after generation
- *   5. session grace (sessionId + Standard modules only) → free for in-session Standard use
+ *   5. session grace (sessionId) → free for in-session use
  *   6. else → 402 CREDITS_EXHAUSTED
  *
- * @param options.sessionId   - Active session ID from the client; enables grace mode for Standard modules
- * @param options.requestHasProModules - True if the request includes any Pro-gated module keys
+ * @param options.sessionId - Active session ID from the client; enables grace mode
  */
 export async function requireAuthWithCredits(options?: {
   sessionId?: string;
-  requestHasProModules?: boolean;
 }): Promise<AuthResult> {
   // ── 1. Basic auth ──────────────────────────────────────────────────────
   const basicAuth = await requireAuth();
@@ -83,10 +81,10 @@ export async function requireAuthWithCredits(options?: {
     return { teacher: enriched, error: null };
   }
 
-  // ── 6. Session grace for Standard-only in-session requests ────────────
+  // ── 6. Session grace for in-session requests ──────────────────────────
   //    Grace mode: teacher is mid-lesson with a valid active session.
-  //    Standard modules continue freely; Pro modules still require isPro/credits.
-  if (options?.sessionId && !options?.requestHasProModules) {
+  //    Never block a lesson that already consumed a credit.
+  if (options?.sessionId) {
     const { data: sessionRow } = await service
       .from('sessions')
       .select('id, classes!inner(teacher_id)')
@@ -116,25 +114,24 @@ export async function requireAuthWithCredits(options?: {
 /**
  * Auth check for generation routes.
  * Credits are NOT consumed here — Test Flight credits are consumed when a
- * session is created. If the request includes Pro modules, the teacher must be
- * Pro, Developer, or hold remaining Test Flight credits: the launch gate in
- * session-view.tsx lets credit-holders open Pro modules ("all games and
- * activities during your Test Flights"), so the server must match it.
- * Standard module requests pass with auth only.
+ * session is created. Routes for Pro features (sources, courses) pass
+ * `requiresEntitlement: true`: the teacher must be Pro, Developer, or hold
+ * remaining Test Flight credits (trials include Pro features, so the server
+ * must match the client gates). All other requests pass with auth only.
  */
 export async function requireAuthForGeneration(options?: {
-  requestHasProModules?: boolean;
+  requiresEntitlement?: boolean;
 }): Promise<AuthResult> {
   const basicAuth = await requireAuth();
   if (basicAuth.error || !basicAuth.teacher) return basicAuth;
   const teacher = basicAuth.teacher;
 
-  // Standard modules: auth only — no credit or tier check
-  if (!options?.requestHasProModules) {
+  // No entitlement required: auth only — no credit or tier check
+  if (!options?.requiresEntitlement) {
     return { teacher, error: null };
   }
 
-  // Pro modules: must be Pro tier or Developer
+  // Pro features: must be Pro tier, Developer, or hold Test Flight credits
   const service = createServiceClient();
   const { data: rows, error: rpcError } = await service.rpc('get_teacher_credits', {
     teacher_id: teacher.id,

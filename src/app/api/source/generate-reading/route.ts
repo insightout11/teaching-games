@@ -49,7 +49,7 @@ Return JSON: { "title": string, "passage": string }.`;
 
 export async function POST(request: NextRequest) {
   // Generated readings are a source-based (Pro) feature — match /api/source/extract.
-  const { error: authError } = await requireAuthForGeneration({ requestHasProModules: true });
+  const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
 
   let body: { topic?: string; difficulty?: string; lens?: string };

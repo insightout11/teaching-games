@@ -3,7 +3,7 @@ import { generateJSON as _generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { bulkSemaphore } from '@/lib/ai/concurrency';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
-import { hasProModules, isValidStandardTopicId, getStandardTopicLabel } from '@/lib/standard-topics';
+import { isValidStandardTopicId, getStandardTopicLabel } from '@/lib/standard-topics';
 
 const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
   bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
@@ -2663,9 +2663,8 @@ export async function POST(request: NextRequest) {
         ? getStandardTopicLabel(standardTopicId)
         : '');
 
-    // Auth + Pro-tier gate (credits are consumed at session creation, not per generation)
-    const requestHasProModules = hasProModules(activities, games);
-    const { error: authError } = await requireAuthForGeneration({ requestHasProModules });
+    // Auth only (credits are consumed at session creation, not per generation)
+    const { error: authError } = await requireAuthForGeneration();
     if (authError) return authError;
 
     // Allow requests with only games (no activities required)

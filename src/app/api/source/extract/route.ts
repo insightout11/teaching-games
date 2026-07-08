@@ -45,7 +45,7 @@ type TedTalk = {
 // ─── Route handler ───────────────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration({ requestHasProModules: true });
+  const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
 
   let body: { type: SourceType; payload: string };

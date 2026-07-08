@@ -17,7 +17,6 @@ import {
   type FlightPlanItem,
 } from '@/lib/flight-plan-config';
 import { FLIGHT_PLAN_PRESETS, type FlightPlanPreset, type FlightPhase, type FlightStageKind } from '@/lib/flight-plan-presets';
-import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
 
 export interface DiscoveryItem {
   key: string;
@@ -31,7 +30,6 @@ export interface DiscoveryItem {
   accent: string;
   estimatedMinutes: number;
   skills: string[];
-  isPro: boolean;
   meta?: FlightPlanItem;
   classSize: ClassSizeMetadata;
   /** True only if the module runs projector-only with verbal answers — no student device required. */
@@ -56,7 +54,6 @@ function gameToDiscoveryItem(g: ReturnType<typeof getAllGames>[number]): Discove
     accent: GAME_CATEGORY_INFO[g.category].color,
     estimatedMinutes: g.estimatedMinutes,
     skills: g.skills,
-    isPro: PRO_GAME_KEYS.has(g.key),
     meta: META_BY_KEY.get(g.key),
     classSize: requireClassSizeMetadata(g.key),
     deviceFree: g.deviceFree,
@@ -74,7 +71,6 @@ function activityToDiscoveryItem(a: ReturnType<typeof getAllActivities>[number])
     accent: CATEGORY_INFO[a.category].color,
     estimatedMinutes: a.estimatedMinutes,
     skills: a.skills as string[],
-    isPro: PRO_ACTIVITY_KEYS.has(a.key),
     meta: META_BY_KEY.get(a.key),
     classSize: requireClassSizeMetadata(a.key),
     deviceFree: a.deviceFree,

@@ -26,7 +26,7 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration({ requestHasProModules: true });
+  const { error: authError } = await requireAuthForGeneration();
   if (authError) return authError;
 
   const { topic, difficulty, excludeCacheIds = [] } = await request.json() as {

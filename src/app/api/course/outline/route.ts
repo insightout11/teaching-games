@@ -71,7 +71,7 @@ Return JSON only.`;
 
 export async function POST(request: NextRequest) {
   // Course Builder is a Pro feature.
-  const { error: authError } = await requireAuthForGeneration({ requestHasProModules: true });
+  const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
 
   let body: { theme?: string; lessonCount?: number; level?: string };

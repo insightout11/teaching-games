@@ -192,7 +192,7 @@ function buildBriefingOptions(params: {
 }
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration({ requestHasProModules: true });
+  const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
 
   const apiKey = process.env.GEMINI_API_KEY;

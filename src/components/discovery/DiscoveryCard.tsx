@@ -62,21 +62,14 @@ export function DiscoveryCard({ item, onSelect, profile }: DiscoveryCardProps) {
         tone.glow,
       )}
     >
-      {/* Header: family icon STAMP + type / Pro tags */}
+      {/* Header: family icon STAMP + type tag */}
       <div className="flex items-start justify-between gap-2">
         <span className={cn('flex h-12 w-12 items-center justify-center rounded-xl border', tone.iconBg)}>
           <Icon className={cn('h-6 w-6', tone.iconText)} />
         </span>
-        <div className="flex items-center gap-1.5">
-          {item.isPro && (
-            <span className="font-instrument rounded-md border border-lc-amber/40 bg-lc-amber/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-lc-amber">
-              Pro
-            </span>
-          )}
-          <span className={cn('font-instrument rounded-md border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em]', tone.iconBg, tone.iconText)}>
-            {typeLabel}
-          </span>
-        </div>
+        <span className={cn('font-instrument rounded-md border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em]', tone.iconBg, tone.iconText)}>
+          {typeLabel}
+        </span>
       </div>
 
       {/* Title + use case */}

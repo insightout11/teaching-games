@@ -36,7 +36,6 @@ function ShowcaseCard({ item }: { item: DiscoveryItem }) {
           </span>
           <span className="font-instrument text-[10px] uppercase tracking-wide text-lc-text3">
             {getTypeLabel(item)}
-            {item.isPro && <span className="ml-1.5 text-lc-amber">Pro</span>}
           </span>
         </div>
         <h4 className="text-sm font-bold leading-snug text-lc-text">{item.name}</h4>

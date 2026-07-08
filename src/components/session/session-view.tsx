@@ -24,8 +24,6 @@ import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBud
 import type { EarthState } from '@/lib/flight-plan-helpers';
 import { getWorldFlightUpgradeState, type WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
 import { usePlannerStore } from '@/stores/planner-store';
-import { useTeacherTier } from '@/hooks/use-teacher-tier';
-import { PRO_ACTIVITY_KEYS, PRO_GAME_KEYS } from '@/lib/standard-topics';
 import { usePollVotes } from '@/hooks/use-poll-votes';
 import { useStudentPrefs } from '@/hooks/use-student-prefs';
 import type { TopSubmission } from '@/games/types';
@@ -721,10 +719,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [session.id]);
 
   // Teacher tier — used to gate Pro modules in the selection grid
-  const teacherTier = useTeacherTier();
   // Separate from lesson.creditsExhausted (which fires on 402 from generate route);
   // this fires when a Standard user clicks a Pro game that doesn't go through generate.
-  const [showProGate, setShowProGate] = useState(false);
   const [showRouteChoice, setShowRouteChoice] = useState(false);
   const [routeChoicePool, setRouteChoicePool] = useState<string[] | null>(null);
   const supabase = createClient();
@@ -1228,7 +1224,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   const handleLaunchBonusVote = async () => {
     const lastKey = selectedGame?.key ?? selectedActivity?.key ?? null;
-    const eligibleGames = games.filter((g) => !PRO_GAME_KEYS.has(g.key) && g.key !== lastKey);
+    const eligibleGames = games.filter((g) => g.key !== lastKey);
     // Pick 3 random candidates
     const shuffled = [...eligibleGames].sort(() => Math.random() - 0.5);
     const candidates = shuffled.slice(0, 3);
@@ -1304,13 +1300,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleSelectGame = (game: GamePlugin) => {
-    // Pro games require Pro tier or onboarding credits.
-    // (Server-side gating for game per-round routes is a v1.x item; UI gate is the primary guard here.)
-    if (PRO_GAME_KEYS.has(game.key) && !teacherTier.isPro && teacherTier.credits <= 0 && !teacherTier.loading) {
-      setShowProGate(true);
-      return;
-    }
-
     activeActivityKeyRef.current = null;
     setSwapSuggestion(null);
     setSelectedGame(game);
@@ -2306,7 +2295,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             : game.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-500' }
                             : game.pppStage === 'presentation' ? { label: 'Present', cls: 'bg-violet-500/15 text-violet-500' }
                             : null;
-                          const isProGame = PRO_GAME_KEYS.has(game.key);
                           return (
                             <button
                               key={game.key}
@@ -2318,7 +2306,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                                 <GameIcon className={`w-5 h-5 ${info.color}`} />
                                 <h3 className="font-semibold">{game.name}</h3>
                                 {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
-                                {isProGame && !teacherTier.isPro && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 ml-auto">Pro</span>}
                               </div>
                               <p className="text-sm opacity-70 mt-1">{game.description}</p>
                               <div className="flex flex-wrap gap-1 mt-3">
@@ -2373,7 +2360,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             : activity.pppStage === 'practice' ? { label: 'Practice', cls: 'bg-sky-500/15 text-sky-500' }
                             : activity.pppStage === 'production' ? { label: 'Produce', cls: 'bg-emerald-500/15 text-emerald-500' }
                             : null;
-                          const isProActivity = PRO_ACTIVITY_KEYS.has(activity.key);
                           return (
                             <button
                               key={activity.key}
@@ -2385,7 +2371,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                                 <ActivityIcon className={`w-5 h-5 ${info.color}`} />
                                 <h3 className="font-semibold">{activity.name}</h3>
                                 {stageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded ${stageBadge.cls}`}>{stageBadge.label}</span>}
-                                {isProActivity && !teacherTier.isPro && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 ml-auto">Pro</span>}
                               </div>
                               <p className="text-sm opacity-70 mt-2">{activity.description}</p>
                               <div className="flex flex-wrap gap-1 mt-3">
@@ -3036,13 +3021,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         </div>
       )}
 
-      {/* Paywall modal — shown when generation credits are exhausted or a Pro module is clicked */}
+      {/* Paywall modal — shown when generation credits are exhausted */}
       <PaywallModal
-        open={lesson.creditsExhausted || showProGate}
-        onClose={() => {
-          lesson.dismissCreditsExhausted();
-          setShowProGate(false);
-        }}
+        open={lesson.creditsExhausted}
+        onClose={() => lesson.dismissCreditsExhausted()}
       />
     </div>
   );

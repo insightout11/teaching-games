@@ -231,11 +231,6 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                   <p className="font-instrument min-w-0 flex-1 text-[10px] uppercase tracking-[0.18em] text-cyan-300/80">
                     {getTypeLabel(item)} · {item.useCase}
                   </p>
-                  {item.isPro && (
-                    <span className="font-instrument shrink-0 rounded-full border border-lc-amber/40 bg-lc-amber/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-lc-amber">
-                      Pro
-                    </span>
-                  )}
                 </div>
               );
             })()}
