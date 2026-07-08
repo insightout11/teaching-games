@@ -2427,6 +2427,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onSwap={() => setShowPivotDrawer(true)}
               onNext={handleNextWithRouteChoice}
               onGoToSlot={lesson.goToSlot}
+              coachingEligible={(priorSessionCount ?? 99) <= 2}
             >
               <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
                 {destinationBriefingPanel ?? (
@@ -2519,6 +2520,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               onSwap={() => setShowPivotDrawer(true)}
               onNext={handleNextWithRouteChoice}
               onGoToSlot={lesson.goToSlot}
+              coachingEligible={(priorSessionCount ?? 99) <= 2}
             >
               {destinationBriefingPanel ? (
                 <ModuleErrorBoundary moduleName="Destination Briefing" onReset={handleBackToSelection}>

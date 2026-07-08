@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import type { LessonPhase, LessonSlot } from '@/hooks/use-lesson-session';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex } from '@/lib/flight-plan-helpers';
+import { StageCoachHint } from '@/components/session/stage-coach-hint';
 
 interface FlightSessionViewProps {
   slots: LessonSlot[];
@@ -15,6 +16,8 @@ interface FlightSessionViewProps {
   onSwap: () => void;
   onNext: () => void;
   onGoToSlot?: (index: number) => void;
+  /** Show first-run stage coaching hints (teacher is early in their tenure). */
+  coachingEligible?: boolean;
   children: ReactNode;
 }
 
@@ -28,6 +31,7 @@ export function FlightSessionView({
   onSwap,
   onNext,
   onGoToSlot,
+  coachingEligible = false,
   children,
 }: FlightSessionViewProps) {
   const currentSlot = slots[currentSlotIndex] ?? null;
@@ -72,6 +76,7 @@ export function FlightSessionView({
               )}
             </div>
             <p className="mt-1 truncate text-xs text-white/55">{currentModuleName}</p>
+            <StageCoachHint moduleKey={currentSlot?.key} eligible={coachingEligible} />
           </div>
 
           <div className="flex shrink-0 flex-wrap items-center gap-2">
