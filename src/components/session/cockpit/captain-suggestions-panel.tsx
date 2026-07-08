@@ -13,7 +13,7 @@ import {
   Star,
 } from 'lucide-react';
 import type { CaptainSuggestion, CaptainSuggestionKind } from '@/lib/captain-suggestions';
-import { SPOTLIGHT_TAG_META } from '@/lib/spotlight';
+import { SPOTLIGHT_TAGS, SPOTLIGHT_TAG_META, type SpotlightTag } from '@/lib/spotlight';
 
 interface CaptainSuggestionsPanelProps {
   sessionId: string;
@@ -87,6 +87,8 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [actionState, setActionState] = useState<Record<string, ActionState | undefined>>({});
+  // Teacher can flip the AI-proposed spotlight tag before sending (one tap, chips).
+  const [tagOverrides, setTagOverrides] = useState<Record<string, SpotlightTag>>({});
   const wasStandbyRef = useRef(false);
 
   const loadSuggestions = useCallback(async (auto = false) => {
@@ -98,6 +100,7 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
       setSuggestions(Array.isArray(data.suggestions) ? data.suggestions : []);
       setSource(data.source ?? null);
       setActionState({});
+      setTagOverrides({});
       if (data.warning) setError(data.warning);
     } catch (err) {
       // Auto packs are Pro-only; free accounts just keep the manual button.
@@ -138,7 +141,7 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
           studentName: suggestion.sourceStudentName ?? 'Student',
           text: suggestion.sourceText,
           label: 'Captain\'s Pick',
-          tag: suggestion.tag,
+          tag: tagOverrides[suggestion.id] ?? suggestion.tag,
           highlight: suggestion.highlight,
         });
         onSpotlightSent?.(result.shownName ?? suggestion.sourceStudentName ?? 'Student', result.text ?? suggestion.sourceText);
@@ -179,7 +182,7 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
       });
       setError(err instanceof Error ? err.message : 'Could not launch suggestion');
     }
-  }, [onSpotlightSent, sessionId]);
+  }, [onSpotlightSent, sessionId, tagOverrides]);
 
   return (
     <div className="order-2 bg-[#0d1f35] rounded-2xl border border-violet-400/20 overflow-hidden shadow-[0_0_28px_rgba(168,85,247,0.07)]">
@@ -236,6 +239,8 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
               key={suggestion.id}
               suggestion={suggestion}
               actionState={actionState[suggestion.id]}
+              selectedTag={tagOverrides[suggestion.id] ?? suggestion.tag}
+              onSelectTag={(tag) => setTagOverrides((prev) => ({ ...prev, [suggestion.id]: tag }))}
               onLaunch={launchSuggestion}
             />
           ))}
@@ -248,10 +253,12 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
 interface SuggestionRowProps {
   suggestion: CaptainSuggestion;
   actionState?: ActionState;
+  selectedTag?: SpotlightTag;
+  onSelectTag: (tag: SpotlightTag) => void;
   onLaunch: (suggestion: CaptainSuggestion) => void;
 }
 
-function SuggestionRow({ suggestion, actionState, onLaunch }: SuggestionRowProps) {
+function SuggestionRow({ suggestion, actionState, selectedTag, onSelectTag, onLaunch }: SuggestionRowProps) {
   const meta = KIND_META[suggestion.kind];
   const Icon = meta.icon;
   const isSending = actionState === 'sending';
@@ -261,9 +268,6 @@ function SuggestionRow({ suggestion, actionState, onLaunch }: SuggestionRowProps
     isSent ||
     (suggestion.kind === 'poll' && (!suggestion.options || suggestion.options.length < 2)) ||
     (suggestion.kind === 'spotlight' && !suggestion.sourceSubmissionId);
-  const tagLabel = suggestion.kind === 'spotlight' && suggestion.tag
-    ? SPOTLIGHT_TAG_META[suggestion.tag]?.label
-    : null;
 
   return (
     <div className="px-4 py-3 space-y-2">
@@ -274,11 +278,6 @@ function SuggestionRow({ suggestion, actionState, onLaunch }: SuggestionRowProps
               <Icon className="h-3 w-3" aria-hidden="true" />
               {meta.label}
             </span>
-            {tagLabel && (
-              <span className="rounded-full border border-amber-400/25 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-200/80">
-                {tagLabel}
-              </span>
-            )}
             <span className="text-sm font-semibold text-white">{suggestion.title}</span>
           </div>
           <p className="text-xs text-white/38 leading-snug">{suggestion.rationale}</p>
@@ -301,6 +300,30 @@ function SuggestionRow({ suggestion, actionState, onLaunch }: SuggestionRowProps
         <p className="text-xs text-amber-200/60">
           {suggestion.sourceStudentName}: &quot;{truncate(suggestion.sourceText ?? '', 86)}&quot;
         </p>
+      )}
+
+      {/* Tag chips — the AI proposes one, the teacher can flip it before sending. */}
+      {suggestion.kind === 'spotlight' && (
+        <div className="flex flex-wrap gap-1.5">
+          {SPOTLIGHT_TAGS.map((tag) => {
+            const isSelected = tag === (selectedTag ?? 'idea');
+            return (
+              <button
+                key={tag}
+                onClick={() => onSelectTag(tag)}
+                disabled={isSent || isSending}
+                className={[
+                  'min-h-8 rounded-full border px-2.5 text-[11px] font-semibold transition-colors disabled:opacity-45',
+                  isSelected
+                    ? 'border-amber-400/50 bg-amber-500/15 text-amber-200'
+                    : 'border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70',
+                ].join(' ')}
+              >
+                {SPOTLIGHT_TAG_META[tag].label}
+              </button>
+            );
+          })}
+        </div>
       )}
 
       {suggestion.kind === 'poll' && suggestion.options && (

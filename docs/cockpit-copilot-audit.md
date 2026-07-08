@@ -1,6 +1,12 @@
 # Cockpit Copilot Audit — Captain Suggestions + Spotlight (Jul 2026)
 
-Discussion doc, v2 (updated after owner feedback Jul 7). No implementation yet.
+> **Build status (Jul 8)**: all five phases shipped in 66e8bf26; follow-up
+> commit added the two remaining §2 items — tag-flip chips before sending a
+> spotlight (AI suggestions + manual Needs Review picks) and the Crew Radio
+> lane in the cockpit "Now" panel with a Clear action. Open question 2
+> resolved as single-item replace (no feed) for v1.
+
+Discussion doc, v2 (updated after owner feedback Jul 7).
 Covers the teacher cockpit device (`/sessions/[id]/cockpit`): the Captain
 Suggestions panel, the Spotlight ("Captain's Pick") flow, and the new
 **student side channel**.

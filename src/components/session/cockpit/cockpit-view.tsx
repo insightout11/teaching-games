@@ -13,6 +13,8 @@ import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-su
 import { DebateBoardPanel } from '@/components/session/cockpit/debate-board-panel';
 import { FindYourWayAid } from '@/components/session/cockpit/find-your-way-aid';
 import { ClassBoardControl } from '@/components/session/class-board-control';
+import { SIDE_CHANNEL_KEY, type SideChannelItem } from '@/lib/side-channel';
+import { SPOTLIGHT_TAGS, SPOTLIGHT_TAG_META, type SpotlightTag } from '@/lib/spotlight';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
 
@@ -51,6 +53,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const [clearingEvent, setClearingEvent] = useState(false);
   const [showAllSubmissions, setShowAllSubmissions] = useState(false);
   const [activeTool, setActiveTool] = useState<CockpitTool>('poll');
+  const [sideChannelItem, setSideChannelItem] = useState<SideChannelItem | null>(null);
+  const [clearingSideChannel, setClearingSideChannel] = useState(false);
 
   // Derived filter: null = show all, string = filter by that gameKey
   const filterKey: string | null =
@@ -58,11 +62,27 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
 
   const { submissions, isLoading } = useSubmissionsFeed(session.id, filterKey);
 
-  // Subscribe to session input_spec changes
+  // Subscribe to session input_spec changes + the Crew Radio lane, so the
+  // "Now" panel shows what's live on each lane of the student devices.
   useEffect(() => {
     if (isMockMode()) return;
 
     const supabase = createClient();
+    let cancelled = false;
+
+    async function loadSideChannel() {
+      const { data } = await supabase
+        .from('session_private_state')
+        .select('payload')
+        .eq('session_id', session.id)
+        .eq('key', SIDE_CHANNEL_KEY)
+        .maybeSingle();
+      if (cancelled) return;
+      const payload = data?.payload as { item?: SideChannelItem | null } | null;
+      setSideChannelItem(payload?.item ?? null);
+    }
+    void loadSideChannel();
+
     const channel = supabase
       .channel(`cockpit-session:${session.id}`)
       .on(
@@ -78,9 +98,25 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           setCurrentInputSpec(updated.input_spec ?? null);
         }
       )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'session_private_state',
+          filter: `session_id=eq.${session.id}`,
+        },
+        (payload: { new: unknown }) => {
+          const row = payload.new as { key?: string; payload?: { item?: SideChannelItem | null } } | null;
+          if (row?.key === SIDE_CHANNEL_KEY) {
+            setSideChannelItem(row.payload?.item ?? null);
+          }
+        }
+      )
       .subscribe();
 
     return () => {
+      cancelled = true;
       supabase.removeChannel(channel);
     };
   }, [session.id]);
@@ -90,7 +126,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
     setShowAllSubmissions(false);
   }, [currentInputSpec?.gameKey]);
 
-  const handleSpotlight = useCallback(async (sub: StudentSubmission) => {
+  const handleSpotlight = useCallback(async (sub: StudentSubmission, tag: SpotlightTag) => {
     setSpotlighting(sub.id);
     try {
       const res = await fetch('/api/session/spotlight', {
@@ -101,8 +137,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           submissionId: sub.id,
           studentName: sub.display_name,
           text: sub.content,
-          // Manual picks: student questions tag as 'question', game answers as 'idea'
-          tag: sub.game_key ? 'idea' : 'question',
+          tag,
         }),
       });
       if (res.ok) {
@@ -120,6 +155,20 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
       }
     } finally {
       setSpotlighting(null);
+    }
+  }, [session.id]);
+
+  const handleClearSideChannel = useCallback(async () => {
+    setClearingSideChannel(true);
+    try {
+      const res = await fetch('/api/session/side-channel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: session.id, item: null }),
+      });
+      if (res.ok) setSideChannelItem(null);
+    } finally {
+      setClearingSideChannel(false);
     }
   }, [session.id]);
 
@@ -372,6 +421,29 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
               </div>
             </div>
           )}
+
+          {/* Crew Radio lane — the side channel is its own lane; show what's on it. */}
+          <div className="flex items-start justify-between gap-3 border-t border-white/8 pt-3">
+            <div className="min-w-0 space-y-0.5">
+              <p className="text-[10px] font-medium uppercase tracking-widest text-amber-300/60">Crew Radio</p>
+              {sideChannelItem ? (
+                <p className="text-xs text-white/55 leading-snug">
+                  {sideChannelItem.title}: {truncate(sideChannelItem.prompt, 70)}
+                </p>
+              ) : (
+                <p className="text-xs text-white/30">Quiet — nothing on the side channel</p>
+              )}
+            </div>
+            {sideChannelItem && (
+              <button
+                onClick={handleClearSideChannel}
+                disabled={clearingSideChannel}
+                className="shrink-0 min-h-9 rounded-lg border border-white/10 bg-white/5 px-3 text-xs font-medium text-white/50 transition-colors hover:bg-white/10 hover:text-white/80 disabled:opacity-50"
+              >
+                {clearingSideChannel ? 'Clearing…' : 'Clear'}
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Controls */}
@@ -455,10 +527,14 @@ interface SubmissionRowProps {
   sub: StudentSubmission;
   spotlighting: string | null;
   spotlightedIds: Set<string>;
-  onSpotlight: (sub: StudentSubmission) => void;
+  onSpotlight: (sub: StudentSubmission, tag: SpotlightTag) => void;
 }
 
 function SubmissionRow({ sub, spotlighting, spotlightedIds, onSpotlight }: SubmissionRowProps) {
+  // Default tag by origin: class questions (no game_key) → Question, game answers → Idea.
+  const defaultTag: SpotlightTag = sub.game_key ? 'idea' : 'question';
+  const [tag, setTag] = useState<SpotlightTag>(defaultTag);
+  const [showTagPicker, setShowTagPicker] = useState(false);
   const isSpotlighting = spotlighting === sub.id;
   const wasSpotlighted = spotlightedIds.has(sub.id);
   const submissionLabel = getStageLabelForKey(sub.game_key) ?? sub.game_key;
@@ -476,12 +552,19 @@ function SubmissionRow({ sub, spotlighting, spotlightedIds, onSpotlight }: Submi
             )}
             <StatusBadge status={sub.status} />
             <span className="text-xs text-white/25">{formatRelativeTime(sub.created_at)}</span>
+            <button
+              onClick={() => setShowTagPicker((open) => !open)}
+              disabled={wasSpotlighted}
+              className="min-h-[28px] rounded-full border border-amber-400/25 bg-amber-500/8 px-2 text-[10px] font-bold uppercase tracking-wider text-amber-200/70 transition-colors hover:bg-amber-500/15 disabled:opacity-45"
+            >
+              {SPOTLIGHT_TAG_META[tag].label}
+            </button>
           </div>
           <p className="text-sm text-white/70 leading-snug">{truncate(sub.content, 80)}</p>
         </div>
 
         <button
-          onClick={() => onSpotlight(sub)}
+          onClick={() => onSpotlight(sub, tag)}
           disabled={isSpotlighting || wasSpotlighted}
           className={[
             'shrink-0 text-xs font-medium px-3 min-h-[40px] rounded-lg transition-all',
@@ -494,6 +577,29 @@ function SubmissionRow({ sub, spotlighting, spotlightedIds, onSpotlight }: Submi
           {wasSpotlighted ? 'Pick sent' : isSpotlighting ? '...' : "Captain's Pick"}
         </button>
       </div>
+
+      {/* Tag picker — one tap to flip what kind of contribution the pick is. */}
+      {showTagPicker && !wasSpotlighted && (
+        <div className="flex flex-wrap gap-1.5 pt-0.5">
+          {SPOTLIGHT_TAGS.map((option) => (
+            <button
+              key={option}
+              onClick={() => {
+                setTag(option);
+                setShowTagPicker(false);
+              }}
+              className={[
+                'min-h-8 rounded-full border px-2.5 text-[11px] font-semibold transition-colors',
+                option === tag
+                  ? 'border-amber-400/50 bg-amber-500/15 text-amber-200'
+                  : 'border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70',
+              ].join(' ')}
+            >
+              {SPOTLIGHT_TAG_META[option].label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
