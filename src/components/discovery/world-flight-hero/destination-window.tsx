@@ -7,6 +7,7 @@
 // slow scale drift adds cinematic life without re-rendering the SVG.
 
 import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { HeroCity } from './hero-cities';
 
@@ -19,7 +20,15 @@ export function DestinationWindow({
   activeIndex: number;
   reduced: boolean;
 }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const city = cities[activeIndex];
+
+  if (!mounted) {
+    return <div className="absolute inset-0 overflow-hidden bg-[#03101f]" aria-hidden />;
+  }
+
   return (
     <div className="absolute inset-0 overflow-hidden">
       <AnimatePresence initial={false}>

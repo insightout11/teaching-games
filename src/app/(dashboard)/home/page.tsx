@@ -60,20 +60,11 @@ async function getRecentSessions(userId: string): Promise<RecentSession[]> {
 
 async function getTeacherCredits(userId: string): Promise<number> {
   const supabase = createServerSupabase();
-  const { data } = await supabase
-    .from('teachers')
-    .select('generation_credits, subscription_status, is_developer, promo_expires_at')
-    .eq('id', userId)
-    .single();
+  const { data, error } = await supabase.rpc('get_teacher_credits', { teacher_id: userId });
+  if (error || !Array.isArray(data) || data.length === 0) return 0;
 
-  if (!data) return 0;
-
-  const isPro =
-    data.is_developer ||
-    data.subscription_status === 'active' ||
-    (data.promo_expires_at != null && new Date(data.promo_expires_at) > new Date());
-
-  return isPro ? -1 : (data.generation_credits as number);
+  const info = data[0] as { credits: number; is_pro: boolean };
+  return info.is_pro ? -1 : info.credits;
 }
 
 export default async function HomePage() {

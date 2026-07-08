@@ -264,10 +264,33 @@ class MockChannel {
   subscribe() { return this; }
 }
 
+async function mockRpc(functionName: string, params?: Record<string, unknown>) {
+  void params;
+
+  switch (functionName) {
+    case 'get_teacher_credits':
+      return {
+        data: [
+          {
+            credits: 0,
+            is_verified: true,
+            is_pro: true,
+            is_developer: true,
+            generations: 0,
+          },
+        ],
+        error: null,
+      };
+    default:
+      return { data: null, error: new Error(`Mock RPC not implemented: ${functionName}`) };
+  }
+}
+
 // Main mock client
 export function createMockClient() {
   return {
     from: <T>(table: TableName) => new MockQueryBuilder<T>(table),
+    rpc: mockRpc,
     auth: mockAuth,
     channel: () => new MockChannel(),
     removeChannel: () => {},

@@ -11,6 +11,11 @@ import type { HeroCity } from './hero-cities';
 import { LAND_DOTS } from './land-dots';
 
 const DEG = Math.PI / 180;
+const SVG_COORD_PRECISION = 1000;
+
+function svgCoord(value: number): number {
+  return Math.round(value * SVG_COORD_PRECISION) / SVG_COORD_PRECISION;
+}
 
 interface Rot {
   lng: number; // central meridian (°) — the longitude facing the viewer
@@ -29,7 +34,7 @@ function makeProjector(rot: Rot, R: number, cx: number, cy: number) {
     const cosc = sinP0 * Math.sin(p) + cosP0 * Math.cos(p) * Math.cos(l - l0);
     const X = Math.cos(p) * Math.sin(l - l0);
     const Y = cosP0 * Math.sin(p) - sinP0 * Math.cos(p) * Math.cos(l - l0);
-    return { x: cx + R * X, y: cy - R * Y, visible: cosc >= -0.015 };
+    return { x: svgCoord(cx + R * X), y: svgCoord(cy - R * Y), visible: cosc >= -0.015 };
   };
 }
 
