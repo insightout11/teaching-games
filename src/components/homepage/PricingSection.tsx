@@ -134,7 +134,7 @@ export function PricingSection() {
                     <p className="text-sm text-lc-text3 line-through">$99</p>
                   </div>
                 </div>
-                <p className="mt-1 text-xs text-lc-text3">Until Aug 31, 2026 · or $12/month</p>
+                <p className="mt-1 text-xs text-lc-text3">Until Aug 31, 2026 · or $8/month</p>
               </div>
               <div className="flex flex-1 flex-col px-7 py-6">
                 <ul className="space-y-3.5">

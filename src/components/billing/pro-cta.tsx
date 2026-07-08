@@ -91,7 +91,7 @@ export function ProCta() {
         disabled={pending !== null}
         className="block w-full text-center py-2.5 rounded-xl border border-lc-border text-sm font-semibold text-lc-text2 hover:border-lc-text3 transition-colors disabled:opacity-60"
       >
-        {pending === 'monthly' ? 'Starting checkout…' : 'Or $12/month'}
+        {pending === 'monthly' ? 'Starting checkout…' : 'Or $8/month'}
       </button>
       {error && <p className="text-xs text-center text-lc-amber">{error}</p>}
       <p className="text-xs text-center text-lc-text3">

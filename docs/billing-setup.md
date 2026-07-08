@@ -37,7 +37,7 @@ of their old subscription).
 ## Go-live checklist
 
 1. **Stripe dashboard** (test mode first):
-   - Create product "LessonCaptain Pro" with two prices: $79/year and $12/month.
+   - Create product "LessonCaptain Pro" with two prices: $79/year and $8/month.
    - Copy both price IDs.
 2. **Env vars** (`.env.local` locally, Vercel project settings in prod):
    ```

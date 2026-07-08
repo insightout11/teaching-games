@@ -106,7 +106,7 @@ export default function ProPage() {
               <p className="text-sm text-lc-text3 line-through">$99</p>
             </div>
             <p className="text-sm text-lc-text3 mt-1">
-              Founding price until <span className="text-lc-text2 font-medium">August 31, 2026</span> · or $12/month
+              Founding price until <span className="text-lc-text2 font-medium">August 31, 2026</span> · or $8/month
             </p>
           </div>
 
