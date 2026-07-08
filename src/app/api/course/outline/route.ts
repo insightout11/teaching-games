@@ -8,6 +8,7 @@ import type { SourceType } from '@/types/source-material';
 import type { CourseOutline, CourseOutlineLesson } from '@/lib/course';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const GOAL_TAGS = Object.keys(GOAL_LABELS) as GoalTag[];
 
