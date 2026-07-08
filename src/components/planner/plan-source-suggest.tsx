@@ -31,7 +31,7 @@ function toMaterial(data: ExtractResponse): SourceMaterial {
  */
 export function PlanSourceSuggest() {
   const { topic, difficulty, sourceMaterial, applySourceBriefing } = usePlannerStore();
-  const { isPro, loading: tierLoading } = useTeacherTier();
+  const { isPro, credits, loading: tierLoading } = useTeacherTier();
   const { profile } = useTeacherProfile();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,7 +63,7 @@ export function PlanSourceSuggest() {
     );
   }
 
-  if (!isPro) {
+  if (!isPro && credits <= 0) {
     return (
       <div className="flex items-center gap-2 rounded-xl border border-lc-border bg-lc-surface px-3 py-2.5">
         <Sparkles className="h-4 w-4 shrink-0 text-amber-400" />

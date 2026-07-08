@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 const FREE_FEATURES = [
   '5 Test Flight credits to try the full product',
   'All games and activities during your Test Flights',
+  'Source-based lessons and custom topics included in your Test Flights',
   'Run live lessons — students join free, no accounts',
   'Full Flight Plan experience',
   'History saved for your 5 used Test Flights',

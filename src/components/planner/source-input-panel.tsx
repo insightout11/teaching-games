@@ -202,7 +202,7 @@ function LibrarySuggestions({
 
 export function SourceInputPanel() {
   const { sourceMaterial, setSourceMaterial, setTopic, topic, difficulty, addSupportingSource, removeSupportingSource } = usePlannerStore();
-  const { isPro, loading: tierLoading } = useTeacherTier();
+  const { isPro, credits, loading: tierLoading } = useTeacherTier();
 
   // When true, the next committed source is attached as a SUPPORTING source on top
   // of the existing primary, instead of replacing it.
@@ -411,7 +411,7 @@ export function SourceInputPanel() {
 
   if (tierLoading) return null;
 
-  if (!isPro) {
+  if (!isPro && credits <= 0) {
     return (
       <div className="rounded-xl border border-lc-border bg-lc-surface p-4">
         <div className="flex items-center gap-3">
@@ -435,9 +435,19 @@ export function SourceInputPanel() {
               <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wide">Source material</p>
               <p className="text-xs text-lc-text3 mt-0.5">Ground the briefing, vocabulary, checks, and discussion in one source.</p>
             </div>
-            <span className="shrink-0 rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
-              Optional
-            </span>
+            <div className="flex shrink-0 items-center gap-1.5">
+              {!isPro && (
+                <span
+                  className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-400"
+                  title="Pro feature — included while you have Test Flight credits"
+                >
+                  Pro · Test Flight
+                </span>
+              )}
+              <span className="rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">
+                Optional
+              </span>
+            </div>
           </div>
         </div>
 

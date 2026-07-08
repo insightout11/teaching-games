@@ -107,7 +107,7 @@ export function SessionSettingsBar() {
                 <option key={t} value={t}>{t}</option>
               ))}
             </select>
-            {teacherTier.isPro ? (
+            {teacherTier.isPro || teacherTier.credits > 0 ? (
               <button
                 onClick={handleCustomTopicToggle}
                 className="text-lc-blue hover:text-lc-blue/80 transition-colors"
