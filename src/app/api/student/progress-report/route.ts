@@ -5,6 +5,8 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { countsForAccuracy, isCorrectScore } from '@/lib/scoring-reporting';
 
+export const maxDuration = 60;
+
 const schema: AISchema = {
   type: 'object',
   properties: {

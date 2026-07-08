@@ -5,6 +5,8 @@ import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 import type { SentenceEvaluationResult } from '@/games/grid-rush/types';
 
+export const maxDuration = 60;
+
 const WORD_COUNT_CAP_THRESHOLD = 8;  // sentences under this word count are capped at 2
 
 const difficultyLabels: Record<Difficulty, string> = {

@@ -9,6 +9,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 // The answer is stored on the item's metadata jsonb so the board model needs no new columns.
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 interface AnswerRequest {
   sessionId: string;

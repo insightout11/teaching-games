@@ -17,6 +17,8 @@ import { difficultyDescriptions } from '@/lib/difficulty';
 import { normalizeDesignStudioBrief, normalizeDesignStudioRound } from '@/lib/design-studio';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 
+export const maxDuration = 60;
+
 // Generic prompt for activities without specific handlers
 function genericActivityPrompt(req: ActivityContinueRequest): string {
   const exchangeHistory = req.previousExchanges

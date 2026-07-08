@@ -90,6 +90,8 @@ import minecraftLibrary from '@/data/minecraft-library.json';
 import sportsLibrary from '@/data/sports-library.json';
 import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
 
+export const maxDuration = 60;
+
 
 // ============================================
 // Mission Context Helper

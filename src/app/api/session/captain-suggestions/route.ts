@@ -17,6 +17,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 

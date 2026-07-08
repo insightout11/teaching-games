@@ -5,6 +5,7 @@ import { DIFFICULTIES, difficultyDescriptions, type Difficulty } from '@/lib/dif
 import type { SourceBriefingOption, SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const WORD_TARGET: Record<Difficulty, string> = {
   Beginner: 'about 100–140 words',

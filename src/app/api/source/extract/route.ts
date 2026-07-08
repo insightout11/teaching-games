@@ -29,6 +29,8 @@ import bigthinkLibrary from '@/data/bigthink-library.json';
 import voxLibrary from '@/data/vox-library.json';
 import kidsLibrary from '@/data/kids-library.json';
 
+export const maxDuration = 60;
+
 type TedTalk = {
   id: string;
   title: string;

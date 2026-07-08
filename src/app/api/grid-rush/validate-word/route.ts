@@ -4,6 +4,8 @@ import type { AISchema } from '@/lib/ai';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { WordValidationResult } from '@/games/grid-rush/types';
 
+export const maxDuration = 60;
+
 const wordCheckSchema: AISchema = {
   type: 'object',
   properties: {

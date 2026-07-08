@@ -4,6 +4,8 @@ import type { AISchema } from '@/lib/ai';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 
+export const maxDuration = 60;
+
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Be encouraging with basic expectations.',
   'Easy': 'Easy (A2) level. Expect simple but correct sentences.',

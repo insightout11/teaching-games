@@ -11,6 +11,8 @@ import {
 } from '@/lib/landing-scorer';
 import type { LandingResponse, LandingScore, ScorerWeights } from '@/lib/landing-scorer';
 
+export const maxDuration = 60;
+
 interface ScoreRequest {
   activityKey: 'final-answer' | 'mic-drop' | 'lightning-round';
   prompt: string;

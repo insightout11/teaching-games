@@ -15,6 +15,7 @@ import {
 } from '@/lib/trip-script';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const GAME_KEY = 'trip-script';
 // v2: meal scripts now require the {whatItIs} grounding token (waiter no longer invents ingredients).

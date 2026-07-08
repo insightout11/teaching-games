@@ -9,6 +9,7 @@ import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const GAME_KEY = 'sentence-scramble';
 const SCHEMA_VERSION = 1;

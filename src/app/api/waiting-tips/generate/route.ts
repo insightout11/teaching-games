@@ -8,6 +8,7 @@ import type { Difficulty } from '@/lib/difficulty';
 import { isSessionStale } from '@/lib/session-freshness';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 // POST /api/waiting-tips/generate
 // Public endpoint (students call this). Accepts sessionId, looks up topic+difficulty

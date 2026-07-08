@@ -13,6 +13,8 @@ import {
   lightningRoundFallback,
 } from '@/lib/fallback-content';
 
+export const maxDuration = 60;
+
 type LandingActivityKey = 'final-answer' | 'mic-drop' | 'lightning-round' | 'opinion-shift';
 
 export async function POST(request: NextRequest) {

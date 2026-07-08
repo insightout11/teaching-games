@@ -4,6 +4,8 @@ import type { AISchema } from '@/lib/ai';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 
+export const maxDuration = 60;
+
 export interface EvaluationResult {
   score: number;
   comment: string;

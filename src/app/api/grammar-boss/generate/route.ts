@@ -9,6 +9,8 @@ import { grammarBossFallback } from '@/lib/fallback-content';
 import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
+export const maxDuration = 60;
+
 const GAME_KEY = 'grammar-boss';
 const SCHEMA_VERSION = 2; // v2 adds sentenceStarter — only serve cache entries that include it
 

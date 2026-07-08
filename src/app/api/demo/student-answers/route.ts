@@ -8,6 +8,7 @@ import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 // POST /api/demo/student-answers
 //

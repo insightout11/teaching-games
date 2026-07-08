@@ -3,6 +3,8 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 
+export const maxDuration = 60;
+
 interface AnswerRequest {
   secret: string;
   question: string;

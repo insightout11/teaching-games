@@ -4,6 +4,8 @@ import type { AISchema } from '@/lib/ai';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 
+export const maxDuration = 60;
+
 const difficultyLevels: Record<Difficulty, string> = {
   'Beginner': 'A1 beginner',
   'Easy': 'A2 elementary',

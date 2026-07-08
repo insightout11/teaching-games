@@ -6,6 +6,8 @@ import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import type { ActivityGeneratedContent } from '@/activities/types';
 
+export const maxDuration = 60;
+
 // Activities that can be regenerated with mission context
 const MISSION_AWARE_KEYS = new Set(['fact-detective', 'would-you-rather', 'expert-panel', 'scenario-simulator', 'hot-take-arena', 'opinion-shift']);
 

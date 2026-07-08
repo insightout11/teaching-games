@@ -4,6 +4,8 @@ import { GoogleGenerativeAI, SchemaType as GeminiSchemaType } from '@google/gene
 import { requireAuthForGeneration } from '@/lib/auth-credits';
 import type { SourceBriefingMode, SourceBriefingOption } from '@/types/source-material';
 
+export const maxDuration = 60;
+
 const ALLOWED_TYPES = new Set([
   'image/jpeg',
   'image/png',

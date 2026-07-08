@@ -7,6 +7,8 @@ import type { Difficulty } from '@/lib/difficulty';
 import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
+export const maxDuration = 60;
+
 const schema: AISchema = {
   type: 'object',
   properties: {

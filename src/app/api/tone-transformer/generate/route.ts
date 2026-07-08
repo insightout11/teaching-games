@@ -5,6 +5,8 @@ import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { TargetTone } from '@/games/tone-transformer/types';
 
+export const maxDuration = 60;
+
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very simple, short sentences (5-8 words).',
   'Easy': 'Easy (A2) level. Use simple sentences with basic vocabulary.',

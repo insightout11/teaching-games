@@ -14,6 +14,7 @@ import {
 } from '@/lib/reference-materials';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 // POST /api/session/reference-materials
 // Teacher-authenticated. Generates vocabulary and useful expressions for the

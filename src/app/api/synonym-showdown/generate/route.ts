@@ -10,6 +10,7 @@ import type { SourceMaterial } from '@/types/source-material';
 
 // Prevent Next.js from caching this route
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const GAME_KEY = 'synonym-showdown';
 const SCHEMA_VERSION = 1;

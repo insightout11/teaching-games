@@ -8,6 +8,8 @@ import { dialogueDetectiveFallback } from '@/lib/fallback-content';
 import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
+export const maxDuration = 60;
+
 const GAME_KEY = 'dialogue-detective';
 const SCHEMA_VERSION = 2;
 

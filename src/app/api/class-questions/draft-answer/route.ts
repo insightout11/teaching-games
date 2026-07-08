@@ -3,6 +3,8 @@ import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { createServerSupabase } from '@/lib/supabase/server';
 
+export const maxDuration = 60;
+
 // POST /api/class-questions/draft-answer
 // Teacher-only: generate an AI draft answer for a published student question.
 

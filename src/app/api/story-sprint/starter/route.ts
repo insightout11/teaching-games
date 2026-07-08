@@ -6,6 +6,8 @@ import type { Difficulty } from '@/stores/session-store';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
 import { storySprintStarterFallback } from '@/lib/fallback-content';
 
+export const maxDuration = 60;
+
 const GAME_KEY = 'story-sprint';
 const SCHEMA_VERSION = 1;
 

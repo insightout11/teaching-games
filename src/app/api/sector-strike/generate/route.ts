@@ -9,6 +9,7 @@ import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 interface SpeakingResult { question: string }
 interface WrittenResult { question: string; options: string[]; correctIndex: number }

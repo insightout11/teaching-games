@@ -8,6 +8,8 @@ import { gridRushFallback } from '@/lib/fallback-content';
 import { resolveSourceContext } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
 
+export const maxDuration = 60;
+
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) — words of 3-5 letters, simple consonants and short vowels',
   'Easy': 'Easy (A2) — everyday words of 3-6 letters',

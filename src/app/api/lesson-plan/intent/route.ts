@@ -5,6 +5,7 @@ import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const GOAL_TAGS = Object.keys(GOAL_LABELS) as GoalTag[];
 const DURATIONS = [30, 45, 60, 90] as const;

@@ -5,6 +5,7 @@ import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { Difficulty, Topic } from '@/stores/session-store';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very common, basic words with obvious connections.',

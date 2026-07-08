@@ -4,6 +4,8 @@ import type { AISchema } from '@/lib/ai';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 
+export const maxDuration = 60;
+
 // POST /api/wonder-board/answer
 // Teacher-only: answer a wonder board question manually or via AI.
 // AI answers give a short definitive answer + one open provocation.
