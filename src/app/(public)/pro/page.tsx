@@ -20,11 +20,12 @@ const FREE_FEATURES = [
 const PRO_FEATURES = [
   'Unlimited live lessons for normal teaching use',
   'Source-based lessons from video, text, and PDF',
-  'Saved and reusable Flight Plans',
+  'Course Builder — plan multi-lesson arcs for your classes',
+  'Flight Plan presets for every lesson type',
   'Ongoing class history and debriefs for every lesson',
   'Custom topics for your exact curriculum',
+  'Per-student notes and progress drafts in the Control Room',
   'Students always join free — no accounts needed',
-  'Editable progress report drafts from your notes and session history',
 ];
 
 const FAQ = [
@@ -34,7 +35,7 @@ const FAQ = [
   },
   {
     q: 'What happens to my free session history if I upgrade?',
-    a: 'It stays saved. Your Test Flight debriefs are always accessible whether you upgrade or not. Pro teachers can also add private notes per student and generate editable progress report drafts from their session history.',
+    a: 'It stays saved. Your Test Flight debriefs are always accessible whether you upgrade or not. Pro teachers can also add private notes per student and draft progress summaries from those notes in the Control Room.',
   },
   {
     q: 'When will self-serve checkout be available?',

@@ -7,6 +7,7 @@ import { ArrowRight, Plane, PlaneTakeoff } from 'lucide-react';
 const FREE_ITEMS = [
   '5 Test Flight credits',
   'All games and activities',
+  'Source-based lessons + custom topics included',
   'Live lessons — students join free',
   'History for your Test Flights',
 ];
@@ -14,10 +15,10 @@ const FREE_ITEMS = [
 const PRO_ITEMS = [
   'Unlimited live lessons',
   'Source-based lessons (video, text, PDF)',
-  'Saved and reusable Flight Plans',
+  'Course Builder for multi-lesson arcs',
   'Ongoing class history and debriefs',
   'Custom topics',
-  'Editable progress report drafts',
+  'Per-student notes and progress drafts',
 ];
 
 // Tear-off stub: vertical perforation with die-cut notches, plane glyph, and a
