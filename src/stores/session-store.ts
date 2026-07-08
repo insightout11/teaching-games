@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { Student, Score } from '@/lib/supabase/types';
-import type { InputSpec } from '@/lib/input-spec';
+import type { InputSpec, TimedRoundClock } from '@/lib/input-spec';
 import type { Difficulty } from '@/lib/difficulty';
 import type { GrammarTarget } from '@/lib/grammar';
 import type { CharacterCard } from '@/activities/types';
@@ -129,6 +129,13 @@ interface SessionState {
 
   // Input spec for student controller
   inputSpec: InputSpec | null;
+
+  // Server-stamped clock for the active timed round (set from the input-spec API
+  // response). Teacher-side timers derive their countdown from this + serverClockOffset
+  // so they agree with student devices within a tick. Null when no timed round is live.
+  activeTimedRound: TimedRoundClock | null;
+  // serverNow − local Date.now() at the last input-spec write, in ms.
+  serverClockOffset: number;
 
   // Content repetition tracking — prevents same content appearing twice in a session
   seenItemsByGame: Record<string, string[]>; // gameKey -> seen item identifiers (e.g. weakWords)
@@ -279,6 +286,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   needsSpin: false,
   activeGameKey: null,
   inputSpec: null,
+  activeTimedRound: null,
+  serverClockOffset: 0,
   seenItemsByGame: {},
   seenCacheIds: [],
   studentMissions: {},
@@ -314,6 +323,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       gameMode: 'normal',
       activeGameKey: null,
       inputSpec: null,
+      activeTimedRound: null,
+      serverClockOffset: 0,
       seenItemsByGame: {},
       seenCacheIds: [],
       studentMissions: {},
@@ -483,6 +494,35 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       });
       if (res.ok) {
         lastWrittenInputSpec = spec;
+        // The API echoes the server-stamped spec + server clock. Anchor teacher-side
+        // timers to the same startedAt/answersOpenAt students receive from the poll,
+        // and only reset the round clock when the round nonce actually changes (lock
+        // updates / reveals rebroadcast the same round and must not restart the timer).
+        const data = await res.json().catch(() => null) as
+          | { spec?: InputSpec | null; serverNow?: number }
+          | null;
+        const stamped = data?.spec ?? null;
+        if (stamped && typeof stamped.timerSeconds === 'number' && typeof stamped.startedAt === 'number') {
+          const offset = typeof data?.serverNow === 'number' ? data.serverNow - Date.now() : 0;
+          const prev = get().activeTimedRound;
+          const isNewRound = !prev || prev.clientStartedAt !== stamped.clientStartedAt || prev.startedAt !== stamped.startedAt;
+          set({
+            serverClockOffset: offset,
+            ...(isNewRound
+              ? {
+                  activeTimedRound: {
+                    clientStartedAt: stamped.clientStartedAt,
+                    startedAt: stamped.startedAt,
+                    answersOpenAt: stamped.answersOpenAt,
+                    timerSeconds: stamped.timerSeconds,
+                  },
+                }
+              : {}),
+          });
+        } else {
+          // Non-timed or cleared spec ends the timed round.
+          if (get().activeTimedRound) set({ activeTimedRound: null });
+        }
       } else {
         const err = await res.json().catch(() => ({}));
         console.error('[setInputSpec] API write failed:', res.status, err);
@@ -556,6 +596,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       needsSpin: false,
       activeGameKey: null,
       inputSpec: null,
+      activeTimedRound: null,
+      serverClockOffset: 0,
       seenItemsByGame: {},
       seenCacheIds: [],
       studentMissions: {},

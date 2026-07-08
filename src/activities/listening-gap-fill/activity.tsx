@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import type { ActivityProps } from '../types';
 import type { ListeningGapFillContent, GapFillItem } from '../types';
 
@@ -134,7 +135,6 @@ export function ListeningGapFillActivity({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [votes, setVotes] = useState<VoteMap>({});
   const [results, setResults] = useState<ResultMap>({});
-  const [timeLeft, setTimeLeft] = useState(0);
 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -148,12 +148,9 @@ export function ListeningGapFillActivity({
 
   const timerSeconds = sessionSettings.timerSeconds ?? 30;
 
-  // Timer countdown
-  useEffect(() => {
-    if (phase !== 'prompting' || timeLeft <= 0) return;
-    const id = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
-    return () => clearTimeout(id);
-  }, [phase, timeLeft]);
+  // Countdown synced to the server-stamped round clock so the teacher screen matches
+  // student devices within a tick.
+  const { timeLeft, addSeconds } = useSyncedTimer(timerSeconds, phase === 'prompting');
 
   // Auto-reveal when timer hits 0
   useEffect(() => {
@@ -221,10 +218,9 @@ export function ListeningGapFillActivity({
     setVotes({});
     setResults({});
     scoredVotesRef.current = new Set();
-    setTimeLeft(timerSeconds);
     setPhase('prompting');
     onPhaseChange?.('prompting');
-  }, [timerSeconds, onPhaseChange]);
+  }, [onPhaseChange]);
 
   const scoreCurrentVotes = useCallback(() => {
     if (!onScore) return;
@@ -258,11 +254,10 @@ export function ListeningGapFillActivity({
       onPhaseChange?.('summary');
     } else {
       setCurrentIndex(nextIndex);
-      setTimeLeft(timerSeconds);
       setPhase('prompting');
       onPhaseChange?.('prompting');
     }
-  }, [currentIndex, itemCount, timerSeconds, onPhaseChange]);
+  }, [currentIndex, itemCount, onPhaseChange]);
 
   const handleEnd = useCallback(() => {
     setPhase('idle');
@@ -326,7 +321,7 @@ export function ListeningGapFillActivity({
                 {timeLeft}s
               </div>
               <button
-                onClick={() => setTimeLeft((prev) => prev + 30)}
+                onClick={() => addSeconds(30)}
                 className="px-2 py-1 rounded-lg text-xs font-game bg-white/10 hover:bg-white/20 text-slate-300 transition-all border border-white/10"
               >
                 +30s

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { GamePhase } from './types';
 import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidationResult, SentenceEvaluationResult } from './types';
 const ROUND1_DURATION = 90;
@@ -38,7 +39,12 @@ export function GridRushGame({
   const gridRef = useRef<GridContent | null>(null);
   gridRef.current = grid;
 
-  const [timeLeft, setTimeLeft] = useState(ROUND1_DURATION);
+  // Countdown synced to the server-stamped round clock so the teacher screen matches
+  // student devices within a tick. Each round broadcasts its own duration.
+  const roundActive = phase === GamePhase.ROUND1 || phase === GamePhase.ROUND2;
+  const roundDuration = phase === GamePhase.ROUND2 ? ROUND2_DURATION : ROUND1_DURATION;
+  const { timeLeft, addSeconds } = useSyncedTimer(roundDuration, roundActive);
+  const [forceEnd, setForceEnd] = useState(false);
 
   // Per-student word tracking
   const [studentWords, setStudentWords] = useState<Record<string, WordEntry[]>>({});
@@ -184,7 +190,7 @@ export function GridRushGame({
       const data = await res.json();
       setGrid(data.grid);
 
-      setTimeLeft(ROUND1_DURATION);
+      setForceEnd(false);
       setPhase(GamePhase.ROUND1);
       phaseRef.current = GamePhase.ROUND1;
     } catch (err) {
@@ -197,25 +203,22 @@ export function GridRushGame({
 
   // ------- TIMERS -------
 
+  // End a round when the shared server deadline is reached (or the teacher ends it early).
   useEffect(() => {
     if (phase !== GamePhase.ROUND1 && phase !== GamePhase.ROUND2) return;
-    if (timeLeft <= 0) {
-      if (phase === GamePhase.ROUND1) {
-        onSetInputSpec?.(null);
-        setPhase(GamePhase.ROUND1_ENDING);
-        phaseRef.current = GamePhase.ROUND1_ENDING;
-      } else {
-        onSetInputSpec?.(null);
-        transitionToRevealing();
-      }
-      return;
+    if (timeLeft > 0 && !forceEnd) return;
+    onSetInputSpec?.(null);
+    if (phase === GamePhase.ROUND1) {
+      setPhase(GamePhase.ROUND1_ENDING);
+      phaseRef.current = GamePhase.ROUND1_ENDING;
+    } else {
+      transitionToRevealing();
     }
-    const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
-    return () => clearInterval(id);
-  }, [phase, timeLeft, onSetInputSpec, transitionToRevealing]);
+    setForceEnd(false);
+  }, [phase, timeLeft, forceEnd, onSetInputSpec, transitionToRevealing]);
 
   const startRound2 = useCallback(() => {
-    setTimeLeft(ROUND2_DURATION);
+    setForceEnd(false);
     setPhase(GamePhase.ROUND2);
     phaseRef.current = GamePhase.ROUND2;
   }, []);
@@ -467,10 +470,8 @@ export function GridRushGame({
   // ------- RENDER -------
 
   const endRoundEarly = useCallback(() => {
-    if (phase === GamePhase.ROUND1) {
-      setTimeLeft(0);
-    } else if (phase === GamePhase.ROUND2) {
-      setTimeLeft(0);
+    if (phase === GamePhase.ROUND1 || phase === GamePhase.ROUND2) {
+      setForceEnd(true);
     }
   }, [phase]);
 
@@ -570,7 +571,7 @@ export function GridRushGame({
               {timeLeft}s
             </div>
             <button
-              onClick={() => setTimeLeft((t) => t + 30)}
+              onClick={() => addSeconds(30)}
               className="text-xs px-2 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-colors font-semibold"
             >
               +30s
@@ -694,7 +695,7 @@ export function GridRushGame({
               {timeLeft}s
             </div>
             <button
-              onClick={() => setTimeLeft((t) => t + 30)}
+              onClick={() => addSeconds(30)}
               className="text-xs px-2 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-colors font-semibold"
             >
               +30s

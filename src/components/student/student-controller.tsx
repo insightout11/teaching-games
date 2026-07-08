@@ -326,6 +326,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // "Get ready" transition when inputSpec first arrives
   const [transitionActivityName, setTransitionActivityName] = useState<string | null>(null);
   const prevInputSpecRef = useRef<InputSpec | null>(null);
+  // Tracks the last timed round we logged delivery-latency instrumentation for.
+  const loggedRoundRef = useRef<string | null>(null);
 
   // Server clock offset (serverNow − local Date.now() at response receipt). Countdown
   // timers add this to the local clock so device skew never eats answer time.
@@ -372,8 +374,29 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       const data = await res.json();
       // Sync clock offset before the spec lands so a freshly mounted timer reads it.
+      const offset = typeof data.serverNow === 'number' ? data.serverNow - Date.now() : 0;
       if (typeof data.serverNow === 'number') {
-        setClockOffsetMs(data.serverNow - Date.now());
+        setClockOffsetMs(offset);
+      }
+      // Instrumentation: on a freshly arrived timed round, measure how much of the
+      // answer window was lost to delivery. The grace window (answersOpenAt − startedAt)
+      // absorbs delivery up to its length; only delivery BEYOND grace eats answer time.
+      // That residual is what A2 (realtime push) closes.
+      const spec = data.inputSpec as InputSpec | null;
+      if (spec?.timerSeconds && typeof spec.answersOpenAt === 'number' && spec.startedAt) {
+        const roundKey = `${spec.gameKey}:${spec.startedAt}`;
+        if (loggedRoundRef.current !== roundKey) {
+          loggedRoundRef.current = roundKey;
+          const serverNow = Date.now() + offset;
+          const deliveryMs = serverNow - spec.startedAt;
+          const graceMs = spec.answersOpenAt - spec.startedAt;
+          const lostS = Math.max(0, Math.round((deliveryMs - graceMs) / 1000));
+          const effectiveStart = Math.min(spec.timerSeconds, Math.max(0, Math.ceil((spec.answersOpenAt + spec.timerSeconds * 1000 - serverNow) / 1000)));
+          console.debug(
+            `[timer] round arrived · delivery=${Math.round(deliveryMs)}ms grace=${graceMs}ms ` +
+            `→ answer window opens at ${effectiveStart}/${spec.timerSeconds}s (lost ${lostS}s to delivery past grace)`,
+          );
+        }
       }
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);

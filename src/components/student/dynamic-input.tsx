@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { ShieldHalf } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { InputSpec } from '@/lib/input-spec';
+import { computeTimerState, type InputSpec } from '@/lib/input-spec';
 import { ShuffleboardInput } from './shuffleboard-input';
 import { GeoPointInput } from './geo-point-input';
 
@@ -441,23 +441,19 @@ const INPUT_GRACE_MS = 1500;
 
 /**
  * Synced countdown timer for any timed input. startedAt/answersOpenAt are
- * server-stamped by the input-spec API, so remaining time is derived from the
- * server clock (local clock + poll-measured offset) instead of counting down
- * from whenever this device happened to receive the spec.
+ * server-stamped by the input-spec API; remaining time comes from the shared
+ * computeTimerState (server clock + poll-measured offset), so the answer window
+ * runs for timerSeconds AFTER answers open — the grace beat defers the countdown
+ * instead of eating into it, and every device matches the teacher screen.
  */
 function useInputTimer(spec: InputSpec, submitted = false, clockOffsetMs = 0) {
   const timerSeconds = spec.timerSeconds ?? 0;
   const { startedAt, answersOpenAt } = spec;
 
-  const compute = useCallback(() => {
-    if (!timerSeconds || !startedAt) {
-      return { timeLeft: timerSeconds, opensIn: 0 };
-    }
-    const serverNow = Date.now() + clockOffsetMs;
-    const timeLeft = Math.max(0, Math.ceil((startedAt + timerSeconds * 1000 - serverNow) / 1000));
-    const opensIn = answersOpenAt ? Math.max(0, Math.ceil((answersOpenAt - serverNow) / 1000)) : 0;
-    return { timeLeft, opensIn };
-  }, [timerSeconds, startedAt, answersOpenAt, clockOffsetMs]);
+  const compute = useCallback(
+    () => computeTimerState({ timerSeconds, startedAt, answersOpenAt }, clockOffsetMs),
+    [timerSeconds, startedAt, answersOpenAt, clockOffsetMs],
+  );
 
   const [{ timeLeft, opensIn }, setTick] = useState(compute);
   const [isExpired, setIsExpired] = useState(false);

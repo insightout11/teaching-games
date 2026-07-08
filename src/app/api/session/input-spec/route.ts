@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       const updates = { input_spec: stamped ?? null } as Partial<Session> & { input_spec?: unknown };
       mockStore.updateSession(sessionId, updates);
 
-      return NextResponse.json({ ok: true }, {
+      return NextResponse.json({ ok: true, spec: stamped ?? null, serverNow: Date.now() }, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
       });
     }
@@ -79,7 +79,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ ok: true });
+    // Echo the stamped spec + server clock so the teacher's own timers can anchor
+    // to the exact same timestamps students receive from the poll.
+    return NextResponse.json({ ok: true, spec: toWrite, serverNow: Date.now() });
   } catch (error) {
     console.error('[input-spec POST] error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

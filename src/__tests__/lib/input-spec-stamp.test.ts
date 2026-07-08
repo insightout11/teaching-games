@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { stampTimedSpec, ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
+import { stampTimedSpec, computeTimerState, ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
 
 const SERVER_NOW = 1_800_000_000_000;
 
@@ -92,5 +92,74 @@ describe('stampTimedSpec', () => {
     expect(out.startedAt).toBe(SERVER_NOW);
     expect(out.answersOpenAt).toBe(SERVER_NOW + ANSWERS_OPEN_GRACE_MS);
     expect(out.clientStartedAt).toBeUndefined();
+  });
+});
+
+describe('computeTimerState', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(SERVER_NOW);
+  });
+  afterEach(() => vi.useRealTimers());
+
+  const clock = (over: Partial<{ timerSeconds: number; startedAt: number; answersOpenAt: number }> = {}) => ({
+    timerSeconds: 30,
+    startedAt: SERVER_NOW,
+    answersOpenAt: SERVER_NOW + ANSWERS_OPEN_GRACE_MS,
+    ...over,
+  });
+
+  it('holds at full timerSeconds during the grace beat (countdown is deferred, not eaten)', () => {
+    // 1s after broadcast, still inside the 4s grace window.
+    vi.setSystemTime(SERVER_NOW + 1000);
+    const s = computeTimerState(clock());
+    expect(s.answersOpen).toBe(false);
+    expect(s.opensIn).toBe(3);
+    expect(s.timeLeft).toBe(30); // NOT 29 — the grace does not consume the answer window
+  });
+
+  it('starts the answer window at the full timerSeconds the instant answers open', () => {
+    vi.setSystemTime(SERVER_NOW + ANSWERS_OPEN_GRACE_MS);
+    const s = computeTimerState(clock());
+    expect(s.answersOpen).toBe(true);
+    expect(s.opensIn).toBe(0);
+    expect(s.timeLeft).toBe(30);
+  });
+
+  it('counts down from answersOpenAt once open', () => {
+    vi.setSystemTime(SERVER_NOW + ANSWERS_OPEN_GRACE_MS + 5000);
+    expect(computeTimerState(clock()).timeLeft).toBe(25);
+  });
+
+  it('applies the clock offset so a skewed device agrees with the server', () => {
+    // Local device clock runs 10s ahead; offset corrects it back to server time.
+    vi.setSystemTime(SERVER_NOW + ANSWERS_OPEN_GRACE_MS + 10_000);
+    const offset = -10_000; // serverNow = localNow - 10s
+    expect(computeTimerState(clock(), offset).timeLeft).toBe(30);
+  });
+
+  it('never reports more than timerSeconds and never below zero', () => {
+    vi.setSystemTime(SERVER_NOW - 60_000); // absurdly early
+    expect(computeTimerState(clock()).timeLeft).toBe(30);
+    vi.setSystemTime(SERVER_NOW + 10 * 60_000); // long past deadline
+    expect(computeTimerState(clock()).timeLeft).toBe(0);
+  });
+
+  it('extends the deadline by extraMs (the teacher +time button)', () => {
+    vi.setSystemTime(SERVER_NOW + ANSWERS_OPEN_GRACE_MS + 20_000); // 10s left of 30
+    expect(computeTimerState(clock()).timeLeft).toBe(10);
+    expect(computeTimerState(clock(), 0, 30_000).timeLeft).toBe(40); // +30s deadline
+  });
+
+  it('falls back to startedAt origin when answersOpenAt is absent (legacy specs)', () => {
+    vi.setSystemTime(SERVER_NOW + 5000);
+    const s = computeTimerState({ timerSeconds: 30, startedAt: SERVER_NOW });
+    expect(s.answersOpen).toBe(true);
+    expect(s.timeLeft).toBe(25);
+  });
+
+  it('returns timerSeconds with no active window for an unstamped/non-timed clock', () => {
+    expect(computeTimerState({ timerSeconds: 0 })).toEqual({ timeLeft: 0, opensIn: 0, answersOpen: true });
+    expect(computeTimerState({ timerSeconds: 30 })).toEqual({ timeLeft: 30, opensIn: 0, answersOpen: true });
   });
 });

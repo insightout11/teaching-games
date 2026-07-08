@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSessionStore } from '@/stores/session-store';
+import { computeTimerState } from '@/lib/input-spec';
 
 export interface RaceSolver<T = Record<string, unknown>> {
   studentId: string;
@@ -30,25 +32,44 @@ export function useRaceMode<T = Record<string, unknown>>({
   const raceFinishedRef = useRef(false);
   raceFinishedRef.current = raceFinished;
 
+  // Server-stamped clock for the live round (set from the input-spec API response),
+  // so the teacher countdown matches student devices within a tick. Falls back to a
+  // local decrement until the clock lands / when unavailable.
+  const round = useSessionStore(s => s.activeTimedRound);
+  const clockOffset = useSessionStore(s => s.serverClockOffset);
+  const matchedRound = round && round.timerSeconds === timerSeconds ? round : null;
+  // The teacher "+time" button extends the shared deadline instead of a local-only bump.
+  const extraMsRef = useRef(0);
+  const localStartRef = useRef<number | null>(null);
+
   // Timer countdown
   useEffect(() => {
     if (!raceActive || raceFinished) return;
-    const timer = setInterval(() => {
-      setTimeRemaining(prev => {
-        if (prev <= 1) {
-          setRaceFinished(true);
-          setRaceActive(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    const tick = () => {
+      let remaining: number;
+      if (matchedRound) {
+        remaining = computeTimerState(matchedRound, clockOffset, extraMsRef.current).timeLeft;
+      } else {
+        if (localStartRef.current == null) localStartRef.current = Date.now();
+        const totalMs = timerSeconds * 1000 + extraMsRef.current;
+        remaining = Math.max(0, Math.ceil((localStartRef.current + totalMs - Date.now()) / 1000));
+      }
+      setTimeRemaining(remaining);
+      if (remaining <= 0) {
+        setRaceFinished(true);
+        setRaceActive(false);
+      }
+    };
+    tick();
+    const timer = setInterval(tick, 250);
     return () => clearInterval(timer);
-  }, [raceActive, raceFinished]);
+  }, [raceActive, raceFinished, matchedRound, clockOffset, timerSeconds]);
 
   const startRace = useCallback(() => {
     setRaceSolvers([]);
     setRaceFinished(false);
+    extraMsRef.current = 0;
+    localStartRef.current = null;
     setTimeRemaining(timerSeconds);
     setRaceActive(true);
   }, [timerSeconds]);
@@ -62,6 +83,8 @@ export function useRaceMode<T = Record<string, unknown>>({
     setRaceSolvers([]);
     setRaceFinished(false);
     setRaceActive(false);
+    extraMsRef.current = 0;
+    localStartRef.current = null;
     setTimeRemaining(timerSeconds);
   }, [timerSeconds]);
 
@@ -83,6 +106,7 @@ export function useRaceMode<T = Record<string, unknown>>({
 
   const addTime = useCallback((seconds: number) => {
     if (!raceActive || raceFinished) return;
+    extraMsRef.current += seconds * 1000;
     setTimeRemaining(prev => prev + seconds);
   }, [raceActive, raceFinished]);
 

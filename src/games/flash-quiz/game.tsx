@@ -5,6 +5,7 @@ import { Zap, ChevronRight, SkipForward, Trophy, AlertCircle } from 'lucide-reac
 import type { GameProps, GameRemoteVote } from '../types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
+import { useSyncedTimer } from '@/hooks/use-synced-timer';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -81,9 +82,6 @@ export function FlashQuizGame({
   const [phase, setPhase] = useState<QuizPhase>('idle');
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(30);
-  // Seconds until answers open (the 3-2-1 beat after broadcast); 0 = open
-  const [answersOpenIn, setAnswersOpenIn] = useState(0);
   const [roundAnswers, setRoundAnswers] = useState<StudentAnswer[]>([]);
   const [, setCacheId] = useState<string | null>(null);
   const [questionCount, setQuestionCount] = useState<10 | 20>(10);
@@ -110,6 +108,10 @@ export function FlashQuizGame({
   const timerSeconds = sessionSettings.timerSeconds ?? 30;
   const timerSecondsRef = useRef(timerSeconds);
   timerSecondsRef.current = timerSeconds;
+
+  // Countdown derived from the server-stamped round clock, so the teacher screen
+  // matches every student device within a tick (and defers past the 3-2-1 beat).
+  const { timeLeft, opensIn: answersOpenIn } = useSyncedTimer(timerSeconds, phase === 'answering');
 
   const topic = getEffectiveTopic(sessionSettings);
   const { difficulty } = sessionSettings;
@@ -238,31 +240,6 @@ export function FlashQuizGame({
     return () => onRegisterRemoteVoteHandler?.(null);
   }, [onRegisterRemoteVoteHandler, handleVote]);
 
-  // ── Answers-open beat (3-2-1 before the grid unlocks, mirrors student devices) ──
-  useEffect(() => {
-    if (phase !== 'answering') return;
-    const tick = () =>
-      setAnswersOpenIn(Math.max(0, Math.ceil((roundStartRef.current + ANSWERS_OPEN_GRACE_MS - Date.now()) / 1000)));
-    tick();
-    const interval = setInterval(tick, 250);
-    return () => clearInterval(interval);
-  }, [phase]);
-
-  // ── Timer countdown ───────────────────────────────────────────────────────
-  useEffect(() => {
-    if (phase !== 'answering') return;
-    timerRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current!);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [phase]);
-
   // ── Fetch questions ───────────────────────────────────────────────────────
   const fetchQuestions = useCallback(async () => {
     setPhase('loading');
@@ -303,7 +280,6 @@ export function FlashQuizGame({
     if (!question) return;
     setCurrentIndex(index);
     setRoundAnswers([]);
-    setTimeLeft(timerSecondsRef.current);
     roundStartRef.current = Date.now();
     setPhase('answering');
     broadcastQuestion(question);

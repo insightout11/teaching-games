@@ -6,6 +6,7 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSyncedTimer } from '@/hooks/use-synced-timer';
 
 const EMPTY_SEEN: string[] = [];
 
@@ -26,7 +27,6 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
   const [validSynonyms, setValidSynonyms] = useState<Array<{ word: string; score: number; quality: string }>>([]);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState<number>(sessionSettings.timerSeconds);
   const [lastFeedback, setLastFeedback] = useState<string | null>(null);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -215,22 +215,13 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     }
   }, [isSimultaneous, currentStudentId, validSynonyms, totalScore, challenge, onScore]);
 
-  // Timer effect
+  // Countdown synced to the server-stamped round clock so the teacher screen matches
+  // student devices within a tick. Ends the round when the shared deadline is reached.
+  const { timeLeft: timeRemaining } = useSyncedTimer(sessionSettings.timerSeconds, status === GameStatus.PLAYING);
+  const timeExpired = status === GameStatus.PLAYING && timeRemaining <= 0;
   useEffect(() => {
-    if (status !== GameStatus.PLAYING || timeRemaining <= 0) return;
-
-    const timer = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          finishGame();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [status, timeRemaining, finishGame]);
+    if (timeExpired) finishGame();
+  }, [timeExpired, finishGame]);
 
   const handleGenerate = async () => {
     if (!isSimultaneous && !currentStudentId) {
@@ -252,7 +243,6 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     setValidSynonyms([]);
     setCurrentStreak(0);
     setTotalScore(0);
-    setTimeRemaining(sessionSettings.timerSeconds);
     setLastFeedback(null);
     setCurrentInput('');
     setRemoteSynonyms([]);
@@ -347,7 +337,6 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
     setValidSynonyms([]);
     setCurrentStreak(0);
     setTotalScore(0);
-    setTimeRemaining(sessionSettings.timerSeconds);
     setLastFeedback(null);
     setCurrentInput('');
     setRemoteSynonyms([]);

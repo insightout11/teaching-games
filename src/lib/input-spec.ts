@@ -176,6 +176,62 @@ export function stampTimedSpec(spec: unknown, existing: unknown): unknown {
   };
 }
 
+/** The server-stamped clock for one timed round. Both the teacher and student screens
+ *  derive their countdown from this, so they agree within a tick. */
+export interface TimedRoundClock {
+  /** The game's original client startedAt — round-identity nonce. */
+  clientStartedAt?: number;
+  /** Server ms when the round was broadcast. */
+  startedAt: number;
+  /** Server ms when answers open (startedAt + grace). */
+  answersOpenAt?: number;
+  /** Length of the answer window in seconds. */
+  timerSeconds: number;
+}
+
+export interface TimerState {
+  /** Whole seconds left in the answer window (never exceeds timerSeconds). */
+  timeLeft: number;
+  /** Whole seconds until answers open (0 once open). */
+  opensIn: number;
+  /** True once the grace beat has elapsed and answers are live. */
+  answersOpen: boolean;
+}
+
+/**
+ * Single source of truth for both screens' countdown. The answer window runs for
+ * `timerSeconds` starting at `answersOpenAt`, so the grace beat DEFERS the countdown
+ * instead of eating into it. Remaining time is derived from the server clock
+ * (local clock + measured offset) rather than a local decrement, so the teacher
+ * screen and every student device show the same number regardless of device clock
+ * skew or delivery delay.
+ *
+ * `extraMs` extends the deadline (the teacher "+30s" escape hatch in race games).
+ */
+export function computeTimerState(
+  clock: { timerSeconds?: number; startedAt?: number; answersOpenAt?: number },
+  clockOffsetMs = 0,
+  extraMs = 0,
+): TimerState {
+  const timerSeconds = clock.timerSeconds ?? 0;
+  const { startedAt, answersOpenAt } = clock;
+  if (!timerSeconds || typeof startedAt !== 'number') {
+    return { timeLeft: timerSeconds, opensIn: 0, answersOpen: true };
+  }
+  const serverNow = Date.now() + clockOffsetMs;
+  // Fall back to startedAt for specs written before answersOpenAt existed.
+  const openAt = typeof answersOpenAt === 'number' ? answersOpenAt : startedAt;
+  const deadline = openAt + timerSeconds * 1000 + extraMs;
+  // Clamp to the window length: before answers open, (deadline - now) exceeds
+  // timerSeconds by the grace remainder — hold at the full value until it opens.
+  const rawLeft = Math.ceil((deadline - serverNow) / 1000);
+  const timeLeft = Math.max(0, Math.min(Math.ceil(timerSeconds + extraMs / 1000), rawLeft));
+  const opensIn = typeof answersOpenAt === 'number'
+    ? Math.max(0, Math.ceil((answersOpenAt - serverNow) / 1000))
+    : 0;
+  return { timeLeft, opensIn, answersOpen: opensIn <= 0 };
+}
+
 export interface ReadAloudQueueEntry {
   index: number;
   text: string;
