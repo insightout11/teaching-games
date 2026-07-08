@@ -11,13 +11,19 @@ Status legend: each item lists owner lane, size, and whether it blocks beta.
 
 ## A. Beta blockers (do first, in this order)
 
+**Status (Jul 8, end of day): A1 ✅ · A4 ✅ · A5 ✅ (code) — A2 and A3 are the remaining builds.**
+Open verification items (owner, ~10 min total on the deployed build):
+- **A1 live check:** launch Flash Quiz, 30s timer, phone joined → 3-2-1 beat on both screens, phone timer lands ~26s (was ~20s).
+- **A4 live check:** create a course with description "animals" with real AI (Codex's local run had no API key) → every suggestion animal-related or blank.
+- **A5(b):** subscribe to Supabase Pro **the week beta invites go out** (not needed sooner — project is active daily so no auto-pause risk yet).
+
 | # | Item | Lane | Size | Notes |
 |---|---|---|---|---|
-| A1 | **Timer integrity** — perf plan Phases 0–1: `maxDuration` on AI routes; server-authoritative `startedAt` + `serverNow`; 3-2-1 grace countdown (`answersOpenAt`) | **Fable** | ~1 day | The felt bug (20s of a 30s window). Touches scoring + input-spec write path — the two most invariant-laden systems. Plan: `docs/performance-optimization-plan.md` |
+| A1 | ✅ **DONE** (Jul 8, `82172895` + `79fb3219` + `d65b6e35`) **Timer integrity** — `maxDuration=60` on 49 AI routes (incl. course/outline gap closure); server-stamped `startedAt`/`answersOpenAt` with `clientStartedAt` round nonce so mid-round rebroadcasts don't reset timers; `serverNow` clock-offset in student poll + `useInputTimer`; 3-2-1 grace beat on all 5 timed input types + flash-quiz teacher screen; speed bonus measures from answers-open | **Fable** | done | Pending: owner live-flow check (above) |
 | A2 | **Realtime push + poll diet** — perf plan Phase 2: broadcast inputSpec on a per-session channel; poll 5s→15s fallback; change-detection short-circuit on the poll route | **Codex** | 2–3 days | Long backend task, well-specified, testable. Depends on A1's server-time stamping. Shuffleboard aim channel already proves anon realtime |
 | A3 | **First-flight onboarding** — guided "join with your own phone" QR prompt in the first Test Flight **+ teacher-screen stage coaching** (Captain's Flight plan Stage 6: one-time coach marks on cockpit widgets + lesson flow as the lesson advances) | **Opus** | 2–3 days | Covers BOTH sides: phone-join proves the student loop; coaching teaches the cockpit. Demo crew stays dead/unmarketed |
-| A4 | **Course Builder source matching fix** — outline AI emits 2–4 concrete noun keywords per lesson; whole-word/prefix matching (kill `q.includes(t)` substring hits); minimum-score threshold → `suggestedSource: null`; **library tag-enrichment pass** (re-run the one-call metadata enrichment over existing library JSONs with a richer tag vocabulary so animal videos carry `animals`/`wildlife` etc.) | **Codex** | 1–2 days | Owner repro Jul 8: "animals" → narcissism/Red-Riding-Hood picks. Root causes: tag sparsity, bag-of-words filler scoring, substring garbage, no quality bar. Tag enrichment is the same pipeline as prefetch — cheap tokens, no Supadata |
-| A5 | **Verify, not build:** (a) `/home` has zero placeholder content; (b) Supabase Pro is actually upgraded (no auto-pause during a tester session); (c) migration 052 behavior sane in prod (already applied+verified at schema level) | **Sonnet** (a, click-through + fixes) / owner (b) | hours | Cheap insurance |
+| A4 | ✅ **DONE** (Jul 8, Codex: `46e61b34` + `7ea6b901` + `f49a80a5`) **Course Builder source matching fix** — see status note below | **Codex** | done | Pending: live AI outline acceptance on deploy (above) |
+| A5 | ✅ **DONE** (Jul 8, code pushed as `4426c93c`): `/home` credits via RPC (also fires the trickle server-side), world-flight-hero hydration fixes, mock-client rpc stub. (b) Supabase Pro = **calendar item for invite week** | **Codex/Sonnet** | done | 052 verified at schema level day of apply |
 
 A4 status note (Jul 8, Codex): outline lessons now require 2-4 concrete `keywords`; Course Builder matches on those keywords plus the course theme as domain context; source matching uses whole-word/guarded-prefix token hits with tag/title weighting and a minimum score that returns `suggestedSource: null` below the bar. Follow-up hardening after screenshot acceptance: object inputs with empty keywords no longer fall back to full topic text, generic lesson-action keywords are ignored, cross-domain keywords such as human body language/growth mindset no longer beat the course theme, Business English interview tags now cover STAR answers/interviewer questions/mock interviews/difficult questions/resumes/cover letters, and Travel English transportation tags now cover local transport, bus tickets, train stations/journeys, taxis, planning, and directions. Added `scripts/enrich-library-topic-tags.ts` for local JSON tag enrichment without runtime transcript fetches, and enriched the animal-heavy NatGeo/TED-Ed entries needed for the "animals" repro. Files: `src/app/api/course/outline/route.ts`, `src/lib/source-library.ts`, `src/lib/course.ts`, `src/lib/source-library.test.ts`, `src/__tests__/api/course-outline.test.ts`, `scripts/enrich-library-topic-tags.ts`, `src/data/natgeo-library.json`, `src/data/teded-library.json`, `src/data/business-english-library.json`, `src/data/travel-english-library.json`, `package.json`. Evidence: focused Vitest matcher/API tests pass; deterministic acceptance maps screenshot-style animal lessons only to animal-related sources/null, screenshot-style "job interviews" lessons to Business English, and "transportation" Easy/8 lessons to public transport or directions. Live AI outline acceptance is blocked locally because no Gemini/Groq/OpenAI API key is configured.
 
@@ -51,6 +57,7 @@ A4 status note (Jul 8, Codex): outline lessons now require 2-4 concrete `keyword
 
 ## Suggested sequencing (weeks-away beta)
 
-Week 1: A1 (Fable) → A2 (Codex, parallel after A1's server-time lands) · A4 (Codex, independent — can start day 1) · A5 (Sonnet).
-Week 2: A3 (Opus) · B1 (Opus, after A3) · B2 (Sonnet/Opus fillers).
+~~Week 1: A1 · A4 · A5~~ — **all landed Jul 8** (one day, three lanes in parallel).
+Next up: **A2 (Codex — unblocked now that A1's server-time stamping is on main)** · **A3 (Opus)** · then B1 (Opus, after A3) · B2 (Sonnet/Opus fillers).
 Then: recruit testers. C-items run during beta; C1 whenever Ableton assets exist; C2 when conversion starts.
+Owner verification queue: A1 + A4 live checks on the deployed build (see top of section A); Supabase Pro at invite week.
