@@ -38,6 +38,7 @@ import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
 import { FlightSessionView } from '@/components/session/flight-session-view';
 import { LobbyFirstFlightCoach } from '@/components/session/lobby-first-flight-coach';
+import { LobbyCockpitNudge } from '@/components/session/lobby-cockpit-nudge';
 import { RouteChoicePanel } from '@/components/session/route-choice-panel';
 import type { FlightTransitionLeg } from '@/components/session/flight-transition-overlay';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
@@ -1866,6 +1867,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       </button>
                     </div>
                   </div>
+                  {/* First-flight: tell new teachers the private cockpit exists. */}
+                  <LobbyCockpitNudge eligible={(priorSessionCount ?? 99) <= 2} />
                 </div>
                 <div />
               </div>
