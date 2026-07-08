@@ -1,6 +1,21 @@
 # LessonCaptain Sound Design
 
-Status: **Design locked, not built.** Greenfield — there is no audio in the codebase today.
+Status: **Design locked, not built.** Timing (owner, Jul 8 2026): **v1 ships after beta starts** — sound is additive by design and beta feedback won't hinge on it. Prerequisite for v1 remains producing the audio files (Ableton, per the production guide).
+
+> **Correction (Jul 2026): the codebase is NOT greenfield.** Legacy TeachPlay-era audio exists:
+> `public/sounds/{correct,wrong,streak}.mp3`, played via bare `new Audio(...)` in ~7 games
+> (connections, dialogue-detective, error-hunter, flash-quiz, grammar-boss, grid-rush,
+> sentence-scramble). These are **per-question correct/incorrect dings on the teacher screen —
+> the exact "hard no" in §2** — with no mute, no volume control, and no shared loudness/space.
+> **v1 must resolve them**: either delete them outright (cleanest; consistent with §2), or fold
+> them under the new sound manager + global mute as a "feedback dings" channel defaulting OFF.
+> Do not ship the new transition layer alongside unmanaged legacy dings.
+
+Verified still-true (Jul 2026): every wiring target in §2 exists (`brand-sting.tsx`,
+`flight-transition-overlay.tsx`, `turbulence-beat.tsx`, `end-session-summary.tsx`,
+`lobby-airfield-scene.tsx`); the weather model (§ weather-reactive audio) shipped and flows
+through the transition overlay; turbulence is built at `/dev/turbulence` but not yet wired live —
+if it's still dev-only when v2 lands, the turbulence rumble waits with it.
 
 This doc covers *what* the sound layer is, *where* it plays, *how* it's delivered and built,
 and the rollout. The companion doc **[sound-ableton-production-guide.md](./sound-ableton-production-guide.md)**
