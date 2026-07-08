@@ -3,7 +3,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
 import { mockStore } from '@/lib/mock/data';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
-import { stampTimedSpec } from '@/lib/input-spec';
+import { getInputSpecRevision, stampTimedSpec } from '@/lib/input-spec';
 import type { Session } from '@/lib/supabase/types';
 
 export const dynamic = 'force-dynamic';
@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
       const updates = { input_spec: stamped ?? null } as Partial<Session> & { input_spec?: unknown };
       mockStore.updateSession(sessionId, updates);
 
-      return NextResponse.json({ ok: true, spec: stamped ?? null, serverNow: Date.now() }, {
+      const payloadSpec = stamped ?? null;
+      return NextResponse.json({ ok: true, spec: payloadSpec, inputSpecRevision: getInputSpecRevision(payloadSpec), serverNow: Date.now() }, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
       });
     }
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
 
     // Echo the stamped spec + server clock so the teacher's own timers can anchor
     // to the exact same timestamps students receive from the poll.
-    return NextResponse.json({ ok: true, spec: toWrite, serverNow: Date.now() });
+    return NextResponse.json({ ok: true, spec: toWrite, inputSpecRevision: getInputSpecRevision(toWrite), serverNow: Date.now() });
   } catch (error) {
     console.error('[input-spec POST] error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

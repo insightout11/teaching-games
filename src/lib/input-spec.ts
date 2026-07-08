@@ -134,6 +134,42 @@ export interface InputSpec {
   sectorActiveTeam?: 'x' | 'o';
 }
 
+export const INPUT_SPEC_REALTIME_EVENT = 'input-spec';
+
+export interface InputSpecRealtimePayload {
+  spec: InputSpec | null;
+  inputSpecRevision: string;
+  serverNow: number;
+}
+
+export function inputSpecChannelName(sessionId: string): string {
+  return `session-input-spec:${sessionId}`;
+}
+
+function stableStringify(value: unknown): string {
+  if (value === null || typeof value !== 'object') {
+    return JSON.stringify(value) ?? 'undefined';
+  }
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
+
+  const record = value as Record<string, unknown>;
+  return `{${Object.keys(record)
+    .sort()
+    .map((key) => `${JSON.stringify(key)}:${stableStringify(record[key])}`)
+    .join(',')}}`;
+}
+
+/** Stable, short revision used by realtime and poll fallback to detect input-spec changes. */
+export function getInputSpecRevision(spec: unknown): string {
+  const text = stableStringify(spec ?? null);
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0).toString(36);
+}
+
 /** Grace window between a timed spec's broadcast and answers opening (teacher 3-2-1 beat + student "Get ready"). */
 export const ANSWERS_OPEN_GRACE_MS = 4000;
 

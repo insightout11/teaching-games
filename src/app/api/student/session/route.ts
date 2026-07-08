@@ -9,6 +9,7 @@ import {
   type ReferenceVocabItem,
 } from '@/lib/reference-materials';
 import { SIDE_CHANNEL_KEY, type SideChannelItem } from '@/lib/side-channel';
+import { getInputSpecRevision } from '@/lib/input-spec';
 
 export const dynamic = 'force-dynamic';
 
@@ -77,11 +78,13 @@ interface OfferedCards {
 }
 
 interface SessionPayload {
+  unchanged?: false;
   isActive: boolean;
   /** Server clock (Unix ms) at response time — students sync countdowns to this, never to Date.now(). */
   serverNow: number;
   activePoll: { pollId: string; question: string; options: string[]; metadata?: Record<string, unknown> | null } | null;
   inputSpec: unknown;
+  inputSpecRevision: string;
   sideChannel: SideChannelItem | null;
   publishedQuestions: PublishedQuestion[] | null;
   wonderQuestions: WonderQuestion[] | null;
@@ -103,11 +106,19 @@ interface SessionPayload {
   debriefToken: string | null;
 }
 
+interface SessionUnchangedPayload {
+  unchanged: true;
+  isActive: boolean;
+  serverNow: number;
+  inputSpecRevision: string;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get('sessionId');
     const clientId = searchParams.get('clientId');
+    const expectedInputSpecRevision = searchParams.get('inputSpecRevision');
 
     if (!sessionId) {
       return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
@@ -120,11 +131,26 @@ export async function GET(request: NextRequest) {
       }
 
       const mockInputSpec = (session as { input_spec?: unknown }).input_spec || null;
+      const inputSpecRevision = getInputSpecRevision(mockInputSpec);
+      const isActive = session.status === 'active';
+      if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
+        const unchangedPayload: SessionUnchangedPayload = {
+          unchanged: true,
+          isActive,
+          serverNow: Date.now(),
+          inputSpecRevision,
+        };
+        return NextResponse.json(unchangedPayload, {
+          headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
+        });
+      }
+
       const payload: SessionPayload = {
-        isActive: session.status === 'active',
+        isActive,
         serverNow: Date.now(),
         activePoll: null,
         inputSpec: mockInputSpec,
+        inputSpecRevision,
         sideChannel: null,
         publishedQuestions: null,
         wonderQuestions: null,
@@ -171,6 +197,20 @@ export async function GET(request: NextRequest) {
     }
 
     const isActive = session.status === 'active';
+    const inputSpec = session.input_spec || null;
+    const inputSpecRevision = getInputSpecRevision(inputSpec);
+
+    if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
+      const unchangedPayload: SessionUnchangedPayload = {
+        unchanged: true,
+        isActive,
+        serverNow: Date.now(),
+        inputSpecRevision,
+      };
+      return NextResponse.json(unchangedPayload, {
+        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
+      });
+    }
 
     // Resolve this student's roster student_id once (if they joined). game-shell
     // attributes a device's answers to a matched roster student by writing
@@ -572,7 +612,8 @@ export async function GET(request: NextRequest) {
       isActive,
       serverNow: Date.now(),
       activePoll,
-      inputSpec: session.input_spec || null,
+      inputSpec,
+      inputSpecRevision,
       sideChannel,
       publishedQuestions,
       wonderQuestions,

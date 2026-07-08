@@ -5,7 +5,15 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import type { Team } from '@/lib/supabase/types';
-import type { InputSpec } from '@/lib/input-spec';
+import {
+  getInputSpecRevision,
+  inputSpecChannelName,
+  INPUT_SPEC_REALTIME_EVENT,
+  type InputSpec,
+  type InputSpecRealtimePayload,
+} from '@/lib/input-spec';
+import { createClient } from '@/lib/supabase/client';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 import { DynamicInput } from './dynamic-input';
 import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
@@ -332,6 +340,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // Server clock offset (serverNow − local Date.now() at response receipt). Countdown
   // timers add this to the local clock so device skew never eats answer time.
   const [clockOffsetMs, setClockOffsetMs] = useState(0);
+  const inputSpecRevisionRef = useRef<string | null>(null);
+  const lastFullSessionPollAtRef = useRef(0);
 
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
@@ -363,9 +373,18 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   }, [inputSpec]);
 
   // Poll for session status, active polls, and input spec
-  const checkSession = useCallback(async () => {
+  const checkSession = useCallback(async (options?: { forceFull?: boolean }) => {
     try {
-      const res = await fetch(`/api/student/session?sessionId=${sessionId}&clientId=${studentSession.clientId}`);
+      const params = new URLSearchParams({
+        sessionId,
+        clientId: studentSession.clientId,
+      });
+      const allowUnchanged = !options?.forceFull && Date.now() - lastFullSessionPollAtRef.current < 60_000;
+      if (allowUnchanged && inputSpecRevisionRef.current) {
+        params.set('inputSpecRevision', inputSpecRevisionRef.current);
+      }
+
+      const res = await fetch(`/api/student/session?${params.toString()}`);
       if (!res.ok) {
         setSessionActive(false);
         setConnectionStatus('disconnected');
@@ -378,11 +397,23 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (typeof data.serverNow === 'number') {
         setClockOffsetMs(offset);
       }
+      if (data.unchanged === true) {
+        if (typeof data.inputSpecRevision === 'string') {
+          inputSpecRevisionRef.current = data.inputSpecRevision;
+        }
+        setSessionActive(data.isActive);
+        setConnectionStatus('connected');
+        return;
+      }
       // Instrumentation: on a freshly arrived timed round, measure how much of the
       // answer window was lost to delivery. The grace window (answersOpenAt − startedAt)
       // absorbs delivery up to its length; only delivery BEYOND grace eats answer time.
       // That residual is what A2 (realtime push) closes.
       const spec = data.inputSpec as InputSpec | null;
+      lastFullSessionPollAtRef.current = Date.now();
+      inputSpecRevisionRef.current = typeof data.inputSpecRevision === 'string'
+        ? data.inputSpecRevision
+        : getInputSpecRevision(spec);
       if (spec?.timerSeconds && typeof spec.answersOpenAt === 'number' && spec.startedAt) {
         const roundKey = `${spec.gameKey}:${spec.startedAt}`;
         if (loggedRoundRef.current !== roundKey) {
@@ -432,8 +463,51 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   }, [sessionId]);
 
   useEffect(() => {
+    const supabase = createClient();
+    const channel: RealtimeChannel = supabase
+      .channel(inputSpecChannelName(sessionId))
+      .on('broadcast', { event: INPUT_SPEC_REALTIME_EVENT }, ({ payload }: { payload: unknown }) => {
+        const data = payload as Partial<InputSpecRealtimePayload>;
+        const spec = (data.spec ?? null) as InputSpec | null;
+        const serverNow = typeof data.serverNow === 'number' ? data.serverNow : Date.now();
+        const offset = serverNow - Date.now();
+        setClockOffsetMs(offset);
+        inputSpecRevisionRef.current = typeof data.inputSpecRevision === 'string'
+          ? data.inputSpecRevision
+          : getInputSpecRevision(spec);
+
+        if (spec?.timerSeconds && typeof spec.answersOpenAt === 'number' && spec.startedAt) {
+          const roundKey = `${spec.gameKey}:${spec.startedAt}`;
+          if (loggedRoundRef.current !== roundKey) {
+            loggedRoundRef.current = roundKey;
+            const deliveryMs = serverNow - spec.startedAt;
+            const graceMs = spec.answersOpenAt - spec.startedAt;
+            const lostS = Math.max(0, Math.round((deliveryMs - graceMs) / 1000));
+            const effectiveStart = Math.min(spec.timerSeconds, Math.max(0, Math.ceil((spec.answersOpenAt + spec.timerSeconds * 1000 - serverNow) / 1000)));
+            console.debug(
+              `[timer] realtime round arrived · delivery=${Math.round(deliveryMs)}ms grace=${graceMs}ms ` +
+              `→ answer window opens at ${effectiveStart}/${spec.timerSeconds}s (lost ${lostS}s to delivery past grace)`,
+            );
+          }
+        }
+
+        setInputSpec(spec);
+        if (!spec?.wonderFollowUpMode) {
+          setSelectedFollowUpId(null);
+          setFollowUpText('');
+        }
+        setConnectionStatus('connected');
+      });
+
+    channel.subscribe();
+    return () => {
+      void channel.unsubscribe();
+    };
+  }, [sessionId]);
+
+  useEffect(() => {
     checkSession();
-    const interval = setInterval(checkSession, 5000); // Poll every 5 seconds
+    const interval = setInterval(checkSession, 15000); // Realtime is primary; poll is a slow fallback.
     return () => clearInterval(interval);
   }, [checkSession]);
 
@@ -608,8 +682,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           setSelectedFollowUpId(null);
           setFollowUpText('');
         }
-        // Re-poll quickly so per-student state (e.g. found words, lives) updates without waiting the full 5s interval
-        setTimeout(checkSession, 1500);
+        // Re-poll quickly so per-student state (e.g. found words, lives) updates without waiting the fallback interval.
+        setTimeout(() => void checkSession({ forceFull: true }), 1500);
       }
     } catch {
       setSubmitStatus('error');

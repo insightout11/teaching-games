@@ -1,11 +1,19 @@
 import { create } from 'zustand';
 import type { Student, Score } from '@/lib/supabase/types';
-import type { InputSpec, TimedRoundClock } from '@/lib/input-spec';
+import {
+  getInputSpecRevision,
+  inputSpecChannelName,
+  INPUT_SPEC_REALTIME_EVENT,
+  type InputSpec,
+  type InputSpecRealtimePayload,
+  type TimedRoundClock,
+} from '@/lib/input-spec';
 import type { Difficulty } from '@/lib/difficulty';
 import type { GrammarTarget } from '@/lib/grammar';
 import type { CharacterCard } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 
 
 export type PickerMode = 'fair' | 'random';
@@ -257,6 +265,59 @@ function getInitialSettings(): SessionSettings {
 // Null writes are skipped when DB is already null, preventing stale overwrites
 // from rapid IDLE/PRESENTING → VOTING transitions where null fires before binary.
 let lastWrittenInputSpec: InputSpec | null | undefined = undefined;
+let inputSpecBroadcastSessionId: string | null = null;
+let inputSpecBroadcastChannel: RealtimeChannel | null = null;
+let inputSpecBroadcastReady: Promise<void> | null = null;
+
+function resetInputSpecBroadcastChannel() {
+  if (inputSpecBroadcastChannel) {
+    void inputSpecBroadcastChannel.unsubscribe();
+  }
+  inputSpecBroadcastSessionId = null;
+  inputSpecBroadcastChannel = null;
+  inputSpecBroadcastReady = null;
+}
+
+async function ensureInputSpecBroadcastChannel(sessionId: string): Promise<{
+  channel: RealtimeChannel;
+  ready: Promise<void>;
+}> {
+  if (
+    inputSpecBroadcastChannel &&
+    inputSpecBroadcastReady &&
+    inputSpecBroadcastSessionId === sessionId
+  ) {
+    return { channel: inputSpecBroadcastChannel, ready: inputSpecBroadcastReady };
+  }
+
+  resetInputSpecBroadcastChannel();
+  const { createClient } = await import('@/lib/supabase/client');
+  const channel = createClient().channel(inputSpecChannelName(sessionId));
+  const ready = new Promise<void>((resolve) => {
+    const timeout = setTimeout(resolve, 750);
+    channel.subscribe((status: string) => {
+      if (status === 'SUBSCRIBED') {
+        clearTimeout(timeout);
+        resolve();
+      }
+    });
+  });
+
+  inputSpecBroadcastSessionId = sessionId;
+  inputSpecBroadcastChannel = channel;
+  inputSpecBroadcastReady = ready;
+  return { channel, ready };
+}
+
+async function broadcastInputSpec(sessionId: string, payload: InputSpecRealtimePayload) {
+  try {
+    const { channel, ready } = await ensureInputSpecBroadcastChannel(sessionId);
+    await ready;
+    await channel.send({ type: 'broadcast', event: INPUT_SPEC_REALTIME_EVENT, payload });
+  } catch (error) {
+    console.warn('[input-spec realtime] broadcast failed; poll fallback will recover', error);
+  }
+}
 
 // Weighted random selection for wheel
 function selectWeightedRandom(): TurnModifier {
@@ -302,6 +363,10 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   initSession: (sessionId, classId, students) => {
     lastWrittenInputSpec = undefined; // Reset per-session tracking
+    if (inputSpecBroadcastSessionId !== sessionId) {
+      resetInputSpecBroadcastChannel();
+    }
+    void ensureInputSpecBroadcastChannel(sessionId);
     const callCounts: Record<string, number> = {};
     const streaks: Record<string, number> = {};
     students.forEach((s) => {
@@ -493,17 +558,22 @@ export const useSessionStore = create<SessionState>((set, get) => ({
         body: JSON.stringify({ sessionId, spec }),
       });
       if (res.ok) {
-        lastWrittenInputSpec = spec;
         // The API echoes the server-stamped spec + server clock. Anchor teacher-side
         // timers to the same startedAt/answersOpenAt students receive from the poll,
         // and only reset the round clock when the round nonce actually changes (lock
         // updates / reveals rebroadcast the same round and must not restart the timer).
         const data = await res.json().catch(() => null) as
-          | { spec?: InputSpec | null; serverNow?: number }
+          | { spec?: InputSpec | null; inputSpecRevision?: string; serverNow?: number }
           | null;
         const stamped = data?.spec ?? null;
+        const serverNow = typeof data?.serverNow === 'number' ? data.serverNow : Date.now();
+        const inputSpecRevision = typeof data?.inputSpecRevision === 'string'
+          ? data.inputSpecRevision
+          : getInputSpecRevision(stamped);
+        lastWrittenInputSpec = stamped;
+        void broadcastInputSpec(sessionId, { spec: stamped, inputSpecRevision, serverNow });
         if (stamped && typeof stamped.timerSeconds === 'number' && typeof stamped.startedAt === 'number') {
-          const offset = typeof data?.serverNow === 'number' ? data.serverNow - Date.now() : 0;
+          const offset = serverNow - Date.now();
           const prev = get().activeTimedRound;
           const isNewRound = !prev || prev.clientStartedAt !== stamped.clientStartedAt || prev.startedAt !== stamped.startedAt;
           set({
@@ -579,6 +649,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   reset: () => {
     lastWrittenInputSpec = undefined;
+    resetInputSpecBroadcastChannel();
     set({
       sessionId: null,
       classId: null,

@@ -260,8 +260,15 @@ const mockAuth = {
 
 // Mock channel for realtime
 class MockChannel {
+  constructor(private readonly name: string) {}
   on() { return this; }
-  subscribe() { return this; }
+  subscribe(callback?: (status: string) => void) {
+    void this.name;
+    callback?.('SUBSCRIBED');
+    return this;
+  }
+  async send() { return 'ok'; }
+  async unsubscribe() { return 'ok'; }
 }
 
 async function mockRpc(functionName: string, params?: Record<string, unknown>) {
@@ -292,7 +299,7 @@ export function createMockClient() {
     from: <T>(table: TableName) => new MockQueryBuilder<T>(table),
     rpc: mockRpc,
     auth: mockAuth,
-    channel: () => new MockChannel(),
+    channel: (name: string) => new MockChannel(name),
     removeChannel: () => {},
   };
 }

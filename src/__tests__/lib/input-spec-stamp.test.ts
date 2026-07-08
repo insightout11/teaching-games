@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { stampTimedSpec, computeTimerState, ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
+import {
+  stampTimedSpec,
+  computeTimerState,
+  getInputSpecRevision,
+  ANSWERS_OPEN_GRACE_MS,
+  type InputSpec,
+} from '@/lib/input-spec';
 
 const SERVER_NOW = 1_800_000_000_000;
 
@@ -161,5 +167,35 @@ describe('computeTimerState', () => {
   it('returns timerSeconds with no active window for an unstamped/non-timed clock', () => {
     expect(computeTimerState({ timerSeconds: 0 })).toEqual({ timeLeft: 0, opensIn: 0, answersOpen: true });
     expect(computeTimerState({ timerSeconds: 30 })).toEqual({ timeLeft: 30, opensIn: 0, answersOpen: true });
+  });
+});
+
+describe('getInputSpecRevision', () => {
+  it('is stable across object key order', () => {
+    const a = {
+      type: 'choice',
+      gameKey: 'flash-quiz',
+      options: ['A', 'B'],
+      timerSeconds: 30,
+      perStudentData: { c2: { locked: true }, c1: { locked: false } },
+    };
+    const b = {
+      perStudentData: { c1: { locked: false }, c2: { locked: true } },
+      timerSeconds: 30,
+      options: ['A', 'B'],
+      gameKey: 'flash-quiz',
+      type: 'choice',
+    };
+
+    expect(getInputSpecRevision(a)).toBe(getInputSpecRevision(b));
+  });
+
+  it('changes when the active spec changes', () => {
+    const base = { type: 'choice', gameKey: 'flash-quiz', options: ['A', 'B'] };
+
+    expect(getInputSpecRevision(base)).not.toBe(
+      getInputSpecRevision({ ...base, options: ['A', 'C'] }),
+    );
+    expect(getInputSpecRevision(base)).not.toBe(getInputSpecRevision(null));
   });
 });
