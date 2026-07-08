@@ -34,9 +34,9 @@ export function PaywallModal({ open, onClose }: PaywallModalProps) {
           <ul className="space-y-1.5 text-sm text-lc-text2">
             {[
               'Unlimited live lessons',
-              'Saved & reusable Flight Plans',
               'Full session history and debriefs',
               'Source-based lessons from video, text, and PDF',
+              'Course Builder for multi-lesson arcs',
               'Custom topics for your exact curriculum',
             ].map((benefit) => (
               <li key={benefit} className="flex items-center gap-2">
@@ -61,7 +61,10 @@ export function PaywallModal({ open, onClose }: PaywallModalProps) {
         </div>
 
         {/* Dismiss */}
-        <div className="text-center">
+        <div className="text-center space-y-1.5">
+          <p className="text-xs text-lc-text3">
+            Not ready? You&apos;ll get 1 free Test Flight credit each month.
+          </p>
           <button
             onClick={onClose}
             className="text-xs text-lc-text3 hover:text-lc-text2 transition-colors"

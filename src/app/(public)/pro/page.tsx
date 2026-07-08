@@ -31,7 +31,7 @@ const PRO_FEATURES = [
 const FAQ = [
   {
     q: 'What counts as a Test Flight?',
-    a: 'Any live lesson launch — a single game, a single activity, or a full Flight Plan. One launch uses one credit, regardless of lesson length.',
+    a: 'Any live lesson launch — a single game, a single activity, or a full Flight Plan. One launch uses one credit, regardless of lesson length. If you use up all 5, you get 1 free credit back each month.',
   },
   {
     q: 'What happens to my free session history if I upgrade?',

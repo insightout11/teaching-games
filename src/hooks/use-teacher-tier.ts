@@ -42,38 +42,26 @@ export function useTeacherTier(): TeacherTierInfo {
         return;
       }
 
-      const { data } = await supabase
-        .from('teachers')
-        .select('is_developer, subscription_status, promo_expires_at, generation_credits')
-        .eq('id', user.id)
-        .single();
+      // The RPC (not a direct teachers select) so the monthly credit trickle
+      // for exhausted accounts fires on read — see migration 052.
+      const { data } = await supabase.rpc('get_teacher_credits', { teacher_id: user.id });
 
-      if (!data) {
+      const row = (Array.isArray(data) ? data[0] : data) as {
+        credits: number;
+        is_pro: boolean;
+        is_developer: boolean;
+      } | undefined;
+
+      if (!row) {
         setInfo({ loading: false, isPro: false, isDeveloper: false, credits: 0 });
         return;
       }
 
-      const teacher = data as {
-        is_developer: boolean;
-        subscription_status: string;
-        promo_expires_at: string | null;
-        generation_credits: number;
-      };
-
-      const hasActivePromo =
-        teacher.promo_expires_at != null &&
-        new Date(teacher.promo_expires_at) > new Date();
-
-      const isPro =
-        teacher.is_developer ||
-        teacher.subscription_status === 'active' ||
-        hasActivePromo;
-
       setInfo({
         loading: false,
-        isPro,
-        isDeveloper: teacher.is_developer,
-        credits: isPro ? 0 : teacher.generation_credits,
+        isPro: row.is_pro,
+        isDeveloper: row.is_developer,
+        credits: row.is_pro ? 0 : row.credits,
       });
     }
 

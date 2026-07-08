@@ -612,12 +612,17 @@ export function ReviewLaunchScreen() {
 
           {/* Launch button — replaced with upgrade CTA when credits exhausted */}
           {!tierLoading && !isPro && credits === 0 ? (
-            <a
-              href="/pro"
-              className="w-full flex items-center justify-center gap-2 py-4 bg-lc-blue/10 border border-lc-blue/30 text-lc-blue rounded-xl font-bold text-base hover:bg-lc-blue/20 transition-all"
-            >
-              Upgrade to Pro to launch more lessons →
-            </a>
+            <div className="space-y-2">
+              <a
+                href="/pro"
+                className="w-full flex items-center justify-center gap-2 py-4 bg-lc-blue/10 border border-lc-blue/30 text-lc-blue rounded-xl font-bold text-base hover:bg-lc-blue/20 transition-all"
+              >
+                Upgrade to Pro to launch more lessons →
+              </a>
+              <p className="text-xs text-center text-lc-text3">
+                Or wait for your free monthly Test Flight credit — you get 1 back each month.
+              </p>
+            </div>
           ) : (
             <button
               onClick={handleLaunch}
