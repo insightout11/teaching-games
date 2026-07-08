@@ -16,19 +16,21 @@ interface DynamicInputProps {
   clientId?: string;
   displayName?: string;
   studentId?: string | null;
+  /** Server clock minus local clock (ms), measured by the session poll. Feeds timed inputs. */
+  clockOffsetMs?: number;
 }
 
-export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId }: DynamicInputProps) {
+export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs }: DynamicInputProps) {
   switch (spec.type) {
     case 'text':
-      return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
     case 'textarea':
-      return <TextareaInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
+      return <TextareaInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} clockOffsetMs={clockOffsetMs} />;
     case 'choice':
       if (spec.timerSeconds) {
         return <QuizChoiceInput
           key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`}
-          spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} studentId={studentId} />;
+          spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} studentId={studentId} clockOffsetMs={clockOffsetMs} />;
       }
       return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} displayName={displayName} />;
     case 'binary':
@@ -36,11 +38,11 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
     case 'multi-select':
       return <MultiSelectInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'sequence':
-      return <SequenceInput key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <SequenceInput key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
     case 'ranking':
       return <RankingInput key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
     case 'error-correction':
-      return <ErrorCorrectionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <ErrorCorrectionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
     case 'confirm':
       return <ConfirmInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
     case 'read-aloud':
@@ -173,10 +175,10 @@ function SubmitStatus({ status, waitSeconds }: { status: 'idle' | 'success' | 'e
 }
 
 // Single line text input
-function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clockOffsetMs }: DynamicInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const inFlightRef = useRef(false);
-  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec);
+  const { timeLeft, isExpired, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, false, clockOffsetMs);
 
   const handleSubmit = useCallback(async () => {
     if (inFlightRef.current || isExpired) return;
@@ -201,6 +203,10 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
       handleSubmit();
     }
   }, [handleSubmit]);
+
+  if (timerSeconds > 0 && !answersOpen) {
+    return <GetReadyGate spec={spec} opensIn={opensIn} />;
+  }
 
   return (
     <div className="space-y-4">
@@ -236,12 +242,12 @@ function TextInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: 
 }
 
 // Multi-line textarea input
-function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId }: DynamicInputProps) {
+function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, clockOffsetMs }: DynamicInputProps) {
   const prefill = (clientId && spec.prefillByClientId?.[clientId]) ?? '';
   const [value, setValue] = useState(prefill);
   const [showHint, setShowHint] = useState(false);
   const [selectedResources, setSelectedResources] = useState<string[]>([]);
-  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec);
+  const { timeLeft, isExpired, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, false, clockOffsetMs);
 
   const hasResources = (spec.resources?.length ?? 0) > 0;
   const resourcesRequired = hasResources && selectedResources.length === 0;
@@ -304,6 +310,10 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         </div>
       </div>
     );
+  }
+
+  if (timerSeconds > 0 && !answersOpen) {
+    return <GetReadyGate spec={spec} opensIn={opensIn} />;
   }
 
   return (
@@ -429,22 +439,36 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
 
 const INPUT_GRACE_MS = 1500;
 
-/** Synced countdown timer for any timed input. Returns timeLeft, isExpired. */
-function useInputTimer(spec: InputSpec, submitted = false) {
+/**
+ * Synced countdown timer for any timed input. startedAt/answersOpenAt are
+ * server-stamped by the input-spec API, so remaining time is derived from the
+ * server clock (local clock + poll-measured offset) instead of counting down
+ * from whenever this device happened to receive the spec.
+ */
+function useInputTimer(spec: InputSpec, submitted = false, clockOffsetMs = 0) {
   const timerSeconds = spec.timerSeconds ?? 0;
-  const initialTime = spec.startedAt && timerSeconds
-    ? Math.max(0, timerSeconds - Math.floor((Date.now() - spec.startedAt) / 1000))
-    : timerSeconds;
-  const [timeLeft, setTimeLeft] = useState(initialTime);
+  const { startedAt, answersOpenAt } = spec;
+
+  const compute = useCallback(() => {
+    if (!timerSeconds || !startedAt) {
+      return { timeLeft: timerSeconds, opensIn: 0 };
+    }
+    const serverNow = Date.now() + clockOffsetMs;
+    const timeLeft = Math.max(0, Math.ceil((startedAt + timerSeconds * 1000 - serverNow) / 1000));
+    const opensIn = answersOpenAt ? Math.max(0, Math.ceil((answersOpenAt - serverNow) / 1000)) : 0;
+    return { timeLeft, opensIn };
+  }, [timerSeconds, startedAt, answersOpenAt, clockOffsetMs]);
+
+  const [{ timeLeft, opensIn }, setTick] = useState(compute);
   const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
     if (submitted || !timerSeconds) return;
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => Math.max(0, prev - 1));
-    }, 1000);
+    setTick(compute());
+    // 250ms so the 3-2-1 answers-open beat lands on whole seconds without visible drift
+    const interval = setInterval(() => setTick(compute()), 250);
     return () => clearInterval(interval);
-  }, [submitted, timerSeconds]);
+  }, [submitted, timerSeconds, compute]);
 
   useEffect(() => {
     if (submitted || timeLeft > 0 || !timerSeconds) return;
@@ -452,7 +476,27 @@ function useInputTimer(spec: InputSpec, submitted = false) {
     return () => clearTimeout(grace);
   }, [submitted, timeLeft, timerSeconds]);
 
-  return { timeLeft, isExpired, timerSeconds };
+  return { timeLeft, isExpired, timerSeconds, answersOpen: opensIn <= 0, opensIn };
+}
+
+/**
+ * Pre-open gate for timed inputs: shows the prompt (reading time) and a 3-2-1
+ * countdown until answersOpenAt, so delivery delay eats the grace window
+ * instead of the answer window.
+ */
+function GetReadyGate({ spec, opensIn }: { spec: InputSpec; opensIn: number }) {
+  return (
+    <div className="space-y-4">
+      {spec.prompt && (
+        <p className="text-lg text-cyan-400 font-medium leading-snug">{spec.prompt}</p>
+      )}
+      <div className="flex flex-col items-center gap-2 py-8">
+        <p className="text-xs uppercase tracking-[0.22em] text-lc-text3">Get ready</p>
+        <p key={opensIn} className="text-6xl font-black text-cyan-300 animate-pulse">{opensIn}</p>
+        <p className="text-sm text-lc-text2">Answers open in a moment…</p>
+      </div>
+    </div>
+  );
 }
 
 /** Visual countdown bar shown above inputs when a timer is active. */
@@ -484,9 +528,9 @@ const QUIZ_COLORS = [
 ];
 const QUIZ_LABELS = ['A', 'B', 'C', 'D'];
 
-function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId }: DynamicInputProps) {
+function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId, clockOffsetMs }: DynamicInputProps) {
   const [submitted, setSubmitted] = useState(false);
-  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec, submitted);
+  const { timeLeft, isExpired, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, submitted, clockOffsetMs);
 
   // Sector Strike team gating: only the active team answers; the defending team watches the board.
   const myTeam = studentId ? spec.sectorTeamByStudentId?.[studentId] : undefined;
@@ -501,10 +545,10 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId }: 
   const result = myData?.result;
 
   const handlePick = useCallback(async (index: number) => {
-    if (isSubmitting || isLocked || isExpired) return;
+    if (isSubmitting || isLocked || isExpired || !answersOpen) return;
     setSubmitted(true);
     await onSubmit(String(index));
-  }, [isSubmitting, isLocked, isExpired, onSubmit]);
+  }, [isSubmitting, isLocked, isExpired, answersOpen, onSubmit]);
 
   // Defending team — no input, just a holding screen.
   if (isDefending) {
@@ -551,6 +595,11 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId }: 
         <p className="text-lc-text2 text-sm">Waiting for others…</p>
       </div>
     );
+  }
+
+  // Pre-open: question is readable, answers unlock after the 3-2-1 beat
+  if (!answersOpen) {
+    return <GetReadyGate spec={spec} opensIn={opensIn} />;
   }
 
   // Active — show timer + answer grid
@@ -786,10 +835,10 @@ function MultiSelectInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeco
 }
 
 // Sequence input (tap to build ordered list)
-function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clockOffsetMs }: DynamicInputProps) {
   const [sequence, setSequence] = useState<string[]>([]);
   const [remaining, setRemaining] = useState<string[]>(spec.options || []);
-  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec);
+  const { timeLeft, isExpired, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, false, clockOffsetMs);
 
   const addToSequence = (item: string) => {
     setSequence([...sequence, item]);
@@ -822,6 +871,10 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
         </p>
       </div>
     );
+  }
+
+  if (timerSeconds > 0 && !answersOpen) {
+    return <GetReadyGate spec={spec} opensIn={opensIn} />;
   }
 
   return (
@@ -879,11 +932,11 @@ function SequenceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
 }
 
 // Error correction input (tap words to mark errors and type corrections)
-function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clockOffsetMs }: DynamicInputProps) {
   const [corrections, setCorrections] = useState<Map<number, string>>(new Map());
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [correctionText, setCorrectionText] = useState('');
-  const { timeLeft, isExpired, timerSeconds } = useInputTimer(spec);
+  const { timeLeft, isExpired, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, false, clockOffsetMs);
 
   const words = useMemo(() => spec.options || [], [spec.options]);
 
@@ -927,6 +980,10 @@ function ErrorCorrectionInput({ spec, onSubmit, isSubmitting, submitStatus, wait
     setEditingIndex(null);
     setCorrectionText('');
   }, [corrections, isSubmitting, isExpired, onSubmit, words]);
+
+  if (timerSeconds > 0 && !answersOpen) {
+    return <GetReadyGate spec={spec} opensIn={opensIn} />;
+  }
 
   return (
     <div className="space-y-4">

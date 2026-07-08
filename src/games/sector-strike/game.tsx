@@ -237,6 +237,8 @@ export function SectorStrikeGame({
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const applyingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fetchControllerRef = useRef<AbortController | null>(null);
+  // Set once per picked question; every broadcast of that question reuses it
+  const questionStartedAtRef = useRef<number>(0);
 
   // ── Derived ───────────────────────────────────────────────────────────────
   const xCount = cells.filter((c) => c.team === 'x').length;
@@ -280,7 +282,9 @@ export function SectorStrikeGame({
       prompt: cell.question ?? '',
       options: cell.options ?? [],
       timerSeconds: 60,
-      startedAt: Date.now(),
+      // Stable per-question nonce: reveal/lock rebroadcasts must carry the same
+      // startedAt so the server keeps the original timer stamp for the round.
+      startedAt: questionStartedAtRef.current,
       sectorTeamByStudentId: teamMapRef.current,
       sectorActiveTeam: currentTeamRef.current,
       ...(perStudentData ? { perStudentData } : {}),
@@ -546,6 +550,7 @@ export function SectorStrikeGame({
     if (!cell || cell.team !== null) return;
 
     setSelectedCell(cellIdx);
+    questionStartedAtRef.current = Date.now();
     roundVotesRef.current = {};
     setRoundVotes({});
     setRevealCorrectIndex(null);

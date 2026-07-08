@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Zap, ChevronRight, SkipForward, Trophy, AlertCircle } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
-import type { InputSpec } from '@/lib/input-spec';
+import { ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -82,6 +82,8 @@ export function FlashQuizGame({
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
+  // Seconds until answers open (the 3-2-1 beat after broadcast); 0 = open
+  const [answersOpenIn, setAnswersOpenIn] = useState(0);
   const [roundAnswers, setRoundAnswers] = useState<StudentAnswer[]>([]);
   const [, setCacheId] = useState<string | null>(null);
   const [questionCount, setQuestionCount] = useState<10 | 20>(10);
@@ -167,10 +169,12 @@ export function FlashQuizGame({
     const question = questionsRef.current[currentIndexRef.current];
     if (!question) return;
 
-    // Calculate time remaining from round start
-    const elapsedSec = (Date.now() - roundStartRef.current) / 1000;
+    // Speed bonus measures from when answers opened (after the 3-2-1 beat),
+    // not from broadcast — the grace window must not eat bonus points.
+    // Capped at ts in case a vote lands before the beat finishes.
+    const elapsedSec = (Date.now() - roundStartRef.current - ANSWERS_OPEN_GRACE_MS) / 1000;
     const ts = timerSecondsRef.current;
-    const timeRemaining = Math.max(0, ts - elapsedSec);
+    const timeRemaining = Math.max(0, Math.min(ts, ts - elapsedSec));
 
     const isCorrect = choiceIndex === question.correctIndex;
     const base = isCorrect ? 100 : 0;
@@ -233,6 +237,16 @@ export function FlashQuizGame({
     onRegisterRemoteVoteHandler?.(handleVote);
     return () => onRegisterRemoteVoteHandler?.(null);
   }, [onRegisterRemoteVoteHandler, handleVote]);
+
+  // ── Answers-open beat (3-2-1 before the grid unlocks, mirrors student devices) ──
+  useEffect(() => {
+    if (phase !== 'answering') return;
+    const tick = () =>
+      setAnswersOpenIn(Math.max(0, Math.ceil((roundStartRef.current + ANSWERS_OPEN_GRACE_MS - Date.now()) / 1000)));
+    tick();
+    const interval = setInterval(tick, 250);
+    return () => clearInterval(interval);
+  }, [phase]);
 
   // ── Timer countdown ───────────────────────────────────────────────────────
   useEffect(() => {
@@ -485,18 +499,26 @@ export function FlashQuizGame({
           <p className="text-xl font-semibold text-lc-text leading-snug">{currentQuestion.question}</p>
         </div>
 
-        {/* Options grid */}
-        <div className="grid grid-cols-2 gap-3">
-          {currentQuestion.options.map((option, i) => (
-            <div
-              key={i}
-              className={`${OPTION_COLORS[i]} rounded-xl p-4 opacity-80`}
-            >
-              <div className="text-xs font-black uppercase tracking-widest text-white/70 mb-1">{OPTION_LABELS[i]}</div>
-              <div className="text-sm font-semibold text-white leading-snug">{option}</div>
-            </div>
-          ))}
-        </div>
+        {/* Answers-open beat, then the options grid */}
+        {answersOpenIn > 0 ? (
+          <div className="flex flex-col items-center gap-2 py-10">
+            <p className="text-xs uppercase tracking-[0.22em] text-lc-text3">Get ready</p>
+            <p key={answersOpenIn} className="text-7xl font-black text-violet-400 animate-pulse">{answersOpenIn}</p>
+            <p className="text-sm text-lc-text2">Answers open in a moment…</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {currentQuestion.options.map((option, i) => (
+              <div
+                key={i}
+                className={`${OPTION_COLORS[i]} rounded-xl p-4 opacity-80`}
+              >
+                <div className="text-xs font-black uppercase tracking-widest text-white/70 mb-1">{OPTION_LABELS[i]}</div>
+                <div className="text-sm font-semibold text-white leading-snug">{option}</div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Timer */}
         <div className="space-y-1.5">

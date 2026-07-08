@@ -3,6 +3,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
 import { mockStore } from '@/lib/mock/data';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
+import { stampTimedSpec } from '@/lib/input-spec';
 import type { Session } from '@/lib/supabase/types';
 
 export const dynamic = 'force-dynamic';
@@ -30,7 +31,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Session not found' }, { status: 404 });
       }
 
-      const updates = { input_spec: spec ?? null } as Partial<Session> & { input_spec?: unknown };
+      const existing = (session as { input_spec?: unknown }).input_spec ?? null;
+      const stamped = stampTimedSpec(spec, existing);
+      const updates = { input_spec: stamped ?? null } as Partial<Session> & { input_spec?: unknown };
       mockStore.updateSession(sessionId, updates);
 
       return NextResponse.json({ ok: true }, {
@@ -48,9 +51,22 @@ export async function POST(request: NextRequest) {
 
     const supabase = createServiceClient();
 
+    // Timed specs get server-authoritative startedAt/answersOpenAt. Same-round
+    // rewrites (lock updates, reveals) must keep the original stamp, so read the
+    // current spec first to compare round nonces.
+    let toWrite: unknown = spec ?? null;
+    if (spec && typeof spec === 'object' && typeof (spec as { timerSeconds?: unknown }).timerSeconds === 'number') {
+      const { data: current } = await supabase
+        .from('sessions')
+        .select('input_spec')
+        .eq('id', sessionId)
+        .single();
+      toWrite = stampTimedSpec(spec, current?.input_spec ?? null);
+    }
+
     const { data, error } = await supabase
       .from('sessions')
-      .update({ input_spec: spec ?? null })
+      .update({ input_spec: toWrite })
       .eq('id', sessionId)
       .select('id');
 

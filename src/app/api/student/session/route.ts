@@ -78,6 +78,8 @@ interface OfferedCards {
 
 interface SessionPayload {
   isActive: boolean;
+  /** Server clock (Unix ms) at response time — students sync countdowns to this, never to Date.now(). */
+  serverNow: number;
   activePoll: { pollId: string; question: string; options: string[]; metadata?: Record<string, unknown> | null } | null;
   inputSpec: unknown;
   sideChannel: SideChannelItem | null;
@@ -120,6 +122,7 @@ export async function GET(request: NextRequest) {
       const mockInputSpec = (session as { input_spec?: unknown }).input_spec || null;
       const payload: SessionPayload = {
         isActive: session.status === 'active',
+        serverNow: Date.now(),
         activePoll: null,
         inputSpec: mockInputSpec,
         sideChannel: null,
@@ -567,6 +570,7 @@ export async function GET(request: NextRequest) {
 
     const payload: SessionPayload = {
       isActive,
+      serverNow: Date.now(),
       activePoll,
       inputSpec: session.input_spec || null,
       sideChannel,

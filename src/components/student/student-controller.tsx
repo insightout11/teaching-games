@@ -327,6 +327,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [transitionActivityName, setTransitionActivityName] = useState<string | null>(null);
   const prevInputSpecRef = useRef<InputSpec | null>(null);
 
+  // Server clock offset (serverNow − local Date.now() at response receipt). Countdown
+  // timers add this to the local clock so device skew never eats answer time.
+  const [clockOffsetMs, setClockOffsetMs] = useState(0);
+
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
 
@@ -367,6 +371,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       }
 
       const data = await res.json();
+      // Sync clock offset before the spec lands so a freshly mounted timer reads it.
+      if (typeof data.serverNow === 'number') {
+        setClockOffsetMs(data.serverNow - Date.now());
+      }
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);
       setInputSpec(data.inputSpec);
@@ -1346,6 +1354,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 clientId={studentSession.clientId}
                 displayName={studentSession.displayName}
                 studentId={studentSession.studentId}
+                clockOffsetMs={clockOffsetMs}
               />
             </>
           )

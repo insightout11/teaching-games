@@ -57,8 +57,17 @@ export interface InputSpec {
   result?: 'correct' | 'incorrect';
   /** When set, student device shows a countdown timer for this many seconds (quiz mode) */
   timerSeconds?: number;
-  /** Unix ms timestamp when the question was broadcast — student uses this to sync their countdown */
+  /**
+   * Unix ms timestamp when the question was broadcast — student uses this to sync their countdown.
+   * Games send their local clock; for timed specs the input-spec API replaces it with server time
+   * (the client value is kept in clientStartedAt as a round nonce). Only server clocks are compared
+   * against startedAt on the student side.
+   */
   startedAt?: number;
+  /** Server-stamped Unix ms when answers open (startedAt + grace). Students see a 3-2-1 beat until then. */
+  answersOpenAt?: number;
+  /** The game's original client startedAt, echoed back by the API. Round identity nonce — never compare to clocks. */
+  clientStartedAt?: number;
   /** Supabase broadcast channel session ID — used by Zone Board to stream aim data */
   sessionId?: string;
   /** Stable round identifier for structured multi-round inputs such as geo-point. */
@@ -123,6 +132,48 @@ export interface InputSpec {
   sectorTeamByStudentId?: Record<string, 'x' | 'o'>;
   /** Sector Strike: which team is currently answering this sector. Defending team's device shows a holding screen. */
   sectorActiveTeam?: 'x' | 'o';
+}
+
+/** Grace window between a timed spec's broadcast and answers opening (teacher 3-2-1 beat + student "Get ready"). */
+export const ANSWERS_OPEN_GRACE_MS = 4000;
+
+/**
+ * Server-side stamping for timed specs (input-spec API only). Replaces the game's
+ * client startedAt with server time and derives answersOpenAt, so student countdowns
+ * never depend on the teacher device's clock. Games re-broadcast the same round with
+ * the same client startedAt (lock updates, reveals) — those rewrites keep the original
+ * server stamp instead of restarting the timer.
+ */
+export function stampTimedSpec(spec: unknown, existing: unknown): unknown {
+  if (!spec || typeof spec !== 'object') return spec;
+  const next = spec as InputSpec;
+  if (!next.timerSeconds || typeof next.timerSeconds !== 'number') return spec;
+
+  const nonce = typeof next.startedAt === 'number' ? next.startedAt : undefined;
+  const prev = existing && typeof existing === 'object' ? (existing as InputSpec) : null;
+  const isSameRound =
+    prev !== null &&
+    prev.gameKey === next.gameKey &&
+    nonce !== undefined &&
+    prev.clientStartedAt === nonce &&
+    typeof prev.startedAt === 'number';
+
+  if (isSameRound) {
+    return {
+      ...next,
+      startedAt: prev.startedAt,
+      answersOpenAt: prev.answersOpenAt,
+      clientStartedAt: nonce,
+    };
+  }
+
+  const now = Date.now();
+  return {
+    ...next,
+    clientStartedAt: nonce,
+    startedAt: now,
+    answersOpenAt: now + ANSWERS_OPEN_GRACE_MS,
+  };
 }
 
 export interface ReadAloudQueueEntry {
