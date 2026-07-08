@@ -22,9 +22,9 @@ function call(body: Record<string, unknown>) {
 const goodOutline = {
   courseTitle: 'Travel English',
   lessons: [
-    { title: 'At the airport', topic: 'checking in at the airport', goal: 'functional-english' },
-    { title: 'At the hotel', topic: 'checking into a hotel', goal: 'functional-english' },
-    { title: 'Eating out', topic: 'ordering food at a restaurant', goal: 'speaking-fluency' },
+    { title: 'At the airport', topic: 'checking in at the airport', keywords: ['airport', 'check-in'], goal: 'functional-english' },
+    { title: 'At the hotel', topic: 'checking into a hotel', keywords: ['hotel', 'reception'], goal: 'functional-english' },
+    { title: 'Eating out', topic: 'ordering food at a restaurant', keywords: ['restaurant', 'food'], goal: 'speaking-fluency' },
   ],
 };
 
@@ -40,6 +40,7 @@ describe('POST /api/course/outline', () => {
     expect(data.lessons).toHaveLength(3);
     for (const l of data.lessons) {
       expect(typeof l.topic).toBe('string');
+      expect(l.keywords.length).toBeGreaterThan(0);
       expect(['speaking-fluency', 'functional-english', 'vocabulary-building', 'grammar-reinforcement',
         'discussion-debate', 'collaboration', 'creativity', 'critical-thinking', 'confidence-building']).toContain(l.goal);
       // suggestedSource is null or a well-formed ref
@@ -52,7 +53,7 @@ describe('POST /api/course/outline', () => {
   it('clamps invalid goals to a safe default', async () => {
     mockGenerateJSON.mockResolvedValue({
       courseTitle: 'X',
-      lessons: [{ title: 'L', topic: 'volcanoes and lava', goal: 'win-the-lottery' }],
+      lessons: [{ title: 'L', topic: 'volcanoes and lava', keywords: ['volcanoes', 'lava'], goal: 'win-the-lottery' }],
     });
     const data = await (await call({ theme: 'science' })).json();
     expect(data.lessons[0].goal).toBe('discussion-debate');
@@ -62,6 +63,7 @@ describe('POST /api/course/outline', () => {
     mockGenerateJSON.mockImplementation((prompt: string) => {
       // the prompt should request the clamped count (12 -> 8)
       expect(prompt).toContain('Number of lessons: 8');
+      expect(prompt).toContain('keywords - 2-4 concrete noun keywords');
       return Promise.resolve(goodOutline);
     });
     await call({ theme: 'travel', lessonCount: 12 });
@@ -75,7 +77,7 @@ describe('POST /api/course/outline', () => {
   });
 
   it('502s when the model returns no usable lessons', async () => {
-    mockGenerateJSON.mockResolvedValue({ courseTitle: 'X', lessons: [{ title: 'L', topic: '', goal: 'x' }] });
+    mockGenerateJSON.mockResolvedValue({ courseTitle: 'X', lessons: [{ title: 'L', topic: '', keywords: ['topic'], goal: 'x' }] });
     const res = await call({ theme: 'something real' });
     expect(res.status).toBe(502);
   });

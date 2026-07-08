@@ -72,6 +72,8 @@ export interface Course {
 export interface CourseOutlineLesson {
   title: string;
   topic: string;
+  /** Concrete noun keywords from the outline model, used for source matching. */
+  keywords?: string[];
   goal: GoalTag;
   /** Best library match for this lesson's topic (from recommendSources), if any. */
   suggestedSource?: { kind: 'video' | 'reading'; sourceType: SourceType; id: string; title: string } | null;

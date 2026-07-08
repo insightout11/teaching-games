@@ -1,5 +1,5 @@
-// Topic → library source recommender ("Find"). Pure, deterministic, no AI: scores
-// the curated video + reading libraries against a topic string by keyword/tag overlap.
+// Topic -> library source recommender ("Find"). Pure, deterministic, no AI: scores
+// the curated video + reading libraries against concrete lesson keywords.
 // Selection reuses the existing /api/source/extract flow via (sourceType, id).
 
 import tedRaw from '@/data/ted-library.json';
@@ -84,6 +84,8 @@ const STOPWORDS = new Set([
   'the', 'and', 'for', 'with', 'about', 'from', 'that', 'this', 'into', 'your', 'you',
   'are', 'was', 'were', 'how', 'why', 'what', 'when', 'who', 'a', 'an', 'of', 'to', 'in',
   'on', 'or', 'is', 'it', 'be', 'as', 'at', 'by', 'lesson', 'class', 'english', 'students',
+  'relationship', 'relationships', 'world', 'around', 'sharing', 'effort', 'efforts',
+  'thing', 'things', 'people', 'person', 'topic', 'topics',
 ]);
 
 function tokenize(text: string): string[] {
@@ -91,6 +93,51 @@ function tokenize(text: string): string[] {
     (t) => t.length > 2 && !STOPWORDS.has(t),
   );
   return Array.from(new Set(tokens));
+}
+
+function normalizeToken(token: string): string {
+  if (token.endsWith('ies') && token.length > 5) return `${token.slice(0, -3)}y`;
+  if (token.endsWith('es') && token.length > 5) return token.slice(0, -2);
+  if (token.endsWith('s') && token.length > 4) return token.slice(0, -1);
+  return token;
+}
+
+function tokenSet(text: string): Set<string> {
+  return new Set(tokenize(text).map(normalizeToken));
+}
+
+function tokenMatches(query: string, candidate: string): boolean {
+  if (query === candidate) return true;
+  if (query.length >= 5 && candidate.length >= 5) {
+    return query.startsWith(candidate) || candidate.startsWith(query);
+  }
+  return false;
+}
+
+function hasTokenMatch(query: string, candidates: Set<string>): boolean {
+  for (const candidate of Array.from(candidates)) {
+    if (tokenMatches(query, candidate)) return true;
+  }
+  return false;
+}
+
+function tagMatches(query: string, tag: string): boolean {
+  return hasTokenMatch(query, tokenSet(tag));
+}
+
+const MIN_RECOMMENDATION_SCORE = 4;
+
+export type RecommendInput = string | string[] | { topic: string; keywords?: string[] };
+
+function queryTokensFrom(input: RecommendInput): string[] {
+  const rawTokens = Array.isArray(input)
+    ? input
+    : typeof input === 'string'
+      ? [input]
+      : input.keywords && input.keywords.length > 0
+        ? input.keywords
+        : [input.topic];
+  return Array.from(new Set(rawTokens.flatMap(tokenize).map(normalizeToken)));
 }
 
 export interface RecommendOptions {
@@ -123,11 +170,12 @@ function levelRank(label: string): number {
 
 /**
  * Rank library items by topic relevance. Tag hits weigh most, then title, then
- * description/summary. Returns only genuinely on-topic matches (tag/title hit),
- * filtered by audience (kids) and level, highest first.
+ * description/summary only as supporting evidence. Returns only genuinely on-topic
+ * matches (tag/title hit above a minimum threshold), filtered by audience (kids)
+ * and level, highest first.
  */
-export function recommendSources(topic: string, options: RecommendOptions = {}): LibraryRecommendation[] {
-  const queryTokens = tokenize(topic);
+export function recommendSources(input: RecommendInput, options: RecommendOptions = {}): LibraryRecommendation[] {
+  const queryTokens = queryTokensFrom(input);
   if (queryTokens.length === 0) return [];
 
   const lessonRank = options.level ? levelRank(options.level) : null;
@@ -139,19 +187,19 @@ export function recommendSources(topic: string, options: RecommendOptions = {}):
     if (!options.allowKids && item.sourceType === 'kids') continue;
 
     const tags = item.topicTags.map((t) => t.toLowerCase());
-    const title = item.title.toLowerCase();
-    const body = `${item.description} ${item.summary ?? ''}`.toLowerCase();
+    const titleTokens = tokenSet(item.title);
+    const bodyTokens = tokenSet(`${item.description} ${item.summary ?? ''}`);
 
     let score = 0;
     let strong = false; // a tag or title hit — not just a stray word in the description
     for (const q of queryTokens) {
-      if (tags.some((t) => t.includes(q) || q.includes(t))) {
+      if (tags.some((t) => tagMatches(q, t))) {
+        score += 4;
+        strong = true;
+      } else if (hasTokenMatch(q, titleTokens)) {
         score += 3;
         strong = true;
-      } else if (title.includes(q)) {
-        score += 2;
-        strong = true;
-      } else if (body.includes(q)) {
+      } else if (hasTokenMatch(q, bodyTokens)) {
         score += 1;
       }
     }
@@ -165,9 +213,15 @@ export function recommendSources(topic: string, options: RecommendOptions = {}):
       score -= dist;
     }
 
-    scored.push({ ...item, score });
+    if (score >= MIN_RECOMMENDATION_SCORE) {
+      scored.push({ ...item, score });
+    }
   }
 
   scored.sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
   return scored.slice(0, options.limit ?? 6);
+}
+
+export function recommendSource(input: RecommendInput, options: Omit<RecommendOptions, 'limit'> = {}): LibraryRecommendation | null {
+  return recommendSources(input, { ...options, limit: 1 })[0] ?? null;
 }

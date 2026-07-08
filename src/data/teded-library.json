@@ -358,7 +358,13 @@
     "durationSecs": 297,
     "topicTags": [
       "science",
-      "education"
+      "physics",
+      "light",
+      "photons",
+      "waves",
+      "particles",
+      "quantum-mechanics",
+      "experiments"
     ],
     "difficultyLevel": "Advanced",
     "description": "Colm Kelleher traces the 300-year scientific debate about the nature of light — and reveals why the answer is more mind-bending than either side expected.",
@@ -373,8 +379,15 @@
     "youtubeId": "YM-uykVfq_E",
     "durationSecs": 295,
     "topicTags": [
-      "science",
-      "education"
+      "animals",
+      "cats",
+      "pets",
+      "domestication",
+      "evolutionary-biology",
+      "predators",
+      "hunting",
+      "territorial-behaviour",
+      "animal-behaviour"
     ],
     "difficultyLevel": "Advanced",
     "description": "Jeff Phillips explains entropy — one of the most fundamental and counterintuitive concepts in physics — and why the universe is always moving toward disorder.",
@@ -574,9 +587,16 @@
     "youtubeId": "Jsj-hDW9bS8",
     "durationSecs": 340,
     "topicTags": [
+      "animals",
+      "cats",
+      "pets",
+      "domestication",
       "history",
-      "science",
-      "culture"
+      "archaeology",
+      "ancient-dna",
+      "agriculture",
+      "egypt",
+      "trade-routes"
     ],
     "difficultyLevel": "Easy",
     "description": "Eva-Maria Geigl traces the 10,000-year relationship between humans and cats — from ancient grain stores to internet stardom — through archaeological and genetic evidence.",

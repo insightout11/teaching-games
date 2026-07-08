@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { recommendSources } from './source-library';
+import { recommendSource, recommendSources } from './source-library';
 
 describe('recommendSources', () => {
   it('returns nothing for empty or stopword-only topics', () => {
@@ -49,5 +49,20 @@ describe('recommendSources', () => {
     expect(typeof first.id).toBe('string');
     expect(typeof first.sourceType).toBe('string');
     expect(['video', 'reading']).toContain(first.kind);
+  });
+
+  it('does not match short tags by substring', () => {
+    const results = recommendSources({ topic: 'endangered animals', keywords: ['endangered'] });
+    expect(results.some((r) => r.title === 'Little Red Riding Hood')).toBe(false);
+    expect(results.some((r) => r.topicTags.includes('danger'))).toBe(false);
+  });
+
+  it('uses concrete keywords to rank wolves above unrelated items', () => {
+    const [first] = recommendSources({ topic: 'predators in ecosystems', keywords: ['predators', 'ecosystems'] }, { limit: 5 });
+    expect(first?.id).toBe('natgeo-wolves-change-rivers');
+  });
+
+  it('returns null when no source clears the quality bar', () => {
+    expect(recommendSource({ topic: 'ceramic payroll staplers', keywords: ['staplers', 'payroll'] })).toBeNull();
   });
 });

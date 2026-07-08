@@ -3,7 +3,7 @@ import { requireAuthForGeneration } from '@/lib/auth-credits';
 import { generateJSON } from '@/lib/ai';
 import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
 import { DIFFICULTIES, difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
-import { recommendSources } from '@/lib/source-library';
+import { recommendSource } from '@/lib/source-library';
 import type { SourceType } from '@/types/source-material';
 import type { CourseOutline, CourseOutlineLesson } from '@/lib/course';
 
@@ -24,7 +24,7 @@ function clampCount(n: unknown): number {
 
 interface RawOutline {
   courseTitle?: string;
-  lessons?: Array<{ title?: string; topic?: string; goal?: string }>;
+  lessons?: Array<{ title?: string; topic?: string; keywords?: string[]; goal?: string }>;
 }
 
 const SCHEMA = {
@@ -38,9 +38,13 @@ const SCHEMA = {
         properties: {
           title: { type: 'string' as const },
           topic: { type: 'string' as const },
+          keywords: {
+            type: 'array' as const,
+            items: { type: 'string' as const },
+          },
           goal: { type: 'string' as const },
         },
-        required: ['title', 'topic', 'goal'],
+        required: ['title', 'topic', 'keywords', 'goal'],
       },
     },
   },
@@ -54,17 +58,20 @@ Theme: "${theme}"
 Number of lessons: ${lessonCount}
 Student level: ${difficultyDescriptions[difficulty]}
 
-Produce exactly ${lessonCount} lessons that form a connected arc under the theme — they should build on
+Produce exactly ${lessonCount} lessons that form a connected arc under the theme - they should build on
 each other in a logical progression (earlier lessons set up later ones), not ${lessonCount} unrelated
 takes on the theme.
 
 Each lesson:
-- title — short lesson title (≤6 words)
-- topic — a SPECIFIC, concrete topic phrase used to ground the lesson and find a matching video/reading
+- title - short lesson title (<=6 words)
+- topic - a SPECIFIC, concrete topic phrase used to ground the lesson and find a matching video/reading
   (e.g. "ordering food at a restaurant", "the water cycle"), not an abstract heading
-- goal — exactly one of: ${GOAL_TAGS.join(', ')}
+- keywords - 2-4 concrete noun keywords for source matching. Use subject nouns, animals, places,
+  jobs, objects, or processes; avoid abstract/connective words like "relationships", "world",
+  "sharing", "efforts", "people", or "society".
+- goal - exactly one of: ${GOAL_TAGS.join(', ')}
 
-Also: courseTitle — a short, specific course title.
+Also: courseTitle - a short, specific course title.
 
 Return JSON only.`;
 }
@@ -101,11 +108,16 @@ export async function POST(request: NextRequest) {
       .filter((l) => (l.topic ?? '').trim().length > 0)
       .map((l) => {
         const topic = (l.topic ?? '').trim().slice(0, 200);
-        // Attach the best library source for this lesson's topic (Find).
-        const [match] = recommendSources(topic, { level: difficulty, limit: 1 });
+        const keywords = (Array.isArray(l.keywords) ? l.keywords : [])
+          .map((k) => k.trim().toLowerCase().slice(0, 40))
+          .filter((k) => k.length > 0)
+          .slice(0, 4);
+        // Attach the best library source for this lesson's concrete keywords (Find).
+        const match = recommendSource({ topic, keywords }, { level: difficulty });
         return {
           title: (l.title ?? '').trim().slice(0, 80) || topic,
           topic,
+          keywords,
           goal: clampGoal(l.goal),
           suggestedSource: match
             ? { kind: match.kind, sourceType: match.sourceType as SourceType, id: match.id, title: match.title }
