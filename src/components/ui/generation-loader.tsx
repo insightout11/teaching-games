@@ -74,8 +74,12 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
         <div className="absolute inset-x-0 bottom-3 h-px bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent" />
         {/* Dashed centerline sliding left → conveys forward motion */}
         <div className="gl-runway absolute inset-x-0 bottom-[13px] h-[2px]" aria-hidden />
-        {/* Plane: level while taxiing, tilts + climbs only at the end. */}
-        <Plane className="gl-plane absolute bottom-1 left-0 h-7 w-7 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" aria-hidden />
+        {/* Plane: level while taxiing, tilts + climbs only at the end. The
+            animation lives on this plain div — styled-jsx's scoped class doesn't
+            reliably reach a lucide component's rendered <svg>. */}
+        <div className="gl-plane absolute bottom-1 left-0" aria-hidden>
+          <Plane className="h-7 w-7 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+        </div>
       </div>
 
       <div className="space-y-1 text-center">
@@ -96,10 +100,10 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
           animation: gl-scroll 0.8s linear infinite;
         }
         .gl-plane {
-          /* lucide's plane points straight up by default; rotate(90deg) makes it
-             sit level, nose pointing right down the runway. Takeoff eases back
+          /* lucide's plane points up-right (NE) by default; rotate(45deg) drops
+             the nose to level, pointing right down the runway. Takeoff eases back
              toward nose-up (less rotation). */
-          transform: rotate(90deg);
+          transform: rotate(45deg);
           animation: gl-taxi 2.8s ease-in infinite;
         }
         @keyframes gl-scroll {
@@ -109,20 +113,20 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
         }
         @keyframes gl-taxi {
           0% {
-            transform: translateX(0) translateY(0) rotate(90deg);
+            transform: translateX(0) translateY(0) rotate(45deg);
             opacity: 0;
           }
           14% {
             opacity: 1;
           }
-          /* Taxi phase: level (rotate held at 90deg) all the way down the runway. */
+          /* Taxi phase: level (rotate held at 45deg) all the way down the runway. */
           72% {
-            transform: translateX(168px) translateY(0) rotate(90deg);
+            transform: translateX(168px) translateY(0) rotate(45deg);
             opacity: 1;
           }
           /* Rotation + climb happen only here, at the end. */
           100% {
-            transform: translateX(210px) translateY(-22px) rotate(62deg);
+            transform: translateX(210px) translateY(-22px) rotate(20deg);
             opacity: 0;
           }
         }
@@ -133,7 +137,7 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
           .gl-plane {
             left: 50%;
             animation: none;
-            transform: translateX(-50%) rotate(90deg);
+            transform: translateX(-50%) rotate(45deg);
           }
         }
       `}</style>
