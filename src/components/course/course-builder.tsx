@@ -5,8 +5,13 @@ import { useRouter } from 'next/navigation';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
-import { composeLesson, difficultyToComposerLevel } from '@/lib/planner-compose';
 import { buildCourseLessonPayload } from '@/lib/planner-utils';
+import {
+  buildCourseModulesFromPreset,
+  buildFlightConfigForCourseSlots,
+  getCourseFlightPreset,
+  getCourseSourceKind,
+} from '@/lib/course-flight-preset';
 import { COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
 import type { CourseOutline, CourseOutlineLesson, CourseSourceRef } from '@/lib/course';
 import { ArrowLeft, ArrowDown, ArrowUp, BookOpen, Film, FileText, Loader2, Sparkles, Trash2, Wand2 } from 'lucide-react';
@@ -97,17 +102,18 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
     setError(null);
     try {
       const payloadLessons = lessons.map((l, i) => {
-        const sourceKind = l.suggestedSource ? (l.suggestedSource.kind === 'video' ? 'video' : 'text') : null;
-        const modules = composeLesson({
-          goal: l.goal,
-          level: difficultyToComposerLevel(level),
-          durationMinutes: 60,
-          sourceKind,
-        });
+        const preset = getCourseFlightPreset(l.goal);
+        const sourceKind = getCourseSourceKind(l.suggestedSource);
+        const modules = buildCourseModulesFromPreset(preset, sourceKind);
         const lessonPayload = buildCourseLessonPayload(
           { topic: l.topic, difficulty: level, goal: l.goal, durationMinutes: 60 },
           modules,
         );
+        const flightConfig = buildFlightConfigForCourseSlots(preset.flightConfig, lessonPayload.slots);
+        if (flightConfig) {
+          lessonPayload.flightPresetId = preset.id;
+          lessonPayload.flightConfig = flightConfig;
+        }
         const sourceRef: CourseSourceRef = l.suggestedSource
           ? {
               kind: 'library',

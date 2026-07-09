@@ -2450,6 +2450,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   slotBudgets={slotBudgets ?? undefined}
                   pacingIndex={pacingIndex}
                   height={120}
+                  onNodeClick={(id) => {
+                    const idx = Number(id.replace('slot-', ''));
+                    if (!Number.isNaN(idx) && idx !== lesson.currentSlotIndex) lesson.goToSlot(idx);
+                  }}
                 />
                 {showPacingNudge && lesson.isLessonActive && (
                   <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white/80 mt-2">
@@ -2577,6 +2581,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   slotBudgets={slotBudgets ?? undefined}
                   pacingIndex={pacingIndex}
                   height={120}
+                  onNodeClick={(id) => {
+                    const idx = Number(id.replace('slot-', ''));
+                    if (!Number.isNaN(idx) && idx !== lesson.currentSlotIndex) lesson.goToSlot(idx);
+                  }}
                 />
                 {showPacingNudge && lesson.isLessonActive && (
                   <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white/80 mt-2">

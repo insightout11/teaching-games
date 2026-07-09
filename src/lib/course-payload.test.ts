@@ -1,6 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { composeLesson } from './planner-compose';
 import { buildLessonSlots, buildCourseLessonPayload } from './planner-utils';
+import {
+  buildCourseModulesFromPreset,
+  buildFlightConfigForCourseSlots,
+  getCourseFlightPreset,
+  getCourseSourceKind,
+} from './course-flight-preset';
 
 describe('buildLessonSlots', () => {
   it('maps composed modules 1:1 to launchable slots', () => {
@@ -42,5 +48,22 @@ describe('buildCourseLessonPayload', () => {
     const payload = buildCourseLessonPayload({ topic: 'x', difficulty: 'Intermediate' }, mods);
     const expected = mods.some((m) => m.key === 'mission-selector');
     expect(!!payload.isMissionBased).toBe(expected);
+  });
+
+  it('can assemble course lessons from real flight presets with stage labels', () => {
+    const preset = getCourseFlightPreset('discussion-debate');
+    const modules = buildCourseModulesFromPreset(preset, getCourseSourceKind({ kind: 'video', sourceType: 'bbc' }));
+    const payload = buildCourseLessonPayload(
+      { topic: 'school uniforms', difficulty: 'Intermediate', goal: 'discussion-debate', durationMinutes: 60 },
+      modules,
+    );
+    const flightConfig = buildFlightConfigForCourseSlots(preset.flightConfig, payload.slots);
+
+    expect(preset.id).toBe('debate-60');
+    expect(payload.slots.some((slot) => slot.stageLabel === 'Debate')).toBe(true);
+    expect(payload.slots.every((slot) => slot.stageId)).toBe(true);
+    expect(flightConfig?.stages.map((stage) => stage.label)).toEqual(
+      payload.slots.map((slot) => slot.stageLabel),
+    );
   });
 });
