@@ -38,7 +38,7 @@ A4 status note (Jul 8, Codex): outline lessons now require 2-4 concrete `keyword
 
 | # | Item | Lane | Size | Notes |
 |---|---|---|---|---|
-| B1 | **Perceived speed** — perf plan Phase 3: shared aviation `GenerationLoader` replacing 38 bare spinners (self-skips <~400ms; hosts `degraded` messaging); generate-on-selection prefetch + round N+1 prefetch | **Opus** | 2–3 days | First-impression work; matters more now that trials include custom topics + sources (cache-skipping = 2–8s dead time) |
+| B1 | **Perceived speed** — perf plan Phase 3. **Loader ✅ SHIPPED** (Opus): shared aviation `GenerationLoader` (`src/components/ui/generation-loader.tsx`, self-skips <~400ms, side-view plane taxi→liftoff) rolled across all generation-wait spinners in 13 games/activities + `GenerationDegradedNote` for `degraded:true`. **Prefetch DEFERRED to Phase 4/C7** (owner Jul 9): generate-on-selection risks wasted AI cost; per-game round N+1 prefetch is delicate (stale-dedup) and several games already queue — do it measured against beta traffic. | **Opus** | done (loader) | First-impression work; matters more now that trials include custom topics + sources (cache-skipping = 2–8s dead time) |
 | B2 | **One-to-one leftovers** (one-to-one-audit recs 3–6): bluff-definition explicit 2+ gate; solo-aware sidebar (personal panel vs leaderboard); conversation-rounds self-pairing gate/variant; n=1 copy softening | **Sonnet** (3, 6) / **Opus** (4, 5) | ~1 day total | Do IF beta recruits include online 1:1 tutors (growth doc says yes). Recs 1–2 already shipped via class-fit work |
 
 ## C. During/after beta
