@@ -14,7 +14,7 @@
 // system fell back to a backup set (degraded: true from the generate routes).
 
 import { useEffect, useState } from 'react';
-import { PlaneTakeoff, TriangleAlert } from 'lucide-react';
+import { Plane, TriangleAlert } from 'lucide-react';
 
 // Below this, a loader would only flash — cache hits land here. Keep in sync with
 // the perf-plan note (~400ms).
@@ -66,14 +66,16 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
       role="status"
       aria-live="polite"
     >
-      {/* Runway: a plane taxis along an animated centerline toward takeoff. */}
+      {/* Runway: the plane taxis LEVEL along the centerline, then rotates nose-up
+          and lifts off only in the final moment — a takeoff pose while still
+          taxiing looks unnatural. */}
       <div className="relative h-16 w-56 overflow-hidden">
         {/* Runway surface */}
         <div className="absolute inset-x-0 bottom-3 h-px bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent" />
         {/* Dashed centerline sliding left → conveys forward motion */}
         <div className="gl-runway absolute inset-x-0 bottom-[13px] h-[2px]" aria-hidden />
-        {/* Plane lifting off the line */}
-        <PlaneTakeoff className="gl-plane absolute bottom-2 h-7 w-7 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" aria-hidden />
+        {/* Plane: level while taxiing, tilts + climbs only at the end. */}
+        <Plane className="gl-plane absolute bottom-1 left-0 h-7 w-7 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" aria-hidden />
       </div>
 
       <div className="space-y-1 text-center">
@@ -94,7 +96,10 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
           animation: gl-scroll 0.8s linear infinite;
         }
         .gl-plane {
-          animation: gl-taxi 2.4s ease-in-out infinite;
+          /* lucide's plane points up-right; rotate(45deg) makes it sit level,
+             nose pointing down the runway. Takeoff eases back toward nose-up. */
+          transform: rotate(45deg);
+          animation: gl-taxi 2.8s ease-in infinite;
         }
         @keyframes gl-scroll {
           to {
@@ -103,26 +108,31 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
         }
         @keyframes gl-taxi {
           0% {
-            transform: translateX(0) translateY(0) rotate(0deg);
-            opacity: 0.9;
+            transform: translateX(0) translateY(0) rotate(45deg);
+            opacity: 0;
           }
-          70% {
-            transform: translateX(150px) translateY(0) rotate(0deg);
+          14% {
             opacity: 1;
           }
+          /* Taxi phase: level (rotate held at 45deg) all the way down the runway. */
+          72% {
+            transform: translateX(168px) translateY(0) rotate(45deg);
+            opacity: 1;
+          }
+          /* Rotation + climb happen only here, at the end. */
           100% {
-            transform: translateX(200px) translateY(-14px) rotate(-8deg);
+            transform: translateX(210px) translateY(-20px) rotate(22deg);
             opacity: 0;
           }
         }
         @media (prefers-reduced-motion: reduce) {
-          .gl-runway,
-          .gl-plane {
+          .gl-runway {
             animation: none;
           }
           .gl-plane {
             left: 50%;
-            transform: translateX(-50%);
+            animation: none;
+            transform: translateX(-50%) rotate(45deg);
           }
         }
       `}</style>

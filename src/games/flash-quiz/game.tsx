@@ -112,7 +112,10 @@ export function FlashQuizGame({
 
   // Countdown derived from the server-stamped round clock, so the teacher screen
   // matches every student device within a tick (and defers past the 3-2-1 beat).
-  const { timeLeft, opensIn: answersOpenIn } = useSyncedTimer(timerSeconds, phase === 'answering');
+  // Each question re-broadcasts without clearing the previous one's clock, so we
+  // pass the round nonce to reject the stale prior round during the ~1s handoff.
+  const [roundNonce, setRoundNonce] = useState(0);
+  const { timeLeft, opensIn: answersOpenIn } = useSyncedTimer(timerSeconds, phase === 'answering', roundNonce);
 
   const topic = getEffectiveTopic(sessionSettings);
   const { difficulty } = sessionSettings;
@@ -281,7 +284,9 @@ export function FlashQuizGame({
     if (!question) return;
     setCurrentIndex(index);
     setRoundAnswers([]);
-    roundStartRef.current = Date.now();
+    const now = Date.now();
+    roundStartRef.current = now;
+    setRoundNonce(now); // matches the broadcast's startedAt → server clock adopted only for THIS round
     setPhase('answering');
     broadcastQuestion(question);
   }, [broadcastQuestion]);
@@ -492,19 +497,21 @@ export function FlashQuizGame({
           </div>
         )}
 
-        {/* Timer */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between text-sm">
-            <span className="text-lc-text2">Time remaining</span>
-            <span className={`font-black ${timeLeft <= 5 ? 'text-red-400' : 'text-lc-text'}`}>{timeLeft}s</span>
+        {/* Timer — only once answers are open, so the beat isn't cluttered by a held 30s. */}
+        {answersOpenIn === 0 && (
+          <div className="space-y-1.5">
+            <div className="flex justify-between text-sm">
+              <span className="text-lc-text2">Time remaining</span>
+              <span className={`font-black ${timeLeft <= 5 ? 'text-red-400' : 'text-lc-text'}`}>{timeLeft}s</span>
+            </div>
+            <div className="w-full h-3 bg-lc-surface rounded-full overflow-hidden border border-lc-border">
+              <div
+                className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
+                style={{ width: `${timerPct}%` }}
+              />
+            </div>
           </div>
-          <div className="w-full h-3 bg-lc-surface rounded-full overflow-hidden border border-lc-border">
-            <div
-              className={`h-full rounded-full transition-all duration-1000 ${timerColor}`}
-              style={{ width: `${timerPct}%` }}
-            />
-          </div>
-        </div>
+        )}
 
         {/* Status + controls */}
         <div className="flex items-center justify-between">

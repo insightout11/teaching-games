@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSessionStore } from '@/stores/session-store';
-import { computeTimerState } from '@/lib/input-spec';
+import { computeTimerState, ANSWERS_OPEN_GRACE_MS } from '@/lib/input-spec';
 
 export interface SyncedTimer {
   /** Whole seconds left in the answer window (0 once expired). */
@@ -20,36 +20,55 @@ export interface SyncedTimer {
  *
  * When a server-stamped timed round is live (populated by the input-spec API
  * response), remaining time is derived from the SAME startedAt/answersOpenAt the
- * students receive from the poll, via the shared computeTimerState. Until the
- * server clock lands (~1 poll round-trip) — or if it is unavailable — it falls
- * back to a local decrement from `timerSeconds`, so the countdown always runs and
- * always terminates.
+ * students receive from the poll, via the shared computeTimerState.
+ *
+ * Until the server clock lands (~1 round-trip after broadcast) it falls back to a
+ * LOCAL clock that already includes the grace window — so a teacher screen shows
+ * the same 3-2-1 "get ready" beat immediately, instead of briefly flashing the
+ * answers open and then snapping shut when the server clock arrives.
+ *
+ * `roundNonce` is the game's local `startedAt` for the current round. When given,
+ * the server round is only adopted once its `clientStartedAt` matches — this stops
+ * a STALE previous round (still in the store during the ~1s handoff, same
+ * timerSeconds) from being mistaken for the new one.
  *
  * `active` should track the phase in which the timer is running; flipping it false
  * freezes the timer, flipping it true (re)seeds the local fallback.
  */
-export function useSyncedTimer(timerSeconds: number, active: boolean): SyncedTimer {
+export function useSyncedTimer(timerSeconds: number, active: boolean, roundNonce?: number): SyncedTimer {
   const round = useSessionStore((s) => s.activeTimedRound);
   const clockOffset = useSessionStore((s) => s.serverClockOffset);
 
-  // Does the store's round clock describe the same window this timer is counting?
-  const matchedRound = round && round.timerSeconds === timerSeconds ? round : null;
+  // The store's round clock only counts as "this round" when the window length
+  // matches AND (if a nonce was given) it is the same broadcast — not a stale one.
+  const matchedRound =
+    round &&
+    round.timerSeconds === timerSeconds &&
+    (roundNonce == null || round.clientStartedAt === roundNonce)
+      ? round
+      : null;
 
   const extraMsRef = useRef(0);
   const localStartRef = useRef<number | null>(null);
 
   const compute = useCallback((): { timeLeft: number; opensIn: number; answersOpen: boolean } => {
     if (matchedRound) {
-      return computeTimerState(matchedRound, clockOffset, extraMsRef.current);
+      const { timeLeft, opensIn, answersOpen } = computeTimerState(matchedRound, clockOffset, extraMsRef.current);
+      return { timeLeft, opensIn, answersOpen };
     }
-    // Local fallback: decrement from the moment this timer went active.
+    // Local fallback: synthesize the same grace + window from when this timer went
+    // active, so the pre-stamp beat matches the server-stamped one that follows.
     if (localStartRef.current == null) localStartRef.current = Date.now();
-    const totalMs = timerSeconds * 1000 + extraMsRef.current;
-    const timeLeft = Math.max(0, Math.ceil((localStartRef.current + totalMs - Date.now()) / 1000));
-    return { timeLeft, opensIn: 0, answersOpen: true };
+    const localClock = {
+      timerSeconds,
+      startedAt: localStartRef.current,
+      answersOpenAt: localStartRef.current + ANSWERS_OPEN_GRACE_MS,
+    };
+    const { timeLeft, opensIn, answersOpen } = computeTimerState(localClock, 0, extraMsRef.current);
+    return { timeLeft, opensIn, answersOpen };
   }, [matchedRound, clockOffset, timerSeconds]);
 
-  const [state, setState] = useState(() => ({ timeLeft: timerSeconds, opensIn: 0, answersOpen: !matchedRound }));
+  const [state, setState] = useState(() => ({ timeLeft: timerSeconds, opensIn: 0, answersOpen: false }));
 
   // Reset the local fallback anchor whenever a fresh window begins.
   useEffect(() => {
