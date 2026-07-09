@@ -7,8 +7,9 @@ import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
 import { composeLesson, difficultyToComposerLevel } from '@/lib/planner-compose';
 import { buildCourseLessonPayload } from '@/lib/planner-utils';
+import { COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
 import type { CourseOutline, CourseOutlineLesson, CourseSourceRef } from '@/lib/course';
-import { ArrowLeft, ArrowDown, ArrowUp, Film, FileText, Loader2, Sparkles, Trash2, Wand2 } from 'lucide-react';
+import { ArrowLeft, ArrowDown, ArrowUp, BookOpen, Film, FileText, Loader2, Sparkles, Trash2, Wand2 } from 'lucide-react';
 
 type EditableLesson = CourseOutlineLesson & { _id: string };
 
@@ -68,6 +69,16 @@ export function CourseBuilder() {
       [next[i], next[j]] = [next[j], next[i]];
       return next;
     });
+  }
+
+  function applyPreset(preset: CoursePreset) {
+    setTheme(preset.theme);
+    setLevel(preset.level);
+    setLessonCount(preset.lessons.length);
+    setCourseTitle(preset.title);
+    setLessons(preset.lessons.map((lesson, i) => ({ ...lesson, _id: `${preset.id}-${i}` })));
+    setError(null);
+    setPhase('outline');
   }
 
   async function handleSave() {
@@ -139,6 +150,29 @@ export function CourseBuilder() {
             <p className="text-lc-text3 mt-1 text-sm">
               A theme and a few lessons — we&apos;ll propose a connected arc, each lesson anchored to a video or reading.
             </p>
+          </div>
+
+          <div className="space-y-2">
+            <div>
+              <h2 className="text-xs font-semibold text-lc-text3 uppercase tracking-wider">Start from a course preset</h2>
+              <p className="text-xs text-lc-text3 mt-0.5">Pick a ready-made arc, then edit any lesson before saving.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {COURSE_PRESETS.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onClick={() => applyPreset(preset)}
+                  className="group text-left rounded-xl border border-lc-border bg-lc-surface/60 p-3 transition-colors hover:border-lc-blue/50 hover:bg-lc-surface"
+                >
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 shrink-0 text-lc-blue" />
+                    <span className="text-sm font-semibold text-lc-text group-hover:text-white">{preset.title}</span>
+                  </div>
+                  <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-lc-text3">{preset.blurb}</p>
+                </button>
+              ))}
+            </div>
           </div>
 
           <div>

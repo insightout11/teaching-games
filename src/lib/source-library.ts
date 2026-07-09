@@ -13,6 +13,7 @@ import kidsRaw from '@/data/kids-library.json';
 import natgeoRaw from '@/data/natgeo-library.json';
 import crashCourseRaw from '@/data/crash-course-library.json';
 import travelEnglishRaw from '@/data/travel-english-library.json';
+import worldFlightRaw from '@/data/world-flight-library.json';
 import businessEnglishRaw from '@/data/business-english-library.json';
 import internetMemesRaw from '@/data/internet-memes-library.json';
 import minecraftRaw from '@/data/minecraft-library.json';
@@ -71,6 +72,7 @@ const ALL_ITEMS: LibraryItem[] = [
   take(natgeoRaw, 'natgeo', 'video'),
   take(crashCourseRaw, 'crash-course', 'video'),
   take(travelEnglishRaw, 'travel-english', 'video'),
+  take(worldFlightRaw, 'world-flight', 'video'),
   take(businessEnglishRaw, 'business-english', 'video'),
   take(internetMemesRaw, 'internet-memes', 'video'),
   take(minecraftRaw, 'minecraft', 'video'),

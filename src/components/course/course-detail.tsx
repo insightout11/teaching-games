@@ -10,7 +10,25 @@ import { ArrowLeft, CheckCircle2, Film, FileText, Loader2, PlayCircle, Plane, Ro
 type TeacherClass = { id: string; name: string };
 
 // Library source types that are video (vs. reading) — for the lesson source icon.
-const VIDEO_SOURCE_TYPES = new Set(['youtube', 'ted', 'teded', 'bbc', 'voa', 'kids']);
+const VIDEO_SOURCE_TYPES = new Set([
+  'youtube',
+  'ted',
+  'teded',
+  'bbc',
+  'kurzgesagt',
+  'bbc-ideas',
+  'bigthink',
+  'vox',
+  'kids',
+  'natgeo',
+  'crash-course',
+  'travel-english',
+  'world-flight',
+  'business-english',
+  'internet-memes',
+  'minecraft',
+  'sports',
+]);
 
 export function CourseDetail({ courseId }: { courseId: string }) {
   const router = useRouter();

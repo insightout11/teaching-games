@@ -1,6 +1,6 @@
 import type { Difficulty } from '@/lib/difficulty';
 
-export type SourceType = 'youtube' | 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft' | 'sports' | 'pdf' | 'image' | 'lyrics' | 'text' | 'stories' | 'voa' | 'picture-books';
+export type SourceType = 'youtube' | 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'world-flight' | 'business-english' | 'internet-memes' | 'minecraft' | 'sports' | 'pdf' | 'image' | 'lyrics' | 'text' | 'stories' | 'voa' | 'picture-books';
 
 export type SourceBriefingMode = 'exact' | 'excerpt' | 'adapted' | 'generated';
 

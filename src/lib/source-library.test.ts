@@ -75,12 +75,18 @@ describe('recommendSources', () => {
   });
 
   it('keeps job-interview lessons on the interview source or null', () => {
-    expect(recommendSource({ topic: 'common job interview questions', keywords: ['job interviews', 'interview questions'] })?.id)
-      .toBe('business-interviews');
-    expect(recommendSource({ topic: 'structuring STAR answers', keywords: ['STAR method', 'interview answers'] })?.id)
-      .toBe('business-interviews');
-    expect(recommendSource({ topic: 'questions to ask the interviewer', keywords: ['interviewer questions'] })?.id)
-      .toBe('business-interviews');
+    const interviewIds = new Set([
+      'business-interviews',
+      'business-interview-prepare-bbc',
+      'business-interview-answering-bbc',
+      'business-interview-competency-british-council',
+    ]);
+    expect(interviewIds.has(recommendSource({ topic: 'common job interview questions', keywords: ['job interviews', 'interview questions'] })?.id ?? ''))
+      .toBe(true);
+    expect(interviewIds.has(recommendSource({ topic: 'structuring STAR answers', keywords: ['STAR method', 'interview answers'] })?.id ?? ''))
+      .toBe(true);
+    expect(interviewIds.has(recommendSource({ topic: 'questions to ask the interviewer', keywords: ['interviewer questions'] })?.id ?? ''))
+      .toBe(true);
   });
 
   it('uses course context to block cross-domain animal flukes', () => {
@@ -105,7 +111,7 @@ describe('recommendSources', () => {
       topic: 'answering tell me about yourself in an interview',
       keywords: ['growth mindset', 'interview answers'],
       context: 'job interviews',
-    })?.id).toBe('business-interviews');
+    })?.sourceType).toBe('business-english');
   });
 
   it('supports easy transportation outlines with transport-specific sources', () => {
@@ -129,5 +135,19 @@ describe('recommendSources', () => {
       keywords: ['personal transport'],
       context: 'transportation',
     }, { level: 'Easy' })?.id).toBe('travel-transport');
+  });
+
+  it('makes World Flight videos available for relevant city and cuisine courses', () => {
+    expect(recommendSources({
+      topic: 'world cuisine and street food',
+      keywords: ['cuisine', 'street food', 'markets'],
+      context: 'world cuisine',
+    }, { limit: 5 }).some((source) => source.sourceType === 'world-flight')).toBe(true);
+
+    expect(recommendSources({
+      topic: 'public transport in global cities',
+      keywords: ['public transport', 'metro', 'cities'],
+      context: 'cities and transportation',
+    }, { limit: 5 }).some((source) => source.sourceType === 'world-flight')).toBe(true);
   });
 });

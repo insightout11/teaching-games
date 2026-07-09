@@ -142,6 +142,7 @@ async function dbUpdate(id: string, fields: Record<string, unknown>) {
 //   #media-asset-page — fallback for some series pages
 //
 // Run `npm run prefetch-transcripts -- --probe <url>` to test selectors locally.
+// Run `npm run prefetch-transcripts -- --only=entry-id,other-id` for a narrow backfill.
 
 const BBC_SELECTORS = [
   // Matches: <div class="...widget-richtext...">...</div>
@@ -368,6 +369,10 @@ function sleep(ms: number) {
 
 async function main() {
   const args = process.argv.slice(2);
+  const onlyArg = args.find((arg) => arg.startsWith('--only='));
+  const onlyIds = onlyArg
+    ? new Set(onlyArg.slice('--only='.length).split(',').map((id) => id.trim()).filter(Boolean))
+    : null;
 
   // --probe <url>  — scrape a BBC page and print what each selector captures
   const probeIdx = args.indexOf('--probe');
@@ -401,7 +406,7 @@ async function main() {
     return JSON.parse(fs.readFileSync(path.join(dataDir, filename), 'utf-8')) as LibraryEntry[];
   }
 
-  const entries = [
+  const allEntries = [
     ...loadLibrary('ted-library.json').map((e) => ({ ...e, sourceType: 'ted' as const })),
     ...loadLibrary('teded-library.json').map((e) => ({ ...e, sourceType: 'teded' as const })),
     ...loadLibrary('bbc-library.json').map((e) => ({ ...e, sourceType: 'bbc' as const })),
@@ -413,11 +418,20 @@ async function main() {
     ...loadLibrary('natgeo-library.json').map((e) => ({ ...e, sourceType: 'natgeo' as const })),
     ...loadLibrary('crash-course-library.json').map((e) => ({ ...e, sourceType: 'crash-course' as const })),
     ...loadLibrary('travel-english-library.json').map((e) => ({ ...e, sourceType: 'travel-english' as const })),
+    ...loadLibrary('world-flight-library.json').map((e) => ({ ...e, sourceType: 'world-flight' as const })),
     ...loadLibrary('business-english-library.json').map((e) => ({ ...e, sourceType: 'business-english' as const })),
     ...loadLibrary('internet-memes-library.json').map((e) => ({ ...e, sourceType: 'internet-memes' as const })),
     ...loadLibrary('minecraft-library.json').map((e) => ({ ...e, sourceType: 'minecraft' as const })),
     ...loadLibrary('sports-library.json').map((e) => ({ ...e, sourceType: 'sports' as const })),
   ];
+  const entries = onlyIds
+    ? allEntries.filter((entry) => onlyIds.has(entry.id) || onlyIds.has(`${entry.sourceType}:${entry.id}`))
+    : allEntries;
+
+  if (onlyIds && entries.length === 0) {
+    console.error(`No matching library entries for --only=${Array.from(onlyIds).join(',')}`);
+    process.exit(1);
+  }
 
   console.log(`\n${'─'.repeat(50)}`);
   console.log(`PHASE A — Transcript fetch (${entries.length} entries)`);

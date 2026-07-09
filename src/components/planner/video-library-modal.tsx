@@ -12,7 +12,7 @@ import {
 
 // ── Library source config ─────────────────────────────────────────────────────
 
-type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'business-english' | 'internet-memes' | 'minecraft' | 'sports';
+type LibrarySourceKey = 'ted' | 'teded' | 'bbc' | 'kurzgesagt' | 'bbc-ideas' | 'bigthink' | 'vox' | 'kids' | 'natgeo' | 'crash-course' | 'travel-english' | 'world-flight' | 'business-english' | 'internet-memes' | 'minecraft' | 'sports';
 
 const SOURCE_CONFIG: { key: LibrarySourceKey; label: string; activeClass: string; inactiveClass: string }[] = [
   { key: 'teded',            label: 'TED-Ed',        activeClass: 'bg-red-600 text-white',          inactiveClass: 'bg-red-900/20 text-red-400 border border-red-800/40'          },
@@ -26,6 +26,7 @@ const SOURCE_CONFIG: { key: LibrarySourceKey; label: string; activeClass: string
   { key: 'natgeo',           label: 'NatGeo',        activeClass: 'bg-yellow-500 text-black',       inactiveClass: 'bg-yellow-900/20 text-yellow-400 border border-yellow-800/40' },
   { key: 'crash-course',     label: 'Crash Course',  activeClass: 'bg-red-500 text-white',          inactiveClass: 'bg-red-900/20 text-red-400 border border-red-800/40'          },
   { key: 'travel-english',   label: 'Travel',        activeClass: 'bg-sky-500 text-white',          inactiveClass: 'bg-sky-900/20 text-sky-400 border border-sky-800/40'          },
+  { key: 'world-flight',     label: 'World Flight',  activeClass: 'bg-cyan-500 text-white',         inactiveClass: 'bg-cyan-900/20 text-cyan-400 border border-cyan-800/40'       },
   { key: 'business-english', label: 'Business',      activeClass: 'bg-blue-600 text-white',         inactiveClass: 'bg-blue-900/20 text-blue-400 border border-blue-800/40'       },
   { key: 'internet-memes',   label: 'Memes',         activeClass: 'bg-pink-600 text-white',         inactiveClass: 'bg-pink-900/20 text-pink-400 border border-pink-800/40'       },
   { key: 'minecraft',        label: 'Minecraft',     activeClass: 'bg-green-600 text-white',        inactiveClass: 'bg-green-900/20 text-green-400 border border-green-800/40'   },
@@ -44,6 +45,7 @@ const SOURCE_BADGE: Record<LibrarySourceKey, string> = {
   natgeo:            'bg-yellow-900/40 text-yellow-400',
   'crash-course':    'bg-red-900/40 text-red-400',
   'travel-english':  'bg-sky-900/40 text-sky-400',
+  'world-flight':    'bg-cyan-900/40 text-cyan-400',
   'business-english':'bg-blue-900/40 text-blue-400',
   'internet-memes':  'bg-pink-900/40 text-pink-400',
   minecraft:         'bg-green-900/40 text-green-400',
@@ -98,6 +100,7 @@ import kidsRaw from '@/data/kids-library.json';
 import natgeoRaw from '@/data/natgeo-library.json';
 import crashCourseRaw from '@/data/crash-course-library.json';
 import travelEnglishRaw from '@/data/travel-english-library.json';
+import worldFlightRaw from '@/data/world-flight-library.json';
 import businessEnglishRaw from '@/data/business-english-library.json';
 import internetMemesRaw from '@/data/internet-memes-library.json';
 import minecraftRaw from '@/data/minecraft-library.json';
@@ -119,6 +122,7 @@ const ALL_ENTRIES: LibraryEntry[] = [
   ...tag(natgeoRaw, 'natgeo'),
   ...tag(crashCourseRaw, 'crash-course'),
   ...tag(travelEnglishRaw, 'travel-english'),
+  ...tag(worldFlightRaw, 'world-flight'),
   ...tag(businessEnglishRaw, 'business-english'),
   ...tag(internetMemesRaw, 'internet-memes'),
   ...tag(minecraftRaw, 'minecraft'),
@@ -153,6 +157,7 @@ function ThumbnailImage({ youtubeId, title }: { youtubeId?: string; title: strin
     );
   }
   return (
+    // eslint-disable-next-line @next/next/no-img-element -- YouTube thumbnail URLs are external library metadata.
     <img
       src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`}
       alt={title}

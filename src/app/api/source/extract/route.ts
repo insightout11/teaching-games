@@ -19,6 +19,7 @@ import bbcLibrary from '@/data/bbc-library.json';
 import natgeoLibrary from '@/data/natgeo-library.json';
 import crashCourseLibrary from '@/data/crash-course-library.json';
 import travelEnglishLibrary from '@/data/travel-english-library.json';
+import worldFlightLibrary from '@/data/world-flight-library.json';
 import businessEnglishLibrary from '@/data/business-english-library.json';
 import internetMemesLibrary from '@/data/internet-memes-library.json';
 import minecraftLibrary from '@/data/minecraft-library.json';
@@ -239,6 +240,7 @@ export async function POST(request: NextRequest) {
           natgeo: natgeoLibrary as unknown as TedTalk[],
           'crash-course': crashCourseLibrary as unknown as TedTalk[],
           'travel-english': travelEnglishLibrary as unknown as TedTalk[],
+          'world-flight': worldFlightLibrary as unknown as TedTalk[],
           'business-english': businessEnglishLibrary as unknown as TedTalk[],
           'internet-memes': internetMemesLibrary as unknown as TedTalk[],
           minecraft: minecraftLibrary as unknown as TedTalk[],

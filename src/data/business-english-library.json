@@ -74,6 +74,69 @@
     "genre": "expository"
   },
   {
+    "id": "business-interview-prepare-bbc",
+    "title": "How to Prepare for an Interview",
+    "speaker": "BBC Learning English",
+    "youtubeId": "KN2jyw6D1ak",
+    "durationSecs": 426,
+    "topicTags": [
+      "job-interviews",
+      "interview-preparation",
+      "common-questions",
+      "confidence",
+      "examples",
+      "professional-speaking",
+      "business-english",
+      "workplace"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "BBC Learning English's English at Work episode on preparing for a job interview with confidence and concrete examples.",
+    "summary": "This BBC Learning English episode from the English at Work series follows Anna as she prepares for a job interview. It gives learners a concrete workplace scenario rather than abstract advice, making it useful for role-play and speaking practice.\n\nThe source focuses on preparation before the interview: researching the role, sounding confident without becoming arrogant, and preparing examples that show useful workplace qualities. It gives students language for presenting strengths, talking about achievements, and explaining why they are suitable for a position.\n\nFor ESL classes, the video works well as the first lesson in an interview course because it sets up the situation and introduces the emotional pressure of interviews. Students can identify useful interview adjectives, practise short self-introductions, and build evidence-based answers instead of giving one-word claims.",
+    "genre": "dialogue"
+  },
+  {
+    "id": "business-interview-answering-bbc",
+    "title": "Answering Interview Questions",
+    "speaker": "BBC Learning English",
+    "youtubeId": "sj-dX3fZmq0",
+    "durationSecs": 231,
+    "topicTags": [
+      "job-interviews",
+      "interview-questions",
+      "interview-answers",
+      "motivation",
+      "paraphrasing",
+      "professional-speaking",
+      "business-english",
+      "workplace"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "BBC Learning English's English at Work episode on answering interview questions clearly when you cannot find the exact word.",
+    "summary": "This BBC Learning English episode continues Anna's interview and focuses on answering questions under pressure. The scene is useful because learners hear an imperfect answer develop into a clearer one, which makes the language problem realistic and teachable.\n\nThe source gives students practice with motivation language, paraphrasing, and repairing answers when they cannot remember a precise word. It also supports discussion of what makes an interview answer persuasive: clarity, enthusiasm, evidence, and relevance to the role.\n\nFor a course lesson, teachers can use it to move from preparation into live answer practice. Students can rewrite weak answers, build alternative phrases, and role-play follow-up questions from the interviewer.",
+    "genre": "dialogue"
+  },
+  {
+    "id": "business-interview-competency-british-council",
+    "title": "Responding to Competency Questions",
+    "speaker": "British Council | English",
+    "youtubeId": "5Jy0D9C-Lvs",
+    "durationSecs": 187,
+    "topicTags": [
+      "job-interviews",
+      "competency-questions",
+      "interview-answers",
+      "star-method",
+      "workplace-examples",
+      "professional-speaking",
+      "business-english",
+      "careers"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "British Council English video on responding to competency-based job interview questions.",
+    "summary": "This British Council English video focuses on competency-based job interview questions: prompts where candidates need to show evidence from their past experience. It is short enough to use as a model before students build and practise their own answers.\n\nThe source is useful for teaching answer structure. Students can notice how a strong response names the situation, explains the action taken, and connects the result to the job. It pairs naturally with STAR-method practice, peer feedback, and mock interview rounds.\n\nFor ESL learners, the value is practical and immediate: they practise past-tense storytelling, workplace verbs, achievement language, and concise explanation under interview pressure.",
+    "genre": "expository"
+  },
+  {
     "id": "business-networking",
     "title": "Networking in English",
     "speaker": "BBC Learning English",

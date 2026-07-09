@@ -17,6 +17,7 @@
     "prefetch-transcripts": "tsx scripts/prefetch-library-transcripts.ts",
     "enrich-library-tags": "tsx scripts/enrich-library-topic-tags.ts",
     "classify-genres": "tsx scripts/classify-library-genres.ts",
+    "generate-world-flight-library": "tsx scripts/generate-world-flight-library.ts",
     "seed-video-previews": "tsx scripts/seed-video-previews.ts",
     "prefetch-world-flight-transcripts": "tsx scripts/prefetch-world-flight-transcripts.ts",
     "check-transcripts": "tsx scripts/check-transcripts.ts"

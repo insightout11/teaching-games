@@ -3,6 +3,7 @@ import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 import { toCourse, type DbCourse, type DbLesson } from '@/lib/course-serialize';
 import type { CourseLessonPayload, CourseSourceRef } from '@/lib/course';
+import { getLibrarySourceMaterial } from '@/lib/library-source-material';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,14 +63,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: courseErr?.message ?? 'Failed to create course' }, { status: 500 });
   }
 
-  const rows = lessons.map((l, i) => ({
-    course_id: course.id,
-    order_index: typeof l.orderIndex === 'number' ? l.orderIndex : i,
-    title: l.title,
-    source_ref: l.sourceRef ?? null,
-    lesson_payload: l.lessonPayload,
-    status: 'planned' as const,
-  }));
+  const rows = lessons.map((l, i) => {
+    const sourceRef = l.sourceRef ?? null;
+    const sourceMaterial = getLibrarySourceMaterial(sourceRef);
+    const lessonPayload = sourceMaterial
+      ? { ...l.lessonPayload, sourceMaterial }
+      : l.lessonPayload;
+    return {
+      course_id: course.id,
+      order_index: typeof l.orderIndex === 'number' ? l.orderIndex : i,
+      title: l.title,
+      source_ref: sourceRef,
+      lesson_payload: lessonPayload,
+      status: 'planned' as const,
+    };
+  });
   const { data: lessonRows, error: lessonErr } = await supabase.from('course_lessons').insert(rows).select('*');
   if (lessonErr) {
     // Roll back the course so we don't leave a lesson-less husk.

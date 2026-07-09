@@ -84,6 +84,7 @@ import kidsLibrary from '@/data/kids-library.json';
 import natgeoLibrary from '@/data/natgeo-library.json';
 import crashCourseLibrary from '@/data/crash-course-library.json';
 import travelEnglishLibrary from '@/data/travel-english-library.json';
+import worldFlightLibrary from '@/data/world-flight-library.json';
 import businessEnglishLibrary from '@/data/business-english-library.json';
 import internetMemesLibrary from '@/data/internet-memes-library.json';
 import minecraftLibrary from '@/data/minecraft-library.json';
@@ -2912,6 +2913,7 @@ export async function POST(request: NextRequest) {
               natgeo: natgeoLibrary as Array<{ id: string; youtubeId: string }>,
               'crash-course': crashCourseLibrary as Array<{ id: string; youtubeId: string }>,
               'travel-english': travelEnglishLibrary as Array<{ id: string; youtubeId: string }>,
+              'world-flight': worldFlightLibrary as Array<{ id: string; youtubeId: string }>,
               'business-english': businessEnglishLibrary as Array<{ id: string; youtubeId: string }>,
               'internet-memes': internetMemesLibrary as Array<{ id: string; youtubeId: string }>,
               minecraft: minecraftLibrary as Array<{ id: string; youtubeId: string }>,

@@ -67,6 +67,7 @@ const LIBRARIES: Array<{ filename: string; sourceType: string }> = [
   { filename: 'natgeo-library.json', sourceType: 'natgeo' },
   { filename: 'crash-course-library.json', sourceType: 'crash-course' },
   { filename: 'travel-english-library.json', sourceType: 'travel-english' },
+  { filename: 'world-flight-library.json', sourceType: 'world-flight' },
   { filename: 'business-english-library.json', sourceType: 'business-english' },
   { filename: 'internet-memes-library.json', sourceType: 'internet-memes' },
   { filename: 'minecraft-library.json', sourceType: 'minecraft' },

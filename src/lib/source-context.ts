@@ -59,7 +59,7 @@ export const VIDEO_SOURCE_TYPES = new Set<SourceMaterial['sourceType']>([
   'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
   'bbc-ideas', 'bigthink', 'vox', 'kids',
   'natgeo', 'crash-course',
-  'travel-english', 'business-english', 'internet-memes', 'minecraft', 'sports',
+  'travel-english', 'world-flight', 'business-english', 'internet-memes', 'minecraft', 'sports',
 ]);
 
 export function getGapFillMode(source?: SourceMaterial): 'listening' | 'reading' {
