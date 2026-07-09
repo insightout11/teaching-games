@@ -7,6 +7,7 @@ import {
   getCourseFlightPreset,
   getCourseSourceKind,
 } from './course-flight-preset';
+import type { CourseLessonContext } from './course-context';
 
 describe('buildLessonSlots', () => {
   it('maps composed modules 1:1 to launchable slots', () => {
@@ -48,6 +49,25 @@ describe('buildCourseLessonPayload', () => {
     const payload = buildCourseLessonPayload({ topic: 'x', difficulty: 'Intermediate' }, mods);
     const expected = mods.some((m) => m.key === 'mission-selector');
     expect(!!payload.isMissionBased).toBe(expected);
+  });
+
+  it('preserves course continuity context in the saved launch payload', () => {
+    const mods = composeLesson({ goal: 'speaking-fluency', level: 'intermediate', durationMinutes: 60 });
+    const courseContext: CourseLessonContext = {
+      courseTitle: 'Animals & Nature',
+      courseTheme: 'wildlife and ecosystems',
+      lessonNumber: 2,
+      totalLessons: 6,
+      previousLessons: [{ title: 'Animal Migrations', topic: 'animal migration and habitats' }],
+      reviewTerms: ['animal migration', 'wildlife', 'habitats'],
+    };
+
+    const payload = buildCourseLessonPayload(
+      { topic: 'predators and ecosystems', difficulty: 'Intermediate', goal: 'critical-thinking', courseContext },
+      mods,
+    );
+
+    expect(payload.courseContext).toEqual(courseContext);
   });
 
   it('can assemble course lessons from real flight presets with stage labels', () => {

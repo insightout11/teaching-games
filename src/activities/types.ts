@@ -601,6 +601,8 @@ export interface LessonPlanGenerateRequest {
   needsSourceVocab?: boolean;
   /** Canonical vocab already generated — skip generation and use directly. */
   sourceVocab?: SourceVocabItem[];
+  /** Course-level continuity context for generated course lessons. */
+  courseContext?: import('@/lib/course-context').CourseLessonContext;
 }
 
 // Video Player activity content (source-based lessons)

@@ -72,6 +72,7 @@ import { generateMissionSelectorContent } from '@/lib/generate-mission-selector'
 import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/content-cache';
 import type { SourceMaterial } from '@/types/source-material';
 import { buildSourceContext, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
+import { buildCourseContinuityPrompt } from '@/lib/course-context';
 import { getReadingTurnWordTarget } from '@/lib/read-aloud';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
@@ -2646,12 +2647,13 @@ export async function POST(request: NextRequest) {
       sourceMaterial,
       needsSourceVocab,
       sourceVocab: sourceVocabFromRequest,
+      courseContext,
     } = body;
 
     // Fetch real transcript from DB — used by ALL generators, not just checkpoints
     const sourceRawTranscript = await fetchSourceTranscript(sourceMaterial);
 
-    const sourceCtx = buildSourceContext(sourceMaterial, sourceRawTranscript);
+    const sourceCtx = `${buildSourceContext(sourceMaterial, sourceRawTranscript)}${buildCourseContinuityPrompt(courseContext)}`;
     // Grammar drills key their cache on grammarTarget and skip the cache when a source is
     // attached (they don't reuse across sources). Everything else variant-keys on the actual
     // grounding (source text + mission), so grounded lessons get their own cache namespace

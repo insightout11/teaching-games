@@ -7,6 +7,7 @@ import type { GoalTag } from '@/lib/flight-plan-config';
 import type { ScoringMode } from '@/stores/session-store';
 import type { GrammarTarget } from '@/lib/grammar';
 import type { FlightPresetConfig } from '@/lib/flight-plan-presets';
+import type { CourseLessonContext } from '@/lib/course-context';
 
 /** A launchable lesson slot — mirrors the runtime LessonSlot consumed by use-lesson-session. */
 export interface LessonSlot {
@@ -39,6 +40,8 @@ export interface CourseLessonPayload {
   isMissionBased?: boolean;
   grammarTarget?: GrammarTarget | null;
   sourceMaterial?: SourceMaterial;
+  /** Course-level continuity context for lesson generation. Stored in JSON, no schema migration needed. */
+  courseContext?: CourseLessonContext;
   flightPresetId?: string;
   flightConfig?: FlightPresetConfig;
   slots: LessonSlot[];

@@ -9,6 +9,7 @@ import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent, SourceVocabItem, LessonPlanGenerateResponse } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import type { FlightPresetConfig } from '@/lib/flight-plan-presets';
+import type { CourseLessonContext } from '@/lib/course-context';
 import type { WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { missionSelectorFallback } from '@/lib/fallback-content';
 import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
@@ -56,6 +57,7 @@ interface LessonPlanPayload {
   grammarTarget?: GrammarTarget | null;
   directLaunch?: boolean;
   sourceMaterial?: SourceMaterial;
+  courseContext?: CourseLessonContext;
   /** Per-stage sources for curated arcs (Travel trip), keyed by activity key. */
   stageSources?: Record<string, SourceMaterial>;
   worldFlightContext?: WorldFlightSessionContext;
@@ -86,6 +88,7 @@ function getLessonPlanContent(): LessonPlanPayload | null {
         grammarTarget: parsed.grammarTarget ?? null,
         directLaunch: parsed.directLaunch ?? false,
         sourceMaterial: parsed.sourceMaterial ?? undefined,
+        courseContext: parsed.courseContext ?? undefined,
         stageSources: parsed.stageSources ?? undefined,
         worldFlightContext: parsed.worldFlightContext ?? undefined,
         originId: parsed.originId ?? undefined,
@@ -230,11 +233,12 @@ export function useLessonSession(
     const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
     const sourceMaterial = lessonPlanContent?.stageSources?.[key] ?? lessonPlanContent?.sourceMaterial;
     const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
+    const courseContextPayload = lessonPlanContent?.courseContext ? { courseContext: lessonPlanContent.courseContext } : {};
     const body = isLanding
       ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty, ...(sourceMaterial ? { sourceKey: sourceMaterial.sourceKey ?? sourceMaterial.title } : {}), ...(missionContext.length > 0 ? { missionContext } : {}) }
       : isGame
-        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) }
-        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) };
+        ? { customTopic: effectiveTopic, difficulty: settings.difficulty, games: [key], sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...courseContextPayload, ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) }
+        : { customTopic: effectiveTopic, difficulty: settings.difficulty, activities: [key], studentCount, sessionId, ...(missionContext.length > 0 ? { missionContext } : {}), ...(sourceMaterial ? { sourceMaterial } : {}), ...courseContextPayload, ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}) };
 
     fetch(endpoint, {
       method: 'POST',
@@ -307,6 +311,7 @@ export function useLessonSession(
       const sourceMaterial = lessonPlanContent?.stageSources?.[activity.key] ?? lessonPlanContent?.sourceMaterial;
       const needsSourceVocab = lessonSlots.some((s) => s.key === 'language-toolkit');
       const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
+      const courseContextPayload = lessonPlanContent?.courseContext ? { courseContext: lessonPlanContent.courseContext } : {};
       const body = isLanding
         ? JSON.stringify({ activityKey: activity.key, topic: effectiveTopic, difficulty: settings.difficulty, ...(sourceMaterial ? { sourceKey: sourceMaterial.sourceKey ?? sourceMaterial.title } : {}), ...(missionContext.length > 0 ? { missionContext } : {}) })
         : JSON.stringify({
@@ -318,6 +323,7 @@ export function useLessonSession(
             ...(missionContext.length > 0 ? { missionContext } : {}),
             ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
             ...(sourceMaterial ? { sourceMaterial } : {}),
+            ...courseContextPayload,
             ...(needsSourceVocab ? { needsSourceVocab: true, ...sourceVocabPayload } : {}),
           });
 

@@ -10,6 +10,7 @@ import type { GoalTag } from './flight-plan-config';
 import type { ScoringMode } from '@/stores/session-store';
 import type { GrammarTarget } from './grammar';
 import type { SourceMaterial } from '@/types/source-material';
+import type { CourseLessonContext } from '@/lib/course-context';
 
 // Pure selection/sequencing logic lives in planner-compose (no registry imports,
 // cheap to test). Re-exported here so existing import sites stay unchanged.
@@ -66,6 +67,7 @@ export function buildCourseLessonPayload(
     scoringMode?: ScoringMode;
     grammarTarget?: GrammarTarget | null;
     sourceMaterial?: SourceMaterial;
+    courseContext?: CourseLessonContext;
   },
   modules: PlanModule[],
 ): CourseLessonPayload {
@@ -79,6 +81,7 @@ export function buildCourseLessonPayload(
     ...(hasMissionSelector ? { isMissionBased: true } : {}),
     ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
     ...(settings.sourceMaterial ? { sourceMaterial: settings.sourceMaterial } : {}),
+    ...(settings.courseContext ? { courseContext: settings.courseContext } : {}),
     slots: buildLessonSlots(modules),
     generatedContent: {},
     generatedGameContent: {},

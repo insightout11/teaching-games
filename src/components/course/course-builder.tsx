@@ -12,6 +12,7 @@ import {
   getCourseFlightPreset,
   getCourseSourceKind,
 } from '@/lib/course-flight-preset';
+import { buildCourseLessonContext } from '@/lib/course-context';
 import { COURSE_PRESETS, type CoursePreset } from '@/lib/course-presets';
 import type { CourseOutline, CourseOutlineLesson, CourseSourceRef } from '@/lib/course';
 import { ArrowLeft, ArrowDown, ArrowUp, BookOpen, Film, FileText, Loader2, Sparkles, Trash2, Wand2 } from 'lucide-react';
@@ -105,8 +106,14 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
         const preset = getCourseFlightPreset(l.goal);
         const sourceKind = getCourseSourceKind(l.suggestedSource);
         const modules = buildCourseModulesFromPreset(preset, sourceKind);
+        const courseContext = buildCourseLessonContext({
+          courseTitle: courseTitle.trim(),
+          courseTheme: theme.trim(),
+          lessons,
+          index: i,
+        });
         const lessonPayload = buildCourseLessonPayload(
-          { topic: l.topic, difficulty: level, goal: l.goal, durationMinutes: 60 },
+          { topic: l.topic, difficulty: level, goal: l.goal, durationMinutes: 60, courseContext },
           modules,
         );
         const flightConfig = buildFlightConfigForCourseSlots(preset.flightConfig, lessonPayload.slots);
