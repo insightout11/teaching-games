@@ -15,6 +15,7 @@
     "validate-content": "tsx src/scripts/validate-content.ts",
     "ingest-brain-teasers": "tsx src/scripts/ingest-brain-teasers.ts",
     "prefetch-transcripts": "tsx scripts/prefetch-library-transcripts.ts",
+    "audit-course-preset-sources": "tsx scripts/audit-course-preset-sources.ts",
     "enrich-library-tags": "tsx scripts/enrich-library-topic-tags.ts",
     "classify-genres": "tsx scripts/classify-library-genres.ts",
     "generate-world-flight-library": "tsx scripts/generate-world-flight-library.ts",
