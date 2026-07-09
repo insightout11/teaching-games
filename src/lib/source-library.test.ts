@@ -144,10 +144,86 @@ describe('recommendSources', () => {
       context: 'world cuisine',
     }, { limit: 5 }).some((source) => source.sourceType === 'world-flight')).toBe(true);
 
+    expect(recommendSource({
+      topic: 'future food and food security',
+      keywords: ['future food', 'food security', 'farming'],
+      context: 'food systems',
+    })?.id).toBe('bbc_food_future_food');
+
     expect(recommendSources({
       topic: 'public transport in global cities',
       keywords: ['public transport', 'metro', 'cities'],
       context: 'cities and transportation',
     }, { limit: 5 }).some((source) => source.sourceType === 'world-flight')).toBe(true);
+  });
+
+  it('matches BBC health and wellbeing topics from the expanded library', () => {
+    expect(recommendSource({
+      topic: 'why sitting is bad for health',
+      keywords: ['sitting', 'exercise', 'movement'],
+      context: 'health and wellbeing',
+    })?.id).toBe('bbc_health_sitting');
+
+    expect(recommendSource({
+      topic: 'flourishing and personal wellbeing',
+      keywords: ['flourishing', 'wellbeing', 'happiness'],
+      context: 'health and wellbeing',
+    })?.id).toBe('bbc_health_flourishing');
+  });
+
+  it('matches BBC technology and AI topics from the expanded library', () => {
+    expect(recommendSource({
+      topic: 'training artificial intelligence',
+      keywords: ['artificial intelligence', 'training data', 'algorithms'],
+      context: 'technology and AI',
+    })?.id).toBe('bbc_tech_training_ai');
+
+    expect(recommendSource({
+      topic: 'how to evaluate media and information',
+      keywords: ['media literacy', 'misinformation', 'fake news'],
+      context: 'technology and AI',
+    })?.id).toBe('bbc_tech_era_of_distrust');
+  });
+
+  it('matches BBC climate and environment topics from the expanded library', () => {
+    expect(recommendSource({
+      topic: 'climate change and mental health',
+      keywords: ['climate change', 'mental health', 'climate anxiety'],
+      context: 'climate and environment',
+    })?.id).toBe('bbc_climate_mental_health');
+
+    expect(recommendSource({
+      topic: 'living with less plastic',
+      keywords: ['plastic pollution', 'waste', 'sustainability'],
+      context: 'climate and environment',
+    })?.id).toBe('bbc_climate_without_plastic');
+  });
+
+  it('matches BBC animal and nature topics from the expanded library', () => {
+    expect(recommendSource({
+      topic: 'octopus brains and animal intelligence',
+      keywords: ['octopus', 'animal intelligence', 'brains'],
+      context: 'animals and nature',
+    })?.id).toBe('bbc_animals_octopus_intelligence');
+
+    expect(recommendSource({
+      topic: 'whether animals should be kept in zoos',
+      keywords: ['zoos', 'conservation', 'animal welfare'],
+      context: 'animals and nature',
+    })?.id).toBe('bbc_animals_zoos');
+  });
+
+  it('matches TED-Ed story and myth topics from the expanded library', () => {
+    expect(recommendSource({
+      topic: 'King Midas and the consequences of greed',
+      keywords: ['King Midas', 'morals', 'greed'],
+      context: 'stories myths folktales',
+    })?.id).toBe('teded_myth_king_midas');
+
+    expect(recommendSource({
+      topic: 'how fairy tales change across versions and cultures',
+      keywords: ['fairy tales', 'retelling', 'adaptation'],
+      context: 'stories myths folktales',
+    })?.id).toBe('teded_fairy_tale_origins');
   });
 });

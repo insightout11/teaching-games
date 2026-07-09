@@ -755,5 +755,136 @@
     "description": "Dan Kwartler explains the mechanisms behind insomnia — why it starts, why it persists, and what evidence-based treatments actually work.",
     "summary": "Around one third of adults report *insomnia* symptoms at some point — difficulty falling asleep, staying asleep, or waking too early — with significant consequences for health, mood, and cognitive performance. This TED-Ed lesson by Dan Kwartler explains how insomnia works and why it can become *chronic*.\n\nThe sleep system involves two overlapping processes. *Process S* (sleep pressure) is the build-up of the chemical *adenosine* in the brain during wakefulness — the longer you're awake, the more adenosine accumulates, and the sleepier you feel. *Process C* (the *circadian rhythm*) is the body's 24-hour internal clock, regulated by *light exposure* and controlling the release of *melatonin* to signal nighttime.\n\nInsomnia typically begins with a *triggering event* — stress, illness, disrupted schedule — that temporarily prevents sleep. The body's stress response then enters the picture: *cortisol* and *adrenaline* are released to compensate for missed sleep, which creates *hyperarousal* — a state of heightened alertness that itself prevents sleep. What was acute becomes *chronic* through a vicious cycle.\n\nThe video explains why common behaviours (lying in bed awake, watching the clock, sleeping in to compensate) actually *worsen* insomnia by breaking the association between bed and sleep, and by reducing *sleep pressure* through oversleeping.\n\nThe most evidence-based treatment is *Cognitive Behavioural Therapy for Insomnia* (CBT-I) — which addresses the thoughts and behaviours that maintain the cycle — rather than sleeping pills, which treat the *symptom* without breaking the cycle.\n\nKey vocabulary: *insomnia, circadian rhythm, melatonin, cortisol, sleep pressure, adenosine, hyperarousal, chronic, cognitive, deprivation*. A practical, high-relevance lesson that most adult learners find immediately applicable to their lives.",
     "genre": "expository"
+  },
+  {
+    "id": "teded_myth_prometheus",
+    "title": "The myth of Prometheus",
+    "speaker": "Iseult Gillespie",
+    "url": "https://www.youtube.com/watch?v=U_u91SjrEOE",
+    "youtubeId": "U_u91SjrEOE",
+    "durationSecs": 276,
+    "topicTags": [
+      "stories",
+      "myths",
+      "greek-mythology",
+      "prometheus",
+      "rebellion",
+      "punishment",
+      "moral-choices",
+      "culture"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A TED-Ed animated Greek myth about Prometheus, fire, rebellion, punishment, and the consequences of helping humanity.",
+    "genre": "narrative"
+  },
+  {
+    "id": "teded_myth_orpheus_eurydice",
+    "title": "The tragic myth of Orpheus and Eurydice",
+    "speaker": "Brendan Pelsue",
+    "url": "https://www.youtube.com/watch?v=RhaepLsP5eg",
+    "youtubeId": "RhaepLsP5eg",
+    "durationSecs": 270,
+    "topicTags": [
+      "stories",
+      "myths",
+      "greek-mythology",
+      "orpheus",
+      "eurydice",
+      "tragedy",
+      "trust",
+      "choices",
+      "love"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A TED-Ed animated myth about Orpheus and Eurydice, useful for discussing tragedy, trust, temptation, and irreversible choices.",
+    "genre": "narrative"
+  },
+  {
+    "id": "teded_myth_sisyphus",
+    "title": "The myth of Sisyphus",
+    "speaker": "Alex Gendler",
+    "url": "https://www.youtube.com/watch?v=q4pDUxth5fQ",
+    "youtubeId": "q4pDUxth5fQ",
+    "durationSecs": 292,
+    "topicTags": [
+      "stories",
+      "myths",
+      "greek-mythology",
+      "sisyphus",
+      "punishment",
+      "trickster",
+      "meaning",
+      "philosophy",
+      "morals"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A TED-Ed animated myth about Sisyphus, trickery, punishment, and the meaning people find in repeated struggle.",
+    "genre": "narrative"
+  },
+  {
+    "id": "teded_myth_king_midas",
+    "title": "The myth of King Midas and his golden touch",
+    "speaker": "Iseult Gillespie",
+    "url": "https://www.youtube.com/watch?v=nn8YGPZdCvA",
+    "youtubeId": "nn8YGPZdCvA",
+    "durationSecs": 296,
+    "topicTags": [
+      "stories",
+      "myths",
+      "king-midas",
+      "morals",
+      "greed",
+      "wishes",
+      "consequences",
+      "folktales",
+      "culture"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A TED-Ed animated myth about King Midas, greed, wishes, and the unintended consequences of getting exactly what you ask for.",
+    "genre": "narrative"
+  },
+  {
+    "id": "teded_myth_arachne",
+    "title": "The myth of Arachne",
+    "speaker": "Iseult Gillespie",
+    "url": "https://www.youtube.com/watch?v=XvUHcsZOhJ8",
+    "youtubeId": "XvUHcsZOhJ8",
+    "durationSecs": 292,
+    "topicTags": [
+      "stories",
+      "myths",
+      "greek-mythology",
+      "arachne",
+      "creativity",
+      "competition",
+      "pride",
+      "transformation",
+      "retelling"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A TED-Ed animated myth about Arachne, creativity, pride, competition, and transformation, useful for retelling and character-perspective activities.",
+    "genre": "narrative"
+  },
+  {
+    "id": "teded_fairy_tale_origins",
+    "title": "The dark origins of Disney fairy tales",
+    "speaker": "Claudia Schwabe",
+    "url": "https://www.youtube.com/watch?v=pyDZpDkU46Y",
+    "youtubeId": "pyDZpDkU46Y",
+    "durationSecs": 308,
+    "topicTags": [
+      "stories",
+      "fairy-tales",
+      "folktales",
+      "retelling",
+      "adaptation",
+      "disney",
+      "culture",
+      "dark-origins",
+      "story-versions"
+    ],
+    "difficultyLevel": "Intermediate",
+    "description": "A TED-Ed lesson on how fairy tales have changed across versions and cultures, useful for comparing adaptations, original stories, and modern retellings.",
+    "genre": "expository"
   }
 ]

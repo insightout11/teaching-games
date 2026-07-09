@@ -3,6 +3,7 @@ import { COURSE_PRESETS } from './course-presets';
 import worldFlightLibrary from '@/data/world-flight-library.json';
 import tedLibrary from '@/data/ted-library.json';
 import tededLibrary from '@/data/teded-library.json';
+import bbcLibrary from '@/data/bbc-library.json';
 import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
 import natgeoLibrary from '@/data/natgeo-library.json';
 import crashCourseLibrary from '@/data/crash-course-library.json';
@@ -13,6 +14,7 @@ import storiesLibrary from '@/data/stories-library.json';
 import voaLibrary from '@/data/voa-library.json';
 
 const idsBySourceType = new Map([
+  ['bbc', new Set(bbcLibrary.map((entry) => entry.id))],
   ['bbc-ideas', new Set(bbcIdeasLibrary.map((entry) => entry.id))],
   ['business-english', new Set(businessEnglishLibrary.map((entry) => entry.id))],
   ['crash-course', new Set(crashCourseLibrary.map((entry) => entry.id))],
