@@ -96,9 +96,10 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
           animation: gl-scroll 0.8s linear infinite;
         }
         .gl-plane {
-          /* lucide's plane points up-right; rotate(45deg) makes it sit level,
-             nose pointing down the runway. Takeoff eases back toward nose-up. */
-          transform: rotate(45deg);
+          /* lucide's plane points straight up by default; rotate(90deg) makes it
+             sit level, nose pointing right down the runway. Takeoff eases back
+             toward nose-up (less rotation). */
+          transform: rotate(90deg);
           animation: gl-taxi 2.8s ease-in infinite;
         }
         @keyframes gl-scroll {
@@ -108,20 +109,20 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
         }
         @keyframes gl-taxi {
           0% {
-            transform: translateX(0) translateY(0) rotate(45deg);
+            transform: translateX(0) translateY(0) rotate(90deg);
             opacity: 0;
           }
           14% {
             opacity: 1;
           }
-          /* Taxi phase: level (rotate held at 45deg) all the way down the runway. */
+          /* Taxi phase: level (rotate held at 90deg) all the way down the runway. */
           72% {
-            transform: translateX(168px) translateY(0) rotate(45deg);
+            transform: translateX(168px) translateY(0) rotate(90deg);
             opacity: 1;
           }
           /* Rotation + climb happen only here, at the end. */
           100% {
-            transform: translateX(210px) translateY(-20px) rotate(22deg);
+            transform: translateX(210px) translateY(-22px) rotate(62deg);
             opacity: 0;
           }
         }
@@ -132,7 +133,7 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
           .gl-plane {
             left: 50%;
             animation: none;
-            transform: translateX(-50%) rotate(45deg);
+            transform: translateX(-50%) rotate(90deg);
           }
         }
       `}</style>
