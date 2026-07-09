@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Check, DraftingCompass, Lightbulb, Loader2, MapPin, Save, ThumbsUp, TriangleAlert } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 import type {
   DesignStudioBrief,
   DesignStudioContent,
@@ -376,10 +377,7 @@ export function DesignStudioActivity({
   if (phase === 'generating' || phase === 'finalizing') {
     return (
       <div className="flex min-h-[430px] flex-col items-center justify-center gap-4 text-center">
-        <Loader2 className="h-10 w-10 animate-spin text-cyan-300" aria-hidden />
-        <h2 className="text-2xl font-bold text-lc-text">
-          {phase === 'finalizing' ? 'Building the class design brief...' : 'Shaping the next design question...'}
-        </h2>
+        <GenerationLoader label={phase === 'finalizing' ? 'design brief' : 'design question'} />
         <p className="max-w-lg text-sm text-lc-text3">The AI is reviewing the full design and every decision already made.</p>
       </div>
     );

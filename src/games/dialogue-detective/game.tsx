@@ -6,6 +6,7 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { GameStatus } from './types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { Challenge, EvaluationResult } from './types';
 
 interface RaceSolver {
@@ -378,9 +379,8 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
 
         {/* GENERATING State */}
         {status === GameStatus.GENERATING && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-12">
-            <div className="w-16 h-16 border-4 border-amber-500/10 border-t-amber-500 rounded-full animate-spin" />
-            <p className="font-game text-xl text-amber-400 uppercase tracking-widest animate-pulse">Creating Dialogue...</p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <GenerationLoader label="dialogue" />
           </motion.div>
         )}
 
@@ -586,9 +586,8 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
 
       {/* GENERATING State */}
       {status === GameStatus.GENERATING && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-12">
-          <div className="w-16 h-16 border-4 border-amber-500/10 border-t-amber-500 rounded-full animate-spin" />
-          <p className="font-game text-xl text-amber-400 uppercase tracking-widest animate-pulse">Creating Dialogue...</p>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <GenerationLoader label="dialogue" />
         </motion.div>
       )}
 

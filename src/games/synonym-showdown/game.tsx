@@ -7,6 +7,7 @@ import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 
 const EMPTY_SEEN: string[] = [];
 
@@ -416,10 +417,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
           animate={{ opacity: 1 }}
           className="flex flex-col items-center gap-6 py-12"
         >
-          <div className="w-16 h-16 border-4 border-orange-500/10 border-t-orange-500 rounded-full animate-spin" />
-          <p className="font-game text-xl text-orange-400 uppercase tracking-widest animate-pulse">
-            Loading Challenge...
-          </p>
+          <GenerationLoader label="challenge" />
         </motion.div>
       )}
 

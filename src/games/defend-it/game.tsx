@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Shield, Sword, Mic, ChevronRight } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
 import { getEffectiveTopic, useSessionStore } from '@/stores/session-store';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 import {
   type DefendItPhase,
   type DebateSide,
@@ -275,11 +276,8 @@ export function DefendItGame({
 
   if (phase === 'loading') {
     return (
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-16">
-        <div className="w-16 h-16 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin" />
-        <p className="font-game text-lg text-orange-400 uppercase tracking-widest animate-pulse">
-          Generating statements...
-        </p>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <GenerationLoader label="statements" />
       </motion.div>
     );
   }

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 import { GamePhase } from './types';
 import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidationResult, SentenceEvaluationResult } from './types';
 const ROUND1_DURATION = 90;
@@ -547,10 +548,8 @@ export function GridRushGame({
   // -------- PHASE: GENERATING --------
   if (phase === GamePhase.GENERATING) {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-4">
-        <div className="w-10 h-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-slate-300 font-medium">Building your letter grid…</p>
-        <p className="text-slate-500 text-sm">{getEffectiveTopic(sessionSettings)} · {sessionSettings.difficulty}</p>
+      <div className="flex flex-col items-center justify-center h-full">
+        <GenerationLoader label="letter grid" />
       </div>
     );
   }

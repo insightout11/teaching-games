@@ -6,6 +6,7 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 
 const EMPTY_SEEN: string[] = [];
 
@@ -551,9 +552,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         {/* GENERATING State */}
         {status === GameStatus.GENERATING && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-8 max-w-2xl mx-auto text-center">
-            <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
+            <GenerationLoader label="sentences" />
             <div className="space-y-4">
-              <p className="font-game text-xl text-cyan-400 uppercase tracking-widest animate-pulse">Pre-fetching Sentences...</p>
               <div className="glass p-6 rounded-2xl border border-white/10 shadow-inner">
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 block mb-2">Did you know?</span>
                 <p className="text-lg font-semibold italic text-slate-300">&quot;{currentFact}&quot;</p>
@@ -911,11 +911,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           animate={{ opacity: 1 }}
           className="flex flex-col items-center gap-6 py-8 max-w-2xl mx-auto text-center"
         >
-          <div className="w-16 h-16 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
+          <GenerationLoader label="sentences" />
           <div className="space-y-4">
-            <p className="font-game text-xl text-cyan-400 uppercase tracking-widest animate-pulse">
-              Pre-fetching Sentences...
-            </p>
             <div className="glass p-6 rounded-2xl border border-white/10 shadow-inner">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 block mb-2">Did you know?</span>
               <p className="text-lg font-semibold italic text-slate-300">&quot;{currentFact}&quot;</p>

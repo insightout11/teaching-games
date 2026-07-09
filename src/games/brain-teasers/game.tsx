@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Brain, Eye, ChevronRight, Loader2, AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
+import { Brain, Eye, ChevronRight, AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
 import type { GameProps } from '../types';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 
 type BrainTeaserStatus = 'idle' | 'loading' | 'showing' | 'revealed';
 
@@ -164,9 +165,8 @@ export function BrainTeasersGame({
 
   if (status === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-4 text-lc-text2">
-        <Loader2 className="w-8 h-8 animate-spin text-amber-400" />
-        <span>Loading riddle…</span>
+      <div className="flex flex-col items-center justify-center h-full">
+        <GenerationLoader label="riddle" />
       </div>
     );
   }

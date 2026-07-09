@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 import { GrammarTarget, GameStatus } from './types';
 import type { Challenge, EvaluationResult } from './types';
 import { GRAMMAR_RULES } from './grammar-rules';
@@ -546,9 +547,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
         {/* GENERATING State */}
         {status === GameStatus.GENERATING && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-12">
-            <div className="w-16 h-16 border-4 border-indigo-500/10 border-t-indigo-500 rounded-full animate-spin" />
-            <p className="font-game text-xl text-indigo-400 uppercase tracking-widest animate-pulse">Crafting Challenge...</p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <GenerationLoader label="challenge" />
           </motion.div>
         )}
 
@@ -734,9 +734,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
       )}
 
       {status === GameStatus.GENERATING && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-12">
-          <div className="w-16 h-16 border-4 border-indigo-500/10 border-t-indigo-500 rounded-full animate-spin" />
-          <p className="font-game text-xl text-indigo-400 uppercase tracking-widest animate-pulse">Crafting Challenge...</p>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <GenerationLoader label="challenge" />
         </motion.div>
       )}
 

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type WouldYouRatherContent, type WouldYouRatherDilemma } from './types';
 import { useSessionStore } from '@/stores/session-store';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 
 export function WouldYouRatherActivity({
   generatedContent,
@@ -353,10 +354,7 @@ export function WouldYouRatherActivity({
                 exit={{ opacity: 0 }}
                 className="flex flex-col items-center gap-4 py-8"
               >
-                <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
-                <p className="font-game text-lg text-cyan-400 animate-pulse">
-                  Generating follow-up...
-                </p>
+                <GenerationLoader label="follow-up" />
               </motion.div>
             ) : (
               <motion.div

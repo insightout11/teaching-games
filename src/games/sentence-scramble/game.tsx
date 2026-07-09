@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useRaceMode } from '@/hooks/use-race-mode';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -349,9 +350,8 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   // Loading state
   if (loadingSentences && sentenceIndex === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 gap-3">
-        <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-        <p className="text-sm text-slate-400">Generating sentences...</p>
+      <div className="flex flex-col items-center justify-center">
+        <GenerationLoader label="sentences" />
       </div>
     );
   }

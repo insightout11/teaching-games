@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { ExtendedChainLink, ValidationResult, BonusChallenge } from './types';
 
 type TeamId = 'A' | 'B';
@@ -705,9 +706,8 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
 
         {/* GENERATING */}
         {status === GameStatus.GENERATING && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-6 py-12">
-            <div className="w-16 h-16 border-4 border-teal-500/10 border-t-teal-500 rounded-full animate-spin" />
-            <p className="font-game text-xl text-teal-400 uppercase tracking-widest animate-pulse">Finding Starting Word...</p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <GenerationLoader label="word chain" />
           </motion.div>
         )}
 
@@ -1030,10 +1030,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           animate={{ opacity: 1 }}
           className="flex flex-col items-center gap-6 py-12"
         >
-          <div className="w-16 h-16 border-4 border-teal-500/10 border-t-teal-500 rounded-full animate-spin" />
-          <p className="font-game text-xl text-teal-400 uppercase tracking-widest animate-pulse">
-            Finding Starting Word...
-          </p>
+          <GenerationLoader label="word chain" />
         </motion.div>
       )}
 
