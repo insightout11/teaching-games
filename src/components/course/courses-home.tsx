@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import type { Course } from '@/lib/course';
+import { COURSE_PRESETS } from '@/lib/course-presets';
 import { BookOpen, Loader2, Plus, Sparkles, Layers } from 'lucide-react';
 
 export function CoursesHome() {
@@ -75,6 +76,10 @@ export function CoursesHome() {
         </div>
       )}
 
+      <Section title="Course presets" subtitle="Start from a ready-made six-lesson arc, then edit before saving.">
+        <PresetGrid />
+      </Section>
+
       {loading ? (
         <div className="flex items-center justify-center py-16">
           <Loader2 className="w-6 h-6 animate-spin text-lc-text3" />
@@ -109,6 +114,29 @@ function Section({ title, subtitle, children }: { title: string; subtitle?: stri
       </div>
       {children}
     </section>
+  );
+}
+
+function PresetGrid() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {COURSE_PRESETS.map((preset) => (
+        <Link
+          key={preset.id}
+          href={`/courses/new?preset=${encodeURIComponent(preset.id)}`}
+          className="block bg-lc-card rounded-xl border border-lc-border p-4 hover:border-lc-blue/40 transition-colors"
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <BookOpen className="w-4 h-4 text-lc-blue shrink-0" />
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-lc-blue bg-lc-blue/10 px-1.5 py-0.5 rounded">
+              6 lessons
+            </span>
+          </div>
+          <h3 className="font-semibold text-lc-text leading-snug">{preset.title}</h3>
+          <p className="text-xs text-lc-text3 mt-1 line-clamp-2">{preset.blurb}</p>
+        </Link>
+      ))}
+    </div>
   );
 }
 

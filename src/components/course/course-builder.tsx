@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
@@ -13,9 +13,10 @@ import { ArrowLeft, ArrowDown, ArrowUp, BookOpen, Film, FileText, Loader2, Spark
 
 type EditableLesson = CourseOutlineLesson & { _id: string };
 
-export function CourseBuilder() {
+export function CourseBuilder({ initialPresetId }: { initialPresetId?: string }) {
   const router = useRouter();
   const { loading: tierLoading, isPro } = useTeacherTier();
+  const appliedPresetRef = useRef<string | null>(null);
 
   const [theme, setTheme] = useState('');
   const [level, setLevel] = useState<Difficulty>('Intermediate');
@@ -71,7 +72,7 @@ export function CourseBuilder() {
     });
   }
 
-  function applyPreset(preset: CoursePreset) {
+  const applyPreset = useCallback((preset: CoursePreset) => {
     setTheme(preset.theme);
     setLevel(preset.level);
     setLessonCount(preset.lessons.length);
@@ -79,7 +80,16 @@ export function CourseBuilder() {
     setLessons(preset.lessons.map((lesson, i) => ({ ...lesson, _id: `${preset.id}-${i}` })));
     setError(null);
     setPhase('outline');
-  }
+  }, []);
+
+  useEffect(() => {
+    const presetId = initialPresetId;
+    if (!presetId || appliedPresetRef.current === presetId) return;
+    const preset = COURSE_PRESETS.find((candidate) => candidate.id === presetId);
+    if (!preset) return;
+    appliedPresetRef.current = presetId;
+    applyPreset(preset);
+  }, [applyPreset, initialPresetId]);
 
   async function handleSave() {
     if (!courseTitle.trim() || lessons.length === 0) return;
