@@ -6,6 +6,7 @@ import type { GameProps, GameRemoteVote } from '../types';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
+import { GenerationLoader } from '@/components/ui/generation-loader';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -426,12 +427,7 @@ export function FlashQuizGame({
 
   // LOADING
   if (phase === 'loading') {
-    return (
-      <div className="flex flex-col items-center justify-center gap-4 py-16">
-        <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-lc-text2">Generating quiz questions…</p>
-      </div>
-    );
+    return <GenerationLoader label="quiz" />;
   }
 
   // IDLE — questions ready, not started
