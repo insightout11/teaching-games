@@ -4,31 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { launchCourseLesson } from '@/lib/launch-course-lesson';
+import { getCourseBriefingPreview } from '@/lib/course-briefing';
 import type { Course, CourseLesson } from '@/lib/course';
 import { ArrowLeft, CheckCircle2, Film, FileText, Loader2, PlayCircle, Plane, Rocket, Trash2, Users } from 'lucide-react';
 
 type TeacherClass = { id: string; name: string };
-
-// Library source types that are video (vs. reading) — for the lesson source icon.
-const VIDEO_SOURCE_TYPES = new Set([
-  'youtube',
-  'ted',
-  'teded',
-  'bbc',
-  'kurzgesagt',
-  'bbc-ideas',
-  'bigthink',
-  'vox',
-  'kids',
-  'natgeo',
-  'crash-course',
-  'travel-english',
-  'world-flight',
-  'business-english',
-  'internet-memes',
-  'minecraft',
-  'sports',
-]);
 
 export function CourseDetail({ courseId }: { courseId: string }) {
   const router = useRouter();
@@ -156,10 +136,12 @@ export function CourseDetail({ courseId }: { courseId: string }) {
         {course.lessons.map((l, i) => {
           const isNextUp = l.id === nextUpId;
           const launched = l.status !== 'planned';
+          const briefing = getCourseBriefingPreview(l);
+          const BriefingIcon = briefing.kind === 'video' ? Film : briefing.kind === 'reading' ? FileText : Plane;
           return (
             <div
               key={l.id}
-              className={`bg-lc-card rounded-xl border p-4 flex items-center gap-4 ${
+              className={`bg-lc-card rounded-xl border p-4 flex items-start gap-4 ${
                 isNextUp ? 'border-lc-blue/40' : 'border-lc-border'
               }`}
             >
@@ -182,12 +164,20 @@ export function CourseDetail({ courseId }: { courseId: string }) {
                   )}
                 </div>
                 <p className="text-xs text-lc-text3 mt-0.5 truncate">{l.lessonPayload.customTopic}</p>
-                {l.sourceRef?.kind === 'library' && (
-                  <span className="inline-flex items-center gap-1 text-xs text-lc-text3 mt-1">
-                    {VIDEO_SOURCE_TYPES.has(l.sourceRef.sourceType) ? <Film className="w-3 h-3" /> : <FileText className="w-3 h-3" />}
-                    <span className="truncate max-w-xs">{l.sourceRef.title}</span>
-                  </span>
-                )}
+                <div className="mt-2 rounded-lg border border-lc-border/70 bg-lc-surface/45 px-3 py-2">
+                  <div className="flex items-center gap-1.5 text-xs text-lc-text2">
+                    <BriefingIcon className="h-3.5 w-3.5 shrink-0 text-lc-blue" />
+                    <span className="font-semibold">{briefing.label}</span>
+                    <span className="text-lc-text3">-</span>
+                    <span className="truncate">{briefing.title}</span>
+                  </div>
+                  <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-lc-text3">{briefing.preview}</p>
+                  {briefing.reviewTerms.length > 0 && (
+                    <p className="mt-1 text-[11px] text-lc-text3">
+                      Reviews: <span className="text-lc-text2">{briefing.reviewTerms.join(', ')}</span>
+                    </p>
+                  )}
+                </div>
               </div>
 
               {l.sessionId && launched ? (

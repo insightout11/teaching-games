@@ -2,6 +2,7 @@
 // route modules may only export HTTP handlers (GET/POST/…) + config.
 
 import type { Course, CourseLesson, CourseLessonPayload, CourseSourceRef } from '@/lib/course';
+import { getLibrarySourceMaterial } from '@/lib/library-source-material';
 
 export interface DbCourse {
   id: string;
@@ -22,14 +23,21 @@ export interface DbLesson {
   session_id: string | null;
 }
 
+export function hydrateLessonPayload(sourceRef: CourseSourceRef, payload: CourseLessonPayload): CourseLessonPayload {
+  if (payload.sourceMaterial) return payload;
+  const sourceMaterial = getLibrarySourceMaterial(sourceRef);
+  return sourceMaterial ? { ...payload, sourceMaterial } : payload;
+}
+
 export function toLesson(l: DbLesson): CourseLesson {
+  const sourceRef = l.source_ref ?? null;
   return {
     id: l.id,
     courseId: l.course_id,
     orderIndex: l.order_index,
     title: l.title,
-    sourceRef: l.source_ref ?? null,
-    lessonPayload: l.lesson_payload,
+    sourceRef,
+    lessonPayload: hydrateLessonPayload(sourceRef, l.lesson_payload),
     status: l.status,
     sessionId: l.session_id,
   };
