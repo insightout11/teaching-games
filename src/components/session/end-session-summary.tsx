@@ -65,6 +65,10 @@ export function EndSessionSummary({
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
   const reset = useSessionStore((s) => s.reset);
+  // Solo 1:1 session: skip the "class ceremony" framing (Captain of the Day
+  // crown reveal over a field of one) in favor of a personal recap. Logic
+  // (scores, crew stars) is unchanged — copy/layout only.
+  const isSolo = students.length === 1;
 
   useEffect(() => {
     if (previewMode) return;
@@ -186,8 +190,9 @@ export function EndSessionSummary({
           : 'Score on-task work or class accuracy to earn this star.'
     : '';
 
-  // Adaptive beat list: Captain beat only exists when there's a real winner.
-  const hasCaptainBeat = !!(captain && captain.total > 0);
+  // Adaptive beat list: Captain beat only exists when there's a real winner
+  // among 2+ students — a solo student doesn't need a "beat the field" reveal.
+  const hasCaptainBeat = !!(captain && captain.total > 0) && !isSolo;
   const beats: readonly ('arrival' | 'captain' | 'debrief')[] = hasCaptainBeat
     ? ['arrival', 'captain', 'debrief']
     : ['arrival', 'debrief'];
@@ -416,29 +421,33 @@ export function EndSessionSummary({
           </motion.section>
         )}
 
-        {/* ── Student beat — Captain of the Day ── */}
+        {/* ── Student beat — Captain of the Day (class) / Nice Work (solo) ── */}
         {captain && captain.total > 0 && (
           <motion.div
-            className="relative glass rounded-2xl border border-amber-400/30 p-5 mb-6 overflow-hidden"
+            className={`relative glass rounded-2xl border p-5 mb-6 overflow-hidden ${isSolo ? 'border-cyan-400/30' : 'border-amber-400/30'}`}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, type: 'spring', stiffness: 200, damping: 18 }}
           >
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-amber-400/10 via-transparent to-transparent" />
+            <div className={`pointer-events-none absolute inset-0 bg-gradient-to-r ${isSolo ? 'from-cyan-400/10' : 'from-amber-400/10'} via-transparent to-transparent`} />
             <div className="relative flex items-center gap-4">
               <motion.div
-                className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-amber-400/30 bg-amber-400/15"
+                className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border ${isSolo ? 'border-cyan-400/30 bg-cyan-400/15' : 'border-amber-400/30 bg-amber-400/15'}`}
                 initial={{ scale: 0, rotate: -20 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 0.66, type: 'spring', stiffness: 380, damping: 14 }}
               >
-                <Crown className="h-7 w-7 text-amber-300" strokeWidth={1.75} />
+                {isSolo
+                  ? <Sparkles className="h-7 w-7 text-cyan-300" strokeWidth={1.75} />
+                  : <Crown className="h-7 w-7 text-amber-300" strokeWidth={1.75} />}
               </motion.div>
               <div className="min-w-0">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-300/80">Captain of the Day</p>
+                <p className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${isSolo ? 'text-cyan-300/80' : 'text-amber-300/80'}`}>
+                  {isSolo ? 'Nice Work' : 'Captain of the Day'}
+                </p>
                 <p className="text-2xl font-bold text-lc-text truncate">
-                  {isHidden(captain.key) ? 'Anonymous Captain' : captain.name}
-                  {captainTies > 1 && <span className="text-lc-text3 font-medium"> +{captainTies - 1}</span>}
+                  {isHidden(captain.key) ? (isSolo ? 'Anonymous pilot' : 'Anonymous Captain') : captain.name}
+                  {!isSolo && captainTies > 1 && <span className="text-lc-text3 font-medium"> +{captainTies - 1}</span>}
                 </p>
                 <p className="text-sm text-lc-text3 mt-0.5">
                   {captain.total} pts
@@ -452,7 +461,7 @@ export function EndSessionSummary({
 
         <div className="glass rounded-2xl border border-lc-border p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-lc-text">Final Standings</h2>
+            <h2 className="font-semibold text-lc-text">{isSolo ? 'Your Results' : 'Final Standings'}</h2>
             {teacherView && prefsMap.size > 0 && Array.from(prefsMap.values()).some((v) => !v) && (
               <button
                 onClick={() => setShowAllNames((v) => !v)}
@@ -475,6 +484,7 @@ export function EndSessionSummary({
                 >
                   <div className="flex items-center gap-3">
                     <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold ${
+                      isSolo ? 'bg-lc-surface text-lc-text3' :
                       i === 0 ? 'bg-yellow-500/20 text-yellow-400' :
                       i === 1 ? 'bg-lc-text3/20 text-lc-text3' :
                       i === 2 ? 'bg-amber-500/20 text-amber-400' : 'bg-lc-surface text-lc-text3'
