@@ -197,7 +197,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
               value={theme}
               onChange={(e) => setTheme(e.target.value)}
               rows={3}
-              placeholder="e.g. Travel English for a trip abroad — airport, hotel, restaurants, getting around"
+              placeholder="e.g. World cuisine and food culture — street food, restaurants, health, and future food"
               className="w-full px-3 py-2.5 rounded-lg bg-lc-surface border border-lc-border text-sm text-lc-text placeholder:text-lc-text3 focus:outline-none focus:ring-1 focus:ring-lc-blue resize-none"
             />
           </div>

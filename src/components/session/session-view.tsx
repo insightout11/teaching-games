@@ -10,7 +10,7 @@ import { ActivityShell } from './activity-shell';
 import { ModuleErrorBoundary } from './module-error-boundary';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { DemoSimulator } from './demo-simulator';
-import { EndSessionSummary } from './end-session-summary';
+import { EndSessionSummary, type EndSessionNextDestination } from './end-session-summary';
 import { SessionSettingsBar } from './session-settings-bar';
 import { WidgetShell } from './widget-shell';
 import { WidgetLauncher } from './widget-launcher';
@@ -69,6 +69,18 @@ function weatherForHour(hour: number): WeatherState {
 }
 
 // ─── Departure board ────────────────────────────────────────────────────────
+
+type SessionEndCourseContext = {
+  courseId: string;
+  completedLessonId: string;
+  completedLessonTitle: string;
+  nextLesson: { id: string; title: string; orderIndex: number } | null;
+};
+
+type SessionEndWorldFlightContext = {
+  completed: true;
+  currentDestinationId: string | null;
+};
 
 function DepartureBoardPanel({
   slots,
@@ -597,6 +609,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [gameContent, setGameContent] = useState<GameGeneratedContent | null>(null);
   const [journeySaveStatus, setJourneySaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [worldFlightReward, setWorldFlightReward] = useState<WorldFlightProgressionRewardResult | null>(null);
+  const [nextDestination, setNextDestination] = useState<EndSessionNextDestination | null>(null);
   // Content overrides from takeoff regeneration (mission/character context)
   const [contentOverrides, setContentOverrides] = useState<Record<string, ActivityGeneratedContent>>({});
   const contentOverridesRef = useRef(contentOverrides);
@@ -1201,6 +1214,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         error?: string;
         legStatus?: string;
         progressionReward?: WorldFlightProgressionRewardResult | null;
+        courseContext?: SessionEndCourseContext | null;
+        worldFlightContext?: SessionEndWorldFlightContext | null;
       };
       if (!response.ok) {
         console.error('Failed to end session:', result.error);
@@ -1211,6 +1226,22 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       if (expectsJourneyMove) {
         setJourneySaveStatus(result.legStatus === 'completed' ? 'saved' : 'error');
         setWorldFlightReward(result.progressionReward ?? null);
+      }
+      if (result.courseContext) {
+        setNextDestination({
+          kind: 'course',
+          href: `/courses/${result.courseContext.courseId}`,
+          label: 'Back to course',
+          description: 'Lesson complete. Your course progress has been updated.',
+          nextLessonTitle: result.courseContext.nextLesson?.title ?? null,
+        });
+      } else if (result.worldFlightContext?.completed) {
+        setNextDestination({
+          kind: 'world-flight',
+          href: '/world-flight',
+          label: 'View World Flight map',
+          description: 'Flight complete. Your class location and rewards have been updated.',
+        });
       }
     } catch (error) {
       console.error('Failed to end session:', error);
@@ -1631,6 +1662,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             onLaunchBonusVote={handleBonusFromArrival}
             moduleCount={lesson.lessonSlots.length}
             sessionStartedAt={session.started_at}
+            nextDestination={nextDestination}
           />
         </div>
       </div>

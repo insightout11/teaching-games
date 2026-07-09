@@ -130,6 +130,41 @@ async function awardWorldFlightProgression(
   };
 }
 
+async function getCompletedCourseContext(sessionId: string) {
+  const service = createServiceClient();
+  const { data: lesson, error } = await service
+    .from('course_lessons')
+    .select('id, course_id, order_index, title')
+    .eq('session_id', sessionId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!lesson) return null;
+
+  const { data: nextLesson, error: nextError } = await service
+    .from('course_lessons')
+    .select('id, order_index, title')
+    .eq('course_id', lesson.course_id)
+    .eq('status', 'planned')
+    .gt('order_index', lesson.order_index)
+    .order('order_index', { ascending: true })
+    .limit(1)
+    .maybeSingle();
+  if (nextError) throw nextError;
+
+  return {
+    courseId: lesson.course_id as string,
+    completedLessonId: lesson.id as string,
+    completedLessonTitle: lesson.title as string,
+    nextLesson: nextLesson
+      ? {
+          id: nextLesson.id as string,
+          title: nextLesson.title as string,
+          orderIndex: nextLesson.order_index as number,
+        }
+      : null,
+  };
+}
+
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const sessionId = body?.sessionId;
@@ -212,16 +247,26 @@ export async function POST(request: Request) {
   // Course Builder: if this session was launched from a course lesson, mark that lesson
   // completed so the course's "Next up" advances. (v2: write end-of-session lesson_memory
   // here — vocab covered, struggles — to carry forward into the next lesson.)
+  let courseContext: Awaited<ReturnType<typeof getCompletedCourseContext>> = null;
   if (completed) {
     try {
       await supabase.from('course_lessons').update({ status: 'completed' }).eq('session_id', sessionId);
+      courseContext = await getCompletedCourseContext(sessionId);
     } catch (courseError) {
       console.error('[api/session/end] course lesson completion error:', courseError);
     }
   }
 
+  const worldFlightData = data as { legStatus?: string; currentDestinationId?: string | null } | null;
   return NextResponse.json({
     ...(data ?? { legStatus: 'none', currentDestinationId: null }),
     progressionReward,
+    courseContext,
+    worldFlightContext: worldFlightData?.legStatus === 'completed'
+      ? {
+          completed: true,
+          currentDestinationId: worldFlightData.currentDestinationId ?? null,
+        }
+      : null,
   });
 }

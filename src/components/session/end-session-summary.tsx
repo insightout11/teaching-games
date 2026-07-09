@@ -16,6 +16,21 @@ import { ClassLogbookDepositCard } from '@/components/class/class-logbook-card';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { trackEvent } from '@/lib/analytics/posthog';
 
+export type EndSessionNextDestination =
+  | {
+      kind: 'course';
+      href: string;
+      label: string;
+      description: string;
+      nextLessonTitle?: string | null;
+    }
+  | {
+      kind: 'world-flight';
+      href: string;
+      label: string;
+      description: string;
+    };
+
 export function EndSessionSummary({
   classId,
   className,
@@ -30,6 +45,7 @@ export function EndSessionSummary({
   previewMode = false,
   moduleCount,
   sessionStartedAt,
+  nextDestination,
 }: {
   classId: string;
   className: string;
@@ -44,6 +60,7 @@ export function EndSessionSummary({
   previewMode?: boolean;
   moduleCount?: number;
   sessionStartedAt?: string | null;
+  nextDestination?: EndSessionNextDestination | null;
 }) {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
@@ -499,9 +516,26 @@ export function EndSessionSummary({
           </div>
         )}
 
-        <div className="flex justify-center gap-3 mt-8">
+        {nextDestination && (
+          <div className="mt-8 rounded-2xl border border-cyan-300/25 bg-slate-950/60 p-4 text-center backdrop-blur-md">
+            <p className="text-sm font-semibold text-cyan-100">{nextDestination.description}</p>
+            {nextDestination.kind === 'course' && nextDestination.nextLessonTitle && (
+              <p className="mt-1 text-xs text-lc-text3">Next up: {nextDestination.nextLessonTitle}</p>
+            )}
+          </div>
+        )}
+
+        <div className="flex flex-wrap justify-center gap-3 mt-8">
+          {nextDestination && (
+            <Link href={nextDestination.href}>
+              <Button variant="primary" onClick={reset}>
+                {nextDestination.label}
+                <ArrowUpRight className="ml-2 h-3.5 w-3.5" aria-hidden />
+              </Button>
+            </Link>
+          )}
           <Link href={`/classes/${classId}`}>
-            <Button variant="secondary" onClick={reset}>Back to Class</Button>
+            <Button variant="secondary" onClick={reset}>{nextDestination ? 'Class page' : 'Back to Class'}</Button>
           </Link>
           <Link href={`/classes/${classId}/sessions/${sessionId}/control-room`}>
             <Button variant="secondary">View Control Room</Button>
