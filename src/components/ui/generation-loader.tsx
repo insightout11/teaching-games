@@ -14,7 +14,25 @@
 // system fell back to a backup set (degraded: true from the generate routes).
 
 import { useEffect, useState } from 'react';
-import { Plane, TriangleAlert } from 'lucide-react';
+import { TriangleAlert } from 'lucide-react';
+
+/** Side-view jet silhouette, nose pointing right, drawn level (fuselage + nose
+ *  cone + tail fin + wing). lucide only ships a top-down Plane, which looks like
+ *  a wing is stuck in the runway once rotated flat — so we draw our own. */
+function SidePlane({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 20" fill="currentColor" className={className} aria-hidden>
+      {/* fuselage */}
+      <rect x="6" y="8.4" width="26" height="3.6" rx="1.8" />
+      {/* nose cone */}
+      <path d="M30 8.4 L30 12 Q38 11.7 38 10.2 Q38 8.7 30 8.4 Z" />
+      {/* tail fin (rear, up) */}
+      <path d="M6.5 8.7 L11 8.7 L9.6 3.4 L7.4 3.9 Z" />
+      {/* wing (mid, down) */}
+      <path d="M17 11.6 L23 11.6 L18 17 L14.5 17 Z" />
+    </svg>
+  );
+}
 
 // Below this, a loader would only flash — cache hits land here. Keep in sync with
 // the perf-plan note (~400ms).
@@ -74,11 +92,9 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
         <div className="absolute inset-x-0 bottom-3 h-px bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent" />
         {/* Dashed centerline sliding left → conveys forward motion */}
         <div className="gl-runway absolute inset-x-0 bottom-[13px] h-[2px]" aria-hidden />
-        {/* Plane: level while taxiing, tilts + climbs only at the end. The
-            animation lives on this plain div — styled-jsx's scoped class doesn't
-            reliably reach a lucide component's rendered <svg>. */}
+        {/* Plane: level while taxiing, tilts nose-up + climbs only at the end. */}
         <div className="gl-plane absolute bottom-1 left-0" aria-hidden>
-          <Plane className="h-7 w-7 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+          <SidePlane className="h-6 w-11 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
         </div>
       </div>
 
@@ -100,10 +116,8 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
           animation: gl-scroll 0.8s linear infinite;
         }
         .gl-plane {
-          /* lucide's plane points up-right (NE) by default; rotate(45deg) drops
-             the nose to level, pointing right down the runway. Takeoff eases back
-             toward nose-up (less rotation). */
-          transform: rotate(45deg);
+          /* The silhouette is drawn level, so taxiing needs no rotation; the nose
+             only lifts (negative rotate) at the very end, just before takeoff. */
           animation: gl-taxi 2.8s ease-in infinite;
         }
         @keyframes gl-scroll {
@@ -113,20 +127,20 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
         }
         @keyframes gl-taxi {
           0% {
-            transform: translateX(0) translateY(0) rotate(45deg);
+            transform: translateX(0) translateY(0) rotate(0deg);
             opacity: 0;
           }
           14% {
             opacity: 1;
           }
-          /* Taxi phase: level (rotate held at 45deg) all the way down the runway. */
+          /* Taxi phase: level all the way down the runway. */
           72% {
-            transform: translateX(168px) translateY(0) rotate(45deg);
+            transform: translateX(150px) translateY(0) rotate(0deg);
             opacity: 1;
           }
-          /* Rotation + climb happen only here, at the end. */
+          /* Nose-up + climb happen only here, at the end. */
           100% {
-            transform: translateX(210px) translateY(-22px) rotate(20deg);
+            transform: translateX(190px) translateY(-22px) rotate(-16deg);
             opacity: 0;
           }
         }
@@ -137,7 +151,7 @@ export function GenerationLoader({ label, className }: GenerationLoaderProps) {
           .gl-plane {
             left: 50%;
             animation: none;
-            transform: translateX(-50%) rotate(45deg);
+            transform: translateX(-50%);
           }
         }
       `}</style>
