@@ -9,7 +9,11 @@
     "topicTags": [
       "health",
       "science",
-      "psychology"
+      "psychology",
+      "sugar",
+      "nutrition",
+      "brain",
+      "dopamine"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Neuroscientist Nicole Avena explains why sugar is so hard to resist — and what it actually does to your brain's reward system.",
@@ -43,7 +47,11 @@
     "topicTags": [
       "health",
       "psychology",
-      "science"
+      "science",
+      "stress",
+      "brain",
+      "cortisol",
+      "mental-health"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Madhumita Murgia reveals how chronic stress physically changes the structure of your brain — and what you can do about it.",
@@ -76,7 +84,11 @@
     "durationSecs": 264,
     "topicTags": [
       "health",
-      "science"
+      "science",
+      "sleep",
+      "sleep-deprivation",
+      "brain",
+      "wellbeing"
     ],
     "difficultyLevel": "Easy",
     "description": "Claudia Aguirre walks through what sleep deprivation does to your mind and body — from irritability to hallucinations to organ failure.",
@@ -260,7 +272,11 @@
     "topicTags": [
       "education",
       "history",
-      "language"
+      "language",
+      "hero-journey",
+      "myths",
+      "narrative-pattern",
+      "story-structure"
     ],
     "difficultyLevel": "Easy",
     "description": "Matthew Winkler maps the universal journey that every hero — from Odysseus to Harry Potter — follows, and asks what that tells us about what humans value.",
@@ -276,7 +292,11 @@
     "durationSecs": 302,
     "topicTags": [
       "health",
-      "science"
+      "science",
+      "gut-health",
+      "nutrition",
+      "microbiome",
+      "food"
     ],
     "difficultyLevel": "Intermediate",
     "description": "Shilpa Ravella explains how the trillions of microbes living in your gut respond to what you eat — and why your microbiome may be the key to your overall health.",
@@ -841,6 +861,7 @@
     ],
     "difficultyLevel": "Intermediate",
     "description": "A TED-Ed animated myth about King Midas, greed, wishes, and the unintended consequences of getting exactly what you ask for.",
+    "summary": "This TED-Ed myth follows King Midas after he receives the power to turn everything he touches into gold. The story is a strong anchor for lessons on myths, morals, greed, wishes, consequences, and how traditional stories teach values through memorable characters and dramatic mistakes.",
     "genre": "narrative"
   },
   {

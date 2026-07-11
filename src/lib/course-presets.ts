@@ -392,7 +392,7 @@ export const COURSE_PRESETS: CoursePreset[] = [
       {
         title: 'Hero Patterns',
         topic: 'what makes a hero in stories',
-        keywords: ['heroes', 'myths', 'story structure'],
+        keywords: ['hero journey', 'narrative pattern', 'myths'],
         goal: 'vocabulary-building',
         suggestedSource: { kind: 'video', sourceType: 'teded', id: 'teded_what_makes_a_hero', title: 'What makes a hero?' },
       },
