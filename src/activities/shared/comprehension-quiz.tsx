@@ -216,14 +216,17 @@ export function ComprehensionQuiz({
                       {opt}
                       {showCorrect && <CheckCircle2 className="w-4 h-4" />}
                     </span>
-                    <span className="opacity-50 shrink-0 ml-2">{count} ({pct}%)</span>
+                    {/* Tally is held back until reveal so the class can't herd toward the popular vote. */}
+                    {revealed && <span className="opacity-50 shrink-0 ml-2">{count} ({pct}%)</span>}
                   </div>
-                  <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all duration-500 ${showCorrect ? 'bg-emerald-400' : 'bg-sky-400'}`}
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
+                  {revealed && (
+                    <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${showCorrect ? 'bg-emerald-400' : 'bg-sky-400'}`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             );

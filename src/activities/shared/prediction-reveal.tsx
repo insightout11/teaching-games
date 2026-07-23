@@ -28,9 +28,9 @@ function ResultBar({ result }: { result: PredictionResult }) {
             return (
               <div key={key} className="space-y-1">
                 <div className="flex items-center justify-between text-sm">
-                  <span className={isCorrect ? 'text-emerald-400 font-bold' : 'opacity-70'}>
+                  <span className={`inline-flex items-center gap-1 ${isCorrect ? 'text-emerald-400 font-bold' : 'opacity-70'}`}>
                     {label}
-                    {isCorrect && ' ✓'}
+                    {isCorrect && <Check className="w-3.5 h-3.5" />}
                   </span>
                   <span>{count} ({pct}%)</span>
                 </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Zap, Link2, Link, Search, Ban, KeyRound, Gamepad2 } from 'lucide-react';
+import { Zap, Link2, Link, Search, Ban, KeyRound, Gamepad2, LayoutGrid, Shuffle, Timer, HelpCircle, Swords } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import { getAllGames, getGame } from '@/games/registry';
@@ -25,9 +25,14 @@ const ICON_BY_KEY: Record<string, LucideIcon> = {
   imposter: Search,
   'taboo-sprint': Ban,
   password: KeyRound,
+  'grid-rush': LayoutGrid,
+  'synonym-showdown': Shuffle,
+  'vocab-sprint': Timer,
+  'twenty-questions': HelpCircle,
+  'sector-strike': Swords,
 };
 
-const DEFAULT_POOL = ['flash-quiz', 'connections', 'password'];
+const DEFAULT_POOL = ['flash-quiz', 'connections', 'word-chain', 'grid-rush'];
 
 function resolveOption(key: string): EndGameOption {
   const a = getAllActivities().find((act) => act.key === key);
@@ -195,7 +200,7 @@ export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoice
   // ── Voting panel ──
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-2xl border border-cyan-400/20 bg-[#0d1117] p-7 shadow-[0_24px_64px_rgba(0,0,0,0.6)] space-y-6">
+      <div className={`w-full ${options.length > 4 ? 'max-w-2xl' : 'max-w-lg'} rounded-2xl border border-cyan-400/20 bg-[#0d1117] p-7 shadow-[0_24px_64px_rgba(0,0,0,0.6)] space-y-6`}>
 
         {/* Header + countdown ring */}
         <div className="flex items-center justify-between">
@@ -233,8 +238,8 @@ export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoice
             : `${totalVotes} vote${totalVotes !== 1 ? 's' : ''} in`}
         </p>
 
-        {/* Option cards — 3-column grid for projection */}
-        <div className="grid grid-cols-3 gap-3">
+        {/* Option cards — column count adapts so 4 tiles as 2×2 and 5–6 fill two rows of 3 */}
+        <div className={`grid gap-3 ${options.length === 4 ? 'grid-cols-2' : 'grid-cols-3'}`}>
           {options.map((opt) => {
             const count = tallies[opt.key] ?? 0;
             const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;

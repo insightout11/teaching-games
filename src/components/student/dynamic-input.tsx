@@ -399,12 +399,41 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
       )}
       {spec.keywords && spec.keywords.length > 0 && (
         <div className="space-y-1">
-          <p className="text-xs opacity-50 uppercase tracking-widest">Try to use</p>
+          <p className="text-xs opacity-50 uppercase tracking-widest">
+            {spec.chipInsert ? 'Tap to build your sentence' : 'Try to use'}
+          </p>
           <div className="flex flex-wrap gap-1.5">
-            {spec.keywords.map((kw) => (
-              <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
-            ))}
+            {spec.keywords.map((kw) =>
+              spec.chipInsert ? (
+                <button
+                  key={kw}
+                  type="button"
+                  onClick={() => {
+                    const max = spec.maxLength || 1000;
+                    setValue((prev) => {
+                      const needsSpace = prev.length > 0 && !/\s$/.test(prev);
+                      const next = `${prev}${needsSpace ? ' ' : ''}${kw} `;
+                      return next.length > max ? next.slice(0, max) : next;
+                    });
+                  }}
+                  className="text-xs px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-200 border border-teal-400/30 hover:bg-teal-500/30 active:scale-95 transition-all"
+                >
+                  {kw}
+                </button>
+              ) : (
+                <span key={kw} className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300">{kw}</span>
+              ),
+            )}
           </div>
+          {spec.chipInsert && value.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setValue('')}
+              className="text-xs opacity-50 hover:opacity-90 underline mt-1"
+            >
+              Clear
+            </button>
+          )}
         </div>
       )}
       <textarea

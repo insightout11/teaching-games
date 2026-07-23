@@ -295,6 +295,14 @@ export interface RankItChallenge {
   prompt: string;
   items: RankItItem[];
   revealFacts: string[];
+  /**
+   * Optional "ideal" order as item ids, for challenges with a factual/objective
+   * answer (e.g. ranking by a measurable quantity). Omitted for subjective/opinion
+   * prompts so those stay open-ended.
+   */
+  correctOrder?: string[];
+  /** One-line rationale for the suggested order; only present alongside correctOrder. */
+  correctRationale?: string;
 }
 
 export interface RankItItem {

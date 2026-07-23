@@ -5,7 +5,7 @@ import type { ActivityProps } from '../types';
 import type { VideoPlayerContent } from '../types';
 import { ComprehensionQuiz } from '../shared/comprehension-quiz';
 import { PredictionReveal } from '../shared/prediction-reveal';
-import { ListChecks, CheckCircle2, Maximize, Minimize } from 'lucide-react';
+import { ListChecks, CheckCircle2, Maximize, Minimize, Clapperboard } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 
 declare global {
@@ -163,7 +163,7 @@ export function VideoPlayerActivity({
     <div className="space-y-4">
       {/* Title bar — hidden in fullscreen */}
       <div className="flex items-center gap-2">
-        <span className="text-lg">🎬</span>
+        <Clapperboard className="w-5 h-5 text-lc-text3 shrink-0" />
         <h2 className="text-base font-semibold text-lc-text truncate">{videoTitle}</h2>
         {phase === 'watching' && videoEnded && (
           <span className="text-xs text-lc-success bg-lc-success/10 border border-lc-success/30 rounded-full px-2 py-0.5">

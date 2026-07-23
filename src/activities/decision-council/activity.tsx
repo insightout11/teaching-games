@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Circle, Stamp } from 'lucide-react';
+import { CheckCircle, Circle, Stamp, Plus } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
 import type { DecisionCouncilContent } from '../types';
@@ -20,6 +20,7 @@ const LABELS = ['A', 'B', 'C', 'D'];
 export function DecisionCouncilActivity({
   sessionId,
   students,
+  sessionSettings,
   generatedContent,
   onSetInputSpec,
   onRegisterSubmissionHandler,
@@ -29,6 +30,19 @@ export function DecisionCouncilActivity({
 }: ActivityProps) {
   const content = generatedContent as DecisionCouncilContent;
   const addFlightLogEntry = useSessionStore((s) => s.addFlightLogEntry);
+
+  // How much writing to ask of students, auto-selected by lesson difficulty:
+  //  · stance   → beginners pick a ready-made position (no typing); needs stanceOptions
+  //  · assisted → mid levels type, with tap-to-insert phrase chips to build a sentence
+  //  · free     → advanced levels write freely (phrases shown read-only)
+  const stanceOptions = useMemo(() => content.stanceOptions ?? [], [content.stanceOptions]);
+  const difficulty = sessionSettings?.difficulty ?? 'Intermediate';
+  const proposalMode: 'stance' | 'assisted' | 'free' =
+    (difficulty === 'Beginner' || difficulty === 'Easy') && stanceOptions.length >= 2
+      ? 'stance'
+      : difficulty === 'Advanced' || difficulty === 'Expert'
+        ? 'free'
+        : 'assisted';
 
   // Phase
   const [phase, setPhase] = useState<CouncilPhase>('idle');
@@ -43,6 +57,9 @@ export function DecisionCouncilActivity({
 
   // UI state
   const [phrasesOpen, setPhrasesOpen] = useState(false);
+  // Teacher-scribed proposal (captures ideas said aloud), optionally credited to a roster student.
+  const [scribeText, setScribeText] = useState('');
+  const [scribeStudentId, setScribeStudentId] = useState('');
   const [proposalSupports, setProposalSupports] = useState<Record<string, ProposalSupport>>({});
   const [supportLoading, setSupportLoading] = useState(false);
   const [supportError, setSupportError] = useState<string | null>(null);
@@ -178,7 +195,7 @@ export function DecisionCouncilActivity({
   const voteStats = useMemo(
     () =>
       selectedProposalCards.map(({ proposal: p, label }) => {
-        const choiceKey = `${label}: Proposal ${label}`;
+        const choiceKey = `${label}: ${p.text}`;
         const count = votes.filter((v) => v.choice === choiceKey).length;
         return { proposal: p, label, choiceKey, count };
       }),
@@ -229,6 +246,7 @@ export function DecisionCouncilActivity({
   // InputSpec — broadcasts to student devices based on phase
   useEffect(() => {
     if (phase === 'proposal-collect') {
+      const phrases = content.usefulPhrases ?? [];
       onSetInputSpec?.({
         type: 'textarea',
         gameKey: 'decision-council',
@@ -237,13 +255,15 @@ export function DecisionCouncilActivity({
         maxLength: 250,
         reviewMode: 'approval',
         instruction: 'Propose your solution',
+        ...(phrases.length > 0 ? { keywords: phrases } : {}),
+        ...(proposalMode === 'assisted' ? { chipInsert: true } : {}),
       });
     } else if (phase === 'signal-pass' && proposals.length > 0) {
       onSetInputSpec?.({
         type: 'choice',
         gameKey: 'decision-council',
-        prompt: 'Which proposal should we discuss?',
-        options: proposals.map((_, i) => `${LABELS[i] ?? String.fromCharCode(65 + i)}: Proposal ${LABELS[i] ?? String.fromCharCode(65 + i)}`),
+        prompt: proposalMode === 'stance' ? 'Which position do you support?' : 'Which proposal should we discuss?',
+        options: proposals.map((p, i) => `${LABELS[i] ?? String.fromCharCode(65 + i)}: ${p.text}`),
       });
     } else if (phase === 'challenge') {
       const options = selectedProposalCards.flatMap(({ label }) => {
@@ -265,12 +285,12 @@ export function DecisionCouncilActivity({
         type: 'choice',
         gameKey: 'decision-council',
         prompt: 'Vote for the strongest proposal',
-        options: selectedProposalCards.map(({ label }) => `${label}: Proposal ${label}`),
+        options: selectedProposalCards.map(({ proposal, label }) => `${label}: ${proposal.text}`),
       });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, content.councilQuestion, proposals, selectedProposals, selectedProposalCards, onSetInputSpec]);
+  }, [phase, content.councilQuestion, content.usefulPhrases, proposalMode, proposals, selectedProposals, selectedProposalCards, onSetInputSpec]);
 
   // Remote vote handler — voting phase only
   useEffect(() => {
@@ -403,6 +423,40 @@ export function DecisionCouncilActivity({
   const startBriefing = useCallback(() => advanceTo('briefing'), [advanceTo]);
   const startProposalCollect = useCallback(() => advanceTo('proposal-collect'), [advanceTo]);
   const startSignalPass = useCallback(() => advanceTo('signal-pass'), [advanceTo]);
+
+  // Beginner/Easy path: skip free-text proposing entirely. Seed the council with the ready-made
+  // stance options and send students straight to backing one (the signal pass), so nobody types.
+  const startStanceCouncil = useCallback(() => {
+    const seeded: Proposal[] = stanceOptions.slice(0, 4).map((text, i) => ({
+      id: `stance-${i}`,
+      clientId: `stance-${i}`,
+      displayName: 'Council',
+      text,
+      selected: false,
+    }));
+    setProposals(seeded);
+    advanceTo('signal-pass');
+  }, [stanceOptions, advanceTo]);
+
+  // Teacher scribe: capture a spoken proposal onto the board, optionally credited to a student.
+  const addTeacherProposal = useCallback(() => {
+    const text = scribeText.trim();
+    if (!text) return;
+    const student = students.find((s) => s.id === scribeStudentId);
+    const id = `teacher-${Date.now()}`;
+    setProposals((prev) => [
+      ...prev,
+      {
+        id,
+        clientId: id,
+        displayName: student?.name ?? 'From the floor',
+        text,
+        selected: false,
+      },
+    ]);
+    setScribeText('');
+    setScribeStudentId('');
+  }, [scribeText, scribeStudentId, students]);
   const openCouncilSelect = useCallback(() => advanceTo('council-select'), [advanceTo]);
   const presentCouncil = useCallback(() => advanceTo('presenting'), [advanceTo]);
   const openChallenges = useCallback(() => advanceTo('challenge'), [advanceTo]);
@@ -717,10 +771,10 @@ export function DecisionCouncilActivity({
         {usefulPhrasesSection}
         <div className="flex justify-end">
           <button
-            onClick={startProposalCollect}
+            onClick={proposalMode === 'stance' ? startStanceCouncil : startProposalCollect}
             className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
           >
-            COLLECT PROPOSALS →
+            {proposalMode === 'stance' ? 'PICK POSITIONS →' : 'COLLECT PROPOSALS →'}
           </button>
         </div>
       </div>
@@ -771,6 +825,45 @@ export function DecisionCouncilActivity({
             })
           )}
         </div>
+
+        {/* Teacher scribe — capture a proposal a student said aloud, optionally crediting them. */}
+        <div className="glass p-3 rounded-xl border border-white/10 space-y-2">
+          <p className="text-xs uppercase tracking-widest opacity-40">Add a spoken proposal</p>
+          <div className="flex items-center gap-2">
+            <input
+              value={scribeText}
+              onChange={(e) => setScribeText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  addTeacherProposal();
+                }
+              }}
+              placeholder="Type what a student proposed…"
+              className="flex-1 min-w-0 px-3 py-2 bg-lc-surface border border-lc-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+            />
+            {students.length > 0 && (
+              <select
+                value={scribeStudentId}
+                onChange={(e) => setScribeStudentId(e.target.value)}
+                className="shrink-0 px-2 py-2 bg-lc-surface border border-lc-border rounded-lg text-sm max-w-[9rem]"
+              >
+                <option value="">From the floor</option>
+                {students.map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            )}
+            <button
+              onClick={addTeacherProposal}
+              disabled={!scribeText.trim()}
+              className="shrink-0 flex items-center gap-1 px-3 py-2 rounded-lg bg-indigo-500/80 text-white text-sm font-semibold hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              <Plus className="w-4 h-4" /> Add
+            </button>
+          </div>
+        </div>
+
         <div className="flex items-center justify-end gap-3">
           {proposals.length >= 2 && (
             <button

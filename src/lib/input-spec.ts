@@ -47,6 +47,8 @@ export interface InputSpec {
   keywordGroups?: { label: string; phrases: string[] }[];
   /** When true, choice inputs show an "Other: write your own…" option */
   allowWriteIn?: boolean;
+  /** For textarea inputs: render the `keywords` chips as tap-to-insert buttons (append into the box) instead of read-only "Try to use" hints. Scaffolds low-writing composition. */
+  chipInsert?: boolean;
   /** For confirm inputs: label for the confirm button */
   buttonLabel?: string;
   /** For textarea inputs: pre-filled content keyed by clientId */

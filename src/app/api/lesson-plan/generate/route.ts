@@ -363,6 +363,8 @@ async function generateRankIt(topic: string, difficulty: Difficulty, missionCont
               },
             },
             revealFacts: { type: 'array', items: { type: 'string' } },
+            correctOrder: { type: 'array', items: { type: 'string' } },
+            correctRationale: { type: 'string' },
           },
           required: ['id', 'prompt', 'items', 'revealFacts'],
         },
@@ -377,7 +379,8 @@ Difficulty: ${difficultyDescriptions[difficulty]}
 ${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
 CRITICAL: Every challenge, every item being ranked, and every hidden fact MUST be specifically about "${topic}". Do not drift to any other place, person, or subject. If a source is provided above, draw the items and facts from it.
 Each challenge: a ranking prompt about "${topic}", with 4-5 items (all about "${topic}") and a hidden fact per item that might change minds.
-Example shape (do NOT copy the subject — use "${topic}" instead): "Rank these X by Y" where X and Y come from "${topic}".`;
+Example shape (do NOT copy the subject — use "${topic}" instead): "Rank these X by Y" where X and Y come from "${topic}".
+CORRECT ORDER (optional, per challenge): If — and only if — the challenge has a genuinely factual/objective ideal order (e.g. ranking by a measurable, verifiable quantity like size, date, distance, or population), include "correctOrder" as the item ids in that ideal order, plus a one-line "correctRationale". For subjective/opinion prompts (preferences, "most important", "best"), OMIT both fields entirely so the challenge stays open-ended.`;
 
   const parsed = await generateJSON<{ challenges: RankItContent['challenges'] }>(prompt, schema);
   return { activityKey: 'rank-it', topicContext: topic, challenges: parsed.challenges };

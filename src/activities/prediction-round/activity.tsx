@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { Check, Plane } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import type { PredictionRoundContent, PredictionRoundQuestion } from '../types';
 import { useSessionStore, type PredictionResult } from '@/stores/session-store';
@@ -44,9 +45,9 @@ function PredictionChart({
         {/* Option A */}
         <div className="space-y-1">
           <div className="flex items-center justify-between text-sm">
-            <span className={showAnswer && correctA ? 'text-emerald-400 font-bold' : 'opacity-70'}>
+            <span className={`inline-flex items-center gap-1 ${showAnswer && correctA ? 'text-emerald-400 font-bold' : 'opacity-70'}`}>
               {question.optionA}
-              {showAnswer && correctA && ' ✓'}
+              {showAnswer && correctA && <Check className="w-3.5 h-3.5" />}
             </span>
             <span>{countA} ({pctA}%)</span>
           </div>
@@ -63,9 +64,9 @@ function PredictionChart({
         {/* Option B */}
         <div className="space-y-1">
           <div className="flex items-center justify-between text-sm">
-            <span className={showAnswer && correctB ? 'text-emerald-400 font-bold' : 'opacity-70'}>
+            <span className={`inline-flex items-center gap-1 ${showAnswer && correctB ? 'text-emerald-400 font-bold' : 'opacity-70'}`}>
               {question.optionB}
-              {showAnswer && correctB && ' ✓'}
+              {showAnswer && correctB && <Check className="w-3.5 h-3.5" />}
             </span>
             <span>{countB} ({pctB}%)</span>
           </div>
@@ -305,7 +306,7 @@ export function PredictionRoundActivity({
           <p className="text-xl opacity-90">3 predictions — vote before you know the answer.</p>
           <p className="text-sm opacity-50">
             {deferReveal
-              ? 'Students commit to a prediction — the answers are in the briefing ahead. Reveal them after the reading.'
+              ? 'Students commit to a prediction — the answers are in the briefing ahead. Reveal them after the briefing.'
               : 'Students commit to a prediction, then you reveal the truth.'}
           </p>
           <button
@@ -400,10 +401,13 @@ export function PredictionRoundActivity({
       {/* LOCKED — deferred "Listen for it" mode: predictions are in, answers held for the briefing */}
       {phase === 'locked' && (
         <div className="text-center py-12 space-y-4">
-          <p className="text-2xl font-semibold">Predictions locked ✈️</p>
+          <p className="text-2xl font-semibold inline-flex items-center justify-center gap-2">
+            Predictions locked
+            <Plane className="w-6 h-6 text-amber-400 -rotate-45" />
+          </p>
           <p className="text-base opacity-80 max-w-md mx-auto">
-            The answers are in what you&apos;re about to read. Listen for them — we&apos;ll reveal how the
-            class did after the briefing.
+            The answers are in the briefing ahead. Watch and listen for them — we&apos;ll reveal how the
+            class did afterward.
           </p>
           <div className="flex justify-center pt-4">
             <button
