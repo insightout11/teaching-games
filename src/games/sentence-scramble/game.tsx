@@ -159,16 +159,16 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
         onSetInputSpec?.(null);
       }
     } else {
-      // Turn-based: only show to current student
+      // Turn-based: only show to current student. Teacher-paced and untimed — the teacher
+      // screen shows no countdown here, so the student's device must not either, or an expired
+      // timer would lock the single student out of submitting (their only input path).
       if (!submitted && availableWords.length > 0) {
-        if (!raceStartedAtRef.current) raceStartedAtRef.current = Date.now();
+        raceStartedAtRef.current = 0;
         onSetInputSpec?.({
           type: 'sequence',
           gameKey: 'sentence-scramble',
           prompt: 'Tap words to build the sentence in correct order',
           options: availableWords.map(w => w.word),
-          timerSeconds: sessionSettings.timerSeconds,
-          startedAt: raceStartedAtRef.current,
         });
       } else if (submitted && studentResultRef.current) {
         raceStartedAtRef.current = 0;

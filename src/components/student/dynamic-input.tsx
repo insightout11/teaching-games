@@ -263,6 +263,16 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
     setSelectedResources([]);
   }, [value, isSubmitting, hasResources, selectedResources, resourcesRequired, isExpired, onSubmit]);
 
+  // Append a tapped phrase into the box (chipInsert scaffolding), respecting maxLength.
+  const insertChip = useCallback((kw: string) => {
+    const max = spec.maxLength || 1000;
+    setValue((prev) => {
+      const needsSpace = prev.length > 0 && !/\s$/.test(prev);
+      const next = `${prev}${needsSpace ? ' ' : ''}${kw} `;
+      return next.length > max ? next.slice(0, max) : next;
+    });
+  }, [spec.maxLength]);
+
   const hintContent = spec.hint?.content;
   const hasStructuredHint = hintContent && typeof hintContent === 'object';
 
@@ -397,7 +407,35 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
           )}
         </div>
       )}
-      {spec.keywords && spec.keywords.length > 0 && (
+      {/* Tap-to-build chips: labelled groups (starters / positions / connectors) when provided,
+          otherwise a single flat set. Non-insert specs keep the read-only "Try to use" hints. */}
+      {spec.chipInsert && spec.keywordGroups && spec.keywordGroups.length > 0 ? (
+        <div className="space-y-2.5">
+          <p className="text-xs opacity-50 uppercase tracking-widest">Tap to build your sentence</p>
+          {spec.keywordGroups.map((group) => (
+            <div key={group.label} className="space-y-1">
+              <p className="text-[10px] opacity-40 uppercase tracking-widest">{group.label}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {group.phrases.map((kw) => (
+                  <button
+                    key={`${group.label}-${kw}`}
+                    type="button"
+                    onClick={() => insertChip(kw)}
+                    className="text-xs px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-200 border border-teal-400/30 hover:bg-teal-500/30 active:scale-95 transition-all"
+                  >
+                    {kw}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+          {value.length > 0 && (
+            <button type="button" onClick={() => setValue('')} className="text-xs opacity-50 hover:opacity-90 underline">
+              Clear
+            </button>
+          )}
+        </div>
+      ) : spec.keywords && spec.keywords.length > 0 ? (
         <div className="space-y-1">
           <p className="text-xs opacity-50 uppercase tracking-widest">
             {spec.chipInsert ? 'Tap to build your sentence' : 'Try to use'}
@@ -408,14 +446,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
                 <button
                   key={kw}
                   type="button"
-                  onClick={() => {
-                    const max = spec.maxLength || 1000;
-                    setValue((prev) => {
-                      const needsSpace = prev.length > 0 && !/\s$/.test(prev);
-                      const next = `${prev}${needsSpace ? ' ' : ''}${kw} `;
-                      return next.length > max ? next.slice(0, max) : next;
-                    });
-                  }}
+                  onClick={() => insertChip(kw)}
                   className="text-xs px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-200 border border-teal-400/30 hover:bg-teal-500/30 active:scale-95 transition-all"
                 >
                   {kw}
@@ -435,7 +466,7 @@ function TextareaInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds
             </button>
           )}
         </div>
-      )}
+      ) : null}
       <textarea
         value={value}
         onChange={(e) => setValue(e.target.value)}

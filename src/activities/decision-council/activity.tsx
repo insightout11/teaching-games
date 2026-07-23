@@ -17,6 +17,10 @@ import type {
 
 const LABELS = ['A', 'B', 'C', 'D'];
 
+// Generic discourse markers offered as tap-to-build chips in assisted mode, so students can
+// link a stance to a reason without typing the connective tissue. Topic-independent by design.
+const PROPOSAL_CONNECTORS = ['because', 'for example', 'however', 'on the other hand', 'also', 'so'];
+
 export function DecisionCouncilActivity({
   sessionId,
   students,
@@ -246,18 +250,29 @@ export function DecisionCouncilActivity({
   // InputSpec — broadcasts to student devices based on phase
   useEffect(() => {
     if (phase === 'proposal-collect') {
-      const phrases = content.usefulPhrases ?? [];
-      onSetInputSpec?.({
-        type: 'textarea',
+      const starters = content.usefulPhrases ?? [];
+      const base = {
+        type: 'textarea' as const,
         gameKey: 'decision-council',
         prompt: content.councilQuestion,
         placeholder: 'Share your position and one reason...',
         maxLength: 250,
-        reviewMode: 'approval',
+        reviewMode: 'approval' as const,
         instruction: 'Propose your solution',
-        ...(phrases.length > 0 ? { keywords: phrases } : {}),
-        ...(proposalMode === 'assisted' ? { chipInsert: true } : {}),
-      });
+      };
+      if (proposalMode === 'assisted') {
+        // Give students building blocks to CHAIN, not just an opener: starters → a position →
+        // a connector, so most of a proposal can be built by tapping before typing the detail.
+        const groups = [
+          ...(starters.length > 0 ? [{ label: 'Sentence starters', phrases: starters }] : []),
+          ...(stanceOptions.length > 0 ? [{ label: 'Positions', phrases: stanceOptions }] : []),
+          { label: 'Connectors', phrases: PROPOSAL_CONNECTORS },
+        ];
+        onSetInputSpec?.({ ...base, chipInsert: true, keywordGroups: groups });
+      } else {
+        // Free (advanced): starters shown as read-only "try to use" hints.
+        onSetInputSpec?.({ ...base, ...(starters.length > 0 ? { keywords: starters } : {}) });
+      }
     } else if (phase === 'signal-pass' && proposals.length > 0) {
       onSetInputSpec?.({
         type: 'choice',
@@ -290,7 +305,7 @@ export function DecisionCouncilActivity({
     } else {
       onSetInputSpec?.(null);
     }
-  }, [phase, content.councilQuestion, content.usefulPhrases, proposalMode, proposals, selectedProposals, selectedProposalCards, onSetInputSpec]);
+  }, [phase, content.councilQuestion, content.usefulPhrases, stanceOptions, proposalMode, proposals, selectedProposals, selectedProposalCards, onSetInputSpec]);
 
   // Remote vote handler — voting phase only
   useEffect(() => {
