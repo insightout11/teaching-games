@@ -334,6 +334,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // "Get ready" transition when inputSpec first arrives
   const [transitionActivityName, setTransitionActivityName] = useState<string | null>(null);
   const prevInputSpecRef = useRef<InputSpec | null>(null);
+  // Auto-clear timer for the splash. Held in a ref (not the effect cleanup) so a follow-up
+  // inputSpec delivery can't cancel it and strand the device on "Stand by...".
+  const transitionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Tracks the last timed round we logged delivery-latency instrumentation for.
   const loggedRoundRef = useRef<string | null>(null);
 
@@ -358,19 +361,27 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     setRadioDoneIds(new Set(radioState.done));
   }, [sessionId]);
 
-  // Fire "Get ready" splash when inputSpec transitions null → set
+  // Fire "Get ready" splash when inputSpec transitions null → set. The clear timer lives in a
+  // ref rather than the effect cleanup: on phones, realtime and the poll fallback often both
+  // deliver the first spec within the splash window, and a cleanup-based timer would be cancelled
+  // by the second delivery — leaving the device stuck on "Stand by..." until a manual refresh.
   useEffect(() => {
-    if (inputSpec && !prevInputSpecRef.current) {
+    const hadSpec = prevInputSpecRef.current !== null;
+    prevInputSpecRef.current = inputSpec;
+    if (inputSpec && !hadSpec) {
       const name = getGame(inputSpec.gameKey)?.name ?? getActivity(inputSpec.gameKey)?.name;
       if (name) {
-        prevInputSpecRef.current = inputSpec;
         setTransitionActivityName(name);
-        const t = setTimeout(() => setTransitionActivityName(null), 1500);
-        return () => clearTimeout(t);
+        if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+        transitionTimerRef.current = setTimeout(() => setTransitionActivityName(null), 1500);
       }
     }
-    prevInputSpecRef.current = inputSpec;
   }, [inputSpec]);
+
+  // Clear the splash timer on unmount.
+  useEffect(() => () => {
+    if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+  }, []);
 
   // Poll for session status, active polls, and input spec
   const checkSession = useCallback(async (options?: { forceFull?: boolean }) => {
