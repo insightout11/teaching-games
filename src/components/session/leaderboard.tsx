@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSessionStore } from '@/stores/session-store';
 import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
-import { avatarUrl } from '@/lib/avatar-options';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
 
 interface LeaderboardEntry {
   studentId: string;
@@ -13,6 +13,7 @@ interface LeaderboardEntry {
   correctCount: number;
   bestStreak: number;
   avatarSeed?: string;
+  captain?: boolean;
 }
 
 // Friendly label + palette per team key, so the team scoreboard reads clearly
@@ -68,7 +69,7 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
     const map = new Map<string, LeaderboardEntry>();
 
     students.forEach((s) => {
-      map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0, correctCount: 0, bestStreak: 0, avatarSeed: s.avatar_seed });
+      map.set(s.id, { studentId: s.id, name: s.name, totalPoints: 0, correctCount: 0, bestStreak: 0, avatarSeed: s.avatar_seed, captain: s.is_captain_of_the_day });
     });
 
     scores.filter(countsForLeaderboard).forEach((sc) => {
@@ -268,13 +269,12 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
                     <span className={`text-sm font-bold w-6 ${entry.rank < 3 ? medalColors[entry.rank] : 'opacity-40'}`}>
                       {entry.rank + 1}
                     </span>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={avatarUrl(entry.avatarSeed, entry.name)}
-                      alt=""
-                      width={28}
-                      height={28}
-                      className="w-7 h-7 rounded-full flex-shrink-0"
+                    <CrewAvatar
+                      seed={entry.avatarSeed}
+                      name={entry.name}
+                      captain={entry.captain}
+                      size={28}
+                      className="rounded-full"
                     />
                     <span className="truncate text-sm font-medium">
                       {entry.name}

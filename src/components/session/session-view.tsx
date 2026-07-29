@@ -52,7 +52,7 @@ import { getDestinationById } from '@/data/world-flight/destinations';
 import { DestinationBriefing } from '@/components/place-media/destination-briefing';
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
-import { avatarUrl } from '@/lib/avatar-options';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star } from 'lucide-react';
 
 // Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
@@ -1790,7 +1790,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     ) : (
                       <motion.div layout className="flex flex-wrap gap-2">
                         <AnimatePresence>
-                          {sessionParticipants.map((p) => (
+                          {sessionParticipants.map((p) => {
+                            const captain = !!students.find((s) => s.id === p.student_id)?.is_captain_of_the_day;
+                            return (
                             <motion.div
                               key={p.id}
                               layout
@@ -1800,11 +1802,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                               transition={{ type: 'spring', stiffness: 420, damping: 22 }}
                               className="flex flex-col items-center gap-1 bg-lc-card rounded-2xl px-2.5 py-2 min-w-[56px]"
                             >
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={avatarUrl(p.avatar_seed, p.display_name)} alt="" width={36} height={36} className="w-9 h-9 rounded-xl" />
+                              <CrewAvatar seed={p.avatar_seed} name={p.display_name} captain={captain} size={36} className="rounded-xl" />
                               <span className="text-[10px] font-semibold text-lc-text truncate max-w-[56px] text-center">{p.display_name}</span>
                             </motion.div>
-                          ))}
+                            );
+                          })}
                         </AnimatePresence>
                       </motion.div>
                     )}

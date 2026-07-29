@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { Team } from '@/lib/supabase/types';
 import {
   getInputSpecRevision,
@@ -33,6 +34,8 @@ interface StudentSession {
   displayName: string;
   team: Team | null;
   avatarSeed?: string;
+  /** Reigning Captain of the Day — wears the wings insignia this session. */
+  captain?: boolean;
 }
 
 interface ActivePoll {
@@ -1214,12 +1217,17 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               )}
             </div>
           </div>
-          <button
-            onClick={onLeave}
-            className="min-h-10 shrink-0 rounded-xl border border-white/10 px-3 text-sm text-slate-300 transition-colors hover:border-white/25 hover:text-white"
-          >
-            Leave
-          </button>
+          <div className="flex shrink-0 items-center gap-2.5">
+            {studentSession.captain && (
+              <CrewAvatar seed={studentSession.avatarSeed} name={studentSession.displayName} captain size={40} />
+            )}
+            <button
+              onClick={onLeave}
+              className="min-h-10 shrink-0 rounded-xl border border-white/10 px-3 text-sm text-slate-300 transition-colors hover:border-white/25 hover:text-white"
+            >
+              Leave
+            </button>
+          </div>
         </div>
       </div>
 

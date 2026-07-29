@@ -41,6 +41,8 @@ export interface Student {
   name: string;
   avatar_seed: string;
   created_at: string;
+  /** Reigning Captain of the Day for the class — wears the wings insignia this session. */
+  is_captain_of_the_day?: boolean;
 }
 
 export interface Session {

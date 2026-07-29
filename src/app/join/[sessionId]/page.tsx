@@ -14,6 +14,9 @@ interface StudentSession {
   studentId: string | null;
   displayName: string;
   team: Team | null;
+  avatarSeed?: string;
+  /** Reigning Captain of the Day — carried through to the controller for the wings insignia. */
+  captain?: boolean;
 }
 
 export default function JoinSessionPage() {
