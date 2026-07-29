@@ -85,6 +85,18 @@ export async function POST(request: NextRequest) {
       anonymous = (prefRow?.payload as { named?: boolean } | null)?.named === false;
     }
 
+    // Pull the current question from the session's live input spec so the Captain's Pick card
+    // shows what the contribution was answering — a bare quote is confusing out of context.
+    const { data: sessionRow } = await supabase
+      .from('sessions')
+      .select('input_spec')
+      .eq('id', sessionId)
+      .maybeSingle();
+    const promptRaw = (sessionRow?.input_spec as { prompt?: unknown } | null)?.prompt;
+    const promptText = typeof promptRaw === 'string'
+      ? promptRaw.replace(/\s+/g, ' ').trim().slice(0, 180) || null
+      : null;
+
     const finalText = submission.content || text;
     const tag = isSpotlightTag(body.tag) ? body.tag : undefined;
     // Highlight must be an exact phrase of the shown text, or it's dropped.
@@ -101,6 +113,7 @@ export async function POST(request: NextRequest) {
       text: finalText,
       ...(tag ? { tag } : {}),
       highlight,
+      ...(promptText ? { prompt: promptText } : {}),
       anonymous,
       createdAt: new Date().toISOString(),
     };

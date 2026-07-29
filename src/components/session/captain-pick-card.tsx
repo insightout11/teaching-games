@@ -12,6 +12,7 @@ interface ActiveSpotlight {
   text: string;
   tag?: SpotlightTag;
   highlight?: string | null;
+  prompt?: string | null;
   key: string; // unique key per spotlight so AnimatePresence re-mounts on new spotlight
 }
 
@@ -58,6 +59,7 @@ export function CaptainPickCard({ sessionId }: { sessionId: string }) {
       text: payload.text,
       tag: payload.tag,
       highlight: payload.highlight,
+      prompt: payload.prompt,
       key: createdAt,
     });
     setDocked(false);
@@ -126,6 +128,13 @@ export function CaptainPickCard({ sessionId }: { sessionId: string }) {
                 )}
                 <span className="ml-auto text-xs opacity-35">tap to dock</span>
               </div>
+              {spotlight.prompt && (
+                <p className="mt-4 text-sm text-amber-100/50">
+                  <span className="uppercase tracking-widest text-[11px] text-amber-300/60">Question</span>
+                  <br />
+                  {spotlight.prompt}
+                </p>
+              )}
               <p className="mt-5 text-2xl md:text-3xl leading-snug font-medium text-white">
                 <QuoteText text={spotlight.text} highlight={spotlight.highlight} />
               </p>

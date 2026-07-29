@@ -36,6 +36,8 @@ export interface SpotlightPayload {
   tag?: SpotlightTag;
   /** Exact phrase from `text` worth highlighting (e.g. great vocab use). */
   highlight?: string | null;
+  /** The question/prompt this contribution was answering, shown for context on the shared screen. */
+  prompt?: string | null;
   /** True when the student asked not to show their name. */
   anonymous?: boolean;
   createdAt: string;
