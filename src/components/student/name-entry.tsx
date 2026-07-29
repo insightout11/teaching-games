@@ -5,7 +5,7 @@ import { Plane, PlaneTakeoff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
-import { AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl } from '@/lib/avatar-options';
+import { AVATAR_SEEDS, HELMET_AVATAR_SEEDS, CAPTAIN_AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl } from '@/lib/avatar-options';
 import type { Team } from '@/lib/supabase/types';
 import { trackEvent } from '@/lib/analytics/posthog';
 
@@ -26,6 +26,42 @@ interface StudentSession {
 interface NameEntryProps {
   sessionId: string;
   onJoin: (data: StudentSession) => void;
+}
+
+// Grouped avatar picker — on-theme flight helmets + captain's caps, shown in labeled rows.
+function AvatarPicker({ value, onChange }: { value: string; onChange: (seed: string) => void }) {
+  const groups: Array<{ label: string; seeds: readonly string[] }> = [
+    { label: 'Flight Helmets', seeds: HELMET_AVATAR_SEEDS },
+    { label: "Captain's Caps", seeds: CAPTAIN_AVATAR_SEEDS },
+  ];
+  return (
+    <div className="space-y-3">
+      {groups.map((group) => (
+        <div key={group.label}>
+          <p className="font-instrument mb-1.5 text-[10px] uppercase tracking-[0.18em] text-lc-text3/70">
+            {group.label}
+          </p>
+          <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+            {group.seeds.map((seed) => (
+              <button
+                key={seed}
+                type="button"
+                onClick={() => onChange(seed)}
+                className={`relative rounded-xl p-1.5 transition-all ${
+                  value === seed
+                    ? 'scale-105 bg-white/10 ring-2 ring-cyan-400'
+                    : 'opacity-50 hover:bg-white/5 hover:opacity-80'
+                }`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={avatarUrl(seed)} alt={seed} width={64} height={64} className="h-auto w-full rounded-lg" />
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 function generateUUID(): string {
@@ -297,23 +333,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                   <label className="font-instrument mb-2 block text-[10px] uppercase tracking-[0.22em] text-lc-text3">
                     Passport photo
                   </label>
-                  <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
-                    {AVATAR_SEEDS.map((seed) => (
-                      <button
-                        key={seed}
-                        type="button"
-                        onClick={() => setAvatarSeed(seed)}
-                        className={`relative rounded-xl p-1.5 transition-all ${
-                          avatarSeed === seed
-                            ? 'scale-105 bg-white/10 ring-2 ring-cyan-400'
-                            : 'opacity-50 hover:bg-white/5 hover:opacity-80'
-                        }`}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={avatarUrl(seed)} alt={seed} width={64} height={64} className="h-auto w-full rounded-lg" />
-                      </button>
-                    ))}
-                  </div>
+                  <AvatarPicker value={avatarSeed} onChange={setAvatarSeed} />
                 </div>
               )}
 
@@ -352,23 +372,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                 <label className="font-instrument mb-2 block text-[10px] uppercase tracking-[0.22em] text-lc-text3">
                   Passport photo
                 </label>
-                <div className="grid grid-cols-6 gap-2">
-                  {AVATAR_SEEDS.map((seed) => (
-                    <button
-                      key={seed}
-                      type="button"
-                      onClick={() => setAvatarSeed(seed)}
-                      className={`relative rounded-xl p-1.5 transition-all ${
-                        avatarSeed === seed
-                          ? 'scale-105 bg-white/10 ring-2 ring-cyan-400'
-                          : 'opacity-50 hover:bg-white/5 hover:opacity-80'
-                      }`}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={avatarUrl(seed)} alt={seed} width={64} height={64} className="h-auto w-full rounded-lg" />
-                    </button>
-                  ))}
-                </div>
+                <AvatarPicker value={avatarSeed} onChange={setAvatarSeed} />
               </div>
 
               {/* Back to roster if roster was available */}
