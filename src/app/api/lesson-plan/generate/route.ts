@@ -1549,34 +1549,16 @@ Return JSON with a "prompts" array of exactly 4 items.`;
   return { activityKey: 'lightning-round', topicContext: topic, prompts };
 }
 
-async function generateOpinionShift(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<OpinionShiftContent> {
-  const schema: AISchema = {
-    type: 'object',
-    properties: {
-      beforePrompt: { type: 'string' },
-      nowPrompt: { type: 'string' },
-    },
-    required: ['beforePrompt', 'nowPrompt'],
-  };
-
-  const aiPrompt = `Generate an "Opinion Shift" closing reflection activity for an ESL class.
-Topic: ${topic}
-${languageRule(difficulty)}
-${sourceContext}
-
-Create two sentence starters for a Before/Now reflection:
-- beforePrompt: A sentence starter beginning with "Before this lesson I thought..." — students complete it to describe their original thinking about the topic (max 12 words)
-- nowPrompt: A sentence starter beginning with "Now I think..." or "Now I believe..." — students complete it to show how their thinking has changed (max 12 words)
-
-The two prompts should contrast clearly to highlight learning progression.
-Return JSON.`;
-
-  const data = await generateJSON<{ beforePrompt: string; nowPrompt: string }>(aiPrompt, schema);
+function generateOpinionShift(topic: string): OpinionShiftContent {
+  // Open, neutral reflection scaffolds the student completes in their OWN words. Deliberately
+  // static (not AI-written): AI versions kept finishing the thought with a specific opinion and
+  // assuming the student's mind had changed — which read as telling them what to conclude. A
+  // closing reflection should surface the student's own observation, change or no change.
   return {
     activityKey: 'opinion-shift',
     topicContext: topic,
-    beforePrompt: data.beforePrompt,
-    nowPrompt: data.nowPrompt,
+    beforePrompt: 'Before today, I thought…',
+    nowPrompt: 'Now I think…',
   };
 }
 
@@ -2977,7 +2959,8 @@ export async function POST(request: NextRequest) {
             generators.push(generateLightningRound(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'opinion-shift':
-            generators.push(generateOpinionShift(customTopic, diff, sourceCtx).then((r) => { content[activityKey] = r; }));
+            // Static reflection scaffold — no AI call.
+            content[activityKey] = generateOpinionShift(customTopic);
             break;
           case 'mission-selector':
             generators.push(generateMissionSelectorContent(customTopic, diff, goal).then((r) => { content[activityKey] = r; }));
