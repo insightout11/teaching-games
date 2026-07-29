@@ -9,6 +9,12 @@ const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
   bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions, languageRule } from '@/lib/difficulty';
+import {
+  generateFinalAnswer,
+  generateMicDrop,
+  generateOpinionShift,
+  generateLightningRound,
+} from '@/lib/landing-generators';
 import { TargetTone } from '@/games/tone-transformer/types';
 import type {
   LessonPlanGenerateRequest,
@@ -33,10 +39,6 @@ import type {
   GapFillItem,
   SceneIgniterContent,
   SceneIgniterScene,
-  FinalAnswerContent,
-  MicDropContent,
-  LightningRoundContent,
-  OpinionShiftContent,
   CharacterCardsContent,
   CharacterCard,
   ImposterContent,
@@ -368,11 +370,10 @@ async function generateRankIt(topic: string, difficulty: Difficulty, missionCont
                 required: ['id', 'name', 'hiddenFact'],
               },
             },
-            revealFacts: { type: 'array', items: { type: 'string' } },
             correctOrder: { type: 'array', items: { type: 'string' } },
             correctRationale: { type: 'string' },
           },
-          required: ['id', 'prompt', 'items', 'revealFacts'],
+          required: ['id', 'prompt', 'items'],
         },
       },
     },
@@ -1422,143 +1423,6 @@ Return JSON: { title: string, context: string, improvPrompt: string, improvScrip
         }))
       : fallbackImprovScript,
     lines,
-  };
-}
-
-async function generateFinalAnswer(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<FinalAnswerContent> {
-  const schema: AISchema = {
-    type: 'object',
-    properties: {
-      prompt: { type: 'string' },
-      targetKeywords: { type: 'array', items: { type: 'string' } },
-      sentenceStarter: { type: 'string' },
-      exampleAnswer: { type: 'string' },
-    },
-    required: ['prompt', 'targetKeywords'],
-  };
-
-  const aiPrompt = `Generate a closing consolidation prompt for an ESL class.
-Topic: ${topic}
-${languageRule(difficulty)}
-${sourceContext}
-
-Create:
-- prompt: An open-ended consolidating question (max 15 words) that asks students to summarise or apply today's learning
-- targetKeywords: 4-6 key vocabulary words from the topic that strong answers should include
-- sentenceStarter: A scaffold sentence beginning (e.g. "I think that..." or "One important thing is...")
-- exampleAnswer: A model answer (1-2 sentences) using the target keywords — shown to teacher only
-
-Return JSON.`;
-
-  const data = await generateJSON<{ prompt: string; targetKeywords: string[]; sentenceStarter?: string; exampleAnswer?: string }>(aiPrompt, schema);
-  return {
-    activityKey: 'final-answer',
-    topicContext: topic,
-    prompt: data.prompt,
-    targetKeywords: data.targetKeywords ?? [],
-    ...(data.sentenceStarter && { sentenceStarter: data.sentenceStarter }),
-    ...(data.exampleAnswer && { exampleAnswer: data.exampleAnswer }),
-  };
-}
-
-async function generateMicDrop(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<MicDropContent> {
-  const schema: AISchema = {
-    type: 'object',
-    properties: {
-      prompt: { type: 'string' },
-      targetKeywords: { type: 'array', items: { type: 'string' } },
-      exampleLine: { type: 'string' },
-    },
-    required: ['prompt', 'targetKeywords'],
-  };
-
-  const aiPrompt = `Generate a "Mic Drop" expressive writing prompt for an ESL closing activity.
-Topic: ${topic}
-${languageRule(difficulty)}
-${sourceContext}
-
-Create:
-- prompt: An expressive opinion or reflection prompt (max 15 words) asking for a powerful personal statement
-- targetKeywords: 4-6 vocabulary words from the topic that strong answers should use
-- exampleLine: A punchy, memorable model answer (1 sentence) — shown to teacher only
-
-Return JSON.`;
-
-  const data = await generateJSON<{ prompt: string; targetKeywords: string[]; exampleLine?: string }>(aiPrompt, schema);
-  return {
-    activityKey: 'mic-drop',
-    topicContext: topic,
-    prompt: data.prompt,
-    targetKeywords: data.targetKeywords ?? [],
-    ...(data.exampleLine && { exampleLine: data.exampleLine }),
-  };
-}
-
-async function generateLightningRound(topic: string, difficulty: Difficulty, sourceContext = ''): Promise<LightningRoundContent> {
-  const schema: AISchema = {
-    type: 'object',
-    properties: {
-      prompts: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            text: { type: 'string' },
-            targetKeywords: { type: 'array', items: { type: 'string' } },
-          },
-          required: ['text', 'targetKeywords'],
-        },
-      },
-    },
-    required: ['prompts'],
-  };
-
-  const aiPrompt = `Generate 4 rapid-fire closing prompts for an ESL Lightning Round activity.
-Topic: ${topic}
-${languageRule(difficulty)}
-${sourceContext}
-
-Create exactly 4 prompts in this order:
-1. Vocabulary recall — ask for one word or fact from the lesson
-2. Quick opinion — ask for a one-sentence personal view
-3. Practical application — ask how to use or apply something from the lesson
-4. Memorable takeaway — ask what they will remember
-
-Rules for EVERY prompt:
-- Maximum 8 words
-- Must be answerable with a single word, phrase, or short sentence
-- Do NOT write essay-style, open-ended discussion prompts
-- At least one prompt must directly contain a targetKeyword
-
-Good examples: "One rainforest animal?", "Biggest rainforest threat?", "Rainforest: helpful or dangerous?", "One way to protect forests?"
-Bad example: "What do you think about humanity's impact on the environment?"
-Do NOT start any prompt with: "What do you think", "Explain", or "Describe" — these produce essay answers and break the lightning format.
-
-Each prompt:
-- text: the prompt, max 8 words
-- targetKeywords: 2-4 key vocabulary words expected in strong answers
-
-Return JSON with a "prompts" array of exactly 4 items.`;
-
-  const data = await generateJSON<{ prompts: LightningRoundContent['prompts'] }>(aiPrompt, schema);
-  const prompts = Array.isArray(data.prompts) ? data.prompts.slice(0, 5) : [];
-  // Pad to minimum 3 if AI returned fewer
-  while (prompts.length < 3) {
-    prompts.push({ text: `What did you learn about ${topic}?`, targetKeywords: [] });
-  }
-  return { activityKey: 'lightning-round', topicContext: topic, prompts };
-}
-
-function generateOpinionShift(topic: string): OpinionShiftContent {
-  // Open, neutral reflection scaffolds the student completes in their OWN words. Deliberately
-  // static (not AI-written): AI versions kept finishing the thought with a specific opinion and
-  // assuming the student's mind had changed — which read as telling them what to conclude. A
-  // closing reflection should surface the student's own observation, change or no change.
-  return {
-    activityKey: 'opinion-shift',
-    topicContext: topic,
-    beforePrompt: 'Before today, I thought…',
-    nowPrompt: 'Now I think…',
   };
 }
 

@@ -294,7 +294,6 @@ export interface RankItChallenge {
   id: string;
   prompt: string;
   items: RankItItem[];
-  revealFacts: string[];
   /**
    * Optional "ideal" order as item ids, for challenges with a factual/objective
    * answer (e.g. ranking by a measurable quantity). Omitted for subjective/opinion
