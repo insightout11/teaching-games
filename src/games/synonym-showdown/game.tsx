@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Challenge, SynonymValidation } from './types';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 
@@ -371,7 +371,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
           )}
         </div>
         <div className="text-xs opacity-40">
-          {sessionSettings.difficulty} / {sessionSettings.topic}
+          {sessionSettings.difficulty} / {getDisplayTopic(sessionSettings, sourceMaterial)}
         </div>
       </div>
 

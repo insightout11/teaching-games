@@ -57,6 +57,23 @@ export function getEffectiveTopic(settings: SessionSettings): string {
   return settings.customTopic.trim() || settings.topic;
 }
 
+/**
+ * Human-facing lesson theme for on-screen labels (e.g. "Word must relate to X", the mode/topic
+ * chip). Source-grounded lessons — World Flight destinations, pasted/video/document sources —
+ * carry the theme in sourceMaterial.title while customTopic/topic stay at the generic 'General'
+ * default. Prefer the source title over a bare 'General' so labels aren't misleading. For AI
+ * generation use getEffectiveTopic (the routes ground on sourceMaterial separately); this is for
+ * display and topic-constraint text only.
+ */
+export function getDisplayTopic(
+  settings: SessionSettings,
+  sourceMaterial?: { title?: string } | null,
+): string {
+  const topic = getEffectiveTopic(settings);
+  if (topic && topic !== 'General') return topic;
+  return sourceMaterial?.title?.trim() || topic;
+}
+
 // Spin Wheel modifier for gamification
 export interface TurnModifier {
   multiplier: 1 | 2 | 3;

@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, GROUP_COLORS } from './types';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { ConnectionsChallenge, ConnectionsGroup, ConnectionsResult, GroupColor } from './types';
 
@@ -746,7 +746,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
           )}
         </div>
         <div className="text-xs opacity-40">
-          {sessionSettings.difficulty} / {sessionSettings.topic}
+          {sessionSettings.difficulty} / {getDisplayTopic(sessionSettings, sourceMaterial)}
         </div>
       </div>
 

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getDisplayTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { ExtendedChainLink, ValidationResult, BonusChallenge } from './types';
 
@@ -47,6 +47,12 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
   const isTeamMode = students.length >= 2;
   const difficultyRef = useRef(sessionSettings.difficulty);
   difficultyRef.current = sessionSettings.difficulty;
+
+  // Lesson theme for the topic bonus + generation. Prefers the source title over a bare 'General'
+  // (see getDisplayTopic). Kept in a ref so the memoised pickBonus reads the latest without re-creating.
+  const themeTopic = getDisplayTopic(sessionSettings, sourceMaterial);
+  const themeTopicRef = useRef(themeTopic);
+  themeTopicRef.current = themeTopic;
   const [teams, setTeams] = useState<Record<TeamId, TeamState>>({
     A: { name: 'Team Alpha', color: 'from-cyan-500 to-blue-500', borderColor: 'border-cyan-500/30', bgColor: 'bg-cyan-500/20', textColor: 'text-cyan-400', score: 0, members: [], currentMemberIndex: 0 },
     B: { name: 'Team Beta', color: 'from-orange-500 to-red-500', borderColor: 'border-orange-500/30', bgColor: 'bg-orange-500/20', textColor: 'text-orange-400', score: 0, members: [], currentMemberIndex: 0 },
@@ -130,7 +136,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
 
     switch (type) {
       case 'topic':
-        return { type: 'topic', description: `Word must relate to "${getEffectiveTopic(sessionSettings)}"` };
+        return { type: 'topic', description: `Word must relate to "${themeTopicRef.current}"` };
       case 'syllable':
         return { type: 'syllable', description: hard ? 'Use a word with 4+ syllables' : 'Use a word with 3+ syllables' };
       case 'letter': {
@@ -464,7 +470,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          topic: getEffectiveTopic(sessionSettings),
+          topic: themeTopic,
           difficulty: sessionSettings.difficulty,
           ...(sourceMaterial ? { sourceMaterial } : {}),
         })
@@ -934,7 +940,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           )}
         </div>
         <div className="text-xs opacity-40">
-          {sessionSettings.difficulty} / {sessionSettings.topic}
+          {sessionSettings.difficulty} / {themeTopic}
         </div>
       </div>
 

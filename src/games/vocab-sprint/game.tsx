@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus, ENGLISH_FACTS } from './types';
 import type { GameSentence, EvaluationResult } from './types';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 
 const EMPTY_SEEN: string[] = [];
@@ -537,7 +537,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             <div className="mb-6">
               <p className="text-xl mb-1 opacity-90 font-bold italic tracking-tight">Level Up Your Vocabulary</p>
               <p className="text-slate-500 text-[10px] uppercase tracking-widest font-black">
-                Race Mode: {sessionSettings.topic} / {sessionSettings.difficulty}
+                Race Mode: {getDisplayTopic(sessionSettings, sourceMaterial)} / {sessionSettings.difficulty}
               </p>
             </div>
             <button
@@ -599,7 +599,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
               <div className="flex justify-between items-center mt-4 border-t border-white/5 pt-3 gap-2 opacity-50 text-[8px] font-black uppercase tracking-widest">
                 <div className="flex gap-2">
                   <span>{sessionSettings.difficulty}</span>
-                  <span>{sessionSettings.topic}</span>
+                  <span>{getDisplayTopic(sessionSettings, sourceMaterial)}</span>
                 </div>
                 <p>{currentSentence.level === 'hard' ? "What's the precise term?" : 'Replace the highlighted word'}</p>
               </div>
@@ -882,7 +882,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           <div className="mb-6">
             <p className="text-xl mb-1 opacity-90 font-bold italic tracking-tight">Level Up Your Vocabulary</p>
             <p className="text-slate-500 text-[10px] uppercase tracking-widest font-black">
-              Mode: {sessionSettings.topic} / {sessionSettings.difficulty}
+              Mode: {getDisplayTopic(sessionSettings, sourceMaterial)} / {sessionSettings.difficulty}
             </p>
           </div>
 
@@ -946,7 +946,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             <div className="flex justify-between items-center mt-4 border-t border-white/5 pt-3 gap-2 opacity-50 text-[8px] font-black uppercase tracking-widest">
               <div className="flex gap-2">
                 <span>{sessionSettings.difficulty}</span>
-                <span>{sessionSettings.topic}</span>
+                <span>{getDisplayTopic(sessionSettings, sourceMaterial)}</span>
               </div>
               <p>{currentSentence?.level === 'hard' ? "What's the precise term?" : 'Replace the highlighted word'}</p>
             </div>

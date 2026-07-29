@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import { GamePhase } from './types';
@@ -532,7 +532,7 @@ export function GridRushGame({
             <span>·</span>
             <span>{sessionSettings.difficulty}</span>
             <span>·</span>
-            <span>{getEffectiveTopic(sessionSettings)}</span>
+            <span>{getDisplayTopic(sessionSettings, sourceMaterial)}</span>
           </div>
           <button
             onClick={startGame}

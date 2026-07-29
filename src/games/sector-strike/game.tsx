@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
 import type { InputSpec } from '@/lib/input-spec';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -192,6 +192,8 @@ export function SectorStrikeGame({
   const topic = getEffectiveTopic(sessionSettings);
   const { difficulty } = sessionSettings;
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  // Human-facing theme for fallback question text — prefers the source title over a bare 'General'.
+  const displayTopic = getDisplayTopic(sessionSettings, sourceMaterial);
   const questionMode = (config.questionMode as string) ?? 'both';
 
   // ── State ─────────────────────────────────────────────────────────────────
@@ -599,8 +601,8 @@ export function SectorStrikeGame({
       if (err instanceof Error && err.name === 'AbortError') return;
       if (livePhase() !== 'loading') return;
       const fallback = cell.qType === 'speaking'
-        ? `What do you know about ${topic}? Share at least two ideas.`
-        : `Which of the following is true about ${topic}?`;
+        ? `What do you know about ${displayTopic}? Share at least two ideas.`
+        : `Which of the following is true about ${displayTopic}?`;
       const fallbackOptions = [
         'It is commonly studied and discussed',
         'It has no real-world applications',
@@ -620,7 +622,7 @@ export function SectorStrikeGame({
       }
       setPhase('answering');
     }
-  }, [topic, difficulty, sourceMaterial, applyAutoBonus, onSetInputSpec, buildQuestionSpec]);
+  }, [topic, displayTopic, difficulty, sourceMaterial, applyAutoBonus, onSetInputSpec, buildQuestionSpec]);
 
   // ── Written answer vote handler — collect votes from the active team ──────
   const handleVote = useCallback((vote: GameRemoteVote) => {
