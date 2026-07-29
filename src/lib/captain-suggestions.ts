@@ -171,6 +171,14 @@ export function buildFallbackCaptainSuggestions(context: CaptainSuggestionsConte
 
   suggestions.push({
     id: makeId('fallback', suggestions.length),
+    kind: 'question',
+    title: 'Hot take',
+    rationale: 'A quick, punchy opinion prompt to re-energise the room.',
+    prompt: `What's your hot take on ${topic}? One bold sentence.`,
+  });
+
+  suggestions.push({
+    id: makeId('fallback', suggestions.length),
     kind: 'poll',
     title: 'Class pulse',
     rationale: stage
@@ -182,7 +190,7 @@ export function buildFallbackCaptainSuggestions(context: CaptainSuggestionsConte
     options: ['Examples', 'Problems', 'Solutions', 'Personal opinions'],
   });
 
-  return suggestions.slice(0, 3);
+  return suggestions.slice(0, 5);
 }
 
 export function buildCaptainSuggestionsPrompt(context: CaptainSuggestionsContext): string {
@@ -245,11 +253,11 @@ ${telemetryLines.length > 0 ? `\nLive class signals:\n${telemetryLines.join('\n'
 Recent student writing:
 ${submissionLines.length > 0 ? submissionLines.join('\n') : '(none yet)'}
 
-Create exactly 3 teacher-facing suggestions — the 3 most valuable moves RIGHT NOW. Keep them short enough to read while teaching.
+Create 5 teacher-facing suggestions, PRIORITISING questions: at least 3 different short QUESTION options the teacher can choose between, plus (only if genuinely useful right now) one spotlight and/or one poll. The teacher taps just one. Keep them short enough to read while teaching.
 
 Allowed kinds:
 - spotlight: choose one exact sourceSubmissionId from the list — a student contribution worth celebrating on the shared screen. Add "tag" (question, answer, idea, example, hot-take, or wordcraft) and "highlight": the strongest 2-6 word phrase copied EXACTLY from that submission.
-- question: a short side-panel writing prompt. It MUST be answerable only from the student's own head — an opinion, prediction, preference, or personal experience tied to this lesson. Never a fact-recall question that could be looked up or pasted into a chatbot.
+- question: a short, PUNCHY side-panel prompt — a quick opinion, hot take, "would you rather", prediction, or personal reaction tied to this lesson. Make students WANT to answer; conversational, never dry or academic. It MUST be answerable only from the student's own head (an opinion/experience), never fact-recall a chatbot could answer. Give the 3 questions genuinely different angles.
 - poll: a quick side-panel poll tied to what just happened. Include 2-4 short options.
 
 Rules:
@@ -260,7 +268,7 @@ Rules:
 - No markdown.
 - title <= 5 words.
 - rationale <= 16 words.
-- prompt <= 28 words.
+- prompt <= 16 words (questions punchier — aim for 8-12).
 - Poll options <= 5 words each.
 - Use a real sourceSubmissionId only when kind is spotlight.`;
 }
@@ -313,7 +321,7 @@ export function sanitizeCaptainSuggestions(
     }
 
     cleaned.push(suggestion);
-    if (cleaned.length >= 3) break;
+    if (cleaned.length >= 5) break;
   }
 
   if (cleaned.length >= 2) return cleaned;
