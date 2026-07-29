@@ -122,7 +122,7 @@ export function OpinionShiftActivity({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-indigo-400">Opinion Shift</h3>
+        <h3 className="text-lg font-semibold text-indigo-400">Final Reflection</h3>
         {phase === 'collecting' && (
           <span className="text-sm opacity-60">{submissionCount} submitted</span>
         )}

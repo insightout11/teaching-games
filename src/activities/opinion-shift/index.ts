@@ -4,8 +4,8 @@ import { ArrowRightLeft } from 'lucide-react';
 
 export const opinionShiftPlugin: ActivityPlugin = {
   key: 'opinion-shift',
-  name: 'Opinion Shift',
-  description: 'Students reflect on how their thinking has changed. Before vs. now.',
+  name: 'Final Reflection',
+  description: 'Students reflect on the lesson in their own words — what they think now, changed or not.',
   category: 'closing',
   pppStage: 'landing',
   skills: ['Critical Thinking', 'Speaking'],

@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     } else if (activityKey === 'mic-drop') {
       content = await generateMicDrop(topic, difficulty);
     } else if (activityKey === 'opinion-shift') {
-      content = await generateOpinionShift(topic, difficulty);
+      content = generateOpinionShift(topic);
     } else {
       content = await generateLightningRound(topic, difficulty);
     }
@@ -150,29 +150,16 @@ Return JSON.`;
   };
 }
 
-async function generateOpinionShift(topic: string, difficulty: Difficulty): Promise<OpinionShiftContent> {
-  const schema: AISchema = {
-    type: 'object',
-    properties: {
-      beforePrompt: { type: 'string' },
-      nowPrompt: { type: 'string' },
-    },
-    required: ['beforePrompt', 'nowPrompt'],
+function generateOpinionShift(topic: string): OpinionShiftContent {
+  // Open, neutral reflection scaffolds the student completes in their OWN words. Deliberately
+  // static (not AI-written): AI versions finished the thought with a specific opinion and assumed
+  // the student's view had changed, reading as if telling them what to conclude.
+  return {
+    activityKey: 'opinion-shift',
+    topicContext: topic,
+    beforePrompt: 'Before today, I thought…',
+    nowPrompt: 'Now I think…',
   };
-
-  const aiPrompt = `Generate an "Opinion Shift" closing reflection activity for an ESL class.
-Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
-
-Create two sentence starters for a Before/Now reflection:
-- beforePrompt: A sentence starter beginning with "Before this lesson I thought..." — students complete it to describe their original thinking about the topic (max 12 words)
-- nowPrompt: A sentence starter beginning with "Now I think..." or "Now I believe..." — students complete it to show how their thinking has changed (max 12 words)
-
-The two prompts should contrast clearly to highlight learning progression.
-Return JSON.`;
-
-  const data = await generateJSON<{ beforePrompt: string; nowPrompt: string }>(aiPrompt, schema);
-  return { activityKey: 'opinion-shift', topicContext: topic, beforePrompt: data.beforePrompt, nowPrompt: data.nowPrompt };
 }
 
 async function generateLightningRound(topic: string, difficulty: Difficulty): Promise<LightningRoundContent> {
