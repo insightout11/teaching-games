@@ -158,9 +158,9 @@ No preamble, no numbering.`;
           question: `Which of the following is true about ${topic}?`,
           options: [
             `It is commonly studied and discussed`,
-            `It has no real-world applications`,
-            `It was invented last year`,
-            `It only exists in one country`,
+            `It is mostly a modern invention`,
+            `It matters only to specialists`,
+            `It has little effect on daily life`,
           ],
           correctIndex: 0,
           degraded: true,

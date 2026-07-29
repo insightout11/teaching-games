@@ -1178,32 +1178,19 @@ export function DecisionCouncilActivity({
           <p className="text-xs uppercase tracking-widest opacity-40 mb-1">Students are voting</p>
           <p className="text-sm opacity-60 line-clamp-2">{content.councilQuestion}</p>
         </div>
+        {/* Options only while the vote is open — the split is held back until END VOTE so the
+            projected screen can't sway the class toward the leading proposal. */}
         <div className="space-y-3">
-          {voteStats.map(({ proposal, label, count }) => {
-            const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
-            return (
-              <div key={label} className="glass p-4 rounded-xl border border-white/10 space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2 min-w-0 flex-1">
-                    <span className="w-7 h-7 rounded-full bg-indigo-500 text-white font-bold text-sm flex items-center justify-center shrink-0">
-                      {label}
-                    </span>
-                    <p className="text-xs opacity-60 truncate">{proposal.text}</p>
-                  </div>
-                  <span className="shrink-0 text-sm font-semibold">
-                    {count}{' '}
-                    <span className="opacity-40 font-normal text-xs">({pct}%)</span>
-                  </span>
-                </div>
-                <div className="bg-white/10 rounded-full h-2.5 overflow-hidden">
-                  <div
-                    className="h-full bg-indigo-500 rounded-full transition-all duration-500"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
+          {voteStats.map(({ proposal, label }) => (
+            <div key={label} className="glass p-4 rounded-xl border border-white/10">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-7 h-7 rounded-full bg-indigo-500 text-white font-bold text-sm flex items-center justify-center shrink-0">
+                  {label}
+                </span>
+                <p className="text-xs opacity-60 truncate">{proposal.text}</p>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
         <p className="text-center text-xs opacity-40">
           {totalVotes} of {students.length} voted
