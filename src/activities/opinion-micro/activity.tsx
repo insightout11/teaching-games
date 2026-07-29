@@ -155,20 +155,23 @@ export function OpinionMicroActivity({
           animate={{ opacity: 1 }}
           className="space-y-6"
         >
+          {/* Options only — the split and voter names are held back until END VOTING so the
+              projected screen can't nudge the class or expose who picked what. */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="glass p-6 rounded-2xl border-2 border-lc-blue/25">
               <p className="text-lc-blue text-sm font-bold mb-2">Option A</p>
-              <p className="text-base font-semibold mb-3">{dilemma.optionA}</p>
-              <p className="text-4xl font-game text-lc-blue mb-1">{stats.aCount}</p>
-              <p className="text-xs opacity-50">{stats.aVoters.join(', ') || 'Waiting...'}</p>
+              <p className="text-base font-semibold">{dilemma.optionA}</p>
             </div>
             <div className="glass p-6 rounded-2xl border-2 border-sky-400/30">
               <p className="text-sky-400 text-sm font-bold mb-2">Option B</p>
-              <p className="text-base font-semibold mb-3">{dilemma.optionB}</p>
-              <p className="text-4xl font-game text-sky-400 mb-1">{stats.bCount}</p>
-              <p className="text-xs opacity-50">{stats.bVoters.join(', ') || 'Waiting...'}</p>
+              <p className="text-base font-semibold">{dilemma.optionB}</p>
             </div>
           </div>
+          <p className="text-center text-sm opacity-50">
+            {votes.length === 0
+              ? 'Waiting for votes…'
+              : `${votes.length} vote${votes.length !== 1 ? 's' : ''} in`}
+          </p>
           <div className="flex justify-center">
             <button
               onClick={endVoting}

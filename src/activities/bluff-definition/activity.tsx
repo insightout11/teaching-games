@@ -205,9 +205,6 @@ export function BluffDefinitionActivity({
 
   const submittedCount = Object.keys(submissions).length;
   const voteCount = Object.keys(votes).length;
-  const voteTally = shuffledOptions.map((o) =>
-    Object.values(votes).filter((v) => v === o.text).length
-  );
 
   // ─── IDLE ─────────────────────────────────────────────────────────────────────
   if (phase === 'idle') {
@@ -304,30 +301,19 @@ export function BluffDefinitionActivity({
 
         <p className="text-xs opacity-40 uppercase tracking-wide">Students are choosing on their devices…</p>
 
+        {/* Options only — per-option vote counts/bars are held back until reveal so the class
+            can't see which definition is leading (and copy it). */}
         <div className="space-y-3">
-          {shuffledOptions.map((option, i) => {
-            const count = voteTally[i];
-            const pct = voteCount > 0 ? Math.round((count / voteCount) * 100) : 0;
-            return (
-              <div key={i} className="glass p-3 rounded-xl border border-white/10 space-y-1.5">
-                <div className="flex items-start gap-3">
-                  <span className="text-xs font-bold text-violet-400 mt-0.5 w-5 shrink-0 text-center">
-                    {OPTION_LABELS[i]}
-                  </span>
-                  <p className="text-sm leading-snug flex-1">{option.text}</p>
-                  <span className="text-xs opacity-40 shrink-0">{count}</span>
-                </div>
-                {voteCount > 0 && (
-                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden ml-8">
-                    <div
-                      className="h-full bg-gradient-to-r from-violet-500 to-purple-600 rounded-full transition-all duration-500"
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
-                )}
+          {shuffledOptions.map((option, i) => (
+            <div key={i} className="glass p-3 rounded-xl border border-white/10">
+              <div className="flex items-start gap-3">
+                <span className="text-xs font-bold text-violet-400 mt-0.5 w-5 shrink-0 text-center">
+                  {OPTION_LABELS[i]}
+                </span>
+                <p className="text-sm leading-snug flex-1">{option.text}</p>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
 
         <div className="flex justify-end">

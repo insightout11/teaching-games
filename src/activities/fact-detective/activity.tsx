@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type FactDetectiveContent, type FactDetectiveClaim } from './types';
@@ -59,18 +59,6 @@ export function FactDetectiveActivity({
 
     return () => onRegisterRemoteVoteHandler?.(null);
   }, [status, onRegisterRemoteVoteHandler]);
-
-  // Vote statistics
-  const voteStats = useMemo(() => {
-    const trueVotes = votes.filter((v) => v.believesTrue);
-    const falseVotes = votes.filter((v) => !v.believesTrue);
-    return {
-      trueCount: trueVotes.length,
-      falseCount: falseVotes.length,
-      trueVoters: trueVotes.map((v) => v.studentName),
-      falseVoters: falseVotes.map((v) => v.studentName),
-    };
-  }, [votes]);
 
   const startActivity = useCallback(() => {
     scoredVotesRef.current = new Set();
@@ -246,18 +234,21 @@ export function FactDetectiveActivity({
             <p className="text-lg">&ldquo;{currentClaim.statement}&rdquo;</p>
           </div>
 
+          {/* Options only — the split and voter names are held back until reveal so the
+              projected screen can't nudge the class toward the popular answer. */}
           <div className="grid grid-cols-2 gap-4">
             <div className="glass p-6 rounded-2xl border-2 border-green-500/30 text-center">
-              <p className="text-green-400 font-bold mb-2">TRUE</p>
-              <p className="text-4xl font-game text-green-400 mb-2">{voteStats.trueCount}</p>
-              <p className="text-xs opacity-60">{voteStats.trueVoters.join(', ') || 'No votes'}</p>
+              <p className="text-green-400 font-bold">TRUE</p>
             </div>
             <div className="glass p-6 rounded-2xl border-2 border-red-500/30 text-center">
-              <p className="text-red-400 font-bold mb-2">FALSE</p>
-              <p className="text-4xl font-game text-red-400 mb-2">{voteStats.falseCount}</p>
-              <p className="text-xs opacity-60">{voteStats.falseVoters.join(', ') || 'No votes'}</p>
+              <p className="text-red-400 font-bold">FALSE</p>
             </div>
           </div>
+          <p className="text-center text-sm opacity-60">
+            {votes.length === 0
+              ? 'Waiting for votes…'
+              : `${votes.length} vote${votes.length !== 1 ? 's' : ''} in`}
+          </p>
 
           <div className="flex justify-center">
             <button
