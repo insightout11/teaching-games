@@ -130,6 +130,40 @@ async function awardWorldFlightProgression(
   };
 }
 
+/**
+ * Captain of the Day: crown the session's top scorer(s) among roster students so they can wear
+ * the wings insignia next session. Ties → every tied student is crowned. Leaves the previous
+ * captain(s) untouched when this session has no roster winner (no scores, or only anonymous
+ * joiners), so the honor persists rather than vanishing after a scoreless meeting.
+ */
+async function persistCaptainOfTheDay(classId: string, sessionId: string) {
+  const service = createServiceClient();
+  const { data: scores } = await service
+    .from('scores')
+    .select('student_id, points, streak_bonus, counts_for_leaderboard')
+    .eq('session_id', sessionId);
+  if (!scores || scores.length === 0) return;
+
+  const totals = new Map<string, number>();
+  for (const score of scores) {
+    if (!score.student_id) continue; // roster students only — insignia needs a durable identity
+    if (score.counts_for_leaderboard === false) continue;
+    const pts = (score.points ?? 0) + (score.streak_bonus ?? 0);
+    totals.set(score.student_id, (totals.get(score.student_id) ?? 0) + pts);
+  }
+  if (totals.size === 0) return;
+
+  const max = Math.max(...Array.from(totals.values()));
+  if (max <= 0) return; // nobody scored positively — keep the reigning captain
+
+  const winners = Array.from(totals.entries()).filter(([, v]) => v === max).map(([id]) => id);
+
+  // Clear the whole class, then crown the new captain(s). Single teacher ends a session, so
+  // the two writes don't race.
+  await service.from('students').update({ is_captain_of_the_day: false }).eq('class_id', classId);
+  await service.from('students').update({ is_captain_of_the_day: true }).in('id', winners);
+}
+
 async function getCompletedCourseContext(sessionId: string) {
   const service = createServiceClient();
   const { data: lesson, error } = await service
@@ -255,6 +289,13 @@ export async function POST(request: Request) {
     } catch (courseError) {
       console.error('[api/session/end] course lesson completion error:', courseError);
     }
+  }
+
+  // Crown Captain of the Day for the next session (best-effort; never blocks ending).
+  try {
+    await persistCaptainOfTheDay(ownership.session.class_id, sessionId);
+  } catch (captainError) {
+    console.error('[api/session/end] captain of the day error:', captainError);
   }
 
   const worldFlightData = data as { legStatus?: string; currentDestinationId?: string | null } | null;

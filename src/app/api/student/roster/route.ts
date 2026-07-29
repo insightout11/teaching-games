@@ -43,6 +43,18 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ students: [] });
     }
 
+    // Prefer the captain flag; fall back gracefully if the column isn't migrated yet so the
+    // join picker never breaks (wings simply won't appear until 053 is applied).
+    const withCaptain = await supabase
+      .from('students')
+      .select('id, name, avatar_seed, is_captain_of_the_day')
+      .eq('class_id', session.class_id)
+      .order('name');
+
+    if (!withCaptain.error) {
+      return NextResponse.json({ students: withCaptain.data ?? [] });
+    }
+
     const { data: students } = await supabase
       .from('students')
       .select('id, name, avatar_seed')

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { AVATAR_SEEDS, HELMET_AVATAR_SEEDS, CAPTAIN_AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl } from '@/lib/avatar-options';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { Team } from '@/lib/supabase/types';
 import { trackEvent } from '@/lib/analytics/posthog';
 
@@ -13,6 +14,7 @@ interface RosterStudent {
   id: string;
   name: string;
   avatar_seed: string;
+  is_captain_of_the_day?: boolean;
 }
 
 interface StudentSession {
@@ -21,6 +23,8 @@ interface StudentSession {
   displayName: string;
   team: Team | null;
   avatarSeed: string;
+  /** Reigning Captain of the Day — wears the wings insignia this session. */
+  captain?: boolean;
 }
 
 interface NameEntryProps {
@@ -203,6 +207,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
       displayName,
       team: null,
       avatarSeed,
+      captain: !freeTextMode && !!selected?.is_captain_of_the_day,
     };
 
     try {
@@ -310,13 +315,10 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                           : 'bg-white/5 hover:bg-white/10'
                       }`}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={avatarUrl(selected?.id === student.id ? avatarSeed : student.avatar_seed)}
-                        alt=""
-                        width={40}
-                        height={40}
-                        className="h-10 w-10 flex-shrink-0 rounded-lg"
+                      <CrewAvatar
+                        seed={selected?.id === student.id ? avatarSeed : student.avatar_seed}
+                        captain={!!student.is_captain_of_the_day}
+                        size={40}
                       />
                       <span className="font-semibold text-white">{student.name}</span>
                       {selected?.id === student.id && (
@@ -326,6 +328,19 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                   ))
                 )}
               </div>
+
+              {/* Captain of the Day — welcome the returning winner */}
+              {selected?.is_captain_of_the_day && (
+                <div className="flex items-center gap-2.5 rounded-xl border border-amber-400/30 bg-amber-400/10 px-3 py-2.5">
+                  <CrewAvatar seed={avatarSeed} captain size={34} />
+                  <div>
+                    <p className="font-instrument text-[10px] uppercase tracking-[0.2em] text-amber-300/90">
+                      Captain of the Day
+                    </p>
+                    <p className="text-sm font-semibold text-white">Welcome back, Captain — you&apos;re wearing the wings.</p>
+                  </div>
+                </div>
+              )}
 
               {/* Avatar picker — shown only after selecting a name */}
               {selected && (
