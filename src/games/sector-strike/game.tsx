@@ -146,11 +146,13 @@ function threatTeam(cells: Cell[]): Team | null {
 function buildCells(questionMode: string): Cell[] {
   const positions = shuffle(Array.from({ length: 64 }, (_, i) => i));
   const bonusMap: Record<number, BonusType> = {};
+  // ~14 of 64 sectors carry a power-up (was 8) so modifiers show up often enough to shape play,
+  // skewed toward the fun/positive ones over the disruptive steal/bomb.
   const bonusTypes: BonusType[] = [
-    'double-down', 'double-down',
-    'steal', 'steal',
-    'free-square', 'free-square',
-    'bomb', 'bomb',
+    'double-down', 'double-down', 'double-down', 'double-down',
+    'free-square', 'free-square', 'free-square', 'free-square',
+    'steal', 'steal', 'steal',
+    'bomb', 'bomb', 'bomb',
   ];
   bonusTypes.forEach((b, i) => { bonusMap[positions[i]] = b; });
 
@@ -955,7 +957,7 @@ export function SectorStrikeGame({
                   <BonusIcon bonus={cell.bonus} className="w-3.5 h-3.5 text-yellow-400" />
                 )}
                 {!cell.team && !cell.bonusRevealed && phase === 'picking' && (
-                  <span className="opacity-25 text-[9px] font-mono text-sky-200">{cell.index + 1}</span>
+                  <span className="text-[11px] font-mono font-semibold text-sky-200/70">{cell.index + 1}</span>
                 )}
                 {/* Target-lock reticle on the chosen sector */}
                 {showLock && (
