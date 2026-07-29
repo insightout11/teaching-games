@@ -323,7 +323,7 @@ export function HotTakeArenaActivity({
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-semibold text-orange-400">Hot Take Arena</h3>
-          {customTopic && <p className="text-xs opacity-60">Topic: {customTopic}</p>}
+          {customTopic && customTopic !== 'General' && <p className="text-xs opacity-60">Topic: {customTopic}</p>}
         </div>
         {status === ActivityStatus.DEBATE && (
           <div className="flex gap-3 text-sm">

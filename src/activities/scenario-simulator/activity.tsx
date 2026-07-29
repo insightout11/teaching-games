@@ -399,7 +399,7 @@ export function ScenarioSimulatorActivity({
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-semibold text-lc-blue">Scenario Simulator</h3>
-          {customTopic && <p className="text-xs opacity-60">Topic: {customTopic}</p>}
+          {customTopic && customTopic !== 'General' && <p className="text-xs opacity-60">Topic: {customTopic}</p>}
         </div>
         {status !== ActivityStatus.IDLE && status !== ActivityStatus.OUTCOME && (
           <span className="text-sm opacity-50">Round {currentRound + 1} / 5</span>

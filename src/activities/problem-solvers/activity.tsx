@@ -341,7 +341,7 @@ export function ProblemSolversActivity({
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-semibold text-lime-400">Problem Solvers</h3>
-          {customTopic && (
+          {customTopic && customTopic !== 'General' && (
             <p className="text-xs opacity-60">Topic: {customTopic}</p>
           )}
         </div>

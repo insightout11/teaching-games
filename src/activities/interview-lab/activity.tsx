@@ -149,7 +149,7 @@ export function InterviewLabActivity({
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-semibold text-teal-400">Interview Lab</h3>
-          {customTopic && (
+          {customTopic && customTopic !== 'General' && (
             <p className="text-xs opacity-60">Topic: {customTopic}</p>
           )}
         </div>
