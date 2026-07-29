@@ -109,11 +109,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const randomSeed = Math.random().toString(36).substring(7);
-    const prompt = `Generate one classroom question about "${topic}" for ESL learners.
+    const prompt = `LANGUAGE RULE (follow strictly, even if the source is more advanced): ${difficultyDescriptions[difficulty]}
 
-Language level: ${difficultyDescriptions[difficulty]}
+Generate one question about "${topic}" for ESL learners in a FAST-PACED game.
 Random seed: ${randomSeed}
-${sourceContext}${sourceContext ? 'The question MUST be answerable from the source material above and test understanding of what it actually says.\n' : ''}
+${sourceContext}${sourceContext ? 'The question MUST be answerable from the source material above and test what it actually says — but rewrite it in simple, everyday words.\n' : ''}
+The QUESTION STEM must be ONE short, plain sentence (≤18 words), quick to read at a glance in a game. No long or nested clauses, no academic jargon, no abstract nominalizations ("public memory is constructed rather than inherited...").
 ${qType === 'speaking' ? speakingPromptSuffix() : writtenPromptSuffix()}
 
 No preamble, no numbering.`;

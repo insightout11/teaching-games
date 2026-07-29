@@ -150,11 +150,13 @@ async function generateWouldYouRather(topic: string, difficulty: Difficulty, mis
     required: ['dilemmas', 'potentialFollowUps'],
   };
 
-  const prompt = `Generate 5 "Would You Rather?" dilemmas for an ESL classroom.
+  const prompt = `LANGUAGE RULE (follow strictly, even if the source below is more advanced): ${difficultyDescriptions[difficulty]}
+
+Generate 5 "Would You Rather?" dilemmas for an ESL classroom.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
 ${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
 Each dilemma needs two options (both appealing OR both unappealing), a discussion prompt, and 3 follow-up questions.
+- Each option is ONE short, plain sentence (aim ≤14 words) in everyday words. Rewrite any source ideas simply — no long academic clauses, no abstract nominalizations ("the preservation of...", "reduce present-day harm").
 Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dilemmaId and questions).`;
 
   const parsed = await generateJSON<{ dilemmas: WouldYouRatherContent['dilemmas']; potentialFollowUps: Array<{ dilemmaId: string; questions: string[] }> }>(prompt, schema);
@@ -230,13 +232,15 @@ async function generateDecisionCouncil(topic: string, difficulty: Difficulty, mi
     required: ['councilQuestion', 'contextBrief', 'stanceOptions', 'usefulPhrases', 'challengeStarters'],
   };
 
-  const prompt = `Generate content for an ESL "Decision Council" production speaking activity about: "${topic}"
-Difficulty: ${difficultyDescriptions[difficulty]}
+  const prompt = `LANGUAGE RULE (follow strictly, even if the source below is more advanced): ${difficultyDescriptions[difficulty]}
+
+Generate content for an ESL "Decision Council" production speaking activity about: "${topic}"
 ${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
+Write EVERYTHING in plain language at the level above — short sentences, common words, no academic jargon or abstract nominalizations. Even when grounding in the source, simplify the wording.
 Rules:
-- councilQuestion: One open-ended decision question ≤20 words. Must feel real and debatable. E.g. "What should the school do about phone use during lessons?"
-- contextBrief: 2–3 sentences of background. Students must read it in under 30 seconds. Match the difficulty level.
-- stanceOptions: 3–4 possible positions students might take (short noun phrases ≤8 words each). E.g. "Ban phones entirely", "Allow limited use during breaks".
+- councilQuestion: One open-ended decision question ≤16 words in everyday words. Must feel real and debatable. E.g. "What should the school do about phone use in lessons?"
+- contextBrief: 2–3 short sentences of background. Students must read it in under 30 seconds.
+- stanceOptions: 3–4 possible positions students might take (short, plain noun phrases ≤7 words each). E.g. "Ban phones entirely", "Allow use during breaks".
 - sourceDetails: ${sourceContext ? '3–5 key facts drawn directly from the source material above.' : 'Leave as empty array — no source provided.'}
 - usefulPhrases: 5–6 sentence starters for proposing and defending. E.g. "I believe we should...", "The strongest reason is...", "Evidence shows that..."
 - challengeStarters: 4–5 sentence starters for challenging other proposals. E.g. "Have you considered...", "What about the impact on...", "Couldn't we argue that..."
@@ -269,18 +273,20 @@ async function generateTeamDebate(topic: string, difficulty: Difficulty, mission
     required: ['motion', 'context', 'forLabel', 'againstLabel', 'forPrompts', 'againstPrompts', 'usefulPhrases'],
   };
 
-  const prompt = `Generate content for an ESL "Team Debate": two teams argue a motion (Opening → Rebuttal → Closing).
+  const prompt = `LANGUAGE RULE (follow strictly, even if the source below is more advanced): ${difficultyDescriptions[difficulty]}
+
+Generate content for an ESL "Team Debate": two teams argue a motion (Opening → Rebuttal → Closing).
 Topic: "${topic}"
-Difficulty: ${difficultyDescriptions[difficulty]}
 ${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
+Write EVERYTHING (motion, context, angles, phrases) in plain language at the level above — short sentences, common words, no academic jargon or abstract nominalizations. Even when grounding in the source, simplify the wording.
 Rules:
-- motion: One clear, genuinely two-sided debate motion. Phrase as a statement, ideally starting "This house believes that...". Must have credible arguments on BOTH sides. ≤20 words.
-- context: 2–3 sentences of neutral background students can read in ~30 seconds. Do NOT take a side. Match the difficulty level.
+- motion: One clear, genuinely two-sided debate motion. Phrase as a statement, ideally starting "This house believes that...". Credible arguments on BOTH sides. ≤16 words, everyday words.
+- context: 2–3 short, neutral sentences students can read in ~30 seconds. Do NOT take a side.
 - forLabel / againstLabel: Short stance labels (≤5 words each) for the two sides — e.g. "For" / "Against", or position-specific like "Ban it" / "Allow it".
-- forPrompts: 3–4 concrete argument angles supporting the motion (short phrases the For team can build on).
-- againstPrompts: 3–4 concrete argument angles opposing the motion (for the Against team).
-- usefulPhrases: 5–6 debate language starters usable by either side. E.g. "We strongly believe that...", "The evidence shows...", "Our opponents claim... however...", "In conclusion...".
-${sourceContext ? '- Ground the motion, context, and argument angles in the source material above.' : ''}
+- forPrompts: 3–4 concrete argument angles supporting the motion — short, plain phrases (≤12 words) the For team can build on.
+- againstPrompts: 3–4 concrete argument angles opposing the motion (for the Against team) — short, plain phrases (≤12 words).
+- usefulPhrases: 5–6 simple debate starters usable by either side. E.g. "We believe that...", "The evidence shows...", "Our opponents say... but...", "In conclusion...".
+${sourceContext ? '- Ground the motion, context, and argument angles in the source material above — but keep the wording simple.' : ''}
 Return JSON only.`;
 
   const parsed = await generateJSON<{
@@ -419,12 +425,14 @@ async function generateFactDetective(topic: string, difficulty: Difficulty, miss
     required: ['claims'],
   };
 
-  const prompt = `Generate 6 fact/myth claims for "Fact Detective" ESL activity.
+  const prompt = `LANGUAGE RULE (follow strictly, even if the source below is more advanced): ${difficultyDescriptions[difficulty]}
+
+Generate 6 fact/myth claims for "Fact Detective" ESL activity.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
 ${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
+Write each claim as ONE short, plain sentence in everyday words — no academic jargon or abstract nominalizations. Even when grounding in the source, simplify the wording.
 Mix of true facts and plausible myths. Include explanation and 2-3 vocabulary words per claim, each with a short student-facing definition (max 15 words).
-Make claims progressively harder to guess.`;
+Make claims progressively harder to guess (by content, not by harder vocabulary).`;
 
   const parsed = await generateJSON<{ claims: FactDetectiveContent['claims'] }>(prompt, schema);
   return { activityKey: 'fact-detective', topicContext: topic, claims: parsed.claims };

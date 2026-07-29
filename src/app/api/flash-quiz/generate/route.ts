@@ -238,6 +238,7 @@ Difficulty: ${difficultyDescriptions[difficulty]}
 Timer per question: ${TIMER_SECONDS} seconds
 Random seed (for variety): ${randomSeed}
 ${sourceContext}${sourceContext ? '\nEvery question, option, and explanation MUST be answerable from the source material above — test comprehension of what it actually says, not outside general knowledge.\n' : ''}
+Keep every QUESTION STEM and all 4 options SHORT and plain (question ≤16 words), quick to read within the timer. Everyday words only — no academic jargon, no long nested clauses or abstract nominalizations — even if the source is more advanced.
 QUESTION STYLE — adapt to the topic:
 - Grammar topics (tenses, conditionals, articles, etc.) → sentence correction or fill-in-the-blank style
 - Vocabulary topics (business, academic, travel, etc.) → definition, synonym, or usage-in-context
