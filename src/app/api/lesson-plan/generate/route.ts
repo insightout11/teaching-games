@@ -8,7 +8,7 @@ import { isValidStandardTopicId, getStandardTopicLabel } from '@/lib/standard-to
 const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
   bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
 import type { Difficulty } from '@/lib/difficulty';
-import { difficultyDescriptions } from '@/lib/difficulty';
+import { difficultyDescriptions, languageRule } from '@/lib/difficulty';
 import { TargetTone } from '@/games/tone-transformer/types';
 import type {
   LessonPlanGenerateRequest,
@@ -204,7 +204,7 @@ async function generateHotTakeArena(topic: string, difficulty: Difficulty, missi
   };
 
   const prompt = `Generate a debate for ESL "Hot Take Arena" about the topic: "${topic}"
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}The "statement" field MUST be a bold opinionated assertion specifically about "${topic}" that students can AGREE or DISAGREE with — NOT a question. It should take a clear stance (e.g. if the topic is guitars: "Electric guitars are superior to acoustic in every way"). Never use question marks in the statement.
 Create 3-4 pro/con arguments, 3 devil's advocate challenges per side, and 5-8 vocabulary words, each with a short student-facing definition (max 15 words).`;
 
@@ -336,7 +336,7 @@ async function generateTwoTruths(topic: string, difficulty: Difficulty, missionC
 
   const prompt = `Generate 5 rounds of "Two Truths & A Fabrication" for ESL class.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
 Each round: 3 statements (2 true, 1 false about the topic), fabricationIndex (0-2), explanation why it's false.
 Mix difficulty levels (easy/medium/hard).`;
@@ -381,7 +381,7 @@ async function generateRankIt(topic: string, difficulty: Difficulty, missionCont
 
   const prompt = `Generate 3 "Rank It!" challenges for ESL class.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
 CRITICAL: Every challenge, every item being ranked, and every hidden fact MUST be specifically about "${topic}". Do not drift to any other place, person, or subject. If a source is provided above, draw the items and facts from it.
 Each challenge: a ranking prompt about "${topic}", with 4-5 items (all about "${topic}") and a hidden fact per item that might change minds.
@@ -472,7 +472,7 @@ async function generateExpertPanel(topic: string, difficulty: Difficulty, n: num
 
   const prompt = `Generate an "Expert Panel" talk show activity for an ESL class of ${n} students.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
 Create exactly ${n} expert role cards — one per student.
 Each role: id (slug like "role-1"), title (2–4 words), tags (exactly 3 short noun phrases, max 3 words each),
@@ -623,7 +623,7 @@ async function generateInterviewLab(topic: string, difficulty: Difficulty, missi
 
   const prompt = `Generate an "Interview Lab" character for ESL class.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${pppContextBlock('production')}${missionContextBlock(missionContext)}${sourceContext}
 Create an interesting character to interview:
 - Name, role, background, personality
@@ -763,7 +763,7 @@ async function generateWonderBoard(topic: string, difficulty: Difficulty, source
 
   const prompt = `Generate one short sentence a teacher can say to introduce a student question board about this topic.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 
 The sentence should invite students to ask questions about the topic. It should be natural, encouraging, and under 20 words.
@@ -801,7 +801,7 @@ async function generateQuickPulse(topic: string, difficulty: Difficulty, sourceC
 
   const prompt = `Generate 3 quick icebreaker mini-prompts for an ESL classroom about the topic below.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 
 Prompt types (use this exact order): likert, yesno, likert
@@ -859,7 +859,7 @@ async function generateVocabRadar(topic: string, difficulty: Difficulty, sourceC
 
   const prompt = `Generate 5 key vocabulary words for an ESL classroom lesson about the topic below.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 
 Choose words that:
@@ -916,7 +916,7 @@ async function generateSourceVocab(topic: string, difficulty: Difficulty, source
     : `Choose terms that will recur naturally in student discussion about the topic: ${topic}.`;
 
   const aiPrompt = `Generate 6 vocabulary terms for an ESL classroom lesson.
-${isSourceGrounded ? '' : `Topic: ${topic}\n`}Difficulty: ${difficultyDescriptions[difficulty]}
+${isSourceGrounded ? '' : `Topic: ${topic}\n`}${languageRule(difficulty)}
 ${extractInstruction}
 
 For each term provide:
@@ -991,7 +991,7 @@ async function generatePredictionRound(topic: string, difficulty: Difficulty, so
 
   const prompt = `Generate 3 prediction questions for an ESL classroom lesson about the topic below.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 ${sourceInstruction}
 Each question should:
@@ -1065,7 +1065,7 @@ async function generateListeningGapFill(
 
   const prompt = `Generate 5–6 gap-fill sentences for an ESL classroom listening activity.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${grammarLine}
 ${sourceContext}
 
@@ -1439,7 +1439,7 @@ async function generateFinalAnswer(topic: string, difficulty: Difficulty, source
 
   const aiPrompt = `Generate a closing consolidation prompt for an ESL class.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 
 Create:
@@ -1474,7 +1474,7 @@ async function generateMicDrop(topic: string, difficulty: Difficulty, sourceCont
 
   const aiPrompt = `Generate a "Mic Drop" expressive writing prompt for an ESL closing activity.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 
 Create:
@@ -1515,7 +1515,7 @@ async function generateLightningRound(topic: string, difficulty: Difficulty, sou
 
   const aiPrompt = `Generate 4 rapid-fire closing prompts for an ESL Lightning Round activity.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 
 Create exactly 4 prompts in this order:
@@ -1561,7 +1561,7 @@ async function generateOpinionShift(topic: string, difficulty: Difficulty, sourc
 
   const aiPrompt = `Generate an "Opinion Shift" closing reflection activity for an ESL class.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 
 Create two sentence starters for a Before/Now reflection:
@@ -1985,7 +1985,7 @@ async function generateCharacterCards(topic: string, difficulty: Difficulty, mis
   };
 
   const prompt = `Generate 9 characters for an ESL class warm-up activity on the topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${pppContextBlock('presentation')}${missionContextBlock(missionContext)}${sourceContext}
 Each character represents a DIFFERENT perspective or viewpoint on the topic. Their viewpoints should genuinely disagree with or contrast each other — not all be positive.
 
@@ -2047,7 +2047,7 @@ async function generateImposter(topic: string, difficulty: Difficulty, sourceCon
   };
 
   const prompt = `Generate 3 secret words for an ESL classroom Imposter game on the topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 Rules:
 - Each word must be a single concrete NOUN directly from the topic category (e.g. if topic is "food", use words like "noodle", "spice", "broth")
@@ -2100,7 +2100,7 @@ async function generatePassword(topic: string, difficulty: Difficulty, sourceCon
   };
 
   const prompt = `Generate 3 secret passwords for an ESL classroom Password game on the topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 Rules:
 - Each word must be a single word (noun, verb, or adjective) related to the topic
@@ -2153,7 +2153,7 @@ async function generateBluffDefinition(topic: string, difficulty: Difficulty, so
   };
 
   const prompt = `Generate 3 words for an ESL classroom Bluff Definition (Balderdash-style) game on the topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 Rules:
 - Each word must be a single noun or adjective that students may recognise but not know precisely
@@ -2210,7 +2210,7 @@ async function generateTabooSprint(topic: string, difficulty: Difficulty, source
   };
 
   const prompt = `Generate 3 rounds for an ESL classroom Taboo Sprint game on the topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 Rules:
 - Each round needs a secret word and exactly 4 forbidden words
@@ -2275,7 +2275,7 @@ async function generateGrammarCheckIn(topic: string, difficulty: Difficulty, gra
 
   const prompt = `Generate a grammar confidence check for an ESL class.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${targetInstruction}
 
 Create exactly 3 sentences about the topic. Mix correct and incorrect sentences (e.g. 2 correct + 1 incorrect, or 1 correct + 2 incorrect).
@@ -2326,7 +2326,7 @@ async function generateGrammarProof(topic: string, difficulty: Difficulty, gramm
 
   const aiPrompt = `Generate a grammar writing task for an ESL class.
 Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 Grammar target: ${grammarTarget}
 
 Create:
@@ -2475,7 +2475,7 @@ async function generateFinalWord(topic: string, difficulty: Difficulty, sourceCo
   };
 
   const aiPrompt = `Generate a single spoken prompt for an ESL class closing activity on the topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${sourceContext}
 
 The prompt asks every student to say ONE sentence to the class — their genuine opinion or takeaway.
@@ -2528,7 +2528,7 @@ async function generateConversationRounds(topic: string, difficulty: Difficulty,
 
   const prompt = `Generate a "Conversation Rounds" role-play activity for an ESL class.
 Topic/Scenario: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}${sceneNote}
+${languageRule(difficulty)}${sceneNote}
 ${pppContextBlock('production')}${sourceContext}
 Create one realistic two-person scenario where both roles NEED each other to resolve a situation — not just exchange opinions. There must be a clear conflict of interest or an asymmetric goal.
 
@@ -2621,7 +2621,7 @@ async function generateTopicBrief(topic: string, difficulty: Difficulty): Promis
 
   const prompt = `Write a short classroom reading passage for ESL students.
 Topic: "${topic}"
-Difficulty: ${difficultyDescriptions[difficulty]}
+${languageRule(difficulty)}
 ${pppContextBlock('presentation')}
 Requirements:
 - 4–5 paragraphs, approximately 280–320 words total
