@@ -36,6 +36,7 @@ import { FlightTransitionOverlay } from '@/components/session/flight-transition-
 import { BrandSting } from '@/components/ui/brand-sting';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { CaptainPickCard } from '@/components/session/captain-pick-card';
+import { SharedTimerDisplay } from '@/components/session/shared-timer-display';
 import { FlightSessionView } from '@/components/session/flight-session-view';
 import { LobbyFirstFlightCoach } from '@/components/session/lobby-first-flight-coach';
 import { LobbyCockpitNudge } from '@/components/session/lobby-cockpit-nudge';
@@ -2719,6 +2720,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
       {/* Captain's Pick card — spotlight overlay triggered by teacher */}
       {session && <CaptainPickCard sessionId={session.id} />}
+
+      {/* Shared countdown mirror of the cockpit Timer tool */}
+      {session && <SharedTimerDisplay sessionId={session.id} />}
 
       {/* Flight transition overlay — between lesson modules */}
       {moduleTransition && (
