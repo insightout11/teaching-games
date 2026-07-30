@@ -32,19 +32,18 @@ export async function POST(request: NextRequest) {
     // Draw the secret from the lesson's source material when one is attached.
     const sourceContext = await resolveSourceContext(sourceMaterial);
 
-    const prompt = `You are choosing a secret for a classroom 20 Questions game.
-Topic: ${topic}
+    const prompt = `Choose a secret for a classroom 20 Questions game about "${topic}".
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}${sourceContext ? 'Choose a secret that is a specific person, place, thing, or concept mentioned in the source material above, so guessing reinforces the lesson.\n' : ''}
-Pick ONE specific, interesting thing, person, place, or concept closely related to this topic that students can deduce with yes/no questions.
+${sourceContext}${sourceContext ? 'Pick the secret from the source material above so guessing reinforces the lesson.\n' : ''}
+The secret MUST be specifically related to "${topic}" — a real person, place, thing, or well-known concept from that subject — so guessing it reinforces the lesson. Do NOT drift to a generic famous landmark, animal, or everyday object that is unrelated to "${topic}".
 Rules:
-- Must be well-known enough that students can guess it
-- Should be concrete (not abstract ideas like "freedom")
-- For Beginner/Easy: choose something very familiar (e.g. a well-known animal, everyday object, famous landmark)
-- For Advanced/Expert: choose something more specific and nuanced
-- Do NOT pick the topic word itself
+- Well-known enough that students studying "${topic}" can deduce it with yes/no questions.
+- Never pick the topic word itself — pick a specific example from within it.
+- If "${topic}" is abstract (e.g. a field of study), anchor on something concrete within it: a key figure, a famous study or experiment, a named effect or phenomenon, a tool, or a widely-known term.
+- Lower levels: the most familiar item within the topic. Higher levels: something more specific or nuanced.
+- 1-4 words.
 
-Return JSON with "secret" (the chosen word/phrase, 1-4 words max) and "category" (person/place/thing/concept).`;
+Return JSON with "secret" and "category" (person/place/thing/concept).`;
 
     const result = await generateJSON<{ secret: string; category: string }>(prompt, schema, { temperature: 0.8 });
     return NextResponse.json(result);

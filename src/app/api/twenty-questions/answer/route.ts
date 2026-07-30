@@ -86,7 +86,7 @@ Answer ONLY what was asked — nothing more. Give a SHORT, DIRECT answer (1–8 
 
 A player asked: "${question}"
 
-Answer with "yes", "no", or "maybe". Be accurate and consistent with previous answers. ${toneInstruction}${historyText}`;
+Answer with "yes", "no", or "maybe" based on the REAL, factual "${secret}" — use real-world facts only (not whatever would make the game fun), and stay consistent with previous answers. If you are genuinely unsure, answer "maybe" rather than guessing. ${toneInstruction}${historyText}`;
 
     const result = await generateJSON<{ answer: string; explanation: string }>(
       prompt,
