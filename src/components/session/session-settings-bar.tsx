@@ -77,7 +77,7 @@ export function SessionSettingsBar() {
 
   return (
     <div className="flex flex-wrap items-center gap-2 text-[10px]">
-      <div className="flex gap-4 items-center px-2">
+      <div className="flex flex-wrap gap-x-4 gap-y-2 items-center px-2">
         {/* Difficulty */}
         <select
           value={settings.difficulty}

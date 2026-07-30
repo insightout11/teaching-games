@@ -2053,7 +2053,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                         {settings.difficulty} - Grammar: {settings.grammarTarget ?? 'Any'}
                       </p>
                     </div>
-                    <div className="rounded-xl border border-lc-border/70 bg-lc-surface/70 p-3 overflow-x-auto">
+                    <div className="rounded-xl border border-lc-border/70 bg-lc-surface/70 p-3">
                       <SessionSettingsBar />
                     </div>
                     <div className="grid grid-cols-2 gap-2">
