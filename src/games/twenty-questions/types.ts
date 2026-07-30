@@ -25,11 +25,11 @@ export interface Guess {
   roundNumber: number;
 }
 
+/** One clear question-form choice instead of overlapping (and contradictory) booleans. */
+export type QuestionStyle = 'any' | 'yesno' | 'wh';
+
 export interface GameConstraints {
-  yesNoOnly: boolean;
-  wQuestionRequired: boolean;
-  noYesNo: boolean;
-  fullSentenceRequired: boolean;
+  questionStyle: QuestionStyle;
   questionLimit: number;
   turnTimerSeconds: number;
 }

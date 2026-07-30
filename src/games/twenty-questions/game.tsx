@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Users, Bot, Eye, EyeOff } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Question, Guess, GameConstraints } from './types';
@@ -17,20 +18,11 @@ function validateQuestion(text: string, constraints: GameConstraints): { valid: 
   const trimmed = text.trim();
   if (!trimmed) return { valid: false, reason: 'Empty question' };
 
-  if (constraints.fullSentenceRequired) {
-    if (!trimmed.endsWith('?')) return { valid: false, reason: 'Must end with ?' };
-    if (trimmed.split(/\s+/).length < 4) return { valid: false, reason: 'Must be at least 4 words' };
-  }
-
-  if (constraints.wQuestionRequired && !W_STARTERS.test(trimmed)) {
+  if (constraints.questionStyle === 'wh' && !W_STARTERS.test(trimmed)) {
     return { valid: false, reason: 'Must start with Who/What/Where/When/Why/How' };
   }
 
-  if (constraints.noYesNo && YES_NO_STARTERS.test(trimmed)) {
-    return { valid: false, reason: 'No yes/no questions allowed' };
-  }
-
-  if (constraints.yesNoOnly && !YES_NO_STARTERS.test(trimmed)) {
+  if (constraints.questionStyle === 'yesno' && !YES_NO_STARTERS.test(trimmed)) {
     return { valid: false, reason: 'Must be a yes/no question' };
   }
 
@@ -51,12 +43,9 @@ function fuzzyMatch(guess: string, secret: string): boolean {
 // ─── Constraint Rules Text ────────────────────────────────────────
 
 function getConstraintRules(constraints: GameConstraints): string {
-  const rules: string[] = [];
-  if (constraints.fullSentenceRequired) rules.push('Full sentence ending with ?');
-  if (constraints.wQuestionRequired) rules.push('Start with Who/What/Where/When/Why/How');
-  if (constraints.noYesNo) rules.push('No yes/no questions');
-  if (constraints.yesNoOnly) rules.push('Yes/no questions only');
-  return rules.length > 0 ? `Rules: ${rules.join(' | ')}` : '';
+  if (constraints.questionStyle === 'wh') return 'Rules: WH-questions only (Who/What/Where/When/Why/How)';
+  if (constraints.questionStyle === 'yesno') return 'Rules: Yes/No questions only';
+  return '';
 }
 
 // ─── Main Component ──────────────────────────────────────────────
@@ -81,7 +70,6 @@ export function TwentyQuestionsGame({
   const [guesses, setGuesses] = useState<Guess[]>([]);
   const [winner, setWinner] = useState<{ name: string; id: string } | null>(null);
   const [aiLoading, setAiLoading] = useState<string | null>(null);
-  const [aiPickingSecret, setAiPickingSecret] = useState(false);
   const [aiMode, setAiMode] = useState(false);
   const [secretVisible, setSecretVisible] = useState(false);
   const [secretOverrideVisible, setSecretOverrideVisible] = useState(false);
@@ -89,10 +77,7 @@ export function TwentyQuestionsGame({
 
   // Constraints (configurable in IDLE)
   const [constraints, setConstraints] = useState<GameConstraints>({
-    yesNoOnly: false,
-    wQuestionRequired: false,
-    noYesNo: false,
-    fullSentenceRequired: false,
+    questionStyle: 'any',
     questionLimit: 20,
     turnTimerSeconds: 30,
   });
@@ -167,16 +152,23 @@ export function TwentyQuestionsGame({
       return;
     }
 
-    // COLLECTING_QUESTIONS: reject host, validate constraints
+    // COLLECTING_QUESTIONS: keeper can't ask (hostId is null in AI Keeper mode, so nobody is
+    // excluded); validate the question form; dedup repeats; cap total questions.
     if (currentStatus === GameStatus.COLLECTING_QUESTIONS) {
       if (studentId === hostIdRef.current) return;
       const { valid } = validateQuestion(text, constraintsRef.current);
       if (!valid) return; // silently drop invalid
 
       const currentQuestions = questionsRef.current;
-      const answeredCount = currentQuestions.filter((q) => q.answer !== null).length;
-      if (answeredCount >= constraintsRef.current.questionLimit) {
-        // Limit already reached via answered questions — switch to guessing
+
+      // Dedup: ignore a repeat of an already-asked question so it isn't answered or counted twice.
+      const norm = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').replace(/[?.!]+$/, '').trim();
+      const asked = norm(text);
+      if (currentQuestions.some((q) => norm(q.text) === asked)) return;
+
+      // Cap total questions at the limit (each one gets answered) — with several students asking
+      // at once this stops the queue from blowing past 20.
+      if (currentQuestions.length >= constraintsRef.current.questionLimit) {
         setStatus(GameStatus.GUESSING);
         return;
       }
@@ -236,7 +228,7 @@ export function TwentyQuestionsGame({
       }
       return;
     }
-  }, [isSimultaneous, onScore]);
+  }, [onScore]);
 
   // Register remote vote handler
   useEffect(() => {
@@ -249,6 +241,17 @@ export function TwentyQuestionsGame({
   const handlePickHost = () => {
     setStatus(GameStatus.PICKING_HOST);
     onPickStudent();
+  };
+
+  // Start branches on the chosen keeper: AI Keeper skips the host entirely and picks a
+  // topic-related secret; Student Keeper picks a student to hold the secret.
+  const handleStart = () => {
+    if (aiMode) {
+      setStatus(GameStatus.PICKING_HOST); // reuse the loader while the AI picks
+      void handleAiPickSecret();
+    } else {
+      handlePickHost();
+    }
   };
 
   // When teacher picks a student, they become host
@@ -280,7 +283,6 @@ export function TwentyQuestionsGame({
   };
 
   const handleAiPickSecret = async () => {
-    setAiPickingSecret(true);
     try {
       const res = await fetch('/api/twenty-questions/pick-secret', {
         method: 'POST',
@@ -293,9 +295,8 @@ export function TwentyQuestionsGame({
       setSecretVisible(false);
       setStatus(GameStatus.COLLECTING_QUESTIONS);
     } catch {
-      // fall back — teacher types it manually
-    } finally {
-      setAiPickingSecret(false);
+      // AI pick failed — return to setup so the teacher can retry or switch to Student Keeper.
+      setStatus(GameStatus.IDLE);
     }
   };
 
@@ -408,37 +409,25 @@ export function TwentyQuestionsGame({
     return (
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
         <div className="text-center">
-          <p className="opacity-70 text-sm">A student picks a secret — others ask questions to deduce it!</p>
+          <p className="opacity-70 text-sm">Guess the secret in 20 questions — a student or the AI keeps it.</p>
           <p className="text-xs text-cyan-400 mt-1">{students.length} student{students.length !== 1 ? 's' : ''} connected</p>
         </div>
 
-        {/* Constraint Toggles */}
+        {/* Question style + limits */}
         <div className="glass p-5 rounded-2xl border border-white/10 space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-widest opacity-60">Question Rules</h3>
+          <h3 className="text-sm font-bold uppercase tracking-widest opacity-60">Question Style</h3>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-2">
             {[
-              { key: 'fullSentenceRequired' as const, label: 'Full Sentences', desc: 'Must end with ? and 4+ words' },
-              { key: 'wQuestionRequired' as const, label: 'W-Questions Only', desc: 'Who/What/Where/When/Why/How' },
-              { key: 'noYesNo' as const, label: 'No Yes/No Qs', desc: 'Block Is/Are/Do/Does starters' },
-              { key: 'yesNoOnly' as const, label: 'Yes/No Only', desc: 'Must use auxiliary verb starters' },
+              { key: 'any' as const, label: 'Any', desc: 'No restriction' },
+              { key: 'yesno' as const, label: 'Yes/No', desc: 'Is / Are / Do / Can…' },
+              { key: 'wh' as const, label: 'WH-questions', desc: 'Who / What / Where…' },
             ].map((opt) => (
               <button
                 key={opt.key}
-                onClick={() => {
-                  setConstraints((prev) => {
-                    const next = { ...prev, [opt.key]: !prev[opt.key] };
-                    // Mutually exclusive: noYesNo and yesNoOnly
-                    if (opt.key === 'noYesNo' && next.noYesNo) next.yesNoOnly = false;
-                    if (opt.key === 'yesNoOnly' && next.yesNoOnly) next.noYesNo = false;
-                    // yesNoOnly and wQuestionRequired are incompatible
-                    if (opt.key === 'yesNoOnly' && next.yesNoOnly) next.wQuestionRequired = false;
-                    if (opt.key === 'wQuestionRequired' && next.wQuestionRequired) next.yesNoOnly = false;
-                    return next;
-                  });
-                }}
+                onClick={() => setConstraints((prev) => ({ ...prev, questionStyle: opt.key }))}
                 className={`p-3 rounded-xl text-left transition-all border ${
-                  constraints[opt.key]
+                  constraints.questionStyle === opt.key
                     ? 'bg-violet-500/20 border-violet-500/40 text-violet-300'
                     : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'
                 }`}
@@ -490,23 +479,33 @@ export function TwentyQuestionsGame({
           </div>
         </div>
 
-        {/* AI Mode toggle */}
-        <button
-          onClick={() => setAiMode((v) => !v)}
-          className={`w-full py-3 rounded-xl font-game text-sm transition-all border ${
-            aiMode
-              ? 'bg-blue-500/20 border-blue-500/40 text-blue-300'
-              : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'
-          }`}
-        >
-          {aiMode ? '🤖 AUTO MODE ON — picks secret & auto-answers' : '🤖 AUTO MODE — picks & answers everything'}
-        </button>
+        {/* Who keeps the secret */}
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => setAiMode(false)}
+            className={`p-3 rounded-xl text-left transition-all border ${
+              !aiMode ? 'bg-violet-500/20 border-violet-500/40 text-violet-200' : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'
+            }`}
+          >
+            <span className="flex items-center gap-1.5 text-sm font-bold"><Users className="w-4 h-4" /> Student Keeper</span>
+            <span className="mt-0.5 block text-xs opacity-60">A student holds the secret; the class asks & guesses.</span>
+          </button>
+          <button
+            onClick={() => setAiMode(true)}
+            className={`p-3 rounded-xl text-left transition-all border ${
+              aiMode ? 'bg-blue-500/20 border-blue-500/40 text-blue-200' : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'
+            }`}
+          >
+            <span className="flex items-center gap-1.5 text-sm font-bold"><Bot className="w-4 h-4" /> AI Keeper</span>
+            <span className="mt-0.5 block text-xs opacity-60">The AI picks a topic-related secret; everyone guesses.</span>
+          </button>
+        </div>
 
         <button
-          onClick={handlePickHost}
+          onClick={handleStart}
           className="w-full px-12 py-6 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl font-game text-xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-white border-2 border-white/20"
         >
-          {aiMode ? 'START (AUTO PICKS SECRET)' : 'PICK HOST & START'}
+          {aiMode ? 'START — AI PICKS THE SECRET' : 'PICK A STUDENT & START'}
         </button>
       </motion.div>
     );
@@ -526,7 +525,7 @@ export function TwentyQuestionsGame({
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
         <div className="glass p-6 rounded-2xl border-2 border-violet-500/30 text-center">
-          <p className="text-xs font-bold text-violet-400 uppercase tracking-widest mb-2">Waiting for Host</p>
+          <p className="text-xs font-bold text-violet-400 uppercase tracking-widest mb-2">Waiting for Keeper</p>
           <h2 className="text-3xl font-black text-white mb-2">{hostName}</h2>
           <p className="text-slate-400 text-sm">is typing their secret on their device...</p>
           <div className="mt-4 w-8 h-8 border-3 border-violet-500/20 border-t-violet-500 rounded-full animate-spin mx-auto" />
@@ -541,7 +540,7 @@ export function TwentyQuestionsGame({
               value={secretOverride}
               onChange={(e) => setSecretOverride(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleTeacherOverrideSecret()}
-              placeholder="Type the secret for the host..."
+              placeholder="Type the secret for the keeper..."
               className="flex-1 bg-black/40 border border-white/10 text-white rounded-lg px-3 py-2 text-sm focus:border-violet-500 outline-none"
             />
             <button
@@ -550,7 +549,7 @@ export function TwentyQuestionsGame({
               className="px-2 text-slate-400 hover:text-white"
               title={secretOverrideVisible ? 'Hide' : 'Show'}
             >
-              {secretOverrideVisible ? '🙈' : '👁'}
+              {secretOverrideVisible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
             <button
               onClick={handleTeacherOverrideSecret}
@@ -561,15 +560,6 @@ export function TwentyQuestionsGame({
             </button>
           </div>
         </div>
-        {aiMode && (
-          <button
-            onClick={handleAiPickSecret}
-            disabled={aiPickingSecret}
-            className="w-full py-3 bg-blue-500/20 text-blue-300 rounded-xl font-game text-sm border border-blue-500/30 hover:bg-blue-500/30 disabled:opacity-50"
-          >
-            {aiPickingSecret ? 'Picking...' : '🤖 AUTO PICKS THE SECRET'}
-          </button>
-        )}
       </motion.div>
     );
   }
@@ -585,7 +575,11 @@ export function TwentyQuestionsGame({
         <div className="flex justify-between items-center">
           <div>
             <p className="text-xs font-bold text-violet-400 uppercase tracking-widest">
-              {aiMode ? '🤖 Auto Mode' : `${hostName} is the host`}
+              {aiMode ? (
+                <span className="inline-flex items-center gap-1"><Bot className="w-3.5 h-3.5" /> AI Keeper</span>
+              ) : (
+                `${hostName} is the keeper`
+              )}
             </p>
             <p className="text-sm text-slate-400">
               {remaining} question{remaining !== 1 ? 's' : ''} remaining
@@ -809,7 +803,7 @@ export function TwentyQuestionsGame({
             </div>
           )}
 
-          <p className="text-sm text-slate-400">Host: <span className="text-white font-medium">{hostName}</span> (+3 pts)</p>
+          <p className="text-sm text-slate-400">Keeper: <span className="text-white font-medium">{hostName}</span> (+3 pts)</p>
         </div>
 
         {/* Full Transcript */}
