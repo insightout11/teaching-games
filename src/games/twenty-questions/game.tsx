@@ -68,6 +68,17 @@ function fuzzyMatch(guess: string, secret: string): boolean {
   return secretWords.every((w) => guessWords.some((gw) => wordMatches(w, gw)));
 }
 
+// STRICT match for detecting a QUESTION that names the secret. Unlike fuzzyMatch (used for explicit
+// guesses, where typos are forgiven), this requires the whole secret phrase to appear in the
+// question — so an ordinary question that merely shares a word/fragment can't trigger a false win.
+function questionNamesSecret(question: string, secret: string): boolean {
+  const clean = (s: string) =>
+    s.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\b(a|an|the)\b/g, ' ').replace(/\s+/g, ' ').trim();
+  const s = clean(secret);
+  if (!s) return false;
+  return clean(question).includes(s);
+}
+
 // ─── Constraint Rules Text ────────────────────────────────────────
 
 function getConstraintRules(constraints: GameConstraints): string {
@@ -212,8 +223,9 @@ export function TwentyQuestionsGame({
       if (studentId === hostIdRef.current) return;
 
       // If the question already names the secret ("Is it the great wall?"), that's a correct
-      // guess — end the round instead of answering "yes" and letting them keep asking.
-      if (fuzzyMatch(text, secretRef.current)) {
+      // guess — end the round instead of answering "yes" and letting them keep asking. Uses the
+      // STRICT check so ordinary questions sharing a word can't trigger a false win.
+      if (questionNamesSecret(text, secretRef.current)) {
         registerCorrectGuess(text, vote.displayName, studentId);
         return;
       }
@@ -628,7 +640,7 @@ export function TwentyQuestionsGame({
         <div className="flex justify-between items-center px-4 py-2 bg-violet-500/10 border border-violet-500/20 rounded-xl">
           <span className="text-xs text-slate-500">Secret</span>
           <button onClick={() => setSecretVisible((v) => !v)} className="text-violet-300 font-bold text-sm">
-            <span className={secretVisible ? '' : 'blur-sm select-none'}>{secret}</span>
+            {secretVisible ? secret : <span className="select-none tracking-widest opacity-60">•••••• tap to reveal</span>}
           </button>
         </div>
 
@@ -761,9 +773,7 @@ export function TwentyQuestionsGame({
             className="text-lg font-bold text-violet-300"
             title={secretVisible ? 'Click to hide' : 'Click to reveal'}
           >
-            <span className={secretVisible ? '' : 'blur-sm select-none'}>
-              {secret}
-            </span>
+            {secretVisible ? secret : <span className="select-none tracking-widest opacity-60">•••••• tap to reveal</span>}
           </button>
         </div>
 
