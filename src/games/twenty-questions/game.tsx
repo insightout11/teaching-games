@@ -295,9 +295,12 @@ export function TwentyQuestionsGame({
     }
   };
 
-  // When teacher picks a student, they become host
+  // When teacher picks a student, they become host — Student Keeper mode ONLY.
+  // In AI Keeper mode the loader also uses PICKING_HOST, but there must be NO
+  // student host (the AI keeps the secret). Without this guard the last-selected
+  // student would be silently made keeper and blocked from asking questions.
   useEffect(() => {
-    if (status === GameStatus.PICKING_HOST && currentStudentId) {
+    if (!aiMode && status === GameStatus.PICKING_HOST && currentStudentId) {
       const student = students.find((s) => s.id === currentStudentId);
       if (student) {
         setHostId(currentStudentId);
@@ -305,7 +308,7 @@ export function TwentyQuestionsGame({
         setStatus(GameStatus.WAITING_FOR_SECRET);
       }
     }
-  }, [status, currentStudentId, students]);
+  }, [aiMode, status, currentStudentId, students]);
 
   // ─── AI Auto-Answer Effect ───
   useEffect(() => {
