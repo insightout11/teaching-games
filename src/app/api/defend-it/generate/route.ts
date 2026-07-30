@@ -29,21 +29,27 @@ export async function POST(request: NextRequest) {
   const limited = await checkAndRecordAiUsage(teacher);
   if (limited) return limited;
 
-  const { topic, difficulty, count = 3, sourceMaterial } = await request.json() as {
+  const { topic, difficulty, count = 3, sourceMaterial, avoid } = await request.json() as {
     topic: string;
     difficulty: Difficulty;
     count?: number;
     sourceMaterial?: SourceMaterial;
+    avoid?: string[];
   };
 
   // Springboard the statements off the lesson's source material when one is attached.
   const sourceContext = await resolveSourceContext(sourceMaterial);
 
+  const avoidList = Array.isArray(avoid) ? avoid.filter(Boolean) : [];
+  const avoidText = avoidList.length
+    ? `\nAlready used this session — generate DIFFERENT statements, do not repeat or lightly reword any of these:\n${avoidList.map((s) => `- ${s}`).join('\n')}\n`
+    : '';
+
   try {
     const prompt = `Generate ${count} statements for an ESL classroom debate game called "Defend the Indefensible".
 Topic: ${topic}
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}${sourceContext ? 'Use ideas, claims, and details from the source material above as the springboard for the statements.\n' : ''}
+${sourceContext}${sourceContext ? 'Use ideas, claims, and details from the source material above as the springboard for the statements.\n' : ''}${avoidText}
 Rules:
 - Each statement is a bold, opinionated assertion students must argue FOR or AGAINST (randomly assigned)
 - Make them playfully absurd or mildly provocative — funny, not offensive or inappropriate

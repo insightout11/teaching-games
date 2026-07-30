@@ -42,6 +42,9 @@ export function DefendItGame({
   // ─── State ───
   const [phase, setPhase] = useState<DefendItPhase>('idle');
   const [statements, setStatements] = useState<string[]>([]);
+  // Statements used in earlier rounds this session — sent as an avoid-list so
+  // regenerating on the same topic doesn't return the same statements again.
+  const usedStatementsRef = useRef<string[]>([]);
   const [currentRound, setCurrentRound] = useState(1);
   const [sides, setSides] = useState<Record<string, DebateSide>>({});
   const [spotlightId, setSpotlightId] = useState<string | null>(null);
@@ -133,11 +136,12 @@ export function DefendItGame({
       const res = await fetch('/api/defend-it/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty: sessionSettings.difficulty, count: roundCount, ...(sourceMaterial ? { sourceMaterial } : {}) }),
+        body: JSON.stringify({ topic, difficulty: sessionSettings.difficulty, count: roundCount, avoid: usedStatementsRef.current, ...(sourceMaterial ? { sourceMaterial } : {}) }),
         cache: 'no-store',
       });
       if (!res.ok) throw new Error('Failed to generate');
       const data: { statements: string[] } = await res.json();
+      usedStatementsRef.current = [...usedStatementsRef.current, ...data.statements].slice(-24);
       setStatements(data.statements);
       setCurrentRound(1);
       setPhase('statement_reveal');
