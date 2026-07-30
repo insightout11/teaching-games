@@ -31,13 +31,41 @@ function validateQuestion(text: string, constraints: GameConstraints): { valid: 
 
 // ─── Fuzzy Guess Matching ─────────────────────────────────────────
 
+// Levenshtein edit distance — small values mean a likely typo of the same word.
+function editDistance(a: string, b: string): number {
+  const m = a.length;
+  const n = b.length;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const curr = [i];
+    for (let j = 1; j <= n; j++) {
+      curr[j] = Math.min(
+        prev[j] + 1,
+        curr[j - 1] + 1,
+        prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1),
+      );
+    }
+    prev = curr;
+  }
+  return prev[n];
+}
+
+// A secret word matches a guess word on exact, containment, or a small typo (edit distance
+// scaled to length) — so "marie curry"/"curei" still count as guessing "Marie Curie".
+function wordMatches(secretWord: string, guessWord: string): boolean {
+  if (secretWord === guessWord) return true;
+  if (guessWord.includes(secretWord) || secretWord.includes(guessWord)) return true;
+  const tolerance = secretWord.length >= 5 ? 2 : secretWord.length >= 4 ? 1 : 0;
+  return tolerance > 0 && editDistance(secretWord, guessWord) <= tolerance;
+}
+
 function fuzzyMatch(guess: string, secret: string): boolean {
   const normalize = (s: string) =>
     s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\b(a|an|the|is|it)\b/g, '').trim().split(/\s+/).filter(Boolean);
   const secretWords = normalize(secret);
   const guessWords = normalize(guess);
   if (secretWords.length === 0) return false;
-  return secretWords.every((w) => guessWords.some((gw) => gw === w || gw.includes(w) || w.includes(gw)));
+  return secretWords.every((w) => guessWords.some((gw) => wordMatches(w, gw)));
 }
 
 // ─── Constraint Rules Text ────────────────────────────────────────
@@ -99,6 +127,13 @@ export function TwentyQuestionsGame({
   constraintsRef.current = constraints;
   const guessesRef = useRef(guesses);
   guessesRef.current = guesses;
+
+  // Keep the live Q&A feed pinned to the newest answer so the teacher doesn't have to scroll.
+  const qnaScrollRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = qnaScrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [answeredQuestions.length]);
 
   // ─── InputSpec Effect ───
   useEffect(() => {
@@ -673,7 +708,7 @@ export function TwentyQuestionsGame({
 
         {/* Q&A history */}
         {answeredQuestions.length > 0 && (
-          <div className="glass p-4 rounded-xl border border-white/5 max-h-48 overflow-y-auto">
+          <div ref={qnaScrollRef} className="glass p-4 rounded-xl border border-white/5 max-h-48 overflow-y-auto">
             <p className="text-xs font-bold uppercase tracking-widest opacity-50 mb-2">Q&A History</p>
             <div className="space-y-1">
               {answeredQuestions.map((q, i) => (
