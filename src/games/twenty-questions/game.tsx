@@ -134,6 +134,25 @@ export function TwentyQuestionsGame({
     }
   }, [status, hostName, constraints, totalQuestionsAsked, onSetInputSpec]);
 
+  // A correct guess ends the round. Shared by the guessing phase AND the questioning phase — a
+  // question that already names the secret ("Is it the great wall?") is really a guess, so it
+  // wins instead of just getting a "yes" and letting play continue.
+  const registerCorrectGuess = useCallback((guessText: string, displayName: string, studentId: string) => {
+    const qCount = questionsRef.current.length;
+    let points = 10;
+    if (qCount <= 10) points += 5;
+    else if (qCount <= 15) points += 2;
+
+    onScore(studentId, { isCorrect: true, points, responseData: { guess: guessText, questionsUsed: qCount } });
+    setWinner({ name: displayName, id: studentId });
+    setGuesses((prev) => [...prev, { text: guessText, guesserName: displayName, guesserId: studentId, isCorrect: true, roundNumber: 1 }]);
+
+    if (hostIdRef.current) {
+      onScore(hostIdRef.current, { isCorrect: true, points: 3, responseData: { role: 'host' } });
+    }
+    setStatus(GameStatus.ENDED);
+  }, [onScore]);
+
   // ─── Remote Vote Handler ───
   const handleRemoteVote = useCallback((vote: GameRemoteVote) => {
     const studentId = vote.studentId || vote.clientId;
@@ -156,6 +175,14 @@ export function TwentyQuestionsGame({
     // excluded); validate the question form; dedup repeats; cap total questions.
     if (currentStatus === GameStatus.COLLECTING_QUESTIONS) {
       if (studentId === hostIdRef.current) return;
+
+      // If the question already names the secret ("Is it the great wall?"), that's a correct
+      // guess — end the round instead of answering "yes" and letting them keep asking.
+      if (fuzzyMatch(text, secretRef.current)) {
+        registerCorrectGuess(text, vote.displayName, studentId);
+        return;
+      }
+
       const { valid } = validateQuestion(text, constraintsRef.current);
       if (!valid) return; // silently drop invalid
 
@@ -185,50 +212,17 @@ export function TwentyQuestionsGame({
       return;
     }
 
-    // GUESSING: reject host, fuzzy-match guess
+    // GUESSING: reject keeper, fuzzy-match guess
     if (currentStatus === GameStatus.GUESSING) {
       if (studentId === hostIdRef.current) return;
-      const secretVal = secretRef.current;
-      const isCorrect = fuzzyMatch(text, secretVal);
-
-      const newGuess: Guess = {
-        text,
-        guesserName: vote.displayName,
-        guesserId: studentId,
-        isCorrect,
-        roundNumber: 1,
-      };
-      setGuesses((prev) => [...prev, newGuess]);
-
-      if (isCorrect) {
-        // Score the guesser
-        const qCount = questionsRef.current.length;
-        let points = 10;
-        if (qCount <= 10) points += 5;
-        else if (qCount <= 15) points += 2;
-
-        onScore(studentId, {
-          isCorrect: true,
-          points,
-          responseData: { guess: text, questionsUsed: qCount },
-        });
-
-        setWinner({ name: vote.displayName, id: studentId });
-
-        // Score the host for hosting
-        if (hostIdRef.current) {
-          onScore(hostIdRef.current, {
-            isCorrect: true,
-            points: 3,
-            responseData: { role: 'host' },
-          });
-        }
-
-        setStatus(GameStatus.ENDED);
+      if (fuzzyMatch(text, secretRef.current)) {
+        registerCorrectGuess(text, vote.displayName, studentId);
+      } else {
+        setGuesses((prev) => [...prev, { text, guesserName: vote.displayName, guesserId: studentId, isCorrect: false, roundNumber: 1 }]);
       }
       return;
     }
-  }, [onScore]);
+  }, [registerCorrectGuess]);
 
   // Register remote vote handler
   useEffect(() => {
