@@ -27,15 +27,21 @@ export async function POST(request: NextRequest) {
   if (limited) return limited;
 
   try {
-    const { topic, difficulty, sourceMaterial } = await request.json() as { topic: string; difficulty: Difficulty; sourceMaterial?: SourceMaterial };
+    const { topic, difficulty, sourceMaterial, avoid } = await request.json() as { topic: string; difficulty: Difficulty; sourceMaterial?: SourceMaterial; avoid?: string[] };
 
     // Draw the secret from the lesson's source material when one is attached.
     const sourceContext = await resolveSourceContext(sourceMaterial);
 
+    const avoidList = Array.isArray(avoid) ? avoid.filter(Boolean) : [];
+    const avoidText = avoidList.length
+      ? `\nAlready used this session — pick something DIFFERENT (do not repeat any of these): ${avoidList.join(', ')}.\n`
+      : '';
+
     const prompt = `Choose a secret for a classroom 20 Questions game about "${topic}".
 Difficulty: ${difficultyDescriptions[difficulty]}
-${sourceContext}${sourceContext ? 'Pick the secret from the source material above so guessing reinforces the lesson.\n' : ''}
+${sourceContext}${sourceContext ? 'Pick the secret from the source material above so guessing reinforces the lesson.\n' : ''}${avoidText}
 The secret MUST be specifically related to "${topic}" — a real person, place, thing, or well-known concept from that subject — so guessing it reinforces the lesson. Do NOT drift to a generic famous landmark, animal, or everyday object that is unrelated to "${topic}".
+Vary your choice: avoid always picking the single most obvious/iconic item for the topic — there are many valid options, so mix it up.
 Rules:
 - Well-known enough that students studying "${topic}" can deduce it with yes/no questions.
 - Never pick the topic word itself — pick a specific example from within it.

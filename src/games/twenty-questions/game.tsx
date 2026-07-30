@@ -113,6 +113,9 @@ export function TwentyQuestionsGame({
   const [secretVisible, setSecretVisible] = useState(false);
   const [secretOverrideVisible, setSecretOverrideVisible] = useState(false);
   const [customAnswerDraft, setCustomAnswerDraft] = useState<Record<string, string>>({});
+  // Secrets the AI has already used this session — sent as an avoid-list so
+  // "New Game" doesn't keep landing on the single most obvious pick (e.g. Minecraft → creeper).
+  const usedSecretsRef = useRef<string[]>([]);
 
   // Constraints (configurable in IDLE)
   const [constraints, setConstraints] = useState<GameConstraints>({
@@ -331,10 +334,11 @@ export function TwentyQuestionsGame({
       const res = await fetch('/api/twenty-questions/pick-secret', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: sessionSettings.customTopic || sessionSettings.topic, difficulty: sessionSettings.difficulty, ...(sourceMaterial ? { sourceMaterial } : {}) }),
+        body: JSON.stringify({ topic: sessionSettings.customTopic || sessionSettings.topic, difficulty: sessionSettings.difficulty, avoid: usedSecretsRef.current, ...(sourceMaterial ? { sourceMaterial } : {}) }),
       });
       if (!res.ok) throw new Error('Failed');
       const data: { secret: string } = await res.json();
+      usedSecretsRef.current = [...usedSecretsRef.current, data.secret].slice(-15);
       setSecret(data.secret);
       setSecretVisible(false);
       setStatus(GameStatus.COLLECTING_QUESTIONS);
