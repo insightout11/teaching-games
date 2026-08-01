@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Bot, Eye, EyeOff } from 'lucide-react';
+import { Users, Bot, Eye, EyeOff, Lightbulb } from 'lucide-react';
 import type { GameProps, GameRemoteVote } from '../types';
 import { GameStatus } from './types';
 import type { Question, Guess, GameConstraints } from './types';
@@ -113,6 +113,8 @@ export function TwentyQuestionsGame({
   const [secretVisible, setSecretVisible] = useState(false);
   const [secretOverrideVisible, setSecretOverrideVisible] = useState(false);
   const [customAnswerDraft, setCustomAnswerDraft] = useState<Record<string, string>>({});
+  const [hints, setHints] = useState<string[]>([]);
+  const [hintLoading, setHintLoading] = useState(false);
   // Secrets the AI has already used this session — sent as an avoid-list so
   // "New Game" doesn't keep landing on the single most obvious pick (e.g. Minecraft → creeper).
   const usedSecretsRef = useRef<string[]>([]);
@@ -348,6 +350,31 @@ export function TwentyQuestionsGame({
     }
   };
 
+  const handleGetHint = async () => {
+    if (hintLoading || !secret) return;
+    setHintLoading(true);
+    try {
+      const res = await fetch('/api/twenty-questions/hint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret,
+          topic: sessionSettings.customTopic || sessionSettings.topic,
+          tone: sessionSettings.tone,
+          questionsHistory: answeredQuestions.map((q) => ({ question: q.text, answer: q.answer })),
+          existingHints: hints,
+        }),
+      });
+      if (!res.ok) throw new Error('Failed');
+      const data: { hint: string } = await res.json();
+      if (data.hint) setHints((prev) => [...prev, data.hint]);
+    } catch {
+      // Silent — hints are optional; teacher can just try again.
+    } finally {
+      setHintLoading(false);
+    }
+  };
+
   const handleAnswerQuestion = (questionId: string, answer: string) => {
     setQuestions((prev) => {
       const updated = prev.map((q) => (q.id === questionId ? { ...q, answer } : q));
@@ -416,7 +443,41 @@ export function TwentyQuestionsGame({
     setGuesses([]);
     setWinner(null);
     setAiLoading(null);
+    setHints([]);
+    setHintLoading(false);
   };
+
+  // ─── Hint Panel (teacher-triggered, shown to the class) ───
+
+  function renderHintPanel() {
+    return (
+      <div className="glass p-3 rounded-xl border border-amber-500/20">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-amber-300/80 inline-flex items-center gap-1.5">
+            <Lightbulb className="w-3.5 h-3.5" /> Hints{hints.length > 0 ? ` (${hints.length})` : ''}
+          </p>
+          <button
+            onClick={handleGetHint}
+            disabled={hintLoading || !secret}
+            className="px-3 py-1.5 bg-amber-500/20 text-amber-200 rounded-lg text-xs font-bold hover:bg-amber-500/30 disabled:opacity-30 border border-amber-500/30 inline-flex items-center gap-1.5"
+          >
+            <Lightbulb className="w-3.5 h-3.5" />
+            {hintLoading ? 'Thinking…' : hints.length ? 'Another hint' : 'Reveal a hint'}
+          </button>
+        </div>
+        {hints.length > 0 && (
+          <div className="mt-2 space-y-1.5">
+            {hints.map((h, i) => (
+              <div key={i} className="flex items-start gap-2 text-sm text-amber-100">
+                <span className="text-amber-500/70 shrink-0 text-xs mt-0.5 font-bold">{i + 1}.</span>
+                <p className="flex-1">{h}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   // ─── Answer Badge Helper ───
 
@@ -651,6 +712,9 @@ export function TwentyQuestionsGame({
           </button>
         </div>
 
+        {/* Optional hints — teacher reveals to the class when stuck */}
+        {renderHintPanel()}
+
         {/* Next unanswered question — answering zone */}
         {nextQ ? (
           <div className="glass p-5 rounded-2xl border-2 border-violet-500/30 space-y-4">
@@ -783,6 +847,9 @@ export function TwentyQuestionsGame({
             {secretVisible ? secret : <span className="select-none tracking-widest opacity-60">•••••• tap to reveal</span>}
           </button>
         </div>
+
+        {/* Optional hints — teacher reveals to the class when stuck */}
+        {renderHintPanel()}
 
         {/* Guess feed */}
         <div className="glass p-4 rounded-xl border border-white/10">
