@@ -8,8 +8,9 @@ import type { LandmarkLayerProps } from '../types';
 // spheres carry the contrast — radial shading (no flat blobs) + a lit equator
 // of windows + a soft halo. Base-center origin, built upward.
 export function OrientalPearlLandmark({ palette, idPrefix, ambient }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const litEdge = palette.landmarkAccent;
+  const f = 'rgb(62,104,135)';
+  const litEdge = 'rgb(144,205,214)';
+  const fShade = 'rgba(19,39,65,0.46)';
   const sphereGrad = `${idPrefix}-op-sphere`;
   const haloGrad = `${idPrefix}-op-halo`;
 
@@ -56,6 +57,7 @@ export function OrientalPearlLandmark({ palette, idPrefix, ambient }: LandmarkLa
       <polygon points="-52 0, -38 0, -10 -104, -16 -104" fill={f} />
       <polygon points="52 0, 38 0, 10 -104, 16 -104" fill={f} />
       <rect x={-7} y={-150} width={14} height={150} fill={f} />
+      <rect x={0} y={-150} width={7} height={150} fill={fShade} />
       {/* lit inner edge on the central column */}
       <rect x={-7} y={-150} width={3} height={150} fill={litEdge} />
       {/* small spheres riding the lower legs (real tower detail) */}
@@ -70,6 +72,7 @@ export function OrientalPearlLandmark({ palette, idPrefix, ambient }: LandmarkLa
 
       {/* shaft between spheres */}
       <rect x={-9} y={-262} width={18} height={62} fill={f} />
+      <rect x={0} y={-262} width={9} height={62} fill={fShade} />
       <rect x={-9} y={-262} width={3.5} height={62} fill={litEdge} />
 
       {/* Upper (mid) sphere */}
@@ -80,6 +83,7 @@ export function OrientalPearlLandmark({ palette, idPrefix, ambient }: LandmarkLa
 
       {/* upper shaft + small "space module" sphere */}
       <rect x={-5} y={-372} width={10} height={50} fill={f} />
+      <rect x={0} y={-372} width={5} height={50} fill={fShade} />
       <rect x={-5} y={-372} width={2.2} height={50} fill={litEdge} />
       <circle cx={0} cy={-388} r={14} fill={`url(#${sphereGrad})`} />
       {equator(-388, 14, 5, 'top')}

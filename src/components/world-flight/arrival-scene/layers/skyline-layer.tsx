@@ -559,6 +559,7 @@ function litWindows(
   palette: SceneLayerProps['palette'],
   rand: () => number,
   isNight: boolean,
+  opacityOverride?: number,
 ): React.ReactNode[] {
   const cols = Math.max(2, Math.floor(w / 12));
   const rows = Math.max(3, Math.floor(h / 20));
@@ -574,7 +575,7 @@ function litWindows(
           width={Math.max(2.5, w / cols - 5)}
           height={Math.max(3, h / rows - 8)}
           fill={rand() > 0.5 ? palette.windowWarm : palette.windowCool}
-          opacity={isNight ? 0.85 : 0.4}
+          opacity={opacityOverride ?? (isNight ? 0.85 : 0.4)}
         />,
       );
     }
@@ -1303,6 +1304,13 @@ function NycSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const base = LAYOUT.apronY + 12;
   const f = palette.buildingSilhouette;
   const isNight = palette.light === 'moon';
+  const empireSteel = 'rgb(93,112,134)';
+  const empireLit = 'rgb(177,198,207)';
+  const empireShade = 'rgb(48,70,96)';
+  const chryslerSteel = 'rgb(67,91,120)';
+  const chryslerLit = 'rgb(165,195,207)';
+  const chryslerShade = 'rgb(39,60,89)';
+  const beacon = 'rgb(239,190,96)';
   const items: React.ReactNode[] = [];
   let x = -40;
   let k = 0;
@@ -1317,7 +1325,7 @@ function NycSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
       parts.push(<rect key="s" x={x + (w - sw) / 2} y={top - sh} width={sw} height={sh} fill={f} />);
       if (rand() > 0.55) parts.push(<rect key="m" x={x + w / 2 - 1.5} y={top - sh - 24} width={3} height={24} fill={f} />);
     }
-    parts.push(...litWindows(x, w, h, top, palette, rand, isNight));
+    parts.push(...litWindows(x, w, h, top, palette, rand, isNight, 1));
     items.push(<g key={k}>{parts}</g>);
     x += w + randRange(rand, 5, 12);
     k += 1;
@@ -1325,27 +1333,31 @@ function NycSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const ex = CONTENT_W * 0.45;
   const empire = (
     <g>
-      <rect x={ex - 30} y={base - 300} width={60} height={300} fill={f} />
-      <rect x={ex - 22} y={base - 342} width={44} height={42} fill={f} />
-      <rect x={ex - 14} y={base - 374} width={28} height={32} fill={f} />
-      <rect x={ex - 8} y={base - 396} width={16} height={22} fill={f} />
-      <rect x={ex - 2} y={base - 456} width={4} height={60} fill={f} />
-      <circle cx={ex} cy={base - 458} r={3.5} fill={palette.windowWarm} />
-      {litWindows(ex - 30, 60, 296, base - 296, palette, rand, isNight)}
+      <rect x={ex - 30} y={base - 300} width={60} height={300} fill={empireSteel} />
+      <rect x={ex} y={base - 300} width={30} height={300} fill={empireShade} />
+      <rect x={ex - 22} y={base - 342} width={44} height={42} fill={empireSteel} />
+      <rect x={ex - 14} y={base - 374} width={28} height={32} fill={empireSteel} />
+      <rect x={ex - 8} y={base - 396} width={16} height={22} fill={empireLit} />
+      <rect x={ex - 2} y={base - 456} width={4} height={60} fill={empireLit} />
+      <rect x={ex - 24} y={base - 300} width={3} height={286} fill={empireLit} />
+      <rect x={ex - 18} y={base - 342} width={36} height={3} fill={beacon} />
+      <circle cx={ex} cy={base - 458} r={3.5} fill={beacon} />
+      {litWindows(ex - 30, 60, 296, base - 296, palette, rand, isNight, 1)}
     </g>
   );
   const cx2 = CONTENT_W * 0.6;
   const chrysler = (
     <g>
-      <rect x={cx2 - 22} y={base - 258} width={44} height={258} fill={f} />
+      <rect x={cx2 - 22} y={base - 258} width={44} height={258} fill={chryslerSteel} />
+      <rect x={cx2} y={base - 258} width={22} height={258} fill={chryslerShade} />
       {[0, 1, 2, 3].map((i) => {
         const hw = 22 - i * 5;
         const yy = base - 258 - i * 18;
-        return <path key={i} d={`M ${cx2 - hw} ${yy} Q ${cx2} ${yy - 22} ${cx2 + hw} ${yy} Z`} fill={f} />;
+        return <path key={i} d={`M ${cx2 - hw} ${yy} Q ${cx2} ${yy - 22} ${cx2 + hw} ${yy} Z`} fill={i % 2 === 0 ? chryslerLit : chryslerSteel} />;
       })}
-      <rect x={cx2 - 1.5} y={base - 372} width={3} height={42} fill={f} />
-      <circle cx={cx2} cy={base - 374} r={3} fill={palette.windowWarm} />
-      {litWindows(cx2 - 22, 44, 254, base - 254, palette, rand, isNight)}
+      <rect x={cx2 - 1.5} y={base - 372} width={3} height={42} fill={chryslerLit} />
+      <circle cx={cx2} cy={base - 374} r={3} fill={beacon} />
+      {litWindows(cx2 - 22, 44, 254, base - 254, palette, rand, isNight, 1)}
     </g>
   );
   return (
@@ -2146,7 +2158,10 @@ function ShanghaiSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const base = LAYOUT.apronY + 12;
   const f = palette.buildingSilhouette;
   const isNight = palette.light === 'moon';
-  const litEdge = 'rgba(180,232,255,0.85)'; // cool lit glass edge for the heroes
+  const litEdge = 'rgba(190,235,244,0.92)'; // cool lit glass edge for the heroes
+  const jinMaoGlass = 'rgb(67,108,136)';
+  const swfcGlass = 'rgb(55,86,119)';
+  const towerGlass = 'rgb(57,124,148)';
 
   // Hero anchors + a reserved clear band so no row building overlaps them.
   const jinMaoX = CONTENT_W * 0.44;
@@ -2182,26 +2197,39 @@ function ShanghaiSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
     const H = 300;
     const tierH = H / tiers;
     const parts: React.ReactNode[] = [];
+    const clipTiers: React.ReactNode[] = [];
     for (let i = 0; i < tiers; i += 1) {
       const wTop = baseW - (baseW - topW) * ((i + 1) / tiers);
       const wBot = baseW - (baseW - topW) * (i / tiers);
       const y0 = base - i * tierH;
       const y1 = base - (i + 1) * tierH;
+      const points = `${jinMaoX - wBot / 2} ${y0}, ${jinMaoX + wBot / 2} ${y0}, ${jinMaoX + wTop / 2} ${y1}, ${jinMaoX - wTop / 2} ${y1}`;
       parts.push(
         <polygon
           key={`t${i}`}
-          points={`${jinMaoX - wBot / 2} ${y0}, ${jinMaoX + wBot / 2} ${y0}, ${jinMaoX + wTop / 2} ${y1}, ${jinMaoX - wTop / 2} ${y1}`}
-          fill={f}
+          points={points}
+          fill={jinMaoGlass}
         />,
       );
+      clipTiers.push(<polygon key={`c${i}`} points={points} />);
       // thin setback ledge line (lit)
       parts.push(<rect key={`l${i}`} x={jinMaoX - wTop / 2} y={y1 - 1} width={wTop} height={1.6} fill={litEdge} opacity={0.5} />);
     }
     // spire
-    parts.push(<rect key="sp" x={jinMaoX - 1.5} y={base - H - 36} width={3} height={36} fill={f} />);
+    parts.push(<rect key="sp" x={jinMaoX - 1.5} y={base - H - 36} width={3} height={36} fill={jinMaoGlass} />);
     parts.push(<circle key="bc" cx={jinMaoX} cy={base - H - 38} r={3} fill={litEdge} />);
-    parts.push(...litWindows(jinMaoX - baseW / 2, baseW, H * 0.5, base - H * 0.5, palette, rand, isNight));
-    return <g>{parts}</g>;
+    const clipId = `${idPrefix}-shanghai-jinmao-clip`;
+    return (
+      <g>
+        <defs>
+          <clipPath id={clipId}>{clipTiers}</clipPath>
+        </defs>
+        {parts}
+        <g clipPath={`url(#${clipId})`}>
+          {litWindows(jinMaoX - baseW / 2, baseW, H * 0.5, base - H * 0.5, palette, rand, isNight)}
+        </g>
+      </g>
+    );
   })();
 
   // SWFC — the "bottle opener": tapering slab, trapezoidal aperture at the top
@@ -2224,12 +2252,20 @@ function ShanghaiSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
       `${swfcX + topHalf} ${yTop}, ` +
       `${swfcX + topHalf} ${yShoulder}, ` +
       `${swfcX + baseHalf} ${base}`;
+    const clipId = `${idPrefix}-shanghai-swfc-clip`;
     return (
       <g>
-        <polygon points={outline} fill={f} />
+        <defs>
+          <clipPath id={clipId}>
+            <polygon points={outline} />
+          </clipPath>
+        </defs>
+        <polygon points={outline} fill={swfcGlass} />
         {/* lit outline along the prongs + aperture */}
         <polyline points={outline} fill="none" stroke={litEdge} strokeWidth={1.4} strokeLinejoin="round" opacity={0.7} />
-        {litWindows(swfcX - baseHalf, baseHalf * 2, H * 0.6, base - H * 0.6, palette, rand, isNight)}
+        <g clipPath={`url(#${clipId})`}>
+          {litWindows(swfcX - baseHalf, baseHalf * 2, H * 0.6, base - H * 0.6, palette, rand, isNight)}
+        </g>
       </g>
     );
   })();
@@ -2243,9 +2279,15 @@ function ShanghaiSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
       `C ${towerX - 18} ${base - 356} ${towerX - 2} ${base - H} ${towerX + 12} ${base - H + 8} ` +
       `C ${towerX + 24} ${base - H + 18} ${towerX + 20} ${base - 230} ${towerX + 28} ${base - 150} ` +
       `C ${towerX + 31} ${base - 90} ${towerX + 32} ${base - 40} ${towerX + 32} ${base} Z`;
+    const clipId = `${idPrefix}-shanghai-tower-clip`;
     return (
       <g>
-        <path d={path} fill={f} />
+        <defs>
+          <clipPath id={clipId}>
+            <path d={path} />
+          </clipPath>
+        </defs>
+        <path d={path} fill={towerGlass} />
         {/* lit glass seam tracing the twisting left edge */}
         <path
           d={`M ${towerX - 30} ${base - 30} C ${towerX - 36} ${base - 150} ${towerX - 10} ${base - 220} ${towerX - 15} ${base - 330}`}
@@ -2256,7 +2298,9 @@ function ShanghaiSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
           opacity={0.7}
         />
         <circle cx={towerX + 2} cy={base - H + 4} r={3} fill={litEdge} />
-        {litWindows(towerX - 28, 56, H * 0.62, base - H * 0.62, palette, rand, isNight)}
+        <g clipPath={`url(#${clipId})`}>
+          {litWindows(towerX - 28, 56, H * 0.62, base - H * 0.62, palette, rand, isNight)}
+        </g>
       </g>
     );
   })();

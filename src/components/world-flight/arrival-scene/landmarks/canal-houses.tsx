@@ -2,7 +2,18 @@ import type { LandmarkLayerProps } from '../types';
 
 // Amsterdam canal houses — foreground slot. A row of narrow houses with varied
 // gable tops (step, bell, neck, triangle). Base-center origin, built upward.
-export function CanalHousesLandmark({ palette }: LandmarkLayerProps) {
+export function CanalHousesLandmark({}: LandmarkLayerProps) {
+  const facades = [
+    'rgb(174,102,71)',
+    'rgb(192,147,82)',
+    'rgb(83,113,135)',
+    'rgb(157,73,63)',
+    'rgb(194,170,119)',
+    'rgb(91,126,116)',
+  ];
+  const shade = 'rgba(35,42,58,0.4)';
+  const windowWarm = 'rgb(243,201,109)';
+  const windowCool = 'rgb(159,210,214)';
   type Gable = 'step' | 'bell' | 'neck' | 'tri';
   const houses: { w: number; h: number; gable: Gable }[] = [
     { w: 86, h: 250, gable: 'step' },
@@ -35,10 +46,14 @@ export function CanalHousesLandmark({ palette }: LandmarkLayerProps) {
         const gx = x;
         x += h.w;
         const top = -h.h;
+        const facade = facades[i] ?? 'rgb(174,102,71)';
         return (
           <g key={i}>
-            <rect x={gx} y={top} width={h.w} height={h.h} fill={palette.landmarkFill} />
-            <path d={gablePath(gx, h.w, top, h.gable)} fill={palette.landmarkFill} />
+            <rect x={gx} y={top} width={h.w} height={h.h} fill={facade} />
+            <rect x={gx + h.w * 0.58} y={top} width={h.w * 0.42} height={h.h} fill={shade} />
+            <rect x={gx + 5} y={top + 5} width={3} height={h.h - 10} fill="rgba(255,231,196,0.34)" />
+            <path d={gablePath(gx, h.w, top, h.gable)} fill={facade} />
+            <path d={gablePath(gx, h.w, top, h.gable)} fill={shade} opacity={0.42} />
             {/* two columns of lit windows */}
             {[0.28, 0.62].map((fx) =>
               [0.18, 0.4, 0.62, 0.82].map((fy) => (
@@ -48,7 +63,7 @@ export function CanalHousesLandmark({ palette }: LandmarkLayerProps) {
                   y={top + h.h * fy}
                   width={h.w * 0.16}
                   height={h.h * 0.08}
-                  fill={palette.windowWarm}
+                  fill={(i + Math.round(fy * 10)) % 2 === 0 ? windowWarm : windowCool}
                   opacity={(i + fy) % 0.5 > 0.2 ? 0.85 : 0.35}
                 />
               )),
