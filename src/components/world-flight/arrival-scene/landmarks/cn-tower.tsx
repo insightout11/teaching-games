@@ -5,19 +5,22 @@ import type { LandmarkLayerProps } from '../types';
 // tall antenna. Lit deck windows + a pulsing red beacon (ambient) help it stand
 // out against the winter skyline. Base-center origin, built upward.
 export function CnTowerLandmark({ palette, ambient }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
+  const f = 'rgb(69, 92, 117)';
+  const shade = 'rgba(18,34,58,0.46)';
   const glow = 'rgb(96,150,240)'; // CN Tower's signature blue LED lighting
   const litWarm = 'rgba(255,236,180,0.9)';
   return (
     <g aria-hidden>
       {/* tapering shaft + lit edge + coloured LED seam */}
       <polygon points="-26 0, -12 -360, 12 -360, 26 0" fill={f} />
+      <polygon points="0 0, 12 -360, 26 0" fill={shade} />
       <polygon points="-26 0, -12 -360, -8 -360, -22 0" fill="rgba(255,255,255,0.12)" />
       <rect x={-1.6} y={-356} width={3.2} height={356} fill={glow} opacity={0.5} />
       {/* coloured glow behind the sky pod so it stands out */}
       <ellipse cx={0} cy={-356} rx={60} ry={32} fill={glow} opacity={0.2} />
       {/* sky pod (lit observation decks) */}
       <path d="M -44 -356 C -44 -384 44 -384 44 -356 L 36 -334 C 12 -322 -12 -322 -36 -334 Z" fill={f} />
+      <path d="M 0 -356 C 22 -384 44 -384 44 -356 L 36 -334 C 18 -322 0 -322 0 -322 Z" fill={shade} />
       <rect x={-34} y={-356} width={68} height={5} fill={litWarm} />
       <rect x={-30} y={-347} width={60} height={4} fill={glow} opacity={0.8} />
       <rect x={-30} y={-340} width={60} height={3} fill={palette.windowWarm} opacity={0.6} />

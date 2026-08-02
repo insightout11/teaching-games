@@ -3,15 +3,16 @@ import type { LandmarkLayerProps } from '../types';
 // African Renaissance Monument (Dakar) — foreground slot. The bronze group atop
 // its hill: a striding man lifting a child skyward on one arm, a woman sweeping
 // behind. Simplified silhouette. Base-center origin, built upward.
-export function RenaissanceMonumentLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+export function RenaissanceMonumentLandmark({}: LandmarkLayerProps) {
+  const f = 'rgb(128, 79, 52)';
+  const fLit = 'rgb(205, 139, 76)';
   return (
     <g aria-hidden>
       {/* hill (opaque green) + plinth */}
       <path d="M -170 0 Q 0 -54 170 0 Z" fill="rgb(60,76,58)" />
       <path d="M 0 -50 Q 0 -54 170 0 L 60 0 Q 30 -36 0 -50 Z" fill="rgba(0,0,0,0.16)" />
       <rect x={-46} y={-66} width={92} height={42} fill={f} />
+      <rect x={-46} y={-66} width={30} height={42} fill={fLit} opacity={0.6} />
       {/* woman sweeping behind (left) */}
       <g opacity={0.88}>
         <path d="M -56 -66 L -48 -158 L -32 -158 L -38 -66 Z" fill={f} />
@@ -30,7 +31,7 @@ export function RenaissanceMonumentLandmark({ palette }: LandmarkLayerProps) {
         <path d="M 50 -208 L 60 -226 L 64 -222 L 54 -204 Z" fill={f} />
       </g>
       {/* faint highlight on the man */}
-      <path d="M 4 -160 L 18 -158 L 14 -110 Z" fill={a} opacity={0.12} />
+      <path d="M 4 -160 L 18 -158 L 14 -110 Z" fill={fLit} opacity={0.38} />
     </g>
   );
 }

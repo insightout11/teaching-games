@@ -5,8 +5,10 @@ import type { LandmarkLayerProps } from '../types';
 // Center) — tallest tower in Latin America — climbing above the skyline in
 // front of the peaks. Base-center origin (range base at y=0), built upward.
 export function GranTorreLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+  const f = 'rgb(55, 78, 93)';
+  const a = 'rgb(218, 230, 235)';
+  const towerGlass = 'rgb(55, 113, 143)';
+  const towerLit = 'rgb(123, 193, 202)';
   return (
     <g aria-hidden>
       {/* far ridge */}
@@ -27,18 +29,19 @@ export function GranTorreLandmark({ palette }: LandmarkLayerProps) {
 
       {/* Gran Torre — slender tapered tower rising above the city */}
       <g transform="translate(-210,0)">
-        <polygon points="-30 0, -22 -430, 22 -430, 30 0" fill={f} />
+        <polygon points="-30 0, -22 -430, 22 -430, 30 0" fill={towerGlass} />
+        <polygon points="0 0, 22 -430, 30 0" fill="rgba(20,42,62,0.46)" />
         {/* glass mullions */}
         {[-16, -5, 6, 17].map((x) => (
-          <rect key={x} x={x - 1} y={-426} width={2} height={426} fill={a} opacity={0.24} />
+          <rect key={x} x={x - 1} y={-426} width={2} height={426} fill={towerLit} opacity={0.54} />
         ))}
         {/* lit floor bands */}
         {[-100, -200, -300, -400].map((y) => (
           <rect key={y} x={-22} y={y} width={44} height={3} fill={palette.windowWarm} opacity={0.45} />
         ))}
         {/* stepped pointed crown + mast */}
-        <polygon points="-22 -430, -13 -462, 13 -462, 22 -430" fill={f} />
-        <rect x={-2.5} y={-484} width={5} height={22} fill={f} />
+        <polygon points="-22 -430, -13 -462, 13 -462, 22 -430" fill={towerGlass} />
+        <rect x={-2.5} y={-484} width={5} height={22} fill={towerLit} />
         <circle cx={0} cy={-486} r={3.5} fill={a} />
       </g>
     </g>

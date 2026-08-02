@@ -4,8 +4,9 @@ import type { LandmarkLayerProps } from '../types';
 // twin pyramidal-capped bell towers flanking a central pedimented facade with a
 // great portal and a rose window. Base-center origin, built upward.
 export function PlazaMayorLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+  const f = 'rgb(194, 166, 122)';
+  const fLit = 'rgb(224, 198, 151)';
+  const a = 'rgb(224, 178, 91)';
   const open = palette.light === 'moon' ? 'rgba(255,212,130,0.32)' : 'rgba(0,0,0,0.34)';
 
   const Tower = ({ x }: { x: number }) => (
@@ -13,7 +14,7 @@ export function PlazaMayorLandmark({ palette }: LandmarkLayerProps) {
       <rect x={x - 18} y={-300} width={36} height={300} fill={f} />
       {/* belfry openings */}
       <path d={`M ${x - 9} -300 L ${x - 9} -332 Q ${x} -346 ${x + 9} -332 L ${x + 9} -300 Z`} fill={open} />
-      <rect x={x - 24} y={-342} width={48} height={42} fill={f} />
+      <rect x={x - 24} y={-342} width={48} height={42} fill={fLit} />
       {/* pyramidal cap */}
       <polygon points={`${x - 24} -342, ${x} -388, ${x + 24} -342`} fill={f} />
       <circle cx={x} cy={-392} r={4} fill={a} />
@@ -23,7 +24,7 @@ export function PlazaMayorLandmark({ palette }: LandmarkLayerProps) {
   return (
     <g aria-hidden>
       {/* central facade */}
-      <rect x={-72} y={-232} width={144} height={232} fill={f} />
+      <rect x={-72} y={-232} width={144} height={232} fill={fLit} />
       {/* great portal */}
       <path d="M -24 0 L -24 -150 Q 0 -182 24 -150 L 24 0 Z" fill={open} />
       {/* rose window */}

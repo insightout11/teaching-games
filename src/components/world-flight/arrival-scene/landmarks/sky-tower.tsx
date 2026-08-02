@@ -4,8 +4,9 @@ import type { LandmarkLayerProps } from '../types';
 // observation pod near the top and a very tall thin antenna mast, with a low
 // hint of the Harbour Bridge to the left. Base-center origin, built upward.
 export function SkyTowerLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const led = 'rgb(150,120,235)'; // Sky Tower's coloured LED lighting (purple)
+  const f = 'rgb(69, 88, 115)';
+  const fShade = 'rgba(18,30,54,0.42)';
+  const led = 'rgb(153,120,238)'; // Sky Tower's coloured LED lighting (purple)
   const ledLit = 'rgba(190,160,255,0.9)';
   const warm = palette.windowWarm;
   return (
@@ -16,10 +17,10 @@ export function SkyTowerLandmark({ palette }: LandmarkLayerProps) {
       <rect x={-90} y={-30} width={6} height={30} fill={f} opacity={0.6} />
       {/* shaft (two-tone) + a lit LED seam so it stands out */}
       <polygon points="-13 0, -8 -384, 8 -384, 13 0" fill={f} />
-      <polygon points="0 0, 0 -384, 8 -384, 13 0" fill="rgba(0,0,0,0.2)" />
-      <rect x={-1.5} y={-380} width={3} height={380} fill={led} opacity={0.5} />
+      <polygon points="0 0, 0 -384, 8 -384, 13 0" fill={fShade} />
+      <rect x={-1.5} y={-380} width={3} height={380} fill={led} opacity={0.82} />
       {/* observation pod — coloured glow + lit decks */}
-      <ellipse cx={0} cy={-390} rx={40} ry={30} fill={led} opacity={0.2} />
+      <ellipse cx={0} cy={-390} rx={40} ry={30} fill={led} opacity={0.34} />
       <path d="M -30 -384 C -30 -410 30 -410 30 -384 L 24 -354 L -24 -354 Z" fill={f} />
       <rect x={-24} y={-378} width={48} height={5} fill={warm} opacity={0.75} />
       <rect x={-22} y={-370} width={44} height={4} fill={ledLit} />

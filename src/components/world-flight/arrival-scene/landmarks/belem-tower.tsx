@@ -3,9 +3,10 @@ import type { LandmarkLayerProps } from '../types';
 // Belém Tower (Lisbon) — foreground slot. A Manueline fortified tower on the
 // Tagus: a low bastion with rounded merlons fronting a four-storey keep crowned
 // by battlements and domed corner bartizans, over water. Base-center origin.
-export function BelemTowerLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+export function BelemTowerLandmark({}: LandmarkLayerProps) {
+  const f = 'rgb(183, 139, 87)';
+  const fLit = 'rgb(222, 183, 118)';
+  const a = 'rgb(225, 189, 103)';
 
   // Rounded Manueline merlons along a wall top.
   const Merlons = ({ x0, x1, y }: { x0: number; x1: number; y: number }) => {
@@ -25,9 +26,11 @@ export function BelemTowerLandmark({ palette }: LandmarkLayerProps) {
       ))}
       {/* bastion */}
       <rect x={-128} y={-86} width={166} height={86} fill={f} />
+      <rect x={-128} y={-86} width={40} height={86} fill={fLit} opacity={0.52} />
       <Merlons x0={-126} x1={36} y={-92} />
       {/* keep (rises behind the bastion, right side) */}
-      <rect x={-30} y={-296} width={84} height={210} fill={f} />
+      <rect x={-30} y={-296} width={84} height={210} fill={fLit} />
+      <rect x={12} y={-296} width={42} height={210} fill="rgba(62,45,37,0.3)" />
       {/* storey window slits */}
       {[-230, -180, -130].map((y) => (
         <rect key={y} x={-6} y={y} width={12} height={26} fill={a} opacity={0.3} />

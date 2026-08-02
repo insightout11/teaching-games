@@ -4,12 +4,14 @@ import type { LandmarkLayerProps } from '../types';
 // tapering tower with its signature cantilevered helipad disc near the top.
 // Base-center origin, built upward.
 export function BitexcoTowerLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+  const f = 'rgb(47, 101, 124)';
+  const fShade = 'rgba(18,43,65,0.46)';
+  const a = 'rgb(126, 195, 202)';
   return (
     <g aria-hidden>
       {/* lotus-bud body (curved taper) */}
       <path d="M -42 0 C -50 -180 -34 -362 0 -470 C 34 -362 50 -180 42 0 Z" fill={f} />
+      <path d="M 0 0 C 36 -180 26 -364 0 -470 C 34 -362 50 -180 42 0 Z" fill={fShade} />
       {/* glass mullions */}
       {[-26, -13, 0, 13, 26].map((x) => (
         <rect key={x} x={x - 1} y={-452} width={2} height={452} fill={a} opacity={0.18} />

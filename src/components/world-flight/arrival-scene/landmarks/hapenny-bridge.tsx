@@ -3,9 +3,10 @@ import type { LandmarkLayerProps } from '../types';
 // Ha'penny Bridge (Dublin) — foreground slot. A single shallow cast-iron
 // pedestrian arch over the Liffey, with a humped railing, balusters and three
 // ornate lamp standards. Base-center origin, built upward.
-export function HapennyBridgeLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+export function HapennyBridgeLandmark({}: LandmarkLayerProps) {
+  const f = 'rgb(58, 69, 83)';
+  const fLit = 'rgb(111, 129, 145)';
+  const a = 'rgb(224, 186, 106)';
   const span = 178;
   // Deck height curve: highest at centre, meeting abutments at the ends.
   const deckY = (x: number) => -30 - 112 * (1 - (x / span) ** 2);
@@ -25,6 +26,7 @@ export function HapennyBridgeLandmark({ palette }: LandmarkLayerProps) {
       <rect x={172} y={-44} width={26} height={44} fill={f} />
       {/* structural arch rib */}
       <path d={`M -178 -28 Q 0 -132 178 -28`} fill="none" stroke={f} strokeWidth={9} />
+      <path d={`M -174 -31 Q 0 -135 174 -31`} fill="none" stroke={fLit} strokeWidth={2} opacity={0.72} />
       {/* railing top rail (offset above the arch) */}
       <path
         d={`M -176 -46 Q 0 -150 176 -46`}

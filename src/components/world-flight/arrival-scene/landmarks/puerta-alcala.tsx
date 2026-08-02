@@ -4,13 +4,15 @@ import type { LandmarkLayerProps } from '../types';
 // three central arches flanked by two rectangular openings, an engaged-column
 // order and a sculpted attic. Base-center origin, built upward.
 export function PuertaAlcalaLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+  const f = 'rgb(174, 151, 120)';
+  const fLit = 'rgb(215, 192, 153)';
+  const a = 'rgb(225, 185, 101)';
   const open = palette.light === 'moon' ? 'rgba(255,212,130,0.3)' : 'rgba(0,0,0,0.34)';
   return (
     <g aria-hidden>
       {/* main body */}
       <rect x={-180} y={-204} width={360} height={204} fill={f} />
+      <rect x={-180} y={-204} width={74} height={204} fill={fLit} opacity={0.5} />
       {/* three central arches */}
       {[-70, 0, 70].map((x) => (
         <path key={x} d={`M ${x - 26} 0 L ${x - 26} -118 Q ${x} -150 ${x + 26} -118 L ${x + 26} 0 Z`} fill={open} />
@@ -25,7 +27,7 @@ export function PuertaAlcalaLandmark({ palette }: LandmarkLayerProps) {
       ))}
       {/* cornice + attic */}
       <rect x={-186} y={-214} width={372} height={10} fill={a} opacity={0.3} />
-      <rect x={-150} y={-252} width={300} height={38} fill={f} />
+      <rect x={-150} y={-252} width={300} height={38} fill={fLit} />
       {/* attic sculpture group + flanking figures */}
       <rect x={-30} y={-274} width={60} height={22} fill={f} />
       {[-120, 120].map((x) => (

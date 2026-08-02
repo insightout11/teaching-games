@@ -6,8 +6,9 @@ import type { LandmarkLayerProps } from '../types';
 // wide (registered at anchorX 0.5 / scale 1) so the water spans the whole canvas
 // including the side bleed. Base-center origin (waterline near y=0), upward.
 export function PanamaCanalLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+  const f = 'rgb(93, 105, 102)';
+  const fLit = 'rgb(166, 156, 116)';
+  const a = 'rgb(93, 184, 179)';
   const water = palette.waterTop;
   const waterDeep = palette.waterBottom;
   // Restrained container-stack accents — a canal scene reads by its cargo colour.
@@ -26,8 +27,8 @@ export function PanamaCanalLandmark({ palette }: LandmarkLayerProps) {
       ))}
 
       {/* lock walls framing the chamber (focal centre) */}
-      <rect x={-250} y={-94} width={26} height={94} fill={f} />
-      <rect x={224} y={-94} width={26} height={94} fill={f} />
+      <rect x={-250} y={-94} width={26} height={94} fill={fLit} />
+      <rect x={224} y={-94} width={26} height={94} fill={fLit} />
       {/* bollards / lamp posts */}
       {[-237, 237].map((x) => (
         <g key={x}>

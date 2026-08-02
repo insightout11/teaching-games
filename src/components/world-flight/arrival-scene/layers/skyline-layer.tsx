@@ -1383,30 +1383,53 @@ function LondonSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   // The Shard
   const sx = CONTENT_W * 0.5;
   const sTop = base - 340;
+  // Keep London's two modern icons on their own colour treatment rather than
+  // letting them collapse into the winter building silhouette. The Shard is a
+  // blue-grey glass blade with pale reflective facets; these fixed colours
+  // keep it legible beside the deliberately warm, stone-coloured Big Ben.
+  const shardGlass = 'rgb(58, 104, 132)';
+  const shardGlassLit = 'rgb(132, 190, 201)';
+  const shardGlassShade = 'rgb(29, 61, 87)';
   const shard = (
     <g>
-      {/* clean glass silhouette + a shaded right face for form */}
-      <polygon points={`${sx - 30} ${base}, ${sx - 6} ${sTop + 20}, ${sx + 6} ${sTop + 20}, ${sx + 30} ${base}`} fill={f} />
-      <polygon points={`${sx} ${base}, ${sx + 30} ${base}, ${sx + 6} ${sTop + 20}, ${sx} ${sTop + 20}`} fill="rgba(0,0,0,0.18)" />
+      {/* blue-grey glass silhouette + darker right face for form */}
+      <polygon points={`${sx - 30} ${base}, ${sx - 6} ${sTop + 20}, ${sx + 6} ${sTop + 20}, ${sx + 30} ${base}`} fill={shardGlass} />
+      <polygon points={`${sx} ${base}, ${sx + 30} ${base}, ${sx + 6} ${sTop + 20}, ${sx} ${sTop + 20}`} fill={shardGlassShade} />
+      {/* pale left reflection, kept broad enough to read at thumbnail size */}
+      <polygon points={`${sx - 30} ${base}, ${sx - 6} ${sTop + 20}, ${sx} ${sTop + 20}, ${sx - 4} ${base}`} fill={shardGlassLit} opacity={0.42} />
       {/* fractured glass top */}
-      <polygon points={`${sx - 6} ${sTop + 20}, ${sx - 3} ${sTop - 14}, ${sx} ${sTop + 18}`} fill={f} />
-      <polygon points={`${sx} ${sTop + 18}, ${sx + 2} ${sTop - 6}, ${sx + 6} ${sTop + 20}`} fill={f} />
-      {/* subtle glass mullions (no window boxes) */}
+      <polygon points={`${sx - 6} ${sTop + 20}, ${sx - 3} ${sTop - 14}, ${sx} ${sTop + 18}`} fill={shardGlassLit} />
+      <polygon points={`${sx} ${sTop + 18}, ${sx + 2} ${sTop - 6}, ${sx + 6} ${sTop + 20}`} fill={shardGlassShade} />
+      {/* reflective glass mullions (no window boxes) */}
       {[-18, -10, -2, 6, 14].map((m, i) => (
-        <line key={i} x1={sx + m * 0.75} y1={base} x2={sx + m * 0.12} y2={sTop + 24} stroke={palette.landmarkAccent} strokeWidth={1} opacity={0.26} />
+        <line key={i} x1={sx + m * 0.75} y1={base} x2={sx + m * 0.12} y2={sTop + 24} stroke={i % 2 === 0 ? shardGlassLit : shardGlassShade} strokeWidth={1.4} opacity={0.68} />
       ))}
+      <path d={`M ${sx - 24} ${base - 116} L ${sx - 3} ${base - 176}`} stroke={shardGlassLit} strokeWidth={2.2} opacity={0.55} />
     </g>
   );
   // The Gherkin
   const gx = CONTENT_W * 0.64;
   const gTop = base - 196;
+  // The Gherkin's distinctive green-tinted glass and bright diagonal lattice
+  // should survive every baked palette, just as Big Ben's stone and gold do.
+  const gherkinGlass = 'rgb(43, 103, 101)';
+  const gherkinGlassLit = 'rgb(105, 174, 157)';
+  const gherkinGlassShade = 'rgb(22, 60, 68)';
+  const gherkinGrid = 'rgb(176, 211, 179)';
   const gherkin = (
     <g>
-      <path d={`M ${gx - 26} ${base} C ${gx - 30} ${base - 96} ${gx - 22} ${gTop + 8} ${gx} ${gTop - 12} C ${gx + 22} ${gTop + 8} ${gx + 30} ${base - 96} ${gx + 26} ${base} Z`} fill={f} />
+      <path d={`M ${gx - 26} ${base} C ${gx - 30} ${base - 96} ${gx - 22} ${gTop + 8} ${gx} ${gTop - 12} C ${gx + 22} ${gTop + 8} ${gx + 30} ${base - 96} ${gx + 26} ${base} Z`} fill={gherkinGlass} />
+      <path d={`M ${gx} ${base} C ${gx + 30} ${base - 96} ${gx + 22} ${gTop + 8} ${gx} ${gTop - 12} L ${gx} ${base} Z`} fill={gherkinGlassShade} opacity={0.78} />
+      <path d={`M ${gx - 21} ${base - 20} C ${gx - 23} ${base - 92} ${gx - 13} ${gTop + 14} ${gx} ${gTop - 12}`} stroke={gherkinGlassLit} strokeWidth={2.4} opacity={0.76} fill="none" />
+      {/* diagonal glass lattice, bright enough to read as the Gherkin at a glance */}
       {[-60, -20, 20, 60, 100].map((o, i) => (
-        <path key={i} d={`M ${gx - 26} ${base - 30 - i * 8} L ${gx} ${base - 70 - i * 8}`} stroke={palette.landmarkAccent} strokeWidth={1} opacity={0.22} fill="none" />
+        <path key={`a${i}`} d={`M ${gx - 26} ${base - 30 - i * 8} L ${gx + 20} ${base - 86 - i * 8}`} stroke={gherkinGrid} strokeWidth={1.35} opacity={0.72} fill="none" />
       ))}
-      <circle cx={gx} cy={gTop - 16} r={4} fill={f} />
+      {[-46, -6, 34, 74].map((o, i) => (
+        <path key={`b${i}`} d={`M ${gx - 20} ${base - 88 - i * 16} L ${gx + 25} ${base - 28 - i * 12}`} stroke={gherkinGlassLit} strokeWidth={1.1} opacity={0.62} fill="none" />
+      ))}
+      <circle cx={gx} cy={gTop - 16} r={4} fill={gherkinGlassLit} />
+      <circle cx={gx} cy={gTop - 16} r={1.8} fill={gherkinGrid} />
     </g>
   );
   return (
@@ -2992,12 +3015,17 @@ function LagosSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const isNight = palette.light === 'moon';
   const items = towerRun(base, f, palette, rand, isNight, 32, 66, 110, 260);
   const nx = CONTENT_W * 0.4;
+  const necomGlass = 'rgb(47,112,124)';
+  const necomLit = 'rgb(115,185,184)';
+  const necomShade = 'rgba(15,36,55,0.42)';
   const necom = (
     <g>
-      <rect x={nx - 20} y={base - 310} width={40} height={310} fill={f} />
-      <rect x={nx - 22} y={base - 314} width={44} height={6} fill={f} />
-      <polygon points={`${nx - 3} ${base - 314}, ${nx - 1.5} ${base - 404}, ${nx + 1.5} ${base - 404}, ${nx + 3} ${base - 314}`} fill={f} />
-      <rect x={nx - 1} y={base - 444} width={2} height={40} fill={f} />
+      <rect x={nx - 20} y={base - 310} width={40} height={310} fill={necomGlass} />
+      <rect x={nx} y={base - 310} width={20} height={310} fill={necomShade} />
+      <rect x={nx - 22} y={base - 314} width={44} height={6} fill={necomLit} />
+      <rect x={nx - 17} y={base - 305} width={3} height={295} fill={necomLit} opacity={0.45} />
+      <polygon points={`${nx - 3} ${base - 314}, ${nx - 1.5} ${base - 404}, ${nx + 1.5} ${base - 404}, ${nx + 3} ${base - 314}`} fill={necomLit} />
+      <rect x={nx - 1} y={base - 444} width={2} height={40} fill={necomLit} />
       <circle cx={nx} cy={base - 446} r={3} fill="rgba(255,90,90,0.9)" />
       {litWindows(nx - 20, 40, 310, base - 310, palette, rand, isNight)}
     </g>
@@ -3212,13 +3240,18 @@ function HcmcSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const isNight = palette.light === 'moon';
   const items = towerRun(base, f, palette, rand, isNight, 28, 56, 130, 300, 9);
   const lx = CONTENT_W * 0.42;
+  const landmarkGlass = 'rgb(48,111,128)';
+  const landmarkLit = 'rgb(125,205,203)';
+  const landmarkShade = 'rgba(18,43,65,0.42)';
   const lm81 = (
     <g>
       {[-18, -9, 0, 9, 18].map((o, i) => {
         const hh = 300 - Math.abs(o) * 6;
-        return <rect key={i} x={lx + o - 5} y={base - hh} width={10} height={hh} fill={f} />;
+        return <rect key={i} x={lx + o - 5} y={base - hh} width={10} height={hh} fill={landmarkGlass} />;
       })}
-      <rect x={lx - 1.5} y={base - 360} width={3} height={60} fill={f} />
+      <rect x={lx} y={base - 300} width={22} height={300} fill={landmarkShade} />
+      <rect x={lx - 19} y={base - 296} width={3} height={288} fill={landmarkLit} opacity={0.55} />
+      <rect x={lx - 1.5} y={base - 360} width={3} height={60} fill={landmarkLit} />
       <circle cx={lx} cy={base - 362} r={3.5} fill="rgba(255,90,90,0.9)" />
       {litWindows(lx - 22, 44, 300, base - 300, palette, rand, isNight)}
     </g>
@@ -3275,11 +3308,16 @@ function NairobiSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const isNight = palette.light === 'moon';
   const items = towerRun(base, f, palette, rand, isNight, 32, 66, 100, 230);
   const tx = CONTENT_W * 0.6;
+  const timesStone = 'rgb(111,89,72)';
+  const timesLit = 'rgb(184,143,92)';
+  const timesShade = 'rgba(40,39,48,0.42)';
   const times = (
     <g>
-      <rect x={tx - 22} y={base - 280} width={44} height={280} fill={f} />
-      <polygon points={`${tx - 22} ${base - 280}, ${tx} ${base - 330}, ${tx + 22} ${base - 280}`} fill={f} />
-      <rect x={tx - 1.5} y={base - 360} width={3} height={30} fill={f} />
+      <rect x={tx - 22} y={base - 280} width={44} height={280} fill={timesStone} />
+      <rect x={tx} y={base - 280} width={22} height={280} fill={timesShade} />
+      <rect x={tx - 18} y={base - 274} width={3} height={260} fill={timesLit} opacity={0.45} />
+      <polygon points={`${tx - 22} ${base - 280}, ${tx} ${base - 330}, ${tx + 22} ${base - 280}`} fill={timesLit} />
+      <rect x={tx - 1.5} y={base - 360} width={3} height={30} fill={timesLit} />
       <circle cx={tx} cy={base - 362} r={3} fill="rgba(255,90,90,0.9)" />
       {litWindows(tx - 22, 44, 280, base - 280, palette, rand, isNight)}
     </g>
@@ -3582,12 +3620,18 @@ function SantiagoSkyline({ palette, rand, idPrefix }: SceneLayerProps) {
   const isNight = palette.light === 'moon';
   const items = towerRun(base, f, palette, rand, isNight, 30, 58, 110, 240);
   const ex = CONTENT_W * 0.66;
+  const entelGlass = 'rgb(50,101,128)';
+  const entelLit = 'rgb(132,192,202)';
+  const entelShade = 'rgba(18,42,64,0.44)';
   const entel = (
     <g>
-      <polygon points={`${ex - 10} ${base}, ${ex - 4} ${base - 300}, ${ex + 4} ${base - 300}, ${ex + 10} ${base}`} fill={f} />
-      <rect x={ex - 18} y={base - 326} width={36} height={26} fill={f} />
+      <polygon points={`${ex - 10} ${base}, ${ex - 4} ${base - 300}, ${ex + 4} ${base - 300}, ${ex + 10} ${base}`} fill={entelGlass} />
+      <polygon points={`${ex} ${base}, ${ex} ${base - 300}, ${ex + 4} ${base - 300}, ${ex + 10} ${base}`} fill={entelShade} />
+      <rect x={ex - 18} y={base - 326} width={36} height={26} fill={entelGlass} />
+      <rect x={ex} y={base - 326} width={18} height={26} fill={entelShade} />
+      <rect x={ex - 7} y={base - 298} width={2} height={270} fill={entelLit} opacity={0.55} />
       <rect x={ex - 16} y={base - 322} width={32} height={4} fill={palette.windowWarm} opacity={0.6} />
-      <rect x={ex - 1.5} y={base - 380} width={3} height={54} fill={f} />
+      <rect x={ex - 1.5} y={base - 380} width={3} height={54} fill={entelLit} />
       <circle cx={ex} cy={base - 382} r={3} fill="rgba(255,90,90,0.9)" />
     </g>
   );

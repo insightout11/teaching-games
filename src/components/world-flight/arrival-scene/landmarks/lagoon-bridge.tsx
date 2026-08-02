@@ -3,8 +3,9 @@ import type { LandmarkLayerProps } from '../types';
 // Third Mainland / lagoon bridge (Lagos) — foreground slot. A long low causeway
 // of arched girder spans on piers over the lagoon. Base-center origin, upward.
 export function LagoonBridgeLandmark({ palette }: LandmarkLayerProps) {
-  const f = palette.landmarkFill;
-  const a = palette.landmarkAccent;
+  const f = 'rgb(46, 98, 112)';
+  const fLit = 'rgb(93, 167, 172)';
+  const a = 'rgb(82, 180, 179)';
   const deckY = -44;
   const piers = [-240, -160, -80, 0, 80, 160, 240];
   return (
@@ -20,6 +21,7 @@ export function LagoonBridgeLandmark({ palette }: LandmarkLayerProps) {
       ))}
       {/* deck */}
       <rect x={-280} y={deckY - 10} width={560} height={10} fill={f} />
+      <rect x={-280} y={deckY - 10} width={560} height={3} fill={fLit} opacity={0.9} />
       {/* lamp posts */}
       {piers.map((x) => (
         <g key={`l${x}`}>
