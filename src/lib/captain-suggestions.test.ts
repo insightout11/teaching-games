@@ -33,9 +33,13 @@ describe('captain suggestions', () => {
       submissions: [],
     });
 
-    expect(suggestions.map((s) => s.kind)).toEqual(['question', 'poll']);
+    expect(suggestions.map((s) => s.kind)).toEqual(['question', 'question', 'poll']);
     expect(suggestions[0].prompt).toContain('future cities');
-    expect(suggestions[1].options?.length).toBeGreaterThanOrEqual(2);
+    expect(suggestions[1].prompt).toContain('future cities');
+    expect(suggestions[0].prompt.length).toBeGreaterThan(20);
+    expect(suggestions[1].prompt.length).toBeGreaterThan(20);
+    expect(suggestions[0].prompt).not.toBe(suggestions[1].prompt);
+    expect(suggestions[2].options?.length).toBeGreaterThanOrEqual(2);
   });
 
   it('keeps spotlight suggestions tied to real submissions', () => {

@@ -134,7 +134,7 @@ export function SessionSettingsBar() {
               value={settings.customTopic}
               onChange={(e) => setCustomTopic(e.target.value)}
               onBlur={(e) => persistSessionSettings(sessionId, { customTopic: e.target.value, difficulty: settings.difficulty })}
-              placeholder="Custom topic..."
+              placeholder="Enter a custom topic..."
               className="bg-lc-surface border border-lc-border rounded px-2 py-0.5 text-[10px] w-32 outline-none focus:border-lc-blue text-lc-text"
               autoFocus
             />
@@ -176,7 +176,7 @@ export function SessionSettingsBar() {
           className="bg-transparent font-bold outline-none cursor-pointer"
           title="Grammar focus (optional)"
         >
-          <option value="">Grammar: Any</option>
+          <option value="">Grammar focus: Any</option>
           {Object.entries(GRAMMAR_TARGET_GROUPS).map(([group, targets]) => (
             <optgroup key={group} label={group}>
               {targets.map((t) => (
@@ -192,7 +192,7 @@ export function SessionSettingsBar() {
       {settings.customTopic && (
         <div className="glass px-3 py-1 rounded-full ml-1 border border-cyan-500/30">
           <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400">
-            Custom: {settings.customTopic.slice(0, 20)}{settings.customTopic.length > 20 ? '...' : ''}
+            Custom topic: {settings.customTopic.slice(0, 20)}{settings.customTopic.length > 20 ? '...' : ''}
           </span>
         </div>
       )}

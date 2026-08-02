@@ -89,7 +89,7 @@ export function ClassHeader({ cls, studentCount }: { cls: Class; studentCount: n
           </h1>
         )}
         <div className="flex items-center gap-2 mt-1.5">
-          <span className="text-sm text-lc-text3 font-instrument">{studentCount} crew member{studentCount !== 1 ? 's' : ''}</span>
+          <span className="text-sm text-lc-text3 font-instrument">{studentCount} student{studentCount !== 1 ? 's' : ''}</span>
         </div>
       </div>
       <div className="shrink-0 flex items-center gap-2">

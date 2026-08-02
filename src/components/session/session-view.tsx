@@ -158,7 +158,7 @@ function DepartureBoardPanel({
               </span>
               {isUndetermined ? (
                 <span className={`font-mono text-amber-400/35 italic tracking-wide ${sparse ? 'text-[15px]' : 'text-[11px]'}`}>
-                  ✦ Waypoint
+                  ✦ Choose an activity
                 </span>
               ) : (
                 <span
@@ -1187,7 +1187,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [session.id]);
 
   const finishSession = async (completed: boolean) => {
-    // Flip to the "You've Landed" arrival immediately so "Complete Flight" lands
+    // Flip to the "You've Landed" arrival immediately so "Finish Lesson" lands
     // instantly; the DB end + cleanup run in the background (best-effort).
     const expectsJourneyMove = completed && lesson.lessonPlanContent?.worldFlightContext?.movesClass === true;
     if (expectsJourneyMove) setJourneySaveStatus('saving');
@@ -1439,7 +1439,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             : getAllActivities().find((a) => a.key === nextSlot.key))
         : undefined;
       const isNextUndetermined = nextSlot?.key === 'mission-selector' || (nextSlot?.pool?.length ?? 0) > 0;
-      const toName = isNextUndetermined ? 'Waypoint' : (found?.name ?? nextSlot?.name ?? null);
+      const toName = isNextUndetermined ? 'Choose an activity' : (found?.name ?? nextSlot?.name ?? null);
       const totalSlots = lesson.lessonSlots.length;
       // Destination sky phase (same logic as the weatherState memo)
       let toWeather: WeatherState = 'cruising';
@@ -2141,7 +2141,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   </motion.div>
                   <div>
                     <p className="font-semibold text-lc-text text-sm">Flight complete — ready to land?</p>
-                    <p className="text-xs text-lc-text3 mt-0.5">Every module is done. Land to arrive at the results, or run a quick bonus round first.</p>
+                    <p className="text-xs text-lc-text3 mt-0.5">Every activity is complete. Land to arrive at the results, or run a quick bonus round first.</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 mt-4 pl-[46px]">
@@ -2512,7 +2512,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       }}
                       className="shrink-0 text-xs text-white font-medium px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/20 transition-colors"
                     >
-                      Next Module →
+                      Next Activity →
                     </button>
                   </div>
                 )}
@@ -2538,7 +2538,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     onClick={handleNextSlotWithTransition}
                     className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
                   >
-                    {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
+                    {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Activity →' : 'Finish Lesson'}
                   </Button>
                 )}
               </div>
@@ -2643,7 +2643,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                       }}
                       className="shrink-0 text-xs text-white font-medium px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/20 transition-colors"
                     >
-                      Next Module →
+                      Next Activity →
                     </button>
                   </div>
                 )}
@@ -2669,7 +2669,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     onClick={handleNextSlotWithTransition}
                     className={`bg-gradient-to-r from-cyan-500 to-blue-600 transition-shadow${isModuleFinished ? ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0d1117] shadow-[0_0_18px_4px_rgba(34,211,238,0.45)] animate-pulse' : ''}`}
                   >
-                    {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Item →' : 'Complete Lesson'}
+                    {lesson.currentSlotIndex + 1 < lesson.lessonSlots.length ? 'Next Activity →' : 'Finish Lesson'}
                   </Button>
                 )}
               </div>

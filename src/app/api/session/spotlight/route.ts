@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic';
 // The shared screen subscribes to realtime UPDATE on session_private_state and shows
 // the Captain's Pick card when a new spotlight arrives.
 // The student's name preference (session_private_state key 'spotlight-pref:<clientId>')
-// decides whether the card shows their name or "A crew member".
+// decides whether the card shows their name or "A classmate".
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 

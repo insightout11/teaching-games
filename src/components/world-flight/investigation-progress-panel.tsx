@@ -19,11 +19,11 @@ export function InvestigationProgressPanel({
       <section className="border-b border-white/15 bg-cyan-300/[0.055] px-5 py-5">
         <p className="font-instrument flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/85">
           <Radar className="h-4 w-4" aria-hidden />
-          Flight missions
+          Design missions
         </p>
         <h2 className="font-display mt-2 text-2xl text-lc-text">Connect what the class discovers.</h2>
         <p className="mt-2 text-xs leading-relaxed text-lc-text2">
-          Completed city lessons automatically collect field notes. Three different cities unlock each mission.
+          Completed city lessons collect field notes. Visit three different cities to unlock each design mission.
         </p>
         <div className="mt-4 grid grid-cols-3 gap-2 border-t border-white/15 pt-4">
           <MissionStat label="Field notes" value={evidenceCount} />

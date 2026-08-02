@@ -69,7 +69,7 @@ describe('getCourseBriefingPreview', () => {
     const preview = getCourseBriefingPreview(lesson());
 
     expect(preview.kind).toBe('topic');
-    expect(preview.label).toBe('Topic grounded');
+    expect(preview.label).toBe('Topic-based');
     expect(preview.title).toBe('animal migration');
     expect(preview.preview).toContain('No library source attached');
   });

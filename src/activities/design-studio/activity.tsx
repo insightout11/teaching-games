@@ -214,7 +214,7 @@ export function DesignStudioActivity({
     } catch (error) {
       console.error('[design-studio] mission completion save failed:', error);
       setMissionSaveStatus('error');
-      setNotice('The design brief is complete, but its World Flight mission status could not be saved.');
+      setNotice('The design brief is complete, but its Design Mission status could not be saved.');
     }
     changePhase('complete');
   }, [changePhase, sessionId, worldFlightMission]);

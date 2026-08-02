@@ -233,7 +233,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const stageLabel = getStageLabelForKey(currentInputSpec?.gameKey);
   const pendingCount = submissions.filter((sub) => sub.status === 'pending').length;
   const approvedCount = submissions.filter((sub) => sub.status === 'approved').length;
-  const deviceState = currentInputSpec ? 'Collecting' : 'Standby';
+  const deviceState = currentInputSpec ? 'Collecting responses' : 'Ready';
   // No 'General' placeholder — fall back to the class name so downstream AI
   // prompts never get told the topic is literally "General".
   const cockpitTopic = session.custom_topic || session.topic || cls.name;
@@ -270,10 +270,10 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Display
+            Student display
           </Link>
           <div className="min-w-0 text-right">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/60">Captain Console</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/60">Teacher Cockpit</p>
             <div className="flex items-center justify-end gap-2">
               <span className="truncate text-sm font-semibold text-white max-w-[180px]">{cls.name}</span>
             {session.status === 'active' && (
@@ -341,24 +341,24 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
                   disabled={followUpState === 'sending'}
                   className="min-h-11 rounded-xl border border-emerald-400/25 bg-emerald-500/10 px-2 text-xs font-semibold text-emerald-200 transition-colors hover:bg-emerald-500/20 disabled:opacity-50"
                 >
-                  React poll
+                  Ask the class
                 </button>
                 <button
                   onClick={() => handleFollowUp('upgrade')}
                   disabled={followUpState === 'sending'}
                   className="min-h-11 rounded-xl border border-cyan-400/25 bg-cyan-500/10 px-2 text-xs font-semibold text-cyan-200 transition-colors hover:bg-cyan-500/20 disabled:opacity-50"
                 >
-                  Upgrade write
+                  Build on it
                 </button>
               </div>
             )}
           </div>
         )}
 
-        {/* Class Tools */}
+        {/* Live Tools */}
         <div className="order-2 bg-[#0d1f35] rounded-2xl border border-white/10 overflow-hidden">
           <div className="px-4 py-3 border-b border-white/8">
-            <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Class Tools</p>
+            <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Live Tools</p>
             <p className="mt-1 text-xs text-white/30">Use the same live tools as the session screen.</p>
           </div>
           <div className="grid grid-cols-3 gap-2 p-3 border-b border-white/8">
@@ -386,7 +386,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           {currentInputSpec ? (
             <>
               <div className="space-y-1 min-w-0">
-                  <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Now</p>
+                  <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Current activity</p>
                   {stageLabel && (
                     <p className="text-base font-bold text-white leading-tight">{stageLabel}</p>
                   )}
@@ -408,8 +408,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             </>
           ) : (
             <div className="space-y-1">
-              <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Now</p>
-              <p className="text-sm text-white/40">Nothing on student devices</p>
+              <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Current activity</p>
+              <p className="text-sm text-white/40">No activity on student devices</p>
               <div className="flex flex-wrap items-center gap-2 text-xs text-white/25 pt-1">
                 <span>{students.length} student{students.length !== 1 ? 's' : ''}</span>
                 {lastSpotlight && (
@@ -425,7 +425,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           {/* Crew Radio lane — the side channel is its own lane; show what's on it. */}
           <div className="flex items-start justify-between gap-3 border-t border-white/8 pt-3">
             <div className="min-w-0 space-y-0.5">
-              <p className="text-[10px] font-medium uppercase tracking-widest text-amber-300/60">Crew Radio</p>
+              <p className="text-[10px] font-medium uppercase tracking-widest text-amber-300/60">Crew Radio · student side channel</p>
               {sideChannelItem ? (
                 <p className="text-xs text-white/55 leading-snug">
                   {sideChannelItem.title}: {truncate(sideChannelItem.prompt, 70)}
@@ -448,20 +448,20 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
 
         {/* Controls */}
         <div className="order-5 bg-[#0d1f35] rounded-2xl border border-white/10 p-4 space-y-3">
-          <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Controls</p>
+          <p className="text-xs text-white/40 uppercase tracking-widest font-medium">Teacher controls</p>
           <div className="grid grid-cols-2 gap-2">
             <Link
               href={`/sessions/${session.id}`}
               className="flex min-h-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 text-center text-sm font-semibold text-white/70 transition-colors hover:bg-white/10 hover:text-white"
             >
-              Open Display
+              Open student display
             </Link>
             <button
               onClick={handleClearEvent}
               disabled={!currentInputSpec || clearingEvent}
               className="min-h-12 rounded-xl border border-red-500/25 bg-red-500/5 px-3 text-sm font-semibold text-red-300 transition-colors hover:border-red-400/45 hover:bg-red-500/10 disabled:border-white/10 disabled:bg-white/5 disabled:text-white/25"
             >
-              {clearingEvent ? 'Clearing...' : 'Clear Devices'}
+              {clearingEvent ? 'Clearing...' : 'Clear student activity'}
             </button>
           </div>
         </div>
@@ -472,7 +472,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             <div className="min-w-0">
               <p className="text-xs text-white/40 uppercase tracking-widest font-medium shrink-0">Needs Review</p>
               <p className="mt-1 text-xs text-white/30">
-                {isLoading ? 'Loading...' : `${pendingCount} pending / ${approvedCount} ready`}
+                {isLoading ? 'Loading...' : `${pendingCount} awaiting review · ${approvedCount} ready to show`}
               </p>
             </div>
             {currentInputSpec?.gameKey && (
@@ -608,14 +608,14 @@ function StatusBadge({ status }: { status: string }) {
   if (status === 'pending') {
     return (
       <span className="text-xs font-semibold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/20">
-        pending
+        Awaiting review
       </span>
     );
   }
   if (status === 'approved') {
     return (
       <span className="text-xs font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
-        ready
+        Ready to show
       </span>
     );
   }

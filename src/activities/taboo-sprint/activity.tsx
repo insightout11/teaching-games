@@ -516,7 +516,7 @@ export function TabooSprintActivity({
             onClick={handleEnd}
             className="px-8 py-3 bg-white/10 hover:bg-white/15 rounded-xl text-sm font-medium transition-colors"
           >
-            End Module
+            End Activity
           </button>
         </div>
       </div>

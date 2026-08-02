@@ -84,7 +84,7 @@ export function VocabMicroActivity({
         <h3 className="flex items-center gap-2 text-lg font-semibold text-sky-400">
           <Radio className="h-5 w-5" aria-hidden /> Comms Check
         </h3>
-        <span className="text-xs uppercase tracking-widest opacity-40">Micro-event · Which word fits?</span>
+        <span className="text-xs uppercase tracking-widest opacity-40">Quick check · Which word fits?</span>
       </div>
 
       <div className="glass rounded-2xl p-5">

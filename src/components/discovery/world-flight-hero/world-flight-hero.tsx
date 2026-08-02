@@ -135,7 +135,7 @@ export function WorldFlightHero({
             {eyebrow}
             <h2 className="font-game mt-2 text-[2rem] leading-[0.95] text-lc-text">Fly your class around the world</h2>
             <p className="mt-3 text-[14px] leading-relaxed text-lc-text2">
-              Pick from {DESTINATION_COUNT} real destinations and run a full live lesson grounded in that
+              Pick from {DESTINATION_COUNT} real destinations and run a full live lesson built around that
               city — earn range, upgrade your plane, and chart a course across the map.
             </p>
             <div className="mt-5 flex flex-col gap-4">
@@ -159,7 +159,7 @@ export function WorldFlightHero({
                 Fly your class around the world
               </h2>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-lc-text2">
-                Pick from {DESTINATION_COUNT} real destinations and run a full live lesson grounded in
+                Pick from {DESTINATION_COUNT} real destinations and run a full live lesson built around
                 that city: its streets, its stories, its language. Earn range, upgrade your plane, and
                 chart a course across the map together.
               </p>

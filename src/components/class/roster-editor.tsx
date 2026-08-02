@@ -240,7 +240,7 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Users className="w-4 h-4 text-lc-text3 shrink-0" />
-          <h2 className="text-base font-semibold text-lc-text">Flight Crew</h2>
+          <h2 className="text-base font-semibold text-lc-text">Students</h2>
           {students.length > 0 && (
             <span className="text-xs text-lc-text3 tabular-nums">{students.length}</span>
           )}
@@ -300,7 +300,7 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
       )}
 
       {students.length === 0 ? (
-        <p className="text-sm text-lc-text3 text-center py-6">No crew yet — add the first member</p>
+        <p className="text-sm text-lc-text3 text-center py-6">No students yet — add the first student</p>
       ) : (
         <>
           <ul className="space-y-1">

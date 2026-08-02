@@ -1,4 +1,4 @@
-import type { Class, Student, Session, Score, Round, LeaderboardEntry } from '@/lib/supabase/types';
+import type { Class, Student, Session, Score, Round, LeaderboardEntry, ClassWorldFlightState, ClassWorldFlightLeg } from '@/lib/supabase/types';
 
 export interface MockSessionParticipant {
   id: string;
@@ -51,16 +51,74 @@ const INITIAL_STUDENTS: Student[] = [
   { id: 'student-5', class_id: 'class-1', name: 'Eve', avatar_seed: 'eve345', created_at: new Date().toISOString() },
 ];
 
+const INITIAL_SESSIONS: Session[] = [
+  {
+    id: 'session-demo-flight',
+    class_id: 'class-1',
+    status: 'ended',
+    started_at: '2026-07-31T00:00:00.000Z',
+    ended_at: '2026-07-31T00:45:00.000Z',
+    topic: 'How Rivers Shape Cities',
+  },
+];
+
+const INITIAL_WORLD_FLIGHT_STATE: ClassWorldFlightState[] = [
+  {
+    class_id: 'class-1',
+    current_destination_id: 'bangkok',
+    plane_tier: 1,
+    plane_key: 'aurora-glider',
+    plane_selection_required: false,
+    range_km: 3500,
+    flight_hours: 1.5,
+    crew_stars: 12,
+    updated_at: '2026-08-01T00:00:00.000Z',
+  },
+];
+
+const INITIAL_WORLD_FLIGHT_LEGS: ClassWorldFlightLeg[] = [
+  {
+    id: 'leg-1',
+    class_id: 'class-1',
+    session_id: 'session-demo-flight',
+    origin_destination_id: 'singapore',
+    destination_id: 'bangkok',
+    focus_id: 'bangkok-river-life',
+    status: 'completed',
+    distance_km: 720,
+    evidence_snapshot: {
+      destinationId: 'bangkok',
+      city: 'Bangkok',
+      country: 'Thailand',
+      focusId: 'bangkok-river-life',
+      focusTitle: 'How Rivers Shape Cities',
+      focusKind: 'video',
+      publisher: 'Lesson Captain Demo',
+      lessonGoal: 'Talk about how cities grow around rivers.',
+      skills: ['speaking'],
+      investigationTags: [],
+      keyIdea: 'Rivers shape how people move and live.',
+      tradeoff: null,
+      designUse: null,
+    },
+    planned_at: '2026-07-31T00:00:00.000Z',
+    completed_at: '2026-07-31T00:45:00.000Z',
+    cancelled_at: null,
+  },
+];
+
 // In-memory data store (singleton)
 class MockDataStore {
   private static instance: MockDataStore;
 
   classes: Class[] = [...INITIAL_CLASSES];
   students: Student[] = [...INITIAL_STUDENTS];
-  sessions: Session[] = [];
+  sessions: Session[] = [...INITIAL_SESSIONS];
   scores: Score[] = [];
   rounds: Round[] = [];
   sessionParticipants: MockSessionParticipant[] = [];
+  classWorldFlightState: ClassWorldFlightState[] = [...INITIAL_WORLD_FLIGHT_STATE];
+  classWorldFlightLegs: ClassWorldFlightLeg[] = [...INITIAL_WORLD_FLIGHT_LEGS];
 
   private constructor() {}
 
@@ -74,10 +132,12 @@ class MockDataStore {
   reset() {
     this.classes = [...INITIAL_CLASSES];
     this.students = [...INITIAL_STUDENTS];
-    this.sessions = [];
+    this.sessions = [...INITIAL_SESSIONS];
     this.scores = [];
     this.rounds = [];
     this.sessionParticipants = [];
+    this.classWorldFlightState = [...INITIAL_WORLD_FLIGHT_STATE];
+    this.classWorldFlightLegs = [...INITIAL_WORLD_FLIGHT_LEGS];
   }
 
   // Classes

@@ -75,7 +75,7 @@ export function sanitizeSideChannelDraft(raw: unknown): SideChannelDraft | null 
   if (draft.quote && typeof draft.quote === 'object') {
     const text = cleanText((draft.quote as Record<string, unknown>).text, 240);
     const name = cleanText((draft.quote as Record<string, unknown>).name, 50);
-    if (text) quote = { text, name: name || 'A crew member' };
+    if (text) quote = { text, name: name || 'A classmate' };
   }
 
   const maxLength = typeof draft.maxLength === 'number' && Number.isFinite(draft.maxLength)
@@ -84,7 +84,7 @@ export function sanitizeSideChannelDraft(raw: unknown): SideChannelDraft | null 
 
   return {
     kind,
-    title: title || (kind === 'choice' ? 'Crew poll' : 'Quick write'),
+    title: title || (kind === 'choice' ? 'Class poll' : 'Quick write'),
     prompt,
     ...(options.length >= 2 ? { options } : {}),
     ...(quote ? { quote } : {}),

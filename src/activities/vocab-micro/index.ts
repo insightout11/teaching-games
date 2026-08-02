@@ -5,7 +5,7 @@ import { VocabMicroActivity } from './activity';
 export const vocabMicroPlugin: ActivityPlugin = {
   key: 'vocab-micro',
   name: 'Comms Check',
-  description: 'One quick "which word fits?" gap — students vote, teacher reveals the word and its meaning. Flight-plan micro-event; ends after a single round.',
+  description: 'One quick "which word fits?" gap — students vote, and the teacher reveals the word and its meaning. Quick check in the Flight Plan; ends after a single round.',
   category: 'practice',
   pppStage: 'practice',
   skills: ['Vocabulary'],

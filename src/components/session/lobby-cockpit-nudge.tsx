@@ -50,7 +50,7 @@ export function LobbyCockpitNudge({ eligible }: LobbyCockpitNudgeProps) {
     <div className="mt-2 flex items-start gap-2 rounded-xl border border-violet-300/25 bg-violet-500/10 px-3 py-2 text-left">
       <LayoutDashboard className="mt-0.5 h-4 w-4 flex-shrink-0 text-violet-300" aria-hidden />
       <p className="flex-1 text-xs leading-snug text-violet-100/85">
-        New here? <span className="font-semibold">Open the cockpit</span> on your phone or a second tab — it&apos;s your private control panel, and students never see it.
+        New here? <span className="font-semibold">Open Teacher Cockpit</span> on your phone or a second tab — it&apos;s your private control panel, and students never see it.
       </p>
       <button
         type="button"

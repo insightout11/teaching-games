@@ -46,13 +46,13 @@ const KIND_META: Record<CaptainSuggestionKind, {
   },
   question: {
     label: 'Question',
-    action: 'Send',
+    action: 'Send to class',
     icon: MessageSquare,
     accent: 'text-cyan-300 border-cyan-400/25 bg-cyan-500/10',
   },
   poll: {
     label: 'Poll',
-    action: 'Send',
+    action: 'Send to class',
     icon: BarChart3,
     accent: 'text-emerald-300 border-emerald-400/25 bg-emerald-500/10',
   },
@@ -166,7 +166,7 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
           sessionId,
           item: {
             kind: 'choice',
-            title: suggestion.title || 'Crew poll',
+            title: suggestion.title || 'Class poll',
             prompt: suggestion.prompt,
             options: suggestion.options ?? [],
           },
@@ -190,14 +190,14 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-violet-300" aria-hidden="true" />
-            <p className="text-xs text-violet-200/80 uppercase tracking-widest font-medium">Captain Suggestions</p>
+            <p className="text-xs text-violet-200/80 uppercase tracking-widest font-medium">Captain&apos;s Suggestions</p>
             {source && (
               <span className="rounded-full border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/35">
                 {source}
               </span>
             )}
           </div>
-          <p className="mt-1 text-xs text-white/35">Questions and polls land in Crew Radio on student devices — never over the main task.</p>
+          <p className="mt-1 text-xs text-white/35">Questions and polls appear in Crew Radio, the student side channel — never over the main activity.</p>
         </div>
         <button
           onClick={() => loadSuggestions()}
@@ -229,7 +229,7 @@ export function CaptainSuggestionsPanel({ sessionId, standby = false, onSpotligh
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-violet-400/25 bg-violet-500/10 px-4 text-sm font-semibold text-violet-100 transition-colors hover:border-violet-300/45 hover:bg-violet-500/20 disabled:opacity-50"
           >
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Sparkles className="h-4 w-4" aria-hidden="true" />}
-            Suggest
+            Get suggestions
           </button>
         </div>
       ) : (

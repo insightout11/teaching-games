@@ -46,7 +46,7 @@ export function getCourseBriefingPreview(lesson: CourseLesson): CourseBriefingPr
   if (!source) {
     return {
       kind: 'topic',
-      label: 'Topic grounded',
+      label: 'Topic-based',
       title: lesson.lessonPayload.customTopic,
       preview: 'No library source attached. Activities generate from the lesson topic and course continuity.',
       reviewTerms,
@@ -55,7 +55,7 @@ export function getCourseBriefingPreview(lesson: CourseLesson): CourseBriefingPr
 
   const kind = sourceKind(source);
   const briefingText = source.briefingText ?? source.rawText ?? source.summary;
-  const preview = compact(briefingText, 180) || 'Source material will ground the briefing, vocabulary, checks, and discussion.';
+  const preview = compact(briefingText, 180) || 'Source material shapes the briefing, vocabulary, quick checks, and discussion.';
   const label = kind === 'video'
     ? 'Video briefing'
     : source.briefingMode

@@ -32,7 +32,7 @@ export function ClassLogbookMiniCard({
           <h2 className="mt-1 text-sm font-bold text-lc-text">{flightLabel} for {summary.className}</h2>
           <p className="mt-1 text-[11px] leading-relaxed text-lc-text3">
             {summary.completedFlights > 0
-              ? `Last flight: ${summary.lastTopic ?? 'class lesson'}`
+              ? `Last lesson: ${summary.lastTopic ?? 'class lesson'}`
               : 'This class is starting its shared record.'}
           </p>
         </div>
@@ -41,7 +41,7 @@ export function ClassLogbookMiniCard({
       <div className="mt-3 grid grid-cols-3 overflow-hidden rounded-xl border border-white/10 bg-white/[0.035]">
         <div className="border-r border-white/10 px-2 py-2 text-center">
           <p className="text-sm font-bold text-cyan-100">{summary.completedFlights}</p>
-          <p className="mt-0.5 text-[9px] uppercase tracking-wide text-lc-text3">Flights</p>
+          <p className="mt-0.5 text-[9px] uppercase tracking-wide text-lc-text3">Lessons</p>
         </div>
         <div className="border-r border-white/10 px-2 py-2 text-center">
           <p className="text-sm font-bold text-emerald-200">{summary.totalResponses}</p>
@@ -94,19 +94,19 @@ export function ClassLogbookDepositCard({
             {alreadyRecorded ? 'Class record updated' : 'Added to the class logbook'}
           </h2>
           <p className="mt-1 text-xs leading-relaxed text-lc-text3">
-            Every completed LessonCaptain session becomes part of this class&apos;s shared flight record.
+            Every completed LessonCaptain lesson becomes part of this class&apos;s shared flight record.
           </p>
         </div>
         <div className="shrink-0 rounded-xl border border-cyan-300/20 bg-cyan-300/[0.08] px-4 py-3 text-right">
           <p className="text-[11px] uppercase tracking-wide text-cyan-100/65">Class total</p>
-          <p className="mt-1 text-sm font-semibold text-cyan-100">{plural(totalFlights, 'flight')}</p>
+          <p className="mt-1 text-sm font-semibold text-cyan-100">{plural(totalFlights, 'lesson')}</p>
         </div>
       </div>
 
       <div className="grid gap-px bg-white/10 sm:grid-cols-4">
         <LogbookStat
           icon={<PlaneTakeoff className="h-4 w-4" aria-hidden />}
-          label="Flights"
+          label="Lessons"
           value={totalFlights.toLocaleString()}
           detail={alreadyRecorded ? 'Already recorded' : '+1 this lesson'}
         />

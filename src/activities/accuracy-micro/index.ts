@@ -5,7 +5,7 @@ import { AccuracyMicroActivity } from './activity';
 export const accuracyMicroPlugin: ActivityPlugin = {
   key: 'accuracy-micro',
   name: 'Accuracy Check',
-  description: 'One sentence with one error — students choose the correct version, teacher reveals and explains. Flight-plan micro-event; ends after a single round.',
+  description: 'One sentence with one error — students choose the correct version, and the teacher reveals and explains. Quick check in the Flight Plan; ends after a single round.',
   category: 'practice',
   pppStage: 'practice',
   skills: ['Vocabulary', 'Critical Thinking'],

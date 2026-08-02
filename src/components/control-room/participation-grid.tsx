@@ -58,7 +58,7 @@ export function ParticipationGrid({ rows, maxPromptIndex, sessionId, classId, te
     <Surface variant="card">
       <div className="flex items-center gap-2 mb-4">
         <Radio className="w-4 h-4 text-lc-text3 shrink-0" />
-        <h2 className="font-semibold text-lc-text">Crew Activity</h2>
+        <h2 className="font-semibold text-lc-text">Student Activity</h2>
       </div>
 
       {maxPromptIndex === null && (
@@ -68,7 +68,7 @@ export function ParticipationGrid({ rows, maxPromptIndex, sessionId, classId, te
       )}
 
       {sorted.length === 0 ? (
-        <p className="text-lc-text3 text-sm">No crew on record</p>
+        <p className="text-lc-text3 text-sm">No students on record</p>
       ) : (
         <div className="space-y-1">
           {sorted.map((row) => (

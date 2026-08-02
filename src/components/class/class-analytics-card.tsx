@@ -35,7 +35,7 @@ export function ClassAnalyticsCard({
         </p>
         <p className="flex items-center gap-1.5 text-lc-text2">
           <Plane className="w-3.5 h-3.5 text-lc-text3" />
-          {flightCount} flight{flightCount === 1 ? '' : 's'}
+          {flightCount} lesson{flightCount === 1 ? '' : 's'}
         </p>
         {topStreak >= 2 && (
           <p className="flex items-center gap-1.5 text-lc-text2">

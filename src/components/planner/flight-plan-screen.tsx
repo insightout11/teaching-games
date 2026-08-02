@@ -6,6 +6,7 @@ import { ReplaceDrawer } from './replace-drawer';
 import { ArrowLeft, RefreshCw, ArrowRight, Plus, X, Sparkles } from 'lucide-react';
 import { getModuleDisplayInfo, isUndeterminedModule } from '@/lib/planner-utils';
 import { PlanSourceSuggest } from './plan-source-suggest';
+import { ACTIVITY_TYPE_LABELS } from '@/lib/lesson-copy';
 
 const SLOT_COLORS: Record<string, string> = {
   takeoff:      'text-amber-400 bg-amber-500/10 border-amber-500/30',
@@ -44,7 +45,7 @@ export function FlightPlanScreen() {
                 </>
               )}
               <span className="w-1 h-1 rounded-full bg-lc-border" />
-              <span>{modules.length} {modules.length === 1 ? 'module' : 'modules'}</span>
+              <span>{modules.length} {modules.length === 1 ? 'activity' : 'activities'}</span>
             </div>
           </div>
         </div>
@@ -62,21 +63,21 @@ export function FlightPlanScreen() {
           const info = getModuleDisplayInfo(mod.key);
           const colors = SLOT_COLORS[mod.slotType] ?? SLOT_COLORS.practice;
           const Icon = undetermined ? Sparkles : info?.icon;
-          const name = undetermined ? 'Waypoint' : (info?.name ?? mod.key);
+          const name = undetermined ? 'Choose an activity' : (info?.name ?? mod.key);
 
           return (
             <div key={mod.id}>
               <div className="flex items-center gap-3 bg-lc-card border border-lc-border rounded-xl px-4 py-3 group hover:border-lc-blue/40 transition-all">
                 {/* Slot badge */}
                 <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full border ${colors} w-24 text-center shrink-0`}>
-                  {mod.slotType}
+                  {ACTIVITY_TYPE_LABELS[mod.slotType]}
                 </span>
 
                 {/* Icon + name */}
                 <button
                   onClick={() => setReplaceDrawerModuleId(mod.id)}
                   className="flex items-center gap-2 flex-1 min-w-0 text-left hover:text-lc-blue transition-colors"
-                  title="Click to replace"
+                  title="Choose a different activity"
                 >
                   {Icon && <Icon className="w-4 h-4 text-lc-text3 shrink-0" />}
                   <span className="text-sm font-medium text-lc-text truncate">{name}</span>
@@ -88,7 +89,7 @@ export function FlightPlanScreen() {
                   <button
                     onClick={() => removeModule(mod.id)}
                     className="w-6 h-6 flex items-center justify-center rounded-full text-lc-text3 hover:text-red-400 hover:bg-red-500/10 transition-all opacity-0 group-hover:opacity-100"
-                    aria-label="Remove module"
+                    aria-label="Remove activity"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -102,7 +103,7 @@ export function FlightPlanScreen() {
       </div>
 
       <p className="text-xs text-lc-text3 text-center -mt-2">
-        Click any module to swap it · use + to add more
+        Click any activity to change it · use + to add more
       </p>
 
       {/* Footer */}

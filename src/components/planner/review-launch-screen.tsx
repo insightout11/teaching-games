@@ -67,7 +67,7 @@ export function ReviewLaunchScreen() {
 
   // Stable flight number for this plan — shared with the lobby & arrival boards
   useEffect(() => { ensureCallsign(); }, [ensureCallsign]);
-  const callsign = `MISSION ${storedCallsign ?? ''}`;
+  const lessonId = storedCallsign ?? '';
 
   // Fetch teacher's classes on mount
   useEffect(() => {
@@ -226,24 +226,24 @@ export function ReviewLaunchScreen() {
   const needsSourceWarning = isAllAroundFlight && !sourceMaterial;
 
   const checklist: Array<{ label: string; done: boolean; warn?: boolean }> = [
-    { label: 'Flight plan structured', done: modules.length > 0 },
-    { label: 'Modules configured', done: modules.length > 0 },
+    { label: 'Flight Plan ready', done: modules.length > 0 },
+    { label: 'Activities configured', done: modules.length > 0 },
     { label: 'Class selected', done: !!selectedClassId },
-    { label: 'Content generates at runtime', done: true },
+    { label: 'Content generates during the lesson', done: true },
     ...(isAllAroundFlight
-      ? [{ label: "Captain's Briefing source", done: !!sourceMaterial, warn: !sourceMaterial }]
+      ? [{ label: 'Source material', done: !!sourceMaterial, warn: !sourceMaterial }]
       : []),
     ...(launchBlockedByPlaneChoice
-      ? [{ label: 'Aircraft chosen in Hangar', done: false, warn: true }]
+      ? [{ label: 'Aircraft chosen in World Flight', done: false, warn: true }]
       : []),
   ];
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      {/* Callsign */}
+      {/* Lesson ID */}
       <div className="text-center">
-        <p className="text-xs text-lc-text3 uppercase tracking-widest mb-1">Callsign</p>
-        <h1 className="text-2xl font-bold text-lc-text tracking-wider">{callsign}</h1>
+        <p className="text-xs text-lc-text3 uppercase tracking-widest mb-1">Lesson ID</p>
+        <h1 className="text-2xl font-bold text-lc-text tracking-wider">{lessonId}</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -251,7 +251,7 @@ export function ReviewLaunchScreen() {
         <div className="space-y-4">
           <div className="bg-lc-card rounded-xl border border-lc-border p-5 space-y-3">
             <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider">
-              Mission Summary
+              Lesson Summary
             </h3>
 
             <div className="space-y-2 text-sm">
@@ -327,7 +327,7 @@ export function ReviewLaunchScreen() {
                   ))}
                 </select>
               </div>
-              <Row label="Modules" value={String(modules.length)} />
+              <Row label="Activities" value={String(modules.length)} />
             </div>
           </div>
 
@@ -344,7 +344,7 @@ export function ReviewLaunchScreen() {
             <div className="bg-amber-500/10 rounded-xl border border-amber-500/30 p-4 flex gap-3">
               <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <p className="text-xs text-amber-300 leading-relaxed">
-                No source added — Captain&apos;s Briefing will use a generated reader from your topic. Add a video or text source for a richer briefing.
+                No source added — the briefing will use a generated reader from your topic. Add a video or reading for a richer lesson.
               </p>
             </div>
           )}
@@ -380,7 +380,7 @@ export function ReviewLaunchScreen() {
               {sourceMaterial.citations?.length ? (
                 <div className="border-t border-lc-border pt-2">
                   <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
-                    Grounded in {sourceMaterial.citations.length} sources
+                    Built from {sourceMaterial.citations.length} sources
                   </p>
                   <div className="space-y-1">
                     {sourceMaterial.citations.map((citation) => (
@@ -408,7 +408,7 @@ export function ReviewLaunchScreen() {
           <div className="bg-lc-card rounded-xl border border-lc-border p-5">
             <h3 className="text-sm font-semibold text-lc-text2 uppercase tracking-wider mb-4 flex items-center gap-2">
               <Users className="w-4 h-4" />
-              Crew · Select Class
+              Choose a class
             </h3>
 
             {loadingClasses ? (
@@ -444,7 +444,7 @@ export function ReviewLaunchScreen() {
                 {/* Selected class info */}
                 {selectedClass && (
                   <p className="text-xs text-lc-text3">
-                    {selectedClass.studentCount} crew aboard
+                    {selectedClass.studentCount} student{selectedClass.studentCount === 1 ? '' : 's'} in class
                   </p>
                 )}
 
@@ -492,7 +492,7 @@ export function ReviewLaunchScreen() {
               <div className="flex items-center justify-between gap-3 border-b border-lc-border px-5 py-3">
                 <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-lc-text2">
                   <Route className="h-4 w-4 text-cyan-300" aria-hidden />
-                  World Flight Handoff
+                  World Flight Connection
                 </h3>
                 <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
                   worldFlightPlaneChoiceRequired
@@ -538,17 +538,17 @@ export function ReviewLaunchScreen() {
                   {worldFlightPlaneChoiceRequired
                     ? `Choose an aircraft in World Flight before ${selectedClass?.name ?? 'this class'} can move to ${worldFlightDestination.city}.`
                     : !worldFlightOrigin
-                    ? `Completing the final module establishes ${worldFlightDestination.city} as ${selectedClass?.name ?? 'this class'}'s first location.`
+                      ? `Completing the lesson establishes ${worldFlightDestination.city} as ${selectedClass?.name ?? 'this class'}'s first location.`
                     : isLocalWorldFlightLesson
                       ? `${selectedClass?.name ?? 'This class'} is already in ${worldFlightDestination.city}. This lesson adds evidence without moving the plane.`
                       : worldFlightMovement?.movesClass
-                      ? `Completing the final module moves ${selectedClass?.name ?? 'this class'} ${formatDistance(worldFlightDistanceKm)} from ${worldFlightOrigin.city} to ${worldFlightDestination.city}.`
+                      ? `Completing the lesson moves ${selectedClass?.name ?? 'this class'} ${formatDistance(worldFlightDistanceKm)} from ${worldFlightOrigin.city} to ${worldFlightDestination.city}.`
                       : `${selectedClass?.name ?? 'This class'} can use this lesson, but completing it will not move the plane from ${worldFlightOrigin.city}.`}
                 </p>
                 <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-lc-text3">
                   {worldFlightPlaneChoiceRequired
                     ? `${worldFlightPlaneName} · aircraft choice required before moving`
-                    : `${worldFlightPlaneName} · Server confirms range again at launch`}
+                    : `${worldFlightPlaneName} · Range checked again when you start`}
                 </p>
               </div>
             </div>
@@ -601,12 +601,12 @@ export function ReviewLaunchScreen() {
           {/* Low-credit warning */}
           {!tierLoading && !isPro && credits === 2 && (
             <div className="px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
-              2 Test Flights left. Pro removes the limit when you&apos;re ready.
+              2 live lesson credits left. Pro removes the limit when you&apos;re ready.
             </div>
           )}
           {!tierLoading && !isPro && credits === 1 && (
             <div className="px-4 py-2.5 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm">
-              This is your last free Test Flight. Upgrade after this lesson to keep teaching.
+              This is your last free live lesson credit. Upgrade after this lesson to keep teaching.
             </div>
           )}
 
@@ -620,7 +620,7 @@ export function ReviewLaunchScreen() {
                 Upgrade to Pro to launch more lessons →
               </a>
               <p className="text-xs text-center text-lc-text3">
-                Or wait for your free monthly Test Flight credit — you get 1 back each month.
+                Or wait for your free monthly live lesson credit — you get 1 back each month.
               </p>
             </div>
           ) : (
@@ -634,7 +634,7 @@ export function ReviewLaunchScreen() {
               ) : (
                 <Rocket className="w-5 h-5" />
               )}
-              {launchBlockedByPlaneChoice ? 'Choose Aircraft in World Flight First' : isLaunching ? 'Launching your live lesson...' : 'Launch Mission'}
+              {launchBlockedByPlaneChoice ? 'Choose an aircraft in World Flight first' : isLaunching ? 'Starting your live lesson...' : 'Start live lesson'}
             </button>
           )}
         </div>

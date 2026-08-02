@@ -396,7 +396,7 @@ export function ListeningGapFillActivity({
               onClick={handleEnd}
               className="px-8 py-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
-              END MODULE
+              END ACTIVITY
             </button>
           </div>
         </div>

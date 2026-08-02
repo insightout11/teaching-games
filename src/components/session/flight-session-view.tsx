@@ -44,8 +44,8 @@ export function FlightSessionView({
   const currentStageLabel = currentSlot?.stageLabel ?? currentSlot?.name;
   const nextLabel = nextSlot?.stageLabel ?? nextSlot?.name;
   const isFinalSlot = currentSlotIndex + 1 >= slots.length;
-  const actionLabel = isFinalSlot ? 'Complete Flight' : `Continue to ${nextLabel}`;
-  const phaseLabel = currentSlot?.isMicroEvent ? 'Micro-event' : 'Flight stage';
+  const actionLabel = isFinalSlot ? 'Finish Lesson' : `Continue to ${nextLabel}`;
+  const phaseLabel = currentSlot?.isMicroEvent ? 'Quick check' : 'Lesson stage';
 
   return (
     <div className="space-y-4">

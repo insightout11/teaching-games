@@ -54,7 +54,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
           </div>
           <h3 className="text-lg font-bold text-red-400 mb-2">Something went wrong</h3>
           <p className="text-sm opacity-60 mb-6 max-w-md">
-            {this.props.moduleName} encountered an error. Your session data and leaderboard are safe.
+            {this.props.moduleName} encountered an error. Your lesson data and leaderboard are safe.
           </p>
           <div className="flex gap-3">
             <button

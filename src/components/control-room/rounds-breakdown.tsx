@@ -42,10 +42,10 @@ export function RoundsBreakdown({ rows }: RoundsBreakdownProps) {
     <Surface variant="card">
       <div className="flex items-center gap-2 mb-4">
         <Layers className="w-4 h-4 text-lc-text3 shrink-0" />
-        <h2 className="font-semibold text-lc-text">Mission Debrief</h2>
+        <h2 className="font-semibold text-lc-text">Lesson Debrief</h2>
       </div>
       {rows.length === 0 ? (
-        <p className="text-sm text-lc-text3">No activity recorded for this flight.</p>
+        <p className="text-sm text-lc-text3">No activity recorded for this lesson.</p>
       ) : (
         <div className="space-y-2">
           {rows.map(({ gameType, rounds, accuracy }) => {

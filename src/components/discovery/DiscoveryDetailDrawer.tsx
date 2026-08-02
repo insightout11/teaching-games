@@ -364,7 +364,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
 
                 {!tierLoading && !isPro && credits === 1 && (
                   <div className="rounded-lg border border-orange-500/20 bg-orange-500/10 px-4 py-2.5 text-sm text-orange-400">
-                    This is your last free Test Flight.
+                    This is your last free live lesson credit.
                   </div>
                 )}
 

@@ -126,8 +126,29 @@ describe('composeLesson — goal targeting', () => {
     for (const goal of GOALS) {
       const mods = composeLesson(base({ goal }));
       const hasGoalFit = mods.some((m) => getFlightPlanItem(m.key)?.goalFit.includes(goal));
-      expect(hasGoalFit).toBe(true);
+      if (goal === 'functional-english') {
+        // Trip Around intentionally uses activity keys owned by its preset rather than
+        // the general FLIGHT_PLAN_ITEMS catalog, so validate the preset family directly.
+        expect(mods.some((m) => m.key.startsWith('trip-'))).toBe(true);
+      } else {
+        expect(hasGoalFit).toBe(true);
+      }
     }
+  });
+
+  it('composes Functional English from the intended Travel activity family', () => {
+    const keys = composeLesson(base({ goal: 'functional-english' })).map((module) => module.key);
+
+    expect(keys).toEqual(expect.arrayContaining([
+      'boarding-call',
+      'trip-arrival',
+      'trip-getting-there',
+      'trip-directions',
+      'trip-hotel',
+      'trip-attractions',
+      'trip-meal',
+      'trip-recap',
+    ]));
   });
 });
 

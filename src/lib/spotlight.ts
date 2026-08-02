@@ -7,8 +7,8 @@ export type SpotlightTag = 'question' | 'answer' | 'idea' | 'example' | 'hot-tak
 export const SPOTLIGHT_TAGS: SpotlightTag[] = ['question', 'answer', 'idea', 'example', 'hot-take', 'wordcraft'];
 
 export const SPOTLIGHT_TAG_META: Record<SpotlightTag, { label: string }> = {
-  question: { label: 'Crew Question' },
-  answer: { label: 'Crew Answer' },
+  question: { label: 'Student Question' },
+  answer: { label: 'Student Answer' },
   idea: { label: 'Bright Idea' },
   example: { label: 'Great Example' },
   'hot-take': { label: 'Hot Take' },
@@ -20,7 +20,7 @@ export function isSpotlightTag(value: unknown): value is SpotlightTag {
 }
 
 /** Shown on the shared screen when the student opted out of showing their name. */
-export const ANONYMOUS_CREW_NAME = 'A crew member';
+export const ANONYMOUS_CREW_NAME = 'A classmate';
 
 /** session_private_state key holding one student's spotlight name preference. */
 export function spotlightPrefKey(clientId: string): string {

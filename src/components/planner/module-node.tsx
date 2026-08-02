@@ -7,6 +7,7 @@ import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import { Lock, GripHorizontal, RefreshCw, X, Sparkles } from 'lucide-react';
 import { getModuleDisplayInfo, isUndeterminedModule } from '@/lib/planner-utils';
 import type { PlanModule } from '@/stores/planner-store';
+import { ACTIVITY_TYPE_LABELS } from '@/lib/lesson-copy';
 
 const SLOT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   takeoff: { bg: 'bg-amber-500/15', text: 'text-amber-400', border: 'border-amber-500/30' },
@@ -51,10 +52,10 @@ function ModuleNodeInner({
 }) {
   const info = getModuleDisplayInfo(module.key);
   const colors = SLOT_COLORS[module.slotType] ?? SLOT_COLORS.practice;
-  // Undetermined slots are masked as "Waypoint" so the module isn't revealed
+  // Undetermined slots are masked until the activity is chosen.
   const undetermined = isUndeterminedModule(module);
   const Icon = undetermined ? Sparkles : info?.icon;
-  const displayName = undetermined ? 'Waypoint' : (info?.name ?? module.key);
+  const displayName = undetermined ? 'Choose an activity' : (info?.name ?? module.key);
 
   return (
     <div
@@ -101,7 +102,7 @@ function ModuleNodeInner({
           <button
             onClick={(e) => { e.stopPropagation(); onRemove(module.id); }}
             className="absolute -top-2 -left-2 w-5 h-5 bg-lc-surface border border-lc-border rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/10 hover:border-red-500/40"
-            aria-label="Remove module"
+            aria-label="Remove activity"
           >
             <X className="w-2.5 h-2.5 text-lc-text3 hover:text-red-400" />
           </button>
@@ -111,7 +112,7 @@ function ModuleNodeInner({
       <span
         className={`${colors.text} font-medium uppercase tracking-wider ${compact ? 'text-[8px]' : 'text-[10px]'}`}
       >
-        {module.slotType}
+        {ACTIVITY_TYPE_LABELS[module.slotType]}
       </span>
 
       <span

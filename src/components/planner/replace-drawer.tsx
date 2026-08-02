@@ -6,6 +6,7 @@ import { X, Search } from 'lucide-react';
 import { usePlannerStore } from '@/stores/planner-store';
 import { FLIGHT_PLAN_ITEMS } from '@/lib/flight-plan-config';
 import { getModuleDisplayInfo } from '@/lib/planner-utils';
+import { ACTIVITY_TYPE_LABELS } from '@/lib/lesson-copy';
 
 export function ReplaceDrawer() {
   const {
@@ -150,11 +151,11 @@ export function ReplaceDrawer() {
             <div className="flex items-center justify-between p-4 border-b border-lc-border">
               <div>
                 <h2 className="font-semibold text-lc-text">
-                  {isInsertMode ? 'Add a module' : 'Replace module'}
+                  {isInsertMode ? 'Add an activity' : 'Replace activity'}
                 </h2>
                 {!isInsertMode && targetModule && (
                   <span className="text-xs text-lc-text3 capitalize">
-                    {targetModule.slotType} slot
+                    {ACTIVITY_TYPE_LABELS[targetModule.slotType]} stage
                   </span>
                 )}
                 {isInsertMode && (
@@ -193,7 +194,7 @@ export function ReplaceDrawer() {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search modules..."
+                  placeholder="Search activities..."
                   className="w-full pl-10 pr-4 py-2 bg-lc-surface border border-lc-border rounded-lg text-sm text-lc-text focus:ring-2 focus:ring-lc-blue-glow focus:border-lc-blue"
                 />
               </div>
@@ -218,14 +219,14 @@ export function ReplaceDrawer() {
               {/* All */}
               <div>
                 <h3 className="text-xs font-semibold text-lc-text3 uppercase tracking-wider mb-2">
-                  {search ? 'Results' : 'All modules'}
+                  {search ? 'Results' : 'All activities'}
                 </h3>
                 <div className="space-y-2">
                   {allItems.map(({ item }) => (
                     <DrawerItem key={item.key} itemKey={item.key} onSelect={handleSelect} />
                   ))}
                   {allItems.length === 0 && (
-                    <p className="text-sm text-lc-text3 text-center py-4">No matching modules</p>
+                    <p className="text-sm text-lc-text3 text-center py-4">No matching activities</p>
                   )}
                 </div>
               </div>

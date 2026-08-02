@@ -223,7 +223,7 @@ export function EndSessionSummary({
           <p className="text-center text-[11px] font-mono tracking-[0.2em] text-amber-400/50 mt-2">{flightCode} · ARRIVED</p>
         )}
         <h1 className="text-4xl font-extrabold text-center text-lc-text tracking-tight mt-1">You&apos;ve Landed!</h1>
-        <p className="text-center text-lc-text3 mb-8">{className} · flight complete</p>
+        <p className="text-center text-lc-text3 mb-8">{className} · lesson complete</p>
 
         {/* Travel arc — retell the trip the class just took */}
         {tripLog.length > 0 && (
@@ -356,8 +356,8 @@ export function EndSessionSummary({
             transition={{ duration: 0.4 }}
           >
         <div className="mb-8 text-center">
-          <p className="font-instrument text-[11px] uppercase tracking-[0.26em] text-cyan-300/80">Flight debrief</p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-lc-text">{className} · flight complete</h1>
+          <p className="font-instrument text-[11px] uppercase tracking-[0.26em] text-cyan-300/80">Lesson debrief</p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-lc-text">{className} · lesson complete</h1>
         </div>
 
         {classLogbook && (
@@ -547,8 +547,11 @@ export function EndSessionSummary({
           <Link href={`/classes/${classId}`}>
             <Button variant="secondary" onClick={reset}>{nextDestination ? 'Class page' : 'Back to Class'}</Button>
           </Link>
-          <Link href={`/classes/${classId}/sessions/${sessionId}/control-room`}>
-            <Button variant="secondary">View Control Room</Button>
+          <Link
+            href={`/classes/${classId}/sessions/${sessionId}/control-room`}
+            className="inline-flex items-center justify-center rounded-xl border border-lc-border bg-lc-surface px-4 py-2 text-sm font-medium text-lc-text2 transition-all hover:bg-lc-card focus:outline-none focus:ring-2 focus:ring-lc-blue-glow"
+          >
+            View Control Room
           </Link>
         </div>
           </motion.div>

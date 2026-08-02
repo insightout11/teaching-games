@@ -46,7 +46,7 @@ export function ClassJourneyCard({
           </p>
         </div>
       ) : (
-        <p className="text-sm text-lc-text3">No flights taken yet — start a World Flight session to begin the journey.</p>
+        <p className="text-sm text-lc-text3">No destination lessons yet — start a World Flight lesson to begin the journey.</p>
       )}
 
       <div className="mt-4 pt-3 border-t border-lc-border/60 flex items-center justify-between gap-2">

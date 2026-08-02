@@ -181,7 +181,7 @@ export function ExpeditionPanel({
           </div>
           <span className="text-[11px] text-lc-text3">{filteredExpeditions.length} of {WORLD_FLIGHT_EXPEDITIONS.length}</span>
         </div>
-        <p className="mt-2 text-xs leading-relaxed text-lc-text2">Select a route to see every stop on the map. Detours remain available, and Flight Missions stay separate.</p>
+        <p className="mt-2 text-xs leading-relaxed text-lc-text2">Select a route to see every stop on the map. Detours remain available, and Design Missions stay separate.</p>
         <div className="mt-4 grid grid-cols-2 gap-2">
           <ExpeditionFilter label="Theme" value={themeFilter} onChange={(value) => setThemeFilter(value as 'all' | WorldFlightExpeditionTheme)}>
             <option value="all">All themes</option>

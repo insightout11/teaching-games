@@ -1,7 +1,7 @@
 import { mockStore, MOCK_USER } from './data';
 import type { Class, Student, Session, Score, Round } from '@/lib/supabase/types';
 
-type TableName = 'classes' | 'students' | 'sessions' | 'scores' | 'rounds' | 'session_leaderboard';
+type TableName = 'classes' | 'students' | 'sessions' | 'scores' | 'rounds' | 'session_leaderboard' | 'class_world_flight_state' | 'class_world_flight_legs';
 
 interface QueryResult<T> {
   data: T | null;
@@ -12,6 +12,7 @@ interface QueryResult<T> {
 class MockQueryBuilder<T> {
   private tableName: TableName;
   private filters: { column: string; value: unknown }[] = [];
+  private inFilters: { column: string; values: unknown[] }[] = [];
   private orderConfig: { column: string; ascending: boolean } | null = null;
   private isSingle = false;
   private insertData: Partial<T> | Partial<T>[] | null = null;
@@ -48,6 +49,11 @@ class MockQueryBuilder<T> {
 
   eq(column: string, value: unknown): this {
     this.filters.push({ column, value });
+    return this;
+  }
+
+  in(column: string, values: unknown[]): this {
+    this.inFilters.push({ column, values });
     return this;
   }
 
@@ -140,6 +146,10 @@ class MockQueryBuilder<T> {
           return mockStore.getLeaderboard(sessionFilter.value as string) as unknown as T[];
         }
         return [];
+      case 'class_world_flight_state':
+        return mockStore.classWorldFlightState as unknown as T[];
+      case 'class_world_flight_legs':
+        return mockStore.classWorldFlightLegs as unknown as T[];
       default:
         return [];
     }
@@ -147,9 +157,9 @@ class MockQueryBuilder<T> {
 
   private applyFilters(data: T[]): T[] {
     return data.filter(item => {
-      return this.filters.every(({ column, value }) => {
-        return (item as Record<string, unknown>)[column] === value;
-      });
+      const record = item as Record<string, unknown>;
+      return this.filters.every(({ column, value }) => record[column] === value)
+        && this.inFilters.every(({ column, values }) => values.includes(record[column]));
     });
   }
 

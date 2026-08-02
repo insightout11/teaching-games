@@ -71,7 +71,7 @@ export function PresetCard({
         <span className="w-1 h-1 rounded-full bg-lc-border" />
         <span>{GOAL_LABELS[preset.goal]}</span>
         <span className="w-1 h-1 rounded-full bg-lc-border" />
-        <span>{moduleCount} {moduleCount === 1 ? 'module' : 'modules'}</span>
+        <span>{moduleCount} {moduleCount === 1 ? 'activity' : 'activities'}</span>
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full ${SCORING_MODE_CLASSES[scoringMode]}`}>
@@ -80,7 +80,7 @@ export function PresetCard({
         {minStudents >= 2 && (
           <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full text-lc-text2 bg-lc-border/40">
             <Users className="h-3 w-3" />
-            Best with {minStudents}+
+            Best with {minStudents}+ students
           </span>
         )}
       </div>

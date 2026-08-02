@@ -222,7 +222,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
               )}
               {!isPro && (
                 <span className="font-instrument rounded-full border border-cyan-300/20 bg-white/[0.03] px-3 py-1 text-[11px] uppercase tracking-wider text-lc-text2">
-                  {credits} Test Flight{credits === 1 ? '' : 's'} left
+                  {credits} live lesson credit{credits === 1 ? '' : 's'} left
                 </span>
               )}
             </div>

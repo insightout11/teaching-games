@@ -191,7 +191,7 @@ export function ReadAloudActivity({
             {sourceCitations.length > 0 && (
               <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-lc-text3">
-                  Grounded in {sourceCitations.length} sources
+                  Built from {sourceCitations.length} sources
                 </p>
                 <div className="flex flex-wrap gap-x-4 gap-y-1.5">
                   {sourceCitations.map((citation) => (

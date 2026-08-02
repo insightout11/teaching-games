@@ -5,7 +5,7 @@ import { OpinionMicroActivity } from './activity';
 export const opinionMicroPlugin: ActivityPlugin = {
   key: 'opinion-micro',
   name: 'Opinion Pulse',
-  description: 'One quick dilemma — students vote once, see the class split, discuss. Flight-plan micro-event; ends after a single round.',
+  description: 'One quick dilemma — students vote once, see the class split, and discuss. Quick check in the Flight Plan; ends after a single round.',
   category: 'icebreaker',
   pppStage: 'practice',
   skills: ['Critical Thinking', 'Speaking'],

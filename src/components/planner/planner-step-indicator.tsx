@@ -3,7 +3,7 @@
 import type { PlannerStep } from '@/stores/planner-store';
 
 const STEPS: { key: PlannerStep; label: string }[] = [
-  { key: 'mission-setup', label: 'Mission Setup' },
+  { key: 'mission-setup', label: 'Lesson Setup' },
   { key: 'flight-plan', label: 'Flight Plan' },
   { key: 'launch', label: 'Launch' },
 ];

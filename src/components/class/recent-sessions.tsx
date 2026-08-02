@@ -17,14 +17,14 @@ export function RecentSessions({
         <BookOpen className="w-4 h-4 text-lc-text3 shrink-0" />
         <h2 className="text-base font-semibold text-lc-text">Flight Log</h2>
         {sessions.length > 0 && (
-          <span className="ml-auto text-xs text-lc-text3">{sessions.length} session{sessions.length !== 1 ? 's' : ''}</span>
+          <span className="ml-auto text-xs text-lc-text3">{sessions.length} lesson{sessions.length !== 1 ? 's' : ''}</span>
         )}
       </div>
 
       {sessions.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-10 gap-2 text-lc-text3">
           <span className="text-2xl">✈</span>
-          <p className="text-sm">No flights yet</p>
+          <p className="text-sm">No lessons yet</p>
         </div>
       ) : (
         <div className="space-y-1.5 overflow-y-auto max-h-[520px] pr-0.5">
@@ -52,7 +52,7 @@ export function RecentSessions({
                     <span className="text-xs text-lc-text2 truncate" title={topic}>· {topic}</span>
                   )}
                   {moduleCount > 0 && (
-                    <span className="text-xs text-lc-text3 tabular-nums shrink-0">· {moduleCount} module{moduleCount === 1 ? '' : 's'}</span>
+                    <span className="text-xs text-lc-text3 tabular-nums shrink-0">· {moduleCount} activit{moduleCount === 1 ? 'y' : 'ies'}</span>
                   )}
                 </div>
                 {isActive ? (

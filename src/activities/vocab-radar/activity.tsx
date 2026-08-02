@@ -340,7 +340,7 @@ export function VocabRadarActivity({
               onClick={handleEnd}
               className="px-8 py-3 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
-              END MODULE
+              END ACTIVITY
             </button>
           </div>
         </div>

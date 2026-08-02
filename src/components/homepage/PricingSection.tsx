@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, Plane, PlaneTakeoff } from 'lucide-react';
 
 const FREE_ITEMS = [
-  '5 Test Flight credits',
+  '5 live lesson credits for Test Flights',
   'All games and activities',
   'Source-based lessons + custom topics included',
   'Live lessons — students join free',
@@ -67,8 +67,7 @@ export function PricingSection() {
             Free to try. Pro when you&apos;re ready.
           </h2>
           <p className="mx-auto max-w-2xl text-lc-text2 leading-relaxed">
-            Every new teacher gets 5 free Test Flights — full live lessons, no card required.
-            Upgrade to Pro for unlimited teaching.
+            Every new teacher gets 5 free live lesson credits, no card required. Each Test Flight uses one live lesson credit. It can be a full live lesson. Upgrade to Pro for unlimited teaching.
           </p>
         </motion.div>
 

@@ -22,7 +22,7 @@ export function ClassLogbookHubCard({
       </div>
 
       <div className="grid grid-cols-2 gap-2 font-instrument text-sm">
-        <LogbookMetric icon={<PlaneTakeoff className="h-3.5 w-3.5" />} value={summary.completedFlights.toLocaleString()} label="flights" />
+        <LogbookMetric icon={<PlaneTakeoff className="h-3.5 w-3.5" />} value={summary.completedFlights.toLocaleString()} label="lessons" />
         <LogbookMetric icon={<MessageSquareText className="h-3.5 w-3.5" />} value={summary.totalResponses.toLocaleString()} label="responses" />
         <LogbookMetric
           icon={<Target className="h-3.5 w-3.5" />}

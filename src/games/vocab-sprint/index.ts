@@ -5,7 +5,7 @@ import { BookA } from 'lucide-react';
 export const vocabSprintPlugin: GamePlugin = {
   key: 'vocab-sprint',
   name: 'VocabSprint',
-  description: 'topic-generated vocabulary upgrade. Replace weak words with stronger alternatives.',
+  description: 'A topic-generated vocabulary upgrade. Replace weak words with stronger alternatives.',
   category: 'vocabulary',
   pppStage: 'practice',
   icon: BookA,

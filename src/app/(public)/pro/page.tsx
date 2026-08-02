@@ -9,12 +9,12 @@ export const metadata: Metadata = {
 };
 
 const FREE_FEATURES = [
-  '5 Test Flight credits to try the full product',
+  '5 live lesson credits for Test Flights',
   'All games and activities during your Test Flights',
   'Source-based lessons and custom topics included in your Test Flights',
   'Run live lessons — students join free, no accounts',
   'Full Flight Plan experience',
-  'History saved for your 5 used Test Flights',
+  'History saved for your Test Flight lessons',
 ];
 
 const PRO_FEATURES = [
@@ -31,7 +31,7 @@ const PRO_FEATURES = [
 const FAQ = [
   {
     q: 'What counts as a Test Flight?',
-    a: 'Any live lesson launch — a single game, a single activity, or a full Flight Plan. One launch uses one credit, regardless of lesson length. If you use up all 5, you get 1 free credit back each month.',
+    a: 'Each Test Flight uses one live lesson credit. It can be a single game, a single activity, or a full Flight Plan, regardless of lesson length. If you use all 5 credits, you get 1 free credit back each month.',
   },
   {
     q: 'What happens to my free session history if I upgrade?',
@@ -67,7 +67,7 @@ export default function ProPage() {
           <div>
             <p className="text-xs font-semibold text-lc-text3 uppercase tracking-wide mb-1">Free</p>
             <p className="text-3xl font-bold text-lc-text">$0</p>
-            <p className="text-sm text-lc-text3 mt-1">5 Test Flight credits, no card required</p>
+            <p className="text-sm text-lc-text3 mt-1">5 live lesson credits for Test Flights, no card required</p>
           </div>
 
           <ul className="space-y-3">

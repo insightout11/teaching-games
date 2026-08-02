@@ -100,7 +100,7 @@ export function WonderBoardActivity({
             onClick={handleEnd}
             className="rounded-xl bg-white/10 px-5 py-2.5 font-game text-sm text-white transition hover:bg-white/20"
           >
-            END MODULE
+            END ACTIVITY
           </button>
         ) : (
           <button

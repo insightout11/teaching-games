@@ -43,7 +43,7 @@ export function GET(req: Request) {
             />
             <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 560 }}>
               <div style={{ color: '#67e8f9', fontSize: 22, fontWeight: 600, display: 'flex' }}>
-                A 10-stage live English lesson
+                A complete live English lesson
               </div>
               <div
                 style={{

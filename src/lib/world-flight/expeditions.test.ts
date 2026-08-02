@@ -32,7 +32,7 @@ describe('World Flight expeditions', () => {
     expect(megaCities?.requiredStopCount).toBeLessThan(megaCities?.stops.length ?? 0);
   });
 
-  it('does not duplicate an automatic Flight Mission', () => {
+  it('does not duplicate an automatic Design Mission', () => {
     const missionIds = new Set(WORLD_FLIGHT_INVESTIGATIONS.map((mission) => mission.id));
     const missionTitles = new Set(WORLD_FLIGHT_INVESTIGATIONS.map((mission) => mission.title.toLowerCase()));
     const missionQuestions = new Set(WORLD_FLIGHT_INVESTIGATIONS.map((mission) => mission.question.toLowerCase()));

@@ -638,12 +638,12 @@ export function ExploreClient() {
         {/* Low-credit warning */}
         {!tierLoading && !isPro && credits === 2 && (
           <div className="mb-4 px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
-            2 Test Flights left. Pro removes the limit when you&apos;re ready.
+            2 live lesson credits left. Pro removes the limit when you&apos;re ready.
           </div>
         )}
         {!tierLoading && !isPro && credits === 1 && (
           <div className="mb-4 px-4 py-2.5 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm">
-            This is your last free Test Flight. Upgrade after this lesson to keep teaching.
+            This is your last free live lesson credit. Upgrade after this lesson to keep teaching.
           </div>
         )}
 

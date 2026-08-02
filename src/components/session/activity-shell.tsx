@@ -29,6 +29,14 @@ interface ActivityShellProps {
   isMicroEvent?: boolean;
 }
 
+function formatActivityStatus(value: string): string {
+  const normalized = value.replace(/[-_]+/g, ' ').trim().toLowerCase();
+  if (!normalized || normalized === 'idle') return 'Ready';
+  if (['complete', 'completed', 'done', 'finished'].includes(normalized)) return 'Complete';
+  const sentenceCased = normalized.charAt(0).toUpperCase() + normalized.slice(1);
+  return sentenceCased.replace(/\bAi\b/g, 'AI');
+}
+
 export function ActivityShell({ activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange, onContentRegenerate, isMicroEvent }: ActivityShellProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const sessionId = useSessionStore((s) => s.sessionId);
@@ -367,9 +375,9 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs opacity-50">Phase:</span>
+              <span className="text-xs opacity-50">Activity status:</span>
               <span className="text-xs px-2 py-0.5 bg-lc-blue/15 text-lc-blue rounded-full">
-                {currentPhase}
+                {formatActivityStatus(currentPhase)}
               </span>
             </div>
           </div>

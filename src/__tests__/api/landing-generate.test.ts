@@ -48,7 +48,7 @@ describe('POST /api/landing/generate', () => {
     expect(Array.isArray(data.content.targetKeywords)).toBe(true);
   });
 
-  it('returns degraded opinion-shift fallback when AI throws', async () => {
+  it('returns the static opinion-shift activity without an AI call', async () => {
     vi.mocked(getCachedContent).mockResolvedValue(null);
     vi.mocked(generateJSON).mockRejectedValue(new Error('AI down'));
 
@@ -57,9 +57,13 @@ describe('POST /api/landing/generate', () => {
     const data = await res.json();
 
     expect(res.status).toBe(200);
-    expect(data.degraded).toBe(true);
-    expect(data.content.beforePrompt).toContain('Sports');
-    expect(data.content.nowPrompt).toContain('Sports');
+    expect(data.degraded).toBeUndefined();
+    expect(data.cacheId).toBeUndefined();
+    expect(data.content.activityKey).toBe('opinion-shift');
+    expect(data.content.topicContext).toBe('Sports');
+    expect(data.content.beforePrompt).toBe('Before today, I thought…');
+    expect(data.content.nowPrompt).toBe('Now I think…');
+    expect(generateJSON).not.toHaveBeenCalled();
   });
 
   it('returns degraded lightning-round fallback when AI throws', async () => {

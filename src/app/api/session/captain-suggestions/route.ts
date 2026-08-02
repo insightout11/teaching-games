@@ -53,11 +53,12 @@ export async function POST(request: NextRequest) {
     const sessionId = cleanText(body.sessionId, 80);
     const isAuto = body.auto === true;
 
-    if (!sessionId || !UUID_RE.test(sessionId)) {
+    const isMockMode = process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
+    if (!sessionId || (!isMockMode && !UUID_RE.test(sessionId))) {
       return NextResponse.json({ error: 'Invalid sessionId' }, { status: 400 });
     }
 
-    if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+    if (isMockMode) {
       return NextResponse.json({
         suggestions: buildFallbackCaptainSuggestions({ topic: '', difficulty: 'Intermediate', submissions: [] }),
         source: 'fallback',

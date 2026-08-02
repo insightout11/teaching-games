@@ -93,7 +93,7 @@ function getBriefingOptionExplanation(option: SourceBriefingOption) {
       return 'Best classroom choice. A selected section from the original upload, shortened for the briefing.';
     }
     if (option.mode === 'adapted') {
-      return 'Best classroom choice. Rewritten for student readability while staying grounded in the upload.';
+      return 'Best classroom choice. Rewritten for student readability while staying true to the upload.';
     }
     return 'Best classroom choice. Generated from the uploaded source details when no clean passage was available.';
   }
@@ -418,7 +418,7 @@ export function SourceInputPanel() {
           <span className="text-xl">🎬</span>
           <div>
             <p className="text-sm font-semibold text-lc-text">Source-Based Lessons</p>
-            <p className="text-xs text-lc-text3">Ground your lesson in a TED talk, YouTube video, or custom text. Pro feature.</p>
+            <p className="text-xs text-lc-text3">Build a lesson from a TED talk, YouTube video, or custom text. Pro feature.</p>
           </div>
           <span className="ml-auto shrink-0 rounded-full bg-amber-500/15 px-2.5 py-0.5 text-xs font-semibold text-amber-400">Pro</span>
         </div>
@@ -433,15 +433,15 @@ export function SourceInputPanel() {
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-xs font-semibold text-lc-text2 uppercase tracking-wide">Source material</p>
-              <p className="text-xs text-lc-text3 mt-0.5">Ground the briefing, vocabulary, checks, and discussion in one source.</p>
+              <p className="text-xs text-lc-text3 mt-0.5">Use one source for the briefing, vocabulary, quick checks, and discussion.</p>
             </div>
             <div className="flex shrink-0 items-center gap-1.5">
               {!isPro && (
                 <span
                   className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-400"
-                  title="Pro feature — included while you have Test Flight credits"
+                  title="Available with Pro or while you have live lesson credits"
                 >
-                  Pro · Test Flight
+                  Pro or credit
                 </span>
               )}
               <span className="rounded-full bg-lc-text3/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text3">

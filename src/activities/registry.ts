@@ -161,7 +161,7 @@ export const CATEGORY_INFO: Record<ActivityCategory, {
     color: 'text-amber-400',
   },
   learning: {
-    name: 'Learning Modules',
+    name: 'Learning Activities',
     description: 'Teach new concepts and vocabulary',
     icon: BookOpen,
     color: 'text-emerald-400',

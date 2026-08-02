@@ -377,7 +377,7 @@ export function CharacterCardsActivity({
               onClick={handleEnd}
               className="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl font-game text-sm shadow-lg hover:scale-105 active:scale-95 transition-all text-white"
             >
-              END MODULE
+              END ACTIVITY
             </button>
           </div>
         </div>

@@ -2544,7 +2544,7 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
       ? 'Choose the class aircraft.'
     : sidebarMode === 'passport'
       ? 'The class journey so far.'
-      : 'Complete flight missions.';
+      : 'Complete design missions.';
   const sidebarDescription = sidebarMode === 'destinations'
     ? 'Pick a city, choose a source, and build a full lesson around it.'
     : sidebarMode === 'expeditions'
@@ -2560,7 +2560,7 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
       ? 'Expeditions'
     : sidebarMode === 'hangar'
       ? 'Hangar'
-      : sidebarMode === 'passport' ? 'Passport' : 'Missions';
+      : sidebarMode === 'passport' ? 'Passport' : 'Design Missions';
 
   return (
     <div className="relative -m-6 min-h-[calc(100dvh-0px)] overflow-hidden bg-[var(--wf-bg)] lg:-m-8">
@@ -2668,7 +2668,7 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
             <div className="grid grid-cols-3 gap-1 rounded-md border border-white/15 bg-[var(--wf-surface)] p-1">
               <SidebarModeButton active={sidebarMode === 'destinations'} icon={<MapIcon className="h-3.5 w-3.5" />} label="Cities" onClick={() => setSidebarMode('destinations')} />
               <SidebarModeButton active={sidebarMode === 'expeditions'} icon={<Compass className="h-3.5 w-3.5" />} label="Routes" onClick={() => setSidebarMode('expeditions')} />
-              <SidebarModeButton active={sidebarMode === 'missions'} icon={<Radar className="h-3.5 w-3.5" />} label="Missions" onClick={() => setSidebarMode('missions')} />
+              <SidebarModeButton active={sidebarMode === 'missions'} icon={<Radar className="h-3.5 w-3.5" />} label="Design Missions" onClick={() => setSidebarMode('missions')} />
             </div>
             {sidebarMode !== 'expeditions' && currentExpeditionRun && currentExpedition && currentExpeditionProgress && (
               <button
@@ -3184,7 +3184,7 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
                 onClick={() => setLaunchStep('flight-plan')}
                 className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-lc-blue px-4 text-sm font-bold text-[var(--wf-bg)] transition-colors hover:bg-lc-blue-hover"
               >
-                Choose flight plan
+                Choose a Flight Plan
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </button>
             ) : (
@@ -3202,9 +3202,9 @@ export function WorldFlightPage({ initialClasses, initialPresetId }: { initialCl
                     ? <Plane className="h-4 w-4" aria-hidden />
                     : <PlaneTakeoff className="h-4 w-4" aria-hidden />}
                   {movingFlightBlockedByPlaneChoice
-                    ? 'Choose Aircraft in Hangar'
+                     ? 'Choose an aircraft in the Hangar'
                     : !isReachable && !isLocalLesson
-                    ? 'Build Lesson Without Moving'
+                     ? 'Build this lesson without moving'
                     : selectedPresetId === 'travel-60'
                       ? `Build Travel — ${selectedDestination.city}`
                       : `Build ${selectedPreset?.name ?? 'Flight Plan'}`}

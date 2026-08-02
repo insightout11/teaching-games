@@ -177,7 +177,7 @@ const CARD_DESCRIPTIONS: Record<string, { name: string; description: string }> =
   'clear-skies':   { name: 'Clear Skies',   description: '+1 if your next response is on task.' },
   'afterburner':   { name: 'Afterburner',   description: '+2 if your next response is on task.' },
   'full-throttle': { name: 'Full Throttle', description: '+3 only for a Standout response.' },
-  'contrail':      { name: 'Contrail',      description: '+1 per submitted response next module, up to 3.' },
+  'contrail':      { name: 'Contrail',      description: '+1 per submitted response next activity, up to 3.' },
 };
 
 const CARD_ICONS: Record<string, React.ElementType> = {
@@ -1196,7 +1196,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <span className={`h-2.5 w-2.5 rounded-full shadow-lg ${connectionClass}`} />
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/70">Crew Console</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300/70">Student Console</p>
             </div>
             <p className="mt-1 truncate text-lg font-bold text-white">{studentSession.displayName}</p>
             <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
@@ -1879,7 +1879,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
         return (
           <div className="space-y-2 mb-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">Crew Tools</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">Student tools</p>
             <div className="grid grid-cols-2 gap-2">
               {tiles.map((panel) => {
                 const labels: Record<string, string> = {
@@ -2087,7 +2087,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 </span>
               </button>
               <p className="mt-1 px-3 text-[10px] text-gray-500">
-                When the captain shares your answer on the big screen, it will say &ldquo;A crew member&rdquo; instead of your name.
+                When the captain shares your answer on the big screen, it will say &ldquo;A classmate&rdquo; instead of your name.
               </p>
             </div>
             <button

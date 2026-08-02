@@ -255,7 +255,7 @@ export default async function JourneyPage({ params }: { params: { shareToken: st
           <JourneyStat icon={<MapPin className="h-4 w-4" />} label="Countries and regions" value={`${data.countryCount} countries - ${data.regionCount} regions`} />
           <JourneyStat icon={<BookOpen className="h-4 w-4" />} label="Lessons completed" value={data.lessonCount.toString()} />
           <JourneyStat icon={<NotebookTabs className="h-4 w-4" />} label="Field notes" value={data.fieldNoteCount.toString()} />
-          <JourneyStat icon={<Trophy className="h-4 w-4" />} label="Flight missions" value={`${data.missionCompletedCount} completed - ${data.missionReadyCount} ready`} />
+          <JourneyStat icon={<Trophy className="h-4 w-4" />} label="Design missions" value={`${data.missionCompletedCount} completed - ${data.missionReadyCount} ready`} />
           <JourneyStat icon={<Compass className="h-4 w-4" />} label="Expeditions" value={`${data.completedExpeditions.length} completed`} />
           <JourneyStat icon={<PlaneTakeoff className="h-4 w-4" />} label="Crew progression" value={`${data.flightHours} flight hours - ${data.crewStars} crew stars`} />
           <JourneyStat icon={<Gauge className="h-4 w-4" />} label="Aircraft" value={`${data.planeName} - ${data.tierLabel}`} />

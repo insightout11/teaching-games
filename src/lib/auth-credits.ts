@@ -113,10 +113,10 @@ export async function requireAuthWithCredits(options?: {
 
 /**
  * Auth check for generation routes.
- * Credits are NOT consumed here — Test Flight credits are consumed when a
+ * Credits are NOT consumed here — live lesson credits are consumed when a
  * session is created. Routes for Pro features (sources, courses) pass
  * `requiresEntitlement: true`: the teacher must be Pro, Developer, or hold
- * remaining Test Flight credits (trials include Pro features, so the server
+ * remaining live lesson credits (Test Flights include Pro features, so the server
  * must match the client gates). All other requests pass with auth only.
  */
 export async function requireAuthForGeneration(options?: {
@@ -131,7 +131,7 @@ export async function requireAuthForGeneration(options?: {
     return { teacher, error: null };
   }
 
-  // Pro features: must be Pro tier, Developer, or hold Test Flight credits
+  // Pro features: must be Pro tier, Developer, or hold live lesson credits
   const service = createServiceClient();
   const { data: rows, error: rpcError } = await service.rpc('get_teacher_credits', {
     teacher_id: teacher.id,
@@ -165,7 +165,7 @@ export async function requireAuthForGeneration(options?: {
   return {
     teacher: null,
     error: NextResponse.json(
-      { error: 'Pro subscription required for this module.', code: 'PRO_REQUIRED' },
+      { error: 'Pro subscription required for this activity.', code: 'PRO_REQUIRED' },
       { status: 403 }
     ),
   };

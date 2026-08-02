@@ -5,7 +5,7 @@ import { PenLine } from 'lucide-react';
 export const grammarBossPlugin: GamePlugin = {
   key: 'grammar-boss',
   name: 'Grammar Boss',
-  description: 'topic-generated grammar challenges. Practice speaking with targeted feedback.',
+  description: 'Topic-generated grammar challenges for speaking with targeted feedback.',
   category: 'grammar-writing',
   pppStage: 'practice',
   icon: PenLine,

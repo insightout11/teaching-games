@@ -64,7 +64,7 @@ function ClassCard({ cls, summary }: { cls: Class; summary: ClassCardSummary }) 
         </h3>
         <p className="text-sm text-lc-text3 mt-2 flex items-center gap-1.5 font-instrument">
           <Users className="w-3.5 h-3.5" />
-          {summary.crewCount} crew · {summary.flightCount} flights · last: {formatLastFlight(summary.lastFlightAt)}
+          {summary.crewCount} student{summary.crewCount === 1 ? '' : 's'} · {summary.flightCount} lesson{summary.flightCount === 1 ? '' : 's'} · last lesson: {formatLastFlight(summary.lastFlightAt)}
         </p>
 
         {destination && (

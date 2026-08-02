@@ -256,7 +256,7 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
 
       {/* Presets */}
       <div>
-        <p className="text-xs uppercase tracking-wider opacity-60 mb-2">Quick Set</p>
+        <p className="text-xs uppercase tracking-wider opacity-60 mb-2">Quick durations</p>
         <div className="flex gap-2">
           {PRESETS.map((p) => (
             <button
@@ -276,7 +276,7 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
 
       {/* Custom time */}
       <div>
-        <p className="text-xs uppercase tracking-wider opacity-60 mb-2">Custom</p>
+        <p className="text-xs uppercase tracking-wider opacity-60 mb-2">Custom duration</p>
         <div className="flex items-center gap-2">
           <input
             type="number"
@@ -301,7 +301,7 @@ export function TimerContent({ sessionId }: TimerContentProps = {}) {
             onClick={handleCustomSet}
             className="px-3 py-1.5 bg-white/10 rounded-lg text-xs hover:bg-white/20 transition-colors"
           >
-            Set
+            Set timer
           </button>
         </div>
       </div>

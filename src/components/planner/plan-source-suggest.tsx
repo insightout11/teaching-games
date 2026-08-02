@@ -45,13 +45,13 @@ export function PlanSourceSuggest() {
 
   if (tierLoading || trimmedTopic.length < 3) return null;
 
-  // Already grounded — show the source, allow removing it.
+  // Already sourced — show the source, allow removing it.
   if (sourceMaterial) {
     return (
       <div className="flex items-center gap-2 rounded-xl border border-emerald-400/25 bg-emerald-400/5 px-3 py-2.5">
         <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-300" />
         <span className="min-w-0 flex-1 truncate text-sm text-lc-text">
-          Grounded in <span className="font-medium">{sourceMaterial.title}</span>
+          Built from <span className="font-medium">{sourceMaterial.title}</span>
         </span>
         <button
           onClick={() => applySourceBriefing(null)}
@@ -67,7 +67,7 @@ export function PlanSourceSuggest() {
     return (
       <div className="flex items-center gap-2 rounded-xl border border-lc-border bg-lc-surface px-3 py-2.5">
         <Sparkles className="h-4 w-4 shrink-0 text-amber-400" />
-        <span className="flex-1 text-sm text-lc-text2">Ground this lesson in a video or reading</span>
+        <span className="flex-1 text-sm text-lc-text2">Build this lesson from a video or reading</span>
         <span className="shrink-0 rounded-full bg-amber-500/15 px-2 py-0.5 text-xs font-semibold text-amber-400">Pro</span>
       </div>
     );
@@ -120,7 +120,7 @@ export function PlanSourceSuggest() {
   return (
     <div className="space-y-2 rounded-xl border border-lc-blue/25 bg-lc-blue/5 p-3">
       <p className="text-sm font-semibold text-lc-text2">
-        Ground this lesson? <span className="font-normal text-lc-text3">optional — a video or reading on your topic</span>
+        Add a source to this lesson? <span className="font-normal text-lc-text3">optional — a video or reading on your topic</span>
       </p>
 
       {suggestions.map((s) => (

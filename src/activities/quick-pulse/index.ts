@@ -5,7 +5,7 @@ import { Zap } from 'lucide-react';
 export const quickPulsePlugin: ActivityPlugin = {
   key: 'quick-pulse',
   name: 'Quick Pulse',
-  description: 'Fast simultaneous icebreaker — 3 mini-prompts, instant distribution reveal',
+  description: 'A fast, simultaneous icebreaker with three mini-prompts and an instant class response view.',
   category: 'icebreaker',
   pppStage: 'presentation',
   skills: [],

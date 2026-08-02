@@ -110,7 +110,7 @@ export function AccuracyMicroActivity({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-emerald-400">Accuracy Check</h3>
-        <span className="text-xs opacity-40 uppercase tracking-widest">Micro-event</span>
+        <span className="text-xs opacity-40 uppercase tracking-widest">Quick check</span>
       </div>
 
       {phase === 'idle' && (

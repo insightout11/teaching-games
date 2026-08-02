@@ -23,7 +23,7 @@ export function PaywallModal({ open, onClose }: PaywallModalProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-lc-text">You&apos;ve used your free Test Flights</h2>
+          <h2 className="text-xl font-bold text-lc-text">You&apos;ve used your free live lesson credits</h2>
           <p className="text-sm text-lc-text3">
             Upgrade to Pro to keep teaching live — unlimited lessons, saved classes, and full debriefs.
           </p>
@@ -63,7 +63,7 @@ export function PaywallModal({ open, onClose }: PaywallModalProps) {
         {/* Dismiss */}
         <div className="text-center space-y-1.5">
           <p className="text-xs text-lc-text3">
-            Not ready? You&apos;ll get 1 free Test Flight credit each month.
+            Not ready? You&apos;ll get 1 free live lesson credit each month.
           </p>
           <button
             onClick={onClose}
