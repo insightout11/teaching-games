@@ -10,6 +10,42 @@ interface UseSubmissionsFeedReturn {
   isLoading: boolean;
 }
 
+const VISIBLE_STATUSES = new Set<StudentSubmission['status']>(['pending', 'approved']);
+
+export function isVisibleSubmission(
+  submission: StudentSubmission,
+  filterGameKey?: string | null,
+): boolean {
+  return VISIBLE_STATUSES.has(submission.status)
+    && submission.game_key !== null
+    && submission.game_key !== 'cabin-mystery'
+    && (!filterGameKey || submission.game_key === filterGameKey);
+}
+
+export function normalizeSubmissions(
+  submissions: StudentSubmission[],
+  filterGameKey?: string | null,
+): StudentSubmission[] {
+  const byId = new Map<string, StudentSubmission>();
+  for (const submission of submissions) {
+    if (isVisibleSubmission(submission, filterGameKey)) byId.set(submission.id, submission);
+  }
+  return Array.from(byId.values())
+    .sort((a, b) => b.created_at.localeCompare(a.created_at) || b.id.localeCompare(a.id))
+    .slice(0, 50);
+}
+
+export function mergeSubmissionEvent(
+  current: StudentSubmission[],
+  incoming: StudentSubmission,
+  filterGameKey?: string | null,
+): StudentSubmission[] {
+  return normalizeSubmissions(
+    [...current.filter((submission) => submission.id !== incoming.id), incoming],
+    filterGameKey,
+  );
+}
+
 export function useSubmissionsFeed(
   sessionId: string | null,
   filterGameKey?: string | null,
@@ -19,6 +55,7 @@ export function useSubmissionsFeed(
 
   useEffect(() => {
     if (!sessionId) {
+      setSubmissions([]);
       setIsLoading(false);
       return;
     }
@@ -29,9 +66,12 @@ export function useSubmissionsFeed(
     }
 
     const supabase = createClient();
+    let cancelled = false;
+    let reconcileSequence = 0;
     setIsLoading(true);
 
-    async function loadSubmissions() {
+    async function reconcileSubmissions() {
+      const sequence = ++reconcileSequence;
       let query = supabase
         .from('student_submissions')
         .select('*')
@@ -40,21 +80,22 @@ export function useSubmissionsFeed(
         .not('game_key', 'is', null)
         .neq('game_key', 'cabin-mystery');
 
-      if (filterGameKey) {
-        query = query.eq('game_key', filterGameKey);
-      }
+      if (filterGameKey) query = query.eq('game_key', filterGameKey);
 
       const { data, error } = await query
         .order('created_at', { ascending: false })
         .limit(50);
 
+      if (cancelled || sequence !== reconcileSequence) return;
       if (!error && data) {
-        setSubmissions(data as StudentSubmission[]);
+        setSubmissions(normalizeSubmissions(data as StudentSubmission[], filterGameKey));
+      } else if (error && process.env.NODE_ENV === 'development') {
+        console.warn('[cockpit-feed] reconciliation failed', error.message);
       }
       setIsLoading(false);
     }
 
-    loadSubmissions();
+    void reconcileSubmissions();
 
     const channel = supabase
       .channel(`cockpit-feed:${sessionId}:${filterGameKey ?? 'all'}`)
@@ -67,11 +108,11 @@ export function useSubmissionsFeed(
           filter: `session_id=eq.${sessionId}`,
         },
         (payload: { new: unknown }) => {
-          const sub = payload.new as StudentSubmission;
-          if (sub.game_key === null || sub.game_key === 'cabin-mystery') return;
-          if (filterGameKey && sub.game_key !== filterGameKey) return;
-          setSubmissions((prev) => [sub, ...prev].slice(0, 50));
-        }
+          reconcileSequence += 1;
+          const submission = payload.new as StudentSubmission;
+          setSubmissions((current) => mergeSubmissionEvent(current, submission, filterGameKey));
+          setIsLoading(false);
+        },
       )
       .on(
         'postgres_changes',
@@ -82,16 +123,31 @@ export function useSubmissionsFeed(
           filter: `session_id=eq.${sessionId}`,
         },
         (payload: { new: unknown }) => {
-          const updated = payload.new as StudentSubmission;
-          setSubmissions((prev) =>
-            prev.map((s) => (s.id === updated.id ? updated : s))
-          );
-        }
+          reconcileSequence += 1;
+          const submission = payload.new as StudentSubmission;
+          setSubmissions((current) => mergeSubmissionEvent(current, submission, filterGameKey));
+          setIsLoading(false);
+        },
       )
-      .subscribe();
+      .subscribe((status: 'SUBSCRIBED' | 'TIMED_OUT' | 'CLOSED' | 'CHANNEL_ERROR') => {
+        if (status === 'SUBSCRIBED') {
+          void reconcileSubmissions();
+        } else if (
+          process.env.NODE_ENV === 'development'
+          && (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT')
+        ) {
+          console.warn(`[cockpit-feed] realtime ${status.toLowerCase()}; polling fallback remains active`);
+        }
+      });
+
+    const reconciliationInterval = setInterval(() => {
+      void reconcileSubmissions();
+    }, 15_000);
 
     return () => {
-      supabase.removeChannel(channel);
+      cancelled = true;
+      clearInterval(reconciliationInterval);
+      void supabase.removeChannel(channel);
     };
   }, [sessionId, filterGameKey]);
 

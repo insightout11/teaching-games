@@ -106,11 +106,13 @@ interface SessionPayload {
   debriefToken: string | null;
 }
 
-interface SessionUnchangedPayload {
-  unchanged: true;
+interface SessionLightweightPayload {
+  inputSpecUnchanged: true;
   isActive: boolean;
   serverNow: number;
   inputSpecRevision: string;
+  activePoll: SessionPayload['activePoll'];
+  sideChannel: SideChannelItem | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -134,13 +136,15 @@ export async function GET(request: NextRequest) {
       const inputSpecRevision = getInputSpecRevision(mockInputSpec);
       const isActive = session.status === 'active';
       if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
-        const unchangedPayload: SessionUnchangedPayload = {
-          unchanged: true,
+        const lightweightPayload: SessionLightweightPayload = {
+          inputSpecUnchanged: true,
           isActive,
           serverNow: Date.now(),
           inputSpecRevision,
+          activePoll: ((session as { active_poll?: SessionPayload['activePoll'] }).active_poll) ?? null,
+          sideChannel: ((session as { side_channel?: SideChannelItem | null }).side_channel) ?? null,
         };
-        return NextResponse.json(unchangedPayload, {
+        return NextResponse.json(lightweightPayload, {
           headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
         });
       }
@@ -199,18 +203,6 @@ export async function GET(request: NextRequest) {
     const isActive = session.status === 'active';
     const inputSpec = session.input_spec || null;
     const inputSpecRevision = getInputSpecRevision(inputSpec);
-
-    if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
-      const unchangedPayload: SessionUnchangedPayload = {
-        unchanged: true,
-        isActive,
-        serverNow: Date.now(),
-        inputSpecRevision,
-      };
-      return NextResponse.json(unchangedPayload, {
-        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
-      });
-    }
 
     // Resolve this student's roster student_id once (if they joined). game-shell
     // attributes a device's answers to a matched roster student by writing
@@ -273,6 +265,22 @@ export async function GET(request: NextRequest) {
       } catch {
         // session_private_state unavailable — degrade silently
       }
+    }
+
+    // A matching main-task revision only makes the main lane unchanged. Poll and
+    // Crew Radio are independent student-visible lanes, so reconcile both first.
+    if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
+      const lightweightPayload: SessionLightweightPayload = {
+        inputSpecUnchanged: true,
+        isActive,
+        serverNow: Date.now(),
+        inputSpecRevision,
+        activePoll,
+        sideChannel,
+      };
+      return NextResponse.json(lightweightPayload, {
+        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
+      });
     }
 
     // Get published questions with vote counts

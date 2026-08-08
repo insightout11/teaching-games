@@ -27,6 +27,7 @@ import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
+import { LatestRequestGate } from '@/lib/latest-request-gate';
 
 interface StudentSession {
   clientId: string;
@@ -348,9 +349,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [clockOffsetMs, setClockOffsetMs] = useState(0);
   const inputSpecRevisionRef = useRef<string | null>(null);
   const lastFullSessionPollAtRef = useRef(0);
+  const sessionRequestGateRef = useRef(new LatestRequestGate());
 
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
+  const [submittedPollIds, setSubmittedPollIds] = useState<Set<string>>(new Set());
 
   // Optimistic voting state
   const [localVoteCounts, setLocalVoteCounts] = useState<Record<string, number>>({});
@@ -369,8 +372,17 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // deliver the first spec within the splash window, and a cleanup-based timer would be cancelled
   // by the second delivery — leaving the device stuck on "Stand by..." until a manual refresh.
   useEffect(() => {
-    const hadSpec = prevInputSpecRef.current !== null;
+    const previousSpec = prevInputSpecRef.current;
+    const hadSpec = previousSpec !== null;
+    const changedSpec = inputSpec !== null
+      && getInputSpecRevision(previousSpec) !== getInputSpecRevision(inputSpec);
     prevInputSpecRef.current = inputSpec;
+    if (changedSpec) {
+      setRadioOpen(false);
+      setFlightDeckOpen(false);
+      setSubmitStatus('idle');
+      setWaitSeconds(0);
+    }
     if (inputSpec && !hadSpec) {
       const name = getGame(inputSpec.gameKey)?.name ?? getActivity(inputSpec.gameKey)?.name;
       if (name) {
@@ -381,6 +393,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   }, [inputSpec]);
 
+  useEffect(() => {
+    setSelectedChoice(null);
+  }, [activePoll?.pollId]);
+
   // Clear the splash timer on unmount.
   useEffect(() => () => {
     if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
@@ -388,6 +404,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   // Poll for session status, active polls, and input spec
   const checkSession = useCallback(async (options?: { forceFull?: boolean }) => {
+    const requestSequence = sessionRequestGateRef.current.begin();
     try {
       const params = new URLSearchParams({
         sessionId,
@@ -406,16 +423,19 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       }
 
       const data = await res.json();
+      if (!sessionRequestGateRef.current.isCurrent(requestSequence)) return;
       // Sync clock offset before the spec lands so a freshly mounted timer reads it.
       const offset = typeof data.serverNow === 'number' ? data.serverNow - Date.now() : 0;
       if (typeof data.serverNow === 'number') {
         setClockOffsetMs(offset);
       }
-      if (data.unchanged === true) {
+      if (data.inputSpecUnchanged === true) {
         if (typeof data.inputSpecRevision === 'string') {
           inputSpecRevisionRef.current = data.inputSpecRevision;
         }
         setSessionActive(data.isActive);
+        setActivePoll(data.activePoll ?? null);
+        setSideChannel(data.sideChannel ?? null);
         setConnectionStatus('connected');
         return;
       }
@@ -454,16 +474,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setPublishedQuestions(data.publishedQuestions ?? []);
       setWonderQuestions(data.wonderQuestions ?? []);
       setClassBoardItems(data.classBoardItems ?? []);
-      if (data.personalMission) setPersonalMission(data.personalMission);
+      setPersonalMission(data.personalMission ?? null);
       if (data.topic) setSessionTopic(data.topic);
       if (data.difficulty) setSessionDifficulty(data.difficulty);
       setGrammarTarget(data.grammarTarget ?? null);
       setReferenceVocab(Array.isArray(data.referenceVocab) ? data.referenceVocab : null);
       setReferenceExpressions(Array.isArray(data.referenceExpressions) ? data.referenceExpressions : null);
-      if (data.latestFeedback) setLatestFeedback(data.latestFeedback);
-      if (data.personalResults) setPersonalResults(data.personalResults);
-      if (data.debriefToken) setDebriefToken(data.debriefToken);
-      if (data.lastResult) setLastResult(data.lastResult);
+      setLatestFeedback(data.latestFeedback ?? null);
+      setPersonalResults(data.personalResults ?? null);
+      setDebriefToken(data.debriefToken ?? null);
+      setLastResult(data.lastResult ?? null);
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
       if (typeof data.responseCount === 'number') setResponseCount(data.responseCount);
       if ('sessionAccuracy' in data) setSessionAccuracy((data.sessionAccuracy as number | null) ?? null);
@@ -481,6 +501,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     const channel: RealtimeChannel = supabase
       .channel(inputSpecChannelName(sessionId))
       .on('broadcast', { event: INPUT_SPEC_REALTIME_EVENT }, ({ payload }: { payload: unknown }) => {
+        // Invalidate any older API response before applying this realtime task.
+        sessionRequestGateRef.current.invalidate();
         const data = payload as Partial<InputSpecRealtimePayload>;
         const spec = (data.spec ?? null) as InputSpec | null;
         const serverNow = typeof data.serverNow === 'number' ? data.serverNow : Date.now();
@@ -511,13 +533,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           setFollowUpText('');
         }
         setConnectionStatus('connected');
+        void checkSession({ forceFull: true });
       });
 
     channel.subscribe();
     return () => {
       void channel.unsubscribe();
     };
-  }, [sessionId]);
+  }, [sessionId, checkSession]);
 
   useEffect(() => {
     checkSession();
@@ -727,7 +750,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       });
 
       if (res.ok) {
-        setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId));
+        setSubmittedPollIds(prev => new Set(prev).add(activePoll.pollId));
       } else {
         const data = await res.json();
         if (res.status !== 429) {
@@ -1256,7 +1279,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               <button
                 key={option}
                 onClick={() => handleVote(option)}
-                disabled={isVoting}
+                disabled={isVoting || submittedPollIds.has(activePoll.pollId)}
                 className={`w-full p-4 rounded-xl text-left font-medium transition-all ${
                   selectedChoice === option
                     ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
@@ -1269,8 +1292,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               </button>
             ))}
           </div>
-          {selectedChoice && activePoll.metadata?.poll_type === 'bonus_vote' && (
-            <p className="text-xs text-cyan-400 text-center mt-3">Voted for {selectedChoice} ✓</p>
+          {selectedChoice && submittedPollIds.has(activePoll.pollId) && (
+            <p className="text-xs text-cyan-400 text-center mt-3">
+              {activePoll.metadata?.poll_type === 'bonus_vote'
+                ? `Voted for ${selectedChoice} ✓`
+                : `Vote submitted: ${selectedChoice} ✓`}
+            </p>
           )}
         </div>
       )}
@@ -1462,6 +1489,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 </div>
               )}
               <DynamicInput
+                key={inputSpecRevisionRef.current ?? getInputSpecRevision(inputSpec)}
                 spec={inputSpec}
                 onSubmit={handleSubmit}
                 isSubmitting={isSubmitting}

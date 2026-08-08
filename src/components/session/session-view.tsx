@@ -7,6 +7,7 @@ import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
 import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
+import { getActivityInstanceKey } from '@/lib/activity-instance';
 import { ModuleErrorBoundary } from './module-error-boundary';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { DemoSimulator } from './demo-simulator';
@@ -2023,7 +2024,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           <div>
             <h1 className="text-xl font-bold text-lc-text">{cls.name} — Live Session</h1>
             <p className="text-sm text-lc-text2">
-              {sessionParticipants.length} students
+              {sessionParticipants.length} {sessionParticipants.length === 1 ? 'student' : 'students'}
               {lesson.isMissionBased && (
                 <span className="ml-2 text-amber-400">Mission Lesson</span>
               )}
@@ -2571,6 +2572,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               ) : activityContent ? (
                 <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
                   <ActivityShell
+                    key={getActivityInstanceKey(lesson.currentSlotIndex, lesson.currentSlot?.stageId ?? lesson.currentSlot?.key, selectedActivity.key)}
                     activity={selectedActivity}
                     generatedContent={activityContent}
                     timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
@@ -2681,6 +2683,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             ) : activityContent ? (
               <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
                 <ActivityShell
+                  key={getActivityInstanceKey(lesson.currentSlotIndex, lesson.currentSlot?.stageId ?? lesson.currentSlot?.key, selectedActivity.key)}
                   activity={selectedActivity}
                   generatedContent={activityContent}
                   timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}

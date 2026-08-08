@@ -56,11 +56,15 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const [sideChannelItem, setSideChannelItem] = useState<SideChannelItem | null>(null);
   const [clearingSideChannel, setClearingSideChannel] = useState(false);
 
-  // Derived filter: null = show all, string = filter by that gameKey
-  const filterKey: string | null =
-    showAllSubmissions || !currentInputSpec?.gameKey ? null : currentInputSpec.gameKey;
-
-  const { submissions, isLoading } = useSubmissionsFeed(session.id, filterKey);
+  // Reconcile every visible submission so the global review count cannot be
+  // hidden by the current main-task filter. Crew Radio remains visible alongside
+  // the current main lane because it is independent teacher input.
+  const { submissions: allSubmissions, isLoading } = useSubmissionsFeed(session.id, null);
+  const submissions = showAllSubmissions || !currentInputSpec?.gameKey
+    ? allSubmissions
+    : allSubmissions.filter((submission) =>
+        submission.game_key === currentInputSpec.gameKey || submission.game_key === 'crew-radio'
+      );
 
   // Subscribe to session input_spec changes + the Crew Radio lane, so the
   // "Now" panel shows what's live on each lane of the student devices.
@@ -231,8 +235,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   }, [session.id]);
 
   const stageLabel = getStageLabelForKey(currentInputSpec?.gameKey);
-  const pendingCount = submissions.filter((sub) => sub.status === 'pending').length;
-  const approvedCount = submissions.filter((sub) => sub.status === 'approved').length;
+  const pendingCount = allSubmissions.filter((sub) => sub.status === 'pending').length;
+  const approvedCount = allSubmissions.filter((sub) => sub.status === 'approved').length;
   const deviceState = currentInputSpec ? 'Collecting responses' : 'Ready';
   // No 'General' placeholder — fall back to the class name so downstream AI
   // prompts never get told the topic is literally "General".
@@ -386,7 +390,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           {currentInputSpec ? (
             <>
               <div className="space-y-1 min-w-0">
-                  <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Current activity</p>
+                  <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Student device activity</p>
                   {stageLabel && (
                     <p className="text-base font-bold text-white leading-tight">{stageLabel}</p>
                   )}
@@ -397,7 +401,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
               <div className="flex flex-wrap items-center gap-2 text-xs text-white/35">
                 <span>{deviceState} on student devices</span>
                 <span className="text-white/15">/</span>
-                <span>{students.length} student{students.length !== 1 ? 's' : ''}</span>
+                <span>{students.length} on roster</span>
                 {lastSpotlight && (
                   <>
                     <span className="text-white/15">/</span>
@@ -408,10 +412,10 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             </>
           ) : (
             <div className="space-y-1">
-              <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Current activity</p>
+              <p className="text-xs text-cyan-300/60 uppercase tracking-widest font-medium">Student device activity</p>
               <p className="text-sm text-white/40">No activity on student devices</p>
               <div className="flex flex-wrap items-center gap-2 text-xs text-white/25 pt-1">
-                <span>{students.length} student{students.length !== 1 ? 's' : ''}</span>
+                <span>{students.length} on roster</span>
                 {lastSpotlight && (
                   <>
                     <span className="text-white/15">/</span>
@@ -484,7 +488,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
                     !showAllSubmissions ? 'bg-white/15 text-white' : 'text-white/40 hover:text-white/70',
                   ].join(' ')}
                 >
-                  Current
+                  Live lanes
                 </button>
                 <button
                   onClick={() => setShowAllSubmissions(true)}

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { GET } from '@/app/api/student/session/route';
 import { mockStore } from '@/lib/mock/data';
-import type { InputSpec } from '@/lib/input-spec';
+import { getInputSpecRevision, type InputSpec } from '@/lib/input-spec';
 
 const SESSION_ID = 'session-a2-realtime';
 
@@ -20,7 +20,7 @@ describe('GET /api/student/session realtime fallback metadata', () => {
     vi.unstubAllEnvs();
   });
 
-  it('returns a cheap unchanged payload when the inputSpec revision matches', async () => {
+  it('reconciles poll and Crew Radio lanes when the main inputSpec revision matches', async () => {
     const spec: InputSpec = {
       type: 'choice',
       gameKey: 'flash-quiz',
@@ -46,10 +46,40 @@ describe('GET /api/student/session realtime fallback metadata', () => {
     const secondData = await second.json();
 
     expect(secondData).toEqual({
-      unchanged: true,
+      inputSpecUnchanged: true,
       isActive: true,
       serverNow: expect.any(Number),
       inputSpecRevision: firstData.inputSpecRevision,
+      activePoll: null,
+      sideChannel: null,
+    });
+    expect(secondData).not.toHaveProperty('unchanged');
+  });
+
+  it('returns changed auxiliary lanes even when the main revision matches', async () => {
+    const session = mockStore.getSession(SESSION_ID) as typeof mockStore.sessions[number] & {
+      active_poll?: unknown;
+      side_channel?: unknown;
+    };
+    const activePoll = { pollId: 'poll-2', question: 'Choose', options: ['A', 'B'] };
+    const sideChannel = { id: 'radio-2', kind: 'quick-write', title: 'Quick write', prompt: 'Why?' };
+    Object.assign(session, { active_poll: activePoll, side_channel: sideChannel });
+
+    const response = await GET(
+      request(`/api/student/session?sessionId=${SESSION_ID}&clientId=c1&inputSpecRevision=${getInputSpecRevision(null)}`) as never,
+    );
+    const data = await response.json();
+
+    expect(data).toMatchObject({ inputSpecUnchanged: true, activePoll, sideChannel });
+
+    Object.assign(session, { active_poll: null, side_channel: null });
+    const clearedResponse = await GET(
+      request(`/api/student/session?sessionId=${SESSION_ID}&clientId=c1&inputSpecRevision=${getInputSpecRevision(null)}`) as never,
+    );
+    expect(await clearedResponse.json()).toMatchObject({
+      inputSpecUnchanged: true,
+      activePoll: null,
+      sideChannel: null,
     });
   });
 });
