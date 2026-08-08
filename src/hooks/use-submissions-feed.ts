@@ -4,10 +4,18 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import type { StudentSubmission } from '@/lib/supabase/types';
+import type { RealtimeChannel } from '@supabase/supabase-js';
+import {
+  logRealtimeDiagnostic,
+  reconcileIntervalFor,
+  startRealtimeChannelLifecycle,
+  type RealtimeHealth,
+} from '@/lib/realtime-health';
 
 interface UseSubmissionsFeedReturn {
   submissions: StudentSubmission[];
   isLoading: boolean;
+  realtimeHealth: RealtimeHealth;
 }
 
 const VISIBLE_STATUSES = new Set<StudentSubmission['status']>(['pending', 'approved']);
@@ -52,22 +60,28 @@ export function useSubmissionsFeed(
 ): UseSubmissionsFeedReturn {
   const [submissions, setSubmissions] = useState<StudentSubmission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [realtimeHealth, setRealtimeHealth] = useState<RealtimeHealth>('connecting');
 
   useEffect(() => {
     if (!sessionId) {
       setSubmissions([]);
       setIsLoading(false);
+      setRealtimeHealth('closed');
       return;
     }
 
     if (isMockMode()) {
       setIsLoading(false);
+      setRealtimeHealth('subscribed');
       return;
     }
 
     const supabase = createClient();
     let cancelled = false;
     let reconcileSequence = 0;
+    let currentHealth: RealtimeHealth = 'connecting';
+    let channelHealth: RealtimeHealth = 'connecting';
+    let reconciliationTimer: ReturnType<typeof setTimeout> | null = null;
     setIsLoading(true);
 
     async function reconcileSubmissions() {
@@ -89,15 +103,16 @@ export function useSubmissionsFeed(
       if (cancelled || sequence !== reconcileSequence) return;
       if (!error && data) {
         setSubmissions(normalizeSubmissions(data as StudentSubmission[], filterGameKey));
-      } else if (error && process.env.NODE_ENV === 'development') {
-        console.warn('[cockpit-feed] reconciliation failed', error.message);
+        logRealtimeDiagnostic('cockpit-feed', 'canonical_reconcile', { count: data.length });
+      } else if (error) {
+        logRealtimeDiagnostic('cockpit-feed', 'reconcile_failed');
+        setIsLoading(false);
+        throw new Error(error.message);
       }
       setIsLoading(false);
     }
 
-    void reconcileSubmissions();
-
-    const channel = supabase
+    const createChannel = () => supabase
       .channel(`cockpit-feed:${sessionId}:${filterGameKey ?? 'all'}`)
       .on(
         'postgres_changes',
@@ -112,6 +127,7 @@ export function useSubmissionsFeed(
           const submission = payload.new as StudentSubmission;
           setSubmissions((current) => mergeSubmissionEvent(current, submission, filterGameKey));
           setIsLoading(false);
+          logRealtimeDiagnostic('cockpit-feed', 'database_change_apply', { event: 'insert' });
         },
       )
       .on(
@@ -127,29 +143,42 @@ export function useSubmissionsFeed(
           const submission = payload.new as StudentSubmission;
           setSubmissions((current) => mergeSubmissionEvent(current, submission, filterGameKey));
           setIsLoading(false);
+          logRealtimeDiagnostic('cockpit-feed', 'database_change_apply', { event: 'update' });
         },
-      )
-      .subscribe((status: 'SUBSCRIBED' | 'TIMED_OUT' | 'CLOSED' | 'CHANNEL_ERROR') => {
-        if (status === 'SUBSCRIBED') {
-          void reconcileSubmissions();
-        } else if (
-          process.env.NODE_ENV === 'development'
-          && (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT')
-        ) {
-          console.warn(`[cockpit-feed] realtime ${status.toLowerCase()}; polling fallback remains active`);
-        }
-      });
+      );
 
-    const reconciliationInterval = setInterval(() => {
-      void reconcileSubmissions();
-    }, 15_000);
+    const stopLifecycle = startRealtimeChannelLifecycle<RealtimeChannel>({
+      scope: 'cockpit-feed',
+      createChannel,
+      removeChannel: (channel) => supabase.removeChannel(channel),
+      reconcile: reconcileSubmissions,
+      onHealth: (health) => {
+        channelHealth = health;
+        currentHealth = health;
+        setRealtimeHealth(health);
+      },
+    });
+
+    const runReconciliationLoop = async () => {
+      try {
+        await reconcileSubmissions();
+        currentHealth = channelHealth;
+        setRealtimeHealth(channelHealth);
+      } catch {
+        currentHealth = 'degraded';
+        setRealtimeHealth('degraded');
+      }
+      if (cancelled) return;
+      reconciliationTimer = setTimeout(runReconciliationLoop, reconcileIntervalFor(currentHealth));
+    };
+    void runReconciliationLoop();
 
     return () => {
       cancelled = true;
-      clearInterval(reconciliationInterval);
-      void supabase.removeChannel(channel);
+      if (reconciliationTimer) clearTimeout(reconciliationTimer);
+      stopLifecycle();
     };
   }, [sessionId, filterGameKey]);
 
-  return { submissions, isLoading };
+  return { submissions, isLoading, realtimeHealth };
 }

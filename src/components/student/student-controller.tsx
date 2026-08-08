@@ -28,6 +28,12 @@ import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
 import { LatestRequestGate } from '@/lib/latest-request-gate';
+import {
+  logRealtimeDiagnostic,
+  reconcileIntervalFor,
+  startRealtimeChannelLifecycle,
+  type RealtimeHealth,
+} from '@/lib/realtime-health';
 
 interface StudentSession {
   clientId: string;
@@ -256,6 +262,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [isVoting, setIsVoting] = useState(false);
   const [sessionActive, setSessionActive] = useState(true);
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
+  const [realtimeHealth, setRealtimeHealth] = useState<RealtimeHealth>('connecting');
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
@@ -416,10 +423,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       }
 
       const res = await fetch(`/api/student/session?${params.toString()}`);
+      if (!sessionRequestGateRef.current.isCurrent(requestSequence)) return;
       if (!res.ok) {
         setSessionActive(false);
         setConnectionStatus('disconnected');
-        return;
+        return false;
       }
 
       const data = await res.json();
@@ -437,7 +445,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setActivePoll(data.activePoll ?? null);
         setSideChannel(data.sideChannel ?? null);
         setConnectionStatus('connected');
-        return;
+        logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile', {
+          revision: data.inputSpecRevision ?? inputSpecRevisionRef.current,
+          unchanged: true,
+        });
+        return true;
       }
       // Instrumentation: on a freshly arrived timed round, measure how much of the
       // answer window was lost to delivery. The grace window (answersOpenAt − startedAt)
@@ -490,27 +502,40 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setOfferedCards(data.offeredCards ?? null);
       setHeldCard(data.heldCard ?? null);
       setConnectionStatus('connected');
+      logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile', {
+        revision: inputSpecRevisionRef.current,
+        unchanged: false,
+      });
+      return true;
     } catch {
       setConnectionStatus('disconnected');
+      return false;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
   useEffect(() => {
     const supabase = createClient();
-    const channel: RealtimeChannel = supabase
-      .channel(inputSpecChannelName(sessionId))
-      .on('broadcast', { event: INPUT_SPEC_REALTIME_EVENT }, ({ payload }: { payload: unknown }) => {
+    return startRealtimeChannelLifecycle<RealtimeChannel>({
+      scope: 'student-input-spec',
+      createChannel: () => supabase
+        .channel(inputSpecChannelName(sessionId))
+        .on('broadcast', { event: INPUT_SPEC_REALTIME_EVENT }, ({ payload }: { payload: unknown }) => {
         // Invalidate any older API response before applying this realtime task.
         sessionRequestGateRef.current.invalidate();
         const data = payload as Partial<InputSpecRealtimePayload>;
         const spec = (data.spec ?? null) as InputSpec | null;
         const serverNow = typeof data.serverNow === 'number' ? data.serverNow : Date.now();
         const offset = serverNow - Date.now();
-        setClockOffsetMs(offset);
-        inputSpecRevisionRef.current = typeof data.inputSpecRevision === 'string'
+        const revision = typeof data.inputSpecRevision === 'string'
           ? data.inputSpecRevision
           : getInputSpecRevision(spec);
+        logRealtimeDiagnostic('student-input-spec', 'broadcast_received', {
+          revision,
+          delivery_ms: spec?.startedAt ? serverNow - spec.startedAt : undefined,
+        });
+        setClockOffsetMs(offset);
+        inputSpecRevisionRef.current = revision;
 
         if (spec?.timerSeconds && typeof spec.answersOpenAt === 'number' && spec.startedAt) {
           const roundKey = `${spec.gameKey}:${spec.startedAt}`;
@@ -533,20 +558,38 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           setFollowUpText('');
         }
         setConnectionStatus('connected');
-        void checkSession({ forceFull: true });
-      });
-
-    channel.subscribe();
-    return () => {
-      void channel.unsubscribe();
-    };
+          logRealtimeDiagnostic('student-input-spec', 'ui_apply', { revision });
+        })
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'sessions',
+            filter: `id=eq.${sessionId}`,
+          },
+          () => {
+            logRealtimeDiagnostic('student-input-spec', 'database_change_received');
+            void checkSession({ forceFull: true });
+          },
+        ),
+      removeChannel: (channel) => supabase.removeChannel(channel),
+      reconcile: async () => {
+        const reconciled = await checkSession({ forceFull: true });
+        if (reconciled === false) throw new Error('Student canonical reconciliation failed');
+      },
+      onHealth: setRealtimeHealth,
+    });
   }, [sessionId, checkSession]);
 
   useEffect(() => {
-    checkSession();
-    const interval = setInterval(checkSession, 15000); // Realtime is primary; poll is a slow fallback.
+    void checkSession({ forceFull: realtimeHealth !== 'subscribed' });
+    const interval = setInterval(
+      () => void checkSession({ forceFull: realtimeHealth !== 'subscribed' }),
+      reconcileIntervalFor(realtimeHealth),
+    );
     return () => clearInterval(interval);
-  }, [checkSession]);
+  }, [checkSession, realtimeHealth]);
 
   // Load flight deck prefs once on mount
   useEffect(() => {
@@ -1064,10 +1107,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   const currentSignalName = inputSpec ? getSignalName(inputSpec.gameKey) : null;
   const connectionLabel =
+    connectionStatus === 'connected' && realtimeHealth !== 'subscribed' ? 'Reconnecting…' :
     connectionStatus === 'connected' ? 'Connected' :
     connectionStatus === 'checking' ? 'Checking' :
     'Offline';
   const connectionClass =
+    connectionStatus === 'connected' && realtimeHealth !== 'subscribed' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
     connectionStatus === 'connected' ? 'bg-emerald-400 shadow-emerald-400/40' :
     connectionStatus === 'checking' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
     'bg-red-400 shadow-red-400/40';

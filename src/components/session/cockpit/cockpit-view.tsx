@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import { useSubmissionsFeed } from '@/hooks/use-submissions-feed';
@@ -17,6 +17,15 @@ import { SIDE_CHANNEL_KEY, type SideChannelItem } from '@/lib/side-channel';
 import { SPOTLIGHT_TAGS, SPOTLIGHT_TAG_META, type SpotlightTag } from '@/lib/spotlight';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
+import { getInputSpecRevision } from '@/lib/input-spec';
+import { LatestRequestGate } from '@/lib/latest-request-gate';
+import {
+  logRealtimeDiagnostic,
+  reconcileIntervalFor,
+  startRealtimeChannelLifecycle,
+  type RealtimeHealth,
+} from '@/lib/realtime-health';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 
 type SessionWithInputSpec = Session & { input_spec?: InputSpec | null };
 
@@ -55,11 +64,39 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const [activeTool, setActiveTool] = useState<CockpitTool>('poll');
   const [sideChannelItem, setSideChannelItem] = useState<SideChannelItem | null>(null);
   const [clearingSideChannel, setClearingSideChannel] = useState(false);
+  const [realtimeHealth, setRealtimeHealth] = useState<RealtimeHealth>('connecting');
+  const cockpitRequestGateRef = useRef(new LatestRequestGate());
+
+  const reconcileCockpitState = useCallback(async () => {
+    const sequence = cockpitRequestGateRef.current.begin();
+    const response = await fetch(`/api/session/realtime-state?sessionId=${session.id}`, {
+      cache: 'no-store',
+    });
+    if (!cockpitRequestGateRef.current.isCurrent(sequence)) return;
+    if (!response.ok) throw new Error(`Cockpit reconciliation failed (${response.status})`);
+    const data = await response.json() as {
+      inputSpec?: InputSpec | null;
+      inputSpecRevision?: string;
+      sideChannel?: SideChannelItem | null;
+      sideChannelRevision?: string | null;
+    };
+    if (!cockpitRequestGateRef.current.isCurrent(sequence)) return;
+    setCurrentInputSpec(data.inputSpec ?? null);
+    setSideChannelItem(data.sideChannel ?? null);
+    logRealtimeDiagnostic('cockpit-state', 'canonical_reconcile', {
+      revision: data.inputSpecRevision ?? getInputSpecRevision(data.inputSpec ?? null),
+      side_revision: data.sideChannelRevision,
+    });
+  }, [session.id]);
 
   // Reconcile every visible submission so the global review count cannot be
   // hidden by the current main-task filter. Crew Radio remains visible alongside
   // the current main lane because it is independent teacher input.
-  const { submissions: allSubmissions, isLoading } = useSubmissionsFeed(session.id, null);
+  const {
+    submissions: allSubmissions,
+    isLoading,
+    realtimeHealth: submissionsHealth,
+  } = useSubmissionsFeed(session.id, null);
   const submissions = showAllSubmissions || !currentInputSpec?.gameKey
     ? allSubmissions
     : allSubmissions.filter((submission) =>
@@ -69,61 +106,74 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   // Subscribe to session input_spec changes + the Crew Radio lane, so the
   // "Now" panel shows what's live on each lane of the student devices.
   useEffect(() => {
-    if (isMockMode()) return;
+    if (isMockMode()) {
+      setRealtimeHealth('subscribed');
+      return;
+    }
 
     const supabase = createClient();
-    let cancelled = false;
+    return startRealtimeChannelLifecycle<RealtimeChannel>({
+      scope: 'cockpit-state',
+      createChannel: () => supabase
+        .channel(`cockpit-session:${session.id}`)
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'sessions',
+            filter: `id=eq.${session.id}`,
+          },
+          (payload: { new: unknown }) => {
+            cockpitRequestGateRef.current.invalidate();
+            const updated = payload.new as { input_spec?: InputSpec | null };
+            const nextSpec = updated.input_spec ?? null;
+            setCurrentInputSpec(nextSpec);
+            logRealtimeDiagnostic('cockpit-state', 'database_change_apply', {
+              revision: getInputSpecRevision(nextSpec),
+              lane: 'main',
+            });
+          },
+        )
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'session_private_state',
+            filter: `session_id=eq.${session.id}`,
+          },
+          (payload: { new: unknown }) => {
+            const row = payload.new as { key?: string; payload?: { item?: SideChannelItem | null }; updated_at?: string } | null;
+            if (row?.key === SIDE_CHANNEL_KEY) {
+              cockpitRequestGateRef.current.invalidate();
+              setSideChannelItem(row.payload?.item ?? null);
+              logRealtimeDiagnostic('cockpit-state', 'database_change_apply', {
+                side_revision: row.updated_at ?? row.payload?.item?.id,
+                lane: 'side',
+              });
+            }
+          },
+        ),
+      removeChannel: (channel) => supabase.removeChannel(channel),
+      reconcile: reconcileCockpitState,
+      onHealth: setRealtimeHealth,
+    });
+  }, [session.id, reconcileCockpitState]);
 
-    async function loadSideChannel() {
-      const { data } = await supabase
-        .from('session_private_state')
-        .select('payload')
-        .eq('session_id', session.id)
-        .eq('key', SIDE_CHANNEL_KEY)
-        .maybeSingle();
-      if (cancelled) return;
-      const payload = data?.payload as { item?: SideChannelItem | null } | null;
-      setSideChannelItem(payload?.item ?? null);
-    }
-    void loadSideChannel();
-
-    const channel = supabase
-      .channel(`cockpit-session:${session.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'sessions',
-          filter: `id=eq.${session.id}`,
-        },
-        (payload: { new: unknown }) => {
-          const updated = payload.new as { input_spec?: InputSpec | null };
-          setCurrentInputSpec(updated.input_spec ?? null);
-        }
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'session_private_state',
-          filter: `session_id=eq.${session.id}`,
-        },
-        (payload: { new: unknown }) => {
-          const row = payload.new as { key?: string; payload?: { item?: SideChannelItem | null } } | null;
-          if (row?.key === SIDE_CHANNEL_KEY) {
-            setSideChannelItem(row.payload?.item ?? null);
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      cancelled = true;
-      supabase.removeChannel(channel);
-    };
-  }, [session.id]);
+  useEffect(() => {
+    if (isMockMode()) return;
+    void reconcileCockpitState().catch(() => {
+      logRealtimeDiagnostic('cockpit-state', 'safety_reconcile_failed');
+    });
+    const interval = setInterval(
+      () => void reconcileCockpitState().catch(() => {
+        logRealtimeDiagnostic('cockpit-state', 'safety_reconcile_failed');
+      }),
+      reconcileIntervalFor(realtimeHealth),
+    );
+    return () => clearInterval(interval);
+  }, [realtimeHealth, reconcileCockpitState]);
 
   // Reset filter toggle when the active module changes
   useEffect(() => {
@@ -387,6 +437,11 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
 
         {/* Now */}
         <div className="order-3 bg-[#0d1f35] rounded-2xl border border-cyan-400/15 p-4 space-y-3 shadow-[0_0_26px_rgba(34,211,238,0.06)]">
+          {(realtimeHealth !== 'subscribed' || submissionsHealth !== 'subscribed') && (
+            <p className="text-[10px] font-medium uppercase tracking-widest text-amber-300/70">
+              Reconnecting… canonical state is being refreshed
+            </p>
+          )}
           {currentInputSpec ? (
             <>
               <div className="space-y-1 min-w-0">

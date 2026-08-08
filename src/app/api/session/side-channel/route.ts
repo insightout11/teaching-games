@@ -8,6 +8,7 @@ import {
   sanitizeSideChannelDraft,
   type SideChannelItem,
 } from '@/lib/side-channel';
+import { logRealtimeDiagnostic } from '@/lib/realtime-health';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,6 +54,7 @@ export async function POST(request: NextRequest) {
         console.error('[side-channel POST] clear error:', error);
         return NextResponse.json({ error: 'Failed to clear side channel' }, { status: 500 });
       }
+      logRealtimeDiagnostic('side-channel-sender', 'database_write_complete', { revision: 'cleared' });
       return NextResponse.json({ ok: true, item: null });
     }
 
@@ -111,6 +113,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to write side channel' }, { status: 500 });
     }
 
+    logRealtimeDiagnostic('side-channel-sender', 'database_write_complete', { revision: item.id });
     return NextResponse.json({ ok: true, item });
   } catch (error) {
     console.error('[side-channel POST] error:', error);

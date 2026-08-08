@@ -1,0 +1,172 @@
+export type RealtimeHealth = 'connecting' | 'subscribed' | 'degraded' | 'closed';
+
+export type SupabaseChannelStatus =
+  | 'SUBSCRIBED'
+  | 'TIMED_OUT'
+  | 'CLOSED'
+  | 'CHANNEL_ERROR'
+  | string;
+
+export const HEALTHY_RECONCILE_MS = 15_000;
+export const DEGRADED_RECONCILE_MS = 1_500;
+export const CHANNEL_READY_TIMEOUT_MS = 2_000;
+
+export function isChannelFailureStatus(status: SupabaseChannelStatus): boolean {
+  return status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED';
+}
+
+export function reconcileIntervalFor(health: RealtimeHealth): number {
+  return health === 'subscribed' ? HEALTHY_RECONCILE_MS : DEGRADED_RECONCILE_MS;
+}
+
+export function reconnectDelayForAttempt(attempt: number, random = Math.random): number {
+  const boundedAttempt = Math.max(0, Math.min(attempt, 4));
+  const base = Math.min(500 * (2 ** boundedAttempt), 8_000);
+  return base + Math.round(random() * Math.min(500, base / 2));
+}
+
+export function logRealtimeDiagnostic(
+  scope: string,
+  event: string,
+  details: Record<string, string | number | boolean | null | undefined> = {},
+): void {
+  const fields = Object.entries(details)
+    .filter(([, value]) => value !== undefined)
+    .map(([key, value]) => `${key}=${String(value)}`)
+    .join(' ');
+  console.info(`[realtime] scope=${scope} event=${event}${fields ? ` ${fields}` : ''}`);
+}
+
+interface SubscribableChannel {
+  subscribe(callback: (status: SupabaseChannelStatus) => void): unknown;
+}
+
+export function waitForChannelSubscription(
+  channel: SubscribableChannel,
+  timeoutMs = CHANNEL_READY_TIMEOUT_MS,
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    let settled = false;
+    const finish = (error?: Error) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+      if (error) reject(error);
+      else resolve();
+    };
+    const timeout = setTimeout(
+      () => finish(new Error(`Realtime subscription timed out after ${timeoutMs}ms`)),
+      timeoutMs,
+    );
+
+    channel.subscribe((status) => {
+      if (status === 'SUBSCRIBED') finish();
+      else if (isChannelFailureStatus(status)) finish(new Error(`Realtime subscription ${status}`));
+    });
+  });
+}
+
+export async function sendWithOneRetry(
+  send: () => Promise<unknown>,
+  reset: () => void | Promise<void>,
+): Promise<boolean> {
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      const result = await send();
+      if (result === 'ok') return true;
+    } catch {
+      // The caller records scoped diagnostics; retry behavior is identical for
+      // thrown errors and Supabase's non-ok resolved send statuses.
+    }
+    if (attempt === 0) await reset();
+  }
+  return false;
+}
+
+interface LifecycleChannel {
+  subscribe(callback: (status: SupabaseChannelStatus) => void): unknown;
+}
+
+interface RealtimeChannelLifecycleOptions<TChannel extends LifecycleChannel> {
+  scope: string;
+  createChannel: () => TChannel;
+  removeChannel: (channel: TChannel) => void | Promise<unknown>;
+  reconcile: () => void | Promise<void>;
+  onHealth: (health: RealtimeHealth) => void;
+  reconnectDelay?: (attempt: number) => number;
+}
+
+/** Owns one active channel, reconnects boundedly, and reconciles before healthy. */
+export function startRealtimeChannelLifecycle<TChannel extends LifecycleChannel>(
+  options: RealtimeChannelLifecycleOptions<TChannel>,
+): () => void {
+  let activeChannel: TChannel | null = null;
+  let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let reconnectAttempt = 0;
+  let generation = 0;
+  let stopped = false;
+
+  const removeActiveChannel = () => {
+    const channel = activeChannel;
+    activeChannel = null;
+    if (channel) void options.removeChannel(channel);
+  };
+
+  function scheduleReconnect() {
+    if (stopped || reconnectTimer) return;
+    const delay = (options.reconnectDelay ?? reconnectDelayForAttempt)(reconnectAttempt);
+    reconnectAttempt += 1;
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      removeActiveChannel();
+      connect();
+    }, delay);
+  }
+
+  function connect() {
+    if (stopped) return;
+    const currentGeneration = ++generation;
+    options.onHealth('connecting');
+    logRealtimeDiagnostic(options.scope, 'connecting', { attempt: reconnectAttempt });
+    const channel = options.createChannel();
+    activeChannel = channel;
+    channel.subscribe((status) => {
+      if (stopped || currentGeneration !== generation) return;
+      if (status === 'SUBSCRIBED') {
+        if (reconnectTimer) clearTimeout(reconnectTimer);
+        reconnectTimer = null;
+        reconnectAttempt = 0;
+        Promise.resolve(options.reconcile())
+          .then(() => {
+            if (stopped || currentGeneration !== generation) return;
+            options.onHealth('subscribed');
+            logRealtimeDiagnostic(options.scope, 'subscribed');
+          })
+          .catch(() => {
+            if (stopped || currentGeneration !== generation) return;
+            options.onHealth('degraded');
+            logRealtimeDiagnostic(options.scope, 'reconcile_failed');
+            scheduleReconnect();
+          });
+        return;
+      }
+      if (isChannelFailureStatus(status)) {
+        const health = status === 'CLOSED' ? 'closed' : 'degraded';
+        options.onHealth(health);
+        logRealtimeDiagnostic(options.scope, 'channel_status', { status });
+        scheduleReconnect();
+      }
+    });
+  }
+
+  connect();
+
+  return () => {
+    stopped = true;
+    generation += 1;
+    if (reconnectTimer) clearTimeout(reconnectTimer);
+    reconnectTimer = null;
+    removeActiveChannel();
+    options.onHealth('closed');
+  };
+}

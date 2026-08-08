@@ -14,6 +14,11 @@ import type { CharacterCard } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import type { RealtimeChannel } from '@supabase/supabase-js';
+import {
+  logRealtimeDiagnostic,
+  sendWithOneRetry,
+  waitForChannelSubscription,
+} from '@/lib/realtime-health';
 
 
 export type PickerMode = 'fair' | 'random';
@@ -310,15 +315,7 @@ async function ensureInputSpecBroadcastChannel(sessionId: string): Promise<{
   resetInputSpecBroadcastChannel();
   const { createClient } = await import('@/lib/supabase/client');
   const channel = createClient().channel(inputSpecChannelName(sessionId));
-  const ready = new Promise<void>((resolve) => {
-    const timeout = setTimeout(resolve, 750);
-    channel.subscribe((status: string) => {
-      if (status === 'SUBSCRIBED') {
-        clearTimeout(timeout);
-        resolve();
-      }
-    });
-  });
+  const ready = waitForChannelSubscription(channel);
 
   inputSpecBroadcastSessionId = sessionId;
   inputSpecBroadcastChannel = channel;
@@ -327,12 +324,36 @@ async function ensureInputSpecBroadcastChannel(sessionId: string): Promise<{
 }
 
 async function broadcastInputSpec(sessionId: string, payload: InputSpecRealtimePayload) {
-  try {
+  const startedAt = Date.now();
+  const sent = await sendWithOneRetry(async () => {
     const { channel, ready } = await ensureInputSpecBroadcastChannel(sessionId);
     await ready;
-    await channel.send({ type: 'broadcast', event: INPUT_SPEC_REALTIME_EVENT, payload });
-  } catch (error) {
-    console.warn('[input-spec realtime] broadcast failed; poll fallback will recover', error);
+    const result = await channel.send({
+      type: 'broadcast',
+      event: INPUT_SPEC_REALTIME_EVENT,
+      payload,
+    });
+    logRealtimeDiagnostic('input-spec-sender', 'send_result', {
+      revision: payload.inputSpecRevision,
+      result,
+      elapsed_ms: Date.now() - startedAt,
+    });
+    return result;
+  }, () => {
+    resetInputSpecBroadcastChannel();
+    logRealtimeDiagnostic('input-spec-sender', 'retrying', {
+      revision: payload.inputSpecRevision,
+    });
+  });
+
+  if (!sent) {
+    resetInputSpecBroadcastChannel();
+    logRealtimeDiagnostic('input-spec-sender', 'degraded', {
+      revision: payload.inputSpecRevision,
+    });
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('lessoncaptain:realtime-degraded'));
+    }
   }
 }
 
@@ -383,7 +404,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     if (inputSpecBroadcastSessionId !== sessionId) {
       resetInputSpecBroadcastChannel();
     }
-    void ensureInputSpecBroadcastChannel(sessionId);
     const callCounts: Record<string, number> = {};
     const streaks: Record<string, number> = {};
     students.forEach((s) => {
@@ -588,6 +608,9 @@ export const useSessionStore = create<SessionState>((set, get) => ({
           ? data.inputSpecRevision
           : getInputSpecRevision(stamped);
         lastWrittenInputSpec = stamped;
+        logRealtimeDiagnostic('input-spec-sender', 'database_write_complete', {
+          revision: inputSpecRevision,
+        });
         void broadcastInputSpec(sessionId, { spec: stamped, inputSpecRevision, serverNow });
         if (stamped && typeof stamped.timerSeconds === 'number' && typeof stamped.startedAt === 'number') {
           const offset = serverNow - Date.now();
