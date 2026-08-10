@@ -6,6 +6,7 @@ import type { ActivityProps } from '../types';
 import { ActivityStatus, type Vote, type WouldYouRatherContent, type WouldYouRatherDilemma } from './types';
 import { useSessionStore } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
+import { participationFromResponders } from '@/lib/activity-participation';
 
 export function WouldYouRatherActivity({
   generatedContent,
@@ -14,6 +15,7 @@ export function WouldYouRatherActivity({
   customTopic,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  onParticipationChange,
   isMicroEvent,
 }: ActivityProps) {
   const content = generatedContent as WouldYouRatherContent;
@@ -50,10 +52,11 @@ export function WouldYouRatherActivity({
 
       // Add the vote (choice is "A" or "B")
       setVotes((prev) => {
-        // Remove existing vote from this client
-        const filtered = prev.filter((v) => v.studentId !== vote.clientId);
+        const responderId = vote.clientId || vote.studentId || vote.displayName;
+        // A changed vote replaces the same student's current response.
+        const filtered = prev.filter((v) => v.studentId !== responderId);
         return [...filtered, {
-          studentId: vote.clientId,
+          studentId: responderId,
           studentName: vote.displayName,
           choice: vote.choice as 'A' | 'B',
         }];
@@ -62,6 +65,21 @@ export function WouldYouRatherActivity({
 
     return () => onRegisterRemoteVoteHandler?.(null);
   }, [status, onRegisterRemoteVoteHandler]);
+
+  useEffect(() => {
+    const tracksCurrentVotes = status === ActivityStatus.VOTING
+      || status === ActivityStatus.DISCUSSING
+      || status === ActivityStatus.FOLLOW_UP;
+    if (!tracksCurrentVotes || !currentDilemma) {
+      onParticipationChange?.(null);
+      return;
+    }
+    onParticipationChange?.(participationFromResponders(
+      'would-you-rather',
+      currentDilemma.id,
+      votes.map((vote) => vote.studentId),
+    ));
+  }, [currentDilemma, onParticipationChange, status, votes]);
 
   // Calculate vote stats
   const voteStats = useMemo(() => {

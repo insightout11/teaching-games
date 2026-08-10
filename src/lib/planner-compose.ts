@@ -365,12 +365,19 @@ function fixAdjacency(modules: PlanModule[], intent: ComposeIntent): PlanModule[
 function resolveMicroDefaults(modules: PlanModule[], intent: ComposeIntent): PlanModule[] {
   return modules.map((m) => {
     if (!m.isMicroEvent || !m.pool || m.pool.length === 0) return m;
+    const compatiblePool = m.pool.filter((key) => {
+      const item = getFlightPlanItem(key);
+      return item ? acceptableItem(item, m.slotType, intent) : true;
+    });
+    const safePool = compatiblePool.length > 0 ? compatiblePool : ['flash-quiz'];
     const current = getFlightPlanItem(m.key);
-    if (current && current.levelFit.includes(intent.level)) return m;
-    const fallback = m.pool
+    if (safePool.includes(m.key) && current && current.levelFit.includes(intent.level)) {
+      return { ...m, pool: safePool };
+    }
+    const fallback = safePool
       .map((key) => getFlightPlanItem(key))
       .find((it): it is FlightPlanItem => !!it && it.levelFit.includes(intent.level));
-    return fallback ? { ...m, key: fallback.key } : m;
+    return fallback ? { ...m, key: fallback.key, pool: safePool } : { ...m, key: safePool[0], pool: safePool };
   });
 }
 

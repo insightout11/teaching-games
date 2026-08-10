@@ -33,6 +33,7 @@ import {
   logRealtimeDiagnostic,
   reconcileIntervalFor,
   startRealtimeChannelLifecycle,
+  studentConnectionState,
   type RealtimeHealth,
 } from '@/lib/realtime-health';
 
@@ -265,6 +266,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
   const [realtimeHealth, setRealtimeHealth] = useState<RealtimeHealth>('connecting');
   const [canonicalReady, setCanonicalReady] = useState(false);
+  const [lastCanonicalSuccessAt, setLastCanonicalSuccessAt] = useState<number | null>(null);
+  const [lastParticipationSuccessAt, setLastParticipationSuccessAt] = useState<number | null>(null);
+  const [degradedSince, setDegradedSince] = useState<number | null>(Date.now());
+  const [connectionNow, setConnectionNow] = useState(Date.now());
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
@@ -361,6 +366,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const inputSpecRevisionRef = useRef<string | null>(null);
   const lastFullSessionPollAtRef = useRef(0);
   const sessionRequestGateRef = useRef(new LatestRequestGate());
+  const submissionRequestGateRef = useRef(new LatestRequestGate());
 
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
@@ -389,8 +395,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       && getInputSpecRevision(previousSpec) !== getInputSpecRevision(inputSpec);
     prevInputSpecRef.current = inputSpec;
     if (changedSpec) {
+      submissionRequestGateRef.current.invalidate();
       setRadioOpen(false);
       setFlightDeckOpen(false);
+      setIsSubmitting(false);
       setSubmitStatus('idle');
       setWaitSeconds(0);
     }
@@ -463,6 +471,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setSideChannel(data.sideChannel ?? null);
         setConnectionStatus('connected');
         setCanonicalReady(true);
+        const reconciledAt = Date.now();
+        setLastCanonicalSuccessAt(reconciledAt);
+        setConnectionNow(reconciledAt);
         logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile', {
           source,
           revision: data.inputSpecRevision ?? inputSpecRevisionRef.current,
@@ -527,6 +538,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setHeldCard(data.heldCard ?? null);
       setConnectionStatus('connected');
       setCanonicalReady(true);
+      const reconciledAt = Date.now();
+      setLastCanonicalSuccessAt(reconciledAt);
+      setConnectionNow(reconciledAt);
       logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile', {
         source,
         revision: inputSpecRevisionRef.current,
@@ -535,6 +549,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       });
       return true;
     } catch {
+      if (!sessionRequestGateRef.current.isCurrent(requestSequence)) return;
       setConnectionStatus('disconnected');
       setCanonicalReady(false);
       logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile_failed', {
@@ -619,6 +634,21 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   }, [sessionId, checkSession]);
 
   const effectiveRealtimeHealth = getEffectiveRealtimeHealth(realtimeHealth, canonicalReady);
+
+  useEffect(() => {
+    if (effectiveRealtimeHealth === 'subscribed') {
+      setDegradedSince(null);
+      setConnectionNow(Date.now());
+      return;
+    }
+    setDegradedSince((current) => current ?? Date.now());
+  }, [effectiveRealtimeHealth]);
+
+  useEffect(() => {
+    if (effectiveRealtimeHealth === 'subscribed') return;
+    const interval = setInterval(() => setConnectionNow(Date.now()), 1_000);
+    return () => clearInterval(interval);
+  }, [effectiveRealtimeHealth]);
 
   useEffect(() => {
     void checkSession({
@@ -722,6 +752,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   const handleSubmit = useCallback(async (content: string) => {
     if (!content.trim() || isSubmitting) return;
+    const submissionSequence = submissionRequestGateRef.current.begin();
 
     // Optimistic Mission Brief: show immediately before DB confirms
     if (inputSpec?.gameKey === 'mission-selector') {
@@ -782,6 +813,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             team: studentSession.team,
             gameKey: inputSpec?.gameKey,
             inputType: inputSpec?.type,
+            roundId: inputSpec?.roundId,
             studentId: studentSession.studentId,
             allowMultiple: inputSpec?.allowMultiple,
             reviewMode: inputSpec?.reviewMode,
@@ -794,6 +826,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       });
 
       const data = await res.json();
+      if (!submissionRequestGateRef.current.isCurrent(submissionSequence)) return;
 
       if (res.status === 429) {
         setSubmitStatus('rate_limited');
@@ -802,7 +835,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setSubmitStatus('error');
       } else {
         setSubmitStatus('success');
-        setTimeout(() => setSubmitStatus('idle'), 2000);
+        setLastParticipationSuccessAt(Date.now());
+        setTimeout(() => {
+          if (submissionRequestGateRef.current.isCurrent(submissionSequence)) setSubmitStatus('idle');
+        }, 2000);
         // Clear follow-up selection after successful submit
         if (inputSpec?.wonderFollowUpMode) {
           setSelectedFollowUpId(null);
@@ -812,9 +848,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setTimeout(() => void checkSession({ forceFull: true }), 1500);
       }
     } catch {
+      if (!submissionRequestGateRef.current.isCurrent(submissionSequence)) return;
       setSubmitStatus('error');
     } finally {
-      setIsSubmitting(false);
+      if (submissionRequestGateRef.current.isCurrent(submissionSequence)) setIsSubmitting(false);
     }
   }, [sessionId, studentSession, inputSpec, isSubmitting, checkSession, selectedFollowUpId]);
 
@@ -839,6 +876,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       });
 
       if (res.ok) {
+        setLastParticipationSuccessAt(Date.now());
         setSubmittedPollIds(prev => new Set(prev).add(activePoll.pollId));
       } else {
         const data = await res.json();
@@ -1152,16 +1190,28 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   };
 
   const currentSignalName = inputSpec ? getSignalName(inputSpec.gameKey) : null;
-  const connectionLabel =
-    connectionStatus === 'connected' && effectiveRealtimeHealth !== 'subscribed' ? 'Reconnecting…' :
-    connectionStatus === 'connected' ? 'Connected' :
-    connectionStatus === 'checking' ? 'Checking' :
-    'Offline';
-  const connectionClass =
-    connectionStatus === 'connected' && effectiveRealtimeHealth !== 'subscribed' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
-    connectionStatus === 'connected' ? 'bg-emerald-400 shadow-emerald-400/40' :
-    connectionStatus === 'checking' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
-    'bg-red-400 shadow-red-400/40';
+  const effectiveConnectionState = studentConnectionState({
+    channelHealth: realtimeHealth,
+    canonicalReady,
+    lastCanonicalSuccessAt,
+    lastParticipationSuccessAt,
+    degradedSince,
+    now: connectionNow,
+  });
+  const connectionLabel = {
+    checking: connectionStatus === 'disconnected' ? 'Reconnecting…' : 'Checking',
+    connected: 'Connected',
+    syncing: 'Connected · syncing',
+    reconnecting: 'Reconnecting…',
+    offline: 'Offline',
+  }[effectiveConnectionState];
+  const connectionClass = {
+    checking: 'bg-amber-400 shadow-amber-400/40 animate-pulse',
+    connected: 'bg-emerald-400 shadow-emerald-400/40',
+    syncing: 'bg-cyan-400 shadow-cyan-400/40',
+    reconnecting: 'bg-amber-400 shadow-amber-400/40 animate-pulse',
+    offline: 'bg-red-400 shadow-red-400/40',
+  }[effectiveConnectionState];
   const lastResultLabel = lastResult ? (OUTCOME_LABELS[lastResult.outcome] ?? lastResult.outcome) : null;
 
   // Capture & share: the debrief link is the durable artifact. Pasting it unfurls

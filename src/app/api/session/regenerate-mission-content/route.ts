@@ -5,6 +5,10 @@ import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import type { ActivityGeneratedContent } from '@/activities/types';
+import {
+  generateValidatedWouldYouRather,
+  type RawWouldYouRatherContent,
+} from '@/lib/would-you-rather-generation';
 
 export const maxDuration = 60;
 
@@ -52,54 +56,12 @@ Make claims progressively harder to guess.`;
 }
 
 async function regenWouldYouRather(topic: string, difficulty: Difficulty, context: string, contextType: 'mission' | 'characters'): Promise<ActivityGeneratedContent> {
-  const schema: AISchema = {
-    type: 'object',
-    properties: {
-      dilemmas: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            id: { type: 'string' },
-            optionA: { type: 'string' },
-            optionB: { type: 'string' },
-            discussionPrompt: { type: 'string' },
-          },
-          required: ['id', 'optionA', 'optionB', 'discussionPrompt'],
-        },
-      },
-      potentialFollowUps: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            dilemmaId: { type: 'string' },
-            questions: { type: 'array', items: { type: 'string' } },
-          },
-          required: ['dilemmaId', 'questions'],
-        },
-      },
-    },
-    required: ['dilemmas', 'potentialFollowUps'],
-  };
-
-  const prompt = `Generate 5 "Would You Rather?" dilemmas for an ESL classroom.
-Topic: ${topic}
-Difficulty: ${difficultyDescriptions[difficulty]}
-${missionContextBlock(context, contextType)}
-Each dilemma needs two options (both appealing OR both unappealing), a discussion prompt, and 3 follow-up questions.
-Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dilemmaId and questions).`;
-
-  const parsed = await generateJSON<{ dilemmas: unknown[]; potentialFollowUps: Array<{ dilemmaId: string; questions: string[] }> }>(prompt, schema);
-  const followUpsRecord: Record<string, string[]> = {};
-  if (Array.isArray(parsed.potentialFollowUps)) {
-    for (const item of parsed.potentialFollowUps) {
-      if (item.dilemmaId && Array.isArray(item.questions)) {
-        followUpsRecord[item.dilemmaId] = item.questions;
-      }
-    }
-  }
-  return { activityKey: 'would-you-rather', topicContext: topic, dilemmas: parsed.dilemmas, potentialFollowUps: followUpsRecord };
+  return generateValidatedWouldYouRather({
+    topic,
+    difficulty,
+    context: missionContextBlock(context, contextType),
+    generate: (prompt, schema) => generateJSON<RawWouldYouRatherContent>(prompt, schema),
+  });
 }
 
 async function regenHotTakeArena(topic: string, difficulty: Difficulty, context: string, contextType: 'mission' | 'characters'): Promise<ActivityGeneratedContent> {

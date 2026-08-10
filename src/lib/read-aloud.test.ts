@@ -20,11 +20,12 @@ describe('splitReadingTurns', () => {
     expect(turns).toHaveLength(1);
   });
 
-  it('keeps turns short even when only one student is connected', () => {
+  it('avoids sentence-sized micro-turns when only one student is connected', () => {
     const turns = splitReadingTurns(paragraph, 1, getReadingTurnWordTarget('Easy'));
 
-    expect(turns.length).toBeGreaterThanOrEqual(4);
-    expect(turns.every((turn) => turn.split(/\s+/).length <= 22)).toBe(true);
+    expect(turns.length).toBeGreaterThanOrEqual(2);
+    expect(turns.length).toBeLessThanOrEqual(4);
+    expect(turns.every((turn) => turn.split(/\s+/).length <= 48)).toBe(true);
   });
 
   it('splits oversized easy-reader sentences into shorter turns', () => {

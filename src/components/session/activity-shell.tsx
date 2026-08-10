@@ -19,6 +19,7 @@ import { ApprovalQueue } from './approval-queue';
 import { MissionControlSummary } from './mission-control-summary';
 import type { StudentSubmission } from '@/lib/supabase/types';
 import { createClient } from '@/lib/supabase/client';
+import type { ActivityParticipationMetrics } from '@/lib/activity-participation';
 
 interface ActivityShellProps {
   activity: ActivityPlugin;
@@ -56,6 +57,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
   const [showMissionSummary, setShowMissionSummary] = useState(false);
   const [autoApprove, setAutoApprove] = useState(false);
+  const [activityParticipation, setActivityParticipation] = useState<ActivityParticipationMetrics | null>(null);
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: RemoteVote) => void) | null>(null);
   const supabase = createClient();
@@ -114,6 +116,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
                 team: score.team as 'red' | 'blue' | null,
                 gameKey: responseData.gameKey as string,
                 inputType: responseData.inputType as string,
+                roundId: responseData.roundId as string | undefined,
                 resourcesUsed: responseData.resourcesUsed as string[] | undefined,
               });
             }
@@ -217,6 +220,10 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const handleRegisterRemoteVoteHandler = useCallback((handler: ((vote: RemoteVote) => void) | null) => {
     remoteVoteHandlerRef.current = handler;
   }, []);
+
+  useEffect(() => {
+    setActivityParticipation(null);
+  }, [activity.key]);
 
   // Handle approved student submission — routes through score engine
   const handleApprovedSubmission = useCallback(async (submission: StudentSubmission) => {
@@ -394,6 +401,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
               onSetInputSpec={handleSetInputSpec}
               onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
               onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
+              onParticipationChange={setActivityParticipation}
               onScore={handleScore}
               studentMissions={studentMissions}
               classMission={classMission}
@@ -421,7 +429,10 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
 
       {/* Sidebar */}
       <div className="space-y-4">
-        <Leaderboard displayMode={activity.scoringProfile?.displayMode ?? 'class'} />
+        <Leaderboard
+          displayMode={activity.scoringProfile?.displayMode ?? 'class'}
+          activityParticipation={activityParticipation}
+        />
         {sessionId && (
           <ApprovalQueue
             sessionId={sessionId}

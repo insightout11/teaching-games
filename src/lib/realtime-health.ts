@@ -10,6 +10,11 @@ export type SupabaseChannelStatus =
 export const HEALTHY_RECONCILE_MS = 15_000;
 export const DEGRADED_RECONCILE_MS = 1_500;
 export const CHANNEL_READY_TIMEOUT_MS = 2_000;
+export const CONNECTION_WARNING_GRACE_MS = 3_000;
+export const CANONICAL_FRESH_MS = 5_000;
+export const CANONICAL_OFFLINE_MS = 10_000;
+
+export type StudentConnectionState = 'checking' | 'connected' | 'syncing' | 'reconnecting' | 'offline';
 
 export function isChannelFailureStatus(status: SupabaseChannelStatus): boolean {
   return status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED';
@@ -24,6 +29,41 @@ export function effectiveRealtimeHealth(
   canonicalReady: boolean,
 ): RealtimeHealth {
   return channelHealth === 'subscribed' && canonicalReady ? 'subscribed' : 'degraded';
+}
+
+export function studentConnectionState(options: {
+  channelHealth: RealtimeHealth;
+  canonicalReady: boolean;
+  lastCanonicalSuccessAt: number | null;
+  lastParticipationSuccessAt?: number | null;
+  degradedSince: number | null;
+  now?: number;
+}): StudentConnectionState {
+  const now = options.now ?? Date.now();
+  const channelSubscribed = options.channelHealth === 'subscribed';
+  const degradedFor = options.degradedSince == null
+    ? Number.POSITIVE_INFINITY
+    : Math.max(0, now - options.degradedSince);
+
+  if (channelSubscribed && options.canonicalReady) return 'connected';
+
+  const lastEffectiveSuccessAt = Math.max(
+    options.lastCanonicalSuccessAt ?? Number.NEGATIVE_INFINITY,
+    options.lastParticipationSuccessAt ?? Number.NEGATIVE_INFINITY,
+  );
+
+  if (!Number.isFinite(lastEffectiveSuccessAt)) {
+    if (degradedFor < CONNECTION_WARNING_GRACE_MS) return 'checking';
+    return channelSubscribed ? 'syncing' : 'reconnecting';
+  }
+
+  const canonicalAge = Math.max(0, now - lastEffectiveSuccessAt);
+  if (degradedFor < CONNECTION_WARNING_GRACE_MS && canonicalAge < CANONICAL_OFFLINE_MS) {
+    return 'connected';
+  }
+  if (canonicalAge <= CANONICAL_FRESH_MS) return 'syncing';
+  if (channelSubscribed || canonicalAge < CANONICAL_OFFLINE_MS) return 'reconnecting';
+  return 'offline';
 }
 
 export function reconnectDelayForAttempt(attempt: number, random = Math.random): number {

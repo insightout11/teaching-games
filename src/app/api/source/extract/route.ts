@@ -29,6 +29,7 @@ import bbcIdeasLibrary from '@/data/bbc-ideas-library.json';
 import bigthinkLibrary from '@/data/bigthink-library.json';
 import voxLibrary from '@/data/vox-library.json';
 import kidsLibrary from '@/data/kids-library.json';
+import { preparePastedSource } from '@/lib/pasted-source';
 
 export const maxDuration = 60;
 
@@ -51,14 +52,14 @@ export async function POST(request: NextRequest) {
   const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
 
-  let body: { type: SourceType; payload: string };
+  let body: { type: SourceType; payload: string; title?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
   }
 
-  const { type, payload } = body;
+  const { type, payload, title: explicitTitle } = body;
   if (!type || !payload) {
     return NextResponse.json({ error: 'Missing type or payload' }, { status: 400 });
   }
@@ -304,18 +305,21 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'Text is too short. Please paste at least a paragraph.' }, { status: 400 });
         }
         const cleaned = sanitizeText(payload);
-
-        // Cache by content hash so repeated pastes of the same text are instant
-        const hash = Buffer.from(cleaned.slice(0, 500)).toString('base64').slice(0, 40);
-        const cached = await getCachedExtraction('text', hash);
-        if (cached) {
-          return NextResponse.json({ title: cached.title, summary: cached.summary, rawText: cleaned, sourceType: 'text', fromCache: true });
+        const prepared = preparePastedSource(cleaned, explicitTitle);
+        if (prepared.body.length < 50) {
+          return NextResponse.json({ error: 'Text body is too short after removing its title.' }, { status: 400 });
         }
 
-        const title = 'Pasted Text';
-        const summary = await summariseText(cleaned, title);
-        void storeExtraction({ sourceType: 'text', sourceKey: hash, title, summary });
-        return NextResponse.json({ title, summary, rawText: cleaned, sourceType: 'text' });
+        // Cache by content hash so repeated pastes of the same text are instant
+        const hash = Buffer.from(prepared.body.slice(0, 500)).toString('base64').slice(0, 40);
+        const cached = await getCachedExtraction('text', hash);
+        if (cached) {
+          return NextResponse.json({ title: prepared.title, summary: cached.summary, rawText: prepared.body, sourceType: 'text', fromCache: true });
+        }
+
+        const summary = await summariseText(prepared.body, prepared.title);
+        void storeExtraction({ sourceType: 'text', sourceKey: hash, title: prepared.title, summary });
+        return NextResponse.json({ title: prepared.title, summary, rawText: prepared.body, sourceType: 'text' });
       }
 
       case 'stories': {

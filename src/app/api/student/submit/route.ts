@@ -11,6 +11,7 @@ interface SubmitRequest {
   team?: 'red' | 'blue' | null;
   gameKey?: string | null;
   inputType?: string | null; // 'choice', 'binary', 'text', etc.
+  roundId?: string | null;
   studentId?: string | null;
   /** When true, skip deleting previous submissions from this student (allows multiple per session) */
   allowMultiple?: boolean;
@@ -23,7 +24,7 @@ interface SubmitRequest {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as SubmitRequest;
-    const { sessionId, clientId, displayName, content, team, gameKey, inputType, studentId, allowMultiple, reviewMode } = body;
+    const { sessionId, clientId, displayName, content, team, gameKey, inputType, roundId, studentId, allowMultiple, reviewMode } = body;
 
     // Validate required fields
     if (!sessionId || !clientId || !displayName || !content) {
@@ -144,6 +145,7 @@ export async function POST(request: NextRequest) {
             type: 'remote_vote',
             gameKey: gameKey,
             inputType: inputType,
+            ...(roundId ? { roundId } : {}),
             choice: choiceContent,
             ...(resourcesUsed ? { resourcesUsed } : {}),
           },

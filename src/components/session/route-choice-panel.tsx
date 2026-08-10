@@ -8,6 +8,7 @@ import { getAllGames, getGame } from '@/games/registry';
 import { getAllActivities, getActivity } from '@/activities/registry';
 import { createClient } from '@/lib/supabase/client';
 import type { Score } from '@/lib/supabase/types';
+import { isParticipantCompatible } from '@/lib/participant-compatibility';
 
 interface RouteChoicePanelProps {
   sessionId: string;
@@ -41,8 +42,9 @@ function resolveOption(key: string): EndGameOption {
   return { key, type: 'game', name: g?.name ?? key, Icon: ICON_BY_KEY[key] ?? Gamepad2 };
 }
 
-function minStudentsForKey(key: string): number {
-  return (getGame(key)?.minStudents ?? getActivity(key)?.minStudents) ?? 1;
+function fitsParticipantCount(key: string, participantCount: number): boolean {
+  const plugin = getGame(key) ?? getActivity(key);
+  return plugin ? isParticipantCompatible(plugin, Math.max(1, participantCount)) : false;
 }
 
 const COUNTDOWN_SECONDS = 20;
@@ -58,8 +60,8 @@ export function RouteChoicePanel({ sessionId, pool, onRouteChosen }: RouteChoice
     const keys = pool && pool.length > 0 ? pool : DEFAULT_POOL;
     // Drop options the current roster can't actually play (e.g. Imposter needs 3+
     // students) rather than offering a vote that dead-ends when it wins.
-    const fitting = keys.filter((key) => minStudentsForKey(key) <= rosterSize);
-    return (fitting.length > 0 ? fitting : keys).map(resolveOption);
+    const fitting = keys.filter((key) => fitsParticipantCount(key, rosterSize));
+    return (fitting.length > 0 ? fitting : ['flash-quiz']).map(resolveOption);
   }, [pool, rosterSize]);
   const optionKeys = useMemo(() => options.map((o) => o.key), [options]);
 

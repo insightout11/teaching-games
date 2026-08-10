@@ -144,6 +144,7 @@ export function PredictionRoundActivity({
     onRegisterRemoteVoteHandler?.((vote) => {
       if (phaseRef.current !== 'prompting') return;
       const idx = currentIndexRef.current;
+      if (vote.roundId && vote.roundId !== `prediction-round-${idx}`) return;
       const alreadyVoted = votesRef.current[idx]?.[vote.clientId];
       if (!alreadyVoted) {
         setVotes((prev) => ({
@@ -177,6 +178,8 @@ export function PredictionRoundActivity({
       gameKey: 'prediction-round',
       prompt: q.text,
       optionLabels: [q.optionA, q.optionB],
+      roundId: `prediction-round-${currentIndex}`,
+      allowMultiple: true,
     });
   }, [phase, currentIndex, questions, onSetInputSpec]);
 

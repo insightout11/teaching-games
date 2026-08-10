@@ -130,6 +130,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
               team: score.team as 'red' | 'blue' | null,
               gameKey: responseData.gameKey as string,
               inputType: responseData.inputType as string,
+              roundId: responseData.roundId as string | undefined,
             };
             if (remoteVoteHandlerRef.current) {
               remoteVoteHandlerRef.current(vote);

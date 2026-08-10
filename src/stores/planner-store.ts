@@ -11,6 +11,7 @@ import type { ActivityGeneratedContent } from '@/activities/types';
 import type { WorldFlightLaunchContext, WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { resolveSourceMaterialForDifficulty } from '@/lib/world-flight/readings';
 import { trackEvent } from '@/lib/analytics/posthog';
+import { normalizePastedSourceMaterial } from '@/lib/pasted-source';
 import type {
   WorldFlightDesignMissionContext,
   WorldFlightDesignMissionLaunchContext,
@@ -417,7 +418,8 @@ export const usePlannerStore = create<PlannerState>()(
       setTripPack: (tripPack) => set({ tripPack }),
       setSourceMaterial: (sourceMaterial) => {
         const { difficulty, loadedPresetId } = get();
-        const resolvedSourceMaterial = resolveSourceMaterialForDifficulty(sourceMaterial, difficulty);
+        const normalizedSourceMaterial = normalizePastedSourceMaterial(sourceMaterial) ?? null;
+        const resolvedSourceMaterial = resolveSourceMaterialForDifficulty(normalizedSourceMaterial, difficulty);
         const loadedPreset = loadedPresetId ? FLIGHT_PLAN_PRESETS.find((p) => p.id === loadedPresetId) : null;
 
         if (loadedPreset?.id === 'all-around-flight-60') {
@@ -461,7 +463,8 @@ export const usePlannerStore = create<PlannerState>()(
         }),
       applySourceBriefing: (material) =>
         set((state) => {
-          const resolved = material ? resolveSourceMaterialForDifficulty(material, state.difficulty) : null;
+          const normalized = normalizePastedSourceMaterial(material) ?? null;
+          const resolved = normalized ? resolveSourceMaterialForDifficulty(normalized, state.difficulty) : null;
           const kind = getSourceKind(resolved);
           let modules = state.modules;
 

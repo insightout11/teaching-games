@@ -680,16 +680,16 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
       )}
       <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />
       {/* 2×2 answer grid */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 min-[390px]:grid-cols-2">
         {(spec.options ?? []).slice(0, 4).map((option, i) => (
           <button
             key={i}
             onClick={() => handlePick(i)}
             disabled={isSubmitting || isExpired}
-            className={`${QUIZ_COLORS[i]} text-white rounded-xl p-4 text-left shadow-lg transition-all disabled:opacity-40 active:scale-95`}
+            className={`${QUIZ_COLORS[i]} min-h-16 touch-manipulation whitespace-normal break-words text-white rounded-xl p-4 text-left shadow-lg transition-all disabled:opacity-40 active:scale-95`}
           >
             <div className="text-xs font-black uppercase tracking-widest opacity-70 mb-1">{QUIZ_LABELS[i]}</div>
-            <div className="text-sm font-semibold leading-snug">{option}</div>
+            <div className="text-sm font-semibold leading-snug sm:text-base">{option}</div>
           </button>
         ))}
       </div>

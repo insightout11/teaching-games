@@ -1,12 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   DEGRADED_RECONCILE_MS,
+  CONNECTION_WARNING_GRACE_MS,
   effectiveRealtimeHealth,
   HEALTHY_RECONCILE_MS,
   reconcileIntervalFor,
   reconnectDelayForAttempt,
   sendWithOneRetry,
   startRealtimeChannelLifecycle,
+  studentConnectionState,
   waitForChannelSubscription,
   type SupabaseChannelStatus,
 } from '@/lib/realtime-health';
@@ -101,6 +103,13 @@ describe('Realtime reliability helpers', () => {
     expect(reconcile).toHaveBeenCalledTimes(2);
     expect(health.at(-1)).toBe('subscribed');
 
+    // A late status from the replaced generation must not degrade or reconcile again.
+    statusCallbacks[0]('CHANNEL_ERROR');
+    statusCallbacks[0]('SUBSCRIBED');
+    await Promise.resolve();
+    expect(reconcile).toHaveBeenCalledTimes(2);
+    expect(health.at(-1)).toBe('subscribed');
+
     stop();
     expect(removeChannel).toHaveBeenCalledWith(channels[1]);
     await vi.advanceTimersByTimeAsync(1_000);
@@ -150,5 +159,66 @@ describe('Realtime reliability helpers', () => {
     expect(effectiveRealtimeHealth('subscribed', false)).toBe('degraded');
     expect(reconcileIntervalFor(effectiveRealtimeHealth('subscribed', false))).toBe(DEGRADED_RECONCILE_MS);
     expect(effectiveRealtimeHealth('subscribed', true)).toBe('subscribed');
+  });
+
+  it('uses a grace period before showing a degraded connection warning', () => {
+    const base = {
+      channelHealth: 'degraded' as const,
+      canonicalReady: true,
+      lastCanonicalSuccessAt: 10_000,
+      degradedSince: 10_000,
+    };
+
+    expect(studentConnectionState({ ...base, now: 10_000 + CONNECTION_WARNING_GRACE_MS - 1 }))
+      .toBe('connected');
+    expect(studentConnectionState({ ...base, now: 10_000 + CONNECTION_WARNING_GRACE_MS }))
+      .toBe('syncing');
+  });
+
+  it('describes healthy fallback participation as syncing and only goes offline when both paths are stale', () => {
+    expect(studentConnectionState({
+      channelHealth: 'degraded',
+      canonicalReady: true,
+      lastCanonicalSuccessAt: 20_000,
+      degradedSince: 10_000,
+      now: 21_000,
+    })).toBe('syncing');
+
+    expect(studentConnectionState({
+      channelHealth: 'degraded',
+      canonicalReady: false,
+      lastCanonicalSuccessAt: 10_000,
+      degradedSince: 10_000,
+      now: 21_000,
+    })).toBe('offline');
+  });
+
+  it('does not show reconnecting immediately after a successful participation request', () => {
+    expect(studentConnectionState({
+      channelHealth: 'degraded',
+      canonicalReady: false,
+      lastCanonicalSuccessAt: 10_000,
+      lastParticipationSuccessAt: 20_000,
+      degradedSince: 10_000,
+      now: 21_000,
+    })).toBe('syncing');
+  });
+
+  it('returns to connected automatically after a background resubscribe', () => {
+    expect(studentConnectionState({
+      channelHealth: 'degraded',
+      canonicalReady: true,
+      lastCanonicalSuccessAt: 10_000,
+      degradedSince: 5_000,
+      now: 11_000,
+    })).toBe('syncing');
+
+    expect(studentConnectionState({
+      channelHealth: 'subscribed',
+      canonicalReady: true,
+      lastCanonicalSuccessAt: 11_000,
+      degradedSince: null,
+      now: 11_000,
+    })).toBe('connected');
   });
 });

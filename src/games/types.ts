@@ -26,6 +26,7 @@ export interface GameRemoteVote {
   team?: 'red' | 'blue' | null;
   gameKey: string;
   inputType: string;
+  roundId?: string;
 }
 
 export interface GameProps {
@@ -89,6 +90,8 @@ export interface GamePlugin {
   scoringProfile?: ScoringProfile;
   /** Minimum roster size for the game to function correctly (not just "doesn't crash" — the core mechanic needs this many roles/participants). 1 = fully solo-capable. */
   minStudents: number;
+  /** Optional hard upper bound. Omit when there is no maximum. */
+  maxStudents?: number | null;
   /** Roster size range where the game's design intent is best realized. Not a hard limit — used for honest fit labels, not gating. `max: null` means no practical ceiling. */
   idealStudents: { min: number; max: number | null };
   /** True only if the whole game can be run with everyone on one projected screen and verbal answers — the teacher operates every input from the shared display, no student device required. Judge conservatively from the game's actual input mechanics. */

@@ -17,8 +17,9 @@ import { WidgetShell } from './widget-shell';
 import { WidgetLauncher } from './widget-launcher';
 import { WIDGET_REGISTRY } from './widget-registry';
 import { QRCodeSVG } from 'qrcode.react';
-import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
-import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
+import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
+import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
+import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
 import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration, computeAltitude, computeEarthState } from '@/lib/flight-plan-helpers';
@@ -470,6 +471,20 @@ interface SessionViewProps {
 }
 
 const EMPTY_CONFIG: Record<string, unknown> = {};
+const SAFE_SIMULTANEOUS_KEY = 'flash-quiz';
+
+function pluginForKey(key: string) {
+  return getGame(key) ?? getActivity(key);
+}
+
+function compatiblePoolKeys(pool: string[], participantCount: number): string[] {
+  const effectiveCount = Math.max(1, participantCount);
+  const compatible = pool.filter((key) => {
+    const plugin = pluginForKey(key);
+    return plugin ? isParticipantCompatible(plugin, effectiveCount) : false;
+  });
+  return compatible.length > 0 ? compatible : [SAFE_SIMULTANEOUS_KEY];
+}
 
 // ─── Pool Spinner ─────────────────────────────────────────────────────────────
 
@@ -619,6 +634,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
   const [sessionParticipants, setSessionParticipants] = useState<SessionParticipant[]>([]);
+  const liveParticipantCount = sessionParticipants.length;
+  const liveParticipantCountRef = useRef(liveParticipantCount);
+  liveParticipantCountRef.current = liveParticipantCount;
   const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [cockpitLinkCopied, setCockpitLinkCopied] = useState(false);
@@ -1337,6 +1355,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleSelectGame = (game: GamePlugin) => {
+    if (!isParticipantCompatible(game, Math.max(1, liveParticipantCountRef.current))) {
+      const fallback = getGame(SAFE_SIMULTANEOUS_KEY);
+      if (fallback && fallback.key !== game.key) {
+        handleSelectGame(fallback);
+        return;
+      }
+    }
     activeActivityKeyRef.current = null;
     setSwapSuggestion(null);
     setSelectedGame(game);
@@ -1349,6 +1374,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleSelectActivity = async (activity: ActivityPlugin) => {
+    if (!isParticipantCompatible(activity, Math.max(1, liveParticipantCountRef.current))) {
+      const fallback = getGame(SAFE_SIMULTANEOUS_KEY);
+      if (fallback) {
+        handleSelectGame(fallback);
+        return;
+      }
+    }
     activeActivityKeyRef.current = activity.key;
     setSwapSuggestion(null);
     setSelectedActivity(activity);
@@ -2450,7 +2482,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         ) : poolSpinning !== null ? (
           <PoolSpinner
-            pool={poolSpinning.pool}
+            pool={compatiblePoolKeys(poolSpinning.pool, liveParticipantCount)}
             stageLabel={poolSpinning.stageLabel}
             onResolved={handlePoolResolved}
           />
@@ -3008,19 +3040,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div className="space-y-1.5">
                       {catGames.map((game) => {
                         const GameIcon = game.icon;
+                        const compatible = isParticipantCompatible(game, Math.max(1, liveParticipantCount));
                         return (
                           <button
                             key={game.key}
                             onClick={() => {
+                              if (!compatible) return;
                               lesson.insertAndPivotSlot(game.key, 'game', game.name);
                               setShowPivotDrawer(false);
                             }}
-                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left"
+                            disabled={!compatible}
+                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left disabled:cursor-not-allowed disabled:opacity-45"
                           >
                             <GameIcon className="w-5 h-5 text-lc-text3 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium text-lc-text">{game.name}</p>
                               <p className="text-xs text-lc-text3 truncate">{game.description}</p>
+                              {!compatible && <p className="mt-1 text-xs text-amber-300">{participantRequirementLabel(game)}</p>}
                             </div>
                             <span className="text-xs text-lc-text3 flex-shrink-0">~{game.estimatedMinutes}m</span>
                           </button>
@@ -3045,19 +3081,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div className="space-y-1.5">
                       {catActivities.map((activity) => {
                         const ActivityIcon = activity.icon;
+                        const compatible = isParticipantCompatible(activity, Math.max(1, liveParticipantCount));
                         return (
                           <button
                             key={activity.key}
                             onClick={() => {
+                              if (!compatible) return;
                               lesson.insertAndPivotSlot(activity.key, 'activity', activity.name);
                               setShowPivotDrawer(false);
                             }}
-                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left"
+                            disabled={!compatible}
+                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left disabled:cursor-not-allowed disabled:opacity-45"
                           >
                             <ActivityIcon className="w-5 h-5 text-lc-text3 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium text-lc-text">{activity.name}</p>
                               <p className="text-xs text-lc-text3 truncate">{activity.description}</p>
+                              {!compatible && <p className="mt-1 text-xs text-amber-300">{participantRequirementLabel(activity)}</p>}
                             </div>
                             <span className="text-xs text-lc-text3 flex-shrink-0">~{activity.estimatedMinutes}m</span>
                           </button>

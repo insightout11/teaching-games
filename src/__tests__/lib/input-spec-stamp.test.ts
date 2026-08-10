@@ -198,4 +198,10 @@ describe('getInputSpecRevision', () => {
     );
     expect(getInputSpecRevision(base)).not.toBe(getInputSpecRevision(null));
   });
+
+  it('treats the same activity prompt in a new round as a distinct response instance', () => {
+    const questionOne = { type: 'binary', gameKey: 'prediction-round', prompt: 'Choose', roundId: 'prediction-round-0' };
+    const questionTwo = { ...questionOne, roundId: 'prediction-round-1' };
+    expect(getInputSpecRevision(questionOne)).not.toBe(getInputSpecRevision(questionTwo));
+  });
 });
