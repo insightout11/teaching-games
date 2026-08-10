@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { RATE_LIMITS, VALIDATION } from '@/lib/config/rate-limits';
 import { isSessionStale } from '@/lib/session-freshness';
+import { mockStore } from '@/lib/mock/data';
 
 interface SubmitRequest {
   sessionId: string;
@@ -34,12 +35,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate UUID format
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(sessionId) || !uuidRegex.test(clientId)) {
-      return NextResponse.json({ error: 'Invalid UUID format' }, { status: 400 });
-    }
-
     // Trim and validate string lengths
     const trimmedName = displayName.trim();
     const trimmedContent = content.trim();
@@ -61,6 +56,54 @@ export async function POST(request: NextRequest) {
     // Validate team if provided
     if (team && team !== 'red' && team !== 'blue') {
       return NextResponse.json({ error: 'Team must be "red" or "blue"' }, { status: 400 });
+    }
+
+    if (
+      process.env.NEXT_PUBLIC_MOCK_MODE === 'true'
+      && gameKey === 'quick-pulse'
+      && (inputType === 'choice' || inputType === 'binary')
+    ) {
+      const session = mockStore.ensureSession(sessionId);
+      if (!session || session.status !== 'active') {
+        return NextResponse.json({ error: 'Session is not active' }, { status: 400 });
+      }
+      const existing = roundId
+        ? mockStore.getScores(sessionId).find((score) => {
+            const data = score.response_data as Record<string, unknown> | null;
+            return score.client_id === clientId
+              && data?.gameKey === gameKey
+              && data?.roundId === roundId;
+          })
+        : undefined;
+      if (existing) {
+        const data = existing.response_data as Record<string, unknown> | null;
+        return NextResponse.json({
+          success: true,
+          direct: true,
+          deduplicated: true,
+          choice: typeof data?.choice === 'string' ? data.choice : trimmedContent,
+        });
+      }
+      mockStore.createScore({
+        session_id: sessionId,
+        student_id: studentId ?? null,
+        client_id: clientId,
+        display_name: trimmedName,
+        response_data: {
+          type: 'remote_vote',
+          gameKey: gameKey ?? null,
+          inputType: inputType ?? null,
+          ...(roundId ? { roundId } : {}),
+          choice: trimmedContent,
+        },
+      });
+      return NextResponse.json({ success: true, direct: true });
+    }
+
+    // Validate UUID format in production after the deterministic mock-backend path.
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(sessionId) || !uuidRegex.test(clientId)) {
+      return NextResponse.json({ error: 'Invalid UUID format' }, { status: 400 });
     }
 
     const supabase = createServiceClient();
@@ -102,15 +145,37 @@ export async function POST(request: NextRequest) {
       (!shouldReviewText && inputType === 'textarea' && !!gameKey);
 
     if (isDirectSubmission) {
-      // Delete any previous vote from this student for this game to prevent duplicates
-      // Skip delete when allowMultiple is set (e.g. problem-solvers allows multiple per student)
+      // A structured round ID is the idempotency key for multi-prompt activities.
+      // Keep prior rounds so refresh can hydrate durable confirmation, but never
+      // insert the same student's response twice for the current round.
       if (gameKey && !allowMultiple) {
-        await supabase
-          .from('scores')
-          .delete()
-          .eq('session_id', sessionId)
-          .eq('client_id', clientId)
-          .contains('response_data', { gameKey: gameKey });
+        if (roundId) {
+          const { data: existingRoundResponse } = await supabase
+            .from('scores')
+            .select('id, response_data')
+            .eq('session_id', sessionId)
+            .eq('client_id', clientId)
+            .contains('response_data', { gameKey, roundId })
+            .limit(1)
+            .maybeSingle();
+          if (existingRoundResponse) {
+            const responseData = existingRoundResponse.response_data as { choice?: unknown } | null;
+            return NextResponse.json({
+              success: true,
+              direct: true,
+              deduplicated: true,
+              choice: typeof responseData?.choice === 'string' ? responseData.choice : trimmedContent,
+            });
+          }
+        } else {
+          // Legacy single-round inputs retain replacement semantics.
+          await supabase
+            .from('scores')
+            .delete()
+            .eq('session_id', sessionId)
+            .eq('client_id', clientId)
+            .contains('response_data', { gameKey });
+        }
       }
 
       // Parse structured JSON content (e.g. { choice, resourcesUsed }) if present

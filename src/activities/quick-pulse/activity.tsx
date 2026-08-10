@@ -144,7 +144,12 @@ export function QuickPulseActivity({
   // Set input spec when prompting
   useEffect(() => {
     if (phase !== 'prompting') {
-      onSetInputSpec?.(null);
+      const instance = activityInstanceRef.current;
+      onSetInputSpec?.(null, instance ? {
+        id: instance.id,
+        startedAt: instance.startedAt,
+        sequence: currentIndex * 2 + 1,
+      } : null);
       return;
     }
     const prompt = prompts[currentIndex];
@@ -213,8 +218,13 @@ export function QuickPulseActivity({
   const handleEnd = useCallback(() => {
     setPhase('idle');
     onPhaseChange?.('finished');
-    onSetInputSpec?.(null);
-  }, [onPhaseChange, onSetInputSpec]);
+    const instance = activityInstanceRef.current;
+    onSetInputSpec?.(null, instance ? {
+      id: instance.id,
+      startedAt: instance.startedAt,
+      sequence: currentIndex * 2 + 1,
+    } : null);
+  }, [currentIndex, onPhaseChange, onSetInputSpec]);
 
   const currentPrompt = prompts[currentIndex];
   const currentVotes = votes[currentIndex] ?? {};

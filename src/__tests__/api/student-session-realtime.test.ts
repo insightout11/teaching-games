@@ -133,4 +133,61 @@ describe('GET /api/student/session realtime fallback metadata', () => {
     expect(data.inputSpecUnchanged).not.toBe(true);
     expect(data.inputSpec).toEqual(promptTwo);
   });
+
+  it('hydrates the persisted Quick Pulse selection and confirmation after reload', async () => {
+    const promptOne: InputSpec = {
+      type: 'choice', gameKey: 'quick-pulse', prompt: 'Prompt 1', options: ['1', '2', '3', '4', '5'],
+      activityInstanceId: 'quick-pulse:400:1', activityInstanceStartedAt: 400,
+      activitySequence: 0, roundId: 'quick-pulse:400:1:prompt-1',
+    };
+    mockStore.updateSession(SESSION_ID, { input_spec: promptOne } as never);
+    mockStore.createScore({
+      session_id: SESSION_ID,
+      student_id: 'student-1',
+      client_id: 'reload-client',
+      display_name: 'Doug',
+      response_data: {
+        type: 'remote_vote', gameKey: 'quick-pulse', inputType: 'choice',
+        roundId: promptOne.roundId, choice: '4',
+      },
+    });
+
+    const response = await GET(request(
+      `/api/student/session?sessionId=${SESSION_ID}&clientId=reload-client`,
+    ) as never);
+    const data = await response.json();
+
+    expect(data.inputSpec).toEqual(promptOne);
+    expect(data.currentResponse).toEqual({ roundId: promptOne.roundId, choice: '4' });
+    expect(data.responseCount).toBe(1);
+  });
+
+  it('does not resurrect a response card during reveal or a new activity instance', async () => {
+    mockStore.createScore({
+      session_id: SESSION_ID,
+      student_id: 'student-1',
+      client_id: 'reload-client',
+      response_data: {
+        type: 'remote_vote', gameKey: 'quick-pulse', inputType: 'binary',
+        roundId: 'quick-pulse:500:1:prompt-1', choice: 'Yes',
+      },
+    });
+
+    mockStore.updateSession(SESSION_ID, { input_spec: null } as never);
+    const revealed = await GET(request(
+      `/api/student/session?sessionId=${SESSION_ID}&clientId=reload-client`,
+    ) as never);
+    expect(await revealed.json()).toMatchObject({ inputSpec: null, currentResponse: null });
+
+    const restarted: InputSpec = {
+      type: 'binary', gameKey: 'quick-pulse', prompt: 'New Prompt 1',
+      activityInstanceId: 'quick-pulse:600:1', activityInstanceStartedAt: 600,
+      activitySequence: 0, roundId: 'quick-pulse:600:1:prompt-1',
+    };
+    mockStore.updateSession(SESSION_ID, { input_spec: restarted } as never);
+    const newRun = await GET(request(
+      `/api/student/session?sessionId=${SESSION_ID}&clientId=reload-client`,
+    ) as never);
+    expect(await newRun.json()).toMatchObject({ inputSpec: restarted, currentResponse: null });
+  });
 });

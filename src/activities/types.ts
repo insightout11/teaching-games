@@ -1,7 +1,7 @@
 import { ComponentType } from 'react';
 import type { Student } from '@/lib/supabase/types';
 import type { SessionSettings } from '@/stores/session-store';
-import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
+import type { ActivityInstanceIdentity, InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { ScoreOutcome, ScoringProfile } from '@/lib/score-engine';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 import type { ActivityParticipationMetrics } from '@/lib/activity-participation';
@@ -37,7 +37,7 @@ export interface ActivityProps {
   // Custom topic (if using lesson planner mode)
   customTopic?: string;
   // Input spec system - activities set this to tell student controllers what input to show
-  onSetInputSpec?: (spec: InputSpec | null) => void;
+  onSetInputSpec?: (spec: InputSpec | null, activityInstanceIdentity?: ActivityInstanceIdentity | null) => void;
   // Submission handler - activities register this to evaluate approved submissions
   onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
   // Remote vote handler - register to receive votes from remote students in real-time

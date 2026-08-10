@@ -6,6 +6,7 @@ import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import {
   getActivityInstanceIdentity,
   getInputSpecRevision,
+  shouldApplyActivityInstanceUpdate,
   stampTimedSpec,
   type ActivityInstanceIdentity,
   type InputSpec,
@@ -42,6 +43,23 @@ export async function POST(request: NextRequest) {
       }
 
       const existing = (session as { input_spec?: unknown }).input_spec ?? null;
+      const currentIdentity = getActivityInstanceIdentity(existing as InputSpec | null);
+      if (
+        activityInstanceIdentity
+        && (
+          (currentIdentity && !shouldApplyActivityInstanceUpdate(currentIdentity, activityInstanceIdentity))
+          || (!currentIdentity && existing !== null && spec === null)
+        )
+      ) {
+        return NextResponse.json({
+          ok: true,
+          applied: false,
+          spec: existing,
+          inputSpecRevision: getInputSpecRevision(existing),
+          serverNow: Date.now(),
+          activityInstanceIdentity: currentIdentity,
+        }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
+      }
       const stamped = stampTimedSpec(spec, existing);
       const updates = { input_spec: stamped ?? null } as Partial<Session> & { input_spec?: unknown };
       mockStore.updateSession(sessionId, updates);
@@ -49,6 +67,7 @@ export async function POST(request: NextRequest) {
       const payloadSpec = stamped ?? null;
       return NextResponse.json({
         ok: true,
+        applied: true,
         spec: payloadSpec,
         inputSpecRevision: getInputSpecRevision(payloadSpec),
         serverNow: Date.now(),
@@ -69,24 +88,59 @@ export async function POST(request: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // Timed specs get server-authoritative startedAt/answersOpenAt. Same-round
-    // rewrites (lock updates, reveals) must keep the original stamp, so read the
-    // current spec first to compare round nonces.
-    let toWrite: unknown = spec ?? null;
-    if (spec && typeof spec === 'object' && typeof (spec as { timerSeconds?: unknown }).timerSeconds === 'number') {
-      const { data: current } = await supabase
-        .from('sessions')
-        .select('input_spec')
-        .eq('id', sessionId)
-        .single();
-      toWrite = stampTimedSpec(spec, current?.input_spec ?? null);
+    // Read the canonical value before every activity-instance write. This makes
+    // stale clears from an unmounted/previous activity run harmless even when they
+    // arrive from another browser task after the new prompt has already persisted.
+    const { data: currentSession } = await supabase
+      .from('sessions')
+      .select('input_spec')
+      .eq('id', sessionId)
+      .single();
+    const currentInputSpec = currentSession?.input_spec ?? null;
+    const currentIdentity = getActivityInstanceIdentity(currentInputSpec as InputSpec | null);
+    if (
+      activityInstanceIdentity
+      && (
+        (currentIdentity && !shouldApplyActivityInstanceUpdate(currentIdentity, activityInstanceIdentity))
+        || (!currentIdentity && currentInputSpec !== null && spec === null)
+      )
+    ) {
+      console.info('[input-spec POST] stale activity update rejected', {
+        sessionId,
+        currentInstanceId: currentIdentity?.id ?? 'non-instance-input',
+        currentSequence: currentIdentity?.sequence ?? null,
+        incomingInstanceId: activityInstanceIdentity.id,
+        incomingSequence: activityInstanceIdentity.sequence,
+      });
+      return NextResponse.json({
+        ok: true,
+        applied: false,
+        spec: currentInputSpec,
+        inputSpecRevision: getInputSpecRevision(currentInputSpec),
+        serverNow: Date.now(),
+        activityInstanceIdentity: currentIdentity,
+      });
     }
 
-    const { data, error } = await supabase
+    // Timed specs get server-authoritative startedAt/answersOpenAt. Same-round
+    // rewrites (lock updates, reveals) keep the original stamp.
+    let toWrite: unknown = spec ?? null;
+    if (spec && typeof spec === 'object' && typeof (spec as { timerSeconds?: unknown }).timerSeconds === 'number') {
+      toWrite = stampTimedSpec(spec, currentInputSpec);
+    }
+
+    let updateQuery = supabase
       .from('sessions')
       .update({ input_spec: toWrite })
-      .eq('id', sessionId)
-      .select('id');
+      .eq('id', sessionId);
+    // Compare-and-set closes the remaining cross-request race: if a newer prompt
+    // lands after our read but before this update, the stale write affects zero rows.
+    if (activityInstanceIdentity) {
+      updateQuery = currentInputSpec === null
+        ? updateQuery.is('input_spec', null)
+        : updateQuery.eq('input_spec', currentInputSpec);
+    }
+    const { data, error } = await updateQuery.select('id');
 
     if (error) {
       console.error('[input-spec POST] DB error:', error);
@@ -94,6 +148,22 @@ export async function POST(request: NextRequest) {
     }
 
     if (!data || data.length === 0) {
+      if (activityInstanceIdentity) {
+        const { data: latestSession } = await supabase
+          .from('sessions')
+          .select('input_spec')
+          .eq('id', sessionId)
+          .single();
+        const latestSpec = latestSession?.input_spec ?? null;
+        return NextResponse.json({
+          ok: true,
+          applied: false,
+          spec: latestSpec,
+          inputSpecRevision: getInputSpecRevision(latestSpec),
+          serverNow: Date.now(),
+          activityInstanceIdentity: getActivityInstanceIdentity(latestSpec as InputSpec | null),
+        });
+      }
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
@@ -101,6 +171,7 @@ export async function POST(request: NextRequest) {
     // to the exact same timestamps students receive from the poll.
     return NextResponse.json({
       ok: true,
+      applied: true,
       spec: toWrite,
       inputSpecRevision: getInputSpecRevision(toWrite),
       serverNow: Date.now(),

@@ -13,7 +13,7 @@ import {
   SIDE_CHANNEL_KEY,
   type SideChannelItem,
 } from '@/lib/side-channel';
-import { getInputSpecRevision } from '@/lib/input-spec';
+import { getInputSpecRevision, type InputSpec } from '@/lib/input-spec';
 
 export const dynamic = 'force-dynamic';
 
@@ -104,6 +104,7 @@ interface SessionPayload {
   lastResult: LastResult | null;
   sessionPoints: number;
   responseCount: number;
+  currentResponse: { roundId: string; choice: string } | null;
   sessionAccuracy: number | null;
   heldCard: HeldCard | null;
   offeredCards: OfferedCards | null;
@@ -142,6 +143,22 @@ export async function GET(request: NextRequest) {
         ((session as { side_channel?: SideChannelItem | null }).side_channel) ?? null,
       );
       const inputSpecRevision = getInputSpecRevision(mockInputSpec);
+      const activeRoundId = (mockInputSpec as InputSpec | null)?.roundId;
+      const quickPulseResponses = clientId
+        ? mockStore.getScores(sessionId).filter((score) => {
+            const data = score.response_data as Record<string, unknown> | null;
+            return score.client_id === clientId
+              && data?.type === 'remote_vote'
+              && data?.gameKey === 'quick-pulse'
+              && typeof data?.roundId === 'string';
+          })
+        : [];
+      const activeMockResponse = activeRoundId
+        ? quickPulseResponses.find((score) => (
+            score.response_data as Record<string, unknown> | null
+          )?.roundId === activeRoundId)
+        : undefined;
+      const activeMockResponseData = activeMockResponse?.response_data as Record<string, unknown> | null | undefined;
       const isActive = session.status === 'active';
       if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
         const lightweightPayload: SessionLightweightPayload = {
@@ -177,7 +194,12 @@ export async function GET(request: NextRequest) {
         personalResults: null,
         lastResult: null,
         sessionPoints: 0,
-        responseCount: 0,
+        responseCount: new Set(quickPulseResponses.map((score) => (
+          score.response_data as Record<string, unknown>
+        ).roundId)).size,
+        currentResponse: activeRoundId && typeof activeMockResponseData?.choice === 'string'
+          ? { roundId: activeRoundId, choice: activeMockResponseData.choice }
+          : null,
         sessionAccuracy: null,
         heldCard: null,
         offeredCards: null,
@@ -487,6 +509,7 @@ export async function GET(request: NextRequest) {
     let lastResult: LastResult | null = null;
     let sessionPoints = 0;
     let responseCount = 0;
+    let currentResponse: SessionPayload['currentResponse'] = null;
     let sessionAccuracy: number | null = null;
     if (isActive && clientId) {
       const { data: activeScores } = await supabase
@@ -515,6 +538,34 @@ export async function GET(request: NextRequest) {
           points: latest.points,
           accuracyStatus: latest.accuracy_status ?? null,
         };
+      }
+
+      const activeSpec = inputSpec as InputSpec | null;
+      if (activeSpec?.gameKey === 'quick-pulse') {
+        const { data: quickPulseScores } = await supabase
+          .from('scores')
+          .select('response_data')
+          .eq('session_id', sessionId)
+          .eq('client_id', clientId)
+          .contains('response_data', { type: 'remote_vote', gameKey: 'quick-pulse' })
+          .order('created_at', { ascending: false });
+        const responseData = (quickPulseScores ?? [])
+          .map((score) => score.response_data as Record<string, unknown> | null)
+          .filter((data): data is Record<string, unknown> => Boolean(data));
+        const quickPulseRoundIds = new Set(
+          responseData
+            .map((data) => data.roundId)
+            .filter((roundId): roundId is string => typeof roundId === 'string'),
+        );
+        responseCount = Math.max(responseCount, quickPulseRoundIds.size);
+        const matchingResponse = responseData.find((data) => data.roundId === activeSpec.roundId);
+        if (
+          activeSpec.roundId
+          && matchingResponse
+          && typeof matchingResponse.choice === 'string'
+        ) {
+          currentResponse = { roundId: activeSpec.roundId, choice: matchingResponse.choice };
+        }
       }
     }
 
@@ -654,6 +705,7 @@ export async function GET(request: NextRequest) {
       lastResult,
       sessionPoints,
       responseCount,
+      currentResponse,
       sessionAccuracy,
       heldCard,
       offeredCards,

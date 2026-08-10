@@ -18,9 +18,11 @@ interface DynamicInputProps {
   studentId?: string | null;
   /** Server clock minus local clock (ms), measured by the session poll. Feeds timed inputs. */
   clockOffsetMs?: number;
+  /** Persisted response for the current round, restored during cold hydration. */
+  initialResponse?: string | null;
 }
 
-export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs }: DynamicInputProps) {
+export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs, initialResponse }: DynamicInputProps) {
   switch (spec.type) {
     case 'text':
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
@@ -32,9 +34,9 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
           key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`}
           spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} studentId={studentId} clockOffsetMs={clockOffsetMs} />;
       }
-      return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} displayName={displayName} />;
+      return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} displayName={displayName} initialResponse={initialResponse} />;
     case 'binary':
-      return <BinaryInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <BinaryInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} initialResponse={initialResponse} />;
     case 'multi-select':
       return <MultiSelectInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'sequence':
@@ -698,10 +700,14 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId,
 }
 
 // Multiple choice (pick one)
-function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, displayName }: DynamicInputProps) {
-  const [selected, setSelected] = useState<string | null>(null);
+function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, displayName, initialResponse }: DynamicInputProps) {
+  const [selected, setSelected] = useState<string | null>(initialResponse ?? null);
   const [writeInMode, setWriteInMode] = useState(false);
   const [writeInText, setWriteInText] = useState('');
+
+  useEffect(() => {
+    if (initialResponse) setSelected(initialResponse);
+  }, [initialResponse]);
 
   const submitValue = writeInMode ? writeInText.trim() : selected;
   const canSubmit = !!submitValue
@@ -798,10 +804,20 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
 }
 
 // Binary choice (A or B)
-function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, initialResponse }: DynamicInputProps) {
   const labels = useMemo(() => spec.optionLabels || ['A', 'B'], [spec.optionLabels]);
   const options = spec.options || labels;
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(() => {
+    if (!initialResponse) return null;
+    const index = labels.indexOf(initialResponse);
+    return index >= 0 ? index : null;
+  });
+
+  useEffect(() => {
+    if (!initialResponse) return;
+    const index = labels.indexOf(initialResponse);
+    if (index >= 0) setSelectedIndex(index);
+  }, [initialResponse, labels]);
 
   useEffect(() => {
     if (submitStatus === 'error') setSelectedIndex(null);

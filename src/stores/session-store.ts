@@ -215,7 +215,7 @@ interface SessionState {
   setSourceMaterial: (sourceMaterial: SourceMaterial | null) => void;
   nextRound: () => void;
   setActiveGame: (gameKey: string | null) => void;
-  setInputSpec: (spec: InputSpec | null) => Promise<void>;
+  setInputSpec: (spec: InputSpec | null, activityInstanceIdentity?: InputSpecRealtimePayload['activityInstanceIdentity']) => Promise<void>;
   addStudent: (student: Student) => void;
   addSeenItems: (gameKey: string, items: string[]) => void;
   addSeenCacheId: (id: string) => void;
@@ -572,15 +572,18 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   setActiveGame: (gameKey: string | null) => set({ activeGameKey: gameKey }),
 
-  setInputSpec: async (spec: InputSpec | null) => {
+  setInputSpec: async (spec: InputSpec | null, suppliedActivityInstanceIdentity) => {
     const { sessionId, inputSpec: current } = get();
     // Skip no-op updates to avoid triggering unnecessary re-renders
     if (spec === current) return;
     if (spec === null && current === null) return;
-    const baseActivityInstanceIdentity = getActivityInstanceIdentity(spec ?? current);
-    const activityInstanceIdentity = spec === null && baseActivityInstanceIdentity
-      ? { ...baseActivityInstanceIdentity, sequence: baseActivityInstanceIdentity.sequence + 1 }
-      : baseActivityInstanceIdentity;
+    const baseActivityInstanceIdentity = suppliedActivityInstanceIdentity
+      ?? getActivityInstanceIdentity(spec ?? current);
+    const activityInstanceIdentity = suppliedActivityInstanceIdentity
+      ? suppliedActivityInstanceIdentity
+      : spec === null && baseActivityInstanceIdentity
+        ? { ...baseActivityInstanceIdentity, sequence: baseActivityInstanceIdentity.sequence + 1 }
+        : baseActivityInstanceIdentity;
     set({ inputSpec: spec });
 
     // Sync to database so student controllers can poll for it

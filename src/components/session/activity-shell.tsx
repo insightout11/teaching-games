@@ -12,7 +12,7 @@ import type {
   ActivityContinueResponse,
   RemoteVote,
 } from '@/activities/types';
-import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
+import type { ActivityInstanceIdentity, InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { Score } from '@/lib/supabase/types';
 import { Leaderboard } from './leaderboard';
 import { ApprovalQueue } from './approval-queue';
@@ -206,8 +206,11 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   }, [sessionId, recordScore, activity.key, activity.scoringProfile]);
 
   // Callback for activities to set input spec
-  const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
-    setInputSpec(spec);
+  const handleSetInputSpec = useCallback((
+    spec: InputSpec | null,
+    activityInstanceIdentity?: ActivityInstanceIdentity | null,
+  ) => {
+    setInputSpec(spec, activityInstanceIdentity);
   }, [setInputSpec]);
 
   // Callback for activities to register submission handler

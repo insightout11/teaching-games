@@ -275,6 +275,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [degradedSince, setDegradedSince] = useState<number | null>(Date.now());
   const [connectionNow, setConnectionNow] = useState(Date.now());
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
+  const [currentResponse, setCurrentResponse] = useState<{ roundId: string; choice: string } | null>(null);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
   const [wonderVotedIds, setWonderVotedIds] = useState<Set<string>>(new Set());
@@ -451,6 +452,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     }
   }, [inputSpec]);
 
+  // A cold reload hydrates the authoritative prompt and this student's persisted
+  // round response together. Reapply the durable confirmation after the generic
+  // new-prompt reset above, without issuing another submission request.
+  useEffect(() => {
+    if (!currentResponse || currentResponse.roundId !== inputSpec?.roundId) return;
+    const confirmationKey = inputSpecRevisionRef.current ?? getInputSpecRevision(inputSpec);
+    confirmedSubmissionKeysRef.current.add(confirmationKey);
+    setSubmitStatus('success');
+  }, [currentResponse, inputSpec]);
+
   useEffect(() => {
     setSelectedChoice(null);
   }, [activePoll?.pollId]);
@@ -549,7 +560,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         suppressNextTransitionRef.current = data.inputSpec != null;
         awaitingInitialHydrationRef.current = false;
       }
-      applyAuthoritativeInputSpec(spec);
+      const inputSpecApplied = applyAuthoritativeInputSpec(spec);
+      if (inputSpecApplied) {
+        const restoredResponse = data.currentResponse
+          && typeof data.currentResponse.roundId === 'string'
+          && typeof data.currentResponse.choice === 'string'
+          && data.currentResponse.roundId === spec?.roundId
+          ? data.currentResponse as { roundId: string; choice: string }
+          : null;
+        setCurrentResponse(restoredResponse);
+      }
       setSideChannel(data.sideChannel ?? null);
       if (!data.inputSpec?.wonderFollowUpMode) {
         setSelectedFollowUpId(null);
@@ -886,6 +906,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           confirmationKey,
           current,
         ).responseCount);
+        if (inputSpec?.roundId) {
+          setCurrentResponse({ roundId: inputSpec.roundId, choice: content.trim() });
+        }
         // Clear follow-up selection after successful submit
         if (inputSpec?.wonderFollowUpMode) {
           setSelectedFollowUpId(null);
@@ -1687,6 +1710,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 displayName={studentSession.displayName}
                 studentId={studentSession.studentId}
                 clockOffsetMs={clockOffsetMs}
+                initialResponse={currentResponse && currentResponse.roundId === inputSpec.roundId
+                  ? currentResponse.choice
+                  : null}
               />
             </>
           )
