@@ -6,6 +6,27 @@ import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex } from '@/lib/flight-plan-helpers';
 import { StageCoachHint } from '@/components/session/stage-coach-hint';
 
+/**
+ * Label for the stage-level forward button.
+ *
+ * Until the activity reports finished, this button LEAVES the activity early — it does
+ * not advance to the next question within it. Labelling it "Continue to X" mid-activity
+ * reads as the intended next step and invites teachers to skip remaining questions
+ * (e.g. leaving Prediction Round at Question 1 of 3), so say plainly that it skips.
+ */
+export function getStageActionLabel({
+  isModuleFinished,
+  isFinalSlot,
+  nextLabel,
+}: {
+  isModuleFinished: boolean;
+  isFinalSlot: boolean;
+  nextLabel?: string;
+}): string {
+  if (!isModuleFinished) return isFinalSlot ? 'Skip to the end' : `Skip to ${nextLabel}`;
+  return isFinalSlot ? 'Finish Lesson' : `Continue to ${nextLabel}`;
+}
+
 interface FlightSessionViewProps {
   slots: LessonSlot[];
   currentSlotIndex: number;
@@ -44,7 +65,7 @@ export function FlightSessionView({
   const currentStageLabel = currentSlot?.stageLabel ?? currentSlot?.name;
   const nextLabel = nextSlot?.stageLabel ?? nextSlot?.name;
   const isFinalSlot = currentSlotIndex + 1 >= slots.length;
-  const actionLabel = isFinalSlot ? 'Finish Lesson' : `Continue to ${nextLabel}`;
+  const actionLabel = getStageActionLabel({ isModuleFinished, isFinalSlot, nextLabel });
   const phaseLabel = currentSlot?.isMicroEvent ? 'Quick check' : 'Lesson stage';
 
   return (
