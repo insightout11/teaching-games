@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { createWorldFlightGuessMapStyle, createCityStreetMapStyle } from '@/data/world-flight/map-style';
 import { CompassRose } from '@/components/ui/compass-rose';
 import type { InputSpec } from '@/lib/input-spec';
+import { formatGeoPositionStatus } from '@/lib/geo-point-status';
 
 interface GeoPointInputProps {
   spec: InputSpec;
@@ -119,7 +120,7 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
     <div className="space-y-4">
       {spec.prompt && <p className="text-center text-sm font-semibold text-cyan-300">{spec.prompt}</p>}
       <div className="relative overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950">
-        <div ref={containerRef} className="h-[360px] w-full" />
+        <div ref={containerRef} className="h-[230px] w-full min-[430px]:h-[260px] sm:h-[320px] lg:h-[360px]" />
         {isGuide && (
           <div className="pointer-events-none absolute inset-x-4 top-4 rounded-xl border border-amber-300/40 bg-slate-950/90 px-3 py-2 text-center text-xs text-amber-100 backdrop-blur">
             You&apos;re the guide! The gold pin is the destination — describe the route from START out loud. Don&apos;t show your screen!
@@ -148,7 +149,7 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
       ) : (
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-slate-400">
-            {position ? `${Math.abs(position.lat).toFixed(1)} deg ${position.lat >= 0 ? 'N' : 'S'}, ${Math.abs(position.lng).toFixed(1)} deg ${position.lng >= 0 ? 'E' : 'W'}` : 'No position selected'}
+            {formatGeoPositionStatus(position, locked)}
           </p>
           <Button
             onClick={handleSubmit}

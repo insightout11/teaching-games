@@ -51,7 +51,12 @@ export function PollContent({ sessionId }: PollContentProps) {
         .single();
 
       if (data) {
-        setActivePoll(data as Poll);
+        const poll = data as Poll;
+        const expiresAt = typeof poll.metadata?.expiresAt === 'string'
+          ? Date.parse(poll.metadata.expiresAt)
+          : Number.POSITIVE_INFINITY;
+        const expiredSidePoll = poll.metadata?.channel === 'side' && Date.now() >= expiresAt;
+        setActivePoll(expiredSidePoll ? null : poll);
       }
     }
 

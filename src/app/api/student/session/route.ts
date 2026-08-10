@@ -8,7 +8,11 @@ import {
   type ReferenceExpressionItem,
   type ReferenceVocabItem,
 } from '@/lib/reference-materials';
-import { SIDE_CHANNEL_KEY, type SideChannelItem } from '@/lib/side-channel';
+import {
+  getActiveSideChannelItem,
+  SIDE_CHANNEL_KEY,
+  type SideChannelItem,
+} from '@/lib/side-channel';
 import { getInputSpecRevision } from '@/lib/input-spec';
 
 export const dynamic = 'force-dynamic';
@@ -133,6 +137,10 @@ export async function GET(request: NextRequest) {
       }
 
       const mockInputSpec = (session as { input_spec?: unknown }).input_spec || null;
+      const mockActivePoll = ((session as { active_poll?: SessionPayload['activePoll'] }).active_poll) ?? null;
+      const mockSideChannel = getActiveSideChannelItem(
+        ((session as { side_channel?: SideChannelItem | null }).side_channel) ?? null,
+      );
       const inputSpecRevision = getInputSpecRevision(mockInputSpec);
       const isActive = session.status === 'active';
       if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
@@ -141,8 +149,8 @@ export async function GET(request: NextRequest) {
           isActive,
           serverNow: Date.now(),
           inputSpecRevision,
-          activePoll: ((session as { active_poll?: SessionPayload['activePoll'] }).active_poll) ?? null,
-          sideChannel: ((session as { side_channel?: SideChannelItem | null }).side_channel) ?? null,
+          activePoll: mockActivePoll,
+          sideChannel: mockSideChannel,
         };
         return NextResponse.json(lightweightPayload, {
           headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
@@ -152,10 +160,10 @@ export async function GET(request: NextRequest) {
       const payload: SessionPayload = {
         isActive,
         serverNow: Date.now(),
-        activePoll: null,
+        activePoll: mockActivePoll,
         inputSpec: mockInputSpec,
         inputSpecRevision,
-        sideChannel: null,
+        sideChannel: mockSideChannel,
         publishedQuestions: null,
         wonderQuestions: null,
         classBoardItems: null,
@@ -260,11 +268,20 @@ export async function GET(request: NextRequest) {
           .maybeSingle();
         const item = (sideRow?.payload as { item?: SideChannelItem | null } | null)?.item;
         if (item && typeof item === 'object' && item.id && item.prompt) {
-          sideChannel = item;
+          sideChannel = getActiveSideChannelItem(item);
         }
       } catch {
         // session_private_state unavailable — degrade silently
       }
+    }
+
+    // A side poll belongs to its Crew Radio prompt. Once that prompt expires or
+    // is replaced, the old poll must not remain visible as an active live lane.
+    if (
+      activePoll?.metadata?.channel === 'side'
+      && (!sideChannel || activePoll.pollId !== sideChannel.pollId)
+    ) {
+      activePoll = null;
     }
 
     // A matching main-task revision only makes the main lane unchanged. Poll and

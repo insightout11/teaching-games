@@ -29,6 +29,7 @@ import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
 import { LatestRequestGate } from '@/lib/latest-request-gate';
 import {
+  effectiveRealtimeHealth as getEffectiveRealtimeHealth,
   logRealtimeDiagnostic,
   reconcileIntervalFor,
   startRealtimeChannelLifecycle,
@@ -263,6 +264,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [sessionActive, setSessionActive] = useState(true);
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
   const [realtimeHealth, setRealtimeHealth] = useState<RealtimeHealth>('connecting');
+  const [canonicalReady, setCanonicalReady] = useState(false);
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
@@ -348,6 +350,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // Auto-clear timer for the splash. Held in a ref (not the effect cleanup) so a follow-up
   // inputSpec delivery can't cancel it and strand the device on "Stand by...".
   const transitionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const awaitingInitialHydrationRef = useRef(true);
+  const suppressNextTransitionRef = useRef(false);
   // Tracks the last timed round we logged delivery-latency instrumentation for.
   const loggedRoundRef = useRef<string | null>(null);
 
@@ -390,7 +394,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setSubmitStatus('idle');
       setWaitSeconds(0);
     }
-    if (inputSpec && !hadSpec) {
+    const suppressTransition = suppressNextTransitionRef.current;
+    suppressNextTransitionRef.current = false;
+    if (inputSpec && !hadSpec && !suppressTransition) {
       const name = getGame(inputSpec.gameKey)?.name ?? getActivity(inputSpec.gameKey)?.name;
       if (name) {
         setTransitionActivityName(name);
@@ -410,8 +416,13 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   }, []);
 
   // Poll for session status, active polls, and input spec
-  const checkSession = useCallback(async (options?: { forceFull?: boolean }) => {
+  const checkSession = useCallback(async (options?: {
+    forceFull?: boolean;
+    source?: 'mount' | 'subscribed' | 'database-change' | 'degraded-fallback' | 'safety-fallback';
+  }) => {
     const requestSequence = sessionRequestGateRef.current.begin();
+    const requestStartedAt = Date.now();
+    const source = options?.source ?? 'safety-fallback';
     try {
       const params = new URLSearchParams({
         sessionId,
@@ -427,6 +438,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (!res.ok) {
         setSessionActive(false);
         setConnectionStatus('disconnected');
+        setCanonicalReady(false);
+        logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile_failed', {
+          source,
+          status: res.status,
+          elapsed_ms: Date.now() - requestStartedAt,
+        });
         return false;
       }
 
@@ -445,9 +462,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setActivePoll(data.activePoll ?? null);
         setSideChannel(data.sideChannel ?? null);
         setConnectionStatus('connected');
+        setCanonicalReady(true);
         logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile', {
+          source,
           revision: data.inputSpecRevision ?? inputSpecRevisionRef.current,
           unchanged: true,
+          elapsed_ms: Date.now() - requestStartedAt,
         });
         return true;
       }
@@ -477,6 +497,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       }
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);
+      if (awaitingInitialHydrationRef.current) {
+        suppressNextTransitionRef.current = data.inputSpec != null;
+        awaitingInitialHydrationRef.current = false;
+      }
       setInputSpec(data.inputSpec);
       setSideChannel(data.sideChannel ?? null);
       if (!data.inputSpec?.wonderFollowUpMode) {
@@ -502,13 +526,21 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setOfferedCards(data.offeredCards ?? null);
       setHeldCard(data.heldCard ?? null);
       setConnectionStatus('connected');
+      setCanonicalReady(true);
       logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile', {
+        source,
         revision: inputSpecRevisionRef.current,
         unchanged: false,
+        elapsed_ms: Date.now() - requestStartedAt,
       });
       return true;
     } catch {
       setConnectionStatus('disconnected');
+      setCanonicalReady(false);
+      logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile_failed', {
+        source,
+        elapsed_ms: Date.now() - requestStartedAt,
+      });
       return false;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -552,6 +584,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           }
         }
 
+        if (awaitingInitialHydrationRef.current) {
+          suppressNextTransitionRef.current = spec != null;
+          awaitingInitialHydrationRef.current = false;
+        }
         setInputSpec(spec);
         if (!spec?.wonderFollowUpMode) {
           setSelectedFollowUpId(null);
@@ -570,26 +606,36 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           },
           () => {
             logRealtimeDiagnostic('student-input-spec', 'database_change_received');
-            void checkSession({ forceFull: true });
+            void checkSession({ forceFull: true, source: 'database-change' });
           },
         ),
       removeChannel: (channel) => supabase.removeChannel(channel),
       reconcile: async () => {
-        const reconciled = await checkSession({ forceFull: true });
+        const reconciled = await checkSession({ forceFull: true, source: 'subscribed' });
         if (reconciled === false) throw new Error('Student canonical reconciliation failed');
       },
       onHealth: setRealtimeHealth,
     });
   }, [sessionId, checkSession]);
 
+  const effectiveRealtimeHealth = getEffectiveRealtimeHealth(realtimeHealth, canonicalReady);
+
   useEffect(() => {
-    void checkSession({ forceFull: realtimeHealth !== 'subscribed' });
+    void checkSession({
+      forceFull: effectiveRealtimeHealth !== 'subscribed',
+      source: canonicalReady
+        ? effectiveRealtimeHealth === 'subscribed' ? 'safety-fallback' : 'degraded-fallback'
+        : 'mount',
+    });
     const interval = setInterval(
-      () => void checkSession({ forceFull: realtimeHealth !== 'subscribed' }),
-      reconcileIntervalFor(realtimeHealth),
+      () => void checkSession({
+        forceFull: effectiveRealtimeHealth !== 'subscribed',
+        source: effectiveRealtimeHealth === 'subscribed' ? 'safety-fallback' : 'degraded-fallback',
+      }),
+      reconcileIntervalFor(effectiveRealtimeHealth),
     );
     return () => clearInterval(interval);
-  }, [checkSession, realtimeHealth]);
+  }, [canonicalReady, checkSession, effectiveRealtimeHealth]);
 
   // Load flight deck prefs once on mount
   useEffect(() => {
@@ -1107,12 +1153,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   const currentSignalName = inputSpec ? getSignalName(inputSpec.gameKey) : null;
   const connectionLabel =
-    connectionStatus === 'connected' && realtimeHealth !== 'subscribed' ? 'Reconnecting…' :
+    connectionStatus === 'connected' && effectiveRealtimeHealth !== 'subscribed' ? 'Reconnecting…' :
     connectionStatus === 'connected' ? 'Connected' :
     connectionStatus === 'checking' ? 'Checking' :
     'Offline';
   const connectionClass =
-    connectionStatus === 'connected' && realtimeHealth !== 'subscribed' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
+    connectionStatus === 'connected' && effectiveRealtimeHealth !== 'subscribed' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
     connectionStatus === 'connected' ? 'bg-emerald-400 shadow-emerald-400/40' :
     connectionStatus === 'checking' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
     'bg-red-400 shadow-red-400/40';
@@ -1251,14 +1297,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   return (
     <StudentSkyShell weather="cruising">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-2xl border border-cyan-400/15 bg-slate-950/65 p-4 mb-4 shadow-[0_0_28px_rgba(34,211,238,0.08)]">
+      <div className="relative mb-3 overflow-hidden rounded-2xl border border-cyan-400/15 bg-slate-950/65 p-3 shadow-[0_0_28px_rgba(34,211,238,0.08)] sm:mb-4 sm:p-4">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/50 to-transparent" />
         <Image
           src="/lessoncaptain-mark-on-dark.svg"
           alt="LessonCaptain"
           width={32}
           height={32}
-          className="absolute left-1/2 top-4 h-8 w-auto -translate-x-1/2 opacity-30 pointer-events-none"
+          className="pointer-events-none absolute left-1/2 top-4 hidden h-8 w-auto -translate-x-1/2 opacity-30 sm:block"
         />
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
@@ -1301,7 +1347,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {/* Active Poll — side-channel polls render inside Crew Radio instead */}
       {activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && (
-        <div className={`glass rounded-2xl p-6 mb-4 ${activePoll.metadata?.poll_type === 'bonus_vote' ? 'border border-cyan-500/30' : ''}`}>
+        <div className={`glass mb-3 rounded-2xl p-4 sm:mb-4 sm:p-6 ${activePoll.metadata?.poll_type === 'bonus_vote' ? 'border border-cyan-500/30' : ''}`}>
           <div className="flex items-center justify-between mb-1">
             <h2 className="font-bold text-white">
               {activePoll.metadata?.poll_type === 'bonus_vote' ? 'Bonus Round! Vote for your game:' : 'Poll'}
@@ -1317,7 +1363,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             )}
           </div>
           {activePoll.metadata?.poll_type !== 'bonus_vote' && (
-            <p className="text-lg text-cyan-400 mb-4">{activePoll.question}</p>
+            <p className="mb-3 text-base text-cyan-400 sm:mb-4 sm:text-lg">{activePoll.question}</p>
           )}
           <div className="space-y-2">
             {activePoll.options.map((option) => (
@@ -1325,7 +1371,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 key={option}
                 onClick={() => handleVote(option)}
                 disabled={isVoting || submittedPollIds.has(activePoll.pollId)}
-                className={`w-full p-4 rounded-xl text-left font-medium transition-all ${
+                className={`w-full rounded-xl p-3 text-left font-medium transition-all sm:p-4 ${
                   selectedChoice === option
                     ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
                     : activePoll.metadata?.poll_type === 'bonus_vote'
@@ -1411,7 +1457,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       })()}
 
       {/* Current Signal */}
-      <div className={`rounded-2xl p-5 mb-4 border transition-all ${
+      <div className={`mb-3 rounded-2xl border p-4 transition-all sm:mb-4 sm:p-5 ${
         inputSpec
           ? 'bg-slate-950/70 border-cyan-400/25 shadow-[0_0_32px_rgba(34,211,238,0.09)]'
           : 'bg-white/5 border-white/10'
@@ -1498,7 +1544,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             </>
           ) : (
             <>
-              <div className="mb-4 flex items-start justify-between gap-3">
+              <div className="mb-3 flex items-start justify-between gap-3 sm:mb-4">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <Radio className="h-4 w-4 text-cyan-300" />

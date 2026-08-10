@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   DEGRADED_RECONCILE_MS,
+  effectiveRealtimeHealth,
   HEALTHY_RECONCILE_MS,
   reconcileIntervalFor,
   reconnectDelayForAttempt,
@@ -143,5 +144,11 @@ describe('Realtime reliability helpers', () => {
     expect(reconcileIntervalFor('closed')).toBe(DEGRADED_RECONCILE_MS);
     expect(reconnectDelayForAttempt(0, () => 0)).toBe(500);
     expect(reconnectDelayForAttempt(99, () => 0)).toBe(8_000);
+  });
+
+  it('keeps reload recovery fast until canonical state has actually applied', () => {
+    expect(effectiveRealtimeHealth('subscribed', false)).toBe('degraded');
+    expect(reconcileIntervalFor(effectiveRealtimeHealth('subscribed', false))).toBe(DEGRADED_RECONCILE_MS);
+    expect(effectiveRealtimeHealth('subscribed', true)).toBe('subscribed');
   });
 });

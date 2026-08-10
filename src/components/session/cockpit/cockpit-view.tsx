@@ -13,7 +13,14 @@ import { CaptainSuggestionsPanel } from '@/components/session/cockpit/captain-su
 import { DebateBoardPanel } from '@/components/session/cockpit/debate-board-panel';
 import { FindYourWayAid } from '@/components/session/cockpit/find-your-way-aid';
 import { ClassBoardControl } from '@/components/session/class-board-control';
-import { SIDE_CHANNEL_KEY, type SideChannelItem } from '@/lib/side-channel';
+import {
+  getActiveSideChannelItem,
+  getSideChannelLifecycle,
+  SIDE_CHANNEL_KEY,
+  type SideChannelItem,
+  type SideChannelLifecycle,
+} from '@/lib/side-channel';
+import { isSubmissionInLiveLanes } from '@/lib/cockpit-live-lanes';
 import { SPOTLIGHT_TAGS, SPOTLIGHT_TAG_META, type SpotlightTag } from '@/lib/spotlight';
 import type { Session, Class, Student, StudentSubmission } from '@/lib/supabase/types';
 import type { InputSpec } from '@/lib/input-spec';
@@ -63,6 +70,7 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   const [showAllSubmissions, setShowAllSubmissions] = useState(false);
   const [activeTool, setActiveTool] = useState<CockpitTool>('poll');
   const [sideChannelItem, setSideChannelItem] = useState<SideChannelItem | null>(null);
+  const [sideChannelLifecycle, setSideChannelLifecycle] = useState<SideChannelLifecycle>('inactive');
   const [clearingSideChannel, setClearingSideChannel] = useState(false);
   const [realtimeHealth, setRealtimeHealth] = useState<RealtimeHealth>('connecting');
   const cockpitRequestGateRef = useRef(new LatestRequestGate());
@@ -78,11 +86,13 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
       inputSpec?: InputSpec | null;
       inputSpecRevision?: string;
       sideChannel?: SideChannelItem | null;
+      sideChannelLifecycle?: SideChannelLifecycle;
       sideChannelRevision?: string | null;
     };
     if (!cockpitRequestGateRef.current.isCurrent(sequence)) return;
     setCurrentInputSpec(data.inputSpec ?? null);
     setSideChannelItem(data.sideChannel ?? null);
+    setSideChannelLifecycle(data.sideChannelLifecycle ?? 'inactive');
     logRealtimeDiagnostic('cockpit-state', 'canonical_reconcile', {
       revision: data.inputSpecRevision ?? getInputSpecRevision(data.inputSpec ?? null),
       side_revision: data.sideChannelRevision,
@@ -97,11 +107,12 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
     isLoading,
     realtimeHealth: submissionsHealth,
   } = useSubmissionsFeed(session.id, null);
-  const submissions = showAllSubmissions || !currentInputSpec?.gameKey
-    ? allSubmissions
-    : allSubmissions.filter((submission) =>
-        submission.game_key === currentInputSpec.gameKey || submission.game_key === 'crew-radio'
-      );
+  const liveSubmissions = allSubmissions.filter((submission) => isSubmissionInLiveLanes(submission, {
+    currentGameKey: currentInputSpec?.gameKey,
+    sideChannel: sideChannelItem,
+  }));
+  const submissions = showAllSubmissions ? allSubmissions : liveSubmissions;
+  const historicalSubmissionCount = allSubmissions.length - liveSubmissions.length;
 
   // Subscribe to session input_spec changes + the Crew Radio lane, so the
   // "Now" panel shows what's live on each lane of the student devices.
@@ -147,7 +158,9 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             const row = payload.new as { key?: string; payload?: { item?: SideChannelItem | null }; updated_at?: string } | null;
             if (row?.key === SIDE_CHANNEL_KEY) {
               cockpitRequestGateRef.current.invalidate();
-              setSideChannelItem(row.payload?.item ?? null);
+              const storedItem = row.payload?.item ?? null;
+              setSideChannelItem(getActiveSideChannelItem(storedItem));
+              setSideChannelLifecycle(getSideChannelLifecycle(storedItem));
               logRealtimeDiagnostic('cockpit-state', 'database_change_apply', {
                 side_revision: row.updated_at ?? row.payload?.item?.id,
                 lane: 'side',
@@ -220,7 +233,10 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId: session.id, item: null }),
       });
-      if (res.ok) setSideChannelItem(null);
+      if (res.ok) {
+        setSideChannelItem(null);
+        setSideChannelLifecycle('inactive');
+      }
     } finally {
       setClearingSideChannel(false);
     }
@@ -285,8 +301,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
   }, [session.id]);
 
   const stageLabel = getStageLabelForKey(currentInputSpec?.gameKey);
-  const pendingCount = allSubmissions.filter((sub) => sub.status === 'pending').length;
-  const approvedCount = allSubmissions.filter((sub) => sub.status === 'approved').length;
+  const pendingCount = submissions.filter((sub) => sub.status === 'pending').length;
+  const approvedCount = submissions.filter((sub) => sub.status === 'approved').length;
   const deviceState = currentInputSpec ? 'Collecting responses' : 'Ready';
   // No 'General' placeholder — fall back to the class name so downstream AI
   // prompts never get told the topic is literally "General".
@@ -489,6 +505,8 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
                 <p className="text-xs text-white/55 leading-snug">
                   {sideChannelItem.title}: {truncate(sideChannelItem.prompt, 70)}
                 </p>
+              ) : sideChannelLifecycle === 'expired' ? (
+                <p className="text-xs text-amber-200/55">Previous prompt expired · send a new prompt when ready</p>
               ) : (
                 <p className="text-xs text-white/30">Quiet — nothing on the side channel</p>
               )}
@@ -531,10 +549,16 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
             <div className="min-w-0">
               <p className="text-xs text-white/40 uppercase tracking-widest font-medium shrink-0">Needs Review</p>
               <p className="mt-1 text-xs text-white/30">
-                {isLoading ? 'Loading...' : `${pendingCount} awaiting review · ${approvedCount} ready to show`}
+                {isLoading
+                  ? 'Loading...'
+                  : `${pendingCount} awaiting review · ${approvedCount} ready to show${
+                      !showAllSubmissions && historicalSubmissionCount > 0
+                        ? ` · ${historicalSubmissionCount} historical`
+                        : ''
+                    }`}
               </p>
             </div>
-            {currentInputSpec?.gameKey && (
+            {allSubmissions.length > 0 && (
               <div className="flex rounded-lg overflow-hidden border border-white/10">
                 <button
                   onClick={() => setShowAllSubmissions(false)}
@@ -561,7 +585,9 @@ export function CockpitView({ session, cls, students, initialInputSpec }: Cockpi
           {isLoading ? (
             <div className="px-4 py-8 text-center text-white/30 text-sm">Loading…</div>
           ) : submissions.length === 0 ? (
-            <div className="px-4 py-8 text-center text-white/30 text-sm">No submissions yet</div>
+            <div className="px-4 py-8 text-center text-white/30 text-sm">
+              {showAllSubmissions ? 'No submissions yet' : 'No submissions in the current live lanes'}
+            </div>
           ) : (
             <div className="divide-y divide-white/8">
               {submissions.map((sub) => (

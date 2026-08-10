@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-credits';
 import { getInputSpecRevision, type InputSpec } from '@/lib/input-spec';
-import { SIDE_CHANNEL_KEY, type SideChannelItem } from '@/lib/side-channel';
+import {
+  getActiveSideChannelItem,
+  getSideChannelLifecycle,
+  SIDE_CHANNEL_KEY,
+  type SideChannelItem,
+} from '@/lib/side-channel';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { createServiceClient } from '@/lib/supabase/service';
 
@@ -24,6 +29,7 @@ export async function GET(request: NextRequest) {
       inputSpec: null,
       inputSpecRevision: getInputSpecRevision(null),
       sideChannel: null,
+      sideChannelLifecycle: 'inactive',
       sideChannelRevision: null,
       serverNow: Date.now(),
     });
@@ -54,10 +60,12 @@ export async function GET(request: NextRequest) {
 
   const inputSpec = (sessionResult.data?.input_spec ?? null) as InputSpec | null;
   const sidePayload = sideChannelResult.data?.payload as { item?: SideChannelItem | null } | null;
+  const storedSideChannel = sidePayload?.item ?? null;
   return NextResponse.json({
     inputSpec,
     inputSpecRevision: getInputSpecRevision(inputSpec),
-    sideChannel: sidePayload?.item ?? null,
+    sideChannel: getActiveSideChannelItem(storedSideChannel),
+    sideChannelLifecycle: getSideChannelLifecycle(storedSideChannel),
     sideChannelRevision: sideChannelResult.data?.updated_at ?? null,
     serverNow: Date.now(),
   });

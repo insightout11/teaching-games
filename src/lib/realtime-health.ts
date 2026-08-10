@@ -19,6 +19,13 @@ export function reconcileIntervalFor(health: RealtimeHealth): number {
   return health === 'subscribed' ? HEALTHY_RECONCILE_MS : DEGRADED_RECONCILE_MS;
 }
 
+export function effectiveRealtimeHealth(
+  channelHealth: RealtimeHealth,
+  canonicalReady: boolean,
+): RealtimeHealth {
+  return channelHealth === 'subscribed' && canonicalReady ? 'subscribed' : 'degraded';
+}
+
 export function reconnectDelayForAttempt(attempt: number, random = Math.random): number {
   const boundedAttempt = Math.max(0, Math.min(attempt, 4));
   const base = Math.min(500 * (2 ** boundedAttempt), 8_000);
@@ -126,6 +133,7 @@ export function startRealtimeChannelLifecycle<TChannel extends LifecycleChannel>
   function connect() {
     if (stopped) return;
     const currentGeneration = ++generation;
+    const connectionStartedAt = Date.now();
     options.onHealth('connecting');
     logRealtimeDiagnostic(options.scope, 'connecting', { attempt: reconnectAttempt });
     const channel = options.createChannel();
@@ -133,6 +141,11 @@ export function startRealtimeChannelLifecycle<TChannel extends LifecycleChannel>
     channel.subscribe((status) => {
       if (stopped || currentGeneration !== generation) return;
       if (status === 'SUBSCRIBED') {
+        const subscribedAt = Date.now();
+        logRealtimeDiagnostic(options.scope, 'channel_status', {
+          status,
+          elapsed_ms: subscribedAt - connectionStartedAt,
+        });
         if (reconnectTimer) clearTimeout(reconnectTimer);
         reconnectTimer = null;
         reconnectAttempt = 0;
@@ -140,7 +153,9 @@ export function startRealtimeChannelLifecycle<TChannel extends LifecycleChannel>
           .then(() => {
             if (stopped || currentGeneration !== generation) return;
             options.onHealth('subscribed');
-            logRealtimeDiagnostic(options.scope, 'subscribed');
+            logRealtimeDiagnostic(options.scope, 'subscribed', {
+              reconcile_ms: Date.now() - subscribedAt,
+            });
           })
           .catch(() => {
             if (stopped || currentGeneration !== generation) return;

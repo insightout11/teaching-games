@@ -62,7 +62,14 @@ describe('GET /api/student/session realtime fallback metadata', () => {
       side_channel?: unknown;
     };
     const activePoll = { pollId: 'poll-2', question: 'Choose', options: ['A', 'B'] };
-    const sideChannel = { id: 'radio-2', kind: 'quick-write', title: 'Quick write', prompt: 'Why?' };
+    const sideChannel = {
+      id: 'radio-2',
+      kind: 'write',
+      title: 'Quick write',
+      prompt: 'Why?',
+      createdAt: new Date(Date.now() - 1_000).toISOString(),
+      expiresAt: new Date(Date.now() + 60_000).toISOString(),
+    };
     Object.assign(session, { active_poll: activePoll, side_channel: sideChannel });
 
     const response = await GET(

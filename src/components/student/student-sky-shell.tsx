@@ -35,7 +35,7 @@ export function StudentSkyShell({
         className={
           center
             ? 'relative z-10 min-h-screen flex items-center justify-center p-4'
-            : 'relative z-10 min-h-screen p-4'
+            : 'relative z-10 min-h-screen p-3 sm:p-4'
         }
       >
         {children}
