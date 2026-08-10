@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { Student, Score } from '@/lib/supabase/types';
 import {
+  getActivityInstanceIdentity,
   getInputSpecRevision,
   inputSpecChannelName,
   INPUT_SPEC_REALTIME_EVENT,
@@ -287,6 +288,8 @@ function getInitialSettings(): SessionSettings {
 // Null writes are skipped when DB is already null, preventing stale overwrites
 // from rapid IDLE/PRESENTING → VOTING transitions where null fires before binary.
 let lastWrittenInputSpec: InputSpec | null | undefined = undefined;
+let inputSpecWriteQueue: Promise<void> = Promise.resolve();
+let inputSpecWriteGeneration = 0;
 let inputSpecBroadcastSessionId: string | null = null;
 let inputSpecBroadcastChannel: RealtimeChannel | null = null;
 let inputSpecBroadcastReady: Promise<void> | null = null;
@@ -401,6 +404,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   initSession: (sessionId, classId, students) => {
     lastWrittenInputSpec = undefined; // Reset per-session tracking
+    inputSpecWriteGeneration += 1;
+    inputSpecWriteQueue = Promise.resolve();
     if (inputSpecBroadcastSessionId !== sessionId) {
       resetInputSpecBroadcastChannel();
     }
@@ -572,6 +577,10 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     // Skip no-op updates to avoid triggering unnecessary re-renders
     if (spec === current) return;
     if (spec === null && current === null) return;
+    const baseActivityInstanceIdentity = getActivityInstanceIdentity(spec ?? current);
+    const activityInstanceIdentity = spec === null && baseActivityInstanceIdentity
+      ? { ...baseActivityInstanceIdentity, sequence: baseActivityInstanceIdentity.sequence + 1 }
+      : baseActivityInstanceIdentity;
     set({ inputSpec: spec });
 
     // Sync to database so student controllers can poll for it
@@ -579,67 +588,78 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       return;
     }
 
-    // Skip null writes when DB is already null. Activities go through IDLE → PRESENTING → VOTING,
-    // firing null on each intermediate state. Without this guard, a null write (PRESENTING) can
-    // race with the binary write (VOTING) and overwrite the active spec.
-    if (spec === null && (lastWrittenInputSpec === null || lastWrittenInputSpec === undefined)) {
-      return;
-    }
+    const writeGeneration = inputSpecWriteGeneration;
+    // Serialize canonical writes. Reveal → next prompt → restart transitions can fire
+    // in adjacent React commits; overlapping requests previously let an older clear
+    // arrive after the new prompt and strand fresh/rejoining students on standby.
+    inputSpecWriteQueue = inputSpecWriteQueue.catch(() => {}).then(async () => {
+      if (writeGeneration !== inputSpecWriteGeneration) return;
+      // Activities can emit null repeatedly while already idle. Evaluate this against
+      // the last confirmed write inside the queue, not against an in-flight request.
+      if (spec === null && (lastWrittenInputSpec === null || lastWrittenInputSpec === undefined)) return;
 
-    // Write via server-side API route (service role) so the write reaches the same DB
-    // that the student poll route reads from — bypasses any browser client auth issues.
-    try {
-      const res = await fetch('/api/session/input-spec', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, spec }),
-      });
-      if (res.ok) {
-        // The API echoes the server-stamped spec + server clock. Anchor teacher-side
-        // timers to the same startedAt/answersOpenAt students receive from the poll,
-        // and only reset the round clock when the round nonce actually changes (lock
-        // updates / reveals rebroadcast the same round and must not restart the timer).
-        const data = await res.json().catch(() => null) as
-          | { spec?: InputSpec | null; inputSpecRevision?: string; serverNow?: number }
-          | null;
-        const stamped = data?.spec ?? null;
-        const serverNow = typeof data?.serverNow === 'number' ? data.serverNow : Date.now();
-        const inputSpecRevision = typeof data?.inputSpecRevision === 'string'
-          ? data.inputSpecRevision
-          : getInputSpecRevision(stamped);
-        lastWrittenInputSpec = stamped;
-        logRealtimeDiagnostic('input-spec-sender', 'database_write_complete', {
-          revision: inputSpecRevision,
+      try {
+        const res = await fetch('/api/session/input-spec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId, spec, activityInstanceIdentity }),
         });
-        void broadcastInputSpec(sessionId, { spec: stamped, inputSpecRevision, serverNow });
-        if (stamped && typeof stamped.timerSeconds === 'number' && typeof stamped.startedAt === 'number') {
-          const offset = serverNow - Date.now();
-          const prev = get().activeTimedRound;
-          const isNewRound = !prev || prev.clientStartedAt !== stamped.clientStartedAt || prev.startedAt !== stamped.startedAt;
-          set({
-            serverClockOffset: offset,
-            ...(isNewRound
-              ? {
-                  activeTimedRound: {
-                    clientStartedAt: stamped.clientStartedAt,
-                    startedAt: stamped.startedAt,
-                    answersOpenAt: stamped.answersOpenAt,
-                    timerSeconds: stamped.timerSeconds,
-                  },
-                }
-              : {}),
+        if (res.ok) {
+          const data = await res.json().catch(() => null) as
+            | {
+                spec?: InputSpec | null;
+                inputSpecRevision?: string;
+                serverNow?: number;
+                activityInstanceIdentity?: InputSpecRealtimePayload['activityInstanceIdentity'];
+              }
+            | null;
+          const stamped = data?.spec ?? null;
+          const serverNow = typeof data?.serverNow === 'number' ? data.serverNow : Date.now();
+          const inputSpecRevision = typeof data?.inputSpecRevision === 'string'
+            ? data.inputSpecRevision
+            : getInputSpecRevision(stamped);
+          lastWrittenInputSpec = stamped;
+          logRealtimeDiagnostic('input-spec-sender', 'database_write_complete', {
+            revision: inputSpecRevision,
           });
+          void broadcastInputSpec(sessionId, {
+            spec: stamped,
+            inputSpecRevision,
+            serverNow,
+            activityInstanceIdentity:
+              data?.activityInstanceIdentity
+              ?? getActivityInstanceIdentity(stamped)
+              ?? activityInstanceIdentity,
+          });
+          if (stamped && typeof stamped.timerSeconds === 'number' && typeof stamped.startedAt === 'number') {
+            const offset = serverNow - Date.now();
+            const prev = get().activeTimedRound;
+            const isNewRound = !prev || prev.clientStartedAt !== stamped.clientStartedAt || prev.startedAt !== stamped.startedAt;
+            set({
+              serverClockOffset: offset,
+              ...(isNewRound
+                ? {
+                    activeTimedRound: {
+                      clientStartedAt: stamped.clientStartedAt,
+                      startedAt: stamped.startedAt,
+                      answersOpenAt: stamped.answersOpenAt,
+                      timerSeconds: stamped.timerSeconds,
+                    },
+                  }
+                : {}),
+            });
+          } else if (get().activeTimedRound) {
+            set({ activeTimedRound: null });
+          }
         } else {
-          // Non-timed or cleared spec ends the timed round.
-          if (get().activeTimedRound) set({ activeTimedRound: null });
+          const err = await res.json().catch(() => ({}));
+          console.error('[setInputSpec] API write failed:', res.status, err);
         }
-      } else {
-        const err = await res.json().catch(() => ({}));
-        console.error('[setInputSpec] API write failed:', res.status, err);
+      } catch (error) {
+        console.error('[setInputSpec] fetch error:', error);
       }
-    } catch (error) {
-      console.error('[setInputSpec] fetch error:', error);
-    }
+    });
+    return inputSpecWriteQueue;
   },
 
   addStudent: (student: Student) => set((state) => {
@@ -689,6 +709,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
 
   reset: () => {
     lastWrittenInputSpec = undefined;
+    inputSpecWriteGeneration += 1;
+    inputSpecWriteQueue = Promise.resolve();
     resetInputSpecBroadcastChannel();
     set({
       sessionId: null,

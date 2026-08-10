@@ -11,7 +11,6 @@ export const HEALTHY_RECONCILE_MS = 15_000;
 export const DEGRADED_RECONCILE_MS = 1_500;
 export const CHANNEL_READY_TIMEOUT_MS = 2_000;
 export const CONNECTION_WARNING_GRACE_MS = 3_000;
-export const CANONICAL_FRESH_MS = 5_000;
 export const CANONICAL_OFFLINE_MS = 10_000;
 
 export type StudentConnectionState = 'checking' | 'connected' | 'syncing' | 'reconnecting' | 'offline';
@@ -45,7 +44,7 @@ export function studentConnectionState(options: {
     ? Number.POSITIVE_INFINITY
     : Math.max(0, now - options.degradedSince);
 
-  if (channelSubscribed && options.canonicalReady) return 'connected';
+  if (channelSubscribed) return options.canonicalReady ? 'connected' : 'syncing';
 
   const lastEffectiveSuccessAt = Math.max(
     options.lastCanonicalSuccessAt ?? Number.NEGATIVE_INFINITY,
@@ -61,8 +60,10 @@ export function studentConnectionState(options: {
   if (degradedFor < CONNECTION_WARNING_GRACE_MS && canonicalAge < CANONICAL_OFFLINE_MS) {
     return 'connected';
   }
-  if (canonicalAge <= CANONICAL_FRESH_MS) return 'syncing';
-  if (channelSubscribed || canonicalAge < CANONICAL_OFFLINE_MS) return 'reconnecting';
+  // A recent successful canonical fetch or participation request proves the device is
+  // online even while realtime is resubscribing. Describe that as syncing; reserve
+  // "Reconnecting" for a genuine retry state with no working path yet.
+  if (canonicalAge < CANONICAL_OFFLINE_MS) return 'syncing';
   return 'offline';
 }
 

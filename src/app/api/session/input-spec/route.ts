@@ -3,7 +3,13 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
 import { mockStore } from '@/lib/mock/data';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
-import { getInputSpecRevision, stampTimedSpec } from '@/lib/input-spec';
+import {
+  getActivityInstanceIdentity,
+  getInputSpecRevision,
+  stampTimedSpec,
+  type ActivityInstanceIdentity,
+  type InputSpec,
+} from '@/lib/input-spec';
 import type { Session } from '@/lib/supabase/types';
 
 export const dynamic = 'force-dynamic';
@@ -19,7 +25,11 @@ export async function POST(request: NextRequest) {
     if (authError || !teacher) return authError!;
 
     const body = await request.json();
-    const { sessionId, spec } = body as { sessionId: string; spec: unknown };
+    const { sessionId, spec, activityInstanceIdentity } = body as {
+      sessionId: string;
+      spec: unknown;
+      activityInstanceIdentity?: ActivityInstanceIdentity | null;
+    };
 
     if (!sessionId || typeof sessionId !== 'string') {
       return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
@@ -37,7 +47,14 @@ export async function POST(request: NextRequest) {
       mockStore.updateSession(sessionId, updates);
 
       const payloadSpec = stamped ?? null;
-      return NextResponse.json({ ok: true, spec: payloadSpec, inputSpecRevision: getInputSpecRevision(payloadSpec), serverNow: Date.now() }, {
+      return NextResponse.json({
+        ok: true,
+        spec: payloadSpec,
+        inputSpecRevision: getInputSpecRevision(payloadSpec),
+        serverNow: Date.now(),
+        activityInstanceIdentity:
+          getActivityInstanceIdentity(payloadSpec as InputSpec | null) ?? activityInstanceIdentity ?? null,
+      }, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
       });
     }
@@ -82,7 +99,14 @@ export async function POST(request: NextRequest) {
 
     // Echo the stamped spec + server clock so the teacher's own timers can anchor
     // to the exact same timestamps students receive from the poll.
-    return NextResponse.json({ ok: true, spec: toWrite, inputSpecRevision: getInputSpecRevision(toWrite), serverNow: Date.now() });
+    return NextResponse.json({
+      ok: true,
+      spec: toWrite,
+      inputSpecRevision: getInputSpecRevision(toWrite),
+      serverNow: Date.now(),
+      activityInstanceIdentity:
+        getActivityInstanceIdentity(toWrite as InputSpec | null) ?? activityInstanceIdentity ?? null,
+    });
   } catch (error) {
     console.error('[input-spec POST] error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

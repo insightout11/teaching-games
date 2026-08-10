@@ -74,6 +74,12 @@ export interface InputSpec {
   sessionId?: string;
   /** Stable round identifier for structured multi-round inputs such as geo-point. */
   roundId?: string;
+  /** Stable identity for one run of a multi-step activity. A restart must use a new value. */
+  activityInstanceId?: string;
+  /** Client-created epoch for ordering separate runs of the same activity. */
+  activityInstanceStartedAt?: number;
+  /** Monotonic step within an activity instance (for example Quick Pulse prompt index). */
+  activitySequence?: number;
   /** Class Board: stable board namespace for the current activity/session. */
   boardKey?: string;
   /** Class Board: title shown on student and teacher board surfaces. */
@@ -142,6 +148,36 @@ export interface InputSpecRealtimePayload {
   spec: InputSpec | null;
   inputSpecRevision: string;
   serverNow: number;
+  /** Retained for clear events so delayed previous-instance events can be rejected. */
+  activityInstanceIdentity?: ActivityInstanceIdentity | null;
+}
+
+export interface ActivityInstanceIdentity {
+  id: string;
+  startedAt: number;
+  sequence: number;
+}
+
+export function getActivityInstanceIdentity(spec: InputSpec | null | undefined): ActivityInstanceIdentity | null {
+  if (!spec?.activityInstanceId || typeof spec.activityInstanceStartedAt !== 'number') {
+    return null;
+  }
+  return {
+    id: spec.activityInstanceId,
+    startedAt: spec.activityInstanceStartedAt,
+    sequence: typeof spec.activitySequence === 'number' ? spec.activitySequence : 0,
+  };
+}
+
+/** Prefer newer activity runs, then newer prompts within the same run. */
+export function shouldApplyActivityInstanceUpdate(
+  current: ActivityInstanceIdentity | null,
+  incoming: ActivityInstanceIdentity | null,
+): boolean {
+  if (!incoming || !current) return true;
+  if (incoming.id === current.id) return incoming.sequence >= current.sequence;
+  if (incoming.startedAt !== current.startedAt) return incoming.startedAt > current.startedAt;
+  return incoming.id > current.id;
 }
 
 export function inputSpecChannelName(sessionId: string): string {

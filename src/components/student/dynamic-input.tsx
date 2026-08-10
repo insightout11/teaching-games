@@ -167,7 +167,7 @@ function SubmitStatus({ status, waitSeconds }: { status: 'idle' | 'success' | 'e
   if (status === 'idle') return null;
   return (
     <div className="text-sm mt-2">
-      {status === 'success' && <span className="text-emerald-400">Submitted ✓</span>}
+      {status === 'success' && <span className="font-medium text-emerald-400">Response submitted ✓</span>}
       {status === 'error' && <span className="text-red-400">Signal failed</span>}
       {status === 'rate_limited' && <span className="text-yellow-400">Stand by {waitSeconds}s...</span>}
     </div>

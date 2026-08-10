@@ -221,4 +221,24 @@ describe('Realtime reliability helpers', () => {
       now: 11_000,
     })).toBe('connected');
   });
+
+  it('uses syncing rather than reconnecting when the channel is subscribed during reconciliation', () => {
+    expect(studentConnectionState({
+      channelHealth: 'subscribed',
+      canonicalReady: false,
+      lastCanonicalSuccessAt: null,
+      degradedSince: 10_000,
+      now: 20_000,
+    })).toBe('syncing');
+  });
+
+  it('keeps a working fallback labeled syncing while successful requests remain recent', () => {
+    expect(studentConnectionState({
+      channelHealth: 'degraded',
+      canonicalReady: false,
+      lastCanonicalSuccessAt: 11_001,
+      degradedSince: 1_000,
+      now: 20_000,
+    })).toBe('syncing');
+  });
 });

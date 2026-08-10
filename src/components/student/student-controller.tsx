@@ -7,9 +7,12 @@ import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { Team } from '@/lib/supabase/types';
 import {
+  getActivityInstanceIdentity,
   getInputSpecRevision,
   inputSpecChannelName,
   INPUT_SPEC_REALTIME_EVENT,
+  shouldApplyActivityInstanceUpdate,
+  type ActivityInstanceIdentity,
   type InputSpec,
   type InputSpecRealtimePayload,
 } from '@/lib/input-spec';
@@ -28,6 +31,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
 import { LatestRequestGate } from '@/lib/latest-request-gate';
+import { recordSubmissionConfirmation } from '@/lib/submission-confirmation';
 import {
   effectiveRealtimeHealth as getEffectiveRealtimeHealth,
   logRealtimeDiagnostic,
@@ -364,9 +368,42 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // timers add this to the local clock so device skew never eats answer time.
   const [clockOffsetMs, setClockOffsetMs] = useState(0);
   const inputSpecRevisionRef = useRef<string | null>(null);
+  const activeInputSpecRef = useRef<InputSpec | null>(null);
+  const activityInstanceIdentityRef = useRef<ActivityInstanceIdentity | null>(null);
   const lastFullSessionPollAtRef = useRef(0);
   const sessionRequestGateRef = useRef(new LatestRequestGate());
   const submissionRequestGateRef = useRef(new LatestRequestGate());
+  const confirmedSubmissionKeysRef = useRef(new Set<string>());
+
+  const applyAuthoritativeInputSpec = useCallback((
+    spec: InputSpec | null,
+    suppliedIdentity?: ActivityInstanceIdentity | null,
+  ) => {
+    let incomingIdentity = suppliedIdentity ?? getActivityInstanceIdentity(spec);
+    // A canonical clear response cannot carry identity once input_spec is null. Advance
+    // the currently visible instance exactly once so a delayed active event cannot
+    // resurrect the prompt that was just revealed/completed.
+    if (!spec && !incomingIdentity && activeInputSpecRef.current && activityInstanceIdentityRef.current) {
+      incomingIdentity = {
+        ...activityInstanceIdentityRef.current,
+        sequence: activityInstanceIdentityRef.current.sequence + 1,
+      };
+    }
+    if (!shouldApplyActivityInstanceUpdate(activityInstanceIdentityRef.current, incomingIdentity)) {
+      logRealtimeDiagnostic('student-input-spec', 'stale_instance_rejected', {
+        current_instance: activityInstanceIdentityRef.current?.id,
+        current_sequence: activityInstanceIdentityRef.current?.sequence,
+        incoming_instance: incomingIdentity?.id,
+        incoming_sequence: incomingIdentity?.sequence,
+      });
+      return false;
+    }
+    if (incomingIdentity) activityInstanceIdentityRef.current = incomingIdentity;
+    else if (spec) activityInstanceIdentityRef.current = null;
+    activeInputSpecRef.current = spec;
+    setInputSpec(spec);
+    return true;
+  }, []);
 
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
@@ -512,7 +549,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         suppressNextTransitionRef.current = data.inputSpec != null;
         awaitingInitialHydrationRef.current = false;
       }
-      setInputSpec(data.inputSpec);
+      applyAuthoritativeInputSpec(spec);
       setSideChannel(data.sideChannel ?? null);
       if (!data.inputSpec?.wonderFollowUpMode) {
         setSelectedFollowUpId(null);
@@ -532,7 +569,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setDebriefToken(data.debriefToken ?? null);
       setLastResult(data.lastResult ?? null);
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
-      if (typeof data.responseCount === 'number') setResponseCount(data.responseCount);
+      if (typeof data.responseCount === 'number') {
+        // Preserve an immediately confirmed local submission until the authoritative
+        // activity-participation row is visible to the next reconciliation query.
+        setResponseCount((current) => Math.max(current, data.responseCount));
+      }
       if ('sessionAccuracy' in data) setSessionAccuracy((data.sessionAccuracy as number | null) ?? null);
       setOfferedCards(data.offeredCards ?? null);
       setHeldCard(data.heldCard ?? null);
@@ -559,7 +600,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       return false;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionId]);
+  }, [sessionId, applyAuthoritativeInputSpec]);
 
   useEffect(() => {
     const supabase = createClient();
@@ -603,7 +644,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           suppressNextTransitionRef.current = spec != null;
           awaitingInitialHydrationRef.current = false;
         }
-        setInputSpec(spec);
+        const suppliedIdentity = data.activityInstanceIdentity && typeof data.activityInstanceIdentity === 'object'
+          ? data.activityInstanceIdentity as ActivityInstanceIdentity
+          : null;
+        if (!applyAuthoritativeInputSpec(spec, suppliedIdentity)) return;
         if (!spec?.wonderFollowUpMode) {
           setSelectedFollowUpId(null);
           setFollowUpText('');
@@ -631,7 +675,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       },
       onHealth: setRealtimeHealth,
     });
-  }, [sessionId, checkSession]);
+  }, [sessionId, checkSession, applyAuthoritativeInputSpec]);
 
   const effectiveRealtimeHealth = getEffectiveRealtimeHealth(realtimeHealth, canonicalReady);
 
@@ -836,9 +880,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       } else {
         setSubmitStatus('success');
         setLastParticipationSuccessAt(Date.now());
-        setTimeout(() => {
-          if (submissionRequestGateRef.current.isCurrent(submissionSequence)) setSubmitStatus('idle');
-        }, 2000);
+        const confirmationKey = inputSpecRevisionRef.current ?? getInputSpecRevision(inputSpec);
+        setResponseCount((current) => recordSubmissionConfirmation(
+          confirmedSubmissionKeysRef.current,
+          confirmationKey,
+          current,
+        ).responseCount);
         // Clear follow-up selection after successful submit
         if (inputSpec?.wonderFollowUpMode) {
           setSelectedFollowUpId(null);

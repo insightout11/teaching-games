@@ -89,4 +89,48 @@ describe('GET /api/student/session realtime fallback metadata', () => {
       sideChannel: null,
     });
   });
+
+  it('hydrates Quick Pulse Prompt 1 for a newly opened student context', async () => {
+    const promptOne: InputSpec = {
+      type: 'binary',
+      gameKey: 'quick-pulse',
+      prompt: 'Do greetings matter?',
+      optionLabels: ['Yes', 'No'],
+      roundId: 'quick-pulse:100:1:prompt-1',
+      activityInstanceId: 'quick-pulse:100:1',
+      activityInstanceStartedAt: 100,
+      activitySequence: 0,
+    };
+    mockStore.updateSession(SESSION_ID, { input_spec: promptOne } as never);
+
+    const response = await GET(
+      request(`/api/student/session?sessionId=${SESSION_ID}&clientId=fresh-tab`) as never,
+    );
+    const data = await response.json();
+
+    expect(data.inputSpec).toEqual(promptOne);
+    expect(data.inputSpecRevision).toBe(getInputSpecRevision(promptOne));
+  });
+
+  it('hydrates Prompt 2 after reload instead of treating Prompt 1 as unchanged', async () => {
+    const promptOne: InputSpec = {
+      type: 'binary', gameKey: 'quick-pulse', prompt: 'Prompt 1',
+      activityInstanceId: 'quick-pulse:100:1', activityInstanceStartedAt: 100,
+      activitySequence: 0, roundId: 'quick-pulse:100:1:prompt-1',
+    };
+    const promptTwo: InputSpec = {
+      type: 'choice', gameKey: 'quick-pulse', prompt: 'Prompt 2', options: ['1', '2', '3', '4', '5'],
+      activityInstanceId: 'quick-pulse:100:1', activityInstanceStartedAt: 100,
+      activitySequence: 2, roundId: 'quick-pulse:100:1:prompt-2',
+    };
+    mockStore.updateSession(SESSION_ID, { input_spec: promptTwo } as never);
+
+    const response = await GET(request(
+      `/api/student/session?sessionId=${SESSION_ID}&clientId=reload&inputSpecRevision=${getInputSpecRevision(promptOne)}`,
+    ) as never);
+    const data = await response.json();
+
+    expect(data.inputSpecUnchanged).not.toBe(true);
+    expect(data.inputSpec).toEqual(promptTwo);
+  });
 });
