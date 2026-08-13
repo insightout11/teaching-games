@@ -90,7 +90,54 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   useEffect(() => {
     if (!sessionId) return;
 
-    // Subscribe to scores to capture remote votes
+    const deliverScore = (score: Score) => {
+      const responseData = score.response_data as Record<string, unknown> | null;
+      if (responseData?.type === 'remote_vote' && responseData?.gameKey === activity.key) {
+        remoteVoteHandlerRef.current?.({
+          clientId: score.client_id || '',
+          studentId: score.student_id || null,
+          displayName: score.display_name || 'Anonymous',
+          choice: responseData.choice as string,
+          team: score.team as 'red' | 'blue' | null,
+          gameKey: responseData.gameKey as string,
+          inputType: responseData.inputType as string,
+          roundId: responseData.roundId as string | undefined,
+          resourcesUsed: responseData.resourcesUsed as string[] | undefined,
+        });
+      }
+      recordScore(score);
+    };
+
+    const reconcileScores = async () => {
+      const { data, error } = await supabase
+        .from('scores')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: true });
+      if (!error) {
+        (data as Score[] | null)
+          ?.filter((score) => {
+            const responseData = score.response_data as Record<string, unknown> | null;
+            return responseData?.type === 'remote_vote' && responseData.gameKey === activity.key;
+          })
+          .forEach(deliverScore);
+      }
+    };
+
+    let channelHealthy = false;
+    let disposed = false;
+    let reconcileTimer: ReturnType<typeof setTimeout> | null = null;
+    const scheduleReconcile = (delayMs: number) => {
+      if (reconcileTimer) clearTimeout(reconcileTimer);
+      reconcileTimer = setTimeout(() => {
+        void reconcileScores().finally(() => {
+          if (!disposed) scheduleReconcile(channelHealthy ? 15_000 : 1_500);
+        });
+      }, delayMs);
+    };
+
+    // Realtime is the normal path. Reconcile immediately after subscribing or
+    // reconnecting, and poll quickly only while the channel is degraded.
     const scoresChannel = supabase
       .channel(`activity-scores-${sessionId}`)
       .on(
@@ -101,31 +148,14 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
           table: 'scores',
           filter: `session_id=eq.${sessionId}`,
         },
-        (payload: { new: Score }) => {
-          const score = payload.new;
-          // Check if this is a remote vote
-          const responseData = score.response_data as Record<string, unknown> | null;
-          if (responseData?.type === 'remote_vote' && responseData?.gameKey === activity.key) {
-            // Call the registered vote handler
-            if (remoteVoteHandlerRef.current) {
-              remoteVoteHandlerRef.current({
-                clientId: score.client_id || '',
-                studentId: score.student_id || null,
-                displayName: score.display_name || 'Anonymous',
-                choice: responseData.choice as string,
-                team: score.team as 'red' | 'blue' | null,
-                gameKey: responseData.gameKey as string,
-                inputType: responseData.inputType as string,
-                roundId: responseData.roundId as string | undefined,
-                resourcesUsed: responseData.resourcesUsed as string[] | undefined,
-              });
-            }
-          }
-          // Also record the score in the store
-          recordScore(score);
-        }
+        (payload: { new: Score }) => deliverScore(payload.new),
       )
-      .subscribe();
+      .subscribe((status: string) => {
+        channelHealthy = status === 'SUBSCRIBED';
+        if (channelHealthy) void reconcileScores();
+        scheduleReconcile(channelHealthy ? 15_000 : 1_500);
+      });
+    scheduleReconcile(1_500);
 
     // Subscribe to new students joining
     const studentsChannel = supabase
@@ -152,6 +182,8 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       .subscribe();
 
     return () => {
+      disposed = true;
+      if (reconcileTimer) clearTimeout(reconcileTimer);
       supabase.removeChannel(scoresChannel);
       supabase.removeChannel(studentsChannel);
     };
