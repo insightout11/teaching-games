@@ -190,4 +190,32 @@ describe('GET /api/student/session realtime fallback metadata', () => {
     ) as never);
     expect(await newRun.json()).toMatchObject({ inputSpec: restarted, currentResponse: null });
   });
+  it('cold-hydrates the active Prediction Round answer and confirmation', async () => {
+    const activeQuestion: InputSpec = {
+      type: 'binary', gameKey: 'prediction-round', prompt: 'True or false?',
+      optionLabels: ['True', 'False'],
+      activityInstanceId: 'prediction-round:700:1', activityInstanceStartedAt: 700,
+      activitySequence: 2, roundId: 'prediction-round:700:1:question-2',
+    };
+    mockStore.updateSession(SESSION_ID, { input_spec: activeQuestion } as never);
+    mockStore.createScore({
+      session_id: SESSION_ID,
+      student_id: 'student-1',
+      client_id: 'prediction-reload',
+      display_name: 'Doug',
+      response_data: {
+        type: 'remote_vote', gameKey: 'prediction-round', inputType: 'binary',
+        roundId: activeQuestion.roundId, choice: 'False',
+      },
+    });
+
+    const response = await GET(request(
+      `/api/student/session?sessionId=${SESSION_ID}&clientId=prediction-reload`,
+    ) as never);
+    const data = await response.json();
+
+    expect(data.inputSpec).toEqual(activeQuestion);
+    expect(data.currentResponse).toEqual({ roundId: activeQuestion.roundId, choice: 'False' });
+    expect(data.responseCount).toBe(1);
+  });
 });

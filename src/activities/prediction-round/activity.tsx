@@ -113,6 +113,8 @@ export function PredictionRoundActivity({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [votes, setVotes] = useState<VoteMap>({ 0: {}, 1: {}, 2: {} });
   const [timeLeft, setTimeLeft] = useState(0);
+  const instanceCounterRef = useRef(0);
+  const activityInstanceRef = useRef<{ id: string; startedAt: number } | null>(null);
 
   const currentIndexRef = useRef(currentIndex);
   currentIndexRef.current = currentIndex;
@@ -144,7 +146,9 @@ export function PredictionRoundActivity({
     onRegisterRemoteVoteHandler?.((vote) => {
       if (phaseRef.current !== 'prompting') return;
       const idx = currentIndexRef.current;
-      if (vote.roundId && vote.roundId !== `prediction-round-${idx}`) return;
+      const instance = activityInstanceRef.current;
+      const expectedRoundId = instance ? `${instance.id}:question-${idx + 1}` : null;
+      if (!vote.roundId || !expectedRoundId || vote.roundId !== expectedRoundId) return;
       const alreadyVoted = votesRef.current[idx]?.[vote.clientId];
       if (!alreadyVoted) {
         setVotes((prev) => ({
@@ -168,22 +172,37 @@ export function PredictionRoundActivity({
   // Set input spec when prompting
   useEffect(() => {
     if (phase !== 'prompting') {
-      onSetInputSpec?.(null);
+      const instance = activityInstanceRef.current;
+      onSetInputSpec?.(null, instance ? {
+        id: instance.id,
+        startedAt: instance.startedAt,
+        sequence: currentIndex * 2 + 1,
+      } : null);
       return;
     }
     const q = questions[currentIndex];
     if (!q) return;
+    const instance = activityInstanceRef.current;
+    if (!instance) return;
     onSetInputSpec?.({
       type: 'binary',
       gameKey: 'prediction-round',
       prompt: q.text,
       optionLabels: [q.optionA, q.optionB],
-      roundId: `prediction-round-${currentIndex}`,
-      allowMultiple: true,
+      activityInstanceId: instance.id,
+      activityInstanceStartedAt: instance.startedAt,
+      activitySequence: currentIndex * 2,
+      roundId: `${instance.id}:question-${currentIndex + 1}`,
     });
   }, [phase, currentIndex, questions, onSetInputSpec]);
 
   const handleStart = useCallback(() => {
+    const startedAt = Date.now();
+    instanceCounterRef.current += 1;
+    activityInstanceRef.current = {
+      id: `prediction-round:${startedAt}:${instanceCounterRef.current}`,
+      startedAt,
+    };
     setCurrentIndex(0);
     setVotes({ 0: {}, 1: {}, 2: {} });
     scoredVotesRef.current = new Set();
@@ -246,7 +265,12 @@ export function PredictionRoundActivity({
     });
     setPhase('locked');
     onPhaseChange?.('locked');
-    onSetInputSpec?.(null);
+    const instance = activityInstanceRef.current;
+    onSetInputSpec?.(null, instance ? {
+      id: instance.id,
+      startedAt: instance.startedAt,
+      sequence: currentIndexRef.current * 2 + 1,
+    } : null);
   }, [questions, setPredictionResults, addFlightLogEntry, onPhaseChange, onSetInputSpec]);
 
   const handleReveal = useCallback(() => {
@@ -284,8 +308,13 @@ export function PredictionRoundActivity({
   const handleEnd = useCallback(() => {
     setPhase('idle');
     onPhaseChange?.('finished');
-    onSetInputSpec?.(null);
-  }, [onPhaseChange, onSetInputSpec]);
+    const instance = activityInstanceRef.current;
+    onSetInputSpec?.(null, instance ? {
+      id: instance.id,
+      startedAt: instance.startedAt,
+      sequence: currentIndex * 2 + 1,
+    } : null);
+  }, [currentIndex, onPhaseChange, onSetInputSpec]);
 
   const currentQuestion = questions[currentIndex];
   const currentVotes = votes[currentIndex] ?? {};

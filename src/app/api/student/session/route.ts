@@ -143,18 +143,20 @@ export async function GET(request: NextRequest) {
         ((session as { side_channel?: SideChannelItem | null }).side_channel) ?? null,
       );
       const inputSpecRevision = getInputSpecRevision(mockInputSpec);
-      const activeRoundId = (mockInputSpec as InputSpec | null)?.roundId;
-      const quickPulseResponses = clientId
+      const activeSpec = mockInputSpec as InputSpec | null;
+      const activeRoundId = activeSpec?.roundId;
+      const activeGameKey = activeSpec?.gameKey;
+      const roundResponses = clientId && activeGameKey
         ? mockStore.getScores(sessionId).filter((score) => {
             const data = score.response_data as Record<string, unknown> | null;
             return score.client_id === clientId
               && data?.type === 'remote_vote'
-              && data?.gameKey === 'quick-pulse'
+              && data?.gameKey === activeGameKey
               && typeof data?.roundId === 'string';
           })
         : [];
       const activeMockResponse = activeRoundId
-        ? quickPulseResponses.find((score) => (
+        ? roundResponses.find((score) => (
             score.response_data as Record<string, unknown> | null
           )?.roundId === activeRoundId)
         : undefined;
@@ -194,7 +196,7 @@ export async function GET(request: NextRequest) {
         personalResults: null,
         lastResult: null,
         sessionPoints: 0,
-        responseCount: new Set(quickPulseResponses.map((score) => (
+        responseCount: new Set(roundResponses.map((score) => (
           score.response_data as Record<string, unknown>
         ).roundId)).size,
         currentResponse: activeRoundId && typeof activeMockResponseData?.choice === 'string'
@@ -541,23 +543,23 @@ export async function GET(request: NextRequest) {
       }
 
       const activeSpec = inputSpec as InputSpec | null;
-      if (activeSpec?.gameKey === 'quick-pulse') {
-        const { data: quickPulseScores } = await supabase
+      if (activeSpec?.gameKey && activeSpec.roundId) {
+        const { data: roundScores } = await supabase
           .from('scores')
           .select('response_data')
           .eq('session_id', sessionId)
           .eq('client_id', clientId)
-          .contains('response_data', { type: 'remote_vote', gameKey: 'quick-pulse' })
+          .contains('response_data', { type: 'remote_vote', gameKey: activeSpec.gameKey })
           .order('created_at', { ascending: false });
-        const responseData = (quickPulseScores ?? [])
+        const responseData = (roundScores ?? [])
           .map((score) => score.response_data as Record<string, unknown> | null)
           .filter((data): data is Record<string, unknown> => Boolean(data));
-        const quickPulseRoundIds = new Set(
+        const persistedRoundIds = new Set(
           responseData
             .map((data) => data.roundId)
             .filter((roundId): roundId is string => typeof roundId === 'string'),
         );
-        responseCount = Math.max(responseCount, quickPulseRoundIds.size);
+        responseCount = Math.max(responseCount, persistedRoundIds.size);
         const matchingResponse = responseData.find((data) => data.roundId === activeSpec.roundId);
         if (
           activeSpec.roundId
