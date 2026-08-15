@@ -145,10 +145,13 @@ export async function GET(request: NextRequest) {
       const inputSpecRevision = getInputSpecRevision(mockInputSpec);
       const activeSpec = mockInputSpec as InputSpec | null;
       const activeRoundId = activeSpec?.roundId;
+      const mockStudentId = clientId
+        ? mockStore.getSessionParticipants(sessionId).find((participant) => participant.client_id === clientId)?.student_id ?? null
+        : null;
       const remoteResponses = clientId
         ? mockStore.getScores(sessionId).filter((score) => {
             const data = score.response_data as Record<string, unknown> | null;
-            return score.client_id === clientId
+            return (score.client_id === clientId || (mockStudentId !== null && score.student_id === mockStudentId))
               && data?.type === 'remote_vote';
           })
         : [];
@@ -526,7 +529,7 @@ export async function GET(request: NextRequest) {
           .from('scores')
           .select('response_data')
           .eq('session_id', sessionId)
-          .eq('client_id', clientId)
+          .or(personalScoreFilter)
           .contains('response_data', { type: 'remote_vote' })
           .order('created_at', { ascending: false }),
       ]);
