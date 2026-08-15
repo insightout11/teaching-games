@@ -709,6 +709,15 @@ export async function GET(request: NextRequest) {
     const normalizedReferenceVocab = normalizeReferenceVocab(session.reference_vocab);
     const normalizedReferenceExpressions = normalizeReferenceExpressions(session.reference_expressions);
 
+    console.log(JSON.stringify({
+      level: 'info',
+      message: 'Student session full hydration',
+      hasClientIdentity: Boolean(clientId),
+      hasRequestedRosterIdentity: Boolean(validRequestedStudentId),
+      resolvedRosterIdentity: Boolean(studentId),
+      responseCount,
+    }));
+
     const payload: SessionPayload = {
       isActive,
       serverNow: Date.now(),
