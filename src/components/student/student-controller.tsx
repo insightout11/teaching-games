@@ -717,7 +717,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   useEffect(() => {
     void checkSession({
-      forceFull: effectiveRealtimeHealth !== 'subscribed',
+      forceFull: !canonicalReady || effectiveRealtimeHealth !== 'subscribed',
       source: canonicalReady
         ? effectiveRealtimeHealth === 'subscribed' ? 'safety-fallback' : 'degraded-fallback'
         : 'mount',
