@@ -364,6 +364,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const activityInstanceIdentityRef = useRef<ActivityInstanceIdentity | null>(null);
   const lastFullSessionPollAtRef = useRef(0);
   const sessionRequestGateRef = useRef(new LatestRequestGate());
+  const sessionRequestInFlightRef = useRef(false);
   const submissionRequestGateRef = useRef(new LatestRequestGate());
   const confirmedSubmissionKeysRef = useRef(new Set<string>());
 
@@ -467,6 +468,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     forceFull?: boolean;
     source?: 'mount' | 'subscribed' | 'database-change' | 'degraded-fallback' | 'safety-fallback';
   }) => {
+    // Degraded-mode polling can run faster than a cold full hydration. Starting a
+    // second request would invalidate the first through the latest-request gate,
+    // starving the UI indefinitely when every request overlaps the next tick.
+    if (sessionRequestInFlightRef.current) return;
+    sessionRequestInFlightRef.current = true;
     const requestSequence = sessionRequestGateRef.current.begin();
     const requestStartedAt = Date.now();
     const source = options?.source ?? 'safety-fallback';
@@ -615,6 +621,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         elapsed_ms: Date.now() - requestStartedAt,
       });
       return false;
+    } finally {
+      sessionRequestInFlightRef.current = false;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId, applyAuthoritativeInputSpec]);
