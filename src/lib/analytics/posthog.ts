@@ -5,10 +5,10 @@ import posthog from 'posthog-js';
 let initialized = false;
 
 // No-ops in dev/test/preview environments where NEXT_PUBLIC_POSTHOG_KEY isn't set.
-export function initPostHog() {
-  if (initialized) return;
+export function initPostHog(): boolean {
+  if (initialized) return true;
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  if (!key) return;
+  if (!key) return false;
   posthog.init(key, {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com',
     // 'true' only fires on full page loads — Next.js client-side <Link> navigations
@@ -21,15 +21,22 @@ export function initPostHog() {
     disable_session_recording: true,
   });
   initialized = true;
+  return true;
 }
 
-export function trackEvent(event: string, properties?: Record<string, unknown>) {
-  if (!initialized) return;
+export function isPostHogReady(): boolean {
+  return initialized;
+}
+
+export function trackEvent(event: string, properties?: Record<string, unknown>): boolean {
+  if (!initialized) return false;
   posthog.capture(event, properties);
+  return true;
 }
 
 // Teachers only — never call for students (they must stay anonymous).
-export function identifyTeacher(teacherId: string, email: string | null) {
-  if (!initialized) return;
+export function identifyTeacher(teacherId: string, email: string | null): boolean {
+  if (!initialized) return false;
   posthog.identify(teacherId, email ? { email } : undefined);
+  return true;
 }

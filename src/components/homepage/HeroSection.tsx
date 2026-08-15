@@ -305,6 +305,12 @@ export function HeroSection() {
                 <ArrowUpRight className="h-4 w-4" aria-hidden />
               </Link>
             </div>
+            <Link
+              href="/beta"
+              className="self-center text-sm font-semibold text-lc-blue transition-colors hover:text-lc-blue-hover lg:self-start"
+            >
+              Teaching regularly? Join the founding teacher beta.
+            </Link>
           </motion.div>
 
           <motion.div

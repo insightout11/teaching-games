@@ -11,6 +11,7 @@ const LINKS = [
   { label: 'Blog', href: '/blog' },
   { label: 'AI Lesson Generator', href: '/ai-esl-lesson-plan-generator' },
   { label: 'Pricing', href: '/pro' },
+  { label: 'Privacy', href: '/privacy' },
   { label: 'Login', href: '/login' },
 ];
 
