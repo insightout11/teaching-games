@@ -20,6 +20,8 @@ export type InputType =
   | 'debate-prep';   // Team Debate prep board — add points to your team's live list
 
 export interface InputSpec {
+  /** Server timestamp for when this prompt version became canonical. */
+  publishedAt?: number;
   type: InputType;
   gameKey: string;           // Which game/activity this is for
   prompt?: string;           // Instructions shown to student, e.g., "Type your replacement word"

@@ -85,7 +85,11 @@ describe('POST /api/session/input-spec JSON compare-and-set', () => {
     const response = await POST(request(nextSpec, identity) as never);
 
     expect(response.status).toBe(200);
-    expect(update).toHaveBeenCalledWith({ input_spec: nextSpec });
+    expect(update).toHaveBeenCalledWith({
+      input_spec: nextSpec === null
+        ? null
+        : expect.objectContaining({ ...nextSpec, publishedAt: expect.any(Number) }),
+    });
     expect(updateQuery.eq).toHaveBeenNthCalledWith(1, 'id', SESSION_ID);
     expect(updateQuery.eq).toHaveBeenNthCalledWith(2, 'input_spec', JSON.stringify(currentSpec));
     expect(typeof updateQuery.eq.mock.calls[1][1]).toBe('string');

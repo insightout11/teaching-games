@@ -968,7 +968,8 @@ ${languageRule(difficulty)}
 ${sourceContext}
 ${sourceInstruction}
 Each question should:
-- Present a surprising or debatable claim about the topic that students can predict on before being taught
+- Present a surprising, specific factual claim about the topic that students can predict on before being taught
+- Be objectively verifiable: never use an opinion, value judgment, interpretation, or claim whose truth depends on perspective
 - Use True/False format (optionA: "True", optionB: "False") or a binary either/or (e.g. "More" vs "Less")
 - Have a clear correct answer
 - Include a short, interesting revealFact (1–2 sentences) explaining the answer
@@ -979,7 +980,13 @@ Return JSON with a "questions" array of exactly 3 objects with: text, optionA, o
 
   const parsed = await generateJSON<{ questions: Array<{ text: string; optionA: string; optionB: string; correctAnswer: string; revealFact: string }> }>(prompt, schema);
 
-  const fallback = { text: 'Did you know something surprising about this topic?', optionA: 'True', optionB: 'False', correctAnswer: 'A' as const, revealFact: 'Many things about this topic are surprising.' };
+  const fallback = {
+    text: "Which option names today's lesson topic?",
+    optionA: topic || 'General',
+    optionB: 'A different topic',
+    correctAnswer: 'A' as const,
+    revealFact: `Today's lesson topic is ${topic || 'General'}.`,
+  };
 
   return {
     activityKey: 'prediction-round',

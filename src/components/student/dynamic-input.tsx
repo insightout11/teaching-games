@@ -847,8 +847,14 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
                 : 'border-lc-border bg-lc-surface text-lc-text hover:border-cyan-500/50 hover:bg-lc-card'
             }`}
           >
-            <div className="text-3xl mb-2">{labels[index]}</div>
-            <div className="text-sm opacity-80">{option}</div>
+            {option === labels[index] ? (
+              <div className="text-3xl">{option}</div>
+            ) : (
+              <>
+                <div className="text-3xl mb-2">{labels[index]}</div>
+                <div className="text-sm opacity-80">{option}</div>
+              </>
+            )}
           </button>
         ))}
       </div>
