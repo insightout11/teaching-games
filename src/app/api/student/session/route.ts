@@ -533,7 +533,7 @@ export async function GET(request: NextRequest) {
     let currentResponse: SessionPayload['currentResponse'] = null;
     let sessionAccuracy: number | null = null;
     if (isActive && clientId) {
-      const [{ data: activeScores }, { data: remoteScores }] = await Promise.all([
+      const [{ data: activeScores }, { data: remoteScores, error: remoteScoresError }] = await Promise.all([
         supabase
           .from('scores')
           .select('id, outcome, points, accuracy_status, counts_for_accuracy')
@@ -547,9 +547,11 @@ export async function GET(request: NextRequest) {
           .select('response_data')
           .eq('session_id', sessionId)
           .or(personalScoreFilter)
-          .contains('response_data', { type: 'remote_vote' })
           .order('created_at', { ascending: false }),
       ]);
+      if (remoteScoresError) {
+        console.error('Student response history query failed', { code: remoteScoresError.code });
+      }
 
       type ActiveRow = { id: string; outcome: string | null; points: number; accuracy_status: string | null; counts_for_accuracy: boolean | null };
       const rows = (activeScores ?? []) as ActiveRow[];
@@ -573,7 +575,7 @@ export async function GET(request: NextRequest) {
       const activeSpec = inputSpec as InputSpec | null;
       const responseData = (remoteScores ?? [])
         .map((score) => score.response_data as Record<string, unknown> | null)
-        .filter((data): data is Record<string, unknown> => Boolean(data));
+        .filter((data): data is Record<string, unknown> => data?.type === 'remote_vote');
       const persistedResponseKeys = new Set(responseData.map((data, index) => (
         typeof data.roundId === 'string'
           ? data.roundId
