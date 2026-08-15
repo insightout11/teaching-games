@@ -125,6 +125,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get('sessionId');
     const clientId = searchParams.get('clientId');
+    const requestedStudentId = searchParams.get('studentId');
     const expectedInputSpecRevision = searchParams.get('inputSpecRevision');
 
     if (!sessionId) {
@@ -146,7 +147,9 @@ export async function GET(request: NextRequest) {
       const activeSpec = mockInputSpec as InputSpec | null;
       const activeRoundId = activeSpec?.roundId;
       const mockStudentId = clientId
-        ? mockStore.getSessionParticipants(sessionId).find((participant) => participant.client_id === clientId)?.student_id ?? null
+        ? mockStore.getSessionParticipants(sessionId).find((participant) => participant.client_id === clientId)?.student_id
+          ?? mockStore.getSessionParticipants(sessionId).find((participant) => participant.student_id === requestedStudentId)?.student_id
+          ?? null
         : null;
       const remoteResponses = clientId
         ? mockStore.getScores(sessionId).filter((score) => {
@@ -220,6 +223,9 @@ export async function GET(request: NextRequest) {
     if (!uuidRegex.test(sessionId)) {
       return NextResponse.json({ error: 'Invalid sessionId format' }, { status: 400 });
     }
+    const validRequestedStudentId = requestedStudentId && uuidRegex.test(requestedStudentId)
+      ? requestedStudentId
+      : null;
 
     const supabase = createServiceClient();
 
@@ -247,12 +253,23 @@ export async function GET(request: NextRequest) {
     let studentId: string | null = null;
     let debriefToken: string | null = null;
     if (clientId) {
-      const { data: participant } = await supabase
+      let { data: participant } = await supabase
         .from('session_participants')
         .select('student_id, debrief_token')
         .eq('session_id', sessionId)
         .eq('client_id', clientId)
         .maybeSingle();
+      if (!participant && validRequestedStudentId) {
+        const { data: rosterParticipant } = await supabase
+          .from('session_participants')
+          .select('student_id, debrief_token')
+          .eq('session_id', sessionId)
+          .eq('student_id', validRequestedStudentId)
+          .order('joined_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        participant = rosterParticipant;
+      }
       studentId = (participant?.student_id as string | undefined) ?? null;
       debriefToken = (participant?.debrief_token as string | undefined) ?? null;
     }

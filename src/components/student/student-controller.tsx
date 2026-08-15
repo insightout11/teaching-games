@@ -475,6 +475,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         sessionId,
         clientId: studentSession.clientId,
       });
+      if (studentSession.studentId) params.set('studentId', studentSession.studentId);
       const allowUnchanged = !options?.forceFull && Date.now() - lastFullSessionPollAtRef.current < 60_000;
       if (allowUnchanged && inputSpecRevisionRef.current) {
         params.set('inputSpecRevision', inputSpecRevisionRef.current);
