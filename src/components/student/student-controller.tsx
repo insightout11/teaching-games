@@ -358,6 +358,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // Server clock offset (serverNow − local Date.now() at response receipt). Countdown
   // timers add this to the local clock so device skew never eats answer time.
   const [clockOffsetMs, setClockOffsetMs] = useState(0);
+  const clockOffsetMsRef = useRef(0);
   const inputSpecRevisionRef = useRef<string | null>(null);
   const activeInputSpecRef = useRef<InputSpec | null>(null);
   const activityInstanceIdentityRef = useRef<ActivityInstanceIdentity | null>(null);
@@ -498,6 +499,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       // Sync clock offset before the spec lands so a freshly mounted timer reads it.
       const offset = typeof data.serverNow === 'number' ? data.serverNow - Date.now() : 0;
       if (typeof data.serverNow === 'number') {
+        clockOffsetMsRef.current = offset;
         setClockOffsetMs(offset);
       }
       if (data.inputSpecUnchanged === true) {
@@ -596,6 +598,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         source,
         revision: inputSpecRevisionRef.current,
         unchanged: false,
+        delivery_path: source === 'safety-fallback' || source === 'degraded-fallback' ? 'poll' : 'canonical',
+        delivery_ms: typeof spec?.publishedAt === 'number'
+          ? Math.max(0, Date.now() + offset - spec.publishedAt)
+          : undefined,
         elapsed_ms: Date.now() - requestStartedAt,
       });
       return true;
@@ -630,8 +636,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           : getInputSpecRevision(spec);
         logRealtimeDiagnostic('student-input-spec', 'broadcast_received', {
           revision,
-          delivery_ms: spec?.startedAt ? serverNow - spec.startedAt : undefined,
+          delivery_path: 'realtime',
+          delivery_ms: typeof spec?.publishedAt === 'number'
+            ? Math.max(0, Date.now() + clockOffsetMsRef.current - spec.publishedAt)
+            : undefined,
         });
+        clockOffsetMsRef.current = offset;
         setClockOffsetMs(offset);
         inputSpecRevisionRef.current = revision;
 

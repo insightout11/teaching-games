@@ -145,20 +145,18 @@ export async function GET(request: NextRequest) {
       const inputSpecRevision = getInputSpecRevision(mockInputSpec);
       const activeSpec = mockInputSpec as InputSpec | null;
       const activeRoundId = activeSpec?.roundId;
-      const activeGameKey = activeSpec?.gameKey;
-      const roundResponses = clientId && activeGameKey
+      const remoteResponses = clientId
         ? mockStore.getScores(sessionId).filter((score) => {
             const data = score.response_data as Record<string, unknown> | null;
             return score.client_id === clientId
-              && data?.type === 'remote_vote'
-              && data?.gameKey === activeGameKey
-              && typeof data?.roundId === 'string';
+              && data?.type === 'remote_vote';
           })
         : [];
       const activeMockResponse = activeRoundId
-        ? roundResponses.find((score) => (
-            score.response_data as Record<string, unknown> | null
-          )?.roundId === activeRoundId)
+        ? remoteResponses.find((score) => {
+            const data = score.response_data as Record<string, unknown> | null;
+            return data?.gameKey === activeSpec?.gameKey && data?.roundId === activeRoundId;
+          })
         : undefined;
       const activeMockResponseData = activeMockResponse?.response_data as Record<string, unknown> | null | undefined;
       const isActive = session.status === 'active';
@@ -196,9 +194,10 @@ export async function GET(request: NextRequest) {
         personalResults: null,
         lastResult: null,
         sessionPoints: 0,
-        responseCount: new Set(roundResponses.map((score) => (
-          score.response_data as Record<string, unknown>
-        ).roundId)).size,
+        responseCount: new Set(remoteResponses.map((score) => {
+          const data = score.response_data as Record<string, unknown>;
+          return typeof data.roundId === 'string' ? data.roundId : `legacy:${String(data.gameKey ?? score.id)}`;
+        })).size,
         currentResponse: activeRoundId && typeof activeMockResponseData?.choice === 'string'
           ? { roundId: activeRoundId, choice: activeMockResponseData.choice }
           : null,
@@ -514,14 +513,23 @@ export async function GET(request: NextRequest) {
     let currentResponse: SessionPayload['currentResponse'] = null;
     let sessionAccuracy: number | null = null;
     if (isActive && clientId) {
-      const { data: activeScores } = await supabase
-        .from('scores')
-        .select('id, outcome, points, accuracy_status, counts_for_accuracy')
-        .eq('session_id', sessionId)
-        .or(personalScoreFilter)
-        .eq('scoring_version', 2)
-        .eq('counts_for_leaderboard', true)
-        .order('created_at', { ascending: false });
+      const [{ data: activeScores }, { data: remoteScores }] = await Promise.all([
+        supabase
+          .from('scores')
+          .select('id, outcome, points, accuracy_status, counts_for_accuracy')
+          .eq('session_id', sessionId)
+          .or(personalScoreFilter)
+          .eq('scoring_version', 2)
+          .eq('counts_for_leaderboard', true)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('scores')
+          .select('response_data')
+          .eq('session_id', sessionId)
+          .eq('client_id', clientId)
+          .contains('response_data', { type: 'remote_vote' })
+          .order('created_at', { ascending: false }),
+      ]);
 
       type ActiveRow = { id: string; outcome: string | null; points: number; accuracy_status: string | null; counts_for_accuracy: boolean | null };
       const rows = (activeScores ?? []) as ActiveRow[];
@@ -543,23 +551,16 @@ export async function GET(request: NextRequest) {
       }
 
       const activeSpec = inputSpec as InputSpec | null;
+      const responseData = (remoteScores ?? [])
+        .map((score) => score.response_data as Record<string, unknown> | null)
+        .filter((data): data is Record<string, unknown> => Boolean(data));
+      const persistedResponseKeys = new Set(responseData.map((data, index) => (
+        typeof data.roundId === 'string'
+          ? data.roundId
+          : `legacy:${String(data.gameKey ?? index)}`
+      )));
+      responseCount = Math.max(responseCount, persistedResponseKeys.size);
       if (activeSpec?.gameKey && activeSpec.roundId) {
-        const { data: roundScores } = await supabase
-          .from('scores')
-          .select('response_data')
-          .eq('session_id', sessionId)
-          .eq('client_id', clientId)
-          .contains('response_data', { type: 'remote_vote', gameKey: activeSpec.gameKey })
-          .order('created_at', { ascending: false });
-        const responseData = (roundScores ?? [])
-          .map((score) => score.response_data as Record<string, unknown> | null)
-          .filter((data): data is Record<string, unknown> => Boolean(data));
-        const persistedRoundIds = new Set(
-          responseData
-            .map((data) => data.roundId)
-            .filter((roundId): roundId is string => typeof roundId === 'string'),
-        );
-        responseCount = Math.max(responseCount, persistedRoundIds.size);
         const matchingResponse = responseData.find((data) => data.roundId === activeSpec.roundId);
         if (
           activeSpec.roundId

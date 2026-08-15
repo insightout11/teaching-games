@@ -61,10 +61,13 @@ export async function POST(request: NextRequest) {
         }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
       }
       const stamped = stampTimedSpec(spec, existing);
-      const updates = { input_spec: stamped ?? null } as Partial<Session> & { input_spec?: unknown };
+      const published = stamped && typeof stamped === 'object'
+        ? { ...stamped, publishedAt: Date.now() }
+        : stamped;
+      const updates = { input_spec: published ?? null } as Partial<Session> & { input_spec?: unknown };
       mockStore.updateSession(sessionId, updates);
 
-      const payloadSpec = stamped ?? null;
+      const payloadSpec = published ?? null;
       return NextResponse.json({
         ok: true,
         applied: true,
@@ -127,6 +130,9 @@ export async function POST(request: NextRequest) {
     let toWrite: unknown = spec ?? null;
     if (spec && typeof spec === 'object' && typeof (spec as { timerSeconds?: unknown }).timerSeconds === 'number') {
       toWrite = stampTimedSpec(spec, currentInputSpec);
+    }
+    if (toWrite && typeof toWrite === 'object') {
+      toWrite = { ...toWrite, publishedAt: Date.now() };
     }
 
     let updateQuery = supabase
