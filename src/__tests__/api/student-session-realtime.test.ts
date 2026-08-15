@@ -213,6 +213,43 @@ describe('GET /api/student/session realtime fallback metadata', () => {
     expect(data.responseCount).toBe(1);
   });
 
+  it('keeps roster-student Flight Log responses across a changed device client id', async () => {
+    mockStore.upsertSessionParticipant({
+      session_id: SESSION_ID,
+      student_id: 'student-1',
+      client_id: 'replacement-client',
+      display_name: 'Mia',
+      avatar_seed: 'cloud',
+    });
+    mockStore.createScore({
+      session_id: SESSION_ID,
+      student_id: 'student-1',
+      client_id: 'original-client',
+      display_name: 'Mia',
+      response_data: {
+        type: 'remote_vote', gameKey: 'prediction-round', inputType: 'binary',
+        roundId: 'prediction-round:700:1:question-1', choice: 'False',
+      },
+    });
+    mockStore.createScore({
+      session_id: SESSION_ID,
+      student_id: 'student-1',
+      client_id: 'replacement-client',
+      display_name: 'Mia',
+      response_data: {
+        type: 'remote_vote', gameKey: 'would-you-rather', inputType: 'choice',
+        roundId: 'would-you-rather:800:1:question-1', choice: 'A',
+      },
+    });
+
+    const response = await GET(request(
+      `/api/student/session?sessionId=${SESSION_ID}&clientId=replacement-client`,
+    ) as never);
+    const data = await response.json();
+
+    expect(data.responseCount).toBe(2);
+  });
+
   it('cold-hydrates the active Prediction Round answer and confirmation', async () => {
     const activeQuestion: InputSpec = {
       type: 'binary', gameKey: 'prediction-round', prompt: 'True or false?',
