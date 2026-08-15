@@ -138,7 +138,10 @@ export async function POST(request: NextRequest) {
     if (activityInstanceIdentity) {
       updateQuery = currentInputSpec === null
         ? updateQuery.is('input_spec', null)
-        : updateQuery.eq('input_spec', currentInputSpec);
+        // PostgREST expects JSON text for a json/jsonb equality filter. Passing
+        // the object directly stringifies it as "[object Object]" and makes every
+        // follow-up prompt/clear fail with PostgreSQL 22P02.
+        : updateQuery.eq('input_spec', JSON.stringify(currentInputSpec));
     }
     const { data, error } = await updateQuery.select('id');
 
