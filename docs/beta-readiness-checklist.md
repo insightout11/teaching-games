@@ -1,7 +1,20 @@
 # Beta Readiness Checklist — Jul 8, 2026
 
+> **Founding Captain funnel update — Aug 13, 2026.** Ordinary Google signup remains open. The tracked `/beta` application path recruits a high-touch Founding Captain cohort; it is not a global invite gate.
+
+## Founding Captain recruitment funnel
+
+- Use `/beta` as the campaign destination, with stable lowercase links such as `/beta?utm_source=reddit&utm_medium=organic&utm_campaign=founding_captains&utm_content=world_flight_demo_v1`.
+- Lifecycle is `applied -> signed_up -> onboarded -> activated -> retained`, separate from cohort state (`active`, `inactive`, or `declined`). Onboarding is manual. Automated activation is an activation candidate: it requires an ended session in a non-demo class with at least one `session_participants` row, but founder confirmation (`classroom_use_confirmed_at`) is still needed to establish real classroom use. Retention requires a second qualifying session on a later date.
+- Supabase is the membership and lifecycle source of truth. PostHog receives `beta_page_viewed`, `beta_application_submitted`, `beta_google_signin_started`, and `beta_signup_completed` with campaign fields only—never applicant free text, email, student identity, or session recordings.
+- Public application abuse control allows 10 valid attempts per salted IP hash per hour and 500 attempts globally per day. One service-role Postgres RPC holds a global transaction-scoped advisory lock while it purges expired rows, checks both caps, and inserts an allowed attempt, so parallel requests cannot pass stale count checks. Production must provide the already-used `PUBLIC_DEMO_IP_SALT`; the endpoint fails closed if it is missing. Raw IP addresses are never written to the beta attempt table. Hashes older than 30 days are purged on the next atomic claim; without later endpoint traffic, expired rows may remain until another claim triggers cleanup.
+- Privacy decision (Aug 15, 2026): the operator name is Lesson Captain, the privacy contact is `beta@lessoncaptain.com`, initial recruitment is open to online English teachers worldwide, and beta application/program records are retained for up to 12 months after application or the most recent beta interaction before deletion or anonymization, subject to limited security, legal, or unresolved-request exceptions.
+- After lockfile-based dependency repair, run the read-only founder export from a normal repository shell with `pnpm beta:export`. The command explicitly loads `.env.local` through Node's `--env-file` option and writes a timestamped CSV to `C:\Users\insig\Documents\Codex\_outputs`; pass arguments after `--`, such as `pnpm beta:export -- --output=<path>` or `--include-notes`. Existing output is never overwritten unless `--force` is explicit. The script never writes lifecycle changes.
+- Founder exports contain personal data. Keep them outside the repository and never attach them to public issues, marketing assets, or shared support threads.
+- Onboarding, lifecycle reconciliation writes, follow-ups, testimonial permission, migration application, deployment, and PostHog dashboard setup remain manual and approval-gated.
+
 Master list of what's left before/around beta. Decisions baked in (owner, Jul 8):
-**beta = small invite-only, weeks away · beta is free (Stripe after) · sound v1 after beta starts · onboarding = guided phone-join + teacher-screen coaching.**
+**beta = tracked Founding Captain cohort with ordinary signup still open · beta is free (Stripe after) · sound v1 after beta starts · onboarding = guided phone-join + teacher-screen coaching.**
 
 Agent lanes (owner, Jul 8): **Fable** = hardest/most important coding only · **Opus** = front-end, majority of coding · **Codex** = long backend runs, anything World Flight · **Sonnet** = easy/quick/cheap.
 
