@@ -683,20 +683,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         }
         setConnectionStatus('connected');
           logRealtimeDiagnostic('student-input-spec', 'ui_apply', { revision });
-        })
-        .on(
-          'postgres_changes',
-          {
-            event: 'UPDATE',
-            schema: 'public',
-            table: 'sessions',
-            filter: `id=eq.${sessionId}`,
-          },
-          () => {
-            logRealtimeDiagnostic('student-input-spec', 'database_change_received');
-            void checkSession({ forceFull: true, source: 'database-change' });
-          },
-        ),
+        }),
       removeChannel: (channel) => supabase.removeChannel(channel),
       reconcile: async () => {
         const reconciled = await checkSession({ forceFull: true, source: 'subscribed' });
