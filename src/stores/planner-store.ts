@@ -81,7 +81,11 @@ function applyAllAroundSourceRouting(
     );
   }
 
-  return modules;
+  return modules.map((m) =>
+    m.stageId === 'briefing' || m.key === 'video-player'
+      ? { ...m, key: 'read-aloud', slotType: 'presentation', ...withFlightMeta(preset, 'read-aloud') }
+      : m,
+  );
 }
 
 function buildFlightConfigForSlots(
@@ -157,6 +161,40 @@ function buildModulesFromPreset(
   }
 
   return modules;
+}
+
+/**
+ * Refreshes metadata that may be stale in persisted Captain's Flight plans while
+ * preserving the teacher's selected modules, removals, replacements, and order.
+ */
+export function refreshAllAroundModules(
+  modules: PlanModule[],
+  preset: FlightPlanPreset,
+  sourceKind: PlannerSourceKind,
+): PlanModule[] {
+  if (preset.id !== 'all-around-flight-60') return modules;
+
+  const freshModules = buildModulesFromPreset(preset, sourceKind);
+  const freshByStage = new Map(
+    freshModules.flatMap((module) => module.stageId ? [[module.stageId, module] as const] : []),
+  );
+  const routedModules = applyAllAroundSourceRouting(modules, preset, sourceKind);
+
+  return routedModules.map((module) => {
+    const fresh = module.stageId
+      ? freshByStage.get(module.stageId)
+      : freshModules.find((candidate) => candidate.key === module.key);
+    if (!fresh) return module;
+
+    return {
+      ...module,
+      stageId: fresh.stageId,
+      stageLabel: fresh.stageLabel,
+      isMicroEvent: fresh.isMicroEvent,
+      pool: fresh.pool,
+      worldFlightOnly: fresh.worldFlightOnly,
+    };
+  });
 }
 
 export type { PlanModule };
@@ -425,7 +463,7 @@ export const usePlannerStore = create<PlannerState>()(
         if (loadedPreset?.id === 'all-around-flight-60') {
           set({
             sourceMaterial: resolvedSourceMaterial,
-            modules: buildModulesFromPreset(loadedPreset, getSourceKind(resolvedSourceMaterial)),
+            modules: refreshAllAroundModules(get().modules, loadedPreset, getSourceKind(resolvedSourceMaterial)),
           });
           return;
         }
@@ -516,10 +554,9 @@ export const usePlannerStore = create<PlannerState>()(
         const primaryGoal = derivePrimaryGoal(goals);
         const loadedPreset = loadedPresetId ? FLIGHT_PLAN_PRESETS.find((p) => p.id === loadedPresetId) : null;
 
-        // Always rebuild from the latest preset definition for all-around-flight so that
-        // pool arrays and isMicroEvent flags are never stale from a persisted planner state.
+        // Refresh persisted metadata without restoring modules the teacher removed.
         const freshModules = loadedPreset?.id === 'all-around-flight-60'
-          ? buildModulesFromPreset(loadedPreset, getSourceKind(sourceMaterial))
+          ? refreshAllAroundModules(modules, loadedPreset, getSourceKind(sourceMaterial))
           : modules;
 
         // World-Flight-only micro-events (e.g. Navigation Check) are dropped when this

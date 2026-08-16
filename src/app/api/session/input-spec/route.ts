@@ -6,12 +6,15 @@ import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import {
   getActivityInstanceIdentity,
   getInputSpecRevision,
+  inputSpecChannelName,
+  INPUT_SPEC_REALTIME_EVENT,
   shouldApplyActivityInstanceUpdate,
   stampTimedSpec,
   type ActivityInstanceIdentity,
   type InputSpec,
 } from '@/lib/input-spec';
 import type { Session } from '@/lib/supabase/types';
+import { broadcastInputSpecFromServer } from '@/lib/supabase/realtime-broadcast';
 
 export const dynamic = 'force-dynamic';
 
@@ -76,6 +79,7 @@ export async function POST(request: NextRequest) {
         serverNow: Date.now(),
         activityInstanceIdentity:
           getActivityInstanceIdentity(payloadSpec as InputSpec | null) ?? activityInstanceIdentity ?? null,
+        realtimeDelivery: { status: 'mock', elapsedMs: 0 },
       }, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
       });
@@ -176,16 +180,38 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
+    const serverNow = Date.now();
+    const inputSpecRevision = getInputSpecRevision(toWrite);
+    const resolvedActivityInstanceIdentity =
+      getActivityInstanceIdentity(toWrite as InputSpec | null) ?? activityInstanceIdentity ?? null;
+    const realtimeDelivery = await broadcastInputSpecFromServer(
+      inputSpecChannelName(sessionId),
+      INPUT_SPEC_REALTIME_EVENT,
+      {
+        spec: toWrite as InputSpec | null,
+        inputSpecRevision,
+        serverNow,
+        activityInstanceIdentity: resolvedActivityInstanceIdentity,
+      },
+    );
+    console.info('[input-spec POST] canonical delivery complete', {
+      revision: inputSpecRevision,
+      broadcastStatus: realtimeDelivery.status,
+      broadcastElapsedMs: realtimeDelivery.elapsedMs,
+      broadcastHttpStatus: realtimeDelivery.httpStatus ?? null,
+      broadcastFailureReason: realtimeDelivery.reason ?? null,
+    });
+
     // Echo the stamped spec + server clock so the teacher's own timers can anchor
     // to the exact same timestamps students receive from the poll.
     return NextResponse.json({
       ok: true,
       applied: true,
       spec: toWrite,
-      inputSpecRevision: getInputSpecRevision(toWrite),
-      serverNow: Date.now(),
-      activityInstanceIdentity:
-        getActivityInstanceIdentity(toWrite as InputSpec | null) ?? activityInstanceIdentity ?? null,
+      inputSpecRevision,
+      serverNow,
+      activityInstanceIdentity: resolvedActivityInstanceIdentity,
+      realtimeDelivery,
     });
   } catch (error) {
     console.error('[input-spec POST] error:', error);

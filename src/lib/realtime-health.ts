@@ -7,7 +7,10 @@ export type SupabaseChannelStatus =
   | 'CHANNEL_ERROR'
   | string;
 
-export const HEALTHY_RECONCILE_MS = 15_000;
+// Temporary beta safety net while server-owned Broadcast delivery is monitored.
+// This caps a missed prompt at roughly five seconds without turning normal use
+// into the aggressive degraded-mode polling path.
+export const HEALTHY_RECONCILE_MS = 5_000;
 export const DEGRADED_RECONCILE_MS = 1_500;
 export const CHANNEL_READY_TIMEOUT_MS = 2_000;
 export const CONNECTION_WARNING_GRACE_MS = 3_000;
