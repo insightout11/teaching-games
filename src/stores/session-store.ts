@@ -3,8 +3,6 @@ import type { Student, Score } from '@/lib/supabase/types';
 import {
   getActivityInstanceIdentity,
   getInputSpecRevision,
-  inputSpecChannelName,
-  INPUT_SPEC_REALTIME_EVENT,
   type InputSpec,
   type InputSpecRealtimePayload,
   type TimedRoundClock,
@@ -14,12 +12,7 @@ import type { GrammarTarget } from '@/lib/grammar';
 import type { CharacterCard } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
 import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
-import type { RealtimeChannel } from '@supabase/supabase-js';
-import {
-  logRealtimeDiagnostic,
-  sendWithOneRetry,
-  waitForChannelSubscription,
-} from '@/lib/realtime-health';
+import { logRealtimeDiagnostic } from '@/lib/realtime-health';
 
 
 export type PickerMode = 'fair' | 'random';
@@ -290,76 +283,6 @@ function getInitialSettings(): SessionSettings {
 let lastWrittenInputSpec: InputSpec | null | undefined = undefined;
 let inputSpecWriteQueue: Promise<void> = Promise.resolve();
 let inputSpecWriteGeneration = 0;
-let inputSpecBroadcastSessionId: string | null = null;
-let inputSpecBroadcastChannel: RealtimeChannel | null = null;
-let inputSpecBroadcastReady: Promise<void> | null = null;
-
-function resetInputSpecBroadcastChannel() {
-  if (inputSpecBroadcastChannel) {
-    void inputSpecBroadcastChannel.unsubscribe();
-  }
-  inputSpecBroadcastSessionId = null;
-  inputSpecBroadcastChannel = null;
-  inputSpecBroadcastReady = null;
-}
-
-async function ensureInputSpecBroadcastChannel(sessionId: string): Promise<{
-  channel: RealtimeChannel;
-  ready: Promise<void>;
-}> {
-  if (
-    inputSpecBroadcastChannel &&
-    inputSpecBroadcastReady &&
-    inputSpecBroadcastSessionId === sessionId
-  ) {
-    return { channel: inputSpecBroadcastChannel, ready: inputSpecBroadcastReady };
-  }
-
-  resetInputSpecBroadcastChannel();
-  const { createClient } = await import('@/lib/supabase/client');
-  const channel = createClient().channel(inputSpecChannelName(sessionId));
-  const ready = waitForChannelSubscription(channel);
-
-  inputSpecBroadcastSessionId = sessionId;
-  inputSpecBroadcastChannel = channel;
-  inputSpecBroadcastReady = ready;
-  return { channel, ready };
-}
-
-async function broadcastInputSpec(sessionId: string, payload: InputSpecRealtimePayload) {
-  const startedAt = Date.now();
-  const sent = await sendWithOneRetry(async () => {
-    const { channel, ready } = await ensureInputSpecBroadcastChannel(sessionId);
-    await ready;
-    const result = await channel.send({
-      type: 'broadcast',
-      event: INPUT_SPEC_REALTIME_EVENT,
-      payload,
-    });
-    logRealtimeDiagnostic('input-spec-sender', 'send_result', {
-      revision: payload.inputSpecRevision,
-      result,
-      elapsed_ms: Date.now() - startedAt,
-    });
-    return result;
-  }, () => {
-    resetInputSpecBroadcastChannel();
-    logRealtimeDiagnostic('input-spec-sender', 'retrying', {
-      revision: payload.inputSpecRevision,
-    });
-  });
-
-  if (!sent) {
-    resetInputSpecBroadcastChannel();
-    logRealtimeDiagnostic('input-spec-sender', 'degraded', {
-      revision: payload.inputSpecRevision,
-    });
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new Event('lessoncaptain:realtime-degraded'));
-    }
-  }
-}
-
 // Weighted random selection for wheel
 function selectWeightedRandom(): TurnModifier {
   const totalWeight = WHEEL_SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
@@ -406,9 +329,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     lastWrittenInputSpec = undefined; // Reset per-session tracking
     inputSpecWriteGeneration += 1;
     inputSpecWriteQueue = Promise.resolve();
-    if (inputSpecBroadcastSessionId !== sessionId) {
-      resetInputSpecBroadcastChannel();
-    }
     const callCounts: Record<string, number> = {};
     const streaks: Record<string, number> = {};
     students.forEach((s) => {
@@ -614,6 +534,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
                 inputSpecRevision?: string;
                 serverNow?: number;
                 activityInstanceIdentity?: InputSpecRealtimePayload['activityInstanceIdentity'];
+                realtimeDelivery?: { status?: string; elapsedMs?: number; httpStatus?: number; reason?: string };
               }
             | null;
           const stamped = data?.spec ?? null;
@@ -624,16 +545,14 @@ export const useSessionStore = create<SessionState>((set, get) => ({
           lastWrittenInputSpec = stamped;
           logRealtimeDiagnostic('input-spec-sender', 'database_write_complete', {
             revision: inputSpecRevision,
+            broadcast_status: data?.realtimeDelivery?.status ?? 'unknown',
+            broadcast_elapsed_ms: data?.realtimeDelivery?.elapsedMs,
+            broadcast_http_status: data?.realtimeDelivery?.httpStatus,
+            broadcast_failure_reason: data?.realtimeDelivery?.reason,
           });
-          void broadcastInputSpec(sessionId, {
-            spec: stamped,
-            inputSpecRevision,
-            serverNow,
-            activityInstanceIdentity:
-              data?.activityInstanceIdentity
-              ?? getActivityInstanceIdentity(stamped)
-              ?? activityInstanceIdentity,
-          });
+          if (data?.realtimeDelivery?.status === 'failed' && typeof window !== 'undefined') {
+            window.dispatchEvent(new Event('lessoncaptain:realtime-degraded'));
+          }
           if (stamped && typeof stamped.timerSeconds === 'number' && typeof stamped.startedAt === 'number') {
             const offset = serverNow - Date.now();
             const prev = get().activeTimedRound;
@@ -714,7 +633,6 @@ export const useSessionStore = create<SessionState>((set, get) => ({
     lastWrittenInputSpec = undefined;
     inputSpecWriteGeneration += 1;
     inputSpecWriteQueue = Promise.resolve();
-    resetInputSpecBroadcastChannel();
     set({
       sessionId: null,
       classId: null,
