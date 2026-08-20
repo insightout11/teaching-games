@@ -51,4 +51,24 @@ describe('server-owned Realtime Broadcast', () => {
       httpStatus: 503,
     });
   });
+
+  it('returns safe exception metadata without exposing an error message', async () => {
+    const cause = Object.assign(new Error('socket unavailable'), { code: 'UND_ERR_CONNECT_TIMEOUT' });
+    vi.spyOn(globalThis, 'fetch').mockRejectedValue(new TypeError('fetch failed', { cause }));
+
+    const result = await broadcastInputSpecFromServer('topic', 'event', {
+      spec: null,
+      inputSpecRevision: 'revision-3',
+      serverNow: 789,
+      activityInstanceIdentity: null,
+    });
+
+    expect(result).toMatchObject({
+      status: 'failed',
+      reason: 'request-failed',
+      errorName: 'TypeError',
+      errorCode: 'UND_ERR_CONNECT_TIMEOUT',
+    });
+    expect(result).not.toHaveProperty('errorMessage');
+  });
 });
