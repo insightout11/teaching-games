@@ -24,7 +24,7 @@ describe('server-owned Realtime Broadcast', () => {
     await expect(broadcastInputSpecFromServer('input-spec:session-1', 'input-spec', payload))
       .resolves.toMatchObject({ status: 'sent', httpStatus: 202 });
     expect(fetchMock).toHaveBeenCalledWith(
-      'https://project.supabase.co/realtime/v1/api/broadcast/input-spec%3Asession-1/events/input-spec',
+      new URL('https://project.supabase.co/realtime/v1/api/broadcast/input-spec%3Asession-1/events/input-spec'),
       expect.objectContaining({
         method: 'POST',
         headers: {
@@ -35,6 +35,44 @@ describe('server-owned Realtime Broadcast', () => {
         cache: 'no-store',
       }),
     );
+  });
+
+  it('normalizes whitespace and matching quotes around the configured URL', async () => {
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', '  "https://project.supabase.co/"\r\n');
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(null, { status: 202 }));
+
+    await expect(broadcastInputSpecFromServer('topic', 'event', {
+      spec: null,
+      inputSpecRevision: 'revision-normalized',
+      serverNow: 123,
+      activityInstanceIdentity: null,
+    })).resolves.toMatchObject({ status: 'sent', httpStatus: 202 });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      new URL('https://project.supabase.co/realtime/v1/api/broadcast/topic/events/event'),
+      expect.any(Object),
+    );
+  });
+
+  it.each([
+    'NEXT_PUBLIC_SUPABASE_URL=https://project.supabase.co',
+    'javascript:alert(1)',
+    'https://project.supabase.co/unexpected-path',
+  ])('rejects an invalid configured URL without calling fetch: %s', async (configuredUrl) => {
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', configuredUrl);
+    const fetchMock = vi.spyOn(globalThis, 'fetch');
+
+    await expect(broadcastInputSpecFromServer('topic', 'event', {
+      spec: null,
+      inputSpecRevision: 'revision-invalid',
+      serverNow: 123,
+      activityInstanceIdentity: null,
+    })).resolves.toMatchObject({
+      status: 'failed',
+      reason: 'invalid-configuration',
+    });
+
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('returns a failed delivery without throwing when Realtime rejects it', async () => {
