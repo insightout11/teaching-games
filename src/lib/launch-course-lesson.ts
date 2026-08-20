@@ -1,6 +1,7 @@
 'use client';
 
 import type { CourseLesson } from '@/lib/course';
+import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 
 /**
  * Launch a single course lesson into a live session — the same path the planner uses:
@@ -11,7 +12,7 @@ export async function launchCourseLesson(lesson: CourseLesson, classId: string):
   const res = await fetch('/api/session/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ classId }),
+    body: JSON.stringify({ classId, lessonPlanContent: lesson.lessonPayload }),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: 'Failed to create session' }));
@@ -20,7 +21,9 @@ export async function launchCourseLesson(lesson: CourseLesson, classId: string):
   const { sessionId } = (await res.json()) as { sessionId: string };
 
   // use-lesson-session reads this on the session page.
-  sessionStorage.setItem('lessonPlanContent', JSON.stringify(lesson.lessonPayload));
+  const serializedLessonPlan = JSON.stringify(lesson.lessonPayload);
+  sessionStorage.setItem(lessonPlanStorageKey(sessionId), serializedLessonPlan);
+  sessionStorage.setItem('lessonPlanContent', serializedLessonPlan);
 
   // Record the launch on the course lesson (best-effort — don't block takeoff on it).
   fetch(`/api/course/lesson/${lesson.id}`, {

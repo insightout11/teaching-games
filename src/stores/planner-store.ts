@@ -16,6 +16,7 @@ import type {
   WorldFlightDesignMissionContext,
   WorldFlightDesignMissionLaunchContext,
 } from '@/lib/world-flight/investigations';
+import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 
 const VIDEO_SOURCE_TYPES = new Set<SourceType>([
   'youtube', 'ted', 'teded', 'bbc', 'kurzgesagt',
@@ -597,6 +598,7 @@ export const usePlannerStore = create<PlannerState>()(
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             classId: selectedClassId,
+            lessonPlanContent: lessonPlanPayload,
             ...(worldFlightContext ? { worldFlightContext } : {}),
             ...(worldFlightDesignMissionContext ? { worldFlightDesignMissionContext } : {}),
           }),
@@ -626,17 +628,17 @@ export const usePlannerStore = create<PlannerState>()(
               },
             }
           : lessonPlanPayload.generatedContent;
-        sessionStorage.setItem(
-          'lessonPlanContent',
-          JSON.stringify({
-            ...lessonPlanPayload,
-            generatedContent,
-            ...(result.worldFlightContext ? { worldFlightContext: result.worldFlightContext } : {}),
-            ...(result.worldFlightDesignMissionContext
-              ? { worldFlightDesignMissionContext: result.worldFlightDesignMissionContext }
-              : {}),
-          }),
-        );
+        const finalLessonPlanPayload = {
+          ...lessonPlanPayload,
+          generatedContent,
+          ...(result.worldFlightContext ? { worldFlightContext: result.worldFlightContext } : {}),
+          ...(result.worldFlightDesignMissionContext
+            ? { worldFlightDesignMissionContext: result.worldFlightDesignMissionContext }
+            : {}),
+        };
+        const serializedLessonPlan = JSON.stringify(finalLessonPlanPayload);
+        sessionStorage.setItem(lessonPlanStorageKey(result.sessionId), serializedLessonPlan);
+        sessionStorage.setItem('lessonPlanContent', serializedLessonPlan);
         set({ worldFlightContext: null, worldFlightDesignMissionContext: null });
         const { sessionId } = result;
         window.location.href = `/sessions/${sessionId}`;

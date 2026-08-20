@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback, useMemo, type ReactNode } from 'react';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
+import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
 import { getActivityInstanceKey } from '@/lib/activity-instance';
@@ -769,7 +770,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, []);
 
   // ─── Lesson session controller ─────────────────────────────────────────
-  const lesson = useLessonSession(session.id, settings, students.length);
+  const lesson = useLessonSession(session.id, settings, students.length, session.lesson_plan_content);
   const selectedPlaneKey = lesson.lessonPlanContent?.worldFlightContext?.planeKey ?? DEFAULT_PLANE_KEY;
   const selectedPlane = getPlaneAsset(selectedPlaneKey);
   const selectedPlaneTier = getPlaneTierForKey(selectedPlaneKey);
@@ -1051,56 +1052,46 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (!initDone.current) {
       initSession(session.id, cls.id, []);
       existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
+      const persistedPlan = lesson.lessonPlanContent;
       // Apply class presets (difficulty/tone/scoringMode) — overrides stale localStorage defaults.
       // For scoringMode: only apply class default when the lesson plan has no explicit mode
       // (lesson plan explicit > class default > goal-derived, which use-lesson-session sets first).
-      const lessonPlanHasScoringMode = (() => {
-        try {
-          const s = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
-          return s ? !!JSON.parse(s).scoringMode : false;
-        } catch { return false; }
-      })();
+      const lessonPlanHasScoringMode = !!persistedPlan?.scoringMode;
       const patch: Parameters<typeof setSettings>[0] = {};
-      if (cls.default_difficulty) patch.difficulty = cls.default_difficulty as Difficulty;
+      const launchDifficulty = persistedPlan?.difficulty ?? session.difficulty ?? cls.default_difficulty;
+      if (launchDifficulty) patch.difficulty = launchDifficulty as Difficulty;
       if (cls.default_tone) patch.tone = cls.default_tone as Tone;
       if (cls.default_scoring_mode && !lessonPlanHasScoringMode) {
         patch.scoringMode = cls.default_scoring_mode as ScoringMode;
       }
+      if (persistedPlan?.scoringMode) patch.scoringMode = persistedPlan.scoringMode;
+      if (session.topic) patch.topic = session.topic as Parameters<typeof setSettings>[0]['topic'];
+      patch.customTopic = session.custom_topic?.trim() || persistedPlan?.customTopic || '';
       if (Object.keys(patch).length > 0) setSettings(patch);
-      // Write effective settings to DB so students can see topic/difficulty on the waiting screen.
-      // Read from getState() to capture any patches applied above.
-      const s = useSessionStore.getState().settings;
+      // Backfill old sessions launched before durable plan persistence. New
+      // sessions already wrote these values atomically during creation.
+      if (!session.lesson_plan_content) {
+        const s = useSessionStore.getState().settings;
       // The launch-time topic is the source of truth, but settings.customTopic is populated
       // by a separate effect that can run AFTER this one — reading it here would persist the
       // default 'General' to the session row (→ "Jump back in" shows General for every
       // lesson). Read the topic straight from the launch payload to avoid that race.
-      const launchCustomTopic = (() => {
-        try {
-          const raw = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
-          const t = raw ? (JSON.parse(raw).customTopic as unknown) : null;
-          return typeof t === 'string' ? t.trim() : '';
-        } catch { return ''; }
-      })();
-      void fetch('/api/session/settings', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId: session.id,
-          topic: s.topic,
-          difficulty: s.difficulty,
-          customTopic: launchCustomTopic || s.customTopic || null,
-        }),
-      });
+        const launchCustomTopic = persistedPlan?.customTopic?.trim() || '';
+        void fetch('/api/session/settings', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: session.id,
+            topic: s.topic,
+            difficulty: s.difficulty,
+            customTopic: launchCustomTopic || s.customTopic || null,
+          }),
+        });
       // Persist a compact lesson brief server-side so separate-device features
       // (cockpit captain suggestions) know the plan, goal, and source — the
       // sessions row only carries topic/difficulty/vocab.
       try {
-        const raw = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
-        const plan = raw ? JSON.parse(raw) as {
-          goal?: string;
-          slots?: Array<{ key?: string; name?: string; stageLabel?: string }>;
-          sourceMaterial?: { title?: string; summary?: string; briefingText?: string; rawText?: string };
-        } : null;
+        const plan = persistedPlan;
         if (plan) {
           const source = plan.sourceMaterial;
           const brief = {
@@ -1120,10 +1111,27 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           }
         }
       } catch { /* brief is best-effort — never block launch */ }
+      }
       initDone.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session.id, cls.id]);
+
+  // The lesson controller hydrates before this component initializes the
+  // session store. Re-apply the resolved plan afterward so initSession cannot
+  // erase a durable plan or an intentional session-scoped Browse pivot.
+  useEffect(() => {
+    const plan = lesson.lessonPlanContent;
+    if (!initDone.current || !plan) return;
+    const store = useSessionStore.getState();
+    store.setCustomTopic(plan.customTopic);
+    store.setSourceMaterial(plan.sourceMaterial ?? null);
+    store.setFlightPresetId(plan.flightPresetId ?? null);
+    setSettings({
+      scoringMode: plan.scoringMode ?? goalToScoringMode(plan.goal),
+      ...(plan.difficulty ? { difficulty: plan.difficulty } : {}),
+    });
+  }, [lesson.lessonPlanContent, setSettings]);
 
   // Realtime subscription for leaderboard
   useRealtimeLeaderboard(session.id);
@@ -1210,6 +1218,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     // instantly; the DB end + cleanup run in the background (best-effort).
     const expectsJourneyMove = completed && lesson.lessonPlanContent?.worldFlightContext?.movesClass === true;
     if (expectsJourneyMove) setJourneySaveStatus('saving');
+    sessionStorage.removeItem(lessonPlanStorageKey(session.id));
     sessionStorage.removeItem('lessonPlanContent');
     localStorage.removeItem('lc-explore-session');
     setEnded(true);

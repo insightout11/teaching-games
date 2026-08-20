@@ -25,6 +25,7 @@ import { usePlannerStore } from '@/stores/planner-store';
 import type { SlotType } from '@/lib/flight-plan-config';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { trackEvent } from '@/lib/analytics/posthog';
+import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 
 type FilterTab = 'all' | 'games' | 'activities';
 type SkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -346,20 +347,25 @@ export function ExploreClient() {
     return () => { cancelled = true; };
   }, [launchItem, authChecked, isAuthenticated, classesLoadAttempt]);
 
-  function writeAndNavigate(sessionId: string, directLaunch: boolean) {
-    if (!launchItem) return;
-    localStorage.setItem('lc-explore-settings', JSON.stringify({ topic: selectedTopic, difficulty: selectedDifficulty, customTopic }));
-    sessionStorage.setItem(
-      'lessonPlanContent',
-      JSON.stringify({
+  function buildLaunchPlan(directLaunch: boolean) {
+    if (!launchItem) return null;
+    return {
         customTopic: customTopic.trim() || selectedTopic,
         difficulty: selectedDifficulty,
         slots: [{ type: launchItem.type, key: launchItem.key, name: launchItem.name }],
         generatedContent: {},
         generatedGameContent: {},
         ...(directLaunch ? { directLaunch: true } : {}),
-      }),
-    );
+      };
+  }
+
+  function writeAndNavigate(sessionId: string, directLaunch: boolean) {
+    const lessonPlanContent = buildLaunchPlan(directLaunch);
+    if (!lessonPlanContent) return;
+    localStorage.setItem('lc-explore-settings', JSON.stringify({ topic: selectedTopic, difficulty: selectedDifficulty, customTopic }));
+    const serializedLessonPlan = JSON.stringify(lessonPlanContent);
+    sessionStorage.setItem(lessonPlanStorageKey(sessionId), serializedLessonPlan);
+    sessionStorage.setItem('lessonPlanContent', serializedLessonPlan);
     window.location.href = `/sessions/${sessionId}`;
   }
 
@@ -370,7 +376,7 @@ export function ExploreClient() {
       const res = await fetch('/api/session/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ classId }),
+        body: JSON.stringify({ classId, lessonPlanContent: buildLaunchPlan(false) }),
       });
       if (res.status === 402) {
         setLaunching(false);

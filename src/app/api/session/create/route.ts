@@ -17,17 +17,26 @@ import {
   type CompletedWorldFlightEvidence,
   type WorldFlightDesignMissionContext,
 } from '@/lib/world-flight/investigations';
+import { parseLessonPlanPayload, type LessonPlanPayload } from '@/lib/lesson-plan-payload';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const classId = body?.classId;
+  const rawLessonPlan = body?.lessonPlanContent;
+  if (rawLessonPlan != null && JSON.stringify(rawLessonPlan).length > 1_500_000) {
+    return NextResponse.json({ error: 'Lesson plan is too large' }, { status: 413 });
+  }
+  const launchPlan = rawLessonPlan == null ? null : parseLessonPlanPayload(rawLessonPlan);
   const launchContext = parseWorldFlightLaunchContext(body?.worldFlightContext);
   const designMissionLaunchContext = parseWorldFlightDesignMissionLaunchContext(body?.worldFlightDesignMissionContext);
 
   if (!classId || typeof classId !== 'string') {
     return NextResponse.json({ error: 'classId is required' }, { status: 400 });
+  }
+  if (rawLessonPlan != null && !launchPlan) {
+    return NextResponse.json({ error: 'Invalid lesson plan' }, { status: 400 });
   }
   if (body?.worldFlightContext != null && !launchContext) {
     return NextResponse.json({ error: 'Invalid World Flight context' }, { status: 400 });
@@ -60,6 +69,7 @@ export async function POST(request: Request) {
   let sessionError: { message?: string } | null = null;
   let resolvedWorldFlightContext: WorldFlightSessionContext | null = null;
   let resolvedWorldFlightDesignMissionContext: WorldFlightDesignMissionContext | null = null;
+  let persistedLessonPlan: LessonPlanPayload | null = launchPlan;
 
   if (launchContext) {
     const destination = getDestinationById(launchContext.destinationId);
@@ -129,11 +139,23 @@ export async function POST(request: Request) {
       movesClass: movement.movesClass,
       evidenceSnapshot,
     };
+    persistedLessonPlan = launchPlan
+      ? { ...launchPlan, worldFlightContext: resolvedWorldFlightContext }
+      : null;
 
     if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
       const result = await supabase
         .from('sessions')
-        .insert({ class_id: classId, world_flight_context: resolvedWorldFlightContext })
+        .insert({
+          class_id: classId,
+          world_flight_context: resolvedWorldFlightContext,
+          ...(persistedLessonPlan ? {
+            topic: 'General',
+            custom_topic: persistedLessonPlan.customTopic,
+            difficulty: persistedLessonPlan.difficulty ?? 'Intermediate',
+            lesson_plan_content: persistedLessonPlan,
+          } : {}),
+        })
         .select('id')
         .single();
       session = result.data;
@@ -148,6 +170,10 @@ export async function POST(request: Request) {
         p_distance_km: resolvedDistanceKm,
         p_moves_class: movement.movesClass,
         p_evidence_snapshot: evidenceSnapshot,
+        p_topic: persistedLessonPlan ? 'General' : null,
+        p_custom_topic: persistedLessonPlan?.customTopic ?? null,
+        p_difficulty: persistedLessonPlan?.difficulty ?? null,
+        p_lesson_plan_content: persistedLessonPlan,
       });
       session = result.data ? { id: result.data as string } : null;
       sessionError = result.error;
@@ -181,6 +207,24 @@ export async function POST(request: Request) {
     if (!resolvedWorldFlightDesignMissionContext) {
       return NextResponse.json({ error: 'This investigation does not yet have enough completed evidence' }, { status: 400 });
     }
+    persistedLessonPlan = launchPlan
+      ? {
+          ...launchPlan,
+          worldFlightDesignMissionContext: resolvedWorldFlightDesignMissionContext,
+          generatedContent: {
+            ...launchPlan.generatedContent,
+            'design-studio': {
+              activityKey: 'design-studio',
+              topicContext: resolvedWorldFlightDesignMissionContext.designMissionTitle,
+              challenge: `${resolvedWorldFlightDesignMissionContext.designMissionTitle}: ${resolvedWorldFlightDesignMissionContext.question}`,
+              openingPrompt: 'What should the class design using what it learned across these cities?',
+              successCriteria: resolvedWorldFlightDesignMissionContext.successCriteria,
+              maxDecisions: 6,
+              worldFlightMission: resolvedWorldFlightDesignMissionContext,
+            },
+          },
+        }
+      : null;
 
     const { data: completedMission } = await supabase
       .from('class_world_flight_design_missions')
@@ -200,6 +244,12 @@ export async function POST(request: Request) {
         .insert({
           class_id: classId,
           world_flight_design_mission_context: resolvedWorldFlightDesignMissionContext,
+          ...(persistedLessonPlan ? {
+            topic: 'General',
+            custom_topic: persistedLessonPlan.customTopic,
+            difficulty: persistedLessonPlan.difficulty ?? 'Intermediate',
+            lesson_plan_content: persistedLessonPlan,
+          } : {}),
         })
         .select('id')
         .single();
@@ -209,6 +259,10 @@ export async function POST(request: Request) {
       const result = await supabase.rpc('create_world_flight_design_mission_session', {
         p_class_id: classId,
         p_mission_context: resolvedWorldFlightDesignMissionContext,
+        p_topic: persistedLessonPlan ? 'General' : null,
+        p_custom_topic: persistedLessonPlan?.customTopic ?? null,
+        p_difficulty: persistedLessonPlan?.difficulty ?? null,
+        p_lesson_plan_content: persistedLessonPlan,
       });
       session = result.data ? { id: result.data as string } : null;
       sessionError = result.error;
@@ -216,7 +270,15 @@ export async function POST(request: Request) {
   } else {
     const result = await supabase
       .from('sessions')
-      .insert({ class_id: classId })
+      .insert({
+        class_id: classId,
+        ...(persistedLessonPlan ? {
+          topic: 'General',
+          custom_topic: persistedLessonPlan.customTopic,
+          difficulty: persistedLessonPlan.difficulty ?? 'Intermediate',
+          lesson_plan_content: persistedLessonPlan,
+        } : {}),
+      })
       .select('id')
       .single();
     session = result.data;

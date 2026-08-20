@@ -8,26 +8,22 @@ import type { GrammarTarget } from '@/lib/grammar';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent, SourceVocabItem, LessonPlanGenerateResponse } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
+import {
+  lessonPlanStorageKey,
+  resolveLessonPlanPayload,
+  type LessonSlot,
+} from '@/lib/lesson-plan-payload';
 import type { FlightPresetConfig } from '@/lib/flight-plan-presets';
 import type { CourseLessonContext } from '@/lib/course-context';
 import type { WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { missionSelectorFallback } from '@/lib/fallback-content';
 import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
 
+export type { LessonSlot } from '@/lib/lesson-plan-payload';
+
 // ─── Types ─────────────────────────────────────────────────────────────────
 
 export type LessonPhase = 'idle' | 'lobby' | 'mission-select' | 'live' | 'landing' | 'ended';
-
-export type LessonSlot = {
-  type: 'activity' | 'game';
-  key: string;
-  name: string;
-  category?: string;
-  stageId?: string;
-  stageLabel?: string;
-  isMicroEvent?: boolean;
-  pool?: string[];
-};
 
 const LANDING_ACTIVITY_KEYS = new Set(['final-answer', 'mic-drop', 'lightning-round', 'opinion-shift']);
 
@@ -66,39 +62,16 @@ interface LessonPlanPayload {
   destinationId?: string;
 }
 
-function getLessonPlanContent(): LessonPlanPayload | null {
-  if (typeof window === 'undefined') return null;
-  try {
-    const stored = sessionStorage.getItem('lessonPlanContent');
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      return {
-        customTopic: parsed.customTopic,
-        callsign: parsed.callsign,
-        slots: parsed.slots || [],
-        generatedContent: parsed.generatedContent || {},
-        generatedGameContent: parsed.generatedGameContent || {},
-        flightPresetId: parsed.flightPresetId,
-        flightConfig: parsed.flightConfig,
-        goal: parsed.goal,
-        scoringMode: parsed.scoringMode,
-        isMissionBased: parsed.isMissionBased,
-        lessonDurationMinutes: parsed.lessonDurationMinutes,
-        difficulty: parsed.difficulty,
-        grammarTarget: parsed.grammarTarget ?? null,
-        directLaunch: parsed.directLaunch ?? false,
-        sourceMaterial: parsed.sourceMaterial ?? undefined,
-        courseContext: parsed.courseContext ?? undefined,
-        stageSources: parsed.stageSources ?? undefined,
-        worldFlightContext: parsed.worldFlightContext ?? undefined,
-        originId: parsed.originId ?? undefined,
-        destinationId: parsed.destinationId ?? undefined,
-      };
-    }
-  } catch (e) {
-    console.error('Failed to load lesson plan content:', e);
-  }
-  return null;
+export function getLessonPlanContent(
+  sessionId: string,
+  persistedContent?: LessonPlanPayload | null,
+): LessonPlanPayload | null {
+  if (typeof window === 'undefined') return resolveLessonPlanPayload(persistedContent);
+  return resolveLessonPlanPayload(
+    persistedContent,
+    sessionStorage.getItem(lessonPlanStorageKey(sessionId)),
+    sessionStorage.getItem('lessonPlanContent'),
+  );
 }
 
 // ─── Hook return type ──────────────────────────────────────────────────────
@@ -147,6 +120,7 @@ export function useLessonSession(
   sessionId: string,
   settings: SessionSettings,
   studentCount: number,
+  persistedContent?: LessonPlanPayload | null,
 ): LessonSession {
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
   const setSettings = useSessionStore((s) => s.setSettings);
@@ -163,7 +137,9 @@ export function useLessonSession(
   const [missionSelectorGenerating, setMissionSelectorGenerating] = useState(false);
   const [generatingModuleName, setGeneratingModuleName] = useState<string | null>(null);
   const [isGeneratingContent, setIsGeneratingContent] = useState(false);
-  const [lessonPlanContent, setLessonPlanContent] = useState<LessonPlanPayload | null>(null);
+  const [lessonPlanContent, setLessonPlanContent] = useState<LessonPlanPayload | null>(
+    () => resolveLessonPlanPayload(persistedContent),
+  );
   const [creditsExhausted, setCreditsExhausted] = useState(false);
   // Monotonic counter — increments on every advanceSlot/beginLesson to ensure
   // the pending-auto-start effect fires even when `phase` doesn't change
@@ -370,7 +346,7 @@ export function useLessonSession(
 
   // ─── Load lesson plan from sessionStorage on mount ─────────────────────
   useEffect(() => {
-    const content = getLessonPlanContent();
+    const content = getLessonPlanContent(sessionId, persistedContent);
     if (content) {
       setLessonPlanContent(content);
       setCustomTopic(content.customTopic);
@@ -399,7 +375,7 @@ export function useLessonSession(
         }
       }
     }
-  }, [setCustomTopic, setSettings, setSourceMaterial, setFlightPresetId]);
+  }, [sessionId, persistedContent, setCustomTopic, setSettings, setSourceMaterial, setFlightPresetId]);
 
   // Apply grammarTarget from lesson plan AFTER initSession has run (initSession resets settings).
   // This runs on the render where phase transitions to 'lobby', which is after the first effects flush.
@@ -609,10 +585,11 @@ export function useLessonSession(
       };
 
       try {
-        const stored = sessionStorage.getItem('lessonPlanContent');
+        const storageKey = lessonPlanStorageKey(sessionId);
+        const stored = sessionStorage.getItem(storageKey) ?? sessionStorage.getItem('lessonPlanContent');
         const parsed = stored ? JSON.parse(stored) : {};
         sessionStorage.setItem(
-          'lessonPlanContent',
+          storageKey,
           JSON.stringify({
             ...parsed,
             worldFlightContext: {
@@ -628,7 +605,7 @@ export function useLessonSession(
 
       return next;
     });
-  }, []);
+  }, [sessionId]);
 
   const exitLesson = useCallback(() => {
     setPhase('idle');
