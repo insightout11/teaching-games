@@ -9,6 +9,7 @@ import type { GameGeneratedContent } from '@/activities/types';
 import type { StudentSubmission, Score } from '@/lib/supabase/types';
 import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import { useStudentPrefs } from '@/hooks/use-student-prefs';
+import { getScoreReconcileDelay, markScoreDelivered } from '@/lib/activity-score-reconciliation';
 import { Leaderboard } from './leaderboard';
 import { ApprovalQueue } from './approval-queue';
 import { TeamTotals } from './team-totals';
@@ -47,6 +48,8 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   const supabase = createClient();
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: GameRemoteVote) => void) | null>(null);
+  const studentInputOpenRef = useRef(false);
+  const reconcileNowRef = useRef<(() => void) | null>(null);
   // Buffer for votes that arrive while handler is null (e.g. during useCallback re-registration)
   const pendingVotesRef = useRef<GameRemoteVote[]>([]);
   const [autoApprove, setAutoApprove] = useState(false);
@@ -99,6 +102,77 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   useEffect(() => {
     if (!sessionId) return;
 
+    const deliveredScoreIds = new Set<string>();
+    const deliverScore = (score: Score) => {
+      if (!markScoreDelivered(deliveredScoreIds, score.id)) return;
+      const responseData = score.response_data as Record<string, unknown> | null;
+      // Cache display name for non-roster (remote) students so handleScore can use it
+      if (score.client_id && score.display_name) {
+        clientInfoRef.current.set(score.client_id, score.display_name);
+      }
+      // Cache clientId → studentId from the initial submit-API score (which has both set)
+      if (score.client_id && score.student_id) {
+        clientToStudentRef.current.set(score.client_id, score.student_id);
+      }
+      if (responseData?.type === 'remote_vote' && responseData?.gameKey === game.key) {
+        const vote: GameRemoteVote = {
+          clientId: score.client_id || '',
+          studentId: score.student_id || null,
+          displayName: score.display_name || 'Anonymous',
+          choice: responseData.choice as string,
+          team: score.team as 'red' | 'blue' | null,
+          gameKey: responseData.gameKey as string,
+          inputType: responseData.inputType as string,
+          roundId: responseData.roundId as string | undefined,
+        };
+        if (remoteVoteHandlerRef.current) {
+          remoteVoteHandlerRef.current(vote);
+        } else {
+          // Handler is temporarily null (game re-registering between renders) — buffer and retry
+          pendingVotesRef.current.push(vote);
+          setTimeout(() => {
+            const idx = pendingVotesRef.current.indexOf(vote);
+            if (idx !== -1) {
+              pendingVotesRef.current.splice(idx, 1);
+              remoteVoteHandlerRef.current?.(vote);
+            }
+          }, 500);
+        }
+      }
+      recordScore(score);
+    };
+
+    const reconcileScores = async () => {
+      const { data, error } = await supabase
+        .from('scores')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: true });
+      if (!error) {
+        (data as Score[] | null)
+          ?.filter((score) => {
+            const responseData = score.response_data as Record<string, unknown> | null;
+            return responseData?.type === 'remote_vote' && responseData.gameKey === game.key;
+          })
+          .forEach(deliverScore);
+      }
+    };
+
+    let channelHealthy = false;
+    let disposed = false;
+    let reconcileTimer: ReturnType<typeof setTimeout> | null = null;
+    const scheduleReconcile = (delayMs: number) => {
+      if (reconcileTimer) clearTimeout(reconcileTimer);
+      reconcileTimer = setTimeout(() => {
+        void reconcileScores().finally(() => {
+          if (!disposed) {
+            scheduleReconcile(getScoreReconcileDelay(studentInputOpenRef.current, channelHealthy));
+          }
+        });
+      }, delayMs);
+    };
+    reconcileNowRef.current = () => scheduleReconcile(0);
+
     const scoresChannel = supabase
       .channel(`game-scores-${sessionId}`)
       .on(
@@ -109,56 +183,27 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
           table: 'scores',
           filter: `session_id=eq.${sessionId}`,
         },
-        (payload: { new: Score }) => {
-          const score = payload.new;
-          // Check if this is a remote vote for this game
-          const responseData = score.response_data as Record<string, unknown> | null;
-          // Cache display name for non-roster (remote) students so handleScore can use it
-          if (score.client_id && score.display_name) {
-            clientInfoRef.current.set(score.client_id, score.display_name);
-          }
-          // Cache clientId → studentId from the initial submit-API score (which has both set)
-          if (score.client_id && score.student_id) {
-            clientToStudentRef.current.set(score.client_id, score.student_id);
-          }
-          if (responseData?.type === 'remote_vote' && responseData?.gameKey === game.key) {
-            const vote: GameRemoteVote = {
-              clientId: score.client_id || '',
-              studentId: score.student_id || null,
-              displayName: score.display_name || 'Anonymous',
-              choice: responseData.choice as string,
-              team: score.team as 'red' | 'blue' | null,
-              gameKey: responseData.gameKey as string,
-              inputType: responseData.inputType as string,
-              roundId: responseData.roundId as string | undefined,
-            };
-            if (remoteVoteHandlerRef.current) {
-              remoteVoteHandlerRef.current(vote);
-            } else {
-              // Handler is temporarily null (game re-registering between renders) — buffer and retry
-              pendingVotesRef.current.push(vote);
-              setTimeout(() => {
-                const idx = pendingVotesRef.current.indexOf(vote);
-                if (idx !== -1) {
-                  pendingVotesRef.current.splice(idx, 1);
-                  remoteVoteHandlerRef.current?.(vote);
-                }
-              }, 500);
-            }
-          }
-          // Also record the score in the store
-          recordScore(score);
-        }
+        (payload: { new: Score }) => deliverScore(payload.new),
       )
-      .subscribe();
+      .subscribe((status: string) => {
+        channelHealthy = status === 'SUBSCRIBED';
+        if (channelHealthy) void reconcileScores();
+        scheduleReconcile(getScoreReconcileDelay(studentInputOpenRef.current, channelHealthy));
+      });
+    scheduleReconcile(1_500);
 
     return () => {
+      disposed = true;
+      reconcileNowRef.current = null;
+      if (reconcileTimer) clearTimeout(reconcileTimer);
       supabase.removeChannel(scoresChannel);
     };
   }, [sessionId, game.key, supabase, recordScore]);
 
   // Callback for games to set input spec
   const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
+    studentInputOpenRef.current = spec !== null;
+    reconcileNowRef.current?.();
     setInputSpec(spec);
   }, [setInputSpec]);
 
