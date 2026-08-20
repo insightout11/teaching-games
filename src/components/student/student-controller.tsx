@@ -9,6 +9,7 @@ import type { Team } from '@/lib/supabase/types';
 import {
   getActivityInstanceIdentity,
   getInputSpecRevision,
+  getStudentSignalTransitionMs,
   inputSpecChannelName,
   INPUT_SPEC_REALTIME_EVENT,
   shouldApplyActivityInstanceUpdate,
@@ -344,7 +345,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [debriefToken, setDebriefToken] = useState<string | null>(null);
   const [shareCopied, setShareCopied] = useState(false);
 
-  // "Get ready" transition when inputSpec first arrives
+  // Brief visual handoff when an untimed inputSpec first arrives. Timed specs already
+  // render their own synchronized 3-2-1 gate and must never stack another delay.
   const [transitionActivityName, setTransitionActivityName] = useState<string | null>(null);
   const prevInputSpecRef = useRef<InputSpec | null>(null);
   // Auto-clear timer for the splash. Held in a ref (not the effect cleanup) so a follow-up
@@ -414,7 +416,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     setRadioDoneIds(new Set(radioState.done));
   }, [sessionId]);
 
-  // Fire "Get ready" splash when inputSpec transitions null → set. The clear timer lives in a
+  // Fire the brief signal handoff when an untimed inputSpec transitions null → set. The clear timer lives in a
   // ref rather than the effect cleanup: on phones, realtime and the poll fallback often both
   // deliver the first spec within the splash window, and a cleanup-based timer would be cancelled
   // by the second delivery — leaving the device stuck on "Stand by..." until a manual refresh.
@@ -436,10 +438,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     suppressNextTransitionRef.current = false;
     if (inputSpec && !hadSpec && !suppressTransition) {
       const name = getGame(inputSpec.gameKey)?.name ?? getActivity(inputSpec.gameKey)?.name;
-      if (name) {
+      const transitionMs = getStudentSignalTransitionMs(inputSpec);
+      if (name && transitionMs > 0) {
         setTransitionActivityName(name);
         if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
-        transitionTimerRef.current = setTimeout(() => setTransitionActivityName(null), 1500);
+        transitionTimerRef.current = setTimeout(() => setTransitionActivityName(null), transitionMs);
+      } else {
+        if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+        transitionTimerRef.current = null;
+        setTransitionActivityName(null);
       }
     }
   }, [inputSpec]);

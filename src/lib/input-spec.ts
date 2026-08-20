@@ -210,8 +210,15 @@ export function getInputSpecRevision(spec: unknown): string {
   return (hash >>> 0).toString(36);
 }
 
-/** Grace window between a timed spec's broadcast and answers opening (teacher 3-2-1 beat + student "Get ready"). */
-export const ANSWERS_OPEN_GRACE_MS = 4000;
+/** Grace window between a timed spec's broadcast and answers opening (one synchronized 3-2-1 beat). */
+export const ANSWERS_OPEN_GRACE_MS = 3000;
+
+/** Brief visual handoff for untimed prompts. Timed prompts use their synchronized gate instead. */
+export const UNTIMED_SIGNAL_TRANSITION_MS = 350;
+
+export function getStudentSignalTransitionMs(spec: InputSpec): number {
+  return (spec.timerSeconds ?? 0) > 0 ? 0 : UNTIMED_SIGNAL_TRANSITION_MS;
+}
 
 /**
  * Server-side stamping for timed specs (input-spec API only). Replaces the game's
