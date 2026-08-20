@@ -4,12 +4,33 @@ export type RealtimeBroadcastDelivery = {
   status: 'sent' | 'failed';
   elapsedMs: number;
   httpStatus?: number;
-  reason?: 'missing-configuration' | 'request-failed' | 'timeout';
+  reason?: 'missing-configuration' | 'invalid-configuration' | 'request-failed' | 'timeout';
   errorName?: string;
   errorCode?: string;
 };
 
 const BROADCAST_TIMEOUT_MS = 2_500;
+
+function parseSupabaseBaseUrl(rawValue: string): URL | null {
+  const trimmedValue = rawValue.trim();
+  const hasMatchingQuotes = (
+    (trimmedValue.startsWith('"') && trimmedValue.endsWith('"'))
+    || (trimmedValue.startsWith("'") && trimmedValue.endsWith("'"))
+  );
+  const normalizedValue = hasMatchingQuotes
+    ? trimmedValue.slice(1, -1).trim()
+    : trimmedValue;
+
+  try {
+    const url = new URL(normalizedValue);
+    if (!['http:', 'https:'].includes(url.protocol)) return null;
+    if (url.username || url.password || url.search || url.hash) return null;
+    if (url.pathname !== '/' && url.pathname !== '') return null;
+    return url;
+  } catch {
+    return null;
+  }
+}
 
 function safeErrorMetadata(error: unknown): Pick<RealtimeBroadcastDelivery, 'errorName' | 'errorCode'> {
   if (!(error instanceof Error)) return { errorName: 'UnknownError' };
@@ -42,12 +63,26 @@ export async function broadcastInputSpecFromServer(
     };
   }
 
+  const supabaseBaseUrl = parseSupabaseBaseUrl(supabaseUrl);
+  if (!supabaseBaseUrl) {
+    return {
+      status: 'failed',
+      elapsedMs: Date.now() - startedAt,
+      reason: 'invalid-configuration',
+    };
+  }
+
+  const broadcastUrl = new URL(
+    `realtime/v1/api/broadcast/${encodeURIComponent(topic)}/events/${encodeURIComponent(event)}`,
+    `${supabaseBaseUrl.origin}/`,
+  );
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), BROADCAST_TIMEOUT_MS);
 
   try {
     const response = await fetch(
-      `${supabaseUrl.replace(/\/$/, '')}/realtime/v1/api/broadcast/${encodeURIComponent(topic)}/events/${encodeURIComponent(event)}`,
+      broadcastUrl,
       {
         method: 'POST',
         headers: {
