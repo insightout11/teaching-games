@@ -20,6 +20,7 @@ import { MissionControlSummary } from './mission-control-summary';
 import type { StudentSubmission } from '@/lib/supabase/types';
 import { createClient } from '@/lib/supabase/client';
 import type { ActivityParticipationMetrics } from '@/lib/activity-participation';
+import { getScoreReconcileDelay } from '@/lib/activity-score-reconciliation';
 
 interface ActivityShellProps {
   activity: ActivityPlugin;
@@ -55,6 +56,9 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const landingAnswers = useSessionStore((s) => s.landingAnswers);
   const addLandingAnswer = useSessionStore((s) => s.addLandingAnswer);
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
+  const currentPhaseRef = useRef(currentPhase);
+  currentPhaseRef.current = currentPhase;
+  const startPromptReconcileRef = useRef<(() => void) | null>(null);
   const [showMissionSummary, setShowMissionSummary] = useState(false);
   const [autoApprove, setAutoApprove] = useState(false);
   const [activityParticipation, setActivityParticipation] = useState<ActivityParticipationMetrics | null>(null);
@@ -131,10 +135,13 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       if (reconcileTimer) clearTimeout(reconcileTimer);
       reconcileTimer = setTimeout(() => {
         void reconcileScores().finally(() => {
-          if (!disposed) scheduleReconcile(channelHealthy ? 15_000 : 1_500);
+          if (!disposed) {
+            scheduleReconcile(getScoreReconcileDelay(currentPhaseRef.current, channelHealthy));
+          }
         });
       }, delayMs);
     };
+    startPromptReconcileRef.current = () => scheduleReconcile(0);
 
     // Realtime is the normal path. Reconcile immediately after subscribing or
     // reconnecting, and poll quickly only while the channel is degraded.
@@ -153,7 +160,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       .subscribe((status: string) => {
         channelHealthy = status === 'SUBSCRIBED';
         if (channelHealthy) void reconcileScores();
-        scheduleReconcile(channelHealthy ? 15_000 : 1_500);
+        scheduleReconcile(getScoreReconcileDelay(currentPhaseRef.current, channelHealthy));
       });
     scheduleReconcile(1_500);
 
@@ -183,11 +190,16 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
 
     return () => {
       disposed = true;
+      startPromptReconcileRef.current = null;
       if (reconcileTimer) clearTimeout(reconcileTimer);
       supabase.removeChannel(scoresChannel);
       supabase.removeChannel(studentsChannel);
     };
   }, [sessionId, activity.key, supabase, recordScore, addStudent]);
+
+  useEffect(() => {
+    if (currentPhase === 'prompting') startPromptReconcileRef.current?.();
+  }, [currentPhase]);
 
   // Score writing for activities — routes through score engine
   const handleScore = useCallback(async (request: {

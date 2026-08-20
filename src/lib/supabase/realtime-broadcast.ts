@@ -5,9 +5,20 @@ export type RealtimeBroadcastDelivery = {
   elapsedMs: number;
   httpStatus?: number;
   reason?: 'missing-configuration' | 'request-failed' | 'timeout';
+  errorName?: string;
+  errorCode?: string;
 };
 
 const BROADCAST_TIMEOUT_MS = 2_500;
+
+function safeErrorMetadata(error: unknown): Pick<RealtimeBroadcastDelivery, 'errorName' | 'errorCode'> {
+  if (!(error instanceof Error)) return { errorName: 'UnknownError' };
+  const cause = error.cause as { code?: unknown } | undefined;
+  return {
+    errorName: error.name || 'Error',
+    ...(typeof cause?.code === 'string' ? { errorCode: cause.code } : {}),
+  };
+}
 
 /**
  * Sends the canonical input-spec event through Supabase's HTTP Broadcast API.
@@ -56,12 +67,14 @@ export async function broadcastInputSpecFromServer(
       ...(response.ok ? {} : { reason: 'request-failed' as const }),
     };
   } catch (error) {
+    const errorMetadata = safeErrorMetadata(error);
     return {
       status: 'failed',
       elapsedMs: Date.now() - startedAt,
       reason: error instanceof Error && error.name === 'AbortError'
         ? 'timeout'
         : 'request-failed',
+      ...errorMetadata,
     };
   } finally {
     clearTimeout(timeout);

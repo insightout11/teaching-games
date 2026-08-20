@@ -200,6 +200,8 @@ export async function POST(request: NextRequest) {
       broadcastElapsedMs: realtimeDelivery.elapsedMs,
       broadcastHttpStatus: realtimeDelivery.httpStatus ?? null,
       broadcastFailureReason: realtimeDelivery.reason ?? null,
+      broadcastErrorName: realtimeDelivery.errorName ?? null,
+      broadcastErrorCode: realtimeDelivery.errorCode ?? null,
     });
 
     // Echo the stamped spec + server clock so the teacher's own timers can anchor
