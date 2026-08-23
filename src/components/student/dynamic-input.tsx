@@ -841,9 +841,10 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
             key={index}
             onClick={() => handleChoice(index)}
             disabled={isSubmitting || submitStatus === 'rate_limited' || submitStatus === 'success'}
-            className={`p-6 rounded-2xl border transition-all font-bold text-xl disabled:opacity-70 ${
+            aria-pressed={selectedIndex === index}
+            className={`p-6 rounded-2xl border transition-all font-bold text-xl disabled:opacity-100 ${
               selectedIndex === index
-                ? 'border-cyan-400 bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                ? 'border-cyan-200 bg-cyan-400 text-slate-950 shadow-lg shadow-cyan-500/30 ring-2 ring-cyan-200/70'
                 : 'border-lc-border bg-lc-surface text-lc-text hover:border-cyan-500/50 hover:bg-lc-card'
             }`}
           >
@@ -852,7 +853,7 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
             ) : (
               <>
                 <div className="text-3xl mb-2">{labels[index]}</div>
-                <div className="text-sm opacity-80">{option}</div>
+                <div className="text-sm opacity-90">{option}</div>
               </>
             )}
           </button>

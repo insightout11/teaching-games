@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { CheckCircle2, Gamepad2, Globe2, MonitorSmartphone, Users } from 'lucide-react';
 import { BetaApplicationForm } from './BetaApplicationForm';
 
@@ -42,6 +43,50 @@ export default function BetaPage({ searchParams }: { searchParams?: { status?: s
                 </div>
               ))}
             </div>
+
+            <section className="mt-8 overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/65 p-5">
+              <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/75">
+                One connected live lesson
+              </p>
+              <h2 className="mt-2 font-display text-2xl text-white">See the route teachers and students actually use.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-lc-text2">
+                Start with lesson material, get a visible Flight Plan, teach from the shared screen, and bring student browsers in for focused participation.
+              </p>
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                <figure className="overflow-hidden rounded-xl border border-white/10 bg-black/25 sm:col-span-2">
+                  <Image
+                    src="/beta-proof/flight-plan.png"
+                    alt="Lesson Captain launch screen showing the connected Flight Plan from Prediction Round through Read Aloud, discussion and Final Word"
+                    width={1100}
+                    height={675}
+                    className="h-auto w-full"
+                  />
+                  <figcaption className="border-t border-white/10 px-3 py-2 text-xs text-lc-text3">The complete route stays visible.</figcaption>
+                </figure>
+                <figure className="overflow-hidden rounded-xl border border-white/10 bg-black/25">
+                  <Image
+                    src="/beta-proof/shared-reading.png"
+                    alt="Teacher shared screen running a live Read Aloud stage from a lesson about repair cafés"
+                    width={2048}
+                    height={680}
+                    className="h-full min-h-48 w-full object-cover object-center"
+                  />
+                  <figcaption className="border-t border-white/10 px-3 py-2 text-xs text-lc-text3">The teacher guides the shared lesson.</figcaption>
+                </figure>
+                <figure className="overflow-hidden rounded-xl border border-white/10 bg-black/25">
+                  <div className="flex h-64 items-start justify-center overflow-hidden bg-[#06101d] pt-3">
+                    <Image
+                      src="/beta-proof/student-reading.png"
+                      alt="Student browser showing a live reading turn using the same repair-café passage"
+                      width={375}
+                      height={844}
+                      className="h-auto w-44 rounded-t-lg"
+                    />
+                  </div>
+                  <figcaption className="border-t border-white/10 px-3 py-2 text-xs text-lc-text3">The student browser activates for its part.</figcaption>
+                </figure>
+              </div>
+            </section>
 
             <div className="mt-8 rounded-2xl border border-emerald-300/15 bg-emerald-300/[0.05] p-5">
               <div className="flex gap-3">

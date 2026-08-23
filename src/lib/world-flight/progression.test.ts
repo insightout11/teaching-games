@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   calculateWorldFlightReward,
+  calculateWorldFlightSessionMetrics,
   getWorldFlightProgression,
   getWorldFlightRangeForTier,
   getWorldFlightUpgradeState,
@@ -42,6 +43,34 @@ describe('World Flight collaborative progression', () => {
     expect(reward.crewStarsAwarded).toBe(1);
     expect(reward.snapshot.everyoneAboardEarned).toBe(true);
     expect(reward.snapshot.strongLandingEarned).toBe(false);
+  });
+
+  it('counts a direct-only Opinion Pulse response in arrival metrics', () => {
+    expect(calculateWorldFlightSessionMetrics([
+      {
+        clientId: 'a',
+        countsForLeaderboard: false,
+        responseData: { type: 'remote_vote', activityKey: 'opinion-micro', roundId: 'pulse:vote' },
+      },
+    ])).toMatchObject({ responseCount: 1, accuracyRate: null, bestStreak: 0 });
+  });
+
+  it('does not double-count a direct vote that later receives an official score', () => {
+    expect(calculateWorldFlightSessionMetrics([
+      {
+        clientId: 'a',
+        countsForLeaderboard: false,
+        responseData: { type: 'remote_vote', activityKey: 'prediction-round', roundId: 'prediction:1' },
+      },
+      {
+        clientId: 'a',
+        countsForLeaderboard: true,
+        countsForAccuracy: true,
+        accuracyStatus: 'correct',
+        streakCount: 3,
+        responseData: { type: 'activity_participation', activityKey: 'prediction-round' },
+      },
+    ])).toEqual({ responseCount: 1, accuracyRate: 1, bestStreak: 3 });
   });
 
   it('lets teacher-led lessons earn Strong Landing without Everyone Aboard', () => {

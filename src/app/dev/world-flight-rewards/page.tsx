@@ -58,6 +58,11 @@ const classLogbook: ClassLogbookSummary = {
 };
 
 function rewardFor(state: RewardPreviewState): WorldFlightProgressionRewardResult {
+  const sessionMetrics = {
+    sessionResponseCount: 4,
+    sessionAccuracyRate: 0.75,
+    sessionBestStreak: 4,
+  };
   if (state === 'reveal') {
     const flightHours = 7;
     const crewStars = 8;
@@ -66,6 +71,7 @@ function rewardFor(state: RewardPreviewState): WorldFlightProgressionRewardResul
       flightHours,
       crewStars,
       alreadyRecorded: false,
+      ...sessionMetrics,
       planeTier: 1,
       planeKey: 'scout-monoplane',
       planeSelectionRequired: false,
@@ -87,6 +93,7 @@ function rewardFor(state: RewardPreviewState): WorldFlightProgressionRewardResul
       flightHours,
       crewStars,
       alreadyRecorded: true,
+      ...sessionMetrics,
       planeTier: 2,
       planeKey: 'scout-monoplane',
       planeSelectionRequired: true,
@@ -113,6 +120,7 @@ function rewardFor(state: RewardPreviewState): WorldFlightProgressionRewardResul
     flightHours,
     crewStars,
     alreadyRecorded: false,
+    ...sessionMetrics,
     planeTier: 1,
     planeKey: 'scout-monoplane',
     planeSelectionRequired: false,

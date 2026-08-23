@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import type { OpinionMicroContent, OpinionMicroVote } from './types';
@@ -18,24 +18,39 @@ export function OpinionMicroActivity({
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [votes, setVotes] = useState<OpinionMicroVote[]>([]);
+  const instanceCounterRef = useRef(0);
+  const activityInstanceRef = useRef<{ id: string; startedAt: number } | null>(null);
 
   useEffect(() => {
     if (phase === 'voting') {
+      const instance = activityInstanceRef.current;
+      if (!instance) return;
       onSetInputSpec?.({
         type: 'binary',
         gameKey: 'opinion-micro',
         prompt: 'Would you rather...',
         options: [dilemma.optionA, dilemma.optionB],
         optionLabels: ['A', 'B'],
+        activityInstanceId: instance.id,
+        activityInstanceStartedAt: instance.startedAt,
+        activitySequence: 0,
+        roundId: `${instance.id}:vote`,
       });
     } else {
-      onSetInputSpec?.(null);
+      const instance = activityInstanceRef.current;
+      onSetInputSpec?.(null, instance ? {
+        id: instance.id,
+        startedAt: instance.startedAt,
+        sequence: 1,
+      } : null);
     }
   }, [phase, dilemma, onSetInputSpec]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
       if (phase !== 'voting') return;
+      const instance = activityInstanceRef.current;
+      if (vote.roundId && instance && vote.roundId !== `${instance.id}:vote`) return;
       setVotes((prev) => {
         const filtered = prev.filter((v) => v.clientId !== vote.clientId);
         return [...filtered, {
@@ -68,6 +83,12 @@ export function OpinionMicroActivity({
   }, [onPhaseChange]);
 
   const startVoting = useCallback(() => {
+    const startedAt = Date.now();
+    instanceCounterRef.current += 1;
+    activityInstanceRef.current = {
+      id: `opinion-micro:${startedAt}:${instanceCounterRef.current}`,
+      startedAt,
+    };
     setVotes([]);
     setPhase('voting');
     onPhaseChange?.('voting');
