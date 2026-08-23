@@ -7,13 +7,13 @@ import type { WeatherState } from '@/components/ui/sky-background';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { ArrivalPhase, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
-import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
+import { arrivalTimeline, A_APPROACH_END, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import { WEATHER_PROFILE } from '@/components/world-flight/arrival-scene/weather';
 import { TurbulenceBeat, useTurbulence } from '@/components/session/turbulence-beat';
 import { FlightCheckScene } from '@/components/session/cockpit-scene';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { play, playTakeoff } from '@/lib/audio/manager';
-import { TOUCHDOWN_DELAY_MS } from '@/lib/audio/sounds';
+import { RUNWAY_TOUCHDOWN_KEYFRAME } from '@/lib/audio/sounds';
 import { getEngineClass } from '@/lib/plane-progression';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
@@ -589,10 +589,20 @@ export function FlightTransitionOverlay({
   useEffect(() => {
     if (leg === 'takeoff') return playTakeoff(getEngineClass(planeKey));
     if (leg === 'descent') {
-      return play('touchdown', { delayMs: reduceRef.current ? 0 : TOUCHDOWN_DELAY_MS });
+      // Two different descents run two different animations, and the hit has to
+      // follow whichever is on screen. A city arrival (the path real sessions
+      // always take, since session-view falls back to the home-base scene) runs
+      // arrivalTimeline over travelMs, where contact is A_APPROACH_END. A bare
+      // runway descent uses the plane variant's own 0.60 bounce keyframe, which
+      // is pinned to TRAVEL_DURATION. Using one fixed number for both is why the
+      // chirp drifted.
+      const contactMs = isArrivalCity
+        ? A_APPROACH_END * travelMs
+        : RUNWAY_TOUCHDOWN_KEYFRAME * TRAVEL_DURATION;
+      return play('touchdown', { delayMs: reduceRef.current ? 0 : contactMs });
     }
     return undefined;
-  }, [leg, planeKey]);
+  }, [leg, planeKey, isArrivalCity, travelMs]);
 
   // Drives the city scene's phase/progress across the overlay lifetime.
   const [transitionT, setTransitionT] = useState(prefersReducedMotion ? 1 : 0);

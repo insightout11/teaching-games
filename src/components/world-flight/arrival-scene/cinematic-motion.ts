@@ -18,7 +18,10 @@ export const ARRIVAL_DURATION_MS = 8400;
 
 // Phase split points along the 0–1 master progress. Touchdown gets generous
 // timeline space so the suspension settle reads as weight, not a hit.
-const A_APPROACH_END = 0.52;
+/** Master-progress point where the wheels make contact — the approach ends and
+ *  the touchdown settle begins. Exported so audio can land its hit on the same
+ *  instant the visual does. */
+export const A_APPROACH_END = 0.52;
 const A_TOUCHDOWN_END = 0.72;
 const A_TAXI_END = 0.94;
 

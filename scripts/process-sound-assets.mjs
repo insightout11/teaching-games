@@ -128,6 +128,27 @@ function normalise(d, targetDb, ceilDb) {
   return d;
 }
 
+/**
+ * White noise via xorshift32.
+ *
+ * The previous LCG (`seed * 1103515245 + 12345`) was silently broken: with seed up
+ * to 2^31 that product reaches ~2.3e18, far past JS's 2^53 integer precision, so
+ * the low bits were garbage and the sequence collapsed into a short repeating
+ * cycle. Repeating "noise" is a tone — which is exactly the oscillation artefact
+ * that made the brand whoosh unlistenable. Math.imul keeps the arithmetic in exact
+ * 32-bit, so this is actually white.
+ */
+function fillNoise(buf, seed) {
+  let x = seed | 0 || 1;
+  for (let i = 0; i < buf.length; i++) {
+    x ^= x << 13; x |= 0;
+    x ^= x >>> 17;
+    x ^= x << 5; x |= 0;
+    buf[i] = (x >>> 0) / 2147483648 - 1;
+  }
+  return buf;
+}
+
 function onePoleLP(d, sr, fc) {
   const out = new Float64Array(d.length);
   let y = 0;
@@ -145,11 +166,7 @@ function synthElectric(dur) {
   const n = Math.floor((dur || 4.6) * SR);
   const out = new Float64Array(n);
   const noise = new Float64Array(n);
-  let seed = 12345;
-  for (let i = 0; i < n; i++) {
-    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-    noise[i] = (seed / 0x3fffffff) - 1;
-  }
+  fillNoise(noise, 12345);
   // Airflow: noise through a cutoff that opens as speed builds, then closes with distance.
   const cutoff = new Float64Array(n);
   for (let i = 0; i < n; i++) {
@@ -185,11 +202,7 @@ function synthElectric(dur) {
 function synthCloudRush(dur, peakAt) {
   const n = Math.floor(dur * SR);
   const noise = new Float64Array(n);
-  let seed = 987654321;
-  for (let i = 0; i < n; i++) {
-    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-    noise[i] = seed / 0x3fffffff - 1;
-  }
+  fillNoise(noise, 987654321);
   // Cutoff climbs as the cloud thins and you break through into clear sky.
   const cutoff = new Float64Array(n);
   for (let i = 0; i < n; i++) {

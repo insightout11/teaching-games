@@ -67,11 +67,13 @@ export function brandResolveDelayMs(variant: 'full' | 'short'): number {
 }
 
 /**
- * Touchdown lands on the descent bounce keyframe: times [0, 0.52, 0.60, 1.0] over
- * TRAVEL_DURATION (3200ms) in flight-transition-overlay.tsx, so 0.60 x 3200.
+ * Bounce keyframe for a BARE RUNWAY descent — times [0, 0.52, 0.60, 1.0] on the
+ * plane variant, which is pinned to TRAVEL_DURATION.
  *
- * NOTE: the overlay's own `travelMs` is 5200 on arrival legs while the plane
- * variants stay pinned to TRAVEL_DURATION. The keyframe follows the variant, hence
- * 3200 here — revisit if those two are ever reconciled.
+ * This is only half the story, and assuming it covered both descents is what made
+ * the landing chirp drift. A CITY arrival — the path real sessions always take,
+ * because session-view falls back to the home-base scene — runs `arrivalTimeline`
+ * over `travelMs` (5200ms) instead, where contact is at `A_APPROACH_END` (0.52),
+ * i.e. ~2704ms rather than 1920ms. The overlay picks per leg.
  */
-export const TOUCHDOWN_DELAY_MS = 1920;
+export const RUNWAY_TOUCHDOWN_KEYFRAME = 0.6;

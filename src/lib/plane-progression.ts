@@ -182,23 +182,28 @@ function entry(
 const PLANE_ENTRIES: PlaneEntry[] = [
   // Keep the persisted starter key stable while resolving it to a runway-ready
   // trainer that works in every launch, runway, and arrival scene.
-  entry('starter-biplane', 'LC Cadet', 'piston', { runwayYOffset: -48, hangarYOffset: 34 }, LC_CADET_ASSETS),
-  entry('scout-monoplane',     'LC Wayfarer',      'piston',    {}, LC_WAYFARER_ASSETS),
-  entry('lc-scout',            'LC Scout',         'piston',    { runwayYOffset: -30, hangarYOffset: 28 }, LC_SCOUT_ASSETS),
-  entry('cloud-hopper',        'Cloud Hopper',     'piston',    {}, LC_CLOUD_HOPPER_ASSETS),
-  entry('trailblazer-biplane', 'Trailblazer',      'piston',    { runwayYOffset: -34, hangarYOffset: 34 }, LC_TRAILBLAZER_ASSETS),
+  // runwayYOffset is NOT a taste value — it cancels the transparent padding under
+  // each plane's landing gear. PlaneLayer aligns the image BOX bottom to
+  // LAYOUT.runwayY, so without this the wheels hover by however much empty space
+  // the export happens to carry. Measured per plane with
+  // scripts/measure-plane-ground-offsets.mjs; re-run it if the art is re-exported.
+  entry('starter-biplane', 'LC Cadet', 'piston', { runwayYOffset: -51, hangarYOffset: 34 }, LC_CADET_ASSETS),
+  entry('scout-monoplane',     'LC Wayfarer',      'piston',    { runwayYOffset: -7 }, LC_WAYFARER_ASSETS),
+  entry('lc-scout',            'LC Scout',         'piston',    { runwayYOffset: -43, hangarYOffset: 28 }, LC_SCOUT_ASSETS),
+  entry('cloud-hopper',        'Cloud Hopper',     'piston',    { runwayYOffset: -43 }, LC_CLOUD_HOPPER_ASSETS),
+  entry('trailblazer-biplane', 'Trailblazer',      'piston',    { runwayYOffset: -44, hangarYOffset: 34 }, LC_TRAILBLAZER_ASSETS),
   // Tier 2 reads as still prop-era per world-flight-plane-assets.md, so Sky Racer is a
   // hot piston racer rather than a jet.
-  entry('sky-racer',           'Sky Racer',        'piston',    {}, LC_SKY_RACER_ASSETS),
-  entry('cargo-cruiser',       'Cargo Cruiser',    'twin-prop', {}, LC_CARGO_CRUISER_ASSETS),
-  entry('twin-prop-scout',     'Twin-Prop Scout',  'twin-prop', {}, LC_TWIN_PROP_SCOUT_ASSETS),
-  entry('solar-flyer',         'Solar Flyer',      'electric',  {}, LC_SOLAR_FLYER_ASSETS),
-  entry('aurora-glider',       'Aurora Glider',    'electric',  {}, LC_AURORA_GLIDER_ASSETS),
+  entry('sky-racer',           'Sky Racer',        'piston',    { runwayYOffset: -27 }, LC_SKY_RACER_ASSETS),
+  entry('cargo-cruiser',       'Cargo Cruiser',    'twin-prop', { runwayYOffset: -32 }, LC_CARGO_CRUISER_ASSETS),
+  entry('twin-prop-scout',     'Twin-Prop Scout',  'twin-prop', { runwayYOffset: -47 }, LC_TWIN_PROP_SCOUT_ASSETS),
+  entry('solar-flyer',         'Solar Flyer',      'electric',  { runwayYOffset: -42 }, LC_SOLAR_FLYER_ASSETS),
+  entry('aurora-glider',       'Aurora Glider',    'electric',  { runwayYOffset: -49 }, LC_AURORA_GLIDER_ASSETS),
   // Tier 3, rugged and weather-capable — reads as a heavy twin rather than a jet.
-  entry('storm-runner',        'Storm Runner',     'twin-prop', {}, LC_STORM_RUNNER_ASSETS),
-  entry('future-flyer',        'Future Flyer',     'jet',       {}, LC_FUTURE_FLYER_ASSETS),
-  entry('starliner-mini',      'Starliner Mini',   'jet',       {}, LC_STARLINER_MINI_ASSETS),
-  entry('comet-jet',           'Comet Jet',        'jet',       {}, LC_COMET_JET_ASSETS),
+  entry('storm-runner',        'Storm Runner',     'twin-prop', { runwayYOffset: -40 }, LC_STORM_RUNNER_ASSETS),
+  entry('future-flyer',        'Future Flyer',     'jet',       { runwayYOffset: -32 }, LC_FUTURE_FLYER_ASSETS),
+  entry('starliner-mini',      'Starliner Mini',   'jet',       { runwayYOffset: -27 }, LC_STARLINER_MINI_ASSETS),
+  entry('comet-jet',           'Comet Jet',        'jet',       { runwayYOffset: -43 }, LC_COMET_JET_ASSETS),
 ];
 
 const PLANE_MAP = new Map(PLANE_ENTRIES.map((p) => [p.key, p]));
