@@ -3,13 +3,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
   getAudioPrefs,
+  setMusicEnabled,
   setSfxEnabled,
   setVolume,
   subscribeAudioPrefs,
   type AudioPrefs,
 } from './manager';
 
-const SERVER_PREFS: AudioPrefs = { sfxEnabled: true, volume: 0.8 };
+const SERVER_PREFS: AudioPrefs = { sfxEnabled: true, musicEnabled: true, volume: 0.8 };
 
 /**
  * Read/write the teacher's device audio preferences.
@@ -32,6 +33,7 @@ export function useAudioPrefs() {
   return {
     ...prefs,
     setSfxEnabled,
+    setMusicEnabled,
     setVolume,
     toggleSfx,
   };

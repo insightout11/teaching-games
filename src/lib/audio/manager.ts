@@ -18,11 +18,16 @@ const PREFS_KEY = 'lc-audio-prefs';
 export interface AudioPrefs {
   /** SFX default ON — the cinematic layer is the point of the feature. */
   sfxEnabled: boolean;
+  /** Lobby bed default ON: a bed that is off by default can never do its job. */
+  musicEnabled: boolean;
   /** 0..1 master trim applied on top of each clip's baked-in level. */
   volume: number;
 }
 
-const DEFAULT_PREFS: AudioPrefs = { sfxEnabled: true, volume: 0.8 };
+const DEFAULT_PREFS: AudioPrefs = { sfxEnabled: true, musicEnabled: true, volume: 0.8 };
+
+/** The bed sits well under the cues — it plays while people are talking over it. */
+const MUSIC_TRIM = 0.55;
 
 let prefs: AudioPrefs = { ...DEFAULT_PREFS };
 let unlocked = false;
@@ -39,6 +44,7 @@ function loadPrefs(): AudioPrefs {
       const parsed = JSON.parse(raw) as Partial<AudioPrefs>;
       prefs = {
         sfxEnabled: typeof parsed.sfxEnabled === 'boolean' ? parsed.sfxEnabled : DEFAULT_PREFS.sfxEnabled,
+        musicEnabled: typeof parsed.musicEnabled === 'boolean' ? parsed.musicEnabled : DEFAULT_PREFS.musicEnabled,
         volume:
           typeof parsed.volume === 'number' && parsed.volume >= 0 && parsed.volume <= 1
             ? parsed.volume
@@ -183,4 +189,72 @@ export function playTakeoff(engineClass: EngineClass, opts?: PlayOptions): () =>
 /** Play the approach bed — same propulsion family as takeoff, heard from further off. */
 export function playDescent(engineClass: EngineClass, opts?: PlayOptions): () => void {
   return playUrl(DESCENT_SOUNDS[engineClass], opts);
+}
+
+// ─── Music: a separate channel with its own lifecycle ───────────────────────
+// Music is NOT a one-shot. It has to be interruptible mid-playback and fade
+// rather than cut, and it must stop dead the instant a module starts (§2), so it
+// gets one dedicated element rather than the clone-per-play path above.
+
+let musicEl: HTMLAudioElement | null = null;
+let musicFade: number | null = null;
+
+function clearMusicFade() {
+  if (musicFade !== null) {
+    window.clearInterval(musicFade);
+    musicFade = null;
+  }
+}
+
+/** Fade the lobby bed in. No-op if music is disabled or already playing. */
+export function startMusic(url: string, fadeMs = 1800) {
+  loadPrefs();
+  if (typeof window === 'undefined' || !prefs.musicEnabled) return;
+  if (musicEl && !musicEl.paused) return;
+
+  clearMusicFade();
+  if (!musicEl) {
+    musicEl = new Audio(url);
+    musicEl.preload = 'auto';
+  }
+  const target = Math.max(0, Math.min(1, prefs.volume * MUSIC_TRIM));
+  musicEl.volume = 0;
+  musicEl.play().catch(() => {
+    /* no gesture yet — the bed simply doesn't start, which is fine */
+  });
+
+  const step = 50;
+  let elapsed = 0;
+  musicFade = window.setInterval(() => {
+    elapsed += step;
+    if (!musicEl) return clearMusicFade();
+    musicEl.volume = Math.min(target, (elapsed / fadeMs) * target);
+    if (elapsed >= fadeMs) clearMusicFade();
+  }, step);
+}
+
+/** Fade the lobby bed out and stop it. Called the moment a module starts. */
+export function stopMusic(fadeMs = 700) {
+  if (typeof window === 'undefined' || !musicEl) return;
+  clearMusicFade();
+  const el = musicEl;
+  const from = el.volume;
+  const step = 50;
+  let elapsed = 0;
+  musicFade = window.setInterval(() => {
+    elapsed += step;
+    el.volume = Math.max(0, from * (1 - elapsed / fadeMs));
+    if (elapsed >= fadeMs) {
+      clearMusicFade();
+      el.pause();
+      el.currentTime = 0;
+    }
+  }, step);
+}
+
+export function setMusicEnabled(enabled: boolean) {
+  loadPrefs();
+  prefs = { ...prefs, musicEnabled: enabled };
+  if (!enabled) stopMusic(300);
+  persist();
 }

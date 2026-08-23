@@ -31,6 +31,8 @@ import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { RunwayPlaneScene } from '@/components/ui/runway-plane-scene';
 import { LobbyAirfieldScene } from '@/components/ui/lobby-airfield-scene';
+import { startMusic, stopMusic } from '@/lib/audio/manager';
+import { LOBBY_BED } from '@/lib/audio/sounds';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { BrandSting } from '@/components/ui/brand-sting';
@@ -935,6 +937,16 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       setShowLaunchSting(true);
     }
   }
+
+  // Lobby bed: fades in while students are joining and stops dead the moment the
+  // lesson starts, so it never plays under a module (docs/sound-design.md §2).
+  // Keyed on session phase rather than on the lobby component's lifetime.
+  useEffect(() => {
+    if (lesson.phase === 'lobby') startMusic(LOBBY_BED);
+    else stopMusic();
+  }, [lesson.phase]);
+
+  useEffect(() => () => stopMusic(0), []);
 
   const plannerDuration = usePlannerStore((s) => s.lessonDurationMinutes);
 

@@ -38,6 +38,12 @@ export const DESCENT_SOUNDS: Record<EngineClass, string> = {
   jet: '/sounds/descent-jet.wav',
 };
 
+/**
+ * Lobby bed. Lives outside SOUNDS because it is a music channel, not a one-shot:
+ * different lifecycle, different preference, different level trim.
+ */
+export const LOBBY_BED = '/sounds/lobby-bed.wav';
+
 export const ALL_SOUND_URLS: string[] = [
   ...Object.values(SOUNDS),
   ...Object.values(TAKEOFF_SOUNDS),

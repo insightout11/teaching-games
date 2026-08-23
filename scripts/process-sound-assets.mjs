@@ -149,6 +149,50 @@ function fillNoise(buf, seed) {
   return buf;
 }
 
+/**
+ * Schroeder reverb — four parallel combs into two series allpasses.
+ *
+ * §1.5 wants the whole family to share one space. This is what puts them there,
+ * and it is also what stops the synthesised layers sounding dry and pasted-on
+ * against the generated ones. Output is longer than input by the decay tail.
+ */
+function reverb(d, sr, mix, decay) {
+  const combs = [1557, 1617, 1491, 1422].map((x) => Math.max(1, Math.round((x * sr) / 44100)));
+  const allpasses = [225, 556].map((x) => Math.max(1, Math.round((x * sr) / 44100)));
+  const n = d.length + Math.floor(decay * sr);
+  const wet = new Float64Array(n);
+
+  for (const cd of combs) {
+    const buf = new Float64Array(cd);
+    const fb = Math.pow(0.001, cd / (decay * sr)); // -60dB over the decay time
+    let idx = 0;
+    for (let i = 0; i < n; i++) {
+      const y = buf[idx];
+      buf[idx] = (i < d.length ? d[i] : 0) + y * fb;
+      wet[i] += y;
+      idx = (idx + 1) % cd;
+    }
+  }
+  for (let i = 0; i < n; i++) wet[i] /= combs.length;
+
+  for (const ad of allpasses) {
+    const buf = new Float64Array(ad);
+    const g = 0.5;
+    let idx = 0;
+    for (let i = 0; i < n; i++) {
+      const y = buf[idx];
+      const out = -g * wet[i] + y;
+      buf[idx] = wet[i] + g * out;
+      wet[i] = out;
+      idx = (idx + 1) % ad;
+    }
+  }
+
+  const out = new Float64Array(n);
+  for (let i = 0; i < n; i++) out[i] = (i < d.length ? d[i] : 0) * (1 - mix) + wet[i] * mix;
+  return out;
+}
+
 function onePoleLP(d, sr, fc) {
   const out = new Float64Array(d.length);
   let y = 0;
@@ -203,60 +247,44 @@ function synthCloudRush(dur, peakAt) {
   const n = Math.floor(dur * SR);
   const noise = new Float64Array(n);
   fillNoise(noise, 987654321);
-  // Cutoff climbs as the cloud thins and you break through into clear sky.
+  // Cutoff climbs as the cloud thins, but stays well below the old 9.5kHz ceiling
+  // — up there it read as hiss rather than air, and hiss is the opposite of what
+  // this moment wants.
   const cutoff = new Float64Array(n);
   for (let i = 0; i < n; i++) {
     const t = i / SR;
     const k = Math.min(1, t / peakAt);
-    cutoff[i] = 900 + 8600 * Math.pow(k, 1.35);
+    cutoff[i] = 380 + 2400 * Math.pow(k, 1.35);
   }
   const body = onePoleLP(noise, SR, cutoff);
-  // Subtract a low-passed copy to keep it airy rather than rumbling.
-  const rumble = onePoleLP(body, SR, 180);
+  // Subtract a low-passed copy to keep it moving rather than rumbling.
+  const rumble = onePoleLP(body, SR, 130);
+
+  // A soft choral pad underneath, on the chime's own G, with slow independent
+  // vibrato per voice so it breathes instead of sitting as one flat tone. This is
+  // what makes it read as lifting through cloud rather than as filtered noise.
+  const voices = [196, 293.7, 392, 587.3]; // G3 D4 G4 D5
+  const pad = new Float64Array(n);
+  voices.forEach((f, vi) => {
+    let phase = vi * 1.7;
+    for (let i = 0; i < n; i++) {
+      const t = i / SR;
+      const vib = 1 + Math.sin(2 * Math.PI * (0.28 + vi * 0.07) * t) * 0.0035;
+      phase += (2 * Math.PI * f * vib) / SR;
+      pad[i] += Math.sin(phase) * (0.5 / (vi + 1.4));
+    }
+  });
+
   const out = new Float64Array(n);
   for (let i = 0; i < n; i++) {
     const t = i / SR;
     // Swell toward the breakthrough, then duck away so the chime rings clear.
     const swell = Math.pow(Math.min(1, t / peakAt), 1.9);
     const duck = t > peakAt ? Math.max(0, 1 - (t - peakAt) / 0.55) : 1;
-    out[i] = (body[i] - rumble[i] * 0.85) * swell * duck;
+    const air = (body[i] - rumble[i] * 0.85) * 0.62;
+    out[i] = (air + pad[i] * 0.34) * swell * duck;
   }
-  return fade(out, SR, 0.12, 0.25);
-}
-
-/**
- * High shimmer struck with the chime. The generated bell is warm but dark — its
- * only real partials are 393Hz and 1179Hz — so the logo landed soft rather than
- * bright. These are upper partials of the same G, slightly detuned against each
- * other so they glitter instead of sitting as one steady tone, with a fast attack
- * and a long decay that rings out under the mark.
- */
-function synthSparkle(dur, strikeAt) {
-  const n = Math.floor(dur * SR);
-  const out = new Float64Array(n);
-  // G6, B6, D7, G7, B7 — the chime's own harmonic series, up where it has nothing.
-  const partials = [
-    { f: 1568, a: 0.42, d: 1.25 },
-    { f: 1976, a: 0.26, d: 1.05 },
-    { f: 2349, a: 0.20, d: 0.95 },
-    { f: 3136, a: 0.24, d: 0.85 },
-    { f: 3951, a: 0.13, d: 0.7 },
-    { f: 4699, a: 0.08, d: 0.55 },
-  ];
-  const s0 = Math.floor(strikeAt * SR);
-  for (const p of partials) {
-    // A few cents off so the partials beat gently against one another.
-    const detune = 1 + (Math.random() - 0.5) * 0.004;
-    let phase = Math.random() * Math.PI * 2;
-    for (let i = s0; i < n; i++) {
-      const t = (i - s0) / SR;
-      const attack = Math.min(1, t / 0.012);
-      const env = attack * Math.exp(-t / (p.d / 3));
-      phase += (2 * Math.PI * p.f * detune) / SR;
-      out[i] += Math.sin(phase) * p.a * env;
-    }
-  }
-  return out;
+  return fade(out, SR, 0.18, 0.25);
 }
 
 function buildBrandResolve(rawDir, clip) {
@@ -274,8 +302,8 @@ function buildBrandResolve(rawDir, clip) {
   for (let i = 0; i < whoosh.length && i < out.length; i++) out[i] += whoosh[i] * 0.75;
   for (let i = 0; i < orig.length; i++) out[offset + i] += orig[i];
 
-  const sparkle = synthSparkle(out.length / SR, clip.chimeTargetSec);
-  for (let i = 0; i < out.length; i++) out[i] += sparkle[i] * 0.30;
+  // No added sparkle: the layered shimmer read as brighter but less pleasant than
+  // the generated bell on its own. The polish comes from the shared reverb instead.
   return out;
 }
 
@@ -327,6 +355,7 @@ const CLIPS = [
     // Spark burst in BrandSting 'full' — see docs/sound-design.md §6.3.
     chimeTargetSec: 2.643,
     rmsDb: -20, fadeIn: 0.01, fadeOut: 0.30,
+    reverb: [0.30, 2.1],
     note: 'cloud rush from 0s, chime at 2.643s — plays from mount, no offset',
   },
   {
@@ -338,6 +367,8 @@ const CLIPS = [
     out: 'arrival-resolve.wav',
     src: 'Warm_cinematic_arriv_#1-1786191094026.wav',
     trim: [0.08, 2.80], rmsDb: -20, fadeIn: 0.01, fadeOut: 0.30,
+    // Same room as brand-resolve, a touch drier — it plays under a busy screen.
+    reverb: [0.22, 1.9],
     note: 'chord peak at 1.36s, matching stat-tile settle 1.35s',
   },
   {
@@ -368,6 +399,16 @@ const CLIPS = [
   { out: 'descent-twin-prop.wav', descentFrom: 'Two_heavy_turboprop__#3-1786192796222.wav', rmsDb: -30 },
   { out: 'descent-jet.wav',       descentFrom: 'A_modern_jet_airline_#2-1786193232937.wav', rmsDb: -30 },
   { out: 'descent-electric.wav',  descentSynth: true, rmsDb: -38 },
+  {
+    out: 'lobby-bed.wav',
+    src: 'LessonCaptain_Loading_Loop_2026-08-23T062644 (1).wav',
+    trim: [0, 120], rmsDb: -30, fadeIn: 1.2, fadeOut: 3.0,
+    // Measured: this bed has 0.0% of its energy above 3kHz, so 16k sampling is
+    // transparent for it and keeps two minutes of music near 3.8MB instead of
+    // 10.6MB. Revisit when there is an mp3 encoder available.
+    outSampleRate: 16000,
+    note: 'lobby only; stops the instant a module starts',
+  },
 ];
 
 // ─── Run ────────────────────────────────────────────────────────────────────
@@ -388,13 +429,16 @@ for (const clip of CLIPS) {
     data = resample(slice(read.data, read.sampleRate, clip.trim[0], clip.trim[1]), read.sampleRate, SR);
   }
   if (clip.ramp) ramp(data, SR, clip.ramp[0], clip.ramp[1], clip.ramp[2], clip.ramp[3]);
+  if (clip.reverb) data = reverb(data, SR, clip.reverb[0], clip.reverb[1]);
   normalise(data, clip.rmsDb);
   fade(data, SR, clip.fadeIn === undefined ? 0.01 : clip.fadeIn, clip.fadeOut === undefined ? 0.2 : clip.fadeOut);
+  const outRate = clip.outSampleRate || SR;
+  if (outRate !== SR) data = resample(data, SR, outRate);
   const outPath = path.join(OUT_DIR, clip.out);
-  writeWav(outPath, data, SR);
+  writeWav(outPath, data, outRate);
   const info = {
     file: clip.out,
-    seconds: Number((data.length / SR).toFixed(3)),
+    seconds: Number((data.length / outRate).toFixed(3)),
     kb: Number((fs.statSync(outPath).size / 1024).toFixed(0)),
     rmsDb: Number((20 * Math.log10(rmsOf(data))).toFixed(1)),
     peakDb: Number((20 * Math.log10(peakOf(data))).toFixed(1)),
