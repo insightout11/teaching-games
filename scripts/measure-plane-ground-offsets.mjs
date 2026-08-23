@@ -128,14 +128,19 @@ for (const [key, asset] of PLANES) {
 }
 
 // ── Hangar view ─────────────────────────────────────────────────────────────
-// AirfieldForeground draws the FRONT-THREE-QUARTER art in a 320x180 box, also
-// bottom-aligned, so it needs its own number: padding differs per view angle and
-// the side-view value is meaningless here.
+// AirfieldForeground draws the FRONT-THREE-QUARTER GROUND art in a 320x180 box,
+// also bottom-aligned, so it needs its own number: padding differs per view angle
+// and the side-view value is meaningless here.
+//
+// Measure the -ground variant, NOT the plain front-3q. The plain one is the
+// IN-FLIGHT render with the gear retracted, so on retractable-gear aircraft its
+// lowest pixel is the BELLY, and calibrating from it plants the fuselage on the
+// floor with no wheels in sight.
 const HW = 320, HH = 180;
-console.log('\n  FRONT-3Q art -> hangarYOffset (AirfieldForeground, lobby hangar)');
+console.log('\n  FRONT-3Q GROUND art -> hangarYOffset (AirfieldForeground, lobby hangar)');
 console.log('  key                   art WxH      pad  scale   hangarYOffset');
 for (const [key, asset] of PLANES) {
-  const file = path.join(DIR, `${asset}-front-3q.png`);
+  const file = path.join(DIR, `${asset}-front-3q-ground.png`);
   if (!fs.existsSync(file)) { console.log(`  ${key.padEnd(22)} MISSING`); continue; }
   const png = decodePngAlpha(file);
   const pad = bottomPadding(png);

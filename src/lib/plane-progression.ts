@@ -205,22 +205,22 @@ const PLANE_ENTRIES: PlaneEntry[] = [
   // read by front-facing and sprite surfaces and stays at its original hand-tuned
   // values; only PlaneLayer's side view reads this one.
   entry('starter-biplane', 'LC Cadet', 'piston', { groundContactOffset: -51, runwayYOffset: -48, hangarYOffset: 34 }, LC_CADET_ASSETS),
-  entry('scout-monoplane',     'LC Wayfarer',      'piston',    { groundContactOffset: -7 }, LC_WAYFARER_ASSETS),
+  entry('scout-monoplane',     'LC Wayfarer',      'piston',    { groundContactOffset: -7, hangarYOffset: 5 }, LC_WAYFARER_ASSETS),
   entry('lc-scout',            'LC Scout',         'piston',    { groundContactOffset: -43, runwayYOffset: -30, hangarYOffset: 28 }, LC_SCOUT_ASSETS),
   entry('cloud-hopper',        'Cloud Hopper',     'piston',    { groundContactOffset: -43 }, LC_CLOUD_HOPPER_ASSETS),
   entry('trailblazer-biplane', 'Trailblazer',      'piston',    { groundContactOffset: -44, runwayYOffset: -34, hangarYOffset: 34 }, LC_TRAILBLAZER_ASSETS),
   // Tier 2 reads as still prop-era per world-flight-plane-assets.md, so Sky Racer is a
   // hot piston racer rather than a jet.
-  entry('sky-racer',           'Sky Racer',        'piston',    { groundContactOffset: -27 }, LC_SKY_RACER_ASSETS),
-  entry('cargo-cruiser',       'Cargo Cruiser',    'twin-prop', { groundContactOffset: -32 }, LC_CARGO_CRUISER_ASSETS),
-  entry('twin-prop-scout',     'Twin-Prop Scout',  'twin-prop', { groundContactOffset: -47 }, LC_TWIN_PROP_SCOUT_ASSETS),
-  entry('solar-flyer',         'Solar Flyer',      'electric',  { groundContactOffset: -42 }, LC_SOLAR_FLYER_ASSETS),
-  entry('aurora-glider',       'Aurora Glider',    'electric',  { groundContactOffset: -49 }, LC_AURORA_GLIDER_ASSETS),
+  entry('sky-racer',           'Sky Racer',        'piston',    { groundContactOffset: -27, hangarYOffset: 30 }, LC_SKY_RACER_ASSETS),
+  entry('cargo-cruiser',       'Cargo Cruiser',    'twin-prop', { groundContactOffset: -32, hangarYOffset: 33 }, LC_CARGO_CRUISER_ASSETS),
+  entry('twin-prop-scout',     'Twin-Prop Scout',  'twin-prop', { groundContactOffset: -47, hangarYOffset: 28 }, LC_TWIN_PROP_SCOUT_ASSETS),
+  entry('solar-flyer',         'Solar Flyer',      'electric',  { groundContactOffset: -42, hangarYOffset: 39 }, LC_SOLAR_FLYER_ASSETS),
+  entry('aurora-glider',       'Aurora Glider',    'electric',  { groundContactOffset: -49, hangarYOffset: 41 }, LC_AURORA_GLIDER_ASSETS),
   // Tier 3, rugged and weather-capable — reads as a heavy twin rather than a jet.
-  entry('storm-runner',        'Storm Runner',     'twin-prop', { groundContactOffset: -40 }, LC_STORM_RUNNER_ASSETS),
-  entry('future-flyer',        'Future Flyer',     'jet',       { groundContactOffset: -32 }, LC_FUTURE_FLYER_ASSETS),
-  entry('starliner-mini',      'Starliner Mini',   'jet',       { groundContactOffset: -27 }, LC_STARLINER_MINI_ASSETS),
-  entry('comet-jet',           'Comet Jet',        'jet',       { groundContactOffset: -43 }, LC_COMET_JET_ASSETS),
+  entry('storm-runner',        'Storm Runner',     'twin-prop', { groundContactOffset: -40, hangarYOffset: 32 }, LC_STORM_RUNNER_ASSETS),
+  entry('future-flyer',        'Future Flyer',     'jet',       { groundContactOffset: -32, hangarYOffset: 38 }, LC_FUTURE_FLYER_ASSETS),
+  entry('starliner-mini',      'Starliner Mini',   'jet',       { groundContactOffset: -27, hangarYOffset: 41 }, LC_STARLINER_MINI_ASSETS),
+  entry('comet-jet',           'Comet Jet',        'jet',       { groundContactOffset: -43, hangarYOffset: 39 }, LC_COMET_JET_ASSETS),
 ];
 
 const PLANE_MAP = new Map(PLANE_ENTRIES.map((p) => [p.key, p]));

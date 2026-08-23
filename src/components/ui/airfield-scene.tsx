@@ -236,7 +236,11 @@ function Windsock() {
 export function AirfieldForeground({ planeKey }: { planeKey?: string | null }) {
   // Front-facing plane parked nose-out in the hangar mouth (faces the open door).
   const plane = getPlaneAsset(planeKey);
-  const planeWebp = getPlaneViewAsset(planeKey, 'front-3q');
+  // 'front-3q-ground', NOT 'front-3q': the plain three-quarter view is the IN-FLIGHT
+  // render with the gear retracted, so retractable-gear aircraft (Solar Flyer, Aurora
+  // Glider, Comet Jet) appeared parked in the hangar with no wheels at all. The
+  // gear-down variant already exists for every plane.
+  const planeWebp = getPlaneViewAsset(planeKey, 'front-3q-ground');
   // mouth centre ≈ 30 + 645*0.44 = 313.8, floor = FORE_Y — sized to sit inside
   // the hangar with clear margin while keeping wide passenger aircraft legible.
   const PW = 320, PH = 180;
