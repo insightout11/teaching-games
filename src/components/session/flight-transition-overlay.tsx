@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
@@ -581,13 +581,18 @@ export function FlightTransitionOverlay({
   // family, so upgrading the aircraft changes how departures sound (§2a). Touchdown
   // is scheduled onto the descent bounce keyframe; with reduced motion there is no
   // bounce to hit, so it fires immediately.
+  // Read through a ref, NOT a dependency: useReducedMotion resolves null -> boolean
+  // after mount, and depending on it re-runs this effect, firing the cue a second
+  // time a few ms behind the first — two engines phasing against each other.
+  const reduceRef = useRef(prefersReducedMotion);
+  reduceRef.current = prefersReducedMotion;
   useEffect(() => {
     if (leg === 'takeoff') return playTakeoff(getEngineClass(planeKey));
     if (leg === 'descent') {
-      return play('touchdown', { delayMs: prefersReducedMotion ? 0 : TOUCHDOWN_DELAY_MS });
+      return play('touchdown', { delayMs: reduceRef.current ? 0 : TOUCHDOWN_DELAY_MS });
     }
     return undefined;
-  }, [leg, planeKey, prefersReducedMotion]);
+  }, [leg, planeKey]);
 
   // Drives the city scene's phase/progress across the overlay lifetime.
   const [transitionT, setTransitionT] = useState(prefersReducedMotion ? 1 : 0);

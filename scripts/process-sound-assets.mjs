@@ -176,6 +176,58 @@ function synthElectric(dur) {
   return out;
 }
 
+// ─── brand-resolve: generated chime layered onto a synthesised cloud rush ───
+// The generated clip only carries 0.83s of run-up before its chime. Aligning that
+// chime to the spark burst at 2.643s therefore left the whole cloud-rush opening
+// in silence, and the riser it does have is dark — no air at all — against a
+// bright white-out frame. So we score the opening ourselves and drop the generated
+// chime on top, which also lets the whoosh be as bright as the visual.
+function synthCloudRush(dur, peakAt) {
+  const n = Math.floor(dur * SR);
+  const noise = new Float64Array(n);
+  let seed = 987654321;
+  for (let i = 0; i < n; i++) {
+    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+    noise[i] = seed / 0x3fffffff - 1;
+  }
+  // Cutoff climbs as the cloud thins and you break through into clear sky.
+  const cutoff = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    const k = Math.min(1, t / peakAt);
+    cutoff[i] = 900 + 8600 * Math.pow(k, 1.35);
+  }
+  const body = onePoleLP(noise, SR, cutoff);
+  // Subtract a low-passed copy to keep it airy rather than rumbling.
+  const rumble = onePoleLP(body, SR, 180);
+  const out = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    // Swell toward the breakthrough, then duck away so the chime rings clear.
+    const swell = Math.pow(Math.min(1, t / peakAt), 1.9);
+    const duck = t > peakAt ? Math.max(0, 1 - (t - peakAt) / 0.55) : 1;
+    out[i] = (body[i] - rumble[i] * 0.85) * swell * duck;
+  }
+  return fade(out, SR, 0.12, 0.25);
+}
+
+function buildBrandResolve(rawDir, clip) {
+  const read = readWav(path.join(rawDir, clip.src));
+  const orig = resample(
+    slice(read.data, read.sampleRate, clip.trim[0], clip.trim[1]),
+    read.sampleRate,
+    SR,
+  );
+  const offsetSec = clip.chimeTargetSec - clip.chimeInSourceSec;
+  const offset = Math.floor(offsetSec * SR);
+  const out = new Float64Array(offset + orig.length);
+
+  const whoosh = synthCloudRush(clip.chimeTargetSec + 0.5, clip.chimeTargetSec - 0.75);
+  for (let i = 0; i < whoosh.length && i < out.length; i++) out[i] += whoosh[i] * 0.75;
+  for (let i = 0; i < orig.length; i++) out[offset + i] += orig[i];
+  return out;
+}
+
 // ─── Clip recipes ───────────────────────────────────────────────────────────
 // rmsDb targets are deliberately NOT uniform: ceremony clips sit forward, dense
 // engines sit back so they do not dominate a classroom, and electric stays ~10 dB
@@ -184,8 +236,13 @@ const CLIPS = [
   {
     out: 'brand-resolve.wav',
     src: 'ElevenLabs_Lesson_Captain_Brand_Resolve.wav',
-    trim: [0.06, 1.848], rmsDb: -20, fadeIn: 0.01, fadeOut: 0.12,
-    note: 'chime attack 0.83s into the trimmed clip',
+    composite: true,
+    trim: [0.06, 1.848],
+    chimeInSourceSec: 0.83,
+    // Spark burst in BrandSting 'full' — see docs/sound-design.md §6.3.
+    chimeTargetSec: 2.643,
+    rmsDb: -20, fadeIn: 0.01, fadeOut: 0.30,
+    note: 'cloud rush from 0s, chime at 2.643s — plays from mount, no offset',
   },
   {
     out: 'touchdown.wav',
@@ -225,6 +282,8 @@ for (const clip of CLIPS) {
   let data;
   if (clip.synth) {
     data = synthElectric();
+  } else if (clip.composite) {
+    data = buildBrandResolve(RAW_DIR, clip);
   } else {
     const file = path.join(RAW_DIR, clip.src);
     if (!fs.existsSync(file)) { console.error('  MISSING  ' + clip.src); continue; }

@@ -31,11 +31,15 @@ export const ALL_SOUND_URLS: string[] = [
 ];
 
 /**
- * Where the chime's attack sits inside brand-resolve.wav, measured after trimming.
- * The clip opens with a riser, so playback has to START this far before the moment
- * the chime should land.
+ * Where the chime's attack sits inside brand-resolve.wav.
+ *
+ * The clip is a composite: a synthesised cloud rush scores the opening and the
+ * generated chime is layered on at 2.643s (see scripts/process-sound-assets.mjs).
+ * That is deliberately equal to the 'full' spark peak, so the clip plays from mount
+ * with NO offset and the whole reveal is scored — the earlier cut had only 0.83s of
+ * run-up, which left the entire cloud rush in silence.
  */
-export const BRAND_CHIME_OFFSET_MS = 830;
+export const BRAND_CHIME_OFFSET_MS = 2643;
 
 /**
  * When the BrandSting spark bursts — the visual climax the chime lands on.
@@ -51,7 +55,13 @@ export const BRAND_SPARK_PEAK_MS: Record<'full' | 'short', number> = {
   short: 1793,
 };
 
-/** How long after the sting mounts to start brand-resolve, so the chime hits the spark. */
+/**
+ * How long after the sting mounts to start brand-resolve, so the chime hits the spark.
+ *
+ * The clip is cut for 'full', where this is 0. 'short' is dev-only and its spark
+ * comes 850ms earlier than the clip can deliver, so it clamps to 0 and the chime
+ * lands late there — acceptable, since no shipping call site uses 'short'.
+ */
 export function brandResolveDelayMs(variant: 'full' | 'short'): number {
   return Math.max(0, BRAND_SPARK_PEAK_MS[variant] - BRAND_CHIME_OFFSET_MS);
 }
