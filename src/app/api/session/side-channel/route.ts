@@ -4,10 +4,12 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import {
+  SIDE_CHANNEL_TTL_MS,
   SIDE_CHANNEL_KEY,
   sanitizeSideChannelDraft,
   type SideChannelItem,
 } from '@/lib/side-channel';
+import { logRealtimeDiagnostic } from '@/lib/realtime-health';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,6 +55,7 @@ export async function POST(request: NextRequest) {
         console.error('[side-channel POST] clear error:', error);
         return NextResponse.json({ error: 'Failed to clear side channel' }, { status: 500 });
       }
+      logRealtimeDiagnostic('side-channel-sender', 'database_write_complete', { revision: 'cleared' });
       return NextResponse.json({ ok: true, item: null });
     }
 
@@ -61,6 +64,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid side channel item' }, { status: 400 });
     }
 
+    const now = Date.now();
+    const expiresAt = new Date(now + SIDE_CHANNEL_TTL_MS).toISOString();
     let pollId: string | undefined;
     if (draft.kind === 'choice') {
       // One active poll per session — close any current one, like the poll route does.
@@ -81,7 +86,7 @@ export async function POST(request: NextRequest) {
           question: draft.prompt,
           options: draft.options,
           is_active: true,
-          metadata: { channel: 'side' },
+          metadata: { channel: 'side', expiresAt },
         })
         .select('id')
         .single();
@@ -96,7 +101,8 @@ export async function POST(request: NextRequest) {
       id: randomUUID(),
       ...draft,
       ...(pollId ? { pollId } : {}),
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(now).toISOString(),
+      expiresAt,
     };
 
     const { error: upsertError } = await supabase
@@ -111,6 +117,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to write side channel' }, { status: 500 });
     }
 
+    logRealtimeDiagnostic('side-channel-sender', 'database_write_complete', { revision: item.id });
     return NextResponse.json({ ok: true, item });
   } catch (error) {
     console.error('[side-channel POST] error:', error);

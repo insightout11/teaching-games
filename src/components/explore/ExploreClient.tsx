@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { resolveClassLaunchListState } from '@/lib/class-launch-list-state';
 import { ChevronDown, Plus, Search, X, UserRound, MonitorOff } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
@@ -24,6 +25,7 @@ import { usePlannerStore } from '@/stores/planner-store';
 import type { SlotType } from '@/lib/flight-plan-config';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { trackEvent } from '@/lib/analytics/posthog';
+import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 
 type FilterTab = 'all' | 'games' | 'activities';
 type SkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
@@ -244,6 +246,8 @@ export function ExploreClient() {
   const [launchItem, setLaunchItem] = useState<{ name: string; key: string; type: 'game' | 'activity' } | null>(null);
   const [classes, setClasses] = useState<Class[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
+  const [classesError, setClassesError] = useState<string | null>(null);
+  const [classesLoadAttempt, setClassesLoadAttempt] = useState(0);
   const [classStudentCounts, setClassStudentCounts] = useState<Record<string, number>>({});
   const [launching, setLaunching] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<Topic | ''>('');
@@ -256,6 +260,7 @@ export function ExploreClient() {
   const [newClassName, setNewClassName] = useState('');
   const [creatingClass, setCreatingClass] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
   // Pre-enable "Works 1-on-1" for teachers whose profile says they teach 1-on-1 — a
   // default, not a lock. Applied once when the profile finishes loading; the user can
@@ -287,21 +292,37 @@ export function ExploreClient() {
     async function checkAuth() {
       const supabase = createClient();
       const { data } = await supabase.auth.getUser();
-      if (!cancelled) setIsAuthenticated(!!data.user);
+      if (!cancelled) {
+        setIsAuthenticated(!!data.user);
+        setAuthChecked(true);
+      }
     }
     checkAuth();
     return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
-    if (!launchItem || !isAuthenticated) return;
+    if (!launchItem || !authChecked) return;
+    if (!isAuthenticated) {
+      setClassesLoading(false);
+      setClassesError('Sign in to load your classes.');
+      return;
+    }
+    let cancelled = false;
     setClassesLoading(true);
+    setClassesError(null);
     const supabase = createClient();
     supabase
       .from('classes')
       .select('id, name, student_device_mode')
       .order('created_at', { ascending: false })
-      .then(async ({ data }: { data: Class[] | null }) => {
+      .then(async ({ data, error }: { data: Class[] | null; error: { message?: string } | null }) => {
+        if (cancelled) return;
+        if (error) {
+          setClassesError('Classes could not be loaded. Continue the active session or try again.');
+          setClassesLoading(false);
+          return;
+        }
         const classList = data ?? [];
         setClasses(classList);
         setClassesLoading(false);
@@ -317,23 +338,34 @@ export function ExploreClient() {
           }
           setClassStudentCounts(counts);
         }
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setClassesError('Classes could not be loaded. Continue the active session or try again.');
+        setClassesLoading(false);
       });
-  }, [launchItem, isAuthenticated]);
+    return () => { cancelled = true; };
+  }, [launchItem, authChecked, isAuthenticated, classesLoadAttempt]);
 
-  function writeAndNavigate(sessionId: string, directLaunch: boolean) {
-    if (!launchItem) return;
-    localStorage.setItem('lc-explore-settings', JSON.stringify({ topic: selectedTopic, difficulty: selectedDifficulty, customTopic }));
-    sessionStorage.setItem(
-      'lessonPlanContent',
-      JSON.stringify({
+  function buildLaunchPlan(directLaunch: boolean) {
+    if (!launchItem) return null;
+    return {
         customTopic: customTopic.trim() || selectedTopic,
         difficulty: selectedDifficulty,
         slots: [{ type: launchItem.type, key: launchItem.key, name: launchItem.name }],
         generatedContent: {},
         generatedGameContent: {},
         ...(directLaunch ? { directLaunch: true } : {}),
-      }),
-    );
+      };
+  }
+
+  function writeAndNavigate(sessionId: string, directLaunch: boolean) {
+    const lessonPlanContent = buildLaunchPlan(directLaunch);
+    if (!lessonPlanContent) return;
+    localStorage.setItem('lc-explore-settings', JSON.stringify({ topic: selectedTopic, difficulty: selectedDifficulty, customTopic }));
+    const serializedLessonPlan = JSON.stringify(lessonPlanContent);
+    sessionStorage.setItem(lessonPlanStorageKey(sessionId), serializedLessonPlan);
+    sessionStorage.setItem('lessonPlanContent', serializedLessonPlan);
     window.location.href = `/sessions/${sessionId}`;
   }
 
@@ -344,7 +376,7 @@ export function ExploreClient() {
       const res = await fetch('/api/session/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ classId }),
+        body: JSON.stringify({ classId, lessonPlanContent: buildLaunchPlan(false) }),
       });
       if (res.status === 402) {
         setLaunching(false);
@@ -453,6 +485,15 @@ export function ExploreClient() {
     }
     setLaunchItem(item);
   }
+
+  const classLaunchListState = resolveClassLaunchListState({
+    authChecked,
+    isAuthenticated,
+    classesLoading,
+    classesError,
+    classCount: classes.length,
+    hasActiveSession: Boolean(activeSession),
+  });
 
   return (
     <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
@@ -665,9 +706,26 @@ export function ExploreClient() {
         <p className="text-sm text-lc-text3 mb-3">
           {activeSession ? 'Or start a new session:' : 'Select a class to launch this with:'}
         </p>
-        {classesLoading ? (
+        {classLaunchListState === 'loading' ? (
           <p className="text-sm text-lc-text3">Loading classes…</p>
-        ) : classes.length === 0 ? (
+        ) : classLaunchListState === 'auth-required' ? (
+          <p className="text-sm text-lc-text3">Sign in to load your classes.</p>
+        ) : classLaunchListState === 'error' ? (
+          <div className="text-sm text-lc-text3">
+            <p>{classesError}</p>
+            <button
+              type="button"
+              onClick={() => setClassesLoadAttempt((attempt) => attempt + 1)}
+              className="mt-2 font-medium text-lc-blue hover:underline"
+            >
+              Try loading classes again
+            </button>
+          </div>
+        ) : classLaunchListState === 'active-only' ? (
+          <p className="text-sm text-lc-text3">
+            Continue the active session above, or end it before starting another session.
+          </p>
+        ) : classLaunchListState === 'empty' ? (
           <div className="text-sm text-lc-text3">
             <p className="mb-3">You haven&apos;t created a class yet.</p>
             {showCreateClass ? (

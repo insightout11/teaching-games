@@ -3,8 +3,18 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { requireAuth } from '@/lib/auth-credits';
 import { mockStore } from '@/lib/mock/data';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
-import { getInputSpecRevision, stampTimedSpec } from '@/lib/input-spec';
+import {
+  getActivityInstanceIdentity,
+  getInputSpecRevision,
+  inputSpecChannelName,
+  INPUT_SPEC_REALTIME_EVENT,
+  shouldApplyActivityInstanceUpdate,
+  stampTimedSpec,
+  type ActivityInstanceIdentity,
+  type InputSpec,
+} from '@/lib/input-spec';
 import type { Session } from '@/lib/supabase/types';
+import { broadcastInputSpecFromServer } from '@/lib/supabase/realtime-broadcast';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,7 +29,11 @@ export async function POST(request: NextRequest) {
     if (authError || !teacher) return authError!;
 
     const body = await request.json();
-    const { sessionId, spec } = body as { sessionId: string; spec: unknown };
+    const { sessionId, spec, activityInstanceIdentity } = body as {
+      sessionId: string;
+      spec: unknown;
+      activityInstanceIdentity?: ActivityInstanceIdentity | null;
+    };
 
     if (!sessionId || typeof sessionId !== 'string') {
       return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
@@ -32,12 +46,41 @@ export async function POST(request: NextRequest) {
       }
 
       const existing = (session as { input_spec?: unknown }).input_spec ?? null;
+      const currentIdentity = getActivityInstanceIdentity(existing as InputSpec | null);
+      if (
+        activityInstanceIdentity
+        && (
+          (currentIdentity && !shouldApplyActivityInstanceUpdate(currentIdentity, activityInstanceIdentity))
+          || (!currentIdentity && existing !== null && spec === null)
+        )
+      ) {
+        return NextResponse.json({
+          ok: true,
+          applied: false,
+          spec: existing,
+          inputSpecRevision: getInputSpecRevision(existing),
+          serverNow: Date.now(),
+          activityInstanceIdentity: currentIdentity,
+        }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
+      }
       const stamped = stampTimedSpec(spec, existing);
-      const updates = { input_spec: stamped ?? null } as Partial<Session> & { input_spec?: unknown };
+      const published = stamped && typeof stamped === 'object'
+        ? { ...stamped, publishedAt: Date.now() }
+        : stamped;
+      const updates = { input_spec: published ?? null } as Partial<Session> & { input_spec?: unknown };
       mockStore.updateSession(sessionId, updates);
 
-      const payloadSpec = stamped ?? null;
-      return NextResponse.json({ ok: true, spec: payloadSpec, inputSpecRevision: getInputSpecRevision(payloadSpec), serverNow: Date.now() }, {
+      const payloadSpec = published ?? null;
+      return NextResponse.json({
+        ok: true,
+        applied: true,
+        spec: payloadSpec,
+        inputSpecRevision: getInputSpecRevision(payloadSpec),
+        serverNow: Date.now(),
+        activityInstanceIdentity:
+          getActivityInstanceIdentity(payloadSpec as InputSpec | null) ?? activityInstanceIdentity ?? null,
+        realtimeDelivery: { status: 'mock', elapsedMs: 0 },
+      }, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
       });
     }
@@ -52,24 +95,65 @@ export async function POST(request: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // Timed specs get server-authoritative startedAt/answersOpenAt. Same-round
-    // rewrites (lock updates, reveals) must keep the original stamp, so read the
-    // current spec first to compare round nonces.
-    let toWrite: unknown = spec ?? null;
-    if (spec && typeof spec === 'object' && typeof (spec as { timerSeconds?: unknown }).timerSeconds === 'number') {
-      const { data: current } = await supabase
-        .from('sessions')
-        .select('input_spec')
-        .eq('id', sessionId)
-        .single();
-      toWrite = stampTimedSpec(spec, current?.input_spec ?? null);
+    // Read the canonical value before every activity-instance write. This makes
+    // stale clears from an unmounted/previous activity run harmless even when they
+    // arrive from another browser task after the new prompt has already persisted.
+    const { data: currentSession } = await supabase
+      .from('sessions')
+      .select('input_spec')
+      .eq('id', sessionId)
+      .single();
+    const currentInputSpec = currentSession?.input_spec ?? null;
+    const currentIdentity = getActivityInstanceIdentity(currentInputSpec as InputSpec | null);
+    if (
+      activityInstanceIdentity
+      && (
+        (currentIdentity && !shouldApplyActivityInstanceUpdate(currentIdentity, activityInstanceIdentity))
+        || (!currentIdentity && currentInputSpec !== null && spec === null)
+      )
+    ) {
+      console.info('[input-spec POST] stale activity update rejected', {
+        sessionId,
+        currentInstanceId: currentIdentity?.id ?? 'non-instance-input',
+        currentSequence: currentIdentity?.sequence ?? null,
+        incomingInstanceId: activityInstanceIdentity.id,
+        incomingSequence: activityInstanceIdentity.sequence,
+      });
+      return NextResponse.json({
+        ok: true,
+        applied: false,
+        spec: currentInputSpec,
+        inputSpecRevision: getInputSpecRevision(currentInputSpec),
+        serverNow: Date.now(),
+        activityInstanceIdentity: currentIdentity,
+      });
     }
 
-    const { data, error } = await supabase
+    // Timed specs get server-authoritative startedAt/answersOpenAt. Same-round
+    // rewrites (lock updates, reveals) keep the original stamp.
+    let toWrite: unknown = spec ?? null;
+    if (spec && typeof spec === 'object' && typeof (spec as { timerSeconds?: unknown }).timerSeconds === 'number') {
+      toWrite = stampTimedSpec(spec, currentInputSpec);
+    }
+    if (toWrite && typeof toWrite === 'object') {
+      toWrite = { ...toWrite, publishedAt: Date.now() };
+    }
+
+    let updateQuery = supabase
       .from('sessions')
       .update({ input_spec: toWrite })
-      .eq('id', sessionId)
-      .select('id');
+      .eq('id', sessionId);
+    // Compare-and-set closes the remaining cross-request race: if a newer prompt
+    // lands after our read but before this update, the stale write affects zero rows.
+    if (activityInstanceIdentity) {
+      updateQuery = currentInputSpec === null
+        ? updateQuery.is('input_spec', null)
+        // PostgREST expects JSON text for a json/jsonb equality filter. Passing
+        // the object directly stringifies it as "[object Object]" and makes every
+        // follow-up prompt/clear fail with PostgreSQL 22P02.
+        : updateQuery.eq('input_spec', JSON.stringify(currentInputSpec));
+    }
+    const { data, error } = await updateQuery.select('id');
 
     if (error) {
       console.error('[input-spec POST] DB error:', error);
@@ -77,12 +161,60 @@ export async function POST(request: NextRequest) {
     }
 
     if (!data || data.length === 0) {
+      if (activityInstanceIdentity) {
+        const { data: latestSession } = await supabase
+          .from('sessions')
+          .select('input_spec')
+          .eq('id', sessionId)
+          .single();
+        const latestSpec = latestSession?.input_spec ?? null;
+        return NextResponse.json({
+          ok: true,
+          applied: false,
+          spec: latestSpec,
+          inputSpecRevision: getInputSpecRevision(latestSpec),
+          serverNow: Date.now(),
+          activityInstanceIdentity: getActivityInstanceIdentity(latestSpec as InputSpec | null),
+        });
+      }
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
+    const serverNow = Date.now();
+    const inputSpecRevision = getInputSpecRevision(toWrite);
+    const resolvedActivityInstanceIdentity =
+      getActivityInstanceIdentity(toWrite as InputSpec | null) ?? activityInstanceIdentity ?? null;
+    const realtimeDelivery = await broadcastInputSpecFromServer(
+      inputSpecChannelName(sessionId),
+      INPUT_SPEC_REALTIME_EVENT,
+      {
+        spec: toWrite as InputSpec | null,
+        inputSpecRevision,
+        serverNow,
+        activityInstanceIdentity: resolvedActivityInstanceIdentity,
+      },
+    );
+    console.info('[input-spec POST] canonical delivery complete', {
+      revision: inputSpecRevision,
+      broadcastStatus: realtimeDelivery.status,
+      broadcastElapsedMs: realtimeDelivery.elapsedMs,
+      broadcastHttpStatus: realtimeDelivery.httpStatus ?? null,
+      broadcastFailureReason: realtimeDelivery.reason ?? null,
+      broadcastErrorName: realtimeDelivery.errorName ?? null,
+      broadcastErrorCode: realtimeDelivery.errorCode ?? null,
+    });
+
     // Echo the stamped spec + server clock so the teacher's own timers can anchor
     // to the exact same timestamps students receive from the poll.
-    return NextResponse.json({ ok: true, spec: toWrite, inputSpecRevision: getInputSpecRevision(toWrite), serverNow: Date.now() });
+    return NextResponse.json({
+      ok: true,
+      applied: true,
+      spec: toWrite,
+      inputSpecRevision,
+      serverNow,
+      activityInstanceIdentity: resolvedActivityInstanceIdentity,
+      realtimeDelivery,
+    });
   } catch (error) {
     console.error('[input-spec POST] error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -23,6 +23,7 @@ import type { Topic, Difficulty } from '@/stores/session-store';
 import { usePlannerStore } from '@/stores/planner-store';
 import { SourceInputPanel } from '@/components/planner/source-input-panel';
 import { trackEvent } from '@/lib/analytics/posthog';
+import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 import {
   type DiscoveryItem,
   getTypeLabel,
@@ -139,10 +140,19 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
     }
     setLaunching(true);
     try {
+      const source = usePlannerStore.getState().sourceMaterial;
+      const lessonPlanContent = {
+        customTopic: customTopic.trim() || topic || 'General',
+        difficulty,
+        slots: [{ type: item.type, key: item.key, name: item.name }],
+        generatedContent: {},
+        generatedGameContent: {},
+        ...(source ? { sourceMaterial: source } : {}),
+      };
       const res = await fetch('/api/session/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ classId }),
+        body: JSON.stringify({ classId, lessonPlanContent }),
       });
       if (res.status === 402) {
         setLaunching(false);
@@ -161,18 +171,9 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
       }
       // One slot only — NO takeoff/landing wrapper. This is an activity, not a lesson.
       // Carry the attached source through so source-grounded activities can generate.
-      const source = usePlannerStore.getState().sourceMaterial;
-      sessionStorage.setItem(
-        'lessonPlanContent',
-        JSON.stringify({
-          customTopic: customTopic.trim() || topic || 'General',
-          difficulty,
-          slots: [{ type: item.type, key: item.key, name: item.name }],
-          generatedContent: {},
-          generatedGameContent: {},
-          ...(source ? { sourceMaterial: source } : {}),
-        }),
-      );
+      const serializedLessonPlan = JSON.stringify(lessonPlanContent);
+      sessionStorage.setItem(lessonPlanStorageKey(sessionId), serializedLessonPlan);
+      sessionStorage.setItem('lessonPlanContent', serializedLessonPlan);
       window.location.href = `/sessions/${sessionId}`;
     } catch {
       setLaunching(false);

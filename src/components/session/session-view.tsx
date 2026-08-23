@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback, useMemo, type ReactNode } from 'react';
-import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
+import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
+import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
+import { getActivityInstanceKey } from '@/lib/activity-instance';
 import { ModuleErrorBoundary } from './module-error-boundary';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { DemoSimulator } from './demo-simulator';
@@ -16,8 +18,9 @@ import { WidgetShell } from './widget-shell';
 import { WidgetLauncher } from './widget-launcher';
 import { WIDGET_REGISTRY } from './widget-registry';
 import { QRCodeSVG } from 'qrcode.react';
-import { getAllGames, GAME_CATEGORY_INFO } from '@/games/registry';
-import { getAllActivities, CATEGORY_INFO } from '@/activities/registry';
+import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
+import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
+import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
 import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration, computeAltitude, computeEarthState } from '@/lib/flight-plan-helpers';
@@ -471,6 +474,20 @@ interface SessionViewProps {
 }
 
 const EMPTY_CONFIG: Record<string, unknown> = {};
+const SAFE_SIMULTANEOUS_KEY = 'flash-quiz';
+
+function pluginForKey(key: string) {
+  return getGame(key) ?? getActivity(key);
+}
+
+function compatiblePoolKeys(pool: string[], participantCount: number): string[] {
+  const effectiveCount = Math.max(1, participantCount);
+  const compatible = pool.filter((key) => {
+    const plugin = pluginForKey(key);
+    return plugin ? isParticipantCompatible(plugin, effectiveCount) : false;
+  });
+  return compatible.length > 0 ? compatible : [SAFE_SIMULTANEOUS_KEY];
+}
 
 // ─── Pool Spinner ─────────────────────────────────────────────────────────────
 
@@ -620,6 +637,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
   const [sessionParticipants, setSessionParticipants] = useState<SessionParticipant[]>([]);
+  const liveParticipantCount = sessionParticipants.length;
+  const liveParticipantCountRef = useRef(liveParticipantCount);
+  liveParticipantCountRef.current = liveParticipantCount;
   const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
   const [joinLinkCopied, setJoinLinkCopied] = useState(false);
   const [cockpitLinkCopied, setCockpitLinkCopied] = useState(false);
@@ -752,7 +772,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, []);
 
   // ─── Lesson session controller ─────────────────────────────────────────
-  const lesson = useLessonSession(session.id, settings, students.length);
+  const lesson = useLessonSession(session.id, settings, students.length, session.lesson_plan_content);
   const selectedPlaneKey = lesson.lessonPlanContent?.worldFlightContext?.planeKey ?? DEFAULT_PLANE_KEY;
   const selectedPlane = getPlaneAsset(selectedPlaneKey);
   const selectedPlaneTier = getPlaneTierForKey(selectedPlaneKey);
@@ -1044,56 +1064,46 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (!initDone.current) {
       initSession(session.id, cls.id, []);
       existingScores.forEach((s) => useSessionStore.getState().addRealtimeScore(s));
+      const persistedPlan = lesson.lessonPlanContent;
       // Apply class presets (difficulty/tone/scoringMode) — overrides stale localStorage defaults.
       // For scoringMode: only apply class default when the lesson plan has no explicit mode
       // (lesson plan explicit > class default > goal-derived, which use-lesson-session sets first).
-      const lessonPlanHasScoringMode = (() => {
-        try {
-          const s = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
-          return s ? !!JSON.parse(s).scoringMode : false;
-        } catch { return false; }
-      })();
+      const lessonPlanHasScoringMode = !!persistedPlan?.scoringMode;
       const patch: Parameters<typeof setSettings>[0] = {};
-      if (cls.default_difficulty) patch.difficulty = cls.default_difficulty as Difficulty;
+      const launchDifficulty = persistedPlan?.difficulty ?? session.difficulty ?? cls.default_difficulty;
+      if (launchDifficulty) patch.difficulty = launchDifficulty as Difficulty;
       if (cls.default_tone) patch.tone = cls.default_tone as Tone;
       if (cls.default_scoring_mode && !lessonPlanHasScoringMode) {
         patch.scoringMode = cls.default_scoring_mode as ScoringMode;
       }
+      if (persistedPlan?.scoringMode) patch.scoringMode = persistedPlan.scoringMode;
+      if (session.topic) patch.topic = session.topic as Parameters<typeof setSettings>[0]['topic'];
+      patch.customTopic = session.custom_topic?.trim() || persistedPlan?.customTopic || '';
       if (Object.keys(patch).length > 0) setSettings(patch);
-      // Write effective settings to DB so students can see topic/difficulty on the waiting screen.
-      // Read from getState() to capture any patches applied above.
-      const s = useSessionStore.getState().settings;
+      // Backfill old sessions launched before durable plan persistence. New
+      // sessions already wrote these values atomically during creation.
+      if (!session.lesson_plan_content) {
+        const s = useSessionStore.getState().settings;
       // The launch-time topic is the source of truth, but settings.customTopic is populated
       // by a separate effect that can run AFTER this one — reading it here would persist the
       // default 'General' to the session row (→ "Jump back in" shows General for every
       // lesson). Read the topic straight from the launch payload to avoid that race.
-      const launchCustomTopic = (() => {
-        try {
-          const raw = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
-          const t = raw ? (JSON.parse(raw).customTopic as unknown) : null;
-          return typeof t === 'string' ? t.trim() : '';
-        } catch { return ''; }
-      })();
-      void fetch('/api/session/settings', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId: session.id,
-          topic: s.topic,
-          difficulty: s.difficulty,
-          customTopic: launchCustomTopic || s.customTopic || null,
-        }),
-      });
+        const launchCustomTopic = persistedPlan?.customTopic?.trim() || '';
+        void fetch('/api/session/settings', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: session.id,
+            topic: s.topic,
+            difficulty: s.difficulty,
+            customTopic: launchCustomTopic || s.customTopic || null,
+          }),
+        });
       // Persist a compact lesson brief server-side so separate-device features
       // (cockpit captain suggestions) know the plan, goal, and source — the
       // sessions row only carries topic/difficulty/vocab.
       try {
-        const raw = typeof window !== 'undefined' ? sessionStorage.getItem('lessonPlanContent') : null;
-        const plan = raw ? JSON.parse(raw) as {
-          goal?: string;
-          slots?: Array<{ key?: string; name?: string; stageLabel?: string }>;
-          sourceMaterial?: { title?: string; summary?: string; briefingText?: string; rawText?: string };
-        } : null;
+        const plan = persistedPlan;
         if (plan) {
           const source = plan.sourceMaterial;
           const brief = {
@@ -1113,10 +1123,27 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           }
         }
       } catch { /* brief is best-effort — never block launch */ }
+      }
       initDone.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session.id, cls.id]);
+
+  // The lesson controller hydrates before this component initializes the
+  // session store. Re-apply the resolved plan afterward so initSession cannot
+  // erase a durable plan or an intentional session-scoped Browse pivot.
+  useEffect(() => {
+    const plan = lesson.lessonPlanContent;
+    if (!initDone.current || !plan) return;
+    const store = useSessionStore.getState();
+    store.setCustomTopic(plan.customTopic);
+    store.setSourceMaterial(plan.sourceMaterial ?? null);
+    store.setFlightPresetId(plan.flightPresetId ?? null);
+    setSettings({
+      scoringMode: plan.scoringMode ?? goalToScoringMode(plan.goal),
+      ...(plan.difficulty ? { difficulty: plan.difficulty } : {}),
+    });
+  }, [lesson.lessonPlanContent, setSettings]);
 
   // Realtime subscription for leaderboard
   useRealtimeLeaderboard(session.id);
@@ -1203,6 +1230,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     // instantly; the DB end + cleanup run in the background (best-effort).
     const expectsJourneyMove = completed && lesson.lessonPlanContent?.worldFlightContext?.movesClass === true;
     if (expectsJourneyMove) setJourneySaveStatus('saving');
+    sessionStorage.removeItem(lessonPlanStorageKey(session.id));
     sessionStorage.removeItem('lessonPlanContent');
     localStorage.removeItem('lc-explore-session');
     setEnded(true);
@@ -1348,6 +1376,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleSelectGame = (game: GamePlugin) => {
+    if (!isParticipantCompatible(game, Math.max(1, liveParticipantCountRef.current))) {
+      const fallback = getGame(SAFE_SIMULTANEOUS_KEY);
+      if (fallback && fallback.key !== game.key) {
+        handleSelectGame(fallback);
+        return;
+      }
+    }
     activeActivityKeyRef.current = null;
     setSwapSuggestion(null);
     setSelectedGame(game);
@@ -1360,6 +1395,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleSelectActivity = async (activity: ActivityPlugin) => {
+    if (!isParticipantCompatible(activity, Math.max(1, liveParticipantCountRef.current))) {
+      const fallback = getGame(SAFE_SIMULTANEOUS_KEY);
+      if (fallback) {
+        handleSelectGame(fallback);
+        return;
+      }
+    }
     activeActivityKeyRef.current = activity.key;
     setSwapSuggestion(null);
     setSelectedActivity(activity);
@@ -2035,7 +2077,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           <div>
             <h1 className="text-xl font-bold text-lc-text">{cls.name} — Live Session</h1>
             <p className="text-sm text-lc-text2">
-              {sessionParticipants.length} students
+              {sessionParticipants.length} {sessionParticipants.length === 1 ? 'student' : 'students'}
               {lesson.isMissionBased && (
                 <span className="ml-2 text-amber-400">Mission Lesson</span>
               )}
@@ -2461,7 +2503,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         ) : poolSpinning !== null ? (
           <PoolSpinner
-            pool={poolSpinning.pool}
+            pool={compatiblePoolKeys(poolSpinning.pool, liveParticipantCount)}
             stageLabel={poolSpinning.stageLabel}
             onResolved={handlePoolResolved}
           />
@@ -2583,6 +2625,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               ) : activityContent ? (
                 <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
                   <ActivityShell
+                    key={getActivityInstanceKey(lesson.currentSlotIndex, lesson.currentSlot?.stageId ?? lesson.currentSlot?.key, selectedActivity.key)}
                     activity={selectedActivity}
                     generatedContent={activityContent}
                     timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
@@ -2693,6 +2736,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             ) : activityContent ? (
               <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
                 <ActivityShell
+                  key={getActivityInstanceKey(lesson.currentSlotIndex, lesson.currentSlot?.stageId ?? lesson.currentSlot?.key, selectedActivity.key)}
                   activity={selectedActivity}
                   generatedContent={activityContent}
                   timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
@@ -3017,19 +3061,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div className="space-y-1.5">
                       {catGames.map((game) => {
                         const GameIcon = game.icon;
+                        const compatible = isParticipantCompatible(game, Math.max(1, liveParticipantCount));
                         return (
                           <button
                             key={game.key}
                             onClick={() => {
+                              if (!compatible) return;
                               lesson.insertAndPivotSlot(game.key, 'game', game.name);
                               setShowPivotDrawer(false);
                             }}
-                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left"
+                            disabled={!compatible}
+                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left disabled:cursor-not-allowed disabled:opacity-45"
                           >
                             <GameIcon className="w-5 h-5 text-lc-text3 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium text-lc-text">{game.name}</p>
                               <p className="text-xs text-lc-text3 truncate">{game.description}</p>
+                              {!compatible && <p className="mt-1 text-xs text-amber-300">{participantRequirementLabel(game)}</p>}
                             </div>
                             <span className="text-xs text-lc-text3 flex-shrink-0">~{game.estimatedMinutes}m</span>
                           </button>
@@ -3054,19 +3102,23 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div className="space-y-1.5">
                       {catActivities.map((activity) => {
                         const ActivityIcon = activity.icon;
+                        const compatible = isParticipantCompatible(activity, Math.max(1, liveParticipantCount));
                         return (
                           <button
                             key={activity.key}
                             onClick={() => {
+                              if (!compatible) return;
                               lesson.insertAndPivotSlot(activity.key, 'activity', activity.name);
                               setShowPivotDrawer(false);
                             }}
-                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left"
+                            disabled={!compatible}
+                            className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left disabled:cursor-not-allowed disabled:opacity-45"
                           >
                             <ActivityIcon className="w-5 h-5 text-lc-text3 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium text-lc-text">{activity.name}</p>
                               <p className="text-xs text-lc-text3 truncate">{activity.description}</p>
+                              {!compatible && <p className="mt-1 text-xs text-amber-300">{participantRequirementLabel(activity)}</p>}
                             </div>
                             <span className="text-xs text-lc-text3 flex-shrink-0">~{activity.estimatedMinutes}m</span>
                           </button>

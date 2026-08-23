@@ -11,6 +11,9 @@ export const SIDE_CHANNEL_KEY = 'side-channel';
 /** game_key stamped on side-channel text submissions so the cockpit can label them. */
 export const SIDE_CHANNEL_GAME_KEY = 'crew-radio';
 
+/** Crew Radio is a live lesson lane, not a durable inbox. */
+export const SIDE_CHANNEL_TTL_MS = 60 * 60 * 1000;
+
 export type SideChannelKind = 'write' | 'choice';
 
 export interface SideChannelQuote {
@@ -32,6 +35,31 @@ export interface SideChannelItem {
   quote?: SideChannelQuote;
   maxLength?: number;
   createdAt: string;
+  /** Explicit expiry for new prompts; legacy prompts derive it from createdAt. */
+  expiresAt?: string;
+}
+
+export type SideChannelLifecycle = 'inactive' | 'active' | 'expired';
+
+export function getSideChannelLifecycle(
+  item: SideChannelItem | null | undefined,
+  now = Date.now(),
+): SideChannelLifecycle {
+  if (!item) return 'inactive';
+  const createdAt = Date.parse(item.createdAt);
+  const explicitExpiry = item.expiresAt ? Date.parse(item.expiresAt) : Number.NaN;
+  const expiresAt = Number.isFinite(explicitExpiry)
+    ? explicitExpiry
+    : createdAt + SIDE_CHANNEL_TTL_MS;
+  if (!Number.isFinite(expiresAt) || now >= expiresAt) return 'expired';
+  return 'active';
+}
+
+export function getActiveSideChannelItem(
+  item: SideChannelItem | null | undefined,
+  now = Date.now(),
+): SideChannelItem | null {
+  return getSideChannelLifecycle(item, now) === 'active' ? item ?? null : null;
 }
 
 export interface SideChannelDraft {

@@ -3,7 +3,9 @@ import {
   stampTimedSpec,
   computeTimerState,
   getInputSpecRevision,
+  getStudentSignalTransitionMs,
   ANSWERS_OPEN_GRACE_MS,
+  UNTIMED_SIGNAL_TRANSITION_MS,
   type InputSpec,
 } from '@/lib/input-spec';
 
@@ -101,6 +103,25 @@ describe('stampTimedSpec', () => {
   });
 });
 
+describe('student signal transition timing', () => {
+  it('uses one exact 3-second readiness gate for timed prompts', () => {
+    expect(ANSWERS_OPEN_GRACE_MS).toBe(3000);
+    expect(getStudentSignalTransitionMs({
+      type: 'choice',
+      gameKey: 'flash-quiz',
+      timerSeconds: 30,
+    })).toBe(0);
+  });
+
+  it('uses only a brief visual handoff for untimed prompts', () => {
+    expect(UNTIMED_SIGNAL_TRANSITION_MS).toBe(350);
+    expect(getStudentSignalTransitionMs({
+      type: 'binary',
+      gameKey: 'would-you-rather',
+    })).toBe(UNTIMED_SIGNAL_TRANSITION_MS);
+  });
+});
+
 describe('computeTimerState', () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -116,11 +137,11 @@ describe('computeTimerState', () => {
   });
 
   it('holds at full timerSeconds during the grace beat (countdown is deferred, not eaten)', () => {
-    // 1s after broadcast, still inside the 4s grace window.
+    // 1s after broadcast, still inside the 3s grace window.
     vi.setSystemTime(SERVER_NOW + 1000);
     const s = computeTimerState(clock());
     expect(s.answersOpen).toBe(false);
-    expect(s.opensIn).toBe(3);
+    expect(s.opensIn).toBe(2);
     expect(s.timeLeft).toBe(30); // NOT 29 — the grace does not consume the answer window
   });
 
@@ -197,5 +218,11 @@ describe('getInputSpecRevision', () => {
       getInputSpecRevision({ ...base, options: ['A', 'C'] }),
     );
     expect(getInputSpecRevision(base)).not.toBe(getInputSpecRevision(null));
+  });
+
+  it('treats the same activity prompt in a new round as a distinct response instance', () => {
+    const questionOne = { type: 'binary', gameKey: 'prediction-round', prompt: 'Choose', roundId: 'prediction-round-0' };
+    const questionTwo = { ...questionOne, roundId: 'prediction-round-1' };
+    expect(getInputSpecRevision(questionOne)).not.toBe(getInputSpecRevision(questionTwo));
   });
 });

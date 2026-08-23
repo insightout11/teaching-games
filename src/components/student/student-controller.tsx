@@ -7,9 +7,13 @@ import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { Team } from '@/lib/supabase/types';
 import {
+  getActivityInstanceIdentity,
   getInputSpecRevision,
+  getStudentSignalTransitionMs,
   inputSpecChannelName,
   INPUT_SPEC_REALTIME_EVENT,
+  shouldApplyActivityInstanceUpdate,
+  type ActivityInstanceIdentity,
   type InputSpec,
   type InputSpecRealtimePayload,
 } from '@/lib/input-spec';
@@ -18,8 +22,7 @@ import type { RealtimeChannel } from '@supabase/supabase-js';
 import { DynamicInput } from './dynamic-input';
 import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
-import { DIFFICULTIES } from '@/lib/difficulty';
-import type { Difficulty } from '@/lib/difficulty';
+import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
 import { BookOpen, PencilLine, MessageSquare, HelpCircle, Plane, PlaneLanding, Flame, Send, Zap, Award, Wind, Radio, RadioTower, ClipboardCheck, Share2, Check } from 'lucide-react';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
@@ -27,6 +30,16 @@ import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
+import { LatestRequestGate } from '@/lib/latest-request-gate';
+import { recordSubmissionConfirmation } from '@/lib/submission-confirmation';
+import {
+  effectiveRealtimeHealth as getEffectiveRealtimeHealth,
+  logRealtimeDiagnostic,
+  reconcileIntervalFor,
+  startRealtimeChannelLifecycle,
+  studentConnectionState,
+  type RealtimeHealth,
+} from '@/lib/realtime-health';
 
 interface StudentSession {
   clientId: string;
@@ -137,40 +150,26 @@ function persistCrewRadioState(sessionId: string, state: { seen: string | null; 
   } catch { /* ignore */ }
 }
 
-// ---------------------------------------------------------------------------
-// English Spotlight tips — shown while waiting for an activity to start
-// minLevel = minimum difficulty at which this tip is shown
-// ---------------------------------------------------------------------------
-const WAITING_TIPS: { category: string; color: string; text: string; minLevel: string }[] = [
-  { category: 'Grammar Tip', color: 'blue', minLevel: 'Beginner', text: "Use 'a' before consonant sounds and 'an' before vowel sounds — it's about the sound, not the letter. 'An hour' is correct because 'hour' starts with a vowel sound." },
-  { category: 'Did you know?', color: 'purple', minLevel: 'Beginner', text: "English borrows words from over 350 languages. 'Café' comes from French, 'yoga' from Sanskrit, 'robot' from Czech, and 'ketchup' from Malay." },
-  { category: 'Idiom', color: 'amber', minLevel: 'Easy', text: "'Break a leg' means 'good luck'. It comes from theatre tradition — wishing someone bad luck was thought to bring good luck instead." },
-  { category: 'Vocab Boost', color: 'teal', minLevel: 'Easy', text: "Three useful prefixes: 'un-' means not (unhappy), 're-' means again (rewrite), 'pre-' means before (preview). Spot them and you can guess thousands of new words." },
-  { category: 'Grammar Tip', color: 'blue', minLevel: 'Easy', text: "'I' vs 'me': remove the other person to test it. 'She gave it to I' sounds wrong — so say 'She gave it to me'. 'I' is for subjects; 'me' is for objects." },
-  { category: 'Did you know?', color: 'purple', minLevel: 'Intermediate', text: "The word 'nice' originally meant 'foolish' or 'ignorant' in the 14th century. Word meanings shift dramatically over hundreds of years — this is called semantic change." },
-  { category: 'Idiom', color: 'amber', minLevel: 'Easy', text: "'Hit the nail on the head' means to be exactly right. 'Cost an arm and a leg' means something is very expensive. Idioms say one thing but mean another." },
-  { category: 'Vocab Boost', color: 'teal', minLevel: 'Intermediate', text: "The suffix '-tion' turns verbs into nouns: communicate → communication, educate → education, inform → information. It's one of the most common noun endings in English." },
-  { category: 'Grammar Tip', color: 'blue', minLevel: 'Easy', text: "Commas join two sentences when paired with 'and', 'but', or 'so'. Without a conjunction, use a semicolon or a full stop instead of a comma alone." },
-  { category: 'Did you know?', color: 'purple', minLevel: 'Beginner', text: "Shakespeare invented over 1,700 words still used today — including 'bedroom', 'lonely', 'generous', and 'obscene'. He simply made them up when he needed them." },
-  { category: 'Idiom', color: 'amber', minLevel: 'Easy', text: "'Under the weather' means feeling unwell. 'Once in a blue moon' means very rarely. Learning idioms helps you sound natural in everyday English." },
-  { category: 'Vocab Boost', color: 'teal', minLevel: 'Intermediate', text: "Adjectives describe nouns; adverbs modify verbs, adjectives, or other adverbs. Many adverbs end in '-ly': quickly, carefully, honestly — but not always (fast, hard, well)." },
-  { category: 'Grammar Tip', color: 'blue', minLevel: 'Beginner', text: "'There', 'their', and 'they're' sound identical but mean different things. There = place, Their = belonging to them, They're = they are. Context is the key." },
-  { category: 'Did you know?', color: 'purple', minLevel: 'Beginner', text: "The longest word in a standard English dictionary is 'pneumonoultramicroscopicsilicovolcanoconiosis' — a lung disease. The most commonly used word is 'the'." },
-  { category: 'Idiom', color: 'amber', minLevel: 'Intermediate', text: "'Spill the beans' means to accidentally reveal a secret. 'Let the cat out of the bag' means the same thing — idioms often have quirky origin stories." },
-  { category: 'Vocab Boost', color: 'teal', minLevel: 'Intermediate', text: "Synonyms add variety to your writing. Instead of always using 'said', try: whispered, announced, argued, replied, admitted. Word choice shapes the reader's feeling." },
-  { category: 'Grammar Tip', color: 'blue', minLevel: 'Intermediate', text: "Active voice is usually clearer than passive. 'The dog bit the man' (active) is more direct than 'The man was bitten by the dog' (passive)." },
-  { category: 'Did you know?', color: 'purple', minLevel: 'Intermediate', text: "English has around 170,000 words in current use, with another 47,000 obsolete words. A well-educated adult uses about 20,000–35,000 words in daily life." },
-  { category: 'Idiom', color: 'amber', minLevel: 'Intermediate', text: "'Bite the bullet' means to endure a painful situation with courage. 'Bite off more than you can chew' means to take on more than you can handle." },
-  { category: 'Vocab Boost', color: 'teal', minLevel: 'Easy', text: "Collocations are words that naturally go together. We say 'make a mistake' (not 'do a mistake'), 'do homework' (not 'make homework'). Learning them sounds more natural." },
-  { category: 'Grammar Tip', color: 'blue', minLevel: 'Beginner', text: "Questions with 'who', 'what', 'where', 'when', 'why', and 'how' need full answers. Yes/no questions only need 'yes' or 'no' — but a full answer is always better." },
-  { category: 'Did you know?', color: 'purple', minLevel: 'Easy', text: "'Goodbye' is a contraction of 'God be with ye', shortened over centuries. 'Hello' only became a standard greeting after the telephone was invented in the 1870s." },
-  { category: 'Idiom', color: 'amber', minLevel: 'Intermediate', text: "'The ball is in your court' means it's your turn to take action. 'Get the ball rolling' means to start something. Many English idioms come from sport." },
-  { category: 'Vocab Boost', color: 'teal', minLevel: 'Easy', text: "Antonyms are opposites: hot/cold, love/hate, succeed/fail. Using contrast in writing creates emphasis and helps readers feel the difference between two ideas." },
-  { category: 'Grammar Tip', color: 'blue', minLevel: 'Intermediate', text: "First conditional: 'If it rains, I will stay inside.' Second conditional: 'If I were rich, I would travel.' The tense shift signals whether something is real or hypothetical." },
-  { category: 'Did you know?', color: 'purple', minLevel: 'Beginner', text: "The sentence 'The quick brown fox jumps over the lazy dog' contains every letter of the alphabet. This kind of sentence is called a pangram." },
-  { category: 'Idiom', color: 'amber', minLevel: 'Advanced', text: "'Burn the midnight oil' means to work late into the night. It comes from the days when people used oil lamps — and staying up late literally meant burning oil." },
-  { category: 'Vocab Boost', color: 'teal', minLevel: 'Intermediate', text: "Abstract nouns name ideas or feelings you can't touch: freedom, justice, happiness, courage. Concrete nouns name physical things: table, rain, book, city." },
-];
+// Standby tip position, kept per session so a refresh resumes the same card
+// instead of jumping to a random one.
+const TIP_INDEX_KEY = 'lc_standby_tip_index';
+
+function readStoredTipIndex(sessionId: string): number {
+  try {
+    const raw = sessionStorage.getItem(`${TIP_INDEX_KEY}:${sessionId}`);
+    const parsed = raw === null ? NaN : Number.parseInt(raw, 10);
+    return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function persistTipIndex(sessionId: string, index: number) {
+  try {
+    sessionStorage.setItem(`${TIP_INDEX_KEY}:${sessionId}`, String(index));
+  } catch { /* ignore */ }
+}
+
 
 const CARD_DESCRIPTIONS: Record<string, { name: string; description: string }> = {
   'takeoff':       { name: 'Takeoff',       description: '+1 on your next genuine-or-better response.' },
@@ -255,7 +254,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [isVoting, setIsVoting] = useState(false);
   const [sessionActive, setSessionActive] = useState(true);
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'checking' | 'disconnected'>('checking');
+  const [realtimeHealth, setRealtimeHealth] = useState<RealtimeHealth>('connecting');
+  const [canonicalReady, setCanonicalReady] = useState(false);
+  const [lastCanonicalSuccessAt, setLastCanonicalSuccessAt] = useState<number | null>(null);
+  const [lastParticipationSuccessAt, setLastParticipationSuccessAt] = useState<number | null>(null);
+  const [degradedSince, setDegradedSince] = useState<number | null>(Date.now());
+  const [connectionNow, setConnectionNow] = useState(Date.now());
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
+  const [currentResponse, setCurrentResponse] = useState<{ roundId: string; choice: string } | null>(null);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
   const [wonderVotedIds, setWonderVotedIds] = useState<Set<string>>(new Set());
@@ -267,9 +273,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [classBoardReplyText, setClassBoardReplyText] = useState('');
   const [classBoardReplyBusy, setClassBoardReplyBusy] = useState(false);
   const [personalMission, setPersonalMission] = useState<string | null>(null);
-  const [tipIndex, setTipIndex] = useState(() => Math.floor(Math.random() * WAITING_TIPS.length));
+  // Start from a stable index (restored across refresh) rather than a random one, so a
+  // refreshed student returns to the same standby card instead of a fresh random tip.
+  const [tipIndex, setTipIndex] = useState(() => readStoredTipIndex(sessionId));
   const [sessionTopic, setSessionTopic] = useState<string | null>(null);
-  const [sessionDifficulty, setSessionDifficulty] = useState<string>('Intermediate');
+  // Default to the most restrictive level until the real difficulty arrives from the
+  // session poll. Defaulting to Intermediate briefly admitted idioms/abstract-noun tips
+  // into Beginner sessions before the first poll resolved.
+  const [sessionDifficulty, setSessionDifficulty] = useState<string>('Beginner');
   const [topicTips, setTopicTips] = useState<{ category: string; color: string; text: string }[]>([]);
   const [topicTipsLoaded, setTopicTipsLoaded] = useState(false);
 
@@ -334,23 +345,64 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [debriefToken, setDebriefToken] = useState<string | null>(null);
   const [shareCopied, setShareCopied] = useState(false);
 
-  // "Get ready" transition when inputSpec first arrives
+  // Brief visual handoff when an untimed inputSpec first arrives. Timed specs already
+  // render their own synchronized 3-2-1 gate and must never stack another delay.
   const [transitionActivityName, setTransitionActivityName] = useState<string | null>(null);
   const prevInputSpecRef = useRef<InputSpec | null>(null);
   // Auto-clear timer for the splash. Held in a ref (not the effect cleanup) so a follow-up
   // inputSpec delivery can't cancel it and strand the device on "Stand by...".
   const transitionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const awaitingInitialHydrationRef = useRef(true);
+  const suppressNextTransitionRef = useRef(false);
   // Tracks the last timed round we logged delivery-latency instrumentation for.
   const loggedRoundRef = useRef<string | null>(null);
 
   // Server clock offset (serverNow − local Date.now() at response receipt). Countdown
   // timers add this to the local clock so device skew never eats answer time.
   const [clockOffsetMs, setClockOffsetMs] = useState(0);
+  const clockOffsetMsRef = useRef(0);
   const inputSpecRevisionRef = useRef<string | null>(null);
+  const activeInputSpecRef = useRef<InputSpec | null>(null);
+  const activityInstanceIdentityRef = useRef<ActivityInstanceIdentity | null>(null);
   const lastFullSessionPollAtRef = useRef(0);
+  const sessionRequestGateRef = useRef(new LatestRequestGate());
+  const sessionRequestInFlightRef = useRef(false);
+  const submissionRequestGateRef = useRef(new LatestRequestGate());
+  const confirmedSubmissionKeysRef = useRef(new Set<string>());
+
+  const applyAuthoritativeInputSpec = useCallback((
+    spec: InputSpec | null,
+    suppliedIdentity?: ActivityInstanceIdentity | null,
+  ) => {
+    let incomingIdentity = suppliedIdentity ?? getActivityInstanceIdentity(spec);
+    // A canonical clear response cannot carry identity once input_spec is null. Advance
+    // the currently visible instance exactly once so a delayed active event cannot
+    // resurrect the prompt that was just revealed/completed.
+    if (!spec && !incomingIdentity && activeInputSpecRef.current && activityInstanceIdentityRef.current) {
+      incomingIdentity = {
+        ...activityInstanceIdentityRef.current,
+        sequence: activityInstanceIdentityRef.current.sequence + 1,
+      };
+    }
+    if (!shouldApplyActivityInstanceUpdate(activityInstanceIdentityRef.current, incomingIdentity)) {
+      logRealtimeDiagnostic('student-input-spec', 'stale_instance_rejected', {
+        current_instance: activityInstanceIdentityRef.current?.id,
+        current_sequence: activityInstanceIdentityRef.current?.sequence,
+        incoming_instance: incomingIdentity?.id,
+        incoming_sequence: incomingIdentity?.sequence,
+      });
+      return false;
+    }
+    if (incomingIdentity) activityInstanceIdentityRef.current = incomingIdentity;
+    else if (spec) activityInstanceIdentityRef.current = null;
+    activeInputSpecRef.current = spec;
+    setInputSpec(spec);
+    return true;
+  }, []);
 
   // Poll hide tracking (voted or dismissed)
   const [hiddenPollIds, setHiddenPollIds] = useState<Set<string>>(new Set());
+  const [submittedPollIds, setSubmittedPollIds] = useState<Set<string>>(new Set());
 
   // Optimistic voting state
   const [localVoteCounts, setLocalVoteCounts] = useState<Record<string, number>>({});
@@ -364,22 +416,54 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     setRadioDoneIds(new Set(radioState.done));
   }, [sessionId]);
 
-  // Fire "Get ready" splash when inputSpec transitions null → set. The clear timer lives in a
+  // Fire the brief signal handoff when an untimed inputSpec transitions null → set. The clear timer lives in a
   // ref rather than the effect cleanup: on phones, realtime and the poll fallback often both
   // deliver the first spec within the splash window, and a cleanup-based timer would be cancelled
   // by the second delivery — leaving the device stuck on "Stand by..." until a manual refresh.
   useEffect(() => {
-    const hadSpec = prevInputSpecRef.current !== null;
+    const previousSpec = prevInputSpecRef.current;
+    const hadSpec = previousSpec !== null;
+    const changedSpec = inputSpec !== null
+      && getInputSpecRevision(previousSpec) !== getInputSpecRevision(inputSpec);
     prevInputSpecRef.current = inputSpec;
-    if (inputSpec && !hadSpec) {
+    if (changedSpec) {
+      submissionRequestGateRef.current.invalidate();
+      setRadioOpen(false);
+      setFlightDeckOpen(false);
+      setIsSubmitting(false);
+      setSubmitStatus('idle');
+      setWaitSeconds(0);
+    }
+    const suppressTransition = suppressNextTransitionRef.current;
+    suppressNextTransitionRef.current = false;
+    if (inputSpec && !hadSpec && !suppressTransition) {
       const name = getGame(inputSpec.gameKey)?.name ?? getActivity(inputSpec.gameKey)?.name;
-      if (name) {
+      const transitionMs = getStudentSignalTransitionMs(inputSpec);
+      if (name && transitionMs > 0) {
         setTransitionActivityName(name);
         if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
-        transitionTimerRef.current = setTimeout(() => setTransitionActivityName(null), 1500);
+        transitionTimerRef.current = setTimeout(() => setTransitionActivityName(null), transitionMs);
+      } else {
+        if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+        transitionTimerRef.current = null;
+        setTransitionActivityName(null);
       }
     }
   }, [inputSpec]);
+
+  // A cold reload hydrates the authoritative prompt and this student's persisted
+  // round response together. Reapply the durable confirmation after the generic
+  // new-prompt reset above, without issuing another submission request.
+  useEffect(() => {
+    if (!currentResponse || currentResponse.roundId !== inputSpec?.roundId) return;
+    const confirmationKey = inputSpecRevisionRef.current ?? getInputSpecRevision(inputSpec);
+    confirmedSubmissionKeysRef.current.add(confirmationKey);
+    setSubmitStatus('success');
+  }, [currentResponse, inputSpec]);
+
+  useEffect(() => {
+    setSelectedChoice(null);
+  }, [activePoll?.pollId]);
 
   // Clear the splash timer on unmount.
   useEffect(() => () => {
@@ -387,37 +471,70 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   }, []);
 
   // Poll for session status, active polls, and input spec
-  const checkSession = useCallback(async (options?: { forceFull?: boolean }) => {
+  const checkSession = useCallback(async (options?: {
+    forceFull?: boolean;
+    source?: 'mount' | 'subscribed' | 'database-change' | 'degraded-fallback' | 'safety-fallback';
+  }) => {
+    // Degraded-mode polling can run faster than a cold full hydration. Starting a
+    // second request would invalidate the first through the latest-request gate,
+    // starving the UI indefinitely when every request overlaps the next tick.
+    if (sessionRequestInFlightRef.current) return;
+    sessionRequestInFlightRef.current = true;
+    const requestSequence = sessionRequestGateRef.current.begin();
+    const requestStartedAt = Date.now();
+    const source = options?.source ?? 'safety-fallback';
     try {
       const params = new URLSearchParams({
         sessionId,
         clientId: studentSession.clientId,
       });
+      if (studentSession.studentId) params.set('studentId', studentSession.studentId);
       const allowUnchanged = !options?.forceFull && Date.now() - lastFullSessionPollAtRef.current < 60_000;
       if (allowUnchanged && inputSpecRevisionRef.current) {
         params.set('inputSpecRevision', inputSpecRevisionRef.current);
       }
 
       const res = await fetch(`/api/student/session?${params.toString()}`);
+      if (!sessionRequestGateRef.current.isCurrent(requestSequence)) return;
       if (!res.ok) {
         setSessionActive(false);
         setConnectionStatus('disconnected');
-        return;
+        setCanonicalReady(false);
+        logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile_failed', {
+          source,
+          status: res.status,
+          elapsed_ms: Date.now() - requestStartedAt,
+        });
+        return false;
       }
 
       const data = await res.json();
+      if (!sessionRequestGateRef.current.isCurrent(requestSequence)) return;
       // Sync clock offset before the spec lands so a freshly mounted timer reads it.
       const offset = typeof data.serverNow === 'number' ? data.serverNow - Date.now() : 0;
       if (typeof data.serverNow === 'number') {
+        clockOffsetMsRef.current = offset;
         setClockOffsetMs(offset);
       }
-      if (data.unchanged === true) {
+      if (data.inputSpecUnchanged === true) {
         if (typeof data.inputSpecRevision === 'string') {
           inputSpecRevisionRef.current = data.inputSpecRevision;
         }
         setSessionActive(data.isActive);
+        setActivePoll(data.activePoll ?? null);
+        setSideChannel(data.sideChannel ?? null);
         setConnectionStatus('connected');
-        return;
+        setCanonicalReady(true);
+        const reconciledAt = Date.now();
+        setLastCanonicalSuccessAt(reconciledAt);
+        setConnectionNow(reconciledAt);
+        logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile', {
+          source,
+          revision: data.inputSpecRevision ?? inputSpecRevisionRef.current,
+          unchanged: true,
+          elapsed_ms: Date.now() - requestStartedAt,
+        });
+        return true;
       }
       // Instrumentation: on a freshly arrived timed round, measure how much of the
       // answer window was lost to delivery. The grace window (answersOpenAt − startedAt)
@@ -445,7 +562,20 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       }
       setSessionActive(data.isActive);
       setActivePoll(data.activePoll);
-      setInputSpec(data.inputSpec);
+      if (awaitingInitialHydrationRef.current) {
+        suppressNextTransitionRef.current = data.inputSpec != null;
+        awaitingInitialHydrationRef.current = false;
+      }
+      const inputSpecApplied = applyAuthoritativeInputSpec(spec);
+      if (inputSpecApplied) {
+        const restoredResponse = data.currentResponse
+          && typeof data.currentResponse.roundId === 'string'
+          && typeof data.currentResponse.choice === 'string'
+          && data.currentResponse.roundId === spec?.roundId
+          ? data.currentResponse as { roundId: string; choice: string }
+          : null;
+        setCurrentResponse(restoredResponse);
+      }
       setSideChannel(data.sideChannel ?? null);
       if (!data.inputSpec?.wonderFollowUpMode) {
         setSelectedFollowUpId(null);
@@ -454,41 +584,82 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setPublishedQuestions(data.publishedQuestions ?? []);
       setWonderQuestions(data.wonderQuestions ?? []);
       setClassBoardItems(data.classBoardItems ?? []);
-      if (data.personalMission) setPersonalMission(data.personalMission);
+      setPersonalMission(data.personalMission ?? null);
       if (data.topic) setSessionTopic(data.topic);
       if (data.difficulty) setSessionDifficulty(data.difficulty);
       setGrammarTarget(data.grammarTarget ?? null);
       setReferenceVocab(Array.isArray(data.referenceVocab) ? data.referenceVocab : null);
       setReferenceExpressions(Array.isArray(data.referenceExpressions) ? data.referenceExpressions : null);
-      if (data.latestFeedback) setLatestFeedback(data.latestFeedback);
-      if (data.personalResults) setPersonalResults(data.personalResults);
-      if (data.debriefToken) setDebriefToken(data.debriefToken);
-      if (data.lastResult) setLastResult(data.lastResult);
+      setLatestFeedback(data.latestFeedback ?? null);
+      setPersonalResults(data.personalResults ?? null);
+      setDebriefToken(data.debriefToken ?? null);
+      setLastResult(data.lastResult ?? null);
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
-      if (typeof data.responseCount === 'number') setResponseCount(data.responseCount);
+      if (typeof data.responseCount === 'number') {
+        // Preserve an immediately confirmed local submission until the authoritative
+        // activity-participation row is visible to the next reconciliation query.
+        setResponseCount((current) => Math.max(current, data.responseCount));
+      }
       if ('sessionAccuracy' in data) setSessionAccuracy((data.sessionAccuracy as number | null) ?? null);
       setOfferedCards(data.offeredCards ?? null);
       setHeldCard(data.heldCard ?? null);
       setConnectionStatus('connected');
+      setCanonicalReady(true);
+      const reconciledAt = Date.now();
+      setLastCanonicalSuccessAt(reconciledAt);
+      setConnectionNow(reconciledAt);
+      logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile', {
+        source,
+        revision: inputSpecRevisionRef.current,
+        unchanged: false,
+        delivery_path: source === 'safety-fallback' || source === 'degraded-fallback' ? 'poll' : 'canonical',
+        delivery_ms: typeof spec?.publishedAt === 'number'
+          ? Math.max(0, Date.now() + offset - spec.publishedAt)
+          : undefined,
+        elapsed_ms: Date.now() - requestStartedAt,
+      });
+      return true;
     } catch {
+      if (!sessionRequestGateRef.current.isCurrent(requestSequence)) return;
       setConnectionStatus('disconnected');
+      setCanonicalReady(false);
+      logRealtimeDiagnostic('student-input-spec', 'canonical_reconcile_failed', {
+        source,
+        elapsed_ms: Date.now() - requestStartedAt,
+      });
+      return false;
+    } finally {
+      sessionRequestInFlightRef.current = false;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionId]);
+  }, [sessionId, applyAuthoritativeInputSpec]);
 
   useEffect(() => {
     const supabase = createClient();
-    const channel: RealtimeChannel = supabase
-      .channel(inputSpecChannelName(sessionId))
-      .on('broadcast', { event: INPUT_SPEC_REALTIME_EVENT }, ({ payload }: { payload: unknown }) => {
+    return startRealtimeChannelLifecycle<RealtimeChannel>({
+      scope: 'student-input-spec',
+      createChannel: () => supabase
+        .channel(inputSpecChannelName(sessionId))
+        .on('broadcast', { event: INPUT_SPEC_REALTIME_EVENT }, ({ payload }: { payload: unknown }) => {
+        // Invalidate any older API response before applying this realtime task.
+        sessionRequestGateRef.current.invalidate();
         const data = payload as Partial<InputSpecRealtimePayload>;
         const spec = (data.spec ?? null) as InputSpec | null;
         const serverNow = typeof data.serverNow === 'number' ? data.serverNow : Date.now();
         const offset = serverNow - Date.now();
-        setClockOffsetMs(offset);
-        inputSpecRevisionRef.current = typeof data.inputSpecRevision === 'string'
+        const revision = typeof data.inputSpecRevision === 'string'
           ? data.inputSpecRevision
           : getInputSpecRevision(spec);
+        logRealtimeDiagnostic('student-input-spec', 'broadcast_received', {
+          revision,
+          delivery_path: 'realtime',
+          delivery_ms: typeof spec?.publishedAt === 'number'
+            ? Math.max(0, Date.now() + clockOffsetMsRef.current - spec.publishedAt)
+            : undefined,
+        });
+        clockOffsetMsRef.current = offset;
+        setClockOffsetMs(offset);
+        inputSpecRevisionRef.current = revision;
 
         if (spec?.timerSeconds && typeof spec.answersOpenAt === 'number' && spec.startedAt) {
           const roundKey = `${spec.gameKey}:${spec.startedAt}`;
@@ -505,25 +676,63 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           }
         }
 
-        setInputSpec(spec);
+        if (awaitingInitialHydrationRef.current) {
+          suppressNextTransitionRef.current = spec != null;
+          awaitingInitialHydrationRef.current = false;
+        }
+        const suppliedIdentity = data.activityInstanceIdentity && typeof data.activityInstanceIdentity === 'object'
+          ? data.activityInstanceIdentity as ActivityInstanceIdentity
+          : null;
+        if (!applyAuthoritativeInputSpec(spec, suppliedIdentity)) return;
         if (!spec?.wonderFollowUpMode) {
           setSelectedFollowUpId(null);
           setFollowUpText('');
         }
         setConnectionStatus('connected');
-      });
+          logRealtimeDiagnostic('student-input-spec', 'ui_apply', { revision });
+        }),
+      removeChannel: (channel) => supabase.removeChannel(channel),
+      reconcile: async () => {
+        const reconciled = await checkSession({ forceFull: true, source: 'subscribed' });
+        if (reconciled === false) throw new Error('Student canonical reconciliation failed');
+      },
+      onHealth: setRealtimeHealth,
+    });
+  }, [sessionId, checkSession, applyAuthoritativeInputSpec]);
 
-    channel.subscribe();
-    return () => {
-      void channel.unsubscribe();
-    };
-  }, [sessionId]);
+  const effectiveRealtimeHealth = getEffectiveRealtimeHealth(realtimeHealth, canonicalReady);
 
   useEffect(() => {
-    checkSession();
-    const interval = setInterval(checkSession, 15000); // Realtime is primary; poll is a slow fallback.
+    if (effectiveRealtimeHealth === 'subscribed') {
+      setDegradedSince(null);
+      setConnectionNow(Date.now());
+      return;
+    }
+    setDegradedSince((current) => current ?? Date.now());
+  }, [effectiveRealtimeHealth]);
+
+  useEffect(() => {
+    if (effectiveRealtimeHealth === 'subscribed') return;
+    const interval = setInterval(() => setConnectionNow(Date.now()), 1_000);
     return () => clearInterval(interval);
-  }, [checkSession]);
+  }, [effectiveRealtimeHealth]);
+
+  useEffect(() => {
+    void checkSession({
+      forceFull: !canonicalReady || effectiveRealtimeHealth !== 'subscribed',
+      source: canonicalReady
+        ? effectiveRealtimeHealth === 'subscribed' ? 'safety-fallback' : 'degraded-fallback'
+        : 'mount',
+    });
+    const interval = setInterval(
+      () => void checkSession({
+        forceFull: effectiveRealtimeHealth !== 'subscribed',
+        source: effectiveRealtimeHealth === 'subscribed' ? 'safety-fallback' : 'degraded-fallback',
+      }),
+      reconcileIntervalFor(effectiveRealtimeHealth),
+    );
+    return () => clearInterval(interval);
+  }, [canonicalReady, checkSession, effectiveRealtimeHealth]);
 
   // Load flight deck prefs once on mount
   useEffect(() => {
@@ -566,21 +775,22 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     return () => clearTimeout(t);
   }, [lastResult, seenResultId]);
 
-  // Cycle through English spotlight tips while waiting for an activity
-  const difficultyRank = DIFFICULTIES.indexOf(sessionDifficulty as Difficulty);
-  const filteredStaticTips = WAITING_TIPS.filter(
-    (t) => DIFFICULTIES.indexOf(t.minLevel as Difficulty) <= difficultyRank
-  );
-  const allTips = [...topicTips, ...filteredStaticTips];
+  // Cycle through English spotlight tips while waiting for an activity.
+  const allTips = buildStandbyTipPool(topicTips, sessionDifficulty);
   useEffect(() => {
     if (inputSpec) return;
     const interval = setInterval(() => {
-      setTipIndex((i) => (i + 1) % allTips.length);
+      setTipIndex((i) => (i + 1) % Math.max(allTips.length, 1));
     }, 10000);
     return () => clearInterval(interval);
   // allTips.length changes when topicTips load — restarting the interval is fine
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputSpec, allTips.length]);
+
+  // Remember where the rotation got to, so a refresh resumes the same card.
+  useEffect(() => {
+    persistTipIndex(sessionId, tipIndex);
+  }, [sessionId, tipIndex]);
 
   // Fetch topic-aware tips once when topic becomes available
   useEffect(() => {
@@ -602,7 +812,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               : 'amber',
           }));
           setTopicTips(mapped);
-          setTipIndex(0); // start from first topic tip
+          // Start from the first topic tip on a genuinely fresh join, but don't yank a
+          // refreshed student back to the top of the list.
+          if (readStoredTipIndex(sessionId) === 0) setTipIndex(0);
         }
       })
       .catch(() => {}); // silent fail — static tips remain
@@ -610,6 +822,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   const handleSubmit = useCallback(async (content: string) => {
     if (!content.trim() || isSubmitting) return;
+    const submissionSequence = submissionRequestGateRef.current.begin();
 
     // Optimistic Mission Brief: show immediately before DB confirms
     if (inputSpec?.gameKey === 'mission-selector') {
@@ -670,6 +883,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             team: studentSession.team,
             gameKey: inputSpec?.gameKey,
             inputType: inputSpec?.type,
+            roundId: inputSpec?.roundId,
             studentId: studentSession.studentId,
             allowMultiple: inputSpec?.allowMultiple,
             reviewMode: inputSpec?.reviewMode,
@@ -682,6 +896,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       });
 
       const data = await res.json();
+      if (!submissionRequestGateRef.current.isCurrent(submissionSequence)) return;
 
       if (res.status === 429) {
         setSubmitStatus('rate_limited');
@@ -690,7 +905,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setSubmitStatus('error');
       } else {
         setSubmitStatus('success');
-        setTimeout(() => setSubmitStatus('idle'), 2000);
+        setLastParticipationSuccessAt(Date.now());
+        const confirmationKey = inputSpecRevisionRef.current ?? getInputSpecRevision(inputSpec);
+        setResponseCount((current) => recordSubmissionConfirmation(
+          confirmedSubmissionKeysRef.current,
+          confirmationKey,
+          current,
+        ).responseCount);
+        if (inputSpec?.roundId) {
+          setCurrentResponse({ roundId: inputSpec.roundId, choice: content.trim() });
+        }
         // Clear follow-up selection after successful submit
         if (inputSpec?.wonderFollowUpMode) {
           setSelectedFollowUpId(null);
@@ -700,9 +924,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setTimeout(() => void checkSession({ forceFull: true }), 1500);
       }
     } catch {
+      if (!submissionRequestGateRef.current.isCurrent(submissionSequence)) return;
       setSubmitStatus('error');
     } finally {
-      setIsSubmitting(false);
+      if (submissionRequestGateRef.current.isCurrent(submissionSequence)) setIsSubmitting(false);
     }
   }, [sessionId, studentSession, inputSpec, isSubmitting, checkSession, selectedFollowUpId]);
 
@@ -727,7 +952,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       });
 
       if (res.ok) {
-        setHiddenPollIds(prev => new Set(prev).add(activePoll.pollId));
+        setLastParticipationSuccessAt(Date.now());
+        setSubmittedPollIds(prev => new Set(prev).add(activePoll.pollId));
       } else {
         const data = await res.json();
         if (res.status !== 429) {
@@ -1040,14 +1266,28 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   };
 
   const currentSignalName = inputSpec ? getSignalName(inputSpec.gameKey) : null;
-  const connectionLabel =
-    connectionStatus === 'connected' ? 'Connected' :
-    connectionStatus === 'checking' ? 'Checking' :
-    'Offline';
-  const connectionClass =
-    connectionStatus === 'connected' ? 'bg-emerald-400 shadow-emerald-400/40' :
-    connectionStatus === 'checking' ? 'bg-amber-400 shadow-amber-400/40 animate-pulse' :
-    'bg-red-400 shadow-red-400/40';
+  const effectiveConnectionState = studentConnectionState({
+    channelHealth: realtimeHealth,
+    canonicalReady,
+    lastCanonicalSuccessAt,
+    lastParticipationSuccessAt,
+    degradedSince,
+    now: connectionNow,
+  });
+  const connectionLabel = {
+    checking: connectionStatus === 'disconnected' ? 'Reconnecting…' : 'Checking',
+    connected: 'Connected',
+    syncing: 'Connected · syncing',
+    reconnecting: 'Reconnecting…',
+    offline: 'Offline',
+  }[effectiveConnectionState];
+  const connectionClass = {
+    checking: 'bg-amber-400 shadow-amber-400/40 animate-pulse',
+    connected: 'bg-emerald-400 shadow-emerald-400/40',
+    syncing: 'bg-cyan-400 shadow-cyan-400/40',
+    reconnecting: 'bg-amber-400 shadow-amber-400/40 animate-pulse',
+    offline: 'bg-red-400 shadow-red-400/40',
+  }[effectiveConnectionState];
   const lastResultLabel = lastResult ? (OUTCOME_LABELS[lastResult.outcome] ?? lastResult.outcome) : null;
 
   // Capture & share: the debrief link is the durable artifact. Pasting it unfurls
@@ -1183,14 +1423,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   return (
     <StudentSkyShell weather="cruising">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-2xl border border-cyan-400/15 bg-slate-950/65 p-4 mb-4 shadow-[0_0_28px_rgba(34,211,238,0.08)]">
+      <div className="relative mb-3 overflow-hidden rounded-2xl border border-cyan-400/15 bg-slate-950/65 p-3 shadow-[0_0_28px_rgba(34,211,238,0.08)] sm:mb-4 sm:p-4">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/50 to-transparent" />
         <Image
           src="/lessoncaptain-mark-on-dark.svg"
           alt="LessonCaptain"
           width={32}
           height={32}
-          className="absolute left-1/2 top-4 h-8 w-auto -translate-x-1/2 opacity-30 pointer-events-none"
+          className="pointer-events-none absolute left-1/2 top-4 hidden h-8 w-auto -translate-x-1/2 opacity-30 sm:block"
         />
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
@@ -1233,7 +1473,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {/* Active Poll — side-channel polls render inside Crew Radio instead */}
       {activePoll && !hiddenPollIds.has(activePoll.pollId) && activePoll.metadata?.channel !== 'side' && (
-        <div className={`glass rounded-2xl p-6 mb-4 ${activePoll.metadata?.poll_type === 'bonus_vote' ? 'border border-cyan-500/30' : ''}`}>
+        <div className={`glass mb-3 rounded-2xl p-4 sm:mb-4 sm:p-6 ${activePoll.metadata?.poll_type === 'bonus_vote' ? 'border border-cyan-500/30' : ''}`}>
           <div className="flex items-center justify-between mb-1">
             <h2 className="font-bold text-white">
               {activePoll.metadata?.poll_type === 'bonus_vote' ? 'Bonus Round! Vote for your game:' : 'Poll'}
@@ -1249,15 +1489,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             )}
           </div>
           {activePoll.metadata?.poll_type !== 'bonus_vote' && (
-            <p className="text-lg text-cyan-400 mb-4">{activePoll.question}</p>
+            <p className="mb-3 text-base text-cyan-400 sm:mb-4 sm:text-lg">{activePoll.question}</p>
           )}
           <div className="space-y-2">
             {activePoll.options.map((option) => (
               <button
                 key={option}
                 onClick={() => handleVote(option)}
-                disabled={isVoting}
-                className={`w-full p-4 rounded-xl text-left font-medium transition-all ${
+                disabled={isVoting || submittedPollIds.has(activePoll.pollId)}
+                className={`w-full rounded-xl p-3 text-left font-medium transition-all sm:p-4 ${
                   selectedChoice === option
                     ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
                     : activePoll.metadata?.poll_type === 'bonus_vote'
@@ -1269,8 +1509,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               </button>
             ))}
           </div>
-          {selectedChoice && activePoll.metadata?.poll_type === 'bonus_vote' && (
-            <p className="text-xs text-cyan-400 text-center mt-3">Voted for {selectedChoice} ✓</p>
+          {selectedChoice && submittedPollIds.has(activePoll.pollId) && (
+            <p className="text-xs text-cyan-400 text-center mt-3">
+              {activePoll.metadata?.poll_type === 'bonus_vote'
+                ? `Voted for ${selectedChoice} ✓`
+                : `Vote submitted: ${selectedChoice} ✓`}
+            </p>
           )}
         </div>
       )}
@@ -1339,7 +1583,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       })()}
 
       {/* Current Signal */}
-      <div className={`rounded-2xl p-5 mb-4 border transition-all ${
+      <div className={`mb-3 rounded-2xl border p-4 transition-all sm:mb-4 sm:p-5 ${
         inputSpec
           ? 'bg-slate-950/70 border-cyan-400/25 shadow-[0_0_32px_rgba(34,211,238,0.09)]'
           : 'bg-white/5 border-white/10'
@@ -1426,7 +1670,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             </>
           ) : (
             <>
-              <div className="mb-4 flex items-start justify-between gap-3">
+              <div className="mb-3 flex items-start justify-between gap-3 sm:mb-4">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <Radio className="h-4 w-4 text-cyan-300" />
@@ -1462,6 +1706,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 </div>
               )}
               <DynamicInput
+                key={inputSpecRevisionRef.current ?? getInputSpecRevision(inputSpec)}
                 spec={inputSpec}
                 onSubmit={handleSubmit}
                 isSubmitting={isSubmitting}
@@ -1471,6 +1716,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 displayName={studentSession.displayName}
                 studentId={studentSession.studentId}
                 clockOffsetMs={clockOffsetMs}
+                initialResponse={currentResponse && currentResponse.roundId === inputSpec.roundId
+                  ? currentResponse.choice
+                  : null}
               />
             </>
           )
@@ -1532,6 +1780,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             )}
             {/* English Spotlight tip card */}
             {(() => {
+              if (allTips.length === 0) return null;
               const tip = allTips[tipIndex % allTips.length];
               return (
                 <div

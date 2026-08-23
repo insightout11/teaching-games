@@ -5,6 +5,10 @@ import { useSessionStore } from '@/stores/session-store';
 import { useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import { countsForLeaderboard, isCorrectScore } from '@/lib/scoring-reporting';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
+import {
+  resolveClassStatusSummary,
+  type ActivityParticipationMetrics,
+} from '@/lib/activity-participation';
 
 interface LeaderboardEntry {
   studentId: string;
@@ -30,7 +34,13 @@ const FALLBACK_TEAM_PALETTE = [
   { bg: 'bg-orange-500/10', border: 'border-orange-500/30', text: 'text-orange-400' },
 ];
 
-export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'class' | 'team' | 'competitive' }) {
+export function Leaderboard({
+  displayMode = 'competitive',
+  activityParticipation = null,
+}: {
+  displayMode?: 'class' | 'team' | 'competitive';
+  activityParticipation?: ActivityParticipationMetrics | null;
+}) {
   const students = useSessionStore((s) => s.students);
   const scores = useSessionStore((s) => s.scores);
   const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
@@ -115,8 +125,13 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
   const sessionSummary = useMemo(() => {
     const leaderboardScores = scores.filter(countsForLeaderboard);
     const ids = new Set(leaderboardScores.map(sc => sc.student_id || sc.client_id).filter(Boolean));
-    return { participated: ids.size, total: students.length, responseCount: leaderboardScores.length };
-  }, [scores, students]);
+    return resolveClassStatusSummary({
+      studentCount: students.length,
+      scoredParticipantCount: ids.size,
+      scoredResponseCount: leaderboardScores.length,
+      currentActivity: activityParticipation,
+    });
+  }, [activityParticipation, scores, students]);
 
   const prevTotals = useRef<Map<string, number>>(new Map());
   const isFirstRender = useRef(true);
@@ -174,7 +189,9 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="font-semibold text-sm uppercase tracking-wider text-[10px] text-lc-text3">Class Status</h3>
-          <p className="mt-1 text-xs text-lc-text3">Picker, progress, and scores</p>
+          <p className="mt-1 text-xs text-lc-text3">
+            {sessionSummary.source === 'current-activity' ? 'Current round participation' : 'Lesson-to-date scored activity'}
+          </p>
         </div>
         <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cyan-200">
           {displayMode}
@@ -213,18 +230,18 @@ export function Leaderboard({ displayMode = 'competitive' }: { displayMode?: 'cl
           <p className="mt-1 text-lg font-game text-white">{sessionSummary.total}</p>
         </div>
         <div className="rounded-xl border border-white/10 bg-white/[0.035] p-2">
-          <p className="text-[9px] uppercase tracking-wider text-lc-text3">Active</p>
+          <p className="text-[9px] uppercase tracking-wider text-lc-text3">{sessionSummary.source === 'current-activity' ? 'This round' : 'Scored students'}</p>
           <p className="mt-1 text-lg font-game text-white">{sessionSummary.participated}</p>
         </div>
         <div className="rounded-xl border border-white/10 bg-white/[0.035] p-2">
-          <p className="text-[9px] uppercase tracking-wider text-lc-text3">Responses</p>
+          <p className="text-[9px] uppercase tracking-wider text-lc-text3">{sessionSummary.source === 'current-activity' ? 'Round votes' : 'Lesson responses'}</p>
           <p className="mt-1 text-lg font-game text-white">{sessionSummary.responseCount}</p>
         </div>
       </div>
 
       {sessionSummary.responseCount === 0 && (
         <p className="rounded-xl border border-white/10 bg-white/[0.025] px-3 py-2 text-xs text-lc-text3">
-          Waiting for responses.
+          {sessionSummary.source === 'current-activity' ? 'Waiting for current activity responses.' : 'Waiting for scored responses.'}
         </p>
       )}
 

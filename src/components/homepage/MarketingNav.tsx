@@ -44,6 +44,9 @@ export function MarketingNav() {
           <Link href="/pro" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
             Pricing
           </Link>
+          <Link href="/beta" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+            Teacher beta
+          </Link>
         </nav>
 
         <Link

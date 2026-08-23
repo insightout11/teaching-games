@@ -18,9 +18,11 @@ interface DynamicInputProps {
   studentId?: string | null;
   /** Server clock minus local clock (ms), measured by the session poll. Feeds timed inputs. */
   clockOffsetMs?: number;
+  /** Persisted response for the current round, restored during cold hydration. */
+  initialResponse?: string | null;
 }
 
-export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs }: DynamicInputProps) {
+export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs, initialResponse }: DynamicInputProps) {
   switch (spec.type) {
     case 'text':
       return <TextInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clockOffsetMs={clockOffsetMs} />;
@@ -32,9 +34,9 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
           key={`${spec.prompt ?? ''}::${(spec.options || []).join('|')}`}
           spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} studentId={studentId} clockOffsetMs={clockOffsetMs} />;
       }
-      return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} displayName={displayName} />;
+      return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} displayName={displayName} initialResponse={initialResponse} />;
     case 'binary':
-      return <BinaryInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} />;
+      return <BinaryInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} initialResponse={initialResponse} />;
     case 'multi-select':
       return <MultiSelectInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'sequence':
@@ -167,7 +169,7 @@ function SubmitStatus({ status, waitSeconds }: { status: 'idle' | 'success' | 'e
   if (status === 'idle') return null;
   return (
     <div className="text-sm mt-2">
-      {status === 'success' && <span className="text-emerald-400">Signal sent</span>}
+      {status === 'success' && <span className="font-medium text-emerald-400">Response submitted ✓</span>}
       {status === 'error' && <span className="text-red-400">Signal failed</span>}
       {status === 'rate_limited' && <span className="text-yellow-400">Stand by {waitSeconds}s...</span>}
     </div>
@@ -584,8 +586,9 @@ const QUIZ_COLORS = [
 ];
 const QUIZ_LABELS = ['A', 'B', 'C', 'D'];
 
-function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId, clockOffsetMs }: DynamicInputProps) {
+function QuizChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, clientId, studentId, clockOffsetMs }: DynamicInputProps) {
   const [submitted, setSubmitted] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const { timeLeft, isExpired, timerSeconds, answersOpen, opensIn } = useInputTimer(spec, submitted, clockOffsetMs);
 
   // Sector Strike team gating: only the active team answers; the defending team watches the board.
@@ -600,8 +603,16 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId, cl
   const isLocked = myData?.locked === true || submitted;
   const result = myData?.result;
 
+  useEffect(() => {
+    if (submitStatus === 'error') {
+      setSubmitted(false);
+      setSelectedIndex(null);
+    }
+  }, [submitStatus]);
+
   const handlePick = useCallback(async (index: number) => {
     if (isSubmitting || isLocked || isExpired || !answersOpen) return;
+    setSelectedIndex(index);
     setSubmitted(true);
     await onSubmit(String(index));
   }, [isSubmitting, isLocked, isExpired, answersOpen, onSubmit]);
@@ -647,7 +658,12 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId, cl
     return (
       <div className="flex flex-col items-center gap-3 py-6 text-center">
         <div className="text-3xl">✓</div>
-        <p className="text-green-400 font-bold text-lg">Locked in!</p>
+        <p className="text-green-400 font-bold text-lg">Vote submitted ✓</p>
+        {selectedIndex !== null && (
+          <p className="text-white font-semibold">
+            {QUIZ_LABELS[selectedIndex]} — {spec.options?.[selectedIndex]}
+          </p>
+        )}
         <p className="text-lc-text2 text-sm">Waiting for others…</p>
       </div>
     );
@@ -666,16 +682,16 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId, cl
       )}
       <TimerBar timeLeft={timeLeft} timerSeconds={timerSeconds} />
       {/* 2×2 answer grid */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 min-[390px]:grid-cols-2">
         {(spec.options ?? []).slice(0, 4).map((option, i) => (
           <button
             key={i}
             onClick={() => handlePick(i)}
             disabled={isSubmitting || isExpired}
-            className={`${QUIZ_COLORS[i]} text-white rounded-xl p-4 text-left shadow-lg transition-all disabled:opacity-40 active:scale-95`}
+            className={`${QUIZ_COLORS[i]} min-h-16 touch-manipulation whitespace-normal break-words text-white rounded-xl p-4 text-left shadow-lg transition-all disabled:opacity-40 active:scale-95`}
           >
             <div className="text-xs font-black uppercase tracking-widest opacity-70 mb-1">{QUIZ_LABELS[i]}</div>
-            <div className="text-sm font-semibold leading-snug">{option}</div>
+            <div className="text-sm font-semibold leading-snug sm:text-base">{option}</div>
           </button>
         ))}
       </div>
@@ -684,20 +700,24 @@ function QuizChoiceInput({ spec, onSubmit, isSubmitting, clientId, studentId, cl
 }
 
 // Multiple choice (pick one)
-function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, displayName }: DynamicInputProps) {
-  const [selected, setSelected] = useState<string | null>(null);
+function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, displayName, initialResponse }: DynamicInputProps) {
+  const [selected, setSelected] = useState<string | null>(initialResponse ?? null);
   const [writeInMode, setWriteInMode] = useState(false);
   const [writeInText, setWriteInText] = useState('');
 
+  useEffect(() => {
+    if (initialResponse) setSelected(initialResponse);
+  }, [initialResponse]);
+
   const submitValue = writeInMode ? writeInText.trim() : selected;
-  const canSubmit = !!submitValue && !isSubmitting && submitStatus !== 'rate_limited';
+  const canSubmit = !!submitValue
+    && !isSubmitting
+    && submitStatus !== 'rate_limited'
+    && submitStatus !== 'success';
 
   const handleSubmit = useCallback(async () => {
     if (!submitValue || isSubmitting) return;
     await onSubmit(submitValue);
-    setSelected(null);
-    setWriteInMode(false);
-    setWriteInText('');
   }, [submitValue, isSubmitting, onSubmit]);
 
   const isSpeaker =
@@ -726,7 +746,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
             <button
               key={index}
               onClick={() => setSelected(option)}
-              disabled={isSubmitting}
+              disabled={isSubmitting || submitStatus === 'success'}
               className={`w-full p-4 rounded-xl text-left transition-all ${
                 selected === option
                   ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
@@ -739,7 +759,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
           {spec.allowWriteIn && (
             <button
               onClick={() => { setSelected(null); setWriteInMode(true); }}
-              disabled={isSubmitting}
+              disabled={isSubmitting || submitStatus === 'success'}
               className="w-full p-4 rounded-xl text-left transition-all bg-lc-surface text-lc-text2 hover:bg-lc-card border border-dashed border-lc-border disabled:opacity-50"
             >
               ✏️ Write your own…
@@ -776,7 +796,7 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
           disabled={!canSubmit}
           className="bg-gradient-to-r from-cyan-500 to-blue-600"
         >
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+          {isSubmitting ? 'Submitting...' : submitStatus === 'success' ? 'Submitted' : 'Submit'}
         </Button>
       </div>
     </div>
@@ -784,13 +804,29 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
 }
 
 // Binary choice (A or B)
-function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }: DynamicInputProps) {
+function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, initialResponse }: DynamicInputProps) {
   const labels = useMemo(() => spec.optionLabels || ['A', 'B'], [spec.optionLabels]);
   const options = spec.options || labels;
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(() => {
+    if (!initialResponse) return null;
+    const index = labels.indexOf(initialResponse);
+    return index >= 0 ? index : null;
+  });
+
+  useEffect(() => {
+    if (!initialResponse) return;
+    const index = labels.indexOf(initialResponse);
+    if (index >= 0) setSelectedIndex(index);
+  }, [initialResponse, labels]);
+
+  useEffect(() => {
+    if (submitStatus === 'error') setSelectedIndex(null);
+  }, [submitStatus]);
 
   // Send the LABEL (A/B), not the full option text
   const handleChoice = useCallback(async (index: number) => {
     if (isSubmitting) return;
+    setSelectedIndex(index);
     await onSubmit(labels[index]);
   }, [isSubmitting, onSubmit, labels]);
 
@@ -804,11 +840,21 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds }
           <button
             key={index}
             onClick={() => handleChoice(index)}
-            disabled={isSubmitting || submitStatus === 'rate_limited'}
-            className="p-6 rounded-2xl bg-lc-surface border border-lc-border hover:border-cyan-500/50 hover:bg-lc-card transition-all text-lc-text font-bold text-xl disabled:opacity-50"
+            disabled={isSubmitting || submitStatus === 'rate_limited' || submitStatus === 'success'}
+            className={`p-6 rounded-2xl border transition-all font-bold text-xl disabled:opacity-70 ${
+              selectedIndex === index
+                ? 'border-cyan-400 bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                : 'border-lc-border bg-lc-surface text-lc-text hover:border-cyan-500/50 hover:bg-lc-card'
+            }`}
           >
-            <div className="text-3xl mb-2">{labels[index]}</div>
-            <div className="text-sm opacity-80">{option}</div>
+            {option === labels[index] ? (
+              <div className="text-3xl">{option}</div>
+            ) : (
+              <>
+                <div className="text-3xl mb-2">{labels[index]}</div>
+                <div className="text-sm opacity-80">{option}</div>
+              </>
+            )}
           </button>
         ))}
       </div>

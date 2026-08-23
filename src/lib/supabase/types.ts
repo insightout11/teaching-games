@@ -3,6 +3,7 @@ import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investi
 import type { WorldFlightExpeditionSnapshot, WorldFlightExpeditionStatus } from '@/lib/world-flight/expeditions';
 import type { WorldFlightRewardSnapshot } from '@/lib/world-flight/progression';
 import type { DesignStudioBrief, DesignStudioState } from '@/activities/types';
+import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
 
 export interface Teacher {
   id: string;
@@ -54,6 +55,7 @@ export interface Session {
   topic?: string;
   difficulty?: string;
   custom_topic?: string | null;
+  lesson_plan_content?: LessonPlanPayload | null;
   world_flight_context?: WorldFlightSessionContext | null;
   world_flight_design_mission_context?: WorldFlightDesignMissionContext | null;
 }

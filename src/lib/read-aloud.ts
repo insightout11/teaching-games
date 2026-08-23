@@ -44,7 +44,14 @@ export function splitReadingTurns(
 ): string[] {
   const cleaned = text.replace(/\*([^*]+)\*/g, '$1').replace(/\r/g, '').trim();
   if (!cleaned) return [];
-  const wordCap = Math.max(MIN_TARGET_WORDS, maxWordsPerTurn);
+  const totalWords = wordCount(cleaned);
+  // A solo reader should not tap through sentence-sized micro-turns. Give one
+  // learner roughly three meaningful passages while retaining the authored cap
+  // for pairs and larger classes.
+  const soloWordCap = studentCount <= 1
+    ? Math.min(48, Math.max(maxWordsPerTurn, Math.ceil(totalWords / 3)))
+    : maxWordsPerTurn;
+  const wordCap = Math.max(MIN_TARGET_WORDS, soloWordCap);
 
   // Standard and advanced readers keep sentences intact. Easy readers get one
   // additional guardrail: oversized sentences can become phrase-sized turns so
@@ -57,7 +64,6 @@ export function splitReadingTurns(
 
   if (sentences.length === 0) return [];
 
-  const totalWords = wordCount(cleaned);
   const classTargetWords = studentCount > 0 ? Math.ceil(totalWords / studentCount) : wordCap;
   const targetWords = Math.min(wordCap, Math.max(MIN_TARGET_WORDS, classTargetWords));
   const turns: string[] = [];

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { DM_Serif_Display, Source_Serif_4, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from "next-themes";
@@ -56,6 +56,12 @@ export const metadata: Metadata = {
   ...(process.env.SITE_NOINDEX === "1"
     ? { robots: { index: false, follow: false, nocache: true } }
     : {}),
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 };
 
 const websiteJsonLd = {

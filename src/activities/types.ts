@@ -1,9 +1,10 @@
 import { ComponentType } from 'react';
 import type { Student } from '@/lib/supabase/types';
 import type { SessionSettings } from '@/stores/session-store';
-import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
+import type { ActivityInstanceIdentity, InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { ScoreOutcome, ScoringProfile } from '@/lib/score-engine';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
+import type { ActivityParticipationMetrics } from '@/lib/activity-participation';
 
 // Activity categories
 export type ActivityCategory = 'icebreaker' | 'learning' | 'practice' | 'debate' | 'closing';
@@ -36,11 +37,13 @@ export interface ActivityProps {
   // Custom topic (if using lesson planner mode)
   customTopic?: string;
   // Input spec system - activities set this to tell student controllers what input to show
-  onSetInputSpec?: (spec: InputSpec | null) => void;
+  onSetInputSpec?: (spec: InputSpec | null, activityInstanceIdentity?: ActivityInstanceIdentity | null) => void;
   // Submission handler - activities register this to evaluate approved submissions
   onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
   // Remote vote handler - register to receive votes from remote students in real-time
   onRegisterRemoteVoteHandler?: (handler: ((vote: RemoteVote) => void) | null) => void;
+  // Current activity participation for unscored local mechanics such as binary votes.
+  onParticipationChange?: (metrics: ActivityParticipationMetrics | null) => void;
   // Score writing - activities pass promptIndex; use outcome for V2 classification
   onScore?: (request: {
     studentId: string | null;
@@ -77,6 +80,8 @@ export interface RemoteVote {
   inputType: string;
   /** Resources the student selected alongside their text (problem-solvers) */
   resourcesUsed?: string[];
+  /** Stable identity for a question within a multi-round activity. */
+  roundId?: string;
 }
 
 // Plugin definition for an activity
@@ -100,6 +105,8 @@ export interface ActivityPlugin {
   scoringProfile?: ScoringProfile;
   /** Minimum roster size for the activity to function correctly (not just "doesn't crash" — the core mechanic needs this many roles/participants). 1 = fully solo-capable. */
   minStudents: number;
+  /** Optional hard upper bound. Omit when there is no maximum. */
+  maxStudents?: number | null;
   /** Roster size range where the activity's design intent is best realized. Not a hard limit — used for honest fit labels, not gating. `max: null` means no practical ceiling. */
   idealStudents: { min: number; max: number | null };
   /** True only if the whole activity can be run with everyone on one projected screen and verbal answers — the teacher operates every input from the shared display, no student device required. Judge conservatively from the activity's actual input mechanics. */

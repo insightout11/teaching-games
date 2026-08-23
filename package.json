@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "beta:export": "node --env-file=.env.local --import tsx scripts/export-beta-participants.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "prewarm": "tsx scripts/nightly-prewarm.ts",

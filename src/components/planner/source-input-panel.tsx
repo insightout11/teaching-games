@@ -9,6 +9,7 @@ import { TextLibraryModal } from './text-library-modal';
 import { CheckCircle2, Compass, FileText, Film, Library, Link2, Sparkles, UploadCloud, X } from 'lucide-react';
 import type { SourceBriefingMode, SourceBriefingOption, SourceMaterial } from '@/types/source-material';
 import { recommendSources, type LibraryRecommendation } from '@/lib/source-library';
+import { preparePastedSource } from '@/lib/pasted-source';
 
 type Tab = 'video' | 'text' | 'upload';
 type SourceExtractResponse = SourceMaterial & {
@@ -210,6 +211,8 @@ export function SourceInputPanel() {
   const [activeTab, setActiveTab] = useState<Tab>('video');
   const [videoPayload, setVideoPayload] = useState('');
   const [textPayload, setTextPayload] = useState('');
+  const [textTitle, setTextTitle] = useState('');
+  const [textTitleEdited, setTextTitleEdited] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showTedModal, setShowTedModal] = useState(false);
@@ -296,14 +299,14 @@ export function SourceInputPanel() {
     setTopic('');
   }
 
-  async function process(type: string, value: string) {
+  async function process(type: string, value: string, title?: string) {
     setProcessing(true);
     setError(null);
     try {
       const res = await fetch('/api/source/extract', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, payload: value }),
+        body: JSON.stringify({ type, payload: value, ...(title?.trim() ? { title: title.trim() } : {}) }),
       });
       const data = await res.json() as SourceExtractResponse;
       if (!res.ok) {
@@ -317,6 +320,8 @@ export function SourceInputPanel() {
       commitMaterial(buildSourceMaterial(data));
       setVideoPayload('');
       setTextPayload('');
+      setTextTitle('');
+      setTextTitleEdited(false);
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -746,9 +751,29 @@ export function SourceInputPanel() {
                     <span className="text-xs text-lc-text3">or paste your own text</span>
                     <div className="flex-1 h-px bg-lc-border" />
                   </div>
+                  <label className="block space-y-1">
+                    <span className="text-xs font-medium text-lc-text2">Source title <span className="font-normal text-lc-text3">(optional)</span></span>
+                    <input
+                      type="text"
+                      value={textTitle}
+                      onChange={(event) => { setTextTitle(event.target.value); setTextTitleEdited(true); setError(null); }}
+                      disabled={processing}
+                      maxLength={120}
+                      placeholder="Detected from a short first line, or enter your own"
+                      className="w-full rounded-lg border border-lc-border bg-lc-bg px-3 py-2 text-sm text-lc-text placeholder-lc-text3 focus:border-lc-blue focus:ring-1 focus:ring-lc-blue-glow disabled:opacity-60"
+                    />
+                  </label>
                   <textarea
                     value={textPayload}
-                    onChange={(e) => { setTextPayload(e.target.value); setError(null); }}
+                    onChange={(e) => {
+                      const nextText = e.target.value;
+                      setTextPayload(nextText);
+                      if (!textTitleEdited) {
+                        const detected = preparePastedSource(nextText);
+                        setTextTitle(detected.detectedTitle ? detected.title : '');
+                      }
+                      setError(null);
+                    }}
                     disabled={processing}
                     placeholder="Paste article text, lesson notes, lyrics, or any content (min 50 characters)…"
                     rows={4}
@@ -756,7 +781,7 @@ export function SourceInputPanel() {
                   />
                   {error && <p className="text-xs text-red-400">{error}</p>}
                   <button
-                    onClick={() => process('text', textPayload)}
+                    onClick={() => process('text', textPayload, textTitle)}
                     disabled={processing || textPayload.trim().length < 50}
                     className="w-full rounded-lg bg-lc-blue py-2 text-sm font-semibold text-white hover:bg-lc-blue-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >

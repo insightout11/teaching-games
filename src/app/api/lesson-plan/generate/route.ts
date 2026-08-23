@@ -10,6 +10,10 @@ const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions, languageRule } from '@/lib/difficulty';
 import {
+  generateValidatedWouldYouRather,
+  type RawWouldYouRatherContent,
+} from '@/lib/would-you-rather-generation';
+import {
   generateFinalAnswer,
   generateMicDrop,
   generateOpinionShift,
@@ -74,6 +78,9 @@ import { generateMissionSelectorContent } from '@/lib/generate-mission-selector'
 import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/content-cache';
 import type { SourceMaterial } from '@/types/source-material';
 import { buildSourceContext, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
+import { normalizePastedSourceMaterial } from '@/lib/pasted-source';
+import { buildSourceGroundingContract, type SourceGroundingContract } from '@/lib/source-grounding';
+import { generateGroundedRankIt } from '@/lib/rank-it-generation';
 import { buildCourseContinuityPrompt } from '@/lib/course-context';
 import { getReadingTurnWordTarget } from '@/lib/read-aloud';
 import tedLibrary from '@/data/ted-library.json';
@@ -121,58 +128,12 @@ function pppContextBlock(stage: 'presentation' | 'practice' | 'production'): str
 // ============================================
 
 async function generateWouldYouRather(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<WouldYouRatherContent> {
-  const schema: AISchema = {
-    type: 'object',
-    properties: {
-      dilemmas: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            id: { type: 'string' },
-            optionA: { type: 'string' },
-            optionB: { type: 'string' },
-            discussionPrompt: { type: 'string' },
-          },
-          required: ['id', 'optionA', 'optionB', 'discussionPrompt'],
-        },
-      },
-      potentialFollowUps: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            dilemmaId: { type: 'string' },
-            questions: { type: 'array', items: { type: 'string' } },
-          },
-          required: ['dilemmaId', 'questions'],
-        },
-      },
-    },
-    required: ['dilemmas', 'potentialFollowUps'],
-  };
-
-  const prompt = `LANGUAGE RULE (follow strictly, even if the source below is more advanced): ${difficultyDescriptions[difficulty]}
-
-Generate 5 "Would You Rather?" dilemmas for an ESL classroom.
-Topic: ${topic}
-${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}
-Each dilemma needs two options (both appealing OR both unappealing), a discussion prompt, and 3 follow-up questions.
-- Each option is ONE short, plain sentence (aim ≤14 words) in everyday words. Rewrite any source ideas simply — no long academic clauses, no abstract nominalizations ("the preservation of...", "reduce present-day harm").
-Return JSON with 'dilemmas' array and 'potentialFollowUps' array (each with dilemmaId and questions).`;
-
-  const parsed = await generateJSON<{ dilemmas: WouldYouRatherContent['dilemmas']; potentialFollowUps: Array<{ dilemmaId: string; questions: string[] }> }>(prompt, schema);
-
-  const followUpsRecord: Record<string, string[]> = {};
-  if (Array.isArray(parsed.potentialFollowUps)) {
-    for (const item of parsed.potentialFollowUps) {
-      if (item.dilemmaId && Array.isArray(item.questions)) {
-        followUpsRecord[item.dilemmaId] = item.questions;
-      }
-    }
-  }
-
-  return { activityKey: 'would-you-rather', topicContext: topic, dilemmas: parsed.dilemmas, potentialFollowUps: followUpsRecord };
+  return generateValidatedWouldYouRather({
+    topic,
+    difficulty,
+    context: `${pppContextBlock('practice')}${missionContextBlock(missionContext)}${sourceContext}`,
+    generate: (prompt, schema) => generateJSON<RawWouldYouRatherContent>(prompt, schema),
+  });
 }
 
 async function generateHotTakeArena(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<HotTakeArenaContent> {
@@ -347,7 +308,13 @@ Mix difficulty levels (easy/medium/hard).`;
   return { activityKey: 'two-truths', topicContext: topic, rounds: parsed.rounds };
 }
 
-async function generateRankIt(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<RankItContent> {
+async function generateRankIt(
+  topic: string,
+  difficulty: Difficulty,
+  missionContext?: string[],
+  sourceContext = '',
+  groundingContract: SourceGroundingContract | null = null,
+): Promise<RankItContent> {
   const schema: AISchema = {
     type: 'object',
     properties: {
@@ -389,8 +356,13 @@ Each challenge: a ranking prompt about "${topic}", with 4-5 items (all about "${
 Example shape (do NOT copy the subject — use "${topic}" instead): "Rank these X by Y" where X and Y come from "${topic}".
 CORRECT ORDER (optional, per challenge): If — and only if — the challenge has a genuinely factual/objective ideal order (e.g. ranking by a measurable, verifiable quantity like size, date, distance, or population), include "correctOrder" as the item ids in that ideal order, plus a one-line "correctRationale". For subjective/opinion prompts (preferences, "most important", "best"), OMIT both fields entirely so the challenge stays open-ended.`;
 
-  const parsed = await generateJSON<{ challenges: RankItContent['challenges'] }>(prompt, schema);
-  return { activityKey: 'rank-it', topicContext: topic, challenges: parsed.challenges };
+  return generateGroundedRankIt({
+    topic,
+    prompt,
+    schema,
+    contract: groundingContract,
+    generate: (nextPrompt, nextSchema) => generateJSON<{ challenges: RankItContent['challenges'] }>(nextPrompt, nextSchema),
+  });
 }
 
 async function generateFactDetective(topic: string, difficulty: Difficulty, missionContext?: string[], sourceContext = ''): Promise<FactDetectiveContent> {
@@ -996,7 +968,8 @@ ${languageRule(difficulty)}
 ${sourceContext}
 ${sourceInstruction}
 Each question should:
-- Present a surprising or debatable claim about the topic that students can predict on before being taught
+- Present a surprising, specific factual claim about the topic that students can predict on before being taught
+- Be objectively verifiable: never use an opinion, value judgment, interpretation, or claim whose truth depends on perspective
 - Use True/False format (optionA: "True", optionB: "False") or a binary either/or (e.g. "More" vs "Less")
 - Have a clear correct answer
 - Include a short, interesting revealFact (1–2 sentences) explaining the answer
@@ -1007,7 +980,13 @@ Return JSON with a "questions" array of exactly 3 objects with: text, optionA, o
 
   const parsed = await generateJSON<{ questions: Array<{ text: string; optionA: string; optionB: string; correctAnswer: string; revealFact: string }> }>(prompt, schema);
 
-  const fallback = { text: 'Did you know something surprising about this topic?', optionA: 'True', optionB: 'False', correctAnswer: 'A' as const, revealFact: 'Many things about this topic are surprising.' };
+  const fallback = {
+    text: "Which option names today's lesson topic?",
+    optionA: topic || 'General',
+    optionB: 'A different topic',
+    correctAnswer: 'A' as const,
+    revealFact: `Today's lesson topic is ${topic || 'General'}.`,
+  };
 
   return {
     activityKey: 'prediction-round',
@@ -2501,11 +2480,12 @@ export async function POST(request: NextRequest) {
       missionContext,
       grammarTarget,
       taskRoleplay,
-      sourceMaterial,
       needsSourceVocab,
       sourceVocab: sourceVocabFromRequest,
       courseContext,
     } = body;
+
+    const sourceMaterial = normalizePastedSourceMaterial(body.sourceMaterial);
 
     // Fetch real transcript from DB — used by ALL generators, not just checkpoints
     const sourceRawTranscript = await fetchSourceTranscript(sourceMaterial);
@@ -2524,6 +2504,7 @@ export async function POST(request: NextRequest) {
       (standardTopicId && isValidStandardTopicId(standardTopicId)
         ? getStandardTopicLabel(standardTopicId)
         : '');
+    const sourceGrounding = buildSourceGroundingContract(sourceMaterial, customTopic, sourceRawTranscript);
 
     // Auth only (credits are consumed at session creation, not per generation)
     const { error: authError } = await requireAuthForGeneration();
@@ -2624,7 +2605,7 @@ export async function POST(request: NextRequest) {
             generators.push(Promise.resolve().then(() => { content[activityKey] = { activityKey, topicContext: customTopic }; }));
             break;
           case 'rank-it':
-            generators.push(generateRankIt(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(generateRankIt(customTopic, diff, missionContext, sourceCtx, sourceGrounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'fact-detective':
             generators.push(generateFactDetective(customTopic, diff, missionContext, sourceCtx).then((r) => { content[activityKey] = r; }));

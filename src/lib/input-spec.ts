@@ -20,6 +20,8 @@ export type InputType =
   | 'debate-prep';   // Team Debate prep board — add points to your team's live list
 
 export interface InputSpec {
+  /** Server timestamp for when this prompt version became canonical. */
+  publishedAt?: number;
   type: InputType;
   gameKey: string;           // Which game/activity this is for
   prompt?: string;           // Instructions shown to student, e.g., "Type your replacement word"
@@ -74,6 +76,12 @@ export interface InputSpec {
   sessionId?: string;
   /** Stable round identifier for structured multi-round inputs such as geo-point. */
   roundId?: string;
+  /** Stable identity for one run of a multi-step activity. A restart must use a new value. */
+  activityInstanceId?: string;
+  /** Client-created epoch for ordering separate runs of the same activity. */
+  activityInstanceStartedAt?: number;
+  /** Monotonic step within an activity instance (for example Quick Pulse prompt index). */
+  activitySequence?: number;
   /** Class Board: stable board namespace for the current activity/session. */
   boardKey?: string;
   /** Class Board: title shown on student and teacher board surfaces. */
@@ -142,6 +150,36 @@ export interface InputSpecRealtimePayload {
   spec: InputSpec | null;
   inputSpecRevision: string;
   serverNow: number;
+  /** Retained for clear events so delayed previous-instance events can be rejected. */
+  activityInstanceIdentity?: ActivityInstanceIdentity | null;
+}
+
+export interface ActivityInstanceIdentity {
+  id: string;
+  startedAt: number;
+  sequence: number;
+}
+
+export function getActivityInstanceIdentity(spec: InputSpec | null | undefined): ActivityInstanceIdentity | null {
+  if (!spec?.activityInstanceId || typeof spec.activityInstanceStartedAt !== 'number') {
+    return null;
+  }
+  return {
+    id: spec.activityInstanceId,
+    startedAt: spec.activityInstanceStartedAt,
+    sequence: typeof spec.activitySequence === 'number' ? spec.activitySequence : 0,
+  };
+}
+
+/** Prefer newer activity runs, then newer prompts within the same run. */
+export function shouldApplyActivityInstanceUpdate(
+  current: ActivityInstanceIdentity | null,
+  incoming: ActivityInstanceIdentity | null,
+): boolean {
+  if (!incoming || !current) return true;
+  if (incoming.id === current.id) return incoming.sequence >= current.sequence;
+  if (incoming.startedAt !== current.startedAt) return incoming.startedAt > current.startedAt;
+  return incoming.id > current.id;
 }
 
 export function inputSpecChannelName(sessionId: string): string {
@@ -172,8 +210,15 @@ export function getInputSpecRevision(spec: unknown): string {
   return (hash >>> 0).toString(36);
 }
 
-/** Grace window between a timed spec's broadcast and answers opening (teacher 3-2-1 beat + student "Get ready"). */
-export const ANSWERS_OPEN_GRACE_MS = 4000;
+/** Grace window between a timed spec's broadcast and answers opening (one synchronized 3-2-1 beat). */
+export const ANSWERS_OPEN_GRACE_MS = 3000;
+
+/** Brief visual handoff for untimed prompts. Timed prompts use their synchronized gate instead. */
+export const UNTIMED_SIGNAL_TRANSITION_MS = 350;
+
+export function getStudentSignalTransitionMs(spec: InputSpec): number {
+  return (spec.timerSeconds ?? 0) > 0 ? 0 : UNTIMED_SIGNAL_TRANSITION_MS;
+}
 
 /**
  * Server-side stamping for timed specs (input-spec API only). Replaces the game's

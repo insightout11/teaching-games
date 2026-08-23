@@ -12,13 +12,15 @@ import type {
   ActivityContinueResponse,
   RemoteVote,
 } from '@/activities/types';
-import type { InputSpec, SubmissionHandler } from '@/lib/input-spec';
+import type { ActivityInstanceIdentity, InputSpec, SubmissionHandler } from '@/lib/input-spec';
 import type { Score } from '@/lib/supabase/types';
 import { Leaderboard } from './leaderboard';
 import { ApprovalQueue } from './approval-queue';
 import { MissionControlSummary } from './mission-control-summary';
 import type { StudentSubmission } from '@/lib/supabase/types';
 import { createClient } from '@/lib/supabase/client';
+import type { ActivityParticipationMetrics } from '@/lib/activity-participation';
+import { getScoreReconcileDelay, markScoreDelivered } from '@/lib/activity-score-reconciliation';
 
 interface ActivityShellProps {
   activity: ActivityPlugin;
@@ -54,8 +56,11 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const landingAnswers = useSessionStore((s) => s.landingAnswers);
   const addLandingAnswer = useSessionStore((s) => s.addLandingAnswer);
   const [currentPhase, setCurrentPhase] = useState<string>('idle');
+  const studentInputOpenRef = useRef(false);
+  const reconcileNowRef = useRef<(() => void) | null>(null);
   const [showMissionSummary, setShowMissionSummary] = useState(false);
   const [autoApprove, setAutoApprove] = useState(false);
+  const [activityParticipation, setActivityParticipation] = useState<ActivityParticipationMetrics | null>(null);
   const submissionHandlerRef = useRef<SubmissionHandler | null>(null);
   const remoteVoteHandlerRef = useRef<((vote: RemoteVote) => void) | null>(null);
   const supabase = createClient();
@@ -88,7 +93,59 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   useEffect(() => {
     if (!sessionId) return;
 
-    // Subscribe to scores to capture remote votes
+    const deliveredScoreIds = new Set<string>();
+    const deliverScore = (score: Score) => {
+      if (!markScoreDelivered(deliveredScoreIds, score.id)) return;
+      const responseData = score.response_data as Record<string, unknown> | null;
+      if (responseData?.type === 'remote_vote' && responseData?.gameKey === activity.key) {
+        remoteVoteHandlerRef.current?.({
+          clientId: score.client_id || '',
+          studentId: score.student_id || null,
+          displayName: score.display_name || 'Anonymous',
+          choice: responseData.choice as string,
+          team: score.team as 'red' | 'blue' | null,
+          gameKey: responseData.gameKey as string,
+          inputType: responseData.inputType as string,
+          roundId: responseData.roundId as string | undefined,
+          resourcesUsed: responseData.resourcesUsed as string[] | undefined,
+        });
+      }
+      recordScore(score);
+    };
+
+    const reconcileScores = async () => {
+      const { data, error } = await supabase
+        .from('scores')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: true });
+      if (!error) {
+        (data as Score[] | null)
+          ?.filter((score) => {
+            const responseData = score.response_data as Record<string, unknown> | null;
+            return responseData?.type === 'remote_vote' && responseData.gameKey === activity.key;
+          })
+          .forEach(deliverScore);
+      }
+    };
+
+    let channelHealthy = false;
+    let disposed = false;
+    let reconcileTimer: ReturnType<typeof setTimeout> | null = null;
+    const scheduleReconcile = (delayMs: number) => {
+      if (reconcileTimer) clearTimeout(reconcileTimer);
+      reconcileTimer = setTimeout(() => {
+        void reconcileScores().finally(() => {
+          if (!disposed) {
+            scheduleReconcile(getScoreReconcileDelay(studentInputOpenRef.current, channelHealthy));
+          }
+        });
+      }, delayMs);
+    };
+    reconcileNowRef.current = () => scheduleReconcile(0);
+
+    // Realtime is the normal path. Reconcile immediately after subscribing or
+    // reconnecting, and poll quickly only while the channel is degraded.
     const scoresChannel = supabase
       .channel(`activity-scores-${sessionId}`)
       .on(
@@ -99,30 +156,14 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
           table: 'scores',
           filter: `session_id=eq.${sessionId}`,
         },
-        (payload: { new: Score }) => {
-          const score = payload.new;
-          // Check if this is a remote vote
-          const responseData = score.response_data as Record<string, unknown> | null;
-          if (responseData?.type === 'remote_vote' && responseData?.gameKey === activity.key) {
-            // Call the registered vote handler
-            if (remoteVoteHandlerRef.current) {
-              remoteVoteHandlerRef.current({
-                clientId: score.client_id || '',
-                studentId: score.student_id || null,
-                displayName: score.display_name || 'Anonymous',
-                choice: responseData.choice as string,
-                team: score.team as 'red' | 'blue' | null,
-                gameKey: responseData.gameKey as string,
-                inputType: responseData.inputType as string,
-                resourcesUsed: responseData.resourcesUsed as string[] | undefined,
-              });
-            }
-          }
-          // Also record the score in the store
-          recordScore(score);
-        }
+        (payload: { new: Score }) => deliverScore(payload.new),
       )
-      .subscribe();
+      .subscribe((status: string) => {
+        channelHealthy = status === 'SUBSCRIBED';
+        if (channelHealthy) void reconcileScores();
+        scheduleReconcile(getScoreReconcileDelay(studentInputOpenRef.current, channelHealthy));
+      });
+    scheduleReconcile(1_500);
 
     // Subscribe to new students joining
     const studentsChannel = supabase
@@ -149,6 +190,9 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
       .subscribe();
 
     return () => {
+      disposed = true;
+      reconcileNowRef.current = null;
+      if (reconcileTimer) clearTimeout(reconcileTimer);
       supabase.removeChannel(scoresChannel);
       supabase.removeChannel(studentsChannel);
     };
@@ -203,8 +247,15 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   }, [sessionId, recordScore, activity.key, activity.scoringProfile]);
 
   // Callback for activities to set input spec
-  const handleSetInputSpec = useCallback((spec: InputSpec | null) => {
-    setInputSpec(spec);
+  const handleSetInputSpec = useCallback((
+    spec: InputSpec | null,
+    activityInstanceIdentity?: ActivityInstanceIdentity | null,
+  ) => {
+    studentInputOpenRef.current = spec !== null;
+    // Reconcile at both boundaries: opening starts the fast cadence, while
+    // closing catches a final submission that may have raced the clear event.
+    reconcileNowRef.current?.();
+    setInputSpec(spec, activityInstanceIdentity);
   }, [setInputSpec]);
 
   // Callback for activities to register submission handler
@@ -217,6 +268,10 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const handleRegisterRemoteVoteHandler = useCallback((handler: ((vote: RemoteVote) => void) | null) => {
     remoteVoteHandlerRef.current = handler;
   }, []);
+
+  useEffect(() => {
+    setActivityParticipation(null);
+  }, [activity.key]);
 
   // Handle approved student submission — routes through score engine
   const handleApprovedSubmission = useCallback(async (submission: StudentSubmission) => {
@@ -394,6 +449,7 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
               onSetInputSpec={handleSetInputSpec}
               onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
               onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
+              onParticipationChange={setActivityParticipation}
               onScore={handleScore}
               studentMissions={studentMissions}
               classMission={classMission}
@@ -421,7 +477,10 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
 
       {/* Sidebar */}
       <div className="space-y-4">
-        <Leaderboard displayMode={activity.scoringProfile?.displayMode ?? 'class'} />
+        <Leaderboard
+          displayMode={activity.scoringProfile?.displayMode ?? 'class'}
+          activityParticipation={activityParticipation}
+        />
         {sessionId && (
           <ApprovalQueue
             sessionId={sessionId}

@@ -8,8 +8,12 @@ import {
   type ReferenceExpressionItem,
   type ReferenceVocabItem,
 } from '@/lib/reference-materials';
-import { SIDE_CHANNEL_KEY, type SideChannelItem } from '@/lib/side-channel';
-import { getInputSpecRevision } from '@/lib/input-spec';
+import {
+  getActiveSideChannelItem,
+  SIDE_CHANNEL_KEY,
+  type SideChannelItem,
+} from '@/lib/side-channel';
+import { getInputSpecRevision, type InputSpec } from '@/lib/input-spec';
 
 export const dynamic = 'force-dynamic';
 
@@ -100,17 +104,20 @@ interface SessionPayload {
   lastResult: LastResult | null;
   sessionPoints: number;
   responseCount: number;
+  currentResponse: { roundId: string; choice: string } | null;
   sessionAccuracy: number | null;
   heldCard: HeldCard | null;
   offeredCards: OfferedCards | null;
   debriefToken: string | null;
 }
 
-interface SessionUnchangedPayload {
-  unchanged: true;
+interface SessionLightweightPayload {
+  inputSpecUnchanged: true;
   isActive: boolean;
   serverNow: number;
   inputSpecRevision: string;
+  activePoll: SessionPayload['activePoll'];
+  sideChannel: SideChannelItem | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -118,6 +125,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get('sessionId');
     const clientId = searchParams.get('clientId');
+    const requestedStudentId = searchParams.get('studentId');
     const expectedInputSpecRevision = searchParams.get('inputSpecRevision');
 
     if (!sessionId) {
@@ -131,16 +139,43 @@ export async function GET(request: NextRequest) {
       }
 
       const mockInputSpec = (session as { input_spec?: unknown }).input_spec || null;
+      const mockActivePoll = ((session as { active_poll?: SessionPayload['activePoll'] }).active_poll) ?? null;
+      const mockSideChannel = getActiveSideChannelItem(
+        ((session as { side_channel?: SideChannelItem | null }).side_channel) ?? null,
+      );
       const inputSpecRevision = getInputSpecRevision(mockInputSpec);
+      const activeSpec = mockInputSpec as InputSpec | null;
+      const activeRoundId = activeSpec?.roundId;
+      const mockStudentId = clientId
+        ? mockStore.getSessionParticipants(sessionId).find((participant) => participant.client_id === clientId)?.student_id
+          ?? mockStore.getSessionParticipants(sessionId).find((participant) => participant.student_id === requestedStudentId)?.student_id
+          ?? null
+        : null;
+      const remoteResponses = clientId
+        ? mockStore.getScores(sessionId).filter((score) => {
+            const data = score.response_data as Record<string, unknown> | null;
+            return (score.client_id === clientId || (mockStudentId !== null && score.student_id === mockStudentId))
+              && data?.type === 'remote_vote';
+          })
+        : [];
+      const activeMockResponse = activeRoundId
+        ? remoteResponses.find((score) => {
+            const data = score.response_data as Record<string, unknown> | null;
+            return data?.gameKey === activeSpec?.gameKey && data?.roundId === activeRoundId;
+          })
+        : undefined;
+      const activeMockResponseData = activeMockResponse?.response_data as Record<string, unknown> | null | undefined;
       const isActive = session.status === 'active';
       if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
-        const unchangedPayload: SessionUnchangedPayload = {
-          unchanged: true,
+        const lightweightPayload: SessionLightweightPayload = {
+          inputSpecUnchanged: true,
           isActive,
           serverNow: Date.now(),
           inputSpecRevision,
+          activePoll: mockActivePoll,
+          sideChannel: mockSideChannel,
         };
-        return NextResponse.json(unchangedPayload, {
+        return NextResponse.json(lightweightPayload, {
           headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
         });
       }
@@ -148,10 +183,10 @@ export async function GET(request: NextRequest) {
       const payload: SessionPayload = {
         isActive,
         serverNow: Date.now(),
-        activePoll: null,
+        activePoll: mockActivePoll,
         inputSpec: mockInputSpec,
         inputSpecRevision,
-        sideChannel: null,
+        sideChannel: mockSideChannel,
         publishedQuestions: null,
         wonderQuestions: null,
         classBoardItems: null,
@@ -165,7 +200,13 @@ export async function GET(request: NextRequest) {
         personalResults: null,
         lastResult: null,
         sessionPoints: 0,
-        responseCount: 0,
+        responseCount: new Set(remoteResponses.map((score) => {
+          const data = score.response_data as Record<string, unknown>;
+          return typeof data.roundId === 'string' ? data.roundId : `legacy:${String(data.gameKey ?? score.id)}`;
+        })).size,
+        currentResponse: activeRoundId && typeof activeMockResponseData?.choice === 'string'
+          ? { roundId: activeRoundId, choice: activeMockResponseData.choice }
+          : null,
         sessionAccuracy: null,
         heldCard: null,
         offeredCards: null,
@@ -182,6 +223,9 @@ export async function GET(request: NextRequest) {
     if (!uuidRegex.test(sessionId)) {
       return NextResponse.json({ error: 'Invalid sessionId format' }, { status: 400 });
     }
+    const validRequestedStudentId = requestedStudentId && uuidRegex.test(requestedStudentId)
+      ? requestedStudentId
+      : null;
 
     const supabase = createServiceClient();
 
@@ -200,18 +244,6 @@ export async function GET(request: NextRequest) {
     const inputSpec = session.input_spec || null;
     const inputSpecRevision = getInputSpecRevision(inputSpec);
 
-    if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
-      const unchangedPayload: SessionUnchangedPayload = {
-        unchanged: true,
-        isActive,
-        serverNow: Date.now(),
-        inputSpecRevision,
-      };
-      return NextResponse.json(unchangedPayload, {
-        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
-      });
-    }
-
     // Resolve this student's roster student_id once (if they joined). game-shell
     // attributes a device's answers to a matched roster student by writing
     // student_id with a null client_id, so personal-stat queries must match BOTH
@@ -221,12 +253,23 @@ export async function GET(request: NextRequest) {
     let studentId: string | null = null;
     let debriefToken: string | null = null;
     if (clientId) {
-      const { data: participant } = await supabase
+      let { data: participant } = await supabase
         .from('session_participants')
         .select('student_id, debrief_token')
         .eq('session_id', sessionId)
         .eq('client_id', clientId)
         .maybeSingle();
+      if (!participant && validRequestedStudentId) {
+        const { data: rosterParticipant } = await supabase
+          .from('session_participants')
+          .select('student_id, debrief_token')
+          .eq('session_id', sessionId)
+          .eq('student_id', validRequestedStudentId)
+          .order('joined_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        participant = rosterParticipant;
+      }
       studentId = (participant?.student_id as string | undefined) ?? null;
       debriefToken = (participant?.debrief_token as string | undefined) ?? null;
     }
@@ -268,11 +311,36 @@ export async function GET(request: NextRequest) {
           .maybeSingle();
         const item = (sideRow?.payload as { item?: SideChannelItem | null } | null)?.item;
         if (item && typeof item === 'object' && item.id && item.prompt) {
-          sideChannel = item;
+          sideChannel = getActiveSideChannelItem(item);
         }
       } catch {
         // session_private_state unavailable — degrade silently
       }
+    }
+
+    // A side poll belongs to its Crew Radio prompt. Once that prompt expires or
+    // is replaced, the old poll must not remain visible as an active live lane.
+    if (
+      activePoll?.metadata?.channel === 'side'
+      && (!sideChannel || activePoll.pollId !== sideChannel.pollId)
+    ) {
+      activePoll = null;
+    }
+
+    // A matching main-task revision only makes the main lane unchanged. Poll and
+    // Crew Radio are independent student-visible lanes, so reconcile both first.
+    if (isActive && expectedInputSpecRevision && expectedInputSpecRevision === inputSpecRevision) {
+      const lightweightPayload: SessionLightweightPayload = {
+        inputSpecUnchanged: true,
+        isActive,
+        serverNow: Date.now(),
+        inputSpecRevision,
+        activePoll,
+        sideChannel,
+      };
+      return NextResponse.json(lightweightPayload, {
+        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
+      });
     }
 
     // Get published questions with vote counts
@@ -462,16 +530,28 @@ export async function GET(request: NextRequest) {
     let lastResult: LastResult | null = null;
     let sessionPoints = 0;
     let responseCount = 0;
+    let currentResponse: SessionPayload['currentResponse'] = null;
     let sessionAccuracy: number | null = null;
     if (isActive && clientId) {
-      const { data: activeScores } = await supabase
-        .from('scores')
-        .select('id, outcome, points, accuracy_status, counts_for_accuracy')
-        .eq('session_id', sessionId)
-        .or(personalScoreFilter)
-        .eq('scoring_version', 2)
-        .eq('counts_for_leaderboard', true)
-        .order('created_at', { ascending: false });
+      const [{ data: activeScores }, { data: remoteScores, error: remoteScoresError }] = await Promise.all([
+        supabase
+          .from('scores')
+          .select('id, outcome, points, accuracy_status, counts_for_accuracy')
+          .eq('session_id', sessionId)
+          .or(personalScoreFilter)
+          .eq('scoring_version', 2)
+          .eq('counts_for_leaderboard', true)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('scores')
+          .select('response_data')
+          .eq('session_id', sessionId)
+          .or(personalScoreFilter)
+          .order('created_at', { ascending: false }),
+      ]);
+      if (remoteScoresError) {
+        console.error('Student response history query failed', { code: remoteScoresError.code });
+      }
 
       type ActiveRow = { id: string; outcome: string | null; points: number; accuracy_status: string | null; counts_for_accuracy: boolean | null };
       const rows = (activeScores ?? []) as ActiveRow[];
@@ -490,6 +570,27 @@ export async function GET(request: NextRequest) {
           points: latest.points,
           accuracyStatus: latest.accuracy_status ?? null,
         };
+      }
+
+      const activeSpec = inputSpec as InputSpec | null;
+      const responseData = (remoteScores ?? [])
+        .map((score) => score.response_data as Record<string, unknown> | null)
+        .filter((data): data is Record<string, unknown> => data?.type === 'remote_vote');
+      const persistedResponseKeys = new Set(responseData.map((data, index) => (
+        typeof data.roundId === 'string'
+          ? data.roundId
+          : `legacy:${String(data.gameKey ?? index)}`
+      )));
+      responseCount = Math.max(responseCount, persistedResponseKeys.size);
+      if (activeSpec?.gameKey && activeSpec.roundId) {
+        const matchingResponse = responseData.find((data) => data.roundId === activeSpec.roundId);
+        if (
+          activeSpec.roundId
+          && matchingResponse
+          && typeof matchingResponse.choice === 'string'
+        ) {
+          currentResponse = { roundId: activeSpec.roundId, choice: matchingResponse.choice };
+        }
       }
     }
 
@@ -608,6 +709,15 @@ export async function GET(request: NextRequest) {
     const normalizedReferenceVocab = normalizeReferenceVocab(session.reference_vocab);
     const normalizedReferenceExpressions = normalizeReferenceExpressions(session.reference_expressions);
 
+    console.log(JSON.stringify({
+      level: 'info',
+      message: 'Student session full hydration',
+      hasClientIdentity: Boolean(clientId),
+      hasRequestedRosterIdentity: Boolean(validRequestedStudentId),
+      resolvedRosterIdentity: Boolean(studentId),
+      responseCount,
+    }));
+
     const payload: SessionPayload = {
       isActive,
       serverNow: Date.now(),
@@ -629,6 +739,7 @@ export async function GET(request: NextRequest) {
       lastResult,
       sessionPoints,
       responseCount,
+      currentResponse,
       sessionAccuracy,
       heldCard,
       offeredCards,

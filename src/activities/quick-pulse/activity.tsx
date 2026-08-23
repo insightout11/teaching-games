@@ -83,6 +83,8 @@ export function QuickPulseActivity({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [votes, setVotes] = useState<VoteMap>({ 0: {}, 1: {}, 2: {} });
   const [timeLeft, setTimeLeft] = useState(0);
+  const instanceCounterRef = useRef(0);
+  const activityInstanceRef = useRef<{ id: string; startedAt: number } | null>(null);
 
   // Use a ref for currentIndex so the vote handler closure always sees the latest value
   const currentIndexRef = useRef(currentIndex);
@@ -116,6 +118,9 @@ export function QuickPulseActivity({
     onRegisterRemoteVoteHandler?.((vote) => {
       if (phaseRef.current !== 'prompting') return;
       const idx = currentIndexRef.current;
+      const instance = activityInstanceRef.current;
+      const expectedRoundId = instance ? `${instance.id}:prompt-${idx + 1}` : null;
+      if (vote.roundId && expectedRoundId && vote.roundId !== expectedRoundId) return;
       const alreadyVoted = votesRef.current[idx]?.[vote.clientId];
       if (!alreadyVoted) {
         setVotes((prev) => ({
@@ -139,11 +144,25 @@ export function QuickPulseActivity({
   // Set input spec when prompting
   useEffect(() => {
     if (phase !== 'prompting') {
-      onSetInputSpec?.(null);
+      const instance = activityInstanceRef.current;
+      onSetInputSpec?.(null, instance ? {
+        id: instance.id,
+        startedAt: instance.startedAt,
+        sequence: currentIndex * 2 + 1,
+      } : null);
       return;
     }
     const prompt = prompts[currentIndex];
     if (!prompt) return;
+    const instance = activityInstanceRef.current;
+    if (!instance) return;
+    const instanceFields = {
+      activityInstanceId: instance.id,
+      activityInstanceStartedAt: instance.startedAt,
+      // Even numbers are active prompts; the serialized clear after reveal uses +1.
+      activitySequence: currentIndex * 2,
+      roundId: `${instance.id}:prompt-${currentIndex + 1}`,
+    };
     if (prompt.type === 'likert') {
       onSetInputSpec?.({
         type: 'choice',
@@ -151,6 +170,7 @@ export function QuickPulseActivity({
         prompt: prompt.text,
         options: ['1', '2', '3', '4', '5'],
         optionLabels: ['1 – Strongly Disagree', '2', '3', '4', '5 – Strongly Agree'],
+        ...instanceFields,
       });
     } else {
       onSetInputSpec?.({
@@ -158,11 +178,18 @@ export function QuickPulseActivity({
         gameKey: 'quick-pulse',
         prompt: prompt.text,
         optionLabels: ['Yes', 'No'],
+        ...instanceFields,
       });
     }
   }, [phase, currentIndex, prompts, onSetInputSpec]);
 
   const handleStart = useCallback(() => {
+    const startedAt = Date.now();
+    instanceCounterRef.current += 1;
+    activityInstanceRef.current = {
+      id: `quick-pulse:${startedAt}:${instanceCounterRef.current}`,
+      startedAt,
+    };
     setCurrentIndex(0);
     setVotes({ 0: {}, 1: {}, 2: {} });
     setTimeLeft(timerSeconds);
@@ -191,8 +218,13 @@ export function QuickPulseActivity({
   const handleEnd = useCallback(() => {
     setPhase('idle');
     onPhaseChange?.('finished');
-    onSetInputSpec?.(null);
-  }, [onPhaseChange, onSetInputSpec]);
+    const instance = activityInstanceRef.current;
+    onSetInputSpec?.(null, instance ? {
+      id: instance.id,
+      startedAt: instance.startedAt,
+      sequence: currentIndex * 2 + 1,
+    } : null);
+  }, [currentIndex, onPhaseChange, onSetInputSpec]);
 
   const currentPrompt = prompts[currentIndex];
   const currentVotes = votes[currentIndex] ?? {};
