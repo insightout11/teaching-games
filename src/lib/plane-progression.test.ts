@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, getPlaneTierForKey, getPlaneViewAsset, isPlaneKeyInTier } from '@/lib/plane-progression';
+import { getPlaneAsset, getPlaneRangeKm, getPlaneTier, getPlaneTierForKey, getPlaneViewAsset, isPlaneKeyInTier, PLANE_TIERS } from '@/lib/plane-progression';
 
 function publicAssetExists(assetPath: string) {
   return existsSync(join(process.cwd(), 'public', assetPath.replace(/^\//, '')));
@@ -17,7 +17,7 @@ describe('plane progression assets', () => {
       frontWebp: '/assets/flight/planes/lc-cadet-front.webp',
       front3qWebp: '/assets/flight/planes/lc-cadet-front-3q.webp',
       front3qGroundWebp: '/assets/flight/planes/lc-cadet-front-3q-ground.webp',
-      displayMeta: expect.objectContaining({ runwayYOffset: -48, hangarYOffset: 34 }),
+      displayMeta: expect.objectContaining({ runwayYOffset: -51, hangarYOffset: 34 }),
     });
   });
 
@@ -38,7 +38,7 @@ describe('plane progression assets', () => {
       webp: '/assets/flight/planes/lc-scout-monoplane.webp',
       frontWebp: '/assets/flight/planes/lc-scout-monoplane-front.webp',
       front3qWebp: '/assets/flight/planes/lc-scout-monoplane-front-3q.webp',
-      displayMeta: expect.objectContaining({ runwayYOffset: -30, hangarYOffset: 28 }),
+      displayMeta: expect.objectContaining({ runwayYOffset: -43, hangarYOffset: 28 }),
     });
     expect(getPlaneAsset('trailblazer-biplane')).toMatchObject({
       key: 'trailblazer-biplane',
@@ -46,7 +46,7 @@ describe('plane progression assets', () => {
       webp: '/assets/flight/planes/lc-trailblazer.webp',
       frontWebp: '/assets/flight/planes/lc-trailblazer-front.webp',
       front3qWebp: '/assets/flight/planes/lc-trailblazer-front-3q.webp',
-      displayMeta: expect.objectContaining({ runwayYOffset: -34, hangarYOffset: 34 }),
+      displayMeta: expect.objectContaining({ runwayYOffset: -44, hangarYOffset: 34 }),
     });
     expect(getPlaneViewAsset('scout-monoplane', 'front')).toBe(
       '/assets/flight/planes/lc-wayfarer-front.webp',
@@ -63,6 +63,18 @@ describe('plane progression assets', () => {
     expect(getPlaneViewAsset('lc-scout', 'front-3q-ground', 'png')).toBe(
       '/assets/flight/planes/lc-scout-monoplane-front-3q-ground.png',
     );
+  });
+
+  // runwayYOffset cancels the transparent padding under each plane's landing
+  // gear (measured by scripts/measure-plane-ground-offsets.mjs). A plane left at 0
+  // visibly hovers above the runway, which is what happened to 11 of 14 aircraft
+  // before these were calibrated — so assert none of them slips back to zero.
+  it('gives every aircraft a runway calibration so none hovers', () => {
+    for (const tier of PLANE_TIERS) {
+      for (const choice of tier.choices) {
+        expect(choice.displayMeta.runwayYOffset, choice.key).toBeLessThan(0);
+      }
+    }
   });
 
   it('groups plane choices by tier range', () => {

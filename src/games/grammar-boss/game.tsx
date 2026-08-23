@@ -178,12 +178,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           },
         });
 
-        try {
-          const audio = new Audio(avgScore >= 5 ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
-          audio.volume = 0.5;
-          audio.play().catch(() => {});
-        } catch {}
-
         return [...prev, {
           studentId,
           clientId: vote.clientId,

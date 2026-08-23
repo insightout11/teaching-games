@@ -209,13 +209,6 @@ export function FlashQuizGame({
       return next;
     });
 
-    // Sound
-    try {
-      const audio = new Audio(isCorrect ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
-      audio.volume = 0.3;
-      audio.play().catch(() => {});
-    } catch { /* ignore */ }
-
     setRoundAnswers((prev) => {
       const updated = [...prev, answer];
 

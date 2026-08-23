@@ -1,0 +1,538 @@
+/**
+ * Sound asset cohesion pass — see docs/sound-design.md §5.
+ *
+ * Reads the raw ElevenLabs downloads (which live OUTSIDE the repo — they are large
+ * and disposable), then trims, mono-folds, resamples, level-matches and fades them
+ * into one coherent family under public/sounds/.
+ *
+ * takeoff-electric is not a download: near-silence plus a rising whine is trivial
+ * to synthesise and very hard to generate, so it is built here from oscillators.
+ *
+ * Run: node scripts/process-sound-assets.mjs [rawDir]
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { Mp3Encoder } from '@breezystack/lamejs';
+
+const RAW_DIR = process.argv[2] || 'C:/Users/insig/Downloads';
+const OUT_DIR = path.join(process.cwd(), 'public', 'sounds');
+const SR = 44100;
+
+// ─── WAV I/O ────────────────────────────────────────────────────────────────
+function readWav(file) {
+  const buf = fs.readFileSync(file);
+  let pos = 12, fmt = null, dataOff = null, dataLen = 0;
+  while (pos + 8 <= buf.length) {
+    const id = buf.toString('ascii', pos, pos + 4);
+    const size = buf.readUInt32LE(pos + 4);
+    const body = pos + 8;
+    if (id === 'fmt ') {
+      fmt = {
+        channels: buf.readUInt16LE(body + 2),
+        sampleRate: buf.readUInt32LE(body + 4),
+        bitsPerSample: buf.readUInt16LE(body + 14),
+      };
+    } else if (id === 'data') { dataOff = body; dataLen = Math.min(size, buf.length - body); }
+    pos = body + size + (size % 2);
+  }
+  if (!fmt || dataOff === null) throw new Error('bad wav: ' + file);
+  const bytes = fmt.bitsPerSample / 8;
+  const frames = Math.floor(dataLen / (bytes * fmt.channels));
+  const mono = new Float64Array(frames);
+  for (let i = 0; i < frames; i++) {
+    let acc = 0;
+    for (let c = 0; c < fmt.channels; c++) {
+      const o = dataOff + (i * fmt.channels + c) * bytes;
+      acc += bytes === 2 ? buf.readInt16LE(o) / 32768 : buf.readInt32LE(o) / 2147483648;
+    }
+    mono[i] = acc / fmt.channels;
+  }
+  return { data: mono, sampleRate: fmt.sampleRate };
+}
+
+/**
+ * Encode mono PCM to MP3 with lamejs.
+ *
+ * WAV was a stopgap while there was no encoder; at ~8.7MB for the set it was
+ * wrong to ship. lamejs is pure JS and ~100KB, so this stays a devDependency
+ * rather than dragging an ffmpeg binary into the tree for one asset script.
+ */
+function writeMp3(file, data, sampleRate, kbps) {
+  const enc = new Mp3Encoder(1, sampleRate, kbps);
+  const pcm = new Int16Array(data.length);
+  for (let i = 0; i < data.length; i++) {
+    pcm[i] = Math.round(Math.max(-1, Math.min(1, data[i])) * 32767);
+  }
+  const chunks = [];
+  const BLOCK = 1152;
+  for (let i = 0; i < pcm.length; i += BLOCK) {
+    const buf = enc.encodeBuffer(pcm.subarray(i, Math.min(i + BLOCK, pcm.length)));
+    if (buf.length) chunks.push(Buffer.from(buf));
+  }
+  const end = enc.flush();
+  if (end.length) chunks.push(Buffer.from(end));
+  fs.writeFileSync(file, Buffer.concat(chunks));
+}
+
+// ─── DSP helpers ────────────────────────────────────────────────────────────
+function resample(d, from, to) {
+  if (from === to) return d;
+  const ratio = from / to;
+  const out = new Float64Array(Math.floor(d.length / ratio));
+  for (let i = 0; i < out.length; i++) {
+    const x = i * ratio, i0 = Math.floor(x), f = x - i0;
+    out[i] = (d[i0] || 0) * (1 - f) + (d[i0 + 1] || 0) * f;
+  }
+  return out;
+}
+
+function slice(d, sr, t0, t1) {
+  return d.slice(Math.max(0, Math.floor(t0 * sr)), Math.min(d.length, Math.floor(t1 * sr)));
+}
+
+function fade(d, sr, inSec, outSec) {
+  const fi = Math.floor(inSec * sr), fo = Math.floor(outSec * sr);
+  for (let i = 0; i < fi && i < d.length; i++) d[i] *= i / fi;
+  for (let i = 0; i < fo && i < d.length; i++) {
+    const idx = d.length - 1 - i;
+    if (idx >= 0) d[idx] *= i / fo;
+  }
+  return d;
+}
+
+/** Linear gain ramp between two dB values — used to build an arc into takes that
+ *  were generated flat. */
+function ramp(d, sr, t0, t1, db0, db1) {
+  const a = Math.floor(t0 * sr), b = Math.floor(t1 * sr);
+  const g0 = Math.pow(10, db0 / 20), g1 = Math.pow(10, db1 / 20);
+  for (let i = 0; i < d.length; i++) {
+    let g;
+    if (i <= a) g = g0;
+    else if (i >= b) g = g1;
+    else g = g0 + (g1 - g0) * ((i - a) / (b - a));
+    d[i] *= g;
+  }
+  return d;
+}
+
+function rmsOf(d) {
+  let s = 0;
+  for (let i = 0; i < d.length; i++) s += d[i] * d[i];
+  return Math.sqrt(s / d.length);
+}
+
+function peakOf(d) {
+  let p = 0;
+  for (let i = 0; i < d.length; i++) p = Math.max(p, Math.abs(d[i]));
+  return p;
+}
+
+/** Normalise to an RMS target, then pull back if the peak would exceed the ceiling. */
+function normalise(d, targetDb, ceilDb) {
+  const ceil = Math.pow(10, (ceilDb === undefined ? -3 : ceilDb) / 20);
+  const cur = rmsOf(d);
+  if (cur <= 0) return d;
+  let g = Math.pow(10, targetDb / 20) / cur;
+  if (peakOf(d) * g > ceil) g = ceil / peakOf(d);
+  for (let i = 0; i < d.length; i++) d[i] *= g;
+  return d;
+}
+
+/**
+ * White noise via xorshift32.
+ *
+ * The previous LCG (`seed * 1103515245 + 12345`) was silently broken: with seed up
+ * to 2^31 that product reaches ~2.3e18, far past JS's 2^53 integer precision, so
+ * the low bits were garbage and the sequence collapsed into a short repeating
+ * cycle. Repeating "noise" is a tone — which is exactly the oscillation artefact
+ * that made the brand whoosh unlistenable. Math.imul keeps the arithmetic in exact
+ * 32-bit, so this is actually white.
+ */
+function fillNoise(buf, seed) {
+  let x = seed | 0 || 1;
+  for (let i = 0; i < buf.length; i++) {
+    x ^= x << 13; x |= 0;
+    x ^= x >>> 17;
+    x ^= x << 5; x |= 0;
+    buf[i] = (x >>> 0) / 2147483648 - 1;
+  }
+  return buf;
+}
+
+/**
+ * Schroeder reverb — four parallel combs into two series allpasses.
+ *
+ * §1.5 wants the whole family to share one space. This is what puts them there,
+ * and it is also what stops the synthesised layers sounding dry and pasted-on
+ * against the generated ones. Output is longer than input by the decay tail.
+ */
+function reverb(d, sr, mix, decay) {
+  const combs = [1557, 1617, 1491, 1422].map((x) => Math.max(1, Math.round((x * sr) / 44100)));
+  const allpasses = [225, 556].map((x) => Math.max(1, Math.round((x * sr) / 44100)));
+  const n = d.length + Math.floor(decay * sr);
+  const wet = new Float64Array(n);
+
+  for (const cd of combs) {
+    const buf = new Float64Array(cd);
+    const fb = Math.pow(0.001, cd / (decay * sr)); // -60dB over the decay time
+    let idx = 0;
+    for (let i = 0; i < n; i++) {
+      const y = buf[idx];
+      buf[idx] = (i < d.length ? d[i] : 0) + y * fb;
+      wet[i] += y;
+      idx = (idx + 1) % cd;
+    }
+  }
+  for (let i = 0; i < n; i++) wet[i] /= combs.length;
+
+  for (const ad of allpasses) {
+    const buf = new Float64Array(ad);
+    const g = 0.5;
+    let idx = 0;
+    for (let i = 0; i < n; i++) {
+      const y = buf[idx];
+      const out = -g * wet[i] + y;
+      buf[idx] = wet[i] + g * out;
+      wet[i] = out;
+      idx = (idx + 1) % ad;
+    }
+  }
+
+  const out = new Float64Array(n);
+  for (let i = 0; i < n; i++) out[i] = (i < d.length ? d[i] : 0) * (1 - mix) + wet[i] * mix;
+  return out;
+}
+
+function onePoleLP(d, sr, fc) {
+  const out = new Float64Array(d.length);
+  let y = 0;
+  for (let i = 0; i < d.length; i++) {
+    const c = typeof fc === 'number' ? fc : fc[i];
+    const a = 1 - Math.exp((-2 * Math.PI * c) / sr);
+    y += a * (d[i] - y);
+    out[i] = y;
+  }
+  return out;
+}
+
+// ─── takeoff-electric: synthesised, not generated ───────────────────────────
+function synthElectric(dur) {
+  const n = Math.floor((dur || 4.6) * SR);
+  const out = new Float64Array(n);
+  const noise = new Float64Array(n);
+  fillNoise(noise, 12345);
+  // Airflow: noise through a cutoff that opens as speed builds, then closes with distance.
+  const cutoff = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    const rise = Math.min(1, t / 2.6);
+    const away = t > 3.1 ? Math.max(0, 1 - (t - 3.1) / 1.5) : 1;
+    cutoff[i] = 300 + 3800 * rise * away;
+  }
+  const air = onePoleLP(noise, SR, cutoff);
+
+  let phase = 0;
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    const rise = Math.min(1, t / 2.8);
+    const away = t > 3.1 ? Math.max(0, 1 - (t - 3.1) / 1.5) : 1;
+    // Motor whine: fundamental sweeps 380 -> 1150 Hz, with two quiet harmonics.
+    const f = 380 + 770 * rise;
+    phase += (2 * Math.PI * f) / SR;
+    const whine = Math.sin(phase) * 0.55 + Math.sin(phase * 2) * 0.16 + Math.sin(phase * 3) * 0.06;
+    const env = Math.min(1, t / 1.2) * away;
+    out[i] = (whine * 0.30 * rise + air[i] * 0.9) * env;
+  }
+  fade(out, SR, 0.25, 0.9);
+  return out;
+}
+
+// ─── brand-resolve: generated chime layered onto a synthesised cloud rush ───
+// The generated clip only carries 0.83s of run-up before its chime. Aligning that
+// chime to the spark burst at 2.643s therefore left the whole cloud-rush opening
+// in silence, and the riser it does have is dark — no air at all — against a
+// bright white-out frame. So we score the opening ourselves and drop the generated
+// chime on top, which also lets the whoosh be as bright as the visual.
+function synthCloudRush(dur, peakAt) {
+  const n = Math.floor(dur * SR);
+  const noise = new Float64Array(n);
+  fillNoise(noise, 987654321);
+  // Cutoff climbs as the cloud thins, but stays well below the old 9.5kHz ceiling
+  // — up there it read as hiss rather than air, and hiss is the opposite of what
+  // this moment wants.
+  // Kept deliberately dark. Earlier passes topped out at 9.5kHz then 2.8kHz and
+  // both read as hiss; air this close to the listener is almost all low-mid.
+  const cutoff = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    const k = Math.min(1, t / peakAt);
+    cutoff[i] = 170 + 780 * Math.pow(k, 1.2);
+  }
+  const body = onePoleLP(noise, SR, cutoff);
+  // Subtract a low-passed copy to keep it moving rather than rumbling.
+  const rumble = onePoleLP(body, SR, 90);
+
+  // The pad LEADS and the noise is a texture under it — that inversion is what
+  // makes this atmospheric rather than windy.
+  //
+  // It is a full G MAJOR triad, and that is the whole point. The previous pass was
+  // G2/D3/G3/D4 — bare octaves and fifths with no third, in a low register, which
+  // is precisely the interval set that reads as ominous. The major third (B) is
+  // what makes a chord sound friendly, and dropping the sub-100Hz voice removes
+  // the drone. Each voice keeps its own slow vibrato so the chord breathes.
+  const voices = [196, 246.9, 293.7, 392, 493.9]; // G3 B3 D4 G4 B4
+  const pad = new Float64Array(n);
+  voices.forEach((f, vi) => {
+    let phase = vi * 1.7;
+    for (let i = 0; i < n; i++) {
+      const t = i / SR;
+      const vib = 1 + Math.sin(2 * Math.PI * (0.21 + vi * 0.045) * t) * 0.0028;
+      phase += (2 * Math.PI * f * vib) / SR;
+      // Upper voices sit quieter so the chord is warm rather than bright.
+      pad[i] += Math.sin(phase) * (0.44 / (vi * 0.75 + 1.25));
+    }
+  });
+
+  const out = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    // Gentler curve than before — it should drift up, not accelerate at you.
+    const swell = Math.pow(Math.min(1, t / peakAt), 1.25);
+    const duck = t > peakAt ? Math.max(0, 1 - (t - peakAt) / 0.7) : 1;
+    const air = (body[i] - rumble[i] * 0.85) * 0.22;
+    out[i] = (air + pad[i] * 0.58) * swell * duck;
+  }
+  return fade(out, SR, 0.4, 0.3);
+}
+
+function buildBrandResolve(rawDir, clip) {
+  const read = readWav(path.join(rawDir, clip.src));
+  const orig = resample(
+    slice(read.data, read.sampleRate, clip.trim[0], clip.trim[1]),
+    read.sampleRate,
+    SR,
+  );
+  const offsetSec = clip.chimeTargetSec - clip.chimeInSourceSec;
+  const offset = Math.floor(offsetSec * SR);
+  const out = new Float64Array(offset + orig.length);
+
+  const whoosh = synthCloudRush(clip.chimeTargetSec + 0.5, clip.chimeTargetSec - 0.75);
+  for (let i = 0; i < whoosh.length && i < out.length; i++) out[i] += whoosh[i] * 0.75;
+  for (let i = 0; i < orig.length; i++) out[offset + i] += orig[i];
+
+  // No added sparkle: the layered shimmer read as brighter but less pleasant than
+  // the generated bell on its own. The polish comes from the shared reverb instead.
+  return out;
+}
+
+// ─── Cruise micro-event cues ────────────────────────────────────────────────
+
+/**
+ * Turbulence rumble. Low-passed noise with slow, irregular amplitude movement —
+ * two incommensurable LFOs so the buffeting never settles into a pulse you can
+ * count, which is what would make it read as a machine rather than as weather.
+ * Deliberately almost all sub-250Hz: felt more than heard.
+ */
+function synthTurbulence(dur) {
+  const n = Math.floor(dur * SR);
+  const noise = new Float64Array(n);
+  fillNoise(noise, 4242);
+  const low = onePoleLP(noise, SR, 230);
+  const sub = onePoleLP(low, SR, 70);
+  const out = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    const gust = 0.55 + 0.45 * Math.sin(2 * Math.PI * 0.7 * t) * Math.sin(2 * Math.PI * 0.23 * t + 1.1);
+    const env = Math.min(1, t / 0.5) * Math.min(1, (dur - t) / 0.7);
+    out[i] = (low[i] * 0.55 + sub[i] * 0.9) * gust * env;
+  }
+  return fade(out, SR, 0.3, 0.5);
+}
+
+/**
+ * Radar sweep. A slow filtered wash for the sweep itself plus sonar-style blips
+ * on the same G as everything else, so the navigation check sounds like it comes
+ * from the same aircraft as the rest of the family rather than from a stock pack.
+ */
+function synthRadar(dur) {
+  const n = Math.floor(dur * SR);
+  const noise = new Float64Array(n);
+  fillNoise(noise, 90210);
+  const wash = onePoleLP(noise, SR, 420);
+
+  const out = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    // The sweep passes twice across the scope.
+    const pass = 0.5 + 0.5 * Math.sin(2 * Math.PI * (dur > 0 ? 2 / dur : 0) * t - Math.PI / 2);
+    out[i] = wash[i] * 0.35 * pass;
+  }
+
+  // Blips on G, each a quick strike with a long ring.
+  const blipTimes = [0.35, 1.5, 2.65];
+  for (const bt of blipTimes) {
+    const s0 = Math.floor(bt * SR);
+    let phase = 0;
+    for (let i = s0; i < n; i++) {
+      const t = (i - s0) / SR;
+      const attack = Math.min(1, t / 0.006);
+      const env = attack * Math.exp(-t / 0.22);
+      phase += (2 * Math.PI * 784) / SR; // G5
+      out[i] += Math.sin(phase) * 0.5 * env;
+    }
+  }
+  return fade(out, SR, 0.08, 0.4);
+}
+
+// ─── Descent beds: the SAME engine, heard from further away ─────────────────
+// A piston aircraft must not land sounding like a jet, so the approach bed is
+// derived from that class's own takeoff source rather than being its own
+// recording. Distance is the difference: a sustained slice, low-passed with a
+// falling cutoff (air absorption eats highs first), held quiet, then ducked just
+// before the wheels so the chirp has room.
+const DESCENT_DUR = 3.9;
+const DESCENT_CONTACT = 3.744; // A_TOUCHDOWN_END (0.72) x 5200ms arrival leg
+
+function buildDescentBed(rawDir, clip) {
+  let src;
+  if (clip.descentSynth) {
+    src = synthElectric(DESCENT_DUR + 0.4);
+  } else {
+    const read = readWav(path.join(rawDir, clip.descentFrom));
+    src = resample(slice(read.data, read.sampleRate, 1.0, 4.9), read.sampleRate, SR);
+  }
+  const n = Math.floor(DESCENT_DUR * SR);
+  const bed = new Float64Array(n);
+  for (let i = 0; i < n; i++) bed[i] = src[i] ?? src[src.length - 1 - (i % src.length)] ?? 0;
+
+  const cutoff = new Float64Array(n);
+  for (let i = 0; i < n; i++) cutoff[i] = 1500 - 700 * (i / n);
+  const far = onePoleLP(bed, SR, cutoff);
+
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    const arrive = Math.min(1, t / 1.3);
+    const duck = t > DESCENT_CONTACT - 0.4 ? Math.max(0, 1 - (t - (DESCENT_CONTACT - 0.4)) / 0.55) : 1;
+    far[i] *= arrive * duck;
+  }
+  return fade(far, SR, 0.25, 0.3);
+}
+
+// ─── Clip recipes ───────────────────────────────────────────────────────────
+// rmsDb targets are deliberately NOT uniform: ceremony clips sit forward, dense
+// engines sit back so they do not dominate a classroom, and electric stays ~10 dB
+// under the other takeoffs because that contrast IS the aircraft's character.
+const CLIPS = [
+  {
+    out: 'brand-resolve.mp3',
+    src: 'ElevenLabs_Lesson_Captain_Brand_Resolve.wav',
+    composite: true,
+    trim: [0.06, 1.848],
+    chimeInSourceSec: 0.83,
+    // Spark burst in BrandSting 'full' — see docs/sound-design.md §6.3.
+    chimeTargetSec: 2.643,
+    rmsDb: -20, fadeIn: 0.01, fadeOut: 0.30,
+    reverb: [0.30, 1.2],
+    note: 'cloud rush from 0s, chime at 2.643s — plays from mount, no offset',
+  },
+  {
+    out: 'touchdown.mp3',
+    src: 'AEROMisc-Close-up_sound_effec-Elevenlabs.wav',
+    trim: [0.0, 0.85], rmsDb: -18, fadeIn: 0.002, fadeOut: 0.25,
+  },
+  {
+    out: 'arrival-resolve.mp3',
+    src: 'Warm_cinematic_arriv_#1-1786191094026.wav',
+    trim: [0.08, 2.80], rmsDb: -20, fadeIn: 0.01, fadeOut: 0.30,
+    // Same room as brand-resolve, a touch drier — it plays under a busy screen.
+    reverb: [0.22, 1.4],
+    note: 'chord peak at 1.36s, matching stat-tile settle 1.35s',
+  },
+  {
+    out: 'takeoff-piston.mp3',
+    src: 'A_vintage_radial_pis_#2-1786192541120.wav',
+    trim: [0.0, 4.90], rmsDb: -22, fadeIn: 0.02, fadeOut: 0.35,
+  },
+  {
+    out: 'takeoff-twin-prop.mp3',
+    src: 'Two_heavy_turboprop__#3-1786192796222.wav',
+    trim: [0.0, 4.85], rmsDb: -22, fadeIn: 0.02, fadeOut: 0.35,
+    // Generated flat (only ~2 dB of build); impose the arc it should have had.
+    ramp: [0.0, 2.0, -8, 0],
+  },
+  {
+    out: 'takeoff-jet.mp3',
+    src: 'A_modern_jet_airline_#2-1786193232937.wav',
+    trim: [0.0, 4.60], rmsDb: -22, fadeIn: 0.02, fadeOut: 0.35,
+  },
+  { out: 'takeoff-electric.mp3', synth: true, rmsDb: -32 },
+  {
+    out: 'cruise.mp3',
+    src: 'A_distant_jet_airlin_#3-1787471642189.wav',
+    trim: [0.6, 4.0], rmsDb: -26, fadeIn: 0.15, fadeOut: 0.5,
+    note: 'sits under the 3200ms cruise leg; lighter than any takeoff',
+  },
+  { out: 'descent-piston.mp3',    descentFrom: 'A_vintage_radial_pis_#2-1786192541120.wav', rmsDb: -30 },
+  { out: 'descent-twin-prop.mp3', descentFrom: 'Two_heavy_turboprop__#3-1786192796222.wav', rmsDb: -30 },
+  { out: 'descent-jet.mp3',       descentFrom: 'A_modern_jet_airline_#2-1786193232937.wav', rmsDb: -30 },
+  { out: 'descent-electric.mp3',  descentSynth: true, rmsDb: -38 },
+  // Cruise micro-events run on TRAVEL_DURATION (3200ms) and dismiss at 3500ms.
+  { out: 'turbulence.mp3', turbulence: true, rmsDb: -27, fadeIn: 0.3, fadeOut: 0.5 },
+  { out: 'radar.mp3', radar: true, rmsDb: -26, reverb: [0.26, 1.0], fadeIn: 0.08, fadeOut: 0.4 },
+  {
+    out: 'lobby-bed.mp3',
+    src: 'LessonCaptain_Loading_Loop_2026-08-23T062644 (1).wav',
+    trim: [0, 120], rmsDb: -30, fadeIn: 1.2, fadeOut: 3.0,
+    // Measured: this bed has 0.0% of its energy above 3kHz, so 16k sampling is
+    // transparent for it and keeps two minutes of music near 3.8MB instead of
+    // 10.6MB. Revisit when there is an mp3 encoder available.
+    outSampleRate: 16000, kbps: 64,
+    note: 'lobby only; stops the instant a module starts',
+  },
+];
+
+// ─── Run ────────────────────────────────────────────────────────────────────
+fs.mkdirSync(OUT_DIR, { recursive: true });
+const manifest = [];
+for (const clip of CLIPS) {
+  let data;
+  if (clip.synth) {
+    data = synthElectric();
+  } else if (clip.composite) {
+    data = buildBrandResolve(RAW_DIR, clip);
+  } else if (clip.descentFrom || clip.descentSynth) {
+    data = buildDescentBed(RAW_DIR, clip);
+  } else if (clip.turbulence) {
+    data = synthTurbulence(3.4);
+  } else if (clip.radar) {
+    data = synthRadar(3.4);
+  } else {
+    const file = path.join(RAW_DIR, clip.src);
+    if (!fs.existsSync(file)) { console.error('  MISSING  ' + clip.src); continue; }
+    const read = readWav(file);
+    data = resample(slice(read.data, read.sampleRate, clip.trim[0], clip.trim[1]), read.sampleRate, SR);
+  }
+  if (clip.ramp) ramp(data, SR, clip.ramp[0], clip.ramp[1], clip.ramp[2], clip.ramp[3]);
+  if (clip.reverb) data = reverb(data, SR, clip.reverb[0], clip.reverb[1]);
+  normalise(data, clip.rmsDb);
+  fade(data, SR, clip.fadeIn === undefined ? 0.01 : clip.fadeIn, clip.fadeOut === undefined ? 0.2 : clip.fadeOut);
+  const outRate = clip.outSampleRate || SR;
+  if (outRate !== SR) data = resample(data, SR, outRate);
+  const outPath = path.join(OUT_DIR, clip.out);
+  // Music gets more bitrate than the short cues; nothing here needs stereo.
+  writeMp3(outPath, data, outRate, clip.kbps || 96);
+  const info = {
+    file: clip.out,
+    seconds: Number((data.length / outRate).toFixed(3)),
+    kb: Number((fs.statSync(outPath).size / 1024).toFixed(0)),
+    rmsDb: Number((20 * Math.log10(rmsOf(data))).toFixed(1)),
+    peakDb: Number((20 * Math.log10(peakOf(data))).toFixed(1)),
+  };
+  manifest.push(info);
+  console.log(
+    '  ' + clip.out.padEnd(24) + String(info.seconds).padStart(6) + 's  ' +
+    String(info.kb).padStart(4) + 'KB  rms ' + String(info.rmsDb).padStart(6) +
+    '  peak ' + String(info.peakDb).padStart(6) + (clip.note ? '   (' + clip.note + ')' : '')
+  );
+}
+console.log('\n  ' + manifest.length + ' clips, ' + manifest.reduce((a, m) => a + m.kb, 0) + ' KB total');

@@ -6,6 +6,8 @@ import type { User } from '@supabase/supabase-js';
 import { SkyBackground } from '@/components/ui/sky-background';
 import { BrandStingGate } from '@/components/ui/brand-sting-gate';
 import { TeacherIdentify } from '@/components/analytics/TeacherIdentify';
+import { AudioUnlocker } from '@/components/ui/audio-unlocker';
+import { AudioControl } from '@/components/ui/audio-control';
 
 function isMockModeServer(): boolean {
   return process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
@@ -30,6 +32,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Signature reveal — plays once per browser session on first app load. */}
       <BrandStingGate variant="full" storageKey="lc-sting-splash" holdMs={320} />
       <TeacherIdentify />
+      {/* Banks audio permission on first interaction so later cues can play. */}
+      <AudioUnlocker />
+      {/* Mute has to be reachable mid-lesson, not buried in settings (§6.4). */}
+      <AudioControl />
 
       <SkyBackground weatherState="golden" altitude={0.75} intensity="subtle" showCityLights={false} className="!left-64" />
       <a

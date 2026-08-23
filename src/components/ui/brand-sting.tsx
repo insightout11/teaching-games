@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
 import { TakeoffSpark } from './takeoff-spark';
+import { play } from '@/lib/audio/manager';
+import { brandResolveDelayMs } from '@/lib/audio/sounds';
 
 /**
  * BrandSting — the LessonCaptain signature reveal. The frame starts FULLY white
@@ -203,6 +205,14 @@ export function BrandSting({
     const markTimer = setTimeout(() => setShowMark(true), t.MARK_DELAY * 1000);
     return () => clearTimeout(markTimer);
   }, [reduce, t.MARK_DELAY]);
+
+  // The chime rides the spark burst — the climax the mark's one-shot builds to —
+  // not MARK_DELAY, which is only where it starts emerging from cloud. The clip
+  // opens with a riser, so playback starts early enough for the chime to land
+  // there. Reduced motion collapses the whole timeline, so play it straight away.
+  useEffect(() => {
+    return play('brandResolve', { delayMs: reduce ? 0 : brandResolveDelayMs(variant) });
+  }, [reduce, variant]);
 
   useEffect(() => {
     const totalMs = reduce ? 1400 : revealDone * 1000 + hold;

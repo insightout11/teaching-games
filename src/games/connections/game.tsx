@@ -246,11 +246,6 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
                 responseData: { groupsFound: 4, finishPosition },
               });
 
-              try {
-                const audio = new Audio('/sounds/correct.mp3');
-                audio.volume = 0.5;
-                audio.play().catch(() => {});
-              } catch {}
             }
 
             return prev.map(p =>

@@ -1,17 +1,20 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SkyBackground } from '@/components/ui/sky-background';
 import type { WeatherState } from '@/components/ui/sky-background';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { ArrivalPhase, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
-import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
+import { arrivalTimeline, A_TOUCHDOWN_END, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import { WEATHER_PROFILE } from '@/components/world-flight/arrival-scene/weather';
 import { TurbulenceBeat, useTurbulence } from '@/components/session/turbulence-beat';
 import { FlightCheckScene } from '@/components/session/cockpit-scene';
 import type { DestinationScene } from '@/lib/world-flight/types';
+import { play, playDescent, playTakeoff } from '@/lib/audio/manager';
+import { RUNWAY_TOUCHDOWN_KEYFRAME } from '@/lib/audio/sounds';
+import { getEngineClass } from '@/lib/plane-progression';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
 
@@ -573,6 +576,51 @@ export function FlightTransitionOverlay({
   const isTakeoffCity = cityLeg?.mode === 'departure';
   const isArrivalCity = cityLeg?.mode === 'arrival';
   const travelMs = isTakeoffCity ? DEPARTURE_DURATION_MS : isArrivalCity ? 5200 : TRAVEL_DURATION;
+
+  // Engine audio rides the leg. Takeoff picks its sound from the plane's propulsion
+  // family, so upgrading the aircraft changes how departures sound (§2a). Touchdown
+  // is scheduled onto the descent bounce keyframe; with reduced motion there is no
+  // bounce to hit, so it fires immediately.
+  // Read through a ref, NOT a dependency: useReducedMotion resolves null -> boolean
+  // after mount, and depending on it re-runs this effect, firing the cue a second
+  // time a few ms behind the first — two engines phasing against each other.
+  const reduceRef = useRef(prefersReducedMotion);
+  reduceRef.current = prefersReducedMotion;
+  useEffect(() => {
+    const engineClass = getEngineClass(planeKey);
+    if (leg === 'takeoff') return playTakeoff(engineClass);
+    if (leg === 'cruise') {
+      // Micro-events replace the plain cruise swell with their own beat. The
+      // instrument check stays silent on purpose — see the note in sounds.ts.
+      if (turbulence) return play('turbulence');
+      if (checkVariant === 'radar') return play('radar');
+      return play('cruise');
+    }
+    if (leg === 'descent') {
+      // Two different descents run two different animations, and the hit has to
+      // follow whichever is on screen. A city arrival (the path real sessions
+      // always take, since session-view falls back to the home-base scene) runs
+      // arrivalTimeline over travelMs, where contact is A_APPROACH_END. A bare
+      // runway descent uses the plane variant's own 0.60 bounce keyframe, which
+      // is pinned to TRAVEL_DURATION. Using one fixed number for both is why the
+      // chirp drifted.
+      // A_APPROACH_END is where the flare ENDS, but the aircraft is not visibly
+      // down there: PlaneLayer blends yOffset from its flying value to the runway
+      // calibration across the whole touchdown phase, so it keeps sinking until
+      // A_TOUCHDOWN_END. Firing on the earlier mark put the chirp ~1s ahead of
+      // the wheels.
+      const contactMs = isArrivalCity
+        ? A_TOUCHDOWN_END * travelMs
+        : RUNWAY_TOUCHDOWN_KEYFRAME * TRAVEL_DURATION;
+      // The approach bed carries the same engine as this plane's takeoff, so a
+      // piston aircraft doesn't land sounding like a jet. It ducks out just
+      // before contact, leaving the chirp exposed.
+      const stopBed = playDescent(engineClass);
+      const stopHit = play('touchdown', { delayMs: reduceRef.current ? 0 : contactMs });
+      return () => { stopBed(); stopHit(); };
+    }
+    return undefined;
+  }, [leg, planeKey, isArrivalCity, travelMs, turbulence, checkVariant]);
 
   // Drives the city scene's phase/progress across the overlay lifetime.
   const [transitionT, setTransitionT] = useState(prefersReducedMotion ? 1 : 0);
