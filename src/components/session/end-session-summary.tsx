@@ -179,17 +179,6 @@ export function EndSessionSummary({
   const captain = summary[0];
   const captainTies = captain ? summary.filter((s) => s.total === captain.total).length : 0;
 
-  // Cabin applause on the Captain of the Day reveal, which springs in at delay 1.05.
-  // Sits ~4dB under the arrival chord so the chord stays the ceremonial anchor and
-  // this is warmth beneath it, rather than two big moments fighting for one second.
-  //
-  // Gated on !isSolo for the same reason the crown framing is: applauding a class of
-  // one reads as fake, and 1:1 is a real slice of usage. Ties still get it — more
-  // people to celebrate, not fewer.
-  useEffect(() => {
-    if (previewMode || isSolo || !captain) return;
-    return play('captainApplause', { delayMs: 1050 });
-  }, [previewMode, isSolo, captain]);
   const rewardSnapshot = progressionReward?.snapshot ?? null;
   const everyoneAboardDetail = rewardSnapshot
     ? rewardSnapshot.participantCount === 0
@@ -218,6 +207,21 @@ export function EndSessionSummary({
     : ['arrival', 'debrief'];
   const currentBeat = beats[Math.min(beatIndex, beats.length - 1)];
   const isLastBeat = beatIndex >= beats.length - 1;
+
+  // Cabin applause on the Captain of the Day reveal.
+  //
+  // This is keyed on the BEAT, not on mount. The summary is a teacher-advanced
+  // ceremony — 'arrival' -> 'captain' -> 'debrief' — gated behind a "Reveal Captain
+  // of the Day" button, so firing on a timer from mount played it under the stats
+  // screen while the captain was still hidden. The 1050ms offset is the reveal
+  // spring's own delay, measured from when that beat mounts.
+  //
+  // No extra gating needed: the 'captain' beat only exists when hasCaptainBeat is
+  // true, which already requires a real winner with points AND a non-solo class.
+  useEffect(() => {
+    if (previewMode || currentBeat !== 'captain') return;
+    return play('captainApplause', { delayMs: 1050 });
+  }, [previewMode, currentBeat]);
 
   return (
     <div className="max-w-2xl mx-auto py-8">

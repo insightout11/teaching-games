@@ -36,7 +36,7 @@ becomes worthwhile (e.g. bespoke lobby music).
 | Navigation check | same (`stageId==='navigation-check'`) | `radar` |
 | Descent | same (`leg==='descent'`) | `descent-*` by engine class, then `touchdown` |
 | End of session | `session/end-session-summary.tsx` | `arrival-resolve` |
-| Captain of the Day | same, on the reveal at +1050ms | `captain-applause` (class sessions only) |
+| Captain of the Day | same, on the `captain` ceremony beat, +1050ms | `captain-applause` (class sessions only) |
 | Lobby | `session/session-view.tsx`, keyed on `lesson.phase` | `lobby-bed` (music channel) |
 
 ### Lobby music — default ON
@@ -66,8 +66,10 @@ above 3.5kHz, which is what damped walls and soft furnishings do to a room.
 
 - **It is the one clip deliberately NOT in the shared reverb space (§1.5).** Adding the hall
   would undo the only thing making it read as a cabin.
-- **Fires at +1050ms**, on the reveal spring, and sits ~4dB under the chord so the chord stays
-  the ceremonial anchor and the applause is warmth beneath it.
+- **Keyed on the ceremony BEAT, not on mount.** The summary is teacher-advanced —
+  arrival -> captain -> debrief, behind a "Reveal Captain of the Day" button — so a timer from
+  mount plays it under the stats screen while the captain is still hidden. It fires when
+  currentBeat becomes captain, +1050ms for the reveal spring, and sits ~4dB under the chord.
 - **Gated on `!isSolo`**, exactly as the crown framing already is. Applauding a class of one
   reads as fake, and 1:1 is a real slice of usage.
 - **Ties still get it** — more people to celebrate, not fewer.
@@ -264,9 +266,10 @@ calibrated.
 differs per view angle — Aurora Glider is 24.9% of image height side-on but **34.0%** head-on — so
 a side-view correction applied to a front view is simply wrong. `runwayYOffset` is read by
 front-facing and sprite surfaces (`RunwayPlaneScene`, `ClassPlaneSprite`) and keeps its original
-hand-tuned values; only `PlaneLayer`'s side view reads `groundContactOffset`. A THIRD field, `hangarYOffset`, does the
-same job for the front-three-quarter art in the lobby hangar — it too was set for only 3 of 14
-planes, so the rest floated there independently of anything audio-related. Calibrating the
+hand-tuned values; only `PlaneLayer`'s side view reads `groundContactOffset`. `hangarYOffset` is a THIRD field for the lobby hangar and was deliberately left alone: it is not
+a padding correction but a DEPTH placement inside a receding interior, so measuring padding and
+setting it produced planes standing on the apron line, outside the hangar's lit floor pool, where
+their gear vanished into the dark. Do not calibrate it from art padding. Calibrating the
 shared field instead displaced planes across the hangar and lobby, because 11 aircraft went from
 an inert `0` to a live value on the wrong axis.
 

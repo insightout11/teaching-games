@@ -69,17 +69,6 @@ describe('plane progression assets', () => {
   // gear (measured by scripts/measure-plane-ground-offsets.mjs). A plane left at 0
   // visibly hovers above the runway, which is what happened to 11 of 14 aircraft
   // before these were calibrated — so assert none of them slips back to zero.
-  // hangarYOffset does the same job for the FRONT-3Q art in the lobby hangar.
-  // It is a separate number from groundContactOffset because padding differs per
-  // view angle; it was also only ever set for 3 of 14 planes, so the rest floated.
-  it('gives every aircraft a hangar calibration so none floats in the lobby', () => {
-    for (const tier of PLANE_TIERS) {
-      for (const choice of tier.choices) {
-        expect(choice.displayMeta.hangarYOffset, choice.key).toBeGreaterThan(0);
-      }
-    }
-  });
-
   it('gives every aircraft a runway calibration so none hovers', () => {
     for (const tier of PLANE_TIERS) {
       for (const choice of tier.choices) {
