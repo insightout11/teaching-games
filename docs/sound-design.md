@@ -202,7 +202,26 @@ entry throws `MPEGMode is not defined` and its prebuilt bundles export nothing. 
 | Touchdown (bare runway) | `0.60 × TRAVEL_DURATION` = 1920ms | plane variant's own bounce keyframe |
 | Takeoff length | ~4.8s | `DEPARTURE_DURATION_MS` = 4800, **not** `TRAVEL_DURATION` |
 
-Two traps worth naming, because both cost a round of "it's mistimed":
+### Micro-event beats are not gated on the cruise leg
+
+A beat (`turbulence`, `radar`) **replaces the whole transition scene** — it renders its own sky
+and never draws the runway or plane. So it never needed the cruise leg's visuals, only permission
+to run.
+
+That matters because the leg is chosen by **slot position**, not by the stage's declared phase:
+`nextIndex === 1` → takeoff, last → descent, otherwise cruise. Requiring `leg === 'cruise'` meant
+a micro-event at slot 1 — where `opinion-pulse` sits in the Speaking Fluency preset — silently
+rendered as a takeoff and its beat never played at all.
+
+The gate is now `isMicroEvent && leg !== 'descent'`. Descent stays excluded so an arrival is never
+swallowed. Two consequences to keep in step:
+
+- **Audio checks the beat before the leg**, matching the render. Checking the leg first would play
+  a takeoff engine over a turbulence scene.
+- **The city waypoint card is suppressed on a beat**, or it announces a departure that isn't on
+  screen.
+
+Two more traps worth naming, because both cost a round of "it's mistimed":
 
 - **`A_APPROACH_END` is not touchdown.** It is where the *flare* ends. `PlaneLayer` blends
   `yOffset` toward the runway calibration across the whole touchdown phase, so the aircraft keeps
@@ -256,13 +275,7 @@ micro-events, the lobby bed, global mute/volume, and the tuning board.
   stat-tile stamp thunks on the end-summary reveal — a one-time ceremony, so not the §2 hard no,
   but judge it on the board first.
 - **v3:** Captain bookend announcements.
-- **Turbulence IS wired live** — an earlier note claiming it was dev-only was stale. The chain is
-  real: a preset slot carries `stageId: 'opinion-pulse', isMicroEvent: true`, `session-view`
-  forwards both to the overlay, and the overlay renders `TurbulenceBeat`. But the leg is chosen by
-  **position** (`nextIndex === 1` → takeoff, last → descent, middle → cruise) and turbulence
-  requires `cruise`. So a micro-event sitting at slot 1 — which is where `opinion-pulse` sits in
-  the Speaking Fluency preset — silently becomes a takeoff and never fires its beat. Worth
-  reconciling: `isMicroEvent` arguably should force the cruise treatment regardless of index.
+- **Turbulence is wired live** — an earlier note calling it dev-only was stale.
 - **Known art issue, not fixable in code:** the "L" livery is off-centre in some plane artwork
   (Cargo Cruiser worst). It is painted into the raster asset.
 

@@ -559,13 +559,21 @@ export function FlightTransitionOverlay({
   const showRunway = (leg === 'takeoff' || leg === 'descent') && !isCityTransition;
   const planeAnim = buildPlaneAnim(leg, altitudeTo - altitudeFrom);
 
-  // Cruise micro-events each get a transition matching their classroom purpose.
-  const isCruiseMicroEvent = !!isMicroEvent && leg === 'cruise' && !isCityTransition;
-  const turbulence = isCruiseMicroEvent && stageId === 'opinion-pulse';
+  // Micro-events each get a transition matching their classroom purpose.
+  //
+  // This is gated on the leg only to protect the landing. A beat REPLACES the whole
+  // transition scene — it renders its own sky and never draws the runway or plane —
+  // so it never needed the cruise leg's visuals, just permission to run. Requiring
+  // `leg === 'cruise'` meant a micro-event at slot 1 (where opinion-pulse sits in
+  // the Speaking Fluency preset) silently rendered as a takeoff and its beat never
+  // played at all, because the leg is chosen by POSITION rather than by the stage's
+  // declared phase. Descent stays excluded so an arrival is never swallowed.
+  const isMicroEventBeat = !!isMicroEvent && leg !== 'descent';
+  const turbulence = isMicroEventBeat && stageId === 'opinion-pulse';
   const checkVariant =
-    isCruiseMicroEvent && stageId === 'accuracy-check'
+    isMicroEventBeat && stageId === 'accuracy-check'
       ? 'instrument'
-      : isCruiseMicroEvent && stageId === 'navigation-check'
+      : isMicroEventBeat && stageId === 'navigation-check'
         ? 'radar'
         : null;
   const frameJitter = useTurbulence(turbulence && !prefersReducedMotion ? 0.35 : 0);
@@ -588,14 +596,14 @@ export function FlightTransitionOverlay({
   reduceRef.current = prefersReducedMotion;
   useEffect(() => {
     const engineClass = getEngineClass(planeKey);
+    // Micro-event beats are checked FIRST, matching the render: they replace the
+    // whole scene, so the cue has to follow what is actually on screen. Checking
+    // the leg first would play a takeoff engine over a turbulence scene.
+    // The instrument check stays silent on purpose — see the note in sounds.ts.
+    if (turbulence) return play('turbulence');
+    if (checkVariant === 'radar') return play('radar');
     if (leg === 'takeoff') return playTakeoff(engineClass);
-    if (leg === 'cruise') {
-      // Micro-events replace the plain cruise swell with their own beat. The
-      // instrument check stays silent on purpose — see the note in sounds.ts.
-      if (turbulence) return play('turbulence');
-      if (checkVariant === 'radar') return play('radar');
-      return play('cruise');
-    }
+    if (leg === 'cruise') return play('cruise');
     if (leg === 'descent') {
       // Two different descents run two different animations, and the hit has to
       // follow whichever is on screen. A city arrival (the path real sessions
@@ -840,7 +848,9 @@ export function FlightTransitionOverlay({
             border: '1px solid rgba(255,255,255,0.11)',
           }}
         >
-          {isCityTransition ? (
+          {/* A micro-event beat replaces the scene, so the city card would announce a
+              departure that is not on screen. Fall back to the plain waypoint label. */}
+          {isCityTransition && !isMicroEventBeat ? (
             <>
               <p className="text-[9px] font-bold tracking-[0.24em] uppercase text-cyan-400/75 mb-0.5">
                 {cityLeg!.label}

@@ -196,6 +196,17 @@ export function SoundsDevClient() {
             Descent now carries the same engine family as takeoff, then the touchdown hit.
           </p>
 
+          <button
+            onClick={() => runLeg('takeoff', 'opinion-pulse')}
+            className="w-full px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors"
+          >
+            <span className="block text-sm font-medium">Micro-event on a takeoff leg (slot 1)</span>
+            <span className="block text-[11px] text-white/40 leading-snug">
+              The case that used to swallow the beat — legs are picked by position, so a
+              micro-event at slot 1 rendered as a takeoff. Should show turbulence, not a runway.
+            </span>
+          </button>
+
           <h3 className="text-xs font-semibold text-white/55 uppercase tracking-wider pt-2">
             Cruise micro-events
           </h3>
