@@ -22,7 +22,10 @@ export const ARRIVAL_DURATION_MS = 8400;
  *  the touchdown settle begins. Exported so audio can land its hit on the same
  *  instant the visual does. */
 export const A_APPROACH_END = 0.52;
-const A_TOUCHDOWN_END = 0.72;
+/** Master-progress point where the settle completes and the aircraft is fully
+ *  down on its gear — the plane blends to its runway calibration across this
+ *  phase, so this, not A_APPROACH_END, is when the wheels visibly meet tarmac. */
+export const A_TOUCHDOWN_END = 0.72;
 const A_TAXI_END = 0.94;
 
 /**

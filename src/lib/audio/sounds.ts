@@ -14,6 +14,7 @@ export const SOUNDS = {
   brandResolve: '/sounds/brand-resolve.wav',
   touchdown: '/sounds/touchdown.wav',
   arrivalResolve: '/sounds/arrival-resolve.wav',
+  cruise: '/sounds/cruise.wav',
 } as const;
 
 export type SoundKey = keyof typeof SOUNDS;
@@ -25,9 +26,22 @@ export const TAKEOFF_SOUNDS: Record<EngineClass, string> = {
   jet: '/sounds/takeoff-jet.wav',
 };
 
+/**
+ * Approach beds, keyed by the SAME propulsion family as takeoff — a piston
+ * aircraft must not land sounding like a jet. Each is derived from that class's
+ * own takeoff source, heard from further away.
+ */
+export const DESCENT_SOUNDS: Record<EngineClass, string> = {
+  piston: '/sounds/descent-piston.wav',
+  'twin-prop': '/sounds/descent-twin-prop.wav',
+  electric: '/sounds/descent-electric.wav',
+  jet: '/sounds/descent-jet.wav',
+};
+
 export const ALL_SOUND_URLS: string[] = [
   ...Object.values(SOUNDS),
   ...Object.values(TAKEOFF_SOUNDS),
+  ...Object.values(DESCENT_SOUNDS),
 ];
 
 /**

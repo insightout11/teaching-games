@@ -10,7 +10,7 @@
  * - Browsers block audio until a user gesture. `unlock()` is called from the
  *   session-start click; before that, every play is a no-op rather than an error.
  */
-import { ALL_SOUND_URLS, SOUNDS, TAKEOFF_SOUNDS, type SoundKey } from './sounds';
+import { ALL_SOUND_URLS, DESCENT_SOUNDS, SOUNDS, TAKEOFF_SOUNDS, type SoundKey } from './sounds';
 import type { EngineClass } from '@/lib/plane-progression';
 
 const PREFS_KEY = 'lc-audio-prefs';
@@ -178,4 +178,9 @@ export function play(key: SoundKey, opts?: PlayOptions): () => void {
 /** Play the takeoff cue for a plane's propulsion family (docs/sound-design.md §2a). */
 export function playTakeoff(engineClass: EngineClass, opts?: PlayOptions): () => void {
   return playUrl(TAKEOFF_SOUNDS[engineClass], opts);
+}
+
+/** Play the approach bed — same propulsion family as takeoff, heard from further off. */
+export function playDescent(engineClass: EngineClass, opts?: PlayOptions): () => void {
+  return playUrl(DESCENT_SOUNDS[engineClass], opts);
 }

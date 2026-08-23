@@ -7,12 +7,12 @@ import type { WeatherState } from '@/components/ui/sky-background';
 import { ClassPlaneSprite } from '@/components/ui/class-plane-sprite';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { ArrivalPhase, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
-import { arrivalTimeline, A_APPROACH_END, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
+import { arrivalTimeline, A_TOUCHDOWN_END, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import { WEATHER_PROFILE } from '@/components/world-flight/arrival-scene/weather';
 import { TurbulenceBeat, useTurbulence } from '@/components/session/turbulence-beat';
 import { FlightCheckScene } from '@/components/session/cockpit-scene';
 import type { DestinationScene } from '@/lib/world-flight/types';
-import { play, playTakeoff } from '@/lib/audio/manager';
+import { play, playDescent, playTakeoff } from '@/lib/audio/manager';
 import { RUNWAY_TOUCHDOWN_KEYFRAME } from '@/lib/audio/sounds';
 import { getEngineClass } from '@/lib/plane-progression';
 
@@ -587,7 +587,9 @@ export function FlightTransitionOverlay({
   const reduceRef = useRef(prefersReducedMotion);
   reduceRef.current = prefersReducedMotion;
   useEffect(() => {
-    if (leg === 'takeoff') return playTakeoff(getEngineClass(planeKey));
+    const engineClass = getEngineClass(planeKey);
+    if (leg === 'takeoff') return playTakeoff(engineClass);
+    if (leg === 'cruise') return play('cruise');
     if (leg === 'descent') {
       // Two different descents run two different animations, and the hit has to
       // follow whichever is on screen. A city arrival (the path real sessions
@@ -596,10 +598,20 @@ export function FlightTransitionOverlay({
       // runway descent uses the plane variant's own 0.60 bounce keyframe, which
       // is pinned to TRAVEL_DURATION. Using one fixed number for both is why the
       // chirp drifted.
+      // A_APPROACH_END is where the flare ENDS, but the aircraft is not visibly
+      // down there: PlaneLayer blends yOffset from its flying value to the runway
+      // calibration across the whole touchdown phase, so it keeps sinking until
+      // A_TOUCHDOWN_END. Firing on the earlier mark put the chirp ~1s ahead of
+      // the wheels.
       const contactMs = isArrivalCity
-        ? A_APPROACH_END * travelMs
+        ? A_TOUCHDOWN_END * travelMs
         : RUNWAY_TOUCHDOWN_KEYFRAME * TRAVEL_DURATION;
-      return play('touchdown', { delayMs: reduceRef.current ? 0 : contactMs });
+      // The approach bed carries the same engine as this plane's takeoff, so a
+      // piston aircraft doesn't land sounding like a jet. It ducks out just
+      // before contact, leaving the chirp exposed.
+      const stopBed = playDescent(engineClass);
+      const stopHit = play('touchdown', { delayMs: reduceRef.current ? 0 : contactMs });
+      return () => { stopBed(); stopHit(); };
     }
     return undefined;
   }, [leg, planeKey, isArrivalCity, travelMs]);

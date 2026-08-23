@@ -224,6 +224,41 @@ function synthCloudRush(dur, peakAt) {
   return fade(out, SR, 0.12, 0.25);
 }
 
+/**
+ * High shimmer struck with the chime. The generated bell is warm but dark — its
+ * only real partials are 393Hz and 1179Hz — so the logo landed soft rather than
+ * bright. These are upper partials of the same G, slightly detuned against each
+ * other so they glitter instead of sitting as one steady tone, with a fast attack
+ * and a long decay that rings out under the mark.
+ */
+function synthSparkle(dur, strikeAt) {
+  const n = Math.floor(dur * SR);
+  const out = new Float64Array(n);
+  // G6, B6, D7, G7, B7 — the chime's own harmonic series, up where it has nothing.
+  const partials = [
+    { f: 1568, a: 0.42, d: 1.25 },
+    { f: 1976, a: 0.26, d: 1.05 },
+    { f: 2349, a: 0.20, d: 0.95 },
+    { f: 3136, a: 0.24, d: 0.85 },
+    { f: 3951, a: 0.13, d: 0.7 },
+    { f: 4699, a: 0.08, d: 0.55 },
+  ];
+  const s0 = Math.floor(strikeAt * SR);
+  for (const p of partials) {
+    // A few cents off so the partials beat gently against one another.
+    const detune = 1 + (Math.random() - 0.5) * 0.004;
+    let phase = Math.random() * Math.PI * 2;
+    for (let i = s0; i < n; i++) {
+      const t = (i - s0) / SR;
+      const attack = Math.min(1, t / 0.012);
+      const env = attack * Math.exp(-t / (p.d / 3));
+      phase += (2 * Math.PI * p.f * detune) / SR;
+      out[i] += Math.sin(phase) * p.a * env;
+    }
+  }
+  return out;
+}
+
 function buildBrandResolve(rawDir, clip) {
   const read = readWav(path.join(rawDir, clip.src));
   const orig = resample(
@@ -238,7 +273,44 @@ function buildBrandResolve(rawDir, clip) {
   const whoosh = synthCloudRush(clip.chimeTargetSec + 0.5, clip.chimeTargetSec - 0.75);
   for (let i = 0; i < whoosh.length && i < out.length; i++) out[i] += whoosh[i] * 0.75;
   for (let i = 0; i < orig.length; i++) out[offset + i] += orig[i];
+
+  const sparkle = synthSparkle(out.length / SR, clip.chimeTargetSec);
+  for (let i = 0; i < out.length; i++) out[i] += sparkle[i] * 0.30;
   return out;
+}
+
+// ─── Descent beds: the SAME engine, heard from further away ─────────────────
+// A piston aircraft must not land sounding like a jet, so the approach bed is
+// derived from that class's own takeoff source rather than being its own
+// recording. Distance is the difference: a sustained slice, low-passed with a
+// falling cutoff (air absorption eats highs first), held quiet, then ducked just
+// before the wheels so the chirp has room.
+const DESCENT_DUR = 3.9;
+const DESCENT_CONTACT = 3.744; // A_TOUCHDOWN_END (0.72) x 5200ms arrival leg
+
+function buildDescentBed(rawDir, clip) {
+  let src;
+  if (clip.descentSynth) {
+    src = synthElectric(DESCENT_DUR + 0.4);
+  } else {
+    const read = readWav(path.join(rawDir, clip.descentFrom));
+    src = resample(slice(read.data, read.sampleRate, 1.0, 4.9), read.sampleRate, SR);
+  }
+  const n = Math.floor(DESCENT_DUR * SR);
+  const bed = new Float64Array(n);
+  for (let i = 0; i < n; i++) bed[i] = src[i] ?? src[src.length - 1 - (i % src.length)] ?? 0;
+
+  const cutoff = new Float64Array(n);
+  for (let i = 0; i < n; i++) cutoff[i] = 1500 - 700 * (i / n);
+  const far = onePoleLP(bed, SR, cutoff);
+
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    const arrive = Math.min(1, t / 1.3);
+    const duck = t > DESCENT_CONTACT - 0.4 ? Math.max(0, 1 - (t - (DESCENT_CONTACT - 0.4)) / 0.55) : 1;
+    far[i] *= arrive * duck;
+  }
+  return fade(far, SR, 0.25, 0.3);
 }
 
 // ─── Clip recipes ───────────────────────────────────────────────────────────
@@ -286,6 +358,16 @@ const CLIPS = [
     trim: [0.0, 4.60], rmsDb: -22, fadeIn: 0.02, fadeOut: 0.35,
   },
   { out: 'takeoff-electric.wav', synth: true, rmsDb: -32 },
+  {
+    out: 'cruise.wav',
+    src: 'A_distant_jet_airlin_#3-1787471642189.wav',
+    trim: [0.6, 4.0], rmsDb: -26, fadeIn: 0.15, fadeOut: 0.5,
+    note: 'sits under the 3200ms cruise leg; lighter than any takeoff',
+  },
+  { out: 'descent-piston.wav',    descentFrom: 'A_vintage_radial_pis_#2-1786192541120.wav', rmsDb: -30 },
+  { out: 'descent-twin-prop.wav', descentFrom: 'Two_heavy_turboprop__#3-1786192796222.wav', rmsDb: -30 },
+  { out: 'descent-jet.wav',       descentFrom: 'A_modern_jet_airline_#2-1786193232937.wav', rmsDb: -30 },
+  { out: 'descent-electric.wav',  descentSynth: true, rmsDb: -38 },
 ];
 
 // ─── Run ────────────────────────────────────────────────────────────────────
@@ -297,6 +379,8 @@ for (const clip of CLIPS) {
     data = synthElectric();
   } else if (clip.composite) {
     data = buildBrandResolve(RAW_DIR, clip);
+  } else if (clip.descentFrom || clip.descentSynth) {
+    data = buildDescentBed(RAW_DIR, clip);
   } else {
     const file = path.join(RAW_DIR, clip.src);
     if (!fs.existsSync(file)) { console.error('  MISSING  ' + clip.src); continue; }
