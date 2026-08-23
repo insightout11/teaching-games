@@ -8,7 +8,17 @@ import {
   type FlightTransitionLeg,
 } from '@/components/session/flight-transition-overlay';
 import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-flight/home-base';
-import { play, playTakeoff, setSfxEnabled, setVolume, stopAll } from '@/lib/audio/manager';
+import {
+  play,
+  playTakeoff,
+  setMusicEnabled,
+  setSfxEnabled,
+  setVolume,
+  startMusic,
+  stopAll,
+  stopMusic,
+} from '@/lib/audio/manager';
+import { LOBBY_BED } from '@/lib/audio/sounds';
 import { useAudioPrefs } from '@/lib/audio/use-audio';
 import type { EngineClass } from '@/lib/plane-progression';
 
@@ -49,11 +59,12 @@ interface Running {
 const MICRO_EVENTS: { stageId: string; label: string; note: string }[] = [
   { stageId: 'opinion-pulse', label: 'Turbulence', note: 'low rumble on the same gate as the jitter' },
   { stageId: 'navigation-check', label: 'Radar', note: 'sweep wash + blips on G' },
-  { stageId: 'accuracy-check', label: 'Instrument', note: 'silent on purpose — see sounds.ts' },
+  { stageId: 'accuracy-check', label: 'Instrument', note: 'no cue of its own — falls back to the cruise swell' },
 ];
 
 export function SoundsDevClient() {
-  const { sfxEnabled, volume } = useAudioPrefs();
+  const { sfxEnabled, musicEnabled, volume } = useAudioPrefs();
+  const [bedPlaying, setBedPlaying] = useState(false);
   const [sting, setSting] = useState<'full' | 'short' | null>(null);
   const [flight, setFlight] = useState<Running | null>(null);
   const [engine, setEngine] = useState<EngineClass>('piston');
@@ -113,6 +124,16 @@ export function SoundsDevClient() {
             >
               {sfxEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               {sfxEnabled ? 'On' : 'Muted'}
+            </button>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium">Lobby music</span>
+            <button
+              onClick={() => setMusicEnabled(!musicEnabled)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-sm transition-colors"
+            >
+              {musicEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+              {musicEnabled ? 'On' : 'Muted'}
             </button>
           </div>
           <label className="block space-y-2">
@@ -216,6 +237,36 @@ export function SoundsDevClient() {
               <Play className="w-4 h-4 text-white/40" />
               <span className="text-sm text-white/60">Short — dev only, chime lands late</span>
             </button>
+          </div>
+        </section>
+
+        {/* Lobby bed */}
+        <section className="space-y-3">
+          <h2 className="text-sm font-semibold text-white/70 uppercase tracking-wider">
+            Lobby music
+          </h2>
+          <p className="text-xs text-white/40">
+            In a real session this starts on the lobby phase and stops dead when the first
+            module launches. Two minutes long, fades in over ~1.8s, and sits at 55% under the
+            cues. The honest test is talking over it.
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => { startMusic(LOBBY_BED); setBedPlaying(true); }}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-medium transition-colors"
+            >
+              <Play className="w-4 h-4 text-lc-blue" />
+              Start bed
+            </button>
+            <button
+              onClick={() => { stopMusic(); setBedPlaying(false); }}
+              className="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm text-white/60 transition-colors"
+            >
+              Stop (fade)
+            </button>
+            {bedPlaying && (
+              <span className="self-center text-xs text-white/35">playing</span>
+            )}
           </div>
         </section>
 

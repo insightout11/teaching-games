@@ -262,19 +262,24 @@ function synthCloudRush(dur, peakAt) {
   // Subtract a low-passed copy to keep it moving rather than rumbling.
   const rumble = onePoleLP(body, SR, 90);
 
-  // The pad now LEADS and the noise is a texture under it — that inversion is
-  // what makes this atmospheric rather than windy. Voices are an octave below the
-  // previous pass, on the chime's own G, each with its own slow vibrato so the
-  // chord breathes instead of sitting as one flat tone.
-  const voices = [98, 146.8, 196, 293.7]; // G2 D3 G3 D4
+  // The pad LEADS and the noise is a texture under it — that inversion is what
+  // makes this atmospheric rather than windy.
+  //
+  // It is a full G MAJOR triad, and that is the whole point. The previous pass was
+  // G2/D3/G3/D4 — bare octaves and fifths with no third, in a low register, which
+  // is precisely the interval set that reads as ominous. The major third (B) is
+  // what makes a chord sound friendly, and dropping the sub-100Hz voice removes
+  // the drone. Each voice keeps its own slow vibrato so the chord breathes.
+  const voices = [196, 246.9, 293.7, 392, 493.9]; // G3 B3 D4 G4 B4
   const pad = new Float64Array(n);
   voices.forEach((f, vi) => {
     let phase = vi * 1.7;
     for (let i = 0; i < n; i++) {
       const t = i / SR;
-      const vib = 1 + Math.sin(2 * Math.PI * (0.19 + vi * 0.05) * t) * 0.003;
+      const vib = 1 + Math.sin(2 * Math.PI * (0.21 + vi * 0.045) * t) * 0.0028;
       phase += (2 * Math.PI * f * vib) / SR;
-      pad[i] += Math.sin(phase) * (0.5 / (vi + 1.3));
+      // Upper voices sit quieter so the chord is warm rather than bright.
+      pad[i] += Math.sin(phase) * (0.44 / (vi * 0.75 + 1.25));
     }
   });
 

@@ -15,8 +15,9 @@ export const SOUNDS = {
   touchdown: '/sounds/touchdown.wav',
   arrivalResolve: '/sounds/arrival-resolve.wav',
   cruise: '/sounds/cruise.wav',
-  /** Cruise micro-events. `instrument` is deliberately absent — a beep on an
-   *  accuracy check is a hair from the per-question ding §2 calls a hard no. */
+  /** Cruise micro-events. There is deliberately no `instrument` cue: a beep on an
+   *  accuracy check is a hair from the per-question ding §2 calls a hard no, so
+   *  that stage falls through to the plain cruise swell instead of getting one. */
   turbulence: '/sounds/turbulence.wav',
   radar: '/sounds/radar.wav',
 } as const;
