@@ -214,13 +214,20 @@ Two traps worth naming, because both cost a round of "it's mistimed":
 
 ### Related: plane runway calibration
 
-`runwayYOffset` is not a taste value — it cancels the transparent padding under each plane's
-landing gear, since `PlaneLayer` aligns the image *box* bottom to `LAYOUT.runwayY`. It was
-calibrated for only 3 of 14 aircraft, so the rest visibly hovered on both takeoff and landing.
-[`scripts/measure-plane-ground-offsets.mjs`](../scripts/measure-plane-ground-offsets.mjs)
-measures it from each PNG's alpha; re-run it if art is re-exported. A test asserts every plane
-stays calibrated. Note `ClassPlaneSprite` must scale these values into its own space — they are
-authored in `PlaneLayer`'s 480×240 box and would fling a 56px sprite around as raw pixels.
+`groundContactOffset` cancels the transparent padding under each plane's landing gear, since
+`PlaneLayer` aligns the image *box* bottom to `LAYOUT.runwayY`. It was calibrated for only 3 of 14
+aircraft, so the rest visibly hovered on both takeoff and landing.
+[`scripts/measure-plane-ground-offsets.mjs`](../scripts/measure-plane-ground-offsets.mjs) measures
+it from each PNG's alpha; re-run it if art is re-exported. A test asserts every plane stays
+calibrated.
+
+**It is a separate field from `runwayYOffset`, and that separation is the whole point.** Padding
+differs per view angle — Aurora Glider is 24.9% of image height side-on but **34.0%** head-on — so
+a side-view correction applied to a front view is simply wrong. `runwayYOffset` is read by
+front-facing and sprite surfaces (`RunwayPlaneScene`, `ClassPlaneSprite`) and keeps its original
+hand-tuned values; only `PlaneLayer`'s side view reads `groundContactOffset`. Calibrating the
+shared field instead displaced planes across the hangar and lobby, because 11 aircraft went from
+an inert `0` to a live value on the wrong axis.
 
 ---
 
@@ -249,8 +256,13 @@ micro-events, the lobby bed, global mute/volume, and the tuning board.
   stat-tile stamp thunks on the end-summary reveal — a one-time ceremony, so not the §2 hard no,
   but judge it on the board first.
 - **v3:** Captain bookend announcements.
-- **Turbulence is still dev-only** at `/dev/turbulence` and not wired into live sessions, so its
-  cue is only audible on the board until that ships.
+- **Turbulence IS wired live** — an earlier note claiming it was dev-only was stale. The chain is
+  real: a preset slot carries `stageId: 'opinion-pulse', isMicroEvent: true`, `session-view`
+  forwards both to the overlay, and the overlay renders `TurbulenceBeat`. But the leg is chosen by
+  **position** (`nextIndex === 1` → takeoff, last → descent, middle → cruise) and turbulence
+  requires `cruise`. So a micro-event sitting at slot 1 — which is where `opinion-pulse` sits in
+  the Speaking Fluency preset — silently becomes a takeoff and never fires its beat. Worth
+  reconciling: `isMicroEvent` arguably should force the cruise treatment regardless of index.
 - **Known art issue, not fixable in code:** the "L" livery is off-centre in some plane artwork
   (Cargo Cruiser worst). It is painted into the raster asset.
 

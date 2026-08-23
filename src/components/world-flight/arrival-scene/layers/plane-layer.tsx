@@ -74,7 +74,9 @@ export function PlaneLayer({ planeKey, phase, progress, ambient, mode, idPrefix 
         ? p
         : flying ? 0 : 1;
   const scale = lerp(meta.flyingScale, meta.parkedScale, landingBlend) * depthScale;
-  const yOffset = lerp(meta.transitionYOffset, meta.runwayYOffset, landingBlend);
+  // groundContactOffset, not runwayYOffset: this is the side/ground art meeting
+  // the runway, and padding differs per view angle (see plane-progression.ts).
+  const yOffset = lerp(meta.transitionYOffset, meta.groundContactOffset, landingBlend);
 
   const x = cx - PW / 2;
   const y = cyBase - PH - yOffset;
