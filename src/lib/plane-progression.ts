@@ -206,7 +206,7 @@ const PLANE_ENTRIES: PlaneEntry[] = [
   // values; only PlaneLayer's side view reads this one.
   entry('starter-biplane', 'LC Cadet', 'piston', { groundContactOffset: -51, runwayYOffset: -48, hangarYOffset: 34 }, LC_CADET_ASSETS),
   entry('scout-monoplane',     'LC Wayfarer',      'piston',    { groundContactOffset: -7, hangarYOffset: 5 }, LC_WAYFARER_ASSETS),
-  entry('lc-scout',            'LC Scout',         'piston',    { groundContactOffset: -43, runwayYOffset: -30, hangarYOffset: 28 }, LC_SCOUT_ASSETS),
+  entry('lc-scout',            'LC Scout',         'piston',    { groundContactOffset: -43, runwayYOffset: -30, hangarYOffset: 20 }, LC_SCOUT_ASSETS),
   entry('cloud-hopper',        'Cloud Hopper',     'piston',    { groundContactOffset: -43 }, LC_CLOUD_HOPPER_ASSETS),
   entry('trailblazer-biplane', 'Trailblazer',      'piston',    { groundContactOffset: -44, runwayYOffset: -34, hangarYOffset: 34 }, LC_TRAILBLAZER_ASSETS),
   // Tier 2 reads as still prop-era per world-flight-plane-assets.md, so Sky Racer is a

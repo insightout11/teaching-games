@@ -38,7 +38,7 @@ describe('plane progression assets', () => {
       webp: '/assets/flight/planes/lc-scout-monoplane.webp',
       frontWebp: '/assets/flight/planes/lc-scout-monoplane-front.webp',
       front3qWebp: '/assets/flight/planes/lc-scout-monoplane-front-3q.webp',
-      displayMeta: expect.objectContaining({ runwayYOffset: -30, hangarYOffset: 28 }),
+      displayMeta: expect.objectContaining({ runwayYOffset: -30, hangarYOffset: 20 }),
     });
     expect(getPlaneAsset('trailblazer-biplane')).toMatchObject({
       key: 'trailblazer-biplane',
