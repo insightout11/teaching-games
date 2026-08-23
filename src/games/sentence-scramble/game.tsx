@@ -213,12 +213,6 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           responseData: { position, answer: orderedWords.join(' ') },
         });
 
-        try {
-          const audio = new Audio('/sounds/correct.mp3');
-          audio.volume = 0.5;
-          audio.play().catch(() => {});
-        } catch {}
-
         return [...prev, {
           studentId,
           displayName: vote.displayName,
@@ -259,12 +253,6 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
             setAvailableWords([]);
             setSubmitted(true);
             setFeedback(isCorrect ? 'correct' : 'wrong');
-
-            try {
-              const audio = new Audio(isCorrect ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
-              audio.volume = 0.5;
-              audio.play().catch(() => {});
-            } catch {}
 
             onScore(studentId, {
               isCorrect,
@@ -313,12 +301,6 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     studentResultRef.current = isCorrect ? 'correct' : 'incorrect';
     setSubmitted(true);
     setFeedback(isCorrect ? 'correct' : 'wrong');
-
-    try {
-      const audio = new Audio(isCorrect ? '/sounds/correct.mp3' : '/sounds/wrong.mp3');
-      audio.volume = 0.5;
-      audio.play().catch(() => {});
-    } catch {}
 
     onScore(currentStudentId, {
       isCorrect,

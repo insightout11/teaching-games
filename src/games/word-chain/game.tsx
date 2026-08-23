@@ -308,11 +308,6 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
         // Clear active bonus after it's been attempted
         if (bonus) setActiveBonus(null);
 
-        try {
-          const audio = new Audio('/sounds/correct.mp3');
-          audio.volume = 0.5;
-          audio.play().catch(() => {});
-        } catch {}
       } else {
         onScore(studentId, {
           isCorrect: false,
@@ -323,11 +318,6 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
             feedback: result.feedback,
           },
         });
-        try {
-          const audio = new Audio('/sounds/wrong.mp3');
-          audio.volume = 0.5;
-          audio.play().catch(() => {});
-        } catch {}
       }
 
       return { valid: result.isValid, result };

@@ -29,9 +29,18 @@ const DEFAULT_META: PlaneDisplayMeta = {
   hangarYOffset: 0,
 };
 
+/**
+ * Propulsion family, used to pick a takeoff sound. Deliberately coarse: 14 planes
+ * map onto 4 classes, the same way arrival audio expands by region rather than by
+ * city (docs/sound-design.md §2a). Required on every entry so it stays a single
+ * source of truth rather than a lookup table that drifts.
+ */
+export type EngineClass = 'piston' | 'twin-prop' | 'electric' | 'jet';
+
 export interface PlaneEntry {
   key: string;
   name: string;
+  engineClass: EngineClass;
   webp: string;
   png: string;
   groundWebp?: string;
@@ -134,6 +143,7 @@ const LC_COMET_JET_ASSETS = {
 function entry(
   key: string,
   name: string,
+  engineClass: EngineClass,
   meta: Partial<PlaneDisplayMeta> = {},
   assets: {
     side?: string;
@@ -146,6 +156,7 @@ function entry(
   return {
     key,
     name,
+    engineClass,
     webp: `/assets/flight/planes/${side}.webp`,
     png:  `/assets/flight/planes/${side}.png`,
     groundWebp: `/assets/flight/planes/${side}-ground.webp`,
@@ -171,20 +182,23 @@ function entry(
 const PLANE_ENTRIES: PlaneEntry[] = [
   // Keep the persisted starter key stable while resolving it to a runway-ready
   // trainer that works in every launch, runway, and arrival scene.
-  entry('starter-biplane', 'LC Cadet', { runwayYOffset: -48, hangarYOffset: 34 }, LC_CADET_ASSETS),
-  entry('scout-monoplane',     'LC Wayfarer',         {}, LC_WAYFARER_ASSETS),
-  entry('lc-scout',            'LC Scout',            { runwayYOffset: -30, hangarYOffset: 28 }, LC_SCOUT_ASSETS),
-  entry('cloud-hopper',        'Cloud Hopper',        {}, LC_CLOUD_HOPPER_ASSETS),
-  entry('trailblazer-biplane', 'Trailblazer',         { runwayYOffset: -34, hangarYOffset: 34 }, LC_TRAILBLAZER_ASSETS),
-  entry('sky-racer',           'Sky Racer',           {}, LC_SKY_RACER_ASSETS),
-  entry('cargo-cruiser',       'Cargo Cruiser',       {}, LC_CARGO_CRUISER_ASSETS),
-  entry('twin-prop-scout',     'Twin-Prop Scout',     {}, LC_TWIN_PROP_SCOUT_ASSETS),
-  entry('solar-flyer',         'Solar Flyer',         {}, LC_SOLAR_FLYER_ASSETS),
-  entry('aurora-glider',       'Aurora Glider',       {}, LC_AURORA_GLIDER_ASSETS),
-  entry('storm-runner',        'Storm Runner',        {}, LC_STORM_RUNNER_ASSETS),
-  entry('future-flyer',        'Future Flyer',        {}, LC_FUTURE_FLYER_ASSETS),
-  entry('starliner-mini',      'Starliner Mini',      {}, LC_STARLINER_MINI_ASSETS),
-  entry('comet-jet',           'Comet Jet',           {}, LC_COMET_JET_ASSETS),
+  entry('starter-biplane', 'LC Cadet', 'piston', { runwayYOffset: -48, hangarYOffset: 34 }, LC_CADET_ASSETS),
+  entry('scout-monoplane',     'LC Wayfarer',      'piston',    {}, LC_WAYFARER_ASSETS),
+  entry('lc-scout',            'LC Scout',         'piston',    { runwayYOffset: -30, hangarYOffset: 28 }, LC_SCOUT_ASSETS),
+  entry('cloud-hopper',        'Cloud Hopper',     'piston',    {}, LC_CLOUD_HOPPER_ASSETS),
+  entry('trailblazer-biplane', 'Trailblazer',      'piston',    { runwayYOffset: -34, hangarYOffset: 34 }, LC_TRAILBLAZER_ASSETS),
+  // Tier 2 reads as still prop-era per world-flight-plane-assets.md, so Sky Racer is a
+  // hot piston racer rather than a jet.
+  entry('sky-racer',           'Sky Racer',        'piston',    {}, LC_SKY_RACER_ASSETS),
+  entry('cargo-cruiser',       'Cargo Cruiser',    'twin-prop', {}, LC_CARGO_CRUISER_ASSETS),
+  entry('twin-prop-scout',     'Twin-Prop Scout',  'twin-prop', {}, LC_TWIN_PROP_SCOUT_ASSETS),
+  entry('solar-flyer',         'Solar Flyer',      'electric',  {}, LC_SOLAR_FLYER_ASSETS),
+  entry('aurora-glider',       'Aurora Glider',    'electric',  {}, LC_AURORA_GLIDER_ASSETS),
+  // Tier 3, rugged and weather-capable — reads as a heavy twin rather than a jet.
+  entry('storm-runner',        'Storm Runner',     'twin-prop', {}, LC_STORM_RUNNER_ASSETS),
+  entry('future-flyer',        'Future Flyer',     'jet',       {}, LC_FUTURE_FLYER_ASSETS),
+  entry('starliner-mini',      'Starliner Mini',   'jet',       {}, LC_STARLINER_MINI_ASSETS),
+  entry('comet-jet',           'Comet Jet',        'jet',       {}, LC_COMET_JET_ASSETS),
 ];
 
 const PLANE_MAP = new Map(PLANE_ENTRIES.map((p) => [p.key, p]));
@@ -199,6 +213,11 @@ export function getPlaneAsset(planeKey?: string | null): PlaneEntry {
   if (!planeKey) return DEFAULT_PLANE;
   const resolvedKey = PLANE_KEY_ALIASES.get(planeKey) ?? planeKey;
   return PLANE_MAP.get(resolvedKey) ?? DEFAULT_PLANE;
+}
+
+/** Which takeoff sound this plane flies with. Falls back to the starter's class. */
+export function getEngineClass(planeKey?: string | null): EngineClass {
+  return getPlaneAsset(planeKey).engineClass;
 }
 
 export type PlaneView = 'side' | 'ground' | 'front' | 'front-3q' | 'front-3q-ground';

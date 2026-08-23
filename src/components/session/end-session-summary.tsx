@@ -12,6 +12,7 @@ import { countsForAccuracy, countsForLeaderboard, isCorrectScore } from '@/lib/s
 import type { WorldFlightProgressionRewardResult } from '@/lib/world-flight/progression';
 import { formatDistance } from '@/lib/world-flight/geo';
 import { getPlaneAsset, getPlaneTier, type PlaneEntry } from '@/lib/plane-progression';
+import { play } from '@/lib/audio/manager';
 import { ClassLogbookDepositCard } from '@/components/class/class-logbook-card';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { trackEvent } from '@/lib/analytics/posthog';
@@ -69,6 +70,13 @@ export function EndSessionSummary({
   // crown reveal over a field of one) in favor of a personal recap. Logic
   // (scores, crew stars) is unchanged — copy/layout only.
   const isSolo = students.length === 1;
+
+  // The arrival chord is cut so its peak lands ~1.36s in, which is where the stat
+  // tiles finish settling — so it plays from mount with no offset (§9).
+  useEffect(() => {
+    if (previewMode) return;
+    return play('arrivalResolve');
+  }, [previewMode]);
 
   useEffect(() => {
     if (previewMode) return;

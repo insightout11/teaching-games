@@ -12,6 +12,9 @@ import { WEATHER_PROFILE } from '@/components/world-flight/arrival-scene/weather
 import { TurbulenceBeat, useTurbulence } from '@/components/session/turbulence-beat';
 import { FlightCheckScene } from '@/components/session/cockpit-scene';
 import type { DestinationScene } from '@/lib/world-flight/types';
+import { play, playTakeoff } from '@/lib/audio/manager';
+import { TOUCHDOWN_DELAY_MS } from '@/lib/audio/sounds';
+import { getEngineClass } from '@/lib/plane-progression';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
 
@@ -573,6 +576,18 @@ export function FlightTransitionOverlay({
   const isTakeoffCity = cityLeg?.mode === 'departure';
   const isArrivalCity = cityLeg?.mode === 'arrival';
   const travelMs = isTakeoffCity ? DEPARTURE_DURATION_MS : isArrivalCity ? 5200 : TRAVEL_DURATION;
+
+  // Engine audio rides the leg. Takeoff picks its sound from the plane's propulsion
+  // family, so upgrading the aircraft changes how departures sound (§2a). Touchdown
+  // is scheduled onto the descent bounce keyframe; with reduced motion there is no
+  // bounce to hit, so it fires immediately.
+  useEffect(() => {
+    if (leg === 'takeoff') return playTakeoff(getEngineClass(planeKey));
+    if (leg === 'descent') {
+      return play('touchdown', { delayMs: prefersReducedMotion ? 0 : TOUCHDOWN_DELAY_MS });
+    }
+    return undefined;
+  }, [leg, planeKey, prefersReducedMotion]);
 
   // Drives the city scene's phase/progress across the overlay lifetime.
   const [transitionT, setTransitionT] = useState(prefersReducedMotion ? 1 : 0);

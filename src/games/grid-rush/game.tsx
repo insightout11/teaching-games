@@ -387,12 +387,6 @@ export function GridRushGame({
           },
         });
 
-        try {
-          const audio = new Audio('/sounds/correct.mp3');
-          audio.volume = 0.35;
-          audio.play().catch(() => {});
-        } catch {}
-
       } catch {
         // On error, roll back optimistic add
         studentWordSetsRef.current[studentId].delete(word);
