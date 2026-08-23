@@ -42,7 +42,15 @@ const scene = (planeKey: string) => ({
 interface Running {
   leg: FlightTransitionLeg;
   planeKey: string;
+  stageId?: string;
 }
+
+/** Cruise micro-events, which replace the plain swell with their own beat. */
+const MICRO_EVENTS: { stageId: string; label: string; note: string }[] = [
+  { stageId: 'opinion-pulse', label: 'Turbulence', note: 'low rumble on the same gate as the jitter' },
+  { stageId: 'navigation-check', label: 'Radar', note: 'sweep wash + blips on G' },
+  { stageId: 'accuracy-check', label: 'Instrument', note: 'silent on purpose — see sounds.ts' },
+];
 
 export function SoundsDevClient() {
   const { sfxEnabled, volume } = useAudioPrefs();
@@ -52,11 +60,11 @@ export function SoundsDevClient() {
 
   const current = ENGINES.find((e) => e.key === engine) ?? ENGINES[0];
 
-  const runLeg = (leg: FlightTransitionLeg) => {
+  const runLeg = (leg: FlightTransitionLeg, stageId?: string) => {
     stopAll();
     setFlight(null);
     // Remount so the overlay's effects re-fire even on a repeat press.
-    window.setTimeout(() => setFlight({ leg, planeKey: current.planeKey }), 40);
+    window.setTimeout(() => setFlight({ leg, planeKey: current.planeKey, stageId }), 40);
   };
 
   return (
@@ -78,6 +86,8 @@ export function SoundsDevClient() {
             leg={flight.leg}
             planeKey={flight.planeKey}
             weather="clear"
+            isMicroEvent={!!flight.stageId}
+            stageId={flight.stageId}
             arrivalScene={scene(flight.planeKey)}
             departureScene={scene(flight.planeKey)}
             onDismiss={() => setFlight(null)}
@@ -162,8 +172,24 @@ export function SoundsDevClient() {
             ))}
           </div>
           <p className="text-xs text-white/35">
-            Cruise is silent by design — it is a v2 cue. Descent carries the touchdown hit.
+            Descent now carries the same engine family as takeoff, then the touchdown hit.
           </p>
+
+          <h3 className="text-xs font-semibold text-white/55 uppercase tracking-wider pt-2">
+            Cruise micro-events
+          </h3>
+          <div className="grid grid-cols-3 gap-3">
+            {MICRO_EVENTS.map((m) => (
+              <button
+                key={m.stageId}
+                onClick={() => runLeg('cruise', m.stageId)}
+                className="px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors"
+              >
+                <span className="block text-sm font-medium">{m.label}</span>
+                <span className="block text-[11px] text-white/40 leading-snug">{m.note}</span>
+              </button>
+            ))}
+          </div>
         </section>
 
         {/* Brand sting */}

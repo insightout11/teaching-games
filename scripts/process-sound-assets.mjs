@@ -250,41 +250,44 @@ function synthCloudRush(dur, peakAt) {
   // Cutoff climbs as the cloud thins, but stays well below the old 9.5kHz ceiling
   // — up there it read as hiss rather than air, and hiss is the opposite of what
   // this moment wants.
+  // Kept deliberately dark. Earlier passes topped out at 9.5kHz then 2.8kHz and
+  // both read as hiss; air this close to the listener is almost all low-mid.
   const cutoff = new Float64Array(n);
   for (let i = 0; i < n; i++) {
     const t = i / SR;
     const k = Math.min(1, t / peakAt);
-    cutoff[i] = 380 + 2400 * Math.pow(k, 1.35);
+    cutoff[i] = 170 + 780 * Math.pow(k, 1.2);
   }
   const body = onePoleLP(noise, SR, cutoff);
   // Subtract a low-passed copy to keep it moving rather than rumbling.
-  const rumble = onePoleLP(body, SR, 130);
+  const rumble = onePoleLP(body, SR, 90);
 
-  // A soft choral pad underneath, on the chime's own G, with slow independent
-  // vibrato per voice so it breathes instead of sitting as one flat tone. This is
-  // what makes it read as lifting through cloud rather than as filtered noise.
-  const voices = [196, 293.7, 392, 587.3]; // G3 D4 G4 D5
+  // The pad now LEADS and the noise is a texture under it — that inversion is
+  // what makes this atmospheric rather than windy. Voices are an octave below the
+  // previous pass, on the chime's own G, each with its own slow vibrato so the
+  // chord breathes instead of sitting as one flat tone.
+  const voices = [98, 146.8, 196, 293.7]; // G2 D3 G3 D4
   const pad = new Float64Array(n);
   voices.forEach((f, vi) => {
     let phase = vi * 1.7;
     for (let i = 0; i < n; i++) {
       const t = i / SR;
-      const vib = 1 + Math.sin(2 * Math.PI * (0.28 + vi * 0.07) * t) * 0.0035;
+      const vib = 1 + Math.sin(2 * Math.PI * (0.19 + vi * 0.05) * t) * 0.003;
       phase += (2 * Math.PI * f * vib) / SR;
-      pad[i] += Math.sin(phase) * (0.5 / (vi + 1.4));
+      pad[i] += Math.sin(phase) * (0.5 / (vi + 1.3));
     }
   });
 
   const out = new Float64Array(n);
   for (let i = 0; i < n; i++) {
     const t = i / SR;
-    // Swell toward the breakthrough, then duck away so the chime rings clear.
-    const swell = Math.pow(Math.min(1, t / peakAt), 1.9);
-    const duck = t > peakAt ? Math.max(0, 1 - (t - peakAt) / 0.55) : 1;
-    const air = (body[i] - rumble[i] * 0.85) * 0.62;
-    out[i] = (air + pad[i] * 0.34) * swell * duck;
+    // Gentler curve than before — it should drift up, not accelerate at you.
+    const swell = Math.pow(Math.min(1, t / peakAt), 1.25);
+    const duck = t > peakAt ? Math.max(0, 1 - (t - peakAt) / 0.7) : 1;
+    const air = (body[i] - rumble[i] * 0.85) * 0.22;
+    out[i] = (air + pad[i] * 0.58) * swell * duck;
   }
-  return fade(out, SR, 0.18, 0.25);
+  return fade(out, SR, 0.4, 0.3);
 }
 
 function buildBrandResolve(rawDir, clip) {
@@ -305,6 +308,65 @@ function buildBrandResolve(rawDir, clip) {
   // No added sparkle: the layered shimmer read as brighter but less pleasant than
   // the generated bell on its own. The polish comes from the shared reverb instead.
   return out;
+}
+
+// ─── Cruise micro-event cues ────────────────────────────────────────────────
+
+/**
+ * Turbulence rumble. Low-passed noise with slow, irregular amplitude movement —
+ * two incommensurable LFOs so the buffeting never settles into a pulse you can
+ * count, which is what would make it read as a machine rather than as weather.
+ * Deliberately almost all sub-250Hz: felt more than heard.
+ */
+function synthTurbulence(dur) {
+  const n = Math.floor(dur * SR);
+  const noise = new Float64Array(n);
+  fillNoise(noise, 4242);
+  const low = onePoleLP(noise, SR, 230);
+  const sub = onePoleLP(low, SR, 70);
+  const out = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    const gust = 0.55 + 0.45 * Math.sin(2 * Math.PI * 0.7 * t) * Math.sin(2 * Math.PI * 0.23 * t + 1.1);
+    const env = Math.min(1, t / 0.5) * Math.min(1, (dur - t) / 0.7);
+    out[i] = (low[i] * 0.55 + sub[i] * 0.9) * gust * env;
+  }
+  return fade(out, SR, 0.3, 0.5);
+}
+
+/**
+ * Radar sweep. A slow filtered wash for the sweep itself plus sonar-style blips
+ * on the same G as everything else, so the navigation check sounds like it comes
+ * from the same aircraft as the rest of the family rather than from a stock pack.
+ */
+function synthRadar(dur) {
+  const n = Math.floor(dur * SR);
+  const noise = new Float64Array(n);
+  fillNoise(noise, 90210);
+  const wash = onePoleLP(noise, SR, 420);
+
+  const out = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / SR;
+    // The sweep passes twice across the scope.
+    const pass = 0.5 + 0.5 * Math.sin(2 * Math.PI * (dur > 0 ? 2 / dur : 0) * t - Math.PI / 2);
+    out[i] = wash[i] * 0.35 * pass;
+  }
+
+  // Blips on G, each a quick strike with a long ring.
+  const blipTimes = [0.35, 1.5, 2.65];
+  for (const bt of blipTimes) {
+    const s0 = Math.floor(bt * SR);
+    let phase = 0;
+    for (let i = s0; i < n; i++) {
+      const t = (i - s0) / SR;
+      const attack = Math.min(1, t / 0.006);
+      const env = attack * Math.exp(-t / 0.22);
+      phase += (2 * Math.PI * 784) / SR; // G5
+      out[i] += Math.sin(phase) * 0.5 * env;
+    }
+  }
+  return fade(out, SR, 0.08, 0.4);
 }
 
 // ─── Descent beds: the SAME engine, heard from further away ─────────────────
@@ -399,6 +461,9 @@ const CLIPS = [
   { out: 'descent-twin-prop.wav', descentFrom: 'Two_heavy_turboprop__#3-1786192796222.wav', rmsDb: -30 },
   { out: 'descent-jet.wav',       descentFrom: 'A_modern_jet_airline_#2-1786193232937.wav', rmsDb: -30 },
   { out: 'descent-electric.wav',  descentSynth: true, rmsDb: -38 },
+  // Cruise micro-events run on TRAVEL_DURATION (3200ms) and dismiss at 3500ms.
+  { out: 'turbulence.wav', turbulence: true, rmsDb: -27, fadeIn: 0.3, fadeOut: 0.5 },
+  { out: 'radar.wav', radar: true, rmsDb: -26, reverb: [0.26, 1.6], fadeIn: 0.08, fadeOut: 0.4 },
   {
     out: 'lobby-bed.wav',
     src: 'LessonCaptain_Loading_Loop_2026-08-23T062644 (1).wav',
@@ -422,6 +487,10 @@ for (const clip of CLIPS) {
     data = buildBrandResolve(RAW_DIR, clip);
   } else if (clip.descentFrom || clip.descentSynth) {
     data = buildDescentBed(RAW_DIR, clip);
+  } else if (clip.turbulence) {
+    data = synthTurbulence(3.4);
+  } else if (clip.radar) {
+    data = synthRadar(3.4);
   } else {
     const file = path.join(RAW_DIR, clip.src);
     if (!fs.existsSync(file)) { console.error('  MISSING  ' + clip.src); continue; }

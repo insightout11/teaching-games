@@ -589,7 +589,13 @@ export function FlightTransitionOverlay({
   useEffect(() => {
     const engineClass = getEngineClass(planeKey);
     if (leg === 'takeoff') return playTakeoff(engineClass);
-    if (leg === 'cruise') return play('cruise');
+    if (leg === 'cruise') {
+      // Micro-events replace the plain cruise swell with their own beat. The
+      // instrument check stays silent on purpose — see the note in sounds.ts.
+      if (turbulence) return play('turbulence');
+      if (checkVariant === 'radar') return play('radar');
+      return play('cruise');
+    }
     if (leg === 'descent') {
       // Two different descents run two different animations, and the hit has to
       // follow whichever is on screen. A city arrival (the path real sessions
@@ -614,7 +620,7 @@ export function FlightTransitionOverlay({
       return () => { stopBed(); stopHit(); };
     }
     return undefined;
-  }, [leg, planeKey, isArrivalCity, travelMs]);
+  }, [leg, planeKey, isArrivalCity, travelMs, turbulence, checkVariant]);
 
   // Drives the city scene's phase/progress across the overlay lifetime.
   const [transitionT, setTransitionT] = useState(prefersReducedMotion ? 1 : 0);
