@@ -480,6 +480,18 @@ const CLIPS = [
   { out: 'turbulence.mp3', turbulence: true, rmsDb: -27, fadeIn: 0.3, fadeOut: 0.5 },
   { out: 'radar.mp3', radar: true, rmsDb: -26, reverb: [0.26, 1.0], fadeIn: 0.08, fadeOut: 0.4 },
   {
+    out: 'captain-applause.mp3',
+    src: 'A_small_round_of_app_#2-1787486809795.wav',
+    // Trimmed to the rise plus the first of the plateau — the source holds for 3.5s,
+    // which is far longer than the reveal needs and long enough to wear out.
+    trim: [0, 2.6], rmsDb: -28, fadeIn: 0.05, fadeOut: 0.7,
+    // NO reverb, deliberately breaking the shared-space rule in §1.5. The whole
+    // point is that this is heard INSIDE a cabin — measured at 3-4% of energy above
+    // 3.5kHz, which is what damped walls and soft furnishings do. Adding the hall
+    // would undo the one thing that makes it aviation rather than a game show.
+    note: 'sits under the arrival chord; cabin acoustics preserved',
+  },
+  {
     out: 'lobby-bed.mp3',
     src: 'LessonCaptain_Loading_Loop_2026-08-23T062644 (1).wav',
     trim: [0, 120], rmsDb: -30, fadeIn: 1.2, fadeOut: 3.0,

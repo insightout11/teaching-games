@@ -297,6 +297,12 @@ export function SoundsDevClient() {
               Touchdown
             </button>
             <button
+              onClick={() => { play('arrivalResolve'); play('captainApplause', { delayMs: 1050 }); }}
+              className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs transition-colors"
+            >
+              End summary (chord + captain applause)
+            </button>
+            <button
               onClick={() => play('arrivalResolve')}
               className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs transition-colors"
             >

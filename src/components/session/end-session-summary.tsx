@@ -178,6 +178,18 @@ export function EndSessionSummary({
   // Student beat — "Captain of the Day" (top scorer; only when there's a real winner)
   const captain = summary[0];
   const captainTies = captain ? summary.filter((s) => s.total === captain.total).length : 0;
+
+  // Cabin applause on the Captain of the Day reveal, which springs in at delay 1.05.
+  // Sits ~4dB under the arrival chord so the chord stays the ceremonial anchor and
+  // this is warmth beneath it, rather than two big moments fighting for one second.
+  //
+  // Gated on !isSolo for the same reason the crown framing is: applauding a class of
+  // one reads as fake, and 1:1 is a real slice of usage. Ties still get it — more
+  // people to celebrate, not fewer.
+  useEffect(() => {
+    if (previewMode || isSolo || !captain) return;
+    return play('captainApplause', { delayMs: 1050 });
+  }, [previewMode, isSolo, captain]);
   const rewardSnapshot = progressionReward?.snapshot ?? null;
   const everyoneAboardDetail = rewardSnapshot
     ? rewardSnapshot.participantCount === 0

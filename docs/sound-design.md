@@ -36,6 +36,7 @@ becomes worthwhile (e.g. bespoke lobby music).
 | Navigation check | same (`stageId==='navigation-check'`) | `radar` |
 | Descent | same (`leg==='descent'`) | `descent-*` by engine class, then `touchdown` |
 | End of session | `session/end-session-summary.tsx` | `arrival-resolve` |
+| Captain of the Day | same, on the reveal at +1050ms | `captain-applause` (class sessions only) |
 | Lobby | `session/session-view.tsx`, keyed on `lesson.phase` | `lobby-bed` (music channel) |
 
 ### Lobby music — default ON
@@ -54,6 +55,25 @@ default-off guarantees it never gets the chance.
   lifetime.
 - **Plays once and fades**, rather than looping.
 - **Canary:** if the owner reaches for mute after a week of real lessons, it flips to opt-in.
+
+### Captain of the Day — cabin applause, not a game show
+
+Generic applause is the one gesture in this set with no aviation in it. The fix is not to
+replace it but to RELOCATE it: passengers applauding a good landing is a real tradition, and
+ is the landing chord, so a cabin clapping straight after is diegetic rather
+than a quiz-show sting. The aviation-ness lives in the acoustics — measured at 3–4% of energy
+above 3.5kHz, which is what damped walls and soft furnishings do to a room.
+
+- **It is the one clip deliberately NOT in the shared reverb space (§1.5).** Adding the hall
+  would undo the only thing making it read as a cabin.
+- **Fires at +1050ms**, on the reveal spring, and sits ~4dB under the chord so the chord stays
+  the ceremonial anchor and the applause is warmth beneath it.
+- **Gated on **, exactly as the crown framing already is. Applauding a class of one
+  reads as fake, and 1:1 is a real slice of usage.
+- **Ties still get it** — more people to celebrate, not fewer.
+- The cabin chime (the two-tone "bong") was the obvious first choice and is deliberately NOT
+  used here: it is semantically the seatbelt sign, which is on screen during turbulence, so
+  reusing it would make two unrelated moments sound like the same event.
 
 ### Session end is a one-shot, not a bed
 
@@ -300,6 +320,7 @@ All mono MP3 under `public/sounds/`, 1.6 MB total. Filenames map 1:1 to semantic
 | `takeoff.jet` | `takeoff-jet.mp3` | 4.6s | −22 |
 | `takeoff.electric` | `takeoff-electric.mp3` | 4.6s | −32 |
 | `descent.*` | `descent-{piston,twin-prop,jet,electric}.mp3` | 3.9s | −30 / −38 |
+| `captainApplause` | `captain-applause.mp3` | 2.6s | −29 |
 | `LOBBY_BED` | `lobby-bed.mp3` | 120s @ 16kHz | −30 |
 
 The bed is 16kHz because it measured **0.0% energy above 3kHz** — transparent for that material,

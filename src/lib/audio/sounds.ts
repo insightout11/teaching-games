@@ -19,6 +19,10 @@ export const SOUNDS = {
    *  that stage falls through to the plain cruise swell instead of getting one. */
   turbulence: '/sounds/turbulence.mp3',
   radar: '/sounds/radar.mp3',
+  /** Captain of the Day reveal. Cabin applause, so it reads as passengers clapping
+   *  a good landing rather than a game show — it is the one clip deliberately NOT
+   *  in the shared reverb space, because the cabin IS the point. */
+  captainApplause: '/sounds/captain-applause.mp3',
 } as const;
 
 export type SoundKey = keyof typeof SOUNDS;
