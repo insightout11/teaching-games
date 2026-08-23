@@ -16,6 +16,7 @@ import { play } from '@/lib/audio/manager';
 import { ClassLogbookDepositCard } from '@/components/class/class-logbook-card';
 import type { ClassLogbookSummary } from '@/lib/class-logbook';
 import { trackEvent } from '@/lib/analytics/posthog';
+import { resolveArrivalMetricDisplay } from './end-session-metrics';
 
 export type EndSessionNextDestination =
   | {
@@ -183,15 +184,21 @@ export function EndSessionSummary({
   const rewardSnapshot = progressionReward?.snapshot ?? null;
   // The activity shell can unmount before its final score reconciliation finishes.
   // Once ending returns, use its database-backed metrics instead of stale browser totals.
-  const arrivalResponders = rewardSnapshot?.meaningfulParticipantCount ?? responders;
-  const arrivalRosterTotal = rewardSnapshot?.participantCount ?? rosterTotal;
-  const arrivalResponses = progressionReward?.sessionResponseCount ?? totalResponses;
-  const arrivalAccuracy = progressionReward?.sessionAccuracyRate !== undefined
-    ? progressionReward.sessionAccuracyRate === null
-      ? null
-      : Math.round(progressionReward.sessionAccuracyRate * 100)
-    : overallAccuracy;
-  const arrivalBestStreak = progressionReward?.sessionBestStreak ?? bestStreak;
+  const arrivalMetrics = resolveArrivalMetricDisplay({
+    pending: arrivalMetricsPending,
+    responders,
+    rosterTotal,
+    totalResponses,
+    overallAccuracy,
+    bestStreak,
+    authoritative: {
+      participantCount: rewardSnapshot?.participantCount,
+      meaningfulParticipantCount: rewardSnapshot?.meaningfulParticipantCount,
+      responseCount: progressionReward?.sessionResponseCount,
+      accuracyRate: progressionReward?.sessionAccuracyRate,
+      bestStreak: progressionReward?.sessionBestStreak,
+    },
+  });
   const everyoneAboardDetail = rewardSnapshot
     ? rewardSnapshot.participantCount === 0
       ? 'Connect student devices to earn this star. Teacher-scored work can still earn Strong Landing.'
@@ -290,10 +297,10 @@ export function EndSessionSummary({
             at its own slight angle (animate-passport-stamp / --stamp-rotation). */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
-            { v: arrivalMetricsPending ? '…' : `${arrivalResponders}/${arrivalRosterTotal}`, l: 'Aboard', c: 'text-cyan-300', r: '-1.6deg' },
-            { v: arrivalMetricsPending ? '…' : arrivalResponses, l: 'Responses', c: 'text-sky-300', r: '1.2deg' },
-            { v: arrivalMetricsPending ? '…' : arrivalAccuracy !== null ? `${arrivalAccuracy}%` : '—', l: 'Accuracy', c: 'text-emerald-300', r: '-1deg' },
-            { v: arrivalMetricsPending ? '…' : arrivalBestStreak, l: 'Best Streak', c: 'text-amber-300', r: '1.8deg' },
+            { v: arrivalMetrics.aboard, l: 'Aboard', c: 'text-cyan-300', r: '-1.6deg' },
+            { v: arrivalMetrics.responses, l: 'Responses', c: 'text-sky-300', r: '1.2deg' },
+            { v: arrivalMetrics.accuracy, l: 'Accuracy', c: 'text-emerald-300', r: '-1deg' },
+            { v: arrivalMetrics.bestStreak, l: 'Best Streak', c: 'text-amber-300', r: '1.8deg' },
           ].map((s, i) => (
             <div
               key={s.l}

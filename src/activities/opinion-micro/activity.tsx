@@ -4,6 +4,13 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import type { OpinionMicroContent, OpinionMicroVote } from './types';
+import {
+  buildOpinionMicroInputSpec,
+  createOpinionMicroActivityInstance,
+  isOpinionMicroVoteForRound,
+  opinionMicroRoundId,
+  type OpinionMicroActivityInstance,
+} from './round';
 
 type Phase = 'idle' | 'presenting' | 'voting' | 'result';
 
@@ -19,23 +26,13 @@ export function OpinionMicroActivity({
   const [phase, setPhase] = useState<Phase>('idle');
   const [votes, setVotes] = useState<OpinionMicroVote[]>([]);
   const instanceCounterRef = useRef(0);
-  const activityInstanceRef = useRef<{ id: string; startedAt: number } | null>(null);
+  const activityInstanceRef = useRef<OpinionMicroActivityInstance | null>(null);
 
   useEffect(() => {
     if (phase === 'voting') {
       const instance = activityInstanceRef.current;
       if (!instance) return;
-      onSetInputSpec?.({
-        type: 'binary',
-        gameKey: 'opinion-micro',
-        prompt: 'Would you rather...',
-        options: [dilemma.optionA, dilemma.optionB],
-        optionLabels: ['A', 'B'],
-        activityInstanceId: instance.id,
-        activityInstanceStartedAt: instance.startedAt,
-        activitySequence: 0,
-        roundId: `${instance.id}:vote`,
-      });
+      onSetInputSpec?.(buildOpinionMicroInputSpec(dilemma, instance));
     } else {
       const instance = activityInstanceRef.current;
       onSetInputSpec?.(null, instance ? {
@@ -50,7 +47,7 @@ export function OpinionMicroActivity({
     onRegisterRemoteVoteHandler?.((vote) => {
       if (phase !== 'voting') return;
       const instance = activityInstanceRef.current;
-      if (vote.roundId && instance && vote.roundId !== `${instance.id}:vote`) return;
+      if (instance && !isOpinionMicroVoteForRound(vote.roundId, opinionMicroRoundId(instance.id))) return;
       setVotes((prev) => {
         const filtered = prev.filter((v) => v.clientId !== vote.clientId);
         return [...filtered, {
@@ -85,10 +82,10 @@ export function OpinionMicroActivity({
   const startVoting = useCallback(() => {
     const startedAt = Date.now();
     instanceCounterRef.current += 1;
-    activityInstanceRef.current = {
-      id: `opinion-micro:${startedAt}:${instanceCounterRef.current}`,
+    activityInstanceRef.current = createOpinionMicroActivityInstance(
       startedAt,
-    };
+      instanceCounterRef.current,
+    );
     setVotes([]);
     setPhase('voting');
     onPhaseChange?.('voting');
