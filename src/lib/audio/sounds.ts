@@ -4,31 +4,30 @@
  * Components call semantic keys (`play('takeoff', engineClass)`) and never touch
  * file paths, so re-cutting an asset never ripples into component code.
  *
- * Assets are currently WAV. They are small (~2 MB for the whole set) and this
- * avoids adding an encoder dependency; swap to mp3 here when one is available —
- * nothing else needs to change. See docs/sound-design.md §5.
+ * Assets are mono MP3, encoded by scripts/process-sound-assets.mjs — 1.6 MB for
+ * the whole set including two minutes of lobby music. See docs/sound-design.md §5.
  */
 import type { EngineClass } from '@/lib/plane-progression';
 
 export const SOUNDS = {
-  brandResolve: '/sounds/brand-resolve.wav',
-  touchdown: '/sounds/touchdown.wav',
-  arrivalResolve: '/sounds/arrival-resolve.wav',
-  cruise: '/sounds/cruise.wav',
+  brandResolve: '/sounds/brand-resolve.mp3',
+  touchdown: '/sounds/touchdown.mp3',
+  arrivalResolve: '/sounds/arrival-resolve.mp3',
+  cruise: '/sounds/cruise.mp3',
   /** Cruise micro-events. There is deliberately no `instrument` cue: a beep on an
    *  accuracy check is a hair from the per-question ding §2 calls a hard no, so
    *  that stage falls through to the plain cruise swell instead of getting one. */
-  turbulence: '/sounds/turbulence.wav',
-  radar: '/sounds/radar.wav',
+  turbulence: '/sounds/turbulence.mp3',
+  radar: '/sounds/radar.mp3',
 } as const;
 
 export type SoundKey = keyof typeof SOUNDS;
 
 export const TAKEOFF_SOUNDS: Record<EngineClass, string> = {
-  piston: '/sounds/takeoff-piston.wav',
-  'twin-prop': '/sounds/takeoff-twin-prop.wav',
-  electric: '/sounds/takeoff-electric.wav',
-  jet: '/sounds/takeoff-jet.wav',
+  piston: '/sounds/takeoff-piston.mp3',
+  'twin-prop': '/sounds/takeoff-twin-prop.mp3',
+  electric: '/sounds/takeoff-electric.mp3',
+  jet: '/sounds/takeoff-jet.mp3',
 };
 
 /**
@@ -37,17 +36,17 @@ export const TAKEOFF_SOUNDS: Record<EngineClass, string> = {
  * own takeoff source, heard from further away.
  */
 export const DESCENT_SOUNDS: Record<EngineClass, string> = {
-  piston: '/sounds/descent-piston.wav',
-  'twin-prop': '/sounds/descent-twin-prop.wav',
-  electric: '/sounds/descent-electric.wav',
-  jet: '/sounds/descent-jet.wav',
+  piston: '/sounds/descent-piston.mp3',
+  'twin-prop': '/sounds/descent-twin-prop.mp3',
+  electric: '/sounds/descent-electric.mp3',
+  jet: '/sounds/descent-jet.mp3',
 };
 
 /**
  * Lobby bed. Lives outside SOUNDS because it is a music channel, not a one-shot:
  * different lifecycle, different preference, different level trim.
  */
-export const LOBBY_BED = '/sounds/lobby-bed.wav';
+export const LOBBY_BED = '/sounds/lobby-bed.mp3';
 
 export const ALL_SOUND_URLS: string[] = [
   ...Object.values(SOUNDS),
@@ -56,7 +55,7 @@ export const ALL_SOUND_URLS: string[] = [
 ];
 
 /**
- * Where the chime's attack sits inside brand-resolve.wav.
+ * Where the chime's attack sits inside brand-resolve.mp3.
  *
  * The clip is a composite: a synthesised cloud rush scores the opening and the
  * generated chime is layered on at 2.643s (see scripts/process-sound-assets.mjs).

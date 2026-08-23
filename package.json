@@ -49,6 +49,7 @@
     "zustand": "^5.0.10"
   },
   "devDependencies": {
+    "@breezystack/lamejs": "^1.2.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -12,6 +12,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { Mp3Encoder } from '@breezystack/lamejs';
 
 const RAW_DIR = process.argv[2] || 'C:/Users/insig/Downloads';
 const OUT_DIR = path.join(process.cwd(), 'public', 'sounds');
@@ -49,19 +50,28 @@ function readWav(file) {
   return { data: mono, sampleRate: fmt.sampleRate };
 }
 
-function writeWav(file, data, sampleRate) {
-  const n = data.length;
-  const buf = Buffer.alloc(44 + n * 2);
-  buf.write('RIFF', 0); buf.writeUInt32LE(36 + n * 2, 4); buf.write('WAVE', 8);
-  buf.write('fmt ', 12); buf.writeUInt32LE(16, 16); buf.writeUInt16LE(1, 20);
-  buf.writeUInt16LE(1, 22); buf.writeUInt32LE(sampleRate, 24);
-  buf.writeUInt32LE(sampleRate * 2, 28); buf.writeUInt16LE(2, 32); buf.writeUInt16LE(16, 34);
-  buf.write('data', 36); buf.writeUInt32LE(n * 2, 40);
-  for (let i = 0; i < n; i++) {
-    const v = Math.max(-1, Math.min(1, data[i]));
-    buf.writeInt16LE(Math.round(v * 32767), 44 + i * 2);
+/**
+ * Encode mono PCM to MP3 with lamejs.
+ *
+ * WAV was a stopgap while there was no encoder; at ~8.7MB for the set it was
+ * wrong to ship. lamejs is pure JS and ~100KB, so this stays a devDependency
+ * rather than dragging an ffmpeg binary into the tree for one asset script.
+ */
+function writeMp3(file, data, sampleRate, kbps) {
+  const enc = new Mp3Encoder(1, sampleRate, kbps);
+  const pcm = new Int16Array(data.length);
+  for (let i = 0; i < data.length; i++) {
+    pcm[i] = Math.round(Math.max(-1, Math.min(1, data[i])) * 32767);
   }
-  fs.writeFileSync(file, buf);
+  const chunks = [];
+  const BLOCK = 1152;
+  for (let i = 0; i < pcm.length; i += BLOCK) {
+    const buf = enc.encodeBuffer(pcm.subarray(i, Math.min(i + BLOCK, pcm.length)));
+    if (buf.length) chunks.push(Buffer.from(buf));
+  }
+  const end = enc.flush();
+  if (end.length) chunks.push(Buffer.from(end));
+  fs.writeFileSync(file, Buffer.concat(chunks));
 }
 
 // ─── DSP helpers ────────────────────────────────────────────────────────────
@@ -414,7 +424,7 @@ function buildDescentBed(rawDir, clip) {
 // under the other takeoffs because that contrast IS the aircraft's character.
 const CLIPS = [
   {
-    out: 'brand-resolve.wav',
+    out: 'brand-resolve.mp3',
     src: 'ElevenLabs_Lesson_Captain_Brand_Resolve.wav',
     composite: true,
     trim: [0.06, 1.848],
@@ -422,61 +432,61 @@ const CLIPS = [
     // Spark burst in BrandSting 'full' — see docs/sound-design.md §6.3.
     chimeTargetSec: 2.643,
     rmsDb: -20, fadeIn: 0.01, fadeOut: 0.30,
-    reverb: [0.30, 2.1],
+    reverb: [0.30, 1.2],
     note: 'cloud rush from 0s, chime at 2.643s — plays from mount, no offset',
   },
   {
-    out: 'touchdown.wav',
+    out: 'touchdown.mp3',
     src: 'AEROMisc-Close-up_sound_effec-Elevenlabs.wav',
     trim: [0.0, 0.85], rmsDb: -18, fadeIn: 0.002, fadeOut: 0.25,
   },
   {
-    out: 'arrival-resolve.wav',
+    out: 'arrival-resolve.mp3',
     src: 'Warm_cinematic_arriv_#1-1786191094026.wav',
     trim: [0.08, 2.80], rmsDb: -20, fadeIn: 0.01, fadeOut: 0.30,
     // Same room as brand-resolve, a touch drier — it plays under a busy screen.
-    reverb: [0.22, 1.9],
+    reverb: [0.22, 1.4],
     note: 'chord peak at 1.36s, matching stat-tile settle 1.35s',
   },
   {
-    out: 'takeoff-piston.wav',
+    out: 'takeoff-piston.mp3',
     src: 'A_vintage_radial_pis_#2-1786192541120.wav',
     trim: [0.0, 4.90], rmsDb: -22, fadeIn: 0.02, fadeOut: 0.35,
   },
   {
-    out: 'takeoff-twin-prop.wav',
+    out: 'takeoff-twin-prop.mp3',
     src: 'Two_heavy_turboprop__#3-1786192796222.wav',
     trim: [0.0, 4.85], rmsDb: -22, fadeIn: 0.02, fadeOut: 0.35,
     // Generated flat (only ~2 dB of build); impose the arc it should have had.
     ramp: [0.0, 2.0, -8, 0],
   },
   {
-    out: 'takeoff-jet.wav',
+    out: 'takeoff-jet.mp3',
     src: 'A_modern_jet_airline_#2-1786193232937.wav',
     trim: [0.0, 4.60], rmsDb: -22, fadeIn: 0.02, fadeOut: 0.35,
   },
-  { out: 'takeoff-electric.wav', synth: true, rmsDb: -32 },
+  { out: 'takeoff-electric.mp3', synth: true, rmsDb: -32 },
   {
-    out: 'cruise.wav',
+    out: 'cruise.mp3',
     src: 'A_distant_jet_airlin_#3-1787471642189.wav',
     trim: [0.6, 4.0], rmsDb: -26, fadeIn: 0.15, fadeOut: 0.5,
     note: 'sits under the 3200ms cruise leg; lighter than any takeoff',
   },
-  { out: 'descent-piston.wav',    descentFrom: 'A_vintage_radial_pis_#2-1786192541120.wav', rmsDb: -30 },
-  { out: 'descent-twin-prop.wav', descentFrom: 'Two_heavy_turboprop__#3-1786192796222.wav', rmsDb: -30 },
-  { out: 'descent-jet.wav',       descentFrom: 'A_modern_jet_airline_#2-1786193232937.wav', rmsDb: -30 },
-  { out: 'descent-electric.wav',  descentSynth: true, rmsDb: -38 },
+  { out: 'descent-piston.mp3',    descentFrom: 'A_vintage_radial_pis_#2-1786192541120.wav', rmsDb: -30 },
+  { out: 'descent-twin-prop.mp3', descentFrom: 'Two_heavy_turboprop__#3-1786192796222.wav', rmsDb: -30 },
+  { out: 'descent-jet.mp3',       descentFrom: 'A_modern_jet_airline_#2-1786193232937.wav', rmsDb: -30 },
+  { out: 'descent-electric.mp3',  descentSynth: true, rmsDb: -38 },
   // Cruise micro-events run on TRAVEL_DURATION (3200ms) and dismiss at 3500ms.
-  { out: 'turbulence.wav', turbulence: true, rmsDb: -27, fadeIn: 0.3, fadeOut: 0.5 },
-  { out: 'radar.wav', radar: true, rmsDb: -26, reverb: [0.26, 1.6], fadeIn: 0.08, fadeOut: 0.4 },
+  { out: 'turbulence.mp3', turbulence: true, rmsDb: -27, fadeIn: 0.3, fadeOut: 0.5 },
+  { out: 'radar.mp3', radar: true, rmsDb: -26, reverb: [0.26, 1.0], fadeIn: 0.08, fadeOut: 0.4 },
   {
-    out: 'lobby-bed.wav',
+    out: 'lobby-bed.mp3',
     src: 'LessonCaptain_Loading_Loop_2026-08-23T062644 (1).wav',
     trim: [0, 120], rmsDb: -30, fadeIn: 1.2, fadeOut: 3.0,
     // Measured: this bed has 0.0% of its energy above 3kHz, so 16k sampling is
     // transparent for it and keeps two minutes of music near 3.8MB instead of
     // 10.6MB. Revisit when there is an mp3 encoder available.
-    outSampleRate: 16000,
+    outSampleRate: 16000, kbps: 64,
     note: 'lobby only; stops the instant a module starts',
   },
 ];
@@ -509,7 +519,8 @@ for (const clip of CLIPS) {
   const outRate = clip.outSampleRate || SR;
   if (outRate !== SR) data = resample(data, SR, outRate);
   const outPath = path.join(OUT_DIR, clip.out);
-  writeWav(outPath, data, outRate);
+  // Music gets more bitrate than the short cues; nothing here needs stereo.
+  writeMp3(outPath, data, outRate, clip.kbps || 96);
   const info = {
     file: clip.out,
     seconds: Number((data.length / outRate).toFixed(3)),
