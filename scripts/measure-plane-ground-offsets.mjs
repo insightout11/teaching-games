@@ -105,7 +105,8 @@ const PLANES = [
   ['comet-jet', 'lc-comet-jet'],
 ];
 
-console.log('  key                   art WxH      pad  scale   runwayYOffset');
+console.log('  SIDE/GROUND art -> groundContactOffset (PlaneLayer, takeoff + landing)');
+console.log('  key                   art WxH      pad  scale   groundContactOffset');
 for (const [key, asset] of PLANES) {
   const ground = path.join(DIR, `${asset}-ground.png`);
   const side = path.join(DIR, `${asset}.png`);
@@ -124,4 +125,23 @@ for (const [key, asset] of PLANES) {
   } catch (e) {
     console.log(`  ${key.padEnd(22)} ERROR ${e.message}`);
   }
+}
+
+// ── Hangar view ─────────────────────────────────────────────────────────────
+// AirfieldForeground draws the FRONT-THREE-QUARTER art in a 320x180 box, also
+// bottom-aligned, so it needs its own number: padding differs per view angle and
+// the side-view value is meaningless here.
+const HW = 320, HH = 180;
+console.log('\n  FRONT-3Q art -> hangarYOffset (AirfieldForeground, lobby hangar)');
+console.log('  key                   art WxH      pad  scale   hangarYOffset');
+for (const [key, asset] of PLANES) {
+  const file = path.join(DIR, `${asset}-front-3q.png`);
+  if (!fs.existsSync(file)) { console.log(`  ${key.padEnd(22)} MISSING`); continue; }
+  const png = decodePngAlpha(file);
+  const pad = bottomPadding(png);
+  const s = Math.min(HW / png.width, HH / png.height);
+  console.log(
+    `  ${key.padEnd(22)}${String(png.width + 'x' + png.height).padEnd(12)}` +
+    `${String(pad).padStart(4)}  ${s.toFixed(3)}  ${String(Math.round(pad * s)).padStart(6)}`
+  );
 }

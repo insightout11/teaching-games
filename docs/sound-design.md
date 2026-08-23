@@ -244,7 +244,9 @@ calibrated.
 differs per view angle — Aurora Glider is 24.9% of image height side-on but **34.0%** head-on — so
 a side-view correction applied to a front view is simply wrong. `runwayYOffset` is read by
 front-facing and sprite surfaces (`RunwayPlaneScene`, `ClassPlaneSprite`) and keeps its original
-hand-tuned values; only `PlaneLayer`'s side view reads `groundContactOffset`. Calibrating the
+hand-tuned values; only `PlaneLayer`'s side view reads `groundContactOffset`. A THIRD field, `hangarYOffset`, does the
+same job for the front-three-quarter art in the lobby hangar — it too was set for only 3 of 14
+planes, so the rest floated there independently of anything audio-related. Calibrating the
 shared field instead displaced planes across the hangar and lobby, because 11 aircraft went from
 an inert `0` to a live value on the wrong axis.
 
