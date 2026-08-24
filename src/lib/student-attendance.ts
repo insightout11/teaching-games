@@ -28,7 +28,7 @@ export function buildStudentRejoinPayload(
   return {
     sessionId,
     clientId: studentSession.clientId,
-    ...(studentSession.avatarSeed ? { avatarSeed: studentSession.avatarSeed } : {}),
+    avatarSeed: resolveAvatarSeed(studentSession.avatarSeed, studentSession.displayName),
     ...(studentSession.studentId
       ? { studentId: studentSession.studentId }
       : { newName: studentSession.displayName }),
@@ -78,3 +78,4 @@ export async function registerStudentAttendance(
 
   throw new Error(`Student attendance registration failed${lastStatus ? ` (${lastStatus})` : ''}`);
 }
+import { resolveAvatarSeed } from '@/lib/avatar-options';

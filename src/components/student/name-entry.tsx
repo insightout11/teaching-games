@@ -5,7 +5,7 @@ import { Plane, PlaneTakeoff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
-import { AVATAR_SEEDS, HELMET_AVATAR_SEEDS, CAPTAIN_AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl } from '@/lib/avatar-options';
+import { HELMET_AVATAR_SEEDS, CAPTAIN_AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl, resolveAvatarSeed } from '@/lib/avatar-options';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { Team } from '@/lib/supabase/types';
 import { registerStudentAttendance, type StudentJoinPayload } from '@/lib/student-attendance';
@@ -127,7 +127,10 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
 
   const handleSelectStudent = (student: RosterStudent) => {
     setSelected(student);
-    setAvatarSeed(student.avatar_seed || AVATAR_SEEDS[0]);
+    // Older rosters may still contain UUID-style DiceBear seeds. The UI already
+    // renders those as a deterministic flight avatar; send that resolved seed
+    // too so the join API never rejects an otherwise valid roster student.
+    setAvatarSeed(resolveAvatarSeed(student.avatar_seed, student.name));
   };
 
   const handleJoin = async () => {
