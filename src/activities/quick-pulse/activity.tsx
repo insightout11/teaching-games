@@ -9,6 +9,26 @@ type Phase = 'idle' | 'prompting' | 'revealing' | 'summary';
 // votes[promptIndex][clientId] = choice
 type VoteMap = Record<number, Record<string, string>>;
 
+interface QuickPulseRuntimeState {
+  phase: Phase;
+  currentIndex: number;
+  votes: VoteMap;
+  timeLeft: number;
+  activityInstance: { id: string; startedAt: number } | null;
+}
+
+function recoverQuickPulseRuntime(value: unknown, promptCount: number): QuickPulseRuntimeState | null {
+  if (!value || typeof value !== 'object') return null;
+  const candidate = value as Partial<QuickPulseRuntimeState>;
+  if (!['prompting', 'revealing', 'summary'].includes(candidate.phase ?? '')) return null;
+  if (!Number.isInteger(candidate.currentIndex) || (candidate.currentIndex ?? -1) < 0 || (candidate.currentIndex ?? 0) >= promptCount) return null;
+  if (!candidate.votes || typeof candidate.votes !== 'object') return null;
+  if (typeof candidate.timeLeft !== 'number' || candidate.timeLeft < 0) return null;
+  const instance = candidate.activityInstance;
+  if (!instance || typeof instance.id !== 'string' || typeof instance.startedAt !== 'number') return null;
+  return candidate as QuickPulseRuntimeState;
+}
+
 function DistributionBar({ label, count, total, color }: { label: string; count: number; total: number; color: string }) {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
   return (
@@ -75,16 +95,20 @@ export function QuickPulseActivity({
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
   onScore,
+  initialRuntimeState,
+  onRuntimeStateChange,
 }: ActivityProps) {
   const content = generatedContent as QuickPulseContent;
   const prompts = content.prompts;
+  const recoveredRuntimeRef = useRef(recoverQuickPulseRuntime(initialRuntimeState, prompts.length));
+  const recoveredRuntime = recoveredRuntimeRef.current;
 
-  const [phase, setPhase] = useState<Phase>('idle');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [votes, setVotes] = useState<VoteMap>({ 0: {}, 1: {}, 2: {} });
-  const [timeLeft, setTimeLeft] = useState(0);
+  const [phase, setPhase] = useState<Phase>(recoveredRuntime?.phase ?? 'idle');
+  const [currentIndex, setCurrentIndex] = useState(recoveredRuntime?.currentIndex ?? 0);
+  const [votes, setVotes] = useState<VoteMap>(recoveredRuntime?.votes ?? { 0: {}, 1: {}, 2: {} });
+  const [timeLeft, setTimeLeft] = useState(recoveredRuntime?.timeLeft ?? 0);
   const instanceCounterRef = useRef(0);
-  const activityInstanceRef = useRef<{ id: string; startedAt: number } | null>(null);
+  const activityInstanceRef = useRef<{ id: string; startedAt: number } | null>(recoveredRuntime?.activityInstance ?? null);
 
   // Use a ref for currentIndex so the vote handler closure always sees the latest value
   const currentIndexRef = useRef(currentIndex);
@@ -97,6 +121,24 @@ export function QuickPulseActivity({
   votesRef.current = votes;
 
   const timerSeconds = sessionSettings.timerSeconds ?? 30;
+
+  useEffect(() => {
+    if (phase === 'idle') {
+      onRuntimeStateChange?.(null);
+      return;
+    }
+    onRuntimeStateChange?.({
+      phase,
+      currentIndex,
+      votes,
+      timeLeft,
+      activityInstance: activityInstanceRef.current,
+    } satisfies QuickPulseRuntimeState);
+  }, [phase, currentIndex, votes, timeLeft, onRuntimeStateChange]);
+
+  useEffect(() => {
+    if (recoveredRuntime?.phase) onPhaseChange?.(recoveredRuntime.phase);
+  }, [onPhaseChange, recoveredRuntime]);
 
   // Timer countdown
   useEffect(() => {

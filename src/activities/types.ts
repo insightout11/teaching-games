@@ -34,6 +34,10 @@ export interface ActivityProps {
   onContinue: (request: ActivityContinueRequest) => Promise<ActivityContinueResponse>;
   // Callback when activity phase changes
   onPhaseChange?: (phase: string) => void;
+  // Optional local runtime recovery for stateful live activities. Activity
+  // implementations validate their own payload before using it.
+  initialRuntimeState?: unknown;
+  onRuntimeStateChange?: (state: unknown | null) => void;
   // Custom topic (if using lesson planner mode)
   customTopic?: string;
   // Input spec system - activities set this to tell student controllers what input to show

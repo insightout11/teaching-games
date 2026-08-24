@@ -21,8 +21,14 @@ import type { StudentSubmission } from '@/lib/supabase/types';
 import { createClient } from '@/lib/supabase/client';
 import type { ActivityParticipationMetrics } from '@/lib/activity-participation';
 import { getScoreReconcileDelay, markScoreDelivered } from '@/lib/activity-score-reconciliation';
+import {
+  clearActivityRuntimeState,
+  readActivityRuntimeState,
+  writeActivityRuntimeState,
+} from '@/lib/activity-runtime-state';
 
 interface ActivityShellProps {
+  sessionId: string;
   activity: ActivityPlugin;
   generatedContent: ActivityGeneratedContent;
   timerSeconds: number;
@@ -39,9 +45,8 @@ function formatActivityStatus(value: string): string {
   return sentenceCased.replace(/\bAi\b/g, 'AI');
 }
 
-export function ActivityShell({ activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange, onContentRegenerate, isMicroEvent }: ActivityShellProps) {
+export function ActivityShell({ sessionId, activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange, onContentRegenerate, isMicroEvent }: ActivityShellProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
-  const sessionId = useSessionStore((s) => s.sessionId);
   const students = useSessionStore((s) => s.students);
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
   const settings = useSessionStore((s) => s.settings);
@@ -78,6 +83,10 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   }, [students, showMissionSummary]);
 
   const ActivityComponent = activity.component;
+  const initialRuntimeState = useMemo(
+    () => readActivityRuntimeState(sessionId, activity.key),
+    [sessionId, activity.key],
+  );
 
   // Solo roster: skip the "PICK STUDENT" step entirely — there's only one valid
   // choice, so picking it for the teacher removes a pointless click for 1:1 tutors.
@@ -398,13 +407,19 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
   const handlePhaseChange = useCallback((phase: string) => {
     setCurrentPhase(phase);
     externalPhaseChange?.(phase);
+    if (phase === 'finished') clearActivityRuntimeState(sessionId, activity.key);
     if (phase === 'finished' && activity.pppStage === 'landing') {
       const missions = useSessionStore.getState().studentMissions;
       if (Object.keys(missions).length > 0) {
         setShowMissionSummary(true);
       }
     }
-  }, [activity.pppStage, externalPhaseChange]);
+  }, [activity.key, activity.pppStage, externalPhaseChange, sessionId]);
+
+  const handleRuntimeStateChange = useCallback((state: unknown | null) => {
+    if (state == null) clearActivityRuntimeState(sessionId, activity.key);
+    else writeActivityRuntimeState(sessionId, activity.key, state);
+  }, [activity.key, sessionId]);
 
   const customTopic = getEffectiveTopic(settings);
   const sessionSettings = useMemo(
@@ -445,6 +460,8 @@ export function ActivityShell({ activity, generatedContent, timerSeconds, onPhas
               generatedContent={generatedContent}
               onContinue={handleContinue}
               onPhaseChange={handlePhaseChange}
+              initialRuntimeState={initialRuntimeState}
+              onRuntimeStateChange={handleRuntimeStateChange}
               customTopic={customTopic}
               onSetInputSpec={handleSetInputSpec}
               onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
