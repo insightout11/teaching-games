@@ -6,6 +6,7 @@ import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
 import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
 import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
+import { clearLessonRuntimeSnapshot } from '@/lib/lesson-runtime-state';
 import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
 import { getActivityInstanceKey } from '@/lib/activity-instance';
@@ -59,7 +60,7 @@ import { DestinationBriefing } from '@/components/place-media/destination-briefi
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
-import { CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star } from 'lucide-react';
 
 // Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
 // tuned so a sunset departure -> overnight -> sunrise arrival reproduces the
@@ -669,6 +670,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   } | null>(null);
   const [poolSpinning, setPoolSpinning] = useState<{ pool: string[]; stageLabel?: string } | null>(null);
   const [dismissedDestinationBriefingKey, setDismissedDestinationBriefingKey] = useState<string | null>(null);
+  const [compatibilityNotice, setCompatibilityNotice] = useState<string | null>(null);
 
   // Bonus vote state
   const [bonusVotePollId, setBonusVotePollId] = useState<string | null>(null);
@@ -1190,26 +1192,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   useEffect(() => {
     let cancelled = false;
     const pollParticipants = async () => {
-      if (isMockMode()) {
-        const res = await fetch(`/api/student/participants?sessionId=${session.id}`);
-        if (!res.ok) return;
-        const body = await res.json() as { participants?: SessionParticipant[] };
-        const data = body.participants ?? [];
-        if (cancelled) return;
-        setSessionParticipants((prev) => {
-          if (data.length === prev.length && data.every((p, i) => p.id === prev[i]?.id)) return prev;
-          return data;
-        });
-        return;
-      }
-
-      const sb = createClient();
-      const { data } = await sb
-        .from('session_participants')
-        .select('id, student_id, display_name, avatar_seed, joined_at')
-        .eq('session_id', session.id)
-        .order('joined_at') as { data: SessionParticipant[] | null };
-      if (cancelled || !data) return;
+      const res = await fetch(`/api/student/participants?sessionId=${session.id}`, { cache: 'no-store' });
+      if (!res.ok) return;
+      const body = await res.json() as { participants?: SessionParticipant[] };
+      const data = body.participants ?? [];
+      if (cancelled) return;
       setSessionParticipants((prev) => {
         if (data.length === prev.length && data.every((p, i) => p.id === prev[i]?.id)) return prev;
         return data;
@@ -1232,6 +1219,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (expectsJourneyMove) setJourneySaveStatus('saving');
     sessionStorage.removeItem(lessonPlanStorageKey(session.id));
     sessionStorage.removeItem('lessonPlanContent');
+    clearLessonRuntimeSnapshot(session.id);
     localStorage.removeItem('lc-explore-session');
     setEnded(true);
 
@@ -1379,6 +1367,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (!isParticipantCompatible(game, Math.max(1, liveParticipantCountRef.current))) {
       const fallback = getGame(SAFE_SIMULTANEOUS_KEY);
       if (fallback && fallback.key !== game.key) {
+        setCompatibilityNotice(
+          `${game.name} ${participantRequirementLabel(game).toLowerCase()}. `
+          + `With ${liveParticipantCountRef.current} connected, Lesson Captain opened ${fallback.name} instead.`,
+        );
         handleSelectGame(fallback);
         return;
       }
@@ -1398,6 +1390,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     if (!isParticipantCompatible(activity, Math.max(1, liveParticipantCountRef.current))) {
       const fallback = getGame(SAFE_SIMULTANEOUS_KEY);
       if (fallback) {
+        setCompatibilityNotice(
+          `${activity.name} ${participantRequirementLabel(activity).toLowerCase()}. `
+          + `With ${liveParticipantCountRef.current} connected, Lesson Captain opened ${fallback.name} instead.`,
+        );
         handleSelectGame(fallback);
         return;
       }
@@ -3137,6 +3133,20 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
       {showRouteChoice && (
         <RouteChoicePanel sessionId={session.id} pool={routeChoicePool ?? undefined} onRouteChosen={handleRouteChosen} />
+      )}
+
+      {compatibilityNotice && (
+        <div className="fixed left-1/2 top-4 z-[80] flex max-w-xl -translate-x-1/2 items-start gap-3 rounded-2xl border border-amber-400/35 bg-slate-950/95 px-4 py-3 text-sm text-amber-100 shadow-2xl backdrop-blur">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" aria-hidden />
+          <p className="flex-1">{compatibilityNotice}</p>
+          <button
+            type="button"
+            onClick={() => setCompatibilityNotice(null)}
+            className="text-xs font-semibold uppercase tracking-wide text-amber-200 hover:text-white"
+          >
+            Dismiss
+          </button>
+        </div>
       )}
 
       {/* Demo mode — simulated students drive the live loop via real endpoints */}

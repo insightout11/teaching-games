@@ -73,6 +73,11 @@ import type {
   TeamDebateContent,
   SourceVocabItem,
 } from '@/activities/types';
+import {
+  buildSafePredictionQuestions,
+  isObjectivePredictionQuestion,
+  type PredictionQuestionCandidate,
+} from '@/lib/prediction-quality';
 import type { ComprehensionQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
 import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/content-cache';
@@ -978,25 +983,21 @@ Mix in at least one counterintuitive or surprising fact to spark curiosity.
 
 Return JSON with a "questions" array of exactly 3 objects with: text, optionA, optionB, correctAnswer ("A" or "B"), revealFact.`;
 
-  const parsed = await generateJSON<{ questions: Array<{ text: string; optionA: string; optionB: string; correctAnswer: string; revealFact: string }> }>(prompt, schema);
+  const parsed = await generateJSON<{ questions: PredictionQuestionCandidate[] }>(prompt, schema);
+  let candidates = parsed.questions ?? [];
 
-  const fallback = {
-    text: "Which option names today's lesson topic?",
-    optionA: topic || 'General',
-    optionB: 'A different topic',
-    correctAnswer: 'A' as const,
-    revealFact: `Today's lesson topic is ${topic || 'General'}.`,
-  };
+  if (candidates.slice(0, 3).some((candidate) => !isObjectivePredictionQuestion(candidate))) {
+    const repairPrompt = `${prompt}\n\nYour previous draft contained a subjective or interpretive claim. Regenerate all 3. Every statement must be decidable from an explicit fact; avoid rankings, importance, quality, symbolism, interpretation, and value judgments.`;
+    const repaired = await generateJSON<{ questions: PredictionQuestionCandidate[] }>(repairPrompt, schema)
+      .catch(() => null);
+    candidates = repaired?.questions ?? candidates;
+  }
 
   return {
     activityKey: 'prediction-round',
     topicContext: topic,
     deferReveal,
-    questions: [
-      { text: parsed.questions[0]?.text ?? fallback.text, optionA: parsed.questions[0]?.optionA ?? 'True', optionB: parsed.questions[0]?.optionB ?? 'False', correctAnswer: (parsed.questions[0]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[0]?.revealFact ?? fallback.revealFact },
-      { text: parsed.questions[1]?.text ?? fallback.text, optionA: parsed.questions[1]?.optionA ?? 'True', optionB: parsed.questions[1]?.optionB ?? 'False', correctAnswer: (parsed.questions[1]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[1]?.revealFact ?? fallback.revealFact },
-      { text: parsed.questions[2]?.text ?? fallback.text, optionA: parsed.questions[2]?.optionA ?? 'True', optionB: parsed.questions[2]?.optionB ?? 'False', correctAnswer: (parsed.questions[2]?.correctAnswer as 'A' | 'B') ?? 'A', revealFact: parsed.questions[2]?.revealFact ?? fallback.revealFact },
-    ],
+    questions: buildSafePredictionQuestions(candidates, topic),
   };
 }
 

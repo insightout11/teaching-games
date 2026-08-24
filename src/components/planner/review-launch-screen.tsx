@@ -18,6 +18,9 @@ import { getDestinationById, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/
 import { distanceKm, formatDistance } from '@/lib/world-flight/geo';
 import { resolveWorldFlightMovement } from '@/lib/world-flight/journey';
 import { getPlaneAsset } from '@/lib/plane-progression';
+import { getActivity } from '@/activities/registry';
+import { getGame } from '@/games/registry';
+import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
 
 type TeacherClass = {
   id: string;
@@ -142,6 +145,14 @@ export function ReviewLaunchScreen() {
   }, []);
 
   const selectedClass = classes.find((c) => c.id === selectedClassId);
+  const incompatibleModules = selectedClass
+    ? modules.flatMap((module) => {
+        const plugin = getActivity(module.key) ?? getGame(module.key);
+        return plugin && !isParticipantCompatible(plugin, Math.max(1, selectedClass.studentCount))
+          ? [{ name: plugin.name, requirement: participantRequirementLabel(plugin) }]
+          : [];
+      })
+    : [];
   const worldFlightDestination = worldFlightContext
     ? getDestinationById(worldFlightContext.destinationId)
     : null;
@@ -443,9 +454,20 @@ export function ReviewLaunchScreen() {
 
                 {/* Selected class info */}
                 {selectedClass && (
-                  <p className="text-xs text-lc-text3">
-                    {selectedClass.studentCount} student{selectedClass.studentCount === 1 ? '' : 's'} in class
-                  </p>
+                  <>
+                    <p className="text-xs text-lc-text3">
+                      {selectedClass.studentCount} student{selectedClass.studentCount === 1 ? '' : 's'} in class
+                    </p>
+                    {incompatibleModules.length > 0 && (
+                      <div className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 text-xs text-amber-200">
+                        <p className="font-semibold">Check connected class size before launch</p>
+                        <p className="mt-1 text-amber-100/80">
+                          {incompatibleModules.map((item) => `${item.name}: ${item.requirement}`).join(' · ')}.
+                          If fewer students connect, Lesson Captain will show the replacement clearly.
+                        </p>
+                      </div>
+                    )}
+                  </>
                 )}
 
                 {/* Inline create form */}

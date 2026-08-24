@@ -18,6 +18,12 @@ import type { CourseLessonContext } from '@/lib/course-context';
 import type { WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { missionSelectorFallback } from '@/lib/fallback-content';
 import { switchedSuitcase } from '@/activities/cabin-mystery/cases/switched-suitcase';
+import {
+  clearLessonRuntimeSnapshot,
+  readLessonRuntimeSnapshot,
+  writeLessonRuntimeSnapshot,
+  type RecoverableLessonPhase,
+} from '@/lib/lesson-runtime-state';
 
 export type { LessonSlot } from '@/lib/lesson-plan-payload';
 
@@ -362,9 +368,16 @@ export function useLessonSession(
       }
 
       if (content.slots && content.slots.length > 0) {
-        setLessonSlots(content.slots);
+        const recovered = readLessonRuntimeSnapshot(sessionId, content.slots);
+        const slots = recovered?.lessonSlots ?? content.slots;
+        setLessonSlots(slots);
 
-        if (content.directLaunch) {
+        if (recovered) {
+          setCurrentSlotIndex(recovered.currentSlotIndex);
+          setPhase(recovered.phase);
+          pendingAutoStartRef.current = recovered.currentSlotIndex;
+          setSlotTrigger((count) => count + 1);
+        } else if (content.directLaunch) {
           // Explicit direct launch (Explore "run it now"): skip lobby, go live immediately.
           setPhase('live');
           pendingAutoStartRef.current = 0;
@@ -376,6 +389,17 @@ export function useLessonSession(
       }
     }
   }, [sessionId, persistedContent, setCustomTopic, setSettings, setSourceMaterial, setFlightPresetId]);
+
+  useEffect(() => {
+    if (!['mission-select', 'live', 'landing'].includes(phase) || lessonSlots.length === 0) return;
+    writeLessonRuntimeSnapshot(sessionId, {
+      version: 1,
+      phase: phase as RecoverableLessonPhase,
+      currentSlotIndex,
+      lessonSlots,
+      updatedAt: Date.now(),
+    });
+  }, [sessionId, phase, currentSlotIndex, lessonSlots]);
 
   // Apply grammarTarget from lesson plan AFTER initSession has run (initSession resets settings).
   // This runs on the render where phase transitions to 'lobby', which is after the first effects flush.
@@ -608,8 +632,9 @@ export function useLessonSession(
   }, [sessionId]);
 
   const exitLesson = useCallback(() => {
+    clearLessonRuntimeSnapshot(sessionId);
     setPhase('idle');
-  }, []);
+  }, [sessionId]);
 
   // ─── Derived values ────────────────────────────────────────────────────
   const isLessonActive = phase !== 'idle' && phase !== 'ended';
