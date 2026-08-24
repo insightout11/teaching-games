@@ -6,6 +6,11 @@ import { Button } from '@/components/ui/button';
 import { computeTimerState, type InputSpec } from '@/lib/input-spec';
 import { ShuffleboardInput } from './shuffleboard-input';
 import { GeoPointInput } from './geo-point-input';
+import {
+  binaryOptionClassName,
+  reconcileBinarySelection,
+  resolveBinarySelectedIndex,
+} from './binary-input-state';
 
 interface DynamicInputProps {
   spec: InputSpec;
@@ -36,7 +41,7 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       }
       return <ChoiceInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} displayName={displayName} initialResponse={initialResponse} />;
     case 'binary':
-      return <BinaryInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} initialResponse={initialResponse} />;
+      return <BinaryInput key={spec.roundId ?? `${spec.prompt ?? ''}::${(spec.optionLabels || []).join('|')}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} initialResponse={initialResponse} />;
     case 'multi-select':
       return <MultiSelectInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} />;
     case 'sequence':
@@ -807,20 +812,15 @@ function ChoiceInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
 function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, initialResponse }: DynamicInputProps) {
   const labels = useMemo(() => spec.optionLabels || ['A', 'B'], [spec.optionLabels]);
   const options = spec.options || labels;
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(() => {
-    if (!initialResponse) return null;
-    const index = labels.indexOf(initialResponse);
-    return index >= 0 ? index : null;
-  });
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(() =>
+    resolveBinarySelectedIndex(labels, initialResponse));
 
   useEffect(() => {
-    if (!initialResponse) return;
-    const index = labels.indexOf(initialResponse);
-    if (index >= 0) setSelectedIndex(index);
+    setSelectedIndex(resolveBinarySelectedIndex(labels, initialResponse));
   }, [initialResponse, labels]);
 
   useEffect(() => {
-    if (submitStatus === 'error') setSelectedIndex(null);
+    setSelectedIndex((current) => reconcileBinarySelection(current, submitStatus));
   }, [submitStatus]);
 
   // Send the LABEL (A/B), not the full option text
@@ -841,18 +841,15 @@ function BinaryInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, 
             key={index}
             onClick={() => handleChoice(index)}
             disabled={isSubmitting || submitStatus === 'rate_limited' || submitStatus === 'success'}
-            className={`p-6 rounded-2xl border transition-all font-bold text-xl disabled:opacity-70 ${
-              selectedIndex === index
-                ? 'border-cyan-400 bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                : 'border-lc-border bg-lc-surface text-lc-text hover:border-cyan-500/50 hover:bg-lc-card'
-            }`}
+            aria-pressed={selectedIndex === index}
+            className={binaryOptionClassName(selectedIndex === index)}
           >
             {option === labels[index] ? (
               <div className="text-3xl">{option}</div>
             ) : (
               <>
                 <div className="text-3xl mb-2">{labels[index]}</div>
-                <div className="text-sm opacity-80">{option}</div>
+                <div className="text-sm opacity-90">{option}</div>
               </>
             )}
           </button>

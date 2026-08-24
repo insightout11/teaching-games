@@ -35,11 +35,65 @@ export interface WorldFlightProgressionRewardResult extends WorldFlightFlightRew
   flightHours: number;
   crewStars: number;
   alreadyRecorded: boolean;
+  sessionResponseCount?: number;
+  sessionAccuracyRate?: number | null;
+  sessionBestStreak?: number;
   planeTier?: number | null;
   planeKey?: string | null;
   planeSelectionRequired?: boolean;
   rangeKm?: number | null;
   upgradeState?: WorldFlightUpgradeState | null;
+}
+
+export interface WorldFlightSessionMetricScore {
+  clientId?: string | null;
+  studentId?: string | null;
+  countsForLeaderboard?: boolean | null;
+  countsForAccuracy?: boolean | null;
+  accuracyStatus?: string | null;
+  streakCount?: number | null;
+  responseData?: Record<string, unknown> | null;
+}
+
+/**
+ * Builds the arrival tiles from committed score rows. Direct controller votes
+ * and their later official score can represent the same answer, so a vote is
+ * counted separately only when that student/activity has no official row.
+ */
+export function calculateWorldFlightSessionMetrics(scores: WorldFlightSessionMetricScore[]) {
+  const identityFor = (score: WorldFlightSessionMetricScore) => (
+    score.clientId ? `client:${score.clientId}` : score.studentId ? `student:${score.studentId}` : null
+  );
+  const moduleFor = (score: WorldFlightSessionMetricScore) => {
+    const data = score.responseData;
+    const key = data?.gameKey ?? data?.activityKey ?? data?.game ?? data?.activity;
+    return typeof key === 'string' && key.length > 0 ? key : null;
+  };
+  const officialPairs = new Set(
+    scores
+      .filter((score) => score.countsForLeaderboard !== false)
+      .map((score) => {
+        const identity = identityFor(score);
+        const moduleKey = moduleFor(score);
+        return identity && moduleKey ? `${identity}:${moduleKey}` : null;
+      })
+      .filter((pair): pair is string => Boolean(pair)),
+  );
+  const responseCount = scores.filter((score) => {
+    if (score.countsForLeaderboard !== false) return true;
+    if (score.responseData?.type !== 'remote_vote') return false;
+    const identity = identityFor(score);
+    const moduleKey = moduleFor(score);
+    return !identity || !moduleKey || !officialPairs.has(`${identity}:${moduleKey}`);
+  }).length;
+  const accuracyScores = scores.filter((score) => score.countsForAccuracy === true);
+  const correctScores = accuracyScores.filter((score) => score.accuracyStatus === 'correct');
+
+  return {
+    responseCount,
+    accuracyRate: accuracyScores.length > 0 ? correctScores.length / accuracyScores.length : null,
+    bestStreak: scores.reduce((best, score) => Math.max(best, score.streakCount ?? 0), 0),
+  };
 }
 
 export interface WorldFlightProgressionMilestone {

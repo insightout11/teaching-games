@@ -5,6 +5,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { advanceWorldFlightExpedition, type WorldFlightExpeditionSnapshot } from '@/lib/world-flight/expeditions';
 import {
+  calculateWorldFlightSessionMetrics,
   calculateWorldFlightReward,
   getWorldFlightUpgradeState,
   type WorldFlightProgressionRewardResult,
@@ -69,7 +70,7 @@ async function awardWorldFlightProgression(
       .eq('session_id', sessionId),
     service
       .from('scores')
-      .select('client_id, student_id, outcome, accuracy_status, counts_for_accuracy, counts_for_leaderboard, response_data')
+      .select('client_id, student_id, outcome, accuracy_status, counts_for_accuracy, counts_for_leaderboard, response_data, streak_count')
       .eq('session_id', sessionId),
   ]);
   if (!leg) return null;
@@ -109,12 +110,24 @@ async function awardWorldFlightProgression(
     .maybeSingle();
   const flightHours = state?.flight_hours ?? totals?.flightHours ?? 0;
   const crewStars = state?.crew_stars ?? totals?.crewStars ?? 0;
+  const sessionMetrics = calculateWorldFlightSessionMetrics((scores ?? []).map((score) => ({
+    clientId: score.client_id,
+    studentId: score.student_id,
+    countsForLeaderboard: score.counts_for_leaderboard,
+    countsForAccuracy: score.counts_for_accuracy,
+    accuracyStatus: score.accuracy_status,
+    streakCount: score.streak_count,
+    responseData: score.response_data,
+  })));
 
   return {
     ...reward,
     flightHours,
     crewStars,
     alreadyRecorded: totals?.alreadyRecorded ?? false,
+    sessionResponseCount: sessionMetrics.responseCount,
+    sessionAccuracyRate: sessionMetrics.accuracyRate,
+    sessionBestStreak: sessionMetrics.bestStreak,
     planeTier: state?.plane_tier ?? null,
     planeKey: state?.plane_key ?? null,
     planeSelectionRequired: state?.plane_selection_required ?? false,

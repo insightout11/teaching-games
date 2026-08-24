@@ -1719,6 +1719,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             moduleCount={lesson.lessonSlots.length}
             sessionStartedAt={session.started_at}
             nextDestination={nextDestination}
+            arrivalMetricsPending={journeySaveStatus === 'saving'}
           />
         </div>
       </div>

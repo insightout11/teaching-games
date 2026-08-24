@@ -305,4 +305,61 @@ describe('GET /api/student/session realtime fallback metadata', () => {
     expect(data.currentResponse).toEqual({ roundId: activeQuestion.roundId, choice: 'False' });
     expect(data.responseCount).toBe(1);
   });
+
+  it('cold-hydrates the active Opinion Pulse round for a refreshing student', async () => {
+    const activePulse: InputSpec = {
+      type: 'binary', gameKey: 'opinion-micro', prompt: 'Would you rather...',
+      options: ['Repair it', 'Replace it'], optionLabels: ['A', 'B'],
+      activityInstanceId: 'opinion-micro:900:1', activityInstanceStartedAt: 900,
+      activitySequence: 0, roundId: 'opinion-micro:900:1:vote',
+    };
+    mockStore.updateSession(SESSION_ID, { input_spec: activePulse } as never);
+    mockStore.createScore({
+      session_id: SESSION_ID,
+      student_id: 'student-1',
+      client_id: 'opinion-reload',
+      display_name: 'Mia',
+      response_data: {
+        type: 'remote_vote', gameKey: 'opinion-micro', inputType: 'binary',
+        roundId: activePulse.roundId, choice: 'A',
+      },
+    });
+
+    const response = await GET(request(
+      `/api/student/session?sessionId=${SESSION_ID}&clientId=opinion-reload`,
+    ) as never);
+    const data = await response.json();
+
+    expect(data.inputSpec).toEqual(activePulse);
+    expect(data.currentResponse).toEqual({ roundId: activePulse.roundId, choice: 'A' });
+  });
+
+  it('does not restore an older Opinion Pulse response after a same-type restart', async () => {
+    mockStore.createScore({
+      session_id: SESSION_ID,
+      student_id: 'student-1',
+      client_id: 'opinion-reload',
+      display_name: 'Mia',
+      response_data: {
+        type: 'remote_vote', gameKey: 'opinion-micro', inputType: 'binary',
+        roundId: 'opinion-micro:900:1:vote', choice: 'A',
+      },
+    });
+    const restartedPulse: InputSpec = {
+      type: 'binary', gameKey: 'opinion-micro', prompt: 'Would you rather...',
+      options: ['Keep it', 'Change it'], optionLabels: ['A', 'B'],
+      activityInstanceId: 'opinion-micro:950:2', activityInstanceStartedAt: 950,
+      activitySequence: 0, roundId: 'opinion-micro:950:2:vote',
+    };
+    mockStore.updateSession(SESSION_ID, { input_spec: restartedPulse } as never);
+
+    const response = await GET(request(
+      `/api/student/session?sessionId=${SESSION_ID}&clientId=opinion-reload`,
+    ) as never);
+
+    expect(await response.json()).toMatchObject({
+      inputSpec: restartedPulse,
+      currentResponse: null,
+    });
+  });
 });
