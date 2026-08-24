@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
       : user
         ? '/beta?status=account-mismatch'
         : SUCCESS.next;
-    const response = NextResponse.json({ ok: true, next });
+    const response = NextResponse.json({ ok: true, next, analyticsApplicationId: applicationId });
     if (!canLinkAuthenticatedUser) {
       response.cookies.set(BETA_APPLICATION_COOKIE, applicationId!, {
         httpOnly: true,

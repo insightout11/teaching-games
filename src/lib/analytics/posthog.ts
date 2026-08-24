@@ -30,8 +30,20 @@ export function isPostHogReady(): boolean {
 
 export function trackEvent(event: string, properties?: Record<string, unknown>): boolean {
   if (!initialized) return false;
-  posthog.capture(event, properties);
-  return true;
+  return Boolean(posthog.capture(event, properties));
+}
+
+export function trackEventImmediately(
+  event: string,
+  properties?: Record<string, unknown>,
+  eventId?: string,
+): boolean {
+  if (!initialized) return false;
+  return Boolean(posthog.capture(event, properties, {
+    send_instantly: true,
+    transport: 'sendBeacon',
+    ...(eventId ? { uuid: eventId } : {}),
+  }));
 }
 
 // Teachers only — never call for students (they must stay anonymous).
@@ -39,4 +51,11 @@ export function identifyTeacher(teacherId: string, email: string | null): boolea
   if (!initialized) return false;
   posthog.identify(teacherId, email ? { email } : undefined);
   return true;
+}
+
+// Call on every teacher sign-out so the next anonymous visitor cannot inherit
+// the previous teacher's PostHog distinct ID or person association.
+export function resetPostHog(): void {
+  if (!initialized) return;
+  posthog.reset();
 }

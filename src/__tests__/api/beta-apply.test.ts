@@ -91,7 +91,7 @@ describe('POST /api/beta/apply remediation', () => {
 
   it('persists normalized data and sanitized first-touch attribution', async () => {
     const response = await POST(request(validBody));
-    expect(await response.json()).toEqual({ ok: true, next: '/login?next=/home' });
+    expect(await response.json()).toEqual({ ok: true, next: '/login?next=/home', analyticsApplicationId: '11111111-1111-4111-8111-111111111111' });
     expect(state.inserted).toMatchObject({ email_normalized: 'teacher@example.com', landing_path: '/beta', referrer: 'https://example.com/post', utm_source: 'reddit' });
     expect(state.rpcCalls[0].p_ip_hash).toMatch(/^[a-f0-9]{64}$/);
     expect(JSON.stringify(state.rpcCalls)).not.toContain('203.0.113.8');
@@ -122,7 +122,7 @@ describe('POST /api/beta/apply remediation', () => {
     state.user = { id: 'teacher', email: 'teacher@example.com' };
     state.existing = { id: 'app', teacher_id: 'teacher', status: 'activated', signed_up_at: '2026-01-01T00:00:00Z' };
     const response = await POST(request({ ...validBody, firstName: 'Updated' }));
-    expect(await response.json()).toEqual({ ok: true, next: '/home' });
+    expect(await response.json()).toEqual({ ok: true, next: '/home', analyticsApplicationId: 'app' });
     expect(state.updates[0]).toMatchObject({ first_name: 'Updated' });
     expect(state.updates[1]).toEqual({ teacher_id: 'teacher' });
     expect(state.eqCalls).toContainEqual(['teacher_id', 'teacher']);
@@ -132,14 +132,14 @@ describe('POST /api/beta/apply remediation', () => {
     state.user = { id: 'other', email: 'other@example.com' };
     state.existing = { id: 'app', teacher_id: 'teacher', status: 'signed_up', signed_up_at: '2026-01-01T00:00:00Z' };
     const response = await POST(request(validBody));
-    expect(await response.json()).toEqual({ ok: true, next: '/beta?status=account-mismatch' });
+    expect(await response.json()).toEqual({ ok: true, next: '/beta?status=account-mismatch', analyticsApplicationId: 'app' });
     expect(state.updates).toEqual([]);
   });
 
   it('links a matching signed-in applicant without another OAuth loop', async () => {
     state.user = { id: 'teacher', email: 'teacher@example.com' };
     const response = await POST(request(validBody));
-    expect(await response.json()).toEqual({ ok: true, next: '/home' });
+    expect(await response.json()).toEqual({ ok: true, next: '/home', analyticsApplicationId: '11111111-1111-4111-8111-111111111111' });
     expect(state.updates.at(-1)).toMatchObject({ teacher_id: 'teacher', status: 'signed_up' });
     expect(response.headers.get('set-cookie')).toBeNull();
   });

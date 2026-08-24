@@ -12,6 +12,7 @@ import { CreditBadge } from './credit-badge';
 import { Home, Compass, GraduationCap, Plane, Library, Globe2, Layers } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import type { ComponentType } from 'react';
+import { resetPostHog } from '@/lib/analytics/posthog';
 
 interface NavItem {
   href: string;
@@ -38,6 +39,7 @@ export function Sidebar({ user }: { user: User }) {
   const { resolvedTheme } = useTheme();
 
   const handleSignOut = async () => {
+    resetPostHog();
     if (mockMode) {
       router.push('/login');
       return;
