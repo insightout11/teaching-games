@@ -5,7 +5,7 @@ vi.mock('@/lib/analytics/posthog', () => ({
   initPostHog: () => analytics.ready,
   isPostHogReady: () => analytics.ready,
   identifyTeacher: () => analytics.identified,
-  trackEvent: (...args: unknown[]) => { analytics.events.push(args); return true; },
+  trackEventImmediately: (...args: unknown[]) => { analytics.events.push(args); return true; },
 }));
 
 import { captureBetaSignupCompleted } from '@/lib/beta/signup-analytics';
@@ -28,8 +28,16 @@ describe('beta signup analytics client', () => {
   });
 
   it('captures once after successful identification and claim', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({ claimed: true, properties: { program: 'founding-captains' } }) }));
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({
+      claimed: true,
+      applicationId: '11111111-1111-4111-8111-111111111111',
+      properties: { program: 'founding-captains' },
+    }) }));
     expect(await captureBetaSignupCompleted({ id: 'teacher', email: 'teacher@example.com' })).toEqual({ outcome: 'captured' });
-    expect(analytics.events).toEqual([['beta_signup_completed', { program: 'founding-captains' }]]);
+    expect(analytics.events).toEqual([[
+      'beta_signup_completed',
+      { program: 'founding-captains' },
+      '12111111-1111-4111-8111-111111111111',
+    ]]);
   });
 });

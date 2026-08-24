@@ -58,6 +58,11 @@ import { HOME_BASE_ID, HOME_BASE_NAME, HOME_BASE_SCENE } from '@/lib/world-fligh
 import type { WorldFlightSessionContext } from '@/lib/world-flight/journey';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import { DestinationBriefing } from '@/components/place-media/destination-briefing';
+import {
+  destinationBriefingStorageKey,
+  readDestinationBriefingDismissed,
+  writeDestinationBriefingDismissed,
+} from '@/lib/world-flight/destination-briefing-state';
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
@@ -1553,17 +1558,26 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
   const firstBriefingSlotIndex = lesson.lessonSlots.findIndex((slot) => !slot.isMicroEvent);
   const destinationBriefingKey = wfDestination && firstBriefingSlotIndex >= 0
-    ? `${session.id}:${wfDestination.id}:${firstBriefingSlotIndex}`
+    ? destinationBriefingStorageKey(session.id, wfDestination.id, firstBriefingSlotIndex)
     : null;
+  const destinationBriefingWasPersisted = useMemo(
+    () => mounted && destinationBriefingKey
+      ? readDestinationBriefingDismissed(window.localStorage, destinationBriefingKey)
+      : false,
+    [mounted, destinationBriefingKey],
+  );
   const shouldShowDestinationBriefing =
     Boolean(wfDestination)
     && lesson.isLessonActive
     && firstBriefingSlotIndex >= 0
     && lesson.currentSlotIndex === firstBriefingSlotIndex
     && !lesson.currentSlot?.isMicroEvent
-    && destinationBriefingKey !== dismissedDestinationBriefingKey;
+    && destinationBriefingKey !== dismissedDestinationBriefingKey
+    && !destinationBriefingWasPersisted;
   const handleCloseDestinationBriefing = useCallback(() => {
-    if (destinationBriefingKey) setDismissedDestinationBriefingKey(destinationBriefingKey);
+    if (!destinationBriefingKey) return;
+    writeDestinationBriefingDismissed(window.localStorage, destinationBriefingKey);
+    setDismissedDestinationBriefingKey(destinationBriefingKey);
   }, [destinationBriefingKey]);
   const destinationBriefingContinueLabel = `Continue to ${
     selectedGame?.name ?? selectedActivity?.name ?? lesson.currentSlot?.name ?? 'lesson activity'
