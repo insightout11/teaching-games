@@ -1,11 +1,39 @@
 import { describe, expect, it } from 'vitest';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
+import { isUndeterminedModule } from '@/lib/planner-compose';
 import type { PlanModule } from '@/lib/planner-utils';
-import { refreshAllAroundModules } from '@/stores/planner-store';
+import { refreshAllAroundModules, replacePlannerModule } from '@/stores/planner-store';
 
 const preset = FLIGHT_PLAN_PRESETS.find((candidate) => candidate.id === 'all-around-flight-60')!;
 
 describe('Captain\'s Flight launch module refresh', () => {
+  it('turns a pooled waypoint into the activity the teacher selected', () => {
+    const pooledSlot: PlanModule = {
+      id: 'review-game',
+      slotType: 'practice',
+      key: 'flash-quiz',
+      isLocked: false,
+      stageId: 'review-game',
+      pool: ['flash-quiz', 'grid-rush'],
+    };
+
+    const [replacement] = replacePlannerModule(
+      [pooledSlot],
+      pooledSlot.id,
+      'grid-rush',
+      'practice',
+    );
+
+    expect(replacement).toMatchObject({
+      id: pooledSlot.id,
+      key: 'grid-rush',
+      slotType: 'practice',
+      stageId: 'review-game',
+    });
+    expect(replacement).not.toHaveProperty('pool');
+    expect(isUndeterminedModule(replacement)).toBe(false);
+  });
+
   it('preserves removed modules and the edited order', () => {
     const selected: PlanModule[] = [
       {
