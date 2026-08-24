@@ -22,9 +22,10 @@ interface GameShellProps {
   onRevealTopSubmissions?: (submissions: TopSubmission[]) => void;
   isMicroEvent?: boolean;
   destinationId?: string;
+  onPhaseChange?: (phase: string) => void;
 }
 
-export function GameShell({ game, config, preGeneratedContent, timerSeconds, onRevealTopSubmissions, isMicroEvent, destinationId }: GameShellProps) {
+export function GameShell({ game, config, preGeneratedContent, timerSeconds, onRevealTopSubmissions, isMicroEvent, destinationId, onPhaseChange }: GameShellProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const sessionId = useSessionStore((s) => s.sessionId);
   const students = useSessionStore((s) => s.students);
@@ -458,6 +459,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
                 onSetInputSpec={handleSetInputSpec}
                 onRegisterSubmissionHandler={handleRegisterSubmissionHandler}
                 onRegisterRemoteVoteHandler={handleRegisterRemoteVoteHandler}
+                onPhaseChange={onPhaseChange}
                 prefsMap={prefsMap}
                 onRevealTopSubmissions={onRevealTopSubmissionsRef.current}
                 isMicroEvent={isMicroEvent}

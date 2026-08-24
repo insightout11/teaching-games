@@ -44,6 +44,9 @@ export interface GameProps {
   onRegisterSubmissionHandler?: (handler: SubmissionHandler | null) => void;
   // Remote vote handler - register to receive votes from remote students in real-time
   onRegisterRemoteVoteHandler?: (handler: ((vote: GameRemoteVote) => void) | null) => void;
+  // Report the game's internal lifecycle to Captain's Flight so the stage-level
+  // action stays secondary until the complete game has actually finished.
+  onPhaseChange?: (phase: string) => void;
   // Per-student prefs — keyed by clientId. Games use this to respect score_visible (stealth mode).
   prefsMap?: Map<string, { score_visible: boolean }>;
   // Race-mode games call this to show the top-3 overlay on the teacher's screen.

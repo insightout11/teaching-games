@@ -8,8 +8,12 @@ import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import { GamePhase } from './types';
 import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidationResult, SentenceEvaluationResult } from './types';
+import {
+  buildGridRushRound2InputSpec,
+  getGridRushFlightPhase,
+  GRID_RUSH_ROUND2_DURATION,
+} from './lifecycle';
 const ROUND1_DURATION = 90;
-const ROUND2_DURATION = 60;
 
 // Client-side letter check — every char in word must exist somewhere in the grid (letters are reusable)
 function clientLetterCheck(word: string, letters: string[]): boolean {
@@ -31,6 +35,7 @@ export function GridRushGame({
   sessionSettings,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
+  onPhaseChange,
 }: GameProps) {
   const [phase, setPhase] = useState<GamePhase>(GamePhase.IDLE);
   const phaseRef = useRef<GamePhase>(GamePhase.IDLE);
@@ -43,7 +48,7 @@ export function GridRushGame({
   // Countdown synced to the server-stamped round clock so the teacher screen matches
   // student devices within a tick. Each round broadcasts its own duration.
   const roundActive = phase === GamePhase.ROUND1 || phase === GamePhase.ROUND2;
-  const roundDuration = phase === GamePhase.ROUND2 ? ROUND2_DURATION : ROUND1_DURATION;
+  const roundDuration = phase === GamePhase.ROUND2 ? GRID_RUSH_ROUND2_DURATION : ROUND1_DURATION;
   const { timeLeft, addSeconds } = useSyncedTimer(roundDuration, roundActive);
   const [forceEnd, setForceEnd] = useState(false);
 
@@ -89,6 +94,12 @@ export function GridRushGame({
   // Sentence gallery UI state (REVEALING phase)
   const [expandedSentenceId, setExpandedSentenceId] = useState<string | null>(null);
   const [sentenceGalleryOpen, setSentenceGalleryOpen] = useState(true);
+
+  // Captain's Flight owns the stage-level forward action. Keep it informed of
+  // both rounds so it cannot mistake the Round 1 intermission for completion.
+  useEffect(() => {
+    onPhaseChange?.(getGridRushFlightPhase(phase));
+  }, [onPhaseChange, phase]);
 
   // ------- PHASE TRANSITIONS -------
 
@@ -253,25 +264,12 @@ export function GridRushGame({
       });
     } else if (phase === GamePhase.ROUND2) {
       if (!r2StartedAtRef.current) r2StartedAtRef.current = Date.now();
-      const perStudentData: Record<string, { round1Words: string[]; sentenceResult?: SentenceEntry }> = {};
-      for (const [sid, entries] of Object.entries(studentWords)) {
-        // Key by clientId (localStorage UUID) so TextareaInput can look it up
-        const cid = studentIdToClientIdRef.current[sid] ?? sid;
-        perStudentData[cid] = {
-          round1Words: entries.map((e) => e.word),
-          sentenceResult: studentSentences[sid],
-        };
-      }
-      onSetInputSpec?.({
-        type: 'textarea',
-        gameKey: 'grid-rush',
-        prompt: 'Write ONE sentence using 2 or more of your Round 1 words.',
-        placeholder: 'Your sentence...',
-        maxLength: 300,
-        perStudentData,
-        timerSeconds: ROUND2_DURATION,
+      onSetInputSpec?.(buildGridRushRound2InputSpec({
         startedAt: r2StartedAtRef.current,
-      });
+        studentWords,
+        studentSentences,
+        studentIdToClientId: studentIdToClientIdRef.current,
+      }));
     } else {
       r1StartedAtRef.current = 0;
       r2StartedAtRef.current = 0;
@@ -649,8 +647,9 @@ export function GridRushGame({
           ✏️
         </motion.div>
         <div>
-          <h2 className="text-2xl font-black text-white mb-1">Round 1 Complete!</h2>
-          <p className="text-violet-400 font-semibold">Sentence Showdown incoming…</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-cyan-400">Round 1 of 2 complete</p>
+          <h2 className="mt-1 text-2xl font-black text-white">Word Race Complete!</h2>
+          <p className="mt-2 text-violet-300 font-semibold">Next, students turn their collected words into one strong sentence.</p>
         </div>
         <div className="flex flex-wrap gap-3 justify-center">
           {wordCounts.map((w) => (
@@ -664,7 +663,7 @@ export function GridRushGame({
           onClick={startRound2}
           className="mt-2 px-8 py-3 rounded-xl bg-violet-500 hover:bg-violet-400 text-white font-bold text-lg transition-colors"
         >
-          Start Round 2 →
+          Start Sentence Showdown — Round 2 of 2 →
         </button>
       </div>
     );

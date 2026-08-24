@@ -1543,10 +1543,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     setModulePhase('idle');
   }, [lesson.currentSlotIndex]);
 
+  const handleLessonPhaseChange = lesson.handlePhaseChange;
   const handleActivityPhaseChange = useCallback((phase: string) => {
     setModulePhase(phase);
-    lesson.handlePhaseChange(phase);
-  }, [lesson]);
+    handleLessonPhaseChange(phase);
+  }, [handleLessonPhaseChange]);
 
   const isModuleFinished = modulePhase === 'finished' && lesson.isLessonActive;
   const firstBriefingSlotIndex = lesson.lessonSlots.findIndex((slot) => !slot.isMicroEvent);
@@ -2523,7 +2524,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             >
               <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
                 {destinationBriefingPanel ?? (
-                  <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
+                  <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} onPhaseChange={lesson.isLessonActive ? handleActivityPhaseChange : undefined} />
                 )}
               </ModuleErrorBoundary>
             </FlightSessionView>
@@ -2599,7 +2600,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             </div>
             <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
               {destinationBriefingPanel ?? (
-                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} />
+                <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} onPhaseChange={lesson.isLessonActive ? handleActivityPhaseChange : undefined} />
               )}
             </ModuleErrorBoundary>
           </div>
