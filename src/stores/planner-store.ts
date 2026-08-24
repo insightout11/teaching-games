@@ -36,6 +36,29 @@ function getSourceKind(sourceMaterial: SourceMaterial | null | undefined): Plann
   return null;
 }
 
+export function replacePlannerModule(
+  modules: PlanModule[],
+  id: string,
+  newKey: string,
+  newSlotType: SlotType,
+): PlanModule[] {
+  return modules.map((module) => {
+    if (module.id !== id) return module;
+
+    const replacement: PlanModule = {
+      ...module,
+      key: newKey,
+      slotType: newSlotType,
+    };
+
+    // A pool marks a slot as intentionally unresolved. Once the teacher picks
+    // a concrete activity, carrying that pool forward would keep the UI masked
+    // and allow launch-time resolution to overwrite the teacher's choice.
+    delete replacement.pool;
+    return replacement;
+  });
+}
+
 function withFlightMeta(
   preset: FlightPlanPreset | null | undefined,
   key: string,
@@ -394,10 +417,7 @@ export const usePlannerStore = create<PlannerState>()(
 
       replaceModule: (id, newKey, newSlotType) =>
         set((state) => ({
-          modules: state.modules.map((m) => {
-            if (m.id !== id) return m;
-            return { ...m, key: newKey, slotType: newSlotType };
-          }),
+          modules: replacePlannerModule(state.modules, id, newKey, newSlotType),
         })),
 
       setActiveTab: (activeTab) => set({ activeTab }),
