@@ -21,23 +21,38 @@ type VoteMap = Record<number, Record<string, PredictionVote>>;
 interface PredictionRoundRuntimeState {
   phase: Phase;
   currentIndex: number;
+  questions: PredictionRoundQuestion[];
+  deferReveal: boolean;
   votes: VoteMap;
   timeLeft: number;
   activityInstance: { id: string; startedAt: number } | null;
   scoredVoteKeys: string[];
 }
 
-function recoverPredictionRuntime(value: unknown, questionCount: number): PredictionRoundRuntimeState | null {
+function recoverPredictionRuntime(
+  value: unknown,
+  fallbackQuestions: PredictionRoundQuestion[],
+  fallbackDeferReveal: boolean,
+): PredictionRoundRuntimeState | null {
   if (!value || typeof value !== 'object') return null;
   const candidate = value as Partial<PredictionRoundRuntimeState>;
+  const questions = Array.isArray(candidate.questions) && candidate.questions.length > 0
+    ? candidate.questions
+    : fallbackQuestions;
   if (!['prompting', 'revealing', 'summary', 'locked'].includes(candidate.phase ?? '')) return null;
-  if (!Number.isInteger(candidate.currentIndex) || (candidate.currentIndex ?? -1) < 0 || (candidate.currentIndex ?? 0) >= questionCount) return null;
+  if (!Number.isInteger(candidate.currentIndex) || (candidate.currentIndex ?? -1) < 0 || (candidate.currentIndex ?? 0) >= questions.length) return null;
   if (!candidate.votes || typeof candidate.votes !== 'object') return null;
   if (typeof candidate.timeLeft !== 'number' || candidate.timeLeft < 0) return null;
   const instance = candidate.activityInstance;
   if (!instance || typeof instance.id !== 'string' || typeof instance.startedAt !== 'number') return null;
   if (!Array.isArray(candidate.scoredVoteKeys)) return null;
-  return candidate as PredictionRoundRuntimeState;
+  return {
+    ...candidate,
+    questions,
+    deferReveal: typeof candidate.deferReveal === 'boolean'
+      ? candidate.deferReveal
+      : fallbackDeferReveal,
+  } as PredictionRoundRuntimeState;
 }
 
 function PredictionChart({
@@ -125,15 +140,20 @@ export function PredictionRoundActivity({
   onRuntimeStateChange,
 }: ActivityProps) {
   const content = generatedContent as PredictionRoundContent;
-  const questions = content.questions;
+  const generatedDeferReveal = content.deferReveal ?? false;
+  const recoveredRuntimeRef = useRef(recoverPredictionRuntime(
+    initialRuntimeState,
+    content.questions,
+    generatedDeferReveal,
+  ));
+  const recoveredRuntime = recoveredRuntimeRef.current;
+  const questions = recoveredRuntime?.questions ?? content.questions;
   const questionCount = questions.length; // always 3
   // "Listen for it" mode (Captain's Flight, source lessons): collect predictions at takeoff but hold
   // the answers back until AFTER the briefing, where the reveal panel pays them off.
-  const deferReveal = content.deferReveal ?? false;
+  const deferReveal = recoveredRuntime?.deferReveal ?? generatedDeferReveal;
   const setPredictionResults = useSessionStore((s) => s.setPredictionResults);
   const addFlightLogEntry = useSessionStore((s) => s.addFlightLogEntry);
-  const recoveredRuntimeRef = useRef(recoverPredictionRuntime(initialRuntimeState, questionCount));
-  const recoveredRuntime = recoveredRuntimeRef.current;
 
   const [phase, setPhase] = useState<Phase>(recoveredRuntime?.phase ?? 'idle');
   const [currentIndex, setCurrentIndex] = useState(recoveredRuntime?.currentIndex ?? 0);
@@ -160,12 +180,14 @@ export function PredictionRoundActivity({
     onRuntimeStateChange?.({
       phase,
       currentIndex,
+      questions,
+      deferReveal,
       votes,
       timeLeft,
       activityInstance: activityInstanceRef.current,
       scoredVoteKeys: Array.from(scoredVotesRef.current),
     } satisfies PredictionRoundRuntimeState);
-  }, [phase, currentIndex, votes, timeLeft, onRuntimeStateChange]);
+  }, [phase, currentIndex, questions, deferReveal, votes, timeLeft, onRuntimeStateChange]);
 
   useEffect(() => {
     if (recoveredRuntime?.phase) onPhaseChange?.(recoveredRuntime.phase);
