@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
 
       // Record participation (ignore if already joined this session from same device)
       if (clientId && uuidRegex.test(clientId)) {
-        await supabase.from('session_participants').upsert(
+        const { error: participantError } = await supabase.from('session_participants').upsert(
           {
             session_id: sessionId,
             student_id: studentId,
@@ -155,6 +155,10 @@ export async function POST(request: NextRequest) {
           },
           { onConflict: 'session_id,client_id', ignoreDuplicates: true }
         );
+        if (participantError) {
+          console.error('[api/student/join] participant registration failed:', participantError);
+          return NextResponse.json({ error: 'Failed to register session attendance' }, { status: 500 });
+        }
       }
 
       return NextResponse.json({ studentId: student.id, name: student.name, isExisting: true });
@@ -214,7 +218,7 @@ export async function POST(request: NextRequest) {
 
     // Record participation
     if (clientId && uuidRegex.test(clientId)) {
-      await supabase.from('session_participants').upsert(
+      const { error: participantError } = await supabase.from('session_participants').upsert(
         {
           session_id: sessionId,
           student_id: resolvedStudentId,
@@ -224,6 +228,10 @@ export async function POST(request: NextRequest) {
         },
         { onConflict: 'session_id,client_id', ignoreDuplicates: true }
       );
+      if (participantError) {
+        console.error('[api/student/join] participant registration failed:', participantError);
+        return NextResponse.json({ error: 'Failed to register session attendance' }, { status: 500 });
+      }
     }
 
     return NextResponse.json({ studentId: resolvedStudentId, name: resolvedName, isExisting });
