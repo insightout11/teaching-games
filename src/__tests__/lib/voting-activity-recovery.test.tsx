@@ -37,14 +37,33 @@ const predictionContent: PredictionRoundContent = {
   ],
 };
 
+const regeneratedQuickPulseContent: QuickPulseContent = {
+  ...quickPulseContent,
+  prompts: [
+    { ...quickPulseContent.prompts[0], text: 'Regenerated prompt 1' },
+    { ...quickPulseContent.prompts[1], text: 'Regenerated prompt 2' },
+    { ...quickPulseContent.prompts[2], text: 'Regenerated prompt 3' },
+  ],
+};
+
+const regeneratedPredictionContent: PredictionRoundContent = {
+  ...predictionContent,
+  questions: [
+    { ...predictionContent.questions[0], text: 'Regenerated question 1', revealFact: 'Regenerated fact 1' },
+    { ...predictionContent.questions[1], text: 'Regenerated question 2', revealFact: 'Regenerated fact 2' },
+    { ...predictionContent.questions[2], text: 'Regenerated question 3', revealFact: 'Regenerated fact 3' },
+  ],
+};
+
 describe('live voting activity recovery', () => {
   it('reopens Quick Pulse on the exact revealed prompt with its votes', () => {
     const html = renderToStaticMarkup(<QuickPulseActivity
       {...baseProps}
-      generatedContent={quickPulseContent}
+      generatedContent={regeneratedQuickPulseContent}
       initialRuntimeState={{
         phase: 'revealing',
         currentIndex: 1,
+        prompts: quickPulseContent.prompts,
         votes: { 0: {}, 1: { mia: '4' }, 2: {} },
         timeLeft: 12,
         activityInstance: { id: 'quick-pulse:100:1', startedAt: 100 },
@@ -53,6 +72,7 @@ describe('live voting activity recovery', () => {
 
     expect(html).toContain('Prompt 2 of 3');
     expect(html).toContain('Second prompt');
+    expect(html).not.toContain('Regenerated prompt 2');
     expect(html).toContain('NEXT PROMPT');
     expect(html).not.toContain('>START<');
   });
@@ -60,10 +80,12 @@ describe('live voting activity recovery', () => {
   it('reopens Prediction Round on the exact revealed question with its answer', () => {
     const html = renderToStaticMarkup(<PredictionRoundActivity
       {...baseProps}
-      generatedContent={predictionContent}
+      generatedContent={regeneratedPredictionContent}
       initialRuntimeState={{
         phase: 'revealing',
         currentIndex: 1,
+        questions: predictionContent.questions,
+        deferReveal: false,
         votes: {
           0: {},
           1: { mia: { studentId: 'student-1', clientId: 'mia', displayName: 'Mia', choice: 'True' } },
@@ -78,6 +100,8 @@ describe('live voting activity recovery', () => {
     expect(html).toContain('Question 2 of 3');
     expect(html).toContain('Honeybees recognize faces.');
     expect(html).toContain('They learn visual configurations.');
+    expect(html).not.toContain('Regenerated question 2');
+    expect(html).not.toContain('Regenerated fact 2');
     expect(html).toContain('NEXT QUESTION');
     expect(html).not.toContain('>START<');
   });

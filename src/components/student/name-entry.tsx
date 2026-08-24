@@ -5,9 +5,10 @@ import { Plane, PlaneTakeoff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
-import { AVATAR_SEEDS, HELMET_AVATAR_SEEDS, CAPTAIN_AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl } from '@/lib/avatar-options';
+import { HELMET_AVATAR_SEEDS, CAPTAIN_AVATAR_SEEDS, DEFAULT_AVATAR_SEED, avatarUrl, resolveAvatarSeed } from '@/lib/avatar-options';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { Team } from '@/lib/supabase/types';
+import { registerStudentAttendance, type StudentJoinPayload } from '@/lib/student-attendance';
 import { trackEvent } from '@/lib/analytics/posthog';
 
 interface RosterStudent {
@@ -91,28 +92,6 @@ function getOrCreateClientId(sessionId: string): string {
 // The join API upserts on (session_id, client_id) with ignoreDuplicates, and for
 // new names it re-matches by name within the class — so replaying the same
 // payload is always safe, even if an earlier attempt actually landed.
-function scheduleJoinRetry(payload: Record<string, unknown>) {
-  const delays = [2000, 5000, 15000];
-  let attempt = 0;
-  const tryOnce = () => {
-    setTimeout(() => {
-      fetch('/api/student/join', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error('join retry failed');
-        })
-        .catch(() => {
-          attempt += 1;
-          if (attempt < delays.length) tryOnce();
-        });
-    }, delays[attempt]);
-  };
-  tryOnce();
-}
-
 export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
   const [roster, setRoster] = useState<RosterStudent[]>([]);
   const [rosterLoaded, setRosterLoaded] = useState(false);
@@ -122,6 +101,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
   const [freeTextMode, setFreeTextMode] = useState(false);
   const [freeName, setFreeName] = useState('');
   const [isJoining, setIsJoining] = useState(false);
+  const [joinError, setJoinError] = useState<string | null>(null);
 
   // Load class roster on mount
   useEffect(() => {
@@ -147,17 +127,18 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
 
   const handleSelectStudent = (student: RosterStudent) => {
     setSelected(student);
-    setAvatarSeed(student.avatar_seed || AVATAR_SEEDS[0]);
+    // Older rosters may still contain UUID-style DiceBear seeds. The UI already
+    // renders those as a deterministic flight avatar; send that resolved seed
+    // too so the join API never rejects an otherwise valid roster student.
+    setAvatarSeed(resolveAvatarSeed(student.avatar_seed, student.name));
   };
 
   const handleJoin = async () => {
     setIsJoining(true);
+    setJoinError(null);
     const clientId = getOrCreateClientId(sessionId);
 
-    let studentId: string | null = null;
-    let displayName = '';
-    let joinPayload: Record<string, unknown> | null = null;
-    let joinSucceeded = false;
+    let joinPayload: StudentJoinPayload;
 
     try {
       if (freeTextMode || !selected) {
@@ -165,66 +146,38 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
         const name = freeName.trim();
         if (!name) { setIsJoining(false); return; }
         joinPayload = { sessionId, newName: name, avatarSeed, clientId };
-        const res = await fetch('/api/student/join', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(joinPayload),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          studentId = data.studentId;
-          displayName = data.name ?? name;
-          joinSucceeded = true;
-        } else {
-          displayName = name;
-        }
       } else {
         // Shape A: roster pick
         joinPayload = { sessionId, studentId: selected.id, avatarSeed, clientId };
-        const res = await fetch('/api/student/join', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(joinPayload),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          studentId = data.studentId ?? selected.id;
-          displayName = data.name ?? selected.name;
-          joinSucceeded = true;
-        } else {
-          studentId = selected.id;
-          displayName = selected.name;
-        }
       }
+      const registration = await registerStudentAttendance(joinPayload);
+      const studentId = registration.studentId;
+      const displayName = registration.name;
+
+      const sessionData: StudentSession = {
+        clientId,
+        studentId,
+        displayName,
+        team: null,
+        avatarSeed,
+        captain: !freeTextMode && !!selected?.is_captain_of_the_day,
+      };
+
+      try {
+        localStorage.setItem(`studentSession_${sessionId}`, JSON.stringify(sessionData));
+      } catch (storageError) {
+        console.error('Failed to save session data:', storageError);
+      }
+
+      // Anonymous only — never identify() students or send their name/email.
+      trackEvent('student_joined_session', { sessionId });
+
+      onJoin(sessionData);
+
     } catch (e) {
-      console.error('Failed to call join API:', e);
-      displayName = freeTextMode ? freeName.trim() : (selected?.name ?? '');
-    }
-
-    const sessionData: StudentSession = {
-      clientId,
-      studentId,
-      displayName,
-      team: null,
-      avatarSeed,
-      captain: !freeTextMode && !!selected?.is_captain_of_the_day,
-    };
-
-    try {
-      localStorage.setItem(`studentSession_${sessionId}`, JSON.stringify(sessionData));
-    } catch (e) {
-      console.error('Failed to save session data:', e);
-    }
-
-    // Anonymous only — never identify() students or send their name/email.
-    trackEvent('student_joined_session', { sessionId });
-
-    onJoin(sessionData);
-
-    // Never block the student on this — retry participant registration
-    // silently in the background so scoring/participation aren't lost.
-    if (!joinSucceeded && joinPayload) {
-      scheduleJoinRetry(joinPayload);
+      console.error('Failed to register session attendance:', e);
+      setJoinError('Couldn\'t board yet. Check the connection and try again.');
+      setIsJoining(false);
     }
   };
 
@@ -421,6 +374,11 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
             <PlaneTakeoff className="h-5 w-5" aria-hidden />
             {isJoining ? 'Boarding…' : 'Board Flight'}
           </Button>
+          {joinError ? (
+            <p role="alert" className="text-center text-sm text-rose-300">
+              {joinError}
+            </p>
+          ) : null}
           {/* Ticket barcode */}
           <div
             aria-hidden

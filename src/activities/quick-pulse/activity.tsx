@@ -12,21 +12,28 @@ type VoteMap = Record<number, Record<string, string>>;
 interface QuickPulseRuntimeState {
   phase: Phase;
   currentIndex: number;
+  prompts: QuickPulsePrompt[];
   votes: VoteMap;
   timeLeft: number;
   activityInstance: { id: string; startedAt: number } | null;
 }
 
-function recoverQuickPulseRuntime(value: unknown, promptCount: number): QuickPulseRuntimeState | null {
+function recoverQuickPulseRuntime(
+  value: unknown,
+  fallbackPrompts: QuickPulsePrompt[],
+): QuickPulseRuntimeState | null {
   if (!value || typeof value !== 'object') return null;
   const candidate = value as Partial<QuickPulseRuntimeState>;
+  const prompts = Array.isArray(candidate.prompts) && candidate.prompts.length > 0
+    ? candidate.prompts
+    : fallbackPrompts;
   if (!['prompting', 'revealing', 'summary'].includes(candidate.phase ?? '')) return null;
-  if (!Number.isInteger(candidate.currentIndex) || (candidate.currentIndex ?? -1) < 0 || (candidate.currentIndex ?? 0) >= promptCount) return null;
+  if (!Number.isInteger(candidate.currentIndex) || (candidate.currentIndex ?? -1) < 0 || (candidate.currentIndex ?? 0) >= prompts.length) return null;
   if (!candidate.votes || typeof candidate.votes !== 'object') return null;
   if (typeof candidate.timeLeft !== 'number' || candidate.timeLeft < 0) return null;
   const instance = candidate.activityInstance;
   if (!instance || typeof instance.id !== 'string' || typeof instance.startedAt !== 'number') return null;
-  return candidate as QuickPulseRuntimeState;
+  return { ...candidate, prompts } as QuickPulseRuntimeState;
 }
 
 function DistributionBar({ label, count, total, color }: { label: string; count: number; total: number; color: string }) {
@@ -99,9 +106,9 @@ export function QuickPulseActivity({
   onRuntimeStateChange,
 }: ActivityProps) {
   const content = generatedContent as QuickPulseContent;
-  const prompts = content.prompts;
-  const recoveredRuntimeRef = useRef(recoverQuickPulseRuntime(initialRuntimeState, prompts.length));
+  const recoveredRuntimeRef = useRef(recoverQuickPulseRuntime(initialRuntimeState, content.prompts));
   const recoveredRuntime = recoveredRuntimeRef.current;
+  const prompts = recoveredRuntime?.prompts ?? content.prompts;
 
   const [phase, setPhase] = useState<Phase>(recoveredRuntime?.phase ?? 'idle');
   const [currentIndex, setCurrentIndex] = useState(recoveredRuntime?.currentIndex ?? 0);
@@ -130,11 +137,12 @@ export function QuickPulseActivity({
     onRuntimeStateChange?.({
       phase,
       currentIndex,
+      prompts,
       votes,
       timeLeft,
       activityInstance: activityInstanceRef.current,
     } satisfies QuickPulseRuntimeState);
-  }, [phase, currentIndex, votes, timeLeft, onRuntimeStateChange]);
+  }, [phase, currentIndex, prompts, votes, timeLeft, onRuntimeStateChange]);
 
   useEffect(() => {
     if (recoveredRuntime?.phase) onPhaseChange?.(recoveredRuntime.phase);

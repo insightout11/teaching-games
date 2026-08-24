@@ -8,6 +8,7 @@ import { StudentController } from '@/components/student/student-controller';
 import { StudentSkyShell } from '@/components/student/student-sky-shell';
 import { TakeoffSpark } from '@/components/ui/takeoff-spark';
 import type { Team } from '@/lib/supabase/types';
+import { buildStudentRejoinPayload, registerStudentAttendance } from '@/lib/student-attendance';
 
 interface StudentSession {
   clientId: string;
@@ -50,7 +51,26 @@ export default function JoinSessionPage() {
         if (saved) {
           const parsed = JSON.parse(saved);
           if (parsed.clientId && parsed.displayName) {
-            setStudentSession(parsed);
+            try {
+              const registration = await registerStudentAttendance(
+                buildStudentRejoinPayload(sessionId, parsed),
+              );
+              const rejoinedSession = {
+                ...parsed,
+                studentId: registration.studentId,
+                displayName: registration.name,
+              };
+              try {
+                localStorage.setItem(storageKey, JSON.stringify(rejoinedSession));
+              } catch (storageError) {
+                console.error('Failed to refresh saved session data:', storageError);
+              }
+              setStudentSession(rejoinedSession);
+            } catch {
+              // Local identity is not proof of current attendance. Return to
+              // boarding instead of showing a false "Connected" state.
+              localStorage.removeItem(storageKey);
+            }
           }
         }
       } catch (e) {
