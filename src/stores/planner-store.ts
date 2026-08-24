@@ -210,12 +210,18 @@ export function refreshAllAroundModules(
       : freshModules.find((candidate) => candidate.key === module.key);
     if (!fresh) return module;
 
+    const moduleWithoutPool = { ...module };
+    delete moduleWithoutPool.pool;
+    const refreshedPool = module.pool?.length
+      ? (fresh.pool?.length ? fresh.pool : module.pool)
+      : undefined;
+
     return {
-      ...module,
+      ...moduleWithoutPool,
       stageId: fresh.stageId,
       stageLabel: fresh.stageLabel,
       isMicroEvent: fresh.isMicroEvent,
-      pool: fresh.pool,
+      ...(refreshedPool ? { pool: refreshedPool } : {}),
       worldFlightOnly: fresh.worldFlightOnly,
     };
   });
