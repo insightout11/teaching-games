@@ -1,6 +1,6 @@
 import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
-import { SessionView } from '@/components/session/session-view';
+import { SessionView, type SessionParticipant } from '@/components/session/session-view';
 import { mockStore } from '@/lib/mock/data';
 import {
   buildClassLogbookSummary,
@@ -8,6 +8,7 @@ import {
   type ClassLogbookSessionRow,
 } from '@/lib/class-logbook';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
+import { createServiceClient } from '@/lib/supabase/service';
 
 function isMockModeServer(): boolean {
   return process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
@@ -63,6 +64,14 @@ export default async function SessionPage({ params }: { params: { sessionId: str
 
     const students = mockStore.getStudents(cls.id);
     const existingScores = mockStore.getScores(session.id);
+    const initialParticipants = mockStore.getSessionParticipants(session.id).map((participant) => ({
+      id: participant.id,
+      student_id: participant.student_id,
+      client_id: participant.client_id,
+      display_name: participant.display_name,
+      avatar_seed: participant.avatar_seed ?? null,
+      joined_at: participant.joined_at,
+    }));
     const classSessions = mockStore.getSessions(cls.id);
     const classScores = classSessions.flatMap((classSession) => mockStore.getScores(classSession.id));
     const classLogbook = buildClassLogbookSummary({
@@ -78,6 +87,7 @@ export default async function SessionPage({ params }: { params: { sessionId: str
         cls={cls}
         students={students}
         existingScores={existingScores}
+        initialParticipants={initialParticipants}
         classLogbook={classLogbook}
         priorSessionCount={Math.max(0, classSessions.length - 1)}
       />
@@ -103,24 +113,29 @@ export default async function SessionPage({ params }: { params: { sessionId: str
 
   if (!cls) notFound();
 
-  const { data: students } = await supabase
-    .from('students')
-    .select('*')
-    .eq('class_id', cls.id)
-    .order('name') as { data: Student[] | null };
-
-  const { data: existingScores } = await supabase
-    .from('scores')
-    .select('*')
-    .eq('session_id', session.id)
-    .order('created_at') as { data: Score[] | null };
-
-  const { data: classSessions } = await supabase
-    .from('sessions')
-    .select('id, status, started_at, ended_at, topic, custom_topic')
-    .eq('class_id', cls.id)
-    .order('started_at', { ascending: false })
-    .limit(40) as { data: ClassLogbookSessionRow[] | null };
+  // The RLS-protected session/class reads above establish ownership. Seed the
+  // first render from the authoritative participant table so a newly opened or
+  // refreshed teacher view never flashes a false zero while polling starts.
+  const service = createServiceClient();
+  const [participantResult, studentResult, scoreResult, classSessionResult] = await Promise.all([
+    service
+      .from('session_participants')
+      .select('id, student_id, client_id, display_name, avatar_seed, joined_at')
+      .eq('session_id', session.id)
+      .order('joined_at'),
+    supabase.from('students').select('*').eq('class_id', cls.id).order('name'),
+    supabase.from('scores').select('*').eq('session_id', session.id).order('created_at'),
+    supabase
+      .from('sessions')
+      .select('id, status, started_at, ended_at, topic, custom_topic')
+      .eq('class_id', cls.id)
+      .order('started_at', { ascending: false })
+      .limit(40),
+  ]);
+  const initialParticipants = participantResult.data as SessionParticipant[] | null;
+  const students = studentResult.data as Student[] | null;
+  const existingScores = scoreResult.data as Score[] | null;
+  const classSessions = classSessionResult.data as ClassLogbookSessionRow[] | null;
 
   const classSessionIds = (classSessions ?? []).map((classSession) => classSession.id);
   let classScores: ClassLogbookScoreRow[] = [];
@@ -165,6 +180,7 @@ export default async function SessionPage({ params }: { params: { sessionId: str
       cls={cls}
       students={students ?? []}
       existingScores={existingScores ?? []}
+      initialParticipants={initialParticipants ?? []}
       classLogbook={classLogbook}
       priorSessionCount={priorSessionCount}
     />

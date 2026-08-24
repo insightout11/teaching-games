@@ -7,6 +7,7 @@ import { useRealtimeLeaderboard } from '@/hooks/use-realtime-leaderboard';
 import { useLessonSession } from '@/hooks/use-lesson-session';
 import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 import { clearLessonRuntimeSnapshot } from '@/lib/lesson-runtime-state';
+import { clearActivityRuntimeState } from '@/lib/activity-runtime-state';
 import { GameShell } from './game-shell';
 import { ActivityShell } from './activity-shell';
 import { getActivityInstanceKey } from '@/lib/activity-instance';
@@ -436,9 +437,10 @@ const ACTIVITY_CATEGORY_ORDER = ['icebreaker', 'learning', 'practice', 'debate',
 import { Button } from '@/components/ui/button';
 import type { Session, Class, Student, Score } from '@/lib/supabase/types';
 
-interface SessionParticipant {
+export interface SessionParticipant {
   id: string;
   student_id: string | null;
+  client_id: string;
   display_name: string;
   avatar_seed: string | null;
   joined_at: string;
@@ -469,6 +471,7 @@ interface SessionViewProps {
   cls: Class;
   students: Student[];
   existingScores: Score[];
+  initialParticipants: SessionParticipant[];
   classLogbook: ClassLogbookSummary;
   /** Sessions this teacher ran before this one — gates first-flight onboarding. */
   priorSessionCount?: number;
@@ -616,7 +619,7 @@ function PoolSpinner({
   );
 }
 
-export function SessionView({ session, cls, students: serverStudents, existingScores, classLogbook, priorSessionCount }: SessionViewProps) {
+export function SessionView({ session, cls, students: serverStudents, existingScores, initialParticipants, classLogbook, priorSessionCount }: SessionViewProps) {
   // Use individual selectors to avoid re-rendering on unrelated store changes where possible.
   const initSession = useSessionStore((s) => s.initSession);
   const settings = useSessionStore((s) => s.settings);
@@ -637,7 +640,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   contentOverridesRef.current = contentOverrides;
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
-  const [sessionParticipants, setSessionParticipants] = useState<SessionParticipant[]>([]);
+  const [sessionParticipants, setSessionParticipants] = useState<SessionParticipant[]>(initialParticipants);
   const liveParticipantCount = sessionParticipants.length;
   const liveParticipantCountRef = useRef(liveParticipantCount);
   liveParticipantCountRef.current = liveParticipantCount;
@@ -1192,7 +1195,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   useEffect(() => {
     let cancelled = false;
     const pollParticipants = async () => {
-      const res = await fetch(`/api/student/participants?sessionId=${session.id}`, { cache: 'no-store' });
+      const params = new URLSearchParams({ sessionId: session.id, poll: String(Date.now()) });
+      const res = await fetch(`/api/student/participants?${params}`, { cache: 'no-store' });
       if (!res.ok) return;
       const body = await res.json() as { participants?: SessionParticipant[] };
       const data = body.participants ?? [];
@@ -1220,6 +1224,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     sessionStorage.removeItem(lessonPlanStorageKey(session.id));
     sessionStorage.removeItem('lessonPlanContent');
     clearLessonRuntimeSnapshot(session.id);
+    if (selectedActivity) clearActivityRuntimeState(session.id, selectedActivity.key);
     localStorage.removeItem('lc-explore-session');
     setEnded(true);
 
@@ -2624,6 +2629,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
                   <ActivityShell
                     key={getActivityInstanceKey(lesson.currentSlotIndex, lesson.currentSlot?.stageId ?? lesson.currentSlot?.key, selectedActivity.key)}
+                    sessionId={session.id}
                     activity={selectedActivity}
                     generatedContent={activityContent}
                     timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
@@ -2735,6 +2741,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
               <ModuleErrorBoundary moduleName={selectedActivity.name} onReset={handleBackToSelection}>
                 <ActivityShell
                   key={getActivityInstanceKey(lesson.currentSlotIndex, lesson.currentSlot?.stageId ?? lesson.currentSlot?.key, selectedActivity.key)}
+                  sessionId={session.id}
                   activity={selectedActivity}
                   generatedContent={activityContent}
                   timerSeconds={getTimerForPlugin(selectedActivity.key, selectedActivity.defaultTimerSeconds)}
@@ -3065,6 +3072,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             key={game.key}
                             onClick={() => {
                               if (!compatible) return;
+                              if (selectedActivity) clearActivityRuntimeState(session.id, selectedActivity.key);
                               lesson.insertAndPivotSlot(game.key, 'game', game.name);
                               setShowPivotDrawer(false);
                             }}
@@ -3106,6 +3114,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             key={activity.key}
                             onClick={() => {
                               if (!compatible) return;
+                              if (selectedActivity) clearActivityRuntimeState(session.id, selectedActivity.key);
                               lesson.insertAndPivotSlot(activity.key, 'activity', activity.name);
                               setShowPivotDrawer(false);
                             }}

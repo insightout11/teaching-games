@@ -18,7 +18,7 @@ vi.mock('@/lib/supabase/service', () => ({
   }),
 }));
 
-import { GET } from '@/app/api/student/participants/route';
+import { dynamic, GET, revalidate } from '@/app/api/student/participants/route';
 
 describe('GET /api/student/participants', () => {
   beforeEach(() => {
@@ -29,6 +29,11 @@ describe('GET /api/student/participants', () => {
       data: [{ id: 'participant-1', student_id: 'student-1', display_name: 'Mia', avatar_seed: 'cloud', joined_at: 'now' }],
       error: null,
     });
+  });
+
+  it('forces every attendance poll to execute dynamically', () => {
+    expect(dynamic).toBe('force-dynamic');
+    expect(revalidate).toBe(0);
   });
 
   it('returns service-read attendance to the owning teacher', async () => {

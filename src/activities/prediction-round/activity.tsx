@@ -18,6 +18,28 @@ interface PredictionVote {
 // votes[questionIndex][clientId] = vote metadata
 type VoteMap = Record<number, Record<string, PredictionVote>>;
 
+interface PredictionRoundRuntimeState {
+  phase: Phase;
+  currentIndex: number;
+  votes: VoteMap;
+  timeLeft: number;
+  activityInstance: { id: string; startedAt: number } | null;
+  scoredVoteKeys: string[];
+}
+
+function recoverPredictionRuntime(value: unknown, questionCount: number): PredictionRoundRuntimeState | null {
+  if (!value || typeof value !== 'object') return null;
+  const candidate = value as Partial<PredictionRoundRuntimeState>;
+  if (!['prompting', 'revealing', 'summary', 'locked'].includes(candidate.phase ?? '')) return null;
+  if (!Number.isInteger(candidate.currentIndex) || (candidate.currentIndex ?? -1) < 0 || (candidate.currentIndex ?? 0) >= questionCount) return null;
+  if (!candidate.votes || typeof candidate.votes !== 'object') return null;
+  if (typeof candidate.timeLeft !== 'number' || candidate.timeLeft < 0) return null;
+  const instance = candidate.activityInstance;
+  if (!instance || typeof instance.id !== 'string' || typeof instance.startedAt !== 'number') return null;
+  if (!Array.isArray(candidate.scoredVoteKeys)) return null;
+  return candidate as PredictionRoundRuntimeState;
+}
+
 function PredictionChart({
   question,
   votes,
@@ -99,6 +121,8 @@ export function PredictionRoundActivity({
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
   onScore,
+  initialRuntimeState,
+  onRuntimeStateChange,
 }: ActivityProps) {
   const content = generatedContent as PredictionRoundContent;
   const questions = content.questions;
@@ -108,13 +132,15 @@ export function PredictionRoundActivity({
   const deferReveal = content.deferReveal ?? false;
   const setPredictionResults = useSessionStore((s) => s.setPredictionResults);
   const addFlightLogEntry = useSessionStore((s) => s.addFlightLogEntry);
+  const recoveredRuntimeRef = useRef(recoverPredictionRuntime(initialRuntimeState, questionCount));
+  const recoveredRuntime = recoveredRuntimeRef.current;
 
-  const [phase, setPhase] = useState<Phase>('idle');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [votes, setVotes] = useState<VoteMap>({ 0: {}, 1: {}, 2: {} });
-  const [timeLeft, setTimeLeft] = useState(0);
+  const [phase, setPhase] = useState<Phase>(recoveredRuntime?.phase ?? 'idle');
+  const [currentIndex, setCurrentIndex] = useState(recoveredRuntime?.currentIndex ?? 0);
+  const [votes, setVotes] = useState<VoteMap>(recoveredRuntime?.votes ?? { 0: {}, 1: {}, 2: {} });
+  const [timeLeft, setTimeLeft] = useState(recoveredRuntime?.timeLeft ?? 0);
   const instanceCounterRef = useRef(0);
-  const activityInstanceRef = useRef<{ id: string; startedAt: number } | null>(null);
+  const activityInstanceRef = useRef<{ id: string; startedAt: number } | null>(recoveredRuntime?.activityInstance ?? null);
 
   const currentIndexRef = useRef(currentIndex);
   currentIndexRef.current = currentIndex;
@@ -122,9 +148,28 @@ export function PredictionRoundActivity({
   phaseRef.current = phase;
   const votesRef = useRef(votes);
   votesRef.current = votes;
-  const scoredVotesRef = useRef<Set<string>>(new Set());
+  const scoredVotesRef = useRef<Set<string>>(new Set(recoveredRuntime?.scoredVoteKeys ?? []));
 
   const timerSeconds = sessionSettings.timerSeconds ?? 30;
+
+  useEffect(() => {
+    if (phase === 'idle') {
+      onRuntimeStateChange?.(null);
+      return;
+    }
+    onRuntimeStateChange?.({
+      phase,
+      currentIndex,
+      votes,
+      timeLeft,
+      activityInstance: activityInstanceRef.current,
+      scoredVoteKeys: Array.from(scoredVotesRef.current),
+    } satisfies PredictionRoundRuntimeState);
+  }, [phase, currentIndex, votes, timeLeft, onRuntimeStateChange]);
+
+  useEffect(() => {
+    if (recoveredRuntime?.phase) onPhaseChange?.(recoveredRuntime.phase);
+  }, [onPhaseChange, recoveredRuntime]);
 
   // Timer countdown
   useEffect(() => {

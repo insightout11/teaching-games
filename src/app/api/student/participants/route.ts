@@ -4,6 +4,9 @@ import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Teacher-only attendance feed. Mock mode reads the in-memory store; live mode
 // uses the service client only after verifying that the teacher owns the session.
 export async function GET(request: NextRequest) {
@@ -18,9 +21,10 @@ export async function GET(request: NextRequest) {
 
     const participants = mockStore
       .getSessionParticipants(sessionId)
-      .map(({ id, student_id, display_name, avatar_seed, joined_at }) => ({
+      .map(({ id, student_id, client_id, display_name, avatar_seed, joined_at }) => ({
         id,
         student_id,
+        client_id,
         display_name,
         avatar_seed,
         joined_at,
@@ -41,7 +45,7 @@ export async function GET(request: NextRequest) {
   const service = createServiceClient();
   const { data, error } = await service
     .from('session_participants')
-    .select('id, student_id, display_name, avatar_seed, joined_at')
+    .select('id, student_id, client_id, display_name, avatar_seed, joined_at')
     .eq('session_id', sessionId)
     .order('joined_at');
 
