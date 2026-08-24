@@ -34,6 +34,33 @@ describe('Captain\'s Flight launch module refresh', () => {
     expect(isUndeterminedModule(replacement)).toBe(false);
   });
 
+  it('does not restore the preset pool when launch metadata is refreshed', () => {
+    const pooledSlot: PlanModule = {
+      id: 'review-game',
+      slotType: 'practice',
+      key: 'flash-quiz',
+      isLocked: false,
+      stageId: 'review-game',
+      pool: ['flash-quiz', 'grid-rush'],
+    };
+    const [selected] = replacePlannerModule(
+      [pooledSlot],
+      pooledSlot.id,
+      'grid-rush',
+      'practice',
+    );
+
+    const [refreshed] = refreshAllAroundModules([selected], preset, 'text');
+
+    expect(refreshed).toMatchObject({
+      id: pooledSlot.id,
+      key: 'grid-rush',
+      stageId: 'review-game',
+    });
+    expect(refreshed).not.toHaveProperty('pool');
+    expect(isUndeterminedModule(refreshed)).toBe(false);
+  });
+
   it('preserves removed modules and the edited order', () => {
     const selected: PlanModule[] = [
       {
