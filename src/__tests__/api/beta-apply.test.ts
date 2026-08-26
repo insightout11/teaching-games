@@ -15,6 +15,7 @@ const state = vi.hoisted(() => ({
   insertError: null as { code?: string; message?: string } | null,
   readError: null as { message: string } | null,
   updateError: null as { message: string } | null,
+  analytics: [] as Record<string, unknown>[],
 }));
 
 function resultFor() {
@@ -61,12 +62,20 @@ vi.mock('@/lib/supabase/server', () => ({
   createServerSupabase: () => ({ auth: { getUser: async () => ({ data: { user: state.user } }) } }),
 }));
 
+vi.mock('@/lib/analytics/posthog-server', () => ({
+  captureBetaConversionEvent: async (args: Record<string, unknown>) => {
+    state.analytics.push(args);
+    return true;
+  },
+}));
+
 import { POST } from '@/app/api/beta/apply/route';
 
 const validBody = {
   email: ' Teacher@Example.com ', firstName: 'Ada', teachingFormat: 'online',
   learnerLevels: ['intermediate'], contactConsent: true, website: '',
   biggestChallenge: 'More student participation',
+  analyticsDistinctId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
   attribution: { landingPath: '/anything', referrer: 'https://example.com/post?token=secret', utmSource: 'Reddit' },
 };
 
@@ -84,6 +93,7 @@ describe('POST /api/beta/apply remediation', () => {
     state.rpcResults = [];
     state.rpcCalls = [];
     state.eqCalls = [];
+    state.analytics = [];
     vi.stubEnv('PUBLIC_DEMO_IP_SALT', 'test-salt');
     vi.stubEnv('NODE_ENV', 'test');
   });
@@ -97,6 +107,12 @@ describe('POST /api/beta/apply remediation', () => {
     expect(JSON.stringify(state.rpcCalls)).not.toContain('203.0.113.8');
     expect(response.headers.get('set-cookie')).toContain('HttpOnly');
     expect(response.headers.get('set-cookie')).toContain('SameSite=lax');
+    expect(state.analytics).toEqual([expect.objectContaining({
+      event: 'beta_application_submitted',
+      applicationId: '11111111-1111-4111-8111-111111111111',
+      analyticsDistinctId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+      attribution: expect.objectContaining({ utmSource: 'reddit' }),
+    })]);
   });
 
   it('rejects non-online teaching formats before abuse or persistence work', async () => {

@@ -2,25 +2,23 @@
 
 import {
   identifyTeacher,
+  getPostHogDistinctId,
   initPostHog,
-  isPostHogReady,
-  trackEventImmediately,
 } from '@/lib/analytics/posthog';
-import { betaAnalyticsEventId } from '@/lib/beta/analytics-event-id';
 
 export async function captureBetaSignupCompleted(user: { id: string; email?: string | null }) {
-  if (!initPostHog() || !isPostHogReady()) return { outcome: 'analytics-unavailable' as const };
-  if (!identifyTeacher(user.id, user.email ?? null)) return { outcome: 'analytics-unavailable' as const };
+  const analyticsReady = initPostHog();
+  const analyticsDistinctId = analyticsReady ? getPostHogDistinctId() : null;
 
-  const response = await fetch('/api/beta/status', { method: 'POST' });
+  const response = await fetch('/api/beta/status', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ analyticsDistinctId }),
+  });
+  if (analyticsReady) identifyTeacher(user.id, user.email ?? null);
   if (!response.ok) return { outcome: 'claim-failed' as const };
-  const result = await response.json() as { claimed?: boolean; properties?: Record<string, unknown>; applicationId?: string };
+  const result = await response.json() as { claimed?: boolean; analyticsCaptured?: boolean };
   if (!result.claimed) return { outcome: 'not-claimed' as const };
-
-  if (!trackEventImmediately(
-    'beta_signup_completed',
-    result.properties,
-    betaAnalyticsEventId(result.applicationId, 'beta_signup_completed'),
-  )) return { outcome: 'analytics-unavailable' as const };
+  if (!result.analyticsCaptured) return { outcome: 'analytics-unavailable' as const };
   return { outcome: 'captured' as const };
 }

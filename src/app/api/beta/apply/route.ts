@@ -8,6 +8,8 @@ import {
   hashBetaClientIp,
   requestBodyTooLarge,
 } from '@/lib/beta/abuse';
+import { captureBetaConversionEvent } from '@/lib/analytics/posthog-server';
+import { sanitizeBetaAttribution } from '@/lib/beta/attribution';
 
 export const dynamic = 'force-dynamic';
 
@@ -133,6 +135,23 @@ export async function POST(request: NextRequest) {
         maxAge: 60 * 60 * 24 * 30,
       });
     }
+    const analyticsDistinctId = body && typeof body === 'object' && !Array.isArray(body)
+      ? (body as Record<string, unknown>).analyticsDistinctId
+      : null;
+    await captureBetaConversionEvent({
+      event: 'beta_application_submitted',
+      applicationId: applicationId!,
+      analyticsDistinctId,
+      attribution: sanitizeBetaAttribution({
+        landingPath: parsed.value.landing_path,
+        referrer: parsed.value.referrer,
+        utmSource: parsed.value.utm_source,
+        utmMedium: parsed.value.utm_medium,
+        utmCampaign: parsed.value.utm_campaign,
+        utmContent: parsed.value.utm_content,
+        utmTerm: parsed.value.utm_term,
+      }),
+    });
     return response;
   } catch (error) {
     console.error('[beta/apply] persistence error', error instanceof Error ? error.message : 'unknown');
