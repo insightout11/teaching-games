@@ -102,11 +102,13 @@ export function BetaApplicationForm({ accountMismatch = false, linkageError = fa
           onClick={() => {
             if (next !== '/home') {
               const body = JSON.stringify({ analyticsDistinctId: getPostHogDistinctId() });
-              if (!navigator.sendBeacon('/api/beta/analytics/google-signin', new Blob([body], { type: 'application/json' }))) {
-                void fetch('/api/beta/analytics/google-signin', {
-                  method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true,
-                });
-              }
+              void fetch('/api/beta/analytics/google-signin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body,
+                credentials: 'same-origin',
+                keepalive: true,
+              });
             }
           }}
           className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-lc-blue px-5 py-3 font-bold text-[#070B14] transition-colors hover:bg-lc-blue-hover"
