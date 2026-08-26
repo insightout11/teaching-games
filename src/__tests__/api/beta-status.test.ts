@@ -6,6 +6,7 @@ const state = vi.hoisted(() => ({
   existing: null as Record<string, unknown> | null,
   error: null as { message: string } | null,
   claims: 0,
+  analytics: [] as Record<string, unknown>[],
 }));
 
 vi.mock('@/lib/supabase/server', () => ({
@@ -31,34 +32,51 @@ vi.mock('@/lib/supabase/service', () => ({
   }),
 }));
 
+vi.mock('@/lib/analytics/posthog-server', () => ({
+  sanitizeAnalyticsDistinctId: (value: unknown) => value,
+  captureBetaConversionEvent: async (args: Record<string, unknown>) => {
+    state.analytics.push(args);
+    return true;
+  },
+}));
+
 import { POST } from '@/app/api/beta/status/route';
 
 describe('POST /api/beta/status atomic claim', () => {
-  beforeEach(() => { state.userId = 'teacher'; state.rows = []; state.existing = null; state.error = null; state.claims = 0; });
+  const request = () => new Request('http://localhost/api/beta/status', {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ analyticsDistinctId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' }),
+  });
+
+  beforeEach(() => { state.userId = 'teacher'; state.rows = []; state.existing = null; state.error = null; state.claims = 0; state.analytics = []; });
 
   it('requires authentication', async () => {
     state.userId = null;
-    expect((await POST()).status).toBe(401);
+    expect((await POST(request())).status).toBe(401);
   });
 
   it('returns not claimed when the teacher has no beta row', async () => {
-    expect(await (await POST()).json()).toEqual({ claimed: false });
+    expect(await (await POST(request())).json()).toEqual({ claimed: false });
   });
 
   it('returns one deterministic retry identity with sanitized properties', async () => {
     const row = { id: '11111111-1111-4111-8111-111111111111', landing_path: '/private', referrer: 'https://example.com/?token=x', utm_source: 'Reddit', utm_medium: 'organic', utm_campaign: 'teacher@example.com', utm_content: 'clip-1', utm_term: null };
     state.rows = [row];
     state.existing = row;
-    const expected = { claimed: true, applicationId: row.id, properties: {
-      program: 'founding-captains', landing_path: '/beta', utm_source: 'reddit',
-      utm_medium: 'organic', utm_campaign: null, utm_content: 'clip-1',
-    } };
-    expect(await (await POST()).json()).toEqual(expected);
-    expect(await (await POST()).json()).toEqual(expected);
+    const expected = { claimed: true, analyticsCaptured: true };
+    expect(await (await POST(request())).json()).toEqual(expected);
+    expect(await (await POST(request())).json()).toEqual(expected);
+    expect(state.analytics).toHaveLength(2);
+    expect(state.analytics[0]).toEqual(expect.objectContaining({
+      event: 'beta_signup_completed',
+      applicationId: row.id,
+      analyticsDistinctId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+      attribution: expect.objectContaining({ utmSource: 'reddit', utmCampaign: null }),
+    }));
   });
 
   it('fails loudly on claim errors', async () => {
     state.error = { message: 'db down' };
-    expect((await POST()).status).toBe(500);
+    expect((await POST(request())).status).toBe(500);
   });
 });

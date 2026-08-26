@@ -28,6 +28,11 @@ export function isPostHogReady(): boolean {
   return initialized;
 }
 
+export function getPostHogDistinctId(): string | null {
+  if (!initialized) return null;
+  return posthog.get_distinct_id() || null;
+}
+
 export function trackEvent(event: string, properties?: Record<string, unknown>): boolean {
   if (!initialized) return false;
   return Boolean(posthog.capture(event, properties));

@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Check, Loader2 } from 'lucide-react';
 import { LEARNER_LEVELS } from '@/lib/beta/application';
-import { initPostHog, trackEvent, trackEventImmediately } from '@/lib/analytics/posthog';
-import { betaAnalyticsEventId } from '@/lib/beta/analytics-event-id';
+import { getPostHogDistinctId, initPostHog, trackEvent } from '@/lib/analytics/posthog';
 import {
   betaAnalyticsProperties,
   sanitizeBetaAttribution,
@@ -27,7 +26,6 @@ export function BetaApplicationForm({ accountMismatch = false, linkageError = fa
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
   const [next, setNext] = useState('/login?next=/home');
-  const [analyticsApplicationId, setAnalyticsApplicationId] = useState<string | null>(null);
   const attribution = useRef<BetaAttribution>(sanitizeBetaAttribution(null));
 
   useEffect(() => {
@@ -70,6 +68,7 @@ export function BetaApplicationForm({ accountMismatch = false, linkageError = fa
       contactConsent: form.get('contactConsent') === 'on',
       website: form.get('website'),
       attribution: attribution.current,
+      analyticsDistinctId: getPostHogDistinctId(),
     };
 
     try {
@@ -78,18 +77,10 @@ export function BetaApplicationForm({ accountMismatch = false, linkageError = fa
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const result = await response.json().catch(() => null) as { error?: string; next?: string; analyticsApplicationId?: string } | null;
+      const result = await response.json().catch(() => null) as { error?: string; next?: string } | null;
       if (!response.ok) throw new Error(result?.error || 'Please check the form and try again.');
       setNext(result?.next || '/login?next=/home');
-      setAnalyticsApplicationId(result?.analyticsApplicationId ?? null);
       setStatus('success');
-      if (result?.analyticsApplicationId) {
-        trackEventImmediately(
-          'beta_application_submitted',
-          betaAnalyticsProperties(attribution.current),
-          betaAnalyticsEventId(result.analyticsApplicationId, 'beta_application_submitted'),
-        );
-      }
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : 'Please try again.');
       setStatus('error');
@@ -110,11 +101,12 @@ export function BetaApplicationForm({ accountMismatch = false, linkageError = fa
           href={next}
           onClick={() => {
             if (next !== '/home') {
-              trackEventImmediately(
-                'beta_google_signin_started',
-                betaAnalyticsProperties(attribution.current),
-                betaAnalyticsEventId(analyticsApplicationId, 'beta_google_signin_started'),
-              );
+              const body = JSON.stringify({ analyticsDistinctId: getPostHogDistinctId() });
+              if (!navigator.sendBeacon('/api/beta/analytics/google-signin', new Blob([body], { type: 'application/json' }))) {
+                void fetch('/api/beta/analytics/google-signin', {
+                  method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true,
+                });
+              }
             }
           }}
           className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-lc-blue px-5 py-3 font-bold text-[#070B14] transition-colors hover:bg-lc-blue-hover"

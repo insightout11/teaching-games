@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
-import { betaAnalyticsProperties, sanitizeBetaAttribution } from '@/lib/beta/attribution';
+import { captureBetaConversionEvent } from '@/lib/analytics/posthog-server';
+import { sanitizeAnalyticsDistinctId } from '@/lib/analytics/posthog-server';
+import { betaAttributionFromRow } from '@/lib/beta/server-attribution';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +22,7 @@ type BetaStatusRow = {
 // Atomically records the first signup observation. Already-recorded rows remain
 // eligible for delivery retries; the client supplies a deterministic PostHog UUID
 // derived from the application ID, so those retries are deduplicated at ingestion.
-export async function POST() {
+export async function POST(request: Request) {
   const supabase = createServerSupabase();
   const { data: authData } = await supabase.auth.getUser();
   const teacherId = authData.user?.id;
@@ -53,18 +55,16 @@ export async function POST() {
     claimed = (existing as BetaStatusRow | null) ?? null;
   }
   if (!claimed) return NextResponse.json({ claimed: false });
-  const attribution = sanitizeBetaAttribution({
-    landingPath: claimed.landing_path,
-    referrer: claimed.referrer,
-    utmSource: claimed.utm_source,
-    utmMedium: claimed.utm_medium,
-    utmCampaign: claimed.utm_campaign,
-    utmContent: claimed.utm_content,
-    utmTerm: claimed.utm_term,
+  const attribution = betaAttributionFromRow(claimed);
+  const body = await request.json().catch(() => null) as { analyticsDistinctId?: unknown } | null;
+  const analyticsCaptured = await captureBetaConversionEvent({
+    event: 'beta_signup_completed',
+    applicationId: claimed.id,
+    analyticsDistinctId: sanitizeAnalyticsDistinctId(body?.analyticsDistinctId),
+    attribution,
   });
   return NextResponse.json({
     claimed: true,
-    applicationId: claimed.id,
-    properties: betaAnalyticsProperties(attribution),
+    analyticsCaptured,
   });
 }
