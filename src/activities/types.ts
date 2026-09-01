@@ -5,6 +5,7 @@ import type { ActivityInstanceIdentity, InputSpec, SubmissionHandler } from '@/l
 import type { ScoreOutcome, ScoringProfile } from '@/lib/score-engine';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 import type { ActivityParticipationMetrics } from '@/lib/activity-participation';
+import type { CargoCard, CargoPrompt } from './cargo-hold/types';
 
 // Activity categories
 export type ActivityCategory = 'icebreaker' | 'learning' | 'practice' | 'debate' | 'closing';
@@ -58,7 +59,9 @@ export interface ActivityProps {
     isCorrect: boolean | null;
     outcome?: ScoreOutcome;
     isEmpty?: boolean;
-  }) => Promise<void>;
+    exactPoints?: number;
+    idempotencyKey?: string;
+  }) => Promise<boolean>;
   // Mission system — populated for Landing activities in mission-based lessons
   studentMissions?: Record<string, string>;  // clientId → mission question
   // Landing activities call this to record the student's final answer
@@ -1051,4 +1054,11 @@ export interface ActivityResponse {
   responseData: Record<string, unknown>;
   aiFollowup?: ActivityContinueResponse;
   createdAt: string;
+}
+
+export interface CargoHoldContent extends ActivityGeneratedContent {
+  activityKey: 'cargo-hold';
+  deckVersion: 2;
+  cards: CargoCard[];
+  prompts: CargoPrompt[];
 }

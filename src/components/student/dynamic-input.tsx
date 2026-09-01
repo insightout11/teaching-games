@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { computeTimerState, type InputSpec } from '@/lib/input-spec';
 import { ShuffleboardInput } from './shuffleboard-input';
 import { GeoPointInput } from './geo-point-input';
+import { CargoHandInput } from './cargo-hand-input';
+import { CargoVoteInput } from './cargo-vote-input';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -64,6 +66,10 @@ export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitS
       return <CabinQuestionInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
     case 'cabin-vote':
       return <CabinVoteInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
+    case 'cargo-hand':
+      return <CargoHandInput key={`${spec.roundId ?? ''}::${spec.cargoStep ?? ''}`} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} clientId={clientId} />;
+    case 'cargo-vote':
+      return <CargoVoteInput key={spec.roundId ?? ''} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} clientId={clientId} />;
     case 'cabin-culprit':
       return <CabinCulpritInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} displayName={displayName} />;
     default:

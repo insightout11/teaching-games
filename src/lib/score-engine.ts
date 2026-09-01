@@ -102,3 +102,7 @@ export function addScoreBonus(basePoints: number, requestedBonus?: number) {
     : 0;
   return { bonusPoints, totalPoints: basePoints + bonusPoints };
 }
+
+export function resolveActivityScorePoints(exactPoints: number | undefined, enginePoints: number): number {
+  return Number.isFinite(exactPoints) ? Math.max(0, Math.round(exactPoints as number)) : enginePoints;
+}

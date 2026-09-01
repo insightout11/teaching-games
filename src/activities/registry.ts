@@ -25,6 +25,7 @@ import { characterCardsPlugin } from './character-cards';
 import { imposterPlugin } from './imposter';
 import { passwordPlugin } from './password';
 import { bluffDefinitionPlugin } from './bluff-definition';
+import { cargoHoldPlugin } from './cargo-hold';
 import { tabooSprintPlugin } from './taboo-sprint';
 import { grammarCheckInPlugin } from './grammar-check-in';
 import { grammarClarifyPlugin } from './grammar-clarify';
@@ -60,6 +61,7 @@ const activities: ActivityPlugin[] = [
   imposterPlugin,
   passwordPlugin,
   bluffDefinitionPlugin,
+  cargoHoldPlugin,
   tabooSprintPlugin,
   grammarCheckInPlugin,
   grammarClarifyPlugin,

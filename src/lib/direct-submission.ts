@@ -1,11 +1,18 @@
 import type { InputSpec } from '@/lib/input-spec';
 
-const STRICT_ROUND_GAMES = new Set(['quick-pulse', 'prediction-round']);
+const STRICT_ROUND_GAMES = new Set(['quick-pulse', 'prediction-round', 'cargo-hold']);
+const ACTION_SCOPED_ROUND_GAMES = new Set(['cargo-hold']);
+export const ROUND_ACTION_SEPARATOR = '::';
 
 export interface RoundSubmissionIdentity {
   gameKey?: string | null;
   inputType?: string | null;
   roundId?: string | null;
+}
+
+export function baseRoundId(roundId: string): string {
+  const index = roundId.indexOf(ROUND_ACTION_SEPARATOR);
+  return index === -1 ? roundId : roundId.slice(0, index);
 }
 
 /**
@@ -24,10 +31,14 @@ export function validateRoundSubmission(
   if (!roundId) return null;
   if (!gameKey || !inputType) return 'Invalid round identity';
   if (!activeSpec) return 'Response window is closed';
+  const actionScoped = ACTION_SCOPED_ROUND_GAMES.has(gameKey);
+  const roundMatches = actionScoped
+    ? baseRoundId(roundId) === activeSpec.roundId
+    : roundId === activeSpec.roundId;
   if (
     activeSpec.gameKey !== gameKey
     || activeSpec.type !== inputType
-    || activeSpec.roundId !== roundId
+    || !roundMatches
   ) {
     return 'Stale round identity';
   }
