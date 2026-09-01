@@ -17,7 +17,9 @@ export type InputType =
   | 'cabin-question' // Cabin Mystery two-step question picker (target → question)
   | 'cabin-vote'     // Cabin Mystery final theory form (suspect + motive)
   | 'cabin-culprit'  // Cabin Mystery culprit-side — prompt for culprit, listening state for others
-  | 'debate-prep';   // Team Debate prep board — add points to your team's live list
+  | 'debate-prep'    // Team Debate prep board — add points to your team's live list
+  | 'cargo-hand'     // Cargo Hold — persistent private card hand (play / repack / read)
+  | 'cargo-vote';    // Cargo Hold — vote for the funniest valid sentence (never your own)
 
 export interface InputSpec {
   /** Server timestamp for when this prompt version became canonical. */
@@ -142,6 +144,15 @@ export interface InputSpec {
   sectorTeamByStudentId?: Record<string, 'x' | 'o'>;
   /** Sector Strike: which team is currently answering this sector. Defending team's device shows a holding screen. */
   sectorActiveTeam?: 'x' | 'o';
+  /** Cargo Hold: the round's prompt, split so the student device can draw the blank. */
+  cargoPromptBefore?: string;
+  cargoPromptAfter?: string;
+  /** Cargo Hold: what the prompt will accept this round, phrased for students. */
+  cargoAccepts?: string;
+  /** Cargo Hold: which sub-step of the round this spec represents. */
+  cargoStep?: 'board' | 'choose' | 'read' | 'vote';
+  /** Cargo Hold voting: anonymous valid sentences. Author identity is never included. */
+  cargoVoteOptions?: Array<{ submissionId: string; sentence: string }>;
 }
 
 export const INPUT_SPEC_REALTIME_EVENT = 'input-spec';

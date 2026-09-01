@@ -46,6 +46,7 @@ import type {
   CharacterCardsContent,
   CharacterCard,
   ImposterContent,
+  CargoHoldContent,
   ImposterRound,
   PasswordContent,
   PasswordRound,
@@ -81,6 +82,8 @@ import {
 import type { ComprehensionQuestion } from '@/types/source-material';
 import { generateMissionSelectorContent } from '@/lib/generate-mission-selector';
 import { getCachedContent, storeCachedContent, groundingVariant } from '@/lib/content-cache';
+import { validateDeck, lessonGroundedRatio } from '@/activities/cargo-hold/content-validation';
+import { buildFallbackDeck } from '@/activities/cargo-hold/fallback-deck';
 import type { SourceMaterial } from '@/types/source-material';
 import { buildSourceContext, getGapFillMode, fetchSourceTranscript } from '@/lib/source-context';
 import { normalizePastedSourceMaterial } from '@/lib/pasted-source';
@@ -1900,6 +1903,154 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "de
   }
 }
 
+async function generateCargoHold(
+  topic: string,
+  difficulty: Difficulty,
+  sourceContext = '',
+  variant?: string,
+): Promise<CargoHoldContent> {
+  const cached = await getCachedContent('cargo-hold', topic, difficulty, [], variant, 2);
+  if (cached) {
+    const c = cached.content_json as { cards?: unknown; prompts?: unknown };
+    const checked = validateDeck(c.cards, c.prompts);
+    // A cached deck still has to satisfy the contract â€” an older cache entry must not
+    // put a broken deck in front of a class.
+    if (checked.valid) {
+      return {
+        activityKey: 'cargo-hold',
+        topicContext: topic,
+        deckVersion: 2,
+        cards: checked.cards,
+        prompts: checked.prompts,
+        topic,
+      };
+    }
+  }
+
+  const schema: AISchema = {
+    type: 'object',
+    properties: {
+      cards: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            family: { type: 'string' },
+            text: { type: 'string' },
+            targetTerm: { type: 'string' },
+            targetForm: { type: 'string' },
+            meaning: { type: 'string' },
+            emoji: { type: 'string' },
+            source: { type: 'string' },
+          },
+          required: ['id', 'family', 'text', 'targetTerm', 'targetForm', 'meaning', 'source'],
+        },
+      },
+      prompts: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            textBefore: { type: 'string' },
+            textAfter: { type: 'string' },
+            acceptedFamilies: { type: 'array', items: { type: 'string' } },
+            promptTag: { type: 'string' },
+            previewLabel: { type: 'string' },
+            explanation: { type: 'string' },
+          },
+          required: ['id', 'textBefore', 'acceptedFamilies', 'promptTag', 'previewLabel', 'explanation'],
+        },
+      },
+    },
+    required: ['cards', 'prompts'],
+  };
+
+  const prompt = `Generate a deck for "Cargo Hold", an ESL classroom card game about the topic: ${topic}
+${languageRule(difficulty)}
+${sourceContext}
+THE GAME: the class sees a sentence with a blank. Each student holds 6 private cards and plays the one that fits the blank grammatically. The funniest valid sentence wins the class vote.
+
+CARDS â€” generate 32 cards:
+- Each card is a short FUNNY PHRASE (3-8 words) built around one lesson word, not a bare dictionary word.
+- "family" must be exactly one of: "thing" (noun phrase), "action" (gerund phrase), "description" (adjective phrase), "reason" (a clause explaining a cause).
+- Spread them roughly evenly: 10 thing, 10 action, 6 description, 6 reason.
+- "targetTerm" = the lesson word in its dictionary form. "targetForm" = the form actually used in the phrase (e.g. targetTerm "negotiate", targetForm "negotiating").
+- "meaning" = a plain-English definition of targetTerm, max 15 words.
+- "text" must be under 70 characters and must NOT start with a capital letter (it drops into the middle of a sentence).
+- Ground at least 24 of the 32 cards in vocabulary from the topic or source material above.
+- "source" MUST be "lesson-vocab" for a card built on a word from the topic or source material, "lesson-expression" for one built on a multi-word expression from it, and "safe-fallback" for any card you invented for grammatical variety rather than taking from the lesson. Be honest â€” this field is checked, and a deck that is mostly "safe-fallback" is rejected.
+- "id" = short kebab-case, unique.
+
+PROMPTS â€” generate 6 prompts:
+- "textBefore" is the sentence up to the blank, "textAfter" is what follows (usually "." ).
+- textBefore must end with a space so the card joins cleanly.
+- "acceptedFamilies" lists which card families fit grammatically. Most prompts should accept exactly one family.
+- Test the completed sentence with at least four cards from every accepted family. Do not label a family compatible merely because the sentence has a blank. For example, "start by ___" and "kept ___" require an action/gerund, never a thing; a frame ending in "because ___" requires a reason.
+- Across the 6 prompts, cover all four families at least once.
+- "promptTag" = short kebab-case id. "previewLabel" = how to tease it, e.g. "an action".
+- "explanation" = one line naming the grammar being practised.
+
+HUMOUR RULES â€” this is for a classroom:
+- Safe absurdity: travel mishaps, classroom chaos, exaggerated but harmless situations.
+- Surprising collisions between serious vocabulary and silly situations are the goal.
+- NEVER: sexual content, slurs, identity-based jokes, self-harm, violence, drugs, crime, gross-out or bodily-fluid humour, real celebrities, or anything aimed at a real student or teacher.
+
+Return JSON with "cards" and "prompts" arrays.`;
+
+  try {
+    const data = await generateJSON<{ cards: unknown; prompts: unknown }>(prompt, schema);
+    const checked = validateDeck(data.cards, data.prompts);
+    if (checked.valid && lessonGroundedRatio(checked.cards) >= 0.5) {
+      void storeCachedContent(
+        'cargo-hold',
+        topic,
+        difficulty,
+        { cards: checked.cards, prompts: checked.prompts },
+        2,
+        variant,
+      );
+      return {
+        activityKey: 'cargo-hold',
+        topicContext: topic,
+        deckVersion: 2,
+        cards: checked.cards,
+        prompts: checked.prompts,
+        topic,
+      };
+    }
+
+    // Partial success: keep whatever passed and top it up from the reviewed deck so the
+    // lesson vocabulary still reaches the class instead of being thrown away.
+    const fallback = buildFallbackDeck(topic);
+    const cards = [...checked.cards, ...fallback.cards];
+    const prompts = checked.prompts.length >= 5 ? checked.prompts : fallback.prompts;
+    const merged = validateDeck(cards, prompts);
+    if (merged.valid) {
+      return {
+        activityKey: 'cargo-hold',
+        topicContext: topic,
+        deckVersion: 2,
+        cards: merged.cards,
+        prompts: merged.prompts,
+        topic,
+      };
+    }
+    throw new Error('deck failed validation');
+  } catch {
+    const fallback = buildFallbackDeck(topic);
+    return {
+      activityKey: 'cargo-hold',
+      topicContext: topic,
+      deckVersion: 2,
+      cards: fallback.cards,
+      prompts: fallback.prompts,
+      topic,
+    };
+  }
+}
+
 async function generatePassword(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<PasswordContent> {
   const cached = await getCachedContent('password', topic, difficulty, [], variant, 1);
   if (cached) {
@@ -2813,6 +2964,9 @@ export async function POST(request: NextRequest) {
             break;
           case 'character-cards':
             generators.push(generateCharacterCards(customTopic, diff, missionContext, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
+            break;
+          case 'cargo-hold':
+            generators.push(generateCargoHold(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));
             break;
           case 'imposter':
             generators.push(generateImposter(customTopic, diff, sourceCtx, grounding).then((r) => { content[activityKey] = r; }));

@@ -5,6 +5,7 @@ import { isSessionStale } from '@/lib/session-freshness';
 import { mockStore } from '@/lib/mock/data';
 import type { InputSpec } from '@/lib/input-spec';
 import { validateRoundSubmission, verifiedParticipantStudentId } from '@/lib/direct-submission';
+import { CARGO_HOLD_GAME_KEY, cargoRoundSuffixMatchesAction } from '@/lib/cargo-hold-round';
 
 interface SubmitRequest {
   sessionId: string;
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
 
     if (
       process.env.NEXT_PUBLIC_MOCK_MODE === 'true'
-      && (inputType === 'choice' || inputType === 'binary')
+      && (inputType === 'choice' || inputType === 'binary' || gameKey === CARGO_HOLD_GAME_KEY)
     ) {
       const session = mockStore.ensureSession(sessionId);
       if (!session || session.status !== 'active') {
@@ -74,6 +75,10 @@ export async function POST(request: NextRequest) {
         { gameKey, inputType, roundId },
       );
       if (roundError) return NextResponse.json({ error: roundError }, { status: 409 });
+      if (gameKey === CARGO_HOLD_GAME_KEY && roundId
+        && !cargoRoundSuffixMatchesAction(roundId, trimmedContent)) {
+        return NextResponse.json({ error: 'Invalid round identity' }, { status: 409 });
+      }
       const existing = roundId
         ? mockStore.getScores(sessionId).find((score) => {
             const data = score.response_data as Record<string, unknown> | null;
@@ -170,6 +175,8 @@ export async function POST(request: NextRequest) {
       inputType === 'geo-point' ||
       inputType === 'cabin-question' ||
       inputType === 'cabin-vote' ||
+      inputType === 'cargo-hand' ||
+      inputType === 'cargo-vote' ||
       (!shouldReviewText && inputType === 'text' && !!gameKey) ||
       (!shouldReviewText && inputType === 'textarea' && !!gameKey);
 
@@ -179,6 +186,10 @@ export async function POST(request: NextRequest) {
         { gameKey, inputType, roundId },
       );
       if (roundError) return NextResponse.json({ error: roundError }, { status: 409 });
+      if (gameKey === CARGO_HOLD_GAME_KEY && roundId
+        && !cargoRoundSuffixMatchesAction(roundId, trimmedContent)) {
+        return NextResponse.json({ error: 'Invalid round identity' }, { status: 409 });
+      }
 
       // A structured round ID is the idempotency key for multi-prompt activities.
       // Keep prior rounds so refresh can hydrate durable confirmation, but never

@@ -20,6 +20,7 @@ import {
 import { createClient } from '@/lib/supabase/client';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { DynamicInput } from './dynamic-input';
+import { resolveSubmissionRoundId } from '@/lib/cargo-hold-round';
 import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { buildStandbyTipPool } from '@/lib/standby-tips';
@@ -883,7 +884,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             team: studentSession.team,
             gameKey: inputSpec?.gameKey,
             inputType: inputSpec?.type,
-            roundId: inputSpec?.roundId,
+            roundId: resolveSubmissionRoundId(inputSpec, content.trim()),
             studentId: studentSession.studentId,
             allowMultiple: inputSpec?.allowMultiple,
             reviewMode: inputSpec?.reviewMode,

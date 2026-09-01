@@ -62,6 +62,22 @@ export async function POST(request: NextRequest) {
     team:                 (body.team                 ?? null) as string | null,
   };
 
+  const idempotencyKey = (scoreInsert.response_data as { idempotencyKey?: unknown } | null)
+    ?.idempotencyKey;
+  if (typeof idempotencyKey === 'string' && idempotencyKey && scoreInsert.client_id) {
+    const { data: existingScore } = await service
+      .from('scores')
+      .select('*')
+      .eq('session_id', sessionId)
+      .eq('client_id', scoreInsert.client_id)
+      .contains('response_data', { idempotencyKey })
+      .limit(1)
+      .maybeSingle();
+    if (existingScore) {
+      return NextResponse.json({ data: existingScore, deduplicated: true });
+    }
+  }
+
   const { data, error } = await service
     .from('scores')
     .insert(scoreInsert)
@@ -69,6 +85,17 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (error) {
+    if (error.code === '23505' && typeof idempotencyKey === 'string' && scoreInsert.client_id) {
+      const { data: winner } = await service
+        .from('scores')
+        .select('*')
+        .eq('session_id', sessionId)
+        .eq('client_id', scoreInsert.client_id)
+        .contains('response_data', { idempotencyKey })
+        .limit(1)
+        .maybeSingle();
+      if (winner) return NextResponse.json({ data: winner, deduplicated: true });
+    }
     console.error('[api/session/score] insert error:', error.message, error.details);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

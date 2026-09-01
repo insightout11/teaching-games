@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
-import { runScoreEngine } from '@/lib/score-engine';
+import { runScoreEngine, resolveActivityScorePoints } from '@/lib/score-engine';
 import type { ScoreOutcome } from '@/lib/score-engine';
 import type { ActivityPlugin } from '@/activities/types';
 import { CATEGORY_INFO } from '@/activities/registry';
@@ -217,8 +217,10 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
     isCorrect: boolean | null;
     outcome?: ScoreOutcome;
     isEmpty?: boolean;
-  }) => {
-    if (!sessionId) return;
+    exactPoints?: number;
+    idempotencyKey?: string;
+  }): Promise<boolean> => {
+    if (!sessionId) return false;
     const engineResult = runScoreEngine({
       explicitOutcome: request.outcome,
       isCorrect: request.isCorrect,
@@ -233,7 +235,7 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
         student_id: request.studentId,
         client_id: request.clientId,
         display_name: request.displayName,
-        points: engineResult.points,
+        points: resolveActivityScorePoints(request.exactPoints, engineResult.points),
         is_correct: engineResult.isCorrect,
         outcome: engineResult.outcome,
         accuracy_status: engineResult.accuracyStatus,
@@ -243,16 +245,21 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
         prompt_index: request.promptIndex,
         streak_count: 0,
         streak_bonus: 0,
-        response_data: { type: 'activity_participation', activityKey: activity.key },
+        response_data: {
+          type: 'activity_participation',
+          activityKey: activity.key,
+          ...(request.idempotencyKey ? { idempotencyKey: request.idempotencyKey } : {}),
+        },
       }),
     });
     if (!res.ok) {
       const err = await res.json() as { error?: string };
       console.error('Failed to insert activity score:', err.error);
-      return;
+      return false;
     }
     const { data } = await res.json() as { data: Score };
     if (data) recordScore(data);
+    return true;
   }, [sessionId, recordScore, activity.key, activity.scoringProfile]);
 
   // Callback for activities to set input spec
