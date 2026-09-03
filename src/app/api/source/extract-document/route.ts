@@ -1,6 +1,8 @@
 import 'server-only';
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI, SchemaType as GeminiSchemaType } from '@google/generative-ai';
+import type { GenerationConfig } from '@google/generative-ai';
+import { getGeminiDocumentModel, getThinkingConfig } from '@/lib/ai/config';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
 import type { SourceBriefingMode, SourceBriefingOption } from '@/types/source-material';
 
@@ -236,9 +238,14 @@ export async function POST(request: NextRequest) {
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
+    const documentModel = getGeminiDocumentModel();
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
+      model: documentModel,
       generationConfig: {
+        // Gemini 3.x defaults to a high thinking level; extraction is a
+        // transcribe-and-structure task, and unbounded thinking here risks
+        // blowing the 60s maxDuration on large PDFs.
+        thinkingConfig: getThinkingConfig(documentModel),
         responseMimeType: 'application/json',
         responseSchema: {
           type: GeminiSchemaType.OBJECT,
@@ -267,7 +274,9 @@ export async function POST(request: NextRequest) {
           },
           required: ['summary', 'studentBriefing', 'recommendedMode'],
         },
-      },
+        // thinkingConfig is forwarded by the SDK but missing from its
+        // GenerationConfig type, hence the cast.
+      } as GenerationConfig,
     });
 
     const result = await model.generateContent({
