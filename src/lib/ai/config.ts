@@ -37,13 +37,17 @@ export function getGeminiDocumentModel(): string {
 }
 
 /**
- * Gemini 3.x replaced 2.5's `thinkingBudget` with `thinkingLevel`; sending both
- * in one request is a 400. 3.x Flash and Flash-Lite cannot disable thinking
- * outright, so 'minimal' is the floor — it preserves the latency win that the
- * budget-0 config was there for on 2.5.
+ * Lowest thinking setting each model family accepts. We always want the floor:
+ * these are short structured-JSON tasks where thinking buys nothing but latency.
+ *
+ * Gemini 3.x replaced 2.5's `thinkingBudget` with `thinkingLevel`, and sending
+ * both in one request is a 400. Within 3.x the floor is not uniform either —
+ * Flash-Lite accepts 'minimal', but gemini-3.8-flash rejects it outright with
+ * "Thinking level MINIMAL is not supported for this model", so the heavier Flash
+ * models floor at 'low'. Verified against the live API, not inferred.
  */
 export function getThinkingConfig(model: string): Record<string, unknown> {
-  return model.startsWith('gemini-2.')
-    ? { thinkingBudget: 0 }
-    : { thinkingLevel: 'minimal' };
+  if (model.startsWith('gemini-2.')) return { thinkingBudget: 0 };
+  if (model.includes('flash-lite')) return { thinkingLevel: 'minimal' };
+  return { thinkingLevel: 'low' };
 }
