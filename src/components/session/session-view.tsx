@@ -675,6 +675,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     leg: FlightTransitionLeg;
     isMicroEvent: boolean;
     stageId?: string;
+    stageNumber: number;
+    stageCount: number;
+    toDescription?: string;
   } | null>(null);
   const [poolSpinning, setPoolSpinning] = useState<{ pool: string[]; stageLabel?: string } | null>(null);
   const [dismissedDestinationBriefingKey, setDismissedDestinationBriefingKey] = useState<string | null>(null);
@@ -1531,6 +1534,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         leg,
         isMicroEvent: !!nextSlot?.isMicroEvent,
         stageId: nextSlot?.stageId,
+        stageNumber: nextIndex + 1,
+        stageCount: totalSlots,
+        toDescription: isNextUndetermined ? undefined : found?.description,
       });
     }
     // Final module complete — fly straight to the "You've Landed" arrival. Do NOT
@@ -2812,6 +2818,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           weather={flightWeather}
           isMicroEvent={moduleTransition.isMicroEvent}
           stageId={moduleTransition.stageId}
+          stageNumber={moduleTransition.stageNumber}
+          stageCount={moduleTransition.stageCount}
+          toDescription={moduleTransition.toDescription}
+          nextReady={!(selectedActivity && !activityContent && !activityContentFailed)}
           arrivalScene={wfDestination ? {
             destinationId: wfDestination.id,
             scene: wfDestination.scene,

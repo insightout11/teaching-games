@@ -15,6 +15,7 @@ import type { DestinationScene } from '@/lib/world-flight/types';
 import { play, playDescent, playTakeoff } from '@/lib/audio/manager';
 import { RUNWAY_TOUCHDOWN_KEYFRAME } from '@/lib/audio/sounds';
 import { getEngineClass } from '@/lib/plane-progression';
+import { WaypointBeat } from '@/components/session/waypoint-beat';
 
 export type FlightTransitionLeg = 'takeoff' | 'cruise' | 'descent';
 
@@ -52,6 +53,13 @@ interface FlightTransitionOverlayProps {
   isMicroEvent?: boolean;
   /** Stage identity selects turbulence, instrument, or radar treatment. */
   stageId?: string;
+  /** 1-based stage being flown to + total, for the middle-stage waypoint beat. */
+  stageNumber?: number;
+  stageCount?: number;
+  /** One-line brief for the next activity, shown on the waypoint beat. */
+  toDescription?: string;
+  /** False while the next stage's content is still loading — the beat waits for it. */
+  nextReady?: boolean;
   onDismiss: () => void;
 }
 
@@ -257,7 +265,9 @@ function CruiseDeck({ altFrom, altTo, weather, reduce }: { altFrom: number; altT
 const RUNWAY_Y = '61vh';
 const RUNWAY_Y_BOUNCE = '59vh'; // 2vh above runway — touchdown bounce apex
 
-const TRAVEL_DURATION = 3200; // ms — longer to accommodate roll and deceleration phases
+const TRAVEL_DURATION = 3200;
+const WAYPOINT_MIN_MS = 1200;
+const WAYPOINT_MAX_WAIT_MS = 12000; // ms — longer to accommodate roll and deceleration phases
 
 // Per-leg keyframe animation configs.
 // takeoff: stationary roll → rotate nose-up → climb
@@ -543,6 +553,10 @@ export function FlightTransitionOverlay({
   weather = 'clear',
   isMicroEvent = false,
   stageId,
+  stageNumber,
+  stageCount,
+  toDescription,
+  nextReady = true,
   onDismiss,
 }: FlightTransitionOverlayProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -649,10 +663,60 @@ export function FlightTransitionOverlay({
     ? { phase: 'approach' as ArrivalPhase, progress: transitionT }
     : arrivalTimeline(transitionT);
 
+  // Middle stages get the short waypoint beat; takeoff, arrival and micro-event
+  // beats keep their full scenes.
+  const isWaypoint = leg === 'cruise' && !isMicroEventBeat && stageNumber != null && stageCount != null;
+
+  // Hold (button or H) pauses auto-dismiss so the teacher can keep talking.
+  const [held, setHeld] = useState(false);
   useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'h' && e.key !== 'H') return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      setHeld((h) => !h);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  // Waypoint: a minimum beat, then wait for the next stage's content (capped, so a
+  // slow generation falls back to the stage's own loading state).
+  const [minElapsed, setMinElapsed] = useState(false);
+  const [waitCapped, setWaitCapped] = useState(false);
+  useEffect(() => {
+    if (!isWaypoint) return;
+    const a = setTimeout(() => setMinElapsed(true), WAYPOINT_MIN_MS);
+    const b = setTimeout(() => setWaitCapped(true), WAYPOINT_MAX_WAIT_MS);
+    return () => { clearTimeout(a); clearTimeout(b); };
+  }, [isWaypoint]);
+  useEffect(() => {
+    if (!isWaypoint || held) return;
+    if (minElapsed && (nextReady || waitCapped)) onDismiss();
+  }, [isWaypoint, held, minElapsed, nextReady, waitCapped, onDismiss]);
+
+  useEffect(() => {
+    if (isWaypoint || held) return;
     const id = setTimeout(() => onDismiss(), prefersReducedMotion ? 1500 : isTakeoffCity ? 5200 : isArrivalCity ? 5500 : 3500);
     return () => clearTimeout(id);
-  }, [onDismiss, prefersReducedMotion, isTakeoffCity, isArrivalCity]);
+  }, [isWaypoint, held, onDismiss, prefersReducedMotion, isTakeoffCity, isArrivalCity]);
+
+  if (isWaypoint) {
+    return (
+      <div className="fixed inset-0 z-[60] cursor-pointer" onClick={onDismiss}>
+        <WaypointBeat
+          stageNumber={stageNumber!}
+          stageCount={stageCount!}
+          to={to}
+          toDescription={toDescription}
+          held={held}
+          waiting={minElapsed && !nextReady && !waitCapped}
+          reduce={!!prefersReducedMotion}
+          onToggleHold={() => setHeld((h) => !h)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -879,7 +943,7 @@ export function FlightTransitionOverlay({
 
       {/* Skip hint — unobtrusive bottom corner */}
       <div className="absolute bottom-4 right-5 pointer-events-none" style={{ zIndex: 20 }}>
-        <p className="text-[9px] tracking-widest text-white/25 uppercase">Tap to skip</p>
+        <p className="text-[9px] tracking-widest text-white/25 uppercase">{held ? 'Held · press H to continue' : 'Tap to skip · H to hold'}</p>
       </div>
     </div>
   );
