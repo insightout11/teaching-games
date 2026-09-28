@@ -23,9 +23,10 @@ import { QRCodeSVG } from 'qrcode.react';
 import { createPortal } from 'react-dom';
 import { LiveRoomCockpit, HostSlot } from '@/components/session/live-room/live-room-cockpit';
 import { useLiveRoomStore } from '@/stores/live-room-store';
+import { useLiveRoomOptIn } from '@/components/session/live-room/live-room-opt-in';
 
-// Live Room teacher view is off until the ported cockpit is ready (NEXT_PUBLIC_LIVE_ROOM=true to preview).
-const LIVE_ROOM_ENABLED = process.env.NEXT_PUBLIC_LIVE_ROOM === 'true';
+// Live Room: on for everyone via NEXT_PUBLIC_LIVE_ROOM, or per browser with ?liveroom=on.
+const LIVE_ROOM_ENV = process.env.NEXT_PUBLIC_LIVE_ROOM === 'true';
 import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
@@ -641,6 +642,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // instead of ending the session.
   const isRoomSession = useLiveRoomStore((s) => !!s.roomSessions[session.id]);
   const isRoomSessionRef = useRef(isRoomSession);
+  const liveRoomOptIn = useLiveRoomOptIn();
   // Stable portal target: the running game/activity renders into this node,
   // which the Live Room cockpit moves between its stage and presenting view
   // without remounting (so a running module never restarts).
@@ -2100,7 +2102,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // ─── MAIN SESSION VIEW ───────────────────────────────────────────────────
   // Live Room: plan-free sessions (and room sessions between flights) teach
   // from the cockpit, which covers the page; running modules portal into it.
-  const roomActive = LIVE_ROOM_ENABLED && !lesson.isLessonActive
+  const roomActive = (LIVE_ROOM_ENV || liveRoomOptIn) && !lesson.isLessonActive
     && (!lesson.lessonPlanContent || isRoomSession) && !!roomModuleEl;
   const roomRunningKey = viewMode === 'game' ? selectedGame?.key ?? null
     : viewMode === 'activity' ? selectedActivity?.key ?? null : null;

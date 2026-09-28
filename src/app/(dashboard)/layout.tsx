@@ -8,6 +8,7 @@ import { BrandStingGate } from '@/components/ui/brand-sting-gate';
 import { TeacherIdentify } from '@/components/analytics/TeacherIdentify';
 import { AudioUnlocker } from '@/components/ui/audio-unlocker';
 import { AudioControl } from '@/components/ui/audio-control';
+import { LiveRoomOptIn } from '@/components/session/live-room/live-room-opt-in';
 
 function isMockModeServer(): boolean {
   return process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
@@ -32,6 +33,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Signature reveal — plays once per browser session on first app load. */}
       <BrandStingGate variant="full" storageKey="lc-sting-splash" holdMs={320} />
       <TeacherIdentify />
+      <LiveRoomOptIn />
       {/* Banks audio permission on first interaction so later cues can play. */}
       <AudioUnlocker />
       {/* Mute has to be reachable mid-lesson, not buried in settings (§6.4). */}
