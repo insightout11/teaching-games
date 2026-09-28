@@ -101,6 +101,7 @@ export function MaterialStage({
   onStopShowing,
   onFocus,
   scoreStrip,
+  body,
 }: {
   item: TrayItem;
   draft: string;
@@ -111,10 +112,12 @@ export function MaterialStage({
   onStopShowing: () => void;
   onFocus: () => void;
   scoreStrip?: ReactNode;
+  /** Real rendering of the item (image, article, video, place). Falls back to its text. */
+  body?: ReactNode;
 }) {
   return (
     <StageFrame
-      eyebrow={shown ? 'On the class display' : 'Private — only you can see this'}
+      eyebrow={shown ? 'Showing the class' : 'Not shown yet'}
       title={item.title}
       scoreStrip={scoreStrip}
       actions={
@@ -136,11 +139,11 @@ export function MaterialStage({
       }
     >
       <div className="mx-auto max-w-3xl space-y-4">
-        {item.detail ? (
+        {body ?? (item.detail ? (
           <p className="whitespace-pre-wrap break-words text-[15px] leading-relaxed text-lc-text2">
             {item.detail}
           </p>
-        ) : null}
+        ) : null)}
 
         {item.attribution ? (
           <p className="text-xs text-lc-text3">{item.attribution}</p>
@@ -151,7 +154,7 @@ export function MaterialStage({
             htmlFor="stage-note"
             className="block text-xs font-medium text-lc-text3"
           >
-            Your private note
+            Your note (hidden when presenting)
           </label>
           <Textarea
             id="stage-note"
@@ -159,7 +162,7 @@ export function MaterialStage({
             className="mt-1 min-h-[4.5rem]"
             rows={3}
             value={draft}
-            placeholder="Only you see this. It stays here if you open a drawer or run an activity."
+            placeholder="It stays here if you open a drawer or run an activity. Present hides it."
             onChange={event => onDraft(event.target.value)}
           />
         </div>
@@ -182,9 +185,12 @@ export function ModuleStage({
   onLaunch,
   onReturn,
   scoreStrip,
+  host,
 }: {
   entry: CatalogueEntry;
   phase: 'configure' | 'running';
+  /** The real running game/activity. Absent means the layout example below. */
+  host?: ReactNode;
   /** Students connected right now. Zero is a normal state, not an error. */
   connected: number;
   onLaunch: () => void;
@@ -193,7 +199,7 @@ export function ModuleStage({
 }) {
   return (
     <StageFrame
-      eyebrow={phase === 'configure' ? 'Set it up' : 'Running — fixture only'}
+      eyebrow={phase === 'configure' ? 'Set it up' : host ? 'Running' : 'Running — fixture only'}
       title={entry.name}
       scoreStrip={scoreStrip}
       actions={
@@ -215,6 +221,9 @@ export function ModuleStage({
         </>
       }
     >
+      {phase === 'running' && host ? (
+        <div className="min-h-0 w-full">{host}</div>
+      ) : (
       <div className="mx-auto max-w-3xl space-y-4">
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone="neutral" variant="outline" size="xs">
@@ -280,6 +289,7 @@ export function ModuleStage({
           </div>
         ) : null}
       </div>
+      )}
     </StageFrame>
   );
 }
@@ -291,9 +301,12 @@ export function PublicStage({
   attribution,
   scores,
   onExit,
+  richBody,
 }: {
   title: string;
   body?: string;
+  /** Real media (image, video, article) in place of plain text. */
+  richBody?: ReactNode;
   attribution?: string;
   /** Present only when the teacher deliberately chose to show the scoreboard. */
   scores?: ScoreView;
@@ -308,6 +321,7 @@ export function PublicStage({
         <h1 className="font-[family-name:var(--font-display)] text-3xl leading-tight text-lc-text sm:text-4xl">
           {scores ? `Scores · ${scores.label}` : title}
         </h1>
+        {richBody ? <div className="mt-6 min-h-0">{richBody}</div> : null}
         {body ? (
           <p className="mt-6 max-h-[50vh] overflow-y-auto whitespace-pre-wrap text-xl leading-relaxed text-lc-text2 sm:text-2xl">
             {body}

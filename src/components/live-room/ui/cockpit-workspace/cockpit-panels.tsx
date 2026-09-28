@@ -530,9 +530,12 @@ export function SessionMenuPanel({
   attendance,
   onLesson,
   onOpenRoster,
+  onEndSession,
 }: {
   lesson: LessonSettings;
   attendance: { roster: number; present: number; connected: number };
+  /** Real end-of-session. Absent in the layout example. */
+  onEndSession?: () => void;
   /** Every keystroke is an intent. Nothing typed here is held only in the DOM. */
   onLesson: (patch: Partial<LessonSettings>) => void;
   onOpenRoster: () => void;
@@ -592,12 +595,14 @@ export function SessionMenuPanel({
       </section>
 
       <div className="border-t border-lc-border-subtle pt-3">
-        <Button variant="secondary" size="sm" disabled>
+        <Button variant="secondary" size="sm" disabled={!onEndSession} onClick={onEndSession}>
           End the session
         </Button>
-        <p className="mt-1 text-xs text-lc-text3">
-          Disabled here: this layout example has no session to end.
-        </p>
+        {!onEndSession ? (
+          <p className="mt-1 text-xs text-lc-text3">
+            Disabled here: this layout example has no session to end.
+          </p>
+        ) : null}
       </div>
     </div>
   );

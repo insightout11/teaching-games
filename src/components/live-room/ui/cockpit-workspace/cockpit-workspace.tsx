@@ -65,6 +65,13 @@ export interface CockpitWorkspaceProps {
   /** Clean presentation replaces the whole frame. */
   presenting?: boolean;
   onExitPresenting?: () => void;
+  /** The real running game/activity, mounted on the stage (and when presenting). */
+  moduleHost?: ReactNode;
+  /** Real rendering for a tray item (image, article, video, place). */
+  materialBody?: (itemId: string) => ReactNode;
+  /** Real join panel (QR + links). Absent means the layout example. */
+  joinSlot?: ReactNode;
+  onEndSession?: () => void;
 }
 
 export function CockpitWorkspace({
@@ -80,6 +87,10 @@ export function CockpitWorkspace({
   widgetBodies,
   presenting,
   onExitPresenting,
+  moduleHost,
+  materialBody,
+  joinSlot,
+  onEndSession,
 }: CockpitWorkspaceProps) {
   // The only effect in the composition, and it only ever closes something.
   useEffect(() => {
@@ -102,14 +113,32 @@ export function CockpitWorkspace({
    * is what guarantees no tray, dock, widget window or private note can be in
    * the DOM at all while the class is looking.
    */
+  if (presenting && state.stage.kind === 'module' && state.stage.phase === 'running' && moduleHost) {
+    // The running activity, full frame. Same host node, so it keeps running.
+    return (
+      <div data-testid="public-stage" className="relative flex h-[100dvh] flex-col overflow-y-auto bg-lc-bg p-4 sm:p-6">
+        <button
+          type="button"
+          onClick={onExitPresenting}
+          className="absolute right-3 top-3 z-10 rounded-lg border border-lc-border bg-lc-card/80 px-3 py-1.5 text-xs text-lc-text3 hover:text-lc-text"
+        >
+          Exit presenting
+        </button>
+        {moduleHost}
+      </div>
+    );
+  }
+
   if (presenting) {
     const view = state.publicView;
     const publicItem =
       view.kind === 'material' ? state.items.find(entry => entry.id === view.itemId) : null;
+    const richBody = publicItem && materialBody ? materialBody(publicItem.id) : null;
     return (
       <PublicStage
         title={publicItem?.title ?? publicSummary(state)}
-        body={publicItem?.detail}
+        body={richBody ? undefined : publicItem?.detail}
+        richBody={richBody ?? undefined}
         attribution={publicItem?.attribution}
         // Only when the teacher deliberately chose to show the scoreboard.
         scores={view.kind === 'scores' ? scoreView : undefined}
@@ -131,6 +160,7 @@ export function CockpitWorkspace({
         shown={isShown(state, item.id)}
         focused={state.focusedItemId === item.id}
         scoreStrip={scoreStrip}
+        body={materialBody ? materialBody(item.id) : undefined}
         onDraft={value => callbacks.changeDraft(item.id, value)}
         onShow={() => callbacks.showItem(item.id)}
         onStopShowing={callbacks.stopShowing}
@@ -147,6 +177,7 @@ export function CockpitWorkspace({
         connected={state.participants.connected}
         onLaunch={() => callbacks.launchEntry(entry.key)}
         onReturn={callbacks.returnToRoom}
+        host={moduleHost}
       />
     ) : (
       <StageFrame eyebrow="Your room" title="That is not in the catalogue">
@@ -288,7 +319,7 @@ export function CockpitWorkspace({
           </CockpitOverlay>
         ) : state.overlay === 'join' ? (
           <CockpitOverlay title="Join this lesson" onClose={() => callbacks.openOverlay(null)}>
-            <JoinPanel classCode={classCode} />
+            {joinSlot ?? <JoinPanel classCode={classCode} />}
           </CockpitOverlay>
         ) : state.overlay === 'menu' ? (
           <CockpitOverlay title="Lesson settings" onClose={() => callbacks.openOverlay(null)}>
@@ -297,6 +328,7 @@ export function CockpitWorkspace({
               attendance={state.participants}
               onLesson={callbacks.updateLesson}
               onOpenRoster={() => callbacks.openDrawer('roster')}
+              onEndSession={onEndSession}
             />
           </CockpitOverlay>
         ) : null

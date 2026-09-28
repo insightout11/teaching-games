@@ -20,7 +20,8 @@ import { WidgetShell } from './widget-shell';
 import { WidgetLauncher } from './widget-launcher';
 import { WIDGET_REGISTRY } from './widget-registry';
 import { QRCodeSVG } from 'qrcode.react';
-import { LiveRoomView } from '@/components/session/live-room/live-room-view';
+import { createPortal } from 'react-dom';
+import { LiveRoomCockpit, HostSlot } from '@/components/session/live-room/live-room-cockpit';
 import { useLiveRoomStore } from '@/stores/live-room-store';
 
 // Live Room teacher view is off until the ported cockpit is ready (NEXT_PUBLIC_LIVE_ROOM=true to preview).
@@ -640,6 +641,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // instead of ending the session.
   const isRoomSession = useLiveRoomStore((s) => !!s.roomSessions[session.id]);
   const isRoomSessionRef = useRef(isRoomSession);
+  // Stable portal target: the running game/activity renders into this node,
+  // which the Live Room cockpit moves between its stage and presenting view
+  // without remounting (so a running module never restarts).
+  const [roomModuleEl] = useState<HTMLElement | null>(() =>
+    typeof document !== 'undefined' ? document.createElement('div') : null,
+  );
   isRoomSessionRef.current = isRoomSession;
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<ActivityPlugin | null>(null);
@@ -2091,8 +2098,37 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }
 
   // ─── MAIN SESSION VIEW ───────────────────────────────────────────────────
+  // Live Room: plan-free sessions (and room sessions between flights) teach
+  // from the cockpit, which covers the page; running modules portal into it.
+  const roomActive = LIVE_ROOM_ENABLED && !lesson.isLessonActive
+    && (!lesson.lessonPlanContent || isRoomSession) && !!roomModuleEl;
+  const roomRunningKey = viewMode === 'game' ? selectedGame?.key ?? null
+    : viewMode === 'activity' ? selectedActivity?.key ?? null : null;
+  const roomPortal = (node: ReactNode) => (roomActive && roomModuleEl ? createPortal(node, roomModuleEl) : node);
+
   return (
     <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+      {roomActive && roomModuleEl && (
+        <div className="fixed inset-0 z-40 bg-lc-bg">
+          <LiveRoomCockpit
+            sessionId={session.id}
+            className={cls.name}
+            joinUrl={joinUrl}
+            cockpitUrl={cockpitUrl}
+            participantCount={sessionParticipants.length}
+            games={games}
+            activities={activities}
+            runningKey={roomRunningKey}
+            moduleHost={<HostSlot el={roomModuleEl} />}
+            topic={settings.customTopic || settings.topic}
+            difficulty={settings.difficulty}
+            onLaunchGame={handleSelectGame}
+            onLaunchActivity={(a) => { void handleSelectActivity(a); }}
+            onReturn={handleBackToSelection}
+            onEndSession={handleEndSession}
+          />
+        </div>
+      )}
       {groundCity ? (
         /* Ground: the origin/destination city (World Flight) or LC International
            (home base), same composited backdrop + scale as the transitions. */
@@ -2223,18 +2259,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         </div>
 
         {/* Selection / Game / Activity View */}
-        {LIVE_ROOM_ENABLED && viewMode === 'selection' && poolSpinning === null && (!lesson.lessonPlanContent || (isRoomSession && !lesson.isLessonActive)) ? (
-          <LiveRoomView
-            sessionId={session.id}
-            classId={cls.id}
-            joinUrl={joinUrl}
-            participants={sessionParticipants}
-            games={games}
-            activities={activities}
-            onLaunchGame={handleSelectGame}
-            onLaunchActivity={(a) => { void handleSelectActivity(a); }}
-          />
-        ) : viewMode === 'selection' && poolSpinning === null ? (
+        {viewMode === 'selection' && poolSpinning === null ? (
           <div className="space-y-6">
             {/* Settings on selection screen */}
             <div className="hud-settings-panel p-2 shadow-lg">
@@ -2662,11 +2687,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
               </div>
             </div>
+            {roomPortal(
             <ModuleErrorBoundary moduleName={selectedGame.name} onReset={handleBackToSelection}>
               {destinationBriefingPanel ?? (
                 <GameShell game={selectedGame} config={EMPTY_CONFIG} preGeneratedContent={gameContent} timerSeconds={getTimerForPlugin(selectedGame.key, selectedGame.defaultTimerSeconds)} onRevealTopSubmissions={(subs) => setFeaturedSubmissions(subs)} isMicroEvent={lesson.currentSlot?.isMicroEvent} destinationId={wfDestinationId} onPhaseChange={lesson.isLessonActive ? handleActivityPhaseChange : undefined} />
               )}
             </ModuleErrorBoundary>
+            )}
           </div>
           )
         ) : viewMode === 'activity' && selectedActivity ? (
@@ -2795,7 +2822,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                 )}
               </div>
             </div>
-            {destinationBriefingPanel ? (
+            {roomPortal(destinationBriefingPanel ? (
               <ModuleErrorBoundary moduleName="Destination Briefing" onReset={handleBackToSelection}>
                 {destinationBriefingPanel}
               </ModuleErrorBoundary>
@@ -2835,7 +2862,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                   <p className="text-sm text-cyan-200/80">Generating content for your lesson…</p>
                 </div>
               </div>
-            )}
+            ))}
           </div>
           )
         ) : null}
@@ -2914,7 +2941,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       )}
 
       {/* Floating widget system */}
-      {WIDGET_REGISTRY.map((widget) => (
+      {!roomActive && WIDGET_REGISTRY.map((widget) => (
         <WidgetShell
           key={widget.id}
           id={widget.id}
@@ -2935,7 +2962,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             }) ?? {})} />
         </WidgetShell>
       ))}
-      <WidgetLauncher sessionId={session.id} />
+      {!roomActive && <WidgetLauncher sessionId={session.id} />}
 
       {/* Answer overlay — shown on teacher's projected screen */}
       {screenAnswer && (
