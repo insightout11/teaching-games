@@ -290,7 +290,11 @@ export function useLessonSession(
     const effectiveTopic = lessonPlanContent?.customTopic?.trim() || getEffectiveTopic(settings);
       const missionContext = getMissionContext();
       const endpoint = isLanding ? '/api/landing/generate' : '/api/lesson-plan/generate';
-      const sourceMaterial = lessonPlanContent?.stageSources?.[activity.key] ?? lessonPlanContent?.sourceMaterial;
+      // Plan-free Live Room sessions carry their source (a shown article/image) in the
+      // session store — the same place self-generating games already read it from.
+      const sourceMaterial = lessonPlanContent
+        ? lessonPlanContent.stageSources?.[activity.key] ?? lessonPlanContent.sourceMaterial
+        : useSessionStore.getState().sourceMaterial ?? undefined;
       const needsSourceVocab = lessonSlots.some((s) => s.key === 'language-toolkit');
       const sourceVocabPayload = sourceVocabRef.current.length > 0 ? { sourceVocab: sourceVocabRef.current } : {};
       const courseContextPayload = lessonPlanContent?.courseContext ? { courseContext: lessonPlanContent.courseContext } : {};

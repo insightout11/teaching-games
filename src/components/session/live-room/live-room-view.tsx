@@ -9,6 +9,7 @@ import type { ActivityPlugin } from '@/activities/types';
 import { useSessionStore } from '@/stores/session-store';
 import { countsForLeaderboard } from '@/lib/scoring-reporting';
 import { ROOM_PROMPTS } from '@/components/session/live-room/room-prompts';
+import { roomItemToSource } from '@/components/session/live-room/room-source';
 import { SourcesDrawer } from '@/components/session/live-room/sources-drawer';
 import { ShownItem } from '@/components/session/live-room/shown-item';
 import { useLiveRoomStore, useRoom } from '@/stores/live-room-store';
@@ -42,6 +43,8 @@ interface LiveRoomViewProps {
 }
 
 const RECENT_LIMIT = 6;
+/** Good first picks when building from something on screen. Missing keys are skipped. */
+const SOURCE_SUGGESTIONS = ['flash-quiz', 'hot-take-arena', 'vocab-sprint', 'fact-detective', 'conversation-rounds', 'language-toolkit'];
 const recentKey = (sessionId: string) => `lc-room-recent:${sessionId}`;
 
 function readRecent(sessionId: string): string[] {
@@ -75,6 +78,9 @@ export function LiveRoomView({
   const [query, setQuery] = useState('');
   const [recent, setRecent] = useState<string[]>([]);
   const [sourcesOpen, setSourcesOpen] = useState(false);
+  const [buildFromShown, setBuildFromShown] = useState(true);
+  const setSourceMaterial = useSessionStore((s) => s.setSourceMaterial);
+  const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
   const { shown, material } = useRoom(sessionId);
   const showItem = useLiveRoomStore((s) => s.show);
   const hideItem = useLiveRoomStore((s) => s.hide);
@@ -115,8 +121,17 @@ export function LiveRoomView({
     [games, activities],
   );
 
+  const sourceMode = !!shown && buildFromShown;
+  useEffect(() => setBuildFromShown(true), [shown?.id]);
+
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
+    if (!q && sourceMode) {
+      const picks = SOURCE_SUGGESTIONS
+        .map((key) => catalogue.find((c) => c.plugin.key === key))
+        .filter((c): c is Launchable => !!c);
+      return { label: 'Good picks for this', items: picks };
+    }
     if (!q) {
       const recentItems = recent
         .map((key) => catalogue.find((c) => c.plugin.key === key))
@@ -129,12 +144,20 @@ export function LiveRoomView({
       || (plugin.skills ?? []).some((s) => s.toLowerCase().includes(q)),
     );
     return { label: `${items.length} match${items.length === 1 ? '' : 'es'}`, items: items.slice(0, 12) };
-  }, [query, recent, catalogue]);
+  }, [query, recent, catalogue, sourceMode]);
 
   const launch = (item: Launchable) => {
     const next = [item.plugin.key, ...recent.filter((k) => k !== item.plugin.key)].slice(0, RECENT_LIMIT);
     writeRecent(sessionId, next);
     setRecent(next);
+    // Turn into: ground the activity in what's on screen; otherwise launch on the
+    // session topic alone (clear any earlier room source).
+    if (shown && buildFromShown) {
+      setSourceMaterial(roomItemToSource(shown));
+      setCustomTopic(shown.title.slice(0, 120));
+    } else {
+      setSourceMaterial(null);
+    }
     if (item.kind === 'game') onLaunchGame(item.plugin);
     else onLaunchActivity(item.plugin);
   };
@@ -222,8 +245,25 @@ export function LiveRoomView({
         </>
         )}
 
-        {/* Launcher */}
+        {/* Launcher — with something on screen it becomes "Turn into…" */}
         <div className="mt-auto flex flex-col gap-3 border-t border-white/10 pt-4">
+          {shown && (
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="min-w-0 font-display text-lg text-white">
+                {sourceMode ? <>Turn <span className="text-cyan-200">&ldquo;{shown.title}&rdquo;</span> into…</> : 'Launch on the session topic'}
+              </p>
+              <label className="flex items-center gap-2 text-sm text-white/70">
+                <input
+                  id="live-room-build-from-shown"
+                  type="checkbox"
+                  checked={buildFromShown}
+                  onChange={(e) => setBuildFromShown(e.target.checked)}
+                  className="h-4 w-4 accent-cyan-400"
+                />
+                Build from what&apos;s on screen
+              </label>
+            </div>
+          )}
           <label className="flex items-center gap-2 rounded-xl border border-white/15 bg-slate-900/80 px-3 focus-within:border-cyan-400/60">
             <Search className="h-4 w-4 shrink-0 text-white/50" aria-hidden />
             <input
