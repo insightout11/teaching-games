@@ -8,6 +8,7 @@ import { ExternalLink, Maximize2, Menu, Minimize2, Plane, Search, Shuffle, X } f
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { SkyBackground } from '@/components/ui/sky-background';
 import { Leaderboard } from '@/components/session/leaderboard';
 import { CatalogueDrawer } from '@/components/live-room/ui/cockpit-workspace/cockpit-panels';
 import type { CatalogueEntry } from '@/components/live-room/ui/cockpit-workspace/types';
@@ -385,7 +386,7 @@ export function FlightDeck({
           id="deck-talk-prompt"
           value={talkPrompt}
           onChange={(e) => setTalkPrompt(e.target.value)}
-          placeholder="Type a question for the class…"
+          placeholder={presenting ? '' : 'Type a question for the class…'}
           rows={3}
           className="w-full resize-none bg-transparent text-center font-display text-4xl leading-tight text-white placeholder:text-white/40 focus:outline-none [text-shadow:0_2px_18px_rgba(0,0,0,.45)]"
         />
@@ -426,22 +427,21 @@ export function FlightDeck({
         presenting ? 'fixed inset-0 z-[60] rounded-none' : 'absolute inset-0 rounded-[30px_30px_18px_18px]',
         hot(hotZone, 'wind') ? 'brightness-110 saturate-125' : '',
       ].join(' ')}
-      style={{ background: 'linear-gradient(180deg,#1d4f8f 0%,#3f7fc4 45%,#f2b27a 88%,#f7c796 100%)' }}
+      style={{ background: '#0b1a33' }}
     >
-      {!reduce && (
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          {[{ t: '8%', w: 220, d: 38, dl: 0 }, { t: '22%', w: 300, d: 54, dl: -20 }, { t: '14%', w: 160, d: 30, dl: -9 }].map((c, i) => (
-            <span
-              key={i}
-              className="absolute rounded-full"
-              style={{ top: c.t, width: c.w, height: c.w * 0.27, background: 'radial-gradient(ellipse at center,rgba(255,255,255,.85),rgba(255,255,255,0) 70%)', animation: `deck-drift ${c.d}s linear ${c.dl}s infinite` }}
-            />
-          ))}
-        </div>
-      )}
-      <svg aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[20%] w-full opacity-55" viewBox="0 0 1000 120" preserveAspectRatio="none">
-        <path d="M0 120V80h40V60h30v40h40V50h24v50h50V70h36V40h20v60h60V65h40v35h50V30h26v70h60V60h40v40h50V75h60v45z" fill="#141b2e" />
-      </svg>
+      {/* The real LessonCaptain sky: on the ground while boarding, climbing into
+          cruise for the lesson, golden hour for the scoreboard. */}
+      <SkyBackground
+        className="!absolute"
+        weatherState={view === 'boarding' ? 'idle' : view === 'scores' ? 'golden' : 'cruising'}
+        earthState={view === 'boarding' ? 'takeoff' : 'flight'}
+        altitude={view === 'boarding' ? 0 : 0.8}
+        showEarth={view === 'boarding'}
+        showRunwayMarkings
+        showSkyline={view === 'boarding'}
+        intensity={view === 'game' || view === 'show' ? 'subtle' : 'moderate'}
+        parallaxDuration={3}
+      />
 
       {/* The running module lives here in the Game view; elsewhere it stays mounted off-screen. */}
       <div className={view === 'game' && runningKey ? 'absolute inset-0 overflow-y-auto p-4 sm:p-6' : 'hidden'}>
