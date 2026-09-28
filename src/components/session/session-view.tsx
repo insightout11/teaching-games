@@ -21,6 +21,7 @@ import { WidgetLauncher } from './widget-launcher';
 import { WIDGET_REGISTRY } from './widget-registry';
 import { QRCodeSVG } from 'qrcode.react';
 import { LiveRoomView } from '@/components/session/live-room/live-room-view';
+import { useLiveRoomStore } from '@/stores/live-room-store';
 import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
@@ -632,6 +633,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const setSettings = useSessionStore((s) => s.setSettings);
   const addStudent = useSessionStore((s) => s.addStudent);
   const [viewMode, setViewMode] = useState<ViewMode>('selection');
+  // Opened as a Live Room: a flight launched from it lands back in the room
+  // instead of ending the session.
+  const isRoomSession = useLiveRoomStore((s) => !!s.roomSessions[session.id]);
+  const isRoomSessionRef = useRef(isRoomSession);
+  isRoomSessionRef.current = isRoomSession;
   const [selectedGame, setSelectedGame] = useState<GamePlugin | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<ActivityPlugin | null>(null);
   const [activityContent, setActivityContent] = useState<ActivityGeneratedContent | null>(null);
@@ -1544,6 +1550,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     // advanceSlot first: that lands on an empty slot and momentarily renders the
     // selection/explore grid before `ended` flips to the landing screen.
     if (lesson.isLessonActive && !hasNextSlot) {
+      if (isRoomSessionRef.current) {
+        leaveRoomFlightRef.current();
+        return;
+      }
       handleCompleteSession();
       return;
     }
@@ -1621,9 +1631,26 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [replaceNextSlot, handleNextSlotWithTransition]);
 
   const handleExitLessonMode = () => {
+    if (isRoomSession) {
+      leaveRoomFlight();
+      return;
+    }
     lesson.exitLesson();
     handleBackToSelection();
   };
+
+  // A flight launched from the Live Room is over: drop its plan (locally and on
+  // the session row) so the room — not the flight's boarding — is what a
+  // refresh reopens. Students stay joined throughout.
+  const leaveRoomFlight = () => {
+    lesson.exitLesson();
+    handleBackToSelection();
+    sessionStorage.removeItem(lessonPlanStorageKey(session.id));
+    sessionStorage.removeItem('lessonPlanContent');
+    void fetch(`/api/session/${encodeURIComponent(session.id)}/attach-plan`, { method: 'DELETE' }).catch(() => {});
+  };
+  const leaveRoomFlightRef = useRef(leaveRoomFlight);
+  leaveRoomFlightRef.current = leaveRoomFlight;
 
   // Close settings popover on click outside
   useEffect(() => {
@@ -2193,9 +2220,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         </div>
 
         {/* Selection / Game / Activity View */}
-        {viewMode === 'selection' && poolSpinning === null && !lesson.lessonPlanContent ? (
+        {viewMode === 'selection' && poolSpinning === null && (!lesson.lessonPlanContent || (isRoomSession && !lesson.isLessonActive)) ? (
           <LiveRoomView
             sessionId={session.id}
+            classId={cls.id}
             joinUrl={joinUrl}
             participants={sessionParticipants}
             games={games}

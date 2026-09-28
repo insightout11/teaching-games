@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { openRoomChannel } from '@/components/session/live-room/room-channel';
 import { QRCodeSVG } from 'qrcode.react';
-import { Globe, MessageCircle, RefreshCw, Search, Trash2, Trophy, Users } from 'lucide-react';
+import { Globe, MessageCircle, Plane, RefreshCw, Search, Trash2, Trophy, Users } from 'lucide-react';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import { useSessionStore } from '@/stores/session-store';
@@ -34,6 +34,7 @@ type Launchable =
 
 interface LiveRoomViewProps {
   sessionId: string;
+  classId: string;
   joinUrl: string;
   participants: RoomParticipant[];
   games: GamePlugin[];
@@ -67,6 +68,7 @@ function writeRecent(sessionId: string, keys: string[]) {
 
 export function LiveRoomView({
   sessionId,
+  classId,
   joinUrl,
   participants,
   games,
@@ -86,6 +88,8 @@ export function LiveRoomView({
   const hideItem = useLiveRoomStore((s) => s.hide);
   const addItem = useLiveRoomStore((s) => s.add);
   const removeItem = useLiveRoomStore((s) => s.remove);
+  const markRoom = useLiveRoomStore((s) => s.markRoom);
+  useEffect(() => markRoom(sessionId), [sessionId, markRoom]);
 
   // Show/Add arriving from the pop-out Sources window.
   useEffect(() => {
@@ -376,6 +380,17 @@ export function LiveRoomView({
             </div>
           )}
         </div>
+
+        <a
+          href={`/lesson-planner?attach=${encodeURIComponent(sessionId)}&classId=${encodeURIComponent(classId)}`}
+          className="flex items-center gap-3 rounded-2xl border border-amber-300/30 bg-amber-300/[0.06] p-4 transition-colors hover:bg-amber-300/10"
+        >
+          <Plane className="h-5 w-5 shrink-0 text-amber-300" aria-hidden />
+          <span className="min-w-0">
+            <span className="block font-display text-base text-white">Launch a flight</span>
+            <span className="block text-xs text-white/60">Pick a preset or plan a lesson. Everyone stays on board, and you come back here after.</span>
+          </span>
+        </a>
 
         {topCrew.length > 0 && (
           <div className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-slate-950/55 p-4">

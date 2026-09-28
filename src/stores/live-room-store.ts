@@ -37,6 +37,9 @@ const MAX_MATERIAL = 40;
 
 interface LiveRoomStore {
   rooms: Record<string, RoomState>;
+  /** Sessions that opened as a Live Room: flights launched from them return here. */
+  roomSessions: Record<string, true>;
+  markRoom: (sessionId: string) => void;
   show: (sessionId: string, item: RoomItem) => void;
   hide: (sessionId: string) => void;
   add: (sessionId: string, item: RoomItem) => void;
@@ -49,6 +52,9 @@ export const useLiveRoomStore = create<LiveRoomStore>()(
   persist(
     (set) => ({
       rooms: {},
+      roomSessions: {},
+      markRoom: (sessionId) =>
+        set((s) => (s.roomSessions[sessionId] ? s : { roomSessions: { ...s.roomSessions, [sessionId]: true } })),
       show: (sessionId, item) =>
         set((s) => ({ rooms: { ...s.rooms, [sessionId]: { ...room(s, sessionId), shown: item } } })),
       hide: (sessionId) =>

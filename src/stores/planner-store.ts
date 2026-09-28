@@ -273,6 +273,8 @@ interface PlannerState {
 
   // Step 3 — Launch
   selectedClassId: string | null;
+  /** Live Room session to launch into (students stay joined). Not persisted. */
+  attachSessionId: string | null;
   grammarTarget: GrammarTarget | null;
   sourceMaterial: SourceMaterial | null;
   callsign: string | null; // stable flight number for this plan (e.g. "LC-3544")
@@ -333,6 +335,7 @@ interface PlannerState {
   ensureCallsign(): string;
 
   // Handoff to session. Does NOT reset — caller decides when to reset.
+  setAttachSessionId: (id: string | null) => void;
   launchLesson(): Promise<void>;
 
   // Full reset — called when teacher starts a fresh plan.
@@ -359,6 +362,7 @@ export const usePlannerStore = create<PlannerState>()(
       insertAfterIndex: null,
       overrideScoringMode: null,
       selectedClassId: null,
+      attachSessionId: null,
       grammarTarget: null,
       sourceMaterial: null,
       callsign: null,
@@ -479,6 +483,7 @@ export const usePlannerStore = create<PlannerState>()(
       },
 
       setSelectedClassId: (id) => set({ selectedClassId: id }),
+      setAttachSessionId: (id) => set({ attachSessionId: id }),
       setGrammarTarget: (grammarTarget) => set({ grammarTarget }),
       setTripPack: (tripPack) => set({ tripPack }),
       setSourceMaterial: (sourceMaterial) => {
@@ -618,6 +623,28 @@ export const usePlannerStore = create<PlannerState>()(
         // One-shot: consume the World Flight route so a later non-WF launch
         // doesn't inherit a stale destination.
         set({ worldFlightOriginId: null, worldFlightDestinationId: null, tripPack: null });
+
+        // Launched from a Live Room: fly this plan inside the running session so
+        // joined students stay on board. World Flight still needs a new session.
+        const attachSessionId = get().attachSessionId;
+        if (attachSessionId && !worldFlightContext && !worldFlightDesignMissionContext && !lessonPlanPayload.destinationId) {
+          const attachRes = await fetch(`/api/session/${encodeURIComponent(attachSessionId)}/attach-plan`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lessonPlanContent: lessonPlanPayload }),
+          });
+          if (!attachRes.ok) {
+            const err = await attachRes.json().catch(() => ({ error: 'Failed to start the flight' }));
+            throw new Error(err.error ?? 'Failed to start the flight');
+          }
+          trackEvent('session_started', { source: 'live-room-flight', moduleCount: slots.length });
+          const serialized = JSON.stringify(lessonPlanPayload);
+          sessionStorage.setItem(lessonPlanStorageKey(attachSessionId), serialized);
+          sessionStorage.setItem('lessonPlanContent', serialized);
+          set({ attachSessionId: null });
+          window.location.href = `/sessions/${attachSessionId}`;
+          return;
+        }
 
         const res = await fetch('/api/session/create', {
           method: 'POST',
