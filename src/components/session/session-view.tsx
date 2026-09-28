@@ -20,6 +20,7 @@ import { WidgetShell } from './widget-shell';
 import { WidgetLauncher } from './widget-launcher';
 import { WIDGET_REGISTRY } from './widget-registry';
 import { QRCodeSVG } from 'qrcode.react';
+import { LiveRoomView } from '@/components/session/live-room/live-room-view';
 import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
@@ -2192,7 +2193,17 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         </div>
 
         {/* Selection / Game / Activity View */}
-        {viewMode === 'selection' && poolSpinning === null ? (
+        {viewMode === 'selection' && poolSpinning === null && !lesson.lessonPlanContent ? (
+          <LiveRoomView
+            sessionId={session.id}
+            joinUrl={joinUrl}
+            participants={sessionParticipants}
+            games={games}
+            activities={activities}
+            onLaunchGame={handleSelectGame}
+            onLaunchActivity={(a) => { void handleSelectActivity(a); }}
+          />
+        ) : viewMode === 'selection' && poolSpinning === null ? (
           <div className="space-y-6">
             {/* Settings on selection screen */}
             <div className="hud-settings-panel p-2 shadow-lg">
