@@ -23,9 +23,13 @@ interface SourcesDrawerProps {
   onShow: (item: RoomItem) => void;
   onAdd: (item: RoomItem) => void;
   onClose: () => void;
+  /** Fill the parent's height (pop-out window) instead of capping to the viewport. */
+  fill?: boolean;
+  /** Shown when the drawer is inline on the shared screen, where the class can see it. */
+  visibleWarning?: boolean;
 }
 
-export function SourcesDrawer({ sessionId, onShow, onAdd, onClose }: SourcesDrawerProps) {
+export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false, visibleWarning = false }: SourcesDrawerProps) {
   const [surface, setSurface] = useState<Surface>('web');
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<RoomItem[] | null>(null);
@@ -80,13 +84,20 @@ export function SourcesDrawer({ sessionId, onShow, onAdd, onClose }: SourcesDraw
   };
 
   return (
-    <aside className="flex max-h-[calc(100vh-10rem)] flex-col gap-3 rounded-2xl border border-cyan-400/25 bg-slate-950/95 p-4 shadow-2xl">
+    <aside className={['flex flex-col gap-3 rounded-2xl border border-cyan-400/25 bg-slate-950/95 p-4 shadow-2xl', fill ? 'h-full' : 'max-h-[calc(100vh-10rem)]'].join(' ')}>
       <div className="flex items-center justify-between">
         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-200">Sources</p>
         <button type="button" onClick={onClose} className="rounded-md p-1 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Close sources">
           <X className="h-4 w-4" />
         </button>
       </div>
+
+      {visibleWarning && (
+        <p className="rounded-lg border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-xs text-amber-100">
+          Your browser blocked the private search window, so this panel is visible if you&apos;re sharing this screen.
+          Allow pop-ups for LessonCaptain to search privately.
+        </p>
+      )}
 
       <form
         onSubmit={(e) => {

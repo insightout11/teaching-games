@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { openRoomChannel } from '@/components/session/live-room/room-channel';
 import { QRCodeSVG } from 'qrcode.react';
 import { Globe, MessageCircle, RefreshCw, Search, Trash2, Trophy, Users } from 'lucide-react';
 import type { GamePlugin } from '@/games/types';
@@ -79,6 +80,31 @@ export function LiveRoomView({
   const hideItem = useLiveRoomStore((s) => s.hide);
   const addItem = useLiveRoomStore((s) => s.add);
   const removeItem = useLiveRoomStore((s) => s.remove);
+
+  // Show/Add arriving from the pop-out Sources window.
+  useEffect(() => {
+    const channel = openRoomChannel(sessionId, (m) => {
+      if (m.type === 'show') {
+        showItem(sessionId, m.item);
+        addItem(sessionId, m.item);
+      } else if (m.type === 'add') {
+        addItem(sessionId, m.item);
+      }
+    });
+    return () => channel?.close();
+  }, [sessionId, showItem, addItem]);
+
+  // Search in a separate window so the class (seeing only the shared room tab)
+  // never sees results or previews. Inline drawer is the pop-up-blocked fallback.
+  const openSources = () => {
+    const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
+    if (popup) {
+      popup.focus();
+      setSourcesOpen(false);
+    } else {
+      setSourcesOpen(true);
+    }
+  };
   useEffect(() => setRecent(readRecent(sessionId)), [sessionId]);
 
   const catalogue = useMemo<Launchable[]>(
@@ -165,7 +191,7 @@ export function LiveRoomView({
             )}
             <button
               type="button"
-              onClick={() => setSourcesOpen((o) => !o)}
+              onClick={() => (sourcesOpen ? setSourcesOpen(false) : openSources())}
               aria-pressed={sourcesOpen}
               className={[
                 'flex min-h-9 items-center gap-2 rounded-lg border px-3 text-sm font-semibold transition-colors',
@@ -247,6 +273,7 @@ export function LiveRoomView({
             }}
             onAdd={(item) => addItem(sessionId, item)}
             onClose={() => setSourcesOpen(false)}
+            visibleWarning
           />
         )}
         {material.length > 0 && (
