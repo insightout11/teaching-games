@@ -2,12 +2,15 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { RefreshCw, Search, Trophy, Users } from 'lucide-react';
+import { Globe, MessageCircle, RefreshCw, Search, Trash2, Trophy, Users } from 'lucide-react';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import { useSessionStore } from '@/stores/session-store';
 import { countsForLeaderboard } from '@/lib/scoring-reporting';
 import { ROOM_PROMPTS } from '@/components/session/live-room/room-prompts';
+import { SourcesDrawer } from '@/components/session/live-room/sources-drawer';
+import { ShownItem } from '@/components/session/live-room/shown-item';
+import { useLiveRoomStore, useRoom } from '@/stores/live-room-store';
 
 /**
  * The Live Room — where a session without a lesson plan lives between
@@ -70,6 +73,12 @@ export function LiveRoomView({
   const [promptIndex, setPromptIndex] = useState(() => Math.floor(Math.random() * ROOM_PROMPTS.length));
   const [query, setQuery] = useState('');
   const [recent, setRecent] = useState<string[]>([]);
+  const [sourcesOpen, setSourcesOpen] = useState(false);
+  const { shown, material } = useRoom(sessionId);
+  const showItem = useLiveRoomStore((s) => s.show);
+  const hideItem = useLiveRoomStore((s) => s.hide);
+  const addItem = useLiveRoomStore((s) => s.add);
+  const removeItem = useLiveRoomStore((s) => s.remove);
   useEffect(() => setRecent(readRecent(sessionId)), [sessionId]);
 
   const catalogue = useMemo<Launchable[]>(
@@ -132,17 +141,46 @@ export function LiveRoomView({
       <section className="flex min-h-[340px] flex-col gap-5 rounded-2xl border border-white/10 bg-slate-950/55 p-6 backdrop-blur-sm">
         <div className="flex items-start justify-between gap-4">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-            {participants.length === 0 ? 'Warm-up · while everyone boards' : 'Talking point'}
+            {shown ? 'On screen' : participants.length === 0 ? 'Warm-up · while everyone boards' : 'Talking point'}
           </p>
-          <button
-            type="button"
-            onClick={() => setPromptIndex((i) => (i + 1) % ROOM_PROMPTS.length)}
-            className="flex min-h-9 shrink-0 items-center gap-2 rounded-lg border border-white/15 px-3 text-sm text-white/80 transition-colors hover:bg-white/10"
-          >
-            <RefreshCw className="h-4 w-4" aria-hidden />
-            Next prompt
-          </button>
+          <div className="flex shrink-0 flex-wrap justify-end gap-2">
+            {shown ? (
+              <button
+                type="button"
+                onClick={() => hideItem(sessionId)}
+                className="flex min-h-9 items-center gap-2 rounded-lg border border-white/15 px-3 text-sm text-white/80 transition-colors hover:bg-white/10"
+              >
+                <MessageCircle className="h-4 w-4" aria-hidden />
+                Back to talking point
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPromptIndex((i) => (i + 1) % ROOM_PROMPTS.length)}
+                className="flex min-h-9 items-center gap-2 rounded-lg border border-white/15 px-3 text-sm text-white/80 transition-colors hover:bg-white/10"
+              >
+                <RefreshCw className="h-4 w-4" aria-hidden />
+                Next prompt
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setSourcesOpen((o) => !o)}
+              aria-pressed={sourcesOpen}
+              className={[
+                'flex min-h-9 items-center gap-2 rounded-lg border px-3 text-sm font-semibold transition-colors',
+                sourcesOpen ? 'border-cyan-400/60 bg-cyan-400/15 text-cyan-100' : 'border-cyan-400/30 text-cyan-200 hover:bg-cyan-400/10',
+              ].join(' ')}
+            >
+              <Globe className="h-4 w-4" aria-hidden />
+              Sources
+            </button>
+          </div>
         </div>
+        {shown ? (
+          <ShownItem item={shown} />
+        ) : (
+        <>
         <p className="max-w-3xl font-display text-3xl leading-tight text-white sm:text-4xl" style={{ textWrap: 'balance' }}>
           {ROOM_PROMPTS[promptIndex].prompt}
         </p>
@@ -154,6 +192,8 @@ export function LiveRoomView({
               </span>
             ))}
           </div>
+        )}
+        </>
         )}
 
         {/* Launcher */}
@@ -198,6 +238,45 @@ export function LiveRoomView({
 
       {/* Right rail */}
       <aside className="flex flex-col gap-4">
+        {sourcesOpen && (
+          <SourcesDrawer
+            sessionId={sessionId}
+            onShow={(item) => {
+              showItem(sessionId, item);
+              addItem(sessionId, item);
+            }}
+            onAdd={(item) => addItem(sessionId, item)}
+            onClose={() => setSourcesOpen(false)}
+          />
+        )}
+        {material.length > 0 && (
+          <div className="flex flex-col gap-1.5 rounded-2xl border border-white/10 bg-slate-950/55 p-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">In this room · {material.length}</p>
+            {material.map((m) => (
+              <div key={m.id} className="group flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => showItem(sessionId, m)}
+                  className={[
+                    'min-w-0 flex-1 truncate rounded-md px-2 py-1.5 text-left text-sm',
+                    shown?.id === m.id ? 'bg-cyan-400/15 text-cyan-100' : 'text-white/80 hover:bg-white/5',
+                  ].join(' ')}
+                  title={shown?.id === m.id ? 'On screen' : 'Show on screen'}
+                >
+                  {m.title}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => removeItem(sessionId, m.id)}
+                  className="rounded p-1 text-white/35 opacity-0 transition-opacity hover:text-white group-hover:opacity-100 focus:opacity-100"
+                  aria-label={`Remove ${m.title}`}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-950/55 p-4">
           <div className="flex items-center gap-3">
             <span className="rounded-lg bg-white p-1.5">
