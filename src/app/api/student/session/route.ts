@@ -90,6 +90,8 @@ interface SessionPayload {
   inputSpec: unknown;
   inputSpecRevision: string;
   sideChannel: SideChannelItem | null;
+  /** Cockpit Timer tool state, mirrored so phones show the same countdown as the shared screen. */
+  sharedTimer: SharedTimerState | null;
   publishedQuestions: PublishedQuestion[] | null;
   wonderQuestions: WonderQuestion[] | null;
   classBoardItems: ClassBoardStudentItem[] | null;
@@ -118,6 +120,28 @@ interface SessionLightweightPayload {
   inputSpecRevision: string;
   activePoll: SessionPayload['activePoll'];
   sideChannel: SideChannelItem | null;
+  sharedTimer: SharedTimerState | null;
+}
+
+interface SharedTimerState {
+  totalSeconds: number;
+  remainingSeconds: number;
+  running: boolean;
+  startedAt: string | null;
+}
+
+function parseSharedTimer(payload: unknown): SharedTimerState | null {
+  if (!payload || typeof payload !== 'object') return null;
+  const p = payload as Record<string, unknown>;
+  if (p.type && p.type !== 'timer') return null;
+  const totalSeconds = typeof p.totalSeconds === 'number' ? p.totalSeconds : 0;
+  if (totalSeconds <= 0) return null;
+  return {
+    totalSeconds,
+    remainingSeconds: typeof p.remainingSeconds === 'number' ? p.remainingSeconds : 0,
+    running: p.running === true,
+    startedAt: typeof p.startedAt === 'string' ? p.startedAt : null,
+  };
 }
 
 export async function GET(request: NextRequest) {
@@ -174,6 +198,7 @@ export async function GET(request: NextRequest) {
           inputSpecRevision,
           activePoll: mockActivePoll,
           sideChannel: mockSideChannel,
+          sharedTimer: null,
         };
         return NextResponse.json(lightweightPayload, {
           headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
@@ -187,6 +212,7 @@ export async function GET(request: NextRequest) {
         inputSpec: mockInputSpec,
         inputSpecRevision,
         sideChannel: mockSideChannel,
+        sharedTimer: null,
         publishedQuestions: null,
         wonderQuestions: null,
         classBoardItems: null,
@@ -300,15 +326,19 @@ export async function GET(request: NextRequest) {
     }
 
     // Get the Crew Radio side-channel item (non-interrupting prompt lane)
+    // One read covers both private-state lanes students may see: Crew Radio and the
+    // cockpit Timer tool (the timer row carries no private data).
     let sideChannel: SideChannelItem | null = null;
+    let sharedTimer: SharedTimerState | null = null;
     if (isActive) {
       try {
-        const { data: sideRow } = await supabase
+        const { data: stateRows } = await supabase
           .from('session_private_state')
-          .select('payload')
+          .select('key, payload')
           .eq('session_id', sessionId)
-          .eq('key', SIDE_CHANNEL_KEY)
-          .maybeSingle();
+          .in('key', [SIDE_CHANNEL_KEY, 'timer']);
+        const sideRow = stateRows?.find((r) => r.key === SIDE_CHANNEL_KEY);
+        sharedTimer = parseSharedTimer(stateRows?.find((r) => r.key === 'timer')?.payload);
         const item = (sideRow?.payload as { item?: SideChannelItem | null } | null)?.item;
         if (item && typeof item === 'object' && item.id && item.prompt) {
           sideChannel = getActiveSideChannelItem(item);
@@ -337,6 +367,7 @@ export async function GET(request: NextRequest) {
         inputSpecRevision,
         activePoll,
         sideChannel,
+        sharedTimer,
       };
       return NextResponse.json(lightweightPayload, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
@@ -725,6 +756,7 @@ export async function GET(request: NextRequest) {
       inputSpec,
       inputSpecRevision,
       sideChannel,
+      sharedTimer,
       publishedQuestions,
       wonderQuestions,
       classBoardItems,

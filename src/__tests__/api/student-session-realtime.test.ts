@@ -52,6 +52,7 @@ describe('GET /api/student/session realtime fallback metadata', () => {
       inputSpecRevision: firstData.inputSpecRevision,
       activePoll: null,
       sideChannel: null,
+      sharedTimer: null,
     });
     expect(secondData).not.toHaveProperty('unchanged');
   });

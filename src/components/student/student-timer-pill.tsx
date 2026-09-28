@@ -1,0 +1,60 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Timer } from 'lucide-react';
+
+export interface SharedTimerState {
+  totalSeconds: number;
+  remainingSeconds: number;
+  running: boolean;
+  startedAt: string | null;
+}
+
+/** Remaining seconds on the server clock (Date.now() + offset), never the raw device clock. */
+function remainingAt(timer: SharedTimerState, clockOffsetMs: number): number {
+  const base = Math.max(0, Math.floor(timer.remainingSeconds));
+  if (!timer.running || !timer.startedAt) return base;
+  const elapsed = Math.floor((Date.now() + clockOffsetMs - new Date(timer.startedAt).getTime()) / 1000);
+  return Math.max(0, base - Math.max(0, elapsed));
+}
+
+/**
+ * Phone mirror of the cockpit Timer tool — the same countdown the shared screen
+ * shows. Hidden while the timer sits set-but-unstarted, like SharedTimerDisplay.
+ */
+export function StudentTimerPill({ timer, clockOffsetMs }: { timer: SharedTimerState | null; clockOffsetMs: number }) {
+  const [, setTick] = useState(0);
+  const running = !!timer?.running;
+  useEffect(() => {
+    if (!running) return;
+    const id = setInterval(() => setTick((t) => t + 1), 250);
+    return () => clearInterval(id);
+  }, [running]);
+
+  if (!timer) return null;
+  const rem = remainingAt(timer, clockOffsetMs);
+  const engaged = timer.running || (rem > 0 && rem < timer.totalSeconds) || rem === 0;
+  if (!engaged) return null;
+
+  const mm = Math.floor(rem / 60);
+  const ss = String(rem % 60).padStart(2, '0');
+  const urgent = rem <= 10;
+  return (
+    <div
+      role="timer"
+      aria-live="off"
+      className={[
+        'fixed right-3 top-3 z-40 flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-base font-semibold tabular-nums shadow-lg backdrop-blur-md',
+        rem === 0
+          ? 'border-red-400/50 bg-red-950/80 text-red-200'
+          : urgent
+            ? 'border-amber-300/50 bg-amber-950/80 text-amber-100'
+            : 'border-white/15 bg-slate-950/80 text-white',
+      ].join(' ')}
+    >
+      <Timer className="h-4 w-4" aria-hidden />
+      {rem === 0 ? "Time's up" : `${mm}:${ss}`}
+      {!timer.running && rem > 0 && <span className="text-xs font-normal text-white/60">paused</span>}
+    </div>
+  );
+}

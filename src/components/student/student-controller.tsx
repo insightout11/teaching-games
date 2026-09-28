@@ -32,6 +32,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { getGame } from '@/games/registry';
 import { getActivity } from '@/activities/registry';
 import { LatestRequestGate } from '@/lib/latest-request-gate';
+import { StudentTimerPill, type SharedTimerState } from '@/components/student/student-timer-pill';
 import { recordSubmissionConfirmation } from '@/lib/submission-confirmation';
 import {
   effectiveRealtimeHealth as getEffectiveRealtimeHealth,
@@ -310,6 +311,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
   // Crew Radio (side channel) state — optional prompts that never replace the main task
   const [sideChannel, setSideChannel] = useState<SideChannelItem | null>(null);
+  const [sharedTimer, setSharedTimer] = useState<SharedTimerState | null>(null);
   const [radioOpen, setRadioOpen] = useState(false);
   const [radioSeenId, setRadioSeenId] = useState<string | null>(null);
   const [radioDoneIds, setRadioDoneIds] = useState<Set<string>>(new Set());
@@ -524,6 +526,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setSessionActive(data.isActive);
         setActivePoll(data.activePoll ?? null);
         setSideChannel(data.sideChannel ?? null);
+        setSharedTimer(data.sharedTimer ?? null);
         setConnectionStatus('connected');
         setCanonicalReady(true);
         const reconciledAt = Date.now();
@@ -578,6 +581,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setCurrentResponse(restoredResponse);
       }
       setSideChannel(data.sideChannel ?? null);
+        setSharedTimer(data.sharedTimer ?? null);
       if (!data.inputSpec?.wonderFollowUpMode) {
         setSelectedFollowUpId(null);
         setFollowUpText('');
@@ -1821,6 +1825,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           </div>
         )}
       </div>
+
+      {/* Cockpit Timer mirror — same countdown as the shared screen */}
+      <StudentTimerPill timer={sharedTimer} clockOffsetMs={clockOffsetMs} />
 
       {/* Crew Radio — optional side-channel prompt; never replaces the main task */}
       {sideChannel && (() => {
