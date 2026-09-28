@@ -41,6 +41,8 @@ export function useDeckDrag(onDrop: (drop: DeckDrop) => void, accepts: (type: st
       if (e.button !== 0) return;
       const el = (e.target as HTMLElement).closest<HTMLElement>('[data-deck-drag]');
       if (!el) return;
+      // Stop the browser's own image/text drag, which otherwise steals the gesture.
+      if (!(e.target as HTMLElement).closest('input,textarea,select')) e.preventDefault();
       const [type, ...rest] = (el.dataset.deckDrag ?? '').split(':');
       start.current = { type, id: rest.join(':'), x: e.clientX, y: e.clientY, label: el.dataset.deckLabel ?? el.textContent?.trim().slice(0, 40) ?? '', moved: false };
     };

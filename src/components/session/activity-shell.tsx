@@ -1,5 +1,6 @@
 'use client';
 
+import { useInLiveRoom } from '@/components/session/live-room/room-context';
 import { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { runScoreEngine, resolveActivityScorePoints } from '@/lib/score-engine';
@@ -46,6 +47,7 @@ function formatActivityStatus(value: string): string {
 }
 
 export function ActivityShell({ sessionId, activity, generatedContent, timerSeconds, onPhaseChange: externalPhaseChange, onContentRegenerate, isMicroEvent }: ActivityShellProps) {
+  const inLiveRoom = useInLiveRoom();
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const students = useSessionStore((s) => s.students);
   const currentStudentId = useSessionStore((s) => s.currentStudentId);
@@ -435,7 +437,7 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
   );
 
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full">
+    <div className={inLiveRoom ? 'h-full' : 'grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full'}>
       {/* Main activity area */}
       <div className="min-w-0 space-y-4">
         <div className="glass rounded-2xl min-h-[480px] max-h-[680px] flex flex-col overflow-hidden">
@@ -501,10 +503,14 @@ export function ActivityShell({ sessionId, activity, generatedContent, timerSeco
 
       {/* Sidebar */}
       <div className="space-y-4">
-        <Leaderboard
-          displayMode={activity.scoringProfile?.displayMode ?? 'class'}
-          activityParticipation={activityParticipation}
-        />
+        {!inLiveRoom && (
+          <>
+          <Leaderboard
+            displayMode={activity.scoringProfile?.displayMode ?? 'class'}
+            activityParticipation={activityParticipation}
+          />
+          </>
+        )}
         {sessionId && (
           <ApprovalQueue
             sessionId={sessionId}

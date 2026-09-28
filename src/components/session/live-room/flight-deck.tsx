@@ -100,6 +100,7 @@ export function FlightDeck({
   const scores = useSessionStore((s) => s.scores);
   const setSourceMaterial = useSessionStore((s) => s.setSourceMaterial);
   const setCustomTopic = useSessionStore((s) => s.setCustomTopic);
+  const setCurrentStudent = useSessionStore((s) => s.setCurrentStudent);
   const { material, shown } = useRoom(sessionId);
   const addItem = useLiveRoomStore((s) => s.add);
   const showItem = useLiveRoomStore((s) => s.show);
@@ -114,7 +115,15 @@ export function FlightDeck({
   const [presenting, setPresenting] = useState(false);
   const [panel, setPanel] = useState<'catalogue' | 'sources' | 'menu' | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
-  const [spotlight, setSpotlight] = useState<string | null>(null);
+  const [spotlight, setSpotlightId] = useState<string | null>(null);
+  // Spotlight doubles as the game's "up next" student (the shell sidebar that
+  // used to pick it is hidden in the room).
+  const setSpotlight = useCallback((id: string | null) => {
+    setSpotlightId(id);
+    const p = id ? participants.find((x) => x.id === id) : null;
+    const rosterId = p?.student_id ?? p?.client_id;
+    if (rosterId) setCurrentStudent(rosterId);
+  }, [participants, setCurrentStudent]);
   const [roulette, setRoulette] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
@@ -320,7 +329,7 @@ export function FlightDeck({
         flash(`${p.display_name}, you're up!`);
       }
     }
-  }, [material, present, launch, focused, participants, flash]);
+  }, [material, present, launch, focused, participants, flash, setSpotlight]);
   const { dragging, hotZone } = useDeckDrag(onDrop, (type, zone) =>
     (zone === 'wind' && ['inst', 'item', 'stamp', 'student', 'hud'].includes(type))
     || (zone === 'item' && type === 'stamp')
@@ -499,7 +508,7 @@ export function FlightDeck({
 
   return (
     <div className="grid h-[100dvh] grid-cols-[220px_minmax(0,1fr)_240px] grid-rows-[52px_minmax(0,1fr)_176px] gap-2.5 bg-[radial-gradient(ellipse_120%_70%_at_50%_120%,#1b2438_0%,#0b1120_55%,#05070D_100%)] p-2.5 text-white">
-      <style>{'@keyframes deck-drift{from{transform:translateX(110vw)}to{transform:translateX(-120%)}}'}</style>
+      <style>{'@keyframes deck-drift{from{transform:translateX(110vw)}to{transform:translateX(-120%)}} [data-deck-drag] img{-webkit-user-drag:none;user-select:none;pointer-events:none}'}</style>
 
       {/* Glareshield */}
       <header className="col-span-3 flex items-center gap-3 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141d30] to-[#0c1322] px-3">

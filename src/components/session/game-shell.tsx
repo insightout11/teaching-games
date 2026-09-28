@@ -1,5 +1,6 @@
 'use client';
 
+import { useInLiveRoom } from '@/components/session/live-room/room-context';
 import { useCallback, useEffect, useRef, useMemo, useState } from 'react';
 import { useSessionStore } from '@/stores/session-store';
 import { addScoreBonus, runScoreEngine } from '@/lib/score-engine';
@@ -26,6 +27,7 @@ interface GameShellProps {
 }
 
 export function GameShell({ game, config, preGeneratedContent, timerSeconds, onRevealTopSubmissions, isMicroEvent, destinationId, onPhaseChange }: GameShellProps) {
+  const inLiveRoom = useInLiveRoom();
   // Use individual selectors to avoid re-rendering on unrelated store changes (inputSpec, scores, etc.)
   const sessionId = useSessionStore((s) => s.sessionId);
   const students = useSessionStore((s) => s.students);
@@ -429,7 +431,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
   }, [sessionId, supabase]);
 
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full">
+    <div className={inLiveRoom ? 'h-full' : 'grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px] h-full'}>
         {/* Main game area */}
         <div className="min-w-0 space-y-4">
           <div className="glass rounded-2xl min-h-[480px] max-h-[680px] flex flex-col overflow-hidden">
@@ -471,8 +473,12 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
 
         {/* Sidebar */}
         <div className="space-y-4">
-          <Leaderboard displayMode={game.scoringProfile?.displayMode ?? 'competitive'} />
-          <TeamTotals />
+          {!inLiveRoom && (
+            <>
+            <Leaderboard displayMode={game.scoringProfile?.displayMode ?? 'competitive'} />
+            <TeamTotals />
+            </>
+          )}
           {sessionId && (
             <ApprovalQueue
               sessionId={sessionId}

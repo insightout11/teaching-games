@@ -18,6 +18,14 @@ const SURFACES: { key: Surface; label: string; icon: typeof Globe }[] = [
   { key: 'videos', label: 'Videos', icon: Tv },
 ];
 
+const SEARCH_PLACEHOLDER: Record<Surface, string> = {
+  web: 'Search the web…',
+  images: 'Search images…',
+  news: 'Search news…',
+  places: 'Search a place or address…',
+  videos: 'Search videos…',
+};
+
 interface SourcesDrawerProps {
   sessionId: string;
   onShow: (item: RoomItem) => void;
@@ -111,7 +119,7 @@ export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false,
           id="live-room-source-search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search what they're talking about…"
+          placeholder={SEARCH_PLACEHOLDER[surface]}
           maxLength={300}
           className="min-h-11 w-full bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
           aria-label="Search sources"

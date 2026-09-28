@@ -23,6 +23,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { createPortal } from 'react-dom';
 import { HostSlot } from '@/components/session/live-room/live-room-cockpit';
 import { FlightDeck } from '@/components/session/live-room/flight-deck';
+import { InLiveRoomContext } from '@/components/session/live-room/room-context';
 import { useLiveRoomStore } from '@/stores/live-room-store';
 import { useLiveRoomOptIn } from '@/components/session/live-room/live-room-opt-in';
 
@@ -2107,7 +2108,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     && (!lesson.lessonPlanContent || isRoomSession) && !!roomModuleEl;
   const roomRunningKey = viewMode === 'game' ? selectedGame?.key ?? null
     : viewMode === 'activity' ? selectedActivity?.key ?? null : null;
-  const roomPortal = (node: ReactNode) => (roomActive && roomModuleEl ? createPortal(node, roomModuleEl) : node);
+  const roomPortal = (node: ReactNode) => (roomActive && roomModuleEl
+    ? createPortal(<InLiveRoomContext.Provider value>{node}</InLiveRoomContext.Provider>, roomModuleEl)
+    : node);
 
   return (
     <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
