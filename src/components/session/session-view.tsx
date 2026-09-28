@@ -21,7 +21,8 @@ import { WidgetLauncher } from './widget-launcher';
 import { WIDGET_REGISTRY } from './widget-registry';
 import { QRCodeSVG } from 'qrcode.react';
 import { createPortal } from 'react-dom';
-import { LiveRoomCockpit, HostSlot } from '@/components/session/live-room/live-room-cockpit';
+import { HostSlot } from '@/components/session/live-room/live-room-cockpit';
+import { FlightDeck } from '@/components/session/live-room/flight-deck';
 import { useLiveRoomStore } from '@/stores/live-room-store';
 import { useLiveRoomOptIn } from '@/components/session/live-room/live-room-opt-in';
 
@@ -2112,22 +2113,22 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
       {roomActive && roomModuleEl && (
         <div className="fixed inset-0 z-40 bg-lc-bg">
-          <LiveRoomCockpit
+          <FlightDeck
             sessionId={session.id}
             className={cls.name}
             joinUrl={joinUrl}
-            cockpitUrl={cockpitUrl}
-            participantCount={sessionParticipants.length}
+            participants={sessionParticipants}
+            rosterCount={students.length}
+            startedAt={session.started_at ?? null}
             games={games}
             activities={activities}
             runningKey={roomRunningKey}
             moduleHost={<HostSlot el={roomModuleEl} />}
-            topic={settings.customTopic || settings.topic}
-            difficulty={settings.difficulty}
             onLaunchGame={handleSelectGame}
             onLaunchActivity={(a) => { void handleSelectActivity(a); }}
             onReturn={handleBackToSelection}
             onEndSession={handleEndSession}
+            flightHref={`/lesson-planner?attach=${encodeURIComponent(session.id)}&classId=${encodeURIComponent(cls.id)}`}
           />
         </div>
       )}
@@ -2943,12 +2944,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       )}
 
       {/* Floating widget system */}
-      {!roomActive && WIDGET_REGISTRY.map((widget) => (
+      {WIDGET_REGISTRY.map((widget) => (
         <WidgetShell
           key={widget.id}
           id={widget.id}
           label={widget.label}
-          defaultOpen={widget.defaultOpen}
+          defaultOpen={roomActive ? false : widget.defaultOpen}
           icon={
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={widget.iconPath} />
