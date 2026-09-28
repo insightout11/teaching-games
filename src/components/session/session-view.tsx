@@ -22,6 +22,9 @@ import { WIDGET_REGISTRY } from './widget-registry';
 import { QRCodeSVG } from 'qrcode.react';
 import { LiveRoomView } from '@/components/session/live-room/live-room-view';
 import { useLiveRoomStore } from '@/stores/live-room-store';
+
+// Live Room teacher view is off until the ported cockpit is ready (NEXT_PUBLIC_LIVE_ROOM=true to preview).
+const LIVE_ROOM_ENABLED = process.env.NEXT_PUBLIC_LIVE_ROOM === 'true';
 import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
 import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
@@ -2220,7 +2223,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         </div>
 
         {/* Selection / Game / Activity View */}
-        {viewMode === 'selection' && poolSpinning === null && (!lesson.lessonPlanContent || (isRoomSession && !lesson.isLessonActive)) ? (
+        {LIVE_ROOM_ENABLED && viewMode === 'selection' && poolSpinning === null && (!lesson.lessonPlanContent || (isRoomSession && !lesson.isLessonActive)) ? (
           <LiveRoomView
             sessionId={session.id}
             classId={cls.id}

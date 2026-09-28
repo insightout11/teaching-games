@@ -29,8 +29,8 @@ export function SessionStarter({
       .single();
 
     if (data) {
-      // A plan-free session opens as the Live Room. Drop the legacy unscoped plan
-      // key so a lesson run earlier in this tab isn't loaded into the new room.
+      // Drop the legacy unscoped plan key so a lesson run earlier in this tab
+      // isn't loaded into this new plan-free session.
       try {
         sessionStorage.removeItem('lessonPlanContent');
       } catch {
@@ -43,7 +43,7 @@ export function SessionStarter({
 
   return (
     <Button onClick={startSession} disabled={loading} size={size}>
-      {loading ? 'Opening…' : 'Open Live Room'}
+      {loading ? 'Starting...' : 'Start Session'}
     </Button>
   );
 }
