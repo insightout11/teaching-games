@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ['jsdom', '@mozilla/readability'],
+  },
   webpack: (config, { dev }) => {
     // This repo lives under OneDrive-synced `Documents` on Windows. OneDrive (and
     // AV) lock `.next/cache` files mid-write, so webpack's persistent filesystem
