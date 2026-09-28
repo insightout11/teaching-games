@@ -29,6 +29,13 @@ export function SessionStarter({
       .single();
 
     if (data) {
+      // A plan-free session opens as the Live Room. Drop the legacy unscoped plan
+      // key so a lesson run earlier in this tab isn't loaded into the new room.
+      try {
+        sessionStorage.removeItem('lessonPlanContent');
+      } catch {
+        // storage unavailable — nothing to clear
+      }
       router.push(`/sessions/${data.id}`);
     }
     setLoading(false);
@@ -36,7 +43,7 @@ export function SessionStarter({
 
   return (
     <Button onClick={startSession} disabled={loading} size={size}>
-      {loading ? 'Starting...' : 'Start Session'}
+      {loading ? 'Opening…' : 'Open Live Room'}
     </Button>
   );
 }
