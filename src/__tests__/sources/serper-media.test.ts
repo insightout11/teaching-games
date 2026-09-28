@@ -1,20 +1,29 @@
 import { describe, expect, it, vi } from 'vitest';
 import { mediaSerperRequest, normalizeSerperMedia, searchSerperMedia } from '@/lib/sources/serper-media';
 import { fetchSerperJSON } from '@/lib/sources/serper';
+
 const request = { surface: 'videos' as const, query: 'Japan', page: 0 };
+
 const video = { title: '<b>Japan</b>', link: 'https://youtu.be/2ag4dKkL-pM', imageUrl: 'https://example.com/thumb.jpg', duration: '2:30', date: 'yesterday' };
+
 const data = { searchParameters: { safe: 'active' }, videos: [video] };
 describe('five-surface Serper media adapter', () => {
   it.each(['places', 'videos'] as const)('sets server-owned fields and no pagination for %s', surface => {
     expect(mediaSerperRequest({ ...request, surface, safe: 'off', gl: 'us', location: 'private' } as typeof request)).toEqual({
-      url: `https://google.serper.dev/${surface}`, body: { q: 'Japan', num: 10, hl: 'en', safe: 'active', autocorrect: false } });
+      url: `https://google.serper.dev/${surface}`, body: { q: 'Japan', num: 10, hl: 'en', safe: 'active', autocorrect: false }
+    });
     expect(() => mediaSerperRequest({ ...request, surface, page: 1 })).toThrow('INVALID_PAGE');
   });
   it('normalizes video without inventing dates or evidence from snippets', () => {
     const result = normalizeSerperMedia(data, request, '2026-09-12T00:00:00.000Z');
-    expect(result.items[0]).toMatchObject({ kind: 'video', result: { title: 'Japan', durationSeconds: 150, publishedAt: null,
-      playback: { provider: 'youtube', videoId: '2ag4dKkL-pM' } } });
-    expect(result.nextPage).toBeNull(); expect(result.filtering).toBe('strict');
+    expect(result.items[0]).toMatchObject({
+      kind: 'video', result: {
+        title: 'Japan', durationSeconds: 150, publishedAt: null,
+        playback: { provider: 'youtube', videoId: '2ag4dKkL-pM' }
+      }
+    });
+    expect(result.nextPage).toBeNull();
+    expect(result.filtering).toBe('strict');
     expect(JSON.stringify(result)).not.toContain('snippet');
   });
   it('requires video filter acknowledgement and collection shape', () => {
