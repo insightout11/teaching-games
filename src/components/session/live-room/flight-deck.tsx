@@ -205,12 +205,20 @@ export function FlightDeck({
     setCatalogueState((c) => ({ ...c, recent: [key, ...c.recent.filter((k) => k !== key)].slice(0, 6) }));
     setPanel(null);
     const entry = catalogue.find((c) => c.key === key);
+    // Phones show "Get ready: <name>" at once, while the content generates.
+    if (entry) {
+      void fetch('/api/session/room-launch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, name: entry.name }),
+      }).catch(() => {});
+    }
     flash(`Captain's announcement: ${entry?.name ?? 'Activity'}${sourceItem ? ` from "${sourceItem.title}"` : ''}, boarding now`);
     const game = games.find((g) => g.key === key);
     if (game) return onLaunchGame(game);
     const activity = activities.find((a) => a.key === key);
     if (activity) onLaunchActivity(activity);
-  }, [catalogue, games, activities, onLaunchGame, onLaunchActivity, setSourceMaterial, setCustomTopic, flash]);
+  }, [catalogue, games, activities, onLaunchGame, onLaunchActivity, setSourceMaterial, setCustomTopic, flash, sessionId]);
 
   const focused = material.find((m) => m.id === focusId) ?? null;
 

@@ -49,7 +49,8 @@ function safeErrorMetadata(error: unknown): Pick<RealtimeBroadcastDelivery, 'err
 export async function broadcastInputSpecFromServer(
   topic: string,
   event: string,
-  payload: InputSpecRealtimePayload,
+  /** Also carries small companion events on the same channel (e.g. the Live Room launch notice). */
+  payload: InputSpecRealtimePayload | Record<string, unknown>,
 ): Promise<RealtimeBroadcastDelivery> {
   const startedAt = Date.now();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

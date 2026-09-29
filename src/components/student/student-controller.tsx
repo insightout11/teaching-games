@@ -12,6 +12,7 @@ import {
   getStudentSignalTransitionMs,
   inputSpecChannelName,
   INPUT_SPEC_REALTIME_EVENT,
+  ROOM_LAUNCH_EVENT,
   shouldApplyActivityInstanceUpdate,
   type ActivityInstanceIdentity,
   type InputSpec,
@@ -263,6 +264,16 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [degradedSince, setDegradedSince] = useState<number | null>(Date.now());
   const [connectionNow, setConnectionNow] = useState(Date.now());
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
+  // Live Room launch notice: "Get ready: <activity>" while its content generates.
+  const [roomLaunch, setRoomLaunch] = useState<{ name: string; at: number } | null>(null);
+  useEffect(() => {
+    if (inputSpec) setRoomLaunch(null);
+  }, [inputSpec]);
+  useEffect(() => {
+    if (!roomLaunch) return;
+    const t = setTimeout(() => setRoomLaunch(null), 90_000);
+    return () => clearTimeout(t);
+  }, [roomLaunch]);
   const [currentResponse, setCurrentResponse] = useState<{ roundId: string; choice: string } | null>(null);
   const [publishedQuestions, setPublishedQuestions] = useState<PublishedQuestion[]>([]);
   const [wonderQuestions, setWonderQuestions] = useState<WonderQuestion[]>([]);
@@ -695,6 +706,12 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         }
         setConnectionStatus('connected');
           logRealtimeDiagnostic('student-input-spec', 'ui_apply', { revision });
+        })
+        .on('broadcast', { event: ROOM_LAUNCH_EVENT }, ({ payload }: { payload: unknown }) => {
+          const data = payload as { name?: unknown; at?: unknown };
+          if (typeof data.name === 'string' && data.name) {
+            setRoomLaunch({ name: data.name.slice(0, 80), at: typeof data.at === 'number' ? data.at : Date.now() });
+          }
         }),
       removeChannel: (channel) => supabase.removeChannel(channel),
       reconcile: async () => {
@@ -1820,7 +1837,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             {/* Waiting label */}
             <div className="flex flex-col items-center gap-2 py-2">
               <TakeoffSpark size={40} loading />
-              <p className="text-gray-500 text-xs uppercase tracking-widest">Standing by for captain signal...</p>
+              {roomLaunch ? (
+                <div className="flex flex-col items-center gap-1 text-center">
+                  <p className="text-amber-300 text-xs uppercase tracking-widest">Get ready</p>
+                  <p className="font-display text-2xl text-white">{roomLaunch.name}</p>
+                  <p className="text-gray-400 text-xs">Your captain is preparing it now…</p>
+                </div>
+              ) : (
+                <p className="text-gray-500 text-xs uppercase tracking-widest">Standing by for captain signal...</p>
+              )}
             </div>
           </div>
         )}

@@ -156,6 +156,8 @@ export interface InputSpec {
 }
 
 export const INPUT_SPEC_REALTIME_EVENT = 'input-spec';
+/** Live Room: sent the moment the teacher launches an activity, before its content is ready. */
+export const ROOM_LAUNCH_EVENT = 'room-launch';
 
 export interface InputSpecRealtimePayload {
   spec: InputSpec | null;
