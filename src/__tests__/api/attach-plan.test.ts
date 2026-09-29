@@ -25,7 +25,7 @@ const plan = { customTopic: 'World Cup', difficulty: 'Intermediate', slots: [{ k
 const post = (body: unknown) => POST(new Request('http://x/api', { method: 'POST', body: JSON.stringify(body) }), { params: { sessionId: SID } });
 
 describe('attach-plan route', () => {
-  beforeEach(() => update.mockClear());
+  beforeEach(() => { update.mockClear(); });
 
   it('attaches a regular flight to the running session', async () => {
     const res = await post({ lessonPlanContent: plan });

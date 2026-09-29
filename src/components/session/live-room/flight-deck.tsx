@@ -168,6 +168,12 @@ export function FlightDeck({
     [reachable, chosenId, sessionId],
   );
   const [talkPrompt, setTalkPrompt] = useState('');
+  const [talkFollowUps, setTalkFollowUps] = useState<string[]>([]);
+  const [talkOptions, setTalkOptions] = useState<{ prompt: string; followUps: string[] }[]>([]);
+  const [talkBusy, setTalkBusy] = useState<string | null>(null);
+  const [talkUsed, setTalkUsed] = useState<string[]>([]);
+  const difficulty = useSessionStore((s) => s.settings.difficulty);
+  const sessionTopic = useSessionStore((s) => s.settings.customTopic || s.settings.topic);
   const [huds, setHuds] = useState<Instrument[]>([]);
   const [hudPos, setHudPos] = useState<Record<string, { x: number; y: number }>>({});
   const [presenting, setPresenting] = useState(false);
@@ -447,6 +453,44 @@ export function FlightDeck({
       : view === 'game' ? (catalogue.find((c) => c.key === runningKey)?.name ?? 'Game')
         : VIEWS.find((v) => v.key === view)?.label ?? '';
 
+  // ── Talk: one-tap prompts on the topic of the moment ─────────────────────
+  const TALK_KINDS: { key: string; label: string }[] = [
+    { key: 'warmup', label: 'Warm-up' },
+    { key: 'deeper', label: 'Go deeper' },
+    { key: 'opinion', label: 'Opinion' },
+    { key: 'wyr', label: 'Would you rather' },
+    { key: 'story', label: 'Tell a story' },
+    { key: 'debate', label: 'Debate it' },
+    { key: 'journey', label: 'On our flight' },
+  ];
+  const fetchTalk = async (kind: string) => {
+    setTalkBusy(kind);
+    const topic = focused?.title ?? (sessionTopic && sessionTopic !== 'General' ? sessionTopic : 'everyday life');
+    const context = kind === 'journey'
+      ? `The class is flying from ${origin.city} to ${destination.city}${below.name ? `, currently over ${below.name}` : ''}.`
+      : [focused?.description ?? focused?.text?.slice(0, 400), talkUsed.length ? `Avoid repeating: ${talkUsed.slice(-5).join(' | ')}` : ''].filter(Boolean).join(' ');
+    try {
+      const res = await fetch('/api/live-room/talk-prompts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind, topic, context, difficulty }),
+      });
+      const data = await res.json().catch(() => null);
+      if (res.ok && Array.isArray(data?.prompts) && data.prompts.length) setTalkOptions(data.prompts);
+      else flash(data?.error ?? 'Could not write prompts right now');
+    } catch {
+      flash('Could not write prompts right now');
+    } finally {
+      setTalkBusy(null);
+    }
+  };
+  const pickTalk = (p: { prompt: string; followUps: string[] }) => {
+    setTalkPrompt(p.prompt);
+    setTalkFollowUps(p.followUps);
+    setTalkOptions([]);
+    setTalkUsed((u) => [...u, p.prompt].slice(-20));
+  };
+
   // ── windscreen content ───────────────────────────────────────────────────
   let scene: ReactNode;
   if (view === 'boarding') {
@@ -522,11 +566,47 @@ export function FlightDeck({
         <textarea
           id="deck-talk-prompt"
           value={talkPrompt}
-          onChange={(e) => setTalkPrompt(e.target.value)}
-          placeholder={presenting ? '' : 'Type a question for the class…'}
+          onChange={(e) => { setTalkPrompt(e.target.value); setTalkFollowUps([]); }}
+          placeholder={presenting ? '' : 'Type a question, or tap a kind of prompt below…'}
           rows={3}
           className="w-full resize-none bg-transparent text-center font-display text-4xl leading-tight text-white placeholder:text-white/40 focus:outline-none [text-shadow:0_2px_18px_rgba(0,0,0,.45)]"
         />
+        {talkFollowUps.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-2">
+            {talkFollowUps.map((f) => (
+              <button key={f} type="button" onClick={() => { setTalkPrompt(f); setTalkFollowUps([]); }} className="rounded-full border border-white/20 bg-slate-950/55 px-3 py-1.5 text-sm text-white/85 backdrop-blur-sm hover:bg-slate-900/70">
+                <span className="font-semibold text-amber-200">Then:</span> {f}
+              </button>
+            ))}
+          </div>
+        )}
+        {!presenting && (
+          <>
+            {talkOptions.length > 0 && (
+              <div className="grid w-full gap-2 sm:grid-cols-3">
+                {talkOptions.map((o) => (
+                  <button key={o.prompt} type="button" onClick={() => pickTalk(o)} className="rounded-2xl border border-white/15 bg-slate-950/70 p-3 text-left text-sm text-white backdrop-blur-md hover:border-amber-300/60">
+                    {o.prompt}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="flex flex-wrap justify-center gap-1.5">
+              {TALK_KINDS.map((k) => (
+                <button
+                  key={k.key}
+                  type="button"
+                  disabled={talkBusy !== null}
+                  onClick={() => void fetchTalk(k.key)}
+                  className="rounded-lg border border-white/15 bg-slate-950/55 px-2.5 py-1.5 text-xs font-semibold text-white/80 backdrop-blur-sm hover:border-amber-300/50 hover:text-white disabled:opacity-50"
+                >
+                  {talkBusy === k.key ? 'Writing…' : k.label}
+                </button>
+              ))}
+            </div>
+            <p className="text-[11px] text-white/45">About {focused ? `"${focused.title}"` : sessionTopic && sessionTopic !== 'General' ? sessionTopic : 'everyday life'}. Set a cargo item as focus to change the topic.</p>
+          </>
+        )}
       </div>
     );
   } else if (view === 'show') {
