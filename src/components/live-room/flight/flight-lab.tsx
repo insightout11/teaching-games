@@ -8,6 +8,7 @@ import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arri
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitGround, type Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 
 /**
@@ -47,6 +48,7 @@ export function FlightLab() {
   const [tod, setTod] = useState<TimeOfDay>('day');
   const [weather, setWeather] = useState<WeatherCondition>('clear');
   const [activity, setActivity] = useState(false);
+  const [terrain, setTerrain] = useState<Terrain>('ocean');
   /** Freeze a timed phase at a chosen moment, for tuning. */
   const [scrub, setScrub] = useState<number | null>(null);
   const origin = cities.find((c) => c.id === originId) ?? cities[0];
@@ -129,11 +131,12 @@ export function FlightLab() {
             ) : (
               <motion.div key="cockpit" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
                 <CockpitSky palette={palette} timeOfDay={tod} altitude={cockpitAlt} />
-                {/* Cloud deck far below the horizon */}
+                <CockpitGround terrain={terrain} palette={palette} night={tod === 'night'} speed={cloudSpeed} />
+                {/* Broken cloud layer between us and the ground */}
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-x-0 bottom-0"
-                  style={{ top: '60%', background: `linear-gradient(180deg, rgba(${cloudTint.join(',')},0) 0%, rgba(${cloudTint.join(',')},0.55) 35%, rgba(${cloudTint.join(',')},0.8) 100%)` }}
+                  style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${cloudTint.join(',')},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${cloudTint.join(',')},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${cloudTint.join(',')},0.45), transparent 70%)` }}
                 />
                 <CockpitClouds speed={cloudSpeed} tint={cloudTint} density={activity && !diving ? 0.4 : 1} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
               </motion.div>
@@ -201,6 +204,9 @@ export function FlightLab() {
           </select>
           <select value={weather} onChange={(e) => setWeather(e.target.value as WeatherCondition)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Weather">
             {(['clear', 'overcast', 'rain', 'storm', 'snow', 'aurora'] as WeatherCondition[]).map((w) => <option key={w} value={w}>{w}</option>)}
+          </select>
+          <select value={terrain} onChange={(e) => setTerrain(e.target.value as Terrain)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Below us">
+            {(['ocean', 'mountains', 'forest', 'desert', 'ice', 'farmland'] as Terrain[]).map((t) => <option key={t} value={t}>Below: {t}</option>)}
           </select>
           <label className="flex items-center gap-1.5">Scrub
             <input
