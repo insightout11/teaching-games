@@ -285,6 +285,7 @@ export function FlightDeck({
   // Student messages waiting for the teacher: lights up the Messages button
   // (never the text itself: the screen is shared).
   const [waitingMessages, setWaitingMessages] = useState(0);
+  const [waitingCards, setWaitingCards] = useState(0);
   useEffect(() => {
     if (isMockMode()) return;
     const supabase = createClient();
@@ -298,6 +299,13 @@ export function FlightDeck({
         .eq('published_to_class', false)
         .is('game_key', null);
       if (!cancelled && typeof count === 'number') setWaitingMessages(count);
+      const { count: cards } = await supabase
+        .from('class_board_items')
+        .select('id', { count: 'exact', head: true })
+        .eq('session_id', sessionId)
+        .eq('visibility', 'pending')
+        .eq('author_type', 'student');
+      if (!cancelled && typeof cards === 'number') setWaitingCards(cards);
     };
     void check().catch(() => {});
     const t = window.setInterval(() => { void check().catch(() => {}); }, 4000);
@@ -550,6 +558,13 @@ export function FlightDeck({
     else setPanel('sources');
   };
   // Messages are read in the private window, never on the shared screen.
+  // Class Board cards waiting for approval: open the board (for the class) and
+  // the private window on its Board tab (for the teacher).
+  const openBoardApprovals = (x: number, y: number) => {
+    openTool('class-board', x, y);
+    const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources?tab=board#board`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
+    popup?.focus();
+  };
   const openMessages = (x: number, y: number) => {
     const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources?tab=messages#messages`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
     if (popup) popup.focus();
@@ -1408,13 +1423,16 @@ export function FlightDeck({
           </p>
           <div className="flex flex-wrap gap-2">
             {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker').map((w) => {
-              const calling = w.id === 'class-questions' && waitingMessages > 0;
+              const waitingCount = w.id === 'class-questions' ? waitingMessages : w.id === 'class-board' ? waitingCards : 0;
+              const calling = waitingCount > 0;
               return (
                 <button
                   key={w.id}
                   type="button"
-                  onClick={(e) => (w.id === 'class-questions' ? openMessages(e.clientX, e.clientY) : openTool(w.id, e.clientX, e.clientY))}
-                  title={calling ? `${waitingMessages} new message${waitingMessages === 1 ? '' : 's'} from students` : undefined}
+                  onClick={(e) => (w.id === 'class-questions' ? openMessages(e.clientX, e.clientY)
+                    : w.id === 'class-board' && calling ? openBoardApprovals(e.clientX, e.clientY)
+                      : openTool(w.id, e.clientX, e.clientY))}
+                  title={calling ? (w.id === 'class-board' ? `${waitingCount} card${waitingCount === 1 ? '' : 's'} waiting for approval` : `${waitingCount} new message${waitingCount === 1 ? '' : 's'} from students`) : undefined}
                   className={[
                     'relative flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors',
                     calling
@@ -1426,7 +1444,7 @@ export function FlightDeck({
                   {w.label}
                   {calling && (
                     <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-300 px-1 font-mono text-[10px] font-bold text-[#1a1204]">
-                      {waitingMessages}
+                      {waitingCount}
                     </span>
                   )}
                 </button>

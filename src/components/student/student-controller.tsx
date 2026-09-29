@@ -124,6 +124,9 @@ interface StudentControllerProps {
   onLeave: () => void;
 }
 
+/** Class Board dot voting: dots each student can give per board (matches /api/class-board/vote). */
+const CLASS_BOARD_DOTS = 3;
+
 // ---------------------------------------------------------------------------
 // Crew Radio seen/answered tracking (per session) so the badge doesn't relight
 // on reload for an item the student already opened or answered.
@@ -259,7 +262,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [wonderLocalCounts, setWonderLocalCounts] = useState<Record<string, number>>({});
   const [classBoardItems, setClassBoardItems] = useState<ClassBoardItem[]>([]);
   const [classBoardVotedIds, setClassBoardVotedIds] = useState<Set<string>>(new Set());
-  const [classBoardLocalCounts, setClassBoardLocalCounts] = useState<Record<string, number>>({});
   const [classBoardReplyTo, setClassBoardReplyTo] = useState<string | null>(null);
   const [classBoardReplyText, setClassBoardReplyText] = useState('');
   const [classBoardReplyBusy, setClassBoardReplyBusy] = useState(false);
@@ -1184,19 +1186,19 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     } catch { /* optimistic update stays */ }
   };
 
+  // Dot voting: 3 dots per board; tap to give one, tap again to take it back.
   const handleClassBoardVote = async (item: ClassBoardItem) => {
-    if (classBoardVotedIds.has(item.id)) return;
+    const had = classBoardVotedIds.has(item.id);
+    const usedHere = classBoardItems.filter((i) => classBoardVotedIds.has(i.id)).length;
+    if (!had && usedHere >= CLASS_BOARD_DOTS) return;
 
-    const newVotedIds = new Set(classBoardVotedIds).add(item.id);
-    setClassBoardVotedIds(newVotedIds);
-    setClassBoardLocalCounts((prev) => ({
-      ...prev,
-      [item.id]: Math.max(prev[item.id] ?? 0, item.voteCount) + 1,
-    }));
+    const next = new Set(classBoardVotedIds);
+    if (had) next.delete(item.id); else next.add(item.id);
+    setClassBoardVotedIds(next);
 
     try {
       await fetch('/api/class-board/vote', {
-        method: 'POST',
+        method: had ? 'DELETE' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId,
@@ -1974,12 +1976,23 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       {inputSpec?.type === 'board' && !inputSpec.boardWordCloud && classBoardItems.some((item) => !item.parentId) && (
         <div className="glass rounded-2xl p-6 mb-4">
           <h2 className="font-bold text-white mb-1">{inputSpec.boardTitle ?? 'Class Board'}</h2>
-          <p className="text-xs text-gray-400 mb-3">
-            {inputSpec.boardAllowVotes === false ? 'Ideas shared by your class.' : 'Upvote the ideas you think are best.'}
-          </p>
+          {inputSpec.boardAllowVotes === false ? (
+            <p className="text-xs text-gray-400 mb-3">Ideas shared by your class.</p>
+          ) : (() => {
+            const left = Math.max(0, CLASS_BOARD_DOTS - classBoardItems.filter((i) => classBoardVotedIds.has(i.id)).length);
+            return (
+              <p className="mb-3 flex items-center gap-2 text-xs text-gray-400">
+                Give your dots to the best ideas.
+                <span className="flex items-center gap-0.5" aria-label={`${left} dots left`}>
+                  {Array.from({ length: CLASS_BOARD_DOTS }, (_, k) => (
+                    <i key={k} className={`h-2.5 w-2.5 rounded-full ${k < left ? 'bg-rose-500' : 'border border-rose-500/50'}`} />
+                  ))}
+                </span>
+              </p>
+            );
+          })()}
           <div className="space-y-2">
             {classBoardItems.filter((item) => !item.parentId).map((item) => {
-              const displayCount = Math.max(classBoardLocalCounts[item.id] ?? 0, item.voteCount);
               const hasVoted = classBoardVotedIds.has(item.id);
               const categoryLabel = inputSpec.boardCategories?.find((category) => category.key === item.category)?.label ?? item.category;
               const zoneLabel = inputSpec.boardZones?.find((zone) => zone.key === item.zoneKey)?.label;
@@ -1989,15 +2002,13 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                   {inputSpec.boardAllowVotes !== false && (
                     <button
                       onClick={() => handleClassBoardVote(item)}
-                      disabled={hasVoted}
-                      className={`flex-shrink-0 flex flex-col items-center gap-0.5 transition-colors ${
-                        hasVoted ? 'text-emerald-400' : 'text-gray-500 hover:text-emerald-400'
-                      } disabled:cursor-default`}
+                      aria-pressed={hasVoted}
+                      aria-label={hasVoted ? 'Take your dot back' : 'Give this a dot'}
+                      className={`flex-shrink-0 mt-0.5 flex h-7 w-7 items-center justify-center rounded-full border-2 transition-colors ${
+                        hasVoted ? 'border-rose-500 bg-rose-500' : 'border-rose-500/40 hover:border-rose-400'
+                      }`}
                     >
-                      <svg className="w-4 h-4" fill={hasVoted ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                      </svg>
-                      <span className="text-xs font-bold">{displayCount}</span>
+                      {hasVoted && <i className="h-2.5 w-2.5 rounded-full bg-white" />}
                     </button>
                   )}
                   <div className="min-w-0 flex-1">

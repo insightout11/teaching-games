@@ -9,5 +9,5 @@ export default async function SourcesPopoutPage({ params, searchParams }: { para
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) redirect(`/login?next=/sessions/${params.sessionId}/sources`);
   }
-  return <SourcesPopout sessionId={params.sessionId} initialTab={searchParams.tab === 'messages' ? 'messages' : 'sources'} />;
+  return <SourcesPopout sessionId={params.sessionId} initialTab={searchParams.tab === 'messages' ? 'messages' : searchParams.tab === 'board' ? 'board' : 'sources'} />;
 }
