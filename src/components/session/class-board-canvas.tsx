@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { Plus, Check, X, EyeOff, Zap, CircleDot } from 'lucide-react';
+import { Plus, Check, X, EyeOff, Zap, CircleDot, Sparkles, Wand2, Shapes, Crosshair, Archive } from 'lucide-react';
+import { useFocusBus } from '@/stores/focus-bus-store';
+import { useLiveRoomStore } from '@/stores/live-room-store';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import { useSessionStore } from '@/stores/session-store';
@@ -89,7 +91,19 @@ function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
 export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false, zonesOverride, includePending = false }: ClassBoardCanvasProps) {
   const templateLocked = Boolean(presetKey);
   const [selectedPresetKey, setSelectedPresetKey] = useState(presetKey ?? DEFAULT_CLASS_BOARD_PRESET_KEY);
-  const preset = useMemo(() => getClassBoardPreset(selectedPresetKey), [selectedPresetKey]);
+  // AI: a board designed for the current topic (fresh board) and theme sections (same board).
+  const [aiPreset, setAiPreset] = useState<ClassBoardPreset | null>(null);
+  const [zonesCustom, setZonesCustom] = useState<ClassBoardZone[] | null>(null);
+  const [fixes, setFixes] = useState<Record<string, string>>({});
+  const [polishOn, setPolishOn] = useState(false);
+  const [hiddenFixes, setHiddenFixes] = useState<Set<string>>(new Set());
+  const [aiBusy, setAiBusy] = useState<string | null>(null);
+  const [aiNote, setAiNote] = useState<string | null>(null);
+  const preset = useMemo(() => aiPreset ?? getClassBoardPreset(selectedPresetKey), [aiPreset, selectedPresetKey]);
+  const topic = useSessionStore((state) => state.settings.customTopic || state.settings.topic);
+  const difficulty = useSessionStore((state) => state.settings.difficulty);
+  const makeFocus = useFocusBus((state) => state.makeFocus);
+  const addRoomItem = useLiveRoomStore((state) => state.add);
 
   const inputSpec = useSessionStore((state) => state.inputSpec);
   const setInputSpec = useSessionStore((state) => state.setInputSpec);
@@ -116,11 +130,11 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const reduce = useReducedMotion();
 
   const base = boardKey ?? DEFAULT_CLASS_BOARD_KEY;
-  const activeBoardKey = normalizeClassBoardKey(templateLocked ? base : `${base}-${selectedPresetKey}`);
+  const activeBoardKey = normalizeClassBoardKey(templateLocked ? base : `${base}-${aiPreset ? aiPreset.key : selectedPresetKey}`);
 
   // Zones with any teacher-renamed titles applied. `zonesOverride` (e.g. one zone per real
   // attraction in Out & About) replaces the preset's default zones as the base.
-  const baseZones = zonesOverride ?? preset.zones;
+  const baseZones = zonesOverride ?? zonesCustom ?? preset.zones;
   const zones: ClassBoardZone[] = useMemo(
     () => baseZones.map((zone) => ({ ...zone, label: zoneLabels[zone.key] ?? zone.label })),
     [baseZones, zoneLabels],
@@ -216,6 +230,88 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     }
   }, [loadItems, sessionId]);
 
+  const callAi = useCallback(async (body: Record<string, unknown>) => {
+    const res = await fetch('/api/class-board/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...body, difficulty }),
+    });
+    return res.ok ? res.json() : null;
+  }, [difficulty]);
+
+  const broadcast = useCallback(async (p: ClassBoardPreset, z: ClassBoardZone[], key: string) => {
+    await setInputSpec({
+      type: 'board', gameKey: 'class-board', prompt: p.prompt, instruction: 'Add to the class board',
+      maxLength: 280, allowMultiple: true, ...boardSpecFields(p, key, z),
+    });
+  }, [setInputSpec]);
+
+  // A fresh board designed for whatever the class is talking about.
+  const boardFromTopic = useCallback(async () => {
+    const t = topic && topic !== 'General' ? topic : '';
+    if (!t) { setAiNote('Set a topic first (the topic bar at the top).'); return; }
+    setAiBusy('zones');
+    try {
+      const d = await callAi({ action: 'zones', topic: t });
+      if (!d?.zones) { setAiNote('Could not design a board right now.'); return; }
+      const slug = t.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 24) + '-' + Date.now().toString(36).slice(-4);
+      const zones: ClassBoardZone[] = d.zones.map((z: { label: string; description: string }, i: number) => ({ key: `z${i + 1}`, label: z.label, description: z.description }));
+      const p: ClassBoardPreset = { ...getClassBoardPreset(DEFAULT_CLASS_BOARD_PRESET_KEY), key: `topic-${slug}`, title: d.title, prompt: d.prompt || `Add your ideas about ${t}`, layout: 'columns', zones };
+      setZonesCustom(null);
+      setAiPreset(p);
+      setFixes({});
+      if (isLive) await broadcast(p, zones, normalizeClassBoardKey(`${base}-${p.key}`));
+    } finally {
+      setAiBusy(null);
+    }
+  }, [base, broadcast, callAi, isLive, topic]);
+
+  const studentCards = useMemo(() => visibleItems.filter((i) => i.authorType === 'student'), [visibleItems]);
+
+  // Gentle correction under students' sentences (the teacher can hide any one).
+  const togglePolish = useCallback(async () => {
+    if (polishOn) { setPolishOn(false); return; }
+    setPolishOn(true);
+    const todo = studentCards.filter((i) => !(i.id in fixes));
+    if (!todo.length) return;
+    setAiBusy('polish');
+    try {
+      const d = await callAi({ action: 'polish', items: todo.map((i) => ({ id: i.id, text: i.content })) });
+      if (!d) { setPolishOn(false); setAiNote('Polish is unavailable right now. Try again in a moment.'); return; }
+      const next: Record<string, string> = {};
+      todo.forEach((i) => { next[i.id] = ''; });
+      (d?.fixes ?? []).forEach((f: { id: string; corrected: string }) => { next[f.id] = f.corrected; });
+      setFixes((prev) => ({ ...prev, ...next }));
+    } finally {
+      setAiBusy(null);
+    }
+  }, [callAi, fixes, polishOn, studentCards]);
+
+  // Sort the cards into named themes (same board, new sections).
+  const groupThemes = useCallback(async () => {
+    if (visibleItems.length < 3) { setAiNote('Group into themes works once there are a few cards.'); return; }
+    setAiBusy('themes');
+    try {
+      const d = await callAi({ action: 'themes', items: visibleItems.map((i) => ({ id: i.id, text: i.content })) });
+      const themes: Array<{ label: string; ids: string[] }> = d?.themes ?? [];
+      if (!themes.length) { setAiNote('Could not find themes right now.'); return; }
+      const zones: ClassBoardZone[] = themes.map((t, i) => ({ key: `theme-${i + 1}`, label: t.label }));
+      setZonesCustom(zones);
+      themes.forEach((t, i) => t.ids.forEach((id) => { void patchItem(id, { zoneKey: `theme-${i + 1}` }); }));
+      if (isLive) await broadcast(preset, zones, activeBoardKey);
+    } finally {
+      setAiBusy(null);
+    }
+  }, [activeBoardKey, broadcast, callAi, isLive, patchItem, preset, visibleItems]);
+
+  const boardAsText = useCallback(() => zones
+    .map((z) => {
+      const lines = visibleItems.filter((i) => i.zoneKey === z.key).map((i) => `- ${i.content}`);
+      return lines.length ? `${z.label}:\n${lines.join('\n')}` : '';
+    })
+    .filter(Boolean)
+    .join('\n\n'), [visibleItems, zones]);
+
   // Auto-show: student cards appear without waiting for approval.
   useEffect(() => {
     if (!autoShow) return;
@@ -247,6 +343,8 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     async (key: string) => {
       const wasLive = isLive;
       setSelectedPresetKey(key);
+      setAiPreset(null);
+      setZonesCustom(null);
       // If students are already on this board, rebroadcast so their devices rebuild too.
       if (wasLive) {
         const nextPreset = getClassBoardPreset(key);
@@ -511,6 +609,20 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
                   ) : (
                     <span>{item.content}</span>
                   )}
+                  {polishOn && fixes[item.id] && !hiddenFixes.has(item.id) && (
+                    <span className="mt-1 flex items-start gap-1 rounded bg-white/55 px-1.5 py-0.5 text-[13px] text-emerald-900">
+                      <Wand2 className="mt-0.5 h-3 w-3 shrink-0" />
+                      <span className="flex-1">{fixes[item.id]}</span>
+                      <button
+                        type="button"
+                        title="Hide this correction"
+                        onClick={(e) => { e.stopPropagation(); setHiddenFixes((prev) => new Set(prev).add(item.id)); }}
+                        className="shrink-0 text-emerald-900/50 hover:text-emerald-900"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </span>
+                  )}
                   {student && !anonymous && (
                     <span className="mt-1 block text-[10px] font-semibold uppercase tracking-wider text-[#1f2430]/55">{item.displayName}</span>
                   )}
@@ -639,6 +751,35 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
         <span className="ml-auto text-slate-500">Drag cards between sections · double-click to edit · click to spotlight</span>
       </div>
 
+      {/* AI helpers */}
+      <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+        {!templateLocked && (
+          <AiButton busy={aiBusy === 'zones'} onClick={() => void boardFromTopic()} icon={<Sparkles className="h-3 w-3" />} label="Board from topic" title="A fresh board designed for the current topic" />
+        )}
+        <AiButton on={polishOn} busy={aiBusy === 'polish'} onClick={() => void togglePolish()} icon={<Wand2 className="h-3 w-3" />} label="Polish" title="Show a gently corrected version under students' sentences" />
+        {!templateLocked && !questionWall && (
+          <AiButton busy={aiBusy === 'themes'} onClick={() => void groupThemes()} icon={<Shapes className="h-3 w-3" />} label="Group into themes" title="Sort the cards into named sections" />
+        )}
+        {makeFocus && visibleItems.length > 0 && (
+          <>
+            <AiButton onClick={() => makeFocus({ title: preset.title, text: boardAsText(), credit: 'the class board' })} icon={<Crosshair className="h-3 w-3" />} label="Make it the topic" title="Talk about (and build activities from) the whole board" />
+            <AiButton
+              onClick={() => {
+                const id = `board-${Date.now().toString(36)}`;
+                addRoomItem(sessionId, { id, kind: 'note', title: `Board: ${preset.title}`, url: `note:${id}`, publisher: 'Class board', text: boardAsText() });
+                setAiNote('Saved to cargo: drag an activity onto it to build from the board.');
+              }}
+              icon={<Archive className="h-3 w-3" />}
+              label="Save to cargo"
+              title="Keep this board as material (activities can be built from it)"
+            />
+          </>
+        )}
+        {aiNote && (
+          <button type="button" onClick={() => setAiNote(null)} className="text-amber-200/80 hover:text-amber-100">{aiNote}</button>
+        )}
+      </div>
+
       <div className={`grid grid-cols-1 gap-3 ${columnsClass(preset.layout, zones.length)}`}>
         {zones.map(renderZone)}
       </div>
@@ -663,12 +804,35 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
               >
                 <p className="font-display text-4xl leading-tight">{item.content}</p>
                 {student && !anonymous && <p className="mt-4 text-sm font-semibold uppercase tracking-wider opacity-60">{item.displayName}</p>}
+                {makeFocus && (
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); makeFocus({ title: item.content, credit: student && !anonymous ? item.displayName : undefined }); setSpotlightId(null); }}
+                    className="mt-5 flex items-center gap-1.5 rounded-lg border border-current/30 px-3 py-1.5 text-sm font-semibold opacity-80 hover:opacity-100"
+                  >
+                    <Crosshair className="h-4 w-4" /> Make it the topic
+                  </button>
+                )}
               </motion.div>
             </motion.div>
           );
         })()}
       </AnimatePresence>
     </div>
+  );
+}
+
+function AiButton({ on = false, busy = false, onClick, icon, label, title }: { on?: boolean; busy?: boolean; onClick: () => void; icon: React.ReactNode; label: string; title: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={busy}
+      title={title}
+      className={`flex items-center gap-1 rounded-full border px-2 py-0.5 font-semibold transition disabled:opacity-60 ${on ? 'border-violet-300/60 bg-violet-300/15 text-violet-100' : 'border-violet-300/25 text-violet-200/80 hover:text-violet-100'}`}
+    >
+      {icon} {busy ? 'Working…' : label}
+    </button>
   );
 }
 
